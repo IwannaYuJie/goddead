@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Goddead is a small web home for experiments, notes, and future tools."
+    >
+    <title>Goddead</title>
+    <link rel="preload" href="assets/hero.png" as="image">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="site-shell">
+      <section class="hero" aria-labelledby="site-title">
+        <img class="hero__image" src="assets/hero.png" alt="A calm abstract gateway at sunrise">
+        <div class="hero__shade"></div>
+        <nav class="topbar" aria-label="Primary">
+          <a class="brand" href="/" aria-label="Goddead home">
+            <span class="brand__mark" aria-hidden="true">G</span>
+            <span>goddead.com</span>
+          </a>
+          <a class="topbar__link" href="https://github.com/IwannaYuJie/goddead">GitHub</a>
+        </nav>
+
+        <div class="hero__content">
+          <p class="eyebrow">Live from goddead.com</p>
+          <h1 id="site-title">Goddead</h1>
+          <p class="hero__copy">
+            A quiet web home for experiments, notes, and strange little ideas that
+            deserve their own front door.
+          </p>
+          <div class="hero__actions">
+            <a class="button button--primary" href="https://github.com/IwannaYuJie/goddead">
+              View repository
+            </a>
+            <a class="button button--ghost" href="#status">Deployment status</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="status-band" id="status" aria-label="Deployment status">
+        <article>
+          <span class="status-dot" aria-hidden="true"></span>
+          <div>
+            <h2>Ready for Cloudflare Pages</h2>
+            <p>
+              This static site is designed to deploy directly from the GitHub
+              repository and serve the custom domain through Cloudflare.
+            </p>
+          </div>
+        </article>
+        <p class="timestamp" data-updated>Preparing launch...</p>
+      </section>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
