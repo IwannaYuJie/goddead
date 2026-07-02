@@ -16,9 +16,8 @@
 - Updated Squarespace nameservers from Squarespace DNS to the Cloudflare nameservers above.
 - Added `goddead.com` as a Cloudflare Pages custom domain.
 - Confirmed Cloudflare DNS has `goddead.com` as a proxied CNAME to `goddead.pages.dev`.
-- Current custom domain status: Cloudflare Pages is verifying `goddead.com`; HTTPS may fail until Pages finishes activation and certificate setup.
+- Verified `https://goddead.com/` returns the deployed Goddead site through Cloudflare Pages.
 
 ## Next
 
-- Wait for Cloudflare Pages custom domain verification to complete.
-- Re-test `https://goddead.com/` after the custom domain status becomes active.
+- Add or redirect `www.goddead.com` if the project later needs the `www` hostname too.
