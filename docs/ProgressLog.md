@@ -17,7 +17,9 @@
 - Added `goddead.com` as a Cloudflare Pages custom domain.
 - Confirmed Cloudflare DNS has `goddead.com` as a proxied CNAME to `goddead.pages.dev`.
 - Verified `https://goddead.com/` returns the deployed Goddead site through Cloudflare Pages.
+- Repointed `www.goddead.com` from Squarespace to `goddead.pages.dev`.
+- Verified `https://www.goddead.com/` returns the deployed Goddead site through Cloudflare Pages.
 
 ## Next
 
-- Add or redirect `www.goddead.com` if the project later needs the `www` hostname too.
+- Add real content and navigation when the project direction is decided.

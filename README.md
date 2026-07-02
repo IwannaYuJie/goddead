@@ -10,9 +10,10 @@ This repository is intended to deploy through Cloudflare Pages.
 - Output directory: `/`
 - Custom domain: `goddead.com`
 - Pages URL: [goddead.pages.dev](https://goddead.pages.dev/)
+- WWW URL: [www.goddead.com](https://www.goddead.com/)
 - DNS provider: Cloudflare
 - Nameservers: `sam.ns.cloudflare.com`, `suzanne.ns.cloudflare.com`
-- Current domain status: [goddead.com](https://goddead.com/) is live on Cloudflare Pages.
+- Current domain status: [goddead.com](https://goddead.com/) and [www.goddead.com](https://www.goddead.com/) are live on Cloudflare Pages.
 
 ## Local Check
 
