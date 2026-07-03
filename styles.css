@@ -188,13 +188,16 @@ body {
   text-align: center;
   padding: 40px;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-  transition: opacity 1.2s var(--ease-ritual);
+  transition: opacity 1.2s var(--ease-ritual), visibility 1.2s var(--ease-ritual);
 }
 
 .stage.active {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
+  z-index: 2;
 }
 
 .whisper {
