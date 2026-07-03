@@ -5,94 +5,111 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta
       name="description"
-      content="Goddead — death, silence, and the end that begins again. A visual requiem in three movements."
+      content="Goddead.com is a quiet digital gateway for experiments, notes, and interactive audio-visual poetry over the void."
     >
     <title>Goddead</title>
     <link rel="preload" href="assets/hero.png" as="image">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-
-    <!-- ============ 仪式入口 (极简) ============ -->
-    <div class="gate" id="gate">
-      <div class="gate-wordmark" aria-hidden="true">GODDEAD</div>
-      <button class="gate-btn" id="gate-btn" type="button">ENTER THE SILENCE</button>
+    <!-- I. 开幕仪式：神死的数字礼拜 -->
+    <div class="liturgy-overlay" id="init-overlay">
+      <div class="liturgy-cross" aria-hidden="true">&#10022;</div>
+      <p class="liturgy-verse">“God is dead. God remains dead. And we have killed him.”</p>
+      <p class="liturgy-verse-zh">“上帝死了。上帝仍然死了。是我们杀死了他。”</p>
+      <button class="liturgy-btn" id="init-btn">[ ENTER / 进入虚空 ]</button>
     </div>
 
-    <!-- 肌理层 -->
-    <div class="grain" aria-hidden="true"></div>
-    <div class="vignette" aria-hidden="true"></div>
-    <img class="bg-fallback" src="assets/hero.png" alt="">
+    <!-- II. 背景层：虚空与遗迹 -->
+    <img class="void-bg-fallback" src="assets/hero.png" alt="A monolith fading in the cosmic dark">
+    <canvas id="void-canvas"></canvas>
+    <div class="void-vignette" aria-hidden="true"></div>
 
-    <!-- ============ 主体 ============ -->
-    <main class="reel">
+    <!-- III. 沉浸式艺术外壳 -->
+    <main class="sanctuary">
 
-      <!-- 第一幕 · 全屏英雄图 -->
-      <section class="panel panel--hero">
-        <img class="panel-img" src="assets/hero.png" alt="A monolith dissolving into cosmic dark">
-        <div class="panel-veil"></div>
-        <div class="panel-text">
-          <div class="panel-mark">I</div>
-          <h1 class="panel-wordmark">GODDEAD</h1>
-          <p class="panel-line">death. silence. the end that begins again.</p>
-          <p class="panel-line-zh">死。寂。终结，亦是开端。</p>
+      <header class="sanctuary-header">
+        <div class="sanctuary-brand" aria-hidden="true">GODDEAD // DIGITAL LITURGY</div>
+        <div class="audio-status-box" aria-live="polite">
+          <span class="audio-pulse-dot"></span>
+          <span id="audio-status-text">VOID ECHOES: MUTED</span>
         </div>
-        <div class="panel-scroll" aria-hidden="true">SCROLL</div>
+      </header>
+
+      <!-- 主神殿：GODDEAD 纪念碑 -->
+      <section class="sanctuary-hero">
+        <div class="hero-eyebrow">Live from goddead.com</div>
+        <h1 class="monument-title" id="site-title" aria-label="Goddead">
+          <span class="monument-letter" data-letter="G">G</span><span class="monument-letter" data-letter="O">O</span><span class="monument-letter" data-letter="D">D</span><span class="monument-letter monument-letter--void" data-letter="D">D</span><span class="monument-letter" data-letter="E">E</span><span class="monument-letter" data-letter="A">A</span><span class="monument-letter" data-letter="D">D</span>
+        </h1>
+        <div class="monument-subtitle" id="scramble-box" aria-label="Interactive philosophical prophecy">
+          THE SHADOWS WE CAST ARE THE ONLY LIGHTS LEFT.
+        </div>
+        <div class="hero-divider" aria-hidden="true"></div>
       </section>
 
-      <!-- 第二幕 · 破碎之神 -->
-      <section class="panel panel--right">
-        <img class="panel-img" src="assets/monument_1.png" alt="Shattered Gothic Angel in the Ruins">
-        <div class="panel-veil"></div>
-        <div class="panel-text panel-text--side">
-          <div class="panel-mark">II</div>
-          <h2 class="panel-title">THE&nbsp;FALL</h2>
-          <p class="panel-line">the gods did not die.<br>they simply stopped speaking.</p>
-          <p class="panel-line-zh">众神并未死去。<br>他们只是，不再开口。</p>
-        </div>
+      <!-- 三联圣痕画廊 -->
+      <section class="relics-hall" aria-label="Triptych of sacred wounds">
+
+        <article class="relic-card">
+          <div class="relic-image-wrap">
+            <img class="relic-image" src="assets/monument_1.png" alt="Shattered Gothic Angel in the Ruins">
+            <div class="relic-image-shade"></div>
+          </div>
+          <div class="relic-text">
+            <div class="relic-num">I</div>
+            <h2>The Broken Deity</h2>
+            <p>
+              信仰的绝对瓦解。在古老神圣坍缩的废墟之上，旧日的教条风化为冰冷的以太微尘。当绝对真理的主宰不复存在，我们将在这片重归自由的荒原中，直面存在本身最纯粹的深渊与可能。
+            </p>
+          </div>
+        </article>
+
+        <article class="relic-card">
+          <div class="relic-image-wrap">
+            <img class="relic-image" src="assets/monument_2.png" alt="Glowing Golden Crown Floating Above Abyssal Crack">
+            <div class="relic-image-shade"></div>
+          </div>
+          <div class="relic-text">
+            <div class="relic-num">II</div>
+            <h2>The Sovereign Will</h2>
+            <p>
+              主动意志的觉醒。摆脱虚无主义的锁链，从神学的黄昏中站起。在虚无与代码交错的裂谷之上，戴上属于你自己的神冠。你便是自身意义的编写者、自我秩序的主宰者。
+            </p>
+          </div>
+        </article>
+
+        <article class="relic-card">
+          <div class="relic-image-wrap">
+            <img class="relic-image" src="assets/monument_3.png" alt="Cosmic Ouroboros Snake formed of Golden Star Dust">
+            <div class="relic-image-shade"></div>
+          </div>
+          <div class="relic-text">
+            <div class="relic-num">III</div>
+            <h2>Eternal Recurrence</h2>
+            <p>
+              无限循环的终极庆典。接受万物的消亡与复始。在时间以太与繁星微茫的循环轨迹里，在虚空深渊的边缘处，以最轻盈的脚步跳起生命之舞。每一行运行的代码，都是对永恒的重塑。
+            </p>
+          </div>
+        </article>
+
       </section>
 
-      <!-- 第三幕 · 神冠悬空 -->
-      <section class="panel panel--left">
-        <img class="panel-img" src="assets/monument_2.png" alt="Glowing Golden Crown Floating Above Abyssal Crack">
-        <div class="panel-veil"></div>
-        <div class="panel-text panel-text--side">
-          <div class="panel-mark">III</div>
-          <h2 class="panel-title">ASHES</h2>
-          <p class="panel-line">we crowned the void.<br>the void wore it well.</p>
-          <p class="panel-line-zh">我们为虚空加冕。<br>虚空，戴得恰如其分。</p>
-        </div>
+      <!-- 终章经文 -->
+      <section class="closing-psalm" aria-label="Closing psalm">
+        <p class="psalm-line">What is great in man is that he is a bridge and not an end.</p>
+        <p class="psalm-author">— Thus Spoke Zarathustra</p>
       </section>
 
-      <!-- 第四幕 · 永恒轮回 -->
-      <section class="panel panel--right">
-        <img class="panel-img" src="assets/monument_3.png" alt="Cosmic Ouroboros Snake formed of Golden Star Dust">
-        <div class="panel-veil"></div>
-        <div class="panel-text panel-text--side">
-          <div class="panel-mark">IV</div>
-          <h2 class="panel-title">ETERNAL</h2>
-          <p class="panel-line">everything returns.<br>even the nothing.</p>
-          <p class="panel-line-zh">万物归复。<br>连虚无，亦然。</p>
-        </div>
-      </section>
-
-      <!-- 终幕 · 闭屏文字 -->
-      <section class="coda">
-        <div class="coda-inner">
-          <p class="coda-en">a requiem for what was never alive.</p>
-          <p class="coda-zh">为从未活过之物，安魂。</p>
-        </div>
-      </section>
-
-      <!-- 页脚 (测试兼容) -->
-      <footer class="art-footer" id="status">
-        <div class="art-status-band">
+      <!-- 页脚 -->
+      <footer class="sanctuary-footer" id="status">
+        <div class="sanctuary-status-band">
           <span class="status-dot"></span>
           <span class="status-band-text">SYNC STATUS: ACTIVE</span>
         </div>
-        <div class="art-meta">
+        <div class="sanctuary-meta">
           <span data-updated>Preparing launch...</span>
-          <a class="art-meta-link" href="https://github.com/IwannaYuJie/goddead" target="_blank" rel="noopener noreferrer">
+          <a class="sanctuary-meta-link" href="https://github.com/IwannaYuJie/goddead" target="_blank" rel="noopener noreferrer">
             GATEWAY: goddead.com
           </a>
         </div>
