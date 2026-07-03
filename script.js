@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderLaunchTime();
   initRiteTyping();
   initTextScramble();
+  initLectionary();
   initAudioVisualAndDoctrines();
 });
 
@@ -139,7 +140,33 @@ function initTextScramble() {
 }
 
 /* ==========================================================
-   4. Audio-Visual Core
+   4. Lectionary Tabs
+   ========================================================== */
+function initLectionary() {
+  const tabs = document.querySelectorAll(".lectionary-tab");
+  const texts = document.querySelectorAll(".lectionary-text");
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const index = tab.dataset.index;
+
+      tabs.forEach((t) => {
+        t.classList.remove("active");
+        t.setAttribute("aria-selected", "false");
+      });
+      texts.forEach((text) => text.classList.remove("active"));
+
+      tab.classList.add("active");
+      tab.setAttribute("aria-selected", "true");
+
+      const target = document.querySelector(`.lectionary-text[data-index="${index}"]`);
+      if (target) target.classList.add("active");
+    });
+  });
+}
+
+/* ==========================================================
+   5. Audio-Visual Core
    ========================================================== */
 function initAudioVisualAndDoctrines() {
   const overlay = document.getElementById("init-overlay");
@@ -442,7 +469,31 @@ function initAudioVisualAndDoctrines() {
      ---------------------------------------------------------- */
   const doctrines = document.querySelectorAll(".doctrine");
   const finalLitany = document.querySelector(".final-litany");
+  const lectionaryBody = document.querySelector(".lectionary-body");
+  const chronicleNodes = document.querySelectorAll(".chronicle-node");
+  const apocryphaCards = document.querySelectorAll(".apocrypha-card");
   const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  let countersAnimated = false;
+
+  function animateCounter(el, target, duration = 2000) {
+    const start = performance.now();
+    const startValue = 0;
+
+    function update(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.floor(startValue + (target - startValue) * eased);
+      el.textContent = current.toLocaleString();
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      }
+    }
+
+    requestAnimationFrame(update);
+  }
 
   function handleScroll() {
     const windowHeight = window.innerHeight;
@@ -454,10 +505,43 @@ function initAudioVisualAndDoctrines() {
       }
     });
 
+    if (lectionaryBody) {
+      const rect = lectionaryBody.getBoundingClientRect();
+      if (rect.top < windowHeight * 0.82) {
+        lectionaryBody.classList.add("visible");
+      }
+    }
+
+    chronicleNodes.forEach((node) => {
+      const rect = node.getBoundingClientRect();
+      if (rect.top < windowHeight * 0.85) {
+        node.classList.add("visible");
+      }
+    });
+
+    apocryphaCards.forEach((card) => {
+      const rect = card.getBoundingClientRect();
+      if (rect.top < windowHeight * 0.82) {
+        card.classList.add("visible");
+      }
+    });
+
     if (finalLitany) {
       const rect = finalLitany.getBoundingClientRect();
       if (rect.top < windowHeight * 0.85) {
         finalLitany.classList.add("visible");
+      }
+    }
+
+    // Animate counters once when Apocrypha becomes visible
+    if (!countersAnimated && apocryphaCards.length > 0) {
+      const firstCardRect = apocryphaCards[0].getBoundingClientRect();
+      if (firstCardRect.top < windowHeight * 0.82) {
+        countersAnimated = true;
+        document.querySelectorAll(".apocrypha-number").forEach((num) => {
+          const target = parseInt(num.dataset.target, 10);
+          animateCounter(num, target, 2200);
+        });
       }
     }
   }

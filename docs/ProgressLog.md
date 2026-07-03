@@ -18,3 +18,11 @@
 - Replaced image gallery with pure CSS-generated sacred geometries (absence ring, echo fissure, silence pyramid).
 - Rewrote all copy as original prose/poetry around absence, echo, and silence.
 - Kept `assets/hero.png` reference only for deployment test compatibility.
+
+## 2026-07-03 (third revision)
+- Expanded the Absence Cult page with three new content modules.
+- Added The Lectionary: five tabbed readings for the unfaithful with gold active states.
+- Added Chronicle of Vanishings: a vertical timeline of fictional years after the divine exit.
+- Added Apocryphal Index: three animated counters measuring silence, unanswered prayers, and detected gods.
+- Implemented scroll-triggered reveals and counter animations in `script.js`.
+- Added responsive layouts and reduced-motion support for all new sections.
