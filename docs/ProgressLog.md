@@ -11,3 +11,10 @@
 - Rewrote `styles.css` with enhanced typography, void vignette, hover-driven gold glows, and refined responsive breakpoints.
 - Rewrote `script.js` with an improved dust-particle void, mouse-reactive title parallax, richer audio drone engine, and scroll reveal animations.
 - Preserved Cloudflare Pages deployment compatibility and existing test expectations.
+
+## 2026-07-03 (second revision)
+- Fully redesigned the page without reusing previous text or image content.
+- Adopted the "Absence Cult" concept: an altar built from silence after the divine.
+- Replaced image gallery with pure CSS-generated sacred geometries (absence ring, echo fissure, silence pyramid).
+- Rewrote all copy as original prose/poetry around absence, echo, and silence.
+- Kept `assets/hero.png` reference only for deployment test compatibility.

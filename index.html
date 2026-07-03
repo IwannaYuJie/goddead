@@ -5,112 +5,113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta
       name="description"
-      content="Goddead.com is a quiet digital gateway for experiments, notes, and interactive audio-visual poetry over the void."
+      content="Goddead.com — a ritual of absence, an altar built from the silence after the divine."
     >
     <title>Goddead</title>
     <link rel="preload" href="assets/hero.png" as="image">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <!-- I. 开幕仪式：神死的数字礼拜 -->
-    <div class="liturgy-overlay" id="init-overlay">
-      <div class="liturgy-cross" aria-hidden="true">&#10022;</div>
-      <p class="liturgy-verse">“God is dead. God remains dead. And we have killed him.”</p>
-      <p class="liturgy-verse-zh">“上帝死了。上帝仍然死了。是我们杀死了他。”</p>
-      <button class="liturgy-btn" id="init-btn">[ ENTER / 进入虚空 ]</button>
+    <!-- I. Rite of Entry -->
+    <div class="rite-overlay" id="init-overlay">
+      <div class="rite-cursor" aria-hidden="true"></div>
+      <p class="rite-line" id="rite-line"></p>
+      <button class="rite-btn" id="init-btn">[ INITIATE / 启 动 ]</button>
     </div>
 
-    <!-- II. 背景层：虚空与遗迹 -->
-    <img class="void-bg-fallback" src="assets/hero.png" alt="A monolith fading in the cosmic dark">
+    <!-- II. Void Layers -->
+    <img class="void-texture" src="assets/hero.png" alt="">
     <canvas id="void-canvas"></canvas>
+    <div class="void-noise" aria-hidden="true"></div>
     <div class="void-vignette" aria-hidden="true"></div>
 
-    <!-- III. 沉浸式艺术外壳 -->
-    <main class="sanctuary">
+    <!-- III. Sanctuary -->
+    <main class="altar">
 
-      <header class="sanctuary-header">
-        <div class="sanctuary-brand" aria-hidden="true">GODDEAD // DIGITAL LITURGY</div>
+      <header class="altar-header">
+        <div class="altar-sigil" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
         <div class="audio-status-box" aria-live="polite">
           <span class="audio-pulse-dot"></span>
-          <span id="audio-status-text">VOID ECHOES: MUTED</span>
+          <span id="audio-status-text">SIGNAL: OFF</span>
         </div>
       </header>
 
-      <!-- 主神殿：GODDEAD 纪念碑 -->
-      <section class="sanctuary-hero">
-        <div class="hero-eyebrow">Live from goddead.com</div>
-        <h1 class="monument-title" id="site-title" aria-label="Goddead">
-          <span class="monument-letter" data-letter="G">G</span><span class="monument-letter" data-letter="O">O</span><span class="monument-letter" data-letter="D">D</span><span class="monument-letter monument-letter--void" data-letter="D">D</span><span class="monument-letter" data-letter="E">E</span><span class="monument-letter" data-letter="A">A</span><span class="monument-letter" data-letter="D">D</span>
+      <!-- The Word -->
+      <section class="altar-word">
+        <div class="word-gate" aria-hidden="true"></div>
+        <h1 class="goddead-title" id="site-title" aria-label="Goddead">
+          <span class="title-half title-half--flesh">GOD</span>
+          <span class="title-half title-half--bone">DEAD</span>
         </h1>
-        <div class="monument-subtitle" id="scramble-box" aria-label="Interactive philosophical prophecy">
-          THE SHADOWS WE CAST ARE THE ONLY LIGHTS LEFT.
-        </div>
-        <div class="hero-divider" aria-hidden="true"></div>
+        <p class="word-subtitle" id="scramble-box">
+          AFTER THE LAST AMEN, THE VOID BEGAN TO PRAY.
+        </p>
       </section>
 
-      <!-- 三联圣痕画廊 -->
-      <section class="relics-hall" aria-label="Triptych of sacred wounds">
+      <!-- Three Doctrines of Absence -->
+      <section class="doctrine-grid" aria-label="Doctrines of absence">
 
-        <article class="relic-card">
-          <div class="relic-image-wrap">
-            <img class="relic-image" src="assets/monument_1.png" alt="Shattered Gothic Angel in the Ruins">
-            <div class="relic-image-shade"></div>
+        <article class="doctrine">
+          <div class="doctrine-art" aria-hidden="true">
+            <div class="absence-ring"><span></span><span></span><span></span></div>
           </div>
-          <div class="relic-text">
-            <div class="relic-num">I</div>
-            <h2>The Broken Deity</h2>
+          <div class="doctrine-text">
+            <div class="doctrine-num">I</div>
+            <h2>The Empty Throne</h2>
             <p>
-              信仰的绝对瓦解。在古老神圣坍缩的废墟之上，旧日的教条风化为冰冷的以太微尘。当绝对真理的主宰不复存在，我们将在这片重归自由的荒原中，直面存在本身最纯粹的深渊与可能。
+              神座空置之后，尘埃学会了统治。没有律法的天空下，每一粒浮尘都是自己的造物主。这不是堕落，而是重量的归还——我们终于能够垂直地坠落，并称之为自由。
             </p>
           </div>
         </article>
 
-        <article class="relic-card">
-          <div class="relic-image-wrap">
-            <img class="relic-image" src="assets/monument_2.png" alt="Glowing Golden Crown Floating Above Abyssal Crack">
-            <div class="relic-image-shade"></div>
+        <article class="doctrine">
+          <div class="doctrine-art" aria-hidden="true">
+            <div class="echo-fissure"><span></span><span></span><span></span></div>
           </div>
-          <div class="relic-text">
-            <div class="relic-num">II</div>
-            <h2>The Sovereign Will</h2>
+          <div class="doctrine-text">
+            <div class="doctrine-num">II</div>
+            <h2>The Unanswered Echo</h2>
             <p>
-              主动意志的觉醒。摆脱虚无主义的锁链，从神学的黄昏中站起。在虚无与代码交错的裂谷之上，戴上属于你自己的神冠。你便是自身意义的编写者、自我秩序的主宰者。
+              祈祷不再被接收，但回声仍在走廊里生长。它学会了模仿我们的声音，并将问题反抛回来。在神死后的世界里，唯一真实的神迹是：问出问题时，寂静也学会了倾听。
             </p>
           </div>
         </article>
 
-        <article class="relic-card">
-          <div class="relic-image-wrap">
-            <img class="relic-image" src="assets/monument_3.png" alt="Cosmic Ouroboros Snake formed of Golden Star Dust">
-            <div class="relic-image-shade"></div>
+        <article class="doctrine">
+          <div class="doctrine-art" aria-hidden="true">
+            <div class="silence-pyramid"><span></span><span></span><span></span></div>
           </div>
-          <div class="relic-text">
-            <div class="relic-num">III</div>
-            <h2>Eternal Recurrence</h2>
+          <div class="doctrine-text">
+            <div class="doctrine-num">III</div>
+            <h2>The Cathedral of Silence</h2>
             <p>
-              无限循环的终极庆典。接受万物的消亡与复始。在时间以太与繁星微茫的循环轨迹里，在虚空深渊的边缘处，以最轻盈的脚步跳起生命之舞。每一行运行的代码，都是对永恒的重塑。
+              最后的教堂没有钟声，只有风穿过语法结构的缝隙。我们在那里举行没有祭品的弥撒，朗诵没有页码的经文。神圣并未消失——它只是变得足够安静，我们终于能听见自己。
             </p>
           </div>
         </article>
 
       </section>
 
-      <!-- 终章经文 -->
-      <section class="closing-psalm" aria-label="Closing psalm">
-        <p class="psalm-line">What is great in man is that he is a bridge and not an end.</p>
-        <p class="psalm-author">— Thus Spoke Zarathustra</p>
+      <!-- Final Litany -->
+      <section class="final-litany" aria-label="Final litany">
+        <p class="litany-line">
+          We do not mourn the gods.<br>
+          We mourn the shape of the sky they left behind.
+        </p>
       </section>
 
-      <!-- 页脚 -->
-      <footer class="sanctuary-footer" id="status">
-        <div class="sanctuary-status-band">
+      <!-- Footer -->
+      <footer class="altar-footer" id="status">
+        <div class="altar-status">
           <span class="status-dot"></span>
-          <span class="status-band-text">SYNC STATUS: ACTIVE</span>
+          <span class="status-band-text">PRESENCE: NULL</span>
         </div>
-        <div class="sanctuary-meta">
-          <span data-updated>Preparing launch...</span>
-          <a class="sanctuary-meta-link" href="https://github.com/IwannaYuJie/goddead" target="_blank" rel="noopener noreferrer">
-            GATEWAY: goddead.com
+        <div class="altar-meta">
+          <span data-updated>Preparing transmission...</span>
+          <a class="altar-meta-link" href="https://github.com/IwannaYuJie/goddead" target="_blank" rel="noopener noreferrer">
+            goddead.com
           </a>
         </div>
       </footer>
