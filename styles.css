@@ -796,6 +796,332 @@ body::-webkit-scrollbar-thumb {
   line-height: 1.6;
 }
 
+/* ==========================================================
+   X. FORBIDDEN INDEX
+   ========================================================== */
+.forbidden-index {
+  width: min(1100px, 100% - 48px);
+  margin: 0 auto 180px;
+  pointer-events: auto;
+}
+
+.index-list {
+  border: 1px solid var(--line);
+  background: rgba(8, 8, 8, 0.55);
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 1.4s var(--ease-ritual), transform 1.4s var(--ease-ritual);
+}
+
+.index-list.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.index-item {
+  border-bottom: 1px solid var(--line);
+}
+
+.index-item:last-child {
+  border-bottom: none;
+}
+
+.index-trigger {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--bone);
+  padding: 26px 34px;
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 20px;
+  align-items: center;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-serif-cn);
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+.index-trigger:hover {
+  background: rgba(107, 26, 26, 0.08);
+  color: #fff;
+}
+
+.index-trigger[aria-expanded="true"] {
+  background: rgba(107, 26, 26, 0.12);
+}
+
+.index-code {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  color: var(--blood);
+}
+
+.index-name {
+  font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+  letter-spacing: 0.12em;
+}
+
+.index-status {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  color: var(--ash);
+  border: 1px solid var(--line);
+  padding: 6px 12px;
+}
+
+.index-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.6s var(--ease-ritual), padding 0.6s var(--ease-ritual);
+  padding: 0 34px;
+}
+
+.index-trigger[aria-expanded="true"] + .index-content {
+  max-height: 500px;
+  padding: 0 34px 30px;
+}
+
+.index-content p {
+  font-family: var(--font-serif-cn);
+  font-weight: 300;
+  font-size: 0.92rem;
+  line-height: 2;
+  color: var(--ash);
+  margin: 0 0 16px;
+}
+
+.index-content p:last-child {
+  margin-bottom: 0;
+}
+
+.index-redacted {
+  position: relative;
+  color: transparent !important;
+  background: rgba(40, 40, 40, 0.6);
+  transition: color 0.4s ease, background 0.4s ease;
+}
+
+.index-redacted.revealed {
+  color: var(--ash) !important;
+  background: transparent;
+}
+
+/* ==========================================================
+   XI. ABSENCE MAP
+   ========================================================== */
+.absence-map {
+  width: min(1200px, 100% - 48px);
+  margin: 0 auto 180px;
+  pointer-events: auto;
+}
+
+.map-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 1.4s var(--ease-ritual), transform 1.4s var(--ease-ritual);
+}
+
+.map-grid.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.map-region {
+  border: 1px solid var(--line);
+  background: rgba(8, 8, 8, 0.55);
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.5s ease, background 0.5s ease;
+}
+
+.map-region:hover {
+  border-color: rgba(107, 26, 26, 0.4);
+  background: rgba(15, 8, 8, 0.7);
+}
+
+.map-region:nth-child(odd) {
+  transform: translateY(20px);
+}
+
+.map-region:nth-child(even) {
+  transform: translateY(-20px);
+}
+
+.map-region.visible {
+  transform: translateY(0);
+}
+
+.map-marker {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--blood);
+  text-stroke: 1px var(--blood);
+  opacity: 0.35;
+}
+
+.map-region h3 {
+  font-family: var(--font-serif-cn);
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--bone);
+  margin: 0 0 16px;
+}
+
+.map-region p {
+  font-family: var(--font-serif-cn);
+  font-weight: 300;
+  font-size: 0.9rem;
+  line-height: 1.95;
+  color: var(--ash);
+  margin: 0;
+  transition: color 0.4s ease;
+}
+
+.map-region:hover p {
+  color: var(--bone);
+}
+
+/* ==========================================================
+   XII. TESTIMONIES
+   ========================================================== */
+.testimonies {
+  width: min(1000px, 100% - 48px);
+  margin: 0 auto 180px;
+  pointer-events: auto;
+}
+
+.testimony-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 1.4s var(--ease-ritual), transform 1.4s var(--ease-ritual);
+}
+
+.testimony-list.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.testimony {
+  margin: 0;
+  border-left: 2px solid var(--blood);
+  background: rgba(8, 8, 8, 0.5);
+  padding: 30px 36px;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 1s var(--ease-ritual), transform 1s var(--ease-ritual), background 0.4s ease;
+}
+
+.testimony.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.testimony:hover {
+  background: rgba(15, 8, 8, 0.7);
+}
+
+.testimony p {
+  font-family: var(--font-serif-cn);
+  font-weight: 300;
+  font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+  line-height: 2;
+  color: var(--bone);
+  margin: 0 0 16px;
+  font-style: italic;
+}
+
+.testimony cite {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--blood);
+  font-style: normal;
+}
+
+/* ==========================================================
+   XIII. FALSE NAMES
+   ========================================================== */
+.false-names {
+  width: min(1100px, 100% - 48px);
+  margin: 0 auto 180px;
+  pointer-events: auto;
+}
+
+.name-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 1.4s var(--ease-ritual), transform 1.4s var(--ease-ritual);
+}
+
+.name-grid.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.name-card {
+  background: rgba(8, 8, 8, 0.6);
+  padding: 34px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: background 0.4s ease;
+}
+
+.name-card:hover {
+  background: rgba(15, 8, 8, 0.85);
+}
+
+.name-term {
+  font-family: var(--font-serif-cn);
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--bone);
+  transition: color 0.4s ease;
+}
+
+.name-card:hover .name-term {
+  color: var(--blood);
+}
+
+.name-gloss {
+  font-family: var(--font-serif-cn);
+  font-weight: 300;
+  font-size: 0.82rem;
+  line-height: 1.85;
+  color: var(--ash);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s ease, color 0.4s ease;
+}
+
+.name-card:hover .name-gloss {
+  opacity: 1;
+  transform: translateY(0);
+  color: var(--bone);
+}
+
 .final-litany {
   width: min(900px, 100% - 48px);
   margin: 0 auto 140px;
@@ -1029,6 +1355,18 @@ body::-webkit-scrollbar-thumb {
   .apocrypha-grid {
     grid-template-columns: 1fr;
   }
+
+  .map-grid {
+    grid-template-columns: 1fr;
+  }
+  .map-region:nth-child(odd),
+  .map-region:nth-child(even) {
+    transform: none;
+  }
+
+  .name-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 720px) {
@@ -1073,7 +1411,11 @@ body::-webkit-scrollbar-thumb {
 
   .lectionary,
   .chronicle,
-  .apocrypha {
+  .apocrypha,
+  .forbidden-index,
+  .absence-map,
+  .testimonies,
+  .false-names {
     margin-bottom: 100px;
   }
   .lectionary-body {
@@ -1081,6 +1423,29 @@ body::-webkit-scrollbar-thumb {
   }
   .section-subtitle {
     margin-bottom: 40px;
+  }
+
+  .index-trigger {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 20px 24px;
+  }
+  .index-status {
+    justify-self: start;
+  }
+  .index-content {
+    padding: 0 24px;
+  }
+  .index-trigger[aria-expanded="true"] + .index-content {
+    padding: 0 24px 24px;
+  }
+
+  .name-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .testimony {
+    padding: 24px;
   }
 }
 
@@ -1113,10 +1478,20 @@ body::-webkit-scrollbar-thumb {
   .lectionary-body,
   .lectionary-text,
   .chronicle-node,
-  .apocrypha-card {
+  .apocrypha-card,
+  .index-list,
+  .index-content,
+  .map-grid,
+  .map-region,
+  .testimony-list,
+  .testimony,
+  .name-grid,
+  .name-card,
+  .name-gloss {
     opacity: 1 !important;
     transform: none !important;
     clip-path: none !important;
     position: relative !important;
+    max-height: none !important;
   }
 }

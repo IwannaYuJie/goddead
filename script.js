@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initRiteTyping();
   initTextScramble();
   initLectionary();
+  initForbiddenIndex();
   initRandomGlitch();
   initAudioVisualAndDoctrines();
 });
@@ -154,7 +155,35 @@ function initLectionary() {
 }
 
 /* ==========================================================
-   5. Random Glitch
+   5. Forbidden Index
+   ========================================================== */
+function initForbiddenIndex() {
+  const triggers = document.querySelectorAll(".index-trigger");
+
+  triggers.forEach((trigger) => {
+    trigger.addEventListener("click", () => {
+      const expanded = trigger.getAttribute("aria-expanded") === "true";
+      trigger.setAttribute("aria-expanded", String(!expanded));
+    });
+
+    trigger.addEventListener("mouseenter", () => {
+      const content = trigger.nextElementSibling;
+      if (!content) return;
+      const redacted = content.querySelectorAll(".index-redacted");
+      redacted.forEach((el) => el.classList.add("revealed"));
+    });
+
+    trigger.addEventListener("mouseleave", () => {
+      const content = trigger.nextElementSibling;
+      if (!content) return;
+      const redacted = content.querySelectorAll(".index-redacted");
+      redacted.forEach((el) => el.classList.remove("revealed"));
+    });
+  });
+}
+
+/* ==========================================================
+   6. Random Glitch
    ========================================================== */
 function initRandomGlitch() {
   const targets = document.querySelectorAll(
@@ -491,6 +520,12 @@ function initAudioVisualAndDoctrines() {
   const lectionaryBody = document.querySelector(".lectionary-body");
   const chronicleNodes = document.querySelectorAll(".chronicle-node");
   const apocryphaCards = document.querySelectorAll(".apocrypha-card");
+  const indexList = document.querySelector(".index-list");
+  const mapGrid = document.querySelector(".map-grid");
+  const mapRegions = document.querySelectorAll(".map-region");
+  const testimonyList = document.querySelector(".testimony-list");
+  const testimonies = document.querySelectorAll(".testimony");
+  const nameGrid = document.querySelector(".name-grid");
   const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   let countersAnimated = false;
@@ -549,6 +584,48 @@ function initAudioVisualAndDoctrines() {
       const rect = finalLitany.getBoundingClientRect();
       if (rect.top < windowHeight * 0.85) {
         finalLitany.classList.add("visible");
+      }
+    }
+
+    if (indexList) {
+      const rect = indexList.getBoundingClientRect();
+      if (rect.top < windowHeight * 0.82) {
+        indexList.classList.add("visible");
+      }
+    }
+
+    if (mapGrid) {
+      const rect = mapGrid.getBoundingClientRect();
+      if (rect.top < windowHeight * 0.82) {
+        mapGrid.classList.add("visible");
+      }
+    }
+
+    mapRegions.forEach((region) => {
+      const rect = region.getBoundingClientRect();
+      if (rect.top < windowHeight * 0.85) {
+        region.classList.add("visible");
+      }
+    });
+
+    if (testimonyList) {
+      const rect = testimonyList.getBoundingClientRect();
+      if (rect.top < windowHeight * 0.82) {
+        testimonyList.classList.add("visible");
+      }
+    }
+
+    testimonies.forEach((t) => {
+      const rect = t.getBoundingClientRect();
+      if (rect.top < windowHeight * 0.88) {
+        t.classList.add("visible");
+      }
+    });
+
+    if (nameGrid) {
+      const rect = nameGrid.getBoundingClientRect();
+      if (rect.top < windowHeight * 0.82) {
+        nameGrid.classList.add("visible");
       }
     }
 

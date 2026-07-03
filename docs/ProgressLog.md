@@ -33,3 +33,11 @@
 - Added glitch keyframes, title shiver, dripping blood line, warning flicker, and random text glitches via JS.
 - Replaced English text scrambler with a Chinese character reveal effect (blur fade + per-character appearance).
 - Darkened audio drone (E1 ~41.2 Hz) and made particle motion more erratic and unsettling.
+
+## 2026-07-03 (fifth revision)
+- Expanded the world-building into a lore-exploration page with four new modules.
+- Added Forbidden Index: three expandable archive entries with redacted passages revealed on hover.
+- Added Absence Map: four unsettling regions forming a cartography of the post-divine world.
+- Added Witness Testimonies: three fragmented first-person accounts.
+- Added False Names: six hover-revealed epithets people gave to the dead gods.
+- Implemented accordion interactions, hover-redaction reveals, and scroll-triggered animations.
