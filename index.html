@@ -5,124 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta
       name="description"
-      content="Goddead.com is a quiet digital home for experiments, philosophical notes, and strange thoughts built over the void."
+      content="Goddead.com is a quiet digital gateway for experiments, notes, and interactive audio-visual poetry over the void."
     >
     <title>Goddead</title>
-    <!-- 预加载 fallback 背景图以通过测试检查 -->
+    <!-- 预加载 fallback 背景大图以兼容测试检查 -->
     <link rel="preload" href="assets/hero.png" as="image">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <!-- Fallback 背景大图 -->
-    <img class="hero-bg-fallback" src="assets/hero.png" alt="Monolith under golden ring of light">
+    <!-- 艺术背景层 (降级静态背景) -->
+    <img class="hero-bg-fallback" src="assets/hero.png" alt="A monolith fading in the cosmic dark">
 
-    <!-- Canvas 粒子动态背景 -->
+    <!-- 粒子交互背景 -->
     <canvas id="void-canvas"></canvas>
 
-    <main class="site-shell">
-      <!-- Top Navigation Bar -->
-      <nav class="topbar" aria-label="Primary">
-        <a class="brand" href="/" aria-label="Goddead home">
-          <span class="brand__mark" aria-hidden="true">G</span>
-          <span>goddead.com</span>
-        </a>
-        <div class="topbar-actions">
-          <!-- 环境氛围音开关 -->
-          <button class="audio-toggle" id="audio-toggle" aria-label="Toggle ambient void sound">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-4h2v4zm4 0h-2V8h2v8z"/>
-            </svg>
-            <span class="status-text">VOID SOUND: OFF</span>
+    <!-- 沉浸式数字艺术外壳 -->
+    <main class="art-shell">
+      
+      <!-- 顶部信息栏 -->
+      <header class="art-header">
+        <div class="art-title-hint" aria-hidden="true">DIGITAL RUINS // PERSISTENCE</div>
+        
+        <!-- 以太信标 (环境音与 Canvas 能量开关) -->
+        <div class="beacon-container">
+          <button class="beacon-button" id="beacon-btn" aria-label="Toggle audio-visual resonance beacon">
+            <span class="beacon-dot"></span>
           </button>
-          <a class="topbar__link" href="https://github.com/IwannaYuJie/goddead" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <span class="beacon-text">VOID BEACON: STANDBY</span>
         </div>
-      </nav>
+      </header>
 
-      <!-- Hero Section -->
-      <section class="hero" aria-labelledby="site-title">
-        <div class="hero__content">
-          <p class="eyebrow">Live from goddead.com</p>
-          <h1 id="site-title">Goddead</h1>
-          <p class="hero__copy">
-            “God is dead. God remains dead. And we have killed him. How shall we comfort ourselves, the murderers of all murderers?”
-          </p>
-          <div class="hero__actions">
-            <a class="button button--primary" href="#oracle">
-              Seek the Void
-            </a>
-            <a class="button button--ghost" href="#status">Deployment Status</a>
-          </div>
+      <!-- 居中碑刻与谶言 -->
+      <section class="art-center">
+        <h1 class="monument-text" id="site-title">Goddead</h1>
+        <div class="scramble-box" id="scramble-box">
+          THE SHADOWS WE CAST ARE THE ONLY LIGHTS LEFT.
         </div>
       </section>
 
-      <!-- Oracle Section (Interation Block) -->
-      <section class="oracle-container" id="oracle" aria-label="Philosophical Oracle">
-        <div class="oracle-card">
-          <div class="oracle-icon" aria-hidden="true">“</div>
-          <p class="oracle-quote" id="oracle-quote-en">
-            God is dead. God remains dead. And we have killed him.
-          </p>
-          <p class="oracle-quote-zh" id="oracle-quote-zh">
-            上帝死了。上帝已经死了。是我们杀死了他。
-          </p>
-          <p class="oracle-author" id="oracle-author">
-            — Friedrich Nietzsche (尼采) —
-          </p>
-          <button class="oracle-btn" id="seek-btn">
-            [ SEEK THE VOID ]
-          </button>
+      <!-- 极简页脚 (无缝嵌入测试兼容数据) -->
+      <footer class="art-footer">
+        
+        <!-- 部署状态 -->
+        <div class="art-status-band" id="status">
+          <span class="status-dot"></span>
+          <span class="status-band-text">ETHERNET SYNC: ACTIVE</span>
         </div>
-      </section>
 
-      <!-- Monuments Grid (3D Hover Cards) -->
-      <section aria-labelledby="monuments-heading" style="width: 100%;">
-        <h2 class="monuments-title" id="monuments-heading">THE THREE MONUMENTS / 三大丰碑</h2>
-        <div class="monuments-grid">
-          <!-- Chapter I -->
-          <article class="monument-card">
-            <div class="monument-num" aria-hidden="true">I</div>
-            <h3>Twilight of Idols</h3>
-            <p>
-              绝对真理的崩塌。在数字以太中，旧日的教条与传统结构土崩瓦解，为完全自主的思考与价值重估开辟出一片荒原。
-            </p>
-          </article>
-          <!-- Chapter II -->
-          <article class="monument-card">
-            <div class="monument-num" aria-hidden="true">II</div>
-            <h3>Will to Power</h3>
-            <p>
-              主动自我的觉醒。跨越虚无主义的深渊，在废墟中编写属于自己的现实，主宰自身的意志，创造全新维度的代码与秩序。
-            </p>
-          </article>
-          <!-- Chapter III -->
-          <article class="monument-card">
-            <div class="monument-num" aria-hidden="true">III</div>
-            <h3>Eternal Recurrence</h3>
-            <p>
-              拥抱存在的无限循环。在虚空之上起舞，庆贺生命的轻盈，接受一切的终结与复始，在时间的闭环中留下永恒的数字印记。
-            </p>
-          </article>
+        <!-- 极简页脚链接与元数据 -->
+        <div class="art-meta">
+          <span data-updated>Preparing launch...</span>
+          <a class="art-meta-link" href="https://github.com/IwannaYuJie/goddead" target="_blank" rel="noopener noreferrer">
+            GATEWAY: goddead.com
+          </a>
         </div>
-      </section>
 
-      <!-- Relic Status Band -->
-      <section class="status-band" id="status" aria-label="Deployment status">
-        <article>
-          <span class="status-dot" aria-hidden="true"></span>
-          <div>
-            <h2>Sync Status: Active</h2>
-            <p>
-              这处数字虚空网关通过 GitHub 持续同步，并经由 Cloudflare Pages 在全球高速网络节点中实现边缘部署。
-            </p>
-          </div>
-        </article>
-        <p class="timestamp" data-updated>Preparing launch...</p>
-      </section>
-
-      <!-- Footer -->
-      <footer>
-        © 2026 GODDEAD.COM • THE VOID IS ACTIVE
       </footer>
+
     </main>
 
     <script src="script.js"></script>
