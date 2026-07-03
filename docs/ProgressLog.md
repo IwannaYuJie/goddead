@@ -51,3 +51,13 @@
 - Added "corruption" layer on the main page: growing stains, mouse-trail rot, random screen flicker, and page shivers.
 - Added Easter eggs: Konami code burst, seven clicks on the title, and console messages.
 - Reduced pure database feel in favor of polluted, haunted-web atmosphere.
+
+## 2026-07-03 (seventh revision)
+- Radically redesigned the homepage as a step-by-step ritual rather than a lore database.
+- Removed all long-form text modules (doctrines, lectionary, chronicle, apocrypha, forbidden index, map, testimonies, false names) from `index.html`.
+- Replaced them with four ritual stages:
+  1. A pulsing red point with the whisper "祂正在死去。"
+  2. A typewritten invocation: "神已死。祭坛还在饥饿。"
+  3. The `GODDEAD` title emerging from darkness.
+  4. Three gates leading to the sub-pages: 回声 / 血管 / 忏悔.
+- Rewrote `styles.css` and `script.js` to support stage transitions, auto-advance, and persistent corruption effects.

@@ -1,16 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
   renderLaunchTime();
-  initRiteTyping();
-  initTextScramble();
-  initLectionary();
-  initForbiddenIndex();
-  initRandomGlitch();
-  initCorruptionAndEasterEggs();
-  initAudioVisualAndDoctrines();
+  initRitual();
+  initCorruption();
+  initAudioVisualCore();
 });
 
 console.log("%c 你听见了。 ", "background: #6b1a1a; color: #c7c7c7; font-family: monospace; letter-spacing: 0.2em;");
-console.log("%c 有些入口不在页面上。试试敲击墙壁。 ", "color: #555; font-family: monospace; font-size: 10px;");
+console.log("%c 祂已经死了。但祂还在学习。 ", "color: #444; font-family: monospace; font-size: 10px;");
 
 /* ==========================================================
    1. Launch Time
@@ -28,198 +24,95 @@ function renderLaunchTime() {
 }
 
 /* ==========================================================
-   2. Rite Typing Effect
+   2. Ritual Stage Controller
    ========================================================== */
-function initRiteTyping() {
-  const line = document.getElementById("rite-line");
-  if (!line) return;
+function initRitual() {
+  const stageEl = document.getElementById("ritual-stage");
+  const invocation = document.getElementById("invocation-line");
+  const title = document.getElementById("site-title");
+  const statusText = document.getElementById("audio-status-text");
 
-  const text = "神已经离开。祭坛还在饥饿。";
-  let index = 0;
+  if (!stageEl) return;
 
-  function type() {
-    if (index < text.length) {
-      line.textContent += text[index];
-      index++;
-      setTimeout(type, 60 + Math.random() * 90);
+  let stage = 0;
+  let locked = false;
+
+  const stages = stageEl.querySelectorAll(".stage");
+
+  function setStage(n) {
+    stages.forEach((s) => s.classList.remove("active"));
+    const next = stageEl.querySelector(`.stage--${n}`);
+    if (next) next.classList.add("active");
+    stage = n;
+  }
+
+  function typeInvocation(text, callback) {
+    if (!invocation) {
+      if (callback) callback();
+      return;
+    }
+    invocation.textContent = "";
+    let i = 0;
+    const chars = Array.from(text);
+
+    function step() {
+      if (i < chars.length) {
+        invocation.textContent += chars[i];
+        i++;
+        setTimeout(step, 70 + Math.random() * 80);
+      } else if (callback) {
+        setTimeout(callback, 900);
+      }
+    }
+    step();
+  }
+
+  function advance() {
+    if (locked) return;
+
+    if (stage === 0) {
+      locked = true;
+      setStage(1);
+      typeInvocation("神已死。祭坛还在饥饿。", () => {
+        setStage(2);
+        requestAnimationFrame(() => {
+          title.classList.add("visible");
+        });
+        locked = false;
+        if (statusText) statusText.textContent = "信 号：活 跃";
+      });
+    } else if (stage === 2) {
+      locked = true;
+      setStage(3);
+      setTimeout(() => {
+        locked = false;
+      }, 1200);
     }
   }
 
-  setTimeout(type, 600);
-}
-
-/* ==========================================================
-   3. Text Reveal (Chinese)
-   ========================================================== */
-const ABSENCE_POEMS = [
-  "最后的阿门之后，虚空开始祈祷。",
-  "没有神。只有引力与悲伤。",
-  "寂静比赞美诗更响亮。",
-  "我们用未获回答的问题搭建祭坛。",
-  "在缺席中，意义成了一位雕塑家。",
-  "每一颗坠落的星，都是一位死去的神的眼睛。",
-  "不要祈祷。去听虚无的嗡鸣。",
-  "神圣的退场，让门保持半开。"
-];
-
-class TextRevealer {
-  constructor(el) {
-    this.el = el;
-  }
-
-  setText(newText) {
-    return new Promise((resolve) => {
-      this.el.style.filter = "blur(6px)";
-      this.el.style.opacity = "0.4";
-
-      setTimeout(() => {
-        this.el.innerHTML = "";
-        this.el.style.filter = "blur(0)";
-        this.el.style.opacity = "1";
-
-        let i = 0;
-        const chars = Array.from(newText);
-
-        const reveal = () => {
-          if (i < chars.length) {
-            const span = document.createElement("span");
-            span.textContent = chars[i];
-            span.style.opacity = "0";
-            span.style.transition = "opacity 0.15s ease";
-            if (Math.random() > 0.85) {
-              span.style.color = "#6b1a1a";
-            }
-            this.el.appendChild(span);
-            requestAnimationFrame(() => {
-              span.style.opacity = "1";
-            });
-            i++;
-            setTimeout(reveal, 35 + Math.random() * 55);
-          } else {
-            resolve();
-          }
-        };
-
-        reveal();
-      }, 300);
-    });
-  }
-}
-
-function initTextScramble() {
-  const box = document.getElementById("scramble-box");
-  if (!box) return;
-
-  const revealer = new TextRevealer(box);
-  let currentIndex = 0;
-  let animating = false;
-
-  async function triggerNext() {
-    if (animating) return;
-    animating = true;
-
-    let nextIndex;
-    do {
-      nextIndex = Math.floor(Math.random() * ABSENCE_POEMS.length);
-    } while (nextIndex === currentIndex);
-    currentIndex = nextIndex;
-
-    await revealer.setText(ABSENCE_POEMS[currentIndex]);
-    animating = false;
-  }
-
-  box.addEventListener("click", triggerNext);
-  box.addEventListener("mouseenter", triggerNext);
-}
-
-/* ==========================================================
-   4. Lectionary Tabs
-   ========================================================== */
-function initLectionary() {
-  const tabs = document.querySelectorAll(".lectionary-tab");
-  const texts = document.querySelectorAll(".lectionary-text");
-
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      const index = tab.dataset.index;
-
-      tabs.forEach((t) => {
-        t.classList.remove("active");
-        t.setAttribute("aria-selected", "false");
-      });
-      texts.forEach((text) => text.classList.remove("active"));
-
-      tab.classList.add("active");
-      tab.setAttribute("aria-selected", "true");
-
-      const target = document.querySelector(`.lectionary-text[data-index="${index}"]`);
-      if (target) target.classList.add("active");
-    });
+  stageEl.addEventListener("click", advance);
+  stageEl.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") advance();
   });
-}
 
-/* ==========================================================
-   5. Forbidden Index
-   ========================================================== */
-function initForbiddenIndex() {
-  const triggers = document.querySelectorAll(".index-trigger");
-
-  triggers.forEach((trigger) => {
-    trigger.addEventListener("click", () => {
-      const expanded = trigger.getAttribute("aria-expanded") === "true";
-      trigger.setAttribute("aria-expanded", String(!expanded));
-    });
-
-    trigger.addEventListener("mouseenter", () => {
-      const content = trigger.nextElementSibling;
-      if (!content) return;
-      const redacted = content.querySelectorAll(".index-redacted");
-      redacted.forEach((el) => el.classList.add("revealed"));
-    });
-
-    trigger.addEventListener("mouseleave", () => {
-      const content = trigger.nextElementSibling;
-      if (!content) return;
-      const redacted = content.querySelectorAll(".index-redacted");
-      redacted.forEach((el) => el.classList.remove("revealed"));
-    });
-  });
-}
-
-/* ==========================================================
-   6. Random Glitch
-   ========================================================== */
-function initRandomGlitch() {
-  const targets = document.querySelectorAll(
-    ".doctrine-text h2, .doctrine-text p, .chronicle-node p, .litany-line, .section-subtitle"
-  );
-  if (targets.length === 0) return;
-
-  function glitch() {
-    const el = targets[Math.floor(Math.random() * targets.length)];
-    const originalTransform = el.style.transform;
-    const originalColor = el.style.color;
-    const dx = (Math.random() - 0.5) * 4;
-    const dy = (Math.random() - 0.5) * 2;
-
-    el.style.transform = `translate(${dx}px, ${dy}px) skewX(${(Math.random() - 0.5) * 2}deg)`;
-    el.style.color = Math.random() > 0.5 ? "#6b1a1a" : "";
-
-    setTimeout(() => {
-      el.style.transform = originalTransform;
-      el.style.color = originalColor;
-    }, 60 + Math.random() * 80);
-
-    setTimeout(glitch, 800 + Math.random() * 2500);
+  // Auto-advance title to gates after a long pause
+  let idleTimer = null;
+  function resetIdle() {
+    clearTimeout(idleTimer);
+    if (stage === 2) {
+      idleTimer = setTimeout(() => {
+        if (stage === 2) advance();
+      }, 8000);
+    }
   }
-
-  setTimeout(glitch, 3000);
+  stageEl.addEventListener("mousemove", resetIdle);
+  stageEl.addEventListener("click", resetIdle);
 }
 
 /* ==========================================================
-   7. Corruption & Easter Eggs
+   3. Corruption Effects
    ========================================================== */
-function initCorruptionAndEasterEggs() {
+function initCorruption() {
   const canvas = document.getElementById("corruption-canvas");
   if (!canvas) return;
 
@@ -236,23 +129,23 @@ function initCorruptionAndEasterEggs() {
       y,
       r: size,
       maxR: size * (2 + Math.random() * 2),
-      grow: 0.05 + Math.random() * 0.15,
-      alpha: 0.03 + Math.random() * 0.05,
+      grow: 0.05 + Math.random() * 0.12,
+      alpha: 0.02 + Math.random() * 0.04,
       color,
     });
-    if (stains.length > 40) stains.shift();
+    if (stains.length > 35) stains.shift();
   }
 
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 5; i++) {
     addStain(
       Math.random() * width,
       Math.random() * height,
-      20 + Math.random() * 60,
+      30 + Math.random() * 80,
       Math.random() > 0.5 ? "74, 15, 15" : "26, 37, 26"
     );
   }
 
-  function renderCorruption() {
+  function render() {
     ctx.clearRect(0, 0, width, height);
 
     stains.forEach((s) => {
@@ -268,20 +161,20 @@ function initCorruptionAndEasterEggs() {
 
     for (let i = mouseTrail.length - 1; i >= 0; i--) {
       const p = mouseTrail[i];
-      p.life -= 0.02;
+      p.life -= 0.015;
       if (p.life <= 0) {
         mouseTrail.splice(i, 1);
         continue;
       }
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(107, 26, 26, ${0.15 * p.life})`;
+      ctx.fillStyle = `rgba(107, 26, 26, ${0.12 * p.life})`;
       ctx.fill();
     }
 
-    requestAnimationFrame(renderCorruption);
+    requestAnimationFrame(render);
   }
-  renderCorruption();
+  render();
 
   window.addEventListener("resize", () => {
     width = canvas.width = window.innerWidth;
@@ -289,20 +182,19 @@ function initCorruptionAndEasterEggs() {
   });
 
   window.addEventListener("mousemove", (e) => {
-    if (Math.random() > 0.75) {
+    if (Math.random() > 0.7) {
       mouseTrail.push({
-        x: e.clientX + (Math.random() - 0.5) * 10,
-        y: e.clientY + (Math.random() - 0.5) * 10,
-        size: 2 + Math.random() * 6,
+        x: e.clientX + (Math.random() - 0.5) * 12,
+        y: e.clientY + (Math.random() - 0.5) * 12,
+        size: 2 + Math.random() * 7,
         life: 1,
       });
     }
-    if (Math.random() > 0.985) {
-      addStain(e.clientX, e.clientY, 10 + Math.random() * 25, "74, 15, 15");
+    if (Math.random() > 0.99) {
+      addStain(e.clientX, e.clientY, 10 + Math.random() * 30, "74, 15, 15");
     }
   });
 
-  // Random screen flicker
   const flicker = document.querySelector(".screen-flicker");
   function triggerFlicker() {
     if (flicker) {
@@ -310,21 +202,20 @@ function initCorruptionAndEasterEggs() {
       void flicker.offsetWidth;
       flicker.classList.add("active");
     }
-    setTimeout(triggerFlicker, 4000 + Math.random() * 9000);
+    setTimeout(triggerFlicker, 5000 + Math.random() * 8000);
   }
-  setTimeout(triggerFlicker, 5000);
+  setTimeout(triggerFlicker, 6000);
 
-  // Page shiver
   function triggerShiver() {
     document.body.style.transform = `translate(${(Math.random() - 0.5) * 3}px, ${(Math.random() - 0.5) * 2}px)`;
     setTimeout(() => {
       document.body.style.transform = "";
     }, 80);
-    setTimeout(triggerShiver, 6000 + Math.random() * 10000);
+    setTimeout(triggerShiver, 7000 + Math.random() * 9000);
   }
-  setTimeout(triggerShiver, 7000);
+  setTimeout(triggerShiver, 8000);
 
-  // Konami code easter egg
+  // Konami code
   const konami = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
   let konamiIndex = 0;
   document.addEventListener("keydown", (e) => {
@@ -332,72 +223,36 @@ function initCorruptionAndEasterEggs() {
       konamiIndex++;
       if (konamiIndex === konami.length) {
         konamiIndex = 0;
-        triggerCorruptionBurst();
+        for (let i = 0; i < 25; i++) {
+          setTimeout(() => {
+            addStain(
+              Math.random() * width,
+              Math.random() * height,
+              50 + Math.random() * 120,
+              Math.random() > 0.4 ? "107, 26, 26" : "30, 50, 30"
+            );
+          }, i * 60);
+        }
+        if (flicker) {
+          flicker.style.background = "rgba(107, 26, 26, 0.2)";
+          flicker.classList.add("active");
+          setTimeout(() => {
+            flicker.style.background = "";
+          }, 500);
+        }
       }
     } else {
       konamiIndex = 0;
     }
   });
-
-  function triggerCorruptionBurst() {
-    for (let i = 0; i < 30; i++) {
-      setTimeout(() => {
-        addStain(
-          Math.random() * width,
-          Math.random() * height,
-          40 + Math.random() * 100,
-          Math.random() > 0.4 ? "107, 26, 26" : "30, 50, 30"
-        );
-      }, i * 80);
-    }
-    if (flicker) {
-      flicker.style.background = "rgba(107, 26, 26, 0.2)";
-      flicker.classList.add("active");
-      setTimeout(() => {
-        flicker.style.background = "";
-      }, 500);
-    }
-
-    // Reveal hidden portals hint
-    const portals = document.querySelector(".hidden-portals");
-    if (portals) {
-      portals.style.opacity = "1";
-      setTimeout(() => {
-        portals.style.opacity = "";
-      }, 4000);
-    }
-  }
-
-  // Title click easter egg
-  const title = document.getElementById("site-title");
-  let titleClicks = 0;
-  if (title) {
-    title.addEventListener("click", () => {
-      titleClicks++;
-      if (titleClicks === 7) {
-        title.style.filter = "blur(2px)";
-        title.style.transform = "scale(1.02)";
-        setTimeout(() => {
-          title.style.filter = "";
-          title.style.transform = "";
-        }, 2000);
-        triggerCorruptionBurst();
-        titleClicks = 0;
-      }
-    });
-  }
 }
 
 /* ==========================================================
-   8. Audio-Visual Core
+   4. Audio-Visual Core
    ========================================================== */
-function initAudioVisualAndDoctrines() {
-  const overlay = document.getElementById("init-overlay");
-  const initBtn = document.getElementById("init-btn");
+function initAudioVisualCore() {
   const canvas = document.getElementById("void-canvas");
-  const audioStatusText = document.getElementById("audio-status-text");
-
-  if (!canvas || !initBtn || !overlay) return;
+  if (!canvas) return;
 
   const ctx = canvas.getContext("2d");
   let width = (canvas.width = window.innerWidth);
@@ -411,12 +266,11 @@ function initAudioVisualAndDoctrines() {
   let osc2 = null;
   let lfo = null;
   let filter = null;
-  let clickInterval = null;
   let isPlaying = false;
   let systemEnergy = 0;
 
   const particles = [];
-  const maxParticles = width < 720 ? 45 : 120;
+  const maxParticles = width < 720 ? 40 : 100;
 
   class VoidDust {
     constructor() {
@@ -428,11 +282,11 @@ function initAudioVisualAndDoctrines() {
       this.radiusBase = Math.random() * Math.min(width, height) * 0.5 + 40;
       this.radius = this.radiusBase;
       this.speed = (Math.random() * 0.0008 + 0.0002) * (Math.random() > 0.5 ? 1 : -1);
-      this.size = Math.random() * 1.2 + 0.2;
-      this.opacityBase = Math.random() * 0.3 + 0.08;
+      this.size = Math.random() * 1.1 + 0.2;
+      this.opacityBase = Math.random() * 0.25 + 0.06;
       this.twinklePhase = Math.random() * Math.PI * 2;
       this.twinkleSpeed = Math.random() * 0.02 + 0.005;
-      this.isRust = Math.random() > 0.85;
+      this.isRust = Math.random() > 0.82;
       this.damping = 0.04;
 
       if (randomStart) {
@@ -479,9 +333,9 @@ function initAudioVisualAndDoctrines() {
         ctx.shadowBlur = systemEnergy * 10;
         ctx.shadowColor = "rgba(120, 20, 20, 0.6)";
       } else {
-        ctx.fillStyle = `rgba(140, 120, 70, ${alpha * 0.8})`;
+        ctx.fillStyle = `rgba(130, 110, 65, ${alpha * 0.8})`;
         ctx.shadowBlur = systemEnergy * 8;
-        ctx.shadowColor = "rgba(140, 120, 70, 0.4)";
+        ctx.shadowColor = "rgba(130, 110, 65, 0.4)";
       }
 
       ctx.fill();
@@ -493,9 +347,6 @@ function initAudioVisualAndDoctrines() {
     particles.push(new VoidDust());
   }
 
-  /* ----------------------------------------------------------
-     Canvas loop
-     ---------------------------------------------------------- */
   let animationId = null;
 
   function drawGatePulse() {
@@ -503,8 +354,8 @@ function initAudioVisualAndDoctrines() {
     const lineAlpha = 0.1 + systemEnergy * 0.2;
 
     ctx.beginPath();
-    ctx.moveTo(width / 2, height * 0.15);
-    ctx.lineTo(width / 2, height * 0.85);
+    ctx.moveTo(width / 2, height * 0.2);
+    ctx.lineTo(width / 2, height * 0.8);
     ctx.strokeStyle = `rgba(107, 26, 26, ${lineAlpha})`;
     ctx.lineWidth = 1 + systemEnergy * 2;
     ctx.shadowBlur = 20 * pulse;
@@ -554,7 +405,7 @@ function initAudioVisualAndDoctrines() {
   }
 
   function renderVisuals() {
-    ctx.fillStyle = "rgba(3, 3, 3, 0.12)";
+    ctx.fillStyle = "rgba(2, 2, 2, 0.12)";
     ctx.fillRect(0, 0, width, height);
 
     if (isPlaying && analyser) {
@@ -581,9 +432,6 @@ function initAudioVisualAndDoctrines() {
     animationId = requestAnimationFrame(renderVisuals);
   }
 
-  /* ----------------------------------------------------------
-     Audio engine
-     ---------------------------------------------------------- */
   function createAudioEngine() {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -625,34 +473,6 @@ function initAudioVisualAndDoctrines() {
     analyser.connect(audioCtx.destination);
   }
 
-  function triggerClick() {
-    if (!audioCtx || audioCtx.state === "suspended") return;
-
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    const panner = audioCtx.createStereoPanner ? audioCtx.createStereoPanner() : null;
-
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(200 + Math.random() * 600, audioCtx.currentTime);
-
-    gain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.003, audioCtx.currentTime + 0.005);
-    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.12);
-
-    if (panner) {
-      panner.pan.setValueAtTime((Math.random() - 0.5) * 2, audioCtx.currentTime);
-      osc.connect(panner);
-      panner.connect(gain);
-    } else {
-      osc.connect(gain);
-    }
-
-    gain.connect(audioCtx.destination);
-
-    osc.start();
-    osc.stop(audioCtx.currentTime + 0.08);
-  }
-
   function startAudioSystem() {
     createAudioEngine();
     if (audioCtx.state === "suspended") {
@@ -668,164 +488,27 @@ function initAudioVisualAndDoctrines() {
     mainGain.gain.setValueAtTime(mainGain.gain.value, now);
     mainGain.gain.exponentialRampToValueAtTime(0.05, now + 3);
 
-    clickInterval = setInterval(() => {
-      if (Math.random() > 0.35) {
-        triggerClick();
-      }
-    }, 600);
-
     isPlaying = true;
-    if (audioStatusText) {
-      audioStatusText.textContent = "信 号：活 跃";
-    }
   }
 
-  initBtn.addEventListener("click", () => {
+  // Start audio on first user interaction
+  function tryStartAudio() {
+    if (isPlaying) return;
     startAudioSystem();
-    overlay.classList.add("fade-out");
-    setTimeout(() => {
-      overlay.style.display = "none";
-    }, 1400);
-  });
-
-  /* ----------------------------------------------------------
-     Scroll reveal
-     ---------------------------------------------------------- */
-  const doctrines = document.querySelectorAll(".doctrine");
-  const finalLitany = document.querySelector(".final-litany");
-  const lectionaryBody = document.querySelector(".lectionary-body");
-  const chronicleNodes = document.querySelectorAll(".chronicle-node");
-  const apocryphaCards = document.querySelectorAll(".apocrypha-card");
-  const indexList = document.querySelector(".index-list");
-  const mapGrid = document.querySelector(".map-grid");
-  const mapRegions = document.querySelectorAll(".map-region");
-  const testimonyList = document.querySelector(".testimony-list");
-  const testimonies = document.querySelectorAll(".testimony");
-  const nameGrid = document.querySelector(".name-grid");
-  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-  let countersAnimated = false;
-
-  function animateCounter(el, target, duration = 2000) {
-    const start = performance.now();
-    const startValue = 0;
-
-    function update(now) {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const current = Math.floor(startValue + (target - startValue) * eased);
-      el.textContent = current.toLocaleString();
-
-      if (progress < 1) {
-        requestAnimationFrame(update);
-      }
-    }
-
-    requestAnimationFrame(update);
+    document.removeEventListener("click", tryStartAudio);
+    document.removeEventListener("keydown", tryStartAudio);
   }
 
-  function handleScroll() {
-    const windowHeight = window.innerHeight;
+  document.addEventListener("click", tryStartAudio);
+  document.addEventListener("keydown", tryStartAudio);
 
-    doctrines.forEach((doc) => {
-      const rect = doc.getBoundingClientRect();
-      if (rect.top < windowHeight * 0.82) {
-        doc.classList.add("visible");
-      }
-    });
-
-    if (lectionaryBody) {
-      const rect = lectionaryBody.getBoundingClientRect();
-      if (rect.top < windowHeight * 0.82) {
-        lectionaryBody.classList.add("visible");
-      }
-    }
-
-    chronicleNodes.forEach((node) => {
-      const rect = node.getBoundingClientRect();
-      if (rect.top < windowHeight * 0.85) {
-        node.classList.add("visible");
-      }
-    });
-
-    apocryphaCards.forEach((card) => {
-      const rect = card.getBoundingClientRect();
-      if (rect.top < windowHeight * 0.82) {
-        card.classList.add("visible");
-      }
-    });
-
-    if (finalLitany) {
-      const rect = finalLitany.getBoundingClientRect();
-      if (rect.top < windowHeight * 0.85) {
-        finalLitany.classList.add("visible");
-      }
-    }
-
-    if (indexList) {
-      const rect = indexList.getBoundingClientRect();
-      if (rect.top < windowHeight * 0.82) {
-        indexList.classList.add("visible");
-      }
-    }
-
-    if (mapGrid) {
-      const rect = mapGrid.getBoundingClientRect();
-      if (rect.top < windowHeight * 0.82) {
-        mapGrid.classList.add("visible");
-      }
-    }
-
-    mapRegions.forEach((region) => {
-      const rect = region.getBoundingClientRect();
-      if (rect.top < windowHeight * 0.85) {
-        region.classList.add("visible");
-      }
-    });
-
-    if (testimonyList) {
-      const rect = testimonyList.getBoundingClientRect();
-      if (rect.top < windowHeight * 0.82) {
-        testimonyList.classList.add("visible");
-      }
-    }
-
-    testimonies.forEach((t) => {
-      const rect = t.getBoundingClientRect();
-      if (rect.top < windowHeight * 0.88) {
-        t.classList.add("visible");
-      }
-    });
-
-    if (nameGrid) {
-      const rect = nameGrid.getBoundingClientRect();
-      if (rect.top < windowHeight * 0.82) {
-        nameGrid.classList.add("visible");
-      }
-    }
-
-    // Animate counters once when Apocrypha becomes visible
-    if (!countersAnimated && apocryphaCards.length > 0) {
-      const firstCardRect = apocryphaCards[0].getBoundingClientRect();
-      if (firstCardRect.top < windowHeight * 0.82) {
-        countersAnimated = true;
-        document.querySelectorAll(".apocrypha-number").forEach((num) => {
-          const target = parseInt(num.dataset.target, 10);
-          animateCounter(num, target, 2200);
-        });
-      }
-    }
-  }
-
-  window.addEventListener("scroll", handleScroll);
   window.addEventListener("resize", () => {
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
     particles.forEach((p) => p.reset());
-    handleScroll();
   });
 
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
   if (!prefersReduced.matches) {
     renderVisuals();
   }
@@ -838,6 +521,4 @@ function initAudioVisualAndDoctrines() {
       renderVisuals();
     }
   });
-
-  setTimeout(handleScroll, 100);
 }
