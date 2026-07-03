@@ -5,8 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // 2. 初始化以太谶言文本重组
   initTextScramble();
   
-  // 3. 初始化音画共振联动系统
-  initAudioVisualSystem();
+  // 3. 初始化音画联动核心与画廊视差
+  initAudioVisualAndGallery();
 });
 
 /* ==========================================
@@ -21,7 +21,7 @@ function renderLaunchTime() {
     timeStyle: "short",
   });
 
-  updated.textContent = `VORTEX ENGAGED ${formatter.format(new Date())}`;
+  updated.textContent = `VORTEX ACTIVE ${formatter.format(new Date())}`;
 }
 
 /* ==========================================
@@ -53,8 +53,8 @@ class TextScrambler {
     for (let i = 0; i < length; i++) {
       const from = oldText[i] || "";
       const to = newText[i] || "";
-      const start = Math.floor(Math.random() * 40);
-      const end = start + Math.floor(Math.random() * 40);
+      const start = Math.floor(Math.random() * 30);
+      const end = start + Math.floor(Math.random() * 30);
       this.queue.push({ from, to, start, end, char: "" });
     }
     cancelAnimationFrame(this.frameId);
@@ -107,7 +107,6 @@ function initTextScramble() {
     if (animating) return;
     animating = true;
     
-    // 随机选择一条新的，不与当前重复
     let nextIndex;
     do {
       nextIndex = Math.floor(Math.random() * PHILOSOPHICAL_POEMS.length);
@@ -123,195 +122,212 @@ function initTextScramble() {
 }
 
 /* ==========================================
-   3. Audio-Visual Reactive Core
+   3. Audio-Visual Reactive & Gallery Parallax
    ========================================== */
-function initAudioVisualSystem() {
+function initAudioVisualAndGallery() {
+  const overlay = document.getElementById("init-overlay");
+  const initBtn = document.getElementById("init-btn");
   const canvas = document.getElementById("void-canvas");
-  const beaconBtn = document.getElementById("beacon-btn");
-  if (!canvas || !beaconBtn) return;
+  const audioStatusText = document.getElementById("audio-status-text");
+
+  if (!canvas || !initBtn || !overlay) return;
 
   const ctx = canvas.getContext("2d");
   let width = (canvas.width = window.innerWidth);
   let height = (canvas.height = window.innerHeight);
 
-  // Audio Variables
+  // Audio Context Nodes
   let audioCtx = null;
   let mainGain = null;
   let analyser = null;
   let dataArray = null;
-  
   let osc1 = null;
   let osc2 = null;
   let lfo = null;
   let filter = null;
   let clickInterval = null;
-  
   let isPlaying = false;
-  let systemEnergy = 0; // 0.0 - 1.0 用于向 Canvas 传输声能强度
+  let systemEnergy = 0;
 
   // 粒子系统配置
   const particles = [];
-  const maxParticles = width < 720 ? 60 : 160;
+  const maxParticles = width < 720 ? 50 : 130;
 
-  class QuantumParticle {
+  class EmbersParticle {
     constructor() {
       this.reset();
-      // 首次加载布满屏幕
       this.x = Math.random() * width;
       this.y = Math.random() * height;
     }
 
     reset() {
-      // 在极坐标系内生成
+      // 从底部或者随机坐标向上升腾的暗金余烬粒子
       this.angle = Math.random() * Math.PI * 2;
-      this.radiusBase = Math.random() * Math.min(width, height) * 0.42 + 10;
+      this.radiusBase = Math.random() * Math.min(width, height) * 0.45 + 5;
       this.radius = this.radiusBase;
-      this.speed = (Math.random() * 0.0015 + 0.0004) * (Math.random() > 0.5 ? 1 : -1);
-      this.size = Math.random() * 1.5 + 0.5;
+      this.speed = (Math.random() * 0.0012 + 0.0003) * (Math.random() > 0.5 ? 1 : -1);
+      this.size = Math.random() * 1.6 + 0.4;
       
-      // 金色到淡白色的随机透明度
-      this.opacityBase = Math.random() * 0.4 + 0.15;
-      this.colorType = Math.random() > 0.45 ? 'gold' : 'white';
+      this.opacityBase = Math.random() * 0.35 + 0.15;
+      this.colorType = Math.random() > 0.5 ? 'gold' : 'white';
       
       this.x = width / 2 + Math.cos(this.angle) * this.radius;
       this.y = height / 2 + Math.sin(this.angle) * this.radius;
-      
-      // 惯性阻尼
-      this.damping = 0.05;
+      this.damping = 0.06;
     }
 
     update() {
-      // 基础角速度旋转
-      this.angle += this.speed * (1 + systemEnergy * 1.5); // 声能越大旋转越快
+      // 随着音乐振幅（systemEnergy），加速旋转与膨胀
+      this.angle += this.speed * (1 + systemEnergy * 2);
       
-      // 声能映射：声能变大时，粒子轨道收缩或发生重力波起伏
-      const targetRadius = this.radiusBase * (1 - systemEnergy * 0.28);
+      // 声能越强，引力范围向外扩张
+      const targetRadius = this.radiusBase * (1 + systemEnergy * 0.35);
       this.radius += (targetRadius - this.radius) * this.damping;
 
       const targetX = width / 2 + Math.cos(this.angle) * this.radius;
       const targetY = height / 2 + Math.sin(this.angle) * this.radius;
 
-      // 声能带来的物理微颤/极性波动
-      const shakeX = (Math.random() - 0.5) * systemEnergy * 15;
-      const shakeY = (Math.random() - 0.5) * systemEnergy * 15;
+      // 声能强时粒子抖动（闪烁感）
+      const shake = (Math.random() - 0.5) * systemEnergy * 10;
 
-      this.x += (targetX - this.x) * this.damping + shakeX;
-      this.y += (targetY - this.y) * this.damping + shakeY;
+      this.x += (targetX - this.x) * this.damping + shake;
+      this.y += (targetY - this.y) * this.damping + shake;
 
-      // 越界重置
       if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) {
         this.reset();
       }
     }
 
     draw() {
-      // 亮度随声能爆发而放大
-      const alpha = Math.min(1, this.opacityBase * (1 + systemEnergy * 1.8));
-      
+      const alpha = Math.min(1, this.opacityBase * (1 + systemEnergy * 2.2));
       ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size * (1 + systemEnergy * 0.8), 0, Math.PI * 2);
+      ctx.arc(this.x, this.y, this.size * (1 + systemEnergy * 0.6), 0, Math.PI * 2);
       ctx.fillStyle = this.colorType === 'gold' 
         ? `rgba(184, 151, 94, ${alpha})`
-        : `rgba(236, 236, 236, ${alpha * 0.7})`;
+        : `rgba(236, 236, 236, ${alpha * 0.65})`;
       ctx.fill();
     }
   }
 
-  // 填充粒子
+  // 粒子池填充
   for (let i = 0; i < maxParticles; i++) {
-    particles.push(new QuantumParticle());
+    particles.push(new EmbersParticle());
   }
 
   /* ------------------------------------------
-     Canvas 动画渲染环
+     Canvas 频域声波脉动与粒子群绘制
      ------------------------------------------ */
   let animationId = null;
 
-  function renderLoop() {
-    // 渐变覆盖产生优雅的流动残影
+  function renderVisuals() {
     ctx.fillStyle = "rgba(3, 3, 3, 0.08)";
     ctx.fillRect(0, 0, width, height);
 
-    // 实时读取音频振幅，调制系统能量
     if (isPlaying && analyser) {
       analyser.getByteFrequencyData(dataArray);
-      // 提取低频部分的值 (前10个频段) 映射为声能
-      let lowFreqSum = 0;
-      for (let i = 0; i < 10; i++) {
-        lowFreqSum += dataArray[i];
+      
+      // 1. 计算声能平均值
+      let sum = 0;
+      for (let i = 0; i < 12; i++) {
+        sum += dataArray[i];
       }
-      const avgAmp = lowFreqSum / 10;
-      // 平滑插值计算声能系数
-      const targetEnergy = avgAmp / 255.0;
-      systemEnergy += (targetEnergy - systemEnergy) * 0.15;
-    } else {
-      systemEnergy += (0 - systemEnergy) * 0.08; // 缓缓归零
-    }
+      const targetEnergy = sum / 12 / 255.0;
+      systemEnergy += (targetEnergy - systemEnergy) * 0.16;
 
-    // 绘制以太信标至背景 Canvas 形成视觉发光晕开
-    if (systemEnergy > 0.01) {
-      const gradient = ctx.createRadialGradient(
-        width / 2, height / 2, 5,
-        width / 2, height / 2, 100 + systemEnergy * 150
-      );
-      gradient.addColorStop(0, `rgba(184, 151, 94, ${systemEnergy * 0.15})`);
-      gradient.addColorStop(1, "rgba(3, 3, 3, 0)");
-      ctx.fillStyle = gradient;
+      // 2. 在底部绘制频域波形图
       ctx.beginPath();
-      ctx.arc(width / 2, height / 2, 100 + systemEnergy * 150, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.lineWidth = 1.5;
+      
+      // 渐变金色线
+      const gradientLine = ctx.createLinearGradient(0, height, width, height);
+      gradientLine.addColorStop(0, "rgba(92, 74, 46, 0.2)");
+      gradientLine.addColorStop(0.5, `rgba(184, 151, 94, ${0.15 + systemEnergy * 0.45})`);
+      gradientLine.addColorStop(1, "rgba(92, 74, 46, 0.2)");
+      ctx.strokeStyle = gradientLine;
+
+      // 贝塞尔声波曲线绘制
+      const sliceWidth = width / 32;
+      ctx.moveTo(0, height);
+
+      for (let i = 0; i <= 32; i++) {
+        // 获取振幅数据做 Y 轴扰动，加上平滑过渡
+        const index = Math.floor((i / 32) * (dataArray.length / 2));
+        const amplitude = (dataArray[index] / 255.0) * 120 * (1 + systemEnergy * 0.5);
+        const x = i * sliceWidth;
+        // 中间高两边低
+        const bellCurve = Math.sin((i / 32) * Math.PI);
+        const y = height - amplitude * bellCurve;
+
+        if (i === 0) {
+          ctx.moveTo(x, y);
+        } else {
+          const prevX = (i - 1) * sliceWidth;
+          const prevIndex = Math.floor(((i - 1) / 32) * (dataArray.length / 2));
+          const prevAmp = (dataArray[prevIndex] / 255.0) * 120 * (1 + systemEnergy * 0.5);
+          const prevBell = Math.sin(((i - 1) / 32) * Math.PI);
+          const prevY = height - prevAmp * prevBell;
+          
+          const cpX = (prevX + x) / 2;
+          ctx.quadraticCurveTo(prevX, prevY, cpX, (prevY + y) / 2);
+        }
+      }
+      ctx.lineTo(width, height);
+      ctx.stroke();
+
+    } else {
+      systemEnergy += (0 - systemEnergy) * 0.08;
     }
 
-    // 粒子刷新
+    // 绘制并渲染宇宙星尘余烬
     particles.forEach((p) => {
       p.update();
       p.draw();
     });
 
-    animationId = requestAnimationFrame(renderLoop);
+    animationId = requestAnimationFrame(renderVisuals);
   }
 
   /* ------------------------------------------
-     Web Audio 音频合成器逻辑
+     Web Audio 音频引擎合成
      ------------------------------------------ */
   function createAudioEngine() {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     
-    // 主音量增益
+    // 主音量
     mainGain = audioCtx.createGain();
     mainGain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
 
-    // 频率分析器
+    // 频域分析
     analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 64; // 较小的 fftSize 能获取更精确的时域响应
+    analyser.fftSize = 128; 
     const bufferLength = analyser.frequencyBinCount;
     dataArray = new Uint8Array(bufferLength);
 
-    // 低通滤波器（形成空灵的暗沉音质）
+    // 滤波器
     filter = audioCtx.createBiquadFilter();
     filter.type = "lowpass";
-    filter.frequency.setValueAtTime(125, audioCtx.currentTime);
-    filter.Q.setValueAtTime(4, audioCtx.currentTime);
+    filter.frequency.setValueAtTime(130, audioCtx.currentTime);
+    filter.Q.setValueAtTime(3.5, audioCtx.currentTime);
 
-    // 振荡器 1 - 深度重低音 A1 (55Hz)，使用三角波
+    // 低音 Drone - A1 A音符 (55Hz)
     osc1 = audioCtx.createOscillator();
     osc1.type = "triangle";
     osc1.frequency.setValueAtTime(55, audioCtx.currentTime);
 
-    // 振荡器 2 - 空灵共鸣音 E2 (82.4Hz)，正弦波
+    // 空灵共鸣音 - E2 五度共振 (82.4Hz)
     osc2 = audioCtx.createOscillator();
     osc2.type = "sine";
     osc2.frequency.setValueAtTime(82.4, audioCtx.currentTime);
 
-    // LFO（低频调制截止频率，产生风声流动潮汐感）
+    // LFO 潮汐调制
     lfo = audioCtx.createOscillator();
     lfo.type = "sine";
-    lfo.frequency.setValueAtTime(0.06, audioCtx.currentTime); // 约16秒循环一次
+    lfo.frequency.setValueAtTime(0.05, audioCtx.currentTime); // 20秒周期
 
     const lfoGain = audioCtx.createGain();
-    lfoGain.gain.setValueAtTime(35, audioCtx.currentTime); // 调制幅度 ±35Hz
+    lfoGain.gain.setValueAtTime(30, audioCtx.currentTime);
 
-    // 路由网络连接
+    // 连接
     lfo.connect(lfoGain);
     lfoGain.connect(filter.frequency);
 
@@ -322,45 +338,37 @@ function initAudioVisualSystem() {
     analyser.connect(audioCtx.destination);
   }
 
-  // 空间双耳敲击微粒音 (Binaural Granular Click)
-  function triggerGranularClick() {
+  // 空间双耳敲击微粒
+  function triggerBinauralClick() {
     if (!audioCtx || audioCtx.state === "suspended") return;
 
-    // 随机频率 750Hz - 1500Hz
-    const freq = 750 + Math.random() * 750;
-    // 随机声相 (左声道到右声道)
-    const panVal = (Math.random() - 0.5) * 2; // -1.0 到 1.0
-
-    const clickOsc = audioCtx.createOscillator();
-    const clickGain = audioCtx.createGain();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
     const panner = audioCtx.createStereoPanner ? audioCtx.createStereoPanner() : null;
 
-    clickOsc.type = "sine";
-    clickOsc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(800 + Math.random() * 600, audioCtx.currentTime);
 
-    clickGain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
-    // 极速淡入并指数淡出（0.04秒生命周期，制造精细沙砾声）
-    clickGain.gain.exponentialRampToValueAtTime(0.008, audioCtx.currentTime + 0.005);
-    clickGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.04);
+    gain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.006, audioCtx.currentTime + 0.005);
+    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.05);
 
     if (panner) {
-      panner.pan.setValueAtTime(panVal, audioCtx.currentTime);
-      clickOsc.connect(panner);
-      panner.connect(clickGain);
+      panner.pan.setValueAtTime((Math.random() - 0.5) * 2, audioCtx.currentTime);
+      osc.connect(panner);
+      panner.connect(gain);
     } else {
-      clickOsc.connect(clickGain);
+      osc.connect(gain);
     }
-    
-    clickGain.connect(audioCtx.destination);
 
-    clickOsc.start();
-    clickOsc.stop(audioCtx.currentTime + 0.05);
+    gain.connect(audioCtx.destination);
+
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.06);
   }
 
-  function startAudio() {
-    if (!audioCtx) {
-      createAudioEngine();
-    }
+  function startAudioSystem() {
+    createAudioEngine();
     if (audioCtx.state === "suspended") {
       audioCtx.resume();
     }
@@ -369,86 +377,85 @@ function initAudioVisualSystem() {
     osc2.start(0);
     lfo.start(0);
 
-    // 2秒平滑淡入
+    // 淡入
     const now = audioCtx.currentTime;
     mainGain.gain.cancelScheduledValues(now);
     mainGain.gain.setValueAtTime(mainGain.gain.value, now);
     mainGain.gain.exponentialRampToValueAtTime(0.08, now + 2.0);
 
-    // 随机启动颗粒敲击定时器
+    // 随机微粒晶莹声
     clickInterval = setInterval(() => {
-      // 80% 概率触发，产生无序的晶莹感
-      if (Math.random() > 0.2) {
-        triggerGranularClick();
+      if (Math.random() > 0.25) {
+        triggerBinauralClick();
       }
-    }, 450);
+    }, 500);
 
-    beaconBtn.classList.add("active");
     isPlaying = true;
+    if (audioStatusText) {
+      audioStatusText.textContent = "VOID ECHOES: ACTIVE";
+    }
   }
 
-  function stopAudio() {
-    if (!audioCtx) return;
-
-    if (clickInterval) {
-      clearInterval(clickInterval);
-      clickInterval = null;
-    }
-
-    // 1.5秒平滑淡出
-    const now = audioCtx.currentTime;
-    mainGain.gain.cancelScheduledValues(now);
-    mainGain.gain.setValueAtTime(mainGain.gain.value, now);
-    mainGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.5);
-
+  // 绑定仪式按钮点击事件 (手势解锁)
+  initBtn.addEventListener("click", () => {
+    startAudioSystem();
+    
+    // 首屏淡出并在完成过渡后隐藏
+    overlay.classList.add("fade-out");
     setTimeout(() => {
-      if (!isPlaying) {
-        osc1.stop();
-        osc2.stop();
-        lfo.stop();
-
-        osc1.disconnect();
-        osc2.disconnect();
-        lfo.disconnect();
-        filter.disconnect();
-        mainGain.disconnect();
-        analyser.disconnect();
-
-        osc1 = null;
-        osc2 = null;
-        lfo = null;
-        filter = null;
-        mainGain = null;
-        analyser = null;
-        audioCtx.close();
-        audioCtx = null;
-      }
-    }, 1600);
-
-    beaconBtn.classList.remove("active");
-    isPlaying = false;
-  }
-
-  beaconBtn.addEventListener("click", () => {
-    if (isPlaying) {
-      stopAudio();
-    } else {
-      startAudio();
-    }
+      overlay.style.display = "none";
+    }, 1500);
   });
 
   /* ------------------------------------------
-     窗口缩放与无障碍控制
+     画廊视差滚动与进入淡显 (Scroll Engine)
      ------------------------------------------ */
+  const galleryItems = document.querySelectorAll(".gallery-item");
+  const galleryImgs = document.querySelectorAll(".gallery-img");
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  function handleScroll() {
+    const pageTop = window.scrollY;
+    const windowHeight = window.innerHeight;
+
+    // 1. 滚动淡显监视
+    galleryItems.forEach((item) => {
+      const rect = item.getBoundingClientRect();
+      // 进入视野 80% 触发渐显
+      if (rect.top < windowHeight * 0.82) {
+        item.classList.add("visible");
+      }
+    });
+
+    // 2. 图片视差效果
+    if (!prefersReduced.matches) {
+      galleryImgs.forEach((img) => {
+        const wrap = img.parentElement;
+        const rect = wrap.getBoundingClientRect();
+        
+        // 计算 wrap 相对于视口的高度比例 (-1.0 到 1.0 之间)
+        const visibleCenter = rect.top + rect.height / 2;
+        const windowCenter = windowHeight / 2;
+        const offsetRatio = (visibleCenter - windowCenter) / (windowHeight / 2);
+
+        // 映射到 top 偏移 (在 -15% 到 -5% 之间漂移，配合初始 top: -10%)
+        const drift = -10 + offsetRatio * 5;
+        img.style.transform = `translate3d(0, ${drift}%, 0)`;
+      });
+    }
+  }
+
+  window.addEventListener("scroll", handleScroll);
   window.addEventListener("resize", () => {
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
     particles.forEach((p) => p.reset());
+    handleScroll();
   });
 
-  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+  // 开启 Canvas 渲染环
   if (!prefersReduced.matches) {
-    renderLoop();
+    renderVisuals();
   }
 
   prefersReduced.addEventListener("change", (e) => {
@@ -456,7 +463,10 @@ function initAudioVisualSystem() {
       if (animationId) cancelAnimationFrame(animationId);
       ctx.clearRect(0, 0, width, height);
     } else {
-      renderLoop();
+      renderVisuals();
     }
   });
+
+  // 初始触发一次计算
+  setTimeout(handleScroll, 100);
 }

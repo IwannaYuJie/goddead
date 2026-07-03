@@ -1,37 +1,57 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@200;300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@200;300;400;500&display=swap');
 
 :root {
   color-scheme: dark;
   --bg: #030303;
+  --bg-card: rgba(12, 12, 12, 0.85);
   --gold: #b8975e;
-  --gold-glow: rgba(184, 151, 94, 0.35);
+  --gold-glow: rgba(184, 151, 94, 0.45);
   --gold-dim: #5c4a2e;
   --white: #ececec;
-  --gray: #5e5e5e;
-  --line-gold: rgba(184, 151, 94, 0.12);
+  --gray: #6e6e6e;
+  --line-gold: rgba(184, 151, 94, 0.15);
   --font-serif: 'Cinzel', Georgia, serif;
   --font-sans: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
-  --transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-quick: all 0.3s ease;
 }
 
 * {
   box-sizing: border-box;
 }
 
-html, body {
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg);
+}
+
+body {
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100%;
-  background-color: var(--bg);
   color: var(--white);
   font-family: var(--font-sans);
-  overflow: hidden;
-  user-select: none;
-  -webkit-user-select: none;
+  background-color: var(--bg);
+  overflow-x: hidden;
+  line-height: 1.8;
 }
 
-/* 全屏 Canvas */
+/* 优雅的自定义滚动条 */
+body::-webkit-scrollbar {
+  width: 8px;
+}
+body::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+body::-webkit-scrollbar-thumb {
+  background: var(--gold-dim);
+  border-radius: 4px;
+}
+body::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+/* 全屏固定 Canvas */
 #void-canvas {
   position: fixed;
   inset: 0;
@@ -41,165 +61,192 @@ html, body {
   pointer-events: none;
 }
 
-/* Fallback 背景大图（作为艺术背景层） */
+/* Fallback 背景 */
 .hero-bg-fallback {
   position: fixed;
   inset: 0;
   width: 100vw;
   height: 100vh;
   object-fit: cover;
-  opacity: 0.05;
+  opacity: 0.04;
   z-index: 0;
   pointer-events: none;
   filter: grayscale(100%) contrast(150%);
-  mix-blend-mode: screen;
 }
 
-/* 全屏沉浸艺术外壳 */
+/* ==========================================
+   A. 仪式引导遮罩层 (Initiation Mask)
+   ========================================== */
+.initiation-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #050505;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px;
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.initiation-overlay.fade-out {
+  opacity: 0;
+  transform: scale(1.12);
+  pointer-events: none;
+}
+
+.initiation-quote {
+  font-family: var(--font-serif);
+  font-size: clamp(1.2rem, 3.5vw, 2.2rem);
+  letter-spacing: 0.15em;
+  color: var(--white);
+  max-width: 800px;
+  margin-bottom: 20px;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+.initiation-quote-zh {
+  font-family: var(--font-sans);
+  font-weight: 200;
+  font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  margin-bottom: 50px;
+  opacity: 0.85;
+}
+
+.initiation-btn {
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 16px 36px;
+  border-radius: 30px;
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  letter-spacing: 0.25em;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(184, 151, 94, 0.1);
+  transition: var(--transition-quick);
+}
+
+.initiation-btn:hover {
+  background: var(--gold);
+  color: var(--bg);
+  box-shadow: 0 0 30px var(--gold-glow);
+  transform: translateY(-2px);
+}
+
+/* ==========================================
+   B. 核心页面排版
+   ========================================== */
 .art-shell {
   position: relative;
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
   z-index: 2;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
-  padding: 40px;
+  pointer-events: none; /* 穿透背景 */
 }
 
-/* 顶部信息 */
+/* 顶部交互条 */
 .art-header {
-  width: 100%;
+  width: min(1200px, 100% - 40px);
+  margin: 30px auto 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  pointer-events: auto;
+  pointer-events: auto; /* 恢复点击 */
 }
 
 .art-title-hint {
   font-family: var(--font-serif);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   letter-spacing: 0.4em;
   color: var(--gold);
   text-transform: uppercase;
   opacity: 0.65;
 }
 
-/* 交互式音视频信标 (Beacon) */
-.beacon-container {
+.audio-status-box {
   display: flex;
   align-items: center;
-  gap: 12px;
-}
-
-.beacon-button {
-  background: transparent;
-  border: 1px solid var(--line-gold);
-  border-radius: 50%;
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  position: relative;
-  transition: var(--transition);
-}
-
-.beacon-button::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border: 1px solid var(--gold);
-  border-radius: 50%;
-  opacity: 0.25;
-  transition: var(--transition);
-}
-
-.beacon-button:hover::before {
-  transform: scale(1.2);
-  opacity: 0.5;
-}
-
-.beacon-dot {
-  width: 8px;
-  height: 8px;
-  background-color: var(--gray);
-  border-radius: 50%;
-  transition: var(--transition);
-}
-
-/* 激活状态下的信标波纹 */
-.beacon-button.active .beacon-dot {
-  background-color: var(--gold);
-  box-shadow: 0 0 15px var(--gold-glow);
-}
-
-.beacon-button.active::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border: 1px solid var(--gold);
-  border-radius: 50%;
-  animation: beacon-wave 2s infinite cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: none;
-}
-
-.beacon-text {
+  gap: 10px;
   font-family: var(--font-serif);
   font-size: 0.7rem;
-  letter-spacing: 0.25em;
-  color: var(--gray);
-  text-transform: uppercase;
-  transition: var(--transition);
-}
-
-.beacon-button.active + .beacon-text {
+  letter-spacing: 0.2em;
   color: var(--gold);
-  text-shadow: 0 0 8px var(--gold-glow);
+  opacity: 0.85;
 }
 
-/* 居中核心碑文 */
-.art-center {
+.audio-pulse-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--gold);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--gold-glow);
+  animation: audio-glow 1.5s infinite ease-in-out;
+}
+
+/* 巨幅 Hero 第一幕 */
+.art-hero {
+  width: 100%;
+  min-height: 95vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   text-align: center;
-  max-width: 800px;
+  pointer-events: auto;
+}
+
+.art-eyebrow {
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  letter-spacing: 0.35em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 24px;
 }
 
 h1.monument-text {
   margin: 0;
   font-family: var(--font-serif);
-  font-size: clamp(3.5rem, 8vw, 7.5rem);
+  font-size: clamp(3.8rem, 10vw, 8.5rem);
   font-weight: 900;
   letter-spacing: 0.3em;
   text-indent: 0.3em;
   color: var(--white);
-  text-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
+  text-shadow: 0 0 30px rgba(0, 0, 0, 0.95);
   transition: var(--transition);
 }
 
-.art-center:hover h1.monument-text {
-  letter-spacing: 0.35em;
-  text-indent: 0.35em;
+h1.monument-text:hover {
   color: var(--gold);
-  text-shadow: 0 0 35px var(--gold-glow);
+  text-shadow: 0 0 45px var(--gold-glow);
+  letter-spacing: 0.33em;
+  text-indent: 0.33em;
 }
 
-/* 动态字符谶言 */
 .scramble-box {
-  margin-top: 30px;
+  margin-top: 35px;
   font-family: var(--font-sans);
   font-weight: 200;
-  font-size: clamp(0.85rem, 1.5vw, 1.05rem);
-  line-height: 1.8;
-  letter-spacing: 0.2em;
+  font-size: clamp(0.85rem, 1.6vw, 1.1rem);
+  letter-spacing: 0.25em;
   color: var(--gray);
+  max-width: 650px;
   min-height: 60px;
-  max-width: 600px;
   cursor: pointer;
   transition: color 0.4s ease;
 }
@@ -208,26 +255,147 @@ h1.monument-text {
   color: var(--white);
 }
 
-/* 底部状态带与页脚 (测试兼容) */
-.art-footer {
+/* ==========================================
+   C. 三联神迹视差画廊 (Triptych Exhibition)
+   ========================================== */
+.gallery-hall {
   width: 100%;
+  max-width: 1200px;
+  margin: 100px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 180px;
+  pointer-events: auto;
+}
+
+.gallery-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.gallery-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.gallery-item:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+/* 视差图片框架 */
+.gallery-img-wrap {
+  flex: 1 1 50%;
+  height: 520px;
+  overflow: hidden;
+  border-radius: 4px;
+  position: relative;
+  border: 1px solid var(--line-gold);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(184, 151, 94, 0.04);
+}
+
+.gallery-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 70%, rgba(3, 3, 3, 0.85));
+  pointer-events: none;
+}
+
+.gallery-img {
+  width: 100%;
+  height: 120%; /* 留出视差移动空间 */
+  object-fit: cover;
+  position: absolute;
+  top: -10%;
+  left: 0;
+  filter: grayscale(35%) contrast(110%);
+  transition: transform 0.5s ease-out, filter 0.5s ease;
+  will-change: transform;
+}
+
+.gallery-item:hover .gallery-img {
+  filter: grayscale(0%) contrast(110%);
+  transform: scale(1.03) translateY(-8%);
+}
+
+/* 文字版块 */
+.gallery-text {
+  flex: 1 1 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.gallery-num {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--gold-dim);
+  margin-bottom: 12px;
+  transition: var(--transition-quick);
+}
+
+.gallery-item:hover .gallery-num {
+  color: var(--gold);
+  -webkit-text-stroke: 1px var(--gold);
+  text-shadow: 0 0 15px var(--gold-glow);
+}
+
+.gallery-text h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  letter-spacing: 0.15em;
+  color: var(--white);
+  margin: 0 0 25px;
+  text-transform: uppercase;
+}
+
+.gallery-text p {
+  color: var(--gray);
+  font-size: 0.95rem;
+  line-height: 1.9;
+  margin: 0;
+  text-align: justify;
+  transition: color 0.4s ease;
+}
+
+.gallery-item:hover .gallery-text p {
+  color: var(--white);
+}
+
+/* ==========================================
+   D. 页脚与测试数据适配
+   ========================================== */
+.art-footer {
+  width: min(1200px, 100% - 40px);
+  margin: 100px auto 40px;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   border-top: 1px solid rgba(255, 255, 255, 0.03);
-  padding-top: 25px;
+  padding-top: 30px;
+  pointer-events: auto;
 }
 
 .art-status-band {
   display: flex;
   align-items: center;
   gap: 12px;
-  opacity: 0.25;
-  transition: var(--transition);
+  opacity: 0.2;
+  transition: var(--transition-quick);
 }
 
 .art-status-band:hover {
-  opacity: 0.75;
+  opacity: 0.7;
 }
 
 .status-dot {
@@ -257,46 +425,71 @@ h1.monument-text {
 }
 
 .art-meta-link {
-  transition: var(--transition);
+  transition: var(--transition-quick);
 }
 
 .art-meta-link:hover {
   color: var(--gold);
 }
 
-/* 信标动画 */
-@keyframes beacon-wave {
-  0% {
+/* 动效 */
+@keyframes audio-glow {
+  0%, 100% {
     transform: scale(1);
+    box-shadow: 0 0 8px var(--gold-glow);
     opacity: 0.8;
   }
-  100% {
-    transform: scale(2.2);
-    opacity: 0;
+  50% {
+    transform: scale(1.2);
+    box-shadow: 0 0 18px var(--gold-glow);
+    opacity: 1;
   }
 }
 
-/* 移动端适配 */
-@media (max-width: 720px) {
-  .art-shell {
-    padding: 25px;
+/* ==========================================
+   E. 响应式与辅助媒体查询
+   ========================================== */
+@media (max-width: 900px) {
+  .gallery-item {
+    gap: 40px;
   }
+  .gallery-img-wrap {
+    height: 400px;
+  }
+}
 
+@media (max-width: 720px) {
   .art-header {
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
     align-items: center;
   }
 
-  .art-center {
-    margin: auto 0;
+  .art-hero {
+    min-height: 80vh;
+  }
+
+  .gallery-hall {
+    gap: 100px;
+    padding: 0 10px;
+  }
+
+  .gallery-item,
+  .gallery-item:nth-child(even) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 25px;
+  }
+
+  .gallery-img-wrap {
+    height: 320px;
   }
 
   .art-footer {
     flex-direction: column;
     align-items: center;
-    gap: 15px;
-    padding-top: 15px;
+    gap: 20px;
+    padding-top: 20px;
   }
 
   .art-meta {
@@ -304,11 +497,16 @@ h1.monument-text {
   }
 }
 
-/* 减弱动画 */
+/* 减弱动画适配 */
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
     transition-duration: 0.001ms !important;
   }
 
@@ -316,7 +514,14 @@ h1.monument-text {
     display: none;
   }
 
-  .hero-bg-fallback {
-    opacity: 0.12;
+  .gallery-item {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .gallery-img {
+    height: 100% !important;
+    top: 0 !important;
+    transform: none !important;
   }
 }

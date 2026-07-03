@@ -13,6 +13,13 @@
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
+    <!-- 仪式化引导首屏 (用于解除浏览器音频自动播放限制) -->
+    <div class="initiation-overlay" id="init-overlay">
+      <h1 class="initiation-quote">“God is dead. God remains dead. And we have killed him.”</h1>
+      <p class="initiation-quote-zh">“上帝死了。上帝已经死了。是我们杀死了他。”</p>
+      <button class="initiation-btn" id="init-btn">[ ENTER THE SHADOWS / 开启回响 ]</button>
+    </div>
+
     <!-- 艺术背景层 (降级静态背景) -->
     <img class="hero-bg-fallback" src="assets/hero.png" alt="A monolith fading in the cosmic dark">
 
@@ -24,32 +31,78 @@
       
       <!-- 顶部信息栏 -->
       <header class="art-header">
-        <div class="art-title-hint" aria-hidden="true">DIGITAL RUINS // PERSISTENCE</div>
+        <div class="art-title-hint" aria-hidden="true">DIGITAL MONUMENTS // PERSISTENCE</div>
         
-        <!-- 以太信标 (环境音与 Canvas 能量开关) -->
-        <div class="beacon-container">
-          <button class="beacon-button" id="beacon-btn" aria-label="Toggle audio-visual resonance beacon">
-            <span class="beacon-dot"></span>
-          </button>
-          <span class="beacon-text">VOID BEACON: STANDBY</span>
+        <!-- 音频激活指示 -->
+        <div class="audio-status-box" aria-live="polite">
+          <span class="audio-pulse-dot"></span>
+          <span id="audio-status-text">VOID ECHOES: MUTED</span>
         </div>
       </header>
 
-      <!-- 居中碑刻与谶言 -->
-      <section class="art-center">
+      <!-- 居中 Hero 碑刻 -->
+      <section class="art-hero">
+        <div class="art-eyebrow">Live from goddead.com</div>
         <h1 class="monument-text" id="site-title">Goddead</h1>
-        <div class="scramble-box" id="scramble-box">
+        <div class="scramble-box" id="scramble-box" aria-label="Interactive philosophical prophecy">
           THE SHADOWS WE CAST ARE THE ONLY LIGHTS LEFT.
         </div>
       </section>
 
+      <!-- 三联神迹视差画廊 (The Triptych Gallery) -->
+      <section class="gallery-hall" aria-label="The Triptych Gallery of Lost Relics">
+        
+        <!-- 遗迹 I -->
+        <article class="gallery-item">
+          <div class="gallery-img-wrap">
+            <img class="gallery-img" src="assets/monument_1.png" alt="Shattered Gothic Angel in the Ruins">
+          </div>
+          <div class="gallery-text">
+            <div class="gallery-num" aria-hidden="true">I</div>
+            <h2>The Broken Deity</h2>
+            <p>
+              信仰的绝对瓦解。在古老神圣坍缩的废墟之上，旧日的教条风化为冰冷的以太微尘。当绝对真理的主宰不复存在，我们将在这片重归自由的荒原中，直面存在本身最纯粹的深渊与可能。
+            </p>
+          </div>
+        </article>
+
+        <!-- 遗迹 II -->
+        <article class="gallery-item">
+          <div class="gallery-img-wrap">
+            <img class="gallery-img" src="assets/monument_2.png" alt="Glowing Golden Crown Floating Above Abyssal Crack">
+          </div>
+          <div class="gallery-text">
+            <div class="gallery-num" aria-hidden="true">II</div>
+            <h2>The Sovereign Will</h2>
+            <p>
+              主动意志的觉醒。摆脱虚无主义的锁链，从神学的黄昏中站起。在虚无与代码交错的裂谷之上，戴上属于你自己的神冠。你便是自身意义的编写者、自我秩序的主宰者。
+            </p>
+          </div>
+        </article>
+
+        <!-- 遗迹 III -->
+        <article class="gallery-item">
+          <div class="gallery-img-wrap">
+            <img class="gallery-img" src="assets/monument_3.png" alt="Cosmic Ouroboros Snake formed of Golden Star Dust">
+          </div>
+          <div class="gallery-text">
+            <div class="gallery-num" aria-hidden="true">III</div>
+            <h2>Eternal Recurrence</h2>
+            <p>
+              无限循环的终极庆典。接受万物的消亡与复始。在时间以太与繁星微茫的循环轨迹里，在虚空深渊的边缘处，以最轻盈的脚步跳起生命之舞。每一行运行的代码，都是对永恒的重塑。
+            </p>
+          </div>
+        </article>
+
+      </section>
+
       <!-- 极简页脚 (无缝嵌入测试兼容数据) -->
-      <footer class="art-footer">
+      <footer class="art-footer" id="status">
         
         <!-- 部署状态 -->
-        <div class="art-status-band" id="status">
+        <div class="art-status-band">
           <span class="status-dot"></span>
-          <span class="status-band-text">ETHERNET SYNC: ACTIVE</span>
+          <span class="status-band-text">SYNC STATUS: ACTIVE</span>
         </div>
 
         <!-- 极简页脚链接与元数据 -->
