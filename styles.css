@@ -360,6 +360,35 @@ body {
   color: var(--bone);
 }
 
+.descent-btn {
+  margin-top: 55px;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ash);
+  padding: 14px 36px;
+  font-family: var(--font-serif-cn);
+  font-size: 0.72rem;
+  letter-spacing: 0.35em;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 1s var(--ease-ritual) 1.4s,
+    transform 1s var(--ease-ritual) 1.4s,
+    border-color 0.5s ease,
+    color 0.5s ease;
+}
+
+.stage--3.active .descent-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.descent-btn:hover {
+  border-color: var(--blood);
+  color: var(--bone);
+}
+
 .altar-footer {
   width: min(1200px, 100% - 48px);
   margin: auto auto 36px;
@@ -419,6 +448,474 @@ body {
   color: var(--blood);
 }
 
+/* ==========================================================
+   ABYSS
+   ========================================================== */
+body.abyss-open {
+  overflow-y: auto;
+  height: auto;
+}
+
+body.abyss-open .altar {
+  height: auto;
+  min-height: 100vh;
+}
+
+body.abyss-open .ritual-stage {
+  height: 100vh;
+  flex: none;
+}
+
+body.abyss-open .breath,
+body.abyss-open .stage--0,
+body.abyss-open .stage--1,
+body.abyss-open .stage--2,
+body.abyss-open .stage--3 {
+  display: none !important;
+}
+
+.abyss {
+  display: none;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 120px 24px 160px;
+  pointer-events: auto;
+}
+
+body.abyss-open .abyss {
+  display: block;
+}
+
+.abyss-intro {
+  text-align: center;
+  margin-bottom: 120px;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.4s var(--ease-ritual), transform 1.4s var(--ease-ritual);
+}
+
+body.abyss-open .abyss-intro {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.abyss-intro p {
+  font-family: var(--font-serif-cn);
+  font-size: clamp(1rem, 2.2vw, 1.4rem);
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  color: var(--bone);
+  margin: 0 0 18px;
+}
+
+.abyss-intro p:last-child {
+  color: var(--ash);
+  font-size: clamp(0.85rem, 1.6vw, 1.05rem);
+}
+
+.abyss-section {
+  margin-bottom: 140px;
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 1.4s var(--ease-ritual), transform 1.4s var(--ease-ritual);
+}
+
+.abyss-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.abyss-title {
+  font-family: var(--font-serif-cn);
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-weight: 900;
+  letter-spacing: 0.28em;
+  color: var(--bone);
+  text-align: center;
+  margin: 0 0 14px;
+}
+
+.abyss-note {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  color: var(--ash);
+  text-align: center;
+  margin: 0 0 55px;
+}
+
+/* Doctrines */
+.doctrine-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.doctrine {
+  background: rgba(8, 8, 8, 0.55);
+  border: 1px solid var(--line);
+  padding: 36px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  transition: border-color 0.5s ease, background 0.5s ease;
+}
+
+.doctrine:hover {
+  border-color: rgba(107, 26, 26, 0.4);
+  background: rgba(15, 8, 8, 0.7);
+}
+
+.doctrine-art {
+  height: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.absence-ring {
+  width: 100px;
+  height: 100px;
+  position: relative;
+}
+
+.absence-ring span {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--blood);
+  border-radius: 50%;
+  opacity: 0.35;
+  animation: ring-breathe 4s ease-in-out infinite;
+}
+
+.absence-ring span:nth-child(1) { animation-delay: 0s; }
+.absence-ring span:nth-child(2) { animation-delay: 0.8s; inset: 12px; border-color: var(--gold); }
+.absence-ring span:nth-child(3) { animation-delay: 1.6s; inset: 24px; border-color: #1a251a; }
+
+.echo-fissure {
+  width: 70px;
+  height: 120px;
+  position: relative;
+}
+
+.echo-fissure span {
+  position: absolute;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, var(--blood), var(--gold), transparent);
+  top: 0;
+  animation: fissure-flicker 2.5s ease-in-out infinite;
+}
+
+.echo-fissure span:nth-child(1) { left: 30%; animation-delay: 0s; }
+.echo-fissure span:nth-child(2) { left: 50%; animation-delay: 0.5s; opacity: 0.6; }
+.echo-fissure span:nth-child(3) { left: 70%; animation-delay: 1s; opacity: 0.3; }
+
+.silence-pyramid {
+  width: 100px;
+  height: 100px;
+  position: relative;
+}
+
+.silence-pyramid span {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 1px solid var(--bone);
+  border-right: 1px solid var(--bone);
+  border-bottom: 1px solid var(--bone);
+  opacity: 0.2;
+  animation: pyramid-rise 5s ease-in-out infinite;
+}
+
+.silence-pyramid span:nth-child(1) { bottom: 0; width: 100%; height: 50px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); animation-delay: 0s; }
+.silence-pyramid span:nth-child(2) { bottom: 16px; width: 66%; height: 34px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); animation-delay: 0.7s; border-color: var(--blood); }
+.silence-pyramid span:nth-child(3) { bottom: 32px; width: 33%; height: 17px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); animation-delay: 1.4s; border-color: #1a251a; }
+
+.doctrine-num {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--gold);
+  text-stroke: 1.5px var(--gold);
+  margin-bottom: 10px;
+  transition: all 0.5s ease;
+}
+
+.doctrine:hover .doctrine-num {
+  color: var(--blood);
+  -webkit-text-stroke: 1.5px var(--blood);
+  text-shadow: 0 0 20px rgba(107, 26, 26, 0.5);
+}
+
+.doctrine-text h3 {
+  font-family: var(--font-serif-cn);
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--bone);
+  margin: 0 0 14px;
+}
+
+.doctrine-text p {
+  color: var(--ash);
+  font-size: 0.86rem;
+  line-height: 1.95;
+  margin: 0;
+  transition: color 0.5s ease;
+}
+
+.doctrine:hover .doctrine-text p {
+  color: var(--bone);
+}
+
+/* Index */
+.index-list {
+  border: 1px solid var(--line);
+  background: rgba(8, 8, 8, 0.5);
+}
+
+.index-item {
+  border-bottom: 1px solid var(--line);
+}
+
+.index-item:last-child {
+  border-bottom: none;
+}
+
+.index-trigger {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--bone);
+  padding: 24px 30px;
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 20px;
+  align-items: center;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-serif-cn);
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+.index-trigger:hover {
+  background: rgba(107, 26, 26, 0.08);
+}
+
+.index-trigger[aria-expanded="true"] {
+  background: rgba(107, 26, 26, 0.12);
+}
+
+.index-code {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--blood);
+}
+
+.index-name {
+  font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+  letter-spacing: 0.1em;
+}
+
+.index-status {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  color: var(--ash);
+  border: 1px solid var(--line);
+  padding: 5px 10px;
+}
+
+.index-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.6s var(--ease-ritual), padding 0.6s var(--ease-ritual);
+  padding: 0 30px;
+}
+
+.index-trigger[aria-expanded="true"] + .index-content {
+  max-height: 400px;
+  padding: 0 30px 26px;
+}
+
+.index-content p {
+  font-family: var(--font-serif-cn);
+  font-weight: 300;
+  font-size: 0.86rem;
+  line-height: 1.95;
+  color: var(--ash);
+  margin: 0 0 12px;
+}
+
+.index-redacted {
+  position: relative;
+  color: transparent !important;
+  background: rgba(40, 40, 40, 0.6);
+  transition: color 0.4s ease, background 0.4s ease;
+}
+
+.index-redacted.revealed {
+  color: var(--ash) !important;
+  background: transparent;
+}
+
+/* Map */
+.map-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.map-region {
+  border: 1px solid var(--line);
+  background: rgba(8, 8, 8, 0.5);
+  padding: 36px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.5s ease, background 0.5s ease;
+}
+
+.map-region:hover {
+  border-color: rgba(107, 26, 26, 0.4);
+  background: rgba(15, 8, 8, 0.7);
+}
+
+.map-marker {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 900;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--blood);
+  text-stroke: 1px var(--blood);
+  opacity: 0.3;
+}
+
+.map-region h3 {
+  font-family: var(--font-serif-cn);
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--bone);
+  margin: 0 0 14px;
+}
+
+.map-region p {
+  font-family: var(--font-serif-cn);
+  font-weight: 300;
+  font-size: 0.85rem;
+  line-height: 1.9;
+  color: var(--ash);
+  margin: 0;
+  transition: color 0.4s ease;
+}
+
+.map-region:hover p {
+  color: var(--bone);
+}
+
+/* Testimonies */
+.testimony-list {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.testimony {
+  margin: 0;
+  border-left: 2px solid var(--blood);
+  background: rgba(8, 8, 8, 0.5);
+  padding: 28px 32px;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 1s var(--ease-ritual), transform 1s var(--ease-ritual), background 0.4s ease;
+}
+
+.testimony.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.testimony:hover {
+  background: rgba(15, 8, 8, 0.7);
+}
+
+.testimony p {
+  font-family: var(--font-serif-cn);
+  font-weight: 300;
+  font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+  line-height: 1.95;
+  color: var(--bone);
+  margin: 0 0 14px;
+  font-style: italic;
+}
+
+.testimony cite {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: var(--blood);
+  font-style: normal;
+}
+
+/* False Names */
+.name-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.name-card {
+  background: rgba(8, 8, 8, 0.55);
+  padding: 30px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: background 0.4s ease;
+}
+
+.name-card:hover {
+  background: rgba(15, 8, 8, 0.85);
+}
+
+.name-term {
+  font-family: var(--font-serif-cn);
+  font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--bone);
+  transition: color 0.4s ease;
+}
+
+.name-card:hover .name-term {
+  color: var(--blood);
+}
+
+.name-gloss {
+  font-family: var(--font-serif-cn);
+  font-weight: 300;
+  font-size: 0.78rem;
+  line-height: 1.8;
+  color: var(--ash);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s ease, color 0.4s ease;
+}
+
+.name-card:hover .name-gloss {
+  opacity: 1;
+  transform: translateY(0);
+  color: var(--bone);
+}
+
 @keyframes breathe {
   0%, 100% { transform: scale(1); opacity: 0.4; }
   50% { transform: scale(1.5); opacity: 0.9; }
@@ -469,6 +966,21 @@ body {
   100% { opacity: 0; }
 }
 
+@keyframes ring-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.3; }
+  50% { transform: scale(1.08); opacity: 0.6; }
+}
+
+@keyframes fissure-flicker {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes pyramid-rise {
+  0%, 100% { opacity: 0.2; transform: translateX(-50%) translateY(0); }
+  50% { opacity: 0.5; transform: translateX(-50%) translateY(-6px); }
+}
+
 @media (max-width: 720px) {
   .altar-header {
     margin-top: 22px;
@@ -492,6 +1004,39 @@ body {
   }
   .altar-meta {
     align-items: center;
+  }
+
+  .doctrine-grid,
+  .map-grid,
+  .name-grid {
+    grid-template-columns: 1fr;
+  }
+  .index-trigger {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 20px 22px;
+  }
+  .index-status {
+    justify-self: start;
+  }
+  .index-content {
+    padding: 0 22px;
+  }
+  .index-trigger[aria-expanded="true"] + .index-content {
+    padding: 0 22px 22px;
+  }
+  .testimony {
+    padding: 22px;
+  }
+}
+
+@media (max-width: 900px) {
+  .doctrine-grid,
+  .name-grid {
+    grid-template-columns: 1fr;
+  }
+  .map-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -517,8 +1062,15 @@ body {
   }
   .goddead-title,
   .gate-question,
-  .gate-grid {
+  .gate-grid,
+  .descent-btn,
+  .abyss-intro,
+  .abyss-section,
+  .testimony,
+  .index-content,
+  .name-gloss {
     opacity: 1 !important;
     transform: none !important;
+    max-height: none !important;
   }
 }

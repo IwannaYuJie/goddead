@@ -61,3 +61,14 @@
   3. The `GODDEAD` title emerging from darkness.
   4. Three gates leading to the sub-pages: 回声 / 血管 / 忏悔.
 - Rewrote `styles.css` and `script.js` to support stage transitions, auto-advance, and persistent corruption effects.
+
+## 2026-07-03 (eighth revision)
+- Restored the previous lore text but exposed it interactively instead of stacking it on the homepage.
+- Added a "Descent" button after the three gates; clicking it opens the "Abyss" corridor below.
+- The Abyss reveals previous world-building modules as the user scrolls:
+  - Three Doctrines of Absence
+  - Forbidden Index (expandable entries with redacted hover reveals)
+  - Absence Map
+  - Witness Testimonies
+  - False Names
+- Kept the four-stage ritual flow intact while integrating the earlier text-based lore as optional, interactive depth.

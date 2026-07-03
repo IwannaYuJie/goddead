@@ -90,7 +90,12 @@ function initRitual() {
     }
   }
 
-  stageEl.addEventListener("click", advance);
+  stageEl.addEventListener("click", (e) => {
+    // Don't advance if clicking a gate link or descent button
+    if (e.target.closest(".gate") || e.target.closest(".descent-btn")) return;
+    advance();
+  });
+
   stageEl.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " ") advance();
   });
@@ -107,10 +112,68 @@ function initRitual() {
   }
   stageEl.addEventListener("mousemove", resetIdle);
   stageEl.addEventListener("click", resetIdle);
+
+  // Descent into abyss
+  const descentBtn = document.getElementById("descent-btn");
+  if (descentBtn) {
+    descentBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      document.body.classList.add("abyss-open");
+      initAbyssObserver();
+      initForbiddenIndex();
+      setTimeout(() => {
+        document.getElementById("abyss")?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    });
+  }
 }
 
 /* ==========================================================
-   3. Corruption Effects
+   3. Abyss Reveal
+   ========================================================== */
+function initAbyssObserver() {
+  const sections = document.querySelectorAll(".abyss-section");
+  const testimonies = document.querySelectorAll(".testimony");
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    },
+    { threshold: 0.15, rootMargin: "0px 0px -80px 0px" }
+  );
+
+  sections.forEach((s) => observer.observe(s));
+  testimonies.forEach((t) => observer.observe(t));
+}
+
+function initForbiddenIndex() {
+  const triggers = document.querySelectorAll(".index-trigger");
+  triggers.forEach((trigger) => {
+    trigger.addEventListener("click", () => {
+      const expanded = trigger.getAttribute("aria-expanded") === "true";
+      trigger.setAttribute("aria-expanded", String(!expanded));
+    });
+
+    trigger.addEventListener("mouseenter", () => {
+      const content = trigger.nextElementSibling;
+      if (!content) return;
+      content.querySelectorAll(".index-redacted").forEach((el) => el.classList.add("revealed"));
+    });
+
+    trigger.addEventListener("mouseleave", () => {
+      const content = trigger.nextElementSibling;
+      if (!content) return;
+      content.querySelectorAll(".index-redacted").forEach((el) => el.classList.remove("revealed"));
+    });
+  });
+}
+
+/* ==========================================================
+   4. Corruption Effects
    ========================================================== */
 function initCorruption() {
   const canvas = document.getElementById("corruption-canvas");

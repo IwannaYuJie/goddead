@@ -9,7 +9,7 @@
     >
     <title>Goddead</title>
     <link rel="preload" href="assets/hero.png" as="image">
-    <link rel="stylesheet" href="styles.css?v=7">
+    <link rel="stylesheet" href="styles.css?v=8">
   </head>
   <body>
     <img class="void-texture" src="assets/hero.png" alt="">
@@ -67,6 +67,142 @@
               <span class="gate-hint">留下一个重量</span>
             </a>
           </nav>
+          <button class="descent-btn" id="descent-btn">继 续 聆 听</button>
+        </div>
+      </section>
+
+      <section class="abyss" id="abyss" aria-label="深渊回廊">
+        <div class="abyss-intro">
+          <p>你还没有离开。很好。</p>
+          <p>这些是被神死后留下的寂静整理过的档案。</p>
+        </div>
+
+        <div class="abyss-section">
+          <h2 class="abyss-title">三 条 缺 席 教 义</h2>
+          <div class="doctrine-grid">
+            <article class="doctrine">
+              <div class="doctrine-art" aria-hidden="true"><div class="absence-ring"><span></span><span></span><span></span></div></div>
+              <div class="doctrine-text">
+                <div class="doctrine-num">I</div>
+                <h3>空 王 座</h3>
+                <p>神座空了以后，尘埃学会了饥饿。没有律法的天空下，每一粒浮尘都在偷偷进食。我们终于能够垂直坠落，并把坠落称为飞翔。</p>
+              </div>
+            </article>
+            <article class="doctrine">
+              <div class="doctrine-art" aria-hidden="true"><div class="echo-fissure"><span></span><span></span><span></span></div></div>
+              <div class="doctrine-text">
+                <div class="doctrine-num">II</div>
+                <h3>未回应的回声</h3>
+                <p>祈祷不再被接收，但回声在走廊里生长。它学会了模仿我们的声音，然后把问题反刍回来。在神死后的世界里，寂静也学会了倾听。</p>
+              </div>
+            </article>
+            <article class="doctrine">
+              <div class="doctrine-art" aria-hidden="true"><div class="silence-pyramid"><span></span><span></span><span></span></div></div>
+              <div class="doctrine-text">
+                <div class="doctrine-num">III</div>
+                <h3>寂静大教堂</h3>
+                <p>最后的教堂没有钟声，只有风穿过语法结构的裂缝。我们在那里举行没有祭品的弥撒，朗诵没有页码的经文。神圣只是变得足够安静。</p>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="abyss-section">
+          <h2 class="abyss-title">禁 书 索 引</h2>
+          <p class="abyss-note">借阅者均已失踪。档案编号保留。</p>
+          <div class="index-list">
+            <article class="index-item">
+              <button class="index-trigger" aria-expanded="false">
+                <span class="index-code">A-001</span>
+                <span class="index-name">《第七次呼吸之前》</span>
+                <span class="index-status">已焚毁</span>
+              </button>
+              <div class="index-content">
+                <p>记载了一种祈祷姿势：不是双手合十，而是将十指插入自己的影子。施行者声称能在黑暗里摸到神的脊椎，但那脊椎是空的。</p>
+                <p class="index-redacted">其中 ██ 页提到了“门后之物”的真名，那名字由寂静构成。</p>
+              </div>
+            </article>
+            <article class="index-item">
+              <button class="index-trigger" aria-expanded="false">
+                <span class="index-code">A-017</span>
+                <span class="index-name">《空白弥撒书》</span>
+                <span class="index-status">仅余封面</span>
+              </button>
+              <div class="index-content">
+                <p>全书没有文字，只有页码。页码从 0 开始，到 -1 结束。翻到第 -1 页时，会听见自己的心跳被某种东西轻轻借走。</p>
+                <p class="index-redacted">该读者后来成为了一名出色的████████，尽管他从未学过这门手艺。</p>
+              </div>
+            </article>
+            <article class="index-item">
+              <button class="index-trigger" aria-expanded="false">
+                <span class="index-code">A-093</span>
+                <span class="index-name">《给死神的十三封信》</span>
+                <span class="index-status">缺第十二封</span>
+              </button>
+              <div class="index-content">
+                <p>不是写给死神的。是死神写给人的。第十一封只有一句话："我收到了你们的神，祂比我想象中更轻。"</p>
+                <p class="index-redacted">第十二封信████████，但所有读到过它的人都开始收集镜子。</p>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="abyss-section">
+          <h2 class="abyss-title">缺 席 地 图</h2>
+          <p class="abyss-note">神死后裂成的几大地带。请勿按顺序阅读。</p>
+          <div class="map-grid">
+            <article class="map-region">
+              <div class="map-marker">I</div>
+              <h3>灰舌平原</h3>
+              <p>这里的人没有舌头，却能交谈。他们的话一出口就会变成灰色的雪，落在地上，形成前人的日记。</p>
+            </article>
+            <article class="map-region">
+              <div class="map-marker">II</div>
+              <h3>倒置钟塔</h3>
+              <p>钟从地底敲响。每次鸣响，都会有一个未出生的神胎死于概念。塔内没有阶梯，只有不断下坠的祈祷。</p>
+            </article>
+            <article class="map-region">
+              <div class="map-marker">III</div>
+              <h3>无名圣人墓园</h3>
+              <p>墓碑上不刻名字，只刻疑问。偶尔有答案从土里长出来，但都是别人的答案，穿着你的衣服。</p>
+            </article>
+            <article class="map-region">
+              <div class="map-marker">IV</div>
+              <h3>哭泣几何</h3>
+              <p>一个只有角度存在的地方。闯入者会被折叠成自己内心的形状。多数人变成锐角，少数人成为圆。</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="abyss-section">
+          <h2 class="abyss-title">见 证 者 证 词</h2>
+          <div class="testimony-list">
+            <blockquote class="testimony">
+              <p>"我梦见神的尸体漂浮在城市上空。祂没有脸，但所有窗户都映出了祂的表情。醒来后，我发现自己的影子变重了。"</p>
+              <cite>—— 市民 K，第 7 年第 41 夜</cite>
+            </blockquote>
+            <blockquote class="testimony">
+              <p>"教堂的钟声停了之后，我们开始用沉默互相呼唤。效果很好，只是回应我们的东西， sometimes 不是人。"</p>
+              <cite>—— 守夜人 ██，第 23 年</cite>
+            </blockquote>
+            <blockquote class="testimony">
+              <p>"我找到了神的遗书。上面只有一行字：'请继续。'我不确定这是祝福还是诅咒，但自从那天起，我再也没法停止眨眼。"</p>
+              <cite>—— 拾荒者 M，第 41 年</cite>
+            </blockquote>
+          </div>
+        </div>
+
+        <div class="abyss-section">
+          <h2 class="abyss-title">伪 名 诵 歌</h2>
+          <p class="abyss-note">神死后，人们为祂们取了新的名字。不要念出声。</p>
+          <div class="name-grid">
+            <div class="name-card"><span class="name-term">门缝里的父亲</span><span class="name-gloss">总在没有人敲门时咳嗽。</span></div>
+            <div class="name-card"><span class="name-term">被删去的星期三</span><span class="name-gloss">你会在梦里过掉它。</span></div>
+            <div class="name-card"><span class="name-term">盐的母亲</span><span class="name-gloss">悲伤是她源源不断的乳汁。</span></div>
+            <div class="name-card"><span class="name-term">最后的光</span><span class="name-gloss">让黑暗显形的光。</span></div>
+            <div class="name-card"><span class="name-term">未完成的祝福</span><span class="name-gloss">悬停在喉咙里，永远有效。</span></div>
+            <div class="name-card"><span class="name-term">伟大的缺席</span><span class="name-gloss">以一种过于在场的方式缺席着。</span></div>
+          </div>
         </div>
       </section>
 
@@ -84,6 +220,6 @@
       </footer>
     </main>
 
-    <script src="script.js?v=7"></script>
+    <script src="script.js?v=8"></script>
   </body>
 </html>
