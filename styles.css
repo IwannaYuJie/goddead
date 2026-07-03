@@ -1,24 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=JetBrains+Mono:wght@200;400&family=Montserrat:wght@200;300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=JetBrains+Mono:wght@200;400&family=Noto+Serif+SC:wght@300;500;700;900&family=Montserrat:wght@200;300;400&display=swap');
 
 :root {
   color-scheme: dark;
   --void: #030303;
-  --void-soft: #080808;
-  --ink: #111;
-  --bone: #d4d4d4;
-  --ash: #666;
-  --dust: #999;
-  --gold: #c9a227;
-  --gold-dim: #5c4a2e;
-  --gold-glow: rgba(201, 162, 39, 0.45);
-  --rust: #4a1212;
-  --rust-glow: rgba(180, 50, 50, 0.25);
-  --line: rgba(201, 162, 39, 0.1);
-  --font-serif: 'Cinzel', Georgia, serif;
+  --void-soft: #070707;
+  --ink: #0c0c0c;
+  --bone: #c7c7c7;
+  --ash: #555;
+  --dust: #777;
+  --gold: #b89a4a;
+  --gold-dim: #4a3b22;
+  --gold-glow: rgba(184, 154, 74, 0.4);
+  --rot: #4a0f0f;
+  --blood: #6b1a1a;
+  --mold: #1a251a;
+  --bruise: #231430;
+  --line: rgba(184, 154, 74, 0.1);
+  --font-serif: 'Cinzel', 'Noto Serif SC', Georgia, serif;
+  --font-serif-cn: 'Noto Serif SC', 'Cinzel', serif;
   --font-sans: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
   --ease-ritual: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-dramatic: cubic-bezier(0.87, 0, 0.13, 1);
+  --ease-unease: cubic-bezier(0.68, -0.55, 0.27, 1.55);
 }
 
 * {
@@ -36,16 +40,17 @@ body {
   width: 100%;
   min-height: 100vh;
   color: var(--bone);
-  font-family: var(--font-sans);
+  font-family: var(--font-serif-cn);
   background-color: var(--void);
   overflow-x: hidden;
-  line-height: 1.7;
+  line-height: 1.85;
   -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.04em;
 }
 
 ::selection {
-  background: rgba(201, 162, 39, 0.2);
-  color: #fff;
+  background: rgba(107, 26, 26, 0.4);
+  color: #e0d0d0;
 }
 
 body::-webkit-scrollbar {
@@ -55,13 +60,10 @@ body::-webkit-scrollbar-track {
   background: var(--void);
 }
 body::-webkit-scrollbar-thumb {
-  background: var(--gold-dim);
+  background: var(--blood);
   border-radius: 3px;
 }
 
-/* ==========================================================
-   I. VOID BACKGROUND
-   ========================================================== */
 #void-canvas {
   position: fixed;
   inset: 0;
@@ -80,7 +82,7 @@ body::-webkit-scrollbar-thumb {
   opacity: 0.02;
   z-index: 0;
   pointer-events: none;
-  filter: grayscale(100%) contrast(180%) brightness(0.6);
+  filter: grayscale(100%) contrast(200%) brightness(0.5);
 }
 
 .void-noise {
@@ -88,11 +90,11 @@ body::-webkit-scrollbar-thumb {
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  opacity: 0.035;
+  opacity: 0.05;
   background-image:
-    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px),
-    repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,0.02) 2px, rgba(255,255,255,0.02) 4px);
-  animation: noise-shift 0.4s steps(4) infinite;
+    repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(255,255,255,0.04) 1px, rgba(255,255,255,0.04) 2px),
+    repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.03) 1px, rgba(255,255,255,0.03) 2px);
+  animation: noise-shift 0.25s steps(6) infinite;
 }
 
 .void-vignette {
@@ -101,19 +103,34 @@ body::-webkit-scrollbar-thumb {
   z-index: 1;
   pointer-events: none;
   background:
-    radial-gradient(circle at 50% 40%, transparent 0%, rgba(3, 3, 3, 0.65) 60%, var(--void) 100%),
-    linear-gradient(180deg, rgba(3,3,3,0.95) 0%, transparent 20%, transparent 80%, rgba(3,3,3,0.98) 100%);
+    radial-gradient(circle at 50% 40%, transparent 0%, rgba(3, 3, 3, 0.7) 55%, var(--void) 95%),
+    linear-gradient(180deg, rgba(3,3,3,0.97) 0%, transparent 15%, transparent 85%, rgba(3,3,3,0.98) 100%),
+    radial-gradient(circle at 20% 80%, rgba(74, 15, 15, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(35, 20, 48, 0.1) 0%, transparent 40%);
 }
 
-/* ==========================================================
-   II. RITE OVERLAY
-   ========================================================== */
+.void-blood {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  width: 2px;
+  height: 0;
+  background: linear-gradient(180deg, var(--blood), transparent);
+  opacity: 0.35;
+  z-index: 1;
+  pointer-events: none;
+  transform: translateX(-50%);
+  animation: blood-drip 8s ease-in infinite;
+}
+
 .rite-overlay {
   position: fixed;
   inset: 0;
   width: 100%;
   height: 100%;
-  background: var(--void);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(20, 10, 10, 0.5) 0%, var(--void) 80%),
+    var(--void);
   z-index: 9999;
   display: flex;
   flex-direction: column;
@@ -130,7 +147,7 @@ body::-webkit-scrollbar-thumb {
 
 .rite-overlay.fade-out {
   opacity: 0;
-  transform: scale(1.05);
+  transform: scale(1.05) rotate(0.5deg);
   visibility: hidden;
   pointer-events: none;
 }
@@ -138,48 +155,58 @@ body::-webkit-scrollbar-thumb {
 .rite-cursor {
   width: 12px;
   height: 12px;
-  background: var(--gold);
-  box-shadow: 0 0 20px var(--gold-glow);
+  background: var(--blood);
+  box-shadow: 0 0 25px rgba(107, 26, 26, 0.6);
   margin-bottom: 28px;
-  animation: cursor-blink 1.2s steps(2) infinite;
+  animation: cursor-blink 0.9s steps(2) infinite;
 }
 
 .rite-line {
   font-family: var(--font-mono);
   font-size: clamp(0.85rem, 2vw, 1.1rem);
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
   color: var(--bone);
   min-height: 1.8em;
-  margin: 0 0 50px;
+  margin: 0 0 14px;
   max-width: 800px;
 }
 
 .rite-line::after {
   content: '_';
-  color: var(--gold);
-  animation: cursor-blink 1s steps(2) infinite;
+  color: var(--blood);
+  animation: cursor-blink 0.8s steps(2) infinite;
+}
+
+.rite-warning {
+  font-family: var(--font-serif-cn);
+  font-size: 0.75rem;
+  letter-spacing: 0.35em;
+  color: var(--blood);
+  opacity: 0.65;
+  margin-bottom: 50px;
+  animation: warning-flicker 3s ease-in-out infinite;
 }
 
 .rite-btn {
   background: transparent;
-  border: 1px solid var(--gold);
-  color: var(--gold);
+  border: 1px solid var(--blood);
+  color: var(--bone);
   padding: 16px 40px;
-  font-family: var(--font-serif);
-  font-size: 0.75rem;
-  letter-spacing: 0.35em;
-  font-weight: 700;
+  font-family: var(--font-serif-cn);
+  font-size: 0.78rem;
+  letter-spacing: 0.4em;
+  font-weight: 500;
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  transition: color 0.5s var(--ease-ritual);
+  transition: color 0.5s var(--ease-ritual), border-color 0.5s;
 }
 
 .rite-btn::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--gold);
+  background: var(--blood);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.6s var(--ease-ritual);
@@ -187,16 +214,14 @@ body::-webkit-scrollbar-thumb {
 }
 
 .rite-btn:hover {
-  color: var(--void);
+  color: #fff;
+  border-color: var(--blood);
 }
 
 .rite-btn:hover::before {
   transform: scaleX(1);
 }
 
-/* ==========================================================
-   III. ALTAR SHELL
-   ========================================================== */
 .altar {
   position: relative;
   width: 100%;
@@ -227,9 +252,10 @@ body::-webkit-scrollbar-thumb {
 
 .altar-sigil span {
   display: block;
-  background: var(--gold);
+  background: var(--blood);
   height: 1px;
-  opacity: 0.5;
+  opacity: 0.6;
+  box-shadow: 0 0 8px rgba(107, 26, 26, 0.5);
 }
 
 .altar-sigil span:nth-child(1) { width: 32px; }
@@ -241,24 +267,21 @@ body::-webkit-scrollbar-thumb {
   align-items: center;
   gap: 10px;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.6rem;
   letter-spacing: 0.18em;
-  color: var(--gold);
-  opacity: 0.8;
+  color: var(--blood);
+  opacity: 0.85;
 }
 
 .audio-pulse-dot {
   width: 7px;
   height: 7px;
-  background-color: var(--gold);
+  background-color: var(--blood);
   border-radius: 50%;
-  box-shadow: 0 0 12px var(--gold-glow);
+  box-shadow: 0 0 12px rgba(107, 26, 26, 0.5);
   animation: audio-glow 1.6s infinite ease-in-out;
 }
 
-/* ==========================================================
-   IV. THE WORD
-   ========================================================== */
 .altar-word {
   width: 100%;
   min-height: 100vh;
@@ -275,14 +298,14 @@ body::-webkit-scrollbar-thumb {
 .word-gate {
   position: absolute;
   left: 50%;
-  top: 15%;
-  bottom: 15%;
+  top: 12%;
+  bottom: 12%;
   width: 1px;
-  background: linear-gradient(180deg, transparent, var(--gold), transparent);
-  opacity: 0.4;
+  background: linear-gradient(180deg, transparent, var(--blood), var(--gold), var(--blood), transparent);
+  opacity: 0.45;
   transform: translateX(-50%);
-  box-shadow: 0 0 30px var(--gold-glow);
-  animation: gate-pulse 4s ease-in-out infinite;
+  box-shadow: 0 0 30px rgba(107, 26, 26, 0.4);
+  animation: gate-pulse 3s ease-in-out infinite;
 }
 
 .goddead-title {
@@ -295,17 +318,21 @@ body::-webkit-scrollbar-thumb {
   display: flex;
   position: relative;
   z-index: 2;
+  animation: title-shiver 7s ease-in-out infinite;
 }
 
 .title-half {
   display: inline-block;
+  position: relative;
   opacity: 0;
   animation: half-emerge 1.6s var(--ease-dramatic) forwards;
 }
 
 .title-half--flesh {
   color: var(--bone);
-  text-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
+  text-shadow:
+    0 0 40px rgba(0, 0, 0, 0.9),
+    2px 0 0 rgba(107, 26, 26, 0.3);
   animation-delay: 0.5s;
   clip-path: inset(0 100% 0 0);
 }
@@ -318,15 +345,37 @@ body::-webkit-scrollbar-thumb {
   clip-path: inset(0 0 0 100%);
 }
 
+.glitch-layer::before,
+.glitch-layer::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.glitch-layer::before {
+  color: var(--blood);
+  animation: glitch-red 4s infinite linear alternate-reverse;
+}
+
+.glitch-layer::after {
+  color: var(--mold);
+  animation: glitch-green 5s infinite linear alternate-reverse;
+}
+
 .word-subtitle {
   margin-top: 40px;
-  font-family: var(--font-mono);
-  font-weight: 200;
-  font-size: clamp(0.7rem, 1.3vw, 0.95rem);
-  letter-spacing: 0.28em;
+  font-family: var(--font-serif-cn);
+  font-weight: 300;
+  font-size: clamp(0.8rem, 1.5vw, 1.05rem);
+  letter-spacing: 0.32em;
   color: var(--ash);
-  max-width: 680px;
-  min-height: 50px;
+  max-width: 720px;
+  min-height: 54px;
   cursor: pointer;
   opacity: 0;
   animation: fade-rise 1.2s var(--ease-ritual) 1.6s forwards;
@@ -337,13 +386,10 @@ body::-webkit-scrollbar-thumb {
   color: var(--bone);
 }
 
-/* ==========================================================
-   V. DOCTRINES
-   ========================================================== */
 .doctrine-grid {
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto 160px;
+  margin: 0 auto 180px;
   padding: 0 24px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -352,11 +398,11 @@ body::-webkit-scrollbar-thumb {
 }
 
 .doctrine {
-  background: rgba(8, 8, 8, 0.6);
+  background: rgba(8, 8, 8, 0.65);
   border: 1px solid var(--line);
   padding: 40px 30px;
   opacity: 0;
-  transform: translateY(60px);
+  transform: translateY(60px) rotate(0.3deg);
   transition:
     opacity 1.4s var(--ease-ritual),
     transform 1.4s var(--ease-ritual),
@@ -370,7 +416,7 @@ body::-webkit-scrollbar-thumb {
 
 .doctrine.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) rotate(0deg);
 }
 
 .doctrine:nth-child(1).visible { transition-delay: 0s; }
@@ -378,8 +424,9 @@ body::-webkit-scrollbar-thumb {
 .doctrine:nth-child(3).visible { transition-delay: 0.3s; }
 
 .doctrine:hover {
-  border-color: rgba(201, 162, 39, 0.35);
-  background: rgba(12, 12, 12, 0.75);
+  border-color: rgba(107, 26, 26, 0.45);
+  background: rgba(15, 8, 8, 0.8);
+  box-shadow: 0 0 40px rgba(107, 26, 26, 0.08);
 }
 
 .doctrine-art {
@@ -390,7 +437,6 @@ body::-webkit-scrollbar-thumb {
   position: relative;
 }
 
-/* Absence Ring */
 .absence-ring {
   width: 120px;
   height: 120px;
@@ -400,17 +446,16 @@ body::-webkit-scrollbar-thumb {
 .absence-ring span {
   position: absolute;
   inset: 0;
-  border: 1px solid var(--gold);
+  border: 1px solid var(--blood);
   border-radius: 50%;
-  opacity: 0.3;
+  opacity: 0.35;
   animation: ring-breathe 4s ease-in-out infinite;
 }
 
 .absence-ring span:nth-child(1) { animation-delay: 0s; }
-.absence-ring span:nth-child(2) { animation-delay: 0.8s; inset: 15px; }
-.absence-ring span:nth-child(3) { animation-delay: 1.6s; inset: 30px; }
+.absence-ring span:nth-child(2) { animation-delay: 0.8s; inset: 15px; border-color: var(--gold); }
+.absence-ring span:nth-child(3) { animation-delay: 1.6s; inset: 30px; border-color: var(--mold); }
 
-/* Echo Fissure */
 .echo-fissure {
   width: 80px;
   height: 140px;
@@ -421,16 +466,15 @@ body::-webkit-scrollbar-thumb {
   position: absolute;
   width: 1px;
   height: 100%;
-  background: linear-gradient(180deg, transparent, var(--gold), transparent);
+  background: linear-gradient(180deg, transparent, var(--blood), var(--gold), transparent);
   top: 0;
-  animation: fissure-flicker 3s ease-in-out infinite;
+  animation: fissure-flicker 2.5s ease-in-out infinite;
 }
 
 .echo-fissure span:nth-child(1) { left: 30%; animation-delay: 0s; }
 .echo-fissure span:nth-child(2) { left: 50%; animation-delay: 0.5s; opacity: 0.6; }
 .echo-fissure span:nth-child(3) { left: 70%; animation-delay: 1s; opacity: 0.3; }
 
-/* Silence Pyramid */
 .silence-pyramid {
   width: 120px;
   height: 120px;
@@ -441,16 +485,16 @@ body::-webkit-scrollbar-thumb {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  border-left: 1px solid var(--gold);
-  border-right: 1px solid var(--gold);
-  border-bottom: 1px solid var(--gold);
-  opacity: 0.3;
+  border-left: 1px solid var(--bone);
+  border-right: 1px solid var(--bone);
+  border-bottom: 1px solid var(--bone);
+  opacity: 0.25;
   animation: pyramid-rise 5s ease-in-out infinite;
 }
 
 .silence-pyramid span:nth-child(1) { bottom: 0; width: 100%; height: 60px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); animation-delay: 0s; }
-.silence-pyramid span:nth-child(2) { bottom: 20px; width: 66%; height: 40px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); animation-delay: 0.7s; }
-.silence-pyramid span:nth-child(3) { bottom: 40px; width: 33%; height: 20px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); animation-delay: 1.4s; }
+.silence-pyramid span:nth-child(2) { bottom: 20px; width: 66%; height: 40px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); animation-delay: 0.7s; border-color: var(--blood); }
+.silence-pyramid span:nth-child(3) { bottom: 40px; width: 33%; height: 20px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); animation-delay: 1.4s; border-color: var(--mold); }
 
 .doctrine-num {
   font-family: var(--font-serif);
@@ -464,24 +508,24 @@ body::-webkit-scrollbar-thumb {
 }
 
 .doctrine:hover .doctrine-num {
-  color: var(--gold);
-  -webkit-text-stroke: 1.5px var(--gold);
-  text-shadow: 0 0 20px var(--gold-glow);
+  color: var(--blood);
+  -webkit-text-stroke: 1.5px var(--blood);
+  text-shadow: 0 0 20px rgba(107, 26, 26, 0.5);
 }
 
 .doctrine-text h2 {
-  font-family: var(--font-serif);
+  font-family: var(--font-serif-cn);
   font-size: clamp(1.1rem, 1.8vw, 1.45rem);
-  letter-spacing: 0.12em;
+  font-weight: 700;
+  letter-spacing: 0.18em;
   color: var(--bone);
   margin: 0 0 18px;
-  text-transform: uppercase;
 }
 
 .doctrine-text p {
   color: var(--ash);
-  font-size: 0.88rem;
-  line-height: 1.95;
+  font-size: 0.9rem;
+  line-height: 2;
   margin: 0;
   transition: color 0.5s ease;
 }
@@ -490,16 +534,12 @@ body::-webkit-scrollbar-thumb {
   color: var(--bone);
 }
 
-/* ==========================================================
-   VI. SECTION TITLES
-   ========================================================== */
 .section-title {
-  font-family: var(--font-serif);
+  font-family: var(--font-serif-cn);
   font-size: clamp(1.6rem, 3.5vw, 2.6rem);
   font-weight: 900;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.28em;
   color: var(--bone);
-  text-transform: uppercase;
   text-align: center;
   margin: 0 0 12px;
 }
@@ -507,16 +547,13 @@ body::-webkit-scrollbar-thumb {
 .section-subtitle {
   font-family: var(--font-mono);
   font-weight: 200;
-  font-size: 0.75rem;
-  letter-spacing: 0.25em;
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
   color: var(--ash);
   text-align: center;
   margin: 0 0 60px;
 }
 
-/* ==========================================================
-   VII. LECTIONARY
-   ========================================================== */
 .lectionary {
   width: min(1100px, 100% - 48px);
   margin: 0 auto 180px;
@@ -528,16 +565,16 @@ body::-webkit-scrollbar-thumb {
   grid-template-columns: 80px 1fr;
   gap: 40px;
   border: 1px solid var(--line);
-  background: rgba(8, 8, 8, 0.5);
+  background: rgba(8, 8, 8, 0.55);
   padding: 50px;
   opacity: 0;
-  transform: translateY(60px);
+  transform: translateY(60px) skewX(-0.5deg);
   transition: opacity 1.4s var(--ease-ritual), transform 1.4s var(--ease-ritual);
 }
 
 .lectionary-body.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) skewX(0deg);
 }
 
 .lectionary-tabs {
@@ -562,20 +599,20 @@ body::-webkit-scrollbar-thumb {
 }
 
 .lectionary-tab:hover {
-  color: var(--gold);
-  border-color: rgba(201, 162, 39, 0.3);
+  color: var(--blood);
+  border-color: rgba(107, 26, 26, 0.35);
 }
 
 .lectionary-tab.active {
   color: var(--void);
-  background: var(--gold);
-  border-color: var(--gold);
-  box-shadow: 0 0 25px var(--gold-glow);
+  background: var(--blood);
+  border-color: var(--blood);
+  box-shadow: 0 0 25px rgba(107, 26, 26, 0.4);
 }
 
 .lectionary-panel {
   position: relative;
-  min-height: 220px;
+  min-height: 240px;
 }
 
 .lectionary-text {
@@ -595,15 +632,16 @@ body::-webkit-scrollbar-thumb {
 }
 
 .lectionary-text h3 {
-  font-family: var(--font-serif);
+  font-family: var(--font-serif-cn);
   font-size: clamp(1.1rem, 2vw, 1.5rem);
-  letter-spacing: 0.12em;
-  color: var(--gold);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--blood);
   margin: 0 0 20px;
 }
 
 .lectionary-text p {
-  font-family: var(--font-sans);
+  font-family: var(--font-serif-cn);
   font-weight: 300;
   font-size: clamp(0.95rem, 1.5vw, 1.1rem);
   line-height: 2;
@@ -611,9 +649,6 @@ body::-webkit-scrollbar-thumb {
   margin: 0;
 }
 
-/* ==========================================================
-   VIII. CHRONICLE
-   ========================================================== */
 .chronicle {
   width: min(1000px, 100% - 48px);
   margin: 0 auto 180px;
@@ -627,9 +662,10 @@ body::-webkit-scrollbar-thumb {
   top: 130px;
   bottom: 60px;
   width: 1px;
-  background: linear-gradient(180deg, transparent, var(--gold-dim), transparent);
+  background: linear-gradient(180deg, transparent, var(--blood), var(--gold-dim), transparent);
   transform: translateX(-50%);
-  opacity: 0.4;
+  opacity: 0.45;
+  animation: line-flicker 4s ease-in-out infinite;
 }
 
 .chronicle-grid {
@@ -666,7 +702,7 @@ body::-webkit-scrollbar-thumb {
   font-size: 1.3rem;
   font-weight: 900;
   letter-spacing: 0.15em;
-  color: var(--gold);
+  color: var(--blood);
   margin-bottom: 12px;
   position: relative;
 }
@@ -689,10 +725,10 @@ body::-webkit-scrollbar-thumb {
 }
 
 .chronicle-node p {
-  font-family: var(--font-sans);
+  font-family: var(--font-serif-cn);
   font-weight: 300;
   font-size: 0.92rem;
-  line-height: 1.9;
+  line-height: 1.95;
   color: var(--ash);
   margin: 0;
   transition: color 0.4s ease;
@@ -702,9 +738,6 @@ body::-webkit-scrollbar-thumb {
   color: var(--bone);
 }
 
-/* ==========================================================
-   IX. APOCRYPHA
-   ========================================================== */
 .apocrypha {
   width: min(1100px, 100% - 48px);
   margin: 0 auto 180px;
@@ -719,7 +752,7 @@ body::-webkit-scrollbar-thumb {
 
 .apocrypha-card {
   border: 1px solid var(--line);
-  background: rgba(8, 8, 8, 0.5);
+  background: rgba(8, 8, 8, 0.55);
   padding: 50px 30px;
   text-align: center;
   opacity: 0;
@@ -741,8 +774,8 @@ body::-webkit-scrollbar-thumb {
 .apocrypha-card:nth-child(3).visible { transition-delay: 0.3s; }
 
 .apocrypha-card:hover {
-  border-color: rgba(201, 162, 39, 0.35);
-  background: rgba(12, 12, 12, 0.7);
+  border-color: rgba(107, 26, 26, 0.4);
+  background: rgba(15, 8, 8, 0.7);
 }
 
 .apocrypha-number {
@@ -750,23 +783,19 @@ body::-webkit-scrollbar-thumb {
   font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 200;
   letter-spacing: 0.05em;
-  color: var(--gold);
+  color: var(--blood);
   margin-bottom: 18px;
-  text-shadow: 0 0 25px var(--gold-glow);
+  text-shadow: 0 0 25px rgba(107, 26, 26, 0.4);
 }
 
 .apocrypha-label {
-  font-family: var(--font-serif);
+  font-family: var(--font-serif-cn);
   font-size: 0.72rem;
   letter-spacing: 0.18em;
   color: var(--ash);
-  text-transform: uppercase;
   line-height: 1.6;
 }
 
-/* ==========================================================
-   X. FINAL LITANY
-   ========================================================== */
 .final-litany {
   width: min(900px, 100% - 48px);
   margin: 0 auto 140px;
@@ -783,18 +812,15 @@ body::-webkit-scrollbar-thumb {
 }
 
 .litany-line {
-  font-family: var(--font-serif);
+  font-family: var(--font-serif-cn);
   font-size: clamp(1.2rem, 2.6vw, 2rem);
-  font-style: italic;
-  letter-spacing: 0.08em;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   color: var(--bone);
   margin: 0;
-  line-height: 1.7;
+  line-height: 1.8;
 }
 
-/* ==========================================================
-   VII. FOOTER
-   ========================================================== */
 .altar-footer {
   width: min(1200px, 100% - 48px);
   margin: auto auto 36px;
@@ -822,8 +848,8 @@ body::-webkit-scrollbar-thumb {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: var(--gold);
-  box-shadow: 0 0 10px var(--gold-glow);
+  background-color: var(--blood);
+  box-shadow: 0 0 10px rgba(107, 26, 26, 0.5);
 }
 
 .status-band-text {
@@ -851,31 +877,17 @@ body::-webkit-scrollbar-thumb {
 }
 
 .altar-meta-link:hover {
-  color: var(--gold);
+  color: var(--blood);
 }
 
-/* ==========================================================
-   VIII. ANIMATIONS
-   ========================================================== */
 @keyframes half-emerge {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-    clip-path: inset(0 0 0 0);
-  }
+  0% { opacity: 0; }
+  100% { opacity: 1; clip-path: inset(0 0 0 0); }
 }
 
 @keyframes fade-rise {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes cursor-blink {
@@ -884,14 +896,14 @@ body::-webkit-scrollbar-thumb {
 }
 
 @keyframes gate-pulse {
-  0%, 100% { opacity: 0.25; box-shadow: 0 0 20px var(--gold-glow); }
-  50% { opacity: 0.55; box-shadow: 0 0 45px var(--gold-glow); }
+  0%, 100% { opacity: 0.3; box-shadow: 0 0 20px rgba(107, 26, 26, 0.3); }
+  50% { opacity: 0.6; box-shadow: 0 0 45px rgba(107, 26, 26, 0.5); }
 }
 
 @keyframes noise-shift {
   0% { transform: translate(0, 0); }
   25% { transform: translate(-2px, 1px); }
-  50% { transform: translate(1px, -1px); }
+  50% { transform: translate(1px, -2px); }
   75% { transform: translate(-1px, 2px); }
   100% { transform: translate(0, 0); }
 }
@@ -912,21 +924,51 @@ body::-webkit-scrollbar-thumb {
 }
 
 @keyframes audio-glow {
-  0%, 100% {
-    transform: scale(1);
-    box-shadow: 0 0 8px var(--gold-glow);
-    opacity: 0.7;
-  }
-  50% {
-    transform: scale(1.25);
-    box-shadow: 0 0 18px var(--gold-glow);
-    opacity: 1;
-  }
+  0%, 100% { transform: scale(1); box-shadow: 0 0 8px rgba(107, 26, 26, 0.4); opacity: 0.7; }
+  50% { transform: scale(1.25); box-shadow: 0 0 18px rgba(107, 26, 26, 0.5); opacity: 1; }
 }
 
-/* ==========================================================
-   IX. RESPONSIVE
-   ========================================================== */
+@keyframes blood-drip {
+  0% { height: 0; opacity: 0; }
+  20% { opacity: 0.35; }
+  80% { height: 25vh; opacity: 0.35; }
+  100% { height: 30vh; opacity: 0; }
+}
+
+@keyframes warning-flicker {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+  70% { opacity: 0.2; }
+}
+
+@keyframes title-shiver {
+  0%, 100% { transform: translate(0, 0); }
+  92% { transform: translate(0, 0); }
+  94% { transform: translate(-2px, 1px); }
+  96% { transform: translate(2px, -1px); }
+  98% { transform: translate(-1px, 1px); }
+}
+
+@keyframes glitch-red {
+  0%, 90%, 100% { opacity: 0; transform: translate(0); clip-path: inset(0 0 100% 0); }
+  91% { opacity: 0.6; transform: translate(-3px, 0); clip-path: inset(20% 0 40% 0); }
+  93% { opacity: 0.3; transform: translate(2px, 0); clip-path: inset(60% 0 10% 0); }
+  95% { opacity: 0; transform: translate(0); clip-path: inset(0 0 100% 0); }
+}
+
+@keyframes glitch-green {
+  0%, 85%, 100% { opacity: 0; transform: translate(0); clip-path: inset(0 0 100% 0); }
+  86% { opacity: 0.5; transform: translate(3px, 0); clip-path: inset(10% 0 50% 0); }
+  88% { opacity: 0.2; transform: translate(-2px, 0); clip-path: inset(40% 0 30% 0); }
+  90% { opacity: 0; transform: translate(0); clip-path: inset(0 0 100% 0); }
+}
+
+@keyframes line-flicker {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.6; }
+  70% { opacity: 0.2; }
+}
+
 @media (max-width: 900px) {
   .doctrine-grid {
     grid-template-columns: 1fr;
@@ -1042,9 +1084,6 @@ body::-webkit-scrollbar-thumb {
   }
 }
 
-/* ==========================================================
-   X. REDUCED MOTION
-   ========================================================== */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -1058,7 +1097,8 @@ body::-webkit-scrollbar-thumb {
   }
 
   #void-canvas,
-  .void-noise {
+  .void-noise,
+  .void-blood {
     display: none;
   }
 

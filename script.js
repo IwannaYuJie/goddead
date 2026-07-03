@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initRiteTyping();
   initTextScramble();
   initLectionary();
+  initRandomGlitch();
   initAudioVisualAndDoctrines();
 });
 
@@ -18,7 +19,7 @@ function renderLaunchTime() {
     timeStyle: "short",
   });
 
-  updated.textContent = `TRANSMISSION ${formatter.format(new Date())}`;
+  updated.textContent = `传输时间 ${formatter.format(new Date())}`;
 }
 
 /* ==========================================================
@@ -28,14 +29,14 @@ function initRiteTyping() {
   const line = document.getElementById("rite-line");
   if (!line) return;
 
-  const text = "THE GODS ARE GONE. THE ALTAR REMAINS.";
+  const text = "神已经离开。祭坛还在饥饿。";
   let index = 0;
 
   function type() {
     if (index < text.length) {
       line.textContent += text[index];
       index++;
-      setTimeout(type, 45 + Math.random() * 60);
+      setTimeout(type, 60 + Math.random() * 90);
     }
   }
 
@@ -43,73 +44,60 @@ function initRiteTyping() {
 }
 
 /* ==========================================================
-   3. Text Scrambler
+   3. Text Reveal (Chinese)
    ========================================================== */
 const ABSENCE_POEMS = [
-  "AFTER THE LAST AMEN, THE VOID BEGAN TO PRAY.",
-  "NO GODS. ONLY GRAVITY AND GRIEF.",
-  "THE SILENCE IS LOUDER THAN THE HYMN.",
-  "WE BUILT AN ALTAR FROM UNANSWERED QUESTIONS.",
-  "IN ABSENCE, MEANING BECOMES A SCULPTOR.",
-  "EVERY FALLEN STAR IS A DEAD GOD'S EYE.",
-  "PRAY NOT. LISTEN TO THE HUM OF NOTHING.",
-  "THE DIVINE EXIT LEFT THE DOOR AJAR."
+  "最后的阿门之后，虚空开始祈祷。",
+  "没有神。只有引力与悲伤。",
+  "寂静比赞美诗更响亮。",
+  "我们用未获回答的问题搭建祭坛。",
+  "在缺席中，意义成了一位雕塑家。",
+  "每一颗坠落的星，都是一位死去的神的眼睛。",
+  "不要祈祷。去听虚无的嗡鸣。",
+  "神圣的退场，让门保持半开。"
 ];
 
-class TextScrambler {
+class TextRevealer {
   constructor(el) {
     this.el = el;
-    this.chars = "!<>-_\\/[]{}—=+*^?#________";
-    this.update = this.update.bind(this);
   }
 
   setText(newText) {
-    const oldText = this.el.innerText;
-    const length = Math.max(oldText.length, newText.length);
-    const promise = new Promise((resolve) => (this.resolve = resolve));
-    this.queue = [];
-    for (let i = 0; i < length; i++) {
-      const from = oldText[i] || "";
-      const to = newText[i] || "";
-      const start = Math.floor(Math.random() * 26);
-      const end = start + Math.floor(Math.random() * 26);
-      this.queue.push({ from, to, start, end, char: "" });
-    }
-    cancelAnimationFrame(this.frameId);
-    this.frame = 0;
-    this.update();
-    return promise;
-  }
+    return new Promise((resolve) => {
+      this.el.style.filter = "blur(6px)";
+      this.el.style.opacity = "0.4";
 
-  update() {
-    let output = "";
-    let complete = 0;
-    for (let i = 0, n = this.queue.length; i < n; i++) {
-      let { from, to, start, end, char } = this.queue[i];
-      if (this.frame >= end) {
-        complete++;
-        output += to;
-      } else if (this.frame >= start) {
-        if (!char || Math.random() < 0.28) {
-          char = this.randomChar();
-          this.queue[i].char = char;
-        }
-        output += `<span style="color: #c9a227;">${char}</span>`;
-      } else {
-        output += from;
-      }
-    }
-    this.el.innerHTML = output;
-    if (complete === this.queue.length) {
-      this.resolve();
-    } else {
-      this.frameId = requestAnimationFrame(this.update);
-      this.frame++;
-    }
-  }
+      setTimeout(() => {
+        this.el.innerHTML = "";
+        this.el.style.filter = "blur(0)";
+        this.el.style.opacity = "1";
 
-  randomChar() {
-    return this.chars[Math.floor(Math.random() * this.chars.length)];
+        let i = 0;
+        const chars = Array.from(newText);
+
+        const reveal = () => {
+          if (i < chars.length) {
+            const span = document.createElement("span");
+            span.textContent = chars[i];
+            span.style.opacity = "0";
+            span.style.transition = "opacity 0.15s ease";
+            if (Math.random() > 0.85) {
+              span.style.color = "#6b1a1a";
+            }
+            this.el.appendChild(span);
+            requestAnimationFrame(() => {
+              span.style.opacity = "1";
+            });
+            i++;
+            setTimeout(reveal, 35 + Math.random() * 55);
+          } else {
+            resolve();
+          }
+        };
+
+        reveal();
+      }, 300);
+    });
   }
 }
 
@@ -117,7 +105,7 @@ function initTextScramble() {
   const box = document.getElementById("scramble-box");
   if (!box) return;
 
-  const scrambler = new TextScrambler(box);
+  const revealer = new TextRevealer(box);
   let currentIndex = 0;
   let animating = false;
 
@@ -131,7 +119,7 @@ function initTextScramble() {
     } while (nextIndex === currentIndex);
     currentIndex = nextIndex;
 
-    await scrambler.setText(ABSENCE_POEMS[currentIndex]);
+    await revealer.setText(ABSENCE_POEMS[currentIndex]);
     animating = false;
   }
 
@@ -166,7 +154,37 @@ function initLectionary() {
 }
 
 /* ==========================================================
-   5. Audio-Visual Core
+   5. Random Glitch
+   ========================================================== */
+function initRandomGlitch() {
+  const targets = document.querySelectorAll(
+    ".doctrine-text h2, .doctrine-text p, .chronicle-node p, .litany-line, .section-subtitle"
+  );
+  if (targets.length === 0) return;
+
+  function glitch() {
+    const el = targets[Math.floor(Math.random() * targets.length)];
+    const originalTransform = el.style.transform;
+    const originalColor = el.style.color;
+    const dx = (Math.random() - 0.5) * 4;
+    const dy = (Math.random() - 0.5) * 2;
+
+    el.style.transform = `translate(${dx}px, ${dy}px) skewX(${(Math.random() - 0.5) * 2}deg)`;
+    el.style.color = Math.random() > 0.5 ? "#6b1a1a" : "";
+
+    setTimeout(() => {
+      el.style.transform = originalTransform;
+      el.style.color = originalColor;
+    }, 60 + Math.random() * 80);
+
+    setTimeout(glitch, 800 + Math.random() * 2500);
+  }
+
+  setTimeout(glitch, 3000);
+}
+
+/* ==========================================================
+   6. Audio-Visual Core
    ========================================================== */
 function initAudioVisualAndDoctrines() {
   const overlay = document.getElementById("init-overlay");
@@ -222,42 +240,43 @@ function initAudioVisualAndDoctrines() {
     }
 
     update() {
-      const energyFactor = 1 + systemEnergy * 3;
+      const energyFactor = 1 + systemEnergy * 4;
       this.angle += this.speed * energyFactor;
       this.twinklePhase += this.twinkleSpeed * energyFactor;
 
-      const targetRadius = this.radiusBase * (1 + systemEnergy * 0.5);
+      const targetRadius = this.radiusBase * (1 + systemEnergy * 0.6);
       this.radius += (targetRadius - this.radius) * this.damping;
 
-      const targetX = width / 2 + Math.cos(this.angle) * this.radius;
-      const targetY = height / 2 + Math.sin(this.angle) * this.radius;
+      const wobble = Math.sin(this.angle * 3 + this.twinklePhase) * (10 + systemEnergy * 20);
+      const targetX = width / 2 + Math.cos(this.angle) * (this.radius + wobble);
+      const targetY = height / 2 + Math.sin(this.angle) * (this.radius + wobble);
 
-      const shake = (Math.random() - 0.5) * systemEnergy * 10;
+      const shake = (Math.random() - 0.5) * systemEnergy * 14;
 
       this.x += (targetX - this.x) * this.damping + shake;
       this.y += (targetY - this.y) * this.damping + shake;
 
-      if (this.x < -60 || this.x > width + 60 || this.y < -60 || this.y > height + 60) {
+      if (this.x < -80 || this.x > width + 80 || this.y < -80 || this.y > height + 80) {
         this.reset();
       }
     }
 
     draw() {
-      const twinkle = 0.65 + 0.35 * Math.sin(this.twinklePhase);
-      const alpha = Math.min(1, this.opacityBase * twinkle * (1 + systemEnergy * 2.5));
-      const size = this.size * (1 + systemEnergy * 0.7);
+      const twinkle = 0.5 + 0.5 * Math.sin(this.twinklePhase);
+      const alpha = Math.min(1, this.opacityBase * twinkle * (1 + systemEnergy * 3));
+      const size = this.size * (1 + systemEnergy * 0.9);
 
       ctx.beginPath();
       ctx.arc(this.x, this.y, size, 0, Math.PI * 2);
 
       if (this.isRust) {
-        ctx.fillStyle = `rgba(180, 70, 70, ${alpha * 0.7})`;
-        ctx.shadowBlur = systemEnergy * 6;
-        ctx.shadowColor = "rgba(180, 50, 50, 0.5)";
+        ctx.fillStyle = `rgba(120, 30, 30, ${alpha * 0.8})`;
+        ctx.shadowBlur = systemEnergy * 10;
+        ctx.shadowColor = "rgba(120, 20, 20, 0.6)";
       } else {
-        ctx.fillStyle = `rgba(201, 162, 39, ${alpha})`;
+        ctx.fillStyle = `rgba(140, 120, 70, ${alpha * 0.8})`;
         ctx.shadowBlur = systemEnergy * 8;
-        ctx.shadowColor = "rgba(201, 162, 39, 0.5)";
+        ctx.shadowColor = "rgba(140, 120, 70, 0.4)";
       }
 
       ctx.fill();
@@ -276,15 +295,15 @@ function initAudioVisualAndDoctrines() {
 
   function drawGatePulse() {
     const pulse = 0.3 + systemEnergy * 0.5;
-    const lineAlpha = 0.08 + systemEnergy * 0.15;
+    const lineAlpha = 0.1 + systemEnergy * 0.2;
 
     ctx.beginPath();
     ctx.moveTo(width / 2, height * 0.15);
     ctx.lineTo(width / 2, height * 0.85);
-    ctx.strokeStyle = `rgba(201, 162, 39, ${lineAlpha})`;
+    ctx.strokeStyle = `rgba(107, 26, 26, ${lineAlpha})`;
     ctx.lineWidth = 1 + systemEnergy * 2;
     ctx.shadowBlur = 20 * pulse;
-    ctx.shadowColor = "rgba(201, 162, 39, 0.4)";
+    ctx.shadowColor = "rgba(107, 26, 26, 0.5)";
     ctx.stroke();
     ctx.shadowBlur = 0;
   }
@@ -299,9 +318,9 @@ function initAudioVisualAndDoctrines() {
     ctx.lineWidth = 1.5;
 
     const gradient = ctx.createLinearGradient(0, height, width, height);
-    gradient.addColorStop(0, "rgba(90, 70, 40, 0.1)");
-    gradient.addColorStop(0.5, `rgba(201, 162, 39, ${0.2 + systemEnergy * 0.5})`);
-    gradient.addColorStop(1, "rgba(90, 70, 40, 0.1)");
+    gradient.addColorStop(0, "rgba(60, 30, 30, 0.15)");
+    gradient.addColorStop(0.5, `rgba(107, 26, 26, ${0.25 + systemEnergy * 0.55})`);
+    gradient.addColorStop(1, "rgba(60, 30, 30, 0.15)");
     ctx.strokeStyle = gradient;
 
     for (let i = 0; i <= 48; i++) {
@@ -378,18 +397,18 @@ function initAudioVisualAndDoctrines() {
 
     osc1 = audioCtx.createOscillator();
     osc1.type = "sawtooth";
-    osc1.frequency.setValueAtTime(55, audioCtx.currentTime);
+    osc1.frequency.setValueAtTime(41.2, audioCtx.currentTime);
 
     osc2 = audioCtx.createOscillator();
     osc2.type = "sine";
-    osc2.frequency.setValueAtTime(82.4, audioCtx.currentTime);
+    osc2.frequency.setValueAtTime(61.7, audioCtx.currentTime);
 
     lfo = audioCtx.createOscillator();
     lfo.type = "sine";
-    lfo.frequency.setValueAtTime(0.05, audioCtx.currentTime);
+    lfo.frequency.setValueAtTime(0.04, audioCtx.currentTime);
 
     const lfoGain = audioCtx.createGain();
-    lfoGain.gain.setValueAtTime(40, audioCtx.currentTime);
+    lfoGain.gain.setValueAtTime(50, audioCtx.currentTime);
 
     lfo.connect(lfoGain);
     lfoGain.connect(filter.frequency);
@@ -409,11 +428,11 @@ function initAudioVisualAndDoctrines() {
     const panner = audioCtx.createStereoPanner ? audioCtx.createStereoPanner() : null;
 
     osc.type = "sine";
-    osc.frequency.setValueAtTime(600 + Math.random() * 1000, audioCtx.currentTime);
+    osc.frequency.setValueAtTime(200 + Math.random() * 600, audioCtx.currentTime);
 
     gain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.004, audioCtx.currentTime + 0.004);
-    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.07);
+    gain.gain.exponentialRampToValueAtTime(0.003, audioCtx.currentTime + 0.005);
+    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.12);
 
     if (panner) {
       panner.pan.setValueAtTime((Math.random() - 0.5) * 2, audioCtx.currentTime);
@@ -442,7 +461,7 @@ function initAudioVisualAndDoctrines() {
     const now = audioCtx.currentTime;
     mainGain.gain.cancelScheduledValues(now);
     mainGain.gain.setValueAtTime(mainGain.gain.value, now);
-    mainGain.gain.exponentialRampToValueAtTime(0.06, now + 2.5);
+    mainGain.gain.exponentialRampToValueAtTime(0.05, now + 3);
 
     clickInterval = setInterval(() => {
       if (Math.random() > 0.35) {
@@ -452,7 +471,7 @@ function initAudioVisualAndDoctrines() {
 
     isPlaying = true;
     if (audioStatusText) {
-      audioStatusText.textContent = "SIGNAL: ACTIVE";
+      audioStatusText.textContent = "信 号：活 跃";
     }
   }
 

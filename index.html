@@ -5,27 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta
       name="description"
-      content="Goddead.com — a ritual of absence, an altar built from the silence after the divine."
+      content="Goddead.com — 神死之后的仪式，一座由寂静与缺席搭建的祭坛。"
     >
     <title>Goddead</title>
     <link rel="preload" href="assets/hero.png" as="image">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <!-- I. Rite of Entry -->
+    <!-- I. 入门仪式 -->
     <div class="rite-overlay" id="init-overlay">
       <div class="rite-cursor" aria-hidden="true"></div>
       <p class="rite-line" id="rite-line"></p>
-      <button class="rite-btn" id="init-btn">[ INITIATE / 启 动 ]</button>
+      <p class="rite-warning" aria-hidden="true">不要眨眼。神正在死去。</p>
+      <button class="rite-btn" id="init-btn">[ 进 入 / ENTER ]</button>
     </div>
 
-    <!-- II. Void Layers -->
+    <!-- II. 虚空层 -->
     <img class="void-texture" src="assets/hero.png" alt="">
     <canvas id="void-canvas"></canvas>
     <div class="void-noise" aria-hidden="true"></div>
     <div class="void-vignette" aria-hidden="true"></div>
+    <div class="void-blood" aria-hidden="true"></div>
 
-    <!-- III. Sanctuary -->
+    <!-- III. 祭坛 -->
     <main class="altar">
 
       <header class="altar-header">
@@ -34,24 +36,24 @@
         </div>
         <div class="audio-status-box" aria-live="polite">
           <span class="audio-pulse-dot"></span>
-          <span id="audio-status-text">SIGNAL: OFF</span>
+          <span id="audio-status-text">信 号：关 闭</span>
         </div>
       </header>
 
-      <!-- The Word -->
+      <!-- 神名 -->
       <section class="altar-word">
         <div class="word-gate" aria-hidden="true"></div>
-        <h1 class="goddead-title" id="site-title" aria-label="Goddead">
+        <h1 class="goddead-title glitch-layer" id="site-title" aria-label="Goddead" data-text="GODDEAD">
           <span class="title-half title-half--flesh">GOD</span>
           <span class="title-half title-half--bone">DEAD</span>
         </h1>
         <p class="word-subtitle" id="scramble-box">
-          AFTER THE LAST AMEN, THE VOID BEGAN TO PRAY.
+          最后的阿门之后，虚空开始祈祷。
         </p>
       </section>
 
-      <!-- Three Doctrines of Absence -->
-      <section class="doctrine-grid" aria-label="Doctrines of absence">
+      <!-- 三条缺席教义 -->
+      <section class="doctrine-grid" aria-label="缺席的三条教义">
 
         <article class="doctrine">
           <div class="doctrine-art" aria-hidden="true">
@@ -59,9 +61,9 @@
           </div>
           <div class="doctrine-text">
             <div class="doctrine-num">I</div>
-            <h2>The Empty Throne</h2>
+            <h2>空 王 座</h2>
             <p>
-              神座空置之后，尘埃学会了统治。没有律法的天空下，每一粒浮尘都是自己的造物主。这不是堕落，而是重量的归还——我们终于能够垂直地坠落，并称之为自由。
+              神座空了以后，尘埃学会了饥饿。没有律法的天空下，每一粒浮尘都在偷偷进食。这不是堕落，是重量的归还——我们终于能够垂直坠落，并把坠落称为飞翔。
             </p>
           </div>
         </article>
@@ -72,9 +74,9 @@
           </div>
           <div class="doctrine-text">
             <div class="doctrine-num">II</div>
-            <h2>The Unanswered Echo</h2>
+            <h2>未回应的回声</h2>
             <p>
-              祈祷不再被接收，但回声仍在走廊里生长。它学会了模仿我们的声音，并将问题反抛回来。在神死后的世界里，唯一真实的神迹是：问出问题时，寂静也学会了倾听。
+              祈祷不再被接收，但回声在走廊里生长。它学会了模仿我们的声音，然后把问题反刍回来。在神死后的世界里，唯一真实的神迹是：当你问出问题，寂静也会竖起耳朵。
             </p>
           </div>
         </article>
@@ -85,22 +87,22 @@
           </div>
           <div class="doctrine-text">
             <div class="doctrine-num">III</div>
-            <h2>The Cathedral of Silence</h2>
+            <h2>寂静大教堂</h2>
             <p>
-              最后的教堂没有钟声，只有风穿过语法结构的缝隙。我们在那里举行没有祭品的弥撒，朗诵没有页码的经文。神圣并未消失——它只是变得足够安静，我们终于能听见自己。
+              最后的教堂没有钟声，只有风穿过语法结构的裂缝。我们在那里举行没有祭品的弥撒，朗诵没有页码的经文。神圣没有消失，只是变得足够安静，我们终于能听见自己骨头里的响声。
             </p>
           </div>
         </article>
 
       </section>
 
-      <!-- IV. The Lectionary -->
-      <section class="lectionary" aria-label="The Lectionary of Absence">
-        <h2 class="section-title">The Lectionary</h2>
-        <p class="section-subtitle">Five readings for the unfaithful.</p>
+      <!-- IV. 读经台 -->
+      <section class="lectionary" aria-label="缺席的读经台">
+        <h2 class="section-title">读 经 台</h2>
+        <p class="section-subtitle">献给无信仰者的五段诵读。</p>
 
         <div class="lectionary-body">
-          <nav class="lectionary-tabs" aria-label="Lectionary readings">
+          <nav class="lectionary-tabs" aria-label="读经台篇目">
             <button class="lectionary-tab active" data-index="0" aria-selected="true">I</button>
             <button class="lectionary-tab" data-index="1" aria-selected="false">II</button>
             <button class="lectionary-tab" data-index="2" aria-selected="false">III</button>
@@ -110,109 +112,109 @@
 
           <div class="lectionary-panel">
             <div class="lectionary-text active" data-index="0">
-              <h3>On the First Night</h3>
+              <h3>第一夜</h3>
               <p>
-                When the last candle forgot its flame, we understood that darkness was not the enemy. It was the only honest congregation. We sat in the pews of night and listened to the chairs creak like old prayers.
+                当最后一支蜡烛忘记自己的火焰，我们才明白黑暗不是敌人，而是唯一诚实的会众。我们坐在夜的长椅上，听椅子像旧祈祷一样吱呀作响。
               </p>
             </div>
             <div class="lectionary-text" data-index="1">
-              <h3>On the Unnamed Saints</h3>
+              <h3>无名圣人</h3>
               <p>
-                Every doubt is a saint in disguise. They wear no halos, only the thin crowns of insomnia. Kneel to them not in worship, but in recognition. They have carried the weight of heaven so the believers could sleep.
+                每个怀疑都是化了妆的圣人。他们不戴光环，只戴失眠的薄冠。不要向他们下跪，只要认出他们。他们替信徒扛着天的重量，好让信徒能够入睡。
               </p>
             </div>
             <div class="lectionary-text" data-index="2">
-              <h3>On the Taste of Ashes</h3>
+              <h3>灰烬的滋味</h3>
               <p>
-                Incense turned to ash, and ash became our only sacrament. We learned that holiness is a flavor left on the tongue after the word has dissolved. It is bitter, and bitter things keep us awake.
+                香变成了灰，灰成为我们唯一的圣餐。我们懂了，神圣是词语溶解后留在舌头上的味道。它是苦的，而苦的东西让我们保持清醒。
               </p>
             </div>
             <div class="lectionary-text" data-index="3">
-              <h3>On the Geometry of Loss</h3>
+              <h3>失落的几何</h3>
               <p>
-                God left behind a perfect absence: a circle with no center, a choir with no first voice. We spend our lives measuring the radius of that hole, never noticing that the measuring itself has become our devotion.
+                神留下了一个完美的缺席：一个没有圆心的圆，一个没有第一声部的合唱团。我们一生都在测量那个洞的半径，却没发现测量本身已成为我们的 devotion。
               </p>
             </div>
             <div class="lectionary-text" data-index="4">
-              <h3>On the Last Benediction</h3>
+              <h3>最后的祝祷</h3>
               <p>
-                May you never find what you have not lost. May your questions outlive every answer. May the silence, when it comes, sound exactly like your own name spoken back to you by no one.
+                愿你永远找不到你未曾失去之物。愿你的疑问比一切答案更加长寿。愿那寂静降临时，听起来正像你自己的名字，被一个不存在的人轻轻念回。
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- V. Chronicle of Vanishings -->
-      <section class="chronicle" aria-label="Chronicle of Vanishings">
-        <h2 class="section-title">Chronicle of Vanishings</h2>
-        <p class="section-subtitle">A calendar after the divine exit.</p>
+      <!-- V. 消失编年史 -->
+      <section class="chronicle" aria-label="消失编年史">
+        <h2 class="section-title">消 失 编 年 史</h2>
+        <p class="section-subtitle">神离开之后的日历。</p>
 
         <div class="chronicle-line" aria-hidden="true"></div>
 
         <div class="chronicle-grid">
           <article class="chronicle-node">
-            <div class="chronicle-year">YEAR 0</div>
-            <p>The heavens closed like an eye. No thunder. Only the sound of a book being shut very gently.</p>
+            <div class="chronicle-year">第 零 年</div>
+            <p>天空像眼睛一样闭上。没有雷鸣。只有一本书被轻轻合上的声音。</p>
           </article>
           <article class="chronicle-node">
-            <div class="chronicle-year">YEAR 7</div>
-            <p>Churches became libraries of wind. People visited them to hear the architecture remember breathing.</p>
+            <div class="chronicle-year">第 七 年</div>
+            <p>教堂变成了风的图书馆。人们去那里，听建筑回忆呼吸。</p>
           </article>
           <article class="chronicle-node">
-            <div class="chronicle-year">YEAR 23</div>
-            <p>The first prayer was auctioned as a fossil. A collector bought it and placed it under glass, where it finally achieved the silence it had always wanted.</p>
+            <div class="chronicle-year">第 二十三年</div>
+            <p>第一个祈祷被当作化石拍卖。一位收藏家买下了它，放在玻璃下，它终于得到了一直想要的寂静。</p>
           </article>
           <article class="chronicle-node">
-            <div class="chronicle-year">YEAR 41</div>
-            <p>Children began to draw gods with blank faces. They explained that absence, too, has a shape if you look long enough.</p>
+            <div class="chronicle-year">第 四十一年</div>
+            <p>孩子们开始画没有脸的神。他们说，缺席也有形状，只要你看得够久。</p>
           </article>
           <article class="chronicle-node">
-            <div class="chronicle-year">YEAR 99</div>
-            <p>No one celebrated the centenary. They simply lit a single candle and watched it argue with the dark, both sides winning.</p>
+            <div class="chronicle-year">第 九十九年</div>
+            <p>无人庆祝百年。人们只点了一支蜡烛，看着它与黑暗争辩，双方都是赢家。</p>
           </article>
         </div>
       </section>
 
-      <!-- VI. Apocryphal Index -->
-      <section class="apocrypha" aria-label="Apocryphal Index">
-        <h2 class="section-title">Apocryphal Index</h2>
-        <p class="section-subtitle">Measurements from the archive of the gone.</p>
+      <!-- VI. 伪经索引 -->
+      <section class="apocrypha" aria-label="伪经索引">
+        <h2 class="section-title">伪 经 索 引</h2>
+        <p class="section-subtitle">来自“已逝之物”档案馆的数据。</p>
 
         <div class="apocrypha-grid">
           <article class="apocrypha-card">
             <div class="apocrypha-number" data-target="1095">0</div>
-            <div class="apocrypha-label">Days of Unbroken Silence</div>
+            <div class="apocrypha-label">天未被打破的寂静</div>
           </article>
           <article class="apocrypha-card">
             <div class="apocrypha-number" data-target="8472">0</div>
-            <div class="apocrypha-label">Prayers Left Unanswered</div>
+            <div class="apocrypha-label">个未获回应的祈祷</div>
           </article>
           <article class="apocrypha-card">
             <div class="apocrypha-number" data-target="0">0</div>
-            <div class="apocrypha-label">Gods Detected in the Void</div>
+            <div class="apocrypha-label">位虚空中探测到的神</div>
           </article>
         </div>
       </section>
 
-      <!-- Final Litany -->
-      <section class="final-litany" aria-label="Final litany">
+      <!-- 终章 -->
+      <section class="final-litany" aria-label="终章">
         <p class="litany-line">
-          We do not mourn the gods.<br>
-          We mourn the shape of the sky they left behind.
+          我们不哀悼神。<br>
+          我们哀悼祂们留在天空里的那个形状。
         </p>
       </section>
 
-      <!-- Footer -->
+      <!-- 页脚 -->
       <footer class="altar-footer" id="status">
         <div class="altar-status">
           <span class="status-dot"></span>
-          <span class="status-band-text">PRESENCE: NULL</span>
+          <span class="status-band-text">存 在：空</span>
         </div>
         <div class="altar-meta">
-          <span data-updated>Preparing transmission...</span>
+          <span data-updated>准备传输...</span>
           <a class="altar-meta-link" href="https://github.com/IwannaYuJie/goddead" target="_blank" rel="noopener noreferrer">
-            goddead.com
+            入 口：goddead.com
           </a>
         </div>
       </footer>

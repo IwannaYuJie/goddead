@@ -26,3 +26,10 @@
 - Added Apocryphal Index: three animated counters measuring silence, unanswered prayers, and detected gods.
 - Implemented scroll-triggered reveals and counter animations in `script.js`.
 - Added responsive layouts and reduced-motion support for all new sections.
+
+## 2026-07-03 (fourth revision)
+- Translated all page copy to Chinese to match the requested tone.
+- Shifted visual mood toward the uncanny: blood-red accents, mold green, bruise purple, heavier vignettes.
+- Added glitch keyframes, title shiver, dripping blood line, warning flicker, and random text glitches via JS.
+- Replaced English text scrambler with a Chinese character reveal effect (blur fade + per-character appearance).
+- Darkened audio drone (E1 ~41.2 Hz) and made particle motion more erratic and unsettling.
