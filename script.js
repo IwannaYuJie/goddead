@@ -5,8 +5,12 @@ document.addEventListener("DOMContentLoaded", () => {
   initLectionary();
   initForbiddenIndex();
   initRandomGlitch();
+  initCorruptionAndEasterEggs();
   initAudioVisualAndDoctrines();
 });
+
+console.log("%c 你听见了。 ", "background: #6b1a1a; color: #c7c7c7; font-family: monospace; letter-spacing: 0.2em;");
+console.log("%c 有些入口不在页面上。试试敲击墙壁。 ", "color: #555; font-family: monospace; font-size: 10px;");
 
 /* ==========================================================
    1. Launch Time
@@ -213,7 +217,179 @@ function initRandomGlitch() {
 }
 
 /* ==========================================================
-   6. Audio-Visual Core
+   7. Corruption & Easter Eggs
+   ========================================================== */
+function initCorruptionAndEasterEggs() {
+  const canvas = document.getElementById("corruption-canvas");
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d");
+  let width = (canvas.width = window.innerWidth);
+  let height = (canvas.height = window.innerHeight);
+
+  const stains = [];
+  const mouseTrail = [];
+
+  function addStain(x, y, size, color) {
+    stains.push({
+      x,
+      y,
+      r: size,
+      maxR: size * (2 + Math.random() * 2),
+      grow: 0.05 + Math.random() * 0.15,
+      alpha: 0.03 + Math.random() * 0.05,
+      color,
+    });
+    if (stains.length > 40) stains.shift();
+  }
+
+  for (let i = 0; i < 6; i++) {
+    addStain(
+      Math.random() * width,
+      Math.random() * height,
+      20 + Math.random() * 60,
+      Math.random() > 0.5 ? "74, 15, 15" : "26, 37, 26"
+    );
+  }
+
+  function renderCorruption() {
+    ctx.clearRect(0, 0, width, height);
+
+    stains.forEach((s) => {
+      if (s.r < s.maxR) s.r += s.grow;
+      const g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r);
+      g.addColorStop(0, `rgba(${s.color}, ${s.alpha})`);
+      g.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    for (let i = mouseTrail.length - 1; i >= 0; i--) {
+      const p = mouseTrail[i];
+      p.life -= 0.02;
+      if (p.life <= 0) {
+        mouseTrail.splice(i, 1);
+        continue;
+      }
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(107, 26, 26, ${0.15 * p.life})`;
+      ctx.fill();
+    }
+
+    requestAnimationFrame(renderCorruption);
+  }
+  renderCorruption();
+
+  window.addEventListener("resize", () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    if (Math.random() > 0.75) {
+      mouseTrail.push({
+        x: e.clientX + (Math.random() - 0.5) * 10,
+        y: e.clientY + (Math.random() - 0.5) * 10,
+        size: 2 + Math.random() * 6,
+        life: 1,
+      });
+    }
+    if (Math.random() > 0.985) {
+      addStain(e.clientX, e.clientY, 10 + Math.random() * 25, "74, 15, 15");
+    }
+  });
+
+  // Random screen flicker
+  const flicker = document.querySelector(".screen-flicker");
+  function triggerFlicker() {
+    if (flicker) {
+      flicker.classList.remove("active");
+      void flicker.offsetWidth;
+      flicker.classList.add("active");
+    }
+    setTimeout(triggerFlicker, 4000 + Math.random() * 9000);
+  }
+  setTimeout(triggerFlicker, 5000);
+
+  // Page shiver
+  function triggerShiver() {
+    document.body.style.transform = `translate(${(Math.random() - 0.5) * 3}px, ${(Math.random() - 0.5) * 2}px)`;
+    setTimeout(() => {
+      document.body.style.transform = "";
+    }, 80);
+    setTimeout(triggerShiver, 6000 + Math.random() * 10000);
+  }
+  setTimeout(triggerShiver, 7000);
+
+  // Konami code easter egg
+  const konami = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
+  let konamiIndex = 0;
+  document.addEventListener("keydown", (e) => {
+    if (e.key === konami[konamiIndex]) {
+      konamiIndex++;
+      if (konamiIndex === konami.length) {
+        konamiIndex = 0;
+        triggerCorruptionBurst();
+      }
+    } else {
+      konamiIndex = 0;
+    }
+  });
+
+  function triggerCorruptionBurst() {
+    for (let i = 0; i < 30; i++) {
+      setTimeout(() => {
+        addStain(
+          Math.random() * width,
+          Math.random() * height,
+          40 + Math.random() * 100,
+          Math.random() > 0.4 ? "107, 26, 26" : "30, 50, 30"
+        );
+      }, i * 80);
+    }
+    if (flicker) {
+      flicker.style.background = "rgba(107, 26, 26, 0.2)";
+      flicker.classList.add("active");
+      setTimeout(() => {
+        flicker.style.background = "";
+      }, 500);
+    }
+
+    // Reveal hidden portals hint
+    const portals = document.querySelector(".hidden-portals");
+    if (portals) {
+      portals.style.opacity = "1";
+      setTimeout(() => {
+        portals.style.opacity = "";
+      }, 4000);
+    }
+  }
+
+  // Title click easter egg
+  const title = document.getElementById("site-title");
+  let titleClicks = 0;
+  if (title) {
+    title.addEventListener("click", () => {
+      titleClicks++;
+      if (titleClicks === 7) {
+        title.style.filter = "blur(2px)";
+        title.style.transform = "scale(1.02)";
+        setTimeout(() => {
+          title.style.filter = "";
+          title.style.transform = "";
+        }, 2000);
+        triggerCorruptionBurst();
+        titleClicks = 0;
+      }
+    });
+  }
+}
+
+/* ==========================================================
+   8. Audio-Visual Core
    ========================================================== */
 function initAudioVisualAndDoctrines() {
   const overlay = document.getElementById("init-overlay");

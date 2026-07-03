@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CONFESSION // Goddead</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;500;700&family=JetBrains+Mono:wght@200;400&display=swap');
+      :root {
+        --void: #030303;
+        --bone: #c7c7c7;
+        --ash: #555;
+        --blood: #6b1a1a;
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        min-height: 100vh;
+        background: var(--void);
+        color: var(--bone);
+        font-family: 'Noto Serif SC', serif;
+        overflow-x: hidden;
+      }
+      .confession-shell {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 60px 40px;
+      }
+      .confession-title {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.4em;
+        color: var(--blood);
+        margin-bottom: 20px;
+        opacity: 0.7;
+      }
+      .confession-prompt {
+        font-size: clamp(1rem, 2.5vw, 1.4rem);
+        letter-spacing: 0.12em;
+        text-align: center;
+        margin-bottom: 40px;
+        max-width: 600px;
+      }
+      .confession-input {
+        width: min(560px, 100%);
+        min-height: 140px;
+        background: rgba(10, 10, 10, 0.8);
+        border: 1px solid var(--blood);
+        color: var(--bone);
+        font-family: 'Noto Serif SC', serif;
+        font-size: 1rem;
+        letter-spacing: 0.08em;
+        line-height: 1.8;
+        padding: 24px;
+        outline: none;
+        resize: none;
+      }
+      .confession-input::placeholder {
+        color: var(--ash);
+        opacity: 0.5;
+      }
+      .confession-submit {
+        margin-top: 28px;
+        background: transparent;
+        border: 1px solid var(--blood);
+        color: var(--bone);
+        padding: 14px 40px;
+        font-family: 'Noto Serif SC', serif;
+        font-size: 0.8rem;
+        letter-spacing: 0.3em;
+        cursor: pointer;
+        transition: background 0.4s ease, color 0.4s ease;
+      }
+      .confession-submit:hover {
+        background: var(--blood);
+        color: #fff;
+      }
+      .confession-response {
+        margin-top: 50px;
+        width: min(560px, 100%);
+        min-height: 80px;
+        font-size: clamp(0.95rem, 2vw, 1.15rem);
+        line-height: 1.9;
+        letter-spacing: 0.08em;
+        color: var(--bone);
+        text-align: center;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 1s ease, transform 1s ease, color 0.5s ease;
+      }
+      .confession-response.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .confession-response.corrupted {
+        color: var(--blood);
+      }
+      .scratch {
+        position: fixed;
+        z-index: 1;
+        pointer-events: none;
+        background: rgba(107, 26, 26, 0.15);
+        transform: rotate(var(--r, 0deg));
+      }
+      .back-link {
+        position: fixed;
+        bottom: 30px;
+        left: 30px;
+        color: var(--ash);
+        text-decoration: none;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.2em;
+        z-index: 3;
+        transition: color 0.4s ease;
+      }
+      .back-link:hover {
+        color: var(--blood);
+      }
+      .watching {
+        position: fixed;
+        top: 30px;
+        right: 30px;
+        width: 20px;
+        height: 20px;
+        border: 1px solid var(--blood);
+        border-radius: 50%;
+        opacity: 0;
+        transition: opacity 2s ease;
+        z-index: 3;
+      }
+      .watching.visible {
+        opacity: 0.6;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="confession-shell">
+      <div class="confession-title">忏 悔 室</div>
+      <p class="confession-prompt">说出一件你没有做过、却感觉自己应该负责的事。</p>
+      <textarea class="confession-input" placeholder="它不会原谅你。它只会记住。" maxlength="300"></textarea>
+      <button class="confession-submit">献 上</button>
+      <div class="confession-response" aria-live="polite"></div>
+    </main>
+
+    <a class="back-link" href="index.html">[ 返 回 / RETURN ]</a>
+    <div class="watching" aria-hidden="true"></div>
+
+    <script>
+      const responses = [
+        "我已收到。它比我预想的更轻，也更重。",
+        "这不是你的错。但这是你的重量。",
+        "神死之前，从不听这种话。现在，只有墙在听。",
+        "你的秘密加入了一万零一个。它们正在互相认识。",
+        "别回头看。有些东西一旦被告白，就会靠近声源。",
+        "你不需要被原谅。你需要停止重复。",
+        "很好。现在，它也知道了你的名字。"
+      ];
+
+      const input = document.querySelector('.confession-input');
+      const submit = document.querySelector('.confession-submit');
+      const response = document.querySelector('.confession-response');
+      const watching = document.querySelector('.watching');
+
+      let scratchCount = 0;
+      function addScratch() {
+        if (scratchCount > 15) return;
+        const el = document.createElement('div');
+        el.className = 'scratch';
+        const w = 60 + Math.random() * 200;
+        const h = 1 + Math.random() * 2;
+        el.style.width = `${w}px`;
+        el.style.height = `${h}px`;
+        el.style.left = `${Math.random() * 100}vw`;
+        el.style.top = `${Math.random() * 100}vh`;
+        el.style.setProperty('--r', `${(Math.random() - 0.5) * 40}deg`);
+        document.body.appendChild(el);
+        scratchCount++;
+      }
+
+      submit.addEventListener('click', () => {
+        if (!input.value.trim()) return;
+
+        response.classList.remove('visible', 'corrupted');
+        response.textContent = '';
+
+        setTimeout(() => {
+          const text = responses[Math.floor(Math.random() * responses.length)];
+          response.textContent = text;
+          response.classList.add('visible');
+
+          setTimeout(() => {
+            response.classList.add('corrupted');
+            addScratch();
+            addScratch();
+          }, 1500);
+        }, 400);
+
+        input.value = '';
+
+        if (Math.random() > 0.5) {
+          watching.classList.add('visible');
+        }
+      });
+
+      input.addEventListener('input', () => {
+        if (Math.random() > 0.97 && scratchCount < 8) {
+          addScratch();
+        }
+      });
+
+      setTimeout(() => {
+        if (Math.random() > 0.6) watching.classList.add('visible');
+      }, 4000);
+    </script>
+  </body>
+</html>

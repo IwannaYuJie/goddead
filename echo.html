@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ECHO // Goddead</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;500;700&family=JetBrains+Mono:wght@200;400&display=swap');
+      :root {
+        --void: #030303;
+        --bone: #c7c7c7;
+        --ash: #555;
+        --blood: #6b1a1a;
+        --gold: #b89a4a;
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--void);
+        color: var(--bone);
+        font-family: 'Noto Serif SC', serif;
+        overflow: hidden;
+      }
+      #stain-canvas {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .echo-shell {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 40px;
+      }
+      .echo-title {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.4em;
+        color: var(--blood);
+        margin-bottom: 40px;
+        opacity: 0.7;
+      }
+      .echo-input {
+        width: min(600px, 100%);
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid var(--blood);
+        color: var(--bone);
+        font-family: 'Noto Serif SC', serif;
+        font-size: 1.2rem;
+        letter-spacing: 0.1em;
+        padding: 16px 8px;
+        text-align: center;
+        outline: none;
+        caret-color: var(--blood);
+      }
+      .echo-input::placeholder {
+        color: var(--ash);
+        opacity: 0.5;
+      }
+      .echo-chamber {
+        width: min(600px, 100%);
+        margin-top: 50px;
+        min-height: 200px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+      }
+      .echo-line {
+        font-family: 'Noto Serif SC', serif;
+        font-size: clamp(0.9rem, 2vw, 1.1rem);
+        color: var(--bone);
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 0.8s ease, transform 0.8s ease, color 0.5s ease;
+        text-align: center;
+        letter-spacing: 0.08em;
+      }
+      .echo-line.visible {
+        opacity: 0.85;
+        transform: translateY(0);
+      }
+      .echo-line.corrupted {
+        color: var(--blood);
+        text-shadow: 0 0 12px rgba(107, 26, 26, 0.4);
+      }
+      .back-link {
+        position: fixed;
+        bottom: 30px;
+        left: 30px;
+        color: var(--ash);
+        text-decoration: none;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.2em;
+        z-index: 3;
+        transition: color 0.4s ease;
+      }
+      .back-link:hover {
+        color: var(--blood);
+      }
+      .whisper {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        color: var(--ash);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.55rem;
+        letter-spacing: 0.15em;
+        opacity: 0.4;
+        z-index: 3;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="stain-canvas"></canvas>
+
+    <main class="echo-shell">
+      <div class="echo-title">回 声 房 间</div>
+      <input class="echo-input" type="text" placeholder="说些什么，然后听它回来" autocomplete="off" autofocus>
+      <div class="echo-chamber" aria-live="polite"></div>
+    </main>
+
+    <a class="back-link" href="index.html">[ 返 回 / RETURN ]</a>
+    <div class="whisper">它学得很快。</div>
+
+    <script>
+      const canvas = document.getElementById('stain-canvas');
+      const ctx = canvas.getContext('2d');
+      let width = canvas.width = window.innerWidth;
+      let height = canvas.height = window.innerHeight;
+
+      const stains = [];
+      for (let i = 0; i < 8; i++) {
+        stains.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          r: 20 + Math.random() * 80,
+          grow: 0.1 + Math.random() * 0.3,
+          alpha: 0.02 + Math.random() * 0.04,
+          color: Math.random() > 0.5 ? '74, 15, 15' : '26, 37, 26'
+        });
+      }
+
+      function drawStains() {
+        ctx.fillStyle = 'rgba(3, 3, 3, 0.08)';
+        ctx.fillRect(0, 0, width, height);
+        stains.forEach(s => {
+          s.r += s.grow;
+          if (s.r > Math.max(width, height) * 0.4) {
+            s.r = 20 + Math.random() * 80;
+            s.x = Math.random() * width;
+            s.y = Math.random() * height;
+          }
+          const g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r);
+          g.addColorStop(0, `rgba(${s.color}, ${s.alpha})`);
+          g.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        requestAnimationFrame(drawStains);
+      }
+      drawStains();
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+
+      const input = document.querySelector('.echo-input');
+      const chamber = document.querySelector('.echo-chamber');
+
+      const corruptions = [
+        '空洞', '饥饿', '寂静', '缺席', '腐烂', '无名', '影子', '门后'
+      ];
+
+      function corrupt(text) {
+        let result = text;
+        const chars = Array.from(text);
+        const positions = [];
+        while (positions.length < Math.min(3, Math.floor(chars.length / 3))) {
+          const p = Math.floor(Math.random() * chars.length);
+          if (!positions.includes(p)) positions.push(p);
+        }
+        positions.sort((a, b) => b - a).forEach(p => {
+          if (chars[p] !== ' ' && chars[p] !== '，' && chars[p] !== '。') {
+            chars[p] = corruptions[Math.floor(Math.random() * corruptions.length)][0];
+          }
+        });
+        result = chars.join('');
+        if (Math.random() > 0.6) {
+          result += '。';
+        }
+        if (Math.random() > 0.7) {
+          result = result.split('').reverse().join('');
+        }
+        return result;
+      }
+
+      function addEcho(text, delay = 0) {
+        setTimeout(() => {
+          const line = document.createElement('div');
+          line.className = 'echo-line';
+          line.textContent = text;
+          chamber.appendChild(line);
+
+          requestAnimationFrame(() => {
+            line.classList.add('visible');
+          });
+
+          setTimeout(() => {
+            line.classList.add('corrupted');
+            line.textContent = corrupt(text);
+          }, 1200 + Math.random() * 1500);
+
+          if (chamber.children.length > 6) {
+            chamber.removeChild(chamber.firstChild);
+          }
+        }, delay);
+      }
+
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && input.value.trim()) {
+          const value = input.value.trim();
+          addEcho(value);
+          for (let i = 1; i <= 3; i++) {
+            addEcho(value, i * 900 + Math.random() * 400);
+          }
+          input.value = '';
+        }
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        if (Math.random() > 0.92) {
+          const s = {
+            x: e.clientX,
+            y: e.clientY,
+            r: 5 + Math.random() * 15,
+            grow: 0.2 + Math.random() * 0.4,
+            alpha: 0.08 + Math.random() * 0.08,
+            color: '107, 26, 26'
+          };
+          stains.push(s);
+          if (stains.length > 25) stains.shift();
+        }
+      });
+    </script>
+  </body>
+</html>

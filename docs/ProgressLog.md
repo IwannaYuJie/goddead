@@ -41,3 +41,13 @@
 - Added Witness Testimonies: three fragmented first-person accounts.
 - Added False Names: six hover-revealed epithets people gave to the dead gods.
 - Implemented accordion interactions, hover-redaction reveals, and scroll-triggered animations.
+
+## 2026-07-03 (sixth revision)
+- Added three sub-pages with interactive experiences instead of pure text:
+  - `echo.html` — Echo Room where user input is repeated and corrupted over time.
+  - `vein.html` — Vein Network: a living, mouse-driven growth of blood vessels.
+  - `confession.html` — Confession Booth: user secrets receive cryptic responses and leave scratches.
+- Added hidden portal links in the main page footer.
+- Added "corruption" layer on the main page: growing stains, mouse-trail rot, random screen flicker, and page shivers.
+- Added Easter eggs: Konami code burst, seven clicks on the title, and console messages.
+- Reduced pure database feel in favor of polluted, haunted-web atmosphere.
