@@ -5,114 +5,251 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta
       name="description"
-      content="Goddead.com is a quiet digital gateway for experiments, notes, and interactive audio-visual poetry over the void."
+      content="GODDEAD — a decomposition of the sacred. A scrollable art installation built from seven letters, seven silences, and the void that remains after the gods."
     >
     <title>Goddead</title>
-    <!-- 预加载 fallback 背景大图以兼容测试检查 -->
     <link rel="preload" href="assets/hero.png" as="image">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <!-- 仪式化引导首屏 (用于解除浏览器音频自动播放限制) -->
-    <div class="initiation-overlay" id="init-overlay">
-      <h1 class="initiation-quote">“God is dead. God remains dead. And we have killed him.”</h1>
-      <p class="initiation-quote-zh">“上帝死了。上帝已经死了。是我们杀死了他。”</p>
-      <button class="initiation-btn" id="init-btn">[ ENTER THE SHADOWS / 开启回响 ]</button>
+
+    <!-- ============ 仪式引导遮罩 (Ritual Gate) ============ -->
+    <div class="ritual" id="ritual">
+      <div class="ritual-grid" aria-hidden="true"></div>
+      <div class="ritual-inner">
+        <div class="ritual-wordmark" aria-hidden="true">
+          <span data-half="god">GOD</span><span data-half="dead">DEAD</span>
+        </div>
+        <p class="ritual-quote">
+          “God is dead. God remains dead. And we have killed him.”
+        </p>
+        <p class="ritual-quote-zh">
+          上帝已死。上帝依然死着。是我们杀死了他。
+        </p>
+        <button class="ritual-btn" id="ritual-btn" type="button">
+          <span class="ritual-btn-bracket">[</span>
+          <span class="ritual-btn-text">PASS THROUGH THE VOID / 穿过虚空</span>
+          <span class="ritual-btn-bracket">]</span>
+        </button>
+        <div class="ritual-foot" aria-hidden="true">goddead.com · MMXXVI · SIGNAL LOST</div>
+      </div>
     </div>
 
-    <!-- 艺术背景层 (降级静态背景) -->
+    <!-- ============ 视觉肌理层 ============ -->
+    <div class="grain" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="scanlines" aria-hidden="true"></div>
     <img class="hero-bg-fallback" src="assets/hero.png" alt="A monolith fading in the cosmic dark">
+    <canvas id="void-canvas" aria-hidden="true"></canvas>
 
-    <!-- 粒子交互背景 -->
-    <canvas id="void-canvas"></canvas>
+    <!-- 自定义光标 -->
+    <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
+    <div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
 
-    <!-- 沉浸式数字艺术外壳 -->
-    <main class="art-shell">
-      
-      <!-- 顶部信息栏 -->
-      <header class="art-header">
-        <div class="art-title-hint" aria-hidden="true">DIGITAL MONUMENTS // PERSISTENCE</div>
-        
-        <!-- 音频激活指示 -->
-        <div class="audio-status-box" aria-live="polite">
-          <span class="audio-pulse-dot"></span>
-          <span id="audio-status-text">VOID ECHOES: MUTED</span>
-        </div>
+    <!-- ============ 主体外壳 ============ -->
+    <main class="shell">
+
+      <!-- 顶部信息条 -->
+      <header class="topbar">
+        <span class="topbar-mark" aria-hidden="true">G·D·D — 07</span>
+        <span class="topbar-status" id="status-text">SIGNAL · LOST</span>
       </header>
 
-      <!-- 居中 Hero 碑刻 -->
-      <section class="art-hero">
-        <div class="art-eyebrow">Live from goddead.com</div>
-        <h1 class="monument-text" id="site-title">Goddead</h1>
-        <div class="scramble-box" id="scramble-box" aria-label="Interactive philosophical prophecy">
+      <!-- 滚动跑马灯 -->
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee-track" id="marquee-track">
+          <span>GOD IS DEAD</span><span class="marquee-dot">◆</span>
+          <span>GOD REMAINS DEAD</span><span class="marquee-dot">◆</span>
+          <span>AND WE HAVE KILLED HIM</span><span class="marquee-dot">◆</span>
+          <span>GOD IS DEAD</span><span class="marquee-dot">◆</span>
+          <span>GOD REMAINS DEAD</span><span class="marquee-dot">◆</span>
+          <span>AND WE HAVE KILLED HIM</span><span class="marquee-dot">◆</span>
+        </div>
+      </div>
+
+      <!-- ============ HERO 第一幕 ============ -->
+      <section class="hero">
+        <div class="hero-eyebrow">A DECOMPOSITION OF THE SACRED — MMXXVI</div>
+
+        <h1 class="wordmark" id="wordmark" aria-label="Goddead">
+          <span class="wm-glyph" data-letter="G">G</span><span class="wm-glyph" data-letter="O">O</span><span class="wm-glyph" data-letter="D">D</span><span class="wm-divider" aria-hidden="true"></span><span class="wm-glyph" data-letter="D">D</span><span class="wm-glyph" data-letter="E">E</span><span class="wm-glyph" data-letter="A">A</span><span class="wm-glyph" data-letter="D">D</span>
+        </h1>
+
+        <p class="hero-quote">
+          “God is dead. God remains dead. And we have killed him.”
+        </p>
+        <p class="hero-quote-zh">
+          上帝已死。上帝依然死着。是我们杀死了他。
+        </p>
+
+        <div class="scramble" id="scramble-box" aria-label="Interactive philosophical prophecy">
           THE SHADOWS WE CAST ARE THE ONLY LIGHTS LEFT.
+        </div>
+
+        <div class="hero-scroll-hint" aria-hidden="true">
+          <span class="scroll-line"></span>
+          <span class="scroll-text">DESCEND</span>
         </div>
       </section>
 
-      <!-- 三联神迹视差画廊 (The Triptych Gallery) -->
-      <section class="gallery-hall" aria-label="The Triptych Gallery of Lost Relics">
-        
-        <!-- 遗迹 I -->
-        <article class="gallery-item">
-          <div class="gallery-img-wrap">
-            <img class="gallery-img" src="assets/monument_1.png" alt="Shattered Gothic Angel in the Ruins">
-          </div>
-          <div class="gallery-text">
-            <div class="gallery-num" aria-hidden="true">I</div>
-            <h2>The Broken Deity</h2>
-            <p>
-              信仰的绝对瓦解。在古老神圣坍缩的废墟之上，旧日的教条风化为冰冷的以太微尘。当绝对真理的主宰不复存在，我们将在这片重归自由的荒原中，直面存在本身最纯粹的深渊与可能。
+      <!-- ============ 七个字母 · 七次解构 ============ -->
+      <section class="chapters" aria-label="Seven letters, seven decompositions">
+
+        <article class="chapter" data-letter="G" data-index="01">
+          <div class="chap-letter" aria-hidden="true">G</div>
+          <div class="chap-body">
+            <div class="chap-meta">
+              <span class="chap-num">I / VII</span>
+              <span class="chap-tag">GENESIS · 起源</span>
+            </div>
+            <h2 class="chap-title">The First Violence Was A Name.</h2>
+            <p class="chap-en">
+              The first letter carves the void into a noun. Before God, there was only the hum of nothing — and to name it was the first act of violence. Every alphabet since has been a wound pretending to be a map.
+            </p>
+            <p class="chap-zh">
+              第一个字母将虚空刻成名词。在神之前，只有虚无的低鸣——而命名，是第一桩暴行。此后的每一种字母表，都是一道假装成地图的伤口。
             </p>
           </div>
         </article>
 
-        <!-- 遗迹 II -->
-        <article class="gallery-item">
-          <div class="gallery-img-wrap">
-            <img class="gallery-img" src="assets/monument_2.png" alt="Glowing Golden Crown Floating Above Abyssal Crack">
-          </div>
-          <div class="gallery-text">
-            <div class="gallery-num" aria-hidden="true">II</div>
-            <h2>The Sovereign Will</h2>
-            <p>
-              主动意志的觉醒。摆脱虚无主义的锁链，从神学的黄昏中站起。在虚无与代码交错的裂谷之上，戴上属于你自己的神冠。你便是自身意义的编写者、自我秩序的主宰者。
+        <article class="chapter" data-letter="O" data-index="02">
+          <div class="chap-letter" aria-hidden="true">O</div>
+          <div class="chap-body">
+            <div class="chap-meta">
+              <span class="chap-num">II / VII</span>
+              <span class="chap-tag">OBLIVION · 湮灭</span>
+            </div>
+            <h2 class="chap-title">The Shape Of What Remains.</h2>
+            <p class="chap-en">
+              The zero, the mouth, the swallowing circle. O is the shape of what remains when meaning drains from the sky. It is the letter that is also a hole — a silence you can fall through without end.
+            </p>
+            <p class="chap-zh">
+              零，亦是口，亦是吞噬的圆。O，是意义从天空流尽之后所剩下的形状。它既是字母，也是洞——一种你可以无止境坠落的静默。
             </p>
           </div>
         </article>
 
-        <!-- 遗迹 III -->
-        <article class="gallery-item">
-          <div class="gallery-img-wrap">
-            <img class="gallery-img" src="assets/monument_3.png" alt="Cosmic Ouroboros Snake formed of Golden Star Dust">
+        <article class="chapter" data-letter="D" data-index="03">
+          <div class="chap-letter" aria-hidden="true">D</div>
+          <div class="chap-body">
+            <div class="chap-meta">
+              <span class="chap-num">III / VII</span>
+              <span class="chap-tag">DEATH · 死亡·一</span>
+            </div>
+            <h2 class="chap-title">The Father Falls, Loud And Final.</h2>
+            <p class="chap-en">
+              Death enters the word twice. The first D is the death of the father in the heavens — loud, theological, final. A cathedral collapses inward and the bells go on ringing for a century no one asked for.
+            </p>
+            <p class="chap-zh">
+              死亡进入这个词两次。第一个 D，是天父之死——轰鸣、神学、终局。一座大教堂向内坍塌，钟声却继续敲响一个无人请求的世纪。
+            </p>
           </div>
-          <div class="gallery-text">
-            <div class="gallery-num" aria-hidden="true">III</div>
-            <h2>Eternal Recurrence</h2>
-            <p>
-              无限循环的终极庆典。接受万物的消亡与复始。在时间以太与繁星微茫的循环轨迹里，在虚空深渊的边缘处，以最轻盈的脚步跳起生命之舞。每一行运行的代码，都是对永恒的重塑。
+        </article>
+
+        <article class="chapter" data-letter="D" data-index="04">
+          <div class="chap-letter" aria-hidden="true">D</div>
+          <div class="chap-body">
+            <div class="chap-meta">
+              <span class="chap-num">IV / VII</span>
+              <span class="chap-tag">DECAY · 腐朽·二</span>
+            </div>
+            <h2 class="chap-title">The Slow Death No One Mourns.</h2>
+            <p class="chap-en">
+              The second D is the slow death: of language, of myths, of the photographs of gods we keep in drawers. It is not a bang but a stain that spreads across decades until the word for grace simply means &ldquo;habit.&rdquo;
+            </p>
+            <p class="chap-zh">
+              第二个 D，是缓慢之死：语言之死，神话之死，被我们收在抽屉里的众神照片之死。它不是一声巨响，而是蔓延数十年的污渍——直到&ldquo;恩典&rdquo;一词，仅仅意味着&ldquo;习惯&rdquo;。
+            </p>
+          </div>
+        </article>
+
+        <article class="chapter" data-letter="E" data-index="05">
+          <div class="chap-letter" aria-hidden="true">E</div>
+          <div class="chap-body">
+            <div class="chap-meta">
+              <span class="chap-num">V / VII</span>
+              <span class="chap-tag">ECHO · 回响</span>
+            </div>
+            <h2 class="chap-title">The Vowel Of Grief.</h2>
+            <p class="chap-en">
+              After the killing, only the echo. E is the vowel of grief — the long exhalation of a universe learning to be empty. It is the sound a room makes when it remembers someone has just left.
+            </p>
+            <p class="chap-zh">
+              杀戮之后，唯余回响。E，是哀悼的元音——一个学会空旷的宇宙的长长吐息。它是一间屋子想起&ldquo;有人刚刚离开&rdquo;时所发出的声音。
+            </p>
+          </div>
+        </article>
+
+        <article class="chapter" data-letter="A" data-index="06">
+          <div class="chap-letter" aria-hidden="true">A</div>
+          <div class="chap-body">
+            <div class="chap-meta">
+              <span class="chap-num">VI / VII</span>
+              <span class="chap-tag">ABYSS · 深渊</span>
+            </div>
+            <h2 class="chap-title">It Stares Back, And Blinks First.</h2>
+            <p class="chap-en">
+              A is the ladder, the prism, the gate. When you stare long enough, it stares back — and blinks first, just to be polite. The abyss is not empty; it is full of everything you refused to look at.
+            </p>
+            <p class="chap-zh">
+              A，是阶梯，是棱镜，是门。当你凝视得足够久，它便回望——并出于礼貌，先你一瞬眨眼。深渊并非空无；它装满了你曾拒绝注视的一切。
+            </p>
+          </div>
+        </article>
+
+        <article class="chapter" data-letter="D" data-index="07">
+          <div class="chap-letter" aria-hidden="true">D</div>
+          <div class="chap-body">
+            <div class="chap-meta">
+              <span class="chap-num">VII / VII</span>
+              <span class="chap-tag">DANCE · 舞蹈·终</span>
+            </div>
+            <h2 class="chap-title">The Third D Is Not Death.</h2>
+            <p class="chap-en">
+              The third D is not death but the Dionysian dance. To affirm the loop, to bless the return, to code meaning into the void and watch it run. We do not resurrect the god — we compile a new one, letter by letter, from the ashes of his name.
+            </p>
+            <p class="chap-zh">
+              第三个 D，非死，而是狄俄尼索斯之舞。肯定循环，祝福复归，向虚空写入意义，并注视它运行。我们不复活那位神——我们从他名字的灰烬里，逐字母地，编译出一个新的。
             </p>
           </div>
         </article>
 
       </section>
 
-      <!-- 极简页脚 (无缝嵌入测试兼容数据) -->
+      <!-- ============ 宣言 ============ -->
+      <section class="manifesto" aria-label="Manifesto of the void">
+        <div class="manifesto-label">MANIFESTO · 宣言</div>
+        <h2 class="manifesto-title">
+          We Do Not Mourn<br>
+          The Gods.<br>
+          <span class="manifesto-accent">We Compose Them Anew.</span>
+        </h2>
+        <div class="manifesto-body">
+          <p>
+            In light. In code. In silence. GODDEAD is not a grave — it is a workshop.
+          </p>
+          <p>
+            Every refresh is a resurrection. Every scroll, a prayer without a priest. Every letter, a small refusal of the final word.
+          </p>
+          <p class="manifesto-zh">
+            在光中。在代码中。在静默中。GODDEAD 不是坟墓——它是工坊。<br>
+            每一次刷新都是一次复活。每一次滚动，都是没有祭司的祈祷。每一个字母，都是对&ldquo;最终之词&rdquo;的一次小小的拒绝。
+          </p>
+        </div>
+      </section>
+
+      <!-- ============ 页脚 (测试兼容) ============ -->
       <footer class="art-footer" id="status">
-        
-        <!-- 部署状态 -->
         <div class="art-status-band">
           <span class="status-dot"></span>
           <span class="status-band-text">SYNC STATUS: ACTIVE</span>
         </div>
-
-        <!-- 极简页脚链接与元数据 -->
         <div class="art-meta">
           <span data-updated>Preparing launch...</span>
           <a class="art-meta-link" href="https://github.com/IwannaYuJie/goddead" target="_blank" rel="noopener noreferrer">
             GATEWAY: goddead.com
           </a>
         </div>
-
       </footer>
 
     </main>

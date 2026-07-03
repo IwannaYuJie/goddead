@@ -1,57 +1,85 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@200;300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@300;400;500&family=Noto+Serif+SC:wght@300;400;500&display=swap');
 
+/* ============================================================
+   GODDEAD — A Decomposition of the Sacred
+   Color: void black / bone white / ash gray / oxidized rust
+   ============================================================ */
 :root {
   color-scheme: dark;
-  --bg: #030303;
-  --bg-card: rgba(12, 12, 12, 0.85);
-  --gold: #b8975e;
-  --gold-glow: rgba(184, 151, 94, 0.45);
-  --gold-dim: #5c4a2e;
-  --white: #ececec;
-  --gray: #6e6e6e;
-  --line-gold: rgba(184, 151, 94, 0.15);
-  --font-serif: 'Cinzel', Georgia, serif;
-  --font-sans: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
-  --transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-quick: all 0.3s ease;
+  --void: #07070a;
+  --void-2: #0d0c10;
+  --bone: #e8e3d6;
+  --bone-dim: #b9b4a8;
+  --ash: #6c685f;
+  --ash-deep: #3a3733;
+  --rust: #a8331e;
+  --rust-glow: rgba(168, 51, 30, 0.55);
+  --rune: #8a6a32;
+  --line: rgba(232, 227, 214, 0.08);
+  --line-strong: rgba(232, 227, 214, 0.18);
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --font-zh: 'Noto Serif SC', 'Songti SC', serif;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-hard: cubic-bezier(0.7, 0, 0.2, 1);
+  --transition: all 1.1s var(--ease);
+  --transition-quick: all 0.35s var(--ease);
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 html {
   scroll-behavior: smooth;
-  background-color: var(--bg);
+  background-color: var(--void);
 }
 
 body {
   margin: 0;
   padding: 0;
   width: 100%;
-  color: var(--white);
-  font-family: var(--font-sans);
-  background-color: var(--bg);
+  color: var(--bone);
+  font-family: var(--font-display);
+  background-color: var(--void);
   overflow-x: hidden;
-  line-height: 1.8;
+  line-height: 1.7;
+  font-weight: 300;
+  cursor: none;
 }
 
-/* 优雅的自定义滚动条 */
-body::-webkit-scrollbar {
-  width: 8px;
+/* 隐藏原生光标于交互元素上以保持艺术一致 */
+a, button, .scramble, .wordmark, .chap-letter, .wm-glyph {
+  cursor: none;
 }
-body::-webkit-scrollbar-track {
-  background: var(--bg);
+
+::selection {
+  background: var(--rust);
+  color: var(--bone);
 }
+
+body::-webkit-scrollbar { width: 6px; }
+body::-webkit-scrollbar-track { background: var(--void); }
 body::-webkit-scrollbar-thumb {
-  background: var(--gold-dim);
-  border-radius: 4px;
+  background: var(--ash-deep);
+  border-radius: 0;
 }
-body::-webkit-scrollbar-thumb:hover {
-  background: var(--gold);
+body::-webkit-scrollbar-thumb:hover { background: var(--rust); }
+
+/* ============================================================
+   视觉肌理层 (Grain / Vignette / Scanlines / BG / Canvas)
+   ============================================================ */
+.hero-bg-fallback {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  opacity: 0.05;
+  z-index: 0;
+  pointer-events: none;
+  filter: grayscale(100%) contrast(160%) brightness(0.7);
+  mix-blend-mode: screen;
 }
 
-/* 全屏固定 Canvas */
 #void-canvas {
   position: fixed;
   inset: 0;
@@ -59,449 +87,824 @@ body::-webkit-scrollbar-thumb:hover {
   height: 100vh;
   z-index: 1;
   pointer-events: none;
+  opacity: 0.85;
 }
 
-/* Fallback 背景 */
-.hero-bg-fallback {
+/* SVG 噪点颗粒层 */
+.grain {
   position: fixed;
   inset: 0;
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  opacity: 0.04;
-  z-index: 0;
+  z-index: 50;
   pointer-events: none;
-  filter: grayscale(100%) contrast(150%);
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/></svg>");
+  background-size: 160px 160px;
+  animation: grain-shift 6s steps(8) infinite;
 }
 
-/* ==========================================
-   A. 仪式引导遮罩层 (Initiation Mask)
-   ========================================== */
-.initiation-overlay {
+@keyframes grain-shift {
+  0%   { transform: translate(0, 0); }
+  10%  { transform: translate(-3%, -2%); }
+  20%  { transform: translate(2%, 3%); }
+  30%  { transform: translate(-1%, 1%); }
+  40%  { transform: translate(3%, -2%); }
+  50%  { transform: translate(-2%, 2%); }
+  60%  { transform: translate(1%, -3%); }
+  70%  { transform: translate(-3%, 1%); }
+  80%  { transform: translate(2%, -1%); }
+  90%  { transform: translate(-1%, 2%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* 暗角 vignette */
+.vignette {
   position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #050505;
+  z-index: 40;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,0.55) 100%);
+}
+
+/* 极弱扫描线 */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: 41;
+  pointer-events: none;
+  opacity: 0.18;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.4) 3px,
+    transparent 4px
+  );
+}
+
+/* ============================================================
+   自定义光标 (Custom Cursor)
+   ============================================================ */
+.cursor-ring,
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9000;
+  pointer-events: none;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+}
+.cursor-ring {
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--bone);
+  transition: width 0.3s var(--ease), height 0.3s var(--ease), border-color 0.3s ease, opacity 0.3s ease;
+}
+.cursor-dot {
+  width: 4px;
+  height: 4px;
+  background: var(--bone);
+}
+.cursor-ring.is-hot {
+  width: 64px;
+  height: 64px;
+  border-color: var(--rust);
+}
+
+/* ============================================================
+   A. 仪式引导遮罩 (Ritual Gate)
+   ============================================================ */
+.ritual {
+  position: fixed;
+  inset: 0;
   z-index: 9999;
+  background-color: #050507;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   padding: 40px;
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: opacity 1.4s var(--ease), transform 1.4s var(--ease);
   will-change: opacity, transform;
 }
 
-.initiation-overlay.fade-out {
+.ritual.fade-out {
   opacity: 0;
-  transform: scale(1.12);
+  transform: scale(1.08);
   pointer-events: none;
 }
 
-.initiation-quote {
-  font-family: var(--font-serif);
-  font-size: clamp(1.2rem, 3.5vw, 2.2rem);
-  letter-spacing: 0.15em;
-  color: var(--white);
-  max-width: 800px;
-  margin-bottom: 20px;
-  text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+/* 仪式遮罩内部网格背景 */
+.ritual-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.5;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
 }
 
-.initiation-quote-zh {
-  font-family: var(--font-sans);
-  font-weight: 200;
-  font-size: clamp(0.95rem, 1.8vw, 1.15rem);
-  letter-spacing: 0.2em;
-  color: var(--gold);
-  margin-bottom: 50px;
-  opacity: 0.85;
-}
-
-.initiation-btn {
-  background: transparent;
-  border: 1px solid var(--gold);
-  color: var(--gold);
-  padding: 16px 36px;
-  border-radius: 30px;
-  font-family: var(--font-serif);
-  font-size: 0.9rem;
-  letter-spacing: 0.25em;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 0 15px rgba(184, 151, 94, 0.1);
-  transition: var(--transition-quick);
-}
-
-.initiation-btn:hover {
-  background: var(--gold);
-  color: var(--bg);
-  box-shadow: 0 0 30px var(--gold-glow);
-  transform: translateY(-2px);
-}
-
-/* ==========================================
-   B. 核心页面排版
-   ========================================== */
-.art-shell {
+.ritual-inner {
   position: relative;
-  width: 100%;
-  min-height: 100vh;
   z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
-  pointer-events: none; /* 穿透背景 */
 }
 
-/* 顶部交互条 */
-.art-header {
-  width: min(1200px, 100% - 40px);
-  margin: 30px auto 0;
+.ritual-wordmark {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(3.4rem, 13vw, 11rem);
+  letter-spacing: 0.18em;
+  line-height: 0.9;
+  margin-bottom: 48px;
+  color: var(--bone);
+  display: flex;
+}
+.ritual-wordmark [data-half="god"] {
+  color: var(--bone);
+}
+.ritual-wordmark [data-half="dead"] {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--rust);
+  text-stroke: 1px var(--rust);
+  text-shadow: 0 0 30px var(--rust-glow);
+}
+
+.ritual-quote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(1rem, 2.6vw, 1.6rem);
+  letter-spacing: 0.08em;
+  color: var(--bone-dim);
+  max-width: 720px;
+  margin: 0 0 14px;
+}
+
+.ritual-quote-zh {
+  font-family: var(--font-zh);
+  font-weight: 300;
+  font-size: clamp(0.85rem, 1.8vw, 1.05rem);
+  letter-spacing: 0.28em;
+  color: var(--ash);
+  margin: 0 0 56px;
+}
+
+.ritual-btn {
+  background: transparent;
+  border: none;
+  color: var(--bone);
+  padding: 18px 40px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  cursor: none;
+  display: inline-flex;
+  gap: 14px;
+  align-items: center;
+  position: relative;
+  transition: var(--transition-quick);
+}
+.ritual-btn::before,
+.ritual-btn::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  background: var(--rust);
+  transform: translateX(-50%);
+  transition: width 0.5s var(--ease);
+}
+.ritual-btn::before { top: 0; }
+.ritual-btn::after  { bottom: 0; }
+.ritual-btn-bracket {
+  color: var(--rust);
+  font-weight: 400;
+  transition: transform 0.4s var(--ease);
+}
+.ritual-btn:hover {
+  color: var(--bone);
+  letter-spacing: 0.36em;
+}
+.ritual-btn:hover::before,
+.ritual-btn:hover::after { width: 100%; }
+.ritual-btn:hover .ritual-btn-bracket:first-child { transform: translateX(-8px); }
+.ritual-btn:hover .ritual-btn-bracket:last-child  { transform: translateX(8px); }
+
+.ritual-foot {
+  margin-top: 56px;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.4em;
+  color: var(--ash-deep);
+}
+
+/* ============================================================
+   B. 主体外壳 (Shell)
+   ============================================================ */
+.shell {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.shell > * { pointer-events: auto; }
+
+/* 顶部信息条 */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  pointer-events: auto; /* 恢复点击 */
-}
-
-.art-title-hint {
-  font-family: var(--font-serif);
-  font-size: 0.72rem;
-  letter-spacing: 0.4em;
-  color: var(--gold);
+  padding: 22px 32px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
-  opacity: 0.65;
+  color: var(--ash);
+  pointer-events: none;
+  mix-blend-mode: difference;
+}
+.topbar-mark, .topbar-status {
+  color: var(--bone);
+  opacity: 0.7;
+  transition: var(--transition-quick);
+}
+.topbar-status.is-active {
+  color: var(--rust);
+  opacity: 1;
 }
 
-.audio-status-box {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--font-serif);
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  color: var(--gold);
-  opacity: 0.85;
-}
-
-.audio-pulse-dot {
-  width: 8px;
-  height: 8px;
-  background-color: var(--gold);
-  border-radius: 50%;
-  box-shadow: 0 0 10px var(--gold-glow);
-  animation: audio-glow 1.5s infinite ease-in-out;
-}
-
-/* 巨幅 Hero 第一幕 */
-.art-hero {
+/* 跑马灯 */
+.marquee {
   width: 100%;
-  min-height: 95vh;
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 18px 0;
+  margin: 0;
+  background: rgba(5, 5, 7, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.marquee-track {
+  display: inline-flex;
+  align-items: center;
+  gap: 40px;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.1rem, 2.4vw, 1.7rem);
+  letter-spacing: 0.12em;
+  color: var(--bone-dim);
+  animation: marquee-scroll 32s linear infinite;
+  will-change: transform;
+}
+.marquee-dot {
+  color: var(--rust);
+  font-size: 0.5em;
+  transform: translateY(-0.15em);
+}
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ============================================================
+   C. HERO 第一幕
+   ============================================================ */
+.hero {
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  pointer-events: auto;
+  padding: 120px 32px 80px;
+  position: relative;
 }
 
-.art-eyebrow {
-  font-family: var(--font-serif);
-  font-size: 0.85rem;
-  letter-spacing: 0.35em;
-  color: var(--gold);
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.4em;
+  color: var(--ash);
   text-transform: uppercase;
-  margin-bottom: 24px;
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: fade-rise 1.4s var(--ease) 0.4s forwards;
 }
 
-h1.monument-text {
+/* 巨字 GODDEAD — 可逐字 hover 触发 RGB 分裂 */
+.wordmark {
   margin: 0;
-  font-family: var(--font-serif);
-  font-size: clamp(3.8rem, 10vw, 8.5rem);
-  font-weight: 900;
-  letter-spacing: 0.3em;
-  text-indent: 0.3em;
-  color: var(--white);
-  text-shadow: 0 0 30px rgba(0, 0, 0, 0.95);
-  transition: var(--transition);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(3.4rem, 14vw, 12rem);
+  letter-spacing: 0.04em;
+  line-height: 0.9;
+  color: var(--bone);
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  position: relative;
+  text-shadow: 0 0 60px rgba(0, 0, 0, 0.9);
 }
-
-h1.monument-text:hover {
-  color: var(--gold);
-  text-shadow: 0 0 45px var(--gold-glow);
-  letter-spacing: 0.33em;
-  text-indent: 0.33em;
+.wm-glyph {
+  display: inline-block;
+  position: relative;
+  transition: color 0.4s var(--ease), transform 0.5s var(--ease), text-shadow 0.4s ease;
+  will-change: transform, color;
 }
-
-.scramble-box {
-  margin-top: 35px;
-  font-family: var(--font-sans);
-  font-weight: 200;
-  font-size: clamp(0.85rem, 1.6vw, 1.1rem);
-  letter-spacing: 0.25em;
-  color: var(--gray);
-  max-width: 650px;
-  min-height: 60px;
-  cursor: pointer;
-  transition: color 0.4s ease;
-}
-
-.scramble-box:hover {
-  color: var(--white);
-}
-
-/* ==========================================
-   C. 三联神迹视差画廊 (Triptych Exhibition)
-   ========================================== */
-.gallery-hall {
+.wm-glyph::before,
+.wm-glyph::after {
+  content: attr(data-letter);
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  max-width: 1200px;
-  margin: 100px auto;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.wm-glyph::before { color: var(--rust); }
+.wm-glyph::after  { color: #2a7da8; }
+.wm-glyph:hover {
+  color: var(--bone);
+  transform: translateY(-6px);
+}
+.wm-glyph:hover::before {
+  opacity: 0.85;
+  transform: translate(-4px, -2px);
+}
+.wm-glyph:hover::after {
+  opacity: 0.85;
+  transform: translate(4px, 2px);
+}
+
+/* GOD 与 DEAD 之间的撕裂分隔 */
+.wm-divider {
+  width: 0.08em;
+  align-self: stretch;
+  margin: 0 0.12em;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--rust) 30%,
+    var(--rust) 70%,
+    transparent 100%
+  );
+  opacity: 0.5;
+  transform: scaleY(0.1);
+  animation: divider-fall 2.2s var(--ease) 1.6s forwards;
+}
+@keyframes divider-fall {
+  to { transform: scaleY(1); }
+}
+
+.hero-quote {
+  margin: 48px 0 10px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(1.05rem, 2.6vw, 1.5rem);
+  letter-spacing: 0.08em;
+  color: var(--bone-dim);
+  max-width: 720px;
+  opacity: 0;
+  animation: fade-rise 1.4s var(--ease) 1s forwards;
+}
+.hero-quote-zh {
+  margin: 0 0 36px;
+  font-family: var(--font-zh);
+  font-weight: 300;
+  font-size: clamp(0.85rem, 1.8vw, 1rem);
+  letter-spacing: 0.28em;
+  color: var(--ash);
+  opacity: 0;
+  animation: fade-rise 1.4s var(--ease) 1.3s forwards;
+}
+
+.scramble {
+  font-family: var(--font-mono);
+  font-weight: 300;
+  font-size: clamp(0.7rem, 1.3vw, 0.85rem);
+  letter-spacing: 0.28em;
+  color: var(--ash);
+  text-transform: uppercase;
+  max-width: 700px;
+  min-height: 3.2em;
+  padding: 14px 20px;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  transition: color 0.4s ease, border-color 0.4s ease;
+  opacity: 0;
+  animation: fade-rise 1.4s var(--ease) 1.6s forwards;
+}
+.scramble:hover {
+  color: var(--bone);
+  border-color: var(--rust);
+}
+
+/* 下滑提示 */
+.hero-scroll-hint {
+  margin-top: 80px;
   display: flex;
   flex-direction: column;
-  gap: 180px;
-  pointer-events: auto;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
+  color: var(--ash-deep);
+  text-transform: uppercase;
+  opacity: 0;
+  animation: fade-rise 1.4s var(--ease) 2s forwards;
+}
+.scroll-line {
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, var(--rust), transparent);
+  animation: scroll-pulse 2.2s ease-in-out infinite;
+}
+@keyframes scroll-pulse {
+  0%, 100% { transform: scaleY(0.3); transform-origin: top; opacity: 0.4; }
+  50%      { transform: scaleY(1);   transform-origin: top; opacity: 1; }
 }
 
-.gallery-item {
+@keyframes fade-rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   D. 七个字母 · 解构章节 (Chapters)
+   ============================================================ */
+.chapters {
+  width: 100%;
+  max-width: 1200px;
+  margin: 60px auto 0;
+  padding: 0 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.chapter {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  min-height: 100vh;
+  padding: 80px 0;
+  border-bottom: 1px solid var(--line);
+}
+.chapter:nth-child(even) {
+  direction: rtl;
+}
+.chapter:nth-child(even) > * { direction: ltr; }
+
+/* 巨大字母 — 镂空 + 描边，hover 时填充 */
+.chap-letter {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(14rem, 36vw, 32rem);
+  line-height: 0.85;
+  text-align: center;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--ash-deep);
+  text-stroke: 2px var(--ash-deep);
+  user-select: none;
+  transition: color 1.2s var(--ease), -webkit-text-stroke-color 0.8s ease, transform 0.8s var(--ease), letter-spacing 1s var(--ease);
+  letter-spacing: 0;
+  will-change: color, transform;
+  position: relative;
+}
+.chap-letter::after {
+  content: attr(data-letter);
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 60px;
-  width: 100%;
+  justify-content: center;
+  color: var(--rust);
+  -webkit-text-stroke: 2px var(--rust);
+  text-stroke: 2px var(--rust);
   opacity: 0;
-  transform: translateY(60px);
-  transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
+  transform: translate(8px, 8px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+.chapter.visible .chap-letter {
+  -webkit-text-stroke-color: var(--bone-dim);
+  color: transparent;
+}
+.chapter.visible .chap-letter:hover {
+  color: var(--bone);
+  -webkit-text-stroke-color: var(--rust);
+  letter-spacing: 0.06em;
+}
+.chapter.visible .chap-letter:hover::after {
+  opacity: 0.7;
+  transform: translate(14px, 14px);
 }
 
-.gallery-item.visible {
+/* 章节内容 */
+.chap-body {
+  padding: 0 32px;
+  max-width: 480px;
+  justify-self: center;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.2s var(--ease), transform 1.2s var(--ease);
+}
+.chapter.visible .chap-body {
   opacity: 1;
   transform: translateY(0);
 }
-
-.gallery-item:nth-child(even) {
-  flex-direction: row-reverse;
+.chapter:nth-child(even) .chap-body {
+  grid-column: 2;
 }
 
-/* 视差图片框架 */
-.gallery-img-wrap {
-  flex: 1 1 50%;
-  height: 520px;
-  overflow: hidden;
-  border-radius: 4px;
-  position: relative;
-  border: 1px solid var(--line-gold);
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(184, 151, 94, 0.04);
-}
-
-.gallery-img-wrap::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 70%, rgba(3, 3, 3, 0.85));
-  pointer-events: none;
-}
-
-.gallery-img {
-  width: 100%;
-  height: 120%; /* 留出视差移动空间 */
-  object-fit: cover;
-  position: absolute;
-  top: -10%;
-  left: 0;
-  filter: grayscale(35%) contrast(110%);
-  transition: transform 0.5s ease-out, filter 0.5s ease;
-  will-change: transform;
-}
-
-.gallery-item:hover .gallery-img {
-  filter: grayscale(0%) contrast(110%);
-  transform: scale(1.03) translateY(-8%);
-}
-
-/* 文字版块 */
-.gallery-text {
-  flex: 1 1 40%;
+.chap-meta {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.gallery-num {
-  font-family: var(--font-serif);
-  font-size: 2.2rem;
-  font-weight: 900;
-  color: transparent;
-  -webkit-text-stroke: 1px var(--gold-dim);
-  margin-bottom: 12px;
-  transition: var(--transition-quick);
-}
-
-.gallery-item:hover .gallery-num {
-  color: var(--gold);
-  -webkit-text-stroke: 1px var(--gold);
-  text-shadow: 0 0 15px var(--gold-glow);
-}
-
-.gallery-text h2 {
-  font-family: var(--font-serif);
-  font-size: clamp(1.6rem, 3vw, 2.4rem);
-  letter-spacing: 0.15em;
-  color: var(--white);
-  margin: 0 0 25px;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 28px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
 }
+.chap-num {
+  color: var(--rust);
+}
+.chap-tag {
+  color: var(--ash);
+}
+.chap-meta::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--rust);
+  display: inline-block;
+}
 
-.gallery-text p {
-  color: var(--gray);
-  font-size: 0.95rem;
-  line-height: 1.9;
+.chap-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  color: var(--bone);
+  margin: 0 0 28px;
+}
+
+.chap-en {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(1rem, 1.5vw, 1.18rem);
+  line-height: 1.8;
+  color: var(--bone-dim);
+  margin: 0 0 22px;
+  text-align: justify;
+  font-feature-settings: "liga", "kern";
+}
+
+.chap-zh {
+  font-family: var(--font-zh);
+  font-weight: 300;
+  font-size: clamp(0.85rem, 1.3vw, 1rem);
+  line-height: 2;
+  letter-spacing: 0.05em;
+  color: var(--ash);
   margin: 0;
   text-align: justify;
-  transition: color 0.4s ease;
 }
 
-.gallery-item:hover .gallery-text p {
-  color: var(--white);
+/* ============================================================
+   E. 宣言 (Manifesto)
+   ============================================================ */
+.manifesto {
+  width: 100%;
+  max-width: 1200px;
+  margin: 120px auto 80px;
+  padding: 100px 32px;
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  position: relative;
+}
+.manifesto::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  width: 120px;
+  height: 1px;
+  background: var(--rust);
+  transform: translateX(-50%);
 }
 
-/* ==========================================
-   D. 页脚与测试数据适配
-   ========================================== */
+.manifesto-label {
+  grid-column: 1 / -1;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+  color: var(--rust);
+  text-transform: uppercase;
+  margin-bottom: -20px;
+}
+
+.manifesto-title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(2.2rem, 6vw, 4.5rem);
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  color: var(--bone);
+  margin: 0;
+}
+.manifesto-accent {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--rust);
+}
+
+.manifesto-body {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(1rem, 1.5vw, 1.18rem);
+  line-height: 1.9;
+  color: var(--bone-dim);
+}
+.manifesto-body p { margin: 0 0 18px; }
+.manifesto-zh {
+  font-family: var(--font-zh);
+  font-size: 0.92rem !important;
+  line-height: 2 !important;
+  letter-spacing: 0.05em;
+  color: var(--ash) !important;
+  margin-top: 28px !important;
+}
+
+/* ============================================================
+   F. 页脚 (测试兼容)
+   ============================================================ */
 .art-footer {
-  width: min(1200px, 100% - 40px);
-  margin: 100px auto 40px;
+  width: min(1200px, 100% - 64px);
+  margin: 60px auto 40px;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  border-top: 1px solid rgba(255, 255, 255, 0.03);
-  padding-top: 30px;
-  pointer-events: auto;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
 }
-
 .art-status-band {
   display: flex;
   align-items: center;
   gap: 12px;
-  opacity: 0.2;
+  opacity: 0.45;
   transition: var(--transition-quick);
 }
-
-.art-status-band:hover {
-  opacity: 0.7;
-}
-
+.art-status-band:hover { opacity: 0.9; }
 .status-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: var(--gold);
-  box-shadow: 0 0 10px var(--gold-glow);
+  background-color: var(--rust);
+  box-shadow: 0 0 12px var(--rust-glow);
+  animation: pulse 2s infinite ease-in-out;
 }
-
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50%      { transform: scale(1.4); opacity: 1; }
+}
 .status-band-text {
-  font-family: var(--font-serif);
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
-  color: var(--white);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.28em;
+  color: var(--bone);
   text-transform: uppercase;
 }
-
 .art-meta {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 6px;
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
-  color: var(--gray);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.28em;
+  color: var(--ash);
+  text-transform: uppercase;
 }
-
 .art-meta-link {
+  color: var(--bone-dim);
+  text-decoration: none;
   transition: var(--transition-quick);
+  border-bottom: 1px solid transparent;
 }
-
 .art-meta-link:hover {
-  color: var(--gold);
+  color: var(--rust);
+  border-bottom-color: var(--rust);
 }
 
-/* 动效 */
-@keyframes audio-glow {
-  0%, 100% {
-    transform: scale(1);
-    box-shadow: 0 0 8px var(--gold-glow);
-    opacity: 0.8;
-  }
-  50% {
-    transform: scale(1.2);
-    box-shadow: 0 0 18px var(--gold-glow);
-    opacity: 1;
-  }
-}
-
-/* ==========================================
-   E. 响应式与辅助媒体查询
-   ========================================== */
+/* ============================================================
+   G. 响应式
+   ============================================================ */
 @media (max-width: 900px) {
-  .gallery-item {
-    gap: 40px;
+  .chapter {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: 60px 0;
+    gap: 20px;
   }
-  .gallery-img-wrap {
-    height: 400px;
+  .chapter:nth-child(even) { direction: ltr; }
+  .chap-letter {
+    font-size: clamp(10rem, 50vw, 16rem);
+  }
+  .chap-body {
+    padding: 0 16px;
+    max-width: 100%;
+  }
+  .chapter:nth-child(even) .chap-body {
+    grid-column: 1;
+  }
+  .manifesto {
+    grid-template-columns: 1fr;
+    padding: 60px 24px;
+    margin: 80px auto 60px;
   }
 }
 
 @media (max-width: 720px) {
-  .art-header {
-    flex-direction: column;
-    gap: 16px;
-    align-items: center;
-  }
+  body { cursor: auto; }
+  a, button, .scramble, .wordmark, .chap-letter, .wm-glyph { cursor: auto; }
+  .cursor-ring, .cursor-dot { display: none; }
 
-  .art-hero {
-    min-height: 80vh;
+  .topbar {
+    padding: 16px 18px;
+    font-size: 0.58rem;
   }
+  .hero {
+    padding: 100px 18px 60px;
+  }
+  .chapters { padding: 0 18px; }
+  .ritual-wordmark { font-size: clamp(2.6rem, 16vw, 6rem); }
+  .wm-divider { margin: 0 0.04em; }
 
-  .gallery-hall {
-    gap: 100px;
-    padding: 0 10px;
-  }
-
-  .gallery-item,
-  .gallery-item:nth-child(even) {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 25px;
-  }
-
-  .gallery-img-wrap {
-    height: 320px;
-  }
+  .marquee-track { gap: 24px; }
 
   .art-footer {
     flex-direction: column;
     align-items: center;
-    gap: 20px;
-    padding-top: 20px;
+    gap: 18px;
+    width: min(100% - 36px);
   }
-
-  .art-meta {
-    align-items: center;
-  }
+  .art-meta { align-items: center; }
 }
 
-/* 减弱动画适配 */
+/* 触屏设备隐藏自定义光标 */
+@media (hover: none) {
+  .cursor-ring, .cursor-dot { display: none; }
+  body { cursor: auto; }
+  a, button, .scramble, .wordmark, .chap-letter, .wm-glyph { cursor: auto; }
+}
+
+/* ============================================================
+   H. 减弱动画适配
+   ============================================================ */
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+  html { scroll-behavior: auto; }
 
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
@@ -510,18 +913,18 @@ h1.monument-text:hover {
     transition-duration: 0.001ms !important;
   }
 
-  #void-canvas {
-    display: none;
-  }
+  #void-canvas { display: none; }
+  .grain, .scanlines { display: none; }
 
-  .gallery-item {
-    opacity: 1 !important;
-    transform: none !important;
-  }
+  .hero-eyebrow,
+  .hero-quote,
+  .hero-quote-zh,
+  .scramble,
+  .hero-scroll-hint { opacity: 1 !important; }
+  .wm-divider { transform: scaleY(1) !important; }
 
-  .gallery-img {
-    height: 100% !important;
-    top: 0 !important;
-    transform: none !important;
-  }
+  .chapter .chap-body { opacity: 1 !important; transform: none !important; }
+  .chap-letter { -webkit-text-stroke-color: var(--bone-dim); }
+
+  .marquee-track { animation: none !important; }
 }
