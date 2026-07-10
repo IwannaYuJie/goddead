@@ -1,1076 +1,615 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=JetBrains+Mono:wght@200;400&family=Noto+Serif+SC:wght@300;500;700;900&display=swap');
-
 :root {
   color-scheme: dark;
-  --void: #020202;
-  --bone: #c7c7c7;
-  --ash: #444;
-  --blood: #6b1a1a;
-  --gold: #8a7340;
-  --line: rgba(107, 26, 26, 0.15);
-  --font-serif: 'Cinzel', 'Noto Serif SC', Georgia, serif;
-  --font-serif-cn: 'Noto Serif SC', 'Cinzel', serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
-  --ease-ritual: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-dramatic: cubic-bezier(0.87, 0, 0.13, 1);
+  --void: #050505;
+  --void-soft: #090807;
+  --bone: #aaa59d;
+  --bone-bright: #d2cdc5;
+  --ash: #777169;
+  --blood: #8d2b27;
+  --blood-deep: #42100f;
+  --line: rgba(200, 194, 184, 0.22);
+  --serif: "Cormorant Garamond", "Times New Roman", serif;
+  --serif-cn: "Noto Serif SC", serif;
+  --mono: "Roboto Mono", monospace;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 * { box-sizing: border-box; }
 
-html {
-  scroll-behavior: smooth;
-  background-color: var(--void);
+html, body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100%;
+  background: var(--void);
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100vh;
   color: var(--bone);
-  font-family: var(--font-serif-cn);
-  background-color: var(--void);
+  font-family: var(--serif-cn);
   overflow: hidden;
-  line-height: 1.8;
   -webkit-font-smoothing: antialiased;
-  letter-spacing: 0.04em;
+}
+
+button, a { -webkit-tap-highlight-color: transparent; }
+
+button:focus-visible,
+a:focus-visible {
+  outline: 1px solid var(--blood);
+  outline-offset: 6px;
 }
 
 ::selection {
-  background: rgba(107, 26, 26, 0.3);
-  color: #e0d0d0;
+  color: var(--bone-bright);
+  background: rgba(141, 43, 39, 0.4);
 }
 
-#void-canvas,
-#corruption-canvas {
+.compatibility-asset {
   position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.void-texture {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  opacity: 0.015;
-  z-index: 0;
-  pointer-events: none;
-  filter: grayscale(100%) contrast(220%) brightness(0.45);
-}
-
-.void-noise {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.06;
-  background-image:
-    repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(255,255,255,0.04) 1px, rgba(255,255,255,0.04) 2px),
-    repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.02) 1px, rgba(255,255,255,0.02) 2px);
-  animation: noise-shift 0.2s steps(5) infinite;
-}
-
-.void-vignette {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 50% 45%, transparent 0%, rgba(2, 2, 2, 0.75) 55%, var(--void) 100%),
-    radial-gradient(circle at 20% 80%, rgba(74, 15, 15, 0.15) 0%, transparent 45%),
-    radial-gradient(circle at 80% 20%, rgba(35, 20, 48, 0.12) 0%, transparent 40%);
-}
-
-.screen-flicker {
-  position: fixed;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  background: rgba(255, 255, 255, 0.05);
-  opacity: 0;
-}
-
-.screen-flicker.active {
-  animation: flicker-flash 0.15s ease-out;
-}
-
-.altar {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  pointer-events: none;
-}
-
-.altar-header {
-  width: min(1200px, 100% - 48px);
-  margin: 30px auto 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  pointer-events: auto;
-}
-
-.altar-sigil {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  width: 32px;
-}
-
-.altar-sigil span {
-  display: block;
-  background: var(--blood);
+  width: 1px;
   height: 1px;
-  opacity: 0.5;
-  box-shadow: 0 0 8px rgba(107, 26, 26, 0.4);
+  opacity: 0;
+  pointer-events: none;
 }
 
-.altar-sigil span:nth-child(1) { width: 32px; }
-.altar-sigil span:nth-child(2) { width: 20px; }
-.altar-sigil span:nth-child(3) { width: 8px; }
-
-.audio-status-box {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.18em;
-  color: var(--blood);
-  opacity: 0.7;
+.testament {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 62.6fr) minmax(430px, 37.4fr);
+  width: 100vw;
+  height: 100svh;
+  min-height: 700px;
+  background: var(--void);
+  isolation: isolate;
 }
 
-.audio-pulse-dot {
+.wordmark-panel,
+.gate-panel {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.wordmark-panel {
+  border-right: 1px solid rgba(162, 142, 119, 0.28);
+}
+
+.wordmark-art,
+.gate-art {
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: -2;
+}
+
+.wordmark-art {
+  background-image: url("assets/testament-left.png");
+  background-position: center;
+  background-size: cover;
+  opacity: 0.76;
+  filter: contrast(1.08) saturate(0.76) brightness(0.77);
+}
+
+.wordmark-panel::after,
+.gate-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.wordmark-panel::after {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.gate-art {
+  background-image: url("assets/testament-gates.png");
+  background-position: center right;
+  background-size: cover;
+  opacity: 0.55;
+  filter: contrast(1.08) saturate(0.68) brightness(0.7);
+}
+
+.gate-panel::after {
+  background: rgba(5, 5, 5, 0.16);
+}
+
+.wordmark {
+  position: absolute;
+  inset: 50% auto auto 0;
+  transform: translateY(-50%);
+  width: 100%;
+  margin: 0;
+  color: var(--bone);
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(13rem, 25.5vw, 28rem);
+  line-height: 0.61;
+  letter-spacing: -0.085em;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: title-arrive 1.7s 0.15s var(--ease) forwards;
+}
+
+.wordmark-row {
+  display: block;
+  width: max-content;
+  text-shadow: 0 0 28px rgba(200, 194, 184, 0.05);
+}
+
+.wordmark-row--god { transform: translateX(-3.1%); }
+.wordmark-row--dead { transform: translate(-5%, 0.34em); }
+
+.wordmark-row::after {
+  content: attr(class);
+  display: none;
+}
+
+.seam {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 51.8%;
+  width: 2px;
+  background: rgba(141, 43, 39, 0.3);
+  box-shadow: 0 0 18px rgba(141, 43, 39, 0.12);
+}
+
+.seam span {
+  position: absolute;
+  top: 47%;
+  left: 50%;
   width: 7px;
   height: 7px;
-  background-color: var(--blood);
+  border: 1px solid var(--blood);
   border-radius: 50%;
-  box-shadow: 0 0 12px rgba(107, 26, 26, 0.4);
-  animation: pulse 2s infinite ease-in-out;
+  transform: translate(-50%, -50%);
+  background: #110504;
 }
 
-.ritual-stage {
-  flex: 1;
-  position: relative;
+.scripture {
+  position: absolute;
+  z-index: 1;
+  color: rgba(141, 43, 39, 0.48);
+  font-family: var(--serif-cn);
+  font-size: 0.62rem;
+  letter-spacing: 0.42em;
+  writing-mode: vertical-rl;
+  pointer-events: none;
+}
+
+.scripture--top { top: 5%; left: 32%; height: 20%; }
+.scripture--side { top: 31%; right: 8%; height: 34%; font-family: var(--mono); }
+
+.arrival-line {
+  position: absolute;
+  left: 6.2%;
+  bottom: 11.5%;
+  z-index: 2;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  pointer-events: auto;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0;
+  color: rgba(200, 194, 184, 0.78);
+  font-size: clamp(0.9rem, 1.5vw, 1.35rem);
+  font-weight: 300;
+  line-height: 1.55;
+  letter-spacing: 0.22em;
+}
+
+.cross-mark {
+  position: absolute;
+  left: 6.2%;
+  bottom: 4.7%;
+  z-index: 3;
+  border: 0;
+  padding: 0;
+  color: var(--blood);
+  background: none;
+  font-family: var(--mono);
+  font-size: 1.2rem;
+  font-weight: 300;
+  cursor: pointer;
+  transition: color 0.35s ease, transform 0.35s var(--ease);
+}
+
+.cross-mark:hover { color: #bd4943; transform: rotate(45deg); }
+
+.latin-mark {
+  position: absolute;
+  right: 7.5%;
+  bottom: 12.6%;
+  margin: 0;
+  color: rgba(150, 118, 84, 0.55);
+  font-family: var(--mono);
+  font-size: 0.48rem;
+  letter-spacing: 0.7em;
+}
+
+.menu-trigger {
+  position: absolute;
+  top: 4.6%;
+  right: 6.5%;
+  z-index: 5;
+  display: grid;
+  gap: 6px;
+  width: 30px;
+  padding: 8px 0;
+  border: 0;
+  background: none;
   cursor: pointer;
 }
 
-.breath {
-  position: absolute;
-  width: 8px;
-  height: 8px;
+.menu-trigger span {
+  display: block;
+  height: 1px;
   background: var(--blood);
-  border-radius: 50%;
-  box-shadow: 0 0 30px rgba(107, 26, 26, 0.5);
-  animation: breathe 4s ease-in-out infinite;
+  transition: transform 0.35s var(--ease), width 0.35s var(--ease);
 }
 
-.stage {
+.menu-trigger span:last-child { width: 62%; }
+.menu-trigger:hover span:last-child { width: 100%; }
+
+.gate-list {
   position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 40px;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity 1.2s var(--ease-ritual), visibility 1.2s var(--ease-ritual);
-}
-
-.stage.active {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  z-index: 2;
-}
-
-.whisper {
-  font-family: var(--font-serif-cn);
-  font-size: clamp(1rem, 3vw, 1.6rem);
-  font-weight: 300;
-  letter-spacing: 0.45em;
-  color: var(--bone);
-  opacity: 0.7;
-  animation: whisper-fade 3s ease-in-out infinite;
-}
-
-.invocation {
-  font-family: var(--font-serif-cn);
-  font-size: clamp(1rem, 2.8vw, 1.5rem);
-  font-weight: 300;
-  letter-spacing: 0.25em;
-  color: var(--bone);
-  margin: 0;
-  min-height: 2em;
-}
-
-.invocation::after {
-  content: '_';
-  color: var(--blood);
-  animation: cursor-blink 1s steps(2) infinite;
-}
-
-.goddead-title {
-  margin: 0;
-  font-family: var(--font-serif);
-  font-size: clamp(4rem, 16vw, 13rem);
-  font-weight: 900;
-  line-height: 0.9;
-  letter-spacing: -0.02em;
-  display: flex;
-  position: relative;
-  z-index: 2;
-  opacity: 0;
-  transform: scale(0.96);
-  transition: opacity 2s var(--ease-dramatic), transform 2s var(--ease-dramatic);
-}
-
-.goddead-title.visible {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.title-half {
-  display: inline-block;
-}
-
-.title-half--flesh {
-  color: var(--bone);
-  text-shadow: 0 0 40px rgba(0, 0, 0, 0.9), 2px 0 0 rgba(107, 26, 26, 0.25);
-}
-
-.title-half--bone {
-  color: transparent;
-  -webkit-text-stroke: 2px var(--bone);
-  text-stroke: 2px var(--bone);
-}
-
-.glitch-layer::before,
-.glitch-layer::after {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  opacity: 0;
-}
-
-.glitch-layer::before {
-  color: var(--blood);
-  animation: glitch-red 4s infinite linear alternate-reverse;
-}
-
-.glitch-layer::after {
-  color: #1a251a;
-  animation: glitch-green 5s infinite linear alternate-reverse;
-}
-
-.gate-question {
-  font-family: var(--font-serif-cn);
-  font-size: clamp(0.8rem, 2vw, 1.1rem);
-  font-weight: 300;
-  letter-spacing: 0.35em;
-  color: var(--ash);
-  margin-bottom: 60px;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 1s var(--ease-ritual) 0.3s, transform 1s var(--ease-ritual) 0.3s;
-}
-
-.stage--3.active .gate-question {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.gate-grid {
+  top: 13.5%;
+  right: 7.5%;
+  left: 10.5%;
   display: grid;
-  grid-template-columns: repeat(3, 160px);
-  gap: 30px;
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 1.2s var(--ease-ritual) 0.8s, transform 1.2s var(--ease-ritual) 0.8s;
+  gap: clamp(1.4rem, 3.2vh, 2.6rem);
 }
 
-.stage--3.active .gate-grid {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.gate {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  padding: 34px 20px;
-  border: 1px solid var(--line);
-  background: rgba(8, 8, 8, 0.5);
+.gate-link {
+  position: relative;
+  display: block;
+  min-height: 22vh;
   color: var(--bone);
   text-decoration: none;
-  transition: border-color 0.5s ease, background 0.5s ease, transform 0.5s var(--ease-ritual);
 }
 
-.gate:hover {
-  border-color: rgba(107, 26, 26, 0.6);
-  background: rgba(15, 8, 8, 0.75);
-  transform: translateY(-6px);
+.gate-meta {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
 }
 
-.gate-num {
-  font-family: var(--font-serif);
-  font-size: 1.6rem;
-  font-weight: 900;
-  color: transparent;
-  -webkit-text-stroke: 1px var(--blood);
-  text-stroke: 1px var(--blood);
+.gate-meta b {
+  color: var(--blood);
+  font-family: var(--serif);
+  font-size: 1.55rem;
+  font-weight: 500;
+}
+
+.gate-meta i { height: 1px; background: var(--line); }
+
+.gate-meta em {
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--blood);
+  border-radius: 50%;
+  font-style: normal;
+  transition: background 0.4s ease, box-shadow 0.4s ease, transform 0.4s var(--ease);
 }
 
 .gate-name {
-  font-family: var(--font-serif-cn);
-  font-size: 1.1rem;
-  letter-spacing: 0.25em;
+  display: block;
+  margin-top: 0.12em;
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: clamp(3.2rem, 6.8vw, 6.4rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: 0.05em;
+  transition: color 0.45s ease, transform 0.55s var(--ease), letter-spacing 0.55s var(--ease);
 }
 
-.gate-hint {
-  font-family: var(--font-mono);
-  font-size: 0.58rem;
+.gate-whisper {
+  display: block;
+  margin-top: 0.55rem;
+  color: rgba(119, 113, 105, 0);
+  font-size: 0.68rem;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  transform: translateY(6px);
+  transition: color 0.4s ease, transform 0.4s var(--ease);
+}
+
+.gate-link:hover .gate-name,
+.gate-link:focus-visible .gate-name {
+  color: var(--bone-bright);
   letter-spacing: 0.12em;
-  color: var(--ash);
-  transition: color 0.4s ease;
+  transform: translateX(12px);
 }
 
-.gate:hover .gate-hint {
-  color: var(--bone);
+.gate-link:hover .gate-meta em,
+.gate-link:focus-visible .gate-meta em {
+  background: var(--blood);
+  box-shadow: 0 0 18px var(--blood);
+  transform: scale(1.35);
 }
 
-.descent-btn {
-  margin-top: 55px;
-  background: transparent;
-  border: 1px solid var(--line);
-  color: var(--ash);
-  padding: 14px 36px;
-  font-family: var(--font-serif-cn);
-  font-size: 0.72rem;
-  letter-spacing: 0.35em;
-  cursor: pointer;
-  opacity: 0;
-  transform: translateY(20px);
-  transition:
-    opacity 1s var(--ease-ritual) 1.4s,
-    transform 1s var(--ease-ritual) 1.4s,
-    border-color 0.5s ease,
-    color 0.5s ease;
-}
+.gate-link:hover .gate-whisper,
+.gate-link:focus-visible .gate-whisper { color: var(--ash); transform: translateY(0); }
 
-.stage--3.active .descent-btn {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.descent-btn:hover {
-  border-color: var(--blood);
-  color: var(--bone);
-}
-
-.altar-footer {
-  width: min(1200px, 100% - 48px);
-  margin: auto auto 36px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  border-top: 1px solid rgba(255, 255, 255, 0.03);
-  padding-top: 28px;
-  pointer-events: auto;
-}
-
-.altar-status {
-  display: flex;
+.touch-ritual {
+  position: absolute;
+  right: 7.5%;
+  bottom: 6.5%;
+  left: 10.5%;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 12px;
-  opacity: 0.25;
-  transition: opacity 0.4s ease;
+  gap: 1rem;
 }
 
-.altar-status:hover {
-  opacity: 0.8;
+.touch-ritual p {
+  margin: 0;
+  color: rgba(200, 194, 184, 0.66);
+  font-size: 0.66rem;
+  letter-spacing: 0.25em;
+  white-space: nowrap;
 }
 
-.status-dot {
-  width: 6px;
-  height: 6px;
+.touch-ritual p span { color: var(--blood); }
+.touch-line { height: 1px; background: var(--line); }
+
+.ritual-point {
+  position: relative;
+  display: grid;
+  width: 58px;
+  height: 58px;
+  place-items: center;
+  border: 1px solid rgba(141, 43, 39, 0.2);
   border-radius: 50%;
-  background-color: var(--blood);
-  box-shadow: 0 0 10px rgba(107, 26, 26, 0.5);
+  background: rgba(141, 43, 39, 0.04);
+  cursor: pointer;
 }
 
-.status-band-text {
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
+.ritual-point::before,
+.ritual-point::after {
+  content: "";
+  position: absolute;
+  inset: 9px;
+  border: 1px solid rgba(141, 43, 39, 0.3);
+  border-radius: 50%;
+}
+
+.ritual-point::after { inset: -14px; opacity: 0.45; }
+
+.ritual-point span {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--blood);
+  box-shadow: 0 0 20px rgba(141, 43, 39, 0.8);
+  transition: transform 0.35s var(--ease), box-shadow 0.35s ease;
+}
+
+.ritual-point:hover span { transform: scale(1.28); box-shadow: 0 0 32px rgba(189, 73, 67, 0.95); }
+
+.status-line {
+  position: absolute;
+  left: 10.5%;
+  bottom: 2.3%;
+  margin: 0;
+  color: rgba(119, 113, 105, 0.38);
+  font-family: var(--mono);
+  font-size: 0.48rem;
   letter-spacing: 0.18em;
-  color: var(--bone);
   text-transform: uppercase;
 }
 
-.altar-meta {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 6px;
-  font-size: 0.6rem;
-  letter-spacing: 0.14em;
-  color: var(--ash);
-}
-
-.altar-meta-link {
-  color: inherit;
-  text-decoration: none;
-  transition: color 0.4s ease;
-}
-
-.altar-meta-link:hover {
-  color: var(--blood);
-}
-
-/* ==========================================================
-   ABYSS
-   ========================================================== */
-body.abyss-open {
-  overflow-y: auto;
-  height: auto;
-}
-
-body.abyss-open .altar {
-  height: auto;
-  min-height: 100vh;
-}
-
-body.abyss-open .ritual-stage {
-  height: 100vh;
-  flex: none;
-}
-
-body.abyss-open .breath,
-body.abyss-open .stage--0,
-body.abyss-open .stage--1,
-body.abyss-open .stage--2,
-body.abyss-open .stage--3 {
-  display: none !important;
-}
-
-.abyss {
-  display: none;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 120px 24px 160px;
-  pointer-events: auto;
-}
-
-body.abyss-open .abyss {
-  display: block;
-}
-
-.abyss-intro {
-  text-align: center;
-  margin-bottom: 120px;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 1.4s var(--ease-ritual), transform 1.4s var(--ease-ritual);
-}
-
-body.abyss-open .abyss-intro {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.abyss-intro p {
-  font-family: var(--font-serif-cn);
-  font-size: clamp(1rem, 2.2vw, 1.4rem);
-  font-weight: 300;
-  letter-spacing: 0.12em;
-  color: var(--bone);
-  margin: 0 0 18px;
-}
-
-.abyss-intro p:last-child {
-  color: var(--ash);
-  font-size: clamp(0.85rem, 1.6vw, 1.05rem);
-}
-
-.abyss-section {
-  margin-bottom: 140px;
-  opacity: 0;
-  transform: translateY(60px);
-  transition: opacity 1.4s var(--ease-ritual), transform 1.4s var(--ease-ritual);
-}
-
-.abyss-section.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.abyss-title {
-  font-family: var(--font-serif-cn);
-  font-size: clamp(1.4rem, 3vw, 2.2rem);
-  font-weight: 900;
-  letter-spacing: 0.28em;
-  color: var(--bone);
-  text-align: center;
-  margin: 0 0 14px;
-}
-
-.abyss-note {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
+.domain-mark {
+  position: absolute;
+  right: 7.5%;
+  bottom: 2.3%;
+  color: rgba(119, 113, 105, 0.38);
+  font-family: var(--mono);
+  font-size: 0.48rem;
   letter-spacing: 0.18em;
-  color: var(--ash);
-  text-align: center;
-  margin: 0 0 55px;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
-/* Doctrines */
-.doctrine-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
+.domain-mark:hover { color: var(--blood); }
 
-.doctrine {
-  background: rgba(8, 8, 8, 0.55);
-  border: 1px solid var(--line);
-  padding: 36px 28px;
+.ritual-menu {
+  position: fixed;
+  inset: 0 0 0 auto;
+  z-index: 30;
   display: flex;
+  width: min(480px, 100%);
   flex-direction: column;
-  gap: 26px;
-  transition: border-color 0.5s ease, background 0.5s ease;
-}
-
-.doctrine:hover {
-  border-color: rgba(107, 26, 26, 0.4);
-  background: rgba(15, 8, 8, 0.7);
-}
-
-.doctrine-art {
-  height: 140px;
-  display: flex;
   justify-content: center;
-  align-items: center;
+  gap: 1rem;
+  padding: clamp(2rem, 7vw, 5.5rem);
+  border-left: 1px solid rgba(141, 43, 39, 0.3);
+  background: rgba(5, 5, 5, 0.97) url("assets/testament-gates.png") center / cover;
+  box-shadow: -30px 0 80px rgba(0, 0, 0, 0.7);
+  transform: translateX(105%);
+  visibility: hidden;
+  transition: transform 0.7s var(--ease), visibility 0.7s;
 }
 
-.absence-ring {
-  width: 100px;
-  height: 100px;
-  position: relative;
-}
+.ritual-menu.open { transform: translateX(0); visibility: visible; }
 
-.absence-ring span {
+.menu-close {
   position: absolute;
-  inset: 0;
-  border: 1px solid var(--blood);
-  border-radius: 50%;
-  opacity: 0.35;
-  animation: ring-breathe 4s ease-in-out infinite;
-}
-
-.absence-ring span:nth-child(1) { animation-delay: 0s; }
-.absence-ring span:nth-child(2) { animation-delay: 0.8s; inset: 12px; border-color: var(--gold); }
-.absence-ring span:nth-child(3) { animation-delay: 1.6s; inset: 24px; border-color: #1a251a; }
-
-.echo-fissure {
-  width: 70px;
-  height: 120px;
-  position: relative;
-}
-
-.echo-fissure span {
-  position: absolute;
-  width: 1px;
-  height: 100%;
-  background: linear-gradient(180deg, transparent, var(--blood), var(--gold), transparent);
-  top: 0;
-  animation: fissure-flicker 2.5s ease-in-out infinite;
-}
-
-.echo-fissure span:nth-child(1) { left: 30%; animation-delay: 0s; }
-.echo-fissure span:nth-child(2) { left: 50%; animation-delay: 0.5s; opacity: 0.6; }
-.echo-fissure span:nth-child(3) { left: 70%; animation-delay: 1s; opacity: 0.3; }
-
-.silence-pyramid {
-  width: 100px;
-  height: 100px;
-  position: relative;
-}
-
-.silence-pyramid span {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  border-left: 1px solid var(--bone);
-  border-right: 1px solid var(--bone);
-  border-bottom: 1px solid var(--bone);
-  opacity: 0.2;
-  animation: pyramid-rise 5s ease-in-out infinite;
-}
-
-.silence-pyramid span:nth-child(1) { bottom: 0; width: 100%; height: 50px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); animation-delay: 0s; }
-.silence-pyramid span:nth-child(2) { bottom: 16px; width: 66%; height: 34px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); animation-delay: 0.7s; border-color: var(--blood); }
-.silence-pyramid span:nth-child(3) { bottom: 32px; width: 33%; height: 17px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); animation-delay: 1.4s; border-color: #1a251a; }
-
-.doctrine-num {
-  font-family: var(--font-serif);
-  font-size: 1.8rem;
-  font-weight: 900;
-  color: transparent;
-  -webkit-text-stroke: 1.5px var(--gold);
-  text-stroke: 1.5px var(--gold);
-  margin-bottom: 10px;
-  transition: all 0.5s ease;
-}
-
-.doctrine:hover .doctrine-num {
+  top: 2rem;
+  right: 2rem;
+  border: 0;
   color: var(--blood);
-  -webkit-text-stroke: 1.5px var(--blood);
-  text-shadow: 0 0 20px rgba(107, 26, 26, 0.5);
-}
-
-.doctrine-text h3 {
-  font-family: var(--font-serif-cn);
-  font-size: clamp(1rem, 1.6vw, 1.25rem);
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  color: var(--bone);
-  margin: 0 0 14px;
-}
-
-.doctrine-text p {
-  color: var(--ash);
-  font-size: 0.86rem;
-  line-height: 1.95;
-  margin: 0;
-  transition: color 0.5s ease;
-}
-
-.doctrine:hover .doctrine-text p {
-  color: var(--bone);
-}
-
-/* Index */
-.index-list {
-  border: 1px solid var(--line);
-  background: rgba(8, 8, 8, 0.5);
-}
-
-.index-item {
-  border-bottom: 1px solid var(--line);
-}
-
-.index-item:last-child {
-  border-bottom: none;
-}
-
-.index-trigger {
-  width: 100%;
-  background: transparent;
-  border: none;
-  color: var(--bone);
-  padding: 24px 30px;
-  display: grid;
-  grid-template-columns: 80px 1fr auto;
-  gap: 20px;
-  align-items: center;
-  text-align: left;
+  background: none;
+  font-family: var(--serif-cn);
+  letter-spacing: 0.2em;
   cursor: pointer;
-  font-family: var(--font-serif-cn);
-  transition: background 0.4s ease, color 0.4s ease;
 }
 
-.index-trigger:hover {
-  background: rgba(107, 26, 26, 0.08);
-}
-
-.index-trigger[aria-expanded="true"] {
-  background: rgba(107, 26, 26, 0.12);
-}
-
-.index-code {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  color: var(--blood);
-}
-
-.index-name {
-  font-size: clamp(0.9rem, 1.5vw, 1.05rem);
-  letter-spacing: 0.1em;
-}
-
-.index-status {
-  font-family: var(--font-mono);
+.menu-kicker,
+.menu-note {
+  color: var(--ash);
+  font-family: var(--mono);
   font-size: 0.58rem;
-  letter-spacing: 0.1em;
-  color: var(--ash);
-  border: 1px solid var(--line);
-  padding: 5px 10px;
+  letter-spacing: 0.25em;
 }
 
-.index-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.6s var(--ease-ritual), padding 0.6s var(--ease-ritual);
-  padding: 0 30px;
-}
-
-.index-trigger[aria-expanded="true"] + .index-content {
-  max-height: 400px;
-  padding: 0 30px 26px;
-}
-
-.index-content p {
-  font-family: var(--font-serif-cn);
-  font-weight: 300;
-  font-size: 0.86rem;
-  line-height: 1.95;
-  color: var(--ash);
-  margin: 0 0 12px;
-}
-
-.index-redacted {
-  position: relative;
-  color: transparent !important;
-  background: rgba(40, 40, 40, 0.6);
-  transition: color 0.4s ease, background 0.4s ease;
-}
-
-.index-redacted.revealed {
-  color: var(--ash) !important;
-  background: transparent;
-}
-
-/* Map */
-.map-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-}
-
-.map-region {
-  border: 1px solid var(--line);
-  background: rgba(8, 8, 8, 0.5);
-  padding: 36px;
-  position: relative;
-  overflow: hidden;
-  transition: border-color 0.5s ease, background 0.5s ease;
-}
-
-.map-region:hover {
-  border-color: rgba(107, 26, 26, 0.4);
-  background: rgba(15, 8, 8, 0.7);
-}
-
-.map-marker {
-  position: absolute;
-  top: 18px;
-  right: 22px;
-  font-family: var(--font-serif);
-  font-size: 2rem;
-  font-weight: 900;
-  color: transparent;
-  -webkit-text-stroke: 1px var(--blood);
-  text-stroke: 1px var(--blood);
-  opacity: 0.3;
-}
-
-.map-region h3 {
-  font-family: var(--font-serif-cn);
-  font-size: clamp(1rem, 1.8vw, 1.25rem);
-  font-weight: 700;
-  letter-spacing: 0.14em;
+.ritual-menu a {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--line);
   color: var(--bone);
-  margin: 0 0 14px;
+  font-size: clamp(1.7rem, 4vw, 2.8rem);
+  letter-spacing: 0.16em;
+  text-decoration: none;
+  transition: color 0.3s ease, padding 0.4s var(--ease);
 }
 
-.map-region p {
-  font-family: var(--font-serif-cn);
-  font-weight: 300;
-  font-size: 0.85rem;
-  line-height: 1.9;
-  color: var(--ash);
-  margin: 0;
-  transition: color 0.4s ease;
-}
+.ritual-menu a:hover { color: var(--blood); padding-left: 0.8rem; }
 
-.map-region:hover p {
+.arrival-message {
+  position: fixed;
+  left: 50%;
+  bottom: 8%;
+  z-index: 40;
   color: var(--bone);
-}
-
-/* Testimonies */
-.testimony-list {
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-}
-
-.testimony {
-  margin: 0;
-  border-left: 2px solid var(--blood);
-  background: rgba(8, 8, 8, 0.5);
-  padding: 28px 32px;
-  opacity: 0;
-  transform: translateX(-20px);
-  transition: opacity 1s var(--ease-ritual), transform 1s var(--ease-ritual), background 0.4s ease;
-}
-
-.testimony.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.testimony:hover {
-  background: rgba(15, 8, 8, 0.7);
-}
-
-.testimony p {
-  font-family: var(--font-serif-cn);
-  font-weight: 300;
-  font-size: clamp(0.9rem, 1.6vw, 1.05rem);
-  line-height: 1.95;
-  color: var(--bone);
-  margin: 0 0 14px;
-  font-style: italic;
-}
-
-.testimony cite {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.12em;
-  color: var(--blood);
-  font-style: normal;
-}
-
-/* False Names */
-.name-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
-}
-
-.name-card {
-  background: rgba(8, 8, 8, 0.55);
-  padding: 30px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  transition: background 0.4s ease;
-}
-
-.name-card:hover {
-  background: rgba(15, 8, 8, 0.85);
-}
-
-.name-term {
-  font-family: var(--font-serif-cn);
-  font-size: clamp(0.95rem, 1.5vw, 1.15rem);
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--bone);
-  transition: color 0.4s ease;
-}
-
-.name-card:hover .name-term {
-  color: var(--blood);
-}
-
-.name-gloss {
-  font-family: var(--font-serif-cn);
-  font-weight: 300;
   font-size: 0.78rem;
-  line-height: 1.8;
-  color: var(--ash);
+  letter-spacing: 0.2em;
+  pointer-events: none;
   opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.4s ease, transform 0.4s ease, color 0.4s ease;
+  transform: translate(-50%, 12px);
 }
 
-.name-card:hover .name-gloss {
-  opacity: 1;
-  transform: translateY(0);
-  color: var(--bone);
+.arrival-message.show { animation: message-rise 3.5s var(--ease) forwards; }
+
+.screen-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.022;
+  background-image: url("assets/hero.png");
+  background-size: cover;
+  mix-blend-mode: screen;
+  filter: grayscale(1) contrast(2.5);
 }
 
-@keyframes breathe {
-  0%, 100% { transform: scale(1); opacity: 0.4; }
-  50% { transform: scale(1.5); opacity: 0.9; }
+body.awake .seam { animation: seam-breathe 2.8s ease-in-out infinite; }
+body.awake .ritual-point::before { animation: ritual-ring 2.3s ease-out infinite; }
+body.awake .gate-name { text-shadow: 0 0 28px rgba(200, 194, 184, 0.09); }
+
+@keyframes title-arrive {
+  from { opacity: 0; filter: blur(18px); transform: translateY(-48%) scale(1.04); }
+  to { opacity: 1; filter: blur(0); transform: translateY(-50%) scale(1); }
 }
 
-@keyframes whisper-fade {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.85; }
+@keyframes seam-breathe {
+  0%, 100% { box-shadow: 0 0 10px rgba(141, 43, 39, 0.12); opacity: 0.65; }
+  50% { box-shadow: 0 0 36px rgba(141, 43, 39, 0.45); opacity: 1; }
 }
 
-@keyframes cursor-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+@keyframes ritual-ring {
+  from { transform: scale(0.75); opacity: 0.8; }
+  to { transform: scale(1.55); opacity: 0; }
 }
 
-@keyframes pulse {
-  0%, 100% { transform: scale(1); opacity: 0.5; box-shadow: 0 0 8px rgba(107, 26, 26, 0.3); }
-  50% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 18px rgba(107, 26, 26, 0.5); }
+@keyframes message-rise {
+  0% { opacity: 0; transform: translate(-50%, 12px); }
+  18%, 72% { opacity: 0.8; transform: translate(-50%, 0); }
+  100% { opacity: 0; transform: translate(-50%, -10px); }
 }
 
-@keyframes noise-shift {
-  0% { transform: translate(0, 0); }
-  25% { transform: translate(-2px, 1px); }
-  50% { transform: translate(1px, -2px); }
-  75% { transform: translate(-1px, 2px); }
-  100% { transform: translate(0, 0); }
-}
+@media (max-width: 1000px) {
+  body { overflow: auto; }
 
-@keyframes glitch-red {
-  0%, 90%, 100% { opacity: 0; transform: translate(0); clip-path: inset(0 0 100% 0); }
-  91% { opacity: 0.6; transform: translate(-3px, 0); clip-path: inset(20% 0 40% 0); }
-  93% { opacity: 0.3; transform: translate(2px, 0); clip-path: inset(60% 0 10% 0); }
-  95% { opacity: 0; transform: translate(0); clip-path: inset(0 0 100% 0); }
-}
+  .testament {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 100svh;
+  }
 
-@keyframes glitch-green {
-  0%, 85%, 100% { opacity: 0; transform: translate(0); clip-path: inset(0 0 100% 0); }
-  86% { opacity: 0.5; transform: translate(3px, 0); clip-path: inset(10% 0 50% 0); }
-  88% { opacity: 0.2; transform: translate(-2px, 0); clip-path: inset(40% 0 30% 0); }
-  90% { opacity: 0; transform: translate(0); clip-path: inset(0 0 100% 0); }
-}
+  .wordmark-panel {
+    min-height: 68svh;
+    border-right: 0;
+    border-bottom: 1px solid rgba(162, 142, 119, 0.28);
+  }
 
-@keyframes flicker-flash {
-  0% { opacity: 0; }
-  30% { opacity: 0.8; }
-  50% { opacity: 0; }
-  70% { opacity: 0.5; }
-  100% { opacity: 0; }
-}
-
-@keyframes ring-breathe {
-  0%, 100% { transform: scale(1); opacity: 0.3; }
-  50% { transform: scale(1.08); opacity: 0.6; }
-}
-
-@keyframes fissure-flicker {
-  0%, 100% { opacity: 0.2; }
-  50% { opacity: 0.7; }
-}
-
-@keyframes pyramid-rise {
-  0%, 100% { opacity: 0.2; transform: translateX(-50%) translateY(0); }
-  50% { opacity: 0.5; transform: translateX(-50%) translateY(-6px); }
+  .gate-panel { min-height: 100svh; }
+  .wordmark { font-size: clamp(13rem, 46vw, 27rem); }
+  .gate-name { font-size: clamp(3.8rem, 12vw, 7rem); }
+  .gate-list { top: 10%; }
 }
 
 @media (max-width: 720px) {
-  .altar-header {
-    margin-top: 22px;
-  }
-  .goddead-title {
-    font-size: clamp(3rem, 17vw, 5.5rem);
-  }
-  .title-half--bone {
-    -webkit-text-stroke: 1.5px var(--bone);
-    text-stroke: 1.5px var(--bone);
-  }
-  .gate-grid {
-    grid-template-columns: 1fr;
-    width: min(280px, 100%);
-  }
-  .altar-footer {
-    flex-direction: column;
-    align-items: center;
-    gap: 18px;
-    padding-top: 22px;
-  }
-  .altar-meta {
-    align-items: center;
+  .testament { min-height: 100svh; }
+  .wordmark-panel { min-height: 68svh; }
+
+  .wordmark-art {
+    background-position: center;
+    opacity: 0.66;
   }
 
-  .doctrine-grid,
-  .map-grid,
-  .name-grid {
-    grid-template-columns: 1fr;
+  .wordmark {
+    top: 44%;
+    font-size: clamp(9.8rem, 50vw, 14rem);
+    line-height: 0.64;
   }
-  .index-trigger {
-    grid-template-columns: 1fr;
-    gap: 6px;
-    padding: 20px 22px;
+
+  .wordmark-row--god { transform: translateX(-5%); }
+  .wordmark-row--dead { transform: translate(-8%, 0.35em); }
+  .seam { left: 51%; }
+  .scripture--top { left: 22%; }
+  .scripture--side { display: none; }
+
+  .arrival-line {
+    left: 7%;
+    bottom: 8%;
+    font-size: 0.76rem;
   }
-  .index-status {
-    justify-self: start;
+
+  .cross-mark { left: auto; right: 7%; bottom: 8%; }
+  .latin-mark { display: none; }
+
+  .gate-panel { min-height: 96svh; }
+  .menu-trigger { top: 3%; right: 7%; }
+
+  .gate-list {
+    top: 8%;
+    right: 8%;
+    left: 8%;
+    gap: 0.7rem;
   }
-  .index-content {
-    padding: 0 22px;
+
+  .gate-link { min-height: 22svh; }
+  .gate-name { margin-top: 0.24em; font-size: clamp(3.3rem, 17vw, 5rem); }
+  .gate-meta b { font-size: 1.25rem; }
+  .gate-whisper { color: rgba(119, 113, 105, 0.68); transform: none; }
+
+  .touch-ritual {
+    right: 8%;
+    bottom: 5%;
+    left: 8%;
   }
-  .index-trigger[aria-expanded="true"] + .index-content {
-    padding: 0 22px 22px;
-  }
-  .testimony {
-    padding: 22px;
-  }
+
+  .status-line { left: 8%; bottom: 1.5%; }
+  .domain-mark { right: 8%; bottom: 1.5%; }
+  .screen-grain { opacity: 0.05; }
 }
 
-@media (max-width: 900px) {
-  .doctrine-grid,
-  .name-grid {
-    grid-template-columns: 1fr;
-  }
-  .map-grid {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 390px) {
+  .gate-panel { min-height: 96svh; }
+  .gate-link { min-height: 23svh; }
+  .gate-name { font-size: 3.35rem; }
+  .touch-ritual p { font-size: 0.55rem; letter-spacing: 0.17em; }
+  .ritual-point { width: 50px; height: 50px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
   *, *::before, *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
-    transition-duration: 0.001ms !important;
-  }
-  #void-canvas,
-  #corruption-canvas,
-  .void-noise {
-    display: none;
-  }
-  .stage {
-    opacity: 1 !important;
-    position: relative !important;
-    pointer-events: auto !important;
-  }
-  .goddead-title,
-  .gate-question,
-  .gate-grid,
-  .descent-btn,
-  .abyss-intro,
-  .abyss-section,
-  .testimony,
-  .index-content,
-  .name-gloss {
-    opacity: 1 !important;
-    transform: none !important;
-    max-height: none !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

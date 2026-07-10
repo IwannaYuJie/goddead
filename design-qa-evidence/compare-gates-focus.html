@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Goddead Gate Focus Comparison</title>
+    <style>
+      * { box-sizing: border-box; }
+      html, body { margin: 0; background: #151515; color: #ddd; font: 12px sans-serif; }
+      main { display: grid; grid-template-columns: repeat(2, 480px); gap: 4px; padding: 4px; }
+      figure { margin: 0; display: grid; grid-template-rows: 28px 720px; }
+      figcaption { padding: 7px 10px; background: #201b1a; letter-spacing: .12em; }
+      .crop { position: relative; overflow: hidden; background: #050505; }
+      img { position: absolute; top: 0; right: 0; display: block; height: 720px; width: auto; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <figure>
+        <figcaption>SOURCE — GATE DETAILS</figcaption>
+        <div class="crop"><img src="../design-references/selected-option-3.png" alt="Selected gate details"></div>
+      </figure>
+      <figure>
+        <figcaption>IMPLEMENTATION — GATE DETAILS</figcaption>
+        <div class="crop"><img src="implementation-desktop-final.png" alt="Implemented gate details"></div>
+      </figure>
+    </main>
+  </body>
+</html>

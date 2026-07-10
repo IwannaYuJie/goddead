@@ -3,223 +3,92 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta
-      name="description"
-      content="Goddead.com — a ritual of absence, an altar built from the silence after the divine."
-    >
+    <meta name="theme-color" content="#050505">
+    <meta name="description" content="Goddead.com — 神已经死去。你仍然抵达。">
     <title>Goddead</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Serif+SC:wght@300;400;500&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
     <link rel="preload" href="assets/hero.png" as="image">
-    <link rel="stylesheet" href="styles.css?v=8">
+    <link rel="preload" href="assets/testament-left.png" as="image">
+    <link rel="preload" href="assets/testament-gates.png" as="image">
+    <link rel="stylesheet" href="styles.css?v=10">
   </head>
   <body>
-    <img class="void-texture" src="assets/hero.png" alt="">
-    <canvas id="void-canvas"></canvas>
-    <canvas id="corruption-canvas" aria-hidden="true"></canvas>
-    <div class="void-noise" aria-hidden="true"></div>
-    <div class="void-vignette" aria-hidden="true"></div>
-    <div class="screen-flicker" aria-hidden="true"></div>
+    <img class="compatibility-asset" src="assets/hero.png" alt="">
 
-    <main class="altar">
-      <header class="altar-header">
-        <div class="altar-sigil" aria-hidden="true">
-          <span></span><span></span><span></span>
-        </div>
-        <div class="audio-status-box" aria-live="polite">
-          <span class="audio-pulse-dot"></span>
-          <span id="audio-status-text">信 号：关 闭</span>
-        </div>
-      </header>
+    <main class="testament" aria-label="Goddead 仪式入口">
+      <section class="wordmark-panel" aria-labelledby="site-title">
+        <div class="wordmark-art" aria-hidden="true"></div>
+        <div class="scripture scripture--top" aria-hidden="true">神 死 空 缺 寂 静 回 声 神 死 空 缺 寂 静 回 声</div>
+        <div class="scripture scripture--side" aria-hidden="true">DEUS · MORTUUS · SILENTIUM</div>
 
-      <section class="ritual-stage" id="ritual-stage" aria-label="Ritual">
-        <div class="breath" id="breath" aria-hidden="true"></div>
+        <h1 class="wordmark" id="site-title" aria-label="GOD DEAD">
+          <span class="wordmark-row wordmark-row--god">GOD</span>
+          <span class="wordmark-row wordmark-row--dead">DEAD</span>
+        </h1>
 
-        <div class="stage stage--0 active" data-stage="0">
-          <p class="whisper">祂正在死去。</p>
-        </div>
+        <div class="seam" aria-hidden="true"><span></span></div>
 
-        <div class="stage stage--1" data-stage="1">
-          <p class="invocation" id="invocation-line"></p>
-        </div>
+        <p class="arrival-line">
+          <span>祂已经死去。</span>
+          <span>你仍然抵达。</span>
+        </p>
 
-        <div class="stage stage--2" data-stage="2">
-          <h1 class="goddead-title glitch-layer" id="site-title" aria-label="Goddead" data-text="GODDEAD">
-            <span class="title-half title-half--flesh">GOD</span>
-            <span class="title-half title-half--bone">DEAD</span>
-          </h1>
-        </div>
-
-        <div class="stage stage--3" data-stage="3">
-          <p class="gate-question">你 选 择 哪 一 种 缺 席 ？</p>
-          <nav class="gate-grid" aria-label="Gates">
-            <a class="gate" href="echo.html">
-              <span class="gate-num">I</span>
-              <span class="gate-name">回 声</span>
-              <span class="gate-hint">说过的会回来</span>
-            </a>
-            <a class="gate" href="vein.html">
-              <span class="gate-num">II</span>
-              <span class="gate-name">血 管</span>
-              <span class="gate-hint">跟随生长</span>
-            </a>
-            <a class="gate" href="confession.html">
-              <span class="gate-num">III</span>
-              <span class="gate-name">忏 悔</span>
-              <span class="gate-hint">留下一个重量</span>
-            </a>
-          </nav>
-          <button class="descent-btn" id="descent-btn">继 续 聆 听</button>
-        </div>
+        <button class="cross-mark" id="cross-mark" type="button" aria-label="记录一次抵达">＋</button>
+        <p class="latin-mark" aria-hidden="true">S I L E N T I U M</p>
       </section>
 
-      <section class="abyss" id="abyss" aria-label="深渊回廊">
-        <div class="abyss-intro">
-          <p>你还没有离开。很好。</p>
-          <p>这些是被神死后留下的寂静整理过的档案。</p>
-        </div>
+      <section class="gate-panel" aria-label="选择仪式入口">
+        <div class="gate-art" aria-hidden="true"></div>
 
-        <div class="abyss-section">
-          <h2 class="abyss-title">三 条 缺 席 教 义</h2>
-          <div class="doctrine-grid">
-            <article class="doctrine">
-              <div class="doctrine-art" aria-hidden="true"><div class="absence-ring"><span></span><span></span><span></span></div></div>
-              <div class="doctrine-text">
-                <div class="doctrine-num">I</div>
-                <h3>空 王 座</h3>
-                <p>神座空了以后，尘埃学会了饥饿。没有律法的天空下，每一粒浮尘都在偷偷进食。我们终于能够垂直坠落，并把坠落称为飞翔。</p>
-              </div>
-            </article>
-            <article class="doctrine">
-              <div class="doctrine-art" aria-hidden="true"><div class="echo-fissure"><span></span><span></span><span></span></div></div>
-              <div class="doctrine-text">
-                <div class="doctrine-num">II</div>
-                <h3>未回应的回声</h3>
-                <p>祈祷不再被接收，但回声在走廊里生长。它学会了模仿我们的声音，然后把问题反刍回来。在神死后的世界里，寂静也学会了倾听。</p>
-              </div>
-            </article>
-            <article class="doctrine">
-              <div class="doctrine-art" aria-hidden="true"><div class="silence-pyramid"><span></span><span></span><span></span></div></div>
-              <div class="doctrine-text">
-                <div class="doctrine-num">III</div>
-                <h3>寂静大教堂</h3>
-                <p>最后的教堂没有钟声，只有风穿过语法结构的裂缝。我们在那里举行没有祭品的弥撒，朗诵没有页码的经文。神圣只是变得足够安静。</p>
-              </div>
-            </article>
-          </div>
-        </div>
+        <button class="menu-trigger" id="menu-trigger" type="button" aria-expanded="false" aria-controls="ritual-menu" aria-label="打开目录">
+          <span></span><span></span>
+        </button>
 
-        <div class="abyss-section">
-          <h2 class="abyss-title">禁 书 索 引</h2>
-          <p class="abyss-note">借阅者均已失踪。档案编号保留。</p>
-          <div class="index-list">
-            <article class="index-item">
-              <button class="index-trigger" aria-expanded="false">
-                <span class="index-code">A-001</span>
-                <span class="index-name">《第七次呼吸之前》</span>
-                <span class="index-status">已焚毁</span>
-              </button>
-              <div class="index-content">
-                <p>记载了一种祈祷姿势：不是双手合十，而是将十指插入自己的影子。施行者声称能在黑暗里摸到神的脊椎，但那脊椎是空的。</p>
-                <p class="index-redacted">其中 ██ 页提到了“门后之物”的真名，那名字由寂静构成。</p>
-              </div>
-            </article>
-            <article class="index-item">
-              <button class="index-trigger" aria-expanded="false">
-                <span class="index-code">A-017</span>
-                <span class="index-name">《空白弥撒书》</span>
-                <span class="index-status">仅余封面</span>
-              </button>
-              <div class="index-content">
-                <p>全书没有文字，只有页码。页码从 0 开始，到 -1 结束。翻到第 -1 页时，会听见自己的心跳被某种东西轻轻借走。</p>
-                <p class="index-redacted">该读者后来成为了一名出色的████████，尽管他从未学过这门手艺。</p>
-              </div>
-            </article>
-            <article class="index-item">
-              <button class="index-trigger" aria-expanded="false">
-                <span class="index-code">A-093</span>
-                <span class="index-name">《给死神的十三封信》</span>
-                <span class="index-status">缺第十二封</span>
-              </button>
-              <div class="index-content">
-                <p>不是写给死神的。是死神写给人的。第十一封只有一句话："我收到了你们的神，祂比我想象中更轻。"</p>
-                <p class="index-redacted">第十二封信████████，但所有读到过它的人都开始收集镜子。</p>
-              </div>
-            </article>
-          </div>
-        </div>
-
-        <div class="abyss-section">
-          <h2 class="abyss-title">缺 席 地 图</h2>
-          <p class="abyss-note">神死后裂成的几大地带。请勿按顺序阅读。</p>
-          <div class="map-grid">
-            <article class="map-region">
-              <div class="map-marker">I</div>
-              <h3>灰舌平原</h3>
-              <p>这里的人没有舌头，却能交谈。他们的话一出口就会变成灰色的雪，落在地上，形成前人的日记。</p>
-            </article>
-            <article class="map-region">
-              <div class="map-marker">II</div>
-              <h3>倒置钟塔</h3>
-              <p>钟从地底敲响。每次鸣响，都会有一个未出生的神胎死于概念。塔内没有阶梯，只有不断下坠的祈祷。</p>
-            </article>
-            <article class="map-region">
-              <div class="map-marker">III</div>
-              <h3>无名圣人墓园</h3>
-              <p>墓碑上不刻名字，只刻疑问。偶尔有答案从土里长出来，但都是别人的答案，穿着你的衣服。</p>
-            </article>
-            <article class="map-region">
-              <div class="map-marker">IV</div>
-              <h3>哭泣几何</h3>
-              <p>一个只有角度存在的地方。闯入者会被折叠成自己内心的形状。多数人变成锐角，少数人成为圆。</p>
-            </article>
-          </div>
-        </div>
-
-        <div class="abyss-section">
-          <h2 class="abyss-title">见 证 者 证 词</h2>
-          <div class="testimony-list">
-            <blockquote class="testimony">
-              <p>"我梦见神的尸体漂浮在城市上空。祂没有脸，但所有窗户都映出了祂的表情。醒来后，我发现自己的影子变重了。"</p>
-              <cite>—— 市民 K，第 7 年第 41 夜</cite>
-            </blockquote>
-            <blockquote class="testimony">
-              <p>"教堂的钟声停了之后，我们开始用沉默互相呼唤。效果很好，只是回应我们的东西， sometimes 不是人。"</p>
-              <cite>—— 守夜人 ██，第 23 年</cite>
-            </blockquote>
-            <blockquote class="testimony">
-              <p>"我找到了神的遗书。上面只有一行字：'请继续。'我不确定这是祝福还是诅咒，但自从那天起，我再也没法停止眨眼。"</p>
-              <cite>—— 拾荒者 M，第 41 年</cite>
-            </blockquote>
-          </div>
-        </div>
-
-        <div class="abyss-section">
-          <h2 class="abyss-title">伪 名 诵 歌</h2>
-          <p class="abyss-note">神死后，人们为祂们取了新的名字。不要念出声。</p>
-          <div class="name-grid">
-            <div class="name-card"><span class="name-term">门缝里的父亲</span><span class="name-gloss">总在没有人敲门时咳嗽。</span></div>
-            <div class="name-card"><span class="name-term">被删去的星期三</span><span class="name-gloss">你会在梦里过掉它。</span></div>
-            <div class="name-card"><span class="name-term">盐的母亲</span><span class="name-gloss">悲伤是她源源不断的乳汁。</span></div>
-            <div class="name-card"><span class="name-term">最后的光</span><span class="name-gloss">让黑暗显形的光。</span></div>
-            <div class="name-card"><span class="name-term">未完成的祝福</span><span class="name-gloss">悬停在喉咙里，永远有效。</span></div>
-            <div class="name-card"><span class="name-term">伟大的缺席</span><span class="name-gloss">以一种过于在场的方式缺席着。</span></div>
-          </div>
-        </div>
-      </section>
-
-      <footer class="altar-footer" id="status">
-        <div class="altar-status">
-          <span class="status-dot"></span>
-          <span class="status-band-text">存 在：空</span>
-        </div>
-        <div class="altar-meta">
-          <span data-updated>准备传输...</span>
-          <a class="altar-meta-link" href="https://github.com/IwannaYuJie/goddead" target="_blank" rel="noopener noreferrer">
-            goddead.com
+        <nav class="gate-list" aria-label="三道仪式">
+          <a class="gate-link" href="echo.html" data-gate="echo">
+            <span class="gate-meta"><b>01</b><i></i><em></em></span>
+            <span class="gate-name">回声</span>
+            <span class="gate-whisper">说过的会回来</span>
           </a>
+          <a class="gate-link" href="vein.html" data-gate="vein">
+            <span class="gate-meta"><b>02</b><i></i><em></em></span>
+            <span class="gate-name">血管</span>
+            <span class="gate-whisper">跟随它继续生长</span>
+          </a>
+          <a class="gate-link" href="confession.html" data-gate="confession">
+            <span class="gate-meta"><b>03</b><i></i><em></em></span>
+            <span class="gate-name">忏悔</span>
+            <span class="gate-whisper">留下一个重量</span>
+          </a>
+        </nav>
+
+        <div class="touch-ritual">
+          <p><span aria-hidden="true">⊙</span> 触 碰 红 点</p>
+          <span class="touch-line" aria-hidden="true"></span>
+          <button class="ritual-point" id="ritual-point" type="button" aria-label="触碰红点，唤醒祭坛">
+            <span></span>
+          </button>
         </div>
-      </footer>
+
+        <p class="status-line" id="status-line" aria-live="polite">信号沉睡 · 等待触碰</p>
+        <a class="domain-mark" href="https://github.com/IwannaYuJie/goddead">goddead.com</a>
+      </section>
     </main>
 
-    <script src="script.js?v=8"></script>
+    <aside class="ritual-menu" id="ritual-menu" aria-hidden="true">
+      <button class="menu-close" id="menu-close" type="button" aria-label="关闭目录">关闭</button>
+      <p class="menu-kicker">THE REMAINS</p>
+      <a href="echo.html">01 / 回声</a>
+      <a href="vein.html">02 / 血管</a>
+      <a href="confession.html">03 / 忏悔</a>
+      <a href="reliquary.html" id="reliquary-link">00 / 遗物室</a>
+      <p class="menu-note">所有入口都通往同一个空缺。</p>
+    </aside>
+
+    <div class="screen-grain" aria-hidden="true"></div>
+    <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
+    <script src="script.js?v=10"></script>
   </body>
 </html>

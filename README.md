@@ -2,6 +2,10 @@
 
 Static landing page for [goddead.com](https://goddead.com).
 
+## Current Experience
+
+The homepage uses the **Split Testament** direction: a fractured `GOD / DEAD` wordmark, an archival scripture field, and three interactive gates leading to the existing Echo, Vein, and Confession experiences. The red ritual point, directory drawer, arrival counter, keyboard invocation, and hidden Reliquary route preserve the site's exploratory character across desktop and mobile.
+
 ## Deploy
 
 This repository is intended to deploy through Cloudflare Pages.
@@ -20,3 +24,5 @@ This repository is intended to deploy through Cloudflare Pages.
 ```bash
 node tests/site.test.mjs
 ```
+
+Visual QA evidence and the final comparison report live in `design-qa-evidence/` and `design-qa.md`.

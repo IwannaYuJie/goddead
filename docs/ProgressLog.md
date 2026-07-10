@@ -72,3 +72,15 @@
   - Witness Testimonies
   - False Names
 - Kept the four-stage ritual flow intact while integrating the earlier text-based lore as optional, interactive depth.
+
+## 2026-07-10 (Split Testament redesign)
+- Captured the live `goddead.com` homepage in desktop and mobile states before redesigning it.
+- Explored three visual directions and implemented the selected third direction, **Split Testament**.
+- Rebuilt `index.html` around a split editorial composition: a giant cropped `GOD / DEAD` wordmark on the left and three ritual gates on the right.
+- Added project-local generated raster artwork for the archival scripture field and the Echo / Vein / Confession etched motifs.
+- Rewrote `styles.css` with responsive desktop/mobile layouts, aged-bone and dried-blood tokens, title reveal motion, gate hover/focus states, menu drawer styling, and reduced-motion handling.
+- Rewrote the homepage controller in `script.js` with a persistent ritual-point state, directory drawer, arrival counter, keyboard invocation, status copy, and preserved links to all four sub-experiences.
+- Preserved Cloudflare Pages compatibility and the legacy `assets/hero.png` deployment-test contract.
+- Verified at 1440 × 1024 and 390 × 844 with no horizontal overflow or browser-console errors.
+- Tested the ritual-point toggle, directory open/close flow, Escape behavior, and navigation to the Echo page.
+- Completed three visual QA passes; the final report in `design-qa.md` records `final result: passed`.
