@@ -4,91 +4,477 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#050505">
-    <meta name="description" content="Goddead.com — 神已经死去。你仍然抵达。">
+    <meta name="description" content="Goddead — 神已死去。空缺仍在呼吸。一部关于缺席之后世界的档案。">
     <title>Goddead</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Serif+SC:wght@300;400;500&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+SC:wght@300;400;500;600&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
     <link rel="preload" href="assets/hero.png" as="image">
     <link rel="preload" href="assets/testament-left.png" as="image">
-    <link rel="preload" href="assets/testament-gates.png" as="image">
-    <link rel="stylesheet" href="styles.css?v=11">
+    <link rel="stylesheet" href="styles.css?v=20">
   </head>
   <body>
     <img class="compatibility-asset" src="assets/hero.png" alt="">
 
-    <main class="testament" aria-label="Goddead 仪式入口">
-      <section class="wordmark-panel" aria-labelledby="site-title">
-        <div class="wordmark-art" aria-hidden="true"></div>
-        <div class="scripture scripture--top" aria-hidden="true">神 死 空 缺 寂 静 回 声 神 死 空 缺 寂 静 回 声</div>
-        <div class="scripture scripture--side" aria-hidden="true">DEUS · MORTUUS · SILENTIUM</div>
+    <!-- Fixed chrome -->
+    <header class="site-chrome">
+      <a class="chrome-mark" href="#top">GODDEAD</a>
+      <button class="menu-trigger" id="menu-trigger" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="打开目录">
+        <span class="menu-trigger-lines" aria-hidden="true"><i></i><i></i></span>
+        <span class="menu-trigger-label">目录</span>
+      </button>
+    </header>
 
-        <h1 class="wordmark" id="site-title" aria-label="GOD DEAD">
-          <span class="wordmark-row wordmark-row--god">GOD</span>
-          <span class="wordmark-row wordmark-row--dead">DEAD</span>
-        </h1>
-
-        <div class="seam" aria-hidden="true"><span></span></div>
-
-        <p class="arrival-line">
-          <span>祂已经死去。</span>
-          <span>你仍然抵达。</span>
-        </p>
-
-        <button class="cross-mark" id="cross-mark" type="button" aria-label="记录一次抵达">＋</button>
-        <p class="latin-mark" aria-hidden="true">S I L E N T I U M</p>
-      </section>
-
-      <section class="gate-panel" aria-label="选择仪式入口">
-        <div class="gate-art" aria-hidden="true"></div>
-
-        <button class="menu-trigger" id="menu-trigger" type="button" aria-expanded="false" aria-controls="ritual-menu" aria-label="打开目录">
-          <span></span><span></span>
-        </button>
-
-        <nav class="gate-list" aria-label="三道仪式">
-          <a class="gate-link" href="echo.html" data-gate="echo">
-            <span class="gate-meta"><b>01</b><i></i><em></em></span>
-            <span class="gate-name">回声</span>
-            <span class="gate-whisper">说过的会回来</span>
-          </a>
-          <a class="gate-link" href="vein.html" data-gate="vein">
-            <span class="gate-meta"><b>02</b><i></i><em></em></span>
-            <span class="gate-name">血管</span>
-            <span class="gate-whisper">跟随它继续生长</span>
-          </a>
-          <a class="gate-link" href="confession.html" data-gate="confession">
-            <span class="gate-meta"><b>03</b><i></i><em></em></span>
-            <span class="gate-name">忏悔</span>
-            <span class="gate-whisper">留下一个重量</span>
-          </a>
+    <aside class="site-menu" id="site-menu" aria-hidden="true" aria-label="站点目录">
+      <div class="site-menu-inner">
+        <div class="site-menu-head">
+          <p class="menu-kicker">THE ABSENCE ARCHIVE</p>
+          <button class="menu-close" id="menu-close" type="button" aria-label="关闭目录">关闭</button>
+        </div>
+        <nav class="menu-nav">
+          <a href="#top" data-menu-link><em>00</em><span>入口</span></a>
+          <a href="#prologue" data-menu-link><em>01</em><span>序言 · 神死之后</span></a>
+          <a href="#doctrine" data-menu-link><em>02</em><span>缺席三义</span></a>
+          <a href="#chronicle" data-menu-link><em>03</em><span>消亡年表</span></a>
+          <a href="#archive" data-menu-link><em>04</em><span>禁书索引</span></a>
+          <a href="#map" data-menu-link><em>05</em><span>空缺地图</span></a>
+          <a href="#witness" data-menu-link><em>06</em><span>见证者</span></a>
+          <a href="#names" data-menu-link><em>07</em><span>伪名录</span></a>
+          <a href="#remains" data-menu-link><em>08</em><span>三具遗骸</span></a>
+          <a href="#reliquary" data-menu-link><em>09</em><span>遗物室</span></a>
         </nav>
+        <p class="menu-note">所有入口都通往同一个空缺。</p>
+      </div>
+    </aside>
+    <div class="menu-backdrop" id="menu-backdrop" hidden></div>
 
-        <div class="touch-ritual">
-          <p><span aria-hidden="true">⊙</span> 触 碰 红 点</p>
-          <span class="touch-line" aria-hidden="true"></span>
-          <button class="ritual-point" id="ritual-point" type="button" aria-label="触碰红点，唤醒祭坛">
-            <span></span>
-          </button>
+    <main id="top">
+      <!-- HERO -->
+      <section class="hero" aria-labelledby="site-title">
+        <div class="hero-art" aria-hidden="true"></div>
+        <div class="hero-veil" aria-hidden="true"></div>
+        <div class="hero-scripture" aria-hidden="true">神 死 空 缺 寂 静 回 声</div>
+        <div class="hero-latin" aria-hidden="true">DEUS · MORTUUS · SILENTIUM</div>
+
+        <div class="hero-body">
+          <p class="hero-kicker">空缺档案馆 · ARCHIVE OF ABSENCE</p>
+          <h1 class="wordmark" id="site-title" aria-label="GOD DEAD">
+            <span class="wordmark-row">GOD</span>
+            <span class="wordmark-row">DEAD</span>
+          </h1>
+          <div class="hero-seam" aria-hidden="true"><span></span></div>
+          <p class="hero-lead">
+            <span>祂已经死去。</span>
+            <span>世界没有结束——只是少了一层答案。</span>
+          </p>
+          <div class="hero-actions">
+            <a class="btn-ritual" href="#prologue">进入档案</a>
+            <button class="btn-ghost" id="awaken-btn" type="button">唤醒信号</button>
+          </div>
+          <p class="hero-status" id="status-line" aria-live="polite">信号沉睡 · 档案处于静默</p>
         </div>
 
-        <p class="status-line" id="status-line" aria-live="polite">信号沉睡 · 等待触碰</p>
-        <a class="domain-mark" href="https://github.com/IwannaYuJie/goddead">goddead.com</a>
+        <a class="scroll-hint" href="#prologue" aria-label="向下阅读">
+          <span>向下阅读</span>
+          <i></i>
+        </a>
+      </section>
+
+      <!-- PROLOGUE -->
+      <section class="chapter" id="prologue" data-reveal>
+        <div class="chapter-rail">
+          <span class="chapter-num">01</span>
+          <span class="chapter-label">PROLOGUE</span>
+        </div>
+        <div class="chapter-body">
+          <p class="eyebrow">序言</p>
+          <h2>神死之后，世界仍在继续</h2>
+          <div class="prose">
+            <p>没有雷霆。没有审判日。祂的离开像一页被撕掉的纸：边缘整齐，内容却再也无法复原。</p>
+            <p>人们先是否认，然后嘲笑哲学，然后开始做更可怕的事——<strong>习惯</strong>。祈祷变成姿势，圣所变成博物馆，奇迹变成故障报告里的「未复现」。</p>
+            <p>但有些地方仍在渗血。不是肉体的血，是意义的血：因果偶尔断线，名字在舌尖融化，镜子里多出一截不属于你的沉默。</p>
+            <p class="prose-pull">本站不是宗教。本站是一份<strong>残骸目录</strong>：收集神死之后仍残留的回声、血管与未完成的忏悔。</p>
+          </div>
+          <dl class="meta-grid">
+            <div>
+              <dt>纪元</dt>
+              <dd>后神元年 · P.D. 0</dd>
+            </div>
+            <div>
+              <dt>性质</dt>
+              <dd>空缺 / 伤口 / 档案馆</dd>
+            </div>
+            <div>
+              <dt>读者</dt>
+              <dd>仍然抵达的人</dd>
+            </div>
+            <div>
+              <dt>警告</dt>
+              <dd>读完不会被拯救</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <!-- DOCTRINE -->
+      <section class="chapter chapter--dark" id="doctrine" data-reveal>
+        <div class="chapter-rail">
+          <span class="chapter-num">02</span>
+          <span class="chapter-label">DOCTRINE</span>
+        </div>
+        <div class="chapter-body">
+          <p class="eyebrow">教义</p>
+          <h2>缺席三义</h2>
+          <p class="chapter-intro">空缺并非虚无。虚无什么都不留下；空缺留下形状，逼你用身体去填。</p>
+
+          <div class="doctrine-grid">
+            <article class="doctrine-card" data-reveal>
+              <span class="doctrine-index">I</span>
+              <h3>寂静优先</h3>
+              <p>神死后，最大的噪声是人们急于发明新神。真正的虔敬是先听见空白：不要用答案堵住伤口，让伤口通风。</p>
+              <p class="doctrine-latin">Silentium primum.</p>
+            </article>
+            <article class="doctrine-card" data-reveal>
+              <span class="doctrine-index">II</span>
+              <h3>回声有毒</h3>
+              <p>旧祷文仍会自己回来。它们学会模仿你的嗓音，在夜里替你许愿。听见熟悉的句子时，先确认它是否还属于你。</p>
+              <p class="doctrine-latin">Echo venenum est.</p>
+            </article>
+            <article class="doctrine-card" data-reveal>
+              <span class="doctrine-index">III</span>
+              <h3>抵达即罪</h3>
+              <p>你没有被召唤，却站在这里。抵达本身就是一种越界：空缺记住每一个愿意靠近的人，并慢慢改写他们的重量。</p>
+              <p class="doctrine-latin">Advenire culpa est.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHRONICLE -->
+      <section class="chapter" id="chronicle" data-reveal>
+        <div class="chapter-rail">
+          <span class="chapter-num">03</span>
+          <span class="chapter-label">CHRONICLE</span>
+        </div>
+        <div class="chapter-body">
+          <p class="eyebrow">年表</p>
+          <h2>消亡年表</h2>
+          <p class="chapter-intro">时间没有停止，只是失去了可以向谁申诉的上级。下列年份均为「后神」纪年（Post Deus）。</p>
+
+          <ol class="timeline">
+            <li data-reveal>
+              <time>P.D. 0</time>
+              <div>
+                <h3>无声日</h3>
+                <p>全球礼拜同时中断三秒。没有人记得自己为何停下。事后被解释为集体幻觉；幻觉却留下了同一段空白录音。</p>
+              </div>
+            </li>
+            <li data-reveal>
+              <time>P.D. 7</time>
+              <div>
+                <h3>名字潮汐</h3>
+                <p>「神」这个字在部分方言中无法被完整发出，尾音像被吸进墙里。词典开始增补「缺席相关」条目。</p>
+              </div>
+            </li>
+            <li data-reveal>
+              <time>P.D. 41</time>
+              <div>
+                <h3>第一座空殿</h3>
+                <p>有人把坍塌的教堂改建成「不向任何人祈祷的房间」。访客只被允许携带一件未完成的事。</p>
+              </div>
+            </li>
+            <li data-reveal>
+              <time>P.D. 112</time>
+              <div>
+                <h3>血管之年</h3>
+                <p>地下河改道，城市地图出现无法打印的红色细线。跟随细线的人声称听见心跳，却找不到心脏。</p>
+              </div>
+            </li>
+            <li data-reveal>
+              <time>P.D. 300</time>
+              <div>
+                <h3>伪名战争</h3>
+                <p>为死去的祂发明称谓成为权力。每个伪名都试图重新定义空缺的归属。战争没有赢家，只繁殖了更多回声。</p>
+              </div>
+            </li>
+            <li data-reveal>
+              <time>P.D. ∞</time>
+              <div>
+                <h3>你的抵达</h3>
+                <p>档案无法记录此刻。你正在阅读的这一行，是年表上唯一仍在生长的条目。</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ARCHIVE -->
+      <section class="chapter chapter--dark" id="archive" data-reveal>
+        <div class="chapter-rail">
+          <span class="chapter-num">04</span>
+          <span class="chapter-label">ARCHIVE</span>
+        </div>
+        <div class="chapter-body">
+          <p class="eyebrow">索引</p>
+          <h2>禁书索引</h2>
+          <p class="chapter-intro">下列文献在后神世界被反复没收、重抄、涂改。点击展开残页。涂黑处可悬停窥视。</p>
+
+          <div class="accordion" id="archive-list">
+            <article class="acc-item">
+              <button class="acc-trigger" type="button" aria-expanded="false">
+                <span class="acc-code">GD-01</span>
+                <span class="acc-title">《空殿守夜手册》</span>
+                <span class="acc-chevron" aria-hidden="true"></span>
+              </button>
+              <div class="acc-panel" hidden>
+                <p>守夜者不得对空殿说话。若空殿先开口，记录其用词，但<strong class="redact">不要复述第二遍</strong>。天亮前销毁所有含有第一人称的笔记。</p>
+                <p class="acc-meta">抄本残缺 · 页码被血污覆盖 · 推定 P.D. 50 前后</p>
+              </div>
+            </article>
+            <article class="acc-item">
+              <button class="acc-trigger" type="button" aria-expanded="false">
+                <span class="acc-code">GD-07</span>
+                <span class="acc-title">《回声检疫条例》</span>
+                <span class="acc-chevron" aria-hidden="true"></span>
+              </button>
+              <div class="acc-panel" hidden>
+                <p>凡在无人处听见自己的声音，视为二级污染。隔离七日，禁止照镜。若回声开始<strong class="redact">替你做决定</strong>，转移至遗物室深层，不再释放。</p>
+                <p class="acc-meta">市政残卷 · 曾被伪装成公共卫生文件</p>
+              </div>
+            </article>
+            <article class="acc-item">
+              <button class="acc-trigger" type="button" aria-expanded="false">
+                <span class="acc-code">GD-19</span>
+                <span class="acc-title">《未寄出的忏悔》合集</span>
+                <span class="acc-chevron" aria-hidden="true"></span>
+              </button>
+              <div class="acc-panel" hidden>
+                <p>寄件人全部匿名。收件栏统一写着「给已死的那位」。内容高度重复：请求原谅一件<strong class="redact">从未发生的事</strong>。档案馆按重量而非日期归档。</p>
+                <p class="acc-meta">三千余封 · 总重随阅读人数轻微增加</p>
+              </div>
+            </article>
+            <article class="acc-item">
+              <button class="acc-trigger" type="button" aria-expanded="false">
+                <span class="acc-code">GD-33</span>
+                <span class="acc-title">星图残页：无星之位</span>
+                <span class="acc-chevron" aria-hidden="true"></span>
+              </button>
+              <div class="acc-panel" hidden>
+                <p>某坐标被挖空，只剩圆形缺口。标注文字：此处曾是<strong class="redact">祂的注视</strong>。缺口边缘有指纹，不属于任何在世记录。</p>
+                <p class="acc-meta">羊皮纸 · 在无光处仍微微发热</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- MAP -->
+      <section class="chapter" id="map" data-reveal>
+        <div class="chapter-rail">
+          <span class="chapter-num">05</span>
+          <span class="chapter-label">CARTOGRAPHY</span>
+        </div>
+        <div class="chapter-body">
+          <p class="eyebrow">地理</p>
+          <h2>空缺地图</h2>
+          <p class="chapter-intro">后神世界没有统一疆界，只有四处反复被目击的「渗漏区」。点选区域阅读简报。</p>
+
+          <div class="map-layout">
+            <div class="map-stage" role="tablist" aria-label="空缺区域">
+              <button class="map-node is-active" type="button" role="tab" aria-selected="true" data-region="altar" style="--x:22%;--y:38%">
+                <span></span>旧祭坛带
+              </button>
+              <button class="map-node" type="button" role="tab" aria-selected="false" data-region="echo" style="--x:68%;--y:28%">
+                <span></span>回声谷
+              </button>
+              <button class="map-node" type="button" role="tab" aria-selected="false" data-region="vein" style="--x:48%;--y:62%">
+                <span></span>血脉河网
+              </button>
+              <button class="map-node" type="button" role="tab" aria-selected="false" data-region="null" style="--x:78%;--y:70%">
+                <span></span>无名荒原
+              </button>
+              <div class="map-grid" aria-hidden="true"></div>
+            </div>
+            <div class="map-panel" id="map-panel" role="tabpanel">
+              <p class="map-region-code">ZONE · ALTAR</p>
+              <h3>旧祭坛带</h3>
+              <p>所有曾用于向上的建筑，地基都比图纸更深。夜间台阶会多出一级，通往一扇不存在的门。当地人在门槛放盐，不是为了驱邪，是为了记住边界。</p>
+              <ul>
+                <li>现象：垂直方向的轻微眩晕</li>
+                <li>禁忌：不要在午夜清点台阶数量</li>
+                <li>残留：干涸的金色痕迹，无光谱对应</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- WITNESS -->
+      <section class="chapter chapter--dark" id="witness" data-reveal>
+        <div class="chapter-rail">
+          <span class="chapter-num">06</span>
+          <span class="chapter-label">WITNESS</span>
+        </div>
+        <div class="chapter-body">
+          <p class="eyebrow">证词</p>
+          <h2>见证者残篇</h2>
+          <p class="chapter-intro">三人。互不相识。供词时间跨度超过两个世纪。他们描述的是同一场缺席。</p>
+
+          <div class="witness-grid">
+            <blockquote class="witness-card" data-reveal>
+              <p>「我看见天空裂开，但裂口里什么都没有。不是黑，是<strong>还没被发明的颜色</strong>。后来医生说是偏头痛。可偏头痛不会让教堂的钟自己敲响，又在第三下停住。」</p>
+              <footer>— 匿名 bell-ringer · P.D. 3</footer>
+            </blockquote>
+            <blockquote class="witness-card" data-reveal>
+              <p>「祂死的时候我在洗碗。水忽然变得很重。我以为是心情。后来发现整条街的水管都在同一个方向弯曲，像一簇<strong>寻找心脏的静脉</strong>。」</p>
+              <footer>— 「河岸的 M」· P.D. 112</footer>
+            </blockquote>
+            <blockquote class="witness-card" data-reveal>
+              <p>「人们问我信不信。我说：信已经太重了。我只<strong>抵达</strong>。抵达的人不需要被同意，只需要被记住——哪怕是被一堵墙记住。」</p>
+              <footer>— 空殿守夜人 · P.D. 209</footer>
+            </blockquote>
+          </div>
+        </div>
+      </section>
+
+      <!-- NAMES -->
+      <section class="chapter" id="names" data-reveal>
+        <div class="chapter-rail">
+          <span class="chapter-num">07</span>
+          <span class="chapter-label">EPITHETS</span>
+        </div>
+        <div class="chapter-body">
+          <p class="eyebrow">称谓</p>
+          <h2>伪名录</h2>
+          <p class="chapter-intro">祂不再回应任何真名。人们发明伪名，好在句子里安放那个洞。悬停或点按卡片，看见人们真正害怕的叫法。</p>
+
+          <div class="name-grid">
+            <button class="name-card" type="button">
+              <span class="name-public">沉默的王</span>
+              <span class="name-hidden">喉咙被自己吞掉的那位</span>
+            </button>
+            <button class="name-card" type="button">
+              <span class="name-public">旧答案</span>
+              <span class="name-hidden">所有为什么的坟</span>
+            </button>
+            <button class="name-card" type="button">
+              <span class="name-public">无星</span>
+              <span class="name-hidden">注视被挖空的坐标</span>
+            </button>
+            <button class="name-card" type="button">
+              <span class="name-public">第一空缺</span>
+              <span class="name-hidden">比死亡更早的缺席</span>
+            </button>
+            <button class="name-card" type="button">
+              <span class="name-public">墙后的听者</span>
+              <span class="name-hidden">从不打断的审讯官</span>
+            </button>
+            <button class="name-card" type="button">
+              <span class="name-public">Goddead</span>
+              <span class="name-hidden">你正在念出的伤口</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- REMAINS -->
+      <section class="chapter chapter--dark" id="remains" data-reveal>
+        <div class="chapter-rail">
+          <span class="chapter-num">08</span>
+          <span class="chapter-label">REMAINS</span>
+        </div>
+        <div class="chapter-body">
+          <p class="eyebrow">遗骸</p>
+          <h2>三具还在动的遗骸</h2>
+          <p class="chapter-intro">神死后，并非一切静止。三样残留仍在世界里自行运作——它们不是神迹，是伤口的并发症。</p>
+
+          <div class="remains-list">
+            <article class="remain-card" data-reveal>
+              <div class="remain-head">
+                <span>01</span>
+                <h3>回声</h3>
+              </div>
+              <p class="remain-lead">说过的会回来</p>
+              <p>语言失去收件人之后，并未消散。它们在空殿、井道与废弃频道里往返，逐渐学会修改音节。有人把回声当成安慰，有人当成审讯。</p>
+              <p class="remain-note">档案注：不要与回声争论对错。它不关心真理，只关心重复。</p>
+            </article>
+            <article class="remain-card" data-reveal>
+              <div class="remain-head">
+                <span>02</span>
+                <h3>血管</h3>
+              </div>
+              <p class="remain-lead">跟随它继续生长</p>
+              <p>信仰曾是循环系统：祈祷上行，恩典下行。循环断裂后，管道仍在瞎长——地下的红线、墙里的细缝、地图上无法打印的路径。它们寻找替代的心脏。</p>
+              <p class="remain-note">档案注：跟随血管的人很少回来；回来的人会改用复数自称。</p>
+            </article>
+            <article class="remain-card" data-reveal>
+              <div class="remain-head">
+                <span>03</span>
+                <h3>忏悔</h3>
+              </div>
+              <p class="remain-lead">留下一个重量</p>
+              <p>没有神听，罪责却不自动消失。忏悔从「请求宽恕」变成「寄存重量」。墙、纸、屏幕，任何愿意记住的表面，都成了临时的告解室。</p>
+              <p class="remain-note">档案注：本馆接受寄存，不提供赦免。赦免已随祂离开。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- RELIQUARY -->
+      <section class="chapter" id="reliquary" data-reveal>
+        <div class="chapter-rail">
+          <span class="chapter-num">09</span>
+          <span class="chapter-label">RELIQUARY</span>
+        </div>
+        <div class="chapter-body">
+          <p class="eyebrow">互动</p>
+          <h2>遗物室</h2>
+          <p class="chapter-intro">此处不收藏圣骨。只记录抵达。你可留下一句不会被原谅、但会被归档的话——它只存在于你的浏览器记忆里，却仍算一次真实的重量。</p>
+
+          <div class="reliquary-panel">
+            <div class="reliquary-stats">
+              <div>
+                <span class="stat-label">本地抵达次数</span>
+                <strong class="stat-value" id="arrival-count">0</strong>
+              </div>
+              <div>
+                <span class="stat-label">信号状态</span>
+                <strong class="stat-value" id="signal-state">沉睡</strong>
+              </div>
+            </div>
+
+            <label class="field-label" for="visitor-mark">留下重量（可选）</label>
+            <textarea id="visitor-mark" class="visitor-mark" maxlength="120" placeholder="一件未完成的事，或一个不愿被听见的名字……"></textarea>
+
+            <div class="reliquary-actions">
+              <button class="btn-ritual" id="mark-submit" type="button">归档这句话</button>
+              <button class="btn-ghost" id="arrival-btn" type="button">记录一次抵达</button>
+            </div>
+
+            <p class="reliquary-response" id="reliquary-response" aria-live="polite"></p>
+            <ul class="mark-list" id="mark-list" aria-label="你留下的记录"></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- CLOSING -->
+      <section class="closing" id="closing" data-reveal>
+        <p class="closing-kicker">CODA</p>
+        <h2>你仍然抵达</h2>
+        <p>神已经死去。档案还开着门。门后没有应许之地，只有一份愿意被阅读的空缺。</p>
+        <p class="closing-latin">Deus mortuus est. Archiva manent.</p>
+        <a class="btn-ghost" href="#top">回到入口</a>
       </section>
     </main>
 
-    <aside class="ritual-menu" id="ritual-menu" aria-hidden="true">
-      <button class="menu-close" id="menu-close" type="button" aria-label="关闭目录">关闭</button>
-      <p class="menu-kicker">THE REMAINS</p>
-      <a href="echo.html">01 / 回声</a>
-      <a href="vein.html">02 / 血管</a>
-      <a href="confession.html">03 / 忏悔</a>
-      <a href="reliquary.html" id="reliquary-link">00 / 遗物室</a>
-      <p class="menu-note">所有入口都通往同一个空缺。</p>
-    </aside>
+    <footer class="site-footer">
+      <span>goddead.com</span>
+      <span>空缺档案馆 · 非信仰 · 非救赎</span>
+      <a href="https://github.com/IwannaYuJie/goddead">源码</a>
+    </footer>
 
     <div class="screen-grain" aria-hidden="true"></div>
-    <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=11"></script>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="script.js?v=20"></script>
   </body>
 </html>

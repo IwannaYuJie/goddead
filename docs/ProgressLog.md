@@ -73,6 +73,14 @@
   - False Names
 - Kept the four-stage ritual flow intact while integrating the earlier text-based lore as optional, interactive depth.
 
+## 2026-07-13 (Absence Archive redesign)
+- Rebuilt the site as a content-rich, artistic single-page archive around a full Goddead world bible.
+- Replaced sparse gate/minigame homepage with nine chapters: prologue, doctrines, chronicle, forbidden index, cartography, witnesses, epithets, remains, and reliquary.
+- Added a clearly labeled top-right **目录** drawer with section navigation, backdrop, Escape-to-close, and active-section highlighting.
+- Kept light interactions only: awaken signal, expandable archive entries, redacted-text peeks, interactive map regions, epithet reveals, local arrival counter, and visitor mark archiving (localStorage).
+- Retired Echo / Vein / Confession as primary experiences; old URLs redirect into the corresponding archive sections.
+- Preserved Cloudflare Pages compatibility, `assets/hero.png` test contract, reduced-motion support, and mobile breakpoints.
+
 ## 2026-07-10 (Split Testament redesign)
 - Captured the live `goddead.com` homepage in desktop and mobile states before redesigning it.
 - Explored three visual directions and implemented the selected third direction, **Split Testament**.
