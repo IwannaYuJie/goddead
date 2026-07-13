@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+SC:wght@300;400;500&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
     <link rel="preload" href="assets/hero.png" as="image">
     <link rel="preload" href="assets/testament-left.png" as="image">
-    <link rel="stylesheet" href="styles.css?v=50">
+    <link rel="stylesheet" href="styles.css?v=60">
   </head>
   <body>
     <img class="compatibility-asset" src="assets/hero.png" alt="">
@@ -43,16 +43,20 @@
           <button type="button" data-go="scraps" data-need="2"><em>IV</em><span>禁页</span></button>
           <button type="button" data-go="map" data-need="2"><em>V</em><span>渗漏</span></button>
           <button type="button" data-go="liturgy" data-need="2"><em>V·b</em><span>日课</span></button>
+          <button type="button" data-go="rules" data-need="2"><em>V·c</em><span>守则</span></button>
+          <button type="button" data-go="night" data-need="2"><em>V·d</em><span>夜班</span></button>
           <button type="button" data-go="voices" data-need="2"><em>VI</em><span>耳语</span></button>
           <button type="button" data-go="names" data-need="2"><em>VII</em><span>伪名</span></button>
           <button type="button" data-go="symptoms" data-need="3"><em>VII·b</em><span>病征</span></button>
           <button type="button" data-go="market" data-need="3"><em>VII·c</em><span>黑市</span></button>
+          <button type="button" data-go="corridor" data-need="3"><em>VII·d</em><span>回廊</span></button>
+          <button type="button" data-go="revise" data-need="3"><em>VII·e</em><span>修订</span></button>
           <button type="button" data-go="letters" data-need="3"><em>VIII·b</em><span>信柜</span></button>
           <button type="button" data-go="remains" data-need="3"><em>VIII</em><span>遗骸</span></button>
           <button type="button" data-go="you" data-need="3"><em>IX</em><span>你</span></button>
           <button type="button" data-go="under" data-need="secret" class="menu-secret" id="menu-under"><em>?</em><span>底层</span></button>
         </nav>
-        <p class="menu-note">门比目录更诚实。<br>有些字要点两次。有些页要撕开。</p>
+        <p class="menu-note">请遵守你读到的规则。<br>若规则互相矛盾，以墙为准。</p>
       </div>
     </aside>
     <div class="menu-backdrop" id="menu-backdrop" hidden></div>
@@ -220,6 +224,7 @@
             <button class="door" type="button" data-go="scraps"><span class="door-k">IV</span><span class="door-t">禁页</span></button>
             <button class="door" type="button" data-go="map"><span class="door-k">V</span><span class="door-t">渗漏</span></button>
             <button class="door" type="button" data-go="liturgy"><span class="door-k">V·b</span><span class="door-t">日课</span></button>
+            <button class="door" type="button" data-go="rules"><span class="door-k">V·c</span><span class="door-t">守则</span></button>
           </div>
         </div>
       </section>
@@ -352,7 +357,57 @@
           </div>
           <div class="door-row">
             <button class="door door--back" type="button" data-go="law"><span class="door-t">← 断律</span></button>
+            <button class="door" type="button" data-go="rules"><span class="door-k">V·c</span><span class="door-t">守则</span></button>
+            <button class="door" type="button" data-go="night"><span class="door-k">V·d</span><span class="door-t">夜班</span></button>
             <button class="door" type="button" data-go="voices"><span class="door-k">VI</span><span class="door-t">耳语</span></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- V·c 守则 · 规则怪谈 -->
+      <section class="room" id="room-rules" data-room="rules" aria-label="守则" hidden>
+        <div class="room-veil" aria-hidden="true"></div>
+        <div class="room-inner">
+          <header class="room-head">
+            <span>V·c</span>
+            <h2>守则</h2>
+            <p>《空殿访客生存守则 · 张贴版》。点每条看批注。隐藏条款不会主动出现。</p>
+          </header>
+          <p class="rule-doc-meta">张贴位置：入口内侧 · 纸张微潮 · 有人用指甲刻过第 7 条</p>
+          <ol class="rule-list" id="rule-list-main"></ol>
+          <p class="aside-note">已读 <span id="rule-read-count">0</span> 条可见规则。
+            <button type="button" class="text-link" id="btn-hidden-rules" hidden>发现被覆盖的条款 →</button>
+          </p>
+          <div class="reveal-panel" id="hidden-rules-panel" hidden></div>
+          <div class="door-row">
+            <button class="door door--back" type="button" data-go="liturgy"><span class="door-t">← 日课</span></button>
+            <button class="door" type="button" data-go="night"><span class="door-k">V·d</span><span class="door-t">夜班</span></button>
+            <button class="door" type="button" data-go="corridor"><span class="door-k">VII·d</span><span class="door-t">回廊</span></button>
+            <button class="door" type="button" data-go="revise"><span class="door-k">VII·e</span><span class="door-t">修订</span></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- V·d 夜班 -->
+      <section class="room" id="room-night" data-room="night" aria-label="夜班" hidden>
+        <div class="room-veil" aria-hidden="true"></div>
+        <div class="room-inner">
+          <header class="room-head">
+            <span>V·d</span>
+            <h2>夜班</h2>
+            <p>《守夜人交接清单》。按小时展开。若你看到「第二个人」，以本清单为准。</p>
+          </header>
+          <div class="chip-row" id="night-chips"></div>
+          <div class="year-card rule-card" id="night-card">
+            <h3>选择值班时段</h3>
+            <p>夜班从日落开始算，不从时钟。时钟在此只是诱饵。</p>
+          </div>
+          <div class="rule-warning" id="night-warning" hidden>
+            <p>⚠ 若清单内容与墙上张贴不一致：<strong>撕掉墙上的</strong>。墙会再贴，再撕。直到天亮。</p>
+          </div>
+          <div class="door-row">
+            <button class="door door--back" type="button" data-go="rules"><span class="door-t">← 守则</span></button>
+            <button class="door" type="button" data-go="corridor"><span class="door-k">VII·d</span><span class="door-t">回廊</span></button>
             <button class="door" type="button" data-go="you"><span class="door-k">IX</span><span class="door-t">你</span></button>
           </div>
         </div>
@@ -415,6 +470,58 @@
           <div class="door-row">
             <button class="door door--back" type="button" data-go="map"><span class="door-t">← 渗漏</span></button>
             <button class="door" type="button" data-go="remains"><span class="door-k">VIII</span><span class="door-t">遗骸</span></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- VII·d 回廊 -->
+      <section class="room" id="room-corridor" data-room="corridor" aria-label="回廊" hidden>
+        <div class="room-veil" aria-hidden="true"></div>
+        <div class="room-inner">
+          <header class="room-head">
+            <span>VII·d</span>
+            <h2>回廊</h2>
+            <p>《空殿回廊通行条例》。转角处各贴一截。点转角拼完整。</p>
+          </header>
+          <div class="corridor-map" id="corridor-map"></div>
+          <div class="year-card rule-card" id="corridor-card">
+            <h3>尚未进入回廊</h3>
+            <p>先点一个转角。不要一次点完——有人因此遇见了自己。</p>
+          </div>
+          <p class="aside-note" id="corridor-note">已标记转角 <span id="corridor-count">0</span> / 6</p>
+          <div class="door-row">
+            <button class="door door--back" type="button" data-go="rules"><span class="door-t">← 守则</span></button>
+            <button class="door" type="button" data-go="revise"><span class="door-k">VII·e</span><span class="door-t">修订</span></button>
+            <button class="door" type="button" data-go="symptoms"><span class="door-k">VII·b</span><span class="door-t">病征</span></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- VII·e 修订 -->
+      <section class="room" id="room-revise" data-room="revise" aria-label="修订" hidden>
+        <div class="room-veil" aria-hidden="true"></div>
+        <div class="room-inner">
+          <header class="room-head">
+            <span>VII·e</span>
+            <h2>修订</h2>
+            <p>同一条款的不同版本叠在一起。点版本对比。以哪一版为准？——以你还活着的那一版为准。</p>
+          </header>
+          <div class="chip-row" id="revise-chips"></div>
+          <div class="revise-compare" id="revise-compare">
+            <div class="revise-col">
+              <p class="revise-label">旧版</p>
+              <p class="revise-text" id="revise-old">选择一条条款</p>
+            </div>
+            <div class="revise-col revise-col--new">
+              <p class="revise-label">新版 / 墙改</p>
+              <p class="revise-text" id="revise-new">——</p>
+            </div>
+          </div>
+          <div class="reveal-panel" id="revise-note" hidden></div>
+          <div class="door-row">
+            <button class="door door--back" type="button" data-go="corridor"><span class="door-t">← 回廊</span></button>
+            <button class="door" type="button" data-go="night"><span class="door-k">V·d</span><span class="door-t">夜班</span></button>
+            <button class="door" type="button" data-go="under" id="door-under-from-revise" hidden><span class="door-k">?</span><span class="door-t">底层</span></button>
           </div>
         </div>
       </section>
@@ -543,7 +650,7 @@
           </header>
           <div class="under-text">
             <p>神死不是事件，是<strong>结构</strong>。像承重墙被抽走，楼还站着，只是门开始自己开关。</p>
-            <p>上层房间——无名、断律、残年、教团、禁页、渗漏、日课、耳语、伪名、病征、黑市、信柜、遗骸——都是空缺表面结的痂。你点开它们，等于掀痂。</p>
+            <p>上层房间——无名、断律、残年、教团、禁页、渗漏、日课、守则、夜班、回廊、修订、耳语、伪名、病征、黑市、信柜、遗骸——都是空缺表面结的痂。守则越读越像契约；修订越读越像食谱。</p>
             <p>回声、血管、忏悔不是三个玩法，是同一具尸体上还在抽动的三种组织。教团贩卖对组织的解释权；黑市贩卖对组织的安慰剂；信柜则证明：即使没有收件人，人仍要投递。</p>
             <p class="under-pull">本站没有结局。<br>只有更深的目录。<br>而目录会记得：你来过。</p>
             <div class="tile-grid" style="margin:1.2rem 0">
@@ -571,6 +678,6 @@
 
     <div class="screen-grain" aria-hidden="true"></div>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script src="script.js?v=50"></script>
+    <script src="script.js?v=60"></script>
   </body>
 </html>

@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const depthLabel = document.getElementById("depth-label");
   const depthFill = document.getElementById("depth-fill");
   const doorUnder = document.getElementById("door-under");
+  const doorUnderRevise = document.getElementById("door-under-from-revise");
   const menuUnder = document.getElementById("menu-under");
   const yearCard = document.getElementById("year-card");
   const yearRack = document.getElementById("year-rack");
@@ -41,17 +42,32 @@ document.addEventListener("DOMContentLoaded", () => {
   const letterChips = document.getElementById("letter-chips");
   const letterCard = document.getElementById("letter-card");
   const remainBoard = document.getElementById("remain-board");
+  const ruleListMain = document.getElementById("rule-list-main");
+  const ruleReadCount = document.getElementById("rule-read-count");
+  const btnHiddenRules = document.getElementById("btn-hidden-rules");
+  const hiddenRulesPanel = document.getElementById("hidden-rules-panel");
+  const nightChips = document.getElementById("night-chips");
+  const nightCard = document.getElementById("night-card");
+  const nightWarning = document.getElementById("night-warning");
+  const corridorMap = document.getElementById("corridor-map");
+  const corridorCard = document.getElementById("corridor-card");
+  const corridorCount = document.getElementById("corridor-count");
+  const reviseChips = document.getElementById("revise-chips");
+  const reviseOld = document.getElementById("revise-old");
+  const reviseNew = document.getElementById("revise-new");
+  const reviseNote = document.getElementById("revise-note");
 
   const roomOrder = [
     "rift", "void", "law", "years", "cult", "scraps", "map", "liturgy",
-    "voices", "names", "symptoms", "market", "letters", "remains", "you", "under",
+    "rules", "night", "voices", "names", "symptoms", "market", "corridor",
+    "revise", "letters", "remains", "you", "under",
   ];
 
   const roomDepth = {
     rift: 0, void: 1, law: 2, years: 2, cult: 2,
-    scraps: 3, map: 3, liturgy: 3,
-    voices: 3, names: 3, symptoms: 4, market: 4, letters: 4,
-    remains: 4, you: 4, under: 6,
+    scraps: 3, map: 3, liturgy: 3, rules: 3, night: 3,
+    voices: 3, names: 3, symptoms: 4, market: 4, corridor: 4, revise: 4,
+    letters: 4, remains: 4, you: 4, under: 6,
   };
 
   let awake = localStorage.getItem("goddead_awake") === "true";
@@ -65,8 +81,199 @@ document.addEventListener("DOMContentLoaded", () => {
   let openedVoices = new Set();
   let openedAliases = new Set();
   let openedScraps = new Set();
+  let openedRules = new Set();
+  let openedNight = new Set();
+  let openedCorridor = new Set();
+  let openedRevise = new Set();
   let godDeadSeq = [];
   let redClicks = 0;
+
+  // —— 规则怪谈数据集 ——
+  const visitorRules = [
+    {
+      n: "01",
+      text: "进入空殿前，清点随身物品。离开时空殿物品不得增加。",
+      note: "「增加」包括：多出的影子、不会的语言、别人的名字、一口不属于你的血味。重量上升但件数不变，仍算违规。",
+    },
+    {
+      n: "02",
+      text: "殿内禁止呼唤任何神名，包括伪名、乳名、代号与「那个」。",
+      note: "被允许的只有沉默，以及守则里已经印出的字。若你必须指代，请指向地面，不要指向上方。",
+    },
+    {
+      n: "03",
+      text: "若有人在你身后叫你的全名，不要回头。那不是同伴。",
+      note: "同伴只会拍你的左肩，或根本不叫你。右肩触碰视同回声接触，立即执行隔离七日。",
+    },
+    {
+      n: "04",
+      text: "听到第三下钟声时，立刻停止一切决定。把决定延后到第四下——第四下不会来。",
+      note: "「停止决定」包括：选路、回答问题、相信谁是活人。钟停在三是常态，不是故障。",
+    },
+    {
+      n: "05",
+      text: "走廊转角只许走内侧。外侧属于「正在返回的句子」。",
+      note: "与回廊条例冲突时，以本条为准。与回廊条例一致时，以更严的为准。两者都不严时，以墙为准。",
+    },
+    {
+      n: "06",
+      text: "不要帮助哭泣的人。允许递盐，不允许递手。",
+      note: "哭泣者可能在卸重量。你的手会成为新的收件地址。盐可以吸潮，手会吸债。",
+    },
+    {
+      n: "07",
+      text: "数字 7 在殿内不表示幸运。连续遇到七次相同符号，立刻离开当前层。",
+      note: "离开的定义：看见入口。若看不见入口，闭上眼数到六就停——不要数到七。",
+    },
+    {
+      n: "08",
+      text: "告解只可对墙，不可对镜。镜会把内容寄给回声。",
+      note: "手机黑屏视同镜。关屏后数三秒再说话。有人因此把秘密寄给了已死的聊天对象。",
+    },
+    {
+      n: "09",
+      text: "若守则内容与墙上字迹不同：撕掉墙上的，保留纸质版。",
+      note: "墙会再写。再撕。直到你的指腹见血——那是交税，不是受伤。见血后纸质版短暂拥有最高效力。",
+    },
+    {
+      n: "10",
+      text: "本守则共十条。若你数出第十一条，说明你已不在访客序列。",
+      note: "不要寻找第十一条。寻找本身会生成第十一条。生成后你的名字会从访客簿变成馆藏标签。",
+    },
+  ];
+
+  const hiddenRules = [
+    { n: "00", text: "你开始阅读守则之前，规则已经生效。" },
+    { n: "0.5", text: "若你是被「推荐」来的：推荐人不再对你的存活负责，但对你的重量提成。" },
+    { n: "11", text: "第十一条不存在。你看见它，是因为规则 10 失败了。失败时，以空缺的胃口为准。" },
+    { n: "X", text: "本隐藏页仅对已读完十条可见规则者显示。你已共谋。" },
+  ];
+
+  const nightShift = {
+    "18": {
+      title: "18:00 · 接班",
+      body: "与白班交接时，只核对三件事：盐量、影子人数、墙上是否多出行字。不要听白班「顺便提醒」的第四件事。",
+      rules: [
+        "白班若坚持说第四件事，捂住自己的左耳，不是他的嘴。",
+        "接班签名用假名。真名留给天亮。",
+        "若白班有两个人，问他们昨天中饭吃了什么——回答一致的那个留下，另一个请出殿。",
+      ],
+    },
+    "21": {
+      title: "21:00 · 巡廊",
+      body: "顺时针巡一次。逆时针属于回声的巡逻方向。途中遇到的自己，点头但不说话。",
+      rules: [
+        "灯灭时站原地数六下，第七下之前灯应复明。若不复明，坐下，把脸埋进膝——不要用手。",
+        "红线若爬上鞋面，换鞋。没有备用鞋就脱鞋。脚比鞋便宜。",
+        "禁止在转角处整理仪容。",
+      ],
+    },
+    "00": {
+      title: "00:00 · 空点",
+      body: "零点不是时间，是缺口。此小时内禁止书写第一人称。记录用「守夜人」代替「我」。",
+      rules: [
+        "有人敲门：先问他怕什么。回答「不怕」的不要开。",
+        "回答具体恐惧者，可开一条缝递盐，不开门。",
+        "若门外是你的声音，执行回声检疫，即使你确定自己没说话。",
+      ],
+    },
+    "03": {
+      title: "03:00 · 第三时",
+      body: "钟倾向停住的时刻。告解租赁高峰。你是前台，不是神父。禁止说「没事」「会好的」「祂会听见」。",
+      rules: [
+        "客人若要求赦免：重复「赦免缺货」三次。第三次要用对方的声音——做不到就沉默。",
+        "重量入库，内容不入库。你听过的句子，离开岗位前必须用盐在手背写「非我」。",
+        "若你发现自己在哭，检查是谁的泪。咸的留下，甜的立刻冲洗。",
+      ],
+    },
+    "05": {
+      title: "05:00 · 交班前",
+      body: "清点是否仍为一个人。影子允许 ±0，不允许 +1。写交班日志时，不要描写「今天很安静」——安静会听懂邀约。",
+      rules: [
+        "日志只写异常。无异常写「盐量正常」。",
+        "若日志自动多出一行，烧掉该页，不追溯作者。",
+        "看见黎明时先确认颜色是否可被命名。不可命名则再守一班。",
+      ],
+    },
+  };
+
+  const corridorCorners = [
+    {
+      id: "c1", label: "东转角",
+      title: "东 · 耳道壁",
+      body: "此处禁止哼歌。壁面会学会曲调并在你睡后播放完整版——完整版含你没写过的副歌。",
+      rule: "通行：内侧单列。若听见副歌，立即改口哨，且哨声不得与副歌同调。",
+    },
+    {
+      id: "c2", label: "南转角",
+      title: "南 · 盐线",
+      body: "地面有盐线。跨过前确认盐是白的。灰盐表示昨夜有人在此卸过重量，绕行。",
+      rule: "禁止用脚擦盐线。需要清理时，用纸，用完的纸算馆藏，不得带出。",
+    },
+    {
+      id: "c3", label: "西转角",
+      title: "西 · 双影窗",
+      body: "窗对外应是墙。若窗外是街道，不要相信街道上的人。他们在过你的回忆，不是他们的生活。",
+      rule: "窗外有人招手：数他的手指。六根以下可点头，七根以上闭眼走过。",
+    },
+    {
+      id: "c4", label: "北转角",
+      title: "北 · 回声井",
+      body: "井盖应密封。若井盖打开，投入一粒盐，听回声次数。一次：安全。两次：离开。三次：你已在井底，请改读夜班 00:00 条款。",
+      rule: "禁止向井内说话。禁止点名井的深度。深度被点名会增加。",
+    },
+    {
+      id: "c5", label: "内环",
+      title: "内环 · 步行法则",
+      body: "内环只许顺时针。你觉得自己在逆行时，先怀疑是走廊在转，再怀疑是你。",
+      rule: "连续遇见同一张脸三次：第三次打招呼必须用假名。用真名会把对方钉在回廊里。",
+    },
+    {
+      id: "c6", label: "外环",
+      title: "外环 · 句子专用道",
+      body: "外环供「正在返回的句子」通行。活人误入会被句子借道——表现为你突然说出不记得的话。",
+      rule: "误入外环时，咬舌直到尝到铁味，然后找内侧缺口挤回。不要道歉，道歉会被句子当成正文。",
+    },
+  ];
+
+  const revisions = [
+    {
+      id: "r1", title: "关于回头",
+      old: "有人叫你，可以回头确认。",
+      neu: "有人叫你，禁止回头。那不是同伴。",
+      note: "修订原因：确认本身构成回应，回声以回应为食。旧版导致十七起「脸被换成叫名者」事故。",
+    },
+    {
+      id: "r2", title: "关于第七",
+      old: "七是完整与神圣的数字，可用于仪式收尾。",
+      neu: "七表示越界。仪式在六收尾。任何需要七步的流程都已过期。",
+      note: "修订原因：P.D. 后「完整」不再安全。完整会招来想填满自己的东西。",
+    },
+    {
+      id: "r3", title: "关于救助",
+      old: "殿内见人遇难，应尽力救助。",
+      neu: "殿内见人遇难，可递盐，不可递手。哭泣者优先自救。",
+      note: "修订原因：救助链条会把重量转移到救助者，并生成新的「需要救助者」。",
+    },
+    {
+      id: "r4", title: "关于守则效力",
+      old: "以最新张贴的墙上文字为准。",
+      neu: "以纸质守则为准。墙上文字需撕除。",
+      note: "修订原因：墙学会了修订。最新不再等于正确。见血后的纸质版临时拥有最高效力。",
+    },
+    {
+      id: "r5", title: "关于你",
+      old: "访客阅读守则后即可自由活动。",
+      neu: "访客阅读守则即视为签署。签署不可撤销，撤销权属于空缺。",
+      note: "修订原因：自由活动从未存在。旧版是安慰剂，安慰剂在 P.D. 112 后被列为违禁品。",
+    },
+    {
+      id: "r6", title: "关于底层",
+      old: "无底层。禁止讨论地下层。",
+      neu: "底层存在，但不是给活着的编制人员用的。进入需钥匙，离开需被忘记。",
+      note: "修订原因：禁止讨论反而生成坐标。现改为有限披露，以降低「被吸引的好奇」浓度。",
+    },
+  ];
 
   const years = {
     0: {
@@ -163,6 +370,18 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       id: "s8", code: "GD-??", face: "被撕掉的一页", secret: true,
       body: "你不该看见这页。底层入口需要<strong>七次抵达</strong>，或在裂口依次点亮 GOD → DEAD，或键盘敲下域名，或点开渗漏图中央的问号。",
+    },
+    {
+      id: "s9", code: "GD-R1", face: "《电梯故障公告》（空殿无电梯）",
+      body: "本公告张贴于无电梯建筑。条款仍有效：若你看见电梯门，不要进。门内按钮只有一个，符号是<span class=\"redact\" data-secret=\"你的乳名\">████</span>。",
+    },
+    {
+      id: "s10", code: "GD-R2", face: "《若你违反第 3 条》",
+      body: "回头之后：立即触摸左肩。若左肩温度低于右肩，你带回了东西。把它<span class=\"redact\" data-secret=\"寄存在遗物室，不要带回家\">████████████████</span>。",
+    },
+    {
+      id: "s11", code: "GD-R3", face: "《互相矛盾时的仲裁》",
+      body: "守则 ＞ 日课 ＞ 口头提醒 ＞ 你的常识。若墙与纸冲突，撕墙。若血与墨冲突，跟血。若你与你冲突，<span class=\"redact\" data-secret=\"留下影子较少的那个\">████████████</span>。",
     },
   ];
 
@@ -367,11 +586,14 @@ document.addEventListener("DOMContentLoaded", () => {
     eggs.has("map-under") ||
     eggs.has("all-aliases") ||
     eggs.has("all-years") ||
+    eggs.has("hidden-rules") ||
+    eggs.has("all-revise") ||
     visited.has("under");
 
   const unlockCheck = () => {
     const open = secretUnlocked();
     if (doorUnder) doorUnder.hidden = !open;
+    if (doorUnderRevise) doorUnderRevise.hidden = !open;
     if (menuUnder) menuUnder.classList.toggle("is-unlocked", open);
     document.querySelectorAll(".scrap--hidden").forEach((el) => {
       el.classList.toggle("is-found", open || eggs.has("scrap-s8"));
@@ -649,6 +871,137 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  function buildVisitorRules() {
+    if (!ruleListMain) return;
+    ruleListMain.innerHTML = "";
+    visitorRules.forEach((r) => {
+      const li = document.createElement("li");
+      li.className = "rule-item";
+      li.innerHTML = `
+        <button type="button" class="rule-line" data-rule="${r.n}">
+          <span class="rule-n">${r.n}</span>
+          <span class="rule-t">${r.text}</span>
+        </button>
+        <div class="rule-note" hidden><p>${r.note}</p></div>
+      `;
+      const btn = li.querySelector(".rule-line");
+      const note = li.querySelector(".rule-note");
+      btn.addEventListener("click", () => {
+        const open = !note.hidden;
+        ruleListMain.querySelectorAll(".rule-note").forEach((n) => {
+          n.hidden = true;
+        });
+        ruleListMain.querySelectorAll(".rule-line").forEach((b) => b.classList.remove("is-open"));
+        if (!open) {
+          note.hidden = false;
+          btn.classList.add("is-open");
+          openedRules.add(r.n);
+          if (ruleReadCount) ruleReadCount.textContent = String(openedRules.size);
+          if (openedRules.size >= visitorRules.length) {
+            if (btnHiddenRules) btnHiddenRules.hidden = false;
+            addEgg("all-visible-rules", "十条读完。有东西从纸背渗出来。");
+          }
+        }
+      });
+      ruleListMain.appendChild(li);
+    });
+
+    if (btnHiddenRules) {
+      btnHiddenRules.addEventListener("click", () => {
+        if (!hiddenRulesPanel) return;
+        hiddenRulesPanel.hidden = false;
+        hiddenRulesPanel.innerHTML = `
+          <p class="rule-doc-meta">—— 被覆盖层 / 仅共谋可见 ——</p>
+          ${hiddenRules.map((h) => `<p class="hidden-rule"><b>${h.n}</b> ${h.text}</p>`).join("")}
+          <p class="mini">隐藏条款与可见条款冲突时：你已经违反过其中一条。继续阅读视同补签。</p>
+        `;
+        addEgg("hidden-rules", "隐藏条款启封。你已共谋。");
+      });
+    }
+  }
+
+  function buildNightShift() {
+    if (!nightChips) return;
+    const order = ["18", "21", "00", "03", "05"];
+    const labels = { "18": "18:00", "21": "21:00", "00": "00:00", "03": "03:00", "05": "05:00" };
+    order.forEach((key) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "chip";
+      btn.textContent = labels[key];
+      btn.addEventListener("click", () => {
+        nightChips.querySelectorAll(".chip").forEach((c) => c.classList.remove("is-on"));
+        btn.classList.add("is-on");
+        const d = nightShift[key];
+        openedNight.add(key);
+        if (nightCard) {
+          nightCard.innerHTML = `
+            <h3>${d.title}</h3>
+            <p>${d.body}</p>
+            <ol class="rule-mini-list">${d.rules.map((x) => `<li>${x}</li>`).join("")}</ol>
+          `;
+        }
+        if (openedNight.size >= 2 && nightWarning) nightWarning.hidden = false;
+        if (openedNight.size >= order.length) addEgg("all-night", "夜班清单读完。请清点你是否仍为一个人。");
+      });
+      nightChips.appendChild(btn);
+    });
+  }
+
+  function buildCorridor() {
+    if (!corridorMap) return;
+    corridorMap.innerHTML = "";
+    corridorCorners.forEach((c, i) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "corner-pin";
+      btn.textContent = c.label;
+      btn.style.setProperty("--i", String(i));
+      btn.addEventListener("click", () => {
+        corridorMap.querySelectorAll(".corner-pin").forEach((b) => b.classList.remove("is-on"));
+        btn.classList.add("is-on");
+        openedCorridor.add(c.id);
+        if (corridorCount) corridorCount.textContent = String(openedCorridor.size);
+        if (corridorCard) {
+          corridorCard.innerHTML = `
+            <h3>${c.title}</h3>
+            <p>${c.body}</p>
+            <p class="rule-emph">${c.rule}</p>
+          `;
+        }
+        if (openedCorridor.size >= corridorCorners.length) {
+          addEgg("all-corridor", "回廊拼完。外侧有句子经过。");
+        }
+      });
+      corridorMap.appendChild(btn);
+    });
+  }
+
+  function buildRevisions() {
+    if (!reviseChips) return;
+    revisions.forEach((r) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "chip";
+      btn.textContent = r.title;
+      btn.addEventListener("click", () => {
+        reviseChips.querySelectorAll(".chip").forEach((c) => c.classList.remove("is-on"));
+        btn.classList.add("is-on");
+        openedRevise.add(r.id);
+        if (reviseOld) reviseOld.textContent = r.old;
+        if (reviseNew) reviseNew.textContent = r.neu;
+        if (reviseNote) {
+          reviseNote.hidden = false;
+          reviseNote.innerHTML = `<p><strong>修订说明</strong></p><p>${r.note}</p>`;
+        }
+        if (openedRevise.size >= revisions.length) {
+          addEgg("all-revise", "六条修订读完。你签的是新版。");
+        }
+      });
+      reviseChips.appendChild(btn);
+    });
+  }
+
   function buildSymptoms() {
     if (!symptomGrid) return;
     symptoms.forEach((s) => {
@@ -898,6 +1251,10 @@ document.addEventListener("DOMContentLoaded", () => {
   buildVoices();
   buildAliases();
   buildLiturgy();
+  buildVisitorRules();
+  buildNightShift();
+  buildCorridor();
+  buildRevisions();
   buildSymptoms();
   buildMarket();
   buildLetters();
