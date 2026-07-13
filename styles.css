@@ -16,6 +16,8 @@
   --chrome: 3.6rem;
 }
 
+/* cache bump companion note in HTML v=50 */
+
 * { box-sizing: border-box; }
 
 html, body {
@@ -573,11 +575,50 @@ body.awake .pulse-dot span {
 
 .door--secret .door-t { color: var(--gold); }
 
+/* chips */
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.9rem 0 0.4rem;
+}
+
+.chip {
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--line);
+  background: rgba(8, 7, 6, 0.5);
+  color: var(--ash);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: border-color 0.3s ease, color 0.3s ease, background 0.3s ease;
+}
+
+.chip:hover,
+.chip.is-on,
+.chip.is-open {
+  border-color: rgba(141, 43, 39, 0.5);
+  color: var(--bone-bright);
+  background: rgba(141, 43, 39, 0.1);
+}
+
+.you-blurb {
+  margin: 0 0 0.9rem;
+  color: rgba(200, 194, 184, 0.5);
+  font-size: 0.88rem;
+  letter-spacing: 0.06em;
+  line-height: 1.8;
+}
+
 /* tiles / void */
 .tile-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.8rem;
+}
+
+.tile-grid--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .tile {
@@ -757,9 +798,9 @@ body.awake .pulse-dot span {
   transition: border-color 0.3s ease, color 0.3s ease, background 0.3s ease;
 }
 
-.y-node:nth-child(2) { transform: translateY(6px); }
-.y-node:nth-child(4) { transform: translateY(-4px); }
-.y-node:nth-child(5) { transform: translateY(8px); }
+.y-node:nth-child(3n+2) { transform: translateY(6px); }
+.y-node:nth-child(3n) { transform: translateY(-4px); }
+.y-node:nth-child(3n+1) { transform: translateY(2px); }
 
 .y-node.is-on,
 .y-node:hover {
@@ -996,11 +1037,35 @@ body.awake .pulse-dot span {
 }
 
 .map-read p {
-  margin: 0;
+  margin: 0 0 0.7rem;
   color: rgba(200, 194, 184, 0.65);
   font-size: 0.92rem;
   letter-spacing: 0.05em;
   line-height: 1.85;
+}
+
+.map-read ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.map-read li {
+  position: relative;
+  padding: 0.2rem 0 0.2rem 0.9rem;
+  color: var(--ash);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+}
+
+.map-read li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.75em;
+  width: 5px;
+  height: 1px;
+  background: var(--blood);
 }
 
 /* voices */
@@ -1421,6 +1486,7 @@ body.awake .pulse-dot span {
   .chrome-mid { display: none; }
 
   .tile-grid,
+  .tile-grid--3,
   .scrap-wall {
     grid-template-columns: 1fr;
   }
