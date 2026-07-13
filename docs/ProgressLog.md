@@ -73,6 +73,13 @@
   - False Names
 - Kept the four-stage ritual flow intact while integrating the earlier text-based lore as optional, interactive depth.
 
+## 2026-07-13 (Click-to-explore rooms)
+- Replaced long-scroll archive with full-viewport room exploration: click doors and fragments to advance.
+- Added denser lore rooms (rift, void, law, years, scraps, map, voices, names, remains, you, under).
+- Nested reveals: tiles, laws, year rack, scraps/redactions, map pins, voices, aliases, remains dossiers.
+- Easter eggs: GOD→DEAD sequence, type `goddead`, red point ×7, arrivals ×7, map center `?`, all aliases, triple-click domain, secret undercroft.
+- Top chrome shows exploration depth; directory locks unvisited deep rooms until paths open.
+
 ## 2026-07-13 (Absence Archive redesign)
 - Rebuilt the site as a content-rich, artistic single-page archive around a full Goddead world bible.
 - Replaced sparse gate/minigame homepage with nine chapters: prologue, doctrines, chronicle, forbidden index, cartography, witnesses, epithets, remains, and reliquary.
