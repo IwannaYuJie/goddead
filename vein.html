@@ -3,100 +3,41 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>VEIN // Goddead</title>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;500;700&family=JetBrains+Mono:wght@200;400&display=swap');
-      :root {
-        --void: #030303;
-        --bone: #c7c7c7;
-        --ash: #444;
-        --blood: #6b1a1a;
-      }
-      * { box-sizing: border-box; }
-      html, body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        background: var(--void);
-        overflow: hidden;
-        cursor: crosshair;
-      }
-      #vein-canvas {
-        position: fixed;
-        inset: 0;
-        z-index: 1;
-      }
-      .vein-ui {
-        position: fixed;
-        top: 30px;
-        left: 30px;
-        z-index: 2;
-        pointer-events: none;
-      }
-      .vein-title {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.65rem;
-        letter-spacing: 0.35em;
-        color: var(--blood);
-        margin-bottom: 10px;
-      }
-      .vein-hint {
-        font-family: 'Noto Serif SC', serif;
-        font-size: 0.75rem;
-        letter-spacing: 0.12em;
-        color: var(--ash);
-      }
-      .back-link {
-        position: fixed;
-        bottom: 30px;
-        left: 30px;
-        color: var(--ash);
-        text-decoration: none;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.6rem;
-        letter-spacing: 0.2em;
-        z-index: 2;
-        transition: color 0.4s ease;
-        pointer-events: auto;
-      }
-      .back-link:hover {
-        color: var(--blood);
-      }
-      .pulse {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background: var(--blood);
-        box-shadow: 0 0 20px rgba(107, 26, 26, 0.5);
-        animation: pulse 1.4s ease-in-out infinite;
-        z-index: 2;
-      }
-      @keyframes pulse {
-        0%, 100% { transform: scale(1); opacity: 0.6; }
-        50% { transform: scale(1.5); opacity: 1; }
-      }
-    </style>
+    <meta name="theme-color" content="#050505">
+    <meta name="description" content="血管 — 跟随它继续生长。Goddead.">
+    <title>血管 // Goddead</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Serif+SC:wght@300;400;500&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=11">
   </head>
-  <body>
-    <canvas id="vein-canvas"></canvas>
+  <body class="chamber chamber--vein">
+    <canvas id="vein-canvas" aria-label="血管网络画布"></canvas>
+    <div class="chamber-vignette" aria-hidden="true"></div>
+    <div class="chamber-scripture chamber-scripture--left" aria-hidden="true">血 脉 延 伸 无 名 生 长</div>
+    <div class="chamber-scripture chamber-scripture--right" aria-hidden="true">VEIN · CRESCERE · SANGUIS</div>
 
-    <div class="vein-ui">
-      <div class="vein-title">血 管 网 络</div>
-      <div class="vein-hint">移动引诱生长。点击播下种子。</div>
-    </div>
+    <header class="vein-ui">
+      <div class="chamber-frame">
+        <p class="chamber-kicker"><b>02</b><i></i><em></em></p>
+        <h1 class="chamber-title">血 管</h1>
+        <p class="chamber-whisper">移动引诱生长。点击播下种子。</p>
+        <div class="chamber-divider" aria-hidden="true"></div>
+      </div>
+    </header>
 
-    <a class="back-link" href="index.html">[ 返 回 / RETURN ]</a>
-    <div class="pulse"></div>
+    <footer class="chamber-footer">
+      <a class="chamber-back" href="index.html">返回祭坛</a>
+      <p class="chamber-status"><span class="chamber-pulse" aria-hidden="true"></span> 网络在听 · goddead.com</p>
+    </footer>
+
+    <div class="screen-grain" aria-hidden="true"></div>
 
     <script>
-      const canvas = document.getElementById('vein-canvas');
-      const ctx = canvas.getContext('2d');
-      let width = canvas.width = window.innerWidth;
-      let height = canvas.height = window.innerHeight;
+      const canvas = document.getElementById("vein-canvas");
+      const ctx = canvas.getContext("2d");
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
 
       const nodes = [];
       const maxNodes = 180;
@@ -110,7 +51,9 @@
           this.age = 0;
           this.maxAge = 200 + Math.random() * 300;
           this.branched = false;
-          this.angle = parent ? parent.angle + (Math.random() - 0.5) * 1.2 : Math.random() * Math.PI * 2;
+          this.angle = parent
+            ? parent.angle + (Math.random() - 0.5) * 1.2
+            : Math.random() * Math.PI * 2;
           this.speed = 0.5 + Math.random() * 1.2;
           this.width = parent ? parent.width * 0.92 : 2 + Math.random() * 2;
         }
@@ -138,25 +81,30 @@
           ctx.beginPath();
           ctx.moveTo(this.parent.x, this.parent.y);
           ctx.lineTo(this.x, this.y);
-          ctx.strokeStyle = `rgba(107, 26, 26, ${alpha * 0.7})`;
+          ctx.strokeStyle = `rgba(141, 43, 39, ${alpha * 0.72})`;
           ctx.lineWidth = Math.max(0.3, this.width * alpha);
           ctx.stroke();
 
           if (this.age < 50) {
             ctx.beginPath();
             ctx.arc(this.x, this.y, 1.5 * alpha, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(140, 40, 40, ${alpha})`;
+            ctx.fillStyle = `rgba(189, 73, 67, ${alpha * 0.9})`;
             ctx.fill();
           }
         }
       }
 
       for (let i = 0; i < 5; i++) {
-        nodes.push(new VeinNode(width / 2 + (Math.random() - 0.5) * 60, height / 2 + (Math.random() - 0.5) * 60));
+        nodes.push(
+          new VeinNode(
+            width / 2 + (Math.random() - 0.5) * 60,
+            height / 2 + (Math.random() - 0.5) * 60
+          )
+        );
       }
 
       function render() {
-        ctx.fillStyle = 'rgba(3, 3, 3, 0.06)';
+        ctx.fillStyle = "rgba(5, 5, 5, 0.06)";
         ctx.fillRect(0, 0, width, height);
 
         for (let i = nodes.length - 1; i >= 0; i--) {
@@ -169,33 +117,42 @@
         }
 
         while (nodes.length < 40) {
-          nodes.push(new VeinNode(width / 2 + (Math.random() - 0.5) * 40, height / 2 + (Math.random() - 0.5) * 40));
+          nodes.push(
+            new VeinNode(
+              width / 2 + (Math.random() - 0.5) * 40,
+              height / 2 + (Math.random() - 0.5) * 40
+            )
+          );
         }
 
         requestAnimationFrame(render);
       }
       render();
 
-      window.addEventListener('resize', () => {
+      window.addEventListener("resize", () => {
         width = canvas.width = window.innerWidth;
         height = canvas.height = window.innerHeight;
       });
 
-      window.addEventListener('mousemove', (e) => {
+      window.addEventListener("mousemove", (e) => {
         mouse.x = e.clientX;
         mouse.y = e.clientY;
       });
 
-      window.addEventListener('click', (e) => {
+      window.addEventListener("click", (e) => {
         for (let i = 0; i < 5; i++) {
           nodes.push(new VeinNode(e.clientX, e.clientY));
         }
       });
 
-      window.addEventListener('touchmove', (e) => {
-        mouse.x = e.touches[0].clientX;
-        mouse.y = e.touches[0].clientY;
-      }, { passive: true });
+      window.addEventListener(
+        "touchmove",
+        (e) => {
+          mouse.x = e.touches[0].clientX;
+          mouse.y = e.touches[0].clientY;
+        },
+        { passive: true }
+      );
     </script>
   </body>
 </html>

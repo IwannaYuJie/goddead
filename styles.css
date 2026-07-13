@@ -43,6 +43,18 @@ a:focus-visible {
   background: rgba(141, 43, 39, 0.4);
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .compatibility-asset {
   position: fixed;
   width: 1px;
@@ -611,5 +623,630 @@ body.awake .gate-name { text-shadow: 0 0 28px rgba(200, 194, 184, 0.09); }
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================
+   Chamber pages — Echo / Vein / Confession
+   Shared ritual frame aligned with Split Testament homepage
+   ============================================================ */
+
+body.chamber {
+  overflow: auto;
+  min-height: 100svh;
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 40%, rgba(66, 16, 15, 0.12), transparent 62%),
+    radial-gradient(ellipse 60% 50% at 80% 90%, rgba(20, 16, 12, 0.5), transparent 55%),
+    var(--void);
+}
+
+body.chamber--vein {
+  overflow: hidden;
+  cursor: crosshair;
+  background: var(--void);
+}
+
+.chamber-vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(5, 5, 5, 0.55) 0%, transparent 18%, transparent 78%, rgba(5, 5, 5, 0.72) 100%),
+    linear-gradient(90deg, rgba(5, 5, 5, 0.45) 0%, transparent 12%, transparent 88%, rgba(5, 5, 5, 0.45) 100%);
+}
+
+.chamber-scripture {
+  position: fixed;
+  z-index: 2;
+  color: rgba(141, 43, 39, 0.38);
+  font-family: var(--serif-cn);
+  font-size: 0.58rem;
+  letter-spacing: 0.42em;
+  writing-mode: vertical-rl;
+  pointer-events: none;
+  user-select: none;
+}
+
+.chamber-scripture--left {
+  top: 12%;
+  left: clamp(1rem, 3vw, 2.4rem);
+  height: 48%;
+}
+
+.chamber-scripture--right {
+  top: 28%;
+  right: clamp(1rem, 3vw, 2.4rem);
+  height: 36%;
+  font-family: var(--mono);
+  color: rgba(150, 118, 84, 0.32);
+  letter-spacing: 0.55em;
+}
+
+.chamber-shell {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100svh;
+  padding: clamp(4.5rem, 10vh, 6.5rem) clamp(1.5rem, 5vw, 3.5rem) clamp(5rem, 10vh, 6rem);
+}
+
+.chamber-frame {
+  position: relative;
+  width: min(640px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: chamber-arrive 1.4s var(--ease) both;
+}
+
+.chamber-frame::before,
+.chamber-frame::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: rgba(141, 43, 39, 0.45);
+  border-style: solid;
+  pointer-events: none;
+}
+
+.chamber-frame::before {
+  top: -12px;
+  left: -4px;
+  border-width: 1px 0 0 1px;
+}
+
+.chamber-frame::after {
+  right: -4px;
+  bottom: -12px;
+  border-width: 0 1px 1px 0;
+}
+
+.chamber-kicker {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  margin: 0 0 1.4rem;
+  color: var(--blood);
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+}
+
+.chamber-kicker b {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+.chamber-kicker i {
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+  font-style: normal;
+}
+
+.chamber-kicker em {
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--blood);
+  border-radius: 50%;
+  font-style: normal;
+  box-shadow: 0 0 10px rgba(141, 43, 39, 0.25);
+}
+
+.chamber-title {
+  margin: 0;
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: clamp(2.6rem, 8vw, 4.2rem);
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  line-height: 1.15;
+  text-align: center;
+  text-indent: 0.28em;
+}
+
+.chamber-latin {
+  margin: 0.85rem 0 0;
+  color: rgba(150, 118, 84, 0.48);
+  font-family: var(--mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.55em;
+  text-transform: uppercase;
+}
+
+.chamber-whisper {
+  margin: 1.6rem 0 0;
+  max-width: 28em;
+  color: rgba(200, 194, 184, 0.55);
+  font-size: clamp(0.85rem, 1.8vw, 1rem);
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  line-height: 1.85;
+  text-align: center;
+}
+
+.chamber-divider {
+  width: min(220px, 48%);
+  height: 1px;
+  margin: 2rem auto 2.2rem;
+  background: linear-gradient(90deg, transparent, rgba(141, 43, 39, 0.55), transparent);
+  box-shadow: 0 0 12px rgba(141, 43, 39, 0.15);
+}
+
+.chamber-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem clamp(1.2rem, 4vw, 2.4rem);
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(5, 5, 5, 0.88) 55%);
+}
+
+.chamber-footer > * {
+  pointer-events: auto;
+}
+
+.chamber-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.22em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.35s ease, transform 0.4s var(--ease);
+}
+
+.chamber-back::before {
+  content: "";
+  width: 18px;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.35s var(--ease);
+}
+
+.chamber-back:hover {
+  color: var(--blood);
+  transform: translateX(-3px);
+}
+
+.chamber-back:hover::before {
+  width: 28px;
+}
+
+.chamber-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  color: rgba(119, 113, 105, 0.55);
+  font-family: var(--mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-align: right;
+}
+
+.chamber-pulse {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--blood);
+  box-shadow: 0 0 18px rgba(141, 43, 39, 0.65);
+  animation: chamber-pulse 1.6s ease-in-out infinite;
+}
+
+/* --- Echo --- */
+
+.echo-input {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(141, 43, 39, 0.45);
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: clamp(1.05rem, 2.4vw, 1.35rem);
+  font-weight: 300;
+  letter-spacing: 0.14em;
+  line-height: 1.6;
+  padding: 1rem 0.35rem 1.1rem;
+  text-align: center;
+  outline: none;
+  caret-color: var(--blood);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.echo-input::placeholder {
+  color: rgba(119, 113, 105, 0.55);
+  letter-spacing: 0.12em;
+}
+
+.echo-input:focus {
+  border-bottom-color: var(--blood);
+  box-shadow: 0 1px 0 0 rgba(141, 43, 39, 0.35);
+}
+
+.echo-chamber {
+  width: 100%;
+  min-height: 12rem;
+  margin-top: 2.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.15rem;
+}
+
+.echo-line {
+  max-width: 100%;
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: clamp(0.92rem, 2vw, 1.12rem);
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  line-height: 1.7;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease), color 0.6s ease, text-shadow 0.6s ease;
+}
+
+.echo-line.visible {
+  opacity: 0.82;
+  transform: translateY(0);
+}
+
+.echo-line.corrupted {
+  color: var(--blood);
+  text-shadow: 0 0 18px rgba(141, 43, 39, 0.35);
+}
+
+#stain-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* --- Vein --- */
+
+#vein-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+}
+
+.vein-ui {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  padding: clamp(1.4rem, 4vw, 2.2rem) clamp(1.2rem, 4vw, 2.4rem);
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(5, 5, 5, 0.78), transparent 90%);
+}
+
+.vein-ui .chamber-frame {
+  align-items: flex-start;
+  width: min(420px, 100%);
+  animation-duration: 1.1s;
+}
+
+.vein-ui .chamber-frame::before {
+  top: 0;
+  left: 0;
+}
+
+.vein-ui .chamber-frame::after {
+  display: none;
+}
+
+.vein-ui .chamber-title {
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  letter-spacing: 0.32em;
+  text-align: left;
+  text-indent: 0;
+}
+
+.vein-ui .chamber-whisper {
+  margin-top: 0.9rem;
+  text-align: left;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  color: rgba(200, 194, 184, 0.48);
+}
+
+.vein-ui .chamber-kicker {
+  margin-bottom: 0.9rem;
+}
+
+.vein-ui .chamber-divider {
+  margin: 1.1rem 0 0;
+  margin-right: auto;
+  width: 120px;
+}
+
+/* --- Confession --- */
+
+.confession-prompt {
+  margin: 1.5rem 0 0;
+  max-width: 28em;
+  color: rgba(200, 194, 184, 0.72);
+  font-size: clamp(0.95rem, 2.2vw, 1.2rem);
+  font-weight: 300;
+  letter-spacing: 0.14em;
+  line-height: 1.9;
+  text-align: center;
+}
+
+.confession-field {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  margin-top: 0.2rem;
+  padding: 1px;
+  background:
+    linear-gradient(135deg, rgba(141, 43, 39, 0.45), rgba(200, 194, 184, 0.08) 40%, rgba(141, 43, 39, 0.25));
+}
+
+.confession-field::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  background: rgba(8, 7, 6, 0.94);
+  pointer-events: none;
+}
+
+.confession-input {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  min-height: 160px;
+  margin: 0;
+  padding: 1.5rem 1.4rem;
+  border: 0;
+  background: transparent;
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 1rem;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  line-height: 1.9;
+  outline: none;
+  resize: vertical;
+  caret-color: var(--blood);
+}
+
+.confession-input::placeholder {
+  color: rgba(119, 113, 105, 0.5);
+}
+
+.confession-submit {
+  position: relative;
+  margin-top: 1.8rem;
+  padding: 0.95rem 2.8rem;
+  border: 1px solid rgba(141, 43, 39, 0.55);
+  background: rgba(141, 43, 39, 0.06);
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: 0.78rem;
+  letter-spacing: 0.42em;
+  cursor: pointer;
+  transition:
+    background 0.45s ease,
+    color 0.45s ease,
+    border-color 0.45s ease,
+    box-shadow 0.45s ease,
+    transform 0.4s var(--ease);
+}
+
+.confession-submit::before,
+.confession-submit::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border: 1px solid rgba(141, 43, 39, 0.5);
+  border-radius: 50%;
+  transform: translateY(-50%);
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+}
+
+.confession-submit::before { left: 1rem; }
+.confession-submit::after { right: 1rem; }
+
+.confession-submit:hover {
+  background: rgba(141, 43, 39, 0.55);
+  border-color: var(--blood);
+  color: var(--bone-bright);
+  box-shadow: 0 0 28px rgba(141, 43, 39, 0.28);
+  transform: translateY(-1px);
+}
+
+.confession-submit:hover::before,
+.confession-submit:hover::after {
+  background: var(--blood);
+  box-shadow: 0 0 10px rgba(141, 43, 39, 0.7);
+}
+
+.confession-submit:active {
+  transform: translateY(0);
+}
+
+.confession-response {
+  width: 100%;
+  min-height: 5rem;
+  margin-top: 2.4rem;
+  color: var(--bone);
+  font-size: clamp(0.95rem, 2vw, 1.12rem);
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  line-height: 1.95;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 1.1s var(--ease), transform 1.1s var(--ease), color 0.55s ease;
+}
+
+.confession-response.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.confession-response.corrupted {
+  color: var(--blood);
+  text-shadow: 0 0 16px rgba(141, 43, 39, 0.25);
+}
+
+.scratch {
+  position: fixed;
+  z-index: 2;
+  pointer-events: none;
+  background: rgba(141, 43, 39, 0.12);
+  transform: rotate(var(--r, 0deg));
+}
+
+.watching {
+  position: fixed;
+  top: clamp(1.4rem, 4vw, 2.2rem);
+  right: clamp(1.2rem, 4vw, 2.4rem);
+  z-index: 6;
+  width: 22px;
+  height: 22px;
+  border: 1px solid rgba(141, 43, 39, 0.55);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 2s ease, box-shadow 1s ease;
+}
+
+.watching::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  background: var(--blood);
+  box-shadow: 0 0 12px rgba(141, 43, 39, 0.6);
+  opacity: 0.75;
+}
+
+.watching.visible {
+  opacity: 0.7;
+  box-shadow: 0 0 20px rgba(141, 43, 39, 0.25);
+}
+
+@keyframes chamber-arrive {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes chamber-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.55; }
+  50% { transform: scale(1.45); opacity: 1; }
+}
+
+@media (max-width: 720px) {
+  .chamber-scripture--left {
+    left: 0.65rem;
+    font-size: 0.5rem;
+    height: 36%;
+  }
+
+  .chamber-scripture--right {
+    display: none;
+  }
+
+  .chamber-shell {
+    padding-top: 4rem;
+    padding-bottom: 5.5rem;
+  }
+
+  .chamber-title {
+    letter-spacing: 0.2em;
+    text-indent: 0.2em;
+  }
+
+  .chamber-frame::before,
+  .chamber-frame::after {
+    width: 12px;
+    height: 12px;
+  }
+
+  .confession-input {
+    min-height: 140px;
+    padding: 1.2rem 1rem;
+  }
+
+  .confession-submit {
+    width: 100%;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .chamber-status {
+    max-width: 46%;
+  }
+
+  .vein-ui .chamber-title {
+    letter-spacing: 0.22em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chamber-frame {
+    animation: none;
+  }
+
+  .chamber-pulse {
+    animation: none;
   }
 }
