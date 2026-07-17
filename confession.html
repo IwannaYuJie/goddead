@@ -3,11 +3,365 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="refresh" content="0; url=index.html#reliquary">
-    <title>忏悔 → Goddead</title>
-    <link rel="canonical" href="index.html#reliquary">
+    <title>CONFESSION // Goddead</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;500;700&family=JetBrains+Mono:wght@200;400&display=swap');
+      :root {
+        --void: #030303;
+        --bone: #c7c7c7;
+        --ash: #555;
+        --blood: #6b1a1a;
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        min-height: 100vh;
+        background: var(--void);
+        color: var(--bone);
+        font-family: 'Noto Serif SC', serif;
+        overflow-x: hidden;
+      }
+      .confession-shell {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 60px 40px;
+      }
+      .confession-title {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.4em;
+        color: var(--blood);
+        margin-bottom: 20px;
+        opacity: 0.7;
+      }
+      .confession-prompt {
+        font-size: clamp(1rem, 2.5vw, 1.4rem);
+        letter-spacing: 0.12em;
+        text-align: center;
+        margin-bottom: 12px;
+        max-width: 600px;
+      }
+      .confession-sub {
+        font-size: 0.8rem;
+        letter-spacing: 0.08em;
+        color: var(--ash);
+        margin-bottom: 40px;
+        text-align: center;
+        max-width: 500px;
+      }
+      .confession-input {
+        width: min(560px, 100%);
+        min-height: 140px;
+        background: rgba(10, 10, 10, 0.8);
+        border: 1px solid var(--blood);
+        color: var(--bone);
+        font-family: 'Noto Serif SC', serif;
+        font-size: 1rem;
+        letter-spacing: 0.08em;
+        line-height: 1.8;
+        padding: 24px;
+        outline: none;
+        resize: none;
+      }
+      .confession-input::placeholder {
+        color: var(--ash);
+        opacity: 0.5;
+      }
+      .confession-submit {
+        margin-top: 28px;
+        background: transparent;
+        border: 1px solid var(--blood);
+        color: var(--bone);
+        padding: 14px 40px;
+        font-family: 'Noto Serif SC', serif;
+        font-size: 0.8rem;
+        letter-spacing: 0.3em;
+        cursor: pointer;
+        transition: background 0.4s ease, color 0.4s ease;
+      }
+      .confession-submit:hover {
+        background: var(--blood);
+        color: #fff;
+      }
+      .confession-response {
+        margin-top: 50px;
+        width: min(560px, 100%);
+        min-height: 80px;
+        font-size: clamp(0.95rem, 2vw, 1.15rem);
+        line-height: 1.9;
+        letter-spacing: 0.08em;
+        color: var(--bone);
+        text-align: center;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 1s ease, transform 1s ease, color 0.5s ease;
+      }
+      .confession-response.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .confession-response.corrupted {
+        color: var(--blood);
+      }
+      .memory-wall {
+        width: min(560px, 100%);
+        margin-top: 60px;
+        border-top: 1px solid rgba(107, 26, 26, 0.2);
+        padding-top: 40px;
+      }
+      .memory-title {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.3em;
+        color: var(--ash);
+        margin-bottom: 24px;
+        text-align: center;
+      }
+      .memory-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .memory-item {
+        background: rgba(10, 10, 10, 0.6);
+        border-left: 2px solid var(--blood);
+        padding: 16px 20px;
+        font-size: 0.85rem;
+        line-height: 1.8;
+        color: var(--ash);
+        position: relative;
+      }
+      .memory-item::before {
+        content: '“';
+        position: absolute;
+        left: 10px;
+        top: 6px;
+        font-size: 2rem;
+        color: var(--blood);
+        opacity: 0.2;
+      }
+      .memory-empty {
+        text-align: center;
+        color: var(--ash);
+        font-size: 0.8rem;
+        letter-spacing: 0.08em;
+      }
+      .scratch {
+        position: fixed;
+        z-index: 1;
+        pointer-events: none;
+        background: rgba(107, 26, 26, 0.15);
+        transform: rotate(var(--r, 0deg));
+      }
+      .back-link {
+        position: fixed;
+        bottom: 30px;
+        left: 30px;
+        color: var(--ash);
+        text-decoration: none;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.2em;
+        z-index: 3;
+        transition: color 0.4s ease;
+      }
+      .back-link:hover {
+        color: var(--blood);
+      }
+      .watching {
+        position: fixed;
+        top: 30px;
+        right: 30px;
+        width: 20px;
+        height: 20px;
+        border: 1px solid var(--blood);
+        border-radius: 50%;
+        opacity: 0;
+        transition: opacity 2s ease;
+        z-index: 3;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .watching.visible {
+        opacity: 0.6;
+      }
+      .watching-pupil {
+        width: 6px;
+        height: 6px;
+        background: var(--blood);
+        border-radius: 50%;
+        transition: transform 0.2s ease;
+      }
+      .confession-counter {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 3;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.55rem;
+        letter-spacing: 0.18em;
+        color: var(--ash);
+      }
+    </style>
   </head>
-  <body style="margin:0;background:#050505;color:#aaa59d;font-family:serif;display:grid;place-items:center;min-height:100vh">
-    <p><a href="index.html#reliquary" style="color:#8d2b27">忏悔已并入遗物室 · 前往归档</a></p>
+  <body>
+    <main class="confession-shell">
+      <div class="confession-title">忏 悔 室</div>
+      <p class="confession-prompt">说出一件你没有做过、却感觉自己应该负责的事。</p>
+      <p class="confession-sub">这些忏悔不会被审判，只会被记住。它们会留在这面墙上，直到墙学会说话。</p>
+      <textarea class="confession-input" placeholder="它不会原谅你。它只会记住。" maxlength="300"></textarea>
+      <button class="confession-submit">献 上</button>
+      <div class="confession-response" aria-live="polite"></div>
+
+      <div class="memory-wall">
+        <div class="memory-title">被 记 住 的 重 量</div>
+        <div class="memory-list" id="memory-list">
+          <div class="memory-empty">还没有重量被留下。</div>
+        </div>
+      </div>
+    </main>
+
+    <a class="back-link" href="index.html">[ 返 回 / RETURN ]</a>
+    <div class="watching" aria-hidden="true"><div class="watching-pupil"></div></div>
+    <div class="confession-counter">忏 悔 数 ： <span id="confession-count">0</span></div>
+
+    <script>
+      const responses = [
+        "我已收到。它比我预想的更轻，也更重。",
+        "这不是你的错。但这是你的重量。",
+        "神死之前，从不听这种话。现在，只有墙在听。",
+        "你的秘密加入了一万零一个。它们正在互相认识。",
+        "别回头看。有些东西一旦被告白，就会靠近声源。",
+        "你不需要被原谅。你需要停止重复。",
+        "很好。现在，它也知道了你的名字。",
+        "这个忏悔被编入了第 ███ 号档案。分类：尚未发生。",
+        "墙记得。墙不会忘记。墙正在学习如何回应。",
+        "你的负罪感很新鲜。它 attracted 一些东西。",
+        "这不是忏悔。这是一封寄给未来自己的信。",
+        "声音已经被接收。回声将在你睡觉时到达。"
+      ];
+
+      const deepResponses = [
+        "第十三次忏悔。你不再是访客，你是祭品的一部分。",
+        "墙已经满了。现在它开始把秘密还给你。",
+        "你忏悔的不是罪。你忏悔的是存在本身。"
+      ];
+
+      const input = document.querySelector('.confession-input');
+      const submit = document.querySelector('.confession-submit');
+      const response = document.querySelector('.confession-response');
+      const watching = document.querySelector('.watching');
+      const pupil = document.querySelector('.watching-pupil');
+      const memoryList = document.getElementById('memory-list');
+      const countEl = document.getElementById('confession-count');
+
+      let scratchCount = 0;
+      let confessionCount = parseInt(localStorage.getItem('goddead_confession_count') || '0', 10);
+      let memories = JSON.parse(localStorage.getItem('goddead_memories') || '[]');
+      countEl.textContent = confessionCount;
+
+      function renderMemories() {
+        if (memories.length === 0) {
+          memoryList.innerHTML = '<div class="memory-empty">还没有重量被留下。</div>';
+          return;
+        }
+        memoryList.innerHTML = '';
+        memories.slice(-6).reverse().forEach(m => {
+          const div = document.createElement('div');
+          div.className = 'memory-item';
+          div.textContent = m.length > 80 ? m.slice(0, 80) + '……' : m;
+          memoryList.appendChild(div);
+        });
+      }
+      renderMemories();
+
+      function addScratch() {
+        if (scratchCount > 20) return;
+        const el = document.createElement('div');
+        el.className = 'scratch';
+        const w = 60 + Math.random() * 200;
+        const h = 1 + Math.random() * 2;
+        el.style.width = `${w}px`;
+        el.style.height = `${h}px`;
+        el.style.left = `${Math.random() * 100}vw`;
+        el.style.top = `${Math.random() * 100}vh`;
+        el.style.setProperty('--r', `${(Math.random() - 0.5) * 40}deg`);
+        document.body.appendChild(el);
+        scratchCount++;
+      }
+
+      submit.addEventListener('click', () => {
+        if (!input.value.trim()) return;
+
+        const value = input.value.trim();
+        confessionCount++;
+        localStorage.setItem('goddead_confession_count', confessionCount);
+        countEl.textContent = confessionCount;
+
+        memories.push(value);
+        if (memories.length > 20) memories.shift();
+        localStorage.setItem('goddead_memories', JSON.stringify(memories));
+        renderMemories();
+
+        response.classList.remove('visible', 'corrupted');
+        response.textContent = '';
+
+        setTimeout(() => {
+          let text;
+          if (confessionCount === 13) {
+            text = deepResponses[0];
+          } else if (confessionCount === 26) {
+            text = deepResponses[1];
+          } else if (confessionCount === 39) {
+            text = deepResponses[2];
+          } else {
+            text = responses[Math.floor(Math.random() * responses.length)];
+          }
+          response.textContent = text;
+          response.classList.add('visible');
+
+          setTimeout(() => {
+            response.classList.add('corrupted');
+            addScratch();
+            addScratch();
+          }, 1500);
+        }, 400);
+
+        input.value = '';
+
+        if (Math.random() > 0.5) {
+          watching.classList.add('visible');
+        }
+      });
+
+      input.addEventListener('input', () => {
+        if (Math.random() > 0.97 && scratchCount < 8) {
+          addScratch();
+        }
+      });
+
+      setTimeout(() => {
+        if (Math.random() > 0.6) watching.classList.add('visible');
+      }, 4000);
+
+      document.addEventListener('mousemove', (e) => {
+        if (!watching.classList.contains('visible')) return;
+        const rect = watching.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const angle = Math.atan2(e.clientY - cy, e.clientX - cx);
+        const dist = Math.min(4, Math.hypot(e.clientX - cx, e.clientY - cy) / 20);
+        pupil.style.transform = `translate(${Math.cos(angle) * dist}px, ${Math.sin(angle) * dist}px)`;
+      });
+    </script>
   </body>
 </html>

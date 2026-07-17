@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RELiquARY // Goddead</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;500;700&family=JetBrains+Mono:wght@200;400&display=swap');
+      :root {
+        --void: #030303;
+        --bone: #c7c7c7;
+        --ash: #555;
+        --blood: #6b1a1a;
+        --gold: #8a7340;
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        min-height: 100vh;
+        background: var(--void);
+        color: var(--bone);
+        font-family: 'Noto Serif SC', serif;
+        overflow-x: hidden;
+      }
+      #dust-canvas {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .reliquary-shell {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 80px 40px;
+      }
+      .reliquary-title {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.4em;
+        color: var(--blood);
+        margin-bottom: 20px;
+        opacity: 0.7;
+      }
+      .reliquary-heading {
+        font-size: clamp(1.6rem, 4vw, 2.6rem);
+        letter-spacing: 0.18em;
+        text-align: center;
+        margin-bottom: 16px;
+      }
+      .reliquary-intro {
+        font-size: 0.9rem;
+        letter-spacing: 0.08em;
+        color: var(--ash);
+        text-align: center;
+        max-width: 560px;
+        margin-bottom: 60px;
+        line-height: 1.9;
+      }
+      .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1px;
+        background: rgba(107, 26, 26, 0.15);
+        border: 1px solid rgba(107, 26, 26, 0.15);
+        width: min(900px, 100%);
+        margin-bottom: 60px;
+      }
+      .stat-card {
+        background: rgba(8, 8, 8, 0.6);
+        padding: 36px 20px;
+        text-align: center;
+      }
+      .stat-num {
+        display: block;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: clamp(1.8rem, 4vw, 2.5rem);
+        color: var(--bone);
+        margin-bottom: 10px;
+      }
+      .stat-label {
+        font-size: 0.65rem;
+        letter-spacing: 0.12em;
+        color: var(--ash);
+      }
+      .relic-collection {
+        width: min(760px, 100%);
+        margin-bottom: 60px;
+      }
+      .collection-title {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.3em;
+        color: var(--ash);
+        margin-bottom: 24px;
+        text-align: center;
+      }
+      .collection-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .collection-item {
+        background: rgba(10, 10, 10, 0.6);
+        border-left: 2px solid var(--gold);
+        padding: 20px 24px;
+        font-size: 0.85rem;
+        line-height: 1.8;
+        color: var(--bone);
+      }
+      .collection-empty {
+        text-align: center;
+        color: var(--ash);
+        font-size: 0.8rem;
+        letter-spacing: 0.08em;
+        padding: 40px;
+      }
+      .reliquary-warning {
+        max-width: 560px;
+        text-align: center;
+        font-size: 0.8rem;
+        color: var(--ash);
+        line-height: 1.9;
+        margin-bottom: 40px;
+      }
+      .forget-btn {
+        background: transparent;
+        border: 1px solid var(--blood);
+        color: var(--bone);
+        padding: 14px 40px;
+        font-family: 'Noto Serif SC', serif;
+        font-size: 0.75rem;
+        letter-spacing: 0.25em;
+        cursor: pointer;
+        transition: background 0.4s ease, color 0.4s ease;
+      }
+      .forget-btn:hover {
+        background: var(--blood);
+        color: #fff;
+      }
+      .back-link {
+        position: fixed;
+        bottom: 30px;
+        left: 30px;
+        color: var(--ash);
+        text-decoration: none;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.2em;
+        z-index: 3;
+        transition: color 0.4s ease;
+      }
+      .back-link:hover {
+        color: var(--blood);
+      }
+      @media (max-width: 720px) {
+        .stat-grid { grid-template-columns: repeat(2, 1fr); }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="dust-canvas"></canvas>
+
+    <main class="reliquary-shell">
+      <div class="reliquary-title">遗 物 室</div>
+      <h1 class="reliquary-heading">被 收 集 的 缺 席</h1>
+      <p class="reliquary-intro">这里存放着你在神死之后的网页里留下的痕迹。它们不属于你，也不属于任何人。它们只是被记住了。</p>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <span class="stat-num" id="stat-corruption">0%</span>
+          <span class="stat-label">侵 蚀 度</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" id="stat-echoes">0</span>
+          <span class="stat-label">回 声 数</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" id="stat-confessions">0</span>
+          <span class="stat-label">忏 悔 数</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" id="stat-prayers">0</span>
+          <span class="stat-label">祷 词 数</span>
+        </div>
+      </div>
+
+      <div class="relic-collection">
+        <div class="collection-title">记 忆 残 片</div>
+        <div class="collection-list" id="collection-list">
+          <div class="collection-empty">没有碎片被收藏。</div>
+        </div>
+      </div>
+
+      <p class="reliquary-warning">遗忘不会让它们消失。但如果你选择忘记，这个房间会变得空一点。空，也是一种重量。</p>
+      <button class="forget-btn" id="forget-btn">我 选 择 遗 忘</button>
+    </main>
+
+    <a class="back-link" href="index.html">[ 返 回 / RETURN ]</a>
+
+    <script>
+      const canvas = document.getElementById('dust-canvas');
+      const ctx = canvas.getContext('2d');
+      let width = canvas.width = window.innerWidth;
+      let height = canvas.height = window.innerHeight;
+
+      const dust = [];
+      for (let i = 0; i < 60; i++) {
+        dust.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          r: 0.5 + Math.random() * 1.5,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.3,
+          alpha: 0.1 + Math.random() * 0.3
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, width, height);
+        dust.forEach(d => {
+          d.x += d.vx;
+          d.y += d.vy;
+          if (d.x < 0) d.x = width;
+          if (d.x > width) d.x = 0;
+          if (d.y < 0) d.y = height;
+          if (d.y > height) d.y = 0;
+          ctx.beginPath();
+          ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(130, 110, 65, ${d.alpha})`;
+          ctx.fill();
+        });
+        requestAnimationFrame(draw);
+      }
+      draw();
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+
+      function loadState() {
+        let state = {};
+        try {
+          state = JSON.parse(localStorage.getItem('goddead_state') || '{}');
+        } catch {}
+        document.getElementById('stat-corruption').textContent = (state.corruption || 0).toFixed(1) + '%';
+        document.getElementById('stat-echoes').textContent = localStorage.getItem('goddead_echo_count') || '0';
+        document.getElementById('stat-confessions').textContent = localStorage.getItem('goddead_confession_count') || '0';
+        document.getElementById('stat-prayers').textContent = state.prayersOffered || '0';
+
+        const memories = JSON.parse(localStorage.getItem('goddead_memories') || '[]');
+        const list = document.getElementById('collection-list');
+        if (memories.length === 0) {
+          list.innerHTML = '<div class="collection-empty">没有碎片被收藏。</div>';
+        } else {
+          list.innerHTML = '';
+          memories.slice(-8).reverse().forEach((m, i) => {
+            const div = document.createElement('div');
+            div.className = 'collection-item';
+            div.textContent = `[${memories.length - i}] ${m.length > 100 ? m.slice(0, 100) + '……' : m}`;
+            list.appendChild(div);
+          });
+        }
+      }
+      loadState();
+
+      document.getElementById('forget-btn').addEventListener('click', () => {
+        if (confirm('确定要遗忘吗？这会清除你在这个网页里留下的所有痕迹。')) {
+          localStorage.removeItem('goddead_state');
+          localStorage.removeItem('goddead_echo_count');
+          localStorage.removeItem('goddead_confession_count');
+          localStorage.removeItem('goddead_memories');
+          loadState();
+        }
+      });
+    </script>
+  </body>
+</html>

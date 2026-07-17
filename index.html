@@ -4,680 +4,176 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#050505">
-    <meta name="description" content="Goddead — 点击进入空缺。一步一步，不要回头太快。">
+    <meta name="description" content="Goddead.com — 神已经死去。你仍然抵达。">
     <title>Goddead</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+SC:wght@300;400;500&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Serif+SC:wght@300;400;500&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
     <link rel="preload" href="assets/hero.png" as="image">
-    <link rel="preload" href="assets/testament-left.png" as="image">
-    <link rel="stylesheet" href="styles.css?v=60">
+    <link rel="stylesheet" href="styles.css?v=11">
   </head>
   <body>
-    <img class="compatibility-asset" src="assets/hero.png" alt="">
+    <canvas id="ash-field" aria-hidden="true"></canvas>
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="screen-grain" aria-hidden="true"></div>
 
-    <header class="site-chrome">
-      <a class="chrome-mark" href="#" id="home-link" data-go="rift">G O D D E A D</a>
-      <div class="chrome-mid">
-        <span class="depth-label" id="depth-label">深度 0</span>
-        <span class="depth-bar" aria-hidden="true"><i id="depth-fill"></i></span>
-      </div>
-      <button class="menu-trigger" id="menu-trigger" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="打开目录">
-        <span class="menu-trigger-lines" aria-hidden="true"><i></i><i></i></span>
-        <span class="menu-trigger-label">目录</span>
+    <div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
+    <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <a class="sigil" href="index.html" data-hover>GODDEAD</a>
+      <p class="era-line" id="era-line">神死后的第 — 天</p>
+      <button class="menu-trigger" id="menu-trigger" type="button" aria-expanded="false" aria-controls="ritual-menu" aria-label="打开目录" data-hover>
+        <span></span><span></span>
       </button>
     </header>
 
-    <aside class="site-menu" id="site-menu" aria-hidden="true">
-      <div class="site-menu-inner">
-        <div class="site-menu-head">
-          <p class="menu-kicker">探索路径 · 非线性</p>
-          <button class="menu-close" id="menu-close" type="button">合上</button>
-        </div>
-        <nav class="menu-nav" id="menu-nav">
-          <button type="button" data-go="rift"><em>0</em><span>裂口</span></button>
-          <button type="button" data-go="void" data-need="0"><em>I</em><span>无名</span></button>
-          <button type="button" data-go="law" data-need="1"><em>II</em><span>断律</span></button>
-          <button type="button" data-go="years" data-need="1"><em>III</em><span>残年</span></button>
-          <button type="button" data-go="cult" data-need="1"><em>III·b</em><span>教团</span></button>
-          <button type="button" data-go="scraps" data-need="2"><em>IV</em><span>禁页</span></button>
-          <button type="button" data-go="map" data-need="2"><em>V</em><span>渗漏</span></button>
-          <button type="button" data-go="liturgy" data-need="2"><em>V·b</em><span>日课</span></button>
-          <button type="button" data-go="rules" data-need="2"><em>V·c</em><span>守则</span></button>
-          <button type="button" data-go="night" data-need="2"><em>V·d</em><span>夜班</span></button>
-          <button type="button" data-go="voices" data-need="2"><em>VI</em><span>耳语</span></button>
-          <button type="button" data-go="names" data-need="2"><em>VII</em><span>伪名</span></button>
-          <button type="button" data-go="symptoms" data-need="3"><em>VII·b</em><span>病征</span></button>
-          <button type="button" data-go="market" data-need="3"><em>VII·c</em><span>黑市</span></button>
-          <button type="button" data-go="corridor" data-need="3"><em>VII·d</em><span>回廊</span></button>
-          <button type="button" data-go="revise" data-need="3"><em>VII·e</em><span>修订</span></button>
-          <button type="button" data-go="letters" data-need="3"><em>VIII·b</em><span>信柜</span></button>
-          <button type="button" data-go="remains" data-need="3"><em>VIII</em><span>遗骸</span></button>
-          <button type="button" data-go="you" data-need="3"><em>IX</em><span>你</span></button>
-          <button type="button" data-go="under" data-need="secret" class="menu-secret" id="menu-under"><em>?</em><span>底层</span></button>
-        </nav>
-        <p class="menu-note">请遵守你读到的规则。<br>若规则互相矛盾，以墙为准。</p>
-      </div>
-    </aside>
-    <div class="menu-backdrop" id="menu-backdrop" hidden></div>
+    <main>
+      <!-- 祭坛 -->
+      <section class="hero" id="altar" aria-labelledby="site-title">
+        <div class="hero-art" id="hero-art" aria-hidden="true"></div>
+        <div class="hero-seam" aria-hidden="true"></div>
 
-    <div class="stage" id="stage">
+        <div class="hero-inner">
+          <p class="hero-kicker reveal">后 神 时 代 · A RITUAL FOR THE AFTER-DIVINE</p>
 
-      <!-- 0 裂口 -->
-      <section class="room is-active" id="room-rift" data-room="rift" aria-label="裂口">
-        <div class="room-art room-art--left" aria-hidden="true"></div>
-        <div class="room-veil" aria-hidden="true"></div>
-        <div class="room-inner room-inner--rift">
-          <p class="tag">入口尚未被批准 · ARCHIVE UNSEALED</p>
-          <h1 class="wordmark" id="site-title" aria-label="GOD DEAD">
-            <button type="button" class="wm-btn" id="click-god">GOD</button>
-            <button type="button" class="wm-btn wm-btn--dead" id="click-dead">DEAD</button>
+          <h1 class="wordmark" id="wordmark" aria-label="GOD DEAD" data-hover>
+            <span class="wm-row wm-god" data-text="GOD">GOD<i class="wm-strike" aria-hidden="true"></i></span>
+            <span class="wm-row wm-dead" data-text="DEAD">DEAD</span>
           </h1>
-          <div class="rift-cluster">
-            <p class="line">祂已经死去。</p>
-            <p class="line line--soft">世界少了一层答案，多了一圈伤口。</p>
-            <p class="line line--dim">你不是被召唤来的。你是<strong class="hot" data-reveal="rift-note" tabindex="0">自己走错</strong>的。</p>
-            <p class="line line--dim">门口还贴着半张告示：<strong class="hot" data-reveal="rift-notice" tabindex="0">「勿携带未完成的祈祷」</strong></p>
-          </div>
-          <div class="reveal-stack">
-            <div class="reveal-panel" id="rift-note" hidden>
-              <p>走错也算抵达。空缺不区分朝圣者与迷路的人——它只记重量。</p>
-              <p>旧神学家争论「死」是否适用于无限者。档案员更务实：<em>祂不再回复工单。</em></p>
-              <p class="mini">后神历法从此处起算：P.D. 0 · 空白录音被封存为圣物兼违禁品</p>
-            </div>
-            <div class="reveal-panel" id="rift-notice" hidden>
-              <p>告示背面另有一行被墨水吞掉的字，紫外灯下隐约可见：</p>
-              <p>「完成的祈祷会吸引回声。未完成的祈祷会吸引<strong>血管</strong>。」</p>
-              <p class="mini">签发单位：空殿联合守夜处 · 印章已锈成血色圆环</p>
-            </div>
-          </div>
-          <div class="chip-row">
-            <button class="chip" type="button" data-reveal="rift-a">何谓空缺</button>
-            <button class="chip" type="button" data-reveal="rift-b">本馆性质</button>
-            <button class="chip" type="button" data-reveal="rift-c">访客须知</button>
-          </div>
-          <div class="reveal-stack">
-            <div class="reveal-panel" id="rift-a" hidden>
-              <p>空缺不是「没有神」。是「曾有过位置，位置还在，内容被抽走」。像牙洞——舌头会不停回去确认。</p>
-            </div>
-            <div class="reveal-panel" id="rift-b" hidden>
-              <p>本站不是教会、不是游戏、不是纪念品店。本站是<strong>残骸目录</strong>：收集神死之后仍抽动的组织——回声、血管、忏悔，以及更软的东西。</p>
-            </div>
-            <div class="reveal-panel" id="rift-c" hidden>
-              <p>① 不要对墙许愿　② 听见自己的声音时先闭嘴　③ 离开前检查影子数量　④ 数字 7 在此不表示幸运</p>
-            </div>
-          </div>
-          <div class="door-row">
-            <button class="door" type="button" data-go="void">
-              <span class="door-k">进入</span>
-              <span class="door-t">无名之室</span>
-              <span class="door-h">先别急着叫它的名字</span>
-            </button>
-          </div>
-          <button class="pulse-dot" id="awaken-btn" type="button" aria-label="红点"><span></span></button>
-        </div>
-        <p class="corner corner--bl" id="status-line">……</p>
-        <p class="corner corner--br egg-hint" data-egg="corner">goddead.com</p>
-      </section>
 
-      <!-- I 无名 -->
-      <section class="room" id="room-void" data-room="void" aria-label="无名" hidden>
-        <div class="room-veil" aria-hidden="true"></div>
-        <div class="room-inner">
-          <header class="room-head">
-            <span>I</span>
-            <h2>无名</h2>
-            <p>向上的方向先失效了。下面是最初被记录的六种反应。</p>
-          </header>
-          <div class="tile-grid tile-grid--3">
-            <button class="tile" type="button" data-reveal="void-a"><em>01</em><strong>无雷之日</strong><span>没有审判。只有三秒全球同时的空白。</span></button>
-            <button class="tile tile--shift" type="button" data-reveal="void-b"><em>02</em><strong>习惯</strong><span>比绝望更可怕：人们很快学会若无其事。</span></button>
-            <button class="tile" type="button" data-reveal="void-c"><em>03</em><strong>空缺 ≠ 虚无</strong><span>虚无不占地方。空缺会占，而且会扩。</span></button>
-            <button class="tile tile--blood" type="button" data-reveal="void-d"><em>04</em><strong>渗血</strong><span>不是血。是意义在漏。</span></button>
-            <button class="tile" type="button" data-reveal="void-e"><em>05</em><strong>行政适应</strong><span>奇迹改写成故障单：「未复现」。</span></button>
-            <button class="tile tile--shift" type="button" data-reveal="void-f"><em>06</em><strong>舌尖缺口</strong><span>名字融化。镜子多出一截沉默。</span></button>
-          </div>
-          <div class="reveal-stack">
-            <div class="reveal-panel" id="void-a" hidden>
-              <p>那三秒后被写成集体幻觉。幻觉却留下同一段空白录音——放出来只有耳压，没有声。最早的收藏者把它叫作「第一圣物」；最早的审查官把它叫作「一级污染物」。</p>
-              <p class="mini">GD-NULL-0 · 不可公开播放 · 拷贝会自发生成第二段呼吸声</p>
-            </div>
-            <div class="reveal-panel" id="void-b" hidden>
-              <p>祈祷变成姿势。圣所变成博物馆。募款变成「文化保护」。神死之后，行政系统比信仰更快适应——因为表格从不需要被回应。</p>
-            </div>
-            <div class="reveal-panel" id="void-c" hidden>
-              <p>空缺有形状：装订线还在，页被撕走。人会用手摸那个缺口，说：这里本来有东西。摸得越勤，缺口边缘越光滑，像被无数舌头舔过。</p>
-            </div>
-            <div class="reveal-panel" id="void-d" hidden>
-              <p>因果偶尔断线：你推门，门在三秒后才同意打开。誓言有时提前兑现，有时永远卡在喉咙。那就是渗漏——世界观的毛细血管破裂。</p>
-            </div>
-            <div class="reveal-panel" id="void-e" hidden>
-              <p>市政厅增设「异常信仰事务科」。第一份内部备忘录只有一句话：<em>不要把空缺写进预算，它会把自己写进去。</em></p>
-            </div>
-            <div class="reveal-panel" id="void-f" hidden>
-              <p>有人照镜数牙齿，发现多一颗不痛的牙；有人数影子，发现少半截。档案建议：以重量为准，不以影像为准。</p>
-            </div>
-          </div>
-          <div class="door-row">
-            <button class="door door--back" type="button" data-go="rift"><span class="door-t">← 裂口</span></button>
-            <button class="door" type="button" data-go="law"><span class="door-k">II</span><span class="door-t">断律</span></button>
-            <button class="door" type="button" data-go="years"><span class="door-k">III</span><span class="door-t">残年</span></button>
-            <button class="door" type="button" data-go="cult"><span class="door-k">III·b</span><span class="door-t">教团</span></button>
-          </div>
-        </div>
-      </section>
-
-      <!-- II 断律 -->
-      <section class="room" id="room-law" data-room="law" aria-label="断律" hidden>
-        <div class="room-veil" aria-hidden="true"></div>
-        <div class="room-inner">
-          <header class="room-head">
-            <span>II</span>
-            <h2>断律</h2>
-            <p>不是教义。是伤口自己长出来的规则。点开每条。</p>
-          </header>
-          <div class="law-board">
-            <article class="law" data-reveal="law-1" tabindex="0" role="button">
-              <header><i>I</i><b>寂静优先</b></header>
-              <p class="law-short">先听见空白。别急着填。</p>
-              <div class="law-deep" id="law-1" hidden>
-                <p>新神生产线在神死后三周就开工。真正危险的不是无神，是噪声——用答案堵住伤口，伤口会在别的器官裂开。</p>
-                <p class="latin">Silentium primum.</p>
-              </div>
-            </article>
-            <article class="law law--skew" data-reveal="law-2" tabindex="0" role="button">
-              <header><i>II</i><b>回声有毒</b></header>
-              <p class="law-short">旧祷文会回来。带着你的嗓音。</p>
-              <div class="law-deep" id="law-2" hidden>
-                <p>它们在井道、废弃频道、梦的折角处往返，逐渐替换音节。听见熟悉的句子时，先确认：这句话还属于你吗？</p>
-                <p class="latin">Echo venenum est.</p>
-              </div>
-            </article>
-            <article class="law law--late" data-reveal="law-3" tabindex="0" role="button">
-              <header><i>III</i><b>抵达即罪</b></header>
-              <p class="law-short">没人请你来。你却站在这里。</p>
-              <div class="law-deep" id="law-3" hidden>
-                <p>空缺记住每一个愿意靠近的人，并慢慢改写他们的重量。赦免已随祂离开；留下的只有寄存处。</p>
-                <p class="latin">Advenire culpa est.</p>
-              </div>
-            </article>
-            <article class="law" data-reveal="law-4" tabindex="0" role="button">
-              <header><i>IV</i><b>命名征税</b></header>
-              <p class="law-short">你每叫祂一次，空缺抽一成意义。</p>
-              <div class="law-deep" id="law-4" hidden>
-                <p>伪名战争的根源在此：人们以为换个称呼就能避税。实际上每个新名字都是一张新账单，债权人是墙。</p>
-                <p class="latin">Nomen tributum est.</p>
-              </div>
-            </article>
-            <article class="law law--skew" data-reveal="law-5" tabindex="0" role="button">
-              <header><i>V</i><b>影子守恒可疑</b></header>
-              <p class="law-short">进入空殿前后，清点附属物。</p>
-              <div class="law-deep" id="law-5" hidden>
-                <p>有人丢了一天的记忆，换回一句不会的外语祷告；有人多了一枚不属于自己的胎记，形状像被挖空的星位。</p>
-                <p class="latin">Umbra non conservatur.</p>
-              </div>
-            </article>
-          </div>
-          <p class="aside-note">展开全部五条后，墙会多一句。<span id="law-bonus" class="bonus" hidden>——「规则也是回声。回声也在进化。」</span></p>
-          <div class="door-row">
-            <button class="door door--back" type="button" data-go="void"><span class="door-t">← 无名</span></button>
-            <button class="door" type="button" data-go="scraps"><span class="door-k">IV</span><span class="door-t">禁页</span></button>
-            <button class="door" type="button" data-go="map"><span class="door-k">V</span><span class="door-t">渗漏</span></button>
-            <button class="door" type="button" data-go="liturgy"><span class="door-k">V·b</span><span class="door-t">日课</span></button>
-            <button class="door" type="button" data-go="rules"><span class="door-k">V·c</span><span class="door-t">守则</span></button>
-          </div>
-        </div>
-      </section>
-
-      <!-- III 残年 -->
-      <section class="room" id="room-years" data-room="years" aria-label="残年" hidden>
-        <div class="room-veil" aria-hidden="true"></div>
-        <div class="room-inner">
-          <header class="room-head">
-            <span>III</span>
-            <h2>残年</h2>
-            <p>后神纪年。点选年份。读得越多，∞ 越不安分。</p>
-          </header>
-          <div class="year-rack" role="tablist" id="year-rack"></div>
-          <div class="year-card" id="year-card" role="tabpanel">
-            <h3>点一个年份</h3>
-            <p>年表拒绝被一次读完。它喜欢被打断，像伤口喜欢结痂又被抠开。</p>
-          </div>
-          <p class="aside-note" id="year-progress">已读 <span id="year-read-count">0</span> 个节点</p>
-          <div class="door-row">
-            <button class="door door--back" type="button" data-go="void"><span class="door-t">← 无名</span></button>
-            <button class="door" type="button" data-go="cult"><span class="door-k">III·b</span><span class="door-t">教团</span></button>
-            <button class="door" type="button" data-go="voices"><span class="door-k">VI</span><span class="door-t">耳语</span></button>
-            <button class="door" type="button" data-go="names"><span class="door-k">VII</span><span class="door-t">伪名</span></button>
-          </div>
-        </div>
-      </section>
-
-      <!-- III·b 教团 -->
-      <section class="room" id="room-cult" data-room="cult" aria-label="教团" hidden>
-        <div class="room-veil" aria-hidden="true"></div>
-        <div class="room-inner">
-          <header class="room-head">
-            <span>III·b</span>
-            <h2>教团</h2>
-            <p>神死后，组织比神更快繁殖。点开各派残章。</p>
-          </header>
-          <div class="tile-grid">
-            <button class="tile" type="button" data-reveal="cult-a"><em>派系</em><strong>静口会</strong><span>以闭嘴为圣事。集会时只交换呼吸节奏。</span></button>
-            <button class="tile tile--shift" type="button" data-reveal="cult-b"><em>派系</em><strong>回声工会</strong><span>饲养旧祷文，训练它们替客户道歉。</span></button>
-            <button class="tile" type="button" data-reveal="cult-c"><em>派系</em><strong>血线测绘社</strong><span>跟踪红线，出售「可能通向心脏」的地图。</span></button>
-            <button class="tile tile--blood" type="button" data-reveal="cult-d"><em>派系</em><strong>告解租赁</strong><span>出租墙面按小时计费。隔音很差，这是卖点。</span></button>
-            <button class="tile" type="button" data-reveal="cult-e"><em>派系</em><strong>无星社</strong><span>挖空星图坐标，声称那是自由。</span></button>
-            <button class="tile tile--shift" type="button" data-reveal="cult-f"><em>派系</em><strong>第七次抵达者</strong><span>秘密社群。徽章是一枚空心的 7。</span></button>
-          </div>
-          <div class="reveal-stack">
-            <div class="reveal-panel" id="cult-a" hidden>
-              <p>入会仪式：在空殿坐满一夜，不得出声。合格者舌系带会轻微缩短——据说是为了减少「不必要的命名」。</p>
-              <p class="mini">内部口号：说得越少，被回声征税越少</p>
-            </div>
-            <div class="reveal-panel" id="cult-b" hidden>
-              <p>他们把回声关在铜管里，像养蜂。客户付费后，铜管会用客户的嗓音说出「对不起」。副作用：客户会在一周内丢失自己的道歉能力。</p>
-            </div>
-            <div class="reveal-panel" id="cult-c" hidden>
-              <p>地图从不保证抵达。页脚用极小字写着：<em>跟随红线者，回来请改用复数。</em> 至今无人索赔成功——索赔人往往已不会说「我」。</p>
-            </div>
-            <div class="reveal-panel" id="cult-d" hidden>
-              <p>最贵的时段是凌晨三点。墙在那时最饿。有人把公司年报读给墙听，第二天股价异常平稳，像被什么按住。</p>
-            </div>
-            <div class="reveal-panel" id="cult-e" hidden>
-              <p>无星社否认自己是教团。他们自称「编辑部」。编辑对象是天穹。被挖空的坐标在无光处仍会发热。</p>
-            </div>
-            <div class="reveal-panel" id="cult-f" hidden>
-              <p>你若抵达满七次，可能会在遗物室看见他们的痕迹。他们不拉人入伙——他们等你自己变成页边注释。</p>
-            </div>
-          </div>
-          <div class="door-row">
-            <button class="door door--back" type="button" data-go="years"><span class="door-t">← 残年</span></button>
-            <button class="door" type="button" data-go="market"><span class="door-k">VII·c</span><span class="door-t">黑市</span></button>
-            <button class="door" type="button" data-go="letters"><span class="door-k">VIII·b</span><span class="door-t">信柜</span></button>
-          </div>
-        </div>
-      </section>
-
-      <!-- IV 禁页 -->
-      <section class="room" id="room-scraps" data-room="scraps" aria-label="禁页" hidden>
-        <div class="room-veil" aria-hidden="true"></div>
-        <div class="room-inner">
-          <header class="room-head">
-            <span>IV</span>
-            <h2>禁页</h2>
-            <p>点开残页。涂黑处再点一次破译。</p>
-          </header>
-          <div class="scrap-wall" id="scrap-wall"></div>
-          <p class="aside-note">已启封 <span id="scrap-count">0</span> 页 · 涂黑破译另计</p>
-          <div class="door-row">
-            <button class="door door--back" type="button" data-go="law"><span class="door-t">← 断律</span></button>
-            <button class="door" type="button" data-go="remains"><span class="door-k">VIII</span><span class="door-t">遗骸</span></button>
-            <button class="door" type="button" data-go="letters"><span class="door-k">VIII·b</span><span class="door-t">信柜</span></button>
-          </div>
-        </div>
-      </section>
-
-      <!-- V 渗漏 -->
-      <section class="room" id="room-map" data-room="map" aria-label="渗漏" hidden>
-        <div class="room-veil" aria-hidden="true"></div>
-        <div class="room-inner">
-          <header class="room-head">
-            <span>V</span>
-            <h2>渗漏</h2>
-            <p>八处伤口。点选坐标。中央的 ? 不是印刷错误。</p>
-          </header>
-          <div class="map-board" id="map-board"></div>
-          <div class="map-read" id="map-read">
-            <p class="map-code">ZONE · —</p>
-            <h3>点一处伤口</h3>
-            <p>地图拒绝成为地图。它更像一张反复发炎的皮。</p>
-          </div>
-          <div class="door-row">
-            <button class="door door--back" type="button" data-go="law"><span class="door-t">← 断律</span></button>
-            <button class="door" type="button" data-go="symptoms"><span class="door-k">VII·b</span><span class="door-t">病征</span></button>
-            <button class="door" type="button" data-go="remains"><span class="door-k">VIII</span><span class="door-t">遗骸</span></button>
-          </div>
-        </div>
-      </section>
-
-      <!-- V·b 日课 -->
-      <section class="room" id="room-liturgy" data-room="liturgy" aria-label="日课" hidden>
-        <div class="room-veil" aria-hidden="true"></div>
-        <div class="room-inner">
-          <header class="room-head">
-            <span>V·b</span>
-            <h2>日课</h2>
-            <p>空殿守夜人的残破课表。点一时段，读当时该做与不该做的事。</p>
-          </header>
-          <div class="chip-row" id="liturgy-chips"></div>
-          <div class="year-card" id="liturgy-card">
-            <h3>选择一时段</h3>
-            <p>时间在空殿里不是直线。它更像潮湿的布，一拧就换味道。</p>
-          </div>
-          <div class="door-row">
-            <button class="door door--back" type="button" data-go="law"><span class="door-t">← 断律</span></button>
-            <button class="door" type="button" data-go="rules"><span class="door-k">V·c</span><span class="door-t">守则</span></button>
-            <button class="door" type="button" data-go="night"><span class="door-k">V·d</span><span class="door-t">夜班</span></button>
-            <button class="door" type="button" data-go="voices"><span class="door-k">VI</span><span class="door-t">耳语</span></button>
-          </div>
-        </div>
-      </section>
-
-      <!-- V·c 守则 · 规则怪谈 -->
-      <section class="room" id="room-rules" data-room="rules" aria-label="守则" hidden>
-        <div class="room-veil" aria-hidden="true"></div>
-        <div class="room-inner">
-          <header class="room-head">
-            <span>V·c</span>
-            <h2>守则</h2>
-            <p>《空殿访客生存守则 · 张贴版》。点每条看批注。隐藏条款不会主动出现。</p>
-          </header>
-          <p class="rule-doc-meta">张贴位置：入口内侧 · 纸张微潮 · 有人用指甲刻过第 7 条</p>
-          <ol class="rule-list" id="rule-list-main"></ol>
-          <p class="aside-note">已读 <span id="rule-read-count">0</span> 条可见规则。
-            <button type="button" class="text-link" id="btn-hidden-rules" hidden>发现被覆盖的条款 →</button>
+          <p class="verse-line reveal" aria-live="polite">
+            <span id="verse-text"></span><span class="verse-caret" aria-hidden="true"></span>
           </p>
-          <div class="reveal-panel" id="hidden-rules-panel" hidden></div>
-          <div class="door-row">
-            <button class="door door--back" type="button" data-go="liturgy"><span class="door-t">← 日课</span></button>
-            <button class="door" type="button" data-go="night"><span class="door-k">V·d</span><span class="door-t">夜班</span></button>
-            <button class="door" type="button" data-go="corridor"><span class="door-k">VII·d</span><span class="door-t">回廊</span></button>
-            <button class="door" type="button" data-go="revise"><span class="door-k">VII·e</span><span class="door-t">修订</span></button>
-          </div>
-        </div>
-      </section>
 
-      <!-- V·d 夜班 -->
-      <section class="room" id="room-night" data-room="night" aria-label="夜班" hidden>
-        <div class="room-veil" aria-hidden="true"></div>
-        <div class="room-inner">
-          <header class="room-head">
-            <span>V·d</span>
-            <h2>夜班</h2>
-            <p>《守夜人交接清单》。按小时展开。若你看到「第二个人」，以本清单为准。</p>
-          </header>
-          <div class="chip-row" id="night-chips"></div>
-          <div class="year-card rule-card" id="night-card">
-            <h3>选择值班时段</h3>
-            <p>夜班从日落开始算，不从时钟。时钟在此只是诱饵。</p>
-          </div>
-          <div class="rule-warning" id="night-warning" hidden>
-            <p>⚠ 若清单内容与墙上张贴不一致：<strong>撕掉墙上的</strong>。墙会再贴，再撕。直到天亮。</p>
-          </div>
-          <div class="door-row">
-            <button class="door door--back" type="button" data-go="rules"><span class="door-t">← 守则</span></button>
-            <button class="door" type="button" data-go="corridor"><span class="door-k">VII·d</span><span class="door-t">回廊</span></button>
-            <button class="door" type="button" data-go="you"><span class="door-k">IX</span><span class="door-t">你</span></button>
-          </div>
-        </div>
-      </section>
-
-      <!-- VI 耳语 -->
-      <section class="room" id="room-voices" data-room="voices" aria-label="耳语" hidden>
-        <div class="room-veil" aria-hidden="true"></div>
-        <div class="room-inner">
-          <header class="room-head">
-            <span>VI</span>
-            <h2>耳语</h2>
-            <p>互不相识的证人。点开才会出声。集齐后会拼出指向。</p>
-          </header>
-          <div class="voice-rack" id="voice-rack"></div>
-          <p class="aside-note" id="voice-link" hidden>证词互相咬合：<button type="button" class="text-link" data-go="map">渗漏图</button> 与 <button type="button" class="text-link" data-go="symptoms">病征</button> 描述同一场渗漏。</p>
-          <div class="door-row">
-            <button class="door door--back" type="button" data-go="years"><span class="door-t">← 残年</span></button>
-            <button class="door" type="button" data-go="letters"><span class="door-k">VIII·b</span><span class="door-t">信柜</span></button>
-            <button class="door" type="button" data-go="you"><span class="door-k">IX</span><span class="door-t">你</span></button>
-          </div>
-        </div>
-      </section>
-
-      <!-- VII 伪名 -->
-      <section class="room" id="room-names" data-room="names" aria-label="伪名" hidden>
-        <div class="room-veil" aria-hidden="true"></div>
-        <div class="room-inner">
-          <header class="room-head">
-            <span>VII</span>
-            <h2>伪名</h2>
-            <p>真名失效。点伪名，看人们真正害怕的叫法。</p>
-          </header>
-          <div class="alias-wall" id="alias-wall"></div>
-          <p class="aside-note">全部点开后，核心名会发热，并解锁一条伪名战争注释。</p>
-          <div class="reveal-panel" id="names-war" hidden>
-            <p><strong>伪名战争简记：</strong>P.D. 280–310，六大伪名集团争夺「空缺解释权」。战场不在领土，在词典、儿歌与讣告栏。战争结束时，没有赢家，只多出十七种无法译出的叹息。</p>
-          </div>
-          <div class="door-row">
-            <button class="door door--back" type="button" data-go="years"><span class="door-t">← 残年</span></button>
-            <button class="door" type="button" data-go="market"><span class="door-k">VII·c</span><span class="door-t">黑市</span></button>
-            <button class="door" type="button" data-go="you"><span class="door-k">IX</span><span class="door-t">你</span></button>
-          </div>
-        </div>
-      </section>
-
-      <!-- VII·b 病征 -->
-      <section class="room" id="room-symptoms" data-room="symptoms" aria-label="病征" hidden>
-        <div class="room-veil" aria-hidden="true"></div>
-        <div class="room-inner">
-          <header class="room-head">
-            <span>VII·b</span>
-            <h2>病征</h2>
-            <p>后神时代的身体与语言症状。点名查看档案描述。</p>
-          </header>
-          <div class="tile-grid tile-grid--3" id="symptom-grid"></div>
-          <div class="reveal-stack">
-            <div class="reveal-panel" id="symptom-panel" hidden></div>
-          </div>
-          <div class="door-row">
-            <button class="door door--back" type="button" data-go="map"><span class="door-t">← 渗漏</span></button>
-            <button class="door" type="button" data-go="remains"><span class="door-k">VIII</span><span class="door-t">遗骸</span></button>
-          </div>
-        </div>
-      </section>
-
-      <!-- VII·d 回廊 -->
-      <section class="room" id="room-corridor" data-room="corridor" aria-label="回廊" hidden>
-        <div class="room-veil" aria-hidden="true"></div>
-        <div class="room-inner">
-          <header class="room-head">
-            <span>VII·d</span>
-            <h2>回廊</h2>
-            <p>《空殿回廊通行条例》。转角处各贴一截。点转角拼完整。</p>
-          </header>
-          <div class="corridor-map" id="corridor-map"></div>
-          <div class="year-card rule-card" id="corridor-card">
-            <h3>尚未进入回廊</h3>
-            <p>先点一个转角。不要一次点完——有人因此遇见了自己。</p>
-          </div>
-          <p class="aside-note" id="corridor-note">已标记转角 <span id="corridor-count">0</span> / 6</p>
-          <div class="door-row">
-            <button class="door door--back" type="button" data-go="rules"><span class="door-t">← 守则</span></button>
-            <button class="door" type="button" data-go="revise"><span class="door-k">VII·e</span><span class="door-t">修订</span></button>
-            <button class="door" type="button" data-go="symptoms"><span class="door-k">VII·b</span><span class="door-t">病征</span></button>
-          </div>
-        </div>
-      </section>
-
-      <!-- VII·e 修订 -->
-      <section class="room" id="room-revise" data-room="revise" aria-label="修订" hidden>
-        <div class="room-veil" aria-hidden="true"></div>
-        <div class="room-inner">
-          <header class="room-head">
-            <span>VII·e</span>
-            <h2>修订</h2>
-            <p>同一条款的不同版本叠在一起。点版本对比。以哪一版为准？——以你还活着的那一版为准。</p>
-          </header>
-          <div class="chip-row" id="revise-chips"></div>
-          <div class="revise-compare" id="revise-compare">
-            <div class="revise-col">
-              <p class="revise-label">旧版</p>
-              <p class="revise-text" id="revise-old">选择一条条款</p>
-            </div>
-            <div class="revise-col revise-col--new">
-              <p class="revise-label">新版 / 墙改</p>
-              <p class="revise-text" id="revise-new">——</p>
-            </div>
-          </div>
-          <div class="reveal-panel" id="revise-note" hidden></div>
-          <div class="door-row">
-            <button class="door door--back" type="button" data-go="corridor"><span class="door-t">← 回廊</span></button>
-            <button class="door" type="button" data-go="night"><span class="door-k">V·d</span><span class="door-t">夜班</span></button>
-            <button class="door" type="button" data-go="under" id="door-under-from-revise" hidden><span class="door-k">?</span><span class="door-t">底层</span></button>
-          </div>
-        </div>
-      </section>
-
-      <!-- VII·c 黑市 -->
-      <section class="room" id="room-market" data-room="market" aria-label="黑市" hidden>
-        <div class="room-veil" aria-hidden="true"></div>
-        <div class="room-inner">
-          <header class="room-head">
-            <span>VII·c</span>
-            <h2>黑市</h2>
-            <p>伪圣物与违禁安慰。点货查看——不出售，只陈列。</p>
-          </header>
-          <div class="tile-grid" id="market-grid"></div>
-          <div class="reveal-stack">
-            <div class="reveal-panel" id="market-panel" hidden></div>
-          </div>
-          <p class="aside-note">页脚声明：本馆不担保货品灵验。灵验本身已是违禁品。</p>
-          <div class="door-row">
-            <button class="door door--back" type="button" data-go="cult"><span class="door-t">← 教团</span></button>
-            <button class="door" type="button" data-go="scraps"><span class="door-k">IV</span><span class="door-t">禁页</span></button>
-            <button class="door" type="button" data-go="you"><span class="door-k">IX</span><span class="door-t">你</span></button>
-          </div>
-        </div>
-      </section>
-
-      <!-- VIII 遗骸 -->
-      <section class="room" id="room-remains" data-room="remains" aria-label="遗骸" hidden>
-        <div class="room-veil" aria-hidden="true"></div>
-        <div class="room-inner">
-          <header class="room-head">
-            <span>VIII</span>
-            <h2>遗骸</h2>
-            <p>三样还在动的残留。点开档案；再点一次看病例。</p>
-          </header>
-          <div class="remain-board" id="remain-board"></div>
-          <div class="door-row">
-            <button class="door door--back" type="button" data-go="scraps"><span class="door-t">← 禁页</span></button>
-            <button class="door" type="button" data-go="symptoms"><span class="door-k">VII·b</span><span class="door-t">病征</span></button>
-            <button class="door" type="button" data-go="you"><span class="door-k">IX</span><span class="door-t">你</span></button>
-          </div>
-        </div>
-      </section>
-
-      <!-- VIII·b 信柜 -->
-      <section class="room" id="room-letters" data-room="letters" aria-label="信柜" hidden>
-        <div class="room-veil" aria-hidden="true"></div>
-        <div class="room-inner">
-          <header class="room-head">
-            <span>VIII·b</span>
-            <h2>信柜</h2>
-            <p>未寄出的信、寄错的信、被墙退回的信。点编号阅读。</p>
-          </header>
-          <div class="chip-row" id="letter-chips"></div>
-          <div class="year-card" id="letter-card">
-            <h3>抽取一封</h3>
-            <p>信柜有自己的湿度。纸张在这里会长出细小的牙印。</p>
-          </div>
-          <div class="door-row">
-            <button class="door door--back" type="button" data-go="voices"><span class="door-t">← 耳语</span></button>
-            <button class="door" type="button" data-go="you"><span class="door-k">IX</span><span class="door-t">你</span></button>
-          </div>
-        </div>
-      </section>
-
-      <!-- IX 你 -->
-      <section class="room" id="room-you" data-room="you" aria-label="你" hidden>
-        <div class="room-veil" aria-hidden="true"></div>
-        <div class="room-inner">
-          <header class="room-head">
-            <span>IX</span>
-            <h2>你</h2>
-            <p>遗物室。只存在于你的浏览器里，仍算真实重量。</p>
-          </header>
-          <div class="you-panel">
-            <div class="you-stats">
-              <div><span>抵达</span><strong id="arrival-count">0</strong></div>
-              <div><span>信号</span><strong id="signal-state">沉睡</strong></div>
-              <div><span>已探房间</span><strong id="rooms-count">1</strong></div>
-              <div><span>彩蛋</span><strong id="egg-count">0</strong></div>
-            </div>
-            <p class="you-blurb">档案员留言：你不需要诚实。你需要<strong>可归档</strong>。句子越短，墙越容易记住。</p>
-            <label class="sr" for="visitor-mark">留下重量</label>
-            <textarea id="visitor-mark" maxlength="100" placeholder="一句不会被原谅的话……" rows="3"></textarea>
-            <div class="you-actions">
-              <button class="btn-ritual" id="mark-submit" type="button">放下</button>
-              <button class="btn-ghost" id="arrival-btn" type="button">抵达 +1</button>
-            </div>
-            <p class="reliquary-response" id="reliquary-response" aria-live="polite"></p>
-            <ul class="mark-list" id="mark-list"></ul>
-            <div class="chip-row" style="margin-top:1rem">
-              <button class="chip" type="button" data-reveal="you-faq-a">为何只存本地</button>
-              <button class="chip" type="button" data-reveal="you-faq-b">会被赦免吗</button>
-              <button class="chip" type="button" data-reveal="you-faq-c">底层是什么</button>
-            </div>
-            <div class="reveal-stack">
-              <div class="reveal-panel" id="you-faq-a" hidden>
-                <p>因为云也会死。本地记忆更接近「墙」：近、窄、私、难分享——恰是忏悔该有的形状。</p>
-              </div>
-              <div class="reveal-panel" id="you-faq-b" hidden>
-                <p>不会。赦免已随祂离开。这里只提供寄存。寄存不是放下，是把重量换成可检索的形式。</p>
-              </div>
-              <div class="reveal-panel" id="you-faq-c" hidden>
-                <p>底层是痂下的组织。需要钥匙：七次抵达、裂口 GOD→DEAD、键盘 goddead、地图中央 ?、或集齐关键彩蛋。</p>
-              </div>
-            </div>
-            <p class="aside-note">抵达满 7 次，或集齐关键彩蛋，可打开<strong>底层</strong>。</p>
-          </div>
-          <div class="door-row">
-            <button class="door door--back" type="button" data-go="remains"><span class="door-t">← 遗骸</span></button>
-            <button class="door door--secret" type="button" data-go="under" id="door-under" hidden>
-              <span class="door-k">?</span><span class="door-t">底层</span>
+          <div class="hero-ritual reveal">
+            <button class="ritual-point" id="ritual-point" type="button" aria-label="触碰红点，唤醒祭坛" data-hover>
+              <span></span>
             </button>
+            <p class="status-line" id="status-line" aria-live="polite">信号沉睡 · 等待触碰</p>
+          </div>
+        </div>
+
+        <div class="scroll-cue" aria-hidden="true">
+          <span class="cue-line"></span>
+          <span class="cue-text">向下，进入残骸</span>
+        </div>
+      </section>
+
+      <!-- 经文带 -->
+      <section class="bands" id="bands" aria-hidden="true">
+        <div class="band band-a" data-dir="1">
+          <div class="band-track">
+            <span>神</span><span>死</span><span>空</span><span>缺</span><span>寂</span><span>静</span><span>回</span><span>声</span><span>血</span><span>肉</span><span>忏</span><span>悔</span><span>遗</span><span>忘</span>
+          </div>
+        </div>
+        <div class="band band-b" data-dir="-1">
+          <div class="band-track">
+            <span>DEUS MORTUUS EST</span><span>·</span><span>SILENTIUM REGNAT</span><span>·</span><span class="hidden-phrase">别 相 信 门</span><span>·</span>
           </div>
         </div>
       </section>
 
-      <!-- ? 底层 -->
-      <section class="room room--under" id="room-under" data-room="under" aria-label="底层" hidden>
-        <div class="room-veil" aria-hidden="true"></div>
-        <div class="room-inner">
-          <header class="room-head">
-            <span>?</span>
-            <h2>底层</h2>
-            <p>你不该稳定地站在这里。还是读完吧。</p>
-          </header>
-          <div class="under-text">
-            <p>神死不是事件，是<strong>结构</strong>。像承重墙被抽走，楼还站着，只是门开始自己开关。</p>
-            <p>上层房间——无名、断律、残年、教团、禁页、渗漏、日课、守则、夜班、回廊、修订、耳语、伪名、病征、黑市、信柜、遗骸——都是空缺表面结的痂。守则越读越像契约；修订越读越像食谱。</p>
-            <p>回声、血管、忏悔不是三个玩法，是同一具尸体上还在抽动的三种组织。教团贩卖对组织的解释权；黑市贩卖对组织的安慰剂；信柜则证明：即使没有收件人，人仍要投递。</p>
-            <p class="under-pull">本站没有结局。<br>只有更深的目录。<br>而目录会记得：你来过。</p>
-            <div class="tile-grid" style="margin:1.2rem 0">
-              <button class="tile" type="button" data-reveal="under-a"><em>注</em><strong>为何抽象</strong><span>具体会变成教条。抽象才会继续渗。</span></button>
-              <button class="tile tile--blood" type="button" data-reveal="under-b"><em>注</em><strong>为何点击</strong><span>滚动像旁观。点击像伸手进伤口。</span></button>
-            </div>
-            <div class="reveal-stack">
-              <div class="reveal-panel" id="under-a" hidden>
-                <p>档案员被要求删除所有「明确教义」。明确会让空缺结成新神。留下的碎片是故意的——像散落的牙，你要自己拼咬合。</p>
-              </div>
-              <div class="reveal-panel" id="under-b" hidden>
-                <p>每一次点击都记入本地：抵达、彩蛋、已探房间。不是成就系统。是空缺的记账习惯。</p>
-              </div>
-            </div>
-            <p class="latin">Deus mortuus est. Archiva esuriunt.</p>
-            <p class="mini">彩蛋与抵达已写入本地记忆。刷新后仍在——除非你亲手忘记。</p>
-          </div>
-          <div class="door-row">
-            <button class="door" type="button" data-go="rift"><span class="door-t">回到裂口</span></button>
-            <button class="door door--back" type="button" data-go="you"><span class="door-t">← 你</span></button>
-          </div>
-        </div>
-      </section>
-    </div>
+      <!-- 三道门 -->
+      <section class="gates" id="gates" aria-label="三道仪式之门">
+        <header class="sec-head reveal">
+          <p class="sec-kicker">THE REMAINS · 残 骸 目 录</p>
+          <h2 class="sec-title">三道门</h2>
+          <p class="sec-desc">神死了，门还活着。每一道门后面，都有一种继续存在的方式。</p>
+        </header>
 
-    <div class="screen-grain" aria-hidden="true"></div>
-    <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script src="script.js?v=60"></script>
+        <nav class="gate-list">
+          <a class="gate reveal" href="echo.html" data-gate="echo" data-hover>
+            <span class="gate-art" style="background-image:url('assets/monument_3.png')" aria-hidden="true"></span>
+            <span class="gate-meta"><b>01</b><i></i><em></em></span>
+            <span class="gate-body">
+              <span class="gate-name">回声</span>
+              <span class="gate-whisper">说过的，会以别的样子回来。</span>
+              <span class="gate-stat" id="stat-echo">回声 · 0</span>
+            </span>
+            <span class="gate-arrow" aria-hidden="true">进入 ⟶</span>
+          </a>
+
+          <a class="gate reveal" href="vein.html" data-gate="vein" data-hover>
+            <span class="gate-art" style="background-image:url('assets/monument_2.png')" aria-hidden="true"></span>
+            <span class="gate-meta"><b>02</b><i></i><em></em></span>
+            <span class="gate-body">
+              <span class="gate-name">血管</span>
+              <span class="gate-whisper">它朝着你的温度生长。</span>
+              <span class="gate-stat" id="stat-vein">网络 · 活着</span>
+            </span>
+            <span class="gate-arrow" aria-hidden="true">进入 ⟶</span>
+          </a>
+
+          <a class="gate reveal" href="confession.html" data-gate="confession" data-hover>
+            <span class="gate-art" style="background-image:url('assets/monument_1.png')" aria-hidden="true"></span>
+            <span class="gate-meta"><b>03</b><i></i><em></em></span>
+            <span class="gate-body">
+              <span class="gate-name">忏悔</span>
+              <span class="gate-whisper">留下一个重量，墙会替你保管。</span>
+              <span class="gate-stat" id="stat-confession">忏悔 · 0</span>
+            </span>
+            <span class="gate-arrow" aria-hidden="true">进入 ⟶</span>
+          </a>
+        </nav>
+      </section>
+
+      <!-- 祷告 -->
+      <section class="prayer" id="prayer" aria-label="无人应答的祷告">
+        <div class="burn-layer" id="burn-layer" aria-hidden="true"></div>
+        <header class="sec-head reveal">
+          <p class="sec-kicker">OFFERINGS · 焚 献</p>
+          <h2 class="sec-title">无人应答的祷告</h2>
+          <p class="sec-desc">写一句祷词。它不会被听见——它会被烧成灰，而灰比声音活得久。</p>
+        </header>
+
+        <div class="prayer-box reveal">
+          <input class="prayer-input" id="prayer-input" type="text" maxlength="60" placeholder="把祷词放进火里" autocomplete="off">
+          <button class="prayer-offer" id="prayer-offer" type="button" data-hover>焚 献</button>
+        </div>
+        <p class="prayer-response" id="prayer-response" aria-live="polite"></p>
+      </section>
+
+      <!-- 痕迹 -->
+      <section class="traces" id="traces" aria-label="你留下的痕迹">
+        <header class="sec-head reveal">
+          <p class="sec-kicker">YOUR TRACES · 你 留 下 的</p>
+          <h2 class="sec-title">这个网页记得你</h2>
+          <p class="sec-desc">你在这里做的每件事都没有消失。它们只是换了一种方式，继续躺着。</p>
+        </header>
+
+        <div class="stat-grid reveal">
+          <div class="stat-card"><span class="stat-num" id="num-arrivals">0</span><span class="stat-label">抵 达</span></div>
+          <div class="stat-card"><span class="stat-num" id="num-echoes">0</span><span class="stat-label">回 声</span></div>
+          <div class="stat-card"><span class="stat-num" id="num-confessions">0</span><span class="stat-label">忏 悔</span></div>
+          <div class="stat-card"><span class="stat-num" id="num-prayers">0</span><span class="stat-label">祷 词</span></div>
+          <div class="stat-card"><span class="stat-num" id="num-corruption">0%</span><span class="stat-label">侵 蚀 度</span></div>
+        </div>
+
+        <div class="reliquary-slot reveal" id="reliquary-slot"></div>
+      </section>
+    </main>
+
+    <footer class="colophon">
+      <div class="colophon-ritual">
+        <button class="cross-mark" id="cross-mark" type="button" aria-label="记录一次抵达" data-hover>＋</button>
+        <p class="arrival-count" id="arrival-count">已记录 0 次抵达</p>
+      </div>
+      <p class="colophon-whisper">所有入口都通往同一个空缺。</p>
+      <a class="domain-mark" href="https://github.com/IwannaYuJie/goddead" data-hover>goddead.com</a>
+    </footer>
+
+    <aside class="ritual-menu" id="ritual-menu" aria-hidden="true">
+      <button class="menu-close" id="menu-close" type="button" aria-label="关闭目录" data-hover>关闭</button>
+      <p class="menu-kicker">THE REMAINS</p>
+      <a href="echo.html" data-hover>01 / 回声</a>
+      <a href="vein.html" data-hover>02 / 血管</a>
+      <a href="confession.html" data-hover>03 / 忏悔</a>
+      <a href="reliquary.html" id="reliquary-link" class="locked" data-hover>00 / 遗物室</a>
+      <p class="menu-note">所有入口都通往同一个空缺。</p>
+    </aside>
+
+    <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
+    <script src="script.js?v=11"></script>
   </body>
 </html>
