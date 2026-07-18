@@ -1,6 +1,6 @@
 /* ============================================================
-   GODDEAD — The Living Shrine
-   灰烬粒子 / 自定义光标 / 视差字标 / 经文带 / 焚献祷告 / 彩蛋群
+   GODDEAD — 神已死，门犹在
+   灰烬粒子 / 自定义光标 / 门与敲门 / 低语轮替 / 经文带 / 焚献祷告 / 彩蛋群
    ============================================================ */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -46,14 +46,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const menu = $("#ritual-menu");
   const menuTrigger = $("#menu-trigger");
   const menuClose = $("#menu-close");
-  const ritualPoint = $("#ritual-point");
   const crossMark = $("#cross-mark");
   const arrivalCount = $("#arrival-count");
   const reliquaryLink = $("#reliquary-link");
   const reliquarySlot = $("#reliquary-slot");
-  const wordmark = $("#wordmark");
+  const doorScene = $("#door-scene");
+  const doorSvg = $("#door-svg");
+  const seamWhisper = $("#seam-whisper");
   const heroArt = $("#hero-art");
-  const verseText = $("#verse-text");
   const bandsEl = $("#bands");
   const prayerInput = $("#prayer-input");
   const prayerOffer = $("#prayer-offer");
@@ -295,7 +295,7 @@ document.addEventListener("DOMContentLoaded", () => {
       par.x += (parTarget.x - par.x) * 0.05;
       par.y += (parTarget.y - par.y) * 0.05;
       heroArt.style.transform = `translate3d(${par.x * 18}px, ${par.y * 12 + window.scrollY * 0.1}px, 0)`;
-      wordmark.style.transform = `translate3d(${par.x * -9}px, ${par.y * -6}px, 0)`;
+      doorScene.style.transform = `translate3d(${par.x * -8}px, ${par.y * -5}px, 0)`;
     }
 
     for (const b of bands) {
@@ -326,7 +326,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ============================================================
-     祭坛：纪年 / 打字经文 / glitch / 苏醒
+     门：纪年 / 敲门 / 低语 / 苏醒
      ============================================================ */
   const DEATH_DATE = new Date("2026-07-02T00:00:00");
   const eraDays = Math.max(1, Math.floor((Date.now() - DEATH_DATE.getTime()) / 86400000) + 1);
@@ -336,78 +336,141 @@ document.addEventListener("DOMContentLoaded", () => {
   const midnight = new Date().getHours() === 0;
   if (midnight) body.classList.add("midnight");
 
-  const verses = [
-    "神已经死去。你仍然抵达。",
-    "祭坛不怕黑，怕的是被遗忘。",
-    "回声比祈祷更忠诚。",
-    "这里没有神谕，只有你的心跳。",
-    "空缺不是结束，是门。",
-  ];
-  if (midnight) verses.unshift("子夜访客。神死于这个时刻，你在这个时刻抵达。");
+  /* 苏醒状态：门在呼吸 */
+  const syncAwake = () => {
+    body.classList.toggle("awake", awake);
+    statusLine.textContent = awake ? "门在呼吸 · 别靠太近" : "门后没有声音 · 暂时";
+  };
 
-  if (reduced) {
-    verseText.textContent = verses[0];
-  } else {
-    let vi = 0, ci = 0, deleting = false;
-    const tickVerse = () => {
-      const v = verses[vi];
-      if (!deleting) {
-        ci++;
-        verseText.textContent = v.slice(0, ci);
-        if (ci >= v.length) { deleting = true; return setTimeout(tickVerse, 3000); }
-        return setTimeout(tickVerse, 70);
-      }
-      ci--;
-      verseText.textContent = v.slice(0, ci);
-      if (ci <= 0) { deleting = false; vi = (vi + 1) % verses.length; return setTimeout(tickVerse, 500); }
-      return setTimeout(tickVerse, 26);
-    };
-    setTimeout(tickVerse, 900);
-  }
-
-  /* glitch 爆发 */
-  const glitchBurst = () => {
-    wordmark.classList.add("glitching");
-    setTimeout(() => wordmark.classList.remove("glitching"), 340);
+  /* 门的不规律颤动（原 glitch） */
+  const doorPulse = () => {
+    doorScene.classList.add("pulse");
+    setTimeout(() => doorScene.classList.remove("pulse"), 340);
   };
 
   if (!reduced) {
-    const scheduleGlitch = () => {
-      const wait = awake ? 2200 + Math.random() * 2600 : 4600 + Math.random() * 5200;
-      setTimeout(() => { glitchBurst(); scheduleGlitch(); }, wait);
+    const schedulePulse = () => {
+      const wait = awake ? 2600 + Math.random() * 3000 : 5200 + Math.random() * 5600;
+      setTimeout(() => { doorPulse(); schedulePulse(); }, wait);
     };
-    scheduleGlitch();
-    wordmark.addEventListener("pointerenter", glitchBurst);
+    schedulePulse();
   }
 
-  /* 彩蛋：触碰字标七次，它会散架一次 */
-  let wmClicks = 0;
-  wordmark.addEventListener("click", () => {
-    wmClicks++;
-    if (!reduced) glitchBurst();
-    if (wmClicks >= 7) {
-      wmClicks = 0;
-      if (!reduced) {
-        wordmark.classList.add("scatter");
-        setTimeout(() => wordmark.classList.remove("scatter"), 950);
+  /* 敲门 */
+  const knockReplies = ["咚。", "咚。咚。", "咚。咚。咚。"];
+  let knocks = 0;
+  let totalKnocks = 0;
+  let ajarTimer = null;
+  let decayTimer = null;
+
+  const shakeDoor = () => {
+    if (reduced) return;
+    doorSvg.classList.remove("shaken");
+    void doorSvg.getBoundingClientRect();
+    doorSvg.classList.add("shaken");
+  };
+
+  const closeDoor = () => {
+    doorScene.classList.remove("ajar");
+    seamWhisper.textContent = "";
+  };
+
+  const knock = () => {
+    knocks++;
+    totalKnocks++;
+    shakeDoor();
+    clearTimeout(decayTimer);
+
+    if (knocks >= 4) {
+      knocks = 0;
+      clearTimeout(ajarTimer);
+      closeDoor();
+      statusLine.textContent = "门后重归安静。它记下了你的节奏。";
+      toast("不要敲第四下。");
+      return;
+    }
+
+    statusLine.textContent = knockReplies[knocks - 1];
+
+    if (knocks === 3) {
+      doorScene.classList.add("ajar");
+      seamWhisper.textContent = "……进来";
+      if (!awake) {
+        awake = true;
+        store.set("goddead_awake", "true");
+        body.classList.add("awake");
       }
-      toast("神也渴望被触碰。");
+      toast("规则其二：门后没有人。请假装没有听见。");
+      clearTimeout(ajarTimer);
+      ajarTimer = setTimeout(() => {
+        closeDoor();
+        knocks = 0;
+        syncAwake();
+      }, 7000);
+    } else {
+      /* 敲到一半停手，门当作无事发生 */
+      decayTimer = setTimeout(() => {
+        if (!doorScene.classList.contains("ajar")) {
+          knocks = 0;
+          syncAwake();
+        }
+      }, 2600);
+    }
+
+    /* 彩蛋：敲满七下，它敲回来 */
+    if (totalKnocks === 7) {
+      setTimeout(() => {
+        shakeDoor();
+        toast("它敲了回来。");
+      }, 1600);
+    }
+  };
+
+  doorSvg.addEventListener("click", knock);
+  doorSvg.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      knock();
     }
   });
 
-  /* 红点：唤醒 / 沉睡 */
-  const syncAwake = () => {
-    body.classList.toggle("awake", awake);
-    statusLine.textContent = awake ? "信号活跃 · 祭坛正在呼吸" : "信号沉睡 · 等待触碰";
-    ritualPoint.setAttribute("aria-label", awake ? "红点已经苏醒，再次触碰使它沉睡" : "触碰红点，唤醒祭坛");
-  };
+  /* 低语：画叉的位置，血红色，时隐时现 */
+  const whisperSpots = $$(".whisper");
+  const whisperPool = [
+    "别出声", "祂还在听", "门后没有人", "不要数符号",
+    "它在数你", "别回答", "你已经被看见了", "灯灭之前离开",
+    "不要敲第四下", "门记得每一张脸", "第七条是假的", "回来",
+  ];
 
-  ritualPoint.addEventListener("click", () => {
-    awake = !awake;
-    store.set("goddead_awake", String(awake));
-    syncAwake();
-    toast(awake ? "祭坛记住了你的脉搏。" : "信号沉入黑暗。");
-  });
+  if (reduced) {
+    whisperSpots[0].textContent = "别出声";
+    whisperSpots[0].classList.add("on");
+  } else {
+    const revealWhisper = (spot) => {
+      const phrase = whisperPool[Math.floor(Math.random() * whisperPool.length)];
+      spot.innerHTML = Array.from(phrase)
+        .map((c, i) => `<span class="ch" style="--i:${i}">${c}</span>`)
+        .join("");
+      spot.classList.add("on");
+      setTimeout(() => {
+        spot.classList.remove("on");
+        setTimeout(() => { spot.textContent = ""; }, 1400);
+      }, 2600 + Math.random() * 2600);
+    };
+
+    const cycleWhispers = () => {
+      const free = whisperSpots.filter((s) => !s.classList.contains("on"));
+      if (free.length) {
+        revealWhisper(free.splice(Math.floor(Math.random() * free.length), 1)[0]);
+        /* 偶尔两处同时低语 */
+        if (Math.random() < 0.4 && free.length) {
+          revealWhisper(free[Math.floor(Math.random() * free.length)]);
+        }
+      }
+      setTimeout(cycleWhispers, 1500 + Math.random() * 3200);
+    };
+    setTimeout(cycleWhispers, 1600);
+  }
 
   /* ============================================================
      三道门
@@ -613,7 +676,7 @@ document.addEventListener("DOMContentLoaded", () => {
         awake = true;
         store.set("goddead_awake", "true");
         syncAwake();
-        glitchBurst();
+        doorPulse();
         if (!reduced) spawnBurst(window.innerWidth / 2, window.innerHeight / 2, 26);
         toast("你念出了它的名字。现在，它也会念出你的。");
       }
@@ -683,6 +746,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 console.log("%c GOD / DEAD ", "background:#8d2b27;color:#050505;font-family:serif;font-size:18px;letter-spacing:.3em");
-console.log("%c 输入 goddead，唤醒红点。", "color:#777169;font-family:monospace");
+console.log("%c 输入 goddead，唤醒门。", "color:#777169;font-family:monospace");
 console.log("%c 输入 ↑↑↓↓←→←→BA，召回神迹。", "color:#777169;font-family:monospace");
 console.log("%c 凝视经文三秒，它会出卖一句话。", "color:#777169;font-family:monospace");

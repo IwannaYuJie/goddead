@@ -137,3 +137,12 @@
 - `script.js`: ash-and-ember canvas field with mouse disturbance and click bursts; master rAF loop driving particles, cursor lerp, wordmark parallax, and scroll-velocity scripture marquees; typewriter verse cycle; prayer burning that persists `goddead_state.prayersOffered`/`corruption` for `reliquary.html`; animated trace counters; arrival-based Reliquary unsealing.
 - Easter eggs: `goddead` invocation, Konami ember-storm miracle, seven wordmark clicks (scatter), seven arrivals (Reliquary), midnight visitor verse, 45s idle silence whisper, three-second scripture gaze revealing a hidden sentence, and console hints.
 - Hardened the band-duplication loop with an iteration guard; verified visually at 1440 and 390 widths plus awake, gate-hover, menu-open, and Reliquary-unlocked states via headless Chromium screenshots.
+
+## 2026-07-19 (Door ritual revision)
+- Replaced the `GOD / DEAD` wordmark and typewriter verse altar with a centered `神已死` title and a sealed, symbol-covered SVG door.
+- Added mouse and keyboard knocking: the third knock parts the door around a glowing seam, the fourth triggers a warning, and the seventh receives a delayed knock in reply.
+- Added rotating blood-red whispers around the doorway, with a stable reduced-motion fallback.
+- Inserted an eight-item visitor protocol between the doorway and scripture bands, including altered and contradictory rules.
+- Updated the door, whisper, protocol, responsive, and reduced-motion styling and bumped the homepage asset cache key to `v12`.
+- Refreshed the README experience description and ignored macOS `.DS_Store` metadata.
+- Verified JavaScript syntax, the static-site test suite, whitespace integrity, and the intended source files' sensitive-token scan before commit.

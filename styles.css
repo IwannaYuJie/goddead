@@ -193,13 +193,14 @@ body.link-hover .cursor-ring {
 .menu-trigger span:last-child { width: 62%; }
 .menu-trigger:hover span:last-child { width: 100%; }
 
-/* ---------- 祭坛 / Hero ---------- */
+/* ---------- 门 / Hero ---------- */
 
 .hero {
   position: relative;
   min-height: 100svh;
   display: flex;
   align-items: center;
+  justify-content: center;
   overflow: hidden;
   isolation: isolate;
 }
@@ -209,39 +210,32 @@ body.link-hover .cursor-ring {
   inset: -6%;
   z-index: -2;
   background-image: url("assets/testament-left.png");
-  background-position: center right;
+  background-position: center;
   background-size: cover;
-  opacity: 0.42;
-  filter: contrast(1.1) saturate(0.7) brightness(0.62);
+  opacity: 0.3;
+  filter: contrast(1.1) saturate(0.7) brightness(0.55);
   will-change: transform;
   transition: opacity 1.2s ease;
 }
 
-body.awake .hero-art { opacity: 0.55; }
-
-.hero-seam {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 58%;
-  z-index: -1;
-  width: 1px;
-  background: linear-gradient(to bottom, transparent, rgba(141, 43, 39, 0.4) 30%, rgba(141, 43, 39, 0.4) 70%, transparent);
-}
-
-body.awake .hero-seam { animation: seam-breathe 2.8s ease-in-out infinite; }
+body.awake .hero-art { opacity: 0.45; }
 
 .hero-inner {
   position: relative;
+  z-index: 2;
   width: 100%;
-  padding: 16vh clamp(1.2rem, 7vw, 6rem) 14vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 13vh clamp(1.2rem, 6vw, 4rem) 12vh;
+  text-align: center;
   transition: filter 2.5s ease;
 }
 
 body.idle .hero-inner { filter: brightness(0.55); }
 
 .hero-kicker {
-  margin: 0 0 4vh;
+  margin: 0 0 3.5vh;
   color: var(--blood-bright);
   font-family: var(--mono);
   font-size: 0.62rem;
@@ -249,157 +243,192 @@ body.idle .hero-inner { filter: brightness(0.55); }
   line-height: 2.1;
 }
 
-.wordmark {
-  margin: 0;
-  font-family: var(--serif);
-  font-weight: 500;
-  font-size: clamp(4.6rem, 16.5vw, 15rem);
-  line-height: 0.82;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
+/* 「神已死」：神字被一道血线划去 */
+.dead-title {
+  margin: 0 0 5vh;
+  color: var(--bone-bright);
+  font-size: clamp(2.4rem, 6.5vw, 4.6rem);
+  font-weight: 400;
+  letter-spacing: 0.52em;
+  text-indent: 0.52em;
   user-select: none;
-  will-change: transform;
 }
 
-.wm-row {
+.dt-god {
   position: relative;
-  display: block;
-  width: max-content;
-  max-width: 100%;
+  color: rgba(179, 174, 165, 0.38);
 }
 
-.wm-row::before,
-.wm-row::after {
-  content: attr(data-text);
+.dt-strike {
   position: absolute;
-  inset: 0;
+  left: -10%;
+  right: -10%;
+  top: 54%;
+  height: 2px;
+  background: var(--blood);
+  box-shadow: 0 0 14px rgba(141, 43, 39, 0.6);
+  transform: rotate(-7deg);
+  transform-origin: left center;
+  animation: strike-draw 1.6s var(--ease) 0.6s both;
+}
+
+body.midnight .dead-title { color: var(--gold); }
+
+/* 门的舞台 */
+.door-scene {
+  position: relative;
+  width: min(76vw, 360px);
+}
+
+.door-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  cursor: pointer;
+  transition: filter 1.5s ease;
+}
+
+body.awake .door-svg { filter: drop-shadow(0 0 34px rgba(141, 43, 39, 0.16)); }
+
+.door-glow { animation: door-breathe 7s ease-in-out infinite; }
+
+.door-frame {
+  fill: none;
+  stroke: rgba(222, 217, 208, 0.26);
+  stroke-width: 1.3;
+}
+
+.door-frame.thin {
+  stroke: rgba(222, 217, 208, 0.14);
+  stroke-width: 1;
+}
+
+.door-panel {
+  fill: url(#slabGrad);
+  stroke: rgba(222, 217, 208, 0.18);
+  stroke-width: 1;
+  transition: transform 1.6s var(--ease);
+}
+
+.seam-glow {
+  opacity: 0.4;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 1.6s var(--ease), opacity 1.6s ease;
+}
+
+.seam-core {
+  stroke: var(--blood-bright);
+  stroke-width: 1.1;
+  filter: drop-shadow(0 0 6px rgba(192, 74, 66, 0.85));
+  animation: seam-flicker 4.7s linear infinite;
+}
+
+/* 敲门三下之后，门开一线 */
+.door-scene.ajar .panel-l { transform: translateX(-7px); }
+.door-scene.ajar .panel-r { transform: translateX(7px); }
+.door-scene.ajar .seam-glow { transform: scaleX(5.5); opacity: 0.95; }
+
+.door-svg.shaken { animation: door-knock 0.5s ease; }
+
+.door-scene.pulse .door-svg { animation: door-glitch 0.32s steps(2) both; }
+.door-scene.pulse .sigil { opacity: 0.85; }
+
+/* 门上的符号：各自以不同的节奏明灭 */
+.sigil {
+  stroke: rgba(222, 217, 208, 0.55);
+  stroke-width: 1.4;
+  opacity: 0.15;
+  transition: opacity 0.3s ease;
+  animation: sigil-flicker var(--d, 9s) linear infinite;
+  animation-delay: var(--dl, 0s);
+}
+
+.sigil.blood { stroke: rgba(192, 74, 66, 0.75); }
+
+.sigil .sigil-fill { fill: rgba(192, 74, 66, 0.7); stroke: none; }
+
+.sigil.fill-sigil { fill: rgba(222, 217, 208, 0.5); stroke: none; }
+
+.scratches path {
+  fill: none;
+  stroke: rgba(179, 174, 165, 0.12);
+  stroke-width: 1;
+}
+
+.seam-whisper {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  transform: translate(-50%, -50%);
+  color: var(--blood-bright);
+  font-size: 0.82rem;
+  font-weight: 300;
+  letter-spacing: 0.5em;
+  writing-mode: vertical-rl;
+  text-shadow: 0 0 16px rgba(192, 74, 66, 0.85);
   opacity: 0;
+  transition: opacity 1.6s ease;
   pointer-events: none;
 }
 
-.wm-god {
-  color: rgba(179, 174, 165, 0.34);
-  transform: translateX(0.04em);
-}
+.door-scene.ajar .seam-whisper { opacity: 0.9; }
 
-.wm-strike {
+/* 低语：手绘稿上画叉的位置 */
+.whispers {
   position: absolute;
-  left: -3%;
-  right: -3%;
-  top: 52%;
-  height: 2px;
-  background: var(--blood);
-  box-shadow: 0 0 14px rgba(141, 43, 39, 0.55);
-  transform: rotate(-3deg);
-  transform-origin: left center;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
 }
 
-.wm-dead {
-  color: var(--bone-bright);
-  transform: translateX(0.62em);
-  text-shadow: 0 0 34px rgba(222, 217, 208, 0.08);
-  transition: color 1.5s ease;
-}
-
-body.midnight .wm-dead { color: var(--gold); }
-body.awake .wm-dead { text-shadow: 0 0 44px rgba(192, 74, 66, 0.18); }
-
-/* glitch 爆发 */
-.wordmark.glitching .wm-row::before {
-  opacity: 0.75;
+.whisper {
+  position: absolute;
   color: var(--blood-bright);
-  transform: translate(-5px, -2px);
-  animation: glitch-clip 0.32s steps(2) both;
-}
-
-.wordmark.glitching .wm-row::after {
-  opacity: 0.6;
-  color: rgba(154, 127, 71, 0.9);
-  transform: translate(5px, 2px);
-  animation: glitch-clip 0.32s steps(2) reverse both;
-}
-
-.wordmark.glitching { animation: glitch-shake 0.32s steps(2) both; }
-
-/* 字标被点击 7 次后的散架 */
-.wordmark.scatter .wm-god { animation: scatter-a 0.9s var(--ease) both; }
-.wordmark.scatter .wm-dead { animation: scatter-b 0.9s var(--ease) both; }
-
-.verse-line {
-  min-height: 2.2em;
-  margin: 5vh 0 0;
-  color: rgba(222, 217, 208, 0.82);
-  font-size: clamp(0.95rem, 1.5vw, 1.25rem);
+  font-size: clamp(0.72rem, 1.4vw, 0.88rem);
   font-weight: 300;
-  letter-spacing: 0.22em;
-  line-height: 1.7;
+  letter-spacing: 0.34em;
+  text-shadow: 0 0 16px rgba(192, 74, 66, 0.55);
+  white-space: nowrap;
+  opacity: 0;
+  filter: blur(3px);
+  transition: opacity 1.2s ease, filter 1.2s ease;
 }
 
-.verse-caret {
-  display: inline-block;
-  width: 0.55em;
-  height: 1.05em;
-  margin-left: 0.25em;
-  vertical-align: -0.15em;
-  background: var(--blood-bright);
-  animation: caret-blink 1s steps(1) infinite;
+.whisper.vert { writing-mode: vertical-rl; letter-spacing: 0.5em; }
+
+.whisper.on { opacity: 0.85; filter: blur(0); }
+
+.whisper .ch { opacity: 0; }
+
+.whisper.on .ch {
+  animation: ch-in 0.7s ease both;
+  animation-delay: calc(var(--i) * 85ms);
 }
 
-.hero-ritual {
-  display: flex;
-  align-items: center;
-  gap: 1.4rem;
-  margin-top: 6vh;
-}
-
-.ritual-point {
-  position: relative;
-  display: grid;
-  width: 62px;
-  height: 62px;
-  flex: none;
-  place-items: center;
-  border: 1px solid rgba(141, 43, 39, 0.25);
-  border-radius: 50%;
-  background: rgba(141, 43, 39, 0.05);
-  cursor: pointer;
-}
-
-.ritual-point::before,
-.ritual-point::after {
-  content: "";
-  position: absolute;
-  inset: 9px;
-  border: 1px solid rgba(141, 43, 39, 0.32);
-  border-radius: 50%;
-}
-
-.ritual-point::after { inset: -15px; opacity: 0.4; }
-
-.ritual-point span {
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-  background: var(--blood);
-  box-shadow: 0 0 20px rgba(141, 43, 39, 0.85);
-  transition: transform 0.35s var(--ease), box-shadow 0.35s ease;
-}
-
-.ritual-point:hover span {
-  transform: scale(1.3);
-  box-shadow: 0 0 34px rgba(192, 74, 66, 0.95);
-}
-
-body.awake .ritual-point::before { animation: ritual-ring 2.3s ease-out infinite; }
-body.awake .ritual-point span { animation: heartbeat 1.4s ease-in-out infinite; }
+.w-tl { top: 17%; left: 13%; }
+.w-tr { top: 14%; right: 15%; }
+.w-ml { top: 42%; left: 6.5%; }
+.w-mr { top: 52%; right: 6.5%; }
+.w-bl { bottom: 19%; left: 17%; }
+.w-br { bottom: 23%; right: 18%; }
 
 .status-line {
-  margin: 0;
-  color: rgba(111, 106, 98, 0.6);
+  margin: 4vh 0 0.5rem;
+  color: rgba(111, 106, 98, 0.75);
   font-family: var(--mono);
-  font-size: 0.55rem;
-  letter-spacing: 0.24em;
+  font-size: 0.58rem;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
+}
+
+.knock-hint {
+  margin: 0;
+  color: rgba(111, 106, 98, 0.42);
+  font-size: 0.68rem;
+  font-weight: 300;
+  letter-spacing: 0.24em;
 }
 
 .scroll-cue {
@@ -427,6 +456,75 @@ body.awake .ritual-point span { animation: heartbeat 1.4s ease-in-out infinite; 
   font-size: 0.52rem;
   letter-spacing: 0.34em;
   writing-mode: vertical-rl;
+}
+
+/* ---------- 访客守则 ---------- */
+
+.rules {
+  position: relative;
+  padding: clamp(5rem, 16vh, 9rem) clamp(1.2rem, 7vw, 6rem);
+  background: linear-gradient(to bottom, transparent, rgba(61, 16, 14, 0.1), transparent);
+}
+
+.rules-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: 780px;
+  border-bottom: 1px solid var(--line);
+}
+
+.rules-list li {
+  display: grid;
+  grid-template-columns: 4.2rem 1fr;
+  gap: clamp(1rem, 3vw, 1.8rem);
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.rules-list b {
+  padding-top: 0.18rem;
+  color: var(--blood-bright);
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+}
+
+.rules-list p {
+  margin: 0;
+  color: var(--bone);
+  font-size: 0.95rem;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  line-height: 1.95;
+}
+
+.rules-list em {
+  margin-left: 0.6em;
+  color: var(--blood-bright);
+  font-style: normal;
+  text-shadow: 0 0 12px rgba(192, 74, 66, 0.4);
+}
+
+.rules-list del {
+  margin-left: 0.6em;
+  color: rgba(111, 106, 98, 0.6);
+  text-decoration-color: var(--blood);
+}
+
+.rule-false {
+  background: linear-gradient(to right, rgba(141, 43, 39, 0.08), transparent 65%);
+}
+
+.rules-foot {
+  max-width: 780px;
+  margin: 1.8rem 0 0;
+  color: rgba(111, 106, 98, 0.6);
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.26em;
+  line-height: 2;
 }
 
 /* ---------- 经文带 ---------- */
@@ -1040,9 +1138,9 @@ body.miracle::after {
 
 /* ---------- 关键帧 ---------- */
 
-@keyframes caret-blink {
-  0%, 55% { opacity: 1; }
-  56%, 100% { opacity: 0; }
+@keyframes strike-draw {
+  from { transform: scaleX(0) rotate(-7deg); }
+  to { transform: scaleX(1) rotate(-7deg); }
 }
 
 @keyframes cue-drop {
@@ -1051,33 +1149,39 @@ body.miracle::after {
   100% { transform: scaleY(1) translateY(18px); opacity: 0; }
 }
 
-@keyframes seam-breathe {
-  0%, 100% { box-shadow: 0 0 8px rgba(141, 43, 39, 0.15); opacity: 0.7; }
-  50% { box-shadow: 0 0 32px rgba(192, 74, 66, 0.5); opacity: 1; }
+@keyframes door-breathe {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
 }
 
-@keyframes ritual-ring {
-  from { transform: scale(0.75); opacity: 0.85; }
-  to { transform: scale(1.6); opacity: 0; }
+@keyframes seam-flicker {
+  0%, 100% { opacity: 0.5; }
+  3% { opacity: 1; }
+  5% { opacity: 0.55; }
+  47% { opacity: 0.5; }
+  52% { opacity: 0.9; }
+  54% { opacity: 0.5; }
 }
 
-@keyframes heartbeat {
-  0%, 100% { transform: scale(1); }
-  12% { transform: scale(1.45); }
-  24% { transform: scale(1.05); }
-  36% { transform: scale(1.3); }
-  55% { transform: scale(1); }
+@keyframes sigil-flicker {
+  0%, 100% { opacity: 0.14; }
+  6% { opacity: 0.75; }
+  7.5% { opacity: 0.2; }
+  41% { opacity: 0.55; }
+  42.5% { opacity: 0.14; }
+  76% { opacity: 0.62; }
+  78% { opacity: 0.15; }
 }
 
-@keyframes glitch-clip {
-  0% { clip-path: inset(12% 0 76% 0); }
-  25% { clip-path: inset(58% 0 22% 0); }
-  50% { clip-path: inset(30% 0 48% 0); }
-  75% { clip-path: inset(80% 0 4% 0); }
-  100% { clip-path: inset(42% 0 38% 0); }
+@keyframes door-knock {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-3px, 1px); }
+  40% { transform: translate(3px, -1px); }
+  60% { transform: translate(-2px, 0); }
+  80% { transform: translate(1px, 0); }
 }
 
-@keyframes glitch-shake {
+@keyframes door-glitch {
   0% { transform: translate(0, 0); }
   25% { transform: translate(-4px, 2px); }
   50% { transform: translate(4px, -2px); }
@@ -1085,14 +1189,9 @@ body.miracle::after {
   100% { transform: translate(0, 0); }
 }
 
-@keyframes scatter-a {
-  30% { transform: translate(-0.2em, -0.16em) rotate(-4deg); filter: blur(5px); opacity: 0.5; }
-  100% { transform: translate(0.04em, 0) rotate(0); filter: blur(0); opacity: 1; }
-}
-
-@keyframes scatter-b {
-  30% { transform: translate(0.9em, 0.14em) rotate(3deg); filter: blur(5px); opacity: 0.55; }
-  100% { transform: translate(0.62em, 0) rotate(0); filter: blur(0); opacity: 1; }
+@keyframes ch-in {
+  from { opacity: 0; filter: blur(4px); }
+  to { opacity: 1; filter: blur(0); }
 }
 
 @keyframes input-shake {
@@ -1137,17 +1236,26 @@ body.miracle::after {
 @media (max-width: 720px) {
   .era-line { display: none; }
 
-  .hero-inner { padding-top: 14vh; }
+  .hero-inner { padding-top: 12vh; }
 
   .hero-kicker { font-size: 0.54rem; letter-spacing: 0.3em; }
 
-  .wordmark { font-size: clamp(4rem, 21vw, 8rem); }
+  .dead-title { font-size: clamp(1.9rem, 11vw, 3rem); letter-spacing: 0.4em; text-indent: 0.4em; }
 
-  .wm-dead { transform: translateX(0.34em); }
+  .door-scene { width: min(82vw, 310px); }
 
-  .hero-seam { left: 72%; }
+  .whisper { font-size: 0.66rem; letter-spacing: 0.26em; }
 
-  .hero-ritual { margin-top: 5vh; }
+  .w-bl, .w-br { display: none; }
+
+  .w-tl { top: 15%; left: 6%; }
+  .w-tr { top: 13%; right: 7%; }
+  .w-ml { top: 44%; left: 2.5%; }
+  .w-mr { top: 56%; right: 2.5%; }
+
+  .rules-list li { grid-template-columns: 3.1rem 1fr; }
+
+  .rules-list b { font-size: 0.92rem; }
 
   .scroll-cue { display: none; }
 
@@ -1179,9 +1287,9 @@ body.miracle::after {
 }
 
 @media (max-width: 390px) {
-  .wordmark { font-size: 3.6rem; }
+  .dead-title { font-size: 1.7rem; }
   .gate-meta b { font-size: 1.2rem; }
-  .ritual-point { width: 54px; height: 54px; }
+  .door-scene { width: min(86vw, 280px); }
   .stat-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
