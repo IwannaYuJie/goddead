@@ -25,15 +25,14 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ---------- 状态 ---------- */
   let awake = store.get("goddead_awake", "false") === "true";
   let arrivals = Number(store.get("goddead_arrivals", "0")) || 0;
-  let echoes = Number(store.get("goddead_echo_count", "0")) || 0;
-  let confessions = Number(store.get("goddead_confession_count", "0")) || 0;
+  let fragments = Number(store.get("goddead_fragment_count", "0")) || 0;
 
   let gstate = {};
   try { gstate = JSON.parse(store.get("goddead_state", "{}")) || {}; } catch { gstate = {}; }
   gstate.prayersOffered = Number(gstate.prayersOffered) || 0;
 
   const corruptionOf = () =>
-    Math.min(100, echoes * 1.5 + confessions * 2 + gstate.prayersOffered * 3 + arrivals * 0.5);
+    Math.min(100, fragments * 1.5 + gstate.prayersOffered * 3 + arrivals * 0.5);
 
   const saveState = () => {
     gstate.corruption = corruptionOf();
@@ -142,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ready = true;
     };
 
-    const knock = () => {
+    const knock = (vol = 0.5) => {
       if (!ready) return;
       const t = ctx.currentTime;
       const o = ctx.createOscillator();
@@ -150,7 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
       o.frequency.setValueAtTime(105, t);
       o.frequency.exponentialRampToValueAtTime(38, t + 0.16);
       const g = ctx.createGain();
-      g.gain.setValueAtTime(0.5, t);
+      g.gain.setValueAtTime(vol, t);
       g.gain.exponentialRampToValueAtTime(0.001, t + 0.22);
       o.connect(g);
       g.connect(master);
@@ -408,8 +407,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (name === "remembrance" && !statsCounted) {
       statsCounted = true;
       countUp(numEls.arrivals, arrivals);
-      countUp(numEls.echoes, echoes);
-      countUp(numEls.confessions, confessions);
+      countUp(numEls.fragments, fragments);
       countUp(numEls.prayers, gstate.prayersOffered);
       countUp(numEls.corruption, corruptionOf(), "%", 1);
     }
@@ -719,6 +717,66 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ============================================================
+     文字的异变：页面上的字会自己换一笔
+     ============================================================ */
+  const corruptPool = "祂死门血肉骨影空哑";
+
+  if (!reduced) {
+    let corrupting = false;
+    const corruptChar = () => {
+      corrupting = false;
+      if (document.hidden) return scheduleCorrupt();
+      const candidates = $$(".frag, .sec-desc, .ninth-text, .colophon-whisper")
+        .filter((el) => el.children.length === 0 && el.textContent.trim().length > 5
+          && el.closest(".scene").classList.contains("active"));
+      if (!candidates.length) return scheduleCorrupt();
+      const el = candidates[Math.floor(Math.random() * candidates.length)];
+      const text = el.textContent;
+      const i = 1 + Math.floor(Math.random() * (text.length - 2));
+      const wrong = corruptPool[Math.floor(Math.random() * corruptPool.length)];
+      if (text[i] === wrong) return scheduleCorrupt();
+      corrupting = true;
+      el.dataset.orig = text;
+      el.innerHTML = text.slice(0, i)
+        + `<span class="corrupted">${wrong}</span>`
+        + text.slice(i + 1);
+      setTimeout(() => {
+        el.textContent = el.dataset.orig;
+        delete el.dataset.orig;
+        corrupting = false;
+      }, 1300 + Math.random() * 900);
+      scheduleCorrupt();
+    };
+    const scheduleCorrupt = () => {
+      setTimeout(corruptChar, 9000 + Math.random() * 14000);
+    };
+    scheduleCorrupt();
+  }
+
+  /* ============================================================
+     远处的敲门声（守则其二：假装没有听见）
+     ============================================================ */
+  const tremble = () => {
+    if (reduced) return;
+    body.classList.add("tremor");
+    setTimeout(() => body.classList.remove("tremor"), 260);
+  };
+
+  if (!reduced) {
+    const distantKnock = () => {
+      if (!document.hidden) {
+        tremble();
+        AudioEngine.knock(0.13);
+        if (Math.random() < 0.35) {
+          setTimeout(() => { tremble(); AudioEngine.knock(0.09); }, 700);
+        }
+      }
+      setTimeout(distantKnock, 42000 + Math.random() * 52000);
+    };
+    setTimeout(distantKnock, 26000 + Math.random() * 20000);
+  }
+
+  /* ============================================================
      守则：异变与回应
      ============================================================ */
   let anomalyTimer = null;
@@ -803,14 +861,34 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ============================================================
-     走廊：三道门 + 封印的第四道
+     走廊：残页 + 封印的门
      ============================================================ */
-  const paintGateStats = () => {
-    $("#stat-echo").textContent = `回声 · ${echoes}`;
-    $("#stat-vein").textContent = "网络 · 活着";
-    $("#stat-confession").textContent = `忏悔 · ${confessions}`;
-  };
-  paintGateStats();
+  const fragResponses = [
+    "这页纸记住了你的指纹。",
+    "读过的字，会跟着你。",
+    "你捡起来得太快了。它喜欢这样。",
+    "走廊安静了一拍。",
+    "这一页原本是钉在墙上的。钉子还在。",
+    "别念出声。",
+  ];
+
+  $$(".frag").forEach((frag) => {
+    frag.addEventListener("click", () => {
+      if (frag.classList.contains("read")) {
+        toast("读过的字，会跟着你。");
+        return;
+      }
+      frag.classList.add("read");
+      fragments++;
+      store.set("goddead_fragment_count", String(fragments));
+      saveState();
+      if (statsCounted) paintStats();
+      AudioEngine.knock(0.16);
+      toast(fragments === 8
+        ? "八页都读过了。走廊现在认得你了。"
+        : fragResponses[Math.floor(Math.random() * fragResponses.length)]);
+    });
+  });
 
   /* 彩蛋：敲封印的门，里面有东西应一声 */
   gateReliquary.addEventListener("click", (e) => {
@@ -899,16 +977,14 @@ document.addEventListener("DOMContentLoaded", () => {
      ============================================================ */
   const numEls = {
     arrivals: $("#num-arrivals"),
-    echoes: $("#num-echoes"),
-    confessions: $("#num-confessions"),
+    fragments: $("#num-fragments"),
     prayers: $("#num-prayers"),
     corruption: $("#num-corruption"),
   };
 
   function paintStats() {
     numEls.arrivals.textContent = arrivals;
-    numEls.echoes.textContent = echoes;
-    numEls.confessions.textContent = confessions;
+    numEls.fragments.textContent = fragments;
     numEls.prayers.textContent = gstate.prayersOffered;
     numEls.corruption.textContent = corruptionOf().toFixed(1) + "%";
   }

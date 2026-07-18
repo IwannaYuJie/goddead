@@ -54,7 +54,7 @@
             <p class="hero-kicker reveal">后 神 时 代 · THE DOOR OUTLIVED ITS GOD</p>
 
             <h1 class="dead-title reveal" id="site-title" aria-label="神已死" data-hover>
-              <span class="dt-god">神<i class="dt-strike" aria-hidden="true"></i></span>已死
+              <span class="dt-god">神<i class="dt-strike" aria-hidden="true"></i></span><span class="tj-a">已</span><span class="tj-b">死</span>
             </h1>
 
             <div class="door-scene reveal" id="door-scene">
@@ -185,7 +185,7 @@
           <header class="sec-head reveal corridor-head">
             <p class="sec-kicker">THE CORRIDOR · 走 廊</p>
             <h2 class="sec-title">走廊</h2>
-            <p class="sec-desc">神死了，门还活着。每一道门后面，都有一种继续存在的方式。</p>
+            <p class="sec-desc">神死了，字还活着。它们从墙上脱落，躺在走廊里。捡起来的，会跟着你。</p>
           </header>
 
           <div class="bands reveal" id="bands" aria-hidden="true">
@@ -201,40 +201,19 @@
             </div>
           </div>
 
-          <nav class="gate-list reveal" aria-label="三道仪式之门">
-            <a class="gate" href="echo.html" data-gate="echo" data-hover>
-              <span class="gate-art" style="background-image:url('assets/monument_3.png')" aria-hidden="true"></span>
-              <span class="gate-meta"><b>01</b><i></i><em></em></span>
-              <span class="gate-body">
-                <span class="gate-name">回声</span>
-                <span class="gate-whisper">说过的，会以别的样子回来。</span>
-                <span class="gate-stat" id="stat-echo">回声 · 0</span>
-              </span>
-              <span class="gate-arrow" aria-hidden="true">进入 ⟶</span>
-            </a>
+          <!-- 残页：从墙上脱落的字，歪斜地躺在走廊里 -->
+          <div class="frag-field reveal" id="frag-field">
+            <button class="frag f1" type="button" data-hover>神死的那天，没有打雷。只是所有人的影子，都晚了一拍才跟上。</button>
+            <button class="frag f2" type="button" data-hover>回声不是说出去的话。是话自己不想消失。</button>
+            <button class="frag f3" type="button" data-hover>血管在墙里走。你半夜听见的流水声，不是水管。</button>
+            <button class="frag f4" type="button" data-hover>忏悔室的墙记得每一个重量。它从不归还。</button>
+            <button class="frag f5" type="button" data-hover>第七天，有人看见神坛上的灰，自己摆成了门的形状。</button>
+            <button class="frag f6" type="button" data-hover>守则每被读一次，就有一条悄悄换一个字。没有人记得原文。</button>
+            <button class="frag f7" type="button" data-hover>别在子夜数自己的心跳。数错了，就不是你的了。</button>
+            <button class="frag f8" type="button" data-hover>遗物室里没有遗物。只有「被留下」这个动作本身。</button>
+          </div>
 
-            <a class="gate" href="vein.html" data-gate="vein" data-hover>
-              <span class="gate-art" style="background-image:url('assets/monument_2.png')" aria-hidden="true"></span>
-              <span class="gate-meta"><b>02</b><i></i><em></em></span>
-              <span class="gate-body">
-                <span class="gate-name">血管</span>
-                <span class="gate-whisper">它朝着你的温度生长。</span>
-                <span class="gate-stat" id="stat-vein">网络 · 活着</span>
-              </span>
-              <span class="gate-arrow" aria-hidden="true">进入 ⟶</span>
-            </a>
-
-            <a class="gate" href="confession.html" data-gate="confession" data-hover>
-              <span class="gate-art" style="background-image:url('assets/monument_1.png')" aria-hidden="true"></span>
-              <span class="gate-meta"><b>03</b><i></i><em></em></span>
-              <span class="gate-body">
-                <span class="gate-name">忏悔</span>
-                <span class="gate-whisper">留下一个重量，墙会替你保管。</span>
-                <span class="gate-stat" id="stat-confession">忏悔 · 0</span>
-              </span>
-              <span class="gate-arrow" aria-hidden="true">进入 ⟶</span>
-            </a>
-
+          <nav class="gate-list reveal" aria-label="封印的门">
             <a class="gate gate-sealed" id="gate-reliquary" href="reliquary.html" data-gate="reliquary" data-hover>
               <span class="gate-art" style="background-image:url('assets/testament-gates.png')" aria-hidden="true"></span>
               <span class="gate-meta"><b>00</b><i></i><em></em></span>
@@ -288,8 +267,7 @@
 
           <div class="stat-grid reveal">
             <div class="stat-card"><span class="stat-num" id="num-arrivals">0</span><span class="stat-label">抵 达</span></div>
-            <div class="stat-card"><span class="stat-num" id="num-echoes">0</span><span class="stat-label">回 声</span></div>
-            <div class="stat-card"><span class="stat-num" id="num-confessions">0</span><span class="stat-label">忏 悔</span></div>
+            <div class="stat-card"><span class="stat-num" id="num-fragments">0</span><span class="stat-label">碎 片</span></div>
             <div class="stat-card"><span class="stat-num" id="num-prayers">0</span><span class="stat-label">祷 词</span></div>
             <div class="stat-card"><span class="stat-num" id="num-corruption">0%</span><span class="stat-label">侵 蚀 度</span></div>
           </div>
@@ -333,9 +311,6 @@
       <a href="#corridor" data-hover>02 / 走廊</a>
       <a href="#offering" data-hover>03 / 焚献</a>
       <a href="#remembrance" data-hover>04 / 痕迹</a>
-      <a href="echo.html" data-hover>— 回声</a>
-      <a href="vein.html" data-hover>— 血管</a>
-      <a href="confession.html" data-hover>— 忏悔</a>
       <a href="reliquary.html" id="reliquary-link" class="locked" data-hover>— 遗物室</a>
       <p class="menu-note">所有入口都通往同一个空缺。</p>
     </aside>

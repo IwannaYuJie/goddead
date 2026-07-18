@@ -157,3 +157,12 @@
 - Added scene transitions via a black veil, per-scene reveal staggering, per-scene document titles, and scene-internal scrolling; removed the old footer/scroll-cue chrome and folded arrivals, colophon whisper, and domain mark into the remembrance scene.
 - Verified all six scenes at 1440 and 390 widths (threshold, protocol with anomaly, corridor, offering, remembrance, ninth, and the ajar choice state) with headless Chromium screenshots; test suite passes and asset cache bumped to `v13`.
 - Updated the README to describe the scene-based navigation, hidden ninth rule, and opt-in audio experience.
+
+## 2026-07-19 (Fragments & crookedness revision)
+- Removed the Echo / Vein / Confession interactive pages and their gates; the corridor now holds eight crooked lore fragments （残页） that can be picked up, plus the sealed Reliquary gate. Reading fragments feeds a new persistent 碎片 counter and the corruption formula.
+- Pushed the whole site toward the uncanny: titles slowly sway off-axis, the 神已死 characters sit skewed, protocol rules tilt and offset per row (and straighten under the cursor), fragments lie scattered at odd angles, and the stat grid dropped to four cards （抵达 / 碎片 / 祷词 / 侵蚀度）.
+- Added text self-corruption: every 9–23s a random character in a visible plain-text passage briefly swaps for a blood-red wrong character before reverting.
+- Added distant knocking tied to protocol rule two: every 40–90s the page trembles with a faint knock (sometimes two), with no explanation offered.
+- Removed the three sub-pages from the drawer menu; reliquary.html kept as-is (its archived echo/confession counters simply rest at zero).
+- Verified corridor / protocol / remembrance scenes at 1440 and 390 widths via headless Chromium; test suite passes.
+- Updated the README for the fragment-based corridor and confirmed the active site no longer links to the removed room pages.
