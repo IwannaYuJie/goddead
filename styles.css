@@ -227,7 +227,7 @@ body.awake .hero-art { opacity: 0.45; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 13vh clamp(1.2rem, 6vw, 4rem) 12vh;
+  padding: 11vh clamp(1.2rem, 6vw, 4rem) 10vh;
   text-align: center;
   transition: filter 2.5s ease;
 }
@@ -245,7 +245,7 @@ body.idle .hero-inner { filter: brightness(0.55); }
 
 /* 「神已死」：神字被一道血线划去 */
 .dead-title {
-  margin: 0 0 5vh;
+  margin: 0 0 4vh;
   color: var(--bone-bright);
   font-size: clamp(2.4rem, 6.5vw, 4.6rem);
   font-weight: 400;
@@ -277,7 +277,7 @@ body.midnight .dead-title { color: var(--gold); }
 /* 门的舞台 */
 .door-scene {
   position: relative;
-  width: min(76vw, 360px);
+  width: min(76vw, 340px, 30vh);
 }
 
 .door-svg {

@@ -146,3 +146,4 @@
 - Updated the door, whisper, protocol, responsive, and reduced-motion styling and bumped the homepage asset cache key to `v12`.
 - Refreshed the README experience description and ignored macOS `.DS_Store` metadata.
 - Verified JavaScript syntax, the static-site test suite, whitespace integrity, and the intended source files' sensitive-token scan before commit.
+- Tightened the doorway hero spacing and capped the door artwork against viewport height so the complete entrance remains visible on shorter screens.
