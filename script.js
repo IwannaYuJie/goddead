@@ -1,6 +1,6 @@
 /* ============================================================
    GODDEAD — 神已死，门犹在
-   灰烬粒子 / 自定义光标 / 门与敲门 / 低语轮替 / 经文带 / 焚献祷告 / 彩蛋群
+   场景探索 / 氛围音引擎 / 门与敲门 / 低语轮替 / 守则异变 / 焚献祷告 / 彩蛋群
    ============================================================ */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -46,14 +46,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const menu = $("#ritual-menu");
   const menuTrigger = $("#menu-trigger");
   const menuClose = $("#menu-close");
+  const soundToggle = $("#sound-toggle");
   const crossMark = $("#cross-mark");
   const arrivalCount = $("#arrival-count");
   const reliquaryLink = $("#reliquary-link");
   const reliquarySlot = $("#reliquary-slot");
+  const gateReliquary = $("#gate-reliquary");
   const doorScene = $("#door-scene");
   const doorSvg = $("#door-svg");
   const seamWhisper = $("#seam-whisper");
+  const doorChoice = $("#door-choice");
+  const enterDoor = $("#enter-door");
+  const declineDoor = $("#decline-door");
   const heroArt = $("#hero-art");
+  const veil = $("#scene-veil");
+  const rulesCount = $("#rules-count");
+  const ruleSevenNote = $("#rule-seven-note");
   const bandsEl = $("#bands");
   const prayerInput = $("#prayer-input");
   const prayerOffer = $("#prayer-offer");
@@ -66,6 +74,158 @@ document.addEventListener("DOMContentLoaded", () => {
     void message.offsetWidth;
     message.classList.add("show");
   };
+
+  /* ============================================================
+     氛围音引擎（WebAudio 合成：低鸣 / 敲门 / 低钟 / 风声）
+     ============================================================ */
+  const AudioEngine = (() => {
+    let ctx = null;
+    let master = null;
+    let ready = false;
+    let muted = store.get("goddead_muted", "false") === "true";
+
+    const noiseBuffer = (seconds) => {
+      const buf = ctx.createBuffer(1, ctx.sampleRate * seconds, ctx.sampleRate);
+      const data = buf.getChannelData(0);
+      let last = 0;
+      for (let i = 0; i < data.length; i++) {
+        const white = Math.random() * 2 - 1;
+        last = (last + 0.02 * white) / 1.02;
+        data[i] = last * 3.2;
+      }
+      return buf;
+    };
+
+    const ensure = () => {
+      if (ready) {
+        if (ctx && ctx.state === "suspended") ctx.resume();
+        return;
+      }
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      ctx = new AC();
+      master = ctx.createGain();
+      master.gain.value = muted ? 0 : 1;
+      master.connect(ctx.destination);
+
+      /* 低鸣：两个微失谐的低频正弦 + 棕噪声，滤波缓慢呼吸 */
+      const filter = ctx.createBiquadFilter();
+      filter.type = "lowpass";
+      filter.frequency.value = 240;
+      const droneGain = ctx.createGain();
+      droneGain.gain.value = 0.05;
+      [54, 54.45].forEach((f) => {
+        const o = ctx.createOscillator();
+        o.type = "sine";
+        o.frequency.value = f;
+        o.connect(droneGain);
+        o.start();
+      });
+      const noise = ctx.createBufferSource();
+      noise.buffer = noiseBuffer(3);
+      noise.loop = true;
+      const nGain = ctx.createGain();
+      nGain.gain.value = 0.012;
+      noise.connect(nGain);
+      nGain.connect(filter);
+      droneGain.connect(filter);
+      filter.connect(master);
+      noise.start();
+      const lfo = ctx.createOscillator();
+      lfo.frequency.value = 0.06;
+      const lfoGain = ctx.createGain();
+      lfoGain.gain.value = 90;
+      lfo.connect(lfoGain);
+      lfoGain.connect(filter.frequency);
+      lfo.start();
+
+      ready = true;
+    };
+
+    const knock = () => {
+      if (!ready) return;
+      const t = ctx.currentTime;
+      const o = ctx.createOscillator();
+      o.type = "sine";
+      o.frequency.setValueAtTime(105, t);
+      o.frequency.exponentialRampToValueAtTime(38, t + 0.16);
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.5, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.22);
+      o.connect(g);
+      g.connect(master);
+      o.start(t);
+      o.stop(t + 0.25);
+    };
+
+    const bell = (base = 96) => {
+      if (!ready) return;
+      const t = ctx.currentTime;
+      [1, 1.5, 2.02].forEach((m, i) => {
+        const o = ctx.createOscillator();
+        o.type = "sine";
+        o.frequency.value = base * m;
+        const g = ctx.createGain();
+        g.gain.setValueAtTime(0.11 / (i + 1), t);
+        g.gain.exponentialRampToValueAtTime(0.0008, t + 2.6);
+        o.connect(g);
+        g.connect(master);
+        o.start(t);
+        o.stop(t + 2.7);
+      });
+    };
+
+    const whoosh = () => {
+      if (!ready) return;
+      const t = ctx.currentTime;
+      const src = ctx.createBufferSource();
+      src.buffer = noiseBuffer(1);
+      const f = ctx.createBiquadFilter();
+      f.type = "bandpass";
+      f.Q.value = 1.2;
+      f.frequency.setValueAtTime(240, t);
+      f.frequency.exponentialRampToValueAtTime(920, t + 0.45);
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.08, t + 0.18);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.62);
+      src.connect(f);
+      f.connect(g);
+      g.connect(master);
+      src.start(t);
+      src.stop(t + 0.7);
+    };
+
+    const toggle = () => {
+      muted = !muted;
+      store.set("goddead_muted", String(muted));
+      if (ready && master) {
+        master.gain.linearRampToValueAtTime(muted ? 0 : 1, ctx.currentTime + 0.3);
+      }
+      return muted;
+    };
+
+    return {
+      ensure, knock, bell, whoosh, toggle,
+      get muted() { return muted; },
+    };
+  })();
+
+  window.addEventListener("pointerdown", () => AudioEngine.ensure(), { once: true });
+  window.addEventListener("keydown", () => AudioEngine.ensure(), { once: true });
+
+  const paintSoundToggle = () => {
+    soundToggle.textContent = AudioEngine.muted ? "默" : "声";
+    soundToggle.classList.toggle("muted", AudioEngine.muted);
+    soundToggle.setAttribute("aria-label", AudioEngine.muted ? "打开声音" : "关闭声音");
+  };
+  soundToggle.addEventListener("click", () => {
+    AudioEngine.ensure();
+    const muted = AudioEngine.toggle();
+    paintSoundToggle();
+    toast(muted ? "声音沉下去了。" : "它又开始低鸣。");
+  });
+  paintSoundToggle();
 
   /* ============================================================
      灰烬粒子场
@@ -226,6 +386,67 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ============================================================
+     场景路由（哈希驱动，一幕一幕探索）
+     ============================================================ */
+  const scenes = {};
+  $$(".scene").forEach((s) => { scenes[s.dataset.scene] = s; });
+  let currentScene = "threshold";
+  let veilBusy = false;
+  let statsCounted = false;
+
+  const revealScene = (scene) => {
+    const els = scene.querySelectorAll(".reveal:not(.in)");
+    els.forEach((el, i) => setTimeout(() => el.classList.add("in"), 140 + i * 130));
+  };
+
+  const sceneInit = (name) => {
+    const scene = scenes[name];
+    document.title = scene.dataset.title || "Goddead";
+    revealScene(scene);
+    if (name === "protocol") startAnomaly();
+    if (name === "ninth") AudioEngine.bell(58);
+    if (name === "remembrance" && !statsCounted) {
+      statsCounted = true;
+      countUp(numEls.arrivals, arrivals);
+      countUp(numEls.echoes, echoes);
+      countUp(numEls.confessions, confessions);
+      countUp(numEls.prayers, gstate.prayersOffered);
+      countUp(numEls.corruption, corruptionOf(), "%", 1);
+    }
+  };
+
+  const goScene = (name) => {
+    if (!scenes[name] || name === currentScene || veilBusy) return;
+    veilBusy = true;
+    stopAnomaly();
+    veil.classList.add("on");
+    AudioEngine.whoosh();
+    setTimeout(() => {
+      scenes[currentScene].classList.remove("active");
+      scenes[name].classList.add("active");
+      currentScene = name;
+      sceneInit(name);
+      if (location.hash !== "#" + name) location.hash = name;
+      setTimeout(() => {
+        veil.classList.remove("on");
+        veilBusy = false;
+      }, 80);
+    }, reduced ? 60 : 480);
+  };
+
+  const route = () => {
+    const name = (location.hash || "#threshold").slice(1);
+    goScene(scenes[name] ? name : "threshold");
+  };
+  window.addEventListener("hashchange", route);
+
+  /* 场景出口按钮 */
+  document.addEventListener("click", (e) => {
+    const go = e.target.closest("[data-go]");
+    if (go) goScene(go.dataset.go);
+  });
+
+  /* ============================================================
      经文带（滚动速度驱动）
      ============================================================ */
   const bands = $$(".band").map((band) => {
@@ -251,11 +472,6 @@ document.addEventListener("DOMContentLoaded", () => {
   bandsEl.addEventListener("pointerleave", () => bands.forEach((b) => (b.hover = false)));
 
   let scrollBoost = 0;
-  let lastScrollY = window.scrollY;
-  window.addEventListener("scroll", () => {
-    scrollBoost = Math.min(3.4, scrollBoost + Math.abs(window.scrollY - lastScrollY) * 0.02);
-    lastScrollY = window.scrollY;
-  }, { passive: true });
 
   /* 彩蛋：凝视经文 3 秒，显出不属于经文的一句 */
   let gazeTimer = null;
@@ -294,7 +510,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       par.x += (parTarget.x - par.x) * 0.05;
       par.y += (parTarget.y - par.y) * 0.05;
-      heroArt.style.transform = `translate3d(${par.x * 18}px, ${par.y * 12 + window.scrollY * 0.1}px, 0)`;
+      heroArt.style.transform = `translate3d(${par.x * 18}px, ${par.y * 12}px, 0)`;
       doorScene.style.transform = `translate3d(${par.x * -8}px, ${par.y * -5}px, 0)`;
     }
 
@@ -326,7 +542,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ============================================================
-     门：纪年 / 敲门 / 低语 / 苏醒
+     门：纪年 / 敲门 / 低语 / 进入
      ============================================================ */
   const DEATH_DATE = new Date("2026-07-02T00:00:00");
   const eraDays = Math.max(1, Math.floor((Date.now() - DEATH_DATE.getTime()) / 86400000) + 1);
@@ -342,7 +558,7 @@ document.addEventListener("DOMContentLoaded", () => {
     statusLine.textContent = awake ? "门在呼吸 · 别靠太近" : "门后没有声音 · 暂时";
   };
 
-  /* 门的不规律颤动（原 glitch） */
+  /* 门的不规律颤动 */
   const doorPulse = () => {
     doorScene.classList.add("pulse");
     setTimeout(() => doorScene.classList.remove("pulse"), 340);
@@ -370,15 +586,21 @@ document.addEventListener("DOMContentLoaded", () => {
     doorSvg.classList.add("shaken");
   };
 
+  const showChoice = (show) => {
+    doorChoice.classList.toggle("show", show);
+  };
+
   const closeDoor = () => {
     doorScene.classList.remove("ajar");
     seamWhisper.textContent = "";
+    showChoice(false);
   };
 
   const knock = () => {
     knocks++;
     totalKnocks++;
     shakeDoor();
+    AudioEngine.knock();
     clearTimeout(decayTimer);
 
     if (knocks >= 4) {
@@ -395,18 +617,21 @@ document.addEventListener("DOMContentLoaded", () => {
     if (knocks === 3) {
       doorScene.classList.add("ajar");
       seamWhisper.textContent = "……进来";
+      showChoice(true);
+      AudioEngine.bell();
       if (!awake) {
         awake = true;
         store.set("goddead_awake", "true");
         body.classList.add("awake");
       }
-      toast("规则其二：门后没有人。请假装没有听见。");
+      statusLine.textContent = "门开了一线。要进去吗？";
       clearTimeout(ajarTimer);
       ajarTimer = setTimeout(() => {
         closeDoor();
         knocks = 0;
         syncAwake();
-      }, 7000);
+        toast("门自己关上了。");
+      }, 12000);
     } else {
       /* 敲到一半停手，门当作无事发生 */
       decayTimer = setTimeout(() => {
@@ -421,6 +646,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (totalKnocks === 7) {
       setTimeout(() => {
         shakeDoor();
+        AudioEngine.knock();
         toast("它敲了回来。");
       }, 1600);
     }
@@ -432,6 +658,26 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       knock();
     }
+  });
+
+  enterDoor.addEventListener("click", () => {
+    showChoice(false);
+    toast("你侧身挤了进去。门在你身后合上了。");
+    goScene("protocol");
+  });
+
+  seamWhisper.addEventListener("click", () => {
+    if (!doorScene.classList.contains("ajar")) return;
+    showChoice(false);
+    goScene("protocol");
+  });
+
+  declineDoor.addEventListener("click", () => {
+    clearTimeout(ajarTimer);
+    knocks = 0;
+    closeDoor();
+    syncAwake();
+    toast("你装作没有听见。门慢慢合上了。");
   });
 
   /* 低语：画叉的位置，血红色，时隐时现 */
@@ -473,14 +719,92 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ============================================================
-     三道门
+     守则：异变与回应
      ============================================================ */
-  const gateNames = {
-    echo: "回声正在靠近",
-    vein: "血管正在寻找方向",
-    confession: "忏悔正在等待重量",
+  let anomalyTimer = null;
+  let restoreTimer = null;
+  let nineWindow = false;
+  let ruleSevenClicks = 0;
+
+  const startAnomaly = () => {
+    stopAnomaly();
+    if (reduced) return;
+    const tick = () => {
+      anomalyTimer = setTimeout(() => {
+        if (currentScene !== "protocol") return;
+        if (Math.random() < 0.65) {
+          rulesCount.textContent = "玖";
+          rulesCount.classList.add("wrong");
+          nineWindow = true;
+          restoreTimer = setTimeout(() => {
+            rulesCount.textContent = "捌";
+            rulesCount.classList.remove("wrong");
+            nineWindow = false;
+          }, 5200);
+        }
+        tick();
+      }, 7000 + Math.random() * 8000);
+    };
+    tick();
   };
 
+  const stopAnomaly = () => {
+    clearTimeout(anomalyTimer);
+    clearTimeout(restoreTimer);
+    anomalyTimer = null;
+    nineWindow = false;
+    if (rulesCount) {
+      rulesCount.textContent = "捌";
+      rulesCount.classList.remove("wrong");
+    }
+  };
+
+  rulesCount.addEventListener("click", () => {
+    if (nineWindow) {
+      nineWindow = false;
+      toast("你数出了第九条。它一直在等你数出来。");
+      goScene("ninth");
+    } else {
+      toast("数过了。是捌条。——暂时是捌条。");
+    }
+  });
+
+  const ruleResponses = {
+    1: "你没有听见任何回应。很好。",
+    2: "门后没有人。真的没有。",
+    3: "九个。你数了，对吧。",
+    4: "低语不喜欢被逐字重复。",
+    5: "回来的路，你还记得吗？",
+    6: "现在几点？你确定吗？",
+    7: "别再点这一条了。",
+    8: "确认无效。",
+  };
+
+  $$(".rules-list li").forEach((li) => {
+    li.addEventListener("click", () => {
+      const n = li.dataset.rule;
+      li.classList.remove("touched");
+      void li.offsetWidth;
+      li.classList.add("touched");
+      AudioEngine.knock();
+      if (n === "7") {
+        ruleSevenClicks++;
+        if (ruleSevenClicks === 3) ruleSevenNote.textContent = "它知道你注意到它了。";
+        if (ruleSevenClicks === 6) ruleSevenNote.textContent = "停下。";
+        if (ruleSevenClicks >= 9) {
+          ruleSevenClicks = 0;
+          ruleSevenNote.textContent = "它在看你读这一条。";
+          toast("第七条原谅你了。这次。");
+          return;
+        }
+      }
+      toast(ruleResponses[n] || "……");
+    });
+  });
+
+  /* ============================================================
+     走廊：三道门 + 封印的第四道
+     ============================================================ */
   const paintGateStats = () => {
     $("#stat-echo").textContent = `回声 · ${echoes}`;
     $("#stat-vein").textContent = "网络 · 活着";
@@ -488,11 +812,12 @@ document.addEventListener("DOMContentLoaded", () => {
   };
   paintGateStats();
 
-  $$(".gate").forEach((gate) => {
-    gate.addEventListener("pointerenter", () => {
-      statusLine.textContent = gateNames[gate.dataset.gate] || "";
-    });
-    gate.addEventListener("pointerleave", syncAwake);
+  /* 彩蛋：敲封印的门，里面有东西应一声 */
+  gateReliquary.addEventListener("click", (e) => {
+    if (arrivals >= 7) return;
+    e.preventDefault();
+    AudioEngine.knock();
+    toast("里面有东西应了一声。仅此一声。");
   });
 
   /* ============================================================
@@ -539,6 +864,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     burnPrayer(value);
+    AudioEngine.bell(72);
     prayerInput.value = "";
 
     sessionPrayers++;
@@ -600,24 +926,20 @@ document.addEventListener("DOMContentLoaded", () => {
     requestAnimationFrame(step);
   };
 
-  let statsCounted = false;
-  const statObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting || statsCounted) return;
-      statsCounted = true;
-      countUp(numEls.arrivals, arrivals);
-      countUp(numEls.echoes, echoes);
-      countUp(numEls.confessions, confessions);
-      countUp(numEls.prayers, gstate.prayersOffered);
-      countUp(numEls.corruption, corruptionOf(), "%", 1);
-      statObserver.disconnect();
-    });
-  }, { threshold: 0.3 });
-  statObserver.observe($(".stat-grid"));
-
   const renderReliquary = () => {
     const unlocked = arrivals >= 7;
     reliquaryLink.classList.toggle("locked", !unlocked);
+
+    /* 走廊里的第四道门 */
+    gateReliquary.classList.toggle("unsealed", unlocked);
+    gateReliquary.querySelector(".gate-name").textContent = unlocked ? "遗物室" : "？？？";
+    gateReliquary.querySelector(".gate-whisper").textContent = unlocked
+      ? "被收集的缺席，在等你认领。"
+      : "遗物室仍在沉睡。";
+    $("#stat-reliquary").textContent = unlocked
+      ? "封印 · 已解开"
+      : `封印 · 还差 ${7 - arrivals} 次抵达`;
+
     if (unlocked) {
       reliquarySlot.innerHTML =
         `<a class="rl-link" href="reliquary.html" data-hover><b>00</b><span class="rl-name">遗物室</span><span class="rl-hint">被收集的缺席 ⟶</span></a>`;
@@ -627,13 +949,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  /* 页脚十字：记录抵达 */
+  /* 十字：记录抵达 */
   crossMark.addEventListener("click", () => {
     arrivals++;
     store.set("goddead_arrivals", String(arrivals));
     arrivalCount.textContent = `已记录 ${arrivals} 次抵达`;
     saveState();
     if (statsCounted) paintStats();
+    AudioEngine.bell(84);
     toast(arrivals % 7 === 0 ? "第七次抵达。遗物室记住了你。" : `抵达记录：${arrivals}`);
     renderReliquary();
   });
@@ -677,6 +1000,7 @@ document.addEventListener("DOMContentLoaded", () => {
         store.set("goddead_awake", "true");
         syncAwake();
         doorPulse();
+        AudioEngine.bell(48);
         if (!reduced) spawnBurst(window.innerWidth / 2, window.innerHeight / 2, 26);
         toast("你念出了它的名字。现在，它也会念出你的。");
       }
@@ -688,6 +1012,7 @@ document.addEventListener("DOMContentLoaded", () => {
         konamiIdx = 0;
         body.classList.add("miracle");
         if (!reduced) emberStorm();
+        AudioEngine.bell(60);
         toast("古老的按键仪式完成。神迹短暂地回来了。");
         setTimeout(() => body.classList.remove("miracle"), 2500);
       }
@@ -724,28 +1049,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* ============================================================
-     入场揭示
-     ============================================================ */
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("in");
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15 });
-
-  $$(".reveal").forEach((el) => revealObserver.observe(el));
-
   /* ---------- 初始化 ---------- */
   paintStats();
   saveState();
   renderReliquary();
   syncAwake();
+  revealScene(scenes.threshold);
+  route();
 });
 
 console.log("%c GOD / DEAD ", "background:#8d2b27;color:#050505;font-family:serif;font-size:18px;letter-spacing:.3em");
 console.log("%c 输入 goddead，唤醒门。", "color:#777169;font-family:monospace");
 console.log("%c 输入 ↑↑↓↓←→←→BA，召回神迹。", "color:#777169;font-family:monospace");
 console.log("%c 凝视经文三秒，它会出卖一句话。", "color:#777169;font-family:monospace");
+console.log("%c 守则的条数，偶尔会数错。数错的时候点它。", "color:#777169;font-family:monospace");

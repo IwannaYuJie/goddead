@@ -147,3 +147,13 @@
 - Refreshed the README experience description and ignored macOS `.DS_Store` metadata.
 - Verified JavaScript syntax, the static-site test suite, whitespace integrity, and the intended source files' sensitive-token scan before commit.
 - Tightened the doorway hero spacing and capped the door artwork against viewport height so the complete entrance remains visible on shorter screens.
+
+## 2026-07-19 (Exploration game restructure)
+- Rebuilt the homepage from a scrolling page into a hash-routed, scene-by-scene exploration game (`#threshold` → `#protocol` → `#corridor` → `#offering` → `#remembrance`, plus a hidden `#ninth`).
+- Kept the doorway hero untouched as the game entrance: three knocks part the door and offer an explicit 进去 / 不进 choice; clicking the door itself while ajar still triggers the fourth-knock warning.
+- Promoted the visitor protocol to a full scene with interactions: per-rule click responses, an escalating rule-seven annotation, and a rule-count anomaly that occasionally flashes 玖 — clicking it opens the hidden ninth-rule scene.
+- Moved the scripture bands and three gates into a corridor scene and added a sealed fourth gate that answers with a single knock until seven arrivals unseal the Reliquary.
+- Added a WebAudio atmosphere engine (detuned low drone with breathing filter, synthesized knocks, door bells, scene-transition whoosh) gated behind the first user gesture with a persistent top-bar mute toggle.
+- Added scene transitions via a black veil, per-scene reveal staggering, per-scene document titles, and scene-internal scrolling; removed the old footer/scroll-cue chrome and folded arrivals, colophon whisper, and domain mark into the remembrance scene.
+- Verified all six scenes at 1440 and 390 widths (threshold, protocol with anomaly, corridor, offering, remembrance, ninth, and the ajar choice state) with headless Chromium screenshots; test suite passes and asset cache bumped to `v13`.
+- Updated the README to describe the scene-based navigation, hidden ninth rule, and opt-in audio experience.

@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#050505">
-    <meta name="description" content="Goddead.com — 神已经死去。你仍然抵达。">
+    <meta name="description" content="Goddead.com — 神已死。门后是一场探索。">
     <title>Goddead</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Serif+SC:wght@300;400;500&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
     <link rel="preload" href="assets/hero.png" as="image">
-    <link rel="stylesheet" href="styles.css?v=12">
+    <link rel="stylesheet" href="styles.css?v=13">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -21,263 +21,326 @@
     <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
 
     <header class="topbar">
-      <a class="sigil" href="index.html" data-hover>GODDEAD</a>
+      <a class="sigil" href="#threshold" data-hover>GODDEAD</a>
       <p class="era-line" id="era-line">神死后的第 — 天</p>
-      <button class="menu-trigger" id="menu-trigger" type="button" aria-expanded="false" aria-controls="ritual-menu" aria-label="打开目录" data-hover>
-        <span></span><span></span>
-      </button>
+      <div class="topbar-right">
+        <button class="sound-toggle" id="sound-toggle" type="button" aria-label="切换声音" data-hover>声</button>
+        <button class="menu-trigger" id="menu-trigger" type="button" aria-expanded="false" aria-controls="ritual-menu" aria-label="打开目录" data-hover>
+          <span></span><span></span>
+        </button>
+      </div>
     </header>
 
-    <main>
-      <!-- 门 -->
-      <section class="hero" id="altar" aria-labelledby="site-title">
-        <div class="hero-art" id="hero-art" aria-hidden="true"></div>
+    <div class="scene-veil" id="scene-veil" aria-hidden="true"></div>
 
-        <!-- 低语：手绘稿上画叉的位置，血红色，时隐时现 -->
-        <div class="whispers" aria-hidden="true">
-          <span class="whisper w-tl"></span>
-          <span class="whisper w-tr"></span>
-          <span class="whisper w-ml vert"></span>
-          <span class="whisper w-mr vert"></span>
-          <span class="whisper w-bl"></span>
-          <span class="whisper w-br"></span>
-        </div>
+    <main id="stage">
 
-        <div class="hero-inner">
-          <p class="hero-kicker reveal">后 神 时 代 · THE DOOR OUTLIVED ITS GOD</p>
+      <!-- 第一幕 · 门外 -->
+      <section class="scene active" id="scene-threshold" data-scene="threshold" data-title="Goddead" aria-label="门外">
+        <div class="hero" id="altar">
+          <div class="hero-art" id="hero-art" aria-hidden="true"></div>
 
-          <h1 class="dead-title reveal" id="site-title" aria-label="神已死" data-hover>
-            <span class="dt-god">神<i class="dt-strike" aria-hidden="true"></i></span>已死
-          </h1>
-
-          <div class="door-scene reveal" id="door-scene">
-            <svg class="door-svg" id="door-svg" viewBox="0 0 400 660" role="button" tabindex="0" aria-label="一扇紧闭的门。可以敲门。不建议。" data-hover>
-              <defs>
-                <radialGradient id="doorGlowGrad" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stop-color="#8d2b27" stop-opacity="0.32"/>
-                  <stop offset="60%" stop-color="#8d2b27" stop-opacity="0.08"/>
-                  <stop offset="100%" stop-color="#8d2b27" stop-opacity="0"/>
-                </radialGradient>
-                <linearGradient id="seamGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#c04a42" stop-opacity="0"/>
-                  <stop offset="45%" stop-color="#c04a42" stop-opacity="0.85"/>
-                  <stop offset="100%" stop-color="#c04a42" stop-opacity="0"/>
-                </linearGradient>
-                <linearGradient id="slabGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#0e0d0b"/>
-                  <stop offset="100%" stop-color="#060505"/>
-                </linearGradient>
-                <filter id="softBlur" x="-40%" y="-40%" width="180%" height="180%">
-                  <feGaussianBlur stdDeviation="9"/>
-                </filter>
-              </defs>
-
-              <ellipse class="door-glow" cx="200" cy="390" rx="195" ry="305" fill="url(#doorGlowGrad)"/>
-              <ellipse class="door-ground" cx="200" cy="650" rx="185" ry="17" fill="#000" filter="url(#softBlur)" opacity="0.75"/>
-
-              <!-- 双重拱门框（手绘稿的双线拱） -->
-              <path class="door-frame" d="M26,660 L26,272 A174,174 0 0 1 374,272 L374,660"/>
-              <path class="door-frame thin" d="M48,660 L48,278 A152,152 0 0 1 352,278 L352,660"/>
-
-              <!-- 门缝后的光 -->
-              <rect class="seam-glow" x="194" y="154" width="12" height="506" fill="url(#seamGrad)"/>
-
-              <!-- 两扇门页 -->
-              <g class="door-panels">
-                <path class="door-panel panel-l" d="M66,660 L66,284 A134,134 0 0 1 200,150 L200,660 Z"/>
-                <path class="door-panel panel-r" d="M334,660 L334,284 A134,134 0 0 0 200,150 L200,660 Z"/>
-              </g>
-              <line class="seam-core" x1="200" y1="154" x2="200" y2="660"/>
-
-              <!-- 门上的符号 -->
-              <g class="sigils" fill="none">
-                <g class="sigil blood" style="--d:8.2s;--dl:-2s" transform="translate(200,236)">
-                  <ellipse rx="26" ry="13"/>
-                  <circle class="sigil-fill" r="5.5"/>
-                </g>
-                <g class="sigil" style="--d:11s;--dl:-0.5s" transform="translate(128,330)">
-                  <path d="M0,-18 L16,12 L-16,12 Z"/>
-                  <circle cx="0" cy="2" r="3"/>
-                </g>
-                <g class="sigil" style="--d:7.3s;--dl:-4s" transform="translate(272,296)">
-                  <path d="M0,0 L0,38 M0,8 L12,16 M0,22 L12,30"/>
-                </g>
-                <g class="sigil blood" style="--d:9.7s;--dl:-1s" transform="translate(126,435)">
-                  <path d="M0,-18 L0,18 M-11,8 L11,8"/>
-                </g>
-                <g class="sigil" style="--d:13s;--dl:-6s" transform="translate(268,405)">
-                  <path d="M0,0 a4,4 0 0 1 4,4 a8,8 0 0 1 -8,8 a12,12 0 0 1 -12,-12 a16,16 0 0 1 16,-16 a20,20 0 0 1 20,20"/>
-                </g>
-                <g class="sigil" style="--d:6.4s;--dl:-3s" transform="translate(112,528)">
-                  <path d="M0,0 L0,26 M9,0 L9,26 M18,0 L18,26 M27,0 L27,26 M-4,22 L31,4"/>
-                </g>
-                <path class="sigil fill-sigil" style="--d:10.5s;--dl:-5s" transform="translate(266,516)" fill-rule="evenodd"
-                  d="M0,0 m-13,0 a13,13 0 1,0 26,0 a13,13 0 1,0 -26,0 M4,-3 m-10,0 a10,10 0 1,0 20,0 a10,10 0 1,0 -20,0"/>
-                <g class="sigil" style="--d:12.2s;--dl:-7s" transform="translate(262,598)">
-                  <circle r="11"/>
-                  <path d="M0,-16 L0,-11 M0,11 L0,16 M-16,0 L-11,0 M11,0 L16,0 M-11,-11 L-8,-8 M11,11 L8,8 M11,-11 L8,-8 M-11,11 L-8,8"/>
-                </g>
-                <g class="sigil blood" style="--d:5.8s;--dl:-2.6s" transform="translate(200,556)">
-                  <circle cy="-6" r="7"/>
-                  <path d="M-4,-1 L4,-1 L7,16 L-7,16 Z"/>
-                </g>
-              </g>
-
-              <!-- 裂纹与划痕 -->
-              <g class="scratches">
-                <path d="M86,372 l14,46 l-8,30 l16,40"/>
-                <path d="M314,336 l-12,40 l10,36"/>
-                <path d="M150,172 l30,18 l-6,22 l28,14"/>
-              </g>
-            </svg>
-            <span class="seam-whisper" id="seam-whisper" aria-hidden="true"></span>
+          <!-- 低语：手绘稿上画叉的位置，血红色，时隐时现 -->
+          <div class="whispers" aria-hidden="true">
+            <span class="whisper w-tl"></span>
+            <span class="whisper w-tr"></span>
+            <span class="whisper w-ml vert"></span>
+            <span class="whisper w-mr vert"></span>
+            <span class="whisper w-bl"></span>
+            <span class="whisper w-br"></span>
           </div>
 
-          <p class="status-line reveal" id="status-line" aria-live="polite">门后没有声音 · 暂时</p>
-          <p class="knock-hint reveal">（可以敲门。不建议。）</p>
-        </div>
+          <div class="hero-inner">
+            <p class="hero-kicker reveal">后 神 时 代 · THE DOOR OUTLIVED ITS GOD</p>
 
-        <div class="scroll-cue" aria-hidden="true">
-          <span class="cue-line"></span>
-          <span class="cue-text">向下 · 阅读访客守则</span>
-        </div>
-      </section>
+            <h1 class="dead-title reveal" id="site-title" aria-label="神已死" data-hover>
+              <span class="dt-god">神<i class="dt-strike" aria-hidden="true"></i></span>已死
+            </h1>
 
-      <!-- 访客守则 -->
-      <section class="rules" id="rules" aria-labelledby="rules-title">
-        <header class="sec-head reveal">
-          <p class="sec-kicker">VISITOR PROTOCOL · 访 客 守 则</p>
-          <h2 class="sec-title" id="rules-title">访客守则</h2>
-          <p class="sec-desc">张贴于入口。最后更新时间不详。请务必在敲门之前读完。</p>
-        </header>
+            <div class="door-scene reveal" id="door-scene">
+              <svg class="door-svg" id="door-svg" viewBox="0 0 400 660" role="button" tabindex="0" aria-label="一扇紧闭的门。可以敲门。不建议。" data-hover>
+                <defs>
+                  <radialGradient id="doorGlowGrad" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#8d2b27" stop-opacity="0.32"/>
+                    <stop offset="60%" stop-color="#8d2b27" stop-opacity="0.08"/>
+                    <stop offset="100%" stop-color="#8d2b27" stop-opacity="0"/>
+                  </radialGradient>
+                  <linearGradient id="seamGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#c04a42" stop-opacity="0"/>
+                    <stop offset="45%" stop-color="#c04a42" stop-opacity="0.85"/>
+                    <stop offset="100%" stop-color="#c04a42" stop-opacity="0"/>
+                  </linearGradient>
+                  <linearGradient id="slabGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#0e0d0b"/>
+                    <stop offset="100%" stop-color="#060505"/>
+                  </linearGradient>
+                  <filter id="softBlur" x="-40%" y="-40%" width="180%" height="180%">
+                    <feGaussianBlur stdDeviation="9"/>
+                  </filter>
+                </defs>
 
-        <ol class="rules-list reveal">
-          <li><b>其一</b><p>神已经死了。如果你听见神回应你，立刻关闭这个页面。</p></li>
-          <li><b>其二</b><p>门后没有人。如果你听见敲门声，假装没有听见。</p></li>
-          <li><b>其三</b><p>不要数门上的符号。如果你已经数过了，请忘掉那个数字。</p></li>
-          <li><b>其四</b><p>低语出现时，不要逐字跟读。跟读过的人，还没有回来过。</p></li>
-          <li><b>其五</b><p>回声、血管与忏悔都可以进入。进去之前，确认你还记得回来的路。</p></li>
-          <li><b>其六</b><p>子夜到访的客人，请勿在页面停留超过一个小时。</p></li>
-          <li class="rule-false"><b>其七</b><p>本守则没有第七条。如果你看到了第七条，那是它加上去的。<em>它在看你读这一条。</em></p></li>
-          <li><b>其八</b><p>离开时，请确认你没有被记住。<del>确认有效。</del><em>确认无效。你会被记住。</em></p></li>
-        </ol>
-        <p class="rules-foot reveal">守则如有变动，恕不另行通知。——有些变动并非我们所为。</p>
-      </section>
+                <ellipse class="door-glow" cx="200" cy="390" rx="195" ry="305" fill="url(#doorGlowGrad)"/>
+                <ellipse class="door-ground" cx="200" cy="650" rx="185" ry="17" fill="#000" filter="url(#softBlur)" opacity="0.75"/>
 
-      <!-- 经文带 -->
-      <section class="bands" id="bands" aria-hidden="true">
-        <div class="band band-a" data-dir="1">
-          <div class="band-track">
-            <span>神</span><span>死</span><span>空</span><span>缺</span><span>寂</span><span>静</span><span>回</span><span>声</span><span>血</span><span>肉</span><span>忏</span><span>悔</span><span>遗</span><span>忘</span>
-          </div>
-        </div>
-        <div class="band band-b" data-dir="-1">
-          <div class="band-track">
-            <span>DEUS MORTUUS EST</span><span>·</span><span>SILENTIUM REGNAT</span><span>·</span><span class="hidden-phrase">别 相 信 门</span><span>·</span>
+                <!-- 双重拱门框（手绘稿的双线拱） -->
+                <path class="door-frame" d="M26,660 L26,272 A174,174 0 0 1 374,272 L374,660"/>
+                <path class="door-frame thin" d="M48,660 L48,278 A152,152 0 0 1 352,278 L352,660"/>
+
+                <!-- 门缝后的光 -->
+                <rect class="seam-glow" x="194" y="154" width="12" height="506" fill="url(#seamGrad)"/>
+
+                <!-- 两扇门页 -->
+                <g class="door-panels">
+                  <path class="door-panel panel-l" d="M66,660 L66,284 A134,134 0 0 1 200,150 L200,660 Z"/>
+                  <path class="door-panel panel-r" d="M334,660 L334,284 A134,134 0 0 0 200,150 L200,660 Z"/>
+                </g>
+                <line class="seam-core" x1="200" y1="154" x2="200" y2="660"/>
+
+                <!-- 门上的符号 -->
+                <g class="sigils" fill="none">
+                  <g class="sigil blood" style="--d:8.2s;--dl:-2s" transform="translate(200,236)">
+                    <ellipse rx="26" ry="13"/>
+                    <circle class="sigil-fill" r="5.5"/>
+                  </g>
+                  <g class="sigil" style="--d:11s;--dl:-0.5s" transform="translate(128,330)">
+                    <path d="M0,-18 L16,12 L-16,12 Z"/>
+                    <circle cx="0" cy="2" r="3"/>
+                  </g>
+                  <g class="sigil" style="--d:7.3s;--dl:-4s" transform="translate(272,296)">
+                    <path d="M0,0 L0,38 M0,8 L12,16 M0,22 L12,30"/>
+                  </g>
+                  <g class="sigil blood" style="--d:9.7s;--dl:-1s" transform="translate(126,435)">
+                    <path d="M0,-18 L0,18 M-11,8 L11,8"/>
+                  </g>
+                  <g class="sigil" style="--d:13s;--dl:-6s" transform="translate(268,405)">
+                    <path d="M0,0 a4,4 0 0 1 4,4 a8,8 0 0 1 -8,8 a12,12 0 0 1 -12,-12 a16,16 0 0 1 16,-16 a20,20 0 0 1 20,20"/>
+                  </g>
+                  <g class="sigil" style="--d:6.4s;--dl:-3s" transform="translate(112,528)">
+                    <path d="M0,0 L0,26 M9,0 L9,26 M18,0 L18,26 M27,0 L27,26 M-4,22 L31,4"/>
+                  </g>
+                  <path class="sigil fill-sigil" style="--d:10.5s;--dl:-5s" transform="translate(266,516)" fill-rule="evenodd"
+                    d="M0,0 m-13,0 a13,13 0 1,0 26,0 a13,13 0 1,0 -26,0 M4,-3 m-10,0 a10,10 0 1,0 20,0 a10,10 0 1,0 -20,0"/>
+                  <g class="sigil" style="--d:12.2s;--dl:-7s" transform="translate(262,598)">
+                    <circle r="11"/>
+                    <path d="M0,-16 L0,-11 M0,11 L0,16 M-16,0 L-11,0 M11,0 L16,0 M-11,-11 L-8,-8 M11,11 L8,8 M11,-11 L8,-8 M-11,11 L-8,8"/>
+                  </g>
+                  <g class="sigil blood" style="--d:5.8s;--dl:-2.6s" transform="translate(200,556)">
+                    <circle cy="-6" r="7"/>
+                    <path d="M-4,-1 L4,-1 L7,16 L-7,16 Z"/>
+                  </g>
+                </g>
+
+                <!-- 裂纹与划痕 -->
+                <g class="scratches">
+                  <path d="M86,372 l14,46 l-8,30 l16,40"/>
+                  <path d="M314,336 l-12,40 l10,36"/>
+                  <path d="M150,172 l30,18 l-6,22 l28,14"/>
+                </g>
+              </svg>
+              <span class="seam-whisper" id="seam-whisper" aria-hidden="true"></span>
+            </div>
+
+            <p class="status-line reveal" id="status-line" aria-live="polite">门后没有声音 · 暂时</p>
+            <p class="knock-hint reveal">（可以敲门。不建议。）</p>
+
+            <div class="door-choice" id="door-choice">
+              <button id="enter-door" type="button" data-hover>进 去</button>
+              <button id="decline-door" type="button" data-hover>不 进</button>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- 三道门 -->
-      <section class="gates" id="gates" aria-label="三道仪式之门">
-        <header class="sec-head reveal">
-          <p class="sec-kicker">THE REMAINS · 残 骸 目 录</p>
-          <h2 class="sec-title">三道门</h2>
-          <p class="sec-desc">神死了，门还活着。每一道门后面，都有一种继续存在的方式。</p>
-        </header>
+      <!-- 第二幕 · 访客守则 -->
+      <section class="scene" id="scene-protocol" data-scene="protocol" data-title="Goddead — 访客守则" aria-label="访客守则">
+        <div class="scene-body protocol-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">VISITOR PROTOCOL · 访 客 守 则</p>
+            <h2 class="sec-title" id="rules-title">访客守则</h2>
+            <p class="sec-desc">张贴于入口内侧。共 <span id="rules-count" data-hover>捌</span> 条。最后更新时间不详。</p>
+          </header>
 
-        <nav class="gate-list">
-          <a class="gate reveal" href="echo.html" data-gate="echo" data-hover>
-            <span class="gate-art" style="background-image:url('assets/monument_3.png')" aria-hidden="true"></span>
-            <span class="gate-meta"><b>01</b><i></i><em></em></span>
-            <span class="gate-body">
-              <span class="gate-name">回声</span>
-              <span class="gate-whisper">说过的，会以别的样子回来。</span>
-              <span class="gate-stat" id="stat-echo">回声 · 0</span>
-            </span>
-            <span class="gate-arrow" aria-hidden="true">进入 ⟶</span>
-          </a>
+          <ol class="rules-list reveal">
+            <li data-rule="1" data-hover><b>其一</b><p>神已经死了。如果你听见神回应你，立刻关闭这个页面。</p></li>
+            <li data-rule="2" data-hover><b>其二</b><p>门后没有人。如果你听见敲门声，假装没有听见。</p></li>
+            <li data-rule="3" data-hover><b>其三</b><p>不要数门上的符号。如果你已经数过了，请忘掉那个数字。</p></li>
+            <li data-rule="4" data-hover><b>其四</b><p>低语出现时，不要逐字跟读。跟读过的人，还没有回来过。</p></li>
+            <li data-rule="5" data-hover><b>其五</b><p>回声、血管与忏悔都可以进入。进去之前，确认你还记得回来的路。</p></li>
+            <li data-rule="6" data-hover><b>其六</b><p>子夜到访的客人，请勿在页面停留超过一个小时。</p></li>
+            <li class="rule-false" data-rule="7" data-hover><b>其七</b><p>本守则没有第七条。如果你看到了第七条，那是它加上去的。<em id="rule-seven-note">它在看你读这一条。</em></p></li>
+            <li data-rule="8" data-hover><b>其八</b><p>离开时，请确认你没有被记住。<del>确认有效。</del><em>确认无效。你会被记住。</em></p></li>
+          </ol>
+          <p class="rules-foot reveal">守则如有变动，恕不另行通知。——有些变动并非我们所为。</p>
 
-          <a class="gate reveal" href="vein.html" data-gate="vein" data-hover>
-            <span class="gate-art" style="background-image:url('assets/monument_2.png')" aria-hidden="true"></span>
-            <span class="gate-meta"><b>02</b><i></i><em></em></span>
-            <span class="gate-body">
-              <span class="gate-name">血管</span>
-              <span class="gate-whisper">它朝着你的温度生长。</span>
-              <span class="gate-stat" id="stat-vein">网络 · 活着</span>
-            </span>
-            <span class="gate-arrow" aria-hidden="true">进入 ⟶</span>
-          </a>
-
-          <a class="gate reveal" href="confession.html" data-gate="confession" data-hover>
-            <span class="gate-art" style="background-image:url('assets/monument_1.png')" aria-hidden="true"></span>
-            <span class="gate-meta"><b>03</b><i></i><em></em></span>
-            <span class="gate-body">
-              <span class="gate-name">忏悔</span>
-              <span class="gate-whisper">留下一个重量，墙会替你保管。</span>
-              <span class="gate-stat" id="stat-confession">忏悔 · 0</span>
-            </span>
-            <span class="gate-arrow" aria-hidden="true">进入 ⟶</span>
-          </a>
-        </nav>
-      </section>
-
-      <!-- 祷告 -->
-      <section class="prayer" id="prayer" aria-label="无人应答的祷告">
-        <div class="burn-layer" id="burn-layer" aria-hidden="true"></div>
-        <header class="sec-head reveal">
-          <p class="sec-kicker">OFFERINGS · 焚 献</p>
-          <h2 class="sec-title">无人应答的祷告</h2>
-          <p class="sec-desc">写一句祷词。它不会被听见——它会被烧成灰，而灰比声音活得久。</p>
-        </header>
-
-        <div class="prayer-box reveal">
-          <input class="prayer-input" id="prayer-input" type="text" maxlength="60" placeholder="把祷词放进火里" autocomplete="off">
-          <button class="prayer-offer" id="prayer-offer" type="button" data-hover>焚 献</button>
+          <nav class="scene-exits reveal" aria-label="离开守则">
+            <button class="exit-link primary" type="button" data-go="corridor" data-hover>读完守则，往深处走 ⟶</button>
+            <button class="exit-link" type="button" data-go="threshold" data-hover>⟵ 回到门外</button>
+          </nav>
         </div>
-        <p class="prayer-response" id="prayer-response" aria-live="polite"></p>
       </section>
 
-      <!-- 痕迹 -->
-      <section class="traces" id="traces" aria-label="你留下的痕迹">
-        <header class="sec-head reveal">
-          <p class="sec-kicker">YOUR TRACES · 你 留 下 的</p>
-          <h2 class="sec-title">这个网页记得你</h2>
-          <p class="sec-desc">你在这里做的每件事都没有消失。它们只是换了一种方式，继续躺着。</p>
-        </header>
+      <!-- 第三幕 · 走廊 -->
+      <section class="scene" id="scene-corridor" data-scene="corridor" data-title="Goddead — 走廊" aria-label="走廊">
+        <div class="scene-body corridor-body">
+          <header class="sec-head reveal corridor-head">
+            <p class="sec-kicker">THE CORRIDOR · 走 廊</p>
+            <h2 class="sec-title">走廊</h2>
+            <p class="sec-desc">神死了，门还活着。每一道门后面，都有一种继续存在的方式。</p>
+          </header>
 
-        <div class="stat-grid reveal">
-          <div class="stat-card"><span class="stat-num" id="num-arrivals">0</span><span class="stat-label">抵 达</span></div>
-          <div class="stat-card"><span class="stat-num" id="num-echoes">0</span><span class="stat-label">回 声</span></div>
-          <div class="stat-card"><span class="stat-num" id="num-confessions">0</span><span class="stat-label">忏 悔</span></div>
-          <div class="stat-card"><span class="stat-num" id="num-prayers">0</span><span class="stat-label">祷 词</span></div>
-          <div class="stat-card"><span class="stat-num" id="num-corruption">0%</span><span class="stat-label">侵 蚀 度</span></div>
+          <div class="bands reveal" id="bands" aria-hidden="true">
+            <div class="band band-a" data-dir="1">
+              <div class="band-track">
+                <span>神</span><span>死</span><span>空</span><span>缺</span><span>寂</span><span>静</span><span>回</span><span>声</span><span>血</span><span>肉</span><span>忏</span><span>悔</span><span>遗</span><span>忘</span>
+              </div>
+            </div>
+            <div class="band band-b" data-dir="-1">
+              <div class="band-track">
+                <span>DEUS MORTUUS EST</span><span>·</span><span>SILENTIUM REGNAT</span><span>·</span><span class="hidden-phrase">别 相 信 门</span><span>·</span>
+              </div>
+            </div>
+          </div>
+
+          <nav class="gate-list reveal" aria-label="三道仪式之门">
+            <a class="gate" href="echo.html" data-gate="echo" data-hover>
+              <span class="gate-art" style="background-image:url('assets/monument_3.png')" aria-hidden="true"></span>
+              <span class="gate-meta"><b>01</b><i></i><em></em></span>
+              <span class="gate-body">
+                <span class="gate-name">回声</span>
+                <span class="gate-whisper">说过的，会以别的样子回来。</span>
+                <span class="gate-stat" id="stat-echo">回声 · 0</span>
+              </span>
+              <span class="gate-arrow" aria-hidden="true">进入 ⟶</span>
+            </a>
+
+            <a class="gate" href="vein.html" data-gate="vein" data-hover>
+              <span class="gate-art" style="background-image:url('assets/monument_2.png')" aria-hidden="true"></span>
+              <span class="gate-meta"><b>02</b><i></i><em></em></span>
+              <span class="gate-body">
+                <span class="gate-name">血管</span>
+                <span class="gate-whisper">它朝着你的温度生长。</span>
+                <span class="gate-stat" id="stat-vein">网络 · 活着</span>
+              </span>
+              <span class="gate-arrow" aria-hidden="true">进入 ⟶</span>
+            </a>
+
+            <a class="gate" href="confession.html" data-gate="confession" data-hover>
+              <span class="gate-art" style="background-image:url('assets/monument_1.png')" aria-hidden="true"></span>
+              <span class="gate-meta"><b>03</b><i></i><em></em></span>
+              <span class="gate-body">
+                <span class="gate-name">忏悔</span>
+                <span class="gate-whisper">留下一个重量，墙会替你保管。</span>
+                <span class="gate-stat" id="stat-confession">忏悔 · 0</span>
+              </span>
+              <span class="gate-arrow" aria-hidden="true">进入 ⟶</span>
+            </a>
+
+            <a class="gate gate-sealed" id="gate-reliquary" href="reliquary.html" data-gate="reliquary" data-hover>
+              <span class="gate-art" style="background-image:url('assets/testament-gates.png')" aria-hidden="true"></span>
+              <span class="gate-meta"><b>00</b><i></i><em></em></span>
+              <span class="gate-body">
+                <span class="gate-name">？？？</span>
+                <span class="gate-whisper">遗物室仍在沉睡。</span>
+                <span class="gate-stat" id="stat-reliquary">封印 · 还差 7 次抵达</span>
+              </span>
+              <span class="gate-arrow" aria-hidden="true">进入 ⟶</span>
+            </a>
+          </nav>
+
+          <nav class="scene-exits reveal" aria-label="离开走廊">
+            <button class="exit-link primary" type="button" data-go="offering" data-hover>向下，焚献炉还亮着 ⟶</button>
+            <button class="exit-link" type="button" data-go="protocol" data-hover>⟵ 回到守则</button>
+          </nav>
         </div>
-
-        <div class="reliquary-slot reveal" id="reliquary-slot"></div>
       </section>
+
+      <!-- 第四幕 · 焚献 -->
+      <section class="scene" id="scene-offering" data-scene="offering" data-title="Goddead — 焚献" aria-label="无人应答的祷告">
+        <div class="scene-body offering-body">
+          <div class="burn-layer" id="burn-layer" aria-hidden="true"></div>
+          <header class="sec-head reveal">
+            <p class="sec-kicker">OFFERINGS · 焚 献</p>
+            <h2 class="sec-title">无人应答的祷告</h2>
+            <p class="sec-desc">写一句祷词。它不会被听见——它会被烧成灰，而灰比声音活得久。</p>
+          </header>
+
+          <div class="prayer-box reveal">
+            <input class="prayer-input" id="prayer-input" type="text" maxlength="60" placeholder="把祷词放进火里" autocomplete="off">
+            <button class="prayer-offer" id="prayer-offer" type="button" data-hover>焚 献</button>
+          </div>
+          <p class="prayer-response" id="prayer-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开焚献">
+            <button class="exit-link primary" type="button" data-go="remembrance" data-hover>看看它记住了你什么 ⟶</button>
+            <button class="exit-link" type="button" data-go="corridor" data-hover>⟵ 回到走廊</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 第五幕 · 痕迹 -->
+      <section class="scene" id="scene-remembrance" data-scene="remembrance" data-title="Goddead — 痕迹" aria-label="你留下的痕迹">
+        <div class="scene-body remembrance-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">YOUR TRACES · 你 留 下 的</p>
+            <h2 class="sec-title">这个网页记得你</h2>
+            <p class="sec-desc">你在这里做的每件事都没有消失。它们只是换了一种方式，继续躺着。</p>
+          </header>
+
+          <div class="stat-grid reveal">
+            <div class="stat-card"><span class="stat-num" id="num-arrivals">0</span><span class="stat-label">抵 达</span></div>
+            <div class="stat-card"><span class="stat-num" id="num-echoes">0</span><span class="stat-label">回 声</span></div>
+            <div class="stat-card"><span class="stat-num" id="num-confessions">0</span><span class="stat-label">忏 悔</span></div>
+            <div class="stat-card"><span class="stat-num" id="num-prayers">0</span><span class="stat-label">祷 词</span></div>
+            <div class="stat-card"><span class="stat-num" id="num-corruption">0%</span><span class="stat-label">侵 蚀 度</span></div>
+          </div>
+
+          <div class="reliquary-slot reveal" id="reliquary-slot"></div>
+
+          <div class="rem-foot reveal">
+            <div class="colophon-ritual">
+              <button class="cross-mark" id="cross-mark" type="button" aria-label="记录一次抵达" data-hover>＋</button>
+              <p class="arrival-count" id="arrival-count">已记录 0 次抵达</p>
+            </div>
+            <p class="colophon-whisper">所有入口都通往同一个空缺。</p>
+            <a class="domain-mark" href="https://github.com/IwannaYuJie/goddead" data-hover>goddead.com</a>
+          </div>
+
+          <nav class="scene-exits reveal" aria-label="离开痕迹">
+            <button class="exit-link" type="button" data-go="corridor" data-hover>⟵ 回到走廊</button>
+            <button class="exit-link" type="button" data-go="threshold" data-hover>回到门外，重新开始</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 隐藏幕 · 第九条 -->
+      <section class="scene scene-ninth" id="scene-ninth" data-scene="ninth" data-title="Goddead — ？？？" aria-label="第九条">
+        <div class="scene-body ninth-body">
+          <p class="ninth-rule reveal">其 九<em>（它加上去的）</em></p>
+          <p class="ninth-text reveal">不要相信门口的那扇门。<br>不要相信守则。<br>不要相信这个页面记得你。<br><br>尤其是这一条。</p>
+          <nav class="scene-exits reveal" aria-label="离开第九条">
+            <button class="exit-link" type="button" data-go="protocol" data-hover>回去。如果还回得去。</button>
+          </nav>
+        </div>
+      </section>
+
     </main>
-
-    <footer class="colophon">
-      <div class="colophon-ritual">
-        <button class="cross-mark" id="cross-mark" type="button" aria-label="记录一次抵达" data-hover>＋</button>
-        <p class="arrival-count" id="arrival-count">已记录 0 次抵达</p>
-      </div>
-      <p class="colophon-whisper">所有入口都通往同一个空缺。</p>
-      <a class="domain-mark" href="https://github.com/IwannaYuJie/goddead" data-hover>goddead.com</a>
-    </footer>
 
     <aside class="ritual-menu" id="ritual-menu" aria-hidden="true">
       <button class="menu-close" id="menu-close" type="button" aria-label="关闭目录" data-hover>关闭</button>
       <p class="menu-kicker">THE REMAINS</p>
-      <a href="echo.html" data-hover>01 / 回声</a>
-      <a href="vein.html" data-hover>02 / 血管</a>
-      <a href="confession.html" data-hover>03 / 忏悔</a>
-      <a href="reliquary.html" id="reliquary-link" class="locked" data-hover>00 / 遗物室</a>
+      <a href="#threshold" data-hover>00 / 门外</a>
+      <a href="#protocol" data-hover>01 / 守则</a>
+      <a href="#corridor" data-hover>02 / 走廊</a>
+      <a href="#offering" data-hover>03 / 焚献</a>
+      <a href="#remembrance" data-hover>04 / 痕迹</a>
+      <a href="echo.html" data-hover>— 回声</a>
+      <a href="vein.html" data-hover>— 血管</a>
+      <a href="confession.html" data-hover>— 忏悔</a>
+      <a href="reliquary.html" id="reliquary-link" class="locked" data-hover>— 遗物室</a>
       <p class="menu-note">所有入口都通往同一个空缺。</p>
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=12"></script>
+    <script src="script.js?v=13"></script>
   </body>
 </html>
