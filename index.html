@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Serif+SC:wght@300;400;500&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
     <link rel="preload" href="assets/hero.png" as="image">
-    <link rel="stylesheet" href="styles.css?v=13">
+    <link rel="stylesheet" href="styles.css?v=15">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -213,6 +213,15 @@
             <button class="frag f8" type="button" data-hover>遗物室里没有遗物。只有「被留下」这个动作本身。</button>
           </div>
 
+          <!-- 走廊侧面的墙：窄门出现之前，墙上只有门框痕迹 -->
+          <div class="door-strip" aria-hidden="false">
+            <span class="door-trace" id="door-trace" aria-hidden="true"></span>
+            <!-- 捡够三张残页之前，这扇门不存在（hidden，不可聚焦、不可导航） -->
+            <a class="narrow-door" id="narrow-door" href="#watch" hidden data-hover aria-label="一扇窄门。之前它不在这里。">
+              <span class="nd-seam" aria-hidden="true"></span>
+            </a>
+          </div>
+
           <nav class="gate-list reveal" aria-label="封印的门">
             <a class="gate gate-sealed" id="gate-reliquary" href="reliquary.html" data-gate="reliquary" data-hover>
               <span class="gate-art" style="background-image:url('assets/testament-gates.png')" aria-hidden="true"></span>
@@ -229,6 +238,87 @@
           <nav class="scene-exits reveal" aria-label="离开走廊">
             <button class="exit-link primary" type="button" data-go="offering" data-hover>向下，焚献炉还亮着 ⟶</button>
             <button class="exit-link" type="button" data-go="protocol" data-hover>⟵ 回到守则</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 第三幕半 · 第三值夜室 -->
+      <section class="scene scene-watch" id="scene-watch" data-scene="watch" data-title="Goddead — 第三值夜室" aria-label="第三值夜室">
+        <div class="scene-body watch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE THIRD NIGHT-WATCH · 第 三 值 夜 室</p>
+            <h2 class="sec-title">第三值夜室</h2>
+            <p class="sec-desc">值夜制度仍在执行。值夜员名单上，已经没有人了。</p>
+          </header>
+
+          <div class="watch-room reveal">
+            <!-- 永远指向 03:17 的钟：旧钟面位图 + 透明秒针（绕轴心旋转） -->
+            <div class="watch-clock" id="watch-clock" role="img" aria-label="一台永远指向三点十七分的钟">
+              <img class="wc-face-img" src="assets/watch-clock-face.webp" alt="" width="900" height="900">
+              <img class="wc-second-img" id="clock-second" src="assets/watch-second-hand.png" alt="" width="900" height="900">
+              <p class="clock-caption">03:17 · 一直如此</p>
+            </div>
+
+            <!-- 交班簿 -->
+            <div class="watch-log" id="watch-log">
+              <header class="log-head">
+                <span class="log-title">交班簿 · 值-叁</span>
+                <span class="log-stamp" aria-hidden="true">余响观□所</span>
+              </header>
+              <ol class="log-list">
+                <li class="log-entry" data-alt="23:55 接班。指数从不平稳。上一班把「平稳」涂掉了三次。">
+                  <button class="log-cover" type="button" aria-pressed="false" data-hover>
+                    <span class="log-no">值-叁-0466</span>
+                    <span class="orig">23:55 接班。余响指数平稳。无事记录。</span>
+                  </button>
+                  <span class="alt" hidden aria-hidden="true"></span>
+                </li>
+                <li class="log-entry" data-alt="01:40 走廊有脚步。没有出门查看。脚步在门口停了七分钟。">
+                  <button class="log-cover" type="button" aria-pressed="false" data-hover>
+                    <span class="log-no">值-叁-0467</span>
+                    <span class="orig">01:40 走廊有脚步。出门查看，无人。记录在案。</span>
+                  </button>
+                  <span class="alt" hidden aria-hidden="true"></span>
+                </li>
+                <li class="log-entry" data-alt="03:17 钟没有停。是我们停了。不要报修。">
+                  <button class="log-cover" type="button" aria-pressed="false" data-hover>
+                    <span class="log-no">值-叁-0468</span>
+                    <span class="orig">03:17 钟停。已报修。</span>
+                  </button>
+                  <span class="alt" hidden aria-hidden="true"></span>
+                </li>
+                <li class="log-entry" data-alt="05:02 电话铃响一次。接听了。按规定，这一条必须记录为误响。">
+                  <button class="log-cover" type="button" aria-pressed="false" data-hover>
+                    <span class="log-no">值-叁-0469</span>
+                    <span class="orig">05:02 电话铃响一次。未接听。按规定记录为误响。</span>
+                  </button>
+                  <span class="alt" hidden aria-hidden="true"></span>
+                </li>
+                <li class="log-entry log-dynamic" id="log-dynamic" data-alt="">
+                  <button class="log-cover" type="button" aria-pressed="false" data-hover>
+                    <span class="log-no">值-叁-0470</span>
+                    <span class="orig">06:00 交班。本班新增访客：无。</span>
+                  </button>
+                  <span class="alt" hidden aria-hidden="true"></span>
+                </li>
+              </ol>
+            </div>
+
+            <!-- 空值班桌与没有人的椅子（正式位图；椅影仍由 JS 驱动转向） -->
+            <div class="watch-desk" role="img" aria-label="一张空值班桌，一盏熄着的台灯，和一把没有人的椅子">
+              <img class="watch-desk-img" src="assets/watch-room-desk.webp" alt="" width="1400" height="933">
+              <span class="chair-shadow" id="chair-shadow" aria-hidden="true"></span>
+            </div>
+
+            <div class="signout-box">
+              <button class="signout-btn" id="signout-btn" type="button" data-hover>签 退</button>
+              <p class="signout-response" id="signout-response" aria-live="polite"></p>
+            </div>
+          </div>
+
+          <nav class="scene-exits reveal" aria-label="离开值夜室">
+            <button class="exit-link primary" type="button" data-go="offering" data-hover>继续向焚献走 ⟶</button>
+            <button class="exit-link" type="button" data-go="corridor" data-hover>⟵ 回到走廊</button>
           </nav>
         </div>
       </section>
@@ -269,8 +359,10 @@
             <div class="stat-card"><span class="stat-num" id="num-arrivals">0</span><span class="stat-label">抵 达</span></div>
             <div class="stat-card"><span class="stat-num" id="num-fragments">0</span><span class="stat-label">碎 片</span></div>
             <div class="stat-card"><span class="stat-num" id="num-prayers">0</span><span class="stat-label">祷 词</span></div>
+            <div class="stat-card"><span class="stat-num" id="num-watch">—</span><span class="stat-label">值 夜</span></div>
             <div class="stat-card"><span class="stat-num" id="num-corruption">0%</span><span class="stat-label">侵 蚀 度</span></div>
           </div>
+          <p class="watch-memory" id="watch-memory"></p>
 
           <div class="reliquary-slot reveal" id="reliquary-slot"></div>
 
@@ -309,6 +401,7 @@
       <a href="#threshold" data-hover>00 / 门外</a>
       <a href="#protocol" data-hover>01 / 守则</a>
       <a href="#corridor" data-hover>02 / 走廊</a>
+      <a href="#watch" id="watch-link" hidden data-hover>02½ / 值夜室</a>
       <a href="#offering" data-hover>03 / 焚献</a>
       <a href="#remembrance" data-hover>04 / 痕迹</a>
       <a href="reliquary.html" id="reliquary-link" class="locked" data-hover>— 遗物室</a>
@@ -316,6 +409,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=13"></script>
+    <script src="script.js?v=15"></script>
   </body>
 </html>

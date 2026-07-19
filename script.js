@@ -195,6 +195,99 @@ document.addEventListener("DOMContentLoaded", () => {
       src.stop(t + 0.7);
     };
 
+    /* 钟针反向时的轻响 */
+    const tick = () => {
+      if (!ready) return;
+      const t = ctx.currentTime;
+      const o = ctx.createOscillator();
+      o.type = "square";
+      o.frequency.value = 1900;
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.035, t);
+      g.gain.exponentialRampToValueAtTime(0.0008, t + 0.045);
+      o.connect(g);
+      g.connect(master);
+      o.start(t);
+      o.stop(t + 0.05);
+    };
+
+    /* 日光灯低鸣：120Hz 锯齿 + 高频噪点 + 快速小幅闪动，只在值夜室供电 */
+    let humNodes = null;
+    const hum = (on) => {
+      if (!ready) return;
+      if (on && !humNodes) {
+        const t = ctx.currentTime;
+        const g = ctx.createGain();
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.linearRampToValueAtTime(0.011, t + 1.8);
+        const o = ctx.createOscillator();
+        o.type = "sawtooth";
+        o.frequency.value = 120;
+        const og = ctx.createGain();
+        og.gain.value = 0.35;
+        const hiss = ctx.createBufferSource();
+        hiss.buffer = noiseBuffer(2);
+        hiss.loop = true;
+        const hf = ctx.createBiquadFilter();
+        hf.type = "highpass";
+        hf.frequency.value = 5200;
+        const hg = ctx.createGain();
+        hg.gain.value = 0.12;
+        const flicker = ctx.createOscillator();
+        flicker.type = "square";
+        flicker.frequency.value = 13;
+        const fg = ctx.createGain();
+        fg.gain.value = 0.0035;
+        flicker.connect(fg);
+        fg.connect(g.gain);
+        o.connect(og);
+        og.connect(g);
+        hiss.connect(hf);
+        hf.connect(hg);
+        hg.connect(g);
+        g.connect(master);
+        o.start(t);
+        hiss.start(t);
+        flicker.start(t);
+        humNodes = { o, hiss, flicker, g };
+      } else if (!on && humNodes) {
+        const t = ctx.currentTime;
+        const nodes = humNodes;
+        humNodes = null;
+        nodes.g.gain.cancelScheduledValues(t);
+        nodes.g.gain.setValueAtTime(nodes.g.gain.value, t);
+        nodes.g.gain.linearRampToValueAtTime(0.0001, t + 0.7);
+        setTimeout(() => {
+          nodes.o.stop();
+          nodes.hiss.stop();
+          nodes.flicker.stop();
+          nodes.g.disconnect();
+        }, 900);
+      }
+    };
+
+    /* 极远处的电话铃：双音轮响两轮，只响一次 */
+    const phoneRing = () => {
+      if (!ready) return;
+      const t0 = ctx.currentTime;
+      for (let round = 0; round < 2; round++) {
+        for (let i = 0; i < 10; i++) {
+          const t = t0 + round * 1.1 + i * 0.055;
+          const o = ctx.createOscillator();
+          o.type = "sine";
+          o.frequency.value = i % 2 === 0 ? 941 : 1183;
+          const g = ctx.createGain();
+          g.gain.setValueAtTime(0.0001, t);
+          g.gain.linearRampToValueAtTime(0.016, t + 0.012);
+          g.gain.exponentialRampToValueAtTime(0.0008, t + 0.05);
+          o.connect(g);
+          g.connect(master);
+          o.start(t);
+          o.stop(t + 0.06);
+        }
+      }
+    };
+
     const toggle = () => {
       muted = !muted;
       store.set("goddead_muted", String(muted));
@@ -205,7 +298,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     return {
-      ensure, knock, bell, whoosh, toggle,
+      ensure, knock, bell, whoosh, tick, hum, phoneRing, toggle,
       get muted() { return muted; },
     };
   })();
@@ -403,20 +496,34 @@ document.addEventListener("DOMContentLoaded", () => {
     document.title = scene.dataset.title || "Goddead";
     revealScene(scene);
     if (name === "protocol") startAnomaly();
+    if (name === "corridor") { syncWatchDoor(); startTrace(); }
+    if (name === "watch") enterWatch();
     if (name === "ninth") AudioEngine.bell(58);
-    if (name === "remembrance" && !statsCounted) {
-      statsCounted = true;
-      countUp(numEls.arrivals, arrivals);
-      countUp(numEls.fragments, fragments);
-      countUp(numEls.prayers, gstate.prayersOffered);
-      countUp(numEls.corruption, corruptionOf(), "%", 1);
+    if (name === "remembrance") {
+      paintWatch();
+      if (!statsCounted) {
+        statsCounted = true;
+        countUp(numEls.arrivals, arrivals);
+        countUp(numEls.fragments, fragments);
+        countUp(numEls.prayers, gstate.prayersOffered);
+        countUp(numEls.corruption, corruptionOf(), "%", 1);
+      }
     }
   };
 
   const goScene = (name) => {
-    if (!scenes[name] || name === currentScene || veilBusy) return;
+    if (!scenes[name] || veilBusy) return;
+    /* 硬门槛：未捡够三张残页，任何路径都无法进入值夜室 */
+    if (name === "watch" && !watchUnlocked()) {
+      name = "corridor";
+      /* 地址栏同步回走廊，避免停在 #watch 的假状态 */
+      if (location.hash === "#watch") history.replaceState(null, "", "#corridor");
+    }
+    if (name === currentScene) return;
     veilBusy = true;
     stopAnomaly();
+    stopTrace();
+    leaveWatch();
     veil.classList.add("on");
     AudioEngine.whoosh();
     setTimeout(() => {
@@ -882,6 +989,7 @@ document.addEventListener("DOMContentLoaded", () => {
       fragments++;
       store.set("goddead_fragment_count", String(fragments));
       saveState();
+      syncWatchDoor();
       if (statsCounted) paintStats();
       AudioEngine.knock(0.16);
       toast(fragments === 8
@@ -896,6 +1004,192 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     AudioEngine.knock();
     toast("里面有东西应了一声。仅此一声。");
+  });
+
+  /* ============================================================
+     第三值夜室：仍在运转的制度，已经没有人
+     ============================================================ */
+  const narrowDoor = $("#narrow-door");
+  const doorTrace = $("#door-trace");
+  const watchLink = $("#watch-link");
+  const clockSecond = $("#clock-second");
+  const chairShadow = $("#chair-shadow");
+  const signoutBtn = $("#signout-btn");
+  const signoutResponse = $("#signout-response");
+  const watchMemory = $("#watch-memory");
+
+  const getWatch = () => {
+    try { return JSON.parse(store.get("goddead_watch", "{}")) || {}; } catch { return {}; }
+  };
+  const saveWatch = (w) => store.set("goddead_watch", JSON.stringify(w));
+
+  /* 窄门：捡够三张残页之后，它才"一直在那里"。
+     未解锁时保持 hidden——不进键盘焦点、不进入无障碍树、不可导航。 */
+  const watchUnlocked = () => fragments >= 3;
+
+  const syncWatchDoor = () => {
+    if (!watchUnlocked() || !narrowDoor.hasAttribute("hidden")) return;
+    narrowDoor.removeAttribute("hidden");
+    watchLink.removeAttribute("hidden");
+    doorTrace.classList.remove("trace-on");
+    requestAnimationFrame(() => narrowDoor.classList.add("appeared"));
+  };
+
+  /* 不满足条件时，墙上偶尔只有门框的痕迹，不做任何提示 */
+  let traceTimer = null;
+  const startTrace = () => {
+    stopTrace();
+    if (fragments >= 3 || reduced) return;
+    const tick = () => {
+      traceTimer = setTimeout(() => {
+        if (currentScene !== "corridor") return;
+        doorTrace.classList.add("trace-on");
+        setTimeout(() => doorTrace.classList.remove("trace-on"), 2600 + Math.random() * 2200);
+        tick();
+      }, 6000 + Math.random() * 9000);
+    };
+    tick();
+  };
+  const stopTrace = () => {
+    clearTimeout(traceTimer);
+    traceTimer = null;
+    if (doorTrace) doorTrace.classList.remove("trace-on");
+  };
+
+  /* 钟：永远 03:17，秒针偶尔倒退 */
+  let clockTimer = null;
+  let reverseTimer = null;
+  let secondAngle = 0;
+  let reversing = 0;
+
+  const startClock = () => {
+    stopClock();
+    if (reduced) return;
+    clockTimer = setInterval(() => {
+      if (reversing > 0) {
+        secondAngle -= 6;
+        reversing--;
+        AudioEngine.tick();
+      } else {
+        secondAngle += 6;
+      }
+      clockSecond.style.transform = `rotate(${secondAngle}deg)`;
+    }, 1000);
+    const scheduleReverse = () => {
+      reverseTimer = setTimeout(() => {
+        if (currentScene !== "watch") return;
+        reversing = 2 + Math.floor(Math.random() * 4);
+        scheduleReverse();
+      }, 13000 + Math.random() * 14000);
+    };
+    scheduleReverse();
+  };
+  const stopClock = () => {
+    clearInterval(clockTimer);
+    clearTimeout(reverseTimer);
+    clockTimer = null;
+    reversing = 0;
+  };
+
+  /* 椅子的影子，慢慢朝你转。不跳脸。 */
+  let shadowTimer = null;
+  let shadowAngle = -16;
+  const startShadowCreep = () => {
+    stopShadowCreep();
+    if (reduced) return;
+    shadowAngle = -16;
+    chairShadow.style.transform = `rotate(${shadowAngle}deg)`;
+    const creep = () => {
+      shadowTimer = setTimeout(() => {
+        if (currentScene !== "watch") return;
+        shadowAngle = Math.min(14, shadowAngle + 3 + Math.random() * 2);
+        chairShadow.style.transform = `rotate(${shadowAngle}deg)`;
+        creep();
+      }, 9000 + Math.random() * 5000);
+    };
+    creep();
+  };
+  const stopShadowCreep = () => {
+    clearTimeout(shadowTimer);
+    shadowTimer = null;
+  };
+
+  /* 极远处的电话铃：每次进房间只安排一次 */
+  let ringTimer = null;
+  const schedulePhoneRing = () => {
+    clearTimeout(ringTimer);
+    ringTimer = setTimeout(() => {
+      if (currentScene === "watch") AudioEngine.phoneRing();
+    }, 22000 + Math.random() * 16000);
+  };
+
+  const enterWatch = () => {
+    AudioEngine.ensure();
+    AudioEngine.hum(true);
+    startClock();
+    startShadowCreep();
+    schedulePhoneRing();
+  };
+
+  const leaveWatch = () => {
+    AudioEngine.hum(false);
+    stopClock();
+    stopShadowCreep();
+    clearTimeout(ringTimer);
+  };
+
+  /* 交班簿：语义按钮触发覆盖，屏幕阅读器只读当前有效文本 */
+  const dynamicAlt = () => {
+    const arrivalPart = arrivals > 0 ? `第 ${arrivals} 次抵达` : "抵达记录：未登记";
+    return `06:00 交班。本班新增访客：你。${arrivalPart} · 带走残页 ${fragments} 张。已按新访客登记在值-叁。`;
+  };
+
+  $$(".log-entry").forEach((entry) => {
+    const btn = entry.querySelector(".log-cover");
+    const orig = entry.querySelector(".orig");
+    const alt = entry.querySelector(".alt");
+    const cover = () => {
+      if (entry.classList.contains("covered")) return;
+      const text = entry.id === "log-dynamic" ? dynamicAlt() : entry.dataset.alt;
+      alt.textContent = text;
+      alt.removeAttribute("hidden");
+      orig.setAttribute("aria-hidden", "true");
+      btn.setAttribute("aria-pressed", "true");
+      btn.setAttribute("aria-label", `${entry.querySelector(".log-no").textContent}。${text}`);
+      entry.classList.add("covered");
+      AudioEngine.tick();
+    };
+    btn.addEventListener("click", cover);
+    if (finePointer) entry.addEventListener("pointerenter", cover);
+  });
+
+  /* 签退：不会成功 */
+  const paintWatch = () => {
+    const attempts = Number(getWatch().attempts) || 0;
+    numEls.watch.textContent = attempts > 0 ? `未签退 · ${attempts}` : "—";
+    watchMemory.textContent = attempts > 0
+      ? `你试图从第三值夜室签退。记录在案：未批准。`
+      : "";
+  };
+
+  const applyWatchState = () => {
+    if (Number(getWatch().attempts) > 0) {
+      signoutBtn.classList.add("refused");
+      signoutBtn.disabled = true;
+      signoutResponse.textContent = "你没有签到，无法签退。";
+      signoutResponse.classList.add("visible");
+    }
+  };
+
+  signoutBtn.addEventListener("click", () => {
+    const w = getWatch();
+    w.attempts = 1;
+    w.lastRefusal = Date.now();
+    saveWatch(w);
+    applyWatchState();
+    paintWatch();
+    if (statsCounted) paintStats();
+    AudioEngine.bell(52);
   });
 
   /* ============================================================
@@ -979,6 +1273,7 @@ document.addEventListener("DOMContentLoaded", () => {
     arrivals: $("#num-arrivals"),
     fragments: $("#num-fragments"),
     prayers: $("#num-prayers"),
+    watch: $("#num-watch"),
     corruption: $("#num-corruption"),
   };
 
@@ -1130,6 +1425,9 @@ document.addEventListener("DOMContentLoaded", () => {
   saveState();
   renderReliquary();
   syncAwake();
+  syncWatchDoor();
+  applyWatchState();
+  paintWatch();
   revealScene(scenes.threshold);
   route();
 });

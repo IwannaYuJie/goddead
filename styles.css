@@ -23,6 +23,8 @@
 
 * { box-sizing: border-box; }
 
+[hidden] { display: none !important; }
+
 html {
   scroll-behavior: smooth;
 }
@@ -809,7 +811,7 @@ body.awake .door-svg { filter: drop-shadow(0 0 34px rgba(141, 43, 39, 0.16)); }
 
 .stat-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 1px;
   background: var(--line);
   border: 1px solid var(--line);
@@ -1122,6 +1124,332 @@ body.idle .scene-body { filter: brightness(0.55); }
 
 .gate-sealed.unsealed:hover .gate-name { color: #c9a961; }
 
+/* 走廊 · 窄门与门框痕迹（独立墙条，不与残页交叠） */
+.door-strip {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  margin-top: 1rem;
+}
+
+.door-trace {
+  position: absolute;
+  z-index: 1;
+  top: 20px;
+  right: 12%;
+  width: 74px;
+  height: 168px;
+  border: 1px dashed rgba(179, 174, 165, 0.16);
+  border-bottom: none;
+  border-radius: 40px 40px 0 0;
+  opacity: 0;
+  transform: rotate(-1.6deg);
+  transition: opacity 2.4s ease;
+  pointer-events: none;
+}
+
+.door-trace.trace-on { opacity: 1; }
+
+.narrow-door {
+  position: absolute;
+  z-index: 2;
+  top: 14px;
+  right: calc(12% - 5px);
+  display: block;
+  width: 84px;
+  height: 184px;
+  border: 1px solid rgba(222, 217, 208, 0.22);
+  border-bottom: none;
+  border-radius: 44px 44px 0 0;
+  background: linear-gradient(to bottom, rgba(14, 13, 11, 0.92), rgba(6, 5, 5, 0.96));
+  transform: rotate(-1.6deg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 3.2s ease, border-color 0.6s ease, box-shadow 0.6s ease;
+}
+
+.narrow-door.appeared { opacity: 1; pointer-events: auto; }
+
+.narrow-door .nd-seam {
+  position: absolute;
+  top: 12%;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: var(--blood);
+  box-shadow: 0 0 10px rgba(192, 74, 66, 0.7);
+  opacity: 0.6;
+  animation: seam-flicker 5.7s linear infinite;
+}
+
+.narrow-door:hover {
+  border-color: rgba(192, 74, 66, 0.5);
+  box-shadow: 0 0 34px rgba(141, 43, 39, 0.2);
+}
+
+/* 第三幕半 · 第三值夜室 */
+.watch-body { max-width: 1060px; }
+
+.watch-room {
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+  gap: clamp(1.6rem, 4vw, 3.5rem);
+  align-items: start;
+  margin-top: clamp(1.5rem, 4vh, 2.5rem);
+}
+
+.watch-clock {
+  position: relative;
+  justify-self: center;
+  width: min(240px, 62vw);
+  transform: rotate(1.8deg);
+}
+
+/* 旧钟面位图：外圈黑场经羽化融入页面 */
+.wc-face-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 62%, transparent 74%);
+  mask-image: radial-gradient(circle at 50% 50%, #000 62%, transparent 74%);
+}
+
+/* 秒针：与钟面同画布配准的透明 PNG，绕轴心旋转（倒转由 JS 驱动） */
+.wc-second-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: auto;
+  transform-origin: 49.64% 49.4%;
+  filter: drop-shadow(0 0 6px rgba(192, 74, 66, 0.4));
+  transition: transform 0.28s cubic-bezier(0.4, 2.2, 0.6, 1);
+}
+
+.clock-caption {
+  margin: 0.9rem 0 0;
+  color: rgba(111, 106, 98, 0.8);
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.3em;
+  text-align: center;
+}
+
+.watch-log {
+  position: relative;
+  padding: 1.3rem 1.6rem 1rem;
+  border: 1px solid rgba(222, 217, 208, 0.18);
+  background: rgba(6, 6, 6, 0.68);
+  transform: rotate(-1.2deg);
+}
+
+.log-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.log-title {
+  color: var(--bone);
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+}
+
+.log-stamp {
+  flex: none;
+  padding: 0.42rem 0.6rem;
+  border: 1.5px solid rgba(192, 74, 66, 0.55);
+  border-radius: 50%;
+  color: rgba(192, 74, 66, 0.7);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  transform: rotate(9deg);
+  filter: blur(0.4px);
+  opacity: 0.8;
+}
+
+.log-list { list-style: none; margin: 0; padding: 0; }
+
+.log-entry {
+  position: relative;
+  padding: 0.75rem 0;
+  border-bottom: 1px dashed rgba(200, 194, 184, 0.1);
+  cursor: pointer;
+}
+
+.log-entry:last-child { border-bottom: 0; }
+
+/* 覆盖按钮：语义控件，键盘可触发 */
+.log-cover {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.log-cover:focus-visible {
+  outline: 1px solid var(--blood-bright);
+  outline-offset: 5px;
+}
+
+.log-cover .orig { display: block; }
+
+.log-no {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: rgba(111, 106, 98, 0.68);
+  font-family: var(--mono);
+  font-size: 0.54rem;
+  letter-spacing: 0.26em;
+}
+
+.log-entry .orig {
+  color: var(--bone);
+  font-size: 0.86rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  line-height: 1.9;
+  transition: color 0.8s ease;
+}
+
+.log-entry .alt {
+  display: block;
+  max-height: 0;
+  overflow: hidden;
+  color: var(--blood-bright);
+  font-size: 0.86rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  line-height: 1.9;
+  text-shadow: 0 0 12px rgba(192, 74, 66, 0.35);
+  opacity: 0;
+  transform: rotate(-0.8deg);
+  transition: opacity 1.1s ease, max-height 0.8s var(--ease), margin-top 0.8s var(--ease);
+  pointer-events: none;
+}
+
+.log-entry.covered .orig {
+  color: rgba(179, 174, 165, 0.34);
+  text-decoration: line-through;
+  text-decoration-color: rgba(141, 43, 39, 0.8);
+}
+
+.log-entry.covered .alt {
+  max-height: 7em;
+  margin-top: 0.35rem;
+  opacity: 1;
+  animation: alt-in 1s ease both;
+}
+
+.watch-desk {
+  grid-column: 1 / -1;
+  position: relative;
+  width: min(620px, 94%);
+  margin: 0 auto;
+  transform: rotate(0.6deg);
+}
+
+/* 桌椅位图：压一点亮度，四周黑场羽化融入页面 */
+.watch-desk-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: brightness(0.94);
+  -webkit-mask-image: radial-gradient(ellipse 78% 72% at 50% 56%, #000 58%, transparent 96%);
+  mask-image: radial-gradient(ellipse 78% 72% at 50% 56%, #000 58%, transparent 96%);
+}
+
+/* 椅影：叠在位图椅子上，仍在慢慢转向访客（JS 驱动） */
+.chair-shadow {
+  position: absolute;
+  left: 55%;
+  top: 80%;
+  width: 26%;
+  height: 9%;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.8);
+  filter: blur(9px);
+  transform-origin: 50% 50%;
+  transition: transform 11s linear;
+  pointer-events: none;
+}
+
+.signout-box {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: clamp(1.5rem, 4vh, 2.5rem);
+}
+
+.signout-btn {
+  border: 1px solid var(--blood);
+  padding: 0.85rem 2.6rem;
+  background: transparent;
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: 0.82rem;
+  letter-spacing: 0.4em;
+  text-indent: 0.4em;
+  cursor: pointer;
+  transition: background 0.4s ease, color 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.signout-btn:hover {
+  background: var(--blood);
+  color: #f2ece4;
+  box-shadow: 0 0 30px rgba(141, 43, 39, 0.4);
+}
+
+.signout-btn.refused,
+.signout-btn.refused:hover {
+  border-color: rgba(111, 106, 98, 0.4);
+  background: none;
+  color: rgba(111, 106, 98, 0.55);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.signout-response {
+  min-height: 2em;
+  margin: 0;
+  color: var(--blood-bright);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.3em;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.signout-response.visible { opacity: 1; }
+
+/* 痕迹页 · 值夜记忆 */
+.watch-memory {
+  width: 100%;
+  margin: 1.6rem 0 0;
+  color: rgba(192, 74, 66, 0.75);
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.26em;
+  line-height: 2;
+  text-align: center;
+}
+
 /* 第四幕 · 焚献 */
 .offering-body {
   position: relative;
@@ -1367,6 +1695,11 @@ body.miracle::after {
   50% { opacity: 0.3; }
 }
 
+@keyframes alt-in {
+  from { opacity: 0; transform: rotate(-0.8deg) translateY(4px); }
+  to { opacity: 1; transform: rotate(-0.8deg) translateY(0); }
+}
+
 @keyframes rule-flash {
   0% { background: rgba(141, 43, 39, 0.22); }
   100% { background: transparent; }
@@ -1551,7 +1884,7 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
   .gate { grid-template-columns: 4rem 1fr; }
   .gate-arrow { display: none; }
   .gate-art { width: 70%; }
-  .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (max-width: 720px) {
@@ -1596,6 +1929,30 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
     max-width: none;
     width: 100%;
   }
+
+  /* 值夜室：同一空间，错位而非竖排 */
+  .door-strip { height: 200px; }
+
+  .door-trace { right: 9%; }
+
+  .narrow-door { right: calc(9% - 5px); }
+
+  .watch-room { grid-template-columns: 1fr; gap: 2rem; }
+
+  .watch-clock {
+    justify-self: start;
+    width: min(190px, 52vw);
+    margin-left: 4%;
+    transform: rotate(-2.4deg);
+  }
+
+  .watch-log {
+    justify-self: end;
+    width: 96%;
+    transform: rotate(1.3deg);
+  }
+
+  .watch-desk { transform: rotate(-1.1deg); }
 
   .door-choice { gap: 1rem; }
 
