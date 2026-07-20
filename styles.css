@@ -1818,6 +1818,211 @@ body.idle .scene-body { filter: brightness(0.55); }
   color: rgba(192, 74, 66, 0.5);
 }
 
+/* 第三幕末 · 代神席 */
+.acting-body { max-width: 1060px; }
+
+/* 主图位图：黑场羽化融入 #050505 */
+.acting-figure {
+  width: min(980px, 100%);
+  margin: clamp(1.5rem, 4vh, 2.5rem) auto 0;
+  transform: rotate(0.5deg);
+}
+
+.acting-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: brightness(0.94);
+  -webkit-mask-image: radial-gradient(ellipse 80% 74% at 50% 54%, #000 60%, transparent 97%);
+  mask-image: radial-gradient(ellipse 80% 74% at 50% 54%, #000 60%, transparent 97%);
+}
+
+/* 值守电闸：原生 range */
+.acting-switch {
+  width: min(760px, 100%);
+  margin: clamp(2rem, 5vh, 3rem) auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  transform: rotate(-0.6deg);
+}
+
+.switch-hint {
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.26em;
+  text-align: center;
+}
+
+.range-wrap {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: clamp(0.8rem, 2vw, 1.4rem);
+}
+
+.range-label {
+  flex: none;
+  color: var(--bone);
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  opacity: 0.7;
+}
+
+.range-left { opacity: 0.45; }
+.range-right { opacity: 0.9; }
+
+.range-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.acting-range {
+  flex: 1;
+  min-width: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(to right, var(--blood-deep) 0%, var(--blood) var(--pct, 0%), rgba(222, 217, 208, 0.12) var(--pct, 0%), rgba(222, 217, 208, 0.12) 100%);
+  cursor: pointer;
+  outline: none;
+}
+
+.acting-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--bone);
+  border-radius: 50%;
+  background: var(--blood);
+  box-shadow: 0 0 0 4px rgba(141, 43, 39, 0.25), 0 0 18px rgba(192, 74, 66, 0.55);
+  transition: transform 0.2s var(--ease), box-shadow 0.2s ease;
+}
+
+.acting-range::-moz-range-thumb {
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--bone);
+  border-radius: 50%;
+  background: var(--blood);
+  box-shadow: 0 0 0 4px rgba(141, 43, 39, 0.25), 0 0 18px rgba(192, 74, 66, 0.55);
+  transition: transform 0.2s var(--ease), box-shadow 0.2s ease;
+}
+
+.acting-range:focus-visible::-webkit-slider-thumb,
+.acting-range:hover::-webkit-slider-thumb {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 6px rgba(141, 43, 39, 0.35), 0 0 26px rgba(192, 74, 66, 0.75);
+}
+
+.acting-range:focus-visible::-moz-range-thumb,
+.acting-range:hover::-moz-range-thumb {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 6px rgba(141, 43, 39, 0.35), 0 0 26px rgba(192, 74, 66, 0.75);
+}
+
+.acting-range:disabled {
+  cursor: not-allowed;
+  opacity: 0.85;
+}
+
+.acting-output {
+  color: var(--bone-bright);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.24em;
+}
+
+.acting-feedback {
+  min-height: 2em;
+  margin: 0;
+  color: var(--blood-bright);
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.18em;
+  line-height: 1.9;
+  text-align: center;
+  text-shadow: 0 0 12px rgba(192, 74, 66, 0.3);
+}
+
+/* 任命档案：五行 + 终句 */
+.acting-record {
+  width: min(760px, 100%);
+  margin: clamp(1.6rem, 4vh, 2.4rem) auto 0;
+}
+
+.acting-line {
+  margin: 0;
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.2em;
+  line-height: 2.1;
+  opacity: 0;
+  transform: translateX(-5px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.acting-line.on {
+  opacity: 1;
+  transform: none;
+}
+
+.acting-final {
+  width: min(760px, 100%);
+  margin: 1.2rem auto 0;
+  color: var(--blood-bright);
+  font-size: 1.05rem;
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  line-height: 2;
+  text-align: center;
+  text-shadow: 0 0 16px rgba(192, 74, 66, 0.35);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 1s ease, transform 1s var(--ease);
+}
+
+.acting-final.on {
+  opacity: 1;
+  transform: none;
+}
+
+/* 注销科内的代神席入口 */
+.acting-box { margin-top: clamp(1.8rem, 5vh, 3rem); }
+
+/* 焚献页联动句 */
+.acting-offering-note {
+  margin-top: 0.8rem;
+  color: var(--blood-bright);
+  text-shadow: 0 0 12px rgba(192, 74, 66, 0.35);
+}
+
+/* 痕迹页 · 代神席记忆 */
+.acting-memory {
+  color: rgba(192, 74, 66, 0.45);
+}
+
+@media (max-width: 720px) {
+  .acting-figure { transform: rotate(-0.8deg); }
+  .acting-switch { width: 96%; transform: rotate(0.8deg); }
+  .acting-range::-webkit-slider-thumb { width: 34px; height: 34px; }
+  .acting-range::-moz-range-thumb { width: 34px; height: 34px; }
+  .acting-output { font-size: 0.72rem; }
+  .acting-final { font-size: 0.92rem; }
+}
+
 /* 第四幕 · 焚献 */
 .offering-body {
   position: relative;

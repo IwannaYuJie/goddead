@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Serif+SC:wght@300;400;500&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
     <link rel="preload" href="assets/hero.png" as="image">
-    <link rel="stylesheet" href="styles.css?v=19">
+    <link rel="stylesheet" href="styles.css?v=20">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -519,9 +519,55 @@
             <p class="l4-line refuse-line l4-final" hidden>处理结果：拒绝已登记为在场证明。</p>
           </div>
 
+          <div class="answer-box acting-box" id="acting-box" hidden>
+            <p class="answer-note" id="acting-note" role="status" aria-live="polite"></p>
+            <button class="answer-btn" id="acting-btn" type="button" data-go="acting" data-hover>前 往 代 神 席</button>
+          </div>
+
           <nav class="scene-exits reveal" aria-label="离开注销科">
             <button class="exit-link primary" type="button" data-go="offering" data-hover>向下，焚献炉还亮着 ⟶</button>
             <button class="exit-link" type="button" data-go="deadletter" data-hover>⟵ 回到投递所</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 第三幕末 · 代神席 -->
+      <section class="scene scene-acting" id="scene-acting" data-scene="acting" data-title="Goddead — 代神席" aria-label="代神席">
+        <div class="scene-body acting-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE ACTING DEITY DESK · 代 神 席</p>
+            <h2 class="sec-title">代神席</h2>
+            <p class="sec-desc">系统把拒绝改写成了一份临时任命。确认在场之前，任命不会生效。</p>
+          </header>
+
+          <figure class="acting-figure reveal" role="img" aria-label="一张空神席：仍在运转的值守桌、电闸与没有人的椅子">
+            <img class="acting-img" src="assets/acting-deity-desk.webp" alt="" width="1536" height="1024">
+          </figure>
+
+          <div class="acting-switch reveal" id="acting-switch">
+            <div class="switch-hint" id="switch-hint">把在场推到不能再高的位置。</div>
+            <div class="range-wrap">
+              <span class="range-label range-left" aria-hidden="true">离席</span>
+              <label class="range-visually-hidden" for="acting-range">代神席电闸</label>
+              <input class="acting-range" id="acting-range" type="range" min="0" max="100" step="1" value="0" aria-describedby="switch-hint acting-output switch-feedback">
+              <span class="range-label range-right" aria-hidden="true">在岗</span>
+            </div>
+            <output class="acting-output" id="acting-output" for="acting-range" aria-live="polite">在场：0%</output>
+            <p class="acting-feedback" id="acting-feedback" aria-live="polite"></p>
+          </div>
+
+          <div class="acting-record" id="acting-record" aria-live="off">
+            <p class="acting-line" hidden>任命对象：最后见证者。</p>
+            <p class="acting-line" hidden>授权来源：注销拒绝。</p>
+            <p class="acting-line" hidden>接收范围：所有无人应答的祷告。</p>
+            <p class="acting-line" hidden>神位等级：代行。</p>
+            <p class="acting-line" hidden>死亡状态：预登记。</p>
+          </div>
+          <p class="acting-final" id="acting-final" hidden>你没有成为神。你只是接了祂没有交完的班。</p>
+
+          <nav class="scene-exits reveal" aria-label="离开代神席">
+            <button class="exit-link primary" type="button" data-go="offering" data-hover>向下，焚献炉还亮着 ⟶</button>
+            <button class="exit-link" type="button" data-go="cancellation" data-hover>⟵ 回到注销科</button>
           </nav>
         </div>
       </section>
@@ -534,6 +580,7 @@
             <p class="sec-kicker">OFFERINGS · 焚 献</p>
             <h2 class="sec-title">无人应答的祷告</h2>
             <p class="sec-desc">写一句祷词。它不会被听见——它会被烧成灰，而灰比声音活得久。</p>
+            <p class="sec-desc acting-offering-note" id="acting-offering-note" hidden>这些祷词现在会先经过你。</p>
           </header>
 
           <div class="prayer-box reveal">
@@ -572,6 +619,7 @@
           <p class="watch-memory line-memory" id="line-memory"></p>
           <p class="watch-memory line-memory deliver-memory" id="deliver-memory"></p>
           <p class="watch-memory line-memory deliver-memory cancel-memory" id="cancel-memory"></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory" id="acting-memory"></p>
 
           <div class="reliquary-slot reveal" id="reliquary-slot"></div>
 
@@ -614,6 +662,7 @@
       <a href="#switchboard" id="switch-link" hidden data-hover>02¾ / 第四线路</a>
       <a href="#deadletter" id="deadletter-link" hidden data-hover>02⅞ / 投递所</a>
       <a href="#cancellation" id="cancel-link" hidden data-hover>02⁺ / 注销科</a>
+      <a href="#acting" id="acting-link" hidden data-hover>02† / 代神席</a>
       <a href="#offering" data-hover>03 / 焚献</a>
       <a href="#remembrance" data-hover>04 / 痕迹</a>
       <a href="reliquary.html" id="reliquary-link" class="locked" data-hover>— 遗物室</a>
@@ -621,6 +670,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=19"></script>
+    <script src="script.js?v=20"></script>
   </body>
 </html>

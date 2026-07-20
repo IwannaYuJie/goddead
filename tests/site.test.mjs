@@ -29,15 +29,15 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=19/);
-assert.match(html, /script\.js\?v=19/);
+assert.match(html, /styles\.css\?v=20/);
+assert.match(html, /script\.js\?v=20/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
 assert.match(js, /DOMContentLoaded/);
 
 /* ---------- 场景探索结构 ---------- */
-const SCENES = ["threshold", "protocol", "corridor", "watch", "switchboard", "deadletter", "cancellation", "offering", "remembrance", "ninth"];
+const SCENES = ["threshold", "protocol", "corridor", "watch", "switchboard", "deadletter", "cancellation", "acting", "offering", "remembrance", "ninth"];
 for (const s of SCENES) {
   assert.match(html, new RegExp(`data-scene="${s}"`), `scene missing: ${s}`);
 }
@@ -287,6 +287,70 @@ assert.match(js, /st\.refused \? "驳回" : "—"/);
 assert.equal((html.match(/<div class="stat-card">/g) || []).length, 8, "remembrance must hold exactly 8 stat cards");
 assert.match(css, /\.stat-grid \{[\s\S]{0,120}repeat\(4, 1fr\)/, "8 cards should lay out 4 per row on desktop");
 
+/* ---------- 代神席 / THE ACTING DEITY DESK ---------- */
+await access(new URL("assets/acting-deity-desk.webp", root));
+assert.match(html, /id="scene-acting"/);
+assert.match(html, /data-title="Goddead — 代神席"/);
+assert.match(html, /assets\/acting-deity-desk\.webp/);
+assert.match(html, /THE ACTING DEITY DESK · 代 神 席/);
+
+/* 代神席场景不得出现 inline SVG（主体为位图） */
+const acSection = html.match(/<section class="scene scene-acting"[\s\S]*?<\/section>/);
+assert.ok(acSection, "acting section missing");
+assert.ok(!acSection[0].includes("<svg"), "acting must not use inline SVG");
+
+/* 入口契约：注销科内入口与目录入口出厂 hidden（不可聚焦、不在无障碍树） */
+assert.match(html, /id="acting-box"[^>]*\shidden[\s>]/, "acting box must ship hidden");
+assert.match(html, /id="acting-btn"[^>]*data-go="acting"/);
+assert.match(html, /前 往 代 神 席/);
+assert.match(html, /id="acting-link"[^>]*\shidden[\s>]/, "menu acting link must ship hidden");
+assert.match(html, /id="acting-link"[^>]*>02† \/ 代神席</);
+/* 出口闭合：主出口 offering，次出口 cancellation */
+assert.ok(acSection[0].includes('data-go="offering"'), "acting needs offering exit");
+assert.ok(acSection[0].includes('data-go="cancellation"'), "acting needs cancellation exit");
+
+/* 状态字段：容错 key goddead_acting，自身状态不得参与入口/守卫判定 */
+assert.match(js, /goddead_acting/);
+assert.ok(js.includes('Math.max(0, Math.min(100, Number(raw.value) || 0))'), 'acting value must clamp to 0-100');
+assert.match(js, /appointed: raw\.appointed === true/);
+assert.match(js, /appointedAt: Number\(raw\.appointedAt\) \|\| 0/);
+assert.match(js, /const syncActingEntry = \(\) => \{\s*if \(!\(watchUnlocked\(\) && line4Unlocked\(\) && getLine4\(\)\.connected && getDL\(\)\.accepted && getCancel\(\)\.refused\)\) return;/, "entry reveal must share the router's full dependency set");
+assert.match(js, /你的拒绝被改写成了一份任命。/);
+
+/* 原生 range：label/min/max/step/output/两端文字/三段反馈 */
+assert.match(html, /<input class="acting-range" id="acting-range" type="range" min="0" max="100" step="1" value="0"/);
+assert.match(html, /<label class="range-visually-hidden" for="acting-range">代神席电闸<\/label>/);
+assert.match(html, /<output class="acting-output" id="acting-output" for="acting-range"/);
+assert.match(js, /aria-valuetext/);
+assert.match(html, /离席/);
+assert.match(html, /在岗/);
+assert.match(html, /把在场推到不能再高的位置。/);
+assert.match(js, /检测到犹豫。/);
+assert.match(js, /在场不能只登记一半。/);
+assert.match(js, /拒绝注销的人，没有离席选项。/);
+
+/* 到 100 任命：五行 + 终句 */
+for (const line of ["任命对象：最后见证者。", "授权来源：注销拒绝。", "接收范围：所有无人应答的祷告。", "神位等级：代行。", "死亡状态：预登记。"]) {
+  assert.ok(html.includes(line), `acting record missing: ${line}`);
+}
+assert.equal((html.match(/class="acting-line"/g) || []).length, 5, "acting record must hold exactly 5 lines");
+assert.match(html, /id="acting-final"[^>]*hidden>你没有成为神。你只是接了祂没有交完的班。<\/p>/);
+assert.match(js, /st\.appointed = true/);
+assert.match(js, /st\.appointedAt = Date\.now\(\)/);
+assert.match(js, /actingRange\.disabled = true/);
+
+/* 与旧场景联动：offering 描述下新增 hidden 行，remembrance 只新增记忆 */
+assert.match(html, /id="acting-offering-note"[^>]*hidden/);
+assert.match(html, /这些祷词现在会先经过你。/);
+assert.match(html, /id="acting-memory"/);
+assert.match(js, /你没有成为神。你只是接了祂没有交完的班。/);
+
+/* 声音：只走 WebAudio，服从静音，离场清理 */
+assert.match(js, /switchFriction/);
+assert.match(js, /switchContact/);
+assert.match(js, /relayLock/);
+assert.match(js, /clearActingTimers/);
+
 /* 硬门槛契约：未解锁时窄门与菜单入口必须 hidden（不可聚焦、不在无障碍树） */
 assert.match(html, /id="narrow-door"[^>]*\shidden[\s>]/, "narrow door must ship with the hidden attribute");
 assert.match(html, /id="watch-link"[^>]*\shidden[\s>]/, "menu watch link must ship with the hidden attribute");
@@ -303,15 +367,19 @@ assert.match(js, /target === "deadletter" && !\(watchUnlocked\(\) && line4Unlock
 /* 注销科前置依赖是「三张残页 + 第四线路解锁 + 第四线路接通 + 空白回执签收」四元；
    cancellation 自身 solved/refused=true 但任一上游缺失时也必须逐级回退 */
 assert.match(js, /target === "cancellation" && !\(watchUnlocked\(\) && line4Unlocked\(\) && getLine4\(\)\.connected && getDL\(\)\.accepted\)\)/, "cancellation requires watch progress AND line4 unlock AND line4 connected AND receipt accepted — stale goddead_cancellation must not pass");
+/* 代神席前置依赖是「三张残页 + 第四线路解锁 + 第四线路接通 + 空白回执签收 + 注销拒绝」五元；
+   acting 自身 appointed=true 但任一上游缺失时也必须逐级回退 */
+assert.match(js, /target === "acting" && !\(watchUnlocked\(\) && line4Unlocked\(\) && getLine4\(\)\.connected && getDL\(\)\.accepted && getCancel\(\)\.refused\)\)/, "acting requires watch progress AND line4 unlock AND line4 connected AND receipt accepted AND cancel refused — stale goddead_acting must not pass");
 /* 入口可见性与路由共用同一组依赖：syncLine4 在残页不足时不得恢复接听/目录入口 */
 assert.match(js, /const syncLine4 = \(\) => \{\s*if \(!watchUnlocked\(\) \|\| !line4Unlocked\(\)\) return;/, "syncLine4 must share the same dependency set as the router");
-/* 守卫必须按依赖顺序：cancellation→deadletter→switchboard→watch→corridor 逐级归并，不可被改写绕过 */
+/* 守卫必须按依赖顺序：acting→cancellation→deadletter→switchboard→watch→corridor 逐级归并，不可被改写绕过 */
 assert.ok(
-  js.indexOf('target === "cancellation"') > -1
+  js.indexOf('target === "acting"') > -1
+    && js.indexOf('target === "acting"') < js.indexOf('target === "cancellation"')
     && js.indexOf('target === "cancellation"') < js.indexOf('target === "deadletter"')
     && js.indexOf('target === "deadletter"') < js.indexOf('target === "switchboard"')
     && js.indexOf('target === "switchboard"') < js.indexOf('target === "watch"'),
-  "guards must cascade cancellation → deadletter → switchboard → watch → corridor",
+  "guards must cascade acting → cancellation → deadletter → switchboard → watch → corridor",
 );
 assert.match(js, /target !== name && location\.hash === "#" \+ name/, "address bar must normalize to the resolved scene");
 assert.match(js, /name = resolveScene\(name\)/, "goScene must route through resolveScene");

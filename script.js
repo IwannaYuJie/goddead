@@ -378,6 +378,90 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     };
 
+    /* 代神席电闸：机械闸刀摩擦 + 触点敲击，节流 */
+    const switchFriction = (() => {
+      let last = 0;
+      return () => {
+        if (!ready) return;
+        const now = performance.now();
+        if (now - last < 45) return;
+        last = now;
+        const t = ctx.currentTime;
+        const src = ctx.createBufferSource();
+        src.buffer = noiseBuffer(0.08);
+        const f = ctx.createBiquadFilter();
+        f.type = "bandpass";
+        f.Q.value = 2.5;
+        f.frequency.setValueAtTime(620, t);
+        f.frequency.exponentialRampToValueAtTime(180, t + 0.07);
+        const g = ctx.createGain();
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.018, t + 0.015);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.08);
+        src.connect(f);
+        f.connect(g);
+        g.connect(master);
+        src.start(t);
+        src.stop(t + 0.09);
+      };
+    })();
+
+    const switchContact = (() => {
+      let last = 0;
+      return () => {
+        if (!ready) return;
+        const now = performance.now();
+        if (now - last < 60) return;
+        last = now;
+        const t = ctx.currentTime;
+        const o = ctx.createOscillator();
+        o.type = "square";
+        o.frequency.setValueAtTime(840, t);
+        o.frequency.exponentialRampToValueAtTime(210, t + 0.02);
+        const g = ctx.createGain();
+        g.gain.setValueAtTime(0.012, t);
+        g.gain.exponentialRampToValueAtTime(0.0003, t + 0.03);
+        o.connect(g);
+        g.connect(master);
+        o.start(t);
+        o.stop(t + 0.035);
+      };
+    })();
+
+    /* 继电器锁定：低沉一击 */
+    const relayLock = () => {
+      if (!ready) return;
+      const t = ctx.currentTime;
+      const o = ctx.createOscillator();
+      o.type = "sawtooth";
+      o.frequency.setValueAtTime(92, t);
+      o.frequency.exponentialRampToValueAtTime(36, t + 0.18);
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.14, t);
+      g.gain.exponentialRampToValueAtTime(0.0008, t + 0.22);
+      const f = ctx.createBiquadFilter();
+      f.type = "lowpass";
+      f.frequency.value = 320;
+      o.connect(f);
+      f.connect(g);
+      g.connect(master);
+      o.start(t);
+      o.stop(t + 0.26);
+      /* 触点颤音 */
+      [0, 0.03, 0.07].forEach((dt, i) => {
+        const c = ctx.createOscillator();
+        c.type = "square";
+        c.frequency.value = 450 - i * 90;
+        const cg = ctx.createGain();
+        cg.gain.setValueAtTime(0.008 / (i + 1), t + dt);
+        cg.gain.exponentialRampToValueAtTime(0.0002, t + dt + 0.04);
+        c.connect(cg);
+        cg.connect(master);
+        c.start(t + dt);
+        c.stop(t + dt + 0.05);
+      });
+    };
+
     /* 线路底噪：极轻的带通噪声，缓慢起伏，只在交换台供电 */
     let lineNodes = null;
     const lineNoise = (on) => {
@@ -431,7 +515,8 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     return {
-      ensure, knock, bell, whoosh, tick, hum, phoneRing, plug, tube, stamp, type, lineNoise, toggle,
+      ensure, knock, bell, whoosh, tick, hum, phoneRing, plug, tube, stamp, type, lineNoise,
+      switchFriction, switchContact, relayLock, toggle,
       get muted() { return muted; },
     };
   })();
@@ -634,6 +719,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (name === "switchboard") enterSwitch();
     if (name === "deadletter") enterDeadletter();
     if (name === "cancellation") enterCancel();
+    if (name === "acting") enterActing();
     if (name === "ninth") AudioEngine.bell(58);
     if (name === "remembrance") {
       paintWatch();
@@ -659,6 +745,7 @@ document.addEventListener("DOMContentLoaded", () => {
      也会落到最终可达场景。deadletter/cancellation 自身状态不参与判定——它们无权替自己开门。 */
   const resolveScene = (name) => {
     let target = name;
+    if (target === "acting" && !(watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted && getCancel().refused)) target = "cancellation";
     if (target === "cancellation" && !(watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted)) target = "deadletter";
     if (target === "deadletter" && !(watchUnlocked() && line4Unlocked() && getLine4().connected)) target = "switchboard";
     if (target === "switchboard" && !(watchUnlocked() && line4Unlocked())) target = "watch";
@@ -681,6 +768,7 @@ document.addEventListener("DOMContentLoaded", () => {
     leaveSwitch();
     leaveDeadletter();
     leaveCancel();
+    leaveActing();
     veil.classList.add("on");
     AudioEngine.whoosh();
     setTimeout(() => {
@@ -1878,6 +1966,8 @@ document.addEventListener("DOMContentLoaded", () => {
     refuseRecord.setAttribute("aria-live", "polite");
     revealRefusal();
     paintCancel();
+    syncActingEntry();
+    paintActing();
   });
 
   /* 重载恢复：错误计数对应提示、命中档案、拒绝终态完整重现
@@ -1923,6 +2013,187 @@ document.addEventListener("DOMContentLoaded", () => {
   };
   const leaveCancel = () => {
     clearCnTimers();
+  };
+
+  /* ============================================================
+     代神席：值守电闸与临时任命
+     ============================================================ */
+  /* ---------- 状态统一存 goddead_acting，容错旧/坏 JSON ---------- */
+  const AC_KEY = "goddead_acting";
+  const AC_EMPTY = () => ({ value: 0, appointed: false, appointedAt: 0 });
+  const getActing = () => {
+    try {
+      const raw = JSON.parse(store.get(AC_KEY, "{}"));
+      if (!raw || typeof raw !== "object" || Array.isArray(raw)) return AC_EMPTY();
+      const v = Math.max(0, Math.min(100, Number(raw.value) || 0));
+      return { value: v, appointed: raw.appointed === true, appointedAt: Number(raw.appointedAt) || 0 };
+    } catch { return AC_EMPTY(); }
+  };
+  const saveActing = (st) => store.set(AC_KEY, JSON.stringify(st));
+
+  const actingBox = $("#acting-box");
+  const actingNote = $("#acting-note");
+  const actingLink = $("#acting-link");
+  const actingRange = $("#acting-range");
+  const actingOutput = $("#acting-output");
+  const actingFeedback = $("#acting-feedback");
+  const actingRecord = $("#acting-record");
+  const actingLines = $$("#acting-record .acting-line");
+  const actingFinal = $("#acting-final");
+  const actingOfferingNote = $("#acting-offering-note");
+  const actingMemory = $("#acting-memory");
+
+  /* 入口：注销科真正拒绝（refused）后原子恢复 hidden。
+     与路由同一组依赖；acting 自身状态不参与——它无权替自己开门。 */
+  const syncActingEntry = () => {
+    if (!(watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted && getCancel().refused)) return;
+    actingBox.removeAttribute("hidden");
+    actingLink.removeAttribute("hidden");
+    if (!actingNote.textContent) {
+      actingNote.textContent = "你的拒绝被改写成了一份任命。";
+    }
+  };
+
+  const actingFeedbackFor = (v) => {
+    if (v <= 33) return "检测到犹豫。";
+    if (v <= 66) return "在场不能只登记一半。";
+    if (v <= 99) return "拒绝注销的人，没有离席选项。";
+    return "";
+  };
+
+  const actingValueText = (v) => {
+    if (v === 0) return "离席";
+    if (v === 100) return "在岗，已锁定";
+    if (v <= 33) return `犹豫，${v}%`;
+    if (v <= 66) return `半在场，${v}%`;
+    return `拒绝离席，${v}%`;
+  };
+
+  const setRangeBackground = (v) => {
+    actingRange.style.setProperty("--pct", v + "%");
+  };
+
+  /* 任命档案：五行逐行显现，reduced-motion 立即完整 */
+  let actingTimers = [];
+  const clearActingTimers = () => {
+    actingTimers.forEach(clearTimeout);
+    actingTimers = [];
+  };
+  const revealActingRecord = () => {
+    clearActingTimers();
+    actingLines.forEach((l) => {
+      l.setAttribute("hidden", "");
+      l.classList.remove("on");
+    });
+    actingFinal.classList.remove("on");
+    if (reduced) {
+      actingLines.forEach((l) => l.removeAttribute("hidden"));
+      actingLines.forEach((l) => l.classList.add("on"));
+      actingFinal.removeAttribute("hidden");
+      actingFinal.classList.add("on");
+      return;
+    }
+    actingLines.forEach((l, i) => {
+      actingTimers.push(setTimeout(() => {
+        l.removeAttribute("hidden");
+        requestAnimationFrame(() => l.classList.add("on"));
+        AudioEngine.tick();
+      }, 500 + i * 780));
+    });
+    actingTimers.push(setTimeout(() => {
+      actingFinal.removeAttribute("hidden");
+      requestAnimationFrame(() => actingFinal.classList.add("on"));
+      AudioEngine.bell(52);
+    }, 500 + actingLines.length * 780 + 400));
+  };
+
+  const appoint = () => {
+    const st = getActing();
+    if (st.appointed) return;
+    st.appointed = true;
+    st.appointedAt = Date.now();
+    saveActing(st);
+    actingRange.disabled = true;
+    actingRange.setAttribute("aria-valuetext", actingValueText(100));
+    actingRecord.setAttribute("aria-live", "polite");
+    revealActingRecord();
+    paintActing();
+    AudioEngine.relayLock();
+  };
+
+  const updateActing = (v, fromInput = true) => {
+    const st = getActing();
+    v = Math.max(0, Math.min(100, Math.round(v)));
+    /* 已任命则电闸锁在 100，不接受回退 */
+    if (st.appointed) {
+      actingRange.value = 100;
+      setRangeBackground(100);
+      return;
+    }
+    actingRange.value = v;
+    setRangeBackground(v);
+    actingOutput.textContent = `在场：${v}%`;
+    actingRange.setAttribute("aria-valuetext", actingValueText(v));
+    actingFeedback.textContent = actingFeedbackFor(v);
+    if (fromInput) {
+      st.value = v;
+      saveActing(st);
+      AudioEngine.switchFriction();
+      if (v > 0 && v < 100) AudioEngine.switchContact();
+      if (v === 100) appoint();
+    }
+  };
+
+  actingRange.addEventListener("input", () => updateActing(Number(actingRange.value)));
+  actingRange.addEventListener("change", () => {
+    const v = Number(actingRange.value);
+    if (!getActing().appointed && v === 100) appoint();
+  });
+
+  /* 重载恢复：value 夹在 0–100，任命终态完整重现（不重复播报、不改写 appointedAt） */
+  const syncActingScene = () => {
+    const st = getActing();
+    actingRange.value = st.value;
+    setRangeBackground(st.value);
+    actingOutput.textContent = `在场：${st.value}%`;
+    actingRange.setAttribute("aria-valuetext", actingValueText(st.value));
+    actingFeedback.textContent = actingFeedbackFor(st.value);
+    if (st.appointed) {
+      actingRange.disabled = true;
+      actingRange.value = 100;
+      setRangeBackground(100);
+      actingOutput.textContent = "在场：100%";
+      actingRange.setAttribute("aria-valuetext", actingValueText(100));
+      actingFeedback.textContent = "";
+      actingLines.forEach((l) => {
+        l.removeAttribute("hidden");
+        l.classList.add("on");
+      });
+      actingFinal.removeAttribute("hidden");
+      actingFinal.classList.add("on");
+    }
+  };
+
+  /* 痕迹：代神席记忆（未任命不剧透） */
+  const paintActing = () => {
+    const st = getActing();
+    if (st.appointed) {
+      actingOfferingNote.removeAttribute("hidden");
+      actingMemory.textContent = "你没有成为神。你只是接了祂没有交完的班。";
+    } else {
+      actingOfferingNote.setAttribute("hidden", "");
+      actingMemory.textContent = "";
+    }
+  };
+
+  /* 同页重进：先关 aria-live，再恢复 DOM，避免已存在记录被重新播报 */
+  const enterActing = () => {
+    AudioEngine.ensure();
+    actingRecord.setAttribute("aria-live", "off");
+    syncActingScene();
+  };
+  const leaveActing = () => {
+    clearActingTimers();
   };
 
   /* ============================================================
@@ -2173,6 +2444,9 @@ document.addEventListener("DOMContentLoaded", () => {
   syncCancel();
   syncCancelScene();
   paintCancel();
+  syncActingEntry();
+  syncActingScene();
+  paintActing();
   revealScene(scenes.threshold);
   route();
 });

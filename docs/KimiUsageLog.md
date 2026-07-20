@@ -59,3 +59,16 @@
 | 内容摘要 | — | — | 神名注销科场景完整实现（检索谜题、拒绝注销、痕迹页第八卡）、完整四元路由守卫、同页离场重入状态恢复修复、CDP 真实交互回归（39/39 + 35/35 + 27/27）与文档证据 |
 
 备注：监理发现普通动画模式下 solve 后同页离场→重入会锁死，已补上真实 SPA 交互用例并修复 `enterCancel` 在 `syncCancelScene` 改 DOM 前关闭 aria-live。
+
+## 2026-07-20 · 代神席 · THE ACTING DEITY DESK
+
+| 项目 | 起 | 止 | 增量 / 说明 |
+| --- | --- | --- | --- |
+| 时间基线 | 开始 17:53:24 +0800 | 提交前 18:30:52 +0800 | 墙钟 00:37:28 |
+| Kimi 套餐总使用量 | 8.73% | 10.62% | +1.89 个百分点 |
+| Code 5 小时用量 | 51.16% | 96.10% | +44.94 个百分点（同一窗口，20:06 重置） |
+| Code 7 天用量 | 41.51% | 50.49% | +8.98 个百分点 |
+| 会话说明 | — | — | K2.7 Coding Highspeed；中途上下文压缩后重跑 cdp-acting / cdp-cancellation / cdp-deadletter / cdp-regression 四套回归 |
+| 内容摘要 | — | — | 代神席场景完整实现（原生 range 值守电闸、100% 任命锁定、五行档案 + 终句、offering/remembrance 联动）、完整五元路由守卫、坏 JSON 容错、同页离场重入状态恢复、reduced-motion 与静音回归、CDP 真实交互回归（40/40 + 39/39 + 35/35 + 27/27）与文档证据 |
+
+备注：提交前静态三项（`node --check script.js`、`node tests/site.test.mjs`、`git diff --check`）全绿；旧 cancellation 证据 PNG 已恢复为 HEAD，不进入本次提交变更。

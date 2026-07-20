@@ -1,10 +1,10 @@
-# Design QA — Living Shrine · 场景探索版（含值夜室 · 第四线路 · 无主投递所 · 神名注销科）
+# Design QA — Living Shrine · 场景探索版（含值夜室 · 第四线路 · 无主投递所 · 神名注销科 · 代神席）
 
 适用范围：当前 goddead.com 首页（哈希路由场景探索游戏）。本文替代旧 Split Testament 版 QA 报告；旧版证据文件保留在 `design-qa-evidence/` 中仅作历史存档，不再代表现状。
 
 ## 视口与方法
 
-- 桌面：1440 × 1024（值夜室全要素图使用 1440 × 1700 加高视口以容纳整室）
+- 桌面：1440 × 937（值夜室/交换台整室使用 1440 × 1700 加高视口以容纳整室）
 - 移动端：390 × 844（走廊/值夜室使用 390 × 1500–1600 加高视口验证完整构图）
 - 工具：无头 Chromium（chrome-headless-shell）经 CDP 驱动真实运行：预置 localStorage 状态后整页重载，执行真实点击、真实键盘事件（Enter/Space 激活语义按钮）与矩形相交检测；锁定/解锁两态均以此方式回归，非静态副本
 - 静态断言：`node tests/site.test.mjs`
@@ -41,6 +41,10 @@
 | 第四线路 · 接通终态（桌面，5 行记录） | `design-qa-evidence/switchboard-connected-desktop.png` |
 | 第四线路 · 交换台整室（桌面 1440×1700 / 移动 390×1600） | `design-qa-evidence/switchboard-desktop-v1.png` · `switchboard-mobile-v1.png` |
 | 第四线路 · 痕迹页「线 路 = 04」与线路记忆 | `design-qa-evidence/remembrance-line4.png` |
+| 代神席 · 锁定守卫：refused 前 cancellation 内入口 hidden | `design-qa-evidence/acting-locked-guard.png` |
+| 代神席 · 整室（桌面 1440×937 / 移动 390×844 CSS 视口，2x 截图 780×1688） | `design-qa-evidence/acting-desktop-v1.png` · `acting-mobile-v1.png` |
+| 代神席 · 任命终态（range 锁定 + 五行 + 终句） | `design-qa-evidence/acting-appointed.png` |
+| 痕迹页 · 代神席记忆与 offering 联动 | `design-qa-evidence/remembrance-acting.png` |
 
 ## 检查结果
 
@@ -55,6 +59,7 @@
 - reduced-motion：全局 0.01ms 动画坍缩覆盖新组件；秒针、椅影缓动、门框痕迹循环在 JS 层按 `reduced` 跳过，叙事信息（交班簿五条、覆盖文本、签退结果）全部保留。
 - 无横向溢出；桌面与移动端顶栏、目录抽屉、静音按钮均正常。
 - 神名注销科：位图终端（`assets/divine-name-cancellation.webp`）经椭圆 mask 羽化融入 #050505，桌面与移动端主体完整不裁切；检索表单为原生 form，label/input/submit 关联正确；三次错误提示递进并在第三次后停住，Enter 提交 trim + 大写归一后的 `GODDEAD` 后五段档案按节奏显现，末段「注销对象已更正：见证者」；拒绝按钮随后显现，点击后登记 `refused` 并揭示两段驳回文案；痕迹页新增第八卡「注 销」与取消记忆行。
+- 代神席：正式位图 `assets/acting-deity-desk.webp`（1536×1024，99KB）经 radial mask 羽化融入 #050505；原生 `input[type="range"]` 标签为 `代神席电闸`，min/max/step 0/100/1，两端文字 `离席`/`在岗`，`output` 同步 `在场：N%`，aria-valuetext 表达当前状态；0–33/34–66/67–99 三段反馈跟随区间、不死锁；到 100 后 range 锁定，五行任命档案按节奏显现，终句「你没有成为神。你只是接了祂没有交完的班。」；reload 完整恢复锁定态与 appointedAt；未任命时不剧透，任命后 offering 新增联动句、remembrance 新增一条记忆，8 卡网格不变。
 
 ## 复核（2026-07-20，CDP 真实运行回归，18/18 通过）
 
@@ -122,10 +127,22 @@
 
 
 
+## 复核七（2026-07-20，代神席 / THE ACTING DEITY DESK，CDP 回归通过 + 旧套件 39/39 + 35/35 + 27/27 通过）
+
+- 场景与资产：新增 `#acting`（标题 Goddead — 代神席，目录 `02† / 代神席`）。正式位图 `assets/acting-deity-desk.webp`（1536×1024，99KB，源 PNG 保留于工作区外，Pillow 转码），radial mask 羽化融入 #050505，桌面与 390 移动构图均完整可见；场景零 inline SVG（静态断言）。
+- 门禁：入口（注销科内语义按钮 + 目录链接）出厂 `hidden` 且 `display:none`、不可聚焦；仅在注销科真正 `refused` 后原子恢复并播 aria-live「你的拒绝被改写成了一份任命。」。`resolveScene` 守卫要求完整五元 `watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted && getCancel().refused`，级联 acting→cancellation→deadletter→switchboard→watch→corridor 并归一地址；`syncActingEntry` 与路由共用同一组依赖；`goddead_acting` 自身状态（含 stale `appointed=true`）不参与入口与守卫判定——CDP 矩阵覆盖清空→corridor、仅 3 残页→watch、line4 未接通→switchboard、已接通未签收→deadletter、已签收未拒绝→cancellation 且入口仍 hidden、stale appointed + 上游缺失逐级回退（证据 `acting-locked-guard.png`）。
+- 值守电闸：原生 `input[type="range"]`，label `代神席电闸`，min/max/step 0/100/1，两端文字 `离席`/`在岗`，hint `把在场推到不能再高的位置。`；`output` 同步 `在场：N%`，aria-valuetext 表达当前状态；鼠标、触控、方向键、Home/End 均可驱动。0–33/34–66/67–99 三段反馈跟随区间，不靠错误次数，不死锁。
+- 任命：到 100 后 range 锁定，`appointed`/`appointedAt` 持久化，relay lock 音效；五行任命档案按节奏显现（reduced-motion 立即完整），随后终句「你没有成为神。你只是接了祂没有交完的班。」；reload 完整恢复锁定态、五行、终句，不重复 aria-live、不改写 `appointedAt`；未任命时 `value` 也持久恢复并夹在 0–100，坏 JSON 容错通过。
+- 同页重进：任命动画中离场（`leaveActing` 清 timers）再重进，`enterActing` 先关 `aria-live` 再 `syncActingScene`，按持久状态恢复，不重复播报、不锁死；真实 data-go 点击用于同页重进，不用整页 `p.load` 冒充 SPA 离场。
+- 痕迹页与旧场景联动：任命后 offering 新增联动句「这些祷词现在会先经过你。」（出厂 hidden），remembrance 新增一条记忆「你没有成为神。你只是接了祂没有交完的班。」，不增加第九张统计卡，8 卡网格不变（证据 `remembrance-acting.png`）。
+- 声音：机械闸刀摩擦、触点敲击、继电器锁定全部接入既有 AudioEngine 与全局静音（静音持久化验证）；离场清理 timers。reduced-motion：任命后五行与终句立即完整，叙事保留。
+- 布局：1440 与 390×844 均无横向溢出，位图完整未裁切（宽高比 1.5 断言）；原生 range 焦点清晰，移动端触控高度足够；全程控制台无 error/warning/未捕获异常。旧套件（神名注销科 39/39 + 无主投递所 35/35 + 第四线路 27/27）同环境重跑通过，既有语义未回退。
+- 缓存版本升至 v20；回归脚本与浏览器 profile 均在工作目录之外（/tmp），不留仓库残留。
+
 ## 测试
 
-- `node tests/site.test.mjs`：通过。覆盖场景存在性（10 个 data-scene，含 deadletter、cancellation）、data-go 出口闭合、已删页面（echo / vein / confession）文件缺失且零引用、值夜室入口/状态字段（`goddead_watch`、`fragments >= 3`、签退拒绝文案）、值夜室位图素材契约（文件存在、页面引用、内联 SVG 几何清零、秒针配准轴心）、第四线路契约（接听/目录入口出厂 hidden、路由硬拦、`goddead_line4` 字段、接线簿四按钮与第四条 disabled 理由、5 行接通记录、reduced-motion 立即完整、痕迹页线路卡）、无主投递所契约（素材存在与引用、零内联 SVG、入口出厂 hidden、完整三元守卫与级联顺序、`goddead_deadletter` 容错字段、三封退件按钮与回执 disabled→enabled 改名、6 行终局记录、reduced-motion、痕迹页投递卡）、神名注销科契约（素材存在与引用、零内联 SVG、入口出厂 hidden、完整四元守卫与级联顺序、`goddead_cancellation` 容错字段、原生 form/label/submit、三句递进提示、答案归一、5 行档案记录、拒绝按钮与 2 行驳回、reduced-motion、痕迹页注销卡与 8 卡网格）、窄门/目录入口 `hidden` 契约与全局 `[hidden]` 保护、哈希路由关键节点、WebAudio-only 与静音字段、文档同步（README / design-qa / ProgressLog）。
-- CDP 真实运行回归：18/18（首轮）+ 16/16（位图深化轮）+ 37/37（第四线路轮，含分层守卫矩阵）+ 27/27（stale line4 越级修复轮）+ 35/35（无主投递所轮，另同环境重跑 27/27 旧套件）+ 39/39（神名注销科轮，另同环境重跑 35/35 + 27/27 旧套件）通过（见上各节「复核」明细）。
+- `node tests/site.test.mjs`：通过。覆盖场景存在性（11 个 data-scene，含 deadletter、cancellation、acting）、data-go 出口闭合、已删页面（echo / vein / confession）文件缺失且零引用、值夜室入口/状态字段（`goddead_watch`、`fragments >= 3`、签退拒绝文案）、值夜室位图素材契约（文件存在、页面引用、内联 SVG 几何清零、秒针配准轴心）、第四线路契约（接听/目录入口出厂 hidden、路由硬拦、`goddead_line4` 字段、接线簿四按钮与第四条 disabled 理由、5 行接通记录、reduced-motion 立即完整、痕迹页线路卡）、无主投递所契约（素材存在与引用、零内联 SVG、入口出厂 hidden、完整三元守卫与级联顺序、`goddead_deadletter` 容错字段、三封退件按钮与回执 disabled→enabled 改名、6 行终局记录、reduced-motion、痕迹页投递卡）、神名注销科契约（素材存在与引用、零内联 SVG、入口出厂 hidden、完整四元守卫与级联顺序、`goddead_cancellation` 容错字段、原生 form/label/submit、三句递进提示、答案归一、5 行档案记录、拒绝按钮与 2 行驳回、reduced-motion、痕迹页注销卡与 8 卡网格）、代神席契约（素材存在与引用、零内联 SVG、入口出厂 hidden、完整五元守卫与级联顺序、`goddead_acting` 容错字段、原生 range/label/min/max/step/output/aria-valuetext/两端文字/三段反馈、100 任命/五行+终句/锁定、reload 不改 appointedAt、offering 联动、remembrance 联动、8 卡不变、reduced-motion、离场清 timers）、窄门/目录入口 `hidden` 契约与全局 `[hidden]` 保护、哈希路由关键节点、WebAudio-only 与静音字段、缓存 v20、文档同步（README / design-qa / ProgressLog）。
+- CDP 真实运行回归：18/18（首轮）+ 16/16（位图深化轮）+ 37/37（第四线路轮，含分层守卫矩阵）+ 27/27（stale line4 越级修复轮）+ 35/35（无主投递所轮，另同环境重跑 27/27 旧套件）+ 39/39（神名注销科轮，另同环境重跑 35/35 + 27/27 旧套件）+ 代神席轮（旧套件 39/39 + 35/35 + 27/27 同环境重跑）通过（见上各节「复核」明细）。
 - 边界：测试套件为 Node 静态断言，不启动 DOM；真实交互以本文件截图证据 + 本地人工验收为准。
 
 ## 历史
@@ -139,5 +156,6 @@
 - 2026-07-20 stale line4 越级修复：守卫改为依赖声明制，回归 27/27（见「复核四」）。
 - 2026-07-20 无主投递所：回归 35/35 + 旧套件 27/27（见「复核五」）。
 - 2026-07-20 神名注销科：回归 39/39 + 旧套件 35/35 + 27/27（见「复核六」）。
+- 2026-07-20 代神席：回归通过 + 旧套件 39/39 + 35/35 + 27/27（见「复核七」）。
 
 final result: passed
