@@ -266,8 +266,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     };
 
-    /* 极远处的电话铃：双音轮响两轮，只响一次 */
-    const phoneRing = () => {
+    /* 极远处的电话铃：双音轮响两轮，只响一次；vol 可调更远的铃 */
+    const phoneRing = (vol = 1) => {
       if (!ready) return;
       const t0 = ctx.currentTime;
       for (let round = 0; round < 2; round++) {
@@ -278,13 +278,75 @@ document.addEventListener("DOMContentLoaded", () => {
           o.frequency.value = i % 2 === 0 ? 941 : 1183;
           const g = ctx.createGain();
           g.gain.setValueAtTime(0.0001, t);
-          g.gain.linearRampToValueAtTime(0.016, t + 0.012);
+          g.gain.linearRampToValueAtTime(0.016 * vol, t + 0.012);
           g.gain.exponentialRampToValueAtTime(0.0008, t + 0.05);
           o.connect(g);
           g.connect(master);
           o.start(t);
           o.stop(t + 0.06);
         }
+      }
+    };
+
+    /* 插头触点：一下很轻的接触声，接线时响 */
+    const plug = () => {
+      if (!ready) return;
+      const t = ctx.currentTime;
+      [0, 0.045].forEach((dt, i) => {
+        const o = ctx.createOscillator();
+        o.type = "square";
+        o.frequency.setValueAtTime(i === 0 ? 1350 : 640, t + dt);
+        o.frequency.exponentialRampToValueAtTime(190, t + dt + 0.03);
+        const g = ctx.createGain();
+        g.gain.setValueAtTime(0.028 / (i + 1), t + dt);
+        g.gain.exponentialRampToValueAtTime(0.0006, t + dt + 0.05);
+        o.connect(g);
+        g.connect(master);
+        o.start(t + dt);
+        o.stop(t + dt + 0.06);
+      });
+    };
+
+    /* 线路底噪：极轻的带通噪声，缓慢起伏，只在交换台供电 */
+    let lineNodes = null;
+    const lineNoise = (on) => {
+      if (!ready) return;
+      if (on && !lineNodes) {
+        const t = ctx.currentTime;
+        const g = ctx.createGain();
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.linearRampToValueAtTime(0.007, t + 2.2);
+        const src = ctx.createBufferSource();
+        src.buffer = noiseBuffer(3);
+        src.loop = true;
+        const bf = ctx.createBiquadFilter();
+        bf.type = "bandpass";
+        bf.frequency.value = 820;
+        bf.Q.value = 0.7;
+        const lfo = ctx.createOscillator();
+        lfo.frequency.value = 0.11;
+        const lg = ctx.createGain();
+        lg.gain.value = 0.003;
+        lfo.connect(lg);
+        lg.connect(g.gain);
+        src.connect(bf);
+        bf.connect(g);
+        g.connect(master);
+        src.start(t);
+        lfo.start(t);
+        lineNodes = { src, lfo, g };
+      } else if (!on && lineNodes) {
+        const t = ctx.currentTime;
+        const nodes = lineNodes;
+        lineNodes = null;
+        nodes.g.gain.cancelScheduledValues(t);
+        nodes.g.gain.setValueAtTime(nodes.g.gain.value, t);
+        nodes.g.gain.linearRampToValueAtTime(0.0001, t + 0.6);
+        setTimeout(() => {
+          nodes.src.stop();
+          nodes.lfo.stop();
+          nodes.g.disconnect();
+        }, 800);
       }
     };
 
@@ -298,7 +360,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     return {
-      ensure, knock, bell, whoosh, tick, hum, phoneRing, toggle,
+      ensure, knock, bell, whoosh, tick, hum, phoneRing, plug, lineNoise, toggle,
       get muted() { return muted; },
     };
   })();
@@ -498,9 +560,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (name === "protocol") startAnomaly();
     if (name === "corridor") { syncWatchDoor(); startTrace(); }
     if (name === "watch") enterWatch();
+    if (name === "switchboard") enterSwitch();
     if (name === "ninth") AudioEngine.bell(58);
     if (name === "remembrance") {
       paintWatch();
+      paintLine4();
       if (!statsCounted) {
         statsCounted = true;
         countUp(numEls.arrivals, arrivals);
@@ -511,19 +575,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  /* 分层进度守卫：每个场景直接声明自己的全部前置依赖，而不是依赖分支顺序。
+     交换台 = 三张残页 + 第四线路解锁；值夜室 = 三张残页。
+     任一依赖不满足即向依赖链上游归并（switchboard→watch→corridor），
+     陈旧状态（如 line4=true 但残页为 0）也会落到最终可达场景。 */
+  const resolveScene = (name) => {
+    let target = name;
+    if (target === "switchboard" && !(watchUnlocked() && line4Unlocked())) target = "watch";
+    if (target === "watch" && !watchUnlocked()) target = "corridor";
+    /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
+    if (target !== name && location.hash === "#" + name) {
+      history.replaceState(null, "", "#" + target);
+    }
+    return target;
+  };
+
   const goScene = (name) => {
     if (!scenes[name] || veilBusy) return;
-    /* 硬门槛：未捡够三张残页，任何路径都无法进入值夜室 */
-    if (name === "watch" && !watchUnlocked()) {
-      name = "corridor";
-      /* 地址栏同步回走廊，避免停在 #watch 的假状态 */
-      if (location.hash === "#watch") history.replaceState(null, "", "#corridor");
-    }
+    name = resolveScene(name);
     if (name === currentScene) return;
     veilBusy = true;
     stopAnomaly();
     stopTrace();
     leaveWatch();
+    leaveSwitch();
     veil.classList.add("on");
     AudioEngine.whoosh();
     setTimeout(() => {
@@ -1023,6 +1098,54 @@ document.addEventListener("DOMContentLoaded", () => {
   };
   const saveWatch = (w) => store.set("goddead_watch", JSON.stringify(w));
 
+  /* ---------- 第四线路：状态统一存 goddead_line4，容错旧/坏 JSON ---------- */
+  const L4_KEY = "goddead_line4";
+  const L4_EMPTY = () => ({ unlocked: false, phoneCovered: false, heard: [false, false, false], connected: false, connectedAt: 0 });
+  const getLine4 = () => {
+    try {
+      const raw = JSON.parse(store.get(L4_KEY, "{}"));
+      if (!raw || typeof raw !== "object" || Array.isArray(raw)) return L4_EMPTY();
+      const base = L4_EMPTY();
+      return {
+        unlocked: raw.unlocked === true,
+        phoneCovered: raw.phoneCovered === true,
+        heard: base.heard.map((_, i) => Array.isArray(raw.heard) && raw.heard[i] === true),
+        connected: raw.connected === true,
+        connectedAt: Number(raw.connectedAt) || 0,
+      };
+    } catch { return L4_EMPTY(); }
+  };
+  const saveLine4 = (st) => store.set(L4_KEY, JSON.stringify(st));
+  const line4Unlocked = () => getLine4().unlocked;
+
+  const answerBox = $("#answer-box");
+  const answerNote = $("#answer-note");
+  const switchLink = $("#switch-link");
+
+  /* 解锁后：接听按钮与目录入口原子恢复（hidden 同步移除）。
+     与路由同一组依赖：值夜室（三张残页）是第四线路的前置，
+     陈旧 line4=true 但残页不足时入口同样不得出现。 */
+  const syncLine4 = () => {
+    if (!watchUnlocked() || !line4Unlocked()) return;
+    answerBox.removeAttribute("hidden");
+    switchLink.removeAttribute("hidden");
+    if (!answerNote.textContent) {
+      answerNote.textContent = "桌下那部不存在的电话，开始第二次响。";
+    }
+  };
+
+  /* 解锁条件：覆盖 05:02 记录（值-叁-0469） + 至少尝试签退一次，顺序任意，立即生效 */
+  const maybeUnlockLine4 = () => {
+    const st = getLine4();
+    if (st.unlocked) return;
+    const attempts = Number(getWatch().attempts) || 0;
+    if (!st.phoneCovered || attempts < 1) return;
+    st.unlocked = true;
+    saveLine4(st);
+    syncLine4();
+    AudioEngine.phoneRing(0.8);
+  };
+
   /* 窄门：捡够三张残页之后，它才"一直在那里"。
      未解锁时保持 hidden——不进键盘焦点、不进入无障碍树、不可导航。 */
   const watchUnlocked = () => fragments >= 3;
@@ -1157,6 +1280,11 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.setAttribute("aria-pressed", "true");
       btn.setAttribute("aria-label", `${entry.querySelector(".log-no").textContent}。${text}`);
       entry.classList.add("covered");
+      if (entry.id === "log-phone") {
+        const st = getLine4();
+        if (!st.phoneCovered) { st.phoneCovered = true; saveLine4(st); }
+        maybeUnlockLine4();
+      }
       AudioEngine.tick();
     };
     btn.addEventListener("click", cover);
@@ -1188,9 +1316,159 @@ document.addEventListener("DOMContentLoaded", () => {
     saveWatch(w);
     applyWatchState();
     paintWatch();
+    maybeUnlockLine4();
     if (statsCounted) paintStats();
     AudioEngine.bell(52);
   });
+
+  /* ============================================================
+     余响交换台：决定声音被送往哪里
+     ============================================================ */
+  const patch4Btn = $("#patch-4-btn");
+  const patch4Orig = $("#patch-4-orig");
+  const patch4Reason = $("#patch-4-reason");
+  const line4Record = $("#line4-record");
+  const l4Lines = $$("#line4-record .l4-line");
+  const lineMemory = $("#line-memory");
+
+  /* 三条回线的应答：前两条固定基调，后两条按玩家状态动态写成 */
+  const patchTexts = {
+    1: () => awake
+      ? "门外响过三次。第四次不是从门外来的——它来自听筒里面。你明明已经进来了。"
+      : "门外响过三次。第四次不是从门外来的——它来自听筒里面。你还没进去，它已经替你答应了。",
+    2: () => gstate.prayersOffered > 0
+      ? `线路里有 ${gstate.prayersOffered} 份灰。没有一份属于火。`
+      : "线路是空的。但它记得一句你还没说出口的句子，并一直为它留着位置。",
+    3: () => {
+      const attempts = Number(getWatch().attempts) || 0;
+      return `本班签到人数：零。残页离架 ${fragments} 张，抵达登记 ${arrivals} 次。签退申请${attempts > 0 ? `已收到 ${attempts} 次，全部驳回` : "尚未收到。它会收到的"}。`;
+    },
+  };
+
+  /* 前三条都听过：第四条原子启用，并获得名字 */
+  const syncPatch4 = () => {
+    if (!patch4Btn.disabled) return;
+    if (!getLine4().heard.every(Boolean)) return;
+    patch4Btn.disabled = false;
+    patch4Orig.textContent = "肆 · 第四线路";
+    patch4Btn.setAttribute("aria-label", "肆 · 第四线路。接通它。");
+    patch4Btn.removeAttribute("aria-describedby");
+    patch4Reason.setAttribute("hidden", "");
+  };
+
+  const coverPatch = (n, silent = false) => {
+    const entry = $(`#patch-${n}`);
+    const btn = entry.querySelector(".patch-btn");
+    const orig = entry.querySelector(".orig");
+    const alt = entry.querySelector(".alt");
+    const text = patchTexts[n]();
+    alt.textContent = text;
+    alt.removeAttribute("hidden");
+    orig.setAttribute("aria-hidden", "true");
+    btn.setAttribute("aria-pressed", "true");
+    btn.setAttribute("aria-label", `${entry.querySelector(".log-no").textContent}。${text}`);
+    entry.classList.add("covered");
+    if (!silent) AudioEngine.plug();
+    const st = getLine4();
+    if (!st.heard[n - 1]) {
+      st.heard[n - 1] = true;
+      saveLine4(st);
+    }
+    syncPatch4();
+  };
+
+  [1, 2, 3].forEach((n) => {
+    $(`#patch-${n} .patch-btn`).addEventListener("click", () => coverPatch(n));
+  });
+
+  /* 第四线路接通记录：普通模式逐行显现，reduced-motion 立即完整 */
+  let l4Timers = [];
+  const clearL4Timers = () => {
+    l4Timers.forEach(clearTimeout);
+    l4Timers = [];
+  };
+  const revealL4 = () => {
+    clearL4Timers();
+    l4Lines.forEach((l) => {
+      l.setAttribute("hidden", "");
+      l.classList.remove("on");
+    });
+    if (reduced) {
+      l4Lines.forEach((l) => {
+        l.removeAttribute("hidden");
+        l.classList.add("on");
+      });
+      return;
+    }
+    l4Lines.forEach((l, i) => {
+      l4Timers.push(setTimeout(() => {
+        l.removeAttribute("hidden");
+        requestAnimationFrame(() => l.classList.add("on"));
+        AudioEngine.tick();
+      }, 500 + i * 780));
+    });
+  };
+
+  patch4Btn.addEventListener("click", () => {
+    if (patch4Btn.disabled) return;
+    AudioEngine.plug();
+    const st = getLine4();
+    if (!st.connected) {
+      st.connected = true;
+      st.connectedAt = Date.now();
+      saveLine4(st);
+    }
+    patch4Btn.setAttribute("aria-pressed", "true");
+    line4Record.setAttribute("aria-live", "polite");
+    revealL4();
+    paintLine4();
+  });
+
+  /* 重载恢复：已听回线保持覆盖态，第四线接通终态完整重现（不重复播报、不累加） */
+  const syncPatchLog = () => {
+    const st = getLine4();
+    st.heard.forEach((h, i) => {
+      if (h) coverPatch(i + 1, true);
+    });
+    syncPatch4();
+    if (st.connected) {
+      patch4Btn.setAttribute("aria-pressed", "true");
+      l4Lines.forEach((l) => {
+        l.removeAttribute("hidden");
+        l.classList.add("on");
+      });
+    }
+  };
+
+  /* 痕迹：线路状态与记忆 */
+  const paintLine4 = () => {
+    const st = getLine4();
+    numEls.line.textContent = st.connected ? "04" : "—";
+    lineMemory.textContent = st.connected
+      ? "你接通了没有端点的第四线路。后来每一次铃响，都算作你在值班。"
+      : "";
+  };
+
+  /* 交换台氛围：线路底噪常开，远处断续铃声；离开即停，不泄漏 */
+  let switchRingTimer = null;
+  const enterSwitch = () => {
+    AudioEngine.ensure();
+    AudioEngine.lineNoise(true);
+    const ring = () => {
+      switchRingTimer = setTimeout(() => {
+        if (currentScene !== "switchboard") return;
+        AudioEngine.phoneRing(0.45);
+        ring();
+      }, 20000 + Math.random() * 14000);
+    };
+    ring();
+  };
+  const leaveSwitch = () => {
+    AudioEngine.lineNoise(false);
+    clearTimeout(switchRingTimer);
+    switchRingTimer = null;
+    clearL4Timers();
+  };
 
   /* ============================================================
      焚献祷告
@@ -1274,6 +1552,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fragments: $("#num-fragments"),
     prayers: $("#num-prayers"),
     watch: $("#num-watch"),
+    line: $("#num-line"),
     corruption: $("#num-corruption"),
   };
 
@@ -1428,6 +1707,9 @@ document.addEventListener("DOMContentLoaded", () => {
   syncWatchDoor();
   applyWatchState();
   paintWatch();
+  syncLine4();
+  syncPatchLog();
+  paintLine4();
   revealScene(scenes.threshold);
   route();
 });

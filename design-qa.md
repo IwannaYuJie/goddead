@@ -27,6 +27,12 @@
 | 复核 · 解锁态走廊：窄门与 8 张残页零相交（桌面 / 移动） | `design-qa-evidence/corridor-unlocked-desktop-1440.png` · `corridor-unlocked-mobile-390.png`（残页区另见 `corridor-frags-mobile-390.png`） |
 | 复核 · 值夜室键盘覆盖 + arrivals=0 动态登记 | `design-qa-evidence/watch-room-keyboard-covered-desktop.png` |
 | 位图深化 · 值夜室整室（桌面 1440×1700 / 移动 390×1600） | `design-qa-evidence/watch-room-desktop-v2.png` · `watch-room-mobile-v2.png` |
+| 第四线路 · 锁定态：直达 #switchboard 被拦回 #watch | `design-qa-evidence/switchboard-locked-guard.png` |
+| 第四线路 · 守卫矩阵：0 残页直达 #switchboard 落 corridor | `design-qa-evidence/switchboard-guard-corridor.png` |
+| 第四线路 · stale 守卫：line4=true + 0 残页直达 #switchboard 落 corridor（墙上无门） | `design-qa-evidence/switchboard-stale-guard.png` |
+| 第四线路 · 接通终态（桌面，5 行记录） | `design-qa-evidence/switchboard-connected-desktop.png` |
+| 第四线路 · 交换台整室（桌面 1440×1700 / 移动 390×1600） | `design-qa-evidence/switchboard-desktop-v1.png` · `switchboard-mobile-v1.png` |
+| 第四线路 · 痕迹页「线 路 = 04」与线路记忆 | `design-qa-evidence/remembrance-line4.png` |
 
 ## 检查结果
 
@@ -60,10 +66,35 @@
 - 对比度：交班簿底色 0.5→0.68、边框 0.14→0.18、正文字重 300→400、编号/钟注透明度上调，黑暗氛围不变。
 - 缓存版本升至 v15；窄门锁定/解锁守卫、键盘 Enter/Space、arrivals=0 文案、签退持久化全部回归通过（证据 `watch-room-desktop-v2.png` / `watch-room-mobile-v2.png`）。
 
+## 复核三（2026-07-20，第四线路 / 余响交换台 + 分层守卫修复，CDP 回归 37/37 通过）
+
+- 分层守卫（P1 修复）：独立验收发现顺序 `if` 守卫可绕过——0 残页直达 `#switchboard` 时 switchboard 分支把目标改写为 watch 发生在 watch 守卫之后，导致未捡残页也能进值夜室。已将守卫集中为 `resolveScene`，按依赖顺序归并（switchboard→watch→corridor），任一前置门槛不满足即落到最终可达场景并归一地址；守卫顺序本身有静态断言。clean-storage CDP 矩阵全过：0 残页 `#switchboard`→corridor/#corridor、0 残页 `#watch`→corridor/#corridor、watch 解锁但 line4 未解锁→watch/#watch、双解锁→switchboard/#switchboard；且 0 残页下值夜室/交换台 `visibility:hidden` 不可见，真实鼠标点击 05:02 与签退位置无任何状态写入（证据 `switchboard-guard-corridor.png`）。
+- 解锁守卫：未同时满足「覆盖 05:02 记录（值-叁-0469）+ 至少一次签退尝试」时，接听按钮（`#answer-box`）与目录入口（`#switch-link`）整体 `hidden` 且 `display:none`、不可聚焦；`#switchboard` 直达、hashchange 篡改、synthetic `data-go` 均被硬拦并归一地址。两种顺序（先覆盖后签退 / 先签退后覆盖）均立即、确定性解锁，aria-live 文案「桌下那部不存在的电话，开始第二次响。」；`phoneCovered` 与解锁态均持久化于 `goddead_line4`，跨 reload 保留。
+- 接线簿：四个原生 `<button>`；前三条任意顺序可经点击与真实 Enter/Space 接通，`aria-pressed`、原文出树、动态文案（回线壹结合 awake、回线贰 prayers 0/非0 双分支、回线叁 fragments/arrivals/签退驳回）与 `heard` 持久化均验证；第四条出厂真 `disabled` 且有可读原因，前三条听完后原子启用并改名「肆 · 第四线路」。
+- 第四线接通：5 行记录逐行显现（reduced-motion 下立即完整），aria-live 只播当前行；重载完整恢复终态且不重复播报（aria-live off）、`connectedAt` 不改写，重听可重放不累加。
+- 痕迹页：新增「线 路」卡（未接通 — / 接通 04）与线路记忆文案，stat-grid 两视口自然成立。
+- 声音：插头触点、线路底噪、断续远铃全部接入既有 AudioEngine 与全局静音，无音频文件；离场清底噪与定时器。
+- 素材：`assets/line-four-switchboard.webp`（1400×846，49KB）经 mask 羽化融入 #050505；交换台场景零 inline SVG；1440×1700 与 390×1600 整室构图完整、主体不裁、无横向溢出。
+- 缓存版本升至 v16；既有值夜室/焚献/遗物室解锁含义未动（静态契约测试与锁定守卫回归均覆盖）。
+
+## 复核四（2026-07-20，stale line4 越级修复，CDP 回归 27/27 通过）
+
+- 缺陷：`resolveScene` 只在 `!line4Unlocked()` 时把 switchboard 降级为 watch——`goddead_line4.unlocked=true` 但残页进度为 0 的陈旧状态（localStorage 残留/篡改）下直达 `#switchboard` 可以越级进入交换台。
+- 修复：守卫从「依赖判断顺序」改为「每个场景声明自己的全部前置依赖」——进入 switchboard 必须同时满足 `watchUnlocked()`（三张残页）与 `line4Unlocked()`；任一不满足即向依赖链上游归并（switchboard→watch→corridor）并归一地址。入口可见性与路由共用同一组依赖：`syncLine4` 在残页不足时同样不得恢复接听盒与 `02¾ / 第四线路` 目录入口。
+- 静态契约：测试套件断言 switchboard 守卫的联合条件 `!(watchUnlocked() && line4Unlocked())`、`syncLine4` 的同款前置、守卫级联顺序与地址归一；缓存版本升至 v17。
+- CDP 真实运行矩阵（预置 localStorage 后整页加载 + 真实鼠标/键盘 + reload）27/27：
+  - A 组（stale：line4 unlocked/connected=true、签退 1 次、0 残页）：直达 `#switchboard` 与 `#watch` 均落 corridor/#corridor；目录 02¾ 入口与接听盒保持 `hidden` 且 `display:none`；hashchange 篡改与 synthetic `data-go` 点击均被拦（证据 `switchboard-stale-guard.png`）。
+  - B 组（0 残页无任何线路状态）：`#watch`、`#switchboard` 直达均落 corridor；窄门/目录入口不可聚焦；reload 后仍锁。
+  - C 组（3 残页、线路未解锁）：`#watch` 保留、`#switchboard` 归一为 #watch；真实鼠标点击覆盖 05:02 + 真实 Enter 签退后确定性解锁（仅覆盖未签退时仍锁），接听盒/目录入口原子恢复并播 aria-live 公告；真实点击接听进入交换台；reload 后直达 `#switchboard` 成功。
+  - D 组（3 残页 + 双解锁种子）：直达与二次 reload 均保留 switchboard，接通终态完整恢复，痕迹页「线 路 = 04」；随后把残页清零制造 stale 并整页重载，`#switchboard` 跌落 corridor 且 reload 后仍落 corridor。
+- 回归脚本与浏览器 profile 均在工作目录之外（/tmp），不留仓库残留。
+
+
+
 ## 测试
 
-- `node tests/site.test.mjs`：通过。覆盖场景存在性（7 个 data-scene）、data-go 出口闭合、已删页面（echo / vein / confession）文件缺失且零引用、值夜室入口/状态字段（`goddead_watch`、`fragments >= 3`、签退拒绝文案）、值夜室位图素材契约（文件存在、页面引用、内联 SVG 几何清零、秒针配准轴心）、窄门/目录入口 `hidden` 契约与全局 `[hidden]` 保护、哈希路由关键节点、WebAudio-only 与静音字段、文档同步（README / design-qa / ProgressLog）。
-- CDP 真实运行回归：18/18（首轮）+ 16/16（位图深化轮）通过（见上两节「复核」明细）。
+- `node tests/site.test.mjs`：通过。覆盖场景存在性（8 个 data-scene，含 switchboard）、data-go 出口闭合、已删页面（echo / vein / confession）文件缺失且零引用、值夜室入口/状态字段（`goddead_watch`、`fragments >= 3`、签退拒绝文案）、值夜室位图素材契约（文件存在、页面引用、内联 SVG 几何清零、秒针配准轴心）、第四线路契约（接听/目录入口出厂 hidden、路由硬拦、`goddead_line4` 字段、接线簿四按钮与第四条 disabled 理由、5 行接通记录、reduced-motion 立即完整、痕迹页线路卡）、窄门/目录入口 `hidden` 契约与全局 `[hidden]` 保护、哈希路由关键节点、WebAudio-only 与静音字段、文档同步（README / design-qa / ProgressLog）。
+- CDP 真实运行回归：18/18（首轮）+ 16/16（位图深化轮）+ 37/37（第四线路轮，含分层守卫矩阵）+ 27/27（stale line4 越级修复轮，见「复核四」）通过（见上各节「复核」明细）。
 - 边界：测试套件为 Node 静态断言，不启动 DOM；真实交互以本文件截图证据 + 本地人工验收为准。
 
 ## 历史
@@ -73,5 +104,7 @@
 - 2026-07-20 第三值夜室：本报告，桌面 1440 与移动 390 全场景复核。
 - 2026-07-20 复核：CDP 真实运行回归 18/18（锁定/解锁守卫、交班簿键盘、arrivals=0 文案、窄门零遮挡）。
 - 2026-07-20 位图深化：钟面/桌椅/秒针换正式素材，回归 16/16（见「复核二」）。
+- 2026-07-20 第四线路 / 余响交换台 + 分层守卫修复：回归 37/37（见「复核三」）。
+- 2026-07-20 stale line4 越级修复：守卫改为依赖声明制，回归 27/27（见「复核四」）。
 
 final result: passed

@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Serif+SC:wght@300;400;500&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
     <link rel="preload" href="assets/hero.png" as="image">
-    <link rel="stylesheet" href="styles.css?v=15">
+    <link rel="stylesheet" href="styles.css?v=17">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -287,7 +287,7 @@
                   </button>
                   <span class="alt" hidden aria-hidden="true"></span>
                 </li>
-                <li class="log-entry" data-alt="05:02 电话铃响一次。接听了。按规定，这一条必须记录为误响。">
+                <li class="log-entry" id="log-phone" data-alt="05:02 电话铃响一次。接听了。按规定，这一条必须记录为误响。">
                   <button class="log-cover" type="button" aria-pressed="false" data-hover>
                     <span class="log-no">值-叁-0469</span>
                     <span class="orig">05:02 电话铃响一次。未接听。按规定记录为误响。</span>
@@ -314,11 +314,84 @@
               <button class="signout-btn" id="signout-btn" type="button" data-hover>签 退</button>
               <p class="signout-response" id="signout-response" aria-live="polite"></p>
             </div>
+
+            <!-- 第四线路入口：覆盖 05:02 记录 + 尝试签退，两者齐备后它才开始响 -->
+            <div class="answer-box" id="answer-box" hidden>
+              <p class="answer-note" id="answer-note" role="status" aria-live="polite"></p>
+              <button class="answer-btn" id="answer-btn" type="button" data-go="switchboard" data-hover>接 听</button>
+            </div>
           </div>
 
           <nav class="scene-exits reveal" aria-label="离开值夜室">
             <button class="exit-link primary" type="button" data-go="offering" data-hover>继续向焚献走 ⟶</button>
             <button class="exit-link" type="button" data-go="corridor" data-hover>⟵ 回到走廊</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 第三幕又半 · 余响交换台（第四线路） -->
+      <section class="scene scene-switch" id="scene-switchboard" data-scene="switchboard" data-title="Goddead — 余响交换台" aria-label="余响交换台">
+        <div class="scene-body switch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE FOURTH LINE · 第 四 线 路</p>
+            <h2 class="sec-title">余响交换台</h2>
+            <p class="sec-desc">值夜室只负责听见。这里负责决定，那些声音要去哪里。</p>
+          </header>
+
+          <!-- 交换台主体：正式位图，黑场羽化融入 -->
+          <figure class="switch-figure reveal" role="img" aria-label="一台老旧的余响交换台：听筒、插头、垂落的线缆，和背景里一把空椅子">
+            <img class="switch-img" src="assets/line-four-switchboard.webp" alt="" width="1400" height="846">
+          </figure>
+
+          <!-- 接线簿：文字线路清单，与交班簿同一纸档案语言 -->
+          <div class="watch-log patch-log reveal" id="patch-log">
+            <header class="log-head">
+              <span class="log-title">接线簿 · 第肆台</span>
+              <span class="log-stamp" aria-hidden="true">余响观□所</span>
+            </header>
+            <ol class="log-list">
+              <li class="patch-entry" id="patch-1">
+                <button class="patch-btn" type="button" aria-pressed="false" data-hover>
+                  <span class="log-no">回线 · 壹</span>
+                  <span class="orig">壹 · 门外回线</span>
+                </button>
+                <span class="alt" hidden aria-hidden="true"></span>
+              </li>
+              <li class="patch-entry" id="patch-2">
+                <button class="patch-btn" type="button" aria-pressed="false" data-hover>
+                  <span class="log-no">回线 · 贰</span>
+                  <span class="orig">贰 · 焚献回线</span>
+                </button>
+                <span class="alt" hidden aria-hidden="true"></span>
+              </li>
+              <li class="patch-entry" id="patch-3">
+                <button class="patch-btn" type="button" aria-pressed="false" data-hover>
+                  <span class="log-no">回线 · 叁</span>
+                  <span class="orig">叁 · 值夜内线</span>
+                </button>
+                <span class="alt" hidden aria-hidden="true"></span>
+              </li>
+              <li class="patch-entry" id="patch-4">
+                <button class="patch-btn" id="patch-4-btn" type="button" aria-pressed="false" disabled aria-describedby="patch-4-reason" data-hover>
+                  <span class="log-no">回线 · 肆</span>
+                  <span class="orig" id="patch-4-orig">肆 · 未分配</span>
+                </button>
+                <span class="patch-reason" id="patch-4-reason">前三条回线都听过之后，这条才会有名字。</span>
+              </li>
+            </ol>
+            <!-- 第四线路接通记录：逐行显现，reduced-motion 立即完整 -->
+            <div class="line4-record" id="line4-record" aria-live="off">
+              <p class="l4-line" hidden>05:02 接通。</p>
+              <p class="l4-line" hidden>对端：第三值夜室。</p>
+              <p class="l4-line" hidden>接听人：你。</p>
+              <p class="l4-line" hidden>记录时间：03:17。</p>
+              <p class="l4-line l4-final" hidden>线路状态：从未断开。</p>
+            </div>
+          </div>
+
+          <nav class="scene-exits reveal" aria-label="离开交换台">
+            <button class="exit-link primary" type="button" data-go="offering" data-hover>向下，焚献炉还亮着 ⟶</button>
+            <button class="exit-link" type="button" data-go="watch" data-hover>⟵ 回到值夜室</button>
           </nav>
         </div>
       </section>
@@ -360,9 +433,11 @@
             <div class="stat-card"><span class="stat-num" id="num-fragments">0</span><span class="stat-label">碎 片</span></div>
             <div class="stat-card"><span class="stat-num" id="num-prayers">0</span><span class="stat-label">祷 词</span></div>
             <div class="stat-card"><span class="stat-num" id="num-watch">—</span><span class="stat-label">值 夜</span></div>
+            <div class="stat-card"><span class="stat-num" id="num-line">—</span><span class="stat-label">线 路</span></div>
             <div class="stat-card"><span class="stat-num" id="num-corruption">0%</span><span class="stat-label">侵 蚀 度</span></div>
           </div>
           <p class="watch-memory" id="watch-memory"></p>
+          <p class="watch-memory line-memory" id="line-memory"></p>
 
           <div class="reliquary-slot reveal" id="reliquary-slot"></div>
 
@@ -402,6 +477,7 @@
       <a href="#protocol" data-hover>01 / 守则</a>
       <a href="#corridor" data-hover>02 / 走廊</a>
       <a href="#watch" id="watch-link" hidden data-hover>02½ / 值夜室</a>
+      <a href="#switchboard" id="switch-link" hidden data-hover>02¾ / 第四线路</a>
       <a href="#offering" data-hover>03 / 焚献</a>
       <a href="#remembrance" data-hover>04 / 痕迹</a>
       <a href="reliquary.html" id="reliquary-link" class="locked" data-hover>— 遗物室</a>
@@ -409,6 +485,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=15"></script>
+    <script src="script.js?v=17"></script>
   </body>
 </html>

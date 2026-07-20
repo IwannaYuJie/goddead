@@ -29,15 +29,15 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=15/);
-assert.match(html, /script\.js\?v=15/);
+assert.match(html, /styles\.css\?v=17/);
+assert.match(html, /script\.js\?v=17/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
 assert.match(js, /DOMContentLoaded/);
 
 /* ---------- 场景探索结构 ---------- */
-const SCENES = ["threshold", "protocol", "corridor", "watch", "offering", "remembrance", "ninth"];
+const SCENES = ["threshold", "protocol", "corridor", "watch", "switchboard", "offering", "remembrance", "ninth"];
 for (const s of SCENES) {
   assert.match(html, new RegExp(`data-scene="${s}"`), `scene missing: ${s}`);
 }
@@ -88,12 +88,80 @@ assert.match(css, /transform-origin:\s*49\.6/, "second hand must rotate around t
 assert.match(html, /watch-clock" role="img"/, "clock keeps role=img exposure");
 assert.match(html, /watch-desk" role="img"/, "desk keeps role=img exposure");
 
+/* ---------- 第四线路 / 余响交换台 ---------- */
+await access(new URL("assets/line-four-switchboard.webp", root));
+assert.match(html, /id="scene-switchboard"/);
+assert.match(html, /assets\/line-four-switchboard\.webp/);
+assert.match(html, /THE FOURTH LINE · 第 四 线 路/);
+assert.match(html, /值夜室只负责听见。这里负责决定，那些声音要去哪里。/);
+
+/* 交换台场景不得出现 inline SVG（主体为位图） */
+const switchSection = html.match(/<section class="scene scene-switch"[\s\S]*?<\/section>/);
+assert.ok(switchSection, "switchboard section missing");
+assert.ok(!switchSection[0].includes("<svg"), "switchboard must not use inline SVG");
+
+/* 入口契约：接听按钮与目录入口出厂 hidden（不可聚焦、不在无障碍树） */
+assert.match(html, /id="answer-box"[^>]*\shidden[\s>]/, "answer box must ship hidden");
+assert.match(html, /id="switch-link"[^>]*\shidden[\s>]/, "menu switch link must ship hidden");
+assert.match(html, /id="switch-link"[^>]*>02¾ \/ 第四线路</);
+assert.match(html, /id="log-phone"/, "05:02 entry needs its own id for the unlock condition");
+assert.match(js, /goddead_line4/);
+assert.match(js, /phoneCovered/);
+assert.match(js, /桌下那部不存在的电话，开始第二次响。/);
+assert.match(js, /getWatch\(\)\.attempts/, "unlock requires a sign-out attempt");
+
+/* 接线簿：四个语义按钮，第四条出厂 disabled 且有可读原因 */
+const patchButtons = html.match(/<button class="patch-btn"/g) || [];
+assert.equal(patchButtons.length, 4, "patch log must hold exactly 4 line buttons");
+assert.match(html, /id="patch-4-btn"[^>]*\sdisabled\s/, "line four must ship truly disabled");
+assert.match(html, /aria-describedby="patch-4-reason"/);
+assert.match(html, /肆 · 未分配/);
+assert.match(js, /肆 · 第四线路/);
+assert.match(js, /aria-pressed", "true"\)/);
+
+/* 回线动态文案与第四线记录 */
+assert.match(js, /门外响过三次/);
+assert.match(js, /份灰。没有一份属于火/);
+assert.match(js, /本班签到人数：零/);
+for (const line of ["05:02 接通。", "对端：第三值夜室。", "接听人：你。", "记录时间：03:17。", "线路状态：从未断开。"]) {
+  assert.ok(html.includes(line), `line4 record missing: ${line}`);
+}
+assert.match(js, /reduced\) \{[\s\S]{0,200}l4Lines\.forEach/, "reduced-motion must reveal all record lines at once");
+assert.match(js, /aria-live", "polite"\)/);
+
+/* 交换台声音：只走 WebAudio，服从静音，离场清理 */
+assert.match(js, /lineNoise\(true\)/);
+assert.match(js, /lineNoise\(false\)/);
+assert.match(js, /clearL4Timers/);
+assert.match(js, /AudioEngine\.plug/);
+
+/* 痕迹页：线路状态与记忆 */
+assert.match(html, /id="num-line"/);
+assert.match(html, /线 路/);
+assert.match(html, /id="line-memory"/);
+assert.match(js, /你接通了没有端点的第四线路。后来每一次铃响，都算作你在值班。/);
+assert.match(js, /st\.connected \? "04" : "—"/);
+
 /* 硬门槛契约：未解锁时窄门与菜单入口必须 hidden（不可聚焦、不在无障碍树） */
 assert.match(html, /id="narrow-door"[^>]*\shidden[\s>]/, "narrow door must ship with the hidden attribute");
 assert.match(html, /id="watch-link"[^>]*\shidden[\s>]/, "menu watch link must ship with the hidden attribute");
 assert.match(css, /\[hidden\]\s*\{\s*display:\s*none\s*!important/i, "global [hidden] guard required against class display overrides");
 assert.match(js, /watchUnlocked = \(\) => fragments >= 3/);
-assert.match(js, /name === "watch" && !watchUnlocked\(\)/, "router must hard-block locked #watch navigation");
+assert.match(js, /const resolveScene = \(name\) => \{/, "guards must be centralized in resolveScene");
+assert.match(js, /target === "watch" && !watchUnlocked\(\)/, "router must hard-block locked #watch navigation");
+/* 交换台前置依赖是「三张残页 + 第四线路解锁」两者，而不是仅 line4 标志：
+   陈旧状态（goddead_line4.unlocked=true 但 fragments=0）必须级联落到 corridor */
+assert.match(js, /target === "switchboard" && !\(watchUnlocked\(\) && line4Unlocked\(\)\)/, "switchboard requires BOTH watch progress (3 fragments) and line4 unlock — stale line4=true + fragments=0 must not pass");
+/* 入口可见性与路由共用同一组依赖：syncLine4 在残页不足时不得恢复接听/目录入口 */
+assert.match(js, /const syncLine4 = \(\) => \{\s*if \(!watchUnlocked\(\) \|\| !line4Unlocked\(\)\) return;/, "syncLine4 must share the same dependency set as the router");
+/* 守卫必须按依赖顺序：switchboard 先降级为 watch，watch 再降级为 corridor，不可被改写绕过 */
+assert.ok(
+  js.indexOf('target === "switchboard"') > -1
+    && js.indexOf('target === "switchboard"') < js.indexOf('target === "watch"'),
+  "switchboard guard must cascade through the watch guard",
+);
+assert.match(js, /target !== name && location\.hash === "#" \+ name/, "address bar must normalize to the resolved scene");
+assert.match(js, /name = resolveScene\(name\)/, "goScene must route through resolveScene");
 assert.match(js, /narrowDoor\.removeAttribute\("hidden"\)/);
 assert.match(js, /watchLink\.removeAttribute\("hidden"\)/);
 
@@ -102,7 +170,7 @@ const logEntries = html.match(/class="log-entry[ "]/g) || [];
 assert.equal(logEntries.length, 5, "handover log must hold exactly 5 entries");
 const logButtons = html.match(/<button class="log-cover"/g) || [];
 assert.equal(logButtons.length, 5, "each log entry needs a focusable button");
-assert.equal((html.match(/aria-pressed="false"/g) || []).length, 5, "log buttons need toggle semantics");
+assert.equal((html.match(/<button class="log-cover" type="button" aria-pressed="false"/g) || []).length, 5, "log buttons need toggle semantics");
 assert.match(js, /setAttribute\("aria-pressed", "true"\)/);
 assert.match(js, /setAttribute\("aria-label"/);
 assert.match(js, /orig\.setAttribute\("aria-hidden", "true"\)/, "covered original must leave the a11y tree");
