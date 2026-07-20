@@ -1,4 +1,4 @@
-# Design QA — Living Shrine · 场景探索版（含值夜室 · 第四线路 · 无主投递所）
+# Design QA — Living Shrine · 场景探索版（含值夜室 · 第四线路 · 无主投递所 · 神名注销科）
 
 适用范围：当前 goddead.com 首页（哈希路由场景探索游戏）。本文替代旧 Split Testament 版 QA 报告；旧版证据文件保留在 `design-qa-evidence/` 中仅作历史存档，不再代表现状。
 
@@ -34,6 +34,10 @@
 | 无主投递所 · 整室（桌面 1440×1700 / 移动 390×1600） | `design-qa-evidence/deadletter-desktop-v1.png` · `deadletter-mobile-v1.png` |
 | 无主投递所 · 签收终态（三封归档 + 签收空白件 + 终局记录） | `design-qa-evidence/deadletter-accepted-desktop.png` |
 | 无主投递所 · 痕迹页「投 递 = 03」与投递记忆 | `design-qa-evidence/remembrance-deliver.png` |
+| 神名注销科 · 锁定守卫：已接通未签收直达 #cancellation 落 deadletter | `design-qa-evidence/cancellation-locked-guard.png` |
+| 神名注销科 · 整室（桌面 1440×937 / 移动 390×844 CSS 视口，2x 截图 780×1688） | `design-qa-evidence/cancellation-desktop-v1.png` · `cancellation-mobile-v1.png` |
+| 神名注销科 · 检索命中 + 拒绝注销终态 | `design-qa-evidence/cancellation-solved.png` |
+| 神名注销科 · 痕迹页「注 销 = 驳回」与注销记忆 | `design-qa-evidence/remembrance-cancellation.png` |
 | 第四线路 · 接通终态（桌面，5 行记录） | `design-qa-evidence/switchboard-connected-desktop.png` |
 | 第四线路 · 交换台整室（桌面 1440×1700 / 移动 390×1600） | `design-qa-evidence/switchboard-desktop-v1.png` · `switchboard-mobile-v1.png` |
 | 第四线路 · 痕迹页「线 路 = 04」与线路记忆 | `design-qa-evidence/remembrance-line4.png` |
@@ -50,6 +54,7 @@
 - 声音：全部经由既有 WebAudio 引擎合成（日光灯 120Hz 低鸣、一次极远电话铃、钟针倒退轻响），无外部音频文件，服从全局静音与首次手势启动。音频无法在截图中验证，属人工验收边界。
 - reduced-motion：全局 0.01ms 动画坍缩覆盖新组件；秒针、椅影缓动、门框痕迹循环在 JS 层按 `reduced` 跳过，叙事信息（交班簿五条、覆盖文本、签退结果）全部保留。
 - 无横向溢出；桌面与移动端顶栏、目录抽屉、静音按钮均正常。
+- 神名注销科：位图终端（`assets/divine-name-cancellation.webp`）经椭圆 mask 羽化融入 #050505，桌面与移动端主体完整不裁切；检索表单为原生 form，label/input/submit 关联正确；三次错误提示递进并在第三次后停住，Enter 提交 trim + 大写归一后的 `GODDEAD` 后五段档案按节奏显现，末段「注销对象已更正：见证者」；拒绝按钮随后显现，点击后登记 `refused` 并揭示两段驳回文案；痕迹页新增第八卡「注 销」与取消记忆行。
 
 ## 复核（2026-07-20，CDP 真实运行回归，18/18 通过）
 
@@ -104,12 +109,23 @@
 - 布局：1440 与 390×844 均无横向溢出，位图完整未裁切（宽高比 1.5 断言）；全程控制台无 error/warning/未捕获异常。旧套件（值夜室+第四线路 27/27）同环境重跑通过，既有语义未回退。
 - 缓存版本升至 v18；回归脚本与浏览器 profile 均在工作目录之外（/tmp），不留仓库残留。
 
+## 复核六（2026-07-20，神名注销科 / THE DIVINE NAME CANCELLATION，CDP 回归 39/39 + 旧套件 35/35 + 27/27 通过）
+
+- 场景与资产：新增 `#cancellation`（标题 Goddead — 神名注销科，目录 `02⁺ / 注销科`）。正式位图 `assets/divine-name-cancellation.webp`（1536×1024，92KB，源 PNG 保留于工作区外，Pillow 转码），mask 羽化融入黑底，桌面与 390 移动构图均完整可见；场景零 inline SVG（静态断言）。
+- 门禁：入口（投递所内语义按钮 + 目录链接）出厂 `hidden` 且 `display:none`、不可聚焦；仅在空白回执真正 `accepted` 后原子恢复并播 aria-live「空白回执生成了一个不该存在的案号。」。`resolveScene` 守卫要求完整四元 `watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted`，级联 cancellation→deadletter→switchboard→watch→corridor 并归一地址；`syncCancel` 与路由共用同一组依赖；`goddead_cancellation` 自身状态（含 stale `solved=true` / `refused=true`）不参与入口与守卫判定——CDP 矩阵：清空→corridor、仅 3 残页→watch、line4 未接通→switchboard、已接通未签收→deadletter 且入口仍 hidden、stale refused + 未接通→switchboard、stale refused + 0 残页→corridor（证据 `cancellation-locked-guard.png`）。
+- 检索谜题：原生 form/label/input/submit；错误查询持久计数并递进提示，第三次后停住；鼠标点击 submit 与 Enter 键均可提交；trim + 大写归一后只认 `GODDEAD`；命中后 5 行档案按节奏显现（reduced-motion 立即完整），aria-live 只播当前状态，`solved`/`solvedAt` 持久化。
+- 拒绝注销：5 行档案显现后原生 `拒绝注销` 按钮出现；点击后 `refused`/`refusedAt` 持久化， dull stamp 音效，两段驳回文案按节奏显现（reduced-motion 立即完整）。普通动画模式下，若 solve 后 150ms 内在同一 SPA 文档内点击 deadletter 出口离场（`leaveCancel` 清 timers），再点击 #cancel-btn 重进，`enterCancel` 先关闭两个 record 的 aria-live 再调用 `syncCancelScene`，按持久状态完整恢复 5 行档案与拒绝按钮，不重复 aria-live、不改写 solvedAt/refusedAt/queries，且仍可真实拒绝；reload 同样完整恢复、不重复播报（aria-live off）、solvedAt/refusedAt 不改写。
+- 痕迹页：新增第八卡「注 销」（未拒绝 — / 拒绝后 驳回）与注销记忆（未拒绝不剧透，拒绝后「系统试图注销你。你把拒绝留在了档案里。」），8 卡网格在桌面 4×2 / 移动 2×4 自然排布（证据 `remembrance-cancellation.png`）。
+- 声音：检索走卡轻响与拒绝印章接入既有 AudioEngine 与全局静音（静音持久化验证）；离场清理记录 timers。reduced-motion：检索/拒绝后文本立即完整，叙事信息保留。
+- 布局：1440 与 390×844 均无横向溢出，位图完整未裁切（宽高比 1.5 断言）；全程控制台无 error/warning/未捕获异常。坏 JSON 容错验证通过。旧套件（无主投递所 35/35 + 第四线路 27/27）同环境重跑通过，既有语义未回退。
+- 缓存版本升至 v19；回归脚本与浏览器 profile 均在工作目录之外（/tmp），不留仓库残留。
+
 
 
 ## 测试
 
-- `node tests/site.test.mjs`：通过。覆盖场景存在性（9 个 data-scene，含 deadletter）、data-go 出口闭合、已删页面（echo / vein / confession）文件缺失且零引用、值夜室入口/状态字段（`goddead_watch`、`fragments >= 3`、签退拒绝文案）、值夜室位图素材契约（文件存在、页面引用、内联 SVG 几何清零、秒针配准轴心）、第四线路契约（接听/目录入口出厂 hidden、路由硬拦、`goddead_line4` 字段、接线簿四按钮与第四条 disabled 理由、5 行接通记录、reduced-motion 立即完整、痕迹页线路卡）、无主投递所契约（素材存在与引用、零内联 SVG、入口出厂 hidden、完整三元守卫与级联顺序、`goddead_deadletter` 容错字段、三封退件按钮与回执 disabled→enabled 改名、6 行终局记录、reduced-motion、痕迹页投递卡）、窄门/目录入口 `hidden` 契约与全局 `[hidden]` 保护、哈希路由关键节点、WebAudio-only 与静音字段、文档同步（README / design-qa / ProgressLog）。
-- CDP 真实运行回归：18/18（首轮）+ 16/16（位图深化轮）+ 37/37（第四线路轮，含分层守卫矩阵）+ 27/27（stale line4 越级修复轮）+ 35/35（无主投递所轮，另同环境重跑 27/27 旧套件）通过（见上各节「复核」明细）。
+- `node tests/site.test.mjs`：通过。覆盖场景存在性（10 个 data-scene，含 deadletter、cancellation）、data-go 出口闭合、已删页面（echo / vein / confession）文件缺失且零引用、值夜室入口/状态字段（`goddead_watch`、`fragments >= 3`、签退拒绝文案）、值夜室位图素材契约（文件存在、页面引用、内联 SVG 几何清零、秒针配准轴心）、第四线路契约（接听/目录入口出厂 hidden、路由硬拦、`goddead_line4` 字段、接线簿四按钮与第四条 disabled 理由、5 行接通记录、reduced-motion 立即完整、痕迹页线路卡）、无主投递所契约（素材存在与引用、零内联 SVG、入口出厂 hidden、完整三元守卫与级联顺序、`goddead_deadletter` 容错字段、三封退件按钮与回执 disabled→enabled 改名、6 行终局记录、reduced-motion、痕迹页投递卡）、神名注销科契约（素材存在与引用、零内联 SVG、入口出厂 hidden、完整四元守卫与级联顺序、`goddead_cancellation` 容错字段、原生 form/label/submit、三句递进提示、答案归一、5 行档案记录、拒绝按钮与 2 行驳回、reduced-motion、痕迹页注销卡与 8 卡网格）、窄门/目录入口 `hidden` 契约与全局 `[hidden]` 保护、哈希路由关键节点、WebAudio-only 与静音字段、文档同步（README / design-qa / ProgressLog）。
+- CDP 真实运行回归：18/18（首轮）+ 16/16（位图深化轮）+ 37/37（第四线路轮，含分层守卫矩阵）+ 27/27（stale line4 越级修复轮）+ 35/35（无主投递所轮，另同环境重跑 27/27 旧套件）+ 39/39（神名注销科轮，另同环境重跑 35/35 + 27/27 旧套件）通过（见上各节「复核」明细）。
 - 边界：测试套件为 Node 静态断言，不启动 DOM；真实交互以本文件截图证据 + 本地人工验收为准。
 
 ## 历史
@@ -122,5 +138,6 @@
 - 2026-07-20 第四线路 / 余响交换台 + 分层守卫修复：回归 37/37（见「复核三」）。
 - 2026-07-20 stale line4 越级修复：守卫改为依赖声明制，回归 27/27（见「复核四」）。
 - 2026-07-20 无主投递所：回归 35/35 + 旧套件 27/27（见「复核五」）。
+- 2026-07-20 神名注销科：回归 39/39 + 旧套件 35/35 + 27/27（见「复核六」）。
 
 final result: passed

@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Serif+SC:wght@300;400;500&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
     <link rel="preload" href="assets/hero.png" as="image">
-    <link rel="stylesheet" href="styles.css?v=18">
+    <link rel="stylesheet" href="styles.css?v=19">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -463,9 +463,65 @@
             </div>
           </div>
 
+          <!-- 神名注销科入口：空白回执签收之后，系统生成了一本案不该存在的卷宗 -->
+          <div class="answer-box cancel-box" id="cancel-box" hidden>
+            <p class="answer-note" id="cancel-note" role="status" aria-live="polite"></p>
+            <button class="answer-btn" id="cancel-btn" type="button" data-go="cancellation" data-hover>送 往 注 销 科</button>
+          </div>
+
           <nav class="scene-exits reveal" aria-label="离开投递所">
             <button class="exit-link primary" type="button" data-go="offering" data-hover>向下，焚献炉还亮着 ⟶</button>
             <button class="exit-link" type="button" data-go="switchboard" data-hover>⟵ 回到交换台</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 第三幕终半 · 神名注销科（空白回执生成的案号） -->
+      <section class="scene scene-cancel" id="scene-cancellation" data-scene="cancellation" data-title="Goddead — 神名注销科" aria-label="神名注销科">
+        <div class="scene-body cancel-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE DIVINE NAME CANCELLATION · 神 名 注 销 科</p>
+            <h2 class="sec-title">神名注销科</h2>
+            <p class="sec-desc">GODDEAD 不是判词。它是「无法送达的神名」的档案状态。本科只负责删掉删不掉的名字。</p>
+          </header>
+
+          <!-- 检索终端：正式位图，黑场羽化融入；屏幕始终空白 -->
+          <figure class="cancel-figure reveal" role="img" aria-label="一台机械检索终端：空白的屏幕、走卡机构和一盏亮着的台灯，背后是没有尽头的档案柜">
+            <img class="cancel-img" src="assets/divine-name-cancellation.webp" alt="" width="1536" height="1024">
+          </figure>
+
+          <!-- 检索台：这里不按名字检索，只按档案状态 -->
+          <form class="cancel-form reveal" id="cancel-form">
+            <label class="cancel-label" for="cancel-input">待注销档案</label>
+            <div class="cancel-row">
+              <input class="cancel-input" id="cancel-input" type="text" maxlength="40" autocomplete="off" aria-describedby="cancel-hint">
+              <button class="cancel-submit" type="submit" data-hover>检索</button>
+            </div>
+            <p class="cancel-hint" id="cancel-hint">输入档案状态，不是名字。</p>
+            <p class="cancel-response" id="cancel-response" aria-live="polite"></p>
+          </form>
+
+          <!-- 检索命中后的档案：逐行显现，reduced-motion 立即完整 -->
+          <div class="line4-record cancel-record" id="cancel-record" aria-live="off">
+            <p class="l4-line cancel-line" hidden>档案状态：GODDEAD。</p>
+            <p class="l4-line cancel-line" hidden>对象：所有无法送达的神名。</p>
+            <p class="l4-line cancel-line" hidden>注销条件：最后一名见证者停止呼叫。</p>
+            <p class="l4-line cancel-line" hidden>当前见证者：你。</p>
+            <p class="l4-line cancel-line l4-final" hidden>注销对象已更正：见证者。</p>
+          </div>
+
+          <!-- 拒绝注销：拒绝本身，就是仍在场的证明 -->
+          <div class="refuse-box" id="refuse-box" hidden>
+            <button class="refuse-btn" id="refuse-btn" type="button" data-hover>拒绝注销</button>
+          </div>
+          <div class="line4-record refuse-record" id="refuse-record" aria-live="off">
+            <p class="l4-line refuse-line" hidden>驳回理由：仍在见证。</p>
+            <p class="l4-line refuse-line l4-final" hidden>处理结果：拒绝已登记为在场证明。</p>
+          </div>
+
+          <nav class="scene-exits reveal" aria-label="离开注销科">
+            <button class="exit-link primary" type="button" data-go="offering" data-hover>向下，焚献炉还亮着 ⟶</button>
+            <button class="exit-link" type="button" data-go="deadletter" data-hover>⟵ 回到投递所</button>
           </nav>
         </div>
       </section>
@@ -509,11 +565,13 @@
             <div class="stat-card"><span class="stat-num" id="num-watch">—</span><span class="stat-label">值 夜</span></div>
             <div class="stat-card"><span class="stat-num" id="num-line">—</span><span class="stat-label">线 路</span></div>
             <div class="stat-card"><span class="stat-num" id="num-deliver">—</span><span class="stat-label">投 递</span></div>
+            <div class="stat-card"><span class="stat-num" id="num-cancel">—</span><span class="stat-label">注 销</span></div>
             <div class="stat-card"><span class="stat-num" id="num-corruption">0%</span><span class="stat-label">侵 蚀 度</span></div>
           </div>
           <p class="watch-memory" id="watch-memory"></p>
           <p class="watch-memory line-memory" id="line-memory"></p>
           <p class="watch-memory line-memory deliver-memory" id="deliver-memory"></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory" id="cancel-memory"></p>
 
           <div class="reliquary-slot reveal" id="reliquary-slot"></div>
 
@@ -555,6 +613,7 @@
       <a href="#watch" id="watch-link" hidden data-hover>02½ / 值夜室</a>
       <a href="#switchboard" id="switch-link" hidden data-hover>02¾ / 第四线路</a>
       <a href="#deadletter" id="deadletter-link" hidden data-hover>02⅞ / 投递所</a>
+      <a href="#cancellation" id="cancel-link" hidden data-hover>02⁺ / 注销科</a>
       <a href="#offering" data-hover>03 / 焚献</a>
       <a href="#remembrance" data-hover>04 / 痕迹</a>
       <a href="reliquary.html" id="reliquary-link" class="locked" data-hover>— 遗物室</a>
@@ -562,6 +621,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=18"></script>
+    <script src="script.js?v=19"></script>
   </body>
 </html>

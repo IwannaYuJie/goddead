@@ -359,6 +359,25 @@ document.addEventListener("DOMContentLoaded", () => {
       src.stop(t + 0.1);
     };
 
+    /* 检索走卡：两三下很轻的机械触点，像卡片被拖过读卡口，检索时响 */
+    const type = () => {
+      if (!ready) return;
+      const t = ctx.currentTime;
+      [0, 0.07, 0.16].forEach((dt, i) => {
+        const o = ctx.createOscillator();
+        o.type = "square";
+        o.frequency.setValueAtTime(1750 - i * 320, t + dt);
+        o.frequency.exponentialRampToValueAtTime(320, t + dt + 0.025);
+        const g = ctx.createGain();
+        g.gain.setValueAtTime(0.02 / (i + 1), t + dt);
+        g.gain.exponentialRampToValueAtTime(0.0005, t + dt + 0.04);
+        o.connect(g);
+        g.connect(master);
+        o.start(t + dt);
+        o.stop(t + dt + 0.05);
+      });
+    };
+
     /* 线路底噪：极轻的带通噪声，缓慢起伏，只在交换台供电 */
     let lineNodes = null;
     const lineNoise = (on) => {
@@ -412,7 +431,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     return {
-      ensure, knock, bell, whoosh, tick, hum, phoneRing, plug, tube, stamp, lineNoise, toggle,
+      ensure, knock, bell, whoosh, tick, hum, phoneRing, plug, tube, stamp, type, lineNoise, toggle,
       get muted() { return muted; },
     };
   })();
@@ -614,11 +633,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (name === "watch") enterWatch();
     if (name === "switchboard") enterSwitch();
     if (name === "deadletter") enterDeadletter();
+    if (name === "cancellation") enterCancel();
     if (name === "ninth") AudioEngine.bell(58);
     if (name === "remembrance") {
       paintWatch();
       paintLine4();
       paintDeliver();
+      paintCancel();
       if (!statsCounted) {
         statsCounted = true;
         countUp(numEls.arrivals, arrivals);
@@ -630,13 +651,15 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* 分层进度守卫：每个场景直接声明自己的全部前置依赖，而不是依赖分支顺序。
+     注销科 = 三张残页 + 第四线路解锁 + 第四线路接通 + 空白回执签收；
      投递所 = 三张残页 + 第四线路解锁 + 第四线路接通；
      交换台 = 三张残页 + 第四线路解锁；值夜室 = 三张残页。
-     任一依赖不满足即向依赖链上游归并（deadletter→switchboard→watch→corridor），
-     陈旧/篡改状态（如 line4=true 但残页为 0、或 deadletter accepted=true 但上游缺失）
-     也会落到最终可达场景。deadletter 自身状态不参与判定——它无权替自己开门。 */
+     任一依赖不满足即向依赖链上游归并（cancellation→deadletter→switchboard→watch→corridor），
+     陈旧/篡改状态（如 line4=true 但残页为 0、或 cancellation refused=true 但上游缺失）
+     也会落到最终可达场景。deadletter/cancellation 自身状态不参与判定——它们无权替自己开门。 */
   const resolveScene = (name) => {
     let target = name;
+    if (target === "cancellation" && !(watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted)) target = "deadletter";
     if (target === "deadletter" && !(watchUnlocked() && line4Unlocked() && getLine4().connected)) target = "switchboard";
     if (target === "switchboard" && !(watchUnlocked() && line4Unlocked())) target = "watch";
     if (target === "watch" && !watchUnlocked()) target = "corridor";
@@ -657,6 +680,7 @@ document.addEventListener("DOMContentLoaded", () => {
     leaveWatch();
     leaveSwitch();
     leaveDeadletter();
+    leaveCancel();
     veil.classList.add("on");
     AudioEngine.whoosh();
     setTimeout(() => {
@@ -1663,6 +1687,7 @@ document.addEventListener("DOMContentLoaded", () => {
     dlRecord.setAttribute("aria-live", "polite");
     revealDL();
     paintDeliver();
+    syncCancel();
   });
 
   /* 重载恢复：已退件保持归档态，签收终态完整重现（不重复播报、不累加） */
@@ -1707,6 +1732,197 @@ document.addEventListener("DOMContentLoaded", () => {
     clearTimeout(dlTubeTimer);
     dlTubeTimer = null;
     clearDlTimers();
+  };
+
+  /* ============================================================
+     神名注销科：GODDEAD 不是判词，是无法送达的神名的档案状态
+     ============================================================ */
+  /* ---------- 状态统一存 goddead_cancellation，容错旧/坏 JSON ---------- */
+  const CN_KEY = "goddead_cancellation";
+  const CN_EMPTY = () => ({ queries: 0, solved: false, solvedAt: 0, refused: false, refusedAt: 0 });
+  const getCancel = () => {
+    try {
+      const raw = JSON.parse(store.get(CN_KEY, "{}"));
+      if (!raw || typeof raw !== "object" || Array.isArray(raw)) return CN_EMPTY();
+      return {
+        queries: Math.max(0, Math.floor(Number(raw.queries))) || 0,
+        solved: raw.solved === true,
+        solvedAt: Number(raw.solvedAt) || 0,
+        refused: raw.refused === true,
+        refusedAt: Number(raw.refusedAt) || 0,
+      };
+    } catch { return CN_EMPTY(); }
+  };
+  const saveCancel = (st) => store.set(CN_KEY, JSON.stringify(st));
+
+  const cancelBox = $("#cancel-box");
+  const cancelNote = $("#cancel-note");
+  const cancelLink = $("#cancel-link");
+  const cancelForm = $("#cancel-form");
+  const cancelInput = $("#cancel-input");
+  const cancelResponse = $("#cancel-response");
+  const cancelRecord = $("#cancel-record");
+  const cancelLines = $$("#cancel-record .cancel-line");
+  const refuseBox = $("#refuse-box");
+  const refuseBtn = $("#refuse-btn");
+  const refuseRecord = $("#refuse-record");
+  const refuseLines = $$("#refuse-record .refuse-line");
+  const cancelMemory = $("#cancel-memory");
+
+  /* 入口：空白回执真正签收（accepted）后原子恢复 hidden。
+     与路由同一组依赖；cancellation 自身状态不参与——它无权替自己开门。 */
+  const syncCancel = () => {
+    if (!(watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted)) return;
+    cancelBox.removeAttribute("hidden");
+    cancelLink.removeAttribute("hidden");
+    if (!cancelNote.textContent) {
+      cancelNote.textContent = "空白回执生成了一个不该存在的案号。";
+    }
+  };
+
+  /* 检索答复：三次错误各给一句，第三句之后停在那里 */
+  const cancelHints = ["这里不按名字检索。", "查状态，不查神。", "域名已经替你填过一次答案。"];
+  const hintFor = (queries) => cancelHints[Math.min(Math.max(queries, 1), 3) - 1];
+
+  /* 档案与驳回记录：普通模式逐行显现，reduced-motion 立即完整 */
+  let cnTimers = [];
+  const clearCnTimers = () => {
+    cnTimers.forEach(clearTimeout);
+    cnTimers = [];
+  };
+
+  const revealCancelRecord = () => {
+    clearCnTimers();
+    cancelLines.forEach((l) => {
+      l.setAttribute("hidden", "");
+      l.classList.remove("on");
+    });
+    if (reduced) {
+      cancelLines.forEach((l) => {
+        l.removeAttribute("hidden");
+        l.classList.add("on");
+      });
+      refuseBox.removeAttribute("hidden");
+      return;
+    }
+    cancelLines.forEach((l, i) => {
+      cnTimers.push(setTimeout(() => {
+        l.removeAttribute("hidden");
+        requestAnimationFrame(() => l.classList.add("on"));
+        AudioEngine.tick();
+      }, 500 + i * 780));
+    });
+    cnTimers.push(setTimeout(() => {
+      refuseBox.removeAttribute("hidden");
+    }, 500 + cancelLines.length * 780));
+  };
+
+  const revealRefusal = () => {
+    refuseLines.forEach((l) => {
+      l.setAttribute("hidden", "");
+      l.classList.remove("on");
+    });
+    if (reduced) {
+      refuseLines.forEach((l) => {
+        l.removeAttribute("hidden");
+        l.classList.add("on");
+      });
+      return;
+    }
+    refuseLines.forEach((l, i) => {
+      cnTimers.push(setTimeout(() => {
+        l.removeAttribute("hidden");
+        requestAnimationFrame(() => l.classList.add("on"));
+        AudioEngine.tick();
+      }, 400 + i * 700));
+    });
+  };
+
+  /* 检索：只认 trim + 大小写归一后的 GODDEAD——档案状态，不是名字 */
+  cancelForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (getCancel().solved) return;
+    const value = cancelInput.value.trim().toUpperCase();
+    cancelInput.value = "";
+    if (value === "GODDEAD") {
+      const st = getCancel();
+      if (!st.solved) {
+        st.solved = true;
+        st.solvedAt = Date.now();
+        saveCancel(st);
+      }
+      cancelResponse.textContent = "";
+      AudioEngine.type();
+      cancelRecord.setAttribute("aria-live", "polite");
+      revealCancelRecord();
+      return;
+    }
+    const st = getCancel();
+    st.queries += 1;
+    saveCancel(st);
+    cancelResponse.textContent = hintFor(st.queries);
+    cancelInput.classList.add("shake");
+    setTimeout(() => cancelInput.classList.remove("shake"), 500);
+    AudioEngine.type();
+  });
+
+  /* 拒绝注销：拒绝本身成为仍在场的证明 */
+  refuseBtn.addEventListener("click", () => {
+    const st = getCancel();
+    if (!st.solved || st.refused) return;
+    st.refused = true;
+    st.refusedAt = Date.now();
+    saveCancel(st);
+    AudioEngine.stamp();
+    refuseBox.setAttribute("hidden", "");
+    refuseRecord.setAttribute("aria-live", "polite");
+    revealRefusal();
+    paintCancel();
+  });
+
+  /* 重载恢复：错误计数对应提示、命中档案、拒绝终态完整重现
+     （不重复播报、不改写时间与计数） */
+  const syncCancelScene = () => {
+    const st = getCancel();
+    if (st.queries > 0 && !st.solved) {
+      cancelResponse.textContent = hintFor(st.queries);
+    }
+    if (st.solved) {
+      cancelLines.forEach((l) => {
+        l.removeAttribute("hidden");
+        l.classList.add("on");
+      });
+      if (st.refused) {
+        refuseLines.forEach((l) => {
+          l.removeAttribute("hidden");
+          l.classList.add("on");
+        });
+      } else {
+        refuseBox.removeAttribute("hidden");
+      }
+    }
+  };
+
+  /* 痕迹：注销状态与记忆（未拒绝不剧透） */
+  const paintCancel = () => {
+    const st = getCancel();
+    numEls.cancel.textContent = st.refused ? "驳回" : "—";
+    cancelMemory.textContent = st.refused
+      ? "系统试图注销你。你把拒绝留在了档案里。"
+      : "";
+  };
+
+  /* 注销科氛围：检索/驳回的机械声随交互即发；每次进入按持久状态完整恢复，
+     但不重复 aria-live、不改写时间/计数；离场清记录 timers，不泄漏 */
+  const enterCancel = () => {
+    AudioEngine.ensure();
+    /* 同页重进时先关闭 aria-live，再恢复 DOM，避免已存在记录被重新播报 */
+    cancelRecord.setAttribute("aria-live", "off");
+    refuseRecord.setAttribute("aria-live", "off");
+    syncCancelScene();
+  };
+  const leaveCancel = () => {
+    clearCnTimers();
   };
 
   /* ============================================================
@@ -1793,6 +2009,7 @@ document.addEventListener("DOMContentLoaded", () => {
     watch: $("#num-watch"),
     line: $("#num-line"),
     deliver: $("#num-deliver"),
+    cancel: $("#num-cancel"),
     corruption: $("#num-corruption"),
   };
 
@@ -1953,6 +2170,9 @@ document.addEventListener("DOMContentLoaded", () => {
   syncDeadletter();
   syncReturnLog();
   paintDeliver();
+  syncCancel();
+  syncCancelScene();
+  paintCancel();
   revealScene(scenes.threshold);
   route();
 });

@@ -811,7 +811,7 @@ body.awake .door-svg { filter: drop-shadow(0 0 34px rgba(141, 43, 39, 0.16)); }
 
 .stat-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1px;
   background: var(--line);
   border: 1px solid var(--line);
@@ -1670,6 +1670,154 @@ body.idle .scene-body { filter: brightness(0.55); }
   color: rgba(192, 74, 66, 0.55);
 }
 
+/* ============================================================
+   第三幕终半 · 神名注销科（空白回执生成的案号）
+   ============================================================ */
+.cancel-body { max-width: 1060px; }
+
+/* 检索终端位图：黑场羽化融入，略偏轴 */
+.cancel-figure {
+  width: min(980px, 100%);
+  margin: clamp(1.5rem, 4vh, 2.5rem) auto 0;
+  transform: rotate(-0.7deg);
+}
+
+.cancel-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: brightness(0.96);
+  -webkit-mask-image: radial-gradient(ellipse 80% 74% at 50% 54%, #000 60%, transparent 97%);
+  mask-image: radial-gradient(ellipse 80% 74% at 50% 54%, #000 60%, transparent 97%);
+}
+
+/* 检索台：原生表单，纸档案语言 */
+.cancel-form {
+  width: min(760px, 100%);
+  margin: clamp(1.8rem, 5vh, 3rem) auto 0;
+  transform: rotate(0.6deg);
+}
+
+.cancel-label {
+  display: block;
+  margin-bottom: 0.9rem;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.34em;
+}
+
+.cancel-row {
+  display: flex;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.cancel-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(200, 194, 184, 0.18);
+  background: rgba(8, 8, 8, 0.68);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.86rem;
+  letter-spacing: 0.14em;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.cancel-input:focus {
+  outline: none;
+  border-color: var(--blood-bright);
+  box-shadow: 0 0 26px rgba(141, 43, 39, 0.22);
+}
+
+.cancel-submit {
+  border: 1px solid var(--blood-bright);
+  padding: 0.85rem 2rem;
+  background: transparent;
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: 0.82rem;
+  letter-spacing: 0.4em;
+  text-indent: 0.4em;
+  cursor: pointer;
+  transition: background 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.cancel-submit:hover {
+  background: rgba(141, 43, 39, 0.35);
+  color: #f2ece4;
+  box-shadow: 0 0 30px rgba(192, 74, 66, 0.35);
+}
+
+.cancel-hint {
+  margin: 0.7rem 0 0;
+  color: rgba(111, 106, 98, 0.7);
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.22em;
+}
+
+/* 检索答复：错误提示与命中提示同一通道，aria-live 只播当前 */
+.cancel-response {
+  margin: 0.9rem 0 0;
+  min-height: 1.6em;
+  color: var(--blood-bright);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  line-height: 1.9;
+  text-shadow: 0 0 12px rgba(192, 74, 66, 0.3);
+}
+
+/* 检索命中后的档案记录与驳回记录：沿用接通记录的逐行显现 */
+.cancel-record,
+.refuse-record {
+  width: min(760px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.refuse-box {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(1.6rem, 4vh, 2.4rem);
+}
+
+/* 拒绝注销：原生按钮，比检索更沉一档 */
+.refuse-btn {
+  border: 1px solid var(--blood-bright);
+  padding: 0.95rem 3rem;
+  background: rgba(61, 16, 14, 0.3);
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: 0.86rem;
+  letter-spacing: 0.44em;
+  text-indent: 0.44em;
+  cursor: pointer;
+  transition: background 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.refuse-btn:hover {
+  background: rgba(141, 43, 39, 0.5);
+  color: #f2ece4;
+  box-shadow: 0 0 34px rgba(192, 74, 66, 0.4);
+}
+
+.refuse-btn:focus-visible {
+  outline: 1px solid var(--blood-bright);
+  outline-offset: 5px;
+}
+
+/* 投递所内的注销科入口：签收前整体 hidden，不进焦点与无障碍树 */
+.cancel-box { margin-top: clamp(1.8rem, 5vh, 3rem); }
+
+/* 痕迹页 · 注销记忆：与投递记忆同体，最压一层 */
+.cancel-memory {
+  color: rgba(192, 74, 66, 0.5);
+}
+
 /* 第四幕 · 焚献 */
 .offering-body {
   position: relative;
@@ -2183,6 +2331,14 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
   .dl-figure { transform: rotate(-1.1deg); }
 
   .return-log { transform: rotate(1.2deg); }
+
+  .cancel-figure { transform: rotate(1deg); }
+
+  .cancel-form { transform: rotate(-0.8deg); }
+
+  .cancel-row { flex-direction: column; }
+
+  .cancel-submit { align-self: center; }
 
   .watch-desk { transform: rotate(-1.1deg); }
 

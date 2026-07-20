@@ -29,15 +29,15 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=18/);
-assert.match(html, /script\.js\?v=18/);
+assert.match(html, /styles\.css\?v=19/);
+assert.match(html, /script\.js\?v=19/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
 assert.match(js, /DOMContentLoaded/);
 
 /* ---------- 场景探索结构 ---------- */
-const SCENES = ["threshold", "protocol", "corridor", "watch", "switchboard", "deadletter", "offering", "remembrance", "ninth"];
+const SCENES = ["threshold", "protocol", "corridor", "watch", "switchboard", "deadletter", "cancellation", "offering", "remembrance", "ninth"];
 for (const s of SCENES) {
   assert.match(html, new RegExp(`data-scene="${s}"`), `scene missing: ${s}`);
 }
@@ -209,6 +209,84 @@ assert.match(html, /id="deliver-memory"/);
 assert.match(js, /你替一间没有收件人的邮局签收了自己。/);
 assert.match(js, /st\.accepted \? "03" : "—"/);
 
+/* ---------- 神名注销科 / THE DIVINE NAME CANCELLATION ---------- */
+await access(new URL("assets/divine-name-cancellation.webp", root));
+assert.match(html, /id="scene-cancellation"/);
+assert.match(html, /data-title="Goddead — 神名注销科"/);
+assert.match(html, /assets\/divine-name-cancellation\.webp/);
+assert.match(html, /THE DIVINE NAME CANCELLATION · 神 名 注 销 科/);
+
+/* 注销科场景不得出现 inline SVG（主体为位图） */
+const cnSection = html.match(/<section class="scene scene-cancel"[\s\S]*?<\/section>/);
+assert.ok(cnSection, "cancellation section missing");
+assert.ok(!cnSection[0].includes("<svg"), "cancellation must not use inline SVG");
+
+/* 入口契约：投递所内入口与目录入口出厂 hidden（不可聚焦、不在无障碍树） */
+assert.match(html, /id="cancel-box"[^>]*\shidden[\s>]/, "cancel box must ship hidden");
+assert.match(html, /id="cancel-btn"[^>]*data-go="cancellation"/);
+assert.match(html, /送 往 注 销 科/);
+assert.match(html, /id="cancel-link"[^>]*\shidden[\s>]/, "menu cancel link must ship hidden");
+assert.match(html, /id="cancel-link"[^>]*>02⁺ \/ 注销科</);
+/* 出口闭合：主出口 offering，次出口 deadletter */
+assert.ok(cnSection[0].includes('data-go="offering"'), "cancellation needs offering exit");
+assert.ok(cnSection[0].includes('data-go="deadletter"'), "cancellation needs deadletter exit");
+
+/* 状态字段：容错 key goddead_cancellation，自身状态不得参与入口/守卫判定 */
+assert.match(js, /goddead_cancellation/);
+assert.match(js, /queries: Math\.max\(0, Math\.floor\(Number\(raw\.queries\)\)\) \|\| 0/);
+assert.match(js, /solved: raw\.solved === true/);
+assert.match(js, /solvedAt: Number\(raw\.solvedAt\) \|\| 0/);
+assert.match(js, /refused: raw\.refused === true/);
+assert.match(js, /refusedAt: Number\(raw\.refusedAt\) \|\| 0/);
+assert.match(js, /const syncCancel = \(\) => \{\s*if \(!\(watchUnlocked\(\) && line4Unlocked\(\) && getLine4\(\)\.connected && getDL\(\)\.accepted\)\) return;/, "entry reveal must share the router's full dependency set");
+assert.match(js, /空白回执生成了一个不该存在的案号。/);
+
+/* 检索表单：原生 form、label 关联、submit、提示 */
+assert.match(html, /<form class="cancel-form reveal" id="cancel-form">/);
+assert.match(html, /<label class="cancel-label" for="cancel-input">待注销档案<\/label>/);
+assert.match(html, /<button class="cancel-submit" type="submit"[^>]*>检索<\/button>/);
+assert.match(html, /输入档案状态，不是名字。/);
+assert.match(js, /cancelForm\.addEventListener\("submit"/);
+/* 答案归一：trim + 大小写归一后只认 GODDEAD */
+assert.match(js, /cancelInput\.value\.trim\(\)\.toUpperCase\(\)/);
+assert.match(js, /value === "GODDEAD"/);
+/* 错误检索持久计数，三句提示递进，第三次后停住 */
+assert.match(js, /st\.queries \+= 1/);
+for (const hint of ["这里不按名字检索。", "查状态，不查神。", "域名已经替你填过一次答案。"]) {
+  assert.ok(js.includes(hint), `cancel hint missing: ${hint}`);
+}
+assert.match(js, /cancelHints\[Math\.min\(Math\.max\(queries, 1\), 3\) - 1\]/, "hints must clamp at the third");
+
+/* 检索命中：5 行档案记录，reduced-motion 立即完整，aria-live 只播当前 */
+for (const line of ["档案状态：GODDEAD。", "对象：所有无法送达的神名。", "注销条件：最后一名见证者停止呼叫。", "当前见证者：你。", "注销对象已更正：见证者。"]) {
+  assert.ok(html.includes(line), `cancel record missing: ${line}`);
+}
+assert.equal((html.match(/class="l4-line cancel-line/g) || []).length, 5, "cancel record must hold exactly 5 lines");
+assert.match(js, /reduced\) \{[\s\S]{0,200}cancelLines\.forEach/, "reduced-motion must reveal all cancel record lines at once");
+assert.match(js, /cancelRecord\.setAttribute\("aria-live", "polite"\)/);
+
+/* 拒绝注销：原生按钮，驳回两行，持久 refused/refusedAt */
+assert.match(html, /id="refuse-btn"[^>]*>拒绝注销<\/button>/);
+for (const line of ["驳回理由：仍在见证。", "处理结果：拒绝已登记为在场证明。"]) {
+  assert.ok(html.includes(line), `refuse record missing: ${line}`);
+}
+assert.match(js, /refuseBtn\.addEventListener\("click"/);
+assert.match(js, /st\.refused = true/);
+assert.match(js, /st\.refusedAt = Date\.now\(\)/);
+
+/* 注销科声音：只走 WebAudio，服从静音，离场清理 */
+assert.match(js, /AudioEngine\.type\(\)/);
+assert.match(js, /clearCnTimers/);
+
+/* 痕迹页：注销状态与记忆（未拒绝不剧透），8 卡网格 */
+assert.match(html, /id="num-cancel"/);
+assert.match(html, /注 销/);
+assert.match(html, /id="cancel-memory"/);
+assert.match(js, /系统试图注销你。你把拒绝留在了档案里。/);
+assert.match(js, /st\.refused \? "驳回" : "—"/);
+assert.equal((html.match(/<div class="stat-card">/g) || []).length, 8, "remembrance must hold exactly 8 stat cards");
+assert.match(css, /\.stat-grid \{[\s\S]{0,120}repeat\(4, 1fr\)/, "8 cards should lay out 4 per row on desktop");
+
 /* 硬门槛契约：未解锁时窄门与菜单入口必须 hidden（不可聚焦、不在无障碍树） */
 assert.match(html, /id="narrow-door"[^>]*\shidden[\s>]/, "narrow door must ship with the hidden attribute");
 assert.match(html, /id="watch-link"[^>]*\shidden[\s>]/, "menu watch link must ship with the hidden attribute");
@@ -222,14 +300,18 @@ assert.match(js, /target === "switchboard" && !\(watchUnlocked\(\) && line4Unloc
 /* 投递所前置依赖是「三张残页 + 第四线路解锁 + 第四线路接通」三者；
    deadletter 自身 accepted=true 但任一上游缺失时也必须逐级回退 */
 assert.match(js, /target === "deadletter" && !\(watchUnlocked\(\) && line4Unlocked\(\) && getLine4\(\)\.connected\)\)/, "deadletter requires watch progress AND line4 unlock AND line4 connected — stale goddead_deadletter must not pass");
+/* 注销科前置依赖是「三张残页 + 第四线路解锁 + 第四线路接通 + 空白回执签收」四元；
+   cancellation 自身 solved/refused=true 但任一上游缺失时也必须逐级回退 */
+assert.match(js, /target === "cancellation" && !\(watchUnlocked\(\) && line4Unlocked\(\) && getLine4\(\)\.connected && getDL\(\)\.accepted\)\)/, "cancellation requires watch progress AND line4 unlock AND line4 connected AND receipt accepted — stale goddead_cancellation must not pass");
 /* 入口可见性与路由共用同一组依赖：syncLine4 在残页不足时不得恢复接听/目录入口 */
 assert.match(js, /const syncLine4 = \(\) => \{\s*if \(!watchUnlocked\(\) \|\| !line4Unlocked\(\)\) return;/, "syncLine4 must share the same dependency set as the router");
-/* 守卫必须按依赖顺序：deadletter→switchboard→watch→corridor 逐级归并，不可被改写绕过 */
+/* 守卫必须按依赖顺序：cancellation→deadletter→switchboard→watch→corridor 逐级归并，不可被改写绕过 */
 assert.ok(
-  js.indexOf('target === "deadletter"') > -1
+  js.indexOf('target === "cancellation"') > -1
+    && js.indexOf('target === "cancellation"') < js.indexOf('target === "deadletter"')
     && js.indexOf('target === "deadletter"') < js.indexOf('target === "switchboard"')
     && js.indexOf('target === "switchboard"') < js.indexOf('target === "watch"'),
-  "guards must cascade deadletter → switchboard → watch → corridor",
+  "guards must cascade cancellation → deadletter → switchboard → watch → corridor",
 );
 assert.match(js, /target !== name && location\.hash === "#" \+ name/, "address bar must normalize to the resolved scene");
 assert.match(js, /name = resolveScene\(name\)/, "goScene must route through resolveScene");
