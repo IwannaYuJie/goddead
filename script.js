@@ -307,6 +307,58 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     };
 
+    /* 气送管：一团被吸走的空气，高音滑向低处，很轻 */
+    const tube = (vol = 1) => {
+      if (!ready) return;
+      const t = ctx.currentTime;
+      const src = ctx.createBufferSource();
+      src.buffer = noiseBuffer(1);
+      const f = ctx.createBiquadFilter();
+      f.type = "bandpass";
+      f.Q.value = 2.2;
+      f.frequency.setValueAtTime(1400, t);
+      f.frequency.exponentialRampToValueAtTime(260, t + 0.5);
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.05 * vol, t + 0.12);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.6);
+      src.connect(f);
+      f.connect(g);
+      g.connect(master);
+      src.start(t);
+      src.stop(t + 0.7);
+    };
+
+    /* 印章：一记闷头落下的章，低频一击 + 极短的纸面噪声 */
+    const stamp = () => {
+      if (!ready) return;
+      const t = ctx.currentTime;
+      const o = ctx.createOscillator();
+      o.type = "sine";
+      o.frequency.setValueAtTime(150, t);
+      o.frequency.exponentialRampToValueAtTime(46, t + 0.1);
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.11, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.16);
+      o.connect(g);
+      g.connect(master);
+      o.start(t);
+      o.stop(t + 0.2);
+      const src = ctx.createBufferSource();
+      src.buffer = noiseBuffer(0.2);
+      const hf = ctx.createBiquadFilter();
+      hf.type = "lowpass";
+      hf.frequency.value = 900;
+      const ng = ctx.createGain();
+      ng.gain.setValueAtTime(0.03, t);
+      ng.gain.exponentialRampToValueAtTime(0.0006, t + 0.07);
+      src.connect(hf);
+      hf.connect(ng);
+      ng.connect(master);
+      src.start(t);
+      src.stop(t + 0.1);
+    };
+
     /* 线路底噪：极轻的带通噪声，缓慢起伏，只在交换台供电 */
     let lineNodes = null;
     const lineNoise = (on) => {
@@ -360,7 +412,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     return {
-      ensure, knock, bell, whoosh, tick, hum, phoneRing, plug, lineNoise, toggle,
+      ensure, knock, bell, whoosh, tick, hum, phoneRing, plug, tube, stamp, lineNoise, toggle,
       get muted() { return muted; },
     };
   })();
@@ -561,10 +613,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (name === "corridor") { syncWatchDoor(); startTrace(); }
     if (name === "watch") enterWatch();
     if (name === "switchboard") enterSwitch();
+    if (name === "deadletter") enterDeadletter();
     if (name === "ninth") AudioEngine.bell(58);
     if (name === "remembrance") {
       paintWatch();
       paintLine4();
+      paintDeliver();
       if (!statsCounted) {
         statsCounted = true;
         countUp(numEls.arrivals, arrivals);
@@ -576,11 +630,14 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* 分层进度守卫：每个场景直接声明自己的全部前置依赖，而不是依赖分支顺序。
+     投递所 = 三张残页 + 第四线路解锁 + 第四线路接通；
      交换台 = 三张残页 + 第四线路解锁；值夜室 = 三张残页。
-     任一依赖不满足即向依赖链上游归并（switchboard→watch→corridor），
-     陈旧状态（如 line4=true 但残页为 0）也会落到最终可达场景。 */
+     任一依赖不满足即向依赖链上游归并（deadletter→switchboard→watch→corridor），
+     陈旧/篡改状态（如 line4=true 但残页为 0、或 deadletter accepted=true 但上游缺失）
+     也会落到最终可达场景。deadletter 自身状态不参与判定——它无权替自己开门。 */
   const resolveScene = (name) => {
     let target = name;
+    if (target === "deadletter" && !(watchUnlocked() && line4Unlocked() && getLine4().connected)) target = "switchboard";
     if (target === "switchboard" && !(watchUnlocked() && line4Unlocked())) target = "watch";
     if (target === "watch" && !watchUnlocked()) target = "corridor";
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
@@ -599,6 +656,7 @@ document.addEventListener("DOMContentLoaded", () => {
     stopTrace();
     leaveWatch();
     leaveSwitch();
+    leaveDeadletter();
     veil.classList.add("on");
     AudioEngine.whoosh();
     setTimeout(() => {
@@ -1422,6 +1480,7 @@ document.addEventListener("DOMContentLoaded", () => {
     line4Record.setAttribute("aria-live", "polite");
     revealL4();
     paintLine4();
+    syncDeadletter();
   });
 
   /* 重载恢复：已听回线保持覆盖态，第四线接通终态完整重现（不重复播报、不累加） */
@@ -1468,6 +1527,186 @@ document.addEventListener("DOMContentLoaded", () => {
     clearTimeout(switchRingTimer);
     switchRingTimer = null;
     clearL4Timers();
+  };
+
+  /* ============================================================
+     无主投递所：第四线路不是电话，它是退回地址
+     ============================================================ */
+  /* ---------- 状态统一存 goddead_deadletter，容错旧/坏 JSON ---------- */
+  const DL_KEY = "goddead_deadletter";
+  const DL_EMPTY = () => ({ returned: [false, false, false], accepted: false, acceptedAt: 0 });
+  const getDL = () => {
+    try {
+      const raw = JSON.parse(store.get(DL_KEY, "{}"));
+      if (!raw || typeof raw !== "object" || Array.isArray(raw)) return DL_EMPTY();
+      const base = DL_EMPTY();
+      return {
+        returned: base.returned.map((_, i) => Array.isArray(raw.returned) && raw.returned[i] === true),
+        accepted: raw.accepted === true,
+        acceptedAt: Number(raw.acceptedAt) || 0,
+      };
+    } catch { return DL_EMPTY(); }
+  };
+  const saveDL = (st) => store.set(DL_KEY, JSON.stringify(st));
+
+  const deliverBox = $("#deliver-box");
+  const deliverNote = $("#deliver-note");
+  const deadletterLink = $("#deadletter-link");
+  const receiptBtn = $("#receipt-btn");
+  const receiptOrig = $("#receipt-orig");
+  const receiptReason = $("#receipt-reason");
+  const dlRecord = $("#dl-record");
+  const dlLines = $$("#dl-record .dl-line");
+  const deliverMemory = $("#deliver-memory");
+
+  /* 入口：第四线路真正接通（connected）后原子恢复 hidden。
+     与路由同一组依赖；deadletter 自身状态不参与——它无权替自己开门。 */
+  const syncDeadletter = () => {
+    if (!(watchUnlocked() && line4Unlocked() && getLine4().connected)) return;
+    deliverBox.removeAttribute("hidden");
+    deadletterLink.removeAttribute("hidden");
+    if (!deliverNote.textContent) {
+      deliverNote.textContent = "退回的东西，有了去处。";
+    }
+  };
+
+  /* 三封退件的归档记录：退回原因按玩家状态动态写成 */
+  const returnTexts = {
+    1: () => "第四次敲击来自门内。退回原因：收件地址不存在。",
+    2: () => (gstate.prayersOffered > 0
+      ? `灰烬不是邮资。共 ${gstate.prayersOffered} 份，全部留在原地。`
+      : "尚未投递。系统已提前分配封套。"),
+    3: () => {
+      const attempts = Number(getWatch().attempts) || 0;
+      return `残页 ${fragments} 张，转作附件。抵达登记 ${arrivals} 次。签退申请${attempts > 0 ? ` ${attempts} 次，全部视为续班` : "零次，已预登记为续班"}。`;
+    },
+  };
+
+  /* 三封都退回：空白回执原子启用，并获得名字 */
+  const syncReceipt = () => {
+    if (!receiptBtn.disabled) return;
+    const done = getDL().returned.filter(Boolean).length;
+    if (done < 3) {
+      receiptReason.textContent = `还有 ${3 - done} 封退件未归档。`;
+      return;
+    }
+    receiptBtn.disabled = false;
+    receiptOrig.textContent = "签收空白件";
+    receiptBtn.setAttribute("aria-label", "签收空白件。收件人那一栏是空的。");
+    receiptBtn.removeAttribute("aria-describedby");
+    receiptReason.setAttribute("hidden", "");
+  };
+
+  const coverReturn = (n, silent = false) => {
+    const entry = $(`#return-${n}`);
+    const btn = entry.querySelector(".return-btn");
+    const orig = entry.querySelector(".orig");
+    const alt = entry.querySelector(".alt");
+    const text = returnTexts[n]();
+    alt.textContent = text;
+    alt.removeAttribute("hidden");
+    orig.setAttribute("aria-hidden", "true");
+    btn.setAttribute("aria-pressed", "true");
+    btn.setAttribute("aria-label", `${entry.querySelector(".log-no").textContent}。${text}`);
+    entry.classList.add("covered");
+    if (!silent) AudioEngine.tube();
+    const st = getDL();
+    if (!st.returned[n - 1]) {
+      st.returned[n - 1] = true;
+      saveDL(st);
+    }
+    syncReceipt();
+  };
+
+  [1, 2, 3].forEach((n) => {
+    $(`#return-${n} .return-btn`).addEventListener("click", () => coverReturn(n));
+  });
+
+  /* 签收终局记录：普通模式逐行显现，reduced-motion 立即完整 */
+  let dlTimers = [];
+  const clearDlTimers = () => {
+    dlTimers.forEach(clearTimeout);
+    dlTimers = [];
+  };
+  const revealDL = () => {
+    clearDlTimers();
+    dlLines.forEach((l) => {
+      l.setAttribute("hidden", "");
+      l.classList.remove("on");
+    });
+    if (reduced) {
+      dlLines.forEach((l) => {
+        l.removeAttribute("hidden");
+        l.classList.add("on");
+      });
+      return;
+    }
+    dlLines.forEach((l, i) => {
+      dlTimers.push(setTimeout(() => {
+        l.removeAttribute("hidden");
+        requestAnimationFrame(() => l.classList.add("on"));
+        AudioEngine.tick();
+      }, 500 + i * 780));
+    });
+  };
+
+  receiptBtn.addEventListener("click", () => {
+    if (receiptBtn.disabled) return;
+    AudioEngine.stamp();
+    const st = getDL();
+    if (!st.accepted) {
+      st.accepted = true;
+      st.acceptedAt = Date.now();
+      saveDL(st);
+    }
+    receiptBtn.setAttribute("aria-pressed", "true");
+    dlRecord.setAttribute("aria-live", "polite");
+    revealDL();
+    paintDeliver();
+  });
+
+  /* 重载恢复：已退件保持归档态，签收终态完整重现（不重复播报、不累加） */
+  const syncReturnLog = () => {
+    const st = getDL();
+    st.returned.forEach((r, i) => {
+      if (r) coverReturn(i + 1, true);
+    });
+    syncReceipt();
+    if (st.accepted) {
+      receiptBtn.setAttribute("aria-pressed", "true");
+      dlLines.forEach((l) => {
+        l.removeAttribute("hidden");
+        l.classList.add("on");
+      });
+    }
+  };
+
+  /* 痕迹：投递状态与记忆（未签收时不剧透） */
+  const paintDeliver = () => {
+    const st = getDL();
+    numEls.deliver.textContent = st.accepted ? "03" : "—";
+    deliverMemory.textContent = st.accepted
+      ? "你替一间没有收件人的邮局签收了自己。"
+      : "";
+  };
+
+  /* 投递所氛围：气送管偶尔在墙里走一趟；离开即停，不泄漏 */
+  let dlTubeTimer = null;
+  const enterDeadletter = () => {
+    AudioEngine.ensure();
+    const pass = () => {
+      dlTubeTimer = setTimeout(() => {
+        if (currentScene !== "deadletter") return;
+        AudioEngine.tube(0.5);
+        pass();
+      }, 24000 + Math.random() * 16000);
+    };
+    pass();
+  };
+  const leaveDeadletter = () => {
+    clearTimeout(dlTubeTimer);
+    dlTubeTimer = null;
+    clearDlTimers();
   };
 
   /* ============================================================
@@ -1553,6 +1792,7 @@ document.addEventListener("DOMContentLoaded", () => {
     prayers: $("#num-prayers"),
     watch: $("#num-watch"),
     line: $("#num-line"),
+    deliver: $("#num-deliver"),
     corruption: $("#num-corruption"),
   };
 
@@ -1710,6 +1950,9 @@ document.addEventListener("DOMContentLoaded", () => {
   syncLine4();
   syncPatchLog();
   paintLine4();
+  syncDeadletter();
+  syncReturnLog();
+  paintDeliver();
   revealScene(scenes.threshold);
   route();
 });

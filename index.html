@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Serif+SC:wght@300;400;500&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
     <link rel="preload" href="assets/hero.png" as="image">
-    <link rel="stylesheet" href="styles.css?v=17">
+    <link rel="stylesheet" href="styles.css?v=18">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -389,9 +389,83 @@
             </div>
           </div>
 
+          <!-- 无主投递所入口：第四线路真正接通之后，退回的东西才有去处 -->
+          <div class="answer-box deliver-box" id="deliver-box" hidden>
+            <p class="answer-note" id="deliver-note" role="status" aria-live="polite"></p>
+            <button class="answer-btn" id="deliver-btn" type="button" data-go="deadletter" data-hover>送 往 投 递 所</button>
+          </div>
+
           <nav class="scene-exits reveal" aria-label="离开交换台">
             <button class="exit-link primary" type="button" data-go="offering" data-hover>向下，焚献炉还亮着 ⟶</button>
             <button class="exit-link" type="button" data-go="watch" data-hover>⟵ 回到值夜室</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 第三幕再半 · 无主投递所（第四线路的终点） -->
+      <section class="scene scene-deadletter" id="scene-deadletter" data-scene="deadletter" data-title="Goddead — 无主投递所" aria-label="无主投递所">
+        <div class="scene-body dl-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE DEAD LETTER OFFICE · 无 主 投 递 所</p>
+            <h2 class="sec-title">无主投递所</h2>
+            <p class="sec-desc">第四线路不负责接通。它只负责把无人应答的东西送回来。</p>
+          </header>
+
+          <!-- 投递所主体：正式位图，黑场羽化融入；桌面中央是那张空白回执 -->
+          <figure class="dl-figure reveal" role="img" aria-label="一间死信局：气送管、塞满退件的格柜，和桌面中央一张空白的回执">
+            <img class="dl-img" src="assets/dead-letter-office.webp" alt="" width="1536" height="1024">
+          </figure>
+
+          <!-- 退件登记台：与交班簿、接线簿同一纸档案语言 -->
+          <div class="watch-log patch-log return-log reveal" id="return-log">
+            <header class="log-head">
+              <span class="log-title">退件登记台 · 第肆局</span>
+              <span class="log-stamp" aria-hidden="true">无主投递□所</span>
+            </header>
+            <ol class="log-list">
+              <li class="patch-entry return-entry" id="return-1">
+                <button class="patch-btn return-btn" type="button" aria-pressed="false" data-hover>
+                  <span class="log-no">退件 · 壹</span>
+                  <span class="orig">壹 · 门外敲击。共四记。</span>
+                </button>
+                <span class="alt" hidden aria-hidden="true"></span>
+              </li>
+              <li class="patch-entry return-entry" id="return-2">
+                <button class="patch-btn return-btn" type="button" aria-pressed="false" data-hover>
+                  <span class="log-no">退件 · 贰</span>
+                  <span class="orig">贰 · 焚献祷词。未拆。</span>
+                </button>
+                <span class="alt" hidden aria-hidden="true"></span>
+              </li>
+              <li class="patch-entry return-entry" id="return-3">
+                <button class="patch-btn return-btn" type="button" aria-pressed="false" data-hover>
+                  <span class="log-no">退件 · 叁</span>
+                  <span class="orig">叁 · 值-叁-0469。附签退申请。</span>
+                </button>
+                <span class="alt" hidden aria-hidden="true"></span>
+              </li>
+              <li class="patch-entry" id="return-4">
+                <button class="patch-btn" id="receipt-btn" type="button" aria-pressed="false" disabled aria-describedby="receipt-reason" data-hover>
+                  <span class="log-no">回执 · 肆</span>
+                  <span class="orig" id="receipt-orig">肆 · 空白回执</span>
+                </button>
+                <span class="patch-reason" id="receipt-reason">还有 3 封退件未归档。</span>
+              </li>
+            </ol>
+            <!-- 签收终局记录：逐行显现，reduced-motion 立即完整 -->
+            <div class="line4-record dl-record" id="dl-record" aria-live="off">
+              <p class="l4-line dl-line" hidden>归档时间：03:17。</p>
+              <p class="l4-line dl-line" hidden>未投递：三。</p>
+              <p class="l4-line dl-line" hidden>无人签收：零。</p>
+              <p class="l4-line dl-line" hidden>第四线路不是线路。它是退回地址。</p>
+              <p class="l4-line dl-line" hidden>本局从未收到神。只收到所有写给祂的退件。</p>
+              <p class="l4-line dl-line l4-final" hidden>最后收件人：你。</p>
+            </div>
+          </div>
+
+          <nav class="scene-exits reveal" aria-label="离开投递所">
+            <button class="exit-link primary" type="button" data-go="offering" data-hover>向下，焚献炉还亮着 ⟶</button>
+            <button class="exit-link" type="button" data-go="switchboard" data-hover>⟵ 回到交换台</button>
           </nav>
         </div>
       </section>
@@ -434,10 +508,12 @@
             <div class="stat-card"><span class="stat-num" id="num-prayers">0</span><span class="stat-label">祷 词</span></div>
             <div class="stat-card"><span class="stat-num" id="num-watch">—</span><span class="stat-label">值 夜</span></div>
             <div class="stat-card"><span class="stat-num" id="num-line">—</span><span class="stat-label">线 路</span></div>
+            <div class="stat-card"><span class="stat-num" id="num-deliver">—</span><span class="stat-label">投 递</span></div>
             <div class="stat-card"><span class="stat-num" id="num-corruption">0%</span><span class="stat-label">侵 蚀 度</span></div>
           </div>
           <p class="watch-memory" id="watch-memory"></p>
           <p class="watch-memory line-memory" id="line-memory"></p>
+          <p class="watch-memory line-memory deliver-memory" id="deliver-memory"></p>
 
           <div class="reliquary-slot reveal" id="reliquary-slot"></div>
 
@@ -478,6 +554,7 @@
       <a href="#corridor" data-hover>02 / 走廊</a>
       <a href="#watch" id="watch-link" hidden data-hover>02½ / 值夜室</a>
       <a href="#switchboard" id="switch-link" hidden data-hover>02¾ / 第四线路</a>
+      <a href="#deadletter" id="deadletter-link" hidden data-hover>02⅞ / 投递所</a>
       <a href="#offering" data-hover>03 / 焚献</a>
       <a href="#remembrance" data-hover>04 / 痕迹</a>
       <a href="reliquary.html" id="reliquary-link" class="locked" data-hover>— 遗物室</a>
@@ -485,6 +562,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=17"></script>
+    <script src="script.js?v=18"></script>
   </body>
 </html>

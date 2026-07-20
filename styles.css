@@ -1636,6 +1636,40 @@ body.idle .scene-body { filter: brightness(0.55); }
   text-shadow: 0 0 12px rgba(192, 74, 66, 0.35);
 }
 
+/* ============================================================
+   第三幕再半 · 无主投递所（第四线路的终点）
+   ============================================================ */
+.dl-body { max-width: 1060px; }
+
+/* 投递所主体位图：黑场羽化融入，略偏轴；空白回执位于画面中央 */
+.dl-figure {
+  width: min(980px, 100%);
+  margin: clamp(1.5rem, 4vh, 2.5rem) auto 0;
+  transform: rotate(0.7deg);
+}
+
+.dl-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: brightness(0.96);
+  -webkit-mask-image: radial-gradient(ellipse 80% 74% at 50% 54%, #000 60%, transparent 97%);
+  mask-image: radial-gradient(ellipse 80% 74% at 50% 54%, #000 60%, transparent 97%);
+}
+
+/* 退件登记台：与接线簿同一纸档案语言，反向微倾 */
+.return-log {
+  transform: rotate(-0.9deg);
+}
+
+/* 交换台内的投递所入口：接通前整体 hidden，不进焦点与无障碍树 */
+.deliver-box { margin-top: clamp(1.8rem, 5vh, 3rem); }
+
+/* 痕迹页 · 投递记忆：与线路记忆同体，再压一层 */
+.deliver-memory {
+  color: rgba(192, 74, 66, 0.55);
+}
+
 /* 第四幕 · 焚献 */
 .offering-body {
   position: relative;
@@ -2145,6 +2179,10 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
     width: 96%;
     transform: rotate(-1.2deg);
   }
+
+  .dl-figure { transform: rotate(-1.1deg); }
+
+  .return-log { transform: rotate(1.2deg); }
 
   .watch-desk { transform: rotate(-1.1deg); }
 
