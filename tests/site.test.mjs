@@ -29,8 +29,8 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=24/);
-assert.match(html, /script\.js\?v=24/);
+assert.match(html, /styles\.css\?v=25/);
+assert.match(html, /script\.js\?v=25/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
@@ -444,6 +444,10 @@ assert.match(html, /id="door-img"[^>]*src="assets\/threshold-bureau-door\.webp"/
 assert.match(html, /width="1536" height="1024"/);
 assert.ok(!/<svg class="door-svg"/.test(html), "threshold inline SVG door must be gone");
 assert.ok(!/class="door-svg"/.test(css), "old door SVG CSS must be removed");
+/* 开门图应提前预加载，避免第三敲闪白 */
+assert.match(html, /<link rel="preload" href="assets\/threshold-bureau-door-open\.webp" as="image">/);
+/* 开门图仅作视觉层，不应被屏幕阅读器重复朗读 */
+assert.match(html, /id="door-open-img"[^>]*aria-hidden="true"/);
 assert.match(js, /const doorBtn = \$\("#door-btn"\)/);
 assert.match(js, /doorBtn\.addEventListener\("click", knock\)/);
 assert.match(js, /doorBtn\.addEventListener\("keydown",\s*\(e\)\s*=>\s*\{\s*if\s*\(e\.key\s*===\s*" "\)\s*\{\s*e\.preventDefault\(\);\s*knock\(\);\s*\}\s*\}\)/, "doorBtn needs a Space-only keydown fallback");
@@ -505,22 +509,30 @@ assert.match(js, /150 \+ actingLines\.length \* 120 \+ 250/);
 assert.match(js, /reduced \? 350 : 900 \+ Math\.floor\(Math\.random\(\) \* 420\)/);
 
 /* 会话内消耗标记：只在 timer 触发前（before 回调）置 true，sceneInit 重置 */
-for (const marker of ["protocolConsumed", "corridorConsumed", "watchConsumed", "cancellationConsumed", "actingConsumed", "offeringConsumed"]) {
+for (const marker of ["thresholdConsumed", "protocolConsumed", "corridorConsumed", "watchConsumed", "cancellationConsumed", "actingConsumed", "offeringConsumed"]) {
   assert.ok(js.includes(marker), `${marker} session marker must exist`);
 }
+assert.match(js, /if \(name === "threshold"\) \{ thresholdConsumed = false;/);
 assert.match(js, /if \(name === "protocol"\) \{ protocolConsumed = false;/);
 assert.match(js, /if \(name === "corridor"\) \{ corridorConsumed = false;/);
 assert.match(js, /if \(name === "watch"\) \{ watchConsumed = false;/);
 assert.match(js, /if \(name === "cancellation"\) \{ cancellationConsumed = false;/);
 assert.match(js, /if \(name === "acting"\) \{ actingConsumed = false;/);
 assert.match(js, /if \(name === "offering"\) \{ offeringConsumed = false;/);
+assert.match(js, /before: \(\) => \{ knocks = 0; thresholdConsumed = true; \}/);
 assert.match(js, /before: \(\) => \{ protocolConsumed = true; \}/);
 assert.match(js, /before: \(\) => \{ corridorConsumed = true; \}/);
 assert.match(js, /before: \(\) => \{ watchConsumed = true; \}/);
 assert.match(js, /before: \(\) => \{ cancellationConsumed = true; \}/);
 assert.match(js, /before: \(\) => \{ actingConsumed = true; \}/);
 assert.match(js, /before: \(\) => \{ offeringConsumed = true; \}/);
-
+/* 第三敲后门进入 opened 视觉状态；完成后 threshold 重进可主动重武装 */
+assert.match(js, /doorScene\.classList\.add\("ajar", "opened"\)/);
+assert.match(js, /const syncDoorOpenState = /);
+assert.match(js, /门已打开，点击或按 Enter、Space 继续/);
+assert.match(js, /if \(doorScene\.classList\.contains\("opened"\)\)\s*\{/);
+assert.match(js, /if \(knocks === 3\) \{\s*doorScene\.classList\.add\("ajar", "opened"\);\s*seamWhisper\.textContent = "……进来";\s*AudioEngine\.bell\(\);\s*doorBtn\.setAttribute\("aria-label", "门已打开，点击或按 Enter、Space 继续"\);/);
+assert.match(js, /tryScheduleThreshold\(\);/);
 /* watch：pointerenter 只做被动揭字，不得更新状态或 schedule；主动 click/Enter/Space 才 schedule */
 assert.match(js, /entry\.addEventListener\("pointerenter", \(\) => coverLogVisual/);
 assert.match(js, /btn\.addEventListener\("click", \(\) => coverLogActive/);

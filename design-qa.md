@@ -47,6 +47,21 @@
   - 1440×800 / 1470×718：protocol 守则其一、watch 05:02 与签退、switchboard 回线壹、deadletter 退件壹、cancellation 检索输入、acting range 全部完全可见，且 kicker/标题与顶栏无重叠；
   - 390×844：corridor/offering 仍首屏可操作，watch 因垂直叙事仍需滚动，其余场景核心控件可见，顶栏无重叠。
 
+## 本轮新增：门外第三次敲门真实开门过渡（v25）
+
+- 目标：把 threshold 的第三次敲门从「门缝微光 + 自动转场」升级为「闭门图 → 真实开门位图 → 自动转场」的连贯视觉动作，不再重新加入进入按钮、二次确认或要求滚动。
+- 新增素材：`assets/threshold-bureau-door-open.webp`（1536×1024，~193 KB，Pillow quality=85 由监理提供的 source PNG 转码）；旧闭门资产 `assets/threshold-bureau-door.webp` 保留，不被覆盖。
+- 预加载：`<link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">` 保证第三敲前已缓存，避免闪白。
+- 布局：同一 `<button id="door-btn">` 内叠放两张 `<img>`（闭门 `#door-img` / 开门 `#door-open-img`），开门图 `position:absolute; inset:0`、默认 `opacity:0`、`aria-hidden="true"`，仅作视觉层、不参与屏幕阅读器朗读。两张图共用 `.door-img` 的 `width`、`height`、`object-fit`、`object-position`、mask 与所有响应式槽位（桌面 / 短桌面 / 720px / 390px），切换时只有 opacity 与极轻微的 scale(1.03) 纵深推进，不做 CSS 假走廊或炫光遮图。
+- 状态机：
+  - 第 1/2 次敲击维持闭门震动反馈；
+  - 第 3 次敲击立即给 `#door-scene` 添加 `ajar` + `opened` 类，开门图淡入，状态文案改为「门已经开了。你侧身挤了进去。」，随即调度 AutoAdvance；
+  - 开门视觉保持到场景切换，`before` 回调仅重置 `knocks` 与 `thresholdConsumed`，不会闪回闭门；
+  - `prefers-reduced-motion` 下过渡时长坍缩，但仍切换到开门图并保留较短且可理解的自动推进；
+  - 持久 `goddead_awake=true`（已完成仪式）或 timer 被取消后回到 `#threshold`，由 `syncDoorOpenState` 恢复开门视觉，并将门按钮 `aria-label` 改为「门已打开，点击或按 Enter、Space 继续」，鼠标或 Enter/Space 可主动重新调度；
+  - 直接 `#threshold` 加载或持久状态恢复不会自行跳转。
+- 缓存版本升至 `v25`。
+
 ## 本轮新增：现有场景视觉深化（Visual Enrichment）
 
 - 目标：让门外、访客守则、走廊、焚献、痕迹、第九条六个公共/早期场景的视觉完成度追上已位图化的值夜室、交换台、投递所、注销科、代神席。

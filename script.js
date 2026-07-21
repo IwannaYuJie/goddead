@@ -54,6 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const doorScene = $("#door-scene");
   const doorBtn = $("#door-btn");
   const doorImg = $("#door-img");
+  const doorOpenImg = $("#door-open-img");
   const seamWhisper = $("#seam-whisper");
   const heroArt = $("#hero-art");
   const veil = $("#scene-veil");
@@ -740,6 +741,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* 自动转场的会话内消耗标记：只在 timer 真正触发前一刻置 true，
      离场/取消后由 sceneInit 重置，保证回退回来仍能再次主动触发；
      持久状态恢复或直接 hash 进入时不参与判定。 */
+  let thresholdConsumed = false;
   let protocolConsumed = false;
   let corridorConsumed = false;
   let watchConsumed = false;
@@ -756,6 +758,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const scene = scenes[name];
     document.title = scene.dataset.title || "Goddead";
     revealScene(scene);
+    if (name === "threshold") { thresholdConsumed = false; syncDoorOpenState(); }
     if (name === "protocol") { protocolConsumed = false; startAnomaly(); }
     if (name === "corridor") { corridorConsumed = false; syncWatchDoor(); startTrace(); }
     if (name === "watch") { watchConsumed = false; enterWatch(); }
@@ -988,17 +991,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const shakeDoor = () => {
     if (reduced) return;
-    doorImg.classList.remove("shaken");
+    [doorImg, doorOpenImg].forEach((img) => img.classList.remove("shaken"));
     void doorImg.getBoundingClientRect();
-    doorImg.classList.add("shaken");
+    [doorImg, doorOpenImg].forEach((img) => img.classList.add("shaken"));
   };
 
   const closeDoor = () => {
-    doorScene.classList.remove("ajar");
+    doorScene.classList.remove("ajar", "opened");
     seamWhisper.textContent = "";
   };
 
+  /* 根据持久苏醒状态恢复门的视觉与可访问性：完成后重新进入 threshold，
+     门保持打开且可主动触发转场，但不会自行跳转。 */
+  const syncDoorOpenState = () => {
+    if (awake) {
+      doorScene.classList.add("opened");
+      doorBtn.setAttribute("aria-label", "门已打开，点击或按 Enter、Space 继续");
+    } else {
+      doorScene.classList.remove("opened");
+      doorBtn.setAttribute("aria-label", "一扇紧闭的门。可以敲门。不建议。");
+    }
+  };
+
+  const tryScheduleThreshold = () => {
+    if (thresholdConsumed) return;
+    AutoAdvance.schedule("threshold", "protocol", {
+      before: () => { knocks = 0; thresholdConsumed = true; },
+      onSchedule: () => toast("门在你身后合上了。"),
+    });
+  };
+
   const knock = () => {
+    /* 门已打开的状态下，任何主动激活都重新武装转场（用于 timer 被取消后）。 */
+    if (doorScene.classList.contains("opened")) {
+      shakeDoor();
+      AudioEngine.knock();
+      tryScheduleThreshold();
+      return;
+    }
+
     knocks++;
     totalKnocks++;
     shakeDoor();
@@ -1018,20 +1049,18 @@ document.addEventListener("DOMContentLoaded", () => {
     statusLine.textContent = knockReplies[knocks - 1];
 
     if (knocks === 3) {
-      doorScene.classList.add("ajar");
+      doorScene.classList.add("ajar", "opened");
       seamWhisper.textContent = "……进来";
       AudioEngine.bell();
+      doorBtn.setAttribute("aria-label", "门已打开，点击或按 Enter、Space 继续");
       if (!awake) {
         awake = true;
         store.set("goddead_awake", "true");
         body.classList.add("awake");
       }
-      statusLine.textContent = "门开了一线。你侧身挤了进去。";
+      statusLine.textContent = "门已经开了。你侧身挤了进去。";
       clearTimeout(ajarTimer);
-      AutoAdvance.schedule("threshold", "protocol", {
-        before: () => { closeDoor(); knocks = 0; },
-        onSchedule: () => toast("门在你身后合上了。"),
-      });
+      tryScheduleThreshold();
     } else {
       /* 敲到一半停手，门当作无事发生 */
       decayTimer = setTimeout(() => {
@@ -2597,6 +2626,7 @@ document.addEventListener("DOMContentLoaded", () => {
   syncActingScene();
   paintActing();
   revealScene(scenes.threshold);
+  syncDoorOpenState();
   route();
 });
 

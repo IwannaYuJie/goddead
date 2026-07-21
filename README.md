@@ -4,7 +4,7 @@ Static landing page for [goddead.com](https://goddead.com).
 
 ## Current Experience
 
-The homepage is **The Living Shrine**, a hash-routed, scene-by-scene exploration game. Visitors knock three times at the sealed threshold — now a photographed bureau door — and are pulled through a chain of rooms where each completed action advances the ritual automatically.
+The homepage is **The Living Shrine**, a hash-routed, scene-by-scene exploration game. Visitors knock three times at the sealed threshold — now a photographed bureau door — and on the third knock the door visually opens into a deep black-gold corridor before the visitor is pulled through into the next room; each completed action thereafter advances the ritual automatically.
 
 The flow is linear and auto-advancing: three knocks open the door and lead into the **Visitor Protocol**; the first active activation of any rule sends the visitor down the **Scripture Corridor**; reading three crooked fragments reveals the **Third Night-Watch Room**; covering the 05:02 log entry and attempting sign-out unlock the **Echo Switchboard**; listening to the first three callback lines and connecting the fourth opens the **Dead Letter Office**; archiving three returns and signing the blank receipt spawn the **Divine Name Cancellation Office**; searching `GODDEAD` and refusing cancellation rewrite the refusal as an appointment at the **Acting Deity Desk**; pushing the presence switch to 100% returns the visitor to the **Offering** furnace; and offering the first prayer leaves the visitor in **Remembrance**, where the page records what it remembers. A hidden **Ninth Rule** remains accessible through the protocol anomaly and does not auto-cycle.
 

@@ -283,6 +283,7 @@ body.midnight .dead-title { color: var(--gold); }
 }
 
 .door-btn {
+  position: relative;
   display: block;
   width: 100%;
   margin: 0;
@@ -306,20 +307,39 @@ body.midnight .dead-title { color: var(--gold); }
   filter: brightness(0.92);
   -webkit-mask-image: radial-gradient(ellipse 78% 88% at 50% 46%, #000 64%, transparent 98%);
   mask-image: radial-gradient(ellipse 78% 88% at 50% 46%, #000 64%, transparent 98%);
-  transition: filter 1.5s ease, transform 1.6s var(--ease), box-shadow 1.5s ease;
+  transition: filter 0.55s ease, transform 0.55s var(--ease), box-shadow 0.55s ease, opacity 0.35s var(--ease);
+}
+
+/* 开门图叠放在闭门图之上，仅作视觉层；默认透明，由 JS 在第三敲后揭示 */
+.door-open-img {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
 }
 
 body.awake .door-img { filter: brightness(1) drop-shadow(0 0 34px rgba(141, 43, 39, 0.18)); }
 
-/* 敲门三下之后，门开一线 */
+/* 敲门三下之后，门从闭门图自然过渡到开门图 */
 .door-scene.ajar .door-img {
   filter: brightness(1.06) drop-shadow(0 0 46px rgba(192, 74, 66, 0.28));
   transform: scale(1.02);
 }
 
+.door-scene.opened .door-img {
+  opacity: 0;
+  transform: scale(1.03);
+}
+
+.door-scene.opened .door-open-img {
+  opacity: 1;
+  transform: scale(1.03);
+}
+
 .door-img.shaken { animation: door-knock 0.5s ease; }
 
-.door-scene.pulse .door-img { animation: door-glitch 0.32s steps(2) both; }
+.door-scene.pulse .door-img,
+.door-scene.pulse .door-open-img { animation: door-glitch 0.32s steps(2) both; }
 
 .seam-whisper {
   position: absolute;
