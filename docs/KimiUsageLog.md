@@ -72,3 +72,15 @@
 | 内容摘要 | — | — | 代神席场景完整实现（原生 range 值守电闸、100% 任命锁定、五行档案 + 终句、offering/remembrance 联动）、完整五元路由守卫、坏 JSON 容错、同页离场重入状态恢复、reduced-motion 与静音回归、CDP 真实交互回归（40/40 + 39/39 + 35/35 + 27/27）与文档证据 |
 
 备注：提交前静态三项（`node --check script.js`、`node tests/site.test.mjs`、`git diff --check`）全绿；旧 cancellation 证据 PNG 已恢复为 HEAD，不进入本次提交变更。
+
+## 2026-07-21 · 现有场景视觉深化 · Existing scenes visual enrichment
+
+| 项目 | 起 | 止 | 增量 / 说明 |
+| --- | --- | --- | --- |
+| 时间基线 | 开始 09:56 +0800 | 提交前 11:13 +0800 | 墙钟约 1 小时 17 分 |
+| Kimi 套餐总使用量 | 10.62% | 10.82% | +0.20 个百分点 |
+| Code 5 小时用量 | 96.10% | 0% | 11:06 周期重置，不跨重置计算增量 |
+| Code 7 天用量 | 50.49% | 51.48% | +0.99 个百分点 |
+| 内容摘要 | — | — | 现有六个公共/早期场景视觉深化（正式 WebP 素材接入、门改原生 button/img、Space-only keydown fallback）、静态契约、文档校准 |
+
+备注：提交前静态三项（`node --check script.js`、`node tests/site.test.mjs`、`git diff --check`）全绿；最终全量 CDP 因传输层超时未形成单次全绿，旧隐藏场景套件（acting 40/40、cancellation 39/39、deadletter 35/35、line4 27/27）在视觉接入后串跑全过。

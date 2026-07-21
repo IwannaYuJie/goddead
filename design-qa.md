@@ -1,6 +1,33 @@
-# Design QA — Living Shrine · 场景探索版（含值夜室 · 第四线路 · 无主投递所 · 神名注销科 · 代神席）
+# Design QA — Living Shrine · 场景探索版（含值夜室 · 第四线路 · 无主投递所 · 神名注销科 · 代神席 · 现有场景视觉深化）
 
 适用范围：当前 goddead.com 首页（哈希路由场景探索游戏）。本文替代旧 Split Testament 版 QA 报告；旧版证据文件保留在 `design-qa-evidence/` 中仅作历史存档，不再代表现状。
+
+## 本轮新增：现有场景视觉深化（Visual Enrichment）
+
+- 目标：让门外、访客守则、走廊、焚献、痕迹、第九条六个公共/早期场景的视觉完成度追上已位图化的值夜室、交换台、投递所、注销科、代神席。
+- 新增正式图片（均由 Codex 生成，Kimi 仅做 Pillow 转码与接入）：
+  - `assets/threshold-bureau-door.webp`（门外主界面）
+  - `assets/visitor-protocol-board.webp`（访客守则）
+  - `assets/scripture-corridor.webp`（走廊）
+  - `assets/prayer-incinerator.webp`（焚献）
+  - `assets/remembrance-evidence-wall.webp`（痕迹）
+  - `assets/ninth-aperture.webp`（第九条）
+- 门外：原 inline SVG 线框门替换为原生 `<button id="door-btn">` 包裹 `<img id="door-img" src="assets/threshold-bureau-door.webp">`；保留三次敲门、Enter/Space、门缝微光、状态文案与 进去/不进 选择；旧门体 SVG 几何与对应 CSS 已移除。
+- 守则：图片位于标题与真实八条规则之间，约 440–620px 可见高度，不压字。
+- 走廊：图片作为 `.frag-field` 的底层空间，八张 `.frag` 仍在上层可点击、可聚焦。
+- 焚献：炉体图在桌面位于右下，标题/输入/按钮/回应在上层；移动端标题 → 图片 → 输入依次可见，CTA 不被挤出首屏。
+- 痕迹：证物墙作为 8 卡统计区背景，桌面 4×2、移动 2×4 不变，卡片对比清晰，未新增第九张卡。
+- 第九条：裂口图作为场景背景，文字居于暗部上层，底部错误窄门可见但不可点击。
+- 性能：首屏门图 preload，其余新图 `loading="lazy" decoding="async"`；所有 `<img>` 显式写 1536×1024。
+- 缓存版本升至 `v21`；静态契约与全部隐藏场景守卫/状态保持不变。
+
+## 本轮 QA（现有场景视觉深化）
+
+- `node tests/site.test.mjs`：全量静态断言通过（含 v21 缓存、六张 WebP 素材存在与引用、门体 button/img 契约、旧门 SVG 几何清零、第九条 aria-label 全中文、favicon hero.png 声明、Space-only keydown fallback 静态契约）。
+- 桌面/移动真实截图证据 12 张（`visual-*-desktop-v1.png` / `visual-*-mobile-v1.png`）均无横向溢出，控制台无 error/warning。
+- 门的键盘最终策略：Enter 沿用原生 `<button>` click，Space 因 CDP 环境未触发原生激活，故补 Space-only `keydown` fallback（`e.key === " "` 时 `preventDefault()` + `knock()`），经 Codex 在真实 in-app browser 连续三次 Space 敲击验证 `#door-scene` 获得 `ajar` 类。
+- 最终全量 CDP 回归（`/tmp/goddead-qa/cdp-visual-enrichment.mjs`）因传输层超时（`Input.dispatchKeyEvent: no CDP response within 20s` / `Page.navigate: no CDP response within 20s`）未能形成单次全绿，因此不记录 38/38。
+- 旧隐藏场景套件在视觉素材接入后串跑全过：acting 40/40、cancellation 39/39、deadletter 35/35、line4 27/27。
 
 ## 视口与方法
 

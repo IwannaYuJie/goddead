@@ -279,85 +279,45 @@ body.midnight .dead-title { color: var(--gold); }
 /* 门的舞台 */
 .door-scene {
   position: relative;
-  width: min(76vw, 340px, 30vh);
+  width: min(76vw, 420px, 36vh);
 }
 
-.door-svg {
+.door-btn {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.door-btn:focus-visible {
+  outline: 1px solid var(--blood-bright);
+  outline-offset: 8px;
+}
+
+.door-img {
   display: block;
   width: 100%;
   height: auto;
-  overflow: visible;
-  cursor: pointer;
-  transition: filter 1.5s ease;
+  filter: brightness(0.92);
+  -webkit-mask-image: radial-gradient(ellipse 82% 80% at 50% 52%, #000 58%, transparent 97%);
+  mask-image: radial-gradient(ellipse 82% 80% at 50% 52%, #000 58%, transparent 97%);
+  transition: filter 1.5s ease, transform 1.6s var(--ease), box-shadow 1.5s ease;
 }
 
-body.awake .door-svg { filter: drop-shadow(0 0 34px rgba(141, 43, 39, 0.16)); }
-
-.door-glow { animation: door-breathe 7s ease-in-out infinite; }
-
-.door-frame {
-  fill: none;
-  stroke: rgba(222, 217, 208, 0.26);
-  stroke-width: 1.3;
-}
-
-.door-frame.thin {
-  stroke: rgba(222, 217, 208, 0.14);
-  stroke-width: 1;
-}
-
-.door-panel {
-  fill: url(#slabGrad);
-  stroke: rgba(222, 217, 208, 0.18);
-  stroke-width: 1;
-  transition: transform 1.6s var(--ease);
-}
-
-.seam-glow {
-  opacity: 0.4;
-  transform-box: fill-box;
-  transform-origin: center;
-  transition: transform 1.6s var(--ease), opacity 1.6s ease;
-}
-
-.seam-core {
-  stroke: var(--blood-bright);
-  stroke-width: 1.1;
-  filter: drop-shadow(0 0 6px rgba(192, 74, 66, 0.85));
-  animation: seam-flicker 4.7s linear infinite;
-}
+body.awake .door-img { filter: brightness(1) drop-shadow(0 0 34px rgba(141, 43, 39, 0.18)); }
 
 /* 敲门三下之后，门开一线 */
-.door-scene.ajar .panel-l { transform: translateX(-7px); }
-.door-scene.ajar .panel-r { transform: translateX(7px); }
-.door-scene.ajar .seam-glow { transform: scaleX(5.5); opacity: 0.95; }
-
-.door-svg.shaken { animation: door-knock 0.5s ease; }
-
-.door-scene.pulse .door-svg { animation: door-glitch 0.32s steps(2) both; }
-.door-scene.pulse .sigil { opacity: 0.85; }
-
-/* 门上的符号：各自以不同的节奏明灭 */
-.sigil {
-  stroke: rgba(222, 217, 208, 0.55);
-  stroke-width: 1.4;
-  opacity: 0.15;
-  transition: opacity 0.3s ease;
-  animation: sigil-flicker var(--d, 9s) linear infinite;
-  animation-delay: var(--dl, 0s);
+.door-scene.ajar .door-img {
+  filter: brightness(1.06) drop-shadow(0 0 46px rgba(192, 74, 66, 0.28));
+  transform: scale(1.02);
 }
 
-.sigil.blood { stroke: rgba(192, 74, 66, 0.75); }
+.door-img.shaken { animation: door-knock 0.5s ease; }
 
-.sigil .sigil-fill { fill: rgba(192, 74, 66, 0.7); stroke: none; }
-
-.sigil.fill-sigil { fill: rgba(222, 217, 208, 0.5); stroke: none; }
-
-.scratches path {
-  fill: none;
-  stroke: rgba(179, 174, 165, 0.12);
-  stroke-width: 1;
-}
+.door-scene.pulse .door-img { animation: door-glitch 0.32s steps(2) both; }
 
 .seam-whisper {
   position: absolute;
@@ -434,6 +394,26 @@ body.awake .door-svg { filter: drop-shadow(0 0 34px rgba(141, 43, 39, 0.16)); }
 }
 
 /* ---------- 访客守则 ---------- */
+
+.protocol-figure {
+  width: min(760px, 100%);
+  max-height: 520px;
+  margin: 0 auto clamp(2rem, 5vh, 3rem);
+  overflow: hidden;
+  transform: rotate(-0.5deg);
+}
+
+.protocol-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 520px;
+  object-fit: cover;
+  object-position: center 42%;
+  filter: brightness(0.94);
+  -webkit-mask-image: radial-gradient(ellipse 84% 78% at 50% 50%, #000 60%, transparent 97%);
+  mask-image: radial-gradient(ellipse 84% 78% at 50% 50%, #000 60%, transparent 97%);
+}
 
 .rules-list {
   list-style: none;
@@ -2033,10 +2013,75 @@ body.idle .scene-body { filter: brightness(0.55); }
 
 .offering-body .prayer-box { width: 100%; }
 
+.offering-figure {
+  position: absolute;
+  right: -12%;
+  bottom: -8%;
+  z-index: 0;
+  width: min(860px, 92vw);
+  margin: 0;
+  pointer-events: none;
+  transform: rotate(1.2deg);
+}
+
+.offering-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: brightness(0.72) contrast(1.06);
+  -webkit-mask-image: radial-gradient(ellipse 78% 72% at 65% 68%, #000 52%, transparent 96%);
+  mask-image: radial-gradient(ellipse 78% 72% at 65% 68%, #000 52%, transparent 96%);
+}
+
+.offering-body .sec-head,
+.offering-body .prayer-box,
+.offering-body .prayer-response,
+.offering-body .scene-exits {
+  position: relative;
+  z-index: 1;
+}
+
 /* 第五幕 · 痕迹 */
-.remembrance-body { max-width: 1000px; }
+.remembrance-body { position: relative; max-width: 1000px; }
 
 .remembrance-body .sec-head { text-align: center; }
+
+.remembrance-figure {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  margin: 0;
+  pointer-events: none;
+}
+
+.remembrance-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  filter: brightness(0.55) contrast(1.05);
+  -webkit-mask-image: radial-gradient(ellipse 86% 80% at 50% 50%, #000 50%, transparent 96%);
+  mask-image: radial-gradient(ellipse 86% 80% at 50% 50%, #000 50%, transparent 96%);
+}
+
+.remembrance-body .sec-head,
+.remembrance-body .stat-grid,
+.remembrance-body .watch-memory,
+.remembrance-body .reliquary-slot,
+.remembrance-body .rem-foot,
+.remembrance-body .scene-exits {
+  position: relative;
+  z-index: 1;
+}
+
+.remembrance-body .stat-grid {
+  background: rgba(5, 5, 5, 0.62);
+}
+
+.remembrance-body .stat-card {
+  background: rgba(8, 8, 8, 0.78);
+}
 
 .remembrance-body .stat-grid,
 .remembrance-body .reliquary-slot { width: 100%; }
@@ -2052,10 +2097,32 @@ body.idle .scene-body { filter: brightness(0.55); }
 
 /* 隐藏幕 · 第九条 */
 .scene-ninth {
+  position: relative;
   background: radial-gradient(ellipse at 50% 45%, rgba(61, 16, 14, 0.22), transparent 70%);
 }
 
+.ninth-figure {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  margin: 0;
+  pointer-events: none;
+}
+
+.ninth-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 72%;
+  filter: brightness(0.62) contrast(1.05);
+  -webkit-mask-image: radial-gradient(ellipse 88% 80% at 50% 60%, #000 55%, transparent 98%);
+  mask-image: radial-gradient(ellipse 88% 80% at 50% 60%, #000 55%, transparent 98%);
+}
+
 .ninth-body {
+  position: relative;
+  z-index: 1;
   max-width: 640px;
   text-align: center;
 }
@@ -2397,6 +2464,26 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
 
 /* ---------- 残页 ---------- */
 
+.corridor-figure {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  margin: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.corridor-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 55%;
+  filter: brightness(0.78) contrast(1.05);
+  -webkit-mask-image: radial-gradient(ellipse 88% 80% at 50% 55%, #000 55%, transparent 98%);
+  mask-image: radial-gradient(ellipse 88% 80% at 50% 55%, #000 55%, transparent 98%);
+}
+
 .frag-field {
   position: relative;
   width: 100%;
@@ -2502,6 +2589,20 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
     max-width: none;
     width: 100%;
   }
+
+  .corridor-figure { opacity: 0.55; }
+
+  .protocol-figure { max-height: 340px; }
+  .protocol-img { max-height: 340px; object-position: center 38%; }
+
+  .offering-figure {
+    right: -18%;
+    bottom: -4%;
+    width: 110vw;
+    opacity: 0.75;
+  }
+
+  .ninth-img { object-position: center 76%; }
 
   /* 值夜室：同一空间，错位而非竖排 */
   .door-strip { height: 200px; }

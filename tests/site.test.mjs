@@ -29,8 +29,8 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=20/);
-assert.match(html, /script\.js\?v=20/);
+assert.match(html, /styles\.css\?v=21/);
+assert.match(html, /script\.js\?v=21/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
@@ -412,6 +412,45 @@ assert.match(js, /phoneRing/);
 assert.match(js, /goddead_muted/);
 assert.ok(!/\.mp3|\.wav|\.ogg/.test(html + js), "no external audio files");
 
+/* ---------- 现有场景视觉深化（v21） ---------- */
+const VISUAL_ASSETS = [
+  "threshold-bureau-door.webp",
+  "visitor-protocol-board.webp",
+  "scripture-corridor.webp",
+  "prayer-incinerator.webp",
+  "remembrance-evidence-wall.webp",
+  "ninth-aperture.webp",
+];
+for (const asset of VISUAL_ASSETS) {
+  await access(new URL(`assets/${asset}`, root));
+  assert.match(html, new RegExp(`assets/${asset.replace(".", "\\.")}`), `${asset} must be referenced`);
+}
+
+/* 门改为正式位图 + 原生 button/img；旧 inline SVG 门几何清零 */
+assert.match(html, /id="door-btn"[^>]*type="button"/);
+assert.match(html, /id="door-img"[^>]*src="assets\/threshold-bureau-door\.webp"/);
+assert.match(html, /width="1536" height="1024"/);
+assert.ok(!/<svg class="door-svg"/.test(html), "threshold inline SVG door must be gone");
+assert.ok(!/class="door-svg"/.test(css), "old door SVG CSS must be removed");
+assert.match(js, /const doorBtn = \$\("#door-btn"\)/);
+assert.match(js, /doorBtn\.addEventListener\("click", knock\)/);
+assert.match(js, /doorBtn\.addEventListener\("keydown",\s*\(e\)\s*=>\s*\{\s*if\s*\(e\.key\s*===\s*" "\)\s*\{\s*e\.preventDefault\(\);\s*knock\(\);\s*\}\s*\}\)/, "doorBtn needs a Space-only keydown fallback");
+assert.ok(!/doorBtn\.addEventListener\("keydown"[\s\S]{0,200}e\.key\s*===\s*["']Enter["']/.test(js), "doorBtn keydown fallback must not handle Enter (Enter stays native)");
+
+/* favicon：用现有 hero.png，避免 404 */
+assert.match(html, /<link rel="icon"[^>]*href="assets\/hero\.png"/);
+
+/* 第九条 aria-label 全中文 */
+assert.match(html, /aria-label="一道不该存在的裂口，底部有一扇错误的窄门"/);
+
+/* 六处场景图均用真实 <img>，不新增 inline SVG/CSS 占位 */
+for (const cls of ["protocol-figure", "corridor-figure", "offering-figure", "remembrance-figure", "ninth-figure"]) {
+  assert.match(html, new RegExp(`class="${cls}[^"]*"`), `${cls} must exist`);
+}
+const thresholdSection = html.match(/<section class="scene active" id="scene-threshold"[\s\S]*?<\/section>/);
+assert.ok(thresholdSection, "threshold section exists");
+assert.ok(!thresholdSection[0].includes("<svg"), "threshold must not use inline SVG for the door");
+
 /* ---------- 文档同步 ---------- */
 const readme = await fileText("README.md");
 assert.match(readme, /值夜室|night-watch/i);
@@ -419,6 +458,7 @@ assert.match(readme, /值夜室|night-watch/i);
 const qa = await fileText("design-qa.md");
 assert.match(qa, /第三值夜室/);
 assert.match(qa, /Living Shrine|场景探索/);
+assert.match(qa, /视觉深化|visual enrichment|正式图片/i);
 
 const log = await fileText("docs/ProgressLog.md");
 assert.match(log, /2026-07-02/);

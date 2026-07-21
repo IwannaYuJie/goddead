@@ -52,7 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const reliquarySlot = $("#reliquary-slot");
   const gateReliquary = $("#gate-reliquary");
   const doorScene = $("#door-scene");
-  const doorSvg = $("#door-svg");
+  const doorBtn = $("#door-btn");
+  const doorImg = $("#door-img");
   const seamWhisper = $("#seam-whisper");
   const doorChoice = $("#door-choice");
   const enterDoor = $("#enter-door");
@@ -931,9 +932,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const shakeDoor = () => {
     if (reduced) return;
-    doorSvg.classList.remove("shaken");
-    void doorSvg.getBoundingClientRect();
-    doorSvg.classList.add("shaken");
+    doorImg.classList.remove("shaken");
+    void doorImg.getBoundingClientRect();
+    doorImg.classList.add("shaken");
   };
 
   const showChoice = (show) => {
@@ -1002,9 +1003,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  doorSvg.addEventListener("click", knock);
-  doorSvg.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") {
+  doorBtn.addEventListener("click", knock);
+  doorBtn.addEventListener("keydown", (e) => {
+    if (e.key === " ") {
       e.preventDefault();
       knock();
     }
