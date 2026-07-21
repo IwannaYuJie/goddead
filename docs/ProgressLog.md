@@ -9,8 +9,27 @@
 - Compressed the per-scene record reveals (switchboard, deadletter, cancellation, acting) from several seconds down to about one second total (`150 + i * 120 ms`) so auto-advance feedback never outruns the visitor.
 - Added session-scoped consumed markers (`protocolConsumed`, `corridorConsumed`, `watchConsumed`, `cancellationConsumed`, `actingConsumed`, `offeringConsumed`) that are only flipped inside each timer's `before` callback; `sceneInit` resets them on every scene entry. This means a transition cancelled by back-navigation or scene exit can be re-armed by repeating the core action, while restoring persistent state or loading a scene directly by hash never auto-jumps because the markers stay `false` and no user action triggers `schedule`.
 - Hardened watch interaction: `pointerenter` on the handover log only performs the passive visual reveal (`coverLogVisual`) and never writes `phoneCovered` or schedules; only click / Enter / Space on the 05:02 entry (`coverLogActive`) updates state and can arm the transition. Clicking the already-covered 05:02 entry after a cancelled timer re-arms the schedule.
+- Hardened acting recovery: after the range is locked at 100%, the `#acting-switch` container is dynamically promoted to a focusable button (`tabindex="0"`, `role="button"`, `aria-label`) so a cancelled transition can be re-armed by click or Tab + Enter/Space. The container stays non-focusable before appointment, leaving the native range as the only interactive control.
 - Preserved all state guards, hidden-scene unlock contracts, easter eggs, visuals, assets, WebAudio engine, localStorage compatibility, and the `reduced-motion` immediate-complete behavior.
 - Bumped asset cache to `v23`; extended `tests/site.test.mjs` with assertions for the `AutoAdvance` module, all nine transitions, timer cancellation, scroll/focus management, reduced-motion delay, ~1 s reveal timings, keyboard rule activation, removal of forward/shortcut buttons, absence of `data-go="offering"` shortcuts, session consumed markers, watch hover-vs-active split, and recovery after a cancelled timer.
+
+## 2026-07-21 (Short-desktop first-screen operability)
+- Added a short-desktop responsive pass for viewports ≥721px wide and ≤800px tall. The affected scenes switch to compact two-column/compact-grid layouts so the first actionable control appears without scrolling:
+  - `#protocol`: first rule is fully visible.
+  - `#watch`: the 05:02 handover entry and the sign-out button are both visible.
+  - `#switchboard`: the first callback line is visible.
+  - `#deadletter`: the first return item is visible.
+  - `#cancellation`: the search input and submit button are visible.
+  - `#acting`: the native range is visible.
+- Corridor and offering were already first-screen operable and remain unchanged; the 390×844 mobile layout keeps its existing vertical narrative.
+- Implemented via `@media (min-width: 721px) and (max-height: 800px)` in `styles.css`: reduced scene padding and `sec-head` margins, capped figure heights (protocol 240px, switch/deadletter/cancel/acting 230px, watch desk 140px), two-column grids for protocol/switch/deadletter/cancel/acting, and a tighter watch-room grid with the sign-out box placed alongside the desk.
+- Fixed stat-card text overflow: long values like `未签退 · N` and `驳回` no longer break out of their cards. Added a `.stat-num.is-text` modifier that shrinks the font and keeps the text on one line; numeric stat values keep their original visual weight. Updated `paintWatch`, `paintCancel`, `paintLine4`, `paintDeliver`, and `paintStats` in `script.js` to use a shared `setStatNum` helper that toggles the modifier.
+- Replaced the browser-default bright-blue focus rectangle on auto-focused scene titles with a non-rectangular, themed `focus-visible` treatment: `outline: none` plus a bottom blood-line (`box-shadow: 0 2px 0 0 rgba(192, 74, 66, 0.7)`) and a soft text glow, applied to `.sec-title`, `.ninth-rule`, and `.dead-title`.
+- Fixed topbar overlap in the short-desktop breakpoint: raised `padding-top` to `clamp(92px, 10vh, 130px)` for protocol/watch/switch/deadletter/cancellation/acting, giving the fixed topbar and its date text safe clearance while keeping the first core control on screen.
+- Bumped asset cache to `v24` in `index.html`, tests, and documentation.
+- Preserved the acting-switch keyboard fix: the `#acting-switch` container only becomes focusable after appointment; unappointed it stays a plain wrapper so the native range remains the sole interactive control.
+- Extended `tests/site.test.mjs` with assertions for the short-desktop breakpoint, grid usage, figure caps, `signout-box` grid participation, `.stat-num.is-text`, `setStatNum`, the themed title focus-visible style, and cache `v24`.
+- Ran headless Chromium regression at 1440×800 and 390×844: desktop first controls for all six scenes are fully visible with no topbar overlap; mobile watch still requires scroll, consistent with the vertical narrative. Screenshots saved to `/tmp/goddead-qa/screenshots/`.
 
 ## 2026-07-21 (Existing scenes visual enrichment)
 - Deepened the visual finish of the six public/early scenes to match the production bitmaps already in use for the hidden bureau rooms. Converted six source PNGs (1536×1024) to WebP with Pillow and added them to `assets/` without deleting any existing assets: `threshold-bureau-door.webp`, `visitor-protocol-board.webp`, `scripture-corridor.webp`, `prayer-incinerator.webp`, `remembrance-evidence-wall.webp`, `ninth-aperture.webp`.

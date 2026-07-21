@@ -10,6 +10,8 @@ The flow is linear and auto-advancing: three knocks open the door and lead into 
 
 A unified, scene-scoped auto-advance scheduler handles every transition: it gives ~0.9–1.4 s of perceptible feedback in normal mode, shortens but remains understandable under reduced-motion, clears its timer on scene exit or repeated triggers, and never jumps on its own when persistent state is restored or a scene is opened directly by hash. Session-scoped consumed markers are only flipped inside each timer's `before` callback, so a transition cancelled by back-navigation can be re-armed by repeating the core action; persistent-state restoration or direct hash entry never arms a transition. Each switch scrolls to the top of the new scene and moves focus to its title. Only the directory drawer and explicit back-navigation remain; cross-scene shortcut buttons and bottom forward buttons on the linear path have been removed.
 
+For short desktop viewports (≤800px height), the later scenes switch to a compact two-column layout so the first actionable control is visible without scrolling, while taller/wider screens keep the cinematic vertical staging. Stat-card text values stay inside their cells, and scene-title focus rings use the site's blood/bone palette instead of the browser default blue.
+
 ## Deploy
 
 This repository is intended to deploy through Cloudflare Pages.

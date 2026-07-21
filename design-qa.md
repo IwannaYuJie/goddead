@@ -2,7 +2,7 @@
 
 适用范围：当前 goddead.com 首页（哈希路由场景探索游戏）。本文替代旧 Split Testament 版 QA 报告；旧版证据文件保留在 `design-qa-evidence/` 中仅作历史存档，不再代表现状。
 
-## 本轮新增：线性自动转场（Auto-Advance Flow，v23）
+## 本轮新增：线性自动转场（Auto-Advance Flow，v24）
 
 - 目标：把原先「主动作 → 底部前进按钮 → 二次确认按钮」的流程，改为「主动作完成 → 短反馈 → 自动进入下一场景」，不再要求用户滚动并点击继续。
 - 实现：在 `script.js` 中新增统一 `AutoAdvance` 调度器，每个场景持有一个 scope timer，离场/重复触发时调用 `AutoAdvance.clear(scene)`/`clearAll()`；所有调度只在真实用户操作后发生，受 `initialRouteDone` 保护，因此持久状态恢复或直接打开 hash 时绝不会自己跳走。
@@ -24,10 +24,28 @@
 - watch 主动交互原则：交班簿的 `pointerenter` 仅做被动揭字（`coverLogVisual`），不更新 `phoneCovered`、不 schedule；只有 `click` / `Enter` / `Space` 主动激活 05:02 时才写状态并触发 `tryScheduleWatch`。已 covered 的 05:02 再次主动点击仍可恢复 schedule。
 - corridor 恢复：fragments ≥ 3 时，主动触碰任意残页（含已读）可恢复 schedule。
 - cancellation 恢复：已 refused 后，再次主动提交检索表单可恢复 schedule。
-- acting 恢复：已 appointed 后，再次主动点击/键盘激活电闸区域可恢复 schedule。
+- acting 恢复：已 appointed 后，`#acting-switch` 容器动态提升为可聚焦按钮（`tabindex="0"`、`role="button"`、aria-label），鼠标点击与 Tab+Enter/Space 均可恢复 schedule；未任命时该容器不附加可交互 role，避免与可用 range 嵌套冲突。
 - switchboard 第四线与 deadletter 回执保留重复点击可重新 schedule。
 - 提示：每个自动转场触发时通过 `toast`/就地 `answer-note`/`deliver-note`/`cancel-note`/`acting-note` 等告诉用户当前主动作与即将发生的状态变化。
 - 保留：所有状态守卫、隐藏场景解锁条件、彩蛋、视觉素材、WebAudio 音效、localStorage 兼容、reduced-motion 立即完整揭示。
+
+## 本轮新增：短桌面首屏可操作性 + 统计卡/焦点视觉优化
+
+- 适用范围：宽度 ≥721px 且高度 ≤800px 的短桌面视口（验收尺寸 1440×800、1366×768）。
+- 目标：消除「首屏只有大图、核心交互仍在折叠下方」的误解，让各场景进入后无需滚动即可操作第一个核心控件。
+- 实现：`styles.css` 新增 `@media (min-width: 721px) and (max-height: 800px)`：
+  - 相关场景 body 上内边距设为 `clamp(92px, 10vh, 130px)`，在固定顶栏与日期文字下方留出安全净空，避免 kicker/标题/焦点框重叠；同时仍保证首屏可见首个核心控件；
+  - 限制位图 figure 高度（protocol 240px、switchboard/deadletter/cancellation/acting 230px、watch desk 140px），保持 object-fit 裁切而非缩成小图；
+  - protocol/switchboard/deadletter/cancellation/acting 使用两栏网格：控件在左、位图在右；
+  - watch 使用更紧凑的 `watch-room` 网格，签退按钮与桌椅并排，05:02 记录与签退均进首屏；
+  - 不破坏 corridor/offering 的首屏可用性；不重新加入任何底部前进/二次确认按钮；不使用 fixed/sticky 覆盖内容。
+- 统计卡文本溢出修复：`stat-num` 的长文本值（`未签退 · N`、`驳回`）添加 `.is-text` modifier，字号缩小并 `white-space: nowrap`，确保不越出卡片边界、不挤压相邻内容；数字型统计值保持原有视觉层级。`script.js` 通过 `setStatNum(el, value, isText)` 统一设置并切换 modifier。
+- 标题焦点视觉优化：自动转场后聚焦标题时，浏览器默认亮蓝矩形改为非整框式主题反馈：`outline: none`，底部一条血线（`box-shadow: 0 2px 0 0 rgba(192, 74, 66, 0.7)`）加轻微文字光晕，既清楚可见又不包成输入框式矩形；作用于 `.sec-title`、`.ninth-rule`、`.dead-title`。
+- acting-switch 键盘修复保留：未 appointed 时容器无 `tabindex`/`role`，不进入 Tab 顺序；appointed 后容器提升为 `role="button"`，鼠标点击与 Tab+Enter/Space 均可恢复 schedule。
+- 资源缓存版本升至 `v24`（`styles.css?v=24`、`script.js?v=24`）。
+- 回归结果（无头 Chromium）：
+  - 1440×800 / 1470×718：protocol 守则其一、watch 05:02 与签退、switchboard 回线壹、deadletter 退件壹、cancellation 检索输入、acting range 全部完全可见，且 kicker/标题与顶栏无重叠；
+  - 390×844：corridor/offering 仍首屏可操作，watch 因垂直叙事仍需滚动，其余场景核心控件可见，顶栏无重叠。
 
 ## 本轮新增：现有场景视觉深化（Visual Enrichment）
 
@@ -198,7 +216,7 @@
 
 ## 测试
 
-- `node tests/site.test.mjs`：通过（v23）。覆盖场景存在性（11 个 data-scene，含 deadletter、cancellation、acting）、data-go 出口闭合、已删页面（echo / vein / confession）文件缺失且零引用、值夜室入口/状态字段（`goddead_watch`、`fragments >= 3`、签退拒绝文案）、值夜室位图素材契约（文件存在、页面引用、内联 SVG 几何清零、秒针配准轴心）、第四线路契约（接听提示出厂 hidden、路由硬拦、`goddead_line4` 字段、接线簿四按钮与第四条 disabled 理由、5 行接通记录、reduced-motion 立即完整、痕迹页线路卡）、无主投递所契约（素材存在与引用、零内联 SVG、入口提示出厂 hidden、完整三元守卫与级联顺序、`goddead_deadletter` 容错字段、三封退件按钮与回执 disabled→enabled 改名、6 行终局记录、reduced-motion、痕迹页投递卡）、神名注销科契约（素材存在与引用、零内联 SVG、入口提示出厂 hidden、完整四元守卫与级联顺序、`goddead_cancellation` 容错字段、原生 form/label/submit、三句递进提示、答案归一、5 行档案记录、拒绝按钮与 2 行驳回、reduced-motion、痕迹页注销卡与 8 卡网格）、代神席契约（素材存在与引用、零内联 SVG、入口提示出厂 hidden、完整五元守卫与级联顺序、`goddead_acting` 容错字段、原生 range/label/min/max/step/output/aria-valuetext/两端文字/三段反馈、100 任命/五行+终句/锁定、reload 不改 appointedAt、offering 联动、remembrance 联动、8 卡不变、reduced-motion、离场清 timers）、窄门/目录入口 `hidden` 契约与全局 `[hidden]` 保护、哈希路由关键节点、WebAudio-only 与静音字段、缓存 v23、文档同步（README / design-qa / ProgressLog），以及本轮新增的自动转场覆盖：`AutoAdvance` 统一调度器、九段 transition 调度、timer 取消、`initialRouteDone` 不误跳、scrollTop/焦点管理、reduced-motion 延迟、约 1 秒逐行揭示、protocol 规则 keyboard 激活、线性路径无前进/确认按钮、无 `data-go="offering"` 跨幕捷径，**另补边界：会话内消耗标记存在且在 `before` 回调置 true / `sceneInit` 重置、watch `pointerenter` 只做被动揭字不 schedule、主动 click/Enter/Space 才 schedule、cancellation/acting 回退后可恢复调度**。
+- `node tests/site.test.mjs`：通过（v24）。覆盖场景存在性（11 个 data-scene，含 deadletter、cancellation、acting）、data-go 出口闭合、已删页面（echo / vein / confession）文件缺失且零引用、值夜室入口/状态字段（`goddead_watch`、`fragments >= 3`、签退拒绝文案）、值夜室位图素材契约（文件存在、页面引用、内联 SVG 几何清零、秒针配准轴心）、第四线路契约（接听提示出厂 hidden、路由硬拦、`goddead_line4` 字段、接线簿四按钮与第四条 disabled 理由、5 行接通记录、reduced-motion 立即完整、痕迹页线路卡）、无主投递所契约（素材存在与引用、零内联 SVG、入口提示出厂 hidden、完整三元守卫与级联顺序、`goddead_deadletter` 容错字段、三封退件按钮与回执 disabled→enabled 改名、6 行终局记录、reduced-motion、痕迹页投递卡）、神名注销科契约（素材存在与引用、零内联 SVG、入口提示出厂 hidden、完整四元守卫与级联顺序、`goddead_cancellation` 容错字段、原生 form/label/submit、三句递进提示、答案归一、5 行档案记录、拒绝按钮与 2 行驳回、reduced-motion、痕迹页注销卡与 8 卡网格）、代神席契约（素材存在与引用、零内联 SVG、入口提示出厂 hidden、完整五元守卫与级联顺序、`goddead_acting` 容错字段、原生 range/label/min/max/step/output/aria-valuetext/两端文字/三段反馈、100 任命/五行+终句/锁定、reload 不改 appointedAt、offering 联动、remembrance 联动、8 卡不变、reduced-motion、离场清 timers）、窄门/目录入口 `hidden` 契约与全局 `[hidden]` 保护、哈希路由关键节点、WebAudio-only 与静音字段、缓存 v24、文档同步（README / design-qa / ProgressLog），以及本轮新增的自动转场覆盖：`AutoAdvance` 统一调度器、九段 transition 调度、timer 取消、`initialRouteDone` 不误跳、scrollTop/焦点管理、reduced-motion 延迟、约 1 秒逐行揭示、protocol 规则 keyboard 激活、线性路径无前进/确认按钮、无 `data-go="offering"` 跨幕捷径，**另补边界：会话内消耗标记存在且在 `before` 回调置 true / `sceneInit` 重置、watch `pointerenter` 只做被动揭字不 schedule、主动 click/Enter/Space 才 schedule、cancellation/acting 回退后可恢复调度**；再补短桌面首屏可操作性、统计值防溢出、标题非整框式主题 `focus-visible`。
 - CDP 真实运行回归：18/18（首轮）+ 16/16（位图深化轮）+ 37/37（第四线路轮，含分层守卫矩阵）+ 27/27（stale line4 越级修复轮）+ 35/35（无主投递所轮，另同环境重跑 27/27 旧套件）+ 39/39（神名注销科轮，另同环境重跑 35/35 + 27/27 旧套件）+ 代神席轮（旧套件 39/39 + 35/35 + 27/27 同环境重跑）通过（见上各节「复核」明细）。
 - 边界：测试套件为 Node 静态断言，不启动 DOM；真实交互以本文件截图证据 + 本地人工验收为准。
 

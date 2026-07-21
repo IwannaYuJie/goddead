@@ -550,6 +550,14 @@ body.awake .door-img { filter: brightness(1) drop-shadow(0 0 34px rgba(141, 43, 
   letter-spacing: 0.14em;
 }
 
+.sec-title:focus-visible,
+.ninth-rule:focus-visible,
+.dead-title:focus-visible {
+  outline: none;
+  box-shadow: 0 2px 0 0 rgba(192, 74, 66, 0.7), 0 8px 22px rgba(192, 74, 66, 0.14);
+  text-shadow: 0 0 10px rgba(192, 74, 66, 0.22);
+}
+
 .sec-desc {
   margin: 0;
   color: var(--ash);
@@ -815,6 +823,12 @@ body.awake .door-img { filter: brightness(1) drop-shadow(0 0 34px rgba(141, 43, 
   font-family: var(--mono);
   font-size: clamp(1.5rem, 3.2vw, 2.4rem);
   font-weight: 300;
+}
+
+.stat-num.is-text {
+  font-size: clamp(0.92rem, 2.2vw, 1.25rem);
+  letter-spacing: 0.12em;
+  white-space: nowrap;
 }
 
 .stat-label {
@@ -1919,6 +1933,19 @@ body.idle .scene-body { filter: brightness(0.55); }
   opacity: 0.85;
 }
 
+/* 任命后 range 不可交互，点击/键盘交由 acting-switch 恢复转场 */
+.acting-switch.appointed {
+  cursor: pointer;
+}
+.acting-switch.appointed .acting-range {
+  pointer-events: none;
+}
+.acting-switch.appointed:focus-visible {
+  outline: 2px solid rgba(192, 74, 66, 0.7);
+  outline-offset: 6px;
+  border-radius: 6px;
+}
+
 .acting-output {
   color: var(--bone-bright);
   font-family: var(--mono);
@@ -2003,6 +2030,138 @@ body.idle .scene-body { filter: brightness(0.55); }
   .acting-range::-moz-range-thumb { width: 34px; height: 34px; }
   .acting-output { font-size: 0.72rem; }
   .acting-final { font-size: 0.92rem; }
+}
+
+/* ============================================================
+   短桌面首屏可操作（宽度 ≥721px 且高度 ≤800px）
+   ============================================================ */
+@media (min-width: 721px) and (max-height: 800px) {
+  .protocol-body,
+  .watch-body,
+  .switch-body,
+  .dl-body,
+  .cancel-body,
+  .acting-body {
+    /* 顶栏 + 日期文字需要约 90px 净空，避免 kicker/标题与固定顶栏重叠 */
+    padding-top: clamp(92px, 10vh, 130px);
+    padding-bottom: 3vh;
+  }
+
+  .protocol-body .sec-head,
+  .watch-body .sec-head,
+  .switch-body .sec-head,
+  .dl-body .sec-head,
+  .cancel-body .sec-head,
+  .acting-body .sec-head {
+    margin-bottom: 0.6rem;
+  }
+
+  .sec-title { font-size: clamp(1.7rem, 3.4vw, 2.6rem); }
+
+  /* protocol：图右、守则左，首条守则进首屏 */
+  .protocol-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 300px);
+    grid-template-rows: auto 1fr auto;
+    gap: 0.4rem 1.4rem;
+    align-items: start;
+    max-width: 1100px;
+  }
+  .protocol-body .sec-head { grid-column: 1 / -1; }
+  .protocol-figure {
+    grid-column: 2;
+    grid-row: 2 / span 2;
+    max-height: 240px;
+    margin: 0;
+  }
+  .protocol-img { max-height: 240px; object-fit: cover; object-position: center 42%; }
+  .rules-list { grid-column: 1; grid-row: 2; margin: 0; }
+  .rules-list li { padding: 0.9rem 0; }
+  .rules-foot { grid-column: 1; grid-row: 3; margin: 0; }
+  .protocol-body .scene-exits { grid-column: 1 / -1; margin-top: 0.4rem; }
+
+  /* watch：压缩钟与日志，签退与桌椅并排 */
+  .watch-room {
+    grid-template-columns: minmax(0, 170px) minmax(0, 1fr);
+    gap: 0.6rem 1.2rem;
+    margin-top: 0.4rem;
+  }
+  .watch-clock { width: min(170px, 28vw); }
+  .watch-log { padding: 0.7rem 0.9rem; }
+  .log-entry { padding: 0.35rem 0; }
+  .watch-desk {
+    grid-column: auto;
+    max-height: 140px;
+    width: 100%;
+    margin: 0;
+  }
+  .watch-desk-img { max-height: 140px; object-fit: cover; }
+  .signout-box {
+    grid-column: auto;
+    margin-top: 0;
+    justify-content: center;
+  }
+  .watch-body .scene-exits { margin-top: 0.4rem; }
+
+  /* switchboard / deadletter / cancellation / acting：图右、控件左 */
+  .switch-body,
+  .dl-body,
+  .cancel-body,
+  .acting-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 300px);
+    grid-template-rows: auto 1fr auto;
+    gap: 0.4rem 1.4rem;
+    align-items: start;
+  }
+  .switch-body .sec-head,
+  .dl-body .sec-head,
+  .cancel-body .sec-head,
+  .acting-body .sec-head { grid-column: 1 / -1; }
+
+  .switch-figure,
+  .dl-figure,
+  .cancel-figure,
+  .acting-figure {
+    grid-column: 2;
+    grid-row: 2 / span 2;
+    max-height: 230px;
+    margin: 0;
+  }
+  .switch-img,
+  .dl-img,
+  .cancel-img,
+  .acting-img { max-height: 230px; object-fit: cover; }
+
+  .patch-log,
+  .return-log,
+  .cancel-form,
+  .acting-switch {
+    grid-column: 1;
+    grid-row: 2;
+    margin: 0;
+  }
+
+  .patch-entry { padding: 0.35rem 0; }
+  .return-entry { padding: 0.35rem 0; }
+  .cancel-input { padding: 0.65rem 0.8rem; }
+  .cancel-submit { padding: 0.65rem 1.6rem; }
+
+  .acting-switch { gap: 0.7rem; }
+
+  .line4-record,
+  .dl-record,
+  .cancel-record,
+  .refuse-record,
+  .acting-record,
+  .acting-final {
+    grid-column: 1 / -1;
+  }
+
+  .switch-body .scene-exits,
+  .dl-body .scene-exits,
+  .cancel-body .scene-exits,
+  .acting-body .scene-exits { grid-column: 1 / -1; margin-top: 0.4rem; }
 }
 
 /* 第四幕 · 焚献 */

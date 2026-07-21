@@ -1539,9 +1539,14 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* 签退：不会成功 */
+  const setStatNum = (el, value, isText = false) => {
+    el.textContent = value;
+    el.classList.toggle("is-text", isText);
+  };
+
   const paintWatch = () => {
     const attempts = Number(getWatch().attempts) || 0;
-    numEls.watch.textContent = attempts > 0 ? `未签退 · ${attempts}` : "—";
+    setStatNum(numEls.watch, attempts > 0 ? `未签退 · ${attempts}` : "—", attempts > 0);
     watchMemory.textContent = attempts > 0
       ? `你试图从第三值夜室签退。记录在案：未批准。`
       : "";
@@ -1695,7 +1700,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* 痕迹：线路状态与记忆 */
   const paintLine4 = () => {
     const st = getLine4();
-    numEls.line.textContent = st.connected ? "04" : "—";
+    setStatNum(numEls.line, st.connected ? "04" : "—");
     lineMemory.textContent = st.connected
       ? "你接通了没有端点的第四线路。后来每一次铃响，都算作你在值班。"
       : "";
@@ -1881,7 +1886,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* 痕迹：投递状态与记忆（未签收时不剧透） */
   const paintDeliver = () => {
     const st = getDL();
-    numEls.deliver.textContent = st.accepted ? "03" : "—";
+    setStatNum(numEls.deliver, st.accepted ? "03" : "—");
     deliverMemory.textContent = st.accepted
       ? "你替一间没有收件人的邮局签收了自己。"
       : "";
@@ -2094,7 +2099,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* 痕迹：注销状态与记忆（未拒绝不剧透） */
   const paintCancel = () => {
     const st = getCancel();
-    numEls.cancel.textContent = st.refused ? "驳回" : "—";
+    setStatNum(numEls.cancel, st.refused ? "驳回" : "—", st.refused);
     cancelMemory.textContent = st.refused
       ? "系统试图注销你。你把拒绝留在了档案里。"
       : "";
@@ -2141,6 +2146,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const actingFinal = $("#acting-final");
   const actingOfferingNote = $("#acting-offering-note");
   const actingMemory = $("#acting-memory");
+
+  /* 任命后 acting-switch 本身成为可聚焦/可点击的恢复入口，
+     未任命时保持为普通容器，避免与可用 range 形成嵌套交互冲突。 */
+  const setActingSwitchInteractive = (interactive) => {
+    if (interactive) {
+      actingSwitch.classList.add("appointed");
+      actingSwitch.setAttribute("tabindex", "0");
+      actingSwitch.setAttribute("role", "button");
+      actingSwitch.setAttribute("aria-label", "任命已生效。点击或按 Enter、Space 继续。");
+    } else {
+      actingSwitch.classList.remove("appointed");
+      actingSwitch.removeAttribute("tabindex");
+      actingSwitch.removeAttribute("role");
+      actingSwitch.removeAttribute("aria-label");
+    }
+  };
 
   const tryScheduleActing = () => {
     if (actingConsumed) return;
@@ -2224,6 +2245,7 @@ document.addEventListener("DOMContentLoaded", () => {
     saveActing(st);
     actingRange.disabled = true;
     actingRange.setAttribute("aria-valuetext", actingValueText(100));
+    setActingSwitchInteractive(true);
     actingRecord.setAttribute("aria-live", "polite");
     revealActingRecord();
     paintActing();
@@ -2291,6 +2313,7 @@ document.addEventListener("DOMContentLoaded", () => {
       actingFinal.removeAttribute("hidden");
       actingFinal.classList.add("on");
     }
+    setActingSwitchInteractive(st.appointed);
   };
 
   /* 痕迹：代神席记忆（未任命不剧透） */
@@ -2411,10 +2434,10 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   function paintStats() {
-    numEls.arrivals.textContent = arrivals;
-    numEls.fragments.textContent = fragments;
-    numEls.prayers.textContent = gstate.prayersOffered;
-    numEls.corruption.textContent = corruptionOf().toFixed(1) + "%";
+    setStatNum(numEls.arrivals, arrivals);
+    setStatNum(numEls.fragments, fragments);
+    setStatNum(numEls.prayers, gstate.prayersOffered);
+    setStatNum(numEls.corruption, corruptionOf().toFixed(1) + "%");
   }
 
   const countUp = (el, target, suffix = "", decimals = 0) => {

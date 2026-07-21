@@ -29,8 +29,8 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=23/);
-assert.match(html, /script\.js\?v=23/);
+assert.match(html, /styles\.css\?v=24/);
+assert.match(html, /script\.js\?v=24/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
@@ -338,6 +338,19 @@ assert.match(js, /st\.appointed = true/);
 assert.match(js, /st\.appointedAt = Date\.now\(\)/);
 assert.match(js, /actingRange\.disabled = true/);
 
+/* 任命后 acting-switch 成为可聚焦/可点击的恢复入口；未任命时保持为普通容器，
+   避免与可用 range 形成嵌套交互冲突 */
+assert.match(html, /id="acting-switch"/);
+assert.match(js, /const setActingSwitchInteractive = /);
+assert.match(js, /setActingSwitchInteractive\(true\)/);
+assert.match(js, /setActingSwitchInteractive\(st\.appointed\)/);
+assert.match(js, /actingSwitch\.classList\.add\("appointed"\)/);
+assert.match(js, /actingSwitch\.setAttribute\("tabindex", "0"\)/);
+assert.match(js, /actingSwitch\.setAttribute\("role", "button"\)/);
+assert.match(js, /actingSwitch\.setAttribute\("aria-label"/);
+assert.match(css, /\.acting-switch\.appointed \{[\s\S]{0,120}\}/, "appointed acting-switch needs distinct styling");
+assert.match(css, /\.acting-switch\.appointed \.acting-range \{[^}]*pointer-events:\s*none/, "disabled range must pass clicks to the appointed switch container");
+
 /* 与旧场景联动：offering 描述下新增 hidden 行，remembrance 只新增记忆 */
 assert.match(html, /id="acting-offering-note"[^>]*hidden/);
 assert.match(html, /这些祷词现在会先经过你。/);
@@ -521,6 +534,36 @@ assert.match(js, /const tryScheduleCancellation = \(\) => \{/);
 assert.match(js, /const tryScheduleActing = \(\) => \{/);
 assert.match(js, /actingSwitch\.addEventListener\("click", tryScheduleActing\);/);
 assert.match(js, /actingSwitch\.addEventListener\("keydown",/);
+
+/* ---------- 短桌面首屏可操作性 + 焦点/统计优化 ---------- */
+/* 短桌面断点：≤800px 高度时核心控件首屏可见 */
+assert.match(css, /@media\s*\(\s*min-width:\s*721px\s*\)\s*and\s*\(\s*max-height:\s*800px\s*\)/, "short-desktop breakpoint required");
+assert.match(css, /padding-top:\s*clamp\(92px,\s*10vh,\s*130px\)/, "short-desktop scenes keep topbar clearance");
+assert.match(css, /\.protocol-body\s*\{[\s\S]{0,220}display:\s*grid/, "protocol uses short-desktop grid");
+assert.match(css, /\.watch-room\s*\{[\s\S]{0,220}grid-template-columns/, "watch uses short-desktop grid");
+assert.match(css, /\.switch-body[\s\S]{0,200}display:\s*grid/, "switchboard uses short-desktop grid");
+assert.match(css, /\.dl-body[\s\S]{0,200}display:\s*grid/, "deadletter uses short-desktop grid");
+assert.match(css, /\.cancel-body[\s\S]{0,200}display:\s*grid/, "cancellation uses short-desktop grid");
+assert.match(css, /\.acting-body[\s\S]{0,200}display:\s*grid/, "acting uses short-desktop grid");
+assert.match(css, /\.protocol-figure\s*\{[\s\S]{0,160}max-height:\s*240px/, "protocol figure capped for short desktop");
+assert.match(css, /\.switch-figure[\s\S]{0,200}max-height:\s*230px/, "switchboard figure capped for short desktop");
+assert.match(css, /\.dl-figure[\s\S]{0,200}max-height:\s*230px/, "deadletter figure capped for short desktop");
+assert.match(css, /\.cancel-figure[\s\S]{0,200}max-height:\s*230px/, "cancellation figure capped for short desktop");
+assert.match(css, /\.acting-figure[\s\S]{0,200}max-height:\s*230px/, "acting figure capped for short desktop");
+assert.match(css, /\.watch-desk\s*\{[\s\S]{0,160}max-height:\s*140px/, "watch desk capped for short desktop");
+assert.match(css, /\.signout-box\s*\{[\s\S]{0,120}grid-column:\s*auto/, "signout box participates in short-desktop grid");
+
+/* 统计值文本溢出：长文本缩小且不换行 */
+assert.match(css, /\.stat-num\.is-text\s*\{/, "stat-num has text-value modifier");
+assert.match(css, /\.stat-num\.is-text\s*\{[\s\S]{0,160}white-space:\s*nowrap/, "text stat values stay on one line");
+assert.match(js, /const setStatNum = /);
+assert.match(js, /setStatNum\(numEls\.watch, attempts > 0 \? `未签退 · \$\{attempts\}` : "—", attempts > 0\)/);
+assert.match(js, /setStatNum\(numEls\.cancel, st\.refused \? "驳回" : "—", st\.refused\)/);
+
+/* 标题焦点样式：非整框式主题反馈，无默认蓝框 */
+assert.match(css, /\.sec-title:focus-visible/, "sec-title has themed focus-visible style");
+assert.match(css, /\.sec-title:focus-visible[\s\S]{0,200}outline:\s*none/, "title focus-visible removes default outline");
+assert.match(css, /\.sec-title:focus-visible[\s\S]{0,200}box-shadow:\s*0\s+2px\s+0\s+0\s+rgba\(192,\s*74,\s*66/, "title focus uses a bottom blood-line instead of a rectangle");
 
 /* ---------- 文档同步 ---------- */
 const readme = await fileText("README.md");
