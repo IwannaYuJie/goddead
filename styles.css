@@ -279,7 +279,7 @@ body.midnight .dead-title { color: var(--gold); }
 /* 门的舞台 */
 .door-scene {
   position: relative;
-  width: min(76vw, 420px, 36vh);
+  width: min(84vw, 640px);
 }
 
 .door-btn {
@@ -300,10 +300,12 @@ body.midnight .dead-title { color: var(--gold); }
 .door-img {
   display: block;
   width: 100%;
-  height: auto;
+  height: clamp(560px, 62vh, 680px);
+  object-fit: cover;
+  object-position: center 38%;
   filter: brightness(0.92);
-  -webkit-mask-image: radial-gradient(ellipse 82% 80% at 50% 52%, #000 58%, transparent 97%);
-  mask-image: radial-gradient(ellipse 82% 80% at 50% 52%, #000 58%, transparent 97%);
+  -webkit-mask-image: radial-gradient(ellipse 78% 88% at 50% 46%, #000 64%, transparent 98%);
+  mask-image: radial-gradient(ellipse 78% 88% at 50% 46%, #000 64%, transparent 98%);
   transition: filter 1.5s ease, transform 1.6s var(--ease), box-shadow 1.5s ease;
 }
 
@@ -2556,7 +2558,8 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
 
   .dead-title { font-size: clamp(1.9rem, 11vw, 3rem); letter-spacing: 0.4em; text-indent: 0.4em; }
 
-  .door-scene { width: min(82vw, 310px); }
+  .door-scene { width: min(86vw, 420px); }
+  .door-img { height: clamp(460px, 56vh, 580px); object-position: center 40%; }
 
   .whisper { font-size: 0.66rem; letter-spacing: 0.26em; }
 
@@ -2682,7 +2685,8 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
 @media (max-width: 390px) {
   .dead-title { font-size: 1.7rem; }
   .gate-meta b { font-size: 1.2rem; }
-  .door-scene { width: min(86vw, 280px); }
+  .door-scene { width: min(92vw, 340px); }
+  .door-img { height: clamp(480px, 54vh, 560px); object-position: center 42%; }
   .stat-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
