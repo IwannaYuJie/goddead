@@ -12,7 +12,7 @@
     <link rel="preload" href="assets/hero.png" as="image">
     <link rel="icon" type="image/png" href="assets/hero.png">
     <link rel="preload" href="assets/threshold-bureau-door.webp" as="image">
-    <link rel="stylesheet" href="styles.css?v=22">
+    <link rel="stylesheet" href="styles.css?v=23">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -68,11 +68,6 @@
 
             <p class="status-line reveal" id="status-line" aria-live="polite">门后没有声音 · 暂时</p>
             <p class="knock-hint reveal">（可以敲门。不建议。）</p>
-
-            <div class="door-choice" id="door-choice">
-              <button id="enter-door" type="button" data-hover>进 去</button>
-              <button id="decline-door" type="button" data-hover>不 进</button>
-            </div>
           </div>
         </div>
       </section>
@@ -91,19 +86,18 @@
           </figure>
 
           <ol class="rules-list reveal">
-            <li data-rule="1" data-hover><b>其一</b><p>神已经死了。如果你听见神回应你，立刻关闭这个页面。</p></li>
-            <li data-rule="2" data-hover><b>其二</b><p>门后没有人。如果你听见敲门声，假装没有听见。</p></li>
-            <li data-rule="3" data-hover><b>其三</b><p>不要数门上的符号。如果你已经数过了，请忘掉那个数字。</p></li>
-            <li data-rule="4" data-hover><b>其四</b><p>低语出现时，不要逐字跟读。跟读过的人，还没有回来过。</p></li>
-            <li data-rule="5" data-hover><b>其五</b><p>回声、血管与忏悔都可以进入。进去之前，确认你还记得回来的路。</p></li>
-            <li data-rule="6" data-hover><b>其六</b><p>子夜到访的客人，请勿在页面停留超过一个小时。</p></li>
-            <li class="rule-false" data-rule="7" data-hover><b>其七</b><p>本守则没有第七条。如果你看到了第七条，那是它加上去的。<em id="rule-seven-note">它在看你读这一条。</em></p></li>
-            <li data-rule="8" data-hover><b>其八</b><p>离开时，请确认你没有被记住。<del>确认有效。</del><em>确认无效。你会被记住。</em></p></li>
+            <li data-rule="1" tabindex="0" role="button" data-hover><b>其一</b><p>神已经死了。如果你听见神回应你，立刻关闭这个页面。</p></li>
+            <li data-rule="2" tabindex="0" role="button" data-hover><b>其二</b><p>门后没有人。如果你听见敲门声，假装没有听见。</p></li>
+            <li data-rule="3" tabindex="0" role="button" data-hover><b>其三</b><p>不要数门上的符号。如果你已经数过了，请忘掉那个数字。</p></li>
+            <li data-rule="4" tabindex="0" role="button" data-hover><b>其四</b><p>低语出现时，不要逐字跟读。跟读过的人，还没有回来过。</p></li>
+            <li data-rule="5" tabindex="0" role="button" data-hover><b>其五</b><p>回声、血管与忏悔都可以进入。进去之前，确认你还记得回来的路。</p></li>
+            <li data-rule="6" tabindex="0" role="button" data-hover><b>其六</b><p>子夜到访的客人，请勿在页面停留超过一个小时。</p></li>
+            <li class="rule-false" data-rule="7" tabindex="0" role="button" data-hover><b>其七</b><p>本守则没有第七条。如果你看到了第七条，那是它加上去的。<em id="rule-seven-note">它在看你读这一条。</em></p></li>
+            <li data-rule="8" tabindex="0" role="button" data-hover><b>其八</b><p>离开时，请确认你没有被记住。<del>确认有效。</del><em>确认无效。你会被记住。</em></p></li>
           </ol>
           <p class="rules-foot reveal">守则如有变动，恕不另行通知。——有些变动并非我们所为。</p>
 
           <nav class="scene-exits reveal" aria-label="离开守则">
-            <button class="exit-link primary" type="button" data-go="corridor" data-hover>读完守则，往深处走 ⟶</button>
             <button class="exit-link" type="button" data-go="threshold" data-hover>⟵ 回到门外</button>
           </nav>
         </div>
@@ -169,7 +163,6 @@
           </nav>
 
           <nav class="scene-exits reveal" aria-label="离开走廊">
-            <button class="exit-link primary" type="button" data-go="offering" data-hover>向下，焚献炉还亮着 ⟶</button>
             <button class="exit-link" type="button" data-go="protocol" data-hover>⟵ 回到守则</button>
           </nav>
         </div>
@@ -251,12 +244,10 @@
             <!-- 第四线路入口：覆盖 05:02 记录 + 尝试签退，两者齐备后它才开始响 -->
             <div class="answer-box" id="answer-box" hidden>
               <p class="answer-note" id="answer-note" role="status" aria-live="polite"></p>
-              <button class="answer-btn" id="answer-btn" type="button" data-go="switchboard" data-hover>接 听</button>
             </div>
           </div>
 
           <nav class="scene-exits reveal" aria-label="离开值夜室">
-            <button class="exit-link primary" type="button" data-go="offering" data-hover>继续向焚献走 ⟶</button>
             <button class="exit-link" type="button" data-go="corridor" data-hover>⟵ 回到走廊</button>
           </nav>
         </div>
@@ -325,11 +316,9 @@
           <!-- 无主投递所入口：第四线路真正接通之后，退回的东西才有去处 -->
           <div class="answer-box deliver-box" id="deliver-box" hidden>
             <p class="answer-note" id="deliver-note" role="status" aria-live="polite"></p>
-            <button class="answer-btn" id="deliver-btn" type="button" data-go="deadletter" data-hover>送 往 投 递 所</button>
           </div>
 
           <nav class="scene-exits reveal" aria-label="离开交换台">
-            <button class="exit-link primary" type="button" data-go="offering" data-hover>向下，焚献炉还亮着 ⟶</button>
             <button class="exit-link" type="button" data-go="watch" data-hover>⟵ 回到值夜室</button>
           </nav>
         </div>
@@ -399,11 +388,9 @@
           <!-- 神名注销科入口：空白回执签收之后，系统生成了一本案不该存在的卷宗 -->
           <div class="answer-box cancel-box" id="cancel-box" hidden>
             <p class="answer-note" id="cancel-note" role="status" aria-live="polite"></p>
-            <button class="answer-btn" id="cancel-btn" type="button" data-go="cancellation" data-hover>送 往 注 销 科</button>
           </div>
 
           <nav class="scene-exits reveal" aria-label="离开投递所">
-            <button class="exit-link primary" type="button" data-go="offering" data-hover>向下，焚献炉还亮着 ⟶</button>
             <button class="exit-link" type="button" data-go="switchboard" data-hover>⟵ 回到交换台</button>
           </nav>
         </div>
@@ -454,11 +441,9 @@
 
           <div class="answer-box acting-box" id="acting-box" hidden>
             <p class="answer-note" id="acting-note" role="status" aria-live="polite"></p>
-            <button class="answer-btn" id="acting-btn" type="button" data-go="acting" data-hover>前 往 代 神 席</button>
           </div>
 
           <nav class="scene-exits reveal" aria-label="离开注销科">
-            <button class="exit-link primary" type="button" data-go="offering" data-hover>向下，焚献炉还亮着 ⟶</button>
             <button class="exit-link" type="button" data-go="deadletter" data-hover>⟵ 回到投递所</button>
           </nav>
         </div>
@@ -499,7 +484,6 @@
           <p class="acting-final" id="acting-final" hidden>你没有成为神。你只是接了祂没有交完的班。</p>
 
           <nav class="scene-exits reveal" aria-label="离开代神席">
-            <button class="exit-link primary" type="button" data-go="offering" data-hover>向下，焚献炉还亮着 ⟶</button>
             <button class="exit-link" type="button" data-go="cancellation" data-hover>⟵ 回到注销科</button>
           </nav>
         </div>
@@ -526,7 +510,6 @@
           <p class="prayer-response" id="prayer-response" aria-live="polite"></p>
 
           <nav class="scene-exits reveal" aria-label="离开焚献">
-            <button class="exit-link primary" type="button" data-go="remembrance" data-hover>看看它记住了你什么 ⟶</button>
             <button class="exit-link" type="button" data-go="corridor" data-hover>⟵ 回到走廊</button>
           </nav>
         </div>
@@ -612,6 +595,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=22"></script>
+    <script src="script.js?v=23"></script>
   </body>
 </html>

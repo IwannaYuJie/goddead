@@ -29,8 +29,8 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=22/);
-assert.match(html, /script\.js\?v=22/);
+assert.match(html, /styles\.css\?v=23/);
+assert.match(html, /script\.js\?v=23/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
@@ -100,11 +100,12 @@ const switchSection = html.match(/<section class="scene scene-switch"[\s\S]*?<\/
 assert.ok(switchSection, "switchboard section missing");
 assert.ok(!switchSection[0].includes("<svg"), "switchboard must not use inline SVG");
 
-/* 入口契约：接听按钮与目录入口出厂 hidden（不可聚焦、不在无障碍树） */
+/* 入口契约：接听提示与目录入口出厂 hidden（不可聚焦、不在无障碍树） */
 assert.match(html, /id="answer-box"[^>]*\shidden[\s>]/, "answer box must ship hidden");
 assert.match(html, /id="switch-link"[^>]*\shidden[\s>]/, "menu switch link must ship hidden");
 assert.match(html, /id="switch-link"[^>]*>02¾ \/ 第四线路</);
 assert.match(html, /id="log-phone"/, "05:02 entry needs its own id for the unlock condition");
+assert.ok(!html.includes('id="answer-btn"'), "answer button removed — switchboard auto-advances");
 assert.match(js, /goddead_line4/);
 assert.match(js, /phoneCovered/);
 assert.match(js, /桌下那部不存在的电话，开始第二次响。/);
@@ -155,14 +156,14 @@ const dlSection = html.match(/<section class="scene scene-deadletter"[\s\S]*?<\/
 assert.ok(dlSection, "deadletter section missing");
 assert.ok(!dlSection[0].includes("<svg"), "deadletter must not use inline SVG");
 
-/* 入口契约：交换台内入口与目录入口出厂 hidden（不可聚焦、不在无障碍树） */
+/* 入口契约：交换台内提示与目录入口出厂 hidden（不可聚焦、不在无障碍树） */
 assert.match(html, /id="deliver-box"[^>]*\shidden[\s>]/, "deliver box must ship hidden");
-assert.match(html, /id="deliver-btn"[^>]*data-go="deadletter"/);
+assert.ok(!html.includes('id="deliver-btn"'), "deliver button removed — switchboard auto-advances to deadletter");
 assert.match(html, /id="deadletter-link"[^>]*\shidden[\s>]/, "menu deadletter link must ship hidden");
 assert.match(html, /id="deadletter-link"[^>]*>02⅞ \/ 投递所</);
-/* 出口闭合：主出口 offering，次出口 switchboard */
-assert.ok(dlSection[0].includes('data-go="offering"'), "deadletter needs offering exit");
-assert.ok(dlSection[0].includes('data-go="switchboard"'), "deadletter needs switchboard exit");
+/* 出口：只保留明确的回退导航，没有跨幕 offering 捷径 */
+assert.ok(!dlSection[0].includes('data-go="offering"'), "deadletter must not shortcut to offering");
+assert.ok(dlSection[0].includes('data-go="switchboard"'), "deadletter keeps switchboard back navigation");
 
 /* 状态字段：容错 key goddead_deadletter，自身状态不得参与入口/守卫判定 */
 assert.match(js, /goddead_deadletter/);
@@ -221,15 +222,14 @@ const cnSection = html.match(/<section class="scene scene-cancel"[\s\S]*?<\/sect
 assert.ok(cnSection, "cancellation section missing");
 assert.ok(!cnSection[0].includes("<svg"), "cancellation must not use inline SVG");
 
-/* 入口契约：投递所内入口与目录入口出厂 hidden（不可聚焦、不在无障碍树） */
+/* 入口契约：投递所内提示与目录入口出厂 hidden（不可聚焦、不在无障碍树） */
 assert.match(html, /id="cancel-box"[^>]*\shidden[\s>]/, "cancel box must ship hidden");
-assert.match(html, /id="cancel-btn"[^>]*data-go="cancellation"/);
-assert.match(html, /送 往 注 销 科/);
+assert.ok(!html.includes('id="cancel-btn"'), "cancel button removed — deadletter auto-advances to cancellation");
 assert.match(html, /id="cancel-link"[^>]*\shidden[\s>]/, "menu cancel link must ship hidden");
 assert.match(html, /id="cancel-link"[^>]*>02⁺ \/ 注销科</);
-/* 出口闭合：主出口 offering，次出口 deadletter */
-assert.ok(cnSection[0].includes('data-go="offering"'), "cancellation needs offering exit");
-assert.ok(cnSection[0].includes('data-go="deadletter"'), "cancellation needs deadletter exit");
+/* 出口：只保留明确的回退导航，没有跨幕 offering 捷径 */
+assert.ok(!cnSection[0].includes('data-go="offering"'), "cancellation must not shortcut to offering");
+assert.ok(cnSection[0].includes('data-go="deadletter"'), "cancellation keeps deadletter back navigation");
 
 /* 状态字段：容错 key goddead_cancellation，自身状态不得参与入口/守卫判定 */
 assert.match(js, /goddead_cancellation/);
@@ -299,15 +299,14 @@ const acSection = html.match(/<section class="scene scene-acting"[\s\S]*?<\/sect
 assert.ok(acSection, "acting section missing");
 assert.ok(!acSection[0].includes("<svg"), "acting must not use inline SVG");
 
-/* 入口契约：注销科内入口与目录入口出厂 hidden（不可聚焦、不在无障碍树） */
+/* 入口契约：注销科内提示与目录入口出厂 hidden（不可聚焦、不在无障碍树） */
 assert.match(html, /id="acting-box"[^>]*\shidden[\s>]/, "acting box must ship hidden");
-assert.match(html, /id="acting-btn"[^>]*data-go="acting"/);
-assert.match(html, /前 往 代 神 席/);
+assert.ok(!html.includes('id="acting-btn"'), "acting button removed — cancellation auto-advances to acting");
 assert.match(html, /id="acting-link"[^>]*\shidden[\s>]/, "menu acting link must ship hidden");
 assert.match(html, /id="acting-link"[^>]*>02† \/ 代神席</);
-/* 出口闭合：主出口 offering，次出口 cancellation */
-assert.ok(acSection[0].includes('data-go="offering"'), "acting needs offering exit");
-assert.ok(acSection[0].includes('data-go="cancellation"'), "acting needs cancellation exit");
+/* 出口：只保留明确的回退导航，没有跨幕 offering 捷径 */
+assert.ok(!acSection[0].includes('data-go="offering"'), "acting must not shortcut to offering");
+assert.ok(acSection[0].includes('data-go="cancellation"'), "acting keeps cancellation back navigation");
 
 /* 状态字段：容错 key goddead_acting，自身状态不得参与入口/守卫判定 */
 assert.match(js, /goddead_acting/);
@@ -450,6 +449,78 @@ for (const cls of ["protocol-figure", "corridor-figure", "offering-figure", "rem
 const thresholdSection = html.match(/<section class="scene active" id="scene-threshold"[\s\S]*?<\/section>/);
 assert.ok(thresholdSection, "threshold section exists");
 assert.ok(!thresholdSection[0].includes("<svg"), "threshold must not use inline SVG for the door");
+
+/* ---------- 自动转场改版（v23） ---------- */
+/* 统一调度器：场景作用域、可取消、初始化时不误跳 */
+assert.match(js, /const AutoAdvance = /);
+assert.match(js, /schedule = \(scene, target, options = \{\}\)/);
+assert.match(js, /if \(!initialRouteDone\) return;/);
+assert.match(js, /AutoAdvance\.clearAll\(\)/);
+assert.match(js, /AutoAdvance\.schedule\("threshold", "protocol"/);
+assert.match(js, /AutoAdvance\.schedule\("protocol", "corridor"/);
+assert.match(js, /AutoAdvance\.schedule\("corridor", "watch"/);
+assert.match(js, /AutoAdvance\.schedule\("watch", "switchboard"/);
+assert.match(js, /AutoAdvance\.schedule\("switchboard", "deadletter"/);
+assert.match(js, /AutoAdvance\.schedule\("deadletter", "cancellation"/);
+assert.match(js, /AutoAdvance\.schedule\("cancellation", "acting"/);
+assert.match(js, /AutoAdvance\.schedule\("acting", "offering"/);
+assert.match(js, /AutoAdvance\.schedule\("offering", "remembrance"/);
+
+/* 场景切换回到顶部并把焦点移到标题 */
+assert.match(js, /next\.scrollTop = 0;/);
+assert.match(js, /title\.setAttribute\("tabindex", "-1"\)/);
+assert.match(js, /title\.focus\(\{ preventScroll: true \}\)/);
+
+/* protocol 只能主动激活：li 有 tabindex/role/button，监听 click 与 Enter/Space */
+assert.match(html, /<li data-rule="1"[^>]*tabindex="0"[^>]*role="button"/);
+assert.match(js, /li\.addEventListener\("keydown", \(e\) => \{\s*if \(e\.key === "Enter" \|\| e\.key === " "\)/);
+
+/* 线性路径上不再存在向 offering 的跨幕捷径 */
+assert.ok(!html.includes('data-go="offering"'), "no cross-scene shortcuts to offering remain");
+
+/* 底部前进按钮与二次确认按钮已删除 */
+assert.ok(!html.includes('id="door-choice"'), "threshold door choice removed — auto-advance on third knock");
+assert.ok(!html.includes('id="enter-door"'), "enter-door button removed");
+assert.ok(!html.includes('id="decline-door"'), "decline-door button removed");
+
+/* 逐行叙事动画压缩到约 1 秒 */
+assert.match(js, /150 \+ i \* 120/);
+assert.match(js, /150 \+ cancelLines\.length \* 120/);
+assert.match(js, /150 \+ actingLines\.length \* 120 \+ 250/);
+
+/* reduced-motion 与普通模式均覆盖 */
+assert.match(js, /reduced \? 350 : 900 \+ Math\.floor\(Math\.random\(\) \* 420\)/);
+
+/* 会话内消耗标记：只在 timer 触发前（before 回调）置 true，sceneInit 重置 */
+for (const marker of ["protocolConsumed", "corridorConsumed", "watchConsumed", "cancellationConsumed", "actingConsumed", "offeringConsumed"]) {
+  assert.ok(js.includes(marker), `${marker} session marker must exist`);
+}
+assert.match(js, /if \(name === "protocol"\) \{ protocolConsumed = false;/);
+assert.match(js, /if \(name === "corridor"\) \{ corridorConsumed = false;/);
+assert.match(js, /if \(name === "watch"\) \{ watchConsumed = false;/);
+assert.match(js, /if \(name === "cancellation"\) \{ cancellationConsumed = false;/);
+assert.match(js, /if \(name === "acting"\) \{ actingConsumed = false;/);
+assert.match(js, /if \(name === "offering"\) \{ offeringConsumed = false;/);
+assert.match(js, /before: \(\) => \{ protocolConsumed = true; \}/);
+assert.match(js, /before: \(\) => \{ corridorConsumed = true; \}/);
+assert.match(js, /before: \(\) => \{ watchConsumed = true; \}/);
+assert.match(js, /before: \(\) => \{ cancellationConsumed = true; \}/);
+assert.match(js, /before: \(\) => \{ actingConsumed = true; \}/);
+assert.match(js, /before: \(\) => \{ offeringConsumed = true; \}/);
+
+/* watch：pointerenter 只做被动揭字，不得更新状态或 schedule；主动 click/Enter/Space 才 schedule */
+assert.match(js, /entry\.addEventListener\("pointerenter", \(\) => coverLogVisual/);
+assert.match(js, /btn\.addEventListener\("click", \(\) => coverLogActive/);
+assert.ok(!/pointerenter[\s\S]{0,120}maybeUnlockLine4/.test(js), "watch pointerenter must not call maybeUnlockLine4");
+assert.ok(!/pointerenter[\s\S]{0,120}tryScheduleWatch/.test(js), "watch pointerenter must not schedule");
+assert.match(js, /const tryScheduleWatch = \(\) => \{/);
+assert.match(js, /tryScheduleWatch\(\);/);
+
+/* cancellation/acting 提供回退后恢复调度的主动入口 */
+assert.match(js, /const tryScheduleCancellation = \(\) => \{/);
+assert.match(js, /const tryScheduleActing = \(\) => \{/);
+assert.match(js, /actingSwitch\.addEventListener\("click", tryScheduleActing\);/);
+assert.match(js, /actingSwitch\.addEventListener\("keydown",/);
 
 /* ---------- 文档同步 ---------- */
 const readme = await fileText("README.md");

@@ -55,9 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const doorBtn = $("#door-btn");
   const doorImg = $("#door-img");
   const seamWhisper = $("#seam-whisper");
-  const doorChoice = $("#door-choice");
-  const enterDoor = $("#enter-door");
-  const declineDoor = $("#decline-door");
   const heroArt = $("#hero-art");
   const veil = $("#scene-veil");
   const rulesCount = $("#rules-count");
@@ -699,11 +696,56 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ============================================================
      场景路由（哈希驱动，一幕一幕探索）
      ============================================================ */
+
+  /* ---------- 统一自动转场调度器：场景作用域、可取消 ----------
+     只在玩家主动操作后调度；初始化恢复或直接打开 hash 时不触发。
+     普通模式延迟约 0.9–1.36 秒，reduced-motion 缩短到约 0.34 秒。 */
+  const AutoAdvance = (() => {
+    const timers = new Map();
+    const baseDelay = () => reduced ? 350 : 900 + Math.floor(Math.random() * 420);
+
+    const clear = (scene) => {
+      const t = timers.get(scene);
+      if (t) { clearTimeout(t.id); timers.delete(scene); }
+    };
+
+    const clearAll = () => {
+      timers.forEach((t) => clearTimeout(t.id));
+      timers.clear();
+    };
+
+    const schedule = (scene, target, options = {}) => {
+      if (!initialRouteDone) return;
+      clear(scene);
+      const ms = options.delay ?? baseDelay();
+      const id = setTimeout(() => {
+        timers.delete(scene);
+        if (options.before) options.before();
+        goScene(target);
+      }, ms);
+      timers.set(scene, { id, target });
+      if (options.onSchedule) options.onSchedule(ms);
+    };
+
+    return { schedule, clear, clearAll, has: (scene) => timers.has(scene) };
+  })();
+
   const scenes = {};
   $$(".scene").forEach((s) => { scenes[s.dataset.scene] = s; });
   let currentScene = "threshold";
   let veilBusy = false;
   let statsCounted = false;
+  let initialRouteDone = false;
+
+  /* 自动转场的会话内消耗标记：只在 timer 真正触发前一刻置 true，
+     离场/取消后由 sceneInit 重置，保证回退回来仍能再次主动触发；
+     持久状态恢复或直接 hash 进入时不参与判定。 */
+  let protocolConsumed = false;
+  let corridorConsumed = false;
+  let watchConsumed = false;
+  let cancellationConsumed = false;
+  let actingConsumed = false;
+  let offeringConsumed = false;
 
   const revealScene = (scene) => {
     const els = scene.querySelectorAll(".reveal:not(.in)");
@@ -714,13 +756,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const scene = scenes[name];
     document.title = scene.dataset.title || "Goddead";
     revealScene(scene);
-    if (name === "protocol") startAnomaly();
-    if (name === "corridor") { syncWatchDoor(); startTrace(); }
-    if (name === "watch") enterWatch();
+    if (name === "protocol") { protocolConsumed = false; startAnomaly(); }
+    if (name === "corridor") { corridorConsumed = false; syncWatchDoor(); startTrace(); }
+    if (name === "watch") { watchConsumed = false; enterWatch(); }
     if (name === "switchboard") enterSwitch();
     if (name === "deadletter") enterDeadletter();
-    if (name === "cancellation") enterCancel();
-    if (name === "acting") enterActing();
+    if (name === "cancellation") { cancellationConsumed = false; enterCancel(); }
+    if (name === "acting") { actingConsumed = false; enterActing(); }
+    if (name === "offering") { offeringConsumed = false; }
     if (name === "ninth") AudioEngine.bell(58);
     if (name === "remembrance") {
       paintWatch();
@@ -762,6 +805,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!scenes[name] || veilBusy) return;
     name = resolveScene(name);
     if (name === currentScene) return;
+    AutoAdvance.clearAll();
     veilBusy = true;
     stopAnomaly();
     stopTrace();
@@ -773,11 +817,22 @@ document.addEventListener("DOMContentLoaded", () => {
     veil.classList.add("on");
     AudioEngine.whoosh();
     setTimeout(() => {
-      scenes[currentScene].classList.remove("active");
-      scenes[name].classList.add("active");
+      const prev = scenes[currentScene];
+      prev.classList.remove("active");
+      prev.scrollTop = 0;
+      const next = scenes[name];
+      next.classList.add("active");
       currentScene = name;
       sceneInit(name);
       if (location.hash !== "#" + name) location.hash = name;
+      next.scrollTop = 0;
+      setTimeout(() => {
+        const title = next.querySelector(".sec-title, .ninth-rule, .dead-title");
+        if (title) {
+          title.setAttribute("tabindex", "-1");
+          title.focus({ preventScroll: true });
+        }
+      }, reduced ? 50 : 180);
       setTimeout(() => {
         veil.classList.remove("on");
         veilBusy = false;
@@ -788,6 +843,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const route = () => {
     const name = (location.hash || "#threshold").slice(1);
     goScene(scenes[name] ? name : "threshold");
+    initialRouteDone = true;
   };
   window.addEventListener("hashchange", route);
 
@@ -937,14 +993,9 @@ document.addEventListener("DOMContentLoaded", () => {
     doorImg.classList.add("shaken");
   };
 
-  const showChoice = (show) => {
-    doorChoice.classList.toggle("show", show);
-  };
-
   const closeDoor = () => {
     doorScene.classList.remove("ajar");
     seamWhisper.textContent = "";
-    showChoice(false);
   };
 
   const knock = () => {
@@ -958,6 +1009,7 @@ document.addEventListener("DOMContentLoaded", () => {
       knocks = 0;
       clearTimeout(ajarTimer);
       closeDoor();
+      AutoAdvance.clear("threshold");
       statusLine.textContent = "门后重归安静。它记下了你的节奏。";
       toast("不要敲第四下。");
       return;
@@ -968,21 +1020,18 @@ document.addEventListener("DOMContentLoaded", () => {
     if (knocks === 3) {
       doorScene.classList.add("ajar");
       seamWhisper.textContent = "……进来";
-      showChoice(true);
       AudioEngine.bell();
       if (!awake) {
         awake = true;
         store.set("goddead_awake", "true");
         body.classList.add("awake");
       }
-      statusLine.textContent = "门开了一线。要进去吗？";
+      statusLine.textContent = "门开了一线。你侧身挤了进去。";
       clearTimeout(ajarTimer);
-      ajarTimer = setTimeout(() => {
-        closeDoor();
-        knocks = 0;
-        syncAwake();
-        toast("门自己关上了。");
-      }, 12000);
+      AutoAdvance.schedule("threshold", "protocol", {
+        before: () => { closeDoor(); knocks = 0; },
+        onSchedule: () => toast("门在你身后合上了。"),
+      });
     } else {
       /* 敲到一半停手，门当作无事发生 */
       decayTimer = setTimeout(() => {
@@ -1009,26 +1058,6 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       knock();
     }
-  });
-
-  enterDoor.addEventListener("click", () => {
-    showChoice(false);
-    toast("你侧身挤了进去。门在你身后合上了。");
-    goScene("protocol");
-  });
-
-  seamWhisper.addEventListener("click", () => {
-    if (!doorScene.classList.contains("ajar")) return;
-    showChoice(false);
-    goScene("protocol");
-  });
-
-  declineDoor.addEventListener("click", () => {
-    clearTimeout(ajarTimer);
-    knocks = 0;
-    closeDoor();
-    syncAwake();
-    toast("你装作没有听见。门慢慢合上了。");
   });
 
   /* 低语：画叉的位置，血红色，时隐时现 */
@@ -1191,8 +1220,18 @@ document.addEventListener("DOMContentLoaded", () => {
     8: "确认无效。",
   };
 
+  const tryScheduleProtocol = () => {
+    if (protocolConsumed) return;
+    AutoAdvance.schedule("protocol", "corridor", {
+      before: () => { protocolConsumed = true; },
+      onSchedule: () => toast("守则已读。走廊在前方。"),
+    });
+  };
+
   $$(".rules-list li").forEach((li) => {
-    li.addEventListener("click", () => {
+    li.setAttribute("tabindex", "0");
+    li.setAttribute("role", "button");
+    const activate = () => {
       const n = li.dataset.rule;
       li.classList.remove("touched");
       void li.offsetWidth;
@@ -1210,6 +1249,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
       toast(ruleResponses[n] || "……");
+      tryScheduleProtocol();
+    };
+    li.addEventListener("click", activate);
+    li.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        activate();
+      }
     });
   });
 
@@ -1225,22 +1272,32 @@ document.addEventListener("DOMContentLoaded", () => {
     "别念出声。",
   ];
 
+  const tryScheduleCorridor = () => {
+    if (corridorConsumed || fragments < 3) return;
+    AutoAdvance.schedule("corridor", "watch", {
+      before: () => { corridorConsumed = true; },
+      onSchedule: () => toast("走廊尽头出现了一扇窄门。"),
+    });
+  };
+
   $$(".frag").forEach((frag) => {
     frag.addEventListener("click", () => {
-      if (frag.classList.contains("read")) {
+      const alreadyRead = frag.classList.contains("read");
+      if (!alreadyRead) {
+        frag.classList.add("read");
+        fragments++;
+        store.set("goddead_fragment_count", String(fragments));
+        saveState();
+        syncWatchDoor();
+        if (statsCounted) paintStats();
+        AudioEngine.knock(0.16);
+        toast(fragments === 8
+          ? "八页都读过了。走廊现在认得你了。"
+          : fragResponses[Math.floor(Math.random() * fragResponses.length)]);
+      } else {
         toast("读过的字，会跟着你。");
-        return;
       }
-      frag.classList.add("read");
-      fragments++;
-      store.set("goddead_fragment_count", String(fragments));
-      saveState();
-      syncWatchDoor();
-      if (statsCounted) paintStats();
-      AudioEngine.knock(0.16);
-      toast(fragments === 8
-        ? "八页都读过了。走廊现在认得你了。"
-        : fragResponses[Math.floor(Math.random() * fragResponses.length)]);
+      tryScheduleCorridor();
     });
   });
 
@@ -1315,6 +1372,17 @@ document.addEventListener("DOMContentLoaded", () => {
     saveLine4(st);
     syncLine4();
     AudioEngine.phoneRing(0.8);
+  };
+
+  const tryScheduleWatch = () => {
+    if (watchConsumed || !watchUnlocked() || !line4Unlocked()) return;
+    const st = getLine4();
+    const attempts = Number(getWatch().attempts) || 0;
+    if (!st.phoneCovered || attempts < 1) return;
+    AutoAdvance.schedule("watch", "switchboard", {
+      before: () => { watchConsumed = true; },
+      onSchedule: () => toast("桌下那部不存在的电话，开始第二次响。"),
+    });
   };
 
   /* 窄门：捡够三张残页之后，它才"一直在那里"。
@@ -1432,34 +1500,42 @@ document.addEventListener("DOMContentLoaded", () => {
     clearTimeout(ringTimer);
   };
 
-  /* 交班簿：语义按钮触发覆盖，屏幕阅读器只读当前有效文本 */
+  /* 交班簿：pointerenter 只做被动揭字（不进状态、不 schedule）；
+     click / Enter / Space 才是主动激活，05:02 被主动激活时才写状态并调度。 */
   const dynamicAlt = () => {
     const arrivalPart = arrivals > 0 ? `第 ${arrivals} 次抵达` : "抵达记录：未登记";
     return `06:00 交班。本班新增访客：你。${arrivalPart} · 带走残页 ${fragments} 张。已按新访客登记在值-叁。`;
+  };
+
+  const coverLogVisual = (entry, btn, orig, alt) => {
+    if (entry.classList.contains("covered")) return;
+    const text = entry.id === "log-dynamic" ? dynamicAlt() : entry.dataset.alt;
+    alt.textContent = text;
+    alt.removeAttribute("hidden");
+    orig.setAttribute("aria-hidden", "true");
+    btn.setAttribute("aria-pressed", "true");
+    btn.setAttribute("aria-label", `${entry.querySelector(".log-no").textContent}。${text}`);
+    entry.classList.add("covered");
+    AudioEngine.tick();
+  };
+
+  const coverLogActive = (entry, btn, orig, alt) => {
+    const wasCovered = entry.classList.contains("covered");
+    coverLogVisual(entry, btn, orig, alt);
+    if (entry.id === "log-phone") {
+      const st = getLine4();
+      if (!st.phoneCovered) { st.phoneCovered = true; saveLine4(st); }
+      maybeUnlockLine4();
+    }
+    if (entry.id === "log-phone") tryScheduleWatch();
   };
 
   $$(".log-entry").forEach((entry) => {
     const btn = entry.querySelector(".log-cover");
     const orig = entry.querySelector(".orig");
     const alt = entry.querySelector(".alt");
-    const cover = () => {
-      if (entry.classList.contains("covered")) return;
-      const text = entry.id === "log-dynamic" ? dynamicAlt() : entry.dataset.alt;
-      alt.textContent = text;
-      alt.removeAttribute("hidden");
-      orig.setAttribute("aria-hidden", "true");
-      btn.setAttribute("aria-pressed", "true");
-      btn.setAttribute("aria-label", `${entry.querySelector(".log-no").textContent}。${text}`);
-      entry.classList.add("covered");
-      if (entry.id === "log-phone") {
-        const st = getLine4();
-        if (!st.phoneCovered) { st.phoneCovered = true; saveLine4(st); }
-        maybeUnlockLine4();
-      }
-      AudioEngine.tick();
-    };
-    btn.addEventListener("click", cover);
-    if (finePointer) entry.addEventListener("pointerenter", cover);
+    if (finePointer) entry.addEventListener("pointerenter", () => coverLogVisual(entry, btn, orig, alt));
+    btn.addEventListener("click", () => coverLogActive(entry, btn, orig, alt));
   });
 
   /* 签退：不会成功 */
@@ -1488,6 +1564,7 @@ document.addEventListener("DOMContentLoaded", () => {
     applyWatchState();
     paintWatch();
     maybeUnlockLine4();
+    tryScheduleWatch();
     if (statsCounted) paintStats();
     AudioEngine.bell(52);
   });
@@ -1576,7 +1653,7 @@ document.addEventListener("DOMContentLoaded", () => {
         l.removeAttribute("hidden");
         requestAnimationFrame(() => l.classList.add("on"));
         AudioEngine.tick();
-      }, 500 + i * 780));
+      }, 150 + i * 120));
     });
   };
 
@@ -1594,6 +1671,9 @@ document.addEventListener("DOMContentLoaded", () => {
     revealL4();
     paintLine4();
     syncDeadletter();
+    AutoAdvance.schedule("switchboard", "deadletter", {
+      onSchedule: () => toast("第四线路接通。退回的东西，有了去处。"),
+    });
   });
 
   /* 重载恢复：已听回线保持覆盖态，第四线接通终态完整重现（不重复播报、不累加） */
@@ -1759,7 +1839,7 @@ document.addEventListener("DOMContentLoaded", () => {
         l.removeAttribute("hidden");
         requestAnimationFrame(() => l.classList.add("on"));
         AudioEngine.tick();
-      }, 500 + i * 780));
+      }, 150 + i * 120));
     });
   };
 
@@ -1777,6 +1857,9 @@ document.addEventListener("DOMContentLoaded", () => {
     revealDL();
     paintDeliver();
     syncCancel();
+    AutoAdvance.schedule("deadletter", "cancellation", {
+      onSchedule: () => toast("空白回执生成了一个不该存在的案号。"),
+    });
   });
 
   /* 重载恢复：已退件保持归档态，签收终态完整重现（不重复播报、不累加） */
@@ -1858,6 +1941,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const refuseLines = $$("#refuse-record .refuse-line");
   const cancelMemory = $("#cancel-memory");
 
+  const tryScheduleCancellation = () => {
+    if (cancellationConsumed) return;
+    const st = getCancel();
+    if (!st.solved || !st.refused) return;
+    AutoAdvance.schedule("cancellation", "acting", {
+      before: () => { cancellationConsumed = true; },
+      onSchedule: () => toast("你的拒绝被改写成了一份任命。"),
+    });
+  };
+
   /* 入口：空白回执真正签收（accepted）后原子恢复 hidden。
      与路由同一组依赖；cancellation 自身状态不参与——它无权替自己开门。 */
   const syncCancel = () => {
@@ -1899,11 +1992,11 @@ document.addEventListener("DOMContentLoaded", () => {
         l.removeAttribute("hidden");
         requestAnimationFrame(() => l.classList.add("on"));
         AudioEngine.tick();
-      }, 500 + i * 780));
+      }, 150 + i * 120));
     });
     cnTimers.push(setTimeout(() => {
       refuseBox.removeAttribute("hidden");
-    }, 500 + cancelLines.length * 780));
+    }, 150 + cancelLines.length * 120));
   };
 
   const revealRefusal = () => {
@@ -1923,14 +2016,17 @@ document.addEventListener("DOMContentLoaded", () => {
         l.removeAttribute("hidden");
         requestAnimationFrame(() => l.classList.add("on"));
         AudioEngine.tick();
-      }, 400 + i * 700));
+      }, 150 + i * 120));
     });
   };
 
   /* 检索：只认 trim + 大小写归一后的 GODDEAD——档案状态，不是名字 */
   cancelForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    if (getCancel().solved) return;
+    if (getCancel().solved) {
+      tryScheduleCancellation();
+      return;
+    }
     const value = cancelInput.value.trim().toUpperCase();
     cancelInput.value = "";
     if (value === "GODDEAD") {
@@ -1969,6 +2065,7 @@ document.addEventListener("DOMContentLoaded", () => {
     paintCancel();
     syncActingEntry();
     paintActing();
+    tryScheduleCancellation();
   });
 
   /* 重载恢复：错误计数对应提示、命中档案、拒绝终态完整重现
@@ -2035,6 +2132,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const actingBox = $("#acting-box");
   const actingNote = $("#acting-note");
   const actingLink = $("#acting-link");
+  const actingSwitch = $("#acting-switch");
   const actingRange = $("#acting-range");
   const actingOutput = $("#acting-output");
   const actingFeedback = $("#acting-feedback");
@@ -2043,6 +2141,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const actingFinal = $("#acting-final");
   const actingOfferingNote = $("#acting-offering-note");
   const actingMemory = $("#acting-memory");
+
+  const tryScheduleActing = () => {
+    if (actingConsumed) return;
+    const st = getActing();
+    if (!st.appointed) return;
+    AutoAdvance.schedule("acting", "offering", {
+      before: () => { actingConsumed = true; },
+      onSchedule: () => toast("任命生效。祷告仍在继续。"),
+    });
+  };
 
   /* 入口：注销科真正拒绝（refused）后原子恢复 hidden。
      与路由同一组依赖；acting 自身状态不参与——它无权替自己开门。 */
@@ -2099,13 +2207,13 @@ document.addEventListener("DOMContentLoaded", () => {
         l.removeAttribute("hidden");
         requestAnimationFrame(() => l.classList.add("on"));
         AudioEngine.tick();
-      }, 500 + i * 780));
+      }, 150 + i * 120));
     });
     actingTimers.push(setTimeout(() => {
       actingFinal.removeAttribute("hidden");
       requestAnimationFrame(() => actingFinal.classList.add("on"));
       AudioEngine.bell(52);
-    }, 500 + actingLines.length * 780 + 400));
+    }, 150 + actingLines.length * 120 + 250));
   };
 
   const appoint = () => {
@@ -2120,6 +2228,7 @@ document.addEventListener("DOMContentLoaded", () => {
     revealActingRecord();
     paintActing();
     AudioEngine.relayLock();
+    tryScheduleActing();
   };
 
   const updateActing = (v, fromInput = true) => {
@@ -2149,6 +2258,15 @@ document.addEventListener("DOMContentLoaded", () => {
   actingRange.addEventListener("change", () => {
     const v = Number(actingRange.value);
     if (!getActing().appointed && v === 100) appoint();
+  });
+
+  /* 任命后电闸被锁定，若转场 timer 被回退取消，再次主动点击/键盘激活开关区可恢复 */
+  actingSwitch.addEventListener("click", tryScheduleActing);
+  actingSwitch.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      tryScheduleActing();
+    }
   });
 
   /* 重载恢复：value 夹在 0–100，任命终态完整重现（不重复播报、不改写 appointedAt） */
@@ -2264,6 +2382,13 @@ document.addEventListener("DOMContentLoaded", () => {
     void prayerResponse.offsetWidth;
     prayerResponse.textContent = text;
     prayerResponse.classList.add("visible");
+
+    if (!offeringConsumed) {
+      AutoAdvance.schedule("offering", "remembrance", {
+        before: () => { offeringConsumed = true; },
+        onSchedule: () => toast("祷词已焚。去看看它记住了你什么。"),
+      });
+    }
   };
 
   prayerOffer.addEventListener("click", offerPrayer);
