@@ -324,7 +324,7 @@ body.awake .door-img { filter: brightness(1) drop-shadow(0 0 34px rgba(141, 43, 
 .seam-whisper {
   position: absolute;
   left: 50%;
-  top: 46%;
+  top: 60%;
   transform: translate(-50%, -50%);
   color: var(--blood-bright);
   font-size: 0.82rem;
