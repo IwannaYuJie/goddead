@@ -19,12 +19,15 @@
 - 痕迹：证物墙作为 8 卡统计区背景，桌面 4×2、移动 2×4 不变，卡片对比清晰，未新增第九张卡。
 - 第九条：裂口图作为场景背景，文字居于暗部上层，底部错误窄门可见但不可点击。
 - 性能：首屏门图 preload，其余新图 `loading="lazy" decoding="async"`；所有 `<img>` 显式写 1536×1024。
-- 缓存版本升至 `v21`；静态契约与全部隐藏场景守卫/状态保持不变。
+- 缓存版本升至 `v22`；静态契约与全部隐藏场景守卫/状态保持不变。
 
 ## 本轮 QA（现有场景视觉深化）
 
-- `node tests/site.test.mjs`：全量静态断言通过（含 v21 缓存、六张 WebP 素材存在与引用、门体 button/img 契约、旧门 SVG 几何清零、第九条 aria-label 全中文、favicon hero.png 声明、Space-only keydown fallback 静态契约）。
+- `node tests/site.test.mjs`：全量静态断言通过（含 v22 缓存、六张 WebP 素材存在与引用、门体 button/img 契约、旧门 SVG 几何清零、第九条 aria-label 全中文、favicon hero.png 声明、Space-only keydown fallback 静态契约）。
 - 桌面/移动真实截图证据 12 张（`visual-*-desktop-v1.png` / `visual-*-mobile-v1.png`）均无横向溢出，控制台无 error/warning。
+- 门外门图最终交付：Codex 生成 1536×1024 PNG，Pillow 转 WebP `quality=85`，体积 210 KB（≤220 KB），替换 `assets/threshold-bureau-door.webp`；因素材变化缓存由 `v21` 升至 `v22`。
+- 门图 art direction：桌面默认 `.door-scene` 宽 `min(84vw, 640px)`、`.door-img` 高 `clamp(560px, 62vh, 680px)`、`object-position: center 38%`；短桌面（`max-width: 1440px` 且 `max-height: 860px`，覆盖 1440×800）高 `clamp(460px, 56vh, 540px)`、宽 `min(78vw, 520px)`；移动 ≤720px 高 `clamp(460px, 56vh, 580px)`、宽 `min(86vw, 420px)`；移动 ≤390px 高 `clamp(480px, 54vh, 560px)`、宽 `min(92vw, 340px)`。
+- `seam-whisper` 随新裁切调整：桌面默认 `top: 60%`，短桌面 `top: 58%`，落点对应门缝/把手区域。
 - 门的键盘最终策略：Enter 沿用原生 `<button>` click，Space 因 CDP 环境未触发原生激活，故补 Space-only `keydown` fallback（`e.key === " "` 时 `preventDefault()` + `knock()`），经 Codex 在真实 in-app browser 连续三次 Space 敲击验证 `#door-scene` 获得 `ajar` 类。
 - 最终全量 CDP 回归（`/tmp/goddead-qa/cdp-visual-enrichment.mjs`）因传输层超时（`Input.dispatchKeyEvent: no CDP response within 20s` / `Page.navigate: no CDP response within 20s`）未能形成单次全绿，因此不记录 38/38。
 - 旧隐藏场景套件在视觉素材接入后串跑全过：acting 40/40、cancellation 39/39、deadletter 35/35、line4 27/27。
