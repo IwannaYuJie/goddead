@@ -1,6 +1,15 @@
-# Design QA — Living Shrine · 场景探索版（含值夜室 · 第四线路 · 无主投递所 · 神名注销科 · 代神席 · 自动转场 · 现有场景视觉深化）
+# Design QA — Living Shrine · 场景探索版（含值夜室 · 第四线路 · 无主投递所 · 神名注销科 · 代神席 · 自动转场 · 现有场景视觉深化 · 焚献点火）
 
 适用范围：当前 goddead.com 首页（哈希路由场景探索游戏）。本文替代旧 Split Testament 版 QA 报告；旧版证据文件保留在 `design-qa-evidence/` 中仅作历史存档，不再代表现状。
+
+## 本轮新增：焚献炉点火燃烧动态与转场（v26）
+
+- 目标：在 `#offering` 场景中提交非空祷词时，为焚献炉提供真实的点火与烈焰燃烧视觉反馈，与自动转场调度深度联动。
+- 素材：`assets/prayer-incinerator-burning.webp`（1536×1024），与静止炉体 `assets/prayer-incinerator.webp` 同构定位与裁切。
+- 预加载与结构：在 `index.html` 的 `<head>` 中添加 `<link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">`；在 `<figure class="offering-figure">` 内部层叠双图（`.offering-idle-img` 与 absolute 叠放的 `.offering-burning-img`），初始 `aria-label` 设为「一座沉寂的焚献炉」。
+- 视觉过渡：提交祷词时给 `.offering-figure` 添加 `.ignited` 类并将 `aria-label` 更新为「一座仍在燃烧的焚献炉」，静止炉体淡出（`opacity: 0`），燃烧炉体淡入并产生微量热浪扩张（`opacity: 1`, `transform: scale(1.015)`），过渡时间 `0.4s ease`；`prefers-reduced-motion` 下禁用 CSS 过渡（`transition: none !important`）；重新进入 `offering` 场景时清除 `.ignited` 类并恢复静止 `aria-label`。
+- 自动转场与调度：`AutoAdvance` 调度器保持全局统一转场延迟（普通模式 900–1319 ms，减弱动画 350 ms），点火动画先于 `burnPrayer` 执行。
+- 校验与契约：资源缓存升至 `v26`；静态测试 `tests/site.test.mjs` 全量包含对新增素材引用、预加载标签、HTML 双图结构、无障碍 label 状态切换、CSS ignited 动画规则、script.js 点火逻辑与 AutoAdvance 延迟边界的断言。
 
 ## 本轮新增：线性自动转场（Auto-Advance Flow，v24）
 
@@ -135,6 +144,9 @@
 | 代神席 · 整室（桌面 1440×937 / 移动 390×844 CSS 视口，2x 截图 780×1688） | `design-qa-evidence/acting-desktop-v1.png` · `acting-mobile-v1.png` |
 | 代神席 · 任命终态（range 锁定 + 五行 + 终句） | `design-qa-evidence/acting-appointed.png` |
 | 痕迹页 · 代神席记忆与 offering 联动 | `design-qa-evidence/remembrance-acting.png` |
+| 焚献 · 静止未点火（桌面 1440×800 / 移动 390×844） | `design-qa-evidence/offering-idle-desktop-v26.png` · `offering-idle-mobile-v26.png` |
+| 焚献 · 点火燃烧动态（桌面 1440×800 / 移动 390×844） | `design-qa-evidence/offering-ignited-desktop-v26.png` · `offering-ignited-mobile-v26.png` |
+| 焚献 · 减弱动画即时点火（桌面 1440×800） | `design-qa-evidence/offering-reduced-motion-v26.png` |
 
 ## 检查结果
 

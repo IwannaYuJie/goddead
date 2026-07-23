@@ -29,8 +29,8 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=25/);
-assert.match(html, /script\.js\?v=25/);
+assert.match(html, /styles\.css\?v=26/);
+assert.match(html, /script\.js\?v=26/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
@@ -438,6 +438,50 @@ for (const asset of VISUAL_ASSETS) {
   assert.match(html, new RegExp(`assets/${asset.replace(".", "\\.")}`), `${asset} must be referenced`);
 }
 
+await access(new URL("assets/prayer-incinerator-burning.webp", root));
+assert.match(html, /assets\/prayer-incinerator-burning\.webp/);
+assert.match(html, /<link rel="preload" href="assets\/prayer-incinerator-burning\.webp" as="image">/);
+assert.match(html, /styles\.css\?v=26/);
+assert.match(html, /script\.js\?v=26/);
+const offeringFigureHtml = html.match(/<figure class="offering-figure[^"]*" role="img" aria-label="[^"]*">[\s\S]*?<\/figure>/);
+assert.ok(offeringFigureHtml, "offering figure must exist");
+assert.match(offeringFigureHtml[0], /aria-label="一座沉寂的焚献炉"/);
+assert.match(offeringFigureHtml[0], /class="offering-img offering-idle-img"/);
+assert.match(offeringFigureHtml[0], /class="offering-img offering-burning-img"[^>]*alt=""[^>]*aria-hidden="true"/);
+
+const offeringImgRule = css.match(/\.offering-img\s*\{[^}]+\}/);
+assert.ok(offeringImgRule, "offering-img rule must exist");
+assert.match(offeringImgRule[0], /transition:\s*opacity\s*0\.4s\s*ease,\s*transform\s*0\.4s\s*ease/);
+assert.match(offeringImgRule[0], /transform-origin:\s*center/);
+const idleRule = css.match(/\.offering-idle-img\s*\{[^}]+\}/);
+assert.ok(idleRule, "offering-idle-img rule must exist");
+assert.match(idleRule[0], /opacity:\s*1/);
+assert.ok(!/position:\s*absolute/.test(idleRule[0]), "idle must not be position absolute");
+const burningRule = css.match(/\.offering-burning-img\s*\{[^}]+\}/);
+assert.ok(burningRule, "offering-burning-img rule must exist");
+assert.match(burningRule[0], /position:\s*absolute/);
+assert.match(burningRule[0], /inset:\s*0/);
+assert.match(burningRule[0], /opacity:\s*0/);
+const ignitedIdle = css.match(/\.offering-figure\.ignited\s*\.offering-idle-img\s*\{[^}]+\}/);
+assert.ok(ignitedIdle, "ignited idle rule must exist");
+assert.match(ignitedIdle[0], /opacity:\s*0/);
+const ignitedBurning = css.match(/\.offering-figure\.ignited\s*\.offering-burning-img\s*\{[^}]+\}/);
+assert.ok(ignitedBurning, "ignited burning rule must exist");
+assert.match(ignitedBurning[0], /opacity:\s*1/);
+assert.match(ignitedBurning[0], /transform:\s*scale\(1\.015\)/);
+const reducedIdx = css.indexOf("@media (prefers-reduced-motion: reduce)");
+assert.ok(reducedIdx >= 0, "reduced-motion media query must exist");
+const reducedSlice = css.slice(reducedIdx);
+assert.match(reducedSlice, /\.offering-img\s*\{\s*transition:\s*none\s*!important\s*;\s*\}/);
+assert.match(js, /const offeringFigure = \$\("\.offering-figure"\);/);
+assert.match(js, /if \(name === "offering"\) \{ offeringConsumed = false; if \(offeringFigure\) \{ offeringFigure\.classList\.remove\("ignited"\); offeringFigure\.setAttribute\("aria-label", "一座沉寂的焚献炉"\); \} \}/);
+const offerPrayerBlock = js.match(/const offerPrayer = \(\) => \{[\s\S]*?\n\s*\};\s*\n\s*prayerOffer\.addEventListener\("click", offerPrayer\);/);
+assert.ok(offerPrayerBlock, "offerPrayer function must exist");
+assert.match(offerPrayerBlock[0], /if \(!value\) \{[\s\S]{0,200}return;[\s\S]{0,200}\}/);
+assert.match(offerPrayerBlock[0], /if \(offeringFigure\) \{ offeringFigure\.classList\.add\("ignited"\); offeringFigure\.setAttribute\("aria-label", "一座仍在燃烧的焚献炉"\); \}/);
+assert.ok(offerPrayerBlock[0].indexOf("if (!value)") < offerPrayerBlock[0].indexOf('classList.add("ignited")'), "empty guard must precede ignition");
+assert.ok(offerPrayerBlock[0].indexOf('classList.add("ignited")') < offerPrayerBlock[0].indexOf("burnPrayer(value)"), "ignition must precede burnPrayer");
+
 /* 门改为正式位图 + 原生 button/img；旧 inline SVG 门几何清零 */
 assert.match(html, /id="door-btn"[^>]*type="button"/);
 assert.match(html, /id="door-img"[^>]*src="assets\/threshold-bureau-door\.webp"/);
@@ -506,7 +550,7 @@ assert.match(js, /150 \+ cancelLines\.length \* 120/);
 assert.match(js, /150 \+ actingLines\.length \* 120 \+ 250/);
 
 /* reduced-motion 与普通模式均覆盖 */
-assert.match(js, /reduced \? 350 : 900 \+ Math\.floor\(Math\.random\(\) \* 420\)/);
+assert.match(js, /reduced\s*\?\s*350\s*:\s*900\s*\+\s*Math\.floor\(Math\.random\(\)\s*\*\s*420\)/);
 
 /* 会话内消耗标记：只在 timer 触发前（before 回调）置 true，sceneInit 重置 */
 for (const marker of ["thresholdConsumed", "protocolConsumed", "corridorConsumed", "watchConsumed", "cancellationConsumed", "actingConsumed", "offeringConsumed"]) {

@@ -2206,6 +2206,8 @@ body.idle .scene-body { filter: brightness(0.55); }
 }
 
 .offering-img {
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  transform-origin: center;
   display: block;
   width: 100%;
   height: auto;
@@ -2213,6 +2215,21 @@ body.idle .scene-body { filter: brightness(0.55); }
   -webkit-mask-image: radial-gradient(ellipse 78% 72% at 65% 68%, #000 52%, transparent 96%);
   mask-image: radial-gradient(ellipse 78% 72% at 65% 68%, #000 52%, transparent 96%);
 }
+
+.offering-idle-img {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.offering-burning-img {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1);
+}
+
+.offering-figure.ignited .offering-idle-img { opacity: 0; }
+.offering-figure.ignited .offering-burning-img { opacity: 1; transform: scale(1.015); }
 
 .offering-body .sec-head,
 .offering-body .prayer-box,
@@ -2893,4 +2910,6 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
   .reveal { opacity: 1; transform: none; }
 
   .cursor-dot, .cursor-ring { display: none; }
+
+  .offering-img { transition: none !important; }
 }

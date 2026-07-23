@@ -1,5 +1,13 @@
 # Progress Log
 
+## 2026-07-23 (Offering incinerator ignition burning transition - v26)
+- Added `assets/prayer-incinerator-burning.webp` (1536×1024) as an incinerator burning visual layer for the `#offering` scene.
+- Preloaded `assets/prayer-incinerator-burning.webp` in `index.html` and stacked `.offering-idle-img` and `.offering-burning-img` within `<figure class="offering-figure">`.
+- Implemented smooth CSS opacity and scale transitions for `.offering-figure.ignited` (`opacity: 1`, `transform: scale(1.015)` with `0.4s ease` transition) while ensuring `transition: none !important` under `prefers-reduced-motion`.
+- Updated `script.js` to dynamically add the `ignited` class to `.offering-figure` upon submitting a non-empty prayer input, and clear the `ignited` state upon re-entering the `offering` scene.
+- Maintained established global `AutoAdvance` scheduler timing (~900–1319 ms; reduced-motion 350 ms) across all scenes including offering.
+- Bumped asset cache key to `v26`; updated `tests/site.test.mjs` with assertions covering asset existence, HTML structure, preload tags, CSS rules, script.js ignition logic, and AutoAdvance timing guards.
+
 ## 2026-07-21 (Threshold third-knock open-door transition)
 - Replaced the threshold's third-knock "ajar glow" with a real open-door visual transition: added `assets/threshold-bureau-door-open.webp` (1536×1024, ~193 KB, Pillow quality=85 from the supervisor-generated source PNG) while keeping the existing closed-door asset untouched.
 - Preloaded the open-door image and stacked it inside the native `#door-btn` as an absolutely overlaid visual-layer image (`#door-open-img`, `aria-hidden="true"`, `alt=""`); both images share the same `.door-img` sizing, object-fit, object-position, mask, and responsive breakpoints so the switch never rescales or jumps.

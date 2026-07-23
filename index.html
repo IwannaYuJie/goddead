@@ -13,7 +13,8 @@
     <link rel="icon" type="image/png" href="assets/hero.png">
     <link rel="preload" href="assets/threshold-bureau-door.webp" as="image">
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
-    <link rel="stylesheet" href="styles.css?v=25">
+    <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
+    <link rel="stylesheet" href="styles.css?v=26">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -495,8 +496,9 @@
       <section class="scene" id="scene-offering" data-scene="offering" data-title="Goddead — 焚献" aria-label="无人应答的祷告">
         <div class="scene-body offering-body">
           <div class="burn-layer" id="burn-layer" aria-hidden="true"></div>
-          <figure class="offering-figure reveal" role="img" aria-label="一座仍在燃烧的焚献炉">
-            <img class="offering-img" src="assets/prayer-incinerator.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          <figure class="offering-figure reveal" role="img" aria-label="一座沉寂的焚献炉">
+            <img class="offering-img offering-idle-img" src="assets/prayer-incinerator.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <img class="offering-img offering-burning-img" src="assets/prayer-incinerator-burning.webp" alt="" width="1536" height="1024" aria-hidden="true">
           </figure>
           <header class="sec-head reveal">
             <p class="sec-kicker">OFFERINGS · 焚 献</p>
@@ -597,6 +599,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=25"></script>
+    <script src="script.js?v=26"></script>
   </body>
 </html>

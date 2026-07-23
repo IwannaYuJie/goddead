@@ -64,6 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const prayerInput = $("#prayer-input");
   const prayerOffer = $("#prayer-offer");
   const prayerResponse = $("#prayer-response");
+  const offeringFigure = $(".offering-figure");
   const burnLayer = $("#burn-layer");
 
   const toast = (text) => {
@@ -766,7 +767,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (name === "deadletter") enterDeadletter();
     if (name === "cancellation") { cancellationConsumed = false; enterCancel(); }
     if (name === "acting") { actingConsumed = false; enterActing(); }
-    if (name === "offering") { offeringConsumed = false; }
+    if (name === "offering") { offeringConsumed = false; if (offeringFigure) { offeringFigure.classList.remove("ignited"); offeringFigure.setAttribute("aria-label", "一座沉寂的焚献炉"); } }
     if (name === "ninth") AudioEngine.bell(58);
     if (name === "remembrance") {
       paintWatch();
@@ -2410,6 +2411,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    if (offeringFigure) { offeringFigure.classList.add("ignited"); offeringFigure.setAttribute("aria-label", "一座仍在燃烧的焚献炉"); }
     burnPrayer(value);
     AudioEngine.bell(72);
     prayerInput.value = "";
