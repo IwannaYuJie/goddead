@@ -14,7 +14,8 @@
     <link rel="preload" href="assets/threshold-bureau-door.webp" as="image">
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
-    <link rel="stylesheet" href="styles.css?v=26">
+    <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
+    <link rel="stylesheet" href="styles.css?v=27">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -153,13 +154,13 @@
           </div>
 
           <nav class="gate-list reveal" aria-label="封印的门">
-            <a class="gate gate-sealed" id="gate-reliquary" href="reliquary.html" data-gate="reliquary" data-hover>
+            <a class="gate gate-sealed" id="gate-reliquary" href="#reliquary" data-gate="reliquary" data-go="reliquary" data-hover>
               <span class="gate-art" style="background-image:url('assets/testament-gates.png')" aria-hidden="true"></span>
               <span class="gate-meta"><b>00</b><i></i><em></em></span>
               <span class="gate-body">
-                <span class="gate-name">？？？</span>
+                <span class="gate-name">神圣遗物科</span>
                 <span class="gate-whisper">遗物室仍在沉睡。</span>
-                <span class="gate-stat" id="stat-reliquary">封印 · 还差 7 次抵达</span>
+                <span class="gate-stat" id="stat-reliquary">封印 · 需在代神席在岗并完成焚献</span>
               </span>
               <span class="gate-arrow" aria-hidden="true">进入 ⟶</span>
             </a>
@@ -519,6 +520,70 @@
         </div>
       </section>
 
+      <!-- 第四幕又半 · 神圣遗物科 -->
+      <section class="scene scene-reliquary" id="scene-reliquary" data-scene="reliquary" data-title="Goddead — 神圣遗物科" aria-label="神圣遗物科">
+        <div class="scene-body relic-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE SACRED RELIQUARY VAULT · 神 圣 遗 物 科</p>
+            <h2 class="sec-title">神圣遗物科</h2>
+            <p class="sec-desc">神没有留下遗物。这里保存的，是祂离开后所有被留下的东西。</p>
+          </header>
+
+          <figure class="relic-figure reveal" role="img" aria-label="一间神圣遗物柜室：黄铜压印机、祷词灰烬托盘与高耸的封印档案柜">
+            <img class="relic-img" src="assets/relic-vault-desk.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="watch-log patch-log relic-log reveal" id="relic-log">
+            <header class="log-head">
+              <span class="log-title">遗物登记台 · 零号室</span>
+              <span class="log-stamp" aria-hidden="true">神圣遗物□科</span>
+            </header>
+            <ol class="log-list">
+              <li class="patch-entry relic-entry" id="relic-1">
+                <button class="patch-btn relic-btn" type="button" aria-pressed="false" data-hover>
+                  <span class="log-no">遗物 · 壹</span>
+                  <span class="orig">壹 · 门外铜匙与走廊残页</span>
+                </button>
+                <span class="alt" hidden aria-hidden="true"></span>
+              </li>
+              <li class="patch-entry relic-entry" id="relic-2">
+                <button class="patch-btn relic-btn" type="button" aria-pressed="false" data-hover>
+                  <span class="log-no">遗物 · 贰</span>
+                  <span class="orig">贰 · 05:02 接线与空白回执</span>
+                </button>
+                <span class="alt" hidden aria-hidden="true"></span>
+              </li>
+              <li class="patch-entry relic-entry" id="relic-3">
+                <button class="patch-btn relic-btn" type="button" aria-pressed="false" data-hover>
+                  <span class="log-no">遗物 · 叁</span>
+                  <span class="orig">叁 · 代神电闸与祷词灰烬</span>
+                </button>
+                <span class="alt" hidden aria-hidden="true"></span>
+              </li>
+              <li class="patch-entry" id="relic-4">
+                <button class="patch-btn" id="seal-btn" type="button" aria-pressed="false" disabled aria-describedby="seal-reason" data-hover>
+                  <span class="log-no">封印 · 肆</span>
+                  <span class="orig" id="seal-orig">肆 · 压下终极封印</span>
+                </button>
+                <span class="patch-reason" id="seal-reason">还有 3 件遗物未审查封印。</span>
+              </li>
+            </ol>
+            <div class="line4-record relic-record" id="relic-record" aria-live="off">
+              <p class="l4-line relic-line" hidden>遗物案号：RELIC-00-GODDEAD</p>
+              <p class="l4-line relic-line" hidden>审查对象：八件残留物与一份祷词灰烬</p>
+              <p class="l4-line relic-line" hidden>保管部门：神圣遗物科</p>
+              <p class="l4-line relic-line" hidden>代行保管人：你</p>
+              <p class="l4-line relic-line" hidden>封印状态：永久</p>
+              <p class="l4-line relic-line l4-final" hidden>终局说明：神没有留下遗物。被留下的，是代祂保管遗物的你。</p>
+            </div>
+          </div>
+
+          <nav class="scene-exits reveal" aria-label="离开神圣遗物科">
+            <button class="exit-link" type="button" data-go="offering" data-hover>⟵ 回到焚献</button>
+          </nav>
+        </div>
+      </section>
+
       <!-- 第五幕 · 痕迹 -->
       <section class="scene" id="scene-remembrance" data-scene="remembrance" data-title="Goddead — 痕迹" aria-label="你留下的痕迹">
         <div class="scene-body remembrance-body">
@@ -546,6 +611,7 @@
           <p class="watch-memory line-memory deliver-memory" id="deliver-memory"></p>
           <p class="watch-memory line-memory deliver-memory cancel-memory" id="cancel-memory"></p>
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory" id="acting-memory"></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory" id="relic-memory"></p>
 
           <div class="reliquary-slot reveal" id="reliquary-slot"></div>
 
@@ -555,6 +621,16 @@
               <p class="arrival-count" id="arrival-count">已记录 0 次抵达</p>
             </div>
             <p class="colophon-whisper">所有入口都通往同一个空缺。</p>
+            <div class="forget-confirm-box" id="forget-confirm-box">
+              <button class="forget-trigger-btn" id="forget-trigger-btn" type="button" data-hover>遗忘并重新开始</button>
+              <div class="forget-panel" id="forget-panel" hidden>
+                <p class="forget-prompt">选择遗忘会抹去你在观所留下的所有痕迹。确认遗忘吗？</p>
+                <div class="forget-actions">
+                  <button class="forget-cancel-btn" id="forget-cancel-btn" type="button" data-hover>取消</button>
+                  <button class="forget-action-btn" id="forget-action-btn" type="button" data-hover>确认遗忘</button>
+                </div>
+              </div>
+            </div>
             <a class="domain-mark" href="https://github.com/IwannaYuJie/goddead" data-hover>goddead.com</a>
           </div>
 
@@ -594,11 +670,11 @@
       <a href="#acting" id="acting-link" hidden data-hover>02† / 代神席</a>
       <a href="#offering" data-hover>03 / 焚献</a>
       <a href="#remembrance" data-hover>04 / 痕迹</a>
-      <a href="reliquary.html" id="reliquary-link" class="locked" data-hover>— 遗物室</a>
+      <a href="#reliquary" id="reliquary-link" class="locked" hidden data-hover>02‡ / 遗物科</a>
       <p class="menu-note">所有入口都通往同一个空缺。</p>
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=26"></script>
+    <script src="script.js?v=27"></script>
   </body>
 </html>

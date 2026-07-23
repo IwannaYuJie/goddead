@@ -29,15 +29,15 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=26/);
-assert.match(html, /script\.js\?v=26/);
+assert.match(html, /styles\.css\?v=27/);
+assert.match(html, /script\.js\?v=27/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
 assert.match(js, /DOMContentLoaded/);
 
 /* ---------- 场景探索结构 ---------- */
-const SCENES = ["threshold", "protocol", "corridor", "watch", "switchboard", "deadletter", "cancellation", "acting", "offering", "remembrance", "ninth"];
+const SCENES = ["threshold", "protocol", "corridor", "watch", "switchboard", "deadletter", "cancellation", "acting", "offering", "reliquary", "remembrance", "ninth"];
 for (const s of SCENES) {
   assert.match(html, new RegExp(`data-scene="${s}"`), `scene missing: ${s}`);
 }
@@ -170,7 +170,7 @@ assert.match(js, /goddead_deadletter/);
 assert.match(js, /returned: base\.returned\.map/);
 assert.match(js, /accepted: raw\.accepted === true/);
 assert.match(js, /acceptedAt: Number\(raw\.acceptedAt\) \|\| 0/);
-assert.match(js, /const syncDeadletter = \(\) => \{\s*if \(!\(watchUnlocked\(\) && line4Unlocked\(\) && getLine4\(\)\.connected\)\) return;/, "entry reveal must share the router's full dependency set");
+assert.match(js, /const syncDeadletter = \(\) => \{\s*if \(watchUnlocked\(\) && line4Unlocked\(\) && getLine4\(\)\.connected\)/, "entry reveal must share the router's full dependency set");
 assert.match(js, /退回的东西，有了去处。/);
 
 /* 三封退件：语义按钮 + 动态退回原因 */
@@ -238,7 +238,7 @@ assert.match(js, /solved: raw\.solved === true/);
 assert.match(js, /solvedAt: Number\(raw\.solvedAt\) \|\| 0/);
 assert.match(js, /refused: raw\.refused === true/);
 assert.match(js, /refusedAt: Number\(raw\.refusedAt\) \|\| 0/);
-assert.match(js, /const syncCancel = \(\) => \{\s*if \(!\(watchUnlocked\(\) && line4Unlocked\(\) && getLine4\(\)\.connected && getDL\(\)\.accepted\)\) return;/, "entry reveal must share the router's full dependency set");
+assert.match(js, /const syncCancel = \(\) => \{\s*if \(watchUnlocked\(\) && line4Unlocked\(\) && getLine4\(\)\.connected && getDL\(\)\.accepted\)/, "entry reveal must share the router's full dependency set");
 assert.match(js, /空白回执生成了一个不该存在的案号。/);
 
 /* 检索表单：原生 form、label 关联、submit、提示 */
@@ -313,7 +313,7 @@ assert.match(js, /goddead_acting/);
 assert.ok(js.includes('Math.max(0, Math.min(100, Number(raw.value) || 0))'), 'acting value must clamp to 0-100');
 assert.match(js, /appointed: raw\.appointed === true/);
 assert.match(js, /appointedAt: Number\(raw\.appointedAt\) \|\| 0/);
-assert.match(js, /const syncActingEntry = \(\) => \{\s*if \(!\(watchUnlocked\(\) && line4Unlocked\(\) && getLine4\(\)\.connected && getDL\(\)\.accepted && getCancel\(\)\.refused\)\) return;/, "entry reveal must share the router's full dependency set");
+assert.match(js, /const syncActingEntry = \(\) => \{\s*if \(watchUnlocked\(\) && line4Unlocked\(\) && getLine4\(\)\.connected && getDL\(\)\.accepted && getCancel\(\)\.refused\)/, "entry reveal must share the router's full dependency set");
 assert.match(js, /你的拒绝被改写成了一份任命。/);
 
 /* 原生 range：label/min/max/step/output/两端文字/三段反馈 */
@@ -376,27 +376,74 @@ assert.match(js, /target === "switchboard" && !\(watchUnlocked\(\) && line4Unloc
 /* 投递所前置依赖是「三张残页 + 第四线路解锁 + 第四线路接通」三者；
    deadletter 自身 accepted=true 但任一上游缺失时也必须逐级回退 */
 assert.match(js, /target === "deadletter" && !\(watchUnlocked\(\) && line4Unlocked\(\) && getLine4\(\)\.connected\)\)/, "deadletter requires watch progress AND line4 unlock AND line4 connected — stale goddead_deadletter must not pass");
-/* 注销科前置依赖是「三张残页 + 第四线路解锁 + 第四线路接通 + 空白回执签收」四元；
-   cancellation 自身 solved/refused=true 但任一上游缺失时也必须逐级回退 */
-assert.match(js, /target === "cancellation" && !\(watchUnlocked\(\) && line4Unlocked\(\) && getLine4\(\)\.connected && getDL\(\)\.accepted\)\)/, "cancellation requires watch progress AND line4 unlock AND line4 connected AND receipt accepted — stale goddead_cancellation must not pass");
-/* 代神席前置依赖是「三张残页 + 第四线路解锁 + 第四线路接通 + 空白回执签收 + 注销拒绝」五元；
-   acting 自身 appointed=true 但任一上游缺失时也必须逐级回退 */
-assert.match(js, /target === "acting" && !\(watchUnlocked\(\) && line4Unlocked\(\) && getLine4\(\)\.connected && getDL\(\)\.accepted && getCancel\(\)\.refused\)\)/, "acting requires watch progress AND line4 unlock AND line4 connected AND receipt accepted AND cancel refused — stale goddead_acting must not pass");
-/* 入口可见性与路由共用同一组依赖：syncLine4 在残页不足时不得恢复接听/目录入口 */
-assert.match(js, /const syncLine4 = \(\) => \{\s*if \(!watchUnlocked\(\) \|\| !line4Unlocked\(\)\) return;/, "syncLine4 must share the same dependency set as the router");
-/* 守卫必须按依赖顺序：acting→cancellation→deadletter→switchboard→watch→corridor 逐级归并，不可被改写绕过 */
+/* 神圣遗物科前置依赖是 7 项全备；
+   reliquary 自身 sealed=true 但任一上游缺失时也必须逐级回退 */
+assert.match(js, /const reliquaryUnlocked = \(\) =>/, "reliquaryUnlocked contract helper must exist");
+assert.match(js, /target === "reliquary" && !reliquaryUnlocked\(\)/, "reliquary requires all 7 upstream prerequisites — stale goddead_reliquary must not pass");
+assert.match(js, /target === "offering" && !\(watchUnlocked\(\) && line4Unlocked\(\) && getLine4\(\)\.connected && getDL\(\)\.accepted && getCancel\(\)\.refused && getActing\(\)\.appointed\)/, "offering fallback requires all 6 upstream prerequisites");
+/* 守卫必须按依赖顺序：reliquary→offering→acting→cancellation→deadletter→switchboard→watch→corridor 逐级归并 */
 assert.ok(
-  js.indexOf('target === "acting"') > -1
+  js.indexOf('target === "reliquary"') > -1
+    && js.indexOf('target === "reliquary"') < js.indexOf('target === "offering"')
+    && js.indexOf('target === "offering"') < js.indexOf('target === "acting"')
     && js.indexOf('target === "acting"') < js.indexOf('target === "cancellation"')
     && js.indexOf('target === "cancellation"') < js.indexOf('target === "deadletter"')
     && js.indexOf('target === "deadletter"') < js.indexOf('target === "switchboard"')
     && js.indexOf('target === "switchboard"') < js.indexOf('target === "watch"'),
-  "guards must cascade acting → cancellation → deadletter → switchboard → watch → corridor",
+  "guards must cascade reliquary → offering → acting → cancellation → deadletter → switchboard → watch → corridor",
 );
+
+/* ---------- 神圣遗物科 / THE SACRED RELIQUARY VAULT (v27) ---------- */
+await access(new URL("assets/relic-vault-desk.webp", root));
+assert.match(html, /id="scene-reliquary"/);
+assert.match(html, /data-title="Goddead — 神圣遗物科"/);
+assert.match(html, /assets\/relic-vault-desk\.webp/);
+assert.match(html, /THE SACRED RELIQUARY VAULT · 神 圣 遗 物 科/);
+assert.match(html, /id="relic-1"/);
+assert.match(html, /id="relic-2"/);
+assert.match(html, /id="relic-3"/);
+assert.match(html, /id="seal-btn"/);
+assert.match(html, /id="relic-record"/);
+assert.match(html, /id="relic-memory"/);
+
+/* 自动转场集成：offering -> reliquary -> remembrance */
+assert.match(js, /AutoAdvance\.schedule\("offering", "reliquary"/);
+assert.match(js, /AutoAdvance\.schedule\("reliquary", "remembrance"/);
+assert.match(js, /clearRelicTimers = \(\) =>/, "clearRelicTimers helper must exist");
+assert.match(js, /leaveReliquary = \(\) => \{\s*AutoAdvance\.clear\("reliquary"\);\s*clearRelicTimers\(\);/, "leaveReliquary must clear relic timers on scene exit");
+assert.match(js, /currentScene === "reliquary" && !reliquaryConsumed/, "deferred schedule must be guarded by currentScene === reliquary");
+
+/* 8 卡 Stat Grid 约束保留（不扩充至第 9 卡） */
+assert.equal((html.match(/<div class="stat-card">/g) || []).length, 8, "remembrance must strictly preserve 8 stat cards");
+
+/* legacy reliquary.html 极简重定向断言 */
+const reliquaryHtmlContent = await fileText("reliquary.html");
+assert.match(reliquaryHtmlContent, /location\.replace\("index\.html#reliquary"\)/, "legacy reliquary.html must redirect to index.html#reliquary");
+assert.ok(!reliquaryHtmlContent.includes("reliquaryUnlocked"), "legacy reliquary.html must not duplicate reliquaryUnlocked logic");
+
+/* 痕迹页内联遗忘确认框断言 */
+assert.match(html, /id="forget-confirm-box"/);
+assert.match(html, /id="forget-trigger-btn"/);
+assert.match(html, /id="forget-panel"[^>]*hidden/);
+assert.match(html, /id="forget-cancel-btn"/);
+assert.match(html, /id="forget-action-btn"/);
+assert.match(js, /forgetActionBtn\.addEventListener\("click"/);
+assert.match(js, /k\.toLowerCase\(\)\.includes\("goddead"\)/, "reset key filtering must support case-insensitive goddead matching");
+const forgetHandlerBlock = js.match(/forgetActionBtn\.addEventListener\("click",\s*\(\)\s*=>\s*\{([\s\S]*?)\}\);/);
+assert.ok(forgetHandlerBlock, "forgetActionBtn click handler must exist");
+assert.doesNotMatch(forgetHandlerBlock[1], /saveState\s*\(/, "forgetActionBtn handler must NOT call saveState() to ensure 0 goddead keys remain in localStorage");
+assert.match(js, /forgetActionBtn[\s\S]*?renderReliquary\(\);/, "forgetActionBtn must call renderReliquary");
+assert.match(js, /forgetActionBtn[\s\S]*?syncReliquaryEntry\(\);/, "forgetActionBtn must resync entry DOM state");
+for (const p of ["paintWatch", "paintLine4", "paintDeliver", "paintCancel", "paintActing", "paintRelicMemory"]) {
+  assert.ok(forgetHandlerBlock[1].includes(`${p}()`), `forgetActionBtn handler must call ${p}()`);
+}
+assert.match(js, /gateReliquary\.addEventListener\("click", \(e\) => \{\s*if \(reliquaryUnlocked\(\)\) return;/, "gateReliquary click handler must check reliquaryUnlocked");
 assert.match(js, /target !== name && location\.hash === "#" \+ name/, "address bar must normalize to the resolved scene");
 assert.match(js, /name = resolveScene\(name\)/, "goScene must route through resolveScene");
 assert.match(js, /narrowDoor\.removeAttribute\("hidden"\)/);
+assert.match(js, /narrowDoor\.setAttribute\("hidden", ""\)/, "syncWatchDoor must re-add hidden attribute when locked");
 assert.match(js, /watchLink\.removeAttribute\("hidden"\)/);
+assert.match(js, /watchLink\.setAttribute\("hidden", ""\)/, "syncWatchDoor must re-add watchLink hidden attribute when locked");
 
 /* 交班簿语义控件：5 个可聚焦按钮，Enter/Space 原生触发 */
 const logEntries = html.match(/class="log-entry[ "]/g) || [];
@@ -441,8 +488,8 @@ for (const asset of VISUAL_ASSETS) {
 await access(new URL("assets/prayer-incinerator-burning.webp", root));
 assert.match(html, /assets\/prayer-incinerator-burning\.webp/);
 assert.match(html, /<link rel="preload" href="assets\/prayer-incinerator-burning\.webp" as="image">/);
-assert.match(html, /styles\.css\?v=26/);
-assert.match(html, /script\.js\?v=26/);
+assert.match(html, /styles\.css\?v=27/);
+assert.match(html, /script\.js\?v=27/);
 const offeringFigureHtml = html.match(/<figure class="offering-figure[^"]*" role="img" aria-label="[^"]*">[\s\S]*?<\/figure>/);
 assert.ok(offeringFigureHtml, "offering figure must exist");
 assert.match(offeringFigureHtml[0], /aria-label="一座沉寂的焚献炉"/);
@@ -525,7 +572,8 @@ assert.match(js, /AutoAdvance\.schedule\("switchboard", "deadletter"/);
 assert.match(js, /AutoAdvance\.schedule\("deadletter", "cancellation"/);
 assert.match(js, /AutoAdvance\.schedule\("cancellation", "acting"/);
 assert.match(js, /AutoAdvance\.schedule\("acting", "offering"/);
-assert.match(js, /AutoAdvance\.schedule\("offering", "remembrance"/);
+assert.match(js, /AutoAdvance\.schedule\("offering", "reliquary"/);
+assert.match(js, /AutoAdvance\.schedule\("reliquary", "remembrance"/);
 
 /* 场景切换回到顶部并把焦点移到标题 */
 assert.match(js, /next\.scrollTop = 0;/);
@@ -536,8 +584,9 @@ assert.match(js, /title\.focus\(\{ preventScroll: true \}\)/);
 assert.match(html, /<li data-rule="1"[^>]*tabindex="0"[^>]*role="button"/);
 assert.match(js, /li\.addEventListener\("keydown", \(e\) => \{\s*if \(e\.key === "Enter" \|\| e\.key === " "\)/);
 
-/* 线性路径上不再存在向 offering 的跨幕捷径 */
-assert.ok(!html.includes('data-go="offering"'), "no cross-scene shortcuts to offering remain");
+/* 线性路径早期场景（threshold~acting）上不再存在向 offering 的跨幕捷径 */
+const earlyHtml = html.slice(0, html.indexOf('id="scene-reliquary"'));
+assert.ok(!earlyHtml.includes('data-go="offering"'), "no early cross-scene shortcuts to offering remain");
 
 /* 底部前进按钮与二次确认按钮已删除 */
 assert.ok(!html.includes('id="door-choice"'), "threshold door choice removed — auto-advance on third knock");

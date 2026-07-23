@@ -1,5 +1,22 @@
 # Progress Log
 
+## 2026-07-23 (The Sacred Reliquary Vault native SPA integration - v27)
+- Promoted **The Sacred Reliquary Vault** (`#reliquary`) to a native, first-class scene within `index.html`'s SPA exploration framework, closing the narrative arc after the visitor's appointment at the Acting Deity Desk (`#acting`) and prayer incinerator ignition (`#offering`).
+- Integrated production bitmap `assets/relic-vault-desk.webp` (1536×1024, 144 KB WebP, feather-masked into `#050505`) with art-directed framing around its central brass press and left ash tray.
+- Added Relic Press Desk (`#relic-log`) holding 3 interactive relic item buttons (`#relic-1`, `#relic-2`, `#relic-3`) that play WebAudio metallic clamp sounds (`AudioEngine.clamp()`) and reveal solemn notes upon active click / Enter / Space activation.
+- Added Final Seal Stamp (`#seal-btn`) that enables when all 3 relics are pressed, plays heavy stamp sound, persists `sealed: true` & `sealedAt` timestamp in `goddead_reliquary`, reveals 6 record lines in rhythm (~150ms per line; immediate under `prefers-reduced-motion`), and triggers `AutoAdvance` into `#remembrance`.
+- Preserved the linear flow invariant: `#seal-btn` is the only forward action; `AutoAdvance` owns `reliquary` → `remembrance`; `#reliquary` features only explicit back navigation (`data-go="offering"`).
+- Defined single authoritative contract `reliquaryUnlocked()` checking 7 upstream prerequisites (`watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted && getCancel().refused && getActing().appointed && (gstate.prayersOffered > 0)`). `resolveScene` cascades locked visits down the dependency chain and normalizes URL hash via `history.replaceState`.
+- Preserved the 8-card Remembrance stat grid (4×2 desktop / 2×4 mobile). Rendered reliquary status via `#reliquary-slot` banner and dedicated `#relic-memory` paragraph (`「神没有留下遗物。你把整座观所封印在了记忆里。」`).
+- Migrated legacy `reliquary.html` to a minimal client-side redirect (`location.replace("index.html#reliquary")`), delegating guard logic to `index.html`'s authoritative router without duplicating state.
+- Migrated reset action to an in-page themed confirmation in `#remembrance` (`#forget-confirm-box`), clearing all `goddead` local storage keys and returning cleanly to `#threshold` without native `confirm()`.
+- Added short-desktop viewport support (`@media (min-width: 721px) and (max-height: 800px)`), capping figure height at 230px with two-column layout and topbar clearance (`padding-top: clamp(92px, 10vh, 130px)`).
+- Hardened entry reveal contracts (`syncWatchDoor`, `syncLine4`, `syncDeadletter`, `syncCancel`, `syncActingEntry`, `renderReliquary`) to enforce bidirectional DOM `hidden` attribute synchronization. Locked or reset states explicitly re-apply `setAttribute("hidden", "")` and reset visual state classes so locked gates stay truly invisible and non-focusable.
+- Fixed `ReferenceError` in `#forget-action-btn` click handler by correcting paint function calls to `paintWatch()`, `paintLine4()`, `paintDeliver()`, `paintCancel()`, `paintActing()`, and `paintRelicMemory()`.
+- Enhanced reset key filtering with case-insensitive `k.toLowerCase().includes("goddead")` and removed `saveState()` call inside the reset handler, guaranteeing strictly 0 `goddead` keys remain in `localStorage` post-reset.
+- Verified 12/12 full headless CDP QA suite across all scenes with 45 validation logs, 0 Errors/Exceptions, and 0 runtime ReferenceErrors.
+- Bumped asset cache key to `v27`; updated `tests/site.test.mjs` with assertions covering `reliquaryUnlocked()`, asset existence, 12 scenes, AutoAdvance transitions 8 & 9, 8-card preservation, legacy redirect, in-page reset, keyboard accessibility, reduced-motion immediacy, bidirectional `hidden` sync, and 0 `saveState` in reset handler.
+
 ## 2026-07-23 (Offering incinerator ignition burning transition - v26)
 - Added `assets/prayer-incinerator-burning.webp` (1536×1024) as an incinerator burning visual layer for the `#offering` scene.
 - Preloaded `assets/prayer-incinerator-burning.webp` in `index.html` and stacked `.offering-idle-img` and `.offering-burning-img` within `<figure class="offering-figure">`.

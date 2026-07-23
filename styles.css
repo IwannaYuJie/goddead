@@ -2061,7 +2061,8 @@ body.idle .scene-body { filter: brightness(0.55); }
   .switch-body,
   .dl-body,
   .cancel-body,
-  .acting-body {
+  .acting-body,
+  .relic-body {
     /* 顶栏 + 日期文字需要约 90px 净空，避免 kicker/标题与固定顶栏重叠 */
     padding-top: clamp(92px, 10vh, 130px);
     padding-bottom: 3vh;
@@ -2072,7 +2073,8 @@ body.idle .scene-body { filter: brightness(0.55); }
   .switch-body .sec-head,
   .dl-body .sec-head,
   .cancel-body .sec-head,
-  .acting-body .sec-head {
+  .acting-body .sec-head,
+  .relic-body .sec-head {
     margin-bottom: 0.6rem;
   }
 
@@ -2123,11 +2125,12 @@ body.idle .scene-body { filter: brightness(0.55); }
   }
   .watch-body .scene-exits { margin-top: 0.4rem; }
 
-  /* switchboard / deadletter / cancellation / acting：图右、控件左 */
+  /* switchboard / deadletter / cancellation / acting / reliquary：图右、控件左 */
   .switch-body,
   .dl-body,
   .cancel-body,
-  .acting-body {
+  .acting-body,
+  .relic-body {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 300px);
     grid-template-rows: auto 1fr auto;
@@ -2137,12 +2140,14 @@ body.idle .scene-body { filter: brightness(0.55); }
   .switch-body .sec-head,
   .dl-body .sec-head,
   .cancel-body .sec-head,
-  .acting-body .sec-head { grid-column: 1 / -1; }
+  .acting-body .sec-head,
+  .relic-body .sec-head { grid-column: 1 / -1; }
 
   .switch-figure,
   .dl-figure,
   .cancel-figure,
-  .acting-figure {
+  .acting-figure,
+  .relic-figure {
     grid-column: 2;
     grid-row: 2 / span 2;
     max-height: 230px;
@@ -2151,7 +2156,8 @@ body.idle .scene-body { filter: brightness(0.55); }
   .switch-img,
   .dl-img,
   .cancel-img,
-  .acting-img { max-height: 230px; object-fit: cover; }
+  .acting-img,
+  .relic-img { max-height: 230px; object-fit: cover; }
 
   .patch-log,
   .return-log,
@@ -2237,6 +2243,123 @@ body.idle .scene-body { filter: brightness(0.55); }
 .offering-body .scene-exits {
   position: relative;
   z-index: 1;
+}
+
+/* 第四幕又半 · 神圣遗物科 */
+.relic-body {
+  position: relative;
+  max-width: 860px;
+}
+
+.relic-figure {
+  width: min(720px, 94vw);
+  margin: 0 auto 2.2rem;
+}
+
+.relic-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: brightness(0.88) contrast(1.04);
+  -webkit-mask-image: radial-gradient(ellipse 82% 75% at 50% 50%, #000 55%, transparent 96%);
+  mask-image: radial-gradient(ellipse 82% 75% at 50% 50%, #000 55%, transparent 96%);
+}
+
+.relic-log {
+  margin-top: 1.5rem;
+}
+
+.reliquary-status-banner {
+  margin-top: 1.5rem;
+  padding: 0.9rem 1.4rem;
+  background: rgba(141, 43, 39, 0.12);
+  border: 1px solid rgba(141, 43, 39, 0.4);
+  color: var(--bone-bright);
+  font-family: var(--serif);
+  font-size: clamp(0.88rem, 1.8vw, 1.05rem);
+  letter-spacing: 0.18em;
+  text-align: center;
+}
+
+.forget-confirm-box {
+  width: 100%;
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.forget-trigger-btn {
+  background: transparent;
+  border: 1px solid rgba(192, 74, 66, 0.4);
+  color: var(--bone);
+  padding: 0.6rem 1.6rem;
+  font-family: var(--serif);
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  cursor: pointer;
+  transition: border-color 0.3s ease, color 0.3s ease, background 0.3s ease;
+}
+
+.forget-trigger-btn:hover {
+  border-color: var(--blood-bright);
+  color: var(--bone-bright);
+  background: rgba(192, 74, 66, 0.15);
+}
+
+.forget-panel {
+  display: inline-block;
+  max-width: 480px;
+  padding: 1.2rem 1.6rem;
+  background: rgba(10, 8, 8, 0.92);
+  border: 1px solid rgba(192, 74, 66, 0.5);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+.forget-prompt {
+  margin: 0 0 1rem;
+  color: var(--bone-bright);
+  font-family: var(--serif);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+}
+
+.forget-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+}
+
+.forget-cancel-btn,
+.forget-action-btn {
+  padding: 0.5rem 1.4rem;
+  font-family: var(--serif);
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.25s ease;
+}
+
+.forget-cancel-btn {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--bone);
+}
+
+.forget-cancel-btn:hover {
+  border-color: var(--bone);
+  color: var(--bone-bright);
+}
+
+.forget-action-btn {
+  background: rgba(192, 74, 66, 0.25);
+  border-color: var(--blood-bright);
+  color: var(--bone-bright);
+}
+
+.forget-action-btn:hover {
+  background: var(--blood-bright);
+  color: #fff;
 }
 
 /* 第五幕 · 痕迹 */

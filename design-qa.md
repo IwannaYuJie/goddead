@@ -1,6 +1,35 @@
-# Design QA — Living Shrine · 场景探索版（含值夜室 · 第四线路 · 无主投递所 · 神名注销科 · 代神席 · 自动转场 · 现有场景视觉深化 · 焚献点火）
+# Design QA — Living Shrine · 场景探索版（含值夜室 · 第四线路 · 无主投递所 · 神名注销科 · 代神席 · 自动转场 · 现有场景视觉深化 · 焚献点火 · 神圣遗物科）
 
-适用范围：当前 goddead.com 首页（哈希路由场景探索游戏）。本文替代旧 Split Testament 版 QA 报告；旧版证据文件保留在 `design-qa-evidence/` 中仅作历史存档，不再代表现状。
+适用范围：当前 goddead.com 首页（哈希路由场景探索游戏）。本文替代旧版 QA 报告；旧版证据文件保留在 `design-qa-evidence/` 中仅作历史存档，不再代表现状。
+
+## 本轮新增：神圣遗物科 Native SPA 场景集成与印章压印仪式（v27）
+
+- 目标：将神圣遗物科（`#reliquary`）提升为原生 SPA 场景，连接代神席（`#acting`）与焚献炉（`#offering`）之后的见证终局；玩家作为代行神对遗物与祷词灰烬进行审查压印与终极封印。
+- 素材与构图：`assets/relic-vault-desk.webp`（1536×1024，144 KB WebP，Mask 羽化融入 `#050505`），围绕中央黄铜压印机与左侧灰烬托盘进行视觉裁切与摆放。
+- 解锁契约与降级守卫：定义单一函数 `reliquaryUnlocked()`，校验 7 项前置依赖（3残页 + 05:02覆盖+签退尝试 + 第四线路接通 + 空白回执签收 + 注销拒绝 + 代神席100%在岗 + 焚献炉至少1次祷词）。`resolveScene` 集中拦截，若依赖不足或本地有陈旧 `sealed = true` 状态，逐级回退至上游最近有效场景，并自动同步规范化地址栏。
+- 场景入口与 DOM 双向 hidden 同步：`syncWatchDoor`、`syncLine4`、`syncDeadletter`、`syncCancel`、`syncActingEntry` 与 `renderReliquary` 均实现双向 DOM 属性同步。当依赖不满足（如执行遗忘重置后）时，主动为 `narrowDoor`/`watchLink`、`answerBox`/`switchLink`、`deliverBox`/`deadletterLink`、`cancelBox`/`cancelLink`、`actingBox`/`actingLink` 及 `reliquaryLink` 重新施加 `hidden` 属性（`setAttribute("hidden", "")`），设置 `aria-hidden="true"`，并清理关联 class。
+- 遗物审查台与终极封印：
+  - 3 组原生按钮 (`#relic-1`, `#relic-2`, `#relic-3`)，激活后播放 WebAudio 压印卡扣声 (`AudioEngine.clamp()`)，更新 `aria-pressed="true"` 并揭示审查笔记。
+  - 三件遗物全部审查后，终极封印按钮 (`#seal-btn`) 动态启用；点击后播放沉重印章声，持久化 `sealed: true` 与 `sealedAt`，按 150ms 节奏逐行显现 6 行封印记录（`prefers-reduced-motion` 立即完整显现），并调度 `AutoAdvance` 自动推进至 `#remembrance`。
+- 痕迹页与 8 卡 Grid 约束：严格保留 8 卡 Stat Grid（桌面 4×2 / 移动 2×4）。通过 `#reliquary-slot` 渲染封印状态 Banner，并新增专属 `relic-memory` 记忆文案（`「神没有留下遗物。你把整座观所封印在了记忆里。」`）。
+- 离线/旧版重定向与无 confirm 重置：
+  - `reliquary.html` 转换为极简重定向脚本（`location.replace("index.html#reliquary")`），将守卫判定委托给主 SPA。
+  - 痕迹页底部添加无原生 `confirm()` 的主题化内联遗忘确认框（`#forget-confirm-box`），确认后不区分大小写地清空所有 `goddead` 相关 key（`k.toLowerCase().includes("goddead")`），移除 `saveState()` 调用以确保 `localStorage` 内 `goddead` key 数量为 0，并依次调用 `paintWatch()`、`paintLine4()`、`paintDeliver()`、`paintCancel()`、`paintActing()`、`paintRelicMemory()` 平滑重置回 `#threshold`。
+- 视口适配与短桌面支持：`@media (min-width: 721px) and (max-height: 800px)` 视口下将 `#reliquary` 设为两栏网格，位图限制 230px 高度，顶栏留出 `clamp(92px, 10vh, 130px)` 安全净空，首个核心遗物按钮首屏无滚动可见。
+- 证据文件与全场景 QA（证据存放在 `design-qa-evidence/`）：
+  - `01-locked-reliquary-fallback-desktop-1440x937.png`：未满足 7 项前置依赖时直接访问 `#reliquary` 的降级守卫与规范化 URL 回退。
+  - `02-unlocked-reliquary-desktop-1440x937.png`：7 项依赖满足后，原生 `#reliquary` 桌面主场景与遗物审查台正确呈现。
+  - `03-reliquary-short-desktop-1440x800.png`：短桌面（1440×800）视口下顶栏留空、图表缩放与首屏无滚动可操作性。
+  - `04-reliquary-mobile-390x844.png`：移动端（390×844）单栏流式布局与触摸/无障碍适配。
+  - `05-relics-pressed-ready-to-seal-1440x937.png`：三件遗物全部审查压印完毕，终极封印按钮 `#seal-btn` 动态解锁。
+  - `06-remembrance-post-seal-1440x937.png`：终极封印印章生效后，AutoAdvance 自动转场至 `#remembrance` 痕迹页，8 卡 Grid 严格保持。
+  - `07-remembrance-reset-confirm-panel-1440x937.png`：痕迹页底部无原生 `confirm()` 的内联主题化遗忘面板。
+  - `08-post-reset-threshold-1440x937.png`：重置遗忘后平滑重置回 `#threshold`，`localStorage` 内 `goddead` key 数量为 0，DOM `hidden` 属性双向恢复。
+  - `09-legacy-reliquary-html-redirect-1440x937.png`：访问离线/旧版 `reliquary.html` 时极简客户端跳转至 `index.html#reliquary`。
+  - `10-reduced-motion-auto-advance-1440x937.png`：`prefers-reduced-motion` 下 6 行记录瞬间全显与 350ms 快转场。
+  - `11-reliquary-timer-cancelled-offering-1440x937.png`：离开遗物科场景时定时器 (`AutoAdvance.clear("reliquary")`) 成功 cancel 验证。
+  - `12-low-arrivals-authoritative-gate-1440x937.png`：`arrivals = 1` 但 7 项权威前置全部满足时，门仍按 `reliquaryUnlocked()` 契约允许进入。
+- CDP 无头全自动 QA 与静态测试：无头全自动 CDP QA 覆盖 12/12 场景全覆测，Errors/Exceptions 严格为 0，运行时 ReferenceError 严格为 0；缓存升级至 `v27`；`node --check script.js`、`node tests/site.test.mjs` 与 `git diff --check` 全部干净通过。
 
 ## 本轮新增：焚献炉点火燃烧动态与转场（v26）
 

@@ -39,6 +39,35 @@ document.addEventListener("DOMContentLoaded", () => {
     store.set("goddead_state", JSON.stringify(gstate));
   };
 
+  /* ---------- 神圣遗物科状态与契约 ---------- */
+  const getRelic = () => {
+    try {
+      const parsed = JSON.parse(store.get("goddead_reliquary", "{}"));
+      return {
+        items: Array.isArray(parsed.items) && parsed.items.length === 3
+          ? [Boolean(parsed.items[0]), Boolean(parsed.items[1]), Boolean(parsed.items[2])]
+          : [false, false, false],
+        sealed: Boolean(parsed.sealed),
+        sealedAt: Number(parsed.sealedAt) || 0,
+      };
+    } catch {
+      return { items: [false, false, false], sealed: false, sealedAt: 0 };
+    }
+  };
+
+  const saveRelic = (data) => {
+    store.set("goddead_reliquary", JSON.stringify(data));
+  };
+
+  const reliquaryUnlocked = () =>
+    watchUnlocked() &&
+    line4Unlocked() &&
+    getLine4().connected &&
+    getDL().accepted &&
+    getCancel().refused &&
+    getActing().appointed &&
+    (gstate.prayersOffered > 0);
+
   /* ---------- 元素 ---------- */
   const statusLine = $("#status-line");
   const message = $("#arrival-message");
@@ -514,8 +543,25 @@ document.addEventListener("DOMContentLoaded", () => {
       return muted;
     };
 
+    /* 金属重压/卡扣声：审查压印遗物时响 */
+    const clamp = () => {
+      if (!ready) return;
+      const t = ctx.currentTime;
+      const o = ctx.createOscillator();
+      o.type = "square";
+      o.frequency.setValueAtTime(180, t);
+      o.frequency.exponentialRampToValueAtTime(45, t + 0.12);
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.25, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
+      o.connect(g);
+      g.connect(master);
+      o.start(t);
+      o.stop(t + 0.12);
+    };
+
     return {
-      ensure, knock, bell, whoosh, tick, hum, phoneRing, plug, tube, stamp, type, lineNoise,
+      ensure, knock, bell, whoosh, tick, hum, phoneRing, plug, tube, stamp, type, clamp, lineNoise,
       switchFriction, switchContact, relayLock, toggle,
       get muted() { return muted; },
     };
@@ -749,6 +795,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let cancellationConsumed = false;
   let actingConsumed = false;
   let offeringConsumed = false;
+  let reliquaryConsumed = false;
 
   const revealScene = (scene) => {
     const els = scene.querySelectorAll(".reveal:not(.in)");
@@ -768,12 +815,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (name === "cancellation") { cancellationConsumed = false; enterCancel(); }
     if (name === "acting") { actingConsumed = false; enterActing(); }
     if (name === "offering") { offeringConsumed = false; if (offeringFigure) { offeringFigure.classList.remove("ignited"); offeringFigure.setAttribute("aria-label", "一座沉寂的焚献炉"); } }
+    if (name === "reliquary") { reliquaryConsumed = false; enterReliquary(); }
     if (name === "ninth") AudioEngine.bell(58);
     if (name === "remembrance") {
       paintWatch();
       paintLine4();
       paintDeliver();
       paintCancel();
+      paintActing();
+      paintRelicMemory();
       if (!statsCounted) {
         statsCounted = true;
         countUp(numEls.arrivals, arrivals);
@@ -785,14 +835,18 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* 分层进度守卫：每个场景直接声明自己的全部前置依赖，而不是依赖分支顺序。
-     注销科 = 三张残页 + 第四线路解锁 + 第四线路接通 + 空白回执签收；
-     投递所 = 三张残页 + 第四线路解锁 + 第四线路接通；
-     交换台 = 三张残页 + 第四线路解锁；值夜室 = 三张残页。
-     任一依赖不满足即向依赖链上游归并（cancellation→deadletter→switchboard→watch→corridor），
-     陈旧/篡改状态（如 line4=true 但残页为 0、或 cancellation refused=true 但上游缺失）
-     也会落到最终可达场景。deadletter/cancellation 自身状态不参与判定——它们无权替自己开门。 */
+     神圣遗物科 = 7 项依赖全备；
+     代神席 = 5 项依赖；
+     注销科 = 4 项依赖；
+     投递所 = 3 项依赖；
+     交换台 = 2 项依赖；
+     值夜室 = 1 项依赖。
+     任一依赖不满足即向依赖链上游归并（reliquary→offering→acting→cancellation→deadletter→switchboard→watch→corridor），
+     陈旧/篡改状态也会落到最终可达场景。 */
   const resolveScene = (name) => {
     let target = name;
+    if (target === "reliquary" && !reliquaryUnlocked()) target = "offering";
+    if (target === "offering" && !(watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted && getCancel().refused && getActing().appointed)) target = "acting";
     if (target === "acting" && !(watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted && getCancel().refused)) target = "cancellation";
     if (target === "cancellation" && !(watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted)) target = "deadletter";
     if (target === "deadletter" && !(watchUnlocked() && line4Unlocked() && getLine4().connected)) target = "switchboard";
@@ -818,12 +872,15 @@ document.addEventListener("DOMContentLoaded", () => {
     leaveDeadletter();
     leaveCancel();
     leaveActing();
+    leaveReliquary();
     veil.classList.add("on");
     AudioEngine.whoosh();
     setTimeout(() => {
       const prev = scenes[currentScene];
-      prev.classList.remove("active");
-      prev.scrollTop = 0;
+      if (prev) {
+        prev.classList.remove("active");
+        prev.scrollTop = 0;
+      }
       const next = scenes[name];
       next.classList.add("active");
       currentScene = name;
@@ -1333,7 +1390,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* 彩蛋：敲封印的门，里面有东西应一声 */
   gateReliquary.addEventListener("click", (e) => {
-    if (arrivals >= 7) return;
+    if (reliquaryUnlocked()) return;
     e.preventDefault();
     AudioEngine.knock();
     toast("里面有东西应了一声。仅此一声。");
@@ -1384,11 +1441,15 @@ document.addEventListener("DOMContentLoaded", () => {
      与路由同一组依赖：值夜室（三张残页）是第四线路的前置，
      陈旧 line4=true 但残页不足时入口同样不得出现。 */
   const syncLine4 = () => {
-    if (!watchUnlocked() || !line4Unlocked()) return;
-    answerBox.removeAttribute("hidden");
-    switchLink.removeAttribute("hidden");
-    if (!answerNote.textContent) {
-      answerNote.textContent = "桌下那部不存在的电话，开始第二次响。";
+    if (watchUnlocked() && line4Unlocked()) {
+      answerBox.removeAttribute("hidden");
+      switchLink.removeAttribute("hidden");
+      if (!answerNote.textContent) {
+        answerNote.textContent = "桌下那部不存在的电话，开始第二次响。";
+      }
+    } else {
+      answerBox.setAttribute("hidden", "");
+      switchLink.setAttribute("hidden", "");
     }
   };
 
@@ -1420,11 +1481,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const watchUnlocked = () => fragments >= 3;
 
   const syncWatchDoor = () => {
-    if (!watchUnlocked() || !narrowDoor.hasAttribute("hidden")) return;
-    narrowDoor.removeAttribute("hidden");
-    watchLink.removeAttribute("hidden");
-    doorTrace.classList.remove("trace-on");
-    requestAnimationFrame(() => narrowDoor.classList.add("appeared"));
+    if (watchUnlocked()) {
+      if (narrowDoor.hasAttribute("hidden")) {
+        narrowDoor.removeAttribute("hidden");
+        doorTrace.classList.remove("trace-on");
+        requestAnimationFrame(() => narrowDoor.classList.add("appeared"));
+      }
+      watchLink.removeAttribute("hidden");
+    } else {
+      narrowDoor.setAttribute("hidden", "");
+      narrowDoor.classList.remove("appeared");
+      watchLink.setAttribute("hidden", "");
+    }
   };
 
   /* 不满足条件时，墙上偶尔只有门框的痕迹，不做任何提示 */
@@ -1787,14 +1855,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const dlLines = $$("#dl-record .dl-line");
   const deliverMemory = $("#deliver-memory");
 
-  /* 入口：第四线路真正接通（connected）后原子恢复 hidden。
-     与路由同一组依赖；deadletter 自身状态不参与——它无权替自己开门。 */
   const syncDeadletter = () => {
-    if (!(watchUnlocked() && line4Unlocked() && getLine4().connected)) return;
-    deliverBox.removeAttribute("hidden");
-    deadletterLink.removeAttribute("hidden");
-    if (!deliverNote.textContent) {
-      deliverNote.textContent = "退回的东西，有了去处。";
+    if (watchUnlocked() && line4Unlocked() && getLine4().connected) {
+      deliverBox.removeAttribute("hidden");
+      deadletterLink.removeAttribute("hidden");
+      if (!deliverNote.textContent) {
+        deliverNote.textContent = "退回的东西，有了去处。";
+      }
+    } else {
+      deliverBox.setAttribute("hidden", "");
+      deadletterLink.setAttribute("hidden", "");
     }
   };
 
@@ -1986,14 +2056,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
-  /* 入口：空白回执真正签收（accepted）后原子恢复 hidden。
-     与路由同一组依赖；cancellation 自身状态不参与——它无权替自己开门。 */
   const syncCancel = () => {
-    if (!(watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted)) return;
-    cancelBox.removeAttribute("hidden");
-    cancelLink.removeAttribute("hidden");
-    if (!cancelNote.textContent) {
-      cancelNote.textContent = "空白回执生成了一个不该存在的案号。";
+    if (watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted) {
+      cancelBox.removeAttribute("hidden");
+      cancelLink.removeAttribute("hidden");
+      if (!cancelNote.textContent) {
+        cancelNote.textContent = "空白回执生成了一个不该存在的案号。";
+      }
+    } else {
+      cancelBox.setAttribute("hidden", "");
+      cancelLink.setAttribute("hidden", "");
     }
   };
 
@@ -2203,14 +2275,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
-  /* 入口：注销科真正拒绝（refused）后原子恢复 hidden。
-     与路由同一组依赖；acting 自身状态不参与——它无权替自己开门。 */
   const syncActingEntry = () => {
-    if (!(watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted && getCancel().refused)) return;
-    actingBox.removeAttribute("hidden");
-    actingLink.removeAttribute("hidden");
-    if (!actingNote.textContent) {
-      actingNote.textContent = "你的拒绝被改写成了一份任命。";
+    if (watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted && getCancel().refused) {
+      actingBox.removeAttribute("hidden");
+      actingLink.removeAttribute("hidden");
+      if (!actingNote.textContent) {
+        actingNote.textContent = "你的拒绝被改写成了一份任命。";
+      }
+    } else {
+      actingBox.setAttribute("hidden", "");
+      actingLink.setAttribute("hidden", "");
     }
   };
 
@@ -2438,9 +2512,9 @@ document.addEventListener("DOMContentLoaded", () => {
     prayerResponse.classList.add("visible");
 
     if (!offeringConsumed) {
-      AutoAdvance.schedule("offering", "remembrance", {
+      AutoAdvance.schedule("offering", "reliquary", {
         before: () => { offeringConsumed = true; },
-        onSchedule: () => toast("祷词已焚。去看看它记住了你什么。"),
+        onSchedule: () => toast("祷词已焚。神圣遗物科已接收。"),
       });
     }
   };
@@ -2484,26 +2558,216 @@ document.addEventListener("DOMContentLoaded", () => {
     requestAnimationFrame(step);
   };
 
+  /* ============================================================
+     第四幕又半 · 神圣遗物科
+     ============================================================ */
+  let relicTimers = [];
+  const clearRelicTimers = () => {
+    relicTimers.forEach(clearTimeout);
+    relicTimers = [];
+  };
+
+  const syncReliquaryEntry = () => {
+    renderReliquary();
+  };
+
+  const enterReliquary = () => {
+    reliquaryConsumed = false;
+    paintRelic();
+  };
+
+  const leaveReliquary = () => {
+    AutoAdvance.clear("reliquary");
+    clearRelicTimers();
+    const record = $("#relic-record");
+    if (record) record.setAttribute("aria-live", "off");
+  };
+
+  const paintRelic = () => {
+    const data = getRelic();
+    const items = [$("#relic-1"), $("#relic-2"), $("#relic-3")];
+    const sealBtn = $("#seal-btn");
+    const sealReason = $("#seal-reason");
+    const record = $("#relic-record");
+
+    const notes = [
+      "已压印：门外四记敲击与八张从走廊脱落的碎片。",
+      "已压印：05:02 值夜接线与第三局空白回执。",
+      "已压印：代神席 100% 在场闸刀与焚献炉灰烬。"
+    ];
+
+    let count = 0;
+    items.forEach((item, i) => {
+      if (!item) return;
+      const btn = item.querySelector(".relic-btn");
+      const alt = item.querySelector(".alt");
+      const pressed = data.items[i];
+      if (pressed) {
+        count++;
+        btn.setAttribute("aria-pressed", "true");
+        if (alt) {
+          alt.textContent = notes[i];
+          alt.hidden = false;
+          alt.removeAttribute("aria-hidden");
+        }
+      } else {
+        btn.setAttribute("aria-pressed", "false");
+        if (alt) {
+          alt.hidden = true;
+          alt.setAttribute("aria-hidden", "true");
+        }
+      }
+    });
+
+    if (data.sealed) {
+      if (sealBtn) {
+        sealBtn.disabled = true;
+        const orig = $("#seal-orig");
+        if (orig) orig.textContent = "肆 · 终极封印已生效";
+      }
+      if (sealReason) sealReason.textContent = "神圣遗物科档案已永久封印。";
+      if (record) {
+        record.setAttribute("aria-live", "off");
+        const lines = record.querySelectorAll(".relic-line");
+        lines.forEach((l) => { l.hidden = false; l.classList.add("in"); });
+      }
+    } else {
+      const remaining = 3 - count;
+      if (count === 3) {
+        if (sealBtn) {
+          sealBtn.disabled = false;
+          const orig = $("#seal-orig");
+          if (orig) orig.textContent = "肆 · 压下终极封印";
+        }
+        if (sealReason) sealReason.textContent = "三件遗物已全部审查压印。可以执行终极封印。";
+      } else {
+        if (sealBtn) sealBtn.disabled = true;
+        if (sealReason) sealReason.textContent = `还有 ${remaining} 件遗物未审查封印。`;
+      }
+      if (record) {
+        const lines = record.querySelectorAll(".relic-line");
+        lines.forEach((l) => { l.hidden = true; l.classList.remove("in"); });
+      }
+    }
+  };
+
+  [1, 2, 3].forEach((idx) => {
+    const container = $(`#relic-${idx}`);
+    if (!container) return;
+    const btn = container.querySelector(".relic-btn");
+    if (!btn) return;
+    const handlePress = () => {
+      AudioEngine.clamp();
+      const data = getRelic();
+      data.items[idx - 1] = true;
+      saveRelic(data);
+      paintRelic();
+    };
+    btn.addEventListener("click", handlePress);
+  });
+
+  const sealBtn = $("#seal-btn");
+  if (sealBtn) {
+    sealBtn.addEventListener("click", () => {
+      if (sealBtn.disabled) return;
+      const data = getRelic();
+      if (!data.items.every(Boolean)) return;
+      if (data.sealed) {
+        paintRelic();
+        return;
+      }
+      AudioEngine.stamp();
+      data.sealed = true;
+      data.sealedAt = Date.now();
+      saveRelic(data);
+
+      const record = $("#relic-record");
+      const lines = record ? Array.from(record.querySelectorAll(".relic-line")) : [];
+      if (record) record.setAttribute("aria-live", "polite");
+
+      clearRelicTimers();
+      if (reduced) {
+        lines.forEach((l) => { l.hidden = false; l.classList.add("in"); });
+        paintRelic();
+        if (currentScene === "reliquary" && !reliquaryConsumed) {
+          AutoAdvance.schedule("reliquary", "remembrance", {
+            before: () => { reliquaryConsumed = true; },
+            onSchedule: () => toast("遗物已封印。正在前往痕迹。"),
+          });
+        }
+      } else {
+        lines.forEach((l, i) => {
+          const tid = setTimeout(() => {
+            l.hidden = false;
+            l.classList.add("in");
+            AudioEngine.tick();
+            if (i === lines.length - 1) {
+              paintRelic();
+              if (currentScene === "reliquary" && !reliquaryConsumed) {
+                AutoAdvance.schedule("reliquary", "remembrance", {
+                  before: () => { reliquaryConsumed = true; },
+                  onSchedule: () => toast("遗物已封印。正在前往痕迹。"),
+                });
+              }
+            }
+          }, 150 + i * 150);
+          relicTimers.push(tid);
+        });
+      }
+    });
+  }
+
   const renderReliquary = () => {
-    const unlocked = arrivals >= 7;
-    reliquaryLink.classList.toggle("locked", !unlocked);
+    const unlocked = reliquaryUnlocked();
+    if (reliquaryLink) {
+      reliquaryLink.hidden = !unlocked;
+      reliquaryLink.classList.toggle("locked", !unlocked);
+      reliquaryLink.setAttribute("aria-hidden", String(!unlocked));
+      if (unlocked) {
+        reliquaryLink.removeAttribute("hidden");
+      } else {
+        reliquaryLink.setAttribute("hidden", "");
+      }
+    }
 
     /* 走廊里的第四道门 */
-    gateReliquary.classList.toggle("unsealed", unlocked);
-    gateReliquary.querySelector(".gate-name").textContent = unlocked ? "遗物室" : "？？？";
-    gateReliquary.querySelector(".gate-whisper").textContent = unlocked
-      ? "被收集的缺席，在等你认领。"
-      : "遗物室仍在沉睡。";
-    $("#stat-reliquary").textContent = unlocked
-      ? "封印 · 已解开"
-      : `封印 · 还差 ${7 - arrivals} 次抵达`;
+    if (gateReliquary) {
+      gateReliquary.classList.toggle("unsealed", unlocked);
+      gateReliquary.querySelector(".gate-name").textContent = unlocked ? "神圣遗物科" : "？？？";
+      gateReliquary.querySelector(".gate-whisper").textContent = unlocked
+        ? "所有留在观所里的东西，在此压印归档。"
+        : "遗物室仍在沉睡。";
+      const stat = $("#stat-reliquary");
+      if (stat) {
+        stat.textContent = unlocked
+          ? "已解封 · 随时进入"
+          : "封印 · 需在代神席在岗并完成焚献";
+      }
+    }
 
-    if (unlocked) {
-      reliquarySlot.innerHTML =
-        `<a class="rl-link" href="reliquary.html" data-hover><b>00</b><span class="rl-name">遗物室</span><span class="rl-hint">被收集的缺席 ⟶</span></a>`;
-    } else {
-      reliquarySlot.innerHTML =
-        `<div class="rl-lock"><b>00 / ？？？</b><span>遗物室仍在沉睡 · 还差 ${7 - arrivals} 次抵达</span></div>`;
+    if (reliquarySlot) {
+      if (unlocked) {
+        const data = getRelic();
+        const sealText = data.sealed ? " · 已封印" : "";
+        reliquarySlot.innerHTML =
+          `<a class="rl-link" href="#reliquary" data-go="reliquary" data-hover><b>02‡</b><span class="rl-name">神圣遗物科${sealText}</span><span class="rl-hint">审查被留下的遗物与灰烬 ⟶</span></a>`;
+      } else {
+        reliquarySlot.innerHTML =
+          `<div class="rl-lock"><b>02‡ / 神圣遗物科</b><span>遗物室仍在沉睡 · 需在代神席在岗并完成焚献</span></div>`;
+      }
+    }
+  };
+
+  const paintRelicMemory = () => {
+    const data = getRelic();
+    const memory = $("#relic-memory");
+    if (memory) {
+      if (data.sealed) {
+        memory.textContent = "神没有留下遗物。你把整座观所封印在了记忆里。";
+        memory.hidden = false;
+      } else {
+        memory.hidden = true;
+      }
     }
   };
 
@@ -2607,10 +2871,80 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  /* ============================================================
+     痕迹页重置（选择遗忘）
+     ============================================================ */
+  const forgetTriggerBtn = $("#forget-trigger-btn");
+  const forgetPanel = $("#forget-panel");
+  const forgetCancelBtn = $("#forget-cancel-btn");
+  const forgetActionBtn = $("#forget-action-btn");
+
+  if (forgetTriggerBtn && forgetPanel) {
+    forgetTriggerBtn.addEventListener("click", () => {
+      forgetPanel.hidden = false;
+      forgetTriggerBtn.hidden = true;
+    });
+  }
+
+  if (forgetCancelBtn && forgetPanel && forgetTriggerBtn) {
+    forgetCancelBtn.addEventListener("click", () => {
+      forgetPanel.hidden = true;
+      forgetTriggerBtn.hidden = false;
+    });
+  }
+
+  if (forgetActionBtn) {
+    forgetActionBtn.addEventListener("click", () => {
+      try {
+        const keysToRemove = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const k = localStorage.key(i);
+          if (k && (k.startsWith("goddead") || k.toLowerCase().includes("goddead"))) {
+            keysToRemove.push(k);
+          }
+        }
+        keysToRemove.forEach((k) => localStorage.removeItem(k));
+      } catch {}
+
+      awake = false;
+      arrivals = 0;
+      fragments = 0;
+      gstate = { prayersOffered: 0, corruption: 0 };
+      statsCounted = false;
+
+      paintStats();
+      syncAwake();
+      syncWatchDoor();
+      applyWatchState();
+      syncLine4();
+      syncPatchLog();
+      syncDeadletter();
+      syncReturnLog();
+      syncCancel();
+      syncCancelScene();
+      syncActingEntry();
+      syncActingScene();
+      renderReliquary();
+      syncReliquaryEntry();
+      paintWatch();
+      paintLine4();
+      paintDeliver();
+      paintCancel();
+      paintActing();
+      paintRelicMemory();
+
+      if (forgetPanel) forgetPanel.hidden = true;
+      if (forgetTriggerBtn) forgetTriggerBtn.hidden = false;
+      toast("已遗忘所有痕迹。重置回门外。");
+      goScene("threshold");
+    });
+  }
+
   /* ---------- 初始化 ---------- */
   paintStats();
   saveState();
   renderReliquary();
+  syncReliquaryEntry();
   syncAwake();
   syncWatchDoor();
   applyWatchState();
@@ -2627,6 +2961,7 @@ document.addEventListener("DOMContentLoaded", () => {
   syncActingEntry();
   syncActingScene();
   paintActing();
+  paintRelicMemory();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();
