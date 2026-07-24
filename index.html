@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-    <link rel="stylesheet" href="styles.css?v=30">
+    <link rel="stylesheet" href="styles.css?v=31">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -87,6 +87,16 @@
                 <img class="door-img" id="door-img" src="assets/threshold-bureau-door.webp" alt="" width="1536" height="1024" fetchpriority="high">
                 <img class="door-img door-open-img" id="door-open-img" src="assets/threshold-bureau-door-open.webp" alt="" width="1536" height="1024" aria-hidden="true">
               </button>
+              <!-- v31 门前热点：干净存档立即可发现，不盖住门板的敲击主区域 -->
+              <button class="door-hotspot hotspot-peephole" id="hotspot-peephole" type="button" aria-label="观察门上的黑色日蚀" data-hover>
+                <span class="dh-label" aria-hidden="true">日蚀</span>
+              </button>
+              <button class="door-hotspot hotspot-glyph" id="hotspot-glyph" type="button" aria-label="触碰左墙上不该数的符号" data-hover>
+                <span class="dh-label" aria-hidden="true">符号</span>
+              </button>
+              <button class="door-hotspot hotspot-return" id="hotspot-return" type="button" aria-label="沿着右侧写着回来的痕迹走" data-hover>
+                <span class="dh-label" aria-hidden="true">回来</span>
+              </button>
               <span class="seam-whisper" id="seam-whisper" aria-hidden="true"></span>
             </div>
 
@@ -122,6 +132,111 @@
           <p class="rules-foot reveal">守则如有变动，恕不另行通知。——有些变动并非我们所为。</p>
 
           <nav class="scene-exits reveal" aria-label="离开守则">
+            <button class="exit-link" type="button" data-go="threshold" data-hover>⟵ 回到门外</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段 · 倒置窥孔（v31） -->
+      <section class="scene scene-branch scene-forecourt" id="scene-peephole-chamber" data-scene="peephole-chamber" data-title="Goddead — 倒置窥孔" aria-label="倒置窥孔">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE INVERTED PEEPHOLE · 倒 置 窥 孔</p>
+            <h2 class="sec-title">倒置窥孔</h2>
+            <p class="sec-desc">你从门的里面看向门外。黑镜悬在正中央，黄铜听音管贴在左墙，右边的机械眼睑一直闭着。</p>
+          </header>
+
+          <figure class="branch-figure reveal" role="img" aria-label="门内侧一面巨大的圆形黑镜，左侧伸出黄铜听音管，右侧垂着一只闭合的机械眼睑">
+            <img class="branch-img" src="assets/forecourt-peephole.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="branch-choices reveal" id="peephole-choices" role="group" aria-label="选择如何对待这只窥孔">
+            <button class="branch-btn" id="peephole-choice-witness" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">直视黑镜</span>
+              <span class="bb-hint">镜后有什么，也在看你</span>
+            </button>
+            <button class="branch-btn" id="peephole-choice-listen" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">听黄铜管</span>
+              <span class="bb-hint">管子那头有敲门声</span>
+            </button>
+            <button class="branch-btn" id="peephole-choice-close" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">闭上这只眼</span>
+              <span class="bb-hint">不看，也是一种回答</span>
+            </button>
+          </div>
+          <p class="branch-response" id="peephole-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开倒置窥孔">
+            <button class="exit-link" type="button" data-go="threshold" data-hover>⟵ 回到门外</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段 · 失号龛（v31） -->
+      <section class="scene scene-branch scene-forecourt" id="scene-glyph-niche" data-scene="glyph-niche" data-title="Goddead — 失号龛" aria-label="失号龛">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE MISSING-NUMERAL NICHE · 失 号 龛</p>
+            <h2 class="sec-title">失号龛</h2>
+            <p class="sec-desc">九枚黄铜编号盘悬在石龛里，第七枚被刮得发白。最底下那枚白瓷盘，什么编号都没有。</p>
+          </header>
+
+          <figure class="branch-figure reveal" role="img" aria-label="狭窄石龛内悬着九枚黄铜编号盘，其中一枚被刮除，最底部放着一枚空白的白瓷盘">
+            <img class="branch-img" src="assets/forecourt-glyph-niche.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="branch-choices reveal" id="glyph-choices" role="group" aria-label="选择触碰哪一枚号牌">
+            <button class="branch-btn" id="glyph-choice-count" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">数第九道刻痕</span>
+              <span class="bb-hint">墙上全是被擦掉的计数</span>
+            </button>
+            <button class="branch-btn" id="glyph-choice-erase" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">擦掉第七号</span>
+              <span class="bb-hint">它本来就已经快没了</span>
+            </button>
+            <button class="branch-btn" id="glyph-choice-blank" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">取下空白号牌</span>
+              <span class="bb-hint">没有编号的门，不上锁</span>
+            </button>
+          </div>
+          <p class="branch-response" id="glyph-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开失号龛">
+            <button class="exit-link" type="button" data-go="threshold" data-hover>⟵ 回到门外</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段 · 回返夹道（v31） -->
+      <section class="scene scene-branch scene-forecourt" id="scene-return-passage" data-scene="return-passage" data-title="Goddead — 回返夹道" aria-label="回返夹道">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE RETURNING PASSAGE · 回 返 夹 道</p>
+            <h2 class="sec-title">回返夹道</h2>
+            <p class="sec-desc">夹道从门内侧折回同一扇门。地上的脚印一半朝里、一半朝外，左墙嵌着一只从里面用的门环。</p>
+          </header>
+
+          <figure class="branch-figure reveal" role="img" aria-label="一条极窄的夹道折回同一扇门，地面脚印朝向相反，左墙嵌着门环，右侧墙缝透出刻满符号的石龛">
+            <img class="branch-img" src="assets/forecourt-return-passage.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="branch-choices reveal" id="return-choices" role="group" aria-label="选择沿哪一串痕迹走">
+            <button class="branch-btn" id="return-choice-follow" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">跟随向内的脚印</span>
+              <span class="bb-hint">脚印比你更认得路</span>
+            </button>
+            <button class="branch-btn" id="return-choice-knock" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">从里面敲门</span>
+              <span class="bb-hint">门外站着另一个你</span>
+            </button>
+            <button class="branch-btn" id="return-choice-backward" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">倒着走到尽头</span>
+              <span class="bb-hint">不转身，也能向前</span>
+            </button>
+          </div>
+          <p class="branch-response" id="return-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开回返夹道">
             <button class="exit-link" type="button" data-go="threshold" data-hover>⟵ 回到门外</button>
           </nav>
         </div>
@@ -911,6 +1026,7 @@
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory" id="relic-memory"></p>
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory" id="branch-memory"></p>
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory" id="deep-memory"></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory" id="forecourt-memory"></p>
 
           <div class="reliquary-slot reveal" id="reliquary-slot"></div>
 
@@ -1001,6 +1117,9 @@
       <p class="menu-kicker">THE REMAINS</p>
       <a href="#threshold" data-hover>00 / 门外</a>
       <a href="#protocol" data-hover>01 / 守则</a>
+      <a href="#peephole-chamber" id="peephole-link" hidden data-hover>01α / 窥孔</a>
+      <a href="#glyph-niche" id="glyph-link" hidden data-hover>01β / 失号龛</a>
+      <a href="#return-passage" id="return-link" hidden data-hover>01γ / 回返夹道</a>
       <a href="#corridor" data-hover>02 / 走廊</a>
       <a href="#echo" id="echo-link" hidden data-hover>02α / 回声室</a>
       <a href="#vein" id="vein-link" hidden data-hover>02β / 维修井</a>
@@ -1020,6 +1139,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=30"></script>
+    <script src="script.js?v=31"></script>
   </body>
 </html>

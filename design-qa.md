@@ -1,6 +1,27 @@
-# Design QA — Living Shrine · 场景探索版（含值夜室 · 第四线路 · 无主投递所 · 神名注销科 · 代神席 · 自动转场 · 现有场景视觉深化 · 焚献点火 · 神圣遗物科 · v28 代行治理 · v29 旁路支线 · v30 深层支线）
+# Design QA — Living Shrine · 场景探索版（含值夜室 · 第四线路 · 无主投递所 · 神名注销科 · 代神席 · 自动转场 · 现有场景视觉深化 · 焚献点火 · 神圣遗物科 · v28 代行治理 · v29 旁路支线 · v30 深层支线 · v31 门前三岔）
 
 适用范围：当前 goddead.com 首页（哈希路由场景探索游戏）。本文替代旧版 QA 报告；旧版证据文件保留在 `design-qa-evidence/` 中仅作历史存档，不再代表现状。
+
+## 本轮新增：v31 门前三岔 / THE FORECOURT WEAVE（倒置窥孔 / 失号龛 / 回返夹道）
+
+- 目标：把最前段从「敲门 → 任意守则 → 走廊」的固定流程改成玩家第一次打开网页就能发现的真实多分支；分支发生在门外与守则段，不挂在 v29/v30 深层房间之后；门的三次敲击主路径保持原样。
+- 场景与素材：`#peephole-chamber`（倒置窥孔）、`#glyph-niche`（失号龛）、`#return-passage`（回返夹道）三个原生 SPA 场景；正式位图 `assets/forecourt-peephole.webp`（139 KB）、`assets/forecourt-glyph-niche.webp`（229 KB）、`assets/forecourt-return-passage.webp`（166 KB），均由监理提供源 PNG（`design-references/source-forecourt-*.png`，保留）经 Pillow quality=85 转码 1536×1024，沿用 `.scene-branch` / `.branch-figure` / `.branch-choices` 视觉语言，场景零内联 SVG、零 CSS 假素材。
+- 门外三热点：门图相对定位容器内三个原生 `button`——日蚀窥孔（aria-label「观察门上的黑色日蚀」）、左墙符号（「触碰左墙上不该数的符号」）、右侧回返痕（「沿着右侧写着回来的痕迹走」）；默认极淡轮廓 + 短标签，hover/focus-visible 增强，触屏 ≥48px；命中链断言证明门按钮中心仍命中门按钮（不遮三次敲击主目标）；点击即持久化 visited，0.7–1.0s（reduced-motion 0.3s）反馈后自动进入，无第二个继续按钮。
+- 九动作目的地（CDP 逐条实测）：直视黑镜→守则；听黄铜管→回返夹道；闭上这只眼→门外；数第九道刻痕→倒置窥孔；擦掉第七号→守则；取下空白号牌→走廊；跟随向内的脚印→失号龛；从里面敲门→守则；倒着走到尽头→走廊。三区域互相串联、回门外、进守则、直达走廊均闭合。
+- 守则真实分流：其二→回返夹道、其三/其七→失号龛、其四→倒置窥孔（取消原主线 AutoAdvance，短反馈后分流）；其一/五/六/八仍自动去走廊；首选锁定——任一规则排定转场后忽略本场景其他规则输入（CDP 实测：其二→反馈窗内点其一仍进回返夹道，其一→反馈窗内点其二仍进走廊，离场返回后可再次激活）；同一锁定应用于门外——任一门前转场（三敲或热点）排定后忽略门/热点输入（CDP 实测：日蚀热点→反馈窗内三敲仍进倒置窥孔且门未开、awake 未写；三敲→反馈窗内点热点仍进守则且不写 visited；离场返回后门外可再次激活）；「玖」异常（rulesCount 点击）优先进 `#ninth`，不受锁影响，v31 未改写该处理器（静态断言 + 玖窗口 CDP 实测）。
+- 状态与容错：独立 `goddead_v31_forecourt_weave`（`visited` 三键严格布尔、`marks` 九标记白名单去重、`lastChoice` 合法性校验、`transitions` 非负整数裁剪至 9999）；坏 JSON、错误类型、非法标记、溢出数字全部安全回退（CDP 实测）；点击时立即持久化；`AutoAdvance.has` 守卫下连点与 Enter/Space 重复事件只记一次、只调度一次；反馈期间刷新不重复累计、不会被幽灵转场拉走；离场（exit-link / hashchange）经 `goScene` 的 `clearAll` 取消未触发 timer（新区域与守则分流各一条实测）；不读不写 v28/v29/v30 与旧主线（种子快照字节级一致）；三场景不设守卫，干净存档热点可进、直接 hash 可达（直达即到访）。
+- 目录与痕迹：三区域首次到访后目录入口 `01α / 窥孔`、`01β / 失号龛`、`01γ / 回返夹道` 原子恢复，未访问 `hidden` 且不可聚焦；走廊不新增永久按钮；痕迹页只加单行 `#forecourt-memory`（「门前旁路：窥孔 / 失号龛 / 回返夹道（按已访问项显示）；你在门外改道 N 次。」），严格保持 8 卡。
+- 无障碍与动效：热点与动作均支持 Tab/Enter/Space，焦点环沿用血红/骨色；图片 alt 描述空间不泄露答案；hover/focus 只反馈不换场；reduced-motion 缩短反馈（实测 <2.5s 完成转场）且文案不跳过；静音、标题聚焦、滚动归顶、场景 veil 生命周期沿用现有契约。
+- 测试夹具修复（冒烟独立复现的两处竞态，生产代码零改动）：① `.scene.active` 静态存在于 HTML，旧就绪条件在 DOMContentLoaded 回调完成前放行，首次点击丢失——改为等待 `#era-line` 填数（回调同步执行的可观察中段）作为「全部监听已挂接」的确证；② 旧场景 veil 淡出期间其位图仍在最上层，真实鼠标事件落在旧场景上——点击助手改为等待 `elementsFromPoint` 命中链上只剩 `pointer-events:none` 覆盖物再击。种子标记用 sessionStorage（同 tab reload 保留、跨 Target 隔离），避免 localStorage 标记跨用例污染。
+- CDP 功能冒烟（`/tmp/goddead-qa/v31-forecourt-smoke.mjs`，真实浏览器 + 真实鼠标/键盘事件）66/66 通过：A 干净存档热点可发现/可键盘进入/不遮门 + 敲门主路径；B 三热点去向 + 九动作目的地 + 守则 2/3/4/7 分流 + 1/5/6/8 主线 + 反馈文案先于转场 + 无继续按钮 + transitions 精确计数；C 玖窗口入 ninth；D 连点 5 次 + Enter/Space 重复只记一次只转场一次 + aria-pressed 恢复 + 热点三连点幂等；E 反馈期间刷新不重复累计/无幽灵转场 + 两类离场取消旧 timer；F 坏 JSON/非法 marks/非法 visited/溢出 transitions 容错；G v28/v29/v30 + 主线快照字节级一致；H 痕迹单行与 8 卡 + 干净时隐藏；J 守则首选锁定（其二→其一锁定夹道、其一→其二锁定走廊、离场后恢复可激活）；K 门外首选锁定（热点→三敲锁定窥孔且门未开、三敲→热点锁定守则且不写 visited、离场后恢复可激活，另有独立聚焦回归 `v31-threshold-lock.mjs` 5/5）；I reduced-motion 缩短转场且文案完整；全程控制台零异常。
+- 视觉证据（`design-qa-evidence/`，CDP `/tmp/goddead-qa/v31-forecourt-visual.mjs` 62/62 通过，均经逐张目验；settle 条件 = scene active + veil 释放 + visibility/opacity + .reveal 全部 in + 素材解码）：
+  - `v31-01-threshold-hotspots-1440x800.png` / `v31-02-threshold-hotspots-mobile-390x844.png`：门外三热点桌面与移动端，均落在首屏、≥48px、无横向溢出、门按钮完整可见。
+  - `v31-03-peephole-chamber-1440x800.png` / `v31-04-glyph-niche-1440x800.png` / `v31-05-return-passage-1440x800.png`：三区域桌面 1440×800，标题/说明/位图/三动作全部首屏，lastChoice 的 aria-pressed 高亮恢复可见。
+  - `v31-06-peephole-chamber-mobile-390x844.png` / `v31-07-glyph-niche-mobile-390x844.png` / `v31-08-return-passage-mobile-390x844.png`：三区域移动 390×844（@2x），标题→说明→位图→三动作单列，首个动作首屏可见，无横向溢出。
+  - `v31-09-short-desktop-glyph-niche-1440x640.png`：短桌面 1440×640 首个动作无需滚动（三区域均逐张断言，失号龛留证）。
+  - `v31-10-protocol-detour-1440x800.png`：守则八条完整可见的分流前可见态。
+  - `v31-11-remembrance-forecourt-1440x800.png`：痕迹页单行「门前旁路：窥孔 / 失号龛 / 回返夹道；你在门外改道 3 次。」与 8 卡网格。
+- 静态契约：`node --check script.js`、`node tests/site.test.mjs`、`git diff --check` 全部通过；测试套件新增 v31 段——三素材存在与引用、源 PNG 保留、三热点原生 button 与 aria-label、热点在 door-scene 容器内且门按钮在前、三场景结构（各恰 3 个 branch-btn、aria-pressed、回门外出口、零内联 SVG）、全部 ID 接线、目录链接出厂 hidden、独立容错状态与 v28/v29/v30 零引用、九动作目的地、RULE_DETOUR 分流与门外/守则首选锁定及玖优先、幂等守卫、直达无守卫、痕迹单行与 8 卡、缓存 v31、文档同步。
 
 ## 本轮新增：v30 深层支线互联（失真转接室 / 逆流泵房 / 无名罪籍库）
 

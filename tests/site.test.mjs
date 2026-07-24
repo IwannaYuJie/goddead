@@ -29,15 +29,15 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=30/);
-assert.match(html, /script\.js\?v=30/);
+assert.match(html, /styles\.css\?v=31/);
+assert.match(html, /script\.js\?v=31/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
 assert.match(js, /DOMContentLoaded/);
 
 /* ---------- 场景探索结构 ---------- */
-const SCENES = ["threshold", "protocol", "corridor", "echo", "vein", "confession", "echo-transfer", "vein-pump", "confession-ledger", "watch", "switchboard", "deadletter", "cancellation", "acting", "offering", "reliquary", "remembrance", "ninth"];
+const SCENES = ["threshold", "protocol", "corridor", "peephole-chamber", "glyph-niche", "return-passage", "echo", "vein", "confession", "echo-transfer", "vein-pump", "confession-ledger", "watch", "switchboard", "deadletter", "cancellation", "acting", "offering", "reliquary", "remembrance", "ninth"];
 for (const s of SCENES) {
   assert.match(html, new RegExp(`data-scene="${s}"`), `scene missing: ${s}`);
 }
@@ -488,8 +488,8 @@ for (const asset of VISUAL_ASSETS) {
 await access(new URL("assets/prayer-incinerator-burning.webp", root));
 assert.match(html, /assets\/prayer-incinerator-burning\.webp/);
 assert.match(html, /<link rel="preload" href="assets\/prayer-incinerator-burning\.webp" as="image">/);
-assert.match(html, /styles\.css\?v=30/);
-assert.match(html, /script\.js\?v=30/);
+assert.match(html, /styles\.css\?v=31/);
+assert.match(html, /script\.js\?v=31/);
 const offeringFigureHtml = html.match(/<figure class="offering-figure[^"]*" role="img" aria-label="[^"]*">[\s\S]*?<\/figure>/);
 assert.ok(offeringFigureHtml, "offering figure must exist");
 assert.match(offeringFigureHtml[0], /aria-label="一座沉寂的焚献炉"/);
@@ -939,12 +939,104 @@ assert.match(js, /const paintDeepMemory = \(\) => \{/);
 assert.match(js, /paintDeepMemory\(\);/);
 assert.match(js, /你下到了更深的地方/);
 
+/* ---------- v31 门前三岔：倒置窥孔 / 失号龛 / 回返夹道 ---------- */
+for (const asset of ["assets/forecourt-peephole.webp", "assets/forecourt-glyph-niche.webp", "assets/forecourt-return-passage.webp"]) {
+  await access(new URL(asset, root));
+  assert.match(html, new RegExp(asset.replace(/[/.-]/g, "\\$&")), `${asset} must be referenced`);
+}
+/* 三张源 PNG 保留 */
+for (const src of ["design-references/source-forecourt-peephole.png", "design-references/source-forecourt-glyph-niche.png", "design-references/source-forecourt-return-passage.png"]) {
+  await access(new URL(src, root));
+}
+
+/* 门外三个原生 button 热点：与门按钮同处一个相对定位容器，带可访问名称 */
+assert.match(html, /id="hotspot-peephole" type="button" aria-label="观察门上的黑色日蚀"/);
+assert.match(html, /id="hotspot-glyph" type="button" aria-label="触碰左墙上不该数的符号"/);
+assert.match(html, /id="hotspot-return" type="button" aria-label="沿着右侧写着回来的痕迹走"/);
+const doorSceneBlock = html.match(/<div class="door-scene reveal" id="door-scene">[\s\S]*?<\/div>\s*<p class="status-line/);
+assert.ok(doorSceneBlock, "door-scene block must exist");
+for (const hs of ["hotspot-peephole", "hotspot-glyph", "hotspot-return"]) {
+  assert.ok(doorSceneBlock[0].includes(`id="${hs}"`), `${hs} must live inside door-scene`);
+}
+assert.ok(html.indexOf('id="door-btn"') < html.indexOf('id="hotspot-peephole"'), "door button keeps its original knock path untouched");
+assert.match(css, /\.door-hotspot:focus-visible/);
+assert.match(css, /\.door-hotspot \{/);
+
+/* 三个前段场景：沿用 scene-branch 语言，各三动作，零 inline SVG，出口回门外 */
+const forecourtSceneIds = { "peephole-chamber": "倒置窥孔", "glyph-niche": "失号龛", "return-passage": "回返夹道" };
+for (const [f, title] of Object.entries(forecourtSceneIds)) {
+  const section = html.match(new RegExp(`<section class="scene scene-branch scene-forecourt" id="scene-${f}"[\\s\\S]*?<\\/section>`));
+  assert.ok(section, `scene section missing: ${f}`);
+  assert.ok(section[0].includes(title), `${f} shows its title`);
+  assert.equal((section[0].match(/<button class="branch-btn"/g) || []).length, 3, `${f} must hold exactly 3 focusable action buttons`);
+  assert.ok(!section[0].includes("<svg"), `${f} must not use inline SVG`);
+  assert.match(section[0], /data-go="threshold"/, `${f} keeps an explicit back-to-threshold exit`);
+  assert.match(section[0], /aria-pressed="false"/, `${f} actions carry aria-pressed semantics`);
+}
+for (const id of ["peephole-choice-witness", "peephole-choice-listen", "peephole-choice-close", "glyph-choice-count", "glyph-choice-erase", "glyph-choice-blank", "return-choice-follow", "return-choice-knock", "return-choice-backward", "peephole-response", "glyph-response", "return-response", "forecourt-memory"]) {
+  assert.ok(html.includes(`id="${id}"`), `missing element #${id}`);
+}
+assert.match(html, /<a href="#peephole-chamber" id="peephole-link" hidden/);
+assert.match(html, /<a href="#glyph-niche" id="glyph-link" hidden/);
+assert.match(html, /<a href="#return-passage" id="return-link" hidden/);
+
+/* v31 状态契约：独立 key、容错解析、visited/marks 白名单/lastChoice/transitions 裁剪 */
+assert.match(js, /const FORECOURT_KEY = "goddead_v31_forecourt_weave";/);
+assert.match(js, /const FORECOURT_SCENES = \["peephole-chamber", "glyph-niche", "return-passage"\];/);
+const forecourtParseBlock = js.match(/const getForecourt = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(forecourtParseBlock, "getForecourt must exist");
+assert.match(forecourtParseBlock[0], /\} catch \{ raw = \{\}; \}/, "corrupt forecourt storage must be safely repaired");
+assert.match(forecourtParseBlock[0], /visited\[k\] = Boolean\(raw\.visited && raw\.visited\[k\] === true\)/);
+assert.match(forecourtParseBlock[0], /raw\.marks\.filter\(\(m\) => FORECOURT_MARKS\.includes\(m\)\)/, "illegal marks must be dropped");
+assert.match(forecourtParseBlock[0], /Math\.min\(FORECOURT_TRANSITIONS_CAP, Math\.floor\(transitions\)\)/, "transitions must be clamped");
+assert.ok(!forecourtParseBlock[0].includes("goddead_v28") && !forecourtParseBlock[0].includes("goddead_v29") && !forecourtParseBlock[0].includes("goddead_v30"), "forecourt state must not touch v28/v29/v30");
+
+/* 九个动作的合法标记与目的地 */
+assert.match(js, /witnessed: \{ btn: "#peephole-choice-witness", target: "protocol"/);
+assert.match(js, /heardInside: \{ btn: "#peephole-choice-listen", target: "return-passage"/);
+assert.match(js, /refusedSight: \{ btn: "#peephole-choice-close", target: "threshold"/);
+assert.match(js, /countedNine: \{ btn: "#glyph-choice-count", target: "peephole-chamber"/);
+assert.match(js, /erasedSeven: \{ btn: "#glyph-choice-erase", target: "protocol"/);
+assert.match(js, /tookBlank: \{ btn: "#glyph-choice-blank", target: "corridor"/);
+assert.match(js, /followedInward: \{ btn: "#return-choice-follow", target: "glyph-niche"/);
+assert.match(js, /knockedInside: \{ btn: "#return-choice-knock", target: "protocol"/);
+assert.match(js, /walkedBackward: \{ btn: "#return-choice-backward", target: "corridor"/);
+/* 三条热点去向 */
+assert.match(js, /"hotspot-peephole": \{ target: "peephole-chamber"/);
+assert.match(js, /"hotspot-glyph": \{ target: "glyph-niche"/);
+assert.match(js, /"hotspot-return": \{ target: "return-passage"/);
+
+/* 守则真实分流：2→回返夹道，3/7→失号龛，4→倒置窥孔；「玖」异常保持原 #ninth 优先 */
+assert.match(js, /const RULE_DETOUR = \{ 2: "return-passage", 3: "glyph-niche", 4: "peephole-chamber", 7: "glyph-niche" \};/);
+assert.match(js, /if \(AutoAdvance\.has\("protocol"\)\) return;/, "first accepted protocol transition must lock the destination and ignore later rule input");
+assert.match(js, /AutoAdvance\.clear\("protocol"\);\s*AutoAdvance\.schedule\("protocol", detour, \{/, "detour replaces the main-line protocol schedule");
+assert.match(js, /toast\("你数出了第九条。它一直在等你数出来。"\);\s*goScene\("ninth"\);/, "ninth anomaly path must stay intact");
+const rulesCountBlock = js.match(/rulesCount\.addEventListener\("click"[\s\S]*?\}\);/);
+assert.ok(rulesCountBlock && !rulesCountBlock[0].includes("detour"), "ninth anomaly must not be rewritten by v31 detour");
+
+/* 幂等与生命周期：连点/重复键盘只记一次只调度一次；点击时持久化 */
+assert.match(js, /if \(AutoAdvance\.has\(sceneKey\)\) return;/, "forecourt action must be idempotent while a transition is pending");
+assert.match(js, /if \(AutoAdvance\.has\("threshold"\)\) return;/, "door hotspot must be idempotent and never preempt the knock path");
+assert.match(js, /const knock = \(\) => \{[\s\S]{0,260}?if \(AutoAdvance\.has\("threshold"\)\) return;/, "threshold first-lock: once any forecourt transition is scheduled, door input is ignored too");
+assert.match(js, /if \(!st\.marks\.includes\(mark\)\) st\.marks\.push\(mark\);/, "marks dedupe");
+assert.match(js, /if \(FORECOURT_SCENES\.includes\(name\)\) enterForecourt\(name\);/);
+assert.match(js, /const enterForecourt = \(sceneKey\) => \{/);
+assert.match(js, /markForecourtVisited\(sceneKey\);/, "direct hash arrival counts as a visit");
+/* 三个新场景不设守卫：resolveScene 不得拦截 */
+const resolveBlock = js.match(/const resolveScene = \(name\) => \{[\s\S]*?\n  \};/);
+assert.ok(resolveBlock && !resolveBlock[0].includes("FORECOURT"), "forecourt scenes keep clean direct access, no guard");
+/* 痕迹页单行 + 八卡不变 */
+assert.match(js, /门前旁路：\$\{names\.join\(" \/ "\)\}；你在门外改道 \$\{st\.transitions\} 次。/);
+assert.match(js, /paintForecourtMemory\(\);/);
+assert.equal((html.match(/<div class="stat-card">/g) || []).length, 8, "remembrance keeps exactly eight stat cards");
+
 /* ---------- 文档同步 ---------- */
 const readme = await fileText("README.md");
 assert.match(readme, /值夜室|night-watch/i);
 assert.match(readme, /v28|代行治理|代理神明/, "README must document the v28 governance protocol");
 assert.match(readme, /v29|旁路|回声档案室/, "README must document the v29 branch scenes");
 assert.match(readme, /v30|深层|失真转接室/, "README must document the v30 deep branch network");
+assert.match(readme, /v31|门前|倒置窥孔/, "README must document the v31 forecourt weave");
 
 const qa = await fileText("design-qa.md");
 assert.match(qa, /第三值夜室/);
@@ -953,6 +1045,7 @@ assert.match(qa, /视觉深化|visual enrichment|正式图片/i);
 assert.match(qa, /v28|代行治理|神圣平衡/, "design-qa.md must document the v28 governance QA");
 assert.match(qa, /v29|旁路支线|回声档案室/, "design-qa.md must document the v29 branch QA");
 assert.match(qa, /v30|深层支线|失真转接室/, "design-qa.md must document the v30 deep branch QA");
+assert.match(qa, /v31|门前三岔|倒置窥孔/, "design-qa.md must document the v31 forecourt QA");
 
 const log = await fileText("docs/ProgressLog.md");
 assert.match(log, /2026-07-02/);
@@ -960,6 +1053,7 @@ assert.match(log, /Cloudflare Pages/);
 assert.match(log, /v28|神圣平衡|代理神明/, "ProgressLog must document v28");
 assert.match(log, /v29|旁路支线|回声档案室/, "ProgressLog must document v29");
 assert.match(log, /v30|深层支线|失真转接室/, "ProgressLog must document v30");
+assert.match(log, /v31|门前三岔|倒置窥孔/, "ProgressLog must document v31");
 
 /* ---------- 边界说明 ----------
    本套件为 Node 静态断言，不启动 DOM、不执行真实交互。

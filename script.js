@@ -924,6 +924,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (name === "corridor") { corridorConsumed = false; syncWatchDoor(); syncBranchEntries(); syncDeepEntries(); startTrace(); }
     if (BRANCH_SCENES.includes(name)) enterBranch(name);
     if (DEEP_SCENES.includes(name)) enterDeep(name);
+    if (FORECOURT_SCENES.includes(name)) enterForecourt(name);
     if (name === "watch") { watchConsumed = false; enterWatch(); }
     if (name === "switchboard") enterSwitch();
     if (name === "deadletter") enterDeadletter();
@@ -941,6 +942,7 @@ document.addEventListener("DOMContentLoaded", () => {
       paintRelicMemory();
       paintBranchMemory();
       paintDeepMemory();
+      paintForecourtMemory();
       syncGovernanceRemembrance();
       if (!statsCounted) {
         statsCounted = true;
@@ -1246,6 +1248,9 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const knock = () => {
+    /* v31 首选锁定：任一门前转场（三敲或热点）已排定后，忽略门/热点输入，
+       第一条已接受的转场锁定归宿；离场取消后回来仍可正常敲门/再武装 */
+    if (AutoAdvance.has("threshold")) return;
     /* 门已打开的状态下，任何主动激活都重新武装转场（用于 timer 被取消后）。 */
     if (doorScene.classList.contains("opened")) {
       shakeDoor();
@@ -1481,10 +1486,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
+  /* v31 真实分流：其二→回返夹道，其三/其七→失号龛，其四→倒置窥孔；
+     其一/五/六/八保持原主线走廊。「玖」异常走 rulesCount 原逻辑，不被分流覆盖。 */
+  const RULE_DETOUR = { 2: "return-passage", 3: "glyph-niche", 4: "peephole-chamber", 7: "glyph-niche" };
+
   $$(".rules-list li").forEach((li) => {
     li.setAttribute("tabindex", "0");
     li.setAttribute("role", "button");
     const activate = () => {
+      /* v31 首选锁定：任一规则已排定转场后，第一条已接受的转场锁定归宿，
+         忽略本场景其他规则输入；「玖」异常走 rulesCount 原逻辑，不受此锁影响 */
+      if (AutoAdvance.has("protocol")) return;
       const n = li.dataset.rule;
       li.classList.remove("touched");
       void li.offsetWidth;
@@ -1502,7 +1514,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
       toast(ruleResponses[n] || "……");
-      tryScheduleProtocol();
+      const detour = RULE_DETOUR[n];
+      if (detour) {
+        /* 分流取代主线 AutoAdvance；首选锁定已保证此处无未触发 timer，
+           clear 仅作防御；点击「玖」仍走 goScene("ninth")，clearAll 会取消这里的调度 */
+        AutoAdvance.clear("protocol");
+        AutoAdvance.schedule("protocol", detour, {
+          delay: branchDelay(),
+          before: () => { protocolConsumed = true; },
+        });
+      } else {
+        tryScheduleProtocol();
+      }
     };
     li.addEventListener("click", activate);
     li.addEventListener("keydown", (e) => {
@@ -1787,6 +1810,182 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     memory.textContent = `你下到了更深的地方：${visitedNames.join("、")}。档案不承认见过你。`;
+    memory.hidden = false;
+  };
+
+  /* ============================================================
+     v31 门前三岔：倒置窥孔 / 失号龛 / 回返夹道
+     状态独立存 goddead_v31_forecourt_weave，容错坏 JSON；
+     不读不写 v28/v29/v30 与旧主线状态；三个新场景不设解锁门槛，
+     干净存档可从门外热点进入，也允许直接 hash 直达（直达即到访）。
+     ============================================================ */
+  const FORECOURT_KEY = "goddead_v31_forecourt_weave";
+  const FORECOURT_SCENES = ["peephole-chamber", "glyph-niche", "return-passage"];
+  const FORECOURT_MARKS = [
+    "witnessed", "heardInside", "refusedSight",
+    "countedNine", "erasedSeven", "tookBlank",
+    "followedInward", "knockedInside", "walkedBackward",
+  ];
+  const FORECOURT_VISIT_KEY = { "peephole-chamber": "peephole", "glyph-niche": "glyph", "return-passage": "returnPassage" };
+  const FORECOURT_TRANSITIONS_CAP = 9999;
+
+  const getForecourt = () => {
+    let raw = {};
+    try {
+      raw = JSON.parse(store.get(FORECOURT_KEY, "{}")) || {};
+    } catch { raw = {}; }
+    const visited = {};
+    Object.values(FORECOURT_VISIT_KEY).forEach((k) => {
+      visited[k] = Boolean(raw.visited && raw.visited[k] === true);
+    });
+    const marks = Array.isArray(raw.marks)
+      ? [...new Set(raw.marks.filter((m) => FORECOURT_MARKS.includes(m)))]
+      : [];
+    const lastChoice = typeof raw.lastChoice === "string" && FORECOURT_MARKS.includes(raw.lastChoice)
+      ? raw.lastChoice
+      : null;
+    let transitions = Number(raw.transitions);
+    if (!Number.isFinite(transitions) || transitions < 0) transitions = 0;
+    transitions = Math.min(FORECOURT_TRANSITIONS_CAP, Math.floor(transitions));
+    return { visited, marks, lastChoice, transitions };
+  };
+  const saveForecourt = (st) => store.set(FORECOURT_KEY, JSON.stringify(st));
+
+  const FORECOURT_META = {
+    "peephole-chamber": {
+      responseEl: "#peephole-response",
+      choices: {
+        witnessed: { btn: "#peephole-choice-witness", target: "protocol", response: "镜后那只眼，比你晚眨了一次。" },
+        heardInside: { btn: "#peephole-choice-listen", target: "return-passage", response: "敲门声从你身后传来。你明明还在门外。" },
+        refusedSight: { btn: "#peephole-choice-close", target: "threshold", response: "黑镜替你继续看着。" },
+      },
+    },
+    "glyph-niche": {
+      responseEl: "#glyph-response",
+      choices: {
+        countedNine: { btn: "#glyph-choice-count", target: "peephole-chamber", response: "你数到九。墙里只回了八声。" },
+        erasedSeven: { btn: "#glyph-choice-erase", target: "protocol", response: "第七号消失后，守则多出一行空白。" },
+        tookBlank: { btn: "#glyph-choice-blank", target: "corridor", response: "没有编号的门，为你让出了一条路。" },
+      },
+    },
+    "return-passage": {
+      responseEl: "#return-response",
+      choices: {
+        followedInward: { btn: "#return-choice-follow", target: "glyph-niche", response: "脚印在第七步拐进了墙里。" },
+        knockedInside: { btn: "#return-choice-knock", target: "protocol", response: "门外的你，假装没有听见。" },
+        walkedBackward: { btn: "#return-choice-backward", target: "corridor", response: "你没有转身，却看见走廊迎面而来。" },
+      },
+    },
+  };
+
+  /* 目录入口：首次到访后原子恢复，未访问保持 hidden 不可聚焦 */
+  const FORECOURT_LINKS = { "peephole-chamber": "#peephole-link", "glyph-niche": "#glyph-link", "return-passage": "#return-link" };
+  const syncForecourtLinks = () => {
+    const st = getForecourt();
+    FORECOURT_SCENES.forEach((s) => {
+      const link = $(FORECOURT_LINKS[s]);
+      if (!link) return;
+      if (st.visited[FORECOURT_VISIT_KEY[s]]) link.removeAttribute("hidden");
+      else link.setAttribute("hidden", "");
+    });
+  };
+
+  /* 到访标记在点击/进入时立即持久化：即便转场被回退取消，目录入口也已出现 */
+  const markForecourtVisited = (sceneKey) => {
+    const st = getForecourt();
+    const key = FORECOURT_VISIT_KEY[sceneKey];
+    if (!key || st.visited[key]) return;
+    st.visited[key] = true;
+    saveForecourt(st);
+    syncForecourtLinks();
+  };
+
+  const paintForecourtChoice = (sceneKey) => {
+    const meta = FORECOURT_META[sceneKey];
+    const st = getForecourt();
+    Object.keys(meta.choices).forEach((mark) => {
+      const btn = $(meta.choices[mark].btn);
+      if (btn) btn.setAttribute("aria-pressed", st.lastChoice === mark ? "true" : "false");
+    });
+  };
+
+  const enterForecourt = (sceneKey) => {
+    markForecourtVisited(sceneKey);
+    const meta = FORECOURT_META[sceneKey];
+    const responseEl = $(meta.responseEl);
+    if (responseEl) responseEl.textContent = "";
+    paintForecourtChoice(sceneKey);
+  };
+
+  /* 前段动作：点击/键盘激活 → 点击时持久化 → 短反馈 → 自动转场；没有第二个继续按钮。
+     已有未触发转场时忽略重复激活：marks 不重复、transitions 不重复累计、不重复调度。 */
+  const chooseForecourt = (sceneKey, mark) => {
+    const meta = FORECOURT_META[sceneKey];
+    const choice = meta && meta.choices[mark];
+    if (!choice) return;
+    if (AutoAdvance.has(sceneKey)) return;
+    const st = getForecourt();
+    if (!st.marks.includes(mark)) st.marks.push(mark);
+    st.lastChoice = mark;
+    st.transitions = Math.min(FORECOURT_TRANSITIONS_CAP, st.transitions + 1);
+    saveForecourt(st);
+    paintForecourtChoice(sceneKey);
+
+    const responseEl = $(meta.responseEl);
+    if (responseEl) responseEl.textContent = choice.response;
+    AudioEngine.knock(0.16);
+    AutoAdvance.schedule(sceneKey, choice.target, { delay: branchDelay() });
+  };
+
+  FORECOURT_SCENES.forEach((sceneKey) => {
+    const meta = FORECOURT_META[sceneKey];
+    Object.keys(meta.choices).forEach((mark) => {
+      const btn = $(meta.choices[mark].btn);
+      if (btn) btn.addEventListener("click", () => chooseForecourt(sceneKey, mark));
+    });
+  });
+
+  /* 门外三个热点：干净存档立即可发现。点击即持久化 visited 并计一次改道，
+     短反馈后自动转场；已有排队转场（含敲门主路径）时忽略，幂等且不抢门。 */
+  const FORECOURT_HOTSPOTS = {
+    "hotspot-peephole": { target: "peephole-chamber", note: "日蚀后面，有什么在回看你。" },
+    "hotspot-glyph": { target: "glyph-niche", note: "符号少了一个。它让你跟过去数。" },
+    "hotspot-return": { target: "return-passage", note: "痕迹在门内侧折返。它等你很久了。" },
+  };
+
+  Object.keys(FORECOURT_HOTSPOTS).forEach((id) => {
+    const btn = $("#" + id);
+    const spot = FORECOURT_HOTSPOTS[id];
+    if (!btn) return;
+    btn.addEventListener("click", () => {
+      if (AutoAdvance.has("threshold")) return;
+      const st = getForecourt();
+      st.visited[FORECOURT_VISIT_KEY[spot.target]] = true;
+      st.transitions = Math.min(FORECOURT_TRANSITIONS_CAP, st.transitions + 1);
+      saveForecourt(st);
+      syncForecourtLinks();
+      btn.classList.add("touched");
+      setTimeout(() => btn.classList.remove("touched"), 1200);
+      AudioEngine.knock();
+      statusLine.textContent = spot.note;
+      AutoAdvance.schedule("threshold", spot.target, { delay: branchDelay() });
+    });
+  });
+
+  /* 痕迹页单行：按已访问项显示，保持八张统计卡不变 */
+  const paintForecourtMemory = () => {
+    const memory = $("#forecourt-memory");
+    if (!memory) return;
+    const st = getForecourt();
+    const names = [];
+    if (st.visited.peephole) names.push("窥孔");
+    if (st.visited.glyph) names.push("失号龛");
+    if (st.visited.returnPassage) names.push("回返夹道");
+    if (names.length === 0) {
+      memory.hidden = true;
+      return;
+    }
+    memory.textContent = `门前旁路：${names.join(" / ")}；你在门外改道 ${st.transitions} 次。`;
     memory.hidden = false;
   };
 
@@ -3739,6 +3938,7 @@ document.addEventListener("DOMContentLoaded", () => {
       renderReliquary();
       syncReliquaryEntry();
       syncBranchEntries();
+      syncForecourtLinks();
       paintWatch();
       paintLine4();
       paintDeliver();
@@ -3746,6 +3946,7 @@ document.addEventListener("DOMContentLoaded", () => {
       paintActing();
       paintRelicMemory();
       paintBranchMemory();
+      paintForecourtMemory();
 
       if (forgetPanel) forgetPanel.hidden = true;
       if (forgetTriggerBtn) forgetTriggerBtn.hidden = false;
@@ -3778,6 +3979,8 @@ document.addEventListener("DOMContentLoaded", () => {
   paintRelicMemory();
   syncBranchEntries();
   paintBranchMemory();
+  syncForecourtLinks();
+  paintForecourtMemory();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

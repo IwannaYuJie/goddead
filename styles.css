@@ -3656,3 +3656,71 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
     padding: 0.8rem 1rem;
   }
 }
+
+/* ============================================================
+   v31 门前三岔：门外热点 + 前段三场景
+   ============================================================ */
+
+/* 门外热点：默认只给极淡轮廓与短标签，hover/focus 增强；
+   位置沿日蚀 / 左墙符号 / 右侧回返痕，不盖住门板敲击主区域 */
+.door-hotspot {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid rgba(222, 217, 208, 0.14);
+  background: rgba(8, 7, 6, 0.28);
+  color: rgba(222, 217, 208, 0.62);
+  font-family: var(--serif-cn);
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.door-hotspot .dh-label { pointer-events: none; }
+
+.hotspot-peephole { top: 2%; left: 50%; transform: translateX(-50%); }
+.hotspot-glyph { top: 13%; left: 2.5%; }
+.hotspot-return { top: 48%; right: 2.5%; }
+
+.door-hotspot:hover {
+  border-color: rgba(192, 160, 96, 0.55);
+  background: rgba(20, 17, 13, 0.6);
+  color: var(--gold);
+  box-shadow: 0 0 16px rgba(154, 127, 71, 0.22);
+}
+
+.door-hotspot:focus-visible {
+  outline: none;
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(20, 17, 13, 0.72);
+  box-shadow: 0 2px 0 0 rgba(192, 74, 66, 0.7), 0 0 14px rgba(154, 127, 71, 0.3);
+}
+
+/* 点击后的短反馈：轮廓短暂提亮，由 JS 加/撤 touched */
+.door-hotspot.touched {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(45, 38, 28, 0.85);
+  box-shadow: 0 0 20px rgba(192, 160, 96, 0.35);
+}
+
+@media (max-width: 720px) {
+  .door-hotspot {
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    padding: 0.35rem 0.55rem;
+  }
+  .hotspot-glyph { left: 1.5%; }
+  .hotspot-return { right: 1.5%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .door-hotspot { transition: none; }
+}
