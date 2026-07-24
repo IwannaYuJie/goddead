@@ -29,15 +29,15 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=27/);
-assert.match(html, /script\.js\?v=27/);
+assert.match(html, /styles\.css\?v=30/);
+assert.match(html, /script\.js\?v=30/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
 assert.match(js, /DOMContentLoaded/);
 
 /* ---------- 场景探索结构 ---------- */
-const SCENES = ["threshold", "protocol", "corridor", "watch", "switchboard", "deadletter", "cancellation", "acting", "offering", "reliquary", "remembrance", "ninth"];
+const SCENES = ["threshold", "protocol", "corridor", "echo", "vein", "confession", "echo-transfer", "vein-pump", "confession-ledger", "watch", "switchboard", "deadletter", "cancellation", "acting", "offering", "reliquary", "remembrance", "ninth"];
 for (const s of SCENES) {
   assert.match(html, new RegExp(`data-scene="${s}"`), `scene missing: ${s}`);
 }
@@ -54,7 +54,7 @@ for (const t of goTargets) {
   assert.ok(SCENES.includes(t), `data-go target has no scene: ${t}`);
 }
 
-/* ---------- 已删除页面：文件不存在，且不再被链接 ---------- */
+/* ---------- 旧独立页面：文件保持删除；echo/vein/confession 已改为原生 SPA scene ---------- */
 for (const page of ["echo.html", "vein.html", "confession.html"]) {
   assert.ok(await missing(page), `${page} should be deleted`);
   assert.ok(!html.includes(page), `${page} still linked from index.html`);
@@ -411,7 +411,7 @@ assert.match(js, /AutoAdvance\.schedule\("offering", "reliquary"/);
 assert.match(js, /AutoAdvance\.schedule\("reliquary", "remembrance"/);
 assert.match(js, /clearRelicTimers = \(\) =>/, "clearRelicTimers helper must exist");
 assert.match(js, /leaveReliquary = \(\) => \{\s*AutoAdvance\.clear\("reliquary"\);\s*clearRelicTimers\(\);/, "leaveReliquary must clear relic timers on scene exit");
-assert.match(js, /currentScene === "reliquary" && !reliquaryConsumed/, "deferred schedule must be guarded by currentScene === reliquary");
+assert.match(js, /if \(reliquaryConsumed\) return;\s*AutoAdvance\.schedule\("reliquary", "remembrance"/, "deferred schedule must be guarded by reliquaryConsumed");
 
 /* 8 卡 Stat Grid 约束保留（不扩充至第 9 卡） */
 assert.equal((html.match(/<div class="stat-card">/g) || []).length, 8, "remembrance must strictly preserve 8 stat cards");
@@ -488,8 +488,8 @@ for (const asset of VISUAL_ASSETS) {
 await access(new URL("assets/prayer-incinerator-burning.webp", root));
 assert.match(html, /assets\/prayer-incinerator-burning\.webp/);
 assert.match(html, /<link rel="preload" href="assets\/prayer-incinerator-burning\.webp" as="image">/);
-assert.match(html, /styles\.css\?v=27/);
-assert.match(html, /script\.js\?v=27/);
+assert.match(html, /styles\.css\?v=30/);
+assert.match(html, /script\.js\?v=30/);
 const offeringFigureHtml = html.match(/<figure class="offering-figure[^"]*" role="img" aria-label="[^"]*">[\s\S]*?<\/figure>/);
 assert.ok(offeringFigureHtml, "offering figure must exist");
 assert.match(offeringFigureHtml[0], /aria-label="一座沉寂的焚献炉"/);
@@ -521,7 +521,7 @@ assert.ok(reducedIdx >= 0, "reduced-motion media query must exist");
 const reducedSlice = css.slice(reducedIdx);
 assert.match(reducedSlice, /\.offering-img\s*\{\s*transition:\s*none\s*!important\s*;\s*\}/);
 assert.match(js, /const offeringFigure = \$\("\.offering-figure"\);/);
-assert.match(js, /if \(name === "offering"\) \{ offeringConsumed = false; if \(offeringFigure\) \{ offeringFigure\.classList\.remove\("ignited"\); offeringFigure\.setAttribute\("aria-label", "一座沉寂的焚献炉"\); \} \}/);
+assert.match(js, /if \(name === "offering"\) \{ offeringConsumed = false; if \(offeringFigure\) \{ offeringFigure\.classList\.remove\("ignited"\); offeringFigure\.setAttribute\("aria-label", "一座沉寂的焚献炉"\); \} syncRulingOfferingUI\(\); \}/);
 const offerPrayerBlock = js.match(/const offerPrayer = \(\) => \{[\s\S]*?\n\s*\};\s*\n\s*prayerOffer\.addEventListener\("click", offerPrayer\);/);
 assert.ok(offerPrayerBlock, "offerPrayer function must exist");
 assert.match(offerPrayerBlock[0], /if \(!value\) \{[\s\S]{0,200}return;[\s\S]{0,200}\}/);
@@ -575,10 +575,14 @@ assert.match(js, /AutoAdvance\.schedule\("acting", "offering"/);
 assert.match(js, /AutoAdvance\.schedule\("offering", "reliquary"/);
 assert.match(js, /AutoAdvance\.schedule\("reliquary", "remembrance"/);
 
-/* 场景切换回到顶部并把焦点移到标题 */
+/* 场景切换回到顶部并可靠聚焦标题（visibility 过渡期内 focus 会被拒，需验收重试） */
 assert.match(js, /next\.scrollTop = 0;/);
-assert.match(js, /title\.setAttribute\("tabindex", "-1"\)/);
-assert.match(js, /title\.focus\(\{ preventScroll: true \}\)/);
+assert.match(js, /const focusReliably = \(el\) => \{/);
+assert.match(js, /el\.setAttribute\("tabindex", "-1"\)/);
+assert.match(js, /el\.focus\(\{ preventScroll: true \}\)/);
+assert.match(js, /if \(document\.activeElement === el\) return;\s*if \(\++tries < 12\) setTimeout\(attempt, 120\);/, "focus must verify landing and retry with a bound");
+assert.match(js, /if \(host && !host\.classList\.contains\("active"\)\) return;/, "focus retry must abandon when the host scene is no longer active");
+assert.match(js, /if \(title\) focusReliably\(title\);/);
 
 /* protocol 只能主动激活：li 有 tabindex/role/button，监听 click 与 Enter/Space */
 assert.match(html, /<li data-rule="1"[^>]*tabindex="0"[^>]*role="button"/);
@@ -670,18 +674,292 @@ assert.match(css, /\.sec-title:focus-visible/, "sec-title has themed focus-visib
 assert.match(css, /\.sec-title:focus-visible[\s\S]{0,200}outline:\s*none/, "title focus-visible removes default outline");
 assert.match(css, /\.sec-title:focus-visible[\s\S]{0,200}box-shadow:\s*0\s+2px\s+0\s+0\s+rgba\(192,\s*74,\s*66/, "title focus uses a bottom blood-line instead of a rectangle");
 
+/* ---------- v28 神圣平衡与代理神明协议（Governance 终局闭环） ---------- */
+/* 全部终局 ID 在 script.js 中真实接线（不再只是 HTML/CSS 半成品） */
+for (const id of ["begin-governance-box", "begin-governance-btn", "ending-card-box", "ending-title", "ending-narrative", "ending-res-e", "ending-res-a", "ending-res-r", "collection-list", "next-cycle-btn", "collapse-modal", "retry-governance-btn"]) {
+  assert.ok(js.includes(`$("#${id}")`), `script.js must wire #${id}`);
+}
+assert.match(html, /id="begin-governance-box"[^>]*hidden/);
+assert.match(html, /id="begin-governance-btn"/);
+assert.match(html, /id="ending-card-box"[^>]*hidden/);
+assert.match(html, /id="collapse-modal"[^>]*hidden role="dialog" aria-modal="true" aria-labelledby="collapse-title"/);
+assert.match(html, /id="retry-governance-btn"/);
+
+/* 结局元数据与推导规则 */
+assert.match(js, /const ENDING_META = \{/);
+for (const e of ["ascension", "madness", "oblivion", "nightwatch"]) {
+  assert.ok(js.includes(`${e}: { name:`), `ENDING_META must describe ${e}`);
+}
+assert.match(js, /res\.E <= 0 \|\| res\.A <= 0 \|\| res\.R >= 100/, "collapse condition must exist");
+assert.match(js, /res\.E >= 70 && res\.E > res\.A && res\.E > res\.R/, "ascension rule must exist");
+assert.match(js, /res\.R >= 50 && res\.R >= res\.E && res\.R >= res\.A/, "madness rule must exist");
+assert.match(js, /res\.A >= 60 && res\.A > res\.E/, "oblivion rule must exist");
+assert.match(js, /const VALID_ENDINGS = \["ascension", "madness", "oblivion", "nightwatch"\]/);
+assert.match(js, /if \(resultStatus && VALID_ENDINGS\.includes\(resultStatus\) && !unlockedEndings\.includes\(resultStatus\)\)/, "reached endings must persist into the collection");
+
+/* 五组合实际计算验证：deltas 从源码提取后按真实阈值推导，不写死组合 */
+const deltasMatch = js.match(/const RULING_DELTAS = (\{[\s\S]*?\n  \});/);
+assert.ok(deltasMatch, "RULING_DELTAS literal must exist");
+const RULING_DELTAS = eval(`(${deltasMatch[1]})`);
+const deriveGovResult = (combo) => {
+  const res = { E: 50, A: 50, R: 20 };
+  const clamp = (v) => Math.max(0, Math.min(100, v));
+  combo.split("").forEach((c, i) => {
+    const d = RULING_DELTAS[["acting", "offering", "reliquary"][i]][c];
+    res.E = clamp(res.E + d.E); res.A = clamp(res.A + d.A); res.R = clamp(res.R + d.R);
+  });
+  if (res.E <= 0 || res.A <= 0 || res.R >= 100) return "collapse";
+  if (res.E >= 70 && res.E > res.A && res.E > res.R) return "ascension";
+  if (res.R >= 50 && res.R >= res.E && res.R >= res.A) return "madness";
+  if (res.A >= 60 && res.A > res.E) return "oblivion";
+  return "nightwatch";
+};
+assert.equal(deriveGovResult("ABA"), "ascension", "ABA must reach ascension");
+assert.equal(deriveGovResult("AAB"), "madness", "AAB must reach madness");
+assert.equal(deriveGovResult("AAA"), "oblivion", "AAA must reach oblivion");
+assert.equal(deriveGovResult("BBA"), "nightwatch", "BBA must reach nightwatch");
+assert.equal(deriveGovResult("BAB"), "collapse", "BAB must collapse");
+
+/* 状态保存与容错：损坏 localStorage 安全修复；parse 永不自增 cycleCount */
+const govParseBlock = js.match(/const parseAndValidateGovernance = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(govParseBlock, "parseAndValidateGovernance must exist");
+assert.match(govParseBlock[0], /\} catch \{ raw = \{\}; \}/, "corrupt governance storage must be safely repaired");
+assert.match(govParseBlock[0], /typeof raw\.cycleCount === "number" && raw\.cycleCount >= 1 \? Math\.floor\(raw\.cycleCount\) : 1/, "cycleCount validated with floor and default 1");
+assert.doesNotMatch(govParseBlock[0], /cycleCount\s*(\+\+|\+\s*1)/, "parse must never increment cycleCount");
+
+/* cycle 重置：只清本轮 rulings，保留图鉴与旧主线进度 */
+const govResetBlock = js.match(/const resetGovernanceCycle = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(govResetBlock, "resetGovernanceCycle must exist");
+assert.match(govResetBlock[0], /cycleCount: gov\.cycleCount \+ 1/, "cycleCount increments exactly once per manual new cycle");
+assert.match(govResetBlock[0], /rulings: \{ acting: null, offering: null, reliquary: null \}/, "reset clears only this cycle's rulings");
+assert.match(govResetBlock[0], /unlockedEndings: gov\.unlockedEndings/, "reset preserves the ending collection");
+assert.match(govResetBlock[0], /hudUnlocked: true/, "reset keeps governance unlocked");
+assert.doesNotMatch(govResetBlock[0], /removeItem|goddead_watch|goddead_line4|goddead_deadletter|goddead_cancellation|goddead_acting|goddead_reliquary|goddead_arrivals/, "cycle reset must not touch main-line progress");
+
+/* 老玩家入口：仅开启治理并去 acting，不清空旧进度、不伪造裁决 */
+assert.match(js, /const mainLineDone = getRelic\(\)\.sealed;/);
+assert.match(js, /mainLineDone && !gov\.hudUnlocked/, "begin box only shows for finished main line without governance");
+const beginGovBlock = js.match(/beginGovernanceBtn\) beginGovernanceBtn\.addEventListener\("click", \(\) => \{[\s\S]*?\}\);/);
+assert.ok(beginGovBlock, "begin-governance click handler must exist");
+assert.match(beginGovBlock[0], /gov\.hudUnlocked = true;/);
+assert.match(beginGovBlock[0], /pendingSceneFocus = rulingActingHeading;/);
+assert.match(beginGovBlock[0], /goScene\("acting"\)/);
+assert.doesNotMatch(beginGovBlock[0], /removeItem|rulings\.\w+\s*=/, "begin must not clear progress or fabricate rulings");
+const nextCycleBlock = js.match(/nextCycleBtn\) nextCycleBtn\.addEventListener\("click", \(\) => \{[\s\S]*?\}\);/);
+assert.ok(nextCycleBlock, "next-cycle click handler must exist");
+assert.match(nextCycleBlock[0], /resetGovernanceCycle\(\);/);
+assert.match(nextCycleBlock[0], /pendingSceneFocus = rulingActingHeading;/, "next cycle prefers focusing the visible ruling heading");
+assert.match(nextCycleBlock[0], /goScene\("acting"\)/);
+
+/* 崩解 modal：仅 remembrance 打开、初始聚焦 retry、离场/重试彻底关闭 */
+assert.match(js, /gov\.resultStatus === "collapse" && currentScene === "remembrance"\) openCollapseModal\(\);\s*else closeCollapseModal\(\);/, "collapse modal only opens inside remembrance");
+assert.match(js, /if \(collapseModal && !collapseModal\.hasAttribute\("hidden"\) && retryGovernanceBtn\) focusEl = retryGovernanceBtn;/, "goScene completion focuses retry while collapse modal is open");
+assert.match(js, /leaveReliquary\(\);\s*closeCollapseModal\(\);/, "leaving any scene closes the collapse modal");
+
+/* 焦点生命周期：转场完成与焦点/veil 收尾声同一拍，不再依赖嵌套定时器；看门狗兜底 */
+assert.match(js, /let completed = false;\s*const complete = \(\) => \{\s*if \(completed\) return;\s*completed = true;/, "goScene must have an idempotent completion path");
+assert.match(js, /setTimeout\(complete, reduced \? 60 : 480\);/, "main transition timer drives the same completion");
+assert.match(js, /setTimeout\(complete, reduced \? 600 : 2000\);/, "watchdog timer must backstop the same completion");
+const completeBlock = js.match(/const complete = \(\) => \{[\s\S]*?\n    \};/);
+assert.ok(completeBlock, "complete() must exist");
+assert.match(completeBlock[0], /veil\.classList\.remove\("on"\);\s*veilBusy = false;/, "veil release and veilBusy reset happen inside completion");
+assert.doesNotMatch(completeBlock[0], /setTimeout\(/, "completion must not chain nested timers for focus or veil");
+assert.match(js, /if \(!focusEl && pendingSceneFocus && pendingSceneFocus\.getClientRects\(\)\.length > 0\) focusEl = pendingSceneFocus;/, "handler-specified focus target wins when visible");
+
+/* 焦点陷阱：打开挂监听、关闭/离场移除；Tab 与 Shift+Tab 均留在 modal 内 */
+assert.match(js, /const onCollapseKeydown = \(e\) => \{/);
+assert.match(js, /document\.addEventListener\("keydown", onCollapseKeydown, true\)/, "focus trap listener attaches on open");
+assert.match(js, /document\.removeEventListener\("keydown", onCollapseKeydown, true\)/, "focus trap listener detaches on close");
+assert.match(js, /e\.shiftKey && \(document\.activeElement === first \|\| !collapseModal\.contains\(document\.activeElement\)\)/, "Shift+Tab wraps to the last focusable");
+assert.match(js, /!e\.shiftKey && \(document\.activeElement === last \|\| !collapseModal\.contains\(document\.activeElement\)\)/, "Tab wraps to the first focusable");
+const retryBlock = js.match(/retryGovernanceBtn\) retryGovernanceBtn\.addEventListener\("click", \(\) => \{[\s\S]*?\}\);/);
+assert.ok(retryBlock, "retry click handler must exist");
+assert.match(retryBlock[0], /resetGovernanceCycle\(\);/);
+assert.match(retryBlock[0], /closeCollapseModal\(\);/);
+assert.match(retryBlock[0], /pendingSceneFocus = rulingActingHeading;/, "retry prefers focusing the visible ruling heading");
+assert.match(retryBlock[0], /goScene\("acting"\)/);
+
+/* 结局卡渲染与图鉴标记 */
+assert.match(js, /endingTitle\) endingTitle\.textContent = meta\.name;/);
+assert.match(js, /endingNarrative\) endingNarrative\.textContent = meta\.narrative;/);
+assert.match(js, /gov\.unlockedEndings\.includes\(id\) \? " unlocked" : ""/, "collection marks unlocked endings");
+
+/* 主动作完成即自动推进：continue 按钮只是非必需 fallback，不是必经步骤 */
+const applyRulingActingBlock = js.match(/const applyRulingActingChoice = \(choice\) => \{[\s\S]*?\n  \};/);
+assert.match(applyRulingActingBlock[0], /scheduleActingAutoAdvance\(\);/, "ruling 1 auto-advances without requiring a continue click");
+const applyRulingOfferingBlock = js.match(/const applyRulingOfferingChoice = \(choice\) => \{[\s\S]*?\n  \};/);
+assert.match(applyRulingOfferingBlock[0], /scheduleOfferingAutoAdvance\(\);/, "ruling 2 auto-advances without requiring a continue click");
+const applyRulingReliquaryBlock = js.match(/const applyRulingReliquaryChoice = \(choice\) => \{[\s\S]*?\n  \};/);
+assert.match(applyRulingReliquaryBlock[0], /revealRelicRecordAndAdvance\(\);/, "ruling 3 reveals the record and auto-advances");
+assert.match(applyRulingReliquaryBlock[0], /saveGovernance\(parseAndValidateGovernance\(\)\)/, "final ruling must persist the derived ending into the collection");
+assert.match(js, /continueActingBtn\.addEventListener\("click", scheduleActingAutoAdvance\)/);
+assert.match(js, /continueOfferingBtn\.addEventListener\("click", scheduleOfferingAutoAdvance\)/);
+assert.match(js, /continueReliquaryBtn\.addEventListener\("click", scheduleReliquaryAutoAdvance\)/);
+
+/* 场景进入时同步 HUD / ruling / 终局面板 */
+assert.match(js, /if \(name === "remembrance"\) \{[\s\S]{0,400}syncGovernanceRemembrance\(\);/, "remembrance entry syncs governance panels");
+assert.match(js, /if \(name === "offering"\) \{[\s\S]{0,300}syncRulingOfferingUI\(\);/, "offering entry syncs ruling 2");
+assert.match(js, /const enterReliquary = \(\) => \{[\s\S]{0,160}syncRulingReliquaryUI\(\);/, "reliquary entry syncs ruling 3");
+
+/* ---------- v29 旁路支线：回声 / 血管 / 忏悔（原生 SPA scene） ---------- */
+/* 素材存在且被引用 */
+for (const asset of ["echo-archive.webp", "vein-maintenance-well.webp", "confession-weighing-room.webp"]) {
+  await access(new URL(`assets/${asset}`, root));
+  assert.match(html, new RegExp(`assets/${asset.replace(".", "\\.")}`), `${asset} must be referenced`);
+}
+/* 三场景结构：语义 button 热点、aria-live 反馈、回走廊出口、无必点继续按钮 */
+const branchSceneIds = { echo: "回声档案室", vein: "血管维修井", confession: "忏悔称量室" };
+for (const [b, title] of Object.entries(branchSceneIds)) {
+  assert.match(html, new RegExp(`id="scene-${b}" data-scene="${b}"`), `${b} scene must exist`);
+  assert.match(html, new RegExp(`data-title="Goddead — ${title}"`));
+  const section = html.match(new RegExp(`<section class="scene scene-branch" id="scene-${b}"[\\s\\S]*?<\\/section>`));
+  assert.ok(section, `${b} section must exist`);
+  assert.equal((section[0].match(/<button class="branch-btn"/g) || []).length, 3, `${b} must hold exactly 3 focusable hotspot buttons`);
+  assert.match(section[0], /aria-pressed="false"/, `${b} hotspot buttons carry toggle semantics`);
+  assert.match(section[0], /aria-live="polite"/, `${b} needs an aria-live feedback line`);
+  assert.match(section[0], /data-go="corridor"/, `${b} keeps an explicit back-to-corridor exit`);
+  assert.ok(!/继续|continue/i.test(section[0]), `${b} must not add a required continue button`);
+  assert.ok(!section[0].includes("<svg"), `${b} must not use inline SVG`);
+}
+for (const id of ["echo-choice-knock", "echo-choice-steps", "echo-choice-bell", "vein-choice-down", "vein-choice-up", "vein-choice-isolate", "confession-choice-door", "confession-choice-seven", "confession-choice-refuse", "echo-response", "vein-response", "confession-response", "branch-entry-echo", "branch-entry-vein", "branch-entry-confession", "branch-memory"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `#${id} missing`);
+}
+/* 走廊与目录的访问后入口出厂 hidden */
+assert.match(html, /id="branch-entry-echo" type="button" hidden data-go="echo"/);
+assert.match(html, /id="branch-entry-vein" type="button" hidden data-go="vein"/);
+assert.match(html, /id="branch-entry-confession" type="button" hidden data-go="confession"/);
+assert.match(html, /<a href="#echo" id="echo-link" hidden/);
+assert.match(html, /<a href="#vein" id="vein-link" hidden/);
+assert.match(html, /<a href="#confession" id="confession-link" hidden/);
+/* 状态契约：容错解析、visited/lastChoice 字段、坏 JSON 回退 */
+assert.match(js, /const BRANCH_KEY = "goddead_v29_branches";/);
+assert.match(js, /const BRANCH_SCENES = \["echo", "vein", "confession"\];/);
+const branchParseBlock = js.match(/const getBranches = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(branchParseBlock, "getBranches must exist");
+assert.match(branchParseBlock[0], /\} catch \{ raw = \{\}; \}/, "corrupt branch storage must be safely repaired");
+assert.match(branchParseBlock[0], /visited\[b\] = Boolean\(raw\.visited && raw\.visited\[b\] === true\)/);
+assert.match(branchParseBlock[0], /lastChoice\[b\] = typeof \(raw\.lastChoice && raw\.lastChoice\[b\]\) === "string"/);
+/* f2/f3/f4 首击分支优先，取消主线 corridor 调度；visited 点击时立即持久化（转场被取消也不丢支线） */
+assert.match(js, /const FRAG_BRANCH = \{ f2: "echo", f3: "vein", f4: "confession" \};/);
+assert.match(js, /AutoAdvance\.clear\("corridor"\);\s*const st = getBranches\(\);\s*st\.visited\[branch\] = true;\s*saveBranches\(st\);\s*syncBranchEntries\(\);\s*AutoAdvance\.schedule\("corridor", branch, \{/, "branch visit must persist at click time and cancel the main-line corridor schedule");
+/* AutoAdvance 看门狗：主定时器丢失时同一条 fire 兜底，已触发/取消自动空转 */
+assert.match(js, /const fire = \(\) => \{\s*if \(!timers\.has\(scene\)\) return;\s*timers\.delete\(scene\);/, "AutoAdvance schedule must use an idempotent fire path");
+assert.match(js, /setTimeout\(fire, ms\);\s*timers\.set\(scene, \{ id, target \}\);[\s\S]{0,120}setTimeout\(fire, ms \+ 2000\);/, "AutoAdvance must schedule a watchdog fire");
+/* 分支延迟约 0.7–1.0s / reduced 0.3s */
+assert.match(js, /const branchDelay = \(\) => reduced \? 300 : 700 \+ Math\.floor\(Math\.random\(\) \* 300\);/);
+/* 九个选择目的地（v30：bell/isolate/refuse 改接入深层区域） */
+assert.match(js, /knock: \{ btn: "#echo-choice-knock", target: "threshold"/);
+assert.match(js, /steps: \{ btn: "#echo-choice-steps", target: "corridor"/);
+assert.match(js, /bell: \{ btn: "#echo-choice-bell", target: "echo-transfer"/);
+assert.match(js, /down: \{ btn: "#vein-choice-down", target: "corridor"/);
+assert.match(js, /up: \{ btn: "#vein-choice-up", target: "protocol"/);
+assert.match(js, /isolate: \{ btn: "#vein-choice-isolate", target: "vein-pump"/);
+assert.match(js, /door: \{ btn: "#confession-choice-door", target: "protocol"/);
+assert.match(js, /seven: \{ btn: "#confession-choice-seven", target: "corridor"/);
+assert.match(js, /refuse: \{ btn: "#confession-choice-refuse", target: "confession-ledger"/);
+/* 失败回流契约保留在 v29 调度器内 */
+assert.match(js, /const target = ok \? choice\.target : "corridor";/, "failed conditional choices must flow back to corridor");
+/* v29 选择命中深层区域时到访标记点击即持久化 */
+assert.match(js, /if \(DEEP_SCENES\.includes\(target\)\) markDeepVisited\(target\);\s*AutoAdvance\.schedule\(sceneKey, target, \{ delay: branchDelay\(\) \}\);/, "branch choice into a deep scene must persist the visit at click time");
+/* 路由守卫：未访问支线直达落回走廊 */
+assert.match(js, /if \(BRANCH_SCENES\.includes\(target\) && !branchState\.visited\[target\]\) target = "corridor";/);
+/* 场景进入同步与旁路记忆 */
+assert.match(js, /if \(BRANCH_SCENES\.includes\(name\)\) enterBranch\(name\);/);
+assert.match(js, /if \(name === "corridor"\) \{ corridorConsumed = false; syncWatchDoor\(\); syncBranchEntries\(\); syncDeepEntries\(\); startTrace\(\); \}/);
+assert.match(js, /const paintBranchMemory = \(\) => \{/);
+assert.match(js, /paintBranchMemory\(\);/);
+assert.match(js, /你走过 \$\{visitedNames\.length\} 条旁路/);
+/* 痕迹页仍是 8 卡，不新增第九卡 */
+assert.equal((html.match(/<div class="stat-card">/g) || []).length, 8, "remembrance must strictly preserve 8 stat cards");
+
+/* ---------- v30 深层支线：失真转接室 / 逆流泵房 / 无名罪籍库 ---------- */
+/* 素材存在且被引用 */
+for (const asset of ["echo-transfer-chamber.webp", "reverse-flow-pump-room.webp", "nameless-ledger-vault.webp"]) {
+  await access(new URL(`assets/${asset}`, root));
+  assert.match(html, new RegExp(`assets/${asset.replace(".", "\\.")}`), `${asset} must be referenced`);
+}
+/* 三深层场景结构：语义 button 热点、aria-live 反馈、回父支线出口、无必点继续按钮 */
+const deepSceneIds = { "echo-transfer": "失真转接室", "vein-pump": "逆流泵房", "confession-ledger": "无名罪籍库" };
+const deepParentExits = { "echo-transfer": "echo", "vein-pump": "vein", "confession-ledger": "confession" };
+for (const [d, title] of Object.entries(deepSceneIds)) {
+  assert.match(html, new RegExp(`id="scene-${d}" data-scene="${d}"`), `${d} scene must exist`);
+  assert.match(html, new RegExp(`data-title="Goddead — ${title}"`));
+  const section = html.match(new RegExp(`<section class="scene scene-branch scene-deep" id="scene-${d}"[\\s\\S]*?<\\/section>`));
+  assert.ok(section, `${d} section must exist`);
+  assert.equal((section[0].match(/<button class="branch-btn"/g) || []).length, 3, `${d} must hold exactly 3 focusable hotspot buttons`);
+  assert.match(section[0], /aria-pressed="false"/, `${d} hotspot buttons carry toggle semantics`);
+  assert.match(section[0], /aria-live="polite"/, `${d} needs an aria-live feedback line`);
+  assert.match(section[0], new RegExp(`data-go="${deepParentExits[d]}"`), `${d} keeps an explicit back-to-parent exit`);
+  assert.ok(!/继续|continue/i.test(section[0]), `${d} must not add a required continue button`);
+  assert.ok(!section[0].includes("<svg"), `${d} must not use inline SVG`);
+}
+for (const id of ["echo-transfer-choice-relay", "echo-transfer-choice-seal", "echo-transfer-choice-bell", "vein-pump-choice-release", "vein-pump-choice-sediment", "vein-pump-choice-ladder", "ledger-choice-crossout", "ledger-choice-archive", "ledger-choice-reject", "echo-transfer-response", "vein-pump-response", "confession-ledger-response", "branch-entry-echo-transfer", "branch-entry-vein-pump", "branch-entry-confession-ledger", "deep-memory"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `#${id} missing`);
+}
+/* 走廊与目录的深层入口出厂 hidden */
+assert.match(html, /id="branch-entry-echo-transfer" type="button" hidden data-go="echo-transfer"/);
+assert.match(html, /id="branch-entry-vein-pump" type="button" hidden data-go="vein-pump"/);
+assert.match(html, /id="branch-entry-confession-ledger" type="button" hidden data-go="confession-ledger"/);
+assert.match(html, /<a href="#echo-transfer" id="echo-transfer-link" hidden/);
+assert.match(html, /<a href="#vein-pump" id="vein-pump-link" hidden/);
+assert.match(html, /<a href="#confession-ledger" id="confession-ledger-link" hidden/);
+/* 深层状态契约：独立 key、容错解析、deepVisited/lastDeepChoice 字段 */
+assert.match(js, /const DEPTH_KEY = "goddead_v30_branch_depth";/);
+assert.match(js, /const DEEP_SCENES = \["echo-transfer", "vein-pump", "confession-ledger"\];/);
+assert.match(js, /const DEEP_PARENT = \{ "echo-transfer": "echo", "vein-pump": "vein", "confession-ledger": "confession" \};/);
+const depthParseBlock = js.match(/const getDepth = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(depthParseBlock, "getDepth must exist");
+assert.match(depthParseBlock[0], /\} catch \{ raw = \{\}; \}/, "corrupt depth storage must be safely repaired");
+assert.match(depthParseBlock[0], /deepVisited\[d\] = Boolean\(raw\.deepVisited && raw\.deepVisited\[d\] === true\)/);
+assert.match(depthParseBlock[0], /lastDeepChoice\[d\] = typeof \(raw\.lastDeepChoice && raw\.lastDeepChoice\[d\]\) === "string"/);
+/* 三角网络九个动作的目的地 */
+assert.match(js, /relay: \{ btn: "#echo-transfer-choice-relay", target: "vein-pump"/);
+assert.match(js, /seal: \{ btn: "#echo-transfer-choice-seal", target: "protocol"/);
+assert.match(js, /release: \{ btn: "#vein-pump-choice-release", target: "echo-transfer"/);
+assert.match(js, /sediment: \{ btn: "#vein-pump-choice-sediment", target: "confession-ledger"/);
+assert.match(js, /crossout: \{ btn: "#ledger-choice-crossout", target: "echo-transfer"/);
+assert.match(js, /archive: \{ btn: "#ledger-choice-archive", target: "vein-pump"/);
+/* 条件动作：03:17 再响与应急梯需 watchUnlocked，差异化失败出口 */
+assert.match(js, /btn: "#echo-transfer-choice-bell", target: "watch"[\s\S]*?failTarget: "corridor",\s*guard: \(\) => watchUnlocked\(\)/, "deep bell requires watchUnlocked and falls back to corridor");
+assert.match(js, /btn: "#vein-pump-choice-ladder", target: "watch"[\s\S]*?failTarget: "protocol",\s*guard: \(\) => watchUnlocked\(\)/, "emergency ladder requires watchUnlocked and falls back to protocol");
+/* 拒收整份记录：三深层全到访才给特别出口，按解锁状态去 watch/corridor，否则回 protocol */
+assert.match(js, /btn: "#ledger-choice-reject", target: \(\) => \(watchUnlocked\(\) \? "watch" : "corridor"\)[\s\S]*?failTarget: "protocol",\s*guard: \(\) => DEEP_SCENES\.every\(\(d\) => getDepth\(\)\.deepVisited\[d\]\)/, "ledger reject requires all three deep visits");
+/* chooseDeep 调度：guard 判定、函数目标、失败出口与点击即持久化 */
+assert.match(js, /const target = ok\s*\?\s*\(typeof choice\.target === "function" \? choice\.target\(\) : choice\.target\)\s*:\s*\(choice\.failTarget \|\| "corridor"\);/, "chooseDeep must resolve dynamic targets and fail targets");
+assert.match(js, /const chooseDeep = \(sceneKey, choiceKey\) => \{/);
+assert.match(js, /if \(DEEP_SCENES\.includes\(name\)\) enterDeep\(name\);/);
+/* 深层守卫：未到访直达回退父支线，不凭 direct hash 解锁；且必须先于 v29 守卫执行 */
+assert.match(js, /if \(DEEP_SCENES\.includes\(target\) && !depthState\.deepVisited\[target\]\) target = DEEP_PARENT\[target\];/);
+assert.ok(
+  js.indexOf("DEEP_SCENES.includes(target) && !depthState.deepVisited[target]") < js.indexOf("BRANCH_SCENES.includes(target) && !branchState.visited[target]"),
+  "deep guard must run before the v29 branch guard so unvisited parents still fall back to corridor"
+);
+/* 深层记忆一行 */
+assert.match(js, /const paintDeepMemory = \(\) => \{/);
+assert.match(js, /paintDeepMemory\(\);/);
+assert.match(js, /你下到了更深的地方/);
+
 /* ---------- 文档同步 ---------- */
 const readme = await fileText("README.md");
 assert.match(readme, /值夜室|night-watch/i);
+assert.match(readme, /v28|代行治理|代理神明/, "README must document the v28 governance protocol");
+assert.match(readme, /v29|旁路|回声档案室/, "README must document the v29 branch scenes");
+assert.match(readme, /v30|深层|失真转接室/, "README must document the v30 deep branch network");
 
 const qa = await fileText("design-qa.md");
 assert.match(qa, /第三值夜室/);
 assert.match(qa, /Living Shrine|场景探索/);
 assert.match(qa, /视觉深化|visual enrichment|正式图片/i);
+assert.match(qa, /v28|代行治理|神圣平衡/, "design-qa.md must document the v28 governance QA");
+assert.match(qa, /v29|旁路支线|回声档案室/, "design-qa.md must document the v29 branch QA");
+assert.match(qa, /v30|深层支线|失真转接室/, "design-qa.md must document the v30 deep branch QA");
 
 const log = await fileText("docs/ProgressLog.md");
 assert.match(log, /2026-07-02/);
 assert.match(log, /Cloudflare Pages/);
+assert.match(log, /v28|神圣平衡|代理神明/, "ProgressLog must document v28");
+assert.match(log, /v29|旁路支线|回声档案室/, "ProgressLog must document v29");
+assert.match(log, /v30|深层支线|失真转接室/, "ProgressLog must document v30");
 
 /* ---------- 边界说明 ----------
    本套件为 Node 静态断言，不启动 DOM、不执行真实交互。

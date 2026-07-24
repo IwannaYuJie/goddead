@@ -39,6 +39,114 @@ document.addEventListener("DOMContentLoaded", () => {
     store.set("goddead_state", JSON.stringify(gstate));
   };
 
+  /* ============================================================
+     v28 神圣平衡与代理神明协议 (Governance & Divine Balance)
+     ============================================================ */
+  const GOV_KEY = "goddead_v28_governance";
+  const VALID_ENDINGS = ["ascension", "madness", "oblivion", "nightwatch"];
+  const RULING_DELTAS = {
+    acting: {
+      A: { E: 20, A: -15, R: 15 },
+      B: { E: -15, A: 10, R: -5 }
+    },
+    offering: {
+      A: { E: -15, A: 25, R: -10 },
+      B: { E: 20, A: -20, R: 20 }
+    },
+    reliquary: {
+      A: { E: 10, A: 10, R: -15 },
+      B: { E: -20, A: -20, R: 40 }
+    }
+  };
+
+  const RULING_CONSEQUENCES = {
+    acting: {
+      A: "【甲】你接管了代行权能。灵质升华 (+20)，灰烬被驱散 (-15)，虚空共鸣激荡 (+15)。",
+      B: "【乙】你选择默默值守。灵质衰退 (-15)，灰烬略微凝聚 (+10)，共鸣归于平静 (-5)。"
+    },
+    offering: {
+      A: "【甲】你将祷词彻底摧毁。灵质流失 (-15)，灰烬剧烈堆积 (+25)，共鸣被封印 (-10)。",
+      B: "【乙】你提炼了祷告的余响。灵质充盈 (+20)，灰烬在烈焰中消散 (-20)，共鸣爆发 (+20)。"
+    },
+    reliquary: {
+      A: "【甲】你将遗物归入永久档案。灵质与灰烬微增 (+10, +10)，万魂共鸣被压制 (-15)。",
+      B: "【乙】你解封了遗物中的绝响。灵质与灰烬剧烈溃散 (-20, -20)，万魂共鸣彻底苏醒 (+40)。"
+    }
+  };
+
+  const parseAndValidateGovernance = () => {
+    let raw = {};
+    try {
+      raw = JSON.parse(store.get(GOV_KEY, "{}")) || {};
+    } catch { raw = {}; }
+
+    const version = 28;
+    const cycleCount = typeof raw.cycleCount === "number" && raw.cycleCount >= 1 ? Math.floor(raw.cycleCount) : 1;
+    const hudUnlocked = raw.hudUnlocked === true;
+
+    let unlockedEndings = [];
+    if (Array.isArray(raw.unlockedEndings)) {
+      unlockedEndings = [...new Set(raw.unlockedEndings)].filter((id) => VALID_ENDINGS.includes(id));
+    }
+
+    const rawRulings = raw.rulings && typeof raw.rulings === "object" ? raw.rulings : {};
+    const rulings = { acting: null, offering: null, reliquary: null };
+
+    if (rawRulings.acting === "A" || rawRulings.acting === "B") {
+      rulings.acting = rawRulings.acting;
+      if (rawRulings.offering === "A" || rawRulings.offering === "B") {
+        rulings.offering = rawRulings.offering;
+        if (rawRulings.reliquary === "A" || rawRulings.reliquary === "B") {
+          rulings.reliquary = rawRulings.reliquary;
+        }
+      }
+    }
+
+    let res = { E: 50, A: 50, R: 20 };
+    const clamp = (val) => Math.max(0, Math.min(100, val));
+
+    for (const sceneKey of ["acting", "offering", "reliquary"]) {
+      const choice = rulings[sceneKey];
+      if (choice && RULING_DELTAS[sceneKey][choice]) {
+        const d = RULING_DELTAS[sceneKey][choice];
+        res.E = clamp(res.E + d.E);
+        res.A = clamp(res.A + d.A);
+        res.R = clamp(res.R + d.R);
+      }
+    }
+
+    let resultStatus = null;
+    if (res.E <= 0 || res.A <= 0 || res.R >= 100) {
+      resultStatus = "collapse";
+    } else if (rulings.acting && rulings.offering && rulings.reliquary) {
+      if (res.E >= 70 && res.E > res.A && res.E > res.R) {
+        resultStatus = "ascension";
+      } else if (res.R >= 50 && res.R >= res.E && res.R >= res.A) {
+        resultStatus = "madness";
+      } else if (res.A >= 60 && res.A > res.E) {
+        resultStatus = "oblivion";
+      } else {
+        resultStatus = "nightwatch";
+      }
+    }
+
+    if (resultStatus && VALID_ENDINGS.includes(resultStatus) && !unlockedEndings.includes(resultStatus)) {
+      unlockedEndings.push(resultStatus);
+    }
+
+    return {
+      version,
+      cycleCount,
+      resources: res,
+      rulings,
+      resultStatus,
+      unlockedEndings,
+      hudUnlocked,
+    };
+  };
+
+  const saveGovernance = (st) => store.set(GOV_KEY, JSON.stringify(st));
+
   /* ---------- 神圣遗物科状态与契约 ---------- */
   const getRelic = () => {
     try {
@@ -766,12 +874,17 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!initialRouteDone) return;
       clear(scene);
       const ms = options.delay ?? baseDelay();
-      const id = setTimeout(() => {
+      const fire = () => {
+        if (!timers.has(scene)) return;
         timers.delete(scene);
         if (options.before) options.before();
         goScene(target);
-      }, ms);
+      };
+      const id = setTimeout(fire, ms);
       timers.set(scene, { id, target });
+      /* 看门狗：主定时器丢失时按同一条 fire 兜底；
+         已触发/已取消时 timers 里无记录，自动空转 */
+      setTimeout(fire, ms + 2000);
       if (options.onSchedule) options.onSchedule(ms);
     };
 
@@ -808,13 +921,15 @@ document.addEventListener("DOMContentLoaded", () => {
     revealScene(scene);
     if (name === "threshold") { thresholdConsumed = false; syncDoorOpenState(); }
     if (name === "protocol") { protocolConsumed = false; startAnomaly(); }
-    if (name === "corridor") { corridorConsumed = false; syncWatchDoor(); startTrace(); }
+    if (name === "corridor") { corridorConsumed = false; syncWatchDoor(); syncBranchEntries(); syncDeepEntries(); startTrace(); }
+    if (BRANCH_SCENES.includes(name)) enterBranch(name);
+    if (DEEP_SCENES.includes(name)) enterDeep(name);
     if (name === "watch") { watchConsumed = false; enterWatch(); }
     if (name === "switchboard") enterSwitch();
     if (name === "deadletter") enterDeadletter();
     if (name === "cancellation") { cancellationConsumed = false; enterCancel(); }
     if (name === "acting") { actingConsumed = false; enterActing(); }
-    if (name === "offering") { offeringConsumed = false; if (offeringFigure) { offeringFigure.classList.remove("ignited"); offeringFigure.setAttribute("aria-label", "一座沉寂的焚献炉"); } }
+    if (name === "offering") { offeringConsumed = false; if (offeringFigure) { offeringFigure.classList.remove("ignited"); offeringFigure.setAttribute("aria-label", "一座沉寂的焚献炉"); } syncRulingOfferingUI(); }
     if (name === "reliquary") { reliquaryConsumed = false; enterReliquary(); }
     if (name === "ninth") AudioEngine.bell(58);
     if (name === "remembrance") {
@@ -824,6 +939,9 @@ document.addEventListener("DOMContentLoaded", () => {
       paintCancel();
       paintActing();
       paintRelicMemory();
+      paintBranchMemory();
+      paintDeepMemory();
+      syncGovernanceRemembrance();
       if (!statsCounted) {
         statsCounted = true;
         countUp(numEls.arrivals, arrivals);
@@ -832,6 +950,7 @@ document.addEventListener("DOMContentLoaded", () => {
         countUp(numEls.corruption, corruptionOf(), "%", 1);
       }
     }
+    updateHudDisplay();
   };
 
   /* 分层进度守卫：每个场景直接声明自己的全部前置依赖，而不是依赖分支顺序。
@@ -852,12 +971,52 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "deadletter" && !(watchUnlocked() && line4Unlocked() && getLine4().connected)) target = "switchboard";
     if (target === "switchboard" && !(watchUnlocked() && line4Unlocked())) target = "watch";
     if (target === "watch" && !watchUnlocked()) target = "corridor";
+
+    /* v30 深层守卫：未到访的深层区域直达回退到父支线（先于 v29 守卫执行，
+       父支线同样未访问时由下面的 v29 守卫继续拦回走廊，直达不解锁） */
+    const depthState = getDepth();
+    if (DEEP_SCENES.includes(target) && !depthState.deepVisited[target]) target = DEEP_PARENT[target];
+
+    /* v29 支线守卫：未访问过的支线直达一律落回走廊，干净存档不得越过走廊守卫 */
+    const branchState = getBranches();
+    if (BRANCH_SCENES.includes(target) && !branchState.visited[target]) target = "corridor";
+
+    /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
+    const gov = parseAndValidateGovernance();
+    if (gov.hudUnlocked) {
+      if ((target === "reliquary" || target === "remembrance") && !gov.rulings.acting) {
+        target = "acting";
+      } else if ((target === "reliquary" || target === "remembrance") && !gov.rulings.offering) {
+        target = "offering";
+      }
+    }
+
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
       history.replaceState(null, "", "#" + target);
     }
     return target;
   };
+
+  /* 可靠聚焦：场景从 visibility:hidden 过渡期间 focus() 会被静默拒绝，
+     因此同步首试 + 有界重试验收（document.activeElement 落位即停），
+     且目标所属场景不再是 active 时立即放弃，绝不跨场景抢焦点 */
+  const focusReliably = (el) => {
+    if (!el) return;
+    el.setAttribute("tabindex", "-1");
+    let tries = 0;
+    const attempt = () => {
+      const host = el.closest(".scene");
+      if (host && !host.classList.contains("active")) return;
+      el.focus({ preventScroll: true });
+      if (document.activeElement === el) return;
+      if (++tries < 12) setTimeout(attempt, 120);
+    };
+    attempt();
+  };
+
+  /* 下一次 goScene 完成后优先聚焦的元素（由 begin / next-cycle / retry 处理器指定） */
+  let pendingSceneFocus = null;
 
   const goScene = (name) => {
     if (!scenes[name] || veilBusy) return;
@@ -873,9 +1032,13 @@ document.addEventListener("DOMContentLoaded", () => {
     leaveCancel();
     leaveActing();
     leaveReliquary();
+    closeCollapseModal();
     veil.classList.add("on");
     AudioEngine.whoosh();
-    setTimeout(() => {
+    let completed = false;
+    const complete = () => {
+      if (completed) return;
+      completed = true;
       const prev = scenes[currentScene];
       if (prev) {
         prev.classList.remove("active");
@@ -887,18 +1050,21 @@ document.addEventListener("DOMContentLoaded", () => {
       sceneInit(name);
       if (location.hash !== "#" + name) location.hash = name;
       next.scrollTop = 0;
-      setTimeout(() => {
-        const title = next.querySelector(".sec-title, .ninth-rule, .dead-title");
-        if (title) {
-          title.setAttribute("tabindex", "-1");
-          title.focus({ preventScroll: true });
-        }
-      }, reduced ? 50 : 180);
-      setTimeout(() => {
-        veil.classList.remove("on");
-        veilBusy = false;
-      }, 80);
-    }, reduced ? 60 : 480);
+      /* 焦点恢复与 veil 收尾必须和场景切换同一拍完成：
+         依赖嵌套定时器时，内层定时器一旦丢失就会造成
+         veilBusy 永久卡死、veil 常亮与焦点悬空（QA 实测复现） */
+      let focusEl = null;
+      if (collapseModal && !collapseModal.hasAttribute("hidden") && retryGovernanceBtn) focusEl = retryGovernanceBtn;
+      if (!focusEl && pendingSceneFocus && pendingSceneFocus.getClientRects().length > 0) focusEl = pendingSceneFocus;
+      pendingSceneFocus = null;
+      const title = focusEl || next.querySelector(".sec-title, .ninth-rule, .dead-title");
+      if (title) focusReliably(title);
+      veil.classList.remove("on");
+      veilBusy = false;
+    };
+    setTimeout(complete, reduced ? 60 : 480);
+    /* 看门狗：主转场定时器丢失时兜底完成同一条 complete，路由器永不卡死 */
+    setTimeout(complete, reduced ? 600 : 2000);
   };
 
   const route = () => {
@@ -1348,6 +1514,283 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ============================================================
+     v29 旁路支线：回声档案室 / 血管维修井 / 忏悔称量室
+     状态统一存 goddead_v29_branches，容错旧/坏 JSON；
+     只读不写任何 v28 治理与旧主线状态。
+     ============================================================ */
+  const BRANCH_KEY = "goddead_v29_branches";
+  const BRANCH_SCENES = ["echo", "vein", "confession"];
+  const getBranches = () => {
+    let raw = {};
+    try {
+      raw = JSON.parse(store.get(BRANCH_KEY, "{}")) || {};
+    } catch { raw = {}; }
+    const visited = {};
+    const lastChoice = {};
+    BRANCH_SCENES.forEach((b) => {
+      visited[b] = Boolean(raw.visited && raw.visited[b] === true);
+      lastChoice[b] = typeof (raw.lastChoice && raw.lastChoice[b]) === "string" ? raw.lastChoice[b] : null;
+    });
+    return { visited, lastChoice };
+  };
+  const saveBranches = (st) => store.set(BRANCH_KEY, JSON.stringify(st));
+
+  /* 分支转场延迟：普通模式约 0.7–1.0 秒，reduced-motion 约 0.3 秒 */
+  const branchDelay = () => reduced ? 300 : 700 + Math.floor(Math.random() * 300);
+
+  const BRANCH_META = {
+    echo: {
+      responseEl: "#echo-response",
+      intro: "回声不是说出去的话。档案室的门自己开了。",
+      choices: {
+        knock: { btn: "#echo-choice-knock", target: "threshold", response: "敲声顺着听筒爬回门外。它认得你的手。" },
+        steps: { btn: "#echo-choice-steps", target: "corridor", response: "脚步声一遍比一遍近。你回到了走廊。" },
+        /* v30：03:17 的铃改接入失真转接室（深层），值班室出口移到转接室内 */
+        bell: { btn: "#echo-choice-bell", target: "echo-transfer", response: "03:17 的铃没有停。它被转接进了一条失真的线路。" },
+      },
+    },
+    vein: {
+      responseEl: "#vein-response",
+      intro: "墙里的血管在井下交汇。维修井接受了你的登记。",
+      choices: {
+        down: { btn: "#vein-choice-down", target: "corridor", response: "顺流。血记得下坡的路，你回到了走廊。" },
+        up: { btn: "#vein-choice-up", target: "protocol", response: "逆流。守则的第一条开始发痒。" },
+        /* v30：隔离闸改接入逆流泵房（深层），值夜室出口移到泵房应急梯 */
+        isolate: { btn: "#vein-choice-isolate", target: "vein-pump", response: "隔离阀后面不是井底。是一间仍在工作的泵房。" },
+      },
+    },
+    confession: {
+      responseEl: "#confession-response",
+      intro: "忏悔不按句计费，按重量。称量室校准了秤。",
+      choices: {
+        door: { btn: "#confession-choice-door", target: "protocol", response: "秤承认了那三记敲击。守则等你回去。" },
+        seven: { btn: "#confession-choice-seven", target: "corridor", response: "第七条被称出了重量。走廊收下这份坦白。" },
+        /* v30：拒绝忏悔改登记进无名罪籍库（深层），不再直接跳回声档案室 */
+        refuse: { btn: "#confession-choice-refuse", target: "confession-ledger", response: "拒绝也有重量。它被登记进了一册无名的罪籍。" },
+      },
+    },
+  };
+
+  const syncBranchEntries = () => {
+    const st = getBranches();
+    BRANCH_SCENES.forEach((b) => {
+      const entry = $("#branch-entry-" + b);
+      const link = $("#" + b + "-link");
+      [entry, link].forEach((el) => {
+        if (!el) return;
+        if (st.visited[b]) el.removeAttribute("hidden");
+        else el.setAttribute("hidden", "");
+      });
+    });
+  };
+
+  const paintBranchChoice = (sceneKey) => {
+    const meta = BRANCH_META[sceneKey];
+    const st = getBranches();
+    Object.keys(meta.choices).forEach((ck) => {
+      const btn = $(meta.choices[ck].btn);
+      if (btn) btn.setAttribute("aria-pressed", st.lastChoice[sceneKey] === ck ? "true" : "false");
+    });
+  };
+
+  const enterBranch = (sceneKey) => {
+    const meta = BRANCH_META[sceneKey];
+    const responseEl = $(meta.responseEl);
+    if (responseEl) responseEl.textContent = "";
+    paintBranchChoice(sceneKey);
+  };
+
+  /* 分支选择：点击/键盘激活 → 短反馈 → 自动进入目标；没有第二个必点按钮 */
+  const chooseBranch = (sceneKey, choiceKey) => {
+    const meta = BRANCH_META[sceneKey];
+    const choice = meta.choices[choiceKey];
+    if (!choice) return;
+    const st = getBranches();
+    st.lastChoice[sceneKey] = choiceKey;
+    saveBranches(st);
+    paintBranchChoice(sceneKey);
+
+    const ok = !choice.guard || choice.guard();
+    const target = ok ? choice.target : "corridor";
+    const responseEl = $(meta.responseEl);
+    if (responseEl) responseEl.textContent = ok ? choice.response : choice.failResponse;
+    AudioEngine.knock(0.16);
+    /* v30：选择的目标是深层区域时，到访标记在点击时立即持久化（同 v29 残页分流契约） */
+    if (DEEP_SCENES.includes(target)) markDeepVisited(target);
+    AutoAdvance.schedule(sceneKey, target, { delay: branchDelay() });
+  };
+
+  BRANCH_SCENES.forEach((sceneKey) => {
+    const meta = BRANCH_META[sceneKey];
+    Object.keys(meta.choices).forEach((choiceKey) => {
+      const btn = $(meta.choices[choiceKey].btn);
+      if (btn) btn.addEventListener("click", () => chooseBranch(sceneKey, choiceKey));
+    });
+  });
+
+  const paintBranchMemory = () => {
+    const memory = $("#branch-memory");
+    if (!memory) return;
+    const st = getBranches();
+    const names = { echo: "回声档案室", vein: "血管维修井", confession: "忏悔称量室" };
+    const visitedNames = BRANCH_SCENES.filter((b) => st.visited[b]).map((b) => names[b]);
+    if (visitedNames.length === 0) {
+      memory.hidden = true;
+      return;
+    }
+    memory.textContent = `你走过 ${visitedNames.length} 条旁路：${visitedNames.join("、")}。主线没有因此变短，但你不再只有一条走廊。`;
+    memory.hidden = false;
+  };
+
+  /* ============================================================
+     v30 深层支线：失真转接室 / 逆流泵房 / 无名罪籍库
+     三间二级区域构成可循环三角网络，各保留差异化出口；
+     状态独立存 goddead_v30_branch_depth，容错坏 JSON，
+     不读不写 v28 治理、v29 支线与旧主线状态。
+     ============================================================ */
+  const DEPTH_KEY = "goddead_v30_branch_depth";
+  const DEEP_SCENES = ["echo-transfer", "vein-pump", "confession-ledger"];
+  const DEEP_PARENT = { "echo-transfer": "echo", "vein-pump": "vein", "confession-ledger": "confession" };
+  const getDepth = () => {
+    let raw = {};
+    try {
+      raw = JSON.parse(store.get(DEPTH_KEY, "{}")) || {};
+    } catch { raw = {}; }
+    const deepVisited = {};
+    const lastDeepChoice = {};
+    DEEP_SCENES.forEach((d) => {
+      deepVisited[d] = Boolean(raw.deepVisited && raw.deepVisited[d] === true);
+      lastDeepChoice[d] = typeof (raw.lastDeepChoice && raw.lastDeepChoice[d]) === "string" ? raw.lastDeepChoice[d] : null;
+    });
+    return { deepVisited, lastDeepChoice };
+  };
+  const saveDepth = (st) => store.set(DEPTH_KEY, JSON.stringify(st));
+
+  const DEEP_META = {
+    "echo-transfer": {
+      responseEl: "#echo-transfer-response",
+      choices: {
+        relay: { btn: "#echo-transfer-choice-relay", target: "vein-pump", response: "失真的语音顺着铜管爬进了血管维护网。" },
+        seal: { btn: "#echo-transfer-choice-seal", target: "protocol", response: "你的声音被封进蜡筒。守则背面多了一行空白。" },
+        bell: {
+          btn: "#echo-transfer-choice-bell", target: "watch", response: "03:17 再次响起。这一回，值班的人接听了。",
+          failResponse: "铃声没有找到值班的人。回声把你放回走廊。",
+          failTarget: "corridor",
+          guard: () => watchUnlocked(),
+        },
+      },
+    },
+    "vein-pump": {
+      responseEl: "#vein-pump-response",
+      choices: {
+        release: { btn: "#vein-pump-choice-release", target: "echo-transfer", response: "回声压力泄进了转接室。听筒轻轻发烫。" },
+        sediment: { btn: "#vein-pump-choice-sediment", target: "confession-ledger", response: "黑色沉积物沉进罪籍管道。档案页变重了。" },
+        ladder: {
+          btn: "#vein-pump-choice-ladder", target: "watch", response: "应急梯尽头，是值夜室的地面。",
+          failResponse: "应急梯中途断开。你落回了守则的台阶。",
+          failTarget: "protocol",
+          guard: () => watchUnlocked(),
+        },
+      },
+    },
+    "confession-ledger": {
+      responseEl: "#confession-ledger-response",
+      choices: {
+        crossout: { btn: "#ledger-choice-crossout", target: "echo-transfer", response: "划掉的名字没有消失。它变成了一段失真的语音。" },
+        archive: { btn: "#ledger-choice-archive", target: "vein-pump", response: "你被归档为仍在场的见证者。泵房开始按你的脉搏运转。" },
+        reject: {
+          btn: "#ledger-choice-reject", target: () => (watchUnlocked() ? "watch" : "corridor"), response: "整份记录被拒收。三处档案同时咳嗽了一声。",
+          failResponse: "记录退回原处。守则替你签收了一行。",
+          failTarget: "protocol",
+          guard: () => DEEP_SCENES.every((d) => getDepth().deepVisited[d]),
+        },
+      },
+    },
+  };
+
+  const syncDeepEntries = () => {
+    const st = getDepth();
+    DEEP_SCENES.forEach((d) => {
+      const entry = $("#branch-entry-" + d);
+      const link = $("#" + d + "-link");
+      [entry, link].forEach((el) => {
+        if (!el) return;
+        if (st.deepVisited[d]) el.removeAttribute("hidden");
+        else el.setAttribute("hidden", "");
+      });
+    });
+  };
+
+  /* 到访标记在点击时立即持久化：即便转场被回退取消，入口也已出现 */
+  const markDeepVisited = (sceneKey) => {
+    const st = getDepth();
+    if (st.deepVisited[sceneKey]) return;
+    st.deepVisited[sceneKey] = true;
+    saveDepth(st);
+    syncDeepEntries();
+  };
+
+  const paintDeepChoice = (sceneKey) => {
+    const meta = DEEP_META[sceneKey];
+    const st = getDepth();
+    Object.keys(meta.choices).forEach((ck) => {
+      const btn = $(meta.choices[ck].btn);
+      if (btn) btn.setAttribute("aria-pressed", st.lastDeepChoice[sceneKey] === ck ? "true" : "false");
+    });
+  };
+
+  const enterDeep = (sceneKey) => {
+    const meta = DEEP_META[sceneKey];
+    const responseEl = $(meta.responseEl);
+    if (responseEl) responseEl.textContent = "";
+    paintDeepChoice(sceneKey);
+  };
+
+  /* 深层选择：点击/键盘激活 → 短反馈 → 自动进入目标；
+     条件动作给出差异化出口（watch / corridor / protocol），没有第二个必点按钮 */
+  const chooseDeep = (sceneKey, choiceKey) => {
+    const meta = DEEP_META[sceneKey];
+    const choice = meta.choices[choiceKey];
+    if (!choice) return;
+    const st = getDepth();
+    st.lastDeepChoice[sceneKey] = choiceKey;
+    saveDepth(st);
+    paintDeepChoice(sceneKey);
+
+    const ok = !choice.guard || choice.guard();
+    const target = ok
+      ? (typeof choice.target === "function" ? choice.target() : choice.target)
+      : (choice.failTarget || "corridor");
+    const responseEl = $(meta.responseEl);
+    if (responseEl) responseEl.textContent = ok ? choice.response : choice.failResponse;
+    AudioEngine.knock(0.16);
+    if (DEEP_SCENES.includes(target)) markDeepVisited(target);
+    AutoAdvance.schedule(sceneKey, target, { delay: branchDelay() });
+  };
+
+  DEEP_SCENES.forEach((sceneKey) => {
+    const meta = DEEP_META[sceneKey];
+    Object.keys(meta.choices).forEach((choiceKey) => {
+      const btn = $(meta.choices[choiceKey].btn);
+      if (btn) btn.addEventListener("click", () => chooseDeep(sceneKey, choiceKey));
+    });
+  });
+
+  const paintDeepMemory = () => {
+    const memory = $("#deep-memory");
+    if (!memory) return;
+    const st = getDepth();
+    const names = { "echo-transfer": "失真转接室", "vein-pump": "逆流泵房", "confession-ledger": "无名罪籍库" };
+    const visitedNames = DEEP_SCENES.filter((d) => st.deepVisited[d]).map((d) => names[d]);
+    if (visitedNames.length === 0) {
+      memory.hidden = true;
+      return;
+    }
+    memory.textContent = `你下到了更深的地方：${visitedNames.join("、")}。档案不承认见过你。`;
+    memory.hidden = false;
+  };
+
+  /* ============================================================
      走廊：残页 + 封印的门
      ============================================================ */
   const fragResponses = [
@@ -1367,6 +1810,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
+  /* f2「回声」/ f3「血管」/ f4「忏悔」第一次主动点击时优先走支线 */
+  const FRAG_BRANCH = { f2: "echo", f3: "vein", f4: "confession" };
+
   $$(".frag").forEach((frag) => {
     frag.addEventListener("click", () => {
       const alreadyRead = frag.classList.contains("read");
@@ -1383,6 +1829,22 @@ document.addEventListener("DOMContentLoaded", () => {
           : fragResponses[Math.floor(Math.random() * fragResponses.length)]);
       } else {
         toast("读过的字，会跟着你。");
+      }
+      const branch = FRAG_BRANCH[Object.keys(FRAG_BRANCH).find((k) => frag.classList.contains(k))];
+      if (branch && !alreadyRead) {
+        /* 分支路由优先：取消 corridor 的主线 AutoAdvance，短反馈后进入支线。
+           visited 在点击时立即持久化：即便转场被回退取消，
+           走廊入口也已出现，支线永远不会永久丢失 */
+        AutoAdvance.clear("corridor");
+        const st = getBranches();
+        st.visited[branch] = true;
+        saveBranches(st);
+        syncBranchEntries();
+        AutoAdvance.schedule("corridor", branch, {
+          delay: branchDelay(),
+          onSchedule: () => toast(BRANCH_META[branch].intro),
+        });
+        return;
       }
       tryScheduleCorridor();
     });
@@ -2341,6 +2803,366 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 150 + actingLines.length * 120 + 250));
   };
 
+  /* ---------- HUD & Ruling UI 同步与控制 ---------- */
+  const govHud = $("#governance-hud");
+  const hudBarE = $("#hud-bar-e");
+  const hudBarA = $("#hud-bar-a");
+  const hudBarR = $("#hud-bar-r");
+  const hudValE = $("#hud-val-e");
+  const hudValA = $("#hud-val-a");
+  const hudValR = $("#hud-val-r");
+
+  const updateHudDisplay = () => {
+    const gov = parseAndValidateGovernance();
+    if (gov.hudUnlocked && (currentScene === "acting" || currentScene === "offering" || currentScene === "reliquary" || currentScene === "remembrance")) {
+      if (govHud) govHud.removeAttribute("hidden");
+    } else {
+      if (govHud) govHud.setAttribute("hidden", "");
+    }
+    if (hudBarE) hudBarE.style.width = gov.resources.E + "%";
+    if (hudBarA) hudBarA.style.width = gov.resources.A + "%";
+    if (hudBarR) hudBarR.style.width = gov.resources.R + "%";
+    if (hudValE) hudValE.textContent = gov.resources.E;
+    if (hudValA) hudValA.textContent = gov.resources.A;
+    if (hudValR) hudValR.textContent = gov.resources.R;
+  };
+
+  /* Ruling 1 (#acting) */
+  const rulingActingBox = $("#ruling-acting-box");
+  const rulingActingHeading = $("#ruling-acting-heading");
+  const rulingActingBtnA = $("#ruling-acting-btn-a");
+  const rulingActingBtnB = $("#ruling-acting-btn-b");
+  const rulingActingConsequence = $("#ruling-acting-consequence");
+  const continueActingBtn = $("#continue-acting-btn");
+
+  const syncRulingActingUI = () => {
+    if (!rulingActingBox) return;
+    const gov = parseAndValidateGovernance();
+    const st = getActing();
+    if (!st.appointed || !gov.hudUnlocked) {
+      rulingActingBox.setAttribute("hidden", "");
+      return;
+    }
+    rulingActingBox.removeAttribute("hidden");
+    const choice = gov.rulings.acting;
+
+    if (rulingActingBtnA) rulingActingBtnA.setAttribute("aria-pressed", choice === "A" ? "true" : "false");
+    if (rulingActingBtnB) rulingActingBtnB.setAttribute("aria-pressed", choice === "B" ? "true" : "false");
+
+    if (choice) {
+      if (rulingActingConsequence) rulingActingConsequence.textContent = RULING_CONSEQUENCES.acting[choice];
+      if (continueActingBtn) continueActingBtn.removeAttribute("hidden");
+    } else {
+      if (rulingActingConsequence) rulingActingConsequence.textContent = "";
+      if (continueActingBtn) continueActingBtn.setAttribute("hidden", "");
+    }
+  };
+
+  const applyRulingActingChoice = (choice) => {
+    let gov = parseAndValidateGovernance();
+    gov.hudUnlocked = true;
+    gov.rulings.acting = choice;
+    saveGovernance(gov);
+    updateHudDisplay();
+    syncRulingActingUI();
+
+    if (continueActingBtn) {
+      continueActingBtn.focus();
+    }
+    scheduleActingAutoAdvance();
+  };
+
+  const scheduleActingAutoAdvance = () => {
+    if (actingConsumed) return;
+    AutoAdvance.schedule("acting", "offering", {
+      before: () => { actingConsumed = true; },
+      onSchedule: () => toast("代行判词已生效。即将前往焚献炉。"),
+    });
+  };
+
+  if (rulingActingBtnA) rulingActingBtnA.addEventListener("click", () => applyRulingActingChoice("A"));
+  if (rulingActingBtnB) rulingActingBtnB.addEventListener("click", () => applyRulingActingChoice("B"));
+  if (continueActingBtn) continueActingBtn.addEventListener("click", scheduleActingAutoAdvance);
+
+  /* Ruling 2 (#offering) */
+  const rulingOfferingBox = $("#ruling-offering-box");
+  const rulingOfferingHeading = $("#ruling-offering-heading");
+  const rulingOfferingBtnA = $("#ruling-offering-btn-a");
+  const rulingOfferingBtnB = $("#ruling-offering-btn-b");
+  const rulingOfferingConsequence = $("#ruling-offering-consequence");
+  const continueOfferingBtn = $("#continue-offering-btn");
+
+  const syncRulingOfferingUI = () => {
+    if (!rulingOfferingBox) return;
+    const gov = parseAndValidateGovernance();
+    if (!getActing().appointed || !gov.hudUnlocked) {
+      rulingOfferingBox.setAttribute("hidden", "");
+      return;
+    }
+    // 只有提交过祷词（或不是首 Cycle）后才显示 Ruling 2
+    if (gstate.prayersOffered <= 0 && !gov.rulings.offering) {
+      rulingOfferingBox.setAttribute("hidden", "");
+      return;
+    }
+    rulingOfferingBox.removeAttribute("hidden");
+    const choice = gov.rulings.offering;
+
+    if (rulingOfferingBtnA) rulingOfferingBtnA.setAttribute("aria-pressed", choice === "A" ? "true" : "false");
+    if (rulingOfferingBtnB) rulingOfferingBtnB.setAttribute("aria-pressed", choice === "B" ? "true" : "false");
+
+    if (choice) {
+      if (rulingOfferingConsequence) rulingOfferingConsequence.textContent = RULING_CONSEQUENCES.offering[choice];
+      if (continueOfferingBtn) continueOfferingBtn.removeAttribute("hidden");
+    } else {
+      if (rulingOfferingConsequence) rulingOfferingConsequence.textContent = "";
+      if (continueOfferingBtn) continueOfferingBtn.setAttribute("hidden", "");
+    }
+  };
+
+  const applyRulingOfferingChoice = (choice) => {
+    let gov = parseAndValidateGovernance();
+    gov.rulings.offering = choice;
+    saveGovernance(gov);
+    updateHudDisplay();
+    syncRulingOfferingUI();
+
+    if (continueOfferingBtn) {
+      continueOfferingBtn.focus();
+    }
+    scheduleOfferingAutoAdvance();
+  };
+
+  const scheduleOfferingAutoAdvance = () => {
+    if (offeringConsumed) return;
+    AutoAdvance.schedule("offering", "reliquary", {
+      before: () => { offeringConsumed = true; },
+      onSchedule: () => toast("焚献判词已生效。即将前往神圣遗物科。"),
+    });
+  };
+
+  if (rulingOfferingBtnA) rulingOfferingBtnA.addEventListener("click", () => applyRulingOfferingChoice("A"));
+  if (rulingOfferingBtnB) rulingOfferingBtnB.addEventListener("click", () => applyRulingOfferingChoice("B"));
+  if (continueOfferingBtn) continueOfferingBtn.addEventListener("click", scheduleOfferingAutoAdvance);
+
+  /* Ruling 3 (#reliquary) */
+  const rulingReliquaryBox = $("#ruling-reliquary-box");
+  const rulingReliquaryHeading = $("#ruling-reliquary-heading");
+  const rulingReliquaryBtnA = $("#ruling-reliquary-btn-a");
+  const rulingReliquaryBtnB = $("#ruling-reliquary-btn-b");
+  const rulingReliquaryConsequence = $("#ruling-reliquary-consequence");
+  const continueReliquaryBtn = $("#continue-reliquary-btn");
+
+  const syncRulingReliquaryUI = () => {
+    if (!rulingReliquaryBox) return;
+    const gov = parseAndValidateGovernance();
+    const st = getRelic();
+    if (!st.sealed || !gov.hudUnlocked) {
+      rulingReliquaryBox.setAttribute("hidden", "");
+      return;
+    }
+    rulingReliquaryBox.removeAttribute("hidden");
+    const choice = gov.rulings.reliquary;
+
+    if (rulingReliquaryBtnA) rulingReliquaryBtnA.setAttribute("aria-pressed", choice === "A" ? "true" : "false");
+    if (rulingReliquaryBtnB) rulingReliquaryBtnB.setAttribute("aria-pressed", choice === "B" ? "true" : "false");
+
+    if (choice) {
+      if (rulingReliquaryConsequence) rulingReliquaryConsequence.textContent = RULING_CONSEQUENCES.reliquary[choice];
+      if (continueReliquaryBtn) continueReliquaryBtn.removeAttribute("hidden");
+    } else {
+      if (rulingReliquaryConsequence) rulingReliquaryConsequence.textContent = "";
+      if (continueReliquaryBtn) continueReliquaryBtn.setAttribute("hidden", "");
+    }
+  };
+
+  const applyRulingReliquaryChoice = (choice) => {
+    let gov = parseAndValidateGovernance();
+    gov.rulings.reliquary = choice;
+    saveGovernance(gov);
+    /* 二次解析并回写：把本轮推导出的结局（若有）正式持久化进图鉴 */
+    saveGovernance(parseAndValidateGovernance());
+    updateHudDisplay();
+    syncRulingReliquaryUI();
+
+    if (continueReliquaryBtn) {
+      continueReliquaryBtn.focus();
+    }
+    // 做出 Ruling 3 选择后才触发 6 行封印记录动画并 AutoAdvance 到 remembrance
+    revealRelicRecordAndAdvance();
+  };
+
+  const revealRelicRecordAndAdvance = () => {
+    const record = $("#relic-record");
+    const lines = record ? Array.from(record.querySelectorAll(".relic-line")) : [];
+    if (record) record.setAttribute("aria-live", "polite");
+
+    clearRelicTimers();
+    if (reduced) {
+      lines.forEach((l) => { l.hidden = false; l.classList.add("in"); });
+      paintRelic();
+      scheduleReliquaryAutoAdvance();
+    } else {
+      lines.forEach((l, i) => {
+        const tid = setTimeout(() => {
+          l.hidden = false;
+          l.classList.add("in");
+          AudioEngine.tick();
+          if (i === lines.length - 1) {
+            paintRelic();
+            scheduleReliquaryAutoAdvance();
+          }
+        }, 150 + i * 150);
+        relicTimers.push(tid);
+      });
+    }
+  };
+
+  const scheduleReliquaryAutoAdvance = () => {
+    if (reliquaryConsumed) return;
+    AutoAdvance.schedule("reliquary", "remembrance", {
+      before: () => { reliquaryConsumed = true; },
+      onSchedule: () => toast("代行裁决完成。即刻归入终局记录。"),
+    });
+  };
+
+  if (rulingReliquaryBtnA) rulingReliquaryBtnA.addEventListener("click", () => applyRulingReliquaryChoice("A"));
+  if (rulingReliquaryBtnB) rulingReliquaryBtnB.addEventListener("click", () => applyRulingReliquaryChoice("B"));
+  if (continueReliquaryBtn) continueReliquaryBtn.addEventListener("click", scheduleReliquaryAutoAdvance);
+
+  /* ---------- 治理终局：老玩家入口 / 结局卡 / 崩解 modal / 新一轮 ---------- */
+  const ENDING_META = {
+    ascension: { name: "登神长阶 · ASCENSION", narrative: "灵质压过了灰烬与共鸣。你沿着代行的阶梯一直向上，直到「代理」二字自行脱落——观所迎来了一位并不情愿的新神。" },
+    madness: { name: "万魂共鸣 · MADNESS", narrative: "共鸣淹没了灵质与灰烬。所有无人应答的祷告在同一秒开口，你在亿万声音里再也找不到属于自己的那一句。" },
+    oblivion: { name: "灰烬归寂 · OBLIVION", narrative: "灰烬厚过了灵质。一切都还在，只是再也没有人记得为什么。观所安静地合上，像一封无人签收的信。" },
+    nightwatch: { name: "永恒值夜 · NIGHTWATCH", narrative: "三元没有一边胜出。你把代行做成了一生的值夜——不登神，不疯狂，不归寂，只是继续看着。" },
+  };
+
+  const beginGovernanceBox = $("#begin-governance-box");
+  const beginGovernanceBtn = $("#begin-governance-btn");
+  const endingCardBox = $("#ending-card-box");
+  const endingTitle = $("#ending-title");
+  const endingNarrative = $("#ending-narrative");
+  const endingResE = $("#ending-res-e");
+  const endingResA = $("#ending-res-a");
+  const endingResR = $("#ending-res-r");
+  const collectionList = $("#collection-list");
+  const nextCycleBtn = $("#next-cycle-btn");
+  const collapseModal = $("#collapse-modal");
+  const retryGovernanceBtn = $("#retry-governance-btn");
+
+  /* 只重置本轮三项裁决（派生资源与结果随 rulings 重算而归零）；
+     图鉴与旧主线进度（值夜/线路/投递/注销/任命/祷告/遗物/抵达）一概不动；
+     cycleCount 仅在主动开启新一轮时精确加一，解析永不自增。 */
+  const resetGovernanceCycle = () => {
+    const gov = parseAndValidateGovernance();
+    const next = {
+      version: 28,
+      cycleCount: gov.cycleCount + 1,
+      rulings: { acting: null, offering: null, reliquary: null },
+      unlockedEndings: gov.unlockedEndings,
+      hudUnlocked: true,
+    };
+    saveGovernance(next);
+    return next;
+  };
+
+  /* 崩解 modal 键盘陷阱：打开时挂监听、关闭/离场时移除；
+     当前仅重试一个可聚焦项时，Tab 与 Shift+Tab 两个方向都留在重试上 */
+  const onCollapseKeydown = (e) => {
+    if (e.key !== "Tab" || !collapseModal || collapseModal.hasAttribute("hidden")) return;
+    const focusables = Array.from(collapseModal.querySelectorAll("button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])"))
+      .filter((el) => !el.disabled && el.getClientRects().length > 0);
+    if (!focusables.length) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (e.shiftKey && (document.activeElement === first || !collapseModal.contains(document.activeElement))) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && (document.activeElement === last || !collapseModal.contains(document.activeElement))) {
+      e.preventDefault();
+      first.focus();
+    }
+  };
+
+  const closeCollapseModal = () => {
+    if (collapseModal) collapseModal.setAttribute("hidden", "");
+    document.removeEventListener("keydown", onCollapseKeydown, true);
+  };
+
+  const openCollapseModal = () => {
+    if (!collapseModal) return;
+    collapseModal.removeAttribute("hidden");
+    document.addEventListener("keydown", onCollapseKeydown, true);
+    /* 初始焦点由 goScene 的转场完成步骤统一落到重试按钮，不再使用嵌套定时器 */
+  };
+
+  /* 痕迹页治理终局面板：begin 入口 / 结局卡 / 崩解 modal 三态互斥 */
+  const syncGovernanceRemembrance = () => {
+    const gov = parseAndValidateGovernance();
+    const mainLineDone = getRelic().sealed;
+
+    /* 老玩家入口：旧主线已完成（遗物已封印）但从未开启治理 */
+    if (beginGovernanceBox) {
+      if (mainLineDone && !gov.hudUnlocked) beginGovernanceBox.removeAttribute("hidden");
+      else beginGovernanceBox.setAttribute("hidden", "");
+    }
+
+    /* 结局卡：仅四个正常结局；collapse 走 modal */
+    if (endingCardBox) {
+      if (gov.resultStatus && VALID_ENDINGS.includes(gov.resultStatus)) {
+        const meta = ENDING_META[gov.resultStatus];
+        if (endingTitle) endingTitle.textContent = meta.name;
+        if (endingNarrative) endingNarrative.textContent = meta.narrative;
+        if (endingResE) endingResE.textContent = gov.resources.E;
+        if (endingResA) endingResA.textContent = gov.resources.A;
+        if (endingResR) endingResR.textContent = gov.resources.R;
+        if (collectionList) {
+          collectionList.innerHTML = "";
+          VALID_ENDINGS.forEach((id) => {
+            const li = document.createElement("li");
+            li.className = "collection-item" + (gov.unlockedEndings.includes(id) ? " unlocked" : "");
+            li.textContent = ENDING_META[id].name;
+            collectionList.appendChild(li);
+          });
+        }
+        endingCardBox.removeAttribute("hidden");
+      } else {
+        endingCardBox.setAttribute("hidden", "");
+      }
+    }
+
+    if (gov.resultStatus === "collapse" && currentScene === "remembrance") openCollapseModal();
+    else closeCollapseModal();
+  };
+
+  /* 老玩家入口：只开启治理并前往代神席，不清空任何旧主线进度 */
+  if (beginGovernanceBtn) beginGovernanceBtn.addEventListener("click", () => {
+    const gov = parseAndValidateGovernance();
+    gov.hudUnlocked = true;
+    saveGovernance(gov);
+    updateHudDisplay();
+    pendingSceneFocus = rulingActingHeading;
+    toast("代神治理协议已开启。请回到代神席颁布首项判词。");
+    goScene("acting");
+  });
+
+  if (nextCycleBtn) nextCycleBtn.addEventListener("click", () => {
+    resetGovernanceCycle();
+    updateHudDisplay();
+    pendingSceneFocus = rulingActingHeading;
+    toast("新一轮代行治理已开始。判词已清空，图鉴与旧档案保留。");
+    goScene("acting");
+  });
+
+  if (retryGovernanceBtn) retryGovernanceBtn.addEventListener("click", () => {
+    resetGovernanceCycle();
+    closeCollapseModal();
+    updateHudDisplay();
+    pendingSceneFocus = rulingActingHeading;
+    toast("崩解已登记。新一轮代行治理开始。");
+    goScene("acting");
+  });
+
   const appoint = () => {
     const st = getActing();
     if (st.appointed) return;
@@ -2354,7 +3176,19 @@ document.addEventListener("DOMContentLoaded", () => {
     revealActingRecord();
     paintActing();
     AudioEngine.relayLock();
-    tryScheduleActing();
+
+    let gov = parseAndValidateGovernance();
+    gov.hudUnlocked = true;
+    saveGovernance(gov);
+    updateHudDisplay();
+    syncRulingActingUI();
+
+    setTimeout(() => {
+      if (rulingActingHeading) {
+        rulingActingHeading.setAttribute("tabindex", "-1");
+        rulingActingHeading.focus();
+      }
+    }, reduced ? 50 : 300);
   };
 
   const updateActing = (v, fromInput = true) => {
@@ -2416,6 +3250,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       actingFinal.removeAttribute("hidden");
       actingFinal.classList.add("on");
+      syncRulingActingUI();
     }
     setActingSwitchInteractive(st.appointed);
   };
@@ -2511,12 +3346,13 @@ document.addEventListener("DOMContentLoaded", () => {
     prayerResponse.textContent = text;
     prayerResponse.classList.add("visible");
 
-    if (!offeringConsumed) {
-      AutoAdvance.schedule("offering", "reliquary", {
-        before: () => { offeringConsumed = true; },
-        onSchedule: () => toast("祷词已焚。神圣遗物科已接收。"),
-      });
-    }
+    syncRulingOfferingUI();
+    setTimeout(() => {
+      if (rulingOfferingHeading) {
+        rulingOfferingHeading.setAttribute("tabindex", "-1");
+        rulingOfferingHeading.focus();
+      }
+    }, reduced ? 50 : 300);
   };
 
   prayerOffer.addEventListener("click", offerPrayer);
@@ -2574,6 +3410,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const enterReliquary = () => {
     reliquaryConsumed = false;
     paintRelic();
+    syncRulingReliquaryUI();
   };
 
   const leaveReliquary = () => {
@@ -2680,40 +3517,15 @@ document.addEventListener("DOMContentLoaded", () => {
       data.sealed = true;
       data.sealedAt = Date.now();
       saveRelic(data);
+      paintRelic();
 
-      const record = $("#relic-record");
-      const lines = record ? Array.from(record.querySelectorAll(".relic-line")) : [];
-      if (record) record.setAttribute("aria-live", "polite");
-
-      clearRelicTimers();
-      if (reduced) {
-        lines.forEach((l) => { l.hidden = false; l.classList.add("in"); });
-        paintRelic();
-        if (currentScene === "reliquary" && !reliquaryConsumed) {
-          AutoAdvance.schedule("reliquary", "remembrance", {
-            before: () => { reliquaryConsumed = true; },
-            onSchedule: () => toast("遗物已封印。正在前往痕迹。"),
-          });
+      syncRulingReliquaryUI();
+      setTimeout(() => {
+        if (rulingReliquaryHeading) {
+          rulingReliquaryHeading.setAttribute("tabindex", "-1");
+          rulingReliquaryHeading.focus();
         }
-      } else {
-        lines.forEach((l, i) => {
-          const tid = setTimeout(() => {
-            l.hidden = false;
-            l.classList.add("in");
-            AudioEngine.tick();
-            if (i === lines.length - 1) {
-              paintRelic();
-              if (currentScene === "reliquary" && !reliquaryConsumed) {
-                AutoAdvance.schedule("reliquary", "remembrance", {
-                  before: () => { reliquaryConsumed = true; },
-                  onSchedule: () => toast("遗物已封印。正在前往痕迹。"),
-                });
-              }
-            }
-          }, 150 + i * 150);
-          relicTimers.push(tid);
-        });
-      }
+      }, reduced ? 50 : 300);
     });
   }
 
@@ -2926,12 +3738,14 @@ document.addEventListener("DOMContentLoaded", () => {
       syncActingScene();
       renderReliquary();
       syncReliquaryEntry();
+      syncBranchEntries();
       paintWatch();
       paintLine4();
       paintDeliver();
       paintCancel();
       paintActing();
       paintRelicMemory();
+      paintBranchMemory();
 
       if (forgetPanel) forgetPanel.hidden = true;
       if (forgetTriggerBtn) forgetTriggerBtn.hidden = false;
@@ -2962,6 +3776,8 @@ document.addEventListener("DOMContentLoaded", () => {
   syncActingScene();
   paintActing();
   paintRelicMemory();
+  syncBranchEntries();
+  paintBranchMemory();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

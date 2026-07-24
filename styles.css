@@ -3036,3 +3036,623 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
 
   .offering-img { transition: none !important; }
 }
+
+/* ============================================================
+   v28 Divine Balance & Governance Protocol Styles
+   ============================================================ */
+
+.governance-hud {
+  position: fixed;
+  top: clamp(56px, 7vh, 76px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
+  width: min(720px, 94vw);
+  padding: 0.5rem 1.2rem;
+  border: 1px solid rgba(192, 160, 96, 0.35);
+  background: rgba(8, 8, 8, 0.92);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 15px rgba(154, 127, 71, 0.15);
+  backdrop-filter: blur(8px);
+  transition: opacity 0.4s ease;
+}
+
+.governance-hud[hidden] {
+  display: none !important;
+}
+
+.hud-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.hud-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.hud-label {
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+
+.hud-bar-wrap {
+  flex: 1;
+  height: 6px;
+  background: rgba(222, 217, 208, 0.12);
+  border: 1px solid rgba(222, 217, 208, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.hud-bar-fill {
+  height: 100%;
+  background: var(--gold);
+  box-shadow: 0 0 8px rgba(201, 169, 97, 0.6);
+  transition: width 0.4s ease;
+}
+
+.hud-essence .hud-bar-fill { background: #d4af37; box-shadow: 0 0 8px rgba(212, 175, 55, 0.6); }
+.hud-ashes .hud-bar-fill { background: #b3aea5; box-shadow: 0 0 8px rgba(179, 174, 165, 0.6); }
+.hud-resonance .hud-bar-fill { background: #c04a42; box-shadow: 0 0 8px rgba(192, 74, 66, 0.6); }
+
+.hud-val {
+  color: var(--bone-bright);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  width: 2.2ch;
+  text-align: right;
+}
+
+/* Ruling 控件组 */
+.ruling-box {
+  width: min(760px, 100%);
+  margin: clamp(1.6rem, 4vh, 2.6rem) auto 0;
+  padding: 1.4rem 1.6rem;
+  border: 1px solid rgba(192, 160, 96, 0.3);
+  background: rgba(12, 11, 10, 0.88);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+.ruling-box[hidden] {
+  display: none !important;
+}
+
+.ruling-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.ruling-heading {
+  margin: 0;
+  color: var(--gold);
+  font-family: var(--serif-cn);
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-shadow: 0 0 10px rgba(154, 127, 71, 0.3);
+}
+
+.ruling-heading:focus-visible {
+  outline: none;
+  box-shadow: 0 2px 0 0 var(--gold);
+}
+
+.ruling-desc {
+  margin: 0;
+  color: var(--ash);
+  font-size: 0.76rem;
+  letter-spacing: 0.16em;
+  line-height: 1.6;
+}
+
+.ruling-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin-top: 0.4rem;
+}
+
+.ruling-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+  padding: 1rem 1.2rem;
+  border: 1px solid rgba(222, 217, 208, 0.2);
+  background: rgba(20, 18, 16, 0.7);
+  color: var(--bone);
+  text-align: left;
+  cursor: pointer;
+  min-height: 48px;
+  transition: all 0.3s ease;
+}
+
+.ruling-btn:hover {
+  border-color: var(--gold);
+  background: rgba(35, 30, 24, 0.9);
+  box-shadow: 0 0 18px rgba(154, 127, 71, 0.25);
+}
+
+.ruling-btn[aria-pressed="true"] {
+  border-color: var(--gold);
+  background: rgba(45, 38, 28, 0.95);
+  box-shadow: 0 0 24px rgba(192, 160, 96, 0.35);
+}
+
+.ruling-btn .rb-title {
+  font-family: var(--serif-cn);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+}
+
+.ruling-btn .rb-delta {
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  color: var(--ash);
+  letter-spacing: 0.1em;
+}
+
+.ruling-consequence {
+  min-height: 1.8em;
+  color: var(--gold);
+  font-family: var(--serif-cn);
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  line-height: 1.8;
+}
+
+.continue-protocol-btn {
+  align-self: center;
+  margin-top: 0.6rem;
+  padding: 0.85rem 2.4rem;
+  border: 1px solid var(--gold);
+  background: rgba(25, 22, 18, 0.8);
+  color: var(--gold);
+  font-family: var(--serif-cn);
+  font-size: 0.86rem;
+  letter-spacing: 0.3em;
+  min-height: 48px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.continue-protocol-btn:hover {
+  background: var(--gold);
+  color: #050505;
+  box-shadow: 0 0 25px rgba(192, 160, 96, 0.5);
+}
+
+.continue-protocol-btn[hidden] {
+  display: none !important;
+}
+
+/* 老玩家治理入口、结局卡片、Collapse Modal */
+.begin-governance-box {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.begin-governance-box[hidden] {
+  display: none !important;
+}
+
+.begin-governance-btn {
+  padding: 1rem 3rem;
+  border: 1px solid var(--gold);
+  background: rgba(20, 18, 15, 0.9);
+  color: var(--gold);
+  font-family: var(--serif-cn);
+  font-size: 0.95rem;
+  letter-spacing: 0.35em;
+  min-height: 48px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.begin-governance-btn:hover {
+  background: var(--gold);
+  color: #050505;
+  box-shadow: 0 0 30px rgba(192, 160, 96, 0.6);
+}
+
+.ending-card-box {
+  width: min(800px, 100%);
+  margin: 2.5rem auto 0;
+}
+
+.ending-card-box[hidden] {
+  display: none !important;
+}
+
+.ending-card {
+  padding: 2rem 2.2rem;
+  border: 1px solid var(--gold);
+  background: linear-gradient(145deg, rgba(16, 14, 12, 0.95), rgba(6, 5, 5, 0.98));
+  box-shadow: 0 0 35px rgba(192, 160, 96, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.ending-header {
+  border-bottom: 1px solid rgba(192, 160, 96, 0.3);
+  padding-bottom: 1rem;
+}
+
+.ending-kicker {
+  display: block;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.3em;
+  margin-bottom: 0.4rem;
+}
+
+.ending-title {
+  margin: 0;
+  color: var(--gold);
+  font-family: var(--serif-cn);
+  font-size: 1.6rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-shadow: 0 0 14px rgba(192, 160, 96, 0.4);
+}
+
+.ending-narrative {
+  margin: 0;
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: 0.92rem;
+  letter-spacing: 0.16em;
+  line-height: 2;
+}
+
+.ending-resources {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0.8rem 1.2rem;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(222, 217, 208, 0.1);
+}
+
+.er-item {
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+}
+
+.er-item b {
+  color: var(--gold);
+  font-weight: 500;
+}
+
+.unlocked-endings-collection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.collection-title {
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+}
+
+.collection-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.collection-item {
+  padding: 0.3rem 0.8rem;
+  border: 1px solid rgba(192, 160, 96, 0.3);
+  background: rgba(20, 18, 15, 0.6);
+  color: var(--ash);
+  font-family: var(--serif-cn);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+}
+
+.collection-item.unlocked {
+  border-color: var(--gold);
+  color: var(--gold);
+  box-shadow: 0 0 10px rgba(192, 160, 96, 0.2);
+}
+
+.ending-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.6rem;
+}
+
+.next-cycle-btn {
+  padding: 0.9rem 2.2rem;
+  border: 1px solid var(--gold);
+  background: var(--gold);
+  color: #050505;
+  font-family: var(--serif-cn);
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  min-height: 48px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.next-cycle-btn:hover {
+  background: #e6c573;
+  box-shadow: 0 0 25px rgba(230, 197, 115, 0.6);
+}
+
+.collapse-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(5, 5, 5, 0.92);
+  backdrop-filter: blur(10px);
+}
+
+.collapse-modal[hidden] {
+  display: none !important;
+}
+
+.collapse-content {
+  width: min(600px, 94vw);
+  padding: 2.2rem;
+  border: 1px solid var(--blood-bright);
+  background: rgba(14, 8, 8, 0.98);
+  box-shadow: 0 0 45px rgba(192, 74, 66, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.collapse-kicker {
+  color: var(--blood-bright);
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.3em;
+}
+
+.collapse-title {
+  margin: 0;
+  color: var(--blood-bright);
+  font-family: var(--serif-cn);
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-shadow: 0 0 14px rgba(192, 74, 66, 0.5);
+}
+
+.collapse-desc {
+  margin: 0;
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: 0.88rem;
+  letter-spacing: 0.16em;
+  line-height: 1.9;
+}
+
+.collapse-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.8rem;
+}
+
+.retry-governance-btn {
+  padding: 0.9rem 2.4rem;
+  border: 1px solid var(--blood-bright);
+  background: var(--blood-bright);
+  color: #ffffff;
+  font-family: var(--serif-cn);
+  font-size: 0.88rem;
+  letter-spacing: 0.3em;
+  min-height: 48px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.retry-governance-btn:hover {
+  background: #d65a52;
+  box-shadow: 0 0 25px rgba(214, 90, 82, 0.6);
+}
+
+@media (max-width: 720px) {
+  .governance-hud {
+    top: 54px;
+    padding: 0.4rem 0.8rem;
+  }
+  .hud-inner {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .hud-item {
+    flex: 1 1 28%;
+  }
+  .ruling-options {
+    grid-template-columns: 1fr;
+  }
+  .ruling-btn {
+    min-height: 48px;
+    padding: 0.9rem 1rem;
+  }
+  .continue-protocol-btn,
+  .begin-governance-btn,
+  .next-cycle-btn,
+  .retry-governance-btn {
+    width: 100%;
+    min-height: 48px;
+  }
+}
+
+/* ============================================================
+   v29 旁路支线：回声档案室 / 血管维修井 / 忏悔称量室
+   ============================================================ */
+
+.branch-body {
+  padding-top: clamp(88px, 11vh, 120px);
+  justify-content: flex-start;
+}
+
+.branch-figure {
+  width: min(720px, 100%);
+  margin: clamp(0.8rem, 2vh, 1.4rem) auto 0;
+}
+
+.branch-img {
+  display: block;
+  width: 100%;
+  height: clamp(200px, 30vh, 320px);
+  object-fit: cover;
+  object-position: center 62%;
+  -webkit-mask-image: radial-gradient(ellipse 82% 84% at 50% 50%, #000 52%, transparent 98%);
+  mask-image: radial-gradient(ellipse 82% 84% at 50% 50%, #000 52%, transparent 98%);
+}
+
+.branch-choices {
+  width: min(720px, 100%);
+  margin: clamp(0.9rem, 2.2vh, 1.5rem) auto 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.9rem;
+}
+
+.branch-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid rgba(222, 217, 208, 0.2);
+  background: rgba(20, 18, 16, 0.72);
+  color: var(--bone);
+  text-align: left;
+  cursor: pointer;
+  min-height: 48px;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.branch-btn:hover {
+  border-color: var(--gold);
+  background: rgba(35, 30, 24, 0.9);
+  box-shadow: 0 0 18px rgba(154, 127, 71, 0.25);
+}
+
+.branch-btn:focus-visible {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 2px 0 0 rgba(192, 74, 66, 0.7), 0 0 14px rgba(154, 127, 71, 0.3);
+}
+
+.branch-btn[aria-pressed="true"] {
+  border-color: var(--gold);
+  background: rgba(45, 38, 28, 0.95);
+  box-shadow: 0 0 20px rgba(192, 160, 96, 0.3);
+}
+
+.branch-btn .bb-title {
+  font-family: var(--serif-cn);
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+}
+
+.branch-btn .bb-hint {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--ash);
+  letter-spacing: 0.1em;
+  line-height: 1.6;
+}
+
+.branch-response {
+  width: min(720px, 100%);
+  margin: 0.9rem auto 0;
+  min-height: 1.7em;
+  color: var(--gold);
+  font-family: var(--serif-cn);
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.branch-entry-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: clamp(1rem, 2.4vh, 1.6rem);
+}
+
+.branch-entry-list[hidden] {
+  display: none !important;
+}
+
+.branch-entry {
+  padding: 0.6rem 1.4rem;
+  border: 1px solid rgba(192, 160, 96, 0.4);
+  background: rgba(16, 14, 12, 0.85);
+  color: var(--gold);
+  font-family: var(--serif-cn);
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  min-height: 48px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.branch-entry:hover {
+  background: rgba(45, 38, 28, 0.95);
+  box-shadow: 0 0 16px rgba(192, 160, 96, 0.3);
+}
+
+.branch-entry[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 720px) {
+  .branch-body {
+    padding-top: clamp(76px, 10vh, 96px);
+  }
+  /* 支线/深层房间的双语小标题：收紧字号与字距，万一换行也走均衡换行，
+     避免最后一个汉字被单独甩到下一行（仅排版，不动正文/图片/按钮） */
+  .scene-branch .sec-kicker {
+    font-size: 0.52rem;
+    letter-spacing: 0.22em;
+    text-wrap: balance;
+  }
+  .branch-img {
+    height: clamp(180px, 26vh, 240px);
+  }
+  .branch-choices {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+  .branch-btn {
+    min-height: 48px;
+    padding: 0.8rem 1rem;
+  }
+}

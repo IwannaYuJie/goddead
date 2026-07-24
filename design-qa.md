@@ -1,6 +1,73 @@
-# Design QA — Living Shrine · 场景探索版（含值夜室 · 第四线路 · 无主投递所 · 神名注销科 · 代神席 · 自动转场 · 现有场景视觉深化 · 焚献点火 · 神圣遗物科）
+# Design QA — Living Shrine · 场景探索版（含值夜室 · 第四线路 · 无主投递所 · 神名注销科 · 代神席 · 自动转场 · 现有场景视觉深化 · 焚献点火 · 神圣遗物科 · v28 代行治理 · v29 旁路支线 · v30 深层支线）
 
 适用范围：当前 goddead.com 首页（哈希路由场景探索游戏）。本文替代旧版 QA 报告；旧版证据文件保留在 `design-qa-evidence/` 中仅作历史存档，不再代表现状。
+
+## 本轮新增：v30 深层支线互联（失真转接室 / 逆流泵房 / 无名罪籍库）
+
+- 目标：把 v29 三个支线房间的三个「条件捷径/串联」选择下沉为三个可持续互动的二级区域，构成可循环的三角网络，同时各自保留通往 protocol / corridor / watch 的差异化出口；支线依旧永远可选，不做主线硬门。
+- 场景与素材：`#echo-transfer`（失真转接室）、`#vein-pump`（逆流泵房）、`#confession-ledger`（无名罪籍库）三个原生 SPA 场景；正式位图 `assets/echo-transfer-chamber.webp`（132 KB）、`assets/reverse-flow-pump-room.webp`（203 KB）、`assets/nameless-ledger-vault.webp`（185 KB），均由监理提供源图（`design-references/source-*.png`）经 Pillow quality=85 转码，1536×1024，沿用 `.branch-figure`/`.branch-img` 槽位与羽化风格，场景零内联 SVG。
+- 入口改接（v29 三房间保留，三个选择的去向变更）：
+  - 回声档案室「03:17 的铃」→ 失真转接室（原直达值夜室的条件捷径下移到转接室内）；
+  - 血管维修井「隔离闸」→ 逆流泵房（原「三支线均访问且值夜解锁才放行」的直达值夜室下移到泵房应急梯）；
+  - 忏悔称量室「拒绝忏悔」→ 无名罪籍库（原直接跳回声档案室的串联改为经罪籍库中转）。
+- 三角网络九个动作（全部「主动作 → 短反馈 → 自动转场」，无第二个必点按钮，不要求滚动）：
+  - 失真转接室：接到血管维护网→逆流泵房；封存自己的声音→访客守则；再次拨响 03:17→值夜室（需 `watchUnlocked()`，否则短反馈后回走廊）。
+  - 逆流泵房：释放回声压力→失真转接室；导入黑色沉积物→无名罪籍库；爬应急梯→值夜室（需 `watchUnlocked()`，否则落回访客守则）。
+  - 无名罪籍库：划掉自己的名字→失真转接室；归档为仍在场的见证者→逆流泵房；拒收整份记录→正常回访客守则；若三座二级区域全到过，给出额外反馈（「三处档案同时咳嗽了一声」）并按解锁状态落走廊或值夜室。
+- 状态与守卫：独立 `goddead_v30_branch_depth`（`deepVisited` / `lastDeepChoice`）容错解析、坏 JSON 安全回退，不读不写 v28/v29/旧主线；深层到访在点击时立即持久化（同 v29 契约），走廊再入按钮（`#branch-entry-echo-transfer` 等）与目录入口（`#echo-transfer-link` 等）首次到访后恢复、跨 reload 存活，未到访时 `hidden` 且不可聚焦；`resolveScene` 深层守卫把未到访的深层直达回退到父支线（父支线未访问再由 v29 守卫拦回走廊），直达不解锁；重进时选择以 `aria-pressed` 恢复。
+- 痕迹页：新增单行深层记忆（`#deep-memory`：「你下到了更深的地方……档案不承认见过你。」），严格保持 8 卡 Grid。
+- 无障碍与动效契约：三个深层场景与 v29 同构——语义 button、`aria-live="polite"` 反馈、场景标题聚焦、reduced-motion 0.3s 反馈与动画坍缩、短桌面/移动端首屏首个动作无滚动可见。
+- 视觉证据（`design-qa-evidence/`，CDP 无头 `/tmp/goddead-qa/v30-visual.mjs` 37/37 通过，均经逐张目验；预置 v29 三父支线 visited + v30 三深层 deepVisited 后直达，待 scene active、veil 释放、visibility=visible、.reveal 全部 settle、素材解码完成后截图）：
+  - `v30-01-echo-transfer-1440x800.png` / `v30-02-vein-pump-1440x800.png` / `v30-03-confession-ledger-1440x800.png`：桌面 1440×800 整室构图，标题、位图、三个核心动作全部落在首屏，无横向溢出，回父支线出口可见。
+  - `v30-04-echo-transfer-mobile-390x844.png` / `v30-05-vein-pump-mobile-390x844.png` / `v30-06-confession-ledger-mobile-390x844.png`：移动端 390×844（@2x）标题→描述→位图→三动作依次完整呈现，第一核心动作首屏可见，无横向溢出，文字可读。
+  - 逐张断言覆盖：正确场景 active、素材 `naturalWidth>0`、无横向溢出、标题/图片/三按钮真实可见、桌面三按钮全在首屏、移动端第一动作首屏可发现；全程控制台零异常。
+- 静态契约：`node --check script.js`、`node tests/site.test.mjs`、`git diff --check` 全部通过；测试套件新增 v30 段——三素材存在与引用、三场景结构（各恰 3 个 branch-btn、aria-live、回父支线出口、无继续按钮、零内联 SVG）、全部 ID 接线、入口出厂 hidden、独立容错状态、九动作目的地、bell/ladder 条件出口与差异化 fallback、reject 全到访联合条件与动态目标、chooseDeep 调度、深层守卫归并、深层记忆、8 卡保持、缓存 v30、文档同步；v29 断言同步更新为改接后的目的地（bell→echo-transfer、isolate→vein-pump、refuse→confession-ledger）。
+
+## 本轮新增：v29 前段多分支（回声档案室 / 血管维修井 / 忏悔称量室）
+
+- 目标：在走廊残页上挂出三个永远可选、绝不做主线硬门的支线房间，让前段从「一条走廊」变成可分流、可回流、可串联的多分支结构。
+- 场景与素材：`#echo` / `#vein` / `#confession` 三个原生 SPA 场景，正式位图 `assets/echo-archive.webp`、`assets/vein-maintenance-well.webp`、`assets/confession-weighing-room.webp`（1536×1024，mask 羽化融入 `#050505`，`loading="lazy" decoding="async"`，显式宽高），场景零内联 SVG；短桌面（≤800px 高）两栏/限高适配，首屏首个热点无滚动可见。
+- 进入方式：走廊残页 f2「回声」/ f3「血管」/ f4「忏悔」首次主动点击 → 取消主线 corridor AutoAdvance，0.7–1.0s（reduced-motion 0.3s）反馈后自动进入；`visited` 点击即持久化，转场被回退取消也不丢支线。
+- 九选择与条件捷径（全部「主动作 → 短反馈 → 自动转场」，无第二个必点按钮）：
+  - 回声档案室：门外的敲声→门外；自己的脚步→走廊；03:17 的铃→失真转接室（v30 起改接深层，原条件捷径下移）。
+  - 血管维修井：顺流阀→走廊；逆流阀→守则；隔离闸→逆流泵房（v30 起改接深层，原条件捷径下移）。
+  - 忏悔称量室：承认敲过门→守则；承认读过第七条→走廊；拒绝忏悔→无名罪籍库（v30 起改接深层，原直接串联回声室改为经罪籍库中转）。
+- 状态、入口与守卫：`goddead_v29_branches`（`visited`/`lastChoice`）容错解析、坏 JSON 安全回退，只读不写 v28 治理与旧主线 10 个 key；访问后走廊出现再入按钮（`#branch-entry-*`）与目录入口（`#echo-link` 等），跨 reload 存活；`resolveScene` 把未访问支线直达拦回走廊并归一地址；重进时选择以 `aria-pressed` 恢复。
+- 痕迹页：单行旁路记忆（`#branch-memory`），严格保持 8 卡 Grid，不新增第九卡。
+- 证据文件（`design-qa-evidence/`）：`br-01-corridor-initial-1440x800.png`（分流前走廊）、`br-02-echo-archive-1440x800.png`（回声档案室桌面整室）、`br-05-corridor-branch-entries-1440x800.png`（访问后走廊再入按钮）、`br-06-remembrance-branch-memory-1440x800.png`（旁路记忆 + 8 卡）、`br-07/08/09-*-mobile-390x844.png`（移动端三支线首屏热点完整构图，经逐张目验）。`br-03-vein-well-1440x800.png` 与 `br-04-confession-room-1440x800.png` 两张桌面截图为转场近黑帧，场景功能已由同轮 CDP 断言验证，截图待重拍。
+- CDP 无头全自动 QA（`/tmp/goddead-qa/branch-rooms.mjs`，真实点击/键盘/重载）：独立执行 **54/54 通过**（exit 0）——残页分流、九选择全目标、条件捷径成败两路、交叉回流、键盘 Enter 激活、visited/lastChoice 持久化与重进恢复、干净存档直达守卫、坏 JSON 容错、移动端 390×844 首屏热点与零横向溢出、reduced-motion 快速转场、主线状态零污染、全程控制台零错误零异常。
+- 静态契约：`node --check script.js`、`node tests/site.test.mjs`、`git diff --check` 全部通过；测试套件新增 v29 段（素材存在与引用、三场景各恰 3 个 branch-btn、全部 ID 接线、入口出厂 hidden、容错解析、九选择目标、隔离闸联合条件、失败回流、守卫归并、旁路记忆、8 卡保持、缓存 v29、文档同步）。
+
+## 本轮新增：v28 神圣平衡与代理神明协议（治理终局闭环）
+
+- 目标：把 v28 半成品（治理 HUD、三处代行裁决、老玩家入口、结局卡、崩解 modal 仅有 HTML/CSS）接线为完整可玩的治理终局，并真实验证四条结局 + 崩解路径。
+- 接线与状态机：`script.js` 新增 `ENDING_META`（四结局文案）、`resetGovernanceCycle()`、`openCollapseModal()` / `closeCollapseModal()`、`syncGovernanceRemembrance()`（begin 入口 / 结局卡 / 崩解 modal 三态互斥），并接通 `#begin-governance-btn`、`#next-cycle-btn`、`#retry-governance-btn` 全部 12 个终局 ID。`sceneInit` 进入 remembrance/offering/reliquary 时同步终局面板与 ruling 控件，`goScene` 离场统一关闭崩解 modal，`updateHudDisplay()` 随场景进入刷新 HUD 显隐与数值。
+- 三次裁决自动推进：每个 `applyRuling*Choice` 在写入裁决后立即调度 `AutoAdvance`（acting→offering→reliquary→remembrance），`continue-*-btn` 仅作非必需 fallback 复用同一调度——CDP 全程未点击任何 continue 按钮即走通完整 cycle。
+- 结局真实计算验证（非写死）：从 50/50/20 基值按 `RULING_DELTAS` 推导，ABA→ascension（E100/A25/R40）、AAB→madness（E35/A40/R65）、AAA→oblivion（E65/A70/R10）、BBA→nightwatch（E65/A50/R20）、BAB→collapse（E 归零）；全部 8 种组合穷举无未分类。修复了最终裁决时结局只活在内存、不写入持久图鉴的缺陷（先存 rulings，再二次解析回写 `unlockedEndings`）。
+- 状态契约：`cycleCount` 仅在主动开新一轮/重试时精确加一，解析永不自增；直达或重复刷新 `#remembrance` 不创建治理 key、不重复污染图鉴；坏 JSON 安全回退并正常提供 begin 入口。老玩家入口只置 `hudUnlocked` 并去 acting，旧主线 10 个 localStorage key 快照比对零差异；`resetGovernanceCycle()` 只清本轮 rulings，图鉴与旧主线全保留。
+- 崩解 modal：`role="dialog" aria-modal="true"`，仅 remembrance 内打开，初始焦点落重试按钮（延后于场景标题聚焦），键盘 Enter 重试 → 关闭 modal → 回 acting 且焦点恢复进场景；collapse 不进入图鉴。
+- 证据文件（`design-qa-evidence/`，均经逐张目验）：
+  - `gov-01-old-player-begin-1440x800.png`：老玩家痕迹页显示「开启代神治理协议」，HUD/结局卡/modal 均隐藏。
+  - `gov-02-ruling1-acting-1440x800.png`：begin 后进入代神席，HUD 50/50/20，裁决·其一两选项就位。
+  - `gov-03-ruling2-offering-1440x800.png`：裁决一（甲）后自动推进焚献，HUD 70/35/35，裁决·其二就位。
+  - `gov-04-ruling3-reliquary-1440x800.png`：裁决二（乙）后自动推进遗物科，HUD 90/15/55，裁决·其三两选项就位。
+  - `gov-05-ending-ascension-aba-1440x800.png`：ABA 全程点击走通 → 登神长阶结局卡，E100/A25/R40，图鉴 4 项中 ascension 高亮。
+  - `gov-06-reload-restore-ascension-1440x800.png`：刷新后结局卡与图鉴完整恢复，不重复、不污染。
+  - `gov-07-next-cycle-acting-1440x800.png`：开启新一轮 → rulings 清空、HUD 归 50/50/20、cycleCount=2、图鉴保留。
+  - `gov-08-second-ending-madness-collection-1440x800.png`：第二轮 BBB → 万魂共鸣，图鉴累积 2 项高亮。
+  - `gov-09-collapse-bab-modal-1440x800.png` / `gov-12-collapse-mobile-390x844.png`：BAB → 神圣崩解 modal（桌面/移动），重试按钮初始聚焦。
+  - `gov-10-retry-returns-acting-1440x800.png`：键盘 Enter 重试 → modal 关闭、回代神席、判词重置、cycleCount=2。
+  - `gov-11-ending-mobile-390x844.png`：移动端结局卡完整构图，无横向溢出。
+  - `gov-13-reduced-motion-ending-1440x800.png`：reduced-motion 下最终裁决立即完整并快速转场。
+  - `gov-14-ending-madness-aab-1440x800.png` / `gov-15-ending-oblivion-aaa-1440x800.png` / `gov-16-ending-nightwatch-bba-1440x800.png`：隔离 localStorage 三组合结局卡（各含派生资源与单结局图鉴）。
+- CDP 无头全自动 QA（`/tmp/goddead-qa/governance-cycle.mjs`，chrome-headless 真实点击/键盘/重载）：**连续 3 次独立运行 102/102 通过**（exit 0），覆盖完整 cycle 点击走通、五组合隔离验证、刷新恢复、next cycle、collapse retry、桌面 1440×800 / 移动 390×844、reduced-motion、直达零污染、坏 JSON 修复、全程控制台零错误零异常。
+- 返工修复（独立复核发现 collapse Enter 重试后焦点悬空，复现确认后修复，未弱化任何断言）：
+  - `goScene` 转场收口幂等化：场景切换、焦点恢复、veil 释放与 `veilBusy` 复位收进单条幂等 `complete()`，主定时器（480ms / reduced 60ms）与看门狗（2000ms / reduced 600ms）驱动同一条路径——原「480→180/80ms」嵌套定时器链一旦内层丢失会造成 veilBusy 永久卡死、veil 常亮、焦点悬空，现已结构性消除。
+  - 可靠聚焦 `focusReliably`：`.scene` 的 `visibility` 0.5s 过渡期内 `focus()` 会被静默拒绝，改为同步首试 + 最多 12×120ms 验收重试（落位即停、场景失活即弃，不跨场景抢焦点）；modal 打开时完成步骤优先聚焦 retry，begin/next-cycle/retry 经 `pendingSceneFocus` 优先落可见的 `#ruling-acting-heading`。
+  - 崩解 modal 真实焦点陷阱：`onCollapseKeydown` 随打开挂载、随关闭/离场移除；仅重试一个可聚焦项时 Tab 与 Shift+Tab 均留在重试上。
+  - QA 新增 13 项断言：Tab/Shift+Tab 双方向陷阱、Enter 重试后落 `#ruling-acting-heading`、重试后 Tab 自然前进、collapse 直达+重载焦点稳定、reduced-motion collapse 聚焦与重试全链路；证据新增 `gov-17-reduced-motion-retry-acting-1440x800.png`。
+- 静态契约：`node --check script.js`、`node tests/site.test.mjs`、`git diff --check` 全部通过；测试套件新增 v28 段（12 个终局 ID 接线、五组合源码提取实际计算、cycle 重置边界、begin 不清进度、modal 焦点/开关、continue 非必经、缓存 v28）。
+- 回归说明：本轮回合修复了 v27 静态断言与 v28 结构的两处不兼容（reliquary 守卫断言改为 `reliquaryConsumed` 形式、sceneInit offering 分支新形式），未改动任何 v27 及更早的生产行为；threshold 开门套件（`threshold-door-open.mjs`）31/31 于本轮前置验证通过。
 
 ## 本轮新增：神圣遗物科 Native SPA 场景集成与印章压印仪式（v27）
 

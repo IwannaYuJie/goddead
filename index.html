@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-    <link rel="stylesheet" href="styles.css?v=27">
+    <link rel="stylesheet" href="styles.css?v=30">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -35,6 +35,26 @@
         </button>
       </div>
     </header>
+
+    <div class="governance-hud" id="governance-hud" hidden role="region" aria-label="代理神明治理仪表盘">
+      <div class="hud-inner">
+        <div class="hud-item hud-essence">
+          <span class="hud-label">灵质 E</span>
+          <div class="hud-bar-wrap"><div class="hud-bar-fill" id="hud-bar-e" style="width: 50%;"></div></div>
+          <span class="hud-val" id="hud-val-e">50</span>
+        </div>
+        <div class="hud-item hud-ashes">
+          <span class="hud-label">灰烬 A</span>
+          <div class="hud-bar-wrap"><div class="hud-bar-fill" id="hud-bar-a" style="width: 50%;"></div></div>
+          <span class="hud-val" id="hud-val-a">50</span>
+        </div>
+        <div class="hud-item hud-resonance">
+          <span class="hud-label">共鸣 R</span>
+          <div class="hud-bar-wrap"><div class="hud-bar-fill" id="hud-bar-r" style="width: 20%;"></div></div>
+          <span class="hud-val" id="hud-val-r">20</span>
+        </div>
+      </div>
+    </div>
 
     <div class="scene-veil" id="scene-veil" aria-hidden="true"></div>
 
@@ -166,8 +186,228 @@
             </a>
           </nav>
 
+          <!-- 支线房间入口：访问过对应支线后出现，可随时再进 -->
+          <nav class="branch-entry-list reveal" id="branch-entry-list" aria-label="支线房间">
+            <button class="branch-entry" id="branch-entry-echo" type="button" hidden data-go="echo" data-hover>回声档案室 ⟶</button>
+            <button class="branch-entry" id="branch-entry-vein" type="button" hidden data-go="vein" data-hover>血管维修井 ⟶</button>
+            <button class="branch-entry" id="branch-entry-confession" type="button" hidden data-go="confession" data-hover>忏悔称量室 ⟶</button>
+            <button class="branch-entry branch-entry-deep" id="branch-entry-echo-transfer" type="button" hidden data-go="echo-transfer" data-hover>失真转接室 ⟶</button>
+            <button class="branch-entry branch-entry-deep" id="branch-entry-vein-pump" type="button" hidden data-go="vein-pump" data-hover>逆流泵房 ⟶</button>
+            <button class="branch-entry branch-entry-deep" id="branch-entry-confession-ledger" type="button" hidden data-go="confession-ledger" data-hover>无名罪籍库 ⟶</button>
+          </nav>
+
           <nav class="scene-exits reveal" aria-label="离开走廊">
             <button class="exit-link" type="button" data-go="protocol" data-hover>⟵ 回到守则</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 支线 · 回声档案室 -->
+      <section class="scene scene-branch" id="scene-echo" data-scene="echo" data-title="Goddead — 回声档案室" aria-label="回声档案室">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE ECHO ARCHIVE · 回 声 档 案 室</p>
+            <h2 class="sec-title">回声档案室</h2>
+            <p class="sec-desc">所有没人听的声音都登记在这里。三只听筒悬在档案柜前，井口还温着。</p>
+          </header>
+
+          <figure class="branch-figure reveal" role="img" aria-label="三只悬吊的旧听筒与桌面上三口黄铜听井">
+            <img class="branch-img" src="assets/echo-archive.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="branch-choices reveal" id="echo-choices" role="group" aria-label="选择一只听筒">
+            <button class="branch-btn" id="echo-choice-knock" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">门外的敲声</span>
+              <span class="bb-hint">那三记，和你自己的一模一样</span>
+            </button>
+            <button class="branch-btn" id="echo-choice-steps" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">自己的脚步</span>
+              <span class="bb-hint">一遍比一遍近</span>
+            </button>
+            <button class="branch-btn" id="echo-choice-bell" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">03:17 的铃</span>
+              <span class="bb-hint">它还在等一个值班的人</span>
+            </button>
+          </div>
+          <p class="branch-response" id="echo-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开回声档案室">
+            <button class="exit-link" type="button" data-go="corridor" data-hover>⟵ 回到走廊</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 支线 · 血管维修井 -->
+      <section class="scene scene-branch" id="scene-vein" data-scene="vein" data-title="Goddead — 血管维修井" aria-label="血管维修井">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE VEIN MAINTENANCE WELL · 血 管 维 修 井</p>
+            <h2 class="sec-title">血管维修井</h2>
+            <p class="sec-desc">墙里的血管在这口井下交汇。三只控制器仍在岗，井底有东西在倒数。</p>
+          </header>
+
+          <figure class="branch-figure reveal" role="img" aria-label="环形井室与三只黄铜阀门控制器">
+            <img class="branch-img" src="assets/vein-maintenance-well.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="branch-choices reveal" id="vein-choices" role="group" aria-label="选择一只控制器">
+            <button class="branch-btn" id="vein-choice-down" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">顺流阀</span>
+              <span class="bb-hint">血记得下坡的路</span>
+            </button>
+            <button class="branch-btn" id="vein-choice-up" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">逆流阀</span>
+              <span class="bb-hint">守则的第一条开始发痒</span>
+            </button>
+            <button class="branch-btn" id="vein-choice-isolate" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">隔离闸</span>
+              <span class="bb-hint">只在三处回声都齐了以后</span>
+            </button>
+          </div>
+          <p class="branch-response" id="vein-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开血管维修井">
+            <button class="exit-link" type="button" data-go="corridor" data-hover>⟵ 回到走廊</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 支线 · 忏悔称量室 -->
+      <section class="scene scene-branch" id="scene-confession" data-scene="confession" data-title="Goddead — 忏悔称量室" aria-label="忏悔称量室">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE CONFESSION WEIGHING ROOM · 忏 悔 称 量 室</p>
+            <h2 class="sec-title">忏悔称量室</h2>
+            <p class="sec-desc">忏悔在这里不按句计费，按重量。信封、灰、和一只空盘，轮流上台。</p>
+          </header>
+
+          <figure class="branch-figure reveal" role="img" aria-label="一架黄铜天平，左盘放着信封，中盘盛着灰烬，右盘空着">
+            <img class="branch-img" src="assets/confession-weighing-room.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="branch-choices reveal" id="confession-choices" role="group" aria-label="选择放上秤的东西">
+            <button class="branch-btn" id="confession-choice-door" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">承认敲过门</span>
+              <span class="bb-hint">三记，不多不少</span>
+            </button>
+            <button class="branch-btn" id="confession-choice-seven" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">承认读过第七条</span>
+              <span class="bb-hint">包括它被换掉的那一行</span>
+            </button>
+            <button class="branch-btn" id="confession-choice-refuse" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">拒绝忏悔</span>
+              <span class="bb-hint">拒绝也有重量</span>
+            </button>
+          </div>
+          <p class="branch-response" id="confession-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开忏悔称量室">
+            <button class="exit-link" type="button" data-go="corridor" data-hover>⟵ 回到走廊</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 深层支线 · 失真转接室 -->
+      <section class="scene scene-branch scene-deep" id="scene-echo-transfer" data-scene="echo-transfer" data-title="Goddead — 失真转接室" aria-label="失真转接室">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE DISTORTION TRANSFER CHAMBER · 失 真 转 接 室</p>
+            <h2 class="sec-title">失真转接室</h2>
+            <p class="sec-desc">所有被转接的声音都要在这里重新失焦。三只分线器还温着，蜡筒里的声音还没有名字。</p>
+          </header>
+
+          <figure class="branch-figure reveal" role="img" aria-label="布满分线器与蜡筒的转接台，铜管沿墙汇入黑暗">
+            <img class="branch-img" src="assets/echo-transfer-chamber.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="branch-choices reveal" id="echo-transfer-choices" role="group" aria-label="选择一条分线">
+            <button class="branch-btn" id="echo-transfer-choice-relay" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">接到血管维护网</span>
+              <span class="bb-hint">失真的语音需要更大的管道</span>
+            </button>
+            <button class="branch-btn" id="echo-transfer-choice-seal" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">封存自己的声音</span>
+              <span class="bb-hint">蜡筒会替你说话</span>
+            </button>
+            <button class="branch-btn" id="echo-transfer-choice-bell" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">再次拨响 03:17</span>
+              <span class="bb-hint">这一回也许有人接听</span>
+            </button>
+          </div>
+          <p class="branch-response" id="echo-transfer-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开失真转接室">
+            <button class="exit-link" type="button" data-go="echo" data-hover>⟵ 回到回声档案室</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 深层支线 · 逆流泵房 -->
+      <section class="scene scene-branch scene-deep" id="scene-vein-pump" data-scene="vein-pump" data-title="Goddead — 逆流泵房" aria-label="逆流泵房">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE REVERSE-FLOW PUMP ROOM · 逆 流 泵 房</p>
+            <h2 class="sec-title">逆流泵房</h2>
+            <p class="sec-desc">泵还在按别人的脉搏运转。压力表的指针倒着走，应急梯通向没有编号的一层。</p>
+          </header>
+
+          <figure class="branch-figure reveal" role="img" aria-label="倒转的压力表与铜制泵体，墙角一架应急梯">
+            <img class="branch-img" src="assets/reverse-flow-pump-room.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="branch-choices reveal" id="vein-pump-choices" role="group" aria-label="选择一只泵阀">
+            <button class="branch-btn" id="vein-pump-choice-release" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">释放回声压力</span>
+              <span class="bb-hint">听筒会轻轻发烫</span>
+            </button>
+            <button class="branch-btn" id="vein-pump-choice-sediment" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">导入黑色沉积物</span>
+              <span class="bb-hint">罪籍管道还空着</span>
+            </button>
+            <button class="branch-btn" id="vein-pump-choice-ladder" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">爬应急梯</span>
+              <span class="bb-hint">没有编号的一层</span>
+            </button>
+          </div>
+          <p class="branch-response" id="vein-pump-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开逆流泵房">
+            <button class="exit-link" type="button" data-go="vein" data-hover>⟵ 回到血管维修井</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 深层支线 · 无名罪籍库 -->
+      <section class="scene scene-branch scene-deep" id="scene-confession-ledger" data-scene="confession-ledger" data-title="Goddead — 无名罪籍库" aria-label="无名罪籍库">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE NAMELESS LEDGER VAULT · 无 名 罪 籍 库</p>
+            <h2 class="sec-title">无名罪籍库</h2>
+            <p class="sec-desc">被拒绝的忏悔都归档在这里。册子没有名字，但每一页都认得你的笔迹。</p>
+          </header>
+
+          <figure class="branch-figure reveal" role="img" aria-label="高耸的罪籍架与摊开的无名册页，墨水瓶还开着">
+            <img class="branch-img" src="assets/nameless-ledger-vault.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="branch-choices reveal" id="confession-ledger-choices" role="group" aria-label="选择一笔登记">
+            <button class="branch-btn" id="ledger-choice-crossout" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">划掉自己的名字</span>
+              <span class="bb-hint">墨迹不会干</span>
+            </button>
+            <button class="branch-btn" id="ledger-choice-archive" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">归档为仍在场的见证者</span>
+              <span class="bb-hint">泵房需要一颗脉搏</span>
+            </button>
+            <button class="branch-btn" id="ledger-choice-reject" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">拒收整份记录</span>
+              <span class="bb-hint">三处档案都在听</span>
+            </button>
+          </div>
+          <p class="branch-response" id="confession-ledger-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开无名罪籍库">
+            <button class="exit-link" type="button" data-go="confession" data-hover>⟵ 回到忏悔称量室</button>
           </nav>
         </div>
       </section>
@@ -487,6 +727,25 @@
           </div>
           <p class="acting-final" id="acting-final" hidden>你没有成为神。你只是接了祂没有交完的班。</p>
 
+          <div class="ruling-box" id="ruling-acting-box" hidden>
+            <div class="ruling-group" role="group" aria-labelledby="ruling-acting-heading">
+              <h3 class="ruling-heading" id="ruling-acting-heading" tabindex="-1">代行裁决 · 其一</h3>
+              <p class="ruling-desc">职权已确认，神位已在岗。请颁布首项代行判词：</p>
+              <div class="ruling-options">
+                <button class="ruling-btn" id="ruling-acting-btn-a" type="button" aria-pressed="false" data-hover>
+                  <span class="rb-title">【甲】接管权能 · 重组规则</span>
+                  <span class="rb-delta">灵质 +20 · 灰烬 -15 · 共鸣 +15</span>
+                </button>
+                <button class="ruling-btn" id="ruling-acting-btn-b" type="button" aria-pressed="false" data-hover>
+                  <span class="rb-title">【乙】维持旧秩序 · 默默值守</span>
+                  <span class="rb-delta">灵质 -15 · 灰烬 +10 · 共鸣 -5</span>
+                </button>
+              </div>
+              <div class="ruling-consequence" id="ruling-acting-consequence" role="status" aria-live="polite"></div>
+              <button class="continue-protocol-btn" id="continue-acting-btn" type="button" hidden data-hover>继续代行协议 ⟶</button>
+            </div>
+          </div>
+
           <nav class="scene-exits reveal" aria-label="离开代神席">
             <button class="exit-link" type="button" data-go="cancellation" data-hover>⟵ 回到注销科</button>
           </nav>
@@ -513,6 +772,25 @@
             <button class="prayer-offer" id="prayer-offer" type="button" data-hover>焚 献</button>
           </div>
           <p class="prayer-response" id="prayer-response" aria-live="polite"></p>
+
+          <div class="ruling-box" id="ruling-offering-box" hidden>
+            <div class="ruling-group" role="group" aria-labelledby="ruling-offering-heading">
+              <h3 class="ruling-heading" id="ruling-offering-heading" tabindex="-1">代行裁决 · 其二</h3>
+              <p class="ruling-desc">祷词已入火，炉火正炽热。请颁布第二项代行判词：</p>
+              <div class="ruling-options">
+                <button class="ruling-btn" id="ruling-offering-btn-a" type="button" aria-pressed="false" data-hover>
+                  <span class="rb-title">【甲】将祷词化为纯粹灰烬</span>
+                  <span class="rb-delta">灵质 -15 · 灰烬 +25 · 共鸣 -10</span>
+                </button>
+                <button class="ruling-btn" id="ruling-offering-btn-b" type="button" aria-pressed="false" data-hover>
+                  <span class="rb-title">【乙】提取祷告中的神性余响</span>
+                  <span class="rb-delta">灵质 +20 · 灰烬 -20 · 共鸣 +20</span>
+                </button>
+              </div>
+              <div class="ruling-consequence" id="ruling-offering-consequence" role="status" aria-live="polite"></div>
+              <button class="continue-protocol-btn" id="continue-offering-btn" type="button" hidden data-hover>继续代行协议 ⟶</button>
+            </div>
+          </div>
 
           <nav class="scene-exits reveal" aria-label="离开焚献">
             <button class="exit-link" type="button" data-go="corridor" data-hover>⟵ 回到走廊</button>
@@ -578,6 +856,25 @@
             </div>
           </div>
 
+          <div class="ruling-box" id="ruling-reliquary-box" hidden>
+            <div class="ruling-group" role="group" aria-labelledby="ruling-reliquary-heading">
+              <h3 class="ruling-heading" id="ruling-reliquary-heading" tabindex="-1">代行裁决 · 其三</h3>
+              <p class="ruling-desc">三件遗物已审查，终极封印已印下。请颁布最终代行判词：</p>
+              <div class="ruling-options">
+                <button class="ruling-btn" id="ruling-reliquary-btn-a" type="button" aria-pressed="false" data-hover>
+                  <span class="rb-title">【甲】将遗物打入永久档案</span>
+                  <span class="rb-delta">灵质 +10 · 灰烬 +10 · 共鸣 -15</span>
+                </button>
+                <button class="ruling-btn" id="ruling-reliquary-btn-b" type="button" aria-pressed="false" data-hover>
+                  <span class="rb-title">【乙】解封遗物中的万魂回响</span>
+                  <span class="rb-delta">灵质 -20 · 灰烬 -20 · 共鸣 +40</span>
+                </button>
+              </div>
+              <div class="ruling-consequence" id="ruling-reliquary-consequence" role="status" aria-live="polite"></div>
+              <button class="continue-protocol-btn" id="continue-reliquary-btn" type="button" hidden data-hover>继续代行协议 ⟶</button>
+            </div>
+          </div>
+
           <nav class="scene-exits reveal" aria-label="离开神圣遗物科">
             <button class="exit-link" type="button" data-go="offering" data-hover>⟵ 回到焚献</button>
           </nav>
@@ -612,8 +909,50 @@
           <p class="watch-memory line-memory deliver-memory cancel-memory" id="cancel-memory"></p>
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory" id="acting-memory"></p>
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory" id="relic-memory"></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory" id="branch-memory"></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory" id="deep-memory"></p>
 
           <div class="reliquary-slot reveal" id="reliquary-slot"></div>
+
+          <!-- 老玩家开启代行治理入口 -->
+          <div class="begin-governance-box reveal" id="begin-governance-box" hidden>
+            <button class="begin-governance-btn" id="begin-governance-btn" type="button" data-hover>开启代神治理协议 ⟶</button>
+          </div>
+
+          <!-- 治理结局展示卡片 -->
+          <div class="ending-card-box reveal" id="ending-card-box" hidden>
+            <div class="ending-card" role="region" aria-label="代行治理结果记录">
+              <header class="ending-header">
+                <span class="ending-kicker">GOVERNANCE PROTOCOL FINAL RESULT</span>
+                <h3 class="ending-title" id="ending-title">结局名称</h3>
+              </header>
+              <p class="ending-narrative" id="ending-narrative"></p>
+              <div class="ending-resources">
+                <span class="er-item">灵质 E: <b id="ending-res-e">0</b></span>
+                <span class="er-item">灰烬 A: <b id="ending-res-a">0</b></span>
+                <span class="er-item">共鸣 R: <b id="ending-res-r">0</b></span>
+              </div>
+              <div class="unlocked-endings-collection">
+                <span class="collection-title">已解锁治理结局图鉴：</span>
+                <ul class="collection-list" id="collection-list"></ul>
+              </div>
+              <div class="ending-actions">
+                <button class="next-cycle-btn" id="next-cycle-btn" type="button" data-hover>开启新一轮代行治理 ⟶</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 崩解失败 Modal / Panel -->
+          <div class="collapse-modal" id="collapse-modal" hidden role="dialog" aria-modal="true" aria-labelledby="collapse-title">
+            <div class="collapse-content">
+              <span class="collapse-kicker">GOVERNANCE FAILURE · 神圣崩解</span>
+              <h3 class="collapse-title" id="collapse-title">神圣崩解 (Divine Collapse)</h3>
+              <p class="collapse-desc" id="collapse-desc">三元平衡彻底瓦解。代理神性无法在虚构的框架中维持秩序，观所宣告崩溃。</p>
+              <div class="collapse-actions">
+                <button class="retry-governance-btn" id="retry-governance-btn" type="button" data-hover>重试代行治理</button>
+              </div>
+            </div>
+          </div>
 
           <div class="rem-foot reveal">
             <div class="colophon-ritual">
@@ -663,6 +1002,12 @@
       <a href="#threshold" data-hover>00 / 门外</a>
       <a href="#protocol" data-hover>01 / 守则</a>
       <a href="#corridor" data-hover>02 / 走廊</a>
+      <a href="#echo" id="echo-link" hidden data-hover>02α / 回声室</a>
+      <a href="#vein" id="vein-link" hidden data-hover>02β / 维修井</a>
+      <a href="#confession" id="confession-link" hidden data-hover>02γ / 称量室</a>
+      <a href="#echo-transfer" id="echo-transfer-link" hidden data-hover>02α½ / 转接室</a>
+      <a href="#vein-pump" id="vein-pump-link" hidden data-hover>02β½ / 泵房</a>
+      <a href="#confession-ledger" id="confession-ledger-link" hidden data-hover>02γ½ / 罪籍库</a>
       <a href="#watch" id="watch-link" hidden data-hover>02½ / 值夜室</a>
       <a href="#switchboard" id="switch-link" hidden data-hover>02¾ / 第四线路</a>
       <a href="#deadletter" id="deadletter-link" hidden data-hover>02⅞ / 投递所</a>
@@ -675,6 +1020,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=27"></script>
+    <script src="script.js?v=30"></script>
   </body>
 </html>
