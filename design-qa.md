@@ -1,6 +1,425 @@
-# Design QA — Living Shrine · 场景探索版（含值夜室 · 第四线路 · 无主投递所 · 神名注销科 · 代神席 · 自动转场 · 现有场景视觉深化 · 焚献点火 · 神圣遗物科 · v28 代行治理 · v29 旁路支线 · v30 深层支线 · v31 门前三岔）
+# Design QA — Living Shrine · 场景探索版（含值夜室 · 第四线路 · 无主投递所 · 神名注销科 · 代神席 · 自动转场 · 现有场景视觉深化 · 焚献点火 · 神圣遗物科 · v28 代行治理 · v29 旁路支线 · v30 深层支线 · v31 门前三岔 · v32 门内副楼 · v33 异常复核 · v34 无主估值 · v35 无号层 · v36 夜班登记 · v37 午夜回拨 · v38 门外代审 · v39 归路核验 · v40 门外侧廊 · v41 守则背室 · v42 守则漂移 · v43 门内回敲 · v44 页后空层 · v45 未到交班 · v46 旁线未静 · v47 退件未止 · v48 注销留副 · v49 门前实感 · v50 副楼实感 · v51 副楼三债）
 
 适用范围：当前 goddead.com 首页（哈希路由场景探索游戏）。本文替代旧版 QA 报告；旧版证据文件保留在 `design-qa-evidence/` 中仅作历史存档，不再代表现状。
+
+## 本轮新增：v51 副楼三债 / THE ANNEX KEPT THREE DEBTS（13 旧动作记账 + 三个阈值异常分支，返工轮）
+
+- 目标：不加房间——v32/v50 副楼的 13 个既有动作按 见证 5 / 失号 4 / 逆行 4 各记 +1（上限 9），任一达 3 原子解锁对应房间的一次条件异常；既有反馈、mark、首选锁与 AutoAdvance 全部保留。
+- 状态：独立容错 `goddead_v51_annex_debts`（坏 JSON / 数组归一、值域裁剪、unlocked 严格布尔），不读写 v32/v33/v35 与主线；全仓库仅此一个 v51 存储键。
+- 刻痕牌（返工修正）：三房间图内右上黄铜压印牌，三行各为 0–9 个独立 `<b class="dp-tick">` 刻痕元素组成的进度组件——禁止 `"│".repeat(n)` 等文本符号/emoji；容器 `role="img"` 的 aria-label 逐字报数（「见证 3 道刻痕，上限 9 道」），三牌同步重绘；移动端刻痕收窄（2px）不溢出牌面。
+- 阈值异常（返工修正）：达到阈值只原子切换图像 + 异常热点作为**新增分支**出现；`DEBT_ANOMALY` 不再持有 baseBtn，`syncAnnexDebts` 不再隐藏任何旧热点——13 个旧热点在解锁前后始终可见、可聚焦、可点击，旧反馈、旧目标、首选锁不变。三对同物热点按外框/内层分区，严格不重叠、不吞点击：档案室 翻找=抽屉柜外框左列旋钮（top 49.5% left 39% w 4.5% h 20%） vs 让它们看清=三只睁开的抽屉面（50.5/45.5/13.5/18.5）；前厅 无号出口=中央门洞外框门楣（35.5/43.5/11/9.5） vs 第十门=新门框内部（45.5/47/4.5/16）；阶井 回望=黑镜外框左缘（4/18.5/5/34） vs 倒置阶井=镜中重复阶井（6/25/5.5/31）。坐标按 1536×1024 变体图裁切实测后，再按 CDP 实测 figure 尺寸（桌面 720×480、移动 343×229）留出 44px 最小盒增长余量——首轮 CDP 实测曾抓出三对桌面各 141–710px² 重叠（44px min-width/height 把窄盒撑大所致），上述为修正后终值。
+- 移动端错开：44px 最小触控会把热点盒放大到约 12.8% 宽 / 19.2% 高，三对热点在 ≤720px 改锚点——闭眼抽屉对左右分带（search left 37.5% / witness left 51%）、前厅门对左右分带（tenth 38.5% / exit 52%，y 40–60 与空白号牌带 20–39.5 保持原有上下错开）、黑镜对上下分带（lookback y 4–23 / double y 24.5–43.5），放大后仍互不重叠。
+- 不变量：三个异常热点出厂 `hidden`、阈值 2 时直接 hash / 合成点击一律无效（live 状态校验 + 共用场景首选锁，伪造 unlocked=true 但债值 2 同样无效）；逐字反馈后自动转场到既有相邻场景，无继续按钮；刷新恢复只重绘不重复播报；三种解锁可同时存在；reduced-motion 禁用牌面抖动与异常呼吸。
+- CDP 行为冒烟（`/tmp/v51-qa/v51-smoke.mjs`，真实 Google Chrome headless + 内嵌静态服务器 + 真实鼠标/键盘事件，种子经 `addScriptToEvaluateOnNewDocument` 在应用启动前注入）**536/536 连续两次全绿**（exit 0，每轮约 200s）：A 三房间 × 1440×1024/1440×800/390×844 解锁态几何（16 热点矩形全对不重叠、不出 figure、elementFromPoint 各自命中、≥44px、刻痕牌在图内、文档无横向溢出、变体图与 figure 描述原子切换、三行各 9 刻痕元素点亮数与 aria-label 准确、恢复不重复播报）；B 16 动作真实 click 逐字反馈 + 精确目标 + 债值 +1（异常不写债）；C 16 动作 Enter 与 Space 各一轮等价 + 三房间 Tab 全可达；D 首选锁三房间双向竞争 + 同拍幂等（反馈不被改写、竞争对手 aria-pressed 保持 false、只记一次债、目标不被抢占）；E 阈值 2 三房 + 伪造 unlocked 的 hidden/程序化 click/直 hash 全部 inert；F 三房间真实重载原子恢复；G 坏 JSON / 数组归一（牌面归零、异常保持 hidden）；H 1440×800 反馈态转场前截图；Z 全程控制台零异常。
+- 视觉证据（`design-qa-evidence/`，逐张目验——异变图正确、热点压器物、刻痕牌三行点亮数正确、移动短标签不溢出、反馈态文案可见）：`v51-01-eyelid-unlocked-1440x1024.png`、`v51-02-vestibule-unlocked-1440x1024.png`、`v51-03-stairwell-unlocked-1440x1024.png`（桌面解锁基线）、`v51-04-eyelid-unlocked-390x844.png`、`v51-05-vestibule-unlocked-390x844.png`、`v51-06-stairwell-unlocked-390x844.png`（移动解锁基线）、`v51-07-eyelid-witness-feedback-1440x800.png`（1440×800 反馈态）。
+- 本轮修正（真实生产缺陷，CDP 抓出后修复并两轮复验）：三对热点的桌面坐标按 720px 宽 figure 重排（search left 39.5%→39%、witness left 44.5%→45.5%、exit height 8%→9.5%、tenth top 44%→45.5%、double left 24%→25%），消除 44px 最小盒撑大造成的重叠。测试工具说明（仅 `/tmp/v51-qa/`，不动生产）：同 URL `Page.navigate` 会被 Chrome 去重成无操作导致种子不生效，改经 `about:blank` 中转 + 启动前脚本注入。
+- 本轮边界：不重做素材（三张 v51 变体图与冻结源 PNG 原样沿用），未触碰 `/tmp/goddead-qa/` 的 v50 临时 QA。
+- 静态契约：`node --check script.js`、`node --check tests/site.test.mjs`、`node tests/site.test.mjs`、`git diff --check` 全部通过；测试套件 v51 段同步返工后形态（无 baseBtn/无隐藏旧热点逻辑、刻痕元素组件断言、六条外框/内层桌面坐标与六条移动端错开规则逐字、禁 `"│".repeat`、文档同步）。
+
+## 本轮新增：v50 副楼实感 / THE ANNEX BECAME TOUCHABLE（v32 三副楼卡片改图内原生物件热点）
+
+- 目标：不加房间、不改路线、不扩存档树——把 `#eyelid-archive`（4）、`#unnumbered-vestibule`（5）、`#reverse-stairwell`（4）现有共 13 个按钮全部移入各自图片，成为压在真实物件上的原生 button 热点；三个图下 `.branch-choices` 卡片容器整体删除，不留隐藏副本；禁止新增继续/确认按钮。
+- 素材（监理冻结源图原样使用，哈希不变）：`design-references/source-v50-annex-{eyelid,vestibule,stairwell}-tactile.png`（1536×1024）转码 `assets/annex-eyelid-tactile.webp`（225 KB）、`annex-vestibule-tactile.webp`（232 KB）、`annex-stairwell-tactile.webp`（195 KB）；v32 原三幅位图与源 PNG 全部保留、不再引用，便于独立回退。复用 v49 `.forecourt-tactile-stage` / `.forecourt-native-hotspot` 舞台与热点样式（稳定 3:2，三视口共用一套百分比坐标），styles.css 仅新增 13 条定位 class。
+- 落位（源图分区放大测定 + CDP 实测 + 标注截图逐张目验）：档案室——摸索压中央柜微开抽屉（露出无号黑色档片）、听盒压左桌黄铜听音盒与短听筒、归影压前景被狭长归档缝切断的人形地影、复核压右桌红蜡封口黑色证物袋，中央柜整体不被遮住；前厅——第十门压中央黑门前悬挂的独立空白骨瓷牌（与门洞热点上下分离、互不吞并）、指印压左前景摊开无号台账与指印泥、无号出口压最深处无把手黑门门洞、送审与地下层分压右前景墙柱黑色复核投递槽与暗红微光地下层按钮（上下错开）；阶井——向上压右上上行梯段与上行脚印、第零级压中央平台横贯的暗红发亮接缝、回望压左上墙面窄长黑镜、申报压右下扶手柱黄铜异常申报盒。13 热点均 ≥44px，桌面/短桌面/移动三视口 elementFromPoint 命中、两两零重叠、不溢出 figure。
+- 零逻辑改动（CDP 逐条实测）：13 按钮保留原 id、`aria-pressed`、`data-hover` 与完整 bb-title/bb-hint 文本；`script.js` 业务逻辑零改动——监听器按 id 绑定自然沿用，`ANNEX_META` 九动作、`REVIEW_ENTRY_META` 三复核入口、`FLOOR_ENTRY_META` 前厅第五入口、首选锁、rival 语义、目录与痕迹逐字不变；不新增 localStorage key；13 动作逐字反馈与精确旧目标全部实测（含 v33 复核科、v35 无号层入口目的地）。
+- 移动端短标签：每热点新增 `aria-hidden` 的 `.bb-short`（摸索/听盒/归影/复核、第十门/指印/无号出口/送审/地下层、向上/第零级/回望/申报）；≤720px 完整标题转视觉隐藏但保留在 DOM 与无障碍树，短标签横排最多两行（Range 行数实测）、严格不溢出按钮、互不覆盖；移动 focus 不展开 hint（clipPath 保持 inset(50%) 实测）；bb-hint 展开仅限 ≥721px 桌面 hover/focus。
+- CDP 行为冒烟（`/tmp/goddead-qa/smoke.mjs`，headless Chrome + 真实鼠标/键盘事件）**133/133 连续两轮全绿**（exit 0）：13 动作 scene 就绪/命中测试/逐字反馈/aria-pressed/首选锁 rival 幂等/连点只记一次/精确旧目标自动转场逐项；Enter/Space 键盘等价（3 例）；Tab 序可达热点；刷新恢复 aria-pressed；直达 hash 只记 visited 不自动行动（含全部 aria-pressed 为 false）；坏 JSON 与数组 JSON 容错、v33/v35 键损坏不影响 v32；reduced-motion 900ms 内完成转场；控制台零异常。**首击合同**：每个案例恰好一次 trusted Click/Enter/Space 且必须一次生效，无重试、无重发输入；就绪判定含 elementFromPoint 命中（保证前场景淡出结束），键盘前对按钮焦点做有界确认（路由切场会把焦点移到场景标题）。
+- 视觉证据（`design-qa-evidence/v50-01~18`，CDP `/tmp/goddead-qa/visual.mjs` **218/218 连续两轮全绿**，18 张全部逐张目验——热点精确压器物、短标签无溢出无互盖、桌面 hint 正确展开、移动 focus 不展开 hint）：桌面基线 01~03、桌面 hover/focus 04~06、短视口 1440×800 07~09、移动基线 10~12、桌面标注 13~15、移动标注 16~18；源图/渲染同帧对照 `v50-compare-{eyelid,vestibule,stairwell}.png` 由监理生成并逐张验收通过。QA 中两处定位修正（生产 CSS，坐标类）：eyelid-file 移动端 44px 最小高度曾溢出图底（top 86%→80%、height 13%→16%），vestibule review/floor 移动端 44px 最小宽度曾溢出图右缘约 1.1px（left 87.5%→86.5%）；visual round 2 首跑两项瞬时失败（44px 亚像素浮点 43.99997、hover 单点采样抖动），测试工具加 0.05px 容差与有界轮询后重跑 218/218 全绿。
+- 相邻回归（`/tmp/goddead-qa/regression.mjs` **44/44 连续两轮全绿**）：v49 三场景 tactile 结构（11 按钮入 figure、短标签 aria-hidden、卡片容器删除）、每场景真实点击一个动作逐字反馈与精确目的地、Enter 等价、刷新恢复（v40 门前守卫下先种子 v31 visited）；v33 直达 hash 中性首案不自动判定、经搬入的 eyelid-choice-review 入科、三判逐拍推进（第一/二/三份档案）并结算路由到结果房、状态持久；v35 直达枢纽电梯封死不自动行动、经搬入的 vestibule-choice-floor 入层、点击与 Enter 各进一间值班房、visited 持久。
+- 静态契约：`node --check script.js`、`node tests/site.test.mjs`、`git diff --check` 全部通过；测试套件 v32 段同步新形态（旧三幅位图保留不再引用、按钮计数兼容附加类），新增 v50 段（13 按钮各一次且位于 figure 内、三处 branch-choices 容器删除无隐藏副本、13 个短标签 aria-hidden、13 个定位 class、舞台 3:2 与 ≥44px 沿用、无 v50 localStorage key、ANNEX_META/REVIEW_ENTRY_META/FLOOR_ENTRY_META 锚点逐字、文档同步）。
+- 测试工具说明（仅 `/tmp/goddead-qa/`，不动生产）：首击失效最终定性为就绪判定时序——场景 reveal 位移动画（含 stagger 延迟期）进行中，按钮坐标在测量与输入派发之间漂移，点击落到旧坐标（有头取证 input log 实测 click 落在 `branch-img`）；waitReady 加入动画门控（子树无运行/待定的有限动画 + 矩形双采样稳定 + elementFromPoint 命中）后，smoke 连续四轮 133/133 全绿——无按压热身、每案例恰好一次 trusted 输入。有头 Chrome 真实用户式首击取证（全新 profile、无热身、单次点击）：input log 实测 click 精确命中 `#eyelid-choice-search`，逐字反馈 / aria-pressed / transitions=1 / 自动转场全部正确（PASS）。早期工具缺陷：goto 同文档导航死等（有界超时 + listener 清理）、场景可见性误判（改 `.scene.active`）、Enter 缺 `text:"\r"`、visited 键名误写（实际 `unnumberedVestibule`）、v49 回归未过 v40 守卫（种子 v31 visited）、键盘焦点被生产 `focusReliably` 抢（先等标题焦点落定再确认按钮焦点）。遗留工具缺陷（如实记录、不修复）：watchdog 在 `process.exit` 前仅杀本轮 Chrome，极端挂死路径覆盖不全；compare 合成脚本在特定时序下挂起未产出——三张 `v50-compare-{eyelid,vestibule,stairwell}.png` 最终由监理生成并逐张验收通过。
+
+## 本轮新增：v49 门前实感 / THE FORECOURT BECAME TOUCHABLE（v31 三场景卡片改图内原生物件热点）
+
+- 目标：不加房间、不扩存档树——把 `#peephole-chamber`、`#glyph-niche`、`#return-passage` 现有共 11 个按钮全部移入各自图片，成为压在真实器物上的原生 button 热点；三个图下 `.branch-choices` 卡片容器整体删除，不留隐藏副本；禁止新增继续/确认按钮。
+- 素材（监理冻结源图原样使用）：三张 1536×1024 源 PNG 转码 `assets/forecourt-peephole-tactile.webp`（195 KB）、`forecourt-glyph-niche-tactile.webp`（224 KB）、`forecourt-return-passage-tactile.webp`（212 KB）；回返夹道新图在门环、远门、双向脚印之外补出右上老式墙挂电话与右下黄铜出证槽，五物件互不重叠。舞台 `.forecourt-tactile-stage` 固定 3:2 比例，桌面/短桌面/移动共用一套百分比坐标，无两套坐标漂移。
+- 落位（CDP 实测 + 同屏对照目验）：窥孔——直视黑镜压中央黑镜、听黄铜管压左侧听音管、闭上这只眼压右侧机械眼睑；失号龛——数第九道刻痕压左墙成组刻痕、擦掉第七号压刮白第七盘（与相邻正常号盘无重叠）、取下空白号牌压底部白瓷盘；回返夹道——跟随向内的脚印沿透视线压脚印列、从里面敲门压左墙门环、倒着走到尽头只围远门门体、接住值班证压右下出证槽、接起迟到电话压右上墙挂电话。11 个热点均 ≥44px，三视口首屏可见可点（elementFromPoint 命中），标签不遮相邻物件。
+- 零逻辑改动（CDP 逐条实测）：11 个按钮保留原 id、`aria-pressed`、`data-hover` 与子节点文本（bb-title/bb-hint，hint 默认视觉隐藏、hover/focus 显示、始终在无障碍树）；`script.js` 业务逻辑零改动——监听器按 id 绑定自然沿用，`FORECOURT_META`、`FLOOR_ENTRY_META`、`callbackEntryBtn`、三场景进入守卫、近邻回流、目录与痕迹逐字不变；不新增 localStorage key；11 个动作逐字反馈与精确旧目标全部实测（含 v32 三条改线闭目档案/无号前厅/逆向阶井、v36 值班证入夜班登记所、v37 电话入午夜回拨台，v31/v35/v37 各键互不代写）。
+- 交互（CDP 逐条实测）：Click/Enter/Space 等价；Tab 可达全部热点；同场景首个动作排队时其余热点幂等不抢目标（同拍竞争只记一次、目的地不被抢占，两组实测）；返回后 `aria-pressed` 与 lastChoice/marks 恢复一致；门外三入口（日蚀/符号/回返）落点不退化；目录 01α/01β/01γ、痕迹单行「门前旁路：窥孔 / 失号龛 / 回返夹道；你在门外改道 N 次。」、8 卡、遗忘清除、刷新恢复、坏 JSON/数组容错、reduced-motion 缩短节拍保留文案，全部实测。
+- 移动端短标签（视觉监理复核后修正）：390px 下完整动作标题曾逐字竖排溢出并互相覆盖；现每个热点新增 `aria-hidden` 的 `.bb-short` 短视觉标签（黑镜/听音管/眼睑、刻痕/第七号/空白牌、脚印/门环/远门/值班证/电话），≤720px 时完整标题转视觉隐藏但保留在 DOM 与无障碍树，短标签横排最多两行、严格不溢出按钮、互不覆盖；`bb-hint` 展开态仅限 ≥721px 桌面。既有 id/路线/监听器未动。
+- CDP 行为冒烟（`/tmp/goddead-qa/v49-forecourt-tactile-smoke.mjs`，chrome-headless-shell + 真实鼠标/键盘事件）**55/55 连续两次全绿**（exit 0）：A 三场景直 hash/图解码/热点入图/无卡片/≥44px/零溢出（6 项）；B 11 动作逐字反馈与精确旧目标（22 项）；C 键盘等价与可达（5 项）；D 首选锁同拍幂等（3 项）；E aria-pressed 恢复（2 项）；F 门外三入口/v32 改线/v36/v37 键隔离（8 项）；G 目录/痕迹/遗忘/坏存档/刷新/reduced-motion（8 项）；Z 控制台零异常（1 项）。
+- 视觉证据（`design-qa-evidence/`，CDP `/tmp/goddead-qa/v49-forecourt-tactile-visual.mjs` **32/32 连续两次全绿**，16 张证据 + 3 张源图同尺寸并排对照图 `/tmp/goddead-qa/v49-compare-*.png`，逐张目验——热点精确压器物、图片无拉伸误裁、移动短标签横排不溢出、移动无横向滚动、反馈出现后无需滚动）：桌面默认 01~03、hover/focus 04~06、移动 07~09、短桌面 10~12、反馈态 13~15、回返夹道五热点同屏 16。
+- 回归（同环境重跑，全绿）：v48 smoke 82/82 + visual 37/37；cancellation/acting/search/refusal 近邻 15/15；watch/line4 近邻 16/16（链式跑中 watchnn 曾因 profile 竞争瞬时失败一次，独立重跑两轮 16/16 全绿）。
+- 静态契约：`node --check script.js`、`node tests/site.test.mjs`、`git diff --check` 全部通过；测试套件 v31 段同步新形态（tactile 资产引用、旧 v31 位图不再引用、按钮计数兼容附加类），新增 v49 段（11 按钮各一次且位于 figure 内、三处 branch-choices 容器删除无隐藏副本、舞台 3:2 与 ≥44px、11 个定位 class、无 v49 localStorage key、FORECOURT_META/FLOOR_ENTRY_META/callbackEntryBtn 锚点逐字、文档同步）。
+
+## 本轮新增：v48 注销留副 / THE CANCELLATION KEPT ITS COPIES（注销科三实物入口 + 三个画面热点场景）
+
+- 目标：把神名注销科位图里只能观看的三件实物——终端中央空白检索屏、右侧红色确认灯、桌面右侧档案屉——变成三个真实支线入口；原检索输入、三档错误提示、五行档案、拒绝注销、两行驳回记录与代神席入口全部保留；三个新空间（空白屏底库 / 误准红灯台 / 见证复写库）形成可走闭环并分流到 v41/v43/v45/v46/v47 前段网络；没有确认页、下一步或底部继续按钮，没有新结局。
+- 注销科三入口（CDP 逐条实测）：原生 `<button>` 热点覆盖图中真实空白屏 / 确认灯 / 档案屉（`cancellation-copy-entry-screen/lamp/trays`，独立 class `.cancellation-copy-entry-hotspot`，aria 与短标签逐字），`assets/divine-name-cancellation.webp` 哈希/尺寸/字节不变；逐字入口反馈写入图下独立 `#cancellation-copy-entry-response`（aria-live，不复用检索提示、档案记录、驳回记录或 toast）后自动转场 `#blank-screen-underarchive` / `#false-confirmation-desk` / `#witness-carbon-archive`；Click / Enter / Space 全通；三入口在 1440×1024 / 390×844 / 1440×800 均可见可点（elementFromPoint 命中、≥44px）且与检索表单零遮挡；三入口不写 `goddead_cancellation`（字节级一致实测），不替玩家检索、不替玩家拒绝注销；三档错误提示逐字、GODDEAD 唯一命中、五行档案、拒绝注销、两行驳回与 `#acting` 原路径 toast 逐字不变（实测）。
+- 第一归宿锁双向（CDP 逐条实测）：拒绝已排定 `#acting`（`AutoAdvance.has("cancellation")`）时三入口完全 inert——不写 v48、不反馈、不抢目的地，acting 转场不被抢占；v48 入口先被接受时先置 `cancellationCopyArmed` 再 `AutoAdvance.clear("cancellation")` 与 `clearCnTimers()`，反馈拍内检索表单与拒绝按钮 early return（对 `goddead_cancellation` 零迟到写入、不加 queries、不命中、不显记录、不写 refused，实测字节级一致），目的地不被改写、无迟到 acting 跳场；错误或正确检索本身不排定目的地——检索后入口仍可进入（实测），返回注销科由 `enterCancel()` 复位旗标、清空入口反馈并按原持久状态恢复提示/档案/拒绝按钮（实测）；同拍三入口竞争只接受第一项。
+- 九动作与闭环（CDP 逐条实测）：三场景各三个画面内热点（触白屏/抽纸带/窥暗孔、复按红灯/压注销印/探退纸槽、揭复写纸/拉见证屉/取见证卡），逐字反馈写入各场景自己的 aria-live，独立 AutoAdvance scope（`copy-screen/lamp/carbon`），第一项接受后同场景三热点立即 disabled；闭环 屏底库 → 误准灯台 → 复写库 → 屏底库 实测可走；六个外部落点逐一实测：退址格柜、失席监听间、回敲廊、无主气送井、红线登记所、缺班更衣柜。
+- 状态（CDP 逐条实测）：独立容错 `goddead_v48_cancellation_copies`——visited 三布尔键、entry 七值白名单、pending 四字段与动作表逐项完全对应（伪造 target / 伪造 feedback 实测丢弃不重播不转场）、lastScene/lastAction 白名单（错配归一）、copies 裁 9999（1e18 实测）、marks 9 项白名单（bogus 实测丢弃）；坏 JSON / 数组错型归一；不读写 v28–v47、`goddead_cancellation` 与主线（种子快照字节级一致，全程留副漫游实测）；timer 触发前清 pending；reload 反馈拍重播逐字反馈并恢复转场不重复计数；离场保留合法 pending、重返重播续走；reduced-motion 缩短节拍保留文案；off-route / 隐藏场景程序化 click 对状态、反馈、timer 零副作用（两个方向实测）；遗忘清除 v48 键、三目录入口与记忆行。
+- 目录与痕迹（CDP 逐条实测）：首次进入恢复 `02σ / 屏底库`、`02τ / 误准灯`、`02υ / 复写库`（未访问 hidden、不可聚焦、不在无障碍树）；Remembrance 只加单行 `#cancellation-copy-memory`（「注销留副：复写 N 次；屏底库 / 误准灯 / 复写库已见 X/3。」），严格保持 8 卡。
+- CDP 功能冒烟（`/tmp/goddead-qa/v48-cancellation-copies-smoke.mjs`，chrome-headless-shell + 真实鼠标/键盘事件）**82/82 连续两次全绿**（exit 0）：A 三入口逐字反馈/visited/目的地/cancellation 不变/键盘（10 项）；B 三档提示/唯一命中/档案/拒绝/acting 原路径（7 项）；C 第一归宿锁双向/离场重选/检索后旁路与返回恢复（10 项）；D 九动作逐字/真实目的地/闭环（19 项）；E 场景结构/直 hash/live scene 前置守卫（6 项）；F 同拍竞争与键盘（4 项）；G pending 伪造/合法/reload/离场/reduced-motion（10 项）；H 容错（4 项）；I v28–v47+watch+line4+deadletter+cancellation+主线字节级隔离（2 项）；J 目录/痕迹/遗忘（7 项）；Z 控制台零异常（1 项）。
+- 视觉证据（`design-qa-evidence/`，CDP `/tmp/goddead-qa/v48-cancellation-copies-visual.mjs` **37/37 连续两次全绿**，20 张证据 + 4 张源图对照图均经逐张目验——目验方式：源 PNG 与同状态网页截图合成同屏对照图后判断，热点全部落在真实器物上）：
+  - `v48-01-cancellation-clean-1440x1024.png`：注销科 clean（三入口落在空白屏/确认灯/档案屉真器物上）。
+  - `v48-02~04-cancellation-entry-*-feedback-1440x800.png`：三入口反馈态（逐字 + touched 态，未跳场定格）。
+  - `v48-05~07-*-1440x1024.png`：三场景桌面（图 + 三画面热点首屏；对照图 `/tmp/goddead-qa/v48-compare-screen/lamp/carbon.png`）。
+  - `v48-08~10-*-mobile-390x844.png`：三场景移动（图 + 三热点 ≥44px、零溢出）。
+  - `v48-11~13-*-short-1440x800.png`：三场景短桌面。
+  - `v48-14~16-*-feedback-1440x800.png`：三场景各一条动作反馈态（逐字 + 节拍锁）。
+  - `v48-17-cancellation-entries-mobile-390x844.png` / `v48-18-cancellation-entries-short-1440x800.png`：注销科三入口移动 / 短桌面可见可点、不遮检索表单。
+  - `v48-19-directory-copies-1440x800.png`：目录 02σ/02τ/02υ。
+  - `v48-20-remembrance-copies-1440x800.png`：痕迹单行 + 8 卡。
+- 回归（同环境重跑，全绿）：v47 smoke 79/79 + visual 34/34；v46 smoke 79/79 + visual 31/31；v45 smoke 78/78 + visual 31/31；cancellation/acting/search/refusal 近邻（`/tmp/goddead-qa/cancellation-acting-near-neighbor.mjs`，五元守卫/三档提示/唯一命中/档案/拒绝/acting 原路径/电闸任命/重载恢复/常规浏览零污染）15/15。
+- 静态契约：`node --check script.js`、`node tests/site.test.mjs`、`git diff --check` 全部通过；测试套件新增 v48 段（三源 PNG 与三 WebP 存在/尺寸/引用、注销科原图不动、三入口/aria/短标签/独立 class、三档提示与 acting 路径、第一归宿锁守卫顺序与表单/拒绝迟到写入守卫、三场景说明/九热点/出口/无卡片无 SVG、目录 02σ/02τ/02υ、痕迹单行、8 卡、状态容错与 pending 四字段、九动作逐字、live scene 守卫、缓存 v48、文档同步）；SCENES 清单加三场景。
+
+## 本轮新增：v47 退件未止 / THE RETURNS OUTLIVED THEIR ADDRESSES（投递所三实物入口 + 三个画面热点场景）
+
+- 目标：把无主投递所位图里只能观看的三件实物——后墙三只黄铜气送管、右上退件格柜、桌面中央空白回执——变成三个真实支线入口；三封退件原文、归档语义、空白回执唯一签收、逐行终局记录与神名注销科入口全部保留；三个新空间（无主气送井 / 退址格柜 / 空白回执压印台）形成可走闭环并分流到 v34/v36/v37/v41/v44/v45/v46 前段网络；没有确认页、下一步或底部继续按钮，没有新结局。
+- 投递所三入口（CDP 逐条实测）：原生 `<button>` 热点覆盖图中真实气送管 / 格柜 / 空白回执（`return-room-entry-tubes/cabinet/receipt`，独立 class `.return-room-entry-hotspot`，aria 与短标签逐字），`assets/dead-letter-office.webp` 哈希/尺寸/字节不变；逐字入口反馈写入图下独立 `#return-room-entry-response`（aria-live，不复用登记台 alt 文案或 toast）后自动转场 `#unclaimed-pneumatic-intake` / `#returned-address-cabinet` / `#blank-receipt-press`；Click / Enter / Space 全通；三入口在 1440×1024 / 390×844 / 1440×800 均可见可点（elementFromPoint 命中、≥44px）且与退件登记台零遮挡；三入口不写 `goddead_deadletter`（字节级一致实测），不替玩家归档退件、不替玩家签收空白回执；归档三件 → 回执原子启用 → 签收 → `#cancellation` 的原路径与 toast 逐字不变（实测）。
+- 第一归宿锁双向（CDP 逐条实测）：主线回执已排定 `#cancellation`（`AutoAdvance.has("deadletter")`）时三入口完全 inert——不写 v47、不反馈、不抢目的地，cancellation 转场不被抢占；v47 入口先被接受时先置 `deadletterReturnRoomArmed` 再 `AutoAdvance.clear("deadletter")`，反馈拍内三枚退件按钮与空白回执按钮对 `goddead_deadletter` 零迟到写入（`coverReturn` 与 receipt 处理器均在任何写入/声音/toast/timer 前检查旗标，实测字节级一致），不解锁回执、不签收、不改写目的地、无迟到 cancellation 跳场；离场取消后回投递所由 `enterDeadletter()` 复位旗标并清入口反馈，主线可重新武装（实测）、入口可重选（实测）；同拍三入口竞争只接受第一项。
+- 九动作与闭环（CDP 逐条实测）：三场景各三个画面内热点（开气筒/听管口/拉红绳、拆空封/转分格/探长屉、压空执/蘸旧墨/落压杆），逐字反馈写入各场景自己的 aria-live，独立 AutoAdvance scope（`return-room-intake/cabinet/press`），第一项接受后同场景三热点立即 disabled；闭环 气送井 → 退址柜 → 压印台 → 气送井 实测可走；六个外部落点逐一实测：午夜回拨台、回铃陈放室、红线登记所、留置库、无主估值室、前一分钟档案井。
+- 状态（CDP 逐条实测）：独立容错 `goddead_v47_returned_rooms`——visited 三布尔键、entry 七值白名单、pending 四字段与动作表逐项完全对应（伪造 target / 伪造 feedback 实测丢弃不重播不转场）、lastScene/lastAction 白名单（错配归一）、reroutes 裁 9999（1e18 实测）、marks 9 项白名单（bogus 实测丢弃）；坏 JSON / 数组错型归一；不读写 v28–v46、`goddead_deadletter` 与主线（种子快照字节级一致，全程退件后室漫游实测）；timer 触发前清 pending；reload 反馈拍重播逐字反馈并恢复转场不重复计数；离场保留合法 pending、重返重播续走；reduced-motion 缩短节拍保留文案；off-route / 隐藏场景程序化 click 对状态、反馈、timer 零副作用（两个方向实测）；遗忘清除 v47 键、三目录入口与记忆行。
+- 目录与痕迹（CDP 逐条实测）：首次进入恢复 `02ο / 气送井`、`02π / 退址柜`、`02ρ / 压印台`（未访问 hidden、不可聚焦、不在无障碍树）；Remembrance 只加单行 `#return-room-memory`（「退件未止：改址 N 次；气送井 / 退址柜 / 压印台已见 X/3。」），严格保持 8 卡。
+- CDP 功能冒烟（`/tmp/goddead-qa/v47-returned-rooms-smoke.mjs`，chrome-headless-shell + 真实鼠标/键盘事件）**79/79 连续两次全绿**（exit 0）：A 三入口逐字反馈/visited/目的地/deadletter 不变/键盘（10 项）；B 三退件原文/回执唯一签收/cancellation 原路径（6 项）；C 第一归宿锁双向与离场重选（8 项）；D 九动作逐字/真实目的地/闭环（19 项）；E 场景结构/直 hash/live scene 前置守卫（6 项）；F 同拍竞争与键盘（4 项）；G pending 伪造/合法/reload/离场/reduced-motion（10 项）；H 容错（4 项）；I v28–v46+watch+line4+deadletter+主线字节级隔离（2 项）；J 目录/痕迹/遗忘（7 项）；Z 控制台零异常（1 项）。
+- 视觉证据（`design-qa-evidence/`，CDP `/tmp/goddead-qa/v47-returned-rooms-visual.mjs` **34/34 连续两次全绿**，20 张证据 + 4 张源图对照图均经逐张目验——目验方式：源 PNG 与同状态网页截图合成同屏对照图后判断，热点全部落在真实器物上）：
+  - `v47-01-deadletter-clean-1440x1024.png`：投递所 clean（三入口落在气送管/格柜/空白回执真器物上，登记台原文）。
+  - `v47-02~04-deadletter-entry-*-feedback-1440x800.png`：三入口反馈态（逐字 + touched 态，未跳场定格）。
+  - `v47-05~07-*-1440x1024.png`：三场景桌面（图 + 三画面热点首屏；对照图 `/tmp/goddead-qa/v47-compare-intake/cabinet/press.png`）。
+  - `v47-08~10-*-mobile-390x844.png`：三场景移动（图 + 三热点 ≥44px、零溢出）。
+  - `v47-11~13-*-short-1440x800.png`：三场景短桌面。
+  - `v47-14~16-*-feedback-1440x800.png`：三场景各一条动作反馈态（逐字 + 节拍锁）。
+  - `v47-17-deadletter-entries-mobile-390x844.png` / `v47-18-deadletter-entries-short-1440x800.png`：投递所三入口移动 / 短桌面可见可点、不遮登记台。
+  - `v47-19-directory-return-room-1440x800.png`：目录 02ο/02π/02ρ。
+  - `v47-20-remembrance-return-room-1440x800.png`：痕迹单行 + 8 卡。
+- 回归（同环境重跑，全绿）：v46 smoke 79/79 + visual 31/31；v45 smoke 78/78 + visual 31/31；v44 smoke 78/78 + visual 26/26；deadletter/cancellation/receipt 近邻（`/tmp/goddead-qa/deadletter-cancellation-near-neighbor.mjs`，三元守卫/三退件原文/倒计时理由/回执启用/签收终态/重载恢复/注销科提示与拒绝/常规浏览零污染）14/14。
+- 静态契约：`node --check script.js`、`node tests/site.test.mjs`、`git diff --check` 全部通过；测试套件新增 v47 段（三源 PNG 与三 WebP 存在/尺寸/引用、投递所原图不动、三入口/aria/短标签/独立 class、三退件原文与 cancellation 路径、第一归宿锁守卫顺序与退件/回执迟到写入守卫、三场景说明/九热点/出口/无卡片无 SVG、目录 02ο/02π/02ρ、痕迹单行、8 卡、状态容错与 pending 四字段、九动作逐字、live scene 守卫、缓存 v47、文档同步）；SCENES 清单加三场景。
+
+## 本轮新增：v46 旁线未静 / THE SIDE TONES NEVER WENT QUIET（交换台三实物入口 + 三个画面热点场景）
+
+- 目标：把交换台位图里只能观看的三件实物——左下黑色听筒、前景散线插头、右下红色回铃灯——变成三个真实支线入口；四回线原文、前三回线覆盖、第四线唯一接通、接通记录逐行显现与无主投递所主线全部保留；三个新空间（失席监听间 / 无号插孔场 / 回铃陈放室）彼此连通并接回 v36/v37/v41/v43/v40 前段网络；没有确认页、下一步或底部继续按钮，没有新结局，旁线不是第五/六/七线路。
+- 交换台三入口（CDP 逐条实测）：原生 `<button>` 热点覆盖图中真实听筒 / 插头 / 回铃灯（`sidetone-entry-receiver/plug/return-lamp`，独立 class `.sidetone-entry-hotspot`，aria 与短标签逐字），`assets/line-four-switchboard.webp` 哈希/尺寸/字节不变；逐字入口反馈写入图下独立 `#sidetone-entry-response`（aria-live，不复用接线簿 alt 文案）后自动转场 `#unseated-listening-booth` / `#unnumbered-jack-field` / `#return-ring-morgue`；Click / Enter / Space 全通；三入口在 1440×1024 / 390×844 / 1440×800 均可见可点（elementFromPoint 命中、≥44px）且与接线簿零遮挡；三入口不写 `goddead_line4`（字节级一致实测），不替玩家听回线、不接通第四线路；前三回线听过 → 第四线原子启用 → 接通 → `#deadletter` 的原路径与 toast 逐字不变（实测）。
+- 第一归宿锁双向（CDP 逐条实测）：第四线已排定 `#deadletter`（`AutoAdvance.has("switchboard")`）时三入口完全 inert——不写 v46、不反馈、不抢目的地，deadletter 转场不被抢占；v46 入口先被接受时先置 `switchSidetoneArmed` 再 `AutoAdvance.clear("switchboard")`，反馈拍内四条 `.patch-btn` 对 `goddead_line4` 零迟到写入（`coverPatch` 与 patch-4 处理器均在任何写入/声音/toast/timer 前检查旗标，实测字节级一致），已接受的目的地不被改写、无迟到 deadletter 跳场；离场取消后回交换台由 `enterSwitch()` 复位 `switchSidetoneArmed` 并清入口反馈，主线可重新武装（实测）、入口可重选（实测）；同拍三入口竞争只接受第一项。
+- 九动作与路网（CDP 逐条实测）：三场景各三个画面内热点（贴耳筒/对空话筒/坐失席、插游线/接空孔/挂空签、取回灯/读退单/敲蜡铃），逐字反馈写入各场景自己的 aria-live，独立 AutoAdvance scope（`sidetone-booth/jack/morgue`），第一项接受后同场景三热点立即 disabled；九真实目的地逐一实测：午夜回拨台、回敲廊、无号插孔场、红线登记所、回铃陈放室、夜班登记所、无灯灯廊、未应门前厅、回环失席监听间。
+- 状态（CDP 逐条实测）：独立容错 `goddead_v46_sidetones`——visited 三布尔键、entry 七值白名单、pending 四字段与动作表逐项完全对应（伪造 target / 伪造 feedback 实测丢弃不重播不转场）、lastScene/lastAction 白名单（错配归一）、traversals 裁 9999（1e18 实测）、marks 9 项白名单（bogus 实测丢弃）；坏 JSON / 数组错型归一；不读写 v28–v45、`goddead_watch`、`goddead_line4` 与主线（种子快照字节级一致，全程旁线漫游实测）；timer 触发前清 pending；reload 反馈拍重播逐字反馈并恢复转场不重复计数；离场保留合法 pending、重返重播续走；reduced-motion 缩短节拍保留文案；off-route / 隐藏场景程序化 click 对状态、反馈、timer 零副作用（两个方向实测）；遗忘清除 v46 键、三目录入口与记忆行。
+- 目录与痕迹（CDP 逐条实测）：首次进入恢复 `02μ / 失席`、`02ν / 无号孔`、`02ξ / 回铃`（未访问 hidden、不可聚焦、不在无障碍树）；Remembrance 只加单行 `#sidetone-memory`（「旁线未静：改道 N 次；失席 / 无号孔 / 回铃已见 X/3。」），严格保持 8 卡。
+- CDP 功能冒烟（`/tmp/goddead-qa/v46-sidetones-smoke.mjs`，chrome-headless-shell + 真实鼠标/键盘事件）**79/79 连续两次全绿**（exit 0）：A 三入口逐字反馈/visited/目的地/line4 不变/键盘（10 项）；B 四回线原文/第四线唯一接通/deadletter 原路径（6 项）；C 第一归宿锁双向与离场重选（8 项）；D 九动作逐字与真实目的地（19 项）；E 场景结构/直 hash/live scene 前置守卫（6 项）；F 同拍竞争与键盘（4 项）；G pending 伪造/合法/reload/离场/reduced-motion（10 项）；H 容错（4 项）；I v28–v45+watch+line4+主线字节级隔离（2 项）；J 目录/痕迹/遗忘（7 项）；Z 控制台零异常（1 项）。
+- 视觉证据（`design-qa-evidence/`，CDP `/tmp/goddead-qa/v46-sidetones-visual.mjs` **31/31 连续两次全绿**，均经逐张目验）：
+  - `v46-01-switchboard-clean-1440x1024.png`：交换台 clean（三入口落在听筒/插头/回铃灯真器物上，接线簿原文）。
+  - `v46-02~04-switch-entry-*-feedback-1440x800.png`：三入口反馈态（逐字 + touched 态，未跳场定格）。
+  - `v46-05~07-*-1440x1024.png`：三场景桌面（图 + 三画面热点首屏）。
+  - `v46-08~10-*-mobile-390x844.png`：三场景移动（图 + 三热点 ≥44px、零溢出）。
+  - `v46-11~13-*-short-1440x800.png`：三场景短桌面。
+  - `v46-14~16-*-feedback-1440x800.png`：三场景各一条动作反馈态（逐字 + 节拍锁）。
+  - `v46-17-switch-entries-mobile-390x844.png` / `v46-18-switch-entries-short-1440x800.png`：交换台三入口移动 / 短桌面可见可点、不遮接线簿。
+  - `v46-19-directory-sidetone-1440x800.png`：目录 02μ/02ν/02ξ。
+  - `v46-20-remembrance-sidetone-1440x800.png`：痕迹单行 + 8 卡。
+- 回归（同环境重跑，全绿）：v45 smoke 78/78 + visual 31/31；v44 smoke 78/78 + visual 26/26；v43 smoke 82/82 + visual 30/30；v42 smoke 94/94；v41 smoke 75/75；v40 smoke 77/77 + visual 25/25；watch/line4 近邻（`/tmp/goddead-qa/watch-line4-near-neighbor.mjs`）16/16。
+- 静态契约：`node --check script.js`、`node tests/site.test.mjs`、`git diff --check` 全部通过；测试套件新增 v46 段（三源 PNG 与三 WebP 存在/尺寸/引用、交换台原图不动、三入口/aria/短标签/独立 class、四回线原文与 deadletter 路径、第一归宿锁守卫顺序与 patch 迟到写入守卫、三场景说明/九热点/出口/无卡片无 SVG、目录 02μ/02ν/02ξ、痕迹单行、8 卡、状态容错与 pending 四字段、九动作逐字、live scene 守卫、缓存 v46、文档同步）；SCENES 清单加三场景。
+
+## 本轮新增：v45 未到交班 / THE RELIEF SHIFT THAT NEVER ARRIVED（值夜室三实物入口 + 三个画面热点场景）
+
+- 目标：把值夜室里原本只负责气氛的三件实物——03:17 钟轴、熄灭台灯、空椅——变成三个真实支线入口；交班簿五条原文、05:02 主动覆盖、签退、第四线路唯一解锁与自动进入交换台的全部现有语义不变；三个新空间（前一分钟档案井 / 冷灯芯检修槽 / 缺班更衣柜）彼此连通并接回 v36/v38/v40/v43/v44 前段网络；没有确认、下一步、继续、结算按钮，没有新结局。
+- 值夜室三入口（CDP 逐条实测）：原生 `<button>` 热点覆盖图中真实钟轴 / 灯帽 / 椅面（`relief-entry-clock/lamp/chair`，aria 与短标签逐字），原三素材 `watch-clock-face.webp` / `watch-second-hand.png` / `watch-room-desk.webp` 不替换不重编码；逐字入口反馈（toast）后自动转场 `#minute-before-archive` / `#cold-wick-service-bay` / `#absent-relief-locker`；Click / Enter / Space 全通；三入口在 1440×1024 / 390×844 / 1440×800 均可见可点（elementFromPoint 命中、≥44px）且与交班簿、签退按钮零遮挡；三入口不写 `goddead_watch` / `goddead_line4`（字节级一致实测），不替玩家覆盖 05:02、不替玩家签退；05:02 + 至少一次签退仍是第四线路唯一解锁条件，交换台原路径与 toast 逐字不变。
+- 第一归宿锁双向（CDP 逐条实测）：第四线路转场已排定（`AutoAdvance.has("watch")`）时入口零副作用——不写 v45、不反馈、不抢目的地，交换台转场不被抢占；v45 入口先被接受时先置 `watchReliefArmed` 再 `AutoAdvance.clear("watch")`，05:02 覆盖与签退保留自身状态语义但绝不能改写已接受的支线目的地，节拍后无迟到的交换台跳场；离场取消后回值夜室 `watchReliefArmed` 由 scene init 复位，主线可重新武装到交换台；同拍三入口竞争只接受第一项。
+- 九动作与路网（CDP 逐条实测）：三场景各三个画面内热点（拨分针/盖时印/下齿槽、拧冷芯/拔电话线/推保险片、穿空外套/坐空椅/签缺班簿），逐字反馈写入各场景自己的 aria-live，独立 AutoAdvance scope（`relief-minute/wick/locker`），第一项接受后同场景三热点立即 disabled；九真实目的地逐一实测：滞影回廊、夜班登记所、冷灯芯检修槽、无灯灯廊、回敲廊、缺班更衣柜、代审窗、借影陈列廊、签缺班簿回环 `#watch`（仍受原三残页门槛守卫）；`night-shift-registry` 现行无直达守卫，干净直达与 v45 落点语义均保持，未新增例外。
+- 状态（CDP 逐条实测）：独立容错 `goddead_v45_absent_relief`——visited 三布尔键、entry 七值白名单、pending 四字段与动作表逐项完全对应（伪造 target / 伪造 feedback 实测丢弃不重播不转场）、lastScene/lastAction 白名单（错配归一）、traversals 裁 9999（1e18 实测）、marks 9 项白名单（bogus 实测丢弃）；坏 JSON / 数组错型归一；不读写 v28–v44、`goddead_watch`、`goddead_line4` 与主线（种子快照字节级一致，全程支线漫游实测）；timer 触发前清 pending；reload 反馈拍重播逐字反馈并恢复转场不重复计数；离场保留合法 pending、重返重播续走；reduced-motion 缩短节拍保留文案；off-route / 隐藏场景程序化 click 对状态、反馈、timer 零副作用（两个方向实测）；遗忘清除 v45 键、三目录入口与记忆行。
+- 目录与痕迹（CDP 逐条实测）：首次进入恢复 `02ι / 分前`、`02κ / 冷芯`、`02λ / 缺班`（未访问 hidden、不可聚焦、不在无障碍树）；Remembrance 只加单行 `#relief-memory`（「未到交班：改道 N 次；分前 / 冷芯 / 缺班已见 X/3。」），严格保持 8 卡。
+- CDP 功能冒烟（`/tmp/goddead-qa/v45-absent-relief-smoke.mjs`，chrome-headless-shell + 真实鼠标/键盘事件）**78/78 连续两次全绿**（exit 0）：A 三入口逐字反馈/visited/目的地/旧键不变/键盘（10 项）；B 交班簿原文/签退/05:02/line4 唯一解锁/交换台原路径（5 项）；C 第一归宿锁双向与离场重选（7 项）；D 九动作逐字与真实目的地（19 项）；E 场景结构/直 hash/守卫/live scene 前置守卫（10 项）；F 同拍竞争与键盘（4 项）；G pending 伪造/合法/reload/离场/reduced-motion（10 项）；H 容错（4 项）；I v28–v44+watch+line4+主线字节级隔离（1 项）；J 目录/痕迹/遗忘（7 项）；Z 控制台零异常（1 项）。
+- 视觉证据（`design-qa-evidence/`，CDP `/tmp/goddead-qa/v45-absent-relief-visual.mjs` **31/31 连续两次全绿**，均经逐张目验）：
+  - `v45-01-watch-clean-1440x1024.png`：值夜室 clean 首屏（钟轴入口可见，交班簿五条原文）。
+  - `v45-02~04-watch-entry-*-feedback-1440x800.png`：钟轴 / 台灯 / 空椅三入口反馈态（逐字 toast + touched 态，未跳场定格）。
+  - `v45-05~07-*-1440x1024.png`：三场景桌面（图 + 三画面热点首屏）。
+  - `v45-08~10-*-mobile-390x844.png`：三场景移动（图 + 三热点 ≥44px、零溢出）。
+  - `v45-11~13-*-short-1440x800.png`：三场景短桌面。
+  - `v45-14~16-*-feedback-1440x800.png`：三场景各一条动作反馈态（逐字 + 节拍锁）。
+  - `v45-17-watch-entries-mobile-390x844.png` / `v45-18-watch-entries-short-1440x800.png`：值夜室三入口移动 / 短桌面可见可点、不遮交班簿与签退。
+  - `v45-19-directory-relief-1440x800.png`：目录 02ι/02κ/02λ。
+  - `v45-20-remembrance-relief-1440x800.png`：痕迹单行 + 8 卡。
+- 回归（同环境重跑，全绿）：v44 smoke 78/78 + visual 26/26；v43 smoke 82/82 + visual 30/30；v42 smoke 94/94；v41 smoke 75/75；v40 smoke 77/77 + visual 25/25；watch/line4 近邻（`/tmp/goddead-qa/watch-line4-near-neighbor.mjs`，三残页门槛/hash 归一/交班簿原文/签退持久化/两种顺序解锁/交换台三回拨+第四线路启用/常规浏览零污染）16/16。
+- 静态契约：`node --check script.js`、`node tests/site.test.mjs`、`git diff --check` 全部通过；测试套件新增 v45 段（三源 PNG 与三 WebP 存在/尺寸/引用、值夜室旧三素材哈希尺寸不变、三入口/三场景/说明/九按钮/aria/短标签/出口/目录/痕迹齐全、`.relief-entry-hotspot` 与 `.relief-hotspot` 独立 class、无卡片清单无 SVG、SCENES 清单、交班簿五条原文/05:02/签退/line4 契约、v45 状态/pending/白名单/live scene 守卫/watch 第一归宿锁/遗忘/文档同步）。
+
+## 本轮新增：v44 页后空层 / THE SPACES BEHIND THE PAGES（残页 f1/f5/f8 首读改线 + 三个画面热点场景）
+
+- 目标：利用走廊里玩家本来就会点击的残页，把 f1/f5/f8 三张目前只累计数量的选择改成真实支线入口；只改第一次主动阅读后的目的地，残页原文、计数、已读样式、存档与主线三页门槛全部保留；三个新空间彼此连通并接回 v31/v40/v43 与原走廊网络；没有确认、下一步、继续、结算按钮，没有新结局。
+- 走廊入口改线（CDP 逐条实测）：八张残页原文/计数/已读样式与 `assets/scripture-corridor.webp` 不变；f1 首读 → `#lagging-shadow-cloister`、f5 首读 → `#ash-door-foundry`、f8 首读 → `#retention-vault`（entry=fragment-f1/f5/f8，先完成原计数再转场，intro toast 三句为连接性新文案）；恰好第三页时 v44 分支优先绝不同时进 `#watch`；`corridorDetourArmed` 支线首选锁——本拍任一支线被接受后其余残页输入全部忽略（一次计数一次调度，v44→v29 与 v29→v44 双向实测），回走廊复位，离场取消后未读入口可重新选择；已读再点不重复计数、不重复转场、保留回读语义；f2/f3/f4 v29 路由与 f6/f7 主线实测不变。
+- 三个新场景（CDP 逐条实测）：滞影回廊/灰门铸室/留置空库（说明逐字），各三个覆盖真实器物的画面热点（拔钉→`#borrowed-shadow-gallery`、入轮廓→`#ash-door-foundry`、等影→`#return-passage`、冷风箱→`#protocol`、灰钥匙→`#retention-vault`、灰门→`#unlit-lamp-gallery`、挂空签→`#counter-knock-gallery`、摸灰印→`#lagging-shadow-cloister`、留残页→`#corridor`），独立 `.paperback-hotspot` class，≥44px，零卡片清单、零 SVG；九动作逐字反馈全部真实 UI 实测；第一项锁+同节拍竞争只记一次；低权重出口只回 `#corridor`。
+- 守卫（CDP 逐条实测）：v31 干净直达仍落回门外；**catch→return-passage 唯一窄例外**（lastScene=shadow && lastAction=catch 才放行，pin 与错配全部仍被拦）；九动作处理器在任何状态读取/反馈/音效/timer 前校验 live scene（threshold 与页后场景程序化 click、跨两隐藏场景同拍全部零副作用）；三新场景允许干净 direct hash（只记到访不自动动作）。
+- 状态（CDP 逐条实测）：独立容错 `goddead_v44_paperback_spaces`——visited 三布尔键、entry 七值白名单、pending 四字段严格对应（伪造 target/feedback 清空不重播）、lastScene/lastAction 互相匹配、traversals 裁 9999、marks 9 项白名单；坏 JSON/数组错型归一；不读写 v28–v43 与主线（字节级一致，走廊入口只允许原残页计数变化：fragment_count +1 与 goddead_state 主线存档）；timer 触发前清 pending；reload 反馈拍重播逐字反馈并恢复转场不重复计数；离场保留合法 pending、重返重播续走；reduced-motion 缩短节拍保留文案；遗忘清除 v44 键、三目录入口与记忆行。
+- 目录与痕迹（CDP 逐条实测）：首次进入恢复 `02ζ / 滞影`、`02η / 灰门`、`02θ / 留置`；Remembrance 单行 `#paperback-memory`（「页后空层：改道 N 次；滞影 / 灰门 / 留置已见 X/3。」），严格 8 卡。
+- CDP 功能冒烟（`/tmp/goddead-qa/v44-paperback-spaces-smoke.mjs`，chrome-headless-shell + 真实鼠标/键盘事件）**78/78 连续两次全绿**（exit 0）：A 入口改线（19 项）；B 九动作（19 项）；C 场景结构/直 hash/守卫（15 项）；D 竞争与键盘（3 项）；E pending/reload/离场/reduced-motion（10 项）；F 容错（4 项）；G 隔离（2 项）；H 目录/痕迹/遗忘（7 项）；Z 控制台零异常（1 项）。
+- 视觉证据（`design-qa-evidence/`，CDP `/tmp/goddead-qa/v44-paperback-spaces-visual.mjs` **26/26 通过**，均经逐张目验）：
+  - `v44-01-corridor-clean-1440x1024.png`：走廊 clean（八残页+原图不变）。
+  - `v44-02~04-corridor-f*-entry-1440x800.png`：f1/f5/f8 三入口反馈态（首读 .read + 支线 toast）。
+  - `v44-05~07-*-1440x1024.png`：三场景桌面（图+三画面热点首屏）。
+  - `v44-08~10-*-mobile-390x844.png`：三场景移动（图+三热点 ≥44px、零溢出）。
+  - `v44-11~13-*-short-1440x800.png`：三场景短桌面。
+  - `v44-14~16-*-feedback-1440x800.png`：三场景各一条动作反馈态（逐字+节拍锁）。
+  - `v44-17-directory-paperback-1440x800.png`：目录 02ζ/02η/02θ。
+  - `v44-18-remembrance-paperback-1440x800.png`：痕迹单行 + 8 卡。
+- 静态契约：`node --check script.js`、`node tests/site.test.mjs`、`git diff --check` 全部通过；测试套件新增 v44 段（资产/走廊图不变/f1/f5/f8 原文不变/v29 路由不变/入口表与 detour 锁/三场景结构/状态容错/九动作逐字/live scene 守卫/catch 唯一窄例外/目录痕迹/文档同步）；既有 corridor sceneInit 断言同步新形态、SCENES 清单加三场景。
+
+## 本轮新增：v43 门内回敲网 / THE COUNTER-KNOCK NETWORK（敲门窗口三回敲 + 三个画面热点场景）
+
+- 目标：回到打开网页后的第一分钟——第一次正常敲门后，门板内部显露左响/缝响/右响三处短暂原生热点；玩家可继续敲到第三次走原 protocol，也可立即改道到回敲廊、未应门前厅、门槛下投递处；三个新区域彼此互通并接回 v31/v38/v40 既有前段网络；没有确认页、下一步、继续按钮或新结局。
+- 敲门窗口（CDP 逐条实测）：三处回敲出厂 hidden 不占焦点；第一敲后显露（克制暗红脉冲一次），第二敲仍在并转急促，第三敲立即隐藏且开门图与 protocol 主流程不退化；敲门衰减与第四下同样隐藏；回首页按 session knocks 恢复、刷新按 session 语义关闭；**缝响只覆盖门缝下段**（初版覆盖门中心导致第二/第三敲被误劫持，视觉复现后修，现门中心命中实测仍是 door-img）；与三敲、v31 三热点、v38 代审、v40 左右廊共用 threshold 首选锁（双向实测）；处理器在读取状态、写反馈、声音、timer 前依次校验 currentScene、hidden、knocks 1/2、AutoAdvance；Enter/Space 可激活（实测）。
+- 三个新场景（CDP 逐条实测）：回敲廊/未应门前厅/门槛下投递处（说明逐字），各三个覆盖真实器物的画面热点（敲响中央向内的门环→`#peephole-chamber`、按住被黑蜡封死的门环→`#unanswered-vestibule`、追上先于金属落下的影子→`#undersill-dispatch`、登记左鼓第一声→`#protocol`、听完第二声→`#counter-knock-gallery`、抹掉右鼓第三声→`#return-passage`、收下黑蜡封件→`#proxy-admission`、推回空白纸条→`#glyph-niche`、爬进铰链竖井→`#hinge-sorting-room`），独立 `.knocknet-hotspot` class，≥44px，零卡片清单、零 SVG；九动作逐字反馈全部真实 UI 实测；第一项锁+同节拍竞争只记一次。
+- 守卫（CDP 逐条实测）：v31 三场景干净直达仍落回门外；只为本轮 v43 `lastAction` 对应落点加窄例外（inward 放行窥孔但 glyph 仍被拦、lastScene/lastAction 错配全部不放行）；hinge-sorting-room 沿用 v40 现行可进入语义；三新场景允许干净 direct hash；live scene 前置守卫下 threshold/回敲场景/跨两隐藏场景的程序化 click 全部零副作用。
+- 状态（CDP 逐条实测）：独立容错 `goddead_v43_counter_knock`——visited 三布尔键、entry 七值白名单、pending 四字段严格对应（伪造 target/feedback 清空不重播）、lastScene/lastAction 互相匹配、traversals 裁 9999、marks 9 项白名单；坏 JSON/数组错型归一；不读写 v28–v42 与主线（字节级一致）；timer 触发前清 pending；reload 反馈拍重播逐字反馈并恢复转场不重复计数；离场保留合法 pending、重返重播续走；reduced-motion 缩短节拍保留文案；遗忘清除 v43 键、三目录入口、记忆行并重置敲门计数与回敲显露态。
+- 目录与痕迹（CDP 逐条实测）：首次进入恢复 `02γ / 回敲廊`、`02δ / 未应门`、`02ε / 门槛下`；Remembrance 单行 `#knocknet-memory`（「门内回敲：改道 N 次；回敲 / 未应 / 门槛下已见 X/3。」），严格 8 卡。
+- CDP 功能冒烟（`/tmp/goddead-qa/v43-counter-knock-smoke.mjs`，chrome-headless-shell + 真实鼠标/键盘事件）**82/82 连续两次全绿**（exit 0）：A 窗口生命周期（10 项）；B 三回敲反馈/目的地/首选锁/键盘（13 项）；C 九动作（19 项）；D 三场景画面热点（3 项）；E 守卫（10 项）；F 竞争与键盘（4 项）；G pending/reload/离场（9 项）；H 容错（4 项）；I reduced-motion（1 项）；J 隔离（1 项）；K 目录/痕迹/遗忘（7 项）；Z 控制台零异常（1 项）。
+- 视觉证据（`design-qa-evidence/`，CDP `/tmp/goddead-qa/v43-counter-knock-visual.mjs` **30/30 通过**，均经逐张目验）：
+  - `v43-01-threshold-clean-1440x1024.png` / `v43-02-threshold-knock1-1440x1024.png` / `v43-03-threshold-knock2-urgent-1440x1024.png` / `v43-04-threshold-knock3-open-1440x1024.png`：首页 clean/第一敲/第二敲急促/第三敲开门（回敲落在真实门扇/门缝下段，门中心不被覆盖，开门不退化）。
+  - `v43-05-threshold-knock1-mobile-390x844.png` / `v43-06-threshold-knock3-mobile-390x844.png`：移动第一敲/第三敲（≥44px、零溢出）。
+  - `v43-07~09-*-1440x1024.png`：三场景桌面（图+三画面热点首屏）。
+  - `v43-10~12-*-mobile-390x844.png`：三场景移动（图+三热点 ≥44px）。
+  - `v43-13-counter-knock-gallery-short-1440x800.png`：场景短桌面。
+  - `v43-14~16-counter-*-feedback-1440x800.png`：三处首页回敲反馈态（逐字+窗口同拍隐藏）。
+  - `v43-17~19-*-feedback-1440x800.png`：三场景各一条动作反馈态（逐字+节拍锁）。
+  - `v43-20-directory-knocknet-1440x800.png`：目录 02γ/02δ/02ε。
+  - `v43-21-remembrance-knocknet-1440x800.png`：痕迹单行 + 8 卡。
+- 静态契约：`node --check script.js`、`node tests/site.test.mjs`、`git diff --check` 全部通过；测试套件新增 v43 段（资产/三回敲出厂态与位置契约/窗口生命周期/守卫顺序/三场景结构/状态容错/九动作逐字/v31 窄例外/目录痕迹/文档同步）；SCENES 清单加三场景。
+
+## 本轮新增：v42 守则漂移 / THE PROTOCOL DRIFT（v41 两间背室解锁第四入口 + 四拍巡查判断）
+
+- 目标：不再追加固定长链——v41 三间背室任见两间后，同一块守则板顶部旧蜡印显露第四入口「巡查」；玩家反复面对同一块布告板，本拍可能完全正常，也可能只有红线、空名牌或无舌铃一处变异；直接点击画面里认为异常的器物，没有异常就点旧蜡印继续；连续三次正确完成一轮，误判被送进与误判位置对应的 v41 房间。没有确认、下一步、继续按钮。
+- 解锁与入口（CDP 逐条实测）：只读 v41 visited（0/1/2/3 间分别 hidden/hidden/visible/visible，进 protocol 即时重估，v41 键字节级不变）；`#protocol-hotspot-drift` 覆盖真实旧蜡印（aria「按下访客守则上沿的旧蜡印，检查布告板是否发生漂移」、短标签「巡查」、反馈「旧蜡印比上一次更软。布告板要求你证明，自己还记得它原来的样子。」逐字，≥44px）；与八条守则及 v41 三入口共用 protocol 首选锁（双向实测）；玖语义不变（实测）；处理器在任何副作用前校验 `currentScene === "protocol"`。
+- 巡查台与四拍（CDP 逐条实测）：`#protocol-drift` 单行状态读数「连对 X / 3 · 最佳 Y / 3 · 正确 C · 误报 M」；基准拍直接复用原板 WebP，三变异拍（第九绳结/半开空名牌悬取物牌/渗液无舌铃口）同屏对照除指定异常外镜头、板体、横条、墙面、管线、光线一致（逐张目验，移动中央裁切三异常区与蜡印同画面）；四判断热点覆盖真实区域（≥44px，Tab 红线→空名→铃钮→未见漂移→退回守则）；固定错位序列按 `(cycle*3+cursor)%8` 推导；四种正确判断逐字反馈且只计一次，未满 3 同 hash 真实换图、焦点回第一判断热点；第三次正确四类完成反馈与四目的地逐条真实 UI 验证；normal 三误报、三异常漏报、异常错报另一位置（反馈点名真实异常仍留原处）逐字并真实落入对应 v41 房间；同拍竞争只接受第一项。
+- 状态（CDP 逐条实测）：独立容错 `goddead_v42_protocol_drift`——数字裁 9999、cursor 0–7、streak/bestStreak 0–3 且 best 不小于 streak、lastRound/lastAnswer 组合非法清空、pending 与固定规则表逐字段一致（伪造 feedback/target/nextCursor/round 错配全部清空）；坏 JSON/数组错型归一；完成拍落地连对归零（smoke 复现后修）；timer 触发前清 pending；reload 正确拍/完成拍内重播逐字反馈并恢复动作不重复计数；离场保留合法 pending、重返重播续走；reduced-motion 缩短节拍保留顺序；判断 handler 在任何副作用前校验 `currentScene === "protocol-drift"`（三向隐藏热点零副作用）；v28–v41 与主线字节级不变、v41 只读。
+- 目录与痕迹（CDP 逐条实测）：首次进入恢复 `02β / 守则漂移`；Remembrance 单行 `#drift-memory`（「守则漂移：巡查 N 次；正确 C 次；最佳连对 B/3；误报 M 次。」），严格 8 卡；遗忘清除 v42 键、目录入口与记忆行，保留既有 v41 清理语义。
+- 布局（逐张目验）：1440×1024 标题/说明/状态行/整块巡查图/四热点首屏；1440×800 状态行与整图首屏、四热点 ≥44px；390×844 标题/状态行/图/四热点首屏、中央裁切三异常区与蜡印同画面、零横向溢出；反馈锚在巡查图内下缘任何视口可感知。
+- CDP 功能冒烟（`/tmp/goddead-qa/v42-protocol-drift-smoke.mjs`，chrome-headless-shell + 真实鼠标/键盘事件）**94/94 连续两次全绿**（exit 0）：A 解锁/入口/首选锁/玖/键盘/直 hash（16 项）；B 四拍正确判断+换图节拍+四类三连完成（22 项）；C 误判九组合（18 项）；D 同拍竞争与键盘（4 项）；E currentScene 守卫（6 项）；F 容错（13 项）；G reload/离场（8 项）；H reduced-motion（1 项）；I 隔离（1 项）；J 目录/痕迹/遗忘（7 项）；Z 控制台零异常（1 项）。
+- 视觉证据（`design-qa-evidence/`，CDP `/tmp/goddead-qa/v42-protocol-drift-visual.mjs` **25/25 通过**，均经逐张目验）：
+  - `v42-01~04-drift-*-1440x1024.png`：基准+三变异桌面（正确拍图、四热点首屏）。
+  - `v42-05~08-drift-*-mobile-390x844.png`：基准+三变异移动（中央裁切异常可辨、四热点 ≥44px）。
+  - `v42-09-drift-short-1440x800.png`：短桌面。
+  - `v42-10-protocol-drift-unlocked-1440x800.png`：入口解锁（巡查覆盖旧蜡印）。
+  - `v42-11-drift-correct-feedback-1440x800.png` / `v42-12-drift-misreport-feedback-1440x800.png` / `v42-13-drift-completion-feedback-1440x800.png`：正确/误判/三连完成反馈态（逐字、状态行进位、节拍锁）。
+  - `v42-14-directory-drift-1440x800.png`：目录 02β。
+  - `v42-15-remembrance-drift-1440x800.png`：痕迹单行 + 8 卡。
+- 静态契约：`node --check script.js`、`node tests/site.test.mjs`、`git diff --check` 全部通过；测试套件新增 v42 段（资产/基准复用/入口/巡查台结构/固定序列/反馈逐字/状态容错与 pending 逐字段/streak 完成归零/守卫位置/目录痕迹/文档同步）；SCENES 清单加 protocol-drift、remembrance 治理同步窗口放宽至 600 字符。
+
+## 本轮新增：v41 守则背室 / THE ROOMS BEHIND THE PROTOCOL（布告板三入口 + 三间画面热点背室）
+
+- 目标：把第二幕 `#protocol` 的访客守则布告板本身变成可探索的空间机关——保留八条守则、原文、分流、玖异常与布告板素材，在原图真实红线结/空白铭牌/黄铜铃钮上叠加三个原生热点，通往三间互相连通并回接走廊/归路核验/门外代审/午夜回拨/守则页的真实房间；没有确认、下一步或继续按钮。
+- 布告板与三入口（CDP 逐条实测）：`assets/visitor-protocol-board.webp` 未替换未改图；红线（aria「顺着访客守则左侧交叉的红线进入登记室」，反馈「红线从八条守则背后抽紧。布告板让出一条只容卷宗通过的缝。」→ `#red-thread-registry`）、空名（aria「按下守则布告板下方没有姓名的长牌」，反馈「空白名牌记住了你的按痕，却仍拒绝写出名字。」→ `#blank-name-cloakroom`）、无舌铃（aria「按下守则布告板右下方不会发声的黄铜铃钮」，反馈「铃钮陷进墙里。没有铃声，接待台却已经叫到你。」→ `#clapperless-bell-desk`）；与八条守则共用 `protocol` 首选锁（双向实测）；反馈写入独立的 `#protocol-backroom-response`（锚在布告板图内底部，任何视口首屏可感知），不复用守则 toast；玖异常与 `#ninth` 原语义不变（实测非窗口点击原文反馈，v41 不介入）；click/Enter/Space、≥44px、干净存档可发现。
+- 三间背室（CDP 逐条实测）：红线登记室/空名寄存处/无舌铃接待台（kicker/说明逐字），各三个覆盖真实器物的画面热点（松线轴→`#blank-name-cloakroom`、见证印→`#return-audit`、线后门→`#corridor`、无主外套→`#proxy-admission`、挂起名字→`#red-thread-registry`、无号取物牌→`#clapperless-bell-desk`、按无舌铃→`#midnight-callback`、柜下传声管→`#blank-name-cloakroom`、拉红绳→`#protocol`），独立 `.backroom-hotspot` class 与 v40 解耦，≥44px，Tab 左→右，零卡片清单、零 SVG；九动作逐字反馈全部真实 UI 实测；第一项锁+同节拍竞争只记一次（实测）。
+- 守卫（CDP 逐条实测）：布告板入口在任何副作用前校验 `currentScene === "protocol"`；九动作在任何状态访问前校验 `currentScene === BACKROOM_SCENE_NAME[sceneKey]`；protocol 触发隐藏 child 热点、child 场景触发隐藏布告板热点、跨两隐藏 child scene 同拍触发全部零副作用（v41 键字节级不变、无反馈、beat 窗口后无幽灵跳转）；active 场景合法热点仍只接受第一项。
+- 状态（CDP 逐条实测）：独立容错 `goddead_v41_protocol_backrooms`——visited 三布尔键、entry 七值白名单、pending 四字段严格对应（伪造 target/feedback 清空不重播）、lastScene/lastAction 互相匹配、traversals 裁 9999、marks 12 项白名单；坏 JSON/数组错型归一；不读写 v28–v40 与主线（字节级一致）；timer 触发前清 pending；reload 反馈拍重播逐字反馈并恢复转场；离场清 timer 保留合法 pending、重返原场景重播续走、不重复计数；reduced-motion 缩短延迟保留节拍；直 hash 三背室只记 visited 不自动动作。
+- 目录与痕迹（CDP 逐条实测）：首次进入恢复 `01ψ / 红线登记`、`01ω / 空名寄存`、`02α / 无舌铃台`；Remembrance 单行 `#backroom-memory`（「守则背室：穿行 N 次；红线 / 空名 / 无舌铃已见 X/3。」），严格 8 卡；遗忘清除 v41 键、三目录入口与记忆行。
+- 布局（逐张目验）：protocol 1440×1024 标题+布告板+三热点+前两条守则首屏（高桌面压缩布告板与页眉间距）；1440×800 两栏短桌面右栏 350px、三热点 ≥44px 不压其一；390×844 标题+布告板首屏、三热点上下错开 ≥44px 零溢出；三背室桌面/移动/短桌面图与三热点全部首屏。
+- CDP 功能冒烟（`/tmp/goddead-qa/v41-protocol-backrooms-smoke.mjs`，chrome-headless-shell + 真实鼠标/键盘事件）**75/75 连续两次全绿**（exit 0）：A 布告板未替换+三入口逐字反馈/首选锁双向/玖不变/键盘（16 项）；B 九动作逐字反馈与真实目的地（19 项）；C 三场景画面热点（3 项）；D currentScene 守卫（8 项）；E 容错（10 项）；F 同节拍竞争（2 项）；G reload/离场/直 hash（8 项）；H reduced-motion（1 项）；I 隔离（1 项）；J 目录/痕迹/遗忘（7 项）；Z 控制台零异常（1 项）。
+- 视觉证据（`design-qa-evidence/`，CDP `/tmp/goddead-qa/v41-protocol-backrooms-visual.mjs` **23/23 通过**，均经逐张目验）：
+  - `v41-01-protocol-board-1440x1024.png` / `v41-02-protocol-board-1440x800.png` / `v41-03-protocol-board-mobile-390x844.png`：守则布告板三视口（原图未替换、三入口贴合真实器物、≥44px、前两条守则首屏）。
+  - `v41-04~06-*-1440x1024.png`：三背室桌面（图+三画面热点首屏）。
+  - `v41-07~09-*-mobile-390x844.png`：三背室移动（图+三热点 ≥44px）。
+  - `v41-10-red-thread-registry-short-1440x800.png`：背室短桌面。
+  - `v41-11-protocol-thread-entry-1440x800.png`：红线入口反馈态（逐字，布告板图内首屏可感知）。
+  - `v41-12-thread-seal-feedback-1440x800.png`：见证印动作反馈态（逐字+节拍锁）。
+  - `v41-13-directory-backrooms-1440x800.png`：目录 01ψ/01ω/02α。
+  - `v41-14-remembrance-backrooms-1440x800.png`：痕迹单行 + 8 卡。
+- 静态契约：`node --check script.js`、`node tests/site.test.mjs`、`git diff --check` 全部通过；测试套件新增 v41 段（资产/布告板未替换/三入口/独立反馈元素锚点/三背室结构/状态容错/双守卫位置/九动作逐字/首选锁/目录痕迹/文档同步）；SCENES 清单加三场景。
+
+## 本轮新增：v40 门外侧廊 / THE LATERAL CORRIDORS（首页纵深环境层 + 左右廊热点 + 三个画面热点场景）
+
+- 目标：继续优化最前面的首页——门两侧的黑色留白做成通向门后纵深的左右侧廊；中央门放大约 12%（保留三敲主流程、开门状态与 v31/v38 四热点）；新增左廊/右廊两个空间热点与三间互相连通的真实场景，形成空间网并真实落回 v31/v38/v39 前段区域；没有确认页、下一步、继续按钮、新结局或主线硬门槛。
+- 首页视觉（逐张目验）：纵深环境层 `assets/threshold-lateral-hall.webp`（211 KB，Pillow q85，1536×1024；源 PNG 保留）垫在现有 closed/open 门图之下，1440×800 中央门实测 593px（v39 为 520px，+14%）、左右侧廊与旧铜导轨入画、六热点不打架、门中心命中仍是敲门；390×844 门仍是主目标、六热点上下错开触达 ≥44px、零横向溢出；开门状态实测不退化（v40-04）。
+- 两个新热点（CDP 逐条实测）：`hotspot-lateral-left`（aria「沿门左侧不发光的灯廊前行」，反馈「左侧黑暗向后退了一步。门没有移动，走廊却从它旁边长了出来。」→ `#unlit-lamp-gallery`，entry=threshold-left，mark enteredLeftCorridor）与 `hotspot-lateral-right`（aria「跟随门右侧先行的影子」，反馈「右侧墙面折进门影。你还站在门外，但影子已经先行。」→ `#borrowed-shadow-gallery`，entry=threshold-right，mark enteredRightCorridor）；与日蚀/符号/回来/代审/三敲共用首选锁（双向实测），Enter/Space 可激活（实测）。
+- 三个新场景（CDP 逐条实测）：`#unlit-lamp-gallery`（这里的灯只负责留下影子。照明是另一个部门的事。）、`#borrowed-shadow-gallery`（所有影子都登记过主人。少数主人还没有被制造出来。）、`#hinge-sorting-room`（门板在别处。这里先决定每扇门应该向哪一边承认自己。）；各三个覆盖真实画面器物的原生 button 热点（未亮的灯/地面铜轨/挤出灯排、人的影子/门形的影子/先走的门影、向内铰链/空轴位/向外铰链，≥44px，Tab 从左到右，零底部卡片清单、零内联 SVG）；九动作逐字反馈：触碰未亮的灯→`#borrowed-shadow-gallery`、沿铜轨→`#hinge-sorting-room`、挤出灯排→`#return-passage`、站进人影→`#unlit-lamp-gallery`、推开门形影子→`#hinge-sorting-room`、跟随门影→`#peephole-chamber`、向内铰链→`#glyph-niche`、向外铰链→`#proxy-admission`、空轴位→`#return-audit`，全部真实 UI 实测；第一项被接受后同场景全部热点 disabled（paint 在 schedule 之后，F2 复现后修），同节拍竞争只记一次。
+- v31 门前守卫（本轮启用，CDP 逐条实测）：未访问的 `#return-passage`/`#peephole-chamber`/`#glyph-niche` 直达落回门外；真实路径只读放行——v31 热点/守则分流/前段内部动作点击时持久化 visited（RULE_DETOUR 与 chooseForecourt 配套补标），v34/v35/v37/v38/v39 落点读各自 outcome/marks；v40 只放行本轮 lastAction 唯一对应目标（lastAction=peephole 放行窥孔、glyph 仍被拦）。v39 smoke 90/90、v38 smoke 62/62、v37 smoke 64/64 回归不破坏；v36 smoke×2、v37 smoke×1、v36/v37 visual×3 的干净存档直达捷径夹具改为先种 v31 已访问（断言未放宽）。
+- 状态（CDP 逐条实测）：独立容错 `goddead_v40_lateral_corridors`——visited 三布尔键、entry 五值白名单、pending 四字段与白名单表严格对应（伪造 target/feedback 清空不重播）、lastScene/lastAction 互相匹配、traversals 裁 9999、marks 11 项白名单；坏 JSON/数组错型归一；不读写 v28–v39 与主线（字节级一致）；pending 只恢复已接受未完成转场、不作计数依据；timer 触发前清 pending；reload 反馈拍重播逐字反馈并恢复转场；离场清 timer 保留合法 pending、重返原场景重播续走；reduced-motion 缩短延迟保留节拍。
+- 目录与痕迹（CDP 逐条实测）：首次进入恢复 `01υ / 无灯灯廊`、`01φ / 借影陈列`、`01χ / 铰链分拣`；Remembrance 单行 `#lateral-memory`（「门外侧廊：穿行 N 次；无灯 / 借影 / 铰链已见 X/3。」），严格 8 卡；遗忘清除 v40 键、三目录入口与记忆行。
+- CDP 功能冒烟（`/tmp/goddead-qa/v40-lateral-corridors-smoke.mjs`，chrome-headless-shell + 真实鼠标/键盘事件）**77/77 连续两次全绿（监理发现守卫缺口后由 Kimi 修复并连续两次复跑）**（exit 0）：A 六热点+首选锁双向+键盘（12 项）；B 九动作逐字反馈与真实目的地（19 项）；C 三场景画面热点（3 项）；D v31 窄守卫（5 项）；E 容错（10 项）；F 同节拍竞争与 off-route 守卫（13 项：跨热点连发只记首个+节拍锁、threshold 触发隐藏 child 热点、protocol 同拍触发两个隐藏 child scene 热点与隐藏左右廊热点、child scene 触发隐藏左右廊热点——v40 键字节级不变、无反馈、完整 beat 窗口后无幽灵跳转、active 场景合法热点仍只接受第一项）；G reload/离场（6 项）；H reduced-motion（1 项）；I 隔离（1 项）；J 目录/痕迹/遗忘（7 项）；Z 控制台零异常（1 项）。
+- 监理发现后由 Kimi 修复并复跑（独立验收发现后修）：off-route 脚本化点击缺口——child action 与首页左右廊热点原先无 currentScene 守卫，隐藏 DOM 按钮可被脚本越场景写状态并排 timer（不同 sceneKey 不同 timer key 可同拍双写）；现为 child action 在任何副作用前校验 `currentScene === LATERAL_SCENE_NAME[sceneKey]`、左右廊热点校验 `currentScene === "threshold"`（静态断言锁定守卫位于状态读写与 schedule 之前）。
+- 视觉证据（`design-qa-evidence/`，CDP `/tmp/goddead-qa/v40-lateral-corridors-visual.mjs` **25/25 通过**，均经逐张目验）：
+  - `v40-01-threshold-lateral-1440x800.png` / `v40-02-threshold-lateral-1440x1024.png` / `v40-03-threshold-lateral-mobile-390x844.png`：首页门放大+侧廊入画+六热点（≥48/44px）。
+  - `v40-04-threshold-door-open-1440x800.png`：开门状态不退化。
+  - `v40-05~07-*-1440x1024.png`：三场景桌面（图+三画面热点首屏）。
+  - `v40-08~10-*-mobile-390x844.png`：三场景移动（图+三热点 ≥44px）。
+  - `v40-11-borrowed-shadow-gallery-short-1440x800.png`：场景短桌面。
+  - `v40-12-lamp-rail-feedback-1440x800.png`：铜轨动作反馈态（逐字+节拍锁）。
+  - `v40-13-left-corridor-feedback-1440x800.png`：左廊入口反馈态。
+  - `v40-14-directory-lateral-1440x800.png`：目录 01υ/01φ/01χ。
+  - `v40-15-remembrance-lateral-1440x800.png`：痕迹单行 + 8 卡。
+- 静态契约：`node --check script.js`、`node tests/site.test.mjs`、`git diff --check` 全部通过；测试套件新增 v40 段（资产/场景结构/状态容错/九动作逐字/首选锁/pending 四字段/v31 守卫窄例外/文档同步）；既有「forecourt 无守卫」断言改为断言守卫新契约、SCENES 清单加三场景。
+
+## 本轮新增：v39 归路核验站 / THE ROUTE-OF-RETURN AUDIT（守则其五 + 三岔枢纽任选两条 + 每条两判断）
+
+- 目标：把内容继续压在游玩前段——守则其五从只显示一句反馈升级为真实分流入口；玩家在可自由选择顺序的三岔枢纽里任选两条路线核验，一次判断后自动返回枢纽，第二条判断完自动结算、自动分流；没有下一步/确认/继续按钮，没有新结局。
+- 场景与素材：`#return-audit`（归路核验站）+ `#echo-turn`（回声岔廊）+ `#vein-turnstile`（血管检票闸）+ `#confession-locker`（忏悔寄存所）原生 SPA 场景，沿用 `.scene-branch` 视觉语言，零内联 SVG、零占位图。四张监理源 PNG（`design-references/source-*.png`，保留）经 Pillow quality=85 转码 1536×1024：`assets/return-audit-hall.webp`（207 KB）/ `return-audit-echo.webp`（210 KB）/ `return-audit-vein.webp`（182 KB）/ `return-audit-confession.webp`（211 KB）。枢纽三岔口与三路线各自轮廓一眼可分，移动中心裁切保留核心器物（逐张目验）；图内无可读文字、数字、UI。
+- 守则其五（CDP 逐条实测）：原文「回声、血管与忏悔都可以进入。进去之前，确认你还记得回来的路。」与反馈「回来的路，你还记得吗？」逐字不变，仅目的地变更（entry=protocol，mark answeredProtocolFive）；首选锁实测其五接受后其二不得抢占；其一主线走廊实测不回归；直接 hash `#return-audit` 只记 visited（entry=direct），2.5s 内不自动选路线。
+- 枢纽与三路线（CDP 逐条实测）：三路线卡（进入回声岔廊 / 通过血管检票闸 / 打开忏悔寄存柜，hint 逐字）任意顺序选两条（实测先选第二卡）；选路立即反馈并自动进入对应区域；已完成路线 disabled + aria-pressed；每条路线两个判断逐字即时反馈（跟随最先出现的回声✓/跟随最响的回声✗、趁苍白停搏穿过✓/跟着红色脉冲前进✗、领取空白寄存牌✓/领取写着自己的那枚✗）；第一次被接受即锁定该区域两按钮，同节拍无间隔连发与跨按钮竞争只记一次（实测）；第一条判断后自动回 hub、不替玩家选第二条（实测），焦点落到第一个未完成路线卡（实测）；第二条先保留路线即时反馈一拍、回 hub 换结算反馈一拍、再自动转场。
+- 五档真实 UI 结算（全程点击，非种子）：2 归路证/0 迷步 → verified → `#protocol`；0/2 → lost → `#return-passage`；1/1 错在 echo → echoed → `#echo`、错在 vein → pulsed → `#vein`、错在 confession → confessed → `#confession`（设计文档 `#echo-archive`/`#vein-maintenance-well`/`#confession-weighing-room` 即 v29 既有三支线场景；v29 支线守卫仅加本轮 v39 outcome 窄例外，其余未访问直达仍落回走廊）；逐字反馈实测。
+- 状态（CDP 逐条实测）：独立容错 `goddead_v39_return_audit`——order 白名单去重 ≤2，decisions 只接受按 order 形成的连续合法前缀（off-route/跳位决策全部丢弃，实测），recall/misstep/wrongRoute/settled/outcome 全部由合法 decisions 重算（伪造 outcome「lost」实测重算为 verified 并落 protocol），settleDone 只标记结算副作用、arrivalPending 只标记结算转场（伪造 settleDone 实测归一），pendingRoute 只能是未完成白名单 route，数值裁 9999（1e18/-3 实测 9999/0），marks 白名单；坏 JSON/数组错型安全归一；不读写 v28–v38 与主线（种子快照字节级一致）；刷新恢复 pendingRoute/已完成列表/结算节拍（结算节拍内刷新仍重播结算反馈、完成转场且只结算一次；判断即时反馈拍内刷新路线场景重播逐字反馈并续走回程/结算，副作用严格一次）；judgeAudit 只接受当前场景对应且 pendingRoute 合法的 route（程序化 off-route/隐藏按钮不得推进）；离场清节拍 timer 无幽灵回跳；遗忘同步清除；目录恢复 `01τ / 归路核验`，Remembrance 单行 `#audit-memory`（「归路核验：完成 N 轮核验；最佳归路 X。」），严格 8 卡。
+- 布局与无障碍：枢纽桌面 1440×1024 首屏（核验签/母图/三路线卡），短桌面 1440×800 母图让位三卡首屏，移动 390×844 母图压低保留身份、三卡首屏可点（触达 ≥44px、零横向溢出）；三路线场景桌面/移动/短桌面两判断全部首屏可点；Enter/Space 与点击一致（实测）；reduced-motion 缩短延迟但保留即时反馈→结算反馈两段节拍（实测）。
+- CDP 功能冒烟（`/tmp/goddead-qa/v39-return-audit-smoke.mjs`，chrome-headless-shell + 真实鼠标/键盘事件）**90/90 连续三次全绿（监理复跑修复后）**（exit 0）：A 其五原文/反馈逐字+首选锁+其一回归（7 项）；B 直 hash 不自动选路（3 项）；C 任意顺序+第一判断自动回 hub+焦点落位（9 项）；D 五档真实 UI 结算+两段节拍（14 项）；E 新 cycle 与累计（4 项）；F 刷新恢复（13 项：pendingRoute/1/2/结算节拍 + 第一/第二条判断拍内 reload 重播即时反馈并续走 回程/结算/目的地、副作用严格一次）；G 离场清 timer（4 项）；H 同节拍竞争与程序化守卫（7 项：跨按钮连发只记首个+节拍锁、off-route/隐藏按钮不得推进、直 hash 子场景归一后可判）；I 容错（10 项）；J reduced-motion（2 项）；K 键盘（5 项：稳定后按键、重试不重复判定）；L v28–v38+主线字节级隔离（1 项）；M 目录/痕迹/遗忘（6 项）；Z 控制台零异常（1 项）。
+- 监理复跑修复（独立验收 72/76 后修，仍全部真实通过）：① 生产 reload 窗口——判断写入后回程/结算 timer 只在内存，即时反馈拍内刷新路线场景会卡住；enterAuditRoute 对已判断 route 重播逐字即时反馈并重新排定回程/结算（settleDone 保证副作用一次）；② 生产守卫——judgeAudit 只接受当前场景对应且 pendingRoute 合法的 route，程序化 off-route/隐藏按钮不得推进；③-⑤ 夹具稳定性——C8 等待真实焦点稳定、H2 跨按钮连发坐标一次取定、K2/K3 场景/veil/按钮稳定后按键（重试不重复判定）。
+- 视觉证据（`design-qa-evidence/`，CDP `/tmp/goddead-qa/v39-return-audit-visual.mjs` **28/28 通过**，均经逐张目验；settle 条件 = scene active + veil 释放 + .reveal 全部 in + 可见素材解码完成 + 截图前绘制帧）：
+  - `v39-01-return-audit-1440x1024.png` / `v39-02-return-audit-mobile-390x844.png` / `v39-03-return-audit-short-1440x800.png`：枢纽桌面（核验签+母图+三卡首屏）/移动（母图保留身份、三卡首屏 ≥44px）/短桌面（母图让位、三卡首屏）。
+  - `v39-04-echo-turn-1440x1024.png` / `v39-05-vein-turnstile-1440x1024.png` / `v39-06-confession-locker-1440x1024.png`：三路线场景桌面（图+两判断首屏）。
+  - `v39-07-echo-turn-mobile-390x844.png` / `v39-08-vein-turnstile-mobile-390x844.png` / `v39-09-confession-locker-mobile-390x844.png`：三路线场景移动（图+两判断首屏 ≥44px）。
+  - `v39-10-echo-turn-short-1440x800.png`：路线场景短桌面。
+  - `v39-11-settle-verified-1440x800.png` / `v39-12-settle-lost-1440x800.png` / `v39-13-settle-echoed-1440x800.png` / `v39-14-settle-pulsed-1440x800.png` / `v39-15-settle-confessed-1440x800.png`：五档结算反馈态（枢纽抢帧，卡 disabled、反馈逐字）。
+  - `v39-16-rule-five-entry-1440x800.png`：守则其五入口反馈态。
+  - `v39-17-directory-audit-1440x800.png`：目录 01τ 恢复可见。
+  - `v39-18-remembrance-audit-1440x800.png`：痕迹页归路单行 + 8 卡网格。
+- 静态契约：`node --check script.js`、`node tests/site.test.mjs`、`git diff --check` 全部通过；测试套件新增 v39 段——四张 WebP 存在与引用、四张源 PNG 保留、四场景结构与逐字文案与无继续按钮、目录 01τ、痕迹单行、8 卡、其五原文/反馈、状态容错与 decisions 连续前缀重算、五档反馈/目的地、v29 守卫窄例外、select/judge/settle/enterAudit 守卫、缓存 v39、文档同步；既有 RULE_DETOUR 断言与 v29 守卫断言同步新形态、SCENES 清单加四场景。
+
+## 本轮新增：v38 门外代审窗 / THE PROXY ADMISSION WINDOW（门板第四热点 + 守则其八 + 三问两判）
+
+- 目标：把内容拉回首页与访客守则——门板第四热点与守则其八双入口进入门外代审窗，替门后机构审查三名夜访者；自由问讯后直接判断，第三人自动结算分流；没有确认页、底部继续按钮、新结局或主线硬门槛。
+- 场景与素材：`#proxy-admission`（门外代审窗）原生 SPA 场景，沿用 `.scene-branch` 视觉语言，零内联 SVG、零占位图、零 CSS 人物。五张监理源 PNG（`design-references/source-*.png`，保留）经 Pillow quality=85 转码 1536×1024：`assets/proxy-admission-window.webp`（149 KB）/ `proxy-visitor-nurse.webp`（146 KB）/ `proxy-visitor-postman.webp`（147 KB）/ `proxy-visitor-umbrella.webp`（146 KB）/ `proxy-visitor-widow.webp`（145 KB）。四访客图同问讯窗景别、主体居中偏上，证据怪异但需结合问讯文字判断（护士影子同步 / 邮差影子先递信 / 信使门环投影同步 / 妇人空臂影子抱婴），移动中心裁切保留脸、手与关键异常（逐张目验）；图内无可读文字、数字、UI。
+- 两入口（CDP 逐条实测）：门板第四热点「代审」（门板下方偏中，干净存档立即可发现、可 Tab/Enter/Space，反馈「门缝从里面拉开。值班员把你的影子登记成了代理人。」→ `#proxy-admission`，entry=threshold；与门外三热点及三次敲门共用首选锁——热点接受后敲门忽略、三敲接受后热点忽略，门中心命中链实测不被遮挡）；守则其八加入 `RULE_DETOUR`——原文、删除线/强调样式与反馈「确认无效。」逐字不变，仅目的地变更（entry=protocol，其一主线与其六回拨实测不回归，「玖」异常不动）。
+- 三问两判（CDP 逐条实测）：每轮当前一名访客（大图/称谓/首句陈述）；三项问讯只展开逐字证词并记录 questioned（pressed 保留、重复询问只重播短声音不重复累计、已问计数不加分）；两个判断第一次被接受即锁定当前访客全部问讯与判断按钮（连点与竞争只记一次）；逐字反馈约 0.9–1.2s（reduced-motion 0.3s，实测）后自动换下一人；第三人先给判断反馈一个节拍、再换结算反馈并转场，全程无下一位/确认/继续按钮。
+- 四档真实 UI 结算（全程点击，非种子）：全对 6/0 → verified → `#protocol`；误拒在场者 4/1 → paranoid → `#peephole-chamber`；误放回声 4/1 → contaminated → `#return-passage`；0–2/2–3 → unnamed → `#glyph-niche`；逐字反馈、计分与错误类型（admittedEcho/rejectedPresent）实测。
+- roster 与状态：四轮确定性矩阵按（入口行 + cycle）循环移位（threshold/protocol/direct 行 0/1/2，实测三轮换、刷新不换人）；独立容错 `goddead_v38_proxy_admission`——**decisions 只接受当前 roster 内按顺序形成的连续已判断前缀**（off-roster 与跳位决策全部丢弃、不得推进 index/计分，questioned 同步丢弃 off-roster 数据，实测），proof/doorDebt/admittedEcho/rejectedPresent/outcome 全部由合法 decisions 重算（伪造 99/99 实测重算为合法值），**settled 完全由三条有效 decisions 推导**（raw.settled 不被信任；三判 + settled=false 实测自动修复并随下一次保存持久化），settle 副作用以独立 `settleDone` 标记只执行一次；roster 三项白名单去重错型重建，数值有限非负裁 9999；坏 JSON、数组错型、非法 roster/decisions/outcome、NaN/Infinity/负数/超大数字全部安全归一（实测）；不读写 v28–v37 与主线（含 v37 pending 批次种子快照字节级一致，实测）；刷新恢复当前访客/问讯展开/已判不重复（实测）、离场清节拍 timer 不幽灵换人（实测）、遗忘同步清除（实测）。
+- 实现期真实修复（smoke 复现后修）：① 入口登记时 roster 先按默认 direct 生成再写 entry——改为新 cycle 未开始时 roster 按当前 entry 重建；② 判定后 index 立即 +1 使下一位访客提前上屏且节拍守卫失效——改为先排定步进 timer 再重绘，节拍内仍显示刚被判访客并锁死其按钮；③ 第三人判定分支误用判定前的 index——改为按判定后 decisions 数结算；④ 第三人判定反馈被结算反馈同帧覆盖——改为两节拍（判断反馈一拍、结算反馈一拍后转场，监理复核要求保留可感知节拍，smoke 新增 E11b/E13a–c 断言验证两段反馈先后出现且无新增按钮）；⑤ 监理复审发现 decisions 白名单过宽（off-roster/跳位决策可推进计分）——改为仅接受当前 roster 连续前缀；⑥ 同复审发现 settled 依赖 raw.settled（三判 + settled=false 会全锁不结算）——改为 settled/outcome 完全由有效 decisions 推导，settle 副作用改由独立 settleDone 标记防重；⑦ 监理独立复跑 61/62，唯一失败 E2「节拍内快速对立点击只记一次」——定位为夹具竞态而非生产锁缺陷（夹具固定 sleep 累计约 790ms 逼近 proxyDelay 最短 900ms，末次派发可能落在合法换人之后；生产节拍锁复核无误），E2 重写为先断言节拍内按钮全部 disabled、再以 CDP Input.dispatchMouseEvent 同坐标无间隔连发 4 组点击，断言只记一次且换人后正常可判；生产代码未改，修复后 62/62 连续三次稳定。
+- 布局与无障碍：桌面 1440×1024 首屏（代审簿/母场景图/当前访客/三问两判），短桌面 1440×800 母场景图让位全控件首屏，移动 390×844 紧凑布局当前访客+三问+两判全部首屏可点（触达 ≥44px、零横向溢出）；门板热点触达 ≥48px；Tab 顺序三问→准许→留在门外；Enter/Space 与点击一致（实测）；hover/focus 只反馈不判断；图片显式尺寸、异步解码、移动中心裁切、换图先隐旧图不闪白；静音、标题聚焦、滚动归顶、veil 与 AutoAdvance 生命周期沿用现有契约。
+- CDP 功能冒烟（`/tmp/goddead-qa/v38-proxy-admission-smoke.mjs`，chrome-headless-shell + 真实鼠标/键盘事件）**62/62 连续三次全绿（监理复跑修复后复测稳定）**（exit 0）：A 四热点可发现+首选锁+三敲不回归（8 项）；B 其八入口与守则回归（4 项）；C 直 hash 不自动问讯判断（2 项）；D 三问证词/pressed/去重/不加分（5 项）；E 四档真实 UI 结算+第三人反馈节拍+节拍内无间隔连发对立点击只记一次（E2，节拍锁 disabled 前置证明）（15 项）；F 新 cycle 与四轮 roster（3 项）；G 刷新恢复（2 项）；H 离场清 timer（3 项）；I 容错与 decisions 重算持久修复+off-roster/跳位决策丢弃+三判 settled=false 自动修复（8 项）；J reduced-motion（2 项）；K v28–v37+主线字节级隔离（2 项）；L 目录/痕迹/遗忘（6 项）；Z 控制台零异常（1 项）。
+- 视觉证据（`design-qa-evidence/`，CDP `/tmp/goddead-qa/v38-proxy-admission-visual.mjs` **26/26 通过**，均经逐张目验；settle 条件 = scene active + veil 释放 + .reveal 全部 in + 可见素材解码完成 + 截图前绘制帧）：
+  - `v38-01-threshold-four-hotspots-1440x800.png` / `v38-02-threshold-four-hotspots-mobile-390x844.png`：首页四热点桌面与移动（≥48px、门中心命中不被遮挡）。
+  - `v38-03-proxy-admission-1440x1024.png` / `v38-04-proxy-admission-mobile-390x844.png` / `v38-15-short-desktop-proxy-1440x800.png`：代审窗桌面/移动/短桌面全控件首屏。
+  - `v38-05~08-visitor-*-1440x1024.png`：四名访客桌面状态（大图/称谓/首句陈述逐字）。
+  - `v38-09-questions-expanded-1440x1024.png`：三问证词全部展开逐字。
+  - `v38-10-settle-verified-1440x800.png` / `v38-11-settle-paranoid-1440x800.png` / `v38-12-settle-contaminated-1440x800.png` / `v38-13-settle-unnamed-1440x800.png`：四档结算反馈态（第三人真实点击后抢帧）。
+  - `v38-14-rule-eight-entry-1440x800.png`：守则其八入口反馈态。
+  - `v38-16-directory-proxy-1440x800.png`：目录 01σ 恢复可见。
+  - `v38-17-remembrance-proxy-1440x800.png`：痕迹页代审单行 + 8 卡网格。
+- 静态契约：`node --check script.js`、`node tests/site.test.mjs`、`git diff --check` 全部通过；测试套件新增 v38 段——五张 WebP 存在与引用、五张源 PNG 保留、代审窗结构与代审簿 ID、三问两判逐字与无继续按钮、访客图 eager、第四热点与样式、其八原文/反馈、状态容错与 decisions 重算、roster 矩阵白名单性质与确定性移位、四访客档案逐字、问讯守卫与不加分、判定首选锁与一人一判、第三人结算一次与四档反馈/目的地、enterProxy 新 cycle、目录 01σ、痕迹单行、8 卡、缓存 v38、文档同步；既有 RULE_DETOUR 断言同步新映射、remembrance 治理同步窗口随记忆行增长放宽至 500 字符。
+
+## 本轮新增：v37 午夜回拨台 / THE MIDNIGHT CALLBACK DESK（其六分流 + 三线现场回拨）
+
+- 目标：把守则其六从固定去走廊改成真实可玩的早期分支，并让回返夹道与 v35 三间值班房形成可往返的横向网；玩家接两条夜间来电、亲自去现场、从现场回拨；全程「点击即执行 → 看见反馈 → 自动转场」，没有确认页、底部继续按钮或新结局。
+- 场景与素材：`#midnight-callback`（午夜回拨台）原生 SPA 场景，沿用 `.scene-branch` 与 v34/v36 卡片语言，零内联 SVG、零占位图。四张监理源 PNG（`design-references/source-*.png`，保留）经 Pillow quality=85 转码 1536×1024：`assets/midnight-callback-desk.webp`（152 KB）/ `callback-bellless-ward.webp`（152 KB）/ `callback-seeping-records.webp`（185 KB）/ `callback-reverse-laundry.webp`（194 KB）。三线路近景同灯位、核心听筒居中，移动中心裁切一眼可分（逐张目验）；图内无可读文字、数字、UI。
+- 两入口（CDP 逐条实测）：守则其六加入 `RULE_DETOUR`——原文与反馈逐字不变，仅目的地改 `#midnight-callback`（entry=protocol，mark answeredProtocolSix；其一仍进走廊主线实测，「玖」异常路径不变）；回返夹道新增第五动作「接起墙里晚了八分钟的电话」（反馈逐字，entry=passage，与夹道原四动作共用首选锁，竞争动作忽略实测）。
+- 三线路与现场回拨（CDP 逐条实测）：接通只写 pending 与 pending mark、不加分值；同一时刻仅一条 pending，另两卡 disabled；到达目标房间后新增第四「现场回拨」动作与既有三动作同屏并共用首选锁（病房 +3/0 → 回台、档案池 +2/+1 → 回台、洗衣房 +1/+2 → 回台）；选既有房间动作离开 pending 保留（实测穿行输液管后回拨仍可用、原反馈/目的地/分值/mark 不变）；回拨成功才入 completedLines、加分值、清 pending 并自动回台；已完成线卡与房间回拨钮 disabled + pressed，不可重复加值（实测）。**v35 结算字段零污染**：接线/回拨全程 v35 signal/debt/completed/settled/outcome/marks 与累计值字节级不变（含活动批次种子快照实测）。
+- 三档自动分流（真实 UI 全程点击，无结算按钮/确认页/继续按钮）：病房+档案池（核实 5/线债 1）routeScore 4 → clear → `#anomaly-review`；病房+洗衣房（4/2）→ 2 → uncertain → `#peephole-chamber`；档案池+洗衣房（3/3）→ 0 → contaminated → `#return-passage`；每轮只结算一次（completedRuns/bestRoute 精确更新，三档计数只增一个）；结算后重进回拨台开新 cycle（pending/completed/分值/outcome 清空、累计保留，实测）；污线落回夹道后再点回拨入口必须先开新轮、不重复消费旧 outcome（实测）。
+- 状态与隔离：独立容错 `goddead_v37_midnight_callback`（visited 严格布尔、entry 三值白名单、completedLines 白名单去重 ≤2、pending 与 completed 冲突归 none、分值必须由 completedLines 唯一重算——伪造 99/99 实测重算为合法值、**outcome 必须由 completedLines 唯一推导**（ward+records→clear / ward+laundry→uncertain / records+laundry→contaminated），空白或错配存档 outcome 不被信任、settled 不足两条归未结算、marks 八标记白名单、数值有限非负裁 9999/bestRoute 裁 4）；坏 JSON、数组错型、非法 line/outcome、NaN/Infinity/负数/超大数字全部安全归一（实测）；不读写 v28–v36 与主线（字节级一致，实测）；刷新保留 pending/completed 不重复应用（实测）、离场清反馈 timer（实测）、遗忘同步清除（实测）。
+- 边界补强（监理预读发现，smoke 前修复）：pending 线路卡重进回拨台后可重新点击——`connectLine` 仅当前 pending 卡可重新接回对应现场（反馈+转场，不重写 mark、不加分值、不影响计数，另外两卡继续 disabled），实测重进后点击已接通线路正常回到病房且分值/计数/mark 全部不变。
+- 布局与无障碍：回拨台桌面 1440×1024 首屏（标题/回拨签/母图/三线卡/出口）；移动 390×844 三线紧凑三列全部首屏可点（触达 ≥44px、母场景图让位但线路图身份保留）；回返夹道五动作移动 2×2+独占行首屏可达；三房四动作移动 2×2 紧凑首屏可达；短桌面 1440×800 回拨签与三线卡首屏；Enter/Space 可接线与回拨（CDP 真实键盘实测）；aria-live 只播当前反馈；reduced-motion 缩短转场且反馈完整（实测 <1.5s）。
+- CDP 功能冒烟（`/tmp/goddead-qa/v37-midnight-callback-smoke.mjs`，chrome-headless-shell + 真实鼠标/键盘事件）**64/64 连续两次全绿**（exit 0）：A 其六入口与主线回归（4 项）；B 夹道第五入口+首选锁（4 项）；C 直 hash 不自动接线（3 项）；D 三档组合真实 UI 全流程（16 项）；E 新 cycle 与不重复消费（3 项）；F pending 保留、首选锁与 pending 卡重接现场（8 项）；G 防重复（4 项）；H 刷新/离场（4 项）；I reduced-motion（2 项）；J 容错（7 项）；K v35 结算字段+v28–v34+主线字节级隔离（2 项）；L 目录/痕迹/遗忘（6 项）；Z 控制台零异常（1 项）。
+- 视觉证据（`design-qa-evidence/`，CDP `/tmp/goddead-qa/v37-midnight-callback-visual.mjs` **23/23 通过**，均经逐张目验；settle 条件 = scene active + veil 释放 + .reveal 全部 in + 可见素材解码完成 + 截图前绘制帧）：
+  - `v37-01-midnight-callback-1440x1024.png` / `v37-02-midnight-callback-mobile-390x844.png`：回拨台桌面与移动，回拨签 + 三线卡全部首屏，线路图身份可辨。
+  - `v37-03~05-line-*-pending-1440x800.png`：三条线路 pending 反馈态（卡 pressed + 反馈原文）。
+  - `v37-06~08-report-*-1440x800.png`：三个房间现场回拨反馈态（第四动作 pressed + 反馈原文）。
+  - `v37-09-settle-clear-1440x800.png` / `v37-10-settle-uncertain-1440x800.png` / `v37-11-settle-contaminated-1440x800.png`：三档结算反馈态（回拨签终值 + 反馈原文；自动转场前抢帧，两张问题帧已重拍复核）。
+  - `v37-12-passage-five-actions-1440x800.png` / `v37-13-passage-five-actions-mobile-390x844.png`：回返夹道五动作桌面与移动（2×2+独占行，触达 ≥44px）。
+  - `v37-14-rule-six-entry-1440x800.png`：守则其六入口反馈态（原文 touched + 反馈 toast 逐字）。
+  - `v37-15-directory-callback-1440x800.png`：目录 01ρ 恢复可见。
+  - `v37-16-remembrance-callback-1440x800.png`：痕迹页回拨单行 + 8 卡网格。
+  - `v37-17-short-desktop-callback-1440x800.png`：短桌面回拨签与三线卡首屏。
+  - `v37-18-ward-mobile-four-actions-390x844.png`：病房移动四动作 2×2 首屏（回拨动作 armed）。
+- 静态契约：`node --check script.js`、`node tests/site.test.mjs`、`git diff --check` 全部通过；测试套件新增 v37 段——四张 WebP 存在与引用、四张源 PNG 保留、回拨台结构与回拨签 ID、三线卡标题/征兆/eager、其六原文/反馈与 RULE_DETOUR 新映射及玖路径不动、夹道第五动作与反馈原文、状态容错（白名单/分值重算/冲突归一/settled 门槛/上限）、connect 首选锁与不加分值、report 首选锁与一次性、三档结算与反馈逐字、enterCallback 新轮与自动结算、房间回拨按钮状态契约、目录 01ρ、痕迹单行、8 卡、缓存 v37、文档同步；v31 段夹道按钮数断言更新为 5、v35 段三房按钮数更新为 4（不掩盖旧行为：v31 原四动作与 v35 原三动作逐字断言全部保持）。
+
+## 本轮新增：v36 夜班登记所 / THE NIGHT-SHIFT REGISTRY（每 cycle 一张值班证 + 三档全部正常可达）
+
+- 目标：修正 v35 暴露的数值假分支（正常游玩只能落 high 档），并把一条新横向通路接回最前段；不加确认页、继续按钮或新结局。
+- 场景与素材：`#night-shift-registry`（夜班登记所）原生 SPA 场景，沿用 `.scene-branch` 与 v34 卡片语言，零内联 SVG、零占位图。四张监理源 PNG（`design-references/source-*.png`，保留）经 Pillow quality=85 转码 1536×1024：`assets/night-shift-registry.webp`（178 KB）/ `permit-mute-bell.webp`（206 KB）/ `permit-blank-name.webp`（182 KB）/ `permit-reverse-badge.webp`（222 KB）。三证件同柜台、同机位、同灯位，只换核心物件（无舌黄铜铃 / 空白姓名栏双暗红封蜡 / 反面四门压痕工牌），移动中心裁切均可区分（逐张目验）；图内无可读文字、数字、UI。
+- 两入口（CDP 逐条实测）：回返夹道新增第四动作「接住墙缝吐出的值班证」（反馈「墙缝吐出一张盖着明日日期的值班证，背面写着无号层。」→ `#night-shift-registry`，entry=passage，与夹道原三动作共用首选锁）；无号层大厅新增第四去向「敲开夜班登记窗」（反馈「地面少了一块砖，登记窗从下面升了起来。」→ 同前，entry=floor，与三门共用大厅首选锁）。既有动作文字、反馈、mark、目的地、首选锁全部逐字保持（静态锁定 + CDP 抽查 followedInward 与大厅门）。
+- 三证件与领取规则（CDP 逐条实测）：无铃证 +2 信号、失名牌 +2 门债、反面工牌 +4 门债；一 cycle 只领一张——第一次合法选择立即写入并加值，三卡竞争点击、快速连点、Enter/Space 重复事件只认第一张（实测）；反馈节拍（reduced-motion 0.3s，实测快速回大厅）后自动回无号层，无确认页/继续按钮；同 cycle 不可再领（实测点击无效），重访三卡 disabled 保留可见、已领卡 aria-pressed=true；从已 settled 状态进入登记所先开 v35 新 cycle 再允许领证（实测 cycle+1、本轮清空、累计保留）。
+- **三档正常可达（真实 UI 全程点击，非种子）**：无铃证→换床单+切滚筒 → routeScore 6 → high 进定额电梯（一次性抬回反馈）；失名牌→晾页+切滚筒 → routeScore 2 → review 交复核科并强制 neutral 新轮（v33 状态实测归零重开 + 一次性反馈）；反面工牌→听柜+晾页 → routeScore 0 → debt 坠回回返夹道（一次性门债反馈）；不领证仍 high 4（实测）。**v35「正常只可 high」的数值假分支至此解决。**
+- 状态扩展（沿用 `goddead_v35_unnumbered_floor`，不建平行状态）：新增 visited.nightShiftRegistry / permit / permitSignal / permitDebt / permitCycle / permitRuns / muteBellRuns / blankNameRuns / reverseBadgeRuns；旧 v35 存档无迁移安全默认并可正常领证（实测）；permit 与修正值一致性校验、permitCycle 与当前 cycle 不一致即归一 none/0/0（非法组合与过期证件实测）；新 cycle 清空证件、累计领证次数保留；signal/debt 理论上限 12/8（实测裁剪）；坏 JSON、数组错型、非法 permit、NaN/Infinity/负数/超大数全部安全回退；不读写 v28–v34 与主线（种子快照字节级一致，实测）；刷新保留证件不重复应用（实测）、离场清领取 timer（实测）、遗忘同步清除（实测）。
+- 布局契约：大厅四去向 2×2 + 缺层电梯独占行——桌面 1440×1024 与移动 390×844 首屏完整看到三房、登记窗、中央电梯五个核心控件（移动紧凑压缩沿用 v35 方案，母图保留、触达 ≥44px、零横向溢出，CDP 逐项断言）；登记所移动三证件紧凑三列全部首屏可点（触达 ≥44px，三卡 eager 解码实测）。
+- 目录与痕迹：登记所首次访问后目录恢复 `01π / 夜班登记`，未访问 `hidden` 不可聚焦；Remembrance 只加单行「夜班登记：领证 N 次，无铃 B，失名 M，反面 R。」（干净时隐藏，实测），严格保持 8 卡。
+- CDP 功能冒烟（`/tmp/goddead-qa/v36-night-shift-registry-smoke.mjs`，chrome-headless-shell + 真实鼠标/键盘事件）**57/57 连续两次全绿**（exit 0）：A 两入口+首选锁+原动作不动（9 项）；B 直 hash 不自动领取（3 项）；C 真实 UI 三档路径+不领证 high+重访禁重复（17 项）；D settled 进入先开新轮+新轮再领（2 项）；E 旧存档兼容+容错五组（6 项）；F 刷新/离场（5 项）；G reduced-motion（2 项）；H v28–v34+主线字节级隔离（2 项）；I 目录/痕迹/遗忘（6 项）；J v31/v35 回归抽查（4 项）；Z 控制台零异常（1 项）。
+- 视觉证据（`design-qa-evidence/`，CDP `/tmp/goddead-qa/v36-night-shift-registry-visual.mjs` **22/22 通过**，均经逐张目验；settle 条件 = scene active + veil 释放 + .reveal 全部 in + 可见素材解码完成 + 截图前两个绘制帧）：
+  - `v36-01-night-shift-registry-1440x1024.png`：登记所桌面，标题/引文/登记签/母场景图/三证件卡全部首屏，无横向溢出。
+  - `v36-02-night-shift-registry-mobile-390x844.png`：登记所移动，三证件紧凑三列全部首屏可点，证件物件身份清晰可辨。
+  - `v36-03-floor-five-controls-1440x1024.png` / `v36-04-floor-five-controls-mobile-390x844.png`：大厅桌面与移动五核心控件全部首屏（2×2 去向 + 电梯独占行，母图保留）。
+  - `v36-05-passage-entry-feedback-1440x800.png` / `v36-06-floor-registry-window-feedback-1440x800.png`：两入口反馈态。
+  - `v36-07-claim-mute-bell-1440x800.png` / `v36-08-claim-blank-name-1440x800.png` / `v36-09-claim-reverse-badge-1440x800.png`：三领证反馈态（登记签更新 + pressed + 反馈原文）。
+  - `v36-10-settle-high-1440x800.png` / `v36-11-settle-review-1440x800.png` / `v36-12-settle-debt-1440x800.png`：三档真实结算反馈态。
+  - `v36-13-short-desktop-registry-1440x800.png`：短桌面三证件首屏无滚动。
+  - `v36-14-directory-registry-1440x800.png`：目录 01π 恢复可见。
+  - `v36-15-remembrance-registry-1440x800.png`：痕迹页登记单行 + 8 卡网格。
+- 静态契约：`node --check script.js`、`node tests/site.test.mjs`、`git diff --check` 全部通过；测试套件新增 v36 段——四张 WebP 存在与引用、四张源 PNG 保留、登记所结构与登记签 ID、三卡三按钮三征兆逐字与 eager 加载、两入口与 v31 原文保持、permit 白名单/一致性/过期归一、上限 12/8、claimPermit 首选锁与单证语义、enterRegistry settled 先开新轮、paintRegistry 禁重复与 pressed、目录 01π、痕迹单行、8 卡、缓存 v36、文档同步；v31 段夹道按钮数断言更新为 4（不掩盖旧行为：原三动作逐字断言保持）。回归：v35 smoke 79/79、v35 visual 29/29、v34 smoke 89/89、v34 visual 28/28、v33 smoke 87/87、v33 visual 40/40。
+
+## 本轮新增：v35 无号层 / THE UNNUMBERED FLOOR（横向枢纽 + 三间值班房 + 缺层电梯）
+
+- 目标：不再纵向加长单线，在前段网络加入一座可自由选路、可交叉穿行、可中途离开的横向枢纽；不新增确认页、继续按钮或结局。
+- 场景与素材：`#unnumbered-floor`（无号层大厅）、`#bellless-ward`（无铃病房）、`#seeping-records`（渗水档案池）、`#reverse-laundry`（逆照洗衣房）四个原生 SPA 场景，沿用 `.scene-branch` 视觉语言，零内联 SVG、零占位图、零 CSS 绘图。四张监理源 PNG（`design-references/source-*.png`，保留）经 Pillow quality=85 转码 1536×1024：`assets/unnumbered-floor.webp`（201 KB）/ `bellless-ward.webp`（181 KB）/ `seeping-records.webp`（213 KB）/ `reverse-laundry.webp`（223 KB）；大厅三门（病房/档案/洗衣）一眼可分、三房核心物件空间分离、移动端中心裁切全部可辨（逐张目验）；黑石/骨瓷/旧黄铜/暗红封蜡体系一致，图内无文字、标牌、UI、人脸。
+- 两入口（CDP 逐条实测）：无号前厅新增第五动作「按下电梯里不存在的地下层」（反馈「按钮没有下沉。整座前厅却往上抬了一层。」→ `#unnumbered-floor`，entry=vestibule）；定额电梯新增第四动作「让指针停在没有刻度的层」（反馈「指针越过零，停在一块没有被刻出来的黄铜上。」→ 同前，entry=quota）。既有动作文字、反馈、mark、目的地、首选锁行为全部原样（静态锁定 + CDP 抽查），入口与所在场景共用首选锁（竞争动作忽略，实测）。
+- 枢纽与三档结算（CDP 全链路实测）：大厅楼层签（已值班 n/3、楼层信号、门债、最佳路线）；三门始终可选、已完成房间可重访；任意完成两房解锁缺层电梯（出厂 disabled「缺层电梯仍封死」，解锁后「召回没有楼层的电梯」）；`routeScore = max(0, 信号 − 门债)` 三档——≥4 回定额电梯、2–3 交复核科（强制 neutral 新轮，实测 v33 状态归零重开）、≤1 坠回回返夹道；每轮只结算一次（completedRuns/bestRoute 精确更新，三档计数只增一个）；落点一次性结果反馈展示即消费 outcome，不重复（实测）；回大厅开新轮（cycle+1、本轮 completed/signal/debt 清空、累计保留，实测）。
+- 六值班三穿行（CDP 逐条实测分值/门债/反馈/目的地）：病房（听无铃床头柜 +2/0→洗衣房 / 换床单 +3/+1→大厅 / 输液管穿行→档案池）、档案池（晾无名页 +2/0→大厅 / 喝渗字 +4/+2→病房 / 档案下沉→前厅）、洗衣房（切滚筒 +2/0→档案池 / 穿工服 +3/+1→大厅 / 刷镜面机舱→失号龛）；同轮同房只结算一次（完成后值班按钮 disabled 保留可见、穿行继续可用），重访禁重复加分（实测），settled 后值班全锁。
+- 状态与隔离：独立 `goddead_v35_unnumbered_floor`（visited 四键严格布尔、entry 三值白名单、completed 白名单去重 ≤3、signal/debt 裁本轮理论上限 10/4、cycle 与累计裁 9999、marks 11 标记白名单、outcome 四值白名单、过期组合归一：无 settled 不保留 outcome、settled 不足两房视为过期）；坏 JSON、数组错型、非法 room、非法 outcome、NaN/Infinity/负数/超大数字全部安全回退（CDP 实测）；不读不写 v28–v34 与主线（种子快照字节级一致，实测）；刷新恢复本轮进度不续跑不重复（实测）；离场清 timer（值班窗内离场无幽灵转场，实测）；遗忘重置同步清除（实测）。
+- 守卫窄例外：v34 定额电梯守卫仅追加 `floorState.outcome === "high"`（v34 未访问时高信号落点直达电梯，实测）；v33 复核科在 v35 outcome=review 抵达时强制 neutral 新轮（实测）；其它直达守卫零放宽。
+- 设计数值观察（**v36 已解决**）：v35 六个既有值班动作任意两房组合的 routeScore 恒为 4，正常游玩只能落 high 档；v36 夜班登记所的三张值班证在本轮基础上各加一次修正（无铃证 +2 信号 / 失名牌 +2 门债 / 反面工牌 +4 门债），使 high 6 / review 2 / debt 0 与不领证 high 4 全部经真实 UI 正常抵达（v36 节实测记录）。
+- 目录与痕迹：四房首次访问后目录恢复 `01μ / 无号层`、`01ν / 无铃病房`、`01ξ / 渗水档案`、`01ο / 逆照洗衣`，未访问 `hidden` 不可聚焦；Remembrance 只加单行「无号层值班：完成 R 轮，最佳路线 B，抬回 H 次，门债遣返 D 次。」（干净时隐藏，实测），严格保持 8 卡。
+- 无障碍与动效：全部动作为原生 button，Tab/Enter/Space 可用（CDP 真实键盘实测 Enter 值班、Space 结算），移动触达 ≥44px；aria-live 只播当前反馈；reduced-motion 缩短转场且反馈完整（实测 <1.5s）；移动端大厅专项压缩后，三扇门与已启用电梯按钮在 390×844 首屏全部完整可见可点（两房完成态 CDP 逐项断言）；标题聚焦、滚动归顶、静音、veil 生命周期沿用现有契约。
+- CDP 功能冒烟（`/tmp/goddead-qa/v35-unnumbered-floor-smoke.mjs`，chrome-headless-shell + 真实鼠标/键盘事件）**79/79 连续三次全绿**（exit 0）：A 两入口+首选锁+原动作不动（11 项）；B 直接 hash 只记 visited（4 项）；C 自由顺序+六值班+三穿行+两房解锁+high 结算+窄例外+开新轮+重访禁重复（27 项）；D review/debt 两档种子路径（9 项）；E 门/值班首选锁与连点（2 项）；F 刷新恢复（2 项）；G 离场清 timer（3 项）；H 键盘+reduced-motion（3 项）；I 容错（4 项）；J v28–v34+主线字节级隔离（2 项）；K 目录/痕迹/遗忘（6 项）；L v32/v34 回归抽查（4 项）；Z 控制台零异常（1 项）。
+- 视觉证据（`design-qa-evidence/`，CDP `/tmp/goddead-qa/v35-unnumbered-floor-visual.mjs` **29/29 通过**，均经逐张目验；settle 条件 = scene active + veil 释放 + .reveal 全部 in + 可见素材解码完成 + 截图前两个绘制帧）：
+  - `v35-01-unnumbered-floor-1440x1024.png` / `v35-02-bellless-ward-1440x1024.png` / `v35-03-seeping-records-1440x1024.png` / `v35-04-reverse-laundry-1440x1024.png`：四房桌面，标题/引文/楼层签/母图/三动作全部首屏，无横向溢出。
+  - `v35-05-unnumbered-floor-mobile-390x844.png`：移动大厅「两房已完成、电梯已启用」证据——楼层签 2/3，三扇门与「召回没有楼层的电梯」全部完整首屏、触达 ≥44px（移动端专项压缩：顶距/导语/母图高/卡片间隙，母图身份保留，桌面不变；独立视觉对照发现电梯按钮原被首屏底部裁掉，仅此一项修正）。
+  - `v35-06-bellless-ward-mobile-390x844.png` / `v35-07-seeping-records-mobile-390x844.png` / `v35-08-reverse-laundry-mobile-390x844.png`：三值班房移动 390×844（@2x），核心物件中心裁切全部可辨（病房床柜管、档案页池井、洗衣筒服镜），首个动作首屏可见、触达 ≥44px。
+  - `v35-09-short-desktop-floor-1440x800.png`：短桌面三门与电梯按钮首屏无滚动。
+  - `v35-10-vestibule-entry-feedback-1440x800.png` / `v35-11-quota-entry-feedback-1440x800.png`：两入口反馈态（按钮 pressed + 反馈原文）。
+  - `v35-12-settle-high-1440x800.png` / `v35-13-settle-review-1440x800.png` / `v35-14-settle-debt-1440x800.png`：三档结算反馈态（楼层签终值 + 结算后电梯重新封死 + 反馈原文）。
+  - `v35-15-directory-visited-1440x800.png`：目录 01μ/01ν/01ξ/01ο 恢复可见。
+  - `v35-16-remembrance-floor-1440x800.png`：痕迹页无号层单行 + 8 卡网格。
+- 静态契约：`node --check script.js`、`node tests/site.test.mjs`、`git diff --check` 全部通过；测试套件新增 v35 段——四张 WebP 存在与引用、四张源 PNG 保留、四场景结构与楼层签 ID、电梯出厂 sealed、六值班三穿行逐字、首选锁/同轮一次/重访 disabled、两房解锁与三档结算、新轮语义、两入口与首选锁、review 档强制 neutral、high 放行窄例外、容错形式（含 settled/outcome 过期归一）、目录与痕迹单行、8 卡、缓存 v35、文档同步；v32 段前厅按钮数断言更新为 5、v34 段电梯按钮数更新为 4。回归：v33 smoke 87/87（A2 按钮数断言适配前厅第五入口）、v33 visual 40/40、v34 smoke 89/89、v34 visual 28/28。
+
+## 本轮新增：v34 无主估值室 / THE UNCLAIMED VALUATION ROOM（可重复估值支线 + 定额电梯）
+
+- 目标：把 v33 两个结果房接到一条可重复、能主动止损、有组合效果的估值支线；不做另一套二选一辨认题；满额进定额电梯成为新的前段交通节点；不新增结局，不改 v28 治理终局，不把 v33 分数混入 v34。
+- 场景与素材：`#unclaimed-valuation`（无主估值室）、`#quota-elevator`（定额电梯）两个原生 SPA 场景，沿用 `.scene-branch` 视觉语言，零内联 SVG、零占位图、零 CSS 绘图。八张监理源 PNG（`design-references/source-*.png`，保留）经 Pillow quality=85 转码 1536×1024：母场景 `assets/unclaimed-valuation-room.webp`（222 KB）、六件证物 `assets/valuation-thirteenth-clock.webp`（199 KB）/ `valuation-tooth-key.webp`（195 KB）/ `valuation-hollow-idol.webp`（215 KB）/ `valuation-black-wax-lung.webp`（212 KB）/ `valuation-unopened-eye.webp`（205 KB）/ `valuation-receipt-bone.webp`（196 KB）、电梯 `assets/quota-elevator.webp`（241 KB）。六件证物同柜台、同镜头高度、同灯位、同骨瓷匣框，只替换中央证物（钟盘 / 齿形钥环 / 坐姿空腔神像 / 黑蜡双肺 / 闭合眼睑 / 退件章骨），桌面 1440×1024 与移动 390×844 卡内裁切均可区分（逐张目验）；图内无可读文字、货币符号或赌场元素。
+- 两个第四入口（CDP 逐条实测）：保全库「把未封存的证物送去估值」→ 估值室（entry=vault，初值 0/5/6）；误报井「把一件退件申报成资产」→ 估值室（entry=shaft，初值 1/4/7，退件自带 1 点溢价但封印更脆）。原六个动作逐字、mark、反馈、目的地零改动（静态锁定 + CDP 抽查），第四入口与结果房动作共用各自场景首选锁（入口反馈窗内点旧动作被忽略，实测）。
+- 批次轮换：白名单矩阵 A=clock/key/idol、B=lung/eye/bone、C=clock/lung/idol、D=key/eye/bone，按（入口行+cycle）循环移位，禁止裸随机（静态断言矩阵块无 Math.random 并从源码提取验证三项唯一与六件覆盖）；CDP 实测同入口连续两批不同；刷新恢复当前三件、已估值顺序、每项实收、剩余封印与全部一次性效果——ledger 只存已计算结果，重载不重算（实测逐字节一致）。
+- 六件证物（CDP 逐条实测）：十三时钟 +2/-1、下一件损耗 -1 最低 0 只作用一次（蜡肺损耗 2→1 实测）；齿门钥 +3/-2、第 N 件被估 +(N-1)（第一件无加成、第二件 +1 实测）；空神像 +4/-3、第三件 +2（合计 +7 实测）；黑蜡肺 +2/-2、未估值项之后各 +1；未睁之眼 +1/-1、只揭示剩余卡（剩余卡显示「预计 +G · 封印 -D」，已估值卡记录不改写，实测）；无主回执骨 +2/0、仅 shaft 入口 +2（双分支反馈逐字）。未估值只显示名称与征兆，估值后卡片保留可见、锁定并显示实收 `+G · 封印 -D`，不消失。
+- 交互与结算（CDP 全链路实测）：点击即执行，无确认页、无底部继续按钮；最先被接受的点击锁定该证物，批次锁窗口内连点/竞争动作只记一次（实测）；批次锁 0.7–1.0s（reduced 0.3s）原地解除不切页；至少估值一件后「盖章结算」随时可用（出厂 disabled，第一件后启用；批次锁不阻止盖章，见下方修复）；满额自动进 `#quota-elevator`、未满自动回 `#return-passage` 并展示一次性「估值室退回了这批东西。欠额被写在夹道背面。」（消费 outcome 不重复，实测）、封印归零立即破封自动坠回 `#false-positive-shaft` 并展示一次性「破损证物比工单先落到底部。回收井把裂口登记在你名下。」（实测）；三件全估且封印>0 自动按定额结算，不再要求盖章；每批只允许完成一次，刷新/返回/双击不重复累计（实测）。
+- 定额电梯：三动作（把满额证物送进无号货梯→无号前厅 / 沿断开的楼层刻度横移→回返夹道 / 让电梯穿过走廊天花板→走廊）首选锁 + 短反馈 + 自动转场，无继续按钮；守卫仅本轮 outcome=quota 或曾真实到访放行，干净存档直达规范化回 `#unclaimed-valuation` 并同步地址栏（实测）；无新结局。
+- 状态与隔离：独立 `goddead_v34_unclaimed_valuation`（visited 两键严格布尔、entry 三值白名单、batch 白名单三项不重复错型按 entry/cycle 重建、opened 限批内唯一 ≤3、ledger 与 opened 一一对应只存 valueGain/damageTaken/effect 已计算值、outcome 四值白名单、marks 11 标记白名单、数值有限非负裁 9999、active/outcome/opened 过期组合归一）；坏 JSON、数组错型、非法 batch、非法 ledger、非法 outcome、NaN/Infinity/负数/超大数字、active+三件过期组合全部安全回退（CDP 九组实测）；不读不写 v28–v33 与主线（种子快照字节级一致，实测）；遗忘重置后 v34 键、目录与记忆行同步清除（实测）。
+- v34 阻断性集成修复（冒烟独立复现，最小修复）：① v33 误报井直达守卫与 v34 破封坠井强制落点冲突——vault 入口用户从未到访误报井时，破封转场被守卫拦回复核科；修复为守卫放行追加 `valuationState.outcome === "breach"`（仅本轮破封，不放宽其它直达），v33/v34 静态断言同步。② 盖章守卫原与批次锁同 scope，批次锁窗口内无法盖章，违背设计「估值过一件后随时可以盖章结算」；改为盖章只受跨场景转场锁约束，批次锁仍约束剩余证物。
+- 监理复核返工（两处真实缺陷，仅修这两项，玩法/计分/状态结构/其他场景零改动）：
+  - ① 证物卡图偶发空白（v34-02 回执骨、v34-03 未睁之眼与回执骨留白）：三张动态卡图原为 `loading="lazy"`，换批/恢复/揭示后加载来不及触发。修复：三张卡图全部 `loading="eager"`；`paintValuationRelics` 换批时先加 `is-loading` 隐去旧图、新图解码完成再现身（缓存命中同步放行）——不留白、不闪旧图、不错位。功能冒烟新增 3 组、视觉 QA 新增 6 组「三卡图 complete + naturalWidth>0 + 可见 + 非 is-loading」断言，覆盖入口/眼睛揭示/状态恢复与各批次。
+  - ② 390×844 首屏不达标（原仅首件证物可见）：移动端改紧凑三列证物卡（图高 76px、名称与两行征兆保留、图片身份不删、触达高度 ≥44px），估值签与盖章压缩字距——三件证物与盖章结算全部首屏可见可点、零横向溢出（CDP 逐项断言）；视觉脚本 settle 改按可见素材过滤，截图前等两个绘制帧保证新图真实上屏。重拍 v34-01/02/03/05/07 并与源图同屏目验，六证物全部清晰可辨。
+- 目录与痕迹：两房首次访问后目录恢复 `01κ / 无主估值`、`01λ / 定额电梯`，未访问 `hidden` 不可聚焦；走廊不加永久按钮；Remembrance 只加单行「无主估值：完成 N 批，满额 Q 批，破损 B 批，最佳结算 V。」（干净时隐藏，实测），严格保持 8 卡。
+- 无障碍与动效：入口/证物/盖章/电梯动作均为原生 button，Tab 顺序与视觉一致，Enter/Space 可激活（CDP 真实键盘实测 Enter 估值、Space 盖章）；已估值证物 disabled 保留可见并显示实收；aria-live 只播本次估值或结算反馈；估值签世界观内化（本批估值/封印完整/本批定额/最佳结算，破损批次小字）；reduced-motion 缩短批次锁且反馈完整（实测）；标题聚焦、滚动归顶、静音、veil 生命周期沿用现有契约。
+- CDP 功能冒烟（`/tmp/goddead-qa/v34-unclaimed-valuation-smoke.mjs`，chrome-headless-shell + 真实鼠标/键盘事件）**89/89 全绿**（exit 0，含入口/揭示/恢复三组三卡图解码可见断言）：A 两入口初值/批次/首选锁/原 v33 动作不动（11 项）；B 直达 neutral 首批不自动估值（4 项）；C 时钟盾/蜡肺加成/空神像第三件/破封路径与一次性反馈（13 项）；D 盖章满额进电梯+电梯三动作+守卫（12 项）；E 欠额回夹道一次性反馈（5 项）；F 齿门钥序位/未睁之眼/回执骨 shaft 加成/三件自动结算（7 项）；G 刷新不重算不重复累计+键盘 Enter+破封直达（6 项）；H 批次锁与结算窗离场清 timer（6 项）；I 容错九组（9 项）；J v28–v33+主线字节级隔离（2 项）；K 目录/痕迹/遗忘（6 项）；L reduced-motion（2 项）；M v33 回归抽查（2 项）；Z 控制台零异常（1 项）。
+- 视觉证据（`design-qa-evidence/`，CDP `/tmp/goddead-qa/v34-unclaimed-valuation-visual.mjs` **28/28 通过**，均经逐张目验；settle 条件 = scene active + veil 释放 + .reveal 全部 in + 可见素材解码完成 + 截图前两个绘制帧）：
+  - `v34-01-valuation-vault-batch-1440x1024.png` / `v34-02-valuation-shaft-batch-1440x1024.png`：估值室两入口批次桌面 1440×1024——标题/引文/估值签/母场景图/三证物卡全部首屏，六件证物卡内可区分，shaft 签显示 1/4/7 溢价初值，无横向溢出。
+  - `v34-03-valuation-eye-revealed-1440x1024.png`：未睁之眼揭示态——剩余卡显示「预计 +4 · 封印 -0」，已估值卡保留实收记录并锁定。
+  - `v34-04-quota-elevator-1440x1024.png`：定额电梯桌面，三动作首屏。
+  - `v34-05-valuation-mobile-390x844.png` / `v34-06-quota-elevator-mobile-390x844.png`：移动端 390×844（@2x）——估值签可换行不溢出，紧凑三列下三件证物与盖章结算全部首屏可见可点（触达 ≥44px），证物卡位图清晰可辨。
+  - `v34-07-short-desktop-valuation-1440x800.png`：短桌面——估值签、三证物卡与盖章按钮全部首屏无滚动（母场景图按 ≤800px 契约让位）。
+  - `v34-08-directory-visited-1440x800.png`：目录 01κ/01λ 恢复可见。
+  - `v34-09-remembrance-valuation-1440x800.png`：痕迹页估值单行 + 8 卡网格。
+  - `v34-10-vault-entry-feedback-1440x800.png` / `v34-11-shaft-entry-feedback-1440x800.png`：两入口第四动作反馈态（按钮 pressed + 反馈原文）。
+- 静态契约：`node --check script.js`、`node tests/site.test.mjs`、`git diff --check` 全部通过；测试套件新增 v34 段——八张 WebP 存在与引用、八张源 PNG 保留、两场景结构与零内联 SVG、估值签五个 ID、盖章出厂 disabled、三证物卡与电梯三动作逐字、目录链接出厂 hidden、独立容错状态与 v28–v33 零引用、批次矩阵白名单性质与确定性移位（源码实际提取）、入口初值、startValuation 语义、六证物 meta 逐字、valuateRelic 首选锁/六效果/ledger 实收/破封与三件自动结算、settleValuation 三分流与每批一次、盖章前置条件、两入口首选锁、电梯动作与守卫、破封放行例外、两条一次性回流反馈逐字、痕迹单行与 8 卡、三卡图 eager 加载与换批防闪旧图（is-loading 契约）、移动端紧凑三列与 ≥44px 触达、缓存 v34、文档同步；v33 段结果房按钮数断言更新为 4、shaft 守卫断言同步破封放行形式。
+
+## 本轮新增：v33 异常复核科 / THE OFFICE OF ANOMALY REVIEW（可重复支线 + 异常保全库 / 误报回收井）
+
+- 目标：不再堆单次经过的房间，把 v32 三间副楼接入一条可重复、会轮换、会记分的复核支线；满分与低分各进一间结果房，两分回前段继续探索；不新增结局，不动 v28 治理终局。
+- 场景与素材：`#anomaly-review`（异常复核科）、`#evidence-vault`（异常保全库）、`#false-positive-shaft`（误报回收井）三个原生 SPA 场景，沿用 `.scene-branch` 全套视觉语言，零内联 SVG、零占位图、零 CSS 绘图。六张监理源 PNG（`design-references/source-anomaly-*.png`，保留）经 Pillow quality=85 转码 1536×1024：四张同机位复核档案图 `assets/anomaly-review-baseline.webp`（231 KB）/ `anomaly-review-aperture.webp`（218 KB）/ `anomaly-review-rail.webp`（217 KB）/ `anomaly-review-shadow.webp`（222 KB）+ 结果房 `assets/anomaly-evidence-vault.webp`（268 KB）/ `assets/anomaly-false-positive-shaft.webp`（316 KB）。四张档案图同机位、同房间、同照明，变化只在档案内容：baseline 三孔齐平抽屉齐全；aperture 左侧档案孔上移到不可能位置且少一只对应抽屉；rail 右墙黄铜测量轨道绕回自身成闭环；shadow 复核灯影子逆着光源、桌前地面多出一枚封印——逐张目验可判别，移动 390 中心裁切下三类异常仍全部可见。档案图双层叠放只做 opacity 交叉淡化（不位移不放大，reduced-motion 禁用交叉动画）。
+- 三处副楼第四入口（CDP 逐条实测）：闭目档案室「把一只没有睁开的眼送去复核」→ 复核科（entry=eyelid）；无号前厅「提交一扇没有编号的门」→ 复核科（entry=vestibule）；逆向阶井「申报一段同时向上的下行梯」→ 复核科（entry=stairwell）。原九动作逐字、mark、反馈、目的地零改动（静态逐字锁定 + CDP 抽查「摸索被封存的视线→无号前厅」原样），第四入口与副楼动作共用同一 AutoAdvance scope 首选锁（入口反馈窗内点副楼旧动作被忽略，实测）。
+- 三轮复核（CDP 全链路实测）：每轮恰三份档案、恰一份 baseline 与两份不同异常；仅「登记为异常 / 维持原案」两个原生 button；第一项判断立即锁定——双按钮竞争、连点 5 次、Enter/Space 重复事件均只记一次（实测）；立即反馈并更新世界观内复核签（复核值/连续复核/误报/最佳连续，aria-live 只播当前反馈）；normal 0.7–1.0s 自动换档、reduced-motion 0.3s（实测 <1.2s 完成且反馈完整）；第三轮自动分流，全程无第二个继续按钮。四句反馈逐字锁定：异常中「档案边缘渗出一条新编号。复核值 +1。」/ 原案中「房间保持原样。你第一次因为没看见而被记录。」/ 误报「复核科收走你的确信。误报 +1。」/ 漏异常「变化没有消失，只是被登记成了你。」。
+- 确定性轮换：白名单矩阵四行（eyelid→baseline/aperture/rail、vestibule→shadow/baseline/aperture、stairwell→rail/shadow/baseline、neutral→aperture/baseline/shadow）按（入口行+cycle）循环移位，禁止裸随机（静态断言矩阵块无 Math.random 并从源码提取实际矩阵验证白名单性质）；CDP 实测同入口连续两轮顺序不同、误报井工单重启后顺序与直达轮不同、四种档案跨轮出现。
+- 结果分流（CDP 三条路径实测）：3 分→`#evidence-vault`；2 分→按入口回副楼并解锁一次性「已复核」反馈（「复核科已登记这一处异常。房间维持原判。」，展示一次即消耗，重进不重复；neutral 回闭目档案室）；0–1 分→`#false-positive-shaft`。保全库三动作：封存最清楚的一处异常→闭目档案室 / 把原案退回无号前厅→无号前厅 / 沿保全编号的断口离开→走廊；误报井三动作：捡回一张被判错的工单→开新 cycle 回复核科 / 把误报写进守则附录→守则 / 承认自己是多出来的一项→门外；全部首选锁定 + 短反馈 + 自动转场，无死路，无新结局。
+- 状态与隔离：独立 `goddead_v33_anomaly_review`（visited 三键严格布尔、entry 四值白名单、order 白名单三项恰一 baseline 校验错型重建、round 裁 0–3、decisions 三项内合法 {caseId,choice,correct} 去重并与 round 一致、outcome 白名单、marks 九标记白名单去重限长、数值有限非负裁 9999）；坏 JSON、数组错型、非法 order、非法 decisions、非法 outcome、NaN/Infinity/负数/超大数字全部安全回退（CDP 八组实测）；第三轮只允许结算一次（completedRuns 精确加一、vault/shaft 计数至多各加一；刷新、后退再进不重复，实测）；不读不写 v28–v32 与主线（种子快照字节级一致，实测）。
+- 生命周期：轮内换档（`anomaly-review-round`）与跨场景转场（`anomaly-review`）分 scope，离场经 `clearAll` 全清——换档窗与结算窗内离场均无幽灵换档/转场（实测）；刷新只恢复当前轮次/当前档案/已记分结果，不续跑丢失的 timer、不重复记分（含反馈窗内刷新，实测）；直接 hash 进入复核科开确定性 neutral 首轮、只展示第一份档案、实测 2.5s 无任何自动判断；结果房直达仅本轮 outcome 对应或曾到访放行，否则规范化回 `#anomaly-review` 并同步地址栏（实测）。
+- 真实缺陷修复（smoke 独立复现，阻断 v33 回流路径）：`AutoAdvance` 看门狗原按 `timers.has(scope)` 判活——timer 触发后 2 秒内同 scope 排定新 timer 时，旧看门狗会劫持新 timer 按旧目的地转场（实测序列：误报井工单→复核科→2 秒内回误报井点「写进守则附录」，附录 timer 被工单看门狗劫持回复核科）。修复为代际令牌：主 timer 与看门狗共享同一条 record，`timers.get(scene) !== record` 即空转；单 timer 路径语义不变，v24–v32 全部既有调度同步受益。生产代码修复后 smoke 87/87，未弱化任何断言。
+- 目录与痕迹：三房首次访问后目录恢复 `01η / 异常复核`、`01θ / 异常保全`、`01ι / 误报回收`，未访问 `hidden` 不可聚焦；走廊不加永久按钮；Remembrance 只加单行「异常复核：完成 N 轮，最佳连续 M，保全 X 次，误报回收 Y 次。」（干净时隐藏，实测），严格保持 8 卡。
+- 无障碍与动效：入口/判断/结果房动作均为清楚可见的原生 `button`，Tab 顺序与视觉一致，Enter/Space 可激活（CDP 真实键盘事件逐条断言）；判断按钮 aria-pressed 只在反馈窗内标记本轮选择，换档/重进复位；复核签不直播、aria-live 只播当前判断反馈；档案图 alt 只描述空间不泄露答案；hover/focus 不换档不记分；reduced-motion 缩短换档且反馈不跳过；标题聚焦、滚动归顶、静音、veil 生命周期沿用现有契约。
+- CDP 功能冒烟（`/tmp/goddead-qa/v33-anomaly-review-smoke.mjs`，chrome-headless-shell + 真实鼠标/键盘事件）**87/87 通过**（exit 0）：A 三入口+确定性轮换+入口首选锁（11 项）；B 直达 neutral 不自动判断+满分轮进保全库+Enter/Space 激活+双按钮竞争与连点幂等+保全库三动作与守卫再入（24 项）；C 两分回副楼+一次性已复核反馈（6 项）；D 零分进误报井+工单重启轮换+误报井三动作（12 项）；E 刷新恢复当前轮/不重复记分/反馈窗刷新不二次累计（4 项）；F 换档窗与结算窗离场清 timer+重进开新 neutral 轮（5 项）；G 结果房守卫四矩阵（4 项）；H 容错八组（9 项）；I v28–v32+主线快照字节级一致（2 项）；J 痕迹单行与 8 卡（4 项）；K reduced-motion（2 项）；L v32 原动作回归抽查（3 项）；Z 全程控制台零异常（1 项）。
+- 视觉证据（`design-qa-evidence/`，CDP `/tmp/goddead-qa/v33-anomaly-review-visual.mjs` **40/40 通过**，均经逐张目验；settle 条件 = scene active + veil 释放 + .reveal 全部 in + 素材 naturalWidth>0 解码完成）：
+  - `v33-01-anomaly-review-baseline-1440x1024.png` / `v33-02-anomaly-review-aperture-1440x1024.png` / `v33-03-anomaly-review-rail-1440x1024.png` / `v33-04-anomaly-review-shadow-1440x1024.png`：复核科四份档案桌面 1440×1024，逐张断言 front 图为预期档案并目验——aperture 左孔上移、rail 右墙轨道闭环、shadow 灯影逆光+地面封印均可判别；标题/引文/复核签/档案图/两判断按钮全部首屏，无横向溢出。**shadow 案桌面构图修正（监理复核发现）**：原 `object-position: center 62%` 把源图顶部约 0–228px 完全裁掉，逆向灯影（y≈0–130）不入画；已改为逐层 `data-case` 标记 + 仅 shadow 案桌面 `object-position: center top`（移动端维持原裁切），重拍后与 `design-references/source-anomaly-review-shadow.png` 顶部同屏对照确认灯影真实进入网页画面，两判断按钮仍首屏（CDP 断言 front 层 `data-case="shadow"` 且计算样式 `50% 0%`，非 shadow 层保持 `50% 62%`）。
+  - `v33-05-evidence-vault-1440x1024.png` / `v33-06-false-positive-shaft-1440x1024.png`：两结果房桌面，三动作全部首屏。
+  - `v33-07-anomaly-review-mobile-390x844.png`（aperture 左孔上移可见）/ `v33-08-anomaly-review-rail-mobile-390x844.png`（右侧轨道闭环可见）/ `v33-09-anomaly-review-shadow-mobile-390x844.png`（顶部灯影与地面封印可见）：移动 390×844（@2x）中心裁切下三类关键异常仍全部可见，标题→引文→复核签→档案图→两判断按钮单列，首个判断按钮首屏可见。
+  - `v33-10-evidence-vault-mobile-390x844.png` / `v33-11-false-positive-shaft-mobile-390x844.png`：两结果房移动端，首个动作首屏可见。
+  - `v33-12-short-desktop-review-1440x800.png`：短桌面 1440×800 两判断按钮首屏无滚动。
+  - `v33-13-directory-visited-1440x800.png`：目录展开后 01η/01θ/01ι 三条入口恢复可见。
+  - `v33-14-remembrance-anomaly-1440x800.png`：痕迹页异常复核单行与 8 卡网格。
+- 静态契约：`node --check script.js`、`node tests/site.test.mjs`、`git diff --check` 全部通过；测试套件新增 v33 段——六张 WebP 存在与引用、六张源 PNG 保留、三场景结构（复核科恰 2 判断按钮+复核签 ID+aria-live 唯一、结果房各恰 3 动作、零内联 SVG、回退出口）、全部 ID 接线、目录链接出厂 hidden、独立容错状态与 v28–v32 零引用、矩阵白名单性质与确定性移位（源码实际提取）、startReview/decideReview/enterReview/结果房动作与四句反馈原文锁定、首选锁定双 scope 守卫、结果房守卫、痕迹单行与 8 卡、复核签/交叉淡化/reduced-motion CSS 契约、shadow 案专属裁切（JS 逐层 data-case 标记 + CSS 仅桌面 `[data-case="shadow"]` 顶对齐 + 其余三案零专属裁切 + 初始层 data-case="baseline"）、缓存 v33、文档同步；v32 段副楼按钮数断言同步更新为 4（含第四入口）。
+
+## 本轮新增：v32 门内副楼 / THE INNER ANNEX（闭目档案室 / 无号前厅 / 逆向阶井）
+
+- 目标：不再向结局堆内容，把 v31 三条最前段旁路各向内延伸一间，让玩家进入主线前就能绕出第二层路径；只深化 v31 三个父房，不动 v28 治理终局与 v29/v30 深层分支。
+- 场景与素材：`#eyelid-archive`（闭目档案室）、`#unnumbered-vestibule`（无号前厅）、`#reverse-stairwell`（逆向阶井）三个原生 SPA 场景；正式位图 `assets/inner-annex-eyelid-archive.webp`（222 KB）、`assets/inner-annex-unnumbered-vestibule.webp`（267 KB）、`assets/inner-annex-reverse-stairwell.webp`（214 KB），监理源 PNG（`design-references/source-inner-annex-*.png`，保留）经 Pillow quality=85 转码 1536×1024，沿用 `.scene-branch` 全套视觉语言，零内联 SVG、零占位图、零 CSS 绘图。
+- 三处 v31 定向改线（仅目的地变更，动作文字/反馈原文/v31 mark/aria-pressed 恢复/一次性调度全部保留，静态断言逐字锁定反馈文案）：窥孔「闭上这只眼」threshold→`#eyelid-archive`；失号龛「取下空白号牌」corridor→`#unnumbered-vestibule`；夹道「倒着走到尽头」corridor→`#reverse-stairwell`。其余六个 v31 动作、守则 1–8 分流、「玖」异常零改动（CDP 抽查 witnessed→protocol、followedInward→glyph-niche 不变）。
+- 九动作目的地（CDP 逐条实测）：摸索被封存的视线→无号前厅；听盒中眨眼→访客守则；把自己的眼影归档→门外；空白牌挂上第十扇门→逆向阶井；无号台账留指印→闭目档案室；选择没有编号的出口→走廊；向上走向下层→闭目档案室；跨过第零级台阶→无号前厅；回头但不转身→访客守则。三角互循环 + 各自回门外/进守则/进走廊，无死路，无第二个继续按钮。
+- 首选锁定：三新房与三处改线复用 `AutoAdvance`，动作处理器最前检查 pending，第一条已接受的选择排定后忽略后续一切输入；三房各做双向竞争 CDP 回归（A 后立刻 B 只去 A、反向同理，共 6 组），排队期全程每动作只记一次；离场（exit-link）清 timer 无幽灵转场；反馈窗内刷新不二次累计、不续跑；重载只恢复 visited/marks/aria-pressed。
+- 状态与隔离：独立 `goddead_v32_inner_annex`（visited 三键严格布尔、marks 九标记白名单去重限长、lastChoice 合法 ID 或空串、transitions 有限非负裁剪 9999）；坏 JSON、数组错型、非法标记、超大数字全部安全回退（CDP 实测）；首次真正进入（含直接 hash）立即记 visited，直接 hash 不自动触发任何动作（实测等待 2.5s 无 marks、无 transitions、场景不变）；不读不写 v28/v29/v30/v31 与主线（种子快照字节级一致）。
+- 目录与痕迹：三房首次访问后目录恢复 `01δ / 闭目档案`、`01ε / 无号前厅`、`01ζ / 逆向阶井`（打开菜单实测可见），未访问 `hidden` 不可聚焦；走廊不新增永久按钮；Remembrance 只加单行「门内副楼：闭目档案 / 无号前厅 / 逆向阶井；你在没有楼层的地方改道 N 次。」（按已访问项显示），严格保持 8 卡。
+- 无障碍与动效：三动作均为清楚可见的原生 `button`（无图上隐形热点），Tab 顺序与视觉一致，Enter/Space 可操作，focus-visible 沿用血/骨色；图片 alt 描述空间不泄露结果；hover/focus 只反馈不换场；reduced-motion 缩短反馈（实测 <2.5s）且文案不跳过；标题聚焦、滚动归顶、静音、veil 生命周期沿用现有契约。
+- CDP 功能冒烟（`/tmp/goddead-qa/v32-inner-annex-smoke.mjs`，真实浏览器 + 真实鼠标/键盘事件）60/60 通过：A 三处改线 + 反馈原文 + v31 mark 保留 + 两个未改线动作抽查；B 九目的地 + 三角闭环 + 无继续按钮 + marks/transitions 精确计数 + 目录恢复；C 三房双向首选竞争 6 组 + 排队期单次计数；D 连点 5 次 + Enter/Space 幂等 + aria-pressed 恢复；E 离场取消 timer + 刷新不续跑不二次累计；F 直接 hash 只记 visited 不自动动作 + 目录 hidden/恢复；G 坏 JSON/数组错型/非法 visited/非法 marks/溢出 transitions 容错；H v28–v31 + 主线快照字节级一致；I 痕迹单行与 8 卡 + 干净时隐藏；KB 纯键盘独立激活（干净页面、零先行鼠标与 pending，显式 focus 原生 button 后 dispatch keyDown/keyUp：Enter 激活闭目档案室与逆向阶井各一动作、Space 激活无号前厅一动作，反馈文案/mark/transitions/aria-pressed/最终去向逐条断言；独立聚焦回归 `/tmp/goddead-qa/v32-annex-keyboard.mjs` 16/16——监理在 in-app 浏览器用 locator.press 未观察到转场，经 CDP 决定性验证确为该工具输入限制，生产代码无需修正）；J reduced-motion；全程控制台零异常。v31 旧套件适配改线后同环境重跑 67/67。
+- 视觉证据（`design-qa-evidence/`，CDP `/tmp/goddead-qa/v32-inner-annex-visual.mjs` 48/48 通过，均经逐张目验；settle 条件同 v31）：
+  - `v32-01-eyelid-archive-1440x1024.png` / `v32-02-unnumbered-vestibule-1440x1024.png` / `v32-03-reverse-stairwell-1440x1024.png`：三新房桌面 1440×1024，标题/引文/位图/三动作全部首屏，无横向溢出。
+  - `v32-04-eyelid-archive-mobile-390x844.png` / `v32-05-unnumbered-vestibule-mobile-390x844.png` / `v32-06-reverse-stairwell-mobile-390x844.png`：三新房移动 390×844（@2x），标题→引文→位图→三动作单列，首个动作首屏可见。
+  - `v32-07-rewire-peephole-close-1440x800.png` / `v32-08-rewire-glyph-blank-1440x800.png` / `v32-09-rewire-return-backward-1440x800.png`：三条父房改线反馈态——父房仍在、反馈原文可见、按钮 pressed，证明改线动作真实触发。
+  - `v32-10-directory-visited-1440x800.png`：目录展开后 01δ/01ε/01ζ 三条副楼入口恢复可见。
+  - `v32-11-remembrance-annex-1440x800.png`：痕迹页副楼单行与 8 卡网格。
+  - `v32-12-short-desktop-eyelid-1440x800.png`：短桌面 1440×800 首个动作无需滚动（三新房均逐张断言，闭目档案室留证）。
+- 静态契约：`node --check script.js`、`node tests/site.test.mjs`、`git diff --check` 全部通过；测试套件新增 v32 段——三素材存在与引用、源 PNG 保留、三场景结构（各恰 3 个 branch-btn、aria-pressed、回门外出口、零内联 SVG）、全部 ID 接线、目录链接出厂 hidden、独立容错状态（含数组错型）与 v28–v31 零引用、九动作目的地、三处改线反馈原文锁定、首选锁定守卫、直接 hash 只记 visited、无守卫、痕迹单行与 8 卡、缓存 v32、文档同步；v31 段三处目的地断言同步更新为副楼场景。
 
 ## 本轮新增：v31 门前三岔 / THE FORECOURT WEAVE（倒置窥孔 / 失号龛 / 回返夹道）
 

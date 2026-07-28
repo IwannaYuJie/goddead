@@ -276,17 +276,33 @@ body.idle .hero-inner { filter: brightness(0.55); }
 
 body.midnight .dead-title { color: var(--gold); }
 
-/* 门的舞台 */
+/* 门的舞台（v40：加宽为门厅舞台，中央门比 v39 放大约 12%，左右侧廊入画） */
 .door-scene {
   position: relative;
-  width: min(84vw, 640px);
+  width: min(94vw, 960px);
+}
+
+/* v40 纵深环境层：左右侧廊底图，垫在现有 closed/open 门图之下 */
+.lateral-hall-img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 45%;
+  filter: brightness(0.9);
+  -webkit-mask-image: radial-gradient(ellipse 90% 92% at 50% 48%, #000 62%, transparent 99%);
+  mask-image: radial-gradient(ellipse 90% 92% at 50% 48%, #000 62%, transparent 99%);
+  pointer-events: none;
 }
 
 .door-btn {
   position: relative;
+  z-index: 1;
   display: block;
-  width: 100%;
-  margin: 0;
+  width: 76%;
+  margin: 0 auto;
   padding: 0;
   border: 0;
   background: none;
@@ -301,7 +317,7 @@ body.midnight .dead-title { color: var(--gold); }
 .door-img {
   display: block;
   width: 100%;
-  height: clamp(560px, 62vh, 680px);
+  height: clamp(600px, 70vh, 760px);
   object-fit: cover;
   object-position: center 38%;
   filter: brightness(0.92);
@@ -418,6 +434,7 @@ body.awake .door-img { filter: brightness(1) drop-shadow(0 0 34px rgba(141, 43, 
 /* ---------- 访客守则 ---------- */
 
 .protocol-figure {
+  position: relative;
   width: min(760px, 100%);
   max-height: 520px;
   margin: 0 auto clamp(2rem, 5vh, 3rem);
@@ -2080,10 +2097,10 @@ body.idle .scene-body { filter: brightness(0.55); }
 
   .sec-title { font-size: clamp(1.7rem, 3.4vw, 2.6rem); }
 
-  /* protocol：图右、守则左，首条守则进首屏 */
+  /* protocol：图右、守则左，首条守则进首屏；v41 右栏扩到 350px 容纳三入口热点 */
   .protocol-body {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 300px);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 350px);
     grid-template-rows: auto 1fr auto;
     gap: 0.4rem 1.4rem;
     align-items: start;
@@ -2868,12 +2885,13 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
   .stat-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
-/* 短桌面视口（如 1440×800）：压缩门高与内边距，避免 threshold 溢出 */
+/* 短桌面视口（如 1440×800）：压缩门高与内边距，避免 threshold 溢出；
+   v40 门仍比 v39 放大约 12%，左右侧廊保持入画 */
 @media (max-width: 1440px) and (max-height: 860px) {
   .hero-inner { padding: 8vh clamp(1.2rem, 6vw, 4rem) 7vh; }
   .dead-title { font-size: clamp(1.8rem, 5vw, 2.6rem); }
-  .door-scene { width: min(78vw, 520px); }
-  .door-img { height: clamp(460px, 56vh, 540px); object-position: center 40%; }
+  .door-scene { width: min(88vw, 780px); }
+  .door-img { height: clamp(510px, 64vh, 560px); object-position: center 40%; }
   .seam-whisper { top: 58%; }
   .status-line { margin-top: 2.5vh; }
 }
@@ -2887,7 +2905,8 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
 
   .dead-title { font-size: clamp(1.9rem, 11vw, 3rem); letter-spacing: 0.4em; text-indent: 0.4em; }
 
-  .door-scene { width: min(86vw, 420px); }
+  .door-scene { width: min(92vw, 460px); }
+  .door-btn { width: 92%; }
   .door-img { height: clamp(460px, 56vh, 580px); object-position: center 40%; }
 
   .whisper { font-size: 0.66rem; letter-spacing: 0.26em; }
@@ -3014,7 +3033,7 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
 @media (max-width: 390px) {
   .dead-title { font-size: 1.7rem; }
   .gate-meta b { font-size: 1.2rem; }
-  .door-scene { width: min(92vw, 340px); }
+  .door-scene { width: min(94vw, 380px); }
   .door-img { height: clamp(480px, 54vh, 560px); object-position: center 42%; }
   .stat-grid { grid-template-columns: repeat(2, 1fr); }
 }
@@ -3723,4 +3742,2249 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
 
 @media (prefers-reduced-motion: reduce) {
   .door-hotspot { transition: none; }
+}
+
+/* ============================================================
+   v33 异常复核科：复核签 + 档案交叉淡化 + 结果房
+   ============================================================ */
+
+/* 副楼加入第四入口动作后，桌面改 2×2，移动端沿用既有单列 */
+@media (min-width: 721px) {
+  .scene-annex .branch-choices {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 复核签：世界观内的账面数值，不做游戏 HUD */
+.review-slip {
+  width: min(720px, 100%);
+  margin: clamp(0.6rem, 1.6vh, 1rem) auto 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.45rem 1.6rem;
+  padding: 0.55rem 1rem;
+  border: 1px solid rgba(192, 160, 96, 0.35);
+  background: rgba(16, 14, 12, 0.85);
+}
+
+.review-slip .rs-item {
+  color: var(--ash);
+  font-family: var(--serif-cn);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+}
+
+.review-slip .rs-item b {
+  margin-left: 0.4em;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+/* 档案图：双层绝对叠放，切换只做短交叉淡化，不位移、不放大，
+   避免玩家把动画误判为异常；reduced-motion 下禁用交叉动画但不跳过反馈 */
+.review-figure {
+  position: relative;
+  width: min(720px, 100%);
+  height: clamp(200px, 30vh, 320px);
+  margin: clamp(0.8rem, 2vh, 1.4rem) auto 0;
+}
+
+.review-case-img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 62%;
+  -webkit-mask-image: radial-gradient(ellipse 82% 84% at 50% 50%, #000 52%, transparent 98%);
+  mask-image: radial-gradient(ellipse 82% 84% at 50% 50%, #000 52%, transparent 98%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.review-case-img.is-front {
+  opacity: 1;
+}
+
+/* shadow 案的逆向灯影在源图顶部（约 y 0–130）：桌面槽位默认 center 62% 会把它
+   完全裁掉，故仅对 shadow 案把桌面构图上移至顶对齐；移动端近乎全图可见，维持原裁切。
+   标记在逐层 img 上，换档淡化期间离场层仍按自己的构图淡出 */
+@media (min-width: 721px) {
+  .review-case-img[data-case="shadow"] {
+    object-position: center top;
+  }
+}
+
+.review-case-label {
+  width: min(720px, 100%);
+  margin: 0.5rem auto 0;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.3em;
+  text-align: center;
+}
+
+/* 两个判断按钮：桌面两列，与视觉顺序一致 */
+.review-decisions {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (max-width: 720px) {
+  .review-slip {
+    gap: 0.35rem 1rem;
+  }
+  .review-slip .rs-item {
+    font-size: 0.66rem;
+    letter-spacing: 0.16em;
+  }
+  .review-figure {
+    height: clamp(180px, 26vh, 240px);
+  }
+  .review-decisions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .review-case-img {
+    transition: none;
+  }
+}
+
+/* ============================================================
+   v34 无主估值室：估值签 + 三件证物卡 + 定额电梯
+   ============================================================ */
+
+/* 估值签：世界观内账面，不做游戏 HUD；盖章结算固定在签旁 */
+.valuation-slip {
+  width: min(720px, 100%);
+  margin: clamp(0.6rem, 1.6vh, 1rem) auto 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem 1.4rem;
+  padding: 0.55rem 1rem;
+  border: 1px solid rgba(192, 160, 96, 0.35);
+  background: rgba(16, 14, 12, 0.85);
+}
+
+.valuation-slip .vs-item {
+  color: var(--ash);
+  font-family: var(--serif-cn);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+}
+
+.valuation-slip .vs-item b {
+  margin-left: 0.4em;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+.valuation-slip .vs-minor,
+.valuation-slip .vs-minor b {
+  color: rgba(119, 113, 103, 0.85);
+  font-size: 0.66rem;
+}
+
+.val-settle-btn {
+  padding: 0.5rem 1.3rem;
+  border: 1px solid var(--gold);
+  background: rgba(45, 38, 28, 0.9);
+  color: var(--gold);
+  font-family: var(--serif-cn);
+  font-size: 0.78rem;
+  letter-spacing: 0.26em;
+  min-height: 44px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.val-settle-btn:hover:not(:disabled) {
+  background: rgba(64, 53, 38, 0.95);
+  box-shadow: 0 0 16px rgba(192, 160, 96, 0.3);
+}
+
+.val-settle-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 2px 0 0 rgba(192, 74, 66, 0.7), 0 0 14px rgba(154, 127, 71, 0.3);
+}
+
+.val-settle-btn:disabled {
+  border-color: rgba(222, 217, 208, 0.14);
+  color: rgba(119, 113, 103, 0.6);
+  background: rgba(20, 18, 16, 0.6);
+  cursor: default;
+}
+
+/* 三件证物卡：真实位图 + 名称 + 征兆/实收记录；
+   估值室母场景图与证物图高度按首屏三证物全显调准 */
+.scene-unclaimed-valuation .branch-figure .branch-img {
+  height: clamp(180px, 22vh, 240px);
+}
+
+.valuation-relics {
+  width: min(960px, 100%);
+  margin: clamp(0.9rem, 2.2vh, 1.5rem) auto 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.9rem;
+}
+
+.relic-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.4rem;
+  padding: 0.7rem 0.8rem 0.85rem;
+  border: 1px solid rgba(222, 217, 208, 0.2);
+  background: rgba(20, 18, 16, 0.72);
+  color: var(--bone);
+  text-align: left;
+  cursor: pointer;
+  min-height: 48px;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.relic-card:hover:not(:disabled) {
+  border-color: var(--gold);
+  background: rgba(35, 30, 24, 0.9);
+  box-shadow: 0 0 18px rgba(154, 127, 71, 0.25);
+}
+
+.relic-card:focus-visible {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 2px 0 0 rgba(192, 74, 66, 0.7), 0 0 14px rgba(154, 127, 71, 0.3);
+}
+
+.relic-card:disabled {
+  cursor: default;
+  border-color: rgba(192, 160, 96, 0.45);
+  background: rgba(28, 24, 19, 0.85);
+}
+
+.relic-figure {
+  display: block;
+  width: 100%;
+  height: clamp(110px, 14vh, 160px);
+  overflow: hidden;
+}
+
+.relic-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 55%;
+  -webkit-mask-image: radial-gradient(ellipse 86% 88% at 50% 50%, #000 55%, transparent 98%);
+  mask-image: radial-gradient(ellipse 86% 88% at 50% 50%, #000 55%, transparent 98%);
+}
+
+/* 换批瞬间隐去旧图，新图解码完成再现身 */
+.relic-img.is-loading {
+  opacity: 0;
+}
+
+.relic-card .rc-name {
+  color: var(--gold);
+  font-family: var(--serif-cn);
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+}
+
+.relic-card .rc-omen {
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  line-height: 1.7;
+  min-height: 2.1em;
+}
+
+.relic-card .rc-result {
+  color: var(--blood-bright);
+  font-family: var(--serif-cn);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  line-height: 1.7;
+  min-height: 1.5em;
+}
+
+.relic-card .rc-result:empty {
+  visibility: hidden;
+}
+
+@media (max-width: 720px) {
+  /* 移动端母场景图让位：第一件证物按钮必须首屏可达，证物卡位图仍在 */
+  .scene-unclaimed-valuation .branch-figure {
+    display: none;
+  }
+  .valuation-slip {
+    gap: 0.35rem 0.8rem;
+    padding: 0.45rem 0.6rem;
+  }
+  .valuation-slip .vs-item {
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+  }
+  .val-settle-btn {
+    min-height: 44px;
+    padding: 0.45rem 0.9rem;
+    font-size: 0.7rem;
+  }
+  /* 紧凑三列：三件证物与盖章结算同在 390×844 首屏可点，
+     图片身份保留（同柜台同证物位图），点触目标 ≥44px */
+  .scene-unclaimed-valuation .valuation-relics {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  .scene-unclaimed-valuation .relic-card {
+    padding: 0.4rem 0.45rem 0.5rem;
+    gap: 0.25rem;
+  }
+  .scene-unclaimed-valuation .relic-figure {
+    height: 76px;
+  }
+  .scene-unclaimed-valuation .relic-card .rc-name {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+  }
+  .scene-unclaimed-valuation .relic-card .rc-omen {
+    font-size: 0.52rem;
+    line-height: 1.5;
+    min-height: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .scene-unclaimed-valuation .relic-card .rc-result {
+    font-size: 0.58rem;
+  }
+}
+
+/* 短桌面：估值签与第一件证物、盖章位置首屏可达 */
+@media (min-width: 721px) and (max-height: 800px) {
+  .scene-unclaimed-valuation .branch-figure {
+    display: none;
+  }
+  .scene-unclaimed-valuation .relic-figure {
+    height: clamp(96px, 15vh, 130px);
+  }
+}
+
+/* ============================================================
+   v35 无号层：大厅楼层签与缺层电梯按钮
+   ============================================================ */
+
+.floor-elevator-box {
+  width: min(720px, 100%);
+  margin: clamp(0.6rem, 1.6vh, 1rem) auto 0;
+  display: flex;
+  justify-content: center;
+}
+
+.floor-elevator-btn {
+  flex: 1;
+  align-items: center;
+  text-align: center;
+}
+
+.floor-elevator-btn .bb-title {
+  width: 100%;
+  text-align: center;
+}
+
+.floor-elevator-btn .bb-hint {
+  width: 100%;
+  text-align: center;
+}
+
+.floor-elevator-btn:disabled {
+  border-color: rgba(222, 217, 208, 0.14);
+  color: rgba(119, 113, 103, 0.7);
+  background: rgba(20, 18, 16, 0.6);
+  box-shadow: none;
+  cursor: default;
+}
+
+/* 移动端大厅：压缩标题/导语间距、母图高度与按钮间隙，
+   三扇门与已启用的缺层电梯在 390×844 首屏全部可见可点；
+   母图身份保留，桌面布局不变 */
+@media (max-width: 720px) {
+  .scene-unnumbered-floor .branch-body {
+    padding-top: clamp(64px, 8vh, 80px);
+  }
+  .scene-unnumbered-floor .sec-head {
+    margin-bottom: 0.4rem;
+  }
+  .scene-unnumbered-floor .sec-desc {
+    font-size: 0.76rem;
+    line-height: 1.6;
+    margin-top: 0.25rem;
+  }
+  .scene-unnumbered-floor .review-slip {
+    margin-top: 0.45rem;
+    padding: 0.4rem 0.6rem;
+  }
+  .scene-unnumbered-floor .branch-figure {
+    margin-top: 0.5rem;
+  }
+  .scene-unnumbered-floor .branch-img {
+    height: clamp(130px, 19vh, 170px);
+  }
+  .scene-unnumbered-floor .branch-choices {
+    margin-top: 0.55rem;
+    gap: 0.5rem;
+  }
+  .scene-unnumbered-floor .branch-btn {
+    min-height: 44px;
+    padding: 0.5rem 0.8rem;
+    gap: 0.15rem;
+  }
+  .scene-unnumbered-floor .floor-elevator-box {
+    margin-top: 0.5rem;
+  }
+  .scene-unnumbered-floor .branch-response {
+    margin-top: 0.4rem;
+    min-height: 1.3em;
+  }
+}
+
+/* ============================================================
+   v36 夜班登记所：大厅登记窗布局 + 三张值班证卡
+   ============================================================ */
+
+/* 大厅四个横向去向改 2×2，缺层电梯独占一行 */
+.floor-doors {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* 短桌面（≤800px 高）：压缩母图与间隙，三房/登记窗/电梯五控件首屏可达 */
+@media (min-width: 721px) and (max-height: 800px) {
+  .scene-unnumbered-floor .branch-figure .branch-img {
+    height: clamp(140px, 20vh, 170px);
+  }
+  .scene-unnumbered-floor .branch-choices {
+    margin-top: 0.55rem;
+    gap: 0.5rem;
+  }
+  .scene-unnumbered-floor .floor-elevator-box {
+    margin-top: 0.5rem;
+  }
+  .scene-unnumbered-floor .review-slip {
+    margin-top: 0.45rem;
+  }
+}
+
+/* 登记所三证件卡沿用 v34 卡片语言；
+   母场景图高度按首屏三卡全显调准 */
+.scene-night-shift-registry .branch-figure .branch-img {
+  height: clamp(180px, 22vh, 240px);
+}
+
+.scene-night-shift-registry .relic-figure {
+  height: clamp(120px, 16vh, 170px);
+}
+
+/* 短桌面：登记签与三证件首屏可达 */
+@media (min-width: 721px) and (max-height: 800px) {
+  .scene-night-shift-registry .branch-figure {
+    display: none;
+  }
+  .scene-night-shift-registry .relic-figure {
+    height: clamp(96px, 15vh, 130px);
+  }
+}
+
+/* 移动端：三证件紧凑三列全部首屏可点，母场景图让位但证件图身份保留 */
+@media (max-width: 720px) {
+  .scene-night-shift-registry .branch-figure {
+    display: none;
+  }
+  .scene-night-shift-registry .valuation-relics {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  .scene-night-shift-registry .relic-card {
+    padding: 0.4rem 0.45rem 0.5rem;
+    gap: 0.25rem;
+  }
+  .scene-night-shift-registry .relic-figure {
+    height: 76px;
+  }
+  .scene-night-shift-registry .relic-card .rc-name {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+  }
+  .scene-night-shift-registry .relic-card .rc-omen {
+    font-size: 0.52rem;
+    line-height: 1.5;
+    min-height: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .scene-night-shift-registry .relic-card .rc-result {
+    font-size: 0.58rem;
+  }
+}
+
+/* ============================================================
+   v37 午夜回拨台：三线卡布局 + 房间/夹道移动紧凑
+   ============================================================ */
+
+/* 回拨台母场景图高度按首屏三卡全显调准 */
+.scene-midnight-callback .branch-figure .branch-img {
+  height: clamp(180px, 22vh, 240px);
+}
+
+.scene-midnight-callback .relic-figure {
+  height: clamp(120px, 16vh, 170px);
+}
+
+/* 短桌面：回拨签与三线卡首屏可达 */
+@media (min-width: 721px) and (max-height: 800px) {
+  .scene-midnight-callback .branch-figure {
+    display: none;
+  }
+  .scene-midnight-callback .relic-figure {
+    height: clamp(96px, 15vh, 130px);
+  }
+}
+
+/* 移动端：三线卡紧凑三列全部首屏可点，母场景图让位但线路图身份保留 */
+@media (max-width: 720px) {
+  .scene-midnight-callback .branch-figure {
+    display: none;
+  }
+  .scene-midnight-callback .valuation-relics {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  .scene-midnight-callback .relic-card {
+    padding: 0.4rem 0.45rem 0.5rem;
+    gap: 0.25rem;
+  }
+  .scene-midnight-callback .relic-figure {
+    height: 76px;
+  }
+  .scene-midnight-callback .relic-card .rc-name {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+  }
+  .scene-midnight-callback .relic-card .rc-omen {
+    font-size: 0.52rem;
+    line-height: 1.5;
+    min-height: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .scene-midnight-callback .relic-card .rc-result {
+    font-size: 0.58rem;
+  }
+
+  /* 三个 v35 值班房新增回拨动作后：四动作 2×2 紧凑，首屏可达 */
+  .scene-bellless-ward .branch-choices,
+  .scene-seeping-records .branch-choices,
+  .scene-reverse-laundry .branch-choices {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  .scene-bellless-ward .branch-btn,
+  .scene-seeping-records .branch-btn,
+  .scene-reverse-laundry .branch-btn {
+    min-height: 44px;
+    padding: 0.5rem 0.8rem;
+    gap: 0.15rem;
+  }
+  .scene-bellless-ward .branch-img,
+  .scene-seeping-records .branch-img,
+  .scene-reverse-laundry .branch-img {
+    height: clamp(130px, 19vh, 170px);
+  }
+
+  /* 回返夹道五动作：四个紧凑 2×2，第五个独占一行，母图压缩保留 */
+  #scene-return-passage .branch-choices {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  #scene-return-passage .branch-btn {
+    min-height: 44px;
+    padding: 0.5rem 0.8rem;
+    gap: 0.15rem;
+  }
+  #scene-return-passage .branch-img {
+    height: clamp(130px, 19vh, 170px);
+  }
+  #scene-return-passage .branch-body {
+    padding-top: clamp(64px, 8vh, 80px);
+  }
+  #scene-return-passage .sec-desc {
+    font-size: 0.76rem;
+    line-height: 1.6;
+    margin-top: 0.25rem;
+  }
+  #scene-return-passage .branch-choices {
+    margin-top: 0.55rem;
+  }
+}
+
+/* ============================================================
+   v38 门外代审窗：门板第四热点 + 代审窗布局
+   ============================================================ */
+
+/* 门板第四热点：门板下方偏中，避开日蚀/左墙符号/右侧回返痕与三次敲击主区域 */
+.hotspot-proxy {
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* 代审窗母场景图高度按首屏全控件调准 */
+.scene-proxy-admission .branch-figure .branch-img {
+  height: clamp(110px, 12vh, 150px);
+}
+
+.proxy-visitor {
+  width: min(720px, 100%);
+  margin: 0.3rem auto 0;
+  text-align: center;
+}
+
+.proxy-visitor-figure {
+  width: min(420px, 100%);
+  margin: 0 auto;
+}
+
+.proxy-visitor-img {
+  display: block;
+  width: 100%;
+  height: clamp(140px, 16vh, 190px);
+  object-fit: cover;
+  object-position: center 42%;
+  -webkit-mask-image: radial-gradient(ellipse 84% 86% at 50% 50%, #000 54%, transparent 98%);
+  mask-image: radial-gradient(ellipse 84% 86% at 50% 50%, #000 54%, transparent 98%);
+}
+
+.proxy-visitor-img.is-loading {
+  opacity: 0;
+}
+
+.proxy-visitor-name {
+  margin: 0.3rem 0 0;
+  color: var(--gold);
+  font-family: var(--serif-cn);
+  font-size: 0.92rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+}
+
+.proxy-visitor-statement {
+  margin: 0.2rem 0 0;
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  line-height: 1.6;
+}
+
+.proxy-questions {
+  margin-top: 0.45rem;
+}
+
+.proxy-judgements {
+  margin-top: 0.45rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* 短桌面：母场景图让位，三问两判与当前访客首屏可达 */
+@media (min-width: 721px) and (max-height: 800px) {
+  .scene-proxy-admission .branch-figure {
+    display: none;
+  }
+  .scene-proxy-admission .proxy-visitor-img {
+    height: clamp(110px, 16vh, 140px);
+  }
+}
+
+/* 移动端：母场景图让位，当前访客 + 三问 + 两判全部首屏可点 */
+@media (max-width: 720px) {
+  .scene-proxy-admission .branch-body {
+    padding-top: clamp(64px, 8vh, 80px);
+  }
+  .scene-proxy-admission .sec-desc {
+    font-size: 0.76rem;
+    line-height: 1.6;
+    margin-top: 0.25rem;
+  }
+  .scene-proxy-admission .branch-figure {
+    display: none;
+  }
+  .scene-proxy-admission .review-slip {
+    margin-top: 0.45rem;
+    padding: 0.4rem 0.6rem;
+  }
+  .scene-proxy-admission .proxy-visitor-img {
+    height: clamp(110px, 16vh, 140px);
+  }
+  .scene-proxy-admission .proxy-visitor-name {
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    margin-top: 0.3rem;
+  }
+  .scene-proxy-admission .proxy-visitor-statement {
+    font-size: 0.72rem;
+    margin-top: 0.2rem;
+  }
+  .scene-proxy-admission .proxy-questions {
+    grid-template-columns: 1fr;
+    gap: 0.45rem;
+    margin-top: 0.45rem;
+  }
+  .scene-proxy-admission .proxy-judgements {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.45rem;
+    margin-top: 0.45rem;
+  }
+  .scene-proxy-admission .branch-btn {
+    min-height: 44px;
+    padding: 0.45rem 0.7rem;
+    gap: 0.15rem;
+  }
+  .scene-proxy-admission .branch-btn .bb-title {
+    font-size: 0.76rem;
+  }
+  .scene-proxy-admission .branch-btn .bb-hint {
+    font-size: 0.55rem;
+    line-height: 1.5;
+  }
+}
+
+
+/* ============================================================
+   v39 归路核验站：三岔枢纽 + 三条核验路线
+   ============================================================ */
+.scene-return-audit .branch-figure .branch-img {
+  height: clamp(130px, 15vh, 180px);
+}
+
+.audit-routes {
+  margin-top: 0.5rem;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.scene-audit-route .branch-figure .branch-img {
+  height: clamp(170px, 24vh, 260px);
+}
+
+.audit-judgements {
+  margin-top: 0.5rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* 短桌面：枢纽母图让位，三路线卡首屏可达；路线场景图压低 */
+@media (min-width: 721px) and (max-height: 800px) {
+  .scene-return-audit .branch-figure {
+    display: none;
+  }
+  .scene-audit-route .branch-figure .branch-img {
+    height: clamp(120px, 20vh, 170px);
+  }
+}
+
+/* 移动端：枢纽保留母图身份（压低），三路线卡与两判全部首屏可点 */
+@media (max-width: 720px) {
+  .scene-return-audit .branch-body,
+  .scene-audit-route .branch-body {
+    padding-top: clamp(64px, 8vh, 80px);
+  }
+  .scene-return-audit .sec-desc,
+  .scene-audit-route .sec-desc {
+    font-size: 0.76rem;
+    line-height: 1.6;
+    margin-top: 0.25rem;
+  }
+  .scene-return-audit .review-slip {
+    margin-top: 0.45rem;
+    padding: 0.4rem 0.6rem;
+  }
+  .scene-return-audit .branch-figure .branch-img {
+    height: clamp(90px, 12vh, 120px);
+  }
+  .scene-audit-route .branch-figure .branch-img {
+    height: clamp(110px, 15vh, 150px);
+  }
+  .scene-return-audit .audit-routes {
+    grid-template-columns: 1fr;
+    gap: 0.45rem;
+    margin-top: 0.45rem;
+  }
+  .scene-audit-route .audit-judgements {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.45rem;
+    margin-top: 0.45rem;
+  }
+  .scene-return-audit .branch-btn,
+  .scene-audit-route .branch-btn {
+    min-height: 44px;
+    padding: 0.45rem 0.7rem;
+    gap: 0.15rem;
+  }
+  .scene-return-audit .branch-btn .bb-title,
+  .scene-audit-route .branch-btn .bb-title {
+    font-size: 0.76rem;
+  }
+  .scene-return-audit .branch-btn .bb-hint,
+  .scene-audit-route .branch-btn .bb-hint {
+    font-size: 0.55rem;
+    line-height: 1.5;
+  }
+}
+
+
+/* ============================================================
+   v40 门外侧廊：首页左右侧廊热点 + 三个画面热点场景
+   ============================================================ */
+
+/* 首页侧廊热点：落在环境层左右拱廊上，避开日蚀/符号/回来/代审与门板敲击区 */
+.hotspot-lateral-left { top: 30%; left: 1.5%; }
+.hotspot-lateral-right { top: 30%; right: 1.5%; }
+
+@media (max-width: 720px) {
+  /* 移动端左右热点上下错开，触达仍 ≥44px */
+  .hotspot-lateral-left { top: 24%; left: 1%; }
+  .hotspot-lateral-right { top: 42%; right: 1%; }
+}
+
+/* 场景画面热点：覆盖真实器物，不做底部卡片清单 */
+.lateral-figure {
+  position: relative;
+}
+
+.scene-lateral .branch-figure .branch-img {
+  height: clamp(340px, 48vh, 520px);
+}
+
+.scene-hotspot {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid rgba(222, 217, 208, 0.14);
+  background: rgba(8, 7, 6, 0.28);
+  color: rgba(222, 217, 208, 0.62);
+  font-family: var(--serif-cn);
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.scene-hotspot .dh-label { pointer-events: none; }
+
+.scene-hotspot:hover {
+  border-color: rgba(192, 160, 96, 0.55);
+  background: rgba(20, 17, 13, 0.6);
+  color: var(--gold);
+  box-shadow: 0 0 16px rgba(154, 127, 71, 0.22);
+}
+
+.scene-hotspot:focus-visible {
+  outline: none;
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(20, 17, 13, 0.72);
+  box-shadow: 0 2px 0 0 rgba(192, 74, 66, 0.7), 0 0 14px rgba(154, 127, 71, 0.3);
+}
+
+.scene-hotspot.touched {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(45, 38, 28, 0.85);
+  box-shadow: 0 0 20px rgba(192, 160, 96, 0.35);
+}
+
+.scene-hotspot:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* 无灯灯廊：左墙未亮的灯 / 中央弯轨 / 右侧灯排深处 */
+.lamp-hotspot-lamp { top: 6%; left: 8%; width: 16%; height: 24%; }
+.lamp-hotspot-rail { top: 46%; left: 42%; width: 24%; height: 18%; }
+.lamp-hotspot-squeeze { top: 26%; left: 66%; width: 18%; height: 34%; }
+
+/* 借影陈列廊：中央人影 / 尽头门形阴影 / 右墙先走的门影 */
+.shadow-hotspot-stand { top: 58%; left: 42%; width: 15%; height: 30%; }
+.shadow-hotspot-door { top: 16%; left: 42%; width: 15%; height: 26%; }
+.shadow-hotspot-follow { top: 16%; left: 80%; width: 13%; height: 36%; }
+
+/* 铰链分拣室：左框向内铰链 / 中央空轴位 / 右框向外铰链（DOM 序 = 从左到右） */
+.hinge-hotspot-inward { top: 26%; left: 14%; width: 17%; height: 48%; }
+.hinge-hotspot-remove { top: 24%; left: 41%; width: 18%; height: 50%; }
+.hinge-hotspot-outward { top: 26%; left: 67%; width: 17%; height: 48%; }
+
+@media (max-width: 720px) {
+  .scene-lateral .branch-figure .branch-img {
+    height: clamp(240px, 32vh, 320px);
+  }
+  .scene-hotspot {
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    padding: 0.35rem 0.55rem;
+  }
+}
+
+@media (min-width: 721px) and (max-height: 800px) {
+  .scene-lateral .branch-figure .branch-img {
+    height: clamp(300px, 44vh, 400px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene-hotspot { transition: none; }
+}
+
+
+/* ============================================================
+   v41 守则背室：守则布告板三入口 + 三间画面热点背室
+   ============================================================ */
+
+/* 背室热点（独立 v41 class，与 v40 scene-hotspot 解耦）：覆盖真实器物 */
+.backroom-hotspot {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid rgba(222, 217, 208, 0.14);
+  background: rgba(8, 7, 6, 0.28);
+  color: rgba(222, 217, 208, 0.62);
+  font-family: var(--serif-cn);
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.backroom-hotspot .dh-label { pointer-events: none; }
+
+.backroom-hotspot:hover {
+  border-color: rgba(192, 160, 96, 0.55);
+  background: rgba(20, 17, 13, 0.6);
+  color: var(--gold);
+  box-shadow: 0 0 16px rgba(154, 127, 71, 0.22);
+}
+
+.backroom-hotspot:focus-visible {
+  outline: none;
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(20, 17, 13, 0.72);
+  box-shadow: 0 2px 0 0 rgba(192, 74, 66, 0.7), 0 0 14px rgba(154, 127, 71, 0.3);
+}
+
+.backroom-hotspot.touched {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(45, 38, 28, 0.85);
+  box-shadow: 0 0 20px rgba(192, 160, 96, 0.35);
+}
+
+.backroom-hotspot:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* 守则布告板三入口：左侧交叉红线 / 底部空白长牌 / 右下黄铜铃钮 */
+.protocol-hotspot-thread { top: 34%; left: 20%; width: 14%; height: 46%; }
+.protocol-hotspot-nameplate { bottom: 5%; left: 28%; width: 38%; height: 44px; }
+.protocol-hotspot-bell { bottom: 5%; right: 6%; width: 44px; height: 44px; }
+
+/* 高桌面（如 1440×1024）：压缩布告板与页眉间距，标题+布告板+三热点+前两条守则首屏 */
+@media (min-width: 721px) and (min-height: 801px) {
+  .protocol-body .sec-head { margin-bottom: 0.6rem; }
+  .protocol-figure { max-height: 430px; margin-bottom: clamp(1.2rem, 3vh, 2rem); }
+  .protocol-img { max-height: 430px; }
+}
+
+/* 背室入口反馈行：独立于八条守则原反馈，锚在布告板图内底部，任何视口都首屏可感知 */
+.backroom-response {
+  position: absolute;
+  left: 50%;
+  bottom: 0.6rem;
+  transform: translateX(-50%);
+  z-index: 5;
+  width: max-content;
+  max-width: 92%;
+  margin: 0;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid rgba(192, 160, 96, 0.35);
+  background: rgba(8, 7, 6, 0.82);
+  color: var(--gold);
+  font-family: var(--serif-cn);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  line-height: 1.7;
+  text-align: center;
+}
+.backroom-response:empty {
+  display: none;
+}
+
+.backroom-figure {
+  position: relative;
+}
+
+.scene-backroom .branch-figure .branch-img {
+  height: clamp(340px, 48vh, 520px);
+}
+
+/* 红线登记室：左松线轴 / 中见证印 / 右线后门 */
+.thread-hotspot-spool { top: 44%; left: 8%; width: 16%; height: 28%; }
+.thread-hotspot-seal { top: 26%; left: 39%; width: 22%; height: 46%; }
+.thread-hotspot-gap { top: 24%; left: 78%; width: 15%; height: 38%; }
+
+/* 空名寄存处：左无主外套 / 中空钩名牌 / 右取物牌托盘 */
+.name-hotspot-coat { top: 16%; left: 4%; width: 22%; height: 60%; }
+.name-hotspot-hook { top: 12%; left: 44%; width: 15%; height: 48%; }
+.name-hotspot-token { top: 66%; left: 68%; width: 24%; height: 20%; }
+
+/* 无舌铃接待台：左无舌铃 / 中传声管 / 右红绳 */
+.bell-hotspot-bell { top: 28%; left: 6%; width: 22%; height: 34%; }
+.bell-hotspot-tube { top: 60%; left: 42%; width: 16%; height: 34%; }
+.bell-hotspot-cord { top: 4%; left: 80%; width: 12%; height: 52%; }
+
+@media (max-width: 720px) {
+  .scene-backroom .branch-figure .branch-img {
+    height: clamp(240px, 32vh, 320px);
+  }
+  .backroom-hotspot {
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    padding: 0.35rem 0.55rem;
+  }
+  /* 移动端三入口上下错开，互不遮挡 */
+  .protocol-hotspot-thread { top: 26%; left: 16%; width: 16%; height: 42%; }
+  .protocol-hotspot-nameplate { bottom: 4%; left: 26%; width: 36%; }
+  .protocol-hotspot-bell { bottom: 18%; right: 4%; }
+}
+
+@media (min-width: 721px) and (max-height: 800px) {
+  .scene-backroom .branch-figure .branch-img {
+    height: clamp(300px, 44vh, 400px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backroom-hotspot { transition: none; }
+}
+
+
+/* ============================================================
+   v42 守则漂移：布告板第四入口 + 巡查台四判断热点
+   ============================================================ */
+
+/* 布告板第四入口：上沿旧蜡印（hidden 时不占焦点，由 v41 解锁状态显露） */
+.protocol-hotspot-drift { top: 30%; left: 41%; width: 12%; height: 12%; }
+.protocol-hotspot-drift[hidden] { display: none; }
+
+/* 巡查台：单行状态读数 + 大巡查图 */
+.drift-status {
+  margin: 0.4rem 0 0.5rem;
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-align: center;
+  opacity: 0.75;
+}
+
+.drift-figure {
+  position: relative;
+  width: min(860px, 100%);
+  margin: 0 auto;
+}
+
+.scene-drift .branch-figure .drift-img {
+  width: 100%;
+  height: clamp(360px, 52vh, 560px);
+  object-fit: cover;
+  object-position: center 46%;
+  transition: opacity 0.25s ease;
+}
+
+.scene-drift .drift-img.is-loading {
+  opacity: 0;
+}
+
+/* 四判断热点：与 v41 布告板入口同器物位置 + 上沿旧蜡印 */
+.drift-hotspot-thread { top: 34%; left: 20%; width: 14%; height: 46%; }
+.drift-hotspot-nameplate { bottom: 5%; left: 28%; width: 38%; height: 44px; }
+.drift-hotspot-bell { bottom: 5%; right: 6%; width: 44px; height: 44px; }
+.drift-hotspot-forward { top: 30%; left: 41%; width: 12%; height: 12%; }
+
+/* 反馈锚在巡查图内下缘，任何视口首屏可感知 */
+.drift-response {
+  bottom: 0.6rem;
+}
+
+@media (max-width: 720px) {
+  .scene-drift .branch-figure .drift-img {
+    height: clamp(260px, 34vh, 340px);
+    object-position: center 46%;
+  }
+  .scene-drift .drift-status {
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+  }
+  /* 移动端四热点上下错开，互不遮挡 */
+  .drift-hotspot-thread { top: 26%; left: 16%; width: 16%; height: 42%; }
+  .drift-hotspot-nameplate { bottom: 4%; left: 26%; width: 36%; }
+  .drift-hotspot-bell { bottom: 18%; right: 4%; }
+  .drift-hotspot-forward { top: 24%; left: 41%; width: 16%; height: 14%; }
+}
+
+@media (min-width: 721px) and (max-height: 800px) {
+  .scene-drift .branch-figure .drift-img {
+    height: clamp(320px, 48vh, 420px);
+  }
+}
+
+
+/* ============================================================
+   v43 门内回敲网：敲门窗口三回敲 + 三个画面热点场景
+   ============================================================ */
+
+/* 门内回敲：出厂 hidden；第一敲后一次克制暗红脉冲显露，第二敲更急促。
+   缝响只覆盖门缝下段（仍在真实暗红竖缝上），不得盖住门按钮中心敲击区 */
+.hotspot-counter-left { top: 40%; left: 41%; width: 7%; height: 26%; }
+.hotspot-counter-seam { top: 64%; left: 48%; width: 4%; height: 18%; }
+.hotspot-counter-right { top: 50%; left: 54%; width: 7%; height: 26%; }
+
+.hotspot-counter-left[hidden],
+.hotspot-counter-seam[hidden],
+.hotspot-counter-right[hidden] { display: none; }
+
+.hotspot-counter-left:not([hidden]),
+.hotspot-counter-seam:not([hidden]),
+.hotspot-counter-right:not([hidden]) {
+  animation: counter-knock-reveal 1.1s ease-out 1;
+  border-color: rgba(192, 74, 66, 0.5);
+}
+
+.counter-urgent:not([hidden]) {
+  animation: counter-knock-reveal 0.55s ease-out 1;
+  border-color: rgba(192, 74, 66, 0.75);
+  box-shadow: 0 0 18px rgba(192, 74, 66, 0.28);
+}
+
+@keyframes counter-knock-reveal {
+  0% { box-shadow: 0 0 0 rgba(192, 74, 66, 0); }
+  35% { box-shadow: 0 0 22px rgba(192, 74, 66, 0.5); }
+  100% { box-shadow: 0 0 6px rgba(192, 74, 66, 0.12); }
+}
+
+@media (max-width: 720px) {
+  .hotspot-counter-left { top: 40%; left: 36%; width: 8%; height: 26%; }
+  .hotspot-counter-seam { top: 64%; left: 48%; width: 4%; height: 18%; }
+  .hotspot-counter-right { top: 50%; left: 57%; width: 8%; height: 26%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hotspot-counter-left:not([hidden]),
+  .hotspot-counter-seam:not([hidden]),
+  .hotspot-counter-right:not([hidden]),
+  .counter-urgent:not([hidden]) {
+    animation-duration: 0.3s;
+  }
+}
+
+/* 场景画面热点（独立 v43 class，与 v40/v41 解耦）：覆盖真实器物 */
+.knocknet-figure {
+  position: relative;
+}
+
+.scene-knocknet .branch-figure .branch-img {
+  height: clamp(340px, 48vh, 520px);
+}
+
+.knocknet-hotspot {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid rgba(222, 217, 208, 0.14);
+  background: rgba(8, 7, 6, 0.28);
+  color: rgba(222, 217, 208, 0.62);
+  font-family: var(--serif-cn);
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.knocknet-hotspot .dh-label { pointer-events: none; }
+
+.knocknet-hotspot:hover {
+  border-color: rgba(192, 160, 96, 0.55);
+  background: rgba(20, 17, 13, 0.6);
+  color: var(--gold);
+  box-shadow: 0 0 16px rgba(154, 127, 71, 0.22);
+}
+
+.knocknet-hotspot:focus-visible {
+  outline: none;
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(20, 17, 13, 0.72);
+  box-shadow: 0 2px 0 0 rgba(192, 74, 66, 0.7), 0 0 14px rgba(154, 127, 71, 0.3);
+}
+
+.knocknet-hotspot.touched {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(45, 38, 28, 0.85);
+  box-shadow: 0 0 20px rgba(192, 160, 96, 0.35);
+}
+
+.knocknet-hotspot:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* 回敲廊：左封死门环 / 中央向内门环 / 先落的影子 */
+.counter-action-still { top: 14%; left: 6%; width: 10%; height: 28%; }
+.counter-action-inward { top: 54%; left: 44%; width: 12%; height: 16%; }
+.counter-action-shadow { top: 34%; left: 47%; width: 7%; height: 16%; }
+
+/* 未应门前厅：左鼓 / 中鼓 / 右鼓 */
+.unanswered-action-first { top: 36%; left: 24%; width: 13%; height: 22%; }
+.unanswered-action-second { top: 36%; left: 43%; width: 13%; height: 22%; }
+.unanswered-action-third { top: 36%; left: 63%; width: 13%; height: 22%; }
+
+/* 门槛下投递处：左轨封件 / 中轨纸条 / 右轨竖井 */
+.undersill-action-seal { top: 66%; left: 16%; width: 20%; height: 22%; }
+.undersill-action-blank { top: 62%; left: 44%; width: 12%; height: 20%; }
+.undersill-action-hinge { top: 20%; left: 68%; width: 10%; height: 60%; }
+
+@media (max-width: 720px) {
+  .scene-knocknet .branch-figure .branch-img {
+    height: clamp(240px, 32vh, 320px);
+  }
+  .knocknet-hotspot {
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    padding: 0.35rem 0.55rem;
+  }
+}
+
+@media (min-width: 721px) and (max-height: 800px) {
+  .scene-knocknet .branch-figure .branch-img {
+    height: clamp(300px, 44vh, 400px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .knocknet-hotspot { transition: none; }
+}
+
+
+/* ============================================================
+   v44 页后空层：残页三入口 + 三个画面热点场景
+   ============================================================ */
+
+/* 场景画面热点（独立 v44 class）：覆盖真实器物 */
+.paperback-figure {
+  position: relative;
+}
+
+.scene-paperback .branch-figure .branch-img {
+  height: clamp(340px, 48vh, 520px);
+}
+
+.paperback-hotspot {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid rgba(222, 217, 208, 0.14);
+  background: rgba(8, 7, 6, 0.28);
+  color: rgba(222, 217, 208, 0.62);
+  font-family: var(--serif-cn);
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.paperback-hotspot .dh-label { pointer-events: none; }
+
+.paperback-hotspot:hover {
+  border-color: rgba(192, 160, 96, 0.55);
+  background: rgba(20, 17, 13, 0.6);
+  color: var(--gold);
+  box-shadow: 0 0 16px rgba(154, 127, 71, 0.22);
+}
+
+.paperback-hotspot:focus-visible {
+  outline: none;
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(20, 17, 13, 0.72);
+  box-shadow: 0 2px 0 0 rgba(192, 74, 66, 0.7), 0 0 14px rgba(154, 127, 71, 0.3);
+}
+
+.paperback-hotspot.touched {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(45, 38, 28, 0.85);
+  box-shadow: 0 0 20px rgba(192, 160, 96, 0.35);
+}
+
+.paperback-hotspot:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* 滞影回廊：近景黄铜钉 / 中段空轮廓 / 远端迟到影子 */
+.shadow-action-pin { top: 62%; left: 26%; width: 10%; height: 22%; }
+.shadow-action-outline { top: 24%; left: 46%; width: 9%; height: 32%; }
+.shadow-action-catch { top: 48%; left: 56%; width: 12%; height: 34%; }
+
+/* 灰门铸室：左冷风箱 / 网台灰钥匙 / 后方未完成灰门 */
+.foundry-action-bellows { top: 32%; left: 6%; width: 26%; height: 34%; }
+.foundry-action-key { top: 74%; left: 36%; width: 24%; height: 16%; }
+.foundry-action-door { top: 14%; left: 57%; width: 21%; height: 44%; }
+
+/* 留置空库：左悬空标签 / 中央灰尘印 / 右侧旧纸 */
+.retention-action-tag { top: 20%; left: 19%; width: 10%; height: 44%; }
+.retention-action-imprint { top: 58%; left: 42%; width: 16%; height: 16%; }
+.retention-action-page { top: 58%; left: 68%; width: 20%; height: 16%; }
+
+@media (max-width: 720px) {
+  .scene-paperback .branch-figure .branch-img {
+    height: clamp(240px, 32vh, 320px);
+  }
+  .paperback-hotspot {
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    padding: 0.35rem 0.55rem;
+  }
+}
+
+@media (min-width: 721px) and (max-height: 800px) {
+  .scene-paperback .branch-figure .branch-img {
+    height: clamp(300px, 44vh, 400px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paperback-hotspot { transition: none; }
+}
+
+
+/* ============================================================
+   v45 未到交班：值夜室三入口 + 三个画面热点场景
+   ============================================================ */
+
+/* 值夜室三入口：覆盖真实钟轴、熄灭台灯与空椅椅面；装饰层仍不可聚焦 */
+.watch-clock,
+.watch-desk {
+  position: relative;
+}
+
+.relief-entry-hotspot {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid rgba(222, 217, 208, 0.14);
+  background: rgba(8, 7, 6, 0.28);
+  color: rgba(222, 217, 208, 0.62);
+  font-family: var(--serif-cn);
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.relief-entry-hotspot .dh-label { pointer-events: none; }
+
+.relief-entry-hotspot:hover {
+  border-color: rgba(192, 160, 96, 0.55);
+  background: rgba(20, 17, 13, 0.6);
+  color: var(--gold);
+  box-shadow: 0 0 16px rgba(154, 127, 71, 0.22);
+}
+
+.relief-entry-hotspot:focus-visible {
+  outline: none;
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(20, 17, 13, 0.72);
+  box-shadow: 0 2px 0 0 rgba(192, 74, 66, 0.7), 0 0 14px rgba(154, 127, 71, 0.3);
+}
+
+.relief-entry-hotspot.touched {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(45, 38, 28, 0.85);
+  box-shadow: 0 0 20px rgba(192, 160, 96, 0.35);
+}
+
+.relief-entry-clock { top: 42%; left: 42%; width: 14%; height: 16%; }
+.relief-entry-lamp { top: 36%; left: 35%; width: 10%; height: 16%; }
+.relief-entry-chair { top: 50%; left: 59%; width: 16%; height: 40%; }
+
+/* 场景画面热点（独立 v45 class）：覆盖真实器物 */
+.relief-figure {
+  position: relative;
+}
+
+.scene-relief .branch-figure .branch-img {
+  height: clamp(340px, 48vh, 520px);
+}
+
+.relief-hotspot {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid rgba(222, 217, 208, 0.14);
+  background: rgba(8, 7, 6, 0.28);
+  color: rgba(222, 217, 208, 0.62);
+  font-family: var(--serif-cn);
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.relief-hotspot .dh-label { pointer-events: none; }
+
+.relief-hotspot:hover {
+  border-color: rgba(192, 160, 96, 0.55);
+  background: rgba(20, 17, 13, 0.6);
+  color: var(--gold);
+  box-shadow: 0 0 16px rgba(154, 127, 71, 0.22);
+}
+
+.relief-hotspot:focus-visible {
+  outline: none;
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(20, 17, 13, 0.72);
+  box-shadow: 0 2px 0 0 rgba(192, 74, 66, 0.7), 0 0 14px rgba(154, 127, 71, 0.3);
+}
+
+.relief-hotspot.touched {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(45, 38, 28, 0.85);
+  box-shadow: 0 0 20px rgba(192, 160, 96, 0.35);
+}
+
+.relief-hotspot:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* 前一分钟档案井：左分针 / 近景交班卡与时印 / 中央齿槽 */
+.minute-action-hand { top: 48%; left: 6%; width: 24%; height: 20%; }
+.minute-action-card { top: 66%; left: 30%; width: 48%; height: 24%; }
+.minute-action-shaft { top: 18%; left: 46%; width: 12%; height: 44%; }
+
+/* 冷灯芯检修槽：左结霜灯芯 / 中段电话线 / 右侧保险片 */
+.wick-action-wick { top: 20%; left: 11%; width: 18%; height: 56%; }
+.wick-action-cable { top: 34%; left: 42%; width: 14%; height: 40%; }
+.wick-action-fuse { top: 14%; left: 68%; width: 27%; height: 56%; }
+
+/* 缺班更衣柜：柜内空外套 / 柜前空椅 / 近景交接簿 */
+.locker-action-coat { top: 12%; left: 38%; width: 13%; height: 50%; }
+.locker-action-chair { top: 40%; left: 54%; width: 20%; height: 44%; }
+.locker-action-roster { top: 74%; left: 16%; width: 44%; height: 22%; }
+
+@media (max-width: 720px) {
+  .scene-relief .branch-figure .branch-img {
+    height: clamp(240px, 32vh, 320px);
+  }
+  .relief-hotspot,
+  .relief-entry-hotspot {
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    padding: 0.35rem 0.55rem;
+  }
+}
+
+@media (min-width: 721px) and (max-height: 800px) {
+  .scene-relief .branch-figure .branch-img {
+    height: clamp(300px, 44vh, 400px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .relief-hotspot,
+  .relief-entry-hotspot { transition: none; }
+}
+
+
+/* ============================================================
+   v46 旁线未静：交换台三入口 + 三个画面热点场景
+   ============================================================ */
+
+/* 交换台三入口：覆盖真实听筒、散线插头与红色回铃灯 */
+.switch-figure {
+  position: relative;
+}
+
+.sidetone-entry-hotspot {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid rgba(222, 217, 208, 0.14);
+  background: rgba(8, 7, 6, 0.28);
+  color: rgba(222, 217, 208, 0.62);
+  font-family: var(--serif-cn);
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sidetone-entry-hotspot .dh-label { pointer-events: none; }
+
+.sidetone-entry-hotspot:hover {
+  border-color: rgba(192, 160, 96, 0.55);
+  background: rgba(20, 17, 13, 0.6);
+  color: var(--gold);
+  box-shadow: 0 0 16px rgba(154, 127, 71, 0.22);
+}
+
+.sidetone-entry-hotspot:focus-visible {
+  outline: none;
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(20, 17, 13, 0.72);
+  box-shadow: 0 2px 0 0 rgba(192, 74, 66, 0.7), 0 0 14px rgba(154, 127, 71, 0.3);
+}
+
+.sidetone-entry-hotspot.touched {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(45, 38, 28, 0.85);
+  box-shadow: 0 0 20px rgba(192, 160, 96, 0.35);
+}
+
+.sidetone-entry-receiver { top: 57%; left: 15%; width: 22%; height: 28%; }
+.sidetone-entry-plug { top: 75%; left: 44%; width: 18%; height: 22%; }
+.sidetone-entry-return-lamp { top: 49%; left: 63%; width: 10%; height: 13%; }
+
+/* 场景画面热点（独立 v46 class）：覆盖真实器物 */
+.sidetone-figure {
+  position: relative;
+}
+
+.scene-sidetone .branch-figure .branch-img {
+  height: clamp(340px, 48vh, 520px);
+}
+
+.sidetone-hotspot {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid rgba(222, 217, 208, 0.14);
+  background: rgba(8, 7, 6, 0.28);
+  color: rgba(222, 217, 208, 0.62);
+  font-family: var(--serif-cn);
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sidetone-hotspot .dh-label { pointer-events: none; }
+
+.sidetone-hotspot:hover {
+  border-color: rgba(192, 160, 96, 0.55);
+  background: rgba(20, 17, 13, 0.6);
+  color: var(--gold);
+  box-shadow: 0 0 16px rgba(154, 127, 71, 0.22);
+}
+
+.sidetone-hotspot:focus-visible {
+  outline: none;
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(20, 17, 13, 0.72);
+  box-shadow: 0 2px 0 0 rgba(192, 74, 66, 0.7), 0 0 14px rgba(154, 127, 71, 0.3);
+}
+
+.sidetone-hotspot.touched {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(45, 38, 28, 0.85);
+  box-shadow: 0 0 20px rgba(192, 160, 96, 0.35);
+}
+
+.sidetone-hotspot:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* 失席监听间：左悬耳筒 / 中央话筒 / 操作椅 */
+.booth-action-earpiece { top: 18%; left: 8%; width: 15%; height: 48%; }
+.booth-action-mouthpiece { top: 31%; left: 36%; width: 12%; height: 18%; }
+.booth-action-chair { top: 48%; left: 37%; width: 26%; height: 42%; }
+
+/* 无号插孔场：左前景游线插头 / 中央暗红空孔 / 右侧空白线签 */
+.jack-action-plug { top: 65%; left: 15%; width: 26%; height: 18%; }
+.jack-action-socket { top: 51%; left: 62%; width: 11%; height: 14%; }
+.jack-action-tag { top: 54%; left: 76%; width: 14%; height: 34%; }
+
+/* 回铃陈放室：左暗红回铃灯 / 中央托盘退单 / 右侧黑蜡铃碗 */
+.morgue-action-lamp { top: 56%; left: 5%; width: 16%; height: 18%; }
+.morgue-action-slip { top: 58%; left: 26%; width: 32%; height: 27%; }
+.morgue-action-bell { top: 24%; left: 62%; width: 36%; height: 56%; }
+
+@media (max-width: 720px) {
+  .scene-sidetone .branch-figure .branch-img {
+    height: clamp(240px, 32vh, 320px);
+  }
+  .sidetone-hotspot,
+  .sidetone-entry-hotspot {
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    padding: 0.35rem 0.55rem;
+  }
+}
+
+@media (min-width: 721px) and (max-height: 800px) {
+  .scene-sidetone .branch-figure .branch-img {
+    height: clamp(300px, 44vh, 400px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidetone-hotspot,
+  .sidetone-entry-hotspot { transition: none; }
+}
+
+
+/* ============================================================
+   v47 退件未止：投递所三入口 + 三个画面热点场景
+   ============================================================ */
+
+/* 投递所三入口：覆盖真实气送管、退件格柜与空白回执 */
+.dl-figure {
+  position: relative;
+}
+
+.return-room-entry-hotspot {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid rgba(222, 217, 208, 0.14);
+  background: rgba(8, 7, 6, 0.28);
+  color: rgba(222, 217, 208, 0.62);
+  font-family: var(--serif-cn);
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.return-room-entry-hotspot .dh-label { pointer-events: none; }
+
+.return-room-entry-hotspot:hover {
+  border-color: rgba(192, 160, 96, 0.55);
+  background: rgba(20, 17, 13, 0.6);
+  color: var(--gold);
+  box-shadow: 0 0 16px rgba(154, 127, 71, 0.22);
+}
+
+.return-room-entry-hotspot:focus-visible {
+  outline: none;
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(20, 17, 13, 0.72);
+  box-shadow: 0 2px 0 0 rgba(192, 74, 66, 0.7), 0 0 14px rgba(154, 127, 71, 0.3);
+}
+
+.return-room-entry-hotspot.touched {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(45, 38, 28, 0.85);
+  box-shadow: 0 0 20px rgba(192, 160, 96, 0.35);
+}
+
+.return-room-entry-tubes { top: 5%; left: 39%; width: 22%; height: 50%; }
+.return-room-entry-cabinet { top: 2%; left: 63%; width: 35%; height: 50%; }
+.return-room-entry-receipt { top: 66%; left: 46%; width: 10%; height: 14%; }
+
+/* 场景画面热点（独立 v47 class）：覆盖真实器物 */
+.return-room-figure {
+  position: relative;
+}
+
+.scene-return-room .branch-figure .branch-img {
+  height: clamp(340px, 48vh, 520px);
+}
+
+.return-room-hotspot {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid rgba(222, 217, 208, 0.14);
+  background: rgba(8, 7, 6, 0.28);
+  color: rgba(222, 217, 208, 0.62);
+  font-family: var(--serif-cn);
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.return-room-hotspot .dh-label { pointer-events: none; }
+
+.return-room-hotspot:hover {
+  border-color: rgba(192, 160, 96, 0.55);
+  background: rgba(20, 17, 13, 0.6);
+  color: var(--gold);
+  box-shadow: 0 0 16px rgba(154, 127, 71, 0.22);
+}
+
+.return-room-hotspot:focus-visible {
+  outline: none;
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(20, 17, 13, 0.72);
+  box-shadow: 0 2px 0 0 rgba(192, 74, 66, 0.7), 0 0 14px rgba(154, 127, 71, 0.3);
+}
+
+.return-room-hotspot.touched {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(45, 38, 28, 0.85);
+  box-shadow: 0 0 20px rgba(192, 160, 96, 0.35);
+}
+
+.return-room-hotspot:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* 无主气送井：左下气送筒 / 中央管口 / 右墙红绳 */
+.intake-action-carrier { top: 67%; left: 8%; width: 26%; height: 18%; }
+.intake-action-horn { top: 42%; left: 42%; width: 17%; height: 28%; }
+.intake-action-cord { top: 28%; left: 84%; width: 10%; height: 42%; }
+
+/* 退址格柜：左侧空白信封 / 中央分格轮 / 右侧长抽屉 */
+.cabinet-action-envelope { top: 53%; left: 7%; width: 16%; height: 14%; }
+.cabinet-action-wheel { top: 57%; left: 31%; width: 39%; height: 35%; }
+.cabinet-action-drawer { top: 58%; left: 71%; width: 24%; height: 37%; }
+
+/* 空白回执压印台：中央空白纸 / 左侧旧墨垫 / 右侧黄铜压杆 */
+.press-action-sheet { top: 63%; left: 42%; width: 15%; height: 16%; }
+.press-action-ink { top: 62%; left: 10%; width: 16%; height: 25%; }
+.press-action-lever { top: 10%; left: 72%; width: 14%; height: 68%; }
+
+@media (max-width: 720px) {
+  .scene-return-room .branch-figure .branch-img {
+    height: clamp(240px, 32vh, 320px);
+  }
+  .return-room-hotspot,
+  .return-room-entry-hotspot {
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    padding: 0.35rem 0.55rem;
+  }
+}
+
+@media (min-width: 721px) and (max-height: 800px) {
+  .scene-return-room .branch-figure .branch-img {
+    height: clamp(300px, 44vh, 400px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .return-room-hotspot,
+  .return-room-entry-hotspot { transition: none; }
+}
+
+
+/* ============================================================
+   v48 注销留副：注销科三入口 + 三个画面热点场景
+   ============================================================ */
+
+/* 注销科三入口：覆盖真实空白屏、红色确认灯与档案屉 */
+.cancel-figure {
+  position: relative;
+}
+
+.cancellation-copy-entry-hotspot {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid rgba(222, 217, 208, 0.14);
+  background: rgba(8, 7, 6, 0.28);
+  color: rgba(222, 217, 208, 0.62);
+  font-family: var(--serif-cn);
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cancellation-copy-entry-hotspot .dh-label { pointer-events: none; }
+
+.cancellation-copy-entry-hotspot:hover {
+  border-color: rgba(192, 160, 96, 0.55);
+  background: rgba(20, 17, 13, 0.6);
+  color: var(--gold);
+  box-shadow: 0 0 16px rgba(154, 127, 71, 0.22);
+}
+
+.cancellation-copy-entry-hotspot:focus-visible {
+  outline: none;
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(20, 17, 13, 0.72);
+  box-shadow: 0 2px 0 0 rgba(192, 74, 66, 0.7), 0 0 14px rgba(154, 127, 71, 0.3);
+}
+
+.cancellation-copy-entry-hotspot.touched {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(45, 38, 28, 0.85);
+  box-shadow: 0 0 20px rgba(192, 160, 96, 0.35);
+}
+
+.cancellation-copy-entry-screen { top: 43%; left: 43%; width: 15%; height: 14%; }
+.cancellation-copy-entry-lamp { top: 46%; left: 62%; width: 8%; height: 11%; }
+.cancellation-copy-entry-trays { top: 62%; left: 74%; width: 17%; height: 16%; }
+
+/* 场景画面热点（独立 v48 class）：覆盖真实器物 */
+.cancellation-copy-figure {
+  position: relative;
+}
+
+.scene-cancellation-copy .branch-figure .branch-img {
+  height: clamp(340px, 48vh, 520px);
+}
+
+.cancellation-copy-hotspot {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid rgba(222, 217, 208, 0.14);
+  background: rgba(8, 7, 6, 0.28);
+  color: rgba(222, 217, 208, 0.62);
+  font-family: var(--serif-cn);
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cancellation-copy-hotspot .dh-label { pointer-events: none; }
+
+.cancellation-copy-hotspot:hover {
+  border-color: rgba(192, 160, 96, 0.55);
+  background: rgba(20, 17, 13, 0.6);
+  color: var(--gold);
+  box-shadow: 0 0 16px rgba(154, 127, 71, 0.22);
+}
+
+.cancellation-copy-hotspot:focus-visible {
+  outline: none;
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(20, 17, 13, 0.72);
+  box-shadow: 0 2px 0 0 rgba(192, 74, 66, 0.7), 0 0 14px rgba(154, 127, 71, 0.3);
+}
+
+.cancellation-copy-hotspot.touched {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(45, 38, 28, 0.85);
+  box-shadow: 0 0 20px rgba(192, 160, 96, 0.35);
+}
+
+.cancellation-copy-hotspot:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* 空白屏底库：中央骨白巨屏 / 左下卷曲纸带 / 右侧圆形暗孔 */
+.copy-screen-action-screen { top: 22%; left: 30%; width: 40%; height: 40%; }
+.copy-screen-action-paper { top: 64%; left: 10%; width: 32%; height: 31%; }
+.copy-screen-action-aperture { top: 40%; left: 76%; width: 13%; height: 22%; }
+
+/* 误准红灯台：中央红色确认灯 / 左侧注销印 / 右侧退纸槽 */
+.copy-lamp-action-lamp { top: 36%; left: 44%; width: 12%; height: 18%; }
+.copy-lamp-action-seal { top: 45%; left: 8%; width: 24%; height: 40%; }
+.copy-lamp-action-chute { top: 52%; left: 70%; width: 25%; height: 40%; }
+
+/* 见证复写库：屉内空白复写纸 / 中央抽屉把手 / 右上黄铜见证卡 */
+.copy-carbon-action-sheet { top: 48%; left: 36%; width: 22%; height: 20%; }
+.copy-carbon-action-drawer { top: 75%; left: 37%; width: 27%; height: 15%; }
+.copy-carbon-action-card { top: 42%; left: 58%; width: 16%; height: 16%; }
+
+@media (max-width: 720px) {
+  .scene-cancellation-copy .branch-figure .branch-img {
+    height: clamp(240px, 32vh, 320px);
+  }
+  .cancellation-copy-hotspot,
+  .cancellation-copy-entry-hotspot {
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    padding: 0.35rem 0.55rem;
+  }
+}
+
+@media (min-width: 721px) and (max-height: 800px) {
+  .scene-cancellation-copy .branch-figure .branch-img {
+    height: clamp(300px, 44vh, 400px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cancellation-copy-hotspot,
+  .cancellation-copy-entry-hotspot { transition: none; }
+}
+
+
+/* ============================================================
+   v49 门前实感：v31 三场景卡片改图内原生物件热点
+   ============================================================ */
+
+/* 舞台：稳定 3:2 比例，热点坐标不随视口漂移；羽化融入保留 */
+.forecourt-tactile-stage {
+  position: relative;
+  aspect-ratio: 3 / 2;
+}
+
+.forecourt-tactile-stage .branch-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+/* 图内原生热点：细金框 + 暗红短标签，默认克制；覆盖 branch-btn 卡片样式 */
+.forecourt-native-hotspot {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid rgba(192, 160, 96, 0.34);
+  background: rgba(8, 7, 6, 0.3);
+  color: rgba(222, 217, 208, 0.66);
+  font-family: var(--serif-cn);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.forecourt-native-hotspot .bb-title {
+  color: rgba(192, 74, 66, 0.82);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  pointer-events: none;
+}
+
+/* 辅助说明默认视觉隐藏，hover/focus 显示；始终在无障碍树中（仅桌面展开） */
+.forecourt-native-hotspot .bb-short {
+  display: none;
+  pointer-events: none;
+}
+
+.forecourt-native-hotspot .bb-hint {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+@media (min-width: 721px) {
+  .forecourt-native-hotspot:hover .bb-hint,
+  .forecourt-native-hotspot:focus-visible .bb-hint {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    clip-path: none;
+    white-space: normal;
+    color: rgba(222, 217, 208, 0.5);
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+  }
+}
+
+.forecourt-native-hotspot:hover {
+  border-color: rgba(192, 160, 96, 0.6);
+  background: rgba(20, 17, 13, 0.62);
+  color: var(--gold);
+  box-shadow: 0 0 16px rgba(154, 127, 71, 0.22);
+}
+
+.forecourt-native-hotspot:focus-visible {
+  outline: none;
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(20, 17, 13, 0.74);
+  box-shadow: 0 2px 0 0 rgba(192, 74, 66, 0.7), 0 0 14px rgba(154, 127, 71, 0.3);
+}
+
+.forecourt-native-hotspot[aria-pressed="true"] {
+  border-color: rgba(192, 74, 66, 0.6);
+  color: var(--gold);
+  background: rgba(45, 38, 28, 0.85);
+}
+
+/* 倒置窥孔：中央黑镜 / 左侧黄铜听音管 / 右侧机械眼睑 */
+.peephole-spot-witness { top: 30%; left: 42%; width: 26%; height: 46%; }
+.peephole-spot-listen { top: 32%; left: 10%; width: 21%; height: 34%; }
+.peephole-spot-close { top: 34%; left: 71%; width: 22%; height: 36%; }
+
+/* 失号龛：左侧计数刻痕 / 刮白第七盘 / 底部白瓷空白号牌 */
+.glyph-spot-count { top: 6%; left: 3%; width: 20%; height: 52%; }
+.glyph-spot-erase { top: 63%; left: 37%; width: 11%; height: 16%; }
+.glyph-spot-blank { top: 83%; left: 45%; width: 13%; height: 12%; }
+
+/* 回返夹道：中下部脚印 / 左墙门环 / 远门 / 右下值班证槽 / 右上墙挂电话 */
+.return-spot-follow { top: 60%; left: 44%; width: 16%; height: 38%; }
+.return-spot-knock { top: 14%; left: 14%; width: 11%; height: 33%; }
+.return-spot-backward { top: 10%; left: 45%; width: 12%; height: 48%; }
+.return-spot-registry { top: 58%; left: 76%; width: 15%; height: 18%; }
+.return-spot-callback { top: 17%; left: 76%; width: 14%; height: 35%; }
+
+@media (max-width: 720px) {
+  .forecourt-native-hotspot {
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+    padding: 0.25rem 0.4rem;
+  }
+  /* 移动端：完整动作标题转视觉隐藏（仍在无障碍树），短标签横排最多两行、严格不溢出 */
+  .forecourt-native-hotspot .bb-short {
+    display: block;
+    max-width: 100%;
+    color: rgba(192, 74, 66, 0.85);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    line-height: 1.25;
+    text-align: center;
+    white-space: normal;
+    overflow: hidden;
+  }
+  .forecourt-native-hotspot .bb-title {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .forecourt-native-hotspot { transition: none; }
+}
+
+
+/* ============================================================
+   v50 副楼实感：v32 三副楼卡片改图内原生物件热点
+   复用 v49 的 .forecourt-tactile-stage / .forecourt-native-hotspot
+   舞台与热点样式，此处只给 13 个热点定位（坐标按 1536x1024 实测）。
+   移动端 44px 最小触控会放大百分比盒，下列锚点已错开保证互不重叠。
+   ============================================================ */
+
+/* 闭目档案室：抽屉柜外框左列黄铜旋钮（v51 起让出抽屉面给见证异常） / 左桌黄铜听音盒 / 前景地影 / 右桌证物袋 */
+.eyelid-spot-search { top: 49.5%; left: 39%; width: 4.5%; height: 20%; }
+.eyelid-spot-listen { top: 44%; left: 9%; width: 17%; height: 13%; }
+.eyelid-spot-file { top: 80%; left: 14%; width: 50%; height: 16%; }
+.eyelid-spot-review { top: 48.5%; left: 80.5%; width: 16.5%; height: 11%; }
+
+/* 无号前厅：门前悬挂空白号牌 / 左前台账 / 中央无把手门洞外框门楣（v51 起让出门体给第十门异常） / 右柱送审槽 / 右柱地下层按钮（上下错开） */
+.vestibule-spot-tenth { top: 20%; left: 44.5%; width: 11%; height: 12%; }
+.vestibule-spot-print { top: 63%; left: 9.5%; width: 18%; height: 13%; }
+.vestibule-spot-exit { top: 35.5%; left: 43.5%; width: 11%; height: 9.5%; }
+.vestibule-spot-review { top: 41%; left: 86.5%; width: 9.5%; height: 12%; }
+.vestibule-spot-floor { top: 60.5%; left: 86.5%; width: 9.5%; height: 11%; }
+
+/* 逆向阶井：右上上行梯 / 中央第零级接缝 / 左上黑镜外框左缘（v51 起让出镜面给重复阶井异常） / 右下申报盒 */
+.stairwell-spot-climb { top: 2%; left: 54.5%; width: 21%; height: 32%; }
+.stairwell-spot-zeroth { top: 54%; left: 46%; width: 12%; height: 6%; }
+.stairwell-spot-lookback { top: 4%; left: 18.5%; width: 5%; height: 34%; }
+.stairwell-spot-review { top: 56%; left: 59%; width: 7.5%; height: 13%; }
+
+
+/* ============================================================
+   v51 副楼三债：刻痕牌与阈值异常热点
+   ============================================================ */
+
+/* hidden 必须压过 .forecourt-native-hotspot 的 display:flex，
+   阈值未到的异常热点靠它退出布局与无障碍树（旧热点永不隐藏） */
+.forecourt-native-hotspot[hidden] { display: none; }
+
+/* 黄铜压印刻痕牌：图内右上边缘的场景物件，只展示不交互 */
+.debt-plate {
+  position: absolute;
+  top: 3%;
+  right: 2%;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.4rem 0.55rem;
+  border: 1px solid rgba(192, 160, 96, 0.4);
+  background: rgba(12, 10, 8, 0.62);
+  color: rgba(222, 217, 208, 0.7);
+  font-family: var(--serif-cn);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  pointer-events: none;
+}
+
+.dp-row { display: flex; align-items: baseline; gap: 0.45rem; white-space: nowrap; }
+.dp-row em { font-style: normal; color: rgba(192, 160, 96, 0.78); }
+/* 刻痕进度组件：0–9 个独立刻痕元素，点亮前 n 道；不用文本符号/emoji */
+.dp-ticks { display: inline-flex; align-items: center; gap: 2px; font-style: normal; }
+.dp-tick { width: 3px; height: 0.55rem; background: rgba(192, 160, 96, 0.18); }
+.dp-tick.dp-tick-on { background: rgba(192, 74, 66, 0.88); }
+
+/* 债值播报：只在无障碍树，不可见 */
+.dp-live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* 新增刻痕时的牌面抖动（reduced-motion 禁用） */
+@keyframes dp-stir {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(1px, -1px); }
+  50% { transform: translate(-1px, 1px); }
+  75% { transform: translate(1px, 0); }
+}
+.debt-plate.dp-stir { animation: dp-stir 0.45s ease; }
+
+/* 阈值异常热点的呼吸微光（reduced-motion 禁用） */
+@keyframes debt-breathe {
+  0%, 100% { box-shadow: 0 0 8px rgba(154, 127, 71, 0.14); }
+  50% { box-shadow: 0 0 20px rgba(192, 74, 66, 0.34); }
+}
+.debt-anomaly { animation: debt-breathe 3.2s ease-in-out infinite; }
+
+/* 三处阈值异常落位（1536x1024 实测），全部压内层区域——三睁抽屉面 / 第十门框内部 /
+   镜中重复阶井；与同物旧热点的外框带（旋钮列 / 门楣 / 镜框左缘）严格不重叠 */
+.eyelid-debt-spot-witness { top: 50.5%; left: 45.5%; width: 13.5%; height: 18.5%; }
+.vestibule-debt-spot-tenth { top: 45.5%; left: 47%; width: 4.5%; height: 16%; }
+.stairwell-debt-spot-double { top: 6%; left: 25%; width: 5.5%; height: 31%; }
+
+@media (max-width: 720px) {
+  .debt-plate {
+    font-size: 0.52rem;
+    letter-spacing: 0.12em;
+    padding: 0.28rem 0.4rem;
+    gap: 0.12rem;
+  }
+  .dp-row { gap: 0.3rem; }
+  .dp-tick { width: 2px; height: 0.5rem; }
+  /* 移动端 44px 最小触控会把热点盒放大到约 13% 宽 / 19.5% 高：
+     三对 外框/内层 热点改锚点错开，放大后仍互不重叠、不吞点击；
+     闭眼抽屉对左右分带、前厅门对左右分带、黑镜对上下分带 */
+  .eyelid-spot-search { left: 37.5%; }
+  .eyelid-debt-spot-witness { left: 51%; }
+  .vestibule-spot-exit { top: 40%; left: 52%; width: 12.5%; height: 20%; }
+  .vestibule-debt-spot-tenth { top: 40%; left: 38.5%; width: 12.5%; height: 20%; }
+  .stairwell-spot-lookback { height: 19%; }
+  .stairwell-debt-spot-double { top: 24.5%; left: 18.5%; width: 10.5%; height: 19%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .debt-plate.dp-stir,
+  .debt-anomaly { animation: none; }
 }

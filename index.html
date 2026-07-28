@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-    <link rel="stylesheet" href="styles.css?v=31">
+    <link rel="stylesheet" href="styles.css?v=49">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -83,6 +83,8 @@
             </h1>
 
             <div class="door-scene reveal" id="door-scene">
+              <!-- v40 纵深环境层：左右侧廊底图，不替换现有 closed/open 门图 -->
+              <img class="lateral-hall-img" src="assets/threshold-lateral-hall.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async" aria-hidden="true">
               <button class="door-btn" id="door-btn" type="button" aria-label="一扇紧闭的门。可以敲门。不建议。" data-hover>
                 <img class="door-img" id="door-img" src="assets/threshold-bureau-door.webp" alt="" width="1536" height="1024" fetchpriority="high">
                 <img class="door-img door-open-img" id="door-open-img" src="assets/threshold-bureau-door-open.webp" alt="" width="1536" height="1024" aria-hidden="true">
@@ -96,6 +98,26 @@
               </button>
               <button class="door-hotspot hotspot-return" id="hotspot-return" type="button" aria-label="沿着右侧写着回来的痕迹走" data-hover>
                 <span class="dh-label" aria-hidden="true">回来</span>
+              </button>
+              <button class="door-hotspot hotspot-proxy" id="hotspot-proxy-admission" type="button" aria-label="拉开门板下方的代审问讯窗" data-hover>
+                <span class="dh-label" aria-hidden="true">代审</span>
+              </button>
+              <!-- v40 侧廊热点：与门及四热点共用首选锁，干净存档立即可发现 -->
+              <button class="door-hotspot hotspot-lateral-left" id="hotspot-lateral-left" type="button" aria-label="沿门左侧不发光的灯廊前行" data-hover>
+                <span class="dh-label" aria-hidden="true">左廊</span>
+              </button>
+              <button class="door-hotspot hotspot-lateral-right" id="hotspot-lateral-right" type="button" aria-label="跟随门右侧先行的影子" data-hover>
+                <span class="dh-label" aria-hidden="true">右廊</span>
+              </button>
+              <!-- v43 门内回敲：出厂 hidden，第一次正常敲门后短暂显露，第三敲立即隐藏 -->
+              <button class="door-hotspot hotspot-counter-left" id="hotspot-counter-knock-left" type="button" aria-label="回应门左扇内部先一步响起的回敲" hidden data-hover>
+                <span class="dh-label" aria-hidden="true">左响</span>
+              </button>
+              <button class="door-hotspot hotspot-counter-seam" id="hotspot-counter-knock-seam" type="button" aria-label="贴近门缝，追踪没有被应答的第二声回敲" hidden data-hover>
+                <span class="dh-label" aria-hidden="true">缝响</span>
+              </button>
+              <button class="door-hotspot hotspot-counter-right" id="hotspot-counter-knock-right" type="button" aria-label="回应门右扇下沉到门槛下面的回敲" hidden data-hover>
+                <span class="dh-label" aria-hidden="true">右响</span>
               </button>
               <span class="seam-whisper" id="seam-whisper" aria-hidden="true"></span>
             </div>
@@ -117,6 +139,21 @@
 
           <figure class="protocol-figure reveal" role="img" aria-label="一块钉满空白纸轨的访客守则布告板">
             <img class="protocol-img" src="assets/visitor-protocol-board.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <!-- v41 守则背室入口：覆盖原图真实红线结、底部空白铭牌、右下黄铜铃钮 -->
+            <button class="backroom-hotspot protocol-hotspot-thread" id="protocol-hotspot-thread" type="button" aria-label="顺着访客守则左侧交叉的红线进入登记室" data-hover>
+              <span class="dh-label" aria-hidden="true">红线</span>
+            </button>
+            <button class="backroom-hotspot protocol-hotspot-nameplate" id="protocol-hotspot-nameplate" type="button" aria-label="按下守则布告板下方没有姓名的长牌" data-hover>
+              <span class="dh-label" aria-hidden="true">空名</span>
+            </button>
+            <button class="backroom-hotspot protocol-hotspot-bell" id="protocol-hotspot-bell" type="button" aria-label="按下守则布告板右下方不会发声的黄铜铃钮" data-hover>
+              <span class="dh-label" aria-hidden="true">无舌铃</span>
+            </button>
+            <!-- v42 守则漂移第四入口：覆盖上沿旧蜡印；v41 三间背室任见两间才显露 -->
+            <button class="backroom-hotspot protocol-hotspot-drift" id="protocol-hotspot-drift" type="button" aria-label="按下访客守则上沿的旧蜡印，检查布告板是否发生漂移" hidden data-hover>
+              <span class="dh-label" aria-hidden="true">巡查</span>
+            </button>
+            <p class="backroom-response" id="protocol-backroom-response" aria-live="polite"></p>
           </figure>
 
           <ol class="rules-list reveal">
@@ -146,24 +183,24 @@
             <p class="sec-desc">你从门的里面看向门外。黑镜悬在正中央，黄铜听音管贴在左墙，右边的机械眼睑一直闭着。</p>
           </header>
 
-          <figure class="branch-figure reveal" role="img" aria-label="门内侧一面巨大的圆形黑镜，左侧伸出黄铜听音管，右侧垂着一只闭合的机械眼睑">
-            <img class="branch-img" src="assets/forecourt-peephole.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
-          </figure>
-
-          <div class="branch-choices reveal" id="peephole-choices" role="group" aria-label="选择如何对待这只窥孔">
-            <button class="branch-btn" id="peephole-choice-witness" type="button" aria-pressed="false" data-hover>
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="门内侧一面巨大的圆形黑镜，左侧伸出黄铜听音管，右侧垂着一只闭合的机械眼睑">
+            <img class="branch-img" src="assets/forecourt-peephole-tactile.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot peephole-spot-witness" id="peephole-choice-witness" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">黑镜</span>
               <span class="bb-title">直视黑镜</span>
               <span class="bb-hint">镜后有什么，也在看你</span>
             </button>
-            <button class="branch-btn" id="peephole-choice-listen" type="button" aria-pressed="false" data-hover>
+            <button class="branch-btn forecourt-native-hotspot peephole-spot-listen" id="peephole-choice-listen" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">听音管</span>
               <span class="bb-title">听黄铜管</span>
               <span class="bb-hint">管子那头有敲门声</span>
             </button>
-            <button class="branch-btn" id="peephole-choice-close" type="button" aria-pressed="false" data-hover>
+            <button class="branch-btn forecourt-native-hotspot peephole-spot-close" id="peephole-choice-close" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">眼睑</span>
               <span class="bb-title">闭上这只眼</span>
               <span class="bb-hint">不看，也是一种回答</span>
             </button>
-          </div>
+          </figure>
           <p class="branch-response" id="peephole-response" aria-live="polite"></p>
 
           <nav class="scene-exits reveal" aria-label="离开倒置窥孔">
@@ -181,24 +218,24 @@
             <p class="sec-desc">九枚黄铜编号盘悬在石龛里，第七枚被刮得发白。最底下那枚白瓷盘，什么编号都没有。</p>
           </header>
 
-          <figure class="branch-figure reveal" role="img" aria-label="狭窄石龛内悬着九枚黄铜编号盘，其中一枚被刮除，最底部放着一枚空白的白瓷盘">
-            <img class="branch-img" src="assets/forecourt-glyph-niche.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
-          </figure>
-
-          <div class="branch-choices reveal" id="glyph-choices" role="group" aria-label="选择触碰哪一枚号牌">
-            <button class="branch-btn" id="glyph-choice-count" type="button" aria-pressed="false" data-hover>
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="狭窄石龛内悬着九枚黄铜编号盘，其中一枚被刮除，最底部放着一枚空白的白瓷盘">
+            <img class="branch-img" src="assets/forecourt-glyph-niche-tactile.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot glyph-spot-count" id="glyph-choice-count" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">刻痕</span>
               <span class="bb-title">数第九道刻痕</span>
               <span class="bb-hint">墙上全是被擦掉的计数</span>
             </button>
-            <button class="branch-btn" id="glyph-choice-erase" type="button" aria-pressed="false" data-hover>
+            <button class="branch-btn forecourt-native-hotspot glyph-spot-erase" id="glyph-choice-erase" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">第七号</span>
               <span class="bb-title">擦掉第七号</span>
               <span class="bb-hint">它本来就已经快没了</span>
             </button>
-            <button class="branch-btn" id="glyph-choice-blank" type="button" aria-pressed="false" data-hover>
+            <button class="branch-btn forecourt-native-hotspot glyph-spot-blank" id="glyph-choice-blank" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">空白牌</span>
               <span class="bb-title">取下空白号牌</span>
               <span class="bb-hint">没有编号的门，不上锁</span>
             </button>
-          </div>
+          </figure>
           <p class="branch-response" id="glyph-response" aria-live="polite"></p>
 
           <nav class="scene-exits reveal" aria-label="离开失号龛">
@@ -216,28 +253,1614 @@
             <p class="sec-desc">夹道从门内侧折回同一扇门。地上的脚印一半朝里、一半朝外，左墙嵌着一只从里面用的门环。</p>
           </header>
 
-          <figure class="branch-figure reveal" role="img" aria-label="一条极窄的夹道折回同一扇门，地面脚印朝向相反，左墙嵌着门环，右侧墙缝透出刻满符号的石龛">
-            <img class="branch-img" src="assets/forecourt-return-passage.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
-          </figure>
-
-          <div class="branch-choices reveal" id="return-choices" role="group" aria-label="选择沿哪一串痕迹走">
-            <button class="branch-btn" id="return-choice-follow" type="button" aria-pressed="false" data-hover>
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="一条极窄的夹道折回同一扇门，地面脚印朝向相反，左墙嵌着门环，右上墙面挂着老式黑色电话，右下墙缝露出黄铜出证槽与一张无字值班证">
+            <img class="branch-img" src="assets/forecourt-return-passage-tactile.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot return-spot-follow" id="return-choice-follow" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">脚印</span>
               <span class="bb-title">跟随向内的脚印</span>
               <span class="bb-hint">脚印比你更认得路</span>
             </button>
-            <button class="branch-btn" id="return-choice-knock" type="button" aria-pressed="false" data-hover>
+            <button class="branch-btn forecourt-native-hotspot return-spot-knock" id="return-choice-knock" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">门环</span>
               <span class="bb-title">从里面敲门</span>
               <span class="bb-hint">门外站着另一个你</span>
             </button>
-            <button class="branch-btn" id="return-choice-backward" type="button" aria-pressed="false" data-hover>
+            <button class="branch-btn forecourt-native-hotspot return-spot-backward" id="return-choice-backward" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">远门</span>
               <span class="bb-title">倒着走到尽头</span>
               <span class="bb-hint">不转身，也能向前</span>
             </button>
-          </div>
+            <button class="branch-btn forecourt-native-hotspot return-spot-registry" id="return-choice-registry" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">值班证</span>
+              <span class="bb-title">接住墙缝吐出的值班证</span>
+              <span class="bb-hint">日期写着明天，背面通往无号层</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot return-spot-callback" id="return-choice-callback" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">电话</span>
+              <span class="bb-title">接起墙里晚了八分钟的电话</span>
+              <span class="bb-hint">听筒正在读守则其六</span>
+            </button>
+          </figure>
           <p class="branch-response" id="return-response" aria-live="polite"></p>
 
           <nav class="scene-exits reveal" aria-label="离开回返夹道">
             <button class="exit-link" type="button" data-go="threshold" data-hover>⟵ 回到门外</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段副楼 · 闭目档案室（v32） -->
+      <section class="scene scene-branch scene-annex" id="scene-eyelid-archive" data-scene="eyelid-archive" data-title="Goddead — 闭目档案室" aria-label="闭目档案室">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE ARCHIVE OF CLOSED EYES · 闭 目 档 案 室</p>
+            <h2 class="sec-title">闭目档案室</h2>
+            <p class="sec-desc">凡被看见之物，均须证明自己值得被记住。墙面的黄铜眼睑全都闭着，中央的黑漆归档柜从不催促。</p>
+          </header>
+
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="黑漆归档柜前一只抽屉微开、露出无号黑色视线档片，左桌放着黄铜听音盒与短听筒，右桌放着红蜡封口的黑色证物袋，前景地面的人形影子被狭长归档缝切断">
+            <img class="branch-img" src="assets/annex-eyelid-tactile.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot eyelid-spot-search" id="eyelid-choice-search" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">摸索</span>
+              <span class="bb-title">摸索被封存的视线</span>
+              <span class="bb-hint">抽屉比眼睛记得更多</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot eyelid-spot-listen" id="eyelid-choice-listen" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">听盒</span>
+              <span class="bb-title">听盒中眨眼</span>
+              <span class="bb-hint">盒子里有东西在一合一开</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot eyelid-spot-file" id="eyelid-choice-file" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">归影</span>
+              <span class="bb-title">把自己的眼影归档</span>
+              <span class="bb-hint">影子留下，人可以走</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot eyelid-spot-review" id="eyelid-choice-review" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">复核</span>
+              <span class="bb-title">把一只没有睁开的眼送去复核</span>
+              <span class="bb-hint">复核科登记未睁眼之物</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot debt-anomaly eyelid-debt-spot-witness" id="eyelid-debt-witness" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">让它们看清</span>
+              <span class="bb-title">让它们看清</span>
+              <span class="bb-hint">它们在核对你身后站着几个你</span>
+            </button>
+            <aside class="debt-plate" id="eyelid-debt-plate" aria-label="副楼三债刻痕牌">
+              <span class="dp-row"><em>见证</em><i class="dp-ticks" data-debt-ticks="witness" role="img" aria-label="见证 0 道刻痕"></i></span>
+              <span class="dp-row"><em>失号</em><i class="dp-ticks" data-debt-ticks="unnumbered" role="img" aria-label="失号 0 道刻痕"></i></span>
+              <span class="dp-row"><em>逆行</em><i class="dp-ticks" data-debt-ticks="reverse" role="img" aria-label="逆行 0 道刻痕"></i></span>
+              <span class="dp-live" id="eyelid-debt-live" aria-live="polite"></span>
+            </aside>
+          </figure>
+          <p class="branch-response" id="eyelid-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开闭目档案室">
+            <button class="exit-link" type="button" data-go="threshold" data-hover>⟵ 回到门外</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段副楼 · 无号前厅（v32） -->
+      <section class="scene scene-branch scene-annex" id="scene-unnumbered-vestibule" data-scene="unnumbered-vestibule" data-title="Goddead — 无号前厅" aria-label="无号前厅">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE UNNUMBERED VESTIBULE · 无 号 前 厅</p>
+            <h2 class="sec-title">无号前厅</h2>
+            <p class="sec-desc">没有号码的门，不受门的顺序约束。前厅的每扇封门都挂着空白骨瓷号牌，最深处的黑门没有把手。</p>
+          </header>
+
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="环形前厅环绕九扇挂空白骨瓷号牌的封门，最深处的无把手黑门前悬着独立空白号牌，左前景矮台上摊开无号台账与指印泥，右前景墙柱上有黑色复核投递槽与一枚暗红微光的地下层按钮">
+            <img class="branch-img" src="assets/annex-vestibule-tactile.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot vestibule-spot-tenth" id="vestibule-choice-tenth" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">第十门</span>
+              <span class="bb-title">把空白牌挂到第十扇门</span>
+              <span class="bb-hint">先数一数，这里有几扇</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot vestibule-spot-print" id="vestibule-choice-print" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">指印</span>
+              <span class="bb-title">在无号台账上留下指印</span>
+              <span class="bb-hint">台账不收姓名</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot vestibule-spot-exit" id="vestibule-choice-exit" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">无号出口</span>
+              <span class="bb-title">选择没有编号的出口</span>
+              <span class="bb-hint">没有号码，也就没有顺序</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot vestibule-spot-review" id="vestibule-choice-review" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">送审</span>
+              <span class="bb-title">提交一扇没有编号的门</span>
+              <span class="bb-hint">无号之门优先受理</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot vestibule-spot-floor" id="vestibule-choice-floor" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">地下层</span>
+              <span class="bb-title">按下电梯里不存在的地下层</span>
+              <span class="bb-hint">按钮没有下沉</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot debt-anomaly vestibule-debt-spot-tenth" id="vestibule-debt-tenth" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">进入未编号的第十门</span>
+              <span class="bb-title">进入未编号的第十门</span>
+              <span class="bb-hint">门从你的编号里向内打开</span>
+            </button>
+            <aside class="debt-plate" id="vestibule-debt-plate" aria-label="副楼三债刻痕牌">
+              <span class="dp-row"><em>见证</em><i class="dp-ticks" data-debt-ticks="witness" role="img" aria-label="见证 0 道刻痕"></i></span>
+              <span class="dp-row"><em>失号</em><i class="dp-ticks" data-debt-ticks="unnumbered" role="img" aria-label="失号 0 道刻痕"></i></span>
+              <span class="dp-row"><em>逆行</em><i class="dp-ticks" data-debt-ticks="reverse" role="img" aria-label="逆行 0 道刻痕"></i></span>
+              <span class="dp-live" id="vestibule-debt-live" aria-live="polite"></span>
+            </aside>
+          </figure>
+          <p class="branch-response" id="vestibule-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开无号前厅">
+            <button class="exit-link" type="button" data-go="threshold" data-hover>⟵ 回到门外</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段副楼 · 逆向阶井（v32） -->
+      <section class="scene scene-branch scene-annex" id="scene-reverse-stairwell" data-scene="reverse-stairwell" data-title="Goddead — 逆向阶井" aria-label="逆向阶井">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE REVERSE STAIRWELL · 逆 向 阶 井</p>
+            <h2 class="sec-title">逆向阶井</h2>
+            <p class="sec-desc">向上的人正在下楼。向下的人还没出发。两段楼梯折回同一层，平台上的暗红接缝几乎看不见。</p>
+          </header>
+
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="上下折返的黑石楼梯共用中央平台，台阶上的脚印同时朝向两个方向，左上墙面挂着只映出背后的窄长黑镜，平台横贯一道暗红发亮的第零级接缝，右下扶手柱上放着黄铜异常申报盒与复核章">
+            <img class="branch-img" src="assets/annex-stairwell-tactile.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot stairwell-spot-climb" id="stairwell-choice-climb" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">向上</span>
+              <span class="bb-title">向上走向下层</span>
+              <span class="bb-hint">阶数对不上楼层</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot stairwell-spot-zeroth" id="stairwell-choice-zeroth" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">第零级</span>
+              <span class="bb-title">跨过第零级台阶</span>
+              <span class="bb-hint">它没有高度</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot stairwell-spot-lookback" id="stairwell-choice-lookback" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">回望</span>
+              <span class="bb-title">回头但不转身</span>
+              <span class="bb-hint">背后有人念守则</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot stairwell-spot-review" id="stairwell-choice-review" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">申报</span>
+              <span class="bb-title">申报一段同时向上的下行梯</span>
+              <span class="bb-hint">方向不明的台阶必须复核</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot debt-anomaly stairwell-debt-spot-double" id="stairwell-debt-double" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">走进倒置的阶井</span>
+              <span class="bb-title">走进倒置的阶井</span>
+              <span class="bb-hint">镜中的脚先落地</span>
+            </button>
+            <aside class="debt-plate" id="stairwell-debt-plate" aria-label="副楼三债刻痕牌">
+              <span class="dp-row"><em>见证</em><i class="dp-ticks" data-debt-ticks="witness" role="img" aria-label="见证 0 道刻痕"></i></span>
+              <span class="dp-row"><em>失号</em><i class="dp-ticks" data-debt-ticks="unnumbered" role="img" aria-label="失号 0 道刻痕"></i></span>
+              <span class="dp-row"><em>逆行</em><i class="dp-ticks" data-debt-ticks="reverse" role="img" aria-label="逆行 0 道刻痕"></i></span>
+              <span class="dp-live" id="stairwell-debt-live" aria-live="polite"></span>
+            </aside>
+          </figure>
+          <p class="branch-response" id="stairwell-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开逆向阶井">
+            <button class="exit-link" type="button" data-go="threshold" data-hover>⟵ 回到门外</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 异常复核科（v33） -->
+      <section class="scene scene-branch scene-anomaly-review" id="scene-anomaly-review" data-scene="anomaly-review" data-title="Goddead — 异常复核科" aria-label="异常复核科">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE OFFICE OF ANOMALY REVIEW · 异 常 复 核 科</p>
+            <h2 class="sec-title">异常复核科</h2>
+            <p class="sec-desc">复核不是寻找错误。复核是决定哪一份现实继续生效。</p>
+          </header>
+
+          <div class="review-slip reveal" role="group" aria-label="复核签">
+            <span class="rs-item">复核值 <b id="review-stat-correct">0</b></span>
+            <span class="rs-item">连续复核 <b id="review-stat-streak">0</b></span>
+            <span class="rs-item">误报 <b id="review-stat-mistakes">0</b></span>
+            <span class="rs-item">最佳连续 <b id="review-stat-best">0</b></span>
+          </div>
+
+          <figure class="review-figure reveal" role="img" aria-label="一间黑色复核办公室：整墙的档案孔与抽屉，中央复核灯，墙面悬着黄铜测量轨道">
+            <img class="review-case-img is-front" id="review-case-img-a" src="assets/anomaly-review-baseline.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async" data-case="baseline">
+            <img class="review-case-img" id="review-case-img-b" src="assets/anomaly-review-baseline.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async" aria-hidden="true" data-case="baseline">
+          </figure>
+          <p class="review-case-label reveal" id="review-case-label">第一份档案 · 共三份</p>
+
+          <div class="branch-choices review-decisions reveal" id="review-decisions" role="group" aria-label="复核判断">
+            <button class="branch-btn" id="review-choice-anomaly" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">登记为异常</span>
+              <span class="bb-hint">这份档案不属于这里</span>
+            </button>
+            <button class="branch-btn" id="review-choice-baseline" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">维持原案</span>
+              <span class="bb-hint">房间保持原样</span>
+            </button>
+          </div>
+          <p class="branch-response" id="review-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开异常复核科">
+            <button class="exit-link" type="button" data-go="eyelid-archive" data-hover>⟵ 回到闭目档案室</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 异常保全库（v33） -->
+      <section class="scene scene-branch scene-evidence-vault" id="scene-evidence-vault" data-scene="evidence-vault" data-title="Goddead — 异常保全库" aria-label="异常保全库">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE EVIDENCE PRESERVATION VAULT · 异 常 保 全 库</p>
+            <h2 class="sec-title">异常保全库</h2>
+            <p class="sec-desc">被证明存在的异常，不再属于现实；它属于证物。</p>
+          </header>
+
+          <figure class="branch-figure reveal" role="img" aria-label="一座黑石保全库，空中悬着三只封着空间切片的骨瓷证物匣，黄铜封条从天花板垂下，地面没有灰尘">
+            <img class="branch-img" src="assets/anomaly-evidence-vault.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="branch-choices reveal" id="vault-choices" role="group" aria-label="选择如何处理保全的异常">
+            <button class="branch-btn" id="vault-choice-seal" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">封存最清楚的一处异常</span>
+              <span class="bb-hint">证物匣还空着一格</span>
+            </button>
+            <button class="branch-btn" id="vault-choice-return" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">把原案退回无号前厅</span>
+              <span class="bb-hint">原案不属于证物</span>
+            </button>
+            <button class="branch-btn" id="vault-choice-leave" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">沿保全编号的断口离开</span>
+              <span class="bb-hint">编号在中途断裂</span>
+            </button>
+            <button class="branch-btn" id="vault-choice-valuation" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">把未封存的证物送去估值</span>
+              <span class="bb-hint">估值室只收无主之物</span>
+            </button>
+          </div>
+          <p class="branch-response" id="vault-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开异常保全库">
+            <button class="exit-link" type="button" data-go="anomaly-review" data-hover>⟵ 回到异常复核科</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 误报回收井（v33） -->
+      <section class="scene scene-branch scene-false-positive-shaft" id="scene-false-positive-shaft" data-scene="false-positive-shaft" data-title="Goddead — 误报回收井" aria-label="误报回收井">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE FALSE-POSITIVE SHAFT · 误 报 回 收 井</p>
+            <h2 class="sec-title">误报回收井</h2>
+            <p class="sec-desc">错误报告不会销毁。它们会被送回报告者体内。</p>
+          </header>
+
+          <figure class="branch-figure reveal" role="img" aria-label="一口纵深极黑的行政回收井，数百张作废工单沿螺旋轨道缓慢下坠，井壁嵌着黄铜退件槽，井底反射出站在井口的人">
+            <img class="branch-img" src="assets/anomaly-false-positive-shaft.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="branch-choices reveal" id="shaft-choices" role="group" aria-label="选择如何处理回收的误报">
+            <button class="branch-btn" id="shaft-choice-retrieve" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">捡回一张被判错的工单</span>
+              <span class="bb-hint">背面写着新的档案编号</span>
+            </button>
+            <button class="branch-btn" id="shaft-choice-append" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">把误报写进守则附录</span>
+              <span class="bb-hint">凡看错者，视为看见</span>
+            </button>
+            <button class="branch-btn" id="shaft-choice-admit" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">承认自己是多出来的一项</span>
+              <span class="bb-hint">井底有人在等你承认</span>
+            </button>
+            <button class="branch-btn" id="shaft-choice-valuation" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">把一件退件申报成资产</span>
+              <span class="bb-hint">估值室只收无主之物</span>
+            </button>
+          </div>
+          <p class="branch-response" id="shaft-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开误报回收井">
+            <button class="exit-link" type="button" data-go="anomaly-review" data-hover>⟵ 回到异常复核科</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 无主估值室（v34） -->
+      <section class="scene scene-branch scene-unclaimed-valuation" id="scene-unclaimed-valuation" data-scene="unclaimed-valuation" data-title="Goddead — 无主估值室" aria-label="无主估值室">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE UNCLAIMED VALUATION ROOM · 无 主 估 值 室</p>
+            <h2 class="sec-title">无主估值室</h2>
+            <p class="sec-desc">无人认领的东西仍有价值。价值只说明它还欠这里什么。</p>
+          </header>
+
+          <div class="valuation-slip reveal" role="group" aria-label="估值签">
+            <span class="vs-item">本批估值 <b id="val-stat-value">0</b></span>
+            <span class="vs-item">封印完整 <b id="val-stat-integrity">5</b></span>
+            <span class="vs-item">本批定额 <b id="val-stat-quota">6</b></span>
+            <span class="vs-item">最佳结算 <b id="val-stat-best">0</b></span>
+            <span class="vs-item vs-minor">破损批次 <b id="val-stat-breach">0</b></span>
+            <button class="val-settle-btn" id="val-settle" type="button" disabled data-hover>盖章结算</button>
+          </div>
+
+          <figure class="branch-figure reveal" role="img" aria-label="黑石与暗黄铜构成的地下估值柜台，中央是一台没有货币符号的机械定额计，桌面并排放着三只骨瓷证物匣">
+            <img class="branch-img" src="assets/unclaimed-valuation-room.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="valuation-relics reveal" id="valuation-relics" role="group" aria-label="本批三件证物">
+            <button class="relic-card" id="val-relic-0" type="button" data-hover>
+              <span class="relic-figure"><img class="relic-img" id="val-relic-img-0" src="assets/valuation-thirteenth-clock.webp" alt="" width="1536" height="1024" loading="eager" decoding="async"></span>
+              <span class="rc-name" id="val-relic-name-0"></span>
+              <span class="rc-omen" id="val-relic-omen-0"></span>
+              <span class="rc-result" id="val-relic-result-0"></span>
+            </button>
+            <button class="relic-card" id="val-relic-1" type="button" data-hover>
+              <span class="relic-figure"><img class="relic-img" id="val-relic-img-1" src="assets/valuation-tooth-key.webp" alt="" width="1536" height="1024" loading="eager" decoding="async"></span>
+              <span class="rc-name" id="val-relic-name-1"></span>
+              <span class="rc-omen" id="val-relic-omen-1"></span>
+              <span class="rc-result" id="val-relic-result-1"></span>
+            </button>
+            <button class="relic-card" id="val-relic-2" type="button" data-hover>
+              <span class="relic-figure"><img class="relic-img" id="val-relic-img-2" src="assets/valuation-hollow-idol.webp" alt="" width="1536" height="1024" loading="eager" decoding="async"></span>
+              <span class="rc-name" id="val-relic-name-2"></span>
+              <span class="rc-omen" id="val-relic-omen-2"></span>
+              <span class="rc-result" id="val-relic-result-2"></span>
+            </button>
+          </div>
+          <p class="branch-response" id="valuation-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开无主估值室">
+            <button class="exit-link" type="button" data-go="return-passage" data-hover>⟵ 回到回返夹道</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 定额电梯（v34） -->
+      <section class="scene scene-branch scene-quota-elevator" id="scene-quota-elevator" data-scene="quota-elevator" data-title="Goddead — 定额电梯" aria-label="定额电梯">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE QUOTA ELEVATOR · 定 额 电 梯</p>
+            <h2 class="sec-title">定额电梯</h2>
+            <p class="sec-desc">电梯只运送达到定额的东西。人必须被写在货物清单里。</p>
+          </header>
+
+          <figure class="branch-figure reveal" role="img" aria-label="一座纵深极高的黑石货梯，轿厢里叠着被黄铜封条固定的骨瓷证物箱，楼层盘只有一根指向墙内的红针，三扇栅门分别通向不同方向">
+            <img class="branch-img" src="assets/quota-elevator.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="branch-choices reveal" id="elevator-choices" role="group" aria-label="选择电梯驶向哪条路线">
+            <button class="branch-btn" id="elevator-choice-vestibule" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">把满额证物送进无号货梯</span>
+              <span class="bb-hint">货梯停在没有编号的一层</span>
+            </button>
+            <button class="branch-btn" id="elevator-choice-scale" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">沿断开的楼层刻度横移</span>
+              <span class="bb-hint">红针指向墙内</span>
+            </button>
+            <button class="branch-btn" id="elevator-choice-corridor" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">让电梯穿过走廊天花板</span>
+              <span class="bb-hint">轿厢随后才找到楼层</span>
+            </button>
+            <button class="branch-btn" id="elevator-choice-floor" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">让指针停在没有刻度的层</span>
+              <span class="bb-hint">指针越过零</span>
+            </button>
+          </div>
+          <p class="branch-response" id="elevator-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开定额电梯">
+            <button class="exit-link" type="button" data-go="unclaimed-valuation" data-hover>⟵ 回到无主估值室</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 无号层大厅（v35） -->
+      <section class="scene scene-branch scene-unnumbered-floor" id="scene-unnumbered-floor" data-scene="unnumbered-floor" data-title="Goddead — 无号层" aria-label="无号层">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE UNNUMBERED FLOOR · 无 号 层</p>
+            <h2 class="sec-title">无号层</h2>
+            <p class="sec-desc">这里的房间都有用途。只有楼层没有。</p>
+          </header>
+
+          <div class="review-slip floor-slip reveal" role="group" aria-label="楼层签">
+            <span class="rs-item">已值班 <b id="floor-stat-completed">0/3</b></span>
+            <span class="rs-item">楼层信号 <b id="floor-stat-signal">0</b></span>
+            <span class="rs-item">门债 <b id="floor-stat-debt">0</b></span>
+            <span class="rs-item">最佳路线 <b id="floor-stat-best">0</b></span>
+          </div>
+
+          <figure class="branch-figure reveal" role="img" aria-label="黑石无号大厅：左侧无铃病房门、中间渗水档案门、右侧逆照洗衣门，后墙中央封着一台缺层电梯">
+            <img class="branch-img" src="assets/unnumbered-floor.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="branch-choices floor-doors reveal" id="floor-doors" role="group" aria-label="选择去哪一间值班房">
+            <button class="branch-btn" id="floor-door-ward" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">无铃病房</span>
+              <span class="bb-hint">门后没有铃声</span>
+            </button>
+            <button class="branch-btn" id="floor-door-records" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">渗水档案池</span>
+              <span class="bb-hint">门后在渗水</span>
+            </button>
+            <button class="branch-btn" id="floor-door-laundry" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">逆照洗衣房</span>
+              <span class="bb-hint">门后滚筒先停了</span>
+            </button>
+            <button class="branch-btn" id="floor-door-registry" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">敲开夜班登记窗</span>
+              <span class="bb-hint">窗后没有人，托盘仍在移动</span>
+            </button>
+          </div>
+
+          <div class="floor-elevator-box reveal">
+            <button class="branch-btn floor-elevator-btn" id="floor-elevator-btn" type="button" disabled data-hover>
+              <span class="bb-title" id="floor-elevator-label">缺层电梯仍封死</span>
+              <span class="bb-hint">完成任意两间值班房后召回</span>
+            </button>
+          </div>
+          <p class="branch-response" id="floor-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开无号层">
+            <button class="exit-link" type="button" data-go="unnumbered-vestibule" data-hover>⟵ 回到无号前厅</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 无铃病房（v35） -->
+      <section class="scene scene-branch scene-bellless-ward" id="scene-bellless-ward" data-scene="bellless-ward" data-title="Goddead — 无铃病房" aria-label="无铃病房">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE BELL-LESS WARD · 无 铃 病 房</p>
+            <h2 class="sec-title">无铃病房</h2>
+            <p class="sec-desc">空床在呼吸。呼叫铃没有铃。输液管决定自己往哪里去。</p>
+          </header>
+
+          <div class="review-slip floor-slip reveal" role="group" aria-label="楼层签">
+            <span class="rs-item">已值班 <b id="ward-stat-completed">0/3</b></span>
+            <span class="rs-item">楼层信号 <b id="ward-stat-signal">0</b></span>
+            <span class="rs-item">门债 <b id="ward-stat-debt">0</b></span>
+          </div>
+
+          <figure class="branch-figure reveal" role="img" aria-label="一间病房：会呼吸的空床、没有铃的床头柜、一条穿进墙里的输液管">
+            <img class="branch-img" src="assets/bellless-ward.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="branch-choices reveal" id="ward-choices" role="group" aria-label="病房值班动作">
+            <button class="branch-btn" id="ward-choice-listen" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">听无铃床头柜里有没有呼叫</span>
+              <span class="bb-hint">柜子里有人先说收到</span>
+            </button>
+            <button class="branch-btn" id="ward-choice-sheet" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">替会呼吸的空床换一次床单</span>
+              <span class="bb-hint">床单下面有起伏</span>
+            </button>
+            <button class="branch-btn" id="ward-choice-tube" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">顺着输液管爬进墙里</span>
+              <span class="bb-hint">墙后是潮湿的</span>
+            </button>
+            <button class="branch-btn" id="ward-choice-callback" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">报告：房里没有铃声</span>
+              <span class="bb-hint">对面已经替你写下“有”</span>
+            </button>
+          </div>
+          <p class="branch-response" id="ward-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开无铃病房">
+            <button class="exit-link" type="button" data-go="unnumbered-floor" data-hover>⟵ 回到无号层</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 渗水档案池（v35） -->
+      <section class="scene scene-branch scene-seeping-records" id="scene-seeping-records" data-scene="seeping-records" data-title="Goddead — 渗水档案池" aria-label="渗水档案池">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE SEEPING RECORDS · 渗 水 档 案 池</p>
+            <h2 class="sec-title">渗水档案池</h2>
+            <p class="sec-desc">下沉的档案室里，只有一页是干的。水池在替档案签字。</p>
+          </header>
+
+          <div class="review-slip floor-slip reveal" role="group" aria-label="楼层签">
+            <span class="rs-item">已值班 <b id="records-stat-completed">0/3</b></span>
+            <span class="rs-item">楼层信号 <b id="records-stat-signal">0</b></span>
+            <span class="rs-item">门债 <b id="records-stat-debt">0</b></span>
+          </div>
+
+          <figure class="branch-figure reveal" role="img" aria-label="一间下沉档案室：晾着的无名页、渗字的水池、继续下沉的档案井">
+            <img class="branch-img" src="assets/seeping-records.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="branch-choices reveal" id="records-choices" role="group" aria-label="档案池值班动作">
+            <button class="branch-btn" id="records-choice-dry" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">晾干唯一没有名字的一页</span>
+              <span class="bb-hint">纸干了会认出你</span>
+            </button>
+            <button class="branch-btn" id="records-choice-drink" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">把渗出的字喝回去</span>
+              <span class="bb-hint">墨水记得喉咙</span>
+            </button>
+            <button class="branch-btn" id="records-choice-sink" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">让最下面一层档案继续下沉</span>
+              <span class="bb-hint">上方会空出一层</span>
+            </button>
+            <button class="branch-btn" id="records-choice-callback" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">报告：名字正在渗出</span>
+              <span class="bb-hint">档案池先念出了你的号码</span>
+            </button>
+          </div>
+          <p class="branch-response" id="records-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开渗水档案池">
+            <button class="exit-link" type="button" data-go="unnumbered-floor" data-hover>⟵ 回到无号层</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 逆照洗衣房（v35） -->
+      <section class="scene scene-branch scene-reverse-laundry" id="scene-reverse-laundry" data-scene="reverse-laundry" data-title="Goddead — 逆照洗衣房" aria-label="逆照洗衣房">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE REVERSE LAUNDRY · 逆 照 洗 衣 房</p>
+            <h2 class="sec-title">逆照洗衣房</h2>
+            <p class="sec-desc">滚筒比你先停下。工服没有倒影。镜面机舱像一扇门。</p>
+          </header>
+
+          <div class="review-slip floor-slip reveal" role="group" aria-label="楼层签">
+            <span class="rs-item">已值班 <b id="laundry-stat-completed">0/3</b></span>
+            <span class="rs-item">楼层信号 <b id="laundry-stat-signal">0</b></span>
+            <span class="rs-item">门债 <b id="laundry-stat-debt">0</b></span>
+          </div>
+
+          <figure class="branch-figure reveal" role="img" aria-label="一间工业洗衣房：先停下的滚筒、没有倒影的工服、像门一样的镜面机舱">
+            <img class="branch-img" src="assets/reverse-laundry.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="branch-choices reveal" id="laundry-choices" role="group" aria-label="洗衣房值班动作">
+            <button class="branch-btn" id="laundry-choice-drum" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">切断比你先停下的滚筒</span>
+              <span class="bb-hint">里面还在转身</span>
+            </button>
+            <button class="branch-btn" id="laundry-choice-uniform" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">穿上没有倒影的工服</span>
+              <span class="bb-hint">镜面里少了一个人</span>
+            </button>
+            <button class="branch-btn" id="laundry-choice-mirror" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">用旧号牌刷开镜面机舱</span>
+              <span class="bb-hint">镜面认得这个号码</span>
+            </button>
+            <button class="branch-btn" id="laundry-choice-callback" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">报告：工服没有倒影</span>
+              <span class="bb-hint">接线员的声音从滚筒里传来</span>
+            </button>
+          </div>
+          <p class="branch-response" id="laundry-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开逆照洗衣房">
+            <button class="exit-link" type="button" data-go="unnumbered-floor" data-hover>⟵ 回到无号层</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 夜班登记所（v36） -->
+      <section class="scene scene-branch scene-night-shift-registry" id="scene-night-shift-registry" data-scene="night-shift-registry" data-title="Goddead — 夜班登记所" aria-label="夜班登记所">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE NIGHT-SHIFT REGISTRY · 夜 班 登 记 所</p>
+            <h2 class="sec-title">夜班登记所</h2>
+            <p class="sec-desc">登记窗里没有职员。三只证件托盘仍按顺序把明天的值班证推到今天。</p>
+          </header>
+
+          <div class="review-slip registry-slip reveal" role="group" aria-label="登记签">
+            <span class="rs-item">本轮凭证 <b id="registry-stat-permit">未领</b></span>
+            <span class="rs-item">附加信号 <b id="registry-stat-signal">0</b></span>
+            <span class="rs-item">附加门债 <b id="registry-stat-debt">0</b></span>
+            <span class="rs-item">最佳路线 <b id="registry-stat-best">0</b></span>
+          </div>
+
+          <figure class="branch-figure reveal" role="img" aria-label="黑石与骨瓷围成的地下登记窗，柜台无人，三只旧黄铜托盘并排，后墙挂着倒走的值班钟">
+            <img class="branch-img" src="assets/night-shift-registry.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="valuation-relics permit-cards reveal" id="permit-cards" role="group" aria-label="三张值班证">
+            <button class="relic-card permit-card" id="permit-choice-mute-bell" type="button" aria-pressed="false" data-hover>
+              <span class="relic-figure"><img class="relic-img" src="assets/permit-mute-bell.webp" alt="" width="1536" height="1024" loading="eager" decoding="async"></span>
+              <span class="rc-name">借出无铃证</span>
+              <span class="rc-omen">证上的铃没有铃舌，却在你眨眼时摆动。</span>
+              <span class="rc-result" id="permit-result-mute-bell"></span>
+            </button>
+            <button class="relic-card permit-card" id="permit-choice-blank-name" type="button" aria-pressed="false" data-hover>
+              <span class="relic-figure"><img class="relic-img" src="assets/permit-blank-name.webp" alt="" width="1536" height="1024" loading="eager" decoding="async"></span>
+              <span class="rc-name">领走失名牌</span>
+              <span class="rc-omen">姓名栏保持空白，封蜡却重复盖了两次。</span>
+              <span class="rc-result" id="permit-result-blank-name"></span>
+            </button>
+            <button class="relic-card permit-card" id="permit-choice-reverse-badge" type="button" aria-pressed="false" data-hover>
+              <span class="relic-figure"><img class="relic-img" src="assets/permit-reverse-badge.webp" alt="" width="1536" height="1024" loading="eager" decoding="async"></span>
+              <span class="rc-name">签收反面工牌</span>
+              <span class="rc-omen">正面压在柜台下，背面替你留下签名。</span>
+              <span class="rc-result" id="permit-result-reverse-badge"></span>
+            </button>
+          </div>
+          <p class="branch-response" id="registry-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开夜班登记所">
+            <button class="exit-link" type="button" data-go="unnumbered-floor" data-hover>⟵ 回到无号层</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 午夜回拨台（v37） -->
+      <section class="scene scene-branch scene-midnight-callback" id="scene-midnight-callback" data-scene="midnight-callback" data-title="Goddead — 午夜回拨台" aria-label="午夜回拨台">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE MIDNIGHT CALLBACK DESK · 午 夜 回 拨 台</p>
+            <h2 class="sec-title">午夜回拨台</h2>
+            <p class="sec-desc">三只听筒都晚了八分钟。总机把现场先送到你面前，再等你回来承认听见了什么。</p>
+          </header>
+
+          <div class="review-slip callback-slip reveal" role="group" aria-label="回拨签">
+            <span class="rs-item">已核实 <b id="callback-stat-done">0/2</b></span>
+            <span class="rs-item">核实 <b id="callback-stat-verification">0</b></span>
+            <span class="rs-item">线债 <b id="callback-stat-debt">0</b></span>
+            <span class="rs-item">最佳线路 <b id="callback-stat-best">0</b></span>
+          </div>
+
+          <figure class="branch-figure reveal" role="img" aria-label="黑石与旧黄铜围成的地下回拨台，三只骨瓷听筒并排，三盏暗红线路灯，墙钟比背后的影子慢八分钟">
+            <img class="branch-img" src="assets/midnight-callback-desk.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="valuation-relics callback-lines reveal" id="callback-lines" role="group" aria-label="三条夜间来电线路">
+            <button class="relic-card callback-line" id="callback-line-ward" type="button" aria-pressed="false" data-hover>
+              <span class="relic-figure"><img class="relic-img" src="assets/callback-bellless-ward.webp" alt="" width="1536" height="1024" loading="eager" decoding="async"></span>
+              <span class="rc-name">接通无铃病房</span>
+              <span class="rc-omen">听筒没有响。床头柜已经替你说了“收到”。</span>
+              <span class="rc-result" id="callback-result-ward"></span>
+            </button>
+            <button class="relic-card callback-line" id="callback-line-records" type="button" aria-pressed="false" data-hover>
+              <span class="relic-figure"><img class="relic-img" src="assets/callback-seeping-records.webp" alt="" width="1536" height="1024" loading="eager" decoding="async"></span>
+              <span class="rc-name">接通渗水档案池</span>
+              <span class="rc-omen">来电者没有名字，档案页却在听筒里翻动。</span>
+              <span class="rc-result" id="callback-result-records"></span>
+            </button>
+            <button class="relic-card callback-line" id="callback-line-laundry" type="button" aria-pressed="false" data-hover>
+              <span class="relic-figure"><img class="relic-img" src="assets/callback-reverse-laundry.webp" alt="" width="1536" height="1024" loading="eager" decoding="async"></span>
+              <span class="rc-name">接通逆照洗衣房</span>
+              <span class="rc-omen">滚筒没有转，听筒里的工服却一直摩擦镜面。</span>
+              <span class="rc-result" id="callback-result-laundry"></span>
+            </button>
+          </div>
+          <p class="branch-response" id="callback-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开午夜回拨台">
+            <button class="exit-link" type="button" data-go="return-passage" data-hover>⟵ 回到回返夹道</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 门外代审窗（v38） -->
+      <section class="scene scene-branch scene-proxy-admission" id="scene-proxy-admission" data-scene="proxy-admission" data-title="Goddead — 门外代审窗" aria-label="门外代审窗">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE PROXY ADMISSION WINDOW · 门 外 代 审 窗</p>
+            <h2 class="sec-title">门外代审窗</h2>
+            <p class="sec-desc">门后的值班员不肯露面，只把三份访客档案从门缝里推给你。今夜由门外的人决定，谁还能被称为在场。</p>
+          </header>
+
+          <div class="review-slip proxy-slip reveal" role="group" aria-label="代审簿">
+            <span class="rs-item">已审 <b id="proxy-stat-done">0/3</b></span>
+            <span class="rs-item">在场证 <b id="proxy-stat-proof">0</b></span>
+            <span class="rs-item">门债 <b id="proxy-stat-debt">0</b></span>
+            <span class="rs-item">已问 <b id="proxy-stat-asked">0</b></span>
+            <span class="rs-item">最佳核验 <b id="proxy-stat-best">0</b></span>
+          </div>
+
+          <figure class="branch-figure reveal" role="img" aria-label="黑石门内侧嵌着窄黄铜问讯窗，三格骨瓷档案托盘，一盏暗红值班灯，窗后没有值班员">
+            <img class="branch-img" src="assets/proxy-admission-window.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="proxy-visitor reveal" id="proxy-visitor" role="group" aria-label="当前访客">
+            <figure class="proxy-visitor-figure" role="img" aria-label="磨砂问讯玻璃后的当前访客">
+              <img class="proxy-visitor-img" id="proxy-visitor-img" src="assets/proxy-visitor-nurse.webp" alt="" width="1536" height="1024" loading="eager" decoding="async">
+            </figure>
+            <p class="proxy-visitor-name" id="proxy-visitor-name"></p>
+            <p class="proxy-visitor-statement" id="proxy-visitor-statement"></p>
+          </div>
+
+          <div class="branch-choices proxy-questions reveal" id="proxy-questions" role="group" aria-label="三项问讯">
+            <button class="branch-btn" id="proxy-question-name" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">报上登记名</span>
+              <span class="bb-hint proxy-question-result" id="proxy-question-result-name"></span>
+            </button>
+            <button class="branch-btn" id="proxy-question-shadow" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">让影子先回答</span>
+              <span class="bb-hint proxy-question-result" id="proxy-question-result-shadow"></span>
+            </button>
+            <button class="branch-btn" id="proxy-question-knock" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">请按规定敲门</span>
+              <span class="bb-hint proxy-question-result" id="proxy-question-result-knock"></span>
+            </button>
+          </div>
+
+          <div class="branch-choices proxy-judgements reveal" id="proxy-judgements" role="group" aria-label="两个判断">
+            <button class="branch-btn" id="proxy-judge-admit" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">准许入内</span>
+              <span class="bb-hint">门为在场者开</span>
+            </button>
+            <button class="branch-btn" id="proxy-judge-refuse" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">留在门外</span>
+              <span class="bb-hint">回声不得入内</span>
+            </button>
+          </div>
+          <p class="branch-response" id="proxy-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开门外代审窗">
+            <button class="exit-link" type="button" data-go="threshold" data-hover>⟵ 回到门外</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 归路核验站（v39） -->
+      <section class="scene scene-branch scene-return-audit" id="scene-return-audit" data-scene="return-audit" data-title="Goddead — 归路核验站" aria-label="归路核验站">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE ROUTE-OF-RETURN AUDIT · 归 路 核 验 站</p>
+            <h2 class="sec-title">归路核验站</h2>
+            <p class="sec-desc">机构不相信「我记得路」。声称从回声、血管或忏悔中回来的人，都要在这里重走两段路。第三条路故意不让你走：完整的记忆太像伪造。</p>
+          </header>
+
+          <div class="review-slip audit-slip reveal" role="group" aria-label="归路核验签">
+            <span class="rs-item">已核 <b id="audit-stat-done">0/2</b></span>
+            <span class="rs-item">归路证 <b id="audit-stat-recall">0</b></span>
+            <span class="rs-item">迷步 <b id="audit-stat-misstep">0</b></span>
+            <span class="rs-item">最佳归路 <b id="audit-stat-best">0</b></span>
+          </div>
+
+          <figure class="branch-figure reveal" role="img" aria-label="黑石地下换乘厅，中央一张没有文字的黄铜路线台，三道窄门分别以声波纹、脉管和封蜡器物暗示回声、血管、忏悔，线路第三段在黑暗里被剪断">
+            <img class="branch-img" src="assets/return-audit-hall.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="branch-choices audit-routes reveal" id="audit-routes" role="group" aria-label="三条待核验路线">
+            <button class="branch-btn" id="audit-route-echo" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">进入回声岔廊</span>
+              <span class="bb-hint">最响的那声，总是最晚到达</span>
+            </button>
+            <button class="branch-btn" id="audit-route-vein" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">通过血管检票闸</span>
+              <span class="bb-hint">红灯亮时，闸机正在吞咽</span>
+            </button>
+            <button class="branch-btn" id="audit-route-confession" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">打开忏悔寄存柜</span>
+              <span class="bb-hint">写着你名字的格子并不属于你</span>
+            </button>
+          </div>
+          <p class="branch-response" id="audit-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开归路核验站">
+            <button class="exit-link" type="button" data-go="protocol" data-hover>⟵ 回到守则</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 回声岔廊（v39 核验路线） -->
+      <section class="scene scene-branch scene-audit-route scene-echo-turn" id="scene-echo-turn" data-scene="echo-turn" data-title="Goddead — 回声岔廊" aria-label="回声岔廊">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE ECHO TURN · 回 声 岔 廊</p>
+            <h2 class="sec-title">回声岔廊</h2>
+            <p class="sec-desc">三次呼唤都用了你的声音。最响的那次最后才发生。</p>
+          </header>
+
+          <figure class="branch-figure reveal" role="img" aria-label="同一扇黑门沿弧形回廊重复出现，黄铜听音管在每扇门间穿行，最近的门最暗，地面波纹由远到近依次扩散">
+            <img class="branch-img" src="assets/return-audit-echo.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="branch-choices audit-judgements reveal" role="group" aria-label="两个判断">
+            <button class="branch-btn" id="echo-turn-choice-first" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">跟随最先出现的回声</span>
+              <span class="bb-hint">最早的那声最轻</span>
+            </button>
+            <button class="branch-btn" id="echo-turn-choice-loud" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">跟随最响的回声</span>
+              <span class="bb-hint">最响的那声最后才发生</span>
+            </button>
+          </div>
+          <p class="branch-response" id="echo-turn-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开回声岔廊">
+            <button class="exit-link" type="button" data-go="return-audit" data-hover>⟵ 回到核验站</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 血管检票闸（v39 核验路线） -->
+      <section class="scene scene-branch scene-audit-route scene-vein-turnstile" id="scene-vein-turnstile" data-scene="vein-turnstile" data-title="Goddead — 血管检票闸" aria-label="血管检票闸">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE VEIN TURNSTILE · 血 管 检 票 闸</p>
+            <h2 class="sec-title">血管检票闸</h2>
+            <p class="sec-desc">每次红灯亮起，闸机都在把什么送回更深处。</p>
+          </header>
+
+          <figure class="branch-figure reveal" role="img" aria-label="黑石检票厅，粗大的暗红脉管穿过黄铜闸机，三盏红灯随脉搏涨落，一次苍白的停搏在闸口留下短暂空隙">
+            <img class="branch-img" src="assets/return-audit-vein.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="branch-choices audit-judgements reveal" role="group" aria-label="两个判断">
+            <button class="branch-btn" id="vein-turnstile-choice-pale" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">趁苍白停搏穿过</span>
+              <span class="bb-hint">停搏留下短暂空隙</span>
+            </button>
+            <button class="branch-btn" id="vein-turnstile-choice-pulse" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">跟着红色脉冲前进</span>
+              <span class="bb-hint">红灯亮时闸机在吞咽</span>
+            </button>
+          </div>
+          <p class="branch-response" id="vein-turnstile-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开血管检票闸">
+            <button class="exit-link" type="button" data-go="return-audit" data-hover>⟵ 回到核验站</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 忏悔寄存所（v39 核验路线） -->
+      <section class="scene scene-branch scene-audit-route scene-confession-locker" id="scene-confession-locker" data-scene="confession-locker" data-title="Goddead — 忏悔寄存所" aria-label="忏悔寄存所">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE CONFESSION LOCKER · 忏 悔 寄 存 所</p>
+            <h2 class="sec-title">忏悔寄存所</h2>
+            <p class="sec-desc">这里收走忏悔，也收走说出忏悔的人。</p>
+          </header>
+
+          <figure class="branch-figure reveal" role="img" aria-label="狭长黑石寄存室，两侧黄铜小柜与黑蜡封条，中央台上一枚空白寄存牌，旁边一枚牌子像刚被擦掉名字，柜门缝里纸页轻微起伏">
+            <img class="branch-img" src="assets/return-audit-confession.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+
+          <div class="branch-choices audit-judgements reveal" role="group" aria-label="两个判断">
+            <button class="branch-btn" id="confession-locker-choice-blank" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">领取空白寄存牌</span>
+              <span class="bb-hint">空白牌不认识任何人</span>
+            </button>
+            <button class="branch-btn" id="confession-locker-choice-named" type="button" aria-pressed="false" data-hover>
+              <span class="bb-title">领取写着自己的那枚</span>
+              <span class="bb-hint">写着你名字的格子并不属于你</span>
+            </button>
+          </div>
+          <p class="branch-response" id="confession-locker-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开忏悔寄存所">
+            <button class="exit-link" type="button" data-go="return-audit" data-hover>⟵ 回到核验站</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 无灯灯廊（v40 门外侧廊） -->
+      <section class="scene scene-branch scene-lateral scene-unlit-lamp-gallery" id="scene-unlit-lamp-gallery" data-scene="unlit-lamp-gallery" data-title="Goddead — 无灯灯廊" aria-label="无灯灯廊">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE UNLIT LAMP GALLERY · 无 灯 灯 廊</p>
+            <h2 class="sec-title">无灯灯廊</h2>
+            <p class="sec-desc">这里的灯只负责留下影子。照明是另一个部门的事。</p>
+          </header>
+
+          <figure class="branch-figure lateral-figure reveal" role="img" aria-label="一条向深处收窄的黑石灯廊，两侧黄铜灯笼全部熄灭；最近的一盏没有火光，却在对面墙上投出清晰的人形影子；地面两条旧铜导轨在远处拐进墙里">
+            <img class="branch-img" src="assets/unlit-lamp-gallery.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot lamp-hotspot-lamp" id="lamp-hotspot-lamp" type="button" aria-label="触碰那盏未亮的灯" data-hover>
+              <span class="dh-label" aria-hidden="true">未亮的灯</span>
+            </button>
+            <button class="scene-hotspot lamp-hotspot-rail" id="lamp-hotspot-rail" type="button" aria-label="沿着地面铜轨前行" data-hover>
+              <span class="dh-label" aria-hidden="true">地面铜轨</span>
+            </button>
+            <button class="scene-hotspot lamp-hotspot-squeeze" id="lamp-hotspot-squeeze" type="button" aria-label="从两排灯笼之间挤出去" data-hover>
+              <span class="dh-label" aria-hidden="true">挤出灯排</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="lamp-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开无灯灯廊">
+            <button class="exit-link" type="button" data-go="threshold" data-hover>⟵ 回到门外</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 借影陈列廊（v40 门外侧廊） -->
+      <section class="scene scene-branch scene-lateral scene-borrowed-shadow-gallery" id="scene-borrowed-shadow-gallery" data-scene="borrowed-shadow-gallery" data-title="Goddead — 借影陈列廊" aria-label="借影陈列廊">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE BORROWED SHADOW GALLERY · 借 影 陈 列 廊</p>
+            <h2 class="sec-title">借影陈列廊</h2>
+            <p class="sec-desc">所有影子都登记过主人。少数主人还没有被制造出来。</p>
+          </header>
+
+          <figure class="branch-figure lateral-figure reveal" role="img" aria-label="黑石长廊墙上挂着空黄铜框，框内没有展品，地面却站着数个没有主人的影子；中央是一道人形影子，尽头是一扇没有实体门的门形阴影">
+            <img class="branch-img" src="assets/borrowed-shadow-gallery.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot shadow-hotspot-stand" id="shadow-hotspot-stand" type="button" aria-label="站进人的影子" data-hover>
+              <span class="dh-label" aria-hidden="true">人的影子</span>
+            </button>
+            <button class="scene-hotspot shadow-hotspot-door" id="shadow-hotspot-door" type="button" aria-label="推开门形的影子" data-hover>
+              <span class="dh-label" aria-hidden="true">门形的影子</span>
+            </button>
+            <button class="scene-hotspot shadow-hotspot-follow" id="shadow-hotspot-follow" type="button" aria-label="跟随先走的门影" data-hover>
+              <span class="dh-label" aria-hidden="true">先走的门影</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="shadow-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开借影陈列廊">
+            <button class="exit-link" type="button" data-go="threshold" data-hover>⟵ 回到门外</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 铰链分拣室（v40 门外侧廊） -->
+      <section class="scene scene-branch scene-lateral scene-hinge-sorting-room" id="scene-hinge-sorting-room" data-scene="hinge-sorting-room" data-title="Goddead — 铰链分拣室" aria-label="铰链分拣室">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE HINGE SORTING ROOM · 铰 链 分 拣 室</p>
+            <h2 class="sec-title">铰链分拣室</h2>
+            <p class="sec-desc">门板在别处。这里先决定每扇门应该向哪一边承认自己。</p>
+          </header>
+
+          <figure class="branch-figure lateral-figure reveal" role="img" aria-label="圆形黑石分拣室，墙上环列大量不同方向的旧黄铜铰链；中央三座没有门板的门框分别只装向内铰链、向外铰链和完全空着的轴位，一盏暗红灯悬在没有铰链的门框上方">
+            <img class="branch-img" src="assets/hinge-sorting-room.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot hinge-hotspot-inward" id="hinge-hotspot-inward" type="button" aria-label="装上向内开的铰链" data-hover>
+              <span class="dh-label" aria-hidden="true">向内铰链</span>
+            </button>
+            <button class="scene-hotspot hinge-hotspot-remove" id="hinge-hotspot-remove" type="button" aria-label="让门不再有铰链" data-hover>
+              <span class="dh-label" aria-hidden="true">空轴位</span>
+            </button>
+            <button class="scene-hotspot hinge-hotspot-outward" id="hinge-hotspot-outward" type="button" aria-label="装上向外开的铰链" data-hover>
+              <span class="dh-label" aria-hidden="true">向外铰链</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="hinge-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开铰链分拣室">
+            <button class="exit-link" type="button" data-go="threshold" data-hover>⟵ 回到门外</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 红线登记室（v41 守则背室） -->
+      <section class="scene scene-branch scene-backroom scene-red-thread-registry" id="scene-red-thread-registry" data-scene="red-thread-registry" data-title="Goddead — 红线登记室" aria-label="红线登记室">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE RED-THREAD REGISTRY · 红 线 登 记 室</p>
+            <h2 class="sec-title">红线登记室</h2>
+            <p class="sec-desc">每次有人读完守则，墙上就多一根线。这里不登记姓名，只登记谁与哪一句话互相作证。</p>
+          </header>
+
+          <figure class="branch-figure backroom-figure reveal" role="img" aria-label="黑石登记室，左侧松开的暗红线轴线头朝中央延伸，中央沉重黑蜡见证压印机，右侧大量红线汇入一条窄柜缝，背墙布满黄铜针与空白纸签">
+            <img class="branch-img" src="assets/protocol-red-thread-registry.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="backroom-hotspot thread-hotspot-spool" id="thread-hotspot-spool" type="button" aria-label="触碰左侧松开的暗红线轴" data-hover>
+              <span class="dh-label" aria-hidden="true">松线轴</span>
+            </button>
+            <button class="backroom-hotspot thread-hotspot-seal" id="thread-hotspot-seal" type="button" aria-label="按下中央黑蜡见证压印机" data-hover>
+              <span class="dh-label" aria-hidden="true">见证印</span>
+            </button>
+            <button class="backroom-hotspot thread-hotspot-gap" id="thread-hotspot-gap" type="button" aria-label="钻进右侧所有红线汇入的窄柜缝" data-hover>
+              <span class="dh-label" aria-hidden="true">线后门</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="thread-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开红线登记室">
+            <button class="exit-link" type="button" data-go="protocol" data-hover>⟵ 回到守则</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 空名寄存处（v41 守则背室） -->
+      <section class="scene scene-branch scene-backroom scene-blank-name-cloakroom" id="scene-blank-name-cloakroom" data-scene="blank-name-cloakroom" data-title="Goddead — 空名寄存处" aria-label="空名寄存处">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE CLOAKROOM OF BLANK NAMES · 空 名 寄 存 处</p>
+            <h2 class="sec-title">空名寄存处</h2>
+            <p class="sec-desc">访客进入守则前先把名字寄存在这里。离开的人可以取回外套，却很少有人找到原来的名牌。</p>
+          </header>
+
+          <figure class="branch-figure backroom-figure reveal" role="img" aria-label="很深的黑石寄存柜廊，左侧一件深色无主外套与方向不一致的影子，中央空黄铜挂钩与一块无字黑名牌，右侧盛放空白黄铜圆牌的取物牌托盘，重复挂钩向后消失">
+            <img class="branch-img" src="assets/protocol-blank-name-cloakroom.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="backroom-hotspot name-hotspot-coat" id="name-hotspot-coat" type="button" aria-label="披上左侧没有主人的深色外套" data-hover>
+              <span class="dh-label" aria-hidden="true">无主外套</span>
+            </button>
+            <button class="backroom-hotspot name-hotspot-hook" id="name-hotspot-hook" type="button" aria-label="把名字挂上中央空钩与无字黑名牌" data-hover>
+              <span class="dh-label" aria-hidden="true">挂起名字</span>
+            </button>
+            <button class="backroom-hotspot name-hotspot-token" id="name-hotspot-token" type="button" aria-label="拿起右侧托盘里的无号黄铜取物牌" data-hover>
+              <span class="dh-label" aria-hidden="true">无号取物牌</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="name-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开空名寄存处">
+            <button class="exit-link" type="button" data-go="protocol" data-hover>⟵ 回到守则</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 无舌铃接待台（v41 守则背室） -->
+      <section class="scene scene-branch scene-backroom scene-clapperless-bell-desk" id="scene-clapperless-bell-desk" data-scene="clapperless-bell-desk" data-title="Goddead — 无舌铃接待台" aria-label="无舌铃接待台">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE CLAPPERLESS BELL DESK · 无 舌 铃 接 待 台</p>
+            <h2 class="sec-title">无舌铃接待台</h2>
+            <p class="sec-desc">这里的铃全都失去了钟舌。值班员仍会对每一次按压作出记录，仿佛声音只是访客的误解。</p>
+          </header>
+
+          <figure class="branch-figure backroom-figure reveal" role="img" aria-label="黑石接待台，左侧大型黄铜服务铃明确缺少钟舌、底座下渗出暗色液体，中央从柜台下探出的弯曲黄铜传声管，右侧一根暗红信号绳连接墙上的小门，柜台后无人，远处仅一盏暗红值班灯">
+            <img class="branch-img" src="assets/protocol-clapperless-bell-desk.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="backroom-hotspot bell-hotspot-bell" id="bell-hotspot-bell" type="button" aria-label="按下左侧没有钟舌的黄铜服务铃" data-hover>
+              <span class="dh-label" aria-hidden="true">按无舌铃</span>
+            </button>
+            <button class="backroom-hotspot bell-hotspot-tube" id="bell-hotspot-tube" type="button" aria-label="对着中央柜下探出的黄铜传声管说话" data-hover>
+              <span class="dh-label" aria-hidden="true">柜下传声管</span>
+            </button>
+            <button class="backroom-hotspot bell-hotspot-cord" id="bell-hotspot-cord" type="button" aria-label="拉动右侧通向守则背面的红色信号绳" data-hover>
+              <span class="dh-label" aria-hidden="true">拉红绳</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="bell-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开无舌铃接待台">
+            <button class="exit-link" type="button" data-go="protocol" data-hover>⟵ 回到守则</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 守则漂移巡查台（v42） -->
+      <section class="scene scene-branch scene-drift" id="scene-protocol-drift" data-scene="protocol-drift" data-title="Goddead — 守则漂移" aria-label="守则漂移">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE PROTOCOL DRIFT · 守 则 漂 移</p>
+            <h2 class="sec-title">守则漂移</h2>
+            <p class="sec-desc">你不需要记住每一条守则。你只需要记住，自己上一次看见它们时，哪里还没有开始呼吸。</p>
+          </header>
+
+          <p class="drift-status reveal" id="drift-status" role="status">连对 0 / 3 · 最佳 0 / 3 · 正确 0 · 误报 0</p>
+
+          <figure class="branch-figure drift-figure reveal" role="img" aria-label="巡查中的访客守则布告板：左侧红线、底部空白长牌、右下黄铜铃钮与上沿旧蜡印">
+            <img class="branch-img drift-img" id="drift-img" src="assets/visitor-protocol-board.webp" alt="" width="1536" height="1024" loading="eager" decoding="async">
+            <button class="backroom-hotspot drift-hotspot-thread" id="drift-hotspot-thread" type="button" aria-label="报告守则板左侧红线发生漂移" data-hover>
+              <span class="dh-label" aria-hidden="true">红线漂移</span>
+            </button>
+            <button class="backroom-hotspot drift-hotspot-nameplate" id="drift-hotspot-nameplate" type="button" aria-label="报告守则板底部空白名牌发生漂移" data-hover>
+              <span class="dh-label" aria-hidden="true">空名漂移</span>
+            </button>
+            <button class="backroom-hotspot drift-hotspot-bell" id="drift-hotspot-bell" type="button" aria-label="报告守则板右下无舌铃钮发生漂移" data-hover>
+              <span class="dh-label" aria-hidden="true">铃钮漂移</span>
+            </button>
+            <button class="backroom-hotspot drift-hotspot-forward" id="drift-hotspot-forward" type="button" aria-label="确认本次守则板没有发生漂移并继续巡查" data-hover>
+              <span class="dh-label" aria-hidden="true">未见漂移</span>
+            </button>
+            <p class="backroom-response drift-response" id="drift-response" aria-live="polite"></p>
+          </figure>
+
+          <nav class="scene-exits reveal" aria-label="离开守则漂移巡查台">
+            <button class="exit-link" type="button" id="drift-exit" data-go="protocol" data-hover>⟵ 退回守则</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 回敲廊（v43 门内回敲网） -->
+      <section class="scene scene-branch scene-knocknet scene-counter-knock-gallery" id="scene-counter-knock-gallery" data-scene="counter-knock-gallery" data-title="Goddead — 回敲廊" aria-label="回敲廊">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE COUNTER-KNOCK GALLERY · 回 敲 廊</p>
+            <h2 class="sec-title">回敲廊</h2>
+            <p class="sec-desc">这里保存每一声从门内发出的敲门。门外的人通常误以为那是回声。</p>
+          </header>
+
+          <figure class="branch-figure knocknet-figure reveal" role="img" aria-label="黑石长廊两侧挂满方向错误的黄铜门环，中央独立门环的影子比实体更早击中墙面">
+            <img class="branch-img" src="assets/counter-knock-gallery.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="knocknet-hotspot counter-action-inward" id="counter-knock-action-inward" type="button" aria-label="敲响中央向内的门环" data-hover>
+              <span class="dh-label" aria-hidden="true">向内门环</span>
+            </button>
+            <button class="knocknet-hotspot counter-action-still" id="counter-knock-action-still" type="button" aria-label="按住被黑蜡封死的门环" data-hover>
+              <span class="dh-label" aria-hidden="true">封死门环</span>
+            </button>
+            <button class="knocknet-hotspot counter-action-shadow" id="counter-knock-action-shadow" type="button" aria-label="追上先于金属落下的影子" data-hover>
+              <span class="dh-label" aria-hidden="true">先落的影子</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="gallery-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开回敲廊">
+            <button class="exit-link" type="button" data-go="threshold" data-hover>⟵ 回到门外</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 未应门前厅（v43 门内回敲网） -->
+      <section class="scene scene-branch scene-knocknet scene-unanswered-vestibule" id="scene-unanswered-vestibule" data-scene="unanswered-vestibule" data-title="Goddead — 未应门前厅" aria-label="未应门前厅">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE UNANSWERED VESTIBULE · 未 应 门 前 厅</p>
+            <h2 class="sec-title">未应门前厅</h2>
+            <p class="sec-desc">没有被回应的敲门不会消失。它们只是改在这里排队。</p>
+          </header>
+
+          <figure class="branch-figure knocknet-figure reveal" role="img" aria-label="三面封死的门形石板前立着三只黄铜撞击鼓，左鼓留有新凹痕，中鼓无人触碰仍在震动，右鼓的第三次撞痕被刮走">
+            <img class="branch-img" src="assets/unanswered-vestibule.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="knocknet-hotspot unanswered-action-first" id="unanswered-action-first" type="button" aria-label="登记左鼓上的第一道凹痕" data-hover>
+              <span class="dh-label" aria-hidden="true">第一声</span>
+            </button>
+            <button class="knocknet-hotspot unanswered-action-second" id="unanswered-action-second" type="button" aria-label="听完仍在震动的第二声" data-hover>
+              <span class="dh-label" aria-hidden="true">第二声</span>
+            </button>
+            <button class="knocknet-hotspot unanswered-action-third" id="unanswered-action-third" type="button" aria-label="抹掉右鼓残留的第三声" data-hover>
+              <span class="dh-label" aria-hidden="true">第三声</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="vestibule-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开未应门前厅">
+            <button class="exit-link" type="button" data-go="threshold" data-hover>⟵ 回到门外</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 门槛下投递处（v43 门内回敲网） -->
+      <section class="scene scene-branch scene-knocknet scene-undersill-dispatch" id="scene-undersill-dispatch" data-scene="undersill-dispatch" data-title="Goddead — 门槛下投递处" aria-label="门槛下投递处">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE UNDER-SILL DISPATCH · 门 槛 下 投 递 处</p>
+            <h2 class="sec-title">门槛下投递处</h2>
+            <p class="sec-desc">门缝太窄，不能让人通过。这里因此只接收被门拒绝的部分。</p>
+          </header>
+
+          <figure class="branch-figure knocknet-figure reveal" role="img" aria-label="门槛下方的黑石投递室，顶部只有一线门缝冷光；左轨送来黑蜡封件，中轨把空白纸条送回光里，右轨向上折进铰链形竖井">
+            <img class="branch-img" src="assets/undersill-dispatch.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="knocknet-hotspot undersill-action-seal" id="undersill-action-seal" type="button" aria-label="收下左轨的黑蜡封件" data-hover>
+              <span class="dh-label" aria-hidden="true">黑蜡封件</span>
+            </button>
+            <button class="knocknet-hotspot undersill-action-blank" id="undersill-action-blank" type="button" aria-label="把空白纸条推回门外" data-hover>
+              <span class="dh-label" aria-hidden="true">空白纸条</span>
+            </button>
+            <button class="knocknet-hotspot undersill-action-hinge" id="undersill-action-hinge" type="button" aria-label="沿右轨爬进铰链竖井" data-hover>
+              <span class="dh-label" aria-hidden="true">铰链竖井</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="dispatch-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开门槛下投递处">
+            <button class="exit-link" type="button" data-go="threshold" data-hover>⟵ 回到门外</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 滞影回廊（v44 页后空层） -->
+      <section class="scene scene-branch scene-paperback scene-lagging-shadow-cloister" id="scene-lagging-shadow-cloister" data-scene="lagging-shadow-cloister" data-title="Goddead — 滞影回廊" aria-label="滞影回廊">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE LAGGING-SHADOW CLOISTER · 滞 影 回 廊</p>
+            <h2 class="sec-title">滞影回廊</h2>
+            <p class="sec-desc">人的影子比人晚一拍。人已经走完这条回廊，它们还在墙上学习如何跟随。</p>
+          </header>
+
+          <figure class="branch-figure paperback-figure reveal" role="img" aria-label="黑石回廊，两侧没有人，墙上却留着错位的人形影子；近景一枚把影子钉在地面的黄铜钉，中段一道人形与门形重叠却没有主人的空轮廓，远端一团迟到的影子正从错误方向追上来">
+            <img class="branch-img" src="assets/lagging-shadow-cloister.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="paperback-hotspot shadow-action-pin" id="paperback-shadow-action-pin" type="button" aria-label="拔出钉住影子的黄铜钉" data-hover>
+              <span class="dh-label" aria-hidden="true">拔钉</span>
+            </button>
+            <button class="paperback-hotspot shadow-action-outline" id="paperback-shadow-action-outline" type="button" aria-label="踏进没有主人的门形轮廓" data-hover>
+              <span class="dh-label" aria-hidden="true">入轮廓</span>
+            </button>
+            <button class="paperback-hotspot shadow-action-catch" id="paperback-shadow-action-catch" type="button" aria-label="停下，等迟到的影子追上" data-hover>
+              <span class="dh-label" aria-hidden="true">等影</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="paperback-shadow-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开滞影回廊">
+            <button class="exit-link" type="button" data-go="corridor" data-hover>⟵ 回到走廊</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 灰门铸室（v44 页后空层） -->
+      <section class="scene scene-branch scene-paperback scene-ash-door-foundry" id="scene-ash-door-foundry" data-scene="ash-door-foundry" data-title="Goddead — 灰门铸室" aria-label="灰门铸室">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE ASH-DOOR FOUNDRY · 灰 门 铸 室</p>
+            <h2 class="sec-title">灰门铸室</h2>
+            <p class="sec-desc">灰不是门的材料。这里反复铸造的，是门曾经存在过的形状。</p>
+          </header>
+
+          <figure class="branch-figure paperback-figure reveal" role="img" aria-label="黑石铸室中央一张黄铜网台，冷灰自行排成未完成的门框；左侧一具没有火的旧风箱，网台上一把由结块炉灰形成的钥匙，后方未完成的灰门只有门楣和一侧门柱，门内通向无灯黑暗">
+            <img class="branch-img" src="assets/ash-door-foundry.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="paperback-hotspot foundry-action-bellows" id="paperback-foundry-action-bellows" type="button" aria-label="压下没有火的冷风箱" data-hover>
+              <span class="dh-label" aria-hidden="true">冷风箱</span>
+            </button>
+            <button class="paperback-hotspot foundry-action-key" id="paperback-foundry-action-key" type="button" aria-label="拿起网台上的灰烬钥匙" data-hover>
+              <span class="dh-label" aria-hidden="true">灰钥匙</span>
+            </button>
+            <button class="paperback-hotspot foundry-action-door" id="paperback-foundry-action-door" type="button" aria-label="穿过尚未铸完的灰门" data-hover>
+              <span class="dh-label" aria-hidden="true">灰门</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="paperback-foundry-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开灰门铸室">
+            <button class="exit-link" type="button" data-go="corridor" data-hover>⟵ 回到走廊</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 留置空库（v44 页后空层） -->
+      <section class="scene scene-branch scene-paperback scene-retention-vault" id="scene-retention-vault" data-scene="retention-vault" data-title="Goddead — 留置空库" aria-label="留置空库">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE RETENTION VAULT · 留 置 空 库</p>
+            <h2 class="sec-title">留置空库</h2>
+            <p class="sec-desc">这里没有遗物。空展台、悬空标签和灰尘印记，只负责保存“被留下”这个动作。</p>
+          </header>
+
+          <figure class="branch-figure paperback-figure reveal" role="img" aria-label="黑石库房内排列数座空展台，没有任何可见藏品；左侧悬着一张没有编号没有文字的黄铜边标签，中央展台有清晰的缺失物灰尘轮廓，右侧空展台上摊着一页与走廊残页同材质的旧纸">
+            <img class="branch-img" src="assets/retention-vault.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="paperback-hotspot retention-action-tag" id="paperback-retention-action-tag" type="button" aria-label="把悬空的空标签挂到自己身上" data-hover>
+              <span class="dh-label" aria-hidden="true">挂空签</span>
+            </button>
+            <button class="paperback-hotspot retention-action-imprint" id="paperback-retention-action-imprint" type="button" aria-label="触摸展台上缺失遗物的灰尘印" data-hover>
+              <span class="dh-label" aria-hidden="true">摸灰印</span>
+            </button>
+            <button class="paperback-hotspot retention-action-page" id="paperback-retention-action-page" type="button" aria-label="把走廊残页留在空展台上" data-hover>
+              <span class="dh-label" aria-hidden="true">留残页</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="paperback-retention-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开留置空库">
+            <button class="exit-link" type="button" data-go="corridor" data-hover>⟵ 回到走廊</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 前一分钟档案井（v45 未到交班） -->
+      <section class="scene scene-branch scene-relief scene-minute-before-archive" id="scene-minute-before-archive" data-scene="minute-before-archive" data-title="Goddead — 前一分钟档案井" aria-label="前一分钟档案井">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE MINUTE-BEFORE ARCHIVE · 前 一 分 钟 档 案 井</p>
+            <h2 class="sec-title">前一分钟档案井</h2>
+            <p class="sec-desc">03:17 没有停住。它把抵达之前的一分钟，一层层压进钟背后的档案井。</p>
+          </header>
+
+          <figure class="branch-figure relief-figure reveal" role="img" aria-label="黑石档案井嵌在巨大无数字钟盘背后，黄铜齿圈像回廊一样向下；左侧一根停在前一格的粗大分针，近景石台放着空白交班卡与无字圆形时印，中央钟轴后方裂开一条可下行的齿槽">
+            <img class="branch-img" src="assets/minute-before-archive.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="relief-hotspot minute-action-hand" id="relief-minute-action-hand" type="button" aria-label="把慢一拍的分针拨回前一格" data-hover>
+              <span class="dh-label" aria-hidden="true">拨分针</span>
+            </button>
+            <button class="relief-hotspot minute-action-card" id="relief-minute-action-card" type="button" aria-label="给空白交班卡盖上圆形时印" data-hover>
+              <span class="dh-label" aria-hidden="true">盖时印</span>
+            </button>
+            <button class="relief-hotspot minute-action-shaft" id="relief-minute-action-shaft" type="button" aria-label="沿钟轴背后的齿槽向下" data-hover>
+              <span class="dh-label" aria-hidden="true">下齿槽</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="relief-minute-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开前一分钟档案井">
+            <button class="exit-link" type="button" data-go="watch" data-hover>⟵ 回到值夜室</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 冷灯芯检修槽（v45 未到交班） -->
+      <section class="scene scene-branch scene-relief scene-cold-wick-service-bay" id="scene-cold-wick-service-bay" data-scene="cold-wick-service-bay" data-title="Goddead — 冷灯芯检修槽" aria-label="冷灯芯检修槽">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE COLD-WICK SERVICE BAY · 冷 灯 芯 检 修 槽</p>
+            <h2 class="sec-title">冷灯芯检修槽</h2>
+            <p class="sec-desc">值夜室的灯从未断电。这里维修的，只是那些决定继续熄灭的灯芯。</p>
+          </header>
+
+          <figure class="branch-figure relief-figure reveal" role="img" aria-label="狭长黑石检修槽，墙内布满旧黄铜供电管；左侧检修台固定一盏没有火焰却结着冷霜的灯芯，中段垂着一截从供电管里拔出的黑色编织电话线，右侧一排黄铜保险片其中一片带椅形刻痕">
+            <img class="branch-img" src="assets/cold-wick-service-bay.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="relief-hotspot wick-action-wick" id="relief-wick-action-wick" type="button" aria-label="拧亮结霜的冷灯芯" data-hover>
+              <span class="dh-label" aria-hidden="true">拧冷芯</span>
+            </button>
+            <button class="relief-hotspot wick-action-cable" id="relief-wick-action-cable" type="button" aria-label="把黑色电话线从供电管里拔出" data-hover>
+              <span class="dh-label" aria-hidden="true">拔电话线</span>
+            </button>
+            <button class="relief-hotspot wick-action-fuse" id="relief-wick-action-fuse" type="button" aria-label="推回带椅形刻痕的黄铜保险片" data-hover>
+              <span class="dh-label" aria-hidden="true">推保险片</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="relief-wick-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开冷灯芯检修槽">
+            <button class="exit-link" type="button" data-go="watch" data-hover>⟵ 回到值夜室</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段支线 · 缺班更衣柜（v45 未到交班） -->
+      <section class="scene scene-branch scene-relief scene-absent-relief-locker" id="scene-absent-relief-locker" data-scene="absent-relief-locker" data-title="Goddead — 缺班更衣柜" aria-label="缺班更衣柜">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE ABSENT RELIEF LOCKER · 缺 班 更 衣 柜</p>
+            <h2 class="sec-title">缺班更衣柜</h2>
+            <p class="sec-desc">每一班都有人来接。没人出现时，衣服、椅子和签名会依次替他完成交班。</p>
+          </header>
+
+          <figure class="branch-figure relief-figure reveal" role="img" aria-label="黑石更衣室只有一组敞开的旧金属柜；左侧柜内挂着没有姓名牌没有主人的深色值夜外套，中央放着一把折起的旧木椅椅面朝向空柜，近景石台摊着没有姓名没有下一班的空白交接簿">
+            <img class="branch-img" src="assets/absent-relief-locker.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="relief-hotspot locker-action-coat" id="relief-locker-action-coat" type="button" aria-label="穿上没有姓名牌的值夜外套" data-hover>
+              <span class="dh-label" aria-hidden="true">穿空外套</span>
+            </button>
+            <button class="relief-hotspot locker-action-chair" id="relief-locker-action-chair" type="button" aria-label="坐进柜前折起的空椅" data-hover>
+              <span class="dh-label" aria-hidden="true">坐空椅</span>
+            </button>
+            <button class="relief-hotspot locker-action-roster" id="relief-locker-action-roster" type="button" aria-label="在没有下一班的交接簿上签名" data-hover>
+              <span class="dh-label" aria-hidden="true">签缺班簿</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="relief-locker-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开缺班更衣柜">
+            <button class="exit-link" type="button" data-go="watch" data-hover>⟵ 回到值夜室</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 旁线 · 失席监听间（v46 旁线未静） -->
+      <section class="scene scene-branch scene-sidetone scene-unseated-listening-booth" id="scene-unseated-listening-booth" data-scene="unseated-listening-booth" data-title="Goddead — 失席监听间" aria-label="失席监听间">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE UNSEATED LISTENING BOOTH · 失 席 监 听 间</p>
+            <h2 class="sec-title">失席监听间</h2>
+            <p class="sec-desc">没有人坐过这张椅子。它一直保持摘机状态，替你听完那些没被计入线路的声音。</p>
+          </header>
+
+          <figure class="branch-figure sidetone-figure reveal" role="img" aria-label="狭窄黑石监听室，左侧悬着拆开的黑色耳筒，中央旧操作椅正对一只没有人的圆形话筒，远端墙内露出一排吸音铜管">
+            <img class="branch-img" src="assets/unseated-listening-booth.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="sidetone-hotspot booth-action-earpiece" id="sidetone-booth-action-earpiece" type="button" aria-label="把左侧悬着的黑色耳筒贴到耳边" data-hover>
+              <span class="dh-label" aria-hidden="true">贴耳筒</span>
+            </button>
+            <button class="sidetone-hotspot booth-action-mouthpiece" id="sidetone-booth-action-mouthpiece" type="button" aria-label="对着没有人的圆形话筒开口" data-hover>
+              <span class="dh-label" aria-hidden="true">对空话筒</span>
+            </button>
+            <button class="sidetone-hotspot booth-action-chair" id="sidetone-booth-action-chair" type="button" aria-label="坐进一直保持摘机状态的操作椅" data-hover>
+              <span class="dh-label" aria-hidden="true">坐失席</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="sidetone-booth-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开失席监听间">
+            <button class="exit-link" type="button" data-go="switchboard" data-hover>⟵ 回到交换台</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 旁线 · 无号插孔场（v46 旁线未静） -->
+      <section class="scene scene-branch scene-sidetone scene-unnumbered-jack-field" id="scene-unnumbered-jack-field" data-scene="unnumbered-jack-field" data-title="Goddead — 无号插孔场" aria-label="无号插孔场">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE UNNUMBERED JACK FIELD · 无 号 插 孔 场</p>
+            <h2 class="sec-title">无号插孔场</h2>
+            <p class="sec-desc">没有编号的孔，可以接到任意地点。交换台拒绝承认这面墙存在。</p>
+          </header>
+
+          <figure class="branch-figure sidetone-figure reveal" role="img" aria-label="纵深黑石机房，一整面没有数字的旧黄铜插孔；左前景一枚脱落插头拖着编织线，中央一个空孔透出不自然暗红，右侧垂着完全空白的瓷质线签">
+            <img class="branch-img" src="assets/unnumbered-jack-field.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="sidetone-hotspot jack-action-plug" id="sidetone-jack-action-plug" type="button" aria-label="把脱落的游线插头插回任意一个无号孔" data-hover>
+              <span class="dh-label" aria-hidden="true">插游线</span>
+            </button>
+            <button class="sidetone-hotspot jack-action-socket" id="sidetone-jack-action-socket" type="button" aria-label="接通中央透出暗红的空孔" data-hover>
+              <span class="dh-label" aria-hidden="true">接空孔</span>
+            </button>
+            <button class="sidetone-hotspot jack-action-tag" id="sidetone-jack-action-tag" type="button" aria-label="把完全空白的瓷质线签挂上插孔墙" data-hover>
+              <span class="dh-label" aria-hidden="true">挂空签</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="sidetone-jack-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开无号插孔场">
+            <button class="exit-link" type="button" data-go="switchboard" data-hover>⟵ 回到交换台</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 旁线 · 回铃陈放室（v46 旁线未静） -->
+      <section class="scene scene-branch scene-sidetone scene-return-ring-morgue" id="scene-return-ring-morgue" data-scene="return-ring-morgue" data-title="Goddead — 回铃陈放室" aria-label="回铃陈放室">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE RETURN-RING MORGUE · 回 铃 陈 放 室</p>
+            <h2 class="sec-title">回铃陈放室</h2>
+            <p class="sec-desc">对端早已挂断。这些回铃没有被接通，也没有被丢弃，只是被保存。</p>
+          </header>
+
+          <figure class="branch-figure sidetone-figure reveal" role="img" aria-label="低矮黑石陈放室，黄铜抽屉与托盘保存成排熄灭信号灯；左侧一只仍发暗红光的回铃灯，中央托盘上放着一张卷曲的退回通话单，右侧黄铜铃碗内部结着黑蜡">
+            <img class="branch-img" src="assets/return-ring-morgue.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="sidetone-hotspot morgue-action-lamp" id="sidetone-morgue-action-lamp" type="button" aria-label="取下仍发暗红光的回铃灯" data-hover>
+              <span class="dh-label" aria-hidden="true">取回灯</span>
+            </button>
+            <button class="sidetone-hotspot morgue-action-slip" id="sidetone-morgue-action-slip" type="button" aria-label="读托盘上卷曲的退回通话单" data-hover>
+              <span class="dh-label" aria-hidden="true">读退单</span>
+            </button>
+            <button class="sidetone-hotspot morgue-action-bell" id="sidetone-morgue-action-bell" type="button" aria-label="敲响内部结着黑蜡的黄铜铃碗" data-hover>
+              <span class="dh-label" aria-hidden="true">敲蜡铃</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="sidetone-morgue-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开回铃陈放室">
+            <button class="exit-link" type="button" data-go="switchboard" data-hover>⟵ 回到交换台</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 退件后室 · 无主气送井（v47 退件未止） -->
+      <section class="scene scene-branch scene-return-room scene-unclaimed-pneumatic-intake" id="scene-unclaimed-pneumatic-intake" data-scene="unclaimed-pneumatic-intake" data-title="Goddead — 无主气送井" aria-label="无主气送井">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE UNCLAIMED PNEUMATIC INTAKE · 无 主 气 送 井</p>
+            <h2 class="sec-title">无主气送井</h2>
+            <p class="sec-desc">没有寄件人的东西，气送筒拒绝为它停下。</p>
+          </header>
+
+          <figure class="branch-figure return-room-figure reveal" role="img" aria-label="黑石气送井，三根黄铜气送管弯入深井；左下石台上放着一只无人认领的气送筒，中央管口正对深井，右墙压力表旁垂着红色泄压绳">
+            <img class="branch-img" src="assets/unclaimed-pneumatic-intake.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="return-room-hotspot intake-action-carrier" id="return-intake-action-carrier" type="button" aria-label="打开左下石台上无人认领的气送筒" data-hover>
+              <span class="dh-label" aria-hidden="true">开气筒</span>
+            </button>
+            <button class="return-room-hotspot intake-action-horn" id="return-intake-action-horn" type="button" aria-label="把耳朵贴近中央正对深井的气送管口" data-hover>
+              <span class="dh-label" aria-hidden="true">听管口</span>
+            </button>
+            <button class="return-room-hotspot intake-action-cord" id="return-intake-action-cord" type="button" aria-label="拉下右墙压力表旁的红色泄压绳" data-hover>
+              <span class="dh-label" aria-hidden="true">拉红绳</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="return-intake-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开无主气送井">
+            <button class="exit-link" type="button" data-go="deadletter" data-hover>⟵ 回到投递所</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 退件后室 · 退址格柜（v47 退件未止） -->
+      <section class="scene scene-branch scene-return-room scene-returned-address-cabinet" id="scene-returned-address-cabinet" data-scene="returned-address-cabinet" data-title="Goddead — 退址格柜" aria-label="退址格柜">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE RETURNED-ADDRESS CABINET · 退 址 格 柜</p>
+            <h2 class="sec-title">退址格柜</h2>
+            <p class="sec-desc">地址曾经存在。如今每一格只剩位置。</p>
+          </header>
+
+          <figure class="branch-figure return-room-figure reveal" role="img" aria-label="纵深黑石格柜间，整墙分格里只剩位置；左侧低格插着一封完全空白的封口信，中央地面是一台黄铜分格轮，右侧拖着没有尽头的退址长抽屉">
+            <img class="branch-img" src="assets/returned-address-cabinet.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="return-room-hotspot cabinet-action-envelope" id="return-cabinet-action-envelope" type="button" aria-label="抽出左侧低格里完全空白的封口信" data-hover>
+              <span class="dh-label" aria-hidden="true">拆空封</span>
+            </button>
+            <button class="return-room-hotspot cabinet-action-wheel" id="return-cabinet-action-wheel" type="button" aria-label="推动中央地面的黄铜分格轮" data-hover>
+              <span class="dh-label" aria-hidden="true">转分格</span>
+            </button>
+            <button class="return-room-hotspot cabinet-action-drawer" id="return-cabinet-action-drawer" type="button" aria-label="拉开右侧没有尽头的退址抽屉" data-hover>
+              <span class="dh-label" aria-hidden="true">探长屉</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="return-cabinet-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开退址格柜">
+            <button class="exit-link" type="button" data-go="deadletter" data-hover>⟵ 回到投递所</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 退件后室 · 空白回执压印台（v47 退件未止） -->
+      <section class="scene scene-branch scene-return-room scene-blank-receipt-press" id="scene-blank-receipt-press" data-scene="blank-receipt-press" data-title="Goddead — 空白回执压印台" aria-label="空白回执压印台">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE BLANK RECEIPT PRESS · 空 白 回 执 压 印 台</p>
+            <h2 class="sec-title">空白回执压印台</h2>
+            <p class="sec-desc">寄件人与收件人都消失以后，回执仍要求被签收。</p>
+          </header>
+
+          <figure class="branch-figure return-room-figure reveal" role="img" aria-label="黑石压印间，中央压印台滚轴下放着一张空白回执；左侧一台只剩暗红余光的旧墨垫，右侧立着黄铜压印长杆">
+            <img class="branch-img" src="assets/blank-receipt-press.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="return-room-hotspot press-action-sheet" id="return-press-action-sheet" type="button" aria-label="把压印台中央的空白回执推入滚轴" data-hover>
+              <span class="dh-label" aria-hidden="true">压空执</span>
+            </button>
+            <button class="return-room-hotspot press-action-ink" id="return-press-action-ink" type="button" aria-label="按下左侧只剩暗红余光的墨垫" data-hover>
+              <span class="dh-label" aria-hidden="true">蘸旧墨</span>
+            </button>
+            <button class="return-room-hotspot press-action-lever" id="return-press-action-lever" type="button" aria-label="扳下右侧黄铜压印长杆" data-hover>
+              <span class="dh-label" aria-hidden="true">落压杆</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="return-press-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开空白回执压印台">
+            <button class="exit-link" type="button" data-go="deadletter" data-hover>⟵ 回到投递所</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 注销留副 · 空白屏底库（v48 注销留副） -->
+      <section class="scene scene-branch scene-cancellation-copy scene-blank-screen-underarchive" id="scene-blank-screen-underarchive" data-scene="blank-screen-underarchive" data-title="Goddead — 空白屏底库" aria-label="空白屏底库">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE ARCHIVE BENEATH THE BLANK SCREEN · 空 白 屏 底 库</p>
+            <h2 class="sec-title">空白屏底库</h2>
+            <p class="sec-desc">空白屏的背面，留着一次没有显示出来的检索。</p>
+          </header>
+
+          <figure class="branch-figure cancellation-copy-figure reveal" role="img" aria-label="黑铁屏底库，中央一面发出骨白光的巨大空白屏；左下走纸机吐出卷曲的空白纸带，右墙黄铜边框里嵌着一枚圆形暗孔">
+            <img class="branch-img" src="assets/blank-screen-underarchive.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="cancellation-copy-hotspot copy-screen-action-screen" id="copy-screen-action-screen" type="button" aria-label="触摸屏底库中央发出骨白光的巨大空白屏" data-hover>
+              <span class="dh-label" aria-hidden="true">触白屏</span>
+            </button>
+            <button class="cancellation-copy-hotspot copy-screen-action-paper" id="copy-screen-action-paper" type="button" aria-label="抽出屏底库左下走纸机里卷曲的空白纸带" data-hover>
+              <span class="dh-label" aria-hidden="true">抽纸带</span>
+            </button>
+            <button class="cancellation-copy-hotspot copy-screen-action-aperture" id="copy-screen-action-aperture" type="button" aria-label="窥看屏底库右墙黄铜边框里的圆形暗孔" data-hover>
+              <span class="dh-label" aria-hidden="true">窥暗孔</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="copy-screen-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开空白屏底库">
+            <button class="exit-link" type="button" data-go="cancellation" data-hover>⟵ 回到注销科</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 注销留副 · 误准红灯台（v48 注销留副） -->
+      <section class="scene scene-branch scene-cancellation-copy scene-false-confirmation-desk" id="scene-false-confirmation-desk" data-scene="false-confirmation-desk" data-title="Goddead — 误准红灯台" aria-label="误准红灯台">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE FALSE-CONFIRMATION DESK · 误 准 红 灯 台</p>
+            <h2 class="sec-title">误准红灯台</h2>
+            <p class="sec-desc">这盏灯把「未注销」误记成一次新的批准，而且拒绝改正。</p>
+          </header>
+
+          <figure class="branch-figure cancellation-copy-figure reveal" role="img" aria-label="黑铁误准台，中央烟熏玻璃后亮着一盏红色确认灯；左侧一台沉重的圆形注销印，右侧一道直落黑暗的退纸槽">
+            <img class="branch-img" src="assets/false-confirmation-desk.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="cancellation-copy-hotspot copy-lamp-action-lamp" id="copy-lamp-action-lamp" type="button" aria-label="再次按下误准台中央烟熏玻璃后的红色确认灯" data-hover>
+              <span class="dh-label" aria-hidden="true">复按红灯</span>
+            </button>
+            <button class="cancellation-copy-hotspot copy-lamp-action-seal" id="copy-lamp-action-seal" type="button" aria-label="压下误准台左侧沉重的圆形注销印" data-hover>
+              <span class="dh-label" aria-hidden="true">压注销印</span>
+            </button>
+            <button class="cancellation-copy-hotspot copy-lamp-action-chute" id="copy-lamp-action-chute" type="button" aria-label="把手伸向误准台右侧直落黑暗的退纸槽" data-hover>
+              <span class="dh-label" aria-hidden="true">探退纸槽</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="copy-lamp-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开误准红灯台">
+            <button class="exit-link" type="button" data-go="cancellation" data-hover>⟵ 回到注销科</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 注销留副 · 见证复写库（v48 注销留副） -->
+      <section class="scene scene-branch scene-cancellation-copy scene-witness-carbon-archive" id="scene-witness-carbon-archive" data-scene="witness-carbon-archive" data-title="Goddead — 见证复写库" aria-label="见证复写库">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE WITNESS CARBON ARCHIVE · 见 证 复 写 库</p>
+            <h2 class="sec-title">见证复写库</h2>
+            <p class="sec-desc">每位见证者拒绝以后，这里都会多出一张没有姓名的复写纸。</p>
+          </header>
+
+          <figure class="branch-figure cancellation-copy-figure reveal" role="img" aria-label="纵深黑铁复写库，中央伸向你的抽屉里放着一张空白复写纸；抽屉正面一枚黑铁把手，右上机械夹中卡着一张空白黄铜见证卡">
+            <img class="branch-img" src="assets/witness-carbon-archive.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="cancellation-copy-hotspot copy-carbon-action-sheet" id="copy-carbon-action-sheet" type="button" aria-label="揭开见证复写库中央抽屉里的空白复写纸" data-hover>
+              <span class="dh-label" aria-hidden="true">揭复写纸</span>
+            </button>
+            <button class="cancellation-copy-hotspot copy-carbon-action-drawer" id="copy-carbon-action-drawer" type="button" aria-label="拉动见证复写库中央伸向你的黑铁抽屉" data-hover>
+              <span class="dh-label" aria-hidden="true">拉见证屉</span>
+            </button>
+            <button class="cancellation-copy-hotspot copy-carbon-action-card" id="copy-carbon-action-card" type="button" aria-label="取下抽屉右上机械夹中的空白黄铜见证卡" data-hover>
+              <span class="dh-label" aria-hidden="true">取见证卡</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="copy-carbon-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开见证复写库">
+            <button class="exit-link" type="button" data-go="cancellation" data-hover>⟵ 回到注销科</button>
           </nav>
         </div>
       </section>
@@ -542,6 +2165,10 @@
               <img class="wc-face-img" src="assets/watch-clock-face.webp" alt="" width="900" height="900">
               <img class="wc-second-img" id="clock-second" src="assets/watch-second-hand.png" alt="" width="900" height="900">
               <p class="clock-caption">03:17 · 一直如此</p>
+              <!-- v45 未到交班入口：覆盖中央钟轴 -->
+              <button class="relief-entry-hotspot relief-entry-clock" id="relief-entry-clock" type="button" aria-label="拧动永远停在三点十七分的钟轴" data-hover>
+                <span class="dh-label" aria-hidden="true">拧钟轴</span>
+              </button>
             </div>
 
             <!-- 交班簿 -->
@@ -593,6 +2220,13 @@
             <div class="watch-desk" role="img" aria-label="一张空值班桌，一盏熄着的台灯，和一把没有人的椅子">
               <img class="watch-desk-img" src="assets/watch-room-desk.webp" alt="" width="1400" height="933">
               <span class="chair-shadow" id="chair-shadow" aria-hidden="true"></span>
+              <!-- v45 未到交班入口：覆盖熄灭台灯与空椅椅面 -->
+              <button class="relief-entry-hotspot relief-entry-lamp" id="relief-entry-lamp" type="button" aria-label="按下空值班桌上熄灭的台灯" data-hover>
+                <span class="dh-label" aria-hidden="true">按灭灯</span>
+              </button>
+              <button class="relief-entry-hotspot relief-entry-chair" id="relief-entry-chair" type="button" aria-label="坐进没有值夜员的空椅" data-hover>
+                <span class="dh-label" aria-hidden="true">入空椅</span>
+              </button>
             </div>
 
             <div class="signout-box">
@@ -624,7 +2258,17 @@
           <!-- 交换台主体：正式位图，黑场羽化融入 -->
           <figure class="switch-figure reveal" role="img" aria-label="一台老旧的余响交换台：听筒、插头、垂落的线缆，和背景里一把空椅子">
             <img class="switch-img" src="assets/line-four-switchboard.webp" alt="" width="1400" height="846">
+            <button class="sidetone-entry-hotspot sidetone-entry-receiver" id="sidetone-entry-receiver" type="button" aria-label="摘起交换台左下无人接听的黑色听筒" data-hover>
+              <span class="dh-label" aria-hidden="true">摘听筒</span>
+            </button>
+            <button class="sidetone-entry-hotspot sidetone-entry-plug" id="sidetone-entry-plug" type="button" aria-label="拾起交换台前景没有线路编号的散线插头" data-hover>
+              <span class="dh-label" aria-hidden="true">拾散头</span>
+            </button>
+            <button class="sidetone-entry-hotspot sidetone-entry-return-lamp" id="sidetone-entry-return-lamp" type="button" aria-label="按下交换台右下仍亮着的红色回铃灯" data-hover>
+              <span class="dh-label" aria-hidden="true">按回灯</span>
+            </button>
           </figure>
+          <p class="branch-response sidetone-entry-response" id="sidetone-entry-response" aria-live="polite"></p>
 
           <!-- 接线簿：文字线路清单，与交班簿同一纸档案语言 -->
           <div class="watch-log patch-log reveal" id="patch-log">
@@ -695,7 +2339,17 @@
           <!-- 投递所主体：正式位图，黑场羽化融入；桌面中央是那张空白回执 -->
           <figure class="dl-figure reveal" role="img" aria-label="一间死信局：气送管、塞满退件的格柜，和桌面中央一张空白的回执">
             <img class="dl-img" src="assets/dead-letter-office.webp" alt="" width="1536" height="1024">
+            <button class="return-room-entry-hotspot return-room-entry-tubes" id="return-room-entry-tubes" type="button" aria-label="探入投递所后墙三只黄铜气送管" data-hover>
+              <span class="dh-label" aria-hidden="true">探气管</span>
+            </button>
+            <button class="return-room-entry-hotspot return-room-entry-cabinet" id="return-room-entry-cabinet" type="button" aria-label="翻查投递所右上装满退址信件的格柜" data-hover>
+              <span class="dh-label" aria-hidden="true">翻格柜</span>
+            </button>
+            <button class="return-room-entry-hotspot return-room-entry-receipt" id="return-room-entry-receipt" type="button" aria-label="取走投递所桌面中央的空白回执" data-hover>
+              <span class="dh-label" aria-hidden="true">取空执</span>
+            </button>
           </figure>
+          <p class="branch-response return-room-entry-response" id="return-room-entry-response" aria-live="polite"></p>
 
           <!-- 退件登记台：与交班簿、接线簿同一纸档案语言 -->
           <div class="watch-log patch-log return-log reveal" id="return-log">
@@ -767,7 +2421,17 @@
           <!-- 检索终端：正式位图，黑场羽化融入；屏幕始终空白 -->
           <figure class="cancel-figure reveal" role="img" aria-label="一台机械检索终端：空白的屏幕、走卡机构和一盏亮着的台灯，背后是没有尽头的档案柜">
             <img class="cancel-img" src="assets/divine-name-cancellation.webp" alt="" width="1536" height="1024">
+            <button class="cancellation-copy-entry-hotspot cancellation-copy-entry-screen" id="cancellation-copy-entry-screen" type="button" aria-label="触摸注销科终端中央始终空白的检索屏" data-hover>
+              <span class="dh-label" aria-hidden="true">探空屏</span>
+            </button>
+            <button class="cancellation-copy-entry-hotspot cancellation-copy-entry-lamp" id="cancellation-copy-entry-lamp" type="button" aria-label="按下注销科终端右侧仍亮着的红色确认灯" data-hover>
+              <span class="dh-label" aria-hidden="true">按红灯</span>
+            </button>
+            <button class="cancellation-copy-entry-hotspot cancellation-copy-entry-trays" id="cancellation-copy-entry-trays" type="button" aria-label="抽开注销科终端右侧摞起的档案屉" data-hover>
+              <span class="dh-label" aria-hidden="true">抽侧屉</span>
+            </button>
           </figure>
+          <p class="branch-response cancellation-copy-entry-response" id="cancellation-copy-entry-response" aria-live="polite"></p>
 
           <!-- 检索台：这里不按名字检索，只按档案状态 -->
           <form class="cancel-form reveal" id="cancel-form">
@@ -1027,6 +2691,23 @@
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory" id="branch-memory"></p>
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory" id="deep-memory"></p>
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory" id="forecourt-memory"></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory" id="annex-memory"></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory" id="anomaly-memory"></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory" id="valuation-memory"></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory" id="floor-memory"></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory" id="registry-memory"></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory" id="callback-memory"></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory" id="proxy-memory"></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory" id="audit-memory"></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory" id="lateral-memory"></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory" id="backroom-memory"></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory" id="drift-memory"></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory" id="knocknet-memory"></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory" id="paperback-memory"></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory" id="relief-memory"></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory" id="sidetone-memory"></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory" id="return-room-memory"></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory" id="cancellation-copy-memory"></p>
 
           <div class="reliquary-slot reveal" id="reliquary-slot"></div>
 
@@ -1120,6 +2801,47 @@
       <a href="#peephole-chamber" id="peephole-link" hidden data-hover>01α / 窥孔</a>
       <a href="#glyph-niche" id="glyph-link" hidden data-hover>01β / 失号龛</a>
       <a href="#return-passage" id="return-link" hidden data-hover>01γ / 回返夹道</a>
+      <a href="#eyelid-archive" id="eyelid-link" hidden data-hover>01δ / 闭目档案</a>
+      <a href="#unnumbered-vestibule" id="vestibule-link" hidden data-hover>01ε / 无号前厅</a>
+      <a href="#reverse-stairwell" id="stairwell-link" hidden data-hover>01ζ / 逆向阶井</a>
+      <a href="#anomaly-review" id="review-link" hidden data-hover>01η / 异常复核</a>
+      <a href="#evidence-vault" id="vault-link" hidden data-hover>01θ / 异常保全</a>
+      <a href="#false-positive-shaft" id="shaft-link" hidden data-hover>01ι / 误报回收</a>
+      <a href="#unclaimed-valuation" id="valuation-link" hidden data-hover>01κ / 无主估值</a>
+      <a href="#quota-elevator" id="elevator-link" hidden data-hover>01λ / 定额电梯</a>
+      <a href="#unnumbered-floor" id="floor-link" hidden data-hover>01μ / 无号层</a>
+      <a href="#bellless-ward" id="ward-link" hidden data-hover>01ν / 无铃病房</a>
+      <a href="#seeping-records" id="records-link" hidden data-hover>01ξ / 渗水档案</a>
+      <a href="#reverse-laundry" id="laundry-link" hidden data-hover>01ο / 逆照洗衣</a>
+      <a href="#night-shift-registry" id="registry-link" hidden data-hover>01π / 夜班登记</a>
+      <a href="#midnight-callback" id="callback-link" hidden data-hover>01ρ / 午夜回拨</a>
+      <a href="#proxy-admission" id="proxy-link" hidden data-hover>01σ / 代审窗</a>
+      <a href="#return-audit" id="audit-link" hidden data-hover>01τ / 归路核验</a>
+      <a href="#unlit-lamp-gallery" id="lamp-link" hidden data-hover>01υ / 无灯灯廊</a>
+      <a href="#borrowed-shadow-gallery" id="shadow-link" hidden data-hover>01φ / 借影陈列</a>
+      <a href="#hinge-sorting-room" id="hinge-link" hidden data-hover>01χ / 铰链分拣</a>
+      <a href="#red-thread-registry" id="thread-link" hidden data-hover>01ψ / 红线登记</a>
+      <a href="#blank-name-cloakroom" id="name-link" hidden data-hover>01ω / 空名寄存</a>
+      <a href="#clapperless-bell-desk" id="bell-link" hidden data-hover>02α / 无舌铃台</a>
+      <a href="#protocol-drift" id="drift-link" hidden data-hover>02β / 守则漂移</a>
+      <a href="#counter-knock-gallery" id="knock-gallery-link" hidden data-hover>02γ / 回敲廊</a>
+      <a href="#unanswered-vestibule" id="unanswered-link" hidden data-hover>02δ / 未应门</a>
+      <a href="#undersill-dispatch" id="undersill-link" hidden data-hover>02ε / 门槛下</a>
+      <a href="#lagging-shadow-cloister" id="paperback-shadow-link" hidden data-hover>02ζ / 滞影</a>
+      <a href="#ash-door-foundry" id="paperback-foundry-link" hidden data-hover>02η / 灰门</a>
+      <a href="#retention-vault" id="paperback-retention-link" hidden data-hover>02θ / 留置</a>
+      <a href="#minute-before-archive" id="relief-minute-link" hidden data-hover>02ι / 分前</a>
+      <a href="#cold-wick-service-bay" id="relief-wick-link" hidden data-hover>02κ / 冷芯</a>
+      <a href="#absent-relief-locker" id="relief-locker-link" hidden data-hover>02λ / 缺班</a>
+      <a href="#unseated-listening-booth" id="sidetone-booth-link" hidden data-hover>02μ / 失席</a>
+      <a href="#unnumbered-jack-field" id="sidetone-jack-link" hidden data-hover>02ν / 无号孔</a>
+      <a href="#return-ring-morgue" id="sidetone-morgue-link" hidden data-hover>02ξ / 回铃</a>
+      <a href="#unclaimed-pneumatic-intake" id="return-intake-link" hidden data-hover>02ο / 气送井</a>
+      <a href="#returned-address-cabinet" id="return-cabinet-link" hidden data-hover>02π / 退址柜</a>
+      <a href="#blank-receipt-press" id="return-press-link" hidden data-hover>02ρ / 压印台</a>
+      <a href="#blank-screen-underarchive" id="copy-screen-link" hidden data-hover>02σ / 屏底库</a>
+      <a href="#false-confirmation-desk" id="copy-lamp-link" hidden data-hover>02τ / 误准灯</a>
+      <a href="#witness-carbon-archive" id="copy-carbon-link" hidden data-hover>02υ / 复写库</a>
       <a href="#corridor" data-hover>02 / 走廊</a>
       <a href="#echo" id="echo-link" hidden data-hover>02α / 回声室</a>
       <a href="#vein" id="vein-link" hidden data-hover>02β / 维修井</a>
@@ -1139,6 +2861,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=31"></script>
+    <script src="script.js?v=49"></script>
   </body>
 </html>
