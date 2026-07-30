@@ -1,5 +1,18 @@
 # Progress Log
 
+## 2026-07-30 (v54 迫近回访 / THE ROOMS MOVE WHEN UNSEEN：v29 三房图内化 + 共同迫近账 + 第四热点九分流)
+- 世界观转向：不新增走廊，把最早的回声档案室/血管维修井/忏悔称量室变成同一间的三个姿势——去得越多它越确定你会回来，于是在你不看的时候移动（听井发红、过压表越刻度、横梁渗蜡），移动六次就给你留一件只有你能取走的东西。
+- 素材：三张监理冻结源 PNG（1536×1024，sha256 记录在 `docs/V54ReturnPressureDesign.md`，禁止重生成/覆盖/裁切）Pillow q85 原尺寸无裁切转码 `assets/v54-{echo,vein,confession}-approach.webp`（140–148 KB）；平静态继续用 v29 原图，三张异动图 `new Image()` 预载。
+- 画面：三房 figure 升级 v49 3:2 `.forecourt-tactile-stage`；九项 v29 旧选择移入图内原生 button 热点（echo 左/中/右听井、vein 左手轮/中拉杆/右拉杆、confession 左信封/中灰烬/右空盘），id/逐字标题/hint/aria-pressed/反馈/目标全部不变，`.branch-choices` 旧卡容器整体删除无隐藏副本；三房各加一块紧凑 `.pressure-slip` 四项读数（回声累计/脉压/名重/迫近 x/6），1440×1024、1440×800、390×844 均不溢出，短桌面 figure 收窄保证首热点首屏。
+- 共享守卫：`chooseBranch` 新增 live-scene（`currentScene !== sceneKey` 拒绝）+ first-lock（`AutoAdvance.has(sceneKey)` 拒绝）共享守卫，九个旧选择的反馈/目标/lastChoice 语义不变；v54 计分只挂在 v29 接受点之后，合成/离场/连点/锁定调用零副作用。
+- 状态：独立容错 `goddead_v54_return_pressure`（全仓库唯一 key）——scores/choices（九白名单计数）/breaches/pending/history 五个 canonical 字段显式投影落盘（history 先裁 ≤16 再存）；total/approach/breachTotal 派生只重算不落盘；坏 JSON/数组/错型/负数/浮点/超大/未知键归一；pending 严格四键白名单（额外键即伪造，target 与逐字反馈由九分流映射重算）+「确实刚消费过」跨字段证据（breachTotal>=1 且该房 breaches>=1、`total >= 6×breachTotal` 六点曾完整、canonical history 最后一项正是同 room/choice 的 breach），全白名单但从未消费的伪 pending 同样归一。
+- 阈值与九分流：approach（= max(0, total−6×breachTotal)）>= 3 三房单 img 原子切到对应 v54 异动图 + figure aria-label；>= 6 且该房有合法 v29 lastChoice 时第四热点出现（断线听筒/过压表/迫近抽屉，出厂 hidden 不可聚焦）：echo knock→回敲廊、steps→滞影回廊、bell→分前档案；vein down→渗水档案、up→逆照洗衣、isolate→无铃病房；confession door→空白回执压印台、seven→守则漂移、refuse→空名寄存。九目标在当前路由契约下均无守卫，v54 未改任何守卫。接受即 breach+1 消耗 6 点、严格 pending、逐字反馈一拍后自动转场；before 只清 pending，reload 重播一次不二次消费，允许继续累计第二轮。v29/v30 在第四热点前后字节级零污染。
+- 目录 01δ½ / 迫近回访（紧随 01δ，任何计分或异动原子恢复）；Remembrance 新增单行「迫近回访：回声累计 X，脉压 Y，名重 Z；房间在你不看的时候移动过 N 次。」，仍八张统计卡；遗忘全部随全量清除复位。
+- 静态契约：`node --check script.js`、`node --check tests/site.test.mjs`、`node tests/site.test.mjs`（2182 → 2231 断言，v54 新增 49：素材与源 PNG/唯一 key/归一/存盘 canonical 五键/共享守卫/接受点钩子/九分流逐字/第四热点守卫与显隐/阈值 3 与 6/pending 严格四键与消费证据链/DOM 结构/目录与记忆/8 卡/12 定位 class/`?v=51`）、`git diff --check` 全部通过。
+- CDP 实机验收（`/tmp/v54-qa/v54-smoke.mjs`，真实 Google Chrome headless + 内嵌静态服务器 + 真实鼠标/键盘，种子经 `addScriptToEvaluateOnNewDocument` 预注入）**744/744 连续两轮全绿**：三房 × 1440×1024/1440×800/390×844 × 平静/迫近几何（图内/零重叠/自命中/≥44px/统计签不溢出/1440×800 首屏）、九旧选择原反馈原目标+同拍幂等、共享守卫零副作用、阈值 3 同步异动、阈值 6 双条件显隐、九分流逐字+落点+消费归零+第二轮二次消费、reload 重播一次、坏 JSON/数组/负数/浮点/超大/未知键归一、伪造 pending 四态丢弃（错反馈/breaches 超支/全白名单但从未消费/含额外键）+ 合法 pending 刷新精确重播、17 事件后 raw 五键+history 16、v29/v30 字节级零污染、v29 守卫不回归、Tab/Enter/Space、console 零异常。
+- 视觉证据 12 张 `design-qa-evidence/v54-01~12`（三房平静/迫近桌面、1440×800 两幅、移动三幅、第四热点反馈中间态），三张冻结源 PNG 与同状态同视口渲染同轮并排目验：热点全部压中物件、移动端短标签无裁切无互盖、标题/统计无溢出。
+- 保护边界：`docs/KimiUsageLog.md`、`assets/divine-name-cancellation.webp`、全部 source-v53/v54 PNG 哈希不变；未执行任何 git add/commit/push/stash；未安装依赖。
+
 ## 2026-07-30 (v53 归路信念污染 / THE ROOMS BELIEVE YOU：v39 三路线三态变异 + 阈值机关七分支 + 矛盾翻转牌)
 - 世界观转向：不追加线性走廊，深化 v39 归路核验站——跨多轮反复选择后房间反过来「相信你」：相信守则（first/pale/blank）积累守则信任、相信感官（loud/pulse/named）积累感官诱信、同一路改口积累自相矛盾；信任沉淀到阈值，路线图为玩家变异，并长出通向既有分支网的机关。
 - 素材：六张监理冻结源 PNG（1536×1024，sha256 记录在 `docs/V53RouteBeliefDesign.md`，禁止重生成/覆盖/裁切）Pillow q85 原尺寸无裁切转码 `assets/v53-{echo,vein,confession}-{official,sensory}-belief.webp`（185–225 KB）；中性态继续用 v39 原图，六张变异图 `new Image()` 预载。

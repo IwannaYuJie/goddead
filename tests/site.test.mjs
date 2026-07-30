@@ -29,8 +29,8 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=50/);
-assert.match(html, /script\.js\?v=50/);
+assert.match(html, /styles\.css\?v=51/);
+assert.match(html, /script\.js\?v=51/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
@@ -488,8 +488,8 @@ for (const asset of VISUAL_ASSETS) {
 await access(new URL("assets/prayer-incinerator-burning.webp", root));
 assert.match(html, /assets\/prayer-incinerator-burning\.webp/);
 assert.match(html, /<link rel="preload" href="assets\/prayer-incinerator-burning\.webp" as="image">/);
-assert.match(html, /styles\.css\?v=50/);
-assert.match(html, /script\.js\?v=50/);
+assert.match(html, /styles\.css\?v=51/);
+assert.match(html, /script\.js\?v=51/);
 const offeringFigureHtml = html.match(/<figure class="offering-figure[^"]*" role="img" aria-label="[^"]*">[\s\S]*?<\/figure>/);
 assert.ok(offeringFigureHtml, "offering figure must exist");
 assert.match(offeringFigureHtml[0], /aria-label="一座沉寂的焚献炉"/);
@@ -814,7 +814,7 @@ for (const [b, title] of Object.entries(branchSceneIds)) {
   assert.match(html, new RegExp(`data-title="Goddead — ${title}"`));
   const section = html.match(new RegExp(`<section class="scene scene-branch" id="scene-${b}"[\\s\\S]*?<\\/section>`));
   assert.ok(section, `${b} section must exist`);
-  assert.equal((section[0].match(/<button class="branch-btn"/g) || []).length, 3, `${b} must hold exactly 3 focusable hotspot buttons`);
+  assert.equal((section[0].match(/<button class="branch-btn[ "]/g) || []).length, 4, `${b} must hold exactly 4 focusable hotspot buttons (3 v29 choices + 1 v54 breach)`);
   assert.match(section[0], /aria-pressed="false"/, `${b} hotspot buttons carry toggle semantics`);
   assert.match(section[0], /aria-live="polite"/, `${b} needs an aria-live feedback line`);
   assert.match(section[0], /data-go="corridor"/, `${b} keeps an explicit back-to-corridor exit`);
@@ -865,7 +865,7 @@ assert.match(js, /if \(DEEP_SCENES\.includes\(target\)\) markDeepVisited\(target
 /* 路由守卫：未访问支线直达落回走廊；v39 中间档 outcome 与 v53 信念 pending/已访问是仅有的窄例外 */
 assert.match(js, /if \(BRANCH_SCENES\.includes\(target\) && !branchState\.visited\[target\] && AUDIT_BRANCH_OUTCOME\[target\] !== auditGuardState\.outcome\s*\n\s*&& beliefGuard\.pendingTarget !== target && !\(BELIEF_SCENE_BRANCH\[target\] && beliefGuard\.branches\[BELIEF_SCENE_BRANCH\[target\]\]\.visits > 0\)\) target = "corridor";/, "v29 guard keeps the v39 outcome exception and adds only the narrow v53 belief exception");
 /* 场景进入同步与旁路记忆 */
-assert.match(js, /if \(BRANCH_SCENES\.includes\(name\)\) enterBranch\(name\);/);
+assert.match(js, /if \(BRANCH_SCENES\.includes\(name\)\) \{ enterBranch\(name\); syncPressureRoom\(name\); replayPressurePending\(name\); paintPressure\(\); \}/);
 assert.match(js, /if \(name === "corridor"\) \{ corridorConsumed = false; corridorDetourArmed = false; syncWatchDoor\(\); syncBranchEntries\(\); syncDeepEntries\(\); startTrace\(\); \}/);
 assert.match(js, /const paintBranchMemory = \(\) => \{/);
 assert.match(js, /paintBranchMemory\(\);/);
@@ -3458,6 +3458,93 @@ for (const cls of ["audit-spot-echo", "audit-spot-vein", "audit-spot-confession"
 assert.match(css, /\.belief-variant-official \./, "css missing official variant overrides");
 assert.match(css, /\.belief-variant-sensory \./, "css missing sensory variant overrides");
 
+/* ---------- v54 迫近回访：v29 三房共同记账 + 异动第四热点九分流 ---------- */
+/* 三张 v54 异动正式图存在且被引用，三张冻结源 PNG 保留 */
+for (const asset of ["assets/v54-echo-approach.webp", "assets/v54-vein-approach.webp", "assets/v54-confession-approach.webp"]) {
+  await access(new URL(asset, root));
+  assert.ok(js.includes(asset), `${asset} must be referenced by the v54 approach swap`);
+}
+for (const src of ["design-references/source-v54-echo-approach.png", "design-references/source-v54-vein-approach.png", "design-references/source-v54-confession-approach.png"]) {
+  await access(new URL(src, root));
+}
+assert.match(js, /const PRESSURE_KEY = "goddead_v54_return_pressure";/);
+assert.equal((js.match(/goddead_v54/g) || []).length, 1, "v54 introduces exactly one storage key");
+const pressureParseBlock = js.match(/const getPressure = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(pressureParseBlock, "getPressure must exist");
+assert.match(pressureParseBlock[0], /\} catch \{ raw = \{\}; \}/, "corrupt pressure storage must be safely repaired");
+assert.match(pressureParseBlock[0], /if \(typeof raw !== "object" \|\| Array\.isArray\(raw\)\) raw = \{\};/, "array/wrong-type pressure storage must fall back");
+assert.match(pressureParseBlock[0], /Math\.min\(PRESSURE_NUM_CAP, Math\.floor\(n\)\)/, "pressure counters must be clamped 0..9999");
+assert.match(pressureParseBlock[0], /history = history\.slice\(-PRESSURE_HISTORY_CAP\);/, "history is bounded to the last 16 valid entries");
+assert.ok(pressureParseBlock[0].indexOf("history = history.slice(-PRESSURE_HISTORY_CAP);") < pressureParseBlock[0].indexOf("let pending = null;"), "canonical history is parsed before pending validation");
+assert.match(pressureParseBlock[0], /Object\.keys\(p\)\.sort\(\)\.join\(","\) === "choice,feedback,room,target"/, "pending accepts exactly four whitelisted keys, extra keys are forged");
+assert.match(pressureParseBlock[0], /breachTotal >= 1 && breaches\[p\.room\] >= 1 && total >= 6 \* breachTotal/, "pending needs a real consumption: breachTotal >= 1, the room breached, and the six-point backing relation");
+assert.match(pressureParseBlock[0], /last\.type === "breach" && last\.room === p\.room && last\.choice === p\.choice/, "pending needs the canonical history's last entry to be the same room/choice breach");
+assert.match(pressureParseBlock[0], /p\.target === meta\.target && p\.feedback === meta\.feedback/, "pending target and verbatim feedback are recomputed from the whitelist");
+assert.match(pressureParseBlock[0], /const approach = Math\.max\(0, total - 6 \* breachTotal\);/, "approach is re-derived, never trusted");
+assert.ok(!/goddead_v(28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53)/.test(pressureParseBlock[0]), "v54 state must not touch earlier keys");
+/* 存盘收口：savePressure 只持久化 canonical 五部分，派生字段永不落盘 */
+const pressureSaveBlock = js.match(/const savePressure = \(st\) => store\.set\(PRESSURE_KEY, JSON\.stringify\(\{[\s\S]*?\}\)\);/);
+assert.ok(pressureSaveBlock, "savePressure must persist an explicit canonical projection");
+assert.match(pressureSaveBlock[0], /scores: st\.scores,/, "savePressure persists scores");
+assert.match(pressureSaveBlock[0], /choices: st\.choices,/, "savePressure persists choices");
+assert.match(pressureSaveBlock[0], /breaches: st\.breaches,/, "savePressure persists breaches");
+assert.match(pressureSaveBlock[0], /pending: st\.pending,/, "savePressure persists pending");
+assert.match(pressureSaveBlock[0], /history: st\.history\.slice\(-PRESSURE_HISTORY_CAP\),/, "savePressure clamps history to <= 16 before persisting");
+assert.ok(!/approach|breachTotal|st\.total/.test(pressureSaveBlock[0]), "savePressure must never persist derived fields");
+/* chooseBranch 共享守卫：live scene + first-lock，九个旧选择语义不变，v54 钩子在接受之后 */
+const chooseBranchBlock = js.match(/const chooseBranch = \(sceneKey, choiceKey\) => \{[\s\S]*?\n  \};/);
+assert.match(chooseBranchBlock[0], /if \(currentScene !== sceneKey\) return;/, "chooseBranch rejects off-scene calls");
+assert.match(chooseBranchBlock[0], /if \(AutoAdvance\.has\(sceneKey\)\) return;/, "chooseBranch first-locks the beat");
+assert.match(chooseBranchBlock[0], /saveBranches\(st\);[\s\S]*?recordPressureChoice\(sceneKey, choiceKey\);/, "v54 scoring hooks in only after the v29 acceptance point");
+const recordPressureBlock = js.match(/const recordPressureChoice = \(room, choice\) => \{[\s\S]*?\n  \};/);
+assert.match(recordPressureBlock[0], /st\.scores\[room\] = Math\.min\(PRESSURE_NUM_CAP, st\.scores\[room\] \+ 1\);/, "room score increments once per accepted choice");
+assert.match(recordPressureBlock[0], /st\.choices\[room\]\[choice\] = Math\.min\(PRESSURE_NUM_CAP, st\.choices\[room\]\[choice\] \+ 1\);/, "per-choice counter increments once");
+/* 第四热点九分流：逐字反馈与白名单目标 */
+for (const frag of [
+  'knock: { target: "counter-knock-gallery", feedback: "蜡封在听筒里裂开。门外那三记敲声被倒送进回敲廊。"',
+  'steps: { target: "lagging-shadow-cloister", feedback: "听筒没有线，脚步却从滞后的影子里接通。"',
+  'bell: { target: "minute-before-archive", feedback: "03:17 从听筒里提前了一分钟。档案井已经在等。"',
+  'down: { target: "seeping-records", feedback: "红柱顺流坠下，把井水压进渗水档案池。"',
+  'up: { target: "reverse-laundry", feedback: "指针倒着越过零。逆照洗衣房开始回流。"',
+  'isolate: { target: "bellless-ward", feedback: "玻璃里只剩一段无声脉搏。无铃病房替它开门。"',
+  'door: { target: "blank-receipt-press", feedback: "抽屉退回一张空白收据，敲门被压成未填项目。"',
+  'seven: { target: "protocol-drift", feedback: "第七条从抽屉背面翻出，守则的字开始漂移。"',
+  'refuse: { target: "blank-name-cloakroom", feedback: "黑色名带没有写字，却替你寄存了拒绝。"',
+]) assert.ok(js.includes(frag), `missing v54 breach mapping: ${frag.slice(0, 24)}`);
+/* 第四热点处理器守卫：live scene + first-lock + 点击前 approach>=6 + 合法 lastChoice */
+const breachBlock = js.match(/const choosePressureBreach = \(room\) => \{[\s\S]*?\n  \};/);
+assert.match(breachBlock[0], /if \(currentScene !== room\) return;/, "breach rejects off-scene calls");
+assert.match(breachBlock[0], /if \(AutoAdvance\.has\(room\)\) return;/, "breach shares the v29 first-lock");
+assert.match(breachBlock[0], /if \(st\.approach < PRESSURE_BREACH_MIN\) return;/, "breach requires approach >= 6 before the click");
+assert.match(breachBlock[0], /const lastChoice = getBranches\(\)\.lastChoice\[room\];/, "breach routes by the room's legal v29 lastChoice");
+assert.match(breachBlock[0], /st\.breaches\[room\] = Math\.min\(PRESSURE_NUM_CAP, st\.breaches\[room\] \+ 1\);/, "breach consumes exactly once");
+/* 第四热点显隐：迫近 >= 6 且该房合法 lastChoice；变异图阈值 >= 3 */
+const syncPressureBlock = js.match(/const syncPressureRoom = \(room\) => \{[\s\S]*?\n  \};/);
+assert.match(syncPressureBlock[0], /const moved = st\.approach >= PRESSURE_APPROACH_IMG;/, "approach >= 3 swaps the room figure");
+assert.match(syncPressureBlock[0], /const armed = st\.approach >= PRESSURE_BREACH_MIN && !!PRESSURE_BREACH\[room\]\[lastChoice\];/, "fourth hotspot needs approach >= 6 and a legal lastChoice");
+/* DOM：九旧热点入图、第四热点 hidden、旧卡容器删除、统计签、目录 01δ½、记忆单行、仍八卡 */
+for (const [b, ids] of Object.entries({ echo: ["echo-choice-knock", "echo-choice-steps", "echo-choice-bell", "echo-breach-receiver"], vein: ["vein-choice-down", "vein-choice-up", "vein-choice-isolate", "vein-breach-gauge"], confession: ["confession-choice-door", "confession-choice-seven", "confession-choice-refuse", "confession-breach-drawer"] })) {
+  const section = html.match(new RegExp(`<section class="scene scene-branch" id="scene-${b}"[\\s\\S]*?<\\/section>`));
+  assert.ok(section[0].includes("forecourt-tactile-stage"), `${b} figure becomes the 3:2 tactile stage`);
+  const figure = section[0].match(/<figure[\s\S]*?<\/figure>/);
+  for (const id of ids) assert.ok(figure[0].includes(`id="${id}"`), `${b} figure must hold #${id} inside the picture`);
+  assert.ok(!section[0].includes("branch-choices"), `${b} must drop the old card list container`);
+  assert.ok(section[0].includes("pressure-slip"), `${b} carries the compact pressure slip`);
+}
+for (const id of ["echo-breach-receiver", "vein-breach-gauge", "confession-breach-drawer"]) {
+  assert.match(html, new RegExp(`id="${id}" type="button" aria-pressed="false" data-hover hidden`), `${id} ships hidden`);
+}
+assert.ok(!html.includes('id="echo-choices"') && !html.includes('id="vein-choices"') && !html.includes('id="confession-choices"'), "the three v29 card containers must be deleted entirely");
+assert.match(html, /<a href="#echo" id="pressure-link" hidden data-hover>01δ½ \/ 迫近回访<\/a>/);
+assert.ok(html.includes('id="pressure-memory"'), "remembrance gains the pressure memory line");
+assert.equal((html.match(/<div class="stat-card">/g) || []).length, 8, "remembrance keeps exactly eight stat cards");
+assert.match(js, /迫近回访：回声累计 \$\{st\.scores\.echo\}，脉压 \$\{st\.scores\.vein\}，名重 \$\{st\.scores\.confession\}/, "pressure memory line verbatim");
+assert.match(js, /if \(BRANCH_SCENES\.includes\(name\)\) \{ enterBranch\(name\); syncPressureRoom\(name\); replayPressurePending\(name\); paintPressure\(\); \}/, "scene entry syncs the pressure room and replays a legal pending");
+for (const cls of ["archive-spot-knock", "archive-spot-steps", "archive-spot-bell", "archive-spot-breach", "well-spot-down", "well-spot-up", "well-spot-isolate", "well-spot-breach", "scale-spot-door", "scale-spot-seven", "scale-spot-refuse", "scale-spot-breach"]) {
+  assert.match(css, new RegExp(`\\.${cls} \\{`), `css missing position class .${cls}`);
+}
+
+
 /* ---------- 文档同步 ---------- */
 const readme = await fileText("README.md");
 assert.match(readme, /值夜室|night-watch/i);
@@ -3545,6 +3632,8 @@ assert.match(log, /v49|门前实感|原生物件热点/, "ProgressLog must docum
 assert.match(log, /v50|副楼实感|原生热点/, "ProgressLog must document v50");
 assert.match(log, /v51|副楼三债|阈值异常/, "ProgressLog must document v51");
 assert.match(log, /v52|三债结算|结算所/, "ProgressLog must document v52");
+assert.match(log, /v53|归路信念/, "ProgressLog must document v53");
+assert.match(log, /v54|迫近/, "ProgressLog must document v54");
 
 /* ---------- 边界说明 ----------
    本套件为 Node 静态断言，不启动 DOM、不执行真实交互。

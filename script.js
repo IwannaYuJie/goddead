@@ -936,7 +936,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (name === "threshold") { thresholdConsumed = false; syncDoorOpenState(); }
     if (name === "protocol") { protocolConsumed = false; startAnomaly(); syncDriftEntry(); }
     if (name === "corridor") { corridorConsumed = false; corridorDetourArmed = false; syncWatchDoor(); syncBranchEntries(); syncDeepEntries(); startTrace(); }
-    if (BRANCH_SCENES.includes(name)) enterBranch(name);
+    if (BRANCH_SCENES.includes(name)) { enterBranch(name); syncPressureRoom(name); replayPressurePending(name); paintPressure(); }
     if (DEEP_SCENES.includes(name)) enterDeep(name);
     if (FORECOURT_SCENES.includes(name)) enterForecourt(name);
     if (ANNEX_SCENES.includes(name)) enterAnnex(name);
@@ -990,6 +990,7 @@ document.addEventListener("DOMContentLoaded", () => {
       paintProxyMemory();
       paintAuditMemory();
       paintBeliefMemory();
+      paintPressureMemory();
       paintLateralMemory();
       paintBackroomMemory();
       paintDriftMemory();
@@ -1754,15 +1755,21 @@ document.addEventListener("DOMContentLoaded", () => {
     paintBranchChoice(sceneKey);
   };
 
-  /* 分支选择：点击/键盘激活 → 短反馈 → 自动进入目标；没有第二个必点按钮 */
+  /* 分支选择：点击/键盘激活 → 短反馈 → 自动进入目标；没有第二个必点按钮。
+     v54 起加共享守卫：只有 live scene 上、转场未锁时的第一次接受生效
+     （合成/离场/连点调用被拒），九个旧选择的反馈/目标/lastChoice 语义不变；
+     v54 计分只挂在接受之后 */
   const chooseBranch = (sceneKey, choiceKey) => {
     const meta = BRANCH_META[sceneKey];
     const choice = meta.choices[choiceKey];
     if (!choice) return;
+    if (currentScene !== sceneKey) return;
+    if (AutoAdvance.has(sceneKey)) return;
     const st = getBranches();
     st.lastChoice[sceneKey] = choiceKey;
     saveBranches(st);
     paintBranchChoice(sceneKey);
+    recordPressureChoice(sceneKey, choiceKey);
 
     const ok = !choice.guard || choice.guard();
     const target = ok ? choice.target : "corridor";
@@ -5632,6 +5639,272 @@ document.addEventListener("DOMContentLoaded", () => {
   if (beliefFlipBtn) beliefFlipBtn.addEventListener("click", chooseBeliefFlip);
   BELIEF_ROUTES.forEach(syncBeliefRoute);
   paintBelief();
+
+  /* ============================================================
+     v54 迫近回访：v29 三房共同记账、迫近异动与第四热点九分流
+     独立容错状态键 PRESSURE_KEY（v54 唯一存储键），与 v29/v30 完全独立；
+     只持久化 canonical 五部分（scores/choices/breaches/pending/history），
+     total/approach 等派生值只重算不落盘；坏 JSON/数组/错型/负数/浮点/
+     超大数/未知键/伪造 pending 全部规范化。
+     ============================================================ */
+  const PRESSURE_KEY = "goddead_v54_return_pressure";
+  const PRESSURE_SCENES = ["echo", "vein", "confession"];
+  const PRESSURE_CHOICES = {
+    echo: ["knock", "steps", "bell"],
+    vein: ["down", "up", "isolate"],
+    confession: ["door", "seven", "refuse"],
+  };
+  const PRESSURE_NUM_CAP = 9999;
+  const PRESSURE_HISTORY_CAP = 16;
+  const PRESSURE_APPROACH_IMG = 3; /* 迫近 >= 3：三房同步切到 v54 异动图 */
+  const PRESSURE_BREACH_MIN = 6;   /* 迫近 >= 6：第四热点可用，一次消费 6 点 */
+  const PRESSURE_BASE_IMG = {
+    echo: "assets/echo-archive.webp",
+    vein: "assets/vein-maintenance-well.webp",
+    confession: "assets/confession-weighing-room.webp",
+  };
+  const PRESSURE_IMG = {
+    echo: "assets/v54-echo-approach.webp",
+    vein: "assets/v54-vein-approach.webp",
+    confession: "assets/v54-confession-approach.webp",
+  };
+  const PRESSURE_BASE_FIGLABEL = {
+    echo: "三只悬吊的旧听筒与桌面上三口黄铜听井",
+    vein: "环形井室与三只黄铜阀门控制器",
+    confession: "一架黄铜天平，左盘放着信封，中盘盛着灰烬，右盘空着",
+  };
+  const PRESSURE_FIGLABEL = {
+    echo: "回声档案室迫近异动：三口听井的铜圈发红，中央架上横着一只蜡封的断线听筒",
+    vein: "维修井迫近异动：中央脉管涨红，顶部过压表的指针越过最后一道刻度",
+    confession: "称量室迫近异动：横梁左端渗出红蜡，左上悬着一只半开的迫近抽屉",
+  };
+  /* 第四热点九分流：房间 × 该房合法 v29 lastChoice → 目标与逐字反馈 */
+  const PRESSURE_BREACH = {
+    echo: {
+      btn: "#echo-breach-receiver",
+      knock: { target: "counter-knock-gallery", feedback: "蜡封在听筒里裂开。门外那三记敲声被倒送进回敲廊。" },
+      steps: { target: "lagging-shadow-cloister", feedback: "听筒没有线，脚步却从滞后的影子里接通。" },
+      bell: { target: "minute-before-archive", feedback: "03:17 从听筒里提前了一分钟。档案井已经在等。" },
+    },
+    vein: {
+      btn: "#vein-breach-gauge",
+      down: { target: "seeping-records", feedback: "红柱顺流坠下，把井水压进渗水档案池。" },
+      up: { target: "reverse-laundry", feedback: "指针倒着越过零。逆照洗衣房开始回流。" },
+      isolate: { target: "bellless-ward", feedback: "玻璃里只剩一段无声脉搏。无铃病房替它开门。" },
+    },
+    confession: {
+      btn: "#confession-breach-drawer",
+      door: { target: "blank-receipt-press", feedback: "抽屉退回一张空白收据，敲门被压成未填项目。" },
+      seven: { target: "protocol-drift", feedback: "第七条从抽屉背面翻出，守则的字开始漂移。" },
+      refuse: { target: "blank-name-cloakroom", feedback: "黑色名带没有写字，却替你寄存了拒绝。" },
+    },
+  };
+
+  const getPressure = () => {
+    let raw = {};
+    try {
+      raw = JSON.parse(store.get(PRESSURE_KEY, "{}")) || {};
+    } catch { raw = {}; }
+    if (typeof raw !== "object" || Array.isArray(raw)) raw = {};
+    const num = (v) => {
+      let n = Number(v);
+      if (!Number.isFinite(n) || n < 0) n = 0;
+      return Math.min(PRESSURE_NUM_CAP, Math.floor(n));
+    };
+    /* scores/choices/breaches：白名单重建，未知键一律丢弃 */
+    const scores = {};
+    const choices = {};
+    const breaches = {};
+    PRESSURE_SCENES.forEach((r) => {
+      scores[r] = num(raw.scores && raw.scores[r]);
+      breaches[r] = num(raw.breaches && raw.breaches[r]);
+      const rc = raw.choices && typeof raw.choices[r] === "object" && !Array.isArray(raw.choices[r]) ? raw.choices[r] : {};
+      choices[r] = {};
+      PRESSURE_CHOICES[r].forEach((c) => { choices[r][c] = num(rc[c]); });
+    });
+    const total = PRESSURE_SCENES.reduce((n, r) => n + scores[r], 0);
+    const breachTotal = PRESSURE_SCENES.reduce((n, r) => n + breaches[r], 0);
+    /* history 有界：仅保留白名单形状条目，最多 16 条（先解析，
+       pending 的「刚消费过」跨字段证明依赖 canonical history） */
+    let history = [];
+    if (Array.isArray(raw.history)) {
+      for (const h of raw.history) {
+        if (!h || typeof h !== "object" || Array.isArray(h)) continue;
+        if ((h.type === "choice" || h.type === "breach") && PRESSURE_SCENES.includes(h.room) && PRESSURE_CHOICES[h.room].includes(h.choice)) {
+          history.push({ type: h.type, room: h.room, choice: h.choice });
+        }
+      }
+    }
+    history = history.slice(-PRESSURE_HISTORY_CAP);
+    /* pending 严格白名单：只接受恰好 {room,choice,target,feedback} 四键（额外键即伪造），
+       target 与逐字反馈由九分流映射重算；另须同时具备「确实刚消费过」的跨字段证据：
+       breachTotal >= 1 且该房 breaches >= 1（从未消费过的干净伪存档直接拒绝）、
+       total >= 6 * breachTotal（六点曾完整存在——存盘后 approach 已下降，
+       不得再要求 approach>=6）、且 canonical history 最后一项正是同 room/choice 的
+       breach（接受第四热点时才追加，转场前不会有任何新事件）。任一不符 → null */
+    let pending = null;
+    if (raw.pending && typeof raw.pending === "object" && !Array.isArray(raw.pending)) {
+      const p = raw.pending;
+      const last = history.length ? history[history.length - 1] : null;
+      if (Object.keys(p).sort().join(",") === "choice,feedback,room,target"
+        && PRESSURE_SCENES.includes(p.room) && PRESSURE_CHOICES[p.room].includes(p.choice)
+        && breachTotal >= 1 && breaches[p.room] >= 1 && total >= 6 * breachTotal
+        && last && last.type === "breach" && last.room === p.room && last.choice === p.choice) {
+        const meta = PRESSURE_BREACH[p.room][p.choice];
+        if (p.target === meta.target && p.feedback === meta.feedback) {
+          pending = { room: p.room, choice: p.choice, target: meta.target, feedback: meta.feedback };
+        }
+      }
+    }
+    /* 派生：total / approach 只重算，不落盘 */
+    const approach = Math.max(0, total - 6 * breachTotal);
+    return { scores, choices, breaches, pending, history, total, breachTotal, approach };
+  };
+  /* 只持久化 canonical 五部分；派生字段永不落盘，history 先裁后存 */
+  const savePressure = (st) => store.set(PRESSURE_KEY, JSON.stringify({
+    scores: st.scores,
+    choices: st.choices,
+    breaches: st.breaches,
+    pending: st.pending,
+    history: st.history.slice(-PRESSURE_HISTORY_CAP),
+  }));
+
+  /* 有任何计分或异动即视为迫近活动（目录与记忆行恢复） */
+  const pressureActive = (st) => st.total > 0 || st.breachTotal > 0;
+
+  /* v29 旧选择被合法接受后计分：只挂在 chooseBranch 守卫之后，
+     合成/离场/连点/锁定调用都被挡在钩子之前 → 零重复累计；只写 v54 键 */
+  const recordPressureChoice = (room, choice) => {
+    if (!PRESSURE_SCENES.includes(room) || !PRESSURE_CHOICES[room].includes(choice)) return;
+    const st = getPressure();
+    st.scores[room] = Math.min(PRESSURE_NUM_CAP, st.scores[room] + 1);
+    st.choices[room][choice] = Math.min(PRESSURE_NUM_CAP, st.choices[room][choice] + 1);
+    st.history.push({ type: "choice", room, choice });
+    savePressure(st);
+    syncPressureRoom(room);
+    paintPressure();
+  };
+
+  /* 房间重绘：迫近 >= 3 切 v54 异动图（单 img 原子切换 + aria-label）；
+     第四热点仅在 迫近 >= 6 且该房有合法 v29 lastChoice 时显示可聚焦 */
+  const syncPressureRoom = (room) => {
+    if (!PRESSURE_SCENES.includes(room)) return;
+    const st = getPressure();
+    const section = $(`#scene-${room}`);
+    if (!section) return;
+    const figure = section.querySelector("figure.branch-figure");
+    const img = figure && figure.querySelector(".branch-img");
+    const moved = st.approach >= PRESSURE_APPROACH_IMG;
+    const wantSrc = moved ? PRESSURE_IMG[room] : PRESSURE_BASE_IMG[room];
+    if (img && img.getAttribute("src") !== wantSrc) img.setAttribute("src", wantSrc);
+    if (figure) figure.setAttribute("aria-label", moved ? PRESSURE_FIGLABEL[room] : PRESSURE_BASE_FIGLABEL[room]);
+    const lastChoice = getBranches().lastChoice[room];
+    const armed = st.approach >= PRESSURE_BREACH_MIN && !!PRESSURE_BREACH[room][lastChoice];
+    const btn = $(PRESSURE_BREACH[room].btn);
+    if (btn) {
+      if (armed) btn.removeAttribute("hidden");
+      else { btn.setAttribute("hidden", ""); btn.setAttribute("aria-pressed", "false"); }
+    }
+  };
+
+  /* 统计签四处读数同步（三房各一块 class 挂钩） */
+  const paintPressure = () => {
+    const st = getPressure();
+    $$("[data-pressure-echo]").forEach((el) => { el.textContent = st.scores.echo; });
+    $$("[data-pressure-vein]").forEach((el) => { el.textContent = st.scores.vein; });
+    $$("[data-pressure-confession]").forEach((el) => { el.textContent = st.scores.confession; });
+    $$("[data-pressure-approach]").forEach((el) => { el.textContent = `${Math.min(PRESSURE_BREACH_MIN, st.approach)}/${PRESSURE_BREACH_MIN}`; });
+  };
+
+  /* 第四热点：live scene + 与 v29 共享 first-lock + 点击前 approach>=6 +
+     该房合法 v29 lastChoice；接受即 breach+1（等价消耗 6 点）、history、
+     严格 pending，逐字反馈一拍后自动去映射目标；before 里只清 pending，
+     重复进入/刷新/伪造不得二次消费或二次转场 */
+  const choosePressureBreach = (room) => {
+    if (!PRESSURE_SCENES.includes(room)) return;
+    if (currentScene !== room) return;
+    if (AutoAdvance.has(room)) return;
+    const st = getPressure();
+    if (st.approach < PRESSURE_BREACH_MIN) return;
+    const lastChoice = getBranches().lastChoice[room];
+    const meta = lastChoice ? PRESSURE_BREACH[room][lastChoice] : null;
+    if (!meta) return;
+    st.breaches[room] = Math.min(PRESSURE_NUM_CAP, st.breaches[room] + 1);
+    st.history.push({ type: "breach", room, choice: lastChoice });
+    st.pending = { room, choice: lastChoice, target: meta.target, feedback: meta.feedback };
+    savePressure(st);
+    const btn = $(PRESSURE_BREACH[room].btn);
+    if (btn) btn.setAttribute("aria-pressed", "true");
+    const responseEl = $(BRANCH_META[room].responseEl);
+    if (responseEl) responseEl.textContent = meta.feedback;
+    AudioEngine.knock(0.16);
+    paintPressure();
+    AutoAdvance.schedule(room, meta.target, {
+      delay: branchDelay(),
+      before: () => {
+        const s = getPressure();
+        if (s.pending && s.pending.room === room) {
+          s.pending = null;
+          savePressure(s);
+        }
+        syncPressureLink();
+        paintPressureMemory();
+      },
+    });
+  };
+
+  /* reload 节拍恢复：合法 pending 属于当前房间时重播逐字反馈并精确重挂
+     一次转场（breach 在接受时已计，这里只清 pending，不再校验 approach） */
+  const replayPressurePending = (sceneName) => {
+    const st = getPressure();
+    const p = st.pending;
+    if (!p || p.room !== sceneName) return;
+    const responseEl = $(BRANCH_META[p.room].responseEl);
+    if (responseEl) responseEl.textContent = p.feedback;
+    AutoAdvance.schedule(p.room, p.target, {
+      delay: branchDelay(),
+      before: () => {
+        const s = getPressure();
+        if (s.pending && s.pending.room === p.room) {
+          s.pending = null;
+          savePressure(s);
+        }
+        syncPressureLink();
+        paintPressureMemory();
+      },
+    });
+  };
+
+  /* 目录 01δ½：有任何计分或异动即恢复显示 */
+  const syncPressureLink = () => {
+    const link = $("#pressure-link");
+    if (!link) return;
+    if (pressureActive(getPressure())) link.removeAttribute("hidden");
+    else link.setAttribute("hidden", "");
+  };
+
+  /* 痕迹页单行：四项读数 + 异动次数，保持八张统计卡不变 */
+  const paintPressureMemory = () => {
+    const memory = $("#pressure-memory");
+    if (!memory) return;
+    const st = getPressure();
+    if (!pressureActive(st)) {
+      memory.hidden = true;
+      return;
+    }
+    memory.textContent = `迫近回访：回声累计 ${st.scores.echo}，脉压 ${st.scores.vein}，名重 ${st.scores.confession}；房间在你不看的时候移动过 ${st.breachTotal} 次。`;
+    memory.hidden = false;
+  };
+
+  PRESSURE_SCENES.forEach((room) => {
+    const btn = $(PRESSURE_BREACH[room].btn);
+    if (btn) btn.addEventListener("click", () => choosePressureBreach(room));
+    /* 三张异动图预载，阈值切换无闪烁 */
+    const pre = new Image();
+    pre.src = PRESSURE_IMG[room];
+    syncPressureRoom(room);
+  });
+  paintPressure();
 
   /* ============================================================
      v40 门外侧廊：首页纵深环境层 + 左右廊热点 + 三个画面热点场景
@@ -9727,6 +10000,9 @@ document.addEventListener("DOMContentLoaded", () => {
       syncAuditLink();
       syncBeliefLink();
       paintBelief();
+      syncPressureLink();
+      paintPressure();
+      PRESSURE_SCENES.forEach(syncPressureRoom);
       syncLateralLinks();
       syncBackroomLinks();
       syncDriftEntry();
@@ -9754,6 +10030,7 @@ document.addEventListener("DOMContentLoaded", () => {
       paintProxyMemory();
       paintAuditMemory();
       paintBeliefMemory();
+      paintPressureMemory();
       paintLateralMemory();
       paintBackroomMemory();
       paintDriftMemory();
@@ -9815,6 +10092,9 @@ document.addEventListener("DOMContentLoaded", () => {
   syncBeliefLink();
   paintBeliefMemory();
   paintBelief();
+  syncPressureLink();
+  paintPressureMemory();
+  paintPressure();
   syncLateralLinks();
   paintLateralMemory();
   syncBackroomLinks();

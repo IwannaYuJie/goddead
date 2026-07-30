@@ -6096,3 +6096,31 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
   .audit-spot-flip { top: 71%; }
   .belief-variant-sensory .vein-spot-pale { top: 13%; }
 }
+
+/* ============================================================
+   v54 迫近回访：v29 三房图内原生热点定位（1536×1024 舞台百分比）
+   九项旧选择压在听井 / 手轮·拉杆 / 秤盘上；第四热点压在每张
+   异动图新增的真实物件上（断线听筒 / 过压表 / 迫近抽屉），
+   出厂 hidden。桌面与移动端共用一套坐标，44px 增长后互不重叠。
+   ============================================================ */
+.archive-spot-knock { top: 58%; left: 11%; width: 15%; height: 14%; }
+.archive-spot-steps { top: 60%; left: 38%; width: 16%; height: 14%; }
+.archive-spot-bell { top: 62%; left: 68%; width: 16%; height: 14%; }
+.archive-spot-breach { top: 19%; left: 55%; width: 12%; height: 18%; }
+
+.well-spot-down { top: 58%; left: 17%; width: 17%; height: 22%; }
+.well-spot-up { top: 64%; left: 45%; width: 13%; height: 20%; }
+.well-spot-isolate { top: 60%; left: 67%; width: 16%; height: 20%; }
+.well-spot-breach { top: 2%; left: 43%; width: 15%; height: 22%; }
+
+.scale-spot-door { top: 58%; left: 12%; width: 18%; height: 16%; }
+.scale-spot-seven { top: 62%; left: 41%; width: 18%; height: 15%; }
+.scale-spot-refuse { top: 60%; left: 69%; width: 19%; height: 15%; }
+.scale-spot-breach { top: 11%; left: 29%; width: 15%; height: 16%; }
+
+@media (min-width: 721px) and (max-height: 800px) {
+  /* 短桌面：figure 收窄，保证首个热点落在首屏 */
+  #scene-echo .branch-figure,
+  #scene-vein .branch-figure,
+  #scene-confession .branch-figure { width: min(460px, 100%); }
+}
