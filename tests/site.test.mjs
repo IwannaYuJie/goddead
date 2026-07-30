@@ -37,7 +37,7 @@ assert.match(css, /@media \(max-width: 720px\)/);
 assert.match(js, /DOMContentLoaded/);
 
 /* ---------- 场景探索结构 ---------- */
-const SCENES = ["threshold", "protocol", "corridor", "peephole-chamber", "glyph-niche", "return-passage", "eyelid-archive", "unnumbered-vestibule", "reverse-stairwell", "anomaly-review", "evidence-vault", "false-positive-shaft", "unclaimed-valuation", "quota-elevator", "unnumbered-floor", "bellless-ward", "seeping-records", "reverse-laundry", "night-shift-registry", "midnight-callback", "proxy-admission", "return-audit", "echo-turn", "vein-turnstile", "confession-locker", "unlit-lamp-gallery", "borrowed-shadow-gallery", "hinge-sorting-room", "red-thread-registry", "blank-name-cloakroom", "clapperless-bell-desk", "protocol-drift", "counter-knock-gallery", "unanswered-vestibule", "undersill-dispatch", "lagging-shadow-cloister", "ash-door-foundry", "retention-vault", "minute-before-archive", "cold-wick-service-bay", "absent-relief-locker", "unseated-listening-booth", "unnumbered-jack-field", "return-ring-morgue", "unclaimed-pneumatic-intake", "returned-address-cabinet", "blank-receipt-press", "blank-screen-underarchive", "false-confirmation-desk", "witness-carbon-archive", "echo", "vein", "confession", "echo-transfer", "vein-pump", "confession-ledger", "watch", "switchboard", "deadletter", "cancellation", "acting", "offering", "reliquary", "remembrance", "ninth"];
+const SCENES = ["threshold", "protocol", "corridor", "peephole-chamber", "glyph-niche", "return-passage", "eyelid-archive", "unnumbered-vestibule", "reverse-stairwell", "annex-clearinghouse", "unreturned-witness-gallery", "registry-before-zero", "descending-appeals-stair", "anomaly-review", "evidence-vault", "false-positive-shaft", "unclaimed-valuation", "quota-elevator", "unnumbered-floor", "bellless-ward", "seeping-records", "reverse-laundry", "night-shift-registry", "midnight-callback", "proxy-admission", "return-audit", "echo-turn", "vein-turnstile", "confession-locker", "unlit-lamp-gallery", "borrowed-shadow-gallery", "hinge-sorting-room", "red-thread-registry", "blank-name-cloakroom", "clapperless-bell-desk", "protocol-drift", "counter-knock-gallery", "unanswered-vestibule", "undersill-dispatch", "lagging-shadow-cloister", "ash-door-foundry", "retention-vault", "minute-before-archive", "cold-wick-service-bay", "absent-relief-locker", "unseated-listening-booth", "unnumbered-jack-field", "return-ring-morgue", "unclaimed-pneumatic-intake", "returned-address-cabinet", "blank-receipt-press", "blank-screen-underarchive", "false-confirmation-desk", "witness-carbon-archive", "echo", "vein", "confession", "echo-transfer", "vein-pump", "confession-ledger", "watch", "switchboard", "deadletter", "cancellation", "acting", "offering", "reliquary", "remembrance", "ninth"];
 for (const s of SCENES) {
   assert.match(html, new RegExp(`data-scene="${s}"`), `scene missing: ${s}`);
 }
@@ -797,7 +797,7 @@ assert.match(js, /continueOfferingBtn\.addEventListener\("click", scheduleOfferi
 assert.match(js, /continueReliquaryBtn\.addEventListener\("click", scheduleReliquaryAutoAdvance\)/);
 
 /* 场景进入时同步 HUD / ruling / 终局面板 */
-assert.match(js, /if \(name === "remembrance"\) \{[\s\S]{0,700}syncGovernanceRemembrance\(\);/, "remembrance entry syncs governance panels");
+assert.match(js, /if \(name === "remembrance"\) \{[\s\S]{0,800}syncGovernanceRemembrance\(\);/, "remembrance entry syncs governance panels");
 assert.match(js, /if \(name === "offering"\) \{[\s\S]{0,300}syncRulingOfferingUI\(\);/, "offering entry syncs ruling 2");
 assert.match(js, /const enterReliquary = \(\) => \{[\s\S]{0,160}syncRulingReliquaryUI\(\);/, "reliquary entry syncs ruling 3");
 
@@ -3183,6 +3183,149 @@ assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{\s*\.debt-plate\.
 assert.ok(!(js.includes("goddead_v51_annex_debts") === false), "v51 key present");
 assert.equal((js.match(/goddead_v51/g) || []).length, 1, "v51 introduces exactly one storage key");
 
+/* ---------- v52 副楼三债结算：容量合签 + 结算所三印 + 三间结果房 ---------- */
+/* 四张 v52 正式图存在且被引用，四张冻结源 PNG 保留 */
+for (const asset of ["assets/annex-debt-clearinghouse.webp", "assets/unreturned-witness-gallery.webp", "assets/registry-before-zero.webp", "assets/descending-appeals-stair.webp"]) {
+  await access(new URL(asset, root));
+  assert.match(html, new RegExp(asset.replace(/[/.-]/g, "\\$&")), `${asset} must be referenced`);
+}
+for (const src of ["design-references/source-v52-annex-debt-clearinghouse.png", "design-references/source-v52-unreturned-witness-gallery.png", "design-references/source-v52-registry-before-zero.png", "design-references/source-v52-descending-appeals-stair.png"]) {
+  await access(new URL(src, root));
+}
+/* 独立容错状态：新 key、坏 JSON/数组归一、数值 clamp、白名单、派生字段重算 */
+assert.match(js, /const SETTLE_KEY = "goddead_v52_annex_settlement";/);
+assert.equal((js.match(/goddead_v52/g) || []).length, 1, "v52 introduces exactly one storage key");
+const settleParseBlock = js.match(/const getSettlement = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(settleParseBlock, "getSettlement must exist");
+assert.match(settleParseBlock[0], /\} catch \{ raw = \{\}; \}/, "corrupt settlement storage must be safely repaired");
+assert.match(settleParseBlock[0], /if \(typeof raw !== "object" \|\| Array\.isArray\(raw\)\) raw = \{\};/, "array/wrong-type settlement storage must fall back");
+assert.match(settleParseBlock[0], /Math\.min\(SETTLE_NUM_CAP, Math\.floor\(n\)\)/, "counters must be clamped");
+/* allocations 归一：长度<=3、白名单、每类不超实时容量、合法连续前缀（首非法项截断） */
+assert.match(settleParseBlock[0], /if \(allocations\.length >= 3\) break;/, "allocations cap at three");
+assert.match(settleParseBlock[0], /if \(!SETTLE_KINDS\.includes\(a\)\) break;/, "allocations are whitelisted");
+assert.match(settleParseBlock[0], /if \(allocations\.filter\(\(x\) => x === a\)\.length >= cap\[a\]\) break;/, "per-kind live capacity enforced");
+/* settled 派生重算：长度恰 3 且 outcome 与实时多数一致，否则降级 */
+assert.match(settleParseBlock[0], /let settled = raw\.settled === true && allocations\.length === 3 && outcome !== "" && settleOutcomeOf\(allocations\) === outcome;/, "settled is re-derived, never trusted");
+assert.match(settleParseBlock[0], /if \(allocations\.length >= 3\) allocations = allocations\.slice\(0, 2\);/, "illegal unsettled length-3 repaired");
+/* pending 两种严格形态逐字段校验 */
+assert.match(settleParseBlock[0], /p\.type === "settle" && settled && p\.outcome === outcome && p\.target === SETTLE_OUTCOME_TARGET\[outcome\]/, "settle pending must match the fixed outcome table");
+assert.match(settleParseBlock[0], /act && p\.target === act\.target && p\.feedback === act\.feedback/, "action pending must match the action table field-by-field");
+assert.ok(!/goddead_v(28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51)/.test(settleParseBlock[0]), "v52 state must not touch earlier keys");
+/* 容量只读 v51：floor(debt / 3)，每类 0..3，总容量 >= 3 解锁；v52 全模块不写 v42 */
+const capBlock = js.match(/const settleCapacity = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(capBlock, "settleCapacity must exist");
+assert.match(capBlock[0], /cap\[k\] = Math\.floor\(debts\[k\] \/ 3\);/, "capacity is floor(v51 debt / 3), read-only");
+const settleModule = js.match(/v52 副楼三债结算[\s\S]*?\/\* =+\s*\n     v33 异常复核科/);
+assert.ok(settleModule, "v52 module must sit between v51 and v33");
+assert.ok(!/DRIFT_KEY|saveDrift|getDrift|goddead_v42/.test(settleModule[0]), "v52 must not read or write v42 drift state");
+assert.ok(!/saveDebts|DEBTS_KEY/.test(settleModule[0].replace(/const SETTLE_KEY[\s\S]*?;/, "")), "v52 must never write the v51 debts key");
+/* 四路结算落点逐字（含 balanced → 现有 #protocol-drift） */
+for (const frag of [
+  'witness: "unreturned-witness-gallery"',
+  'unnumbered: "registry-before-zero"',
+  'reverse: "descending-appeals-stair"',
+  'balanced: "protocol-drift"',
+  '"蜡筒没有录下声音，只把你听见它的那一刻倒放了一遍。"',
+  '"印章闭着眼落下，复写纸却多出一位未曾到场的见证人。"',
+  '"椅背没有映出脸。档案柜却为你的后脑开了三只眼。"',
+  '"牌面比零更早，所以所有数字都从它身后绕行。"',
+  '"压印机落下时没有留下字，只把空白压得更深了一层。"',
+  '"门没有编号。你跨过去以后，身后的楼层先被注销。"',
+  '"镜里的你先走完了楼梯，才回头等你的第一步。"',
+  '"法槌从桌底向上落下，把你的归路判成了一次上诉。"',
+  '"钟体摇了三次。病房里每张床却同时回答了第四声。"',
+  '"三债同签。结算所开门，点清你带来的刻痕。"',
+]) assert.ok(js.includes(frag), `missing v52 fragment: ${frag}`);
+/* 九个结果动作的精确目标逐字 */
+for (const frag of [
+  'horn: { btn: "#settle-gallery-action-horn", target: "unseated-listening-booth"',
+  'seal: { btn: "#settle-gallery-action-seal", target: "witness-carbon-archive"',
+  'chair: { btn: "#settle-gallery-action-chair", target: "eyelid-archive"',
+  'plate: { btn: "#settle-registry-action-plate", target: "glyph-niche"',
+  'press: { btn: "#settle-registry-action-press", target: "blank-receipt-press"',
+  'door: { btn: "#settle-registry-action-door", target: "unnumbered-floor"',
+  'mirror: { btn: "#settle-appeals-action-mirror", target: "reverse-stairwell"',
+  'gavel: { btn: "#settle-appeals-action-gavel", target: "return-audit"',
+  'bell: { btn: "#settle-appeals-action-bell", target: "bellless-ward"',
+]) assert.ok(js.includes(frag), `missing v52 action mapping: ${frag}`);
+/* 守卫：结算所容量守卫回退档案室；结果房合法结果/历史 visit 准入，否则回结算所；
+   v31 glyph-niche 窄例外只放行 registry+plate 这一次合法落点 */
+const resolveBlockV52 = js.match(/const resolveScene = \(name\) => \{[\s\S]*?\n  \};/);
+assert.match(resolveBlockV52[0], /if \(target === "annex-clearinghouse" && !settleUnlocked\(\)\) target = "eyelid-archive";/, "clearinghouse requires total capacity >= 3");
+assert.match(resolveBlockV52[0], /settleGuard\.settled && settleGuard\.outcome === SETTLE_RESULT_OUTCOME\[rk\]\) \|\| settleGuard\.visited\[rk\]\)\) target = "annex-clearinghouse";/, "result rooms admit only the matching legal outcome or a past visit");
+assert.match(resolveBlockV52[0], /target === "glyph-niche" && settleGuard\.lastScene === "registry" && settleGuard\.lastAction === "plate"/, "the glyph-niche exception is narrowed to the v52 plate landing");
+/* 投入处理器：live scene + 首选锁 + settled/长度/实时容量三重拒绝，同拍不得重复计数 */
+const depositBlock = js.match(/const depositSettlement = \(kind\) => \{[\s\S]*?\n  \};/);
+assert.match(depositBlock[0], /if \(currentScene !== "annex-clearinghouse"\) return;/, "deposit validates the live scene first");
+assert.match(depositBlock[0], /if \(AutoAdvance\.has\("annex-clearinghouse"\)\) return;/, "deposit shares the scene first-lock");
+assert.match(depositBlock[0], /if \(st\.settled\) return;/);
+assert.match(depositBlock[0], /if \(st\.allocations\.length >= 3\) return;/);
+assert.match(depositBlock[0], /if \(used >= cap\[kind\]\) return;/, "over-capacity deposits are rejected");
+assert.match(depositBlock[0], /st\.history\[outcome\] = Math\.min\(SETTLE_NUM_CAP, st\.history\[outcome\] \+ 1\);/, "history counts once at settle time");
+/* 入口：live scene + 实时总容量 + 首选锁；已结算再点开启新 cycle 且保留历史 */
+const entryBlock = js.match(/const chooseSettleEntry = \(sceneKey\) => \{[\s\S]*?\n  \};/);
+assert.match(entryBlock[0], /if \(currentScene !== sceneKey\) return;/);
+assert.match(entryBlock[0], /if \(!settleUnlocked\(\)\) return;/, "synthetic clicks below the threshold are inert");
+assert.match(entryBlock[0], /if \(AutoAdvance\.has\(sceneKey\)\) return;/, "entry shares the annex scene first-lock");
+assert.match(entryBlock[0], /st\.cycle = Math\.min\(SETTLE_NUM_CAP, st\.cycle \+ 1\);\s*st\.allocations = \[\];\s*st\.settled = false;\s*st\.outcome = "";/, "a settled cycle restarts fresh, history kept");
+/* 九个结果动作处理器：live scene 校验先于一切副作用 */
+const runBlockV52 = js.match(/const runSettleAction = \(sceneKey, actionId\) => \{[\s\S]*?\n  \};/);
+assert.match(runBlockV52[0], /if \(currentScene !== SETTLE_SCENE_NAME\[sceneKey\]\) return;/, "result actions validate the live scene first");
+assert.match(runBlockV52[0], /if \(AutoAdvance\.has\("settle-" \+ sceneKey\)\) return;/, "result actions share the scene first-lock");
+/* DOM：四场景、图内热点、无卡片墙、无继续按钮、3:2 位图 */
+const settleSceneIds = {
+  "annex-clearinghouse": ["settle-deposit-witness", "settle-deposit-unnumbered", "settle-deposit-reverse"],
+  "unreturned-witness-gallery": ["settle-gallery-action-horn", "settle-gallery-action-seal", "settle-gallery-action-chair"],
+  "registry-before-zero": ["settle-registry-action-plate", "settle-registry-action-press", "settle-registry-action-door"],
+  "descending-appeals-stair": ["settle-appeals-action-mirror", "settle-appeals-action-gavel", "settle-appeals-action-bell"],
+};
+for (const [sc, ids] of Object.entries(settleSceneIds)) {
+  const section = html.match(new RegExp(`<section class="scene scene-branch scene-settlement" id="scene-${sc}"[\\s\\S]*?<\\/section>`));
+  assert.ok(section, `scene section missing: ${sc}`);
+  const figure = section[0].match(/<figure class="branch-figure forecourt-tactile-stage[\s\S]*?<\/figure>/);
+  assert.ok(figure, `${sc} must use the stable 3:2 tactile stage`);
+  assert.ok(!section[0].includes("branch-choices"), `${sc} must not have a below-figure card wall`);
+  assert.ok(!section[0].includes("继续"), `${sc} must not have a continue button`);
+  assert.match(figure[0], /width="1536" height="1024"/, `${sc} keeps the 1536x1024 bitmap`);
+  for (const id of ids) {
+    assert.equal((html.match(new RegExp(`id="${id}"`, "g")) || []).length, 1, `${id} must appear exactly once`);
+    assert.ok(figure[0].includes(`id="${id}"`), `${id} must live inside the ${sc} figure`);
+    assert.ok(figure[0].includes("forecourt-native-hotspot"), `${id} keeps the unified native hotspot class`);
+  }
+}
+for (const short of ["投见证", "投失号", "投逆行", "听声筒", "闭眼章", "镜面席", "零前牌", "压底册", "无号门", "反阶镜", "倒法槌", "无声钟"]) {
+  assert.ok(html.includes(`<span class="bb-short" aria-hidden="true">${short}</span>`), `missing short label ${short}`);
+}
+/* 结算所三行实体凹槽：图内 aside、每行 3 个独立槽元素、aria 计数逐字 */
+const houseSection = html.match(/<section class="scene scene-branch scene-settlement" id="scene-annex-clearinghouse"[\s\S]*?<\/section>/);
+const houseFigure = houseSection[0].match(/<figure[\s\S]*?<\/figure>/);
+assert.ok(houseFigure[0].includes('class="settle-tray"'), "clearinghouse must carry the physical slot tray inside the figure");
+assert.equal((houseFigure[0].match(/data-settle-slots=/g) || []).length, 3, "tray shows all three slot rows");
+assert.equal((houseFigure[0].match(/class="st-slot"/g) || []).length, 9, "tray builds exactly 3x3 independent slot elements");
+/* 三个「合签三债」入口：hidden 出厂、各出现一次、嵌在对应刻痕牌内 */
+for (const [sc, id] of [["eyelid-archive", "eyelid-settle-entry"], ["unnumbered-vestibule", "vestibule-settle-entry"], ["reverse-stairwell", "stairwell-settle-entry"]]) {
+  assert.equal((html.match(new RegExp(`id="${id}"`, "g")) || []).length, 1, `${id} must appear exactly once`);
+  assert.match(html, new RegExp(`id="${id}" type="button" aria-pressed="false" data-hover hidden`), `${id} ships hidden below the threshold`);
+  const section = html.match(new RegExp(`<section class="scene scene-branch scene-annex" id="scene-${sc}"[\\s\\S]*?<\\/section>`));
+  const plate = section[0].match(/<aside class="debt-plate"[\s\S]*?<\/aside>/);
+  assert.ok(plate && plate[0].includes(`id="${id}"`), `${id} must live inside the ${sc} debt plate`);
+  assert.ok(plate[0].includes("合签三债"), `${id} carries the verbatim entry label`);
+}
+/* 目录四项与 Remembrance 单行（仍八张统计卡） */
+for (const [id, label] of [["settle-house-link", "02φ / 三债结算"], ["settle-gallery-link", "02χ / 无归见证"], ["settle-registry-link", "02ψ / 零前登记"], ["settle-appeals-link", "02ω / 倒诉阶"]]) {
+  assert.ok(html.includes(`id="${id}" hidden data-hover>${label}</a>`), `directory entry missing: ${label}`);
+}
+assert.ok(html.includes('id="settlement-memory"'), "remembrance must carry the v52 memory line");
+assert.match(js, /paintSettlementMemory\(\);/, "remembrance paints the v52 memory line");
+/* CSS：入口、凹槽、12 条定位 class */
+assert.match(css, /\.debt-settle-entry \{/);
+assert.match(css, /\.debt-settle-entry\[hidden\] \{\s*display: none;\s*\}/, "entry hidden must beat layout");
+assert.match(css, /\.settle-tray \{/);
+assert.match(css, /\.st-slot\.st-slot-on \{/, "css missing the lit slot state");
+for (const cls of ["settle-spot-witness", "settle-spot-unnumbered", "settle-spot-reverse", "gallery-spot-horn", "gallery-spot-seal", "gallery-spot-chair", "registry-spot-plate", "registry-spot-press", "registry-spot-door", "appeals-spot-mirror", "appeals-spot-gavel", "appeals-spot-bell"]) {
+  assert.match(css, new RegExp(`\\.${cls} \\{`), `css missing position class .${cls}`);
+}
+
 /* ---------- 文档同步 ---------- */
 const readme = await fileText("README.md");
 assert.match(readme, /值夜室|night-watch/i);
@@ -3210,6 +3353,7 @@ assert.match(readme, /v48|留副/, "README must document the v48 cancellation co
 assert.match(readme, /v49|门前实感|原生物件热点/, "README must document the v49 tactile forecourt hotspots");
 assert.match(readme, /v50|副楼实感|原生热点/, "README must document the v50 tactile annex hotspots");
 assert.match(readme, /v51|副楼三债|见证.*失号.*逆行/, "README must document the v51 annex three debts");
+assert.match(readme, /v52|三债结算|结算所/, "README must document the v52 annex debt settlement");
 
 const qa = await fileText("design-qa.md");
 assert.match(qa, /第三值夜室/);
@@ -3239,6 +3383,7 @@ assert.match(qa, /v48|留副/, "design-qa.md must document the v48 cancellation 
 assert.match(qa, /v49|门前实感|原生物件热点/, "design-qa.md must document the v49 tactile forecourt QA");
 assert.match(qa, /v50|副楼实感|原生热点/, "design-qa.md must document the v50 tactile annex QA");
 assert.match(qa, /v51|副楼三债|阈值异常/, "design-qa.md must document the v51 annex debts QA");
+assert.match(qa, /v52|三债结算|结算所/, "design-qa.md must document the v52 annex debt settlement QA");
 
 const log = await fileText("docs/ProgressLog.md");
 assert.match(log, /2026-07-02/);
@@ -3267,6 +3412,7 @@ assert.match(log, /v48|留副/, "ProgressLog must document v48");
 assert.match(log, /v49|门前实感|原生物件热点/, "ProgressLog must document v49");
 assert.match(log, /v50|副楼实感|原生热点/, "ProgressLog must document v50");
 assert.match(log, /v51|副楼三债|阈值异常/, "ProgressLog must document v51");
+assert.match(log, /v52|三债结算|结算所/, "ProgressLog must document v52");
 
 /* ---------- 边界说明 ----------
    本套件为 Node 静态断言，不启动 DOM、不执行真实交互。

@@ -330,6 +330,7 @@
               <span class="dp-row"><em>失号</em><i class="dp-ticks" data-debt-ticks="unnumbered" role="img" aria-label="失号 0 道刻痕"></i></span>
               <span class="dp-row"><em>逆行</em><i class="dp-ticks" data-debt-ticks="reverse" role="img" aria-label="逆行 0 道刻痕"></i></span>
               <span class="dp-live" id="eyelid-debt-live" aria-live="polite"></span>
+              <button class="debt-settle-entry" id="eyelid-settle-entry" type="button" aria-pressed="false" data-hover hidden>合签三债</button>
             </aside>
           </figure>
           <p class="branch-response" id="eyelid-response" aria-live="polite"></p>
@@ -386,6 +387,7 @@
               <span class="dp-row"><em>失号</em><i class="dp-ticks" data-debt-ticks="unnumbered" role="img" aria-label="失号 0 道刻痕"></i></span>
               <span class="dp-row"><em>逆行</em><i class="dp-ticks" data-debt-ticks="reverse" role="img" aria-label="逆行 0 道刻痕"></i></span>
               <span class="dp-live" id="vestibule-debt-live" aria-live="polite"></span>
+              <button class="debt-settle-entry" id="vestibule-settle-entry" type="button" aria-pressed="false" data-hover hidden>合签三债</button>
             </aside>
           </figure>
           <p class="branch-response" id="vestibule-response" aria-live="polite"></p>
@@ -437,12 +439,158 @@
               <span class="dp-row"><em>失号</em><i class="dp-ticks" data-debt-ticks="unnumbered" role="img" aria-label="失号 0 道刻痕"></i></span>
               <span class="dp-row"><em>逆行</em><i class="dp-ticks" data-debt-ticks="reverse" role="img" aria-label="逆行 0 道刻痕"></i></span>
               <span class="dp-live" id="stairwell-debt-live" aria-live="polite"></span>
+              <button class="debt-settle-entry" id="stairwell-settle-entry" type="button" aria-pressed="false" data-hover hidden>合签三债</button>
             </aside>
           </figure>
           <p class="branch-response" id="stairwell-response" aria-live="polite"></p>
 
           <nav class="scene-exits reveal" aria-label="离开逆向阶井">
             <button class="exit-link" type="button" data-go="threshold" data-hover>⟵ 回到门外</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段副楼 · 副楼债务结算所（v52 副楼三债结算） -->
+      <section class="scene scene-branch scene-settlement" id="scene-annex-clearinghouse" data-scene="annex-clearinghouse" data-title="Goddead — 副楼债务结算所" aria-label="副楼债务结算所">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE ANNEX DEBT CLEARINGHOUSE · 副 楼 债 务 结 算 所</p>
+            <h2 class="sec-title">副楼债务结算所</h2>
+            <p class="sec-desc">副楼欠你的，副楼也向你讨。眼形印、空白瓷盘与逆阶模型各收一种债印，每轮正好三枚。</p>
+          </header>
+
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="黑石结算厅，左侧台座上竖着一枚黄铜眼形印，中央架上托着一面空白瓷盘，右侧立着一座微缩逆阶模型，前景桌面嵌着三行九孔结算凹槽，后墙圆窗刻着三环套印">
+            <img class="branch-img" src="assets/annex-debt-clearinghouse.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot settle-spot-witness" id="settle-deposit-witness" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">投见证</span>
+              <span class="bb-title">把见证债印按进眼形印</span>
+              <span class="bb-hint">眼形印在数你的刻痕</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot settle-spot-unnumbered" id="settle-deposit-unnumbered" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">投失号</span>
+              <span class="bb-title">把失号债印放上空白瓷盘</span>
+              <span class="bb-hint">瓷盘不收有号的债</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot settle-spot-reverse" id="settle-deposit-reverse" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">投逆行</span>
+              <span class="bb-title">把逆行债印按上逆阶模型</span>
+              <span class="bb-hint">模型会先退一级</span>
+            </button>
+            <aside class="settle-tray" id="settle-tray" aria-label="三债结算凹槽">
+              <span class="st-row"><em>见证</em><i class="st-slots" data-settle-slots="witness" role="img" aria-label="见证凹槽 已投 0 枚，本轮容量 0 枚"><b class="st-slot" aria-hidden="true"></b><b class="st-slot" aria-hidden="true"></b><b class="st-slot" aria-hidden="true"></b></i></span>
+              <span class="st-row"><em>失号</em><i class="st-slots" data-settle-slots="unnumbered" role="img" aria-label="失号凹槽 已投 0 枚，本轮容量 0 枚"><b class="st-slot" aria-hidden="true"></b><b class="st-slot" aria-hidden="true"></b><b class="st-slot" aria-hidden="true"></b></i></span>
+              <span class="st-row"><em>逆行</em><i class="st-slots" data-settle-slots="reverse" role="img" aria-label="逆行凹槽 已投 0 枚，本轮容量 0 枚"><b class="st-slot" aria-hidden="true"></b><b class="st-slot" aria-hidden="true"></b><b class="st-slot" aria-hidden="true"></b></i></span>
+            </aside>
+          </figure>
+          <p class="branch-response" id="settle-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开副楼债务结算所">
+            <button class="exit-link" type="button" data-go="eyelid-archive" data-hover>⟵ 回到闭目档案室</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段副楼 · 无归见证席（v52 结算结果房） -->
+      <section class="scene scene-branch scene-settlement" id="scene-unreturned-witness-gallery" data-scene="unreturned-witness-gallery" data-title="Goddead — 无归见证席" aria-label="无归见证席">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE UNRETURNED WITNESS GALLERY · 无 归 见 证 席</p>
+            <h2 class="sec-title">无归见证席</h2>
+            <p class="sec-desc">见证过这里的，都没有回去作证。环形席位坐满闭着的眼，只有右侧的镜面空椅还在等一个坐上去的人。</p>
+          </header>
+
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="环形黑石见证席，墙面嵌满闭眼黄铜眼睑，左侧黄铜留声喇叭对着空席，中央桌面嵌着闭眼证章与暗红印泥，右侧高背镜面空椅立在圆台上">
+            <img class="branch-img" src="assets/unreturned-witness-gallery.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot gallery-spot-horn" id="settle-gallery-action-horn" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">听声筒</span>
+              <span class="bb-title">倾听未归证词</span>
+              <span class="bb-hint">蜡筒倒放你听见它的那一刻</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot gallery-spot-seal" id="settle-gallery-action-seal" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">闭眼章</span>
+              <span class="bb-title">盖下闭眼证章</span>
+              <span class="bb-hint">复写纸会多出一位见证人</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot gallery-spot-chair" id="settle-gallery-action-chair" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">镜面席</span>
+              <span class="bb-title">坐上镜面证席</span>
+              <span class="bb-hint">椅背不会映出脸</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="settle-gallery-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开无归见证席">
+            <button class="exit-link" type="button" data-go="annex-clearinghouse" data-hover>⟵ 回到结算所</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段副楼 · 零前登记库（v52 结算结果房） -->
+      <section class="scene scene-branch scene-settlement" id="scene-registry-before-zero" data-scene="registry-before-zero" data-title="Goddead — 零前登记库" aria-label="零前登记库">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE REGISTRY BEFORE ZERO · 零 前 登 记 库</p>
+            <h2 class="sec-title">零前登记库</h2>
+            <p class="sec-desc">零还没有被发明以前，东西也要登记。圆井一层层向下注销，压印机只负责把空白压得更深。</p>
+          </header>
+
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="圆形零前登记库，左侧铜链悬挂一枚空白号牌，中央地面下沉圆井旁立着黄铜压印机，右侧一扇没有编号的登记门微微开着">
+            <img class="branch-img" src="assets/registry-before-zero.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot registry-spot-plate" id="settle-registry-action-plate" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">零前牌</span>
+              <span class="bb-title">摘下零前空牌</span>
+              <span class="bb-hint">数字从它身后绕行</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot registry-spot-press" id="settle-registry-action-press" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">压底册</span>
+              <span class="bb-title">压印空白底册</span>
+              <span class="bb-hint">把空白压得更深一层</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot registry-spot-door" id="settle-registry-action-door" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">无号门</span>
+              <span class="bb-title">进入未编号的登记门</span>
+              <span class="bb-hint">身后的楼层先被注销</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="settle-registry-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开零前登记库">
+            <button class="exit-link" type="button" data-go="annex-clearinghouse" data-hover>⟵ 回到结算所</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- 前段副楼 · 倒诉阶（v52 结算结果房） -->
+      <section class="scene scene-branch scene-settlement" id="scene-descending-appeals-stair" data-scene="descending-appeals-stair" data-title="Goddead — 倒诉阶" aria-label="倒诉阶">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE DESCENDING APPEALS STAIR · 倒 诉 阶</p>
+            <h2 class="sec-title">倒诉阶</h2>
+            <p class="sec-desc">这里的每一级台阶都在上诉自己的高度。镜里的楼梯先走完，钟楼上的钟从不回答自己。</p>
+          </header>
+
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="黑石倒诉阶，左侧高镜里映着方向相反的楼梯，中央一段倒置悬空的桌台上放着倒置法槌，右侧钟楼上悬着一口无声黄铜钟">
+            <img class="branch-img" src="assets/descending-appeals-stair.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot appeals-spot-mirror" id="settle-appeals-action-mirror" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">反阶镜</span>
+              <span class="bb-title">触碰反向阶镜</span>
+              <span class="bb-hint">镜里的你先走完楼梯</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot appeals-spot-gavel" id="settle-appeals-action-gavel" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">倒法槌</span>
+              <span class="bb-title">扳动倒置法槌</span>
+              <span class="bb-hint">归路被判成一次上诉</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot appeals-spot-bell" id="settle-appeals-action-bell" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">无声钟</span>
+              <span class="bb-title">摇响无声阶钟</span>
+              <span class="bb-hint">病房回答第四声</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="settle-appeals-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开倒诉阶">
+            <button class="exit-link" type="button" data-go="annex-clearinghouse" data-hover>⟵ 回到结算所</button>
           </nav>
         </div>
       </section>
@@ -2708,6 +2856,7 @@
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory" id="sidetone-memory"></p>
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory" id="return-room-memory"></p>
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory" id="cancellation-copy-memory"></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory" id="settlement-memory"></p>
 
           <div class="reliquary-slot reveal" id="reliquary-slot"></div>
 
@@ -2842,6 +2991,10 @@
       <a href="#blank-screen-underarchive" id="copy-screen-link" hidden data-hover>02σ / 屏底库</a>
       <a href="#false-confirmation-desk" id="copy-lamp-link" hidden data-hover>02τ / 误准灯</a>
       <a href="#witness-carbon-archive" id="copy-carbon-link" hidden data-hover>02υ / 复写库</a>
+      <a href="#annex-clearinghouse" id="settle-house-link" hidden data-hover>02φ / 三债结算</a>
+      <a href="#unreturned-witness-gallery" id="settle-gallery-link" hidden data-hover>02χ / 无归见证</a>
+      <a href="#registry-before-zero" id="settle-registry-link" hidden data-hover>02ψ / 零前登记</a>
+      <a href="#descending-appeals-stair" id="settle-appeals-link" hidden data-hover>02ω / 倒诉阶</a>
       <a href="#corridor" data-hover>02 / 走廊</a>
       <a href="#echo" id="echo-link" hidden data-hover>02α / 回声室</a>
       <a href="#vein" id="vein-link" hidden data-hover>02β / 维修井</a>

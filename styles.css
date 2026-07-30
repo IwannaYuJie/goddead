@@ -5988,3 +5988,107 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
   .debt-plate.dp-stir,
   .debt-anomaly { animation: none; }
 }
+
+
+/* ============================================================
+   v52 副楼三债结算：刻痕牌「合签三债」入口 + 结算所三机关与凹槽 +
+   三间结果房热点定位（坐标按 1536x1024 源图测定，桌面/短桌面/移动
+   共用一套百分比；复用 v49 舞台与热点样式）
+   ============================================================ */
+
+/* 「合签三债」入口：嵌在三副楼刻痕牌内的原生按钮；牌体 pointer-events:none，
+   入口自身恢复可点；hidden 时退出布局与无障碍树 */
+.debt-settle-entry {
+  pointer-events: auto;
+  margin-top: 0.2rem;
+  padding: 0.22rem 0.5rem;
+  border: 1px solid rgba(192, 160, 96, 0.45);
+  background: rgba(20, 17, 13, 0.72);
+  color: rgba(222, 217, 208, 0.78);
+  font-family: var(--serif-cn);
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+.debt-settle-entry:hover {
+  border-color: rgba(192, 160, 96, 0.65);
+  color: var(--gold);
+  box-shadow: 0 0 12px rgba(154, 127, 71, 0.22);
+}
+.debt-settle-entry:focus-visible {
+  outline: none;
+  border-color: var(--gold);
+  color: var(--gold);
+  box-shadow: 0 2px 0 0 rgba(192, 74, 66, 0.7), 0 0 12px rgba(154, 127, 71, 0.3);
+}
+.debt-settle-entry[aria-pressed="true"] {
+  border-color: rgba(192, 74, 66, 0.6);
+  color: var(--gold);
+  background: rgba(45, 38, 28, 0.85);
+}
+.debt-settle-entry[hidden] { display: none; }
+
+/* 结算所三机关：左眼形印 / 中央空白瓷盘 / 右逆阶模型 */
+.settle-spot-witness { top: 41%; left: 9%; width: 23%; height: 26%; }
+.settle-spot-unnumbered { top: 43%; left: 42.5%; width: 15.5%; height: 25%; }
+.settle-spot-reverse { top: 43%; left: 71%; width: 23%; height: 37%; }
+
+/* 三行实体凹槽：压在前景九孔结算盘上，只读、不拦截点击 */
+.settle-tray {
+  position: absolute;
+  top: 71.5%;
+  left: 36%;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+  padding: 0.32rem 0.5rem;
+  border: 1px solid rgba(192, 160, 96, 0.4);
+  background: rgba(12, 10, 8, 0.62);
+  color: rgba(222, 217, 208, 0.7);
+  font-family: var(--serif-cn);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  pointer-events: none;
+}
+.st-row { display: flex; align-items: center; gap: 0.45rem; white-space: nowrap; }
+.st-row em { font-style: normal; color: rgba(192, 160, 96, 0.78); }
+.st-slots { display: inline-flex; align-items: center; gap: 3px; font-style: normal; }
+.st-slot { width: 0.5rem; height: 0.5rem; border: 1px solid rgba(192, 160, 96, 0.3); background: rgba(192, 160, 96, 0.1); border-radius: 50%; }
+.st-slot.st-slot-on { background: rgba(192, 74, 66, 0.88); border-color: rgba(192, 74, 66, 0.7); }
+
+/* 无归见证席：左留声喇叭 / 中央闭眼证章 / 右镜面空椅 */
+.gallery-spot-horn { top: 34%; left: 3.5%; width: 17.5%; height: 27%; }
+.gallery-spot-seal { top: 55%; left: 39.5%; width: 23%; height: 18%; }
+.gallery-spot-chair { top: 33%; left: 71%; width: 20%; height: 44%; }
+
+/* 零前登记库：左悬挂空牌 / 中央压印机 / 右无号登记门 */
+.registry-spot-plate { top: 30%; left: 5%; width: 21%; height: 30%; }
+.registry-spot-press { top: 62%; left: 36.5%; width: 27%; height: 33%; }
+.registry-spot-door { top: 40%; left: 80.5%; width: 15%; height: 48%; }
+
+/* 倒诉阶：左反向阶镜 / 中央倒置法槌 / 右无声阶钟 */
+.appeals-spot-mirror { top: 13%; left: 11%; width: 15%; height: 72%; }
+.appeals-spot-gavel { top: 36%; left: 42.5%; width: 22%; height: 27%; }
+.appeals-spot-bell { top: 8%; left: 73.5%; width: 20%; height: 55%; }
+
+@media (max-width: 720px) {
+  .debt-settle-entry {
+    font-size: 0.54rem;
+    letter-spacing: 0.14em;
+    padding: 0.18rem 0.4rem;
+  }
+  .settle-tray {
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+    padding: 0.24rem 0.36rem;
+    gap: 0.12rem;
+  }
+  .st-row { gap: 0.3rem; }
+  .st-slot { width: 0.42rem; height: 0.42rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .debt-settle-entry { transition: none; }
+}

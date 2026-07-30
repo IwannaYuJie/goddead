@@ -1,6 +1,20 @@
-# Design QA — Living Shrine · 场景探索版（含值夜室 · 第四线路 · 无主投递所 · 神名注销科 · 代神席 · 自动转场 · 现有场景视觉深化 · 焚献点火 · 神圣遗物科 · v28 代行治理 · v29 旁路支线 · v30 深层支线 · v31 门前三岔 · v32 门内副楼 · v33 异常复核 · v34 无主估值 · v35 无号层 · v36 夜班登记 · v37 午夜回拨 · v38 门外代审 · v39 归路核验 · v40 门外侧廊 · v41 守则背室 · v42 守则漂移 · v43 门内回敲 · v44 页后空层 · v45 未到交班 · v46 旁线未静 · v47 退件未止 · v48 注销留副 · v49 门前实感 · v50 副楼实感 · v51 副楼三债）
+# Design QA — Living Shrine · 场景探索版（含值夜室 · 第四线路 · 无主投递所 · 神名注销科 · 代神席 · 自动转场 · 现有场景视觉深化 · 焚献点火 · 神圣遗物科 · v28 代行治理 · v29 旁路支线 · v30 深层支线 · v31 门前三岔 · v32 门内副楼 · v33 异常复核 · v34 无主估值 · v35 无号层 · v36 夜班登记 · v37 午夜回拨 · v38 门外代审 · v39 归路核验 · v40 门外侧廊 · v41 守则背室 · v42 守则漂移 · v43 门内回敲 · v44 页后空层 · v45 未到交班 · v46 旁线未静 · v47 退件未止 · v48 注销留副 · v49 门前实感 · v50 副楼实感 · v51 副楼三债 · v52 三债结算）
 
 适用范围：当前 goddead.com 首页（哈希路由场景探索游戏）。本文替代旧版 QA 报告；旧版证据文件保留在 `design-qa-evidence/` 中仅作历史存档，不再代表现状。
+
+## 本轮新增：v52 副楼三债结算 / ANNEX DEBT SETTLEMENT（容量合签 + 结算所三印 + 三间结果房）
+
+- 目标：v51 三种债值成为可重复使用的结算容量——每类本轮容量 = `floor(v51 debt / 3)`（0..3，只读 v51），总容量 >= 3 解锁；结算所每轮投 3 枚债印，严格多数分流到三间结果房，1/1/1 稀有 balanced 落现有 `#protocol-drift`；不接单向长走廊，把三副楼与既有分支网连成可重玩分流器。
+- 素材：四张监理冻结源 PNG（1536×1024，哈希不变，禁止重生成）Pillow q85 无裁切转码 `assets/annex-debt-clearinghouse.webp`（281 KB）、`unreturned-witness-gallery.webp`（253 KB）、`registry-before-zero.webp`（295 KB）、`descending-appeals-stair.webp`（210 KB）；全部 figure 复用 v49 固定 3:2 舞台与原生物件热点样式，无图下卡片墙。
+- 入口：三副楼刻痕牌内各嵌一枚原生按钮「合签三债」（`eyelid/vestibule/stairwell-settle-entry`，牌体 pointer-events:none、入口 auto）；总容量 < 3 时 `hidden`、不可聚焦、合成 click 三重校验零副作用；不挤压/不覆盖/不隐藏现有 16 个热点，与场景首选锁共用；点击逐字反馈「三债同签。结算所开门，点清你带来的刻痕。」后自动进 `#annex-clearinghouse`，无继续按钮。
+- 结算所：三机关即原生 hotspot——左眼形印（41/9/23/26）、中央空白瓷盘（43/42.5/15.5/25）、右逆阶模型（43/71/23/37）；每轮正好 3 枚，同类不超实时容量（达到即 disabled + 正确 aria-pressed），每次合法投入只记一次并立即更新图内 `.settle-tray` 三行九孔凹槽的可访问文本（逐字「见证凹槽 已投 N 枚，本轮容量 M 枚」）+ 短反馈；第三枚保留反馈一拍自动结算，无确认/下一步。
+- 落点：witness 多数 → `#unreturned-witness-gallery`；unnumbered 多数 → `#registry-before-zero`；reverse 多数 → `#descending-appeals-stair`；1/1/1 → `#protocol-drift`（v42 直 hash 本就始终允许，v52 不加宽入口、不读写 v42 状态）。
+- 结果房九动作（真实物件原生 button，≥44px，click/Enter/Space/Tab，第一输入锁，逐字反馈，~0.9–1.2s 自动转场，reduced-motion ~0.3s，无确认/继续）：听声筒→失席监听间、闭眼章→见证复写库、镜面席→闭目档案室、零前牌→失号龛（v31 守卫唯一窄例外 lastScene=registry + lastAction=plate）、压底册→空白回执压印台、无号门→无号层、反阶镜→逆向阶井、倒法槌→归路核验站、无声钟→无铃病房。
+- 状态：独立容错 `goddead_v52_annex_settlement`（cycle / allocations / settled / outcome / pending / 四房 visited / 四路 history / 九动作计数 / lastScene+lastAction）；坏 JSON/数组归一、数值 clamp、白名单；allocations 按「长度<=3、白名单、每类不超实时容量、合法连续前缀」归一；settled/outcome 永远由 allocations 派生重算；pending 两种形态逐字段校验，只恢复反馈与转场不重复累计；全仓库仅此一个 v52 存储键，不读写 v28–v51 与主线。
+- 守卫：总容量 < 3 直 hash `#annex-clearinghouse` 回退 `eyelid-archive`；三间结果房只有本轮对应合法结果或历史 visit 准入，否则回结算所（再不够回档案室）；伪造 state 进不了结果房。
+- 目录：02φ / 三债结算、02χ / 无归见证、02ψ / 零前登记、02ω / 倒诉阶，首次到访原子恢复；Remembrance 新增一行 v52 汇总，仍八张统计卡，不加结局。
+- CDP 行为冒烟（`/tmp/v52-qa/v52-smoke.mjs`，真实 Google Chrome headless + 内嵌静态服务器 + 真实鼠标/键盘事件，种子经 `addScriptToEvaluateOnNewDocument` 预注入，reload 用例先移种子脚本再 about:blank 重进）**307/307 连续两轮全绿**：四场景 × 1440×1024/1440×800/390×844 几何（3:2 舞台、热点图内/两两零重叠/elementFromPoint 自命中/≥44px/无横向溢出/figure 完整落在首屏）、门槛不足（3/3/0 与 2/2/2：入口 hidden、合成 click 零副作用、直 hash 结算所回档案室、结果房直 hash 按容量链式回退）、入口合签（刻痕牌内不压旧热点、逐字反馈、同拍幂等、v51 字节级不变、目录原子恢复、进行中 cycle 跨房续投）、四路结算（9/0/0 见证、0/6/3 失号、0/3/6 逆行、3/3/3 balanced 落 protocol-drift 且 v42 不被自动作答）、凹槽三行九孔逐字 aria 与点亮、耗尽 disabled+pressed、九动作逐字反馈与精确目标（含 glyph-niche 窄例外与干净直 hash 仍回门外）、Enter/Space/Tab、第三枚同拍竞争只记一次、已结算合签只 +1 cycle、中途/结算拍 reload、坏 JSON/数组/伪造 allocations、控制台零异常。
+- 视觉证据 11 张 `design-qa-evidence/v52-01~11`（桌面四房、移动四房、两枚投入中间态、balanced 反馈态、eyelid 刻痕牌合签入口 hover 态），逐张目验热点压器物、短标签无溢出无互盖。
 
 ## 本轮新增：v51 副楼三债 / THE ANNEX KEPT THREE DEBTS（13 旧动作记账 + 三个阈值异常分支，返工轮）
 

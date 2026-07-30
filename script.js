@@ -940,6 +940,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (DEEP_SCENES.includes(name)) enterDeep(name);
     if (FORECOURT_SCENES.includes(name)) enterForecourt(name);
     if (ANNEX_SCENES.includes(name)) enterAnnex(name);
+    if (name === "annex-clearinghouse") enterClearinghouse();
+    if (SETTLE_RESULT_SCENES.includes(SETTLE_NAME_SCENE[name])) enterSettleResult(SETTLE_NAME_SCENE[name]);
     if (name === "anomaly-review") enterReview();
     if (REVIEW_RESULT_SCENES.includes(name)) enterReviewResult(name);
     if (name === "unclaimed-valuation") enterValuation();
@@ -995,6 +997,7 @@ document.addEventListener("DOMContentLoaded", () => {
       paintSidetoneMemory();
       paintReturnRoomMemory();
       paintCopyMemory();
+      paintSettlementMemory();
       syncGovernanceRemembrance();
       if (!statsCounted) {
         statsCounted = true;
@@ -1052,6 +1055,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const floorState = getFloor();
     if (target === "quota-elevator" && !(valuationState.outcome === "quota" || valuationState.visited.quotaElevator || floorState.outcome === "high")) target = "unclaimed-valuation";
 
+    /* v52 三债结算守卫：总容量（只读 v51 floor(debt/3) 求和）< 3 时结算所直达
+       回退闭目档案室；三间结果房只有本轮对应合法结果（settled + outcome 实时
+       派生一致）或历史 visit 才准入，否则先回结算所（不够资格再由上一条继续
+       回退档案室）。伪造 state 无法越过：outcome 与 allocations 在 getSettlement
+       里逐字段重算。 */
+    const settleGuard = getSettlement();
+    if (SETTLE_NAME_SCENE[target] && SETTLE_RESULT_SCENES.includes(SETTLE_NAME_SCENE[target])) {
+      const rk = SETTLE_NAME_SCENE[target];
+      if (!((settleGuard.settled && settleGuard.outcome === SETTLE_RESULT_OUTCOME[rk]) || settleGuard.visited[rk])) target = "annex-clearinghouse";
+    }
+    if (target === "annex-clearinghouse" && !settleUnlocked()) target = "eyelid-archive";
+
     /* v31 门前守卫（v40 起启用）：未访问过的 v31 场景直达一律落回门外。
        真实路径全部只读放行——v31 热点/守则分流/前段内部动作在点击时持久化 visited，
        v34/v35/v37/v38/v39 落点读各自 outcome/marks；
@@ -1070,7 +1085,10 @@ document.addEventListener("DOMContentLoaded", () => {
         || (target === "return-passage" && paperbackGuard.lastScene === "shadow" && paperbackGuard.lastAction === "catch")
         || (target === "return-passage" && (valuationState.outcome === "under" || valuationState.marks.includes("crossedBrokenFloorScale") || floorState.outcome === "debt" || callbackGuard.outcome === "contaminated" || proxyGuard.outcome === "contaminated" || auditGuardState.outcome === "lost"))
         || (target === "peephole-chamber" && (callbackGuard.outcome === "uncertain" || proxyGuard.outcome === "paranoid"))
-        || (target === "glyph-niche" && (floorState.marks.includes("brushedMirrorCabinWithOldPlate") || proxyGuard.outcome === "unnamed"));
+        || (target === "glyph-niche" && (floorState.marks.includes("brushedMirrorCabinWithOldPlate") || proxyGuard.outcome === "unnamed"))
+        /* v52 唯一窄例外：本轮零前登记库「摘下零前空牌」是设计的强制落点，
+           其余未访问直达仍守卫 */
+        || (target === "glyph-niche" && settleGuard.lastScene === "registry" && settleGuard.lastAction === "plate");
       if (!forecourtAllowed) target = "threshold";
     }
 
@@ -2216,6 +2234,8 @@ document.addEventListener("DOMContentLoaded", () => {
     paintFloorEntry(sceneKey);
     /* v51：恢复刻痕牌与阈值异常的原子状态（只重绘不播报） */
     syncAnnexDebts(sceneKey);
+    /* v52：按实时总容量恢复「合签三债」入口的显隐 */
+    syncSettleEntries();
   };
 
   /* 副楼动作：首选锁定——已有未触发转场时忽略后续鼠标/Enter/Space 与其他动作；
@@ -2381,6 +2401,8 @@ document.addEventListener("DOMContentLoaded", () => {
     st.debts[kind] = Math.min(DEBTS_CAP, st.debts[kind] + 1);
     saveDebts(st);
     paintDebtPlate();
+    /* v52：债值跨过 3/6/9 时总容量可能变化，同步「合签三债」入口显隐 */
+    syncSettleEntries();
     AudioEngine.knock(0.08);
     const plate = document.querySelector("section.scene.active .debt-plate");
     if (plate) { plate.classList.remove("dp-stir"); void plate.offsetWidth; plate.classList.add("dp-stir"); }
@@ -2436,6 +2458,418 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     memory.textContent = `门内副楼：${names.join(" / ")}；你在没有楼层的地方改道 ${st.transitions} 次。`;
+    memory.hidden = false;
+  };
+
+  /* ============================================================
+     v52 副楼三债结算：v51 三种债值成为可重复使用的结算容量。
+     每类本轮可投入容量 = floor(v51 对应 debt / 3)（0..3，只读 v51，绝不减少
+     或改写 v51 state）；总容量 >= 3 时三副楼刻痕牌各出现原生按钮「合签三债」，
+     与场景首选锁共用，逐字反馈后自动进入结算所。
+     结算所每轮正好投入 3 枚债印（图内三机关 = 原生 hotspot），第三枚后保留
+     反馈一拍自动结算：严格多数 → 对应结果房，1/1/1 → 稀有 balanced 落
+     #protocol-drift（v42 直 hash 本就始终允许，v52 不读写 v42 状态）。
+     独立容错状态键 SETTLE_KEY（v52 唯一存储键），不读写 v28–v51 或主线状态；
+     无确认/继续按钮。 */
+  const SETTLE_KEY = "goddead_v52_annex_settlement";
+  const SETTLE_SCENES = ["house", "gallery", "registry", "appeals"];
+  const SETTLE_RESULT_SCENES = ["gallery", "registry", "appeals"];
+  const SETTLE_SCENE_NAME = {
+    house: "annex-clearinghouse",
+    gallery: "unreturned-witness-gallery",
+    registry: "registry-before-zero",
+    appeals: "descending-appeals-stair",
+  };
+  const SETTLE_NAME_SCENE = {
+    "annex-clearinghouse": "house",
+    "unreturned-witness-gallery": "gallery",
+    "registry-before-zero": "registry",
+    "descending-appeals-stair": "appeals",
+  };
+  const SETTLE_KINDS = ["witness", "unnumbered", "reverse"];
+  const SETTLE_KIND_CN = { witness: "见证", unnumbered: "失号", reverse: "逆行" };
+  const SETTLE_OUTCOMES = ["", "witness", "unnumbered", "reverse", "balanced"];
+  /* 结算落点：严格多数 → 对应结果房；1/1/1 → 稀有 balanced 落 v42 巡查台 */
+  const SETTLE_OUTCOME_TARGET = {
+    witness: "unreturned-witness-gallery",
+    unnumbered: "registry-before-zero",
+    reverse: "descending-appeals-stair",
+    balanced: "protocol-drift",
+  };
+  /* 结果房 ← 对应 outcome（直 hash 守卫用） */
+  const SETTLE_RESULT_OUTCOME = { gallery: "witness", registry: "unnumbered", appeals: "reverse" };
+  const SETTLE_NUM_CAP = 9999;
+  const SETTLE_ENTRY_FEEDBACK = "三债同签。结算所开门，点清你带来的刻痕。";
+  const SETTLE_ORDINALS = ["零", "一", "二", "三"];
+  /* 每次投入的短反馈：按类与该类本轮第几枚逐字 */
+  const SETTLE_DEPOSIT_LEAD = {
+    witness: "眼形印眨了一下。",
+    unnumbered: "空白瓷盘没有接住影子。",
+    reverse: "逆阶模型退后了一级。",
+  };
+  const settleDepositFeedback = (kind, count) =>
+    `${SETTLE_DEPOSIT_LEAD[kind]}${SETTLE_KIND_CN[kind]}债印落下第${SETTLE_ORDINALS[count]}枚。`;
+  /* 第三枚后的结算句（追加在第三枚投入反馈之后，逐字） */
+  const SETTLE_FINAL = {
+    witness: "三印归位。眼形印不肯再闭上——结算所把你判给无归见证席。",
+    unnumbered: "三印归位。瓷盘仍然空白——结算所把你判给零前登记库。",
+    reverse: "三印归位。逆阶模型倒着走完一级——结算所把你判给倒诉阶。",
+    balanced: "三印各一，谁也不肯多数。结算所第一次无法判决，把你退给一块正在漂移的守则板。",
+  };
+  /* 三间结果房的九个画面动作：真实图中物件上的原生 button，逐字反馈与精确目标 */
+  const SETTLE_ACTIONS = {
+    gallery: {
+      horn: { btn: "#settle-gallery-action-horn", target: "unseated-listening-booth", feedback: "蜡筒没有录下声音，只把你听见它的那一刻倒放了一遍。" },
+      seal: { btn: "#settle-gallery-action-seal", target: "witness-carbon-archive", feedback: "印章闭着眼落下，复写纸却多出一位未曾到场的见证人。" },
+      chair: { btn: "#settle-gallery-action-chair", target: "eyelid-archive", feedback: "椅背没有映出脸。档案柜却为你的后脑开了三只眼。" },
+    },
+    registry: {
+      plate: { btn: "#settle-registry-action-plate", target: "glyph-niche", feedback: "牌面比零更早，所以所有数字都从它身后绕行。" },
+      press: { btn: "#settle-registry-action-press", target: "blank-receipt-press", feedback: "压印机落下时没有留下字，只把空白压得更深了一层。" },
+      door: { btn: "#settle-registry-action-door", target: "unnumbered-floor", feedback: "门没有编号。你跨过去以后，身后的楼层先被注销。" },
+    },
+    appeals: {
+      mirror: { btn: "#settle-appeals-action-mirror", target: "reverse-stairwell", feedback: "镜里的你先走完了楼梯，才回头等你的第一步。" },
+      gavel: { btn: "#settle-appeals-action-gavel", target: "return-audit", feedback: "法槌从桌底向上落下，把你的归路判成了一次上诉。" },
+      bell: { btn: "#settle-appeals-action-bell", target: "bellless-ward", feedback: "钟体摇了三次。病房里每张床却同时回答了第四声。" },
+    },
+  };
+  const SETTLE_RESPONSE_EL = { house: "#settle-response", gallery: "#settle-gallery-response", registry: "#settle-registry-response", appeals: "#settle-appeals-response" };
+  const SETTLE_LINKS = { house: "#settle-house-link", gallery: "#settle-gallery-link", registry: "#settle-registry-link", appeals: "#settle-appeals-link" };
+  const SETTLE_ENTRY_BTNS = { "eyelid-archive": "#eyelid-settle-entry", "unnumbered-vestibule": "#vestibule-settle-entry", "reverse-stairwell": "#stairwell-settle-entry" };
+  const SETTLE_DEPOSIT_BTNS = { witness: "#settle-deposit-witness", unnumbered: "#settle-deposit-unnumbered", reverse: "#settle-deposit-reverse" };
+
+  /* 本轮可投入容量：只读 v51 债值，floor(debt / 3)，每类 0..3；绝不写 v51 */
+  const settleCapacity = () => {
+    const debts = getDebts().debts;
+    const cap = {};
+    SETTLE_KINDS.forEach((k) => { cap[k] = Math.floor(debts[k] / 3); });
+    return cap;
+  };
+  const settleUnlocked = () => {
+    const cap = settleCapacity();
+    return SETTLE_KINDS.reduce((sum, k) => sum + cap[k], 0) >= 3;
+  };
+  /* 三枚 allocations 的结算结果：严格多数 → 该类；1/1/1 → balanced */
+  const settleOutcomeOf = (allocations) => {
+    const counts = { witness: 0, unnumbered: 0, reverse: 0 };
+    allocations.forEach((a) => { counts[a] += 1; });
+    const majority = SETTLE_KINDS.find((k) => counts[k] >= 2);
+    return majority || "balanced";
+  };
+
+  const getSettlement = () => {
+    let raw = {};
+    try {
+      raw = JSON.parse(store.get(SETTLE_KEY, "{}")) || {};
+    } catch { raw = {}; }
+    if (typeof raw !== "object" || Array.isArray(raw)) raw = {};
+    const num = (v) => {
+      let n = Number(v);
+      if (!Number.isFinite(n) || n < 0) n = 0;
+      return Math.min(SETTLE_NUM_CAP, Math.floor(n));
+    };
+    const visited = {};
+    SETTLE_SCENES.forEach((s) => { visited[s] = Boolean(raw.visited && raw.visited[s] === true); });
+    const cycle = num(raw.cycle);
+    const history = {};
+    SETTLE_OUTCOMES.slice(1).forEach((o) => { history[o] = num(raw.history && raw.history[o]); });
+    const actions = {};
+    SETTLE_RESULT_SCENES.forEach((s) => {
+      Object.keys(SETTLE_ACTIONS[s]).forEach((a) => { actions[`${s}-${a}`] = num(raw.actions && raw.actions[`${s}-${a}`]); });
+    });
+    /* allocations 归一：长度 <= 3、白名单、每类不超实时容量、合法连续前缀；
+       首个非法项起全部截断，伪造序列不可能拼出非法投入 */
+    const cap = settleCapacity();
+    let allocations = [];
+    if (Array.isArray(raw.allocations)) {
+      for (const a of raw.allocations) {
+        if (allocations.length >= 3) break;
+        if (!SETTLE_KINDS.includes(a)) break;
+        if (allocations.filter((x) => x === a).length >= cap[a]) break;
+        allocations.push(a);
+      }
+    }
+    /* settled 派生重算：必须长度恰 3 且 outcome 与实时多数推导一致 */
+    let outcome = SETTLE_OUTCOMES.includes(raw.outcome) ? raw.outcome : "";
+    let settled = raw.settled === true && allocations.length === 3 && outcome !== "" && settleOutcomeOf(allocations) === outcome;
+    if (!settled) {
+      outcome = "";
+      if (allocations.length >= 3) allocations = allocations.slice(0, 2);
+    }
+    /* pending 两种严格形态，逐字段校验：
+       settle：第三枚已接受、结算转场未完成（type/outcome/target/feedback 与固定表一致）；
+       action：结果房动作已接受、转场未完成（scene/action/target/feedback 与动作表一致）；
+       任一字段错配即归 null。pending 只恢复反馈与转场，不得重复累计 */
+    let pending = null;
+    if (raw.pending && typeof raw.pending === "object" && !Array.isArray(raw.pending)) {
+      const p = raw.pending;
+      if (p.type === "settle" && settled && p.outcome === outcome && p.target === SETTLE_OUTCOME_TARGET[outcome]) {
+        const third = allocations[2];
+        const expected = settleDepositFeedback(third, allocations.filter((x) => x === third).length) + SETTLE_FINAL[outcome];
+        if (p.feedback === expected) pending = { type: "settle", outcome, target: p.target, feedback: expected };
+      } else if (p.type === "action") {
+        const acts = SETTLE_ACTIONS[p.scene];
+        const act = acts && acts[p.action];
+        if (act && p.target === act.target && p.feedback === act.feedback) {
+          pending = { type: "action", scene: p.scene, action: p.action, target: act.target, feedback: act.feedback };
+        }
+      }
+    }
+    /* lastScene / lastAction 只接受白名单且必须互相匹配（v31 glyph-niche 窄例外用） */
+    const lastScene = SETTLE_RESULT_SCENES.includes(raw.lastScene) ? raw.lastScene : "";
+    const lastAction = lastScene && SETTLE_ACTIONS[lastScene][raw.lastAction] ? raw.lastAction : "";
+    return { visited, cycle, history, actions, allocations, settled, outcome, pending, lastScene, lastAction };
+  };
+  const saveSettlement = (st) => store.set(SETTLE_KEY, JSON.stringify(st));
+
+  const syncSettleLinks = () => {
+    const st = getSettlement();
+    SETTLE_SCENES.forEach((s) => {
+      const link = $(SETTLE_LINKS[s]);
+      if (!link) return;
+      if (st.visited[s]) link.removeAttribute("hidden");
+      else link.setAttribute("hidden", "");
+    });
+  };
+
+  /* 到访标记：首次真正进入（含合法直达）立即持久化，目录入口原子恢复 */
+  const markSettlementVisited = (sceneKey) => {
+    const st = getSettlement();
+    if (!SETTLE_SCENES.includes(sceneKey) || st.visited[sceneKey]) return;
+    st.visited[sceneKey] = true;
+    saveSettlement(st);
+    syncSettleLinks();
+  };
+
+  const settleDelay = () => reduced ? 300 : 900 + Math.floor(Math.random() * 300);
+
+  /* 「合签三债」入口：总容量 >= 3 才出现；hidden 时不可聚焦、合成点击无效 */
+  const syncSettleEntries = () => {
+    const on = settleUnlocked();
+    Object.values(SETTLE_ENTRY_BTNS).forEach((sel) => {
+      const btn = $(sel);
+      if (!btn) return;
+      if (on) btn.removeAttribute("hidden");
+      else { btn.setAttribute("hidden", ""); btn.setAttribute("aria-pressed", "false"); }
+    });
+  };
+
+  /* 结算所重绘：三行实体凹槽（每行 3 孔，点亮已投数）+ 三机关按钮状态。
+     凹槽是图内物件，容器 pointer-events:none，只读可访问文本 */
+  const paintClearinghouse = () => {
+    const st = getSettlement();
+    const cap = settleCapacity();
+    const locked = AutoAdvance.has("annex-clearinghouse") || st.settled;
+    SETTLE_KINDS.forEach((k) => {
+      const used = st.allocations.filter((a) => a === k).length;
+      const slotsEl = document.querySelector(`[data-settle-slots="${k}"]`);
+      if (slotsEl) {
+        Array.from(slotsEl.children).forEach((slot, i) => {
+          slot.classList.toggle("st-slot-on", i < used);
+        });
+        slotsEl.setAttribute("aria-label", `${SETTLE_KIND_CN[k]}凹槽 已投 ${used} 枚，本轮容量 ${cap[k]} 枚`);
+      }
+      const btn = $(SETTLE_DEPOSIT_BTNS[k]);
+      if (btn) {
+        btn.disabled = locked || used >= cap[k];
+        btn.setAttribute("aria-pressed", used > 0 ? "true" : "false");
+      }
+    });
+  };
+
+  /* 进入结算所：到访标记；合法 settle pending（第三枚反馈拍刷新/离场后重返）
+     重播逐字反馈并只重建一次目标转场，timer 触发前才清 pending */
+  const enterClearinghouse = () => {
+    markSettlementVisited("house");
+    const st = getSettlement();
+    const responseEl = $(SETTLE_RESPONSE_EL.house);
+    if (responseEl) responseEl.textContent = "";
+    if (st.pending && st.pending.type === "settle") {
+      const p = st.pending;
+      if (responseEl) responseEl.textContent = p.feedback;
+      AutoAdvance.schedule("annex-clearinghouse", p.target, {
+        delay: settleDelay(),
+        before: () => {
+          const s = getSettlement();
+          if (s.pending && s.pending.type === "settle") {
+            s.pending = null;
+            saveSettlement(s);
+          }
+        },
+      });
+    }
+    paintClearinghouse();
+  };
+
+  /* 投入债印：在任何状态读写、反馈、音效、timer 前校验 live scene；
+     同拍首选锁 + 实时容量校验，快速 click/Enter/Space 同拍不得重复计数；
+     第三枚立即派生 outcome、累计历史、持久化 settle pending，保留反馈一拍后自动结算 */
+  const depositSettlement = (kind) => {
+    if (!SETTLE_KINDS.includes(kind)) return;
+    if (currentScene !== "annex-clearinghouse") return;
+    if (AutoAdvance.has("annex-clearinghouse")) return;
+    const st = getSettlement();
+    if (st.settled) return;
+    if (st.allocations.length >= 3) return;
+    const cap = settleCapacity();
+    const used = st.allocations.filter((a) => a === kind).length;
+    if (used >= cap[kind]) return;
+    st.allocations.push(kind);
+    const count = used + 1;
+    const responseEl = $(SETTLE_RESPONSE_EL.house);
+    if (st.allocations.length === 3) {
+      const outcome = settleOutcomeOf(st.allocations);
+      const target = SETTLE_OUTCOME_TARGET[outcome];
+      const feedback = settleDepositFeedback(kind, count) + SETTLE_FINAL[outcome];
+      st.settled = true;
+      st.outcome = outcome;
+      st.history[outcome] = Math.min(SETTLE_NUM_CAP, st.history[outcome] + 1);
+      st.pending = { type: "settle", outcome, target, feedback };
+      saveSettlement(st);
+      if (responseEl) responseEl.textContent = feedback;
+      AudioEngine.knock(0.16);
+      AutoAdvance.schedule("annex-clearinghouse", target, {
+        delay: settleDelay(),
+        before: () => {
+          const s = getSettlement();
+          if (s.pending && s.pending.type === "settle") {
+            s.pending = null;
+            saveSettlement(s);
+          }
+        },
+      });
+      paintClearinghouse();
+      return;
+    }
+    saveSettlement(st);
+    if (responseEl) responseEl.textContent = settleDepositFeedback(kind, count);
+    AudioEngine.knock(0.08);
+    paintClearinghouse();
+  };
+
+  SETTLE_KINDS.forEach((kind) => {
+    const btn = $(SETTLE_DEPOSIT_BTNS[kind]);
+    if (btn) btn.addEventListener("click", () => depositSettlement(kind));
+  });
+
+  /* 三副楼「合签三债」入口：live scene + 实时总容量 + 场景首选锁三重校验，
+     未达门槛一律零副作用；已结算（且 settle pending 已消费）再点开启新 cycle，
+     未结算的进行中 cycle 原样续投，历史统计跨 cycle 保留 */
+  const chooseSettleEntry = (sceneKey) => {
+    if (currentScene !== sceneKey) return;
+    if (!settleUnlocked()) return;
+    if (AutoAdvance.has(sceneKey)) return;
+    const st = getSettlement();
+    if (st.settled && !st.pending) {
+      st.cycle = Math.min(SETTLE_NUM_CAP, st.cycle + 1);
+      st.allocations = [];
+      st.settled = false;
+      st.outcome = "";
+    }
+    saveSettlement(st);
+    const btn = $(SETTLE_ENTRY_BTNS[sceneKey]);
+    if (btn) btn.setAttribute("aria-pressed", "true");
+    const annexMeta = ANNEX_META[sceneKey];
+    const responseEl = annexMeta && $(annexMeta.responseEl);
+    if (responseEl) responseEl.textContent = SETTLE_ENTRY_FEEDBACK;
+    AudioEngine.knock(0.16);
+    AutoAdvance.schedule(sceneKey, "annex-clearinghouse", { delay: branchDelay() });
+  };
+
+  ANNEX_SCENES.forEach((sceneKey) => {
+    const btn = $(SETTLE_ENTRY_BTNS[sceneKey]);
+    if (btn) btn.addEventListener("click", () => chooseSettleEntry(sceneKey));
+  });
+
+  /* 结果房重绘：锁定拍内三个热点 disabled；动作计数 > 0 保持 pressed */
+  const paintSettleResult = (sceneKey) => {
+    const st = getSettlement();
+    const locked = AutoAdvance.has("settle-" + sceneKey);
+    Object.keys(SETTLE_ACTIONS[sceneKey]).forEach((actionId) => {
+      const btn = $(SETTLE_ACTIONS[sceneKey][actionId].btn);
+      if (!btn) return;
+      btn.disabled = locked;
+      btn.setAttribute("aria-pressed", st.actions[`${sceneKey}-${actionId}`] > 0 ? "true" : "false");
+    });
+  };
+
+  /* 进入结果房：到访标记；合法 action pending 属于本场景时重播逐字反馈并
+     只重建一次目标转场 */
+  const enterSettleResult = (sceneKey) => {
+    markSettlementVisited(sceneKey);
+    const st = getSettlement();
+    const responseEl = $(SETTLE_RESPONSE_EL[sceneKey]);
+    if (responseEl) responseEl.textContent = "";
+    if (st.pending && st.pending.type === "action" && st.pending.scene === sceneKey) {
+      const p = st.pending;
+      if (responseEl) responseEl.textContent = p.feedback;
+      AutoAdvance.schedule("settle-" + sceneKey, p.target, {
+        delay: settleDelay(),
+        before: () => {
+          const s = getSettlement();
+          if (s.pending && s.pending.type === "action" && s.pending.scene === sceneKey && s.pending.action === p.action) {
+            s.pending = null;
+            saveSettlement(s);
+          }
+        },
+      });
+    }
+    paintSettleResult(sceneKey);
+  };
+
+  /* 九个结果动作：在任何状态读写、反馈、音效、timer 前校验 live scene；
+     第一项被接受后同场景三个热点立即 disabled（同拍竞争只记一次），
+     逐字反馈 + 动作计数 + lastScene/lastAction 持久化后自动转场，无确认/继续按钮 */
+  const runSettleAction = (sceneKey, actionId) => {
+    const act = SETTLE_ACTIONS[sceneKey] && SETTLE_ACTIONS[sceneKey][actionId];
+    if (!act) return;
+    if (currentScene !== SETTLE_SCENE_NAME[sceneKey]) return;
+    if (AutoAdvance.has("settle-" + sceneKey)) return;
+    const st = getSettlement();
+    st.lastScene = sceneKey;
+    st.lastAction = actionId;
+    st.actions[`${sceneKey}-${actionId}`] = Math.min(SETTLE_NUM_CAP, st.actions[`${sceneKey}-${actionId}`] + 1);
+    st.pending = { type: "action", scene: sceneKey, action: actionId, target: act.target, feedback: act.feedback };
+    saveSettlement(st);
+    const responseEl = $(SETTLE_RESPONSE_EL[sceneKey]);
+    if (responseEl) responseEl.textContent = act.feedback;
+    AudioEngine.knock(0.16);
+    AutoAdvance.schedule("settle-" + sceneKey, act.target, {
+      delay: settleDelay(),
+      before: () => {
+        const s = getSettlement();
+        if (s.pending && s.pending.type === "action" && s.pending.scene === sceneKey && s.pending.action === actionId) {
+          s.pending = null;
+          saveSettlement(s);
+        }
+      },
+    });
+    paintSettleResult(sceneKey);
+  };
+
+  SETTLE_RESULT_SCENES.forEach((sceneKey) => {
+    Object.keys(SETTLE_ACTIONS[sceneKey]).forEach((actionId) => {
+      const btn = $(SETTLE_ACTIONS[sceneKey][actionId].btn);
+      if (btn) btn.addEventListener("click", () => runSettleAction(sceneKey, actionId));
+    });
+  });
+
+  syncSettleEntries();
+  syncSettleLinks();
+
+  /* 痕迹页单行：合签轮数、四路结算统计与九动作合计，保持八张统计卡不变 */
+  const paintSettlementMemory = () => {
+    const memory = $("#settlement-memory");
+    if (!memory) return;
+    const st = getSettlement();
+    const rounds = st.history.witness + st.history.unnumbered + st.history.reverse + st.history.balanced;
+    const actionTotal = Object.values(st.actions).reduce((sum, n) => sum + n, 0);
+    if (rounds === 0 && !st.visited.house) {
+      memory.hidden = true;
+      return;
+    }
+    memory.textContent = `三债结算：合签 ${rounds} 轮；见证 ${st.history.witness} / 失号 ${st.history.unnumbered} / 逆行 ${st.history.reverse} / 均衡 ${st.history.balanced}；九个结算动作共 ${actionTotal} 次。`;
     memory.hidden = false;
   };
 
