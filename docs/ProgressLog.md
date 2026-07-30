@@ -1,5 +1,20 @@
 # Progress Log
 
+## 2026-07-30 (v55 失常交班 / THE FLOOR REPORTS BACK：v35 三房图内化 + 巡检循环 + 三个异常后室)
+- 世界观转向：不新增走廊，把 v35 三间值班房升级为「值班 → 巡检 → 异常后室」循环——楼层开始回检你的值班：正常与异常要自己分辨，误报与漏报都计价，三个后室的倾向又会改变下一轮哪里失常。
+- 素材：六张监理冻结源 PNG（1536×1024，sha256 记录在 `docs/V55FloorAnomalyDesign.md` 并由静态断言逐字节校验）Pillow q85 原尺寸无裁切转码 `assets/v55-{ward,records,laundry}-anomaly.webp` 与 `assets/v55-{underbed-call-station,countersign-drain,negative-laundry-locker}.webp`（152–263 KB）；平静态继续用 v35 原图，平静/异常构图对齐共用一套热点坐标，三张异常图预载。
+- 画面：三值班房 12 个既有按钮（每房 3 个 v35 动作 + 1 个 v37 回拨）全部移入 3:2 图内原生热点（床/床头柜/输液管/无铃装置，无名页/水池/抽屉墙/下沉井，滚筒/工服/镜柜/右机舱），id/逐字/反馈/目标/v35 计分/v37 回拨语义全部不变，旧卡容器删除；三房签扩为八项（已值班/信号/门债/核验/误报/漏报/连对/污染）；三后室各三个图内热点压在左/中/右焦点物件上，无卡片墙、无 inline SVG、无底部继续按钮。
+- 状态：独立容错 `goddead_v55_floor_anomaly`（全仓库唯一 key）——cycle/assignment/inspected/backrooms/visits/verified/falseReports/missed/streak/tendencies/pending/history 白名单 canonical 显式投影落盘（history 先裁 ≤16）；contamination 与 pendingTarget 派生只重算；cycle 对齐 v35 cycle（跨轮自动重置轮内字段、累计保留）；assignment 必须是六种合法模式之一（每种 ≥1 异常 ≥1 正常）；pending 严格五键白名单 + 结算证据（inspected/backrooms）+ canonical history 末项 + cycle 一致四重防伪（v54 同款）；bad JSON/数组/负数/浮点/超大/未知键归一。
+- 分配：每 v35 cycle 首次进入巡检态时创建一次，`idx = (cycle + follow + 2×contain + 3×submit) % 6`，确定性轮换、reload 稳定、创建后本轮计分变化不漂移、无 `Math.random(`。
+- 巡检四种结果（live scene + 共享 first-lock + 本轮一次）：发现异常 verified+2/streak+1/signal+1 → 该房后室；正确正常 verified+1/streak+1/signal+1 → 无号层；误报 falseReports+1/streak=0/debt+1 → 无号层；漏报 missed+1/streak=0/debt+2 → 该房后室；全部逐字反馈后自动转场。v35 cap 按真实新理论上限安全扩到 15/14，旧存档与三档结局含义不变。
+- 后室九动作：床下回铃台（撕黑蜡→午夜回拨 follow+1、按回床垫→无铃病房 contain+1、接喇叭→反签排水 submit+1）、反签排水渠（指纹反签→归路核验 follow+1、逆转闸轮→渗水档案 contain+1、抽屉链下井→负照更衣 submit+1）、负照更衣层（穿反面白工服→滞影回廊 submit+2、空号牌压红蜡→守则漂移 follow+1、站进空人形→床下回铃 contain+2）；导航常开，倾向分值每房每 cycle 只结算首次（防环路刷分），签上明示已结算，新 cycle 重开。
+- 守卫：三后室 direct hash 窄守卫（本轮合法 pendingTarget 或历史合法到访，否则回无号层），转场 before 先记合法到访再清 pending（v53 同款，避免 guard 在 goScene 时读不到已清 pending 的竞争）；不放宽任何旧守卫。
+- 目录 01ν½ / 床下回铃、01ξ½ / 反签排水、01ο½ / 负照更衣（首次合法到访原子恢复）；Remembrance 新增单行「失常交班：核验 X，误报 Y，漏报 Z，污染 C。」，仍八张统计卡；遗忘全部复位。
+- 静态契约：`node --check script.js`、`node --check tests/site.test.mjs`、`node tests/site.test.mjs`（2231 → 2292 断言，v55 新增 61：源图 sha256 逐字节/WebP 引用/唯一 key/schema 归一/存盘 canonical/分配确定性与约束/四种结果计分/九动作/防刷/窄守卫/pending 四重防伪/DOM 结构/目录与记忆/8 卡/27 定位 class/`?v=52`）、`git diff --check` 全部通过。
+- CDP 实机验收（`/tmp/v55-qa/v55-smoke.mjs`，真实 Google Chrome headless + 内嵌静态服务器 + 真实鼠标/键盘，种子预注入）**925/925 连续两轮全绿**：三值班房+三后室 × 1440×1024/1440×800/390×844 几何（图内/零重叠/自命中/≥44px/八项签不溢出/1440×800 首屏）、12 旧动作原反馈原目标原计分+同拍幂等、分配公式/约束/reload 稳定/计分不漂移/倾向影响、四种报告结果逐字+落点+计分+v37/v54 字节级零污染、后室九动作逐字+目标+防刷+已结算明示+新 cycle 重开、窄守卫四态、reload 节拍重播一次、坏存档七种归一+raw canonical+history 16、合成/off-scene 零副作用、Tab/Enter/Space、console 零异常。一轮真实产品缺陷复现并修复：后室转场 before 先清 pending 导致窄守卫在 goScene 时读不到合法 pending（v53 同款竞争），改为 before 先记合法到访再清 pending。
+- 视觉证据 14 张 `design-qa-evidence/v55-01~14`（三值班房值班/巡检异常桌面、三后室桌面、1440×800 巡检、移动端三幅、报告反馈中间态），六张冻结源 PNG 与同状态同视口渲染同轮并排目验：热点全部压中物件、移动端短标签无裁切无互盖、标题与八项签无溢出。
+- 保护边界：`docs/KimiUsageLog.md`、`assets/divine-name-cancellation.webp`、全部 source-v53/v54/v55 PNG 哈希不变；未执行任何 git add/commit/push/stash；未安装依赖。
+
 ## 2026-07-30 (v54 迫近回访 / THE ROOMS MOVE WHEN UNSEEN：v29 三房图内化 + 共同迫近账 + 第四热点九分流)
 - 世界观转向：不新增走廊，把最早的回声档案室/血管维修井/忏悔称量室变成同一间的三个姿势——去得越多它越确定你会回来，于是在你不看的时候移动（听井发红、过压表越刻度、横梁渗蜡），移动六次就给你留一件只有你能取走的东西。
 - 素材：三张监理冻结源 PNG（1536×1024，sha256 记录在 `docs/V54ReturnPressureDesign.md`，禁止重生成/覆盖/裁切）Pillow q85 原尺寸无裁切转码 `assets/v54-{echo,vein,confession}-approach.webp`（140–148 KB）；平静态继续用 v29 原图，三张异动图 `new Image()` 预载。

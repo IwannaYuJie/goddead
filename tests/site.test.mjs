@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
+import { createHash } from "node:crypto";
 
 const root = new URL("../", import.meta.url);
 
@@ -29,8 +30,8 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=51/);
-assert.match(html, /script\.js\?v=51/);
+assert.match(html, /styles\.css\?v=52/);
+assert.match(html, /script\.js\?v=52/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
@@ -488,8 +489,8 @@ for (const asset of VISUAL_ASSETS) {
 await access(new URL("assets/prayer-incinerator-burning.webp", root));
 assert.match(html, /assets\/prayer-incinerator-burning\.webp/);
 assert.match(html, /<link rel="preload" href="assets\/prayer-incinerator-burning\.webp" as="image">/);
-assert.match(html, /styles\.css\?v=51/);
-assert.match(html, /script\.js\?v=51/);
+assert.match(html, /styles\.css\?v=52/);
+assert.match(html, /script\.js\?v=52/);
 const offeringFigureHtml = html.match(/<figure class="offering-figure[^"]*" role="img" aria-label="[^"]*">[\s\S]*?<\/figure>/);
 assert.ok(offeringFigureHtml, "offering figure must exist");
 assert.match(offeringFigureHtml[0], /aria-label="一座沉寂的焚献炉"/);
@@ -797,7 +798,7 @@ assert.match(js, /continueOfferingBtn\.addEventListener\("click", scheduleOfferi
 assert.match(js, /continueReliquaryBtn\.addEventListener\("click", scheduleReliquaryAutoAdvance\)/);
 
 /* 场景进入时同步 HUD / ruling / 终局面板 */
-assert.match(js, /if \(name === "remembrance"\) \{[\s\S]{0,800}syncGovernanceRemembrance\(\);/, "remembrance entry syncs governance panels");
+assert.match(js, /if \(name === "remembrance"\) \{[\s\S]{0,900}syncGovernanceRemembrance\(\);/, "remembrance entry syncs governance panels");
 assert.match(js, /if \(name === "offering"\) \{[\s\S]{0,300}syncRulingOfferingUI\(\);/, "offering entry syncs ruling 2");
 assert.match(js, /const enterReliquary = \(\) => \{[\s\S]{0,160}syncRulingReliquaryUI\(\);/, "reliquary entry syncs ruling 3");
 
@@ -1443,7 +1444,7 @@ assert.match(floorSection[0], /id="floor-elevator-btn" type="button" disabled/, 
 assert.ok(floorSection[0].includes("缺层电梯仍封死"), "sealed elevator label verbatim");
 for (const [scene, ids] of [["bellless-ward", ["ward-stat-completed", "ward-choice-listen", "ward-choice-sheet", "ward-choice-tube", "ward-choice-callback"]], ["seeping-records", ["records-stat-completed", "records-choice-dry", "records-choice-drink", "records-choice-sink", "records-choice-callback"]], ["reverse-laundry", ["laundry-stat-completed", "laundry-choice-drum", "laundry-choice-uniform", "laundry-choice-mirror", "laundry-choice-callback"]]]) {
   const section = html.match(new RegExp(`<section class="scene scene-branch scene-${scene}"[\\s\\S]*?<\\/section>`));
-  assert.equal((section[0].match(/<button class="branch-btn"/g) || []).length, 4, `${scene} holds exactly 4 action buttons (3 original + v37 callback)`);
+  assert.equal((section[0].match(/<button class="branch-btn[ "]/g) || []).length, 6, `${scene} holds exactly 6 in-picture hotspot buttons (3 original + v37 callback + 2 v55 reports)`);
   for (const id of ids) assert.ok(section[0].includes(`id="${id}"`), `${scene} missing #${id}`);
 }
 assert.ok(html.includes("按下电梯里不存在的地下层") && html.includes("让指针停在没有刻度的层"), "both v35 entry actions are visible");
@@ -1547,8 +1548,8 @@ assert.ok(html.includes('id="registry-memory"'), "remembrance gains the single r
 assert.equal((html.match(/<div class="stat-card">/g) || []).length, 8, "remembrance keeps exactly eight stat cards");
 
 /* v36 状态扩展：permit 白名单、一致性归一、新 cycle 清空、上限 12/8 */
-assert.match(js, /const FLOOR_SIGNAL_CAP = 12;/, "signal cap raised to 12 for the mute-bell permit");
-assert.match(js, /const FLOOR_DEBT_CAP = 8;/, "debt cap raised to 8 for the reverse badge");
+assert.match(js, /const FLOOR_SIGNAL_CAP = 15;/, "signal cap raised to 15 for v55 inspection verifications");
+assert.match(js, /const FLOOR_DEBT_CAP = 14;/, "debt cap raised to 14 for v55 false/missed reports");
 assert.match(js, /const FLOOR_PERMITS = \["none", "muteBell", "blankName", "reverseBadge"\];/);
 assert.match(js, /const FLOOR_PERMIT_VALUES = \{ none: \[0, 0\], muteBell: \[2, 0\], blankName: \[0, 2\], reverseBadge: \[0, 4\] \};/, "permit values per design");
 const floorParseV36 = js.match(/const getFloor = \(\) => \{[\s\S]*?\n  \};/);
@@ -3544,6 +3545,122 @@ for (const cls of ["archive-spot-knock", "archive-spot-steps", "archive-spot-bel
   assert.match(css, new RegExp(`\\.${cls} \\{`), `css missing position class .${cls}`);
 }
 
+/* ---------- v55 失常交班：三房巡检循环 + 三个异常后室 ---------- */
+/* 六张冻结源 PNG 存在且 sha256 与监理冻结值一致 */
+const V55_SOURCE_HASHES = {
+  "design-references/source-v55-ward-anomaly.png": "1a201c5658f61b18b9d8f00225187dbbc7939578ae47b7f260d68a044871ef9a",
+  "design-references/source-v55-records-anomaly.png": "608bab090e9b42feaef83b9edac3fa7b1ec0e9779fa0e8a5ec2127a8138ceff8",
+  "design-references/source-v55-laundry-anomaly.png": "98115b31e27358f8410e3161075da2b5bcd5f3bbd1d21d5c6922e458c31773cf",
+  "design-references/source-v55-underbed-call-station.png": "658abf28c2d4d597f760576ef79619540d6e8d7ab626f0b1fe80427b76634099",
+  "design-references/source-v55-countersign-drain.png": "c06535284faa894c0a964aa97e7d5fed2ebbde7c2a04d1dc27a493b51fa4bd22",
+  "design-references/source-v55-negative-laundry-locker.png": "6956c9d1e719def1c3895b4bb02fa54cc78b3cbd28a84b7305efc4aa6afa9184",
+};
+for (const [src, hash] of Object.entries(V55_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(src, root));
+  assert.equal(createHash("sha256").update(buf).digest("hex"), hash, `${src} must keep its frozen sha256`);
+}
+/* 六张 WebP 存在、1536×1024 且被引用 */
+for (const asset of ["assets/v55-ward-anomaly.webp", "assets/v55-records-anomaly.webp", "assets/v55-laundry-anomaly.webp", "assets/v55-underbed-call-station.webp", "assets/v55-countersign-drain.webp", "assets/v55-negative-laundry-locker.webp"]) {
+  const buf = await readFile(new URL(asset, root));
+  assert.ok(buf.length > 100000, `${asset} must exist as a full-size transcode`);
+  assert.ok(js.includes(asset) || html.includes(asset), `${asset} must be referenced`);
+}
+assert.match(js, /const ANOMALY_KEY = "goddead_v55_floor_anomaly";/);
+assert.equal((js.match(/goddead_v55/g) || []).length, 1, "v55 introduces exactly one storage key");
+const anomalyParseBlock = js.match(/const getAnomaly = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(anomalyParseBlock, "getAnomaly must exist");
+assert.match(anomalyParseBlock[0], /\} catch \{ raw = \{\}; \}/, "corrupt anomaly storage must be safely repaired");
+assert.match(anomalyParseBlock[0], /if \(typeof raw !== "object" \|\| Array\.isArray\(raw\)\) raw = \{\};/, "array/wrong-type anomaly storage must fall back");
+assert.match(anomalyParseBlock[0], /Math\.min\(ANOMALY_NUM_CAP, Math\.floor\(n\)\)/, "anomaly counters must be clamped 0..9999");
+assert.match(anomalyParseBlock[0], /const sameCycle = num\(raw\.cycle\) === floorCycle;/, "cycle-scoped fields reset when the v35 cycle moves on");
+assert.match(anomalyParseBlock[0], /ANOMALY_PATTERNS\.find\(\(p\) => ANOMALY_ROOMS\.every\(\(r\) => raw\.assignment\[r\] === p\[r\]\)\)/, "stored assignment must exactly equal one of the six legal patterns");
+assert.match(anomalyParseBlock[0], /history = history\.slice\(-ANOMALY_HISTORY_CAP\);/, "history is bounded to the last 16 valid entries");
+assert.ok(anomalyParseBlock[0].indexOf("history = history.slice(-ANOMALY_HISTORY_CAP);") < anomalyParseBlock[0].indexOf("let pending = null;"), "canonical history is parsed before pending validation");
+assert.match(anomalyParseBlock[0], /Object\.keys\(p\)\.sort\(\)\.join\(","\) === "feedback,kind,report,room,target"/, "report pending accepts exactly five whitelisted keys");
+assert.match(anomalyParseBlock[0], /assignment && inspected\[p\.room\] === 1/, "report pending needs this cycle's inspection settlement evidence");
+assert.match(anomalyParseBlock[0], /last\.type === "report" && last\.room === p\.room && last\.report === p\.report/, "report pending needs the canonical history's last entry");
+assert.match(anomalyParseBlock[0], /Object\.keys\(p\)\.sort\(\)\.join\(","\) === "action,feedback,kind,scene,target"/, "action pending accepts exactly five whitelisted keys");
+assert.match(anomalyParseBlock[0], /backrooms\[p\.scene\] === 1/, "action pending needs this cycle's backroom settlement evidence");
+assert.match(anomalyParseBlock[0], /const contamination = falseReports \+ 2 \* missed;/, "contamination is re-derived, never trusted");
+assert.ok(!/goddead_v(28|29|30|31|32|33|34|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54)/.test(anomalyParseBlock[0]), "v55 state must not touch earlier keys");
+/* 存盘收口：saveAnomaly 只持久化白名单 canonical 字段，派生字段永不落盘 */
+const anomalySaveBlock = js.match(/const saveAnomaly = \(st\) => store\.set\(ANOMALY_KEY, JSON\.stringify\(\{[\s\S]*?\}\)\);/);
+assert.ok(anomalySaveBlock, "saveAnomaly must persist an explicit canonical projection");
+for (const f of ["cycle", "assignment", "inspected", "backrooms", "visits", "verified", "falseReports", "missed", "streak", "tendencies", "pending"]) {
+  assert.match(anomalySaveBlock[0], new RegExp(`${f}: st\\.${f},`), `saveAnomaly persists ${f}`);
+}
+assert.match(anomalySaveBlock[0], /history: st\.history\.slice\(-ANOMALY_HISTORY_CAP\),/, "saveAnomaly clamps history to <= 16 before persisting");
+assert.ok(!/contamination|pendingTarget/.test(anomalySaveBlock[0]), "saveAnomaly must never persist derived fields");
+/* 分配：六种模式每种至少 1 异常 1 正常；确定性轮换，无 Math.random */
+const anomalyModuleBlock = js.match(/v55 失常交班[\s\S]*?v40 门外侧廊/);
+assert.ok(anomalyModuleBlock, "v55 module must exist");
+assert.ok(!anomalyModuleBlock[0].includes("Math.random("), "v55 assignment must never re-roll Math.random");
+assert.match(js, /const idx = \(st\.cycle \+ st\.tendencies\.follow \+ 2 \* st\.tendencies\.contain \+ 3 \* st\.tendencies\.submit\) % ANOMALY_PATTERNS\.length;/, "assignment rotates deterministically with tendencies");
+/* 四种报告结果：计分逐字契约 */
+const anomalyReportBlock = js.match(/const chooseAnomalyReport = \(sceneKey, report\) => \{[\s\S]*?\n  \};/);
+assert.match(anomalyReportBlock[0], /if \(currentScene !== sceneKey\) return;/, "report rejects off-scene calls");
+assert.match(anomalyReportBlock[0], /if \(AutoAdvance\.has\(sceneKey\)\) return;/, "report shares the room first-lock");
+assert.match(anomalyReportBlock[0], /if \(!anomalyInspecting\(room\)\) return;/, "report requires live inspection mode");
+assert.match(anomalyReportBlock[0], /st\.verified = Math\.min\(ANOMALY_NUM_CAP, st\.verified \+ 2\); st\.streak = Math\.min\(ANOMALY_NUM_CAP, st\.streak \+ 1\); addAnomalyFloorScore\(1, 0\); \}/, "correct anomaly: +2 verified, streak, +1 signal");
+assert.match(anomalyReportBlock[0], /st\.verified = Math\.min\(ANOMALY_NUM_CAP, st\.verified \+ 1\); st\.streak = Math\.min\(ANOMALY_NUM_CAP, st\.streak \+ 1\); addAnomalyFloorScore\(1, 0\); \}/, "correct normal: +1 verified, streak, +1 signal");
+assert.match(anomalyReportBlock[0], /st\.falseReports = Math\.min\(ANOMALY_NUM_CAP, st\.falseReports \+ 1\); st\.streak = 0; addAnomalyFloorScore\(0, 1\); \}/, "false report: streak reset, +1 debt");
+assert.match(anomalyReportBlock[0], /st\.missed = Math\.min\(ANOMALY_NUM_CAP, st\.missed \+ 1\); st\.streak = 0; addAnomalyFloorScore\(0, 2\); \}/, "missed: streak reset, +2 debt");
+assert.match(anomalyReportBlock[0], /st\.inspected\[room\] = 1;/, "one inspection settlement per room per cycle");
+/* 九后室动作：逐字反馈与目标 */
+for (const frag of [
+  'wax: { btn: "#underbed-action-wax", target: "midnight-callback", tendency: "follow", amount: 1',
+  'button: { btn: "#underbed-action-button", target: "bellless-ward", tendency: "contain", amount: 1',
+  'horn: { btn: "#underbed-action-horn", target: "countersign-drain", tendency: "submit", amount: 1',
+  'print: { btn: "#countersign-action-print", target: "return-audit", tendency: "follow", amount: 1',
+  'wheel: { btn: "#countersign-action-wheel", target: "seeping-records", tendency: "contain", amount: 1',
+  'drawer: { btn: "#countersign-action-drawer", target: "negative-laundry-locker", tendency: "submit", amount: 1',
+  'uniform: { btn: "#negative-action-uniform", target: "lagging-shadow-cloister", tendency: "submit", amount: 2',
+  'press: { btn: "#negative-action-press", target: "protocol-drift", tendency: "follow", amount: 1',
+  'figure: { btn: "#negative-action-figure", target: "underbed-call-station", tendency: "contain", amount: 2',
+]) assert.ok(js.includes(frag), `missing v55 backroom action: ${frag.slice(0, 28)}`);
+const anomalyActionBlock = js.match(/const chooseAnomalyAction = \(sceneKey, actionKey\) => \{[\s\S]*?\n  \};/);
+assert.match(anomalyActionBlock[0], /if \(currentScene !== sceneKey\) return;/, "backroom action rejects off-scene calls");
+assert.match(anomalyActionBlock[0], /if \(AutoAdvance\.has\(sceneKey\)\) return;/, "backroom action shares the scene first-lock");
+assert.match(anomalyActionBlock[0], /if \(st\.backrooms\[backroom\] === 0\) \{/, "backroom score settles only once per room per cycle");
+/* v35 cap 按新理论上限安全扩展 */
+assert.match(js, /const FLOOR_SIGNAL_CAP = 15;/, "signal cap 15 covers three +1 inspection verifications");
+assert.match(js, /const FLOOR_DEBT_CAP = 14;/, "debt cap 14 covers +1/+2 report debts");
+/* 窄守卫：仅本轮合法 pendingTarget 或历史合法到访 */
+assert.match(js, /if \(ANOMALY_BACKROOM_SCENES\.includes\(target\) && anomalyGuard\.pendingTarget !== target && !anomalyGuard\.visits\[ANOMALY_SCENE_BACKROOM\[target\]\]\) target = "unnumbered-floor";/, "v55 backroom guard admits only legal pending or past visits");
+/* 巡检态切换与场景接线 */
+assert.match(js, /if \(FLOOR_DUTY_SCENES\.includes\(name\)\) \{ enterFloorRoom\(name\); syncAnomalyRoom\(name\); replayAnomalyPending\(name\); \}/, "duty room entry syncs inspection mode and replays a legal pending");
+assert.match(js, /if \(ANOMALY_BACKROOM_SCENES\.includes\(name\)\) \{ enterAnomalyBackroom\(name\); replayAnomalyPending\(name\); \}/, "backroom entry records the legal visit and replays a legal pending");
+/* DOM：12 旧热点 + 6 报告热点入图、旧卡容器删除、三新场景九热点、目录、记忆、8 卡 */
+for (const [scene, ids] of [["bellless-ward", ["ward-choice-listen", "ward-choice-sheet", "ward-choice-tube", "ward-choice-callback", "ward-report-anomaly", "ward-report-normal"]], ["seeping-records", ["records-choice-dry", "records-choice-drink", "records-choice-sink", "records-choice-callback", "records-report-anomaly", "records-report-normal"]], ["reverse-laundry", ["laundry-choice-drum", "laundry-choice-uniform", "laundry-choice-mirror", "laundry-choice-callback", "laundry-report-anomaly", "laundry-report-normal"]]]) {
+  const section = html.match(new RegExp(`<section class="scene scene-branch scene-${scene}"[\\s\\S]*?<\\/section>`));
+  assert.ok(section[0].includes("forecourt-tactile-stage"), `${scene} figure becomes the 3:2 tactile stage`);
+  const figure = section[0].match(/<figure[\s\S]*?<\/figure>/);
+  for (const id of ids) assert.ok(figure[0].includes(`id="${id}"`), `${scene} figure must hold #${id} inside the picture`);
+  assert.ok(!section[0].includes("branch-choices"), `${scene} must drop the old card list container`);
+}
+for (const id of ["ward-report-anomaly", "ward-report-normal", "records-report-anomaly", "records-report-normal", "laundry-report-anomaly", "laundry-report-normal"]) {
+  assert.match(html, new RegExp(`id="${id}" type="button" aria-pressed="false" data-hover hidden`), `${id} ships hidden`);
+}
+assert.ok(!html.includes('id="ward-choices"') && !html.includes('id="records-choices"') && !html.includes('id="laundry-choices"'), "the three v35 card containers must be deleted entirely");
+for (const [scene, ids] of [["underbed-call-station", ["underbed-action-wax", "underbed-action-button", "underbed-action-horn"]], ["countersign-drain", ["countersign-action-print", "countersign-action-wheel", "countersign-action-drawer"]], ["negative-laundry-locker", ["negative-action-uniform", "negative-action-press", "negative-action-figure"]]]) {
+  const section = html.match(new RegExp(`<section class="scene scene-branch scene-${scene}"[\\s\\S]*?<\\/section>`));
+  assert.ok(section, `scene section missing: ${scene}`);
+  assert.ok(section[0].includes("forecourt-tactile-stage"), `${scene} uses the 3:2 tactile stage`);
+  assert.ok(!section[0].includes("branch-choices") && !section[0].includes("<svg"), `${scene} must not degrade to cards or inline SVG`);
+  const figure = section[0].match(/<figure[\s\S]*?<\/figure>/);
+  for (const id of ids) assert.ok(figure[0].includes(`id="${id}"`), `${scene} figure must hold #${id}`);
+}
+assert.match(html, /<a href="#underbed-call-station" id="underbed-link" hidden data-hover>01ν½ \/ 床下回铃<\/a>/);
+assert.match(html, /<a href="#countersign-drain" id="countersign-link" hidden data-hover>01ξ½ \/ 反签排水<\/a>/);
+assert.match(html, /<a href="#negative-laundry-locker" id="negative-link" hidden data-hover>01ο½ \/ 负照更衣<\/a>/);
+assert.ok(html.includes('id="floor-anomaly-memory"'), "remembrance gains the floor anomaly memory line");
+assert.equal((html.match(/<div class="stat-card">/g) || []).length, 8, "remembrance keeps exactly eight stat cards");
+assert.match(js, /失常交班：核验 \$\{st\.verified\}，误报 \$\{st\.falseReports\}，漏报 \$\{st\.missed\}，污染 \$\{st\.contamination\}。/, "anomaly memory line verbatim");
+/* CSS：27 个定位 class */
+for (const cls of ["ward-spot-sheet", "ward-spot-listen", "ward-spot-callback", "ward-spot-tube", "ward-spot-report-anomaly", "ward-spot-report-normal", "records-spot-dry", "records-spot-drink", "records-spot-callback", "records-spot-sink", "records-spot-report-anomaly", "records-spot-report-normal", "laundry-spot-drum", "laundry-spot-uniform", "laundry-spot-mirror", "laundry-spot-callback", "laundry-spot-report-anomaly", "laundry-spot-report-normal", "underbed-spot-wax", "underbed-spot-button", "underbed-spot-horn", "countersign-spot-print", "countersign-spot-wheel", "countersign-spot-drawer", "negative-spot-uniform", "negative-spot-press", "negative-spot-figure"]) {
+  assert.match(css, new RegExp(`\\.${cls} \\{`), `css missing position class .${cls}`);
+}
+
 
 /* ---------- 文档同步 ---------- */
 const readme = await fileText("README.md");
@@ -3634,6 +3751,7 @@ assert.match(log, /v51|副楼三债|阈值异常/, "ProgressLog must document v5
 assert.match(log, /v52|三债结算|结算所/, "ProgressLog must document v52");
 assert.match(log, /v53|归路信念/, "ProgressLog must document v53");
 assert.match(log, /v54|迫近/, "ProgressLog must document v54");
+assert.match(log, /v55|失常交班/, "ProgressLog must document v55");
 
 /* ---------- 边界说明 ----------
    本套件为 Node 静态断言，不启动 DOM、不执行真实交互。

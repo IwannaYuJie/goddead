@@ -947,7 +947,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (name === "unclaimed-valuation") enterValuation();
     if (name === "quota-elevator") enterElevator();
     if (name === "unnumbered-floor") enterFloor();
-    if (FLOOR_DUTY_SCENES.includes(name)) enterFloorRoom(name);
+    if (FLOOR_DUTY_SCENES.includes(name)) { enterFloorRoom(name); syncAnomalyRoom(name); replayAnomalyPending(name); }
+    if (ANOMALY_BACKROOM_SCENES.includes(name)) { enterAnomalyBackroom(name); replayAnomalyPending(name); }
     if (name === "night-shift-registry") enterRegistry();
     if (name === "midnight-callback") enterCallback();
     if (name === "proxy-admission") enterProxy();
@@ -983,6 +984,7 @@ document.addEventListener("DOMContentLoaded", () => {
       paintForecourtMemory();
       paintAnnexMemory();
       paintAnomalyMemory();
+      paintFloorAnomalyMemory();
       paintValuationMemory();
       paintFloorMemory();
       paintRegistryMemory();
@@ -1072,6 +1074,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!((settleGuard.settled && settleGuard.outcome === SETTLE_RESULT_OUTCOME[rk]) || settleGuard.visited[rk])) target = "annex-clearinghouse";
     }
     if (target === "annex-clearinghouse" && !settleUnlocked()) target = "eyelid-archive";
+
+    /* v55 异常后室守卫：仅本轮合法 pendingTarget 或历史合法到访准入，
+       其余直达归一回无号层；不放宽任何旧守卫 */
+    const anomalyGuard = getAnomaly();
+    if (ANOMALY_BACKROOM_SCENES.includes(target) && anomalyGuard.pendingTarget !== target && !anomalyGuard.visits[ANOMALY_SCENE_BACKROOM[target]]) target = "unnumbered-floor";
 
     /* v31 门前守卫（v40 起启用）：未访问过的 v31 场景直达一律落回门外。
        真实路径全部只读放行——v31 热点/守则分流/前段内部动作在点击时持久化 visited，
@@ -3729,8 +3736,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const FLOOR_VISIT_KEY = { "unnumbered-floor": "floor", "bellless-ward": "ward", "seeping-records": "records", "reverse-laundry": "laundry", "night-shift-registry": "nightShiftRegistry" };
   const FLOOR_OUTCOMES = ["", "high", "review", "debt"];
   const FLOOR_NUM_CAP = 9999;
-  const FLOOR_SIGNAL_CAP = 12; /* 3+4+3 + 无铃证 +2：本轮理论上限 */
-  const FLOOR_DEBT_CAP = 8;    /* 1+2+1 + 反面工牌 +4 */
+  const FLOOR_SIGNAL_CAP = 15; /* 3+4+3 + 无铃证 +2 + v55 巡检核验最多 +3：本轮理论上限 */
+  const FLOOR_DEBT_CAP = 14;   /* 1+2+1 + 反面工牌 +4 + v55 误报/漏报最多 +6 */
   /* v36 值班证：permit 与修正值必须互相一致，permitCycle 必须与当前 cycle 一致 */
   const FLOOR_PERMITS = ["none", "muteBell", "blankName", "reverseBadge"];
   const FLOOR_PERMIT_VALUES = { none: [0, 0], muteBell: [2, 0], blankName: [0, 2], reverseBadge: [0, 4] };
@@ -5905,6 +5912,446 @@ document.addEventListener("DOMContentLoaded", () => {
     syncPressureRoom(room);
   });
   paintPressure();
+
+  /* ============================================================
+     v55 失常交班：v35 三房巡检循环 + 三个异常后室
+     独立容错状态键 ANOMALY_KEY（v55 唯一存储键），只持久化白名单
+     canonical 字段；verified/falseReports/missed/streak 是累计 canonical
+     计数器，归一后照常落盘，只有 contamination 与 pendingTarget 派生
+     重算不落盘；坏 JSON/数组/错型/负数/浮点/超大数/未知键/伪造
+     pending 全部归一。v35 signal/debt 的增减是设计内计分
+     （cap 已按新理论上限安全扩到 15/14），其余旧 key 不读写。
+     ============================================================ */
+  const ANOMALY_KEY = "goddead_v55_floor_anomaly";
+  const ANOMALY_ROOMS = ["ward", "records", "laundry"];
+  const ANOMALY_ROOM_SCENE = { ward: "bellless-ward", records: "seeping-records", laundry: "reverse-laundry" };
+  const ANOMALY_SCENE_ROOM = { "bellless-ward": "ward", "seeping-records": "records", "reverse-laundry": "laundry" };
+  const ANOMALY_BACKROOMS = ["underbed", "countersign", "negative"];
+  const ANOMALY_BACKROOM_SCENE = { underbed: "underbed-call-station", countersign: "countersign-drain", negative: "negative-laundry-locker" };
+  const ANOMALY_SCENE_BACKROOM = { "underbed-call-station": "underbed", "countersign-drain": "countersign", "negative-laundry-locker": "negative" };
+  const ANOMALY_BACKROOM_SCENES = ["underbed-call-station", "countersign-drain", "negative-laundry-locker"];
+  const ANOMALY_ROOM_BACKROOM = { ward: "underbed-call-station", records: "countersign-drain", laundry: "negative-laundry-locker" };
+  const ANOMALY_NUM_CAP = 9999;
+  const ANOMALY_HISTORY_CAP = 16;
+  /* 每轮至少 1 间异常且至少 1 间正常；下轮按 (cycle + follow + 2*contain + 3*submit) 轮换，
+     创建即持久化——本轮计分变化不回改分配（reload 稳定、无 Math.random） */
+  const ANOMALY_PATTERNS = [
+    { ward: "anomaly", records: "normal", laundry: "normal" },
+    { ward: "normal", records: "anomaly", laundry: "normal" },
+    { ward: "normal", records: "normal", laundry: "anomaly" },
+    { ward: "anomaly", records: "anomaly", laundry: "normal" },
+    { ward: "normal", records: "anomaly", laundry: "anomaly" },
+    { ward: "anomaly", records: "normal", laundry: "anomaly" },
+  ];
+  const ANOMALY_BASE_IMG = { ward: "assets/bellless-ward.webp", records: "assets/seeping-records.webp", laundry: "assets/reverse-laundry.webp" };
+  const ANOMALY_IMG = { ward: "assets/v55-ward-anomaly.webp", records: "assets/v55-records-anomaly.webp", laundry: "assets/v55-laundry-anomaly.webp" };
+  const ANOMALY_BASE_FIGLABEL = {
+    ward: "一间病房：会呼吸的空床、没有铃的床头柜、一条穿进墙里的输液管",
+    records: "一间下沉档案室：晾着的无名页、渗字的水池、继续下沉的档案井",
+    laundry: "一间工业洗衣房：先停下的滚筒、没有倒影的工服、像门一样的镜面机舱",
+  };
+  const ANOMALY_FIGLABEL = {
+    ward: "病房巡检：床单上多出一枚呼叫钮，床头柜的抽屉开着",
+    records: "档案池巡检：黑水从池心向天花板逆流",
+    laundry: "洗衣房巡检：右侧机舱里挂着一件刚洗好的白工服",
+  };
+  /* 四种报告结果：逐字反馈 + 落点（发现异常/漏报异常 → 该房异常后室；误报/正确正常 → 无号层） */
+  const ANOMALY_REPORT_META = {
+    ward: {
+      responseEl: "#ward-response",
+      correctAnomaly: { target: "underbed-call-station", feedback: "你指出床单上的呼叫钮。它刚才确实不在那里。床下有什么开始回铃。" },
+      missed: { target: "underbed-call-station", feedback: "你说这里一切正常。床单上的呼叫钮记下你的声音，替你按了自己。" },
+      falseReport: { target: "unnumbered-floor", feedback: "你上报了异常。复核铃没有响——那东西一直在那里。楼层记下一次误报。" },
+      correctNormal: { target: "unnumbered-floor", feedback: "你确认本室正常。空床、柜子与输液管轮流点头，楼层把这次巡检登记为有效。" },
+    },
+    records: {
+      responseEl: "#records-response",
+      correctAnomaly: { target: "countersign-drain", feedback: "你指出逆流的黑水。档案池承认它正在往上游写。" },
+      missed: { target: "countersign-drain", feedback: "你说这里一切正常。黑水在你的签名旁边逆流。" },
+      falseReport: { target: "unnumbered-floor", feedback: "你上报了异常。复核铃没有响——水池本来就往下渗。楼层记下一次误报。" },
+      correctNormal: { target: "unnumbered-floor", feedback: "你确认本室正常。无名页、水池与抽屉墙都在原处，楼层把这次巡检登记为有效。" },
+    },
+    laundry: {
+      responseEl: "#laundry-response",
+      correctAnomaly: { target: "negative-laundry-locker", feedback: "你指出右机里的白工服。它比你先下班了。" },
+      missed: { target: "negative-laundry-locker", feedback: "你说这里一切正常。右机的门在你身后开了一条缝。" },
+      falseReport: { target: "unnumbered-floor", feedback: "你上报了异常。复核铃没有响——机舱里本来只有倒影。楼层记下一次误报。" },
+      correctNormal: { target: "unnumbered-floor", feedback: "你确认本室正常。滚筒、工服与镜柜都在原处，楼层把这次巡检登记为有效。" },
+    },
+  };
+  /* 三个异常后室：九动作，倾向计数影响下一轮分配 */
+  const ANOMALY_BACKROOM_META = {
+    underbed: {
+      responseEl: "#underbed-response",
+      actions: {
+        wax: { btn: "#underbed-action-wax", target: "midnight-callback", tendency: "follow", amount: 1, feedback: "蜡撕开时里面先响了一声。午夜的回拨台正在等这条线。" },
+        button: { btn: "#underbed-action-button", target: "bellless-ward", tendency: "contain", amount: 1, feedback: "呼叫钮被按回床垫。上面的呼吸停顿了一拍，病房恢复原样。" },
+        horn: { btn: "#underbed-action-horn", target: "countersign-drain", tendency: "submit", amount: 1, feedback: "输液管把床下的声音送进喇叭。排水渠开始反着签名。" },
+      },
+    },
+    countersign: {
+      responseEl: "#countersign-response",
+      actions: {
+        print: { btn: "#countersign-action-print", target: "return-audit", tendency: "follow", amount: 1, feedback: "指纹替你签了空页。核验站要求重新核对回来的路。" },
+        wheel: { btn: "#countersign-action-wheel", target: "seeping-records", tendency: "contain", amount: 1, feedback: "闸轮倒转，墨水沿抽屉链爬回档案池。" },
+        drawer: { btn: "#countersign-action-drawer", target: "negative-laundry-locker", tendency: "submit", amount: 1, feedback: "你沿抽屉链下到排水井。井底是一层负照的更衣室。" },
+      },
+    },
+    negative: {
+      responseEl: "#negative-response",
+      actions: {
+        uniform: { btn: "#negative-action-uniform", target: "lagging-shadow-cloister", tendency: "submit", amount: 2, feedback: "白工服的反面没有缝线。你的影子被留在回廊里滞后了一步。" },
+        press: { btn: "#negative-action-press", target: "protocol-drift", tendency: "follow", amount: 1, feedback: "空号牌压进红蜡。守则的第七条在旁边轻轻翻身。" },
+        figure: { btn: "#negative-action-figure", target: "underbed-call-station", tendency: "contain", amount: 2, feedback: "空人形在你身后合上柜门。床下的回铃台又响了一次。" },
+      },
+    },
+  };
+  const ANOMALY_TENDENCIES = ["follow", "contain", "submit"];
+
+  const getAnomaly = () => {
+    let raw = {};
+    try {
+      raw = JSON.parse(store.get(ANOMALY_KEY, "{}")) || {};
+    } catch { raw = {}; }
+    if (typeof raw !== "object" || Array.isArray(raw)) raw = {};
+    const num = (v) => {
+      let n = Number(v);
+      if (!Number.isFinite(n) || n < 0) n = 0;
+      return Math.min(ANOMALY_NUM_CAP, Math.floor(n));
+    };
+    const flag = (v) => (v === 1 || v === true ? 1 : 0);
+    /* cycle 对齐 v35：floor cycle 变化即重置轮内字段（pending 一并失效），累计保留 */
+    const floorCycle = getFloor().cycle;
+    const sameCycle = num(raw.cycle) === floorCycle;
+    const cycle = floorCycle;
+    /* assignment 必须逐字段等于六个合法模式之一，否则清空待重建 */
+    let assignment = null;
+    if (sameCycle && raw.assignment && typeof raw.assignment === "object" && !Array.isArray(raw.assignment)) {
+      const match = ANOMALY_PATTERNS.find((p) => ANOMALY_ROOMS.every((r) => raw.assignment[r] === p[r]));
+      if (match) assignment = { ...match };
+    }
+    const inspected = {};
+    const backrooms = {};
+    const visits = {};
+    ANOMALY_ROOMS.forEach((r) => { inspected[r] = sameCycle ? flag(raw.inspected && raw.inspected[r]) : 0; });
+    ANOMALY_BACKROOMS.forEach((b) => {
+      backrooms[b] = sameCycle ? flag(raw.backrooms && raw.backrooms[b]) : 0;
+      visits[b] = num(raw.visits && raw.visits[b]);
+    });
+    const verified = num(raw.verified);
+    const falseReports = num(raw.falseReports);
+    const missed = num(raw.missed);
+    const streak = num(raw.streak);
+    const tendencies = {};
+    ANOMALY_TENDENCIES.forEach((t) => { tendencies[t] = num(raw.tendencies && raw.tendencies[t]); });
+    /* history 有界：仅保留白名单形状条目，最多 16 条（先解析，pending 证明依赖它） */
+    let history = [];
+    if (Array.isArray(raw.history)) {
+      for (const h of raw.history) {
+        if (!h || typeof h !== "object" || Array.isArray(h)) continue;
+        if (h.type === "report" && ANOMALY_ROOMS.includes(h.room) && (h.report === "anomaly" || h.report === "normal")) {
+          history.push({ type: "report", room: h.room, report: h.report });
+        } else if (h.type === "action" && ANOMALY_BACKROOMS.includes(h.scene) && ANOMALY_BACKROOM_META[h.scene].actions[h.action]) {
+          history.push({ type: "action", scene: h.scene, action: h.action });
+        }
+      }
+    }
+    history = history.slice(-ANOMALY_HISTORY_CAP);
+    /* pending 严格白名单 +「确实刚结算」跨字段证据（v54 同款防伪）：
+       严格键集、映射重算 target/feedback、本轮结算标记、history 末项一致、cycle 一致 */
+    let pending = null;
+    if (sameCycle && raw.pending && typeof raw.pending === "object" && !Array.isArray(raw.pending)) {
+      const p = raw.pending;
+      const last = history.length ? history[history.length - 1] : null;
+      if (p.kind === "report" && Object.keys(p).sort().join(",") === "feedback,kind,report,room,target"
+        && ANOMALY_ROOMS.includes(p.room) && (p.report === "anomaly" || p.report === "normal")
+        && assignment && inspected[p.room] === 1
+        && last && last.type === "report" && last.room === p.room && last.report === p.report) {
+        const truth = assignment[p.room];
+        const outcome = p.report === truth ? (truth === "anomaly" ? "correctAnomaly" : "correctNormal") : (truth === "anomaly" ? "missed" : "falseReport");
+        const meta = ANOMALY_REPORT_META[p.room][outcome];
+        if (p.target === meta.target && p.feedback === meta.feedback) {
+          pending = { kind: "report", room: p.room, report: p.report, target: meta.target, feedback: meta.feedback };
+        }
+      } else if (p.kind === "action" && Object.keys(p).sort().join(",") === "action,feedback,kind,scene,target"
+        && ANOMALY_BACKROOMS.includes(p.scene) && ANOMALY_BACKROOM_META[p.scene].actions[p.action]
+        && backrooms[p.scene] === 1
+        && last && last.type === "action" && last.scene === p.scene && last.action === p.action) {
+        const meta = ANOMALY_BACKROOM_META[p.scene].actions[p.action];
+        if (p.target === meta.target && p.feedback === meta.feedback) {
+          pending = { kind: "action", scene: p.scene, action: p.action, target: meta.target, feedback: meta.feedback };
+        }
+      }
+    }
+    /* 派生：contamination 与 pendingTarget 只重算，不落盘 */
+    const contamination = falseReports + 2 * missed;
+    return {
+      cycle, assignment, inspected, backrooms, visits,
+      verified, falseReports, missed, streak, tendencies,
+      pending, pendingTarget: pending ? pending.target : "",
+      history, contamination,
+    };
+  };
+  /* 只持久化白名单 canonical 字段；派生字段永不落盘，history 先裁后存 */
+  const saveAnomaly = (st) => store.set(ANOMALY_KEY, JSON.stringify({
+    cycle: st.cycle,
+    assignment: st.assignment,
+    inspected: st.inspected,
+    backrooms: st.backrooms,
+    visits: st.visits,
+    verified: st.verified,
+    falseReports: st.falseReports,
+    missed: st.missed,
+    streak: st.streak,
+    tendencies: st.tendencies,
+    pending: st.pending,
+    history: st.history.slice(-ANOMALY_HISTORY_CAP),
+  }));
+
+  /* 有任何巡检/后室活动（目录与记忆行恢复） */
+  const anomalyActive = (st) =>
+    st.verified > 0 || st.falseReports > 0 || st.missed > 0
+    || ANOMALY_TENDENCIES.some((t) => st.tendencies[t] > 0)
+    || ANOMALY_BACKROOMS.some((b) => st.visits[b] > 0);
+
+  /* 创建本轮分配：reload 稳定、倾向影响下轮换、创建即持久化不再漂移 */
+  const ensureAnomalyAssignment = () => {
+    const st = getAnomaly();
+    if (st.assignment) return st;
+    const idx = (st.cycle + st.tendencies.follow + 2 * st.tendencies.contain + 3 * st.tendencies.submit) % ANOMALY_PATTERNS.length;
+    st.assignment = { ...ANOMALY_PATTERNS[idx] };
+    saveAnomaly(st);
+    return st;
+  };
+
+  /* 巡检态判定：本房本轮值班已完成且尚未巡检结算 */
+  const anomalyInspecting = (room) => {
+    const st = getAnomaly();
+    const floorSt = getFloor();
+    return !!(st.assignment && floorSt.completed.includes(room) && st.inspected[room] === 0);
+  };
+
+  /* 房间重绘：值班态（旧四热点 + 平静图）/ 巡检态（两报告热点 + 正常或异常图）；
+     巡检结算后回值班态（值班动作维持 disabled） */
+  const syncAnomalyRoom = (sceneKey) => {
+    const room = ANOMALY_SCENE_ROOM[sceneKey];
+    if (!room) return;
+    const floorSt = getFloor();
+    if (floorSt.completed.includes(room) && getAnomaly().inspected[room] === 0) ensureAnomalyAssignment();
+    const st = getAnomaly();
+    const inspecting = anomalyInspecting(room);
+    const section = $(`#scene-${sceneKey}`);
+    if (!section) return;
+    const figure = section.querySelector("figure.branch-figure");
+    const img = figure && figure.querySelector(".branch-img");
+    const wantSrc = inspecting && st.assignment[room] === "anomaly" ? ANOMALY_IMG[room] : ANOMALY_BASE_IMG[room];
+    if (img && img.getAttribute("src") !== wantSrc) img.setAttribute("src", wantSrc);
+    if (figure) figure.setAttribute("aria-label", inspecting && st.assignment[room] === "anomaly" ? ANOMALY_FIGLABEL[room] : ANOMALY_BASE_FIGLABEL[room]);
+    const meta = FLOOR_ROOM_META[sceneKey];
+    Object.keys(meta.choices).forEach((mark) => {
+      const btn = $(meta.choices[mark].btn);
+      if (!btn) return;
+      if (inspecting) btn.setAttribute("hidden", "");
+      else btn.removeAttribute("hidden");
+    });
+    const callbackBtn = $(CALLBACK_REPORT_META[sceneKey] && CALLBACK_REPORT_META[sceneKey].btn);
+    if (callbackBtn) {
+      if (inspecting) callbackBtn.setAttribute("hidden", "");
+      else callbackBtn.removeAttribute("hidden");
+    }
+    ["anomaly", "normal"].forEach((report) => {
+      const btn = $(`#${room}-report-${report}`);
+      if (!btn) return;
+      if (inspecting) btn.removeAttribute("hidden");
+      else { btn.setAttribute("hidden", ""); btn.setAttribute("aria-pressed", "false"); }
+    });
+    paintAnomaly();
+  };
+
+  /* 统计签：三房巡检五项 + 后室倾向与结算标记（class/data 挂钩一次全刷） */
+  const paintAnomaly = () => {
+    const st = getAnomaly();
+    $$("[data-anomaly-verified]").forEach((el) => { el.textContent = st.verified; });
+    $$("[data-anomaly-false]").forEach((el) => { el.textContent = st.falseReports; });
+    $$("[data-anomaly-missed]").forEach((el) => { el.textContent = st.missed; });
+    $$("[data-anomaly-streak]").forEach((el) => { el.textContent = st.streak; });
+    $$("[data-anomaly-contamination]").forEach((el) => { el.textContent = st.contamination; });
+    ANOMALY_TENDENCIES.forEach((t) => {
+      $$(`[data-tendency-${t}]`).forEach((el) => { el.textContent = st.tendencies[t]; });
+    });
+    ANOMALY_BACKROOMS.forEach((b) => {
+      $$(`[data-backroom-settled="${b}"]`).forEach((el) => { el.textContent = st.backrooms[b] === 1 ? "已结算" : "未结算"; });
+    });
+  };
+
+  /* v35 计分写入：cap 已按巡检新理论上限扩到 15/14，旧存档与结局含义不变 */
+  const addAnomalyFloorScore = (sig, deb) => {
+    const st = getFloor();
+    st.signal = Math.min(FLOOR_SIGNAL_CAP, st.signal + sig);
+    st.debt = Math.min(FLOOR_DEBT_CAP, st.debt + deb);
+    saveFloor(st);
+  };
+
+  /* 巡检报告：live scene + 与 v35/v37 共享 first-lock + 巡检态 + 本轮未结算；
+     四种结果逐字反馈，核验/误报/漏报/连对与 v35 signal/debt 精确入账 */
+  const chooseAnomalyReport = (sceneKey, report) => {
+    const room = ANOMALY_SCENE_ROOM[sceneKey];
+    if (!room || (report !== "anomaly" && report !== "normal")) return;
+    if (currentScene !== sceneKey) return;
+    if (AutoAdvance.has(sceneKey)) return;
+    if (!anomalyInspecting(room)) return;
+    const st = getAnomaly();
+    const truth = st.assignment[room];
+    const outcome = report === truth ? (truth === "anomaly" ? "correctAnomaly" : "correctNormal") : (truth === "anomaly" ? "missed" : "falseReport");
+    const meta = ANOMALY_REPORT_META[room][outcome];
+    if (outcome === "correctAnomaly") { st.verified = Math.min(ANOMALY_NUM_CAP, st.verified + 2); st.streak = Math.min(ANOMALY_NUM_CAP, st.streak + 1); addAnomalyFloorScore(1, 0); }
+    else if (outcome === "correctNormal") { st.verified = Math.min(ANOMALY_NUM_CAP, st.verified + 1); st.streak = Math.min(ANOMALY_NUM_CAP, st.streak + 1); addAnomalyFloorScore(1, 0); }
+    else if (outcome === "falseReport") { st.falseReports = Math.min(ANOMALY_NUM_CAP, st.falseReports + 1); st.streak = 0; addAnomalyFloorScore(0, 1); }
+    else { st.missed = Math.min(ANOMALY_NUM_CAP, st.missed + 1); st.streak = 0; addAnomalyFloorScore(0, 2); }
+    st.inspected[room] = 1;
+    st.history.push({ type: "report", room, report });
+    st.pending = { kind: "report", room, report, target: meta.target, feedback: meta.feedback };
+    saveAnomaly(st);
+    const btn = $(`#${room}-report-${report}`);
+    if (btn) btn.setAttribute("aria-pressed", "true");
+    const responseEl = $(ANOMALY_REPORT_META[room].responseEl);
+    if (responseEl) responseEl.textContent = meta.feedback;
+    AudioEngine.knock(0.16);
+    paintAnomaly();
+    AutoAdvance.schedule(sceneKey, meta.target, {
+      delay: branchDelay(),
+      before: () => {
+        const s = getAnomaly();
+        /* 落点是异常后室时，转场触发即记合法到访（v53 同款：guard 在 goScene 时读不到已清 pending） */
+        const brTarget = ANOMALY_SCENE_BACKROOM[meta.target];
+        if (brTarget && s.visits[brTarget] === 0) s.visits[brTarget] = 1;
+        if (s.pending && s.pending.kind === "report" && s.pending.room === room) s.pending = null;
+        saveAnomaly(s);
+        syncAnomalyLinks();
+        paintFloorAnomalyMemory();
+      },
+    });
+  };
+
+  /* 后室动作：live scene + first-lock；导航永远可用，倾向分值每房每 cycle
+     只结算首次（防止三房环路刷分），已结算在签上明示 */
+  const chooseAnomalyAction = (sceneKey, actionKey) => {
+    const backroom = ANOMALY_SCENE_BACKROOM[sceneKey];
+    const meta = backroom && ANOMALY_BACKROOM_META[backroom].actions[actionKey];
+    if (!meta) return;
+    if (currentScene !== sceneKey) return;
+    if (AutoAdvance.has(sceneKey)) return;
+    const st = getAnomaly();
+    if (st.backrooms[backroom] === 0) {
+      st.backrooms[backroom] = 1;
+      st.tendencies[meta.tendency] = Math.min(ANOMALY_NUM_CAP, st.tendencies[meta.tendency] + meta.amount);
+      st.history.push({ type: "action", scene: backroom, action: actionKey });
+      st.pending = { kind: "action", scene: backroom, action: actionKey, target: meta.target, feedback: meta.feedback };
+      saveAnomaly(st);
+    }
+    const btn = $(meta.btn);
+    if (btn) btn.setAttribute("aria-pressed", "true");
+    const responseEl = $(ANOMALY_BACKROOM_META[backroom].responseEl);
+    if (responseEl) responseEl.textContent = meta.feedback;
+    AudioEngine.knock(0.16);
+    paintAnomaly();
+    AutoAdvance.schedule(sceneKey, meta.target, {
+      delay: branchDelay(),
+      before: () => {
+        const s = getAnomaly();
+        const brTarget = ANOMALY_SCENE_BACKROOM[meta.target];
+        if (brTarget && s.visits[brTarget] === 0) s.visits[brTarget] = 1;
+        if (s.pending && s.pending.kind === "action") s.pending = null;
+        saveAnomaly(s);
+        syncAnomalyLinks();
+        paintFloorAnomalyMemory();
+      },
+    });
+  };
+
+  /* reload 节拍恢复：合法 pending 属于当前场景时重播逐字反馈并精确重挂
+     一次转场（结算在接受时已计，这里只清 pending，不再校验分值） */
+  const replayAnomalyPending = (sceneName) => {
+    const st = getAnomaly();
+    const p = st.pending;
+    if (!p) return;
+    if (p.kind === "report" && ANOMALY_ROOM_SCENE[p.room] === sceneName) {
+      const responseEl = $(ANOMALY_REPORT_META[p.room].responseEl);
+      if (responseEl) responseEl.textContent = p.feedback;
+    } else if (p.kind === "action" && ANOMALY_BACKROOM_SCENE[p.scene] === sceneName) {
+      const responseEl = $(ANOMALY_BACKROOM_META[p.scene].responseEl);
+      if (responseEl) responseEl.textContent = p.feedback;
+    } else return;
+    AutoAdvance.schedule(sceneName, p.target, {
+      delay: branchDelay(),
+      before: () => {
+        const s = getAnomaly();
+        const brTarget = ANOMALY_SCENE_BACKROOM[p.target];
+        if (brTarget && s.visits[brTarget] === 0) s.visits[brTarget] = 1;
+        if (s.pending) s.pending = null;
+        saveAnomaly(s);
+        syncAnomalyLinks();
+        paintFloorAnomalyMemory();
+      },
+    });
+  };
+
+  /* 后室进入：守卫已证明合法到达（本轮 pending 或历史到访），此处记 visit、
+     清响应、刷签；目录入口首次合法到访后原子恢复 */
+  const enterAnomalyBackroom = (sceneName) => {
+    const backroom = ANOMALY_SCENE_BACKROOM[sceneName];
+    if (!backroom) return;
+    const st = getAnomaly();
+    if (st.visits[backroom] === 0) {
+      st.visits[backroom] = 1;
+      saveAnomaly(st);
+      syncAnomalyLinks();
+    }
+    const responseEl = $(ANOMALY_BACKROOM_META[backroom].responseEl);
+    if (responseEl) responseEl.textContent = "";
+    paintAnomaly();
+  };
+
+  const ANOMALY_LINKS = { underbed: "#underbed-link", countersign: "#countersign-link", negative: "#negative-link" };
+  const syncAnomalyLinks = () => {
+    const st = getAnomaly();
+    ANOMALY_BACKROOMS.forEach((b) => {
+      const link = $(ANOMALY_LINKS[b]);
+      if (!link) return;
+      if (st.visits[b] > 0) link.removeAttribute("hidden");
+      else link.setAttribute("hidden", "");
+    });
+  };
+
+  /* 痕迹页单行：巡检四项 + 污染，保持八张统计卡不变 */
+  const paintFloorAnomalyMemory = () => {
+    const memory = $("#floor-anomaly-memory");
+    if (!memory) return;
+    const st = getAnomaly();
+    if (!anomalyActive(st)) {
+      memory.hidden = true;
+      return;
+    }
+    memory.textContent = `失常交班：核验 ${st.verified}，误报 ${st.falseReports}，漏报 ${st.missed}，污染 ${st.contamination}。`;
+    memory.hidden = false;
+  };
+
+  ANOMALY_ROOMS.forEach((room) => {
+    ["anomaly", "normal"].forEach((report) => {
+      const btn = $(`#${room}-report-${report}`);
+      if (btn) btn.addEventListener("click", () => chooseAnomalyReport(ANOMALY_ROOM_SCENE[room], report));
+    });
+    /* 三张异常图预载，巡检切换无闪烁 */
+    const pre = new Image();
+    pre.src = ANOMALY_IMG[room];
+  });
+  ANOMALY_BACKROOMS.forEach((backroom) => {
+    Object.keys(ANOMALY_BACKROOM_META[backroom].actions).forEach((actionKey) => {
+      const btn = $(ANOMALY_BACKROOM_META[backroom].actions[actionKey].btn);
+      if (btn) btn.addEventListener("click", () => chooseAnomalyAction(ANOMALY_BACKROOM_SCENE[backroom], actionKey));
+    });
+  });
+  paintAnomaly();
 
   /* ============================================================
      v40 门外侧廊：首页纵深环境层 + 左右廊热点 + 三个画面热点场景
@@ -10003,6 +10450,9 @@ document.addEventListener("DOMContentLoaded", () => {
       syncPressureLink();
       paintPressure();
       PRESSURE_SCENES.forEach(syncPressureRoom);
+      syncAnomalyLinks();
+      paintAnomaly();
+      ANOMALY_ROOMS.forEach((r) => syncAnomalyRoom(ANOMALY_ROOM_SCENE[r]));
       syncLateralLinks();
       syncBackroomLinks();
       syncDriftEntry();
@@ -10023,6 +10473,7 @@ document.addEventListener("DOMContentLoaded", () => {
       paintForecourtMemory();
       paintAnnexMemory();
       paintAnomalyMemory();
+      paintFloorAnomalyMemory();
       paintValuationMemory();
       paintFloorMemory();
       paintRegistryMemory();
@@ -10095,6 +10546,9 @@ document.addEventListener("DOMContentLoaded", () => {
   syncPressureLink();
   paintPressureMemory();
   paintPressure();
+  syncAnomalyLinks();
+  paintFloorAnomalyMemory();
+  paintAnomaly();
   syncLateralLinks();
   paintLateralMemory();
   syncBackroomLinks();
