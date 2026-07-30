@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-    <link rel="stylesheet" href="styles.css?v=49">
+    <link rel="stylesheet" href="styles.css?v=50">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -1162,26 +1162,34 @@
             <span class="rs-item">归路证 <b id="audit-stat-recall">0</b></span>
             <span class="rs-item">迷步 <b id="audit-stat-misstep">0</b></span>
             <span class="rs-item">最佳归路 <b id="audit-stat-best">0</b></span>
+            <span class="rs-item">守则信任 <b id="belief-stat-official">0</b></span>
+            <span class="rs-item">感官诱信 <b id="belief-stat-sensory">0</b></span>
+            <span class="rs-item">自相矛盾 <b id="belief-stat-contradiction">0</b></span>
           </div>
 
-          <figure class="branch-figure reveal" role="img" aria-label="黑石地下换乘厅，中央一张没有文字的黄铜路线台，三道窄门分别以声波纹、脉管和封蜡器物暗示回声、血管、忏悔，线路第三段在黑暗里被剪断">
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="黑石地下换乘厅，中央一张没有文字的黄铜路线台，三道窄门分别以声波纹、脉管和封蜡器物暗示回声、血管、忏悔，线路第三段在黑暗里被剪断">
             <img class="branch-img" src="assets/return-audit-hall.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
-          </figure>
-
-          <div class="branch-choices audit-routes reveal" id="audit-routes" role="group" aria-label="三条待核验路线">
-            <button class="branch-btn" id="audit-route-echo" type="button" aria-pressed="false" data-hover>
+            <button class="branch-btn forecourt-native-hotspot audit-spot-echo" id="audit-route-echo" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">回声岔廊</span>
               <span class="bb-title">进入回声岔廊</span>
               <span class="bb-hint">最响的那声，总是最晚到达</span>
             </button>
-            <button class="branch-btn" id="audit-route-vein" type="button" aria-pressed="false" data-hover>
+            <button class="branch-btn forecourt-native-hotspot audit-spot-vein" id="audit-route-vein" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">检票闸</span>
               <span class="bb-title">通过血管检票闸</span>
               <span class="bb-hint">红灯亮时，闸机正在吞咽</span>
             </button>
-            <button class="branch-btn" id="audit-route-confession" type="button" aria-pressed="false" data-hover>
+            <button class="branch-btn forecourt-native-hotspot audit-spot-confession" id="audit-route-confession" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">寄存柜</span>
               <span class="bb-title">打开忏悔寄存柜</span>
               <span class="bb-hint">写着你名字的格子并不属于你</span>
             </button>
-          </div>
+            <button class="branch-btn forecourt-native-hotspot audit-spot-flip" id="audit-belief-flip" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">核验牌</span>
+              <span class="bb-title">翻转核验牌</span>
+              <span class="bb-hint">你的两次回答互相矛盾</span>
+            </button>
+          </figure>
           <p class="branch-response" id="audit-response" aria-live="polite"></p>
 
           <nav class="scene-exits reveal" aria-label="离开归路核验站">
@@ -1199,20 +1207,24 @@
             <p class="sec-desc">三次呼唤都用了你的声音。最响的那次最后才发生。</p>
           </header>
 
-          <figure class="branch-figure reveal" role="img" aria-label="同一扇黑门沿弧形回廊重复出现，黄铜听音管在每扇门间穿行，最近的门最暗，地面波纹由远到近依次扩散">
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="同一扇黑门沿弧形回廊重复出现，黄铜听音管在每扇门间穿行，最近的门最暗，地面波纹由远到近依次扩散">
             <img class="branch-img" src="assets/return-audit-echo.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
-          </figure>
-
-          <div class="branch-choices audit-judgements reveal" role="group" aria-label="两个判断">
-            <button class="branch-btn" id="echo-turn-choice-first" type="button" aria-pressed="false" data-hover>
+            <button class="branch-btn forecourt-native-hotspot echo-spot-first" id="echo-turn-choice-first" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">最先回声</span>
               <span class="bb-title">跟随最先出现的回声</span>
               <span class="bb-hint">最早的那声最轻</span>
             </button>
-            <button class="branch-btn" id="echo-turn-choice-loud" type="button" aria-pressed="false" data-hover>
+            <button class="branch-btn forecourt-native-hotspot echo-spot-loud" id="echo-turn-choice-loud" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">最响回声</span>
               <span class="bb-title">跟随最响的回声</span>
               <span class="bb-hint">最响的那声最后才发生</span>
             </button>
-          </div>
+            <button class="branch-btn forecourt-native-hotspot echo-spot-threshold" id="echo-turn-belief-threshold" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">廊心铜盘</span>
+              <span class="bb-title">转动廊心铜盘</span>
+              <span class="bb-hint">守则说，回声应该排队</span>
+            </button>
+          </figure>
           <p class="branch-response" id="echo-turn-response" aria-live="polite"></p>
 
           <nav class="scene-exits reveal" aria-label="离开回声岔廊">
@@ -1230,20 +1242,24 @@
             <p class="sec-desc">每次红灯亮起，闸机都在把什么送回更深处。</p>
           </header>
 
-          <figure class="branch-figure reveal" role="img" aria-label="黑石检票厅，粗大的暗红脉管穿过黄铜闸机，三盏红灯随脉搏涨落，一次苍白的停搏在闸口留下短暂空隙">
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="黑石检票厅，粗大的暗红脉管穿过黄铜闸机，三盏红灯随脉搏涨落，一次苍白的停搏在闸口留下短暂空隙">
             <img class="branch-img" src="assets/return-audit-vein.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
-          </figure>
-
-          <div class="branch-choices audit-judgements reveal" role="group" aria-label="两个判断">
-            <button class="branch-btn" id="vein-turnstile-choice-pale" type="button" aria-pressed="false" data-hover>
+            <button class="branch-btn forecourt-native-hotspot vein-spot-pale" id="vein-turnstile-choice-pale" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">苍白停搏</span>
               <span class="bb-title">趁苍白停搏穿过</span>
               <span class="bb-hint">停搏留下短暂空隙</span>
             </button>
-            <button class="branch-btn" id="vein-turnstile-choice-pulse" type="button" aria-pressed="false" data-hover>
+            <button class="branch-btn forecourt-native-hotspot vein-spot-pulse" id="vein-turnstile-choice-pulse" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">红色脉冲</span>
               <span class="bb-title">跟着红色脉冲前进</span>
               <span class="bb-hint">红灯亮时闸机在吞咽</span>
             </button>
-          </div>
+            <button class="branch-btn forecourt-native-hotspot vein-spot-threshold" id="vein-turnstile-belief-threshold" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">苍白表盘</span>
+              <span class="bb-title">校准苍白表盘</span>
+              <span class="bb-hint">停搏的读数应该归零</span>
+            </button>
+          </figure>
           <p class="branch-response" id="vein-turnstile-response" aria-live="polite"></p>
 
           <nav class="scene-exits reveal" aria-label="离开血管检票闸">
@@ -1261,20 +1277,24 @@
             <p class="sec-desc">这里收走忏悔，也收走说出忏悔的人。</p>
           </header>
 
-          <figure class="branch-figure reveal" role="img" aria-label="狭长黑石寄存室，两侧黄铜小柜与黑蜡封条，中央台上一枚空白寄存牌，旁边一枚牌子像刚被擦掉名字，柜门缝里纸页轻微起伏">
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="狭长黑石寄存室，两侧黄铜小柜与黑蜡封条，中央台上一枚空白寄存牌，旁边一枚牌子像刚被擦掉名字，柜门缝里纸页轻微起伏">
             <img class="branch-img" src="assets/return-audit-confession.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
-          </figure>
-
-          <div class="branch-choices audit-judgements reveal" role="group" aria-label="两个判断">
-            <button class="branch-btn" id="confession-locker-choice-blank" type="button" aria-pressed="false" data-hover>
+            <button class="branch-btn forecourt-native-hotspot confession-spot-blank" id="confession-locker-choice-blank" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">空白牌</span>
               <span class="bb-title">领取空白寄存牌</span>
               <span class="bb-hint">空白牌不认识任何人</span>
             </button>
-            <button class="branch-btn" id="confession-locker-choice-named" type="button" aria-pressed="false" data-hover>
+            <button class="branch-btn forecourt-native-hotspot confession-spot-named" id="confession-locker-choice-named" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">有名牌</span>
               <span class="bb-title">领取写着自己的那枚</span>
               <span class="bb-hint">写着你名字的格子并不属于你</span>
             </button>
-          </div>
+            <button class="branch-btn forecourt-native-hotspot confession-spot-threshold" id="confession-locker-belief-threshold" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">空白铜牌</span>
+              <span class="bb-title">核对空白铜牌</span>
+              <span class="bb-hint">无名的牌子才是登记过的</span>
+            </button>
+          </figure>
           <p class="branch-response" id="confession-locker-response" aria-live="polite"></p>
 
           <nav class="scene-exits reveal" aria-label="离开忏悔寄存所">
@@ -2857,6 +2877,7 @@
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory" id="return-room-memory"></p>
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory" id="cancellation-copy-memory"></p>
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory" id="settlement-memory"></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory belief-memory" id="belief-memory" hidden></p>
 
           <div class="reliquary-slot reveal" id="reliquary-slot"></div>
 
@@ -2966,6 +2987,7 @@
       <a href="#midnight-callback" id="callback-link" hidden data-hover>01ρ / 午夜回拨</a>
       <a href="#proxy-admission" id="proxy-link" hidden data-hover>01σ / 代审窗</a>
       <a href="#return-audit" id="audit-link" hidden data-hover>01τ / 归路核验</a>
+      <a href="#return-audit" id="belief-link" hidden data-hover>01τ½ / 归路信念</a>
       <a href="#unlit-lamp-gallery" id="lamp-link" hidden data-hover>01υ / 无灯灯廊</a>
       <a href="#borrowed-shadow-gallery" id="shadow-link" hidden data-hover>01φ / 借影陈列</a>
       <a href="#hinge-sorting-room" id="hinge-link" hidden data-hover>01χ / 铰链分拣</a>
@@ -3014,6 +3036,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=49"></script>
+    <script src="script.js?v=50"></script>
   </body>
 </html>

@@ -1,6 +1,18 @@
-# Design QA — Living Shrine · 场景探索版（含值夜室 · 第四线路 · 无主投递所 · 神名注销科 · 代神席 · 自动转场 · 现有场景视觉深化 · 焚献点火 · 神圣遗物科 · v28 代行治理 · v29 旁路支线 · v30 深层支线 · v31 门前三岔 · v32 门内副楼 · v33 异常复核 · v34 无主估值 · v35 无号层 · v36 夜班登记 · v37 午夜回拨 · v38 门外代审 · v39 归路核验 · v40 门外侧廊 · v41 守则背室 · v42 守则漂移 · v43 门内回敲 · v44 页后空层 · v45 未到交班 · v46 旁线未静 · v47 退件未止 · v48 注销留副 · v49 门前实感 · v50 副楼实感 · v51 副楼三债 · v52 三债结算）
+# Design QA — Living Shrine · 场景探索版（含值夜室 · 第四线路 · 无主投递所 · 神名注销科 · 代神席 · 自动转场 · 现有场景视觉深化 · 焚献点火 · 神圣遗物科 · v28 代行治理 · v29 旁路支线 · v30 深层支线 · v31 门前三岔 · v32 门内副楼 · v33 异常复核 · v34 无主估值 · v35 无号层 · v36 夜班登记 · v37 午夜回拨 · v38 门外代审 · v39 归路核验 · v40 门外侧廊 · v41 守则背室 · v42 守则漂移 · v43 门内回敲 · v44 页后空层 · v45 未到交班 · v46 旁线未静 · v47 退件未止 · v48 注销留副 · v49 门前实感 · v50 副楼实感 · v51 副楼三债 · v52 三债结算 · v53 归路信念）
 
 适用范围：当前 goddead.com 首页（哈希路由场景探索游戏）。本文替代旧版 QA 报告；旧版证据文件保留在 `design-qa-evidence/` 中仅作历史存档，不再代表现状。
+
+## 本轮新增：v53 归路信念污染 / THE ROOMS BELIEVE YOU（v39 三路线三态变异 + 阈值机关七分支 + 矛盾翻转牌）
+
+- 目标：深化 v39 归路核验站而非追加走廊——跨轮选择沉淀「守则信任/感官诱信/自相矛盾」，路线按信任变异并长出通向既有分支的机关；v39 两路线/自动结算/五 outcome/first-lock/pending/reload/守卫语义完全不变，v53 只观察已被 v39 接受的选择。
+- 素材：六张监理冻结源 PNG（1536×1024，sha256 见 `docs/V53RouteBeliefDesign.md`，禁止重生成）Pillow q85 原尺寸转码 `assets/v53-{echo,vein,confession}-{official,sensory}-belief.webp`；中性态继续用 v39 原图，变异图预载，切换无闪错。
+- 画面：四场景 figure 升级 3:2 tactile 舞台；三路线卡+六判断卡删除，改图内原生 button 热点（id/逐字文案/v39 节拍不变）；枢纽统计签 4+3 项（守则信任/感官诱信/自相矛盾），1440×1024、1440×800、390×844 不溢出；1440×800 枢纽 figure 保持可见可点；无底部继续按钮。
+- 状态：`goddead_v53_route_belief`（唯一 key）；routes 三路 official/sensory/lastChoice、contradiction、七分支 visits/actions、严格 pending、history≤16；派生总分/变异态/pendingTarget 永远重算，伪造总分与伪造 pending 归一；`saveBelief` 只持久化 canonical 五部分（routes/contradiction/branches/pending/history.slice(-16)），派生字段永不落盘；只挂在 v39 judgeAudit 接受点后计分，不读写 v39 与 v28–v52。
+- 变异阈值：单路 `>=2 且严格占优` 才变异（平局回中性）；第三热点只在变异态出现于中央机关，点击不算 v39 判断、不污染 order/decisions/settle，逐字反馈一拍后去既有分支：echo 守则→回敲廊、echo 感官→回声档案室、vein 守则→无铃病房、vein 感官→血管维修井、confession 守则→空名寄存、confession 感官→忏悔称量室；首访 visits=1 不重复计数，actions 累计；contradiction>=2 枢纽黄铜台上出现翻转核验牌→`#protocol-drift`（v42 直 hash 本就允许，守卫未动），v39 进度不变。
+- 守卫：仅 v29 三场景加窄例外（本轮合法 pending 或历史已访问放行），其余未访问直达仍落走廊；其余四个目标本就无守卫，原有正常入口全部保持。
+- 目录：01τ½ / 归路信念一条汇总，任何信念活动原子恢复；Remembrance 新增单行信念汇总，仍八张统计卡。
+- CDP 行为冒烟（`/tmp/v53-qa/v53-smoke.mjs`，真实 Google Chrome headless + 内嵌静态服务器 + 真实鼠标/键盘事件，种子经 `addScriptToEvaluateOnNewDocument` 预注入）**916/916 连续两轮全绿**：三视口 × 三路线 × 三态几何（图内/零重叠/自命中/≥44px/七项统计不溢出/1440×800 首屏可点）、三分值计分规则与同拍幂等、平局中性、严格占优、三态变异图与 aria-label 即时切换、阈值六路逐字反馈+精确落点+首访/动作计数+v39 字节级零污染+复点幂等、contradiction 翻转牌进出 protocol-drift 且 v39 不变、v29 守卫干净/合法 pending/历史访问/伪造 pending 四态、合成 click 与 off-scene click 零副作用、reload 节拍重播一次、目录与记忆恢复、v39 五 outcome 回归、Tab/Enter/Space 键盘全程、控制台零异常。存盘收口实测：20 事件（18 阈值 + 2 判断）后 raw JSON 仍只有五个 canonical 键、无派生键、history 精确 16 条，reload 派生统计不回归。QA 自身一轮时序缺陷（场景 visibility 过渡窗口内点击穿透）已定位并加固（waitReady 自命中轮询 + 反馈轮询 + capture 探针），修复后连续全绿。
+- 视觉证据 18 张 `design-qa-evidence/v53-01~18`：枢纽中性/翻转牌（1440×1024/1440×800/390×844）、三路线中性+official+sensory 桌面九幅、移动端四幅、阈值逐字反馈中间态、翻转落点 protocol-drift；六张冻结源 PNG 与同状态同视口渲染同轮并排目验——热点全部压在对应物件上、移动端物件无裁切、标题与统计无溢出。
 
 ## 本轮新增：v52 副楼三债结算 / ANNEX DEBT SETTLEMENT（容量合签 + 结算所三印 + 三间结果房）
 

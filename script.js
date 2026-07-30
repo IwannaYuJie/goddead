@@ -951,8 +951,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (name === "night-shift-registry") enterRegistry();
     if (name === "midnight-callback") enterCallback();
     if (name === "proxy-admission") enterProxy();
-    if (name === "return-audit") enterAudit();
-    if (AUDIT_ROUTE_SCENES.includes(name)) enterAuditRoute(name);
+    if (name === "return-audit") { enterAudit(); paintBelief(); }
+    if (AUDIT_ROUTE_SCENES.includes(name)) { enterAuditRoute(name); syncBeliefRoute(AUDIT_SCENE_ROUTE[name]); }
+    if (name === "return-audit" || AUDIT_ROUTE_SCENES.includes(name)) replayBeliefPending(name);
     if (LATERAL_SCENE_NAMES.includes(name)) enterLateral(LATERAL_NAME_SCENE[name]);
     if (BACKROOM_SCENE_NAMES.includes(name)) enterBackroom(BACKROOM_NAME_SCENE[name]);
     if (name === "protocol-drift") enterDrift();
@@ -988,6 +989,7 @@ document.addEventListener("DOMContentLoaded", () => {
       paintCallbackMemory();
       paintProxyMemory();
       paintAuditMemory();
+      paintBeliefMemory();
       paintLateralMemory();
       paintBackroomMemory();
       paintDriftMemory();
@@ -1036,10 +1038,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* v29 支线守卫：未访问过的支线直达一律落回走廊，干净存档不得越过走廊守卫。
        v39 窄例外：本轮归路核验的中间档 outcome（echoed/pulsed/confessed）是设计的强制落点，
-       放行对应的回声/血管/忏悔场景；其余直达仍落回走廊。 */
+       放行对应的回声/血管/忏悔场景；其余直达仍落回走廊。
+       v53 窄例外：阈值机关的合法 pending 目标，或历史已访问过的信念分支，同样放行。 */
     const branchState = getBranches();
     const auditGuardState = getAudit();
-    if (BRANCH_SCENES.includes(target) && !branchState.visited[target] && AUDIT_BRANCH_OUTCOME[target] !== auditGuardState.outcome) target = "corridor";
+    const beliefGuard = getBelief();
+    if (BRANCH_SCENES.includes(target) && !branchState.visited[target] && AUDIT_BRANCH_OUTCOME[target] !== auditGuardState.outcome
+      && beliefGuard.pendingTarget !== target && !(BELIEF_SCENE_BRANCH[target] && beliefGuard.branches[BELIEF_SCENE_BRANCH[target]].visits > 0)) target = "corridor";
 
     /* v33 结果房守卫：仅本轮 outcome 对应或曾到访时允许直达，否则规范化回复核科；
        复核科本身不设守卫，直接 hash 采用 neutral 顺序。
@@ -5148,6 +5153,8 @@ document.addEventListener("DOMContentLoaded", () => {
     st.pendingRoute = "";
     if (!st.marks.includes(meta.mark)) st.marks.push(meta.mark);
     saveAudit(st);
+    /* v53：已被 v39 接受的判断在此沉淀信念计分（只写 v53 键） */
+    recordBeliefChoice(route, choiceKey);
     const responseEl = $(meta.responseEl);
     if (responseEl) responseEl.textContent = choice.feedback;
     AudioEngine.knock(0.16);
@@ -5184,6 +5191,447 @@ document.addEventListener("DOMContentLoaded", () => {
     memory.textContent = `归路核验：完成 ${st.totalAudits} 轮核验；最佳归路 ${st.bestRecall}。`;
     memory.hidden = false;
   };
+
+  /* ============================================================
+     v53 归路信念：跨轮选择沉淀守则/感官信任，路线图三态变异 +
+     变异阈值第三热点 + 矛盾翻转核验牌
+     独立容错状态键 BELIEF_KEY（v53 唯一存储键），容错坏 JSON；
+     globalOfficial/globalSensory/variant/pendingTarget 全部派生重算；
+     只观察 v39 已接受的判断，从不读写 v39 key 与其它模块状态。
+     ============================================================ */
+  const BELIEF_KEY = "goddead_v53_route_belief";
+  const BELIEF_ROUTES = ["echo", "vein", "confession"];
+  const BELIEF_SIDES = ["official", "sensory"];
+  const BELIEF_NUM_CAP = 9999;
+  const BELIEF_HISTORY_CAP = 16;
+  /* 七条信念分支落点：camelCase key → 既有场景名 */
+  const BELIEF_BRANCH_SCENE = {
+    counterKnockGallery: "counter-knock-gallery",
+    echoArchive: "echo",
+    belllessWard: "bellless-ward",
+    veinWell: "vein",
+    blankNameCloakroom: "blank-name-cloakroom",
+    confessionWeighing: "confession",
+    protocolDrift: "protocol-drift",
+  };
+  const BELIEF_BRANCH_KEYS = Object.keys(BELIEF_BRANCH_SCENE);
+  /* v29 三场景 → 对应信念分支 key（守卫窄例外用） */
+  const BELIEF_SCENE_BRANCH = { echo: "echoArchive", vein: "veinWell", confession: "confessionWeighing" };
+  /* 阈值机关落点：路线 × 变异态 → 既有分支场景 */
+  const BELIEF_THRESHOLD_TARGET = {
+    echo: { official: "counter-knock-gallery", sensory: "echo" },
+    vein: { official: "bellless-ward", sensory: "vein" },
+    confession: { official: "blank-name-cloakroom", sensory: "confession" },
+  };
+  const BELIEF_ROUTE_META = {
+    echo: {
+      scene: "echo-turn",
+      responseEl: "#echo-turn-response",
+      thresholdBtn: "#echo-turn-belief-threshold",
+      baseImg: "assets/return-audit-echo.webp",
+      baseFigLabel: "同一扇黑门沿弧形回廊重复出现，黄铜听音管在每扇门间穿行，最近的门最暗，地面波纹由远到近依次扩散",
+      choiceSide: { first: "official", loud: "sensory" },
+      official: {
+        img: "assets/v53-echo-official-belief.webp",
+        figLabel: "回声岔廊守则变异：最近的门透出金边，廊心升起一座嵌铜盘的黑石台",
+        branch: "counterKnockGallery",
+        title: "转动廊心铜盘",
+        short: "廊心铜盘",
+        hint: "守则说，回声应该排队",
+        feedback: "铜盘转了一格。所有回声同时安静下来，像在等点名。",
+      },
+      sensory: {
+        img: "assets/v53-echo-sensory-belief.webp",
+        figLabel: "回声岔廊感官变异：右墙贴上巨型喇叭，红色声纹沿墙扩散",
+        branch: "echoArchive",
+        title: "凑近台座的喇叭",
+        short: "台座喇叭",
+        hint: "它一直在学你的呼吸",
+        feedback: "喇叭里没有声音。只有你自己的吸气声，早了半拍。",
+      },
+    },
+    vein: {
+      scene: "vein-turnstile",
+      responseEl: "#vein-turnstile-response",
+      thresholdBtn: "#vein-turnstile-belief-threshold",
+      baseImg: "assets/return-audit-vein.webp",
+      baseFigLabel: "黑石检票厅，粗大的暗红脉管穿过黄铜闸机，三盏红灯随脉搏涨落，一次苍白的停搏在闸口留下短暂空隙",
+      choiceSide: { pale: "official", pulse: "sensory" },
+      official: {
+        img: "assets/v53-vein-official-belief.webp",
+        figLabel: "检票闸守则变异：闸后缝隙更加苍白，中央表盘停在零",
+        branch: "belllessWard",
+        title: "校准苍白表盘",
+        short: "苍白表盘",
+        hint: "停搏的读数应该归零",
+        feedback: "指针归零。闸机第一次承认自己也会累。",
+      },
+      sensory: {
+        img: "assets/v53-vein-sensory-belief.webp",
+        figLabel: "检票闸感官变异：中央表盘涨成暗红，右侧脉管红得发亮",
+        branch: "veinWell",
+        title: "贴上红色表盘",
+        short: "红色表盘",
+        hint: "听它跳得多急",
+        feedback: "表盘里不是血。是很多只贴上来听过的耳朵。",
+      },
+    },
+    confession: {
+      scene: "confession-locker",
+      responseEl: "#confession-locker-response",
+      thresholdBtn: "#confession-locker-belief-threshold",
+      baseImg: "assets/return-audit-confession.webp",
+      baseFigLabel: "狭长黑石寄存室，两侧黄铜小柜与黑蜡封条，中央台上一枚空白寄存牌，旁边一枚牌子像刚被擦掉名字，柜门缝里纸页轻微起伏",
+      choiceSide: { blank: "official", named: "sensory" },
+      official: {
+        img: "assets/v53-confession-official-belief.webp",
+        figLabel: "寄存所守则变异：中央台上立起空白铜牌，两枚寄存牌并排静放",
+        branch: "blankNameCloakroom",
+        title: "核对空白铜牌",
+        short: "空白铜牌",
+        hint: "无名的牌子才是登记过的",
+        feedback: "铜牌背面有一枚验收章：此名未使用。",
+      },
+      sensory: {
+        img: "assets/v53-confession-sensory-belief.webp",
+        figLabel: "寄存所感官变异：中央升起一台忏悔秤，右侧寄存牌烧出红色裂纹",
+        branch: "confessionWeighing",
+        title: "坐上忏悔秤",
+        short: "忏悔秤",
+        hint: "它记得每一个名字的重量",
+        feedback: "秤盘下沉。你的忏悔被称了两遍，两遍不一样重。",
+      },
+    },
+  };
+  /* 翻转核验牌：contradiction >= 2 时出现，只去守则漂移，不触碰 v39 进度 */
+  const BELIEF_FLIP = {
+    btn: "#audit-belief-flip",
+    branch: "protocolDrift",
+    target: "protocol-drift",
+    feedback: "铜牌翻面。守则自己也开始漂移。",
+  };
+
+  /* 每路变异态：严格占优且 >= 2 才变异，平局回中性 */
+  const beliefVariantOf = (routeSt) => {
+    if (routeSt.official >= 2 && routeSt.official > routeSt.sensory) return "official";
+    if (routeSt.sensory >= 2 && routeSt.sensory > routeSt.official) return "sensory";
+    return "neutral";
+  };
+
+  const getBelief = () => {
+    let raw = {};
+    try {
+      raw = JSON.parse(store.get(BELIEF_KEY, "{}")) || {};
+    } catch { raw = {}; }
+    if (typeof raw !== "object" || Array.isArray(raw)) raw = {};
+    const num = (v) => {
+      let n = Number(v);
+      if (!Number.isFinite(n) || n < 0) n = 0;
+      return Math.min(BELIEF_NUM_CAP, Math.floor(n));
+    };
+    /* routes：白名单三路，数值封顶，lastChoice 必须是该路合法判断否则清空 */
+    const routes = {};
+    BELIEF_ROUTES.forEach((r) => {
+      const rr = raw.routes && typeof raw.routes[r] === "object" && !Array.isArray(raw.routes[r]) ? raw.routes[r] : {};
+      routes[r] = {
+        official: num(rr.official),
+        sensory: num(rr.sensory),
+        lastChoice: BELIEF_ROUTE_META[r].choiceSide[rr.lastChoice] ? rr.lastChoice : "",
+      };
+    });
+    /* branches：白名单七个 key，visits/actions 同样封顶 */
+    const branches = {};
+    BELIEF_BRANCH_KEYS.forEach((k) => {
+      const bb = raw.branches && typeof raw.branches[k] === "object" && !Array.isArray(raw.branches[k]) ? raw.branches[k] : {};
+      branches[k] = { visits: num(bb.visits), actions: num(bb.actions) };
+    });
+    /* pending 仅两种严格形状，逐字段校验（kind/route/side/target/feedback 全部
+       白名单 + 逐字反馈重算），任一不符 → null（伪造 pending 归一） */
+    let pending = null;
+    if (raw.pending && typeof raw.pending === "object" && !Array.isArray(raw.pending)) {
+      const p = raw.pending;
+      if (p.kind === "threshold" && BELIEF_ROUTES.includes(p.route) && BELIEF_SIDES.includes(p.side)) {
+        const meta = BELIEF_ROUTE_META[p.route][p.side];
+        const target = BELIEF_THRESHOLD_TARGET[p.route][p.side];
+        if (p.target === target && p.feedback === meta.feedback) {
+          pending = { kind: "threshold", route: p.route, side: p.side, target, feedback: meta.feedback };
+        }
+      } else if (p.kind === "drift" && p.target === BELIEF_FLIP.target && p.feedback === BELIEF_FLIP.feedback) {
+        pending = { kind: "drift", target: BELIEF_FLIP.target, feedback: BELIEF_FLIP.feedback };
+      }
+    }
+    /* history 有界：仅保留白名单形状条目，最多 16 条 */
+    let history = [];
+    if (Array.isArray(raw.history)) {
+      for (const h of raw.history) {
+        if (!h || typeof h !== "object" || Array.isArray(h)) continue;
+        if (h.type === "choice" && BELIEF_ROUTES.includes(h.route) && BELIEF_ROUTE_META[h.route].choiceSide[h.choice]) {
+          history.push({ type: "choice", route: h.route, choice: h.choice });
+        } else if (h.type === "threshold" && BELIEF_ROUTES.includes(h.route) && BELIEF_SIDES.includes(h.side)) {
+          history.push({ type: "threshold", route: h.route, side: h.side });
+        } else if (h.type === "drift") {
+          history.push({ type: "drift" });
+        }
+      }
+    }
+    history = history.slice(-BELIEF_HISTORY_CAP);
+    /* 派生：总分永远从三路重算（伪造总分归一），变异态与 pendingTarget 不信任存档 */
+    let globalOfficial = 0;
+    let globalSensory = 0;
+    const variants = {};
+    BELIEF_ROUTES.forEach((r) => {
+      globalOfficial += routes[r].official;
+      globalSensory += routes[r].sensory;
+      variants[r] = beliefVariantOf(routes[r]);
+    });
+    return {
+      routes,
+      contradiction: num(raw.contradiction),
+      branches,
+      pending,
+      pendingTarget: pending ? pending.target : "",
+      history,
+      globalOfficial,
+      globalSensory,
+      variants,
+    };
+  };
+  /* 只持久化 canonical 五部分：派生的 globalOfficial/globalSensory/variants/
+     pendingTarget 永不落盘（永远重算），history 裁到 ≤16 再存 */
+  const saveBelief = (st) => store.set(BELIEF_KEY, JSON.stringify({
+    routes: st.routes,
+    contradiction: st.contradiction,
+    branches: st.branches,
+    pending: st.pending,
+    history: st.history.slice(-BELIEF_HISTORY_CAP),
+  }));
+
+  /* 有任何计分、矛盾或分支动作/访问即视为信念活动（目录与记忆行恢复） */
+  const beliefActive = (st) =>
+    st.globalOfficial > 0 || st.globalSensory > 0 || st.contradiction > 0
+    || BELIEF_BRANCH_KEYS.some((k) => st.branches[k].visits > 0 || st.branches[k].actions > 0);
+
+  /* 计分：只挂在 v39 judgeAudit 接受点之后（first-lock / live-scene /
+     pendingRoute 全部通过、order/decisions 已持久化才调用），重复点击与
+     合成点击被 v39 守卫挡在钩子之前 → 零重复计分；只写 v53 键 */
+  const recordBeliefChoice = (route, choiceKey) => {
+    const meta = BELIEF_ROUTE_META[route];
+    const side = meta && meta.choiceSide[choiceKey];
+    if (!side) return;
+    const st = getBelief();
+    const r = st.routes[route];
+    r[side] = Math.min(BELIEF_NUM_CAP, r[side] + 1);
+    if (r.lastChoice && r.lastChoice !== choiceKey) st.contradiction = Math.min(BELIEF_NUM_CAP, st.contradiction + 1);
+    r.lastChoice = choiceKey;
+    st.history.push({ type: "choice", route, choice: choiceKey });
+    saveBelief(st);
+    syncBeliefRoute(route);
+    paintBelief();
+  };
+
+  /* 变异图原子切换：单 img src、figure aria-label、修饰类与阈值热点同拍完成；
+     中性（含平局）回 v39 原图，阈值热点回 hidden */
+  const syncBeliefRoute = (route) => {
+    const meta = BELIEF_ROUTE_META[route];
+    if (!meta) return;
+    const st = getBelief();
+    const variant = st.variants[route];
+    const side = variant === "neutral" ? "" : variant;
+    const section = $(`#scene-${meta.scene}`);
+    if (!section) return;
+    const figure = section.querySelector("figure.branch-figure");
+    const img = figure && figure.querySelector(".branch-img");
+    const wantSrc = side ? meta[side].img : meta.baseImg;
+    if (img && img.getAttribute("src") !== wantSrc) img.setAttribute("src", wantSrc);
+    if (figure) {
+      figure.setAttribute("aria-label", side ? meta[side].figLabel : meta.baseFigLabel);
+      figure.classList.toggle("belief-variant-official", variant === "official");
+      figure.classList.toggle("belief-variant-sensory", variant === "sensory");
+    }
+    const btn = $(meta.thresholdBtn);
+    if (btn) {
+      if (side) {
+        const titleEl = btn.querySelector(".bb-title");
+        const shortEl = btn.querySelector(".bb-short");
+        const hintEl = btn.querySelector(".bb-hint");
+        if (titleEl) titleEl.textContent = meta[side].title;
+        if (shortEl) shortEl.textContent = meta[side].short;
+        if (hintEl) hintEl.textContent = meta[side].hint;
+        btn.removeAttribute("hidden");
+        btn.setAttribute("aria-pressed", "false");
+      } else {
+        btn.setAttribute("hidden", "");
+        btn.setAttribute("aria-pressed", "false");
+      }
+    }
+  };
+
+  /* 枢纽重绘：三紧凑统计（派生总分）+ 翻转核验牌显隐（contradiction >= 2） */
+  const paintBelief = () => {
+    const st = getBelief();
+    const officialEl = $("#belief-stat-official");
+    const sensoryEl = $("#belief-stat-sensory");
+    const contraEl = $("#belief-stat-contradiction");
+    if (officialEl) officialEl.textContent = st.globalOfficial;
+    if (sensoryEl) sensoryEl.textContent = st.globalSensory;
+    if (contraEl) contraEl.textContent = st.contradiction;
+    const flip = $(BELIEF_FLIP.btn);
+    if (flip) {
+      if (st.contradiction >= 2) flip.removeAttribute("hidden");
+      else { flip.setAttribute("hidden", ""); flip.setAttribute("aria-pressed", "false"); }
+    }
+  };
+
+  /* 阈值机关：live scene + 实时重算变异态非中性 + 与 v39 共享 first-lock；
+     接受后只写 v53（branch actions+1、history、严格 pending），不算 v39
+     路线判断、不污染 order/decisions/settle；逐字反馈一拍后自动转场，
+     before 里清 pending、首访 visits+1（重复进入不重复首访计数） */
+  const chooseBeliefThreshold = (route) => {
+    const meta = BELIEF_ROUTE_META[route];
+    if (!meta) return;
+    if (currentScene !== meta.scene) return;
+    const st = getBelief();
+    const side = st.variants[route];
+    if (side === "neutral") return;
+    if (AutoAdvance.has("return-audit") || AutoAdvance.has("return-audit-step")) return;
+    const target = BELIEF_THRESHOLD_TARGET[route][side];
+    const branch = meta[side].branch;
+    st.branches[branch].actions = Math.min(BELIEF_NUM_CAP, st.branches[branch].actions + 1);
+    st.history.push({ type: "threshold", route, side });
+    st.pending = { kind: "threshold", route, side, target, feedback: meta[side].feedback };
+    saveBelief(st);
+    const btn = $(meta.thresholdBtn);
+    if (btn) btn.setAttribute("aria-pressed", "true");
+    const responseEl = $(meta.responseEl);
+    if (responseEl) responseEl.textContent = meta[side].feedback;
+    AudioEngine.knock(0.16);
+    AutoAdvance.schedule("return-audit-step", target, {
+      delay: auditDelay(),
+      before: () => {
+        const s = getBelief();
+        if (s.pending && s.pending.kind === "threshold" && s.pending.route === route && s.pending.side === side) {
+          s.pending = null;
+          if (s.branches[branch].visits === 0) s.branches[branch].visits = 1;
+          saveBelief(s);
+        }
+        syncBeliefLink();
+        paintBeliefMemory();
+      },
+    });
+  };
+
+  /* 翻转核验牌：live scene = 核验站 + 实时重算 contradiction >= 2 + 共享
+     first-lock；接受后只记 v53（protocolDrift actions+1、history、严格
+     pending），v39 进度不变，回来后核验继续 */
+  const chooseBeliefFlip = () => {
+    if (currentScene !== "return-audit") return;
+    const st = getBelief();
+    if (st.contradiction < 2) return;
+    if (AutoAdvance.has("return-audit") || AutoAdvance.has("return-audit-step")) return;
+    st.branches.protocolDrift.actions = Math.min(BELIEF_NUM_CAP, st.branches.protocolDrift.actions + 1);
+    st.history.push({ type: "drift" });
+    st.pending = { kind: "drift", target: BELIEF_FLIP.target, feedback: BELIEF_FLIP.feedback };
+    saveBelief(st);
+    const btn = $(BELIEF_FLIP.btn);
+    if (btn) btn.setAttribute("aria-pressed", "true");
+    const responseEl = $("#audit-response");
+    if (responseEl) responseEl.textContent = BELIEF_FLIP.feedback;
+    AudioEngine.knock(0.16);
+    AutoAdvance.schedule("return-audit", BELIEF_FLIP.target, {
+      delay: auditDelay(),
+      before: () => {
+        const s = getBelief();
+        if (s.pending && s.pending.kind === "drift") {
+          s.pending = null;
+          if (s.branches.protocolDrift.visits === 0) s.branches.protocolDrift.visits = 1;
+          saveBelief(s);
+        }
+        syncBeliefLink();
+        paintBeliefMemory();
+      },
+    });
+  };
+
+  /* reload 节拍恢复：合法 pending 属于当前场景时重播逐字反馈并精确重挂
+     一次转场（actions 在接受时已计，这里只清 pending 与首访计数） */
+  const replayBeliefPending = (sceneName) => {
+    const st = getBelief();
+    const p = st.pending;
+    if (!p) return;
+    if (p.kind === "threshold") {
+      const meta = BELIEF_ROUTE_META[p.route];
+      if (!meta || meta.scene !== sceneName) return;
+      const responseEl = $(meta.responseEl);
+      if (responseEl) responseEl.textContent = p.feedback;
+      const branch = meta[p.side].branch;
+      AutoAdvance.schedule("return-audit-step", p.target, {
+        delay: auditDelay(),
+        before: () => {
+          const s = getBelief();
+          if (s.pending && s.pending.kind === "threshold") {
+            s.pending = null;
+            if (s.branches[branch].visits === 0) s.branches[branch].visits = 1;
+            saveBelief(s);
+          }
+          syncBeliefLink();
+          paintBeliefMemory();
+        },
+      });
+      return;
+    }
+    if (p.kind === "drift" && sceneName === "return-audit") {
+      const responseEl = $("#audit-response");
+      if (responseEl) responseEl.textContent = p.feedback;
+      AutoAdvance.schedule("return-audit", p.target, {
+        delay: auditDelay(),
+        before: () => {
+          const s = getBelief();
+          if (s.pending && s.pending.kind === "drift") {
+            s.pending = null;
+            if (s.branches.protocolDrift.visits === 0) s.branches.protocolDrift.visits = 1;
+            saveBelief(s);
+          }
+          syncBeliefLink();
+          paintBeliefMemory();
+        },
+      });
+    }
+  };
+
+  /* 目录 01τ½：有任何计分、矛盾或分支动作/访问即恢复显示 */
+  const syncBeliefLink = () => {
+    const link = $("#belief-link");
+    if (!link) return;
+    if (beliefActive(getBelief())) link.removeAttribute("hidden");
+    else link.setAttribute("hidden", "");
+  };
+
+  /* 痕迹页单行：信念三值，保持八张统计卡不变 */
+  const paintBeliefMemory = () => {
+    const memory = $("#belief-memory");
+    if (!memory) return;
+    const st = getBelief();
+    if (!beliefActive(st)) {
+      memory.hidden = true;
+      return;
+    }
+    memory.textContent = `归路信念：守则信任 ${st.globalOfficial}，感官诱信 ${st.globalSensory}，自相矛盾 ${st.contradiction}。`;
+    memory.hidden = false;
+  };
+
+  BELIEF_ROUTES.forEach((route) => {
+    const btn = $(BELIEF_ROUTE_META[route].thresholdBtn);
+    if (btn) btn.addEventListener("click", () => chooseBeliefThreshold(route));
+    /* 六张变异图预载，阈值切换无闪烁 */
+    BELIEF_SIDES.forEach((side) => {
+      const pre = new Image();
+      pre.src = BELIEF_ROUTE_META[route][side].img;
+    });
+  });
+  const beliefFlipBtn = $(BELIEF_FLIP.btn);
+  if (beliefFlipBtn) beliefFlipBtn.addEventListener("click", chooseBeliefFlip);
+  BELIEF_ROUTES.forEach(syncBeliefRoute);
+  paintBelief();
 
   /* ============================================================
      v40 门外侧廊：首页纵深环境层 + 左右廊热点 + 三个画面热点场景
@@ -9277,6 +9725,8 @@ document.addEventListener("DOMContentLoaded", () => {
       syncCallbackLink();
       syncProxyLink();
       syncAuditLink();
+      syncBeliefLink();
+      paintBelief();
       syncLateralLinks();
       syncBackroomLinks();
       syncDriftEntry();
@@ -9303,6 +9753,7 @@ document.addEventListener("DOMContentLoaded", () => {
       paintCallbackMemory();
       paintProxyMemory();
       paintAuditMemory();
+      paintBeliefMemory();
       paintLateralMemory();
       paintBackroomMemory();
       paintDriftMemory();
@@ -9361,6 +9812,9 @@ document.addEventListener("DOMContentLoaded", () => {
   paintProxyMemory();
   syncAuditLink();
   paintAuditMemory();
+  syncBeliefLink();
+  paintBeliefMemory();
+  paintBelief();
   syncLateralLinks();
   paintLateralMemory();
   syncBackroomLinks();

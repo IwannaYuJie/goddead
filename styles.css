@@ -4473,36 +4473,25 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
 
 /* ============================================================
    v39 归路核验站：三岔枢纽 + 三条核验路线
+   v53 起卡片改图内原生热点，母图换 3:2 实感舞台，宽度控制高度
    ============================================================ */
-.scene-return-audit .branch-figure .branch-img {
-  height: clamp(130px, 15vh, 180px);
+.scene-return-audit .branch-figure {
+  width: min(560px, 100%);
 }
 
-.audit-routes {
-  margin-top: 0.5rem;
-  grid-template-columns: repeat(3, 1fr);
+.scene-audit-route .branch-figure {
+  width: min(620px, 100%);
 }
 
-.scene-audit-route .branch-figure .branch-img {
-  height: clamp(170px, 24vh, 260px);
-}
-
-.audit-judgements {
-  margin-top: 0.5rem;
-  grid-template-columns: repeat(2, 1fr);
-}
-
-/* 短桌面：枢纽母图让位，三路线卡首屏可达；路线场景图压低 */
+/* 短桌面：枢纽与路线母图收窄但保持可见，图内热点全部可达 */
 @media (min-width: 721px) and (max-height: 800px) {
-  .scene-return-audit .branch-figure {
-    display: none;
-  }
-  .scene-audit-route .branch-figure .branch-img {
-    height: clamp(120px, 20vh, 170px);
+  .scene-return-audit .branch-figure,
+  .scene-audit-route .branch-figure {
+    width: min(460px, 100%);
   }
 }
 
-/* 移动端：枢纽保留母图身份（压低），三路线卡与两判全部首屏可点 */
+/* 移动端：七项核验签收紧不溢出，图内热点全部首屏可点 */
 @media (max-width: 720px) {
   .scene-return-audit .branch-body,
   .scene-audit-route .branch-body {
@@ -4517,37 +4506,7 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
   .scene-return-audit .review-slip {
     margin-top: 0.45rem;
     padding: 0.4rem 0.6rem;
-  }
-  .scene-return-audit .branch-figure .branch-img {
-    height: clamp(90px, 12vh, 120px);
-  }
-  .scene-audit-route .branch-figure .branch-img {
-    height: clamp(110px, 15vh, 150px);
-  }
-  .scene-return-audit .audit-routes {
-    grid-template-columns: 1fr;
-    gap: 0.45rem;
-    margin-top: 0.45rem;
-  }
-  .scene-audit-route .audit-judgements {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.45rem;
-    margin-top: 0.45rem;
-  }
-  .scene-return-audit .branch-btn,
-  .scene-audit-route .branch-btn {
-    min-height: 44px;
-    padding: 0.45rem 0.7rem;
-    gap: 0.15rem;
-  }
-  .scene-return-audit .branch-btn .bb-title,
-  .scene-audit-route .branch-btn .bb-title {
-    font-size: 0.76rem;
-  }
-  .scene-return-audit .branch-btn .bb-hint,
-  .scene-audit-route .branch-btn .bb-hint {
-    font-size: 0.55rem;
-    line-height: 1.5;
+    gap: 0.3rem 0.9rem;
   }
 }
 
@@ -6091,4 +6050,49 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
 
 @media (prefers-reduced-motion: reduce) {
   .debt-settle-entry { transition: none; }
+}
+
+
+/* ============================================================
+   v53 归路信念：枢纽四热点 + 三路线判断/阈值热点定位
+   复用 v49 的 .forecourt-tactile-stage / .forecourt-native-hotspot
+   舞台与热点样式；坐标按设计稿 1536x1024 百分比，
+   变异态用 .belief-variant-official / .belief-variant-sensory 覆盖。
+   ============================================================ */
+
+/* 枢纽：左喇叭廊 / 中脉管闸 / 右柜廊 / 中央路线台翻转核验牌（hidden 起步） */
+.audit-spot-echo { top: 18%; left: 15%; width: 24%; height: 50%; }
+.audit-spot-vein { top: 12%; left: 42%; width: 20%; height: 55%; }
+.audit-spot-confession { top: 14%; left: 64%; width: 24%; height: 50%; }
+.audit-spot-flip { top: 68%; left: 45%; width: 12%; height: 18%; }
+
+/* 回声岔廊：最近左门（全态）/ 最响回声（三态）/ 廊心台座机关（变异态） */
+.echo-spot-first { top: 12%; left: 17%; width: 14%; height: 58%; }
+.echo-spot-loud { top: 34%; left: 52%; width: 12%; height: 16%; }
+.echo-spot-threshold { top: 54%; left: 50%; width: 16%; height: 26%; }
+.belief-variant-official .echo-spot-loud { top: 22%; left: 52%; width: 12%; height: 18%; }
+.belief-variant-sensory .echo-spot-loud { top: 8%; left: 79%; width: 19%; height: 52%; }
+.belief-variant-sensory .echo-spot-threshold { top: 52%; left: 49%; width: 18%; height: 28%; }
+
+/* 血管检票闸：中央苍白停搏（三态）/ 右侧红脉管（三态）/ 中央表盘（变异态） */
+.vein-spot-pale { top: 36%; left: 45%; width: 11%; height: 26%; }
+.vein-spot-pulse { top: 24%; left: 69%; width: 12%; height: 38%; }
+.vein-spot-threshold { top: 33%; left: 44%; width: 13%; height: 26%; }
+.belief-variant-official .vein-spot-pale { top: 13%; left: 45%; width: 11%; height: 15%; }
+.belief-variant-sensory .vein-spot-pale { top: 16%; left: 46%; width: 10%; height: 14%; }
+.belief-variant-official .vein-spot-pulse { top: 28%; left: 68%; width: 12%; height: 36%; }
+.belief-variant-sensory .vein-spot-pulse { top: 34%; left: 69%; width: 12%; height: 38%; }
+.belief-variant-sensory .vein-spot-threshold { top: 35%; left: 44%; width: 14%; height: 24%; }
+
+/* 忏悔寄存所：前景左空白牌 / 前景右有名牌（全态）/ 中央铜牌与忏悔秤（变异态） */
+.confession-spot-blank { top: 74%; left: 37%; width: 11%; height: 12%; }
+.confession-spot-named { top: 74%; left: 53%; width: 10%; height: 12%; }
+.confession-spot-threshold { top: 30%; left: 42%; width: 16%; height: 18%; }
+.belief-variant-sensory .confession-spot-threshold { top: 27%; left: 42%; width: 16%; height: 22%; }
+
+@media (max-width: 720px) {
+  /* 移动端 44px 最小触控会把热点盒放大到约 12.3% 宽 / 18.4% 高：
+     翻转牌与感官苍白停搏微调锚点，放大后仍互不重叠、不出图 */
+  .audit-spot-flip { top: 71%; }
+  .belief-variant-sensory .vein-spot-pale { top: 13%; }
 }

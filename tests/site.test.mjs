@@ -29,8 +29,8 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=49/);
-assert.match(html, /script\.js\?v=49/);
+assert.match(html, /styles\.css\?v=50/);
+assert.match(html, /script\.js\?v=50/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
@@ -488,8 +488,8 @@ for (const asset of VISUAL_ASSETS) {
 await access(new URL("assets/prayer-incinerator-burning.webp", root));
 assert.match(html, /assets\/prayer-incinerator-burning\.webp/);
 assert.match(html, /<link rel="preload" href="assets\/prayer-incinerator-burning\.webp" as="image">/);
-assert.match(html, /styles\.css\?v=49/);
-assert.match(html, /script\.js\?v=49/);
+assert.match(html, /styles\.css\?v=50/);
+assert.match(html, /script\.js\?v=50/);
 const offeringFigureHtml = html.match(/<figure class="offering-figure[^"]*" role="img" aria-label="[^"]*">[\s\S]*?<\/figure>/);
 assert.ok(offeringFigureHtml, "offering figure must exist");
 assert.match(offeringFigureHtml[0], /aria-label="一座沉寂的焚献炉"/);
@@ -862,8 +862,8 @@ assert.match(js, /refuse: \{ btn: "#confession-choice-refuse", target: "confessi
 assert.match(js, /const target = ok \? choice\.target : "corridor";/, "failed conditional choices must flow back to corridor");
 /* v29 选择命中深层区域时到访标记点击即持久化 */
 assert.match(js, /if \(DEEP_SCENES\.includes\(target\)\) markDeepVisited\(target\);\s*AutoAdvance\.schedule\(sceneKey, target, \{ delay: branchDelay\(\) \}\);/, "branch choice into a deep scene must persist the visit at click time");
-/* 路由守卫：未访问支线直达落回走廊；v39 中间档 outcome 是唯一窄例外 */
-assert.match(js, /if \(BRANCH_SCENES\.includes\(target\) && !branchState\.visited\[target\] && AUDIT_BRANCH_OUTCOME\[target\] !== auditGuardState\.outcome\) target = "corridor";/);
+/* 路由守卫：未访问支线直达落回走廊；v39 中间档 outcome 与 v53 信念 pending/已访问是仅有的窄例外 */
+assert.match(js, /if \(BRANCH_SCENES\.includes\(target\) && !branchState\.visited\[target\] && AUDIT_BRANCH_OUTCOME\[target\] !== auditGuardState\.outcome\s*\n\s*&& beliefGuard\.pendingTarget !== target && !\(BELIEF_SCENE_BRANCH\[target\] && beliefGuard\.branches\[BELIEF_SCENE_BRANCH\[target\]\]\.visits > 0\)\) target = "corridor";/, "v29 guard keeps the v39 outcome exception and adds only the narrow v53 belief exception");
 /* 场景进入同步与旁路记忆 */
 assert.match(js, /if \(BRANCH_SCENES\.includes\(name\)\) enterBranch\(name\);/);
 assert.match(js, /if \(name === "corridor"\) \{ corridorConsumed = false; corridorDetourArmed = false; syncWatchDoor\(\); syncBranchEntries\(\); syncDeepEntries\(\); startTrace\(\); \}/);
@@ -1784,7 +1784,7 @@ for (const src of ["source-return-audit-hall", "source-return-audit-echo", "sour
   await access(new URL(`design-references/${src}.png`, root));
 }
 
-/* 枢纽场景：核验签、母图、三路线卡逐字、回守则出口，零 inline SVG、无继续按钮 */
+/* 枢纽场景：核验签、母图、三路线热点逐字、回守则出口，零 inline SVG、无继续按钮 */
 const auditSection = html.match(/<section class="scene scene-branch scene-return-audit"[\s\S]*?<\/section>/);
 assert.ok(auditSection, "scene section missing: return-audit");
 assert.ok(auditSection[0].includes("归路核验站"), "audit hub title");
@@ -1792,8 +1792,8 @@ assert.ok(!auditSection[0].includes("<svg"), "audit hub must not use inline SVG"
 for (const id of ["audit-stat-done", "audit-stat-recall", "audit-stat-misstep", "audit-stat-best", "audit-route-echo", "audit-route-vein", "audit-route-confession", "audit-response"]) {
   assert.ok(auditSection[0].includes(`id="${id}"`), `audit hub missing #${id}`);
 }
-assert.ok(auditSection[0].includes("进入回声岔廊") && auditSection[0].includes("通过血管检票闸") && auditSection[0].includes("打开忏悔寄存柜"), "three route cards verbatim");
-assert.ok(auditSection[0].includes("最响的那声，总是最晚到达") && auditSection[0].includes("红灯亮时，闸机正在吞咽") && auditSection[0].includes("写着你名字的格子并不属于你"), "three route hints verbatim");
+assert.ok(auditSection[0].includes("进入回声岔廊") && auditSection[0].includes("通过血管检票闸") && auditSection[0].includes("打开忏悔寄存柜"), "three route hotspots verbatim");
+assert.ok(auditSection[0].includes("最响的那声，总是最晚到达") && auditSection[0].includes("红灯亮时，闸机正在吞咽") && auditSection[0].includes("写着你名字的格子并不属于你"), "three route hotspot hints verbatim");
 assert.ok(!/下一步|确认|继续/.test(auditSection[0]), "no next/confirm/continue button in the audit hub");
 assert.match(auditSection[0], /src="assets\/return-audit-hall\.webp" alt="" width="1536" height="1024"/);
 assert.match(auditSection[0], /id="audit-response" aria-live="polite"/);
@@ -1827,9 +1827,8 @@ assert.match(confessionLockerSection[0], /data-go="return-audit"/);
 assert.match(html, /<a href="#return-audit" id="audit-link" hidden data-hover>01τ \/ 归路核验<\/a>/);
 assert.ok(html.includes('id="audit-memory"'), "remembrance gains the single audit memory line");
 assert.equal((html.match(/<div class="stat-card">/g) || []).length, 8, "remembrance keeps exactly eight stat cards");
-assert.match(css, /\.scene-return-audit \.branch-figure \.branch-img \{/, "audit hub styled");
-assert.match(css, /\.audit-routes \{/, "audit route cards styled");
-assert.match(css, /\.audit-judgements \{/, "audit judgement buttons styled");
+assert.match(css, /\.scene-return-audit \.branch-figure \{/, "audit hub figure styled");
+assert.match(css, /\.scene-audit-route \.branch-figure \{/, "audit route figures styled");
 
 /* 守则其五：原文与反馈逐字不变，只改目的地 */
 assert.ok(html.includes("回声、血管与忏悔都可以进入。进去之前，确认你还记得回来的路。"), "rule five text stays verbatim");
@@ -1863,7 +1862,7 @@ assert.match(js, /lost: \{ target: "return-passage", feedback: "两段路线都�
 assert.match(js, /echoed: \{ target: "echo", feedback: "错误的回声先一步抵达档案室。它正在等原件签收。" \}/);
 assert.match(js, /pulsed: \{ target: "vein", feedback: "闸机把迷路登记成一次维护请求。血管井已为你开盖。" \}/);
 assert.match(js, /confessed: \{ target: "confession", feedback: "寄存柜拒绝退还你的名字。忏悔称量室负责核对重量。" \}/);
-assert.match(js, /AUDIT_BRANCH_OUTCOME\[target\] !== auditGuardState\.outcome\) target = "corridor";/, "v29 guard gains the narrow v39 outcome exception only");
+assert.match(js, /AUDIT_BRANCH_OUTCOME\[target\] !== auditGuardState\.outcome\s*\n\s*&& beliefGuard\.pendingTarget !== target/, "v29 guard keeps the narrow v39 outcome exception before the v53 addition");
 
 /* 选择、判断与结算逻辑 */
 const selectAuditBlock = js.match(/const selectAuditRoute = \(route\) => \{[\s\S]*?\n  \};/);
@@ -3325,6 +3324,139 @@ assert.match(css, /\.st-slot\.st-slot-on \{/, "css missing the lit slot state");
 for (const cls of ["settle-spot-witness", "settle-spot-unnumbered", "settle-spot-reverse", "gallery-spot-horn", "gallery-spot-seal", "gallery-spot-chair", "registry-spot-plate", "registry-spot-press", "registry-spot-door", "appeals-spot-mirror", "appeals-spot-gavel", "appeals-spot-bell"]) {
   assert.match(css, new RegExp(`\\.${cls} \\{`), `css missing position class .${cls}`);
 }
+
+/* ---------- v53 归路信念：跨轮计分三态变异 + 阈值机关 + 翻转核验牌 ---------- */
+/* 六张 v53 变异正式图存在且被引用（JS 变异切换），六张冻结源 PNG 保留 */
+for (const asset of ["assets/v53-echo-official-belief.webp", "assets/v53-echo-sensory-belief.webp", "assets/v53-vein-official-belief.webp", "assets/v53-vein-sensory-belief.webp", "assets/v53-confession-official-belief.webp", "assets/v53-confession-sensory-belief.webp"]) {
+  await access(new URL(asset, root));
+  assert.ok(js.includes(asset), `${asset} must be referenced by the v53 variant swap`);
+}
+for (const src of ["design-references/source-v53-echo-official-belief.png", "design-references/source-v53-echo-sensory-belief.png", "design-references/source-v53-vein-official-belief.png", "design-references/source-v53-vein-sensory-belief.png", "design-references/source-v53-confession-official-belief.png", "design-references/source-v53-confession-sensory-belief.png"]) {
+  await access(new URL(src, root));
+}
+/* 独立容错状态：新 key 全仓库唯一、坏 JSON/数组归一、数值 clamp、白名单、派生重算 */
+assert.match(js, /const BELIEF_KEY = "goddead_v53_route_belief";/);
+assert.equal((js.match(/goddead_v53/g) || []).length, 1, "v53 introduces exactly one storage key");
+const beliefParseBlock = js.match(/const getBelief = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(beliefParseBlock, "getBelief must exist");
+assert.match(beliefParseBlock[0], /\} catch \{ raw = \{\}; \}/, "corrupt belief storage must be safely repaired");
+assert.match(beliefParseBlock[0], /if \(typeof raw !== "object" \|\| Array\.isArray\(raw\)\) raw = \{\};/, "array/wrong-type belief storage must fall back");
+assert.match(beliefParseBlock[0], /Math\.min\(BELIEF_NUM_CAP, Math\.floor\(n\)\)/, "belief counters must be clamped 0..9999");
+assert.match(beliefParseBlock[0], /BELIEF_ROUTE_META\[r\]\.choiceSide\[rr\.lastChoice\] \? rr\.lastChoice : ""/, "illegal lastChoice is cleared");
+assert.match(beliefParseBlock[0], /p\.kind === "threshold" && BELIEF_ROUTES\.includes\(p\.route\) && BELIEF_SIDES\.includes\(p\.side\)/, "threshold pending is whitelisted field-by-field");
+assert.match(beliefParseBlock[0], /p\.target === target && p\.feedback === meta\.feedback/, "threshold pending target and verbatim feedback are recomputed");
+assert.match(beliefParseBlock[0], /p\.kind === "drift" && p\.target === BELIEF_FLIP\.target && p\.feedback === BELIEF_FLIP\.feedback/, "drift pending keeps only the strict shape");
+assert.match(beliefParseBlock[0], /history = history\.slice\(-BELIEF_HISTORY_CAP\);/, "history is bounded to the last 16 valid entries");
+assert.match(beliefParseBlock[0], /globalOfficial \+= routes\[r\]\.official;/, "global official is re-derived from the three routes");
+assert.match(beliefParseBlock[0], /globalSensory \+= routes\[r\]\.sensory;/, "global sensory is re-derived from the three routes");
+assert.match(beliefParseBlock[0], /variants\[r\] = beliefVariantOf\(routes\[r\]\);/, "per-route variant is re-derived, never trusted");
+assert.match(beliefParseBlock[0], /pendingTarget: pending \? pending\.target : ""/, "pendingTarget derives only from a validated pending");
+assert.ok(!/goddead_v(28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52)/.test(beliefParseBlock[0]), "v53 state must not touch earlier keys");
+/* 存盘收口：saveBelief 只持久化 canonical 五部分，派生字段永不落盘，history 裁到 ≤16 再存 */
+const beliefSaveBlock = js.match(/const saveBelief = \(st\) => store\.set\(BELIEF_KEY, JSON\.stringify\(\{[\s\S]*?\}\)\);/);
+assert.ok(beliefSaveBlock, "saveBelief must persist an explicit canonical projection");
+assert.match(beliefSaveBlock[0], /routes: st\.routes,/, "saveBelief persists routes");
+assert.match(beliefSaveBlock[0], /contradiction: st\.contradiction,/, "saveBelief persists contradiction");
+assert.match(beliefSaveBlock[0], /branches: st\.branches,/, "saveBelief persists branches");
+assert.match(beliefSaveBlock[0], /pending: st\.pending,/, "saveBelief persists pending");
+assert.match(beliefSaveBlock[0], /history: st\.history\.slice\(-BELIEF_HISTORY_CAP\),/, "saveBelief clamps history to <= 16 before persisting");
+assert.ok(!/globalOfficial|globalSensory|variants|pendingTarget/.test(beliefSaveBlock[0]), "saveBelief must never persist derived fields");
+/* 变异态：>= 2 且严格占优才变异，平局回中性 */
+const beliefVariantBlock = js.match(/const beliefVariantOf = \(routeSt\) => \{[\s\S]*?\n  \};/);
+assert.ok(beliefVariantBlock, "beliefVariantOf must exist");
+assert.match(beliefVariantBlock[0], /if \(routeSt\.official >= 2 && routeSt\.official > routeSt\.sensory\) return "official";/, "official variant needs >= 2 and strict dominance");
+assert.match(beliefVariantBlock[0], /if \(routeSt\.sensory >= 2 && routeSt\.sensory > routeSt\.official\) return "sensory";/, "sensory variant needs >= 2 and strict dominance");
+assert.match(beliefVariantBlock[0], /return "neutral";/, "ties fall back to neutral");
+/* 计分只挂在 v39 judgeAudit 接受点之后（order/decisions 写入并保存之后） */
+const judgeAuditBlockV53 = js.match(/const judgeAudit = \(route, choiceKey\) => \{[\s\S]*?\n  \};/);
+assert.match(judgeAuditBlockV53[0], /saveAudit\(st\);[\s\S]*?recordBeliefChoice\(route, choiceKey\);/, "belief scoring hooks in only after the v39 acceptance point");
+const recordBeliefBlock = js.match(/const recordBeliefChoice = \(route, choiceKey\) => \{[\s\S]*?\n  \};/);
+assert.match(recordBeliefBlock[0], /r\[side\] = Math\.min\(BELIEF_NUM_CAP, r\[side\] \+ 1\);/, "side counter increments once per accepted judgement");
+assert.match(recordBeliefBlock[0], /if \(r\.lastChoice && r\.lastChoice !== choiceKey\) st\.contradiction = Math\.min\(BELIEF_NUM_CAP, st\.contradiction \+ 1\);/, "contradiction counts only a changed non-empty last choice");
+assert.match(recordBeliefBlock[0], /r\.lastChoice = choiceKey;/, "last choice updates after the contradiction check");
+assert.ok(!/getAudit|saveAudit|AUDIT_KEY/.test(recordBeliefBlock[0]), "belief scoring must not touch v39 state");
+/* 阈值落点表与七条分支映射逐字 */
+for (const frag of [
+  'echo: { official: "counter-knock-gallery", sensory: "echo" }',
+  'vein: { official: "bellless-ward", sensory: "vein" }',
+  'confession: { official: "blank-name-cloakroom", sensory: "confession" }',
+  'counterKnockGallery: "counter-knock-gallery"',
+  'echoArchive: "echo"',
+  'belllessWard: "bellless-ward"',
+  'veinWell: "vein"',
+  'blankNameCloakroom: "blank-name-cloakroom"',
+  'confessionWeighing: "confession"',
+  'protocolDrift: "protocol-drift"',
+]) assert.ok(js.includes(frag), `missing v53 mapping: ${frag}`);
+/* 阈值处理器：live scene + 实时重算非中性 + 共享 v39 first-lock；不算 v39 判断 */
+const beliefThresholdBlock = js.match(/const chooseBeliefThreshold = \(route\) => \{[\s\S]*?\n  \};/);
+assert.match(beliefThresholdBlock[0], /if \(currentScene !== meta\.scene\) return;/, "threshold validates the live scene first");
+assert.match(beliefThresholdBlock[0], /if \(side === "neutral"\) return;/, "threshold rejects a neutral variant");
+assert.match(beliefThresholdBlock[0], /if \(AutoAdvance\.has\("return-audit"\) \|\| AutoAdvance\.has\("return-audit-step"\)\) return;/, "threshold shares the v39 first-lock");
+assert.match(beliefThresholdBlock[0], /st\.pending = \{ kind: "threshold", route, side, target, feedback: meta\[side\]\.feedback \};/, "threshold persists the strict pending shape");
+assert.ok(!/getAudit|saveAudit|AUDIT_KEY/.test(beliefThresholdBlock[0]), "threshold must not touch v39 progress");
+/* 翻转核验牌：live scene + 实时重算 contradiction >= 2 + 共享 first-lock */
+const beliefFlipBlock = js.match(/const chooseBeliefFlip = \(\) => \{[\s\S]*?\n  \};/);
+assert.match(beliefFlipBlock[0], /if \(currentScene !== "return-audit"\) return;/, "flip validates the live hub scene first");
+assert.match(beliefFlipBlock[0], /if \(st\.contradiction < 2\) return;/, "flip recomputes the contradiction threshold");
+assert.match(beliefFlipBlock[0], /if \(AutoAdvance\.has\("return-audit"\) \|\| AutoAdvance\.has\("return-audit-step"\)\) return;/, "flip shares the v39 first-lock");
+assert.match(beliefFlipBlock[0], /st\.pending = \{ kind: "drift", target: BELIEF_FLIP\.target, feedback: BELIEF_FLIP\.feedback \};/, "flip persists the strict drift pending");
+assert.ok(!/getAudit|saveAudit|AUDIT_KEY/.test(beliefFlipBlock[0]), "flip must not touch v39 progress");
+/* reload 重播：合法 pending 精确重挂一次转场，不重复计 actions */
+assert.match(js, /replayBeliefPending\(name\)/, "scene init replays a persisted belief pending");
+/* v29 守卫：v53 窄例外只放行合法 pending 目标或历史已访问分支 */
+const resolveBlockV53 = js.match(/const resolveScene = \(name\) => \{[\s\S]*?\n  \};/);
+assert.match(resolveBlockV53[0], /beliefGuard\.pendingTarget !== target && !\(BELIEF_SCENE_BRANCH\[target\] && beliefGuard\.branches\[BELIEF_SCENE_BRANCH\[target\]\]\.visits > 0\)\) target = "corridor";/, "v29 guard gains the narrow v53 belief exception only");
+assert.match(resolveBlockV53[0], /AUDIT_BRANCH_OUTCOME\[target\] !== auditGuardState\.outcome/, "the v39 outcome exception stays intact");
+/* 逐字文案：六条阈值反馈、翻转反馈、六条变异 figure aria-label、统计名 */
+for (const frag of [
+  "铜盘转了一格。所有回声同时安静下来，像在等点名。",
+  "喇叭里没有声音。只有你自己的吸气声，早了半拍。",
+  "指针归零。闸机第一次承认自己也会累。",
+  "表盘里不是血。是很多只贴上来听过的耳朵。",
+  "铜牌背面有一枚验收章：此名未使用。",
+  "秤盘下沉。你的忏悔被称了两遍，两遍不一样重。",
+  "铜牌翻面。守则自己也开始漂移。",
+  "回声岔廊守则变异：最近的门透出金边，廊心升起一座嵌铜盘的黑石台",
+  "回声岔廊感官变异：右墙贴上巨型喇叭，红色声纹沿墙扩散",
+  "检票闸守则变异：闸后缝隙更加苍白，中央表盘停在零",
+  "检票闸感官变异：中央表盘涨成暗红，右侧脉管红得发亮",
+  "寄存所守则变异：中央台上立起空白铜牌，两枚寄存牌并排静放",
+  "寄存所感官变异：中央升起一台忏悔秤，右侧寄存牌烧出红色裂纹",
+  "转动廊心铜盘",
+  "凑近台座的喇叭",
+  "校准苍白表盘",
+  "贴上红色表盘",
+  "核对空白铜牌",
+  "坐上忏悔秤",
+  "翻转核验牌",
+]) assert.ok(js.includes(frag) || html.includes(frag), `missing v53 verbatim copy: ${frag}`);
+/* DOM：枢纽三紧凑统计、四热点（翻转 hidden 起步）、卡容器删除、阈值热点 hidden 起步 */
+const auditSectionV53 = html.match(/<section class="scene scene-branch scene-return-audit"[\s\S]*?<\/section>/);
+for (const id of ["belief-stat-official", "belief-stat-sensory", "belief-stat-contradiction", "audit-route-echo", "audit-route-vein", "audit-route-confession", "audit-belief-flip"]) {
+  assert.ok(auditSectionV53[0].includes(`id="${id}"`), `audit hub missing #${id}`);
+}
+assert.ok(auditSectionV53[0].includes("forecourt-tactile-stage"), "audit hub figure becomes the 3:2 tactile stage");
+assert.match(auditSectionV53[0], /id="audit-belief-flip" type="button" aria-pressed="false" data-hover hidden/, "flip hotspot ships hidden");
+assert.ok(!html.includes('id="audit-routes"'), "the v39 route card container must be deleted entirely");
+assert.ok(!html.includes("audit-judgements"), "the v39 judgement card containers must be deleted entirely");
+for (const id of ["echo-turn-belief-threshold", "vein-turnstile-belief-threshold", "confession-locker-belief-threshold"]) {
+  assert.equal((html.match(new RegExp(`id="${id}"`, "g")) || []).length, 1, `${id} must appear exactly once`);
+  assert.match(html, new RegExp(`id="${id}" type="button" aria-pressed="false" data-hover hidden`), `${id} ships hidden`);
+}
+/* 目录 01τ½、记忆单行（逐字格式）、仍八张统计卡、同步函数挂接 */
+assert.match(html, /<a href="#return-audit" id="belief-link" hidden data-hover>01τ½ \/ 归路信念<\/a>/);
+assert.ok(html.includes('id="belief-memory"'), "remembrance gains the belief memory line");
+assert.equal((html.match(/<div class="stat-card">/g) || []).length, 8, "remembrance keeps exactly eight stat cards");
+assert.match(js, /归路信念：守则信任 \$\{st\.globalOfficial\}，感官诱信 \$\{st\.globalSensory\}，自相矛盾 \$\{st\.contradiction\}。/, "belief memory line verbatim");
+assert.match(js, /paintBeliefMemory\(\);/, "remembrance paints the v53 memory line");
+assert.match(js, /syncBeliefLink\(\);/, "directory link syncs");
+/* CSS：位置类与双变异态覆盖 */
+for (const cls of ["audit-spot-echo", "audit-spot-vein", "audit-spot-confession", "audit-spot-flip", "echo-spot-first", "echo-spot-loud", "echo-spot-threshold", "vein-spot-pale", "vein-spot-pulse", "vein-spot-threshold", "confession-spot-blank", "confession-spot-named", "confession-spot-threshold"]) {
+  assert.match(css, new RegExp(`\\.${cls} \\{`), `css missing position class .${cls}`);
+}
+assert.match(css, /\.belief-variant-official \./, "css missing official variant overrides");
+assert.match(css, /\.belief-variant-sensory \./, "css missing sensory variant overrides");
 
 /* ---------- 文档同步 ---------- */
 const readme = await fileText("README.md");
