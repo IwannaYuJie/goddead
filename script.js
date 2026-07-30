@@ -947,8 +947,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (name === "unclaimed-valuation") enterValuation();
     if (name === "quota-elevator") enterElevator();
     if (name === "unnumbered-floor") enterFloor();
-    if (FLOOR_DUTY_SCENES.includes(name)) { enterFloorRoom(name); syncAnomalyRoom(name); replayAnomalyPending(name); }
+    if (FLOOR_DUTY_SCENES.includes(name)) { enterFloorRoom(name); syncAnomalyRoom(name); syncEvidenceRoom(name); replayAnomalyPending(name); replayEvidencePending(name); }
     if (ANOMALY_BACKROOM_SCENES.includes(name)) { enterAnomalyBackroom(name); replayAnomalyPending(name); }
+    if (EVIDENCE_SCENES.includes(name)) { enterEvidenceScene(name); replayEvidencePending(name); }
     if (name === "night-shift-registry") enterRegistry();
     if (name === "midnight-callback") enterCallback();
     if (name === "proxy-admission") enterProxy();
@@ -985,6 +986,7 @@ document.addEventListener("DOMContentLoaded", () => {
       paintAnnexMemory();
       paintAnomalyMemory();
       paintFloorAnomalyMemory();
+      paintEvidenceAuditMemory();
       paintValuationMemory();
       paintFloorMemory();
       paintRegistryMemory();
@@ -1079,6 +1081,10 @@ document.addEventListener("DOMContentLoaded", () => {
        其余直达归一回无号层；不放宽任何旧守卫 */
     const anomalyGuard = getAnomaly();
     if (ANOMALY_BACKROOM_SCENES.includes(target) && anomalyGuard.pendingTarget !== target && !anomalyGuard.visits[ANOMALY_SCENE_BACKROOM[target]]) target = "unnumbered-floor";
+
+    /* v56 症状交接守卫：两新场景仅本轮合法 pendingTarget 或历史合法到访准入 */
+    const evidenceGuard = getEvidence();
+    if (EVIDENCE_SCENES.includes(target) && evidenceGuard.pendingTarget !== target && !evidenceGuard.visits[EVIDENCE_SCENE_KEY[target]]) target = "unnumbered-floor";
 
     /* v31 门前守卫（v40 起启用）：未访问过的 v31 场景直达一律落回门外。
        真实路径全部只读放行——v31 热点/守则分流/前段内部动作在点击时持久化 visited，
@@ -6210,6 +6216,31 @@ document.addEventListener("DOMContentLoaded", () => {
     else { st.missed = Math.min(ANOMALY_NUM_CAP, st.missed + 1); st.streak = 0; addAnomalyFloorScore(0, 2); }
     st.inspected[room] = 1;
     st.history.push({ type: "report", room, report });
+    /* v56 有意挂钩：第三间报告结算且本轮深查 >= 2 时，v56 暂存原落点
+       （deferredTarget）并把这次转场改去症状交班台；v55 不挂 pending，
+       由 v56 自己的严格 pending 接管节拍与防伪，v55 计分语义不变 */
+    const evidenceDefer = recordEvidenceReport(room, outcome, meta.target, meta.feedback);
+    if (evidenceDefer) {
+      saveAnomaly(st);
+      const btnD = $(`#${room}-report-${report}`);
+      if (btnD) btnD.setAttribute("aria-pressed", "true");
+      const responseElD = $(ANOMALY_REPORT_META[room].responseEl);
+      if (responseElD) responseElD.textContent = meta.feedback;
+      AudioEngine.knock(0.16);
+      paintAnomaly();
+      AutoAdvance.schedule(sceneKey, "symptom-handover-hub", {
+        delay: branchDelay(),
+        before: () => {
+          const s = getEvidence();
+          if (s.visits.hub === 0) s.visits.hub = 1;
+          if (s.pending && s.pending.kind === "defer") s.pending = null;
+          saveEvidence(s);
+          syncEvidenceLinks();
+          paintEvidenceAuditMemory();
+        },
+      });
+      return;
+    }
     st.pending = { kind: "report", room, report, target: meta.target, feedback: meta.feedback };
     saveAnomaly(st);
     const btn = $(`#${room}-report-${report}`);
@@ -6312,6 +6343,19 @@ document.addEventListener("DOMContentLoaded", () => {
     paintAnomaly();
   };
 
+  /* v56 设计内挂钩：症状交班漏报 / 自扣封条的落点是既有异常后室，
+     转场 before 先记合法到访再清 pending（与 v55 自家 before 同契约） */
+  const grantAnomalyBackroomVisit = (sceneName) => {
+    const key = ANOMALY_SCENE_BACKROOM[sceneName];
+    if (!key) return;
+    const st = getAnomaly();
+    if (st.visits[key] === 0) {
+      st.visits[key] = 1;
+      saveAnomaly(st);
+      syncAnomalyLinks();
+    }
+  };
+
   const ANOMALY_LINKS = { underbed: "#underbed-link", countersign: "#countersign-link", negative: "#negative-link" };
   const syncAnomalyLinks = () => {
     const st = getAnomaly();
@@ -6352,6 +6396,494 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
   paintAnomaly();
+
+  /* ============================================================
+     v56 症状交接：三房巡检核验封条 + 症状交班台 + 证据编组室
+     独立容错状态键 EVIDENCE_KEY（v56 唯一存储键），只持久化白名单
+     canonical 字段；credibility 与 pendingTarget 派生重算不落盘；
+     真值永远从 v55 规范状态（getAnomaly().assignment）读取，不信任
+     任何持久化的 assignment；坏 JSON/数组/错型/负数/浮点/超大数/
+     未知键/额外键 pending/错映射/无历史证据/跨 cycle 全部归一。
+     ============================================================ */
+  const EVIDENCE_KEY = "goddead_v56_evidence_audit";
+  const EVIDENCE_ROOMS = ["ward", "records", "laundry"];
+  const EVIDENCE_SCENE_KEYS = ["hub", "switchboard"];
+  const EVIDENCE_KEY_SCENE = { hub: "symptom-handover-hub", switchboard: "evidence-switchboard" };
+  const EVIDENCE_SCENE_KEY = { "symptom-handover-hub": "hub", "evidence-switchboard": "switchboard" };
+  const EVIDENCE_SCENES = ["symptom-handover-hub", "evidence-switchboard"];
+  const EVIDENCE_NUM_CAP = 9999;
+  const EVIDENCE_HISTORY_CAP = 16;
+  /* 封条预算：基础 2 枚；credibility >= 4 下一轮 3 枚，<= -2 下一轮 1 枚。
+     每个 v35/v55 cycle 首次进入巡检时创建一次并冻结，reload 稳定，严禁随机 */
+  const EVIDENCE_BUDGET_BY_CREDIBILITY = (cred) => (cred >= 4 ? 3 : cred <= -2 ? 1 : 2);
+  const EVIDENCE_CHECK_META = {
+    ward: {
+      btn: "#ward-evidence-check",
+      anomalyImg: "assets/v56-ward-deep-anomaly.webp", normalImg: "assets/v56-ward-deep-normal.webp",
+      anomalyLabel: "病房深查：黑线从回铃机穿过床单接回那枚呼叫钮",
+      normalLabel: "病房深查：黑线止在瓷封里，床上没有第二个接点",
+      anomalyFeedback: "黑线没有通向墙。它从床单下面接回那枚呼叫钮。",
+      normalFeedback: "黑线止在瓷封里。床上没有第二个接点。",
+    },
+    records: {
+      btn: "#records-evidence-check",
+      anomalyImg: "assets/v56-records-deep-anomaly.webp", normalImg: "assets/v56-records-deep-normal.webp",
+      anomalyLabel: "档案池深查：背光里墨迹从纸纤维向上爬",
+      normalLabel: "档案池深查：背光穿透整页，没有藏第二份姓名",
+      anomalyFeedback: "背光里，墨迹从纸纤维向上爬，和池心的逆流同拍。",
+      normalFeedback: "背光穿透整页。纸纤维里没有藏第二份姓名。",
+    },
+    laundry: {
+      btn: "#laundry-evidence-check",
+      anomalyImg: "assets/v56-laundry-deep-anomaly.webp", normalImg: "assets/v56-laundry-deep-normal.webp",
+      anomalyLabel: "洗衣房深查：黑线穿过机壳接在倒影里的白工服上",
+      normalLabel: "洗衣房深查：两根铜线封死在瓷帽里，圆窗后仍是空走廊",
+      anomalyFeedback: "黑线穿过机壳，接在倒影里的白工服上。第二道影子朝错方向落下。",
+      normalFeedback: "两根铜线都封死在瓷帽里。圆窗后的走廊仍是空的。",
+    },
+  };
+  /* 症状交班台四种结果（按该房本轮 v56 report 是否正确 + 是否深查过 + 真值） */
+  const EVIDENCE_HANDOVER_META = {
+    trusted: { target: "evidence-switchboard", feedback: "封条和报告同时咬住同一结论。证据编组室把门打开了。" },
+    blind: { target: "evidence-switchboard", feedback: "没有封条的报告仍然猜中了门后那一间。证据编组室接受这次盲判。" },
+    falseReport: { target: "false-positive-shaft", feedback: "你交上去的症状在台面上恢复正常。误报井先签收了你。" },
+    missed: { feedback: "你交上去的正常结论在台面上开始呼吸。对应后室把原件取走了。" },
+  };
+  const EVIDENCE_SWITCH_META = {
+    press: { btn: "#switch-action-press", target: "evidence-vault", feedback: "压机合拢。两份证据从此只允许一种死法。" },
+    burn: { btn: "#switch-action-burn", target: "false-positive-shaft", feedback: "红蜡只烧掉不同意你的那一份。误报井收到了灰。" },
+    selfseal: { btn: "#switch-action-selfseal", feedback: "封条绕过手腕和喉咙。你成了这批证据唯一还活着的附件。" },
+  };
+
+  const getEvidence = () => {
+    let raw = {};
+    try {
+      raw = JSON.parse(store.get(EVIDENCE_KEY, "{}")) || {};
+    } catch { raw = {}; }
+    if (typeof raw !== "object" || Array.isArray(raw)) raw = {};
+    const num = (v) => {
+      let n = Number(v);
+      if (!Number.isFinite(n) || n < 0) n = 0;
+      return Math.min(EVIDENCE_NUM_CAP, Math.floor(n));
+    };
+    const flag = (v) => (v === 1 || v === true ? 1 : 0);
+    /* cycle 对齐 v35/v55：floor cycle 变化即重置轮内字段，累计保留 */
+    const floorCycle = getFloor().cycle;
+    const sameCycle = num(raw.cycle) === floorCycle;
+    const cycle = floorCycle;
+    /* 预算只接受合法三值；remaining 不超过 budget */
+    let budget = sameCycle && [1, 2, 3].includes(raw.budget) ? raw.budget : 0;
+    let remaining = sameCycle ? num(raw.remaining) : 0;
+    if (budget === 0) remaining = 0;
+    remaining = Math.min(remaining, budget);
+    const checks = {};
+    const reports = {};
+    const correct = {};
+    EVIDENCE_ROOMS.forEach((r) => {
+      checks[r] = sameCycle ? flag(raw.checks && raw.checks[r]) : 0;
+      reports[r] = sameCycle ? flag(raw.reports && raw.reports[r]) : 0;
+      correct[r] = sameCycle ? flag(raw.correct && raw.correct[r]) : 0;
+    });
+    const deepCount = sameCycle ? Math.min(3, num(raw.deepCount)) : 0;
+    const handover = sameCycle && EVIDENCE_ROOMS.includes(raw.handover) ? raw.handover : "";
+    /* deferredTarget 只能是 v55 四种结果落点之一（异常后室或无号层） */
+    const deferredPool = ["unnumbered-floor", "underbed-call-station", "countersign-drain", "negative-laundry-locker"];
+    const deferredTarget = sameCycle && deferredPool.includes(raw.deferredTarget) ? raw.deferredTarget : "";
+    const resolved = {};
+    const visits = {};
+    EVIDENCE_SCENE_KEYS.forEach((k) => {
+      resolved[k] = sameCycle ? flag(raw.resolved && raw.resolved[k]) : 0;
+      visits[k] = num(raw.visits && raw.visits[k]);
+    });
+    const counters = {};
+    ["proofs", "blindCorrect", "contradictions", "exposure", "chains", "suppressed", "selfSeals", "trustedHandovers", "blindHandovers", "failedHandovers"].forEach((k) => {
+      counters[k] = num(raw[k]);
+    });
+    /* history 有界：仅保留白名单形状条目，最多 16 条（先解析，pending 证明依赖它） */
+    let history = [];
+    if (Array.isArray(raw.history)) {
+      for (const h of raw.history) {
+        if (!h || typeof h !== "object" || Array.isArray(h)) continue;
+        if (h.type === "check" && EVIDENCE_ROOMS.includes(h.room)) {
+          history.push({ type: "check", room: h.room });
+        } else if (h.type === "report" && EVIDENCE_ROOMS.includes(h.room) && ["correctAnomaly", "correctNormal", "falseReport", "missed"].includes(h.outcome)) {
+          history.push({ type: "report", room: h.room, outcome: h.outcome });
+        } else if (h.type === "handover" && EVIDENCE_ROOMS.includes(h.room)) {
+          history.push({ type: "handover", room: h.room });
+        } else if (h.type === "action" && Object.keys(EVIDENCE_SWITCH_META).includes(h.action)) {
+          history.push({ type: "action", action: h.action });
+        }
+      }
+    }
+    history = history.slice(-EVIDENCE_HISTORY_CAP);
+    /* pending 严格白名单 + 结算证据 + canonical history 末项交叉验证（v54/v55 同款防伪） */
+    let pending = null;
+    if (sameCycle && raw.pending && typeof raw.pending === "object" && !Array.isArray(raw.pending)) {
+      const p = raw.pending;
+      const last = history.length ? history[history.length - 1] : null;
+      if (p.kind === "defer" && Object.keys(p).sort().join(",") === "feedback,kind,outcome,room,target"
+        && EVIDENCE_ROOMS.includes(p.room) && ["correctAnomaly", "correctNormal", "falseReport", "missed"].includes(p.outcome)
+        && p.target === "symptom-handover-hub" && deferredTarget !== "" && reports[p.room] === 1
+        && last && last.type === "report" && last.room === p.room && last.outcome === p.outcome) {
+        const meta = ANOMALY_REPORT_META[p.room][p.outcome];
+        if (p.feedback === meta.feedback) {
+          pending = { kind: "defer", room: p.room, outcome: p.outcome, target: "symptom-handover-hub", feedback: meta.feedback };
+        }
+      } else if (p.kind === "handover" && Object.keys(p).sort().join(",") === "feedback,kind,room,target"
+        && EVIDENCE_ROOMS.includes(p.room) && resolved.hub === 1 && handover === p.room
+        && last && last.type === "handover" && last.room === p.room) {
+        const truthState = getAnomaly();
+        const truth = truthState.assignment && truthState.assignment[p.room];
+        const okC = correct[p.room] === 1;
+        const kind2 = okC ? (checks[p.room] === 1 ? "trusted" : "blind") : (truth === "normal" ? "falseReport" : "missed");
+        const target = kind2 === "missed" ? ANOMALY_ROOM_BACKROOM[p.room] : EVIDENCE_HANDOVER_META[kind2].target;
+        const feedback = EVIDENCE_HANDOVER_META[kind2].feedback;
+        if (p.target === target && p.feedback === feedback) {
+          pending = { kind: "handover", room: p.room, target, feedback };
+        }
+      } else if (p.kind === "action" && Object.keys(p).sort().join(",") === "action,feedback,kind,target"
+        && Object.keys(EVIDENCE_SWITCH_META).includes(p.action) && resolved.switchboard === 1
+        && last && last.type === "action" && last.action === p.action) {
+        const meta = EVIDENCE_SWITCH_META[p.action];
+        const target = p.action === "selfseal" ? (handover ? ANOMALY_ROOM_BACKROOM[handover] : "unnumbered-floor") : meta.target;
+        if (p.target === target && p.feedback === meta.feedback) {
+          pending = { kind: "action", action: p.action, target, feedback: meta.feedback };
+        }
+      }
+    }
+    /* 派生：credibility 与 pendingTarget 只重算，不落盘 */
+    const credibility = counters.proofs + 2 * counters.blindCorrect + counters.chains - counters.contradictions - counters.suppressed;
+    return {
+      cycle, budget, remaining, checks, reports, correct, deepCount, handover, deferredTarget,
+      resolved, visits, ...counters, pending, pendingTarget: pending ? pending.target : "",
+      history, credibility,
+    };
+  };
+  /* 只持久化白名单 canonical 字段；派生字段永不落盘，history 先裁后存 */
+  const saveEvidence = (st) => store.set(EVIDENCE_KEY, JSON.stringify({
+    cycle: st.cycle,
+    budget: st.budget,
+    remaining: st.remaining,
+    checks: st.checks,
+    reports: st.reports,
+    correct: st.correct,
+    deepCount: st.deepCount,
+    handover: st.handover,
+    deferredTarget: st.deferredTarget,
+    resolved: st.resolved,
+    visits: st.visits,
+    proofs: st.proofs,
+    blindCorrect: st.blindCorrect,
+    contradictions: st.contradictions,
+    exposure: st.exposure,
+    chains: st.chains,
+    suppressed: st.suppressed,
+    selfSeals: st.selfSeals,
+    trustedHandovers: st.trustedHandovers,
+    blindHandovers: st.blindHandovers,
+    failedHandovers: st.failedHandovers,
+    pending: st.pending,
+    history: st.history.slice(-EVIDENCE_HISTORY_CAP),
+  }));
+
+  const evidenceActive = (st) =>
+    st.proofs > 0 || st.blindCorrect > 0 || st.contradictions > 0 || st.exposure > 0
+    || st.chains > 0 || st.suppressed > 0 || st.selfSeals > 0
+    || st.trustedHandovers > 0 || st.blindHandovers > 0 || st.failedHandovers > 0
+    || EVIDENCE_SCENE_KEYS.some((k) => st.visits[k] > 0);
+
+  /* 每个 v35/v55 cycle 首次进入巡检时创建本轮预算并冻结（reload 稳定，严禁随机） */
+  const ensureEvidenceBudget = () => {
+    const st = getEvidence();
+    if (st.budget > 0) return st;
+    st.budget = EVIDENCE_BUDGET_BY_CREDIBILITY(st.credibility);
+    st.remaining = st.budget;
+    saveEvidence(st);
+    return st;
+  };
+
+  /* 房间重绘（排在 v55 syncAnomalyRoom 之后）：巡检态显示核验热点
+     （封条余量 > 0 且本房未深查）；深查后按真值原子切到 v56 deep 图 */
+  const syncEvidenceRoom = (sceneKey) => {
+    const room = ANOMALY_SCENE_ROOM[sceneKey];
+    if (!room) return;
+    const floorSt = getFloor();
+    const inspectingNow = floorSt.completed.includes(room) && getAnomaly().inspected[room] === 0;
+    if (inspectingNow) ensureEvidenceBudget();
+    const st = getEvidence();
+    const inspecting = anomalyInspecting(room);
+    const meta = EVIDENCE_CHECK_META[room];
+    const btn = $(meta.btn);
+    if (btn) {
+      if (inspecting && st.remaining > 0 && st.checks[room] === 0) btn.removeAttribute("hidden");
+      else { btn.setAttribute("hidden", ""); btn.setAttribute("aria-pressed", "false"); }
+    }
+    if (inspecting && st.checks[room] === 1) {
+      const truth = getAnomaly().assignment[room];
+      const section = $(`#scene-${sceneKey}`);
+      const figure = section && section.querySelector("figure.branch-figure");
+      const img = figure && figure.querySelector(".branch-img");
+      const wantSrc = truth === "anomaly" ? meta.anomalyImg : meta.normalImg;
+      if (img && img.getAttribute("src") !== wantSrc) img.setAttribute("src", wantSrc);
+      if (figure) figure.setAttribute("aria-label", truth === "anomaly" ? meta.anomalyLabel : meta.normalLabel);
+    }
+    paintEvidence();
+  };
+
+  /* 统计签：三房封条/证据/盲判/矛盾/暴露/可信度 + 两新场景状态签 */
+  const paintEvidence = () => {
+    const st = getEvidence();
+    $$("[data-evidence-remaining]").forEach((el) => { el.textContent = st.remaining; });
+    $$("[data-evidence-proofs]").forEach((el) => { el.textContent = st.proofs; });
+    $$("[data-evidence-blind]").forEach((el) => { el.textContent = st.blindCorrect; });
+    $$("[data-evidence-contradictions]").forEach((el) => { el.textContent = st.contradictions; });
+    $$("[data-evidence-exposure]").forEach((el) => { el.textContent = st.exposure; });
+    $$("[data-evidence-credibility]").forEach((el) => { el.textContent = st.credibility; });
+    $$("[data-evidence-chains]").forEach((el) => { el.textContent = st.chains; });
+    $$("[data-evidence-suppressed]").forEach((el) => { el.textContent = st.suppressed; });
+    $$("[data-evidence-selfseals]").forEach((el) => { el.textContent = st.selfSeals; });
+    $$("[data-handover-trusted]").forEach((el) => { el.textContent = st.trustedHandovers; });
+    $$("[data-handover-blind]").forEach((el) => { el.textContent = st.blindHandovers; });
+    $$("[data-handover-failed]").forEach((el) => { el.textContent = st.failedHandovers; });
+    $$("[data-handover-settled]").forEach((el) => { el.textContent = st.resolved.hub === 1 ? "已交班" : "未交班"; });
+    $$("[data-switchboard-settled]").forEach((el) => { el.textContent = st.resolved.switchboard === 1 ? "已编组" : "未编组"; });
+  };
+
+  /* 深查：live scene + 共享 first-lock + 巡检态 + 封条余量 + 本房未深查；
+     原地切图与证据反馈，不转场；报告热点始终可立即选择 */
+  const chooseEvidenceCheck = (sceneKey) => {
+    const room = ANOMALY_SCENE_ROOM[sceneKey];
+    if (!room) return;
+    if (currentScene !== sceneKey) return;
+    if (AutoAdvance.has(sceneKey)) return;
+    if (!anomalyInspecting(room)) return;
+    const st = getEvidence();
+    if (st.budget === 0 || st.remaining === 0 || st.checks[room] === 1) return;
+    st.remaining = Math.max(0, st.remaining - 1);
+    st.deepCount = Math.min(3, st.deepCount + 1);
+    st.checks[room] = 1;
+    st.exposure = Math.min(EVIDENCE_NUM_CAP, st.exposure + 1);
+    st.history.push({ type: "check", room });
+    saveEvidence(st);
+    const truth = getAnomaly().assignment[room];
+    const meta = EVIDENCE_CHECK_META[room];
+    const section = $(`#scene-${sceneKey}`);
+    const figure = section && section.querySelector("figure.branch-figure");
+    const img = figure && figure.querySelector(".branch-img");
+    const wantSrc = truth === "anomaly" ? meta.anomalyImg : meta.normalImg;
+    if (img && img.getAttribute("src") !== wantSrc) img.setAttribute("src", wantSrc);
+    if (figure) figure.setAttribute("aria-label", truth === "anomaly" ? meta.anomalyLabel : meta.normalLabel);
+    const btn = $(meta.btn);
+    if (btn) {
+      btn.setAttribute("aria-pressed", "true");
+      btn.setAttribute("hidden", "");
+    }
+    const responseEl = $(ANOMALY_REPORT_META[room].responseEl);
+    if (responseEl) responseEl.textContent = truth === "anomaly" ? meta.anomalyFeedback : meta.normalFeedback;
+    AudioEngine.knock(0.16);
+    paintEvidence();
+  };
+
+  /* v55 报告结算时只记一次 v56 结果：深查后报告正确 proofs+1；
+     未深查盲判正确 blindCorrect+1；任何错误 contradictions+1。
+     第三间报告且本轮深查 >= 2 时暂存原落点并改道症状交班台（每轮一次） */
+  const recordEvidenceReport = (room, outcome, v55Target, v55Feedback) => {
+    const st = getEvidence();
+    if (st.reports[room] === 1) return "";
+    st.reports[room] = 1;
+    const isCorrect = outcome === "correctAnomaly" || outcome === "correctNormal";
+    st.correct[room] = isCorrect ? 1 : 0;
+    if (isCorrect) {
+      if (st.checks[room] === 1) st.proofs = Math.min(EVIDENCE_NUM_CAP, st.proofs + 1);
+      else st.blindCorrect = Math.min(EVIDENCE_NUM_CAP, st.blindCorrect + 1);
+    } else {
+      st.contradictions = Math.min(EVIDENCE_NUM_CAP, st.contradictions + 1);
+    }
+    st.history.push({ type: "report", room, outcome });
+    const reportCount = EVIDENCE_ROOMS.reduce((n, r) => n + st.reports[r], 0);
+    if (reportCount === 3 && st.deepCount >= 2 && st.deferredTarget === "") {
+      st.deferredTarget = v55Target;
+      st.pending = { kind: "defer", room, outcome, target: "symptom-handover-hub", feedback: v55Feedback };
+      saveEvidence(st);
+      return "symptom-handover-hub";
+    }
+    saveEvidence(st);
+    return "";
+  };
+
+  /* 症状交班台：只接受首次；按该房本轮 v56 report 是否正确 + 是否深查 +
+     真值分流四种逐字结果 */
+  const chooseEvidenceHandover = (room) => {
+    if (!EVIDENCE_ROOMS.includes(room)) return;
+    if (currentScene !== "symptom-handover-hub") return;
+    if (AutoAdvance.has("symptom-handover-hub")) return;
+    const st = getEvidence();
+    if (st.resolved.hub === 1 || st.reports[room] !== 1) return;
+    const truthState = getAnomaly();
+    const truth = truthState.assignment && truthState.assignment[room];
+    if (!truth) return;
+    const isCorrect = st.correct[room] === 1;
+    const kind = isCorrect ? (st.checks[room] === 1 ? "trusted" : "blind") : (truth === "normal" ? "falseReport" : "missed");
+    const target = kind === "missed" ? ANOMALY_ROOM_BACKROOM[room] : EVIDENCE_HANDOVER_META[kind].target;
+    const feedback = EVIDENCE_HANDOVER_META[kind].feedback;
+    if (kind === "trusted") st.trustedHandovers = Math.min(EVIDENCE_NUM_CAP, st.trustedHandovers + 1);
+    else if (kind === "blind") st.blindHandovers = Math.min(EVIDENCE_NUM_CAP, st.blindHandovers + 1);
+    else st.failedHandovers = Math.min(EVIDENCE_NUM_CAP, st.failedHandovers + 1);
+    st.handover = room;
+    st.resolved.hub = 1;
+    st.history.push({ type: "handover", room });
+    st.pending = { kind: "handover", room, target, feedback };
+    saveEvidence(st);
+    const btn = $(`#handover-choice-${room}`);
+    if (btn) btn.setAttribute("aria-pressed", "true");
+    const responseEl = $("#handover-response");
+    if (responseEl) responseEl.textContent = feedback;
+    AudioEngine.knock(0.16);
+    paintEvidence();
+    AutoAdvance.schedule("symptom-handover-hub", target, {
+      delay: branchDelay(),
+      before: () => {
+        const s = getEvidence();
+        if (target === "evidence-switchboard" && s.visits.switchboard === 0) s.visits.switchboard = 1;
+        if (s.pending && s.pending.kind === "handover") s.pending = null;
+        saveEvidence(s);
+        if (target === "false-positive-shaft") markReviewVisited("false-positive-shaft");
+        if (ANOMALY_SCENE_BACKROOM[target]) grantAnomalyBackroomVisit(target);
+        syncEvidenceLinks();
+        paintEvidenceAuditMemory();
+      },
+    });
+  };
+
+  /* 证据编组室：导航常开，分值每 cycle 只结算首次（压因果 chains+1 /
+     烧矛盾 suppressed+1 / 自扣封条 selfSeals+1 且 exposure+2） */
+  const chooseEvidenceSwitchAction = (actionKey) => {
+    const meta = EVIDENCE_SWITCH_META[actionKey];
+    if (!meta) return;
+    if (currentScene !== "evidence-switchboard") return;
+    if (AutoAdvance.has("evidence-switchboard")) return;
+    const st = getEvidence();
+    const target = actionKey === "selfseal" ? (st.handover ? ANOMALY_ROOM_BACKROOM[st.handover] : "unnumbered-floor") : meta.target;
+    if (st.resolved.switchboard === 0) {
+      st.resolved.switchboard = 1;
+      if (actionKey === "press") st.chains = Math.min(EVIDENCE_NUM_CAP, st.chains + 1);
+      else if (actionKey === "burn") st.suppressed = Math.min(EVIDENCE_NUM_CAP, st.suppressed + 1);
+      else {
+        st.selfSeals = Math.min(EVIDENCE_NUM_CAP, st.selfSeals + 1);
+        st.exposure = Math.min(EVIDENCE_NUM_CAP, st.exposure + 2);
+      }
+      st.history.push({ type: "action", action: actionKey });
+      st.pending = { kind: "action", action: actionKey, target, feedback: meta.feedback };
+      saveEvidence(st);
+    }
+    const btn = $(meta.btn);
+    if (btn) btn.setAttribute("aria-pressed", "true");
+    const responseEl = $("#switchboard-response");
+    if (responseEl) responseEl.textContent = meta.feedback;
+    AudioEngine.knock(0.16);
+    paintEvidence();
+    AutoAdvance.schedule("evidence-switchboard", target, {
+      delay: branchDelay(),
+      before: () => {
+        const s = getEvidence();
+        if (s.pending && s.pending.kind === "action") s.pending = null;
+        saveEvidence(s);
+        if (target === "evidence-vault") markReviewVisited("evidence-vault");
+        if (target === "false-positive-shaft") markReviewVisited("false-positive-shaft");
+        if (ANOMALY_SCENE_BACKROOM[target]) grantAnomalyBackroomVisit(target);
+        syncEvidenceLinks();
+        paintEvidenceAuditMemory();
+      },
+    });
+  };
+
+  /* reload 节拍恢复：合法 pending 属于当前场景时重播逐字反馈并精确重挂一次 */
+  const replayEvidencePending = (sceneName) => {
+    const st = getEvidence();
+    const p = st.pending;
+    if (!p) return;
+    if (p.kind === "defer" && ANOMALY_ROOM_SCENE[p.room] === sceneName) {
+      const responseEl = $(ANOMALY_REPORT_META[p.room].responseEl);
+      if (responseEl) responseEl.textContent = p.feedback;
+    } else if (p.kind === "handover" && sceneName === "symptom-handover-hub") {
+      const responseEl = $("#handover-response");
+      if (responseEl) responseEl.textContent = p.feedback;
+    } else if (p.kind === "action" && sceneName === "evidence-switchboard") {
+      const responseEl = $("#switchboard-response");
+      if (responseEl) responseEl.textContent = p.feedback;
+    } else return;
+    AutoAdvance.schedule(sceneName, p.target, {
+      delay: branchDelay(),
+      before: () => {
+        const s = getEvidence();
+        if (p.target === "evidence-switchboard" && s.visits.switchboard === 0) s.visits.switchboard = 1;
+        if (p.target === "symptom-handover-hub" && s.visits.hub === 0) s.visits.hub = 1;
+        if (s.pending) s.pending = null;
+        saveEvidence(s);
+        if (p.target === "evidence-vault") markReviewVisited("evidence-vault");
+        if (p.target === "false-positive-shaft") markReviewVisited("false-positive-shaft");
+        if (ANOMALY_SCENE_BACKROOM[p.target]) grantAnomalyBackroomVisit(p.target);
+        syncEvidenceLinks();
+        paintEvidenceAuditMemory();
+      },
+    });
+  };
+
+  /* 两新场景进入：清响应 + 刷签（visit 已在转场 before 原子记录，这里幂等） */
+  const enterEvidenceScene = (sceneName) => {
+    const key = EVIDENCE_SCENE_KEY[sceneName];
+    if (!key) return;
+    const st = getEvidence();
+    if (st.visits[key] === 0) {
+      st.visits[key] = 1;
+      saveEvidence(st);
+      syncEvidenceLinks();
+    }
+    const responseEl = $(key === "hub" ? "#handover-response" : "#switchboard-response");
+    if (responseEl) responseEl.textContent = "";
+    paintEvidence();
+  };
+
+  const EVIDENCE_LINKS = { hub: "#handover-link", switchboard: "#switchboard-link" };
+  const syncEvidenceLinks = () => {
+    const st = getEvidence();
+    EVIDENCE_SCENE_KEYS.forEach((k) => {
+      const link = $(EVIDENCE_LINKS[k]);
+      if (!link) return;
+      if (st.visits[k] > 0) link.removeAttribute("hidden");
+      else link.setAttribute("hidden", "");
+    });
+  };
+
+  /* 痕迹页单行：证据审计五项，保持八张统计卡不变 */
+  const paintEvidenceAuditMemory = () => {
+    const memory = $("#evidence-audit-memory");
+    if (!memory) return;
+    const st = getEvidence();
+    if (!evidenceActive(st)) {
+      memory.hidden = true;
+      return;
+    }
+    memory.textContent = `证据审计：核验 ${st.proofs}，盲判 ${st.blindCorrect}，矛盾 ${st.contradictions}，暴露 ${st.exposure}，可信度 ${st.credibility}。`;
+    memory.hidden = false;
+  };
+
+  EVIDENCE_ROOMS.forEach((room) => {
+    const checkBtn = $(EVIDENCE_CHECK_META[room].btn);
+    if (checkBtn) checkBtn.addEventListener("click", () => chooseEvidenceCheck(ANOMALY_ROOM_SCENE[room]));
+    const handoverBtn = $(`#handover-choice-${room}`);
+    if (handoverBtn) handoverBtn.addEventListener("click", () => chooseEvidenceHandover(room));
+    /* 六张深查图预载，深查切换无闪烁 */
+    const preA = new Image();
+    preA.src = EVIDENCE_CHECK_META[room].anomalyImg;
+    const preN = new Image();
+    preN.src = EVIDENCE_CHECK_META[room].normalImg;
+  });
+  Object.keys(EVIDENCE_SWITCH_META).forEach((actionKey) => {
+    const btn = $(EVIDENCE_SWITCH_META[actionKey].btn);
+    if (btn) btn.addEventListener("click", () => chooseEvidenceSwitchAction(actionKey));
+  });
+  paintEvidence();
 
   /* ============================================================
      v40 门外侧廊：首页纵深环境层 + 左右廊热点 + 三个画面热点场景
@@ -10453,6 +10985,9 @@ document.addEventListener("DOMContentLoaded", () => {
       syncAnomalyLinks();
       paintAnomaly();
       ANOMALY_ROOMS.forEach((r) => syncAnomalyRoom(ANOMALY_ROOM_SCENE[r]));
+      syncEvidenceLinks();
+      paintEvidence();
+      ANOMALY_ROOMS.forEach((r) => syncEvidenceRoom(ANOMALY_ROOM_SCENE[r]));
       syncLateralLinks();
       syncBackroomLinks();
       syncDriftEntry();
@@ -10474,6 +11009,7 @@ document.addEventListener("DOMContentLoaded", () => {
       paintAnnexMemory();
       paintAnomalyMemory();
       paintFloorAnomalyMemory();
+      paintEvidenceAuditMemory();
       paintValuationMemory();
       paintFloorMemory();
       paintRegistryMemory();
@@ -10549,6 +11085,9 @@ document.addEventListener("DOMContentLoaded", () => {
   syncAnomalyLinks();
   paintFloorAnomalyMemory();
   paintAnomaly();
+  syncEvidenceLinks();
+  paintEvidenceAuditMemory();
+  paintEvidence();
   syncLateralLinks();
   paintLateralMemory();
   syncBackroomLinks();

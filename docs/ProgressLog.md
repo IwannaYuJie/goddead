@@ -1,5 +1,20 @@
 # Progress Log
 
+## 2026-07-30 (v56 症状交接 / THE EVIDENCE AUDITS THE WITNESS：核验封条深查 + 症状交班台 + 证据编组室)
+- 世界观转向：只深化 v55 三房巡检态——楼层开始怀疑证词本身。封条让你把房间拆开看一次真相；你交上去的症状被编组，编组室同时编组证人。
+- 素材：八张监理冻结源 PNG（1536×1024，sha256 记录在 `docs/V56EvidenceAuditDesign.md` 并由静态断言逐字节校验）Pillow q85 原尺寸无裁切转码 `assets/v56-{ward,records,laundry}-deep-{anomaly,normal}.webp`、`assets/v56-symptom-handover-hub.webp`、`assets/v56-evidence-switchboard.webp`（161–299 KB）；六张深查图预载，深查原地切图无闪错；三值班房主图去掉 `loading="lazy"`，杜绝换图后的解码空白。
+- 状态：独立容错 `goddead_v56_evidence_audit`（全仓库唯一 key）——cycle/budget/remaining/checks/reports/correct/deepCount/handover/deferredTarget/resolved/visits/十项累计计数/pending/history 白名单 canonical 显式投影落盘（history 先裁 ≤16）；credibility（proofs + 2×blindCorrect + chains − contradictions − suppressed）与 pendingTarget 派生只重算不落盘；assignment 不持久化，真值永远从 v55 规范状态读取；cycle 对齐 v35 自动重置轮内字段；pending 三种严格形状（defer/handover/action）逐字段 + 结算证据 + canonical history 末项 + cycle 四重防伪。
+- 预算：每 cycle 首次进入巡检态创建一次并冻结——credibility >= 4 三枚、<= -2 一枚、否则两枚；确定性、reload 稳定、无 `Math.random(`。
+- 深查：三房巡检态核验热点（床头回铃机/无名页透字框/右机检修牌，出厂 hidden），live scene + 共享 first-lock + 余量 + 未查；接受即 −1 枚、deepCount+1、exposure+1，原地切到与真值相同的 deep 图并显示逐字证据反馈，不转场、报告热点始终可立即选择；封条为 0 或已查不可再查。
+- 报告计分：v55 接受点之后每房只记一次——深查后正确 proofs+1、盲判正确 blindCorrect+1、任何错误 contradictions+1；v55 verified/falseReports/missed/streak/tendencies 与 v35 signal/debt 精确语义不变。
+- 有意挂钩：第三间报告结算且本轮深查 >= 2 时，v55 原落点暂存为 deferredTarget（文档明示），逐字 v55 反馈后改道 `#symptom-handover-hub`，每轮一次；1 枚预算或 3 枚只用 0–1 枚均不触发。交班台四结果（封条正确→编组室、盲判正确→编组室、误报→误报井、漏报→该房后室）逐字分流；编组室三动作（压因果 chains+1→证物库、烧矛盾 suppressed+1→误报井、自扣封条 selfSeals+1 且 exposure+2→handover 房后室）每 cycle 只结算首次、导航常开。
+- 守卫：两新场景 direct hash 窄守卫（合法 pendingTarget 或历史合法 visit，否则回无号层），转场 before 先原子记 visit/`markReviewVisited`/`grantAnomalyBackroomVisit` 再清 pending（避开 v55 同款竞争）；v33 证物库/误报井守卫文本一行未改。
+- 目录 01π½ / 症状交班、01ρ½ / 证据编组（首次合法到访原子恢复）；Remembrance 新增单行「证据审计：核验 P，盲判 B，矛盾 C，暴露 E，可信度 K。」，仍八张统计卡；遗忘全部复位。
+- 静态契约：`node --check script.js`、`node --check tests/site.test.mjs`、`node tests/site.test.mjs`（2292 → 2359 断言，v56 新增 67：源图 sha256 逐字节/WebP 引用/唯一 key/schema 归一/存盘 canonical/预算公式无随机/深查消耗与原地切图/报告计分/第三报告挂钩/交班四结果/编组三动作/窄守卫/pending 三重防伪/DOM 结构/目录与记忆/8 卡/9 定位 class/`?v=53`）、`git diff --check` 全部通过。
+- CDP 实机验收（`/tmp/v56-qa/v56-smoke.mjs`，真实 Google Chrome headless + 内嵌静态服务器 + 真实鼠标/键盘，种子预注入）**491/491 连续两轮全绿**：三值班房巡检态+两新场景 × 1440×1024/1440×800/390×844 几何（图内/零重叠/自命中/≥44px/14 项签不溢出/1440×800 首屏）、1/2/3 枚预算与冻结、六张深查图与真值、消耗幂等（连点/合成/空封条）、四种报告 v56 计分 + v55 语义回归、第三报告触发与两种不触发、交班四结果逐字+落点+仅首次、编组三动作+防刷+已结算、窄守卫四态、reload 节拍重播一次+深查图恢复、坏存档六种归一+raw canonical+history 16、v37/v54 字节级零污染、Tab/Enter/Space、console 零异常。一轮真实缺陷复现并修复：深查换图后 `loading="lazy"` 解码竞态可拍出全黑 figure（laundry deep 实测复现），主图去 lazy + QA 等待解码完成，两轮回归全绿。监理复审再修复一处真实遗忘残留：「遗忘全部」漏调 `paintEvidenceAuditMemory()`，v56 key 已删但记忆行旧数字仍可见——补接线并加 DOM 级遗忘流程实测（预置活跃 v56 → 痕迹页行可见 → 真实点击遗忘 → key 缺失、`#evidence-audit-memory.hidden===true`、目录隐藏、三房核验热点/图片/签回初始），静态契约同步锁定 forget 接线。
+- 视觉证据 12 张 `design-qa-evidence/v56-01~14`（巡检核验态、六张深查图、两新场景桌面、移动端两幅、编组落点），八张冻结源 PNG 与同状态同视口渲染同轮并排目验：热点全部压中物件、移动端短标签无裁切无互盖、标题与 14 项签无溢出。
+- 保护边界：`docs/KimiUsageLog.md`、`assets/divine-name-cancellation.webp`、全部 source-v53/v54/v55/v56 PNG 哈希不变；未执行任何 git add/commit/push/stash；未安装依赖。
+
 ## 2026-07-30 (v55 失常交班 / THE FLOOR REPORTS BACK：v35 三房图内化 + 巡检循环 + 三个异常后室)
 - 世界观转向：不新增走廊，把 v35 三间值班房升级为「值班 → 巡检 → 异常后室」循环——楼层开始回检你的值班：正常与异常要自己分辨，误报与漏报都计价，三个后室的倾向又会改变下一轮哪里失常。
 - 素材：六张监理冻结源 PNG（1536×1024，sha256 记录在 `docs/V55FloorAnomalyDesign.md` 并由静态断言逐字节校验）Pillow q85 原尺寸无裁切转码 `assets/v55-{ward,records,laundry}-anomaly.webp` 与 `assets/v55-{underbed-call-station,countersign-drain,negative-laundry-locker}.webp`（152–263 KB）；平静态继续用 v35 原图，平静/异常构图对齐共用一套热点坐标，三张异常图预载。

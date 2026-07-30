@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-    <link rel="stylesheet" href="styles.css?v=52">
+    <link rel="stylesheet" href="styles.css?v=53">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -873,10 +873,16 @@
             <span class="rs-item">漏报 <b data-anomaly-missed>0</b></span>
             <span class="rs-item">连对 <b data-anomaly-streak>0</b></span>
             <span class="rs-item">污染 <b data-anomaly-contamination>0</b></span>
+            <span class="rs-item">封条 <b data-evidence-remaining>0</b></span>
+            <span class="rs-item">证据 <b data-evidence-proofs>0</b></span>
+            <span class="rs-item">盲判 <b data-evidence-blind>0</b></span>
+            <span class="rs-item">矛盾 <b data-evidence-contradictions>0</b></span>
+            <span class="rs-item">暴露 <b data-evidence-exposure>0</b></span>
+            <span class="rs-item">可信度 <b data-evidence-credibility>0</b></span>
           </div>
 
           <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="一间病房：会呼吸的空床、没有铃的床头柜、一条穿进墙里的输液管">
-            <img class="branch-img" src="assets/bellless-ward.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <img class="branch-img" src="assets/bellless-ward.webp" alt="" width="1536" height="1024" decoding="async">
             <button class="branch-btn forecourt-native-hotspot ward-spot-listen" id="ward-choice-listen" type="button" aria-pressed="false" data-hover>
               <span class="bb-short" aria-hidden="true">听床头柜</span>
               <span class="bb-title">听无铃床头柜里有没有呼叫</span>
@@ -907,6 +913,11 @@
               <span class="bb-title">报告：本室巡检正常</span>
               <span class="bb-hint">三件旧物都在原处</span>
             </button>
+            <button class="branch-btn forecourt-native-hotspot ward-spot-check" id="ward-evidence-check" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">拆回铃机</span>
+              <span class="bb-title">拆开床头回铃核验</span>
+              <span class="bb-hint">它接的是墙，还是床单</span>
+            </button>
           </figure>
           <p class="branch-response" id="ward-response" aria-live="polite"></p>
 
@@ -934,10 +945,16 @@
             <span class="rs-item">漏报 <b data-anomaly-missed>0</b></span>
             <span class="rs-item">连对 <b data-anomaly-streak>0</b></span>
             <span class="rs-item">污染 <b data-anomaly-contamination>0</b></span>
+            <span class="rs-item">封条 <b data-evidence-remaining>0</b></span>
+            <span class="rs-item">证据 <b data-evidence-proofs>0</b></span>
+            <span class="rs-item">盲判 <b data-evidence-blind>0</b></span>
+            <span class="rs-item">矛盾 <b data-evidence-contradictions>0</b></span>
+            <span class="rs-item">暴露 <b data-evidence-exposure>0</b></span>
+            <span class="rs-item">可信度 <b data-evidence-credibility>0</b></span>
           </div>
 
           <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="一间下沉档案室：晾着的无名页、渗字的水池、继续下沉的档案井">
-            <img class="branch-img" src="assets/seeping-records.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <img class="branch-img" src="assets/seeping-records.webp" alt="" width="1536" height="1024" decoding="async">
             <button class="branch-btn forecourt-native-hotspot records-spot-dry" id="records-choice-dry" type="button" aria-pressed="false" data-hover>
               <span class="bb-short" aria-hidden="true">晾无名页</span>
               <span class="bb-title">晾干唯一没有名字的一页</span>
@@ -968,6 +985,11 @@
               <span class="bb-title">报告：本室巡检正常</span>
               <span class="bb-hint">水池只往下渗</span>
             </button>
+            <button class="branch-btn forecourt-native-hotspot records-spot-check" id="records-evidence-check" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">透字框</span>
+              <span class="bb-title">把无名页压进透字框</span>
+              <span class="bb-hint">背光不撒谎</span>
+            </button>
           </figure>
           <p class="branch-response" id="records-response" aria-live="polite"></p>
 
@@ -995,10 +1017,16 @@
             <span class="rs-item">漏报 <b data-anomaly-missed>0</b></span>
             <span class="rs-item">连对 <b data-anomaly-streak>0</b></span>
             <span class="rs-item">污染 <b data-anomaly-contamination>0</b></span>
+            <span class="rs-item">封条 <b data-evidence-remaining>0</b></span>
+            <span class="rs-item">证据 <b data-evidence-proofs>0</b></span>
+            <span class="rs-item">盲判 <b data-evidence-blind>0</b></span>
+            <span class="rs-item">矛盾 <b data-evidence-contradictions>0</b></span>
+            <span class="rs-item">暴露 <b data-evidence-exposure>0</b></span>
+            <span class="rs-item">可信度 <b data-evidence-credibility>0</b></span>
           </div>
 
           <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="一间工业洗衣房：先停下的滚筒、没有倒影的工服、像门一样的镜面机舱">
-            <img class="branch-img" src="assets/reverse-laundry.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <img class="branch-img" src="assets/reverse-laundry.webp" alt="" width="1536" height="1024" decoding="async">
             <button class="branch-btn forecourt-native-hotspot laundry-spot-drum" id="laundry-choice-drum" type="button" aria-pressed="false" data-hover>
               <span class="bb-short" aria-hidden="true">切滚筒</span>
               <span class="bb-title">切断比你先停下的滚筒</span>
@@ -1028,6 +1056,11 @@
               <span class="bb-short" aria-hidden="true">巡检正常</span>
               <span class="bb-title">报告：本室巡检正常</span>
               <span class="bb-hint">机舱里只有倒影</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot laundry-spot-check" id="laundry-evidence-check" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">检修牌</span>
+              <span class="bb-title">拆开右机检修牌</span>
+              <span class="bb-hint">两根铜线的去向</span>
             </button>
           </figure>
           <p class="branch-response" id="laundry-response" aria-live="polite"></p>
@@ -1165,6 +1198,90 @@
       </section>
 
       <!-- 前段支线 · 夜班登记所（v36） -->
+      <!-- v56 症状交接 · 症状交班台 -->
+      <section class="scene scene-branch scene-symptom-handover-hub" id="scene-symptom-handover-hub" data-scene="symptom-handover-hub" data-title="Goddead — 症状交班台" aria-label="症状交班台">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE SYMPTOM HANDOVER HUB · 症 状 交 班 台</p>
+            <h2 class="sec-title">症状交班台</h2>
+            <p class="sec-desc">三张托盘各收一种症状。你只能交上去一种——证据会替你选剩下两种。</p>
+          </header>
+
+          <div class="review-slip evidence-slip reveal" role="group" aria-label="交班签">
+            <span class="rs-item">封条交班 <b data-handover-trusted>0</b></span>
+            <span class="rs-item">盲判交班 <b data-handover-blind>0</b></span>
+            <span class="rs-item">失败交班 <b data-handover-failed>0</b></span>
+            <span class="rs-item">本轮 <b data-handover-settled>未交班</b></span>
+          </div>
+
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="症状交班台：左托盘里的无声听筒、中央黑墨无名页、右托盘上的镜与白工服">
+            <img class="branch-img" src="assets/v56-symptom-handover-hub.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot handover-spot-ward" id="handover-choice-ward" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">交回铃</span>
+              <span class="bb-title">把无声回铃交成主症状</span>
+              <span class="bb-hint">左托盘的听筒还在数拍</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot handover-spot-records" id="handover-choice-records" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">交档案</span>
+              <span class="bb-title">把逆写档案交成主症状</span>
+              <span class="bb-hint">墨迹还没干</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot handover-spot-laundry" id="handover-choice-laundry" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">交倒影</span>
+              <span class="bb-title">把错向倒影交成主症状</span>
+              <span class="bb-hint">镜里那件先伸手</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="handover-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开症状交班台">
+            <button class="exit-link" type="button" data-go="unnumbered-floor" data-hover>⟵ 回到无号层</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v56 症状交接 · 证据编组室 -->
+      <section class="scene scene-branch scene-evidence-switchboard" id="scene-evidence-switchboard" data-scene="evidence-switchboard" data-title="Goddead — 证据编组室" aria-label="证据编组室">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE EVIDENCE SWITCHBOARD · 证 据 编 组 室</p>
+            <h2 class="sec-title">证据编组室</h2>
+            <p class="sec-desc">证据在这里被编成只允许一种读法的组。编组室同时编组证人。</p>
+          </header>
+
+          <div class="review-slip evidence-slip reveal" role="group" aria-label="编组签">
+            <span class="rs-item">因果链 <b data-evidence-chains>0</b></span>
+            <span class="rs-item">压灭 <b data-evidence-suppressed>0</b></span>
+            <span class="rs-item">自扣封条 <b data-evidence-selfseals>0</b></span>
+            <span class="rs-item">本轮 <b data-switchboard-settled>未编组</b></span>
+          </div>
+
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="证据编组室：左侧黄铜压机、中央烧红的焚炉、右侧人形封条架">
+            <img class="branch-img" src="assets/v56-evidence-switchboard.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot switch-spot-press" id="switch-action-press" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">压因果</span>
+              <span class="bb-title">把两份证据压成一条因果</span>
+              <span class="bb-hint">压机只合拢一次</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot switch-spot-burn" id="switch-action-burn" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">烧矛盾</span>
+              <span class="bb-title">烧掉矛盾，保留可通过的结论</span>
+              <span class="bb-hint">红蜡挑得出不同意</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot switch-spot-selfseal" id="switch-action-selfseal" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">自扣封条</span>
+              <span class="bb-title">把最后一枚封条扣在自己身上</span>
+              <span class="bb-hint">架子正好空一格</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="switchboard-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开证据编组室">
+            <button class="exit-link" type="button" data-go="unnumbered-floor" data-hover>⟵ 回到无号层</button>
+          </nav>
+        </div>
+      </section>
+
       <section class="scene scene-branch scene-night-shift-registry" id="scene-night-shift-registry" data-scene="night-shift-registry" data-title="Goddead — 夜班登记所" aria-label="夜班登记所">
         <div class="scene-body branch-body">
           <header class="sec-head reveal">
@@ -3090,6 +3207,7 @@
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory belief-memory" id="belief-memory" hidden></p>
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory belief-memory pressure-memory" id="pressure-memory" hidden></p>
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory belief-memory pressure-memory floor-anomaly-memory" id="floor-anomaly-memory" hidden></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory belief-memory pressure-memory floor-anomaly-memory evidence-audit-memory" id="evidence-audit-memory" hidden></p>
 
           <div class="reliquary-slot reveal" id="reliquary-slot"></div>
 
@@ -3199,6 +3317,8 @@
       <a href="#countersign-drain" id="countersign-link" hidden data-hover>01ξ½ / 反签排水</a>
       <a href="#reverse-laundry" id="laundry-link" hidden data-hover>01ο / 逆照洗衣</a>
       <a href="#negative-laundry-locker" id="negative-link" hidden data-hover>01ο½ / 负照更衣</a>
+      <a href="#symptom-handover-hub" id="handover-link" hidden data-hover>01π½ / 症状交班</a>
+      <a href="#evidence-switchboard" id="switchboard-link" hidden data-hover>01ρ½ / 证据编组</a>
       <a href="#night-shift-registry" id="registry-link" hidden data-hover>01π / 夜班登记</a>
       <a href="#midnight-callback" id="callback-link" hidden data-hover>01ρ / 午夜回拨</a>
       <a href="#proxy-admission" id="proxy-link" hidden data-hover>01σ / 代审窗</a>
@@ -3252,6 +3372,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=52"></script>
+    <script src="script.js?v=53"></script>
   </body>
 </html>

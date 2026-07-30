@@ -30,8 +30,8 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=52/);
-assert.match(html, /script\.js\?v=52/);
+assert.match(html, /styles\.css\?v=53/);
+assert.match(html, /script\.js\?v=53/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
@@ -489,8 +489,8 @@ for (const asset of VISUAL_ASSETS) {
 await access(new URL("assets/prayer-incinerator-burning.webp", root));
 assert.match(html, /assets\/prayer-incinerator-burning\.webp/);
 assert.match(html, /<link rel="preload" href="assets\/prayer-incinerator-burning\.webp" as="image">/);
-assert.match(html, /styles\.css\?v=52/);
-assert.match(html, /script\.js\?v=52/);
+assert.match(html, /styles\.css\?v=53/);
+assert.match(html, /script\.js\?v=53/);
 const offeringFigureHtml = html.match(/<figure class="offering-figure[^"]*" role="img" aria-label="[^"]*">[\s\S]*?<\/figure>/);
 assert.ok(offeringFigureHtml, "offering figure must exist");
 assert.match(offeringFigureHtml[0], /aria-label="一座沉寂的焚献炉"/);
@@ -1444,7 +1444,7 @@ assert.match(floorSection[0], /id="floor-elevator-btn" type="button" disabled/, 
 assert.ok(floorSection[0].includes("缺层电梯仍封死"), "sealed elevator label verbatim");
 for (const [scene, ids] of [["bellless-ward", ["ward-stat-completed", "ward-choice-listen", "ward-choice-sheet", "ward-choice-tube", "ward-choice-callback"]], ["seeping-records", ["records-stat-completed", "records-choice-dry", "records-choice-drink", "records-choice-sink", "records-choice-callback"]], ["reverse-laundry", ["laundry-stat-completed", "laundry-choice-drum", "laundry-choice-uniform", "laundry-choice-mirror", "laundry-choice-callback"]]]) {
   const section = html.match(new RegExp(`<section class="scene scene-branch scene-${scene}"[\\s\\S]*?<\\/section>`));
-  assert.equal((section[0].match(/<button class="branch-btn[ "]/g) || []).length, 6, `${scene} holds exactly 6 in-picture hotspot buttons (3 original + v37 callback + 2 v55 reports)`);
+  assert.equal((section[0].match(/<button class="branch-btn[ "]/g) || []).length, 7, `${scene} holds exactly 7 in-picture hotspot buttons (3 original + v37 callback + 2 v55 reports + 1 v56 evidence check)`);
   for (const id of ids) assert.ok(section[0].includes(`id="${id}"`), `${scene} missing #${id}`);
 }
 assert.ok(html.includes("按下电梯里不存在的地下层") && html.includes("让指针停在没有刻度的层"), "both v35 entry actions are visible");
@@ -3459,6 +3459,127 @@ for (const cls of ["audit-spot-echo", "audit-spot-vein", "audit-spot-confession"
 assert.match(css, /\.belief-variant-official \./, "css missing official variant overrides");
 assert.match(css, /\.belief-variant-sensory \./, "css missing sensory variant overrides");
 
+/* ---------- v56 症状交接：核验封条 + 症状交班台 + 证据编组室 ---------- */
+/* 八张冻结源 PNG 存在且 sha256 冻结 */
+const V56_SOURCE_HASHES = {
+  "design-references/source-v56-ward-deep-anomaly.png": "0b6fbcfc3e0b2ac8dd587e1c72799f14deb3007a7bb6fe1935b3ad4f31bfbc8e",
+  "design-references/source-v56-ward-deep-normal.png": "455e6ab2cb571484faabd4d745fd7cd082f2bd27aab08468795c50fb46d5fcc9",
+  "design-references/source-v56-records-deep-anomaly.png": "6bf6ae95db1e3c73eaf986339ea3496531684ea4c2b68a26839dd9180224ddf8",
+  "design-references/source-v56-records-deep-normal.png": "08aace9a94e2b03796b6e4d5e08da33b7798dafb3c43f622c6bc8285b6803f4a",
+  "design-references/source-v56-laundry-deep-anomaly.png": "e0d2946f9526629f1d5c0ee37ee08e70eb451749cc3e9ac9cc75fd59d574223e",
+  "design-references/source-v56-laundry-deep-normal.png": "99bb7d76d44d3d176f6a4daece408cdb76d8a7dd0b77e9e6980e8537e4e2100c",
+  "design-references/source-v56-symptom-handover-hub.png": "a9fa5ec7dacf68a0531b3e16752ad2111269dc1920300f23a3b397edd46c951a",
+  "design-references/source-v56-evidence-switchboard.png": "9d729d09da442756ee508ec379ba99ee5aad08fa5b830bb68f5c8e841db11a56",
+};
+for (const [src, hash] of Object.entries(V56_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(src, root));
+  assert.equal(createHash("sha256").update(buf).digest("hex"), hash, `${src} must keep its frozen sha256`);
+}
+for (const asset of ["assets/v56-ward-deep-anomaly.webp", "assets/v56-ward-deep-normal.webp", "assets/v56-records-deep-anomaly.webp", "assets/v56-records-deep-normal.webp", "assets/v56-laundry-deep-anomaly.webp", "assets/v56-laundry-deep-normal.webp", "assets/v56-symptom-handover-hub.webp", "assets/v56-evidence-switchboard.webp"]) {
+  const buf = await readFile(new URL(asset, root));
+  assert.ok(buf.length > 100000, `${asset} must exist as a full-size transcode`);
+  assert.ok(js.includes(asset) || html.includes(asset), `${asset} must be referenced`);
+}
+assert.match(js, /const EVIDENCE_KEY = "goddead_v56_evidence_audit";/);
+assert.equal((js.match(/goddead_v56/g) || []).length, 1, "v56 introduces exactly one storage key");
+const evidenceParseBlock = js.match(/const getEvidence = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(evidenceParseBlock, "getEvidence must exist");
+assert.match(evidenceParseBlock[0], /\} catch \{ raw = \{\}; \}/, "corrupt evidence storage must be safely repaired");
+assert.match(evidenceParseBlock[0], /if \(typeof raw !== "object" \|\| Array\.isArray\(raw\)\) raw = \{\};/, "array/wrong-type evidence storage must fall back");
+assert.match(evidenceParseBlock[0], /Math\.min\(EVIDENCE_NUM_CAP, Math\.floor\(n\)\)/, "evidence counters must be clamped 0..9999");
+assert.match(evidenceParseBlock[0], /const sameCycle = num\(raw\.cycle\) === floorCycle;/, "cycle-scoped fields reset when the v35 cycle moves on");
+assert.match(evidenceParseBlock[0], /\[1, 2, 3\]\.includes\(raw\.budget\) \? raw\.budget : 0/, "budget accepts only the legal 1/2/3 values");
+assert.match(evidenceParseBlock[0], /remaining = Math\.min\(remaining, budget\);/, "remaining never exceeds the frozen budget");
+assert.match(evidenceParseBlock[0], /history = history\.slice\(-EVIDENCE_HISTORY_CAP\);/, "history is bounded to the last 16 valid entries");
+assert.ok(evidenceParseBlock[0].indexOf("history = history.slice(-EVIDENCE_HISTORY_CAP);") < evidenceParseBlock[0].indexOf("let pending = null;"), "canonical history is parsed before pending validation");
+assert.match(evidenceParseBlock[0], /Object\.keys\(p\)\.sort\(\)\.join\(","\) === "feedback,kind,outcome,room,target"/, "defer pending accepts exactly five whitelisted keys");
+assert.match(evidenceParseBlock[0], /deferredTarget !== "" && reports\[p\.room\] === 1/, "defer pending needs the deferred landing and the report settlement");
+assert.match(evidenceParseBlock[0], /resolved\.hub === 1 && handover === p\.room/, "handover pending needs this cycle's hub settlement");
+assert.match(evidenceParseBlock[0], /resolved\.switchboard === 1/, "action pending needs this cycle's switchboard settlement");
+assert.match(evidenceParseBlock[0], /const credibility = counters\.proofs \+ 2 \* counters\.blindCorrect \+ counters\.chains - counters\.contradictions - counters\.suppressed;/, "credibility is re-derived, never trusted");
+assert.ok(!/assignment/.test(evidenceParseBlock[0].replace(/truthState\.assignment|getAnomaly\(\)\.assignment|&& truthState\.assignment/g, "")), "v56 never persists the assignment, truth comes from v55");
+const evidenceSaveBlock = js.match(/const saveEvidence = \(st\) => store\.set\(EVIDENCE_KEY, JSON\.stringify\(\{[\s\S]*?\}\)\);/);
+assert.ok(evidenceSaveBlock, "saveEvidence must persist an explicit canonical projection");
+for (const f of ["cycle", "budget", "remaining", "checks", "reports", "correct", "deepCount", "handover", "deferredTarget", "resolved", "visits", "proofs", "blindCorrect", "contradictions", "exposure", "chains", "suppressed", "selfSeals", "trustedHandovers", "blindHandovers", "failedHandovers", "pending"]) {
+  assert.match(evidenceSaveBlock[0], new RegExp(`${f}: st\\.${f},`), `saveEvidence persists ${f}`);
+}
+assert.match(evidenceSaveBlock[0], /history: st\.history\.slice\(-EVIDENCE_HISTORY_CAP\),/, "saveEvidence clamps history to <= 16 before persisting");
+assert.ok(!/credibility|pendingTarget|assignment/.test(evidenceSaveBlock[0]), "saveEvidence must never persist derived fields or assignment");
+/* 预算：确定性公式，无 Math.random */
+const evidenceModuleBlock = js.match(/v56 症状交接：三房巡检核验封条[\s\S]*?v40 门外侧廊/);
+assert.ok(evidenceModuleBlock, "v56 module must exist");
+assert.ok(!evidenceModuleBlock[0].includes("Math.random("), "v56 budget must never re-roll Math.random");
+assert.match(js, /const EVIDENCE_BUDGET_BY_CREDIBILITY = \(cred\) => \(cred >= 4 \? 3 : cred <= -2 \? 1 : 2\);/, "budget tiers 3/2/1 by credibility");
+assert.match(js, /st\.budget = EVIDENCE_BUDGET_BY_CREDIBILITY\(st\.credibility\);\s*st\.remaining = st\.budget;/, "budget is created once per cycle from derived credibility");
+/* 深查：守卫与消耗契约，原地切图不转场 */
+const checkBlock = js.match(/const chooseEvidenceCheck = \(sceneKey\) => \{[\s\S]*?\n  \};/);
+assert.match(checkBlock[0], /if \(currentScene !== sceneKey\) return;/, "check rejects off-scene calls");
+assert.match(checkBlock[0], /if \(AutoAdvance\.has\(sceneKey\)\) return;/, "check shares the room first-lock");
+assert.match(checkBlock[0], /if \(!anomalyInspecting\(room\)\) return;/, "check requires live inspection mode");
+assert.match(checkBlock[0], /if \(st\.budget === 0 \|\| st\.remaining === 0 \|\| st\.checks\[room\] === 1\) return;/, "check needs seal remaining and an unchecked room");
+assert.match(checkBlock[0], /st\.remaining = Math\.max\(0, st\.remaining - 1\);/, "check consumes exactly one seal");
+assert.match(checkBlock[0], /st\.exposure = Math\.min\(EVIDENCE_NUM_CAP, st\.exposure \+ 1\);/, "check adds one exposure");
+assert.ok(!checkBlock[0].includes("AutoAdvance.schedule"), "check swaps the image in place without any transition");
+/* 报告计分与第三报告有意挂钩 */
+const evidenceReportBlock = js.match(/const recordEvidenceReport = \(room, outcome, v55Target, v55Feedback\) => \{[\s\S]*?\n  \};/);
+assert.match(evidenceReportBlock[0], /if \(st\.checks\[room\] === 1\) st\.proofs = Math\.min\(EVIDENCE_NUM_CAP, st\.proofs \+ 1\);\s*else st\.blindCorrect = Math\.min\(EVIDENCE_NUM_CAP, st\.blindCorrect \+ 1\);/, "checked-correct proofs +1, blind-correct blindCorrect +1");
+assert.match(evidenceReportBlock[0], /st\.contradictions = Math\.min\(EVIDENCE_NUM_CAP, st\.contradictions \+ 1\);/, "any wrong report contradictions +1");
+assert.match(evidenceReportBlock[0], /if \(reportCount === 3 && st\.deepCount >= 2 && st\.deferredTarget === ""\) \{/, "defer needs the third report, >= 2 deep checks and no prior deferral");
+assert.match(evidenceReportBlock[0], /st\.deferredTarget = v55Target;/, "the original v55 landing is stored as deferredTarget");
+assert.match(js, /const evidenceDefer = recordEvidenceReport\(room, outcome, meta\.target, meta\.feedback\);/, "v55 report settlement hooks into v56 once");
+assert.match(js, /if \(s\.visits\.hub === 0\) s\.visits\.hub = 1;/, "defer transition records the hub visit before clearing pending");
+/* 交班四结果与编组三动作（逐字） */
+for (const frag of [
+  'trusted: { target: "evidence-switchboard", feedback: "封条和报告同时咬住同一结论。证据编组室把门打开了。"',
+  'blind: { target: "evidence-switchboard", feedback: "没有封条的报告仍然猜中了门后那一间。证据编组室接受这次盲判。"',
+  'falseReport: { target: "false-positive-shaft", feedback: "你交上去的症状在台面上恢复正常。误报井先签收了你。"',
+  'missed: { feedback: "你交上去的正常结论在台面上开始呼吸。对应后室把原件取走了。"',
+  'press: { btn: "#switch-action-press", target: "evidence-vault", feedback: "压机合拢。两份证据从此只允许一种死法。"',
+  'burn: { btn: "#switch-action-burn", target: "false-positive-shaft", feedback: "红蜡只烧掉不同意你的那一份。误报井收到了灰。"',
+  'selfseal: { btn: "#switch-action-selfseal", feedback: "封条绕过手腕和喉咙。你成了这批证据唯一还活着的附件。"',
+]) assert.ok(js.includes(frag), `missing v56 verbatim: ${frag.slice(0, 26)}`);
+const handoverBlock = js.match(/const chooseEvidenceHandover = \(room\) => \{[\s\S]*?\n  \};/);
+assert.match(handoverBlock[0], /if \(currentScene !== "symptom-handover-hub"\) return;/, "handover rejects off-scene calls");
+assert.match(handoverBlock[0], /if \(st\.resolved\.hub === 1 \|\| st\.reports\[room\] !== 1\) return;/, "handover accepts only the first choice for a reported room");
+assert.match(handoverBlock[0], /const truth = truthState\.assignment && truthState\.assignment\[room\];/, "handover truth comes from the v55 assignment");
+const switchBlock = js.match(/const chooseEvidenceSwitchAction = \(actionKey\) => \{[\s\S]*?\n  \};/);
+assert.match(switchBlock[0], /if \(currentScene !== "evidence-switchboard"\) return;/, "switchboard action rejects off-scene calls");
+assert.match(switchBlock[0], /if \(st\.resolved\.switchboard === 0\) \{/, "switchboard score settles only once per cycle");
+assert.match(switchBlock[0], /st\.exposure = Math\.min\(EVIDENCE_NUM_CAP, st\.exposure \+ 2\);/, "selfseal adds two exposure");
+/* 深查逐字反馈（三房 × 正常/异常） */
+for (const frag of ["黑线没有通向墙。它从床单下面接回那枚呼叫钮。", "黑线止在瓷封里。床上没有第二个接点。", "背光里，墨迹从纸纤维向上爬，和池心的逆流同拍。", "背光穿透整页。纸纤维里没有藏第二份姓名。", "黑线穿过机壳，接在倒影里的白工服上。第二道影子朝错方向落下。", "两根铜线都封死在瓷帽里。圆窗后的走廊仍是空的。"]) {
+  assert.ok(js.includes(frag), `missing v56 deep-check feedback: ${frag.slice(0, 16)}`);
+}
+/* 窄守卫与接线 */
+assert.match(js, /if \(EVIDENCE_SCENES\.includes\(target\) && evidenceGuard\.pendingTarget !== target && !evidenceGuard\.visits\[EVIDENCE_SCENE_KEY\[target\]\]\) target = "unnumbered-floor";/, "v56 guard admits only legal pending or past visits");
+assert.match(js, /if \(EVIDENCE_SCENES\.includes\(name\)\) \{ enterEvidenceScene\(name\); replayEvidencePending\(name\); \}/, "evidence scene entry replays a legal pending");
+/* DOM：三房核验热点 hidden、两新场景九热点、目录、记忆、8 卡 */
+for (const id of ["ward-evidence-check", "records-evidence-check", "laundry-evidence-check"]) {
+  assert.match(html, new RegExp(`id="${id}" type="button" aria-pressed="false" data-hover hidden`), `${id} ships hidden`);
+}
+for (const [scene, ids] of [["symptom-handover-hub", ["handover-choice-ward", "handover-choice-records", "handover-choice-laundry"]], ["evidence-switchboard", ["switch-action-press", "switch-action-burn", "switch-action-selfseal"]]]) {
+  const section = html.match(new RegExp(`<section class="scene scene-branch scene-${scene}"[\\s\\S]*?<\\/section>`));
+  assert.ok(section, `scene section missing: ${scene}`);
+  assert.ok(section[0].includes("forecourt-tactile-stage"), `${scene} uses the 3:2 tactile stage`);
+  assert.ok(!section[0].includes("branch-choices") && !section[0].includes("<svg"), `${scene} must not degrade to cards or inline SVG`);
+  const figure = section[0].match(/<figure[\s\S]*?<\/figure>/);
+  for (const id of ids) assert.ok(figure[0].includes(`id="${id}"`), `${scene} figure must hold #${id}`);
+}
+assert.match(html, /<a href="#symptom-handover-hub" id="handover-link" hidden data-hover>01π½ \/ 症状交班<\/a>/);
+assert.match(html, /<a href="#evidence-switchboard" id="switchboard-link" hidden data-hover>01ρ½ \/ 证据编组<\/a>/);
+assert.ok(html.includes('id="evidence-audit-memory"'), "remembrance gains the evidence audit memory line");
+assert.equal((html.match(/<div class="stat-card">/g) || []).length, 8, "remembrance keeps exactly eight stat cards");
+assert.match(js, /证据审计：核验 \$\{st\.proofs\}，盲判 \$\{st\.blindCorrect\}，矛盾 \$\{st\.contradictions\}，暴露 \$\{st\.exposure\}，可信度 \$\{st\.credibility\}。/, "evidence audit memory line verbatim");
+/* 遗忘全部：v56 key 清除后记忆行、目录与三房核验态一并复位 */
+const forgetBlockV56 = js.match(/const keysToRemove = \[\];[\s\S]*?goScene\("threshold"\);/);
+assert.ok(forgetBlockV56, "forget-all handler must exist");
+assert.match(forgetBlockV56[0], /syncEvidenceLinks\(\);/, "forget-all resets the v56 directory links");
+assert.match(forgetBlockV56[0], /paintEvidenceAuditMemory\(\);/, "forget-all hides the v56 memory line");
+assert.match(forgetBlockV56[0], /ANOMALY_ROOMS\.forEach\(\(r\) => syncEvidenceRoom\(ANOMALY_ROOM_SCENE\[r\]\)\);/, "forget-all restores the three duty rooms' evidence state");
+for (const cls of ["ward-spot-check", "records-spot-check", "laundry-spot-check", "handover-spot-ward", "handover-spot-records", "handover-spot-laundry", "switch-spot-press", "switch-spot-burn", "switch-spot-selfseal"]) {
+  assert.match(css, new RegExp(`\\.${cls} \\{`), `css missing position class .${cls}`);
+}
+
 /* ---------- v54 迫近回访：v29 三房共同记账 + 异动第四热点九分流 ---------- */
 /* 三张 v54 异动正式图存在且被引用，三张冻结源 PNG 保留 */
 for (const asset of ["assets/v54-echo-approach.webp", "assets/v54-vein-approach.webp", "assets/v54-confession-approach.webp"]) {
@@ -3628,7 +3749,7 @@ assert.match(js, /const FLOOR_DEBT_CAP = 14;/, "debt cap 14 covers +1/+2 report 
 /* 窄守卫：仅本轮合法 pendingTarget 或历史合法到访 */
 assert.match(js, /if \(ANOMALY_BACKROOM_SCENES\.includes\(target\) && anomalyGuard\.pendingTarget !== target && !anomalyGuard\.visits\[ANOMALY_SCENE_BACKROOM\[target\]\]\) target = "unnumbered-floor";/, "v55 backroom guard admits only legal pending or past visits");
 /* 巡检态切换与场景接线 */
-assert.match(js, /if \(FLOOR_DUTY_SCENES\.includes\(name\)\) \{ enterFloorRoom\(name\); syncAnomalyRoom\(name\); replayAnomalyPending\(name\); \}/, "duty room entry syncs inspection mode and replays a legal pending");
+assert.match(js, /if \(FLOOR_DUTY_SCENES\.includes\(name\)\) \{ enterFloorRoom\(name\); syncAnomalyRoom\(name\); syncEvidenceRoom\(name\); replayAnomalyPending\(name\); replayEvidencePending\(name\); \}/, "duty room entry syncs inspection mode and replays a legal pending");
 assert.match(js, /if \(ANOMALY_BACKROOM_SCENES\.includes\(name\)\) \{ enterAnomalyBackroom\(name\); replayAnomalyPending\(name\); \}/, "backroom entry records the legal visit and replays a legal pending");
 /* DOM：12 旧热点 + 6 报告热点入图、旧卡容器删除、三新场景九热点、目录、记忆、8 卡 */
 for (const [scene, ids] of [["bellless-ward", ["ward-choice-listen", "ward-choice-sheet", "ward-choice-tube", "ward-choice-callback", "ward-report-anomaly", "ward-report-normal"]], ["seeping-records", ["records-choice-dry", "records-choice-drink", "records-choice-sink", "records-choice-callback", "records-report-anomaly", "records-report-normal"]], ["reverse-laundry", ["laundry-choice-drum", "laundry-choice-uniform", "laundry-choice-mirror", "laundry-choice-callback", "laundry-report-anomaly", "laundry-report-normal"]]]) {
@@ -3752,6 +3873,7 @@ assert.match(log, /v52|三债结算|结算所/, "ProgressLog must document v52")
 assert.match(log, /v53|归路信念/, "ProgressLog must document v53");
 assert.match(log, /v54|迫近/, "ProgressLog must document v54");
 assert.match(log, /v55|失常交班/, "ProgressLog must document v55");
+assert.match(log, /v56|症状交接/, "ProgressLog must document v56");
 
 /* ---------- 边界说明 ----------
    本套件为 Node 静态断言，不启动 DOM、不执行真实交互。
