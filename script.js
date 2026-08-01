@@ -951,6 +951,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (ANOMALY_BACKROOM_SCENES.includes(name)) { enterAnomalyBackroom(name); replayAnomalyPending(name); }
     if (EVIDENCE_SCENES.includes(name)) { enterEvidenceScene(name); replayEvidencePending(name); }
     if (LEDGER_SCENES.includes(name)) { enterLedgerScene(name); replayLedgerPending(name); }
+    if (name === "liability-ledger") { syncAppealSeal(); replayAppealPending(name); }
+    if (APPEAL_SCENES.includes(name)) { enterAppealScene(name); replayAppealPending(name); }
     if (name === "night-shift-registry") enterRegistry();
     if (name === "midnight-callback") enterCallback();
     if (name === "proxy-admission") enterProxy();
@@ -989,6 +991,7 @@ document.addEventListener("DOMContentLoaded", () => {
       paintFloorAnomalyMemory();
       paintEvidenceAuditMemory();
       paintLedgerMemory();
+      paintAppealMemory();
       paintValuationMemory();
       paintFloorMemory();
       paintRegistryMemory();
@@ -1091,6 +1094,10 @@ document.addEventListener("DOMContentLoaded", () => {
     /* v57 判词后果层守卫：五场景仅本轮合法 pendingTarget 或历史合法 visit 准入 */
     const ledgerGuard = getLedger();
     if (LEDGER_SCENES.includes(target) && ledgerGuard.pendingTarget !== target && !ledgerGuard.visits[LEDGER_SCENE_KEY[target]]) target = "unnumbered-floor";
+
+    /* v58 异议总署守卫：四场景仅本轮合法 pendingTarget 或历史合法 visit 准入 */
+    const appealGuard = getAppeal();
+    if (APPEAL_SCENES.includes(target) && appealGuard.pendingTarget !== target && !appealGuard.visits[APPEAL_SCENE_KEY[target]]) target = "unnumbered-floor";
 
     /* v31 门前守卫（v40 起启用）：未访问过的 v31 场景直达一律落回门外。
        真实路径全部只读放行——v31 热点/守则分流/前段内部动作在点击时持久化 visited，
@@ -7306,6 +7313,481 @@ document.addEventListener("DOMContentLoaded", () => {
   paintLedger();
 
   /* ============================================================
+     v58 异议总署：总署 hub + 三复核室 9 动作 + 结案纯函数路由
+     独立容错状态键 APPEAL_KEY（v58 唯一存储键），只持久化白名单
+     canonical 字段（version/cycle/visits/history/pending）；
+     objection/precedent/contamination、已结算房间、可否结案、
+     v57 profile（dominantResponsibility/liability/最近后果房）与
+     最终 target 全部由可信 history 与当前合法 v57 状态重算，
+     永不落盘。坏 JSON/错版本/额外键/错 cycle/错 action/跨字段
+     伪造全部归一；pending 逐字重算 target/feedback，只消费一次。
+     ============================================================ */
+  const APPEAL_KEY = "goddead_v58_appeal";
+  const APPEAL_VERSION = 58;
+  const APPEAL_NUM_CAP = 9999;
+  const APPEAL_HISTORY_CAP = 16;
+  const APPEAL_SCORE_KEYS = ["objection", "precedent", "contamination"];
+  const APPEAL_ROOM_KEYS = ["identity", "evidence", "destination"];
+  const APPEAL_VISIT_KEYS = ["registry", "identity", "evidence", "destination"];
+  const APPEAL_KEY_SCENE = {
+    registry: "appeal-registry",
+    identity: "identity-correction",
+    evidence: "evidence-contradiction",
+    destination: "destination-review-shaft",
+  };
+  const APPEAL_SCENE_KEY = {
+    "appeal-registry": "registry",
+    "identity-correction": "identity",
+    "evidence-contradiction": "evidence",
+    "destination-review-shaft": "destination",
+  };
+  const APPEAL_SCENES = ["appeal-registry", "identity-correction", "evidence-contradiction", "destination-review-shaft"];
+  const APPEAL_ACTION_META = {
+    identity: {
+      responseEl: "#identity-response",
+      actions: {
+        "accept-subject": { btn: "#identity-action-accept-subject", scores: { precedent: 2 } },
+        "substitute-subject": { btn: "#identity-action-substitute-subject", scores: { objection: 1, contamination: 1 } },
+        "erase-subject": { btn: "#identity-action-erase-subject", scores: { objection: 2, contamination: 1 } },
+      },
+    },
+    evidence: {
+      responseEl: "#contradiction-response",
+      actions: {
+        "merge-records": { btn: "#contradiction-action-merge-records", scores: { precedent: 2 } },
+        "preserve-conflict": { btn: "#contradiction-action-preserve-conflict", scores: { objection: 2 } },
+        "destroy-copy": { btn: "#contradiction-action-destroy-copy", scores: { contamination: 2, precedent: 1 } },
+      },
+    },
+    destination: {
+      responseEl: "#destination-response",
+      actions: {
+        "return-origin": { btn: "#destination-action-return-origin", scores: { objection: 2 } },
+        "assign-vacancy": { btn: "#destination-action-assign-vacancy", scores: { precedent: 2, contamination: 1 } },
+        "drop-below-map": { btn: "#destination-action-drop-below-map", scores: { contamination: 2 } },
+      },
+    },
+  };
+  const APPEAL_RETURN_BTN = { identity: "#identity-return-registry", evidence: "#contradiction-return-registry", destination: "#destination-return-registry" };
+  const APPEAL_HUB_META = {
+    identity: { btn: "#appeal-enter-identity", feedback: "身份装置的电话先响了。勘误室接听你的责任簿。" },
+    evidence: { btn: "#appeal-enter-evidence", feedback: "双份卷宗同时摊开。对照库只问哪一页先说谎。" },
+    destination: { btn: "#appeal-enter-destination", feedback: "三路分发台的指针各偏一格。复核井等你选一条轨。" },
+  };
+  const APPEAL_ENTRY_FEEDBACK = "封签断开。异议总署收下你的责任簿，三本索引同时翻开。";
+  const APPEAL_CLOSE_LOCKED_FEEDBACK = "锁链还压着账本：任意两间复核室结清后，印才会松。";
+  /* 历史回响：平局时 dominantResponsibility 的固定优先顺序（文档化，不可改序） */
+  const APPEAL_DOMINANT_ORDER = ["selfBurden", "transfer", "repair", "concordance"];
+  const APPEAL_DOMINANT_LABEL = { concordance: "共证", repair: "修复", transfer: "转嫁", selfBurden: "自担", none: "无" };
+  const APPEAL_LASTROOM_LABEL = { theatre: "共证剧场", quarantine: "无辜留置舱", shaft: "漏报移交井", misbound: "错绑交班台" };
+  /* v57 profile 完全由合法 v57 canonical 状态派生：dominant（平局按固定顺序）、
+     liability、最近一次后果房、入口资格（≥3 不同后果房结算 + ≥1 账房动作结算） */
+  const appealProfile = () => {
+    const l = getLedger();
+    let dominant = "none";
+    let best = 0;
+    APPEAL_DOMINANT_ORDER.forEach((k) => { if (l.scores[k] > best) { best = l.scores[k]; dominant = k; } });
+    let lastRoom = "";
+    for (let i = l.history.length - 1; i >= 0; i--) {
+      const h = l.history[i];
+      if (h.type === "action" && LEDGER_CONSEQUENCE_KEYS.includes(h.scene)) { lastRoom = h.scene; break; }
+    }
+    const distinct = LEDGER_CONSEQUENCE_KEYS.filter((k) => Object.keys(LEDGER_ACTION_META[k].actions).some((a) => l.actions[a] > 0)).length;
+    const ledgerActions = ["return-verdict", "sign-self", "assign-vacancy"].reduce((n, a) => n + l.actions[a], 0);
+    const eligible = distinct >= 3 && ledgerActions >= 1;
+    return { dominant, liability: l.liability, lastRoom, eligible };
+  };
+  /* 三房动作逐字反馈：每房至少一条按 v57 profile 真实变化 */
+  const appealActionFeedback = (room, action, profile) => {
+    if (room === "identity") {
+      if (action === "accept-subject") return "名牌嵌进证人椅。先例不需要脸，只需要一个被承认坐过的位置。";
+      if (action === "substitute-subject") return "裂镜把你的轮廓试进空制服。制服合身的那一刻，证词开始认错人。";
+      if (profile.dominant === "concordance") return "你拨通电话，让共证过的声音亲口否认那张肖像。空画框收下一段被撤回的同台。";
+      if (profile.dominant === "repair") return "你拨通电话，逐条报出你修过的记录，把肖像从墙上请了下来。空画框记得这双手。";
+      if (profile.dominant === "transfer") return "你拨通电话，把肖像的存在说成别人的误会。空画框替你挂断了电话。";
+      if (profile.dominant === "selfBurden") return "你拨通电话，用自己的名字换下肖像的编号。空画框从此归你保管。";
+      return "电话接通又挂断。空肖像没有等来去电，只剩一圈拨号音。";
+    }
+    if (room === "evidence") {
+      if (action === "merge-records") return "错位玻璃被压到同一刻度。两页对照片合成一份先例，裂缝归进注释。";
+      if (action === "destroy-copy") return "污卷宗送进焚盘。灰被称重归档：先例多了一页，污染多了一撮。";
+      if (profile.lastRoom === "theatre") return "白卷宗保持空白。共证剧场同台过的两份证词，在这里被允许继续不一致。";
+      if (profile.lastRoom === "quarantine") return "白卷宗保持空白。无辜留置舱教过你：写满不一定等于写对。";
+      if (profile.lastRoom === "shaft") return "白卷宗保持空白。漏报移交井里那只下坠的箱子提醒你，缺页也是一种记录。";
+      if (profile.lastRoom === "misbound") return "白卷宗保持空白。错绑交班台拆开过的结，不该在这里重新绑死。";
+      return "白卷宗保持空白。没有后果房为它作保，空白本身就是证词。";
+    }
+    if (action === "return-origin") return "回程轮轨倒转半圈。封箱被退回出发的一侧，异议随箱原路返回。";
+    if (action === "drop-below-map") return "断轨尽头的落井杆被压下。封箱坠到地图以下，污染沉入没有编号的深度。";
+    return profile.liability >= 0
+      ? `悬吊封箱挂上新的去向牌。你的责任值 ${profile.liability} 非负，空位承认这次指派有效。`
+      : `悬吊封箱挂上新的去向牌。责任值 ${profile.liability} 为负，空位先收下箱子，再向你追认指派。`;
+  };
+  /* 结案路由：纯函数，点击前分值决定目标（2/2/2 特殊平衡仅限三房全完成） */
+  const appealCloseTarget = (scores, settledCount, liability, lastRoom) => {
+    const o = scores.objection;
+    const p = scores.precedent;
+    const c = scores.contamination;
+    if (settledCount === 3 && o === p && p === c && o > 0) return "unnumbered-floor";
+    if (p > o && p > c) return liability >= 0 ? "concordance-theatre" : "misbound-handover";
+    if (o > p && o > c) return (lastRoom === "quarantine" || lastRoom === "shaft") ? "protocol-drift" : "evidence-vault";
+    if (c > o && c > p) return liability < 0 ? "false-positive-shaft" : "omission-transfer-shaft";
+    if (o === p && o > c) return "liability-ledger";
+    if (o === c && o > p) return "blank-name-cloakroom";
+    if (p === c && p > o) return "misbound-handover";
+    return "liability-ledger";
+  };
+  /* 结案反馈：说清哪类异议占上风 + 为什么被送到该处（逐字重算可复现） */
+  const appealCloseFeedback = (target, scores, profile) => {
+    const o = scores.objection;
+    const p = scores.precedent;
+    const c = scores.contamination;
+    const L = profile.liability;
+    if (target === "unnumbered-floor") return `三类异议完全拉平（各 ${o} 点），没有一类占上风。总署拒绝归类，结案送去无号层——唯一不编号的楼层。`;
+    if (target === "concordance-theatre") return `先例异议占上风（先例 ${p} 点压过其余），责任值 ${L} 非负。先例需要同台复核，结案送去共证剧场。`;
+    if (target === "misbound-handover" && p > o && p > c) return `先例异议占上风（先例 ${p} 点），但责任值 ${L} 为负。先例绑错了承担者，结案退回错绑交班台。`;
+    if (target === "misbound-handover") return `先例与污染各 ${p} 点拉平、压过异议。占上风者拒绝单独署名，结案退回错绑交班台。`;
+    if (target === "protocol-drift") return `异议占上风（异议 ${o} 点），最近结清的${APPEAL_LASTROOM_LABEL[profile.lastRoom]}留下程序疑点。结案移交守则漂移，由守则重写自己。`;
+    if (target === "evidence-vault") return `异议占上风（异议 ${o} 点），没有程序疑点随案。结案按原证据链退回异常保全。`;
+    if (target === "false-positive-shaft") return `污染占上风（污染 ${c} 点），责任值 ${L} 为负。污染被怀疑本是误报，结案坠入误报回收井。`;
+    if (target === "omission-transfer-shaft") return `污染占上风（污染 ${c} 点），责任值 ${L} 非负。污染按漏报流程移交，结案沉入漏报移交井。`;
+    if (target === "blank-name-cloakroom") return `异议与污染各 ${o} 点拉平、压过先例。两类都不愿署名，结案寄存到空名寄存处。`;
+    if (o === p && o > c) return `异议与先例各 ${o} 点拉平、压过污染。没有单一占上风者，结案退回责任账房重秤。`;
+    return "三类异议无法裁定占上风者。结案退回责任账房，由账本重新过秤。";
+  };
+  /* 总署说明：资格齐备时按 v57 profile 变化，否则安全中性渲染（不伪造资格） */
+  const appealHubDesc = (profile) => profile.eligible
+    ? `责任簿已受理：${APPEAL_DOMINANT_LABEL[profile.dominant]}在你的后果账上占上风（责任值 ${profile.liability}），最近结清的是${APPEAL_LASTROOM_LABEL[profile.lastRoom]}。左侧身份装置、中左双份卷宗、右侧三路分发台各归一类异议；锁链账本在任意两间结清后开印。`
+    : "判决生效之后，异议才成立。总署只受理已经结清的后果；你的责任簿上还没有可复核的记录。";
+
+  const getAppeal = () => {
+    let raw = {};
+    try {
+      raw = JSON.parse(store.get(APPEAL_KEY, "{}")) || {};
+    } catch { raw = {}; }
+    if (typeof raw !== "object" || Array.isArray(raw)) raw = {};
+    /* 错版本整体丢弃：v58 之前的任何同键内容一律不算数 */
+    if (raw.version !== APPEAL_VERSION) raw = {};
+    const num = (v) => {
+      let n = Number(v);
+      if (!Number.isFinite(n) || n < 0) n = 0;
+      return Math.min(APPEAL_NUM_CAP, Math.floor(n));
+    };
+    /* cycle 对齐 v35：跨 cycle 的 history 条目保留但不参与本轮派生 */
+    const cycle = getFloor().cycle;
+    const sameCycle = num(raw.cycle) === cycle;
+    const visits = {};
+    APPEAL_VISIT_KEYS.forEach((k) => { visits[k] = num(raw.visits && raw.visits[k]); });
+    /* history 有界白名单：entry/close/action 三种形状，最多 16 条 */
+    let history = [];
+    if (Array.isArray(raw.history)) {
+      for (const h of raw.history) {
+        if (!h || typeof h !== "object" || Array.isArray(h)) continue;
+        if (h.type === "entry" || h.type === "close") {
+          history.push({ type: h.type, cycle: num(h.cycle) });
+        } else if (h.type === "action" && APPEAL_ROOM_KEYS.includes(h.room) && APPEAL_ACTION_META[h.room].actions[h.action]) {
+          history.push({ type: "action", room: h.room, action: h.action, cycle: num(h.cycle) });
+        }
+      }
+    }
+    history = history.slice(-APPEAL_HISTORY_CAP);
+    /* 派生（永不落盘）：本轮分值 / 已结算房间 / 可否结案，同一房间同一 cycle
+       只计首次；伪造的重复条目由 !settled 守卫挡下 */
+    const scores = { objection: 0, precedent: 0, contamination: 0 };
+    const settled = { identity: false, evidence: false, destination: false };
+    history.forEach((h) => {
+      if (h.type === "action" && h.cycle === cycle && !settled[h.room]) {
+        settled[h.room] = true;
+        const sc = APPEAL_ACTION_META[h.room].actions[h.action].scores;
+        Object.keys(sc).forEach((k) => { scores[k] = Math.min(APPEAL_NUM_CAP, scores[k] + sc[k]); });
+      }
+    });
+    const settledCount = APPEAL_ROOM_KEYS.filter((k) => settled[k]).length;
+    const profile = appealProfile();
+    /* pending 严格白名单：entry/close 恰好五键、action 恰好六键（额外键即伪造）；
+       target/feedback 逐字重算；结算证据 = canonical history 末项一致 + cycle 一致
+       + 当前派生资格（入口须 v57 资格仍在，结案须本轮仍满两间） */
+    let pending = null;
+    if (sameCycle && raw.pending && typeof raw.pending === "object" && !Array.isArray(raw.pending)) {
+      const p = raw.pending;
+      const keys = Object.keys(p).sort().join(",");
+      const last = history.length ? history[history.length - 1] : null;
+      if (p.kind === "entry" && keys === "cycle,feedback,kind,scene,target"
+        && p.scene === "liability-ledger" && num(p.cycle) === cycle
+        && profile.eligible
+        && last && last.type === "entry" && last.cycle === cycle
+        && p.target === "appeal-registry" && p.feedback === APPEAL_ENTRY_FEEDBACK) {
+        pending = { kind: "entry", scene: "liability-ledger", target: "appeal-registry", feedback: APPEAL_ENTRY_FEEDBACK, cycle };
+      } else if (p.kind === "action" && keys === "action,cycle,feedback,kind,scene,target"
+        && APPEAL_ROOM_KEYS.includes(APPEAL_SCENE_KEY[p.scene])
+        && APPEAL_ACTION_META[APPEAL_SCENE_KEY[p.scene]].actions[p.action]
+        && num(p.cycle) === cycle
+        && last && last.type === "action" && last.room === APPEAL_SCENE_KEY[p.scene] && last.action === p.action && last.cycle === cycle
+        && settled[APPEAL_SCENE_KEY[p.scene]]) {
+        const feedback = appealActionFeedback(APPEAL_SCENE_KEY[p.scene], p.action, profile);
+        if (p.target === "appeal-registry" && p.feedback === feedback) {
+          pending = { kind: "action", scene: p.scene, action: p.action, target: "appeal-registry", feedback, cycle };
+        }
+      } else if (p.kind === "close" && keys === "cycle,feedback,kind,scene,target"
+        && p.scene === "appeal-registry" && num(p.cycle) === cycle
+        && settledCount >= 2
+        && last && last.type === "close" && last.cycle === cycle) {
+        const target = appealCloseTarget(scores, settledCount, profile.liability, profile.lastRoom);
+        const feedback = appealCloseFeedback(target, scores, profile);
+        if (p.target === target && p.feedback === feedback) {
+          pending = { kind: "close", scene: "appeal-registry", target, feedback, cycle };
+        }
+      }
+    }
+    return {
+      cycle, visits, history, pending, scores, settled, settledCount,
+      pendingTarget: pending ? pending.target : "",
+    };
+  };
+  /* 只持久化白名单 canonical 字段；派生字段永不落盘，history 先裁后存 */
+  const saveAppeal = (st) => store.set(APPEAL_KEY, JSON.stringify({
+    version: APPEAL_VERSION,
+    cycle: st.cycle,
+    visits: st.visits,
+    pending: st.pending,
+    history: st.history.slice(-APPEAL_HISTORY_CAP),
+  }));
+
+  const appealActive = (st) => APPEAL_VISIT_KEYS.some((k) => st.visits[k] > 0) || st.history.length > 0;
+
+  /* 异议签：三类分值 + 已复核间数 + 每房本轮结清态 + 结案开印态 */
+  const paintAppeal = () => {
+    const st = getAppeal();
+    $$("[data-appeal-objection]").forEach((el) => { el.textContent = st.scores.objection; });
+    $$("[data-appeal-precedent]").forEach((el) => { el.textContent = st.scores.precedent; });
+    $$("[data-appeal-contamination]").forEach((el) => { el.textContent = st.scores.contamination; });
+    $$("[data-appeal-settled-count]").forEach((el) => { el.textContent = `${st.settledCount}/3`; });
+    APPEAL_ROOM_KEYS.forEach((k) => {
+      $$(`[data-appeal-room="${k}"]`).forEach((el) => { el.textContent = st.settled[k] ? "已结清" : "未结清"; });
+    });
+    const canClose = st.settledCount >= 2;
+    $$("[data-appeal-close]").forEach((el) => { el.textContent = canClose ? "可开印" : "待两间"; });
+    const closeBtn = $("#appeal-close");
+    if (closeBtn) closeBtn.setAttribute("aria-disabled", canClose ? "false" : "true");
+  };
+
+  /* 入口封签：只在责任账房复访且 v57 资格齐备时显露（资格纯派生，不可伪造） */
+  const syncAppealSeal = () => {
+    const seal = $("#ledger-appeal-seal");
+    if (!seal) return;
+    if (appealProfile().eligible) seal.removeAttribute("hidden");
+    else seal.setAttribute("hidden", "");
+  };
+
+  /* 转场 before 通用尾件：原子记 visit 再清 pending，并补齐目标场景的旧守卫凭证 */
+  const appealBeforeArrive = (target) => {
+    const s = getAppeal();
+    if (APPEAL_SCENE_KEY[target] && s.visits[APPEAL_SCENE_KEY[target]] === 0) s.visits[APPEAL_SCENE_KEY[target]] = 1;
+    if (s.pending) s.pending = null;
+    saveAppeal(s);
+    if (LEDGER_SCENE_KEY[target]) grantLedgerVisit(target);
+    if (target === "evidence-vault") markReviewVisited("evidence-vault");
+    if (target === "false-positive-shaft") markReviewVisited("false-positive-shaft");
+    syncAppealLinks();
+    paintAppealMemory();
+  };
+
+  /* 入口节拍：只记 v58 入口，不改 v57 任何分值；一拍后自动到总署 */
+  const chooseAppealEntry = () => {
+    if (currentScene !== "liability-ledger") return;
+    if (AutoAdvance.has("liability-ledger")) return;
+    if (!appealProfile().eligible) return;
+    const st = getAppeal();
+    st.history.push({ type: "entry", cycle: st.cycle });
+    st.pending = { kind: "entry", scene: "liability-ledger", target: "appeal-registry", feedback: APPEAL_ENTRY_FEEDBACK, cycle: st.cycle };
+    saveAppeal(st);
+    const btn = $("#ledger-appeal-seal");
+    if (btn) btn.setAttribute("aria-pressed", "true");
+    const responseEl = $("#ledger-response");
+    if (responseEl) responseEl.textContent = APPEAL_ENTRY_FEEDBACK;
+    AudioEngine.knock(0.16);
+    AutoAdvance.schedule("liability-ledger", "appeal-registry", {
+      delay: branchDelay(),
+      before: () => appealBeforeArrive("appeal-registry"),
+    });
+  };
+
+  /* 复核动作：首次一拍计分并自动回总署；同 cycle 复访只重播反馈、不二次计分、
+     不自动转场（回总署走画面内回总署热点） */
+  const chooseAppealAction = (roomKey, actionKey) => {
+    const meta = APPEAL_ACTION_META[roomKey] && APPEAL_ACTION_META[roomKey].actions[actionKey];
+    if (!meta) return;
+    const sceneName = APPEAL_KEY_SCENE[roomKey];
+    if (currentScene !== sceneName) return;
+    if (AutoAdvance.has(sceneName)) return;
+    const profile = appealProfile();
+    const feedback = appealActionFeedback(roomKey, actionKey, profile);
+    const st = getAppeal();
+    const firstSettle = !st.settled[roomKey];
+    if (firstSettle) {
+      st.history.push({ type: "action", room: roomKey, action: actionKey, cycle: st.cycle });
+      st.pending = { kind: "action", scene: sceneName, action: actionKey, target: "appeal-registry", feedback, cycle: st.cycle };
+      saveAppeal(st);
+    }
+    const btn = $(meta.btn);
+    if (btn) btn.setAttribute("aria-pressed", "true");
+    const responseEl = $(APPEAL_ACTION_META[roomKey].responseEl);
+    if (responseEl) responseEl.textContent = feedback;
+    AudioEngine.knock(0.16);
+    paintAppeal();
+    if (firstSettle) {
+      AutoAdvance.schedule(sceneName, "appeal-registry", {
+        delay: branchDelay(),
+        before: () => appealBeforeArrive("appeal-registry"),
+      });
+    }
+  };
+
+  /* 画面内回总署热点：纯导航节拍，不计分不写 history */
+  const chooseAppealReturn = (roomKey) => {
+    const sceneName = APPEAL_KEY_SCENE[roomKey];
+    if (currentScene !== sceneName) return;
+    if (AutoAdvance.has(sceneName)) return;
+    const responseEl = $(APPEAL_ACTION_META[roomKey].responseEl);
+    if (responseEl) responseEl.textContent = "复核记录已归档。你沿原路退回总署柜台。";
+    AudioEngine.knock(0.16);
+    AutoAdvance.schedule(sceneName, "appeal-registry", {
+      delay: branchDelay(),
+      before: () => appealBeforeArrive("appeal-registry"),
+    });
+  };
+
+  /* 总署 hub：三路导航常开；锁链账本结案需本轮任意两间结清，不强制、不抢第三间 */
+  const chooseAppealHub = (hubKey) => {
+    if (currentScene !== "appeal-registry") return;
+    if (AutoAdvance.has("appeal-registry")) return;
+    const responseEl = $("#appeal-response");
+    if (hubKey === "close") {
+      const st = getAppeal();
+      if (st.settledCount < 2) {
+        if (responseEl) responseEl.textContent = APPEAL_CLOSE_LOCKED_FEEDBACK;
+        AudioEngine.knock(0.12);
+        paintAppeal();
+        return;
+      }
+      const profile = appealProfile();
+      const target = appealCloseTarget(st.scores, st.settledCount, profile.liability, profile.lastRoom);
+      const feedback = appealCloseFeedback(target, st.scores, profile);
+      st.history.push({ type: "close", cycle: st.cycle });
+      st.pending = { kind: "close", scene: "appeal-registry", target, feedback, cycle: st.cycle };
+      saveAppeal(st);
+      const btn = $("#appeal-close");
+      if (btn) btn.setAttribute("aria-pressed", "true");
+      if (responseEl) responseEl.textContent = feedback;
+      AudioEngine.knock(0.16);
+      paintAppeal();
+      AutoAdvance.schedule("appeal-registry", target, {
+        delay: branchDelay(),
+        before: () => appealBeforeArrive(target),
+      });
+      return;
+    }
+    const meta = APPEAL_HUB_META[hubKey];
+    if (!meta) return;
+    const btn = $(meta.btn);
+    if (btn) btn.setAttribute("aria-pressed", "true");
+    if (responseEl) responseEl.textContent = meta.feedback;
+    AudioEngine.knock(0.16);
+    AutoAdvance.schedule("appeal-registry", APPEAL_KEY_SCENE[hubKey], {
+      delay: branchDelay(),
+      before: () => appealBeforeArrive(APPEAL_KEY_SCENE[hubKey]),
+    });
+  };
+
+  /* reload 节拍恢复：合法 pending 属于当前场景时重播逐字反馈并精确重挂一次 */
+  const replayAppealPending = (sceneName) => {
+    const st = getAppeal();
+    const p = st.pending;
+    if (!p || p.scene !== sceneName) return;
+    if (p.kind === "entry") {
+      const responseEl = $("#ledger-response");
+      if (responseEl) responseEl.textContent = p.feedback;
+    } else if (p.kind === "action") {
+      const responseEl = $(APPEAL_ACTION_META[APPEAL_SCENE_KEY[p.scene]].responseEl);
+      if (responseEl) responseEl.textContent = p.feedback;
+    } else {
+      const responseEl = $("#appeal-response");
+      if (responseEl) responseEl.textContent = p.feedback;
+    }
+    AutoAdvance.schedule(sceneName, p.target, {
+      delay: branchDelay(),
+      before: () => appealBeforeArrive(p.target),
+    });
+  };
+
+  /* 四场景进入：幂等补记 visit、清响应、总署说明按 v57 profile 重绘 */
+  const enterAppealScene = (sceneName) => {
+    const key = APPEAL_SCENE_KEY[sceneName];
+    if (!key) return;
+    const st = getAppeal();
+    if (st.visits[key] === 0) {
+      st.visits[key] = 1;
+      saveAppeal(st);
+      syncAppealLinks();
+    }
+    if (sceneName === "appeal-registry") {
+      const desc = $("#appeal-desc");
+      if (desc) desc.textContent = appealHubDesc(appealProfile());
+      const responseEl = $("#appeal-response");
+      if (responseEl) responseEl.textContent = "";
+    } else {
+      const responseEl = $(APPEAL_ACTION_META[key].responseEl);
+      if (responseEl) responseEl.textContent = "";
+    }
+    paintAppeal();
+  };
+
+  const APPEAL_LINKS = { registry: "#appeal-link", identity: "#correction-link", evidence: "#contradiction-link", destination: "#destination-link" };
+  const syncAppealLinks = () => {
+    const st = getAppeal();
+    APPEAL_VISIT_KEYS.forEach((k) => {
+      const link = $(APPEAL_LINKS[k]);
+      if (!link) return;
+      if (st.visits[k] > 0) link.removeAttribute("hidden");
+      else link.setAttribute("hidden", "");
+    });
+  };
+
+  /* 痕迹页单行：异议署四类派生值，保持八张统计卡不变 */
+  const paintAppealMemory = () => {
+    const memory = $("#appeal-memory");
+    if (!memory) return;
+    const st = getAppeal();
+    if (!appealActive(st)) {
+      memory.hidden = true;
+      return;
+    }
+    memory.textContent = `异议署：异议 ${st.scores.objection}，先例 ${st.scores.precedent}，污染 ${st.scores.contamination}，本轮已复核 ${st.settledCount}/3。`;
+    memory.hidden = false;
+  };
+
+  /* v58 合成守卫：全部监听只接受真实用户产生的 click（isTrusted）——
+     合成 HTMLElement.click() 在 active 场景同样零副作用；
+     鼠标/触控/Tab+Enter/Space 与 CDP page.click 均派发 trusted click，不受影响 */
+  { const sealBtn = $("#ledger-appeal-seal");
+    if (sealBtn) sealBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseAppealEntry(); }); }
+  Object.keys(APPEAL_HUB_META).forEach((hubKey) => {
+    const btn = $(APPEAL_HUB_META[hubKey].btn);
+    if (btn) btn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseAppealHub(hubKey); });
+  });
+  { const closeBtn = $("#appeal-close");
+    if (closeBtn) closeBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseAppealHub("close"); }); }
+  APPEAL_ROOM_KEYS.forEach((roomKey) => {
+    Object.keys(APPEAL_ACTION_META[roomKey].actions).forEach((actionKey) => {
+      const btn = $(APPEAL_ACTION_META[roomKey].actions[actionKey].btn);
+      if (btn) btn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseAppealAction(roomKey, actionKey); });
+    });
+    const retBtn = $(APPEAL_RETURN_BTN[roomKey]);
+    if (retBtn) retBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseAppealReturn(roomKey); });
+  });
+  paintAppeal();
+
+  /* ============================================================
      v40 门外侧廊：首页纵深环境层 + 左右廊热点 + 三个画面热点场景
      状态独立存 goddead_v40_lateral_corridors，容错坏 JSON；
      pending 必须是 {scene, action, target, feedback} 完整合法映射；
@@ -11409,6 +11891,9 @@ document.addEventListener("DOMContentLoaded", () => {
       paintEvidence();
       syncLedgerLinks();
       paintLedger();
+      syncAppealLinks();
+      paintAppeal();
+      syncAppealSeal();
       ANOMALY_ROOMS.forEach((r) => syncEvidenceRoom(ANOMALY_ROOM_SCENE[r]));
       syncLateralLinks();
       syncBackroomLinks();
@@ -11433,6 +11918,7 @@ document.addEventListener("DOMContentLoaded", () => {
       paintFloorAnomalyMemory();
       paintEvidenceAuditMemory();
       paintLedgerMemory();
+      paintAppealMemory();
       paintValuationMemory();
       paintFloorMemory();
       paintRegistryMemory();
@@ -11514,6 +12000,10 @@ document.addEventListener("DOMContentLoaded", () => {
   syncLedgerLinks();
   paintLedgerMemory();
   paintLedger();
+  syncAppealLinks();
+  paintAppealMemory();
+  paintAppeal();
+  syncAppealSeal();
   syncLateralLinks();
   paintLateralMemory();
   syncBackroomLinks();

@@ -6248,3 +6248,44 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
   #scene-misbound-handover .branch-figure,
   #scene-liability-ledger .branch-figure { width: min(460px, 100%); }
 }
+
+/* ============================================================
+   v58 异议总署：总署 hub 4 热点 + 三复核室各 3 动作 + 回总署热点
+   + 责任账房异议封签入口（1536×1024 舞台百分比，桌面/移动共用，
+   44px 增长后互不重叠）
+   ============================================================ */
+/* 责任账房台面左下红蜡封（v58 入口，资格不足时 hidden 退出布局） */
+.ledger-spot-appeal-seal { top: 63%; left: 2%; width: 13%; height: 12%; }
+
+/* 总署：左身份电话与镜片 / 中左双份卷宗 / 中右锁链账本 / 右三路分发台 */
+.appeal-spot-identity { top: 48%; left: 6%; width: 17%; height: 32%; }
+.appeal-spot-evidence { top: 56%; left: 25%; width: 24%; height: 24%; }
+.appeal-spot-close { top: 50%; left: 53%; width: 19%; height: 32%; }
+.appeal-spot-destination { top: 52%; left: 74%; width: 24%; height: 34%; }
+/* 结案未解锁：锁链账本仍压着印，视觉压暗但留在无障碍树 */
+.appeal-spot-close[aria-disabled="true"] { opacity: 0.55; }
+
+/* 身份勘误室：左电话与空肖像 / 中央证人椅与名牌 / 右裂镜与空制服 / 底部滑轨回总署 */
+.identity-spot-erase { top: 42%; left: 6%; width: 23%; height: 36%; }
+.identity-spot-accept { top: 30%; left: 38%; width: 24%; height: 44%; }
+.identity-spot-substitute { top: 33%; left: 69%; width: 26%; height: 46%; }
+.identity-spot-return { top: 80%; left: 43%; width: 14%; height: 14%; }
+
+/* 证据对照库：左白卷宗 / 中央错位玻璃对照片 / 右污卷宗与焚盘 / 后墙库门回总署 */
+.contradiction-spot-preserve { top: 56%; left: 2%; width: 30%; height: 36%; }
+.contradiction-spot-merge { top: 40%; left: 35%; width: 30%; height: 52%; }
+.contradiction-spot-destroy { top: 54%; left: 68%; width: 30%; height: 42%; }
+.contradiction-spot-return { top: 10%; left: 45%; width: 12%; height: 22%; }
+
+/* 去向复核井：左拱门回总署 / 左回程轮轨 / 中央悬吊封箱 / 右断轨与落井杆 */
+.destination-spot-archway { top: 12%; left: 1%; width: 12%; height: 24%; }
+.destination-spot-return { top: 40%; left: 8%; width: 20%; height: 26%; }
+.destination-spot-assign { top: 40%; left: 38%; width: 24%; height: 32%; }
+.destination-spot-drop { top: 26%; left: 78%; width: 18%; height: 34%; }
+
+@media (min-width: 721px) and (max-height: 800px) {
+  #scene-appeal-registry .branch-figure,
+  #scene-identity-correction .branch-figure,
+  #scene-evidence-contradiction .branch-figure,
+  #scene-destination-review-shaft .branch-figure { width: min(460px, 100%); }
+}

@@ -1493,12 +1493,197 @@
               <span class="bb-title">归档空席</span>
               <span class="bb-hint">蜡座正好空一格</span>
             </button>
+            <button class="branch-btn forecourt-native-hotspot ledger-spot-appeal-seal" id="ledger-appeal-seal" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">异议封签</span>
+              <span class="bb-title">异议封签</span>
+              <span class="bb-hint">责任簿可以被异议</span>
+            </button>
           </figure>
           <p class="branch-response" id="ledger-response" aria-live="polite"></p>
 
           <nav class="scene-exits reveal" aria-label="离开责任账房">
             <button class="exit-link" type="button" data-go="unnumbered-floor" data-hover>⟵ 回到无号层</button>
           </nav>
+        </div>
+      </section>
+
+      <!-- v58 异议总署 · 总署（非线性 hub） -->
+      <section class="scene scene-branch scene-appeal-registry" id="scene-appeal-registry" data-scene="appeal-registry" data-title="Goddead — 异议总署" aria-label="异议总署">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE APPEAL REGISTRY · 异 议 总 署</p>
+            <h2 class="sec-title">异议总署</h2>
+            <p class="sec-desc" id="appeal-desc">判决生效之后，异议才成立。总署只受理已经结清的后果。</p>
+          </header>
+
+          <div class="review-slip ledger-slip reveal" role="group" aria-label="异议签">
+            <span class="rs-item">异议 <b data-appeal-objection>0</b></span>
+            <span class="rs-item">先例 <b data-appeal-precedent>0</b></span>
+            <span class="rs-item">污染 <b data-appeal-contamination>0</b></span>
+            <span class="rs-item">已复核 <b data-appeal-settled-count>0/3</b></span>
+            <span class="rs-item">结案 <b data-appeal-close>待两间</b></span>
+          </div>
+
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="异议总署：左侧身份电话与镜片、中左双份卷宗、中右锁链账本、右侧三路分发台">
+            <img class="branch-img" src="assets/v58-appeal-registry.webp" alt="" width="1536" height="1024" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot appeal-spot-identity" id="appeal-enter-identity" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">身份勘误</span>
+              <span class="bb-title">身份勘误室</span>
+              <span class="bb-hint">电话与镜片核对身份</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot appeal-spot-evidence" id="appeal-enter-evidence" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">证据对照</span>
+              <span class="bb-title">证据对照库</span>
+              <span class="bb-hint">双份卷宗不一致</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot appeal-spot-close" id="appeal-close" type="button" aria-pressed="false" aria-disabled="true" data-hover>
+              <span class="bb-short" aria-hidden="true">结案开印</span>
+              <span class="bb-title">锁链账本·结案</span>
+              <span class="bb-hint">两间结清后开印</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot appeal-spot-destination" id="appeal-enter-destination" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">去向复核</span>
+              <span class="bb-title">去向复核井</span>
+              <span class="bb-hint">三路分发台定去向</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="appeal-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开异议总署">
+            <button class="exit-link" type="button" data-go="liability-ledger" data-hover>⟵ 回到责任账房</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v58 异议总署 · 身份勘误室 -->
+      <section class="scene scene-branch scene-identity-correction" id="scene-identity-correction" data-scene="identity-correction" data-title="Goddead — 身份勘误室" aria-label="身份勘误室">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE IDENTITY CORRECTION · 身 份 勘 误 室</p>
+            <h2 class="sec-title">身份勘误室</h2>
+            <p class="sec-desc">证词里的人可以被更正。更正哪一笔，账房都记得。</p>
+          </header>
+
+          <div class="review-slip ledger-slip reveal" role="group" aria-label="异议签">
+            <span class="rs-item">异议 <b data-appeal-objection>0</b></span>
+            <span class="rs-item">先例 <b data-appeal-precedent>0</b></span>
+            <span class="rs-item">污染 <b data-appeal-contamination>0</b></span>
+            <span class="rs-item">已复核 <b data-appeal-settled-count>0/3</b></span>
+            <span class="rs-item">本轮 <b data-appeal-room="identity">未结清</b></span>
+          </div>
+
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="身份勘误室：左侧电话与空肖像、中央空证人椅与名牌、右侧裂镜与空制服">
+            <img class="branch-img" src="assets/v58-identity-correction.webp" alt="" width="1536" height="1024" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot identity-spot-erase" id="identity-action-erase-subject" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">抹除主体</span>
+              <span class="bb-title">抹除主体</span>
+              <span class="bb-hint">电话打给空肖像</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot identity-spot-accept" id="identity-action-accept-subject" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">承认主体</span>
+              <span class="bb-title">承认主体</span>
+              <span class="bb-hint">名牌嵌进证人椅</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot identity-spot-substitute" id="identity-action-substitute-subject" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">替换主体</span>
+              <span class="bb-title">替换主体</span>
+              <span class="bb-hint">裂镜试穿空制服</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot identity-spot-return" id="identity-return-registry" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">回总署</span>
+              <span class="bb-title">回到异议总署</span>
+              <span class="bb-hint">滑轨退回总柜台</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="identity-response" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <!-- v58 异议总署 · 证据对照库 -->
+      <section class="scene scene-branch scene-evidence-contradiction" id="scene-evidence-contradiction" data-scene="evidence-contradiction" data-title="Goddead — 证据对照库" aria-label="证据对照库">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE EVIDENCE CONTRADICTION · 证 据 对 照 库</p>
+            <h2 class="sec-title">证据对照库</h2>
+            <p class="sec-desc">同一件事的两份记录在这里对照。缝对不上的时候，库不替你决定。</p>
+          </header>
+
+          <div class="review-slip ledger-slip reveal" role="group" aria-label="异议签">
+            <span class="rs-item">异议 <b data-appeal-objection>0</b></span>
+            <span class="rs-item">先例 <b data-appeal-precedent>0</b></span>
+            <span class="rs-item">污染 <b data-appeal-contamination>0</b></span>
+            <span class="rs-item">已复核 <b data-appeal-settled-count>0/3</b></span>
+            <span class="rs-item">本轮 <b data-appeal-room="evidence">未结清</b></span>
+          </div>
+
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="证据对照库：左侧白卷宗、中央错位玻璃对照片、右侧污卷宗与焚盘">
+            <img class="branch-img" src="assets/v58-evidence-contradiction.webp" alt="" width="1536" height="1024" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot contradiction-spot-preserve" id="contradiction-action-preserve-conflict" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">保留冲突</span>
+              <span class="bb-title">保留冲突</span>
+              <span class="bb-hint">白卷宗保持空白</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot contradiction-spot-merge" id="contradiction-action-merge-records" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">合并记录</span>
+              <span class="bb-title">合并记录</span>
+              <span class="bb-hint">玻璃压到同一刻度</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot contradiction-spot-destroy" id="contradiction-action-destroy-copy" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">销毁副本</span>
+              <span class="bb-title">销毁副本</span>
+              <span class="bb-hint">污卷宗入焚盘</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot contradiction-spot-return" id="contradiction-return-registry" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">回总署</span>
+              <span class="bb-title">回到异议总署</span>
+              <span class="bb-hint">库门退回总柜台</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="contradiction-response" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <!-- v58 异议总署 · 去向复核井 -->
+      <section class="scene scene-branch scene-destination-review-shaft" id="scene-destination-review-shaft" data-scene="destination-review-shaft" data-title="Goddead — 去向复核井" aria-label="去向复核井">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE DESTINATION REVIEW SHAFT · 去 向 复 核 井</p>
+            <h2 class="sec-title">去向复核井</h2>
+            <p class="sec-desc">结清的后果要被送去某处。井只复核方向，不复核理由。</p>
+          </header>
+
+          <div class="review-slip ledger-slip reveal" role="group" aria-label="异议签">
+            <span class="rs-item">异议 <b data-appeal-objection>0</b></span>
+            <span class="rs-item">先例 <b data-appeal-precedent>0</b></span>
+            <span class="rs-item">污染 <b data-appeal-contamination>0</b></span>
+            <span class="rs-item">已复核 <b data-appeal-settled-count>0/3</b></span>
+            <span class="rs-item">本轮 <b data-appeal-room="destination">未结清</b></span>
+          </div>
+
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="去向复核井：左侧回程轮轨、中央悬吊封箱、右侧断轨与落井杆">
+            <img class="branch-img" src="assets/v58-destination-review-shaft.webp" alt="" width="1536" height="1024" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot destination-spot-return" id="destination-action-return-origin" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">退回原点</span>
+              <span class="bb-title">退回原点</span>
+              <span class="bb-hint">轮轨倒转半圈</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot destination-spot-assign" id="destination-action-assign-vacancy" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">指派空位</span>
+              <span class="bb-title">指派空位</span>
+              <span class="bb-hint">封箱挂新去向牌</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot destination-spot-drop" id="destination-action-drop-below-map" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">坠入图外</span>
+              <span class="bb-title">坠入图外</span>
+              <span class="bb-hint">断轨之下没有编号</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot destination-spot-archway" id="destination-return-registry" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">回总署</span>
+              <span class="bb-title">回到异议总署</span>
+              <span class="bb-hint">拱门退回总柜台</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="destination-response" aria-live="polite"></p>
         </div>
       </section>
 
@@ -3429,6 +3614,7 @@
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory belief-memory pressure-memory floor-anomaly-memory" id="floor-anomaly-memory" hidden></p>
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory belief-memory pressure-memory floor-anomaly-memory evidence-audit-memory" id="evidence-audit-memory" hidden></p>
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory belief-memory pressure-memory floor-anomaly-memory evidence-audit-memory consequence-ledger-memory" id="consequence-ledger-memory" hidden></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory belief-memory pressure-memory floor-anomaly-memory evidence-audit-memory consequence-ledger-memory appeal-memory" id="appeal-memory" hidden></p>
 
           <div class="reliquary-slot reveal" id="reliquary-slot"></div>
 
@@ -3545,6 +3731,10 @@
       <a href="#omission-transfer-shaft" id="omission-link" hidden data-hover>01φ½ / 漏报移交</a>
       <a href="#misbound-handover" id="misbound-link" hidden data-hover>01χ½ / 错绑交班</a>
       <a href="#liability-ledger" id="ledger-link" hidden data-hover>01ψ½ / 责任账房</a>
+      <a href="#appeal-registry" id="appeal-link" hidden data-hover>01ω½ / 异议总署</a>
+      <a href="#identity-correction" id="correction-link" hidden data-hover>01ωα / 身份勘误</a>
+      <a href="#evidence-contradiction" id="contradiction-link" hidden data-hover>01ωβ / 证据对照</a>
+      <a href="#destination-review-shaft" id="destination-link" hidden data-hover>01ωγ / 去向复核</a>
       <a href="#night-shift-registry" id="registry-link" hidden data-hover>01π / 夜班登记</a>
       <a href="#midnight-callback" id="callback-link" hidden data-hover>01ρ / 午夜回拨</a>
       <a href="#proxy-admission" id="proxy-link" hidden data-hover>01σ / 代审窗</a>

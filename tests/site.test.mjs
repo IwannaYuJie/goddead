@@ -38,7 +38,7 @@ assert.match(css, /@media \(max-width: 720px\)/);
 assert.match(js, /DOMContentLoaded/);
 
 /* ---------- 场景探索结构 ---------- */
-const SCENES = ["threshold", "protocol", "corridor", "peephole-chamber", "glyph-niche", "return-passage", "eyelid-archive", "unnumbered-vestibule", "reverse-stairwell", "annex-clearinghouse", "unreturned-witness-gallery", "registry-before-zero", "descending-appeals-stair", "anomaly-review", "evidence-vault", "false-positive-shaft", "unclaimed-valuation", "quota-elevator", "unnumbered-floor", "bellless-ward", "seeping-records", "reverse-laundry", "night-shift-registry", "midnight-callback", "proxy-admission", "return-audit", "echo-turn", "vein-turnstile", "confession-locker", "unlit-lamp-gallery", "borrowed-shadow-gallery", "hinge-sorting-room", "red-thread-registry", "blank-name-cloakroom", "clapperless-bell-desk", "protocol-drift", "counter-knock-gallery", "unanswered-vestibule", "undersill-dispatch", "lagging-shadow-cloister", "ash-door-foundry", "retention-vault", "minute-before-archive", "cold-wick-service-bay", "absent-relief-locker", "unseated-listening-booth", "unnumbered-jack-field", "return-ring-morgue", "unclaimed-pneumatic-intake", "returned-address-cabinet", "blank-receipt-press", "blank-screen-underarchive", "false-confirmation-desk", "witness-carbon-archive", "echo", "vein", "confession", "echo-transfer", "vein-pump", "confession-ledger", "watch", "switchboard", "deadletter", "cancellation", "acting", "offering", "reliquary", "remembrance", "ninth"];
+const SCENES = ["threshold", "protocol", "corridor", "peephole-chamber", "glyph-niche", "return-passage", "eyelid-archive", "unnumbered-vestibule", "reverse-stairwell", "annex-clearinghouse", "unreturned-witness-gallery", "registry-before-zero", "descending-appeals-stair", "anomaly-review", "evidence-vault", "false-positive-shaft", "unclaimed-valuation", "quota-elevator", "unnumbered-floor", "bellless-ward", "seeping-records", "reverse-laundry", "night-shift-registry", "midnight-callback", "proxy-admission", "return-audit", "echo-turn", "vein-turnstile", "confession-locker", "unlit-lamp-gallery", "borrowed-shadow-gallery", "hinge-sorting-room", "red-thread-registry", "blank-name-cloakroom", "clapperless-bell-desk", "protocol-drift", "counter-knock-gallery", "unanswered-vestibule", "undersill-dispatch", "lagging-shadow-cloister", "ash-door-foundry", "retention-vault", "minute-before-archive", "cold-wick-service-bay", "absent-relief-locker", "unseated-listening-booth", "unnumbered-jack-field", "return-ring-morgue", "unclaimed-pneumatic-intake", "returned-address-cabinet", "blank-receipt-press", "blank-screen-underarchive", "false-confirmation-desk", "witness-carbon-archive", "echo", "vein", "confession", "echo-transfer", "vein-pump", "confession-ledger", "watch", "switchboard", "deadletter", "cancellation", "acting", "offering", "reliquary", "remembrance", "ninth", "concordance-theatre", "innocent-quarantine", "omission-transfer-shaft", "misbound-handover", "liability-ledger", "appeal-registry", "identity-correction", "evidence-contradiction", "destination-review-shaft"];
 for (const s of SCENES) {
   assert.match(html, new RegExp(`data-scene="${s}"`), `scene missing: ${s}`);
 }
@@ -798,7 +798,7 @@ assert.match(js, /continueOfferingBtn\.addEventListener\("click", scheduleOfferi
 assert.match(js, /continueReliquaryBtn\.addEventListener\("click", scheduleReliquaryAutoAdvance\)/);
 
 /* 场景进入时同步 HUD / ruling / 终局面板 */
-assert.match(js, /if \(name === "remembrance"\) \{[\s\S]{0,900}syncGovernanceRemembrance\(\);/, "remembrance entry syncs governance panels");
+assert.match(js, /if \(name === "remembrance"\) \{[\s\S]{0,960}syncGovernanceRemembrance\(\);/, "remembrance entry syncs governance panels");
 assert.match(js, /if \(name === "offering"\) \{[\s\S]{0,300}syncRulingOfferingUI\(\);/, "offering entry syncs ruling 2");
 assert.match(js, /const enterReliquary = \(\) => \{[\s\S]{0,160}syncRulingReliquaryUI\(\);/, "reliquary entry syncs ruling 3");
 
@@ -3660,8 +3660,8 @@ assert.match(forgetBlockV56[0], /paintLedgerMemory\(\);/, "forget-all hides the 
 /* synthetic 守卫：15 动作监听只接受 isTrusted 真实 click，合成 HTMLElement.click() 零副作用 */
 assert.match(js, /if \(btn\) btn\.addEventListener\("click", \(ev\) => \{ if \(!ev\.isTrusted\) return; chooseConsequenceAction\(sceneKey, actionKey\); \}\);/, "consequence listeners reject synthetic clicks");
 assert.match(js, /if \(btn\) btn\.addEventListener\("click", \(ev\) => \{ if \(!ev\.isTrusted\) return; chooseLedgerAction\(actionKey\); \}\);/, "ledger listeners reject synthetic clicks");
-assert.equal((js.match(/ev\.isTrusted/g) || []).length, 2, "exactly the two v57 listener groups carry the isTrusted guard");
-assert.equal((js.match(/addEventListener\("click", \(ev\)/g) || []).length, 2, "no other click listener signature was touched");
+assert.equal((js.match(/ev\.isTrusted/g) || []).length, 7, "exactly the v57 (2) + v58 (5) listener groups carry the isTrusted guard");
+assert.equal((js.match(/addEventListener\("click", \(ev\)/g) || []).length, 7, "no other click listener signature was touched");
 /* DOM：五场景各三热点入图、无卡片无 SVG、目录×5、记忆单行、8 卡 */
 for (const [scene, ids] of [["concordance-theatre", ["theatre-action-bind-testimony", "theatre-action-preserve-dissent", "theatre-action-substitute-witness"]], ["innocent-quarantine", ["quarantine-action-release-innocent", "quarantine-action-extend-quarantine", "quarantine-action-stand-in"]], ["omission-transfer-shaft", ["shaft-action-descend-after", "shaft-action-transfer-omission", "shaft-action-seal-omission"]], ["misbound-handover", ["misbound-action-admit-misbind", "misbound-action-reassign-empty", "misbound-action-break-cuffs"]], ["liability-ledger", ["ledger-action-return-verdict", "ledger-action-sign-self", "ledger-action-assign-vacancy"]]]) {
   const section = html.match(new RegExp(`<section class="scene scene-branch scene-${scene}"[\\s\\S]*?<\\/section>`));
@@ -3690,6 +3690,161 @@ assert.ok(html.includes('id="omission-link"'), "omission scene uses its own uniq
   const allIds = html.match(/ id="[^"]+"/g) || [];
   const uniq = new Set(allIds);
   assert.equal(uniq.size, allIds.length, `every id in index.html must be unique (${allIds.length - uniq.size} duplicates)`);
+}
+
+/* ---------- v58 异议总署：总署 hub + 三复核室 9 动作 + 结案纯函数路由 ---------- */
+/* 四张冻结源 PNG 存在且 sha256 冻结 */
+const V58_SOURCE_HASHES = {
+  "design-references/source-v58-appeal-registry.png": "a53708d2fc1211ff3be7665fbfd377b1ada445cafa9b67f0bc856672b17d6095",
+  "design-references/source-v58-identity-correction.png": "b1a679a75be7cde21c7079c8eda511fa0e14658aece1285bbbe5a9858ef20308",
+  "design-references/source-v58-evidence-contradiction.png": "036288e5264c777d4dc9c4abc8ed3955d630848d330405ebdbe10c4e8d7c3ff0",
+  "design-references/source-v58-destination-review-shaft.png": "6aff29cc5c935b7c0ee738e97620dafd87ad069d486c301cc8fa2d8b90333500",
+};
+for (const [src, hash] of Object.entries(V58_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(src, root));
+  assert.equal(createHash("sha256").update(buf).digest("hex"), hash, `${src} must keep its frozen sha256`);
+}
+for (const asset of ["assets/v58-appeal-registry.webp", "assets/v58-identity-correction.webp", "assets/v58-evidence-contradiction.webp", "assets/v58-destination-review-shaft.webp"]) {
+  const buf = await readFile(new URL(asset, root));
+  assert.ok(buf.length > 100000, `${asset} must exist as a full-size transcode`);
+  assert.ok(buf.length <= 310000, `${asset} must stay within the ~300KB budget`);
+  assert.ok(html.includes(asset), `${asset} must be referenced by its scene`);
+}
+assert.match(js, /const APPEAL_KEY = "goddead_v58_appeal";/);
+assert.equal((js.match(/goddead_v58/g) || []).length, 1, "v58 introduces exactly one storage key");
+const appealParseBlock = js.match(/const getAppeal = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(appealParseBlock, "getAppeal must exist");
+assert.match(appealParseBlock[0], /\} catch \{ raw = \{\}; \}/, "corrupt appeal storage must be safely repaired");
+assert.match(appealParseBlock[0], /if \(typeof raw !== "object" \|\| Array\.isArray\(raw\)\) raw = \{\};/, "array/wrong-type appeal storage must fall back");
+assert.match(appealParseBlock[0], /if \(raw\.version !== APPEAL_VERSION\) raw = \{\};/, "wrong-version appeal storage is dropped wholesale");
+assert.match(appealParseBlock[0], /Math\.min\(APPEAL_NUM_CAP, Math\.floor\(n\)\)/, "appeal counters must be clamped 0..9999");
+assert.match(appealParseBlock[0], /const cycle = getFloor\(\)\.cycle;/, "appeal cycle aligns with the v35 floor cycle");
+assert.match(appealParseBlock[0], /history = history\.slice\(-APPEAL_HISTORY_CAP\);/, "appeal history is bounded to the last 16 valid entries");
+assert.ok(appealParseBlock[0].indexOf("history = history.slice(-APPEAL_HISTORY_CAP);") < appealParseBlock[0].indexOf("let pending = null;"), "canonical history is parsed before pending validation");
+assert.match(appealParseBlock[0], /h\.type === "entry" \|\| h\.type === "close"/, "history whitelist carries entry/close shapes");
+assert.match(appealParseBlock[0], /h\.type === "action" && APPEAL_ROOM_KEYS\.includes\(h\.room\) && APPEAL_ACTION_META\[h\.room\]\.actions\[h\.action\]/, "history action entries are whitelisted per room");
+assert.match(appealParseBlock[0], /if \(h\.type === "action" && h\.cycle === cycle && !settled\[h\.room\]\) \{/, "scores and settled rooms derive from current-cycle history, first action per room only");
+assert.match(appealParseBlock[0], /keys === "cycle,feedback,kind,scene,target"/, "entry/close pending accept exactly five whitelisted keys");
+assert.match(appealParseBlock[0], /keys === "action,cycle,feedback,kind,scene,target"/, "action pending accepts exactly six whitelisted keys");
+assert.match(appealParseBlock[0], /profile\.eligible/, "entry pending requires live v57-derived eligibility");
+assert.match(appealParseBlock[0], /settledCount >= 2/, "close pending requires two rooms settled this cycle");
+assert.match(appealParseBlock[0], /const target = appealCloseTarget\(scores, settledCount, profile\.liability, profile\.lastRoom\);/, "close target recomputes from derived scores and v57 profile");
+assert.match(appealParseBlock[0], /const feedback = appealActionFeedback\(APPEAL_SCENE_KEY\[p\.scene\], p\.action, profile\);/, "action feedback recomputes verbatim from the v57 profile");
+assert.ok(!/goddead_v(28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56)/.test(appealParseBlock[0]), "v58 state must not touch earlier keys");
+const appealSaveBlock = js.match(/const saveAppeal = \(st\) => store\.set\(APPEAL_KEY, JSON\.stringify\(\{[\s\S]*?\}\)\);/);
+assert.ok(appealSaveBlock, "saveAppeal must persist an explicit canonical projection");
+assert.match(appealSaveBlock[0], /version: APPEAL_VERSION,/, "saveAppeal persists the frozen version");
+for (const f of ["cycle", "visits", "pending"]) {
+  assert.match(appealSaveBlock[0], new RegExp(`${f}: st\\.${f},`), `saveAppeal persists ${f}`);
+}
+assert.match(appealSaveBlock[0], /history: st\.history\.slice\(-APPEAL_HISTORY_CAP\),/, "saveAppeal clamps history to <= 16 before persisting");
+assert.ok(!/scores|settled|pendingTarget|eligible|dominant|liability/.test(appealSaveBlock[0]), "saveAppeal must never persist derived fields");
+/* 入口资格：v57 canonical 派生，≥3 不同后果房结算 + ≥1 账房动作结算 */
+const appealProfileBlock = js.match(/const appealProfile = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(appealProfileBlock, "appealProfile must derive from the legal v57 state");
+assert.match(appealProfileBlock[0], /const eligible = distinct >= 3 && ledgerActions >= 1;/, "eligibility needs three consequence rooms and one ledger action");
+assert.match(js, /const APPEAL_DOMINANT_ORDER = \["selfBurden", "transfer", "repair", "concordance"\];/, "dominant-responsibility tie order is frozen");
+/* 9 动作：逐字 btn 与精确分值 */
+for (const frag of [
+  '"accept-subject": { btn: "#identity-action-accept-subject", scores: { precedent: 2 } }',
+  '"substitute-subject": { btn: "#identity-action-substitute-subject", scores: { objection: 1, contamination: 1 } }',
+  '"erase-subject": { btn: "#identity-action-erase-subject", scores: { objection: 2, contamination: 1 } }',
+  '"merge-records": { btn: "#contradiction-action-merge-records", scores: { precedent: 2 } }',
+  '"preserve-conflict": { btn: "#contradiction-action-preserve-conflict", scores: { objection: 2 } }',
+  '"destroy-copy": { btn: "#contradiction-action-destroy-copy", scores: { contamination: 2, precedent: 1 } }',
+  '"return-origin": { btn: "#destination-action-return-origin", scores: { objection: 2 } }',
+  '"assign-vacancy": { btn: "#destination-action-assign-vacancy", scores: { precedent: 2, contamination: 1 } }',
+  '"drop-below-map": { btn: "#destination-action-drop-below-map", scores: { contamination: 2 } }',
+]) assert.ok(js.includes(frag), `missing v58 appeal action: ${frag.slice(0, 40)}`);
+/* 逐字反馈：静态 + profile 动态变体 + hub/入口/锁印 */
+for (const frag of [
+  "名牌嵌进证人椅。先例不需要脸，只需要一个被承认坐过的位置。",
+  "裂镜把你的轮廓试进空制服。制服合身的那一刻，证词开始认错人。",
+  "你拨通电话，让共证过的声音亲口否认那张肖像。空画框收下一段被撤回的同台。",
+  "你拨通电话，逐条报出你修过的记录，把肖像从墙上请了下来。空画框记得这双手。",
+  "你拨通电话，把肖像的存在说成别人的误会。空画框替你挂断了电话。",
+  "你拨通电话，用自己的名字换下肖像的编号。空画框从此归你保管。",
+  "电话接通又挂断。空肖像没有等来去电，只剩一圈拨号音。",
+  "错位玻璃被压到同一刻度。两页对照片合成一份先例，裂缝归进注释。",
+  "污卷宗送进焚盘。灰被称重归档：先例多了一页，污染多了一撮。",
+  "白卷宗保持空白。共证剧场同台过的两份证词，在这里被允许继续不一致。",
+  "白卷宗保持空白。无辜留置舱教过你：写满不一定等于写对。",
+  "白卷宗保持空白。漏报移交井里那只下坠的箱子提醒你，缺页也是一种记录。",
+  "白卷宗保持空白。错绑交班台拆开过的结，不该在这里重新绑死。",
+  "白卷宗保持空白。没有后果房为它作保，空白本身就是证词。",
+  "回程轮轨倒转半圈。封箱被退回出发的一侧，异议随箱原路返回。",
+  "断轨尽头的落井杆被压下。封箱坠到地图以下，污染沉入没有编号的深度。",
+  "非负，空位承认这次指派有效。",
+  "为负，空位先收下箱子，再向你追认指派。",
+  "身份装置的电话先响了。勘误室接听你的责任簿。",
+  "双份卷宗同时摊开。对照库只问哪一页先说谎。",
+  "三路分发台的指针各偏一格。复核井等你选一条轨。",
+  "封签断开。异议总署收下你的责任簿，三本索引同时翻开。",
+  "锁链还压着账本：任意两间复核室结清后，印才会松。",
+  "复核记录已归档。你沿原路退回总署柜台。",
+]) assert.ok(js.includes(frag), `missing v58 feedback: ${frag.slice(0, 18)}`);
+/* 结案路由纯函数：全部分支冻结，2/2/2 特殊平衡仅限三房全完成 */
+const appealCloseTargetBlock = js.match(/const appealCloseTarget = \(scores, settledCount, liability, lastRoom\) => \{[\s\S]*?\n  \};/);
+assert.ok(appealCloseTargetBlock, "appealCloseTarget must be a pure routing function");
+assert.match(appealCloseTargetBlock[0], /if \(settledCount === 3 && o === p && p === c && o > 0\) return "unnumbered-floor";/, "2/2/2 special balance requires all three rooms settled");
+assert.match(appealCloseTargetBlock[0], /if \(p > o && p > c\) return liability >= 0 \? "concordance-theatre" : "misbound-handover";/, "strict precedent high routes by liability sign");
+assert.match(appealCloseTargetBlock[0], /if \(o > p && o > c\) return \(lastRoom === "quarantine" \|\| lastRoom === "shaft"\) \? "protocol-drift" : "evidence-vault";/, "strict objection high routes by the last consequence room");
+assert.match(appealCloseTargetBlock[0], /if \(c > o && c > p\) return liability < 0 \? "false-positive-shaft" : "omission-transfer-shaft";/, "strict contamination high routes by liability sign");
+assert.match(appealCloseTargetBlock[0], /if \(o === p && o > c\) return "liability-ledger";/, "objection=precedent tie returns to the liability ledger");
+assert.match(appealCloseTargetBlock[0], /if \(o === c && o > p\) return "blank-name-cloakroom";/, "objection=contamination tie routes to the cloakroom");
+assert.match(appealCloseTargetBlock[0], /if \(p === c && p > o\) return "misbound-handover";/, "precedent=contamination tie routes to misbound handover");
+assert.match(appealCloseTargetBlock[0], /return "liability-ledger";\s*\};/, "exhausted/empty states fall back to the liability ledger");
+/* 结案反馈逐字：占上风类别 + 送达理由 */
+for (const frag of [
+  "三类异议完全拉平（各 ${o} 点），没有一类占上风。总署拒绝归类，结案送去无号层——唯一不编号的楼层。",
+  "点压过其余），责任值 ${L} 非负。先例需要同台复核，结案送去共证剧场。",
+  "点），但责任值 ${L} 为负。先例绑错了承担者，结案退回错绑交班台。",
+  "点拉平、压过异议。占上风者拒绝单独署名，结案退回错绑交班台。",
+  "留下程序疑点。结案移交守则漂移，由守则重写自己。",
+  "点），没有程序疑点随案。结案按原证据链退回异常保全。",
+  "点），责任值 ${L} 为负。污染被怀疑本是误报，结案坠入误报回收井。",
+  "点），责任值 ${L} 非负。污染按漏报流程移交，结案沉入漏报移交井。",
+  "点拉平、压过先例。两类都不愿署名，结案寄存到空名寄存处。",
+  "点拉平、压过污染。没有单一占上风者，结案退回责任账房重秤。",
+  "三类异议无法裁定占上风者。结案退回责任账房，由账本重新过秤。",
+]) assert.ok(js.includes(frag), `missing v58 close feedback: ${frag.slice(0, 16)}`);
+/* 守卫、接线与遗忘 */
+assert.match(js, /if \(APPEAL_SCENES\.includes\(target\) && appealGuard\.pendingTarget !== target && !appealGuard\.visits\[APPEAL_SCENE_KEY\[target\]\]\) target = "unnumbered-floor";/, "v58 guard admits only legal pending or past visits");
+assert.match(js, /if \(APPEAL_SCENES\.includes\(name\)\) \{ enterAppealScene\(name\); replayAppealPending\(name\); \}/, "appeal scene entry replays a legal pending");
+assert.match(js, /if \(name === "liability-ledger"\) \{ syncAppealSeal\(\); replayAppealPending\(name\); \}/, "the liability ledger syncs the appeal seal on revisit");
+assert.match(forgetBlockV56[0], /syncAppealLinks\(\);/, "forget-all resets the v58 directory links");
+assert.match(forgetBlockV56[0], /paintAppealMemory\(\);/, "forget-all hides the v58 memory line");
+assert.match(forgetBlockV56[0], /syncAppealSeal\(\);/, "forget-all hides the appeal seal");
+/* synthetic 守卫：v58 五组监听只接受 isTrusted 真实 click */
+assert.match(js, /if \(sealBtn\) sealBtn\.addEventListener\("click", \(ev\) => \{ if \(!ev\.isTrusted\) return; chooseAppealEntry\(\); \}\);/, "seal listener rejects synthetic clicks");
+assert.match(js, /if \(closeBtn\) closeBtn\.addEventListener\("click", \(ev\) => \{ if \(!ev\.isTrusted\) return; chooseAppealHub\("close"\); \}\);/, "close listener rejects synthetic clicks");
+assert.match(js, /if \(btn\) btn\.addEventListener\("click", \(ev\) => \{ if \(!ev\.isTrusted\) return; chooseAppealAction\(roomKey, actionKey\); \}\);/, "room action listeners reject synthetic clicks");
+assert.match(js, /if \(retBtn\) retBtn\.addEventListener\("click", \(ev\) => \{ if \(!ev\.isTrusted\) return; chooseAppealReturn\(roomKey\); \}\);/, "return listeners reject synthetic clicks");
+/* DOM：四场景热点入图、无卡片无 SVG、封签入责任账房图、目录×4、记忆单行、8 卡 */
+for (const [scene, ids] of [["appeal-registry", ["appeal-enter-identity", "appeal-enter-evidence", "appeal-close", "appeal-enter-destination"]], ["identity-correction", ["identity-action-erase-subject", "identity-action-accept-subject", "identity-action-substitute-subject", "identity-return-registry"]], ["evidence-contradiction", ["contradiction-action-preserve-conflict", "contradiction-action-merge-records", "contradiction-action-destroy-copy", "contradiction-return-registry"]], ["destination-review-shaft", ["destination-action-return-origin", "destination-action-assign-vacancy", "destination-action-drop-below-map", "destination-return-registry"]]]) {
+  const section = html.match(new RegExp(`<section class="scene scene-branch scene-${scene}"[\\s\\S]*?<\\/section>`));
+  assert.ok(section, `scene section missing: ${scene}`);
+  assert.ok(section[0].includes("forecourt-tactile-stage"), `${scene} uses the 3:2 tactile stage`);
+  assert.ok(!section[0].includes("branch-choices") && !section[0].includes("<svg"), `${scene} must not degrade to cards or inline SVG`);
+  const figure = section[0].match(/<figure[\s\S]*?<\/figure>/);
+  for (const id of ids) assert.ok(figure[0].includes(`id="${id}"`), `${scene} figure must hold #${id}`);
+  assert.ok(section[0].includes("ledger-slip"), `${scene} carries the appeal slip`);
+}
+{
+  const ledgerSection = html.match(/<section class="scene scene-branch scene-liability-ledger"[\s\S]*?<\/section>/);
+  const ledgerFigure = ledgerSection[0].match(/<figure[\s\S]*?<\/figure>/);
+  assert.match(ledgerFigure[0], /id="ledger-appeal-seal" type="button" aria-pressed="false" data-hover hidden/, "the appeal seal ships hidden inside the ledger figure");
+}
+assert.ok(html.includes('id="appeal-desc"'), "the hub description is dynamically painted");
+assert.match(html, /<a href="#appeal-registry" id="appeal-link" hidden data-hover>01ω½ \/ 异议总署<\/a>/);
+assert.match(html, /<a href="#identity-correction" id="correction-link" hidden data-hover>01ωα \/ 身份勘误<\/a>/);
+assert.match(html, /<a href="#evidence-contradiction" id="contradiction-link" hidden data-hover>01ωβ \/ 证据对照<\/a>/);
+assert.match(html, /<a href="#destination-review-shaft" id="destination-link" hidden data-hover>01ωγ \/ 去向复核<\/a>/);
+assert.ok(html.includes('id="appeal-memory"'), "remembrance gains the appeal memory line");
+assert.equal((html.match(/<div class="stat-card">/g) || []).length, 8, "remembrance keeps exactly eight stat cards");
+assert.match(js, /异议署：异议 \$\{st\.scores\.objection\}，先例 \$\{st\.scores\.precedent\}，污染 \$\{st\.scores\.contamination\}，本轮已复核 \$\{st\.settledCount\}\/3。/, "appeal memory line verbatim");
+for (const cls of ["ledger-spot-appeal-seal", "appeal-spot-identity", "appeal-spot-evidence", "appeal-spot-close", "appeal-spot-destination", "identity-spot-erase", "identity-spot-accept", "identity-spot-substitute", "identity-spot-return", "contradiction-spot-preserve", "contradiction-spot-merge", "contradiction-spot-destroy", "contradiction-spot-return", "destination-spot-archway", "destination-spot-return", "destination-spot-assign", "destination-spot-drop"]) {
+  assert.match(css, new RegExp(`\\.${cls} \\{`), `css missing position class .${cls}`);
 }
 
 /* ---------- v54 迫近回访：v29 三房共同记账 + 异动第四热点九分流 ---------- */
@@ -3923,6 +4078,7 @@ assert.match(readme, /v49|门前实感|原生物件热点/, "README must documen
 assert.match(readme, /v50|副楼实感|原生热点/, "README must document the v50 tactile annex hotspots");
 assert.match(readme, /v51|副楼三债|见证.*失号.*逆行/, "README must document the v51 annex three debts");
 assert.match(readme, /v52|三债结算|结算所/, "README must document the v52 annex debt settlement");
+assert.match(readme, /v58|异议总署|Appeal Registry/i, "README must document the v58 appeal registry");
 
 const qa = await fileText("design-qa.md");
 assert.match(qa, /第三值夜室/);
@@ -3953,6 +4109,7 @@ assert.match(qa, /v49|门前实感|原生物件热点/, "design-qa.md must docum
 assert.match(qa, /v50|副楼实感|原生热点/, "design-qa.md must document the v50 tactile annex QA");
 assert.match(qa, /v51|副楼三债|阈值异常/, "design-qa.md must document the v51 annex debts QA");
 assert.match(qa, /v52|三债结算|结算所/, "design-qa.md must document the v52 annex debt settlement QA");
+assert.match(qa, /v58|异议总署/, "design-qa.md must document the v58 appeal registry QA");
 
 const log = await fileText("docs/ProgressLog.md");
 assert.match(log, /2026-07-02/);
@@ -3987,6 +4144,14 @@ assert.match(log, /v54|迫近/, "ProgressLog must document v54");
 assert.match(log, /v55|失常交班/, "ProgressLog must document v55");
 assert.match(log, /v56|症状交接/, "ProgressLog must document v56");
 assert.match(log, /v57|判词后果|责任账/, "ProgressLog must document v57");
+assert.match(log, /v58|异议总署/, "ProgressLog must document v58");
+
+/* v58 设计文档存在且冻结四张源图哈希 */
+const v58doc = await fileText("docs/V58AppealRegistryDesign.md");
+for (const hash of Object.values(V58_SOURCE_HASHES)) {
+  assert.ok(v58doc.includes(hash), "V58 design doc must freeze the source sha256 values");
+}
+assert.match(v58doc, /selfBurden（自担）> transfer（转嫁）> repair（修复）> concordance（共证）/, "V58 design doc must document the dominant tie order");
 
 /* ---------- 边界说明 ----------
    本套件为 Node 静态断言，不启动 DOM、不执行真实交互。

@@ -1,5 +1,18 @@
 # Progress Log
 
+## 2026-08-01 (v58 异议总署 / THE APPEAL REGISTRY：总署 hub + 三复核室 9 动作 + 结案纯函数路由)
+- 世界观续进：判词有了身体之后，身体可以异议。v57 的共证/修复/转嫁/自担与责任值不再只是账面数字——它们决定总署说明怎么写、三房反馈说哪句话、结案被送去哪里。体验参考只看机制（历史选择改变后续场景、三类调查自由选择、调查越深结案越特殊），美术文案全部原创。
+- 素材：四张冻结原图（sha256 静态断言锁定）Pillow q85 1536×1024 无裁切转码 `assets/v58-{appeal-registry,identity-correction,evidence-contradiction,destination-review-shaft}.webp`（187–247 KB，均在 ~300KB 预算内）；四场景全部正式 bitmap + 图内原生热点，无卡片墙、无 inline SVG、无底部继续按钮。
+- 入口：只在 liability-ledger 复访时显露图内「异议封签」（台面左下红蜡，与既有三热点不重叠）；资格纯派生——v57 actions 中 ≥3 个不同后果房有计数且账房动作合计 ≥1（第一次到账房未结算进不去）；点击只记 v58 entry 节拍、v57 存储字节不变，一拍后自动到总署。目录直达走同一窄守卫，安全渲染但不伪造资格（资格不足时总署说明为中性文案）。
+- 状态：独立容错 `goddead_v58_appeal`（全仓库唯一 key）——version(58)/cycle/visits/history(≤16)/pending 显式 canonical 投影落盘；objection/precedent/contamination、已结算房间、可否结案、v57 profile、最终 target 全部由可信 history（仅当前 cycle action 计分、同房同 cycle 只计首次）与当前合法 v57 状态重算，派生永不落盘；version 不符整体丢弃；cycle 对齐 v35 自动隔离本轮派生。pending 三类（entry/close 五键、action 六键，额外键即伪造）逐字重算 target/feedback，结算证据 = canonical history 末项 + cycle + 当前派生资格（entry 须 v57 资格仍在、close 须本轮仍满两间），只消费一次，刷新不二次计分。
+- 总署非线性 hub：左身份装置/中左双份卷宗/右三路分发台三路自由导航（逐字导航反馈一拍转场，不计分）；中右锁链账本结案——本轮 <2 房 aria-disabled 压暗、点击只出拒绝文案，≥2 房解锁但不强制、不抢走第三间选择；已结清房间复访只重播反馈不二次计分不自动转场，每房画面内回总署热点（滑轨/库门/拱门）纯导航。
+- 历史回响：appealProfile() 只读派生 dominantResponsibility（平局固定顺序 selfBurden>transfer>repair>concordance，文档化）、liability、最近后果房；总署 #appeal-desc、身份 erase-subject（dominant 五段）、证据 preserve-conflict（lastRoom 五段）、去向 assign-vacancy（liability 符号两段带责任值）逐字变化。
+- 结案路由纯函数 appealCloseTarget（点击前分值决定，真值表冻结于设计文档与静态断言）：三房全完成且 2/2/2 → 无号层（仅此路径）；precedent 严格最高按 liability 符号 → 共证剧场/错绑交班；objection 严格最高按最近后果房（quarantine/shaft→守则漂移，否则证物库）；contamination 严格最高按 liability<0 → 误报井/漏报移交井；o=p>c → 责任账房；o=c>p → 空名寄存；p=c>o → 错绑交班；兜底责任账房。结案反馈逐字说清占上风类别与送达理由。
+- 守卫：四场景窄守卫（合法 pendingTarget 或历史 visit，否则回无号层），before 原子记 visit 再清 pending并补齐目标旧守卫凭证；入口/导航/结案/9 动作/回总署共 5 组监听只接受 isTrusted 真实 click（v57 2 组不回归，全仓库共 7 组）；v31–v57 状态、门敲击、reliquary 零读写污染（v58 只读 v57）。
+- 目录 01ω½ / 异议总署、01ωα / 身份勘误、01ωβ / 证据对照、01ωγ / 去向复核（首次合法到访原子恢复）；Remembrance 单行「异议署：异议 O，先例 P，污染 C，本轮已复核 N/3。」仍八张统计卡；遗忘全部后 key/目录/记忆/封签/守卫全部回弹。
+- 测试：静态 `node tests/site.test.mjs` 3922 断言全绿（v58 块新增 167 条，同口径实测），覆盖四场景/目录/素材哈希、入口资格、9 动作分值、两房解锁不强制、复访不二次计分、2/2/2 仅限三房、路由全分支、pending 一次性、伪造拒绝、旧状态隔离、热点定位类。
+- CDP 实机：`/tmp/v58-qa/v58-smoke.mjs`（真实 headless Chrome + 真实鼠标/键盘，种子预注入）**650/650 连续两轮全绿**，控制台零异常；视觉证据 9 张 `design-qa-evidence/v58-01~09`（细目见 design-qa.md 本轮段落）。
+
 ## 2026-07-31 (v57 判词后果层 / THE VERDICT NEEDS A BODY：四后果场景 12 动作 + 责任账房)
 - 世界观转向：判词需要一具身体。v56 判断了证词，v57 让四类结果长出责任分支——误报与烧矛盾关进无辜留置舱，漏报先进移交井，压因果按交班真伪分流共证剧场或错绑交班台，自扣封条先过错绑交班台；第三处后果结清时，责任账房首次接管判决。
 - 素材：四张 v56 候选图正式升格改名（字节不变，sha256 与冻结值逐字节一致并由静态断言锁定）+ 本轮新责任账房源图，Pillow q85 1536×1024 无裁切转码 `assets/v57-{concordance-theatre,innocent-quarantine,misbound-handover,omission-transfer-shaft,liability-ledger}.webp`（193–269 KB）；五场景全部正式 bitmap + 图内原生热点，无卡片墙、无 inline SVG、无底部继续按钮。
