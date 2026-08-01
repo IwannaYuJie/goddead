@@ -950,6 +950,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (FLOOR_DUTY_SCENES.includes(name)) { enterFloorRoom(name); syncAnomalyRoom(name); syncEvidenceRoom(name); replayAnomalyPending(name); replayEvidencePending(name); }
     if (ANOMALY_BACKROOM_SCENES.includes(name)) { enterAnomalyBackroom(name); replayAnomalyPending(name); }
     if (EVIDENCE_SCENES.includes(name)) { enterEvidenceScene(name); replayEvidencePending(name); }
+    if (LEDGER_SCENES.includes(name)) { enterLedgerScene(name); replayLedgerPending(name); }
     if (name === "night-shift-registry") enterRegistry();
     if (name === "midnight-callback") enterCallback();
     if (name === "proxy-admission") enterProxy();
@@ -987,6 +988,7 @@ document.addEventListener("DOMContentLoaded", () => {
       paintAnomalyMemory();
       paintFloorAnomalyMemory();
       paintEvidenceAuditMemory();
+      paintLedgerMemory();
       paintValuationMemory();
       paintFloorMemory();
       paintRegistryMemory();
@@ -1085,6 +1087,10 @@ document.addEventListener("DOMContentLoaded", () => {
     /* v56 症状交接守卫：两新场景仅本轮合法 pendingTarget 或历史合法到访准入 */
     const evidenceGuard = getEvidence();
     if (EVIDENCE_SCENES.includes(target) && evidenceGuard.pendingTarget !== target && !evidenceGuard.visits[EVIDENCE_SCENE_KEY[target]]) target = "unnumbered-floor";
+
+    /* v57 判词后果层守卫：五场景仅本轮合法 pendingTarget 或历史合法 visit 准入 */
+    const ledgerGuard = getLedger();
+    if (LEDGER_SCENES.includes(target) && ledgerGuard.pendingTarget !== target && !ledgerGuard.visits[LEDGER_SCENE_KEY[target]]) target = "unnumbered-floor";
 
     /* v31 门前守卫（v40 起启用）：未访问过的 v31 场景直达一律落回门外。
        真实路径全部只读放行——v31 热点/守则分流/前段内部动作在点击时持久化 visited，
@@ -6446,13 +6452,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const EVIDENCE_HANDOVER_META = {
     trusted: { target: "evidence-switchboard", feedback: "封条和报告同时咬住同一结论。证据编组室把门打开了。" },
     blind: { target: "evidence-switchboard", feedback: "没有封条的报告仍然猜中了门后那一间。证据编组室接受这次盲判。" },
-    falseReport: { target: "false-positive-shaft", feedback: "你交上去的症状在台面上恢复正常。误报井先签收了你。" },
-    missed: { feedback: "你交上去的正常结论在台面上开始呼吸。对应后室把原件取走了。" },
+    falseReport: { target: "innocent-quarantine", feedback: "你交上去的症状在台面上恢复正常。误报井先签收了你。" },
+    missed: { target: "omission-transfer-shaft", feedback: "你交上去的正常结论在台面上开始呼吸。对应后室把原件取走了。" },
   };
   const EVIDENCE_SWITCH_META = {
     press: { btn: "#switch-action-press", target: "evidence-vault", feedback: "压机合拢。两份证据从此只允许一种死法。" },
     burn: { btn: "#switch-action-burn", target: "false-positive-shaft", feedback: "红蜡只烧掉不同意你的那一份。误报井收到了灰。" },
     selfseal: { btn: "#switch-action-selfseal", feedback: "封条绕过手腕和喉咙。你成了这批证据唯一还活着的附件。" },
+  };
+  /* v57：press 分流所需的 handover 判定完全由既有 canonical 状态派生（不落盘）——
+     trusted = 该房报告正确且深查过；blind = 正确但未深查；其余回落证物库 */
+  const evidenceHandoverKind = (st) => {
+    if (!st || !EVIDENCE_ROOMS.includes(st.handover)) return "";
+    if (st.correct[st.handover] !== 1) return "";
+    return st.checks[st.handover] === 1 ? "trusted" : "blind";
   };
 
   const getEvidence = () => {
@@ -6536,7 +6549,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const truth = truthState.assignment && truthState.assignment[p.room];
         const okC = correct[p.room] === 1;
         const kind2 = okC ? (checks[p.room] === 1 ? "trusted" : "blind") : (truth === "normal" ? "falseReport" : "missed");
-        const target = kind2 === "missed" ? ANOMALY_ROOM_BACKROOM[p.room] : EVIDENCE_HANDOVER_META[kind2].target;
+        const target = EVIDENCE_HANDOVER_META[kind2].target;
         const feedback = EVIDENCE_HANDOVER_META[kind2].feedback;
         if (p.target === target && p.feedback === feedback) {
           pending = { kind: "handover", room: p.room, target, feedback };
@@ -6545,7 +6558,12 @@ document.addEventListener("DOMContentLoaded", () => {
         && Object.keys(EVIDENCE_SWITCH_META).includes(p.action) && resolved.switchboard === 1
         && last && last.type === "action" && last.action === p.action) {
         const meta = EVIDENCE_SWITCH_META[p.action];
-        const target = p.action === "selfseal" ? (handover ? ANOMALY_ROOM_BACKROOM[handover] : "unnumbered-floor") : meta.target;
+        /* v57：press 按派生的 handover 判定分流后果场景（trusted→共证剧场 /
+           blind→错绑交班，其余回证物库）；burn 前插无辜留置；selfseal 前插错绑交班 */
+        const target = p.action === "press"
+          ? (evidenceHandoverKind({ handover, correct, checks }) === "trusted" ? "concordance-theatre"
+            : evidenceHandoverKind({ handover, correct, checks }) === "blind" ? "misbound-handover" : "evidence-vault")
+          : p.action === "burn" ? "innocent-quarantine" : "misbound-handover";
         if (p.target === target && p.feedback === meta.feedback) {
           pending = { kind: "action", action: p.action, target, feedback: meta.feedback };
         }
@@ -6724,7 +6742,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!truth) return;
     const isCorrect = st.correct[room] === 1;
     const kind = isCorrect ? (st.checks[room] === 1 ? "trusted" : "blind") : (truth === "normal" ? "falseReport" : "missed");
-    const target = kind === "missed" ? ANOMALY_ROOM_BACKROOM[room] : EVIDENCE_HANDOVER_META[kind].target;
+    const target = EVIDENCE_HANDOVER_META[kind].target;
     const feedback = EVIDENCE_HANDOVER_META[kind].feedback;
     if (kind === "trusted") st.trustedHandovers = Math.min(EVIDENCE_NUM_CAP, st.trustedHandovers + 1);
     else if (kind === "blind") st.blindHandovers = Math.min(EVIDENCE_NUM_CAP, st.blindHandovers + 1);
@@ -6747,8 +6765,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (target === "evidence-switchboard" && s.visits.switchboard === 0) s.visits.switchboard = 1;
         if (s.pending && s.pending.kind === "handover") s.pending = null;
         saveEvidence(s);
-        if (target === "false-positive-shaft") markReviewVisited("false-positive-shaft");
-        if (ANOMALY_SCENE_BACKROOM[target]) grantAnomalyBackroomVisit(target);
+        /* v57：交班 falseReport → 无辜留置、missed → 漏报移交，before 原子记 v57 visit */
+        if (LEDGER_SCENE_KEY[target]) grantLedgerVisit(target);
         syncEvidenceLinks();
         paintEvidenceAuditMemory();
       },
@@ -6763,7 +6781,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (currentScene !== "evidence-switchboard") return;
     if (AutoAdvance.has("evidence-switchboard")) return;
     const st = getEvidence();
-    const target = actionKey === "selfseal" ? (st.handover ? ANOMALY_ROOM_BACKROOM[st.handover] : "unnumbered-floor") : meta.target;
+    /* v57 改道：press 按派生的 handover 判定去共证剧场/错绑交班（否则证物库），
+       burn 前插无辜留置，selfseal 前插错绑交班；chains/suppressed/selfSeals/exposure 不变 */
+    const handoverKind = evidenceHandoverKind(st);
+    const target = actionKey === "press"
+      ? (handoverKind === "trusted" ? "concordance-theatre" : handoverKind === "blind" ? "misbound-handover" : "evidence-vault")
+      : actionKey === "burn" ? "innocent-quarantine" : "misbound-handover";
     if (st.resolved.switchboard === 0) {
       st.resolved.switchboard = 1;
       if (actionKey === "press") st.chains = Math.min(EVIDENCE_NUM_CAP, st.chains + 1);
@@ -6789,8 +6812,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (s.pending && s.pending.kind === "action") s.pending = null;
         saveEvidence(s);
         if (target === "evidence-vault") markReviewVisited("evidence-vault");
-        if (target === "false-positive-shaft") markReviewVisited("false-positive-shaft");
-        if (ANOMALY_SCENE_BACKROOM[target]) grantAnomalyBackroomVisit(target);
+        if (LEDGER_SCENE_KEY[target]) grantLedgerVisit(target);
         syncEvidenceLinks();
         paintEvidenceAuditMemory();
       },
@@ -6821,8 +6843,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (s.pending) s.pending = null;
         saveEvidence(s);
         if (p.target === "evidence-vault") markReviewVisited("evidence-vault");
-        if (p.target === "false-positive-shaft") markReviewVisited("false-positive-shaft");
-        if (ANOMALY_SCENE_BACKROOM[p.target]) grantAnomalyBackroomVisit(p.target);
+        if (LEDGER_SCENE_KEY[p.target]) grantLedgerVisit(p.target);
         syncEvidenceLinks();
         paintEvidenceAuditMemory();
       },
@@ -6884,6 +6905,405 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btn) btn.addEventListener("click", () => chooseEvidenceSwitchAction(actionKey));
   });
   paintEvidence();
+
+  /* ============================================================
+     v57 判词后果层：四后果场景 12 动作 + 责任账房 3 动作
+     独立容错状态键 LEDGER_KEY（v57 唯一存储键），只持久化白名单
+     canonical 字段；liability 与 pendingTarget 派生重算不落盘；
+     坏 JSON/数组/错型/负数/浮点/超大数/未知键/额外键 pending/
+     错映射/无结算证据/跨 cycle 全部归一。
+     ============================================================ */
+  const LEDGER_KEY = "goddead_v57_consequence_ledger";
+  const LEDGER_KEYS = ["theatre", "quarantine", "shaft", "misbound", "ledger"];
+  const LEDGER_CONSEQUENCE_KEYS = ["theatre", "quarantine", "shaft", "misbound"];
+  const LEDGER_KEY_SCENE = {
+    theatre: "concordance-theatre",
+    quarantine: "innocent-quarantine",
+    shaft: "omission-transfer-shaft",
+    misbound: "misbound-handover",
+    ledger: "liability-ledger",
+  };
+  const LEDGER_SCENE_KEY = {
+    "concordance-theatre": "theatre",
+    "innocent-quarantine": "quarantine",
+    "omission-transfer-shaft": "shaft",
+    "misbound-handover": "misbound",
+    "liability-ledger": "ledger",
+  };
+  const LEDGER_SCENES = ["concordance-theatre", "innocent-quarantine", "omission-transfer-shaft", "misbound-handover", "liability-ledger"];
+  const LEDGER_NUM_CAP = 9999;
+  const LEDGER_HISTORY_CAP = 16;
+  const LEDGER_SCORE_KEYS = ["concordance", "repair", "transfer", "selfBurden"];
+  /* handover 房匹配的 v55 后室（无法安全恢复 → 无号层） */
+  const ledgerHandoverBackroom = () => {
+    const ev = getEvidence();
+    return ev.handover && ANOMALY_ROOM_BACKROOM[ev.handover] ? ANOMALY_ROOM_BACKROOM[ev.handover] : "unnumbered-floor";
+  };
+  const LEDGER_ACTION_META = {
+    theatre: {
+      responseEl: "#theatre-response",
+      actions: {
+        "bind-testimony": { btn: "#theatre-action-bind-testimony", scores: { concordance: 2 }, target: "evidence-vault", feedback: "两份证词被压成同一枚指纹。证物库只承认它们一起存在。" },
+        "preserve-dissent": { btn: "#theatre-action-preserve-dissent", scores: { concordance: 1, selfBurden: 1 }, target: "protocol-drift", feedback: "你把分歧留在卷宗里，也把解释它的责任留给自己。" },
+        "substitute-witness": { btn: "#theatre-action-substitute-witness", scores: { selfBurden: 2 }, target: "misbound-handover", feedback: "镜面把你的轮廓钉在证词空位上。错绑交班开始呼叫你的名字。" },
+      },
+    },
+    quarantine: {
+      responseEl: "#quarantine-response",
+      actions: {
+        "release-innocent": { btn: "#quarantine-action-release-innocent", scores: { repair: 2 }, target: "unnumbered-floor", feedback: "红蜡断开以后，舱里没有病人。只有一份被你延迟承认的正常。" },
+        "extend-quarantine": { btn: "#quarantine-action-extend-quarantine", scores: { transfer: 2 }, target: "false-positive-shaft", feedback: "你把怀疑续签给一个空舱。误报井替你保管了它。" },
+        "stand-in": { btn: "#quarantine-action-stand-in", scores: { repair: 1, selfBurden: 1 }, target: "misbound-handover", feedback: "空工服接受了你的号牌。它没有获释，只是换成你被留置。" },
+      },
+    },
+    shaft: {
+      responseEl: "#omission-response",
+      actions: {
+        "descend-after": { btn: "#shaft-action-descend-after", scores: { repair: 2 }, dynamic: "handoverBackroom", feedback: "你跟着漏掉的症状下井。它在原房间的背面等你补签。" },
+        "transfer-omission": { btn: "#shaft-action-transfer-omission", scores: { transfer: 2 }, target: "blank-receipt-press", feedback: "移交单没有收件人。空白回执仍替你签收了这次漏报。" },
+        "seal-omission": { btn: "#shaft-action-seal-omission", scores: { concordance: 1, transfer: 1 }, target: "evidence-vault", feedback: "你封住了井口，也封住了谁本应看见它。证物库收下一只仍在下坠的箱子。" },
+      },
+    },
+    misbound: {
+      responseEl: "#misbound-response",
+      actions: {
+        "admit-misbind": { btn: "#misbound-action-admit-misbind", scores: { selfBurden: 2 }, dynamic: "handoverBackroom", feedback: "你承认正确的结论绑错了证人。后室把责任和你一起叫回去。" },
+        "reassign-empty": { btn: "#misbound-action-reassign-empty", scores: { transfer: 2 }, target: "blank-name-cloakroom", feedback: "空名接过了手铐。它从来没有出现过，所以最适合承担证明。" },
+        "break-cuffs": { btn: "#misbound-action-break-cuffs", scores: { repair: 1, selfBurden: 1 }, target: "protocol-drift", feedback: "链断了，绑定却没有消失。守则开始重写“证人”的定义。" },
+      },
+    },
+    ledger: {
+      responseEl: "#ledger-response",
+      actions: {
+        "return-verdict": { btn: "#ledger-action-return-verdict", scores: { concordance: 1 } },
+        "sign-self": { btn: "#ledger-action-sign-self", scores: { selfBurden: 2 } },
+        "assign-vacancy": { btn: "#ledger-action-assign-vacancy", scores: { transfer: 2 } },
+      },
+    },
+  };
+  const LEDGER_ACTION_SCENE = {};
+  Object.keys(LEDGER_ACTION_META).forEach((k) => {
+    Object.keys(LEDGER_ACTION_META[k].actions).forEach((a) => { LEDGER_ACTION_SCENE[a] = k; });
+  });
+  const LEDGER_ACTION_KEYS = Object.keys(LEDGER_ACTION_SCENE);
+  const LEDGER_DEFERRED_POOL = ["evidence-vault", "false-positive-shaft", "protocol-drift", "unnumbered-floor", "blank-receipt-press", "blank-name-cloakroom", "underbed-call-station", "countersign-drain", "negative-laundry-locker", "misbound-handover"];
+  /* 责任账逐字反馈（结算后责任值插值，重算可复现） */
+  const ledgerFeedback = (actionKey, target, liability) => {
+    if (actionKey === "return-verdict") return `责任值 ${liability}。原判被退回你留下的那条路。账房替你销了一页。`;
+    if (actionKey === "sign-self") {
+      return target === "evidence-vault"
+        ? `责任值 ${liability}。你把判决签回自己身上。证物库承认这副肩膀。`
+        : `责任值 ${liability}。你把判决签回自己身上。还不够重的那部分，由后室认领。`;
+    }
+    return target === "false-positive-shaft"
+      ? `责任值 ${liability}。空席接住了这份判决。误报井承认它早就该来。`
+      : `责任值 ${liability}。空席接住了这份判决。空名寄存处为它留了位置。`;
+  };
+  /* 账房动作的目标由点击前责任值决定：接受时先加分再落盘 */
+  const ledgerActionTarget = (st, actionKey, preLiability) => {
+    if (actionKey === "return-verdict") {
+      return st.deferredTarget !== "" ? st.deferredTarget : (preLiability >= 0 ? "evidence-vault" : "false-positive-shaft");
+    }
+    if (actionKey === "sign-self") {
+      return preLiability >= 4 ? "evidence-vault" : ledgerHandoverBackroom();
+    }
+    return preLiability <= -2 ? "false-positive-shaft" : "blank-name-cloakroom";
+  };
+  /* 分值触顶 9999 时固定增量反推会失真，故账房结算把点击前责任值记入
+     canonical history 末项的 pre；校验时用它重算目标，并与落盘分值交叉核对——
+     post−pre 必须落在固定增量区间内，短于增量时必须由受影响分值触顶解释 */
+  const LEDGER_LIABILITY_DELTA = { "return-verdict": 1, "sign-self": 2, "assign-vacancy": -4 };
+  const LEDGER_DELTA_SCORE = { "return-verdict": "concordance", "sign-self": "selfBurden", "assign-vacancy": "transfer" };
+  const LEDGER_LIABILITY_MIN = -2 * LEDGER_NUM_CAP;
+  const LEDGER_LIABILITY_MAX = 3 * LEDGER_NUM_CAP;
+
+  const getLedger = () => {
+    let raw = {};
+    try {
+      raw = JSON.parse(store.get(LEDGER_KEY, "{}")) || {};
+    } catch { raw = {}; }
+    if (typeof raw !== "object" || Array.isArray(raw)) raw = {};
+    const num = (v) => {
+      let n = Number(v);
+      if (!Number.isFinite(n) || n < 0) n = 0;
+      return Math.min(LEDGER_NUM_CAP, Math.floor(n));
+    };
+    const flag = (v) => (v === 1 || v === true ? 1 : 0);
+    /* cycle 对齐 v35：floor cycle 变化只重置 settled 与 pending，累计保留 */
+    const floorCycle = getFloor().cycle;
+    const sameCycle = num(raw.cycle) === floorCycle;
+    const cycle = floorCycle;
+    const scores = {};
+    LEDGER_SCORE_KEYS.forEach((k) => { scores[k] = num(raw.scores && raw.scores[k]); });
+    const visits = {};
+    const settled = {};
+    LEDGER_KEYS.forEach((k) => {
+      visits[k] = num(raw.visits && raw.visits[k]);
+      settled[k] = sameCycle ? flag(raw.settled && raw.settled[k]) : 0;
+    });
+    const actions = {};
+    LEDGER_ACTION_KEYS.forEach((a) => { actions[a] = num(raw.actions && raw.actions[a]); });
+    const deferredTarget = LEDGER_DEFERRED_POOL.includes(raw.deferredTarget) ? raw.deferredTarget : "";
+    /* history 有界：仅保留白名单形状条目，最多 16 条（先解析，pending 证明依赖它） */
+    let history = [];
+    if (Array.isArray(raw.history)) {
+      for (const h of raw.history) {
+        if (!h || typeof h !== "object" || Array.isArray(h)) continue;
+        if (h.type === "action" && LEDGER_KEYS.includes(h.scene) && LEDGER_ACTION_META[h.scene].actions[h.action]) {
+          const entry = { type: "action", scene: h.scene, action: h.action };
+          /* 账房条目可携带点击前责任值 pre（饱和交叉校验用）；非整数/越界即剥除 */
+          if (h.scene === "ledger" && Number.isInteger(h.pre) && h.pre >= LEDGER_LIABILITY_MIN && h.pre <= LEDGER_LIABILITY_MAX) entry.pre = h.pre;
+          history.push(entry);
+        }
+      }
+    }
+    history = history.slice(-LEDGER_HISTORY_CAP);
+    /* pending 严格白名单：恰好六键 {action,cycle,feedback,kind,scene,target}（额外键即
+       伪造）；target/feedback 逐字重算（账房阈值经 history 末项 pre 交叉校验、后果改道
+       经 deferredTarget 证明）；结算证据 settled[scene]===1 且 actions[action]>=1
+       + canonical history 末项 + cycle 一致 */
+    let pending = null;
+    if (sameCycle && raw.pending && typeof raw.pending === "object" && !Array.isArray(raw.pending)) {
+      const p = raw.pending;
+      const last = history.length ? history[history.length - 1] : null;
+      if (p.kind === "action" && Object.keys(p).sort().join(",") === "action,cycle,feedback,kind,scene,target"
+        && LEDGER_KEYS.includes(p.scene) && LEDGER_ACTION_META[p.scene].actions[p.action]
+        && settled[p.scene] === 1 && actions[p.action] >= 1 && num(p.cycle) === cycle
+        && last && last.type === "action" && last.scene === p.scene && last.action === p.action) {
+        const st = { scores, deferredTarget, liability: scores.concordance + scores.repair + scores.selfBurden - 2 * scores.transfer };
+        if (p.scene === "ledger") {
+          /* 点击前责任值只信 canonical history 末项的 pre 并交叉核对：
+             post−pre 落在固定增量区间内；短于增量时受影响分值必须已触顶，
+             否则（含无 pre 的旧条目/被剥除的脏 pre）一律视为伪造 */
+          const delta = LEDGER_LIABILITY_DELTA[p.action];
+          const gap = st.liability - last.pre;
+          const proven = Number.isInteger(last.pre)
+            && (delta > 0 ? (gap >= 0 && gap <= delta) : (gap <= 0 && gap >= delta))
+            && (gap === delta || scores[LEDGER_DELTA_SCORE[p.action]] === LEDGER_NUM_CAP);
+          if (proven) {
+            const target = ledgerActionTarget(st, p.action, last.pre);
+            const feedback = ledgerFeedback(p.action, target, st.liability);
+            if (p.target === target && p.feedback === feedback) {
+              pending = { kind: "action", scene: "ledger", action: p.action, target, feedback, cycle };
+            }
+          }
+        } else {
+          const meta = LEDGER_ACTION_META[p.scene].actions[p.action];
+          const normalTarget = meta.dynamic === "handoverBackroom" ? ledgerHandoverBackroom() : meta.target;
+          /* 第三不同后果场景首次结算的改道证明：deferredTarget 正是本动作原目的地 */
+          const distinct = LEDGER_CONSEQUENCE_KEYS.filter((k) => Object.keys(LEDGER_ACTION_META[k].actions).some((a) => actions[a] > 0)).length;
+          const defer = distinct >= 3 && visits.ledger === 0 && deferredTarget !== "" && deferredTarget === normalTarget;
+          const target = defer ? "liability-ledger" : normalTarget;
+          if (p.target === target && p.feedback === meta.feedback) {
+            pending = { kind: "action", scene: p.scene, action: p.action, target, feedback: meta.feedback, cycle };
+          }
+        }
+      }
+    }
+    /* 派生：liability 与 pendingTarget 只重算，不落盘 */
+    const liability = scores.concordance + scores.repair + scores.selfBurden - 2 * scores.transfer;
+    return {
+      cycle, scores, visits, settled, actions, deferredTarget, pending,
+      pendingTarget: pending ? pending.target : "", history, liability,
+    };
+  };
+  /* 只持久化白名单 canonical 字段；派生字段永不落盘，history 先裁后存 */
+  const saveLedger = (st) => store.set(LEDGER_KEY, JSON.stringify({
+    cycle: st.cycle,
+    scores: st.scores,
+    visits: st.visits,
+    settled: st.settled,
+    actions: st.actions,
+    deferredTarget: st.deferredTarget,
+    pending: st.pending,
+    history: st.history.slice(-LEDGER_HISTORY_CAP),
+  }));
+
+  const ledgerActive = (st) =>
+    LEDGER_SCORE_KEYS.some((k) => st.scores[k] > 0) || LEDGER_KEYS.some((k) => st.visits[k] > 0);
+
+  /* 责任签：四项分值 + 责任值 + 五场景本轮结清态 */
+  const paintLedger = () => {
+    const st = getLedger();
+    $$("[data-ledger-concordance]").forEach((el) => { el.textContent = st.scores.concordance; });
+    $$("[data-ledger-repair]").forEach((el) => { el.textContent = st.scores.repair; });
+    $$("[data-ledger-transfer]").forEach((el) => { el.textContent = st.scores.transfer; });
+    $$("[data-ledger-selfburden]").forEach((el) => { el.textContent = st.scores.selfBurden; });
+    $$("[data-ledger-liability]").forEach((el) => { el.textContent = st.liability; });
+    LEDGER_KEYS.forEach((k) => {
+      $$(`[data-ledger-settled="${k}"]`).forEach((el) => { el.textContent = st.settled[k] === 1 ? "已结清" : "未结清"; });
+    });
+  };
+
+  /* 转场 before 通用尾件：原子记 visit/visited 再清 pending（避开守卫竞争） */
+  const ledgerBeforeArrive = (target) => {
+    const s = getLedger();
+    if (LEDGER_SCENE_KEY[target] && s.visits[LEDGER_SCENE_KEY[target]] === 0) s.visits[LEDGER_SCENE_KEY[target]] = 1;
+    if (s.pending) s.pending = null;
+    saveLedger(s);
+    if (target === "evidence-vault") markReviewVisited("evidence-vault");
+    if (target === "false-positive-shaft") markReviewVisited("false-positive-shaft");
+    if (ANOMALY_SCENE_BACKROOM[target]) grantAnomalyBackroomVisit(target);
+    syncLedgerLinks();
+    paintLedgerMemory();
+  };
+
+  /* v56 前插路径的 visit 授予（交班/编组 before 调用，与 v55 同款契约） */
+  const grantLedgerVisit = (sceneName) => {
+    const key = LEDGER_SCENE_KEY[sceneName];
+    if (!key) return;
+    const st = getLedger();
+    if (st.visits[key] === 0) {
+      st.visits[key] = 1;
+      saveLedger(st);
+      syncLedgerLinks();
+    }
+  };
+
+  /* 后果动作：live scene + 共享 first-lock；导航常开，分值每场景每 cycle 只结算
+     首次；第三不同后果场景首次结算时暂存原目的地并改道责任账房（每存档一次） */
+  const chooseConsequenceAction = (sceneKey, actionKey) => {
+    const meta = LEDGER_ACTION_META[sceneKey] && LEDGER_ACTION_META[sceneKey].actions[actionKey];
+    if (!meta) return;
+    const sceneName = LEDGER_KEY_SCENE[sceneKey];
+    if (currentScene !== sceneName) return;
+    if (AutoAdvance.has(sceneName)) return;
+    const st = getLedger();
+    let target = meta.dynamic === "handoverBackroom" ? ledgerHandoverBackroom() : meta.target;
+    if (st.settled[sceneKey] === 0) {
+      st.settled[sceneKey] = 1;
+      Object.keys(meta.scores).forEach((k) => { st.scores[k] = Math.min(LEDGER_NUM_CAP, st.scores[k] + meta.scores[k]); });
+      st.actions[actionKey] = Math.min(LEDGER_NUM_CAP, st.actions[actionKey] + 1);
+      st.history.push({ type: "action", scene: sceneKey, action: actionKey });
+      const distinct = LEDGER_CONSEQUENCE_KEYS.filter((k) => Object.keys(LEDGER_ACTION_META[k].actions).some((a) => st.actions[a] > 0)).length;
+      if (distinct >= 3 && st.visits.ledger === 0 && st.deferredTarget === "") {
+        st.deferredTarget = target;
+        target = "liability-ledger";
+      }
+      st.pending = { kind: "action", scene: sceneKey, action: actionKey, target, feedback: meta.feedback, cycle: st.cycle };
+      saveLedger(st);
+    }
+    const btn = $(meta.btn);
+    if (btn) btn.setAttribute("aria-pressed", "true");
+    const responseEl = $(LEDGER_ACTION_META[sceneKey].responseEl);
+    if (responseEl) responseEl.textContent = meta.feedback;
+    AudioEngine.knock(0.16);
+    paintLedger();
+    AutoAdvance.schedule(sceneName, target, {
+      delay: branchDelay(),
+      before: () => ledgerBeforeArrive(target),
+    });
+  };
+
+  /* 责任账动作：目标由点击前责任值决定，反馈逐字带结算后责任值与落点理由；
+     return-verdict 有合法 deferredTarget 时回它并在到达时清空 */
+  const chooseLedgerAction = (actionKey) => {
+    const meta = LEDGER_ACTION_META.ledger.actions[actionKey];
+    if (!meta) return;
+    if (currentScene !== "liability-ledger") return;
+    if (AutoAdvance.has("liability-ledger")) return;
+    const st = getLedger();
+    const target = ledgerActionTarget(st, actionKey, st.liability);
+    let feedback;
+    if (st.settled.ledger === 0) {
+      st.settled.ledger = 1;
+      Object.keys(meta.scores).forEach((k) => { st.scores[k] = Math.min(LEDGER_NUM_CAP, st.scores[k] + meta.scores[k]); });
+      st.actions[actionKey] = Math.min(LEDGER_NUM_CAP, st.actions[actionKey] + 1);
+      st.history.push({ type: "action", scene: "ledger", action: actionKey, pre: st.liability });
+      const postLiability = st.scores.concordance + st.scores.repair + st.scores.selfBurden - 2 * st.scores.transfer;
+      feedback = ledgerFeedback(actionKey, target, postLiability);
+      st.pending = { kind: "action", scene: "ledger", action: actionKey, target, feedback, cycle: st.cycle };
+      saveLedger(st);
+    } else {
+      feedback = ledgerFeedback(actionKey, target, st.liability);
+    }
+    const btn = $(meta.btn);
+    if (btn) btn.setAttribute("aria-pressed", "true");
+    const responseEl = $("#ledger-response");
+    if (responseEl) responseEl.textContent = feedback;
+    AudioEngine.knock(0.16);
+    paintLedger();
+    AutoAdvance.schedule("liability-ledger", target, {
+      delay: branchDelay(),
+      before: () => {
+        if (actionKey === "return-verdict") {
+          const s = getLedger();
+          s.deferredTarget = "";
+          saveLedger(s);
+        }
+        ledgerBeforeArrive(target);
+      },
+    });
+  };
+
+  /* reload 节拍恢复：合法 pending 属于当前场景时重播逐字反馈并精确重挂一次 */
+  const replayLedgerPending = (sceneName) => {
+    const st = getLedger();
+    const p = st.pending;
+    if (!p || LEDGER_KEY_SCENE[p.scene] !== sceneName) return;
+    const responseEl = $(LEDGER_ACTION_META[p.scene].responseEl);
+    if (responseEl) responseEl.textContent = p.feedback;
+    AutoAdvance.schedule(sceneName, p.target, {
+      delay: branchDelay(),
+      before: () => {
+        if (p.action === "return-verdict") {
+          const s = getLedger();
+          s.deferredTarget = "";
+          saveLedger(s);
+        }
+        ledgerBeforeArrive(p.target);
+      },
+    });
+  };
+
+  /* 五场景进入：幂等补记 visit（before 已原子记录为主）、清响应、刷签 */
+  const enterLedgerScene = (sceneName) => {
+    const key = LEDGER_SCENE_KEY[sceneName];
+    if (!key) return;
+    grantLedgerVisit(sceneName);
+    const responseEl = $(LEDGER_ACTION_META[key].responseEl);
+    if (responseEl) responseEl.textContent = "";
+    paintLedger();
+  };
+
+  const LEDGER_LINKS = { theatre: "#theatre-link", quarantine: "#quarantine-link", shaft: "#omission-link", misbound: "#misbound-link", ledger: "#ledger-link" };
+  const syncLedgerLinks = () => {
+    const st = getLedger();
+    LEDGER_KEYS.forEach((k) => {
+      const link = $(LEDGER_LINKS[k]);
+      if (!link) return;
+      if (st.visits[k] > 0) link.removeAttribute("hidden");
+      else link.setAttribute("hidden", "");
+    });
+  };
+
+  /* 痕迹页单行：责任账五项，保持八张统计卡不变 */
+  const paintLedgerMemory = () => {
+    const memory = $("#consequence-ledger-memory");
+    if (!memory) return;
+    const st = getLedger();
+    if (!ledgerActive(st)) {
+      memory.hidden = true;
+      return;
+    }
+    memory.textContent = `责任账：共证 ${st.scores.concordance}，修复 ${st.scores.repair}，转嫁 ${st.scores.transfer}，自担 ${st.scores.selfBurden}，责任值 ${st.liability}。`;
+    memory.hidden = false;
+  };
+
+  /* v57 合成守卫：15 动作监听只接受真实用户产生的 click（isTrusted）——
+     合成 HTMLElement.click() 在 active 场景同样零副作用；
+     鼠标/触控/Tab+Enter/Space 与 CDP page.click 均派发 trusted click，不受影响 */
+  LEDGER_CONSEQUENCE_KEYS.forEach((sceneKey) => {
+    Object.keys(LEDGER_ACTION_META[sceneKey].actions).forEach((actionKey) => {
+      const btn = $(LEDGER_ACTION_META[sceneKey].actions[actionKey].btn);
+      if (btn) btn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseConsequenceAction(sceneKey, actionKey); });
+    });
+  });
+  Object.keys(LEDGER_ACTION_META.ledger.actions).forEach((actionKey) => {
+    const btn = $(LEDGER_ACTION_META.ledger.actions[actionKey].btn);
+    if (btn) btn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseLedgerAction(actionKey); });
+  });
+  paintLedger();
 
   /* ============================================================
      v40 门外侧廊：首页纵深环境层 + 左右廊热点 + 三个画面热点场景
@@ -7691,7 +8111,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
   /* v31 门前守卫的 v43 窄例外表：knock action → 唯一放行的 v31 场景 */
   const KNOCK_V31_TARGET = { inward: "peephole-chamber", third: "return-passage", blank: "glyph-niche" };
-  const KNOCK_RESPONSE_EL = { gallery: "#gallery-response", vestibule: "#vestibule-response", dispatch: "#dispatch-response" };
+  const KNOCK_RESPONSE_EL = { gallery: "#gallery-response", vestibule: "#unanswered-vestibule-response", dispatch: "#dispatch-response" };
   const KNOCK_LINKS = { gallery: "#knock-gallery-link", vestibule: "#unanswered-link", dispatch: "#undersill-link" };
 
   const getKnockNet = () => {
@@ -10987,6 +11407,8 @@ document.addEventListener("DOMContentLoaded", () => {
       ANOMALY_ROOMS.forEach((r) => syncAnomalyRoom(ANOMALY_ROOM_SCENE[r]));
       syncEvidenceLinks();
       paintEvidence();
+      syncLedgerLinks();
+      paintLedger();
       ANOMALY_ROOMS.forEach((r) => syncEvidenceRoom(ANOMALY_ROOM_SCENE[r]));
       syncLateralLinks();
       syncBackroomLinks();
@@ -11010,6 +11432,7 @@ document.addEventListener("DOMContentLoaded", () => {
       paintAnomalyMemory();
       paintFloorAnomalyMemory();
       paintEvidenceAuditMemory();
+      paintLedgerMemory();
       paintValuationMemory();
       paintFloorMemory();
       paintRegistryMemory();
@@ -11088,6 +11511,9 @@ document.addEventListener("DOMContentLoaded", () => {
   syncEvidenceLinks();
   paintEvidenceAuditMemory();
   paintEvidence();
+  syncLedgerLinks();
+  paintLedgerMemory();
+  paintLedger();
   syncLateralLinks();
   paintLateralMemory();
   syncBackroomLinks();

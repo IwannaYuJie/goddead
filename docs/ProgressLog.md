@@ -1,5 +1,20 @@
 # Progress Log
 
+## 2026-07-31 (v57 判词后果层 / THE VERDICT NEEDS A BODY：四后果场景 12 动作 + 责任账房)
+- 世界观转向：判词需要一具身体。v56 判断了证词，v57 让四类结果长出责任分支——误报与烧矛盾关进无辜留置舱，漏报先进移交井，压因果按交班真伪分流共证剧场或错绑交班台，自扣封条先过错绑交班台；第三处后果结清时，责任账房首次接管判决。
+- 素材：四张 v56 候选图正式升格改名（字节不变，sha256 与冻结值逐字节一致并由静态断言锁定）+ 本轮新责任账房源图，Pillow q85 1536×1024 无裁切转码 `assets/v57-{concordance-theatre,innocent-quarantine,misbound-handover,omission-transfer-shaft,liability-ledger}.webp`（193–269 KB）；五场景全部正式 bitmap + 图内原生热点，无卡片墙、无 inline SVG、无底部继续按钮。
+- v56 改道（语义不变只改目的地）：交班 falseReport→无辜留置、missed→漏报移交；编组 press 按派生的 handover 判定分流（trusted→共证剧场、blind→错绑交班，其余回证物库——判定完全由既有 canonical 的 handover/correct/checks 派生，**不新增任何持久化字段**）；burn→无辜留置、selfseal→错绑交班；chains/suppressed/selfSeals/exposure 原分值逐项不回归。v56 pending 校验按新目的地重算，防伪不变。
+- 状态：独立容错 `goddead_v57_consequence_ledger`（全仓库唯一 key）——cycle/scores（共证/修复/转嫁/自担）/visits/settled/actions（15 动作白名单）/deferredTarget/pending/history 显式 canonical 投影落盘（history 先裁 ≤16）；liability = 共证+修复+自担−2×转嫁 与 pendingTarget 派生只重算不落盘；cycle 对齐 v35 只重置 settled；deferredTarget 旧目标白名单；pending 恰好六键（含 cycle）+ 结算证据 + canonical history 末项 + 账房阈值证明 + 改道证明（deferredTarget 正是本动作原目的地）四重防伪。账房阈值不再靠固定增量反推（分值触顶 9999 时反推失真会误杀合法 pending）：结算时把点击前责任值记入 history 末项 `pre`（整数白名单区间），校验时与落盘分值交叉核对——post−pre 须落固定增量区间（+1/+2/−4），短于增量须由受影响分值触顶解释；无 pre/越界/短差无解释一律伪造丢弃。
+- 12 后果动作：逐字反馈与精确分值（共证/修复/转嫁/自担）与精确目的地（证物库/误报井/守则漂移/空名寄存/空白回执/无号层/handover 房匹配 v55 后室/错绑交班）；每场景每 cycle 只结算首次，导航常开，签明示「本轮已结清」，新 cycle 重开。
+- 责任账房：第三不同后果场景首次结算时原目的地存为严格 deferredTarget、一拍后改道账房（每存档一次，账房 visit 原子先记再清 pending）；三动作按点击前 liability 分流（return-verdict 回 deferred 并清空，否则按符号去证物库/误报井；sign-self ≥4 去证物库否则回 handover 房后室；assign-vacancy ≤−2 去误报井否则去空名寄存），反馈逐字带结算后责任值与落点理由。
+- 守卫：五场景 direct hash 窄守卫（合法 pendingTarget 或历史 visit，否则回无号层）；15 动作监听只接受 isTrusted 真实 click（合成 HTMLElement.click() 在 active 场景也零副作用，鼠标/触控/Tab+Enter/Space 不受影响）；转场 before 先原子记 v57 visit / `markReviewVisited` / `grantAnomalyBackroomVisit` 再清 pending（避开 v55/v56 同款竞争）；v33/v55 守卫文本一行未改。
+- 目录 01σ½ / 共证剧场、01υ½ / 无辜留置、01φ½ / 漏报移交、01χ½ / 错绑交班、01ψ½ / 责任账房（首次合法到访原子恢复）；Remembrance 新增单行「责任账：共证 C，修复 R，转嫁 T，自担 S，责任值 L。」，仍八张统计卡；遗忘全部 DOM 级复位（key/五目录/记忆行/签/守卫回弹）。
+- 监理即时修正两处：漏报移交井改全仓库唯一 `omission-response` / `omission-link`（不得复用 v33 的 shaft-response/shaft-link，并新增全页 duplicate-id 静态扫描——扫描还抓出并修复了 v43 遗留的真实重复 id `vestibule-response`：v43 未应门前厅反馈一直写入隐藏的 v32 元素，已改为 `unanswered-vestibule-response`）；press 分流禁止新增 handoverKind 持久化字段，改为纯派生。
+- 静态契约：`node --check script.js`、`node --check tests/site.test.mjs`、`node tests/site.test.mjs`（2359 → 2419 断言，v57 新增 60：源图 sha256 逐字节/WebP 引用/唯一 key/schema 归一/存盘 canonical/pending 六键与 history 末项 pre 饱和交叉校验/15 动作逐字/第三场景改道/窄守卫/synthetic isTrusted 监听守卫/duplicate-id 扫描/目录与记忆/8 卡/15 定位 class/`?v=54`）、`git diff --check` 全部通过。
+- CDP 实机验收（`/tmp/v57-qa/v57-smoke.mjs`，真实 Google Chrome headless + 内嵌静态服务器 + 真实鼠标/键盘，种子预注入）**494/494 连续两轮全绿**：五场景 × 1440×1024/1440×800/390×844 几何（图内/零重叠/自命中/≥44px/责任签不溢出/1440×800 首屏）、v56 六条插入路径 + 证物库兜底、12 后果动作逐字+分值+目的地+同拍幂等+防刷+新 cycle 重开、第三场景首次改道+deferredTarget+第四场景正常、账房三动作阈值两侧+deferred 返回清空+防刷、账房三动作分值触顶 9999 后合法 pending 仍接受（点击前责任值经 history 末项 pre 证明）+ 自动转场前 reload 逐字重播一次 + 目标正确 + 分值仍封顶 + 不二次计分、三类跨字段伪造账房 pending（stale pre/短差无触顶解释/缺 pre）全丢弃、窄守卫四态、reload 重播一次+三类伪造 pending 丢弃、坏存档六种归一+raw canonical+history 16、v54/v37 字节级零污染+v56 计数不回归、目录×5/记忆/八卡/遗忘 DOM 全流程、active 共证剧场合成 HTMLElement.click() 字节级零副作用（分值/pending/反馈/场景/aria-pressed 不变）后真实 page.click 正常结算转场、Tab/Enter/Space、console 零异常。
+- 视觉证据 9 张 `design-qa-evidence/v57-01~09`（五场景桌面、账房 1440×800、移动端两幅、改道落点），五张冻结源 PNG 与同状态同视口渲染同轮并排目验：热点全部压中物件、移动端短标签无裁切无互盖、标题与责任签无溢出。
+- 保护边界：`docs/KimiUsageLog.md`、`assets/divine-name-cancellation.webp`、全部 source-v53~v57 PNG 哈希不变；未执行任何 git add/commit/push/stash；未安装依赖。
+
 ## 2026-07-30 (v56 症状交接 / THE EVIDENCE AUDITS THE WITNESS：核验封条深查 + 症状交班台 + 证据编组室)
 - 世界观转向：只深化 v55 三房巡检态——楼层开始怀疑证词本身。封条让你把房间拆开看一次真相；你交上去的症状被编组，编组室同时编组证人。
 - 素材：八张监理冻结源 PNG（1536×1024，sha256 记录在 `docs/V56EvidenceAuditDesign.md` 并由静态断言逐字节校验）Pillow q85 原尺寸无裁切转码 `assets/v56-{ward,records,laundry}-deep-{anomaly,normal}.webp`、`assets/v56-symptom-handover-hub.webp`、`assets/v56-evidence-switchboard.webp`（161–299 KB）；六张深查图预载，深查原地切图无闪错；三值班房主图去掉 `loading="lazy"`，杜绝换图后的解码空白。

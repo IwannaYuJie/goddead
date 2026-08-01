@@ -1,6 +1,18 @@
-# Design QA — Living Shrine · 场景探索版（含值夜室 · 第四线路 · 无主投递所 · 神名注销科 · 代神席 · 自动转场 · 现有场景视觉深化 · 焚献点火 · 神圣遗物科 · v28 代行治理 · v29 旁路支线 · v30 深层支线 · v31 门前三岔 · v32 门内副楼 · v33 异常复核 · v34 无主估值 · v35 无号层 · v36 夜班登记 · v37 午夜回拨 · v38 门外代审 · v39 归路核验 · v40 门外侧廊 · v41 守则背室 · v42 守则漂移 · v43 门内回敲 · v44 页后空层 · v45 未到交班 · v46 旁线未静 · v47 退件未止 · v48 注销留副 · v49 门前实感 · v50 副楼实感 · v51 副楼三债 · v52 三债结算 · v53 归路信念 · v54 迫近回访 · v55 失常交班 · v56 症状交接）
+# Design QA — Living Shrine · 场景探索版（含值夜室 · 第四线路 · 无主投递所 · 神名注销科 · 代神席 · 自动转场 · 现有场景视觉深化 · 焚献点火 · 神圣遗物科 · v28 代行治理 · v29 旁路支线 · v30 深层支线 · v31 门前三岔 · v32 门内副楼 · v33 异常复核 · v34 无主估值 · v35 无号层 · v36 夜班登记 · v37 午夜回拨 · v38 门外代审 · v39 归路核验 · v40 门外侧廊 · v41 守则背室 · v42 守则漂移 · v43 门内回敲 · v44 页后空层 · v45 未到交班 · v46 旁线未静 · v47 退件未止 · v48 注销留副 · v49 门前实感 · v50 副楼实感 · v51 副楼三债 · v52 三债结算 · v53 归路信念 · v54 迫近回访 · v55 失常交班 · v56 症状交接 · v57 判词后果）
 
 适用范围：当前 goddead.com 首页（哈希路由场景探索游戏）。本文替代旧版 QA 报告；旧版证据文件保留在 `design-qa-evidence/` 中仅作历史存档，不再代表现状。
+
+## 本轮新增：v57 判词后果层 / THE VERDICT NEEDS A BODY（四后果场景 12 动作 + 责任账房）
+
+- 目标：v56 四类判定结果长出责任分支而非不同文案回旧房间；v56 深查/预算/报告/编组计分语义全部保留，只在原目的地前插后果场景。
+- 素材：四张 v56 候选图改名升格（字节不变，sha256 静态断言锁定）+ 新责任账房图，Pillow q85 1536×1024 转码五张 WebP；全部正式 bitmap + 图内原生热点。
+- 改道：交班 falseReport→无辜留置、missed→漏报移交；编组 press 按派生判定分流（trusted→共证剧场、blind→错绑交班，否则证物库兜底）、burn→无辜留置、selfseal→错绑交班；判定纯派生不落盘，v56 分值逐项不回归。
+- 状态：`goddead_v57_consequence_ledger`（唯一 key）；canonical 投影（cycle/scores/visits/settled/actions/deferredTarget/pending/history≤16）；liability 与 pendingTarget 派生重算；pending 恰好六键 + 结算证据 + history 末项 + 账房阈值证明 + 改道证明四重防伪——账房点击前责任值由结算时记入 history 末项的 `pre` 证明并与落盘分值交叉核对（post−pre 落固定增量区间，短差须受影响分值触顶 9999 解释），不做固定增量反推（饱和时会误杀合法 pending）；cycle 对齐 v35 只重置 settled。
+- 玩法：12 后果动作逐字反馈与精确分值（共证/修复/转嫁/自担）与目的地，每场景每 cycle 防刷、导航常开、签明示已结清；第三不同后果场景首次结算暂存 deferredTarget 改道责任账房（每存档一次）；账房三动作按点击前 liability 分流并逐字报责任值。
+- 守卫：五场景窄守卫（合法 pendingTarget 或历史 visit，否则回无号层），before 先原子记 visit 再清 pending；15 动作监听只接受 isTrusted 真实 click——合成 HTMLElement.click() 在 active 场景同样零副作用（off-scene/hidden/rapid 由 live-scene + first-lock 守卫），鼠标/触控/Tab+Enter/Space 与 page.click 不受影响；v33/v55 守卫文本未改。监理修正：漏报移交井用全仓库唯一 `omission-response`/`omission-link`；全页 duplicate-id 扫描抓出并修复 v43 遗留重复 id `vestibule-response`（反馈一直写入隐藏的 v32 元素）。
+- 目录：01σ½ / 共证剧场、01υ½ / 无辜留置、01φ½ / 漏报移交、01χ½ / 错绑交班、01ψ½ / 责任账房；Remembrance 单行，仍八张统计卡。
+- CDP 行为冒烟（`/tmp/v57-qa/v57-smoke.mjs`，真实 Google Chrome headless + 真实鼠标/键盘，种子预注入）**494/494 连续两轮全绿**：五场景 × 1440×1024/1440×800/390×844 几何（图内/零重叠/自命中/≥44px/责任签不溢出/1440×800 首屏）、v56 六条插入路径+兜底、12 后果动作逐字+分值+目的地+防刷+新 cycle、第三场景改道+deferredTarget、账房阈值两侧+deferred 返回清空、账房三动作 9999 饱和后合法 pending 接受+reload 逐字重播一次+分值封顶不二次计分、三类跨字段伪造账房 pending（stale pre/短差无触顶解释/缺 pre）丢弃、窄守卫四态、reload 重播一次+伪造 pending 三态丢弃、坏存档六种归一+raw canonical+history 16、v54/v37 零污染+v56 不回归、目录/记忆/八卡/遗忘 DOM、active 共证剧场合成 HTMLElement.click() 字节级零副作用（存储/反馈/场景/aria-pressed 不变）后真实 page.click 正常结算、Tab/Enter/Space、console 零异常。
+- 视觉证据 9 张 `design-qa-evidence/v57-01~09`（五场景桌面、账房 1440×800、移动两幅、改道落点）；五张冻结源 PNG 与同状态同视口渲染同轮并排目验——热点全部压中物件、移动端短标签无裁切无互盖、标题与责任签无溢出。
 
 ## 本轮新增：v56 症状交接 / THE EVIDENCE AUDITS THE WITNESS（核验封条深查 + 症状交班台 + 证据编组室）
 

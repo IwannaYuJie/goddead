@@ -30,8 +30,8 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=53/);
-assert.match(html, /script\.js\?v=53/);
+assert.match(html, /styles\.css\?v=54/);
+assert.match(html, /script\.js\?v=54/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
@@ -489,8 +489,8 @@ for (const asset of VISUAL_ASSETS) {
 await access(new URL("assets/prayer-incinerator-burning.webp", root));
 assert.match(html, /assets\/prayer-incinerator-burning\.webp/);
 assert.match(html, /<link rel="preload" href="assets\/prayer-incinerator-burning\.webp" as="image">/);
-assert.match(html, /styles\.css\?v=53/);
-assert.match(html, /script\.js\?v=53/);
+assert.match(html, /styles\.css\?v=54/);
+assert.match(html, /script\.js\?v=54/);
 const offeringFigureHtml = html.match(/<figure class="offering-figure[^"]*" role="img" aria-label="[^"]*">[\s\S]*?<\/figure>/);
 assert.ok(offeringFigureHtml, "offering figure must exist");
 assert.match(offeringFigureHtml[0], /aria-label="一座沉寂的焚献炉"/);
@@ -2298,7 +2298,7 @@ assert.match(vestibuleSection[0], /src="assets\/unanswered-vestibule\.webp" alt=
 for (const [id, label] of [["unanswered-action-first", "登记左鼓上的第一道凹痕"], ["unanswered-action-second", "听完仍在震动的第二声"], ["unanswered-action-third", "抹掉右鼓残留的第三声"]]) {
   assert.ok(vestibuleSection[0].includes(`id="${id}" type="button" aria-label="${label}"`), `vestibule missing hotspot ${id}`);
 }
-assert.match(vestibuleSection[0], /id="vestibule-response" aria-live="polite"/);
+assert.match(vestibuleSection[0], /id="unanswered-vestibule-response" aria-live="polite"/);
 assert.match(vestibuleSection[0], /data-go="threshold"/);
 const dispatchSection = html.match(/<section class="scene scene-branch scene-knocknet scene-undersill-dispatch"[\s\S]*?<\/section>/);
 assert.ok(dispatchSection, "scene section missing: undersill-dispatch");
@@ -3532,8 +3532,8 @@ assert.match(js, /if \(s\.visits\.hub === 0\) s\.visits\.hub = 1;/, "defer trans
 for (const frag of [
   'trusted: { target: "evidence-switchboard", feedback: "封条和报告同时咬住同一结论。证据编组室把门打开了。"',
   'blind: { target: "evidence-switchboard", feedback: "没有封条的报告仍然猜中了门后那一间。证据编组室接受这次盲判。"',
-  'falseReport: { target: "false-positive-shaft", feedback: "你交上去的症状在台面上恢复正常。误报井先签收了你。"',
-  'missed: { feedback: "你交上去的正常结论在台面上开始呼吸。对应后室把原件取走了。"',
+  'falseReport: { target: "innocent-quarantine", feedback: "你交上去的症状在台面上恢复正常。误报井先签收了你。"',
+  'missed: { target: "omission-transfer-shaft", feedback: "你交上去的正常结论在台面上开始呼吸。对应后室把原件取走了。"',
   'press: { btn: "#switch-action-press", target: "evidence-vault", feedback: "压机合拢。两份证据从此只允许一种死法。"',
   'burn: { btn: "#switch-action-burn", target: "false-positive-shaft", feedback: "红蜡只烧掉不同意你的那一份。误报井收到了灰。"',
   'selfseal: { btn: "#switch-action-selfseal", feedback: "封条绕过手腕和喉咙。你成了这批证据唯一还活着的附件。"',
@@ -3578,6 +3578,118 @@ assert.match(forgetBlockV56[0], /paintEvidenceAuditMemory\(\);/, "forget-all hid
 assert.match(forgetBlockV56[0], /ANOMALY_ROOMS\.forEach\(\(r\) => syncEvidenceRoom\(ANOMALY_ROOM_SCENE\[r\]\)\);/, "forget-all restores the three duty rooms' evidence state");
 for (const cls of ["ward-spot-check", "records-spot-check", "laundry-spot-check", "handover-spot-ward", "handover-spot-records", "handover-spot-laundry", "switch-spot-press", "switch-spot-burn", "switch-spot-selfseal"]) {
   assert.match(css, new RegExp(`\\.${cls} \\{`), `css missing position class .${cls}`);
+}
+
+/* ---------- v57 判词后果层：四后果场景 12 动作 + 责任账房 3 动作 ---------- */
+/* 五张冻结源 PNG 存在且 sha256 冻结 */
+const V57_SOURCE_HASHES = {
+  "design-references/source-v57-concordance-theatre.png": "76c8b89927d5e61b79bd833f861b9c66e2677844c418630c2fd02989907bea15",
+  "design-references/source-v57-innocent-quarantine.png": "791a5775efd51e910d403e4d837337e825d2db084589ed00750dd20cb9ab771d",
+  "design-references/source-v57-misbound-handover.png": "31fdabaa6efccc92a3d0b353aca8bb66937a27223417d1aada2f00d8bec864de",
+  "design-references/source-v57-omission-transfer-shaft.png": "2e69f475d69770aa3d32229849e31a44651a88b29b9a95ff897fe0cbae0fc111",
+  "design-references/source-v57-liability-ledger.png": "b33b48c16e585adf2e8126c4013a0b3afdaa546f83c0a218580f7f762d5baa81",
+};
+for (const [src, hash] of Object.entries(V57_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(src, root));
+  assert.equal(createHash("sha256").update(buf).digest("hex"), hash, `${src} must keep its frozen sha256`);
+}
+for (const asset of ["assets/v57-concordance-theatre.webp", "assets/v57-innocent-quarantine.webp", "assets/v57-misbound-handover.webp", "assets/v57-omission-transfer-shaft.webp", "assets/v57-liability-ledger.webp"]) {
+  const buf = await readFile(new URL(asset, root));
+  assert.ok(buf.length > 100000, `${asset} must exist as a full-size transcode`);
+  assert.ok(html.includes(asset), `${asset} must be referenced by its scene`);
+}
+assert.match(js, /const LEDGER_KEY = "goddead_v57_consequence_ledger";/);
+assert.equal((js.match(/goddead_v57/g) || []).length, 1, "v57 introduces exactly one storage key");
+const ledgerParseBlock = js.match(/const getLedger = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(ledgerParseBlock, "getLedger must exist");
+assert.match(ledgerParseBlock[0], /\} catch \{ raw = \{\}; \}/, "corrupt ledger storage must be safely repaired");
+assert.match(ledgerParseBlock[0], /if \(typeof raw !== "object" \|\| Array\.isArray\(raw\)\) raw = \{\};/, "array/wrong-type ledger storage must fall back");
+assert.match(ledgerParseBlock[0], /Math\.min\(LEDGER_NUM_CAP, Math\.floor\(n\)\)/, "ledger counters must be clamped 0..9999");
+assert.match(ledgerParseBlock[0], /settled\[k\] = sameCycle \? flag\(raw\.settled && raw\.settled\[k\]\) : 0;/, "only settled resets when the v35 cycle moves on");
+assert.match(ledgerParseBlock[0], /LEDGER_DEFERRED_POOL\.includes\(raw\.deferredTarget\) \? raw\.deferredTarget : ""/, "deferredTarget is whitelisted");
+assert.match(ledgerParseBlock[0], /history = history\.slice\(-LEDGER_HISTORY_CAP\);/, "history is bounded to the last 16 valid entries");
+assert.ok(ledgerParseBlock[0].indexOf("history = history.slice(-LEDGER_HISTORY_CAP);") < ledgerParseBlock[0].indexOf("let pending = null;"), "canonical history is parsed before pending validation");
+assert.match(ledgerParseBlock[0], /Object\.keys\(p\)\.sort\(\)\.join\(","\) === "action,cycle,feedback,kind,scene,target"/, "ledger pending accepts exactly six whitelisted keys incl. cycle");
+assert.match(ledgerParseBlock[0], /settled\[p\.scene\] === 1 && actions\[p\.action\] >= 1 && num\(p\.cycle\) === cycle/, "pending needs settlement evidence and a matching cycle");
+assert.match(ledgerParseBlock[0], /h\.scene === "ledger" && Number\.isInteger\(h\.pre\) && h\.pre >= LEDGER_LIABILITY_MIN && h\.pre <= LEDGER_LIABILITY_MAX/, "history pre is whitelisted to the liability range");
+assert.match(ledgerParseBlock[0], /gap === delta \|\| scores\[LEDGER_DELTA_SCORE\[p\.action\]\] === LEDGER_NUM_CAP/, "a saturated settlement proves itself via the capped score");
+assert.match(ledgerParseBlock[0], /const target = ledgerActionTarget\(st, p\.action, last\.pre\);/, "ledger targets recompute from the history-proven pre-click liability");
+assert.ok(!/LEDGER_PRE_ADJUST/.test(js), "fixed-delta back-computation is gone (breaks under the 9999 cap)");
+assert.match(ledgerParseBlock[0], /deferredTarget !== "" && deferredTarget === normalTarget/, "the third-scene deferral proves itself via the stored deferred landing");
+assert.match(ledgerParseBlock[0], /const liability = scores\.concordance \+ scores\.repair \+ scores\.selfBurden - 2 \* scores\.transfer;/, "liability is re-derived, never trusted");
+assert.ok(!/goddead_v(28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56)/.test(ledgerParseBlock[0]), "v57 state must not touch earlier keys");
+const ledgerSaveBlock = js.match(/const saveLedger = \(st\) => store\.set\(LEDGER_KEY, JSON\.stringify\(\{[\s\S]*?\}\)\);/);
+assert.ok(ledgerSaveBlock, "saveLedger must persist an explicit canonical projection");
+for (const f of ["cycle", "scores", "visits", "settled", "actions", "deferredTarget", "pending"]) {
+  assert.match(ledgerSaveBlock[0], new RegExp(`${f}: st\\.${f},`), `saveLedger persists ${f}`);
+}
+assert.match(ledgerSaveBlock[0], /history: st\.history\.slice\(-LEDGER_HISTORY_CAP\),/, "saveLedger clamps history to <= 16 before persisting");
+assert.ok(!/liability|pendingTarget/.test(ledgerSaveBlock[0]), "saveLedger must never persist derived fields");
+/* v56 改道：press 分流完全派生，不新增持久化字段 */
+const evidenceSaveBlockV57 = js.match(/const saveEvidence = \(st\) => store\.set\(EVIDENCE_KEY, JSON\.stringify\(\{[\s\S]*?\}\)\);/);
+assert.ok(!/handoverKind/.test(evidenceSaveBlockV57[0]), "v56 must not persist any handoverKind field");
+assert.match(js, /const evidenceHandoverKind = \(st\) => \{[\s\S]*?return st\.checks\[st\.handover\] === 1 \? "trusted" : "blind";\s*\};/, "press routing derives the handover kind from canonical evidence state");
+/* 15 动作：12 后果动作逐字 + 账房阈值 */
+for (const frag of [
+  '"bind-testimony": { btn: "#theatre-action-bind-testimony", scores: { concordance: 2 }, target: "evidence-vault", feedback: "两份证词被压成同一枚指纹。证物库只承认它们一起存在。"',
+  '"preserve-dissent": { btn: "#theatre-action-preserve-dissent", scores: { concordance: 1, selfBurden: 1 }, target: "protocol-drift", feedback: "你把分歧留在卷宗里，也把解释它的责任留给自己。"',
+  '"substitute-witness": { btn: "#theatre-action-substitute-witness", scores: { selfBurden: 2 }, target: "misbound-handover", feedback: "镜面把你的轮廓钉在证词空位上。错绑交班开始呼叫你的名字。"',
+  '"release-innocent": { btn: "#quarantine-action-release-innocent", scores: { repair: 2 }, target: "unnumbered-floor", feedback: "红蜡断开以后，舱里没有病人。只有一份被你延迟承认的正常。"',
+  '"extend-quarantine": { btn: "#quarantine-action-extend-quarantine", scores: { transfer: 2 }, target: "false-positive-shaft", feedback: "你把怀疑续签给一个空舱。误报井替你保管了它。"',
+  '"stand-in": { btn: "#quarantine-action-stand-in", scores: { repair: 1, selfBurden: 1 }, target: "misbound-handover", feedback: "空工服接受了你的号牌。它没有获释，只是换成你被留置。"',
+  '"descend-after": { btn: "#shaft-action-descend-after", scores: { repair: 2 }, dynamic: "handoverBackroom", feedback: "你跟着漏掉的症状下井。它在原房间的背面等你补签。"',
+  '"transfer-omission": { btn: "#shaft-action-transfer-omission", scores: { transfer: 2 }, target: "blank-receipt-press", feedback: "移交单没有收件人。空白回执仍替你签收了这次漏报。"',
+  '"seal-omission": { btn: "#shaft-action-seal-omission", scores: { concordance: 1, transfer: 1 }, target: "evidence-vault", feedback: "你封住了井口，也封住了谁本应看见它。证物库收下一只仍在下坠的箱子。"',
+  '"admit-misbind": { btn: "#misbound-action-admit-misbind", scores: { selfBurden: 2 }, dynamic: "handoverBackroom", feedback: "你承认正确的结论绑错了证人。后室把责任和你一起叫回去。"',
+  '"reassign-empty": { btn: "#misbound-action-reassign-empty", scores: { transfer: 2 }, target: "blank-name-cloakroom", feedback: "空名接过了手铐。它从来没有出现过，所以最适合承担证明。"',
+  '"break-cuffs": { btn: "#misbound-action-break-cuffs", scores: { repair: 1, selfBurden: 1 }, target: "protocol-drift", feedback: "链断了，绑定却没有消失。守则开始重写“证人”的定义。"',
+]) assert.ok(js.includes(frag), `missing v57 consequence action: ${frag.slice(0, 30)}`);
+assert.match(js, /const LEDGER_LIABILITY_DELTA = \{ "return-verdict": 1, "sign-self": 2, "assign-vacancy": -4 \};/, "ledger liability deltas frozen");
+assert.match(js, /const LEDGER_DELTA_SCORE = \{ "return-verdict": "concordance", "sign-self": "selfBurden", "assign-vacancy": "transfer" \};/, "ledger delta-affected scores frozen");
+assert.match(js, /st\.history\.push\(\{ type: "action", scene: "ledger", action: actionKey, pre: st\.liability \}\);/, "ledger settlement records the pre-click liability in canonical history");
+for (const frag of ["原判被退回你留下的那条路。账房替你销了一页。", "你把判决签回自己身上。证物库承认这副肩膀。", "你把判决签回自己身上。还不够重的那部分，由后室认领。", "空席接住了这份判决。误报井承认它早就该来。", "空席接住了这份判决。空名寄存处为它留了位置。"]) {
+  assert.ok(js.includes(frag), `missing v57 ledger feedback: ${frag.slice(0, 16)}`);
+}
+/* 第三不同后果场景首次改道责任账房 */
+assert.match(js, /if \(distinct >= 3 && st\.visits\.ledger === 0 && st\.deferredTarget === ""\) \{\s*st\.deferredTarget = target;\s*target = "liability-ledger";/, "third distinct consequence scene defers to the liability ledger once");
+/* 守卫、接线与遗忘 */
+assert.match(js, /if \(LEDGER_SCENES\.includes\(target\) && ledgerGuard\.pendingTarget !== target && !ledgerGuard\.visits\[LEDGER_SCENE_KEY\[target\]\]\) target = "unnumbered-floor";/, "v57 guard admits only legal pending or past visits");
+assert.match(js, /if \(LEDGER_SCENES\.includes\(name\)\) \{ enterLedgerScene\(name\); replayLedgerPending\(name\); \}/, "ledger scene entry replays a legal pending");
+assert.match(forgetBlockV56[0], /syncLedgerLinks\(\);/, "forget-all resets the v57 directory links");
+assert.match(forgetBlockV56[0], /paintLedgerMemory\(\);/, "forget-all hides the v57 memory line");
+/* synthetic 守卫：15 动作监听只接受 isTrusted 真实 click，合成 HTMLElement.click() 零副作用 */
+assert.match(js, /if \(btn\) btn\.addEventListener\("click", \(ev\) => \{ if \(!ev\.isTrusted\) return; chooseConsequenceAction\(sceneKey, actionKey\); \}\);/, "consequence listeners reject synthetic clicks");
+assert.match(js, /if \(btn\) btn\.addEventListener\("click", \(ev\) => \{ if \(!ev\.isTrusted\) return; chooseLedgerAction\(actionKey\); \}\);/, "ledger listeners reject synthetic clicks");
+assert.equal((js.match(/ev\.isTrusted/g) || []).length, 2, "exactly the two v57 listener groups carry the isTrusted guard");
+assert.equal((js.match(/addEventListener\("click", \(ev\)/g) || []).length, 2, "no other click listener signature was touched");
+/* DOM：五场景各三热点入图、无卡片无 SVG、目录×5、记忆单行、8 卡 */
+for (const [scene, ids] of [["concordance-theatre", ["theatre-action-bind-testimony", "theatre-action-preserve-dissent", "theatre-action-substitute-witness"]], ["innocent-quarantine", ["quarantine-action-release-innocent", "quarantine-action-extend-quarantine", "quarantine-action-stand-in"]], ["omission-transfer-shaft", ["shaft-action-descend-after", "shaft-action-transfer-omission", "shaft-action-seal-omission"]], ["misbound-handover", ["misbound-action-admit-misbind", "misbound-action-reassign-empty", "misbound-action-break-cuffs"]], ["liability-ledger", ["ledger-action-return-verdict", "ledger-action-sign-self", "ledger-action-assign-vacancy"]]]) {
+  const section = html.match(new RegExp(`<section class="scene scene-branch scene-${scene}"[\\s\\S]*?<\\/section>`));
+  assert.ok(section, `scene section missing: ${scene}`);
+  assert.ok(section[0].includes("forecourt-tactile-stage"), `${scene} uses the 3:2 tactile stage`);
+  assert.ok(!section[0].includes("branch-choices") && !section[0].includes("<svg"), `${scene} must not degrade to cards or inline SVG`);
+  const figure = section[0].match(/<figure[\s\S]*?<\/figure>/);
+  for (const id of ids) assert.ok(figure[0].includes(`id="${id}"`), `${scene} figure must hold #${id}`);
+  assert.ok(section[0].includes("ledger-slip"), `${scene} carries the liability slip`);
+}
+assert.match(html, /<a href="#concordance-theatre" id="theatre-link" hidden data-hover>01σ½ \/ 共证剧场<\/a>/);
+assert.match(html, /<a href="#innocent-quarantine" id="quarantine-link" hidden data-hover>01υ½ \/ 无辜留置<\/a>/);
+assert.match(html, /<a href="#omission-transfer-shaft" id="omission-link" hidden data-hover>01φ½ \/ 漏报移交<\/a>/);
+assert.match(html, /<a href="#misbound-handover" id="misbound-link" hidden data-hover>01χ½ \/ 错绑交班<\/a>/);
+assert.match(html, /<a href="#liability-ledger" id="ledger-link" hidden data-hover>01ψ½ \/ 责任账房<\/a>/);
+assert.ok(html.includes('id="consequence-ledger-memory"'), "remembrance gains the consequence ledger memory line");
+assert.equal((html.match(/<div class="stat-card">/g) || []).length, 8, "remembrance keeps exactly eight stat cards");
+assert.match(js, /责任账：共证 \$\{st\.scores\.concordance\}，修复 \$\{st\.scores\.repair\}，转嫁 \$\{st\.scores\.transfer\}，自担 \$\{st\.scores\.selfBurden\}，责任值 \$\{st\.liability\}。/, "ledger memory line verbatim");
+for (const cls of ["theatre-spot-bind", "theatre-spot-dissent", "theatre-spot-substitute", "quarantine-spot-release", "quarantine-spot-extend", "quarantine-spot-standin", "shaft-spot-descend", "shaft-spot-transfer", "shaft-spot-seal", "misbound-spot-admit", "misbound-spot-reassign", "misbound-spot-break", "ledger-spot-return", "ledger-spot-sign", "ledger-spot-vacancy"]) {
+  assert.match(css, new RegExp(`\\.${cls} \\{`), `css missing position class .${cls}`);
+}
+/* 全仓库唯一 id：漏报移交井不得复用 v33 的 shaft-response / shaft-link */
+assert.ok(html.includes('id="omission-response"'), "omission scene uses its own unique response id");
+assert.ok(html.includes('id="omission-link"'), "omission scene uses its own unique directory link id");
+{
+  const allIds = html.match(/ id="[^"]+"/g) || [];
+  const uniq = new Set(allIds);
+  assert.equal(uniq.size, allIds.length, `every id in index.html must be unique (${allIds.length - uniq.size} duplicates)`);
 }
 
 /* ---------- v54 迫近回访：v29 三房共同记账 + 异动第四热点九分流 ---------- */
@@ -3874,6 +3986,7 @@ assert.match(log, /v53|归路信念/, "ProgressLog must document v53");
 assert.match(log, /v54|迫近/, "ProgressLog must document v54");
 assert.match(log, /v55|失常交班/, "ProgressLog must document v55");
 assert.match(log, /v56|症状交接/, "ProgressLog must document v56");
+assert.match(log, /v57|判词后果|责任账/, "ProgressLog must document v57");
 
 /* ---------- 边界说明 ----------
    本套件为 Node 静态断言，不启动 DOM、不执行真实交互。

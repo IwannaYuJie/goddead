@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-    <link rel="stylesheet" href="styles.css?v=53">
+    <link rel="stylesheet" href="styles.css?v=54">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -1282,6 +1282,226 @@
         </div>
       </section>
 
+      <!-- v57 判词后果层 · 共证剧场 -->
+      <section class="scene scene-branch scene-concordance-theatre" id="scene-concordance-theatre" data-scene="concordance-theatre" data-title="Goddead — 共证剧场" aria-label="共证剧场">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE CONCORDANCE THEATRE · 共 证 剧 场</p>
+            <h2 class="sec-title">共证剧场</h2>
+            <p class="sec-desc">两份被证明的证词在这里被安排同台。同台不等于同意。</p>
+          </header>
+
+          <div class="review-slip ledger-slip reveal" role="group" aria-label="责任签">
+            <span class="rs-item">共证 <b data-ledger-concordance>0</b></span>
+            <span class="rs-item">修复 <b data-ledger-repair>0</b></span>
+            <span class="rs-item">转嫁 <b data-ledger-transfer>0</b></span>
+            <span class="rs-item">自担 <b data-ledger-selfburden>0</b></span>
+            <span class="rs-item">责任值 <b data-ledger-liability>0</b></span>
+            <span class="rs-item">本轮 <b data-ledger-settled="theatre">未结清</b></span>
+          </div>
+
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="共证剧场：左侧托盘上的电话、中央黑蜡证词、右侧镜面与纸">
+            <img class="branch-img" src="assets/v57-concordance-theatre.webp" alt="" width="1536" height="1024" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot theatre-spot-bind" id="theatre-action-bind-testimony" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">合并证词</span>
+              <span class="bb-title">合并证词</span>
+              <span class="bb-hint">两份证词压成一枚指纹</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot theatre-spot-dissent" id="theatre-action-preserve-dissent" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">保留异议</span>
+              <span class="bb-title">保留异议</span>
+              <span class="bb-hint">分歧也归档</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot theatre-spot-substitute" id="theatre-action-substitute-witness" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">替证入镜</span>
+              <span class="bb-title">替证入镜</span>
+              <span class="bb-hint">镜面缺一个轮廓</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="theatre-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开共证剧场">
+            <button class="exit-link" type="button" data-go="unnumbered-floor" data-hover>⟵ 回到无号层</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v57 判词后果层 · 无辜留置舱 -->
+      <section class="scene scene-branch scene-innocent-quarantine" id="scene-innocent-quarantine" data-scene="innocent-quarantine" data-title="Goddead — 无辜留置舱" aria-label="无辜留置舱">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE INNOCENT QUARANTINE · 无 辜 留 置 舱</p>
+            <h2 class="sec-title">无辜留置舱</h2>
+            <p class="sec-desc">被误报的症状在这里等待判决。舱里没有病人，只有你的怀疑。</p>
+          </header>
+
+          <div class="review-slip ledger-slip reveal" role="group" aria-label="责任签">
+            <span class="rs-item">共证 <b data-ledger-concordance>0</b></span>
+            <span class="rs-item">修复 <b data-ledger-repair>0</b></span>
+            <span class="rs-item">转嫁 <b data-ledger-transfer>0</b></span>
+            <span class="rs-item">自担 <b data-ledger-selfburden>0</b></span>
+            <span class="rs-item">责任值 <b data-ledger-liability>0</b></span>
+            <span class="rs-item">本轮 <b data-ledger-settled="quarantine">未结清</b></span>
+          </div>
+
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="无辜留置舱：左舱红蜡封条、中央舱夹板与锁、右舱空工服与号牌">
+            <img class="branch-img" src="assets/v57-innocent-quarantine.webp" alt="" width="1536" height="1024" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot quarantine-spot-release" id="quarantine-action-release-innocent" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">拆封放行</span>
+              <span class="bb-title">拆封放行</span>
+              <span class="bb-hint">红蜡断开才算数</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot quarantine-spot-extend" id="quarantine-action-extend-quarantine" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">延长留置</span>
+              <span class="bb-title">延长留置</span>
+              <span class="bb-hint">怀疑可以续签</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot quarantine-spot-standin" id="quarantine-action-stand-in" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">替换押名</span>
+              <span class="bb-title">替换押名</span>
+              <span class="bb-hint">空工服缺一张号牌</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="quarantine-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开无辜留置舱">
+            <button class="exit-link" type="button" data-go="unnumbered-floor" data-hover>⟵ 回到无号层</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v57 判词后果层 · 漏报移交井 -->
+      <section class="scene scene-branch scene-omission-transfer-shaft" id="scene-omission-transfer-shaft" data-scene="omission-transfer-shaft" data-title="Goddead — 漏报移交井" aria-label="漏报移交井">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE OMISSION TRANSFER SHAFT · 漏 报 移 交 井</p>
+            <h2 class="sec-title">漏报移交井</h2>
+            <p class="sec-desc">漏掉的症状先到这里报到，再决定它归谁。</p>
+          </header>
+
+          <div class="review-slip ledger-slip reveal" role="group" aria-label="责任签">
+            <span class="rs-item">共证 <b data-ledger-concordance>0</b></span>
+            <span class="rs-item">修复 <b data-ledger-repair>0</b></span>
+            <span class="rs-item">转嫁 <b data-ledger-transfer>0</b></span>
+            <span class="rs-item">自担 <b data-ledger-selfburden>0</b></span>
+            <span class="rs-item">责任值 <b data-ledger-liability>0</b></span>
+            <span class="rs-item">本轮 <b data-ledger-settled="shaft">未结清</b></span>
+          </div>
+
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="漏报移交井：左侧转运绞轮、中央升降舱封箱、右侧悬梯与布帘">
+            <img class="branch-img" src="assets/v57-omission-transfer-shaft.webp" alt="" width="1536" height="1024" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot shaft-spot-descend" id="shaft-action-descend-after" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">下井追漏</span>
+              <span class="bb-title">下井追漏</span>
+              <span class="bb-hint">井底有人等补签</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot shaft-spot-transfer" id="shaft-action-transfer-omission" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">转交漏报</span>
+              <span class="bb-title">转交漏报</span>
+              <span class="bb-hint">移交单没有收件人</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot shaft-spot-seal" id="shaft-action-seal-omission" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">封箱停运</span>
+              <span class="bb-title">封箱停运</span>
+              <span class="bb-hint">井口也可以封住</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="omission-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开漏报移交井">
+            <button class="exit-link" type="button" data-go="unnumbered-floor" data-hover>⟵ 回到无号层</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v57 判词后果层 · 错绑交班台 -->
+      <section class="scene scene-branch scene-misbound-handover" id="scene-misbound-handover" data-scene="misbound-handover" data-title="Goddead — 错绑交班台" aria-label="错绑交班台">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE MISBOUND HANDOVER · 错 绑 交 班 台</p>
+            <h2 class="sec-title">错绑交班台</h2>
+            <p class="sec-desc">正确的结论绑错了证人。这里负责把结拆开，或者把结递给别人。</p>
+          </header>
+
+          <div class="review-slip ledger-slip reveal" role="group" aria-label="责任签">
+            <span class="rs-item">共证 <b data-ledger-concordance>0</b></span>
+            <span class="rs-item">修复 <b data-ledger-repair>0</b></span>
+            <span class="rs-item">转嫁 <b data-ledger-transfer>0</b></span>
+            <span class="rs-item">自担 <b data-ledger-selfburden>0</b></span>
+            <span class="rs-item">责任值 <b data-ledger-liability>0</b></span>
+            <span class="rs-item">本轮 <b data-ledger-settled="misbound">未结清</b></span>
+          </div>
+
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="错绑交班台：左侧圆镜与白布听筒、中央接线压机、右侧开卷与手铐">
+            <img class="branch-img" src="assets/v57-misbound-handover.webp" alt="" width="1536" height="1024" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot misbound-spot-admit" id="misbound-action-admit-misbind" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">承认错绑</span>
+              <span class="bb-title">承认错绑</span>
+              <span class="bb-hint">承认比解开便宜</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot misbound-spot-reassign" id="misbound-action-reassign-empty" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">转押空名</span>
+              <span class="bb-title">转押空名</span>
+              <span class="bb-hint">空名最适合承担证明</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot misbound-spot-break" id="misbound-action-break-cuffs" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">拆链退签</span>
+              <span class="bb-title">拆链退签</span>
+              <span class="bb-hint">链断绑定不消失</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="misbound-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开错绑交班台">
+            <button class="exit-link" type="button" data-go="unnumbered-floor" data-hover>⟵ 回到无号层</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v57 判词后果层 · 责任账房 -->
+      <section class="scene scene-branch scene-liability-ledger" id="scene-liability-ledger" data-scene="liability-ledger" data-title="Goddead — 责任账房" aria-label="责任账房">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE LIABILITY LEDGER · 责 任 账 房</p>
+            <h2 class="sec-title">责任账房</h2>
+            <p class="sec-desc">判词需要一具身体。账房只负责决定是谁的。</p>
+          </header>
+
+          <div class="review-slip ledger-slip reveal" role="group" aria-label="责任签">
+            <span class="rs-item">共证 <b data-ledger-concordance>0</b></span>
+            <span class="rs-item">修复 <b data-ledger-repair>0</b></span>
+            <span class="rs-item">转嫁 <b data-ledger-transfer>0</b></span>
+            <span class="rs-item">自担 <b data-ledger-selfburden>0</b></span>
+            <span class="rs-item">责任值 <b data-ledger-liability>0</b></span>
+            <span class="rs-item">本轮 <b data-ledger-settled="ledger">未结清</b></span>
+          </div>
+
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="责任账房：左侧秤盘上的白纸、中央锁链穿起的账本、右侧人形蜡座">
+            <img class="branch-img" src="assets/v57-liability-ledger.webp" alt="" width="1536" height="1024" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot ledger-spot-return" id="ledger-action-return-verdict" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">退回原判</span>
+              <span class="bb-title">退回原判</span>
+              <span class="bb-hint">账房可以销一页</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot ledger-spot-sign" id="ledger-action-sign-self" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">签回自己</span>
+              <span class="bb-title">签回自己</span>
+              <span class="bb-hint">锁链认得签名</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot ledger-spot-vacancy" id="ledger-action-assign-vacancy" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">归档空席</span>
+              <span class="bb-title">归档空席</span>
+              <span class="bb-hint">蜡座正好空一格</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="ledger-response" aria-live="polite"></p>
+
+          <nav class="scene-exits reveal" aria-label="离开责任账房">
+            <button class="exit-link" type="button" data-go="unnumbered-floor" data-hover>⟵ 回到无号层</button>
+          </nav>
+        </div>
+      </section>
+
       <section class="scene scene-branch scene-night-shift-registry" id="scene-night-shift-registry" data-scene="night-shift-registry" data-title="Goddead — 夜班登记所" aria-label="夜班登记所">
         <div class="scene-body branch-body">
           <header class="sec-head reveal">
@@ -1852,7 +2072,7 @@
               <span class="dh-label" aria-hidden="true">第三声</span>
             </button>
           </figure>
-          <p class="branch-response" id="vestibule-response" aria-live="polite"></p>
+          <p class="branch-response" id="unanswered-vestibule-response" aria-live="polite"></p>
 
           <nav class="scene-exits reveal" aria-label="离开未应门前厅">
             <button class="exit-link" type="button" data-go="threshold" data-hover>⟵ 回到门外</button>
@@ -3208,6 +3428,7 @@
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory belief-memory pressure-memory" id="pressure-memory" hidden></p>
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory belief-memory pressure-memory floor-anomaly-memory" id="floor-anomaly-memory" hidden></p>
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory belief-memory pressure-memory floor-anomaly-memory evidence-audit-memory" id="evidence-audit-memory" hidden></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory belief-memory pressure-memory floor-anomaly-memory evidence-audit-memory consequence-ledger-memory" id="consequence-ledger-memory" hidden></p>
 
           <div class="reliquary-slot reveal" id="reliquary-slot"></div>
 
@@ -3319,6 +3540,11 @@
       <a href="#negative-laundry-locker" id="negative-link" hidden data-hover>01ο½ / 负照更衣</a>
       <a href="#symptom-handover-hub" id="handover-link" hidden data-hover>01π½ / 症状交班</a>
       <a href="#evidence-switchboard" id="switchboard-link" hidden data-hover>01ρ½ / 证据编组</a>
+      <a href="#concordance-theatre" id="theatre-link" hidden data-hover>01σ½ / 共证剧场</a>
+      <a href="#innocent-quarantine" id="quarantine-link" hidden data-hover>01υ½ / 无辜留置</a>
+      <a href="#omission-transfer-shaft" id="omission-link" hidden data-hover>01φ½ / 漏报移交</a>
+      <a href="#misbound-handover" id="misbound-link" hidden data-hover>01χ½ / 错绑交班</a>
+      <a href="#liability-ledger" id="ledger-link" hidden data-hover>01ψ½ / 责任账房</a>
       <a href="#night-shift-registry" id="registry-link" hidden data-hover>01π / 夜班登记</a>
       <a href="#midnight-callback" id="callback-link" hidden data-hover>01ρ / 午夜回拨</a>
       <a href="#proxy-admission" id="proxy-link" hidden data-hover>01σ / 代审窗</a>
@@ -3372,6 +3598,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=53"></script>
+    <script src="script.js?v=54"></script>
   </body>
 </html>
