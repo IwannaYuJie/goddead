@@ -38,7 +38,7 @@ assert.match(css, /@media \(max-width: 720px\)/);
 assert.match(js, /DOMContentLoaded/);
 
 /* ---------- 场景探索结构 ---------- */
-const SCENES = ["threshold", "protocol", "corridor", "peephole-chamber", "glyph-niche", "return-passage", "eyelid-archive", "unnumbered-vestibule", "reverse-stairwell", "annex-clearinghouse", "unreturned-witness-gallery", "registry-before-zero", "descending-appeals-stair", "anomaly-review", "evidence-vault", "false-positive-shaft", "unclaimed-valuation", "quota-elevator", "unnumbered-floor", "bellless-ward", "seeping-records", "reverse-laundry", "night-shift-registry", "midnight-callback", "proxy-admission", "return-audit", "echo-turn", "vein-turnstile", "confession-locker", "unlit-lamp-gallery", "borrowed-shadow-gallery", "hinge-sorting-room", "red-thread-registry", "blank-name-cloakroom", "clapperless-bell-desk", "protocol-drift", "counter-knock-gallery", "unanswered-vestibule", "undersill-dispatch", "lagging-shadow-cloister", "ash-door-foundry", "retention-vault", "minute-before-archive", "cold-wick-service-bay", "absent-relief-locker", "unseated-listening-booth", "unnumbered-jack-field", "return-ring-morgue", "unclaimed-pneumatic-intake", "returned-address-cabinet", "blank-receipt-press", "blank-screen-underarchive", "false-confirmation-desk", "witness-carbon-archive", "echo", "vein", "confession", "echo-transfer", "vein-pump", "confession-ledger", "watch", "switchboard", "deadletter", "cancellation", "acting", "offering", "reliquary", "remembrance", "ninth", "concordance-theatre", "innocent-quarantine", "omission-transfer-shaft", "misbound-handover", "liability-ledger", "appeal-registry", "identity-correction", "evidence-contradiction", "destination-review-shaft"];
+const SCENES = ["threshold", "protocol", "corridor", "peephole-chamber", "glyph-niche", "return-passage", "eyelid-archive", "unnumbered-vestibule", "reverse-stairwell", "annex-clearinghouse", "unreturned-witness-gallery", "registry-before-zero", "descending-appeals-stair", "anomaly-review", "evidence-vault", "false-positive-shaft", "unclaimed-valuation", "quota-elevator", "unnumbered-floor", "bellless-ward", "seeping-records", "reverse-laundry", "night-shift-registry", "midnight-callback", "proxy-admission", "return-audit", "echo-turn", "vein-turnstile", "confession-locker", "unlit-lamp-gallery", "borrowed-shadow-gallery", "hinge-sorting-room", "red-thread-registry", "blank-name-cloakroom", "clapperless-bell-desk", "protocol-drift", "counter-knock-gallery", "unanswered-vestibule", "undersill-dispatch", "lagging-shadow-cloister", "ash-door-foundry", "retention-vault", "minute-before-archive", "cold-wick-service-bay", "absent-relief-locker", "unseated-listening-booth", "unnumbered-jack-field", "return-ring-morgue", "unclaimed-pneumatic-intake", "returned-address-cabinet", "blank-receipt-press", "blank-screen-underarchive", "false-confirmation-desk", "witness-carbon-archive", "echo", "vein", "confession", "echo-transfer", "vein-pump", "confession-ledger", "watch", "switchboard", "deadletter", "cancellation", "acting", "offering", "reliquary", "remembrance", "ninth", "concordance-theatre", "innocent-quarantine", "omission-transfer-shaft", "misbound-handover", "liability-ledger", "appeal-registry", "identity-correction", "evidence-contradiction", "destination-review-shaft", "cross-examination-desk"];
 for (const s of SCENES) {
   assert.match(html, new RegExp(`data-scene="${s}"`), `scene missing: ${s}`);
 }
@@ -3660,8 +3660,8 @@ assert.match(forgetBlockV56[0], /paintLedgerMemory\(\);/, "forget-all hides the 
 /* synthetic 守卫：15 动作监听只接受 isTrusted 真实 click，合成 HTMLElement.click() 零副作用 */
 assert.match(js, /if \(btn\) btn\.addEventListener\("click", \(ev\) => \{ if \(!ev\.isTrusted\) return; chooseConsequenceAction\(sceneKey, actionKey\); \}\);/, "consequence listeners reject synthetic clicks");
 assert.match(js, /if \(btn\) btn\.addEventListener\("click", \(ev\) => \{ if \(!ev\.isTrusted\) return; chooseLedgerAction\(actionKey\); \}\);/, "ledger listeners reject synthetic clicks");
-assert.equal((js.match(/ev\.isTrusted/g) || []).length, 7, "exactly the v57 (2) + v58 (5) listener groups carry the isTrusted guard");
-assert.equal((js.match(/addEventListener\("click", \(ev\)/g) || []).length, 7, "no other click listener signature was touched");
+assert.equal((js.match(/ev\.isTrusted/g) || []).length, 10, "exactly the v57 (2) + v58 (5) + v59 (3) listener groups carry the isTrusted guard");
+assert.equal((js.match(/addEventListener\("click", \(ev\)/g) || []).length, 10, "no other click listener signature was touched");
 /* DOM：五场景各三热点入图、无卡片无 SVG、目录×5、记忆单行、8 卡 */
 for (const [scene, ids] of [["concordance-theatre", ["theatre-action-bind-testimony", "theatre-action-preserve-dissent", "theatre-action-substitute-witness"]], ["innocent-quarantine", ["quarantine-action-release-innocent", "quarantine-action-extend-quarantine", "quarantine-action-stand-in"]], ["omission-transfer-shaft", ["shaft-action-descend-after", "shaft-action-transfer-omission", "shaft-action-seal-omission"]], ["misbound-handover", ["misbound-action-admit-misbind", "misbound-action-reassign-empty", "misbound-action-break-cuffs"]], ["liability-ledger", ["ledger-action-return-verdict", "ledger-action-sign-self", "ledger-action-assign-vacancy"]]]) {
   const section = html.match(new RegExp(`<section class="scene scene-branch scene-${scene}"[\\s\\S]*?<\\/section>`));
@@ -3846,6 +3846,238 @@ assert.match(js, /异议署：异议 \$\{st\.scores\.objection\}，先例 \$\{st
 for (const cls of ["ledger-spot-appeal-seal", "appeal-spot-identity", "appeal-spot-evidence", "appeal-spot-close", "appeal-spot-destination", "identity-spot-erase", "identity-spot-accept", "identity-spot-substitute", "identity-spot-return", "contradiction-spot-preserve", "contradiction-spot-merge", "contradiction-spot-destroy", "contradiction-spot-return", "destination-spot-archway", "destination-spot-return", "destination-spot-assign", "destination-spot-drop"]) {
   assert.match(css, new RegExp(`\\.${cls} \\{`), `css missing position class .${cls}`);
 }
+
+/* ---------- v59 交叉听证：三房深查 + 结案延迟拦截 + 交叉听证台 ---------- */
+/* 四张冻结源 PNG 存在且 sha256 冻结 */
+const V59_SOURCE_HASHES = {
+  "design-references/source-v59-cross-examination-desk.png": "c38f1fa18f306d0c57dd1c14df3e68fb5c1925544dc8818c58658d5b29c09b68",
+  "design-references/source-v59-destination-cross-exam.png": "3f3d2724d3116f9c46347006133030e1017e9379fbdb112c2781cdd2e32beffc",
+  "design-references/source-v59-evidence-cross-exam.png": "ab36da7dab4a6a76ea53b21bdcc3c17b3f9049dd7afe68573d8542cbd159c9a4",
+  "design-references/source-v59-identity-cross-exam.png": "100444bb143e35305b68c82967ef2dc4119ceb01678ecd062cf319ddab4e4287",
+};
+for (const [src, hash] of Object.entries(V59_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(src, root));
+  assert.equal(createHash("sha256").update(buf).digest("hex"), hash, `${src} must keep its frozen sha256`);
+}
+/* 四张 WebP：存在、完整转码、≤300KB；听证台图入 HTML，三深查图入 JS 互换表 */
+const V59_WEBP_HASHES = {
+  "assets/v59-cross-examination-desk.webp": "393169cfb065c0916eeddfafbc5c8422cfa0e7a42ae45852027a35138192cd2d",
+  "assets/v59-destination-cross-exam.webp": "ef6b24054cf71a5e8914b208bb66db41e213d59552982c872e7d6713acfed12d",
+  "assets/v59-evidence-cross-exam.webp": "f921252c256496bc62a1d2438f89dda86fa9d132fc9b5d4137fe453ad5cb7b7e",
+  "assets/v59-identity-cross-exam.webp": "037fd2fe1af078846028386e0c2b16e653024904ca28dee4765c4889b9046d33",
+};
+for (const [asset, hash] of Object.entries(V59_WEBP_HASHES)) {
+  const buf = await readFile(new URL(asset, root));
+  assert.equal(createHash("sha256").update(buf).digest("hex"), hash, `${asset} must keep its frozen sha256`);
+  assert.ok(buf.length > 100000, `${asset} must exist as a full-size transcode`);
+  assert.ok(buf.length <= 300000, `${asset} must stay within the 300KB budget`);
+}
+assert.ok(html.includes("assets/v59-cross-examination-desk.webp"), "desk webp is referenced by its scene");
+assert.ok(html.includes('width="1536" height="1024"'), "desk webp keeps the uncropped 1536×1024 stage");
+for (const asset of ["assets/v59-identity-cross-exam.webp", "assets/v59-evidence-cross-exam.webp", "assets/v59-destination-cross-exam.webp"]) {
+  assert.ok(js.includes(asset), `${asset} must be referenced by the v59 image swap`);
+}
+assert.match(js, /const CROSS_KEY = "goddead_v59_cross_examination";/);
+assert.equal((js.match(/goddead_v59/g) || []).length, 1, "v59 introduces exactly one storage key");
+/* getCross：容错归一 + 白名单 history + 派生永不落盘 */
+const crossParseBlock = js.match(/const getCross = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(crossParseBlock, "getCross must exist");
+assert.match(crossParseBlock[0], /\} catch \{ raw = \{\}; \}/, "corrupt cross storage must be safely repaired");
+assert.match(crossParseBlock[0], /if \(typeof raw !== "object" \|\| Array\.isArray\(raw\)\) raw = \{\};/, "array/wrong-type cross storage must fall back");
+assert.match(crossParseBlock[0], /if \(raw\.version !== CROSS_VERSION\) raw = \{\};/, "wrong-version cross storage is dropped wholesale");
+assert.match(crossParseBlock[0], /Math\.min\(CROSS_NUM_CAP, Math\.floor\(n\)\)/, "cross counters must be clamped 0..9999");
+assert.match(crossParseBlock[0], /const cycle = getFloor\(\)\.cycle;/, "cross cycle aligns with the v35 floor cycle");
+assert.match(crossParseBlock[0], /history = history\.slice\(-CROSS_HISTORY_CAP\);/, "cross history is bounded to the last 16 valid entries");
+assert.ok(crossParseBlock[0].indexOf("history = history.slice(-CROSS_HISTORY_CAP);") < crossParseBlock[0].indexOf("let pending = null;"), "canonical history is parsed before pending validation");
+assert.match(crossParseBlock[0], /h\.type === "action" && CROSS_DEEP_META\[h\.room\] && CROSS_DEEP_META\[h\.room\]\.actions\[h\.action\]/, "history action entries are whitelisted per room and action");
+assert.match(crossParseBlock[0], /h\.type === "intercept" && CROSS_CLOSE_TARGETS\.includes\(h\.target\)/, "history intercept entries are whitelisted per target");
+assert.match(crossParseBlock[0], /h\.type === "resolve" && CROSS_DESK_META\[h\.action\] && CROSS_CLOSE_TARGETS\.includes\(h\.target\)/, "history resolve entries are whitelisted per action and target");
+assert.match(crossParseBlock[0], /if \(h\.type === "action" && !deep\[h\.room\]\) \{/, "scores and deep rooms derive from current-cycle history, first action per room only");
+assert.match(crossParseBlock[0], /if \(bank\) scores\[bank\] = Math\.min\(CROSS_NUM_CAP, scores\[bank\] \+ 2\);/, "resolve entries bank +2 into derived scores (blank seat scores nothing)");
+/* deferredTarget 严格重算：末条 canonical close + 当前 v58 重算同目标 + 未交付 */
+assert.match(crossParseBlock[0], /appeal\.history\[appeal\.history\.length - 1\]\.type === "close"/, "deferredTarget requires the last canonical v58 close");
+assert.match(crossParseBlock[0], /const recomputed = appealCloseTarget\(appeal\.scores, appeal\.settledCount, profile\.liability, profile\.lastRoom\);/, "deferredTarget recomputes the v58 close target from live state");
+assert.match(crossParseBlock[0], /sameCycle && intercepted && \(!resolved \|\| pendingIsResolveCandidate\) && deepCount >= 2 && closeLast && !appeal\.pending/, "deferredTarget requires intercept evidence, no completed delivery (a resolve pending still in flight is not delivered), two deep rooms, and no live v58 pending");
+assert.match(crossParseBlock[0], /raw\.pending\.kind === "resolve"/, "the in-flight window opens only for a resolve-shaped pending candidate");
+assert.match(crossParseBlock[0], /if \(resolved && !pending\) deferredTarget = "";/, "delivered or forged-candidate states always drop the deferred target");
+assert.match(crossParseBlock[0], /CROSS_CLOSE_TARGETS\.includes\(raw\.deferredTarget\) && raw\.deferredTarget === recomputed/, "a stored deferredTarget that mismatches the recompute is dropped");
+/* pending 三种形状：action/resolve 严格七键、intercept 严格六键、逐字重算、末项证据 */
+assert.match(crossParseBlock[0], /p\.kind === "action" && keys === "action,cycle,feedback,kind,room,scene,target"/, "action pending accepts exactly seven whitelisted keys");
+assert.match(crossParseBlock[0], /p\.kind === "intercept" && keys === "cycle,deferredTarget,feedback,kind,scene,target"/, "intercept pending accepts exactly six whitelisted keys");
+assert.match(crossParseBlock[0], /p\.kind === "resolve" && keys === "action,cycle,deferredTarget,feedback,kind,scene,target"/, "resolve pending accepts exactly seven whitelisted keys");
+assert.match(crossParseBlock[0], /p\.feedback === CROSS_DEEP_META\[p\.room\]\.actions\[p\.action\]\.feedback/, "action pending feedback recomputes verbatim from the whitelist");
+assert.match(crossParseBlock[0], /p\.feedback === CROSS_INTERCEPT_FEEDBACK/, "intercept pending feedback is the frozen intercept line");
+assert.match(crossParseBlock[0], /if \(bank\) pre\[bank\] = Math\.max\(0, pre\[bank\] - 2\);/, "resolve pending re-derives pre-click scores by subtracting the banked +2");
+assert.match(crossParseBlock[0], /const blankOk = p\.action !== "blank-seat" \|\| crossBlankSeatArmed\(pre, deepCount\);/, "a forged blank-seat pending without the tie is rejected");
+assert.match(crossParseBlock[0], /last && last\.type === "intercept" && last\.cycle === cycle/, "intercept pending needs the canonical history's last entry to be the same intercept");
+assert.match(crossParseBlock[0], /last && last\.type === "resolve" && last\.action === p\.action && last\.cycle === cycle/, "resolve pending needs the canonical history's last entry to be the same resolve");
+assert.ok(!/goddead_v(28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57)/.test(crossParseBlock[0]), "v59 state must not touch earlier keys");
+/* saveCross：canonical 六键投影，派生字段永不落盘 */
+const crossSaveBlock = js.match(/const saveCross = \(st\) => store\.set\(CROSS_KEY, JSON\.stringify\(\{[\s\S]*?\}\)\);/);
+assert.ok(crossSaveBlock, "saveCross must persist an explicit canonical projection");
+assert.match(crossSaveBlock[0], /version: CROSS_VERSION,/, "saveCross persists the frozen version");
+for (const f of ["cycle", "visits", "pending"]) {
+  assert.match(crossSaveBlock[0], new RegExp(`${f}: st\\.${f},`), `saveCross persists ${f}`);
+}
+assert.match(crossSaveBlock[0], /history: st\.history\.slice\(-CROSS_HISTORY_CAP\),/, "saveCross clamps history to <= 16 before persisting");
+assert.match(crossSaveBlock[0], /deferredTarget: st\.deferredTarget \|\| null,/, "saveCross persists the deferred target or null");
+assert.ok(!/scores|deepCount|intercepted|resolved|pendingTarget/.test(crossSaveBlock[0]), "saveCross must never persist derived fields");
+/* 六深查动作：逐字 btn 与精确分值 */
+for (const frag of [
+  '"replay-voice": { btn: "#identity-action-replay-voice", scores: { convergence: 2 }',
+  '"force-name": { btn: "#identity-action-force-name", scores: { coercion: 2, residue: 1 }',
+  '"align-timestamps": { btn: "#contradiction-action-align-timestamps", scores: { convergence: 2 }',
+  '"lift-blood-wax": { btn: "#contradiction-action-lift-blood-wax", scores: { residue: 2 }',
+  '"trace-cable": { btn: "#destination-action-trace-cable", scores: { convergence: 1, coercion: 1, residue: 2 }',
+  '"listen-below": { btn: "#destination-action-listen-below", scores: { residue: 2, coercion: 1 }',
+]) assert.ok(js.includes(frag), `missing v59 deep action: ${frag.slice(0, 40)}`);
+/* 逐字反馈：六深查 + 三封签 + 拦截 + 听证台八段 */
+for (const frag of [
+  "来电里的喘息与登记台的漏拍重合。两份证词开始共享同一条呼吸。",
+  "针尖替空白写下姓名；椅背先收紧，余音才承认那个人存在。",
+  "三枚停住的秒针在同一刻复动。矛盾没有消失，只被迫共用一个时间。",
+  "罩下的血蜡仍在回温。被删去的证据以指纹的形状留了下来。",
+  "缆线绕过门牌，直接勒住收件人的座位。目的地与命令来自同一只手。",
+  "井底没有回声，只有下一位收件人被提前念出的呼吸。",
+  "听证封签断开。电话那头的喘息被准许再做一次证。",
+  "听证封签断开。对照库准许重新称一次血蜡的温度。",
+  "听证封签断开。复核井准许再听一次井底的呼吸。",
+  "结案印没有落下。三张听证封签把原裁定扣在桌下，要求交叉询问。",
+  "证词被编成一股绳，原裁定因此获得第二次生效。",
+  "三份证词被强行并排；它们同意的，恰好是从未发生的部分。",
+  "勒痕被标在规程上。命令终于暴露了它自己的手腕。",
+  "勒痕没有指向命令，只把错误的名字又绑紧了一层。",
+  "余响被封进无名档案。被擦掉的那个人在空衣架后继续呼吸。",
+  "余响被归档为证物；它不再说话，却开始替所有缺口作证。",
+  "第四块铭牌没有刻字。你坐下后，楼层编号从目录里退了一格。",
+]) assert.ok(js.includes(frag), `missing v59 feedback: ${frag.slice(0, 18)}`);
+/* 听证台路由纯函数：点击前分值决定，全分支冻结 */
+const crossDeskResolveBlock = js.match(/const crossDeskResolve = \(action, pre, deferredTarget\) => \{[\s\S]*?\n  \};/);
+assert.ok(crossDeskResolveBlock, "crossDeskResolve must be a pure routing function");
+assert.match(crossDeskResolveBlock[0], /if \(action === "blank-seat"\) return \{ target: "unnumbered-floor", feedback: "第四块铭牌没有刻字。你坐下后，楼层编号从目录里退了一格。" \};/, "blank seat always routes to the unnumbered floor without scoring");
+assert.match(crossDeskResolveBlock[0], /if \(cv >= co && cv >= re\) return \{ target: deferredTarget, feedback: "证词被编成一股绳，原裁定因此获得第二次生效。" \};/, "merge pass delivers the exact deferred target");
+assert.match(crossDeskResolveBlock[0], /return \{ target: "concordance-theatre", feedback: "三份证词被强行并排；它们同意的，恰好是从未发生的部分。" \};/, "merge fail routes to the concordance theatre");
+assert.match(crossDeskResolveBlock[0], /if \(co >= re\) return \{ target: "protocol-drift", feedback: "勒痕被标在规程上。命令终于暴露了它自己的手腕。" \};/, "mark pass routes to protocol drift");
+assert.match(crossDeskResolveBlock[0], /return \{ target: "misbound-handover", feedback: "勒痕没有指向命令，只把错误的名字又绑紧了一层。" \};/, "mark fail routes to the misbound handover");
+assert.match(crossDeskResolveBlock[0], /if \(re >= cv\) return \{ target: "blank-name-cloakroom", feedback: "余响被封进无名档案。被擦掉的那个人在空衣架后继续呼吸。" \};/, "archive pass routes to the cloakroom");
+assert.match(crossDeskResolveBlock[0], /return \{ target: "evidence-vault", feedback: "余响被归档为证物；它不再说话，却开始替所有缺口作证。" \};/, "archive fail routes to the evidence vault");
+/* 无字席条件冻结：三房全深查 + 点击前完全拉平且为正 */
+assert.match(js, /const crossBlankSeatArmed = \(pre, deepCount\) => deepCount === 3\s*&& pre\.convergence === pre\.coercion && pre\.coercion === pre\.residue && pre\.convergence > 0;/, "blank seat requires three deep rooms and a positive pre-click tie");
+/* 拉平可达性核算：2×2×2=8 种三房深查组合里，只有 force-name + align-timestamps
+   + trace-cable = (3,3,3) 完全拉平，其余七组均不拉平 */
+{
+  const V = {
+    "replay-voice": [2, 0, 0], "force-name": [0, 2, 1],
+    "align-timestamps": [2, 0, 0], "lift-blood-wax": [0, 0, 2],
+    "trace-cable": [1, 1, 2], "listen-below": [0, 1, 2],
+  };
+  const ties = [];
+  for (const i of ["replay-voice", "force-name"]) {
+    for (const e of ["align-timestamps", "lift-blood-wax"]) {
+      for (const d of ["trace-cable", "listen-below"]) {
+        const s = [0, 1, 2].map((k) => V[i][k] + V[e][k] + V[d][k]);
+        if (s[0] === s[1] && s[1] === s[2] && s[0] > 0) ties.push(`${i}+${e}+${d} (${s.join(",")})`);
+      }
+    }
+  }
+  assert.deepEqual(ties, ["force-name+align-timestamps+trace-cable (3,3,3)"], "exactly one legitimate all-three-room tie arms the blank seat");
+}
+/* 延迟拦截窄钩子：v58 原 target/feedback/history 照旧，只抑制 pending 转场 */
+const appealHubBlock = js.match(/const chooseAppealHub = \(hubKey\) => \{[\s\S]*?\n  \};/);
+assert.ok(appealHubBlock, "chooseAppealHub must exist");
+const hookIdx = appealHubBlock[0].indexOf("crossSt.deepCount >= 2 && !crossSt.resolved");
+assert.ok(hookIdx > appealHubBlock[0].indexOf('st.history.push({ type: "close", cycle: st.cycle });'), "the v59 hook sits after the original target/feedback calculation and the close history append");
+assert.ok(hookIdx < appealHubBlock[0].indexOf('st.pending = { kind: "close"'), "the v59 hook intercepts before the v58 pending transition is armed");
+assert.match(appealHubBlock[0], /crossSt\.history\.push\(\{ type: "intercept", target, cycle: crossSt\.cycle \}\);/, "the hook records the intercept with the exact original target");
+assert.match(appealHubBlock[0], /crossSt\.deferredTarget = target;/, "the hook stores the original target as the strict deferredTarget");
+assert.match(appealHubBlock[0], /crossSt\.pending = \{ kind: "intercept", scene: "appeal-registry", target: "cross-examination-desk", deferredTarget: target, feedback: CROSS_INTERCEPT_FEEDBACK, cycle: crossSt\.cycle \};/, "the hook arms the v59 intercept pending verbatim");
+assert.match(appealHubBlock[0], /AutoAdvance\.schedule\("appeal-registry", "cross-examination-desk", \{/, "the intercept transitions to the cross-examination desk");
+assert.equal((appealHubBlock[0].match(/appealCloseTarget\(st\.scores, st\.settledCount, profile\.liability, profile\.lastRoom\)/g) || []).length, 1, "v58 close routing is computed once, never duplicated");
+/* 深查/封签/听证台行为守卫 */
+const crossSealBlock = js.match(/const chooseCrossSeal = \(roomKey\) => \{[\s\S]*?\n  \};/);
+assert.match(crossSealBlock[0], /if \(currentScene !== sceneName\) return;/, "seal rejects off-scene calls");
+assert.match(crossSealBlock[0], /if \(AutoAdvance\.has\(sceneName\)\) return;/, "seal first-locks the beat");
+assert.match(crossSealBlock[0], /if \(!getAppeal\(\)\.settled\[roomKey\]\) return;/, "seal is inert before the room settles");
+assert.match(crossSealBlock[0], /if \(getCross\(\)\.deep\[roomKey\]\) return;/, "seal is inert after the room went deep");
+assert.match(crossSealBlock[0], /crossArmed\[roomKey\] = true;/, "trusted seal activation arms the session deep state (image swap + two hotspots)");
+assert.ok(!/history\.push|saveCross/.test(crossSealBlock[0]), "seal activation never writes canonical state");
+const crossActionBlock = js.match(/const chooseCrossAction = \(roomKey, actionKey\) => \{[\s\S]*?\n  \};/);
+assert.match(crossActionBlock[0], /if \(!getAppeal\(\)\.settled\[roomKey\]\) return;/, "deep actions require the v58 settle first");
+assert.match(crossActionBlock[0], /const firstDeep = !doneAction;/, "only the first deep action scores");
+assert.match(crossActionBlock[0], /st\.pending = \{ kind: "action", scene: sceneName, room: roomKey, action: actionKey, target: "appeal-registry", feedback: meta\.feedback, cycle: st\.cycle \};/, "deep action pending auto-returns to the appeal registry");
+assert.match(crossActionBlock[0], /const feedback = firstDeep \? meta\.feedback : CROSS_DEEP_META\[roomKey\]\.actions\[doneAction\]\.feedback;/, "revisits replay the prior result verbatim");
+const crossDeskBlock = js.match(/const chooseCrossDesk = \(actionKey\) => \{[\s\S]*?\n  \};/);
+assert.match(crossDeskBlock[0], /if \(st\.resolved\) return;/, "the desk never resolves twice in a cycle");
+assert.match(crossDeskBlock[0], /if \(!st\.deferredTarget\) return;/, "the desk is inert without a deferred disposition");
+assert.match(crossDeskBlock[0], /if \(actionKey === "blank-seat" && !crossBlankSeatArmed\(pre, st\.deepCount\)\) return;/, "blank seat stays inert without the tie");
+assert.match(crossDeskBlock[0], /st\.history\.push\(\{ type: "resolve", action: actionKey, target: r\.target, cycle: st\.cycle \}\);/, "the desk appends the resolve history once");
+assert.match(crossDeskBlock[0], /before: \(\) => crossResolveArrive\(r\.target\),/, "final arrival clears pending and deferredTarget");
+const crossResolveArriveBlock = js.match(/const crossResolveArrive = \(target\) => \{[\s\S]*?\n  \};/);
+assert.match(crossResolveArriveBlock[0], /if \(s\.deferredTarget\) s\.deferredTarget = "";/, "final arrival clears the deferred target");
+assert.match(crossResolveArriveBlock[0], /if \(target === "evidence-vault"\) markReviewVisited\("evidence-vault"\);/, "final arrival grants the evidence vault credential");
+assert.match(crossResolveArriveBlock[0], /if \(LEDGER_SCENE_KEY\[target\]\) grantLedgerVisit\(target\);/, "final arrival grants v57-scene credentials");
+/* 守卫、接线与遗忘 */
+assert.match(js, /if \(target === "cross-examination-desk" && crossGuard\.pendingTarget !== target && !crossGuard\.visits\.desk\) \{/, "the desk guard admits only legal pending or a genuine desk visit");
+assert.match(js, /target = appealGuard\.pendingTarget === "appeal-registry" \|\| appealGuard\.visits\.registry > 0 \? "appeal-registry" : "unnumbered-floor";/, "the desk guard falls back to a legal appeal registry, else the unnumbered floor");
+assert.match(js, /if \(APPEAL_SCENE_KEY\[name\] && APPEAL_SCENE_KEY\[name\] !== "registry"\) \{ syncCrossRoom\(APPEAL_SCENE_KEY\[name\]\); replayCrossPending\(name\); \}/, "room entry syncs the deep state and replays a legal v59 pending");
+assert.match(js, /if \(name === "appeal-registry"\) replayCrossPending\(name\);/, "the registry replays a legal intercept pending");
+assert.match(js, /if \(name === "cross-examination-desk"\) \{ enterCrossDesk\(\); replayCrossPending\(name\); \}/, "desk entry replays a legal resolve pending");
+assert.match(forgetBlockV56[0], /syncCrossLink\(\);/, "forget-all resets the v59 directory link");
+assert.match(forgetBlockV56[0], /paintCrossMemory\(\);/, "forget-all hides the v59 memory line");
+assert.match(forgetBlockV56[0], /resetCrossArmed\(\);\s*APPEAL_ROOM_KEYS\.forEach\(syncCrossRoom\);/, "forget-all disarms and restores every room image/hotspot/seal state");
+const syncCrossRoomBlock = js.match(/const syncCrossRoom = \(roomKey\) => \{[\s\S]*?\n  \};/);
+assert.match(syncCrossRoomBlock[0], /const isDeep = Boolean\(deepAction\) \|\| crossArmed\[roomKey\];/, "the deep visual state derives from canonical history or a trusted session arming");
+assert.match(syncCrossRoomBlock[0], /if \(img\) img\.src = isDeep \? meta\.img : meta\.baseImg;/, "the room image swaps to the deep webp and back");
+assert.match(syncCrossRoomBlock[0], /if \(appeal\.settled\[roomKey\] && !isDeep\) seal\.removeAttribute\("hidden"\);/, "the hearing seal only shows on a settled, not-yet-deep room");
+assert.match(syncCrossRoomBlock[0], /if \(isDeep\) btn\.setAttribute\("hidden", ""\);\s*else btn\.removeAttribute\("hidden"\);/, "the original v58 hotspots hide in the deep state and restore after forget");
+assert.match(syncCrossRoomBlock[0], /if \(responseEl\) responseEl\.textContent = deepAction \? meta\.actions\[deepAction\]\.feedback : "";/, "the deep revisit shows the prior result without rescoring");
+/* synthetic 守卫：v59 三组监听只接受 isTrusted 真实 click */
+assert.match(js, /if \(sealBtn\) sealBtn\.addEventListener\("click", \(ev\) => \{ if \(!ev\.isTrusted\) return; chooseCrossSeal\(roomKey\); \}\);/, "seal listeners reject synthetic clicks");
+assert.match(js, /if \(btn\) btn\.addEventListener\("click", \(ev\) => \{ if \(!ev\.isTrusted\) return; chooseCrossAction\(roomKey, actionKey\); \}\);/, "deep action listeners reject synthetic clicks");
+assert.match(js, /if \(btn\) btn\.addEventListener\("click", \(ev\) => \{ if \(!ev\.isTrusted\) return; chooseCrossDesk\(actionKey\); \}\);/, "desk listeners reject synthetic clicks");
+/* DOM：听证台场景入图、三房封签与深查热点出厂 hidden、目录×1、记忆单行、8 卡 */
+{
+  const section = html.match(/<section class="scene scene-branch scene-cross-examination-desk"[\s\S]*?<\/section>/);
+  assert.ok(section, "scene section missing: cross-examination-desk");
+  assert.ok(section[0].includes("forecourt-tactile-stage"), "the desk uses the 3:2 tactile stage");
+  assert.ok(!section[0].includes("branch-choices") && !section[0].includes("<svg"), "the desk must not degrade to cards or inline SVG");
+  assert.ok(section[0].includes("ledger-slip"), "the desk carries the hearing slip");
+  const figure = section[0].match(/<figure[\s\S]*?<\/figure>/);
+  for (const id of ["cross-action-merge-testimonies", "cross-action-mark-coercion", "cross-action-archive-residue", "cross-action-blank-seat"]) {
+    assert.ok(figure[0].includes(`id="${id}"`), `desk figure must hold #${id}`);
+  }
+  assert.match(figure[0], /id="cross-action-blank-seat" type="button" aria-pressed="false" data-hover hidden/, "the blank seat ships hidden");
+  assert.ok(!section[0].includes("scene-exits"), "the desk has no bottom continue");
+  for (const attr of ["data-cross-convergence", "data-cross-coercion", "data-cross-residue", "data-cross-deep-count"]) {
+    assert.ok(section[0].includes(attr), `desk slip must carry ${attr}`);
+  }
+}
+for (const [scene, seal, deepIds] of [
+  ["identity-correction", "identity-hearing-seal", ["identity-action-replay-voice", "identity-action-force-name"]],
+  ["evidence-contradiction", "contradiction-hearing-seal", ["contradiction-action-align-timestamps", "contradiction-action-lift-blood-wax"]],
+  ["destination-review-shaft", "destination-hearing-seal", ["destination-action-trace-cable", "destination-action-listen-below"]],
+]) {
+  const section = html.match(new RegExp(`<section class="scene scene-branch scene-${scene}"[\\s\\S]*?<\\/section>`));
+  const figure = section[0].match(/<figure[\s\S]*?<\/figure>/);
+  assert.match(figure[0], new RegExp(`id="${seal}" type="button" aria-pressed="false" data-hover hidden`), `${scene} hearing seal ships hidden inside the figure`);
+  for (const id of deepIds) {
+    assert.match(figure[0], new RegExp(`id="${id}" type="button" aria-pressed="false" data-hover hidden`), `${scene} deep hotspot #${id} ships hidden`);
+  }
+}
+assert.match(html, /<a href="#cross-examination-desk" id="cross-exam-link" hidden data-hover>01ωδ \/ 交叉听证<\/a>/);
+assert.ok(html.includes('id="cross-exam-memory"'), "remembrance gains the cross-examination memory line");
+assert.equal((html.match(/<div class="stat-card">/g) || []).length, 8, "remembrance keeps exactly eight stat cards");
+assert.match(js, /交叉听证：合流 \$\{st\.scores\.convergence\}，胁迫 \$\{st\.scores\.coercion\}，残响 \$\{st\.scores\.residue\}，本轮深查 \$\{st\.deepCount\}\/3。/, "cross memory line verbatim");
+assert.match(js, /原裁定本要送往「\$\{CROSS_TARGET_LABEL\[st\.deferredTarget\]\}」/, "the desk shows the original disposition atmospherically");
+for (const cls of ["identity-spot-hearing-seal", "contradiction-spot-hearing-seal", "destination-spot-hearing-seal", "identity-spot-replay-voice", "identity-spot-force-name", "contradiction-spot-align", "contradiction-spot-lift", "destination-spot-trace", "destination-spot-listen", "cross-spot-merge", "cross-spot-mark", "cross-spot-archive", "cross-spot-blank-seat"]) {
+  assert.match(css, new RegExp(`\\.${cls} \\{`), `css missing position class .${cls}`);
+}
+/* v59 设计文档存在且冻结四张源图哈希 */
+const v59doc = await fileText("docs/V59CrossExaminationDesign.md");
+for (const hash of Object.values(V59_SOURCE_HASHES)) {
+  assert.ok(v59doc.includes(hash), "V59 design doc must freeze the source sha256 values");
+}
+assert.match(v59doc, /goddead_v59_cross_examination/, "V59 design doc must freeze the storage key");
 
 /* ---------- v54 迫近回访：v29 三房共同记账 + 异动第四热点九分流 ---------- */
 /* 三张 v54 异动正式图存在且被引用，三张冻结源 PNG 保留 */

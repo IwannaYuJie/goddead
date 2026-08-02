@@ -953,6 +953,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (LEDGER_SCENES.includes(name)) { enterLedgerScene(name); replayLedgerPending(name); }
     if (name === "liability-ledger") { syncAppealSeal(); replayAppealPending(name); }
     if (APPEAL_SCENES.includes(name)) { enterAppealScene(name); replayAppealPending(name); }
+    if (APPEAL_SCENE_KEY[name] && APPEAL_SCENE_KEY[name] !== "registry") { syncCrossRoom(APPEAL_SCENE_KEY[name]); replayCrossPending(name); }
+    if (name === "appeal-registry") replayCrossPending(name);
+    if (name === "cross-examination-desk") { enterCrossDesk(); replayCrossPending(name); }
     if (name === "night-shift-registry") enterRegistry();
     if (name === "midnight-callback") enterCallback();
     if (name === "proxy-admission") enterProxy();
@@ -992,6 +995,7 @@ document.addEventListener("DOMContentLoaded", () => {
       paintEvidenceAuditMemory();
       paintLedgerMemory();
       paintAppealMemory();
+      paintCrossMemory();
       paintValuationMemory();
       paintFloorMemory();
       paintRegistryMemory();
@@ -1098,6 +1102,13 @@ document.addEventListener("DOMContentLoaded", () => {
     /* v58 异议总署守卫：四场景仅本轮合法 pendingTarget 或历史合法 visit 准入 */
     const appealGuard = getAppeal();
     if (APPEAL_SCENES.includes(target) && appealGuard.pendingTarget !== target && !appealGuard.visits[APPEAL_SCENE_KEY[target]]) target = "unnumbered-floor";
+
+    /* v59 交叉听证台守卫：仅本轮合法 pendingTarget 或真实 desk 到访准入；
+       否则回退到合法的异议总署（总署本身不合法时归一无号层），不放宽任何旧守卫 */
+    const crossGuard = getCross();
+    if (target === "cross-examination-desk" && crossGuard.pendingTarget !== target && !crossGuard.visits.desk) {
+      target = appealGuard.pendingTarget === "appeal-registry" || appealGuard.visits.registry > 0 ? "appeal-registry" : "unnumbered-floor";
+    }
 
     /* v31 门前守卫（v40 起启用）：未访问过的 v31 场景直达一律落回门外。
        真实路径全部只读放行——v31 热点/守则分流/前段内部动作在点击时持久化 visited，
@@ -7674,6 +7685,29 @@ document.addEventListener("DOMContentLoaded", () => {
       const target = appealCloseTarget(st.scores, st.settledCount, profile.liability, profile.lastRoom);
       const feedback = appealCloseFeedback(target, st.scores, profile);
       st.history.push({ type: "close", cycle: st.cycle });
+      /* v59 交叉听证窄钩子（在原目标/反馈计算之后）：本轮深查 ≥2 间且本轮
+         尚未交付结案时，v58 原 target/feedback/close history 完全照旧，
+         只抑制 pending 转场——v58 pending 保持 null，原目标存入 v59
+         deferredTarget，结案改送交叉听证台；不复制任何 v58 路由 */
+      const crossSt = getCross();
+      if (crossSt.deepCount >= 2 && !crossSt.resolved) {
+        saveAppeal(st);
+        crossSt.history.push({ type: "intercept", target, cycle: crossSt.cycle });
+        crossSt.deferredTarget = target;
+        crossSt.pending = { kind: "intercept", scene: "appeal-registry", target: "cross-examination-desk", deferredTarget: target, feedback: CROSS_INTERCEPT_FEEDBACK, cycle: crossSt.cycle };
+        saveCross(crossSt);
+        const btn = $("#appeal-close");
+        if (btn) btn.setAttribute("aria-pressed", "true");
+        if (responseEl) responseEl.textContent = CROSS_INTERCEPT_FEEDBACK;
+        AudioEngine.knock(0.16);
+        paintAppeal();
+        paintCross();
+        AutoAdvance.schedule("appeal-registry", "cross-examination-desk", {
+          delay: branchDelay(),
+          before: () => crossBeforeArrive("cross-examination-desk"),
+        });
+        return;
+      }
       st.pending = { kind: "close", scene: "appeal-registry", target, feedback, cycle: st.cycle };
       saveAppeal(st);
       const btn = $("#appeal-close");
@@ -7786,6 +7820,485 @@ document.addEventListener("DOMContentLoaded", () => {
     if (retBtn) retBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseAppealReturn(roomKey); });
   });
   paintAppeal();
+
+  /* ============================================================
+     v59 交叉听证：v58 三房深查 + 结案延迟拦截 + 交叉听证台
+     独立容错状态键 CROSS_KEY（v59 唯一存储键），只持久化白名单
+     canonical 字段（version/cycle/visits/history/pending/deferredTarget）；
+     convergence/coercion/residue、已深查房间、可否拦截、可否无字席
+     全部由可信 history（仅当前 cycle 计分，同一房间同一 cycle 只计
+     首次）与当前合法 v58 状态重算，永不落盘。v59 只读 v58/v57，
+     从不改写；v58 只通过拦截点合法追加 close history。坏 JSON/错
+     版本/额外键/错 cycle/错 action/错 target/deferredTarget 与当前
+     v58 重算不符全部归一；pending 逐字重算，只消费一次。
+     ============================================================ */
+  const CROSS_KEY = "goddead_v59_cross_examination";
+  const CROSS_VERSION = 59;
+  const CROSS_NUM_CAP = 9999;
+  const CROSS_HISTORY_CAP = 16;
+  const CROSS_VISIT_KEYS = ["identity", "evidence", "destination", "desk"];
+  const CROSS_SCENE = "cross-examination-desk";
+  /* v58 结案真值表的全部可能落点（含 v59 自指的无号层） */
+  const CROSS_CLOSE_TARGETS = ["concordance-theatre", "protocol-drift", "misbound-handover", "blank-name-cloakroom", "evidence-vault", "liability-ledger", "unnumbered-floor"];
+  const CROSS_TARGET_LABEL = {
+    "concordance-theatre": "共证剧场",
+    "protocol-drift": "守则漂移",
+    "misbound-handover": "错绑交班台",
+    "blank-name-cloakroom": "空名寄存处",
+    "evidence-vault": "异常保全",
+    "liability-ledger": "责任账房",
+    "unnumbered-floor": "无号层",
+  };
+  /* 三房深查：封签、图面互换与两个深查动作（逐字反馈与分值冻结） */
+  const CROSS_DEEP_META = {
+    identity: {
+      sealBtn: "#identity-hearing-seal",
+      baseImg: "assets/v58-identity-correction.webp",
+      img: "assets/v59-identity-cross-exam.webp",
+      baseFigLabel: "身份勘误室：左侧电话与空肖像、中央空证人椅与名牌、右侧裂镜与空制服",
+      figLabel: "身份勘误室·深查：左侧放音鼓与听筒、中央玻璃听证椅、右侧裂镜与空制服",
+      sealFeedback: "听证封签断开。电话那头的喘息被准许再做一次证。",
+      responseEl: "#identity-response",
+      actions: {
+        "replay-voice": { btn: "#identity-action-replay-voice", scores: { convergence: 2 }, feedback: "来电里的喘息与登记台的漏拍重合。两份证词开始共享同一条呼吸。" },
+        "force-name": { btn: "#identity-action-force-name", scores: { coercion: 2, residue: 1 }, feedback: "针尖替空白写下姓名；椅背先收紧，余音才承认那个人存在。" },
+      },
+    },
+    evidence: {
+      sealBtn: "#contradiction-hearing-seal",
+      baseImg: "assets/v58-evidence-contradiction.webp",
+      img: "assets/v59-evidence-cross-exam.webp",
+      baseFigLabel: "证据对照库：左侧白卷宗、中央错位玻璃对照片、右侧污卷宗与焚盘",
+      figLabel: "证据对照库·深查：中央三表齿轮仪、右侧玻璃罩与血蜡",
+      sealFeedback: "听证封签断开。对照库准许重新称一次血蜡的温度。",
+      responseEl: "#contradiction-response",
+      actions: {
+        "align-timestamps": { btn: "#contradiction-action-align-timestamps", scores: { convergence: 2 }, feedback: "三枚停住的秒针在同一刻复动。矛盾没有消失，只被迫共用一个时间。" },
+        "lift-blood-wax": { btn: "#contradiction-action-lift-blood-wax", scores: { residue: 2 }, feedback: "罩下的血蜡仍在回温。被删去的证据以指纹的形状留了下来。" },
+      },
+    },
+    destination: {
+      sealBtn: "#destination-hearing-seal",
+      baseImg: "assets/v58-destination-review-shaft.webp",
+      img: "assets/v59-destination-cross-exam.webp",
+      baseFigLabel: "去向复核井：左侧回程轮轨、中央悬吊封箱、右侧断轨与落井杆",
+      figLabel: "去向复核井·深查：左侧仪表与绕行缆线、中央悬吊封箱、右侧听音喇叭",
+      sealFeedback: "听证封签断开。复核井准许再听一次井底的呼吸。",
+      responseEl: "#destination-response",
+      actions: {
+        "trace-cable": { btn: "#destination-action-trace-cable", scores: { convergence: 1, coercion: 1, residue: 2 }, feedback: "缆线绕过门牌，直接勒住收件人的座位。目的地与命令来自同一只手。" },
+        "listen-below": { btn: "#destination-action-listen-below", scores: { residue: 2, coercion: 1 }, feedback: "井底没有回声，只有下一位收件人被提前念出的呼吸。" },
+      },
+    },
+  };
+  const CROSS_INTERCEPT_FEEDBACK = "结案印没有落下。三张听证封签把原裁定扣在桌下，要求交叉询问。";
+  /* 听证台四动作：归并/标记/封存各给自己的分值 +2（点击前分值路由后再入账），
+     无字席不计分 */
+  const CROSS_DESK_META = {
+    "merge-testimonies": { btn: "#cross-action-merge-testimonies", banks: "convergence" },
+    "mark-coercion": { btn: "#cross-action-mark-coercion", banks: "coercion" },
+    "archive-residue": { btn: "#cross-action-archive-residue", banks: "residue" },
+    "blank-seat": { btn: "#cross-action-blank-seat", banks: "" },
+  };
+  /* 听证台路由：纯函数，点击前分值决定目标与逐字反馈；
+     merge 通过时原 deferredTarget 获得第二次生效 */
+  const crossDeskResolve = (action, pre, deferredTarget) => {
+    const cv = pre.convergence;
+    const co = pre.coercion;
+    const re = pre.residue;
+    if (action === "blank-seat") return { target: "unnumbered-floor", feedback: "第四块铭牌没有刻字。你坐下后，楼层编号从目录里退了一格。" };
+    if (action === "merge-testimonies") {
+      if (cv >= co && cv >= re) return { target: deferredTarget, feedback: "证词被编成一股绳，原裁定因此获得第二次生效。" };
+      return { target: "concordance-theatre", feedback: "三份证词被强行并排；它们同意的，恰好是从未发生的部分。" };
+    }
+    if (action === "mark-coercion") {
+      if (co >= re) return { target: "protocol-drift", feedback: "勒痕被标在规程上。命令终于暴露了它自己的手腕。" };
+      return { target: "misbound-handover", feedback: "勒痕没有指向命令，只把错误的名字又绑紧了一层。" };
+    }
+    if (re >= cv) return { target: "blank-name-cloakroom", feedback: "余响被封进无名档案。被擦掉的那个人在空衣架后继续呼吸。" };
+    return { target: "evidence-vault", feedback: "余响被归档为证物；它不再说话，却开始替所有缺口作证。" };
+  };
+  /* 无字席条件（冻结）：三房全部深查且点击前三分值完全拉平且为正 */
+  const crossBlankSeatArmed = (pre, deepCount) => deepCount === 3
+    && pre.convergence === pre.coercion && pre.coercion === pre.residue && pre.convergence > 0;
+
+  const getCross = () => {
+    let raw = {};
+    try {
+      raw = JSON.parse(store.get(CROSS_KEY, "{}")) || {};
+    } catch { raw = {}; }
+    if (typeof raw !== "object" || Array.isArray(raw)) raw = {};
+    /* 错版本整体丢弃：v59 之前的任何同键内容一律不算数 */
+    if (raw.version !== CROSS_VERSION) raw = {};
+    const num = (v) => {
+      let n = Number(v);
+      if (!Number.isFinite(n) || n < 0) n = 0;
+      return Math.min(CROSS_NUM_CAP, Math.floor(n));
+    };
+    /* cycle 对齐 v35：跨 cycle 的 history 条目保留但不参与本轮派生 */
+    const cycle = getFloor().cycle;
+    const sameCycle = num(raw.cycle) === cycle;
+    const visits = {};
+    CROSS_VISIT_KEYS.forEach((k) => { visits[k] = num(raw.visits && raw.visits[k]); });
+    /* history 有界白名单：action（房+动作双白名单）/ intercept / resolve
+       （动作与目标双白名单）三种形状，最多 16 条 */
+    let history = [];
+    if (Array.isArray(raw.history)) {
+      for (const h of raw.history) {
+        if (!h || typeof h !== "object" || Array.isArray(h)) continue;
+        if (h.type === "action" && CROSS_DEEP_META[h.room] && CROSS_DEEP_META[h.room].actions[h.action]) {
+          history.push({ type: "action", room: h.room, action: h.action, cycle: num(h.cycle) });
+        } else if (h.type === "intercept" && CROSS_CLOSE_TARGETS.includes(h.target)) {
+          history.push({ type: "intercept", target: h.target, cycle: num(h.cycle) });
+        } else if (h.type === "resolve" && CROSS_DESK_META[h.action] && CROSS_CLOSE_TARGETS.includes(h.target)) {
+          history.push({ type: "resolve", action: h.action, target: h.target, cycle: num(h.cycle) });
+        }
+      }
+    }
+    history = history.slice(-CROSS_HISTORY_CAP);
+    /* 派生（永不落盘）：本轮分值 / 已深查房间 / 是否已拦截 / 是否已交付，
+       同一房间同一 cycle 只计首次；resolve 条目给自己的分值入账 +2
+       （无字席不计分），点击前分值 = 派生分值减去本动作入账 */
+    const scores = { convergence: 0, coercion: 0, residue: 0 };
+    const deep = { identity: "", evidence: "", destination: "" };
+    let intercepted = false;
+    let resolved = false;
+    history.forEach((h) => {
+      if (h.cycle !== cycle) return;
+      if (h.type === "action" && !deep[h.room]) {
+        deep[h.room] = h.action;
+        const sc = CROSS_DEEP_META[h.room].actions[h.action].scores;
+        Object.keys(sc).forEach((k) => { scores[k] = Math.min(CROSS_NUM_CAP, scores[k] + sc[k]); });
+      } else if (h.type === "intercept") {
+        intercepted = true;
+      } else if (h.type === "resolve") {
+        resolved = true;
+        const bank = CROSS_DESK_META[h.action].banks;
+        if (bank) scores[bank] = Math.min(CROSS_NUM_CAP, scores[bank] + 2);
+      }
+    });
+    const deepCount = APPEAL_ROOM_KEYS.filter((k) => deep[k]).length;
+    /* deferredTarget 严格重算：只在「本轮有拦截、尚未交付、v58 canonical
+       history 末项是本轮 close、且当前 v58 状态重算出同一目标」时成立，
+       其余一律丢弃——reload 不接受任何与现状不符的被扣裁定。交付在途
+       （末条 resolve 已入账、其 pending 尚未消费）不算已交付：候选形状
+       先放宽进来，严格七键白名单校验不过时由下方 resolved 收回统一丢弃 */
+    const appeal = getAppeal();
+    const profile = appealProfile();
+    const closeLast = appeal.history.length > 0
+      && appeal.history[appeal.history.length - 1].type === "close"
+      && appeal.history[appeal.history.length - 1].cycle === cycle;
+    const recomputed = appealCloseTarget(appeal.scores, appeal.settledCount, profile.liability, profile.lastRoom);
+    const pendingIsResolveCandidate = raw.pending && typeof raw.pending === "object" && !Array.isArray(raw.pending)
+      && raw.pending.kind === "resolve";
+    let deferredTarget = "";
+    if (sameCycle && intercepted && (!resolved || pendingIsResolveCandidate) && deepCount >= 2 && closeLast && !appeal.pending
+      && CROSS_CLOSE_TARGETS.includes(raw.deferredTarget) && raw.deferredTarget === recomputed) {
+      deferredTarget = raw.deferredTarget;
+    }
+    /* pending 严格白名单：action/resolve 各恰好七键、intercept 恰好六键
+       （额外键即伪造）；scene/action/room/target/deferredTarget/feedback 逐字重算；
+       结算证据 = canonical history 末项一致 + cycle 一致 + 当前派生资格 */
+    let pending = null;
+    if (sameCycle && raw.pending && typeof raw.pending === "object" && !Array.isArray(raw.pending)) {
+      const p = raw.pending;
+      const keys = Object.keys(p).sort().join(",");
+      const last = history.length ? history[history.length - 1] : null;
+      if (p.kind === "action" && keys === "action,cycle,feedback,kind,room,scene,target"
+        && CROSS_DEEP_META[p.room] && CROSS_DEEP_META[p.room].actions[p.action]
+        && p.scene === APPEAL_KEY_SCENE[p.room] && num(p.cycle) === cycle
+        && p.target === "appeal-registry"
+        && p.feedback === CROSS_DEEP_META[p.room].actions[p.action].feedback
+        && last && last.type === "action" && last.room === p.room && last.action === p.action && last.cycle === cycle
+        && deep[p.room] === p.action) {
+        pending = { kind: "action", scene: p.scene, room: p.room, action: p.action, target: "appeal-registry", feedback: p.feedback, cycle };
+      } else if (p.kind === "intercept" && keys === "cycle,deferredTarget,feedback,kind,scene,target"
+        && p.scene === "appeal-registry" && p.target === CROSS_SCENE && num(p.cycle) === cycle
+        && p.feedback === CROSS_INTERCEPT_FEEDBACK
+        && last && last.type === "intercept" && last.cycle === cycle
+        && deferredTarget && p.deferredTarget === deferredTarget) {
+        pending = { kind: "intercept", scene: "appeal-registry", target: CROSS_SCENE, deferredTarget, feedback: CROSS_INTERCEPT_FEEDBACK, cycle };
+      } else if (p.kind === "resolve" && keys === "action,cycle,deferredTarget,feedback,kind,scene,target"
+        && p.scene === CROSS_SCENE && CROSS_DESK_META[p.action] && num(p.cycle) === cycle
+        && deferredTarget && p.deferredTarget === deferredTarget
+        && last && last.type === "resolve" && last.action === p.action && last.cycle === cycle) {
+        /* 点击前分值 = 派生分值减去本动作入账，路由/反馈逐字重算 */
+        const pre = { ...scores };
+        const bank = CROSS_DESK_META[p.action].banks;
+        if (bank) pre[bank] = Math.max(0, pre[bank] - 2);
+        const r = crossDeskResolve(p.action, pre, deferredTarget);
+        const blankOk = p.action !== "blank-seat" || crossBlankSeatArmed(pre, deepCount);
+        if (blankOk && p.target === r.target && p.feedback === r.feedback) {
+          pending = { kind: "resolve", scene: CROSS_SCENE, action: p.action, target: r.target, deferredTarget, feedback: r.feedback, cycle };
+        }
+      }
+    }
+    /* 已交付（resolve 已入账且无合法 pending 在途）或候选收回：被扣裁定
+       一律丢弃——交付只发生一次，伪造的 resolve 候选同样保不住 deferredTarget */
+    if (resolved && !pending) deferredTarget = "";
+    return {
+      cycle, visits, history, pending, deferredTarget, scores, deep, deepCount, intercepted, resolved,
+      pendingTarget: pending ? pending.target : "",
+    };
+  };
+  /* 只持久化白名单 canonical 六键；派生字段永不落盘，history 先裁后存 */
+  const saveCross = (st) => store.set(CROSS_KEY, JSON.stringify({
+    version: CROSS_VERSION,
+    cycle: st.cycle,
+    visits: st.visits,
+    history: st.history.slice(-CROSS_HISTORY_CAP),
+    pending: st.pending,
+    deferredTarget: st.deferredTarget || null,
+  }));
+
+  const crossActive = (st) => CROSS_VISIT_KEYS.some((k) => st.visits[k] > 0) || st.history.length > 0;
+
+  /* 听证签：三类分值 + 本轮深查间数 + 听证台说明（原裁定去向氛围化）+ 无字席显露 */
+  const paintCross = () => {
+    const st = getCross();
+    $$("[data-cross-convergence]").forEach((el) => { el.textContent = st.scores.convergence; });
+    $$("[data-cross-coercion]").forEach((el) => { el.textContent = st.scores.coercion; });
+    $$("[data-cross-residue]").forEach((el) => { el.textContent = st.scores.residue; });
+    $$("[data-cross-deep-count]").forEach((el) => { el.textContent = `${st.deepCount}/3`; });
+    const desc = $("#cross-exam-desc");
+    if (desc) {
+      desc.textContent = st.deferredTarget
+        ? `结案印被扣在桌下：原裁定本要送往「${CROSS_TARGET_LABEL[st.deferredTarget]}」。合流 ${st.scores.convergence}、胁迫 ${st.scores.coercion}、残响 ${st.scores.residue}，听证台等一个动作。`
+        : "结案印被扣在桌下。交叉听证只质询已经深查过的房间。";
+    }
+    const blankBtn = $("#cross-action-blank-seat");
+    if (blankBtn) {
+      if (st.deferredTarget && crossBlankSeatArmed(st.scores, st.deepCount)) blankBtn.removeAttribute("hidden");
+      else blankBtn.setAttribute("hidden", "");
+    }
+  };
+
+  /* 会话内封签激活态：可信封签点击立即换深查图并揭示两个深查热点
+     （不计分不写 canonical）；离场/遗忘后由 canonical 派生回弹 */
+  const crossArmed = { identity: false, evidence: false, destination: false };
+  const resetCrossArmed = () => { APPEAL_ROOM_KEYS.forEach((roomKey) => { crossArmed[roomKey] = false; }); };
+
+  /* 三复核室图面同步：结清未深查 → 显露听证封签；封签激活或已深查 →
+     换 v59 深查图、隐藏原 v58 三动作、显露两个深查热点、回总署热点保留，
+     已深查时示出既往结果；未结清/遗忘后 → 全部回弹出厂态 */
+  const syncCrossRoom = (roomKey) => {
+    const meta = CROSS_DEEP_META[roomKey];
+    if (!meta) return;
+    const st = getCross();
+    const appeal = getAppeal();
+    const deepAction = st.deep[roomKey];
+    const isDeep = Boolean(deepAction) || crossArmed[roomKey];
+    const section = $(`#scene-${APPEAL_KEY_SCENE[roomKey]}`);
+    if (!section) return;
+    const img = section.querySelector(".branch-img");
+    if (img) img.src = isDeep ? meta.img : meta.baseImg;
+    const figure = section.querySelector(".branch-figure");
+    if (figure) figure.setAttribute("aria-label", isDeep ? meta.figLabel : meta.baseFigLabel);
+    const seal = $(meta.sealBtn);
+    if (seal) {
+      if (appeal.settled[roomKey] && !isDeep) seal.removeAttribute("hidden");
+      else seal.setAttribute("hidden", "");
+    }
+    Object.keys(APPEAL_ACTION_META[roomKey].actions).forEach((a) => {
+      const btn = $(APPEAL_ACTION_META[roomKey].actions[a].btn);
+      if (!btn) return;
+      if (isDeep) btn.setAttribute("hidden", "");
+      else btn.removeAttribute("hidden");
+    });
+    Object.keys(meta.actions).forEach((a) => {
+      const btn = $(meta.actions[a].btn);
+      if (!btn) return;
+      if (isDeep) btn.removeAttribute("hidden");
+      else btn.setAttribute("hidden", "");
+      btn.setAttribute("aria-pressed", deepAction === a ? "true" : "false");
+    });
+    const responseEl = $(meta.responseEl);
+    if (responseEl) responseEl.textContent = deepAction ? meta.actions[deepAction].feedback : "";
+  };
+
+  /* 封签节拍：可信激活立即换深查图并揭示两个深查热点，不计分不写 history；
+     结清前/已深查后点击（含合成点击）零副作用 */
+  const chooseCrossSeal = (roomKey) => {
+    const sceneName = APPEAL_KEY_SCENE[roomKey];
+    if (currentScene !== sceneName) return;
+    if (AutoAdvance.has(sceneName)) return;
+    if (!getAppeal().settled[roomKey]) return;
+    if (getCross().deep[roomKey]) return;
+    const meta = CROSS_DEEP_META[roomKey];
+    crossArmed[roomKey] = true;
+    syncCrossRoom(roomKey);
+    const seal = $(meta.sealBtn);
+    if (seal) seal.setAttribute("aria-pressed", "true");
+    const responseEl = $(meta.responseEl);
+    if (responseEl) responseEl.textContent = meta.sealFeedback;
+    AudioEngine.knock(0.16);
+  };
+
+  /* 深查动作：首次一拍计分、逐字反馈、自动回总署；同 cycle 复访只重播
+     既往结果、不二次计分、不自动转场 */
+  const chooseCrossAction = (roomKey, actionKey) => {
+    const meta = CROSS_DEEP_META[roomKey] && CROSS_DEEP_META[roomKey].actions[actionKey];
+    if (!meta) return;
+    const sceneName = APPEAL_KEY_SCENE[roomKey];
+    if (currentScene !== sceneName) return;
+    if (AutoAdvance.has(sceneName)) return;
+    if (!getAppeal().settled[roomKey]) return;
+    const st = getCross();
+    const doneAction = st.deep[roomKey];
+    const firstDeep = !doneAction;
+    const feedback = firstDeep ? meta.feedback : CROSS_DEEP_META[roomKey].actions[doneAction].feedback;
+    if (firstDeep) {
+      st.history.push({ type: "action", room: roomKey, action: actionKey, cycle: st.cycle });
+      st.pending = { kind: "action", scene: sceneName, room: roomKey, action: actionKey, target: "appeal-registry", feedback: meta.feedback, cycle: st.cycle };
+      saveCross(st);
+    }
+    const btn = $(meta.btn);
+    if (btn) btn.setAttribute("aria-pressed", "true");
+    const responseEl = $(CROSS_DEEP_META[roomKey].responseEl);
+    if (responseEl) responseEl.textContent = feedback;
+    AudioEngine.knock(0.16);
+    paintCross();
+    if (firstDeep) {
+      AutoAdvance.schedule(sceneName, "appeal-registry", {
+        delay: branchDelay(),
+        before: () => crossBeforeArrive("appeal-registry"),
+      });
+    }
+  };
+
+  /* 转场 before 通用尾件（深查/拦截）：原子记 desk visit 再清 pending；
+     deferredTarget 只在最终交付时清除 */
+  const crossBeforeArrive = (target) => {
+    const s = getCross();
+    if (target === CROSS_SCENE && s.visits.desk === 0) s.visits.desk = 1;
+    if (s.pending) s.pending = null;
+    saveCross(s);
+    if (LEDGER_SCENE_KEY[target]) grantLedgerVisit(target);
+    if (target === "evidence-vault") markReviewVisited("evidence-vault");
+    syncCrossLink();
+    paintCrossMemory();
+  };
+
+  /* 最终交付：清 pending 与 deferredTarget（结案只交付一次），并补齐目标
+     场景旧守卫凭证 */
+  const crossResolveArrive = (target) => {
+    const s = getCross();
+    if (s.pending) s.pending = null;
+    if (s.deferredTarget) s.deferredTarget = "";
+    saveCross(s);
+    if (LEDGER_SCENE_KEY[target]) grantLedgerVisit(target);
+    if (target === "evidence-vault") markReviewVisited("evidence-vault");
+    syncCrossLink();
+    paintCrossMemory();
+  };
+
+  /* 听证台动作：点击前分值路由 → 写入 resolve 并入账 +2 → 一拍后自动转场；
+     无被扣裁定或本轮已交付时全部零副作用；无字席只在拉平时显露且不计分 */
+  const chooseCrossDesk = (actionKey) => {
+    const meta = CROSS_DESK_META[actionKey];
+    if (!meta) return;
+    if (currentScene !== CROSS_SCENE) return;
+    if (AutoAdvance.has(CROSS_SCENE)) return;
+    const st = getCross();
+    if (st.resolved) return;
+    if (!st.deferredTarget) return;
+    const pre = { ...st.scores };
+    if (actionKey === "blank-seat" && !crossBlankSeatArmed(pre, st.deepCount)) return;
+    const r = crossDeskResolve(actionKey, pre, st.deferredTarget);
+    st.history.push({ type: "resolve", action: actionKey, target: r.target, cycle: st.cycle });
+    st.pending = { kind: "resolve", scene: CROSS_SCENE, action: actionKey, target: r.target, deferredTarget: st.deferredTarget, feedback: r.feedback, cycle: st.cycle };
+    saveCross(st);
+    const btn = $(meta.btn);
+    if (btn) btn.setAttribute("aria-pressed", "true");
+    const responseEl = $("#cross-exam-response");
+    if (responseEl) responseEl.textContent = r.feedback;
+    AudioEngine.knock(0.16);
+    paintCross();
+    AutoAdvance.schedule(CROSS_SCENE, r.target, {
+      delay: branchDelay(),
+      before: () => crossResolveArrive(r.target),
+    });
+  };
+
+  /* reload 节拍恢复：合法 pending 属于当前场景时重播逐字反馈并精确重挂一次，
+     不二次计分 */
+  const replayCrossPending = (sceneName) => {
+    const st = getCross();
+    const p = st.pending;
+    if (!p || p.scene !== sceneName) return;
+    if (p.kind === "action") {
+      const responseEl = $(CROSS_DEEP_META[p.room].responseEl);
+      if (responseEl) responseEl.textContent = p.feedback;
+      AutoAdvance.schedule(sceneName, p.target, {
+        delay: branchDelay(),
+        before: () => crossBeforeArrive(p.target),
+      });
+    } else if (p.kind === "intercept") {
+      const responseEl = $("#appeal-response");
+      if (responseEl) responseEl.textContent = p.feedback;
+      AutoAdvance.schedule(sceneName, p.target, {
+        delay: branchDelay(),
+        before: () => crossBeforeArrive(p.target),
+      });
+    } else {
+      const responseEl = $("#cross-exam-response");
+      if (responseEl) responseEl.textContent = p.feedback;
+      AutoAdvance.schedule(sceneName, p.target, {
+        delay: branchDelay(),
+        before: () => crossResolveArrive(p.target),
+      });
+    }
+  };
+
+  /* 听证台进入：幂等补记 desk visit、清响应、按被扣裁定重绘说明 */
+  const enterCrossDesk = () => {
+    const st = getCross();
+    if (st.visits.desk === 0) {
+      st.visits.desk = 1;
+      saveCross(st);
+      syncCrossLink();
+    }
+    const responseEl = $("#cross-exam-response");
+    if (responseEl) responseEl.textContent = "";
+    paintCross();
+  };
+
+  const CROSS_LINK = "#cross-exam-link";
+  const syncCrossLink = () => {
+    const link = $(CROSS_LINK);
+    if (!link) return;
+    if (getCross().visits.desk > 0) link.removeAttribute("hidden");
+    else link.setAttribute("hidden", "");
+  };
+
+  /* 痕迹页单行：交叉听证四类派生值，保持八张统计卡不变 */
+  const paintCrossMemory = () => {
+    const memory = $("#cross-exam-memory");
+    if (!memory) return;
+    const st = getCross();
+    if (!crossActive(st)) {
+      memory.hidden = true;
+      return;
+    }
+    memory.textContent = `交叉听证：合流 ${st.scores.convergence}，胁迫 ${st.scores.coercion}，残响 ${st.scores.residue}，本轮深查 ${st.deepCount}/3。`;
+    memory.hidden = false;
+  };
+
+  /* v59 合成守卫：封签/深查动作/听证台三组监听只接受真实用户产生的
+     click（isTrusted）——合成 HTMLElement.click() 在 active 场景同样零副作用 */
+  APPEAL_ROOM_KEYS.forEach((roomKey) => {
+    const sealBtn = $(CROSS_DEEP_META[roomKey].sealBtn);
+    if (sealBtn) sealBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseCrossSeal(roomKey); });
+    Object.keys(CROSS_DEEP_META[roomKey].actions).forEach((actionKey) => {
+      const btn = $(CROSS_DEEP_META[roomKey].actions[actionKey].btn);
+      if (btn) btn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseCrossAction(roomKey, actionKey); });
+    });
+  });
+  Object.keys(CROSS_DESK_META).forEach((actionKey) => {
+    const btn = $(CROSS_DESK_META[actionKey].btn);
+    if (btn) btn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseCrossDesk(actionKey); });
+  });
+  paintCross();
 
   /* ============================================================
      v40 门外侧廊：首页纵深环境层 + 左右廊热点 + 三个画面热点场景
@@ -11894,6 +12407,10 @@ document.addEventListener("DOMContentLoaded", () => {
       syncAppealLinks();
       paintAppeal();
       syncAppealSeal();
+      syncCrossLink();
+      paintCross();
+      resetCrossArmed();
+      APPEAL_ROOM_KEYS.forEach(syncCrossRoom);
       ANOMALY_ROOMS.forEach((r) => syncEvidenceRoom(ANOMALY_ROOM_SCENE[r]));
       syncLateralLinks();
       syncBackroomLinks();
@@ -11919,6 +12436,7 @@ document.addEventListener("DOMContentLoaded", () => {
       paintEvidenceAuditMemory();
       paintLedgerMemory();
       paintAppealMemory();
+      paintCrossMemory();
       paintValuationMemory();
       paintFloorMemory();
       paintRegistryMemory();
@@ -12004,6 +12522,10 @@ document.addEventListener("DOMContentLoaded", () => {
   paintAppealMemory();
   paintAppeal();
   syncAppealSeal();
+  syncCrossLink();
+  paintCrossMemory();
+  paintCross();
+  APPEAL_ROOM_KEYS.forEach(syncCrossRoom);
   syncLateralLinks();
   paintLateralMemory();
   syncBackroomLinks();

@@ -1,5 +1,19 @@
 # Progress Log
 
+## 2026-08-01 (v59 交叉听证 / THE CROSS-EXAMINATION：三房深查 + 结案延迟拦截 + 交叉听证台)
+- 世界观续进：已结清的复核并不是终点——房间可以被深查，深查得够多，结案印就会被三张听证封签扣在桌下，原裁定要到交叉听证台再答一次。体验参考只看机制（已完成的调查可以更深、深查改变结案走向），美术文案全部原创。
+- 素材：四张冻结原图（sha256 静态断言锁定）Pillow q85 1536×1024 无裁切转码 `assets/v59-{cross-examination-desk,identity-cross-exam,evidence-cross-exam,destination-cross-exam}.webp`（188–287 KB，均在 300KB 预算内）；听证台入 HTML、三深查图入 JS 互换表，全部正式 bitmap + 图内原生热点，无卡片墙、无 inline SVG、无底部继续按钮。
+- 深查：不往 threshold/总署塞新入口——唯一入口是三间已结清复核室复访时图内的「听证封签」（结清前/已深查 hidden，合成点击零副作用）；封签节拍只换 v59 深查图（img.src + figure aria-label 互换）、隐藏原 v58 三动作、显露两个深查热点、保留图内回总署热点，不计分不写任何存储；六深查动作逐字反馈与精确分值（合流/胁迫/残响，含 trace-cable 三项 +1/+1/+2），首次一拍自动回总署，同 cycle 复访停留在深查图、示出既往结果、不二次计分、不自动转场。
+- 结案延迟拦截（窄钩子）：`chooseAppealHub("close")` 内、原 target/feedback 计算与 close history 追加之后、v58 pending 武装之前——本轮深查 <2 间 v58 行为逐字节不变（0 间时 v59 键从不创建）；≥2 间且本轮尚无 resolve 时 v58 pending 保持 null，v59 追加 `{type:"intercept"}`、存 deferredTarget、武装 intercept pending，逐字拦截反馈一拍后自动到听证台；已交付后再结案落回 v58 正常结案。
+- 交叉听证台：四动作全部图内原生 button 热点，点击前分值路由、路由后入账 +2（无字席不计分）；merge 通过时原 deferredTarget 第二次生效，mark/archive 各有双分支，无字席只在三房全深查且完全拉平时显露（2×2×2=8 种组合逐项枚举，唯一合法拉平 force-name + align-timestamps + trace-cable = (3,3,3)，静态断言冻结）；交付只一次——到达清 pending 与 deferredTarget 并补齐目标场景旧守卫凭证（v57 `grantLedgerVisit`、evidence-vault `markReviewVisited`）。
+- 状态：独立容错 `goddead_v59_cross_examination`（全仓库唯一 key）——version(59)/cycle/visits/history(≤16)/pending/deferredTarget 显式 canonical 六键投影落盘；convergence/coercion/residue、已深查房间、可否拦截、可否无字席全部由可信 history（仅当前 cycle 计分、同房同 cycle 只计首次）与当前合法 v58 状态重算，派生永不落盘；version 不符整体丢弃；cycle 对齐 v35。deferredTarget 严格重算（本轮 intercept + 未交付 + 深查 ≥2 + v58 末条 close + v58 pending null + 重算同目标，缺一即丢）；pending 三种各按自身精确键集（action 恰好七键、intercept 恰好六键、resolve 恰好七键，额外键即伪造）逐字重算 + history 末项证据 + cycle + 当前派生资格四重防伪，blank-seat 伪造拒收，只消费一次，刷新重播不二次计分。
+- **CDP 抓出并修复的真实生产缺陷**：resolve pending 的严格校验要求 deferredTarget 成立，而 deferredTarget 原重算条件含 `!resolved`——resolve 条目一旦入账（恰是 resolve pending 的结算证据）即被误判为已交付，「resolve pending reload 重播一次」的契约路径实际不可达。修复为交付在途不算已交付（resolve 候选 pending 先按形状放宽，严格七键校验不过时由 `resolved && !pending` 统一收回），交付仍只发生一次；静态冻结断言与设计文档状态契约同步更新。
+- 守卫：听证台 direct hash 窄守卫（合法 pendingTarget 或 desk visit，否则回退合法的异议总署、总署不合法归一无号层）；深查复用 v58 四场景守卫，不放宽任何旧守卫；转场 before 先原子记 v59 visit 再清 pending；封签/深查动作/听证台三组监听只接受 isTrusted 真实 click（合成 HTMLElement.click() 在 active 场景同样零副作用，全仓库 isTrusted 监听组数 7 → 10）；v31–v58 状态零读写污染（v59 只读，v58 仅经拦截点合法追加自己的 close history）。
+- 目录 `01ωδ / 交叉听证`（首次合法 desk 到访原子恢复，随遗忘隐藏）；Remembrance 单行「交叉听证：合流 X，胁迫 Y，残响 Z，本轮深查 N/3。」仍八张统计卡；遗忘全部后 v59 key 移除、目录/记忆隐藏、三房图面/aria/封签/深查热点/v58 热点/响应文本、听证台说明与无字席全部回弹出厂态。
+- 测试：静态四门（`node --check script.js`、`node --check tests/site.test.mjs`、`node tests/site.test.mjs`、`git diff --check`）全部通过；计数同口径实测 4112 断言全绿，较 v58 的 3922 新增 190 条（v59 独立区块 181 条 + 全局集成/回归 9 条）。
+- CDP 实机：`/tmp/v59-qa/v59-smoke.mjs`（真实 headless Chrome + 内嵌静态服务器 + 真实鼠标/键盘 + console 捕获，种子预注入）**625/625 连续两轮全绿**，控制台零异常，第二轮完整日志 `/tmp/v59-qa/round2-full.log`；视觉证据 15 张 `design-qa-evidence/v59-01~11` + 四张源图/实装并排对照 `v59-compare-{identity,evidence,destination,desk}`（离线 Pillow 合成，逐张目检结论见 design-qa.md 本轮段落）。
+- 保护边界：`docs/KimiUsageLog.md`、全部 source-v53~v59 PNG 哈希不变；未执行任何 git add/commit/push/stash；未安装依赖。
+
 ## 2026-08-01 (v58 异议总署 / THE APPEAL REGISTRY：总署 hub + 三复核室 9 动作 + 结案纯函数路由)
 - 世界观续进：判词有了身体之后，身体可以异议。v57 的共证/修复/转嫁/自担与责任值不再只是账面数字——它们决定总署说明怎么写、三房反馈说哪句话、结案被送去哪里。体验参考只看机制（历史选择改变后续场景、三类调查自由选择、调查越深结案越特殊），美术文案全部原创。
 - 素材：四张冻结原图（sha256 静态断言锁定）Pillow q85 1536×1024 无裁切转码 `assets/v58-{appeal-registry,identity-correction,evidence-contradiction,destination-review-shaft}.webp`（187–247 KB，均在 ~300KB 预算内）；四场景全部正式 bitmap + 图内原生热点，无卡片墙、无 inline SVG、无底部继续按钮。

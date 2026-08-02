@@ -6289,3 +6289,34 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
   #scene-evidence-contradiction .branch-figure,
   #scene-destination-review-shaft .branch-figure { width: min(460px, 100%); }
 }
+
+/* ============================================================
+   v59 交叉听证：三复核室图内听证封签 + 深查双动作热点 + 交叉听证台四热点
+   （1536×1024 舞台百分比，桌面/移动共用，44px 增长后互不重叠）
+   ============================================================ */
+/* 三复核室：结清后复访显露的图内听证封签（未结清/已深查时 hidden 退出布局） */
+.identity-spot-hearing-seal { top: 4%; left: 4%; width: 14%; height: 12%; }
+.contradiction-spot-hearing-seal { top: 8%; left: 4%; width: 14%; height: 12%; }
+.destination-spot-hearing-seal { top: 6%; left: 80%; width: 14%; height: 12%; }
+
+/* 身份深查：左放音鼓与听筒回放来电 / 中央玻璃听证椅针写姓名（与底部滑轨不重叠） */
+.identity-spot-replay-voice { top: 44%; left: 4%; width: 26%; height: 34%; }
+.identity-spot-force-name { top: 16%; left: 37%; width: 27%; height: 56%; }
+
+/* 证据深查：中央三表齿轮仪对齐秒针 / 右玻璃罩揭起血蜡（与后墙库门不重叠） */
+.contradiction-spot-align { top: 40%; left: 33%; width: 34%; height: 46%; }
+.contradiction-spot-lift { top: 55%; left: 73%; width: 22%; height: 32%; }
+
+/* 去向深查：左仪表与绕行缆线追索 / 右听音喇叭俯听井底（与左拱门不重叠） */
+.destination-spot-trace { top: 38%; left: 3%; width: 25%; height: 36%; }
+.destination-spot-listen { top: 29%; left: 71%; width: 23%; height: 44%; }
+
+/* 交叉听证台：左链条传送带归并证词 / 中央听证椅标记胁迫 / 右留声喇叭封存残响 / 前景地面无字铭牌 */
+.cross-spot-merge { top: 27%; left: 2%; width: 31%; height: 42%; }
+.cross-spot-mark { top: 28%; left: 38%; width: 24%; height: 41%; }
+.cross-spot-archive { top: 25%; left: 67%; width: 31%; height: 44%; }
+.cross-spot-blank-seat { top: 74%; left: 33%; width: 34%; height: 23%; }
+
+@media (min-width: 721px) and (max-height: 800px) {
+  #scene-cross-examination-desk .branch-figure { width: min(460px, 100%); }
+}

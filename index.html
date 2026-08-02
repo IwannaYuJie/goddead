@@ -1594,6 +1594,21 @@
               <span class="bb-title">回到异议总署</span>
               <span class="bb-hint">滑轨退回总柜台</span>
             </button>
+            <button class="branch-btn forecourt-native-hotspot identity-spot-hearing-seal" id="identity-hearing-seal" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">听证封签</span>
+              <span class="bb-title">听证封签</span>
+              <span class="bb-hint">结清之后还可以深查</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot identity-spot-replay-voice" id="identity-action-replay-voice" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">回放来电</span>
+              <span class="bb-title">回放来电</span>
+              <span class="bb-hint">喘息对准漏拍</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot identity-spot-force-name" id="identity-action-force-name" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">针写姓名</span>
+              <span class="bb-title">针写姓名</span>
+              <span class="bb-hint">针尖替空白署名</span>
+            </button>
           </figure>
           <p class="branch-response" id="identity-response" aria-live="polite"></p>
         </div>
@@ -1637,6 +1652,21 @@
               <span class="bb-short" aria-hidden="true">回总署</span>
               <span class="bb-title">回到异议总署</span>
               <span class="bb-hint">库门退回总柜台</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot contradiction-spot-hearing-seal" id="contradiction-hearing-seal" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">听证封签</span>
+              <span class="bb-title">听证封签</span>
+              <span class="bb-hint">结清之后还可以深查</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot contradiction-spot-align" id="contradiction-action-align-timestamps" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">对齐秒针</span>
+              <span class="bb-title">对齐秒针</span>
+              <span class="bb-hint">三表共用一个时间</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot contradiction-spot-lift" id="contradiction-action-lift-blood-wax" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">揭起血蜡</span>
+              <span class="bb-title">揭起血蜡</span>
+              <span class="bb-hint">罩下余温未散</span>
             </button>
           </figure>
           <p class="branch-response" id="contradiction-response" aria-live="polite"></p>
@@ -1682,8 +1712,66 @@
               <span class="bb-title">回到异议总署</span>
               <span class="bb-hint">拱门退回总柜台</span>
             </button>
+            <button class="branch-btn forecourt-native-hotspot destination-spot-hearing-seal" id="destination-hearing-seal" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">听证封签</span>
+              <span class="bb-title">听证封签</span>
+              <span class="bb-hint">结清之后还可以深查</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot destination-spot-trace" id="destination-action-trace-cable" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">追索缆线</span>
+              <span class="bb-title">追索缆线</span>
+              <span class="bb-hint">缆线绕过门牌</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot destination-spot-listen" id="destination-action-listen-below" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">俯听井底</span>
+              <span class="bb-title">俯听井底</span>
+              <span class="bb-hint">井底先念下一位</span>
+            </button>
           </figure>
           <p class="branch-response" id="destination-response" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <!-- v59 交叉听证 · 交叉听证台 -->
+      <section class="scene scene-branch scene-cross-examination-desk" id="scene-cross-examination-desk" data-scene="cross-examination-desk" data-title="Goddead — 交叉听证台" aria-label="交叉听证台">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE CROSS-EXAMINATION DESK · 交 叉 听 证 台</p>
+            <h2 class="sec-title">交叉听证台</h2>
+            <p class="sec-desc" id="cross-exam-desc">结案印被扣在桌下。交叉听证只质询已经深查过的房间。</p>
+          </header>
+
+          <div class="review-slip ledger-slip reveal" role="group" aria-label="听证签">
+            <span class="rs-item">合流 <b data-cross-convergence>0</b></span>
+            <span class="rs-item">胁迫 <b data-cross-coercion>0</b></span>
+            <span class="rs-item">残响 <b data-cross-residue>0</b></span>
+            <span class="rs-item">深查 <b data-cross-deep-count>0/3</b></span>
+          </div>
+
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="交叉听证台：左侧链条传送带与合并卷轴、中央听证椅与双表、右侧留声喇叭与封存鼓、前景地面无字铭牌">
+            <img class="branch-img" src="assets/v59-cross-examination-desk.webp" alt="" width="1536" height="1024" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot cross-spot-merge" id="cross-action-merge-testimonies" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">归并证词</span>
+              <span class="bb-title">归并证词</span>
+              <span class="bb-hint">卷轴被编成一股</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot cross-spot-mark" id="cross-action-mark-coercion" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">标记胁迫</span>
+              <span class="bb-title">标记胁迫</span>
+              <span class="bb-hint">勒痕标在规程上</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot cross-spot-archive" id="cross-action-archive-residue" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">封存残响</span>
+              <span class="bb-title">封存残响</span>
+              <span class="bb-hint">余响封进无名档案</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot cross-spot-blank-seat" id="cross-action-blank-seat" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">无字席</span>
+              <span class="bb-title">无字席</span>
+              <span class="bb-hint">铭牌没有刻字</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="cross-exam-response" aria-live="polite"></p>
         </div>
       </section>
 
@@ -3615,6 +3703,7 @@
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory belief-memory pressure-memory floor-anomaly-memory evidence-audit-memory" id="evidence-audit-memory" hidden></p>
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory belief-memory pressure-memory floor-anomaly-memory evidence-audit-memory consequence-ledger-memory" id="consequence-ledger-memory" hidden></p>
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory belief-memory pressure-memory floor-anomaly-memory evidence-audit-memory consequence-ledger-memory appeal-memory" id="appeal-memory" hidden></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory belief-memory pressure-memory floor-anomaly-memory evidence-audit-memory consequence-ledger-memory appeal-memory cross-exam-memory" id="cross-exam-memory" hidden></p>
 
           <div class="reliquary-slot reveal" id="reliquary-slot"></div>
 
@@ -3735,6 +3824,7 @@
       <a href="#identity-correction" id="correction-link" hidden data-hover>01ωα / 身份勘误</a>
       <a href="#evidence-contradiction" id="contradiction-link" hidden data-hover>01ωβ / 证据对照</a>
       <a href="#destination-review-shaft" id="destination-link" hidden data-hover>01ωγ / 去向复核</a>
+      <a href="#cross-examination-desk" id="cross-exam-link" hidden data-hover>01ωδ / 交叉听证</a>
       <a href="#night-shift-registry" id="registry-link" hidden data-hover>01π / 夜班登记</a>
       <a href="#midnight-callback" id="callback-link" hidden data-hover>01ρ / 午夜回拨</a>
       <a href="#proxy-admission" id="proxy-link" hidden data-hover>01σ / 代审窗</a>

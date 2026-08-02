@@ -1,6 +1,20 @@
-# Design QA — Living Shrine · 场景探索版（含值夜室 · 第四线路 · 无主投递所 · 神名注销科 · 代神席 · 自动转场 · 现有场景视觉深化 · 焚献点火 · 神圣遗物科 · v28 代行治理 · v29 旁路支线 · v30 深层支线 · v31 门前三岔 · v32 门内副楼 · v33 异常复核 · v34 无主估值 · v35 无号层 · v36 夜班登记 · v37 午夜回拨 · v38 门外代审 · v39 归路核验 · v40 门外侧廊 · v41 守则背室 · v42 守则漂移 · v43 门内回敲 · v44 页后空层 · v45 未到交班 · v46 旁线未静 · v47 退件未止 · v48 注销留副 · v49 门前实感 · v50 副楼实感 · v51 副楼三债 · v52 三债结算 · v53 归路信念 · v54 迫近回访 · v55 失常交班 · v56 症状交接 · v57 判词后果 · v58 异议总署）
+# Design QA — Living Shrine · 场景探索版（含值夜室 · 第四线路 · 无主投递所 · 神名注销科 · 代神席 · 自动转场 · 现有场景视觉深化 · 焚献点火 · 神圣遗物科 · v28 代行治理 · v29 旁路支线 · v30 深层支线 · v31 门前三岔 · v32 门内副楼 · v33 异常复核 · v34 无主估值 · v35 无号层 · v36 夜班登记 · v37 午夜回拨 · v38 门外代审 · v39 归路核验 · v40 门外侧廊 · v41 守则背室 · v42 守则漂移 · v43 门内回敲 · v44 页后空层 · v45 未到交班 · v46 旁线未静 · v47 退件未止 · v48 注销留副 · v49 门前实感 · v50 副楼实感 · v51 副楼三债 · v52 三债结算 · v53 归路信念 · v54 迫近回访 · v55 失常交班 · v56 症状交接 · v57 判词后果 · v58 异议总署 · v59 交叉听证）
 
 适用范围：当前 goddead.com 首页（哈希路由场景探索游戏）。本文替代旧版 QA 报告；旧版证据文件保留在 `design-qa-evidence/` 中仅作历史存档，不再代表现状。
+
+## 本轮新增：v59 交叉听证 / THE CROSS-EXAMINATION（三房深查 + 结案延迟拦截 + 交叉听证台）
+
+- 目标：已结清的 v58 复核室可以「深查」——同场景换 v59 深查图、原三动作隐藏、两个深查热点显露；深查 ≥2 间后结案印被延迟拦截，原裁定扣到交叉听证台接受二次质询，四动作路由后入账 +2，无字席只在三房全深查且完全拉平时显露。
+- 素材：四张冻结原图（sha256 静态断言锁定，见 `docs/V59CrossExaminationDesign.md`）Pillow q85 1536×1024 无裁切转码四张 WebP（188–287 KB）；听证台图入 HTML、三深查图入 JS 互换表；全部正式 bitmap + 图内原生热点，无卡片/inline SVG/底部继续按钮。
+- 深查：结清后复访才显露图内「听证封签」（结清前/已深查 hidden，合成点击零副作用）；可信封签只换图与揭示热点、不写任何存储；六深查动作逐字反馈与精确分值（合流/胁迫/残响），首次一拍自动回总署，复访示出既往结果不二次计分不转场。
+- 拦截：窄钩子在 v58 close history 追加之后、v58 pending 武装之前——原 target/feedback/history 逐字节照旧，v58 pending 保持 null，v59 记 intercept + deferredTarget + intercept pending，逐字拦截反馈一拍后自动到听证台；深查 <2 间 v58 行为不变，已交付后不再拦截。
+- 状态：`goddead_v59_cross_examination`（唯一 key）；canonical 六键投影（version 59/cycle/visits/history≤16/pending/deferredTarget）；分值/已深查房间/可否拦截/可否无字席全部由当前 cycle 可信 history 与合法 v58 状态重算，派生不落盘；deferredTarget 严格重算（末条 close + 重算同目标 + 未交付 + 深查 ≥2 + v58 pending null）；pending 三种各按自身精确键集（action 7 / intercept 6 / resolve 7）逐字重算 + history 末项证据，只消费一次，伪造/错版本/坏 JSON 一律归一。
+- 生产修复（本轮 CDP 抓出）：resolve pending 的合法重播要求 deferredTarget 成立，而原重算条件 `!resolved` 把「resolve 已入账但 pending 未消费」的交付在途态误判为已交付——修复为候选形状放宽 + 严格七键校验不过时统一收回（`resolved && !pending` 丢弃），交付仍只发生一次；静态冻结断言同步更新。
+- 守卫：听证台直达窄守卫（合法 pendingTarget 或 desk visit，否则回退合法总署、总署不合法归一无号层）；深查复用 v58 四场景守卫；封签/深查/听证台三组监听只接受 isTrusted 真实 click（全仓库共 10 组）；v31–v58 状态零读写污染（v59 只读，v58 仅经拦截点合法追加 close history）。
+- 目录与记忆：目录 `01ωδ / 交叉听证`；Remembrance 单行「交叉听证：合流 X，胁迫 Y，残响 Z，本轮深查 N/3。」仍八张统计卡；遗忘全部后三房图面/aria/封签/深查热点/v58 热点/响应文本/听证台说明/无字席/目录/记忆全部回弹。
+- 静态：4112 断言全绿（较 v58 的 3922 新增 190 条同口径实测：v59 独立区块 181 条 + 全局集成/回归 9 条）。
+- CDP 行为冒烟（`/tmp/v59-qa/v59-smoke.mjs`，真实 Google Chrome headless + 真实鼠标/键盘，种子预注入）**625/625 连续两轮全绿**（第二轮完整日志 `/tmp/v59-qa/round2-full.log`），控制台零异常：三深查房 + 听证台 × 1440×1024/1440×800/390×844 几何（3:2 图幅/图内/零重叠/自命中/≥44px/短标签不溢出/1440×800 首屏/签条项数）+ 深查图 src 与 aria-label 逐字互换 + 既往结果复访示出、封签结清前 hidden 且合成零副作用、可信封签换图揭示两深查热点且 v58/v59 存储字节不变不转场、6 深查动作逐字 + 精确分值 + aria-pressed + 首次自动回总署 + 复访不二次计分不转场、0/1 深查结案 v58 逐字节照旧（0 间时 v59 键从不创建）、2 深查严格拦截全链（v58 close 追加 + pending null、intercept/deferredTarget/intercept-pending 三件套、逐字反馈、desk 说明与签条逐字、merge 走 deferredTarget 复效、路由后 +2 入账、到达清 pending+deferredTarget、交付后不再拦截）、无字席 (3,3,3) 显露点击直达无号层不计分 + 非拉平 hidden 惰性、desk 直达守卫两态回退、action/intercept/resolve 三种 pending reload 逐字重播一次不二次计分 + 实时点击后 reload 竞态重播一次、伪造九态（action 错反馈/intercept 额外键/intercept 错 deferredTarget/resolve 错 target/伪造无字席/错 cycle/错 deferredTarget/错版本/坏 JSON 四态）全拒收归一、raw 恰好六 canonical 键 + history 裁 16 + deferredTarget 缺省 null、v57/v54/v37 全流程字节不变（v58 diff 恰好一条 close）、目录/记忆单行/八卡/遗忘全部 DOM 回弹全流程、Tab/Enter/Space 键盘深查流、active 场景合成 HTMLElement.click() 字节级零副作用。
+- 视觉证据 15 张 `design-qa-evidence/v59-01~11` + `v59-compare-{identity,evidence,destination,desk}`：前三张三深查房深查态桌面、v59-04 听证台武装态桌面、v59-05~07 三房移动端、v59-08 听证台 1440×800、v59-09 听证台移动端、v59-10 无字席显露态、v59-11 拦截节拍；四张对照图由四张冻结源 PNG 与同状态 1440×1024 实装截图的 figure 裁切等比例并排（离线 Pillow 合成，3072×1024）逐张目检——深查图/听证台图与源图同构图同比例无拉伸无黑边；身份回放来电压左放音鼓与听筒、针写姓名压中央玻璃听证椅；证据对齐秒针压中央三表齿轮仪、揭起血蜡压右玻璃罩血蜡；去向追索缆线压左仪表与绕行缆线、俯听井底压右听音喇叭且避开左拱门回总署；听证台归并/标记/封存分压左链条传送带/中央听证椅/右留声喇叭，无字席出厂 hidden 不遮挡、拉平态显露于前景地面铭牌且与三热点零重叠；实装热点为既有 forecourt-native 半透明面板风格，与 v49–v58 一致，移动端短标签无裁切无互盖。
 
 ## 本轮新增：v58 异议总署 / THE APPEAL REGISTRY（总署 hub + 三复核室 9 动作 + 结案纯函数路由）
 
