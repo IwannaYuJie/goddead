@@ -1,5 +1,17 @@
 # Progress Log
 
+## 2026-08-02 (v60 证物链 / THE CHAIN OF CUSTODY：两结果房图内化 + 截留汇流 + 证物链办公室)
+- 世界观续进：前段旧分支不再只是终点——保全库与回收井里被处理过无数次的证物，开始在累计动作后被一条保管链重新追问去向。本轮不往末尾接线，而是把两个最旧的结果房升级为画面内交互并交叉回流。体验参考只看机制（The Operator 的证据逐层深入、Golden Idol 的线索组合裁判，2026-08-02 访问），美术文案全部原创。
+- 图内化：v33 异常保全库 / 误报回收井（含 v34 估值入口第四按钮）是最后两个「图在上、四卡在下」的场景——8 个旧按钮 id/文案/aria-pressed/v33 marks+restart/v34 startValuation+marks 全部原样保留并移入各自新位图的实物上（封存匣/退件抽屉/断封缺口/估值托盘；退件抽屉/附录滚轴/脚位铁板/资产托盘），底部 `.branch-choices` 卡片容器整体删除无隐藏副本；两张新 bitmap 替换引用，旧 WebP 保留为历史文件零引用。
+- 素材：三张冻结原图（sha256 静态断言锁定）Pillow q85 1536×1024 无裁切转码 `assets/v60-{evidence-custody-vault,false-positive-custody-shaft,chain-of-custody-office}.webp`（266–273 KB，均在 300KB 预算内）。
+- 状态：独立容错 `goddead_v60_chain_of_custody`（全仓库唯一 key）——visited 三布尔/scores（保全/改写/认领）/cycleActions（≤8 白名单去重）/lastSource/lastAction/officeRuns/transfers/pending 显式 canonical 八键投影落盘；坏 JSON/错型/越界全部白名单归一；pending 恰好四键（scene/action/target/feedback，额外键即伪造）逐字重算、只消费一次；v60 只读写自己的键，不伪造不改写任何 v28–v59 结果。
+- 截留（窄钩子）：旧副作用完成后、AutoAdvance 武装之前——本轮 cycleActions ≥3 个不同动作且两房各至少一个时，第一个使条件成立的合法点击把目的地改道证物链办公室（原反馈逐字 + 追加一句 v60 文案），持久化源 pending、一拍转场、到达原子记 visit 再清 pending；未满足/重复动作/已有 pending 时旧目的地逐字保持；每轮最多截留一次。
+- 证物链办公室：开放场景（同 protocol-drift 设计），直 hash 可用三个常规机关；目录 `01ωε / 证物链` 首次到访前 hidden、首次到访后原子恢复。封钳/滚筒/钥环三机关先入账 +2 再按点击后分值纯函数分流（严格最高→留置空库/守则漂移/退址格柜，两两拉平→假确认台/见证复写库/空名寄存，三项全等含动作补齐→责任账房并补 grantLedgerVisit 旧守卫凭证）；空白见证位只在点击前三项完全拉平且为正时显露，不计分直达无号层（2/2/2 新鲜路径已核算：封存+附录+承认）。第一拍接受后全机关 disabled；离开办公室 officeRuns/transfers 各 +1、清空 cycleActions 开新轮、累计 scores 保留。
+- 交互硬要求：源场景与办公室动作全部先校验 currentScene/合法 action/无 pending/无同 scope AutoAdvance 再有副作用；双击/键盘竞争只接受一次；reduced-motion 沿用 ~300ms 节拍；遗忘全部后 v60 key 移除、目录/记忆隐藏、12 热点 disabled 与 aria 回弹、void 回隐；Remembrance 新增单行（交接/结算/三项分值/本轮登记数）仍八张统计卡。
+- 测试：静态 `node tests/site.test.mjs` 4269 断言全绿（较 v59 的 4112 新增 157 条：v60 独立区块 154 条 + 全局集成 3 条），覆盖三张源图/WebP 哈希与预算、8 旧 id 图内化与卡片容器删除、办公室四机关与 void 出厂 hidden、状态契约与 pending 四键、八动作映射与解锁/截留逐字、分流真值表七分支 + void、交互锁与到达清场、pending 重播重新锁定与 aria 恢复、目录/记忆/遗忘/开放场景守卫边界、12 个定位类与短桌面规则。
+- CDP 实机：`/tmp/v60-qa/v60-smoke.mjs`（真实 headless Chrome + 真实鼠标/键盘 + console 捕获，种子预注入）**526/526 连续两轮全绿**，控制台零异常，第二轮完整日志 `/tmp/v60-qa/round2-full.log`，失败路径回收 Chrome、复跑零残留；CDP/独立验收抓出并修复两处生产缺陷（① 办公室分流 +2 未封顶导致 9999 时反馈与落盘分值不一致，已改 Math.min 封顶；② pending 重播不重新锁定按钮、办公室不恢复被选 aria-pressed，导致合法 pending 在场时视觉可用但点击被拦，已改为重播即 custodyLockButtons + 恢复 aria-pressed；两处静态断言同步）；视觉证据 12 张 `design-qa-evidence/v60/`（细目见 design-qa.md 本轮段落）。
+- 保护边界：`docs/KimiUsageLog.md`、全部历史 source PNG 哈希不变；未执行任何 git add/commit/push/stash；未安装依赖。
+
 ## 2026-08-01 (v59 交叉听证 / THE CROSS-EXAMINATION：三房深查 + 结案延迟拦截 + 交叉听证台)
 - 世界观续进：已结清的复核并不是终点——房间可以被深查，深查得够多，结案印就会被三张听证封签扣在桌下，原裁定要到交叉听证台再答一次。体验参考只看机制（已完成的调查可以更深、深查改变结案走向），美术文案全部原创。
 - 素材：四张冻结原图（sha256 静态断言锁定）Pillow q85 1536×1024 无裁切转码 `assets/v59-{cross-examination-desk,identity-cross-exam,evidence-cross-exam,destination-cross-exam}.webp`（188–287 KB，均在 300KB 预算内）；听证台入 HTML、三深查图入 JS 互换表，全部正式 bitmap + 图内原生热点，无卡片墙、无 inline SVG、无底部继续按钮。

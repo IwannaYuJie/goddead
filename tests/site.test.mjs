@@ -38,7 +38,7 @@ assert.match(css, /@media \(max-width: 720px\)/);
 assert.match(js, /DOMContentLoaded/);
 
 /* ---------- 场景探索结构 ---------- */
-const SCENES = ["threshold", "protocol", "corridor", "peephole-chamber", "glyph-niche", "return-passage", "eyelid-archive", "unnumbered-vestibule", "reverse-stairwell", "annex-clearinghouse", "unreturned-witness-gallery", "registry-before-zero", "descending-appeals-stair", "anomaly-review", "evidence-vault", "false-positive-shaft", "unclaimed-valuation", "quota-elevator", "unnumbered-floor", "bellless-ward", "seeping-records", "reverse-laundry", "night-shift-registry", "midnight-callback", "proxy-admission", "return-audit", "echo-turn", "vein-turnstile", "confession-locker", "unlit-lamp-gallery", "borrowed-shadow-gallery", "hinge-sorting-room", "red-thread-registry", "blank-name-cloakroom", "clapperless-bell-desk", "protocol-drift", "counter-knock-gallery", "unanswered-vestibule", "undersill-dispatch", "lagging-shadow-cloister", "ash-door-foundry", "retention-vault", "minute-before-archive", "cold-wick-service-bay", "absent-relief-locker", "unseated-listening-booth", "unnumbered-jack-field", "return-ring-morgue", "unclaimed-pneumatic-intake", "returned-address-cabinet", "blank-receipt-press", "blank-screen-underarchive", "false-confirmation-desk", "witness-carbon-archive", "echo", "vein", "confession", "echo-transfer", "vein-pump", "confession-ledger", "watch", "switchboard", "deadletter", "cancellation", "acting", "offering", "reliquary", "remembrance", "ninth", "concordance-theatre", "innocent-quarantine", "omission-transfer-shaft", "misbound-handover", "liability-ledger", "appeal-registry", "identity-correction", "evidence-contradiction", "destination-review-shaft", "cross-examination-desk"];
+const SCENES = ["threshold", "protocol", "corridor", "peephole-chamber", "glyph-niche", "return-passage", "eyelid-archive", "unnumbered-vestibule", "reverse-stairwell", "annex-clearinghouse", "unreturned-witness-gallery", "registry-before-zero", "descending-appeals-stair", "anomaly-review", "evidence-vault", "false-positive-shaft", "unclaimed-valuation", "quota-elevator", "unnumbered-floor", "bellless-ward", "seeping-records", "reverse-laundry", "night-shift-registry", "midnight-callback", "proxy-admission", "return-audit", "echo-turn", "vein-turnstile", "confession-locker", "unlit-lamp-gallery", "borrowed-shadow-gallery", "hinge-sorting-room", "red-thread-registry", "blank-name-cloakroom", "clapperless-bell-desk", "protocol-drift", "counter-knock-gallery", "unanswered-vestibule", "undersill-dispatch", "lagging-shadow-cloister", "ash-door-foundry", "retention-vault", "minute-before-archive", "cold-wick-service-bay", "absent-relief-locker", "unseated-listening-booth", "unnumbered-jack-field", "return-ring-morgue", "unclaimed-pneumatic-intake", "returned-address-cabinet", "blank-receipt-press", "blank-screen-underarchive", "false-confirmation-desk", "witness-carbon-archive", "echo", "vein", "confession", "echo-transfer", "vein-pump", "confession-ledger", "watch", "switchboard", "deadletter", "cancellation", "acting", "offering", "reliquary", "remembrance", "ninth", "concordance-theatre", "innocent-quarantine", "omission-transfer-shaft", "misbound-handover", "liability-ledger", "appeal-registry", "identity-correction", "evidence-contradiction", "destination-review-shaft", "cross-examination-desk", "chain-of-custody-office"];
 for (const s of SCENES) {
   assert.match(html, new RegExp(`data-scene="${s}"`), `scene missing: ${s}`);
 }
@@ -1112,16 +1112,17 @@ for (const c of REVIEW_CASE_ASSET_LIST) {
   await access(new URL(asset, root));
   assert.ok(js.includes(asset), `${asset} must be referenced by the case-asset map`);
 }
+/* v60 起两结果房改用 v60 新图；旧 WebP 作为历史文件保留在仓库但不再被引用 */
 for (const asset of ["assets/anomaly-evidence-vault.webp", "assets/anomaly-false-positive-shaft.webp"]) {
   await access(new URL(asset, root));
-  assert.match(html, new RegExp(asset.replace(/[/.-]/g, "\\$&")), `${asset} must be referenced`);
+  assert.ok(!html.includes(asset), `${asset} is superseded by the v60 bitmap and no longer referenced`);
 }
 for (const src of ["source-anomaly-review-baseline", "source-anomaly-review-aperture", "source-anomaly-review-rail", "source-anomaly-review-shadow", "source-anomaly-evidence-vault", "source-anomaly-false-positive-shaft"]) {
   await access(new URL(`design-references/${src}.png`, root));
 }
 assert.match(html, /assets\/anomaly-review-baseline\.webp/, "review scene references the baseline case image");
-assert.match(html, /assets\/anomaly-evidence-vault\.webp/, "evidence vault references its asset");
-assert.match(html, /assets\/anomaly-false-positive-shaft\.webp/, "false-positive shaft references its asset");
+assert.match(html, /assets\/v60-evidence-custody-vault\.webp/, "evidence vault references its v60 asset");
+assert.match(html, /assets\/v60-false-positive-custody-shaft\.webp/, "false-positive shaft references its v60 asset");
 
 /* 三个新场景：沿用 scene-branch 语言，零 inline SVG */
 const reviewSceneIds = { "anomaly-review": "异常复核科", "evidence-vault": "异常保全库", "false-positive-shaft": "误报回收井" };
@@ -1142,15 +1143,17 @@ assert.match(reviewSection[0], /id="review-response" aria-live="polite"/, "revie
 assert.match(reviewSection[0], /data-go="eyelid-archive"/, "anomaly-review keeps an explicit back exit");
 assert.ok(reviewSection[0].includes("复核不是寻找错误。复核是决定哪一份现实继续生效。"), "review epigraph verbatim");
 const vaultSection = html.match(/<section class="scene scene-branch scene-evidence-vault"[\s\S]*?<\/section>/);
-assert.equal((vaultSection[0].match(/<button class="branch-btn"/g) || []).length, 4, "evidence-vault holds exactly 4 action buttons (3 original + v34 valuation entry)");
+assert.equal((vaultSection[0].match(/<button class="branch-btn forecourt-native-hotspot/g) || []).length, 4, "evidence-vault holds exactly 4 in-picture action buttons (3 original + v34 valuation entry)");
 assert.ok(vaultSection[0].includes("封存最清楚的一处异常") && vaultSection[0].includes("把原案退回无号前厅") && vaultSection[0].includes("沿保全编号的断口离开"), "vault actions verbatim");
 assert.match(vaultSection[0], /id="vault-response" aria-live="polite"/);
 assert.match(vaultSection[0], /data-go="anomaly-review"/, "evidence-vault keeps an explicit back exit");
+assert.ok(!vaultSection[0].includes("branch-choices"), "evidence-vault must drop the old card list container");
 const shaftSection = html.match(/<section class="scene scene-branch scene-false-positive-shaft"[\s\S]*?<\/section>/);
-assert.equal((shaftSection[0].match(/<button class="branch-btn"/g) || []).length, 4, "false-positive-shaft holds exactly 4 action buttons (3 original + v34 valuation entry)");
+assert.equal((shaftSection[0].match(/<button class="branch-btn forecourt-native-hotspot/g) || []).length, 4, "false-positive-shaft holds exactly 4 in-picture action buttons (3 original + v34 valuation entry)");
 assert.ok(shaftSection[0].includes("捡回一张被判错的工单") && shaftSection[0].includes("把误报写进守则附录") && shaftSection[0].includes("承认自己是多出来的一项"), "shaft actions verbatim");
 assert.match(shaftSection[0], /id="shaft-response" aria-live="polite"/);
 assert.match(shaftSection[0], /data-go="anomaly-review"/, "false-positive-shaft keeps an explicit back exit");
+assert.ok(!shaftSection[0].includes("branch-choices"), "false-positive-shaft must drop the old card list container");
 assert.match(html, /<a href="#anomaly-review" id="review-link" hidden/);
 assert.match(html, /<a href="#evidence-vault" id="vault-link" hidden/);
 assert.match(html, /<a href="#false-positive-shaft" id="shaft-link" hidden/);
@@ -1251,7 +1254,7 @@ assert.ok(!/AutoAdvance\.schedule/.test(enterReviewBlock[0]), "direct entry neve
 assert.match(js, /if \(target === "evidence-vault" && !\(reviewState\.outcome === "vault" \|\| reviewState\.visited\.evidenceVault\)\) target = "anomaly-review";/, "vault direct access is guarded");
 assert.match(js, /if \(target === "false-positive-shaft" && !\(reviewState\.outcome === "shaft" \|\| reviewState\.visited\.falsePositiveShaft \|\| valuationState\.outcome === "breach"\)\) target = "anomaly-review";/, "shaft direct access is guarded");
 assert.match(js, /if \(name === "anomaly-review"\) enterReview\(\);/);
-assert.match(js, /if \(REVIEW_RESULT_SCENES\.includes\(name\)\) enterReviewResult\(name\);/);
+assert.match(js, /if \(REVIEW_RESULT_SCENES\.includes\(name\)\) \{ enterReviewResult\(name\); replayCustodyPending\(name\); \}/);
 assert.match(js, /paintReviewedReturn\(sceneKey, responseEl\);/, "2-point return unlocks the one-time reviewed feedback");
 assert.match(js, /异常复核：完成 \$\{st\.completedRuns\} 轮，最佳连续 \$\{st\.bestStreak\}，保全 \$\{st\.vaultEntries\} 次，误报回收 \$\{st\.shaftEntries\} 次。/, "anomaly memory line verbatim");
 assert.match(js, /paintAnomalyMemory\(\);/);
@@ -4078,6 +4081,179 @@ for (const hash of Object.values(V59_SOURCE_HASHES)) {
   assert.ok(v59doc.includes(hash), "V59 design doc must freeze the source sha256 values");
 }
 assert.match(v59doc, /goddead_v59_cross_examination/, "V59 design doc must freeze the storage key");
+
+/* ---------- v60 证物链：v33/v34 两结果房图内化 + 证物链办公室 ---------- */
+const V60_SOURCE_HASHES = {
+  "design-references/source-v60-evidence-custody-vault.png": "a08de54d0d73f39a911e41debac97aee0a916a1ff971bc232f238e0d5c154c41",
+  "design-references/source-v60-false-positive-custody-shaft.png": "44b17233f34c85978e3df12a8185df3ed42ea150bd7d96f0c766edbe1fe75368",
+  "design-references/source-v60-chain-of-custody-office.png": "1cad3a7733756daf4b018d2d6e8a7f96926ef136bed0e1f53c1fecc36ef8e7d1",
+};
+for (const [src, sha] of Object.entries(V60_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(src, root));
+  assert.equal(createHash("sha256").update(buf).digest("hex"), sha, `${src} sha256 drifted`);
+}
+const V60_WEBP = {
+  "assets/v60-evidence-custody-vault.webp": "ab020b572944ce59631c5584406a023c8ff442a0c443070467f77ee57ba662f7",
+  "assets/v60-false-positive-custody-shaft.webp": "92bc68ed0efecdc11036aad3a74e2f96577ba6162e75bc1de4d226452dcddecf",
+  "assets/v60-chain-of-custody-office.webp": "309f563ecc98c75b64dcef44b95d0736fe483a06492cbd718e1b8d8e44ef446b",
+};
+for (const [asset, sha] of Object.entries(V60_WEBP)) {
+  const buf = await readFile(new URL(asset, root));
+  assert.equal(createHash("sha256").update(buf).digest("hex"), sha, `${asset} sha256 drifted`);
+  assert.ok(buf.length <= 300 * 1024 && buf.length > 100 * 1024, `${asset} must stay within the bitmap budget (${buf.length} bytes)`);
+}
+assert.match(html, /assets\/v60-chain-of-custody-office\.webp/, "custody office references its asset");
+
+/* 八个旧 id 原样保留、移入各自 figure；底部卡片容器已删除、无隐藏副本 */
+for (const [sc, ids] of [["evidence-vault", ["vault-choice-seal", "vault-choice-return", "vault-choice-leave", "vault-choice-valuation"]], ["false-positive-shaft", ["shaft-choice-retrieve", "shaft-choice-append", "shaft-choice-admit", "shaft-choice-valuation"]]]) {
+  const section = html.match(new RegExp(`<section class="scene scene-branch scene-${sc}"[\\s\\S]*?<\\/section>`));
+  assert.ok(section, `scene section missing: ${sc}`);
+  const fig = section[0].match(/<figure class="branch-figure forecourt-tactile-stage[\s\S]*?<\/figure>/);
+  assert.ok(fig, `${sc} figure must use the tactile stage`);
+  for (const id of ids) {
+    assert.equal((section[0].match(new RegExp(`id="${id}"`, "g")) || []).length, 1, `${sc} #${id} appears exactly once`);
+    assert.ok(fig[0].includes(`id="${id}"`), `${sc} #${id} lives inside the figure`);
+  }
+  assert.ok(!section[0].includes("branch-choices"), `${sc} must drop the old card list container`);
+  assert.ok(!section[0].includes("<svg"), `${sc} must not use inline SVG`);
+  assert.ok(!section[0].includes('loading="lazy"'), `${sc} stage image must not lazy-load`);
+}
+
+/* 证物链办公室：图内四机关，空白见证位出厂 hidden */
+const chainSection = html.match(/<section class="scene scene-branch scene-chain-of-custody-office"[\s\S]*?<\/section>/);
+assert.ok(chainSection, "chain-of-custody-office scene section missing");
+assert.ok(chainSection[0].includes("证物链办公室"), "office shows its title");
+const chainFig = chainSection[0].match(/<figure class="branch-figure forecourt-tactile-stage[\s\S]*?<\/figure>/);
+assert.ok(chainFig, "office figure must use the tactile stage");
+for (const id of ["chain-action-reseal", "chain-action-amend", "chain-action-claim", "chain-action-void"]) {
+  assert.equal((chainSection[0].match(new RegExp(`id="${id}"`, "g")) || []).length, 1, `office #${id} appears exactly once`);
+  assert.ok(chainFig[0].includes(`id="${id}"`), `office #${id} lives inside the figure`);
+}
+assert.match(chainSection[0], /id="chain-action-void"[^>]*hidden/, "void seat ships hidden");
+assert.ok(!chainSection[0].includes("branch-choices") && !chainSection[0].includes("<svg"), "the office must not degrade to cards or inline SVG");
+assert.match(chainSection[0], /id="chain-response" aria-live="polite"/, "office feedback is an aria-live region");
+for (const sel of ["data-chain-custody", "data-chain-revision", "data-chain-claim", "data-chain-count"]) {
+  assert.ok(chainSection[0].includes(sel), `office slip missing ${sel}`);
+}
+assert.match(html, /<a href="#chain-of-custody-office" id="custody-chain-link" hidden/, "directory gains the hidden custody link");
+assert.ok(html.includes('01ωε / 证物链'), "directory label verbatim");
+assert.ok(html.includes('id="custody-chain-memory"'), "remembrance gains the custody memory line");
+assert.equal((html.match(/<div class="stat-card">/g) || []).length, 8, "remembrance keeps exactly eight stat cards");
+
+/* 状态契约：唯一 key、canonical 八键、白名单归一 */
+assert.match(js, /const CUSTODY_KEY = "goddead_v60_chain_of_custody";/);
+assert.equal((js.match(/goddead_v60_chain_of_custody/g) || []).length, 2, "v60 key literal appears only in its own block (comment + const), never re-referenced by string");
+const custodyParseBlock = js.match(/const getCustody = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(custodyParseBlock, "getCustody must exist");
+assert.match(custodyParseBlock[0], /\} catch \{ raw = \{\}; \}/, "corrupt custody storage must be safely repaired");
+assert.match(custodyParseBlock[0], /if \(typeof raw !== "object" \|\| Array\.isArray\(raw\)\) raw = \{\};/, "array/wrong-type storage must fall back");
+assert.match(custodyParseBlock[0], /visited\[k\] = Boolean\(raw\.visited && raw\.visited\[k\] === true\)/, "visited stays three booleans");
+assert.match(custodyParseBlock[0], /Math\.min\(CUSTODY_NUM_CAP, Math\.floor\(n\)\)/, "numbers are clamped to 0..9999");
+assert.match(custodyParseBlock[0], /\[\.\.\.new Set\(raw\.cycleActions\.filter\(\(a\) => CUSTODY_ACTION_IDS\.includes\(a\)\)\)\]\.slice\(0, 8\)/, "cycleActions are whitelisted, deduped, capped at 8");
+assert.match(custodyParseBlock[0], /\["vault", "shaft"\]\.includes\(raw\.lastSource\) \? raw\.lastSource : ""/, "lastSource whitelist");
+assert.match(custodyParseBlock[0], /CUSTODY_ACTION_IDS\.includes\(raw\.lastAction\) \? raw\.lastAction : ""/, "lastAction whitelist");
+assert.match(custodyParseBlock[0], /Object\.keys\(p\)\.sort\(\)\.join\(","\) === "action,feedback,scene,target"/, "pending accepts exactly four whitelisted keys");
+assert.ok(!/goddead_v(28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59)/.test(custodyParseBlock[0]), "v60 state must not touch earlier keys");
+const custodySaveBlock = js.match(/const saveCustody = \(st\) => store\.set\(CUSTODY_KEY, JSON\.stringify\(\{[\s\S]*?\}\)\);/);
+assert.ok(custodySaveBlock, "saveCustody must persist an explicit canonical projection");
+for (const f of ["visited", "scores", "lastSource", "lastAction", "officeRuns", "transfers", "pending"]) {
+  assert.match(custodySaveBlock[0], new RegExp(`${f}: st\\.${f},`), `saveCustody persists ${f}`);
+}
+assert.match(custodySaveBlock[0], /cycleActions: st\.cycleActions\.slice\(0, 8\),/, "saveCustody clamps cycleActions to <= 8");
+assert.equal((custodySaveBlock[0].match(/^\s+\w+:/gm) || []).length, 8, "saveCustody persists exactly the eight canonical keys");
+
+/* 八源动作固定分值映射逐字冻结 */
+for (const frag of [
+  'sealedClearestAnomaly: { source: "vault", scores: { custody: 2 } }',
+  'returnedBaselineToVestibule: { source: "vault", scores: { claim: 2 } }',
+  'leftThroughBrokenSeal: { source: "vault", scores: { revision: 2 } }',
+  'sentEvidenceToValuation: { source: "vault", scores: { custody: 1, claim: 1 } }',
+  'retrievedRejectedCase: { source: "shaft", scores: { custody: 1, claim: 1 } }',
+  'appendedFalseReport: { source: "shaft", scores: { revision: 2 } }',
+  'admittedExtraItem: { source: "shaft", scores: { claim: 2 } }',
+  'declaredRejectAsAsset: { source: "shaft", scores: { revision: 1, claim: 1 } }',
+]) assert.ok(js.includes(frag), `missing v60 source action: ${frag.slice(0, 40)}`);
+/* 解锁条件：≥3 个不同动作且两房各至少一个；只在本轮首次成立的那一拍截留 */
+assert.match(js, /const custodyUnlocked = \(actions\) => actions\.length >= 3\s*&& actions\.some\(\(a\) => CUSTODY_SOURCE_ACTIONS\[a\]\.source === "vault"\)\s*&& actions\.some\(\(a\) => CUSTODY_SOURCE_ACTIONS\[a\]\.source === "shaft"\);/, "unlock needs 3 distinct actions across both rooms");
+assert.match(js, /intercepted = !st\.pending && !wasUnlocked && custodyUnlocked\(st\.cycleActions\);/, "only the first click that newly satisfies the condition intercepts");
+assert.match(js, /if \(!st\.cycleActions\.includes\(actionId\)\) \{/, "repeat source actions never re-score");
+assert.ok(js.includes("证物链扣住了原去向。办公室的门在这时打开。"), "intercept suffix verbatim");
+assert.match(js, /p\.feedback === custodyBaseResponse\(p\.action\) \+ CUSTODY_INTERCEPT_SUFFIX/, "source pending feedback recomputes verbatim");
+assert.match(js, /cycleActions\.includes\(p\.action\) && custodyUnlocked\(cycleActions\)/, "source pending needs the action still registered and the unlock standing");
+
+/* 办公室分流真值表逐字冻结：点击后分值路由（先入账 +2），全等退责任账房 */
+assert.match(js, /post\[CUSTODY_OFFICE_ACTIONS\[actionId\]\.bank\] = Math\.min\(CUSTODY_NUM_CAP, post\[CUSTODY_OFFICE_ACTIONS\[actionId\]\.bank\] \+ 2\);/, "office routes on post-click scores, capped at 9999 so feedback never exceeds the stored score");
+const custodyRouteBlock = js.match(/const custodyOfficeRoute = \(actionId, pre\) => \{[\s\S]*?\n  \};/);
+assert.ok(custodyRouteBlock, "custodyOfficeRoute must be a pure routing function");
+assert.match(custodyRouteBlock[0], /if \(actionId === "void"\) return \{ target: "unnumbered-floor", feedback: "见证位空了。你抽走的那一格从未存在，楼层编号又退了一格。" \};/, "void always routes to the unnumbered floor without scoring");
+assert.match(custodyRouteBlock[0], /if \(c === r && r === k\) return \{ target: "liability-ledger"/, "full tie (including action-completed ties) returns to the liability ledger");
+assert.match(custodyRouteBlock[0], /if \(c > r && c > k\) return \{ target: "retention-vault"/, "strict custody high routes to the retention vault");
+assert.match(custodyRouteBlock[0], /if \(r > c && r > k\) return \{ target: "protocol-drift"/, "strict revision high routes to protocol drift");
+assert.match(custodyRouteBlock[0], /if \(k > c && k > r\) return \{ target: "returned-address-cabinet"/, "strict claim high routes to the returned-address cabinet");
+assert.match(custodyRouteBlock[0], /if \(c === r\) return \{ target: "false-confirmation-desk"/, "custody-revision tie routes to the false-confirmation desk");
+assert.match(custodyRouteBlock[0], /if \(c === k\) return \{ target: "witness-carbon-archive"/, "custody-claim tie routes to the witness-carbon archive");
+assert.match(custodyRouteBlock[0], /return \{ target: "blank-name-cloakroom"/, "revision-claim tie routes to the blank-name cloakroom");
+assert.match(js, /const custodyVoidArmed = \(scores\) => scores\.custody === scores\.revision && scores\.revision === scores\.claim && scores\.custody > 0;/, "void seat requires a positive pre-click tie");
+
+/* 逐字反馈：截留后缀 + 办公室七分支 + void */
+for (const frag of [
+  "三项完全拉平。链条拒绝指出责任方，整链退回责任账房过秤。",
+  "保全占上风。链条只进不出，证物送去留置空库。",
+  "改写占上风。被改写过的环节需要守则重写自己，证物送去守则漂移。",
+  "认领占上风。每一环都有了签收人，证物送去退址格柜。",
+  "保全与改写拉平、压过认领。封得好与改得对互相确认，证物送去假确认台。",
+  "保全与认领拉平、压过改写。每一环都有人见证，副本送去见证复写库。",
+  "改写与认领拉平、压过保全。改掉的名字无人认领，证物寄存到空名寄存处。",
+]) assert.ok(js.includes(frag), `missing v60 office feedback: ${frag.slice(0, 18)}`);
+
+/* 交互硬要求：live scene 校验、首选锁、第一拍后全热点 disabled、到达清零开新轮 */
+const chooseReviewBlock = js.match(/const chooseReviewResult = \(sceneKey, mark\) => \{[\s\S]*?\n  \};/);
+assert.match(chooseReviewBlock[0], /if \(currentScene !== sceneKey\) return;/, "v33 result actions validate the live scene");
+assert.match(chooseReviewBlock[0], /custodyLockButtons\(sceneKey\);/, "accepted source beat disables every hotspot in the scene");
+assert.match(chooseReviewBlock[0], /const custody = custodySourceBeat\(sceneKey, mark, choice\.target\);/, "v60 interception hooks after the old side effects");
+assert.match(chooseReviewBlock[0], /choice\.response \+ custody\.suffix/, "old feedback stays verbatim, suffix only appended");
+const chooseValEntryBlock60 = js.match(/const chooseValuationEntry = \(sceneKey\) => \{[\s\S]*?\n  \};/);
+assert.match(chooseValEntryBlock60[0], /if \(currentScene !== sceneKey\) return;/, "v34 entry actions validate the live scene");
+assert.match(chooseValEntryBlock60[0], /custodyLockButtons\(sceneKey\);/, "accepted v34 entry disables every hotspot in the scene");
+assert.match(chooseValEntryBlock60[0], /custodySourceBeat\(sceneKey, meta\.mark, "unclaimed-valuation"\)/, "v60 interception hooks the valuation entry");
+const chooseOfficeBlock = js.match(/const chooseCustodyOffice = \(actionId\) => \{[\s\S]*?\n  \};/);
+assert.match(chooseOfficeBlock[0], /if \(currentScene !== CUSTODY_OFFICE\) return;/, "office actions validate the live scene");
+assert.match(chooseOfficeBlock[0], /if \(AutoAdvance\.has\(CUSTODY_OFFICE\)\) return;/, "office actions respect the first-lock");
+assert.match(chooseOfficeBlock[0], /if \(st\.pending\) return;/, "office never acts twice under a live pending");
+assert.match(chooseOfficeBlock[0], /custodyLockButtons\(CUSTODY_OFFICE\);/, "first accepted office action disables every mechanism");
+const officeArriveBlock = js.match(/const custodyOfficeArrive = \(target\) => \{[\s\S]*?\n  \};/);
+assert.match(officeArriveBlock[0], /s\.officeRuns = Math\.min\(CUSTODY_NUM_CAP, s\.officeRuns \+ 1\);/, "officeRuns increments once per settlement");
+assert.match(officeArriveBlock[0], /s\.transfers = Math\.min\(CUSTODY_NUM_CAP, s\.transfers \+ 1\);/, "transfers increments once per settlement");
+assert.match(officeArriveBlock[0], /s\.cycleActions = \[\];/, "leaving the office opens a fresh round");
+assert.match(officeArriveBlock[0], /if \(LEDGER_SCENE_KEY\[target\]\) grantLedgerVisit\(target\);/, "ledger targets regain their old guard credentials");
+assert.match(js, /if \(name === "chain-of-custody-office"\) \{ enterCustodyOffice\(\); replayCustodyPending\(name\); \}/, "office scene init wiring");
+assert.match(js, /if \(REVIEW_RESULT_SCENES\.includes\(name\)\) \{ enterReviewResult\(name\); replayCustodyPending\(name\); \}/, "source scenes replay the custody pending");
+const custodyReplayBlock = js.match(/const replayCustodyPending = \(sceneName\) => \{[\s\S]*?\n  \};/);
+assert.ok(custodyReplayBlock, "replayCustodyPending must exist");
+assert.equal((custodyReplayBlock[0].match(/custodyLockButtons\(/g) || []).length, 2, "pending replay re-locks every hotspot in both branches");
+assert.match(custodyReplayBlock[0], /custodyLockButtons\(CUSTODY_OFFICE\);/, "office pending replay locks all four mechanisms");
+assert.match(custodyReplayBlock[0], /custodyLockButtons\(sceneName\);/, "source pending replay locks all four hotspots");
+assert.match(custodyReplayBlock[0], /CUSTODY_OFFICE_ACTIONS\[p\.action\]\.btn\);\s*\n\s*if \(btn\) btn\.setAttribute\("aria-pressed", "true"\);/, "office pending replay restores the chosen mechanism's aria-pressed");
+/* 办公室按设计是开放场景（同 protocol-drift）：resolveScene 不得为它改写落点，
+   直 hash 可用三个常规机关，0/0/0 时稀有机关由 paintCustody 保持 hidden */
+const resolveSceneBlock60 = js.match(/const resolveScene = \(name\) => \{[\s\S]*?\n  \};/);
+assert.ok(!resolveSceneBlock60[0].includes("chain-of-custody-office"), "the office stays an open scene by design");
+/* 遗忘全部：v60 DOM 回弹接线 */
+assert.match(js, /syncCustodyLink\(\);\s*\n\s*paintCustody\(\);\s*\n\s*CUSTODY_SOURCE_SCENES\.forEach\(custodyUnlockButtons\);\s*\n\s*custodyUnlockButtons\(CUSTODY_OFFICE\);/, "forget-all rebounds every v60 DOM surface");
+
+/* 热点定位类与短桌面规则 */
+for (const cls of ["vault-spot-seal", "vault-spot-return", "vault-spot-leave", "vault-spot-valuation", "shaft-spot-retrieve", "shaft-spot-append", "shaft-spot-admit", "shaft-spot-valuation", "chain-spot-reseal", "chain-spot-amend", "chain-spot-claim", "chain-spot-void"]) {
+  assert.match(css, new RegExp(`\\.${cls} \\{`), `css missing position class .${cls}`);
+}
+assert.match(css, /#scene-chain-of-custody-office \.branch-figure \{ width: min\(460px, 100%\); \}/, "short-desktop office figure rule");
+assert.match(css, /#scene-evidence-vault \.branch-figure,/, "short-desktop vault figure rule");
+assert.match(css, /#scene-false-positive-shaft \.branch-figure,/, "short-desktop shaft figure rule");
+
+/* v60 设计文档存在且冻结三张源图哈希 */
+const v60doc = await fileText("docs/V60ChainOfCustodyDesign.md");
+for (const hash of Object.values(V60_SOURCE_HASHES)) {
+  assert.ok(v60doc.includes(hash), "V60 design doc must freeze the source sha256 values");
+}
 
 /* ---------- v54 迫近回访：v29 三房共同记账 + 异动第四热点九分流 ---------- */
 /* 三张 v54 异动正式图存在且被引用，三张冻结源 PNG 保留 */

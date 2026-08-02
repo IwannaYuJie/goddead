@@ -943,7 +943,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (name === "annex-clearinghouse") enterClearinghouse();
     if (SETTLE_RESULT_SCENES.includes(SETTLE_NAME_SCENE[name])) enterSettleResult(SETTLE_NAME_SCENE[name]);
     if (name === "anomaly-review") enterReview();
-    if (REVIEW_RESULT_SCENES.includes(name)) enterReviewResult(name);
+    if (REVIEW_RESULT_SCENES.includes(name)) { enterReviewResult(name); replayCustodyPending(name); }
+    if (name === "chain-of-custody-office") { enterCustodyOffice(); replayCustodyPending(name); }
     if (name === "unclaimed-valuation") enterValuation();
     if (name === "quota-elevator") enterElevator();
     if (name === "unnumbered-floor") enterFloor();
@@ -996,6 +997,7 @@ document.addEventListener("DOMContentLoaded", () => {
       paintLedgerMemory();
       paintAppealMemory();
       paintCrossMemory();
+      paintCustodyMemory();
       paintValuationMemory();
       paintFloorMemory();
       paintRegistryMemory();
@@ -3265,6 +3267,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const enterReviewResult = (sceneKey) => {
     markReviewVisited(sceneKey);
+    custodyUnlockButtons(sceneKey);
     const meta = REVIEW_RESULT_META[sceneKey];
     const responseEl = $(meta.responseEl);
     if (responseEl) responseEl.textContent = "";
@@ -3278,6 +3281,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const meta = REVIEW_RESULT_META[sceneKey];
     const choice = meta && meta.choices[mark];
     if (!choice) return;
+    if (currentScene !== sceneKey) return;
     if (AutoAdvance.has(sceneKey)) return;
     const st = getReview();
     if (!st.marks.includes(mark)) st.marks.push(mark);
@@ -3285,10 +3289,15 @@ document.addEventListener("DOMContentLoaded", () => {
     /* 工单：开启新 cycle 并自动回复核科（沿用本轮入口，轮换继续移位） */
     if (choice.restart) startReview(st.entry);
     paintReviewResult(sceneKey);
+    custodyLockButtons(sceneKey);
+    /* v60 截留判定：旧副作用与旧反馈逐字保留，只可能改最终 target */
+    const custody = custodySourceBeat(sceneKey, mark, choice.target);
     const responseEl = $(meta.responseEl);
-    if (responseEl) responseEl.textContent = choice.response;
+    if (responseEl) responseEl.textContent = choice.response + custody.suffix;
     AudioEngine.knock(0.16);
-    AutoAdvance.schedule(sceneKey, choice.target, { delay: branchDelay() });
+    AutoAdvance.schedule(sceneKey, custody.target, custody.intercepted
+      ? { delay: branchDelay(), before: () => custodySourceArrive() }
+      : { delay: branchDelay() });
   };
 
   REVIEW_RESULT_SCENES.forEach((sceneKey) => {
@@ -3650,16 +3659,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const chooseValuationEntry = (sceneKey) => {
     const meta = VAL_ENTRY_META[sceneKey];
     if (!meta) return;
+    if (currentScene !== sceneKey) return;
     if (AutoAdvance.has(sceneKey)) return;
     startValuation(meta.entry);
     const st = getValuation();
     if (!st.marks.includes(meta.mark)) st.marks.push(meta.mark);
     saveValuation(st);
     paintValuationEntry(sceneKey);
+    custodyLockButtons(sceneKey);
+    /* v60 截留判定：旧副作用与旧反馈逐字保留，只可能改最终 target */
+    const custody = custodySourceBeat(sceneKey, meta.mark, "unclaimed-valuation");
     const responseEl = $(meta.responseEl);
-    if (responseEl) responseEl.textContent = meta.response;
+    if (responseEl) responseEl.textContent = meta.response + custody.suffix;
     AudioEngine.knock(0.16);
-    AutoAdvance.schedule(sceneKey, "unclaimed-valuation", { delay: branchDelay() });
+    AutoAdvance.schedule(sceneKey, custody.target, custody.intercepted
+      ? { delay: branchDelay(), before: () => custodySourceArrive() }
+      : { delay: branchDelay() });
   };
 
   Object.keys(VAL_ENTRY_META).forEach((sceneKey) => {
@@ -8301,6 +8316,313 @@ document.addEventListener("DOMContentLoaded", () => {
   paintCross();
 
   /* ============================================================
+     v60 证物链：v33/v34 两结果房图内化 + 证物链办公室
+     状态独立存 goddead_v60_chain_of_custody（全仓库唯一 key），容错坏 JSON；
+     canonical 八键显式投影落盘（visited 三布尔 / scores / cycleActions ≤8 /
+     lastSource / lastAction / officeRuns / transfers / pending），数字整数 0..9999。
+     只读写自己的键：旧动作仍照常写 v33/v34 键，v60 不伪造不改写任何
+     v28–v59 结果。pending 恰好四键（scene/action/target/feedback，额外键
+     即伪造），target/feedback 逐字重算，只消费一次。每轮同一源动作只计
+     一次分；本轮第一个使解锁条件（≥3 个不同动作且两房各至少一个）成立
+     的合法点击，在完成旧副作用后把目的地截留为证物链办公室。
+     ============================================================ */
+  const CUSTODY_KEY = "goddead_v60_chain_of_custody";
+  const CUSTODY_NUM_CAP = 9999;
+  const CUSTODY_OFFICE = "chain-of-custody-office";
+  const CUSTODY_SOURCE_SCENES = ["evidence-vault", "false-positive-shaft"];
+  const CUSTODY_SCENE_SOURCE = { "evidence-vault": "vault", "false-positive-shaft": "shaft" };
+  /* 八个合法源动作：固定分值映射（每轮每动作只计首次） */
+  const CUSTODY_SOURCE_ACTIONS = {
+    sealedClearestAnomaly: { source: "vault", scores: { custody: 2 } },
+    returnedBaselineToVestibule: { source: "vault", scores: { claim: 2 } },
+    leftThroughBrokenSeal: { source: "vault", scores: { revision: 2 } },
+    sentEvidenceToValuation: { source: "vault", scores: { custody: 1, claim: 1 } },
+    retrievedRejectedCase: { source: "shaft", scores: { custody: 1, claim: 1 } },
+    appendedFalseReport: { source: "shaft", scores: { revision: 2 } },
+    admittedExtraItem: { source: "shaft", scores: { claim: 2 } },
+    declaredRejectAsAsset: { source: "shaft", scores: { revision: 1, claim: 1 } },
+  };
+  const CUSTODY_ACTION_IDS = Object.keys(CUSTODY_SOURCE_ACTIONS);
+  const CUSTODY_INTERCEPT_SUFFIX = "证物链扣住了原去向。办公室的门在这时打开。";
+  const CUSTODY_OFFICE_ACTIONS = {
+    reseal: { btn: "#chain-action-reseal", bank: "custody" },
+    amend: { btn: "#chain-action-amend", bank: "revision" },
+    claim: { btn: "#chain-action-claim", bank: "claim" },
+    void: { btn: "#chain-action-void", bank: "" },
+  };
+  const CUSTODY_SOURCE_BTNS = {
+    "evidence-vault": ["#vault-choice-seal", "#vault-choice-return", "#vault-choice-leave", "#vault-choice-valuation"],
+    "false-positive-shaft": ["#shaft-choice-retrieve", "#shaft-choice-append", "#shaft-choice-admit", "#shaft-choice-valuation"],
+  };
+  /* 源动作旧反馈逐字：截留反馈 = 旧句 + v60 后缀，pending 重算以此为据 */
+  const custodyBaseResponse = (actionId) => {
+    const a = CUSTODY_SOURCE_ACTIONS[actionId];
+    if (!a) return "";
+    const scene = a.source === "vault" ? "evidence-vault" : "false-positive-shaft";
+    if (REVIEW_RESULT_META[scene].choices[actionId]) return REVIEW_RESULT_META[scene].choices[actionId].response;
+    return VAL_ENTRY_META[scene].response;
+  };
+  /* 解锁条件（冻结）：本轮 cycleActions ≥3 个不同动作，且两房各至少一个 */
+  const custodyUnlocked = (actions) => actions.length >= 3
+    && actions.some((a) => CUSTODY_SOURCE_ACTIONS[a].source === "vault")
+    && actions.some((a) => CUSTODY_SOURCE_ACTIONS[a].source === "shaft");
+  /* 空白见证位条件（冻结）：点击前三项完全拉平且为正 */
+  const custodyVoidArmed = (scores) => scores.custody === scores.revision && scores.revision === scores.claim && scores.custody > 0;
+  /* 办公室分流纯函数：常规动作先入账 +2 再按点击后分值路由；
+     三项全等（含常规动作补齐的拉平）退回责任账房 */
+  const custodyOfficeRoute = (actionId, pre) => {
+    if (actionId === "void") return { target: "unnumbered-floor", feedback: "见证位空了。你抽走的那一格从未存在，楼层编号又退了一格。" };
+    const post = { custody: pre.custody, revision: pre.revision, claim: pre.claim };
+    post[CUSTODY_OFFICE_ACTIONS[actionId].bank] = Math.min(CUSTODY_NUM_CAP, post[CUSTODY_OFFICE_ACTIONS[actionId].bank] + 2);
+    const c = post.custody;
+    const r = post.revision;
+    const k = post.claim;
+    const tally = `保全 ${c}、改写 ${r}、认领 ${k}`;
+    if (c === r && r === k) return { target: "liability-ledger", feedback: `${tally}，三项完全拉平。链条拒绝指出责任方，整链退回责任账房过秤。` };
+    if (c > r && c > k) return { target: "retention-vault", feedback: `${tally}，保全占上风。链条只进不出，证物送去留置空库。` };
+    if (r > c && r > k) return { target: "protocol-drift", feedback: `${tally}，改写占上风。被改写过的环节需要守则重写自己，证物送去守则漂移。` };
+    if (k > c && k > r) return { target: "returned-address-cabinet", feedback: `${tally}，认领占上风。每一环都有了签收人，证物送去退址格柜。` };
+    if (c === r) return { target: "false-confirmation-desk", feedback: `${tally}，保全与改写拉平、压过认领。封得好与改得对互相确认，证物送去假确认台。` };
+    if (c === k) return { target: "witness-carbon-archive", feedback: `${tally}，保全与认领拉平、压过改写。每一环都有人见证，副本送去见证复写库。` };
+    return { target: "blank-name-cloakroom", feedback: `${tally}，改写与认领拉平、压过保全。改掉的名字无人认领，证物寄存到空名寄存处。` };
+  };
+
+  const getCustody = () => {
+    let raw = {};
+    try {
+      raw = JSON.parse(store.get(CUSTODY_KEY, "{}")) || {};
+    } catch { raw = {}; }
+    if (typeof raw !== "object" || Array.isArray(raw)) raw = {};
+    const num = (v) => {
+      let n = Number(v);
+      if (!Number.isFinite(n) || n < 0) n = 0;
+      return Math.min(CUSTODY_NUM_CAP, Math.floor(n));
+    };
+    const visited = {};
+    ["vault", "shaft", "office"].forEach((k) => { visited[k] = Boolean(raw.visited && raw.visited[k] === true); });
+    const scores = {};
+    ["custody", "revision", "claim"].forEach((k) => { scores[k] = num(raw.scores && raw.scores[k]); });
+    /* 本轮动作登记：白名单、去重、最多 8 个 */
+    const cycleActions = Array.isArray(raw.cycleActions)
+      ? [...new Set(raw.cycleActions.filter((a) => CUSTODY_ACTION_IDS.includes(a)))].slice(0, 8)
+      : [];
+    const lastSource = ["vault", "shaft"].includes(raw.lastSource) ? raw.lastSource : "";
+    const lastAction = CUSTODY_ACTION_IDS.includes(raw.lastAction) ? raw.lastAction : "";
+    const officeRuns = num(raw.officeRuns);
+    const transfers = num(raw.transfers);
+    /* pending 恰好四键（额外键即伪造）；target/feedback 逐字重算：
+       源 pending 须 action 仍登记在本轮且解锁条件成立；
+       办公室 pending 由当前分值重算分流（点击后分值已含 +2，回减重算），
+       void 另需拉平条件成立 */
+    let pending = null;
+    if (raw.pending && typeof raw.pending === "object" && !Array.isArray(raw.pending)) {
+      const p = raw.pending;
+      if (Object.keys(p).sort().join(",") === "action,feedback,scene,target") {
+        if (CUSTODY_SOURCE_SCENES.includes(p.scene) && CUSTODY_ACTION_IDS.includes(p.action)
+          && CUSTODY_SOURCE_ACTIONS[p.action].source === CUSTODY_SCENE_SOURCE[p.scene]
+          && p.target === CUSTODY_OFFICE
+          && p.feedback === custodyBaseResponse(p.action) + CUSTODY_INTERCEPT_SUFFIX
+          && cycleActions.includes(p.action) && custodyUnlocked(cycleActions)) {
+          pending = { scene: p.scene, action: p.action, target: CUSTODY_OFFICE, feedback: p.feedback };
+        } else if (p.scene === CUSTODY_OFFICE && CUSTODY_OFFICE_ACTIONS[p.action]) {
+          const bank = CUSTODY_OFFICE_ACTIONS[p.action].bank;
+          const pre = { custody: scores.custody, revision: scores.revision, claim: scores.claim };
+          if (bank) pre[bank] = Math.max(0, pre[bank] - 2);
+          const r = custodyOfficeRoute(p.action, pre);
+          const voidOk = p.action !== "void" || custodyVoidArmed(scores);
+          if (voidOk && p.target === r.target && p.feedback === r.feedback) {
+            pending = { scene: CUSTODY_OFFICE, action: p.action, target: r.target, feedback: r.feedback };
+          }
+        }
+      }
+    }
+    return { visited, scores, cycleActions, lastSource, lastAction, officeRuns, transfers, pending };
+  };
+  /* 只持久化白名单 canonical 八键 */
+  const saveCustody = (st) => store.set(CUSTODY_KEY, JSON.stringify({
+    visited: st.visited,
+    scores: st.scores,
+    cycleActions: st.cycleActions.slice(0, 8),
+    lastSource: st.lastSource,
+    lastAction: st.lastAction,
+    officeRuns: st.officeRuns,
+    transfers: st.transfers,
+    pending: st.pending,
+  }));
+
+  /* 第一拍接受后全热点同步 disabled；回场景/遗忘时恢复 */
+  const custodyLockButtons = (sceneKey) => {
+    const sels = sceneKey === CUSTODY_OFFICE
+      ? Object.keys(CUSTODY_OFFICE_ACTIONS).map((a) => CUSTODY_OFFICE_ACTIONS[a].btn)
+      : (CUSTODY_SOURCE_BTNS[sceneKey] || []);
+    sels.forEach((sel) => { const b = $(sel); if (b) b.disabled = true; });
+  };
+  const custodyUnlockButtons = (sceneKey) => {
+    const sels = sceneKey === CUSTODY_OFFICE
+      ? Object.keys(CUSTODY_OFFICE_ACTIONS).map((a) => CUSTODY_OFFICE_ACTIONS[a].btn)
+      : (CUSTODY_SOURCE_BTNS[sceneKey] || []);
+    sels.forEach((sel) => { const b = $(sel); if (b) b.disabled = false; });
+  };
+
+  /* 源动作 v60 节拍：旧副作用完成后调用。每轮每动作只计首次（重复动作
+     继续走旧目的地、不刷分、不计入本轮解锁）；本轮第一个使解锁条件成立
+     的合法点击把目的地截留为办公室并持久化 pending；已有 pending 时不再
+     截留，旧目的地逐字保持 */
+  const custodySourceBeat = (sceneKey, actionId, baseTarget) => {
+    const meta = CUSTODY_SOURCE_ACTIONS[actionId];
+    if (!meta || CUSTODY_SCENE_SOURCE[sceneKey] !== meta.source) return { target: baseTarget, suffix: "", intercepted: false };
+    const st = getCustody();
+    if (!st.visited[meta.source]) st.visited[meta.source] = true;
+    let intercepted = false;
+    if (!st.cycleActions.includes(actionId)) {
+      const wasUnlocked = custodyUnlocked(st.cycleActions);
+      st.cycleActions.push(actionId);
+      Object.keys(meta.scores).forEach((k) => { st.scores[k] = Math.min(CUSTODY_NUM_CAP, st.scores[k] + meta.scores[k]); });
+      st.lastSource = meta.source;
+      st.lastAction = actionId;
+      intercepted = !st.pending && !wasUnlocked && custodyUnlocked(st.cycleActions);
+    }
+    if (intercepted) {
+      st.pending = { scene: sceneKey, action: actionId, target: CUSTODY_OFFICE, feedback: custodyBaseResponse(actionId) + CUSTODY_INTERCEPT_SUFFIX };
+    }
+    saveCustody(st);
+    paintCustodyMemory();
+    return intercepted ? { target: CUSTODY_OFFICE, suffix: CUSTODY_INTERCEPT_SUFFIX, intercepted: true } : { target: baseTarget, suffix: "", intercepted: false };
+  };
+
+  /* 截留到达办公室：原子记 visit 再清 pending（consume once） */
+  const custodySourceArrive = () => {
+    const s = getCustody();
+    if (!s.visited.office) s.visited.office = true;
+    if (s.pending) s.pending = null;
+    saveCustody(s);
+    syncCustodyLink();
+    paintCustodyMemory();
+  };
+
+  /* 办公室动作到达：清 pending、officeRuns/transfers 各 +1、清空
+     cycleActions 开新轮（累计 scores 保留），并补齐目标场景旧守卫凭证 */
+  const custodyOfficeArrive = (target) => {
+    const s = getCustody();
+    if (s.pending) s.pending = null;
+    s.officeRuns = Math.min(CUSTODY_NUM_CAP, s.officeRuns + 1);
+    s.transfers = Math.min(CUSTODY_NUM_CAP, s.transfers + 1);
+    s.cycleActions = [];
+    s.lastSource = "";
+    s.lastAction = "";
+    saveCustody(s);
+    if (LEDGER_SCENE_KEY[target]) grantLedgerVisit(target);
+    syncCustodyLink();
+    paintCustodyMemory();
+  };
+
+  /* 办公室动作：先校验 live scene / 合法 action / 无 pending / 无同 scope
+     AutoAdvance，再有任何副作用；第一拍接受后全部机关同步 disabled */
+  const chooseCustodyOffice = (actionId) => {
+    const meta = CUSTODY_OFFICE_ACTIONS[actionId];
+    if (!meta) return;
+    if (currentScene !== CUSTODY_OFFICE) return;
+    if (AutoAdvance.has(CUSTODY_OFFICE)) return;
+    const st = getCustody();
+    if (st.pending) return;
+    if (actionId === "void" && !custodyVoidArmed(st.scores)) return;
+    const r = custodyOfficeRoute(actionId, st.scores);
+    if (meta.bank) st.scores[meta.bank] = Math.min(CUSTODY_NUM_CAP, st.scores[meta.bank] + 2);
+    st.pending = { scene: CUSTODY_OFFICE, action: actionId, target: r.target, feedback: r.feedback };
+    saveCustody(st);
+    custodyLockButtons(CUSTODY_OFFICE);
+    const btn = $(meta.btn);
+    if (btn) btn.setAttribute("aria-pressed", "true");
+    const responseEl = $("#chain-response");
+    if (responseEl) responseEl.textContent = r.feedback;
+    AudioEngine.knock(0.16);
+    paintCustody();
+    AutoAdvance.schedule(CUSTODY_OFFICE, r.target, { delay: branchDelay(), before: () => custodyOfficeArrive(r.target) });
+  };
+
+  /* reload/离开重返节拍恢复：合法 pending 属于当前场景时逐字重播反馈并
+     精确重挂一次，不二次计分；重播期间该场景全部热点重新 disabled
+     （视觉与 pending 锁一致），办公室 pending 另恢复被选机关的 aria-pressed */
+  const replayCustodyPending = (sceneName) => {
+    const st = getCustody();
+    const p = st.pending;
+    if (!p || p.scene !== sceneName) return;
+    if (p.scene === CUSTODY_OFFICE) {
+      custodyLockButtons(CUSTODY_OFFICE);
+      const btn = $(CUSTODY_OFFICE_ACTIONS[p.action].btn);
+      if (btn) btn.setAttribute("aria-pressed", "true");
+      const responseEl = $("#chain-response");
+      if (responseEl) responseEl.textContent = p.feedback;
+      AutoAdvance.schedule(sceneName, p.target, { delay: branchDelay(), before: () => custodyOfficeArrive(p.target) });
+    } else {
+      custodyLockButtons(sceneName);
+      const responseEl = $(p.scene === "evidence-vault" ? "#vault-response" : "#shaft-response");
+      if (responseEl) responseEl.textContent = p.feedback;
+      AutoAdvance.schedule(sceneName, CUSTODY_OFFICE, { delay: branchDelay(), before: () => custodySourceArrive() });
+    }
+  };
+
+  /* 办公室进入：幂等补记 office visit（目录原子恢复）、解锁机关、清响应、重绘 */
+  const enterCustodyOffice = () => {
+    const st = getCustody();
+    if (!st.visited.office) {
+      st.visited.office = true;
+      saveCustody(st);
+      syncCustodyLink();
+    }
+    custodyUnlockButtons(CUSTODY_OFFICE);
+    Object.keys(CUSTODY_OFFICE_ACTIONS).forEach((a) => {
+      const b = $(CUSTODY_OFFICE_ACTIONS[a].btn);
+      if (b) b.setAttribute("aria-pressed", "false");
+    });
+    const responseEl = $("#chain-response");
+    if (responseEl) responseEl.textContent = "";
+    paintCustody();
+  };
+
+  /* 签条：三项分值 + 本轮登记数；空白见证位只在拉平且无 pending 时显露 */
+  const paintCustody = () => {
+    const st = getCustody();
+    $$("[data-chain-custody]").forEach((el) => { el.textContent = st.scores.custody; });
+    $$("[data-chain-revision]").forEach((el) => { el.textContent = st.scores.revision; });
+    $$("[data-chain-claim]").forEach((el) => { el.textContent = st.scores.claim; });
+    $$("[data-chain-count]").forEach((el) => { el.textContent = `${st.cycleActions.length}/8`; });
+    const voidBtn = $("#chain-action-void");
+    if (voidBtn) {
+      if (custodyVoidArmed(st.scores) && !st.pending) voidBtn.removeAttribute("hidden");
+      else voidBtn.setAttribute("hidden", "");
+    }
+  };
+
+  const syncCustodyLink = () => {
+    const link = $("#custody-chain-link");
+    if (!link) return;
+    if (getCustody().visited.office) link.removeAttribute("hidden");
+    else link.setAttribute("hidden", "");
+  };
+
+  /* 痕迹页单行：累计交接、办公室结算、三项分值、本轮登记数；八卡不变 */
+  const paintCustodyMemory = () => {
+    const memory = $("#custody-chain-memory");
+    if (!memory) return;
+    const st = getCustody();
+    const active = st.visited.vault || st.visited.shaft || st.visited.office
+      || st.officeRuns > 0 || st.transfers > 0 || st.cycleActions.length > 0;
+    if (!active) {
+      memory.hidden = true;
+      return;
+    }
+    memory.textContent = `证物链：交接 ${st.transfers} 次，办公室结算 ${st.officeRuns} 次；保全 ${st.scores.custody}，改写 ${st.scores.revision}，认领 ${st.scores.claim}，本轮已登记 ${st.cycleActions.length}/8。`;
+    memory.hidden = false;
+  };
+
+  Object.keys(CUSTODY_OFFICE_ACTIONS).forEach((actionId) => {
+    const btn = $(CUSTODY_OFFICE_ACTIONS[actionId].btn);
+    if (btn) btn.addEventListener("click", () => chooseCustodyOffice(actionId));
+  });
+  paintCustody();
+
+  /* ============================================================
      v40 门外侧廊：首页纵深环境层 + 左右廊热点 + 三个画面热点场景
      状态独立存 goddead_v40_lateral_corridors，容错坏 JSON；
      pending 必须是 {scene, action, target, feedback} 完整合法映射；
@@ -12411,6 +12733,10 @@ document.addEventListener("DOMContentLoaded", () => {
       paintCross();
       resetCrossArmed();
       APPEAL_ROOM_KEYS.forEach(syncCrossRoom);
+      syncCustodyLink();
+      paintCustody();
+      CUSTODY_SOURCE_SCENES.forEach(custodyUnlockButtons);
+      custodyUnlockButtons(CUSTODY_OFFICE);
       ANOMALY_ROOMS.forEach((r) => syncEvidenceRoom(ANOMALY_ROOM_SCENE[r]));
       syncLateralLinks();
       syncBackroomLinks();
@@ -12437,6 +12763,7 @@ document.addEventListener("DOMContentLoaded", () => {
       paintLedgerMemory();
       paintAppealMemory();
       paintCrossMemory();
+      paintCustodyMemory();
       paintValuationMemory();
       paintFloorMemory();
       paintRegistryMemory();
@@ -12526,6 +12853,8 @@ document.addEventListener("DOMContentLoaded", () => {
   paintCrossMemory();
   paintCross();
   APPEAL_ROOM_KEYS.forEach(syncCrossRoom);
+  syncCustodyLink();
+  paintCustody();
   syncLateralLinks();
   paintLateralMemory();
   syncBackroomLinks();
