@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-    <link rel="stylesheet" href="styles.css?v=54">
+    <link rel="stylesheet" href="styles.css?v=55">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -2664,6 +2664,21 @@
             <button class="sidetone-hotspot booth-action-chair" id="sidetone-booth-action-chair" type="button" aria-label="坐进一直保持摘机状态的操作椅" data-hover>
               <span class="dh-label" aria-hidden="true">坐失席</span>
             </button>
+            <button class="sidetone-hotspot booth-listen-entry" id="listening-back-entry-booth" type="button" aria-label="留意右侧没有发声却慢慢转向你的铜喇叭阵列" data-hover hidden>
+              <span class="dh-label" aria-hidden="true">听反线</span>
+            </button>
+            <button class="sidetone-hotspot booth-listen-hold-receiver" id="listening-back-booth-hold-receiver" type="button" aria-pressed="false" aria-label="让无人听筒听完你的呼吸" data-hover hidden>
+              <span class="dh-label" aria-hidden="true">守听筒</span>
+            </button>
+            <button class="sidetone-hotspot booth-listen-return-breath" id="listening-back-booth-return-breath" type="button" aria-pressed="false" aria-label="把未说出口的话送回总线" data-hover hidden>
+              <span class="dh-label" aria-hidden="true">回空话</span>
+            </button>
+            <button class="sidetone-hotspot booth-listen-leave-seat" id="listening-back-booth-leave-seat" type="button" aria-pressed="false" aria-label="让失席继续空着" data-hover hidden>
+              <span class="dh-label" aria-hidden="true">留失席</span>
+            </button>
+            <button class="sidetone-hotspot booth-listen-return" id="listening-back-booth-return" type="button" aria-label="松开线路，直接回到反听总台" data-hover hidden>
+              <span class="dh-label" aria-hidden="true">松线返回</span>
+            </button>
           </figure>
           <p class="branch-response" id="sidetone-booth-response" aria-live="polite"></p>
 
@@ -2692,6 +2707,21 @@
             </button>
             <button class="sidetone-hotspot jack-action-tag" id="sidetone-jack-action-tag" type="button" aria-label="把完全空白的瓷质线签挂上插孔墙" data-hover>
               <span class="dh-label" aria-hidden="true">挂空签</span>
+            </button>
+            <button class="sidetone-hotspot jack-listen-entry" id="listening-back-entry-jack" type="button" aria-label="查看墙面上没有插孔却自己绕成线路图的游线" data-hover hidden>
+              <span class="dh-label" aria-hidden="true">追回授</span>
+            </button>
+            <button class="sidetone-hotspot jack-listen-bridge-aperture" id="listening-back-jack-bridge-aperture" type="button" aria-pressed="false" aria-label="跨接醒着的暗红孔" data-hover hidden>
+              <span class="dh-label" aria-hidden="true">跨红孔</span>
+            </button>
+            <button class="sidetone-hotspot jack-listen-loop-plug" id="listening-back-jack-loop-plug" type="button" aria-pressed="false" aria-label="让游线插头接回自己" data-hover hidden>
+              <span class="dh-label" aria-hidden="true">回接游线</span>
+            </button>
+            <button class="sidetone-hotspot jack-listen-ground-tag" id="listening-back-jack-ground-tag" type="button" aria-pressed="false" aria-label="用空白线签接地" data-hover hidden>
+              <span class="dh-label" aria-hidden="true">线签接地</span>
+            </button>
+            <button class="sidetone-hotspot jack-listen-return" id="listening-back-jack-return" type="button" aria-label="松开线路，直接回到反听总台" data-hover hidden>
+              <span class="dh-label" aria-hidden="true">松线返回</span>
             </button>
           </figure>
           <p class="branch-response" id="sidetone-jack-response" aria-live="polite"></p>
@@ -2722,12 +2752,72 @@
             <button class="sidetone-hotspot morgue-action-bell" id="sidetone-morgue-action-bell" type="button" aria-label="敲响内部结着黑蜡的黄铜铃碗" data-hover>
               <span class="dh-label" aria-hidden="true">敲蜡铃</span>
             </button>
+            <button class="sidetone-hotspot morgue-listen-entry" id="listening-back-entry-morgue" type="button" aria-label="望向后墙按你的呼吸次序逐盏亮起的成排信号灯" data-hover hidden>
+              <span class="dh-label" aria-hidden="true">看回灯</span>
+            </button>
+            <button class="sidetone-hotspot morgue-listen-relight-lamp" id="listening-back-morgue-relight-lamp" type="button" aria-pressed="false" aria-label="重亮被退回的信号灯" data-hover hidden>
+              <span class="dh-label" aria-hidden="true">重亮回灯</span>
+            </button>
+            <button class="sidetone-hotspot morgue-listen-reverse-slip" id="listening-back-morgue-reverse-slip" type="button" aria-pressed="false" aria-label="把退回单从背面送回" data-hover hidden>
+              <span class="dh-label" aria-hidden="true">反送退单</span>
+            </button>
+            <button class="sidetone-hotspot morgue-listen-seal-bell" id="listening-back-morgue-seal-bell" type="button" aria-pressed="false" aria-label="把裂开的黑蜡重新压紧" data-hover hidden>
+              <span class="dh-label" aria-hidden="true">封死铃蜡</span>
+            </button>
+            <button class="sidetone-hotspot morgue-listen-return" id="listening-back-morgue-return" type="button" aria-label="松开线路，直接回到反听总台" data-hover hidden>
+              <span class="dh-label" aria-hidden="true">松线返回</span>
+            </button>
           </figure>
           <p class="branch-response" id="sidetone-morgue-response" aria-live="polite"></p>
 
           <nav class="scene-exits reveal" aria-label="离开回铃陈放室">
             <button class="exit-link" type="button" data-go="switchboard" data-hover>⟵ 回到交换台</button>
           </nav>
+        </div>
+      </section>
+
+      <!-- 反听总台（v62 反听总台 / THE SIGNAL LISTENS BACK） -->
+      <section class="scene scene-branch scene-listening-back-console" id="scene-listening-back-console" data-scene="listening-back-console" data-title="Goddead — 反听总台" aria-label="反听总台">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE SIGNAL LISTENS BACK · 反 听 总 台</p>
+            <h2 class="sec-title">反听总台</h2>
+            <p class="sec-desc">你以为线路在等回答。它只是在决定先记住哪一段你。</p>
+          </header>
+
+          <div class="review-slip ledger-slip reveal" role="group" aria-label="反听签">
+            <span class="rs-item">接收 <b data-listening-receive>0</b></span>
+            <span class="rs-item">回授 <b data-listening-feedback>0</b></span>
+            <span class="rs-item">静默 <b data-listening-silence>0</b></span>
+            <span class="rs-item">暴露 <b data-listening-exposure>0</b></span>
+            <span class="rs-item">已接听 <b data-listening-count>0/3</b></span>
+          </div>
+
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="反听总台：左侧失席线路板、中央无号线路板、右侧退回线路板、前景接地刀">
+            <img class="branch-img" src="assets/v62-listening-back-console.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot listening-spot-board-booth" id="listening-back-board-booth" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">失席</span>
+              <span class="bb-title">接听失席线路</span>
+              <span class="bb-hint">听筒要记录你如何回答</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot listening-spot-board-jack" id="listening-back-board-jack" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">无号</span>
+              <span class="bb-title">接听无号线路</span>
+              <span class="bb-hint">每个空孔都在等同一个回声</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot listening-spot-board-morgue" id="listening-back-board-morgue" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">退回</span>
+              <span class="bb-title">接听退回线路</span>
+              <span class="bb-hint">那通电话要求再死一次</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot listening-spot-lever" id="listening-back-lever" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">接地</span>
+              <span class="bb-title">提前接地</span>
+              <span class="bb-hint">接地刀只落一次</span>
+            </button>
+          </figure>
+          <p class="listening-back-hint" id="listening-back-hint"></p>
+          <p class="branch-response" id="listening-back-response" aria-live="polite"></p>
         </div>
       </section>
 
@@ -3869,6 +3959,7 @@
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory belief-memory pressure-memory floor-anomaly-memory evidence-audit-memory consequence-ledger-memory appeal-memory cross-exam-memory" id="cross-exam-memory" hidden></p>
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory belief-memory pressure-memory floor-anomaly-memory evidence-audit-memory consequence-ledger-memory appeal-memory cross-exam-memory custody-chain-memory" id="custody-chain-memory" hidden></p>
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory belief-memory pressure-memory floor-anomaly-memory evidence-audit-memory consequence-ledger-memory appeal-memory cross-exam-memory custody-chain-memory failure-memory" id="failure-memory" hidden></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory belief-memory pressure-memory floor-anomaly-memory evidence-audit-memory consequence-ledger-memory appeal-memory cross-exam-memory custody-chain-memory failure-memory listening-back-memory" id="listening-back-memory" hidden></p>
 
           <div class="reliquary-slot reveal" id="reliquary-slot"></div>
 
@@ -4016,6 +4107,7 @@
       <a href="#unseated-listening-booth" id="sidetone-booth-link" hidden data-hover>02μ / 失席</a>
       <a href="#unnumbered-jack-field" id="sidetone-jack-link" hidden data-hover>02ν / 无号孔</a>
       <a href="#return-ring-morgue" id="sidetone-morgue-link" hidden data-hover>02ξ / 回铃</a>
+      <a href="#listening-back-console" id="listening-back-link" hidden data-hover>02μ½ / 反听总台</a>
       <a href="#unclaimed-pneumatic-intake" id="return-intake-link" hidden data-hover>02ο / 气送井</a>
       <a href="#returned-address-cabinet" id="return-cabinet-link" hidden data-hover>02π / 退址柜</a>
       <a href="#blank-receipt-press" id="return-press-link" hidden data-hover>02ρ / 压印台</a>
@@ -4045,6 +4137,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=54"></script>
+    <script src="script.js?v=55"></script>
   </body>
 </html>

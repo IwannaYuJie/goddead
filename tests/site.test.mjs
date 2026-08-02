@@ -30,15 +30,15 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=54/);
-assert.match(html, /script\.js\?v=54/);
+assert.match(html, /styles\.css\?v=55/);
+assert.match(html, /script\.js\?v=55/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
 assert.match(js, /DOMContentLoaded/);
 
 /* ---------- 场景探索结构 ---------- */
-const SCENES = ["threshold", "protocol", "corridor", "peephole-chamber", "glyph-niche", "return-passage", "eyelid-archive", "unnumbered-vestibule", "reverse-stairwell", "annex-clearinghouse", "unreturned-witness-gallery", "registry-before-zero", "descending-appeals-stair", "anomaly-review", "evidence-vault", "false-positive-shaft", "unclaimed-valuation", "quota-elevator", "unnumbered-floor", "bellless-ward", "seeping-records", "reverse-laundry", "night-shift-registry", "midnight-callback", "proxy-admission", "return-audit", "echo-turn", "vein-turnstile", "confession-locker", "unlit-lamp-gallery", "borrowed-shadow-gallery", "hinge-sorting-room", "red-thread-registry", "blank-name-cloakroom", "clapperless-bell-desk", "protocol-drift", "counter-knock-gallery", "unanswered-vestibule", "undersill-dispatch", "lagging-shadow-cloister", "ash-door-foundry", "retention-vault", "minute-before-archive", "cold-wick-service-bay", "absent-relief-locker", "unseated-listening-booth", "unnumbered-jack-field", "return-ring-morgue", "unclaimed-pneumatic-intake", "returned-address-cabinet", "blank-receipt-press", "blank-screen-underarchive", "false-confirmation-desk", "witness-carbon-archive", "echo", "vein", "confession", "echo-transfer", "vein-pump", "confession-ledger", "watch", "switchboard", "deadletter", "cancellation", "acting", "offering", "reliquary", "remembrance", "ninth", "concordance-theatre", "innocent-quarantine", "omission-transfer-shaft", "misbound-handover", "liability-ledger", "appeal-registry", "identity-correction", "evidence-contradiction", "destination-review-shaft", "cross-examination-desk", "chain-of-custody-office"];
+const SCENES = ["threshold", "protocol", "corridor", "peephole-chamber", "glyph-niche", "return-passage", "eyelid-archive", "unnumbered-vestibule", "reverse-stairwell", "annex-clearinghouse", "unreturned-witness-gallery", "registry-before-zero", "descending-appeals-stair", "anomaly-review", "evidence-vault", "false-positive-shaft", "unclaimed-valuation", "quota-elevator", "unnumbered-floor", "bellless-ward", "seeping-records", "reverse-laundry", "night-shift-registry", "midnight-callback", "proxy-admission", "return-audit", "echo-turn", "vein-turnstile", "confession-locker", "unlit-lamp-gallery", "borrowed-shadow-gallery", "hinge-sorting-room", "red-thread-registry", "blank-name-cloakroom", "clapperless-bell-desk", "protocol-drift", "counter-knock-gallery", "unanswered-vestibule", "undersill-dispatch", "lagging-shadow-cloister", "ash-door-foundry", "retention-vault", "minute-before-archive", "cold-wick-service-bay", "absent-relief-locker", "unseated-listening-booth", "unnumbered-jack-field", "return-ring-morgue", "unclaimed-pneumatic-intake", "returned-address-cabinet", "blank-receipt-press", "blank-screen-underarchive", "false-confirmation-desk", "witness-carbon-archive", "echo", "vein", "confession", "echo-transfer", "vein-pump", "confession-ledger", "watch", "switchboard", "deadletter", "cancellation", "acting", "offering", "reliquary", "remembrance", "ninth", "concordance-theatre", "innocent-quarantine", "omission-transfer-shaft", "misbound-handover", "liability-ledger", "appeal-registry", "identity-correction", "evidence-contradiction", "destination-review-shaft", "cross-examination-desk", "chain-of-custody-office", "listening-back-console"];
 for (const s of SCENES) {
   assert.match(html, new RegExp(`data-scene="${s}"`), `scene missing: ${s}`);
 }
@@ -489,8 +489,8 @@ for (const asset of VISUAL_ASSETS) {
 await access(new URL("assets/prayer-incinerator-burning.webp", root));
 assert.match(html, /assets\/prayer-incinerator-burning\.webp/);
 assert.match(html, /<link rel="preload" href="assets\/prayer-incinerator-burning\.webp" as="image">/);
-assert.match(html, /styles\.css\?v=54/);
-assert.match(html, /script\.js\?v=54/);
+assert.match(html, /styles\.css\?v=55/);
+assert.match(html, /script\.js\?v=55/);
 const offeringFigureHtml = html.match(/<figure class="offering-figure[^"]*" role="img" aria-label="[^"]*">[\s\S]*?<\/figure>/);
 assert.ok(offeringFigureHtml, "offering figure must exist");
 assert.match(offeringFigureHtml[0], /aria-label="一座沉寂的焚献炉"/);
@@ -3664,11 +3664,11 @@ assert.match(js, /if \(LEDGER_SCENES\.includes\(target\) && ledgerGuard\.pending
 assert.match(js, /if \(LEDGER_SCENES\.includes\(name\)\) \{ enterLedgerScene\(name\); replayLedgerPending\(name\); \}/, "ledger scene entry replays a legal pending");
 assert.match(forgetBlockV56[0], /syncLedgerLinks\(\);/, "forget-all resets the v57 directory links");
 assert.match(forgetBlockV56[0], /paintLedgerMemory\(\);/, "forget-all hides the v57 memory line");
-/* synthetic 守卫：15 动作监听只接受 isTrusted 真实 click，合成 HTMLElement.click() 零副作用 */
+/* synthetic 守卫：34 动作监听只接受 isTrusted 真实 click，合成 HTMLElement.click() 零副作用 */
 assert.match(js, /if \(btn\) btn\.addEventListener\("click", \(ev\) => \{ if \(!ev\.isTrusted\) return; chooseConsequenceAction\(sceneKey, actionKey\); \}\);/, "consequence listeners reject synthetic clicks");
 assert.match(js, /if \(btn\) btn\.addEventListener\("click", \(ev\) => \{ if \(!ev\.isTrusted\) return; chooseLedgerAction\(actionKey\); \}\);/, "ledger listeners reject synthetic clicks");
-assert.equal((js.match(/ev\.isTrusted/g) || []).length, 15, "exactly the v57 (2) + v58 (5) + v59 (3) + v61 (5) listener groups carry the isTrusted guard");
-assert.equal((js.match(/addEventListener\("click", \(ev\)/g) || []).length, 15, "no other click listener signature was touched");
+assert.equal((js.match(/ev\.isTrusted/g) || []).length, 34, "exactly the v57 (2) + v58 (5) + v59 (3) + v61 (5) + v62 (19) listener groups carry the isTrusted guard");
+assert.equal((js.match(/addEventListener\("click", \(ev\)/g) || []).length, 34, "no other click listener signature was touched");
 /* DOM：五场景各三热点入图、无卡片无 SVG、目录×5、记忆单行、8 卡 */
 for (const [scene, ids] of [["concordance-theatre", ["theatre-action-bind-testimony", "theatre-action-preserve-dissent", "theatre-action-substitute-witness"]], ["innocent-quarantine", ["quarantine-action-release-innocent", "quarantine-action-extend-quarantine", "quarantine-action-stand-in"]], ["omission-transfer-shaft", ["shaft-action-descend-after", "shaft-action-transfer-omission", "shaft-action-seal-omission"]], ["misbound-handover", ["misbound-action-admit-misbind", "misbound-action-reassign-empty", "misbound-action-break-cuffs"]], ["liability-ledger", ["ledger-action-return-verdict", "ledger-action-sign-self", "ledger-action-assign-vacancy"]]]) {
   const section = html.match(new RegExp(`<section class="scene scene-branch scene-${scene}"[\\s\\S]*?<\\/section>`));
@@ -4440,7 +4440,7 @@ assert.match(failureReplayBlock[0], /failureLockDesk\(\);/, "desk pending replay
 assert.match(failureReplayBlock[0], /failureLockRoom\(p\.room\);/, "room pending replay re-locks all four hotspots");
 assert.equal((failureReplayBlock[0].match(/setAttribute\("aria-pressed", "true"\)/g) || []).length, 2, "replay restores the chosen hotspot's aria-pressed in both scopes");
 /* v61 五组监听只接受 isTrusted 真实 click */
-assert.equal((js.match(/ev\.isTrusted/g) || []).length, 15, "v57 (2) + v58 (5) + v59 (3) + v61 (5) listener groups carry the isTrusted guard");
+assert.equal((js.match(/ev\.isTrusted/g) || []).length, 34, "v57 (2) + v58 (5) + v59 (3) + v61 (5) + v62 (19) listener groups carry the isTrusted guard");
 
 /* 守卫与接线：desk 窄守卫、sceneInit、遗忘回弹 */
 assert.match(js, /if \(target === FAILURE_DESK && failureGuard\.pendingTarget !== FAILURE_DESK && !failureGuard\.visited\.desk\s*\n\s*&& !FAILURE_ROOMS\.some\(\(r\) => failureGuard\.selections\[r\]\) && !failureGuard\.replayRoom\)/, "desk guard admits only legal pending, a past visit, or an active round");
@@ -4459,6 +4459,307 @@ assert.match(css, /#scene-failure-reconstruction-desk \.branch-figure \{ width: 
 const v61doc = await fileText("docs/V61FailureReconstructionDesign.md");
 for (const hash of Object.values(V61_SOURCE_HASHES)) {
   assert.ok(v61doc.includes(hash), "V61 design doc must freeze the source sha256 values");
+}
+
+/* ---------- v62 反听总台：v46 三旁线房反听态 + 反听总台三线路板 + 接地刀 ---------- */
+/* 四张冻结源 PNG 与四张 WebP 的 sha256 / 尺寸 / 引用 */
+const V62_SOURCE_HASHES = {
+  "design-references/source-v62-listening-back-booth.png": "0d41de5d3ffef29d66be6c39d737e4d77c19b221c6cd18ac7e51e93859216c11",
+  "design-references/source-v62-listening-back-jack-field.png": "fa5968b09710d0e34cadf093df98d965ead86331039db97c12ef65f1d517ebb2",
+  "design-references/source-v62-listening-back-ring-morgue.png": "28a6b862d894f5696b88e6e2daf1318e6ef572e520b7f3db6b1e42595de14f1d",
+  "design-references/source-v62-listening-back-console.png": "59ba101047287a6c9e0845e1906402953260a30a7242f4058b4a40db4d20b97c",
+};
+for (const [src, sha] of Object.entries(V62_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(src, root));
+  assert.equal(createHash("sha256").update(buf).digest("hex"), sha, `${src} must keep its frozen sha256`);
+}
+const V62_WEBP = {
+  "assets/v62-listening-back-booth.webp": "8adc1ff729073fc8fd9dac794e24c90e46eec4949288d1b744de5258a7a98b7c",
+  "assets/v62-listening-back-jack-field.webp": "aa9e9b28a3e4c3af176f45effa4bb1694cb2011c2aa9927bf71e2510444e0fb7",
+  "assets/v62-listening-back-ring-morgue.webp": "94577d274759a28f763dbecb9e098f505fdfdfb3a93d4fad45fb2b5c5ff2c94a",
+  "assets/v62-listening-back-console.webp": "6a7b1051f5b380c293db77bdf9fe0d5d19c10e219266f050cb13cdb2be189cba",
+};
+for (const [asset, sha] of Object.entries(V62_WEBP)) {
+  const buf = await readFile(new URL(asset, root));
+  assert.ok(buf.length > 100000 && buf.length < 300000, `${asset} must stay a full-size 100-300KB transcode`);
+  assert.equal(createHash("sha256").update(buf).digest("hex"), sha, `${asset} must keep its frozen sha256`);
+}
+assert.match(html, /assets\/v62-listening-back-console\.webp/, "listening console references its asset");
+for (const frag of ['replayImg: "assets/v62-listening-back-booth.webp"', 'replayImg: "assets/v62-listening-back-jack-field.webp"', 'replayImg: "assets/v62-listening-back-ring-morgue.webp"']) {
+  assert.ok(js.includes(frag), `missing v62 replay image swap: ${frag.slice(0, 48)}`);
+}
+for (const frag of ['baseImg: "assets/unseated-listening-booth.webp"', 'baseImg: "assets/unnumbered-jack-field.webp"', 'baseImg: "assets/return-ring-morgue.webp"']) {
+  assert.ok(js.includes(frag), `v62 keeps the v46 base image: ${frag.slice(0, 44)}`);
+}
+
+/* 86 → 87 场景：新场景入 SCENES 与路由 */
+assert.ok(SCENES.includes("listening-back-console"), "SCENES must list the listening console");
+assert.equal(new Set([...html.matchAll(/data-scene="([^"]+)"/g)].map((m) => m[1])).size, 87, "86 -> 87 scenes");
+const consoleSection = html.match(/<section class="scene scene-branch scene-listening-back-console"[\s\S]*?<\/section>/);
+assert.ok(consoleSection, "scene section missing: listening-back-console");
+assert.match(consoleSection[0], /data-scene="listening-back-console" data-title="Goddead — 反听总台" aria-label="反听总台"/);
+assert.match(consoleSection[0], /THE SIGNAL LISTENS BACK · 反 听 总 台/);
+assert.match(consoleSection[0], /<h2 class="sec-title">反听总台<\/h2>/);
+assert.ok(consoleSection[0].includes("你以为线路在等回答。它只是在决定先记住哪一段你。"), "console epigraph verbatim");
+assert.match(consoleSection[0], /src="assets\/v62-listening-back-console\.webp" alt="" width="1536" height="1024"/);
+const consoleFigure = consoleSection[0].match(/<figure[\s\S]*?<\/figure>/);
+for (const id of ["listening-back-board-booth", "listening-back-board-jack", "listening-back-board-morgue", "listening-back-lever"]) {
+  assert.ok(consoleFigure[0].includes(`id="${id}"`), `console figure must hold #${id} inside the picture`);
+}
+assert.match(consoleSection[0], /id="listening-back-lever" type="button" aria-pressed="false" data-hover hidden/, "ground lever ships hidden");
+for (const attr of ["data-listening-receive", "data-listening-feedback", "data-listening-silence", "data-listening-exposure", "data-listening-count"]) {
+  assert.ok(consoleSection[0].includes(attr), `console slip missing ${attr}`);
+}
+assert.ok(consoleSection[0].includes('id="listening-back-hint"'), "console carries the derived hint line");
+assert.match(consoleSection[0], /id="listening-back-response" aria-live="polite"/);
+assert.ok(!consoleSection[0].includes("branch-choices") && !consoleSection[0].includes("scene-exits"), "console adds no bottom continue card and no exit nav");
+assert.ok(!consoleSection[0].includes("<svg"), "console must not degrade to inline SVG");
+
+/* 三旧房：v62 入口 + 三 response + 松线返回全部入图且出厂 hidden；旧九动作原样保留 */
+for (const [scene, ids] of [
+  ["unseated-listening-booth", ["listening-back-entry-booth", "listening-back-booth-hold-receiver", "listening-back-booth-return-breath", "listening-back-booth-leave-seat", "listening-back-booth-return"]],
+  ["unnumbered-jack-field", ["listening-back-entry-jack", "listening-back-jack-bridge-aperture", "listening-back-jack-loop-plug", "listening-back-jack-ground-tag", "listening-back-jack-return"]],
+  ["return-ring-morgue", ["listening-back-entry-morgue", "listening-back-morgue-relight-lamp", "listening-back-morgue-reverse-slip", "listening-back-morgue-seal-bell", "listening-back-morgue-return"]],
+]) {
+  const section = html.match(new RegExp(`<section class="scene scene-branch scene-sidetone scene-${scene}"[\\s\\S]*?<\\/section>`));
+  assert.ok(section, `scene section missing: ${scene}`);
+  const figure = section[0].match(/<figure[\s\S]*?<\/figure>/);
+  for (const id of ids) {
+    assert.ok(figure[0].includes(`id="${id}"`), `${scene} figure must hold #${id} inside the picture`);
+    assert.match(figure[0], new RegExp(`id="${id}" type="button"[^>]*hidden`), `${id} ships hidden`);
+  }
+}
+for (const id of ["sidetone-booth-action-earpiece", "sidetone-booth-action-mouthpiece", "sidetone-booth-action-chair", "sidetone-jack-action-plug", "sidetone-jack-action-socket", "sidetone-jack-action-tag", "sidetone-morgue-action-lamp", "sidetone-morgue-action-slip", "sidetone-morgue-action-bell"]) {
+  assert.ok(html.includes(`id="${id}" type="button"`), `old v46 action ${id} unchanged`);
+}
+for (const short of ["听反线", "追回授", "看回灯", "守听筒", "回空话", "留失席", "跨红孔", "回接游线", "线签接地", "重亮回灯", "反送退单", "封死铃蜡", "松线返回"]) {
+  assert.ok(html.includes(`>${short}</span>`), `missing v62 short label: ${short}`);
+}
+
+/* 状态契约：唯一 key、version 62、canonical 十键显式投影、归一白名单 */
+assert.match(js, /const LISTENING_KEY = "goddead_v62_listening_back";/);
+assert.equal((js.match(/goddead_v62_listening_back/g) || []).length, 2, "v62 key literal appears only in its own block (comment + const)");
+assert.match(js, /const LISTENING_VERSION = 62;/);
+const listeningParseBlock = js.match(/const getListening = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(listeningParseBlock, "getListening must exist");
+assert.match(listeningParseBlock[0], /\} catch \{ raw = \{\}; \}/, "corrupt listening storage must be safely repaired");
+assert.match(listeningParseBlock[0], /if \(typeof raw !== "object" \|\| Array\.isArray\(raw\)\) raw = \{\};/, "array/wrong-type listening storage must fall back");
+assert.match(listeningParseBlock[0], /if \(raw\.version !== LISTENING_VERSION\) raw = \{\};/, "wrong version drops the whole record");
+assert.match(listeningParseBlock[0], /Math\.min\(LISTENING_NUM_CAP, Math\.floor\(n\)\)/, "listening counters must be clamped 0..9999");
+assert.match(listeningParseBlock[0], /Object\.keys\(h\)\.sort\(\)\.join\(","\) !== "action,cycle,room"/, "history entries accept exactly three whitelisted keys");
+assert.match(listeningParseBlock[0], /history\.some\(\(x\) => x\.cycle === hc && x\.room === h\.room\)/, "same cycle keeps only the first entry per room");
+assert.match(listeningParseBlock[0], /history = history\.slice\(-LISTENING_HISTORY_CAP\);/, "history is bounded to the last 16 valid entries");
+assert.ok(listeningParseBlock[0].indexOf("history = history.slice(-LISTENING_HISTORY_CAP);") < listeningParseBlock[0].indexOf("if (raw.pending &&"), "canonical history is parsed before pending validation");
+assert.match(listeningParseBlock[0], /LISTENING_LAST_OUTCOMES\.includes\(raw\.lastOutcome\) \? raw\.lastOutcome : ""/, "lastOutcome whitelisted to nine targets plus three early cutoffs");
+assert.match(listeningParseBlock[0], /LISTENING_ROOMS\.includes\(raw\.replayRoom\) \? raw\.replayRoom : ""/, "replayRoom whitelisted");
+assert.ok(!/goddead_v(28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59|60|61)/.test(listeningParseBlock[0]), "v62 state must not touch earlier keys");
+/* 六类 pending 精确键集（额外键即伪造）+ 逐字重算 + 严格证据 */
+for (const frag of [
+  'if (p.kind === "entry" && keys === "cycle,feedback,kind,room,scene,target"',
+  'else if (p.kind === "board" && keys === "action,cycle,feedback,kind,scene,target"',
+  'else if (p.kind === "response" && keys === "action,cycle,feedback,kind,room,scene,target"',
+  'else if (p.kind === "return" && keys === "cycle,feedback,kind,room,scene,target"',
+  'else if (p.kind === "settle" && keys === "cycle,feedback,kind,scene,target"',
+  'else if (p.kind === "cutoff" && keys === "cycle,feedback,kind,scene,target"',
+  "&& !replayRoom && !answered.includes(p.room))",
+  "&& replayRoom === p.action && !answered.includes(p.action))",
+  "&& history.some((h) => h.cycle === cycle && h.room === p.room && h.action === p.action))",
+  "const r = listeningSettleRoute(scores);",
+  "if (p.target === r.target && p.feedback === r.feedback)",
+  "const missing = LISTENING_ROOMS.find((room) => !answered.includes(room));",
+  "if (p.target === c.target && p.feedback === c.feedback)",
+  'st.pendingTarget = st.pending ? st.pending.target : "";',
+]) assert.ok(listeningParseBlock[0].includes(frag), `missing v62 pending validation: ${frag.slice(0, 44)}`);
+/* 存盘收口：saveListening 只持久化白名单 canonical 十键，派生永不落盘 */
+const listeningSaveBlock = js.match(/const saveListening = \(st\) => store\.set\(LISTENING_KEY, JSON\.stringify\(\{[\s\S]*?\}\)\);/);
+assert.ok(listeningSaveBlock, "saveListening must persist an explicit canonical projection");
+for (const f of ["cycle", "visited", "history", "completedRuns", "cutRuns", "outcomeCounts", "lastOutcome", "replayRoom", "pending"]) {
+  assert.match(listeningSaveBlock[0], new RegExp(`${f}: st\\.${f},`), `saveListening persists ${f}`);
+}
+assert.match(listeningSaveBlock[0], /version: LISTENING_VERSION,/, "saveListening persists the version");
+assert.ok(!/scores|selections|picked|eligible|dominant|exposure|pendingTarget/.test(listeningSaveBlock[0]), "saveListening must never persist derived fields");
+
+/* 解锁资格只读 v46：三房 visited 全真且合法 marks ≥ 3 */
+const listeningUnlockBlock = js.match(/const listeningUnlocked = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(listeningUnlockBlock, "listeningUnlocked must exist");
+assert.match(listeningUnlockBlock[0], /const st = getSidetone\(\);/, "unlock reads the v46 state read-only");
+assert.match(listeningUnlockBlock[0], /SIDETONE_SCENES\.every\(\(s\) => st\.visited\[s\]\) && st\.marks\.length >= 3/, "unlock needs all three v46 visits and at least three legal marks");
+
+/* 三入口 / 三线路板 / 九 response / 退回 / 提前接地：逐字冻结 */
+for (const frag of [
+  'entryFeedback: "最右侧铜喇叭没有发声，却慢慢转向你。墙后亮起一座不在值班图上的总台。"',
+  'entryFeedback: "游线没有插孔，却在墙上绕出一张朝内的线路图。中央总线向后退开。"',
+  'entryFeedback: "后墙红灯按你的呼吸次序逐盏亮起。陈放柜背后传来总台落锁的声音。"',
+  'booth: { btn: "#listening-back-board-booth", emptyTitle: "接听失席线路", feedback: "失席线路被抽回监听间。现在，听筒要记录你如何回答。" }',
+  'jack: { btn: "#listening-back-board-jack", emptyTitle: "接听无号线路", feedback: "无号线路重新展开。每个空孔都在等同一个回声。" }',
+  'morgue: { btn: "#listening-back-board-morgue", emptyTitle: "接听退回线路", feedback: "退回线路亮起。那通已经挂断的电话要求再死一次。" }',
+  'const LISTENING_RETURN_FEEDBACK = "你松开线路。反听总台把这间房重新收回黑暗。";',
+  'booth: { target: "unseated-listening-booth", feedback: "接地刀提前落下。未接听的失席线路保住了空白，反听总台把你吐回监听间。" }',
+  'jack: { target: "unnumbered-jack-field", feedback: "接地刀提前落下。无号线路没有留下插孔，反听总台把你吐回插孔场。" }',
+  'morgue: { target: "return-ring-morgue", feedback: "接地刀提前落下。退回线路没有再次振铃，反听总台把你吐回陈放室。" }',
+  '"hold-receiver": { btn: "#listening-back-booth-hold-receiver", short: "守听筒", scores: { receive: 2, exposure: 2 }, phrase: "让无人听筒听完你的呼吸", feedback: "耳筒没有传来声音。你停下呼吸后，它还替你多听了两秒。" }',
+  '"return-breath": { btn: "#listening-back-booth-return-breath", short: "回空话", scores: { feedback: 2, exposure: 1 }, phrase: "把未说出口的话送回总线", feedback: "话筒把沉默压成一段回授。远端三只铜喇叭同时朝你偏了一寸。" }',
+  '"leave-seat": { btn: "#listening-back-booth-leave-seat", short: "留失席", scores: { silence: 2, exposure: 0 }, phrase: "让失席继续空着", feedback: "椅子没有等到操作员。总线只好把你的缺席登记成静默。" }',
+  '"bridge-aperture": { btn: "#listening-back-jack-bridge-aperture", short: "跨红孔", scores: { receive: 1, feedback: 1, exposure: 2 }, phrase: "跨接醒着的暗红孔", feedback: "两端空孔同时接通。你听见的不是来电，是自己刚才触碰插头的声音。" }',
+  '"loop-plug": { btn: "#listening-back-jack-loop-plug", short: "回接游线", scores: { feedback: 2, exposure: 1 }, phrase: "让游线插头接回自己", feedback: "插头绕过整面墙，最后咬住自己的尾端。回授沿每个空孔逐格亮起。" }',
+  '"ground-tag": { btn: "#listening-back-jack-ground-tag", short: "线签接地", scores: { silence: 2, exposure: 0 }, phrase: "用空白线签接地", feedback: "空白线签贴上接地触点。所有孔一起失去号码，也一起失去声音。" }',
+  '"relight-lamp": { btn: "#listening-back-morgue-relight-lamp", short: "重亮回灯", scores: { receive: 2, exposure: 2 }, phrase: "重亮被退回的信号灯", feedback: "回铃灯重新亮起。后墙每一盏红灯都把同一次挂断递到你眼前。" }',
+  '"reverse-slip": { btn: "#listening-back-morgue-reverse-slip", short: "反送退单", scores: { feedback: 1, silence: 1, exposure: 1 }, phrase: "把退回单从背面送回", feedback: "退回单卷向你，又从背面滑走。那通无人接听的电话开始倒着振铃。" }',
+  '"seal-bell": { btn: "#listening-back-morgue-seal-bell", short: "封死铃蜡", scores: { silence: 2, exposure: 0 }, phrase: "把裂开的黑蜡重新压紧", feedback: "蜡缝合拢前漏出一声极轻的吸气。铃碗随后连沉默也不再归还。" }',
+]) assert.ok(js.includes(frag), `missing v62 verbatim: ${frag.slice(0, 40)}`);
+
+/* 结算路由纯函数：九分支逐字，低暴露不写不可达的 receive 分支 */
+const listeningRouteBlock = js.match(/const listeningSettleRoute = \(scores\) => \{[\s\S]*?\n  \};/);
+assert.ok(listeningRouteBlock, "listeningSettleRoute must be a pure routing function");
+assert.match(listeningRouteBlock[0], /if \(e === 0\) return \{ target: "blank-name-cloakroom", feedback: "你没有给总线任何可辨认的声音。反听记录只剩一件没有姓名的外套。" \};/, "zero exposure routes to the blank-name cloakroom");
+assert.match(listeningRouteBlock[0], /if \(e >= 5\) return \{ target: "witness-carbon-archive", feedback: "你暴露得太久。总线已经替每一次呼吸压出见证副本。" \};/, "exposure >= 5 routes to the witness-carbon archive");
+assert.match(listeningRouteBlock[0], /if \(f > r && f > s\) return \{ target: "counter-knock-gallery", feedback: "回授压过接收与静默。门内传来三下敲门，正照你的节奏还给你。" \};/, "low-exposure strict feedback high routes to the counter-knock gallery");
+assert.match(listeningRouteBlock[0], /if \(s > r && s > f\) return \{ target: "blank-screen-underarchive", feedback: "静默压过其余两项。总线把声音擦成一块仍在监听的空白屏。" \};/, "low-exposure strict silence high routes to the blank-screen underarchive");
+assert.match(listeningRouteBlock[0], /return \{ target: "switchboard", feedback: "低暴露的三项互相抵消。旧交换台要求你回去，从第一根线重新接听。" \};/, "low-exposure ties route back to the switchboard");
+assert.match(listeningRouteBlock[0], /if \(r > f && r > s\) return \{ target: "proxy-admission", feedback: "接收压过回授与静默。代理准入处认定，你已经听见了不该由本人听见的声音。" \};/, "high-exposure strict receive high routes to proxy admission");
+assert.match(listeningRouteBlock[0], /if \(f > r && f > s\) return \{ target: "protocol-drift", feedback: "回授压过接收与静默。守则先听见自己的答复，随后开始偏移。" \};/, "high-exposure strict feedback high routes to protocol drift");
+assert.match(listeningRouteBlock[0], /if \(s > r && s > f\) return \{ target: "false-confirmation-desk", feedback: "静默压过接收与回授。假确认台把没有发生的通话登记为已核实。" \};/, "high-exposure strict silence high routes to the false-confirmation desk");
+assert.match(listeningRouteBlock[0], /return \{ target: "chain-of-custody-office", feedback: "三项在高压线路上拉平。证物链办公室接管这段无法分清来去的声音。" \};/, "high-exposure ties route to the custody office");
+const listeningLowBlock = listeningRouteBlock[0].match(/if \(e <= 2\) \{[\s\S]*?\n    \}/);
+assert.ok(listeningLowBlock, "low-exposure branch must exist");
+assert.equal((listeningLowBlock[0].match(/if \(/g) || []).length, 3, "low exposure keeps only the feedback/silence inner branches and writes no unreachable receive branch");
+
+/* 27 组合精确分布（静态枚举核算，九类全部可达，合计恰 27） */
+const V62_BOOTH = [{ r: 2, f: 0, s: 0, e: 2 }, { r: 0, f: 2, s: 0, e: 1 }, { r: 0, f: 0, s: 2, e: 0 }];
+const V62_JACK = [{ r: 1, f: 1, s: 0, e: 2 }, { r: 0, f: 2, s: 0, e: 1 }, { r: 0, f: 0, s: 2, e: 0 }];
+const V62_MORGUE = [{ r: 2, f: 0, s: 0, e: 2 }, { r: 0, f: 1, s: 1, e: 1 }, { r: 0, f: 0, s: 2, e: 0 }];
+const v62Counts = { "blank-name-cloakroom": 0, "witness-carbon-archive": 0, "counter-knock-gallery": 0, "blank-screen-underarchive": 0, switchboard: 0, "proxy-admission": 0, "protocol-drift": 0, "false-confirmation-desk": 0, "chain-of-custody-office": 0 };
+for (const b of V62_BOOTH) for (const j of V62_JACK) for (const m of V62_MORGUE) {
+  const r = b.r + j.r + m.r;
+  const f = b.f + j.f + m.f;
+  const s = b.s + j.s + m.s;
+  const e = b.e + j.e + m.e;
+  if (e === 0) v62Counts["blank-name-cloakroom"] += 1;
+  else if (e >= 5) v62Counts["witness-carbon-archive"] += 1;
+  else if (e <= 2) {
+    if (f > r && f > s) v62Counts["counter-knock-gallery"] += 1;
+    else if (s > r && s > f) v62Counts["blank-screen-underarchive"] += 1;
+    else v62Counts.switchboard += 1;
+  } else if (r > f && r > s) v62Counts["proxy-admission"] += 1;
+  else if (f > r && f > s) v62Counts["protocol-drift"] += 1;
+  else if (s > r && s > f) v62Counts["false-confirmation-desk"] += 1;
+  else v62Counts["chain-of-custody-office"] += 1;
+}
+assert.deepEqual(v62Counts, { "blank-name-cloakroom": 1, "witness-carbon-archive": 4, "counter-knock-gallery": 1, "blank-screen-underarchive": 6, switchboard: 2, "proxy-admission": 3, "protocol-drift": 5, "false-confirmation-desk": 2, "chain-of-custody-office": 3 }, "all 27 combos route into exactly the nine frozen classes");
+assert.equal(Object.values(v62Counts).reduce((a, b) => a + b, 0), 27, "exactly 27 combinations");
+
+/* 交互硬要求：live scene / 第一归宿锁 / pending 三重边界；入口与 v46 同 scope */
+for (const fn of ["chooseListeningEntry", "chooseListeningBoard", "chooseListeningResponse", "chooseListeningReturn", "chooseListeningLever"]) {
+  const block = js.match(new RegExp(`const ${fn} = \\([^)]*\\) => \\{[\\s\\S]*?\\n  \\};`));
+  assert.ok(block, `${fn} must exist`);
+  assert.match(block[0], /if \(AutoAdvance\.has\(/, `${fn} respects the first-lock`);
+  assert.match(block[0], /if \(st\.pending\) return;/, `${fn} refuses to act under a live pending`);
+}
+for (const fn of ["chooseListeningEntry", "chooseListeningResponse", "chooseListeningReturn"]) {
+  const block = js.match(new RegExp(`const ${fn} = \\([^)]*\\) => \\{[\\s\\S]*?\\n  \\};`));
+  assert.match(block[0], /if \(currentScene !== sceneName\) return;/, `${fn} validates the live scene`);
+}
+for (const fn of ["chooseListeningBoard", "chooseListeningLever"]) {
+  const block = js.match(new RegExp(`const ${fn} = \\([^)]*\\) => \\{[\\s\\S]*?\\n  \\};`));
+  assert.match(block[0], /if \(currentScene !== LISTENING_CONSOLE\) return;/, `${fn} validates the live console scene`);
+}
+const listeningEntryBlock = js.match(/const chooseListeningEntry = \(room\) => \{[\s\S]*?\n  \};/);
+assert.match(listeningEntryBlock[0], /if \(AutoAdvance\.has\("sidetone-" \+ room\)\) return;/, "entry shares the v46 room first-lock scope");
+assert.match(listeningEntryBlock[0], /if \(!listeningUnlocked\(\)\) return;/, "entry refuses while locked");
+assert.match(listeningEntryBlock[0], /if \(getSidetone\(\)\.pending\) return;/, "entry refuses while a v46 beat is outstanding");
+assert.match(listeningEntryBlock[0], /AutoAdvance\.schedule\("sidetone-" \+ room, LISTENING_CONSOLE, \{ delay: sidetoneDelay\(\), before: \(\) => listeningConsoleArrive\(\) \}\);/, "entry schedules the console on the shared scope");
+const listeningBoardBlock = js.match(/const chooseListeningBoard = \(room\) => \{[\s\S]*?\n  \};/);
+assert.match(listeningBoardBlock[0], /st\.replayRoom = room;/, "board persists the replay room before the transition");
+assert.match(listeningBoardBlock[0], /if \(listeningAnswered\(st\)\.includes\(room\)\) return;/, "an answered room cannot be re-picked this cycle");
+const listeningResponseBlock = js.match(/const chooseListeningResponse = \(room, actionId\) => \{[\s\S]*?\n  \};/);
+assert.match(listeningResponseBlock[0], /if \(st\.replayRoom !== room\) return;/, "response requires the replay state");
+assert.match(listeningResponseBlock[0], /st\.history\.push\(\{ cycle: st\.cycle, room, action: actionId \}\);/, "accepted response writes canonical history first");
+assert.match(listeningResponseBlock[0], /if \(AutoAdvance\.has\("listening-back-" \+ room\)\) return;/, "response and return share the room replay scope");
+assert.match(listeningResponseBlock[0], /listeningLockRoom\(room\);/, "first accepted response locks all room hotspots");
+const listeningReturnBlock = js.match(/const chooseListeningReturn = \(room\) => \{[\s\S]*?\n  \};/);
+assert.match(listeningReturnBlock[0], /if \(st\.replayRoom !== room\) return;/, "return requires the replay state");
+assert.ok(!listeningReturnBlock[0].includes("history.push"), "return never writes history");
+const listeningLeverBlock = js.match(/const chooseListeningLever = \(\) => \{[\s\S]*?\n  \};/);
+assert.match(listeningLeverBlock[0], /if \(answered\.length === 3\) \{/, "three answered rooms route the full settlement");
+assert.match(listeningLeverBlock[0], /else if \(answered\.length === 2\) \{/, "exactly two answered rooms allow the early cutoff");
+const listeningSettleArriveBlock = js.match(/const listeningSettleArrive = \(target\) => \{[\s\S]*?\n  \};/);
+assert.match(listeningSettleArriveBlock[0], /s\.completedRuns = Math\.min\(LISTENING_NUM_CAP, s\.completedRuns \+ 1\);/, "completedRuns increments once per settlement");
+assert.match(listeningSettleArriveBlock[0], /s\.outcomeCounts\[target\] = Math\.min\(LISTENING_NUM_CAP, s\.outcomeCounts\[target\] \+ 1\);/, "the routed outcome increments once");
+assert.match(listeningSettleArriveBlock[0], /s\.cycle = Math\.min\(LISTENING_NUM_CAP, s\.cycle \+ 1\);/, "cycle increments per settlement");
+assert.match(listeningSettleArriveBlock[0], /if \(LEDGER_SCENE_KEY\[target\]\) grantLedgerVisit\(target\);/, "ledger targets regain their old guard credentials");
+assert.ok(!listeningSettleArriveBlock[0].includes("cutRuns"), "settlement never touches the cutoff counter");
+const listeningCutoffArriveBlock = js.match(/const listeningCutoffArrive = \(missing\) => \{[\s\S]*?\n  \};/);
+assert.match(listeningCutoffArriveBlock[0], /s\.cutRuns = Math\.min\(LISTENING_NUM_CAP, s\.cutRuns \+ 1\);/, "cutRuns increments once per early cutoff");
+assert.match(listeningCutoffArriveBlock[0], /s\.lastOutcome = LISTENING_ROOMS\.includes\(missing\) \? "early-" \+ missing : "";/, "early cutoff records the missing room");
+assert.ok(!listeningCutoffArriveBlock[0].includes("completedRuns") && !listeningCutoffArriveBlock[0].includes("outcomeCounts"), "early cutoff never touches completedRuns or outcomeCounts");
+const listeningConsoleArriveBlock = js.match(/const listeningConsoleArrive = \(\) => \{[\s\S]*?\n  \};/);
+assert.match(listeningConsoleArriveBlock[0], /if \(!s\.visited\.console\) s\.visited\.console = true;/, "console visit recorded only on real arrival");
+assert.match(listeningConsoleArriveBlock[0], /if \(s\.replayRoom\) s\.replayRoom = "";/, "console arrival clears the replay room");
+assert.match(listeningConsoleArriveBlock[0], /if \(s\.pending\) s\.pending = null;/, "console arrival consumes the pending once");
+const listeningReplayBlock = js.match(/const replayListeningPending = \(sceneName\) => \{[\s\S]*?\n  \};/);
+assert.match(listeningReplayBlock[0], /listeningLockRoom\(p\.room\);/, "room pending replay re-locks all v62 room hotspots");
+assert.match(listeningReplayBlock[0], /listeningLockConsole\(\);/, "console pending replay re-locks all four console hotspots");
+assert.equal((listeningReplayBlock[0].match(/setAttribute\("aria-pressed", "true"\)/g) || []).length, 2, "replay restores the chosen hotspot's aria-pressed in both scopes");
+
+/* 接地刀显露与提示：0–1 hidden、2 提前接地、3 让总台接听；读数派生显示 */
+const listeningPaintBlock = js.match(/const paintListeningConsole = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(listeningPaintBlock, "paintListeningConsole must exist");
+assert.match(listeningPaintBlock[0], /if \(answered\.length >= 2 && !st\.pending\) \{/, "lever only appears from two answered rooms");
+assert.ok(listeningPaintBlock[0].includes('title.textContent = answered.length === 3 ? "让总台接听" : "提前接地"'), "lever copy switches between early cutoff and settlement");
+assert.ok(listeningPaintBlock[0].includes('"三房齐备。反听总台可以接听。"'), "3/3 settlement hint verbatim");
+assert.ok(listeningPaintBlock[0].includes('"两房已答。接地刀现在可以提前落下。"'), "2/3 early-cutoff hint verbatim");
+assert.match(listeningPaintBlock[0], /btn\.disabled = Boolean\(entry\) \|\| AutoAdvance\.has\(LISTENING_CONSOLE\);/, "answered boards disable and the beat locks the rest");
+
+/* v62 十九组监听只接受 isTrusted 真实 click，合成 HTMLElement.click() 零副作用 */
+for (const frag of [
+  'if (listeningEntryBoothBtn) listeningEntryBoothBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningEntry("booth"); });',
+  'if (listeningEntryJackBtn) listeningEntryJackBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningEntry("jack"); });',
+  'if (listeningEntryMorgueBtn) listeningEntryMorgueBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningEntry("morgue"); });',
+  'if (listeningBoardBoothBtn) listeningBoardBoothBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningBoard("booth"); });',
+  'if (listeningBoardJackBtn) listeningBoardJackBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningBoard("jack"); });',
+  'if (listeningBoardMorgueBtn) listeningBoardMorgueBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningBoard("morgue"); });',
+  'if (listeningBoothHoldReceiverBtn) listeningBoothHoldReceiverBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningResponse("booth", "hold-receiver"); });',
+  'if (listeningBoothReturnBreathBtn) listeningBoothReturnBreathBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningResponse("booth", "return-breath"); });',
+  'if (listeningBoothLeaveSeatBtn) listeningBoothLeaveSeatBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningResponse("booth", "leave-seat"); });',
+  'if (listeningJackBridgeApertureBtn) listeningJackBridgeApertureBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningResponse("jack", "bridge-aperture"); });',
+  'if (listeningJackLoopPlugBtn) listeningJackLoopPlugBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningResponse("jack", "loop-plug"); });',
+  'if (listeningJackGroundTagBtn) listeningJackGroundTagBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningResponse("jack", "ground-tag"); });',
+  'if (listeningMorgueRelightLampBtn) listeningMorgueRelightLampBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningResponse("morgue", "relight-lamp"); });',
+  'if (listeningMorgueReverseSlipBtn) listeningMorgueReverseSlipBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningResponse("morgue", "reverse-slip"); });',
+  'if (listeningMorgueSealBellBtn) listeningMorgueSealBellBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningResponse("morgue", "seal-bell"); });',
+  'if (listeningBoothReturnBtn) listeningBoothReturnBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningReturn("booth"); });',
+  'if (listeningJackReturnBtn) listeningJackReturnBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningReturn("jack"); });',
+  'if (listeningMorgueReturnBtn) listeningMorgueReturnBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningReturn("morgue"); });',
+  'if (listeningLeverBtn) listeningLeverBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningLever(); });',
+]) assert.ok(js.includes(frag), `missing v62 isTrusted listener: ${frag.slice(12, 44)}`);
+assert.equal((js.match(/ev\.isTrusted/g) || []).length, 34, "v57 (2) + v58 (5) + v59 (3) + v61 (5) + v62 (19) listener groups carry the isTrusted guard");
+
+/* 守卫与接线：console 窄守卫、sceneInit、目录、痕迹、遗忘回弹 */
+assert.match(js, /if \(target === LISTENING_CONSOLE && listeningGuard\.pendingTarget !== LISTENING_CONSOLE && !listeningGuard\.visited\.console\s*\n\s*&& !LISTENING_ROOMS\.some\(\(r\) => listeningGuard\.history\.some\(\(h\) => h\.cycle === listeningGuard\.cycle && h\.room === r\)\) && !listeningGuard\.replayRoom\)/, "console guard admits only legal pending, a real visit, or an active round");
+assert.match(js, /sideGuard\.visited\.booth \? "unseated-listening-booth"/, "console guard falls back to booth first");
+assert.match(js, /: sideGuard\.visited\.jack \? "unnumbered-jack-field"/, "console guard falls back to jack second");
+assert.match(js, /: sideGuard\.visited\.morgue \? "return-ring-morgue" : "switchboard";/, "console guard falls back to morgue then the switchboard");
+assert.ok(js.indexOf("if (target === LISTENING_CONSOLE") < js.indexOf("if (BRANCH_SCENES.includes(target)"), "console guard runs before the v29 branch guard so its fallback keeps cascading");
+assert.match(js, /if \(SIDETONE_SCENE_NAMES\.includes\(name\)\) \{ enterSidetone\(SIDETONE_NAME_SCENE\[name\]\); syncListeningRoom\(SIDETONE_NAME_SCENE\[name\]\); replayListeningPending\(name\); \}/, "sidetone room init syncs the v62 room state and replays a legal pending");
+assert.match(js, /if \(name === "listening-back-console"\) \{ enterListeningConsole\(\); replayListeningPending\(name\); \}/, "console scene init wiring");
+assert.match(js, /syncListeningLink\(\);\s*\n\s*paintListeningConsole\(\);\s*\n\s*listeningUnlockConsole\(\);\s*\n\s*LISTENING_ROOMS\.forEach\(syncListeningRoom\);/, "forget-all rebounds every v62 DOM surface");
+assert.match(html, /<a href="#listening-back-console" id="listening-back-link" hidden data-hover>02μ½ \/ 反听总台<\/a>/);
+assert.match(js, /if \(getListening\(\)\.visited\.console\) link\.removeAttribute\("hidden"\);/, "directory link appears only after a real console visit");
+assert.ok(html.includes('id="listening-back-memory"'), "remembrance gains the listening memory line");
+assert.equal((html.match(/<div class="stat-card">/g) || []).length, 8, "remembrance keeps exactly eight stat cards");
+assert.match(js, /反听总台：完成 \$\{st\.completedRuns\} 轮，提前接地 \$\{st\.cutRuns\} 次；本轮接收 \$\{scores\.receive\} \/ 回授 \$\{scores\.feedback\} \/ 静默 \$\{scores\.silence\} \/ 暴露 \$\{scores\.exposure\}，已接听 \$\{answered\.length\}\/3。/, "listening memory line verbatim");
+
+/* 热点定位类、hidden 覆盖与短桌面规则 */
+for (const cls of ["booth-listen-entry", "booth-listen-hold-receiver", "booth-listen-return-breath", "booth-listen-leave-seat", "booth-listen-return", "jack-listen-entry", "jack-listen-bridge-aperture", "jack-listen-loop-plug", "jack-listen-ground-tag", "jack-listen-return", "morgue-listen-entry", "morgue-listen-relight-lamp", "morgue-listen-reverse-slip", "morgue-listen-seal-bell", "morgue-listen-return", "listening-spot-board-booth", "listening-spot-board-jack", "listening-spot-board-morgue", "listening-spot-lever"]) {
+  assert.match(css, new RegExp(`\\.${cls} \\{`), `css missing position class .${cls}`);
+}
+assert.match(css, /\.sidetone-hotspot\[hidden\] \{ display: none; \}/, "hidden must override the sidetone hotspot flex display");
+assert.match(css, /#scene-listening-back-console \.branch-figure \{ width: min\(460px, 100%\); \}/, "short-desktop console figure rule");
+
+/* v62 设计文档存在且冻结源图与 WebP 哈希 */
+const v62doc = await fileText("docs/V62ListeningBackDesign.md");
+for (const hash of Object.values(V62_SOURCE_HASHES).concat(Object.values(V62_WEBP))) {
+  assert.ok(v62doc.includes(hash), "V62 design doc must freeze the source and webp sha256 values");
 }
 
 /* ---------- v54 迫近回访：v29 三房共同记账 + 异动第四热点九分流 ---------- */
@@ -4693,6 +4994,7 @@ assert.match(readme, /v50|副楼实感|原生热点/, "README must document the 
 assert.match(readme, /v51|副楼三债|见证.*失号.*逆行/, "README must document the v51 annex three debts");
 assert.match(readme, /v52|三债结算|结算所/, "README must document the v52 annex debt settlement");
 assert.match(readme, /v58|异议总署|Appeal Registry/i, "README must document the v58 appeal registry");
+assert.match(readme, /v62|反听总台/, "README must document the v62 listening back console");
 
 const qa = await fileText("design-qa.md");
 assert.match(qa, /第三值夜室/);
@@ -4724,6 +5026,7 @@ assert.match(qa, /v50|副楼实感|原生热点/, "design-qa.md must document th
 assert.match(qa, /v51|副楼三债|阈值异常/, "design-qa.md must document the v51 annex debts QA");
 assert.match(qa, /v52|三债结算|结算所/, "design-qa.md must document the v52 annex debt settlement QA");
 assert.match(qa, /v58|异议总署/, "design-qa.md must document the v58 appeal registry QA");
+assert.match(qa, /v62|反听总台/, "design-qa.md must document the v62 listening back console QA");
 
 const log = await fileText("docs/ProgressLog.md");
 assert.match(log, /2026-07-02/);
@@ -4759,6 +5062,7 @@ assert.match(log, /v55|失常交班/, "ProgressLog must document v55");
 assert.match(log, /v56|症状交接/, "ProgressLog must document v56");
 assert.match(log, /v57|判词后果|责任账/, "ProgressLog must document v57");
 assert.match(log, /v58|异议总署/, "ProgressLog must document v58");
+assert.match(log, /v62|反听总台/, "ProgressLog must document v62");
 
 /* v58 设计文档存在且冻结四张源图哈希 */
 const v58doc = await fileText("docs/V58AppealRegistryDesign.md");

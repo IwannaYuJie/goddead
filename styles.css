@@ -6404,3 +6404,56 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
   #scene-confession-ledger .branch-figure,
   #scene-failure-reconstruction-desk .branch-figure { width: min(460px, 100%); }
 }
+
+/* ============================================================
+   v62 反听总台：v46 三旁线房反听态（3 基础入口 + 9 response +
+   3 松线返回）+ 反听总台四热点（1536×1024 舞台百分比
+   top/left/width/height，桌面/移动共用，44px 增长后互不重叠）
+   ============================================================ */
+/* hidden 必须压过 .sidetone-hotspot 的 display:flex */
+.sidetone-hotspot[hidden] { display: none; }
+
+/* 失席监听间基础：右侧铜喇叭阵列入口（不遮左耳筒/中央话筒/操作椅） */
+.booth-listen-entry { top: 16%; left: 66%; width: 25%; height: 34%; }
+/* 失席监听间反听：左无人听筒 / 桌面话筒 / 空操作椅 / 右侧铜喇叭阵列松线返回 */
+.booth-listen-hold-receiver { top: 16%; left: 9%; width: 14%; height: 46%; }
+.booth-listen-return-breath { top: 30%; left: 36%; width: 12%; height: 20%; }
+.booth-listen-leave-seat { top: 50%; left: 40%; width: 20%; height: 42%; }
+.booth-listen-return { top: 10%; left: 66%; width: 26%; height: 32%; }
+
+/* 无号插孔场基础：墙面自绕线路/中央线路区域入口（不遮游线/暗红孔/空线签） */
+.jack-listen-entry { top: 5%; left: 42%; width: 28%; height: 38%; }
+/* 无号插孔场反听：暗红孔 / 左前景游线插头 / 右侧空白线签 / 上方自绕线路松线返回 */
+.jack-listen-bridge-aperture { top: 50%; left: 59%; width: 12%; height: 17%; }
+.jack-listen-loop-plug { top: 62%; left: 16%; width: 23%; height: 20%; }
+.jack-listen-ground-tag { top: 36%; left: 76%; width: 15%; height: 50%; }
+.jack-listen-return { top: 5%; left: 44%; width: 26%; height: 28%; }
+
+/* 回铃陈放室基础：后墙成排信号灯入口（不遮左回灯/中央退单/右蜡铃） */
+.morgue-listen-entry { top: 6%; left: 18%; width: 58%; height: 16%; }
+/* 回铃陈放室反听：左前景回铃灯 / 中央退单托盘 / 右侧黑蜡铃碗 / 后墙信号灯排松线返回 */
+.morgue-listen-relight-lamp { top: 56%; left: 9%; width: 14%; height: 20%; }
+.morgue-listen-reverse-slip { top: 56%; left: 28%; width: 29%; height: 28%; }
+.morgue-listen-seal-bell { top: 26%; left: 64%; width: 30%; height: 54%; }
+.morgue-listen-return { top: 5%; left: 16%; width: 62%; height: 18%; }
+
+/* 反听总台：左中右线路板 / 前景接地刀（出厂 hidden） */
+.listening-spot-board-booth { top: 20%; left: 11%; width: 24%; height: 46%; }
+.listening-spot-board-jack { top: 20%; left: 39%; width: 23%; height: 46%; }
+.listening-spot-board-morgue { top: 20%; left: 66%; width: 24%; height: 46%; }
+.listening-spot-lever { top: 70%; left: 37%; width: 28%; height: 26%; }
+
+/* 总台提示行：2/3 可提前接地、3/3 可结算（派生显示，非操作卡） */
+.listening-back-hint {
+  margin: 0.6rem 0 0;
+  min-height: 1em;
+  font-family: var(--serif-cn);
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-align: center;
+  color: rgba(192, 160, 96, 0.66);
+}
+
+@media (min-width: 721px) and (max-height: 800px) {
+  #scene-listening-back-console .branch-figure { width: min(460px, 100%); }
+}

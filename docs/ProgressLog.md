@@ -1,5 +1,18 @@
 # Progress Log
 
+## 2026-08-02 (v62 反听总台 / THE SIGNAL LISTENS BACK：v46 三旁线房反听态 + 反听总台 + 提前接地)
+- 世界观续进：旁线不再只是被听——线路开始记录来访者如何回答。v46 三间旁线房（失席监听间/无号插孔场/回铃陈放室）在三房 visited 全真且合法 marks ≥ 3 后各出现第四个图内入口，汇入不在值班图上的反听总台。体验参考只看机制（OXENFREE 调频与环境互文、Killer Frequency 交换台决策分支、SIGNALIS 稀缺压力、Signal Lost 探索唤醒存在、The Last Transmission「它也在听」，2026-08-02 访问），未复制任何 UI/文案；美术文案全部原创。
+- 边界：原九个 v46 动作 id/文案/反馈/目标/mark/状态语义与 `goddead_v46_sidetones` 内容逐字节保持；v62 只读 `getSidetone()` 判解锁，绝不写 v46 key（CDP 字节级比对验证）；入口与旧三动作共享 `sidetone-{room}` 第一归宿锁，v46 或 v62 任一 pending 未决时入口零副作用。
+- 素材：四张冻结原图（sha256 静态断言锁定）Pillow q85 1536×1024 无裁切转码 `assets/v62-listening-back-{booth,jack-field,ring-morgue,console}.webp`（140–217 KB）；旧基础 WebP 不换不删，反听态同尺寸切图不改布局高度。
+- 反听态：总台三线路板（board pending）把对应旧房换成 v62 反听图，隐藏/禁用旧三动作与入口，揭示三 response 热点与图内「松线返回」；每房每轮只接受一条 response（写 history + response pending，全房热点即锁），不能同轮替换；松线返回不写 history 只回总台。
+- 总台与结算：四项读数（接收/回授/静默/暴露）+ 已接听 N/3 全派生永不落盘；接地刀 0–1 hidden+disabled、恰 2 房「提前接地」（按缺房吐回旧房基础态，cutRuns+1、lastOutcome=early-*、cycle+1，不增 completedRuns/outcomeCounts）、3 房「让总台接听」（纯函数路由九分支：exposure 0→空名衣柜 1、≥5→复写库 4、低暴露回授高→回敲廊 1/静默高→屏底库 6/并列→交换台 2、高暴露接收高→代审窗 3/回授高→守则漂移 5/静默高→误准灯 2/并列→证物链 3，27 组合枚举全部可达且合计恰 27，低暴露不写不可达 receive 分支）；结算到达 before 才原子 completedRuns/outcomeCounts/lastOutcome/cycle+1，LEDGER_SCENE_KEY 目标只走 grantLedgerVisit，chain-of-custody-office 沿用 v60 开放契约。
+- 状态：独立容错 `goddead_v62_listening_back`（唯一 key，version 62）——cycle/visited/history/completedRuns/cutRuns/outcomeCounts/lastOutcome/replayRoom/pending 显式 canonical 十键投影落盘；visited 四布尔、history 精确 {cycle,room,action} 三键同 cycle 每房第一条去伪去重裁 ≤16、计数 9999 封顶、lastOutcome 十二值白名单、replayRoom 三房白名单、错 version 整体丢弃；pending 六类精确键集（entry/board/return 6、response 7、settle/cutoff 5，额外键即伪造）逐字重算 + 严格证据（replayRoom/本轮 history/派生路由/cycle），pendingTarget 只由合法 pending 派生，只消费一次，重播按原作用域重挂并重锁热点恢复 aria-pressed。
+- 守卫与接线：console 直达窄守卫（合法 pendingTarget/真实 console 到访/活动轮次），否则回退第一个合法 v46 房（booth→jack→morgue→switchboard 并继续向下级联），位于 v29 支线守卫之前；sceneInit 四场景接线；目录 `02μ½ / 反听总台`（02 系列 24 希腊字母全占用、02δ½ 归 v61，取 v46 三入口首码紧邻半阶）仅真实到访后出现；Remembrance 单行「反听总台：完成 X 轮，提前接地 Y 次；本轮接收 R / 回授 F / 静默 S / 暴露 E，已接听 N/3。」仍八张统计卡；遗忘全部 DOM 回弹出厂态。
+- 交互：19 组新监听（3 入口 + 3 板 + 9 response + 3 返回 + 1 接地刀）全部只接受 isTrusted 真实 click（全仓库 15 → 34 组），合成 HTMLElement.click() 零副作用，Enter/Space 走原生按钮；同拍互斥只记第一项；reduced-motion 沿用 ~300ms 节拍；缓存版本 v=54 → v=55；场景 86 → 87。
+- 测试：静态 `node tests/site.test.mjs` 4804 断言全绿（较 v61 的 4511 新增 293 条同口径实测），覆盖四源图/WebP 哈希与预算、86→87 场景、结构/逐字文案、状态契约与六类 pending、伪造归一、路由九分支与低暴露分支计数、27 组合精确分布 1/4/1/6/2/3/5/2/3、交互守卫、19 组 isTrusted、守卫/目录/痕迹/遗忘、19 个定位类与短桌面规则；既有 isTrusted 总数断言同步 15 → 34，缓存断言 v=54 → v=55。
+- CDP 实机与视觉：`/tmp/v62-qa/v62-smoke.mjs`（真实 headless Chrome + 真实鼠标/键盘 + console 捕获，种子预注入）覆盖解锁显隐、三入口→总台、反听态换图与揭示、九 response 代表流、松线返回、2/3 提前接地回缺房并恢复基础态、3/3 完整结算开新轮、reload 重播不双结算、同拍互斥、合成点击 19 组惰性、直接 hash 窄守卫四态、伪造/错 version 归一、v46 字节级零写、三房+总台 1440×1024/1440×800/390×844/360×800 几何与截图（证据 `design-qa-evidence/v62/`，细目见 design-qa.md 本轮段落）。
+- 保护边界：Kimi 实现期间未修改 `docs/KimiUsageLog.md`；全部历史 source PNG 哈希不变；Kimi 未执行 git add/commit/push/stash；未安装依赖。
+
 ## 2026-08-02 (v61 故障重演 / THE FAILURE RECONSTRUCTION：v30 三深房图内化 + 三房重演证据 + 故障重演台)
 - 世界观续进：最早的三间深房不再只是过路——事故可以被重新摆上台面重演，三间房的证词在重演台上组合成判断，决定事故被送去哪里。体验参考只看机制（调查游戏的自由观察与线索组合、异常目录的误判后果、现场重构与模拟仪器），未复制任何游戏 UI；美术文案全部原创。
 - 图内化：v30 失真转接室/逆流泵房/无名罪籍库是仅剩的「图在上、三卡在下」深房——9 个旧动作 id/文案/反馈/目标/v29/v30 副作用/lastChoice/首选锁/守卫逐字节保持并移入原基础图实物，三张 `.branch-choices` 卡片容器整体删除无隐藏副本；基础 WebP 不换不删。

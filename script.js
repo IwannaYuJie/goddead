@@ -971,7 +971,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (PAPERBACK_SCENE_NAMES.includes(name)) enterPaperback(PAPERBACK_NAME_SCENE[name]);
     if (name === "watch") { watchConsumed = false; watchReliefArmed = false; enterWatch(); }
     if (RELIEF_SCENE_NAMES.includes(name)) enterRelief(RELIEF_NAME_SCENE[name]);
-    if (SIDETONE_SCENE_NAMES.includes(name)) enterSidetone(SIDETONE_NAME_SCENE[name]);
+    if (SIDETONE_SCENE_NAMES.includes(name)) { enterSidetone(SIDETONE_NAME_SCENE[name]); syncListeningRoom(SIDETONE_NAME_SCENE[name]); replayListeningPending(name); }
+    if (name === "listening-back-console") { enterListeningConsole(); replayListeningPending(name); }
     if (RETURN_ROOM_SCENE_NAMES.includes(name)) enterReturnRoom(RETURN_ROOM_NAME_SCENE[name]);
     if (COPY_SCENE_NAMES.includes(name)) enterCopy(COPY_NAME_SCENE[name]);
     if (name === "switchboard") enterSwitch();
@@ -1000,6 +1001,7 @@ document.addEventListener("DOMContentLoaded", () => {
       paintCrossMemory();
       paintCustodyMemory();
       paintFailureMemory();
+      paintListeningMemory();
       paintValuationMemory();
       paintFloorMemory();
       paintRegistryMemory();
@@ -1048,6 +1050,19 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "deadletter" && !(watchUnlocked() && line4Unlocked() && getLine4().connected)) target = "switchboard";
     if (target === "switchboard" && !(watchUnlocked() && line4Unlocked())) target = "watch";
     if (target === "watch" && !watchUnlocked()) target = "corridor";
+
+    /* v62 反听总台守卫：合法 pendingTarget / console 真实到访 / 活动轮次
+       （本轮任一 response 或 replayRoom）准入；否则回退到第一个合法的
+       v46 房（优先 booth，再 jack，再 morgue，均未到访回交换台并继续
+       向下级联旧守卫），不放宽任何旧守卫 */
+    const listeningGuard = getListening();
+    if (target === LISTENING_CONSOLE && listeningGuard.pendingTarget !== LISTENING_CONSOLE && !listeningGuard.visited.console
+      && !LISTENING_ROOMS.some((r) => listeningGuard.history.some((h) => h.cycle === listeningGuard.cycle && h.room === r)) && !listeningGuard.replayRoom) {
+      const sideGuard = getSidetone();
+      target = sideGuard.visited.booth ? "unseated-listening-booth"
+        : sideGuard.visited.jack ? "unnumbered-jack-field"
+        : sideGuard.visited.morgue ? "return-ring-morgue" : "switchboard";
+    }
 
     /* v61 故障重演台守卫：合法 pendingTarget / desk 到访 / 活动轮次（任一
        selection 或 replayRoom）准入；否则回退到第一个合法的 v30 深房——回退
@@ -10733,6 +10748,614 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* ============================================================
+     v62 反听总台：v46 三旁线房反听态 + 反听总台三线路板 + 接地刀
+     状态独立存 goddead_v62_listening_back（全仓库唯一 key，
+     version 62），容错坏 JSON；canonical 十键显式投影落盘，
+     接收/回授/静默/暴露分值、齐备与可否结算全部由当前 cycle
+     可信 history 派生，永不落盘。只读写自己的键；解锁资格只读
+     getSidetone()（三房 visited 全真且合法 marks ≥ 3），绝不写
+     v46 key；到达受守卫目标时只调用现有最窄 helper
+     （grantLedgerVisit），不改写 v28–v61 或主线结果。pending
+     六类（entry/board/response/return/settle/cutoff）按精确键集
+     逐字重算，只消费一次；重播重锁热点并恢复 aria-pressed。
+     ============================================================ */
+  const LISTENING_KEY = "goddead_v62_listening_back";
+  const LISTENING_VERSION = 62;
+  const LISTENING_NUM_CAP = 9999;
+  const LISTENING_HISTORY_CAP = 16;
+  const LISTENING_CONSOLE = "listening-back-console";
+  const LISTENING_ROOMS = ["booth", "jack", "morgue"];
+  const LISTENING_ROOM_SCENE = { booth: "unseated-listening-booth", jack: "unnumbered-jack-field", morgue: "return-ring-morgue" };
+  const LISTENING_OUTCOME_TARGETS = ["blank-name-cloakroom", "witness-carbon-archive", "counter-knock-gallery", "blank-screen-underarchive", "switchboard", "proxy-admission", "protocol-drift", "false-confirmation-desk", "chain-of-custody-office"];
+  const LISTENING_LAST_OUTCOMES = LISTENING_OUTCOME_TARGETS.concat(["early-booth", "early-jack", "early-morgue"]);
+  /* 九条 response：短签 / 派生分值 / 短语 / 反馈（逐字冻结） */
+  const LISTENING_RESPONSES = {
+    booth: {
+      "hold-receiver": { btn: "#listening-back-booth-hold-receiver", short: "守听筒", scores: { receive: 2, exposure: 2 }, phrase: "让无人听筒听完你的呼吸", feedback: "耳筒没有传来声音。你停下呼吸后，它还替你多听了两秒。" },
+      "return-breath": { btn: "#listening-back-booth-return-breath", short: "回空话", scores: { feedback: 2, exposure: 1 }, phrase: "把未说出口的话送回总线", feedback: "话筒把沉默压成一段回授。远端三只铜喇叭同时朝你偏了一寸。" },
+      "leave-seat": { btn: "#listening-back-booth-leave-seat", short: "留失席", scores: { silence: 2, exposure: 0 }, phrase: "让失席继续空着", feedback: "椅子没有等到操作员。总线只好把你的缺席登记成静默。" },
+    },
+    jack: {
+      "bridge-aperture": { btn: "#listening-back-jack-bridge-aperture", short: "跨红孔", scores: { receive: 1, feedback: 1, exposure: 2 }, phrase: "跨接醒着的暗红孔", feedback: "两端空孔同时接通。你听见的不是来电，是自己刚才触碰插头的声音。" },
+      "loop-plug": { btn: "#listening-back-jack-loop-plug", short: "回接游线", scores: { feedback: 2, exposure: 1 }, phrase: "让游线插头接回自己", feedback: "插头绕过整面墙，最后咬住自己的尾端。回授沿每个空孔逐格亮起。" },
+      "ground-tag": { btn: "#listening-back-jack-ground-tag", short: "线签接地", scores: { silence: 2, exposure: 0 }, phrase: "用空白线签接地", feedback: "空白线签贴上接地触点。所有孔一起失去号码，也一起失去声音。" },
+    },
+    morgue: {
+      "relight-lamp": { btn: "#listening-back-morgue-relight-lamp", short: "重亮回灯", scores: { receive: 2, exposure: 2 }, phrase: "重亮被退回的信号灯", feedback: "回铃灯重新亮起。后墙每一盏红灯都把同一次挂断递到你眼前。" },
+      "reverse-slip": { btn: "#listening-back-morgue-reverse-slip", short: "反送退单", scores: { feedback: 1, silence: 1, exposure: 1 }, phrase: "把退回单从背面送回", feedback: "退回单卷向你，又从背面滑走。那通无人接听的电话开始倒着振铃。" },
+      "seal-bell": { btn: "#listening-back-morgue-seal-bell", short: "封死铃蜡", scores: { silence: 2, exposure: 0 }, phrase: "把裂开的黑蜡重新压紧", feedback: "蜡缝合拢前漏出一声极轻的吸气。铃碗随后连沉默也不再归还。" },
+    },
+  };
+  const LISTENING_ROOM_META = {
+    booth: {
+      entryBtn: "#listening-back-entry-booth", returnBtn: "#listening-back-booth-return", responseEl: "#sidetone-booth-response",
+      baseImg: "assets/unseated-listening-booth.webp", replayImg: "assets/v62-listening-back-booth.webp",
+      baseFigLabel: "狭窄黑石监听室，左侧悬着拆开的黑色耳筒，中央旧操作椅正对一只没有人的圆形话筒，远端墙内露出一排吸音铜管",
+      replayFigLabel: "失席监听间·反听：左侧悬着的无人听筒、桌上有红色灯芯的圆形话筒、空操作椅、右侧成排铜喇叭",
+      baseBtns: ["#sidetone-booth-action-earpiece", "#sidetone-booth-action-mouthpiece", "#sidetone-booth-action-chair"],
+      entryFeedback: "最右侧铜喇叭没有发声，却慢慢转向你。墙后亮起一座不在值班图上的总台。",
+    },
+    jack: {
+      entryBtn: "#listening-back-entry-jack", returnBtn: "#listening-back-jack-return", responseEl: "#sidetone-jack-response",
+      baseImg: "assets/unnumbered-jack-field.webp", replayImg: "assets/v62-listening-back-jack-field.webp",
+      baseFigLabel: "纵深黑石机房，一整面没有数字的旧黄铜插孔；左前景一枚脱落插头拖着编织线，中央一个空孔透出不自然暗红，右侧垂着完全空白的瓷质线签",
+      replayFigLabel: "无号插孔场·反听：左前景游线插头、中央醒着的暗红孔、右侧空白线签、上方自绕成图的游线",
+      baseBtns: ["#sidetone-jack-action-plug", "#sidetone-jack-action-socket", "#sidetone-jack-action-tag"],
+      entryFeedback: "游线没有插孔，却在墙上绕出一张朝内的线路图。中央总线向后退开。",
+    },
+    morgue: {
+      entryBtn: "#listening-back-entry-morgue", returnBtn: "#listening-back-morgue-return", responseEl: "#sidetone-morgue-response",
+      baseImg: "assets/return-ring-morgue.webp", replayImg: "assets/v62-listening-back-ring-morgue.webp",
+      baseFigLabel: "低矮黑石陈放室，黄铜抽屉与托盘保存成排熄灭信号灯；左侧一只仍发暗红光的回铃灯，中央托盘上放着一张卷曲的退回通话单，右侧黄铜铃碗内部结着黑蜡",
+      replayFigLabel: "回铃陈放室·反听：左前景暗红回铃灯、中央退回单托盘、右侧裂蜡黄铜铃碗、后墙成排红色信号灯",
+      baseBtns: ["#sidetone-morgue-action-lamp", "#sidetone-morgue-action-slip", "#sidetone-morgue-action-bell"],
+      entryFeedback: "后墙红灯按你的呼吸次序逐盏亮起。陈放柜背后传来总台落锁的声音。",
+    },
+  };
+  const LISTENING_RETURN_FEEDBACK = "你松开线路。反听总台把这间房重新收回黑暗。";
+  const LISTENING_BOARD_META = {
+    booth: { btn: "#listening-back-board-booth", emptyTitle: "接听失席线路", feedback: "失席线路被抽回监听间。现在，听筒要记录你如何回答。" },
+    jack: { btn: "#listening-back-board-jack", emptyTitle: "接听无号线路", feedback: "无号线路重新展开。每个空孔都在等同一个回声。" },
+    morgue: { btn: "#listening-back-board-morgue", emptyTitle: "接听退回线路", feedback: "退回线路亮起。那通已经挂断的电话要求再死一次。" },
+  };
+  const LISTENING_CUTOFF = {
+    booth: { target: "unseated-listening-booth", feedback: "接地刀提前落下。未接听的失席线路保住了空白，反听总台把你吐回监听间。" },
+    jack: { target: "unnumbered-jack-field", feedback: "接地刀提前落下。无号线路没有留下插孔，反听总台把你吐回插孔场。" },
+    morgue: { target: "return-ring-morgue", feedback: "接地刀提前落下。退回线路没有再次振铃，反听总台把你吐回陈放室。" },
+  };
+  /* 结算路由纯函数：exposure 0 → 空名衣柜；≥5 → 复写库；1–2 低暴露
+     （回授严格高 → 回敲廊，静默严格高 → 屏底库，其余并列 → 交换台，
+     接收在低暴露不可达，不设分支）；3–4 高暴露三项严格高分别 →
+     代审窗 / 守则漂移 / 误准灯，并列 → 证物链办公室（v60 开放契约） */
+  const listeningSettleRoute = (scores) => {
+    const r = scores.receive;
+    const f = scores.feedback;
+    const s = scores.silence;
+    const e = scores.exposure;
+    if (e === 0) return { target: "blank-name-cloakroom", feedback: "你没有给总线任何可辨认的声音。反听记录只剩一件没有姓名的外套。" };
+    if (e >= 5) return { target: "witness-carbon-archive", feedback: "你暴露得太久。总线已经替每一次呼吸压出见证副本。" };
+    if (e <= 2) {
+      if (f > r && f > s) return { target: "counter-knock-gallery", feedback: "回授压过接收与静默。门内传来三下敲门，正照你的节奏还给你。" };
+      if (s > r && s > f) return { target: "blank-screen-underarchive", feedback: "静默压过其余两项。总线把声音擦成一块仍在监听的空白屏。" };
+      return { target: "switchboard", feedback: "低暴露的三项互相抵消。旧交换台要求你回去，从第一根线重新接听。" };
+    }
+    if (r > f && r > s) return { target: "proxy-admission", feedback: "接收压过回授与静默。代理准入处认定，你已经听见了不该由本人听见的声音。" };
+    if (f > r && f > s) return { target: "protocol-drift", feedback: "回授压过接收与静默。守则先听见自己的答复，随后开始偏移。" };
+    if (s > r && s > f) return { target: "false-confirmation-desk", feedback: "静默压过接收与回授。假确认台把没有发生的通话登记为已核实。" };
+    return { target: "chain-of-custody-office", feedback: "三项在高压线路上拉平。证物链办公室接管这段无法分清来去的声音。" };
+  };
+  /* 分值只从当前 cycle 的可信 history 重算，永不持久化 */
+  const listeningScores = (st) => {
+    const scores = { receive: 0, feedback: 0, silence: 0, exposure: 0 };
+    st.history.forEach((h) => {
+      if (h.cycle !== st.cycle) return;
+      const sc = LISTENING_RESPONSES[h.room][h.action].scores;
+      Object.keys(sc).forEach((k) => { scores[k] = Math.min(LISTENING_NUM_CAP, scores[k] + sc[k]); });
+    });
+    return scores;
+  };
+  const listeningAnswered = (st) => LISTENING_ROOMS.filter((room) => st.history.some((h) => h.cycle === st.cycle && h.room === room));
+
+  const getListening = () => {
+    let raw = {};
+    try {
+      raw = JSON.parse(store.get(LISTENING_KEY, "{}")) || {};
+    } catch { raw = {}; }
+    if (typeof raw !== "object" || Array.isArray(raw)) raw = {};
+    /* 错版本整体丢弃 */
+    if (raw.version !== LISTENING_VERSION) raw = {};
+    const num = (v) => {
+      let n = Number(v);
+      if (!Number.isFinite(n) || n < 0) n = 0;
+      return Math.min(LISTENING_NUM_CAP, Math.floor(n));
+    };
+    const cycle = num(raw.cycle) || 1;
+    /* visited 只接受 console / booth / jack / morgue 四个布尔键 */
+    const visited = {};
+    LISTENING_ROOMS.concat(["console"]).forEach((k) => { visited[k] = Boolean(raw.visited && raw.visited[k] === true); });
+    /* history：精确 {cycle,room,action} 三键、白名单、同 cycle 每房
+       第一条，去伪去重、总长裁到 ≤16 */
+    let history = [];
+    if (Array.isArray(raw.history)) {
+      raw.history.forEach((h) => {
+        if (!h || typeof h !== "object" || Array.isArray(h)) return;
+        if (Object.keys(h).sort().join(",") !== "action,cycle,room") return;
+        const hc = num(h.cycle);
+        if (hc < 1 || !LISTENING_ROOMS.includes(h.room) || !LISTENING_RESPONSES[h.room][h.action]) return;
+        if (history.some((x) => x.cycle === hc && x.room === h.room)) return;
+        history.push({ cycle: hc, room: h.room, action: h.action });
+      });
+      history = history.slice(-LISTENING_HISTORY_CAP);
+    }
+    const completedRuns = num(raw.completedRuns);
+    const cutRuns = num(raw.cutRuns);
+    const outcomeCounts = {};
+    LISTENING_OUTCOME_TARGETS.forEach((t) => { outcomeCounts[t] = num(raw.outcomeCounts && raw.outcomeCounts[t]); });
+    const lastOutcome = LISTENING_LAST_OUTCOMES.includes(raw.lastOutcome) ? raw.lastOutcome : "";
+    const replayRoom = LISTENING_ROOMS.includes(raw.replayRoom) ? raw.replayRoom : "";
+    const scores = listeningScores({ cycle, history });
+    const answered = listeningAnswered({ cycle, history });
+    const st = { cycle, visited, history, completedRuns, cutRuns, outcomeCounts, lastOutcome, replayRoom, pending: null, pendingTarget: "" };
+    /* pending 六类精确键集（额外键即伪造），逐字重算 + 严格证据：
+       entry = 基础态入口，replayRoom 空且该房本轮未答；
+       board = replayRoom 同房且该房本轮未答；
+       response = replayRoom 同房且本轮 history 恰有该条；
+       return = replayRoom 同房；
+       settle = 三房齐备且 target/feedback 由当前派生分值逐字重算；
+       cutoff = 恰两房已答，target/feedback 按缺房逐字重算 */
+    if (raw.pending && typeof raw.pending === "object" && !Array.isArray(raw.pending)) {
+      const p = raw.pending;
+      const keys = Object.keys(p).sort().join(",");
+      if (p.kind === "entry" && keys === "cycle,feedback,kind,room,scene,target"
+        && LISTENING_ROOMS.includes(p.room) && p.scene === LISTENING_ROOM_SCENE[p.room]
+        && p.target === LISTENING_CONSOLE && num(p.cycle) === cycle
+        && p.feedback === LISTENING_ROOM_META[p.room].entryFeedback
+        && !replayRoom && !answered.includes(p.room)) {
+        st.pending = { kind: "entry", scene: p.scene, room: p.room, target: LISTENING_CONSOLE, feedback: p.feedback, cycle };
+      } else if (p.kind === "board" && keys === "action,cycle,feedback,kind,scene,target"
+        && p.scene === LISTENING_CONSOLE && LISTENING_ROOMS.includes(p.action)
+        && p.target === LISTENING_ROOM_SCENE[p.action] && num(p.cycle) === cycle
+        && p.feedback === LISTENING_BOARD_META[p.action].feedback
+        && replayRoom === p.action && !answered.includes(p.action)) {
+        st.pending = { kind: "board", scene: LISTENING_CONSOLE, action: p.action, target: p.target, feedback: p.feedback, cycle };
+      } else if (p.kind === "response" && keys === "action,cycle,feedback,kind,room,scene,target"
+        && LISTENING_ROOMS.includes(p.room) && p.scene === LISTENING_ROOM_SCENE[p.room]
+        && LISTENING_RESPONSES[p.room][p.action] && p.target === LISTENING_CONSOLE && num(p.cycle) === cycle
+        && p.feedback === LISTENING_RESPONSES[p.room][p.action].feedback
+        && replayRoom === p.room
+        && history.some((h) => h.cycle === cycle && h.room === p.room && h.action === p.action)) {
+        st.pending = { kind: "response", scene: p.scene, room: p.room, action: p.action, target: LISTENING_CONSOLE, feedback: p.feedback, cycle };
+      } else if (p.kind === "return" && keys === "cycle,feedback,kind,room,scene,target"
+        && LISTENING_ROOMS.includes(p.room) && p.scene === LISTENING_ROOM_SCENE[p.room]
+        && p.target === LISTENING_CONSOLE && num(p.cycle) === cycle
+        && p.feedback === LISTENING_RETURN_FEEDBACK
+        && replayRoom === p.room) {
+        st.pending = { kind: "return", scene: p.scene, room: p.room, target: LISTENING_CONSOLE, feedback: p.feedback, cycle };
+      } else if (p.kind === "settle" && keys === "cycle,feedback,kind,scene,target"
+        && p.scene === LISTENING_CONSOLE && num(p.cycle) === cycle && answered.length === 3) {
+        const r = listeningSettleRoute(scores);
+        if (p.target === r.target && p.feedback === r.feedback) {
+          st.pending = { kind: "settle", scene: LISTENING_CONSOLE, target: r.target, feedback: r.feedback, cycle };
+        }
+      } else if (p.kind === "cutoff" && keys === "cycle,feedback,kind,scene,target"
+        && p.scene === LISTENING_CONSOLE && num(p.cycle) === cycle && answered.length === 2) {
+        const missing = LISTENING_ROOMS.find((room) => !answered.includes(room));
+        const c = LISTENING_CUTOFF[missing];
+        if (p.target === c.target && p.feedback === c.feedback) {
+          st.pending = { kind: "cutoff", scene: LISTENING_CONSOLE, target: c.target, feedback: c.feedback, cycle };
+        }
+      }
+    }
+    st.pendingTarget = st.pending ? st.pending.target : "";
+    return st;
+  };
+  /* 只持久化白名单 canonical 十键；scores/已答数/可否结算/pendingTarget
+     等派生字段永不落盘 */
+  const saveListening = (st) => store.set(LISTENING_KEY, JSON.stringify({
+    version: LISTENING_VERSION,
+    cycle: st.cycle,
+    visited: st.visited,
+    history: st.history,
+    completedRuns: st.completedRuns,
+    cutRuns: st.cutRuns,
+    outcomeCounts: st.outcomeCounts,
+    lastOutcome: st.lastOutcome,
+    replayRoom: st.replayRoom,
+    pending: st.pending,
+  }));
+
+  /* 解锁资格只读 v46：三房 visited 全真且合法 marks ≥ 3；绝不写 v46 key */
+  const listeningUnlocked = () => {
+    const st = getSidetone();
+    return SIDETONE_SCENES.every((s) => st.visited[s]) && st.marks.length >= 3;
+  };
+
+  /* 第一拍接受后全热点同步 disabled；回场景/遗忘时恢复 */
+  const listeningLockRoom = (room) => {
+    const meta = LISTENING_ROOM_META[room];
+    Object.keys(LISTENING_RESPONSES[room]).map((a) => LISTENING_RESPONSES[room][a].btn).concat([meta.returnBtn, meta.entryBtn])
+      .forEach((sel) => { const b = $(sel); if (b) b.disabled = true; });
+  };
+  const listeningLockConsole = () => {
+    LISTENING_ROOMS.forEach((room) => { const b = $(LISTENING_BOARD_META[room].btn); if (b) b.disabled = true; });
+    const lever = $("#listening-back-lever");
+    if (lever) lever.disabled = true;
+  };
+  const listeningUnlockConsole = () => {
+    LISTENING_ROOMS.forEach((room) => { const b = $(LISTENING_BOARD_META[room].btn); if (b) b.disabled = false; });
+    const lever = $("#listening-back-lever");
+    if (lever) lever.disabled = false;
+  };
+
+  /* 三房图面同步：replayRoom 命中 → 换 v62 反听图、隐藏并禁用旧三
+     v46 动作与 v62 基础入口、显示三条 response 热点与松线返回；否则
+     回弹基础图与旧动作，入口仅在解锁后可见可用；同尺寸切图不改布局 */
+  const syncListeningRoom = (room) => {
+    const meta = LISTENING_ROOM_META[room];
+    if (!meta) return;
+    const st = getListening();
+    const isReplay = st.replayRoom === room;
+    const section = $(`#scene-${LISTENING_ROOM_SCENE[room]}`);
+    if (!section) return;
+    const img = section.querySelector(".branch-img");
+    if (img) img.src = isReplay ? meta.replayImg : meta.baseImg;
+    const figure = section.querySelector(".branch-figure");
+    if (figure) figure.setAttribute("aria-label", isReplay ? meta.replayFigLabel : meta.baseFigLabel);
+    meta.baseBtns.forEach((sel) => {
+      const b = $(sel);
+      if (!b) return;
+      if (isReplay) { b.setAttribute("hidden", ""); b.disabled = true; }
+      else { b.removeAttribute("hidden"); b.disabled = AutoAdvance.has("sidetone-" + room); }
+    });
+    const entryBtn = $(meta.entryBtn);
+    if (entryBtn) {
+      if (!isReplay && listeningUnlocked()) {
+        entryBtn.removeAttribute("hidden");
+        entryBtn.disabled = AutoAdvance.has("sidetone-" + room) || Boolean(st.pending);
+      } else {
+        entryBtn.setAttribute("hidden", "");
+        entryBtn.disabled = true;
+      }
+    }
+    Object.keys(LISTENING_RESPONSES[room]).forEach((actionId) => {
+      const b = $(LISTENING_RESPONSES[room][actionId].btn);
+      if (!b) return;
+      if (isReplay) { b.removeAttribute("hidden"); b.disabled = false; }
+      else { b.setAttribute("hidden", ""); b.disabled = true; }
+      b.setAttribute("aria-pressed", st.history.some((h) => h.cycle === st.cycle && h.room === room && h.action === actionId) ? "true" : "false");
+    });
+    const retBtn = $(meta.returnBtn);
+    if (retBtn) {
+      if (isReplay) { retBtn.removeAttribute("hidden"); retBtn.disabled = false; }
+      else { retBtn.setAttribute("hidden", ""); retBtn.disabled = true; }
+    }
+  };
+
+  /* 反听入口：与 v46 三动作共享同一场景第一归宿锁（sidetone- 作用域）；
+     只读 v46 判定解锁；v46 或 v62 任一 pending 未决时零副作用；
+     一拍逐字反馈后自动进总台，到达 before 才原子消费 pending */
+  const chooseListeningEntry = (room) => {
+    const sceneName = LISTENING_ROOM_SCENE[room];
+    if (currentScene !== sceneName) return;
+    if (AutoAdvance.has("sidetone-" + room)) return;
+    if (!listeningUnlocked()) return;
+    if (getSidetone().pending) return;
+    const st = getListening();
+    if (st.pending) return;
+    if (st.replayRoom === room) return;
+    st.visited[room] = true;
+    st.pending = { kind: "entry", scene: sceneName, room, target: LISTENING_CONSOLE, feedback: LISTENING_ROOM_META[room].entryFeedback, cycle: st.cycle };
+    saveListening(st);
+    const entryBtn = $(LISTENING_ROOM_META[room].entryBtn);
+    if (entryBtn) entryBtn.disabled = true;
+    const responseEl = $(LISTENING_ROOM_META[room].responseEl);
+    if (responseEl) responseEl.textContent = LISTENING_ROOM_META[room].entryFeedback;
+    AudioEngine.knock(0.16);
+    AutoAdvance.schedule("sidetone-" + room, LISTENING_CONSOLE, { delay: sidetoneDelay(), before: () => listeningConsoleArrive() });
+    paintSidetoneScene(room);
+  };
+
+  /* 线路板：写 replayRoom + 精确 board pending，反馈后自动回对应旧房
+     的反听态；已答房本轮不得再选；到达 before 原子消费 pending */
+  const chooseListeningBoard = (room) => {
+    if (currentScene !== LISTENING_CONSOLE) return;
+    if (AutoAdvance.has(LISTENING_CONSOLE)) return;
+    if (getSidetone().pending) return;
+    const st = getListening();
+    if (st.pending) return;
+    if (listeningAnswered(st).includes(room)) return;
+    st.replayRoom = room;
+    if (!st.visited[room]) st.visited[room] = true;
+    st.pending = { kind: "board", scene: LISTENING_CONSOLE, action: room, target: LISTENING_ROOM_SCENE[room], feedback: LISTENING_BOARD_META[room].feedback, cycle: st.cycle };
+    saveListening(st);
+    listeningLockConsole();
+    const btn = $(LISTENING_BOARD_META[room].btn);
+    if (btn) btn.setAttribute("aria-pressed", "true");
+    const responseEl = $("#listening-back-response");
+    if (responseEl) responseEl.textContent = LISTENING_BOARD_META[room].feedback;
+    AudioEngine.knock(0.16);
+    paintListeningMemory();
+    AutoAdvance.schedule(LISTENING_CONSOLE, LISTENING_ROOM_SCENE[room], { delay: branchDelay(), before: () => listeningBoardArrive() });
+  };
+  const listeningBoardArrive = () => {
+    const s = getListening();
+    if (s.pending) s.pending = null;
+    saveListening(s);
+  };
+
+  /* response 被接受：立即写 history 与精确 response pending，锁死本房
+     全部 v62 热点，逐字反馈后自动回总台；到达 before 清 replayRoom/pending */
+  const chooseListeningResponse = (room, actionId) => {
+    const meta = LISTENING_RESPONSES[room] && LISTENING_RESPONSES[room][actionId];
+    if (!meta) return;
+    const sceneName = LISTENING_ROOM_SCENE[room];
+    if (currentScene !== sceneName) return;
+    if (AutoAdvance.has("listening-back-" + room)) return;
+    if (AutoAdvance.has("sidetone-" + room)) return;
+    const st = getListening();
+    if (st.pending) return;
+    if (st.replayRoom !== room) return;
+    if (listeningAnswered(st).includes(room)) return;
+    st.history.push({ cycle: st.cycle, room, action: actionId });
+    st.history = st.history.slice(-LISTENING_HISTORY_CAP);
+    st.pending = { kind: "response", scene: sceneName, room, action: actionId, target: LISTENING_CONSOLE, feedback: meta.feedback, cycle: st.cycle };
+    saveListening(st);
+    listeningLockRoom(room);
+    const btn = $(meta.btn);
+    if (btn) btn.setAttribute("aria-pressed", "true");
+    const responseEl = $(LISTENING_ROOM_META[room].responseEl);
+    if (responseEl) responseEl.textContent = meta.feedback;
+    AudioEngine.knock(0.16);
+    paintListeningMemory();
+    AutoAdvance.schedule("listening-back-" + room, LISTENING_CONSOLE, { delay: branchDelay(), before: () => listeningConsoleArrive() });
+  };
+
+  /* 松线返回：不选答案，只用精确 return pending 回总台 */
+  const chooseListeningReturn = (room) => {
+    const sceneName = LISTENING_ROOM_SCENE[room];
+    if (currentScene !== sceneName) return;
+    if (AutoAdvance.has("listening-back-" + room)) return;
+    if (AutoAdvance.has("sidetone-" + room)) return;
+    const st = getListening();
+    if (st.pending) return;
+    if (st.replayRoom !== room) return;
+    st.pending = { kind: "return", scene: sceneName, room, target: LISTENING_CONSOLE, feedback: LISTENING_RETURN_FEEDBACK, cycle: st.cycle };
+    saveListening(st);
+    listeningLockRoom(room);
+    const responseEl = $(LISTENING_ROOM_META[room].responseEl);
+    if (responseEl) responseEl.textContent = LISTENING_RETURN_FEEDBACK;
+    AudioEngine.knock(0.16);
+    AutoAdvance.schedule("listening-back-" + room, LISTENING_CONSOLE, { delay: branchDelay(), before: () => listeningConsoleArrive() });
+  };
+
+  /* 接地刀：恰两房已答 → 提前接地（cutoff，按缺房路由回对应旧房）；
+     三房齐备 → 让总台接听（settle，当前派生分值经纯函数路由）；
+     其余点击零副作用。到达 before 才原子结算并开新轮 */
+  const chooseListeningLever = () => {
+    if (currentScene !== LISTENING_CONSOLE) return;
+    if (AutoAdvance.has(LISTENING_CONSOLE)) return;
+    const st = getListening();
+    if (st.pending) return;
+    const answered = listeningAnswered(st);
+    if (answered.length === 3) {
+      const r = listeningSettleRoute(listeningScores(st));
+      st.pending = { kind: "settle", scene: LISTENING_CONSOLE, target: r.target, feedback: r.feedback, cycle: st.cycle };
+      saveListening(st);
+      listeningLockConsole();
+      const btn = $("#listening-back-lever");
+      if (btn) btn.setAttribute("aria-pressed", "true");
+      const responseEl = $("#listening-back-response");
+      if (responseEl) responseEl.textContent = r.feedback;
+      AudioEngine.knock(0.16);
+      paintListeningConsole();
+      AutoAdvance.schedule(LISTENING_CONSOLE, r.target, { delay: branchDelay(), before: () => listeningSettleArrive(r.target) });
+    } else if (answered.length === 2) {
+      const missing = LISTENING_ROOMS.find((room) => !answered.includes(room));
+      const c = LISTENING_CUTOFF[missing];
+      st.pending = { kind: "cutoff", scene: LISTENING_CONSOLE, target: c.target, feedback: c.feedback, cycle: st.cycle };
+      saveListening(st);
+      listeningLockConsole();
+      const btn = $("#listening-back-lever");
+      if (btn) btn.setAttribute("aria-pressed", "true");
+      const responseEl = $("#listening-back-response");
+      if (responseEl) responseEl.textContent = c.feedback;
+      AudioEngine.knock(0.16);
+      paintListeningConsole();
+      AutoAdvance.schedule(LISTENING_CONSOLE, c.target, { delay: branchDelay(), before: () => listeningCutoffArrive(missing) });
+    }
+  };
+  const listeningSettleArrive = (target) => {
+    const s = getListening();
+    if (s.pending) s.pending = null;
+    s.completedRuns = Math.min(LISTENING_NUM_CAP, s.completedRuns + 1);
+    if (s.outcomeCounts[target] !== undefined) s.outcomeCounts[target] = Math.min(LISTENING_NUM_CAP, s.outcomeCounts[target] + 1);
+    s.lastOutcome = LISTENING_OUTCOME_TARGETS.includes(target) ? target : "";
+    s.cycle = Math.min(LISTENING_NUM_CAP, s.cycle + 1);
+    s.replayRoom = "";
+    saveListening(s);
+    if (LEDGER_SCENE_KEY[target]) grantLedgerVisit(target);
+    syncListeningLink();
+    paintListeningMemory();
+  };
+  const listeningCutoffArrive = (missing) => {
+    const s = getListening();
+    if (s.pending) s.pending = null;
+    s.cutRuns = Math.min(LISTENING_NUM_CAP, s.cutRuns + 1);
+    s.lastOutcome = LISTENING_ROOMS.includes(missing) ? "early-" + missing : "";
+    s.cycle = Math.min(LISTENING_NUM_CAP, s.cycle + 1);
+    s.replayRoom = "";
+    saveListening(s);
+    paintListeningMemory();
+  };
+
+  /* 到达总台通用尾件（entry/response/return）：原子记 console 真实
+     到访、清 replayRoom、清 pending（consume once） */
+  const listeningConsoleArrive = () => {
+    const s = getListening();
+    if (!s.visited.console) s.visited.console = true;
+    if (s.replayRoom) s.replayRoom = "";
+    if (s.pending) s.pending = null;
+    saveListening(s);
+    syncListeningLink();
+    paintListeningMemory();
+  };
+
+  /* reload/离开重返节拍恢复：逐字重播反馈并按原作用域精确重挂一次，
+     不二次作答/结算；重播期间重新锁定相关全部热点并恢复 aria-pressed */
+  const replayListeningPending = (sceneName) => {
+    const st = getListening();
+    const p = st.pending;
+    if (!p || p.scene !== sceneName) return;
+    if (p.kind === "entry") {
+      const entryBtn = $(LISTENING_ROOM_META[p.room].entryBtn);
+      if (entryBtn) entryBtn.disabled = true;
+      const responseEl = $(LISTENING_ROOM_META[p.room].responseEl);
+      if (responseEl) responseEl.textContent = p.feedback;
+      AutoAdvance.schedule("sidetone-" + p.room, LISTENING_CONSOLE, { delay: sidetoneDelay(), before: () => listeningConsoleArrive() });
+      paintSidetoneScene(p.room);
+    } else if (p.kind === "response" || p.kind === "return") {
+      listeningLockRoom(p.room);
+      if (p.kind === "response") {
+        const btn = $(LISTENING_RESPONSES[p.room][p.action].btn);
+        if (btn) btn.setAttribute("aria-pressed", "true");
+      }
+      const responseEl = $(LISTENING_ROOM_META[p.room].responseEl);
+      if (responseEl) responseEl.textContent = p.feedback;
+      AutoAdvance.schedule("listening-back-" + p.room, LISTENING_CONSOLE, { delay: branchDelay(), before: () => listeningConsoleArrive() });
+    } else {
+      listeningLockConsole();
+      const btn = $(p.kind === "board" ? LISTENING_BOARD_META[p.action].btn : "#listening-back-lever");
+      if (btn) btn.setAttribute("aria-pressed", "true");
+      const responseEl = $("#listening-back-response");
+      if (responseEl) responseEl.textContent = p.feedback;
+      const missing = LISTENING_ROOMS.find((room) => !listeningAnswered(getListening()).includes(room));
+      const before = p.kind === "board" ? () => listeningBoardArrive()
+        : p.kind === "settle" ? () => listeningSettleArrive(p.target)
+          : () => listeningCutoffArrive(missing);
+      AutoAdvance.schedule(LISTENING_CONSOLE, p.target, { delay: branchDelay(), before });
+    }
+  };
+
+  /* 总台进入：幂等补记 console 真实到访、解锁机关、清响应、按派生重绘 */
+  const enterListeningConsole = () => {
+    const st = getListening();
+    if (!st.visited.console) {
+      st.visited.console = true;
+      saveListening(st);
+      syncListeningLink();
+    }
+    listeningUnlockConsole();
+    const responseEl = $("#listening-back-response");
+    if (responseEl) responseEl.textContent = "";
+    paintListeningConsole();
+  };
+
+  /* 台面重绘：四项派生读数 / 已接听计数 / 线路板短语或空槽文案与
+     aria / 接地刀显露与文案 / 提前接地与结算提示 */
+  const paintListeningConsole = () => {
+    const st = getListening();
+    const scores = listeningScores(st);
+    $$("[data-listening-receive]").forEach((el) => { el.textContent = scores.receive; });
+    $$("[data-listening-feedback]").forEach((el) => { el.textContent = scores.feedback; });
+    $$("[data-listening-silence]").forEach((el) => { el.textContent = scores.silence; });
+    $$("[data-listening-exposure]").forEach((el) => { el.textContent = scores.exposure; });
+    const answered = listeningAnswered(st);
+    $$("[data-listening-count]").forEach((el) => { el.textContent = `${answered.length}/3`; });
+    LISTENING_ROOMS.forEach((room) => {
+      const btn = $(LISTENING_BOARD_META[room].btn);
+      if (!btn) return;
+      const entry = st.history.find((h) => h.cycle === st.cycle && h.room === room);
+      const title = btn.querySelector(".bb-title");
+      if (title) title.textContent = entry ? LISTENING_RESPONSES[room][entry.action].phrase : LISTENING_BOARD_META[room].emptyTitle;
+      btn.setAttribute("aria-pressed", entry ? "true" : "false");
+      btn.disabled = Boolean(entry) || AutoAdvance.has(LISTENING_CONSOLE);
+    });
+    const lever = $("#listening-back-lever");
+    if (lever) {
+      if (answered.length >= 2 && !st.pending) {
+        lever.removeAttribute("hidden");
+        const title = lever.querySelector(".bb-title");
+        if (title) title.textContent = answered.length === 3 ? "让总台接听" : "提前接地";
+      } else {
+        lever.setAttribute("hidden", "");
+      }
+    }
+    const hint = $("#listening-back-hint");
+    if (hint) {
+      hint.textContent = answered.length === 3 ? "三房齐备。反听总台可以接听。"
+        : answered.length === 2 ? "两房已答。接地刀现在可以提前落下。" : "";
+    }
+  };
+
+  const syncListeningLink = () => {
+    const link = $("#listening-back-link");
+    if (!link) return;
+    if (getListening().visited.console) link.removeAttribute("hidden");
+    else link.setAttribute("hidden", "");
+  };
+
+  /* 痕迹页单行：完成轮数、提前接地次数、本轮四项派生读数与已接听数；
+     八张统计卡不变 */
+  const paintListeningMemory = () => {
+    const memory = $("#listening-back-memory");
+    if (!memory) return;
+    const st = getListening();
+    const answered = listeningAnswered(st);
+    const active = LISTENING_ROOMS.some((r) => st.visited[r]) || st.visited.console || st.completedRuns > 0 || st.cutRuns > 0
+      || answered.length > 0 || Boolean(st.replayRoom);
+    if (!active) {
+      memory.hidden = true;
+      return;
+    }
+    const scores = listeningScores(st);
+    memory.textContent = `反听总台：完成 ${st.completedRuns} 轮，提前接地 ${st.cutRuns} 次；本轮接收 ${scores.receive} / 回授 ${scores.feedback} / 静默 ${scores.silence} / 暴露 ${scores.exposure}，已接听 ${answered.length}/3。`;
+    memory.hidden = false;
+  };
+
+  /* v62 合成守卫：3 基础入口 + 3 线路板 + 9 response + 3 松线返回 +
+     1 接地刀共 19 组监听只接受 isTrusted 真实 click；合成
+     HTMLElement.click() 零副作用，Enter/Space 走原生按钮行为 */
+  const listeningEntryBoothBtn = $("#listening-back-entry-booth");
+  if (listeningEntryBoothBtn) listeningEntryBoothBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningEntry("booth"); });
+  const listeningEntryJackBtn = $("#listening-back-entry-jack");
+  if (listeningEntryJackBtn) listeningEntryJackBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningEntry("jack"); });
+  const listeningEntryMorgueBtn = $("#listening-back-entry-morgue");
+  if (listeningEntryMorgueBtn) listeningEntryMorgueBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningEntry("morgue"); });
+  const listeningBoardBoothBtn = $("#listening-back-board-booth");
+  if (listeningBoardBoothBtn) listeningBoardBoothBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningBoard("booth"); });
+  const listeningBoardJackBtn = $("#listening-back-board-jack");
+  if (listeningBoardJackBtn) listeningBoardJackBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningBoard("jack"); });
+  const listeningBoardMorgueBtn = $("#listening-back-board-morgue");
+  if (listeningBoardMorgueBtn) listeningBoardMorgueBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningBoard("morgue"); });
+  const listeningBoothHoldReceiverBtn = $("#listening-back-booth-hold-receiver");
+  if (listeningBoothHoldReceiverBtn) listeningBoothHoldReceiverBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningResponse("booth", "hold-receiver"); });
+  const listeningBoothReturnBreathBtn = $("#listening-back-booth-return-breath");
+  if (listeningBoothReturnBreathBtn) listeningBoothReturnBreathBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningResponse("booth", "return-breath"); });
+  const listeningBoothLeaveSeatBtn = $("#listening-back-booth-leave-seat");
+  if (listeningBoothLeaveSeatBtn) listeningBoothLeaveSeatBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningResponse("booth", "leave-seat"); });
+  const listeningJackBridgeApertureBtn = $("#listening-back-jack-bridge-aperture");
+  if (listeningJackBridgeApertureBtn) listeningJackBridgeApertureBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningResponse("jack", "bridge-aperture"); });
+  const listeningJackLoopPlugBtn = $("#listening-back-jack-loop-plug");
+  if (listeningJackLoopPlugBtn) listeningJackLoopPlugBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningResponse("jack", "loop-plug"); });
+  const listeningJackGroundTagBtn = $("#listening-back-jack-ground-tag");
+  if (listeningJackGroundTagBtn) listeningJackGroundTagBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningResponse("jack", "ground-tag"); });
+  const listeningMorgueRelightLampBtn = $("#listening-back-morgue-relight-lamp");
+  if (listeningMorgueRelightLampBtn) listeningMorgueRelightLampBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningResponse("morgue", "relight-lamp"); });
+  const listeningMorgueReverseSlipBtn = $("#listening-back-morgue-reverse-slip");
+  if (listeningMorgueReverseSlipBtn) listeningMorgueReverseSlipBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningResponse("morgue", "reverse-slip"); });
+  const listeningMorgueSealBellBtn = $("#listening-back-morgue-seal-bell");
+  if (listeningMorgueSealBellBtn) listeningMorgueSealBellBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningResponse("morgue", "seal-bell"); });
+  const listeningBoothReturnBtn = $("#listening-back-booth-return");
+  if (listeningBoothReturnBtn) listeningBoothReturnBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningReturn("booth"); });
+  const listeningJackReturnBtn = $("#listening-back-jack-return");
+  if (listeningJackReturnBtn) listeningJackReturnBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningReturn("jack"); });
+  const listeningMorgueReturnBtn = $("#listening-back-morgue-return");
+  if (listeningMorgueReturnBtn) listeningMorgueReturnBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningReturn("morgue"); });
+  const listeningLeverBtn = $("#listening-back-lever");
+  if (listeningLeverBtn) listeningLeverBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseListeningLever(); });
+  paintListeningConsole();
+
+  /* ============================================================
      v47 退件未止：投递所气送管/格柜/空白回执三入口 + 三个画面热点场景
      状态独立存 goddead_v47_returned_rooms，容错坏 JSON；
      pending 必须是 {scene, action, target, feedback} 完整合法映射；
@@ -13219,6 +13842,10 @@ document.addEventListener("DOMContentLoaded", () => {
       paintFailure();
       failureUnlockDesk();
       FAILURE_ROOMS.forEach(syncFailureRoom);
+      syncListeningLink();
+      paintListeningConsole();
+      listeningUnlockConsole();
+      LISTENING_ROOMS.forEach(syncListeningRoom);
       ANOMALY_ROOMS.forEach((r) => syncEvidenceRoom(ANOMALY_ROOM_SCENE[r]));
       syncLateralLinks();
       syncBackroomLinks();
@@ -13247,6 +13874,7 @@ document.addEventListener("DOMContentLoaded", () => {
       paintCrossMemory();
       paintCustodyMemory();
       paintFailureMemory();
+      paintListeningMemory();
       paintValuationMemory();
       paintFloorMemory();
       paintRegistryMemory();
@@ -13342,6 +13970,10 @@ document.addEventListener("DOMContentLoaded", () => {
   paintFailureMemory();
   paintFailure();
   FAILURE_ROOMS.forEach(syncFailureRoom);
+  syncListeningLink();
+  paintListeningMemory();
+  paintListeningConsole();
+  LISTENING_ROOMS.forEach(syncListeningRoom);
   syncLateralLinks();
   paintLateralMemory();
   syncBackroomLinks();
