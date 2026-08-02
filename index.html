@@ -1820,6 +1820,49 @@
         </div>
       </section>
 
+      <!-- v61 故障重演 · 故障重演台 -->
+      <section class="scene scene-branch scene-failure-reconstruction-desk" id="scene-failure-reconstruction-desk" data-scene="failure-reconstruction-desk" data-title="Goddead — 故障重演台" aria-label="故障重演台">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE FAILURE RECONSTRUCTION DESK · 故 障 重 演 台</p>
+            <h2 class="sec-title">故障重演台</h2>
+            <p class="sec-desc" id="failure-desc">转接室的证词槽还空着；泵房的证词槽还空着；罪籍库的证词槽还空着。</p>
+          </header>
+
+          <div class="review-slip ledger-slip reveal" role="group" aria-label="重演签">
+            <span class="rs-item">印证 <b data-failure-confirm>0</b></span>
+            <span class="rs-item">失真 <b data-failure-distort>0</b></span>
+            <span class="rs-item">归责 <b data-failure-blame>0</b></span>
+            <span class="rs-item">已取证 <b data-failure-count>0/3</b></span>
+          </div>
+
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="故障重演台：左中右三块证词板、前景中央重演总栓">
+            <img class="branch-img" src="assets/v61-failure-reconstruction-desk.webp" alt="" width="1536" height="1024" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot failure-spot-board-echo" id="failure-board-echo" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">转接</span>
+              <span class="bb-title">选择转接室证据</span>
+              <span class="bb-hint">声筒、拨叉与铃牌</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot failure-spot-board-pump" id="failure-board-pump" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">泵房</span>
+              <span class="bb-title">选择泵房证据</span>
+              <span class="bb-hint">倒行表、沉积槽与封签梯</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot failure-spot-board-ledger" id="failure-board-ledger" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">罪籍</span>
+              <span class="bb-title">选择罪籍库证据</span>
+              <span class="bb-hint">复写章、擦名刀与拒收屉</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot failure-spot-lever" id="failure-lever" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">总栓</span>
+              <span class="bb-title">压下重演总栓</span>
+              <span class="bb-hint">三段证词一起生效</span>
+            </button>
+          </figure>
+          <p class="branch-response" id="failure-response" aria-live="polite"></p>
+        </div>
+      </section>
+
       <section class="scene scene-branch scene-night-shift-registry" id="scene-night-shift-registry" data-scene="night-shift-registry" data-title="Goddead — 夜班登记所" aria-label="夜班登记所">
         <div class="scene-body branch-body">
           <header class="sec-head reveal">
@@ -3087,24 +3130,49 @@
             <p class="sec-desc">所有被转接的声音都要在这里重新失焦。三只分线器还温着，蜡筒里的声音还没有名字。</p>
           </header>
 
-          <figure class="branch-figure reveal" role="img" aria-label="布满分线器与蜡筒的转接台，铜管沿墙汇入黑暗">
-            <img class="branch-img" src="assets/echo-transfer-chamber.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
-          </figure>
-
-          <div class="branch-choices reveal" id="echo-transfer-choices" role="group" aria-label="选择一条分线">
-            <button class="branch-btn" id="echo-transfer-choice-relay" type="button" aria-pressed="false" data-hover>
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="布满分线器与蜡筒的转接台，铜管沿墙汇入黑暗">
+            <img class="branch-img" src="assets/echo-transfer-chamber.webp" alt="" width="1536" height="1024" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot echo-base-spot-relay" id="echo-transfer-choice-relay" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">分线</span>
               <span class="bb-title">接到血管维护网</span>
               <span class="bb-hint">失真的语音需要更大的管道</span>
             </button>
-            <button class="branch-btn" id="echo-transfer-choice-seal" type="button" aria-pressed="false" data-hover>
+            <button class="branch-btn forecourt-native-hotspot echo-base-spot-seal" id="echo-transfer-choice-seal" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">封存</span>
               <span class="bb-title">封存自己的声音</span>
               <span class="bb-hint">蜡筒会替你说话</span>
             </button>
-            <button class="branch-btn" id="echo-transfer-choice-bell" type="button" aria-pressed="false" data-hover>
+            <button class="branch-btn forecourt-native-hotspot echo-base-spot-bell" id="echo-transfer-choice-bell" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">拨铃</span>
               <span class="bb-title">再次拨响 03:17</span>
               <span class="bb-hint">这一回也许有人接听</span>
             </button>
-          </div>
+            <button class="branch-btn forecourt-native-hotspot echo-base-spot-entry" id="failure-echo-entry" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">重演</span>
+              <span class="bb-title">撕开故障重演封签</span>
+              <span class="bb-hint">把那次失真重新摆上台面</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot echo-recon-spot-sealed-voice" id="failure-echo-sealed-voice" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">声筒</span>
+              <span class="bb-title">触碰封存声筒</span>
+              <span class="bb-hint">蜡筒里的尾音还没有名字</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot echo-recon-spot-cut-relay" id="failure-echo-cut-relay" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">拨叉</span>
+              <span class="bb-title">检查断路拨叉</span>
+              <span class="bb-hint">两端同时带电</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot echo-recon-spot-late-bell" id="failure-echo-late-bell" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">铃牌</span>
+              <span class="bb-title">翻看迟到铃牌</span>
+              <span class="bb-hint">蜡印比来电先到</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot echo-recon-spot-return" id="failure-echo-return" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">回台</span>
+              <span class="bb-title">退回重演台</span>
+              <span class="bb-hint">已取的证词留在板上</span>
+            </button>
+          </figure>
           <p class="branch-response" id="echo-transfer-response" aria-live="polite"></p>
 
           <nav class="scene-exits reveal" aria-label="离开失真转接室">
@@ -3122,24 +3190,49 @@
             <p class="sec-desc">泵还在按别人的脉搏运转。压力表的指针倒着走，应急梯通向没有编号的一层。</p>
           </header>
 
-          <figure class="branch-figure reveal" role="img" aria-label="倒转的压力表与铜制泵体，墙角一架应急梯">
-            <img class="branch-img" src="assets/reverse-flow-pump-room.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
-          </figure>
-
-          <div class="branch-choices reveal" id="vein-pump-choices" role="group" aria-label="选择一只泵阀">
-            <button class="branch-btn" id="vein-pump-choice-release" type="button" aria-pressed="false" data-hover>
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="倒转的压力表与铜制泵体，墙角一架应急梯">
+            <img class="branch-img" src="assets/reverse-flow-pump-room.webp" alt="" width="1536" height="1024" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot pump-base-spot-release" id="vein-pump-choice-release" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">泄压</span>
               <span class="bb-title">释放回声压力</span>
               <span class="bb-hint">听筒会轻轻发烫</span>
             </button>
-            <button class="branch-btn" id="vein-pump-choice-sediment" type="button" aria-pressed="false" data-hover>
+            <button class="branch-btn forecourt-native-hotspot pump-base-spot-sediment" id="vein-pump-choice-sediment" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">沉积</span>
               <span class="bb-title">导入黑色沉积物</span>
               <span class="bb-hint">罪籍管道还空着</span>
             </button>
-            <button class="branch-btn" id="vein-pump-choice-ladder" type="button" aria-pressed="false" data-hover>
+            <button class="branch-btn forecourt-native-hotspot pump-base-spot-ladder" id="vein-pump-choice-ladder" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">爬梯</span>
               <span class="bb-title">爬应急梯</span>
               <span class="bb-hint">没有编号的一层</span>
             </button>
-          </div>
+            <button class="branch-btn forecourt-native-hotspot pump-base-spot-entry" id="failure-pump-entry" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">倒放</span>
+              <span class="bb-title">转动事故倒放阀</span>
+              <span class="bb-hint">把那次逆流产回管道</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot pump-recon-spot-reverse-needle" id="failure-pump-reverse-needle" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">倒行表</span>
+              <span class="bb-title">读取倒行压力表</span>
+              <span class="bb-hint">表针替事故加压</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot pump-recon-spot-tagged-reservoir" id="failure-pump-tagged-reservoir" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">沉积槽</span>
+              <span class="bb-title">查验责任沉积槽</span>
+              <span class="bb-hint">没人签字它却知道</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot pump-recon-spot-triple-seal-ladder" id="failure-pump-triple-seal-ladder" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">封签梯</span>
+              <span class="bb-title">核对三封签梯级</span>
+              <span class="bb-hint">同一级梯同一枚鞋印</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot pump-recon-spot-return" id="failure-pump-return" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">回台</span>
+              <span class="bb-title">退回重演台</span>
+              <span class="bb-hint">已取的证词留在板上</span>
+            </button>
+          </figure>
           <p class="branch-response" id="vein-pump-response" aria-live="polite"></p>
 
           <nav class="scene-exits reveal" aria-label="离开逆流泵房">
@@ -3157,24 +3250,49 @@
             <p class="sec-desc">被拒绝的忏悔都归档在这里。册子没有名字，但每一页都认得你的笔迹。</p>
           </header>
 
-          <figure class="branch-figure reveal" role="img" aria-label="高耸的罪籍架与摊开的无名册页，墨水瓶还开着">
-            <img class="branch-img" src="assets/nameless-ledger-vault.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
-          </figure>
-
-          <div class="branch-choices reveal" id="confession-ledger-choices" role="group" aria-label="选择一笔登记">
-            <button class="branch-btn" id="ledger-choice-crossout" type="button" aria-pressed="false" data-hover>
+          <figure class="branch-figure forecourt-tactile-stage reveal" role="img" aria-label="高耸的罪籍架与摊开的无名册页，墨水瓶还开着">
+            <img class="branch-img" src="assets/nameless-ledger-vault.webp" alt="" width="1536" height="1024" decoding="async">
+            <button class="branch-btn forecourt-native-hotspot ledger-base-spot-crossout" id="ledger-choice-crossout" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">划名</span>
               <span class="bb-title">划掉自己的名字</span>
               <span class="bb-hint">墨迹不会干</span>
             </button>
-            <button class="branch-btn" id="ledger-choice-archive" type="button" aria-pressed="false" data-hover>
+            <button class="branch-btn forecourt-native-hotspot ledger-base-spot-archive" id="ledger-choice-archive" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">归档</span>
               <span class="bb-title">归档为仍在场的见证者</span>
               <span class="bb-hint">泵房需要一颗脉搏</span>
             </button>
-            <button class="branch-btn" id="ledger-choice-reject" type="button" aria-pressed="false" data-hover>
+            <button class="branch-btn forecourt-native-hotspot ledger-base-spot-reject" id="ledger-choice-reject" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">拒收</span>
               <span class="bb-title">拒收整份记录</span>
               <span class="bb-hint">三处档案都在听</span>
             </button>
-          </div>
+            <button class="branch-btn forecourt-native-hotspot ledger-base-spot-entry" id="failure-ledger-entry" type="button" aria-pressed="false" data-hover>
+              <span class="bb-short" aria-hidden="true">重演</span>
+              <span class="bb-title">拉开原始重演抽屉</span>
+              <span class="bb-hint">那页空白重新摊开</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot ledger-recon-spot-witness-carbon" id="failure-ledger-witness-carbon" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">复写章</span>
+              <span class="bb-title">压下见证复写章</span>
+              <span class="bb-hint">副本比见证人先到</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot ledger-recon-spot-erasure-blade" id="failure-ledger-erasure-blade" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">擦名刀</span>
+              <span class="bb-title">提起擦名刀</span>
+              <span class="bb-hint">同一处空白两种说法</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot ledger-recon-spot-refusal-drawer" id="failure-ledger-refusal-drawer" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">拒收屉</span>
+              <span class="bb-title">拉开责任拒收屉</span>
+              <span class="bb-hint">始终留空的凹槽</span>
+            </button>
+            <button class="branch-btn forecourt-native-hotspot ledger-recon-spot-return" id="failure-ledger-return" type="button" aria-pressed="false" data-hover hidden>
+              <span class="bb-short" aria-hidden="true">回台</span>
+              <span class="bb-title">退回重演台</span>
+              <span class="bb-hint">已取的证词留在板上</span>
+            </button>
+          </figure>
           <p class="branch-response" id="confession-ledger-response" aria-live="polite"></p>
 
           <nav class="scene-exits reveal" aria-label="离开无名罪籍库">
@@ -3750,6 +3868,7 @@
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory belief-memory pressure-memory floor-anomaly-memory evidence-audit-memory consequence-ledger-memory appeal-memory" id="appeal-memory" hidden></p>
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory belief-memory pressure-memory floor-anomaly-memory evidence-audit-memory consequence-ledger-memory appeal-memory cross-exam-memory" id="cross-exam-memory" hidden></p>
           <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory belief-memory pressure-memory floor-anomaly-memory evidence-audit-memory consequence-ledger-memory appeal-memory cross-exam-memory custody-chain-memory" id="custody-chain-memory" hidden></p>
+          <p class="watch-memory line-memory deliver-memory cancel-memory acting-memory relic-memory branch-memory deep-memory forecourt-memory annex-memory anomaly-memory valuation-memory floor-memory registry-memory callback-memory proxy-memory audit-memory lateral-memory backroom-memory drift-memory knocknet-memory paperback-memory relief-memory sidetone-memory return-room-memory cancellation-copy-memory settlement-memory belief-memory pressure-memory floor-anomaly-memory evidence-audit-memory consequence-ledger-memory appeal-memory cross-exam-memory custody-chain-memory failure-memory" id="failure-memory" hidden></p>
 
           <div class="reliquary-slot reveal" id="reliquary-slot"></div>
 
@@ -3872,6 +3991,7 @@
       <a href="#destination-review-shaft" id="destination-link" hidden data-hover>01ωγ / 去向复核</a>
       <a href="#cross-examination-desk" id="cross-exam-link" hidden data-hover>01ωδ / 交叉听证</a>
       <a href="#chain-of-custody-office" id="custody-chain-link" hidden data-hover>01ωε / 证物链</a>
+      <a href="#failure-reconstruction-desk" id="failure-link" hidden data-hover>02δ½ / 故障重演</a>
       <a href="#night-shift-registry" id="registry-link" hidden data-hover>01π / 夜班登记</a>
       <a href="#midnight-callback" id="callback-link" hidden data-hover>01ρ / 午夜回拨</a>
       <a href="#proxy-admission" id="proxy-link" hidden data-hover>01σ / 代审窗</a>

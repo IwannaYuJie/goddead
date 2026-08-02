@@ -937,7 +937,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (name === "protocol") { protocolConsumed = false; startAnomaly(); syncDriftEntry(); }
     if (name === "corridor") { corridorConsumed = false; corridorDetourArmed = false; syncWatchDoor(); syncBranchEntries(); syncDeepEntries(); startTrace(); }
     if (BRANCH_SCENES.includes(name)) { enterBranch(name); syncPressureRoom(name); replayPressurePending(name); paintPressure(); }
-    if (DEEP_SCENES.includes(name)) enterDeep(name);
+    if (DEEP_SCENES.includes(name)) { enterDeep(name); syncFailureRoom(FAILURE_SCENE_ROOM[name]); replayFailurePending(name); }
+    if (name === "failure-reconstruction-desk") { enterFailureDesk(); replayFailurePending(name); }
     if (FORECOURT_SCENES.includes(name)) enterForecourt(name);
     if (ANNEX_SCENES.includes(name)) enterAnnex(name);
     if (name === "annex-clearinghouse") enterClearinghouse();
@@ -998,6 +999,7 @@ document.addEventListener("DOMContentLoaded", () => {
       paintAppealMemory();
       paintCrossMemory();
       paintCustodyMemory();
+      paintFailureMemory();
       paintValuationMemory();
       paintFloorMemory();
       paintRegistryMemory();
@@ -1046,6 +1048,19 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "deadletter" && !(watchUnlocked() && line4Unlocked() && getLine4().connected)) target = "switchboard";
     if (target === "switchboard" && !(watchUnlocked() && line4Unlocked())) target = "watch";
     if (target === "watch" && !watchUnlocked()) target = "corridor";
+
+    /* v61 故障重演台守卫：合法 pendingTarget / desk 到访 / 活动轮次（任一
+       selection 或 replayRoom）准入；否则回退到第一个合法的 v30 深房——回退
+       目标继续向下流经 v30/v29 旧守卫级联（父支线未访问最终落走廊），
+       本守卫必须位于旧守卫之前，不放宽任何旧守卫 */
+    const failureGuard = getFailure();
+    if (target === FAILURE_DESK && failureGuard.pendingTarget !== FAILURE_DESK && !failureGuard.visited.desk
+      && !FAILURE_ROOMS.some((r) => failureGuard.selections[r]) && !failureGuard.replayRoom) {
+      const depthGuard = getDepth();
+      target = depthGuard.deepVisited["echo-transfer"] ? "echo-transfer"
+        : depthGuard.deepVisited["vein-pump"] ? "vein-pump"
+        : depthGuard.deepVisited["confession-ledger"] ? "confession-ledger" : "echo";
+    }
 
     /* v30 深层守卫：未到访的深层区域直达回退到父支线（先于 v29 守卫执行，
        父支线同样未访问时由下面的 v29 守卫继续拦回走廊，直达不解锁） */
@@ -8623,6 +8638,469 @@ document.addEventListener("DOMContentLoaded", () => {
   paintCustody();
 
   /* ============================================================
+     v61 故障重演：v30 三深房基础态图内化 + 三房重演证据 + 故障重演台
+     状态独立存 goddead_v61_failure_reconstruction（全仓库唯一 key，
+     version 61），容错坏 JSON；canonical 九键显式投影落盘，印证/失真/
+     归责分值、说明句、齐备与可否结算全部由三房 selection 派生，永不
+     落盘。只读写自己的键；到达受守卫目标时只调用现有最窄 helper
+     （grantLedgerVisit / markReviewVisited），不改写 v29/v30/v54/v57/
+     v60 或主线结果。pending 四类（board/clue/return/settle）按精确键集
+     逐字重算，只消费一次；重播重锁热点并恢复 aria-pressed。
+     ============================================================ */
+  const FAILURE_KEY = "goddead_v61_failure_reconstruction";
+  const FAILURE_VERSION = 61;
+  const FAILURE_NUM_CAP = 9999;
+  const FAILURE_DESK = "failure-reconstruction-desk";
+  const FAILURE_ROOMS = ["echo", "pump", "ledger"];
+  const FAILURE_ROOM_SCENE = { echo: "echo-transfer", pump: "vein-pump", ledger: "confession-ledger" };
+  const FAILURE_SCENE_ROOM = { "echo-transfer": "echo", "vein-pump": "pump", "confession-ledger": "ledger" };
+  const FAILURE_OUTCOME_TARGETS = ["evidence-vault", "protocol-drift", "liability-ledger", "false-confirmation-desk", "witness-carbon-archive", "blank-name-cloakroom", "chain-of-custody-office"];
+  /* 九条证据：标签短名 / 分值 / 句段 / 反馈（逐字冻结） */
+  const FAILURE_CLUES = {
+    echo: {
+      "sealed-voice": { btn: "#failure-echo-sealed-voice", short: "声筒", scores: { confirm: 2 }, phrase: "声音被封在蜡筒里", feedback: "声筒回放了你尚未说出的尾音。它把这句证词归到曾经发生。" },
+      "cut-relay": { btn: "#failure-echo-cut-relay", short: "拨叉", scores: { distort: 2 }, phrase: "转接器自己剪断了来路", feedback: "拨叉两端同时带电。线路不是被切断，而是在两边各自继续。" },
+      "late-bell": { btn: "#failure-echo-late-bell", short: "铃牌", scores: { blame: 2 }, phrase: "迟到的铃替来电签了收", feedback: "空白铃牌先落下蜡印，来电才在档案里出现。" },
+    },
+    pump: {
+      "reverse-needle": { btn: "#failure-pump-reverse-needle", short: "倒行表", scores: { distort: 2 }, phrase: "倒走的表针替事故加压", feedback: "表针每退一格，管道就多出一段从未发生的压力。" },
+      "tagged-reservoir": { btn: "#failure-pump-tagged-reservoir", short: "沉积槽", scores: { blame: 2 }, phrase: "黑沉积槽认领了回流", feedback: "沉积物在空白名牌下凝固。没人签字，它却知道该向谁追责。" },
+      "triple-seal-ladder": { btn: "#failure-pump-triple-seal-ladder", short: "封签梯", scores: { confirm: 1, distort: 1, blame: 1 }, phrase: "三枚封签让无号梯级同时作证", feedback: "三枚封签互不相认，却在同一级梯上留下同一枚鞋印。" },
+    },
+    ledger: {
+      "witness-carbon": { btn: "#failure-ledger-witness-carbon", short: "复写章", scores: { confirm: 2 }, phrase: "复写章证明见证人仍在场", feedback: "第二张空纸先显出压痕。见证人还没出现，副本已经替他作证。" },
+      "erasure-blade": { btn: "#failure-ledger-erasure-blade", short: "擦名刀", scores: { distort: 2 }, phrase: "擦名刀把同一页改成两份", feedback: "刀锋没有刮掉名字，只把同一处空白分成了两种说法。" },
+      "refusal-drawer": { btn: "#failure-ledger-refusal-drawer", short: "拒收屉", scores: { blame: 2 }, phrase: "拒收抽屉保存了责任人的位置", feedback: "抽屉里没有姓名，只有一块始终为某个人留空的凹槽。" },
+    },
+  };
+  const FAILURE_ROOM_META = {
+    echo: {
+      entryBtn: "#failure-echo-entry", returnBtn: "#failure-echo-return", responseEl: "#echo-transfer-response",
+      baseImg: "assets/echo-transfer-chamber.webp", reconImg: "assets/v61-failure-echo-transfer.webp",
+      baseFigLabel: "布满分线器与蜡筒的转接台，铜管沿墙汇入黑暗",
+      reconFigLabel: "失真转接室·重演：左侧封存声筒、中央断路拨叉、右侧迟到铃牌、后方返回孔",
+      baseBtns: ["#echo-transfer-choice-relay", "#echo-transfer-choice-seal", "#echo-transfer-choice-bell"],
+      entryFeedback: "封签断开。转接室把那次失真重新摆上台面。",
+    },
+    pump: {
+      entryBtn: "#failure-pump-entry", returnBtn: "#failure-pump-return", responseEl: "#vein-pump-response",
+      baseImg: "assets/reverse-flow-pump-room.webp", reconImg: "assets/v61-failure-vein-pump.webp",
+      baseFigLabel: "倒转的压力表与铜制泵体，墙角一架应急梯",
+      reconFigLabel: "逆流泵房·重演：左侧倒行压力表、中央责任沉积槽、右侧三封签梯、后方返回门",
+      baseBtns: ["#vein-pump-choice-release", "#vein-pump-choice-sediment", "#vein-pump-choice-ladder"],
+      entryFeedback: "倒放阀转动。泵房把那次逆流重新压回管道。",
+    },
+    ledger: {
+      entryBtn: "#failure-ledger-entry", returnBtn: "#failure-ledger-return", responseEl: "#confession-ledger-response",
+      baseImg: "assets/nameless-ledger-vault.webp", reconImg: "assets/v61-failure-confession-ledger.webp",
+      baseFigLabel: "高耸的罪籍架与摊开的无名册页，墨水瓶还开着",
+      reconFigLabel: "无名罪籍库·重演：左侧见证复写章、中央擦名刀与空账、右侧责任拒收屉、后方返回门",
+      baseBtns: ["#ledger-choice-crossout", "#ledger-choice-archive", "#ledger-choice-reject"],
+      entryFeedback: "重演抽屉滑开。罪籍库把那页空白重新摊开。",
+    },
+  };
+  const FAILURE_RETURN_FEEDBACK = "你退回重演台。已取的证词留在板上。";
+  const FAILURE_BOARD_META = {
+    echo: { btn: "#failure-board-echo", emptyTitle: "选择转接室证据", emptyPhrase: "转接室的证词槽还空着", feedback: "转接室的证词板被抽回房间。重演在原来的机台上继续。" },
+    pump: { btn: "#failure-board-pump", emptyTitle: "选择泵房证据", emptyPhrase: "泵房的证词槽还空着", feedback: "泵房的证词板被抽回房间。重演在原来的机台上继续。" },
+    ledger: { btn: "#failure-board-ledger", emptyTitle: "选择罪籍库证据", emptyPhrase: "罪籍库的证词槽还空着", feedback: "罪籍库的证词板被抽回房间。重演在原来的机台上继续。" },
+  };
+  /* 重演台分流纯函数：当前派生分值直接路由，不额外加分；全等按 v60 开放契约去证物链办公室 */
+  const failureSettleRoute = (scores) => {
+    const c = scores.confirm;
+    const d = scores.distort;
+    const b = scores.blame;
+    if (c === d && d === b) return { target: "chain-of-custody-office", feedback: "三项拉平。证物链办公室要求接手这次没有主因的事故。" };
+    if (c > d && c > b) return { target: "evidence-vault", feedback: "三段重演彼此印证。证词被送往异常保全库，等它继续证明自己。" };
+    if (d > c && d > b) return { target: "protocol-drift", feedback: "重演中的失真压过其余两项。守则被迫承认，故障发生在叙述之前。" };
+    if (b > c && b > d) return { target: "liability-ledger", feedback: "责任留下了最重的刻痕。事故被送回责任账房，重新称一次名字。" };
+    if (c === d) return { target: "false-confirmation-desk", feedback: "印证与失真彼此作证。故障被送去假确认台，那里只记录一致的错误。" };
+    if (c === b) return { target: "witness-carbon-archive", feedback: "印证与归责互相盖章。见证副本被送进复写库，等待原件承认。" };
+    return { target: "blank-name-cloakroom", feedback: "失真与归责共同指向一个被擦掉的名字。事故寄存在空名衣柜。" };
+  };
+  const failureScores = (st) => {
+    const scores = { confirm: 0, distort: 0, blame: 0 };
+    FAILURE_ROOMS.forEach((room) => {
+      const sel = st.selections[room];
+      if (!sel) return;
+      const sc = FAILURE_CLUES[room][sel].scores;
+      Object.keys(sc).forEach((k) => { scores[k] = Math.min(FAILURE_NUM_CAP, scores[k] + sc[k]); });
+    });
+    return scores;
+  };
+
+  const getFailure = () => {
+    let raw = {};
+    try {
+      raw = JSON.parse(store.get(FAILURE_KEY, "{}")) || {};
+    } catch { raw = {}; }
+    if (typeof raw !== "object" || Array.isArray(raw)) raw = {};
+    /* 错版本整体丢弃 */
+    if (raw.version !== FAILURE_VERSION) raw = {};
+    const num = (v) => {
+      let n = Number(v);
+      if (!Number.isFinite(n) || n < 0) n = 0;
+      return Math.min(FAILURE_NUM_CAP, Math.floor(n));
+    };
+    const cycle = num(raw.cycle) || 1;
+    const visited = {};
+    FAILURE_ROOMS.concat(["desk"]).forEach((k) => { visited[k] = Boolean(raw.visited && raw.visited[k] === true); });
+    const selections = {};
+    FAILURE_ROOMS.forEach((room) => {
+      selections[room] = raw.selections && FAILURE_CLUES[room][raw.selections[room]] ? raw.selections[room] : "";
+    });
+    const outcomeCounts = {};
+    FAILURE_OUTCOME_TARGETS.forEach((t) => { outcomeCounts[t] = num(raw.outcomeCounts && raw.outcomeCounts[t]); });
+    const lastOutcome = FAILURE_OUTCOME_TARGETS.includes(raw.lastOutcome) ? raw.lastOutcome : "";
+    const replayRoom = FAILURE_ROOMS.includes(raw.replayRoom) ? raw.replayRoom : "";
+    const completedRuns = num(raw.completedRuns);
+    const scores = failureScores({ selections });
+    const complete = FAILURE_ROOMS.every((r) => selections[r]);
+    /* pending 四类精确键集（额外键即伪造），逐字重算 + 严格证据：
+       board = replayRoom 同房；clue = selections 恰为该条；return = replayRoom
+       同房；settle = 三房齐备且 target/feedback 由当前派生分值逐字重算 */
+    let pending = null;
+    if (raw.pending && typeof raw.pending === "object" && !Array.isArray(raw.pending)) {
+      const p = raw.pending;
+      const keys = Object.keys(p).sort().join(",");
+      if (p.kind === "board" && keys === "action,cycle,feedback,kind,scene,target"
+        && p.scene === FAILURE_DESK && FAILURE_ROOMS.includes(p.action)
+        && p.target === FAILURE_ROOM_SCENE[p.action] && num(p.cycle) === cycle
+        && p.feedback === FAILURE_BOARD_META[p.action].feedback
+        && replayRoom === p.action) {
+        pending = { kind: "board", scene: FAILURE_DESK, action: p.action, target: p.target, feedback: p.feedback, cycle };
+      } else if (p.kind === "clue" && keys === "action,cycle,feedback,kind,room,scene,target"
+        && FAILURE_ROOMS.includes(p.room) && p.scene === FAILURE_ROOM_SCENE[p.room]
+        && FAILURE_CLUES[p.room][p.action] && p.target === FAILURE_DESK && num(p.cycle) === cycle
+        && p.feedback === FAILURE_CLUES[p.room][p.action].feedback
+        && selections[p.room] === p.action) {
+        pending = { kind: "clue", scene: p.scene, room: p.room, action: p.action, target: FAILURE_DESK, feedback: p.feedback, cycle };
+      } else if (p.kind === "return" && keys === "cycle,feedback,kind,room,scene,target"
+        && FAILURE_ROOMS.includes(p.room) && p.scene === FAILURE_ROOM_SCENE[p.room]
+        && p.target === FAILURE_DESK && num(p.cycle) === cycle
+        && p.feedback === FAILURE_RETURN_FEEDBACK
+        && replayRoom === p.room) {
+        pending = { kind: "return", scene: p.scene, room: p.room, target: FAILURE_DESK, feedback: p.feedback, cycle };
+      } else if (p.kind === "settle" && keys === "cycle,feedback,kind,scene,target"
+        && p.scene === FAILURE_DESK && num(p.cycle) === cycle && complete) {
+        const r = failureSettleRoute(scores);
+        if (p.target === r.target && p.feedback === r.feedback) {
+          pending = { kind: "settle", scene: FAILURE_DESK, target: r.target, feedback: r.feedback, cycle };
+        }
+      }
+    }
+    return {
+      cycle, visited, selections, completedRuns, outcomeCounts, lastOutcome, replayRoom, pending,
+      pendingTarget: pending ? pending.target : "",
+    };
+  };
+  /* 只持久化白名单 canonical 九键；派生字段永不落盘 */
+  const saveFailure = (st) => store.set(FAILURE_KEY, JSON.stringify({
+    version: FAILURE_VERSION,
+    cycle: st.cycle,
+    visited: st.visited,
+    selections: st.selections,
+    completedRuns: st.completedRuns,
+    outcomeCounts: st.outcomeCounts,
+    lastOutcome: st.lastOutcome,
+    replayRoom: st.replayRoom,
+    pending: st.pending,
+  }));
+
+  /* 第一拍接受后全热点同步 disabled；回场景/遗忘时恢复 */
+  const failureLockRoom = (room) => {
+    const sels = Object.keys(FAILURE_CLUES[room]).map((c) => FAILURE_CLUES[room][c].btn).concat([FAILURE_ROOM_META[room].returnBtn]);
+    sels.forEach((sel) => { const b = $(sel); if (b) b.disabled = true; });
+  };
+  const failureLockDesk = () => {
+    FAILURE_ROOMS.forEach((room) => { const b = $(FAILURE_BOARD_META[room].btn); if (b) b.disabled = true; });
+    const lever = $("#failure-lever");
+    if (lever) lever.disabled = true;
+  };
+  const failureUnlockDesk = () => {
+    FAILURE_ROOMS.forEach((room) => { const b = $(FAILURE_BOARD_META[room].btn); if (b) b.disabled = false; });
+    const lever = $("#failure-lever");
+    if (lever) lever.disabled = false;
+  };
+
+  /* 三房图面同步：replayRoom 命中 → 换 v61 重演图、隐藏并禁用旧三动作与
+     入口、显示三条证据热点与退回热点；否则回弹基础图与旧三动作 */
+  const syncFailureRoom = (room) => {
+    const meta = FAILURE_ROOM_META[room];
+    if (!meta) return;
+    const st = getFailure();
+    const isRecon = st.replayRoom === room;
+    const section = $(`#scene-${FAILURE_ROOM_SCENE[room]}`);
+    if (!section) return;
+    const img = section.querySelector(".branch-img");
+    if (img) img.src = isRecon ? meta.reconImg : meta.baseImg;
+    const figure = section.querySelector(".branch-figure");
+    if (figure) figure.setAttribute("aria-label", isRecon ? meta.reconFigLabel : meta.baseFigLabel);
+    meta.baseBtns.concat([meta.entryBtn]).forEach((sel) => {
+      const b = $(sel);
+      if (!b) return;
+      if (isRecon) { b.setAttribute("hidden", ""); b.disabled = true; }
+      else { b.removeAttribute("hidden"); b.disabled = false; }
+    });
+    Object.keys(FAILURE_CLUES[room]).forEach((clueId) => {
+      const b = $(FAILURE_CLUES[room][clueId].btn);
+      if (!b) return;
+      if (isRecon) { b.removeAttribute("hidden"); b.disabled = false; }
+      else { b.setAttribute("hidden", ""); b.disabled = true; }
+      b.setAttribute("aria-pressed", st.selections[room] === clueId ? "true" : "false");
+    });
+    const retBtn = $(meta.returnBtn);
+    if (retBtn) {
+      if (isRecon) { retBtn.removeAttribute("hidden"); retBtn.disabled = false; }
+      else { retBtn.setAttribute("hidden", ""); retBtn.disabled = true; }
+    }
+  };
+
+  /* 重演入口：可信点击只换图与揭示热点，不计分不写 selection */
+  const chooseFailureEntry = (room) => {
+    const sceneName = FAILURE_ROOM_SCENE[room];
+    if (currentScene !== sceneName) return;
+    if (AutoAdvance.has(sceneName)) return;
+    const st = getFailure();
+    if (st.pending) return;
+    if (st.replayRoom === room) return;
+    st.replayRoom = room;
+    if (!st.visited[room]) st.visited[room] = true;
+    saveFailure(st);
+    syncFailureRoom(room);
+    const meta = FAILURE_ROOM_META[room];
+    const entryBtn = $(meta.entryBtn);
+    if (entryBtn) entryBtn.setAttribute("aria-pressed", "true");
+    const responseEl = $(meta.responseEl);
+    if (responseEl) responseEl.textContent = meta.entryFeedback;
+    AudioEngine.knock(0.16);
+    paintFailureMemory();
+  };
+
+  /* 到达重演台通用尾件（clue/return）：原子记 desk visit、清 replayRoom、
+     清 pending（consume once） */
+  const failureDeskArrive = () => {
+    const s = getFailure();
+    if (!s.visited.desk) s.visited.desk = true;
+    if (s.replayRoom) s.replayRoom = "";
+    if (s.pending) s.pending = null;
+    saveFailure(s);
+    syncFailureLink();
+    paintFailureMemory();
+  };
+
+  /* 证据选择：selection 原子替换（重选同条只是重播同值，派生分值自然不变），
+     持久化严格 pending，一拍自动回重演台 */
+  const chooseFailureClue = (room, clueId) => {
+    const meta = FAILURE_CLUES[room] && FAILURE_CLUES[room][clueId];
+    if (!meta) return;
+    const sceneName = FAILURE_ROOM_SCENE[room];
+    if (currentScene !== sceneName) return;
+    if (AutoAdvance.has(sceneName)) return;
+    const st = getFailure();
+    if (st.pending) return;
+    if (st.replayRoom !== room) return;
+    st.selections[room] = clueId;
+    st.pending = { kind: "clue", scene: sceneName, room, action: clueId, target: FAILURE_DESK, feedback: meta.feedback, cycle: st.cycle };
+    saveFailure(st);
+    failureLockRoom(room);
+    const btn = $(meta.btn);
+    if (btn) btn.setAttribute("aria-pressed", "true");
+    const responseEl = $(FAILURE_ROOM_META[room].responseEl);
+    if (responseEl) responseEl.textContent = meta.feedback;
+    AudioEngine.knock(0.16);
+    paintFailureMemory();
+    AutoAdvance.schedule(sceneName, FAILURE_DESK, { delay: branchDelay(), before: () => failureDeskArrive() });
+  };
+
+  /* 退回重演台：不改 selection，短反馈后回台 */
+  const chooseFailureReturn = (room) => {
+    const sceneName = FAILURE_ROOM_SCENE[room];
+    if (currentScene !== sceneName) return;
+    if (AutoAdvance.has(sceneName)) return;
+    const st = getFailure();
+    if (st.pending) return;
+    if (st.replayRoom !== room) return;
+    st.pending = { kind: "return", scene: sceneName, room, target: FAILURE_DESK, feedback: FAILURE_RETURN_FEEDBACK, cycle: st.cycle };
+    saveFailure(st);
+    failureLockRoom(room);
+    const responseEl = $(FAILURE_ROOM_META[room].responseEl);
+    if (responseEl) responseEl.textContent = FAILURE_RETURN_FEEDBACK;
+    AudioEngine.knock(0.16);
+    AutoAdvance.schedule(sceneName, FAILURE_DESK, { delay: branchDelay(), before: () => failureDeskArrive() });
+  };
+
+  /* 证词板：先持久化 replayRoom 再转场，到达旧房即重演态；旧 selection 保留 */
+  const chooseFailureBoard = (room) => {
+    if (currentScene !== FAILURE_DESK) return;
+    if (AutoAdvance.has(FAILURE_DESK)) return;
+    const st = getFailure();
+    if (st.pending) return;
+    st.replayRoom = room;
+    if (!st.visited[room]) st.visited[room] = true;
+    st.pending = { kind: "board", scene: FAILURE_DESK, action: room, target: FAILURE_ROOM_SCENE[room], feedback: FAILURE_BOARD_META[room].feedback, cycle: st.cycle };
+    saveFailure(st);
+    failureLockDesk();
+    const btn = $(FAILURE_BOARD_META[room].btn);
+    if (btn) btn.setAttribute("aria-pressed", "true");
+    const responseEl = $("#failure-response");
+    if (responseEl) responseEl.textContent = FAILURE_BOARD_META[room].feedback;
+    AudioEngine.knock(0.16);
+    paintFailureMemory();
+    AutoAdvance.schedule(FAILURE_DESK, FAILURE_ROOM_SCENE[room], { delay: branchDelay(), before: () => failureBoardArrive() });
+  };
+  const failureBoardArrive = () => {
+    const s = getFailure();
+    if (s.pending) s.pending = null;
+    saveFailure(s);
+  };
+
+  /* 重演总栓：三房齐备才可点；当前派生分值直接路由，不额外加分；
+     到达目标 before 才原子结算开新轮，并补最窄旧守卫凭证 */
+  const chooseFailureLever = () => {
+    if (currentScene !== FAILURE_DESK) return;
+    if (AutoAdvance.has(FAILURE_DESK)) return;
+    const st = getFailure();
+    if (st.pending) return;
+    if (!FAILURE_ROOMS.every((r) => st.selections[r])) return;
+    const r = failureSettleRoute(failureScores(st));
+    st.pending = { kind: "settle", scene: FAILURE_DESK, target: r.target, feedback: r.feedback, cycle: st.cycle };
+    saveFailure(st);
+    failureLockDesk();
+    const btn = $("#failure-lever");
+    if (btn) btn.setAttribute("aria-pressed", "true");
+    const responseEl = $("#failure-response");
+    if (responseEl) responseEl.textContent = r.feedback;
+    AudioEngine.knock(0.16);
+    paintFailure();
+    AutoAdvance.schedule(FAILURE_DESK, r.target, { delay: branchDelay(), before: () => failureSettleArrive(r.target) });
+  };
+  const failureSettleArrive = (target) => {
+    const s = getFailure();
+    if (s.pending) s.pending = null;
+    s.completedRuns = Math.min(FAILURE_NUM_CAP, s.completedRuns + 1);
+    if (s.outcomeCounts[target] !== undefined) s.outcomeCounts[target] = Math.min(FAILURE_NUM_CAP, s.outcomeCounts[target] + 1);
+    s.lastOutcome = FAILURE_OUTCOME_TARGETS.includes(target) ? target : "";
+    s.cycle = Math.min(FAILURE_NUM_CAP, s.cycle + 1);
+    FAILURE_ROOMS.forEach((room) => { s.selections[room] = ""; });
+    s.replayRoom = "";
+    saveFailure(s);
+    if (LEDGER_SCENE_KEY[target]) grantLedgerVisit(target);
+    if (target === "evidence-vault") markReviewVisited("evidence-vault");
+    syncFailureLink();
+    paintFailureMemory();
+  };
+
+  /* reload/离开重返节拍恢复：逐字重播反馈并精确重挂一次，不二次选证/结算；
+     重播期间重新锁定相关全部热点并恢复被选项 aria-pressed */
+  const replayFailurePending = (sceneName) => {
+    const st = getFailure();
+    const p = st.pending;
+    if (!p || p.scene !== sceneName) return;
+    if (p.kind === "board" || p.kind === "settle") {
+      failureLockDesk();
+      const btn = $(p.kind === "board" ? FAILURE_BOARD_META[p.action].btn : "#failure-lever");
+      if (btn) btn.setAttribute("aria-pressed", "true");
+      const responseEl = $("#failure-response");
+      if (responseEl) responseEl.textContent = p.feedback;
+      AutoAdvance.schedule(sceneName, p.target, { delay: branchDelay(), before: p.kind === "board" ? () => failureBoardArrive() : () => failureSettleArrive(p.target) });
+    } else {
+      failureLockRoom(p.room);
+      if (p.kind === "clue") {
+        const btn = $(FAILURE_CLUES[p.room][p.action].btn);
+        if (btn) btn.setAttribute("aria-pressed", "true");
+      }
+      const responseEl = $(FAILURE_ROOM_META[p.room].responseEl);
+      if (responseEl) responseEl.textContent = p.feedback;
+      AutoAdvance.schedule(sceneName, FAILURE_DESK, { delay: branchDelay(), before: () => failureDeskArrive() });
+    }
+  };
+
+  /* 重演台进入：幂等补记 desk visit、解锁机关、清响应、按派生重绘 */
+  const enterFailureDesk = () => {
+    const st = getFailure();
+    if (!st.visited.desk) {
+      st.visited.desk = true;
+      saveFailure(st);
+      syncFailureLink();
+    }
+    failureUnlockDesk();
+    const responseEl = $("#failure-response");
+    if (responseEl) responseEl.textContent = "";
+    paintFailure();
+  };
+
+  /* 台面重绘：说明句（三句段）/ 签条 / 证词板标签与 aria / 总栓显露 */
+  const paintFailure = () => {
+    const st = getFailure();
+    const scores = failureScores(st);
+    $$("[data-failure-confirm]").forEach((el) => { el.textContent = scores.confirm; });
+    $$("[data-failure-distort]").forEach((el) => { el.textContent = scores.distort; });
+    $$("[data-failure-blame]").forEach((el) => { el.textContent = scores.blame; });
+    const picked = FAILURE_ROOMS.filter((r) => st.selections[r]).length;
+    $$("[data-failure-count]").forEach((el) => { el.textContent = `${picked}/3`; });
+    const desc = $("#failure-desc");
+    if (desc) {
+      desc.textContent = `${FAILURE_ROOMS.map((room) => (st.selections[room] ? FAILURE_CLUES[room][st.selections[room]].phrase : FAILURE_BOARD_META[room].emptyPhrase)).join("；")}。`;
+    }
+    FAILURE_ROOMS.forEach((room) => {
+      const btn = $(FAILURE_BOARD_META[room].btn);
+      if (!btn) return;
+      const sel = st.selections[room];
+      const title = btn.querySelector(".bb-title");
+      if (title) title.textContent = sel ? `重选：${FAILURE_CLUES[room][sel].short}` : FAILURE_BOARD_META[room].emptyTitle;
+      btn.setAttribute("aria-pressed", sel ? "true" : "false");
+    });
+    const lever = $("#failure-lever");
+    if (lever) {
+      if (picked === 3 && !st.pending) lever.removeAttribute("hidden");
+      else lever.setAttribute("hidden", "");
+    }
+  };
+
+  const syncFailureLink = () => {
+    const link = $("#failure-link");
+    if (!link) return;
+    if (getFailure().visited.desk) link.removeAttribute("hidden");
+    else link.setAttribute("hidden", "");
+  };
+
+  /* 痕迹页单行：完成轮数、四类落点计数摘要、本轮取证数；八卡不变 */
+  const paintFailureMemory = () => {
+    const memory = $("#failure-memory");
+    if (!memory) return;
+    const st = getFailure();
+    const active = FAILURE_ROOMS.some((r) => st.visited[r]) || st.visited.desk || st.completedRuns > 0
+      || FAILURE_ROOMS.some((r) => st.selections[r]) || Boolean(st.replayRoom);
+    if (!active) {
+      memory.hidden = true;
+      return;
+    }
+    const oc = st.outcomeCounts;
+    const ties = oc["false-confirmation-desk"] + oc["witness-carbon-archive"] + oc["blank-name-cloakroom"] + oc["chain-of-custody-office"];
+    const picked = FAILURE_ROOMS.filter((r) => st.selections[r]).length;
+    memory.textContent = `故障重演：完成 ${st.completedRuns} 轮；印证 ${oc["evidence-vault"]}、失真 ${oc["protocol-drift"]}、归责 ${oc["liability-ledger"]}、拉平 ${ties}，本轮已取证 ${picked}/3。`;
+    memory.hidden = false;
+  };
+
+  /* v61 合成守卫：入口/证据/退回/证词板/总栓全部只接受 isTrusted 真实 click */
+  FAILURE_ROOMS.forEach((room) => {
+    const entryBtn = $(FAILURE_ROOM_META[room].entryBtn);
+    if (entryBtn) entryBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseFailureEntry(room); });
+    Object.keys(FAILURE_CLUES[room]).forEach((clueId) => {
+      const btn = $(FAILURE_CLUES[room][clueId].btn);
+      if (btn) btn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseFailureClue(room, clueId); });
+    });
+    const retBtn = $(FAILURE_ROOM_META[room].returnBtn);
+    if (retBtn) retBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseFailureReturn(room); });
+    const boardBtn = $(FAILURE_BOARD_META[room].btn);
+    if (boardBtn) boardBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseFailureBoard(room); });
+  });
+  const failureLeverBtn = $("#failure-lever");
+  if (failureLeverBtn) failureLeverBtn.addEventListener("click", (ev) => { if (!ev.isTrusted) return; chooseFailureLever(); });
+  paintFailure();
+
+  /* ============================================================
      v40 门外侧廊：首页纵深环境层 + 左右廊热点 + 三个画面热点场景
      状态独立存 goddead_v40_lateral_corridors，容错坏 JSON；
      pending 必须是 {scene, action, target, feedback} 完整合法映射；
@@ -12737,6 +13215,10 @@ document.addEventListener("DOMContentLoaded", () => {
       paintCustody();
       CUSTODY_SOURCE_SCENES.forEach(custodyUnlockButtons);
       custodyUnlockButtons(CUSTODY_OFFICE);
+      syncFailureLink();
+      paintFailure();
+      failureUnlockDesk();
+      FAILURE_ROOMS.forEach(syncFailureRoom);
       ANOMALY_ROOMS.forEach((r) => syncEvidenceRoom(ANOMALY_ROOM_SCENE[r]));
       syncLateralLinks();
       syncBackroomLinks();
@@ -12764,6 +13246,7 @@ document.addEventListener("DOMContentLoaded", () => {
       paintAppealMemory();
       paintCrossMemory();
       paintCustodyMemory();
+      paintFailureMemory();
       paintValuationMemory();
       paintFloorMemory();
       paintRegistryMemory();
@@ -12855,6 +13338,10 @@ document.addEventListener("DOMContentLoaded", () => {
   APPEAL_ROOM_KEYS.forEach(syncCrossRoom);
   syncCustodyLink();
   paintCustody();
+  syncFailureLink();
+  paintFailureMemory();
+  paintFailure();
+  FAILURE_ROOMS.forEach(syncFailureRoom);
   syncLateralLinks();
   paintLateralMemory();
   syncBackroomLinks();

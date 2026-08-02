@@ -1,5 +1,19 @@
 # Progress Log
 
+## 2026-08-02 (v61 故障重演 / THE FAILURE RECONSTRUCTION：v30 三深房图内化 + 三房重演证据 + 故障重演台)
+- 世界观续进：最早的三间深房不再只是过路——事故可以被重新摆上台面重演，三间房的证词在重演台上组合成判断，决定事故被送去哪里。体验参考只看机制（调查游戏的自由观察与线索组合、异常目录的误判后果、现场重构与模拟仪器），未复制任何游戏 UI；美术文案全部原创。
+- 图内化：v30 失真转接室/逆流泵房/无名罪籍库是仅剩的「图在上、三卡在下」深房——9 个旧动作 id/文案/反馈/目标/v29/v30 副作用/lastChoice/首选锁/守卫逐字节保持并移入原基础图实物，三张 `.branch-choices` 卡片容器整体删除无隐藏副本；基础 WebP 不换不删。
+- 素材：四张冻结原图（sha256 静态断言锁定）Pillow q85 1536×1024 无裁切转码 `assets/v61-failure-{echo-transfer,vein-pump,confession-ledger,reconstruction-desk}.webp`（194–270 KB，均在预算内）。
+- 重演态：基础图内新增入口热点（转接室红蜡封签区/泵房红灯区/罪籍库前景抽屉组），可信接受后换 v61 重演图、隐藏旧三动作与入口、揭示三证据热点与图内退回热点；九证据逐字标签/分值/句段/反馈，selection 原子替换、同条重选派生不变，一拍自动回台；退回热点不改 selection。
+- 重演台：三证词板始终可点（空槽/重选标签与 aria-pressed 逐字），总栓仅三房齐备且无 pending 时显露（hidden 时合成点击零副作用）；说明句三句段 + 签条四项全派生；总栓不加分按当前派生值路由七分支（27 组合枚举冻结：印证高 3/失真高 7/归责高 7/印证=失真 2/印证=归责 2/失真=归责 2/全等 4）；到达 before 才原子结算（completedRuns/outcomeCounts/lastOutcome/cycle+1/三 selection 与 replayRoom 清空）并补最窄旧守卫凭证（grantLedgerVisit/markReviewVisited），全等落点走 v60 开放契约。
+- 状态：独立容错 `goddead_v61_failure_reconstruction`（唯一 key，version 61）——cycle/visited/selections/completedRuns/outcomeCounts/lastOutcome/replayRoom/pending 显式 canonical 九键投影落盘；分值/说明句/齐备全派生不落盘；坏 JSON/错型/错 version/越界全部白名单归一；pending 四类精确键集（board 6/clue 7/return 6/settle 5，额外键即伪造）逐字重算 + 严格证据，只消费一次，重播重锁热点并恢复 aria-pressed；v61 只读写自己的键。
+- 守卫：desk 直达窄守卫（合法 pendingTarget/desk visit/活动轮次），否则回退第一个合法 v30 深房并继续向下级联 v30/v29 旧守卫——**CDP 抓出并修复一处真实生产缺陷**：守卫初版插在 v29 支线守卫之后，回退目标不再流经旧守卫（伪造直达可停在未解锁的 echo），已前移并补守卫顺序静态断言。
+- 交互：五组新监听只接受 isTrusted 真实 click（全仓库 10 → 15 组）；currentScene/AutoAdvance/pending 三重校验先于副作用；第一拍全热点 disabled；双击/键盘竞争只接受一次；reduced-motion 沿用 ~300ms 节拍。
+- 目录 `02δ½ / 故障重演`（规格原拟 02δ，与 v43「02δ / 未应门」冲突，取紧邻半阶；首次真正到达 desk 后原子恢复）；Remembrance 新增单行「故障重演：完成 N 轮；印证 A、失真 B、归责 C、拉平 D，本轮已取证 M/3。」仍八张统计卡；遗忘全部后三房图面/热点/desk/说明句/目录/记忆全部回弹。
+- 测试：静态 `node tests/site.test.mjs` 4511 断言全绿（较 v60 的 4269 新增 242 条：v61 独立区块 236 条 + 全局集成 6 条），覆盖四源图/WebP 哈希与预算、9 旧动作逐字与图内化、卡片容器删除、九证据逐字、27 组合枚举、分流真值表逐字、四类 pending 键集与证据、守卫顺序、目录/记忆/遗忘、28 个定位类与短桌面规则。
+- CDP 实机：`/tmp/v61-qa/v61-smoke.mjs`（真实 headless Chrome + 真实鼠标/键盘 + console 捕获，种子预注入）**1047/1047 连续两轮全绿**，控制台零异常，第二轮完整日志 `/tmp/v61-qa/round2-full.log`，失败路径回收 Chrome、复跑零残留；视觉证据 17 张 `design-qa-evidence/v61/`（细目见 design-qa.md 本轮段落）。
+- 保护边界：`docs/KimiUsageLog.md`、全部历史 source PNG 哈希不变；未执行任何 git add/commit/push/stash；未安装依赖。
+
 ## 2026-08-02 (v60 证物链 / THE CHAIN OF CUSTODY：两结果房图内化 + 截留汇流 + 证物链办公室)
 - 世界观续进：前段旧分支不再只是终点——保全库与回收井里被处理过无数次的证物，开始在累计动作后被一条保管链重新追问去向。本轮不往末尾接线，而是把两个最旧的结果房升级为画面内交互并交叉回流。体验参考只看机制（The Operator 的证据逐层深入、Golden Idol 的线索组合裁判，2026-08-02 访问），美术文案全部原创。
 - 图内化：v33 异常保全库 / 误报回收井（含 v34 估值入口第四按钮）是最后两个「图在上、四卡在下」的场景——8 个旧按钮 id/文案/aria-pressed/v33 marks+restart/v34 startValuation+marks 全部原样保留并移入各自新位图的实物上（封存匣/退件抽屉/断封缺口/估值托盘；退件抽屉/附录滚轴/脚位铁板/资产托盘），底部 `.branch-choices` 卡片容器整体删除无隐藏副本；两张新 bitmap 替换引用，旧 WebP 保留为历史文件零引用。

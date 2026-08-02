@@ -6349,3 +6349,58 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
   #scene-false-positive-shaft .branch-figure,
   #scene-chain-of-custody-office .branch-figure { width: min(460px, 100%); }
 }
+
+/* ============================================================
+   v61 故障重演：三 v30 深房基础态图内化（9 旧 id + 3 入口）+
+   三重演态证据/退回热点 + 重演台四热点
+   （1536×1024 舞台百分比 top/left/width/height，桌面/移动共用，
+   44px 增长后互不重叠）
+   ============================================================ */
+/* 转接室基础：左分线排 / 中央封存机 / 右弧形开关 / 右墙红蜡封签区入口 */
+.echo-base-spot-relay { top: 54%; left: 27%; width: 16%; height: 19%; }
+.echo-base-spot-seal { top: 56%; left: 45%; width: 13%; height: 19%; }
+.echo-base-spot-bell { top: 54%; left: 60%; width: 13%; height: 19%; }
+.echo-base-spot-entry { top: 20%; left: 58%; width: 13%; height: 20%; }
+
+/* 转接室重演：左声筒 / 中拨叉 / 右铃牌 / 后方黑洞退回 */
+.echo-recon-spot-sealed-voice { top: 47%; left: 24%; width: 13%; height: 21%; }
+.echo-recon-spot-cut-relay { top: 54%; left: 43%; width: 15%; height: 19%; }
+.echo-recon-spot-late-bell { top: 52%; left: 61%; width: 17%; height: 22%; }
+.echo-recon-spot-return { top: 14%; left: 43%; width: 13%; height: 19%; }
+
+/* 泵房基础：左泄压轮 / 泵体底座 / 右应急梯 / 右红灯区入口 */
+.pump-base-spot-release { top: 55%; left: 14%; width: 13%; height: 24%; }
+.pump-base-spot-sediment { top: 58%; left: 45%; width: 18%; height: 26%; }
+.pump-base-spot-ladder { top: 12%; left: 72%; width: 13%; height: 58%; }
+.pump-base-spot-entry { top: 48%; left: 86%; width: 13%; height: 22%; }
+
+/* 泵房重演：左倒行表 / 中央沉积槽 / 右三封签梯 / 后方拱门退回 */
+.pump-recon-spot-reverse-needle { top: 25%; left: 8%; width: 20%; height: 30%; }
+.pump-recon-spot-tagged-reservoir { top: 26%; left: 42%; width: 21%; height: 48%; }
+.pump-recon-spot-triple-seal-ladder { top: 16%; left: 74%; width: 13%; height: 45%; }
+.pump-recon-spot-return { top: 2%; left: 46%; width: 13%; height: 23%; }
+
+/* 罪籍库基础：左划名铜尺 / 右归档印章 / 前景红拒收屉 / 前景罪籍抽屉组入口 */
+.ledger-base-spot-crossout { top: 52%; left: 16%; width: 13%; height: 19%; }
+.ledger-base-spot-archive { top: 40%; left: 63%; width: 13%; height: 19%; }
+.ledger-base-spot-reject { top: 62%; left: 73%; width: 14%; height: 25%; }
+.ledger-base-spot-entry { top: 72%; left: 15%; width: 13%; height: 19%; }
+
+/* 罪籍库重演：左复写章 / 中擦名刀与空账 / 右红拒收屉 / 后方黑门退回 */
+.ledger-recon-spot-witness-carbon { top: 36%; left: 11%; width: 18%; height: 24%; }
+.ledger-recon-spot-erasure-blade { top: 36%; left: 36%; width: 29%; height: 23%; }
+.ledger-recon-spot-refusal-drawer { top: 54%; left: 67%; width: 29%; height: 32%; }
+.ledger-recon-spot-return { top: 7%; left: 44%; width: 13%; height: 24%; }
+
+/* 重演台：左中右证词板 / 前景总栓（出厂 hidden） */
+.failure-spot-board-echo { top: 28%; left: 5%; width: 29%; height: 33%; }
+.failure-spot-board-pump { top: 27%; left: 35%; width: 28%; height: 34%; }
+.failure-spot-board-ledger { top: 27%; left: 66%; width: 29%; height: 34%; }
+.failure-spot-lever { top: 62%; left: 38%; width: 24%; height: 33%; }
+
+@media (min-width: 721px) and (max-height: 800px) {
+  #scene-echo-transfer .branch-figure,
+  #scene-vein-pump .branch-figure,
+  #scene-confession-ledger .branch-figure,
+  #scene-failure-reconstruction-desk .branch-figure { width: min(460px, 100%); }
+}

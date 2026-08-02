@@ -798,7 +798,7 @@ assert.match(js, /continueOfferingBtn\.addEventListener\("click", scheduleOfferi
 assert.match(js, /continueReliquaryBtn\.addEventListener\("click", scheduleReliquaryAutoAdvance\)/);
 
 /* 场景进入时同步 HUD / ruling / 终局面板 */
-assert.match(js, /if \(name === "remembrance"\) \{[\s\S]{0,960}syncGovernanceRemembrance\(\);/, "remembrance entry syncs governance panels");
+assert.match(js, /if \(name === "remembrance"\) \{[\s\S]{0,1024}syncGovernanceRemembrance\(\);/, "remembrance entry syncs governance panels");
 assert.match(js, /if \(name === "offering"\) \{[\s\S]{0,300}syncRulingOfferingUI\(\);/, "offering entry syncs ruling 2");
 assert.match(js, /const enterReliquary = \(\) => \{[\s\S]{0,160}syncRulingReliquaryUI\(\);/, "reliquary entry syncs ruling 3");
 
@@ -888,7 +888,11 @@ for (const [d, title] of Object.entries(deepSceneIds)) {
   assert.match(html, new RegExp(`data-title="Goddead — ${title}"`));
   const section = html.match(new RegExp(`<section class="scene scene-branch scene-deep" id="scene-${d}"[\\s\\S]*?<\\/section>`));
   assert.ok(section, `${d} section must exist`);
-  assert.equal((section[0].match(/<button class="branch-btn"/g) || []).length, 3, `${d} must hold exactly 3 focusable hotspot buttons`);
+  /* v61 图内化：3 旧动作 + 1 重演入口 + 3 证据 + 1 退回 = 8 个图内热点，全部位于 figure 内 */
+  assert.equal((section[0].match(/<button class="branch-btn forecourt-native-hotspot/g) || []).length, 8, `${d} must hold exactly 8 in-picture hotspot buttons (3 original + entry + 3 clues + return)`);
+  const fig = section[0].match(/<figure class="branch-figure forecourt-tactile-stage[\s\S]*?<\/figure>/);
+  assert.ok(fig, `${d} figure must use the tactile stage`);
+  assert.ok(!section[0].includes("branch-choices"), `${d} must drop the old card list container`);
   assert.match(section[0], /aria-pressed="false"/, `${d} hotspot buttons carry toggle semantics`);
   assert.match(section[0], /aria-live="polite"/, `${d} needs an aria-live feedback line`);
   assert.match(section[0], new RegExp(`data-go="${deepParentExits[d]}"`), `${d} keeps an explicit back-to-parent exit`);
@@ -929,7 +933,7 @@ assert.match(js, /btn: "#ledger-choice-reject", target: \(\) => \(watchUnlocked\
 /* chooseDeep 调度：guard 判定、函数目标、失败出口与点击即持久化 */
 assert.match(js, /const target = ok\s*\?\s*\(typeof choice\.target === "function" \? choice\.target\(\) : choice\.target\)\s*:\s*\(choice\.failTarget \|\| "corridor"\);/, "chooseDeep must resolve dynamic targets and fail targets");
 assert.match(js, /const chooseDeep = \(sceneKey, choiceKey\) => \{/);
-assert.match(js, /if \(DEEP_SCENES\.includes\(name\)\) enterDeep\(name\);/);
+assert.match(js, /if \(DEEP_SCENES\.includes\(name\)\) \{ enterDeep\(name\); syncFailureRoom\(FAILURE_SCENE_ROOM\[name\]\); replayFailurePending\(name\); \}/);
 /* 深层守卫：未到访直达回退父支线，不凭 direct hash 解锁；且必须先于 v29 守卫执行 */
 assert.match(js, /if \(DEEP_SCENES\.includes\(target\) && !depthState\.deepVisited\[target\]\) target = DEEP_PARENT\[target\];/);
 assert.ok(
@@ -3663,8 +3667,8 @@ assert.match(forgetBlockV56[0], /paintLedgerMemory\(\);/, "forget-all hides the 
 /* synthetic 守卫：15 动作监听只接受 isTrusted 真实 click，合成 HTMLElement.click() 零副作用 */
 assert.match(js, /if \(btn\) btn\.addEventListener\("click", \(ev\) => \{ if \(!ev\.isTrusted\) return; chooseConsequenceAction\(sceneKey, actionKey\); \}\);/, "consequence listeners reject synthetic clicks");
 assert.match(js, /if \(btn\) btn\.addEventListener\("click", \(ev\) => \{ if \(!ev\.isTrusted\) return; chooseLedgerAction\(actionKey\); \}\);/, "ledger listeners reject synthetic clicks");
-assert.equal((js.match(/ev\.isTrusted/g) || []).length, 10, "exactly the v57 (2) + v58 (5) + v59 (3) listener groups carry the isTrusted guard");
-assert.equal((js.match(/addEventListener\("click", \(ev\)/g) || []).length, 10, "no other click listener signature was touched");
+assert.equal((js.match(/ev\.isTrusted/g) || []).length, 15, "exactly the v57 (2) + v58 (5) + v59 (3) + v61 (5) listener groups carry the isTrusted guard");
+assert.equal((js.match(/addEventListener\("click", \(ev\)/g) || []).length, 15, "no other click listener signature was touched");
 /* DOM：五场景各三热点入图、无卡片无 SVG、目录×5、记忆单行、8 卡 */
 for (const [scene, ids] of [["concordance-theatre", ["theatre-action-bind-testimony", "theatre-action-preserve-dissent", "theatre-action-substitute-witness"]], ["innocent-quarantine", ["quarantine-action-release-innocent", "quarantine-action-extend-quarantine", "quarantine-action-stand-in"]], ["omission-transfer-shaft", ["shaft-action-descend-after", "shaft-action-transfer-omission", "shaft-action-seal-omission"]], ["misbound-handover", ["misbound-action-admit-misbind", "misbound-action-reassign-empty", "misbound-action-break-cuffs"]], ["liability-ledger", ["ledger-action-return-verdict", "ledger-action-sign-self", "ledger-action-assign-vacancy"]]]) {
   const section = html.match(new RegExp(`<section class="scene scene-branch scene-${scene}"[\\s\\S]*?<\\/section>`));
@@ -4253,6 +4257,208 @@ assert.match(css, /#scene-false-positive-shaft \.branch-figure,/, "short-desktop
 const v60doc = await fileText("docs/V60ChainOfCustodyDesign.md");
 for (const hash of Object.values(V60_SOURCE_HASHES)) {
   assert.ok(v60doc.includes(hash), "V60 design doc must freeze the source sha256 values");
+}
+
+/* ---------- v61 故障重演：v30 三深房图内化 + 三房重演证据 + 故障重演台 ---------- */
+const V61_SOURCE_HASHES = {
+  "design-references/source-v61-failure-echo-transfer.png": "d097c21e7a9fb1a6f8d2b8d9083d6ab03d748566594c050387e0d796487c651a",
+  "design-references/source-v61-failure-vein-pump.png": "c79f86cba9873801164dd25aca287249684268bd246425a9c29a0ec1e039a24d",
+  "design-references/source-v61-failure-confession-ledger.png": "2d160593b58031fe16f955586c14e5ad066e338247b619a3e2727bc4c46b9dfb",
+  "design-references/source-v61-failure-reconstruction-desk.png": "8ff1e0071df9de684ecd60fc52633fba25a7539e1be2ebdaa69a5d0b6c05a392",
+};
+for (const [src, sha] of Object.entries(V61_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(src, root));
+  assert.equal(createHash("sha256").update(buf).digest("hex"), sha, `${src} sha256 drifted`);
+}
+const V61_WEBP = {
+  "assets/v61-failure-echo-transfer.webp": "7b60d379a292dbe034c3cc28f7554c6a2c154c811d5a5abe303b3581170c8cd9",
+  "assets/v61-failure-vein-pump.webp": "b8f73734da984d523a6045436b2e8a571e5e12338b0dc90db6a637158d726743",
+  "assets/v61-failure-confession-ledger.webp": "4be583eeb01557242486829cb55b60f4db445e09c6aa716d096aba2e9a7607c6",
+  "assets/v61-failure-reconstruction-desk.webp": "b3efea2bcc260786d9ba788a2fdb7795f4c325324a3a05a672cf105a5078438c",
+};
+for (const [asset, sha] of Object.entries(V61_WEBP)) {
+  const buf = await readFile(new URL(asset, root));
+  assert.equal(createHash("sha256").update(buf).digest("hex"), sha, `${asset} sha256 drifted`);
+  assert.ok(buf.length <= 300 * 1024 && buf.length > 100 * 1024, `${asset} must stay within the bitmap budget (${buf.length} bytes)`);
+}
+assert.match(html, /assets\/v61-failure-reconstruction-desk\.webp/, "reconstruction desk references its asset");
+for (const asset of ["echo-transfer-chamber.webp", "reverse-flow-pump-room.webp", "nameless-ledger-vault.webp"]) {
+  assert.match(html, new RegExp(`assets/${asset.replace(".", "\\.")}`), `${asset} base reference stays`);
+  assert.match(js, new RegExp(`baseImg: "assets/${asset.replace(".", "\\.")}"`), `${asset} base swap entry stays`);
+}
+for (const frag of ['reconImg: "assets/v61-failure-echo-transfer.webp"', 'reconImg: "assets/v61-failure-vein-pump.webp"', 'reconImg: "assets/v61-failure-confession-ledger.webp"']) {
+  assert.ok(js.includes(frag), `missing v61 recon image swap: ${frag.slice(0, 48)}`);
+}
+
+/* 三旧房：9 旧动作 id 位于 figure 内、卡片容器删除、入口/证据/退回热点齐备 */
+for (const [sc, baseIds, newIds] of [
+  ["echo-transfer", ["echo-transfer-choice-relay", "echo-transfer-choice-seal", "echo-transfer-choice-bell"], ["failure-echo-entry", "failure-echo-sealed-voice", "failure-echo-cut-relay", "failure-echo-late-bell", "failure-echo-return"]],
+  ["vein-pump", ["vein-pump-choice-release", "vein-pump-choice-sediment", "vein-pump-choice-ladder"], ["failure-pump-entry", "failure-pump-reverse-needle", "failure-pump-tagged-reservoir", "failure-pump-triple-seal-ladder", "failure-pump-return"]],
+  ["confession-ledger", ["ledger-choice-crossout", "ledger-choice-archive", "ledger-choice-reject"], ["failure-ledger-entry", "failure-ledger-witness-carbon", "failure-ledger-erasure-blade", "failure-ledger-refusal-drawer", "failure-ledger-return"]],
+]) {
+  const section = html.match(new RegExp(`<section class="scene scene-branch scene-deep" id="scene-${sc}"[\\s\\S]*?<\\/section>`));
+  assert.ok(section, `scene section missing: ${sc}`);
+  const fig = section[0].match(/<figure class="branch-figure forecourt-tactile-stage[\s\S]*?<\/figure>/);
+  assert.ok(fig, `${sc} figure must use the tactile stage`);
+  for (const id of baseIds.concat(newIds)) {
+    assert.equal((section[0].match(new RegExp(`id="${id}"`, "g")) || []).length, 1, `${sc} #${id} appears exactly once`);
+    assert.ok(fig[0].includes(`id="${id}"`), `${sc} #${id} lives inside the figure`);
+  }
+  for (const id of newIds.slice(1)) {
+    assert.match(section[0], new RegExp(`id="${id}"[^>]*hidden`), `${sc} #${id} ships hidden`);
+  }
+  assert.ok(!section[0].includes("branch-choices"), `${sc} must drop the old card list container`);
+  assert.ok(!section[0].includes('loading="lazy"'), `${sc} stage image must not lazy-load`);
+}
+for (const frag of ["撕开故障重演封签", "转动事故倒放阀", "拉开原始重演抽屉"]) {
+  assert.ok(html.includes(frag), `missing v61 entry label: ${frag}`);
+}
+
+/* 重演台：四热点在 figure 内、总栓出厂 hidden、签条四项、aria-live */
+const failureSection = html.match(/<section class="scene scene-branch scene-failure-reconstruction-desk"[\s\S]*?<\/section>/);
+assert.ok(failureSection, "failure-reconstruction-desk scene section missing");
+assert.ok(failureSection[0].includes("故障重演台"), "desk shows its title");
+const failureFig = failureSection[0].match(/<figure class="branch-figure forecourt-tactile-stage[\s\S]*?<\/figure>/);
+assert.ok(failureFig, "desk figure must use the tactile stage");
+for (const id of ["failure-board-echo", "failure-board-pump", "failure-board-ledger", "failure-lever"]) {
+  assert.equal((failureSection[0].match(new RegExp(`id="${id}"`, "g")) || []).length, 1, `desk #${id} appears exactly once`);
+  assert.ok(failureFig[0].includes(`id="${id}"`), `desk #${id} lives inside the figure`);
+}
+assert.match(failureSection[0], /id="failure-lever"[^>]*hidden/, "the lever ships hidden");
+assert.ok(!failureSection[0].includes("branch-choices") && !failureSection[0].includes("<svg"), "the desk must not degrade to cards or inline SVG");
+assert.match(failureSection[0], /id="failure-response" aria-live="polite"/, "desk feedback is an aria-live region");
+for (const sel of ["data-failure-confirm", "data-failure-distort", "data-failure-blame", "data-failure-count"]) {
+  assert.ok(failureSection[0].includes(sel), `desk slip missing ${sel}`);
+}
+assert.match(html, /<a href="#failure-reconstruction-desk" id="failure-link" hidden/, "directory gains the hidden failure link");
+assert.ok(html.includes("02δ½ / 故障重演"), "directory label verbatim");
+assert.ok(html.includes('id="failure-memory"'), "remembrance gains the failure memory line");
+assert.equal((html.match(/<div class="stat-card">/g) || []).length, 8, "remembrance keeps exactly eight stat cards");
+
+/* 状态契约：唯一 key、version 61、canonical 九键、白名单归一 */
+assert.match(js, /const FAILURE_KEY = "goddead_v61_failure_reconstruction";/);
+assert.equal((js.match(/goddead_v61_failure_reconstruction/g) || []).length, 2, "v61 key literal appears only in its own block (comment + const)");
+const failureParseBlock = js.match(/const getFailure = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(failureParseBlock, "getFailure must exist");
+assert.match(failureParseBlock[0], /if \(raw\.version !== FAILURE_VERSION\) raw = \{\};/, "wrong version dropped wholesale");
+assert.match(failureParseBlock[0], /\} catch \{ raw = \{\}; \}/, "corrupt failure storage must be safely repaired");
+assert.match(failureParseBlock[0], /Math\.min\(FAILURE_NUM_CAP, Math\.floor\(n\)\)/, "numbers are clamped to 0..9999");
+assert.match(failureParseBlock[0], /FAILURE_CLUES\[room\]\[raw\.selections\[room\]\] \? raw\.selections\[room\] : ""/, "selections are whitelisted per room");
+assert.match(failureParseBlock[0], /FAILURE_ROOMS\.includes\(raw\.replayRoom\) \? raw\.replayRoom : ""/, "replayRoom whitelist");
+assert.match(failureParseBlock[0], /FAILURE_OUTCOME_TARGETS\.includes\(raw\.lastOutcome\) \? raw\.lastOutcome : ""/, "lastOutcome whitelist");
+assert.ok(!/goddead_v(28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59|60)/.test(failureParseBlock[0]), "v61 state must not touch earlier keys");
+const failureSaveBlock = js.match(/const saveFailure = \(st\) => store\.set\(FAILURE_KEY, JSON\.stringify\(\{[\s\S]*?\}\)\);/);
+assert.ok(failureSaveBlock, "saveFailure must persist an explicit canonical projection");
+assert.match(failureSaveBlock[0], /version: FAILURE_VERSION,/, "saveFailure persists the frozen version");
+for (const f of ["cycle", "visited", "selections", "completedRuns", "outcomeCounts", "lastOutcome", "replayRoom", "pending"]) {
+  assert.match(failureSaveBlock[0], new RegExp(`${f}: st\\.${f},`), `saveFailure persists ${f}`);
+}
+assert.equal((failureSaveBlock[0].match(/^\s+\w+:/gm) || []).length, 9, "saveFailure persists exactly the 9 canonical fields including version");
+assert.ok(!/\bscores\b|\bcomplete\b|pendingTarget/.test(failureSaveBlock[0]), "saveFailure must never persist derived fields");
+
+/* pending 四类精确键集与证据 */
+for (const frag of [
+  'p.kind === "board" && keys === "action,cycle,feedback,kind,scene,target"',
+  'p.kind === "clue" && keys === "action,cycle,feedback,kind,room,scene,target"',
+  'p.kind === "return" && keys === "cycle,feedback,kind,room,scene,target"',
+  'p.kind === "settle" && keys === "cycle,feedback,kind,scene,target"',
+]) assert.ok(js.includes(frag), `missing v61 pending shape: ${frag.slice(0, 44)}`);
+assert.match(failureParseBlock[0], /p\.feedback === FAILURE_BOARD_META\[p\.action\]\.feedback\s*&& replayRoom === p\.action/, "board pending needs the same replayRoom");
+assert.match(failureParseBlock[0], /selections\[p\.room\] === p\.action/, "clue pending needs the matching selection");
+assert.match(failureParseBlock[0], /p\.feedback === FAILURE_RETURN_FEEDBACK/, "return pending feedback is the frozen line");
+assert.match(failureParseBlock[0], /const r = failureSettleRoute\(scores\);\s*\n\s*if \(p\.target === r\.target && p\.feedback === r\.feedback\)/, "settle pending recomputes target and feedback from current selections");
+
+/* 九证据：标签/分值/句段/反馈逐字冻结 */
+for (const frag of [
+  '"sealed-voice": { btn: "#failure-echo-sealed-voice", short: "声筒", scores: { confirm: 2 }, phrase: "声音被封在蜡筒里", feedback: "声筒回放了你尚未说出的尾音。它把这句证词归到曾经发生。" }',
+  '"cut-relay": { btn: "#failure-echo-cut-relay", short: "拨叉", scores: { distort: 2 }, phrase: "转接器自己剪断了来路", feedback: "拨叉两端同时带电。线路不是被切断，而是在两边各自继续。" }',
+  '"late-bell": { btn: "#failure-echo-late-bell", short: "铃牌", scores: { blame: 2 }, phrase: "迟到的铃替来电签了收", feedback: "空白铃牌先落下蜡印，来电才在档案里出现。" }',
+  '"reverse-needle": { btn: "#failure-pump-reverse-needle", short: "倒行表", scores: { distort: 2 }, phrase: "倒走的表针替事故加压", feedback: "表针每退一格，管道就多出一段从未发生的压力。" }',
+  '"tagged-reservoir": { btn: "#failure-pump-tagged-reservoir", short: "沉积槽", scores: { blame: 2 }, phrase: "黑沉积槽认领了回流", feedback: "沉积物在空白名牌下凝固。没人签字，它却知道该向谁追责。" }',
+  '"triple-seal-ladder": { btn: "#failure-pump-triple-seal-ladder", short: "封签梯", scores: { confirm: 1, distort: 1, blame: 1 }, phrase: "三枚封签让无号梯级同时作证", feedback: "三枚封签互不相认，却在同一级梯上留下同一枚鞋印。" }',
+  '"witness-carbon": { btn: "#failure-ledger-witness-carbon", short: "复写章", scores: { confirm: 2 }, phrase: "复写章证明见证人仍在场", feedback: "第二张空纸先显出压痕。见证人还没出现，副本已经替他作证。" }',
+  '"erasure-blade": { btn: "#failure-ledger-erasure-blade", short: "擦名刀", scores: { distort: 2 }, phrase: "擦名刀把同一页改成两份", feedback: "刀锋没有刮掉名字，只把同一处空白分成了两种说法。" }',
+  '"refusal-drawer": { btn: "#failure-ledger-refusal-drawer", short: "拒收屉", scores: { blame: 2 }, phrase: "拒收抽屉保存了责任人的位置", feedback: "抽屉里没有姓名，只有一块始终为某个人留空的凹槽。" }',
+]) assert.ok(js.includes(frag), `missing v61 clue: ${frag.slice(0, 40)}`);
+
+/* 27 组合枚举：七类全部可达且数量固定（静态重算） */
+const V61_ECHO = [{ c: 2, d: 0, b: 0 }, { c: 0, d: 2, b: 0 }, { c: 0, d: 0, b: 2 }];
+const V61_PUMP = [{ c: 0, d: 2, b: 0 }, { c: 0, d: 0, b: 2 }, { c: 1, d: 1, b: 1 }];
+const V61_LEDGER = [{ c: 2, d: 0, b: 0 }, { c: 0, d: 2, b: 0 }, { c: 0, d: 0, b: 2 }];
+const v61Counts = { confirmHigh: 0, distortHigh: 0, blameHigh: 0, confirmDistort: 0, confirmBlame: 0, distortBlame: 0, allEqual: 0 };
+for (const e of V61_ECHO) for (const p of V61_PUMP) for (const l of V61_LEDGER) {
+  const c = e.c + p.c + l.c;
+  const d = e.d + p.d + l.d;
+  const b = e.b + p.b + l.b;
+  if (c === d && d === b) v61Counts.allEqual += 1;
+  else if (c > d && c > b) v61Counts.confirmHigh += 1;
+  else if (d > c && d > b) v61Counts.distortHigh += 1;
+  else if (b > c && b > d) v61Counts.blameHigh += 1;
+  else if (c === d && c > b) v61Counts.confirmDistort += 1;
+  else if (c === b && c > d) v61Counts.confirmBlame += 1;
+  else if (d === b && d > c) v61Counts.distortBlame += 1;
+}
+assert.deepEqual(v61Counts, { confirmHigh: 3, distortHigh: 7, blameHigh: 7, confirmDistort: 2, confirmBlame: 2, distortBlame: 2, allEqual: 4 }, "all 27 combos route into exactly the seven frozen classes");
+assert.equal(Object.values(v61Counts).reduce((a, b) => a + b, 0), 27, "exactly 27 combinations");
+
+/* 分流真值表与反馈逐字冻结 */
+const failureRouteBlock = js.match(/const failureSettleRoute = \(scores\) => \{[\s\S]*?\n  \};/);
+assert.ok(failureRouteBlock, "failureSettleRoute must be a pure routing function");
+assert.match(failureRouteBlock[0], /if \(c === d && d === b\) return \{ target: "chain-of-custody-office", feedback: "三项拉平。证物链办公室要求接手这次没有主因的事故。" \};/, "full tie hands the accident to the custody office");
+assert.match(failureRouteBlock[0], /if \(c > d && c > b\) return \{ target: "evidence-vault", feedback: "三段重演彼此印证。证词被送往异常保全库，等它继续证明自己。" \};/, "strict confirm high routes to the evidence vault");
+assert.match(failureRouteBlock[0], /if \(d > c && d > b\) return \{ target: "protocol-drift", feedback: "重演中的失真压过其余两项。守则被迫承认，故障发生在叙述之前。" \};/, "strict distort high routes to protocol drift");
+assert.match(failureRouteBlock[0], /if \(b > c && b > d\) return \{ target: "liability-ledger", feedback: "责任留下了最重的刻痕。事故被送回责任账房，重新称一次名字。" \};/, "strict blame high routes to the liability ledger");
+assert.match(failureRouteBlock[0], /if \(c === d\) return \{ target: "false-confirmation-desk", feedback: "印证与失真彼此作证。故障被送去假确认台，那里只记录一致的错误。" \};/, "confirm-distort tie routes to the false-confirmation desk");
+assert.match(failureRouteBlock[0], /if \(c === b\) return \{ target: "witness-carbon-archive", feedback: "印证与归责互相盖章。见证副本被送进复写库，等待原件承认。" \};/, "confirm-blame tie routes to the witness-carbon archive");
+assert.match(failureRouteBlock[0], /return \{ target: "blank-name-cloakroom", feedback: "失真与归责共同指向一个被擦掉的名字。事故寄存在空名衣柜。" \};/, "distort-blame tie routes to the blank-name cloakroom");
+
+/* 交互硬要求：四重边界、第一拍全锁、重播重锁 + aria、到达原子清场 */
+for (const fn of ["chooseFailureEntry", "chooseFailureClue", "chooseFailureReturn", "chooseFailureBoard", "chooseFailureLever"]) {
+  const block = js.match(new RegExp(`const ${fn} = \\([^)]*\\) => \\{[\\s\\S]*?\\n  \\};`));
+  assert.ok(block, `${fn} must exist`);
+  assert.match(block[0], /if \(AutoAdvance\.has\(/, `${fn} respects the first-lock`);
+  assert.match(block[0], /if \(st\.pending\) return;/, `${fn} refuses to act under a live pending`);
+}
+for (const fn of ["chooseFailureEntry", "chooseFailureClue", "chooseFailureReturn"]) {
+  const block = js.match(new RegExp(`const ${fn} = \\([^)]*\\) => \\{[\\s\\S]*?\\n  \\};`));
+  assert.match(block[0], /if \(currentScene !== sceneName\) return;/, `${fn} validates the live scene`);
+}
+for (const fn of ["chooseFailureBoard", "chooseFailureLever"]) {
+  const block = js.match(new RegExp(`const ${fn} = \\([^)]*\\) => \\{[\\s\\S]*?\\n  \\};`));
+  assert.match(block[0], /if \(currentScene !== FAILURE_DESK\) return;/, `${fn} validates the live desk scene`);
+}
+const failureLeverBlock = js.match(/const chooseFailureLever = \(\) => \{[\s\S]*?\n  \};/);
+assert.match(failureLeverBlock[0], /if \(!FAILURE_ROOMS\.every\(\(r\) => st\.selections\[r\]\)\) return;/, "the lever requires all three selections");
+const failureSettleArriveBlock = js.match(/const failureSettleArrive = \(target\) => \{[\s\S]*?\n  \};/);
+assert.match(failureSettleArriveBlock[0], /s\.completedRuns = Math\.min\(FAILURE_NUM_CAP, s\.completedRuns \+ 1\);/, "completedRuns increments once per settlement");
+assert.match(failureSettleArriveBlock[0], /s\.cycle = Math\.min\(FAILURE_NUM_CAP, s\.cycle \+ 1\);/, "cycle increments per settlement");
+assert.match(failureSettleArriveBlock[0], /FAILURE_ROOMS\.forEach\(\(room\) => \{ s\.selections\[room\] = ""; \}\);/, "settlement clears all three selections");
+assert.match(failureSettleArriveBlock[0], /if \(LEDGER_SCENE_KEY\[target\]\) grantLedgerVisit\(target\);/, "ledger targets regain their old guard credentials");
+assert.match(failureSettleArriveBlock[0], /if \(target === "evidence-vault"\) markReviewVisited\("evidence-vault"\);/, "the evidence vault regains its old guard credential");
+const failureReplayBlock = js.match(/const replayFailurePending = \(sceneName\) => \{[\s\S]*?\n  \};/);
+assert.match(failureReplayBlock[0], /failureLockDesk\(\);/, "desk pending replay re-locks all four hotspots");
+assert.match(failureReplayBlock[0], /failureLockRoom\(p\.room\);/, "room pending replay re-locks all four hotspots");
+assert.equal((failureReplayBlock[0].match(/setAttribute\("aria-pressed", "true"\)/g) || []).length, 2, "replay restores the chosen hotspot's aria-pressed in both scopes");
+/* v61 五组监听只接受 isTrusted 真实 click */
+assert.equal((js.match(/ev\.isTrusted/g) || []).length, 15, "v57 (2) + v58 (5) + v59 (3) + v61 (5) listener groups carry the isTrusted guard");
+
+/* 守卫与接线：desk 窄守卫、sceneInit、遗忘回弹 */
+assert.match(js, /if \(target === FAILURE_DESK && failureGuard\.pendingTarget !== FAILURE_DESK && !failureGuard\.visited\.desk\s*\n\s*&& !FAILURE_ROOMS\.some\(\(r\) => failureGuard\.selections\[r\]\) && !failureGuard\.replayRoom\)/, "desk guard admits only legal pending, a past visit, or an active round");
+assert.match(js, /depthGuard\.deepVisited\["echo-transfer"\] \? "echo-transfer"/, "desk guard falls back to a legal v30 deep room first");
+assert.ok(js.indexOf("if (target === FAILURE_DESK") < js.indexOf("if (BRANCH_SCENES.includes(target)"), "desk guard runs before the v29 branch guard so its fallback keeps cascading");
+assert.match(js, /if \(name === "failure-reconstruction-desk"\) \{ enterFailureDesk\(\); replayFailurePending\(name\); \}/, "desk scene init wiring");
+assert.match(js, /syncFailureLink\(\);\s*\n\s*paintFailure\(\);\s*\n\s*failureUnlockDesk\(\);\s*\n\s*FAILURE_ROOMS\.forEach\(syncFailureRoom\);/, "forget-all rebounds every v61 DOM surface");
+
+/* 热点定位类与短桌面规则 */
+for (const cls of ["echo-base-spot-relay", "echo-base-spot-seal", "echo-base-spot-bell", "echo-base-spot-entry", "echo-recon-spot-sealed-voice", "echo-recon-spot-cut-relay", "echo-recon-spot-late-bell", "echo-recon-spot-return", "pump-base-spot-release", "pump-base-spot-sediment", "pump-base-spot-ladder", "pump-base-spot-entry", "pump-recon-spot-reverse-needle", "pump-recon-spot-tagged-reservoir", "pump-recon-spot-triple-seal-ladder", "pump-recon-spot-return", "ledger-base-spot-crossout", "ledger-base-spot-archive", "ledger-base-spot-reject", "ledger-base-spot-entry", "ledger-recon-spot-witness-carbon", "ledger-recon-spot-erasure-blade", "ledger-recon-spot-refusal-drawer", "ledger-recon-spot-return", "failure-spot-board-echo", "failure-spot-board-pump", "failure-spot-board-ledger", "failure-spot-lever"]) {
+  assert.match(css, new RegExp(`\\.${cls} \\{`), `css missing position class .${cls}`);
+}
+assert.match(css, /#scene-failure-reconstruction-desk \.branch-figure \{ width: min\(460px, 100%\); \}/, "short-desktop desk figure rule");
+
+/* v61 设计文档存在且冻结四张源图哈希 */
+const v61doc = await fileText("docs/V61FailureReconstructionDesign.md");
+for (const hash of Object.values(V61_SOURCE_HASHES)) {
+  assert.ok(v61doc.includes(hash), "V61 design doc must freeze the source sha256 values");
 }
 
 /* ---------- v54 迫近回访：v29 三房共同记账 + 异动第四热点九分流 ---------- */
