@@ -929,7 +929,24 @@ document.addEventListener("DOMContentLoaded", () => {
     els.forEach((el, i) => setTimeout(() => el.classList.add("in"), 140 + i * 130));
   };
 
+  const resolveCausalPendingOnArrival = (name) => {
+    const st = getCausalMail();
+    const p = st.pending;
+    if (p && p.target === name) {
+      causalMailBeforeArrive(p);
+    }
+  };
+
   const sceneInit = (name) => {
+    resolveCausalPendingOnArrival(name);
+    resolveCausalScarPendingOnArrival(name);
+    resolveCounterfactualPendingOnArrival(name);
+    resolveBloodlessPendingOnArrival(name);
+    resolveGenerationLoansPendingOnArrival(name);
+    resolvePosthumousCensusPendingOnArrival(name);
+    resolveDeadParliamentPendingOnArrival(name);
+    resolveDeathDiplomacyPendingOnArrival(name);
+    resolveLastWordBankPendingOnArrival(name);
     const scene = scenes[name];
     document.title = scene.dataset.title || "Goddead";
     revealScene(scene);
@@ -981,6 +998,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (name === "acting") { actingConsumed = false; enterActing(); }
     if (name === "offering") { offeringConsumed = false; if (offeringFigure) { offeringFigure.classList.remove("ignited"); offeringFigure.setAttribute("aria-label", "一座沉寂的焚献炉"); } syncRulingOfferingUI(); }
     if (name === "reliquary") { reliquaryConsumed = false; enterReliquary(); }
+    if (name === "ending-return-office") { enterEndingReturnOffice(); replayEndingReturnPending(name); }
+    if (name === "unending-gallery") { enterEndingReturnGallery(); replayEndingReturnPending(name); }
     if (name === "ninth") AudioEngine.bell(58);
     if (name === "remembrance") {
       paintWatch();
@@ -1021,6 +1040,9 @@ document.addEventListener("DOMContentLoaded", () => {
       paintCopyMemory();
       paintSettlementMemory();
       syncGovernanceRemembrance();
+      syncEndingReturnRemembrance();
+      replayEndingReturnPending(name);
+      syncCausalMailRemembrance();
       if (!statsCounted) {
         statsCounted = true;
         countUp(numEls.arrivals, arrivals);
@@ -1029,6 +1051,89 @@ document.addEventListener("DOMContentLoaded", () => {
         countUp(numEls.corruption, corruptionOf(), "%", 1);
       }
     }
+    replayCausalPending(name);
+    syncCausalEchoStamps();
+    syncCausalScarStages();
+    replayCausalScarPending(name);
+    syncCauselessWard();
+    syncCausalScarRemembrance();
+    syncCausalScarLinks();
+    syncCounterfactualEchoes();
+    syncCounterfactualRemembrance();
+    syncCounterfactualLinks();
+    replayCounterfactualPending(name);
+    syncBloodlessKinEchoes();
+    syncBloodlessRemembrance();
+    syncBloodlessLinks();
+    replayBloodlessPending(name);
+    syncGenerationLoansNotices();
+    syncGenerationLoansRemembrance();
+    syncGenerationLoansLinks();
+    replayGenerationLoansPending(name);
+    syncPosthumousCensusSummons();
+    syncPosthumousCensusRemembrance();
+    syncPosthumousCensusLinks();
+    replayPosthumousCensusPending(name);
+    syncDeadParliamentWhips();
+    syncDeadParliamentRemembrance();
+    syncDeadParliamentLinks();
+    replayDeadParliamentPending(name);
+    syncDeathDiplomacyCouriers();
+    syncDeathDiplomacyRemembrance();
+    syncDeathDiplomacyLinks();
+    replayDeathDiplomacyPending(name);
+    syncLastWordBankBank();
+    syncLastWordBankMint();
+    syncLastWordBankVault();
+    syncLastWordBankDefault();
+    syncLastWordBankRemittances();
+    paintLastWordBankMemory();
+    paintLastWordBankCodex();
+    syncLastWordBankRemembrance();
+    syncLastWordBankLinks();
+    replayLastWordBankPending(name);
+    syncDreamCustomsCustoms();
+    syncDreamCustomsTerminal();
+    syncDreamCustomsBureau();
+    syncDreamCustomsYard();
+    syncDreamCustomsInspectors();
+    paintDreamCustomsMemory();
+    paintDreamCustomsCodex();
+    syncDreamCustomsRemembrance();
+    syncDreamCustomsLinks();
+    replayDreamCustomsPending(name);
+    syncTombstonePatentOfficeOffice();
+    syncTombstonePatentOfficeOssuary();
+    syncTombstonePatentOfficeExamination();
+    syncTombstonePatentOfficeTribunal();
+    syncTombstonePatentOfficeExaminers();
+    paintTombstonePatentOfficeMemory();
+    paintTombstonePatentOfficeCodex();
+    syncTombstonePatentOfficeRemembrance();
+    syncTombstonePatentOfficeLinks();
+    replayTombstonePatentOfficePending(name);
+    resolveApocalypseWarrantyOfficePendingOnArrival(name);
+    syncApocalypseWarrantyOffice();
+    syncApocalypseWarrantyMorgue();
+    syncApocalypseWarrantyBench();
+    syncApocalypseWarrantyYard();
+    syncApocalypseWarrantyAdjusters();
+    paintApocalypseWarrantyMemory();
+    paintApocalypseWarrantyCodex();
+    syncApocalypseWarrantyRemembrance();
+    syncApocalypseWarrantyLinks();
+    replayApocalypseWarrantyPending(name);
+    resolveRealityRefundCounterPendingOnArrival(name);
+    syncRealityRefundCounterCounter();
+    syncRealityRefundCounterIncinerator();
+    syncRealityRefundCounterInspection();
+    syncRealityRefundCounterCourt();
+    syncRealityRefundCounterCashiers();
+    paintRealityRefundCounterMemory();
+    paintRealityRefundCounterCodex();
+    syncRealityRefundCounterRemembrance();
+    syncRealityRefundCounterLinks();
+    replayRealityRefundCounterPending(name);
     updateHudDisplay();
   };
 
@@ -1170,12 +1275,107 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
+
+    /* v63 终局退件所守卫：仅合法 pending / 活动 activeEnding / 已到访且仍有合法结局时准入；
+       v72 窄桥：instrument pending 或 activeRemittance 可抵达 unending-gallery；
+       v73 窄桥：declaration pending 或 activeInspector 可抵达 unending-gallery */
+    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery')) {
+      if (!endingReturnCanVisitGallery()) {
+        target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
+      }
+    }
+    if (target === "ending-return-office" && !endingReturnCanVisitOffice()) {
+      target = "remembrance";
+    }
+
+    /* v64 因果倒邮守卫：仅合法 pending / 历史真实到访且 v63 unending 仍成立时准入；
+       倒邮台不合法则回痕迹，第一稿库/第一敲之前不合法则回倒邮台 */
+    if (target === "before-first-knock" && !causalMailCanVisitBefore()) {
+      target = causalMailCanVisitVault() ? "first-draft-vault" : causalMailCanVisitSorter() ? "causal-sorter" : "remembrance";
+    }
+    if (target === "first-draft-vault" && !causalMailCanVisitVault()) {
+      target = causalMailCanVisitSorter() ? "causal-sorter" : "remembrance";
+    }
+    if (target === "causal-sorter" && !causalMailCanVisitSorter()) {
+      target = "remembrance";
+    }
+
+    /* v65 因果疤痕守卫：仅合法 pending / 已真实进入无因收容室时准入 */
+    if (target === "causeless-ward" && !causalScarCanVisitRoom()) {
+      target = "remembrance";
+    }
+
+    /* v66 反事实纺生守卫 */
+    if (target === "counterfactual-spindle" && !counterfactualCanVisitSpindle()) target = "remembrance";
+    if (target === "scar-loom" && !counterfactualCanVisitLoom()) target = "remembrance";
+    if (target === "unlived-nursery" && !counterfactualCanVisitNursery()) target = "remembrance";
+    if (target === "life-without-cause" && !counterfactualCanVisitRoom()) target = "remembrance";
+
+    /* v67 无血家谱守卫 */
+    if (target === "counterfactual-genealogy" && !bloodlessCanVisitGenealogy()) target = "remembrance";
+    if (target === "bloodless-archive" && !bloodlessCanVisitArchive()) target = "remembrance";
+    if (target === "borrowed-childhood" && !bloodlessCanVisitChildhood()) target = "remembrance";
+    if (target === "last-family-court" && !bloodlessCanVisitCourt()) target = "remembrance";
+
+    /* v68 世代借贷守卫 */
+    if (target === "generational-credit-office" && !generationLoansCanVisitOffice()) target = "remembrance";
+    if (target === "lifetime-pawn-vault" && !generationLoansCanVisitVault()) target = "remembrance";
+    if (target === "mortality-clearing-house" && !generationLoansCanVisitClearing()) target = "remembrance";
+    if (target === "age-foreclosure-court" && !generationLoansCanVisitForeclosure()) target = "remembrance";
+
+    /* v69 死后人口普查守卫 */
+    if (target === "posthumous-census-hall" && !posthumousCensusCanVisitHall()) target = "remembrance";
+    if (target === "contradictory-evidence-archive" && !posthumousCensusCanVisitArchive()) target = "remembrance";
+    if (target === "birth-ballot-booth" && !posthumousCensusCanVisitBooth()) target = "remembrance";
+    if (target === "population-nullification-court" && !posthumousCensusCanVisitNullification()) target = "remembrance";
+
+    /* v70 亡者议会守卫 */
+    if (target === "dead-parliament-rotunda" && !deadParliamentCanVisitRotunda()) target = "remembrance";
+    if (target === "citizenship-article-chamber" && !deadParliamentCanVisitChamber()) target = "remembrance";
+    if (target === "constitutional-severance-desk" && !deadParliamentCanVisitSeverance()) target = "remembrance";
+    if (target === "three-person-republic-court" && !deadParliamentCanVisitRepublic()) target = "remembrance";
+
+    /* v71 死亡外交部守卫 */
+    if (target === "death-foreign-ministry" && !deathDiplomacyCanVisitMinistry()) target = "remembrance";
+    if (target === "nonexistent-border-chancery" && !deathDiplomacyCanVisitBorder()) target = "remembrance";
+    if (target === "treaty-autopsy-table" && !deathDiplomacyCanVisitAutopsy()) target = "remembrance";
+    if (target === "undeclared-war-room" && !deathDiplomacyCanVisitWar()) target = "remembrance";
+
+    /* v72 遗言中央银行守卫 */
+    if (target === "last-word-central-bank" && !lastWordBankCanVisitBank()) target = "remembrance";
+    if (target === "unsaid-currency-mint" && !lastWordBankCanVisitMint()) target = "remembrance";
+    if (target === "testament-clearing-vault" && !lastWordBankCanVisitVault()) target = "remembrance";
+    if (target === "sovereign-default-chamber" && !lastWordBankCanVisitDefault()) target = "remembrance";
+
+    /* v73 梦境海关总署守卫 */
+    if (target === "borrowed-dream-customs" && !dreamCustomsCanVisitCustoms()) target = "remembrance";
+    if (target === "contraband-sleep-terminal" && !dreamCustomsCanVisitTerminal()) target = "remembrance";
+    if (target === "nightmare-tariff-bureau" && !dreamCustomsCanVisitBureau()) target = "remembrance";
+    if (target === "waking-deportation-yard" && !dreamCustomsCanVisitYard()) target = "remembrance";
+
+    /* v74 墓碑专利局守卫 */
+    if (target === "tombstone-patent-office" && !tombstonePatentOfficeCanVisitOffice()) target = "remembrance";
+    if (target === "prior-art-ossuary" && !tombstonePatentOfficeCanVisitOssuary()) target = "remembrance";
+    if (target === "impossible-claim-examination" && !tombstonePatentOfficeCanVisitExamination()) target = "remembrance";
+    if (target === "perpetual-license-tribunal" && !tombstonePatentOfficeCanVisitTribunal()) target = "remembrance";
+
+    /* v75 末日保修局守卫 */
+    if (target === "apocalypse-warranty-office" && !apocalypseWarrantyCanVisitOffice()) target = "remembrance";
+    if (target === "proof-of-purchase-morgue" && !apocalypseWarrantyCanVisitMorgue()) target = "remembrance";
+    if (target === "post-world-repair-bench" && !apocalypseWarrantyCanVisitBench()) target = "remembrance";
+    if (target === "universal-recall-yard" && !apocalypseWarrantyCanVisitYard()) target = "remembrance";
+
+    /* v76 现实退款处守卫 */
+    if (target === "reality-refund-counter" && !realityRefundCounterCanVisitCounter()) target = "remembrance";
+    if (target === "proof-of-existence-incinerator" && !realityRefundCounterCanVisitIncinerator()) target = "remembrance";
+    if (target === "reality-return-inspection" && !realityRefundCounterCanVisitInspection()) target = "remembrance";
+    if (target === "class-action-court" && !realityRefundCounterCanVisitCourt()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -1255,8 +1455,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const route = () => {
     const name = (location.hash || "#threshold").slice(1);
-    goScene(scenes[name] ? name : "threshold");
+    const resolved = scenes[name] ? name : "threshold";
+    const alreadyThere = resolved === currentScene;
+    goScene(resolved);
     initialRouteDone = true;
+    if (alreadyThere) sceneInit(resolved);
   };
   window.addEventListener("hashchange", route);
 
@@ -11801,6 +12004,14164 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* ============================================================
+     v63 终局退件所 / THE ENDING RETURNS UNOPENED
+     ============================================================ */
+  const ENDING_RETURN_KEY = "goddead_v63_ending_return";
+  const ENDING_RETURN_VERSION = 63;
+  const ENDING_RETURN_OFFICE_IMG = "assets/v63-ending-return-office.webp";
+  const ENDING_RETURN_GALLERY_IMG = "assets/v63-unending-gallery.webp";
+  const ENDING_RETURN_ENDINGS = ["ascension", "madness", "oblivion", "nightwatch"];
+  const ENDING_RETURN_ACTIONS = ["accept", "return", "misroute"];
+  const ENDING_RETURN_CODA_IDS = ENDING_RETURN_ENDINGS.flatMap((b) =>
+    ENDING_RETURN_ACTIONS.map((a) => `${b}:${a}`)
+  );
+  const ENDING_RETURN_BASE_NAMES = {
+    ascension: "登神长阶",
+    madness: "万魂共鸣",
+    oblivion: "灰烬归寂",
+    nightwatch: "永恒值夜",
+  };
+  const ENDING_RETURN_CODA_TABLE = {
+    ascension: {
+      accept: { id: "ascension:accept", name: "借位登神 · BORROWED ASCENSION", narrative: "观所签收了你的登神，却把神位留在退件柜里。此后每次祷告都先向那只空柜鞠躬。" },
+      return: { id: "ascension:return", name: "降回第一阶 · RETURNED ASCENSION", narrative: "长阶把你送回第一阶。阶顶仍站着一个已经登神的你，假装没有看见。" },
+      misroute: { id: "ascension:misroute", name: "错误神址 · MISADDRESSED GOD", narrative: "你的神性被投给一扇从未敲过的门。门后那位陌生人从此替你显灵。" },
+    },
+    madness: {
+      accept: { id: "madness:accept", name: "合声签收 · RECEIVED CHORUS", narrative: "万魂被登记成一个收件人。它们终于安静，只剩你的声音继续用复数说话。" },
+      return: { id: "madness:return", name: "退回耳内 · RETURNED CHORUS", narrative: "所有声音都被退回你的耳内。你听见寂静正在排队，等下一次开口。" },
+      misroute: { id: "madness:misroute", name: "错投静默 · MISROUTED SILENCE", narrative: "疯狂被误投给沉默。沉默学会尖叫，而你得到一张证明自己很安静的回执。" },
+    },
+    oblivion: {
+      accept: { id: "oblivion:accept", name: "遗忘入库 · RECEIVED OBLIVION", narrative: "观所正式接收了遗忘。档案从此完好无缺，只是每一页都忘了该被谁翻开。" },
+      return: { id: "oblivion:return", name: "退回昨日 · RETURNED OBLIVION", narrative: "归寂被退回昨天。今天因此多出一具仍在继续生活的空白。" },
+      misroute: { id: "oblivion:misroute", name: "错投记忆 · MISADDRESSED MEMORY", narrative: "你的遗忘寄到了别人的童年。那个人开始梦见这座从未到过的观所。" },
+    },
+    nightwatch: {
+      accept: { id: "nightwatch:accept", name: "值夜签收 · RECEIVED WATCH", narrative: "永恒值夜被批准为正式班次。交班人写着你的名字，接班人也写着你的名字。" },
+      return: { id: "nightwatch:return", name: "退回凌晨 · RETURNED WATCH", narrative: "这一夜被退回 05:02。秒针重新走动，却只经过你已经站过的位置。" },
+      misroute: { id: "nightwatch:misroute", name: "错投黎明 · MISROUTED DAWN", narrative: "黎明被误投到另一条走廊。这里继续值夜，那条走廊则每天醒来两次。" },
+    },
+  };
+  const ENDING_RETURN_UNENDING = {
+    id: "unending",
+    name: "无终局 · UNENDING",
+    narrative: "四份结局互相证明对方已经结束。观所据此宣布：你可以继续。",
+  };
+  const ENDING_RETURN_FEEDBACK = {
+    entry: "结局卡背面渗出一行退件码。痕迹墙把它卷进一枚黑色文书筒。",
+    secret: "四盏登记灯同时承认彼此已经熄灭。后墙裂开一条比结局更窄的门缝。",
+  };
+  const ENDING_RETURN_GALLERY_TARGETS = {
+    "unending-beginning-door": { target: "threshold", feedback: "门把手记得你的掌纹，门却坚持这是你第一次来。" },
+    "unending-file-trace": { target: "remembrance", feedback: "空框夹住“无终局”。痕迹墙因此多出一块永远写不满的空白。" },
+    "unending-reverse-stair": { target: "listening-back-console", feedback: "台阶先向上，再把同一步送回更早的线路。远处有一台总机替你接听。" },
+  };
+  const ENDING_RETURN_EXIT_META = {
+    threshold: { feedback: "门把手记得你的掌纹，门却坚持这是你第一次来。" },
+    remembrance: { feedback: "空框夹住“无终局”。痕迹墙因此多出一块永远写不满的空白。" },
+    "listening-back-console": { feedback: "台阶先向上，再把同一步送回更早的线路。远处有一台总机替你接听。" },
+    switchboard: { feedback: "台阶先向上，再把同一步送回更早的线路。远处有一台总机替你接听。" },
+  };
+
+  const defaultEndingReturn = () => ({
+    version: ENDING_RETURN_VERSION,
+    visited: { office: false, gallery: false },
+    activeEnding: "",
+    codas: [],
+    processedRuns: 0,
+    secretRuns: 0,
+    actionCounts: { accept: 0, return: 0, misroute: 0 },
+    lastCoda: "",
+    unendingUnlocked: false,
+    pending: null,
+  });
+
+  const normalizeEndingReturnCodas = (codas) => {
+    const whitelist = new Set(ENDING_RETURN_CODA_IDS);
+    return [...new Set((codas || []).filter((id) => whitelist.has(id)))].sort((a, b) => {
+      const [ba, aa] = a.split(":");
+      const [bb, ab] = b.split(":");
+      return (
+        ENDING_RETURN_ENDINGS.indexOf(ba) * 3 +
+        ENDING_RETURN_ACTIONS.indexOf(aa) -
+        (ENDING_RETURN_ENDINGS.indexOf(bb) * 3 + ENDING_RETURN_ACTIONS.indexOf(ab))
+      );
+    });
+  };
+
+  const saveEndingReturn = (st) =>
+    store.set(
+      ENDING_RETURN_KEY,
+      JSON.stringify({
+        version: ENDING_RETURN_VERSION,
+        visited: { office: Boolean(st.visited && st.visited.office), gallery: Boolean(st.visited && st.visited.gallery) },
+        activeEnding: st.activeEnding,
+        codas: normalizeEndingReturnCodas(st.codas),
+        processedRuns: Number(st.processedRuns) || 0,
+        secretRuns: Number(st.secretRuns) || 0,
+        actionCounts: {
+          accept: Number(st.actionCounts && st.actionCounts.accept) || 0,
+          return: Number(st.actionCounts && st.actionCounts.return) || 0,
+          misroute: Number(st.actionCounts && st.actionCounts.misroute) || 0,
+        },
+        lastCoda: st.lastCoda,
+        unendingUnlocked: Boolean(st.unendingUnlocked),
+        pending: st.pending || null,
+      })
+    );
+
+  const getEndingReturn = () => {
+    let raw = {};
+    try {
+      raw = JSON.parse(store.get(ENDING_RETURN_KEY, "{}")) || {};
+    } catch {
+      raw = {};
+    }
+    if (typeof raw !== "object" || raw === null || Array.isArray(raw) || raw.version !== ENDING_RETURN_VERSION) {
+      return defaultEndingReturn();
+    }
+
+    const num = (v) => {
+      const n = Math.floor(Number(v) || 0);
+      return Number.isFinite(n) ? Math.max(0, Math.min(9999, n)) : 0;
+    };
+
+    const st = defaultEndingReturn();
+    st.visited = {
+      office: raw.visited && raw.visited.office === true,
+      gallery: raw.visited && raw.visited.gallery === true,
+    };
+    if (ENDING_RETURN_ENDINGS.includes(raw.activeEnding)) st.activeEnding = raw.activeEnding;
+
+    const codaWhitelist = new Set(ENDING_RETURN_CODA_IDS);
+    if (Array.isArray(raw.codas)) {
+      st.codas = [...new Set(raw.codas.filter((id) => codaWhitelist.has(id)))].sort((a, b) => {
+        const [ba, aa] = a.split(":");
+        const [bb, ab] = b.split(":");
+        return (
+          ENDING_RETURN_ENDINGS.indexOf(ba) * 3 +
+          ENDING_RETURN_ACTIONS.indexOf(aa) -
+          (ENDING_RETURN_ENDINGS.indexOf(bb) * 3 + ENDING_RETURN_ACTIONS.indexOf(ab))
+        );
+      });
+    }
+
+    st.processedRuns = num(raw.processedRuns);
+    st.secretRuns = num(raw.secretRuns);
+    st.actionCounts = {
+      accept: num(raw.actionCounts && raw.actionCounts.accept),
+      return: num(raw.actionCounts && raw.actionCounts.return),
+      misroute: num(raw.actionCounts && raw.actionCounts.misroute),
+    };
+
+    const validLast = new Set([...ENDING_RETURN_CODA_IDS, "unending"]);
+    if (validLast.has(raw.lastCoda)) st.lastCoda = raw.lastCoda;
+
+    const hasAllBases = ENDING_RETURN_ENDINGS.every((b) =>
+      st.codas.some((id) => id.startsWith(b + ":"))
+    );
+    if (raw.unendingUnlocked === true && hasAllBases) st.unendingUnlocked = true;
+    /* 画廊真实到访不能绕过四类证据 */
+    st.visited.gallery = st.visited.gallery && (hasAllBases || st.unendingUnlocked);
+
+    const galleryUnlocked = st.unendingUnlocked || st.visited.gallery;
+    const govResult = parseAndValidateGovernance().resultStatus;
+
+    const p = raw.pending;
+    if (p && typeof p === "object") {
+      const keys = Object.keys(p).sort().join(",");
+      if (
+        p.kind === "entry" &&
+        keys === "baseEnding,feedback,kind,target" &&
+        p.target === "ending-return-office" &&
+        ENDING_RETURN_ENDINGS.includes(p.baseEnding) &&
+        p.baseEnding === govResult &&
+        p.feedback === ENDING_RETURN_FEEDBACK.entry
+      ) {
+        st.pending = { kind: "entry", target: "ending-return-office", baseEnding: p.baseEnding, feedback: p.feedback };
+        st.activeEnding = p.baseEnding;
+      } else if (
+        p.kind === "process" &&
+        keys === "action,baseEnding,coda,feedback,kind,target" &&
+        p.target === "remembrance" &&
+        ENDING_RETURN_ENDINGS.includes(p.baseEnding) &&
+        p.baseEnding === govResult &&
+        raw.activeEnding === p.baseEnding &&
+        ENDING_RETURN_ACTIONS.includes(p.action) &&
+        p.coda === `${p.baseEnding}:${p.action}` &&
+        p.feedback === ENDING_RETURN_CODA_TABLE[p.baseEnding][p.action].narrative
+      ) {
+        st.pending = { kind: "process", target: "remembrance", baseEnding: p.baseEnding, action: p.action, coda: p.coda, feedback: p.feedback };
+      } else if (
+        p.kind === "secret" &&
+        keys === "feedback,kind,target" &&
+        p.target === "unending-gallery" &&
+        p.feedback === ENDING_RETURN_FEEDBACK.secret &&
+        hasAllBases
+      ) {
+        st.pending = { kind: "secret", target: "unending-gallery", feedback: p.feedback };
+      } else if (
+        p.kind === "exit" &&
+        keys === "feedback,kind,target" &&
+        galleryUnlocked &&
+        ENDING_RETURN_EXIT_META[p.target] &&
+        p.feedback === ENDING_RETURN_EXIT_META[p.target].feedback
+      ) {
+        st.pending = { kind: "exit", target: p.target, feedback: p.feedback };
+      }
+    }
+
+    return st;
+  };
+
+  const endingReturnDelay = () => (reduced ? 350 : 900 + Math.floor(Math.random() * 420));
+
+  const endingReturnSecretEligible = () => {
+    const st = getEndingReturn();
+    return ENDING_RETURN_ENDINGS.every((b) => st.codas.some((id) => id.startsWith(b + ":")));
+  };
+
+  const endingReturnOfficeArrive = () => {
+    const st = getEndingReturn();
+    if (!st.visited.office) st.visited.office = true;
+    if (st.pending) st.pending = null;
+    saveEndingReturn(st);
+    paintEndingReturnMemory();
+    paintEndingReturnCodex();
+    syncEndingReturnLinks();
+  };
+
+  const endingReturnProcessArrive = () => {
+    const st = getEndingReturn();
+    if (!st.pending || st.pending.kind !== "process") return;
+    const { baseEnding, action, coda } = st.pending;
+    const gov = parseAndValidateGovernance();
+    if (st.activeEnding !== baseEnding || st.activeEnding !== gov.resultStatus) {
+      st.pending = null;
+      saveEndingReturn(st);
+      return;
+    }
+    if (!st.codas.includes(coda)) st.codas.push(coda);
+    st.processedRuns = Math.min(9999, st.processedRuns + 1);
+    st.actionCounts[action] = Math.min(9999, st.actionCounts[action] + 1);
+    st.lastCoda = coda;
+    st.activeEnding = "";
+    st.pending = null;
+    saveEndingReturn(st);
+    paintEndingReturnMemory();
+    paintEndingReturnCodex();
+    syncEndingReturnLinks();
+  };
+
+  const endingReturnGalleryArrive = () => {
+    const st = getEndingReturn();
+    if (!st.visited.gallery) {
+      st.visited.gallery = true;
+      if (!st.unendingUnlocked) {
+        st.unendingUnlocked = true;
+        st.secretRuns = Math.min(9999, st.secretRuns + 1);
+        st.lastCoda = "unending";
+      }
+    }
+    st.activeEnding = "";
+    if (st.pending) st.pending = null;
+    saveEndingReturn(st);
+    paintEndingReturnMemory();
+    paintEndingReturnCodex();
+    syncEndingReturnLinks();
+  };
+
+  const endingReturnExitArrive = () => {
+    const st = getEndingReturn();
+    if (st.pending) st.pending = null;
+    saveEndingReturn(st);
+  };
+
+  const endingReturnBeforeArrive = (p) => {
+    if (p.kind === "entry") endingReturnOfficeArrive();
+    else if (p.kind === "process") endingReturnProcessArrive();
+    else if (p.kind === "secret") endingReturnGalleryArrive();
+    else if (p.kind === "exit") endingReturnExitArrive();
+  };
+
+  const endingReturnCanVisitOffice = () => {
+    const st = getEndingReturn();
+    const gov = parseAndValidateGovernance();
+    return (
+      st.pending?.target === "ending-return-office" ||
+      (ENDING_RETURN_ENDINGS.includes(st.activeEnding) && st.activeEnding === gov.resultStatus && VALID_ENDINGS.includes(gov.resultStatus)) ||
+      (st.visited.office && VALID_ENDINGS.includes(gov.resultStatus))
+    );
+  };
+
+  const endingReturnCanVisitGallery = () => {
+    const st = getEndingReturn();
+    return (
+      st.pending?.target === "unending-gallery" ||
+      st.visited.gallery ||
+      st.unendingUnlocked
+    );
+  };
+
+  const endingReturnEntryBtn = $("#ending-return-entry-btn");
+  const endingReturnResponse = $("#ending-return-response");
+  const endingReturnOfficeSlip = $("#ending-return-office-slip");
+  const endingReturnOfficeResponse = $("#ending-return-office-response");
+  const endingReturnAcceptBtn = $("#ending-return-accept");
+  const endingReturnReturnBtn = $("#ending-return-return");
+  const endingReturnMisrouteBtn = $("#ending-return-misroute");
+  const endingReturnSecretBtn = $("#ending-return-secret");
+  const galleryBeginningDoorBtn = $("#unending-beginning-door");
+  const galleryFileTraceBtn = $("#unending-file-trace");
+  const galleryReverseStairBtn = $("#unending-reverse-stair");
+  const unendingResponse = $("#unending-response");
+
+  const ENDING_RETURN_ACTION_BUTTON = {
+    accept: "ending-return-accept",
+    return: "ending-return-return",
+    misroute: "ending-return-misroute",
+  };
+
+  const lockEndingReturnOffice = (selectedId) => {
+    [endingReturnAcceptBtn, endingReturnReturnBtn, endingReturnMisrouteBtn, endingReturnSecretBtn].forEach((btn) => {
+      if (!btn) return;
+      btn.disabled = true;
+      const isSelected = btn.id === selectedId;
+      btn.setAttribute("aria-pressed", String(isSelected));
+    });
+  };
+
+  const lockEndingReturnGallery = (selectedId) => {
+    Object.keys(ENDING_RETURN_GALLERY_TARGETS).forEach((id) => {
+      const btn = $(`#${id}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute("aria-pressed", String(id === selectedId));
+    });
+  };
+
+  const enterEndingReturnOffice = () => {
+    const st = getEndingReturn();
+    if (endingReturnOfficeSlip) {
+      endingReturnOfficeSlip.textContent = `待退：${st.activeEnding ? ENDING_RETURN_BASE_NAMES[st.activeEnding] : "—"}`;
+    }
+    const hasActive = ENDING_RETURN_ENDINGS.includes(st.activeEnding);
+    [endingReturnAcceptBtn, endingReturnReturnBtn, endingReturnMisrouteBtn].forEach((btn) => {
+      if (btn) {
+        btn.hidden = false;
+        btn.disabled = !hasActive || !!st.pending;
+        btn.setAttribute("aria-pressed", "false");
+      }
+    });
+    if (endingReturnSecretBtn) {
+      const eligible = endingReturnSecretEligible();
+      endingReturnSecretBtn.hidden = !eligible;
+      endingReturnSecretBtn.disabled = !!st.pending;
+      endingReturnSecretBtn.setAttribute("aria-pressed", "false");
+    }
+    if (!st.pending && endingReturnOfficeResponse) endingReturnOfficeResponse.textContent = "";
+  };
+
+  const enterEndingReturnGallery = () => {
+    const st = getEndingReturn();
+    if (unendingResponse) {
+      unendingResponse.textContent = st.unendingUnlocked ? ENDING_RETURN_UNENDING.narrative : "";
+    }
+    const locked = !!st.pending;
+    Object.keys(ENDING_RETURN_GALLERY_TARGETS).forEach((id) => {
+      const btn = $(`#${id}`);
+      if (btn) {
+        btn.hidden = false;
+        btn.disabled = locked;
+        btn.setAttribute("aria-pressed", "false");
+      }
+    });
+  };
+
+  const replayEndingReturnPending = (sceneName) => {
+    const st = getEndingReturn();
+    const p = st.pending;
+    if (!p) return;
+
+    if (p.target === sceneName) {
+      if (p.kind === "entry" && sceneName === "ending-return-office") endingReturnOfficeArrive();
+      else if (p.kind === "process" && sceneName === "remembrance") endingReturnProcessArrive();
+      else if (p.kind === "secret" && sceneName === "unending-gallery") endingReturnGalleryArrive();
+      else if (p.kind === "exit") endingReturnExitArrive();
+      return;
+    }
+
+    if (sceneName === "ending-return-office") {
+      const selected =
+        p.kind === "process" ? ENDING_RETURN_ACTION_BUTTON[p.action]
+        : p.kind === "secret" ? "ending-return-secret"
+        : "";
+      lockEndingReturnOffice(selected || undefined);
+      if (endingReturnOfficeResponse) endingReturnOfficeResponse.textContent = p.feedback;
+      AutoAdvance.schedule("ending-return-office", p.target, { delay: endingReturnDelay(), before: () => endingReturnBeforeArrive(p) });
+    } else if (sceneName === "remembrance" && p.kind === "entry") {
+      if (endingReturnResponse) endingReturnResponse.textContent = p.feedback;
+      if (endingReturnEntryBtn) endingReturnEntryBtn.disabled = true;
+      AutoAdvance.schedule("remembrance", p.target, { delay: endingReturnDelay(), before: () => endingReturnBeforeArrive(p) });
+    } else if (sceneName === "unending-gallery") {
+      const selected =
+        p.kind === "exit"
+          ? Object.entries(ENDING_RETURN_GALLERY_TARGETS).find(([_, m]) => m.feedback === p.feedback)?.[0]
+          : "";
+      lockEndingReturnGallery(selected || undefined);
+      if (unendingResponse) unendingResponse.textContent = p.feedback;
+      AutoAdvance.schedule("unending-gallery", p.target, { delay: endingReturnDelay(), before: () => endingReturnBeforeArrive(p) });
+    }
+  };
+
+  const paintEndingReturnMemory = () => {
+    const memory = $("#ending-return-memory");
+    if (!memory) return;
+    const st = getEndingReturn();
+    const discovered = st.codas.length + (st.unendingUnlocked ? 1 : 0);
+    if (st.processedRuns > 0 || discovered > 0 || st.secretRuns > 0) {
+      memory.textContent = `终局退件：已处理 ${st.processedRuns} 份；签收 ${st.actionCounts.accept} / 退回 ${st.actionCounts.return} / 误投 ${st.actionCounts.misroute}；后终局已发现 ${discovered}/13。`;
+      memory.hidden = false;
+    } else {
+      memory.hidden = true;
+    }
+  };
+
+  const paintEndingReturnCodex = () => {
+    const box = $("#ending-return-codex");
+    const grid = $("#erc-grid");
+    const unendingEl = $("#erc-unending");
+    if (!box || !grid) return;
+    const st = getEndingReturn();
+    const discovered = st.codas.length + (st.unendingUnlocked ? 1 : 0);
+    if (discovered === 0) {
+      box.hidden = true;
+      return;
+    }
+    box.removeAttribute("hidden");
+    grid.innerHTML = "";
+    ENDING_RETURN_ENDINGS.forEach((base) => {
+      ENDING_RETURN_ACTIONS.forEach((action) => {
+        const coda = ENDING_RETURN_CODA_TABLE[base][action];
+        const unlocked = st.codas.includes(coda.id);
+        const cell = document.createElement("div");
+        cell.className = "erc-cell" + (unlocked ? " unlocked" : "");
+        if (unlocked) {
+          cell.innerHTML = `<b>${coda.name}</b><span>${coda.narrative}</span>`;
+        } else {
+          cell.innerHTML = `<b>？？？</b>`;
+        }
+        grid.appendChild(cell);
+      });
+    });
+    if (unendingEl) {
+      if (st.unendingUnlocked) {
+        Array.from(unendingEl.childNodes).forEach((n) => {
+          if (n.nodeType === 1 && n.id === "causal-mail-entry-btn") return;
+          unendingEl.removeChild(n);
+        });
+        const b = document.createElement("b");
+        b.textContent = ENDING_RETURN_UNENDING.name;
+        const span = document.createElement("span");
+        span.textContent = ENDING_RETURN_UNENDING.narrative;
+        unendingEl.insertBefore(b, causalMailEntryBtn || null);
+        unendingEl.insertBefore(span, causalMailEntryBtn || null);
+        unendingEl.removeAttribute("hidden");
+      } else {
+        unendingEl.hidden = true;
+      }
+    }
+  };
+
+  const syncEndingReturnLinks = () => {
+    const st = getEndingReturn();
+    const officeLink = $("#ending-return-link");
+    const galleryLink = $("#unending-gallery-link");
+    if (officeLink) officeLink.hidden = !st.visited.office;
+    if (galleryLink) galleryLink.hidden = !(st.visited.gallery || st.unendingUnlocked);
+  };
+
+  const syncEndingReturnRemembrance = () => {
+    const gov = parseAndValidateGovernance();
+    const st = getEndingReturn();
+    if (endingReturnEntryBtn) {
+      const show = currentScene === "remembrance" && VALID_ENDINGS.includes(gov.resultStatus);
+      endingReturnEntryBtn.hidden = !show;
+      endingReturnEntryBtn.disabled = !show || !!st.pending;
+    }
+    paintEndingReturnMemory();
+    paintEndingReturnCodex();
+    syncEndingReturnLinks();
+  };
+
+  const chooseEndingReturnEntry = () => {
+    if (currentScene !== "remembrance") return;
+    const gov = parseAndValidateGovernance();
+    if (!VALID_ENDINGS.includes(gov.resultStatus)) return;
+    if (AutoAdvance.has("remembrance")) return;
+    const st = getEndingReturn();
+    if (st.pending) return;
+    st.activeEnding = gov.resultStatus;
+    st.pending = { kind: "entry", target: "ending-return-office", baseEnding: gov.resultStatus, feedback: ENDING_RETURN_FEEDBACK.entry };
+    saveEndingReturn(st);
+    if (endingReturnEntryBtn) endingReturnEntryBtn.disabled = true;
+    if (endingReturnResponse) endingReturnResponse.textContent = ENDING_RETURN_FEEDBACK.entry;
+    AudioEngine.tube();
+    AutoAdvance.schedule("remembrance", "ending-return-office", { delay: endingReturnDelay(), before: () => endingReturnBeforeArrive(st.pending) });
+  };
+
+  const chooseEndingReturnAction = (action) => {
+    if (currentScene !== "ending-return-office") return;
+    if (AutoAdvance.has("ending-return-office")) return;
+    const st = getEndingReturn();
+    const gov = parseAndValidateGovernance();
+    if (!ENDING_RETURN_ENDINGS.includes(st.activeEnding)) return;
+    if (st.activeEnding !== gov.resultStatus) return;
+    if (st.pending) return;
+    const base = st.activeEnding;
+    const coda = `${base}:${action}`;
+    const feedback = ENDING_RETURN_CODA_TABLE[base][action].narrative;
+    st.pending = { kind: "process", target: "remembrance", baseEnding: base, action, coda, feedback };
+    saveEndingReturn(st);
+    lockEndingReturnOffice(ENDING_RETURN_ACTION_BUTTON[action]);
+    if (endingReturnOfficeResponse) endingReturnOfficeResponse.textContent = feedback;
+    AudioEngine.stamp();
+    AutoAdvance.schedule("ending-return-office", "remembrance", { delay: endingReturnDelay(), before: () => endingReturnBeforeArrive(st.pending) });
+  };
+
+  const chooseEndingReturnSecret = () => {
+    if (currentScene !== "ending-return-office") return;
+    if (AutoAdvance.has("ending-return-office")) return;
+    if (!endingReturnSecretEligible()) return;
+    const st = getEndingReturn();
+    if (st.pending) return;
+    st.pending = { kind: "secret", target: "unending-gallery", feedback: ENDING_RETURN_FEEDBACK.secret };
+    saveEndingReturn(st);
+    lockEndingReturnOffice("ending-return-secret");
+    if (endingReturnOfficeResponse) endingReturnOfficeResponse.textContent = ENDING_RETURN_FEEDBACK.secret;
+    AudioEngine.relayLock();
+    AutoAdvance.schedule("ending-return-office", "unending-gallery", { delay: endingReturnDelay(), before: () => endingReturnBeforeArrive(st.pending) });
+  };
+
+  const chooseEndingReturnGalleryExit = (id) => {
+    if (currentScene !== "unending-gallery") return;
+    if (AutoAdvance.has("unending-gallery")) return;
+    const meta = ENDING_RETURN_GALLERY_TARGETS[id];
+    if (!meta) return;
+    const st = getEndingReturn();
+    if (st.pending) return;
+    if (!st.unendingUnlocked && !st.visited.gallery) return;
+
+    let target = meta.target;
+    if (id === "unending-reverse-stair") {
+      const lg = getListening();
+      const listeningAllowed =
+        lg.pendingTarget === LISTENING_CONSOLE ||
+        lg.visited.console ||
+        LISTENING_ROOMS.some((r) => lg.history.some((h) => h.cycle === lg.cycle && h.room === r)) ||
+        lg.replayRoom;
+      target = listeningAllowed ? "listening-back-console" : "switchboard";
+    }
+
+    st.pending = { kind: "exit", target, feedback: meta.feedback };
+    saveEndingReturn(st);
+    lockEndingReturnGallery(id);
+    if (unendingResponse) unendingResponse.textContent = meta.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule("unending-gallery", target, { delay: endingReturnDelay(), before: () => endingReturnBeforeArrive(st.pending) });
+  };
+
+  if (endingReturnEntryBtn) {
+    endingReturnEntryBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseEndingReturnEntry();
+    });
+  }
+  if (endingReturnAcceptBtn) {
+    endingReturnAcceptBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseEndingReturnAction("accept");
+    });
+  }
+  if (endingReturnReturnBtn) {
+    endingReturnReturnBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseEndingReturnAction("return");
+    });
+  }
+  if (endingReturnMisrouteBtn) {
+    endingReturnMisrouteBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseEndingReturnAction("misroute");
+    });
+  }
+  if (endingReturnSecretBtn) {
+    endingReturnSecretBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseEndingReturnSecret();
+    });
+  }
+  if (galleryBeginningDoorBtn) {
+    galleryBeginningDoorBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseEndingReturnGalleryExit("unending-beginning-door");
+    });
+  }
+  if (galleryFileTraceBtn) {
+    galleryFileTraceBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseEndingReturnGalleryExit("unending-file-trace");
+    });
+  }
+  if (galleryReverseStairBtn) {
+    galleryReverseStairBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseEndingReturnGalleryExit("unending-reverse-stair");
+    });
+  }
+
+  /* ============================================================
+     v64 因果倒邮 / THE ENDING ARRIVED EARLY
+     ============================================================ */
+  const CAUSAL_MAIL_KEY = "goddead_v64_causal_mail";
+  const CAUSAL_MAIL_VERSION = 64;
+  const CAUSAL_MODES = ["accept", "return", "misroute"];
+  const CAUSAL_DESTINATIONS = ["threshold", "protocol", "watch", "offering"];
+  const CAUSAL_ZERO_ACTIONS = ["answer", "file-death", "take-seat"];
+  const CAUSAL_ECHO_TARGETS = {
+    threshold: { id: "causal-echo-threshold", text: "沿门缝的未来邮戳回去 ⟶" },
+    protocol: { id: "causal-echo-protocol", text: "把第零条退回倒邮台 ⟶" },
+    watch: { id: "causal-echo-watch", text: "把提前的班交回去 ⟶" },
+    offering: { id: "causal-echo-offering", text: "沿未写祷词的灰回去 ⟶" },
+  };
+  const CAUSAL_MODE_FEEDBACK = {
+    accept: "邮戳承认后果已经签收。现在只差一个更早的收件地址。",
+    return: "线轴从结局里抽出一根起因。它仍连着某个尚未发生的房间。",
+    misroute: "棱镜把第一页折成三个方向，第四个方向从背面亮起。",
+  };
+  const CAUSAL_ENTRY_FEEDBACK = "无终局被卷成一封没有寄件日期的黑信。邮戳先落在了故事第一页。";
+  const CAUSAL_ZERO_ENTRY_FEEDBACK = "四份第一稿互相否认谁先写成。中央空槽因此吐出一张编号为零的门票。";
+
+  const CAUSAL_OUTCOME_TABLE = {
+    accept: {
+      threshold: { name: "先到的回执 · RECEIPT BEFORE KNOCK", narrative: "你还没有敲门，门缝先吐出一张证明你已经进去过的回执。" },
+      protocol: { name: "守则先签收 · RULES RECEIVED FIRST", narrative: "八条守则在你阅读之前就记下了服从。违反记录因此早于你的名字。" },
+      watch: { name: "提前交班 · SHIFT RECEIVED EARLY", narrative: "接班人先签了你的名字。等你到岗时，值夜已经算作一生。" },
+      offering: { name: "祷告已焚 · PRAYER ALREADY BURNED", narrative: "炉里提前躺着一把灰，耐心等待那句尚未写出的祷告。" },
+    },
+    return: {
+      threshold: { name: "退回第一敲 · FIRST KNOCK RETURNED", narrative: "第一声敲门被退回手指。此后每根指骨都藏着一扇门。" },
+      protocol: { name: "退回其零 · RULE ZERO RETURNED", narrative: "不存在的第零条被退回，守则只好从其二开始假装完整。" },
+      watch: { name: "退回 05:02 · 05:02 RETURNED", narrative: "05:02 被退回前一夜。清晨从此欠你一声电话铃。" },
+      offering: { name: "退回祷词 · PRAYER RETURNED UNWRITTEN", narrative: "祷词还没有出口，舌根已经尝到它被焚后的灰。" },
+    },
+    misroute: {
+      threshold: { name: "错投门内 · KNOCK MISROUTED INSIDE", narrative: "敲门声被投到门内。门向外打开，像是里面的你终于肯放你进来。" },
+      protocol: { name: "错投守则 · PROTOCOL MISADDRESSED", narrative: "另一个访客替你遵守了规则，惩罚却准确寄到了你的影子。" },
+      watch: { name: "错投交班 · SHIFT MISROUTED", narrative: "你的值夜被寄给一个没有夜晚的白昼。那里的影子开始替你疲倦。" },
+      offering: { name: "错投神前 · PRAYER MISROUTED BEFORE GOD", narrative: "祷告抵达神还活着的那天。祂的回答绕了一圈，变成自己的讣告。" },
+    },
+  };
+
+  const CAUSAL_ZERO_TABLE = {
+    answer: { name: "未死回声 · THE GOD ANSWERED TOO EARLY", narrative: "铃声赶在死亡之前抵达。神回答了，但声音已经学会用遗言说话。", target: "threshold" },
+    "file-death": { name: "预先死亡 · DEATH FILED IN ADVANCE", narrative: "死亡先被盖章，神只好继续活着，等待档案追上事实。", target: "remembrance" },
+    "take-seat": { name: "先于来访 · VISITOR BEFORE ARRIVAL", narrative: "访客牌先认出了你。等你真正来到门外，座位已经替你等了很多年。", target: "protocol" },
+  };
+
+  const CAUSAL_DESTINATION_SCENES = {
+    threshold: "threshold",
+    protocol: "protocol",
+    watch: "watch",
+    offering: "offering",
+  };
+
+  const defaultCausalMail = () => ({
+    version: CAUSAL_MAIL_VERSION,
+    visited: { sorter: false, vault: false, before: false },
+    mode: "",
+    outcomes: [],
+    zeroOutcomes: [],
+    dispatchRuns: 0,
+    zeroRuns: 0,
+    targetCounts: { threshold: 0, protocol: 0, watch: 0, offering: 0 },
+    lastOutcome: "",
+    activeEcho: null,
+    pending: null,
+  });
+
+  const saveCausalMail = (st) => {
+    const outcomes = normalizeCausalOutcomes(st.outcomes);
+    const zeroOutcomes = normalizeCausalZeroOutcomes(st.zeroOutcomes);
+    const dispatchRuns = Math.min(9999, Math.max(0, Math.floor(Number(st.dispatchRuns) || 0)));
+    const zeroRuns = Math.min(9999, Math.max(0, Math.floor(Number(st.zeroRuns) || 0)));
+    const targetCounts = {
+      threshold: Math.min(9999, Math.max(0, Math.floor(Number(st.targetCounts && st.targetCounts.threshold) || 0))),
+      protocol: Math.min(9999, Math.max(0, Math.floor(Number(st.targetCounts && st.targetCounts.protocol) || 0))),
+      watch: Math.min(9999, Math.max(0, Math.floor(Number(st.targetCounts && st.targetCounts.watch) || 0))),
+      offering: Math.min(9999, Math.max(0, Math.floor(Number(st.targetCounts && st.targetCounts.offering) || 0))),
+    };
+    const validLast = new Set([...outcomes, ...zeroOutcomes]);
+    const lastOutcome = validLast.has(st.lastOutcome) ? st.lastOutcome : "";
+    const activeEcho = normalizeCausalActiveEcho(st.activeEcho, outcomes, zeroOutcomes);
+    const ending = getEndingReturnForCausal();
+    const availableModes = CAUSAL_MODES.filter((m) => (ending.codas || []).some((id) => id.endsWith(`:${m}`)));
+    const canonicalMode = CAUSAL_MODES.includes(st.mode) && availableModes.includes(st.mode) ? st.mode : "";
+    const unendingUnlocked = !!ending.unendingUnlocked;
+    const visited = { sorter: Boolean(st.visited && st.visited.sorter), vault: Boolean(st.visited && st.visited.vault), before: Boolean(st.visited && st.visited.before) };
+    store.set(
+      CAUSAL_MAIL_KEY,
+      JSON.stringify({
+        version: CAUSAL_MAIL_VERSION,
+        visited,
+        mode: canonicalMode,
+        outcomes,
+        zeroOutcomes,
+        dispatchRuns,
+        zeroRuns,
+        targetCounts,
+        lastOutcome,
+        activeEcho,
+        pending: normalizeCausalPending(st.pending, outcomes, zeroOutcomes, targetCounts, availableModes, canonicalMode, unendingUnlocked, visited, activeEcho),
+      })
+    );
+  };
+
+  const normalizeCausalOutcomes = (outcomes) => {
+    const whitelist = new Set(CAUSAL_MODES.flatMap((m) => CAUSAL_DESTINATIONS.map((d) => `${m}:${d}`)));
+    return [...new Set((outcomes || []).filter((id) => whitelist.has(id)))].sort();
+  };
+
+  const normalizeCausalZeroOutcomes = (zeroOutcomes) => {
+    return [...new Set((zeroOutcomes || []).filter((id) => CAUSAL_ZERO_ACTIONS.includes(id)))].sort();
+  };
+
+  const normalizeCausalActiveEcho = (echo, outcomes, zeroOutcomes) => {
+    if (!echo || typeof echo !== "object") return null;
+    const keys = Object.keys(echo).sort().join(",");
+    if (keys !== "feedback,mode,outcome,target") return null;
+    const { target, mode, outcome, feedback } = echo;
+    if (typeof target !== "string" || typeof mode !== "string" || typeof outcome !== "string" || typeof feedback !== "string") return null;
+    const out = new Set(outcomes || []);
+    const zero = new Set(zeroOutcomes || []);
+    for (const m of CAUSAL_MODES) {
+      for (const dest of CAUSAL_DESTINATIONS) {
+        const id = `${m}:${dest}`;
+        if (out.has(id) && target === dest) {
+          const table = CAUSAL_OUTCOME_TABLE[m][dest];
+          const computed = { target: dest, mode: m, outcome: id, feedback: table.narrative };
+          if (target === computed.target && mode === computed.mode && outcome === computed.outcome && feedback === computed.feedback) {
+            return computed;
+          }
+        }
+      }
+    }
+    for (const action of CAUSAL_ZERO_ACTIONS) {
+      if (zero.has(action)) {
+        const table = CAUSAL_ZERO_TABLE[action];
+        const computed = { target: table.target, mode: "zero", outcome: action, feedback: table.narrative };
+        if (target === computed.target && mode === computed.mode && outcome === computed.outcome && feedback === computed.feedback) {
+          return computed;
+        }
+      }
+    }
+    return null;
+  };
+
+  const normalizeCausalPending = (p, outcomes, zeroOutcomes, targetCounts, availableModes, canonicalMode, unendingUnlocked, visited, activeEcho) => {
+    if (!p || typeof p !== "object" || !p.kind) return null;
+    const keys = Object.keys(p).sort().join(",");
+    const zeroEligible = CAUSAL_DESTINATIONS.every((d) => (targetCounts[d] || 0) > 0);
+    if (p.kind === "entry" && keys === "feedback,kind,target") {
+      if (unendingUnlocked && p.target === "causal-sorter" && p.feedback === CAUSAL_ENTRY_FEEDBACK) {
+        return { kind: "entry", target: "causal-sorter", feedback: p.feedback };
+      }
+    }
+    if (p.kind === "mode" && keys === "feedback,kind,mode,target") {
+      if (p.mode === canonicalMode && availableModes.includes(p.mode) && p.target === "first-draft-vault" && p.feedback === CAUSAL_MODE_FEEDBACK[p.mode]) {
+        return { kind: "mode", target: "first-draft-vault", mode: p.mode, feedback: p.feedback };
+      }
+    }
+    if (p.kind === "dispatch" && keys === "destination,feedback,kind,mode,outcome,target") {
+      const outcomeId = `${p.mode}:${p.destination}`;
+      const table = CAUSAL_OUTCOME_TABLE[p.mode] && CAUSAL_OUTCOME_TABLE[p.mode][p.destination];
+      if (
+        p.mode === canonicalMode &&
+        availableModes.includes(p.mode) &&
+        CAUSAL_DESTINATIONS.includes(p.destination) &&
+        table &&
+        p.outcome === outcomeId &&
+        p.target === CAUSAL_DESTINATION_SCENES[p.destination] &&
+        p.feedback === table.narrative
+      ) {
+        return { kind: "dispatch", target: p.target, mode: p.mode, destination: p.destination, outcome: p.outcome, feedback: p.feedback };
+      }
+    }
+    if (p.kind === "zero-entry" && keys === "feedback,kind,target") {
+      if (zeroEligible && p.target === "before-first-knock" && p.feedback === CAUSAL_ZERO_ENTRY_FEEDBACK) {
+        return { kind: "zero-entry", target: "before-first-knock", feedback: p.feedback };
+      }
+    }
+    if (p.kind === "zero" && keys === "action,feedback,kind,outcome,target") {
+      const table = CAUSAL_ZERO_TABLE[p.action];
+      if (
+        zeroEligible &&
+        visited && visited.before &&
+        CAUSAL_ZERO_ACTIONS.includes(p.action) &&
+        table &&
+        p.outcome === p.action &&
+        p.target === table.target &&
+        p.feedback === table.narrative
+      ) {
+        return { kind: "zero", target: p.target, action: p.action, outcome: p.outcome, feedback: p.feedback };
+      }
+    }
+    if (p.kind === "echo-return" && keys === "feedback,from,kind,target") {
+      const validFrom = new Set([...CAUSAL_DESTINATIONS, "remembrance"]);
+      if (
+        validFrom.has(p.from) &&
+        activeEcho &&
+        activeEcho.target === p.from &&
+        p.feedback === activeEcho.feedback &&
+        p.target === "causal-sorter"
+      ) {
+        return { kind: "echo-return", target: "causal-sorter", from: p.from, feedback: p.feedback };
+      }
+    }
+    return null;
+  };
+
+  const getCausalMail = () => {
+    let raw = {};
+    try { raw = JSON.parse(store.get(CAUSAL_MAIL_KEY, "{}")) || {}; } catch { raw = {}; }
+    if (typeof raw !== "object" || raw === null || Array.isArray(raw) || raw.version !== CAUSAL_MAIL_VERSION) {
+      return defaultCausalMail();
+    }
+    const st = defaultCausalMail();
+    if (raw.visited && typeof raw.visited === "object") {
+      st.visited.sorter = raw.visited.sorter === true;
+      st.visited.vault = raw.visited.vault === true;
+      st.visited.before = raw.visited.before === true;
+    }
+    st.outcomes = normalizeCausalOutcomes(raw.outcomes);
+    st.zeroOutcomes = normalizeCausalZeroOutcomes(raw.zeroOutcomes);
+    st.dispatchRuns = Math.min(9999, Math.max(0, Math.floor(Number(raw.dispatchRuns) || 0)));
+    st.zeroRuns = Math.min(9999, Math.max(0, Math.floor(Number(raw.zeroRuns) || 0)));
+    if (raw.targetCounts && typeof raw.targetCounts === "object") {
+      for (const d of CAUSAL_DESTINATIONS) {
+        st.targetCounts[d] = Math.min(9999, Math.max(0, Math.floor(Number(raw.targetCounts[d]) || 0)));
+      }
+    }
+    const validLast = new Set([...st.outcomes, ...st.zeroOutcomes]);
+    st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : "";
+    st.activeEcho = normalizeCausalActiveEcho(raw.activeEcho, st.outcomes, st.zeroOutcomes);
+
+    const ending = getEndingReturnForCausal();
+    const availableModes = CAUSAL_MODES.filter((m) => (ending.codas || []).some((id) => id.endsWith(`:${m}`)));
+    const canonicalMode = CAUSAL_MODES.includes(raw.mode) && availableModes.includes(raw.mode) ? raw.mode : "";
+    st.mode = canonicalMode;
+    const unendingUnlocked = !!ending.unendingUnlocked;
+    st.pending = normalizeCausalPending(raw.pending, st.outcomes, st.zeroOutcomes, st.targetCounts, availableModes, canonicalMode, unendingUnlocked, st.visited, st.activeEcho);
+    return st;
+  };
+
+  const getEndingReturnForCausal = () => {
+    try { return getEndingReturn(); } catch { return { unendingUnlocked: false, codas: [] }; }
+  };
+
+  const causalMailAvailableModes = () => {
+    const ending = getEndingReturnForCausal();
+    const codas = ending.codas || [];
+    return CAUSAL_MODES.filter((m) => codas.some((id) => id.endsWith(`:${m}`)));
+  };
+
+  const causalMailZeroEligible = () => {
+    const st = getCausalMail();
+    return CAUSAL_DESTINATIONS.every((d) => st.targetCounts[d] > 0);
+  };
+
+  const causalMailCanVisitSorter = () => {
+    const ending = getEndingReturnForCausal();
+    if (!ending.unendingUnlocked) return false;
+    const st = getCausalMail();
+    const p = st.pending;
+    if (p && (p.kind === "entry" || p.kind === "echo-return")) return true;
+    if (st.visited.sorter) return true;
+    return false;
+  };
+
+  const causalMailCanVisitVault = () => {
+    const ending = getEndingReturnForCausal();
+    if (!ending.unendingUnlocked) return false;
+    const st = getCausalMail();
+    const p = st.pending;
+    const available = causalMailAvailableModes();
+    if (p && p.kind === "mode" && available.includes(p.mode)) return true;
+    if (st.visited.sorter && available.includes(st.mode)) return true;
+    return false;
+  };
+
+  const causalMailCanVisitBefore = () => {
+    const ending = getEndingReturnForCausal();
+    if (!ending.unendingUnlocked) return false;
+    const st = getCausalMail();
+    const p = st.pending;
+    if (p && p.kind === "zero-entry") return true;
+    if (st.visited.before && CAUSAL_DESTINATIONS.every((d) => st.targetCounts[d] > 0)) return true;
+    return false;
+  };
+
+  const causalMailDelay = () => reduced ? 300 : 900 + Math.floor(Math.random() * 300);
+
+  const causalMailBeforeArrive = (pending) => {
+    const st = getCausalMail();
+    if (!st.pending || !pending) return;
+    if (st.pending.kind !== pending.kind) return;
+    const p = st.pending;
+    if (p.kind === "entry") {
+      st.visited.sorter = true;
+    } else if (p.kind === "mode") {
+      st.visited.vault = true;
+    } else if (p.kind === "dispatch") {
+      const outcomeId = `${p.mode}:${p.destination}`;
+      if (!st.outcomes.includes(outcomeId)) st.outcomes.push(outcomeId);
+      st.outcomes.sort();
+      st.dispatchRuns += 1;
+      st.targetCounts[p.destination] += 1;
+      st.lastOutcome = outcomeId;
+      const table = CAUSAL_OUTCOME_TABLE[p.mode][p.destination];
+      st.activeEcho = { target: p.destination, mode: p.mode, outcome: outcomeId, feedback: table.narrative };
+      st.mode = "";
+    } else if (p.kind === "zero-entry") {
+      st.visited.before = true;
+    } else if (p.kind === "zero") {
+      if (!st.zeroOutcomes.includes(p.action)) st.zeroOutcomes.push(p.action);
+      st.zeroOutcomes.sort();
+      st.zeroRuns += 1;
+      st.lastOutcome = p.action;
+      const table = CAUSAL_ZERO_TABLE[p.action];
+      st.activeEcho = { target: table.target, mode: "zero", outcome: p.action, feedback: table.narrative };
+    } else if (p.kind === "echo-return") {
+      st.activeEcho = null;
+    }
+    st.pending = null;
+    saveCausalMail(st);
+  };
+
+  const enterCausalSorter = () => {
+    const st = getCausalMail();
+    const modes = causalMailAvailableModes();
+    const acceptBtn = $("#causal-mode-accept");
+    const returnBtn = $("#causal-mode-return");
+    const misrouteBtn = $("#causal-mode-misroute");
+    [acceptBtn, returnBtn, misrouteBtn].forEach((btn) => {
+      if (!btn) return;
+      btn.disabled = false;
+      btn.setAttribute("aria-pressed", "false");
+      const mode = btn.id.replace("causal-mode-", "");
+      btn.hidden = !modes.includes(mode);
+    });
+    const slip = $("#causal-sorter-slip");
+    if (slip) slip.textContent = `待选方式：${modes.length > 0 ? modes.map((m) => ({ accept: "签收", return: "退回", misroute: "误投" })[m]).join(" / ") : "—"}`;
+  };
+
+  const enterCausalVault = () => {
+    const st = getCausalMail();
+    const destinations = CAUSAL_DESTINATIONS;
+    destinations.forEach((d) => {
+      const btn = $(`#draft-target-${d}`);
+      if (btn) {
+        btn.disabled = false;
+        btn.setAttribute("aria-pressed", "false");
+        btn.hidden = false;
+      }
+    });
+    const zeroBtn = $("#draft-target-zero");
+    if (zeroBtn) {
+      const eligible = causalMailZeroEligible();
+      zeroBtn.hidden = !eligible;
+      zeroBtn.disabled = !eligible;
+      zeroBtn.setAttribute("aria-pressed", "false");
+    }
+    const slip = $("#first-draft-vault-slip");
+    if (slip) slip.textContent = `待选落点：门外 / 守则 / 值夜 / 焚献`;
+  };
+
+  const enterCausalBefore = () => {
+    const actions = CAUSAL_ZERO_ACTIONS;
+    actions.forEach((a) => {
+      const btn = $(`#zero-action-${a}`);
+      if (btn) {
+        btn.disabled = false;
+        btn.setAttribute("aria-pressed", "false");
+        btn.hidden = false;
+      }
+    });
+    const slip = $("#before-first-knock-slip");
+    if (slip) slip.textContent = `待选零号结局：让神提前回答 / 预先归档死亡 / 先于来访入座`;
+  };
+
+  const replayCausalPending = (sceneName) => {
+    const st = getCausalMail();
+    const p = st.pending;
+    if (!p) {
+      if (sceneName === "causal-sorter") enterCausalSorter();
+      if (sceneName === "first-draft-vault") enterCausalVault();
+      if (sceneName === "before-first-knock") enterCausalBefore();
+      return;
+    }
+
+    /* A. 已到达目标：原子结算一次，然后刷新目标场景 enter/sync，不 schedule 自己到自己 */
+    if (sceneName === p.target) {
+      causalMailBeforeArrive(p);
+      if (sceneName === "remembrance") syncCausalMailRemembrance();
+      if (sceneName === "causal-sorter") enterCausalSorter();
+      if (sceneName === "first-draft-vault") enterCausalVault();
+      if (sceneName === "before-first-knock") enterCausalBefore();
+      syncCausalEchoStamps();
+      return;
+    }
+
+    /* B. 仍在来源场景：恢复反馈、锁定选中按钮、补一次到 target 的转场 */
+    const schedule = (source) =>
+      AutoAdvance.schedule(source, p.target, { delay: causalMailDelay(), before: () => causalMailBeforeArrive(p) });
+
+    if (p.kind === "entry" && sceneName === "remembrance") {
+      const response = $("#causal-entry-response");
+      if (response) response.textContent = p.feedback;
+      const btn = $("#causal-mail-entry-btn");
+      if (btn) btn.disabled = true;
+      schedule("remembrance");
+    } else if (p.kind === "mode" && sceneName === "causal-sorter") {
+      const response = $("#causal-sorter-response");
+      if (response) response.textContent = p.feedback;
+      enterCausalSorter();
+      lockCausalModeButtons(p.mode);
+      schedule("causal-sorter");
+    } else if (p.kind === "dispatch" && sceneName === "first-draft-vault") {
+      const table = CAUSAL_OUTCOME_TABLE[p.mode][p.destination];
+      const response = $("#first-draft-vault-response");
+      if (response) response.textContent = table.narrative;
+      enterCausalVault();
+      lockCausalDestinationButtons(p.destination);
+      schedule("first-draft-vault");
+    } else if (p.kind === "zero-entry" && sceneName === "first-draft-vault") {
+      const response = $("#first-draft-vault-response");
+      if (response) response.textContent = p.feedback;
+      enterCausalVault();
+      CAUSAL_DESTINATIONS.forEach((d) => {
+        const btn = $(`#draft-target-${d}`);
+        if (btn) btn.disabled = true;
+      });
+      const zeroBtn = $("#draft-target-zero");
+      if (zeroBtn) {
+        zeroBtn.disabled = true;
+        zeroBtn.setAttribute("aria-pressed", "true");
+      }
+      schedule("first-draft-vault");
+    } else if (p.kind === "zero" && sceneName === "before-first-knock") {
+      const response = $("#before-first-knock-response");
+      if (response) response.textContent = p.feedback;
+      enterCausalBefore();
+      lockCausalZeroButtons(p.action);
+      schedule("before-first-knock");
+    } else if (p.kind === "echo-return" && sceneName === p.from) {
+      if (sceneName === "remembrance") {
+        const response = $("#causal-entry-response");
+        if (response) response.textContent = p.feedback;
+        const btn = $("#causal-mail-entry-btn");
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = "把预先死亡退回倒邮台 ⟶";
+          btn.setAttribute("aria-pressed", "true");
+        }
+      } else {
+        const response = $(`#causal-echo-response-${sceneName}`);
+        if (response) response.textContent = p.feedback;
+        const echoBtn = $(`#${CAUSAL_ECHO_TARGETS[sceneName].id}`);
+        if (echoBtn) {
+          echoBtn.disabled = true;
+          echoBtn.setAttribute("aria-pressed", "true");
+        }
+      }
+      schedule(sceneName);
+    }
+
+    /* C. 其他场景：不结算、不调度 */
+  };
+
+  const lockCausalModeButtons = (selectedMode) => {
+    ["accept", "return", "misroute"].forEach((m) => {
+      const btn = $(`#causal-mode-${m}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute("aria-pressed", String(m === selectedMode));
+    });
+  };
+
+  const lockCausalDestinationButtons = (selectedDest) => {
+    CAUSAL_DESTINATIONS.forEach((d) => {
+      const btn = $(`#draft-target-${d}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute("aria-pressed", String(d === selectedDest));
+    });
+    const zeroBtn = $("#draft-target-zero");
+    if (zeroBtn) {
+      zeroBtn.disabled = true;
+      zeroBtn.setAttribute("aria-pressed", "false");
+    }
+  };
+
+  const lockCausalZeroButtons = (selectedAction) => {
+    CAUSAL_ZERO_ACTIONS.forEach((a) => {
+      const btn = $(`#zero-action-${a}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute("aria-pressed", String(a === selectedAction));
+    });
+  };
+
+  const lockCausalEchoButtons = () => {
+    Object.values(CAUSAL_ECHO_TARGETS).forEach(({ id }) => {
+      const btn = $(`#${id}`);
+      if (btn) btn.disabled = true;
+    });
+  };
+
+  const chooseCausalEntry = () => {
+    if (currentScene !== "remembrance") return;
+    const ending = getEndingReturnForCausal();
+    if (!ending.unendingUnlocked) return;
+    if (AutoAdvance.has("remembrance")) return;
+    const st = getCausalMail();
+    if (st.pending) return;
+    const btn = $("#causal-mail-entry-btn");
+    const response = $("#causal-entry-response");
+    if (st.activeEcho && st.activeEcho.target === "remembrance") {
+      st.pending = { kind: "echo-return", target: "causal-sorter", from: "remembrance", feedback: st.activeEcho.feedback };
+      saveCausalMail(st);
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = "把预先死亡退回倒邮台 ⟶";
+      }
+      if (response) response.textContent = st.activeEcho.feedback;
+      AudioEngine.whoosh();
+      AutoAdvance.schedule("remembrance", "causal-sorter", { delay: causalMailDelay(), before: () => causalMailBeforeArrive(st.pending) });
+      return;
+    }
+    st.pending = { kind: "entry", target: "causal-sorter", feedback: CAUSAL_ENTRY_FEEDBACK };
+    saveCausalMail(st);
+    if (btn) btn.disabled = true;
+    if (response) response.textContent = CAUSAL_ENTRY_FEEDBACK;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule("remembrance", "causal-sorter", { delay: causalMailDelay(), before: () => causalMailBeforeArrive(st.pending) });
+  };
+
+  const chooseCausalMode = (mode) => {
+    if (currentScene !== "causal-sorter") return;
+    if (AutoAdvance.has("causal-sorter")) return;
+    const ending = getEndingReturnForCausal();
+    if (!ending.unendingUnlocked) return;
+    const available = causalMailAvailableModes();
+    if (!available.includes(mode)) return;
+    const st = getCausalMail();
+    if (st.pending) return;
+    st.mode = mode;
+    st.pending = { kind: "mode", target: "first-draft-vault", mode, feedback: CAUSAL_MODE_FEEDBACK[mode] };
+    saveCausalMail(st);
+    lockCausalModeButtons(mode);
+    const response = $("#causal-sorter-response");
+    if (response) response.textContent = CAUSAL_MODE_FEEDBACK[mode];
+    AudioEngine.relayLock();
+    AutoAdvance.schedule("causal-sorter", "first-draft-vault", { delay: causalMailDelay(), before: () => causalMailBeforeArrive(st.pending) });
+  };
+
+  const chooseCausalDestination = (destination) => {
+    if (currentScene !== "first-draft-vault") return;
+    if (AutoAdvance.has("first-draft-vault")) return;
+    const st = getCausalMail();
+    if (!CAUSAL_MODES.includes(st.mode)) return;
+    const ending = getEndingReturnForCausal();
+    if (!ending.unendingUnlocked) return;
+    const available = causalMailAvailableModes();
+    if (!available.includes(st.mode)) return;
+    if (st.pending) return;
+    const outcomeId = `${st.mode}:${destination}`;
+    const table = CAUSAL_OUTCOME_TABLE[st.mode][destination];
+    st.pending = { kind: "dispatch", target: CAUSAL_DESTINATION_SCENES[destination], mode: st.mode, destination, outcome: outcomeId, feedback: table.narrative };
+    saveCausalMail(st);
+    lockCausalDestinationButtons(destination);
+    const response = $("#first-draft-vault-response");
+    if (response) response.textContent = table.narrative;
+    AudioEngine.stamp();
+    AutoAdvance.schedule("first-draft-vault", CAUSAL_DESTINATION_SCENES[destination], { delay: causalMailDelay(), before: () => causalMailBeforeArrive(st.pending) });
+  };
+
+  const chooseCausalZeroEntry = () => {
+    if (currentScene !== "first-draft-vault") return;
+    if (AutoAdvance.has("first-draft-vault")) return;
+    const ending = getEndingReturnForCausal();
+    if (!ending.unendingUnlocked) return;
+    const st = getCausalMail();
+    if (!causalMailZeroEligible()) return;
+    if (st.pending) return;
+    st.pending = { kind: "zero-entry", target: "before-first-knock", feedback: CAUSAL_ZERO_ENTRY_FEEDBACK };
+    saveCausalMail(st);
+    const zeroBtn = $("#draft-target-zero");
+    if (zeroBtn) zeroBtn.disabled = true;
+    const response = $("#first-draft-vault-response");
+    if (response) response.textContent = CAUSAL_ZERO_ENTRY_FEEDBACK;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule("first-draft-vault", "before-first-knock", { delay: causalMailDelay(), before: () => causalMailBeforeArrive(st.pending) });
+  };
+
+  const chooseCausalZeroAction = (action) => {
+    if (currentScene !== "before-first-knock") return;
+    if (AutoAdvance.has("before-first-knock")) return;
+    const st = getCausalMail();
+    if (!st.visited.before || !causalMailZeroEligible()) return;
+    if (st.pending) return;
+    const table = CAUSAL_ZERO_TABLE[action];
+    if (!table) return;
+    st.pending = { kind: "zero", target: table.target, action, outcome: action, feedback: table.narrative };
+    saveCausalMail(st);
+    lockCausalZeroButtons(action);
+    const response = $("#before-first-knock-response");
+    if (response) response.textContent = table.narrative;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule("before-first-knock", table.target, { delay: causalMailDelay(), before: () => causalMailBeforeArrive(st.pending) });
+  };
+
+  const chooseCausalEchoReturn = (from) => {
+    const validScenes = new Set([...CAUSAL_DESTINATIONS, "remembrance"]);
+    if (!validScenes.has(currentScene)) return;
+    if (AutoAdvance.has(currentScene)) return;
+    const st = getCausalMail();
+    if (!st.activeEcho || st.activeEcho.target !== from) return;
+    if (st.pending) return;
+    st.pending = { kind: "echo-return", target: "causal-sorter", from, feedback: st.activeEcho.feedback };
+    saveCausalMail(st);
+    lockCausalEchoButtons();
+    AudioEngine.whoosh();
+    AutoAdvance.schedule(currentScene, "causal-sorter", { delay: causalMailDelay(), before: () => causalMailBeforeArrive(st.pending) });
+  };
+
+  const paintCausalMailMemory = () => {
+    const memory = $("#causal-mail-memory");
+    if (!memory) return;
+    const st = getCausalMail();
+    const discovered = st.outcomes.length + st.zeroOutcomes.length;
+    if (st.dispatchRuns > 0 || st.zeroRuns > 0 || discovered > 0) {
+      memory.textContent = `因果倒邮：投递 ${st.dispatchRuns} 次，零号改写 ${st.zeroRuns} 次；门外 ${st.targetCounts.threshold} / 守则 ${st.targetCounts.protocol} / 值夜 ${st.targetCounts.watch} / 焚献 ${st.targetCounts.offering}；已发现 ${discovered}/15。`;
+      memory.hidden = false;
+    } else {
+      memory.hidden = true;
+    }
+  };
+
+  const paintCausalMailCodex = () => {
+    const box = $("#causal-mail-codex");
+    const grid = $("#cmc-grid");
+    const zeroEl = $("#cmc-zero");
+    if (!box || !grid) return;
+    const st = getCausalMail();
+    const discovered = st.outcomes.length + st.zeroOutcomes.length;
+    if (discovered === 0 && st.dispatchRuns === 0 && st.zeroRuns === 0) {
+      box.hidden = true;
+      return;
+    }
+    box.removeAttribute("hidden");
+    grid.innerHTML = "";
+    CAUSAL_MODES.forEach((mode) => {
+      CAUSAL_DESTINATIONS.forEach((dest) => {
+        const outcomeId = `${mode}:${dest}`;
+        const unlocked = st.outcomes.includes(outcomeId);
+        const cell = document.createElement("div");
+        cell.className = "cmc-cell" + (unlocked ? " unlocked" : "");
+        if (unlocked) {
+          const table = CAUSAL_OUTCOME_TABLE[mode][dest];
+          cell.innerHTML = `<b>${table.name}</b><span>${table.narrative}</span>`;
+        } else {
+          cell.innerHTML = `<b>？？？</b>`;
+        }
+        grid.appendChild(cell);
+      });
+    });
+    if (zeroEl) {
+      zeroEl.innerHTML = "";
+      CAUSAL_ZERO_ACTIONS.forEach((action) => {
+        const unlocked = st.zeroOutcomes.includes(action);
+        const cell = document.createElement("div");
+        cell.className = "cmc-cell cmc-zero-cell" + (unlocked ? " unlocked" : "");
+        if (unlocked) {
+          const table = CAUSAL_ZERO_TABLE[action];
+          cell.innerHTML = `<b>${table.name}</b><span>${table.narrative}</span>`;
+        } else {
+          cell.innerHTML = `<b>？？？</b>`;
+        }
+        zeroEl.appendChild(cell);
+      });
+      zeroEl.removeAttribute("hidden");
+    }
+  };
+
+  const syncCausalMailLinks = () => {
+    const st = getCausalMail();
+    const sorterLink = $("#causal-sorter-link");
+    const vaultLink = $("#first-draft-vault-link");
+    const beforeLink = $("#before-first-knock-link");
+    if (sorterLink) sorterLink.hidden = !st.visited.sorter;
+    if (vaultLink) vaultLink.hidden = !st.visited.vault;
+    if (beforeLink) beforeLink.hidden = !st.visited.before;
+  };
+
+  const paintCausalEchoNarrative = () => {
+    for (const d of CAUSAL_DESTINATIONS) {
+      const el = $(`#causal-echo-response-${d}`);
+      if (el) el.textContent = "";
+    }
+
+    const st = getCausalMail();
+    const echo = st.activeEcho;
+    const p = st.pending;
+    const keepEntry =
+      currentScene === "remembrance" &&
+      p &&
+      (p.kind === "entry" || (p.kind === "echo-return" && p.from === "remembrance"));
+    if (!keepEntry) {
+      const entryResponse = $("#causal-entry-response");
+      if (entryResponse) entryResponse.textContent = "";
+    }
+    if (!echo) return;
+
+    if (currentScene === "remembrance" && echo.target === "remembrance") {
+      const el = $("#causal-entry-response");
+      if (el) el.textContent = echo.feedback;
+      return;
+    }
+    if (CAUSAL_DESTINATIONS.includes(currentScene) && echo.target === currentScene) {
+      const el = $(`#causal-echo-response-${currentScene}`);
+      if (el) el.textContent = echo.feedback;
+    }
+  };
+
+  const syncCausalEchoStamps = () => {
+    const st = getCausalMail();
+    const p = st.pending;
+    Object.entries(CAUSAL_ECHO_TARGETS).forEach(([target, { id }]) => {
+      const btn = $(`#${id}`);
+      if (!btn) return;
+      const show = currentScene === target && st.activeEcho && st.activeEcho.target === target;
+      const locked = p && p.kind === "echo-return" && p.from === target;
+      btn.hidden = !show;
+      btn.disabled = !show || locked;
+      btn.setAttribute("aria-pressed", String(locked));
+    });
+    paintCausalEchoNarrative();
+  };
+
+  const syncCausalMailRemembrance = () => {
+    const ending = getEndingReturnForCausal();
+    const st = getCausalMail();
+    const btn = $("#causal-mail-entry-btn");
+    if (btn) {
+      const show = currentScene === "remembrance" && ending.unendingUnlocked;
+      const locked = st.pending && st.pending.kind === "echo-return" && st.pending.from === "remembrance";
+      btn.hidden = !show;
+      btn.disabled = !show || !!st.pending;
+      btn.setAttribute("aria-pressed", String(locked));
+      if (st.activeEcho && st.activeEcho.target === "remembrance") {
+        btn.textContent = "把预先死亡退回倒邮台 ⟶";
+      } else {
+        btn.textContent = "把无终局寄回最初 ⟶";
+      }
+    }
+    paintCausalMailMemory();
+    paintCausalMailCodex();
+    syncCausalMailLinks();
+  };
+
+  const causalMailEntryBtn = $("#causal-mail-entry-btn");
+  const causalSorterResponse = $("#causal-sorter-response");
+  const firstDraftVaultResponse = $("#first-draft-vault-response");
+  const beforeFirstKnockResponse = $("#before-first-knock-response");
+  const causalModeAcceptBtn = $("#causal-mode-accept");
+  const causalModeReturnBtn = $("#causal-mode-return");
+  const causalModeMisrouteBtn = $("#causal-mode-misroute");
+  const draftTargetThresholdBtn = $("#draft-target-threshold");
+  const draftTargetProtocolBtn = $("#draft-target-protocol");
+  const draftTargetWatchBtn = $("#draft-target-watch");
+  const draftTargetOfferingBtn = $("#draft-target-offering");
+  const draftTargetZeroBtn = $("#draft-target-zero");
+  const zeroActionAnswerBtn = $("#zero-action-answer");
+  const zeroActionFileDeathBtn = $("#zero-action-file-death");
+  const zeroActionTakeSeatBtn = $("#zero-action-take-seat");
+  const causalEchoThresholdBtn = $("#causal-echo-threshold");
+  const causalEchoProtocolBtn = $("#causal-echo-protocol");
+  const causalEchoWatchBtn = $("#causal-echo-watch");
+  const causalEchoOfferingBtn = $("#causal-echo-offering");
+
+  if (causalMailEntryBtn) {
+    causalMailEntryBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalEntry();
+    });
+  }
+  if (causalModeAcceptBtn) {
+    causalModeAcceptBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalMode("accept");
+    });
+  }
+  if (causalModeReturnBtn) {
+    causalModeReturnBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalMode("return");
+    });
+  }
+  if (causalModeMisrouteBtn) {
+    causalModeMisrouteBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalMode("misroute");
+    });
+  }
+  if (draftTargetThresholdBtn) {
+    draftTargetThresholdBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalDestination("threshold");
+    });
+  }
+  if (draftTargetProtocolBtn) {
+    draftTargetProtocolBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalDestination("protocol");
+    });
+  }
+  if (draftTargetWatchBtn) {
+    draftTargetWatchBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalDestination("watch");
+    });
+  }
+  if (draftTargetOfferingBtn) {
+    draftTargetOfferingBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalDestination("offering");
+    });
+  }
+  if (draftTargetZeroBtn) {
+    draftTargetZeroBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalZeroEntry();
+    });
+  }
+  if (zeroActionAnswerBtn) {
+    zeroActionAnswerBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalZeroAction("answer");
+    });
+  }
+  if (zeroActionFileDeathBtn) {
+    zeroActionFileDeathBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalZeroAction("file-death");
+    });
+  }
+  if (zeroActionTakeSeatBtn) {
+    zeroActionTakeSeatBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalZeroAction("take-seat");
+    });
+  }
+  if (causalEchoThresholdBtn) {
+    causalEchoThresholdBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalEchoReturn("threshold");
+    });
+  }
+  if (causalEchoProtocolBtn) {
+    causalEchoProtocolBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalEchoReturn("protocol");
+    });
+  }
+  if (causalEchoWatchBtn) {
+    causalEchoWatchBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalEchoReturn("watch");
+    });
+  }
+  if (causalEchoOfferingBtn) {
+    causalEchoOfferingBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalEchoReturn("offering");
+    });
+  }
+
+  /* ============================================================
+     v65 因果疤痕 / THE CAUSE LEFT A SCAR
+     ============================================================ */
+  const CAUSAL_SCAR_KEY = "goddead_v65_causal_scars";
+  const CAUSAL_SCAR_VERSION = 65;
+  const CAUSAL_SCAR_DESTINATIONS = ["threshold", "protocol", "watch", "offering"];
+  const CAUSAL_SCAR_METHODS = ["stitch", "drain", "graft"];
+  const CAUSAL_SCAR_METHOD_TARGETS = {
+    stitch: "causal-sorter",
+    drain: "remembrance",
+    graft: "first-draft-vault",
+  };
+  const CAUSAL_SCAR_ENTRY_FEEDBACK = "四道疤在记忆中互相指认，无因收容室的目录项因此亮起。";
+  const CAUSAL_SCAR_ACTIONS = ["become-cause", "refuse-cause", "ending-adopts"];
+  const CAUSAL_SCAR_ACTION_TARGETS = {
+    "become-cause": "threshold",
+    "refuse-cause": "remembrance",
+    "ending-adopts": "unending-gallery",
+  };
+  const CAUSAL_SCAR_TREATMENT_TABLE = {
+    threshold: {
+      stitch: { name: "缝回第一敲 · FIRST KNOCK SUTURED", narrative: "门缝被红线缝回尚未抬起的手指。你敲下去时，门先替过去感到疼。", target: "causal-sorter" },
+      drain: { name: "放尽门后 · WHAT WAITED BEHIND BLED OUT", narrative: "门槛下的引流槽接满门后的黑暗。门终于变轻，因为里面已经没有“之后”。", target: "remembrance" },
+      graft: { name: "移植来客 · THE VISITOR GRAFTED IN", narrative: "空白见证牌贴上门板，先长出你的指纹，再等待你真正把手放上去。", target: "first-draft-vault" },
+    },
+    protocol: {
+      stitch: { name: "第零条缝线 · RULE ZERO STITCH", narrative: "红线把八条守则缝成第零条：凡是提前抵达的后果，都可以反过来命令原因。", target: "causal-sorter" },
+      drain: { name: "守则失血 · PROTOCOL EXSANGUINATED", narrative: "纸轨里的命令沿托盘流尽。剩下的空白仍要求服从，只是不再说明服从什么。", target: "remembrance" },
+      graft: { name: "见证者条款 · WITNESS CLAUSE", narrative: "无脸见证被钉进守则。它没有读过任何一条，却能证明你已经违反全部。", target: "first-draft-vault" },
+    },
+    watch: {
+      stitch: { name: "交班缝合 · SHIFT SUTURED SHUT", narrative: "台灯的红线把上一班和下一班缝在一起。空缺被封住，值夜员也因此永远无法下班。", target: "causal-sorter" },
+      drain: { name: "放尽凌晨 · DAWN DRAINED", narrative: "引流盆接走凌晨。03:17 之后不再通向清晨，只通向另一张仍未签名的交班页。", target: "remembrance" },
+      graft: { name: "空椅见证 · THE EMPTY CHAIR TESTIFIED", narrative: "见证牌长进空椅。椅子证明你整夜坐在这里，哪怕你刚刚才推门进来。", target: "first-draft-vault" },
+    },
+    offering: {
+      stitch: { name: "祷词续火 · PRAYER SUTURED TO FLAME", narrative: "投信口被缝死，祷词却沿缝线爬进炉膛。火第一次收到一封没有被投入的信。", target: "causal-sorter" },
+      drain: { name: "灰烬失血 · ASH BLED COLD", narrative: "灰从引流盒里流成暗红液体。炉子仍在燃烧，却再也烧不出任何结束。", target: "remembrance" },
+      graft: { name: "炉口作证 · THE FURNACE TESTIFIED", narrative: "瓷白见证手按住炉门。它证明神听见过祷告，只是回答发生在祷告之前。", target: "first-draft-vault" },
+    },
+  };
+  const CAUSAL_SCAR_ENDING_TABLE = {
+    "become-cause": { name: "你成为原因 · YOU BECAME THE CAUSE", narrative: "四道疤同时朝你合拢。世界终于找到解释：不是你经历了这些房间，是这些房间为了制造你才开始存在。", target: "threshold" },
+    "refuse-cause": { name: "无物使你发生 · NOTHING CAUSED YOU", narrative: "你拒绝躺进任何解释。空摇篮第一次摇动，却没有过去、父母、神或故事能够认领你。", target: "remembrance" },
+    "ending-adopts": { name: "结局收养了你 · THE ENDING ADOPTED YOU", narrative: "终局的裹布从高背椅上垂下，把你当作尚未发生的孩子抱住。从此每个开端都要先征得结局同意。", target: "unending-gallery" },
+  };
+
+  const defaultCausalScar = () => ({
+    version: CAUSAL_SCAR_VERSION,
+    visited: { room: false },
+    treatments: [],
+    roomOutcomes: [],
+    treatmentRuns: 0,
+    roomRuns: 0,
+    lastOutcome: "",
+    pending: null,
+  });
+
+  const scarEligible = (destination) => {
+    if (!CAUSAL_SCAR_DESTINATIONS.includes(destination)) return false;
+    const cm = getCausalMail();
+    const outcomes = cm.outcomes || [];
+    return ["accept", "return", "misroute"].every((m) => outcomes.includes(`${m}:${destination}`));
+  };
+
+  const allScarSourcesTreated = (st) => {
+    const state = st || getCausalScar();
+    return CAUSAL_SCAR_DESTINATIONS.every((d) => state.treatments.some((id) => id.startsWith(`${d}:`)));
+  };
+
+  const normalizeCausalScarTreatments = (treatments) => {
+    const arr = Array.isArray(treatments) ? treatments : [];
+    const seen = new Set();
+    const out = [];
+    for (const d of CAUSAL_SCAR_DESTINATIONS) {
+      if (!scarEligible(d)) continue;
+      for (const m of CAUSAL_SCAR_METHODS) {
+        const id = `${d}:${m}`;
+        if (arr.includes(id) && !seen.has(id)) {
+          out.push(id);
+          seen.add(id);
+        }
+      }
+    }
+    return out;
+  };
+
+  const normalizeCausalScarRoomOutcomes = (roomOutcomes) => {
+    const arr = Array.isArray(roomOutcomes) ? roomOutcomes : [];
+    const set = new Set(arr);
+    return CAUSAL_SCAR_ACTIONS.filter((a) => set.has(a));
+  };
+
+  const normalizeCausalScarPending = (p, st) => {
+    if (!p || typeof p !== "object" || !p.kind) return null;
+    const keys = Object.keys(p).sort().join(",");
+    if (p.kind === "entry" && keys === "feedback,kind,target") {
+      if (allScarSourcesTreated(st) && p.target === "causeless-ward" && p.feedback === CAUSAL_SCAR_ENTRY_FEEDBACK) {
+        return { kind: "entry", target: "causeless-ward", feedback: p.feedback };
+      }
+    }
+    if (p.kind === "treatment" && keys === "feedback,kind,method,outcome,source,target") {
+      if (!CAUSAL_SCAR_DESTINATIONS.includes(p.source) || !scarEligible(p.source)) return null;
+      const table = CAUSAL_SCAR_TREATMENT_TABLE[p.source] && CAUSAL_SCAR_TREATMENT_TABLE[p.source][p.method];
+      if (!table) return null;
+      const outcomeId = `${p.source}:${p.method}`;
+      const target = CAUSAL_SCAR_METHOD_TARGETS[p.method];
+      if (
+        p.outcome === outcomeId &&
+        p.target === target &&
+        p.feedback === table.narrative &&
+        !st.treatments.includes(outcomeId)
+      ) {
+        return { kind: "treatment", target, source: p.source, method: p.method, outcome: outcomeId, feedback: table.narrative };
+      }
+    }
+    if (p.kind === "ending" && keys === "action,feedback,kind,outcome,target") {
+      if (!st.visited.room) return null;
+      const table = CAUSAL_SCAR_ENDING_TABLE[p.action];
+      if (!table) return null;
+      if (
+        p.outcome === p.action &&
+        p.target === table.target &&
+        p.feedback === table.narrative
+      ) {
+        return { kind: "ending", target: table.target, action: p.action, outcome: p.action, feedback: table.narrative };
+      }
+    }
+    return null;
+  };
+
+  const saveCausalScar = (st) => {
+    const treatments = normalizeCausalScarTreatments(st.treatments);
+    const roomOutcomes = normalizeCausalScarRoomOutcomes(st.roomOutcomes);
+    const treatmentRuns = Math.min(9999, Math.max(0, Math.floor(Number(st.treatmentRuns) || 0)));
+    const roomRuns = Math.min(9999, Math.max(0, Math.floor(Number(st.roomRuns) || 0)));
+    const validLast = new Set([...treatments, ...roomOutcomes]);
+    const lastOutcome = validLast.has(st.lastOutcome) ? st.lastOutcome : "";
+    const visited = { room: Boolean(st.visited && st.visited.room) };
+    const pending = normalizeCausalScarPending(st.pending, {
+      version: CAUSAL_SCAR_VERSION,
+      visited,
+      treatments,
+      roomOutcomes,
+      treatmentRuns,
+      roomRuns,
+      lastOutcome,
+      pending: null,
+    });
+    store.set(
+      CAUSAL_SCAR_KEY,
+      JSON.stringify({
+        version: CAUSAL_SCAR_VERSION,
+        visited,
+        treatments,
+        roomOutcomes,
+        treatmentRuns,
+        roomRuns,
+        lastOutcome,
+        pending,
+      })
+    );
+  };
+
+  const getCausalScar = () => {
+    let raw = {};
+    try { raw = JSON.parse(store.get(CAUSAL_SCAR_KEY, "{}")) || {}; } catch { raw = {}; }
+    if (typeof raw !== "object" || raw === null || Array.isArray(raw) || raw.version !== CAUSAL_SCAR_VERSION) {
+      return defaultCausalScar();
+    }
+    const st = defaultCausalScar();
+    if (raw.visited && typeof raw.visited === "object") st.visited.room = raw.visited.room === true;
+    st.treatments = normalizeCausalScarTreatments(raw.treatments);
+    st.roomOutcomes = normalizeCausalScarRoomOutcomes(raw.roomOutcomes);
+    st.treatmentRuns = Math.min(9999, Math.max(0, Math.floor(Number(raw.treatmentRuns) || 0)));
+    st.roomRuns = Math.min(9999, Math.max(0, Math.floor(Number(raw.roomRuns) || 0)));
+    const validLast = new Set([...st.treatments, ...st.roomOutcomes]);
+    st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : "";
+    st.pending = normalizeCausalScarPending(raw.pending, st);
+    return st;
+  };
+
+  const causalScarDelay = () => reduced ? 300 : 900 + Math.floor(Math.random() * 300);
+
+  const causalScarBeforeArrive = (pending) => {
+    const st = getCausalScar();
+    if (!st.pending || !pending) return;
+    if (st.pending.kind !== pending.kind) return;
+    const p = st.pending;
+    if (p.kind === "treatment") {
+      if (!st.treatments.includes(p.outcome)) st.treatments.push(p.outcome);
+      st.treatments = normalizeCausalScarTreatments(st.treatments);
+      st.treatmentRuns += 1;
+      st.lastOutcome = p.outcome;
+    } else if (p.kind === "entry") {
+      st.visited.room = true;
+    } else if (p.kind === "ending") {
+      if (!st.roomOutcomes.includes(p.action)) st.roomOutcomes.push(p.action);
+      st.roomOutcomes = normalizeCausalScarRoomOutcomes(st.roomOutcomes);
+      st.roomRuns += 1;
+      st.lastOutcome = p.action;
+    }
+    st.pending = null;
+    saveCausalScar(st);
+  };
+
+  const resolveCausalScarPendingOnArrival = (name) => {
+    const st = getCausalScar();
+    const p = st.pending;
+    if (p && p.target === name) causalScarBeforeArrive(p);
+  };
+
+  const lockCausalScarStageButtons = (source, pressedMethod) => {
+    CAUSAL_SCAR_METHODS.forEach((m) => {
+      const btn = $(`#causal-scar-${source}-${m}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute("aria-pressed", String(m === pressedMethod));
+    });
+  };
+
+  const syncCausalScarStage = (source) => {
+    const figure = $(`#causal-scar-figure-${source}`);
+    const eligible = scarEligible(source);
+    if (figure) figure.hidden = !eligible;
+    if (!eligible) return;
+    const st = getCausalScar();
+    const pending = st.pending;
+    const response = $(`#causal-scar-response-${source}`);
+    CAUSAL_SCAR_METHODS.forEach((m) => {
+      const btn = $(`#causal-scar-${source}-${m}`);
+      if (!btn) return;
+      const id = `${source}:${m}`;
+      const isPending = pending && pending.kind === "treatment" && pending.source === source && pending.method === m;
+      const collected = st.treatments.includes(id);
+      btn.disabled = isPending || collected;
+      btn.setAttribute("aria-pressed", String(isPending || collected));
+    });
+    if (response) {
+      response.textContent = (pending && pending.kind === "treatment" && pending.source === source) ? pending.feedback : "";
+    }
+  };
+
+  const syncCausalScarStages = () => {
+    CAUSAL_SCAR_DESTINATIONS.forEach((d) => syncCausalScarStage(d));
+  };
+
+  const syncCauselessWard = () => {
+    const st = getCausalScar();
+    const pending = st.pending;
+    const hasEndingPending = pending && pending.kind === "ending";
+    const response = $("#causeless-ward-response");
+    CAUSAL_SCAR_ACTIONS.forEach((a) => {
+      const btn = $(`#causeless-action-${a}`);
+      if (!btn) return;
+      const isPending = !!(hasEndingPending && pending.action === a);
+      btn.disabled = !!hasEndingPending;
+      btn.setAttribute("aria-pressed", String(isPending));
+    });
+    if (response) {
+      response.textContent = hasEndingPending ? pending.feedback : "";
+    }
+  };
+
+  const paintCausalScarMemory = () => {
+    const memory = $("#causal-scar-memory");
+    if (!memory) return;
+    const st = getCausalScar();
+    const total = st.treatments.length + st.roomOutcomes.length;
+    if (total > 0 || st.treatmentRuns > 0 || st.roomRuns > 0) {
+      const counts = {};
+      CAUSAL_SCAR_DESTINATIONS.forEach((d) => {
+        counts[d] = st.treatments.filter((id) => id.startsWith(`${d}:`)).length;
+      });
+      memory.textContent = `因果疤痕：已处理 ${st.treatments.length}/12，门外 ${counts.threshold} / 守则 ${counts.protocol} / 值夜 ${counts.watch} / 焚献 ${counts.offering}；无因结局 ${st.roomOutcomes.length}/3。`;
+      memory.hidden = false;
+    } else {
+      memory.hidden = true;
+    }
+  };
+
+  const paintCausalScarCodex = () => {
+    const box = $("#causal-scar-codex");
+    const grid = $("#csc-grid");
+    const entry = $("#csc-entry");
+    if (!box || !grid) return;
+    const st = getCausalScar();
+    const total = st.treatments.length + st.roomOutcomes.length;
+    if (total === 0 && st.treatmentRuns === 0 && st.roomRuns === 0) {
+      box.hidden = true;
+      if (entry) entry.hidden = true;
+      return;
+    }
+    box.removeAttribute("hidden");
+    grid.innerHTML = "";
+    CAUSAL_SCAR_DESTINATIONS.forEach((d) => {
+      CAUSAL_SCAR_METHODS.forEach((m) => {
+        const id = `${d}:${m}`;
+        const unlocked = st.treatments.includes(id);
+        const cell = document.createElement("div");
+        cell.className = "csc-cell" + (unlocked ? " unlocked" : "");
+        if (unlocked) {
+          const table = CAUSAL_SCAR_TREATMENT_TABLE[d][m];
+          cell.innerHTML = `<b>${table.name}</b><span>${table.narrative}</span>`;
+        } else {
+          cell.innerHTML = `<b>？？？</b>`;
+        }
+        grid.appendChild(cell);
+      });
+    });
+    CAUSAL_SCAR_ACTIONS.forEach((a) => {
+      const unlocked = st.roomOutcomes.includes(a);
+      const cell = document.createElement("div");
+      cell.className = "csc-cell" + (unlocked ? " unlocked" : "");
+      if (unlocked) {
+        const table = CAUSAL_SCAR_ENDING_TABLE[a];
+        cell.innerHTML = `<b>${table.name}</b><span>${table.narrative}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    });
+    if (entry) {
+      entry.removeAttribute("hidden");
+      const btn = $("#causal-scar-room-entry-btn");
+      if (btn) {
+        const show = currentScene === "remembrance" && allScarSourcesTreated();
+        btn.hidden = !show;
+        btn.disabled = !show || !!st.pending;
+      }
+    }
+  };
+
+  const syncCausalScarRemembrance = () => {
+    paintCausalScarMemory();
+    paintCausalScarCodex();
+  };
+
+  const syncCausalScarLinks = () => {
+    const link = $("#causeless-ward-link");
+    if (link) link.hidden = !getCausalScar().visited.room;
+  };
+
+  const replayCausalScarPending = (sceneName) => {
+    const st = getCausalScar();
+    const p = st.pending;
+    if (!p) {
+      syncCausalScarStages();
+      if (sceneName === "causeless-ward") syncCauselessWard();
+      return;
+    }
+    if (sceneName === p.target) {
+      causalScarBeforeArrive(p);
+      syncCausalScarStages();
+      if (sceneName === "causeless-ward") syncCauselessWard();
+      if (sceneName === "remembrance") syncCausalScarRemembrance();
+      return;
+    }
+    const schedule = (source) =>
+      AutoAdvance.schedule(source, p.target, { delay: causalScarDelay(), before: () => causalScarBeforeArrive(p) });
+
+    if (p.kind === "treatment" && sceneName === p.source) {
+      const response = $(`#causal-scar-response-${p.source}`);
+      if (response) response.textContent = p.feedback;
+      lockCausalScarStageButtons(p.source, p.method);
+      schedule(p.source);
+    } else if (p.kind === "entry" && sceneName === "remembrance") {
+      const btn = $("#causal-scar-room-entry-btn");
+      if (btn) btn.disabled = true;
+      const response = $("#csc-entry-response");
+      if (response) response.textContent = p.feedback;
+      schedule("remembrance");
+    } else if (p.kind === "ending" && sceneName === "causeless-ward") {
+      const response = $("#causeless-ward-response");
+      if (response) response.textContent = p.feedback;
+      CAUSAL_SCAR_ACTIONS.forEach((a) => {
+        const btn = $(`#causeless-action-${a}`);
+        if (!btn) return;
+        btn.disabled = true;
+        btn.setAttribute("aria-pressed", String(a === p.action));
+      });
+      schedule("causeless-ward");
+    }
+  };
+
+  const buttonAvailable = (id) => {
+    const btn = $(`#${id}`);
+    if (!btn || btn.disabled || btn.hidden) return false;
+    if (typeof btn.closest === "function" && btn.closest("[hidden]")) return false;
+    return true;
+  };
+
+  const chooseCausalScarTreatment = (source, method) => {
+    if (currentScene !== source) return;
+    if (AutoAdvance.has(source)) return;
+    if (!scarEligible(source)) return;
+    if (!buttonAvailable(`causal-scar-${source}-${method}`)) return;
+    const figure = $(`#causal-scar-figure-${source}`);
+    if (!figure || figure.hidden) return;
+    const table = CAUSAL_SCAR_TREATMENT_TABLE[source] && CAUSAL_SCAR_TREATMENT_TABLE[source][method];
+    if (!table) return;
+    const st = getCausalScar();
+    if (st.pending) return;
+    const outcomeId = `${source}:${method}`;
+    if (st.treatments.includes(outcomeId)) return;
+    const pending = { kind: "treatment", target: table.target, source, method, outcome: outcomeId, feedback: table.narrative };
+    st.pending = pending;
+    saveCausalScar(st);
+    lockCausalScarStageButtons(source, method);
+    const response = $(`#causal-scar-response-${source}`);
+    if (response) response.textContent = table.narrative;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule(source, table.target, { delay: causalScarDelay(), before: () => causalScarBeforeArrive(pending) });
+  };
+
+  const chooseCausalScarEntry = () => {
+    if (currentScene !== "remembrance") return;
+    if (AutoAdvance.has("remembrance")) return;
+    if (!buttonAvailable("causal-scar-room-entry-btn")) return;
+    if (!allScarSourcesTreated()) return;
+    const st = getCausalScar();
+    if (st.pending) return;
+    const pending = { kind: "entry", target: "causeless-ward", feedback: CAUSAL_SCAR_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveCausalScar(st);
+    const btn = $("#causal-scar-room-entry-btn");
+    if (btn) btn.disabled = true;
+    const response = $("#csc-entry-response");
+    if (response) response.textContent = CAUSAL_SCAR_ENTRY_FEEDBACK;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule("remembrance", "causeless-ward", { delay: causalScarDelay(), before: () => causalScarBeforeArrive(pending) });
+  };
+
+  const chooseCauselessAction = (action) => {
+    if (currentScene !== "causeless-ward") return;
+    if (AutoAdvance.has("causeless-ward")) return;
+    if (!buttonAvailable(`causeless-action-${action}`)) return;
+    const table = CAUSAL_SCAR_ENDING_TABLE[action];
+    if (!table) return;
+    const st = getCausalScar();
+    if (!st.visited.room) return;
+    if (st.pending) return;
+    const pending = { kind: "ending", target: table.target, action, outcome: action, feedback: table.narrative };
+    st.pending = pending;
+    saveCausalScar(st);
+    CAUSAL_SCAR_ACTIONS.forEach((a) => {
+      const btn = $(`#causeless-action-${a}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute("aria-pressed", String(a === action));
+    });
+    const response = $("#causeless-ward-response");
+    if (response) response.textContent = table.narrative;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule("causeless-ward", table.target, { delay: causalScarDelay(), before: () => causalScarBeforeArrive(pending) });
+  };
+
+  const causalScarCanVisitRoom = () => {
+    const st = getCausalScar();
+    if (st.visited.room) return true;
+    const p = st.pending;
+    if (p && p.kind === "entry" && p.target === "causeless-ward") return true;
+    return false;
+  };
+
+  const causalScarThresholdStitchBtn = $("#causal-scar-threshold-stitch");
+  if (causalScarThresholdStitchBtn) {
+    causalScarThresholdStitchBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalScarTreatment("threshold", "stitch");
+    });
+  }
+  const causalScarThresholdDrainBtn = $("#causal-scar-threshold-drain");
+  if (causalScarThresholdDrainBtn) {
+    causalScarThresholdDrainBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalScarTreatment("threshold", "drain");
+    });
+  }
+  const causalScarThresholdGraftBtn = $("#causal-scar-threshold-graft");
+  if (causalScarThresholdGraftBtn) {
+    causalScarThresholdGraftBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalScarTreatment("threshold", "graft");
+    });
+  }
+  const causalScarProtocolStitchBtn = $("#causal-scar-protocol-stitch");
+  if (causalScarProtocolStitchBtn) {
+    causalScarProtocolStitchBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalScarTreatment("protocol", "stitch");
+    });
+  }
+  const causalScarProtocolDrainBtn = $("#causal-scar-protocol-drain");
+  if (causalScarProtocolDrainBtn) {
+    causalScarProtocolDrainBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalScarTreatment("protocol", "drain");
+    });
+  }
+  const causalScarProtocolGraftBtn = $("#causal-scar-protocol-graft");
+  if (causalScarProtocolGraftBtn) {
+    causalScarProtocolGraftBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalScarTreatment("protocol", "graft");
+    });
+  }
+  const causalScarWatchStitchBtn = $("#causal-scar-watch-stitch");
+  if (causalScarWatchStitchBtn) {
+    causalScarWatchStitchBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalScarTreatment("watch", "stitch");
+    });
+  }
+  const causalScarWatchDrainBtn = $("#causal-scar-watch-drain");
+  if (causalScarWatchDrainBtn) {
+    causalScarWatchDrainBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalScarTreatment("watch", "drain");
+    });
+  }
+  const causalScarWatchGraftBtn = $("#causal-scar-watch-graft");
+  if (causalScarWatchGraftBtn) {
+    causalScarWatchGraftBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalScarTreatment("watch", "graft");
+    });
+  }
+  const causalScarOfferingStitchBtn = $("#causal-scar-offering-stitch");
+  if (causalScarOfferingStitchBtn) {
+    causalScarOfferingStitchBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalScarTreatment("offering", "stitch");
+    });
+  }
+  const causalScarOfferingDrainBtn = $("#causal-scar-offering-drain");
+  if (causalScarOfferingDrainBtn) {
+    causalScarOfferingDrainBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalScarTreatment("offering", "drain");
+    });
+  }
+  const causalScarOfferingGraftBtn = $("#causal-scar-offering-graft");
+  if (causalScarOfferingGraftBtn) {
+    causalScarOfferingGraftBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalScarTreatment("offering", "graft");
+    });
+  }
+  const causalScarRoomEntryBtn = $("#causal-scar-room-entry-btn");
+  if (causalScarRoomEntryBtn) {
+    causalScarRoomEntryBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCausalScarEntry();
+    });
+  }
+  const causelessBecomeCauseBtn = $("#causeless-action-become-cause");
+  if (causelessBecomeCauseBtn) {
+    causelessBecomeCauseBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCauselessAction("become-cause");
+    });
+  }
+  const causelessRefuseCauseBtn = $("#causeless-action-refuse-cause");
+  if (causelessRefuseCauseBtn) {
+    causelessRefuseCauseBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCauselessAction("refuse-cause");
+    });
+  }
+  const causelessEndingAdoptsBtn = $("#causeless-action-ending-adopts");
+  if (causelessEndingAdoptsBtn) {
+    causelessEndingAdoptsBtn.addEventListener("click", (e) => {
+      if (!e.isTrusted) return;
+      chooseCauselessAction("ending-adopts");
+    });
+  }
+
+  /* ============================================================
+     v66 反事实纺生 / THE LIFE THAT NEVER HAPPENED
+     ============================================================ */
+  const COUNTERFACTUAL_KEY = 'goddead_v66_counterfactual_lives';
+  const COUNTERFACTUAL_VERSION = 66;
+  const ORIGINS = ['threshold', 'protocol', 'watch', 'offering'];
+  const METHODS = ['stitch', 'drain', 'graft'];
+  const INHERITANCES = ['cause', 'consequence', 'ending'];
+  const META_ACTIONS = ['wear-lives', 'bury-lives', 'leave-spindle'];
+  const META_TARGETS = { 'wear-lives': 'threshold', 'bury-lives': 'remembrance', 'leave-spindle': 'unending-gallery' };
+  const META_OUTCOMES = { 'wear-lives': 'many-lives-wear-you', 'bury-lives': 'unlived-bury-themselves', 'leave-spindle': 'spindle-outlives-endings' };
+  const COUNTERFACTUAL_ENTRY_FEEDBACK = '十五道因果疤痕在记忆中互相指认，开始把未活之生纺出来。';
+  const COUNTERFACTUAL_META_ENTRY_FEEDBACK = '已覆盖的起点、处理与归属互相承认亲属，无因生涯陈列间的目录项因此亮起。';
+
+  const COUNTERFACTUAL_ORIGIN_TABLE = {
+    threshold: { name: '门前未生 · UNBORN AT THE THRESHOLD', fragment: '它在第一下敲门之前已经拥有童年；' },
+    protocol: { name: '守则所写 · WRITTEN BY THE RULE', fragment: '它从一条没有主语的守则里学会呼吸；' },
+    watch: { name: '夜班留名 · NAMED BY THE NIGHT SHIFT', fragment: '它被值夜簿记住，早于任何人为它取名；' },
+    offering: { name: '灰中留位 · A PLACE KEPT IN ASH', fragment: '焚献后的灰先为它空出一生的位置；' },
+  };
+  const COUNTERFACTUAL_METHOD_TABLE = {
+    stitch: { name: '缝骨 · STITCH-BONED', fragment: '疤痕把不存在的年月逐针缝成骨架；' },
+    drain: { name: '尽果 · CONSEQUENCE-DRAINED', fragment: '它一出生就被放尽了本该追上来的后果；' },
+    graft: { name: '植证 · WITNESS-GRAFTED', fragment: '一个从未见过它的人被移植成终身目击者；' },
+  };
+  const COUNTERFACTUAL_INHERITANCE_TABLE = {
+    cause: { name: '成因生 · CAUSE-BORN', fragment: '最后，它长成了使你来到这里的原因。' },
+    consequence: { name: '后果生 · CONSEQUENCE-BORN', fragment: '最后，它只作为你尚未做过之事的后果活着。' },
+    ending: { name: '终局养 · ENDING-RAISED', fragment: '最后，一个结局把它抚养到比开端更老。' },
+  };
+  const COUNTERFACTUAL_META_TABLE = {
+    'wear-lives': { name: '群生着身 · THE MANY LIVES WEAR YOU', narrative: '三十六种未活之生把你当作唯一合身的身体。', target: 'threshold', outcome: 'many-lives-wear-you' },
+    'bury-lives': { name: '未生自葬 · THE UNLIVED BURY THEMSELVES', narrative: '空白名牌一枚枚躺下，替从未出生者完成自己的葬礼。', target: 'remembrance', outcome: 'unlived-bury-themselves' },
+    'leave-spindle': { name: '纺锤不眠 · THE SPINDLE OUTLIVES ENDINGS', narrative: '你离开后，纺锤继续替所有已经结束的故事制造童年。', target: 'unending-gallery', outcome: 'spindle-outlives-endings' },
+  };
+
+  const COUNTERFACTUAL_LIFE_IDS = (() => {
+    const ids = [];
+    for (const o of ORIGINS) {
+      for (const m of METHODS) {
+        for (const i of INHERITANCES) {
+          ids.push(`${o}:${m}:${i}`);
+        }
+      }
+    }
+    return ids;
+  })();
+  const COUNTERFACTUAL_LIFE_SET = new Set(COUNTERFACTUAL_LIFE_IDS);
+
+  const defaultCounterfactual = () => ({
+    version: COUNTERFACTUAL_VERSION,
+    visited: { spindle: false, loom: false, nursery: false, room: false },
+    draft: { origin: '', method: '' },
+    lives: [],
+    metaOutcomes: [],
+    lifeRuns: 0,
+    metaRuns: 0,
+    lastOutcome: '',
+    activeEcho: null,
+    pending: null,
+  });
+
+  const counterfactualLivesUnlocked = () => {
+    const cs = getCausalScar();
+    return cs.treatments.length === 12 && cs.roomOutcomes.length === 3;
+  };
+
+  const counterfactualCoverageComplete = (st) => {
+    const state = st || getCounterfactual();
+    if (state.lives.length < 3) return false;
+    const origins = new Set();
+    const methods = new Set();
+    const inheritances = new Set();
+    for (const id of state.lives) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      origins.add(parts[0]);
+      methods.add(parts[1]);
+      inheritances.add(parts[2]);
+    }
+    return origins.size === 4 && methods.size === 3 && inheritances.size === 3;
+  };
+
+  const normalizeCounterfactualLives = (lives) => {
+    const arr = Array.isArray(lives) ? lives : [];
+    const seen = new Set();
+    const out = [];
+    for (const id of COUNTERFACTUAL_LIFE_IDS) {
+      if (arr.includes(id) && !seen.has(id)) {
+        out.push(id);
+        seen.add(id);
+      }
+    }
+    return out;
+  };
+
+  const normalizeMetaOutcomes = (arr) => {
+    const input = Array.isArray(arr) ? arr : [];
+    const set = new Set(input);
+    return META_ACTIONS.map((a) => META_OUTCOMES[a]).filter((o) => set.has(o));
+  };
+
+  const normalizeCounterfactualVisited = (visited) => {
+    const v = visited && typeof visited === 'object' && !Array.isArray(visited) ? visited : {};
+    return {
+      spindle: v.spindle === true,
+      loom: v.loom === true,
+      nursery: v.nursery === true,
+      room: v.room === true,
+    };
+  };
+
+  const normalizeCounterfactualDraft = (draft) => {
+    const d = draft && typeof draft === 'object' && !Array.isArray(draft) ? draft : {};
+    let origin = typeof d.origin === 'string' ? d.origin : '';
+    let method = typeof d.method === 'string' ? d.method : '';
+    if (!ORIGINS.includes(origin)) {
+      origin = '';
+      method = '';
+    }
+    if (method !== '' && !METHODS.includes(method)) {
+      method = '';
+    }
+    if (origin === '') {
+      method = '';
+    }
+    if (method !== '' && origin === '') {
+      method = '';
+    }
+    return { origin, method };
+  };
+
+  const normalizeCounterfactualActiveEcho = (echo, lives) => {
+    if (!echo || typeof echo !== 'object' || Array.isArray(echo)) return null;
+    if (Object.keys(echo).sort().join(',') !== 'feedback,life,origin') return null;
+    if (!ORIGINS.includes(echo.origin)) return null;
+    const life = echo.life;
+    if (!COUNTERFACTUAL_LIFE_SET.has(life) || !lives.includes(life)) return null;
+    if (!life.startsWith(`${echo.origin}:`)) return null;
+    const parts = life.split(':');
+    if (parts.length !== 3) return null;
+    const fb = computeLifeFeedback(parts[0], parts[1], parts[2]);
+    if (echo.feedback !== fb) return null;
+    return { origin: echo.origin, life, feedback: fb };
+  };
+
+  const normalizeCounterfactualPending = (p, st) => {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || !p.kind) return null;
+    const keys = Object.keys(p).sort().join(',');
+    const unlocked = st._v65unlocked === true;
+
+    if (p.kind === 'entry' && keys === 'feedback,kind,target') {
+      if (unlocked && p.target === 'counterfactual-spindle' && p.feedback === COUNTERFACTUAL_ENTRY_FEEDBACK) {
+        return { kind: 'entry', target: 'counterfactual-spindle', feedback: p.feedback };
+      }
+    }
+    if (p.kind === 'origin' && keys === 'feedback,kind,origin,source,target') {
+      if (!unlocked) return null;
+      if (p.source !== 'counterfactual-spindle' || p.target !== 'scar-loom') return null;
+      if (!ORIGINS.includes(p.origin)) return null;
+      const table = COUNTERFACTUAL_ORIGIN_TABLE[p.origin];
+      if (!table || p.feedback !== table.fragment) return null;
+      if (st.draft.origin !== '' || st.draft.method !== '') return null;
+      return { kind: 'origin', source: 'counterfactual-spindle', origin: p.origin, target: 'scar-loom', feedback: p.feedback };
+    }
+    if (p.kind === 'method' && keys === 'feedback,kind,method,origin,source,target') {
+      if (!unlocked) return null;
+      if (p.source !== 'scar-loom' || p.target !== 'unlived-nursery') return null;
+      if (!METHODS.includes(p.method)) return null;
+      const table = COUNTERFACTUAL_METHOD_TABLE[p.method];
+      if (!table || p.feedback !== table.fragment) return null;
+      if (st.draft.origin !== p.origin || st.draft.method !== '') return null;
+      if (!ORIGINS.includes(st.draft.origin)) return null;
+      return { kind: 'method', source: 'scar-loom', origin: p.origin, method: p.method, target: 'unlived-nursery', feedback: p.feedback };
+    }
+    if (p.kind === 'life' && keys === 'feedback,inheritance,kind,method,origin,outcome,source,target') {
+      if (!unlocked) return null;
+      if (p.source !== 'unlived-nursery') return null;
+      if (!ORIGINS.includes(p.origin) || !METHODS.includes(p.method) || !INHERITANCES.includes(p.inheritance)) return null;
+      if (p.target !== p.origin) return null;
+      const lifeId = computeLifeId(p.origin, p.method, p.inheritance);
+      if (p.outcome !== lifeId) return null;
+      const fb = computeLifeFeedback(p.origin, p.method, p.inheritance);
+      if (p.feedback !== fb) return null;
+      if (st.draft.origin !== p.origin || st.draft.method !== p.method) return null;
+      return { kind: 'life', source: 'unlived-nursery', origin: p.origin, method: p.method, inheritance: p.inheritance, outcome: lifeId, target: p.origin, feedback: fb };
+    }
+    if (p.kind === 'echo-return' && keys === 'feedback,from,kind,life,target') {
+      if (!unlocked) return null;
+      if (!ORIGINS.includes(p.from) || p.target !== 'counterfactual-spindle') return null;
+      const echo = st.activeEcho;
+      if (!echo || echo.origin !== p.from || echo.life !== p.life || echo.feedback !== p.feedback) return null;
+      return { kind: 'echo-return', from: p.from, target: 'counterfactual-spindle', life: p.life, feedback: p.feedback };
+    }
+    if (p.kind === 'meta-entry' && keys === 'feedback,kind,target') {
+      if (!unlocked) return null;
+      if (p.target !== 'life-without-cause' || p.feedback !== COUNTERFACTUAL_META_ENTRY_FEEDBACK) return null;
+      if (!counterfactualCoverageComplete(st)) return null;
+      return { kind: 'meta-entry', target: 'life-without-cause', feedback: p.feedback };
+    }
+    if (p.kind === 'meta' && keys === 'action,feedback,kind,outcome,source,target') {
+      if (!unlocked) return null;
+      if (!st.visited.room) return null;
+      if (!counterfactualCoverageComplete(st)) return null;
+      if (p.source !== 'life-without-cause') return null;
+      if (!META_ACTIONS.includes(p.action)) return null;
+      const table = COUNTERFACTUAL_META_TABLE[p.action];
+      if (!table || p.outcome !== table.outcome || p.target !== table.target || p.feedback !== table.narrative) return null;
+      return { kind: 'meta', source: 'life-without-cause', action: p.action, outcome: table.outcome, target: table.target, feedback: table.narrative };
+    }
+    return null;
+  };
+
+  const saveCounterfactual = (st) => {
+    const visited = normalizeCounterfactualVisited(st.visited);
+    const draft = normalizeCounterfactualDraft(st.draft);
+    const lives = normalizeCounterfactualLives(st.lives);
+    const metaOutcomes = normalizeMetaOutcomes(st.metaOutcomes);
+    const lifeRuns = Math.min(9999, Math.max(0, Math.floor(Number(st.lifeRuns) || 0)));
+    const metaRuns = Math.min(9999, Math.max(0, Math.floor(Number(st.metaRuns) || 0)));
+    const validLast = new Set([...lives, ...metaOutcomes]);
+    const lastOutcome = validLast.has(st.lastOutcome) ? st.lastOutcome : '';
+    const activeEcho = normalizeCounterfactualActiveEcho(st.activeEcho, lives);
+    const pendingState = {
+      version: COUNTERFACTUAL_VERSION,
+      visited,
+      draft,
+      lives,
+      metaOutcomes,
+      lifeRuns,
+      metaRuns,
+      lastOutcome,
+      activeEcho,
+      pending: null,
+      _v65unlocked: counterfactualLivesUnlocked(),
+    };
+    const pending = normalizeCounterfactualPending(st.pending, pendingState);
+    store.set(
+      COUNTERFACTUAL_KEY,
+      JSON.stringify({
+        version: COUNTERFACTUAL_VERSION,
+        visited,
+        draft,
+        lives,
+        metaOutcomes,
+        lifeRuns,
+        metaRuns,
+        lastOutcome,
+        activeEcho,
+        pending,
+      })
+    );
+  };
+
+  const getCounterfactual = () => {
+    let raw = {};
+    try { raw = JSON.parse(store.get(COUNTERFACTUAL_KEY, '{}')) || {}; } catch { raw = {}; }
+    if (typeof raw !== 'object' || raw === null || Array.isArray(raw) || raw.version !== COUNTERFACTUAL_VERSION) {
+      return defaultCounterfactual();
+    }
+    const st = defaultCounterfactual();
+    st.visited = normalizeCounterfactualVisited(raw.visited);
+    st.draft = normalizeCounterfactualDraft(raw.draft);
+    st.lives = normalizeCounterfactualLives(raw.lives);
+    st.metaOutcomes = normalizeMetaOutcomes(raw.metaOutcomes);
+    st.lifeRuns = Math.min(9999, Math.max(0, Math.floor(Number(raw.lifeRuns) || 0)));
+    st.metaRuns = Math.min(9999, Math.max(0, Math.floor(Number(raw.metaRuns) || 0)));
+    const validLast = new Set([...st.lives, ...st.metaOutcomes]);
+    st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : '';
+    st.activeEcho = normalizeCounterfactualActiveEcho(raw.activeEcho, st.lives);
+    const normSt = Object.assign({}, st, { _v65unlocked: counterfactualLivesUnlocked() });
+    st.pending = normalizeCounterfactualPending(raw.pending, normSt);
+    return st;
+  };
+
+  const computeLifeId = (origin, method, inheritance) => {
+    if (!ORIGINS.includes(origin) || !METHODS.includes(method) || !INHERITANCES.includes(inheritance)) return '';
+    return `${origin}:${method}:${inheritance}`;
+  };
+
+  const computeLifeTitle = (origin, method, inheritance) => {
+    const o = COUNTERFACTUAL_ORIGIN_TABLE[origin];
+    const m = COUNTERFACTUAL_METHOD_TABLE[method];
+    const i = COUNTERFACTUAL_INHERITANCE_TABLE[inheritance];
+    if (!o || !m || !i) return '';
+    return `${o.name} · ${m.name} · ${i.name}`;
+  };
+
+  const computeLifeFeedback = (origin, method, inheritance) => {
+    const o = COUNTERFACTUAL_ORIGIN_TABLE[origin];
+    const m = COUNTERFACTUAL_METHOD_TABLE[method];
+    const i = COUNTERFACTUAL_INHERITANCE_TABLE[inheritance];
+    if (!o || !m || !i) return '';
+    return `${o.fragment}${m.fragment}${i.fragment}`;
+  };
+
+  const findLifeById = (id) => {
+    if (!COUNTERFACTUAL_LIFE_SET.has(id)) return null;
+    const parts = id.split(':');
+    if (parts.length !== 3) return null;
+    return {
+      id,
+      origin: parts[0],
+      method: parts[1],
+      inheritance: parts[2],
+      title: computeLifeTitle(parts[0], parts[1], parts[2]),
+      feedback: computeLifeFeedback(parts[0], parts[1], parts[2]),
+    };
+  };
+
+  const lifeIsCollected = (st, id) => st.lives.includes(id);
+
+  const counterfactualDelay = () => reduced ? 300 : 900 + Math.floor(Math.random() * 300);
+
+  const counterfactualBeforeArrive = (pending) => {
+    const st = getCounterfactual();
+    if (!st.pending || !pending) return;
+    if (st.pending.kind !== pending.kind) return;
+    const p = st.pending;
+    if (p.kind === 'entry') {
+      st.visited.spindle = true;
+    } else if (p.kind === 'origin') {
+      st.visited.loom = true;
+      st.draft.origin = p.origin;
+      st.draft.method = '';
+    } else if (p.kind === 'method') {
+      st.visited.nursery = true;
+      st.draft.method = p.method;
+    } else if (p.kind === 'life') {
+      const lifeId = computeLifeId(p.origin, p.method, p.inheritance);
+      if (!st.lives.includes(lifeId)) st.lives.push(lifeId);
+      st.lives = normalizeCounterfactualLives(st.lives);
+      st.lifeRuns += 1;
+      st.lastOutcome = lifeId;
+      st.activeEcho = { origin: p.origin, life: lifeId, feedback: computeLifeFeedback(p.origin, p.method, p.inheritance) };
+      st.draft = { origin: '', method: '' };
+    } else if (p.kind === 'echo-return') {
+      st.activeEcho = null;
+      st.draft = { origin: '', method: '' };
+    } else if (p.kind === 'meta-entry') {
+      st.visited.room = true;
+    } else if (p.kind === 'meta') {
+      const outcome = META_OUTCOMES[p.action];
+      if (!st.metaOutcomes.includes(outcome)) st.metaOutcomes.push(outcome);
+      st.metaOutcomes = normalizeMetaOutcomes(st.metaOutcomes);
+      st.metaRuns += 1;
+      st.lastOutcome = outcome;
+    }
+    st.pending = null;
+    saveCounterfactual(st);
+  };
+
+  const resolveCounterfactualPendingOnArrival = (name) => {
+    const st = getCounterfactual();
+    const p = st.pending;
+    if (p && p.target === name) counterfactualBeforeArrive(p);
+  };
+
+  const lockCounterfactualOriginButtons = (pressedOrigin) => {
+    ORIGINS.forEach((o) => {
+      const btn = $(`#counterfactual-origin-${o}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(o === pressedOrigin));
+    });
+  };
+
+  const lockCounterfactualMethodButtons = (pressedMethod) => {
+    METHODS.forEach((m) => {
+      const btn = $(`#counterfactual-method-${m}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(m === pressedMethod));
+    });
+  };
+
+  const lockCounterfactualLifeButtons = (pressedInheritance) => {
+    INHERITANCES.forEach((i) => {
+      const btn = $(`#counterfactual-life-${i}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(i === pressedInheritance));
+    });
+  };
+
+  const lockCounterfactualMetaButtons = (pressedAction) => {
+    META_ACTIONS.forEach((a) => {
+      const btn = $(`#counterfactual-meta-${a}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(a === pressedAction));
+    });
+  };
+
+  const syncCounterfactualSpindle = () => {
+    const figure = $('#counterfactual-spindle-figure');
+    const unlocked = counterfactualLivesUnlocked();
+    if (figure) figure.hidden = !unlocked;
+    if (!unlocked) return;
+    const st = getCounterfactual();
+    const pending = st.pending;
+    const response = $('#counterfactual-spindle-response');
+    ORIGINS.forEach((o) => {
+      const btn = $(`#counterfactual-origin-${o}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'origin' && pending.origin === o);
+      btn.disabled = isPending || !!pending;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'origin') ? pending.feedback : '';
+  };
+
+  const syncCounterfactualLoom = () => {
+    const figure = $('#counterfactual-loom-figure');
+    const st = getCounterfactual();
+    const unlocked = counterfactualLivesUnlocked();
+    const hasDraft = unlocked && ORIGINS.includes(st.draft.origin);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const response = $('#counterfactual-loom-response');
+    METHODS.forEach((m) => {
+      const btn = $(`#counterfactual-method-${m}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'method' && pending.method === m);
+      btn.disabled = isPending || !!pending;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'method') ? pending.feedback : '';
+  };
+
+  const syncCounterfactualNursery = () => {
+    const figure = $('#counterfactual-nursery-figure');
+    const st = getCounterfactual();
+    const unlocked = counterfactualLivesUnlocked();
+    const hasDraft = unlocked && ORIGINS.includes(st.draft.origin) && METHODS.includes(st.draft.method);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const response = $('#counterfactual-nursery-response');
+    INHERITANCES.forEach((i) => {
+      const btn = $(`#counterfactual-life-${i}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'life' && pending.inheritance === i);
+      btn.disabled = isPending || !!pending;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'life') ? pending.feedback : '';
+  };
+
+  const syncCounterfactualRoom = () => {
+    const figure = $('#counterfactual-room-figure');
+    const st = getCounterfactual();
+    const open = counterfactualLivesUnlocked() && counterfactualCoverageComplete(st) && st.visited.room;
+    if (figure) figure.hidden = !open;
+    if (!open) return;
+    const pending = st.pending;
+    const response = $('#counterfactual-room-response');
+    META_ACTIONS.forEach((a) => {
+      const btn = $(`#counterfactual-meta-${a}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'meta' && pending.action === a);
+      btn.disabled = isPending || !!pending;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'meta') ? pending.feedback : '';
+  };
+
+  const syncCounterfactualEchoes = () => {
+    const st = getCounterfactual();
+    const unlocked = counterfactualLivesUnlocked();
+    ORIGINS.forEach((o) => {
+      const container = $(`#counterfactual-echo-${o}`);
+      if (!container) return;
+      const active = unlocked && st.activeEcho && st.activeEcho.origin === o;
+      container.hidden = !active;
+      if (active) paintCounterfactualEcho(o);
+    });
+  };
+
+  const paintCounterfactualEcho = (origin) => {
+    const st = getCounterfactual();
+    const echo = st.activeEcho;
+    const response = $(`#counterfactual-echo-response-${origin}`);
+    const btn = $(`#counterfactual-echo-return-${origin}`);
+    if (response) response.textContent = (echo && echo.origin === origin) ? echo.feedback : '';
+    if (btn) {
+      const available = !!echo && echo.origin === origin && currentScene === origin && !st.pending && !AutoAdvance.has(origin);
+      btn.disabled = !available;
+      btn.setAttribute('aria-pressed', 'false');
+    }
+  };
+
+  const paintCounterfactualMemory = () => {
+    const memory = $('#counterfactual-memory');
+    if (!memory) return;
+    const st = getCounterfactual();
+    const unlocked = counterfactualLivesUnlocked();
+    if (!unlocked) {
+      memory.hidden = true;
+      return;
+    }
+    const counts = { origin: {}, method: {}, inheritance: {} };
+    for (const id of st.lives) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      counts.origin[parts[0]] = (counts.origin[parts[0]] || 0) + 1;
+      counts.method[parts[1]] = (counts.method[parts[1]] || 0) + 1;
+      counts.inheritance[parts[2]] = (counts.inheritance[parts[2]] || 0) + 1;
+    }
+    const get = (map, key) => map[key] || 0;
+    memory.textContent = `未活之生：已纺成 ${st.lives.length}/36；起点 门外 ${get(counts.origin, 'threshold')} / 守则 ${get(counts.origin, 'protocol')} / 值夜 ${get(counts.origin, 'watch')} / 焚献 ${get(counts.origin, 'offering')}；处理 缝合 ${get(counts.method, 'stitch')} / 引流 ${get(counts.method, 'drain')} / 移植 ${get(counts.method, 'graft')}；归属 成因 ${get(counts.inheritance, 'cause')} / 后果 ${get(counts.inheritance, 'consequence')} / 终局 ${get(counts.inheritance, 'ending')}；元结局 ${st.metaOutcomes.length}/3。`;
+    memory.hidden = false;
+  };
+
+  const paintCounterfactualCodex = () => {
+    const box = $('#counterfactual-codex');
+    const grid = $('#counterfactual-codex-grid');
+    const entry = $('#counterfactual-codex-entry');
+    if (!box || !grid) return;
+    const st = getCounterfactual();
+    const unlocked = counterfactualLivesUnlocked();
+    if (!unlocked) {
+      box.hidden = true;
+      if (entry) entry.hidden = true;
+      return;
+    }
+    box.removeAttribute('hidden');
+    grid.innerHTML = '';
+    for (const id of COUNTERFACTUAL_LIFE_IDS) {
+      const unlocked = st.lives.includes(id);
+      const cell = document.createElement('div');
+      cell.className = 'counterfactual-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const life = findLifeById(id);
+        cell.innerHTML = `<b>${life.title}</b><span>${life.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    for (const action of META_ACTIONS) {
+      const outcome = META_OUTCOMES[action];
+      const unlocked = st.metaOutcomes.includes(outcome);
+      const cell = document.createElement('div');
+      cell.className = 'counterfactual-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const table = COUNTERFACTUAL_META_TABLE[action];
+        cell.innerHTML = `<b>${table.name}</b><span>${table.narrative}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    if (entry) entry.removeAttribute('hidden');
+  };
+
+  const syncCounterfactualRemembrance = () => {
+    paintCounterfactualMemory();
+    paintCounterfactualCodex();
+    const st = getCounterfactual();
+    const unlocked = counterfactualLivesUnlocked();
+    const coverage = counterfactualCoverageComplete(st);
+    const entryBtn = $('#counterfactual-entry-btn');
+    if (entryBtn) {
+      entryBtn.hidden = !(currentScene === 'remembrance' && unlocked);
+      entryBtn.disabled = !(!st.pending && currentScene === 'remembrance' && unlocked);
+    }
+    const metaBtn = $('#counterfactual-meta-entry-btn');
+    if (metaBtn) {
+      metaBtn.hidden = !(currentScene === 'remembrance' && unlocked && coverage);
+      metaBtn.disabled = !(!st.pending && currentScene === 'remembrance' && unlocked && coverage);
+    }
+  };
+
+  const syncCounterfactualLinks = () => {
+    const st = getCounterfactual();
+    const unlocked = counterfactualLivesUnlocked();
+    const map = {
+      'counterfactual-spindle-link': unlocked && st.visited.spindle,
+      'counterfactual-loom-link': unlocked && st.visited.loom,
+      'counterfactual-nursery-link': unlocked && st.visited.nursery,
+      'counterfactual-room-link': unlocked && st.visited.room,
+    };
+    for (const [id, show] of Object.entries(map)) {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !show;
+    }
+  };
+
+  const replayCounterfactualPending = (sceneName) => {
+    const st = getCounterfactual();
+    const p = st.pending;
+    if (!p) {
+      syncCounterfactualSpindle();
+      syncCounterfactualLoom();
+      syncCounterfactualNursery();
+      syncCounterfactualRoom();
+      syncCounterfactualEchoes();
+      return;
+    }
+    if (sceneName === p.target) {
+      counterfactualBeforeArrive(p);
+      syncCounterfactualSpindle();
+      syncCounterfactualLoom();
+      syncCounterfactualNursery();
+      syncCounterfactualRoom();
+      syncCounterfactualEchoes();
+      if (sceneName === 'remembrance') syncCounterfactualRemembrance();
+      return;
+    }
+    const schedule = (source) => AutoAdvance.schedule(source, p.target, { delay: counterfactualDelay(), before: () => counterfactualBeforeArrive(p) });
+
+    if (p.kind === 'entry' && sceneName === 'remembrance') {
+      const btn = $('#counterfactual-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#counterfactual-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'origin' && sceneName === 'counterfactual-spindle') {
+      const response = $('#counterfactual-spindle-response');
+      if (response) response.textContent = p.feedback;
+      lockCounterfactualOriginButtons(p.origin);
+      schedule('counterfactual-spindle');
+    } else if (p.kind === 'method' && sceneName === 'scar-loom') {
+      const response = $('#counterfactual-loom-response');
+      if (response) response.textContent = p.feedback;
+      lockCounterfactualMethodButtons(p.method);
+      schedule('scar-loom');
+    } else if (p.kind === 'life' && sceneName === 'unlived-nursery') {
+      const response = $('#counterfactual-nursery-response');
+      if (response) response.textContent = p.feedback;
+      lockCounterfactualLifeButtons(p.inheritance);
+      schedule('unlived-nursery');
+    } else if (p.kind === 'echo-return' && sceneName === p.from) {
+      const container = $(`#counterfactual-echo-${p.from}`);
+      if (container) container.hidden = false;
+      const response = $(`#counterfactual-echo-response-${p.from}`);
+      if (response) response.textContent = p.feedback;
+      const btn = $(`#counterfactual-echo-return-${p.from}`);
+      if (btn) {
+        btn.disabled = true;
+        btn.setAttribute('aria-pressed', 'true');
+      }
+      schedule(p.from);
+    } else if (p.kind === 'meta-entry' && sceneName === 'remembrance') {
+      const btn = $('#counterfactual-meta-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#counterfactual-meta-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'meta' && sceneName === 'life-without-cause') {
+      const response = $('#counterfactual-room-response');
+      if (response) response.textContent = p.feedback;
+      lockCounterfactualMetaButtons(p.action);
+      schedule('life-without-cause');
+    } else {
+      st.pending = null;
+      saveCounterfactual(st);
+    }
+  };
+
+  const chooseCounterfactualOrigin = (origin) => {
+    if (currentScene !== 'counterfactual-spindle') return;
+    if (AutoAdvance.has('counterfactual-spindle')) return;
+    if (!ORIGINS.includes(origin)) return;
+    if (!buttonAvailable(`counterfactual-origin-${origin}`)) return;
+    const st = getCounterfactual();
+    if (st.pending) return;
+    const table = COUNTERFACTUAL_ORIGIN_TABLE[origin];
+    if (!table) return;
+    st.activeEcho = null;
+    st.draft = { origin: '', method: '' };
+    const pending = { kind: 'origin', source: 'counterfactual-spindle', origin, target: 'scar-loom', feedback: table.fragment };
+    st.pending = pending;
+    saveCounterfactual(st);
+    lockCounterfactualOriginButtons(origin);
+    const response = $('#counterfactual-spindle-response');
+    if (response) response.textContent = table.fragment;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('counterfactual-spindle', 'scar-loom', { delay: counterfactualDelay(), before: () => counterfactualBeforeArrive(pending) });
+  };
+
+  const chooseCounterfactualMethod = (method) => {
+    if (currentScene !== 'scar-loom') return;
+    if (AutoAdvance.has('scar-loom')) return;
+    if (!METHODS.includes(method)) return;
+    if (!buttonAvailable(`counterfactual-method-${method}`)) return;
+    const st = getCounterfactual();
+    if (st.pending) return;
+    if (!ORIGINS.includes(st.draft.origin) || st.draft.method !== '') return;
+    const table = COUNTERFACTUAL_METHOD_TABLE[method];
+    if (!table) return;
+    const pending = { kind: 'method', source: 'scar-loom', origin: st.draft.origin, method, target: 'unlived-nursery', feedback: table.fragment };
+    st.pending = pending;
+    saveCounterfactual(st);
+    lockCounterfactualMethodButtons(method);
+    const response = $('#counterfactual-loom-response');
+    if (response) response.textContent = table.fragment;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('scar-loom', 'unlived-nursery', { delay: counterfactualDelay(), before: () => counterfactualBeforeArrive(pending) });
+  };
+
+  const chooseCounterfactualLife = (inheritance) => {
+    if (currentScene !== 'unlived-nursery') return;
+    if (AutoAdvance.has('unlived-nursery')) return;
+    if (!INHERITANCES.includes(inheritance)) return;
+    if (!buttonAvailable(`counterfactual-life-${inheritance}`)) return;
+    const st = getCounterfactual();
+    if (st.pending) return;
+    const o = st.draft.origin;
+    const m = st.draft.method;
+    if (!ORIGINS.includes(o) || !METHODS.includes(m)) return;
+    const feedback = computeLifeFeedback(o, m, inheritance);
+    const outcome = computeLifeId(o, m, inheritance);
+    const pending = { kind: 'life', source: 'unlived-nursery', origin: o, method: m, inheritance, outcome, target: o, feedback };
+    st.pending = pending;
+    saveCounterfactual(st);
+    lockCounterfactualLifeButtons(inheritance);
+    const response = $('#counterfactual-nursery-response');
+    if (response) response.textContent = feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('unlived-nursery', o, { delay: counterfactualDelay(), before: () => counterfactualBeforeArrive(pending) });
+  };
+
+  const chooseCounterfactualEchoReturn = (origin) => {
+    if (currentScene !== origin) return;
+    if (AutoAdvance.has(origin)) return;
+    if (!ORIGINS.includes(origin)) return;
+    if (!buttonAvailable(`counterfactual-echo-return-${origin}`)) return;
+    const st = getCounterfactual();
+    if (st.pending) return;
+    const echo = st.activeEcho;
+    if (!echo || echo.origin !== origin) return;
+    const pending = { kind: 'echo-return', from: origin, target: 'counterfactual-spindle', life: echo.life, feedback: echo.feedback };
+    st.pending = pending;
+    saveCounterfactual(st);
+    const btn = $(`#counterfactual-echo-return-${origin}`);
+    if (btn) {
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', 'true');
+    }
+    const response = $(`#counterfactual-echo-response-${origin}`);
+    if (response) response.textContent = echo.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule(origin, 'counterfactual-spindle', { delay: counterfactualDelay(), before: () => counterfactualBeforeArrive(pending) });
+  };
+
+  const chooseCounterfactualEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('counterfactual-entry-btn')) return;
+    if (!counterfactualLivesUnlocked()) return;
+    const st = getCounterfactual();
+    if (st.pending) return;
+    st.activeEcho = null;
+    st.draft = { origin: '', method: '' };
+    const pending = { kind: 'entry', target: 'counterfactual-spindle', feedback: COUNTERFACTUAL_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveCounterfactual(st);
+    const btn = $('#counterfactual-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#counterfactual-entry-response');
+    if (response) response.textContent = COUNTERFACTUAL_ENTRY_FEEDBACK;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('remembrance', 'counterfactual-spindle', { delay: counterfactualDelay(), before: () => counterfactualBeforeArrive(pending) });
+  };
+
+  const chooseCounterfactualMetaEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('counterfactual-meta-entry-btn')) return;
+    const st = getCounterfactual();
+    if (st.pending) return;
+    if (!counterfactualCoverageComplete(st)) return;
+    const pending = { kind: 'meta-entry', target: 'life-without-cause', feedback: COUNTERFACTUAL_META_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveCounterfactual(st);
+    const btn = $('#counterfactual-meta-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#counterfactual-meta-entry-response');
+    if (response) response.textContent = COUNTERFACTUAL_META_ENTRY_FEEDBACK;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('remembrance', 'life-without-cause', { delay: counterfactualDelay(), before: () => counterfactualBeforeArrive(pending) });
+  };
+
+  const chooseCounterfactualMetaAction = (action) => {
+    if (currentScene !== 'life-without-cause') return;
+    if (AutoAdvance.has('life-without-cause')) return;
+    if (!META_ACTIONS.includes(action)) return;
+    if (!buttonAvailable(`counterfactual-meta-${action}`)) return;
+    const st = getCounterfactual();
+    if (st.pending) return;
+    if (!st.visited.room) return;
+    if (!counterfactualCoverageComplete(st)) return;
+    const table = COUNTERFACTUAL_META_TABLE[action];
+    if (!table) return;
+    const pending = { kind: 'meta', source: 'life-without-cause', action, outcome: table.outcome, target: table.target, feedback: table.narrative };
+    st.pending = pending;
+    saveCounterfactual(st);
+    lockCounterfactualMetaButtons(action);
+    const response = $('#counterfactual-room-response');
+    if (response) response.textContent = table.narrative;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('life-without-cause', table.target, { delay: counterfactualDelay(), before: () => counterfactualBeforeArrive(pending) });
+  };
+
+  const counterfactualCanVisitSpindle = () => {
+    if (!counterfactualLivesUnlocked()) return false;
+    const st = getCounterfactual();
+    const p = st.pending;
+    if (p && (p.kind === 'entry' || p.kind === 'echo-return') && p.target === 'counterfactual-spindle') return true;
+    if (st.visited.spindle) return true;
+    const dd = getDeathDiplomacy();
+    if (dd.pending && dd.pending.kind === 'treaty' && dd.pending.target === 'counterfactual-spindle') return true;
+    if (dd.activeCourier && dd.activeCourier.counterpart === 'before-birth-country') return true;
+    return false;
+  };
+
+  const counterfactualCanVisitLoom = () => {
+    if (!counterfactualLivesUnlocked()) return false;
+    const st = getCounterfactual();
+    const p = st.pending;
+    if (p && p.kind === 'origin' && p.target === 'scar-loom') return true;
+    if (st.visited.loom && ORIGINS.includes(st.draft.origin)) return true;
+    return false;
+  };
+
+  const counterfactualCanVisitNursery = () => {
+    if (!counterfactualLivesUnlocked()) return false;
+    const st = getCounterfactual();
+    const p = st.pending;
+    if (p && p.kind === 'method' && p.target === 'unlived-nursery') return true;
+    if (st.visited.nursery && ORIGINS.includes(st.draft.origin) && METHODS.includes(st.draft.method)) return true;
+    return false;
+  };
+
+  const counterfactualCanVisitRoom = () => {
+    if (!counterfactualLivesUnlocked()) return false;
+    const st = getCounterfactual();
+    const p = st.pending;
+    if (p && p.kind === 'meta-entry' && p.target === 'life-without-cause') return true;
+    if (counterfactualCoverageComplete(st) && st.visited.room) return true;
+    return false;
+  };
+
+  const counterfactualEntryBtn = $('#counterfactual-entry-btn');
+  if (counterfactualEntryBtn) {
+    counterfactualEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCounterfactualEntry();
+    });
+  }
+  const counterfactualOriginThresholdBtn = $('#counterfactual-origin-threshold');
+  if (counterfactualOriginThresholdBtn) {
+    counterfactualOriginThresholdBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCounterfactualOrigin('threshold');
+    });
+  }
+  const counterfactualOriginProtocolBtn = $('#counterfactual-origin-protocol');
+  if (counterfactualOriginProtocolBtn) {
+    counterfactualOriginProtocolBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCounterfactualOrigin('protocol');
+    });
+  }
+  const counterfactualOriginWatchBtn = $('#counterfactual-origin-watch');
+  if (counterfactualOriginWatchBtn) {
+    counterfactualOriginWatchBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCounterfactualOrigin('watch');
+    });
+  }
+  const counterfactualOriginOfferingBtn = $('#counterfactual-origin-offering');
+  if (counterfactualOriginOfferingBtn) {
+    counterfactualOriginOfferingBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCounterfactualOrigin('offering');
+    });
+  }
+  const counterfactualMethodStitchBtn = $('#counterfactual-method-stitch');
+  if (counterfactualMethodStitchBtn) {
+    counterfactualMethodStitchBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCounterfactualMethod('stitch');
+    });
+  }
+  const counterfactualMethodDrainBtn = $('#counterfactual-method-drain');
+  if (counterfactualMethodDrainBtn) {
+    counterfactualMethodDrainBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCounterfactualMethod('drain');
+    });
+  }
+  const counterfactualMethodGraftBtn = $('#counterfactual-method-graft');
+  if (counterfactualMethodGraftBtn) {
+    counterfactualMethodGraftBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCounterfactualMethod('graft');
+    });
+  }
+  const counterfactualLifeCauseBtn = $('#counterfactual-life-cause');
+  if (counterfactualLifeCauseBtn) {
+    counterfactualLifeCauseBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCounterfactualLife('cause');
+    });
+  }
+  const counterfactualLifeConsequenceBtn = $('#counterfactual-life-consequence');
+  if (counterfactualLifeConsequenceBtn) {
+    counterfactualLifeConsequenceBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCounterfactualLife('consequence');
+    });
+  }
+  const counterfactualLifeEndingBtn = $('#counterfactual-life-ending');
+  if (counterfactualLifeEndingBtn) {
+    counterfactualLifeEndingBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCounterfactualLife('ending');
+    });
+  }
+  const counterfactualEchoReturnThresholdBtn = $('#counterfactual-echo-return-threshold');
+  if (counterfactualEchoReturnThresholdBtn) {
+    counterfactualEchoReturnThresholdBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCounterfactualEchoReturn('threshold');
+    });
+  }
+  const counterfactualEchoReturnProtocolBtn = $('#counterfactual-echo-return-protocol');
+  if (counterfactualEchoReturnProtocolBtn) {
+    counterfactualEchoReturnProtocolBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCounterfactualEchoReturn('protocol');
+    });
+  }
+  const counterfactualEchoReturnWatchBtn = $('#counterfactual-echo-return-watch');
+  if (counterfactualEchoReturnWatchBtn) {
+    counterfactualEchoReturnWatchBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCounterfactualEchoReturn('watch');
+    });
+  }
+  const counterfactualEchoReturnOfferingBtn = $('#counterfactual-echo-return-offering');
+  if (counterfactualEchoReturnOfferingBtn) {
+    counterfactualEchoReturnOfferingBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCounterfactualEchoReturn('offering');
+    });
+  }
+  const counterfactualMetaEntryBtn = $('#counterfactual-meta-entry-btn');
+  if (counterfactualMetaEntryBtn) {
+    counterfactualMetaEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCounterfactualMetaEntry();
+    });
+  }
+  const counterfactualMetaWearLivesBtn = $('#counterfactual-meta-wear-lives');
+  if (counterfactualMetaWearLivesBtn) {
+    counterfactualMetaWearLivesBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCounterfactualMetaAction('wear-lives');
+    });
+  }
+  const counterfactualMetaBuryLivesBtn = $('#counterfactual-meta-bury-lives');
+  if (counterfactualMetaBuryLivesBtn) {
+    counterfactualMetaBuryLivesBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCounterfactualMetaAction('bury-lives');
+    });
+  }
+  const counterfactualMetaLeaveSpindleBtn = $('#counterfactual-meta-leave-spindle');
+  if (counterfactualMetaLeaveSpindleBtn) {
+    counterfactualMetaLeaveSpindleBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCounterfactualMetaAction('leave-spindle');
+    });
+  }
+
+  /* ============================================================
+     v67 无血家谱 / THE FAMILY THAT NEVER SHARED BLOOD
+     ============================================================ */
+  const BLOODLESS_KEY = 'goddead_v67_bloodless_genealogy';
+  const BLOODLESS_VERSION = 67;
+  const ROOTS = ['spindle', 'loom', 'nursery', 'room'];
+  const BONDS = ['ancestor', 'twin', 'descendant'];
+  const MEMORIES = ['keep', 'exchange', 'return'];
+  const FAMILY_ACTIONS = ['become-ancestor', 'inherit-you', 'orphan-eras'];
+  const ROOT_TARGETS = { spindle: 'counterfactual-spindle', loom: 'scar-loom', nursery: 'unlived-nursery', room: 'life-without-cause' };
+  const FAMILY_TARGETS = { 'become-ancestor': 'threshold', 'inherit-you': 'remembrance', 'orphan-eras': 'unending-gallery' };
+  const FAMILY_OUTCOMES = { 'become-ancestor': 'you-became-common-ancestor', 'inherit-you': 'descendants-inherited-you', 'orphan-eras': 'every-era-became-an-orphan' };
+  const BLOODLESS_ENTRY_FEEDBACK = '三种元结局全部发生后，那些从未活过的人生开始从彼此身上挑选亲属。';
+  const BLOODLESS_FAMILY_ENTRY_FEEDBACK = '已收集的家谱同时覆盖四祖根、三亲属关系与三童年继承，末代家族庭因此亮起。';
+
+  const BLOODLESS_ROOT_TABLE = {
+    spindle: { name: '纺锤为根 · ROOTED IN THE SPINDLE', fragment: '它把纺锤的第一圈转动认作祖辈留下的心跳；' },
+    loom: { name: '疤痕为根 · ROOTED IN THE SCAR LOOM', fragment: '它从织机上最旧的伤口里找到一张没有血迹的出生证；' },
+    nursery: { name: '摇篮为根 · ROOTED IN THE EMPTY CRADLE', fragment: '空摇篮先把它记进家谱，随后才承认自己从未生过它；' },
+    room: { name: '无因为根 · ROOTED WITHOUT A CAUSE', fragment: '无因生涯陈列间给它一位不存在的亲属，并让那位亲属先活了很多年；' },
+  };
+  const BLOODLESS_BOND_TABLE = {
+    ancestor: { name: '晚祖 · ANCESTOR-CLAIMED', fragment: '它向一个比自己更晚出生的人行祖礼；' },
+    twin: { name: '异生 · TWIN-BOUND', fragment: '它与另一个未活之生共享同一段从未发生的童年；' },
+    descendant: { name: '先裔 · DESCENDANT-KEPT', fragment: '它把未来尚未出现的空缺抱成自己的后代；' },
+  };
+  const BLOODLESS_MEMORY_TABLE = {
+    keep: { name: '留年 · CHILDHOOD-KEPT', fragment: '最后，它保留这段伪造的童年，并开始怀念其中每一天。' },
+    exchange: { name: '换年 · CHILDHOOD-EXCHANGED', fragment: '最后，它把童年交给亲属，换回一段记得自己的衰老。' },
+    return: { name: '退年 · CHILDHOOD-RETURNED', fragment: '最后，它把童年退回出生以前，家谱却仍拒绝删去那一页。' },
+  };
+  const BLOODLESS_FAMILY_TABLE = {
+    'become-ancestor': { name: '众生认祖 · ALL LIVES DESCEND FROM YOU', narrative: '家谱把所有空白世代折向你的名字。从此每个未出生者都先叫你祖先。', target: 'threshold', outcome: 'you-became-common-ancestor' },
+    'inherit-you': { name: '后代继承你 · THE DESCENDANTS INHERITED YOU', narrative: '后代没有继承你的血，只继承你没有活完的部分。', target: 'remembrance', outcome: 'descendants-inherited-you' },
+    'orphan-eras': { name: '万世成孤 · EVERY ERA BECAME AN ORPHAN', narrative: '你把家谱从时间上撕下，每个世纪都同时失去自己的父母与孩子。', target: 'unending-gallery', outcome: 'every-era-became-an-orphan' },
+  };
+
+  const BLOODLESS_RECORD_IDS = (() => {
+    const ids = [];
+    for (const r of ROOTS) {
+      for (const b of BONDS) {
+        for (const m of MEMORIES) {
+          ids.push(`${r}:${b}:${m}`);
+        }
+      }
+    }
+    return ids;
+  })();
+  const BLOODLESS_RECORD_SET = new Set(BLOODLESS_RECORD_IDS);
+  const BLOODLESS_REQUIRED_OUTCOMES = ['many-lives-wear-you', 'unlived-bury-themselves', 'spindle-outlives-endings'];
+
+  const defaultBloodless = () => ({
+    version: BLOODLESS_VERSION,
+    visited: { genealogy: false, archive: false, childhood: false, court: false },
+    draft: { root: '', bond: '' },
+    records: [],
+    familyOutcomes: [],
+    recordRuns: 0,
+    familyRuns: 0,
+    lastOutcome: '',
+    activeKin: null,
+    pending: null,
+  });
+
+  const bloodlessGenealogyUnlocked = () => {
+    if (!counterfactualLivesUnlocked()) return false;
+    const cf = getCounterfactual();
+    if (!counterfactualCoverageComplete(cf)) return false;
+    for (const o of BLOODLESS_REQUIRED_OUTCOMES) {
+      if (!cf.metaOutcomes.includes(o)) return false;
+    }
+    return true;
+  };
+
+  const bloodlessCoverageComplete = (st) => {
+    const state = st || getBloodless();
+    if (state.records.length < 3) return false;
+    const roots = new Set();
+    const bonds = new Set();
+    const memories = new Set();
+    for (const id of state.records) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      roots.add(parts[0]);
+      bonds.add(parts[1]);
+      memories.add(parts[2]);
+    }
+    return roots.size === 4 && bonds.size === 3 && memories.size === 3;
+  };
+
+  const normalizeBloodlessRecords = (records) => {
+    const arr = Array.isArray(records) ? records : [];
+    const seen = new Set();
+    const out = [];
+    for (const id of BLOODLESS_RECORD_IDS) {
+      if (arr.includes(id) && !seen.has(id)) {
+        out.push(id);
+        seen.add(id);
+      }
+    }
+    return out;
+  };
+
+  const normalizeFamilyOutcomes = (arr) => {
+    const input = Array.isArray(arr) ? arr : [];
+    const set = new Set(input);
+    return FAMILY_ACTIONS.map((a) => FAMILY_OUTCOMES[a]).filter((o) => set.has(o));
+  };
+
+  const normalizeBloodlessVisited = (visited) => {
+    const v = visited && typeof visited === 'object' && !Array.isArray(visited) ? visited : {};
+    return {
+      genealogy: v.genealogy === true,
+      archive: v.archive === true,
+      childhood: v.childhood === true,
+      court: v.court === true,
+    };
+  };
+
+  const normalizeBloodlessDraft = (draft) => {
+    const d = draft && typeof draft === 'object' && !Array.isArray(draft) ? draft : {};
+    let root = typeof d.root === 'string' ? d.root : '';
+    let bond = typeof d.bond === 'string' ? d.bond : '';
+    if (!ROOTS.includes(root)) {
+      root = '';
+      bond = '';
+    }
+    if (bond !== '' && !BONDS.includes(bond)) {
+      bond = '';
+    }
+    if (root === '') {
+      bond = '';
+    }
+    if (bond !== '' && root === '') {
+      bond = '';
+    }
+    return { root, bond };
+  };
+
+  const normalizeBloodlessActiveKin = (kin, records) => {
+    if (!kin || typeof kin !== 'object' || Array.isArray(kin)) return null;
+    if (Object.keys(kin).sort().join(',') !== 'feedback,record,root') return null;
+    if (!ROOTS.includes(kin.root)) return null;
+    if (!BLOODLESS_RECORD_SET.has(kin.record) || !records.includes(kin.record)) return null;
+    if (!kin.record.startsWith(`${kin.root}:`)) return null;
+    const parts = kin.record.split(':');
+    if (parts.length !== 3) return null;
+    const fb = computeRecordFeedback(parts[0], parts[1], parts[2]);
+    if (kin.feedback !== fb) return null;
+    return { root: kin.root, record: kin.record, feedback: fb };
+  };
+
+  const SCENE_FOR_ROOT = { spindle: 'counterfactual-spindle', loom: 'scar-loom', nursery: 'unlived-nursery', room: 'life-without-cause' };
+  const ROOT_FOR_SCENE = { 'counterfactual-spindle': 'spindle', 'scar-loom': 'loom', 'unlived-nursery': 'nursery', 'life-without-cause': 'room' };
+
+  const normalizeBloodlessPending = (p, st) => {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || !p.kind) return null;
+    const keys = Object.keys(p).sort().join(',');
+    const unlocked = st._v67unlocked === true;
+
+    if (p.kind === 'entry' && keys === 'feedback,kind,target') {
+      if (unlocked && p.target === 'counterfactual-genealogy' && p.feedback === BLOODLESS_ENTRY_FEEDBACK) {
+        return { kind: 'entry', target: 'counterfactual-genealogy', feedback: p.feedback };
+      }
+    }
+    if (p.kind === 'root' && keys === 'feedback,kind,root,source,target') {
+      if (!unlocked) return null;
+      if (p.source !== 'counterfactual-genealogy' || p.target !== 'bloodless-archive') return null;
+      if (!ROOTS.includes(p.root)) return null;
+      const table = BLOODLESS_ROOT_TABLE[p.root];
+      if (!table || p.feedback !== table.fragment) return null;
+      if (st.draft.root !== '' || st.draft.bond !== '') return null;
+      return { kind: 'root', source: 'counterfactual-genealogy', root: p.root, target: 'bloodless-archive', feedback: p.feedback };
+    }
+    if (p.kind === 'bond' && keys === 'bond,feedback,kind,root,source,target') {
+      if (!unlocked) return null;
+      if (p.source !== 'bloodless-archive' || p.target !== 'borrowed-childhood') return null;
+      if (!ROOTS.includes(p.root) || !BONDS.includes(p.bond)) return null;
+      const table = BLOODLESS_BOND_TABLE[p.bond];
+      if (!table || p.feedback !== table.fragment) return null;
+      if (st.draft.root !== p.root || st.draft.bond !== '') return null;
+      return { kind: 'bond', source: 'bloodless-archive', root: p.root, bond: p.bond, target: 'borrowed-childhood', feedback: p.feedback };
+    }
+    if (p.kind === 'record' && keys === 'bond,feedback,kind,memory,outcome,root,source,target') {
+      if (!unlocked) return null;
+      if (p.source !== 'borrowed-childhood') return null;
+      if (!ROOTS.includes(p.root) || !BONDS.includes(p.bond) || !MEMORIES.includes(p.memory)) return null;
+      const recordId = computeRecordId(p.root, p.bond, p.memory);
+      if (p.outcome !== recordId) return null;
+      const fb = computeRecordFeedback(p.root, p.bond, p.memory);
+      if (p.feedback !== fb) return null;
+      if (st.draft.root !== p.root || st.draft.bond !== p.bond) return null;
+      const target = ROOT_TARGETS[p.root];
+      if (p.target !== target) return null;
+      return { kind: 'record', source: 'borrowed-childhood', root: p.root, bond: p.bond, memory: p.memory, outcome: recordId, target, feedback: fb };
+    }
+    if (p.kind === 'kin-return' && keys === 'feedback,from,kind,record,target') {
+      if (!unlocked) return null;
+      if (!Object.values(SCENE_FOR_ROOT).includes(p.from) || p.target !== 'counterfactual-genealogy') return null;
+      const kin = st.activeKin;
+      if (!kin || !kin.record.startsWith(`${kin.root}:`) || SCENE_FOR_ROOT[kin.root] !== p.from || kin.record !== p.record || kin.feedback !== p.feedback) return null;
+      return { kind: 'kin-return', from: p.from, target: 'counterfactual-genealogy', record: p.record, feedback: p.feedback };
+    }
+    if (p.kind === 'family-entry' && keys === 'feedback,kind,target') {
+      if (!unlocked) return null;
+      if (p.target !== 'last-family-court' || p.feedback !== BLOODLESS_FAMILY_ENTRY_FEEDBACK) return null;
+      if (!bloodlessCoverageComplete(st)) return null;
+      return { kind: 'family-entry', target: 'last-family-court', feedback: p.feedback };
+    }
+    if (p.kind === 'family' && keys === 'action,feedback,kind,outcome,source,target') {
+      if (!unlocked) return null;
+      if (!st.visited.court) return null;
+      if (!bloodlessCoverageComplete(st)) return null;
+      if (p.source !== 'last-family-court') return null;
+      if (!FAMILY_ACTIONS.includes(p.action)) return null;
+      const table = BLOODLESS_FAMILY_TABLE[p.action];
+      if (!table || p.outcome !== table.outcome || p.target !== table.target || p.feedback !== table.narrative) return null;
+      return { kind: 'family', source: 'last-family-court', action: p.action, outcome: table.outcome, target: table.target, feedback: table.narrative };
+    }
+    return null;
+  };
+
+  const saveBloodless = (st) => {
+    const visited = normalizeBloodlessVisited(st.visited);
+    const draft = normalizeBloodlessDraft(st.draft);
+    const records = normalizeBloodlessRecords(st.records);
+    const familyOutcomes = normalizeFamilyOutcomes(st.familyOutcomes);
+    const recordRuns = Math.min(9999, Math.max(0, Math.floor(Number(st.recordRuns) || 0)));
+    const familyRuns = Math.min(9999, Math.max(0, Math.floor(Number(st.familyRuns) || 0)));
+    const validLast = new Set([...records, ...familyOutcomes]);
+    const lastOutcome = validLast.has(st.lastOutcome) ? st.lastOutcome : '';
+    const activeKin = normalizeBloodlessActiveKin(st.activeKin, records);
+    const pendingState = {
+      version: BLOODLESS_VERSION,
+      visited,
+      draft,
+      records,
+      familyOutcomes,
+      recordRuns,
+      familyRuns,
+      lastOutcome,
+      activeKin,
+      pending: null,
+      _v67unlocked: bloodlessGenealogyUnlocked(),
+    };
+    const pending = normalizeBloodlessPending(st.pending, pendingState);
+    store.set(
+      BLOODLESS_KEY,
+      JSON.stringify({
+        version: BLOODLESS_VERSION,
+        visited,
+        draft,
+        records,
+        familyOutcomes,
+        recordRuns,
+        familyRuns,
+        lastOutcome,
+        activeKin,
+        pending,
+      })
+    );
+  };
+
+  const getBloodless = () => {
+    let raw = {};
+    try { raw = JSON.parse(store.get(BLOODLESS_KEY, '{}')) || {}; } catch { raw = {}; }
+    if (typeof raw !== 'object' || raw === null || Array.isArray(raw) || raw.version !== BLOODLESS_VERSION) {
+      return defaultBloodless();
+    }
+    const st = defaultBloodless();
+    st.visited = normalizeBloodlessVisited(raw.visited);
+    st.draft = normalizeBloodlessDraft(raw.draft);
+    st.records = normalizeBloodlessRecords(raw.records);
+    st.familyOutcomes = normalizeFamilyOutcomes(raw.familyOutcomes);
+    st.recordRuns = Math.min(9999, Math.max(0, Math.floor(Number(raw.recordRuns) || 0)));
+    st.familyRuns = Math.min(9999, Math.max(0, Math.floor(Number(raw.familyRuns) || 0)));
+    const validLast = new Set([...st.records, ...st.familyOutcomes]);
+    st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : '';
+    st.activeKin = normalizeBloodlessActiveKin(raw.activeKin, st.records);
+    const normSt = Object.assign({}, st, { _v67unlocked: bloodlessGenealogyUnlocked() });
+    st.pending = normalizeBloodlessPending(raw.pending, normSt);
+    return st;
+  };
+
+  const computeRecordId = (root, bond, memory) => {
+    if (!ROOTS.includes(root) || !BONDS.includes(bond) || !MEMORIES.includes(memory)) return '';
+    return `${root}:${bond}:${memory}`;
+  };
+
+  const computeRecordTitle = (root, bond, memory) => {
+    const r = BLOODLESS_ROOT_TABLE[root];
+    const b = BLOODLESS_BOND_TABLE[bond];
+    const m = BLOODLESS_MEMORY_TABLE[memory];
+    if (!r || !b || !m) return '';
+    return `${r.name} · ${b.name} · ${m.name}`;
+  };
+
+  const computeRecordFeedback = (root, bond, memory) => {
+    const r = BLOODLESS_ROOT_TABLE[root];
+    const b = BLOODLESS_BOND_TABLE[bond];
+    const m = BLOODLESS_MEMORY_TABLE[memory];
+    if (!r || !b || !m) return '';
+    return `${r.fragment}${b.fragment}${m.fragment}`;
+  };
+
+  const findRecordById = (id) => {
+    if (!BLOODLESS_RECORD_SET.has(id)) return null;
+    const parts = id.split(':');
+    if (parts.length !== 3) return null;
+    return {
+      id,
+      root: parts[0],
+      bond: parts[1],
+      memory: parts[2],
+      title: computeRecordTitle(parts[0], parts[1], parts[2]),
+      feedback: computeRecordFeedback(parts[0], parts[1], parts[2]),
+    };
+  };
+
+  const bloodlessDelay = () => reduced ? 300 : 900 + Math.floor(Math.random() * 300);
+
+  const bloodlessBeforeArrive = (pending) => {
+    const st = getBloodless();
+    if (!st.pending || !pending) return;
+    if (st.pending.kind !== pending.kind) return;
+    const p = st.pending;
+    if (p.kind === 'entry') {
+      st.visited.genealogy = true;
+    } else if (p.kind === 'root') {
+      st.visited.archive = true;
+      st.draft.root = p.root;
+      st.draft.bond = '';
+    } else if (p.kind === 'bond') {
+      st.visited.childhood = true;
+      st.draft.bond = p.bond;
+    } else if (p.kind === 'record') {
+      const recordId = computeRecordId(p.root, p.bond, p.memory);
+      if (!st.records.includes(recordId)) st.records.push(recordId);
+      st.records = normalizeBloodlessRecords(st.records);
+      st.recordRuns += 1;
+      st.lastOutcome = recordId;
+      st.activeKin = { root: p.root, record: recordId, feedback: computeRecordFeedback(p.root, p.bond, p.memory) };
+      st.draft = { root: '', bond: '' };
+    } else if (p.kind === 'kin-return') {
+      st.activeKin = null;
+      st.draft = { root: '', bond: '' };
+    } else if (p.kind === 'family-entry') {
+      st.visited.court = true;
+    } else if (p.kind === 'family') {
+      const outcome = FAMILY_OUTCOMES[p.action];
+      if (!st.familyOutcomes.includes(outcome)) st.familyOutcomes.push(outcome);
+      st.familyOutcomes = normalizeFamilyOutcomes(st.familyOutcomes);
+      st.familyRuns += 1;
+      st.lastOutcome = outcome;
+    }
+    st.pending = null;
+    saveBloodless(st);
+  };
+
+  const resolveBloodlessPendingOnArrival = (name) => {
+    const st = getBloodless();
+    const p = st.pending;
+    if (p && p.target === name) bloodlessBeforeArrive(p);
+  };
+
+  const lockBloodlessRootButtons = (pressedRoot) => {
+    ROOTS.forEach((r) => {
+      const btn = $(`#bloodless-root-${r}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(r === pressedRoot));
+    });
+  };
+
+  const lockBloodlessBondButtons = (pressedBond) => {
+    BONDS.forEach((b) => {
+      const btn = $(`#bloodless-bond-${b}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(b === pressedBond));
+    });
+  };
+
+  const lockBloodlessMemoryButtons = (pressedMemory) => {
+    MEMORIES.forEach((m) => {
+      const btn = $(`#bloodless-memory-${m}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(m === pressedMemory));
+    });
+  };
+
+  const lockBloodlessFamilyButtons = (pressedAction) => {
+    FAMILY_ACTIONS.forEach((a) => {
+      const btn = $(`#bloodless-family-${a}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(a === pressedAction));
+    });
+  };
+
+  const syncBloodlessGenealogy = () => {
+    const figure = $('#bloodless-genealogy-figure');
+    const unlocked = bloodlessGenealogyUnlocked();
+    if (figure) figure.hidden = !unlocked;
+    if (!unlocked) return;
+    const st = getBloodless();
+    const pending = st.pending;
+    const response = $('#bloodless-genealogy-response');
+    ROOTS.forEach((r) => {
+      const btn = $(`#bloodless-root-${r}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'root' && pending.root === r);
+      btn.disabled = isPending || !!pending;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'root') ? pending.feedback : '';
+  };
+
+  const syncBloodlessArchive = () => {
+    const figure = $('#bloodless-archive-figure');
+    const st = getBloodless();
+    const unlocked = bloodlessGenealogyUnlocked();
+    const hasDraft = unlocked && ROOTS.includes(st.draft.root);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const response = $('#bloodless-archive-response');
+    BONDS.forEach((b) => {
+      const btn = $(`#bloodless-bond-${b}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'bond' && pending.bond === b);
+      btn.disabled = isPending || !!pending;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'bond') ? pending.feedback : '';
+  };
+
+  const syncBloodlessChildhood = () => {
+    const figure = $('#bloodless-childhood-figure');
+    const st = getBloodless();
+    const unlocked = bloodlessGenealogyUnlocked();
+    const hasDraft = unlocked && ROOTS.includes(st.draft.root) && BONDS.includes(st.draft.bond);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const response = $('#bloodless-childhood-response');
+    MEMORIES.forEach((m) => {
+      const btn = $(`#bloodless-memory-${m}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'record' && pending.memory === m);
+      btn.disabled = isPending || !!pending;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'record') ? pending.feedback : '';
+  };
+
+  const syncBloodlessCourt = () => {
+    const figure = $('#bloodless-court-figure');
+    const st = getBloodless();
+    const open = bloodlessGenealogyUnlocked() && bloodlessCoverageComplete(st) && st.visited.court;
+    if (figure) figure.hidden = !open;
+    if (!open) return;
+    const pending = st.pending;
+    const response = $('#bloodless-court-response');
+    FAMILY_ACTIONS.forEach((a) => {
+      const btn = $(`#bloodless-family-${a}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'family' && pending.action === a);
+      btn.disabled = isPending || !!pending;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'family') ? pending.feedback : '';
+  };
+
+  const syncBloodlessKinEchoes = () => {
+    const st = getBloodless();
+    const unlocked = bloodlessGenealogyUnlocked();
+    ROOTS.forEach((r) => {
+      const container = $(`#bloodless-kin-${r}`);
+      if (!container) return;
+      const active = unlocked && st.activeKin && st.activeKin.root === r;
+      container.hidden = !active;
+      if (active) paintBloodlessKin(r);
+    });
+  };
+
+  const paintBloodlessKin = (root) => {
+    const st = getBloodless();
+    const kin = st.activeKin;
+    const fromScene = SCENE_FOR_ROOT[root];
+    const response = $(`#bloodless-kin-response-${root}`);
+    const btn = $(`#bloodless-kin-return-${root}`);
+    if (response) response.textContent = (kin && kin.root === root) ? kin.feedback : '';
+    if (btn) {
+      const available = !!kin && kin.root === root && currentScene === fromScene && !st.pending && !AutoAdvance.has(fromScene);
+      btn.disabled = !available;
+      btn.setAttribute('aria-pressed', 'false');
+    }
+  };
+
+  const paintBloodlessMemory = () => {
+    const memory = $('#bloodless-memory');
+    if (!memory) return;
+    const st = getBloodless();
+    const unlocked = bloodlessGenealogyUnlocked();
+    if (!unlocked) {
+      memory.hidden = true;
+      return;
+    }
+    const counts = { root: {}, bond: {}, memory: {} };
+    for (const id of st.records) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      counts.root[parts[0]] = (counts.root[parts[0]] || 0) + 1;
+      counts.bond[parts[1]] = (counts.bond[parts[1]] || 0) + 1;
+      counts.memory[parts[2]] = (counts.memory[parts[2]] || 0) + 1;
+    }
+    const get = (map, key) => map[key] || 0;
+    memory.textContent = `无血家谱：已登记 ${st.records.length}/36；祖根 纺锤 ${get(counts.root, 'spindle')} / 织机 ${get(counts.root, 'loom')} / 摇篮 ${get(counts.root, 'nursery')} / 无因 ${get(counts.root, 'room')}；亲属 祖先 ${get(counts.bond, 'ancestor')} / 同生 ${get(counts.bond, 'twin')} / 后代 ${get(counts.bond, 'descendant')}；童年 留存 ${get(counts.memory, 'keep')} / 交换 ${get(counts.memory, 'exchange')} / 退回 ${get(counts.memory, 'return')}；家族结局 ${st.familyOutcomes.length}/3。`;
+    memory.hidden = false;
+  };
+
+  const paintBloodlessCodex = () => {
+    const box = $('#bloodless-codex');
+    const grid = $('#bloodless-codex-grid');
+    const entry = $('#bloodless-codex-entry');
+    if (!box || !grid) return;
+    const st = getBloodless();
+    const unlocked = bloodlessGenealogyUnlocked();
+    if (!unlocked) {
+      box.hidden = true;
+      if (entry) entry.hidden = true;
+      return;
+    }
+    box.removeAttribute('hidden');
+    grid.innerHTML = '';
+    for (const id of BLOODLESS_RECORD_IDS) {
+      const unlocked = st.records.includes(id);
+      const cell = document.createElement('div');
+      cell.className = 'bloodless-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const record = findRecordById(id);
+        cell.innerHTML = `<b>${record.title}</b><span>${record.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    for (const action of FAMILY_ACTIONS) {
+      const outcome = FAMILY_OUTCOMES[action];
+      const unlocked = st.familyOutcomes.includes(outcome);
+      const cell = document.createElement('div');
+      cell.className = 'bloodless-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const table = BLOODLESS_FAMILY_TABLE[action];
+        cell.innerHTML = `<b>${table.name}</b><span>${table.narrative}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    if (entry) entry.removeAttribute('hidden');
+  };
+
+  const syncBloodlessRemembrance = () => {
+    paintBloodlessMemory();
+    paintBloodlessCodex();
+    const st = getBloodless();
+    const unlocked = bloodlessGenealogyUnlocked();
+    const coverage = bloodlessCoverageComplete(st);
+    const entryBtn = $('#bloodless-genealogy-entry-btn');
+    if (entryBtn) {
+      entryBtn.hidden = !(currentScene === 'remembrance' && unlocked);
+      entryBtn.disabled = !(!st.pending && currentScene === 'remembrance' && unlocked);
+    }
+    const familyBtn = $('#bloodless-family-entry-btn');
+    if (familyBtn) {
+      familyBtn.hidden = !(currentScene === 'remembrance' && unlocked && coverage);
+      familyBtn.disabled = !(!st.pending && currentScene === 'remembrance' && unlocked && coverage);
+    }
+  };
+
+  const syncBloodlessLinks = () => {
+    const st = getBloodless();
+    const unlocked = bloodlessGenealogyUnlocked();
+    const map = {
+      'bloodless-genealogy-link': unlocked && st.visited.genealogy,
+      'bloodless-archive-link': unlocked && st.visited.archive,
+      'bloodless-childhood-link': unlocked && st.visited.childhood,
+      'bloodless-court-link': unlocked && st.visited.court,
+    };
+    for (const [id, show] of Object.entries(map)) {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !show;
+    }
+  };
+
+  const replayBloodlessPending = (sceneName) => {
+    const st = getBloodless();
+    const p = st.pending;
+    if (!p) {
+      syncBloodlessGenealogy();
+      syncBloodlessArchive();
+      syncBloodlessChildhood();
+      syncBloodlessCourt();
+      syncBloodlessKinEchoes();
+      return;
+    }
+    if (sceneName === p.target) {
+      bloodlessBeforeArrive(p);
+      syncBloodlessGenealogy();
+      syncBloodlessArchive();
+      syncBloodlessChildhood();
+      syncBloodlessCourt();
+      syncBloodlessKinEchoes();
+      if (sceneName === 'remembrance') syncBloodlessRemembrance();
+      return;
+    }
+    const schedule = (source) => AutoAdvance.schedule(source, p.target, { delay: bloodlessDelay(), before: () => bloodlessBeforeArrive(p) });
+
+    if (p.kind === 'entry' && sceneName === 'remembrance') {
+      const btn = $('#bloodless-genealogy-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#bloodless-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'root' && sceneName === 'counterfactual-genealogy') {
+      const response = $('#bloodless-genealogy-response');
+      if (response) response.textContent = p.feedback;
+      lockBloodlessRootButtons(p.root);
+      schedule('counterfactual-genealogy');
+    } else if (p.kind === 'bond' && sceneName === 'bloodless-archive') {
+      const response = $('#bloodless-archive-response');
+      if (response) response.textContent = p.feedback;
+      lockBloodlessBondButtons(p.bond);
+      schedule('bloodless-archive');
+    } else if (p.kind === 'record' && sceneName === 'borrowed-childhood') {
+      const response = $('#bloodless-childhood-response');
+      if (response) response.textContent = p.feedback;
+      lockBloodlessMemoryButtons(p.memory);
+      schedule('borrowed-childhood');
+    } else if (p.kind === 'kin-return' && sceneName === p.from) {
+      const root = ROOT_FOR_SCENE[p.from];
+      if (!root) {
+        st.pending = null;
+        saveBloodless(st);
+      } else {
+        const container = $(`#bloodless-kin-${root}`);
+        if (container) container.hidden = false;
+        const response = $(`#bloodless-kin-response-${root}`);
+        if (response) response.textContent = p.feedback;
+        const btn = $(`#bloodless-kin-return-${root}`);
+        if (btn) {
+          btn.disabled = true;
+          btn.setAttribute('aria-pressed', 'true');
+        }
+        schedule(p.from);
+      }
+    } else if (p.kind === 'family-entry' && sceneName === 'remembrance') {
+      const btn = $('#bloodless-family-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#bloodless-family-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'family' && sceneName === 'last-family-court') {
+      const response = $('#bloodless-court-response');
+      if (response) response.textContent = p.feedback;
+      lockBloodlessFamilyButtons(p.action);
+      schedule('last-family-court');
+    } else {
+      st.pending = null;
+      saveBloodless(st);
+    }
+  };
+
+  const chooseBloodlessRoot = (root) => {
+    if (currentScene !== 'counterfactual-genealogy') return;
+    if (AutoAdvance.has('counterfactual-genealogy')) return;
+    if (!ROOTS.includes(root)) return;
+    if (!buttonAvailable(`bloodless-root-${root}`)) return;
+    const st = getBloodless();
+    if (st.pending) return;
+    const table = BLOODLESS_ROOT_TABLE[root];
+    if (!table) return;
+    st.activeKin = null;
+    st.draft = { root: '', bond: '' };
+    const pending = { kind: 'root', source: 'counterfactual-genealogy', root, target: 'bloodless-archive', feedback: table.fragment };
+    st.pending = pending;
+    saveBloodless(st);
+    lockBloodlessRootButtons(root);
+    const response = $('#bloodless-genealogy-response');
+    if (response) response.textContent = table.fragment;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('counterfactual-genealogy', 'bloodless-archive', { delay: bloodlessDelay(), before: () => bloodlessBeforeArrive(pending) });
+  };
+
+  const chooseBloodlessBond = (bond) => {
+    if (currentScene !== 'bloodless-archive') return;
+    if (AutoAdvance.has('bloodless-archive')) return;
+    if (!BONDS.includes(bond)) return;
+    if (!buttonAvailable(`bloodless-bond-${bond}`)) return;
+    const st = getBloodless();
+    if (st.pending) return;
+    if (!ROOTS.includes(st.draft.root) || st.draft.bond !== '') return;
+    const table = BLOODLESS_BOND_TABLE[bond];
+    if (!table) return;
+    const pending = { kind: 'bond', source: 'bloodless-archive', root: st.draft.root, bond, target: 'borrowed-childhood', feedback: table.fragment };
+    st.pending = pending;
+    saveBloodless(st);
+    lockBloodlessBondButtons(bond);
+    const response = $('#bloodless-archive-response');
+    if (response) response.textContent = table.fragment;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('bloodless-archive', 'borrowed-childhood', { delay: bloodlessDelay(), before: () => bloodlessBeforeArrive(pending) });
+  };
+
+  const chooseBloodlessMemory = (memory) => {
+    if (currentScene !== 'borrowed-childhood') return;
+    if (AutoAdvance.has('borrowed-childhood')) return;
+    if (!MEMORIES.includes(memory)) return;
+    if (!buttonAvailable(`bloodless-memory-${memory}`)) return;
+    const st = getBloodless();
+    if (st.pending) return;
+    const r = st.draft.root;
+    const b = st.draft.bond;
+    if (!ROOTS.includes(r) || !BONDS.includes(b)) return;
+    const feedback = computeRecordFeedback(r, b, memory);
+    const outcome = computeRecordId(r, b, memory);
+    const target = ROOT_TARGETS[r];
+    const pending = { kind: 'record', source: 'borrowed-childhood', root: r, bond: b, memory, outcome, target, feedback };
+    st.pending = pending;
+    saveBloodless(st);
+    lockBloodlessMemoryButtons(memory);
+    const response = $('#bloodless-childhood-response');
+    if (response) response.textContent = feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('borrowed-childhood', target, { delay: bloodlessDelay(), before: () => bloodlessBeforeArrive(pending) });
+  };
+
+  const chooseBloodlessKinReturn = (root) => {
+    const fromScene = SCENE_FOR_ROOT[root];
+    if (currentScene !== fromScene) return;
+    if (AutoAdvance.has(fromScene)) return;
+    if (!ROOTS.includes(root)) return;
+    if (!buttonAvailable(`bloodless-kin-return-${root}`)) return;
+    const st = getBloodless();
+    if (st.pending) return;
+    const kin = st.activeKin;
+    if (!kin || kin.root !== root) return;
+    const pending = { kind: 'kin-return', from: fromScene, target: 'counterfactual-genealogy', record: kin.record, feedback: kin.feedback };
+    st.pending = pending;
+    saveBloodless(st);
+    const btn = $(`#bloodless-kin-return-${root}`);
+    if (btn) {
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', 'true');
+    }
+    const response = $(`#bloodless-kin-response-${root}`);
+    if (response) response.textContent = kin.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule(fromScene, 'counterfactual-genealogy', { delay: bloodlessDelay(), before: () => bloodlessBeforeArrive(pending) });
+  };
+
+  const chooseBloodlessEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('bloodless-genealogy-entry-btn')) return;
+    if (!bloodlessGenealogyUnlocked()) return;
+    const st = getBloodless();
+    if (st.pending) return;
+    st.activeKin = null;
+    st.draft = { root: '', bond: '' };
+    const pending = { kind: 'entry', target: 'counterfactual-genealogy', feedback: BLOODLESS_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveBloodless(st);
+    const btn = $('#bloodless-genealogy-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#bloodless-entry-response');
+    if (response) response.textContent = BLOODLESS_ENTRY_FEEDBACK;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('remembrance', 'counterfactual-genealogy', { delay: bloodlessDelay(), before: () => bloodlessBeforeArrive(pending) });
+  };
+
+  const chooseBloodlessFamilyEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('bloodless-family-entry-btn')) return;
+    const st = getBloodless();
+    if (st.pending) return;
+    if (!bloodlessCoverageComplete(st)) return;
+    const pending = { kind: 'family-entry', target: 'last-family-court', feedback: BLOODLESS_FAMILY_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveBloodless(st);
+    const btn = $('#bloodless-family-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#bloodless-family-entry-response');
+    if (response) response.textContent = BLOODLESS_FAMILY_ENTRY_FEEDBACK;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('remembrance', 'last-family-court', { delay: bloodlessDelay(), before: () => bloodlessBeforeArrive(pending) });
+  };
+
+  const chooseBloodlessFamilyAction = (action) => {
+    if (currentScene !== 'last-family-court') return;
+    if (AutoAdvance.has('last-family-court')) return;
+    if (!FAMILY_ACTIONS.includes(action)) return;
+    if (!buttonAvailable(`bloodless-family-${action}`)) return;
+    const st = getBloodless();
+    if (st.pending) return;
+    if (!st.visited.court) return;
+    if (!bloodlessCoverageComplete(st)) return;
+    const table = BLOODLESS_FAMILY_TABLE[action];
+    if (!table) return;
+    const pending = { kind: 'family', source: 'last-family-court', action, outcome: table.outcome, target: table.target, feedback: table.narrative };
+    st.pending = pending;
+    saveBloodless(st);
+    lockBloodlessFamilyButtons(action);
+    const response = $('#bloodless-court-response');
+    if (response) response.textContent = table.narrative;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('last-family-court', table.target, { delay: bloodlessDelay(), before: () => bloodlessBeforeArrive(pending) });
+  };
+
+  const bloodlessCanVisitGenealogy = () => {
+    if (!bloodlessGenealogyUnlocked()) return false;
+    const st = getBloodless();
+    const p = st.pending;
+    if (p && (p.kind === 'entry' || p.kind === 'kin-return') && p.target === 'counterfactual-genealogy') return true;
+    if (st.visited.genealogy) return true;
+    return false;
+  };
+
+  const bloodlessCanVisitArchive = () => {
+    if (!bloodlessGenealogyUnlocked()) return false;
+    const st = getBloodless();
+    const p = st.pending;
+    if (p && p.kind === 'root' && p.target === 'bloodless-archive') return true;
+    if (st.visited.archive && ROOTS.includes(st.draft.root)) return true;
+    return false;
+  };
+
+  const bloodlessCanVisitChildhood = () => {
+    if (!bloodlessGenealogyUnlocked()) return false;
+    const st = getBloodless();
+    const p = st.pending;
+    if (p && p.kind === 'bond' && p.target === 'borrowed-childhood') return true;
+    if (st.visited.childhood && ROOTS.includes(st.draft.root) && BONDS.includes(st.draft.bond)) return true;
+    return false;
+  };
+
+  const bloodlessCanVisitCourt = () => {
+    if (!bloodlessGenealogyUnlocked()) return false;
+    const st = getBloodless();
+    const p = st.pending;
+    if (p && p.kind === 'family-entry' && p.target === 'last-family-court') return true;
+    if (bloodlessCoverageComplete(st) && st.visited.court) return true;
+    return false;
+  };
+
+  const bloodlessGenealogyEntryBtn = $('#bloodless-genealogy-entry-btn');
+  if (bloodlessGenealogyEntryBtn) {
+    bloodlessGenealogyEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseBloodlessEntry();
+    });
+  }
+  const bloodlessFamilyEntryBtn = $('#bloodless-family-entry-btn');
+  if (bloodlessFamilyEntryBtn) {
+    bloodlessFamilyEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseBloodlessFamilyEntry();
+    });
+  }
+  const bloodlessRootSpindleBtn = $('#bloodless-root-spindle');
+  if (bloodlessRootSpindleBtn) {
+    bloodlessRootSpindleBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseBloodlessRoot('spindle');
+    });
+  }
+  const bloodlessRootLoomBtn = $('#bloodless-root-loom');
+  if (bloodlessRootLoomBtn) {
+    bloodlessRootLoomBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseBloodlessRoot('loom');
+    });
+  }
+  const bloodlessRootNurseryBtn = $('#bloodless-root-nursery');
+  if (bloodlessRootNurseryBtn) {
+    bloodlessRootNurseryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseBloodlessRoot('nursery');
+    });
+  }
+  const bloodlessRootRoomBtn = $('#bloodless-root-room');
+  if (bloodlessRootRoomBtn) {
+    bloodlessRootRoomBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseBloodlessRoot('room');
+    });
+  }
+  const bloodlessBondAncestorBtn = $('#bloodless-bond-ancestor');
+  if (bloodlessBondAncestorBtn) {
+    bloodlessBondAncestorBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseBloodlessBond('ancestor');
+    });
+  }
+  const bloodlessBondTwinBtn = $('#bloodless-bond-twin');
+  if (bloodlessBondTwinBtn) {
+    bloodlessBondTwinBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseBloodlessBond('twin');
+    });
+  }
+  const bloodlessBondDescendantBtn = $('#bloodless-bond-descendant');
+  if (bloodlessBondDescendantBtn) {
+    bloodlessBondDescendantBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseBloodlessBond('descendant');
+    });
+  }
+  const bloodlessMemoryKeepBtn = $('#bloodless-memory-keep');
+  if (bloodlessMemoryKeepBtn) {
+    bloodlessMemoryKeepBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseBloodlessMemory('keep');
+    });
+  }
+  const bloodlessMemoryExchangeBtn = $('#bloodless-memory-exchange');
+  if (bloodlessMemoryExchangeBtn) {
+    bloodlessMemoryExchangeBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseBloodlessMemory('exchange');
+    });
+  }
+  const bloodlessMemoryReturnBtn = $('#bloodless-memory-return');
+  if (bloodlessMemoryReturnBtn) {
+    bloodlessMemoryReturnBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseBloodlessMemory('return');
+    });
+  }
+  const bloodlessFamilyBecomeAncestorBtn = $('#bloodless-family-become-ancestor');
+  if (bloodlessFamilyBecomeAncestorBtn) {
+    bloodlessFamilyBecomeAncestorBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseBloodlessFamilyAction('become-ancestor');
+    });
+  }
+  const bloodlessFamilyInheritYouBtn = $('#bloodless-family-inherit-you');
+  if (bloodlessFamilyInheritYouBtn) {
+    bloodlessFamilyInheritYouBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseBloodlessFamilyAction('inherit-you');
+    });
+  }
+  const bloodlessFamilyOrphanErasBtn = $('#bloodless-family-orphan-eras');
+  if (bloodlessFamilyOrphanErasBtn) {
+    bloodlessFamilyOrphanErasBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseBloodlessFamilyAction('orphan-eras');
+    });
+  }
+  const bloodlessKinReturnSpindleBtn = $('#bloodless-kin-return-spindle');
+  if (bloodlessKinReturnSpindleBtn) {
+    bloodlessKinReturnSpindleBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseBloodlessKinReturn('spindle');
+    });
+  }
+  const bloodlessKinReturnLoomBtn = $('#bloodless-kin-return-loom');
+  if (bloodlessKinReturnLoomBtn) {
+    bloodlessKinReturnLoomBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseBloodlessKinReturn('loom');
+    });
+  }
+  const bloodlessKinReturnNurseryBtn = $('#bloodless-kin-return-nursery');
+  if (bloodlessKinReturnNurseryBtn) {
+    bloodlessKinReturnNurseryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseBloodlessKinReturn('nursery');
+    });
+  }
+  const bloodlessKinReturnRoomBtn = $('#bloodless-kin-return-room');
+  if (bloodlessKinReturnRoomBtn) {
+    bloodlessKinReturnRoomBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseBloodlessKinReturn('room');
+    });
+  }
+
+  /* ============================================================
+     v68 世代借贷 / THE GENERATIONS BORROW AGAINST DEATH
+     ============================================================ */
+  const GENERATION_LOANS_KEY = 'goddead_v68_generation_loans';
+  const GENERATION_LOANS_VERSION = 68;
+  const ERAS = ['past', 'present', 'future'];
+  const COLLATERALS = ['years', 'death-date', 'funeral'];
+  const TERMS = ['childhood-interest', 'birth-payment', 'descendant-rollover'];
+  const FORECLOSURE_ACTIONS = ['seize-present', 'bankrupt-death', 'crown-funeral'];
+  const SCENE_FOR_ERA = { past: 'threshold', present: 'remembrance', future: 'unending-gallery' };
+  const GENERATION_LOAN_ENTRY_FEEDBACK = '三份家族结局同时翻到背面：亲属不再问谁生了谁，只问谁还能替谁偿还。';
+  const GENERATION_LOAN_FORECLOSURE_ENTRY_FEEDBACK = '三类世代、三类抵押与三类偿付已经覆盖账本。铁闸落下，所有亲属被同时列为抵押人。';
+  const GENERATION_LOAN_NOTICE_RETURN_FEEDBACK = '借据上的暗红手印忽然转向，逼你把未还部分带回信贷所。';
+
+  const ERA_TABLE = {
+    past: {
+      name: '逝代作保 · THE DEAD LEND FIRST',
+      feedback: '祖坟里先伸出一只签字的手。死者愿意借你东西，只因它们已经没有明天可扣。',
+      target: 'threshold',
+      story: '死去的亲属把尚未腐烂的那一段时间推过窗口。',
+    },
+    present: {
+      name: '同代共债 · THE LIVING BORROW SIDEWAYS',
+      feedback: '镜里的同代人没有抬头，只把与你同温的手印按进契据。',
+      target: 'remembrance',
+      story: '与你同时活着的亲属把自己的此刻折成两半，另一半记在你名下。',
+    },
+    future: {
+      name: '后世预支 · THE UNBORN PAY IN ADVANCE',
+      feedback: '空摇篮先欠下一声啼哭，尚未出生的人已经替你签了名字。',
+      target: 'unending-gallery',
+      story: '还没有出生的后世从未来寄回一份已经逾期的担保。',
+    },
+  };
+  const COLLATERAL_TABLE = {
+    years: {
+      name: '借走七年 · BORROW SEVEN YEARS',
+      feedback: '柜员从七枚没有刻度的骨环里，拣出属于别人的七年。',
+      balanceKey: 'years',
+      increment: 7,
+      story: '账本替你多写七年，却把墨从某个亲属的余生里刮走。',
+    },
+    'death-date': {
+      name: '借走死期 · BORROW THE DATE OF DEATH',
+      feedback: '黄铜转盘吐出一个没有数字的日期；从此它只知道要发生，却不知道何时。',
+      balanceKey: 'deathDates',
+      increment: 1,
+      story: '你借走一个准确的死亡年份，出借者从此只能不断临终。',
+    },
+    funeral: {
+      name: '借走葬礼 · BORROW AN UNHELD FUNERAL',
+      feedback: '空葬台先收下一束不存在的悼花，把尚未发生的送别折进契据。',
+      balanceKey: 'funerals',
+      increment: 1,
+      story: '一场尚未举行的葬礼提前成为抵押物，棺盖下仍没有死者。',
+    },
+  };
+  const TERM_TABLE = {
+    'childhood-interest': {
+      name: '童年付息 · INTEREST PAID IN CHILDHOOD',
+      feedback: '清算机先从每个借款人的童年里削下一小块，利息因此比本金更早出生。',
+      story: '利息从童年按月扣除；长大以后，借款人只记得自己曾经欠过快乐。',
+    },
+    'birth-payment': {
+      name: '出生即偿 · REPAID AT BIRTH',
+      feedback: '产椅上的影子先老去，婴儿还没睁眼，第一期债已经到期。',
+      story: '偿付发生在出生那一刻；新生者第一次呼吸时，肺里已经有一声临终叹息。',
+    },
+    'descendant-rollover': {
+      name: '债传后代 · ROLLED INTO DESCENDANTS',
+      feedback: '暗红链条越过尚未写下的名字，把欠款传给更晚的一代。',
+      story: '本金被滚入后代；家谱从此不是血缘证明，而是一串永不归零的账目。',
+    },
+  };
+  const FORECLOSURE_TABLE = {
+    'seize-present': {
+      name: '收走当下 · REPOSSESS THE PRESENT',
+      outcome: 'the-present-was-repossessed',
+      target: 'threshold',
+      feedback: '止赎官把正在发生的这一秒贴上封条。门外仍有人敲门，但「现在」已经不再属于来访者。',
+    },
+    'bankrupt-death': {
+      name: '让死亡破产 · BANKRUPT DEATH',
+      outcome: 'death-declared-bankruptcy',
+      target: 'remembrance',
+      feedback: '所有死期同时申请无力清偿。死亡失去信用，只能一遍遍发生，却再也不能结清任何生命。',
+    },
+    'crown-funeral': {
+      name: '让葬礼继承家族 · LET THE FUNERAL INHERIT THE FAMILY',
+      outcome: 'the-funeral-inherited-the-family',
+      target: 'unending-gallery',
+      feedback: '没有死者的葬礼戴上家族冠冕。此后每一代都只是它暂时还活着的亲属。',
+    },
+  };
+
+  const GENERATION_LOAN_IDS = (() => {
+    const ids = [];
+    for (const e of ERAS) {
+      for (const c of COLLATERALS) {
+        for (const t of TERMS) {
+          ids.push(`${e}:${c}:${t}`);
+        }
+      }
+    }
+    return ids;
+  })();
+  const GENERATION_LOAN_SET = new Set(GENERATION_LOAN_IDS);
+  const FORECLOSURE_OUTCOME_IDS = FORECLOSURE_ACTIONS.map((a) => FORECLOSURE_TABLE[a].outcome);
+  const FORECLOSURE_OUTCOME_SET = new Set(FORECLOSURE_OUTCOME_IDS);
+  const BLOODLESS_REQUIRED_FOR_LOANS = {
+    roots: ['spindle', 'loom', 'nursery', 'room'],
+    bonds: ['ancestor', 'twin', 'descendant'],
+    memories: ['keep', 'exchange', 'return'],
+    familyOutcomes: ['you-became-common-ancestor', 'descendants-inherited-you', 'every-era-became-an-orphan'],
+  };
+
+  const defaultGenerationLoans = () => ({
+    version: GENERATION_LOANS_VERSION,
+    visited: { office: false, vault: false, clearing: false, foreclosure: false },
+    draft: { era: '', collateral: '' },
+    loans: [],
+    foreclosureOutcomes: [],
+    loanRuns: 0,
+    foreclosureRuns: 0,
+    balances: { years: 0, deathDates: 0, funerals: 0 },
+    lastOutcome: '',
+    activeNotice: null,
+    pending: null,
+  });
+
+  const normalizeGenerationLoansVisited = (visited) => {
+    const v = visited && typeof visited === 'object' && !Array.isArray(visited) ? visited : {};
+    return {
+      office: v.office === true,
+      vault: v.vault === true,
+      clearing: v.clearing === true,
+      foreclosure: v.foreclosure === true,
+    };
+  };
+
+  const normalizeGenerationLoansDraft = (draft) => {
+    const d = draft && typeof draft === 'object' && !Array.isArray(draft) ? draft : {};
+    let era = typeof d.era === 'string' ? d.era : '';
+    let collateral = typeof d.collateral === 'string' ? d.collateral : '';
+    if (!ERAS.includes(era)) {
+      era = '';
+      collateral = '';
+    }
+    if (collateral !== '' && !COLLATERALS.includes(collateral)) {
+      collateral = '';
+    }
+    if (era === '') {
+      collateral = '';
+    }
+    if (collateral !== '' && era === '') {
+      collateral = '';
+    }
+    return { era, collateral };
+  };
+
+  const normalizeGenerationLoansLoans = (loans) => {
+    const arr = Array.isArray(loans) ? loans : [];
+    const seen = new Set();
+    const out = [];
+    for (const id of GENERATION_LOAN_IDS) {
+      if (arr.includes(id) && !seen.has(id)) {
+        out.push(id);
+        seen.add(id);
+      }
+    }
+    return out;
+  };
+
+  const normalizeForeclosureOutcomes = (arr) => {
+    const input = Array.isArray(arr) ? arr : [];
+    const set = new Set(input);
+    return FORECLOSURE_ACTIONS.map((a) => FORECLOSURE_TABLE[a].outcome).filter((o) => set.has(o));
+  };
+
+  const normalizeGenerationLoansBalances = (balances) => {
+    const b = balances && typeof balances === 'object' && !Array.isArray(balances) ? balances : {};
+    const clamp = (n) => Math.min(9999, Math.max(0, Math.floor(Number(n) || 0)));
+    return {
+      years: clamp(b.years),
+      deathDates: clamp(b.deathDates),
+      funerals: clamp(b.funerals),
+    };
+  };
+
+  const normalizeActiveNotice = (notice, loans) => {
+    if (!notice || typeof notice !== 'object' || Array.isArray(notice)) return null;
+    if (Object.keys(notice).sort().join(',') !== 'era,feedback,loan') return null;
+    if (!ERAS.includes(notice.era)) return null;
+    if (!GENERATION_LOAN_SET.has(notice.loan) || !loans.includes(notice.loan)) return null;
+    const parts = notice.loan.split(':');
+    if (parts.length !== 3 || parts[0] !== notice.era) return null;
+    const fb = computeLoanFeedback(parts[0], parts[1], parts[2]);
+    if (notice.feedback !== fb) return null;
+    return { era: notice.era, loan: notice.loan, feedback: fb };
+  };
+
+  const normalizeGenerationLoansPending = (p, st) => {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || !p.kind) return null;
+    const keys = Object.keys(p).sort().join(',');
+    const unlocked = st._v68unlocked === true;
+
+    if (p.kind === 'entry' && keys === 'feedback,kind,target') {
+      if (unlocked && p.target === 'generational-credit-office' && p.feedback === GENERATION_LOAN_ENTRY_FEEDBACK) {
+        return { kind: 'entry', target: 'generational-credit-office', feedback: p.feedback };
+      }
+    }
+    if (p.kind === 'era' && keys === 'era,feedback,kind,source,target') {
+      if (!unlocked) return null;
+      if (p.source !== 'generational-credit-office' || p.target !== 'lifetime-pawn-vault') return null;
+      if (!ERAS.includes(p.era)) return null;
+      const table = ERA_TABLE[p.era];
+      if (!table || p.feedback !== table.feedback) return null;
+      if (st.draft.era !== '' || st.draft.collateral !== '') return null;
+      return { kind: 'era', source: 'generational-credit-office', era: p.era, target: 'lifetime-pawn-vault', feedback: p.feedback };
+    }
+    if (p.kind === 'collateral' && keys === 'collateral,era,feedback,kind,source,target') {
+      if (!unlocked) return null;
+      if (p.source !== 'lifetime-pawn-vault' || p.target !== 'mortality-clearing-house') return null;
+      if (!ERAS.includes(p.era) || !COLLATERALS.includes(p.collateral)) return null;
+      if (p.era !== st.draft.era) return null;
+      const table = COLLATERAL_TABLE[p.collateral];
+      if (!table || p.feedback !== table.feedback) return null;
+      return { kind: 'collateral', source: 'lifetime-pawn-vault', era: p.era, collateral: p.collateral, target: 'mortality-clearing-house', feedback: p.feedback };
+    }
+    if (p.kind === 'loan' && keys === 'collateral,era,feedback,kind,outcome,source,target,term') {
+      if (!unlocked) return null;
+      if (p.source !== 'mortality-clearing-house') return null;
+      if (!ERAS.includes(p.era) || !COLLATERALS.includes(p.collateral) || !TERMS.includes(p.term)) return null;
+      const loanId = computeLoanId(p.era, p.collateral, p.term);
+      if (p.outcome !== loanId) return null;
+      const fb = computeLoanFeedback(p.era, p.collateral, p.term);
+      if (p.feedback !== fb) return null;
+      if (st.draft.era !== p.era || st.draft.collateral !== p.collateral) return null;
+      const target = SCENE_FOR_ERA[p.era];
+      if (p.target !== target) return null;
+      return { kind: 'loan', source: 'mortality-clearing-house', era: p.era, collateral: p.collateral, term: p.term, outcome: loanId, target, feedback: fb };
+    }
+    if (p.kind === 'notice-return' && keys === 'feedback,from,kind,loan,target') {
+      if (!unlocked) return null;
+      if (!Object.values(SCENE_FOR_ERA).includes(p.from) || p.target !== 'generational-credit-office') return null;
+      const notice = st.activeNotice;
+      if (!notice || SCENE_FOR_ERA[notice.era] !== p.from || notice.loan !== p.loan) return null;
+      const parts = notice.loan.split(':');
+      if (parts.length !== 3 || parts[0] !== notice.era) return null;
+      if (notice.feedback !== computeLoanFeedback(parts[0], parts[1], parts[2])) return null;
+      if (p.feedback !== GENERATION_LOAN_NOTICE_RETURN_FEEDBACK) return null;
+      return { kind: 'notice-return', from: p.from, target: 'generational-credit-office', loan: p.loan, feedback: p.feedback };
+    }
+    if (p.kind === 'foreclosure-entry' && keys === 'feedback,kind,target') {
+      if (!unlocked) return null;
+      if (p.target !== 'age-foreclosure-court' || p.feedback !== GENERATION_LOAN_FORECLOSURE_ENTRY_FEEDBACK) return null;
+      if (!generationCoverageComplete(st)) return null;
+      return { kind: 'foreclosure-entry', target: 'age-foreclosure-court', feedback: p.feedback };
+    }
+    if (p.kind === 'foreclosure' && keys === 'action,feedback,kind,outcome,source,target') {
+      if (!unlocked) return null;
+      if (!generationCoverageComplete(st)) return null;
+      if (!st.visited.foreclosure) return null;
+      if (p.source !== 'age-foreclosure-court') return null;
+      if (!FORECLOSURE_ACTIONS.includes(p.action)) return null;
+      const table = FORECLOSURE_TABLE[p.action];
+      if (!table || p.outcome !== table.outcome || p.target !== table.target || p.feedback !== table.feedback) return null;
+      return { kind: 'foreclosure', source: 'age-foreclosure-court', action: p.action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    }
+    return null;
+  };
+
+  const saveGenerationLoans = (st) => {
+    const visited = normalizeGenerationLoansVisited(st.visited);
+    const draft = normalizeGenerationLoansDraft(st.draft);
+    const loans = normalizeGenerationLoansLoans(st.loans);
+    const foreclosureOutcomes = normalizeForeclosureOutcomes(st.foreclosureOutcomes);
+    const loanRuns = Math.min(9999, Math.max(0, Math.floor(Number(st.loanRuns) || 0)));
+    const foreclosureRuns = Math.min(9999, Math.max(0, Math.floor(Number(st.foreclosureRuns) || 0)));
+    const balances = normalizeGenerationLoansBalances(st.balances);
+    const validLast = new Set([...loans, ...foreclosureOutcomes]);
+    const lastOutcome = validLast.has(st.lastOutcome) ? st.lastOutcome : '';
+    const activeNotice = normalizeActiveNotice(st.activeNotice, loans);
+    const pendingState = {
+      version: GENERATION_LOANS_VERSION,
+      visited,
+      draft,
+      loans,
+      foreclosureOutcomes,
+      loanRuns,
+      foreclosureRuns,
+      balances,
+      lastOutcome,
+      activeNotice,
+      pending: null,
+      _v68unlocked: generationLoansUnlocked(),
+    };
+    const pending = normalizeGenerationLoansPending(st.pending, pendingState);
+    store.set(
+      GENERATION_LOANS_KEY,
+      JSON.stringify({
+        version: GENERATION_LOANS_VERSION,
+        visited,
+        draft,
+        loans,
+        foreclosureOutcomes,
+        loanRuns,
+        foreclosureRuns,
+        balances,
+        lastOutcome,
+        activeNotice,
+        pending,
+      })
+    );
+  };
+
+  const getGenerationLoans = () => {
+    let raw = {};
+    try { raw = JSON.parse(store.get(GENERATION_LOANS_KEY, '{}')) || {}; } catch { raw = {}; }
+    if (typeof raw !== 'object' || raw === null || Array.isArray(raw) || raw.version !== GENERATION_LOANS_VERSION) {
+      return defaultGenerationLoans();
+    }
+    const st = defaultGenerationLoans();
+    st.visited = normalizeGenerationLoansVisited(raw.visited);
+    st.draft = normalizeGenerationLoansDraft(raw.draft);
+    st.loans = normalizeGenerationLoansLoans(raw.loans);
+    st.foreclosureOutcomes = normalizeForeclosureOutcomes(raw.foreclosureOutcomes);
+    st.loanRuns = Math.min(9999, Math.max(0, Math.floor(Number(raw.loanRuns) || 0)));
+    st.foreclosureRuns = Math.min(9999, Math.max(0, Math.floor(Number(raw.foreclosureRuns) || 0)));
+    st.balances = normalizeGenerationLoansBalances(raw.balances);
+    const validLast = new Set([...st.loans, ...st.foreclosureOutcomes]);
+    st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : '';
+    st.activeNotice = normalizeActiveNotice(raw.activeNotice, st.loans);
+    const normSt = Object.assign({}, st, { _v68unlocked: generationLoansUnlocked() });
+    st.pending = normalizeGenerationLoansPending(raw.pending, normSt);
+    return st;
+  };
+
+  const generationLoansUnlocked = () => {
+    if (!bloodlessGenealogyUnlocked()) return false;
+    const bl = getBloodless();
+    if (!bl || !Array.isArray(bl.records) || !Array.isArray(bl.familyOutcomes)) return false;
+    const roots = new Set();
+    const bonds = new Set();
+    const memories = new Set();
+    for (const id of bl.records) {
+      const parts = String(id).split(':');
+      if (parts.length !== 3) continue;
+      roots.add(parts[0]);
+      bonds.add(parts[1]);
+      memories.add(parts[2]);
+    }
+    for (const r of BLOODLESS_REQUIRED_FOR_LOANS.roots) if (!roots.has(r)) return false;
+    for (const b of BLOODLESS_REQUIRED_FOR_LOANS.bonds) if (!bonds.has(b)) return false;
+    for (const m of BLOODLESS_REQUIRED_FOR_LOANS.memories) if (!memories.has(m)) return false;
+    for (const o of BLOODLESS_REQUIRED_FOR_LOANS.familyOutcomes) {
+      if (!bl.familyOutcomes.includes(o)) return false;
+    }
+    return true;
+  };
+
+  const generationCoverageComplete = (st) => {
+    const state = st || getGenerationLoans();
+    if (state.loans.length < 3) return false;
+    const eras = new Set();
+    const collaterals = new Set();
+    const terms = new Set();
+    for (const id of state.loans) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      eras.add(parts[0]);
+      collaterals.add(parts[1]);
+      terms.add(parts[2]);
+    }
+    return eras.size === 3 && collaterals.size === 3 && terms.size === 3;
+  };
+
+  const computeLoanId = (era, collateral, term) => {
+    if (!ERAS.includes(era) || !COLLATERALS.includes(collateral) || !TERMS.includes(term)) return '';
+    return `${era}:${collateral}:${term}`;
+  };
+
+  const computeLoanTitle = (era, collateral, term) => {
+    const eraNames = { past: '逝代', present: '同代', future: '后世' };
+    const collateralNames = { years: '七年', 'death-date': '死期', funeral: '葬礼' };
+    const termNames = { 'childhood-interest': '童年付息', 'birth-payment': '出生即偿', 'descendant-rollover': '债传后代' };
+    if (!eraNames[era] || !collateralNames[collateral] || !termNames[term]) return '';
+    return `${eraNames[era]} · ${collateralNames[collateral]} · ${termNames[term]}`;
+  };
+
+  const computeLoanFeedback = (era, collateral, term) => {
+    const e = ERA_TABLE[era];
+    const c = COLLATERAL_TABLE[collateral];
+    const t = TERM_TABLE[term];
+    if (!e || !c || !t) return '';
+    return `${e.story} ${c.story} ${t.story}`;
+  };
+
+  const findLoanById = (id) => {
+    if (!GENERATION_LOAN_SET.has(id)) return null;
+    const parts = id.split(':');
+    if (parts.length !== 3) return null;
+    return {
+      id,
+      era: parts[0],
+      collateral: parts[1],
+      term: parts[2],
+      title: computeLoanTitle(parts[0], parts[1], parts[2]),
+      feedback: computeLoanFeedback(parts[0], parts[1], parts[2]),
+    };
+  };
+
+  const computeForeclosureOutcomeId = (action) => {
+    const table = FORECLOSURE_TABLE[action];
+    return table ? table.outcome : '';
+  };
+
+  const generationLoansDelay = () => reduced ? 300 : 900 + Math.floor(Math.random() * 300);
+
+  const generationLoansBeforeArrive = (pending) => {
+    const st = getGenerationLoans();
+    if (!st.pending || !pending) return;
+    if (st.pending.kind !== pending.kind) return;
+    const p = st.pending;
+    if (p.kind === 'entry') {
+      st.visited.office = true;
+    } else if (p.kind === 'era') {
+      st.visited.vault = true;
+      st.draft.era = p.era;
+      st.draft.collateral = '';
+    } else if (p.kind === 'collateral') {
+      st.visited.clearing = true;
+      st.draft.collateral = p.collateral;
+    } else if (p.kind === 'loan') {
+      const loanId = computeLoanId(p.era, p.collateral, p.term);
+      if (!st.loans.includes(loanId)) st.loans.push(loanId);
+      st.loans = normalizeGenerationLoansLoans(st.loans);
+      st.loanRuns += 1;
+      const collateralTable = COLLATERAL_TABLE[p.collateral];
+      if (collateralTable) {
+        st.balances[collateralTable.balanceKey] = Math.min(9999, Math.max(0, Math.floor(st.balances[collateralTable.balanceKey] || 0) + collateralTable.increment));
+      }
+      st.lastOutcome = loanId;
+      st.activeNotice = { era: p.era, loan: loanId, feedback: computeLoanFeedback(p.era, p.collateral, p.term) };
+      st.draft = { era: '', collateral: '' };
+    } else if (p.kind === 'notice-return') {
+      st.activeNotice = null;
+      st.draft = { era: '', collateral: '' };
+    } else if (p.kind === 'foreclosure-entry') {
+      st.visited.foreclosure = true;
+    } else if (p.kind === 'foreclosure') {
+      const outcome = computeForeclosureOutcomeId(p.action);
+      if (outcome && !st.foreclosureOutcomes.includes(outcome)) st.foreclosureOutcomes.push(outcome);
+      st.foreclosureOutcomes = normalizeForeclosureOutcomes(st.foreclosureOutcomes);
+      st.foreclosureRuns += 1;
+      st.lastOutcome = outcome;
+    }
+    st.pending = null;
+    saveGenerationLoans(st);
+  };
+
+  const resolveGenerationLoansPendingOnArrival = (name) => {
+    const st = getGenerationLoans();
+    const p = st.pending;
+    if (p && p.target === name) generationLoansBeforeArrive(p);
+  };
+
+  const lockGenerationLoansEraButtons = (pressedEra) => {
+    ERAS.forEach((e) => {
+      const btn = $(`#generation-loans-era-${e}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(e === pressedEra));
+    });
+  };
+
+  const lockGenerationLoansCollateralButtons = (pressedCollateral) => {
+    COLLATERALS.forEach((c) => {
+      const btn = $(`#generation-loans-collateral-${c}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(c === pressedCollateral));
+    });
+  };
+
+  const lockGenerationLoansTermButtons = (pressedTerm) => {
+    TERMS.forEach((t) => {
+      const btn = $(`#generation-loans-term-${t}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(t === pressedTerm));
+    });
+  };
+
+  const lockGenerationLoansForeclosureButtons = (pressedAction) => {
+    FORECLOSURE_ACTIONS.forEach((a) => {
+      const btn = $(`#generation-loans-foreclosure-${a}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(a === pressedAction));
+    });
+  };
+
+  const syncGenerationLoansOffice = () => {
+    const figure = $('#generation-loans-office-figure');
+    const unlocked = generationLoansUnlocked();
+    if (figure) figure.hidden = !unlocked;
+    if (!unlocked) return;
+    const st = getGenerationLoans();
+    const pending = st.pending;
+    const response = $('#generation-loans-office-response');
+    ERAS.forEach((e) => {
+      const btn = $(`#generation-loans-era-${e}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'era' && pending.era === e);
+      btn.disabled = isPending || !!pending;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'era') ? pending.feedback : '';
+  };
+
+  const syncGenerationLoansVault = () => {
+    const figure = $('#generation-loans-vault-figure');
+    const st = getGenerationLoans();
+    const unlocked = generationLoansUnlocked();
+    const hasDraft = unlocked && ERAS.includes(st.draft.era);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const response = $('#generation-loans-vault-response');
+    COLLATERALS.forEach((c) => {
+      const btn = $(`#generation-loans-collateral-${c}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'collateral' && pending.collateral === c);
+      btn.disabled = isPending || !!pending;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'collateral') ? pending.feedback : '';
+  };
+
+  const syncGenerationLoansClearing = () => {
+    const figure = $('#generation-loans-clearing-figure');
+    const st = getGenerationLoans();
+    const unlocked = generationLoansUnlocked();
+    const hasDraft = unlocked && ERAS.includes(st.draft.era) && COLLATERALS.includes(st.draft.collateral);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const response = $('#generation-loans-clearing-response');
+    TERMS.forEach((t) => {
+      const btn = $(`#generation-loans-term-${t}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'loan' && pending.term === t);
+      btn.disabled = isPending || !!pending;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'loan') ? pending.feedback : '';
+  };
+
+  const syncGenerationLoansForeclosure = () => {
+    const figure = $('#generation-loans-foreclosure-figure');
+    const st = getGenerationLoans();
+    const open = generationLoansUnlocked() && generationCoverageComplete(st) && st.visited.foreclosure;
+    if (figure) figure.hidden = !open;
+    if (!open) return;
+    const pending = st.pending;
+    const response = $('#generation-loans-foreclosure-response');
+    FORECLOSURE_ACTIONS.forEach((a) => {
+      const btn = $(`#generation-loans-foreclosure-${a}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'foreclosure' && pending.action === a);
+      btn.disabled = isPending || !!pending;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'foreclosure') ? pending.feedback : '';
+  };
+
+  const syncGenerationLoansNotices = () => {
+    const st = getGenerationLoans();
+    const unlocked = generationLoansUnlocked();
+    Object.values(SCENE_FOR_ERA).forEach((scene) => {
+      const container = $(`#generation-loans-notice-${scene}`);
+      if (!container) return;
+      const active = unlocked && st.activeNotice && SCENE_FOR_ERA[st.activeNotice.era] === scene;
+      container.hidden = !active;
+      if (active) paintGenerationLoansNotice(scene);
+    });
+  };
+
+  const paintGenerationLoansNotice = (scene) => {
+    const st = getGenerationLoans();
+    const notice = st.activeNotice;
+    const response = $(`#generation-loans-notice-response-${scene}`);
+    const btn = $(`#generation-loans-notice-return-${scene}`);
+    if (response) response.textContent = (notice && SCENE_FOR_ERA[notice.era] === scene) ? notice.feedback : '';
+    if (btn) {
+      const available = !!notice && SCENE_FOR_ERA[notice.era] === scene && currentScene === scene && !st.pending && !AutoAdvance.has(scene);
+      btn.disabled = !available;
+      btn.setAttribute('aria-pressed', 'false');
+    }
+  };
+
+  const paintGenerationLoansMemory = () => {
+    const memory = $('#generation-loans-memory');
+    if (!memory) return;
+    const st = getGenerationLoans();
+    const unlocked = generationLoansUnlocked();
+    if (!unlocked) {
+      memory.hidden = true;
+      return;
+    }
+    const counts = { era: {}, collateral: {}, term: {} };
+    for (const id of st.loans) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      counts.era[parts[0]] = (counts.era[parts[0]] || 0) + 1;
+      counts.collateral[parts[1]] = (counts.collateral[parts[1]] || 0) + 1;
+      counts.term[parts[2]] = (counts.term[parts[2]] || 0) + 1;
+    }
+    const get = (map, key) => map[key] || 0;
+    memory.textContent = `世代借贷：已立 ${st.loans.length}/27 份契据，共运行 ${st.loanRuns} 轮；出借 逝代 ${get(counts.era, 'past')} / 同代 ${get(counts.era, 'present')} / 后世 ${get(counts.era, 'future')}；抵押 七年 ${get(counts.collateral, 'years')} / 死期 ${get(counts.collateral, 'death-date')} / 葬礼 ${get(counts.collateral, 'funeral')}；偿付 童年 ${get(counts.term, 'childhood-interest')} / 出生 ${get(counts.term, 'birth-payment')} / 后代 ${get(counts.term, 'descendant-rollover')}；账面 七年 ${st.balances.years} / 死期 ${st.balances.deathDates} / 葬礼 ${st.balances.funerals}；止赎 ${st.foreclosureOutcomes.length}/3。`;
+    memory.hidden = false;
+  };
+
+  const paintGenerationLoansCodex = () => {
+    const box = $('#generation-loans-codex');
+    const grid = $('#generation-loans-codex-grid');
+    const entry = $('#generation-loans-codex-entry');
+    if (!box || !grid) return;
+    const st = getGenerationLoans();
+    const unlocked = generationLoansUnlocked();
+    if (!unlocked) {
+      box.hidden = true;
+      if (entry) entry.hidden = true;
+      return;
+    }
+    box.removeAttribute('hidden');
+    grid.innerHTML = '';
+    for (const id of GENERATION_LOAN_IDS) {
+      const unlocked = st.loans.includes(id);
+      const cell = document.createElement('div');
+      cell.className = 'generation-loans-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const loan = findLoanById(id);
+        cell.innerHTML = `<b>${loan.title}</b><span>${loan.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    for (const action of FORECLOSURE_ACTIONS) {
+      const outcome = FORECLOSURE_TABLE[action].outcome;
+      const unlocked = st.foreclosureOutcomes.includes(outcome);
+      const cell = document.createElement('div');
+      cell.className = 'generation-loans-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const table = FORECLOSURE_TABLE[action];
+        cell.innerHTML = `<b>${table.name}</b><span>${table.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    if (entry) entry.removeAttribute('hidden');
+  };
+
+  const syncGenerationLoansRemembrance = () => {
+    paintGenerationLoansMemory();
+    paintGenerationLoansCodex();
+    const st = getGenerationLoans();
+    const unlocked = generationLoansUnlocked();
+    const coverage = generationCoverageComplete(st);
+    const entryBtn = $('#generation-loans-entry-btn');
+    if (entryBtn) {
+      entryBtn.hidden = !(currentScene === 'remembrance' && unlocked);
+      entryBtn.disabled = !(!st.pending && currentScene === 'remembrance' && unlocked);
+    }
+    const foreclosureBtn = $('#generation-loans-foreclosure-entry-btn');
+    if (foreclosureBtn) {
+      foreclosureBtn.hidden = !(currentScene === 'remembrance' && unlocked && coverage);
+      foreclosureBtn.disabled = !(!st.pending && currentScene === 'remembrance' && unlocked && coverage);
+    }
+  };
+
+  const syncGenerationLoansLinks = () => {
+    const st = getGenerationLoans();
+    const unlocked = generationLoansUnlocked();
+    const map = {
+      'generation-loans-office-link': unlocked && st.visited.office,
+      'generation-loans-vault-link': unlocked && st.visited.vault,
+      'generation-loans-clearing-link': unlocked && st.visited.clearing,
+      'generation-loans-foreclosure-link': unlocked && st.visited.foreclosure,
+    };
+    for (const [id, show] of Object.entries(map)) {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !show;
+    }
+  };
+
+  const replayGenerationLoansPending = (sceneName) => {
+    const st = getGenerationLoans();
+    const p = st.pending;
+    if (!p) {
+      syncGenerationLoansOffice();
+      syncGenerationLoansVault();
+      syncGenerationLoansClearing();
+      syncGenerationLoansForeclosure();
+      syncGenerationLoansNotices();
+      return;
+    }
+    if (sceneName === p.target) {
+      generationLoansBeforeArrive(p);
+      syncGenerationLoansOffice();
+      syncGenerationLoansVault();
+      syncGenerationLoansClearing();
+      syncGenerationLoansForeclosure();
+      syncGenerationLoansNotices();
+      if (sceneName === 'remembrance') syncGenerationLoansRemembrance();
+      return;
+    }
+    const schedule = (source) => AutoAdvance.schedule(source, p.target, { delay: generationLoansDelay(), before: () => generationLoansBeforeArrive(p) });
+
+    if (p.kind === 'entry' && sceneName === 'remembrance') {
+      const btn = $('#generation-loans-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#generation-loans-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'era' && sceneName === 'generational-credit-office') {
+      const response = $('#generation-loans-office-response');
+      if (response) response.textContent = p.feedback;
+      lockGenerationLoansEraButtons(p.era);
+      schedule('generational-credit-office');
+    } else if (p.kind === 'collateral' && sceneName === 'lifetime-pawn-vault') {
+      const response = $('#generation-loans-vault-response');
+      if (response) response.textContent = p.feedback;
+      lockGenerationLoansCollateralButtons(p.collateral);
+      schedule('lifetime-pawn-vault');
+    } else if (p.kind === 'loan' && sceneName === 'mortality-clearing-house') {
+      const response = $('#generation-loans-clearing-response');
+      if (response) response.textContent = p.feedback;
+      lockGenerationLoansTermButtons(p.term);
+      schedule('mortality-clearing-house');
+    } else if (p.kind === 'notice-return' && sceneName === p.from) {
+      const container = $(`#generation-loans-notice-${p.from}`);
+      if (container) container.hidden = false;
+      const response = $(`#generation-loans-notice-response-${p.from}`);
+      if (response) response.textContent = p.feedback;
+      const btn = $(`#generation-loans-notice-return-${p.from}`);
+      if (btn) {
+        btn.disabled = true;
+        btn.setAttribute('aria-pressed', 'true');
+      }
+      schedule(p.from);
+    } else if (p.kind === 'foreclosure-entry' && sceneName === 'remembrance') {
+      const btn = $('#generation-loans-foreclosure-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#generation-loans-foreclosure-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'foreclosure' && sceneName === 'age-foreclosure-court') {
+      const response = $('#generation-loans-foreclosure-response');
+      if (response) response.textContent = p.feedback;
+      lockGenerationLoansForeclosureButtons(p.action);
+      schedule('age-foreclosure-court');
+    } else {
+      st.pending = null;
+      saveGenerationLoans(st);
+    }
+  };
+
+  const chooseGenerationLoansEra = (era) => {
+    if (currentScene !== 'generational-credit-office') return;
+    if (AutoAdvance.has('generational-credit-office')) return;
+    if (!ERAS.includes(era)) return;
+    if (!buttonAvailable(`generation-loans-era-${era}`)) return;
+    const st = getGenerationLoans();
+    if (st.pending) return;
+    const table = ERA_TABLE[era];
+    if (!table) return;
+    st.activeNotice = null;
+    st.draft = { era: '', collateral: '' };
+    const pending = { kind: 'era', source: 'generational-credit-office', era, target: 'lifetime-pawn-vault', feedback: table.feedback };
+    st.pending = pending;
+    saveGenerationLoans(st);
+    lockGenerationLoansEraButtons(era);
+    const response = $('#generation-loans-office-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('generational-credit-office', 'lifetime-pawn-vault', { delay: generationLoansDelay(), before: () => generationLoansBeforeArrive(pending) });
+  };
+
+  const chooseGenerationLoansCollateral = (collateral) => {
+    if (currentScene !== 'lifetime-pawn-vault') return;
+    if (AutoAdvance.has('lifetime-pawn-vault')) return;
+    if (!COLLATERALS.includes(collateral)) return;
+    if (!buttonAvailable(`generation-loans-collateral-${collateral}`)) return;
+    const st = getGenerationLoans();
+    if (st.pending) return;
+    if (!ERAS.includes(st.draft.era) || st.draft.collateral !== '') return;
+    const table = COLLATERAL_TABLE[collateral];
+    if (!table) return;
+    const pending = { kind: 'collateral', source: 'lifetime-pawn-vault', era: st.draft.era, collateral, target: 'mortality-clearing-house', feedback: table.feedback };
+    st.pending = pending;
+    saveGenerationLoans(st);
+    lockGenerationLoansCollateralButtons(collateral);
+    const response = $('#generation-loans-vault-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('lifetime-pawn-vault', 'mortality-clearing-house', { delay: generationLoansDelay(), before: () => generationLoansBeforeArrive(pending) });
+  };
+
+  const chooseGenerationLoansTerm = (term) => {
+    if (currentScene !== 'mortality-clearing-house') return;
+    if (AutoAdvance.has('mortality-clearing-house')) return;
+    if (!TERMS.includes(term)) return;
+    if (!buttonAvailable(`generation-loans-term-${term}`)) return;
+    const st = getGenerationLoans();
+    if (st.pending) return;
+    const e = st.draft.era;
+    const c = st.draft.collateral;
+    if (!ERAS.includes(e) || !COLLATERALS.includes(c)) return;
+    const feedback = computeLoanFeedback(e, c, term);
+    const outcome = computeLoanId(e, c, term);
+    const target = SCENE_FOR_ERA[e];
+    const pending = { kind: 'loan', source: 'mortality-clearing-house', era: e, collateral: c, term, outcome, target, feedback };
+    st.pending = pending;
+    saveGenerationLoans(st);
+    lockGenerationLoansTermButtons(term);
+    const response = $('#generation-loans-clearing-response');
+    if (response) response.textContent = feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('mortality-clearing-house', target, { delay: generationLoansDelay(), before: () => generationLoansBeforeArrive(pending) });
+  };
+
+  const chooseGenerationLoansNoticeReturn = (scene) => {
+    if (currentScene !== scene) return;
+    if (AutoAdvance.has(scene)) return;
+    if (!Object.values(SCENE_FOR_ERA).includes(scene)) return;
+    if (!buttonAvailable(`generation-loans-notice-return-${scene}`)) return;
+    const st = getGenerationLoans();
+    if (st.pending) return;
+    const notice = st.activeNotice;
+    if (!notice || SCENE_FOR_ERA[notice.era] !== scene) return;
+    const pending = { kind: 'notice-return', from: scene, target: 'generational-credit-office', loan: notice.loan, feedback: GENERATION_LOAN_NOTICE_RETURN_FEEDBACK };
+    st.pending = pending;
+    saveGenerationLoans(st);
+    const btn = $(`#generation-loans-notice-return-${scene}`);
+    if (btn) {
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', 'true');
+    }
+    const response = $(`#generation-loans-notice-response-${scene}`);
+    if (response) response.textContent = GENERATION_LOAN_NOTICE_RETURN_FEEDBACK;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule(scene, 'generational-credit-office', { delay: generationLoansDelay(), before: () => generationLoansBeforeArrive(pending) });
+  };
+
+  const chooseGenerationLoansEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('generation-loans-entry-btn')) return;
+    if (!generationLoansUnlocked()) return;
+    const st = getGenerationLoans();
+    if (st.pending) return;
+    st.activeNotice = null;
+    st.draft = { era: '', collateral: '' };
+    const pending = { kind: 'entry', target: 'generational-credit-office', feedback: GENERATION_LOAN_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveGenerationLoans(st);
+    const btn = $('#generation-loans-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#generation-loans-entry-response');
+    if (response) response.textContent = GENERATION_LOAN_ENTRY_FEEDBACK;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('remembrance', 'generational-credit-office', { delay: generationLoansDelay(), before: () => generationLoansBeforeArrive(pending) });
+  };
+
+  const chooseGenerationLoansForeclosureEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('generation-loans-foreclosure-entry-btn')) return;
+    const st = getGenerationLoans();
+    if (st.pending) return;
+    if (!generationCoverageComplete(st)) return;
+    const pending = { kind: 'foreclosure-entry', target: 'age-foreclosure-court', feedback: GENERATION_LOAN_FORECLOSURE_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveGenerationLoans(st);
+    const btn = $('#generation-loans-foreclosure-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#generation-loans-foreclosure-entry-response');
+    if (response) response.textContent = GENERATION_LOAN_FORECLOSURE_ENTRY_FEEDBACK;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('remembrance', 'age-foreclosure-court', { delay: generationLoansDelay(), before: () => generationLoansBeforeArrive(pending) });
+  };
+
+  const chooseGenerationLoansForeclosureAction = (action) => {
+    if (currentScene !== 'age-foreclosure-court') return;
+    if (AutoAdvance.has('age-foreclosure-court')) return;
+    if (!FORECLOSURE_ACTIONS.includes(action)) return;
+    if (!buttonAvailable(`generation-loans-foreclosure-${action}`)) return;
+    const st = getGenerationLoans();
+    if (st.pending) return;
+    if (!st.visited.foreclosure) return;
+    if (!generationCoverageComplete(st)) return;
+    const table = FORECLOSURE_TABLE[action];
+    if (!table) return;
+    const pending = { kind: 'foreclosure', source: 'age-foreclosure-court', action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    st.pending = pending;
+    saveGenerationLoans(st);
+    lockGenerationLoansForeclosureButtons(action);
+    const response = $('#generation-loans-foreclosure-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('age-foreclosure-court', table.target, { delay: generationLoansDelay(), before: () => generationLoansBeforeArrive(pending) });
+  };
+
+  const generationLoansCanVisitOffice = () => {
+    if (!generationLoansUnlocked()) return false;
+    const st = getGenerationLoans();
+    const p = st.pending;
+    if (p && (p.kind === 'entry' || p.kind === 'notice-return') && p.target === 'generational-credit-office') return true;
+    if (st.visited.office) return true;
+    const pc = getPosthumousCensus();
+    if (pc.pending && pc.pending.kind === 'ballot' && pc.pending.target === 'generational-credit-office') return true;
+    if (pc.activeSummons && SCENE_FOR_ELECTORATE[pc.activeSummons.electorate] === 'generational-credit-office') return true;
+    return false;
+  };
+
+  const generationLoansCanVisitVault = () => {
+    if (!generationLoansUnlocked()) return false;
+    const st = getGenerationLoans();
+    const p = st.pending;
+    if (p && p.kind === 'era' && p.target === 'lifetime-pawn-vault') return true;
+    if (st.visited.vault && ERAS.includes(st.draft.era)) return true;
+    const pc = getPosthumousCensus();
+    if (pc.pending && pc.pending.kind === 'ballot' && pc.pending.target === 'lifetime-pawn-vault') return true;
+    if (pc.activeSummons && SCENE_FOR_ELECTORATE[pc.activeSummons.electorate] === 'lifetime-pawn-vault') return true;
+    return false;
+  };
+
+  const generationLoansCanVisitClearing = () => {
+    if (!generationLoansUnlocked()) return false;
+    const st = getGenerationLoans();
+    const p = st.pending;
+    if (p && p.kind === 'collateral' && p.target === 'mortality-clearing-house') return true;
+    if (st.visited.clearing && ERAS.includes(st.draft.era) && COLLATERALS.includes(st.draft.collateral)) return true;
+    const pc = getPosthumousCensus();
+    if (pc.pending && pc.pending.kind === 'ballot' && pc.pending.target === 'mortality-clearing-house') return true;
+    if (pc.activeSummons && SCENE_FOR_ELECTORATE[pc.activeSummons.electorate] === 'mortality-clearing-house') return true;
+    return false;
+  };
+
+  const generationLoansCanVisitForeclosure = () => {
+    if (!generationLoansUnlocked()) return false;
+    const st = getGenerationLoans();
+    const p = st.pending;
+    if (p && p.kind === 'foreclosure-entry' && p.target === 'age-foreclosure-court') return true;
+    if (generationCoverageComplete(st) && st.visited.foreclosure) return true;
+    return false;
+  };
+
+  const generationLoansEntryBtn = $('#generation-loans-entry-btn');
+  if (generationLoansEntryBtn) {
+    generationLoansEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseGenerationLoansEntry();
+    });
+  }
+  const generationLoansForeclosureEntryBtn = $('#generation-loans-foreclosure-entry-btn');
+  if (generationLoansForeclosureEntryBtn) {
+    generationLoansForeclosureEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseGenerationLoansForeclosureEntry();
+    });
+  }
+  const generationLoansEraPastBtn = $('#generation-loans-era-past');
+  if (generationLoansEraPastBtn) {
+    generationLoansEraPastBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseGenerationLoansEra('past');
+    });
+  }
+  const generationLoansEraPresentBtn = $('#generation-loans-era-present');
+  if (generationLoansEraPresentBtn) {
+    generationLoansEraPresentBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseGenerationLoansEra('present');
+    });
+  }
+  const generationLoansEraFutureBtn = $('#generation-loans-era-future');
+  if (generationLoansEraFutureBtn) {
+    generationLoansEraFutureBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseGenerationLoansEra('future');
+    });
+  }
+  const generationLoansCollateralYearsBtn = $('#generation-loans-collateral-years');
+  if (generationLoansCollateralYearsBtn) {
+    generationLoansCollateralYearsBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseGenerationLoansCollateral('years');
+    });
+  }
+  const generationLoansCollateralDeathDateBtn = $('#generation-loans-collateral-death-date');
+  if (generationLoansCollateralDeathDateBtn) {
+    generationLoansCollateralDeathDateBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseGenerationLoansCollateral('death-date');
+    });
+  }
+  const generationLoansCollateralFuneralBtn = $('#generation-loans-collateral-funeral');
+  if (generationLoansCollateralFuneralBtn) {
+    generationLoansCollateralFuneralBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseGenerationLoansCollateral('funeral');
+    });
+  }
+  const generationLoansTermChildhoodInterestBtn = $('#generation-loans-term-childhood-interest');
+  if (generationLoansTermChildhoodInterestBtn) {
+    generationLoansTermChildhoodInterestBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseGenerationLoansTerm('childhood-interest');
+    });
+  }
+  const generationLoansTermBirthPaymentBtn = $('#generation-loans-term-birth-payment');
+  if (generationLoansTermBirthPaymentBtn) {
+    generationLoansTermBirthPaymentBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseGenerationLoansTerm('birth-payment');
+    });
+  }
+  const generationLoansTermDescendantRolloverBtn = $('#generation-loans-term-descendant-rollover');
+  if (generationLoansTermDescendantRolloverBtn) {
+    generationLoansTermDescendantRolloverBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseGenerationLoansTerm('descendant-rollover');
+    });
+  }
+  const generationLoansNoticeReturnThresholdBtn = $('#generation-loans-notice-return-threshold');
+  if (generationLoansNoticeReturnThresholdBtn) {
+    generationLoansNoticeReturnThresholdBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseGenerationLoansNoticeReturn('threshold');
+    });
+  }
+  const generationLoansNoticeReturnRemembranceBtn = $('#generation-loans-notice-return-remembrance');
+  if (generationLoansNoticeReturnRemembranceBtn) {
+    generationLoansNoticeReturnRemembranceBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseGenerationLoansNoticeReturn('remembrance');
+    });
+  }
+  const generationLoansNoticeReturnUnendingGalleryBtn = $('#generation-loans-notice-return-unending-gallery');
+  if (generationLoansNoticeReturnUnendingGalleryBtn) {
+    generationLoansNoticeReturnUnendingGalleryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseGenerationLoansNoticeReturn('unending-gallery');
+    });
+  }
+  const generationLoansForeclosureSeizePresentBtn = $('#generation-loans-foreclosure-seize-present');
+  if (generationLoansForeclosureSeizePresentBtn) {
+    generationLoansForeclosureSeizePresentBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseGenerationLoansForeclosureAction('seize-present');
+    });
+  }
+  const generationLoansForeclosureBankruptDeathBtn = $('#generation-loans-foreclosure-bankrupt-death');
+  if (generationLoansForeclosureBankruptDeathBtn) {
+    generationLoansForeclosureBankruptDeathBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseGenerationLoansForeclosureAction('bankrupt-death');
+    });
+  }
+  const generationLoansForeclosureCrownFuneralBtn = $('#generation-loans-foreclosure-crown-funeral');
+  if (generationLoansForeclosureCrownFuneralBtn) {
+    generationLoansForeclosureCrownFuneralBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseGenerationLoansForeclosureAction('crown-funeral');
+    });
+  }
+
+  /* ============================================================
+     v69 死后人口普查 / THE DEAD COUNT WHETHER YOU WERE BORN
+     ============================================================ */
+  const POSTHUMOUS_CENSUS_KEY = 'goddead_v69_posthumous_census';
+  const POSTHUMOUS_CENSUS_VERSION = 69;
+  const ELECTORATES = ['departed', 'living', 'unborn'];
+  const EVIDENCES = ['birth-certificate', 'other-memories', 'blank-register'];
+  const VERDICTS = ['count-born', 'count-never-born', 'assign-elsewhere'];
+  const NULLIFICATION_ACTIONS = ['ratify-birth', 'remove-visitor', 'enfranchise-blank'];
+  const SCENE_FOR_ELECTORATE = { departed: 'lifetime-pawn-vault', living: 'generational-credit-office', unborn: 'mortality-clearing-house' };
+  const POSTHUMOUS_CENSUS_ENTRY_FEEDBACK = '三份止赎判决同时翻到人口册背面：活人已经失去证明自己出生过的资格。';
+  const POSTHUMOUS_CENSUS_NULLIFICATION_ENTRY_FEEDBACK = '三类选民、三类证据与三种出生裁定已经覆盖人口册。所有名字开始争夺同一个空白。';
+  const POSTHUMOUS_CENSUS_SUMMONS_RETURN_FEEDBACK = '传票上的人口数字忽然少了一位，逼你带着争议出生返回普查厅。';
+
+  const ELECTORATE_TABLE = {
+    departed: {
+      name: '逝代点名 · THE DEPARTED ANSWER ROLL',
+      feedback: '墓牌依次翻面。已经死去的人全部答到，唯独没有人承认见过你的出生。',
+      target: 'lifetime-pawn-vault',
+      story: '逝代从坟内举手；它们声称死亡比出生更适合担任身份证明。',
+    },
+    living: {
+      name: '同代旁证 · THE LIVING VOTE SIDEWAYS',
+      feedback: '黑镜里的同代人先按下手印，再互相询问究竟是谁记得你第一次呼吸。',
+      target: 'generational-credit-office',
+      story: '同代把彼此的记忆拼成一名证人；每个人都只记得你已经存在。',
+    },
+    unborn: {
+      name: '后世预投 · THE UNBORN CAST FIRST',
+      feedback: '空摇篮吐出一叠已经盖章的选票。尚未出生的人决定先统计你，再决定要不要出生。',
+      target: 'mortality-clearing-house',
+      story: '后世从未来提前投票；它们把你当成一项可能取消的祖先。',
+    },
+  };
+  const EVIDENCE_TABLE = {
+    'birth-certificate': {
+      name: '呈交出生证明 · SUBMIT THE BIRTH CERTIFICATE',
+      feedback: '无字证明渗出一圈暗红脐带印。日期、姓名与父母栏仍然空着，只有纸张坚持你来过。',
+      story: '出生证明没有一个可读字符，却带着比身体更早干涸的脐带封蜡。',
+    },
+    'other-memories': {
+      name: '呈交他人记忆 · SUBMIT OTHER PEOPLE\'S MEMORIES',
+      feedback: '记忆镜轮流映出别人抱过婴儿的手；每双手都熟悉你，却没有一双属于同一个童年。',
+      story: '他人的记忆共同证明有个孩子存在，但所有人都把那孩子记成了别人。',
+    },
+    'blank-register': {
+      name: '呈交空白户籍 · SUBMIT THE BLANK REGISTER',
+      feedback: '空白户籍自动翻到最后一页。纸面没有名字，页码却把你的缺席登记得十分完整。',
+      story: '空白户籍以没有记录为证；它声称只有真正出生过的人才有资格被漏掉。',
+    },
+  };
+  const VERDICT_TABLE = {
+    'count-born': {
+      name: '计作已出生 · COUNT AS BORN',
+      feedback: '印玺落下时，先出现心跳，后出现身体。人口册勉强承认你曾从零变成一。',
+      tallyKey: 'born',
+      story: '这一票把你计作已经出生；从此每次死亡都要补交一份出生回执。',
+    },
+    'count-never-born': {
+      name: '计作从未出生 · COUNT AS NEVER BORN',
+      feedback: '黑色计数器从一退到零，空椅却仍留下你的体温。',
+      tallyKey: 'neverBorn',
+      story: '这一票把你计作从未出生；所有认识你的人因此成为错误证词。',
+    },
+    'assign-elsewhere': {
+      name: '把出生记给别人 · ASSIGN THE BIRTH ELSEWHERE',
+      feedback: '代名机关剪断封蜡，把你的第一次呼吸接到另一张没有脸的人形上。',
+      tallyKey: 'assigned',
+      story: '这一票把你的出生记到别人名下；你继续活着，对方却开始拥有你的童年。',
+    },
+  };
+  const NULLIFICATION_TABLE = {
+    'ratify-birth': {
+      name: '追认这次出生 · RATIFY THIS BIRTH',
+      outcome: 'birth-ratified-after-death',
+      target: 'threshold',
+      feedback: '死者在出生证明背面补盖最后一枚印。你的出生终于合法，只是批准日期晚于你的死亡。',
+    },
+    'remove-visitor': {
+      name: '把来访者移出人口 · REMOVE THE VISITOR FROM THE POPULATION',
+      outcome: 'visitor-removed-from-population',
+      target: 'remembrance',
+      feedback: '计数器把你从一减到零。房间仍记得来访者，人口却再也查不到是谁来过。',
+    },
+    'enfranchise-blank': {
+      name: '让空白户籍成为公民 · ENFRANCHISE THE BLANK REGISTER',
+      outcome: 'blank-register-became-citizen',
+      target: 'unending-gallery',
+      feedback: '空白户籍坐上公民席，替所有没有出生记录的人投票。你的名字被留在它从未写字的第一页。',
+    },
+  };
+
+  const POSTHUMOUS_CENSUS_RECORD_IDS = (() => {
+    const ids = [];
+    for (const e of ELECTORATES) {
+      for (const v of EVIDENCES) {
+        for (const r of VERDICTS) {
+          ids.push(`${e}:${v}:${r}`);
+        }
+      }
+    }
+    return ids;
+  })();
+  const POSTHUMOUS_CENSUS_RECORD_SET = new Set(POSTHUMOUS_CENSUS_RECORD_IDS);
+  const NULLIFICATION_OUTCOME_IDS = NULLIFICATION_ACTIONS.map((a) => NULLIFICATION_TABLE[a].outcome);
+  const NULLIFICATION_OUTCOME_SET = new Set(NULLIFICATION_OUTCOME_IDS);
+  const LOANS_REQUIRED_FOR_CENSUS = {
+    eras: ['past', 'present', 'future'],
+    collaterals: ['years', 'death-date', 'funeral'],
+    terms: ['childhood-interest', 'birth-payment', 'descendant-rollover'],
+    foreclosureOutcomes: ['the-present-was-repossessed', 'death-declared-bankruptcy', 'the-funeral-inherited-the-family'],
+  };
+
+  const defaultPosthumousCensus = () => ({
+    version: POSTHUMOUS_CENSUS_VERSION,
+    visited: { hall: false, archive: false, booth: false, nullification: false },
+    draft: { electorate: '', evidence: '' },
+    records: [],
+    nullificationOutcomes: [],
+    ballotRuns: 0,
+    nullificationRuns: 0,
+    tallies: { born: 0, neverBorn: 0, assigned: 0 },
+    lastOutcome: '',
+    activeSummons: null,
+    pending: null,
+  });
+
+  const normalizePosthumousCensusVisited = (visited) => {
+    const v = visited && typeof visited === 'object' && !Array.isArray(visited) ? visited : {};
+    return {
+      hall: v.hall === true,
+      archive: v.archive === true,
+      booth: v.booth === true,
+      nullification: v.nullification === true,
+    };
+  };
+
+  const normalizePosthumousCensusDraft = (draft) => {
+    const d = draft && typeof draft === 'object' && !Array.isArray(draft) ? draft : {};
+    let electorate = typeof d.electorate === 'string' ? d.electorate : '';
+    let evidence = typeof d.evidence === 'string' ? d.evidence : '';
+    if (!ELECTORATES.includes(electorate)) {
+      electorate = '';
+      evidence = '';
+    }
+    if (evidence !== '' && !EVIDENCES.includes(evidence)) {
+      evidence = '';
+    }
+    if (electorate === '') {
+      evidence = '';
+    }
+    if (evidence !== '' && electorate === '') {
+      evidence = '';
+    }
+    return { electorate, evidence };
+  };
+
+  const normalizePosthumousCensusRecords = (records) => {
+    const arr = Array.isArray(records) ? records : [];
+    const seen = new Set();
+    const out = [];
+    for (const id of POSTHUMOUS_CENSUS_RECORD_IDS) {
+      if (arr.includes(id) && !seen.has(id)) {
+        out.push(id);
+        seen.add(id);
+      }
+    }
+    return out;
+  };
+
+  const normalizeNullificationOutcomes = (arr) => {
+    const input = Array.isArray(arr) ? arr : [];
+    const set = new Set(input);
+    return NULLIFICATION_ACTIONS.map((a) => NULLIFICATION_TABLE[a].outcome).filter((o) => set.has(o));
+  };
+
+  const normalizePosthumousCensusTallies = (tallies) => {
+    const t = tallies && typeof tallies === 'object' && !Array.isArray(tallies) ? tallies : {};
+    const clamp = (n) => Math.min(9999, Math.max(0, Math.floor(Number(n) || 0)));
+    return {
+      born: clamp(t.born),
+      neverBorn: clamp(t.neverBorn),
+      assigned: clamp(t.assigned),
+    };
+  };
+
+  const normalizeActiveSummons = (summons, records) => {
+    if (!summons || typeof summons !== 'object' || Array.isArray(summons)) return null;
+    if (Object.keys(summons).sort().join(',') !== 'electorate,feedback,record') return null;
+    if (!ELECTORATES.includes(summons.electorate)) return null;
+    if (!POSTHUMOUS_CENSUS_RECORD_SET.has(summons.record) || !records.includes(summons.record)) return null;
+    const parts = summons.record.split(':');
+    if (parts.length !== 3 || parts[0] !== summons.electorate) return null;
+    const fb = computeCensusRecordFeedback(parts[0], parts[1], parts[2]);
+    if (summons.feedback !== fb) return null;
+    return { electorate: summons.electorate, record: summons.record, feedback: fb };
+  };
+
+  const normalizePosthumousCensusPending = (p, st) => {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || !p.kind) return null;
+    const keys = Object.keys(p).sort().join(',');
+    const unlocked = st._v69unlocked === true;
+
+    if (p.kind === 'entry' && keys === 'feedback,kind,target') {
+      if (unlocked && p.target === 'posthumous-census-hall' && p.feedback === POSTHUMOUS_CENSUS_ENTRY_FEEDBACK) {
+        return { kind: 'entry', target: 'posthumous-census-hall', feedback: p.feedback };
+      }
+    }
+    if (p.kind === 'electorate' && keys === 'electorate,feedback,kind,source,target') {
+      if (!unlocked) return null;
+      if (p.source !== 'posthumous-census-hall' || p.target !== 'contradictory-evidence-archive') return null;
+      if (!ELECTORATES.includes(p.electorate)) return null;
+      const table = ELECTORATE_TABLE[p.electorate];
+      if (!table || p.feedback !== table.feedback) return null;
+      if (st.draft.electorate !== '' || st.draft.evidence !== '') return null;
+      return { kind: 'electorate', source: 'posthumous-census-hall', electorate: p.electorate, target: 'contradictory-evidence-archive', feedback: p.feedback };
+    }
+    if (p.kind === 'evidence' && keys === 'electorate,evidence,feedback,kind,source,target') {
+      if (!unlocked) return null;
+      if (p.source !== 'contradictory-evidence-archive' || p.target !== 'birth-ballot-booth') return null;
+      if (!ELECTORATES.includes(p.electorate) || !EVIDENCES.includes(p.evidence)) return null;
+      if (p.electorate !== st.draft.electorate) return null;
+      const table = EVIDENCE_TABLE[p.evidence];
+      if (!table || p.feedback !== table.feedback) return null;
+      return { kind: 'evidence', source: 'contradictory-evidence-archive', electorate: p.electorate, evidence: p.evidence, target: 'birth-ballot-booth', feedback: p.feedback };
+    }
+    if (p.kind === 'ballot' && keys === 'electorate,evidence,feedback,kind,outcome,source,target,verdict') {
+      if (!unlocked) return null;
+      if (p.source !== 'birth-ballot-booth') return null;
+      if (!ELECTORATES.includes(p.electorate) || !EVIDENCES.includes(p.evidence) || !VERDICTS.includes(p.verdict)) return null;
+      const recordId = computeCensusRecordId(p.electorate, p.evidence, p.verdict);
+      if (p.outcome !== recordId) return null;
+      const fb = computeCensusRecordFeedback(p.electorate, p.evidence, p.verdict);
+      if (p.feedback !== fb) return null;
+      if (st.draft.electorate !== p.electorate || st.draft.evidence !== p.evidence) return null;
+      const target = SCENE_FOR_ELECTORATE[p.electorate];
+      if (p.target !== target) return null;
+      return { kind: 'ballot', source: 'birth-ballot-booth', electorate: p.electorate, evidence: p.evidence, verdict: p.verdict, outcome: recordId, target, feedback: fb };
+    }
+    if (p.kind === 'summons-return' && keys === 'feedback,from,kind,record,target') {
+      if (!unlocked) return null;
+      if (!Object.values(SCENE_FOR_ELECTORATE).includes(p.from) || p.target !== 'posthumous-census-hall') return null;
+      const summons = st.activeSummons;
+      if (!summons || SCENE_FOR_ELECTORATE[summons.electorate] !== p.from || summons.record !== p.record) return null;
+      const parts = summons.record.split(':');
+      if (parts.length !== 3 || parts[0] !== summons.electorate) return null;
+      if (summons.feedback !== computeCensusRecordFeedback(parts[0], parts[1], parts[2])) return null;
+      if (p.feedback !== POSTHUMOUS_CENSUS_SUMMONS_RETURN_FEEDBACK) return null;
+      return { kind: 'summons-return', from: p.from, target: 'posthumous-census-hall', record: p.record, feedback: p.feedback };
+    }
+    if (p.kind === 'nullification-entry' && keys === 'feedback,kind,target') {
+      if (!unlocked) return null;
+      if (p.target !== 'population-nullification-court' || p.feedback !== POSTHUMOUS_CENSUS_NULLIFICATION_ENTRY_FEEDBACK) return null;
+      if (!censusCoverageComplete(st)) return null;
+      return { kind: 'nullification-entry', target: 'population-nullification-court', feedback: p.feedback };
+    }
+    if (p.kind === 'nullification' && keys === 'action,feedback,kind,outcome,source,target') {
+      if (!unlocked) return null;
+      if (!censusCoverageComplete(st)) return null;
+      if (!st.visited.nullification) return null;
+      if (p.source !== 'population-nullification-court') return null;
+      if (!NULLIFICATION_ACTIONS.includes(p.action)) return null;
+      const table = NULLIFICATION_TABLE[p.action];
+      if (!table || p.outcome !== table.outcome || p.target !== table.target || p.feedback !== table.feedback) return null;
+      return { kind: 'nullification', source: 'population-nullification-court', action: p.action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    }
+    return null;
+  };
+
+  const savePosthumousCensus = (st) => {
+    const visited = normalizePosthumousCensusVisited(st.visited);
+    const draft = normalizePosthumousCensusDraft(st.draft);
+    const records = normalizePosthumousCensusRecords(st.records);
+    const nullificationOutcomes = normalizeNullificationOutcomes(st.nullificationOutcomes);
+    const ballotRuns = Math.min(9999, Math.max(0, Math.floor(Number(st.ballotRuns) || 0)));
+    const nullificationRuns = Math.min(9999, Math.max(0, Math.floor(Number(st.nullificationRuns) || 0)));
+    const tallies = normalizePosthumousCensusTallies(st.tallies);
+    const validLast = new Set([...records, ...nullificationOutcomes]);
+    const lastOutcome = validLast.has(st.lastOutcome) ? st.lastOutcome : '';
+    const activeSummons = normalizeActiveSummons(st.activeSummons, records);
+    const pendingState = {
+      version: POSTHUMOUS_CENSUS_VERSION,
+      visited,
+      draft,
+      records,
+      nullificationOutcomes,
+      ballotRuns,
+      nullificationRuns,
+      tallies,
+      lastOutcome,
+      activeSummons,
+      pending: null,
+      _v69unlocked: posthumousCensusUnlocked(),
+    };
+    const pending = normalizePosthumousCensusPending(st.pending, pendingState);
+    store.set(
+      POSTHUMOUS_CENSUS_KEY,
+      JSON.stringify({
+        version: POSTHUMOUS_CENSUS_VERSION,
+        visited,
+        draft,
+        records,
+        nullificationOutcomes,
+        ballotRuns,
+        nullificationRuns,
+        tallies,
+        lastOutcome,
+        activeSummons,
+        pending,
+      })
+    );
+  };
+
+  const getPosthumousCensus = () => {
+    let raw = {};
+    try { raw = JSON.parse(store.get(POSTHUMOUS_CENSUS_KEY, '{}')) || {}; } catch { raw = {}; }
+    if (typeof raw !== 'object' || raw === null || Array.isArray(raw) || raw.version !== POSTHUMOUS_CENSUS_VERSION) {
+      return defaultPosthumousCensus();
+    }
+    const st = defaultPosthumousCensus();
+    st.visited = normalizePosthumousCensusVisited(raw.visited);
+    st.draft = normalizePosthumousCensusDraft(raw.draft);
+    st.records = normalizePosthumousCensusRecords(raw.records);
+    st.nullificationOutcomes = normalizeNullificationOutcomes(raw.nullificationOutcomes);
+    st.ballotRuns = Math.min(9999, Math.max(0, Math.floor(Number(raw.ballotRuns) || 0)));
+    st.nullificationRuns = Math.min(9999, Math.max(0, Math.floor(Number(raw.nullificationRuns) || 0)));
+    st.tallies = normalizePosthumousCensusTallies(raw.tallies);
+    const validLast = new Set([...st.records, ...st.nullificationOutcomes]);
+    st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : '';
+    st.activeSummons = normalizeActiveSummons(raw.activeSummons, st.records);
+    const normSt = Object.assign({}, st, { _v69unlocked: posthumousCensusUnlocked() });
+    st.pending = normalizePosthumousCensusPending(raw.pending, normSt);
+    return st;
+  };
+
+  const posthumousCensusUnlocked = () => {
+    if (!generationLoansUnlocked()) return false;
+    const gl = getGenerationLoans();
+    if (!gl || !Array.isArray(gl.loans) || !Array.isArray(gl.foreclosureOutcomes)) return false;
+    const eras = new Set();
+    const collaterals = new Set();
+    const terms = new Set();
+    for (const id of gl.loans) {
+      const parts = String(id).split(':');
+      if (parts.length !== 3) continue;
+      eras.add(parts[0]);
+      collaterals.add(parts[1]);
+      terms.add(parts[2]);
+    }
+    for (const r of LOANS_REQUIRED_FOR_CENSUS.eras) if (!eras.has(r)) return false;
+    for (const c of LOANS_REQUIRED_FOR_CENSUS.collaterals) if (!collaterals.has(c)) return false;
+    for (const t of LOANS_REQUIRED_FOR_CENSUS.terms) if (!terms.has(t)) return false;
+    for (const o of LOANS_REQUIRED_FOR_CENSUS.foreclosureOutcomes) {
+      if (!gl.foreclosureOutcomes.includes(o)) return false;
+    }
+    return true;
+  };
+
+  const censusCoverageComplete = (st) => {
+    const state = st || getPosthumousCensus();
+    if (state.records.length < 3) return false;
+    const electorates = new Set();
+    const evidences = new Set();
+    const verdicts = new Set();
+    for (const id of state.records) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      electorates.add(parts[0]);
+      evidences.add(parts[1]);
+      verdicts.add(parts[2]);
+    }
+    return electorates.size === 3 && evidences.size === 3 && verdicts.size === 3;
+  };
+
+  const computeCensusMajority = (tallies) => {
+    const t = tallies || { born: 0, neverBorn: 0, assigned: 0 };
+    const born = Number(t.born) || 0;
+    const neverBorn = Number(t.neverBorn) || 0;
+    const assigned = Number(t.assigned) || 0;
+    if (born === 0 && neverBorn === 0 && assigned === 0) return '无多数';
+    const max = Math.max(born, neverBorn, assigned);
+    const winners = [];
+    if (born === max) winners.push('born');
+    if (neverBorn === max) winners.push('neverBorn');
+    if (assigned === max) winners.push('assigned');
+    if (winners.length !== 1) return '无多数';
+    if (winners[0] === 'born') return '已出生占多数';
+    if (winners[0] === 'neverBorn') return '未出生占多数';
+    return '借名出生占多数';
+  };
+
+  const computeCensusRecordId = (electorate, evidence, verdict) => {
+    if (!ELECTORATES.includes(electorate) || !EVIDENCES.includes(evidence) || !VERDICTS.includes(verdict)) return '';
+    return `${electorate}:${evidence}:${verdict}`;
+  };
+
+  const computeCensusRecordTitle = (electorate, evidence, verdict) => {
+    const electorateNames = { departed: '逝代', living: '同代', unborn: '后世' };
+    const evidenceNames = { 'birth-certificate': '出生证', 'other-memories': '他忆', 'blank-register': '空户籍' };
+    const verdictNames = { 'count-born': '已出生', 'count-never-born': '未出生', 'assign-elsewhere': '借名' };
+    if (!electorateNames[electorate] || !evidenceNames[evidence] || !verdictNames[verdict]) return '';
+    return `${electorateNames[electorate]} · ${evidenceNames[evidence]} · ${verdictNames[verdict]}`;
+  };
+
+  const computeCensusRecordFeedback = (electorate, evidence, verdict) => {
+    const e = ELECTORATE_TABLE[electorate];
+    const v = EVIDENCE_TABLE[evidence];
+    const r = VERDICT_TABLE[verdict];
+    if (!e || !v || !r) return '';
+    return `${e.story} ${v.story} ${r.story}`;
+  };
+
+  const findCensusRecordById = (id) => {
+    if (!POSTHUMOUS_CENSUS_RECORD_SET.has(id)) return null;
+    const parts = id.split(':');
+    if (parts.length !== 3) return null;
+    return {
+      id,
+      electorate: parts[0],
+      evidence: parts[1],
+      verdict: parts[2],
+      title: computeCensusRecordTitle(parts[0], parts[1], parts[2]),
+      feedback: computeCensusRecordFeedback(parts[0], parts[1], parts[2]),
+    };
+  };
+
+  const computeNullificationOutcomeId = (action) => {
+    const table = NULLIFICATION_TABLE[action];
+    return table ? table.outcome : '';
+  };
+
+  const posthumousCensusDelay = () => reduced ? 300 : 900 + Math.floor(Math.random() * 300);
+
+  const posthumousCensusBeforeArrive = (pending) => {
+    const st = getPosthumousCensus();
+    if (!st.pending || !pending) return;
+    if (st.pending.kind !== pending.kind) return;
+    const p = st.pending;
+    if (p.kind === 'entry') {
+      st.visited.hall = true;
+    } else if (p.kind === 'electorate') {
+      st.visited.archive = true;
+      st.draft.electorate = p.electorate;
+      st.draft.evidence = '';
+    } else if (p.kind === 'evidence') {
+      st.visited.booth = true;
+      st.draft.evidence = p.evidence;
+    } else if (p.kind === 'ballot') {
+      const recordId = computeCensusRecordId(p.electorate, p.evidence, p.verdict);
+      if (!st.records.includes(recordId)) st.records.push(recordId);
+      st.records = normalizePosthumousCensusRecords(st.records);
+      st.ballotRuns += 1;
+      const verdictTable = VERDICT_TABLE[p.verdict];
+      if (verdictTable) {
+        st.tallies[verdictTable.tallyKey] = Math.min(9999, Math.max(0, Math.floor(st.tallies[verdictTable.tallyKey] || 0) + 1));
+      }
+      st.lastOutcome = recordId;
+      st.activeSummons = { electorate: p.electorate, record: recordId, feedback: computeCensusRecordFeedback(p.electorate, p.evidence, p.verdict) };
+      st.draft = { electorate: '', evidence: '' };
+    } else if (p.kind === 'summons-return') {
+      st.activeSummons = null;
+      st.draft = { electorate: '', evidence: '' };
+    } else if (p.kind === 'nullification-entry') {
+      st.visited.nullification = true;
+    } else if (p.kind === 'nullification') {
+      const outcome = computeNullificationOutcomeId(p.action);
+      if (outcome && !st.nullificationOutcomes.includes(outcome)) st.nullificationOutcomes.push(outcome);
+      st.nullificationOutcomes = normalizeNullificationOutcomes(st.nullificationOutcomes);
+      st.nullificationRuns += 1;
+      st.lastOutcome = outcome;
+    }
+    st.pending = null;
+    savePosthumousCensus(st);
+  };
+
+  const resolvePosthumousCensusPendingOnArrival = (name) => {
+    const st = getPosthumousCensus();
+    const p = st.pending;
+    if (p && p.target === name) posthumousCensusBeforeArrive(p);
+  };
+
+  const lockPosthumousCensusElectorateButtons = (pressedElectorate) => {
+    ELECTORATES.forEach((e) => {
+      const btn = $(`#posthumous-census-electorate-${e}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(e === pressedElectorate));
+    });
+  };
+
+  const lockPosthumousCensusEvidenceButtons = (pressedEvidence) => {
+    EVIDENCES.forEach((v) => {
+      const btn = $(`#posthumous-census-evidence-${v}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(v === pressedEvidence));
+    });
+  };
+
+  const lockPosthumousCensusVerdictButtons = (pressedVerdict) => {
+    VERDICTS.forEach((r) => {
+      const btn = $(`#posthumous-census-verdict-${r}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(r === pressedVerdict));
+    });
+  };
+
+  const lockPosthumousCensusNullificationButtons = (pressedAction) => {
+    NULLIFICATION_ACTIONS.forEach((a) => {
+      const btn = $(`#posthumous-census-nullification-${a}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(a === pressedAction));
+    });
+  };
+
+  const syncPosthumousCensusHall = () => {
+    const figure = $('#posthumous-census-hall-figure');
+    const unlocked = posthumousCensusUnlocked();
+    if (figure) figure.hidden = !unlocked;
+    if (!unlocked) return;
+    const st = getPosthumousCensus();
+    const pending = st.pending;
+    const response = $('#posthumous-census-hall-response');
+    ELECTORATES.forEach((e) => {
+      const btn = $(`#posthumous-census-electorate-${e}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'electorate' && pending.electorate === e);
+      btn.disabled = isPending || !!pending;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'electorate') ? pending.feedback : '';
+  };
+
+  const syncPosthumousCensusArchive = () => {
+    const figure = $('#posthumous-census-archive-figure');
+    const st = getPosthumousCensus();
+    const unlocked = posthumousCensusUnlocked();
+    const hasDraft = unlocked && ELECTORATES.includes(st.draft.electorate);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const response = $('#posthumous-census-archive-response');
+    EVIDENCES.forEach((v) => {
+      const btn = $(`#posthumous-census-evidence-${v}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'evidence' && pending.evidence === v);
+      btn.disabled = isPending || !!pending;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'evidence') ? pending.feedback : '';
+  };
+
+  const syncPosthumousCensusBooth = () => {
+    const figure = $('#posthumous-census-booth-figure');
+    const st = getPosthumousCensus();
+    const unlocked = posthumousCensusUnlocked();
+    const hasDraft = unlocked && ELECTORATES.includes(st.draft.electorate) && EVIDENCES.includes(st.draft.evidence);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const response = $('#posthumous-census-booth-response');
+    VERDICTS.forEach((r) => {
+      const btn = $(`#posthumous-census-verdict-${r}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'ballot' && pending.verdict === r);
+      btn.disabled = isPending || !!pending;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'ballot') ? pending.feedback : '';
+  };
+
+  const syncPosthumousCensusNullification = () => {
+    const figure = $('#posthumous-census-nullification-figure');
+    const tally = $('#posthumous-census-tally');
+    const st = getPosthumousCensus();
+    const open = posthumousCensusUnlocked() && censusCoverageComplete(st) && st.visited.nullification;
+    if (figure) figure.hidden = !open;
+    if (tally) tally.hidden = !open;
+    if (!open) return;
+    paintPosthumousCensusTally();
+    const pending = st.pending;
+    const response = $('#posthumous-census-nullification-response');
+    NULLIFICATION_ACTIONS.forEach((a) => {
+      const btn = $(`#posthumous-census-nullification-${a}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'nullification' && pending.action === a);
+      btn.disabled = isPending || !!pending;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'nullification') ? pending.feedback : '';
+  };
+
+  const paintPosthumousCensusTally = () => {
+    const tally = $('#posthumous-census-tally');
+    if (!tally) return;
+    const st = getPosthumousCensus();
+    const born = tally.querySelector('.posthumous-census-tally-born');
+    const neverBorn = tally.querySelector('.posthumous-census-tally-never-born');
+    const assigned = tally.querySelector('.posthumous-census-tally-assigned');
+    const majority = tally.querySelector('.posthumous-census-tally-majority');
+    if (born) born.textContent = `已出生 ${st.tallies.born}`;
+    if (neverBorn) neverBorn.textContent = `未出生 ${st.tallies.neverBorn}`;
+    if (assigned) assigned.textContent = `借名出生 ${st.tallies.assigned}`;
+    if (majority) majority.textContent = computeCensusMajority(st.tallies);
+  };
+
+  const syncPosthumousCensusSummons = () => {
+    const st = getPosthumousCensus();
+    const unlocked = posthumousCensusUnlocked();
+    Object.values(SCENE_FOR_ELECTORATE).forEach((scene) => {
+      const container = $(`#posthumous-census-summons-${scene}`);
+      if (!container) return;
+      const active = unlocked && st.activeSummons && SCENE_FOR_ELECTORATE[st.activeSummons.electorate] === scene;
+      container.hidden = !active;
+      if (active) paintPosthumousCensusSummons(scene);
+    });
+  };
+
+  const paintPosthumousCensusSummons = (scene) => {
+    const st = getPosthumousCensus();
+    const summons = st.activeSummons;
+    const response = $(`#posthumous-census-summons-response-${scene}`);
+    const btn = $(`#posthumous-census-summons-return-${scene}`);
+    if (response) response.textContent = (summons && SCENE_FOR_ELECTORATE[summons.electorate] === scene) ? summons.feedback : '';
+    if (btn) {
+      const available = !!summons && SCENE_FOR_ELECTORATE[summons.electorate] === scene && currentScene === scene && !st.pending && !AutoAdvance.has(scene);
+      btn.disabled = !available;
+      btn.setAttribute('aria-pressed', 'false');
+    }
+  };
+
+  const paintPosthumousCensusMemory = () => {
+    const memory = $('#posthumous-census-memory');
+    if (!memory) return;
+    const st = getPosthumousCensus();
+    const unlocked = posthumousCensusUnlocked();
+    if (!unlocked) {
+      memory.hidden = true;
+      return;
+    }
+    const counts = { electorate: {}, evidence: {}, verdict: {} };
+    for (const id of st.records) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      counts.electorate[parts[0]] = (counts.electorate[parts[0]] || 0) + 1;
+      counts.evidence[parts[1]] = (counts.evidence[parts[1]] || 0) + 1;
+      counts.verdict[parts[2]] = (counts.verdict[parts[2]] || 0) + 1;
+    }
+    const get = (map, key) => map[key] || 0;
+    memory.textContent = `死后人口普查：已登记 ${st.records.length}/27 份记录，共投票 ${st.ballotRuns} 轮；选民 逝代 ${get(counts.electorate, 'departed')} / 同代 ${get(counts.electorate, 'living')} / 后世 ${get(counts.electorate, 'unborn')}；证据 出生证 ${get(counts.evidence, 'birth-certificate')} / 他忆 ${get(counts.evidence, 'other-memories')} / 空户籍 ${get(counts.evidence, 'blank-register')}；裁定 已出生 ${get(counts.verdict, 'count-born')} / 未出生 ${get(counts.verdict, 'count-never-born')} / 借名 ${get(counts.verdict, 'assign-elsewhere')}；票数 已出生 ${st.tallies.born} / 未出生 ${st.tallies.neverBorn} / 借名 ${st.tallies.assigned}；多数 ${computeCensusMajority(st.tallies)}；人口注销 ${st.nullificationOutcomes.length}/3。`;
+    memory.hidden = false;
+  };
+
+  const paintPosthumousCensusCodex = () => {
+    const box = $('#posthumous-census-codex');
+    const grid = $('#posthumous-census-codex-grid');
+    const entry = $('#posthumous-census-codex-entry');
+    if (!box || !grid) return;
+    const st = getPosthumousCensus();
+    const unlocked = posthumousCensusUnlocked();
+    if (!unlocked) {
+      box.hidden = true;
+      if (entry) entry.hidden = true;
+      return;
+    }
+    box.removeAttribute('hidden');
+    grid.innerHTML = '';
+    for (const id of POSTHUMOUS_CENSUS_RECORD_IDS) {
+      const unlocked = st.records.includes(id);
+      const cell = document.createElement('div');
+      cell.className = 'posthumous-census-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const record = findCensusRecordById(id);
+        cell.innerHTML = `<b>${record.title}</b><span>${record.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    for (const action of NULLIFICATION_ACTIONS) {
+      const outcome = NULLIFICATION_TABLE[action].outcome;
+      const unlocked = st.nullificationOutcomes.includes(outcome);
+      const cell = document.createElement('div');
+      cell.className = 'posthumous-census-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const table = NULLIFICATION_TABLE[action];
+        cell.innerHTML = `<b>${table.name}</b><span>${table.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    if (entry) entry.removeAttribute('hidden');
+  };
+
+  const syncPosthumousCensusRemembrance = () => {
+    paintPosthumousCensusMemory();
+    paintPosthumousCensusCodex();
+    const st = getPosthumousCensus();
+    const unlocked = posthumousCensusUnlocked();
+    const coverage = censusCoverageComplete(st);
+    const entryBtn = $('#posthumous-census-entry-btn');
+    if (entryBtn) {
+      entryBtn.hidden = !(currentScene === 'remembrance' && unlocked);
+      entryBtn.disabled = !(!st.pending && currentScene === 'remembrance' && unlocked);
+    }
+    const nullificationBtn = $('#posthumous-census-nullification-entry-btn');
+    if (nullificationBtn) {
+      nullificationBtn.hidden = !(currentScene === 'remembrance' && unlocked && coverage);
+      nullificationBtn.disabled = !(!st.pending && currentScene === 'remembrance' && unlocked && coverage);
+    }
+  };
+
+  const syncPosthumousCensusLinks = () => {
+    const st = getPosthumousCensus();
+    const unlocked = posthumousCensusUnlocked();
+    const map = {
+      'posthumous-census-hall-link': unlocked && st.visited.hall,
+      'posthumous-census-archive-link': unlocked && st.visited.archive,
+      'posthumous-census-booth-link': unlocked && st.visited.booth,
+      'posthumous-census-nullification-link': unlocked && st.visited.nullification,
+    };
+    for (const [id, show] of Object.entries(map)) {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !show;
+    }
+  };
+
+  const replayPosthumousCensusPending = (sceneName) => {
+    const st = getPosthumousCensus();
+    const p = st.pending;
+    if (!p) {
+      syncPosthumousCensusHall();
+      syncPosthumousCensusArchive();
+      syncPosthumousCensusBooth();
+      syncPosthumousCensusNullification();
+      syncPosthumousCensusSummons();
+      return;
+    }
+    if (sceneName === p.target) {
+      posthumousCensusBeforeArrive(p);
+      syncPosthumousCensusHall();
+      syncPosthumousCensusArchive();
+      syncPosthumousCensusBooth();
+      syncPosthumousCensusNullification();
+      syncPosthumousCensusSummons();
+      if (sceneName === 'remembrance') syncPosthumousCensusRemembrance();
+      return;
+    }
+    const schedule = (source) => AutoAdvance.schedule(source, p.target, { delay: posthumousCensusDelay(), before: () => posthumousCensusBeforeArrive(p) });
+
+    if (p.kind === 'entry' && sceneName === 'remembrance') {
+      const btn = $('#posthumous-census-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#posthumous-census-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'electorate' && sceneName === 'posthumous-census-hall') {
+      const response = $('#posthumous-census-hall-response');
+      if (response) response.textContent = p.feedback;
+      lockPosthumousCensusElectorateButtons(p.electorate);
+      schedule('posthumous-census-hall');
+    } else if (p.kind === 'evidence' && sceneName === 'contradictory-evidence-archive') {
+      const response = $('#posthumous-census-archive-response');
+      if (response) response.textContent = p.feedback;
+      lockPosthumousCensusEvidenceButtons(p.evidence);
+      schedule('contradictory-evidence-archive');
+    } else if (p.kind === 'ballot' && sceneName === 'birth-ballot-booth') {
+      const response = $('#posthumous-census-booth-response');
+      if (response) response.textContent = p.feedback;
+      lockPosthumousCensusVerdictButtons(p.verdict);
+      schedule('birth-ballot-booth');
+    } else if (p.kind === 'summons-return' && sceneName === p.from) {
+      const container = $(`#posthumous-census-summons-${p.from}`);
+      if (container) container.hidden = false;
+      const response = $(`#posthumous-census-summons-response-${p.from}`);
+      if (response) response.textContent = p.feedback;
+      const btn = $(`#posthumous-census-summons-return-${p.from}`);
+      if (btn) {
+        btn.disabled = true;
+        btn.setAttribute('aria-pressed', 'true');
+      }
+      schedule(p.from);
+    } else if (p.kind === 'nullification-entry' && sceneName === 'remembrance') {
+      const btn = $('#posthumous-census-nullification-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#posthumous-census-nullification-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'nullification' && sceneName === 'population-nullification-court') {
+      const response = $('#posthumous-census-nullification-response');
+      if (response) response.textContent = p.feedback;
+      lockPosthumousCensusNullificationButtons(p.action);
+      schedule('population-nullification-court');
+    } else {
+      st.pending = null;
+      savePosthumousCensus(st);
+    }
+  };
+
+  const choosePosthumousCensusElectorate = (electorate) => {
+    if (currentScene !== 'posthumous-census-hall') return;
+    if (AutoAdvance.has('posthumous-census-hall')) return;
+    if (!ELECTORATES.includes(electorate)) return;
+    if (!buttonAvailable(`posthumous-census-electorate-${electorate}`)) return;
+    const st = getPosthumousCensus();
+    if (st.pending) return;
+    const table = ELECTORATE_TABLE[electorate];
+    if (!table) return;
+    st.activeSummons = null;
+    st.draft = { electorate: '', evidence: '' };
+    const pending = { kind: 'electorate', source: 'posthumous-census-hall', electorate, target: 'contradictory-evidence-archive', feedback: table.feedback };
+    st.pending = pending;
+    savePosthumousCensus(st);
+    lockPosthumousCensusElectorateButtons(electorate);
+    const response = $('#posthumous-census-hall-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('posthumous-census-hall', 'contradictory-evidence-archive', { delay: posthumousCensusDelay(), before: () => posthumousCensusBeforeArrive(pending) });
+  };
+
+  const choosePosthumousCensusEvidence = (evidence) => {
+    if (currentScene !== 'contradictory-evidence-archive') return;
+    if (AutoAdvance.has('contradictory-evidence-archive')) return;
+    if (!EVIDENCES.includes(evidence)) return;
+    if (!buttonAvailable(`posthumous-census-evidence-${evidence}`)) return;
+    const st = getPosthumousCensus();
+    if (st.pending) return;
+    if (!ELECTORATES.includes(st.draft.electorate) || st.draft.evidence !== '') return;
+    const table = EVIDENCE_TABLE[evidence];
+    if (!table) return;
+    const pending = { kind: 'evidence', source: 'contradictory-evidence-archive', electorate: st.draft.electorate, evidence, target: 'birth-ballot-booth', feedback: table.feedback };
+    st.pending = pending;
+    savePosthumousCensus(st);
+    lockPosthumousCensusEvidenceButtons(evidence);
+    const response = $('#posthumous-census-archive-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('contradictory-evidence-archive', 'birth-ballot-booth', { delay: posthumousCensusDelay(), before: () => posthumousCensusBeforeArrive(pending) });
+  };
+
+  const choosePosthumousCensusVerdict = (verdict) => {
+    if (currentScene !== 'birth-ballot-booth') return;
+    if (AutoAdvance.has('birth-ballot-booth')) return;
+    if (!VERDICTS.includes(verdict)) return;
+    if (!buttonAvailable(`posthumous-census-verdict-${verdict}`)) return;
+    const st = getPosthumousCensus();
+    if (st.pending) return;
+    const e = st.draft.electorate;
+    const v = st.draft.evidence;
+    if (!ELECTORATES.includes(e) || !EVIDENCES.includes(v)) return;
+    const feedback = computeCensusRecordFeedback(e, v, verdict);
+    const outcome = computeCensusRecordId(e, v, verdict);
+    const target = SCENE_FOR_ELECTORATE[e];
+    const pending = { kind: 'ballot', source: 'birth-ballot-booth', electorate: e, evidence: v, verdict, outcome, target, feedback };
+    st.pending = pending;
+    savePosthumousCensus(st);
+    lockPosthumousCensusVerdictButtons(verdict);
+    const response = $('#posthumous-census-booth-response');
+    if (response) response.textContent = feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('birth-ballot-booth', target, { delay: posthumousCensusDelay(), before: () => posthumousCensusBeforeArrive(pending) });
+  };
+
+  const choosePosthumousCensusSummonsReturn = (scene) => {
+    if (currentScene !== scene) return;
+    if (AutoAdvance.has(scene)) return;
+    if (!Object.values(SCENE_FOR_ELECTORATE).includes(scene)) return;
+    if (!buttonAvailable(`posthumous-census-summons-return-${scene}`)) return;
+    const st = getPosthumousCensus();
+    if (st.pending) return;
+    const summons = st.activeSummons;
+    if (!summons || SCENE_FOR_ELECTORATE[summons.electorate] !== scene) return;
+    const pending = { kind: 'summons-return', from: scene, target: 'posthumous-census-hall', record: summons.record, feedback: POSTHUMOUS_CENSUS_SUMMONS_RETURN_FEEDBACK };
+    st.pending = pending;
+    savePosthumousCensus(st);
+    const btn = $(`#posthumous-census-summons-return-${scene}`);
+    if (btn) {
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', 'true');
+    }
+    const response = $(`#posthumous-census-summons-response-${scene}`);
+    if (response) response.textContent = POSTHUMOUS_CENSUS_SUMMONS_RETURN_FEEDBACK;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule(scene, 'posthumous-census-hall', { delay: posthumousCensusDelay(), before: () => posthumousCensusBeforeArrive(pending) });
+  };
+
+  const choosePosthumousCensusEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('posthumous-census-entry-btn')) return;
+    if (!posthumousCensusUnlocked()) return;
+    const st = getPosthumousCensus();
+    if (st.pending) return;
+    st.activeSummons = null;
+    st.draft = { electorate: '', evidence: '' };
+    const pending = { kind: 'entry', target: 'posthumous-census-hall', feedback: POSTHUMOUS_CENSUS_ENTRY_FEEDBACK };
+    st.pending = pending;
+    savePosthumousCensus(st);
+    const btn = $('#posthumous-census-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#posthumous-census-entry-response');
+    if (response) response.textContent = POSTHUMOUS_CENSUS_ENTRY_FEEDBACK;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('remembrance', 'posthumous-census-hall', { delay: posthumousCensusDelay(), before: () => posthumousCensusBeforeArrive(pending) });
+  };
+
+  const choosePosthumousCensusNullificationEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('posthumous-census-nullification-entry-btn')) return;
+    const st = getPosthumousCensus();
+    if (st.pending) return;
+    if (!censusCoverageComplete(st)) return;
+    const pending = { kind: 'nullification-entry', target: 'population-nullification-court', feedback: POSTHUMOUS_CENSUS_NULLIFICATION_ENTRY_FEEDBACK };
+    st.pending = pending;
+    savePosthumousCensus(st);
+    const btn = $('#posthumous-census-nullification-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#posthumous-census-nullification-entry-response');
+    if (response) response.textContent = POSTHUMOUS_CENSUS_NULLIFICATION_ENTRY_FEEDBACK;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('remembrance', 'population-nullification-court', { delay: posthumousCensusDelay(), before: () => posthumousCensusBeforeArrive(pending) });
+  };
+
+  const choosePosthumousCensusNullificationAction = (action) => {
+    if (currentScene !== 'population-nullification-court') return;
+    if (AutoAdvance.has('population-nullification-court')) return;
+    if (!NULLIFICATION_ACTIONS.includes(action)) return;
+    if (!buttonAvailable(`posthumous-census-nullification-${action}`)) return;
+    const st = getPosthumousCensus();
+    if (st.pending) return;
+    if (!st.visited.nullification) return;
+    if (!censusCoverageComplete(st)) return;
+    const table = NULLIFICATION_TABLE[action];
+    if (!table) return;
+    const pending = { kind: 'nullification', source: 'population-nullification-court', action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    st.pending = pending;
+    savePosthumousCensus(st);
+    lockPosthumousCensusNullificationButtons(action);
+    const response = $('#posthumous-census-nullification-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('population-nullification-court', table.target, { delay: posthumousCensusDelay(), before: () => posthumousCensusBeforeArrive(pending) });
+  };
+
+  const posthumousCensusCanVisitHall = () => {
+    if (!posthumousCensusUnlocked()) return false;
+    const st = getPosthumousCensus();
+    const p = st.pending;
+    if (p && (p.kind === 'entry' || p.kind === 'summons-return') && p.target === 'posthumous-census-hall') return true;
+    if (st.visited.hall) return true;
+    const dp = getDeadParliament();
+    if (dp.pending && dp.pending.kind === 'decree' && dp.pending.target === 'posthumous-census-hall') return true;
+    if (dp.activeWhip && SCENE_FOR_CAUCUS[dp.activeWhip.caucus] === 'posthumous-census-hall') return true;
+    return false;
+  };
+
+  const posthumousCensusCanVisitArchive = () => {
+    if (!posthumousCensusUnlocked()) return false;
+    const st = getPosthumousCensus();
+    const p = st.pending;
+    if (p && p.kind === 'electorate' && p.target === 'contradictory-evidence-archive') return true;
+    if (st.visited.archive && ELECTORATES.includes(st.draft.electorate)) return true;
+    const dp = getDeadParliament();
+    if (dp.pending && dp.pending.kind === 'decree' && dp.pending.target === 'contradictory-evidence-archive') return true;
+    if (dp.activeWhip && SCENE_FOR_CAUCUS[dp.activeWhip.caucus] === 'contradictory-evidence-archive') return true;
+    return false;
+  };
+
+  const posthumousCensusCanVisitBooth = () => {
+    if (!posthumousCensusUnlocked()) return false;
+    const st = getPosthumousCensus();
+    const p = st.pending;
+    if (p && p.kind === 'evidence' && p.target === 'birth-ballot-booth') return true;
+    if (st.visited.booth && ELECTORATES.includes(st.draft.electorate) && EVIDENCES.includes(st.draft.evidence)) return true;
+    const dp = getDeadParliament();
+    if (dp.pending && dp.pending.kind === 'decree' && dp.pending.target === 'birth-ballot-booth') return true;
+    if (dp.activeWhip && SCENE_FOR_CAUCUS[dp.activeWhip.caucus] === 'birth-ballot-booth') return true;
+    return false;
+  };
+
+  const posthumousCensusCanVisitNullification = () => {
+    if (!posthumousCensusUnlocked()) return false;
+    const st = getPosthumousCensus();
+    const p = st.pending;
+    if (p && p.kind === 'nullification-entry' && p.target === 'population-nullification-court') return true;
+    if (censusCoverageComplete(st) && st.visited.nullification) return true;
+    return false;
+  };
+
+  const posthumousCensusEntryBtn = $('#posthumous-census-entry-btn');
+  if (posthumousCensusEntryBtn) {
+    posthumousCensusEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      choosePosthumousCensusEntry();
+    });
+  }
+  const posthumousCensusNullificationEntryBtn = $('#posthumous-census-nullification-entry-btn');
+  if (posthumousCensusNullificationEntryBtn) {
+    posthumousCensusNullificationEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      choosePosthumousCensusNullificationEntry();
+    });
+  }
+  const posthumousCensusElectorateDepartedBtn = $('#posthumous-census-electorate-departed');
+  if (posthumousCensusElectorateDepartedBtn) {
+    posthumousCensusElectorateDepartedBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      choosePosthumousCensusElectorate('departed');
+    });
+  }
+  const posthumousCensusElectorateLivingBtn = $('#posthumous-census-electorate-living');
+  if (posthumousCensusElectorateLivingBtn) {
+    posthumousCensusElectorateLivingBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      choosePosthumousCensusElectorate('living');
+    });
+  }
+  const posthumousCensusElectorateUnbornBtn = $('#posthumous-census-electorate-unborn');
+  if (posthumousCensusElectorateUnbornBtn) {
+    posthumousCensusElectorateUnbornBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      choosePosthumousCensusElectorate('unborn');
+    });
+  }
+  const posthumousCensusEvidenceBirthCertificateBtn = $('#posthumous-census-evidence-birth-certificate');
+  if (posthumousCensusEvidenceBirthCertificateBtn) {
+    posthumousCensusEvidenceBirthCertificateBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      choosePosthumousCensusEvidence('birth-certificate');
+    });
+  }
+  const posthumousCensusEvidenceOtherMemoriesBtn = $('#posthumous-census-evidence-other-memories');
+  if (posthumousCensusEvidenceOtherMemoriesBtn) {
+    posthumousCensusEvidenceOtherMemoriesBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      choosePosthumousCensusEvidence('other-memories');
+    });
+  }
+  const posthumousCensusEvidenceBlankRegisterBtn = $('#posthumous-census-evidence-blank-register');
+  if (posthumousCensusEvidenceBlankRegisterBtn) {
+    posthumousCensusEvidenceBlankRegisterBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      choosePosthumousCensusEvidence('blank-register');
+    });
+  }
+  const posthumousCensusVerdictCountBornBtn = $('#posthumous-census-verdict-count-born');
+  if (posthumousCensusVerdictCountBornBtn) {
+    posthumousCensusVerdictCountBornBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      choosePosthumousCensusVerdict('count-born');
+    });
+  }
+  const posthumousCensusVerdictCountNeverBornBtn = $('#posthumous-census-verdict-count-never-born');
+  if (posthumousCensusVerdictCountNeverBornBtn) {
+    posthumousCensusVerdictCountNeverBornBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      choosePosthumousCensusVerdict('count-never-born');
+    });
+  }
+  const posthumousCensusVerdictAssignElsewhereBtn = $('#posthumous-census-verdict-assign-elsewhere');
+  if (posthumousCensusVerdictAssignElsewhereBtn) {
+    posthumousCensusVerdictAssignElsewhereBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      choosePosthumousCensusVerdict('assign-elsewhere');
+    });
+  }
+  const posthumousCensusSummonsReturnLifetimePawnVaultBtn = $('#posthumous-census-summons-return-lifetime-pawn-vault');
+  if (posthumousCensusSummonsReturnLifetimePawnVaultBtn) {
+    posthumousCensusSummonsReturnLifetimePawnVaultBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      choosePosthumousCensusSummonsReturn('lifetime-pawn-vault');
+    });
+  }
+  const posthumousCensusSummonsReturnGenerationalCreditOfficeBtn = $('#posthumous-census-summons-return-generational-credit-office');
+  if (posthumousCensusSummonsReturnGenerationalCreditOfficeBtn) {
+    posthumousCensusSummonsReturnGenerationalCreditOfficeBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      choosePosthumousCensusSummonsReturn('generational-credit-office');
+    });
+  }
+  const posthumousCensusSummonsReturnMortalityClearingHouseBtn = $('#posthumous-census-summons-return-mortality-clearing-house');
+  if (posthumousCensusSummonsReturnMortalityClearingHouseBtn) {
+    posthumousCensusSummonsReturnMortalityClearingHouseBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      choosePosthumousCensusSummonsReturn('mortality-clearing-house');
+    });
+  }
+  const posthumousCensusNullificationRatifyBirthBtn = $('#posthumous-census-nullification-ratify-birth');
+  if (posthumousCensusNullificationRatifyBirthBtn) {
+    posthumousCensusNullificationRatifyBirthBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      choosePosthumousCensusNullificationAction('ratify-birth');
+    });
+  }
+  const posthumousCensusNullificationRemoveVisitorBtn = $('#posthumous-census-nullification-remove-visitor');
+  if (posthumousCensusNullificationRemoveVisitorBtn) {
+    posthumousCensusNullificationRemoveVisitorBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      choosePosthumousCensusNullificationAction('remove-visitor');
+    });
+  }
+  const posthumousCensusNullificationEnfranchiseBlankBtn = $('#posthumous-census-nullification-enfranchise-blank');
+  if (posthumousCensusNullificationEnfranchiseBlankBtn) {
+    posthumousCensusNullificationEnfranchiseBlankBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      choosePosthumousCensusNullificationAction('enfranchise-blank');
+    });
+  }
+
+  /* ============================================================
+     v70 亡者议会 / PARLIAMENT OF THE DEAD
+     ============================================================ */
+  const DEAD_PARLIAMENT_KEY = 'goddead_v70_dead_parliament';
+  const DEAD_PARLIAMENT_VERSION = 70;
+  const CAUCUSES = ['ratified-born', 'removed-visitor', 'blank-citizen'];
+  const MOTIONS = ['right-to-name', 'right-to-shadow', 'right-to-body', 'right-to-die-once'];
+  const CITIZENS = ['name', 'shadow', 'body'];
+  const CRISIS_ACTIONS = ['crown-name', 'found-shadow-republic', 'abolish-dead-suffrage'];
+  const SCENE_FOR_CAUCUS = {
+    'ratified-born': 'birth-ballot-booth',
+    'removed-visitor': 'posthumous-census-hall',
+    'blank-citizen': 'contradictory-evidence-archive',
+  };
+  const DEAD_PARLIAMENT_ENTRY_FEEDBACK = '三份互相注销的人口册在死后重新分区。议席拒绝整个人入场，只允许姓名、影子与肉身分别登记。';
+  const DEAD_PARLIAMENT_CRISIS_ENTRY_FEEDBACK = '三支选区、四项议案与三种公民权已经写进宪法。姓名、影子与肉身各自声称自己才是完整的人。';
+
+  const CAUCUS_TABLE = {
+    'ratified-born': {
+      name: '加入迟生者选区 · JOIN THE LATE-BORN CAUCUS',
+      feedback: '迟到的出生证明举起手。它批准你参加一场在你死后才开始的表决。',
+      target: 'birth-ballot-booth',
+      title: '迟生者选区',
+      whipFeedback: '迟生者党鞭卷起出生选票：法令已经生效，议会还欠你下一次表决。',
+    },
+    'removed-visitor': {
+      name: '坐进被移除者反对席 · SIT WITH THE REMOVED OPPOSITION',
+      feedback: '空椅替被移出人口的人投下反对票。计数器拒绝承认刚才有人坐下。',
+      target: 'posthumous-census-hall',
+      title: '被移除者反对席',
+      whipFeedback: '空椅在普查厅门口等你。它没有选民，却带来了完整的议会传票。',
+    },
+    'blank-citizen': {
+      name: '把票交给空白公民 · GIVE THE BALLOT TO THE BLANK CITIZEN',
+      feedback: '空白户籍翻到从未写过的第一页。那一页以公民身份要求发言。',
+      target: 'contradictory-evidence-archive',
+      title: '空白公民席',
+      whipFeedback: '空白户籍夹走刚通过的法令。未写字的一页示意你回议会继续。',
+    },
+  };
+  const MOTION_TABLE = {
+    'right-to-name': {
+      name: '提出姓名权 · MOVE THE RIGHT TO A NAME',
+      feedback: '议案要求每个公民拥有一个姓名，即使拥有姓名的东西从未出生。',
+      title: '姓名权',
+    },
+    'right-to-shadow': {
+      name: '提出影子权 · MOVE THE RIGHT TO CAST A SHADOW',
+      feedback: '影灯要求把遮住光的资格写进宪法，哪怕公民本身并不存在。',
+      title: '影子权',
+    },
+    'right-to-body': {
+      name: '提出肉身权 · MOVE THE RIGHT TO POSSESS A BODY',
+      feedback: '胸骨申请成为公共财产。议会争论身体究竟属于住客、姓名，还是死亡。',
+      title: '肉身权',
+    },
+    'right-to-die-once': {
+      name: '提出一次死亡权 · MOVE THE RIGHT TO DIE ONCE',
+      feedback: '死亡钟只肯响一次。它要求宪法禁止任何人被同一个结局重复处决。',
+      title: '一次死亡权',
+    },
+  };
+  const CITIZEN_TABLE = {
+    name: {
+      name: '把权利登记给姓名 · REGISTER THE RIGHT TO THE NAME',
+      feedback: '书记官剪断名字与说出它的嘴，把这项权利登记给那串无人应答的称呼。',
+      title: '归姓名',
+      tallyKey: 'name',
+    },
+    shadow: {
+      name: '把权利登记给影子 · REGISTER THE RIGHT TO THE SHADOW',
+      feedback: '影子在公民栏按下没有指纹的手印，从此不必跟随任何身体。',
+      title: '归影子',
+      tallyKey: 'shadow',
+    },
+    body: {
+      name: '把权利登记给肉身 · REGISTER THE RIGHT TO THE BODY',
+      feedback: '肉身在没有姓名的情况下获得席位。它的伤口被认作唯一有效的签名。',
+      title: '归肉身',
+      tallyKey: 'body',
+    },
+  };
+  const CRISIS_TABLE = {
+    'crown-name': {
+      name: '让姓名成为唯一公民 · LET THE NAME BE THE ONLY CITIZEN',
+      outcome: 'the-name-became-the-only-citizen',
+      target: 'threshold',
+      feedback: '姓名戴上骨冠，宣布嘴、影子与肉身都只是它的临时住址。门外第一次只询问称呼，不再询问来者是谁。',
+    },
+    'found-shadow-republic': {
+      name: '让影子另组反对共和国 · LET THE SHADOW FOUND AN OPPOSITION REPUBLIC',
+      outcome: 'the-shadow-founded-the-opposition-republic',
+      target: 'remembrance',
+      feedback: '影子带走反对席和所有未投出的票，在光照不到的地方宣布独立。每个活人脚下从此藏着一个敌国。',
+    },
+    'abolish-dead-suffrage': {
+      name: '让肉身废除死者选举 · LET THE BODY ABOLISH DEAD SUFFRAGE',
+      outcome: 'the-body-abolished-dead-suffrage',
+      target: 'unending-gallery',
+      feedback: '肉身用伤口签署最后一条修正案：只有仍会腐烂的东西可以投票。议会立刻失去全部选民，只剩身体继续履行结果。',
+    },
+  };
+
+  const DECREE_IDS = (() => {
+    const ids = [];
+    for (const c of CAUCUSES) {
+      for (const m of MOTIONS) {
+        for (const ct of CITIZENS) {
+          ids.push(`${c}:${m}:${ct}`);
+        }
+      }
+    }
+    return ids;
+  })();
+  const DECREE_SET = new Set(DECREE_IDS);
+  const CRISIS_OUTCOME_IDS = CRISIS_ACTIONS.map((a) => CRISIS_TABLE[a].outcome);
+  const CRISIS_OUTCOME_SET = new Set(CRISIS_OUTCOME_IDS);
+  const NULLIFICATION_OUTCOMES_REQUIRED_FOR_PARLIAMENT = [
+    'birth-ratified-after-death',
+    'visitor-removed-from-population',
+    'blank-register-became-citizen',
+  ];
+
+  const defaultDeadParliament = () => ({
+    version: DEAD_PARLIAMENT_VERSION,
+    visited: { rotunda: false, chamber: false, severance: false, republic: false },
+    draft: { caucus: '', motion: '' },
+    decrees: [],
+    crisisOutcomes: [],
+    parliamentRuns: 0,
+    crisisRuns: 0,
+    seatTallies: { name: 0, shadow: 0, body: 0 },
+    lastOutcome: '',
+    activeWhip: null,
+    pending: null,
+  });
+
+  const normalizeDeadParliamentVisited = (visited) => {
+    const v = visited && typeof visited === 'object' && !Array.isArray(visited) ? visited : {};
+    return {
+      rotunda: v.rotunda === true,
+      chamber: v.chamber === true,
+      severance: v.severance === true,
+      republic: v.republic === true,
+    };
+  };
+
+  const normalizeDeadParliamentDraft = (draft) => {
+    const d = draft && typeof draft === 'object' && !Array.isArray(draft) ? draft : {};
+    let caucus = typeof d.caucus === 'string' ? d.caucus : '';
+    let motion = typeof d.motion === 'string' ? d.motion : '';
+    if (!CAUCUSES.includes(caucus)) {
+      caucus = '';
+      motion = '';
+    }
+    if (motion !== '' && !MOTIONS.includes(motion)) {
+      motion = '';
+    }
+    if (caucus === '') {
+      motion = '';
+    }
+    return { caucus, motion };
+  };
+
+  const normalizeDeadParliamentDecrees = (decrees) => {
+    const arr = Array.isArray(decrees) ? decrees : [];
+    const seen = new Set();
+    const out = [];
+    for (const id of DECREE_IDS) {
+      if (arr.includes(id) && !seen.has(id)) {
+        out.push(id);
+        seen.add(id);
+      }
+    }
+    return out;
+  };
+
+  const normalizeDeadParliamentCrisisOutcomes = (arr) => {
+    const input = Array.isArray(arr) ? arr : [];
+    const set = new Set(input);
+    return CRISIS_ACTIONS.map((a) => CRISIS_TABLE[a].outcome).filter((o) => set.has(o));
+  };
+
+  const normalizeDeadParliamentSeatTallies = (tallies) => {
+    const t = tallies && typeof tallies === 'object' && !Array.isArray(tallies) ? tallies : {};
+    const clamp = (n) => Math.min(9999, Math.max(0, Math.floor(Number(n) || 0)));
+    return {
+      name: clamp(t.name),
+      shadow: clamp(t.shadow),
+      body: clamp(t.body),
+    };
+  };
+
+  const computeDeadParliamentWhipFeedback = (caucus) => {
+    const table = CAUCUS_TABLE[caucus];
+    return table ? table.whipFeedback : '';
+  };
+
+  const normalizeDeadParliamentActiveWhip = (whip, decrees) => {
+    if (!whip || typeof whip !== 'object' || Array.isArray(whip)) return null;
+    if (Object.keys(whip).sort().join(',') !== 'caucus,decree,feedback') return null;
+    if (!CAUCUSES.includes(whip.caucus)) return null;
+    if (!DECREE_SET.has(whip.decree) || !decrees.includes(whip.decree)) return null;
+    const parts = whip.decree.split(':');
+    if (parts.length !== 3 || parts[0] !== whip.caucus) return null;
+    const fb = computeDeadParliamentWhipFeedback(whip.caucus);
+    if (whip.feedback !== fb) return null;
+    return { caucus: whip.caucus, decree: whip.decree, feedback: fb };
+  };
+
+  const normalizeDeadParliamentPending = (p, st) => {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || !p.kind) return null;
+    const keys = Object.keys(p).sort().join(',');
+    const unlocked = st._v70unlocked === true;
+
+    if (p.kind === 'entry' && keys === 'feedback,kind,target') {
+      if (unlocked && p.target === 'dead-parliament-rotunda' && p.feedback === DEAD_PARLIAMENT_ENTRY_FEEDBACK) {
+        return { kind: 'entry', target: 'dead-parliament-rotunda', feedback: p.feedback };
+      }
+    }
+    if (p.kind === 'caucus' && keys === 'caucus,feedback,kind,source,target') {
+      if (!unlocked) return null;
+      if (p.source !== 'dead-parliament-rotunda' || p.target !== 'citizenship-article-chamber') return null;
+      if (!CAUCUSES.includes(p.caucus)) return null;
+      const table = CAUCUS_TABLE[p.caucus];
+      if (!table || p.feedback !== table.feedback) return null;
+      if (st.draft.caucus !== '' || st.draft.motion !== '') return null;
+      return { kind: 'caucus', source: 'dead-parliament-rotunda', caucus: p.caucus, target: 'citizenship-article-chamber', feedback: p.feedback };
+    }
+    if (p.kind === 'motion' && keys === 'caucus,feedback,kind,motion,source,target') {
+      if (!unlocked) return null;
+      if (p.source !== 'citizenship-article-chamber' || p.target !== 'constitutional-severance-desk') return null;
+      if (!CAUCUSES.includes(p.caucus) || !MOTIONS.includes(p.motion)) return null;
+      if (p.caucus !== st.draft.caucus) return null;
+      const table = MOTION_TABLE[p.motion];
+      if (!table || p.feedback !== table.feedback) return null;
+      return { kind: 'motion', source: 'citizenship-article-chamber', caucus: p.caucus, motion: p.motion, target: 'constitutional-severance-desk', feedback: p.feedback };
+    }
+    if (p.kind === 'decree' && keys === 'caucus,citizen,decree,feedback,kind,motion,source,target') {
+      if (!unlocked) return null;
+      if (p.source !== 'constitutional-severance-desk') return null;
+      if (!CAUCUSES.includes(p.caucus) || !MOTIONS.includes(p.motion) || !CITIZENS.includes(p.citizen)) return null;
+      if (st.draft.caucus !== p.caucus || st.draft.motion !== p.motion) return null;
+      const decreeId = computeDecreeId(p.caucus, p.motion, p.citizen);
+      if (p.decree !== decreeId) return null;
+      const target = SCENE_FOR_CAUCUS[p.caucus];
+      if (p.target !== target) return null;
+      const fb = computeDecreeFeedback(p.caucus, p.motion, p.citizen);
+      if (p.feedback !== fb) return null;
+      return { kind: 'decree', source: 'constitutional-severance-desk', caucus: p.caucus, motion: p.motion, citizen: p.citizen, decree: decreeId, target, feedback: fb };
+    }
+    if (p.kind === 'whip-return' && keys === 'decree,feedback,from,kind,target') {
+      if (!unlocked) return null;
+      if (!Object.values(SCENE_FOR_CAUCUS).includes(p.from) || p.target !== 'dead-parliament-rotunda') return null;
+      const whip = st.activeWhip;
+      if (!whip || SCENE_FOR_CAUCUS[whip.caucus] !== p.from || whip.decree !== p.decree) return null;
+      const parts = whip.decree.split(':');
+      if (parts.length !== 3 || parts[0] !== whip.caucus) return null;
+      const fb = computeDeadParliamentWhipFeedback(whip.caucus);
+      if (whip.feedback !== fb || p.feedback !== fb) return null;
+      return { kind: 'whip-return', from: p.from, target: 'dead-parliament-rotunda', decree: p.decree, feedback: p.feedback };
+    }
+    if (p.kind === 'crisis-entry' && keys === 'feedback,kind,target') {
+      if (!unlocked) return null;
+      if (p.target !== 'three-person-republic-court' || p.feedback !== DEAD_PARLIAMENT_CRISIS_ENTRY_FEEDBACK) return null;
+      if (!parliamentCoverageComplete(st)) return null;
+      return { kind: 'crisis-entry', target: 'three-person-republic-court', feedback: p.feedback };
+    }
+    if (p.kind === 'crisis' && keys === 'action,feedback,kind,outcome,source,target') {
+      if (!unlocked) return null;
+      if (!parliamentCoverageComplete(st)) return null;
+      if (!st.visited.republic) return null;
+      if (p.source !== 'three-person-republic-court') return null;
+      if (!CRISIS_ACTIONS.includes(p.action)) return null;
+      const table = CRISIS_TABLE[p.action];
+      if (!table || p.outcome !== table.outcome || p.target !== table.target || p.feedback !== table.feedback) return null;
+      return { kind: 'crisis', source: 'three-person-republic-court', action: p.action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    }
+    return null;
+  };
+
+  const saveDeadParliament = (st) => {
+    const visited = normalizeDeadParliamentVisited(st.visited);
+    const draft = normalizeDeadParliamentDraft(st.draft);
+    const decrees = normalizeDeadParliamentDecrees(st.decrees);
+    const crisisOutcomes = normalizeDeadParliamentCrisisOutcomes(st.crisisOutcomes);
+    const parliamentRuns = Math.min(9999, Math.max(0, Math.floor(Number(st.parliamentRuns) || 0)));
+    const crisisRuns = Math.min(9999, Math.max(0, Math.floor(Number(st.crisisRuns) || 0)));
+    const seatTallies = normalizeDeadParliamentSeatTallies(st.seatTallies);
+    const validLast = new Set([...decrees, ...crisisOutcomes]);
+    const lastOutcome = validLast.has(st.lastOutcome) ? st.lastOutcome : '';
+    const activeWhip = normalizeDeadParliamentActiveWhip(st.activeWhip, decrees);
+    const pendingState = {
+      version: DEAD_PARLIAMENT_VERSION,
+      visited,
+      draft,
+      decrees,
+      crisisOutcomes,
+      parliamentRuns,
+      crisisRuns,
+      seatTallies,
+      lastOutcome,
+      activeWhip,
+      pending: null,
+      _v70unlocked: deadParliamentUnlocked(),
+    };
+    const pending = normalizeDeadParliamentPending(st.pending, pendingState);
+    store.set(
+      DEAD_PARLIAMENT_KEY,
+      JSON.stringify({
+        version: DEAD_PARLIAMENT_VERSION,
+        visited,
+        draft,
+        decrees,
+        crisisOutcomes,
+        parliamentRuns,
+        crisisRuns,
+        seatTallies,
+        lastOutcome,
+        activeWhip,
+        pending,
+      })
+    );
+  };
+
+  const getDeadParliament = () => {
+    let raw = {};
+    try { raw = JSON.parse(store.get(DEAD_PARLIAMENT_KEY, '{}')) || {}; } catch { raw = {}; }
+    if (typeof raw !== 'object' || raw === null || Array.isArray(raw) || raw.version !== DEAD_PARLIAMENT_VERSION) {
+      return defaultDeadParliament();
+    }
+    if (!deadParliamentUnlocked()) {
+      return defaultDeadParliament();
+    }
+    const st = defaultDeadParliament();
+    st.visited = normalizeDeadParliamentVisited(raw.visited);
+    st.draft = normalizeDeadParliamentDraft(raw.draft);
+    st.decrees = normalizeDeadParliamentDecrees(raw.decrees);
+    st.crisisOutcomes = normalizeDeadParliamentCrisisOutcomes(raw.crisisOutcomes);
+    st.parliamentRuns = Math.min(9999, Math.max(0, Math.floor(Number(raw.parliamentRuns) || 0)));
+    st.crisisRuns = Math.min(9999, Math.max(0, Math.floor(Number(raw.crisisRuns) || 0)));
+    st.seatTallies = normalizeDeadParliamentSeatTallies(raw.seatTallies);
+    const validLast = new Set([...st.decrees, ...st.crisisOutcomes]);
+    st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : '';
+    st.activeWhip = normalizeDeadParliamentActiveWhip(raw.activeWhip, st.decrees);
+    const normSt = Object.assign({}, st, { _v70unlocked: deadParliamentUnlocked() });
+    st.pending = normalizeDeadParliamentPending(raw.pending, normSt);
+    return st;
+  };
+
+  const deadParliamentUnlocked = () => {
+    if (!posthumousCensusUnlocked()) return false;
+    const pc = getPosthumousCensus();
+    if (!pc || !Array.isArray(pc.records) || !Array.isArray(pc.nullificationOutcomes)) return false;
+    const electorates = new Set();
+    const evidences = new Set();
+    const verdicts = new Set();
+    for (const id of pc.records) {
+      const parts = String(id).split(':');
+      if (parts.length !== 3) continue;
+      electorates.add(parts[0]);
+      evidences.add(parts[1]);
+      verdicts.add(parts[2]);
+    }
+    if (electorates.size < 3 || evidences.size < 3 || verdicts.size < 3) return false;
+    for (const o of NULLIFICATION_OUTCOMES_REQUIRED_FOR_PARLIAMENT) {
+      if (!pc.nullificationOutcomes.includes(o)) return false;
+    }
+    return true;
+  };
+
+  const parliamentCoverageComplete = (st) => {
+    const state = st || getDeadParliament();
+    if (state.decrees.length < 3) return false;
+    const caucuses = new Set();
+    const motions = new Set();
+    const citizens = new Set();
+    for (const id of state.decrees) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      caucuses.add(parts[0]);
+      motions.add(parts[1]);
+      citizens.add(parts[2]);
+    }
+    return caucuses.size === 3 && motions.size === 4 && citizens.size === 3;
+  };
+
+  const computeParliamentMajority = (tallies) => {
+    const t = tallies || { name: 0, shadow: 0, body: 0 };
+    const name = Number(t.name) || 0;
+    const shadow = Number(t.shadow) || 0;
+    const body = Number(t.body) || 0;
+    if (name === 0 && shadow === 0 && body === 0) return '议会悬空';
+    const max = Math.max(name, shadow, body);
+    const winners = [];
+    if (name === max) winners.push('name');
+    if (shadow === max) winners.push('shadow');
+    if (body === max) winners.push('body');
+    if (winners.length !== 1) return '议会悬空';
+    if (winners[0] === 'name') return '姓名占多数';
+    if (winners[0] === 'shadow') return '影子占多数';
+    return '肉身占多数';
+  };
+
+  const computeDecreeId = (caucus, motion, citizen) => {
+    if (!CAUCUSES.includes(caucus) || !MOTIONS.includes(motion) || !CITIZENS.includes(citizen)) return '';
+    return `${caucus}:${motion}:${citizen}`;
+  };
+
+  const computeDecreeTitle = (caucus, motion, citizen) => {
+    const c = CAUCUS_TABLE[caucus];
+    const m = MOTION_TABLE[motion];
+    const ct = CITIZEN_TABLE[citizen];
+    if (!c || !m || !ct) return '';
+    return `${c.title} / ${m.title} / ${ct.title}`;
+  };
+
+  const computeDecreeFeedback = (caucus, motion, citizen) => {
+    const c = CAUCUS_TABLE[caucus];
+    const m = MOTION_TABLE[motion];
+    const ct = CITIZEN_TABLE[citizen];
+    if (!c || !m || !ct) return '';
+    return `${c.feedback} ${m.feedback} ${ct.feedback}`;
+  };
+
+  const findDecreeById = (id) => {
+    if (!DECREE_SET.has(id)) return null;
+    const parts = id.split(':');
+    if (parts.length !== 3) return null;
+    return {
+      id,
+      caucus: parts[0],
+      motion: parts[1],
+      citizen: parts[2],
+      title: computeDecreeTitle(parts[0], parts[1], parts[2]),
+      feedback: computeDecreeFeedback(parts[0], parts[1], parts[2]),
+    };
+  };
+
+  const computeCrisisOutcomeId = (action) => {
+    const table = CRISIS_TABLE[action];
+    return table ? table.outcome : '';
+  };
+
+  const deadParliamentDelay = () => reduced ? 300 : 900 + Math.floor(Math.random() * 300);
+
+  const deadParliamentBeforeArrive = (pending) => {
+    const st = getDeadParliament();
+    if (!st.pending || !pending) return;
+    if (st.pending.kind !== pending.kind) return;
+    const p = st.pending;
+    if (p.kind === 'entry') {
+      st.visited.rotunda = true;
+    } else if (p.kind === 'caucus') {
+      st.visited.chamber = true;
+      st.draft.caucus = p.caucus;
+      st.draft.motion = '';
+    } else if (p.kind === 'motion') {
+      st.visited.severance = true;
+      st.draft.motion = p.motion;
+    } else if (p.kind === 'decree') {
+      const decreeId = computeDecreeId(p.caucus, p.motion, p.citizen);
+      if (!st.decrees.includes(decreeId)) st.decrees.push(decreeId);
+      st.decrees = normalizeDeadParliamentDecrees(st.decrees);
+      st.parliamentRuns += 1;
+      const citizenTable = CITIZEN_TABLE[p.citizen];
+      if (citizenTable) {
+        st.seatTallies[citizenTable.tallyKey] = Math.min(9999, Math.max(0, Math.floor(st.seatTallies[citizenTable.tallyKey] || 0) + 1));
+      }
+      st.lastOutcome = decreeId;
+      st.activeWhip = { caucus: p.caucus, decree: decreeId, feedback: computeDeadParliamentWhipFeedback(p.caucus) };
+      st.draft = { caucus: '', motion: '' };
+    } else if (p.kind === 'whip-return') {
+      st.activeWhip = null;
+      st.draft = { caucus: '', motion: '' };
+    } else if (p.kind === 'crisis-entry') {
+      st.visited.republic = true;
+    } else if (p.kind === 'crisis') {
+      const outcome = computeCrisisOutcomeId(p.action);
+      if (outcome && !st.crisisOutcomes.includes(outcome)) st.crisisOutcomes.push(outcome);
+      st.crisisOutcomes = normalizeDeadParliamentCrisisOutcomes(st.crisisOutcomes);
+      st.crisisRuns += 1;
+      st.lastOutcome = outcome;
+    }
+    st.pending = null;
+    saveDeadParliament(st);
+  };
+
+  const resolveDeadParliamentPendingOnArrival = (name) => {
+    const st = getDeadParliament();
+    const p = st.pending;
+    if (p && p.target === name) deadParliamentBeforeArrive(p);
+  };
+
+  const lockDeadParliamentCaucusButtons = (pressedCaucus) => {
+    CAUCUSES.forEach((c) => {
+      const btn = $(`#dead-parliament-caucus-${c}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(c === pressedCaucus));
+    });
+  };
+
+  const lockDeadParliamentMotionButtons = (pressedMotion) => {
+    MOTIONS.forEach((m) => {
+      const btn = $(`#dead-parliament-motion-${m}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(m === pressedMotion));
+    });
+  };
+
+  const lockDeadParliamentCitizenButtons = (pressedCitizen) => {
+    CITIZENS.forEach((ct) => {
+      const btn = $(`#dead-parliament-citizen-${ct}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(ct === pressedCitizen));
+    });
+  };
+
+  const lockDeadParliamentCrisisButtons = (pressedAction) => {
+    CRISIS_ACTIONS.forEach((a) => {
+      const btn = $(`#dead-parliament-crisis-${a}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(a === pressedAction));
+    });
+  };
+
+  const syncDeadParliamentRotunda = () => {
+    const figure = $('#dead-parliament-rotunda-figure');
+    const unlocked = deadParliamentUnlocked();
+    if (figure) figure.hidden = !unlocked;
+    if (!unlocked) return;
+    const st = getDeadParliament();
+    const pending = st.pending;
+    const response = $('#dead-parliament-rotunda-response');
+    CAUCUSES.forEach((c) => {
+      const btn = $(`#dead-parliament-caucus-${c}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'caucus' && pending.caucus === c);
+      btn.disabled = isPending || !!pending;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'caucus') ? pending.feedback : '';
+  };
+
+  const syncDeadParliamentChamber = () => {
+    const figure = $('#dead-parliament-chamber-figure');
+    const st = getDeadParliament();
+    const unlocked = deadParliamentUnlocked();
+    const hasDraft = unlocked && CAUCUSES.includes(st.draft.caucus);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const response = $('#dead-parliament-chamber-response');
+    MOTIONS.forEach((m) => {
+      const btn = $(`#dead-parliament-motion-${m}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'motion' && pending.motion === m);
+      btn.disabled = isPending || !!pending;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'motion') ? pending.feedback : '';
+  };
+
+  const syncDeadParliamentSeverance = () => {
+    const figure = $('#dead-parliament-severance-figure');
+    const st = getDeadParliament();
+    const unlocked = deadParliamentUnlocked();
+    const hasDraft = unlocked && CAUCUSES.includes(st.draft.caucus) && MOTIONS.includes(st.draft.motion);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const response = $('#dead-parliament-severance-response');
+    CITIZENS.forEach((ct) => {
+      const btn = $(`#dead-parliament-citizen-${ct}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'decree' && pending.citizen === ct);
+      btn.disabled = isPending || !!pending;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'decree') ? pending.feedback : '';
+  };
+
+  const syncDeadParliamentRepublic = () => {
+    const figure = $('#dead-parliament-republic-figure');
+    const tally = $('#dead-parliament-tally');
+    const st = getDeadParliament();
+    const open = deadParliamentUnlocked() && parliamentCoverageComplete(st) && st.visited.republic;
+    if (figure) figure.hidden = !open;
+    if (tally) tally.hidden = !open;
+    if (!open) return;
+    paintParliamentTally();
+    const pending = st.pending;
+    const response = $('#dead-parliament-republic-response');
+    CRISIS_ACTIONS.forEach((a) => {
+      const btn = $(`#dead-parliament-crisis-${a}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'crisis' && pending.action === a);
+      btn.disabled = isPending || !!pending;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'crisis') ? pending.feedback : '';
+  };
+
+  const paintParliamentTally = () => {
+    const tally = $('#dead-parliament-tally');
+    if (!tally) return;
+    const st = getDeadParliament();
+    const name = tally.querySelector('.dead-parliament-tally-name');
+    const shadow = tally.querySelector('.dead-parliament-tally-shadow');
+    const body = tally.querySelector('.dead-parliament-tally-body');
+    const majority = tally.querySelector('.dead-parliament-tally-majority');
+    if (name) name.textContent = `姓名 ${st.seatTallies.name}`;
+    if (shadow) shadow.textContent = `影子 ${st.seatTallies.shadow}`;
+    if (body) body.textContent = `肉身 ${st.seatTallies.body}`;
+    if (majority) majority.textContent = computeParliamentMajority(st.seatTallies);
+  };
+
+  const syncDeadParliamentWhips = () => {
+    const st = getDeadParliament();
+    const unlocked = deadParliamentUnlocked();
+    Object.values(SCENE_FOR_CAUCUS).forEach((scene) => {
+      const container = $(`#dead-parliament-whip-${scene}`);
+      if (!container) return;
+      const active = unlocked && st.activeWhip && SCENE_FOR_CAUCUS[st.activeWhip.caucus] === scene && currentScene === scene;
+      container.hidden = !active;
+      if (active) paintDeadParliamentWhip(scene);
+    });
+  };
+
+  const paintDeadParliamentWhip = (scene) => {
+    const st = getDeadParliament();
+    const whip = st.activeWhip;
+    const response = $(`#dead-parliament-whip-response-${scene}`);
+    const btn = $(`#dead-parliament-whip-return-${scene}`);
+    if (response) response.textContent = (whip && SCENE_FOR_CAUCUS[whip.caucus] === scene) ? whip.feedback : '';
+    if (btn) {
+      const available = !!whip && SCENE_FOR_CAUCUS[whip.caucus] === scene && currentScene === scene && !st.pending && !AutoAdvance.has(scene);
+      btn.disabled = !available;
+      btn.setAttribute('aria-pressed', 'false');
+    }
+  };
+
+  const paintDeadParliamentMemory = () => {
+    const memory = $('#dead-parliament-memory');
+    if (!memory) return;
+    const st = getDeadParliament();
+    const unlocked = deadParliamentUnlocked();
+    if (!unlocked) {
+      memory.hidden = true;
+      return;
+    }
+    const counts = { caucus: {}, motion: {}, citizen: {} };
+    for (const id of st.decrees) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      counts.caucus[parts[0]] = (counts.caucus[parts[0]] || 0) + 1;
+      counts.motion[parts[1]] = (counts.motion[parts[1]] || 0) + 1;
+      counts.citizen[parts[2]] = (counts.citizen[parts[2]] || 0) + 1;
+    }
+    const get = (map, key) => map[key] || 0;
+    memory.textContent = `亡者议会：已通过 ${st.decrees.length}/36 条法令，共表决 ${st.parliamentRuns} 轮；选区 迟生者 ${get(counts.caucus, 'ratified-born')} / 被移除者 ${get(counts.caucus, 'removed-visitor')} / 空白公民 ${get(counts.caucus, 'blank-citizen')}；议案 姓名权 ${get(counts.motion, 'right-to-name')} / 影子权 ${get(counts.motion, 'right-to-shadow')} / 肉身权 ${get(counts.motion, 'right-to-body')} / 一次死亡权 ${get(counts.motion, 'right-to-die-once')}；公民权 姓名 ${get(counts.citizen, 'name')} / 影子 ${get(counts.citizen, 'shadow')} / 肉身 ${get(counts.citizen, 'body')}；多数 ${computeParliamentMajority(st.seatTallies)}；宪政危机 ${st.crisisOutcomes.length}/3。`;
+    memory.hidden = false;
+  };
+
+  const paintDeadParliamentCodex = () => {
+    const box = $('#dead-parliament-codex');
+    const grid = $('#dead-parliament-codex-grid');
+    const entry = $('#dead-parliament-codex-entry');
+    if (!box || !grid) return;
+    const st = getDeadParliament();
+    const unlocked = deadParliamentUnlocked();
+    if (!unlocked) {
+      box.hidden = true;
+      if (entry) entry.hidden = true;
+      return;
+    }
+    box.removeAttribute('hidden');
+    grid.innerHTML = '';
+    for (const id of DECREE_IDS) {
+      const unlocked = st.decrees.includes(id);
+      const cell = document.createElement('div');
+      cell.className = 'dead-parliament-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const decree = findDecreeById(id);
+        cell.innerHTML = `<b>${decree.title}</b><span>${decree.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    for (const action of CRISIS_ACTIONS) {
+      const outcome = CRISIS_TABLE[action].outcome;
+      const unlocked = st.crisisOutcomes.includes(outcome);
+      const cell = document.createElement('div');
+      cell.className = 'dead-parliament-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const table = CRISIS_TABLE[action];
+        cell.innerHTML = `<b>${table.name}</b><span>${table.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    if (entry) entry.removeAttribute('hidden');
+  };
+
+  const syncDeadParliamentRemembrance = () => {
+    paintDeadParliamentMemory();
+    paintDeadParliamentCodex();
+    const st = getDeadParliament();
+    const unlocked = deadParliamentUnlocked();
+    const coverage = parliamentCoverageComplete(st);
+    const entryBtn = $('#dead-parliament-entry-btn');
+    if (entryBtn) {
+      entryBtn.hidden = !(currentScene === 'remembrance' && unlocked);
+      entryBtn.disabled = !(!st.pending && currentScene === 'remembrance' && unlocked);
+    }
+    const crisisEntryBtn = $('#dead-parliament-crisis-entry-btn');
+    if (crisisEntryBtn) {
+      crisisEntryBtn.hidden = !(currentScene === 'remembrance' && unlocked && coverage);
+      crisisEntryBtn.disabled = !(!st.pending && currentScene === 'remembrance' && unlocked && coverage);
+    }
+  };
+
+  const syncDeadParliamentLinks = () => {
+    const st = getDeadParliament();
+    const unlocked = deadParliamentUnlocked();
+    const map = {
+      'dead-parliament-rotunda-link': unlocked && st.visited.rotunda,
+      'citizenship-article-chamber-link': unlocked && st.visited.chamber,
+      'constitutional-severance-desk-link': unlocked && st.visited.severance,
+      'three-person-republic-court-link': unlocked && st.visited.republic,
+    };
+    for (const [id, show] of Object.entries(map)) {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !show;
+    }
+  };
+
+  const replayDeadParliamentPending = (sceneName) => {
+    const st = getDeadParliament();
+    const p = st.pending;
+    if (!p) {
+      syncDeadParliamentRotunda();
+      syncDeadParliamentChamber();
+      syncDeadParliamentSeverance();
+      syncDeadParliamentRepublic();
+      syncDeadParliamentWhips();
+      return;
+    }
+    if (sceneName === p.target) {
+      deadParliamentBeforeArrive(p);
+      syncDeadParliamentRotunda();
+      syncDeadParliamentChamber();
+      syncDeadParliamentSeverance();
+      syncDeadParliamentRepublic();
+      syncDeadParliamentWhips();
+      if (sceneName === 'remembrance') syncDeadParliamentRemembrance();
+      return;
+    }
+    const schedule = (source) => AutoAdvance.schedule(source, p.target, { delay: deadParliamentDelay(), before: () => deadParliamentBeforeArrive(p) });
+
+    if (p.kind === 'entry' && sceneName === 'remembrance') {
+      const btn = $('#dead-parliament-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#dead-parliament-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'caucus' && sceneName === 'dead-parliament-rotunda') {
+      const response = $('#dead-parliament-rotunda-response');
+      if (response) response.textContent = p.feedback;
+      lockDeadParliamentCaucusButtons(p.caucus);
+      schedule('dead-parliament-rotunda');
+    } else if (p.kind === 'motion' && sceneName === 'citizenship-article-chamber') {
+      const response = $('#dead-parliament-chamber-response');
+      if (response) response.textContent = p.feedback;
+      lockDeadParliamentMotionButtons(p.motion);
+      schedule('citizenship-article-chamber');
+    } else if (p.kind === 'decree' && sceneName === 'constitutional-severance-desk') {
+      const response = $('#dead-parliament-severance-response');
+      if (response) response.textContent = p.feedback;
+      lockDeadParliamentCitizenButtons(p.citizen);
+      schedule('constitutional-severance-desk');
+    } else if (p.kind === 'whip-return' && sceneName === p.from) {
+      const container = $(`#dead-parliament-whip-${p.from}`);
+      if (container) container.hidden = false;
+      const response = $(`#dead-parliament-whip-response-${p.from}`);
+      if (response) response.textContent = p.feedback;
+      const btn = $(`#dead-parliament-whip-return-${p.from}`);
+      if (btn) {
+        btn.disabled = true;
+        btn.setAttribute('aria-pressed', 'true');
+      }
+      schedule(p.from);
+    } else if (p.kind === 'crisis-entry' && sceneName === 'remembrance') {
+      const btn = $('#dead-parliament-crisis-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#dead-parliament-crisis-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'crisis' && sceneName === 'three-person-republic-court') {
+      const response = $('#dead-parliament-republic-response');
+      if (response) response.textContent = p.feedback;
+      lockDeadParliamentCrisisButtons(p.action);
+      schedule('three-person-republic-court');
+    } else {
+      st.pending = null;
+      saveDeadParliament(st);
+    }
+  };
+
+  const chooseDeadParliamentCaucus = (caucus) => {
+    if (currentScene !== 'dead-parliament-rotunda') return;
+    if (AutoAdvance.has('dead-parliament-rotunda')) return;
+    if (!CAUCUSES.includes(caucus)) return;
+    if (!buttonAvailable(`dead-parliament-caucus-${caucus}`)) return;
+    const st = getDeadParliament();
+    if (st.pending) return;
+    const table = CAUCUS_TABLE[caucus];
+    if (!table) return;
+    st.activeWhip = null;
+    st.draft = { caucus: '', motion: '' };
+    const pending = { kind: 'caucus', source: 'dead-parliament-rotunda', caucus, target: 'citizenship-article-chamber', feedback: table.feedback };
+    st.pending = pending;
+    saveDeadParliament(st);
+    lockDeadParliamentCaucusButtons(caucus);
+    const response = $('#dead-parliament-rotunda-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('dead-parliament-rotunda', 'citizenship-article-chamber', { delay: deadParliamentDelay(), before: () => deadParliamentBeforeArrive(pending) });
+  };
+
+  const chooseDeadParliamentMotion = (motion) => {
+    if (currentScene !== 'citizenship-article-chamber') return;
+    if (AutoAdvance.has('citizenship-article-chamber')) return;
+    if (!MOTIONS.includes(motion)) return;
+    if (!buttonAvailable(`dead-parliament-motion-${motion}`)) return;
+    const st = getDeadParliament();
+    if (st.pending) return;
+    if (!CAUCUSES.includes(st.draft.caucus) || st.draft.motion !== '') return;
+    const table = MOTION_TABLE[motion];
+    if (!table) return;
+    const pending = { kind: 'motion', source: 'citizenship-article-chamber', caucus: st.draft.caucus, motion, target: 'constitutional-severance-desk', feedback: table.feedback };
+    st.pending = pending;
+    saveDeadParliament(st);
+    lockDeadParliamentMotionButtons(motion);
+    const response = $('#dead-parliament-chamber-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('citizenship-article-chamber', 'constitutional-severance-desk', { delay: deadParliamentDelay(), before: () => deadParliamentBeforeArrive(pending) });
+  };
+
+  const chooseDeadParliamentCitizen = (citizen) => {
+    if (currentScene !== 'constitutional-severance-desk') return;
+    if (AutoAdvance.has('constitutional-severance-desk')) return;
+    if (!CITIZENS.includes(citizen)) return;
+    if (!buttonAvailable(`dead-parliament-citizen-${citizen}`)) return;
+    const st = getDeadParliament();
+    if (st.pending) return;
+    const c = st.draft.caucus;
+    const m = st.draft.motion;
+    if (!CAUCUSES.includes(c) || !MOTIONS.includes(m)) return;
+    const feedback = computeDecreeFeedback(c, m, citizen);
+    const decree = computeDecreeId(c, m, citizen);
+    const target = SCENE_FOR_CAUCUS[c];
+    const pending = { kind: 'decree', source: 'constitutional-severance-desk', caucus: c, motion: m, citizen, decree, target, feedback };
+    st.pending = pending;
+    saveDeadParliament(st);
+    lockDeadParliamentCitizenButtons(citizen);
+    const response = $('#dead-parliament-severance-response');
+    if (response) response.textContent = feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('constitutional-severance-desk', target, { delay: deadParliamentDelay(), before: () => deadParliamentBeforeArrive(pending) });
+  };
+
+  const chooseDeadParliamentWhipReturn = (scene) => {
+    if (currentScene !== scene) return;
+    if (AutoAdvance.has(scene)) return;
+    if (!Object.values(SCENE_FOR_CAUCUS).includes(scene)) return;
+    if (!buttonAvailable(`dead-parliament-whip-return-${scene}`)) return;
+    const st = getDeadParliament();
+    if (st.pending) return;
+    const whip = st.activeWhip;
+    if (!whip || SCENE_FOR_CAUCUS[whip.caucus] !== scene) return;
+    const pending = { kind: 'whip-return', from: scene, target: 'dead-parliament-rotunda', decree: whip.decree, feedback: computeDeadParliamentWhipFeedback(whip.caucus) };
+    st.pending = pending;
+    saveDeadParliament(st);
+    const btn = $(`#dead-parliament-whip-return-${scene}`);
+    if (btn) {
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', 'true');
+    }
+    const response = $(`#dead-parliament-whip-response-${scene}`);
+    if (response) response.textContent = computeDeadParliamentWhipFeedback(whip.caucus);
+    AudioEngine.whoosh();
+    AutoAdvance.schedule(scene, 'dead-parliament-rotunda', { delay: deadParliamentDelay(), before: () => deadParliamentBeforeArrive(pending) });
+  };
+
+  const chooseDeadParliamentEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('dead-parliament-entry-btn')) return;
+    if (!deadParliamentUnlocked()) return;
+    const st = getDeadParliament();
+    if (st.pending) return;
+    st.activeWhip = null;
+    st.draft = { caucus: '', motion: '' };
+    const pending = { kind: 'entry', target: 'dead-parliament-rotunda', feedback: DEAD_PARLIAMENT_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveDeadParliament(st);
+    const btn = $('#dead-parliament-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#dead-parliament-entry-response');
+    if (response) response.textContent = DEAD_PARLIAMENT_ENTRY_FEEDBACK;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('remembrance', 'dead-parliament-rotunda', { delay: deadParliamentDelay(), before: () => deadParliamentBeforeArrive(pending) });
+  };
+
+  const chooseDeadParliamentCrisisEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('dead-parliament-crisis-entry-btn')) return;
+    const st = getDeadParliament();
+    if (st.pending) return;
+    if (!parliamentCoverageComplete(st)) return;
+    const pending = { kind: 'crisis-entry', target: 'three-person-republic-court', feedback: DEAD_PARLIAMENT_CRISIS_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveDeadParliament(st);
+    const btn = $('#dead-parliament-crisis-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#dead-parliament-crisis-entry-response');
+    if (response) response.textContent = DEAD_PARLIAMENT_CRISIS_ENTRY_FEEDBACK;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('remembrance', 'three-person-republic-court', { delay: deadParliamentDelay(), before: () => deadParliamentBeforeArrive(pending) });
+  };
+
+  const chooseDeadParliamentCrisisAction = (action) => {
+    if (currentScene !== 'three-person-republic-court') return;
+    if (AutoAdvance.has('three-person-republic-court')) return;
+    if (!CRISIS_ACTIONS.includes(action)) return;
+    if (!buttonAvailable(`dead-parliament-crisis-${action}`)) return;
+    const st = getDeadParliament();
+    if (st.pending) return;
+    if (!st.visited.republic) return;
+    if (!parliamentCoverageComplete(st)) return;
+    const table = CRISIS_TABLE[action];
+    if (!table) return;
+    const pending = { kind: 'crisis', source: 'three-person-republic-court', action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    st.pending = pending;
+    saveDeadParliament(st);
+    lockDeadParliamentCrisisButtons(action);
+    const response = $('#dead-parliament-republic-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('three-person-republic-court', table.target, { delay: deadParliamentDelay(), before: () => deadParliamentBeforeArrive(pending) });
+  };
+
+  const deadParliamentCanVisitRotunda = () => {
+    if (!deadParliamentUnlocked()) return false;
+    const st = getDeadParliament();
+    const p = st.pending;
+    if (p && (p.kind === 'entry' || p.kind === 'whip-return') && p.target === 'dead-parliament-rotunda') return true;
+    if (st.visited.rotunda) return true;
+    return false;
+  };
+
+  const deadParliamentCanVisitChamber = () => {
+    if (!deadParliamentUnlocked()) return false;
+    const st = getDeadParliament();
+    const p = st.pending;
+    if (p && p.kind === 'caucus' && p.target === 'citizenship-article-chamber') return true;
+    if (st.visited.chamber && CAUCUSES.includes(st.draft.caucus)) return true;
+    return false;
+  };
+
+  const deadParliamentCanVisitSeverance = () => {
+    if (!deadParliamentUnlocked()) return false;
+    const st = getDeadParliament();
+    const p = st.pending;
+    if (p && p.kind === 'motion' && p.target === 'constitutional-severance-desk') return true;
+    if (st.visited.severance && CAUCUSES.includes(st.draft.caucus) && MOTIONS.includes(st.draft.motion)) return true;
+    const dd = getDeathDiplomacy();
+    if (dd.pending && dd.pending.kind === 'treaty' && dd.pending.target === 'constitutional-severance-desk') return true;
+    if (dd.activeCourier && dd.activeCourier.counterpart === 'inside-body-state') return true;
+    return false;
+  };
+
+  const deadParliamentCanVisitRepublic = () => {
+    if (!deadParliamentUnlocked()) return false;
+    const st = getDeadParliament();
+    const p = st.pending;
+    if (p && p.kind === 'crisis-entry' && p.target === 'three-person-republic-court') return true;
+    if (parliamentCoverageComplete(st) && st.visited.republic) return true;
+    return false;
+  };
+
+  const deadParliamentEntryBtn = $('#dead-parliament-entry-btn');
+  if (deadParliamentEntryBtn) {
+    deadParliamentEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeadParliamentEntry();
+    });
+  }
+  const deadParliamentCrisisEntryBtn = $('#dead-parliament-crisis-entry-btn');
+  if (deadParliamentCrisisEntryBtn) {
+    deadParliamentCrisisEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeadParliamentCrisisEntry();
+    });
+  }
+  const deadParliamentCaucusRatifiedBornBtn = $('#dead-parliament-caucus-ratified-born');
+  if (deadParliamentCaucusRatifiedBornBtn) {
+    deadParliamentCaucusRatifiedBornBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeadParliamentCaucus('ratified-born');
+    });
+  }
+  const deadParliamentCaucusRemovedVisitorBtn = $('#dead-parliament-caucus-removed-visitor');
+  if (deadParliamentCaucusRemovedVisitorBtn) {
+    deadParliamentCaucusRemovedVisitorBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeadParliamentCaucus('removed-visitor');
+    });
+  }
+  const deadParliamentCaucusBlankCitizenBtn = $('#dead-parliament-caucus-blank-citizen');
+  if (deadParliamentCaucusBlankCitizenBtn) {
+    deadParliamentCaucusBlankCitizenBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeadParliamentCaucus('blank-citizen');
+    });
+  }
+  const deadParliamentMotionRightToNameBtn = $('#dead-parliament-motion-right-to-name');
+  if (deadParliamentMotionRightToNameBtn) {
+    deadParliamentMotionRightToNameBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeadParliamentMotion('right-to-name');
+    });
+  }
+  const deadParliamentMotionRightToShadowBtn = $('#dead-parliament-motion-right-to-shadow');
+  if (deadParliamentMotionRightToShadowBtn) {
+    deadParliamentMotionRightToShadowBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeadParliamentMotion('right-to-shadow');
+    });
+  }
+  const deadParliamentMotionRightToBodyBtn = $('#dead-parliament-motion-right-to-body');
+  if (deadParliamentMotionRightToBodyBtn) {
+    deadParliamentMotionRightToBodyBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeadParliamentMotion('right-to-body');
+    });
+  }
+  const deadParliamentMotionRightToDieOnceBtn = $('#dead-parliament-motion-right-to-die-once');
+  if (deadParliamentMotionRightToDieOnceBtn) {
+    deadParliamentMotionRightToDieOnceBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeadParliamentMotion('right-to-die-once');
+    });
+  }
+  const deadParliamentCitizenNameBtn = $('#dead-parliament-citizen-name');
+  if (deadParliamentCitizenNameBtn) {
+    deadParliamentCitizenNameBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeadParliamentCitizen('name');
+    });
+  }
+  const deadParliamentCitizenShadowBtn = $('#dead-parliament-citizen-shadow');
+  if (deadParliamentCitizenShadowBtn) {
+    deadParliamentCitizenShadowBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeadParliamentCitizen('shadow');
+    });
+  }
+  const deadParliamentCitizenBodyBtn = $('#dead-parliament-citizen-body');
+  if (deadParliamentCitizenBodyBtn) {
+    deadParliamentCitizenBodyBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeadParliamentCitizen('body');
+    });
+  }
+  const deadParliamentWhipReturnBirthBallotBoothBtn = $('#dead-parliament-whip-return-birth-ballot-booth');
+  if (deadParliamentWhipReturnBirthBallotBoothBtn) {
+    deadParliamentWhipReturnBirthBallotBoothBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeadParliamentWhipReturn('birth-ballot-booth');
+    });
+  }
+  const deadParliamentWhipReturnPosthumousCensusHallBtn = $('#dead-parliament-whip-return-posthumous-census-hall');
+  if (deadParliamentWhipReturnPosthumousCensusHallBtn) {
+    deadParliamentWhipReturnPosthumousCensusHallBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeadParliamentWhipReturn('posthumous-census-hall');
+    });
+  }
+  const deadParliamentWhipReturnContradictoryEvidenceArchiveBtn = $('#dead-parliament-whip-return-contradictory-evidence-archive');
+  if (deadParliamentWhipReturnContradictoryEvidenceArchiveBtn) {
+    deadParliamentWhipReturnContradictoryEvidenceArchiveBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeadParliamentWhipReturn('contradictory-evidence-archive');
+    });
+  }
+  const deadParliamentCrisisCrownNameBtn = $('#dead-parliament-crisis-crown-name');
+  if (deadParliamentCrisisCrownNameBtn) {
+    deadParliamentCrisisCrownNameBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeadParliamentCrisisAction('crown-name');
+    });
+  }
+  const deadParliamentCrisisFoundShadowRepublicBtn = $('#dead-parliament-crisis-found-shadow-republic');
+  if (deadParliamentCrisisFoundShadowRepublicBtn) {
+    deadParliamentCrisisFoundShadowRepublicBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeadParliamentCrisisAction('found-shadow-republic');
+    });
+  }
+  const deadParliamentCrisisAbolishDeadSuffrageBtn = $('#dead-parliament-crisis-abolish-dead-suffrage');
+  if (deadParliamentCrisisAbolishDeadSuffrageBtn) {
+    deadParliamentCrisisAbolishDeadSuffrageBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeadParliamentCrisisAction('abolish-dead-suffrage');
+    });
+  }
+  /* ============================================================
+     v71 死亡外交部 / MINISTRY OF MORTAL DIPLOMACY
+     ============================================================ */
+  const DEATH_DIPLOMACY_KEY = 'goddead_v71_death_diplomacy';
+  const DEATH_DIPLOMACY_VERSION = 71;
+  const DELEGATIONS = ['name-legation', 'shadow-mission', 'body-consulate'];
+  const COUNTERPARTS = ['before-birth-country', 'after-memory-republic', 'inside-body-state'];
+  const CLAUSES = ['mutual-recognition', 'asylum-for-unlived', 'resurrection-embargo', 'extradite-the-ending'];
+  const WAR_ACTIONS = ['internalize-all-borders', 'recognize-only-exile', 'criminalize-resurrection'];
+  const SCENE_FOR_COUNTERPART = {
+    'before-birth-country': 'counterfactual-spindle',
+    'after-memory-republic': 'remembrance',
+    'inside-body-state': 'constitutional-severance-desk',
+  };
+  const DEATH_DIPLOMACY_ENTRY_FEEDBACK = '姓名、影子与肉身终于各自建国。它们没有共同边境，只好把死亡改造成外交渠道。';
+  const DEATH_DIPLOMACY_WAR_ENTRY_FEEDBACK = '三支使团、三座外国与四种条款已经互相承认。地图因此找不到任何不属于别国的空白。';
+
+  const DELEGATION_TABLE = {
+    'name-legation': {
+      name: '派出无身姓名使团 · SEND THE BODILESS NAME LEGATION',
+      feedback: '姓名把自己的发音折进国书。使节没有嘴，却要求所有外国先学会正确称呼它。',
+      title: '无身姓名使团',
+      fragment: '姓名使节用一串无人发出的音节递交国书。',
+      tallyKey: 'name',
+    },
+    'shadow-mission': {
+      name: '派出流亡影子使团 · SEND THE EXILED SHADOW MISSION',
+      feedback: '影子从脚下脱离，披上没有国徽的使节袍。它携带一片永远不承认光源的领土。',
+      title: '流亡影子使团',
+      fragment: '流亡影子把反对票折成自己的外交护照。',
+      tallyKey: 'shadow',
+    },
+    'body-consulate': {
+      name: '派出无名肉身领事团 · SEND THE NAMELESS BODY CONSULATE',
+      feedback: '肉身在胸口别上空白勋章。每一道伤口都被列为可以签署条约的领事。',
+      title: '无名肉身领事团',
+      fragment: '无名肉身让每一道伤口分别签署同一份国书。',
+      tallyKey: 'body',
+    },
+  };
+  const COUNTERPART_TABLE = {
+    'before-birth-country': {
+      name: '访问出生以前的国 · VISIT THE COUNTRY BEFORE BIRTH',
+      feedback: '边检员把护照日期翻到出生以前。那里的人口全是尚未决定要不要发生的人。',
+      title: '出生以前的国',
+      fragment: '出生以前的国以尚未发生为国界，拒绝承认任何生日。',
+      target: 'counterfactual-spindle',
+      courierFeedback: '胎前国信使从空摇篮里取回回执：条约已经生效，但签署日期早于双方建国。',
+    },
+    'after-memory-republic': {
+      name: '访问记忆以后的共和国 · VISIT THE REPUBLIC AFTER MEMORY',
+      feedback: '档案雾擦掉使节来处。共和国只承认已经无人记得的国家，因为它们最不容易再次灭亡。',
+      title: '记忆以后的共和国',
+      fragment: '记忆以后的共和国要求先忘记来使，才肯确认会面真实发生。',
+      target: 'remembrance',
+      courierFeedback: '遗忘后信使把国书夹进痕迹墙。你已经不记得谈判，它却带回完整的外交豁免。',
+    },
+    'inside-body-state': {
+      name: '访问肉身内部的国 · VISIT THE STATE INSIDE THE BODY',
+      feedback: '肋骨海关在胸腔内盖章。每个器官都自称边境，血液则拒绝申报自己的国籍。',
+      title: '肉身内部的国',
+      fragment: '肉身内部的国把肋骨设为海关，让血液代替所有签证。',
+      target: 'constitutional-severance-desk',
+      courierFeedback: '体内国信使沿血管抵达分籍台。条约盖着一枚仍在跳动的边境章。',
+    },
+  };
+  const CLAUSE_TABLE = {
+    'mutual-recognition': {
+      name: '签署互相承认 · SIGN MUTUAL RECOGNITION',
+      feedback: '两国互相承认对方存在，条件是双方都不必证明自己真的存在过。',
+      title: '互相承认',
+      fragment: '双方承认彼此存在，同时豁免对方提供存在证据。',
+    },
+    'asylum-for-unlived': {
+      name: '庇护未活之人 · GRANT ASYLUM TO THE UNLIVED',
+      feedback: '条约把尚未出生者列为政治难民，并允许他们逃离本来会发生的人生。',
+      title: '庇护未活之人',
+      fragment: '未活之人获得庇护，可以逃离那段原本属于自己的生命。',
+    },
+    'resurrection-embargo': {
+      name: '禁运复活 · EMBARGO RESURRECTION',
+      feedback: '封蜡锁住所有复活许可。死者仍可越境，但不得携带自己的下一次呼吸。',
+      title: '禁运复活',
+      fragment: '复活被列为违禁品，任何下一次呼吸都必须留在边境。',
+    },
+    'extradite-the-ending': {
+      name: '引渡结局 · EXTRADITE THE ENDING',
+      feedback: '微型棺匣收押那段结局，把它引渡给一场从未开始、因此无法结束的审判。',
+      title: '引渡结局',
+      fragment: '结局被装进棺匣，引渡给一场永远没有开庭日期的审判。',
+    },
+  };
+  const WAR_TABLE = {
+    'internalize-all-borders': {
+      name: '把所有边境移进肉身 · MOVE EVERY BORDER INSIDE THE BODY',
+      outcome: 'all-borders-moved-inside-the-body',
+      target: 'threshold',
+      feedback: '肉身卷起世界地图，把每一条边境塞进肋骨之间。从此每次跨国都表现为一处新的伤口。',
+    },
+    'recognize-only-exile': {
+      name: '只承认流亡者 · RECOGNIZE ONLY THE EXILE',
+      outcome: 'only-the-exile-was-recognized',
+      target: 'remembrance',
+      feedback: '外交部撤销所有本土国家，只承认离开自己领土的人。影子因此成为唯一拥有祖国的流亡者。',
+    },
+    'criminalize-resurrection': {
+      name: '把复活列为跨境罪 · CRIMINALIZE RESURRECTION',
+      outcome: 'resurrection-became-contraband',
+      target: 'unending-gallery',
+      feedback: '最后一份照会宣布复活属于跨境走私。每个结局都开始搜查自己，试图找出那口尚未申报的呼吸。',
+    },
+  };
+
+  const TREATY_IDS = (() => {
+    const ids = [];
+    for (const d of DELEGATIONS) {
+      for (const c of COUNTERPARTS) {
+        for (const cl of CLAUSES) {
+          ids.push(`${d}:${c}:${cl}`);
+        }
+      }
+    }
+    return ids;
+  })();
+  const TREATY_SET = new Set(TREATY_IDS);
+  const WAR_OUTCOME_IDS = WAR_ACTIONS.map((a) => WAR_TABLE[a].outcome);
+  const WAR_OUTCOME_SET = new Set(WAR_OUTCOME_IDS);
+
+  const defaultDeathDiplomacy = () => ({
+    version: DEATH_DIPLOMACY_VERSION,
+    visited: { ministry: false, border: false, autopsy: false, war: false },
+    draft: { delegation: '', counterpart: '' },
+    treaties: [],
+    warOutcomes: [],
+    diplomaticRuns: 0,
+    warRuns: 0,
+    embassyTallies: { name: 0, shadow: 0, body: 0 },
+    lastOutcome: '',
+    activeCourier: null,
+    pending: null,
+  });
+
+  const normalizeDeathDiplomacyVisited = (visited) => {
+    const v = visited && typeof visited === 'object' && !Array.isArray(visited) ? visited : {};
+    return {
+      ministry: v.ministry === true,
+      border: v.border === true,
+      autopsy: v.autopsy === true,
+      war: v.war === true,
+    };
+  };
+
+  const normalizeDeathDiplomacyDraft = (draft) => {
+    const d = draft && typeof draft === 'object' && !Array.isArray(draft) ? draft : {};
+    let delegation = typeof d.delegation === 'string' ? d.delegation : '';
+    let counterpart = typeof d.counterpart === 'string' ? d.counterpart : '';
+    if (!DELEGATIONS.includes(delegation)) {
+      delegation = '';
+      counterpart = '';
+    }
+    if (!COUNTERPARTS.includes(counterpart)) {
+      counterpart = '';
+    }
+    if (counterpart !== '' && delegation === '') {
+      counterpart = '';
+    }
+    return { delegation, counterpart };
+  };
+
+  const normalizeDeathDiplomacyTreaties = (treaties) => {
+    const arr = Array.isArray(treaties) ? treaties : [];
+    const seen = new Set();
+    const out = [];
+    for (const id of TREATY_IDS) {
+      if (arr.includes(id) && !seen.has(id)) {
+        out.push(id);
+        seen.add(id);
+      }
+    }
+    return out;
+  };
+
+  const normalizeDeathDiplomacyWarOutcomes = (arr) => {
+    const input = Array.isArray(arr) ? arr : [];
+    const set = new Set(input);
+    return WAR_ACTIONS.map((a) => WAR_TABLE[a].outcome).filter((o) => set.has(o));
+  };
+
+  const normalizeDeathDiplomacyEmbassyTallies = (tallies) => {
+    const t = tallies && typeof tallies === 'object' && !Array.isArray(tallies) ? tallies : {};
+    const clamp = (n) => Math.min(9999, Math.max(0, Math.floor(Number(n) || 0)));
+    return {
+      name: clamp(t.name),
+      shadow: clamp(t.shadow),
+      body: clamp(t.body),
+    };
+  };
+
+  const computeDeathDiplomacyCourierFeedback = (counterpart) => {
+    const table = COUNTERPART_TABLE[counterpart];
+    return table ? table.courierFeedback : '';
+  };
+
+  const normalizeDeathDiplomacyActiveCourier = (courier, treaties) => {
+    if (!courier || typeof courier !== 'object' || Array.isArray(courier)) return null;
+    if (Object.keys(courier).sort().join(',') !== 'counterpart,feedback,treaty') return null;
+    if (!COUNTERPARTS.includes(courier.counterpart)) return null;
+    if (!TREATY_SET.has(courier.treaty) || !treaties.includes(courier.treaty)) return null;
+    const parts = courier.treaty.split(':');
+    if (parts.length !== 3 || parts[1] !== courier.counterpart) return null;
+    const fb = computeDeathDiplomacyCourierFeedback(courier.counterpart);
+    if (courier.feedback !== fb) return null;
+    return { counterpart: courier.counterpart, treaty: courier.treaty, feedback: fb };
+  };
+
+  const normalizeDeathDiplomacyPending = (p, st) => {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || !p.kind) return null;
+    const keys = Object.keys(p).sort().join(',');
+    const unlocked = st._v71unlocked === true;
+
+    if (p.kind === 'entry' && keys === 'feedback,kind,target') {
+      if (unlocked && p.target === 'death-foreign-ministry' && p.feedback === DEATH_DIPLOMACY_ENTRY_FEEDBACK) {
+        return { kind: 'entry', target: 'death-foreign-ministry', feedback: p.feedback };
+      }
+    }
+    if (p.kind === 'delegation' && keys === 'delegation,feedback,kind,source,target') {
+      if (!unlocked) return null;
+      if (p.source !== 'death-foreign-ministry' || p.target !== 'nonexistent-border-chancery') return null;
+      if (!DELEGATIONS.includes(p.delegation)) return null;
+      const table = DELEGATION_TABLE[p.delegation];
+      if (!table || p.feedback !== table.feedback) return null;
+      if (st.draft.delegation !== '' || st.draft.counterpart !== '') return null;
+      return { kind: 'delegation', source: 'death-foreign-ministry', delegation: p.delegation, target: 'nonexistent-border-chancery', feedback: p.feedback };
+    }
+    if (p.kind === 'counterpart' && keys === 'counterpart,delegation,feedback,kind,source,target') {
+      if (!unlocked) return null;
+      if (p.source !== 'nonexistent-border-chancery' || p.target !== 'treaty-autopsy-table') return null;
+      if (!DELEGATIONS.includes(p.delegation) || !COUNTERPARTS.includes(p.counterpart)) return null;
+      if (p.delegation !== st.draft.delegation) return null;
+      const table = COUNTERPART_TABLE[p.counterpart];
+      if (!table || p.feedback !== table.feedback) return null;
+      return { kind: 'counterpart', source: 'nonexistent-border-chancery', delegation: p.delegation, counterpart: p.counterpart, target: 'treaty-autopsy-table', feedback: p.feedback };
+    }
+    if (p.kind === 'treaty' && keys === 'clause,counterpart,delegation,feedback,kind,source,target,treaty') {
+      if (!unlocked) return null;
+      if (p.source !== 'treaty-autopsy-table') return null;
+      if (!DELEGATIONS.includes(p.delegation) || !COUNTERPARTS.includes(p.counterpart) || !CLAUSES.includes(p.clause)) return null;
+      if (p.delegation !== st.draft.delegation || p.counterpart !== st.draft.counterpart) return null;
+      const treatyId = computeTreatyId(p.delegation, p.counterpart, p.clause);
+      if (p.treaty !== treatyId) return null;
+      const target = SCENE_FOR_COUNTERPART[p.counterpart];
+      if (p.target !== target) return null;
+      const fb = computeTreatyFeedback(p.delegation, p.counterpart, p.clause);
+      if (p.feedback !== fb) return null;
+      return { kind: 'treaty', clause: p.clause, counterpart: p.counterpart, delegation: p.delegation, source: 'treaty-autopsy-table', target, treaty: treatyId, feedback: fb };
+    }
+    if (p.kind === 'courier-return' && keys === 'feedback,from,kind,target,treaty') {
+      if (!unlocked) return null;
+      if (!Object.values(SCENE_FOR_COUNTERPART).includes(p.from) || p.target !== 'death-foreign-ministry') return null;
+      const courier = st.activeCourier;
+      if (!courier || SCENE_FOR_COUNTERPART[courier.counterpart] !== p.from || courier.treaty !== p.treaty) return null;
+      if (p.feedback !== courier.feedback) return null;
+      return { kind: 'courier-return', from: p.from, target: 'death-foreign-ministry', treaty: p.treaty, feedback: p.feedback };
+    }
+    if (p.kind === 'war-entry' && keys === 'feedback,kind,target') {
+      if (!unlocked) return null;
+      if (p.target !== 'undeclared-war-room' || p.feedback !== DEATH_DIPLOMACY_WAR_ENTRY_FEEDBACK) return null;
+      if (!diplomaticCoverageComplete(st)) return null;
+      return { kind: 'war-entry', target: 'undeclared-war-room', feedback: p.feedback };
+    }
+    if (p.kind === 'war' && keys === 'action,feedback,kind,outcome,source,target') {
+      if (!unlocked) return null;
+      if (!diplomaticCoverageComplete(st) || !st.visited.war) return null;
+      if (p.source !== 'undeclared-war-room') return null;
+      if (!WAR_ACTIONS.includes(p.action)) return null;
+      const table = WAR_TABLE[p.action];
+      if (!table || p.outcome !== table.outcome || p.target !== table.target || p.feedback !== table.feedback) return null;
+      return { kind: 'war', source: 'undeclared-war-room', action: p.action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    }
+    return null;
+  };
+
+  const saveDeathDiplomacy = (st) => {
+    const visited = normalizeDeathDiplomacyVisited(st.visited);
+    const draft = normalizeDeathDiplomacyDraft(st.draft);
+    const treaties = normalizeDeathDiplomacyTreaties(st.treaties);
+    const warOutcomes = normalizeDeathDiplomacyWarOutcomes(st.warOutcomes);
+    const diplomaticRuns = Math.min(9999, Math.max(0, Math.floor(Number(st.diplomaticRuns) || 0)));
+    const warRuns = Math.min(9999, Math.max(0, Math.floor(Number(st.warRuns) || 0)));
+    const embassyTallies = normalizeDeathDiplomacyEmbassyTallies(st.embassyTallies);
+    const validLast = new Set([...treaties, ...warOutcomes]);
+    const lastOutcome = validLast.has(st.lastOutcome) ? st.lastOutcome : '';
+    const activeCourier = normalizeDeathDiplomacyActiveCourier(st.activeCourier, treaties);
+    const pendingState = {
+      version: DEATH_DIPLOMACY_VERSION,
+      visited,
+      draft,
+      treaties,
+      warOutcomes,
+      diplomaticRuns,
+      warRuns,
+      embassyTallies,
+      lastOutcome,
+      activeCourier,
+      pending: null,
+      _v71unlocked: deathDiplomacyUnlocked(),
+    };
+    const pending = normalizeDeathDiplomacyPending(st.pending, pendingState);
+    store.set(
+      DEATH_DIPLOMACY_KEY,
+      JSON.stringify({
+        version: DEATH_DIPLOMACY_VERSION,
+        visited,
+        draft,
+        treaties,
+        warOutcomes,
+        diplomaticRuns,
+        warRuns,
+        embassyTallies,
+        lastOutcome,
+        activeCourier,
+        pending,
+      })
+    );
+  };
+
+  const getDeathDiplomacy = () => {
+    let raw = {};
+    try { raw = JSON.parse(store.get(DEATH_DIPLOMACY_KEY, '{}')) || {}; } catch { raw = {}; }
+    if (typeof raw !== 'object' || raw === null || Array.isArray(raw) || raw.version !== DEATH_DIPLOMACY_VERSION) {
+      return defaultDeathDiplomacy();
+    }
+    if (!deathDiplomacyUnlocked()) {
+      return defaultDeathDiplomacy();
+    }
+    const st = defaultDeathDiplomacy();
+    st.visited = normalizeDeathDiplomacyVisited(raw.visited);
+    st.draft = normalizeDeathDiplomacyDraft(raw.draft);
+    st.treaties = normalizeDeathDiplomacyTreaties(raw.treaties);
+    st.warOutcomes = normalizeDeathDiplomacyWarOutcomes(raw.warOutcomes);
+    st.diplomaticRuns = Math.min(9999, Math.max(0, Math.floor(Number(raw.diplomaticRuns) || 0)));
+    st.warRuns = Math.min(9999, Math.max(0, Math.floor(Number(raw.warRuns) || 0)));
+    st.embassyTallies = normalizeDeathDiplomacyEmbassyTallies(raw.embassyTallies);
+    const validLast = new Set([...st.treaties, ...st.warOutcomes]);
+    st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : '';
+    st.activeCourier = normalizeDeathDiplomacyActiveCourier(raw.activeCourier, st.treaties);
+    const normSt = Object.assign({}, st, { _v71unlocked: deathDiplomacyUnlocked() });
+    st.pending = normalizeDeathDiplomacyPending(raw.pending, normSt);
+    return st;
+  };
+
+  const deathDiplomacyUnlocked = () => {
+    if (!deadParliamentUnlocked()) return false;
+    const dp = getDeadParliament();
+    if (!parliamentCoverageComplete(dp)) return false;
+    const required = [
+      'the-name-became-the-only-citizen',
+      'the-shadow-founded-the-opposition-republic',
+      'the-body-abolished-dead-suffrage',
+    ];
+    for (const o of required) {
+      if (!dp.crisisOutcomes.includes(o)) return false;
+    }
+    return true;
+  };
+
+  const diplomaticCoverageComplete = (st) => {
+    const state = st || getDeathDiplomacy();
+    if (state.treaties.length < 4) return false;
+    const delegations = new Set();
+    const counterparts = new Set();
+    const clauses = new Set();
+    for (const id of state.treaties) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      delegations.add(parts[0]);
+      counterparts.add(parts[1]);
+      clauses.add(parts[2]);
+    }
+    return delegations.size === 3 && counterparts.size === 3 && clauses.size === 4;
+  };
+
+  const computeDiplomaticMajority = (tallies) => {
+    const t = tallies || { name: 0, shadow: 0, body: 0 };
+    const name = Number(t.name) || 0;
+    const shadow = Number(t.shadow) || 0;
+    const body = Number(t.body) || 0;
+    if (name === 0 && shadow === 0 && body === 0) return '无人获得承认';
+    const max = Math.max(name, shadow, body);
+    const winners = [];
+    if (name === max) winners.push('name');
+    if (shadow === max) winners.push('shadow');
+    if (body === max) winners.push('body');
+    if (winners.length !== 1) return '无人获得承认';
+    if (winners[0] === 'name') return '姓名使团获承认';
+    if (winners[0] === 'shadow') return '影子使团获承认';
+    return '肉身使团获承认';
+  };
+
+  const computeTreatyId = (delegation, counterpart, clause) => {
+    if (!DELEGATIONS.includes(delegation) || !COUNTERPARTS.includes(counterpart) || !CLAUSES.includes(clause)) return '';
+    return `${delegation}:${counterpart}:${clause}`;
+  };
+
+  const computeTreatyTitle = (delegation, counterpart, clause) => {
+    const d = DELEGATION_TABLE[delegation];
+    const c = COUNTERPART_TABLE[counterpart];
+    const cl = CLAUSE_TABLE[clause];
+    if (!d || !c || !cl) return '';
+    return `${d.title} / ${c.title} / ${cl.title}`;
+  };
+
+  const computeTreatyFeedback = (delegation, counterpart, clause) => {
+    const d = DELEGATION_TABLE[delegation];
+    const c = COUNTERPART_TABLE[counterpart];
+    const cl = CLAUSE_TABLE[clause];
+    if (!d || !c || !cl) return '';
+    return `${d.fragment} ${c.fragment} ${cl.fragment}`;
+  };
+
+  const findTreatyById = (id) => {
+    if (!TREATY_SET.has(id)) return null;
+    const parts = id.split(':');
+    if (parts.length !== 3) return null;
+    return {
+      id,
+      delegation: parts[0],
+      counterpart: parts[1],
+      clause: parts[2],
+      title: computeTreatyTitle(parts[0], parts[1], parts[2]),
+      feedback: computeTreatyFeedback(parts[0], parts[1], parts[2]),
+    };
+  };
+
+  const computeWarOutcomeId = (action) => {
+    const table = WAR_TABLE[action];
+    return table ? table.outcome : '';
+  };
+
+  const deathDiplomacyDelay = () => reduced ? 300 : 900 + Math.floor(Math.random() * 300);
+
+  const deathDiplomacyBeforeArrive = (pending) => {
+    const st = getDeathDiplomacy();
+    if (!st.pending || !pending) return;
+    if (st.pending.kind !== pending.kind) return;
+    const p = st.pending;
+    if (p.kind === 'entry') {
+      st.visited.ministry = true;
+    } else if (p.kind === 'delegation') {
+      st.visited.border = true;
+      st.draft.delegation = p.delegation;
+      st.draft.counterpart = '';
+    } else if (p.kind === 'counterpart') {
+      st.visited.autopsy = true;
+      st.draft.counterpart = p.counterpart;
+    } else if (p.kind === 'treaty') {
+      const treatyId = computeTreatyId(p.delegation, p.counterpart, p.clause);
+      if (!st.treaties.includes(treatyId)) st.treaties.push(treatyId);
+      st.treaties = normalizeDeathDiplomacyTreaties(st.treaties);
+      st.diplomaticRuns += 1;
+      const delegationTable = DELEGATION_TABLE[p.delegation];
+      if (delegationTable) {
+        st.embassyTallies[delegationTable.tallyKey] = Math.min(9999, Math.max(0, Math.floor(st.embassyTallies[delegationTable.tallyKey] || 0) + 1));
+      }
+      st.lastOutcome = treatyId;
+      st.activeCourier = { counterpart: p.counterpart, treaty: treatyId, feedback: computeDeathDiplomacyCourierFeedback(p.counterpart) };
+      st.draft = { delegation: '', counterpart: '' };
+    } else if (p.kind === 'courier-return') {
+      st.activeCourier = null;
+      st.draft = { delegation: '', counterpart: '' };
+    } else if (p.kind === 'war-entry') {
+      st.visited.war = true;
+    } else if (p.kind === 'war') {
+      const outcome = computeWarOutcomeId(p.action);
+      if (outcome && !st.warOutcomes.includes(outcome)) st.warOutcomes.push(outcome);
+      st.warOutcomes = normalizeDeathDiplomacyWarOutcomes(st.warOutcomes);
+      st.warRuns += 1;
+      st.lastOutcome = outcome;
+    }
+    st.pending = null;
+    saveDeathDiplomacy(st);
+  };
+
+  const resolveDeathDiplomacyPendingOnArrival = (name) => {
+    const st = getDeathDiplomacy();
+    const p = st.pending;
+    if (p && p.target === name) deathDiplomacyBeforeArrive(p);
+  };
+
+  const lockDeathDiplomacyDelegationButtons = (pressedDelegation) => {
+    DELEGATIONS.forEach((d) => {
+      const btn = $(`#death-diplomacy-delegation-${d}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(d === pressedDelegation));
+    });
+  };
+
+  const lockDeathDiplomacyCounterpartButtons = (pressedCounterpart) => {
+    COUNTERPARTS.forEach((c) => {
+      const btn = $(`#death-diplomacy-counterpart-${c}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(c === pressedCounterpart));
+    });
+  };
+
+  const lockDeathDiplomacyClauseButtons = (pressedClause) => {
+    CLAUSES.forEach((cl) => {
+      const btn = $(`#death-diplomacy-clause-${cl}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(cl === pressedClause));
+    });
+  };
+
+  const lockDeathDiplomacyWarButtons = (pressedAction) => {
+    WAR_ACTIONS.forEach((a) => {
+      const btn = $(`#death-diplomacy-war-${a}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(a === pressedAction));
+    });
+  };
+
+  const syncDeathDiplomacyMinistry = () => {
+    const figure = $('#death-diplomacy-ministry-figure');
+    const unlocked = deathDiplomacyUnlocked();
+    if (figure) figure.hidden = !unlocked;
+    if (!unlocked) return;
+    const st = getDeathDiplomacy();
+    const pending = st.pending;
+    const response = $('#death-diplomacy-ministry-response');
+    DELEGATIONS.forEach((d) => {
+      const btn = $(`#death-diplomacy-delegation-${d}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'delegation' && pending.delegation === d);
+      btn.disabled = isPending || !!pending;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'delegation') ? pending.feedback : '';
+  };
+
+  const syncDeathDiplomacyBorder = () => {
+    const figure = $('#death-diplomacy-border-figure');
+    const st = getDeathDiplomacy();
+    const unlocked = deathDiplomacyUnlocked();
+    const hasDraft = unlocked && DELEGATIONS.includes(st.draft.delegation);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const response = $('#death-diplomacy-border-response');
+    COUNTERPARTS.forEach((c) => {
+      const btn = $(`#death-diplomacy-counterpart-${c}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'counterpart' && pending.counterpart === c);
+      btn.disabled = isPending || !!pending;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'counterpart') ? pending.feedback : '';
+  };
+
+  const syncDeathDiplomacyAutopsy = () => {
+    const figure = $('#death-diplomacy-autopsy-figure');
+    const st = getDeathDiplomacy();
+    const unlocked = deathDiplomacyUnlocked();
+    const hasDraft = unlocked && DELEGATIONS.includes(st.draft.delegation) && COUNTERPARTS.includes(st.draft.counterpart);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const response = $('#death-diplomacy-autopsy-response');
+    CLAUSES.forEach((cl) => {
+      const btn = $(`#death-diplomacy-clause-${cl}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'treaty' && pending.clause === cl);
+      btn.disabled = isPending || !!pending;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'treaty') ? pending.feedback : '';
+  };
+
+  const syncDeathDiplomacyWar = () => {
+    const figure = $('#death-diplomacy-war-figure');
+    const tally = $('#death-diplomacy-tally');
+    const st = getDeathDiplomacy();
+    const open = deathDiplomacyUnlocked() && diplomaticCoverageComplete(st) && st.visited.war;
+    if (figure) figure.hidden = !open;
+    if (tally) tally.hidden = !open;
+    if (!open) return;
+    paintDiplomaticTally();
+    const pending = st.pending;
+    const response = $('#death-diplomacy-war-response');
+    WAR_ACTIONS.forEach((a) => {
+      const btn = $(`#death-diplomacy-war-${a}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'war' && pending.action === a);
+      btn.disabled = isPending || !!pending;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'war') ? pending.feedback : '';
+  };
+
+  const paintDiplomaticTally = () => {
+    const tally = $('#death-diplomacy-tally');
+    if (!tally) return;
+    const st = getDeathDiplomacy();
+    const name = tally.querySelector('.death-diplomacy-tally-name');
+    const shadow = tally.querySelector('.death-diplomacy-tally-shadow');
+    const body = tally.querySelector('.death-diplomacy-tally-body');
+    const majority = tally.querySelector('.death-diplomacy-tally-majority');
+    if (name) name.textContent = `姓名 ${st.embassyTallies.name}`;
+    if (shadow) shadow.textContent = `影子 ${st.embassyTallies.shadow}`;
+    if (body) body.textContent = `肉身 ${st.embassyTallies.body}`;
+    if (majority) majority.textContent = computeDiplomaticMajority(st.embassyTallies);
+  };
+
+  const syncDeathDiplomacyCouriers = () => {
+    const st = getDeathDiplomacy();
+    const unlocked = deathDiplomacyUnlocked();
+    Object.values(SCENE_FOR_COUNTERPART).forEach((scene) => {
+      const container = $(`#death-diplomacy-courier-${scene}`);
+      if (!container) return;
+      const active = unlocked && st.activeCourier && SCENE_FOR_COUNTERPART[st.activeCourier.counterpart] === scene && currentScene === scene;
+      container.hidden = !active;
+      if (active) paintDeathDiplomacyCourier(scene);
+    });
+  };
+
+  const paintDeathDiplomacyCourier = (scene) => {
+    const st = getDeathDiplomacy();
+    const courier = st.activeCourier;
+    const response = $(`#death-diplomacy-courier-response-${scene}`);
+    const btn = $(`#death-diplomacy-courier-return-${scene}`);
+    if (response) response.textContent = (courier && SCENE_FOR_COUNTERPART[courier.counterpart] === scene) ? courier.feedback : '';
+    if (btn) {
+      const available = !!courier && SCENE_FOR_COUNTERPART[courier.counterpart] === scene && currentScene === scene && !st.pending && !AutoAdvance.has(scene);
+      btn.disabled = !available;
+      btn.setAttribute('aria-pressed', 'false');
+    }
+  };
+
+  const paintDeathDiplomacyMemory = () => {
+    const memory = $('#death-diplomacy-memory');
+    if (!memory) return;
+    const st = getDeathDiplomacy();
+    const unlocked = deathDiplomacyUnlocked();
+    if (!unlocked) {
+      memory.hidden = true;
+      return;
+    }
+    const counts = { delegation: {}, counterpart: {}, clause: {} };
+    for (const id of st.treaties) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      counts.delegation[parts[0]] = (counts.delegation[parts[0]] || 0) + 1;
+      counts.counterpart[parts[1]] = (counts.counterpart[parts[1]] || 0) + 1;
+      counts.clause[parts[2]] = (counts.clause[parts[2]] || 0) + 1;
+    }
+    const get = (map, key) => map[key] || 0;
+    memory.textContent = `死亡外交部：已签署 ${st.treaties.length}/36 份条约，共派遣 ${st.diplomaticRuns} 次；使团 姓名 ${get(counts.delegation, 'name-legation')} / 影子 ${get(counts.delegation, 'shadow-mission')} / 肉身 ${get(counts.delegation, 'body-consulate')}；外国 胎前 ${get(counts.counterpart, 'before-birth-country')} / 遗忘后 ${get(counts.counterpart, 'after-memory-republic')} / 体内 ${get(counts.counterpart, 'inside-body-state')}；条款 承认 ${get(counts.clause, 'mutual-recognition')} / 庇护 ${get(counts.clause, 'asylum-for-unlived')} / 禁运 ${get(counts.clause, 'resurrection-embargo')} / 引渡 ${get(counts.clause, 'extradite-the-ending')}；外交多数 ${computeDiplomaticMajority(st.embassyTallies)}；未宣战结局 ${st.warOutcomes.length}/3。`;
+    memory.hidden = false;
+  };
+
+  const paintDeathDiplomacyCodex = () => {
+    const box = $('#death-diplomacy-codex');
+    const grid = $('#death-diplomacy-codex-grid');
+    const entry = $('#death-diplomacy-codex-entry');
+    if (!box || !grid) return;
+    const st = getDeathDiplomacy();
+    const unlocked = deathDiplomacyUnlocked();
+    if (!unlocked) {
+      box.hidden = true;
+      if (entry) entry.hidden = true;
+      return;
+    }
+    box.removeAttribute('hidden');
+    grid.innerHTML = '';
+    for (const id of TREATY_IDS) {
+      const unlocked = st.treaties.includes(id);
+      const cell = document.createElement('div');
+      cell.className = 'death-diplomacy-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const treaty = findTreatyById(id);
+        cell.innerHTML = `<b>${treaty.title}</b><span>${treaty.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    for (const action of WAR_ACTIONS) {
+      const outcome = WAR_TABLE[action].outcome;
+      const unlocked = st.warOutcomes.includes(outcome);
+      const cell = document.createElement('div');
+      cell.className = 'death-diplomacy-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const table = WAR_TABLE[action];
+        cell.innerHTML = `<b>${table.name}</b><span>${table.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    if (entry) entry.removeAttribute('hidden');
+  };
+
+  const syncDeathDiplomacyRemembrance = () => {
+    paintDeathDiplomacyMemory();
+    paintDeathDiplomacyCodex();
+    const st = getDeathDiplomacy();
+    const unlocked = deathDiplomacyUnlocked();
+    const coverage = diplomaticCoverageComplete(st);
+    const entryBtn = $('#death-diplomacy-entry-btn');
+    if (entryBtn) {
+      entryBtn.hidden = !(currentScene === 'remembrance' && unlocked);
+      entryBtn.disabled = !(!st.pending && !st.activeCourier && st.draft.delegation === '' && st.draft.counterpart === '' && currentScene === 'remembrance' && unlocked);
+    }
+    const warEntryBtn = $('#death-diplomacy-war-entry-btn');
+    if (warEntryBtn) {
+      warEntryBtn.hidden = !(currentScene === 'remembrance' && unlocked && coverage);
+      warEntryBtn.disabled = !(!st.pending && !st.activeCourier && currentScene === 'remembrance' && unlocked && coverage);
+    }
+  };
+
+  const syncDeathDiplomacyLinks = () => {
+    const st = getDeathDiplomacy();
+    const unlocked = deathDiplomacyUnlocked();
+    const map = {
+      'death-foreign-ministry-link': unlocked && st.visited.ministry,
+      'nonexistent-border-chancery-link': unlocked && st.visited.border,
+      'treaty-autopsy-table-link': unlocked && st.visited.autopsy,
+      'undeclared-war-room-link': unlocked && st.visited.war,
+    };
+    for (const [id, show] of Object.entries(map)) {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !show;
+    }
+  };
+
+  const replayDeathDiplomacyPending = (sceneName) => {
+    const st = getDeathDiplomacy();
+    const p = st.pending;
+    if (!p) {
+      syncDeathDiplomacyMinistry();
+      syncDeathDiplomacyBorder();
+      syncDeathDiplomacyAutopsy();
+      syncDeathDiplomacyWar();
+      syncDeathDiplomacyCouriers();
+      return;
+    }
+    if (sceneName === p.target) {
+      deathDiplomacyBeforeArrive(p);
+      syncDeathDiplomacyMinistry();
+      syncDeathDiplomacyBorder();
+      syncDeathDiplomacyAutopsy();
+      syncDeathDiplomacyWar();
+      syncDeathDiplomacyCouriers();
+      if (sceneName === 'remembrance') syncDeathDiplomacyRemembrance();
+      return;
+    }
+    const schedule = (source) => AutoAdvance.schedule(source, p.target, { delay: deathDiplomacyDelay(), before: () => deathDiplomacyBeforeArrive(p) });
+
+    if (p.kind === 'entry' && sceneName === 'remembrance') {
+      const btn = $('#death-diplomacy-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#death-diplomacy-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'delegation' && sceneName === 'death-foreign-ministry') {
+      const response = $('#death-diplomacy-ministry-response');
+      if (response) response.textContent = p.feedback;
+      lockDeathDiplomacyDelegationButtons(p.delegation);
+      schedule('death-foreign-ministry');
+    } else if (p.kind === 'counterpart' && sceneName === 'nonexistent-border-chancery') {
+      const response = $('#death-diplomacy-border-response');
+      if (response) response.textContent = p.feedback;
+      lockDeathDiplomacyCounterpartButtons(p.counterpart);
+      schedule('nonexistent-border-chancery');
+    } else if (p.kind === 'treaty' && sceneName === 'treaty-autopsy-table') {
+      const response = $('#death-diplomacy-autopsy-response');
+      if (response) response.textContent = p.feedback;
+      lockDeathDiplomacyClauseButtons(p.clause);
+      schedule('treaty-autopsy-table');
+    } else if (p.kind === 'courier-return' && sceneName === p.from) {
+      const container = $(`#death-diplomacy-courier-${p.from}`);
+      if (container) container.hidden = false;
+      const response = $(`#death-diplomacy-courier-response-${p.from}`);
+      if (response) response.textContent = p.feedback;
+      const btn = $(`#death-diplomacy-courier-return-${p.from}`);
+      if (btn) {
+        btn.disabled = true;
+        btn.setAttribute('aria-pressed', 'true');
+      }
+      schedule(p.from);
+    } else if (p.kind === 'war-entry' && sceneName === 'remembrance') {
+      const btn = $('#death-diplomacy-war-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#death-diplomacy-war-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'war' && sceneName === 'undeclared-war-room') {
+      const response = $('#death-diplomacy-war-response');
+      if (response) response.textContent = p.feedback;
+      lockDeathDiplomacyWarButtons(p.action);
+      schedule('undeclared-war-room');
+    } else {
+      st.pending = null;
+      saveDeathDiplomacy(st);
+    }
+  };
+
+  const chooseDeathDiplomacyDelegation = (delegation) => {
+    if (currentScene !== 'death-foreign-ministry') return;
+    if (AutoAdvance.has('death-foreign-ministry')) return;
+    if (!DELEGATIONS.includes(delegation)) return;
+    if (!buttonAvailable(`death-diplomacy-delegation-${delegation}`)) return;
+    const st = getDeathDiplomacy();
+    if (st.pending) return;
+    if (st.activeCourier) return;
+    if (st.draft.delegation !== '' || st.draft.counterpart !== '') return;
+    const table = DELEGATION_TABLE[delegation];
+    if (!table) return;
+    const pending = { kind: 'delegation', source: 'death-foreign-ministry', delegation, target: 'nonexistent-border-chancery', feedback: table.feedback };
+    st.pending = pending;
+    saveDeathDiplomacy(st);
+    lockDeathDiplomacyDelegationButtons(delegation);
+    const response = $('#death-diplomacy-ministry-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('death-foreign-ministry', 'nonexistent-border-chancery', { delay: deathDiplomacyDelay(), before: () => deathDiplomacyBeforeArrive(pending) });
+  };
+
+  const chooseDeathDiplomacyCounterpart = (counterpart) => {
+    if (currentScene !== 'nonexistent-border-chancery') return;
+    if (AutoAdvance.has('nonexistent-border-chancery')) return;
+    if (!COUNTERPARTS.includes(counterpart)) return;
+    if (!buttonAvailable(`death-diplomacy-counterpart-${counterpart}`)) return;
+    const st = getDeathDiplomacy();
+    if (st.pending) return;
+    if (!DELEGATIONS.includes(st.draft.delegation)) return;
+    const table = COUNTERPART_TABLE[counterpart];
+    if (!table) return;
+    const pending = { kind: 'counterpart', source: 'nonexistent-border-chancery', delegation: st.draft.delegation, counterpart, target: 'treaty-autopsy-table', feedback: table.feedback };
+    st.pending = pending;
+    saveDeathDiplomacy(st);
+    lockDeathDiplomacyCounterpartButtons(counterpart);
+    const response = $('#death-diplomacy-border-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('nonexistent-border-chancery', 'treaty-autopsy-table', { delay: deathDiplomacyDelay(), before: () => deathDiplomacyBeforeArrive(pending) });
+  };
+
+  const chooseDeathDiplomacyClause = (clause) => {
+    if (currentScene !== 'treaty-autopsy-table') return;
+    if (AutoAdvance.has('treaty-autopsy-table')) return;
+    if (!CLAUSES.includes(clause)) return;
+    if (!buttonAvailable(`death-diplomacy-clause-${clause}`)) return;
+    const st = getDeathDiplomacy();
+    if (st.pending) return;
+    const d = st.draft.delegation;
+    const c = st.draft.counterpart;
+    if (!DELEGATIONS.includes(d) || !COUNTERPARTS.includes(c)) return;
+    const feedback = computeTreatyFeedback(d, c, clause);
+    const treaty = computeTreatyId(d, c, clause);
+    const target = SCENE_FOR_COUNTERPART[c];
+    const pending = { kind: 'treaty', source: 'treaty-autopsy-table', clause, counterpart: c, delegation: d, target, treaty, feedback };
+    st.pending = pending;
+    saveDeathDiplomacy(st);
+    lockDeathDiplomacyClauseButtons(clause);
+    const response = $('#death-diplomacy-autopsy-response');
+    if (response) response.textContent = feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('treaty-autopsy-table', target, { delay: deathDiplomacyDelay(), before: () => deathDiplomacyBeforeArrive(pending) });
+  };
+
+  const chooseDeathDiplomacyCourierReturn = (scene) => {
+    if (currentScene !== scene) return;
+    if (AutoAdvance.has(scene)) return;
+    if (!Object.values(SCENE_FOR_COUNTERPART).includes(scene)) return;
+    if (!buttonAvailable(`death-diplomacy-courier-return-${scene}`)) return;
+    const st = getDeathDiplomacy();
+    if (st.pending) return;
+    const courier = st.activeCourier;
+    if (!courier || SCENE_FOR_COUNTERPART[courier.counterpart] !== scene) return;
+    const pending = { kind: 'courier-return', from: scene, target: 'death-foreign-ministry', treaty: courier.treaty, feedback: courier.feedback };
+    st.pending = pending;
+    saveDeathDiplomacy(st);
+    const btn = $(`#death-diplomacy-courier-return-${scene}`);
+    if (btn) {
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', 'true');
+    }
+    const response = $(`#death-diplomacy-courier-response-${scene}`);
+    if (response) response.textContent = courier.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule(scene, 'death-foreign-ministry', { delay: deathDiplomacyDelay(), before: () => deathDiplomacyBeforeArrive(pending) });
+  };
+
+  const chooseDeathDiplomacyEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('death-diplomacy-entry-btn')) return;
+    if (!deathDiplomacyUnlocked()) return;
+    const st = getDeathDiplomacy();
+    if (st.pending) return;
+    if (st.activeCourier) return;
+    if (st.draft.delegation !== '' || st.draft.counterpart !== '') return;
+    const pending = { kind: 'entry', target: 'death-foreign-ministry', feedback: DEATH_DIPLOMACY_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveDeathDiplomacy(st);
+    const btn = $('#death-diplomacy-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#death-diplomacy-entry-response');
+    if (response) response.textContent = DEATH_DIPLOMACY_ENTRY_FEEDBACK;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('remembrance', 'death-foreign-ministry', { delay: deathDiplomacyDelay(), before: () => deathDiplomacyBeforeArrive(pending) });
+  };
+
+  const chooseDeathDiplomacyWarEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('death-diplomacy-war-entry-btn')) return;
+    const st = getDeathDiplomacy();
+    if (st.pending) return;
+    if (!diplomaticCoverageComplete(st)) return;
+    const pending = { kind: 'war-entry', target: 'undeclared-war-room', feedback: DEATH_DIPLOMACY_WAR_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveDeathDiplomacy(st);
+    const btn = $('#death-diplomacy-war-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#death-diplomacy-war-entry-response');
+    if (response) response.textContent = DEATH_DIPLOMACY_WAR_ENTRY_FEEDBACK;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('remembrance', 'undeclared-war-room', { delay: deathDiplomacyDelay(), before: () => deathDiplomacyBeforeArrive(pending) });
+  };
+
+  const chooseDeathDiplomacyWarAction = (action) => {
+    if (currentScene !== 'undeclared-war-room') return;
+    if (AutoAdvance.has('undeclared-war-room')) return;
+    if (!WAR_ACTIONS.includes(action)) return;
+    if (!buttonAvailable(`death-diplomacy-war-${action}`)) return;
+    const st = getDeathDiplomacy();
+    if (st.pending) return;
+    if (!st.visited.war) return;
+    if (!diplomaticCoverageComplete(st)) return;
+    const table = WAR_TABLE[action];
+    if (!table) return;
+    const pending = { kind: 'war', source: 'undeclared-war-room', action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    st.pending = pending;
+    saveDeathDiplomacy(st);
+    lockDeathDiplomacyWarButtons(action);
+    const response = $('#death-diplomacy-war-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('undeclared-war-room', table.target, { delay: deathDiplomacyDelay(), before: () => deathDiplomacyBeforeArrive(pending) });
+  };
+
+  const deathDiplomacyCanVisitMinistry = () => {
+    if (!deathDiplomacyUnlocked()) return false;
+    const st = getDeathDiplomacy();
+    const p = st.pending;
+    if (p && (p.kind === 'entry' || p.kind === 'courier-return') && p.target === 'death-foreign-ministry') return true;
+    if (st.visited.ministry) return true;
+    return false;
+  };
+
+  const deathDiplomacyCanVisitBorder = () => {
+    if (!deathDiplomacyUnlocked()) return false;
+    const st = getDeathDiplomacy();
+    const p = st.pending;
+    if (p && p.kind === 'delegation' && p.target === 'nonexistent-border-chancery') return true;
+    if (st.visited.border && DELEGATIONS.includes(st.draft.delegation)) return true;
+    return false;
+  };
+
+  const deathDiplomacyCanVisitAutopsy = () => {
+    if (!deathDiplomacyUnlocked()) return false;
+    const st = getDeathDiplomacy();
+    const p = st.pending;
+    if (p && p.kind === 'counterpart' && p.target === 'treaty-autopsy-table') return true;
+    if (st.visited.autopsy && DELEGATIONS.includes(st.draft.delegation) && COUNTERPARTS.includes(st.draft.counterpart)) return true;
+    return false;
+  };
+
+  const deathDiplomacyCanVisitWar = () => {
+    if (!deathDiplomacyUnlocked()) return false;
+    const st = getDeathDiplomacy();
+    if (!diplomaticCoverageComplete(st)) return false;
+    const p = st.pending;
+    if (p && p.kind === 'war-entry' && p.target === 'undeclared-war-room') return true;
+    if (st.visited.war) return true;
+    return false;
+  };
+
+  const deathDiplomacyEntryBtn = $('#death-diplomacy-entry-btn');
+  if (deathDiplomacyEntryBtn) {
+    deathDiplomacyEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeathDiplomacyEntry();
+    });
+  }
+  const deathDiplomacyWarEntryBtn = $('#death-diplomacy-war-entry-btn');
+  if (deathDiplomacyWarEntryBtn) {
+    deathDiplomacyWarEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeathDiplomacyWarEntry();
+    });
+  }
+  const deathDiplomacyDelegationNameLegationBtn = $('#death-diplomacy-delegation-name-legation');
+  if (deathDiplomacyDelegationNameLegationBtn) {
+    deathDiplomacyDelegationNameLegationBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeathDiplomacyDelegation('name-legation');
+    });
+  }
+  const deathDiplomacyDelegationShadowMissionBtn = $('#death-diplomacy-delegation-shadow-mission');
+  if (deathDiplomacyDelegationShadowMissionBtn) {
+    deathDiplomacyDelegationShadowMissionBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeathDiplomacyDelegation('shadow-mission');
+    });
+  }
+  const deathDiplomacyDelegationBodyConsulateBtn = $('#death-diplomacy-delegation-body-consulate');
+  if (deathDiplomacyDelegationBodyConsulateBtn) {
+    deathDiplomacyDelegationBodyConsulateBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeathDiplomacyDelegation('body-consulate');
+    });
+  }
+  const deathDiplomacyCounterpartBeforeBirthCountryBtn = $('#death-diplomacy-counterpart-before-birth-country');
+  if (deathDiplomacyCounterpartBeforeBirthCountryBtn) {
+    deathDiplomacyCounterpartBeforeBirthCountryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeathDiplomacyCounterpart('before-birth-country');
+    });
+  }
+  const deathDiplomacyCounterpartAfterMemoryRepublicBtn = $('#death-diplomacy-counterpart-after-memory-republic');
+  if (deathDiplomacyCounterpartAfterMemoryRepublicBtn) {
+    deathDiplomacyCounterpartAfterMemoryRepublicBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeathDiplomacyCounterpart('after-memory-republic');
+    });
+  }
+  const deathDiplomacyCounterpartInsideBodyStateBtn = $('#death-diplomacy-counterpart-inside-body-state');
+  if (deathDiplomacyCounterpartInsideBodyStateBtn) {
+    deathDiplomacyCounterpartInsideBodyStateBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeathDiplomacyCounterpart('inside-body-state');
+    });
+  }
+  const deathDiplomacyClauseMutualRecognitionBtn = $('#death-diplomacy-clause-mutual-recognition');
+  if (deathDiplomacyClauseMutualRecognitionBtn) {
+    deathDiplomacyClauseMutualRecognitionBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeathDiplomacyClause('mutual-recognition');
+    });
+  }
+  const deathDiplomacyClauseAsylumForUnlivedBtn = $('#death-diplomacy-clause-asylum-for-unlived');
+  if (deathDiplomacyClauseAsylumForUnlivedBtn) {
+    deathDiplomacyClauseAsylumForUnlivedBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeathDiplomacyClause('asylum-for-unlived');
+    });
+  }
+  const deathDiplomacyClauseResurrectionEmbargoBtn = $('#death-diplomacy-clause-resurrection-embargo');
+  if (deathDiplomacyClauseResurrectionEmbargoBtn) {
+    deathDiplomacyClauseResurrectionEmbargoBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeathDiplomacyClause('resurrection-embargo');
+    });
+  }
+  const deathDiplomacyClauseExtraditeTheEndingBtn = $('#death-diplomacy-clause-extradite-the-ending');
+  if (deathDiplomacyClauseExtraditeTheEndingBtn) {
+    deathDiplomacyClauseExtraditeTheEndingBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeathDiplomacyClause('extradite-the-ending');
+    });
+  }
+  const deathDiplomacyCourierReturnCounterfactualSpindleBtn = $('#death-diplomacy-courier-return-counterfactual-spindle');
+  if (deathDiplomacyCourierReturnCounterfactualSpindleBtn) {
+    deathDiplomacyCourierReturnCounterfactualSpindleBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeathDiplomacyCourierReturn('counterfactual-spindle');
+    });
+  }
+  const deathDiplomacyCourierReturnRemembranceBtn = $('#death-diplomacy-courier-return-remembrance');
+  if (deathDiplomacyCourierReturnRemembranceBtn) {
+    deathDiplomacyCourierReturnRemembranceBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeathDiplomacyCourierReturn('remembrance');
+    });
+  }
+  const deathDiplomacyCourierReturnConstitutionalSeveranceDeskBtn = $('#death-diplomacy-courier-return-constitutional-severance-desk');
+  if (deathDiplomacyCourierReturnConstitutionalSeveranceDeskBtn) {
+    deathDiplomacyCourierReturnConstitutionalSeveranceDeskBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeathDiplomacyCourierReturn('constitutional-severance-desk');
+    });
+  }
+  const deathDiplomacyWarInternalizeAllBordersBtn = $('#death-diplomacy-war-internalize-all-borders');
+  if (deathDiplomacyWarInternalizeAllBordersBtn) {
+    deathDiplomacyWarInternalizeAllBordersBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeathDiplomacyWarAction('internalize-all-borders');
+    });
+  }
+  const deathDiplomacyWarRecognizeOnlyExileBtn = $('#death-diplomacy-war-recognize-only-exile');
+  if (deathDiplomacyWarRecognizeOnlyExileBtn) {
+    deathDiplomacyWarRecognizeOnlyExileBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeathDiplomacyWarAction('recognize-only-exile');
+    });
+  }
+  const deathDiplomacyWarCriminalizeResurrectionBtn = $('#death-diplomacy-war-criminalize-resurrection');
+  if (deathDiplomacyWarCriminalizeResurrectionBtn) {
+    deathDiplomacyWarCriminalizeResurrectionBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDeathDiplomacyWarAction('criminalize-resurrection');
+    });
+  }
+  /* ============================================================
+     v72 遗言中央银行 / CENTRAL BANK OF LAST WORDS
+     ============================================================ */
+  const LAST_WORD_BANK_KEY = 'goddead_v72_last_word_bank';
+  const LAST_WORD_BANK_VERSION = 72;
+  const CURRENCIES = ['ownerless-signature-note', 'unseen-shadow-coin', 'unspoken-testament-bond'];
+  const RESERVES = ['last-breath-reserve', 'inherited-silence-reserve', 'collateralized-ending-reserve'];
+  const POLICIES = ['issue-before-speaking', 'devalue-the-farewell', 'freeze-resurrection-liquidity', 'redeem-in-another-mouth'];
+  const DEFAULT_ACTIONS = ['nationalize-every-last-word', 'let-silence-set-interest', 'declare-death-too-big-to-fail'];
+
+  const SCENE_FOR_RESERVE = {
+    'last-breath-reserve': 'threshold',
+    'inherited-silence-reserve': 'remembrance',
+    'collateralized-ending-reserve': 'unending-gallery',
+  };
+
+  const LAST_WORD_BANK_ENTRY_FEEDBACK = '死亡外交部签完三十六份条约后，三座共和国终于互相承认，却发现没有任何货币能支付跨境死亡。';
+  const LAST_WORD_BANK_DEFAULT_ENTRY_FEEDBACK = '让所有遗言同时违约 · DEFAULT EVERY LAST WORD AT ONCE';
+
+  const CURRENCY_TABLE = {
+    'ownerless-signature-note': {
+      name: '发行无主签名钞 · ISSUE THE OWNERLESS SIGNATURE NOTE',
+      feedback: '姓名把签名印满钞面，却不肯留下持有人。每张纸币都能证明有人承诺过，不能证明那个人存在。',
+      title: '无主签名钞',
+      fragment: '姓名把签名印满钞面，却不肯留下持有人。每张纸币都能证明有人承诺过，不能证明那个人存在。',
+      tallyKey: 'name',
+    },
+    'unseen-shadow-coin': {
+      name: '铸造无人注视黑币 · MINT THE UNSEEN SHADOW COIN',
+      feedback: '影子把自己切成圆片。黑币只有在目光移开时才显出面额，因此每次清点都会少一枚。',
+      title: '无人注视黑币',
+      fragment: '影子把自己切成圆片。黑币只有在目光移开时才显出面额，因此每次清点都会少一枚。',
+      tallyKey: 'shadow',
+    },
+    'unspoken-testament-bond': {
+      name: '发行未言遗嘱债 · ISSUE THE UNSPOKEN TESTAMENT BOND',
+      feedback: '肉身抵押喉咙里尚未说出的遗言。债券到期日写在最后一次呼吸之后。',
+      title: '未言遗嘱债',
+      fragment: '肉身抵押喉咙里尚未说出的遗言。债券到期日写在最后一次呼吸之后。',
+      tallyKey: 'body',
+    },
+  };
+
+  const RESERVE_TABLE = {
+    'last-breath-reserve': {
+      name: '存入最后一口气 · DEPOSIT THE LAST BREATH',
+      feedback: '玻璃肺把最后一口气分成一百份。每一份都足以让货币活着，却没有一份能让持有人复活。',
+      title: '最后一口气',
+      fragment: '玻璃肺把最后一口气分成一百份。每一份都足以让货币活着，却没有一份能让持有人复活。',
+      target: 'threshold',
+      remittanceFeedback: '末息汇兑员在门槛外核对储备。那口气仍然有效，只是已经不属于任何肺。',
+    },
+    'inherited-silence-reserve': {
+      name: '存入继承来的沉默 · DEPOSIT INHERITED SILENCE',
+      feedback: '沉默从遗嘱里过户。它没有声音，却能对所有尚未说出口的话收取保管费。',
+      title: '继承来的沉默',
+      fragment: '沉默从遗嘱里过户。它没有声音，却能对所有尚未说出口的话收取保管费。',
+      target: 'remembrance',
+      remittanceFeedback: '沉默汇兑员把余额写进痕迹墙。数字没有发出声音，却让所有遗言同时欠息。',
+    },
+    'collateralized-ending-reserve': {
+      name: '抵押一段结局 · COLLATERALIZE AN ENDING',
+      feedback: '结局被压进棺形金属锭。只要故事还欠着利息，它就不能真正结束。',
+      title: '抵押一段结局',
+      fragment: '结局被压进棺形金属锭。只要故事还欠着利息，它就不能真正结束。',
+      target: 'unending-gallery',
+      remittanceFeedback: '结局汇兑员从无尽画廊带回抵押凭证。每幅终局都盖着尚未到期的印章。',
+    },
+  };
+
+  const POLICY_TABLE = {
+    'issue-before-speaking': {
+      name: '先于说出口发行 · ISSUE BEFORE IT IS SPOKEN',
+      title: '先于说出口',
+      fragment: '遗言在发声以前就进入流通，讲话者反而成了自己的伪钞。',
+    },
+    'devalue-the-farewell': {
+      name: '让告别贬值 · DEVALUE THE FAREWELL',
+      title: '让告别贬值',
+      fragment: '每一次重复告别都会贬值，直到离开比留下更便宜。',
+    },
+    'freeze-resurrection-liquidity': {
+      name: '冻结复活流动性 · FREEZE RESURRECTION LIQUIDITY',
+      title: '冻结复活流动性',
+      fragment: '所有下一次呼吸被冻结，死者仍有资产，却再也无法把它兑换成生命。',
+    },
+    'redeem-in-another-mouth': {
+      name: '在他人口中赎回 · REDEEM IN ANOTHER MOUTH',
+      title: '他人口中赎回',
+      fragment: '遗言只能在别人的口中兑付，原说话者因此永远听不见自己的余额。',
+    },
+  };
+
+  const DEFAULT_TABLE = {
+    'nationalize-every-last-word': {
+      name: '国有化所有遗言 · NATIONALIZE EVERY LAST WORD',
+      outcome: 'every-last-word-was-nationalized',
+      target: 'remembrance',
+      feedback: '中央银行宣布所有遗言属于国家。私人死亡仍被允许，但最后一句话必须先交公。',
+    },
+    'let-silence-set-interest': {
+      name: '让沉默决定利率 · LET SILENCE SET THE INTEREST RATE',
+      outcome: 'silence-set-the-interest-rate',
+      target: 'unending-gallery',
+      feedback: '利率由无人开口的时长决定。沉默越久，死者欠未来的声音就越多。',
+    },
+    'declare-death-too-big-to-fail': {
+      name: '宣布死亡大到不能倒闭 · DECLARE DEATH TOO BIG TO FAIL',
+      outcome: 'death-became-too-big-to-fail',
+      target: 'threshold',
+      feedback: '央行用所有未说出口的遗言救助死亡。门重新营业，而倒闭的只有生者。',
+    },
+  };
+
+  const INSTRUMENT_IDS = (() => {
+    const ids = [];
+    for (const c of CURRENCIES) {
+      for (const r of RESERVES) {
+        for (const p of POLICIES) {
+          ids.push(`${c}:${r}:${p}`);
+        }
+      }
+    }
+    return ids;
+  })();
+  const INSTRUMENT_SET = new Set(INSTRUMENT_IDS);
+  const DEFAULT_OUTCOME_IDS = DEFAULT_ACTIONS.map((a) => DEFAULT_TABLE[a].outcome);
+  const DEFAULT_OUTCOME_SET = new Set(DEFAULT_OUTCOME_IDS);
+
+  const defaultLastWordBank = () => ({
+    version: LAST_WORD_BANK_VERSION,
+    visited: { bank: false, mint: false, vault: false, default: false },
+    draft: { currency: '', reserve: '' },
+    instruments: [],
+    defaultOutcomes: [],
+    monetaryRuns: 0,
+    defaultRuns: 0,
+    issuerTallies: { name: 0, shadow: 0, body: 0 },
+    lastOutcome: '',
+    activeRemittance: null,
+    pending: null,
+  });
+
+  const normalizeLastWordBankVisited = (visited) => {
+    const v = visited && typeof visited === 'object' && !Array.isArray(visited) ? visited : {};
+    return {
+      bank: v.bank === true,
+      mint: v.mint === true,
+      vault: v.vault === true,
+      default: v.default === true,
+    };
+  };
+
+  const normalizeLastWordBankDraft = (draft) => {
+    const d = draft && typeof draft === 'object' && !Array.isArray(draft) ? draft : {};
+    let currency = typeof d.currency === 'string' ? d.currency : '';
+    let reserve = typeof d.reserve === 'string' ? d.reserve : '';
+    if (!CURRENCIES.includes(currency)) {
+      currency = '';
+      reserve = '';
+    }
+    if (!RESERVES.includes(reserve)) {
+      reserve = '';
+    }
+    if (reserve !== '' && currency === '') {
+      reserve = '';
+    }
+    return { currency, reserve };
+  };
+
+  const normalizeLastWordBankInstruments = (instruments) => {
+    const arr = Array.isArray(instruments) ? instruments : [];
+    const seen = new Set();
+    const out = [];
+    for (const id of INSTRUMENT_IDS) {
+      if (arr.includes(id) && !seen.has(id)) {
+        out.push(id);
+        seen.add(id);
+      }
+    }
+    return out;
+  };
+
+  const normalizeLastWordBankDefaultOutcomes = (arr) => {
+    const input = Array.isArray(arr) ? arr : [];
+    const set = new Set(input);
+    return DEFAULT_ACTIONS.map((a) => DEFAULT_TABLE[a].outcome).filter((o) => set.has(o));
+  };
+
+  const clampLastWordBankCount = (n) => Math.min(9999, Math.max(0, Math.floor(Number(n) || 0)));
+
+  const normalizeLastWordBankIssuerTallies = (tallies) => {
+    const t = tallies && typeof tallies === 'object' && !Array.isArray(tallies) ? tallies : {};
+    return {
+      name: clampLastWordBankCount(t.name),
+      shadow: clampLastWordBankCount(t.shadow),
+      body: clampLastWordBankCount(t.body),
+    };
+  };
+
+  const normalizeLastWordBankActiveRemittance = (remittance, instruments) => {
+    if (!remittance || typeof remittance !== 'object' || Array.isArray(remittance)) return null;
+    if (Object.keys(remittance).sort().join(',') !== 'feedback,instrument,reserve') return null;
+    if (!RESERVES.includes(remittance.reserve)) return null;
+    const collected = Array.isArray(instruments) ? instruments : [];
+    if (!collected.includes(remittance.instrument)) return null;
+    if (!INSTRUMENT_SET.has(remittance.instrument)) return null;
+    const parts = remittance.instrument.split(':');
+    if (parts.length !== 3 || parts[1] !== remittance.reserve) return null;
+    const fb = RESERVE_TABLE[remittance.reserve].remittanceFeedback;
+    if (remittance.feedback !== fb) return null;
+    return { reserve: remittance.reserve, instrument: remittance.instrument, feedback: fb };
+  };
+
+  const normalizeLastWordBankPending = (p, st) => {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || !p.kind) return null;
+    const keys = Object.keys(p).sort().join(',');
+    const unlocked = st._v72unlocked === true;
+
+    if (p.kind === 'entry' && keys === 'feedback,kind,target') {
+      if (!unlocked || st.activeRemittance || st.draft.currency !== '' || st.draft.reserve !== '') return null;
+      if (p.target === 'last-word-central-bank' && p.feedback === LAST_WORD_BANK_ENTRY_FEEDBACK) {
+        return { kind: 'entry', target: 'last-word-central-bank', feedback: p.feedback };
+      }
+    }
+    if (p.kind === 'currency' && keys === 'currency,feedback,kind,source,target') {
+      if (!unlocked) return null;
+      if (st.activeRemittance) return null;
+      if (p.source !== 'last-word-central-bank' || p.target !== 'unsaid-currency-mint') return null;
+      if (!CURRENCIES.includes(p.currency)) return null;
+      const table = CURRENCY_TABLE[p.currency];
+      if (!table || p.feedback !== table.feedback) return null;
+      if (st.draft.currency !== '' || st.draft.reserve !== '') return null;
+      return { kind: 'currency', source: 'last-word-central-bank', currency: p.currency, target: 'unsaid-currency-mint', feedback: p.feedback };
+    }
+    if (p.kind === 'reserve' && keys === 'currency,feedback,kind,reserve,source,target') {
+      if (!unlocked) return null;
+      if (st.activeRemittance) return null;
+      if (p.source !== 'unsaid-currency-mint' || p.target !== 'testament-clearing-vault') return null;
+      if (!CURRENCIES.includes(p.currency) || !RESERVES.includes(p.reserve)) return null;
+      if (p.currency !== st.draft.currency) return null;
+      const table = RESERVE_TABLE[p.reserve];
+      if (!table || p.feedback !== table.feedback) return null;
+      return { kind: 'reserve', source: 'unsaid-currency-mint', currency: p.currency, reserve: p.reserve, target: 'testament-clearing-vault', feedback: p.feedback };
+    }
+    if (p.kind === 'instrument' && keys === 'currency,feedback,instrument,kind,policy,reserve,source,target') {
+      if (!unlocked) return null;
+      if (st.activeRemittance) return null;
+      if (p.source !== 'testament-clearing-vault') return null;
+      if (!CURRENCIES.includes(p.currency) || !RESERVES.includes(p.reserve) || !POLICIES.includes(p.policy)) return null;
+      if (p.currency !== st.draft.currency || p.reserve !== st.draft.reserve) return null;
+      const instrumentId = computeInstrumentId(p.currency, p.reserve, p.policy);
+      if (p.instrument !== instrumentId) return null;
+      const target = SCENE_FOR_RESERVE[p.reserve];
+      if (p.target !== target) return null;
+      const fb = computeInstrumentFeedback(p.currency, p.reserve, p.policy);
+      if (p.feedback !== fb) return null;
+      return { kind: 'instrument', source: 'testament-clearing-vault', currency: p.currency, reserve: p.reserve, policy: p.policy, instrument: instrumentId, target, feedback: fb };
+    }
+    if (p.kind === 'remittance-return' && keys === 'feedback,from,instrument,kind,target') {
+      if (!unlocked) return null;
+      if (p.target !== 'last-word-central-bank') return null;
+      if (!Object.values(SCENE_FOR_RESERVE).includes(p.from)) return null;
+      const remittance = st.activeRemittance;
+      if (!remittance || SCENE_FOR_RESERVE[remittance.reserve] !== p.from || remittance.instrument !== p.instrument) return null;
+      if (p.feedback !== remittance.feedback) return null;
+      return { kind: 'remittance-return', from: p.from, target: 'last-word-central-bank', instrument: p.instrument, feedback: p.feedback };
+    }
+    if (p.kind === 'default-entry' && keys === 'feedback,kind,target') {
+      if (!unlocked) return null;
+      if (st.activeRemittance) return null;
+      if (st.draft.currency !== '' || st.draft.reserve !== '') return null;
+      if (p.target !== 'sovereign-default-chamber' || p.feedback !== LAST_WORD_BANK_DEFAULT_ENTRY_FEEDBACK) return null;
+      if (!monetaryCoverageComplete(st)) return null;
+      return { kind: 'default-entry', target: 'sovereign-default-chamber', feedback: p.feedback };
+    }
+    if (p.kind === 'default' && keys === 'action,feedback,kind,outcome,source,target') {
+      if (!unlocked) return null;
+      if (st.activeRemittance) return null;
+      if (st.draft.currency !== '' || st.draft.reserve !== '') return null;
+      if (!monetaryCoverageComplete(st) || !st.visited.default) return null;
+      if (p.source !== 'sovereign-default-chamber') return null;
+      if (!DEFAULT_ACTIONS.includes(p.action)) return null;
+      const table = DEFAULT_TABLE[p.action];
+      if (!table || p.outcome !== table.outcome || p.target !== table.target || p.feedback !== table.feedback) return null;
+      return { kind: 'default', source: 'sovereign-default-chamber', action: p.action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    }
+    return null;
+  };
+
+  const saveLastWordBank = (st) => {
+    const visited = normalizeLastWordBankVisited(st.visited);
+    const draft = normalizeLastWordBankDraft(st.draft);
+    const instruments = normalizeLastWordBankInstruments(st.instruments);
+    const defaultOutcomes = normalizeLastWordBankDefaultOutcomes(st.defaultOutcomes);
+    const monetaryRuns = clampLastWordBankCount(st.monetaryRuns);
+    const defaultRuns = clampLastWordBankCount(st.defaultRuns);
+    const issuerTallies = normalizeLastWordBankIssuerTallies(st.issuerTallies);
+    const validLast = new Set([...instruments, ...defaultOutcomes]);
+    const lastOutcome = validLast.has(st.lastOutcome) ? st.lastOutcome : '';
+    const activeRemittance = normalizeLastWordBankActiveRemittance(st.activeRemittance, instruments);
+    const pendingState = {
+      version: LAST_WORD_BANK_VERSION,
+      visited,
+      draft,
+      instruments,
+      defaultOutcomes,
+      monetaryRuns,
+      defaultRuns,
+      issuerTallies,
+      lastOutcome,
+      activeRemittance,
+      pending: null,
+      _v72unlocked: lastWordBankUnlocked(),
+    };
+    const pending = normalizeLastWordBankPending(st.pending, pendingState);
+    store.set(
+      LAST_WORD_BANK_KEY,
+      JSON.stringify({
+        version: LAST_WORD_BANK_VERSION,
+        visited,
+        draft,
+        instruments,
+        defaultOutcomes,
+        monetaryRuns,
+        defaultRuns,
+        issuerTallies,
+        lastOutcome,
+        activeRemittance,
+        pending,
+      })
+    );
+  };
+
+  const getLastWordBank = () => {
+    let raw = {};
+    try { raw = JSON.parse(store.get(LAST_WORD_BANK_KEY, '{}')) || {}; } catch { raw = {}; }
+    if (typeof raw !== 'object' || raw === null || Array.isArray(raw) || raw.version !== LAST_WORD_BANK_VERSION) {
+      return defaultLastWordBank();
+    }
+    if (!lastWordBankUnlocked()) {
+      return defaultLastWordBank();
+    }
+    const st = defaultLastWordBank();
+    st.visited = normalizeLastWordBankVisited(raw.visited);
+    st.draft = normalizeLastWordBankDraft(raw.draft);
+    st.instruments = normalizeLastWordBankInstruments(raw.instruments);
+    st.defaultOutcomes = normalizeLastWordBankDefaultOutcomes(raw.defaultOutcomes);
+    st.monetaryRuns = clampLastWordBankCount(raw.monetaryRuns);
+    st.defaultRuns = clampLastWordBankCount(raw.defaultRuns);
+    st.issuerTallies = normalizeLastWordBankIssuerTallies(raw.issuerTallies);
+    const validLast = new Set([...st.instruments, ...st.defaultOutcomes]);
+    st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : '';
+    st.activeRemittance = normalizeLastWordBankActiveRemittance(raw.activeRemittance, st.instruments);
+    const normSt = Object.assign({}, st, { _v72unlocked: lastWordBankUnlocked() });
+    st.pending = normalizeLastWordBankPending(raw.pending, normSt);
+    return st;
+  };
+
+  const lastWordBankUnlocked = () => {
+    if (!deathDiplomacyUnlocked()) return false;
+    const dd = getDeathDiplomacy();
+    if (!diplomaticCoverageComplete(dd)) return false;
+    const requiredOutcomes = [
+      'all-borders-moved-inside-the-body',
+      'only-the-exile-was-recognized',
+      'resurrection-became-contraband',
+    ];
+    if (dd.warOutcomes.length !== 3) return false;
+    for (const o of requiredOutcomes) {
+      if (!dd.warOutcomes.includes(o)) return false;
+    }
+    return true;
+  };
+
+  const monetaryCoverageComplete = (st) => {
+    const state = st || getLastWordBank();
+    if (state.instruments.length < 4) return false;
+    const currencies = new Set();
+    const reserves = new Set();
+    const policies = new Set();
+    for (const id of state.instruments) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      currencies.add(parts[0]);
+      reserves.add(parts[1]);
+      policies.add(parts[2]);
+    }
+    return currencies.size === 3 && reserves.size === 3 && policies.size === 4;
+  };
+
+  const computeLastWordBankMajority = (tallies) => {
+    const t = tallies || { name: 0, shadow: 0, body: 0 };
+    const name = Number(t.name) || 0;
+    const shadow = Number(t.shadow) || 0;
+    const body = Number(t.body) || 0;
+    if (name === 0 && shadow === 0 && body === 0) return '无人取得货币主权';
+    const max = Math.max(name, shadow, body);
+    const winners = [];
+    if (name === max) winners.push('name');
+    if (shadow === max) winners.push('shadow');
+    if (body === max) winners.push('body');
+    if (winners.length !== 1) return '无人取得货币主权';
+    if (winners[0] === 'name') return '签名货币取得主权';
+    if (winners[0] === 'shadow') return '黑币取得主权';
+    return '遗嘱债取得主权';
+  };
+
+  const computeInstrumentId = (currency, reserve, policy) => {
+    if (!CURRENCIES.includes(currency) || !RESERVES.includes(reserve) || !POLICIES.includes(policy)) return '';
+    return `${currency}:${reserve}:${policy}`;
+  };
+
+  const computeInstrumentTitle = (currency, reserve, policy) => {
+    const c = CURRENCY_TABLE[currency];
+    const r = RESERVE_TABLE[reserve];
+    const p = POLICY_TABLE[policy];
+    if (!c || !r || !p) return '';
+    return `${c.title} / ${r.title} / ${p.title}`;
+  };
+
+  const computeInstrumentFeedback = (currency, reserve, policy) => {
+    const c = CURRENCY_TABLE[currency];
+    const r = RESERVE_TABLE[reserve];
+    const p = POLICY_TABLE[policy];
+    if (!c || !r || !p) return '';
+    return `${c.fragment} ${r.fragment} ${p.fragment}`;
+  };
+
+  const findInstrumentById = (id) => {
+    if (!INSTRUMENT_SET.has(id)) return null;
+    const parts = id.split(':');
+    if (parts.length !== 3) return null;
+    return {
+      id,
+      currency: parts[0],
+      reserve: parts[1],
+      policy: parts[2],
+      title: computeInstrumentTitle(parts[0], parts[1], parts[2]),
+      feedback: computeInstrumentFeedback(parts[0], parts[1], parts[2]),
+    };
+  };
+
+  const computeDefaultOutcomeId = (action) => {
+    const table = DEFAULT_TABLE[action];
+    return table ? table.outcome : '';
+  };
+
+  const lastWordBankDelay = () => reduced ? 300 : 900 + Math.floor(Math.random() * 300);
+
+  const lastWordBankBeforeArrive = (pending) => {
+    const st = getLastWordBank();
+    if (!st.pending || !pending) return;
+    if (st.pending.kind !== pending.kind) return;
+    const p = st.pending;
+    if (p.kind === 'entry') {
+      st.visited.bank = true;
+    } else if (p.kind === 'currency') {
+      st.visited.mint = true;
+      st.draft.currency = p.currency;
+      st.draft.reserve = '';
+    } else if (p.kind === 'reserve') {
+      st.visited.vault = true;
+      st.draft.reserve = p.reserve;
+    } else if (p.kind === 'instrument') {
+      const instrumentId = computeInstrumentId(p.currency, p.reserve, p.policy);
+      if (!st.instruments.includes(instrumentId)) st.instruments.push(instrumentId);
+      st.instruments = normalizeLastWordBankInstruments(st.instruments);
+      st.monetaryRuns += 1;
+      const currencyTable = CURRENCY_TABLE[p.currency];
+      if (currencyTable) {
+        st.issuerTallies[currencyTable.tallyKey] = clampLastWordBankCount((st.issuerTallies[currencyTable.tallyKey] || 0) + 1);
+      }
+      st.lastOutcome = instrumentId;
+      st.activeRemittance = { reserve: p.reserve, instrument: instrumentId, feedback: RESERVE_TABLE[p.reserve].remittanceFeedback };
+      st.draft = { currency: '', reserve: '' };
+    } else if (p.kind === 'remittance-return') {
+      st.activeRemittance = null;
+      st.draft = { currency: '', reserve: '' };
+    } else if (p.kind === 'default-entry') {
+      st.visited.default = true;
+    } else if (p.kind === 'default') {
+      const outcome = computeDefaultOutcomeId(p.action);
+      if (outcome && !st.defaultOutcomes.includes(outcome)) st.defaultOutcomes.push(outcome);
+      st.defaultOutcomes = normalizeLastWordBankDefaultOutcomes(st.defaultOutcomes);
+      st.defaultRuns += 1;
+      st.lastOutcome = outcome;
+    }
+    st.pending = null;
+    saveLastWordBank(st);
+  };
+
+  const resolveLastWordBankPendingOnArrival = (name) => {
+    const st = getLastWordBank();
+    const p = st.pending;
+    if (p && p.target === name) lastWordBankBeforeArrive(p);
+  };
+
+  const lockLastWordBankCurrencyButtons = (pressedCurrency) => {
+    CURRENCIES.forEach((c) => {
+      const btn = $(`#last-word-bank-currency-${c}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(c === pressedCurrency));
+    });
+  };
+
+  const lockLastWordBankReserveButtons = (pressedReserve) => {
+    RESERVES.forEach((r) => {
+      const btn = $(`#last-word-bank-reserve-${r}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(r === pressedReserve));
+    });
+  };
+
+  const lockLastWordBankPolicyButtons = (pressedPolicy) => {
+    POLICIES.forEach((p) => {
+      const btn = $(`#last-word-bank-policy-${p}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(p === pressedPolicy));
+    });
+  };
+
+  const lockLastWordBankDefaultButtons = (pressedAction) => {
+    DEFAULT_ACTIONS.forEach((a) => {
+      const btn = $(`#last-word-bank-default-${a}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(a === pressedAction));
+    });
+  };
+
+  const syncLastWordBankBank = () => {
+    const figure = $('#last-word-bank-bank-figure');
+    const unlocked = lastWordBankUnlocked();
+    if (figure) figure.hidden = !unlocked;
+    if (!unlocked) return;
+    const st = getLastWordBank();
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeRemittance || st.draft.currency !== '' || st.draft.reserve !== '';
+    const response = $('#last-word-bank-bank-response');
+    CURRENCIES.forEach((c) => {
+      const btn = $(`#last-word-bank-currency-${c}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'currency' && pending.currency === c);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'currency') ? pending.feedback : '';
+  };
+
+  const syncLastWordBankMint = () => {
+    const figure = $('#last-word-bank-mint-figure');
+    const st = getLastWordBank();
+    const unlocked = lastWordBankUnlocked();
+    const hasDraft = unlocked && CURRENCIES.includes(st.draft.currency);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeRemittance;
+    const response = $('#last-word-bank-mint-response');
+    RESERVES.forEach((r) => {
+      const btn = $(`#last-word-bank-reserve-${r}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'reserve' && pending.reserve === r);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'reserve') ? pending.feedback : '';
+  };
+
+  const syncLastWordBankVault = () => {
+    const figure = $('#last-word-bank-vault-figure');
+    const st = getLastWordBank();
+    const unlocked = lastWordBankUnlocked();
+    const hasDraft = unlocked && CURRENCIES.includes(st.draft.currency) && RESERVES.includes(st.draft.reserve);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeRemittance;
+    const response = $('#last-word-bank-vault-response');
+    POLICIES.forEach((p) => {
+      const btn = $(`#last-word-bank-policy-${p}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'instrument' && pending.policy === p);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'instrument') ? pending.feedback : '';
+  };
+
+  const syncLastWordBankDefault = () => {
+    const figure = $('#last-word-bank-default-figure');
+    const tally = $('#last-word-bank-default-tally');
+    const st = getLastWordBank();
+    const open = lastWordBankUnlocked() && monetaryCoverageComplete(st) && st.visited.default;
+    if (figure) figure.hidden = !open;
+    if (tally) tally.hidden = !open;
+    if (!open) return;
+    paintLastWordBankDefaultTally();
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeRemittance || st.draft.currency !== '' || st.draft.reserve !== '';
+    const response = $('#last-word-bank-default-response');
+    DEFAULT_ACTIONS.forEach((a) => {
+      const btn = $(`#last-word-bank-default-${a}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'default' && pending.action === a);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'default') ? pending.feedback : '';
+  };
+
+  const paintLastWordBankDefaultTally = () => {
+    const tally = $('#last-word-bank-default-tally');
+    if (!tally) return;
+    const st = getLastWordBank();
+    const name = tally.querySelector('.last-word-bank-tally-name');
+    const shadow = tally.querySelector('.last-word-bank-tally-shadow');
+    const body = tally.querySelector('.last-word-bank-tally-body');
+    const majority = tally.querySelector('.last-word-bank-tally-majority');
+    if (name) name.textContent = `签名 ${st.issuerTallies.name}`;
+    if (shadow) shadow.textContent = `黑币 ${st.issuerTallies.shadow}`;
+    if (body) body.textContent = `遗嘱 ${st.issuerTallies.body}`;
+    if (majority) majority.textContent = computeLastWordBankMajority(st.issuerTallies);
+  };
+
+  const syncLastWordBankRemittances = () => {
+    const st = getLastWordBank();
+    const unlocked = lastWordBankUnlocked();
+    Object.values(SCENE_FOR_RESERVE).forEach((scene) => {
+      const container = $(`#last-word-bank-remittance-${scene}`);
+      if (!container) return;
+      const active = unlocked && st.activeRemittance && SCENE_FOR_RESERVE[st.activeRemittance.reserve] === scene && currentScene === scene;
+      container.hidden = !active;
+      if (active) paintLastWordBankRemittance(scene);
+    });
+  };
+
+  const paintLastWordBankRemittance = (scene) => {
+    const st = getLastWordBank();
+    const remittance = st.activeRemittance;
+    const response = $(`#last-word-bank-remittance-response-${scene}`);
+    const btn = $(`#last-word-bank-remittance-return-${scene}`);
+    if (response) response.textContent = (remittance && SCENE_FOR_RESERVE[remittance.reserve] === scene) ? remittance.feedback : '';
+    if (btn) {
+      const available = !!remittance && SCENE_FOR_RESERVE[remittance.reserve] === scene && currentScene === scene && !st.pending && !AutoAdvance.has(scene);
+      btn.disabled = !available;
+      btn.setAttribute('aria-pressed', 'false');
+    }
+  };
+
+  const paintLastWordBankMemory = () => {
+    const memory = $('#last-word-bank-memory');
+    if (!memory) return;
+    const st = getLastWordBank();
+    const unlocked = lastWordBankUnlocked();
+    if (!unlocked) {
+      memory.hidden = true;
+      return;
+    }
+    const counts = { currency: {}, reserve: {}, policy: {} };
+    for (const id of st.instruments) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      counts.currency[parts[0]] = (counts.currency[parts[0]] || 0) + 1;
+      counts.reserve[parts[1]] = (counts.reserve[parts[1]] || 0) + 1;
+      counts.policy[parts[2]] = (counts.policy[parts[2]] || 0) + 1;
+    }
+    const get = (map, key) => map[key] || 0;
+    memory.textContent = `遗言央行：已清算 ${st.instruments.length}/36 份工具，共发行 ${st.monetaryRuns} 次；货币 签名 ${get(counts.currency, 'ownerless-signature-note')} / 黑币 ${get(counts.currency, 'unseen-shadow-coin')} / 遗嘱 ${get(counts.currency, 'unspoken-testament-bond')}；储备 末息 ${get(counts.reserve, 'last-breath-reserve')} / 沉默 ${get(counts.reserve, 'inherited-silence-reserve')} / 结局 ${get(counts.reserve, 'collateralized-ending-reserve')}；政策 先发 ${get(counts.policy, 'issue-before-speaking')} / 贬值 ${get(counts.policy, 'devalue-the-farewell')} / 冻结 ${get(counts.policy, 'freeze-resurrection-liquidity')} / 他口赎回 ${get(counts.policy, 'redeem-in-another-mouth')}；货币主权 ${computeLastWordBankMajority(st.issuerTallies)}；违约结局 ${st.defaultOutcomes.length}/3。`;
+    memory.hidden = false;
+  };
+
+  const paintLastWordBankCodex = () => {
+    const box = $('#last-word-bank-codex');
+    const grid = $('#last-word-bank-codex-grid');
+    const entry = $('#last-word-bank-codex-entry');
+    if (!box || !grid) return;
+    const st = getLastWordBank();
+    const unlocked = lastWordBankUnlocked();
+    if (!unlocked) {
+      box.hidden = true;
+      if (entry) entry.hidden = true;
+      return;
+    }
+    box.removeAttribute('hidden');
+    grid.innerHTML = '';
+    for (const id of INSTRUMENT_IDS) {
+      const unlocked = st.instruments.includes(id);
+      const cell = document.createElement('div');
+      cell.className = 'last-word-bank-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const instrument = findInstrumentById(id);
+        cell.innerHTML = `<b>${instrument.title}</b><span>${instrument.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    for (const action of DEFAULT_ACTIONS) {
+      const outcome = DEFAULT_TABLE[action].outcome;
+      const unlocked = st.defaultOutcomes.includes(outcome);
+      const cell = document.createElement('div');
+      cell.className = 'last-word-bank-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const table = DEFAULT_TABLE[action];
+        cell.innerHTML = `<b>${table.name}</b><span>${table.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    if (entry) entry.removeAttribute('hidden');
+  };
+
+  const syncLastWordBankRemembrance = () => {
+    paintLastWordBankMemory();
+    paintLastWordBankCodex();
+    const st = getLastWordBank();
+    const unlocked = lastWordBankUnlocked();
+    const coverage = monetaryCoverageComplete(st);
+    const entryBtn = $('#last-word-bank-entry-btn');
+    if (entryBtn) {
+      entryBtn.hidden = !(currentScene === 'remembrance' && unlocked);
+      entryBtn.disabled = !(!st.pending && !st.activeRemittance && st.draft.currency === '' && st.draft.reserve === '' && currentScene === 'remembrance' && unlocked);
+    }
+    const defaultEntryBtn = $('#last-word-bank-default-entry-btn');
+    if (defaultEntryBtn) {
+      const activeRemittanceAtRemembrance = !!st.activeRemittance && SCENE_FOR_RESERVE[st.activeRemittance.reserve] === 'remembrance';
+      defaultEntryBtn.hidden = !(currentScene === 'remembrance' && unlocked && (coverage || activeRemittanceAtRemembrance));
+      defaultEntryBtn.disabled = !(!st.pending && !st.activeRemittance && st.draft.currency === '' && st.draft.reserve === '' && currentScene === 'remembrance' && unlocked && coverage);
+    }
+  };
+
+  const syncLastWordBankLinks = () => {
+    const st = getLastWordBank();
+    const unlocked = lastWordBankUnlocked();
+    const map = {
+      'last-word-central-bank-link': unlocked && st.visited.bank,
+      'unsaid-currency-mint-link': unlocked && st.visited.mint,
+      'testament-clearing-vault-link': unlocked && st.visited.vault,
+      'sovereign-default-chamber-link': unlocked && st.visited.default,
+    };
+    for (const [id, show] of Object.entries(map)) {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !show;
+    }
+  };
+
+  const replayLastWordBankPending = (sceneName) => {
+    const st = getLastWordBank();
+    const p = st.pending;
+    if (!p) {
+      syncLastWordBankBank();
+      syncLastWordBankMint();
+      syncLastWordBankVault();
+      syncLastWordBankDefault();
+      syncLastWordBankRemittances();
+      return;
+    }
+    if (sceneName === p.target) {
+      lastWordBankBeforeArrive(p);
+      syncLastWordBankBank();
+      syncLastWordBankMint();
+      syncLastWordBankVault();
+      syncLastWordBankDefault();
+      syncLastWordBankRemittances();
+      if (sceneName === 'remembrance') syncLastWordBankRemembrance();
+      return;
+    }
+    const schedule = (source) => AutoAdvance.schedule(source, p.target, { delay: lastWordBankDelay(), before: () => lastWordBankBeforeArrive(p) });
+
+    if (p.kind === 'entry' && sceneName === 'remembrance') {
+      const btn = $('#last-word-bank-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#last-word-bank-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'currency' && sceneName === 'last-word-central-bank') {
+      const response = $('#last-word-bank-bank-response');
+      if (response) response.textContent = p.feedback;
+      lockLastWordBankCurrencyButtons(p.currency);
+      schedule('last-word-central-bank');
+    } else if (p.kind === 'reserve' && sceneName === 'unsaid-currency-mint') {
+      const response = $('#last-word-bank-mint-response');
+      if (response) response.textContent = p.feedback;
+      lockLastWordBankReserveButtons(p.reserve);
+      schedule('unsaid-currency-mint');
+    } else if (p.kind === 'instrument' && sceneName === 'testament-clearing-vault') {
+      const response = $('#last-word-bank-vault-response');
+      if (response) response.textContent = p.feedback;
+      lockLastWordBankPolicyButtons(p.policy);
+      schedule('testament-clearing-vault');
+    } else if (p.kind === 'remittance-return' && sceneName === p.from) {
+      const container = $(`#last-word-bank-remittance-${p.from}`);
+      if (container) container.hidden = false;
+      const response = $(`#last-word-bank-remittance-response-${p.from}`);
+      if (response) response.textContent = p.feedback;
+      const btn = $(`#last-word-bank-remittance-return-${p.from}`);
+      if (btn) {
+        btn.disabled = true;
+        btn.setAttribute('aria-pressed', 'true');
+      }
+      schedule(p.from);
+    } else if (p.kind === 'default-entry' && sceneName === 'remembrance') {
+      const btn = $('#last-word-bank-default-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#last-word-bank-default-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'default' && sceneName === 'sovereign-default-chamber') {
+      const response = $('#last-word-bank-default-response');
+      if (response) response.textContent = p.feedback;
+      lockLastWordBankDefaultButtons(p.action);
+      schedule('sovereign-default-chamber');
+    } else {
+      st.pending = null;
+      saveLastWordBank(st);
+      syncLastWordBankBank();
+      syncLastWordBankMint();
+      syncLastWordBankVault();
+      syncLastWordBankDefault();
+      syncLastWordBankRemittances();
+      if (sceneName === 'remembrance') syncLastWordBankRemembrance();
+    }
+  };
+
+  const chooseLastWordBankCurrency = (currency) => {
+    if (currentScene !== 'last-word-central-bank') return;
+    if (AutoAdvance.has('last-word-central-bank')) return;
+    if (!CURRENCIES.includes(currency)) return;
+    if (!buttonAvailable(`last-word-bank-currency-${currency}`)) return;
+    const st = getLastWordBank();
+    if (st.pending) return;
+    if (st.activeRemittance) return;
+    if (st.draft.currency !== '' || st.draft.reserve !== '') return;
+    const table = CURRENCY_TABLE[currency];
+    if (!table) return;
+    const pending = { kind: 'currency', source: 'last-word-central-bank', currency, target: 'unsaid-currency-mint', feedback: table.feedback };
+    st.pending = pending;
+    saveLastWordBank(st);
+    lockLastWordBankCurrencyButtons(currency);
+    const response = $('#last-word-bank-bank-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('last-word-central-bank', 'unsaid-currency-mint', { delay: lastWordBankDelay(), before: () => lastWordBankBeforeArrive(pending) });
+  };
+
+  const chooseLastWordBankReserve = (reserve) => {
+    if (currentScene !== 'unsaid-currency-mint') return;
+    if (AutoAdvance.has('unsaid-currency-mint')) return;
+    if (!RESERVES.includes(reserve)) return;
+    if (!buttonAvailable(`last-word-bank-reserve-${reserve}`)) return;
+    const st = getLastWordBank();
+    if (st.pending) return;
+    if (st.activeRemittance) return;
+    if (!CURRENCIES.includes(st.draft.currency)) return;
+    const table = RESERVE_TABLE[reserve];
+    if (!table) return;
+    const pending = { kind: 'reserve', source: 'unsaid-currency-mint', currency: st.draft.currency, reserve, target: 'testament-clearing-vault', feedback: table.feedback };
+    st.pending = pending;
+    saveLastWordBank(st);
+    lockLastWordBankReserveButtons(reserve);
+    const response = $('#last-word-bank-mint-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('unsaid-currency-mint', 'testament-clearing-vault', { delay: lastWordBankDelay(), before: () => lastWordBankBeforeArrive(pending) });
+  };
+
+  const chooseLastWordBankPolicy = (policy) => {
+    if (currentScene !== 'testament-clearing-vault') return;
+    if (AutoAdvance.has('testament-clearing-vault')) return;
+    if (!POLICIES.includes(policy)) return;
+    if (!buttonAvailable(`last-word-bank-policy-${policy}`)) return;
+    const st = getLastWordBank();
+    if (st.pending) return;
+    if (st.activeRemittance) return;
+    const c = st.draft.currency;
+    const r = st.draft.reserve;
+    if (!CURRENCIES.includes(c) || !RESERVES.includes(r)) return;
+    const feedback = computeInstrumentFeedback(c, r, policy);
+    const instrument = computeInstrumentId(c, r, policy);
+    const target = SCENE_FOR_RESERVE[r];
+    const pending = { kind: 'instrument', source: 'testament-clearing-vault', currency: c, reserve: r, policy, instrument, target, feedback };
+    st.pending = pending;
+    saveLastWordBank(st);
+    lockLastWordBankPolicyButtons(policy);
+    const response = $('#last-word-bank-vault-response');
+    if (response) response.textContent = feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('testament-clearing-vault', target, { delay: lastWordBankDelay(), before: () => lastWordBankBeforeArrive(pending) });
+  };
+
+  const chooseLastWordBankRemittanceReturn = (scene) => {
+    if (currentScene !== scene) return;
+    if (AutoAdvance.has(scene)) return;
+    if (!Object.values(SCENE_FOR_RESERVE).includes(scene)) return;
+    if (!buttonAvailable(`last-word-bank-remittance-return-${scene}`)) return;
+    const st = getLastWordBank();
+    if (st.pending) return;
+    const remittance = st.activeRemittance;
+    if (!remittance || SCENE_FOR_RESERVE[remittance.reserve] !== scene) return;
+    const pending = { kind: 'remittance-return', from: scene, target: 'last-word-central-bank', instrument: remittance.instrument, feedback: remittance.feedback };
+    st.pending = pending;
+    saveLastWordBank(st);
+    const btn = $(`#last-word-bank-remittance-return-${scene}`);
+    if (btn) {
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', 'true');
+    }
+    const response = $(`#last-word-bank-remittance-response-${scene}`);
+    if (response) response.textContent = remittance.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule(scene, 'last-word-central-bank', { delay: lastWordBankDelay(), before: () => lastWordBankBeforeArrive(pending) });
+  };
+
+  const chooseLastWordBankEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('last-word-bank-entry-btn')) return;
+    if (!lastWordBankUnlocked()) return;
+    const st = getLastWordBank();
+    if (st.pending) return;
+    if (st.activeRemittance) return;
+    if (st.draft.currency !== '' || st.draft.reserve !== '') return;
+    const pending = { kind: 'entry', target: 'last-word-central-bank', feedback: LAST_WORD_BANK_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveLastWordBank(st);
+    const btn = $('#last-word-bank-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#last-word-bank-entry-response');
+    if (response) response.textContent = LAST_WORD_BANK_ENTRY_FEEDBACK;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('remembrance', 'last-word-central-bank', { delay: lastWordBankDelay(), before: () => lastWordBankBeforeArrive(pending) });
+  };
+
+  const chooseLastWordBankDefaultEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('last-word-bank-default-entry-btn')) return;
+    const st = getLastWordBank();
+    if (st.pending) return;
+    if (st.activeRemittance) return;
+    if (st.draft.currency !== '' || st.draft.reserve !== '') return;
+    if (!monetaryCoverageComplete(st)) return;
+    const pending = { kind: 'default-entry', target: 'sovereign-default-chamber', feedback: LAST_WORD_BANK_DEFAULT_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveLastWordBank(st);
+    const btn = $('#last-word-bank-default-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#last-word-bank-default-entry-response');
+    if (response) response.textContent = LAST_WORD_BANK_DEFAULT_ENTRY_FEEDBACK;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('remembrance', 'sovereign-default-chamber', { delay: lastWordBankDelay(), before: () => lastWordBankBeforeArrive(pending) });
+  };
+
+  const chooseLastWordBankDefaultAction = (action) => {
+    if (currentScene !== 'sovereign-default-chamber') return;
+    if (AutoAdvance.has('sovereign-default-chamber')) return;
+    if (!DEFAULT_ACTIONS.includes(action)) return;
+    if (!buttonAvailable(`last-word-bank-default-${action}`)) return;
+    const st = getLastWordBank();
+    if (st.pending) return;
+    if (st.activeRemittance) return;
+    if (st.draft.currency !== '' || st.draft.reserve !== '') return;
+    if (!st.visited.default) return;
+    if (!monetaryCoverageComplete(st)) return;
+    const table = DEFAULT_TABLE[action];
+    if (!table) return;
+    const pending = { kind: 'default', source: 'sovereign-default-chamber', action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    st.pending = pending;
+    saveLastWordBank(st);
+    lockLastWordBankDefaultButtons(action);
+    const response = $('#last-word-bank-default-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('sovereign-default-chamber', table.target, { delay: lastWordBankDelay(), before: () => lastWordBankBeforeArrive(pending) });
+  };
+
+  const lastWordBankCanVisitBank = () => {
+    if (!lastWordBankUnlocked()) return false;
+    const st = getLastWordBank();
+    const p = st.pending;
+    if (p && (p.kind === 'entry' || p.kind === 'remittance-return') && p.target === 'last-word-central-bank') return true;
+    if (st.visited.bank) return true;
+    return false;
+  };
+
+  const lastWordBankCanVisitMint = () => {
+    if (!lastWordBankUnlocked()) return false;
+    const st = getLastWordBank();
+    const p = st.pending;
+    if (p && p.kind === 'currency' && p.target === 'unsaid-currency-mint') return true;
+    if (st.visited.mint && CURRENCIES.includes(st.draft.currency)) return true;
+    return false;
+  };
+
+  const lastWordBankCanVisitVault = () => {
+    if (!lastWordBankUnlocked()) return false;
+    const st = getLastWordBank();
+    const p = st.pending;
+    if (p && p.kind === 'reserve' && p.target === 'testament-clearing-vault') return true;
+    if (st.visited.vault && CURRENCIES.includes(st.draft.currency) && RESERVES.includes(st.draft.reserve)) return true;
+    return false;
+  };
+
+  const lastWordBankCanVisitDefault = () => {
+    if (!lastWordBankUnlocked()) return false;
+    const st = getLastWordBank();
+    if (!monetaryCoverageComplete(st)) return false;
+    const p = st.pending;
+    if (p && p.kind === 'default-entry' && p.target === 'sovereign-default-chamber') return true;
+    if (st.visited.default) return true;
+    return false;
+  };
+
+  const lastWordBankBridgeAllows = (scene) => {
+    const st = getLastWordBank();
+    const p = st.pending;
+    if (p && p.kind === 'instrument' && p.target === scene) return true;
+    if (st.activeRemittance && SCENE_FOR_RESERVE[st.activeRemittance.reserve] === scene) return true;
+    return false;
+  };
+
+  const lastWordBankEntryBtn = $('#last-word-bank-entry-btn');
+  if (lastWordBankEntryBtn) {
+    lastWordBankEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseLastWordBankEntry();
+    });
+  }
+  const lastWordBankDefaultEntryBtn = $('#last-word-bank-default-entry-btn');
+  if (lastWordBankDefaultEntryBtn) {
+    lastWordBankDefaultEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseLastWordBankDefaultEntry();
+    });
+  }
+  const lastWordBankCurrencyOwnerlessSignatureNoteBtn = $('#last-word-bank-currency-ownerless-signature-note');
+  if (lastWordBankCurrencyOwnerlessSignatureNoteBtn) {
+    lastWordBankCurrencyOwnerlessSignatureNoteBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseLastWordBankCurrency('ownerless-signature-note');
+    });
+  }
+  const lastWordBankCurrencyUnseenShadowCoinBtn = $('#last-word-bank-currency-unseen-shadow-coin');
+  if (lastWordBankCurrencyUnseenShadowCoinBtn) {
+    lastWordBankCurrencyUnseenShadowCoinBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseLastWordBankCurrency('unseen-shadow-coin');
+    });
+  }
+  const lastWordBankCurrencyUnspokenTestamentBondBtn = $('#last-word-bank-currency-unspoken-testament-bond');
+  if (lastWordBankCurrencyUnspokenTestamentBondBtn) {
+    lastWordBankCurrencyUnspokenTestamentBondBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseLastWordBankCurrency('unspoken-testament-bond');
+    });
+  }
+  const lastWordBankReserveLastBreathReserveBtn = $('#last-word-bank-reserve-last-breath-reserve');
+  if (lastWordBankReserveLastBreathReserveBtn) {
+    lastWordBankReserveLastBreathReserveBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseLastWordBankReserve('last-breath-reserve');
+    });
+  }
+  const lastWordBankReserveInheritedSilenceReserveBtn = $('#last-word-bank-reserve-inherited-silence-reserve');
+  if (lastWordBankReserveInheritedSilenceReserveBtn) {
+    lastWordBankReserveInheritedSilenceReserveBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseLastWordBankReserve('inherited-silence-reserve');
+    });
+  }
+  const lastWordBankReserveCollateralizedEndingReserveBtn = $('#last-word-bank-reserve-collateralized-ending-reserve');
+  if (lastWordBankReserveCollateralizedEndingReserveBtn) {
+    lastWordBankReserveCollateralizedEndingReserveBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseLastWordBankReserve('collateralized-ending-reserve');
+    });
+  }
+  const lastWordBankPolicyIssueBeforeSpeakingBtn = $('#last-word-bank-policy-issue-before-speaking');
+  if (lastWordBankPolicyIssueBeforeSpeakingBtn) {
+    lastWordBankPolicyIssueBeforeSpeakingBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseLastWordBankPolicy('issue-before-speaking');
+    });
+  }
+  const lastWordBankPolicyDevalueTheFarewellBtn = $('#last-word-bank-policy-devalue-the-farewell');
+  if (lastWordBankPolicyDevalueTheFarewellBtn) {
+    lastWordBankPolicyDevalueTheFarewellBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseLastWordBankPolicy('devalue-the-farewell');
+    });
+  }
+  const lastWordBankPolicyFreezeResurrectionLiquidityBtn = $('#last-word-bank-policy-freeze-resurrection-liquidity');
+  if (lastWordBankPolicyFreezeResurrectionLiquidityBtn) {
+    lastWordBankPolicyFreezeResurrectionLiquidityBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseLastWordBankPolicy('freeze-resurrection-liquidity');
+    });
+  }
+  const lastWordBankPolicyRedeemInAnotherMouthBtn = $('#last-word-bank-policy-redeem-in-another-mouth');
+  if (lastWordBankPolicyRedeemInAnotherMouthBtn) {
+    lastWordBankPolicyRedeemInAnotherMouthBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseLastWordBankPolicy('redeem-in-another-mouth');
+    });
+  }
+  const lastWordBankRemittanceReturnThresholdBtn = $('#last-word-bank-remittance-return-threshold');
+  if (lastWordBankRemittanceReturnThresholdBtn) {
+    lastWordBankRemittanceReturnThresholdBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseLastWordBankRemittanceReturn('threshold');
+    });
+  }
+  const lastWordBankRemittanceReturnRemembranceBtn = $('#last-word-bank-remittance-return-remembrance');
+  if (lastWordBankRemittanceReturnRemembranceBtn) {
+    lastWordBankRemittanceReturnRemembranceBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseLastWordBankRemittanceReturn('remembrance');
+    });
+  }
+  const lastWordBankRemittanceReturnUnendingGalleryBtn = $('#last-word-bank-remittance-return-unending-gallery');
+  if (lastWordBankRemittanceReturnUnendingGalleryBtn) {
+    lastWordBankRemittanceReturnUnendingGalleryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseLastWordBankRemittanceReturn('unending-gallery');
+    });
+  }
+  const lastWordBankDefaultNationalizeEveryLastWordBtn = $('#last-word-bank-default-nationalize-every-last-word');
+  if (lastWordBankDefaultNationalizeEveryLastWordBtn) {
+    lastWordBankDefaultNationalizeEveryLastWordBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseLastWordBankDefaultAction('nationalize-every-last-word');
+    });
+  }
+  const lastWordBankDefaultLetSilenceSetInterestBtn = $('#last-word-bank-default-let-silence-set-interest');
+  if (lastWordBankDefaultLetSilenceSetInterestBtn) {
+    lastWordBankDefaultLetSilenceSetInterestBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseLastWordBankDefaultAction('let-silence-set-interest');
+    });
+  }
+  const lastWordBankDefaultDeclareDeathTooBigToFailBtn = $('#last-word-bank-default-declare-death-too-big-to-fail');
+  if (lastWordBankDefaultDeclareDeathTooBigToFailBtn) {
+    lastWordBankDefaultDeclareDeathTooBigToFailBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseLastWordBankDefaultAction('declare-death-too-big-to-fail');
+    });
+  }
+
+  /* ============================================================
+     v73 梦境海关总署 / CUSTOMS OF BORROWED DREAMS
+     ============================================================ */
+  const DREAM_CUSTOMS_KEY = 'goddead_v73_dream_customs';
+  const DREAM_CUSTOMS_VERSION = 73;
+  const PASSPORTS = ['dead-god-dream-passport', 'unborn-child-sleep-visa', 'future-witness-night-pass'];
+  const CONTRABAND = ['face-never-seen-awake', 'memory-that-kept-dreaming', 'ending-without-a-dreamer'];
+  const TARIFFS = ['tax-years-awake', 'confiscate-the-dreamer', 'reexport-to-death', 'grant-nightmare-asylum'];
+  const DEPORTATION_ACTIONS = ['naturalize-every-nightmare', 'deport-the-dreamer', 'criminalize-waking'];
+
+  const SCENE_FOR_CONTRABAND = {
+    'face-never-seen-awake': 'eyelid-archive',
+    'memory-that-kept-dreaming': 'remembrance',
+    'ending-without-a-dreamer': 'unending-gallery',
+  };
+
+  const DREAM_CUSTOMS_ENTRY_FEEDBACK = '所有遗言货币违约后，死者终于能支付跨境费用，却发现他们在购买并不属于自己的梦。';
+  const DREAM_CUSTOMS_DEPORTATION_ENTRY_FEEDBACK = '把所有清醒者驱逐出梦境 · DEPORT EVERY WAKING SOUL FROM THE DREAM';
+
+  const PASSPORT_TABLE = {
+    'dead-god-dream-passport': {
+      name: "申报神死前旧梦 · DECLARE THE GOD'S LAST UNWAKENED DREAM",
+      feedback: '护照签发于神死前一秒。照片里没有神，只有一场拒绝随祂醒来的梦。',
+      title: '神死前旧梦',
+      tallyKey: 'god',
+    },
+    'unborn-child-sleep-visa': {
+      name: '申报未生者睡签 · DECLARE THE UNBORN SLEEP VISA',
+      feedback: '空摇篮递来一张已经用旧的睡签。持有人尚未出生，却在梦里衰老过很多次。',
+      title: '未生者睡签',
+      tallyKey: 'unborn',
+    },
+    'future-witness-night-pass': {
+      name: '申报未来证人夜证 · DECLARE THE FUTURE WITNESS NIGHT PASS',
+      feedback: '未来证人把夜证倒寄回来。海关尚未发生的印章已经盖住整张脸。',
+      title: '未来证人夜证',
+      tallyKey: 'witness',
+    },
+  };
+
+  const CONTRABAND_TABLE = {
+    'face-never-seen-awake': {
+      name: '申报醒时未见之脸 · DECLARE THE FACE NEVER SEEN AWAKE',
+      feedback: '瓷脸只在闭眼时拥有五官。每次睁眼复核，海关照片都会重新变成空白。',
+      title: '醒时未见之脸',
+      fragment: '瓷脸只在闭眼时拥有五官。每次睁眼复核，海关照片都会重新变成空白。',
+      target: 'eyelid-archive',
+      inspectorFeedback: '闭目梦检员在眼睑档案里核对那张脸。它每次睁眼都会忘记证物长什么样。',
+      inspectorReturnName: '跟闭目梦检员返回海关 · RETURN WITH THE CLOSED-EYE INSPECTOR',
+    },
+    'memory-that-kept-dreaming': {
+      name: '申报醒后续梦记忆 · DECLARE THE MEMORY THAT KEPT DREAMING',
+      feedback: '一间旧卧室被折进证物箱。你已经醒来，里面的童年却仍在替你睡觉。',
+      title: '醒后续梦记忆',
+      fragment: '一间旧卧室被折进证物箱。你已经醒来，里面的童年却仍在替你睡觉。',
+      target: 'remembrance',
+      inspectorFeedback: '续梦梦检员把卧室钉进痕迹墙。房间仍在睡，墙上的你却已经醒了很多年。',
+      inspectorReturnName: '跟续梦梦检员返回海关 · RETURN WITH THE DREAMING-MEMORY INSPECTOR',
+    },
+    'ending-without-a-dreamer': {
+      name: '申报无梦者结局 · DECLARE THE ENDING WITHOUT A DREAMER',
+      feedback: '空帷幕先完成了一场梦的终局。没有任何人做过它，它却坚持有人必须醒来。',
+      title: '无梦者结局',
+      fragment: '空帷幕先完成了一场梦的终局。没有任何人做过它，它却坚持有人必须醒来。',
+      target: 'unending-gallery',
+      inspectorFeedback: '终局梦检员从无尽画廊带回空帷幕。所有结局都承认见过它，没有一个承认做过那场梦。',
+      inspectorReturnName: '跟终局梦检员返回海关 · RETURN WITH THE DREAMLESS-ENDING INSPECTOR',
+    },
+  };
+
+  const TARIFF_TABLE = {
+    'tax-years-awake': {
+      name: '以清醒年岁征税 · TAX THE YEARS AWAKE',
+      title: '以清醒年岁征税',
+      fragment: '海关按你醒着的年份收税。每少睡一夜，梦就多拥有你一年。',
+    },
+    'confiscate-the-dreamer': {
+      name: '没收做梦者 · CONFISCATE THE DREAMER',
+      title: '没收做梦者',
+      fragment: '关员放行梦，却把做梦的人扣在枕头里。醒来的身体从此成为无人认领的行李。',
+    },
+    'reexport-to-death': {
+      name: '把梦退运给死亡 · RE-EXPORT THE DREAM TO DEATH',
+      title: '把梦退运给死亡',
+      fragment: '梦被装进棺形包裹退回死亡。死亡拒收，因为它声称自己从来没有睡过。',
+    },
+    'grant-nightmare-asylum': {
+      name: '给予噩梦庇护 · GRANT THE NIGHTMARE ASYLUM',
+      title: '给予噩梦庇护',
+      fragment: '噩梦取得庇护，不必再回到恐惧它的人脑内。做梦者反而失去进入自己黑夜的签证。',
+    },
+  };
+
+  const DEPORTATION_TABLE = {
+    'naturalize-every-nightmare': {
+      name: '让所有噩梦成为公民 · NATURALIZE EVERY NIGHTMARE',
+      outcome: 'nightmares-became-the-only-citizens',
+      target: 'remembrance',
+      feedback: '海关撤销美梦的国籍。噩梦成为唯一合法居民，因为只有它们从不假装醒来会更好。',
+    },
+    'deport-the-dreamer': {
+      name: '把做梦者驱逐出梦 · DEPORT THE DREAMER FROM THE DREAM',
+      outcome: 'the-dreamer-was-deported-from-the-dream',
+      target: 'eyelid-archive',
+      feedback: '窄床沿黄铜轨道越过边境。梦留在原地继续生活，做梦的人被遣返到一具从未睡过的身体。',
+    },
+    'criminalize-waking': {
+      name: '把清醒列为违禁品 · CRIMINALIZE WAKING',
+      outcome: 'waking-became-contraband',
+      target: 'threshold',
+      feedback: '第一束清醒的光被关进海关笼。门外的人仍能睁眼，却必须走私每一个早晨。',
+    },
+  };
+
+  const DECLARATION_IDS = (() => {
+    const ids = [];
+    for (const p of PASSPORTS) {
+      for (const c of CONTRABAND) {
+        for (const t of TARIFFS) {
+          ids.push(`${p}:${c}:${t}`);
+        }
+      }
+    }
+    return ids;
+  })();
+  const DECLARATION_SET = new Set(DECLARATION_IDS);
+  const DEPORTATION_OUTCOME_IDS = DEPORTATION_ACTIONS.map((a) => DEPORTATION_TABLE[a].outcome);
+  const DEPORTATION_OUTCOME_SET = new Set(DEPORTATION_OUTCOME_IDS);
+
+  const defaultDreamCustoms = () => ({
+    version: DREAM_CUSTOMS_VERSION,
+    visited: { customs: false, terminal: false, bureau: false, yard: false },
+    draft: { passport: '', contraband: '' },
+    declarations: [],
+    deportationOutcomes: [],
+    customsRuns: 0,
+    deportationRuns: 0,
+    declarantTallies: { god: 0, unborn: 0, witness: 0 },
+    lastOutcome: '',
+    activeInspector: null,
+    pending: null,
+  });
+
+  const normalizeDreamCustomsVisited = (visited) => {
+    const v = visited && typeof visited === 'object' && !Array.isArray(visited) ? visited : {};
+    return {
+      customs: v.customs === true,
+      terminal: v.terminal === true,
+      bureau: v.bureau === true,
+      yard: v.yard === true,
+    };
+  };
+
+  const normalizeDreamCustomsDraft = (draft) => {
+    const d = draft && typeof draft === 'object' && !Array.isArray(draft) ? draft : {};
+    let passport = typeof d.passport === 'string' ? d.passport : '';
+    let contraband = typeof d.contraband === 'string' ? d.contraband : '';
+    if (!PASSPORTS.includes(passport)) {
+      passport = '';
+      contraband = '';
+    }
+    if (!CONTRABAND.includes(contraband)) {
+      contraband = '';
+    }
+    if (contraband !== '' && passport === '') {
+      contraband = '';
+    }
+    return { passport, contraband };
+  };
+
+  const normalizeDreamCustomsDeclarations = (declarations) => {
+    const arr = Array.isArray(declarations) ? declarations : [];
+    const seen = new Set();
+    const out = [];
+    for (const id of DECLARATION_IDS) {
+      if (arr.includes(id) && !seen.has(id)) {
+        out.push(id);
+        seen.add(id);
+      }
+    }
+    return out;
+  };
+
+  const normalizeDreamCustomsDeportationOutcomes = (arr) => {
+    const input = Array.isArray(arr) ? arr : [];
+    const set = new Set(input);
+    return DEPORTATION_ACTIONS.map((a) => DEPORTATION_TABLE[a].outcome).filter((o) => set.has(o));
+  };
+
+  const clampDreamCustomsCount = (n) => Math.min(9999, Math.max(0, Math.floor(Number(n) || 0)));
+
+  const normalizeDreamCustomsDeclarantTallies = (tallies) => {
+    const t = tallies && typeof tallies === 'object' && !Array.isArray(tallies) ? tallies : {};
+    return {
+      god: clampDreamCustomsCount(t.god),
+      unborn: clampDreamCustomsCount(t.unborn),
+      witness: clampDreamCustomsCount(t.witness),
+    };
+  };
+
+  const normalizeDreamCustomsActiveInspector = (inspector, declarations) => {
+    if (!inspector || typeof inspector !== 'object' || Array.isArray(inspector)) return null;
+    if (Object.keys(inspector).sort().join(',') !== 'contraband,declaration,feedback') return null;
+    if (!CONTRABAND.includes(inspector.contraband)) return null;
+    const collected = Array.isArray(declarations) ? declarations : [];
+    if (!collected.includes(inspector.declaration)) return null;
+    if (!DECLARATION_SET.has(inspector.declaration)) return null;
+    const parts = inspector.declaration.split(':');
+    if (parts.length !== 3 || parts[1] !== inspector.contraband) return null;
+    const fb = CONTRABAND_TABLE[inspector.contraband].inspectorFeedback;
+    if (inspector.feedback !== fb) return null;
+    return { contraband: inspector.contraband, declaration: inspector.declaration, feedback: fb };
+  };
+
+  const normalizeDreamCustomsPending = (p, st) => {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || !p.kind) return null;
+    const keys = Object.keys(p).sort().join(',');
+    const unlocked = st._v73unlocked === true;
+
+    if (p.kind === 'entry' && keys === 'feedback,kind,target') {
+      if (!unlocked || st.activeInspector || st.draft.passport !== '' || st.draft.contraband !== '') return null;
+      if (p.target === 'borrowed-dream-customs' && p.feedback === DREAM_CUSTOMS_ENTRY_FEEDBACK) {
+        return { kind: 'entry', target: 'borrowed-dream-customs', feedback: p.feedback };
+      }
+    }
+    if (p.kind === 'passport' && keys === 'feedback,kind,passport,source,target') {
+      if (!unlocked) return null;
+      if (st.activeInspector) return null;
+      if (p.source !== 'borrowed-dream-customs' || p.target !== 'contraband-sleep-terminal') return null;
+      if (!PASSPORTS.includes(p.passport)) return null;
+      const table = PASSPORT_TABLE[p.passport];
+      if (!table || p.feedback !== table.feedback) return null;
+      if (st.draft.passport !== '' || st.draft.contraband !== '') return null;
+      return { kind: 'passport', source: 'borrowed-dream-customs', passport: p.passport, target: 'contraband-sleep-terminal', feedback: p.feedback };
+    }
+    if (p.kind === 'contraband' && keys === 'contraband,feedback,kind,passport,source,target') {
+      if (!unlocked) return null;
+      if (st.activeInspector) return null;
+      if (p.source !== 'contraband-sleep-terminal' || p.target !== 'nightmare-tariff-bureau') return null;
+      if (!PASSPORTS.includes(p.passport) || !CONTRABAND.includes(p.contraband)) return null;
+      if (p.passport !== st.draft.passport) return null;
+      const table = CONTRABAND_TABLE[p.contraband];
+      if (!table || p.feedback !== table.feedback) return null;
+      return { kind: 'contraband', source: 'contraband-sleep-terminal', passport: p.passport, contraband: p.contraband, target: 'nightmare-tariff-bureau', feedback: p.feedback };
+    }
+    if (p.kind === 'declaration' && keys === 'contraband,declaration,feedback,kind,passport,source,target,tariff') {
+      if (!unlocked) return null;
+      if (st.activeInspector) return null;
+      if (p.source !== 'nightmare-tariff-bureau') return null;
+      if (!PASSPORTS.includes(p.passport) || !CONTRABAND.includes(p.contraband) || !TARIFFS.includes(p.tariff)) return null;
+      if (p.passport !== st.draft.passport || p.contraband !== st.draft.contraband) return null;
+      const declarationId = computeDeclarationId(p.passport, p.contraband, p.tariff);
+      if (p.declaration !== declarationId) return null;
+      const target = SCENE_FOR_CONTRABAND[p.contraband];
+      if (p.target !== target) return null;
+      const fb = computeDeclarationFeedback(p.passport, p.contraband, p.tariff);
+      if (p.feedback !== fb) return null;
+      return { kind: 'declaration', source: 'nightmare-tariff-bureau', passport: p.passport, contraband: p.contraband, tariff: p.tariff, declaration: declarationId, target, feedback: fb };
+    }
+    if (p.kind === 'inspector-return' && keys === 'declaration,feedback,from,kind,target') {
+      if (!unlocked) return null;
+      if (p.target !== 'borrowed-dream-customs') return null;
+      if (!Object.values(SCENE_FOR_CONTRABAND).includes(p.from)) return null;
+      const inspector = st.activeInspector;
+      if (!inspector || SCENE_FOR_CONTRABAND[inspector.contraband] !== p.from || inspector.declaration !== p.declaration) return null;
+      if (p.feedback !== inspector.feedback) return null;
+      return { kind: 'inspector-return', from: p.from, target: 'borrowed-dream-customs', declaration: p.declaration, feedback: p.feedback };
+    }
+    if (p.kind === 'deportation-entry' && keys === 'feedback,kind,target') {
+      if (!unlocked) return null;
+      if (st.activeInspector) return null;
+      if (st.draft.passport !== '' || st.draft.contraband !== '') return null;
+      if (p.target !== 'waking-deportation-yard' || p.feedback !== DREAM_CUSTOMS_DEPORTATION_ENTRY_FEEDBACK) return null;
+      if (!dreamCustomsCoverageComplete(st)) return null;
+      return { kind: 'deportation-entry', target: 'waking-deportation-yard', feedback: p.feedback };
+    }
+    if (p.kind === 'deportation' && keys === 'action,feedback,kind,outcome,source,target') {
+      if (!unlocked) return null;
+      if (st.activeInspector) return null;
+      if (st.draft.passport !== '' || st.draft.contraband !== '') return null;
+      if (!dreamCustomsCoverageComplete(st) || !st.visited.yard) return null;
+      if (p.source !== 'waking-deportation-yard') return null;
+      if (!DEPORTATION_ACTIONS.includes(p.action)) return null;
+      const table = DEPORTATION_TABLE[p.action];
+      if (!table || p.outcome !== table.outcome || p.target !== table.target || p.feedback !== table.feedback) return null;
+      return { kind: 'deportation', source: 'waking-deportation-yard', action: p.action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    }
+    return null;
+  };
+
+  const saveDreamCustoms = (st) => {
+    const visited = normalizeDreamCustomsVisited(st.visited);
+    const draft = normalizeDreamCustomsDraft(st.draft);
+    const declarations = normalizeDreamCustomsDeclarations(st.declarations);
+    const deportationOutcomes = normalizeDreamCustomsDeportationOutcomes(st.deportationOutcomes);
+    const customsRuns = clampDreamCustomsCount(st.customsRuns);
+    const deportationRuns = clampDreamCustomsCount(st.deportationRuns);
+    const declarantTallies = normalizeDreamCustomsDeclarantTallies(st.declarantTallies);
+    const validLast = new Set([...declarations, ...deportationOutcomes]);
+    const lastOutcome = validLast.has(st.lastOutcome) ? st.lastOutcome : '';
+    const activeInspector = normalizeDreamCustomsActiveInspector(st.activeInspector, declarations);
+    const pendingState = Object.assign(
+      defaultDreamCustoms(),
+      { visited, draft, declarations, deportationOutcomes, customsRuns, deportationRuns, declarantTallies, lastOutcome, activeInspector, pending: null, _v73unlocked: borrowedDreamCustomsUnlocked() }
+    );
+    const pending = normalizeDreamCustomsPending(st.pending, pendingState);
+    store.set(
+      DREAM_CUSTOMS_KEY,
+      JSON.stringify({
+        version: DREAM_CUSTOMS_VERSION,
+        visited,
+        draft,
+        declarations,
+        deportationOutcomes,
+        customsRuns,
+        deportationRuns,
+        declarantTallies,
+        lastOutcome,
+        activeInspector,
+        pending,
+      })
+    );
+  };
+
+  const getDreamCustoms = () => {
+    let raw = {};
+    try { raw = JSON.parse(store.get(DREAM_CUSTOMS_KEY, '{}')) || {}; } catch { raw = {}; }
+    if (typeof raw !== 'object' || raw === null || Array.isArray(raw) || raw.version !== DREAM_CUSTOMS_VERSION) {
+      return defaultDreamCustoms();
+    }
+    if (!borrowedDreamCustomsUnlocked()) {
+      return defaultDreamCustoms();
+    }
+    const st = defaultDreamCustoms();
+    st.visited = normalizeDreamCustomsVisited(raw.visited);
+    st.draft = normalizeDreamCustomsDraft(raw.draft);
+    st.declarations = normalizeDreamCustomsDeclarations(raw.declarations);
+    st.deportationOutcomes = normalizeDreamCustomsDeportationOutcomes(raw.deportationOutcomes);
+    st.customsRuns = clampDreamCustomsCount(raw.customsRuns);
+    st.deportationRuns = clampDreamCustomsCount(raw.deportationRuns);
+    st.declarantTallies = normalizeDreamCustomsDeclarantTallies(raw.declarantTallies);
+    const validLast = new Set([...st.declarations, ...st.deportationOutcomes]);
+    st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : '';
+    st.activeInspector = normalizeDreamCustomsActiveInspector(raw.activeInspector, st.declarations);
+    const normSt = Object.assign({}, st, { _v73unlocked: borrowedDreamCustomsUnlocked() });
+    st.pending = normalizeDreamCustomsPending(raw.pending, normSt);
+    return st;
+  };
+
+  const borrowedDreamCustomsUnlocked = () => {
+    if (!lastWordBankUnlocked()) return false;
+    const lwb = getLastWordBank();
+    if (!monetaryCoverageComplete(lwb)) return false;
+    const requiredOutcomes = [
+      'every-last-word-was-nationalized',
+      'silence-set-the-interest-rate',
+      'death-became-too-big-to-fail',
+    ];
+    if (lwb.defaultOutcomes.length !== 3) return false;
+    for (const o of requiredOutcomes) {
+      if (!lwb.defaultOutcomes.includes(o)) return false;
+    }
+    return true;
+  };
+
+  const dreamCustomsCoverageComplete = (st) => {
+    const state = st || getDreamCustoms();
+    if (state.declarations.length < 4) return false;
+    const passports = new Set();
+    const contraband = new Set();
+    const tariffs = new Set();
+    for (const id of state.declarations) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      passports.add(parts[0]);
+      contraband.add(parts[1]);
+      tariffs.add(parts[2]);
+    }
+    return passports.size === 3 && contraband.size === 3 && tariffs.size === 4;
+  };
+
+  const computeDreamCustomsMajority = (tallies) => {
+    const t = tallies || { god: 0, unborn: 0, witness: 0 };
+    const god = Number(t.god) || 0;
+    const unborn = Number(t.unborn) || 0;
+    const witness = Number(t.witness) || 0;
+    if (god === 0 && unborn === 0 && witness === 0) return '无人取得梦籍多数';
+    const max = Math.max(god, unborn, witness);
+    const winners = [];
+    if (god === max) winners.push('god');
+    if (unborn === max) winners.push('unborn');
+    if (witness === max) winners.push('witness');
+    if (winners.length !== 1) return '无人取得梦籍多数';
+    if (winners[0] === 'god') return '神梦取得梦籍多数';
+    if (winners[0] === 'unborn') return '未生睡签取得梦籍多数';
+    return '未来夜证取得梦籍多数';
+  };
+
+  const computeDeclarationId = (passport, contraband, tariff) => {
+    if (!PASSPORTS.includes(passport) || !CONTRABAND.includes(contraband) || !TARIFFS.includes(tariff)) return '';
+    return `${passport}:${contraband}:${tariff}`;
+  };
+
+  const computeDeclarationTitle = (passport, contraband, tariff) => {
+    const p = PASSPORT_TABLE[passport];
+    const c = CONTRABAND_TABLE[contraband];
+    const t = TARIFF_TABLE[tariff];
+    if (!p || !c || !t) return '';
+    return `${p.title} / ${c.title} / ${t.title}`;
+  };
+
+  const computeDeclarationFeedback = (passport, contraband, tariff) => {
+    const p = PASSPORT_TABLE[passport];
+    const c = CONTRABAND_TABLE[contraband];
+    const t = TARIFF_TABLE[tariff];
+    if (!p || !c || !t) return '';
+    return `${p.feedback} ${c.fragment} ${t.fragment}`;
+  };
+
+  const findDeclarationById = (id) => {
+    if (!DECLARATION_SET.has(id)) return null;
+    const parts = id.split(':');
+    if (parts.length !== 3) return null;
+    return {
+      id,
+      passport: parts[0],
+      contraband: parts[1],
+      tariff: parts[2],
+      title: computeDeclarationTitle(parts[0], parts[1], parts[2]),
+      feedback: computeDeclarationFeedback(parts[0], parts[1], parts[2]),
+    };
+  };
+
+  const computeDeportationOutcomeId = (action) => {
+    const table = DEPORTATION_TABLE[action];
+    return table ? table.outcome : '';
+  };
+
+  const dreamCustomsDelay = () => reduced ? 300 : 900 + Math.floor(Math.random() * 300);
+
+  const dreamCustomsBeforeArrive = (pending) => {
+    const st = getDreamCustoms();
+    if (!st.pending || !pending) return;
+    if (st.pending.kind !== pending.kind) return;
+    const p = st.pending;
+    if (p.kind === 'entry') {
+      st.visited.customs = true;
+    } else if (p.kind === 'passport') {
+      st.visited.terminal = true;
+      st.draft.passport = p.passport;
+      st.draft.contraband = '';
+    } else if (p.kind === 'contraband') {
+      st.visited.bureau = true;
+      st.draft.contraband = p.contraband;
+    } else if (p.kind === 'declaration') {
+      const declarationId = computeDeclarationId(p.passport, p.contraband, p.tariff);
+      if (!st.declarations.includes(declarationId)) st.declarations.push(declarationId);
+      st.declarations = normalizeDreamCustomsDeclarations(st.declarations);
+      st.customsRuns += 1;
+      const passportTable = PASSPORT_TABLE[p.passport];
+      if (passportTable) {
+        st.declarantTallies[passportTable.tallyKey] = clampDreamCustomsCount((st.declarantTallies[passportTable.tallyKey] || 0) + 1);
+      }
+      st.lastOutcome = declarationId;
+      st.activeInspector = { contraband: p.contraband, declaration: declarationId, feedback: CONTRABAND_TABLE[p.contraband].inspectorFeedback };
+      st.draft = { passport: '', contraband: '' };
+    } else if (p.kind === 'inspector-return') {
+      st.activeInspector = null;
+      st.draft = { passport: '', contraband: '' };
+    } else if (p.kind === 'deportation-entry') {
+      st.visited.yard = true;
+    } else if (p.kind === 'deportation') {
+      const outcome = computeDeportationOutcomeId(p.action);
+      if (outcome && !st.deportationOutcomes.includes(outcome)) st.deportationOutcomes.push(outcome);
+      st.deportationOutcomes = normalizeDreamCustomsDeportationOutcomes(st.deportationOutcomes);
+      st.deportationRuns += 1;
+      st.lastOutcome = outcome;
+    }
+    st.pending = null;
+    saveDreamCustoms(st);
+  };
+
+  const resolveDreamCustomsPendingOnArrival = (name) => {
+    const st = getDreamCustoms();
+    const p = st.pending;
+    if (p && p.target === name) dreamCustomsBeforeArrive(p);
+  };
+
+  const lockDreamCustomsPassportButtons = (pressedPassport) => {
+    PASSPORTS.forEach((p) => {
+      const btn = $(`#dream-customs-passport-${p}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(p === pressedPassport));
+    });
+  };
+
+  const lockDreamCustomsContrabandButtons = (pressedContraband) => {
+    CONTRABAND.forEach((c) => {
+      const btn = $(`#contraband-sleep-${c}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(c === pressedContraband));
+    });
+  };
+
+  const lockDreamCustomsTariffButtons = (pressedTariff) => {
+    TARIFFS.forEach((t) => {
+      const btn = $(`#nightmare-tariff-${t}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(t === pressedTariff));
+    });
+  };
+
+  const lockDreamCustomsDeportationButtons = (pressedAction) => {
+    DEPORTATION_ACTIONS.forEach((a) => {
+      const btn = $(`#waking-deportation-${a}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(a === pressedAction));
+    });
+  };
+
+  const syncDreamCustomsCustoms = () => {
+    const figure = $('#dream-customs-customs-figure');
+    const unlocked = borrowedDreamCustomsUnlocked();
+    if (figure) figure.hidden = !unlocked;
+    if (!unlocked) return;
+    const st = getDreamCustoms();
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeInspector || st.draft.passport !== '' || st.draft.contraband !== '';
+    const response = $('#dream-customs-customs-response');
+    PASSPORTS.forEach((p) => {
+      const btn = $(`#dream-customs-passport-${p}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'passport' && pending.passport === p);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'passport') ? pending.feedback : '';
+  };
+
+  const syncDreamCustomsTerminal = () => {
+    const figure = $('#contraband-sleep-terminal-figure');
+    const st = getDreamCustoms();
+    const unlocked = borrowedDreamCustomsUnlocked();
+    const hasDraft = unlocked && PASSPORTS.includes(st.draft.passport);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeInspector;
+    const response = $('#contraband-sleep-terminal-response');
+    CONTRABAND.forEach((c) => {
+      const btn = $(`#contraband-sleep-${c}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'contraband' && pending.contraband === c);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'contraband') ? pending.feedback : '';
+  };
+
+  const syncDreamCustomsBureau = () => {
+    const figure = $('#nightmare-tariff-bureau-figure');
+    const st = getDreamCustoms();
+    const unlocked = borrowedDreamCustomsUnlocked();
+    const hasDraft = unlocked && PASSPORTS.includes(st.draft.passport) && CONTRABAND.includes(st.draft.contraband);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeInspector;
+    const response = $('#nightmare-tariff-bureau-response');
+    TARIFFS.forEach((t) => {
+      const btn = $(`#nightmare-tariff-${t}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'declaration' && pending.tariff === t);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'declaration') ? pending.feedback : '';
+  };
+
+  const syncDreamCustomsYard = () => {
+    const figure = $('#waking-deportation-yard-figure');
+    const st = getDreamCustoms();
+    const open = borrowedDreamCustomsUnlocked() && dreamCustomsCoverageComplete(st) && st.visited.yard;
+    if (figure) figure.hidden = !open;
+    if (!open) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeInspector || st.draft.passport !== '' || st.draft.contraband !== '';
+    const response = $('#waking-deportation-yard-response');
+    DEPORTATION_ACTIONS.forEach((a) => {
+      const btn = $(`#waking-deportation-${a}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'deportation' && pending.action === a);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'deportation') ? pending.feedback : '';
+  };
+
+  const syncDreamCustomsInspectors = () => {
+    const st = getDreamCustoms();
+    const unlocked = borrowedDreamCustomsUnlocked();
+    Object.values(SCENE_FOR_CONTRABAND).forEach((scene) => {
+      const container = $(`#dream-customs-inspector-${scene}`);
+      if (!container) return;
+      const active = unlocked && st.activeInspector && SCENE_FOR_CONTRABAND[st.activeInspector.contraband] === scene && currentScene === scene;
+      container.hidden = !active;
+      if (active) paintDreamCustomsInspector(scene);
+    });
+  };
+
+  const paintDreamCustomsInspector = (scene) => {
+    const st = getDreamCustoms();
+    const inspector = st.activeInspector;
+    const response = $(`#dream-customs-inspector-response-${scene}`);
+    const btn = $(`#dream-customs-inspector-return-${scene}`);
+    if (response) response.textContent = (inspector && SCENE_FOR_CONTRABAND[inspector.contraband] === scene) ? inspector.feedback : '';
+    if (btn) {
+      const available = !!inspector && SCENE_FOR_CONTRABAND[inspector.contraband] === scene && currentScene === scene && !st.pending && !AutoAdvance.has(scene);
+      btn.disabled = !available;
+      btn.setAttribute('aria-pressed', 'false');
+    }
+  };
+
+  const paintDreamCustomsMemory = () => {
+    const memory = $('#dream-customs-memory');
+    if (!memory) return;
+    const st = getDreamCustoms();
+    const unlocked = borrowedDreamCustomsUnlocked();
+    if (!unlocked) {
+      memory.hidden = true;
+      return;
+    }
+    const counts = { passport: {}, contraband: {}, tariff: {} };
+    for (const id of st.declarations) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      counts.passport[parts[0]] = (counts.passport[parts[0]] || 0) + 1;
+      counts.contraband[parts[1]] = (counts.contraband[parts[1]] || 0) + 1;
+      counts.tariff[parts[2]] = (counts.tariff[parts[2]] || 0) + 1;
+    }
+    const get = (map, key) => map[key] || 0;
+    memory.textContent = `梦境海关：已放行 ${st.declarations.length}/36 份申报，共查验 ${st.customsRuns} 次；护照 神梦 ${get(counts.passport, 'dead-god-dream-passport')} / 未生 ${get(counts.passport, 'unborn-child-sleep-visa')} / 未来 ${get(counts.passport, 'future-witness-night-pass')}；违禁物 空脸 ${get(counts.contraband, 'face-never-seen-awake')} / 续忆 ${get(counts.contraband, 'memory-that-kept-dreaming')} / 无梦终局 ${get(counts.contraband, 'ending-without-a-dreamer')}；关税 清醒年 ${get(counts.tariff, 'tax-years-awake')} / 没收人 ${get(counts.tariff, 'confiscate-the-dreamer')} / 退死亡 ${get(counts.tariff, 'reexport-to-death')} / 庇噩梦 ${get(counts.tariff, 'grant-nightmare-asylum')}；梦籍多数 ${computeDreamCustomsMajority(st.declarantTallies)}；驱逐结局 ${st.deportationOutcomes.length}/3。`;
+    memory.hidden = false;
+  };
+
+  const paintDreamCustomsCodex = () => {
+    const box = $('#dream-customs-codex');
+    const grid = $('#dream-customs-codex-grid');
+    const entry = $('#dream-customs-codex-entry');
+    if (!box || !grid) return;
+    const st = getDreamCustoms();
+    const unlocked = borrowedDreamCustomsUnlocked();
+    if (!unlocked) {
+      box.hidden = true;
+      if (entry) entry.hidden = true;
+      return;
+    }
+    box.removeAttribute('hidden');
+    grid.innerHTML = '';
+    for (const id of DECLARATION_IDS) {
+      const unlocked = st.declarations.includes(id);
+      const cell = document.createElement('div');
+      cell.className = 'dream-customs-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const declaration = findDeclarationById(id);
+        cell.innerHTML = `<b>${declaration.title}</b><span>${declaration.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    for (const action of DEPORTATION_ACTIONS) {
+      const outcome = DEPORTATION_TABLE[action].outcome;
+      const unlocked = st.deportationOutcomes.includes(outcome);
+      const cell = document.createElement('div');
+      cell.className = 'dream-customs-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const table = DEPORTATION_TABLE[action];
+        cell.innerHTML = `<b>${table.name}</b><span>${table.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    if (entry) entry.removeAttribute('hidden');
+  };
+
+  const syncDreamCustomsRemembrance = () => {
+    paintDreamCustomsMemory();
+    paintDreamCustomsCodex();
+    const st = getDreamCustoms();
+    const unlocked = borrowedDreamCustomsUnlocked();
+    const coverage = dreamCustomsCoverageComplete(st);
+    const entryBtn = $('#dream-customs-entry-btn');
+    if (entryBtn) {
+      entryBtn.hidden = !(currentScene === 'remembrance' && unlocked);
+      entryBtn.disabled = !(!st.pending && !st.activeInspector && st.draft.passport === '' && st.draft.contraband === '' && currentScene === 'remembrance' && unlocked);
+    }
+    const deportationEntryBtn = $('#dream-customs-deportation-entry-btn');
+    if (deportationEntryBtn) {
+      const activeInspectorAtRemembrance = !!st.activeInspector && SCENE_FOR_CONTRABAND[st.activeInspector.contraband] === 'remembrance';
+      deportationEntryBtn.hidden = !(currentScene === 'remembrance' && unlocked && (coverage || activeInspectorAtRemembrance));
+      deportationEntryBtn.disabled = !(!st.pending && !st.activeInspector && st.draft.passport === '' && st.draft.contraband === '' && currentScene === 'remembrance' && unlocked && coverage);
+    }
+  };
+
+  const syncDreamCustomsLinks = () => {
+    const st = getDreamCustoms();
+    const unlocked = borrowedDreamCustomsUnlocked();
+    const map = {
+      'borrowed-dream-customs-link': unlocked && st.visited.customs,
+      'contraband-sleep-terminal-link': unlocked && st.visited.terminal,
+      'nightmare-tariff-bureau-link': unlocked && st.visited.bureau,
+      'waking-deportation-yard-link': unlocked && st.visited.yard,
+    };
+    for (const [id, show] of Object.entries(map)) {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !show;
+    }
+  };
+
+  const replayDreamCustomsPending = (sceneName) => {
+    const st = getDreamCustoms();
+    const p = st.pending;
+    if (!p) {
+      syncDreamCustomsCustoms();
+      syncDreamCustomsTerminal();
+      syncDreamCustomsBureau();
+      syncDreamCustomsYard();
+      syncDreamCustomsInspectors();
+      return;
+    }
+    if (sceneName === p.target) {
+      dreamCustomsBeforeArrive(p);
+      syncDreamCustomsCustoms();
+      syncDreamCustomsTerminal();
+      syncDreamCustomsBureau();
+      syncDreamCustomsYard();
+      syncDreamCustomsInspectors();
+      if (sceneName === 'remembrance') syncDreamCustomsRemembrance();
+      return;
+    }
+    const schedule = (source) => AutoAdvance.schedule(source, p.target, { delay: dreamCustomsDelay(), before: () => dreamCustomsBeforeArrive(p) });
+
+    if (p.kind === 'entry' && sceneName === 'remembrance') {
+      const btn = $('#dream-customs-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#dream-customs-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'passport' && sceneName === 'borrowed-dream-customs') {
+      const response = $('#dream-customs-customs-response');
+      if (response) response.textContent = p.feedback;
+      lockDreamCustomsPassportButtons(p.passport);
+      schedule('borrowed-dream-customs');
+    } else if (p.kind === 'contraband' && sceneName === 'contraband-sleep-terminal') {
+      const response = $('#contraband-sleep-terminal-response');
+      if (response) response.textContent = p.feedback;
+      lockDreamCustomsContrabandButtons(p.contraband);
+      schedule('contraband-sleep-terminal');
+    } else if (p.kind === 'declaration' && sceneName === 'nightmare-tariff-bureau') {
+      const response = $('#nightmare-tariff-bureau-response');
+      if (response) response.textContent = p.feedback;
+      lockDreamCustomsTariffButtons(p.tariff);
+      schedule('nightmare-tariff-bureau');
+    } else if (p.kind === 'inspector-return' && sceneName === p.from) {
+      const container = $(`#dream-customs-inspector-${p.from}`);
+      if (container) container.hidden = false;
+      const response = $(`#dream-customs-inspector-response-${p.from}`);
+      if (response) response.textContent = p.feedback;
+      const btn = $(`#dream-customs-inspector-return-${p.from}`);
+      if (btn) {
+        btn.disabled = true;
+        btn.setAttribute('aria-pressed', 'true');
+      }
+      schedule(p.from);
+    } else if (p.kind === 'deportation-entry' && sceneName === 'remembrance') {
+      const btn = $('#dream-customs-deportation-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#dream-customs-deportation-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'deportation' && sceneName === 'waking-deportation-yard') {
+      const response = $('#waking-deportation-yard-response');
+      if (response) response.textContent = p.feedback;
+      lockDreamCustomsDeportationButtons(p.action);
+      schedule('waking-deportation-yard');
+    } else {
+      st.pending = null;
+      saveDreamCustoms(st);
+      syncDreamCustomsCustoms();
+      syncDreamCustomsTerminal();
+      syncDreamCustomsBureau();
+      syncDreamCustomsYard();
+      syncDreamCustomsInspectors();
+      if (sceneName === 'remembrance') syncDreamCustomsRemembrance();
+    }
+  };
+
+  const chooseDreamCustomsPassport = (passport) => {
+    if (currentScene !== 'borrowed-dream-customs') return;
+    if (AutoAdvance.has('borrowed-dream-customs')) return;
+    if (!PASSPORTS.includes(passport)) return;
+    if (!buttonAvailable(`dream-customs-passport-${passport}`)) return;
+    const st = getDreamCustoms();
+    if (st.pending) return;
+    if (st.activeInspector) return;
+    if (st.draft.passport !== '' || st.draft.contraband !== '') return;
+    const table = PASSPORT_TABLE[passport];
+    if (!table) return;
+    const pending = { kind: 'passport', source: 'borrowed-dream-customs', passport, target: 'contraband-sleep-terminal', feedback: table.feedback };
+    st.pending = pending;
+    saveDreamCustoms(st);
+    lockDreamCustomsPassportButtons(passport);
+    const response = $('#dream-customs-customs-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('borrowed-dream-customs', 'contraband-sleep-terminal', { delay: dreamCustomsDelay(), before: () => dreamCustomsBeforeArrive(pending) });
+  };
+
+  const chooseDreamCustomsContraband = (contraband) => {
+    if (currentScene !== 'contraband-sleep-terminal') return;
+    if (AutoAdvance.has('contraband-sleep-terminal')) return;
+    if (!CONTRABAND.includes(contraband)) return;
+    if (!buttonAvailable(`contraband-sleep-${contraband}`)) return;
+    const st = getDreamCustoms();
+    if (st.pending) return;
+    if (st.activeInspector) return;
+    if (!PASSPORTS.includes(st.draft.passport)) return;
+    const table = CONTRABAND_TABLE[contraband];
+    if (!table) return;
+    const pending = { kind: 'contraband', source: 'contraband-sleep-terminal', passport: st.draft.passport, contraband, target: 'nightmare-tariff-bureau', feedback: table.feedback };
+    st.pending = pending;
+    saveDreamCustoms(st);
+    lockDreamCustomsContrabandButtons(contraband);
+    const response = $('#contraband-sleep-terminal-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('contraband-sleep-terminal', 'nightmare-tariff-bureau', { delay: dreamCustomsDelay(), before: () => dreamCustomsBeforeArrive(pending) });
+  };
+
+  const chooseDreamCustomsTariff = (tariff) => {
+    if (currentScene !== 'nightmare-tariff-bureau') return;
+    if (AutoAdvance.has('nightmare-tariff-bureau')) return;
+    if (!TARIFFS.includes(tariff)) return;
+    if (!buttonAvailable(`nightmare-tariff-${tariff}`)) return;
+    const st = getDreamCustoms();
+    if (st.pending) return;
+    if (st.activeInspector) return;
+    const p = st.draft.passport;
+    const c = st.draft.contraband;
+    if (!PASSPORTS.includes(p) || !CONTRABAND.includes(c)) return;
+    const feedback = computeDeclarationFeedback(p, c, tariff);
+    const declaration = computeDeclarationId(p, c, tariff);
+    const target = SCENE_FOR_CONTRABAND[c];
+    const pending = { kind: 'declaration', source: 'nightmare-tariff-bureau', passport: p, contraband: c, tariff, declaration, target, feedback };
+    st.pending = pending;
+    saveDreamCustoms(st);
+    lockDreamCustomsTariffButtons(tariff);
+    const response = $('#nightmare-tariff-bureau-response');
+    if (response) response.textContent = feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('nightmare-tariff-bureau', target, { delay: dreamCustomsDelay(), before: () => dreamCustomsBeforeArrive(pending) });
+  };
+
+  const chooseDreamCustomsInspectorReturn = (scene) => {
+    if (currentScene !== scene) return;
+    if (AutoAdvance.has(scene)) return;
+    if (!Object.values(SCENE_FOR_CONTRABAND).includes(scene)) return;
+    if (!buttonAvailable(`dream-customs-inspector-return-${scene}`)) return;
+    const st = getDreamCustoms();
+    if (st.pending) return;
+    const inspector = st.activeInspector;
+    if (!inspector || SCENE_FOR_CONTRABAND[inspector.contraband] !== scene) return;
+    const pending = { kind: 'inspector-return', from: scene, target: 'borrowed-dream-customs', declaration: inspector.declaration, feedback: inspector.feedback };
+    st.pending = pending;
+    saveDreamCustoms(st);
+    const btn = $(`#dream-customs-inspector-return-${scene}`);
+    if (btn) {
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', 'true');
+    }
+    const response = $(`#dream-customs-inspector-response-${scene}`);
+    if (response) response.textContent = inspector.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule(scene, 'borrowed-dream-customs', { delay: dreamCustomsDelay(), before: () => dreamCustomsBeforeArrive(pending) });
+  };
+
+  const chooseDreamCustomsEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('dream-customs-entry-btn')) return;
+    if (!borrowedDreamCustomsUnlocked()) return;
+    const st = getDreamCustoms();
+    if (st.pending) return;
+    if (st.activeInspector) return;
+    if (st.draft.passport !== '' || st.draft.contraband !== '') return;
+    const pending = { kind: 'entry', target: 'borrowed-dream-customs', feedback: DREAM_CUSTOMS_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveDreamCustoms(st);
+    const btn = $('#dream-customs-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#dream-customs-entry-response');
+    if (response) response.textContent = DREAM_CUSTOMS_ENTRY_FEEDBACK;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('remembrance', 'borrowed-dream-customs', { delay: dreamCustomsDelay(), before: () => dreamCustomsBeforeArrive(pending) });
+  };
+
+  const chooseDreamCustomsDeportationEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('dream-customs-deportation-entry-btn')) return;
+    const st = getDreamCustoms();
+    if (st.pending) return;
+    if (st.activeInspector) return;
+    if (st.draft.passport !== '' || st.draft.contraband !== '') return;
+    if (!dreamCustomsCoverageComplete(st)) return;
+    const pending = { kind: 'deportation-entry', target: 'waking-deportation-yard', feedback: DREAM_CUSTOMS_DEPORTATION_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveDreamCustoms(st);
+    const btn = $('#dream-customs-deportation-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#dream-customs-deportation-entry-response');
+    if (response) response.textContent = DREAM_CUSTOMS_DEPORTATION_ENTRY_FEEDBACK;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('remembrance', 'waking-deportation-yard', { delay: dreamCustomsDelay(), before: () => dreamCustomsBeforeArrive(pending) });
+  };
+
+  const chooseDreamCustomsDeportationAction = (action) => {
+    if (currentScene !== 'waking-deportation-yard') return;
+    if (AutoAdvance.has('waking-deportation-yard')) return;
+    if (!DEPORTATION_ACTIONS.includes(action)) return;
+    if (!buttonAvailable(`waking-deportation-${action}`)) return;
+    const st = getDreamCustoms();
+    if (st.pending) return;
+    if (st.activeInspector) return;
+    if (st.draft.passport !== '' || st.draft.contraband !== '') return;
+    if (!st.visited.yard) return;
+    if (!dreamCustomsCoverageComplete(st)) return;
+    const table = DEPORTATION_TABLE[action];
+    if (!table) return;
+    const pending = { kind: 'deportation', source: 'waking-deportation-yard', action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    st.pending = pending;
+    saveDreamCustoms(st);
+    lockDreamCustomsDeportationButtons(action);
+    const response = $('#waking-deportation-yard-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('waking-deportation-yard', table.target, { delay: dreamCustomsDelay(), before: () => dreamCustomsBeforeArrive(pending) });
+  };
+
+  const dreamCustomsCanVisitCustoms = () => {
+    if (!borrowedDreamCustomsUnlocked()) return false;
+    const st = getDreamCustoms();
+    const p = st.pending;
+    if (p && (p.kind === 'entry' || p.kind === 'inspector-return') && p.target === 'borrowed-dream-customs') return true;
+    if (st.visited.customs) return true;
+    return false;
+  };
+
+  const dreamCustomsCanVisitTerminal = () => {
+    if (!borrowedDreamCustomsUnlocked()) return false;
+    const st = getDreamCustoms();
+    const p = st.pending;
+    if (p && p.kind === 'passport' && p.target === 'contraband-sleep-terminal') return true;
+    if (st.visited.terminal && PASSPORTS.includes(st.draft.passport)) return true;
+    return false;
+  };
+
+  const dreamCustomsCanVisitBureau = () => {
+    if (!borrowedDreamCustomsUnlocked()) return false;
+    const st = getDreamCustoms();
+    const p = st.pending;
+    if (p && p.kind === 'contraband' && p.target === 'nightmare-tariff-bureau') return true;
+    if (st.visited.bureau && PASSPORTS.includes(st.draft.passport) && CONTRABAND.includes(st.draft.contraband)) return true;
+    return false;
+  };
+
+  const dreamCustomsCanVisitYard = () => {
+    if (!borrowedDreamCustomsUnlocked()) return false;
+    const st = getDreamCustoms();
+    if (!dreamCustomsCoverageComplete(st)) return false;
+    const p = st.pending;
+    if (p && p.kind === 'deportation-entry' && p.target === 'waking-deportation-yard') return true;
+    if (st.visited.yard) return true;
+    return false;
+  };
+
+  const dreamCustomsBridgeAllows = (scene) => {
+    const st = getDreamCustoms();
+    const p = st.pending;
+    if (p && p.kind === 'declaration' && p.target === scene) return true;
+    if (p && p.kind === 'deportation' && p.target === scene) return true;
+    if (st.activeInspector && SCENE_FOR_CONTRABAND[st.activeInspector.contraband] === scene) return true;
+    return false;
+  };
+
+  const dreamCustomsEntryBtn = $('#dream-customs-entry-btn');
+  if (dreamCustomsEntryBtn) {
+    dreamCustomsEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDreamCustomsEntry();
+    });
+  }
+  const dreamCustomsDeportationEntryBtn = $('#dream-customs-deportation-entry-btn');
+  if (dreamCustomsDeportationEntryBtn) {
+    dreamCustomsDeportationEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDreamCustomsDeportationEntry();
+    });
+  }
+  const dreamCustomsPassportDeadGodDreamPassportBtn = $('#dream-customs-passport-dead-god-dream-passport');
+  if (dreamCustomsPassportDeadGodDreamPassportBtn) {
+    dreamCustomsPassportDeadGodDreamPassportBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDreamCustomsPassport('dead-god-dream-passport');
+    });
+  }
+  const dreamCustomsPassportUnbornChildSleepVisaBtn = $('#dream-customs-passport-unborn-child-sleep-visa');
+  if (dreamCustomsPassportUnbornChildSleepVisaBtn) {
+    dreamCustomsPassportUnbornChildSleepVisaBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDreamCustomsPassport('unborn-child-sleep-visa');
+    });
+  }
+  const dreamCustomsPassportFutureWitnessNightPassBtn = $('#dream-customs-passport-future-witness-night-pass');
+  if (dreamCustomsPassportFutureWitnessNightPassBtn) {
+    dreamCustomsPassportFutureWitnessNightPassBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDreamCustomsPassport('future-witness-night-pass');
+    });
+  }
+  const contrabandSleepFaceNeverSeenAwakeBtn = $('#contraband-sleep-face-never-seen-awake');
+  if (contrabandSleepFaceNeverSeenAwakeBtn) {
+    contrabandSleepFaceNeverSeenAwakeBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDreamCustomsContraband('face-never-seen-awake');
+    });
+  }
+  const contrabandSleepMemoryThatKeptDreamingBtn = $('#contraband-sleep-memory-that-kept-dreaming');
+  if (contrabandSleepMemoryThatKeptDreamingBtn) {
+    contrabandSleepMemoryThatKeptDreamingBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDreamCustomsContraband('memory-that-kept-dreaming');
+    });
+  }
+  const contrabandSleepEndingWithoutADreamerBtn = $('#contraband-sleep-ending-without-a-dreamer');
+  if (contrabandSleepEndingWithoutADreamerBtn) {
+    contrabandSleepEndingWithoutADreamerBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDreamCustomsContraband('ending-without-a-dreamer');
+    });
+  }
+  const nightmareTariffTaxYearsAwakeBtn = $('#nightmare-tariff-tax-years-awake');
+  if (nightmareTariffTaxYearsAwakeBtn) {
+    nightmareTariffTaxYearsAwakeBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDreamCustomsTariff('tax-years-awake');
+    });
+  }
+  const nightmareTariffConfiscateTheDreamerBtn = $('#nightmare-tariff-confiscate-the-dreamer');
+  if (nightmareTariffConfiscateTheDreamerBtn) {
+    nightmareTariffConfiscateTheDreamerBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDreamCustomsTariff('confiscate-the-dreamer');
+    });
+  }
+  const nightmareTariffReexportToDeathBtn = $('#nightmare-tariff-reexport-to-death');
+  if (nightmareTariffReexportToDeathBtn) {
+    nightmareTariffReexportToDeathBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDreamCustomsTariff('reexport-to-death');
+    });
+  }
+  const nightmareTariffGrantNightmareAsylumBtn = $('#nightmare-tariff-grant-nightmare-asylum');
+  if (nightmareTariffGrantNightmareAsylumBtn) {
+    nightmareTariffGrantNightmareAsylumBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDreamCustomsTariff('grant-nightmare-asylum');
+    });
+  }
+  const dreamCustomsInspectorReturnEyelidArchiveBtn = $('#dream-customs-inspector-return-eyelid-archive');
+  if (dreamCustomsInspectorReturnEyelidArchiveBtn) {
+    dreamCustomsInspectorReturnEyelidArchiveBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDreamCustomsInspectorReturn('eyelid-archive');
+    });
+  }
+  const dreamCustomsInspectorReturnRemembranceBtn = $('#dream-customs-inspector-return-remembrance');
+  if (dreamCustomsInspectorReturnRemembranceBtn) {
+    dreamCustomsInspectorReturnRemembranceBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDreamCustomsInspectorReturn('remembrance');
+    });
+  }
+  const dreamCustomsInspectorReturnUnendingGalleryBtn = $('#dream-customs-inspector-return-unending-gallery');
+  if (dreamCustomsInspectorReturnUnendingGalleryBtn) {
+    dreamCustomsInspectorReturnUnendingGalleryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDreamCustomsInspectorReturn('unending-gallery');
+    });
+  }
+  const wakingDeportationNaturalizeEveryNightmareBtn = $('#waking-deportation-naturalize-every-nightmare');
+  if (wakingDeportationNaturalizeEveryNightmareBtn) {
+    wakingDeportationNaturalizeEveryNightmareBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDreamCustomsDeportationAction('naturalize-every-nightmare');
+    });
+  }
+  const wakingDeportationDeportTheDreamerBtn = $('#waking-deportation-deport-the-dreamer');
+  if (wakingDeportationDeportTheDreamerBtn) {
+    wakingDeportationDeportTheDreamerBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDreamCustomsDeportationAction('deport-the-dreamer');
+    });
+  }
+  const wakingDeportationCriminalizeWakingBtn = $('#waking-deportation-criminalize-waking');
+  if (wakingDeportationCriminalizeWakingBtn) {
+    wakingDeportationCriminalizeWakingBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseDreamCustomsDeportationAction('criminalize-waking');
+    });
+  }
+
+  /* ============================================================
+     v74 墓碑专利局 / PATENT OFFICE OF THE UNBURIED
+     ============================================================ */
+  const TOMBSTONE_PATENT_OFFICE_KEY = 'goddead_v74_tombstone_patent_office';
+  const TOMBSTONE_PATENT_OFFICE_VERSION = 74;
+  const APPLICANTS = ['unborn-inventor', 'posthumous-inventor', 'future-plagiarist'];
+  const PRIOR_ART = ['uncarved-epitaph-blueprint', 'dream-worn-prototype', 'descendant-memory-machine'];
+  const CLAIMS = ['own-the-unmade', 'license-death-as-user', 'sue-the-future-for-copying', 'forbid-inventor-to-invent'];
+  const RULING_ACTIONS = ['grant-self-ownership', 'invalidate-all-prior-existence', 'license-the-unburied-to-haunt-prototypes'];
+
+  const SCENE_FOR_PRIOR_ART = {
+    'uncarved-epitaph-blueprint': 'threshold',
+    'dream-worn-prototype': 'eyelid-archive',
+    'descendant-memory-machine': 'remembrance',
+  };
+
+  const TOMBSTONE_PATENT_OFFICE_ENTRY_FEEDBACK = '梦境海关把清醒列为违禁品后，查获了大量从未被制造、却早已在梦里使用过的器物。墓碑专利局随即开门。';
+  const TOMBSTONE_PATENT_OFFICE_TRIBUNAL_ENTRY_FEEDBACK = '把存在本身送进永久许可终审 · PUT EXISTENCE ON PERPETUAL LICENSE TRIAL';
+
+  const APPLICANT_TABLE = {
+    'unborn-inventor': {
+      name: '替未生发明人申请 · FILE FOR THE UNBORN INVENTOR',
+      feedback: '空摇篮交出一套磨损多年的图纸。发明人尚未出生，却已因专利过期而失去童年。',
+      title: '未生发明人',
+      tallyKey: 'unborn',
+    },
+    'posthumous-inventor': {
+      name: '替死后署名人申请 · FILE FOR THE POSTHUMOUS INVENTOR',
+      feedback: '无头死者把遗言按进签名栏。局方承认笔迹真实，只质疑他是否曾经活到产生这个念头。',
+      title: '死后署名人',
+      tallyKey: 'dead',
+    },
+    'future-plagiarist': {
+      name: '替未来抄袭者申请 · FILE FOR THE FUTURE PLAGIARIST',
+      feedback: '未来抄袭者先寄来侵权通知，再补交申请书。日期显示他将在你发明之后，比你更早拥有它。',
+      title: '未来抄袭者',
+      tallyKey: 'future',
+    },
+  };
+
+  const PRIOR_ART_TABLE = {
+    'uncarved-epitaph-blueprint': {
+      name: '提交未刻墓志图纸 · SUBMIT THE UNCARVED EPITAPH BLUEPRINT',
+      feedback: '空白墓碑把尚未写下的墓志投成机械剖面。每一根齿轮都以发明人的死期作为尺寸。',
+      title: '未刻墓志图纸',
+      fragment: '空白墓碑把尚未写下的墓志投成机械剖面。每一根齿轮都以发明人的死期作为尺寸。',
+      target: 'threshold',
+      examinerFeedback: '空碑审查员在门槛上测量不存在的齿轮。门每开一次，墓志就少一个尚未写下的字。',
+      examinerReturnName: '跟空碑审查员返回专利局 · RETURN WITH THE BLANK-STONE EXAMINER',
+    },
+    'dream-worn-prototype': {
+      name: '提交梦中磨损原型 · SUBMIT THE DREAM-WORN PROTOTYPE',
+      feedback: '玻璃罩里的原型从未被造出，边角却已被几千场梦磨亮。醒着的检验员摸不到它的损耗。',
+      title: '梦中磨损原型',
+      fragment: '玻璃罩里的原型从未被造出，边角却已被几千场梦磨亮。醒着的检验员摸不到它的损耗。',
+      target: 'eyelid-archive',
+      examinerFeedback: '梦型审查员在眼睑档案里核对磨损。每次睁眼，原型都会恢复成从未制造过的崭新。',
+      examinerReturnName: '跟梦型审查员返回专利局 · RETURN WITH THE DREAM-PROTOTYPE EXAMINER',
+    },
+    'descendant-memory-machine': {
+      name: '提交后人记忆机器 · SUBMIT THE DESCENDANT MEMORY MACHINE',
+      feedback: '骨匣抽出一台来自后人记忆的机器。后人尚未出生，却清楚记得你当年没有发明它。',
+      title: '后人记忆机器',
+      fragment: '骨匣抽出一台来自后人记忆的机器。后人尚未出生，却清楚记得你当年没有发明它。',
+      target: 'remembrance',
+      examinerFeedback: '后忆审查员把骨制机器钉进痕迹墙。后人记得它运转过，墙却记得你亲手放弃了它。',
+      examinerReturnName: '跟后忆审查员返回专利局 · RETURN WITH THE DESCENDANT-MEMORY EXAMINER',
+    },
+  };
+
+  const CLAIM_TABLE = {
+    'own-the-unmade': {
+      name: '主张拥有未造之物 · CLAIM OWNERSHIP OF THE UNMADE',
+      title: '未造之物',
+      fragment: '申请人要求垄断一件从未存在的东西。审查员找不到实物，只好把全世界的空位列为侵权证据。',
+    },
+    'license-death-as-user': {
+      name: '许可死亡成为使用者 · LICENSE DEATH AS A USER',
+      title: '死亡使用者',
+      fragment: '死亡取得永久使用许可。此后每一具尸体都被视为正在运行该发明，而活人只能申请试用。',
+    },
+    'sue-the-future-for-copying': {
+      name: '起诉未来倒向抄袭 · SUE THE FUTURE FOR COPYING BACKWARD',
+      title: '未来诉讼',
+      fragment: '诉状沿时间反向送达。未来尚未复制任何东西，却已被判赔偿现在从它那里偷来的原型。',
+    },
+    'forbid-inventor-to-invent': {
+      name: '禁止发明人完成发明 · FORBID THE INVENTOR TO INVENT',
+      title: '禁止发明',
+      fragment: '专利保护范围包括发明本身。为避免自我侵权，发明人被永久禁止把图纸上的最后一根线画完。',
+    },
+  };
+
+  const RULING_TABLE = {
+    'grant-self-ownership': {
+      name: '让发明拥有自己 · GRANT THE INVENTION OWNERSHIP OF ITSELF',
+      outcome: 'the-invention-owned-itself',
+      target: 'unending-gallery',
+      feedback: '机器在空袖口前签下自己的名字。自此发明人只是它曾经用来产生自己的临时工具。',
+    },
+    'invalidate-all-prior-existence': {
+      name: '把既往存在全部无效 · INVALIDATE ALL PRIOR EXISTENCE',
+      outcome: 'existence-was-invalidated-as-prior-art',
+      target: 'threshold',
+      feedback: '黑碑把化石、工具与旧原型逐件抹成尘。世界仍然存在，却再也不能证明自己比这份专利更早。',
+    },
+    'license-the-unburied-to-haunt-prototypes': {
+      name: '许可未葬者附身原型 · LICENSE THE UNBURIED TO HAUNT EVERY PROTOTYPE',
+      outcome: 'the-unburied-haunted-every-prototype',
+      target: 'remembrance',
+      feedback: '石棺发出一条没有期限的幽灵许可。每台未完成机器从此都住进一名等不到坟墓的使用者。',
+    },
+  };
+
+  const PATENT_IDS = (() => {
+    const ids = [];
+    for (const a of APPLICANTS) {
+      for (const p of PRIOR_ART) {
+        for (const c of CLAIMS) {
+          ids.push(`${a}:${p}:${c}`);
+        }
+      }
+    }
+    return ids;
+  })();
+  const PATENT_SET = new Set(PATENT_IDS);
+  const RULING_OUTCOME_IDS = RULING_ACTIONS.map((a) => RULING_TABLE[a].outcome);
+  const RULING_OUTCOME_SET = new Set(RULING_OUTCOME_IDS);
+
+  const defaultTombstonePatentOffice = () => ({
+    version: TOMBSTONE_PATENT_OFFICE_VERSION,
+    visited: { office: false, ossuary: false, examination: false, tribunal: false },
+    draft: { applicant: '', priorArt: '' },
+    patents: [],
+    rulingOutcomes: [],
+    filingRuns: 0,
+    rulingRuns: 0,
+    applicantTallies: { unborn: 0, dead: 0, future: 0 },
+    lastOutcome: '',
+    activeExaminer: null,
+    pending: null,
+  });
+
+  const normalizeTombstonePatentOfficeVisited = (visited) => {
+    const v = visited && typeof visited === 'object' && !Array.isArray(visited) ? visited : {};
+    return {
+      office: v.office === true,
+      ossuary: v.ossuary === true,
+      examination: v.examination === true,
+      tribunal: v.tribunal === true,
+    };
+  };
+
+  const normalizeTombstonePatentOfficeDraft = (draft) => {
+    const d = draft && typeof draft === 'object' && !Array.isArray(draft) ? draft : {};
+    let applicant = typeof d.applicant === 'string' ? d.applicant : '';
+    let priorArt = typeof d.priorArt === 'string' ? d.priorArt : '';
+    if (!APPLICANTS.includes(applicant)) {
+      applicant = '';
+      priorArt = '';
+    }
+    if (!PRIOR_ART.includes(priorArt)) {
+      priorArt = '';
+    }
+    if (priorArt !== '' && applicant === '') {
+      priorArt = '';
+    }
+    return { applicant, priorArt };
+  };
+
+  const normalizeTombstonePatentOfficePatents = (patents) => {
+    const arr = Array.isArray(patents) ? patents : [];
+    const seen = new Set();
+    const out = [];
+    for (const id of PATENT_IDS) {
+      if (arr.includes(id) && !seen.has(id)) {
+        out.push(id);
+        seen.add(id);
+      }
+    }
+    return out;
+  };
+
+  const normalizeTombstonePatentOfficeRulingOutcomes = (arr) => {
+    const input = Array.isArray(arr) ? arr : [];
+    const set = new Set(input);
+    return RULING_ACTIONS.map((a) => RULING_TABLE[a].outcome).filter((o) => set.has(o));
+  };
+
+  const clampTombstonePatentOfficeCount = (n) => Math.min(9999, Math.max(0, Math.floor(Number(n) || 0)));
+
+  const normalizeTombstonePatentOfficeApplicantTallies = (tallies) => {
+    const t = tallies && typeof tallies === 'object' && !Array.isArray(tallies) ? tallies : {};
+    return {
+      unborn: clampTombstonePatentOfficeCount(t.unborn),
+      dead: clampTombstonePatentOfficeCount(t.dead),
+      future: clampTombstonePatentOfficeCount(t.future),
+    };
+  };
+
+  const normalizeTombstonePatentOfficeActiveExaminer = (examiner, patents) => {
+    if (!examiner || typeof examiner !== 'object' || Array.isArray(examiner)) return null;
+    if (Object.keys(examiner).sort().join(',') !== 'feedback,patent,priorArt') return null;
+    if (!PRIOR_ART.includes(examiner.priorArt)) return null;
+    const collected = Array.isArray(patents) ? patents : [];
+    if (!collected.includes(examiner.patent)) return null;
+    if (!PATENT_SET.has(examiner.patent)) return null;
+    const parts = examiner.patent.split(':');
+    if (parts.length !== 3 || parts[1] !== examiner.priorArt) return null;
+    const fb = PRIOR_ART_TABLE[examiner.priorArt].examinerFeedback;
+    if (examiner.feedback !== fb) return null;
+    return { priorArt: examiner.priorArt, patent: examiner.patent, feedback: fb };
+  };
+
+  const normalizeTombstonePatentOfficePending = (p, st) => {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || !p.kind) return null;
+    const keys = Object.keys(p).sort().join(',');
+    const unlocked = st._v74unlocked === true;
+
+    if (p.kind === 'entry' && keys === 'feedback,kind,target') {
+      if (!unlocked || st.activeExaminer || st.draft.applicant !== '' || st.draft.priorArt !== '') return null;
+      if (p.target === 'tombstone-patent-office' && p.feedback === TOMBSTONE_PATENT_OFFICE_ENTRY_FEEDBACK) {
+        return { kind: 'entry', target: 'tombstone-patent-office', feedback: p.feedback };
+      }
+    }
+    if (p.kind === 'applicant' && keys === 'applicant,feedback,kind,source,target') {
+      if (!unlocked) return null;
+      if (st.activeExaminer) return null;
+      if (p.source !== 'tombstone-patent-office' || p.target !== 'prior-art-ossuary') return null;
+      if (!APPLICANTS.includes(p.applicant)) return null;
+      const table = APPLICANT_TABLE[p.applicant];
+      if (!table || p.feedback !== table.feedback) return null;
+      if (st.draft.applicant !== '' || st.draft.priorArt !== '') return null;
+      return { kind: 'applicant', source: 'tombstone-patent-office', applicant: p.applicant, target: 'prior-art-ossuary', feedback: p.feedback };
+    }
+    if (p.kind === 'prior-art' && keys === 'applicant,feedback,kind,priorArt,source,target') {
+      if (!unlocked) return null;
+      if (st.activeExaminer) return null;
+      if (p.source !== 'prior-art-ossuary' || p.target !== 'impossible-claim-examination') return null;
+      if (!APPLICANTS.includes(p.applicant) || !PRIOR_ART.includes(p.priorArt)) return null;
+      if (p.applicant !== st.draft.applicant) return null;
+      const table = PRIOR_ART_TABLE[p.priorArt];
+      if (!table || p.feedback !== table.feedback) return null;
+      return { kind: 'prior-art', source: 'prior-art-ossuary', applicant: p.applicant, priorArt: p.priorArt, target: 'impossible-claim-examination', feedback: p.feedback };
+    }
+    if (p.kind === 'patent' && keys === 'applicant,claim,feedback,kind,patent,priorArt,source,target') {
+      if (!unlocked) return null;
+      if (st.activeExaminer) return null;
+      if (p.source !== 'impossible-claim-examination') return null;
+      if (!APPLICANTS.includes(p.applicant) || !PRIOR_ART.includes(p.priorArt) || !CLAIMS.includes(p.claim)) return null;
+      if (p.applicant !== st.draft.applicant || p.priorArt !== st.draft.priorArt) return null;
+      const patentId = computePatentId(p.applicant, p.priorArt, p.claim);
+      if (p.patent !== patentId) return null;
+      const target = SCENE_FOR_PRIOR_ART[p.priorArt];
+      if (p.target !== target) return null;
+      const fb = computePatentFeedback(p.applicant, p.priorArt, p.claim);
+      if (p.feedback !== fb) return null;
+      return { kind: 'patent', source: 'impossible-claim-examination', applicant: p.applicant, priorArt: p.priorArt, claim: p.claim, patent: patentId, target, feedback: fb };
+    }
+    if (p.kind === 'examiner-return' && keys === 'feedback,from,kind,patent,target') {
+      if (!unlocked) return null;
+      if (p.target !== 'tombstone-patent-office') return null;
+      if (!Object.values(SCENE_FOR_PRIOR_ART).includes(p.from)) return null;
+      const examiner = st.activeExaminer;
+      if (!examiner || SCENE_FOR_PRIOR_ART[examiner.priorArt] !== p.from || examiner.patent !== p.patent) return null;
+      if (p.feedback !== examiner.feedback) return null;
+      return { kind: 'examiner-return', from: p.from, target: 'tombstone-patent-office', patent: p.patent, feedback: p.feedback };
+    }
+    if (p.kind === 'tribunal-entry' && keys === 'feedback,kind,target') {
+      if (!unlocked) return null;
+      if (st.activeExaminer) return null;
+      if (st.draft.applicant !== '' || st.draft.priorArt !== '') return null;
+      if (p.target !== 'perpetual-license-tribunal' || p.feedback !== TOMBSTONE_PATENT_OFFICE_TRIBUNAL_ENTRY_FEEDBACK) return null;
+      if (!patentCoverageComplete(st)) return null;
+      return { kind: 'tribunal-entry', target: 'perpetual-license-tribunal', feedback: p.feedback };
+    }
+    if (p.kind === 'ruling' && keys === 'action,feedback,kind,outcome,source,target') {
+      if (!unlocked) return null;
+      if (st.activeExaminer) return null;
+      if (st.draft.applicant !== '' || st.draft.priorArt !== '') return null;
+      if (!patentCoverageComplete(st) || !st.visited.tribunal) return null;
+      if (p.source !== 'perpetual-license-tribunal') return null;
+      if (!RULING_ACTIONS.includes(p.action)) return null;
+      const table = RULING_TABLE[p.action];
+      if (!table || p.outcome !== table.outcome || p.target !== table.target || p.feedback !== table.feedback) return null;
+      return { kind: 'ruling', source: 'perpetual-license-tribunal', action: p.action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    }
+    return null;
+  };
+
+  const saveTombstonePatentOffice = (st) => {
+    const visited = normalizeTombstonePatentOfficeVisited(st.visited);
+    const draft = normalizeTombstonePatentOfficeDraft(st.draft);
+    const patents = normalizeTombstonePatentOfficePatents(st.patents);
+    const rulingOutcomes = normalizeTombstonePatentOfficeRulingOutcomes(st.rulingOutcomes);
+    const filingRuns = clampTombstonePatentOfficeCount(st.filingRuns);
+    const rulingRuns = clampTombstonePatentOfficeCount(st.rulingRuns);
+    const applicantTallies = normalizeTombstonePatentOfficeApplicantTallies(st.applicantTallies);
+    const validLast = new Set([...patents, ...rulingOutcomes]);
+    const lastOutcome = validLast.has(st.lastOutcome) ? st.lastOutcome : '';
+    const activeExaminer = normalizeTombstonePatentOfficeActiveExaminer(st.activeExaminer, patents);
+    const pendingState = Object.assign(
+      defaultTombstonePatentOffice(),
+      { visited, draft, patents, rulingOutcomes, filingRuns, rulingRuns, applicantTallies, lastOutcome, activeExaminer, pending: null, _v74unlocked: tombstonePatentOfficeUnlocked() }
+    );
+    const pending = normalizeTombstonePatentOfficePending(st.pending, pendingState);
+    store.set(
+      TOMBSTONE_PATENT_OFFICE_KEY,
+      JSON.stringify({
+        version: TOMBSTONE_PATENT_OFFICE_VERSION,
+        visited,
+        draft,
+        patents,
+        rulingOutcomes,
+        filingRuns,
+        rulingRuns,
+        applicantTallies,
+        lastOutcome,
+        activeExaminer,
+        pending,
+      })
+    );
+  };
+
+  const getTombstonePatentOffice = () => {
+    let raw = {};
+    try { raw = JSON.parse(store.get(TOMBSTONE_PATENT_OFFICE_KEY, '{}')) || {}; } catch { raw = {}; }
+    if (typeof raw !== 'object' || raw === null || Array.isArray(raw) || raw.version !== TOMBSTONE_PATENT_OFFICE_VERSION) {
+      return defaultTombstonePatentOffice();
+    }
+    if (!tombstonePatentOfficeUnlocked()) {
+      return defaultTombstonePatentOffice();
+    }
+    const st = defaultTombstonePatentOffice();
+    st.visited = normalizeTombstonePatentOfficeVisited(raw.visited);
+    st.draft = normalizeTombstonePatentOfficeDraft(raw.draft);
+    st.patents = normalizeTombstonePatentOfficePatents(raw.patents);
+    st.rulingOutcomes = normalizeTombstonePatentOfficeRulingOutcomes(raw.rulingOutcomes);
+    st.filingRuns = clampTombstonePatentOfficeCount(raw.filingRuns);
+    st.rulingRuns = clampTombstonePatentOfficeCount(raw.rulingRuns);
+    st.applicantTallies = normalizeTombstonePatentOfficeApplicantTallies(raw.applicantTallies);
+    const validLast = new Set([...st.patents, ...st.rulingOutcomes]);
+    st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : '';
+    st.activeExaminer = normalizeTombstonePatentOfficeActiveExaminer(raw.activeExaminer, st.patents);
+    const normSt = Object.assign({}, st, { _v74unlocked: tombstonePatentOfficeUnlocked() });
+    st.pending = normalizeTombstonePatentOfficePending(raw.pending, normSt);
+    return st;
+  };
+
+  const tombstonePatentOfficeUnlocked = () => {
+    if (!borrowedDreamCustomsUnlocked()) return false;
+    const dc = getDreamCustoms();
+    if (!dreamCustomsCoverageComplete(dc)) return false;
+    const requiredOutcomes = [
+      'nightmares-became-the-only-citizens',
+      'the-dreamer-was-deported-from-the-dream',
+      'waking-became-contraband',
+    ];
+    if (dc.deportationOutcomes.length !== 3) return false;
+    for (const o of requiredOutcomes) {
+      if (!dc.deportationOutcomes.includes(o)) return false;
+    }
+    return true;
+  };
+
+  const patentCoverageComplete = (st) => {
+    const state = st || getTombstonePatentOffice();
+    if (state.patents.length < 4) return false;
+    const applicants = new Set();
+    const priorArt = new Set();
+    const claims = new Set();
+    for (const id of state.patents) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      applicants.add(parts[0]);
+      priorArt.add(parts[1]);
+      claims.add(parts[2]);
+    }
+    return applicants.size === 3 && priorArt.size === 3 && claims.size === 4;
+  };
+
+  const computeApplicantTalliesMajority = (tallies) => {
+    const t = tallies || { unborn: 0, dead: 0, future: 0 };
+    const unborn = Number(t.unborn) || 0;
+    const dead = Number(t.dead) || 0;
+    const future = Number(t.future) || 0;
+    if (unborn === 0 && dead === 0 && future === 0) return '无人取得发明权多数';
+    const max = Math.max(unborn, dead, future);
+    const winners = [];
+    if (unborn === max) winners.push('unborn');
+    if (dead === max) winners.push('dead');
+    if (future === max) winners.push('future');
+    if (winners.length !== 1) return '无人取得发明权多数';
+    if (winners[0] === 'unborn') return '未生发明人取得发明权多数';
+    if (winners[0] === 'dead') return '死后署名人取得发明权多数';
+    return '未来抄袭者取得发明权多数';
+  };
+
+  const computePatentId = (applicant, priorArt, claim) => {
+    if (!APPLICANTS.includes(applicant) || !PRIOR_ART.includes(priorArt) || !CLAIMS.includes(claim)) return '';
+    return `${applicant}:${priorArt}:${claim}`;
+  };
+
+  const computePatentTitle = (applicant, priorArt, claim) => {
+    const a = APPLICANT_TABLE[applicant];
+    const p = PRIOR_ART_TABLE[priorArt];
+    const c = CLAIM_TABLE[claim];
+    if (!a || !p || !c) return '';
+    return `${a.title} / ${p.title} / ${c.title}`;
+  };
+
+  const computePatentFeedback = (applicant, priorArt, claim) => {
+    const a = APPLICANT_TABLE[applicant];
+    const p = PRIOR_ART_TABLE[priorArt];
+    const c = CLAIM_TABLE[claim];
+    if (!a || !p || !c) return '';
+    return `${a.feedback} ${p.fragment} ${c.fragment}`;
+  };
+
+  const findPatentById = (id) => {
+    if (!PATENT_SET.has(id)) return null;
+    const parts = id.split(':');
+    if (parts.length !== 3) return null;
+    return {
+      id,
+      applicant: parts[0],
+      priorArt: parts[1],
+      claim: parts[2],
+      title: computePatentTitle(parts[0], parts[1], parts[2]),
+      feedback: computePatentFeedback(parts[0], parts[1], parts[2]),
+    };
+  };
+
+  const computeRulingOutcomeId = (action) => {
+    const table = RULING_TABLE[action];
+    return table ? table.outcome : '';
+  };
+
+  const tombstonePatentOfficeDelay = () => reduced ? 300 : 900 + Math.floor(Math.random() * 300);
+
+  const tombstonePatentOfficeBeforeArrive = (pending) => {
+    const st = getTombstonePatentOffice();
+    if (!st.pending || !pending) return;
+    if (st.pending.kind !== pending.kind) return;
+    const p = st.pending;
+    if (p.kind === 'entry') {
+      st.visited.office = true;
+    } else if (p.kind === 'applicant') {
+      st.visited.ossuary = true;
+      st.draft.applicant = p.applicant;
+      st.draft.priorArt = '';
+    } else if (p.kind === 'prior-art') {
+      st.visited.examination = true;
+      st.draft.priorArt = p.priorArt;
+    } else if (p.kind === 'patent') {
+      const patentId = computePatentId(p.applicant, p.priorArt, p.claim);
+      if (!st.patents.includes(patentId)) st.patents.push(patentId);
+      st.patents = normalizeTombstonePatentOfficePatents(st.patents);
+      st.filingRuns += 1;
+      const applicantTable = APPLICANT_TABLE[p.applicant];
+      if (applicantTable) {
+        st.applicantTallies[applicantTable.tallyKey] = clampTombstonePatentOfficeCount((st.applicantTallies[applicantTable.tallyKey] || 0) + 1);
+      }
+      st.lastOutcome = patentId;
+      st.activeExaminer = { priorArt: p.priorArt, patent: patentId, feedback: PRIOR_ART_TABLE[p.priorArt].examinerFeedback };
+      st.draft = { applicant: '', priorArt: '' };
+    } else if (p.kind === 'examiner-return') {
+      st.activeExaminer = null;
+      st.draft = { applicant: '', priorArt: '' };
+    } else if (p.kind === 'tribunal-entry') {
+      st.visited.tribunal = true;
+    } else if (p.kind === 'ruling') {
+      const outcome = computeRulingOutcomeId(p.action);
+      if (outcome && !st.rulingOutcomes.includes(outcome)) st.rulingOutcomes.push(outcome);
+      st.rulingOutcomes = normalizeTombstonePatentOfficeRulingOutcomes(st.rulingOutcomes);
+      st.rulingRuns += 1;
+      st.lastOutcome = outcome;
+    }
+    st.pending = null;
+    saveTombstonePatentOffice(st);
+  };
+
+  const resolveTombstonePatentOfficePendingOnArrival = (name) => {
+    const st = getTombstonePatentOffice();
+    const p = st.pending;
+    if (p && p.target === name) tombstonePatentOfficeBeforeArrive(p);
+  };
+
+  const lockTombstonePatentOfficeApplicantButtons = (pressedApplicant) => {
+    APPLICANTS.forEach((a) => {
+      const btn = $(`#tombstone-patent-office-applicant-${a}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(a === pressedApplicant));
+    });
+  };
+
+  const lockTombstonePatentOfficePriorArtButtons = (pressedPriorArt) => {
+    PRIOR_ART.forEach((p) => {
+      const btn = $(`#prior-art-${p}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(p === pressedPriorArt));
+    });
+  };
+
+  const lockTombstonePatentOfficeClaimButtons = (pressedClaim) => {
+    CLAIMS.forEach((c) => {
+      const btn = $(`#impossible-claim-${c}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(c === pressedClaim));
+    });
+  };
+
+  const lockTombstonePatentOfficeRulingButtons = (pressedAction) => {
+    RULING_ACTIONS.forEach((a) => {
+      const btn = $(`#perpetual-license-${a}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(a === pressedAction));
+    });
+  };
+
+  const syncTombstonePatentOfficeOffice = () => {
+    const figure = $('#tombstone-patent-office-office-figure');
+    const unlocked = tombstonePatentOfficeUnlocked();
+    if (figure) figure.hidden = !unlocked;
+    if (!unlocked) return;
+    const st = getTombstonePatentOffice();
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeExaminer || st.draft.applicant !== '' || st.draft.priorArt !== '';
+    const response = $('#tombstone-patent-office-office-response');
+    APPLICANTS.forEach((a) => {
+      const btn = $(`#tombstone-patent-office-applicant-${a}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'applicant' && pending.applicant === a);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'applicant') ? pending.feedback : '';
+  };
+
+  const syncTombstonePatentOfficeOssuary = () => {
+    const figure = $('#prior-art-ossuary-figure');
+    const st = getTombstonePatentOffice();
+    const unlocked = tombstonePatentOfficeUnlocked();
+    const hasDraft = unlocked && APPLICANTS.includes(st.draft.applicant);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeExaminer;
+    const response = $('#prior-art-ossuary-response');
+    PRIOR_ART.forEach((p) => {
+      const btn = $(`#prior-art-${p}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'prior-art' && pending.priorArt === p);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'prior-art') ? pending.feedback : '';
+  };
+
+  const syncTombstonePatentOfficeExamination = () => {
+    const figure = $('#impossible-claim-examination-figure');
+    const st = getTombstonePatentOffice();
+    const unlocked = tombstonePatentOfficeUnlocked();
+    const hasDraft = unlocked && APPLICANTS.includes(st.draft.applicant) && PRIOR_ART.includes(st.draft.priorArt);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeExaminer;
+    const response = $('#impossible-claim-examination-response');
+    CLAIMS.forEach((c) => {
+      const btn = $(`#impossible-claim-${c}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'patent' && pending.claim === c);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'patent') ? pending.feedback : '';
+  };
+
+  const syncTombstonePatentOfficeTribunal = () => {
+    const figure = $('#perpetual-license-tribunal-figure');
+    const st = getTombstonePatentOffice();
+    const open = tombstonePatentOfficeUnlocked() && patentCoverageComplete(st) && st.visited.tribunal;
+    if (figure) figure.hidden = !open;
+    if (!open) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeExaminer || st.draft.applicant !== '' || st.draft.priorArt !== '';
+    const response = $('#perpetual-license-tribunal-response');
+    RULING_ACTIONS.forEach((a) => {
+      const btn = $(`#perpetual-license-${a}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'ruling' && pending.action === a);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'ruling') ? pending.feedback : '';
+  };
+
+  const syncTombstonePatentOfficeExaminers = () => {
+    const st = getTombstonePatentOffice();
+    const unlocked = tombstonePatentOfficeUnlocked();
+    Object.values(SCENE_FOR_PRIOR_ART).forEach((scene) => {
+      const container = $(`#tombstone-patent-office-examiner-${scene}`);
+      if (!container) return;
+      const active = unlocked && st.activeExaminer && SCENE_FOR_PRIOR_ART[st.activeExaminer.priorArt] === scene && currentScene === scene;
+      container.hidden = !active;
+      if (active) paintTombstonePatentOfficeExaminer(scene);
+    });
+  };
+
+  const paintTombstonePatentOfficeExaminer = (scene) => {
+    const st = getTombstonePatentOffice();
+    const examiner = st.activeExaminer;
+    const response = $(`#tombstone-patent-office-examiner-response-${scene}`);
+    const btn = $(`#tombstone-patent-office-examiner-return-${scene}`);
+    if (response) response.textContent = (examiner && SCENE_FOR_PRIOR_ART[examiner.priorArt] === scene) ? examiner.feedback : '';
+    if (btn) {
+      const available = !!examiner && SCENE_FOR_PRIOR_ART[examiner.priorArt] === scene && currentScene === scene && !st.pending && !AutoAdvance.has(scene);
+      btn.disabled = !available;
+      btn.setAttribute('aria-pressed', 'false');
+    }
+  };
+
+  const paintTombstonePatentOfficeMemory = () => {
+    const memory = $('#tombstone-patent-office-memory');
+    if (!memory) return;
+    const st = getTombstonePatentOffice();
+    const unlocked = tombstonePatentOfficeUnlocked();
+    if (!unlocked) {
+      memory.hidden = true;
+      return;
+    }
+    const counts = { applicant: {}, priorArt: {}, claim: {} };
+    for (const id of st.patents) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      counts.applicant[parts[0]] = (counts.applicant[parts[0]] || 0) + 1;
+      counts.priorArt[parts[1]] = (counts.priorArt[parts[1]] || 0) + 1;
+      counts.claim[parts[2]] = (counts.claim[parts[2]] || 0) + 1;
+    }
+    const get = (map, key) => map[key] || 0;
+    memory.textContent = `墓碑专利局：已核准 ${st.patents.length}/36 件专利，共审查 ${st.filingRuns} 次；申请人 未生 ${get(counts.applicant, 'unborn-inventor')} / 死后 ${get(counts.applicant, 'posthumous-inventor')} / 未来抄袭 ${get(counts.applicant, 'future-plagiarist')}；先例 空碑 ${get(counts.priorArt, 'uncarved-epitaph-blueprint')} / 梦型 ${get(counts.priorArt, 'dream-worn-prototype')} / 后忆 ${get(counts.priorArt, 'descendant-memory-machine')}；权项 未造 ${get(counts.claim, 'own-the-unmade')} / 死亡许可 ${get(counts.claim, 'license-death-as-user')} / 未来诉讼 ${get(counts.claim, 'sue-the-future-for-copying')} / 禁止发明 ${get(counts.claim, 'forbid-inventor-to-invent')}；发明权多数 ${computeApplicantTalliesMajority(st.applicantTallies)}；终审裁定 ${st.rulingOutcomes.length}/3。`;
+    memory.hidden = false;
+  };
+
+  const paintTombstonePatentOfficeCodex = () => {
+    const box = $('#tombstone-patent-office-codex');
+    const grid = $('#tombstone-patent-office-codex-grid');
+    const entry = $('#tombstone-patent-office-codex-entry');
+    if (!box || !grid) return;
+    const st = getTombstonePatentOffice();
+    const unlocked = tombstonePatentOfficeUnlocked();
+    if (!unlocked) {
+      box.hidden = true;
+      if (entry) entry.hidden = true;
+      return;
+    }
+    box.removeAttribute('hidden');
+    grid.innerHTML = '';
+    for (const id of PATENT_IDS) {
+      const unlocked = st.patents.includes(id);
+      const cell = document.createElement('div');
+      cell.className = 'tombstone-patent-office-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const patent = findPatentById(id);
+        cell.innerHTML = `<b>${patent.title}</b><span>${patent.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    for (const action of RULING_ACTIONS) {
+      const outcome = RULING_TABLE[action].outcome;
+      const unlocked = st.rulingOutcomes.includes(outcome);
+      const cell = document.createElement('div');
+      cell.className = 'tombstone-patent-office-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const table = RULING_TABLE[action];
+        cell.innerHTML = `<b>${table.name}</b><span>${table.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    if (entry) entry.removeAttribute('hidden');
+  };
+
+  const syncTombstonePatentOfficeRemembrance = () => {
+    paintTombstonePatentOfficeMemory();
+    paintTombstonePatentOfficeCodex();
+    const st = getTombstonePatentOffice();
+    const unlocked = tombstonePatentOfficeUnlocked();
+    const coverage = patentCoverageComplete(st);
+    const entryBtn = $('#tombstone-patent-office-entry-btn');
+    if (entryBtn) {
+      entryBtn.hidden = !(currentScene === 'remembrance' && unlocked);
+      entryBtn.disabled = !(!st.pending && !st.activeExaminer && st.draft.applicant === '' && st.draft.priorArt === '' && currentScene === 'remembrance' && unlocked);
+    }
+    const tribunalEntryBtn = $('#tombstone-patent-office-tribunal-entry-btn');
+    if (tribunalEntryBtn) {
+      const activeExaminerAtRemembrance = !!st.activeExaminer && SCENE_FOR_PRIOR_ART[st.activeExaminer.priorArt] === 'remembrance';
+      tribunalEntryBtn.hidden = !(currentScene === 'remembrance' && unlocked && (coverage || activeExaminerAtRemembrance));
+      tribunalEntryBtn.disabled = !(!st.pending && !st.activeExaminer && st.draft.applicant === '' && st.draft.priorArt === '' && currentScene === 'remembrance' && unlocked && coverage);
+    }
+  };
+
+  const syncTombstonePatentOfficeLinks = () => {
+    const st = getTombstonePatentOffice();
+    const unlocked = tombstonePatentOfficeUnlocked();
+    const map = {
+      'tombstone-patent-office-link': unlocked && st.visited.office,
+      'prior-art-ossuary-link': unlocked && st.visited.ossuary,
+      'impossible-claim-examination-link': unlocked && st.visited.examination,
+      'perpetual-license-tribunal-link': unlocked && st.visited.tribunal,
+    };
+    for (const [id, show] of Object.entries(map)) {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !show;
+    }
+  };
+
+  const replayTombstonePatentOfficePending = (sceneName) => {
+    const st = getTombstonePatentOffice();
+    const p = st.pending;
+    if (!p) {
+      syncTombstonePatentOfficeOffice();
+      syncTombstonePatentOfficeOssuary();
+      syncTombstonePatentOfficeExamination();
+      syncTombstonePatentOfficeTribunal();
+      syncTombstonePatentOfficeExaminers();
+      return;
+    }
+    if (sceneName === p.target) {
+      tombstonePatentOfficeBeforeArrive(p);
+      syncTombstonePatentOfficeOffice();
+      syncTombstonePatentOfficeOssuary();
+      syncTombstonePatentOfficeExamination();
+      syncTombstonePatentOfficeTribunal();
+      syncTombstonePatentOfficeExaminers();
+      if (sceneName === 'remembrance') syncTombstonePatentOfficeRemembrance();
+      return;
+    }
+    const schedule = (source) => AutoAdvance.schedule(source, p.target, { delay: tombstonePatentOfficeDelay(), before: () => tombstonePatentOfficeBeforeArrive(p) });
+
+    if (p.kind === 'entry' && sceneName === 'remembrance') {
+      const btn = $('#tombstone-patent-office-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#tombstone-patent-office-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'applicant' && sceneName === 'tombstone-patent-office') {
+      const response = $('#tombstone-patent-office-office-response');
+      if (response) response.textContent = p.feedback;
+      lockTombstonePatentOfficeApplicantButtons(p.applicant);
+      schedule('tombstone-patent-office');
+    } else if (p.kind === 'prior-art' && sceneName === 'prior-art-ossuary') {
+      const response = $('#prior-art-ossuary-response');
+      if (response) response.textContent = p.feedback;
+      lockTombstonePatentOfficePriorArtButtons(p.priorArt);
+      schedule('prior-art-ossuary');
+    } else if (p.kind === 'patent' && sceneName === 'impossible-claim-examination') {
+      const response = $('#impossible-claim-examination-response');
+      if (response) response.textContent = p.feedback;
+      lockTombstonePatentOfficeClaimButtons(p.claim);
+      schedule('impossible-claim-examination');
+    } else if (p.kind === 'examiner-return' && sceneName === p.from) {
+      const container = $(`#tombstone-patent-office-examiner-${p.from}`);
+      if (container) container.hidden = false;
+      const response = $(`#tombstone-patent-office-examiner-response-${p.from}`);
+      if (response) response.textContent = p.feedback;
+      const btn = $(`#tombstone-patent-office-examiner-return-${p.from}`);
+      if (btn) {
+        btn.disabled = true;
+        btn.setAttribute('aria-pressed', 'true');
+      }
+      schedule(p.from);
+    } else if (p.kind === 'tribunal-entry' && sceneName === 'remembrance') {
+      const btn = $('#tombstone-patent-office-tribunal-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#tombstone-patent-office-tribunal-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'ruling' && sceneName === 'perpetual-license-tribunal') {
+      const response = $('#perpetual-license-tribunal-response');
+      if (response) response.textContent = p.feedback;
+      lockTombstonePatentOfficeRulingButtons(p.action);
+      schedule('perpetual-license-tribunal');
+    } else {
+      st.pending = null;
+      saveTombstonePatentOffice(st);
+      syncTombstonePatentOfficeOffice();
+      syncTombstonePatentOfficeOssuary();
+      syncTombstonePatentOfficeExamination();
+      syncTombstonePatentOfficeTribunal();
+      syncTombstonePatentOfficeExaminers();
+      if (sceneName === 'remembrance') syncTombstonePatentOfficeRemembrance();
+    }
+  };
+
+  const chooseTombstonePatentOfficeApplicant = (applicant) => {
+    if (currentScene !== 'tombstone-patent-office') return;
+    if (AutoAdvance.has('tombstone-patent-office')) return;
+    if (!APPLICANTS.includes(applicant)) return;
+    if (!buttonAvailable(`tombstone-patent-office-applicant-${applicant}`)) return;
+    const st = getTombstonePatentOffice();
+    if (st.pending) return;
+    if (st.activeExaminer) return;
+    if (st.draft.applicant !== '' || st.draft.priorArt !== '') return;
+    const table = APPLICANT_TABLE[applicant];
+    if (!table) return;
+    const pending = { kind: 'applicant', source: 'tombstone-patent-office', applicant, target: 'prior-art-ossuary', feedback: table.feedback };
+    st.pending = pending;
+    saveTombstonePatentOffice(st);
+    lockTombstonePatentOfficeApplicantButtons(applicant);
+    const response = $('#tombstone-patent-office-office-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('tombstone-patent-office', 'prior-art-ossuary', { delay: tombstonePatentOfficeDelay(), before: () => tombstonePatentOfficeBeforeArrive(pending) });
+  };
+
+  const chooseTombstonePatentOfficePriorArt = (priorArt) => {
+    if (currentScene !== 'prior-art-ossuary') return;
+    if (AutoAdvance.has('prior-art-ossuary')) return;
+    if (!PRIOR_ART.includes(priorArt)) return;
+    if (!buttonAvailable(`prior-art-${priorArt}`)) return;
+    const st = getTombstonePatentOffice();
+    if (st.pending) return;
+    if (st.activeExaminer) return;
+    if (!APPLICANTS.includes(st.draft.applicant)) return;
+    const table = PRIOR_ART_TABLE[priorArt];
+    if (!table) return;
+    const pending = { kind: 'prior-art', source: 'prior-art-ossuary', applicant: st.draft.applicant, priorArt, target: 'impossible-claim-examination', feedback: table.feedback };
+    st.pending = pending;
+    saveTombstonePatentOffice(st);
+    lockTombstonePatentOfficePriorArtButtons(priorArt);
+    const response = $('#prior-art-ossuary-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('prior-art-ossuary', 'impossible-claim-examination', { delay: tombstonePatentOfficeDelay(), before: () => tombstonePatentOfficeBeforeArrive(pending) });
+  };
+
+  const chooseTombstonePatentOfficeClaim = (claim) => {
+    if (currentScene !== 'impossible-claim-examination') return;
+    if (AutoAdvance.has('impossible-claim-examination')) return;
+    if (!CLAIMS.includes(claim)) return;
+    if (!buttonAvailable(`impossible-claim-${claim}`)) return;
+    const st = getTombstonePatentOffice();
+    if (st.pending) return;
+    if (st.activeExaminer) return;
+    const a = st.draft.applicant;
+    const p = st.draft.priorArt;
+    if (!APPLICANTS.includes(a) || !PRIOR_ART.includes(p)) return;
+    const feedback = computePatentFeedback(a, p, claim);
+    const patent = computePatentId(a, p, claim);
+    const target = SCENE_FOR_PRIOR_ART[p];
+    const pending = { kind: 'patent', source: 'impossible-claim-examination', applicant: a, priorArt: p, claim, patent, target, feedback };
+    st.pending = pending;
+    saveTombstonePatentOffice(st);
+    lockTombstonePatentOfficeClaimButtons(claim);
+    const response = $('#impossible-claim-examination-response');
+    if (response) response.textContent = feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('impossible-claim-examination', target, { delay: tombstonePatentOfficeDelay(), before: () => tombstonePatentOfficeBeforeArrive(pending) });
+  };
+
+  const chooseTombstonePatentOfficeExaminerReturn = (scene) => {
+    if (currentScene !== scene) return;
+    if (AutoAdvance.has(scene)) return;
+    if (!Object.values(SCENE_FOR_PRIOR_ART).includes(scene)) return;
+    if (!buttonAvailable(`tombstone-patent-office-examiner-return-${scene}`)) return;
+    const st = getTombstonePatentOffice();
+    if (st.pending) return;
+    const examiner = st.activeExaminer;
+    if (!examiner || SCENE_FOR_PRIOR_ART[examiner.priorArt] !== scene) return;
+    const pending = { kind: 'examiner-return', from: scene, target: 'tombstone-patent-office', patent: examiner.patent, feedback: examiner.feedback };
+    st.pending = pending;
+    saveTombstonePatentOffice(st);
+    const btn = $(`#tombstone-patent-office-examiner-return-${scene}`);
+    if (btn) {
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', 'true');
+    }
+    const response = $(`#tombstone-patent-office-examiner-response-${scene}`);
+    if (response) response.textContent = examiner.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule(scene, 'tombstone-patent-office', { delay: tombstonePatentOfficeDelay(), before: () => tombstonePatentOfficeBeforeArrive(pending) });
+  };
+
+  const chooseTombstonePatentOfficeEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('tombstone-patent-office-entry-btn')) return;
+    if (!tombstonePatentOfficeUnlocked()) return;
+    const st = getTombstonePatentOffice();
+    if (st.pending) return;
+    if (st.activeExaminer) return;
+    if (st.draft.applicant !== '' || st.draft.priorArt !== '') return;
+    const pending = { kind: 'entry', target: 'tombstone-patent-office', feedback: TOMBSTONE_PATENT_OFFICE_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveTombstonePatentOffice(st);
+    const btn = $('#tombstone-patent-office-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#tombstone-patent-office-entry-response');
+    if (response) response.textContent = TOMBSTONE_PATENT_OFFICE_ENTRY_FEEDBACK;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('remembrance', 'tombstone-patent-office', { delay: tombstonePatentOfficeDelay(), before: () => tombstonePatentOfficeBeforeArrive(pending) });
+  };
+
+  const chooseTombstonePatentOfficeTribunalEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('tombstone-patent-office-tribunal-entry-btn')) return;
+    const st = getTombstonePatentOffice();
+    if (st.pending) return;
+    if (st.activeExaminer) return;
+    if (st.draft.applicant !== '' || st.draft.priorArt !== '') return;
+    if (!patentCoverageComplete(st)) return;
+    const pending = { kind: 'tribunal-entry', target: 'perpetual-license-tribunal', feedback: TOMBSTONE_PATENT_OFFICE_TRIBUNAL_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveTombstonePatentOffice(st);
+    const btn = $('#tombstone-patent-office-tribunal-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#tombstone-patent-office-tribunal-entry-response');
+    if (response) response.textContent = TOMBSTONE_PATENT_OFFICE_TRIBUNAL_ENTRY_FEEDBACK;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('remembrance', 'perpetual-license-tribunal', { delay: tombstonePatentOfficeDelay(), before: () => tombstonePatentOfficeBeforeArrive(pending) });
+  };
+
+  const chooseTombstonePatentOfficeRulingAction = (action) => {
+    if (currentScene !== 'perpetual-license-tribunal') return;
+    if (AutoAdvance.has('perpetual-license-tribunal')) return;
+    if (!RULING_ACTIONS.includes(action)) return;
+    if (!buttonAvailable(`perpetual-license-${action}`)) return;
+    const st = getTombstonePatentOffice();
+    if (st.pending) return;
+    if (st.activeExaminer) return;
+    if (st.draft.applicant !== '' || st.draft.priorArt !== '') return;
+    if (!st.visited.tribunal) return;
+    if (!patentCoverageComplete(st)) return;
+    const table = RULING_TABLE[action];
+    if (!table) return;
+    const pending = { kind: 'ruling', source: 'perpetual-license-tribunal', action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    st.pending = pending;
+    saveTombstonePatentOffice(st);
+    lockTombstonePatentOfficeRulingButtons(action);
+    const response = $('#perpetual-license-tribunal-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('perpetual-license-tribunal', table.target, { delay: tombstonePatentOfficeDelay(), before: () => tombstonePatentOfficeBeforeArrive(pending) });
+  };
+
+  const tombstonePatentOfficeCanVisitOffice = () => {
+    if (!tombstonePatentOfficeUnlocked()) return false;
+    const st = getTombstonePatentOffice();
+    const p = st.pending;
+    if (p && (p.kind === 'entry' || p.kind === 'examiner-return') && p.target === 'tombstone-patent-office') return true;
+    if (st.visited.office) return true;
+    return false;
+  };
+
+  const tombstonePatentOfficeCanVisitOssuary = () => {
+    if (!tombstonePatentOfficeUnlocked()) return false;
+    const st = getTombstonePatentOffice();
+    const p = st.pending;
+    if (p && p.kind === 'applicant' && p.target === 'prior-art-ossuary') return true;
+    if (st.visited.ossuary && APPLICANTS.includes(st.draft.applicant)) return true;
+    return false;
+  };
+
+  const tombstonePatentOfficeCanVisitExamination = () => {
+    if (!tombstonePatentOfficeUnlocked()) return false;
+    const st = getTombstonePatentOffice();
+    const p = st.pending;
+    if (p && p.kind === 'prior-art' && p.target === 'impossible-claim-examination') return true;
+    if (st.visited.examination && APPLICANTS.includes(st.draft.applicant) && PRIOR_ART.includes(st.draft.priorArt)) return true;
+    return false;
+  };
+
+  const tombstonePatentOfficeCanVisitTribunal = () => {
+    if (!tombstonePatentOfficeUnlocked()) return false;
+    const st = getTombstonePatentOffice();
+    if (!patentCoverageComplete(st)) return false;
+    const p = st.pending;
+    if (p && p.kind === 'tribunal-entry' && p.target === 'perpetual-license-tribunal') return true;
+    if (st.visited.tribunal) return true;
+    return false;
+  };
+
+  const tombstonePatentOfficeBridgeAllows = (scene) => {
+    const st = getTombstonePatentOffice();
+    const p = st.pending;
+    if (p && p.kind === 'patent' && p.target === scene) return true;
+    if (p && p.kind === 'ruling' && p.target === scene) return true;
+    if (st.activeExaminer && SCENE_FOR_PRIOR_ART[st.activeExaminer.priorArt] === scene) return true;
+    return false;
+  };
+
+  const tombstonePatentOfficeEntryBtn = $('#tombstone-patent-office-entry-btn');
+  if (tombstonePatentOfficeEntryBtn) {
+    tombstonePatentOfficeEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseTombstonePatentOfficeEntry();
+    });
+  }
+  const tombstonePatentOfficeTribunalEntryBtn = $('#tombstone-patent-office-tribunal-entry-btn');
+  if (tombstonePatentOfficeTribunalEntryBtn) {
+    tombstonePatentOfficeTribunalEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseTombstonePatentOfficeTribunalEntry();
+    });
+  }
+  const tombstonePatentOfficeApplicantUnbornInventorBtn = $('#tombstone-patent-office-applicant-unborn-inventor');
+  if (tombstonePatentOfficeApplicantUnbornInventorBtn) {
+    tombstonePatentOfficeApplicantUnbornInventorBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseTombstonePatentOfficeApplicant('unborn-inventor');
+    });
+  }
+  const tombstonePatentOfficeApplicantPosthumousInventorBtn = $('#tombstone-patent-office-applicant-posthumous-inventor');
+  if (tombstonePatentOfficeApplicantPosthumousInventorBtn) {
+    tombstonePatentOfficeApplicantPosthumousInventorBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseTombstonePatentOfficeApplicant('posthumous-inventor');
+    });
+  }
+  const tombstonePatentOfficeApplicantFuturePlagiaristBtn = $('#tombstone-patent-office-applicant-future-plagiarist');
+  if (tombstonePatentOfficeApplicantFuturePlagiaristBtn) {
+    tombstonePatentOfficeApplicantFuturePlagiaristBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseTombstonePatentOfficeApplicant('future-plagiarist');
+    });
+  }
+  const priorArtUncarvedEpitaphBlueprintBtn = $('#prior-art-uncarved-epitaph-blueprint');
+  if (priorArtUncarvedEpitaphBlueprintBtn) {
+    priorArtUncarvedEpitaphBlueprintBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseTombstonePatentOfficePriorArt('uncarved-epitaph-blueprint');
+    });
+  }
+  const priorArtDreamWornPrototypeBtn = $('#prior-art-dream-worn-prototype');
+  if (priorArtDreamWornPrototypeBtn) {
+    priorArtDreamWornPrototypeBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseTombstonePatentOfficePriorArt('dream-worn-prototype');
+    });
+  }
+  const priorArtDescendantMemoryMachineBtn = $('#prior-art-descendant-memory-machine');
+  if (priorArtDescendantMemoryMachineBtn) {
+    priorArtDescendantMemoryMachineBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseTombstonePatentOfficePriorArt('descendant-memory-machine');
+    });
+  }
+  const impossibleClaimOwnTheUnmadeBtn = $('#impossible-claim-own-the-unmade');
+  if (impossibleClaimOwnTheUnmadeBtn) {
+    impossibleClaimOwnTheUnmadeBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseTombstonePatentOfficeClaim('own-the-unmade');
+    });
+  }
+  const impossibleClaimLicenseDeathAsUserBtn = $('#impossible-claim-license-death-as-user');
+  if (impossibleClaimLicenseDeathAsUserBtn) {
+    impossibleClaimLicenseDeathAsUserBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseTombstonePatentOfficeClaim('license-death-as-user');
+    });
+  }
+  const impossibleClaimSueTheFutureForCopyingBtn = $('#impossible-claim-sue-the-future-for-copying');
+  if (impossibleClaimSueTheFutureForCopyingBtn) {
+    impossibleClaimSueTheFutureForCopyingBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseTombstonePatentOfficeClaim('sue-the-future-for-copying');
+    });
+  }
+  const impossibleClaimForbidInventorToInventBtn = $('#impossible-claim-forbid-inventor-to-invent');
+  if (impossibleClaimForbidInventorToInventBtn) {
+    impossibleClaimForbidInventorToInventBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseTombstonePatentOfficeClaim('forbid-inventor-to-invent');
+    });
+  }
+  const tombstonePatentOfficeExaminerReturnThresholdBtn = $('#tombstone-patent-office-examiner-return-threshold');
+  if (tombstonePatentOfficeExaminerReturnThresholdBtn) {
+    tombstonePatentOfficeExaminerReturnThresholdBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseTombstonePatentOfficeExaminerReturn('threshold');
+    });
+  }
+  const tombstonePatentOfficeExaminerReturnEyelidArchiveBtn = $('#tombstone-patent-office-examiner-return-eyelid-archive');
+  if (tombstonePatentOfficeExaminerReturnEyelidArchiveBtn) {
+    tombstonePatentOfficeExaminerReturnEyelidArchiveBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseTombstonePatentOfficeExaminerReturn('eyelid-archive');
+    });
+  }
+  const tombstonePatentOfficeExaminerReturnRemembranceBtn = $('#tombstone-patent-office-examiner-return-remembrance');
+  if (tombstonePatentOfficeExaminerReturnRemembranceBtn) {
+    tombstonePatentOfficeExaminerReturnRemembranceBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseTombstonePatentOfficeExaminerReturn('remembrance');
+    });
+  }
+  const perpetualLicenseGrantSelfOwnershipBtn = $('#perpetual-license-grant-self-ownership');
+  if (perpetualLicenseGrantSelfOwnershipBtn) {
+    perpetualLicenseGrantSelfOwnershipBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseTombstonePatentOfficeRulingAction('grant-self-ownership');
+    });
+  }
+  const perpetualLicenseInvalidateAllPriorExistenceBtn = $('#perpetual-license-invalidate-all-prior-existence');
+  if (perpetualLicenseInvalidateAllPriorExistenceBtn) {
+    perpetualLicenseInvalidateAllPriorExistenceBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseTombstonePatentOfficeRulingAction('invalidate-all-prior-existence');
+    });
+  }
+  const perpetualLicenseLicenseTheUnburiedToHauntPrototypesBtn = $('#perpetual-license-license-the-unburied-to-haunt-prototypes');
+  if (perpetualLicenseLicenseTheUnburiedToHauntPrototypesBtn) {
+    perpetualLicenseLicenseTheUnburiedToHauntPrototypesBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseTombstonePatentOfficeRulingAction('license-the-unburied-to-haunt-prototypes');
+    });
+  }
+  /* ============================================================
+     v75 末日保修局 / APOCALYPSE WARRANTY OFFICE
+     ============================================================ */
+  const APOCALYPSE_WARRANTY_KEY = 'goddead_v75_apocalypse_warranty';
+  const APOCALYPSE_WARRANTY_VERSION = 75;
+  const DEFECTS = ['worn-before-manufacture', 'still-running-after-the-end', 'ghost-only-moving-part'];
+  const PROOFS = ['receipt-from-unbuilt-factory', 'dead-sun-warranty-seal', 'descendant-repair-memory'];
+  const REMEDIES = ['replace-reality-not-part', 'extend-warranty-before-birth', 'declare-defect-as-feature', 'bill-the-apocalypse'];
+  const RECALL_ACTIONS = ['recall-the-world', 'install-a-spare-dawn', 'void-for-self-modification'];
+
+  const SCENE_FOR_PROOF = {
+    'receipt-from-unbuilt-factory': 'threshold',
+    'dead-sun-warranty-seal': 'remembrance',
+    'descendant-repair-memory': 'unending-gallery',
+  };
+
+  const APOCALYPSE_WARRANTY_ENTRY_FEEDBACK = '墓碑专利局给所有未完成机器发出永久许可后，机器立刻声称自己在世界末日之后仍属保修期。末日保修局因此继续营业。';
+  const APOCALYPSE_WARRANTY_RECALL_ENTRY_FEEDBACK = '召回整批已经售出的现实 · RECALL EVERY REALITY ALREADY SOLD';
+
+  const DEFECT_TABLE = {
+    'worn-before-manufacture': {
+      name: '报修出厂前磨损 · CLAIM WEAR BEFORE MANUFACTURE',
+      feedback: '装配摇篮交出一台已经老化的机器。它还缺最后一颗螺丝，却能证明自己曾被使用了几百年。',
+      fragment: '装配摇篮交出一台已经老化的机器。它还缺最后一颗螺丝，却能证明自己曾被使用了几百年。',
+      title: '出厂前磨损',
+      tallyKey: 'prebirth',
+    },
+    'still-running-after-the-end': {
+      name: '报修世终后不停机 · CLAIM OPERATION AFTER THE END',
+      feedback: '死太阳从破裂光环里漏出冷灰。世界已经结束，它仍拒绝停机，并要求补发最后一夜的电费。',
+      fragment: '死太阳从破裂光环里漏出冷灰。世界已经结束，它仍拒绝停机，并要求补发最后一夜的电费。',
+      title: '世终后不停机',
+      tallyKey: 'aftermath',
+    },
+    'ghost-only-moving-part': {
+      name: '报修幽灵活动零件 · CLAIM THE GHOST AS THE MOVING PART',
+      feedback: '自动机的金属关节全部卡死，胸腔里的幽灵却继续转动齿轮。局方只承认幽灵属于耗材。',
+      fragment: '自动机的金属关节全部卡死，胸腔里的幽灵却继续转动齿轮。局方只承认幽灵属于耗材。',
+      title: '幽灵活动零件',
+      tallyKey: 'ghost',
+    },
+  };
+
+  const PROOF_TABLE = {
+    'receipt-from-unbuilt-factory': {
+      name: '提交未建工厂收据 · SUBMIT THE UNBUILT FACTORY RECEIPT',
+      feedback: '黄铜线框工厂吐出一张没有商品的长收据。厂房从未建成，退货地址却指向你脚下这道门槛。',
+      fragment: '黄铜线框工厂吐出一张没有商品的长收据。厂房从未建成，退货地址却指向你脚下这道门槛。',
+      title: '未建工厂收据',
+      target: 'threshold',
+      adjusterFeedback: '空厂理赔员在门槛上核对退货地址。门后没有工厂，只有一张比厂房更早衰老的收据。',
+      adjusterReturnName: '跟空厂理赔员返回保修局 · RETURN WITH THE UNBUILT-FACTORY ADJUSTER',
+    },
+    'dead-sun-warranty-seal': {
+      name: '提交死太阳保修封 · SUBMIT THE DEAD SUN WARRANTY SEAL',
+      feedback: '红蜡封印仍留在熄灭光环上。条款没有写期限，因为签发它的白昼不相信自己会结束。',
+      fragment: '红蜡封印仍留在熄灭光环上。条款没有写期限，因为签发它的白昼不相信自己会结束。',
+      title: '死太阳保修封',
+      target: 'remembrance',
+      adjusterFeedback: '死日理赔员把红蜡光环钉进痕迹墙。墙仍记得白昼，太阳却只记得自己正在等待换新。',
+      adjusterReturnName: '跟死日理赔员返回保修局 · RETURN WITH THE DEAD-SUN ADJUSTER',
+    },
+    'descendant-repair-memory': {
+      name: '提交后人维修记忆 · SUBMIT THE DESCENDANT REPAIR MEMORY',
+      feedback: '尚未出生的后人围着原型回忆一次维修。他们都记得你付过钱，唯独没人记得机器曾经存在。',
+      fragment: '尚未出生的后人围着原型回忆一次维修。他们都记得你付过钱，唯独没人记得机器曾经存在。',
+      title: '后人维修记忆',
+      target: 'unending-gallery',
+      adjusterFeedback: '后忆理赔员在无尽画廊找到那次维修。每幅画都记得付款，唯独机器从未出现在任何画里。',
+      adjusterReturnName: '跟后忆理赔员返回保修局 · RETURN WITH THE DESCENDANT-MEMORY ADJUSTER',
+    },
+  };
+
+  const REMEDY_TABLE = {
+    'replace-reality-not-part': {
+      name: '替换现实而非零件 · REPLACE REALITY, NOT THE PART',
+      title: '替换现实而非零件',
+      fragment: '维修员保留坏齿轮，把它周围的世界整体换新。新现实运转正常，只是再也容不下提出报修的你。',
+    },
+    'extend-warranty-before-birth': {
+      name: '把保修延长到出生前 · EXTEND THE WARRANTY BEFORE BIRTH',
+      title: '把保修延长到出生前',
+      fragment: '保修带沿摇篮时钟逆行。你出生以前的所有损坏获得免费维修，出生本身因此被列为首次故障。',
+    },
+    'declare-defect-as-feature': {
+      name: '宣布故障属于原厂特性 · DECLARE THE DEFECT A FEATURE',
+      title: '宣布故障属于原厂特性',
+      fragment: '裂缝被点亮并写入原厂设计。机器无需修理，反而是完好无损的世界突然显得不符合规格。',
+    },
+    'bill-the-apocalypse': {
+      name: '把账单寄给末日 · BILL THE APOCALYPSE',
+      title: '把账单寄给末日',
+      fragment: '账单机卷入烧毁的地平线。末日拒绝付款，因为它声称毁掉世界只是按使用说明完成关机。',
+    },
+  };
+
+  const RECALL_TABLE = {
+    'recall-the-world': {
+      name: '把世界从流通中召回 · RECALL THE WORLD FROM CIRCULATION',
+      outcome: 'the-world-was-recalled-from-circulation',
+      target: 'threshold',
+      feedback: '裂开的世界沿退货带倒退回黑暗厂门。城市仍黏在表面，人们这才发现自己只是未拆封的随箱附件。',
+    },
+    'install-a-spare-dawn': {
+      name: '给末日安装备用黎明 · INSTALL A SPARE DAWN IN THE APOCALYPSE',
+      outcome: 'the-apocalypse-was-repaired-with-a-spare-dawn',
+      target: 'remembrance',
+      feedback: '维修员把一枚备用黎明旋进破裂地平线。世界重新亮起，却只照见所有已经来不及活过的事。',
+    },
+    'void-for-self-modification': {
+      name: "因现实擅自维修而作废 · VOID THE WARRANTY FOR REALITY'S SELF-MODIFICATION",
+      outcome: 'existence-voided-its-own-warranty',
+      target: 'unending-gallery',
+      feedback: '现实长出机械双手自行缝合裂口。局方当场撕毁保修，因为存在未经授权改变了自己原本的损坏状态。',
+    },
+  };
+
+  const WARRANTY_CLAIM_IDS = (() => {
+    const ids = [];
+    for (const d of DEFECTS) {
+      for (const p of PROOFS) {
+        for (const r of REMEDIES) {
+          ids.push(`${d}:${p}:${r}`);
+        }
+      }
+    }
+    return ids;
+  })();
+  const WARRANTY_CLAIM_SET = new Set(WARRANTY_CLAIM_IDS);
+  const RECALL_OUTCOME_IDS = RECALL_ACTIONS.map((a) => RECALL_TABLE[a].outcome);
+  const RECALL_OUTCOME_SET = new Set(RECALL_OUTCOME_IDS);
+
+  const defaultApocalypseWarrantyOffice = () => ({
+    version: APOCALYPSE_WARRANTY_VERSION,
+    visited: { office: false, morgue: false, bench: false, yard: false },
+    draft: { defect: '', proof: '' },
+    warrantyClaims: [],
+    recallOutcomes: [],
+    serviceRuns: 0,
+    recallRuns: 0,
+    claimantTallies: { prebirth: 0, aftermath: 0, ghost: 0 },
+    lastOutcome: '',
+    activeAdjuster: null,
+    pending: null,
+  });
+
+  const normalizeApocalypseWarrantyOfficeVisited = (visited) => {
+    const v = visited && typeof visited === 'object' && !Array.isArray(visited) ? visited : {};
+    return {
+      office: v.office === true,
+      morgue: v.morgue === true,
+      bench: v.bench === true,
+      yard: v.yard === true,
+    };
+  };
+
+  const normalizeApocalypseWarrantyOfficeDraft = (draft) => {
+    const d = draft && typeof draft === 'object' && !Array.isArray(draft) ? draft : {};
+    let defect = typeof d.defect === 'string' ? d.defect : '';
+    let proof = typeof d.proof === 'string' ? d.proof : '';
+    if (!DEFECTS.includes(defect)) {
+      defect = '';
+      proof = '';
+    }
+    if (!PROOFS.includes(proof)) {
+      proof = '';
+    }
+    if (proof !== '' && defect === '') {
+      proof = '';
+    }
+    return { defect, proof };
+  };
+
+  const normalizeApocalypseWarrantyOfficeWarrantyClaims = (claims) => {
+    const arr = Array.isArray(claims) ? claims : [];
+    const seen = new Set();
+    const out = [];
+    for (const id of WARRANTY_CLAIM_IDS) {
+      if (arr.includes(id) && !seen.has(id)) {
+        out.push(id);
+        seen.add(id);
+      }
+    }
+    return out;
+  };
+
+  const normalizeApocalypseWarrantyOfficeRecallOutcomes = (arr) => {
+    const input = Array.isArray(arr) ? arr : [];
+    const set = new Set(input);
+    return RECALL_ACTIONS.map((a) => RECALL_TABLE[a].outcome).filter((o) => set.has(o));
+  };
+
+  const clampApocalypseWarrantyOfficeCount = (n) => Math.min(9999, Math.max(0, Math.floor(Number(n) || 0)));
+
+  const normalizeApocalypseWarrantyOfficeClaimantTallies = (tallies) => {
+    const t = tallies && typeof tallies === 'object' && !Array.isArray(tallies) ? tallies : {};
+    return {
+      prebirth: clampApocalypseWarrantyOfficeCount(t.prebirth),
+      aftermath: clampApocalypseWarrantyOfficeCount(t.aftermath),
+      ghost: clampApocalypseWarrantyOfficeCount(t.ghost),
+    };
+  };
+
+  const normalizeApocalypseWarrantyOfficeActiveAdjuster = (adjuster, claims) => {
+    if (!adjuster || typeof adjuster !== 'object' || Array.isArray(adjuster)) return null;
+    if (Object.keys(adjuster).sort().join(',') !== 'feedback,proof,warrantyClaim') return null;
+    if (!PROOFS.includes(adjuster.proof)) return null;
+    const collected = Array.isArray(claims) ? claims : [];
+    if (!collected.includes(adjuster.warrantyClaim)) return null;
+    if (!WARRANTY_CLAIM_SET.has(adjuster.warrantyClaim)) return null;
+    const parts = adjuster.warrantyClaim.split(':');
+    if (parts.length !== 3 || parts[1] !== adjuster.proof) return null;
+    const fb = PROOF_TABLE[adjuster.proof].adjusterFeedback;
+    if (adjuster.feedback !== fb) return null;
+    return { proof: adjuster.proof, warrantyClaim: adjuster.warrantyClaim, feedback: fb };
+  };
+
+  const normalizeApocalypseWarrantyOfficePending = (p, st) => {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || !p.kind) return null;
+    const keys = Object.keys(p).sort().join(',');
+    const unlocked = st._v75unlocked === true;
+
+    if (p.kind === 'entry' && keys === 'feedback,kind,target') {
+      if (!unlocked || st.activeAdjuster || st.draft.defect !== '' || st.draft.proof !== '') return null;
+      if (p.target === 'apocalypse-warranty-office' && p.feedback === APOCALYPSE_WARRANTY_ENTRY_FEEDBACK) {
+        return { kind: 'entry', target: 'apocalypse-warranty-office', feedback: p.feedback };
+      }
+    }
+    if (p.kind === 'defect' && keys === 'defect,feedback,kind,source,target') {
+      if (!unlocked) return null;
+      if (st.activeAdjuster) return null;
+      if (p.source !== 'apocalypse-warranty-office' || p.target !== 'proof-of-purchase-morgue') return null;
+      if (!DEFECTS.includes(p.defect)) return null;
+      const table = DEFECT_TABLE[p.defect];
+      if (!table || p.feedback !== table.feedback) return null;
+      if (st.draft.defect !== '' || st.draft.proof !== '') return null;
+      return { kind: 'defect', source: 'apocalypse-warranty-office', defect: p.defect, target: 'proof-of-purchase-morgue', feedback: p.feedback };
+    }
+    if (p.kind === 'proof' && keys === 'defect,feedback,kind,proof,source,target') {
+      if (!unlocked) return null;
+      if (st.activeAdjuster) return null;
+      if (p.source !== 'proof-of-purchase-morgue' || p.target !== 'post-world-repair-bench') return null;
+      if (!DEFECTS.includes(p.defect) || !PROOFS.includes(p.proof)) return null;
+      if (p.defect !== st.draft.defect) return null;
+      const table = PROOF_TABLE[p.proof];
+      if (!table || p.feedback !== table.feedback) return null;
+      return { kind: 'proof', source: 'proof-of-purchase-morgue', defect: p.defect, proof: p.proof, target: 'post-world-repair-bench', feedback: p.feedback };
+    }
+    if (p.kind === 'warranty-claim' && keys === 'defect,feedback,kind,proof,remedy,source,target,warrantyClaim') {
+      if (!unlocked) return null;
+      if (st.activeAdjuster) return null;
+      if (p.source !== 'post-world-repair-bench') return null;
+      if (!DEFECTS.includes(p.defect) || !PROOFS.includes(p.proof) || !REMEDIES.includes(p.remedy)) return null;
+      if (p.defect !== st.draft.defect || p.proof !== st.draft.proof) return null;
+      const claimId = computeWarrantyClaimId(p.defect, p.proof, p.remedy);
+      if (p.warrantyClaim !== claimId) return null;
+      const target = SCENE_FOR_PROOF[p.proof];
+      if (p.target !== target) return null;
+      const fb = computeWarrantyClaimFeedback(p.defect, p.proof, p.remedy);
+      if (p.feedback !== fb) return null;
+      return { kind: 'warranty-claim', source: 'post-world-repair-bench', defect: p.defect, proof: p.proof, remedy: p.remedy, warrantyClaim: claimId, target, feedback: fb };
+    }
+    if (p.kind === 'adjuster-return' && keys === 'feedback,from,kind,target,warrantyClaim') {
+      if (!unlocked) return null;
+      if (p.target !== 'apocalypse-warranty-office') return null;
+      if (!Object.values(SCENE_FOR_PROOF).includes(p.from)) return null;
+      const adjuster = st.activeAdjuster;
+      if (!adjuster || SCENE_FOR_PROOF[adjuster.proof] !== p.from || adjuster.warrantyClaim !== p.warrantyClaim) return null;
+      if (p.feedback !== adjuster.feedback) return null;
+      return { kind: 'adjuster-return', from: p.from, target: 'apocalypse-warranty-office', warrantyClaim: p.warrantyClaim, feedback: p.feedback };
+    }
+    if (p.kind === 'recall-entry' && keys === 'feedback,kind,target') {
+      if (!unlocked) return null;
+      if (st.activeAdjuster || st.draft.defect !== '' || st.draft.proof !== '') return null;
+      if (p.target !== 'universal-recall-yard' || p.feedback !== APOCALYPSE_WARRANTY_RECALL_ENTRY_FEEDBACK) return null;
+      if (!warrantyCoverageComplete(st)) return null;
+      return { kind: 'recall-entry', target: 'universal-recall-yard', feedback: p.feedback };
+    }
+    if (p.kind === 'recall' && keys === 'action,feedback,kind,outcome,source,target') {
+      if (!unlocked) return null;
+      if (st.activeAdjuster || st.draft.defect !== '' || st.draft.proof !== '') return null;
+      if (!warrantyCoverageComplete(st) || !st.visited.yard) return null;
+      if (p.source !== 'universal-recall-yard') return null;
+      if (!RECALL_ACTIONS.includes(p.action)) return null;
+      const table = RECALL_TABLE[p.action];
+      if (!table || p.outcome !== table.outcome || p.target !== table.target || p.feedback !== table.feedback) return null;
+      return { kind: 'recall', source: 'universal-recall-yard', action: p.action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    }
+    return null;
+  };
+
+  const saveApocalypseWarrantyOffice = (st) => {
+    const visited = normalizeApocalypseWarrantyOfficeVisited(st.visited);
+    const draft = normalizeApocalypseWarrantyOfficeDraft(st.draft);
+    const warrantyClaims = normalizeApocalypseWarrantyOfficeWarrantyClaims(st.warrantyClaims);
+    const recallOutcomes = normalizeApocalypseWarrantyOfficeRecallOutcomes(st.recallOutcomes);
+    const serviceRuns = clampApocalypseWarrantyOfficeCount(st.serviceRuns);
+    const recallRuns = clampApocalypseWarrantyOfficeCount(st.recallRuns);
+    const claimantTallies = normalizeApocalypseWarrantyOfficeClaimantTallies(st.claimantTallies);
+    const validLast = new Set([...warrantyClaims, ...recallOutcomes]);
+    const lastOutcome = validLast.has(st.lastOutcome) ? st.lastOutcome : '';
+    const activeAdjuster = normalizeApocalypseWarrantyOfficeActiveAdjuster(st.activeAdjuster, warrantyClaims);
+    const pendingState = Object.assign(
+      defaultApocalypseWarrantyOffice(),
+      { visited, draft, warrantyClaims, recallOutcomes, serviceRuns, recallRuns, claimantTallies, lastOutcome, activeAdjuster, pending: null, _v75unlocked: apocalypseWarrantyOfficeUnlocked() }
+    );
+    const pending = normalizeApocalypseWarrantyOfficePending(st.pending, pendingState);
+    store.set(
+      APOCALYPSE_WARRANTY_KEY,
+      JSON.stringify({
+        version: APOCALYPSE_WARRANTY_VERSION,
+        visited,
+        draft,
+        warrantyClaims,
+        recallOutcomes,
+        serviceRuns,
+        recallRuns,
+        claimantTallies,
+        lastOutcome,
+        activeAdjuster,
+        pending,
+      })
+    );
+  };
+
+  const getApocalypseWarrantyOffice = () => {
+    let raw = {};
+    try { raw = JSON.parse(store.get(APOCALYPSE_WARRANTY_KEY, '{}')) || {}; } catch { raw = {}; }
+    if (typeof raw !== 'object' || raw === null || Array.isArray(raw) || raw.version !== APOCALYPSE_WARRANTY_VERSION) {
+      return defaultApocalypseWarrantyOffice();
+    }
+    if (!apocalypseWarrantyOfficeUnlocked()) {
+      return defaultApocalypseWarrantyOffice();
+    }
+    const st = defaultApocalypseWarrantyOffice();
+    st.visited = normalizeApocalypseWarrantyOfficeVisited(raw.visited);
+    st.draft = normalizeApocalypseWarrantyOfficeDraft(raw.draft);
+    st.warrantyClaims = normalizeApocalypseWarrantyOfficeWarrantyClaims(raw.warrantyClaims);
+    st.recallOutcomes = normalizeApocalypseWarrantyOfficeRecallOutcomes(raw.recallOutcomes);
+    st.serviceRuns = clampApocalypseWarrantyOfficeCount(raw.serviceRuns);
+    st.recallRuns = clampApocalypseWarrantyOfficeCount(raw.recallRuns);
+    st.claimantTallies = normalizeApocalypseWarrantyOfficeClaimantTallies(raw.claimantTallies);
+    const validLast = new Set([...st.warrantyClaims, ...st.recallOutcomes]);
+    st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : '';
+    st.activeAdjuster = normalizeApocalypseWarrantyOfficeActiveAdjuster(raw.activeAdjuster, st.warrantyClaims);
+    const normSt = Object.assign({}, st, { _v75unlocked: apocalypseWarrantyOfficeUnlocked() });
+    st.pending = normalizeApocalypseWarrantyOfficePending(raw.pending, normSt);
+    return st;
+  };
+
+  const apocalypseWarrantyOfficeUnlocked = () => {
+    if (!tombstonePatentOfficeUnlocked()) return false;
+    const st = getTombstonePatentOffice();
+    if (!patentCoverageComplete(st)) return false;
+    const requiredOutcomes = [
+      'the-invention-owned-itself',
+      'existence-was-invalidated-as-prior-art',
+      'the-unburied-haunted-every-prototype',
+    ];
+    if (st.rulingOutcomes.length !== 3) return false;
+    for (const o of requiredOutcomes) {
+      if (!st.rulingOutcomes.includes(o)) return false;
+    }
+    return true;
+  };
+
+  const warrantyCoverageComplete = (st) => {
+    const state = st || getApocalypseWarrantyOffice();
+    if (state.warrantyClaims.length < 4) return false;
+    const defects = new Set();
+    const proofs = new Set();
+    const remedies = new Set();
+    for (const id of state.warrantyClaims) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      defects.add(parts[0]);
+      proofs.add(parts[1]);
+      remedies.add(parts[2]);
+    }
+    return defects.size === 3 && proofs.size === 3 && remedies.size === 4;
+  };
+
+  const computeClaimantTalliesMajority = (tallies) => {
+    const t = tallies || { prebirth: 0, aftermath: 0, ghost: 0 };
+    const prebirth = Number(t.prebirth) || 0;
+    const aftermath = Number(t.aftermath) || 0;
+    const ghost = Number(t.ghost) || 0;
+    if (prebirth === 0 && aftermath === 0 && ghost === 0) return '无故障取得多数';
+    const max = Math.max(prebirth, aftermath, ghost);
+    const winners = [];
+    if (prebirth === max) winners.push('prebirth');
+    if (aftermath === max) winners.push('aftermath');
+    if (ghost === max) winners.push('ghost');
+    if (winners.length !== 1) return '无故障取得多数';
+    if (winners[0] === 'prebirth') return '未产磨损取得故障多数';
+    if (winners[0] === 'aftermath') return '世终不停机取得故障多数';
+    return '幽灵零件取得故障多数';
+  };
+
+  const computeWarrantyClaimId = (defect, proof, remedy) => {
+    if (!DEFECTS.includes(defect) || !PROOFS.includes(proof) || !REMEDIES.includes(remedy)) return '';
+    return `${defect}:${proof}:${remedy}`;
+  };
+
+  const computeWarrantyClaimTitle = (defect, proof, remedy) => {
+    const d = DEFECT_TABLE[defect];
+    const p = PROOF_TABLE[proof];
+    const r = REMEDY_TABLE[remedy];
+    if (!d || !p || !r) return '';
+    return `${d.title} / ${p.title} / ${r.title}`;
+  };
+
+  const computeWarrantyClaimFeedback = (defect, proof, remedy) => {
+    const d = DEFECT_TABLE[defect];
+    const p = PROOF_TABLE[proof];
+    const r = REMEDY_TABLE[remedy];
+    if (!d || !p || !r) return '';
+    return `${d.fragment} ${p.fragment} ${r.fragment}`;
+  };
+
+  const findWarrantyClaimById = (id) => {
+    if (!WARRANTY_CLAIM_SET.has(id)) return null;
+    const parts = id.split(':');
+    if (parts.length !== 3) return null;
+    return {
+      id,
+      defect: parts[0],
+      proof: parts[1],
+      remedy: parts[2],
+      title: computeWarrantyClaimTitle(parts[0], parts[1], parts[2]),
+      feedback: computeWarrantyClaimFeedback(parts[0], parts[1], parts[2]),
+    };
+  };
+
+  const computeRecallOutcomeId = (action) => {
+    const table = RECALL_TABLE[action];
+    return table ? table.outcome : '';
+  };
+
+  const apocalypseWarrantyOfficeDelay = () => reduced ? 300 : 900 + Math.floor(Math.random() * 300);
+
+  const apocalypseWarrantyOfficeBeforeArrive = (pending) => {
+    const st = getApocalypseWarrantyOffice();
+    if (!st.pending || !pending) return;
+    if (st.pending.kind !== pending.kind) return;
+    const p = st.pending;
+    if (p.kind === 'entry') {
+      st.visited.office = true;
+    } else if (p.kind === 'defect') {
+      st.visited.morgue = true;
+      st.draft.defect = p.defect;
+      st.draft.proof = '';
+    } else if (p.kind === 'proof') {
+      st.visited.bench = true;
+      st.draft.proof = p.proof;
+    } else if (p.kind === 'warranty-claim') {
+      const claimId = computeWarrantyClaimId(p.defect, p.proof, p.remedy);
+      if (!st.warrantyClaims.includes(claimId)) st.warrantyClaims.push(claimId);
+      st.warrantyClaims = normalizeApocalypseWarrantyOfficeWarrantyClaims(st.warrantyClaims);
+      st.serviceRuns += 1;
+      const defectTable = DEFECT_TABLE[p.defect];
+      if (defectTable) {
+        st.claimantTallies[defectTable.tallyKey] = clampApocalypseWarrantyOfficeCount((st.claimantTallies[defectTable.tallyKey] || 0) + 1);
+      }
+      st.lastOutcome = claimId;
+      st.activeAdjuster = { proof: p.proof, warrantyClaim: claimId, feedback: PROOF_TABLE[p.proof].adjusterFeedback };
+      st.draft = { defect: '', proof: '' };
+    } else if (p.kind === 'adjuster-return') {
+      st.activeAdjuster = null;
+      st.draft = { defect: '', proof: '' };
+    } else if (p.kind === 'recall-entry') {
+      st.visited.yard = true;
+    } else if (p.kind === 'recall') {
+      const outcome = computeRecallOutcomeId(p.action);
+      if (outcome && !st.recallOutcomes.includes(outcome)) st.recallOutcomes.push(outcome);
+      st.recallOutcomes = normalizeApocalypseWarrantyOfficeRecallOutcomes(st.recallOutcomes);
+      st.recallRuns += 1;
+      st.lastOutcome = outcome;
+    }
+    st.pending = null;
+    saveApocalypseWarrantyOffice(st);
+  };
+
+  const resolveApocalypseWarrantyOfficePendingOnArrival = (name) => {
+    const st = getApocalypseWarrantyOffice();
+    const p = st.pending;
+    if (p && p.target === name) apocalypseWarrantyOfficeBeforeArrive(p);
+  };
+
+  const lockApocalypseWarrantyOfficeDefectButtons = (pressedDefect) => {
+    DEFECTS.forEach((d) => {
+      const btn = $(`#apocalypse-warranty-defect-${d}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(d === pressedDefect));
+    });
+  };
+
+  const lockApocalypseWarrantyOfficeProofButtons = (pressedProof) => {
+    PROOFS.forEach((p) => {
+      const btn = $(`#proof-of-purchase-${p}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(p === pressedProof));
+    });
+  };
+
+  const lockApocalypseWarrantyOfficeRemedyButtons = (pressedRemedy) => {
+    REMEDIES.forEach((r) => {
+      const btn = $(`#post-world-repair-remedy-${r}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(r === pressedRemedy));
+    });
+  };
+
+  const lockApocalypseWarrantyOfficeRecallButtons = (pressedAction) => {
+    RECALL_ACTIONS.forEach((a) => {
+      const btn = $(`#universal-recall-${a}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(a === pressedAction));
+    });
+  };
+
+  const syncApocalypseWarrantyOffice = () => {
+    const figure = $('#apocalypse-warranty-office-figure');
+    const unlocked = apocalypseWarrantyOfficeUnlocked();
+    if (figure) figure.hidden = !unlocked;
+    if (!unlocked) return;
+    const st = getApocalypseWarrantyOffice();
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeAdjuster || st.draft.defect !== '' || st.draft.proof !== '';
+    const response = $('#apocalypse-warranty-office-response');
+    DEFECTS.forEach((d) => {
+      const btn = $(`#apocalypse-warranty-defect-${d}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'defect' && pending.defect === d);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'defect') ? pending.feedback : '';
+  };
+
+  const syncApocalypseWarrantyMorgue = () => {
+    const figure = $('#proof-of-purchase-morgue-figure');
+    const st = getApocalypseWarrantyOffice();
+    const unlocked = apocalypseWarrantyOfficeUnlocked();
+    const hasDraft = unlocked && DEFECTS.includes(st.draft.defect);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeAdjuster;
+    const response = $('#proof-of-purchase-morgue-response');
+    PROOFS.forEach((p) => {
+      const btn = $(`#proof-of-purchase-${p}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'proof' && pending.proof === p);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'proof') ? pending.feedback : '';
+  };
+
+  const syncApocalypseWarrantyBench = () => {
+    const figure = $('#post-world-repair-bench-figure');
+    const st = getApocalypseWarrantyOffice();
+    const unlocked = apocalypseWarrantyOfficeUnlocked();
+    const hasDraft = unlocked && DEFECTS.includes(st.draft.defect) && PROOFS.includes(st.draft.proof);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeAdjuster;
+    const response = $('#post-world-repair-bench-response');
+    REMEDIES.forEach((r) => {
+      const btn = $(`#post-world-repair-remedy-${r}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'warranty-claim' && pending.remedy === r);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'warranty-claim') ? pending.feedback : '';
+  };
+
+  const syncApocalypseWarrantyYard = () => {
+    const figure = $('#universal-recall-yard-figure');
+    const st = getApocalypseWarrantyOffice();
+    const open = apocalypseWarrantyOfficeUnlocked() && warrantyCoverageComplete(st) && st.visited.yard;
+    if (figure) figure.hidden = !open;
+    if (!open) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeAdjuster || st.draft.defect !== '' || st.draft.proof !== '';
+    const response = $('#universal-recall-yard-response');
+    RECALL_ACTIONS.forEach((a) => {
+      const btn = $(`#universal-recall-${a}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'recall' && pending.action === a);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'recall') ? pending.feedback : '';
+  };
+
+  const syncApocalypseWarrantyAdjusters = () => {
+    const st = getApocalypseWarrantyOffice();
+    const unlocked = apocalypseWarrantyOfficeUnlocked();
+    Object.values(SCENE_FOR_PROOF).forEach((scene) => {
+      const container = $(`#apocalypse-warranty-adjuster-${scene}`);
+      if (!container) return;
+      const active = unlocked && st.activeAdjuster && SCENE_FOR_PROOF[st.activeAdjuster.proof] === scene && currentScene === scene;
+      container.hidden = !active;
+      if (active) paintApocalypseWarrantyAdjuster(scene);
+    });
+  };
+
+  const paintApocalypseWarrantyAdjuster = (scene) => {
+    const st = getApocalypseWarrantyOffice();
+    const adjuster = st.activeAdjuster;
+    const response = $(`#apocalypse-warranty-adjuster-response-${scene}`);
+    const btn = $(`#apocalypse-warranty-adjuster-return-${scene}`);
+    if (response) response.textContent = (adjuster && SCENE_FOR_PROOF[adjuster.proof] === scene) ? adjuster.feedback : '';
+    if (btn) {
+      const available = !!adjuster && SCENE_FOR_PROOF[adjuster.proof] === scene && currentScene === scene && !st.pending && !AutoAdvance.has(scene);
+      btn.disabled = !available;
+      btn.setAttribute('aria-pressed', 'false');
+    }
+  };
+
+  const paintApocalypseWarrantyMemory = () => {
+    const memory = $('#apocalypse-warranty-memory');
+    if (!memory) return;
+    const st = getApocalypseWarrantyOffice();
+    const unlocked = apocalypseWarrantyOfficeUnlocked();
+    if (!unlocked) {
+      memory.hidden = true;
+      return;
+    }
+    const counts = { defect: {}, proof: {}, remedy: {} };
+    for (const id of st.warrantyClaims) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      counts.defect[parts[0]] = (counts.defect[parts[0]] || 0) + 1;
+      counts.proof[parts[1]] = (counts.proof[parts[1]] || 0) + 1;
+      counts.remedy[parts[2]] = (counts.remedy[parts[2]] || 0) + 1;
+    }
+    const get = (map, key) => map[key] || 0;
+    memory.textContent = `末日保修局：已维修 ${st.warrantyClaims.length}/36 份报修，共受理 ${st.serviceRuns} 次；故障 未产磨损 ${get(counts.defect, 'worn-before-manufacture')} / 世终不停 ${get(counts.defect, 'still-running-after-the-end')} / 幽灵零件 ${get(counts.defect, 'ghost-only-moving-part')}；凭证 空厂收据 ${get(counts.proof, 'receipt-from-unbuilt-factory')} / 死日封 ${get(counts.proof, 'dead-sun-warranty-seal')} / 后忆 ${get(counts.proof, 'descendant-repair-memory')}；方案 换现实 ${get(counts.remedy, 'replace-reality-not-part')} / 逆延保 ${get(counts.remedy, 'extend-warranty-before-birth')} / 故障特性 ${get(counts.remedy, 'declare-defect-as-feature')} / 寄账末日 ${get(counts.remedy, 'bill-the-apocalypse')}；故障多数 ${computeClaimantTalliesMajority(st.claimantTallies)}；召回结局 ${st.recallOutcomes.length}/3。`;
+    memory.hidden = false;
+  };
+
+  const paintApocalypseWarrantyCodex = () => {
+    const box = $('#apocalypse-warranty-codex');
+    const grid = $('#apocalypse-warranty-codex-grid');
+    const entry = $('#apocalypse-warranty-codex-entry');
+    if (!box || !grid) return;
+    const st = getApocalypseWarrantyOffice();
+    const unlocked = apocalypseWarrantyOfficeUnlocked();
+    if (!unlocked) {
+      box.hidden = true;
+      if (entry) entry.hidden = true;
+      return;
+    }
+    box.removeAttribute('hidden');
+    grid.innerHTML = '';
+    for (const id of WARRANTY_CLAIM_IDS) {
+      const unlocked = st.warrantyClaims.includes(id);
+      const cell = document.createElement('div');
+      cell.className = 'apocalypse-warranty-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const claim = findWarrantyClaimById(id);
+        cell.innerHTML = `<b>${claim.title}</b><span>${claim.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    for (const action of RECALL_ACTIONS) {
+      const outcome = RECALL_TABLE[action].outcome;
+      const unlocked = st.recallOutcomes.includes(outcome);
+      const cell = document.createElement('div');
+      cell.className = 'apocalypse-warranty-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const table = RECALL_TABLE[action];
+        cell.innerHTML = `<b>${table.name}</b><span>${table.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    if (entry) entry.removeAttribute('hidden');
+  };
+
+  const syncApocalypseWarrantyRemembrance = () => {
+    paintApocalypseWarrantyMemory();
+    paintApocalypseWarrantyCodex();
+    const st = getApocalypseWarrantyOffice();
+    const unlocked = apocalypseWarrantyOfficeUnlocked();
+    const coverage = warrantyCoverageComplete(st);
+    const entryBtn = $('#apocalypse-warranty-entry-btn');
+    if (entryBtn) {
+      entryBtn.hidden = !(currentScene === 'remembrance' && unlocked);
+      entryBtn.disabled = !(!st.pending && !st.activeAdjuster && st.draft.defect === '' && st.draft.proof === '' && currentScene === 'remembrance' && unlocked);
+    }
+    const recallEntryBtn = $('#apocalypse-warranty-recall-entry-btn');
+    if (recallEntryBtn) {
+      const activeAdjusterAtRemembrance = !!st.activeAdjuster && SCENE_FOR_PROOF[st.activeAdjuster.proof] === 'remembrance';
+      recallEntryBtn.hidden = !(currentScene === 'remembrance' && unlocked && (coverage || activeAdjusterAtRemembrance));
+      recallEntryBtn.disabled = !(!st.pending && !st.activeAdjuster && st.draft.defect === '' && st.draft.proof === '' && currentScene === 'remembrance' && unlocked && coverage);
+    }
+  };
+
+  const syncApocalypseWarrantyLinks = () => {
+    const st = getApocalypseWarrantyOffice();
+    const unlocked = apocalypseWarrantyOfficeUnlocked();
+    const map = {
+      'apocalypse-warranty-office-link': unlocked && st.visited.office,
+      'proof-of-purchase-morgue-link': unlocked && st.visited.morgue,
+      'post-world-repair-bench-link': unlocked && st.visited.bench,
+      'universal-recall-yard-link': unlocked && st.visited.yard,
+    };
+    for (const [id, show] of Object.entries(map)) {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !show;
+    }
+  };
+
+  const replayApocalypseWarrantyPending = (sceneName) => {
+    const st = getApocalypseWarrantyOffice();
+    const p = st.pending;
+    if (!p) {
+      syncApocalypseWarrantyOffice();
+      syncApocalypseWarrantyMorgue();
+      syncApocalypseWarrantyBench();
+      syncApocalypseWarrantyYard();
+      syncApocalypseWarrantyAdjusters();
+      return;
+    }
+    if (sceneName === p.target) {
+      apocalypseWarrantyOfficeBeforeArrive(p);
+      syncApocalypseWarrantyOffice();
+      syncApocalypseWarrantyMorgue();
+      syncApocalypseWarrantyBench();
+      syncApocalypseWarrantyYard();
+      syncApocalypseWarrantyAdjusters();
+      if (sceneName === 'remembrance') syncApocalypseWarrantyRemembrance();
+      return;
+    }
+    const schedule = (source) => AutoAdvance.schedule(source, p.target, { delay: apocalypseWarrantyOfficeDelay(), before: () => apocalypseWarrantyOfficeBeforeArrive(p) });
+
+    if (p.kind === 'entry' && sceneName === 'remembrance') {
+      const btn = $('#apocalypse-warranty-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#apocalypse-warranty-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'defect' && sceneName === 'apocalypse-warranty-office') {
+      const response = $('#apocalypse-warranty-office-response');
+      if (response) response.textContent = p.feedback;
+      lockApocalypseWarrantyOfficeDefectButtons(p.defect);
+      schedule('apocalypse-warranty-office');
+    } else if (p.kind === 'proof' && sceneName === 'proof-of-purchase-morgue') {
+      const response = $('#proof-of-purchase-morgue-response');
+      if (response) response.textContent = p.feedback;
+      lockApocalypseWarrantyOfficeProofButtons(p.proof);
+      schedule('proof-of-purchase-morgue');
+    } else if (p.kind === 'warranty-claim' && sceneName === 'post-world-repair-bench') {
+      const response = $('#post-world-repair-bench-response');
+      if (response) response.textContent = p.feedback;
+      lockApocalypseWarrantyOfficeRemedyButtons(p.remedy);
+      schedule('post-world-repair-bench');
+    } else if (p.kind === 'adjuster-return' && sceneName === p.from) {
+      const container = $(`#apocalypse-warranty-adjuster-${p.from}`);
+      if (container) container.hidden = false;
+      const response = $(`#apocalypse-warranty-adjuster-response-${p.from}`);
+      if (response) response.textContent = p.feedback;
+      const btn = $(`#apocalypse-warranty-adjuster-return-${p.from}`);
+      if (btn) {
+        btn.disabled = true;
+        btn.setAttribute('aria-pressed', 'true');
+      }
+      schedule(p.from);
+    } else if (p.kind === 'recall-entry' && sceneName === 'remembrance') {
+      const btn = $('#apocalypse-warranty-recall-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#apocalypse-warranty-recall-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'recall' && sceneName === 'universal-recall-yard') {
+      const response = $('#universal-recall-yard-response');
+      if (response) response.textContent = p.feedback;
+      lockApocalypseWarrantyOfficeRecallButtons(p.action);
+      schedule('universal-recall-yard');
+    } else {
+      st.pending = null;
+      saveApocalypseWarrantyOffice(st);
+      syncApocalypseWarrantyOffice();
+      syncApocalypseWarrantyMorgue();
+      syncApocalypseWarrantyBench();
+      syncApocalypseWarrantyYard();
+      syncApocalypseWarrantyAdjusters();
+      if (sceneName === 'remembrance') syncApocalypseWarrantyRemembrance();
+    }
+  };
+
+  const chooseApocalypseWarrantyDefect = (defect) => {
+    if (currentScene !== 'apocalypse-warranty-office') return;
+    if (AutoAdvance.has('apocalypse-warranty-office')) return;
+    if (!DEFECTS.includes(defect)) return;
+    if (!buttonAvailable(`apocalypse-warranty-defect-${defect}`)) return;
+    const st = getApocalypseWarrantyOffice();
+    if (st.pending) return;
+    if (st.activeAdjuster) return;
+    if (st.draft.defect !== '' || st.draft.proof !== '') return;
+    const table = DEFECT_TABLE[defect];
+    if (!table) return;
+    const pending = { kind: 'defect', source: 'apocalypse-warranty-office', defect, target: 'proof-of-purchase-morgue', feedback: table.feedback };
+    st.pending = pending;
+    saveApocalypseWarrantyOffice(st);
+    lockApocalypseWarrantyOfficeDefectButtons(defect);
+    const response = $('#apocalypse-warranty-office-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('apocalypse-warranty-office', 'proof-of-purchase-morgue', { delay: apocalypseWarrantyOfficeDelay(), before: () => apocalypseWarrantyOfficeBeforeArrive(pending) });
+  };
+
+  const chooseApocalypseWarrantyProof = (proof) => {
+    if (currentScene !== 'proof-of-purchase-morgue') return;
+    if (AutoAdvance.has('proof-of-purchase-morgue')) return;
+    if (!PROOFS.includes(proof)) return;
+    if (!buttonAvailable(`proof-of-purchase-${proof}`)) return;
+    const st = getApocalypseWarrantyOffice();
+    if (st.pending) return;
+    if (st.activeAdjuster) return;
+    if (!DEFECTS.includes(st.draft.defect)) return;
+    const table = PROOF_TABLE[proof];
+    if (!table) return;
+    const pending = { kind: 'proof', source: 'proof-of-purchase-morgue', defect: st.draft.defect, proof, target: 'post-world-repair-bench', feedback: table.feedback };
+    st.pending = pending;
+    saveApocalypseWarrantyOffice(st);
+    lockApocalypseWarrantyOfficeProofButtons(proof);
+    const response = $('#proof-of-purchase-morgue-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('proof-of-purchase-morgue', 'post-world-repair-bench', { delay: apocalypseWarrantyOfficeDelay(), before: () => apocalypseWarrantyOfficeBeforeArrive(pending) });
+  };
+
+  const chooseApocalypseWarrantyRemedy = (remedy) => {
+    if (currentScene !== 'post-world-repair-bench') return;
+    if (AutoAdvance.has('post-world-repair-bench')) return;
+    if (!REMEDIES.includes(remedy)) return;
+    if (!buttonAvailable(`post-world-repair-remedy-${remedy}`)) return;
+    const st = getApocalypseWarrantyOffice();
+    if (st.pending) return;
+    if (st.activeAdjuster) return;
+    const d = st.draft.defect;
+    const p = st.draft.proof;
+    if (!DEFECTS.includes(d) || !PROOFS.includes(p)) return;
+    const feedback = computeWarrantyClaimFeedback(d, p, remedy);
+    const claimId = computeWarrantyClaimId(d, p, remedy);
+    const target = SCENE_FOR_PROOF[p];
+    const pending = { kind: 'warranty-claim', source: 'post-world-repair-bench', defect: d, proof: p, remedy, warrantyClaim: claimId, target, feedback };
+    st.pending = pending;
+    saveApocalypseWarrantyOffice(st);
+    lockApocalypseWarrantyOfficeRemedyButtons(remedy);
+    const response = $('#post-world-repair-bench-response');
+    if (response) response.textContent = feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('post-world-repair-bench', target, { delay: apocalypseWarrantyOfficeDelay(), before: () => apocalypseWarrantyOfficeBeforeArrive(pending) });
+  };
+
+  const chooseApocalypseWarrantyAdjusterReturn = (scene) => {
+    if (currentScene !== scene) return;
+    if (AutoAdvance.has(scene)) return;
+    if (!Object.values(SCENE_FOR_PROOF).includes(scene)) return;
+    if (!buttonAvailable(`apocalypse-warranty-adjuster-return-${scene}`)) return;
+    const st = getApocalypseWarrantyOffice();
+    if (st.pending) return;
+    const adjuster = st.activeAdjuster;
+    if (!adjuster || SCENE_FOR_PROOF[adjuster.proof] !== scene) return;
+    const pending = { kind: 'adjuster-return', from: scene, target: 'apocalypse-warranty-office', warrantyClaim: adjuster.warrantyClaim, feedback: adjuster.feedback };
+    st.pending = pending;
+    saveApocalypseWarrantyOffice(st);
+    const btn = $(`#apocalypse-warranty-adjuster-return-${scene}`);
+    if (btn) {
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', 'true');
+    }
+    const response = $(`#apocalypse-warranty-adjuster-response-${scene}`);
+    if (response) response.textContent = adjuster.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule(scene, 'apocalypse-warranty-office', { delay: apocalypseWarrantyOfficeDelay(), before: () => apocalypseWarrantyOfficeBeforeArrive(pending) });
+  };
+
+  const chooseApocalypseWarrantyEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('apocalypse-warranty-entry-btn')) return;
+    if (!apocalypseWarrantyOfficeUnlocked()) return;
+    const st = getApocalypseWarrantyOffice();
+    if (st.pending) return;
+    if (st.activeAdjuster) return;
+    if (st.draft.defect !== '' || st.draft.proof !== '') return;
+    const pending = { kind: 'entry', target: 'apocalypse-warranty-office', feedback: APOCALYPSE_WARRANTY_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveApocalypseWarrantyOffice(st);
+    const btn = $('#apocalypse-warranty-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#apocalypse-warranty-entry-response');
+    if (response) response.textContent = APOCALYPSE_WARRANTY_ENTRY_FEEDBACK;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('remembrance', 'apocalypse-warranty-office', { delay: apocalypseWarrantyOfficeDelay(), before: () => apocalypseWarrantyOfficeBeforeArrive(pending) });
+  };
+
+  const chooseApocalypseWarrantyRecallEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('apocalypse-warranty-recall-entry-btn')) return;
+    const st = getApocalypseWarrantyOffice();
+    if (st.pending) return;
+    if (st.activeAdjuster) return;
+    if (st.draft.defect !== '' || st.draft.proof !== '') return;
+    if (!warrantyCoverageComplete(st)) return;
+    const pending = { kind: 'recall-entry', target: 'universal-recall-yard', feedback: APOCALYPSE_WARRANTY_RECALL_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveApocalypseWarrantyOffice(st);
+    const btn = $('#apocalypse-warranty-recall-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#apocalypse-warranty-recall-entry-response');
+    if (response) response.textContent = APOCALYPSE_WARRANTY_RECALL_ENTRY_FEEDBACK;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('remembrance', 'universal-recall-yard', { delay: apocalypseWarrantyOfficeDelay(), before: () => apocalypseWarrantyOfficeBeforeArrive(pending) });
+  };
+
+  const chooseApocalypseWarrantyRecallAction = (action) => {
+    if (currentScene !== 'universal-recall-yard') return;
+    if (AutoAdvance.has('universal-recall-yard')) return;
+    if (!RECALL_ACTIONS.includes(action)) return;
+    if (!buttonAvailable(`universal-recall-${action}`)) return;
+    const st = getApocalypseWarrantyOffice();
+    if (st.pending) return;
+    if (st.activeAdjuster) return;
+    if (st.draft.defect !== '' || st.draft.proof !== '') return;
+    if (!st.visited.yard) return;
+    if (!warrantyCoverageComplete(st)) return;
+    const table = RECALL_TABLE[action];
+    if (!table) return;
+    const pending = { kind: 'recall', source: 'universal-recall-yard', action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    st.pending = pending;
+    saveApocalypseWarrantyOffice(st);
+    lockApocalypseWarrantyOfficeRecallButtons(action);
+    const response = $('#universal-recall-yard-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('universal-recall-yard', table.target, { delay: apocalypseWarrantyOfficeDelay(), before: () => apocalypseWarrantyOfficeBeforeArrive(pending) });
+  };
+
+  const apocalypseWarrantyCanVisitOffice = () => {
+    if (!apocalypseWarrantyOfficeUnlocked()) return false;
+    const st = getApocalypseWarrantyOffice();
+    const p = st.pending;
+    if (p && (p.kind === 'entry' || p.kind === 'adjuster-return') && p.target === 'apocalypse-warranty-office') return true;
+    if (st.visited.office) return true;
+    return false;
+  };
+
+  const apocalypseWarrantyCanVisitMorgue = () => {
+    if (!apocalypseWarrantyOfficeUnlocked()) return false;
+    const st = getApocalypseWarrantyOffice();
+    const p = st.pending;
+    if (p && p.kind === 'defect' && p.target === 'proof-of-purchase-morgue') return true;
+    if (st.visited.morgue && DEFECTS.includes(st.draft.defect)) return true;
+    return false;
+  };
+
+  const apocalypseWarrantyCanVisitBench = () => {
+    if (!apocalypseWarrantyOfficeUnlocked()) return false;
+    const st = getApocalypseWarrantyOffice();
+    const p = st.pending;
+    if (p && p.kind === 'proof' && p.target === 'post-world-repair-bench') return true;
+    if (st.visited.bench && DEFECTS.includes(st.draft.defect) && PROOFS.includes(st.draft.proof)) return true;
+    return false;
+  };
+
+  const apocalypseWarrantyCanVisitYard = () => {
+    if (!apocalypseWarrantyOfficeUnlocked()) return false;
+    const st = getApocalypseWarrantyOffice();
+    if (!warrantyCoverageComplete(st)) return false;
+    const p = st.pending;
+    if (p && p.kind === 'recall-entry' && p.target === 'universal-recall-yard') return true;
+    if (st.visited.yard) return true;
+    return false;
+  };
+
+  const apocalypseWarrantyBridgeAllows = (scene) => {
+    const st = getApocalypseWarrantyOffice();
+    const p = st.pending;
+    if (p && p.kind === 'warranty-claim' && p.target === scene) return true;
+    if (p && p.kind === 'recall' && p.target === scene) return true;
+    if (st.activeAdjuster && SCENE_FOR_PROOF[st.activeAdjuster.proof] === scene) return true;
+    return false;
+  };
+
+  const apocalypseWarrantyEntryBtn = $('#apocalypse-warranty-entry-btn');
+  if (apocalypseWarrantyEntryBtn) {
+    apocalypseWarrantyEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseApocalypseWarrantyEntry();
+    });
+  }
+  const apocalypseWarrantyRecallEntryBtn = $('#apocalypse-warranty-recall-entry-btn');
+  if (apocalypseWarrantyRecallEntryBtn) {
+    apocalypseWarrantyRecallEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseApocalypseWarrantyRecallEntry();
+    });
+  }
+  const defectWornBeforeManufactureBtn = $('#apocalypse-warranty-defect-worn-before-manufacture');
+  if (defectWornBeforeManufactureBtn) {
+    defectWornBeforeManufactureBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseApocalypseWarrantyDefect('worn-before-manufacture');
+    });
+  }
+  const defectStillRunningAfterTheEndBtn = $('#apocalypse-warranty-defect-still-running-after-the-end');
+  if (defectStillRunningAfterTheEndBtn) {
+    defectStillRunningAfterTheEndBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseApocalypseWarrantyDefect('still-running-after-the-end');
+    });
+  }
+  const defectGhostOnlyMovingPartBtn = $('#apocalypse-warranty-defect-ghost-only-moving-part');
+  if (defectGhostOnlyMovingPartBtn) {
+    defectGhostOnlyMovingPartBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseApocalypseWarrantyDefect('ghost-only-moving-part');
+    });
+  }
+  const proofReceiptFromUnbuiltFactoryBtn = $('#proof-of-purchase-receipt-from-unbuilt-factory');
+  if (proofReceiptFromUnbuiltFactoryBtn) {
+    proofReceiptFromUnbuiltFactoryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseApocalypseWarrantyProof('receipt-from-unbuilt-factory');
+    });
+  }
+  const proofDeadSunWarrantySealBtn = $('#proof-of-purchase-dead-sun-warranty-seal');
+  if (proofDeadSunWarrantySealBtn) {
+    proofDeadSunWarrantySealBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseApocalypseWarrantyProof('dead-sun-warranty-seal');
+    });
+  }
+  const proofDescendantRepairMemoryBtn = $('#proof-of-purchase-descendant-repair-memory');
+  if (proofDescendantRepairMemoryBtn) {
+    proofDescendantRepairMemoryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseApocalypseWarrantyProof('descendant-repair-memory');
+    });
+  }
+  const remedyReplaceRealityNotPartBtn = $('#post-world-repair-remedy-replace-reality-not-part');
+  if (remedyReplaceRealityNotPartBtn) {
+    remedyReplaceRealityNotPartBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseApocalypseWarrantyRemedy('replace-reality-not-part');
+    });
+  }
+  const remedyExtendWarrantyBeforeBirthBtn = $('#post-world-repair-remedy-extend-warranty-before-birth');
+  if (remedyExtendWarrantyBeforeBirthBtn) {
+    remedyExtendWarrantyBeforeBirthBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseApocalypseWarrantyRemedy('extend-warranty-before-birth');
+    });
+  }
+  const remedyDeclareDefectAsFeatureBtn = $('#post-world-repair-remedy-declare-defect-as-feature');
+  if (remedyDeclareDefectAsFeatureBtn) {
+    remedyDeclareDefectAsFeatureBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseApocalypseWarrantyRemedy('declare-defect-as-feature');
+    });
+  }
+  const remedyBillTheApocalypseBtn = $('#post-world-repair-remedy-bill-the-apocalypse');
+  if (remedyBillTheApocalypseBtn) {
+    remedyBillTheApocalypseBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseApocalypseWarrantyRemedy('bill-the-apocalypse');
+    });
+  }
+  const apocalypseWarrantyAdjusterReturnThresholdBtn = $('#apocalypse-warranty-adjuster-return-threshold');
+  if (apocalypseWarrantyAdjusterReturnThresholdBtn) {
+    apocalypseWarrantyAdjusterReturnThresholdBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseApocalypseWarrantyAdjusterReturn('threshold');
+    });
+  }
+  const apocalypseWarrantyAdjusterReturnRemembranceBtn = $('#apocalypse-warranty-adjuster-return-remembrance');
+  if (apocalypseWarrantyAdjusterReturnRemembranceBtn) {
+    apocalypseWarrantyAdjusterReturnRemembranceBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseApocalypseWarrantyAdjusterReturn('remembrance');
+    });
+  }
+  const apocalypseWarrantyAdjusterReturnUnendingGalleryBtn = $('#apocalypse-warranty-adjuster-return-unending-gallery');
+  if (apocalypseWarrantyAdjusterReturnUnendingGalleryBtn) {
+    apocalypseWarrantyAdjusterReturnUnendingGalleryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseApocalypseWarrantyAdjusterReturn('unending-gallery');
+    });
+  }
+  const recallActionRecallTheWorldBtn = $('#universal-recall-recall-the-world');
+  if (recallActionRecallTheWorldBtn) {
+    recallActionRecallTheWorldBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseApocalypseWarrantyRecallAction('recall-the-world');
+    });
+  }
+  const recallActionInstallASpareDawnBtn = $('#universal-recall-install-a-spare-dawn');
+  if (recallActionInstallASpareDawnBtn) {
+    recallActionInstallASpareDawnBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseApocalypseWarrantyRecallAction('install-a-spare-dawn');
+    });
+  }
+  const recallActionVoidForSelfModificationBtn = $('#universal-recall-void-for-self-modification');
+  if (recallActionVoidForSelfModificationBtn) {
+    recallActionVoidForSelfModificationBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseApocalypseWarrantyRecallAction('void-for-self-modification');
+    });
+  }
+
+  /* ============================================================
+     v76 现实退款处 / REALITY REFUND COUNTER
+     ============================================================ */
+  const REALITY_REFUND_KEY = 'goddead_v76_reality_refund';
+  const REALITY_REFUND_VERSION = 76;
+  const REALITY_REFUND_SUBJECTS = ['body-bought-with-childhood', 'name-paid-with-forgetting', 'years-leased-from-death'];
+  const REALITY_REFUND_PROOFS = ['childhood-price-tag', 'erased-name-receipt', 'death-issued-refund-reason'];
+  const REALITY_REFUND_REMEDIES = ['refund-to-nonexistence', 'restore-original-absence', 'exchange-for-possible-self', 'charge-reality-restocking-fee'];
+  const REALITY_REFUND_CLASS_ACTIONS = ['return-existence-for-full-refund', 'refund-every-body-to-childhood', 'convict-reality-of-false-advertising'];
+
+  const REALITY_REFUND_SCENE_FOR_PROOF = {
+    'childhood-price-tag': 'borrowed-childhood',
+    'erased-name-receipt': 'blank-name-cloakroom',
+    'death-issued-refund-reason': 'lifetime-pawn-vault',
+  };
+
+  const REALITY_REFUND_ENTRY_FEEDBACK = '末日保修局因现实擅自维修而作废保修后，所有仍然存在的东西开始索回购买自己的代价。现实退款处因此继续营业。';
+  const REALITY_REFUND_CLASS_ENTRY_FEEDBACK = '起诉现实从未符合描述 · SUE REALITY FOR NEVER MATCHING ITS DESCRIPTION';
+
+  const REALITY_REFUND_SUBJECT_TABLE = {
+    'body-bought-with-childhood': {
+      name: '退回用童年购买的肉身 · RETURN THE BODY BOUGHT WITH CHILDHOOD',
+      feedback: '退货带称出一具成年肉身。价签写着整段童年已经抵扣，磨损却从出生当天便开始计算。',
+      fragment: '退货带称出一具成年肉身。价签写着整段童年已经抵扣，磨损却从出生当天便开始计算。',
+      title: '用童年购买的肉身',
+      tallyKey: 'body',
+    },
+    'name-paid-with-forgetting': {
+      name: '退回以遗忘支付的姓名 · RETURN THE NAME PAID WITH FORGETTING',
+      feedback: '空名牌从影子上剥落。你为得到这个姓名忘掉了付款过程，因此商家声称交易从未发生。',
+      fragment: '空名牌从影子上剥落。你为得到这个姓名忘掉了付款过程，因此商家声称交易从未发生。',
+      title: '以遗忘支付的姓名',
+      tallyKey: 'name',
+    },
+    'years-leased-from-death': {
+      name: '退回从死亡租来的年岁 · RETURN THE YEARS LEASED FROM DEATH',
+      feedback: '裂纹沙漏倒出几段尚未活完的年份。死亡承认出租过时间，却坚持租客从签约那刻起已经逾期。',
+      fragment: '裂纹沙漏倒出几段尚未活完的年份。死亡承认出租过时间，却坚持租客从签约那刻起已经逾期。',
+      title: '从死亡租来的年岁',
+      tallyKey: 'time',
+    },
+  };
+
+  const REALITY_REFUND_PROOF_TABLE = {
+    'childhood-price-tag': {
+      name: '提交童年价签 · SUBMIT THE CHILDHOOD PRICE TAG',
+      feedback: '乳牙、旧玩具和第一场噩梦被压成价签。它能证明童年付过款，却无法证明收到的是哪一具身体。',
+      fragment: '乳牙、旧玩具和第一场噩梦被压成价签。它能证明童年付过款，却无法证明收到的是哪一具身体。',
+      title: '童年价签',
+      target: 'borrowed-childhood',
+      cashierFeedback: '童年退款员在借来童年室核对价签。每一件玩具都承认收过款，却没有一件愿意退回长大的你。',
+      cashierReturnName: '跟童年退款员返回柜台 · RETURN WITH THE CHILDHOOD CASHIER',
+    },
+    'erased-name-receipt': {
+      name: '提交抹名收据 · SUBMIT THE ERASED-NAME RECEIPT',
+      feedback: '收据上的姓名已经被付款行为擦除。空白仍保留你的笔压，像一个拒绝承认自己被叫过的影子。',
+      fragment: '收据上的姓名已经被付款行为擦除。空白仍保留你的笔压，像一个拒绝承认自己被叫过的影子。',
+      title: '抹名收据',
+      target: 'blank-name-cloakroom',
+      cashierFeedback: '抹名退款员从空名寄存处取回收据。柜里的每个名字都像你，唯独你的那格坚持从未出租。',
+      cashierReturnName: '跟抹名退款员返回柜台 · RETURN WITH THE ERASED-NAME CASHIER',
+    },
+    'death-issued-refund-reason': {
+      name: '提交死亡退款理由 · SUBMIT DEATH\'S REFUND REASON',
+      feedback: '死亡盖章证明年岁不符合描述：每一年都承诺通向未来，实际却只把租客送回签约柜台。',
+      fragment: '死亡盖章证明年岁不符合描述：每一年都承诺通向未来，实际却只把租客送回签约柜台。',
+      title: '死亡退款理由',
+      target: 'lifetime-pawn-vault',
+      cashierFeedback: '死期退款员在寿命典当库逐年点货。死亡收回所有未来，仍欠你一段从未交付的现在。',
+      cashierReturnName: '跟死期退款员返回柜台 · RETURN WITH THE DEATH-ISSUED CASHIER',
+    },
+  };
+
+  const REALITY_REFUND_REMEDY_TABLE = {
+    'refund-to-nonexistence': {
+      name: '原路退回不存在 · REFUND TO NONEXISTENCE',
+      title: '原路退回不存在',
+      fragment: '退款员沿存在的付款路径逆向操作。你逐件失去身体、姓名与时间，却发现不存在没有账户可收款。',
+    },
+    'restore-original-absence': {
+      name: '恢复出厂缺席 · RESTORE THE ORIGINAL ABSENCE',
+      title: '恢复出厂缺席',
+      fragment: '检验台把你修复成购买以前的空位。世界终于与广告完全一致，只是再没有顾客能够确认。',
+    },
+    'exchange-for-possible-self': {
+      name: '换货为一个可能的自己 · EXCHANGE FOR A POSSIBLE SELF',
+      title: '换货为一个可能的自己',
+      fragment: '仓库递来另一种可能的你。那个人拥有完整童年、姓名和余生，却拒绝承认自己是替换件。',
+    },
+    'charge-reality-restocking-fee': {
+      name: '向现实收取重新上架费 · CHARGE REALITY THE RESTOCKING FEE',
+      title: '向现实收取重新上架费',
+      fragment: '现实被迫支付把你重新塞回世界的费用。每一枚退款币都从附近事物的存在感里扣除。',
+    },
+  };
+
+  const REALITY_REFUND_CLASS_ACTION_TABLE = {
+    'return-existence-for-full-refund': {
+      name: '退回全部存在并全额退款 · RETURN EXISTENCE FOR A FULL REFUND',
+      outcome: 'all-existence-was-refunded-to-the-void',
+      target: 'threshold',
+      feedback: '黄铜退货门吞下整座世界，只留下柜台前的黑色空位。退款已经全额到账，但账户与持有人一同被退回。',
+    },
+    'refund-every-body-to-childhood': {
+      name: '把所有肉身退回童年 · REFUND EVERY BODY TO CHILDHOOD',
+      outcome: 'every-body-was-refunded-to-childhood',
+      target: 'borrowed-childhood',
+      feedback: '陪审席上的空壳逐一缩回摇篮。成年人失去伤口和年龄，童年却收到许多从未订购过的尸体。',
+    },
+    'convict-reality-of-false-advertising': {
+      name: '判现实虚假宣传 · CONVICT REALITY OF FALSE ADVERTISING',
+      outcome: 'reality-admitted-it-never-matched-description',
+      target: 'remembrance',
+      feedback: '现实承认自己从未像承诺那样真实。痕迹墙获得赔偿，从此每段记忆都可以标注“实物可能与存在不同”。',
+    },
+  };
+
+  const REFUND_CASE_IDS = (() => {
+    const ids = [];
+    for (const s of REALITY_REFUND_SUBJECTS) {
+      for (const p of REALITY_REFUND_PROOFS) {
+        for (const r of REALITY_REFUND_REMEDIES) {
+          ids.push(`${s}:${p}:${r}`);
+        }
+      }
+    }
+    return ids;
+  })();
+  const REFUND_CASE_SET = new Set(REFUND_CASE_IDS);
+  const CLASS_OUTCOME_IDS = REALITY_REFUND_CLASS_ACTIONS.map((a) => REALITY_REFUND_CLASS_ACTION_TABLE[a].outcome);
+  const CLASS_OUTCOME_SET = new Set(CLASS_OUTCOME_IDS);
+
+  const defaultRealityRefund = () => ({
+    version: REALITY_REFUND_VERSION,
+    visited: { counter: false, incinerator: false, inspection: false, court: false },
+    draft: { subject: '', proof: '' },
+    refundCases: [],
+    classOutcomes: [],
+    refundRuns: 0,
+    classRuns: 0,
+    claimantTallies: { body: 0, name: 0, time: 0 },
+    lastOutcome: '',
+    activeCashier: null,
+    pending: null,
+  });
+
+  const normalizeRealityRefundVisited = (visited) => {
+    const v = visited && typeof visited === 'object' && !Array.isArray(visited) ? visited : {};
+    return {
+      counter: v.counter === true,
+      incinerator: v.incinerator === true,
+      inspection: v.inspection === true,
+      court: v.court === true,
+    };
+  };
+
+  const normalizeRealityRefundDraft = (draft) => {
+    const d = draft && typeof draft === 'object' && !Array.isArray(draft) ? draft : {};
+    let subject = typeof d.subject === 'string' ? d.subject : '';
+    let proof = typeof d.proof === 'string' ? d.proof : '';
+    if (!REALITY_REFUND_SUBJECTS.includes(subject)) {
+      subject = '';
+      proof = '';
+    }
+    if (!REALITY_REFUND_PROOFS.includes(proof)) {
+      proof = '';
+    }
+    if (proof !== '' && subject === '') {
+      proof = '';
+    }
+    return { subject, proof };
+  };
+
+  const normalizeRealityRefundRefundCases = (cases) => {
+    const arr = Array.isArray(cases) ? cases : [];
+    const seen = new Set();
+    const out = [];
+    for (const id of REFUND_CASE_IDS) {
+      if (arr.includes(id) && !seen.has(id)) {
+        out.push(id);
+        seen.add(id);
+      }
+    }
+    return out;
+  };
+
+  const normalizeRealityRefundClassOutcomes = (arr) => {
+    const input = Array.isArray(arr) ? arr : [];
+    const set = new Set(input);
+    return REALITY_REFUND_CLASS_ACTIONS.map((a) => REALITY_REFUND_CLASS_ACTION_TABLE[a].outcome).filter((o) => set.has(o));
+  };
+
+  const clampRealityRefundCount = (n) => Math.min(9999, Math.max(0, Math.floor(Number(n) || 0)));
+
+  const normalizeRealityRefundClaimantTallies = (tallies) => {
+    const t = tallies && typeof tallies === 'object' && !Array.isArray(tallies) ? tallies : {};
+    return {
+      body: clampRealityRefundCount(t.body),
+      name: clampRealityRefundCount(t.name),
+      time: clampRealityRefundCount(t.time),
+    };
+  };
+
+  const normalizeRealityRefundActiveCashier = (cashier, cases) => {
+    if (!cashier || typeof cashier !== 'object' || Array.isArray(cashier)) return null;
+    if (Object.keys(cashier).sort().join(',') !== 'feedback,proof,refundCase') return null;
+    if (!REALITY_REFUND_PROOFS.includes(cashier.proof)) return null;
+    const collected = Array.isArray(cases) ? cases : [];
+    if (!collected.includes(cashier.refundCase)) return null;
+    if (!REFUND_CASE_SET.has(cashier.refundCase)) return null;
+    const parts = cashier.refundCase.split(':');
+    if (parts.length !== 3 || parts[1] !== cashier.proof) return null;
+    const fb = REALITY_REFUND_PROOF_TABLE[cashier.proof].cashierFeedback;
+    if (cashier.feedback !== fb) return null;
+    return { proof: cashier.proof, refundCase: cashier.refundCase, feedback: fb };
+  };
+
+  const normalizeRealityRefundPending = (p, st) => {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || !p.kind) return null;
+    const keys = Object.keys(p).sort().join(',');
+    const unlocked = st._v76unlocked === true;
+
+    if (p.kind === 'entry' && keys === 'feedback,kind,target') {
+      if (!unlocked || st.activeCashier || st.draft.subject !== '' || st.draft.proof !== '') return null;
+      if (p.target === 'reality-refund-counter' && p.feedback === REALITY_REFUND_ENTRY_FEEDBACK) {
+        return { kind: 'entry', target: 'reality-refund-counter', feedback: p.feedback };
+      }
+    }
+    if (p.kind === 'subject' && keys === 'feedback,kind,source,subject,target') {
+      if (!unlocked) return null;
+      if (st.activeCashier) return null;
+      if (p.source !== 'reality-refund-counter' || p.target !== 'proof-of-existence-incinerator') return null;
+      if (!REALITY_REFUND_SUBJECTS.includes(p.subject)) return null;
+      const table = REALITY_REFUND_SUBJECT_TABLE[p.subject];
+      if (!table || p.feedback !== table.feedback) return null;
+      if (st.draft.subject !== '' || st.draft.proof !== '') return null;
+      return { kind: 'subject', source: 'reality-refund-counter', subject: p.subject, target: 'proof-of-existence-incinerator', feedback: p.feedback };
+    }
+    if (p.kind === 'proof' && keys === 'feedback,kind,proof,source,subject,target') {
+      if (!unlocked) return null;
+      if (st.activeCashier) return null;
+      if (p.source !== 'proof-of-existence-incinerator' || p.target !== 'reality-return-inspection') return null;
+      if (!REALITY_REFUND_SUBJECTS.includes(p.subject) || !REALITY_REFUND_PROOFS.includes(p.proof)) return null;
+      if (p.subject !== st.draft.subject) return null;
+      const table = REALITY_REFUND_PROOF_TABLE[p.proof];
+      if (!table || p.feedback !== table.feedback) return null;
+      return { kind: 'proof', source: 'proof-of-existence-incinerator', subject: p.subject, proof: p.proof, target: 'reality-return-inspection', feedback: p.feedback };
+    }
+    if (p.kind === 'refund-case' && keys === 'feedback,kind,proof,refundCase,remedy,source,subject,target') {
+      if (!unlocked) return null;
+      if (st.activeCashier) return null;
+      if (p.source !== 'reality-return-inspection') return null;
+      if (!REALITY_REFUND_SUBJECTS.includes(p.subject) || !REALITY_REFUND_PROOFS.includes(p.proof) || !REALITY_REFUND_REMEDIES.includes(p.remedy)) return null;
+      if (p.subject !== st.draft.subject || p.proof !== st.draft.proof) return null;
+      const caseId = computeRefundCaseId(p.subject, p.proof, p.remedy);
+      if (p.refundCase !== caseId) return null;
+      const target = REALITY_REFUND_SCENE_FOR_PROOF[p.proof];
+      if (p.target !== target) return null;
+      const fb = computeRefundCaseFeedback(p.subject, p.proof, p.remedy);
+      if (p.feedback !== fb) return null;
+      return { kind: 'refund-case', source: 'reality-return-inspection', subject: p.subject, proof: p.proof, remedy: p.remedy, refundCase: caseId, target, feedback: fb };
+    }
+    if (p.kind === 'cashier-return' && keys === 'feedback,from,kind,refundCase,target') {
+      if (!unlocked) return null;
+      if (p.target !== 'reality-refund-counter') return null;
+      if (!Object.values(REALITY_REFUND_SCENE_FOR_PROOF).includes(p.from)) return null;
+      const cashier = st.activeCashier;
+      if (!cashier || REALITY_REFUND_SCENE_FOR_PROOF[cashier.proof] !== p.from || cashier.refundCase !== p.refundCase) return null;
+      if (p.feedback !== cashier.feedback) return null;
+      return { kind: 'cashier-return', from: p.from, target: 'reality-refund-counter', refundCase: p.refundCase, feedback: p.feedback };
+    }
+    if (p.kind === 'class-entry' && keys === 'feedback,kind,target') {
+      if (!unlocked) return null;
+      if (st.activeCashier || st.draft.subject !== '' || st.draft.proof !== '') return null;
+      if (p.target !== 'class-action-court' || p.feedback !== REALITY_REFUND_CLASS_ENTRY_FEEDBACK) return null;
+      if (!realityRefundCoverageComplete(st)) return null;
+      return { kind: 'class-entry', target: 'class-action-court', feedback: p.feedback };
+    }
+    if (p.kind === 'class-action' && keys === 'action,feedback,kind,outcome,source,target') {
+      if (!unlocked) return null;
+      if (st.activeCashier || st.draft.subject !== '' || st.draft.proof !== '') return null;
+      if (!realityRefundCoverageComplete(st) || !st.visited.court) return null;
+      if (p.source !== 'class-action-court') return null;
+      if (!REALITY_REFUND_CLASS_ACTIONS.includes(p.action)) return null;
+      const table = REALITY_REFUND_CLASS_ACTION_TABLE[p.action];
+      if (!table || p.outcome !== table.outcome || p.target !== table.target || p.feedback !== table.feedback) return null;
+      return { kind: 'class-action', source: 'class-action-court', action: p.action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    }
+    return null;
+  };
+
+  const saveRealityRefund = (st) => {
+    const visited = normalizeRealityRefundVisited(st.visited);
+    const draft = normalizeRealityRefundDraft(st.draft);
+    const refundCases = normalizeRealityRefundRefundCases(st.refundCases);
+    const classOutcomes = normalizeRealityRefundClassOutcomes(st.classOutcomes);
+    const refundRuns = clampRealityRefundCount(st.refundRuns);
+    const classRuns = clampRealityRefundCount(st.classRuns);
+    const claimantTallies = normalizeRealityRefundClaimantTallies(st.claimantTallies);
+    const validLast = new Set([...refundCases, ...classOutcomes]);
+    const lastOutcome = validLast.has(st.lastOutcome) ? st.lastOutcome : '';
+    const activeCashier = normalizeRealityRefundActiveCashier(st.activeCashier, refundCases);
+    const pendingState = Object.assign(
+      defaultRealityRefund(),
+      { visited, draft, refundCases, classOutcomes, refundRuns, classRuns, claimantTallies, lastOutcome, activeCashier, pending: null, _v76unlocked: realityRefundCounterUnlocked() }
+    );
+    const pending = normalizeRealityRefundPending(st.pending, pendingState);
+    store.set(
+      REALITY_REFUND_KEY,
+      JSON.stringify({
+        version: REALITY_REFUND_VERSION,
+        visited,
+        draft,
+        refundCases,
+        classOutcomes,
+        refundRuns,
+        classRuns,
+        claimantTallies,
+        lastOutcome,
+        activeCashier,
+        pending,
+      })
+    );
+  };
+
+  const getRealityRefund = () => {
+    let raw = {};
+    try { raw = JSON.parse(store.get(REALITY_REFUND_KEY, '{}')) || {}; } catch { raw = {}; }
+    if (typeof raw !== 'object' || raw === null || Array.isArray(raw) || raw.version !== REALITY_REFUND_VERSION) {
+      return defaultRealityRefund();
+    }
+    if (!realityRefundCounterUnlocked()) {
+      return defaultRealityRefund();
+    }
+    const st = defaultRealityRefund();
+    st.visited = normalizeRealityRefundVisited(raw.visited);
+    st.draft = normalizeRealityRefundDraft(raw.draft);
+    st.refundCases = normalizeRealityRefundRefundCases(raw.refundCases);
+    st.classOutcomes = normalizeRealityRefundClassOutcomes(raw.classOutcomes);
+    st.refundRuns = clampRealityRefundCount(raw.refundRuns);
+    st.classRuns = clampRealityRefundCount(raw.classRuns);
+    st.claimantTallies = normalizeRealityRefundClaimantTallies(raw.claimantTallies);
+    const validLast = new Set([...st.refundCases, ...st.classOutcomes]);
+    st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : '';
+    st.activeCashier = normalizeRealityRefundActiveCashier(raw.activeCashier, st.refundCases);
+    const normSt = Object.assign({}, st, { _v76unlocked: realityRefundCounterUnlocked() });
+    st.pending = normalizeRealityRefundPending(raw.pending, normSt);
+    return st;
+  };
+
+  const realityRefundCounterUnlocked = () => {
+    if (!apocalypseWarrantyOfficeUnlocked()) return false;
+    const st = getApocalypseWarrantyOffice();
+    if (!warrantyCoverageComplete(st)) return false;
+    const requiredOutcomes = [
+      'the-world-was-recalled-from-circulation',
+      'the-apocalypse-was-repaired-with-a-spare-dawn',
+      'existence-voided-its-own-warranty',
+    ];
+    if (st.recallOutcomes.length !== 3) return false;
+    for (const o of requiredOutcomes) {
+      if (!st.recallOutcomes.includes(o)) return false;
+    }
+    return true;
+  };
+
+  const realityRefundCoverageComplete = (st) => {
+    const state = st || getRealityRefund();
+    if (state.refundCases.length < 4) return false;
+    const subjects = new Set();
+    const proofs = new Set();
+    const remedies = new Set();
+    for (const id of state.refundCases) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      subjects.add(parts[0]);
+      proofs.add(parts[1]);
+      remedies.add(parts[2]);
+    }
+    return subjects.size === 3 && proofs.size === 3 && remedies.size === 4;
+  };
+
+  const computeRealityRefundClaimantTalliesMajority = (tallies) => {
+    const t = tallies || { body: 0, name: 0, time: 0 };
+    const body = Number(t.body) || 0;
+    const name = Number(t.name) || 0;
+    const time = Number(t.time) || 0;
+    if (body === 0 && name === 0 && time === 0) return '无主体取得多数';
+    const max = Math.max(body, name, time);
+    const winners = [];
+    if (body === max) winners.push('body');
+    if (name === max) winners.push('name');
+    if (time === max) winners.push('time');
+    if (winners.length !== 1) return '无主体取得多数';
+    if (winners[0] === 'body') return '肉身取得主体多数';
+    if (winners[0] === 'name') return '姓名取得主体多数';
+    return '年岁取得主体多数';
+  };
+
+  const computeRefundCaseId = (subject, proof, remedy) => {
+    if (!REALITY_REFUND_SUBJECTS.includes(subject) || !REALITY_REFUND_PROOFS.includes(proof) || !REALITY_REFUND_REMEDIES.includes(remedy)) return '';
+    return `${subject}:${proof}:${remedy}`;
+  };
+
+  const computeRefundCaseTitle = (subject, proof, remedy) => {
+    const s = REALITY_REFUND_SUBJECT_TABLE[subject];
+    const p = REALITY_REFUND_PROOF_TABLE[proof];
+    const r = REALITY_REFUND_REMEDY_TABLE[remedy];
+    if (!s || !p || !r) return '';
+    return `${s.title} / ${p.title} / ${r.title}`;
+  };
+
+  const computeRefundCaseFeedback = (subject, proof, remedy) => {
+    const s = REALITY_REFUND_SUBJECT_TABLE[subject];
+    const p = REALITY_REFUND_PROOF_TABLE[proof];
+    const r = REALITY_REFUND_REMEDY_TABLE[remedy];
+    if (!s || !p || !r) return '';
+    return `${s.fragment} ${p.fragment} ${r.fragment}`;
+  };
+
+  const findRefundCaseById = (id) => {
+    if (!REFUND_CASE_SET.has(id)) return null;
+    const parts = id.split(':');
+    if (parts.length !== 3) return null;
+    return {
+      id,
+      subject: parts[0],
+      proof: parts[1],
+      remedy: parts[2],
+      title: computeRefundCaseTitle(parts[0], parts[1], parts[2]),
+      feedback: computeRefundCaseFeedback(parts[0], parts[1], parts[2]),
+    };
+  };
+
+  const computeClassOutcomeId = (action) => {
+    const table = REALITY_REFUND_CLASS_ACTION_TABLE[action];
+    return table ? table.outcome : '';
+  };
+
+  const realityRefundCounterDelay = () => reduced ? 300 : 900 + Math.floor(Math.random() * 300);
+
+  const realityRefundCounterBeforeArrive = (pending) => {
+    const st = getRealityRefund();
+    if (!st.pending || !pending) return;
+    if (st.pending.kind !== pending.kind) return;
+    const p = st.pending;
+    if (p.kind === 'entry') {
+      st.visited.counter = true;
+    } else if (p.kind === 'subject') {
+      st.visited.incinerator = true;
+      st.draft.subject = p.subject;
+      st.draft.proof = '';
+    } else if (p.kind === 'proof') {
+      st.visited.inspection = true;
+      st.draft.proof = p.proof;
+    } else if (p.kind === 'refund-case') {
+      const caseId = computeRefundCaseId(p.subject, p.proof, p.remedy);
+      if (!st.refundCases.includes(caseId)) st.refundCases.push(caseId);
+      st.refundCases = normalizeRealityRefundRefundCases(st.refundCases);
+      st.refundRuns += 1;
+      const subjectTable = REALITY_REFUND_SUBJECT_TABLE[p.subject];
+      if (subjectTable) {
+        st.claimantTallies[subjectTable.tallyKey] = clampRealityRefundCount((st.claimantTallies[subjectTable.tallyKey] || 0) + 1);
+      }
+      st.lastOutcome = caseId;
+      st.activeCashier = { proof: p.proof, refundCase: caseId, feedback: REALITY_REFUND_PROOF_TABLE[p.proof].cashierFeedback };
+      st.draft = { subject: '', proof: '' };
+    } else if (p.kind === 'cashier-return') {
+      st.activeCashier = null;
+      st.draft = { subject: '', proof: '' };
+    } else if (p.kind === 'class-entry') {
+      st.visited.court = true;
+    } else if (p.kind === 'class-action') {
+      const outcome = computeClassOutcomeId(p.action);
+      if (outcome && !st.classOutcomes.includes(outcome)) st.classOutcomes.push(outcome);
+      st.classOutcomes = normalizeRealityRefundClassOutcomes(st.classOutcomes);
+      st.classRuns += 1;
+      st.lastOutcome = outcome;
+    }
+    st.pending = null;
+    saveRealityRefund(st);
+  };
+
+  const resolveRealityRefundCounterPendingOnArrival = (name) => {
+    const st = getRealityRefund();
+    const p = st.pending;
+    if (p && p.target === name) realityRefundCounterBeforeArrive(p);
+  };
+
+  const lockRealityRefundCounterSubjectButtons = (pressedSubject) => {
+    REALITY_REFUND_SUBJECTS.forEach((s) => {
+      const btn = $(`#reality-refund-subject-${s}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(s === pressedSubject));
+    });
+  };
+
+  const lockRealityRefundCounterProofButtons = (pressedProof) => {
+    REALITY_REFUND_PROOFS.forEach((p) => {
+      const btn = $(`#proof-of-existence-${p}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(p === pressedProof));
+    });
+  };
+
+  const lockRealityRefundCounterRemedyButtons = (pressedRemedy) => {
+    REALITY_REFUND_REMEDIES.forEach((r) => {
+      const btn = $(`#reality-return-remedy-${r}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(r === pressedRemedy));
+    });
+  };
+
+  const lockRealityRefundCounterClassActionButtons = (pressedAction) => {
+    REALITY_REFUND_CLASS_ACTIONS.forEach((a) => {
+      const btn = $(`#class-action-${a}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(a === pressedAction));
+    });
+  };
+
+  const syncRealityRefundCounterCounter = () => {
+    const figure = $('#reality-refund-counter-figure');
+    const unlocked = realityRefundCounterUnlocked();
+    if (figure) figure.hidden = !unlocked;
+    if (!unlocked) return;
+    const st = getRealityRefund();
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeCashier || st.draft.subject !== '' || st.draft.proof !== '';
+    const response = $('#reality-refund-counter-response');
+    REALITY_REFUND_SUBJECTS.forEach((s) => {
+      const btn = $(`#reality-refund-subject-${s}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'subject' && pending.subject === s);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'subject') ? pending.feedback : '';
+  };
+
+  const syncRealityRefundCounterIncinerator = () => {
+    const figure = $('#proof-of-existence-incinerator-figure');
+    const st = getRealityRefund();
+    const unlocked = realityRefundCounterUnlocked();
+    const hasDraft = unlocked && REALITY_REFUND_SUBJECTS.includes(st.draft.subject);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeCashier;
+    const response = $('#proof-of-existence-incinerator-response');
+    REALITY_REFUND_PROOFS.forEach((p) => {
+      const btn = $(`#proof-of-existence-${p}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'proof' && pending.proof === p);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'proof') ? pending.feedback : '';
+  };
+
+  const syncRealityRefundCounterInspection = () => {
+    const figure = $('#reality-return-inspection-figure');
+    const st = getRealityRefund();
+    const unlocked = realityRefundCounterUnlocked();
+    const hasDraft = unlocked && REALITY_REFUND_SUBJECTS.includes(st.draft.subject) && REALITY_REFUND_PROOFS.includes(st.draft.proof);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeCashier;
+    const response = $('#reality-return-inspection-response');
+    REALITY_REFUND_REMEDIES.forEach((r) => {
+      const btn = $(`#reality-return-remedy-${r}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'refund-case' && pending.remedy === r);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'refund-case') ? pending.feedback : '';
+  };
+
+  const syncRealityRefundCounterCourt = () => {
+    const figure = $('#class-action-court-figure');
+    const st = getRealityRefund();
+    const open = realityRefundCounterUnlocked() && realityRefundCoverageComplete(st) && st.visited.court;
+    if (figure) figure.hidden = !open;
+    if (!open) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeCashier || st.draft.subject !== '' || st.draft.proof !== '';
+    const response = $('#class-action-court-response');
+    REALITY_REFUND_CLASS_ACTIONS.forEach((a) => {
+      const btn = $(`#class-action-${a}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'class-action' && pending.action === a);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'class-action') ? pending.feedback : '';
+  };
+
+  const syncRealityRefundCounterCashiers = () => {
+    const st = getRealityRefund();
+    const unlocked = realityRefundCounterUnlocked();
+    Object.values(REALITY_REFUND_SCENE_FOR_PROOF).forEach((scene) => {
+      const container = $(`#reality-refund-cashier-${scene}`);
+      if (!container) return;
+      const active = unlocked && st.activeCashier && REALITY_REFUND_SCENE_FOR_PROOF[st.activeCashier.proof] === scene && currentScene === scene;
+      container.hidden = !active;
+      if (active) paintRealityRefundCounterCashier(scene);
+    });
+  };
+
+  const paintRealityRefundCounterCashier = (scene) => {
+    const st = getRealityRefund();
+    const cashier = st.activeCashier;
+    const response = $(`#reality-refund-cashier-response-${scene}`);
+    const btn = $(`#reality-refund-cashier-return-${scene}`);
+    if (response) response.textContent = (cashier && REALITY_REFUND_SCENE_FOR_PROOF[cashier.proof] === scene) ? cashier.feedback : '';
+    if (btn) {
+      const available = !!cashier && REALITY_REFUND_SCENE_FOR_PROOF[cashier.proof] === scene && currentScene === scene && !st.pending && !AutoAdvance.has(scene);
+      btn.disabled = !available;
+      btn.setAttribute('aria-pressed', 'false');
+    }
+  };
+
+  const paintRealityRefundCounterMemory = () => {
+    const memory = $('#reality-refund-memory');
+    if (!memory) return;
+    const st = getRealityRefund();
+    const unlocked = realityRefundCounterUnlocked();
+    if (!unlocked) {
+      memory.hidden = true;
+      return;
+    }
+    const counts = { subject: {}, proof: {}, remedy: {} };
+    for (const id of st.refundCases) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      counts.subject[parts[0]] = (counts.subject[parts[0]] || 0) + 1;
+      counts.proof[parts[1]] = (counts.proof[parts[1]] || 0) + 1;
+      counts.remedy[parts[2]] = (counts.remedy[parts[2]] || 0) + 1;
+    }
+    const get = (map, key) => map[key] || 0;
+    memory.textContent = `现实退款处：已受理 ${st.refundCases.length}/36 份退货，共退款 ${st.refundRuns} 次；主体 肉身 ${get(counts.subject, 'body-bought-with-childhood')} / 姓名 ${get(counts.subject, 'name-paid-with-forgetting')} / 年岁 ${get(counts.subject, 'years-leased-from-death')}；凭证 童价 ${get(counts.proof, 'childhood-price-tag')} / 抹名 ${get(counts.proof, 'erased-name-receipt')} / 死由 ${get(counts.proof, 'death-issued-refund-reason')}；方案 退不存在 ${get(counts.remedy, 'refund-to-nonexistence')} / 复缺席 ${get(counts.remedy, 'restore-original-absence')} / 换可能 ${get(counts.remedy, 'exchange-for-possible-self')} / 收上架费 ${get(counts.remedy, 'charge-reality-restocking-fee')}；主体多数 ${computeRealityRefundClaimantTalliesMajority(st.claimantTallies)}；集诉结局 ${st.classOutcomes.length}/3。`;
+    memory.hidden = false;
+  };
+
+  const paintRealityRefundCounterCodex = () => {
+    const box = $('#reality-refund-codex');
+    const grid = $('#reality-refund-codex-grid');
+    const entry = $('#reality-refund-codex-entry');
+    if (!box || !grid) return;
+    const st = getRealityRefund();
+    const unlocked = realityRefundCounterUnlocked();
+    if (!unlocked) {
+      box.hidden = true;
+      if (entry) entry.hidden = true;
+      return;
+    }
+    box.removeAttribute('hidden');
+    grid.innerHTML = '';
+    for (const id of REFUND_CASE_IDS) {
+      const unlocked = st.refundCases.includes(id);
+      const cell = document.createElement('div');
+      cell.className = 'reality-refund-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const c = findRefundCaseById(id);
+        cell.innerHTML = `<b>${c.title}</b><span>${c.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    for (const action of REALITY_REFUND_CLASS_ACTIONS) {
+      const outcome = REALITY_REFUND_CLASS_ACTION_TABLE[action].outcome;
+      const unlocked = st.classOutcomes.includes(outcome);
+      const cell = document.createElement('div');
+      cell.className = 'reality-refund-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const table = REALITY_REFUND_CLASS_ACTION_TABLE[action];
+        cell.innerHTML = `<b>${table.name}</b><span>${table.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    if (entry) entry.removeAttribute('hidden');
+  };
+
+  const syncRealityRefundCounterRemembrance = () => {
+    paintRealityRefundCounterMemory();
+    paintRealityRefundCounterCodex();
+    const st = getRealityRefund();
+    const unlocked = realityRefundCounterUnlocked();
+    const coverage = realityRefundCoverageComplete(st);
+    const entryBtn = $('#reality-refund-entry-btn');
+    if (entryBtn) {
+      entryBtn.hidden = !(currentScene === 'remembrance' && unlocked);
+      entryBtn.disabled = !(!st.pending && !st.activeCashier && st.draft.subject === '' && st.draft.proof === '' && currentScene === 'remembrance' && unlocked);
+    }
+    const classEntryBtn = $('#reality-refund-class-entry-btn');
+    if (classEntryBtn) {
+      const activeCashierAtRemembrance = !!st.activeCashier && REALITY_REFUND_SCENE_FOR_PROOF[st.activeCashier.proof] === 'remembrance';
+      classEntryBtn.hidden = !(currentScene === 'remembrance' && unlocked && (coverage || activeCashierAtRemembrance));
+      classEntryBtn.disabled = !(!st.pending && !st.activeCashier && st.draft.subject === '' && st.draft.proof === '' && currentScene === 'remembrance' && unlocked && coverage);
+    }
+  };
+
+  const syncRealityRefundCounterLinks = () => {
+    const st = getRealityRefund();
+    const unlocked = realityRefundCounterUnlocked();
+    const map = {
+      'reality-refund-counter-link': unlocked && st.visited.counter,
+      'proof-of-existence-incinerator-link': unlocked && st.visited.incinerator,
+      'reality-return-inspection-link': unlocked && st.visited.inspection,
+      'class-action-court-link': unlocked && st.visited.court,
+    };
+    for (const [id, show] of Object.entries(map)) {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !show;
+    }
+  };
+
+  const replayRealityRefundCounterPending = (sceneName) => {
+    const st = getRealityRefund();
+    const p = st.pending;
+    if (!p) {
+      syncRealityRefundCounterCounter();
+      syncRealityRefundCounterIncinerator();
+      syncRealityRefundCounterInspection();
+      syncRealityRefundCounterCourt();
+      syncRealityRefundCounterCashiers();
+      return;
+    }
+    if (sceneName === p.target) {
+      realityRefundCounterBeforeArrive(p);
+      syncRealityRefundCounterCounter();
+      syncRealityRefundCounterIncinerator();
+      syncRealityRefundCounterInspection();
+      syncRealityRefundCounterCourt();
+      syncRealityRefundCounterCashiers();
+      if (sceneName === 'remembrance') syncRealityRefundCounterRemembrance();
+      return;
+    }
+    const schedule = (source) => AutoAdvance.schedule(source, p.target, { delay: realityRefundCounterDelay(), before: () => realityRefundCounterBeforeArrive(p) });
+
+    if (p.kind === 'entry' && sceneName === 'remembrance') {
+      const btn = $('#reality-refund-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#reality-refund-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'subject' && sceneName === 'reality-refund-counter') {
+      const response = $('#reality-refund-counter-response');
+      if (response) response.textContent = p.feedback;
+      lockRealityRefundCounterSubjectButtons(p.subject);
+      schedule('reality-refund-counter');
+    } else if (p.kind === 'proof' && sceneName === 'proof-of-existence-incinerator') {
+      const response = $('#proof-of-existence-incinerator-response');
+      if (response) response.textContent = p.feedback;
+      lockRealityRefundCounterProofButtons(p.proof);
+      schedule('proof-of-existence-incinerator');
+    } else if (p.kind === 'refund-case' && sceneName === 'reality-return-inspection') {
+      const response = $('#reality-return-inspection-response');
+      if (response) response.textContent = p.feedback;
+      lockRealityRefundCounterRemedyButtons(p.remedy);
+      schedule('reality-return-inspection');
+    } else if (p.kind === 'cashier-return' && sceneName === p.from) {
+      const container = $(`#reality-refund-cashier-${p.from}`);
+      if (container) container.hidden = false;
+      const response = $(`#reality-refund-cashier-response-${p.from}`);
+      if (response) response.textContent = p.feedback;
+      const btn = $(`#reality-refund-cashier-return-${p.from}`);
+      if (btn) {
+        btn.disabled = true;
+        btn.setAttribute('aria-pressed', 'true');
+      }
+      schedule(p.from);
+    } else if (p.kind === 'class-entry' && sceneName === 'remembrance') {
+      const btn = $('#reality-refund-class-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#reality-refund-class-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'class-action' && sceneName === 'class-action-court') {
+      const response = $('#class-action-court-response');
+      if (response) response.textContent = p.feedback;
+      lockRealityRefundCounterClassActionButtons(p.action);
+      schedule('class-action-court');
+    } else {
+      st.pending = null;
+      saveRealityRefund(st);
+      syncRealityRefundCounterCounter();
+      syncRealityRefundCounterIncinerator();
+      syncRealityRefundCounterInspection();
+      syncRealityRefundCounterCourt();
+      syncRealityRefundCounterCashiers();
+      if (sceneName === 'remembrance') syncRealityRefundCounterRemembrance();
+    }
+  };
+
+  const chooseRealityRefundCounterSubject = (subject) => {
+    if (currentScene !== 'reality-refund-counter') return;
+    if (AutoAdvance.has('reality-refund-counter')) return;
+    if (!REALITY_REFUND_SUBJECTS.includes(subject)) return;
+    if (!buttonAvailable(`reality-refund-subject-${subject}`)) return;
+    const st = getRealityRefund();
+    if (st.pending) return;
+    if (st.activeCashier) return;
+    if (st.draft.subject !== '' || st.draft.proof !== '') return;
+    const table = REALITY_REFUND_SUBJECT_TABLE[subject];
+    if (!table) return;
+    const pending = { kind: 'subject', source: 'reality-refund-counter', subject, target: 'proof-of-existence-incinerator', feedback: table.feedback };
+    st.pending = pending;
+    saveRealityRefund(st);
+    lockRealityRefundCounterSubjectButtons(subject);
+    const response = $('#reality-refund-counter-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('reality-refund-counter', 'proof-of-existence-incinerator', { delay: realityRefundCounterDelay(), before: () => realityRefundCounterBeforeArrive(pending) });
+  };
+
+  const chooseRealityRefundCounterProof = (proof) => {
+    if (currentScene !== 'proof-of-existence-incinerator') return;
+    if (AutoAdvance.has('proof-of-existence-incinerator')) return;
+    if (!REALITY_REFUND_PROOFS.includes(proof)) return;
+    if (!buttonAvailable(`proof-of-existence-${proof}`)) return;
+    const st = getRealityRefund();
+    if (st.pending) return;
+    if (st.activeCashier) return;
+    if (!REALITY_REFUND_SUBJECTS.includes(st.draft.subject)) return;
+    const table = REALITY_REFUND_PROOF_TABLE[proof];
+    if (!table) return;
+    const pending = { kind: 'proof', source: 'proof-of-existence-incinerator', subject: st.draft.subject, proof, target: 'reality-return-inspection', feedback: table.feedback };
+    st.pending = pending;
+    saveRealityRefund(st);
+    lockRealityRefundCounterProofButtons(proof);
+    const response = $('#proof-of-existence-incinerator-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('proof-of-existence-incinerator', 'reality-return-inspection', { delay: realityRefundCounterDelay(), before: () => realityRefundCounterBeforeArrive(pending) });
+  };
+
+  const chooseRealityRefundCounterRemedy = (remedy) => {
+    if (currentScene !== 'reality-return-inspection') return;
+    if (AutoAdvance.has('reality-return-inspection')) return;
+    if (!REALITY_REFUND_REMEDIES.includes(remedy)) return;
+    if (!buttonAvailable(`reality-return-remedy-${remedy}`)) return;
+    const st = getRealityRefund();
+    if (st.pending) return;
+    if (st.activeCashier) return;
+    const s = st.draft.subject;
+    const p = st.draft.proof;
+    if (!REALITY_REFUND_SUBJECTS.includes(s) || !REALITY_REFUND_PROOFS.includes(p)) return;
+    const feedback = computeRefundCaseFeedback(s, p, remedy);
+    const caseId = computeRefundCaseId(s, p, remedy);
+    const target = REALITY_REFUND_SCENE_FOR_PROOF[p];
+    const pending = { kind: 'refund-case', source: 'reality-return-inspection', subject: s, proof: p, remedy, refundCase: caseId, target, feedback };
+    st.pending = pending;
+    saveRealityRefund(st);
+    lockRealityRefundCounterRemedyButtons(remedy);
+    const response = $('#reality-return-inspection-response');
+    if (response) response.textContent = feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('reality-return-inspection', target, { delay: realityRefundCounterDelay(), before: () => realityRefundCounterBeforeArrive(pending) });
+  };
+
+  const chooseRealityRefundCounterCashierReturn = (scene) => {
+    if (currentScene !== scene) return;
+    if (AutoAdvance.has(scene)) return;
+    if (!Object.values(REALITY_REFUND_SCENE_FOR_PROOF).includes(scene)) return;
+    if (!buttonAvailable(`reality-refund-cashier-return-${scene}`)) return;
+    const st = getRealityRefund();
+    if (st.pending) return;
+    const cashier = st.activeCashier;
+    if (!cashier || REALITY_REFUND_SCENE_FOR_PROOF[cashier.proof] !== scene) return;
+    const pending = { kind: 'cashier-return', from: scene, target: 'reality-refund-counter', refundCase: cashier.refundCase, feedback: cashier.feedback };
+    st.pending = pending;
+    saveRealityRefund(st);
+    const btn = $(`#reality-refund-cashier-return-${scene}`);
+    if (btn) {
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', 'true');
+    }
+    const response = $(`#reality-refund-cashier-response-${scene}`);
+    if (response) response.textContent = cashier.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule(scene, 'reality-refund-counter', { delay: realityRefundCounterDelay(), before: () => realityRefundCounterBeforeArrive(pending) });
+  };
+
+  const chooseRealityRefundCounterEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('reality-refund-entry-btn')) return;
+    if (!realityRefundCounterUnlocked()) return;
+    const st = getRealityRefund();
+    if (st.pending) return;
+    if (st.activeCashier) return;
+    if (st.draft.subject !== '' || st.draft.proof !== '') return;
+    const pending = { kind: 'entry', target: 'reality-refund-counter', feedback: REALITY_REFUND_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveRealityRefund(st);
+    const btn = $('#reality-refund-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#reality-refund-entry-response');
+    if (response) response.textContent = REALITY_REFUND_ENTRY_FEEDBACK;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('remembrance', 'reality-refund-counter', { delay: realityRefundCounterDelay(), before: () => realityRefundCounterBeforeArrive(pending) });
+  };
+
+  const chooseRealityRefundCounterClassEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('reality-refund-class-entry-btn')) return;
+    const st = getRealityRefund();
+    if (st.pending) return;
+    if (st.activeCashier) return;
+    if (st.draft.subject !== '' || st.draft.proof !== '') return;
+    if (!realityRefundCoverageComplete(st)) return;
+    const pending = { kind: 'class-entry', target: 'class-action-court', feedback: REALITY_REFUND_CLASS_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveRealityRefund(st);
+    const btn = $('#reality-refund-class-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#reality-refund-class-entry-response');
+    if (response) response.textContent = REALITY_REFUND_CLASS_ENTRY_FEEDBACK;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('remembrance', 'class-action-court', { delay: realityRefundCounterDelay(), before: () => realityRefundCounterBeforeArrive(pending) });
+  };
+
+  const chooseRealityRefundCounterClassAction = (action) => {
+    if (currentScene !== 'class-action-court') return;
+    if (AutoAdvance.has('class-action-court')) return;
+    if (!REALITY_REFUND_CLASS_ACTIONS.includes(action)) return;
+    if (!buttonAvailable(`class-action-${action}`)) return;
+    const st = getRealityRefund();
+    if (st.pending) return;
+    if (st.activeCashier) return;
+    if (st.draft.subject !== '' || st.draft.proof !== '') return;
+    if (!st.visited.court) return;
+    if (!realityRefundCoverageComplete(st)) return;
+    const table = REALITY_REFUND_CLASS_ACTION_TABLE[action];
+    if (!table) return;
+    const pending = { kind: 'class-action', source: 'class-action-court', action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    st.pending = pending;
+    saveRealityRefund(st);
+    lockRealityRefundCounterClassActionButtons(action);
+    const response = $('#class-action-court-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('class-action-court', table.target, { delay: realityRefundCounterDelay(), before: () => realityRefundCounterBeforeArrive(pending) });
+  };
+
+  const realityRefundCounterCanVisitCounter = () => {
+    if (!realityRefundCounterUnlocked()) return false;
+    const st = getRealityRefund();
+    const p = st.pending;
+    if (p && (p.kind === 'entry' || p.kind === 'cashier-return') && p.target === 'reality-refund-counter') return true;
+    if (st.visited.counter) return true;
+    return false;
+  };
+
+  const realityRefundCounterCanVisitIncinerator = () => {
+    if (!realityRefundCounterUnlocked()) return false;
+    const st = getRealityRefund();
+    const p = st.pending;
+    if (p && p.kind === 'subject' && p.target === 'proof-of-existence-incinerator') return true;
+    if (st.visited.incinerator && REALITY_REFUND_SUBJECTS.includes(st.draft.subject)) return true;
+    return false;
+  };
+
+  const realityRefundCounterCanVisitInspection = () => {
+    if (!realityRefundCounterUnlocked()) return false;
+    const st = getRealityRefund();
+    const p = st.pending;
+    if (p && p.kind === 'proof' && p.target === 'reality-return-inspection') return true;
+    if (st.visited.inspection && REALITY_REFUND_SUBJECTS.includes(st.draft.subject) && REALITY_REFUND_PROOFS.includes(st.draft.proof)) return true;
+    return false;
+  };
+
+  const realityRefundCounterCanVisitCourt = () => {
+    if (!realityRefundCounterUnlocked()) return false;
+    const st = getRealityRefund();
+    if (!realityRefundCoverageComplete(st)) return false;
+    const p = st.pending;
+    if (p && p.kind === 'class-entry' && p.target === 'class-action-court') return true;
+    if (st.visited.court) return true;
+    return false;
+  };
+
+  const realityRefundCounterBridgeAllows = (scene) => {
+    const st = getRealityRefund();
+    const p = st.pending;
+    if (p && p.kind === 'refund-case' && p.target === scene) return true;
+    if (p && p.kind === 'class-action' && p.target === scene) return true;
+    if (st.activeCashier && REALITY_REFUND_SCENE_FOR_PROOF[st.activeCashier.proof] === scene) return true;
+    return false;
+  };
+
+  const realityRefundCounterEntryBtn = $('#reality-refund-entry-btn');
+  if (realityRefundCounterEntryBtn) {
+    realityRefundCounterEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRealityRefundCounterEntry();
+    });
+  }
+  const realityRefundCounterClassEntryBtn = $('#reality-refund-class-entry-btn');
+  if (realityRefundCounterClassEntryBtn) {
+    realityRefundCounterClassEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRealityRefundCounterClassEntry();
+    });
+  }
+  const subjectBodyBoughtWithChildhoodBtn = $('#reality-refund-subject-body-bought-with-childhood');
+  if (subjectBodyBoughtWithChildhoodBtn) {
+    subjectBodyBoughtWithChildhoodBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRealityRefundCounterSubject('body-bought-with-childhood');
+    });
+  }
+  const subjectNamePaidWithForgettingBtn = $('#reality-refund-subject-name-paid-with-forgetting');
+  if (subjectNamePaidWithForgettingBtn) {
+    subjectNamePaidWithForgettingBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRealityRefundCounterSubject('name-paid-with-forgetting');
+    });
+  }
+  const subjectYearsLeasedFromDeathBtn = $('#reality-refund-subject-years-leased-from-death');
+  if (subjectYearsLeasedFromDeathBtn) {
+    subjectYearsLeasedFromDeathBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRealityRefundCounterSubject('years-leased-from-death');
+    });
+  }
+  const proofChildhoodPriceTagBtn = $('#proof-of-existence-childhood-price-tag');
+  if (proofChildhoodPriceTagBtn) {
+    proofChildhoodPriceTagBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRealityRefundCounterProof('childhood-price-tag');
+    });
+  }
+  const proofErasedNameReceiptBtn = $('#proof-of-existence-erased-name-receipt');
+  if (proofErasedNameReceiptBtn) {
+    proofErasedNameReceiptBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRealityRefundCounterProof('erased-name-receipt');
+    });
+  }
+  const proofDeathIssuedRefundReasonBtn = $('#proof-of-existence-death-issued-refund-reason');
+  if (proofDeathIssuedRefundReasonBtn) {
+    proofDeathIssuedRefundReasonBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRealityRefundCounterProof('death-issued-refund-reason');
+    });
+  }
+  const remedyRefundToNonexistenceBtn = $('#reality-return-remedy-refund-to-nonexistence');
+  if (remedyRefundToNonexistenceBtn) {
+    remedyRefundToNonexistenceBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRealityRefundCounterRemedy('refund-to-nonexistence');
+    });
+  }
+  const remedyRestoreOriginalAbsenceBtn = $('#reality-return-remedy-restore-original-absence');
+  if (remedyRestoreOriginalAbsenceBtn) {
+    remedyRestoreOriginalAbsenceBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRealityRefundCounterRemedy('restore-original-absence');
+    });
+  }
+  const remedyExchangeForPossibleSelfBtn = $('#reality-return-remedy-exchange-for-possible-self');
+  if (remedyExchangeForPossibleSelfBtn) {
+    remedyExchangeForPossibleSelfBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRealityRefundCounterRemedy('exchange-for-possible-self');
+    });
+  }
+  const remedyChargeRealityRestockingFeeBtn = $('#reality-return-remedy-charge-reality-restocking-fee');
+  if (remedyChargeRealityRestockingFeeBtn) {
+    remedyChargeRealityRestockingFeeBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRealityRefundCounterRemedy('charge-reality-restocking-fee');
+    });
+  }
+  const realityRefundCounterCashierReturnBorrowedChildhoodBtn = $('#reality-refund-cashier-return-borrowed-childhood');
+  if (realityRefundCounterCashierReturnBorrowedChildhoodBtn) {
+    realityRefundCounterCashierReturnBorrowedChildhoodBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRealityRefundCounterCashierReturn('borrowed-childhood');
+    });
+  }
+  const realityRefundCounterCashierReturnBlankNameCloakroomBtn = $('#reality-refund-cashier-return-blank-name-cloakroom');
+  if (realityRefundCounterCashierReturnBlankNameCloakroomBtn) {
+    realityRefundCounterCashierReturnBlankNameCloakroomBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRealityRefundCounterCashierReturn('blank-name-cloakroom');
+    });
+  }
+  const realityRefundCounterCashierReturnLifetimePawnVaultBtn = $('#reality-refund-cashier-return-lifetime-pawn-vault');
+  if (realityRefundCounterCashierReturnLifetimePawnVaultBtn) {
+    realityRefundCounterCashierReturnLifetimePawnVaultBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRealityRefundCounterCashierReturn('lifetime-pawn-vault');
+    });
+  }
+  const classActionReturnExistenceForFullRefundBtn = $('#class-action-return-existence-for-full-refund');
+  if (classActionReturnExistenceForFullRefundBtn) {
+    classActionReturnExistenceForFullRefundBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRealityRefundCounterClassAction('return-existence-for-full-refund');
+    });
+  }
+  const classActionRefundEveryBodyToChildhoodBtn = $('#class-action-refund-every-body-to-childhood');
+  if (classActionRefundEveryBodyToChildhoodBtn) {
+    classActionRefundEveryBodyToChildhoodBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRealityRefundCounterClassAction('refund-every-body-to-childhood');
+    });
+  }
+  const classActionConvictRealityOfFalseAdvertisingBtn = $('#class-action-convict-reality-of-false-advertising');
+  if (classActionConvictRealityOfFalseAdvertisingBtn) {
+    classActionConvictRealityOfFalseAdvertisingBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRealityRefundCounterClassAction('convict-reality-of-false-advertising');
+    });
+  }
+
+  /* ============================================================
+     走廊：残页 + 封印的门
+     ============================================================ */
+  /* ============================================================
      走廊：残页 + 封印的门
      ============================================================ */
   const fragResponses = [
@@ -13892,6 +28253,454 @@ document.addEventListener("DOMContentLoaded", () => {
       paintSidetoneMemory();
       paintReturnRoomMemory();
       paintCopyMemory();
+      syncEndingReturnRemembrance();
+      paintEndingReturnMemory();
+      paintEndingReturnCodex();
+      syncEndingReturnLinks();
+      if (endingReturnResponse) endingReturnResponse.textContent = "";
+      if (endingReturnOfficeResponse) endingReturnOfficeResponse.textContent = "";
+      if (unendingResponse) unendingResponse.textContent = "";
+      syncCausalMailRemembrance();
+      paintCausalMailMemory();
+      paintCausalMailCodex();
+      syncCausalMailLinks();
+      syncCausalEchoStamps();
+      syncCausalScarStages();
+      syncCausalScarRemembrance();
+      syncCausalScarLinks();
+      syncCauselessWard();
+      try { localStorage.removeItem("goddead_v66_counterfactual_lives"); } catch {}
+      const counterfactualMemory = $("#counterfactual-memory");
+      if (counterfactualMemory) counterfactualMemory.hidden = true;
+      const counterfactualCodex = $("#counterfactual-codex");
+      if (counterfactualCodex) counterfactualCodex.hidden = true;
+      const counterfactualCodexEntry = $("#counterfactual-codex-entry");
+      if (counterfactualCodexEntry) counterfactualCodexEntry.hidden = true;
+      const counterfactualEntryBtn = $("#counterfactual-entry-btn");
+      if (counterfactualEntryBtn) counterfactualEntryBtn.hidden = true;
+      const counterfactualMetaEntryBtn = $("#counterfactual-meta-entry-btn");
+      if (counterfactualMetaEntryBtn) counterfactualMetaEntryBtn.hidden = true;
+      const counterfactualEntryResponse = $("#counterfactual-entry-response");
+      if (counterfactualEntryResponse) counterfactualEntryResponse.textContent = "";
+      const counterfactualMetaEntryResponse = $("#counterfactual-meta-entry-response");
+      if (counterfactualMetaEntryResponse) counterfactualMetaEntryResponse.textContent = "";
+      const spindleResponse = $("#counterfactual-spindle-response");
+      if (spindleResponse) spindleResponse.textContent = "";
+      const loomResponse = $("#counterfactual-loom-response");
+      if (loomResponse) loomResponse.textContent = "";
+      const nurseryResponse = $("#counterfactual-nursery-response");
+      if (nurseryResponse) nurseryResponse.textContent = "";
+      const roomResponse = $("#counterfactual-room-response");
+      if (roomResponse) roomResponse.textContent = "";
+      ["threshold", "protocol", "watch", "offering"].forEach((o) => {
+        const er = $(`#counterfactual-echo-response-${o}`);
+        if (er) er.textContent = "";
+        const echo = $(`#counterfactual-echo-${o}`);
+        if (echo) echo.hidden = true;
+      });
+      [
+        "counterfactual-origin-threshold", "counterfactual-origin-protocol", "counterfactual-origin-watch", "counterfactual-origin-offering",
+        "counterfactual-method-stitch", "counterfactual-method-drain", "counterfactual-method-graft",
+        "counterfactual-life-cause", "counterfactual-life-consequence", "counterfactual-life-ending",
+        "counterfactual-meta-wear-lives", "counterfactual-meta-bury-lives", "counterfactual-meta-leave-spindle"
+      ].forEach((id) => {
+        const b = $("#" + id);
+        if (b) { b.disabled = false; b.removeAttribute("aria-pressed"); }
+      });
+      ["counterfactual-spindle", "scar-loom", "unlived-nursery", "life-without-cause"].forEach((s) => AutoAdvance.clear(s));
+      try { localStorage.removeItem("goddead_v67_bloodless_genealogy"); } catch {}
+      const bloodlessMemory = $("#bloodless-memory");
+      if (bloodlessMemory) bloodlessMemory.hidden = true;
+      const bloodlessCodex = $("#bloodless-codex");
+      if (bloodlessCodex) bloodlessCodex.hidden = true;
+      const bloodlessCodexEntry = $("#bloodless-codex-entry");
+      if (bloodlessCodexEntry) bloodlessCodexEntry.hidden = true;
+      const bloodlessGenealogyEntryBtn = $("#bloodless-genealogy-entry-btn");
+      if (bloodlessGenealogyEntryBtn) bloodlessGenealogyEntryBtn.hidden = true;
+      const bloodlessFamilyEntryBtn = $("#bloodless-family-entry-btn");
+      if (bloodlessFamilyEntryBtn) bloodlessFamilyEntryBtn.hidden = true;
+      const bloodlessEntryResponse = $("#bloodless-entry-response");
+      if (bloodlessEntryResponse) bloodlessEntryResponse.textContent = "";
+      const bloodlessFamilyEntryResponse = $("#bloodless-family-entry-response");
+      if (bloodlessFamilyEntryResponse) bloodlessFamilyEntryResponse.textContent = "";
+      const genealogyResponse = $("#bloodless-genealogy-response");
+      if (genealogyResponse) genealogyResponse.textContent = "";
+      const archiveResponse = $("#bloodless-archive-response");
+      if (archiveResponse) archiveResponse.textContent = "";
+      const childhoodResponse = $("#bloodless-childhood-response");
+      if (childhoodResponse) childhoodResponse.textContent = "";
+      const courtResponse = $("#bloodless-court-response");
+      if (courtResponse) courtResponse.textContent = "";
+      ["spindle", "loom", "nursery", "room"].forEach((r) => {
+        const er = $(`#bloodless-kin-response-${r}`);
+        if (er) er.textContent = "";
+        const echo = $(`#bloodless-kin-${r}`);
+        if (echo) echo.hidden = true;
+      });
+      [
+        "bloodless-root-spindle", "bloodless-root-loom", "bloodless-root-nursery", "bloodless-root-room",
+        "bloodless-bond-ancestor", "bloodless-bond-twin", "bloodless-bond-descendant",
+        "bloodless-memory-keep", "bloodless-memory-exchange", "bloodless-memory-return",
+        "bloodless-family-become-ancestor", "bloodless-family-inherit-you", "bloodless-family-orphan-eras"
+      ].forEach((id) => {
+        const b = $("#" + id);
+        if (b) { b.disabled = false; b.removeAttribute("aria-pressed"); }
+      });
+      ["counterfactual-genealogy", "bloodless-archive", "borrowed-childhood", "last-family-court"].forEach((s) => AutoAdvance.clear(s));
+      try { localStorage.removeItem("goddead_v68_generation_loans"); } catch {}
+      const generationLoansMemory = $("#generation-loans-memory");
+      if (generationLoansMemory) generationLoansMemory.hidden = true;
+      const generationLoansCodex = $("#generation-loans-codex");
+      if (generationLoansCodex) generationLoansCodex.hidden = true;
+      const generationLoansCodexEntry = $("#generation-loans-codex-entry");
+      if (generationLoansCodexEntry) generationLoansCodexEntry.hidden = true;
+      const generationLoansEntryBtn = $("#generation-loans-entry-btn");
+      if (generationLoansEntryBtn) generationLoansEntryBtn.hidden = true;
+      const generationLoansForeclosureEntryBtn = $("#generation-loans-foreclosure-entry-btn");
+      if (generationLoansForeclosureEntryBtn) generationLoansForeclosureEntryBtn.hidden = true;
+      const generationLoansEntryResponse = $("#generation-loans-entry-response");
+      if (generationLoansEntryResponse) generationLoansEntryResponse.textContent = "";
+      const generationLoansForeclosureEntryResponse = $("#generation-loans-foreclosure-entry-response");
+      if (generationLoansForeclosureEntryResponse) generationLoansForeclosureEntryResponse.textContent = "";
+      const officeResponse = $("#generation-loans-office-response");
+      if (officeResponse) officeResponse.textContent = "";
+      const vaultResponse = $("#generation-loans-vault-response");
+      if (vaultResponse) vaultResponse.textContent = "";
+      const clearingResponse = $("#generation-loans-clearing-response");
+      if (clearingResponse) clearingResponse.textContent = "";
+      const foreclosureResponse = $("#generation-loans-foreclosure-response");
+      if (foreclosureResponse) foreclosureResponse.textContent = "";
+      ["threshold", "remembrance", "unending-gallery"].forEach((s) => {
+        const nr = $(`#generation-loans-notice-response-${s}`);
+        if (nr) nr.textContent = "";
+        const notice = $(`#generation-loans-notice-${s}`);
+        if (notice) notice.hidden = true;
+      });
+      [
+        "generation-loans-era-past", "generation-loans-era-present", "generation-loans-era-future",
+        "generation-loans-collateral-years", "generation-loans-collateral-death-date", "generation-loans-collateral-funeral",
+        "generation-loans-term-childhood-interest", "generation-loans-term-birth-payment", "generation-loans-term-descendant-rollover",
+        "generation-loans-foreclosure-seize-present", "generation-loans-foreclosure-bankrupt-death", "generation-loans-foreclosure-crown-funeral"
+      ].forEach((id) => {
+        const b = $("#" + id);
+        if (b) { b.disabled = false; b.removeAttribute("aria-pressed"); }
+      });
+      ["generational-credit-office", "lifetime-pawn-vault", "mortality-clearing-house", "age-foreclosure-court"].forEach((s) => AutoAdvance.clear(s));
+      try { localStorage.removeItem("goddead_v69_posthumous_census"); } catch {}
+      const posthumousCensusMemory = $("#posthumous-census-memory");
+      if (posthumousCensusMemory) posthumousCensusMemory.hidden = true;
+      const posthumousCensusCodex = $("#posthumous-census-codex");
+      if (posthumousCensusCodex) posthumousCensusCodex.hidden = true;
+      const posthumousCensusCodexEntry = $("#posthumous-census-codex-entry");
+      if (posthumousCensusCodexEntry) posthumousCensusCodexEntry.hidden = true;
+      const posthumousCensusEntryBtn = $("#posthumous-census-entry-btn");
+      if (posthumousCensusEntryBtn) posthumousCensusEntryBtn.hidden = true;
+      const posthumousCensusNullificationEntryBtn = $("#posthumous-census-nullification-entry-btn");
+      if (posthumousCensusNullificationEntryBtn) posthumousCensusNullificationEntryBtn.hidden = true;
+      const posthumousCensusEntryResponse = $("#posthumous-census-entry-response");
+      if (posthumousCensusEntryResponse) posthumousCensusEntryResponse.textContent = "";
+      const posthumousCensusNullificationEntryResponse = $("#posthumous-census-nullification-entry-response");
+      if (posthumousCensusNullificationEntryResponse) posthumousCensusNullificationEntryResponse.textContent = "";
+      const censusHallResponse = $("#posthumous-census-hall-response");
+      if (censusHallResponse) censusHallResponse.textContent = "";
+      const censusArchiveResponse = $("#posthumous-census-archive-response");
+      if (censusArchiveResponse) censusArchiveResponse.textContent = "";
+      const censusBoothResponse = $("#posthumous-census-booth-response");
+      if (censusBoothResponse) censusBoothResponse.textContent = "";
+      const censusNullificationResponse = $("#posthumous-census-nullification-response");
+      if (censusNullificationResponse) censusNullificationResponse.textContent = "";
+      ["lifetime-pawn-vault", "generational-credit-office", "mortality-clearing-house"].forEach((s) => {
+        const sr = $(`#posthumous-census-summons-response-${s}`);
+        if (sr) sr.textContent = "";
+        const summons = $(`#posthumous-census-summons-${s}`);
+        if (summons) summons.hidden = true;
+      });
+      [
+        "posthumous-census-electorate-departed", "posthumous-census-electorate-living", "posthumous-census-electorate-unborn",
+        "posthumous-census-evidence-birth-certificate", "posthumous-census-evidence-other-memories", "posthumous-census-evidence-blank-register",
+        "posthumous-census-verdict-count-born", "posthumous-census-verdict-count-never-born", "posthumous-census-verdict-assign-elsewhere",
+        "posthumous-census-nullification-ratify-birth", "posthumous-census-nullification-remove-visitor", "posthumous-census-nullification-enfranchise-blank"
+      ].forEach((id) => {
+        const b = $("#" + id);
+        if (b) { b.disabled = false; b.removeAttribute("aria-pressed"); }
+      });
+      ["posthumous-census-hall", "contradictory-evidence-archive", "birth-ballot-booth", "population-nullification-court"].forEach((s) => AutoAdvance.clear(s));
+      try { localStorage.removeItem("goddead_v70_dead_parliament"); } catch {}
+      try { localStorage.removeItem("goddead_v71_death_diplomacy"); } catch {}
+      const deadParliamentMemory = $("#dead-parliament-memory");
+      if (deadParliamentMemory) deadParliamentMemory.hidden = true;
+      const deadParliamentCodex = $("#dead-parliament-codex");
+      if (deadParliamentCodex) deadParliamentCodex.hidden = true;
+      const deadParliamentCodexEntry = $("#dead-parliament-codex-entry");
+      if (deadParliamentCodexEntry) deadParliamentCodexEntry.hidden = true;
+      const deadParliamentEntryBtn = $("#dead-parliament-entry-btn");
+      if (deadParliamentEntryBtn) deadParliamentEntryBtn.hidden = true;
+      const deadParliamentCrisisEntryBtn = $("#dead-parliament-crisis-entry-btn");
+      if (deadParliamentCrisisEntryBtn) deadParliamentCrisisEntryBtn.hidden = true;
+      const deadParliamentEntryResponse = $("#dead-parliament-entry-response");
+      if (deadParliamentEntryResponse) deadParliamentEntryResponse.textContent = "";
+      const deadParliamentCrisisEntryResponse = $("#dead-parliament-crisis-entry-response");
+      if (deadParliamentCrisisEntryResponse) deadParliamentCrisisEntryResponse.textContent = "";
+      const rotundaResponse = $("#dead-parliament-rotunda-response");
+      if (rotundaResponse) rotundaResponse.textContent = "";
+      const chamberResponse = $("#dead-parliament-chamber-response");
+      if (chamberResponse) chamberResponse.textContent = "";
+      const severanceResponse = $("#dead-parliament-severance-response");
+      if (severanceResponse) severanceResponse.textContent = "";
+      const republicResponse = $("#dead-parliament-republic-response");
+      if (republicResponse) republicResponse.textContent = "";
+      ["birth-ballot-booth", "posthumous-census-hall", "contradictory-evidence-archive"].forEach((s) => {
+        const wr = $(`#dead-parliament-whip-response-${s}`);
+        if (wr) wr.textContent = "";
+        const whip = $(`#dead-parliament-whip-${s}`);
+        if (whip) whip.hidden = true;
+      });
+      [
+        "dead-parliament-caucus-ratified-born", "dead-parliament-caucus-removed-visitor", "dead-parliament-caucus-blank-citizen",
+        "dead-parliament-motion-right-to-name", "dead-parliament-motion-right-to-shadow", "dead-parliament-motion-right-to-body", "dead-parliament-motion-right-to-die-once",
+        "dead-parliament-citizen-name", "dead-parliament-citizen-shadow", "dead-parliament-citizen-body",
+        "dead-parliament-crisis-crown-name", "dead-parliament-crisis-found-shadow-republic", "dead-parliament-crisis-abolish-dead-suffrage"
+      ].forEach((id) => {
+        const b = $("#" + id);
+        if (b) { b.disabled = false; b.removeAttribute("aria-pressed"); }
+      });
+      ["dead-parliament-rotunda", "citizenship-article-chamber", "constitutional-severance-desk", "three-person-republic-court"].forEach((s) => AutoAdvance.clear(s));
+      try { localStorage.removeItem("goddead_v72_last_word_bank"); } catch {}
+      const lastWordBankMemory = $("#last-word-bank-memory");
+      if (lastWordBankMemory) lastWordBankMemory.hidden = true;
+      const lastWordBankCodex = $("#last-word-bank-codex");
+      if (lastWordBankCodex) lastWordBankCodex.hidden = true;
+      const lastWordBankCodexEntry = $("#last-word-bank-codex-entry");
+      if (lastWordBankCodexEntry) lastWordBankCodexEntry.hidden = true;
+      const lastWordBankEntryBtn = $("#last-word-bank-entry-btn");
+      if (lastWordBankEntryBtn) { lastWordBankEntryBtn.hidden = true; lastWordBankEntryBtn.disabled = false; lastWordBankEntryBtn.removeAttribute("aria-pressed"); }
+      const lastWordBankDefaultEntryBtn = $("#last-word-bank-default-entry-btn");
+      if (lastWordBankDefaultEntryBtn) { lastWordBankDefaultEntryBtn.hidden = true; lastWordBankDefaultEntryBtn.disabled = false; lastWordBankDefaultEntryBtn.removeAttribute("aria-pressed"); }
+      const lastWordBankEntryResponse = $("#last-word-bank-entry-response");
+      if (lastWordBankEntryResponse) lastWordBankEntryResponse.textContent = "";
+      const lastWordBankDefaultEntryResponse = $("#last-word-bank-default-entry-response");
+      if (lastWordBankDefaultEntryResponse) lastWordBankDefaultEntryResponse.textContent = "";
+      const lwbBankResponse = $("#last-word-bank-bank-response");
+      if (lwbBankResponse) lwbBankResponse.textContent = "";
+      const lwbMintResponse = $("#last-word-bank-mint-response");
+      if (lwbMintResponse) lwbMintResponse.textContent = "";
+      const lwbVaultResponse = $("#last-word-bank-vault-response");
+      if (lwbVaultResponse) lwbVaultResponse.textContent = "";
+      const lwbDefaultResponse = $("#last-word-bank-default-response");
+      if (lwbDefaultResponse) lwbDefaultResponse.textContent = "";
+      ["threshold", "remembrance", "unending-gallery"].forEach((s) => {
+        const rr = $(`#last-word-bank-remittance-response-${s}`);
+        if (rr) rr.textContent = "";
+        const rem = $(`#last-word-bank-remittance-${s}`);
+        if (rem) rem.hidden = true;
+        const remBtn = $(`#last-word-bank-remittance-return-${s}`);
+        if (remBtn) { remBtn.disabled = false; remBtn.removeAttribute("aria-pressed"); }
+      });
+      ["last-word-central-bank-link", "unsaid-currency-mint-link", "testament-clearing-vault-link", "sovereign-default-chamber-link"].forEach((id) => {
+        const el = $(`#${id}`);
+        if (el) el.hidden = true;
+      });
+      [
+        "last-word-bank-currency-ownerless-signature-note", "last-word-bank-currency-unseen-shadow-coin", "last-word-bank-currency-unspoken-testament-bond",
+        "last-word-bank-reserve-last-breath-reserve", "last-word-bank-reserve-inherited-silence-reserve", "last-word-bank-reserve-collateralized-ending-reserve",
+        "last-word-bank-policy-issue-before-speaking", "last-word-bank-policy-devalue-the-farewell", "last-word-bank-policy-freeze-resurrection-liquidity", "last-word-bank-policy-redeem-in-another-mouth",
+        "last-word-bank-default-nationalize-every-last-word", "last-word-bank-default-let-silence-set-interest", "last-word-bank-default-declare-death-too-big-to-fail"
+      ].forEach((id) => {
+        const b = $("#" + id);
+        if (b) { b.disabled = false; b.removeAttribute("aria-pressed"); }
+      });
+      ["last-word-central-bank", "unsaid-currency-mint", "testament-clearing-vault", "sovereign-default-chamber"].forEach((s) => AutoAdvance.clear(s));
+      try { localStorage.removeItem("goddead_v73_dream_customs"); } catch {}
+      const dreamCustomsMemory = $("#dream-customs-memory");
+      if (dreamCustomsMemory) dreamCustomsMemory.hidden = true;
+      const dreamCustomsCodex = $("#dream-customs-codex");
+      if (dreamCustomsCodex) dreamCustomsCodex.hidden = true;
+      const dreamCustomsCodexEntry = $("#dream-customs-codex-entry");
+      if (dreamCustomsCodexEntry) dreamCustomsCodexEntry.hidden = true;
+      const dreamCustomsEntryBtn = $("#dream-customs-entry-btn");
+      if (dreamCustomsEntryBtn) { dreamCustomsEntryBtn.hidden = true; dreamCustomsEntryBtn.disabled = false; dreamCustomsEntryBtn.removeAttribute("aria-pressed"); }
+      const dreamCustomsDeportationEntryBtn = $("#dream-customs-deportation-entry-btn");
+      if (dreamCustomsDeportationEntryBtn) { dreamCustomsDeportationEntryBtn.hidden = true; dreamCustomsDeportationEntryBtn.disabled = false; dreamCustomsDeportationEntryBtn.removeAttribute("aria-pressed"); }
+      const dreamCustomsEntryResponse = $("#dream-customs-entry-response");
+      if (dreamCustomsEntryResponse) dreamCustomsEntryResponse.textContent = "";
+      const dreamCustomsDeportationEntryResponse = $("#dream-customs-deportation-entry-response");
+      if (dreamCustomsDeportationEntryResponse) dreamCustomsDeportationEntryResponse.textContent = "";
+      const dcCustomsResponse = $("#dream-customs-customs-response");
+      if (dcCustomsResponse) dcCustomsResponse.textContent = "";
+      const dcTerminalResponse = $("#contraband-sleep-terminal-response");
+      if (dcTerminalResponse) dcTerminalResponse.textContent = "";
+      const dcBureauResponse = $("#nightmare-tariff-bureau-response");
+      if (dcBureauResponse) dcBureauResponse.textContent = "";
+      const dcYardResponse = $("#waking-deportation-yard-response");
+      if (dcYardResponse) dcYardResponse.textContent = "";
+      ["eyelid-archive", "remembrance", "unending-gallery"].forEach((s) => {
+        const ir = $(`#dream-customs-inspector-response-${s}`);
+        if (ir) ir.textContent = "";
+        const inspector = $(`#dream-customs-inspector-${s}`);
+        if (inspector) inspector.hidden = true;
+        const inspectorBtn = $(`#dream-customs-inspector-return-${s}`);
+        if (inspectorBtn) { inspectorBtn.disabled = false; inspectorBtn.removeAttribute("aria-pressed"); }
+      });
+      ["borrowed-dream-customs-link", "contraband-sleep-terminal-link", "nightmare-tariff-bureau-link", "waking-deportation-yard-link"].forEach((id) => {
+        const el = $(`#${id}`);
+        if (el) el.hidden = true;
+      });
+      [
+        "dream-customs-passport-dead-god-dream-passport", "dream-customs-passport-unborn-child-sleep-visa", "dream-customs-passport-future-witness-night-pass",
+        "contraband-sleep-face-never-seen-awake", "contraband-sleep-memory-that-kept-dreaming", "contraband-sleep-ending-without-a-dreamer",
+        "nightmare-tariff-tax-years-awake", "nightmare-tariff-confiscate-the-dreamer", "nightmare-tariff-reexport-to-death", "nightmare-tariff-grant-nightmare-asylum",
+        "waking-deportation-naturalize-every-nightmare", "waking-deportation-deport-the-dreamer", "waking-deportation-criminalize-waking"
+      ].forEach((id) => {
+        const b = $("#" + id);
+        if (b) { b.disabled = false; b.removeAttribute("aria-pressed"); }
+      });
+      ["borrowed-dream-customs", "contraband-sleep-terminal", "nightmare-tariff-bureau", "waking-deportation-yard"].forEach((s) => AutoAdvance.clear(s));
+      try { localStorage.removeItem("goddead_v74_tombstone_patent_office"); } catch {}
+      const tombstonePatentOfficeMemory = $("#tombstone-patent-office-memory");
+      if (tombstonePatentOfficeMemory) tombstonePatentOfficeMemory.hidden = true;
+      const tombstonePatentOfficeCodex = $("#tombstone-patent-office-codex");
+      if (tombstonePatentOfficeCodex) tombstonePatentOfficeCodex.hidden = true;
+      const tombstonePatentOfficeCodexEntry = $("#tombstone-patent-office-codex-entry");
+      if (tombstonePatentOfficeCodexEntry) tombstonePatentOfficeCodexEntry.hidden = true;
+      const tombstonePatentOfficeEntryBtn = $("#tombstone-patent-office-entry-btn");
+      if (tombstonePatentOfficeEntryBtn) { tombstonePatentOfficeEntryBtn.hidden = true; tombstonePatentOfficeEntryBtn.disabled = false; tombstonePatentOfficeEntryBtn.removeAttribute("aria-pressed"); }
+      const tombstonePatentOfficeTribunalEntryBtn = $("#tombstone-patent-office-tribunal-entry-btn");
+      if (tombstonePatentOfficeTribunalEntryBtn) { tombstonePatentOfficeTribunalEntryBtn.hidden = true; tombstonePatentOfficeTribunalEntryBtn.disabled = false; tombstonePatentOfficeTribunalEntryBtn.removeAttribute("aria-pressed"); }
+      const tombstonePatentOfficeEntryResponse = $("#tombstone-patent-office-entry-response");
+      if (tombstonePatentOfficeEntryResponse) tombstonePatentOfficeEntryResponse.textContent = "";
+      const tombstonePatentOfficeTribunalEntryResponse = $("#tombstone-patent-office-tribunal-entry-response");
+      if (tombstonePatentOfficeTribunalEntryResponse) tombstonePatentOfficeTribunalEntryResponse.textContent = "";
+      const tpoOfficeResponse = $("#tombstone-patent-office-office-response");
+      if (tpoOfficeResponse) tpoOfficeResponse.textContent = "";
+      const tpoOssuaryResponse = $("#prior-art-ossuary-response");
+      if (tpoOssuaryResponse) tpoOssuaryResponse.textContent = "";
+      const tpoExaminationResponse = $("#impossible-claim-examination-response");
+      if (tpoExaminationResponse) tpoExaminationResponse.textContent = "";
+      const tpoTribunalResponse = $("#perpetual-license-tribunal-response");
+      if (tpoTribunalResponse) tpoTribunalResponse.textContent = "";
+      ["threshold", "eyelid-archive", "remembrance"].forEach((s) => {
+        const er = $(`#tombstone-patent-office-examiner-response-${s}`);
+        if (er) er.textContent = "";
+        const examiner = $(`#tombstone-patent-office-examiner-${s}`);
+        if (examiner) examiner.hidden = true;
+        const examinerBtn = $(`#tombstone-patent-office-examiner-return-${s}`);
+        if (examinerBtn) { examinerBtn.disabled = false; examinerBtn.removeAttribute("aria-pressed"); }
+      });
+      ["tombstone-patent-office-link", "prior-art-ossuary-link", "impossible-claim-examination-link", "perpetual-license-tribunal-link"].forEach((id) => {
+        const el = $(`#${id}`);
+        if (el) el.hidden = true;
+      });
+      [
+        "tombstone-patent-office-applicant-unborn-inventor", "tombstone-patent-office-applicant-posthumous-inventor", "tombstone-patent-office-applicant-future-plagiarist",
+        "prior-art-uncarved-epitaph-blueprint", "prior-art-dream-worn-prototype", "prior-art-descendant-memory-machine",
+        "impossible-claim-own-the-unmade", "impossible-claim-license-death-as-user", "impossible-claim-sue-the-future-for-copying", "impossible-claim-forbid-inventor-to-invent",
+        "perpetual-license-grant-self-ownership", "perpetual-license-invalidate-all-prior-existence", "perpetual-license-license-the-unburied-to-haunt-prototypes"
+      ].forEach((id) => {
+        const b = $("#" + id);
+        if (b) { b.disabled = false; b.removeAttribute("aria-pressed"); }
+      });
+      ["tombstone-patent-office", "prior-art-ossuary", "impossible-claim-examination", "perpetual-license-tribunal"].forEach((s) => AutoAdvance.clear(s));
+      try { localStorage.removeItem("goddead_v75_apocalypse_warranty"); } catch {}
+      const apocalypseWarrantyMemory = $("#apocalypse-warranty-memory");
+      if (apocalypseWarrantyMemory) apocalypseWarrantyMemory.hidden = true;
+      const apocalypseWarrantyCodex = $("#apocalypse-warranty-codex");
+      if (apocalypseWarrantyCodex) apocalypseWarrantyCodex.hidden = true;
+      const apocalypseWarrantyCodexEntry = $("#apocalypse-warranty-codex-entry");
+      if (apocalypseWarrantyCodexEntry) apocalypseWarrantyCodexEntry.hidden = true;
+      const apocalypseWarrantyEntryBtn = $("#apocalypse-warranty-entry-btn");
+      if (apocalypseWarrantyEntryBtn) { apocalypseWarrantyEntryBtn.hidden = true; apocalypseWarrantyEntryBtn.disabled = false; apocalypseWarrantyEntryBtn.removeAttribute("aria-pressed"); }
+      const apocalypseWarrantyRecallEntryBtn = $("#apocalypse-warranty-recall-entry-btn");
+      if (apocalypseWarrantyRecallEntryBtn) { apocalypseWarrantyRecallEntryBtn.hidden = true; apocalypseWarrantyRecallEntryBtn.disabled = false; apocalypseWarrantyRecallEntryBtn.removeAttribute("aria-pressed"); }
+      const apocalypseWarrantyEntryResponse = $("#apocalypse-warranty-entry-response");
+      if (apocalypseWarrantyEntryResponse) apocalypseWarrantyEntryResponse.textContent = "";
+      const apocalypseWarrantyRecallEntryResponse = $("#apocalypse-warranty-recall-entry-response");
+      if (apocalypseWarrantyRecallEntryResponse) apocalypseWarrantyRecallEntryResponse.textContent = "";
+      const awoOfficeResponse = $("#apocalypse-warranty-office-response");
+      if (awoOfficeResponse) awoOfficeResponse.textContent = "";
+      const awoMorgueResponse = $("#proof-of-purchase-morgue-response");
+      if (awoMorgueResponse) awoMorgueResponse.textContent = "";
+      const awoBenchResponse = $("#post-world-repair-bench-response");
+      if (awoBenchResponse) awoBenchResponse.textContent = "";
+      const awoYardResponse = $("#universal-recall-yard-response");
+      if (awoYardResponse) awoYardResponse.textContent = "";
+      ["threshold", "remembrance", "unending-gallery"].forEach((s) => {
+        const ar = $(`#apocalypse-warranty-adjuster-response-${s}`);
+        if (ar) ar.textContent = "";
+        const adjuster = $(`#apocalypse-warranty-adjuster-${s}`);
+        if (adjuster) adjuster.hidden = true;
+        const adjusterBtn = $(`#apocalypse-warranty-adjuster-return-${s}`);
+        if (adjusterBtn) { adjusterBtn.disabled = false; adjusterBtn.removeAttribute("aria-pressed"); }
+      });
+      ["apocalypse-warranty-office-link", "proof-of-purchase-morgue-link", "post-world-repair-bench-link", "universal-recall-yard-link"].forEach((id) => {
+        const el = $(`#${id}`);
+        if (el) el.hidden = true;
+      });
+      [
+        "apocalypse-warranty-defect-worn-before-manufacture", "apocalypse-warranty-defect-still-running-after-the-end", "apocalypse-warranty-defect-ghost-only-moving-part",
+        "proof-of-purchase-receipt-from-unbuilt-factory", "proof-of-purchase-dead-sun-warranty-seal", "proof-of-purchase-descendant-repair-memory",
+        "post-world-repair-remedy-replace-reality-not-part", "post-world-repair-remedy-extend-warranty-before-birth", "post-world-repair-remedy-declare-defect-as-feature", "post-world-repair-remedy-bill-the-apocalypse",
+        "universal-recall-recall-the-world", "universal-recall-install-a-spare-dawn", "universal-recall-void-for-self-modification"
+      ].forEach((id) => {
+        const b = $("#" + id);
+        if (b) { b.disabled = false; b.removeAttribute("aria-pressed"); }
+      });
+      ["apocalypse-warranty-office", "proof-of-purchase-morgue", "post-world-repair-bench", "universal-recall-yard"].forEach((s) => AutoAdvance.clear(s));
+      try { localStorage.removeItem("goddead_v76_reality_refund"); } catch {}
+      const realityRefundMemory = $("#reality-refund-memory");
+      if (realityRefundMemory) realityRefundMemory.hidden = true;
+      const realityRefundCodex = $("#reality-refund-codex");
+      if (realityRefundCodex) realityRefundCodex.hidden = true;
+      const realityRefundCodexEntry = $("#reality-refund-codex-entry");
+      if (realityRefundCodexEntry) realityRefundCodexEntry.hidden = true;
+      const realityRefundEntryBtn = $("#reality-refund-entry-btn");
+      if (realityRefundEntryBtn) { realityRefundEntryBtn.hidden = true; realityRefundEntryBtn.disabled = false; realityRefundEntryBtn.removeAttribute("aria-pressed"); }
+      const realityRefundClassEntryBtn = $("#reality-refund-class-entry-btn");
+      if (realityRefundClassEntryBtn) { realityRefundClassEntryBtn.hidden = true; realityRefundClassEntryBtn.disabled = false; realityRefundClassEntryBtn.removeAttribute("aria-pressed"); }
+      const realityRefundEntryResponse = $("#reality-refund-entry-response");
+      if (realityRefundEntryResponse) realityRefundEntryResponse.textContent = "";
+      const realityRefundClassEntryResponse = $("#reality-refund-class-entry-response");
+      if (realityRefundClassEntryResponse) realityRefundClassEntryResponse.textContent = "";
+      const rrcCounterResponse = $("#reality-refund-counter-response");
+      if (rrcCounterResponse) rrcCounterResponse.textContent = "";
+      const rrcIncineratorResponse = $("#proof-of-existence-incinerator-response");
+      if (rrcIncineratorResponse) rrcIncineratorResponse.textContent = "";
+      const rrcInspectionResponse = $("#reality-return-inspection-response");
+      if (rrcInspectionResponse) rrcInspectionResponse.textContent = "";
+      const rrcCourtResponse = $("#class-action-court-response");
+      if (rrcCourtResponse) rrcCourtResponse.textContent = "";
+      ["borrowed-childhood", "blank-name-cloakroom", "lifetime-pawn-vault"].forEach((s) => {
+        const cr = $(`#reality-refund-cashier-response-${s}`);
+        if (cr) cr.textContent = "";
+        const cashier = $(`#reality-refund-cashier-${s}`);
+        if (cashier) cashier.hidden = true;
+        const cashierBtn = $(`#reality-refund-cashier-return-${s}`);
+        if (cashierBtn) { cashierBtn.disabled = false; cashierBtn.removeAttribute("aria-pressed"); }
+      });
+      ["reality-refund-counter-link", "proof-of-existence-incinerator-link", "reality-return-inspection-link", "class-action-court-link"].forEach((id) => {
+        const el = $(`#${id}`);
+        if (el) el.hidden = true;
+      });
+      [
+        "reality-refund-subject-body-bought-with-childhood", "reality-refund-subject-name-paid-with-forgetting", "reality-refund-subject-years-leased-from-death",
+        "proof-of-existence-childhood-price-tag", "proof-of-existence-erased-name-receipt", "proof-of-existence-death-issued-refund-reason",
+        "reality-return-remedy-refund-to-nonexistence", "reality-return-remedy-restore-original-absence", "reality-return-remedy-exchange-for-possible-self", "reality-return-remedy-charge-reality-restocking-fee",
+        "class-action-return-existence-for-full-refund", "class-action-refund-every-body-to-childhood", "class-action-convict-reality-of-false-advertising"
+      ].forEach((id) => {
+        const b = $("#" + id);
+        if (b) { b.disabled = false; b.removeAttribute("aria-pressed"); }
+      });
+      ["reality-refund-counter", "proof-of-existence-incinerator", "reality-return-inspection", "class-action-court"].forEach((s) => AutoAdvance.clear(s));
+      if (causalSorterResponse) causalSorterResponse.textContent = "";
+      if (firstDraftVaultResponse) firstDraftVaultResponse.textContent = "";
+      if (beforeFirstKnockResponse) beforeFirstKnockResponse.textContent = "";
+      for (const d of CAUSAL_DESTINATIONS) {
+        const el = $(`#causal-echo-response-${d}`);
+        if (el) el.textContent = "";
+      }
+      const causalEntryResponse = $("#causal-entry-response");
+      if (causalEntryResponse) causalEntryResponse.textContent = "";
+      const causalMailEntryBtn = $("#causal-mail-entry-btn");
+      if (causalMailEntryBtn) causalMailEntryBtn.textContent = "把无终局寄回最初 ⟶";
 
       if (forgetPanel) forgetPanel.hidden = true;
       if (forgetTriggerBtn) forgetTriggerBtn.hidden = false;
@@ -13993,6 +28802,81 @@ document.addEventListener("DOMContentLoaded", () => {
   paintReturnRoomMemory();
   syncCopyLinks();
   paintCopyMemory();
+  syncEndingReturnRemembrance();
+  paintEndingReturnMemory();
+  paintEndingReturnCodex();
+  syncEndingReturnLinks();
+  syncCausalMailRemembrance();
+  paintCausalMailMemory();
+  paintCausalMailCodex();
+  syncCausalMailLinks();
+  syncCausalEchoStamps();
+  syncCausalScarStages();
+  syncCausalScarRemembrance();
+  syncCausalScarLinks();
+  syncCounterfactualEchoes();
+  syncCounterfactualRemembrance();
+  syncCounterfactualLinks();
+  syncBloodlessKinEchoes();
+  syncBloodlessRemembrance();
+  syncBloodlessLinks();
+  syncGenerationLoansNotices();
+  syncGenerationLoansRemembrance();
+  syncGenerationLoansLinks();
+  syncDeathDiplomacyMinistry();
+  syncDeathDiplomacyBorder();
+  syncDeathDiplomacyAutopsy();
+  syncDeathDiplomacyWar();
+  syncDeathDiplomacyCouriers();
+  syncDeathDiplomacyRemembrance();
+  syncDeathDiplomacyLinks();
+  syncLastWordBankBank();
+  syncLastWordBankMint();
+  syncLastWordBankVault();
+  syncLastWordBankDefault();
+  syncLastWordBankRemittances();
+  paintLastWordBankMemory();
+  paintLastWordBankCodex();
+  syncLastWordBankRemembrance();
+  syncLastWordBankLinks();
+  syncDreamCustomsCustoms();
+  syncDreamCustomsTerminal();
+  syncDreamCustomsBureau();
+  syncDreamCustomsYard();
+  syncDreamCustomsInspectors();
+  paintDreamCustomsMemory();
+  paintDreamCustomsCodex();
+  syncDreamCustomsRemembrance();
+  syncDreamCustomsLinks();
+  syncTombstonePatentOfficeOffice();
+  syncTombstonePatentOfficeOssuary();
+  syncTombstonePatentOfficeExamination();
+  syncTombstonePatentOfficeTribunal();
+  syncTombstonePatentOfficeExaminers();
+  paintTombstonePatentOfficeMemory();
+  paintTombstonePatentOfficeCodex();
+  syncTombstonePatentOfficeRemembrance();
+  syncTombstonePatentOfficeLinks();
+  syncApocalypseWarrantyOffice();
+  syncApocalypseWarrantyMorgue();
+  syncApocalypseWarrantyBench();
+  syncApocalypseWarrantyYard();
+  syncApocalypseWarrantyAdjusters();
+  paintApocalypseWarrantyMemory();
+  paintApocalypseWarrantyCodex();
+  syncApocalypseWarrantyRemembrance();
+  syncApocalypseWarrantyLinks();
+  resolveRealityRefundCounterPendingOnArrival('threshold');
+  syncRealityRefundCounterCounter();
+  syncRealityRefundCounterIncinerator();
+  syncRealityRefundCounterInspection();
+  syncRealityRefundCounterCourt();
+  syncRealityRefundCounterCashiers();
+  paintRealityRefundCounterMemory();
+  paintRealityRefundCounterCodex();
+  syncRealityRefundCounterRemembrance();
+  syncRealityRefundCounterLinks();
+  replayRealityRefundCounterPending('threshold');
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

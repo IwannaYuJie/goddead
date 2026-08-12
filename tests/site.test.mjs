@@ -2,6 +2,14 @@ import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 
+let assertionCount = 0;
+for (const method of ["ok", "equal", "strictEqual", "deepStrictEqual", "notEqual", "notStrictEqual", "notDeepStrictEqual", "match", "doesNotMatch", "throws", "doesNotThrow", "rejects", "doesNotReject", "ifError", "fail"]) {
+  const orig = assert[method];
+  if (typeof orig === "function") {
+    assert[method] = function (...args) { assertionCount++; return orig.apply(this, args); };
+  }
+}
+
 const root = new URL("../", import.meta.url);
 
 async function fileText(path) {
@@ -30,15 +38,16 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=55/);
-assert.match(html, /script\.js\?v=55/);
+assert.match(html, /styles\.css\?v=76/);
+assert.match(html, /script\.js\?v=76/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
 assert.match(js, /DOMContentLoaded/);
 
 /* ---------- 场景探索结构 ---------- */
-const SCENES = ["threshold", "protocol", "corridor", "peephole-chamber", "glyph-niche", "return-passage", "eyelid-archive", "unnumbered-vestibule", "reverse-stairwell", "annex-clearinghouse", "unreturned-witness-gallery", "registry-before-zero", "descending-appeals-stair", "anomaly-review", "evidence-vault", "false-positive-shaft", "unclaimed-valuation", "quota-elevator", "unnumbered-floor", "bellless-ward", "seeping-records", "reverse-laundry", "night-shift-registry", "midnight-callback", "proxy-admission", "return-audit", "echo-turn", "vein-turnstile", "confession-locker", "unlit-lamp-gallery", "borrowed-shadow-gallery", "hinge-sorting-room", "red-thread-registry", "blank-name-cloakroom", "clapperless-bell-desk", "protocol-drift", "counter-knock-gallery", "unanswered-vestibule", "undersill-dispatch", "lagging-shadow-cloister", "ash-door-foundry", "retention-vault", "minute-before-archive", "cold-wick-service-bay", "absent-relief-locker", "unseated-listening-booth", "unnumbered-jack-field", "return-ring-morgue", "unclaimed-pneumatic-intake", "returned-address-cabinet", "blank-receipt-press", "blank-screen-underarchive", "false-confirmation-desk", "witness-carbon-archive", "echo", "vein", "confession", "echo-transfer", "vein-pump", "confession-ledger", "watch", "switchboard", "deadletter", "cancellation", "acting", "offering", "reliquary", "remembrance", "ninth", "concordance-theatre", "innocent-quarantine", "omission-transfer-shaft", "misbound-handover", "liability-ledger", "appeal-registry", "identity-correction", "evidence-contradiction", "destination-review-shaft", "cross-examination-desk", "chain-of-custody-office", "listening-back-console"];
+const SCENES = ["threshold", "protocol", "corridor", "peephole-chamber", "glyph-niche", "return-passage", "eyelid-archive", "unnumbered-vestibule", "reverse-stairwell", "annex-clearinghouse", "unreturned-witness-gallery", "registry-before-zero", "descending-appeals-stair", "anomaly-review", "evidence-vault", "false-positive-shaft", "unclaimed-valuation", "quota-elevator", "unnumbered-floor", "bellless-ward", "seeping-records", "reverse-laundry", "night-shift-registry", "midnight-callback", "proxy-admission", "return-audit", "echo-turn", "vein-turnstile", "confession-locker", "unlit-lamp-gallery", "borrowed-shadow-gallery", "hinge-sorting-room", "red-thread-registry", "blank-name-cloakroom", "clapperless-bell-desk", "protocol-drift", "counter-knock-gallery", "unanswered-vestibule", "undersill-dispatch", "lagging-shadow-cloister", "ash-door-foundry", "retention-vault", "minute-before-archive", "cold-wick-service-bay", "absent-relief-locker", "underbed-call-station", "countersign-drain", "negative-laundry-locker", "symptom-handover-hub", "evidence-switchboard", "unseated-listening-booth", "unnumbered-jack-field", "return-ring-morgue", "unclaimed-pneumatic-intake", "returned-address-cabinet", "blank-receipt-press", "blank-screen-underarchive", "false-confirmation-desk", "witness-carbon-archive", "echo", "vein", "confession", "echo-transfer", "vein-pump", "confession-ledger", "failure-reconstruction-desk", "watch", "switchboard", "deadletter", "cancellation", "acting", "offering", "reliquary", "remembrance", "ninth", "concordance-theatre", "innocent-quarantine", "omission-transfer-shaft", "misbound-handover", "liability-ledger", "appeal-registry", "identity-correction", "evidence-contradiction", "destination-review-shaft", "cross-examination-desk", "chain-of-custody-office", "listening-back-console", "ending-return-office", "unending-gallery", "causal-sorter", "first-draft-vault", "before-first-knock", "causeless-ward", "counterfactual-spindle", "scar-loom", "unlived-nursery", "life-without-cause", "counterfactual-genealogy", "bloodless-archive", "borrowed-childhood", "last-family-court", "generational-credit-office", "lifetime-pawn-vault", "mortality-clearing-house", "age-foreclosure-court", "posthumous-census-hall", "contradictory-evidence-archive", "birth-ballot-booth", "population-nullification-court", "dead-parliament-rotunda", "citizenship-article-chamber", "constitutional-severance-desk", "three-person-republic-court", "death-foreign-ministry", "nonexistent-border-chancery", "treaty-autopsy-table", "undeclared-war-room", "last-word-central-bank", "unsaid-currency-mint", "testament-clearing-vault", "sovereign-default-chamber", "borrowed-dream-customs", "contraband-sleep-terminal", "nightmare-tariff-bureau", "waking-deportation-yard", "tombstone-patent-office", "prior-art-ossuary", "impossible-claim-examination", "perpetual-license-tribunal", "apocalypse-warranty-office", "proof-of-purchase-morgue", "post-world-repair-bench", "universal-recall-yard", "reality-refund-counter", "proof-of-existence-incinerator", "reality-return-inspection", "class-action-court"];
+assert.equal(SCENES.length, 137, "scene count must be 137 after v76");
 for (const s of SCENES) {
   assert.match(html, new RegExp(`data-scene="${s}"`), `scene missing: ${s}`);
 }
@@ -489,8 +498,8 @@ for (const asset of VISUAL_ASSETS) {
 await access(new URL("assets/prayer-incinerator-burning.webp", root));
 assert.match(html, /assets\/prayer-incinerator-burning\.webp/);
 assert.match(html, /<link rel="preload" href="assets\/prayer-incinerator-burning\.webp" as="image">/);
-assert.match(html, /styles\.css\?v=55/);
-assert.match(html, /script\.js\?v=55/);
+assert.match(html, /styles\.css\?v=76/);
+assert.match(html, /script\.js\?v=76/);
 const offeringFigureHtml = html.match(/<figure class="offering-figure[^"]*" role="img" aria-label="[^"]*">[\s\S]*?<\/figure>/);
 assert.ok(offeringFigureHtml, "offering figure must exist");
 assert.match(offeringFigureHtml[0], /aria-label="一座沉寂的焚献炉"/);
@@ -4492,9 +4501,15 @@ for (const frag of ['baseImg: "assets/unseated-listening-booth.webp"', 'baseImg:
   assert.ok(js.includes(frag), `v62 keeps the v46 base image: ${frag.slice(0, 44)}`);
 }
 
-/* 86 → 87 场景：新场景入 SCENES 与路由 */
+/* 87 → 93 场景：v63/v64/v65 新场景入 SCENES 与路由 */
 assert.ok(SCENES.includes("listening-back-console"), "SCENES must list the listening console");
-assert.equal(new Set([...html.matchAll(/data-scene="([^"]+)"/g)].map((m) => m[1])).size, 87, "86 -> 87 scenes");
+assert.ok(SCENES.includes("ending-return-office"), "SCENES must list the ending return office");
+assert.ok(SCENES.includes("unending-gallery"), "SCENES must list the unending gallery");
+assert.ok(SCENES.includes("causal-sorter"), "SCENES must list the causal sorter");
+assert.ok(SCENES.includes("first-draft-vault"), "SCENES must list the first draft vault");
+assert.ok(SCENES.includes("before-first-knock"), "SCENES must list the before first knock");
+assert.ok(SCENES.includes("causeless-ward"), "SCENES must list the causeless ward");
+assert.equal(new Set([...html.matchAll(/data-scene="([^"]+)"/g)].map((m) => m[1])).size, 137, "must expose 137 unique data-scene sections");
 const consoleSection = html.match(/<section class="scene scene-branch scene-listening-back-console"[\s\S]*?<\/section>/);
 assert.ok(consoleSection, "scene section missing: listening-back-console");
 assert.match(consoleSection[0], /data-scene="listening-back-console" data-title="Goddead — 反听总台" aria-label="反听总台"/);
@@ -4965,7 +4980,1602 @@ for (const cls of ["ward-spot-sheet", "ward-spot-listen", "ward-spot-callback", 
 }
 
 
-/* ---------- 文档同步 ---------- */
+/* ---------- v63 终局退件所 / THE ENDING RETURNS UNOPENED ---------- */
+const V63_SOURCE_HASHES = {
+  "design-references/source-v63-ending-return-office.png": "512a062e4c8736c7e2b55e390c44df03833c5e832adb8c72883274fd7e14beb7",
+  "design-references/source-v63-unending-gallery.png": "d732053af7908c87901916ab32ac50177010d3cbde7bf7e69b776e1a3fd36002",
+};
+for (const [src, hash] of Object.entries(V63_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(src, root));
+  assert.equal(createHash("sha256").update(buf).digest("hex"), hash, `${src} must keep its frozen sha256`);
+}
+const V63_WEBP_HASHES = {
+  "assets/v63-ending-return-office.webp": "7f9382eaf7f0fce572225abe6aee0714d8d68e586e273df36cc2940282850449",
+  "assets/v63-unending-gallery.webp": "a3b79d820dacaf2d990057fd82e29725575e773874515bc62c15d4af377b180c",
+};
+for (const [asset, hash] of Object.entries(V63_WEBP_HASHES)) {
+  const buf = await readFile(new URL(asset, root));
+  assert.equal(createHash("sha256").update(buf).digest("hex"), hash, `${asset} must keep its frozen sha256`);
+  assert.ok(buf.length > 100000 && buf.length < 350000, `${asset} must be 100–350 KB`);
+  assert.ok(js.includes(asset) && html.includes(asset), `${asset} must be referenced`);
+}
+assert.equal(SCENES.length, 137, "v76 must bring the scene count to 137");
+assert.equal((js.match(/goddead_v63_ending_return/g) || []).length, 1, "v63 introduces exactly one storage key");
+
+/* 两场景 DOM、标题、氛围句与图鉴容器 */
+assert.match(html, /id="scene-ending-return-office"/);
+assert.match(html, /id="scene-unending-gallery"/);
+assert.match(html, /data-scene="ending-return-office"/);
+assert.match(html, /data-scene="unending-gallery"/);
+assert.match(html, /THE ENDING RETURNS UNOPENED/);
+assert.match(html, /THE END WAS FILED ELSEWHERE/);
+assert.match(html, /终局退件所/);
+assert.match(html, /无终局陈列廊/);
+assert.match(html, /id="ending-return-entry-btn"/);
+assert.match(html, /id="ending-return-response"/);
+assert.match(html, /id="ending-return-codex"/);
+assert.match(html, /id="erc-grid"/);
+assert.match(html, /id="erc-unending"/);
+assert.match(html, /id="ending-return-memory"/);
+assert.match(html, /<a href="#ending-return-office" id="ending-return-link" hidden data-hover>03α \/ 终局退件<\/a>/);
+assert.match(html, /<a href="#unending-gallery" id="unending-gallery-link" hidden data-hover>03β \/ 无终局廊<\/a>/);
+
+/* 12+1 后终局文案冻结 */
+const V63_CODA_NAMES = [
+  "借位登神 · BORROWED ASCENSION",
+  "降回第一阶 · RETURNED ASCENSION",
+  "错误神址 · MISADDRESSED GOD",
+  "合声签收 · RECEIVED CHORUS",
+  "退回耳内 · RETURNED CHORUS",
+  "错投静默 · MISROUTED SILENCE",
+  "遗忘入库 · RECEIVED OBLIVION",
+  "退回昨日 · RETURNED OBLIVION",
+  "错投记忆 · MISADDRESSED MEMORY",
+  "值夜签收 · RECEIVED WATCH",
+  "退回凌晨 · RETURNED WATCH",
+  "错投黎明 · MISROUTED DAWN",
+];
+for (const name of V63_CODA_NAMES) assert.ok(js.includes(name), `missing v63 coda name: ${name}`);
+assert.ok(js.includes("无终局 · UNENDING"), "missing the thirteenth ending name");
+
+/* 独立状态：十个规范字段，派生字段不落盘 */
+const v63ModuleBlock = js.match(/v63 终局退件所 \/ THE ENDING RETURNS UNOPENED[\s\S]*?v64 因果倒邮 \/ THE ENDING ARRIVED EARLY/);
+assert.ok(v63ModuleBlock, "v63 module must exist");
+const saveEndingReturnBlock = js.match(/const saveEndingReturn = \(st\) =>\s*store\.set\(\s*ENDING_RETURN_KEY,\s*JSON\.stringify\(\{[\s\S]*?\}\)\s*\);/);
+assert.ok(saveEndingReturnBlock, "saveEndingReturn must persist an explicit canonical projection");
+for (const f of ["version", "visited", "activeEnding", "codas", "processedRuns", "secretRuns", "actionCounts", "lastCoda", "unendingUnlocked", "pending"]) {
+  assert.match(saveEndingReturnBlock[0], new RegExp(`${f}: `), `saveEndingReturn persists ${f}`);
+}
+assert.ok(!/secretEligible|pendingTarget/.test(saveEndingReturnBlock[0]), "saveEndingReturn must not persist derived fields");
+assert.match(saveEndingReturnBlock[0], /normalizeEndingReturnCodas\(st\.codas\)/, "codas are canonicalized before save");
+
+/* 严格四类 pending */
+const getEndingReturnBlock = js.match(/const getEndingReturn = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(getEndingReturnBlock, "getEndingReturn must exist");
+assert.match(getEndingReturnBlock[0], /const keys = Object\.keys\(p\)\.sort\(\)\.join\(","\);/, "pending keys are sorted for strict comparison");
+assert.match(getEndingReturnBlock[0], /p\.kind === "entry" &&[\s\S]*?keys === "baseEnding,feedback,kind,target"/, "entry pending accepts exactly four whitelisted keys");
+assert.match(getEndingReturnBlock[0], /p\.kind === "process" &&[\s\S]*?keys === "action,baseEnding,coda,feedback,kind,target"/, "process pending accepts exactly six whitelisted keys");
+assert.match(getEndingReturnBlock[0], /p\.kind === "secret" &&[\s\S]*?keys === "feedback,kind,target"/, "secret pending accepts exactly three whitelisted keys");
+assert.match(getEndingReturnBlock[0], /p\.kind === "exit" &&[\s\S]*?keys === "feedback,kind,target"[\s\S]*?ENDING_RETURN_EXIT_META\[p\.target\]/, "exit pending validates by scene target whitelist");
+
+/* entry / process 同源 v28 */
+assert.match(getEndingReturnBlock[0], /p\.baseEnding === govResult/, "entry pending must equal current v28 resultStatus");
+assert.match(getEndingReturnBlock[0], /p\.baseEnding === govResult &&[\s\S]*?raw\.activeEnding === p\.baseEnding/, "process pending must match current v28 resultStatus and activeEnding");
+const endingReturnCanVisitOfficeBlock = js.match(/const endingReturnCanVisitOffice = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(endingReturnCanVisitOfficeBlock, "endingReturnCanVisitOffice must exist");
+assert.match(endingReturnCanVisitOfficeBlock[0], /st\.activeEnding === gov\.resultStatus/, "activeEnding only grants office access when equal to current v28 resultStatus");
+const endingReturnProcessArriveBlock = js.match(/const endingReturnProcessArrive = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(endingReturnProcessArriveBlock, "endingReturnProcessArrive must exist");
+assert.match(endingReturnProcessArriveBlock[0], /st\.activeEnding !== baseEnding \|\| st\.activeEnding !== gov\.resultStatus/, "process arrival rejects activeEnding forged away from current v28 resultStatus");
+
+/* 四类 coda 才开秘密门 */
+assert.match(js, /const endingReturnSecretEligible = \(\) => \{[\s\S]*?ENDING_RETURN_ENDINGS\.every\(\(b\) => st\.codas\.some\(\(id\) => id\.startsWith\(b \+ ":"\)\)\)/, "secret eligibility requires one coda from each base ending");
+const chooseEndingReturnSecretBlock = js.match(/const chooseEndingReturnSecret = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(chooseEndingReturnSecretBlock, "chooseEndingReturnSecret must exist");
+assert.match(chooseEndingReturnSecretBlock[0], /if \(!endingReturnSecretEligible\(\)\) return;/, "secret door handler re-proves four-base eligibility");
+assert.match(getEndingReturnBlock[0], /p\.kind === "secret" &&[\s\S]*?hasAllBases/, "secret pending validation requires four-base evidence");
+
+/* 反向阶梯：满足 v62 老守卫去 console，否则 switchboard */
+const chooseGalleryExitBlock = js.match(/const chooseEndingReturnGalleryExit = \(id\) => \{[\s\S]*?\n  \};/);
+assert.ok(chooseGalleryExitBlock, "chooseEndingReturnGalleryExit must exist");
+assert.match(chooseGalleryExitBlock[0], /if \(id === "unending-reverse-stair"\)/, "reverse stair is explicitly handled");
+assert.match(chooseGalleryExitBlock[0], /lg\.pendingTarget === LISTENING_CONSOLE \|\|[\s\S]*?lg\.visited\.console \|\|[\s\S]*?LISTENING_ROOMS\.some\(\(r\) => lg\.history\.some\(\(h\) => h\.cycle === lg\.cycle && h\.room === r\)\)/, "reverse stair checks v62 listening-back-console guard conditions");
+assert.match(chooseGalleryExitBlock[0], /target = listeningAllowed \? "listening-back-console" : "switchboard";/, "reverse stair falls back to switchboard when v62 guard not satisfied");
+
+/* 8 组 isTrusted 防线，合成 .click() 零副作用 */
+const v63ListenerBlock = js.match(/if \(endingReturnEntryBtn\) \{[\s\S]*?chooseEndingReturnGalleryExit\("unending-reverse-stair"\);[\s\S]*?\}\);/);
+assert.ok(v63ListenerBlock, "v63 click listener block must exist");
+assert.equal((v63ListenerBlock[0].match(/!e\.isTrusted/g) || []).length, 8, "v63 must guard all eight click listeners with isTrusted");
+
+/* 锁定时仅已选按钮 aria-pressed=true，刷新重放一致 */
+const lockEndingReturnOfficeBlock = js.match(/const lockEndingReturnOffice = \(selectedId\) => \{[\s\S]*?\n  \};/);
+assert.ok(lockEndingReturnOfficeBlock, "lockEndingReturnOffice must exist");
+assert.match(lockEndingReturnOfficeBlock[0], /btn\.setAttribute\("aria-pressed", String\(isSelected\)\);/, "office lock only presses the selected button");
+const lockEndingReturnGalleryBlock = js.match(/const lockEndingReturnGallery = \(selectedId\) => \{[\s\S]*?\n  \};/);
+assert.ok(lockEndingReturnGalleryBlock, "lockEndingReturnGallery must exist");
+assert.match(lockEndingReturnGalleryBlock[0], /btn\.setAttribute\("aria-pressed", String\(id === selectedId\)\);/, "gallery lock only presses the selected button");
+const replayEndingReturnPendingBlock = js.match(/const replayEndingReturnPending = \(sceneName\) => \{[\s\S]*?\n  \};/);
+assert.ok(replayEndingReturnPendingBlock, "replayEndingReturnPending must exist");
+assert.match(replayEndingReturnPendingBlock[0], /lockEndingReturnOffice\(selected \|\| undefined\)/, "office replay restores selected pressed state");
+assert.match(replayEndingReturnPendingBlock[0], /lockEndingReturnGallery\(selected \|\| undefined\)/, "gallery replay restores selected pressed state");
+
+/* forget-all 清 v63 */
+const forgetBlock = js.match(/const forgetActionBtn = \$[^;]*;[\s\S]*?goScene\("threshold"\);/);
+assert.ok(forgetBlock, "forget-all block must exist");
+assert.match(forgetBlock[0], /syncEndingReturnRemembrance\(\);/, "forget-all resets ending return remembrance UI");
+assert.match(forgetBlock[0], /paintEndingReturnMemory\(\);/, "forget-all clears ending return memory UI");
+assert.match(forgetBlock[0], /paintEndingReturnCodex\(\);/, "forget-all clears ending return codex UI");
+assert.match(forgetBlock[0], /syncEndingReturnLinks\(\);/, "forget-all resets ending return directory links");
+assert.match(forgetBlock[0], /k\.startsWith\("goddead"\) \|\| k\.toLowerCase\(\)\.includes\("goddead"\)/, "forget-all removes all goddead keys including v63");
+
+/* 窄屏 44px 触控与热点定位 */
+assert.match(css, /\.scene-hotspot \{[^}]*min-width:\s*44px/, "scene hotspot min-width >= 44px");
+assert.match(css, /\.scene-hotspot \{[^}]*min-height:\s*44px/, "scene hotspot min-height >= 44px");
+assert.match(css, /@media \(max-width: 720px\) \{\s*\.ending-return-hotspot,\s*\.gallery-hotspot/, "mobile rules exist for v63 hotspots");
+for (const cls of ["ending-return-accept", "ending-return-return", "ending-return-misroute", "ending-return-secret", "gallery-beginning-door", "gallery-file-trace", "gallery-reverse-stair"]) {
+  assert.match(css, new RegExp(`\\.${cls} \\{`), `css missing position class .${cls}`);
+}
+
+/* v63 不读写 v28 及更早 key */
+assert.ok(!v63ModuleBlock[0].includes("saveGovernance("), "v63 never calls saveGovernance");
+assert.ok(!/store\.set\(GOV_KEY/.test(v63ModuleBlock[0]), "v63 never writes the v28 governance key");
+assert.ok(!/goddead_v(28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59|60|61|62)/.test(v63ModuleBlock[0]), "v63 state must not touch earlier keys");
+
+/* ---------- v64 因果倒邮 / THE ENDING ARRIVED EARLY ---------- */
+const V64_SOURCE_HASHES = {
+  "design-references/source-v64-causal-sorter.png": "ad744696d74d071d7d920941f430af38500cdd6f9a6a35a4fbb8bc4315fad575",
+  "design-references/source-v64-first-draft-vault.png": "3c582bf7c571a5f83320eff68459d8f810fc9dca10a29732048cfad85fcb4d7b",
+  "design-references/source-v64-before-first-knock.png": "822210f72007bc4f0911c890690bac2663ee72d4ad5a57187e009cd09020e184",
+};
+for (const [src, hash] of Object.entries(V64_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(src, root));
+  assert.equal(createHash("sha256").update(buf).digest("hex"), hash, `${src} must keep its frozen sha256`);
+}
+const V64_WEBP_HASHES = {
+  "assets/v64-causal-sorter.webp": "d735a3d7d828667c6440ea7f4599cd3fb98bd14f91f1ca392ec1117f320607dc",
+  "assets/v64-first-draft-vault.webp": "291628a254fbb2de3dcc96cf51d797f208eee8743a665f9a8678cfbf3f5b12e9",
+  "assets/v64-before-first-knock.webp": "b8d7a0659174a7d22d476af29e542a6e755a80cfc89351d262d0aa64571896f7",
+};
+for (const [asset, hash] of Object.entries(V64_WEBP_HASHES)) {
+  const buf = await readFile(new URL(asset, root));
+  assert.equal(createHash("sha256").update(buf).digest("hex"), hash, `${asset} must keep its frozen sha256`);
+  assert.ok(buf.length > 100000 && buf.length < 350000, `${asset} must be 100–350 KB`);
+  assert.ok(html.includes(asset), `${asset} must be referenced`);
+}
+assert.equal((js.match(/goddead_v64_causal_mail/g) || []).length, 1, "v64 introduces exactly one storage key");
+
+/* 三场景 DOM、标题、氛围句、素材与预加载 */
+for (const scene of ["causal-sorter", "first-draft-vault", "before-first-knock"]) {
+  assert.match(html, new RegExp(`id="scene-${scene}"`));
+  assert.match(html, new RegExp(`data-scene="${scene}"`));
+}
+assert.match(html, /THE ENDING ARRIVED EARLY/);
+assert.match(html, /THE FIRST DRAFT WAS NEVER FIRST/);
+assert.match(html, /BEFORE THE FIRST KNOCK/);
+assert.match(html, /这里不寄信。这里只把后果寄到原因之前。/);
+assert.match(html, /每个房间都有一份比自己更早的草稿。这里保存被结局改过的版本。/);
+assert.match(html, /神还没有死。门也还不知道自己会活得更久。/);
+for (const asset of Object.keys(V64_WEBP_HASHES)) {
+  assert.match(html, new RegExp(`<link rel="preload" href="${asset.replace(".", "\\.")}" as="image">`), `${asset} must be preloaded`);
+}
+
+/* 目录与 Remembrance 复用入口 */
+assert.match(html, /<a href="#causal-sorter" id="causal-sorter-link" hidden data-hover>03γ \/ 因果倒邮<\/a>/);
+assert.match(html, /<a href="#first-draft-vault" id="first-draft-vault-link" hidden data-hover>03δ \/ 第一稿库<\/a>/);
+assert.match(html, /<a href="#before-first-knock" id="before-first-knock-link" hidden data-hover>03ε \/ 第一敲前<\/a>/);
+assert.match(html, /id="causal-mail-entry-btn"/);
+assert.match(html, /把无终局寄回最初/);
+assert.match(html, /id="causal-entry-response"/);
+assert.match(html, /id="causal-sorter-response"/);
+assert.match(html, /id="first-draft-vault-response"/);
+assert.match(html, /id="before-first-knock-response"/);
+for (const d of ["threshold", "protocol", "watch", "offering"]) {
+  assert.match(html, new RegExp(`id="causal-echo-${d}"`));
+  assert.match(html, new RegExp(`id="causal-echo-response-${d}"`));
+}
+
+/* 12 个提前后果 + 3 个零号结局文案冻结 */
+const V64_OUTCOME_NAMES = [
+  "先到的回执 · RECEIPT BEFORE KNOCK",
+  "守则先签收 · RULES RECEIVED FIRST",
+  "提前交班 · SHIFT RECEIVED EARLY",
+  "祷告已焚 · PRAYER ALREADY BURNED",
+  "退回第一敲 · FIRST KNOCK RETURNED",
+  "退回其零 · RULE ZERO RETURNED",
+  "退回 05:02 · 05:02 RETURNED",
+  "退回祷词 · PRAYER RETURNED UNWRITTEN",
+  "错投门内 · KNOCK MISROUTED INSIDE",
+  "错投守则 · PROTOCOL MISADDRESSED",
+  "错投交班 · SHIFT MISROUTED",
+  "错投神前 · PRAYER MISROUTED BEFORE GOD",
+];
+for (const name of V64_OUTCOME_NAMES) assert.ok(js.includes(name), `missing v64 outcome name: ${name}`);
+const V64_ZERO_NAMES = [
+  "未死回声 · THE GOD ANSWERED TOO EARLY",
+  "预先死亡 · DEATH FILED IN ADVANCE",
+  "先于来访 · VISITOR BEFORE ARRIVAL",
+];
+for (const name of V64_ZERO_NAMES) assert.ok(js.includes(name), `missing v64 zero outcome name: ${name}`);
+
+/* 独立状态：11 个规范字段，派生字段不落盘 */
+const v64ModuleBlock = js.match(/v64 因果倒邮 \/ THE ENDING ARRIVED EARLY[\s\S]*?v65 因果疤痕 \/ THE CAUSE LEFT A SCAR/);
+assert.ok(v64ModuleBlock, "v64 module must exist");
+const saveCausalMailBlock = js.match(/const saveCausalMail = \(st\) => \{[\s\S]*?store\.set\(\s*CAUSAL_MAIL_KEY,\s*JSON\.stringify\(\{[\s\S]*?\}\)\s*\);/);
+assert.ok(saveCausalMailBlock, "saveCausalMail must persist an explicit canonical projection");
+for (const f of ["version", "visited", "mode", "outcomes", "zeroOutcomes", "dispatchRuns", "zeroRuns", "targetCounts", "lastOutcome", "activeEcho", "pending"]) {
+  assert.match(saveCausalMailBlock[0], new RegExp(`\\b${f}\\b`), `saveCausalMail persists ${f}`);
+}
+assert.ok(!/pendingTarget|zeroEligible/.test(saveCausalMailBlock[0]), "saveCausalMail must not persist derived fields");
+assert.match(saveCausalMailBlock[0], /normalizeCausalOutcomes\(st\.outcomes\)/, "outcomes are canonicalized before save");
+assert.match(saveCausalMailBlock[0], /normalizeCausalZeroOutcomes\(st\.zeroOutcomes\)/, "zeroOutcomes are canonicalized before save");
+assert.match(saveCausalMailBlock[0], /normalizeCausalActiveEcho\(st\.activeEcho, outcomes, zeroOutcomes\)/, "activeEcho is canonicalized before save");
+assert.match(saveCausalMailBlock[0], /normalizeCausalPending\([^)]+\)/, "pending is canonicalized before save");
+
+/* activeEcho 四键防伪 */
+const normalizeActiveEchoBlock = js.match(/const normalizeCausalActiveEcho = \(echo, outcomes, zeroOutcomes\) => \{[\s\S]*?\n  \};/);
+assert.ok(normalizeActiveEchoBlock, "normalizeCausalActiveEcho must exist");
+assert.match(normalizeActiveEchoBlock[0], /const keys = Object\.keys\(echo\)\.sort\(\)\.join\(","\);/, "activeEcho keys are sorted for strict comparison");
+assert.match(normalizeActiveEchoBlock[0], /keys !== "feedback,mode,outcome,target"/, "activeEcho accepts exactly four whitelisted keys");
+assert.match(normalizeActiveEchoBlock[0], /for \(const m of CAUSAL_MODES\)[\s\S]*?for \(const dest of CAUSAL_DESTINATIONS\)/, "dispatch echo is recomputed from unlocked outcomes");
+assert.match(normalizeActiveEchoBlock[0], /for \(const action of CAUSAL_ZERO_ACTIONS\)/, "zero echo is recomputed from unlocked zero outcomes");
+
+/* 严格六类 pending */
+const normalizePendingBlock = js.match(/const normalizeCausalPending = \(p[\s\S]*?\n  \};/);
+assert.ok(normalizePendingBlock, "normalizeCausalPending must exist");
+assert.match(normalizePendingBlock[0], /p\.kind === "entry" && keys === "feedback,kind,target"/, "entry pending accepts exactly three whitelisted keys");
+assert.match(normalizePendingBlock[0], /p\.kind === "mode" && keys === "feedback,kind,mode,target"/, "mode pending accepts exactly four whitelisted keys");
+assert.match(normalizePendingBlock[0], /p\.kind === "dispatch" && keys === "destination,feedback,kind,mode,outcome,target"/, "dispatch pending accepts exactly six whitelisted keys");
+assert.match(normalizePendingBlock[0], /p\.kind === "zero-entry" && keys === "feedback,kind,target"/, "zero-entry pending accepts exactly three whitelisted keys");
+assert.match(normalizePendingBlock[0], /p\.kind === "zero" && keys === "action,feedback,kind,outcome,target"/, "zero pending accepts exactly five whitelisted keys");
+assert.match(normalizePendingBlock[0], /p\.kind === "echo-return" && keys === "feedback,from,kind,target"/, "echo-return pending accepts exactly four whitelisted keys");
+assert.match(normalizePendingBlock[0], /p\.mode === canonicalMode && availableModes\.includes\(p\.mode\)/, "dispatch pending mode must equal canonical mode and be currently available");
+assert.match(normalizePendingBlock[0], /zeroEligible[\s\S]*?visited && visited\.before/, "zero pending requires zero eligibility and before visit");
+assert.match(normalizePendingBlock[0], /activeEcho &&[\s\S]*?activeEcho\.target === p\.from/, "echo-return pending must match activeEcho");
+
+/* v63 同源准入 */
+const causalMailCanVisitSorterBlock = js.match(/const causalMailCanVisitSorter = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(causalMailCanVisitSorterBlock, "causalMailCanVisitSorter must exist");
+assert.match(causalMailCanVisitSorterBlock[0], /ending\.unendingUnlocked/, "sorter visit requires v63 unending unlocked");
+const causalMailCanVisitVaultBlock = js.match(/const causalMailCanVisitVault = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(causalMailCanVisitVaultBlock, "causalMailCanVisitVault must exist");
+assert.match(causalMailCanVisitVaultBlock[0], /ending\.unendingUnlocked/, "vault visit requires v63 unending unlocked");
+assert.match(causalMailCanVisitVaultBlock[0], /available\.includes\(st\.mode\)|available\.includes\(p\.mode\)/, "vault visit requires a currently available mode");
+const causalMailCanVisitBeforeBlock = js.match(/const causalMailCanVisitBefore = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(causalMailCanVisitBeforeBlock, "causalMailCanVisitBefore must exist");
+assert.match(causalMailCanVisitBeforeBlock[0], /ending\.unendingUnlocked/, "before visit requires v63 unending unlocked");
+
+/* replay source/target 矩阵 */
+const replayCausalPendingBlock = js.match(/const replayCausalPending = \(sceneName\) => \{[\s\S]*?\n  \};/);
+assert.ok(replayCausalPendingBlock, "replayCausalPending must exist");
+assert.match(replayCausalPendingBlock[0], /if \(sceneName === p\.target\)[\s\S]*?causalMailBeforeArrive\(p\)/, "target reload immediately arrives once");
+assert.match(replayCausalPendingBlock[0], /if \(p\.kind === "entry" && sceneName === "remembrance"\)[\s\S]*?schedule\("remembrance"\)/, "entry source reload schedules remembrance→sorter");
+assert.match(replayCausalPendingBlock[0], /if \(p\.kind === "mode" && sceneName === "causal-sorter"\)[\s\S]*?schedule\("causal-sorter"\)/, "mode source reload schedules sorter→vault");
+assert.match(replayCausalPendingBlock[0], /if \(p\.kind === "dispatch" && sceneName === "first-draft-vault"\)[\s\S]*?schedule\("first-draft-vault"\)/, "dispatch source reload schedules vault→target");
+assert.match(replayCausalPendingBlock[0], /if \(p\.kind === "zero-entry" && sceneName === "first-draft-vault"\)[\s\S]*?schedule\("first-draft-vault"\)/, "zero-entry source reload schedules vault→before");
+assert.match(replayCausalPendingBlock[0], /if \(p\.kind === "zero" && sceneName === "before-first-knock"\)[\s\S]*?schedule\("before-first-knock"\)/, "zero source reload schedules before→target");
+assert.match(replayCausalPendingBlock[0], /if \(p\.kind === "echo-return" && sceneName === p\.from\)[\s\S]*?schedule\(sceneName\)/, "echo-return source reload schedules from→sorter");
+
+/* 16 组 isTrusted 防线 */
+const v64ListenerBlock = js.match(/if \(causalMailEntryBtn\) \{[\s\S]*?chooseCausalEchoReturn\("offering"\);[\s\S]*?\}\);/);
+assert.ok(v64ListenerBlock, "v64 click listener block must exist");
+assert.equal((v64ListenerBlock[0].match(/!e\.isTrusted/g) || []).length, 16, "v64 must guard all sixteen click listeners with isTrusted");
+
+/* 锁定仅已选按钮 aria-pressed=true */
+const lockCausalModeBlock = js.match(/const lockCausalModeButtons = \(selectedMode\) => \{[\s\S]*?\n  \};/);
+assert.ok(lockCausalModeBlock, "lockCausalModeButtons must exist");
+assert.match(lockCausalModeBlock[0], /btn\.setAttribute\("aria-pressed", String\(m === selectedMode\)\);/, "mode lock only presses the selected button");
+const lockCausalDestBlock = js.match(/const lockCausalDestinationButtons = \(selectedDest\) => \{[\s\S]*?\n  \};/);
+assert.ok(lockCausalDestBlock, "lockCausalDestinationButtons must exist");
+assert.match(lockCausalDestBlock[0], /btn\.setAttribute\("aria-pressed", String\(d === selectedDest\)\);/, "destination lock only presses the selected button");
+const lockCausalZeroBlock = js.match(/const lockCausalZeroButtons = \(selectedAction\) => \{[\s\S]*?\n  \};/);
+assert.ok(lockCausalZeroBlock, "lockCausalZeroButtons must exist");
+assert.match(lockCausalZeroBlock[0], /btn\.setAttribute\("aria-pressed", String\(a === selectedAction\)\);/, "zero lock only presses the selected button");
+
+/* forget-all 清 v64 */
+assert.match(forgetBlock[0], /syncCausalMailRemembrance\(\);/, "forget-all resets causal mail remembrance UI");
+assert.match(forgetBlock[0], /paintCausalMailMemory\(\);/, "forget-all clears causal mail memory UI");
+assert.match(forgetBlock[0], /paintCausalMailCodex\(\);/, "forget-all clears causal mail codex UI");
+assert.match(forgetBlock[0], /syncCausalMailLinks\(\);/, "forget-all resets causal mail directory links");
+assert.match(forgetBlock[0], /syncCausalEchoStamps\(\);/, "forget-all resets causal echo stamps");
+assert.match(forgetBlock[0], /把无终局寄回最初/, "forget-all resets causal entry button text");
+
+/* 热点与移动端 */
+for (const cls of ["causal-mode-accept", "causal-mode-return", "causal-mode-misroute", "draft-target-threshold", "draft-target-protocol", "draft-target-watch", "draft-target-offering", "draft-target-zero", "zero-action-answer", "zero-action-file-death", "zero-action-take-seat"]) {
+  assert.match(css, new RegExp(`\\.${cls} \\{`), `css missing position class .${cls}`);
+}
+assert.match(css, /@media \(max-width: 720px\) \{\s*\.causal-hotspot/, "mobile rules exist for v64 hotspots");
+
+/* v64 不读写旧 key */
+assert.ok(!v64ModuleBlock[0].includes("saveEndingReturn("), "v64 never calls saveEndingReturn");
+assert.ok(!/store\.set\(ENDING_RETURN_KEY/.test(v64ModuleBlock[0]), "v64 never writes the v63 ending return key");
+assert.ok(!/goddead_v(28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59|60|61|62|63)/.test(v64ModuleBlock[0]), "v64 state must not touch earlier keys");
+
+/* v64 设计文档存在且冻结三源图/WebP 哈希 */
+const v64doc = await fileText("docs/V64CausalMailDesign.md");
+for (const hash of Object.values(V64_SOURCE_HASHES)) {
+  assert.ok(v64doc.includes(hash), "V64 design doc must freeze the source sha256 values");
+}
+for (const hash of Object.values(V64_WEBP_HASHES)) {
+  assert.ok(v64doc.includes(hash), "V64 design doc must freeze the WebP sha256 values");
+}
+
+/* ---------- v65 因果疤痕 / THE CAUSE LEFT A SCAR ---------- */
+const V65_SOURCE_HASHES = {
+  "design-references/source-v65-threshold-causal-scar.png": "3c5d24f5fe1bd4e9b2b02c00b6df60cdd29e1135947331330c799d40b98a1fdb",
+  "design-references/source-v65-protocol-causal-scar.png": "8e3541a457a967c2c4fe438e4b7e8e06c3fa90ab84fbf79093956c02b9a75f81",
+  "design-references/source-v65-watch-causal-scar.png": "699a468acdb398c17f697311ea7e65fd71ebb73aad27226e1c3be379f039c97a",
+  "design-references/source-v65-offering-causal-scar.png": "8684c5054bb47c9b324c6a8a3eb7362ab36959a858a79c565aa070ca6cc0ab5e",
+  "design-references/source-v65-causeless-ward.png": "49889d4469359b32f46e47a5561ae90ddb08a5b5c896077d595faf454ebaecc9",
+};
+for (const [src, hash] of Object.entries(V65_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(src, root));
+  assert.ok(buf.length > 1000000 && buf.length < 2500000, `${src} must stay within the 1–2.5 MB source budget`);
+  assert.equal(createHash("sha256").update(buf).digest("hex"), hash, `${src} must keep its frozen sha256`);
+}
+const V65_WEBP_HASHES = {
+  "assets/v65-threshold-causal-scar.webp": "664adf2e80865f0ec99816558fdfd0d93588e12576ded7298d16af6ed09e3881",
+  "assets/v65-protocol-causal-scar.webp": "a57e00312be6342b26526a1331d974ba2a59da3c803de0361af28ab6d6f59e74",
+  "assets/v65-watch-causal-scar.webp": "660ddab6213783237e18f884ec1989c041fabcedb80bc9c4af23fcdc5f10fb7a",
+  "assets/v65-offering-causal-scar.webp": "71f361f009a0236f36f92af2c8a5382cfbc7850ff02ce9669871d7c7b77e1770",
+  "assets/v65-causeless-ward.webp": "1ff254b51fbb24939d66c0c94a8f43928d6a3c592256c42e45d41d84cab284a5",
+};
+for (const [asset, hash] of Object.entries(V65_WEBP_HASHES)) {
+  const buf = await readFile(new URL(asset, root));
+  assert.equal(createHash("sha256").update(buf).digest("hex"), hash, `${asset} must keep its frozen sha256`);
+  assert.ok(buf.length > 30000 && buf.length < 250000, `${asset} must be 30–250 KB`);
+  assert.ok(html.includes(asset), `${asset} must be referenced`);
+}
+for (const asset of Object.keys(V65_WEBP_HASHES)) {
+  assert.match(html, new RegExp(`<link rel="preload" href="${asset.replace(".", "\\.")}" as="image">`), `${asset} must be preloaded`);
+}
+
+assert.equal((js.match(/goddead_v65_causal_scars/g) || []).length, 1, "v65 introduces exactly one storage key");
+
+/* 四旧场景独立疤痕舞台 + 无因收容室 */
+for (const d of ["threshold", "protocol", "watch", "offering"]) {
+  assert.match(html, new RegExp(`id="causal-scar-figure-${d}"`), `missing v65 scar figure for ${d}`);
+  for (const m of ["stitch", "drain", "graft"]) {
+    assert.match(html, new RegExp(`id="causal-scar-${d}-${m}"`), `missing v65 scar button ${d}:${m}`);
+  }
+  assert.match(html, new RegExp(`id="causal-scar-response-${d}"`), `missing v65 scar response for ${d}`);
+}
+assert.match(html, /id="scene-causeless-ward"/);
+assert.match(html, /data-scene="causeless-ward"/);
+for (const a of ["become-cause", "refuse-cause", "ending-adopts"]) {
+  assert.match(html, new RegExp(`id="causeless-action-${a}"`), `missing causeless action ${a}`);
+}
+assert.match(html, /id="causeless-ward-response"/);
+assert.match(html, /id="causal-scar-room-entry-btn"/);
+assert.match(html, /让四道疤互相指认/);
+assert.match(html, /id="causal-scar-codex"/);
+assert.match(html, /id="causal-scar-memory"/);
+assert.match(html, /<a href="#causeless-ward" id="causeless-ward-link" hidden data-hover>03ζ \/ 无因收容<\/a>/);
+
+/* 12 条疤痕处理 + 3 条无因结局文案冻结 */
+const V65_TREATMENT_NAMES = [
+  "缝回第一敲 · FIRST KNOCK SUTURED",
+  "放尽门后 · WHAT WAITED BEHIND BLED OUT",
+  "移植来客 · THE VISITOR GRAFTED IN",
+  "第零条缝线 · RULE ZERO STITCH",
+  "守则失血 · PROTOCOL EXSANGUINATED",
+  "见证者条款 · WITNESS CLAUSE",
+  "交班缝合 · SHIFT SUTURED SHUT",
+  "放尽凌晨 · DAWN DRAINED",
+  "空椅见证 · THE EMPTY CHAIR TESTIFIED",
+  "祷词续火 · PRAYER SUTURED TO FLAME",
+  "灰烬失血 · ASH BLED COLD",
+  "炉口作证 · THE FURNACE TESTIFIED",
+];
+for (const name of V65_TREATMENT_NAMES) assert.ok(js.includes(name), `missing v65 treatment name: ${name}`);
+const V65_ENDING_NAMES = [
+  "你成为原因 · YOU BECAME THE CAUSE",
+  "无物使你发生 · NOTHING CAUSED YOU",
+  "结局收养了你 · THE ENDING ADOPTED YOU",
+];
+for (const name of V65_ENDING_NAMES) assert.ok(js.includes(name), `missing v65 ending name: ${name}`);
+
+/* 独立状态：八个规范字段，派生字段不落盘 */
+const v65ModuleBlock = js.match(/v65 因果疤痕 \/ THE CAUSE LEFT A SCAR[\s\S]*?v66 反事实纺生 \/ THE LIFE THAT NEVER HAPPENED/);
+assert.ok(v65ModuleBlock, "v65 module must exist");
+const saveCausalScarBlock = js.match(/const saveCausalScar = \(st\) => \{[\s\S]*?store\.set\(\s*CAUSAL_SCAR_KEY,\s*JSON\.stringify\(\{[\s\S]*?\}\)\s*\);/);
+assert.ok(saveCausalScarBlock, "saveCausalScar must persist an explicit canonical projection");
+for (const f of ["version", "visited", "treatments", "roomOutcomes", "treatmentRuns", "roomRuns", "lastOutcome", "pending"]) {
+  assert.match(saveCausalScarBlock[0], new RegExp(`\\b${f}\\b`), `saveCausalScar persists ${f}`);
+}
+assert.ok(!/scarEligible|allScarSourcesTreated/.test(saveCausalScarBlock[0]), "saveCausalScar must not persist derived fields");
+assert.match(saveCausalScarBlock[0], /normalizeCausalScarTreatments\(st\.treatments\)/, "treatments are canonicalized before save");
+assert.match(saveCausalScarBlock[0], /normalizeCausalScarRoomOutcomes\(st\.roomOutcomes\)/, "roomOutcomes are canonicalized before save");
+assert.match(saveCausalScarBlock[0], /normalizeCausalScarPending\([^)]+\)/, "pending is canonicalized before save");
+
+/* 解锁资格只读 v64 同一 destination 三模式齐全 */
+const scarEligibleBlock = js.match(/const scarEligible = \(destination\) => \{[\s\S]*?\n  \};/);
+assert.ok(scarEligibleBlock, "scarEligible must exist");
+assert.match(scarEligibleBlock[0], /getCausalMail\(\)/, "scar eligibility reads the v64 state read-only");
+assert.match(scarEligibleBlock[0], /\["accept", "return", "misroute"\]\.every\(\(m\) => outcomes\.includes\(\`\$\{m\}:\$\{destination\}\`\)\)/, "scarEligible requires all three v64 destination outcomes");
+assert.match(js, /const allScarSourcesTreated = \(st\)/, "allScarSourcesTreated accepts an optional state argument to avoid storage recursion");
+
+/* 严格三类 pending */
+const normalizeCausalScarPendingBlock = js.match(/const normalizeCausalScarPending = \(p, st\) => \{[\s\S]*?\n  \};/);
+assert.ok(normalizeCausalScarPendingBlock, "normalizeCausalScarPending must exist");
+assert.match(normalizeCausalScarPendingBlock[0], /p\.kind === "entry" && keys === "feedback,kind,target"/, "entry pending accepts exactly three whitelisted keys");
+assert.match(normalizeCausalScarPendingBlock[0], /p\.kind === "treatment" && keys === "feedback,kind,method,outcome,source,target"/, "treatment pending accepts exactly six whitelisted keys");
+assert.match(normalizeCausalScarPendingBlock[0], /p\.kind === "ending" && keys === "action,feedback,kind,outcome,target"/, "ending pending accepts exactly five whitelisted keys");
+assert.match(normalizeCausalScarPendingBlock[0], /allScarSourcesTreated\(st\) && p\.target === "causeless-ward"/, "entry pending requires four sources treated using passed state");
+assert.match(normalizeCausalScarPendingBlock[0], /!st\.treatments\.includes\(outcomeId\)/, "treatment pending only for not-yet-collected outcomes");
+assert.match(normalizeCausalScarPendingBlock[0], /!st\.visited\.room/, "ending pending requires room already visited");
+
+/* replay source/target/else 矩阵 */
+const replayCausalScarPendingBlock = js.match(/const replayCausalScarPending = \(sceneName\) => \{[\s\S]*?\n  \};/);
+assert.ok(replayCausalScarPendingBlock, "replayCausalScarPending must exist");
+assert.match(replayCausalScarPendingBlock[0], /if \(sceneName === p\.target\)[\s\S]*?causalScarBeforeArrive\(p\)/, "target reload immediately arrives once");
+assert.match(replayCausalScarPendingBlock[0], /if \(p\.kind === "treatment" && sceneName === p\.source\)[\s\S]*?schedule\(p\.source\)/, "treatment source reload schedules source→target");
+assert.match(replayCausalScarPendingBlock[0], /if \(p\.kind === "entry" && sceneName === "remembrance"\)[\s\S]*?schedule\("remembrance"\)/, "entry source reload schedules remembrance→causeless-ward");
+assert.match(replayCausalScarPendingBlock[0], /if \(p\.kind === "ending" && sceneName === "causeless-ward"\)[\s\S]*?schedule\("causeless-ward"\)/, "ending source reload schedules causeless-ward→target");
+
+/* 16 组 isTrusted 防线 */
+const v65ListenerBlock = js.match(/const causalScarCanVisitRoom = \(\) => \{[\s\S]*?v66 反事实纺生 \/ THE LIFE THAT NEVER HAPPENED/);
+assert.ok(v65ListenerBlock, "v65 click listener block must exist");
+assert.equal((v65ListenerBlock[0].match(/!e\.isTrusted/g) || []).length, 16, "v65 must guard all sixteen click listeners with isTrusted");
+
+/* 锁定仅已选按钮 aria-pressed=true */
+const lockCausalScarStageBlock = js.match(/const lockCausalScarStageButtons = \(source, pressedMethod\) => \{[\s\S]*?\n  \};/);
+assert.ok(lockCausalScarStageBlock, "lockCausalScarStageButtons must exist");
+assert.match(lockCausalScarStageBlock[0], /btn\.setAttribute\("aria-pressed", String\(m === pressedMethod\)\);/, "stage lock only presses the selected method");
+
+/* 无因收容室 pending 时三按钮全锁，仅选中项 pressed */
+const syncCauselessWardBlock = js.match(/const syncCauselessWard = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(syncCauselessWardBlock, "syncCauselessWard must exist");
+assert.match(syncCauselessWardBlock[0], /const hasEndingPending = pending && pending\.kind === "ending";/, "syncCauselessWard detects any ending pending");
+assert.match(syncCauselessWardBlock[0], /btn\.disabled = !!hasEndingPending;/, "syncCauselessWard disables all three buttons while any ending pending exists");
+assert.match(syncCauselessWardBlock[0], /btn\.setAttribute\("aria-pressed", String\(isPending\)\);/, "syncCauselessWard presses only the selected ending action");
+
+/* forget-all 清 v65 */
+assert.match(forgetBlock[0], /syncCausalScarRemembrance\(\);/, "forget-all resets causal scar remembrance UI");
+assert.match(forgetBlock[0], /syncCausalScarStages\(\);/, "forget-all resets causal scar stage UI");
+assert.match(forgetBlock[0], /syncCausalScarLinks\(\);/, "forget-all resets causal scar directory links");
+assert.match(forgetBlock[0], /syncCauselessWard\(\);/, "forget-all resets causeless ward UI");
+
+/* 热点与移动端 */
+for (const cls of ["causal-scar-threshold-stitch", "causal-scar-threshold-drain", "causal-scar-threshold-graft", "causal-scar-protocol-stitch", "causal-scar-protocol-drain", "causal-scar-protocol-graft", "causal-scar-watch-stitch", "causal-scar-watch-drain", "causal-scar-watch-graft", "causal-scar-offering-stitch", "causal-scar-offering-drain", "causal-scar-offering-graft", "causeless-action-become-cause", "causeless-action-refuse-cause", "causeless-action-ending-adopts"]) {
+  assert.match(css, new RegExp(`\\.${cls} \\{`), `css missing position class .${cls}`);
+}
+assert.match(css, /@media \(max-width: 720px\) \{\s*\.causal-scar-hotspot,\s*\.causeless-ward-hotspot/, "mobile rules exist for v65 hotspots");
+
+/* v65 不读写旧 key */
+assert.ok(!v65ModuleBlock[0].includes("saveCausalMail("), "v65 never calls saveCausalMail");
+assert.ok(!/store\.set\(CAUSAL_MAIL_KEY/.test(v65ModuleBlock[0]), "v65 never writes the v64 causal mail key");
+assert.ok(!/goddead_v(28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59|60|61|62|63|64)/.test(v65ModuleBlock[0]), "v65 state must not touch earlier keys");
+
+/* v65 设计文档存在且冻结五源图/WebP 哈希 */
+const v65doc = await fileText("docs/V65CausalScarsDesign.md");
+for (const hash of Object.values(V65_SOURCE_HASHES)) {
+  assert.ok(v65doc.includes(hash), "V65 design doc must freeze the source sha256 values");
+}
+for (const hash of Object.values(V65_WEBP_HASHES)) {
+  assert.ok(v65doc.includes(hash), "V65 design doc must freeze the WebP sha256 values");
+}
+
+/* v65 可执行/隔离状态回归测试（最小 DOM mock，验证递归、坏档、顺序与可见/disabled 防线） */
+assert.ok(v65ModuleBlock, "v65 executable block available for regression tests");
+const v65ExecSourceStart = v65ModuleBlock[0].indexOf("const CAUSAL_SCAR_KEY");
+assert.ok(v65ExecSourceStart > 0, "v65 executable block starts with CAUSAL_SCAR_KEY");
+const v66Start = v65ModuleBlock[0].indexOf("v66 反事实纺生 / THE LIFE THAT NEVER HAPPENED");
+assert.ok(v66Start > v65ExecSourceStart, "v65 executable block ends before v66 section");
+const v65ExecSourceEnd = v65ModuleBlock[0].lastIndexOf("/*", v66Start);
+const v65ExecSource = v65ModuleBlock[0].slice(v65ExecSourceStart, v65ExecSourceEnd > v65ExecSourceStart ? v65ExecSourceEnd : v66Start).trimEnd();
+const CAUSAL_SCAR_KEY = "goddead_v65_causal_scars";
+function makeV65Context({ outcomes = [], initialStore = {}, elements = {}, scene = "" } = {}) {
+  const storeData = { ...initialStore };
+  const store = {
+    get(k, def) { return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def; },
+    set(k, v) { storeData[k] = v; },
+  };
+  const queries = [];
+  const $ = (rawId) => { queries.push(rawId); return elements[rawId.replace(/^#/, "")] || null; };
+  const scheduleCalls = [];
+  const AutoAdvance = { has(src) { return false; }, schedule(src, target, opts) { scheduleCalls.push({ src, target, opts }); } };
+  const AudioEngine = { whoosh() {}, bell() {} };
+  const getCausalMail = () => ({ outcomes });
+  const body = v65ExecSource + "\nreturn { getCausalScar, normalizeCausalScarTreatments, normalizeCausalScarRoomOutcomes, chooseCausalScarTreatment, chooseCausalScarEntry, chooseCauselessAction, allScarSourcesTreated, saveCausalScar, defaultCausalScar, replayCausalScarPending, resolveCausalScarPendingOnArrival, syncCauselessWard, CAUSAL_SCAR_ENTRY_FEEDBACK, CAUSAL_SCAR_DESTINATIONS, CAUSAL_SCAR_METHODS, CAUSAL_SCAR_ACTIONS };";
+  const v65 = new Function("store", "$", "currentScene", "AutoAdvance", "AudioEngine", "reduced", "getCausalMail", body)(store, $, scene, AutoAdvance, AudioEngine, false, getCausalMail);
+  const read = () => {
+    try { return JSON.parse(storeData[CAUSAL_SCAR_KEY] || "{}"); } catch { return {}; }
+  };
+  return { v65, storeData, read, queries, scheduleCalls };
+}
+const allV64Outcomes = ["threshold", "protocol", "watch", "offering"].flatMap((d) => ["accept", "return", "misroute"].map((m) => `${m}:${d}`));
+
+// 合法 entry pending 连续 get 不递归、不丢失，且 treatments 按冻结顺序去重
+{
+  const entryPending = { kind: "entry", target: "causeless-ward", feedback: "四道疤在记忆中互相指认，无因收容室的目录项因此亮起。" };
+  const raw = JSON.stringify({
+    version: 65,
+    visited: { room: false },
+    treatments: ["offering:drain", "threshold:stitch", "protocol:graft", "watch:drain", "threshold:stitch"],
+    roomOutcomes: ["ending-adopts", "become-cause", "refuse-cause", "become-cause"],
+    treatmentRuns: 0,
+    roomRuns: 0,
+    lastOutcome: "",
+    pending: entryPending,
+  });
+  const ctx = makeV65Context({ outcomes: allV64Outcomes, initialStore: { [CAUSAL_SCAR_KEY]: raw } });
+  const st = ctx.v65.getCausalScar();
+  assert.deepStrictEqual(st.pending, entryPending, "legal entry pending survives normalization without recursion");
+  assert.deepStrictEqual(st.treatments, ["threshold:stitch", "protocol:graft", "watch:drain", "offering:drain"], "treatments canonicalized to destination×method frozen order");
+  assert.deepStrictEqual(st.roomOutcomes, ["become-cause", "refuse-cause", "ending-adopts"], "roomOutcomes canonicalized to frozen action order");
+}
+
+// 坏 treatments / roomOutcomes 类型归空，不抛错
+{
+  const raw = JSON.stringify({
+    version: 65,
+    visited: { room: false },
+    treatments: "not-an-array",
+    roomOutcomes: { foo: true },
+    treatmentRuns: 0,
+    roomRuns: 0,
+    lastOutcome: "",
+    pending: null,
+  });
+  const ctx = makeV65Context({ outcomes: allV64Outcomes, initialStore: { [CAUSAL_SCAR_KEY]: raw } });
+  assert.doesNotThrow(() => ctx.v65.getCausalScar(), "getCausalScar does not throw on malformed treatments/roomOutcomes");
+  const st = ctx.v65.getCausalScar();
+  assert.deepStrictEqual(st.treatments, [], "string treatments normalized to empty array");
+  assert.deepStrictEqual(st.roomOutcomes, [], "object roomOutcomes normalized to empty array");
+}
+
+// normalize 函数独立产出冻结顺序
+{
+  const ctx = makeV65Context({ outcomes: allV64Outcomes });
+  assert.deepStrictEqual(
+    ctx.v65.normalizeCausalScarTreatments(["watch:drain", "threshold:stitch", "offering:drain", "watch:drain", "invalid:foo"]),
+    ["threshold:stitch", "watch:drain", "offering:drain"],
+    "normalizeCausalScarTreatments deduplicates and orders by destinations×methods"
+  );
+  assert.deepStrictEqual(
+    ctx.v65.normalizeCausalScarRoomOutcomes(["ending-adopts", "become-cause", "refuse-cause", "become-cause", "unknown"]),
+    ["become-cause", "refuse-cause", "ending-adopts"],
+    "normalizeCausalScarRoomOutcomes deduplicates and orders by CAUSAL_SCAR_ACTIONS"
+  );
+}
+
+// allScarSourcesTreated 可接收外部 st，不读存储
+{
+  const ctx = makeV65Context({ outcomes: allV64Outcomes });
+  const st = { treatments: ["threshold:stitch", "protocol:drain", "watch:graft", "offering:stitch"] };
+  assert.strictEqual(ctx.v65.allScarSourcesTreated(st), true, "allScarSourcesTreated accepts passed state");
+  assert.strictEqual(ctx.v65.allScarSourcesTreated({ treatments: ["threshold:stitch"] }), false, "allScarSourcesTreated returns false for incomplete state");
+}
+
+const makeBtn = (overrides = {}) => {
+  const attrs = {};
+  return {
+    disabled: false,
+    hidden: false,
+    setAttribute(k, v) { attrs[k] = String(v); },
+    getAttribute(k) { return attrs[k] ?? null; },
+    textContent: "",
+    addEventListener() {},
+    ...overrides,
+  };
+};
+
+// 可见且未 disabled 的按钮才允许结算；disabled 或 figure hidden 时零副作用
+{
+  const baseStore = {
+    version: 65,
+    visited: { room: false },
+    treatments: ["threshold:stitch", "protocol:stitch", "watch:stitch", "offering:stitch"],
+    roomOutcomes: [],
+    treatmentRuns: 0,
+    roomRuns: 0,
+    lastOutcome: "",
+    pending: null,
+  };
+  // disabled stage button blocks treatment
+  {
+    const ctx = makeV65Context({
+      outcomes: allV64Outcomes,
+      initialStore: { [CAUSAL_SCAR_KEY]: JSON.stringify({ ...baseStore, treatments: [] }) },
+      elements: { "causal-scar-threshold-stitch": makeBtn({ disabled: true }), "causal-scar-figure-threshold": makeBtn() },
+      scene: "threshold",
+    });
+    ctx.v65.chooseCausalScarTreatment("threshold", "stitch");
+    assert.strictEqual(ctx.read().pending, null, "disabled stage button blocks treatment choice");
+  }
+  // hidden figure blocks treatment
+  {
+    const ctx = makeV65Context({
+      outcomes: allV64Outcomes,
+      initialStore: { [CAUSAL_SCAR_KEY]: JSON.stringify({ ...baseStore, treatments: [] }) },
+      elements: { "causal-scar-threshold-stitch": makeBtn(), "causal-scar-figure-threshold": makeBtn({ hidden: true }) },
+      scene: "threshold",
+    });
+    ctx.v65.chooseCausalScarTreatment("threshold", "stitch");
+    assert.strictEqual(ctx.read().pending, null, "hidden figure blocks treatment choice");
+  }
+  // enabled + visible stage button allows treatment
+  {
+    const ctx = makeV65Context({
+      outcomes: allV64Outcomes,
+      initialStore: { [CAUSAL_SCAR_KEY]: JSON.stringify({ ...baseStore, treatments: [] }) },
+      elements: { "causal-scar-threshold-stitch": makeBtn(), "causal-scar-figure-threshold": makeBtn() },
+      scene: "threshold",
+    });
+    ctx.v65.chooseCausalScarTreatment("threshold", "stitch");
+    assert.strictEqual(ctx.read().pending?.kind, "treatment", "enabled visible stage button allows treatment choice");
+    assert.ok(ctx.queries.includes("#causal-scar-threshold-stitch"), "treatment choose queries the button with #id");
+  }
+  // disabled entry button blocks entry
+  {
+    const ctx = makeV65Context({
+      outcomes: allV64Outcomes,
+      initialStore: { [CAUSAL_SCAR_KEY]: JSON.stringify(baseStore) },
+      elements: { "causal-scar-room-entry-btn": makeBtn({ disabled: true }) },
+      scene: "remembrance",
+    });
+    ctx.v65.chooseCausalScarEntry();
+    assert.strictEqual(ctx.read().pending, null, "disabled entry button blocks room entry");
+    assert.ok(ctx.queries.includes("#causal-scar-room-entry-btn"), "entry choose queries the button with #id");
+  }
+  // disabled room action button blocks ending
+  {
+    const ctx = makeV65Context({
+      outcomes: allV64Outcomes,
+      initialStore: { [CAUSAL_SCAR_KEY]: JSON.stringify({ ...baseStore, visited: { room: true }, treatments: [], roomOutcomes: [] }) },
+      elements: { "causeless-action-become-cause": makeBtn({ disabled: true }) },
+      scene: "causeless-ward",
+    });
+    ctx.v65.chooseCauselessAction("become-cause");
+    assert.strictEqual(ctx.read().pending, null, "disabled room action button blocks ending choice");
+    assert.ok(ctx.queries.includes("#causeless-action-become-cause"), "room action choose queries the button with #id");
+  }
+}
+
+// source=threshold treatment pending 重播：恢复反馈、三按钮全锁、只 schedule 一次
+{
+  const entryPending = { kind: "entry", target: "causeless-ward", feedback: "四道疤在记忆中互相指认，无因收容室的目录项因此亮起。" };
+  const treatmentPending = {
+    kind: "treatment",
+    target: "remembrance",
+    source: "threshold",
+    method: "drain",
+    outcome: "threshold:drain",
+    feedback: "门槛下的引流槽接满门后的黑暗。门终于变轻，因为里面已经没有“之后”。",
+  };
+  const raw = JSON.stringify({
+    version: 65,
+    visited: { room: false },
+    treatments: [],
+    roomOutcomes: [],
+    treatmentRuns: 0,
+    roomRuns: 0,
+    lastOutcome: "",
+    pending: treatmentPending,
+  });
+  const elements = {
+    "causal-scar-threshold-stitch": makeBtn(),
+    "causal-scar-threshold-drain": makeBtn(),
+    "causal-scar-threshold-graft": makeBtn(),
+    "causal-scar-figure-threshold": makeBtn(),
+    "causal-scar-response-threshold": makeBtn(),
+  };
+  const ctx = makeV65Context({ outcomes: allV64Outcomes, initialStore: { [CAUSAL_SCAR_KEY]: raw }, elements, scene: "threshold" });
+  ctx.v65.replayCausalScarPending("threshold");
+  assert.strictEqual(elements["causal-scar-response-threshold"].textContent, treatmentPending.feedback, "source replay restores treatment feedback");
+  assert.strictEqual(elements["causal-scar-threshold-stitch"].disabled, true, "source replay locks the stitch button");
+  assert.strictEqual(elements["causal-scar-threshold-drain"].disabled, true, "source replay locks the drain button");
+  assert.strictEqual(elements["causal-scar-threshold-graft"].disabled, true, "source replay locks the graft button");
+  assert.strictEqual(elements["causal-scar-threshold-drain"].getAttribute("aria-pressed"), "true", "source replay presses the selected drain button");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "source replay schedules exactly one AutoAdvance");
+  assert.strictEqual(ctx.scheduleCalls[0].src, "threshold", "source replay schedules from threshold");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "remembrance", "source replay schedules to remembrance");
+  assert.deepStrictEqual(ctx.read().pending, treatmentPending, "source replay keeps pending until arrival");
+}
+
+// target=threshold pending 到达：resolveCausalScarPendingOnArrival 结算一次、不 schedule
+{
+  const endingPending = {
+    kind: "ending",
+    target: "threshold",
+    action: "become-cause",
+    outcome: "become-cause",
+    feedback: "四道疤同时朝你合拢。世界终于找到解释：不是你经历了这些房间，是这些房间为了制造你才开始存在。",
+  };
+  const raw = JSON.stringify({
+    version: 65,
+    visited: { room: true },
+    treatments: ["threshold:stitch"],
+    roomOutcomes: [],
+    treatmentRuns: 1,
+    roomRuns: 0,
+    lastOutcome: "threshold:stitch",
+    pending: endingPending,
+  });
+  const ctx = makeV65Context({ outcomes: allV64Outcomes, initialStore: { [CAUSAL_SCAR_KEY]: raw } });
+  ctx.v65.resolveCausalScarPendingOnArrival("threshold");
+  const st = ctx.read();
+  assert.deepStrictEqual(st.roomOutcomes, ["become-cause"], "target arrival records the room outcome");
+  assert.strictEqual(st.roomRuns, 1, "target arrival increments roomRuns once");
+  assert.strictEqual(st.pending, null, "target arrival clears pending");
+  assert.strictEqual(ctx.scheduleCalls.length, 0, "target arrival does not schedule AutoAdvance");
+}
+
+// clean threshold 重播：无 pending 时不 schedule
+{
+  const raw = JSON.stringify({
+    version: 65,
+    visited: { room: false },
+    treatments: [],
+    roomOutcomes: [],
+    treatmentRuns: 0,
+    roomRuns: 0,
+    lastOutcome: "",
+    pending: null,
+  });
+  const ctx = makeV65Context({ outcomes: allV64Outcomes, initialStore: { [CAUSAL_SCAR_KEY]: raw }, scene: "threshold" });
+  ctx.v65.replayCausalScarPending("threshold");
+  assert.strictEqual(ctx.scheduleCalls.length, 0, "clean threshold replay does not schedule AutoAdvance");
+}
+
+/* route 同场初始目标必须执行 sceneInit（修复 v65 treatment source=threshold 停在 threshold） */
+const routeBlock = js.match(/const route = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(routeBlock, "route function must be extractable");
+assert.match(routeBlock[0], /initialRouteDone = true[\s\S]*?sceneInit\(resolved\)/, "route sets initialRouteDone before same-scene sceneInit");
+{
+  let sceneInitCalls = [];
+  let goSceneCalls = [];
+  let currentScene = "threshold";
+  const scenes = { threshold: true, protocol: true };
+  const goScene = (name) => {
+    goSceneCalls.push(name);
+    if (name !== currentScene) currentScene = name;
+  };
+  const sceneInit = (name) => { sceneInitCalls.push(name); };
+  const routeFn = new Function("goScene", "scenes", "currentScene", "initialRouteDone", "sceneInit", "location", routeBlock[0] + "\nreturn route;")(goScene, scenes, currentScene, false, sceneInit, { hash: "#threshold" });
+  routeFn();
+  assert.deepStrictEqual(goSceneCalls, ["threshold"], "route calls goScene with threshold");
+  assert.deepStrictEqual(sceneInitCalls, ["threshold"], "route calls sceneInit once for same-scene initial target");
+}
+{
+  let sceneInitCalls = [];
+  let goSceneCalls = [];
+  let currentScene = "threshold";
+  const scenes = { threshold: true, protocol: true };
+  const goScene = (name) => {
+    goSceneCalls.push(name);
+    if (name !== currentScene) currentScene = name;
+  };
+  const sceneInit = (name) => { sceneInitCalls.push(name); };
+  const routeFn = new Function("goScene", "scenes", "currentScene", "initialRouteDone", "sceneInit", "location", routeBlock[0] + "\nreturn route;")(goScene, scenes, currentScene, false, sceneInit, { hash: "#protocol" });
+  routeFn();
+  assert.deepStrictEqual(goSceneCalls, ["protocol"], "route calls goScene with protocol");
+  assert.deepStrictEqual(sceneInitCalls, [], "route does not synchronously call sceneInit when switching scenes");
+}
+
+// syncCauselessWard：存在 ending pending 时三按钮全锁，仅选中 action pressed；无 pending 时全解锁
+{
+  const baseStore = {
+    version: 65,
+    visited: { room: true },
+    treatments: ["threshold:stitch", "protocol:stitch", "watch:stitch", "offering:stitch"],
+    roomOutcomes: [],
+    treatmentRuns: 4,
+    roomRuns: 0,
+    lastOutcome: "offering:stitch",
+    pending: null,
+  };
+  const btns = {
+    "causeless-action-become-cause": makeBtn(),
+    "causeless-action-refuse-cause": makeBtn(),
+    "causeless-action-ending-adopts": makeBtn(),
+  };
+  const endingPending = {
+    kind: "ending",
+    target: "remembrance",
+    action: "refuse-cause",
+    outcome: "refuse-cause",
+    feedback: "你拒绝躺进任何解释。空摇篮第一次摇动，却没有过去、父母、神或故事能够认领你。",
+  };
+  const ctx = makeV65Context({
+    outcomes: allV64Outcomes,
+    initialStore: { [CAUSAL_SCAR_KEY]: JSON.stringify({ ...baseStore, pending: endingPending }) },
+    elements: btns,
+    scene: "causeless-ward",
+  });
+  ctx.v65.syncCauselessWard();
+  assert.strictEqual(btns["causeless-action-become-cause"].disabled, true, "ending pending disables become-cause");
+  assert.strictEqual(btns["causeless-action-refuse-cause"].disabled, true, "ending pending disables refuse-cause");
+  assert.strictEqual(btns["causeless-action-ending-adopts"].disabled, true, "ending pending disables ending-adopts");
+  assert.strictEqual(btns["causeless-action-refuse-cause"].getAttribute("aria-pressed"), "true", "ending pending presses only the selected action");
+  assert.strictEqual(btns["causeless-action-become-cause"].getAttribute("aria-pressed"), "false", "non-selected action is not pressed");
+  assert.strictEqual(btns["causeless-action-ending-adopts"].getAttribute("aria-pressed"), "false", "non-selected action is not pressed");
+}
+{
+  const baseStore = {
+    version: 65,
+    visited: { room: true },
+    treatments: ["threshold:stitch", "protocol:stitch", "watch:stitch", "offering:stitch"],
+    roomOutcomes: [],
+    treatmentRuns: 4,
+    roomRuns: 0,
+    lastOutcome: "offering:stitch",
+    pending: null,
+  };
+  const btns = {
+    "causeless-action-become-cause": makeBtn({ disabled: true }),
+    "causeless-action-refuse-cause": makeBtn({ disabled: true }),
+    "causeless-action-ending-adopts": makeBtn({ disabled: true }),
+  };
+  const ctx = makeV65Context({
+    outcomes: allV64Outcomes,
+    initialStore: { [CAUSAL_SCAR_KEY]: JSON.stringify(baseStore) },
+    elements: btns,
+    scene: "causeless-ward",
+  });
+  ctx.v65.syncCauselessWard();
+  assert.strictEqual(btns["causeless-action-become-cause"].disabled, false, "no pending enables become-cause");
+  assert.strictEqual(btns["causeless-action-refuse-cause"].disabled, false, "no pending enables refuse-cause");
+  assert.strictEqual(btns["causeless-action-ending-adopts"].disabled, false, "no pending enables ending-adopts");
+  assert.strictEqual(btns["causeless-action-become-cause"].getAttribute("aria-pressed"), "false", "no pending clears pressed state");
+}
+
+/* ============================================================
+   v73 梦境海关总署 / CUSTOMS OF BORROWED DREAMS 静态回归
+   ============================================================ */
+
+const V73_SOURCE_HASHES = {
+  "source-v73-borrowed-dream-customs.png": "738414b950fb492253019ab0f35201d4c511892ae04dea8c8c9d00ff16224bbd",
+  "source-v73-contraband-sleep-terminal.png": "fbf1da2086bac771f6ffc433b5da418b43ab123222d70efafc9b044a18220403",
+  "source-v73-nightmare-tariff-bureau.png": "a1e14c225b7776046bc91f41bef595e0454c2c6813d277a68c69e9f122b3ff38",
+  "source-v73-waking-deportation-yard.png": "c0bc02b95980bed5e46e1d0c936cf98ad134ea47db5ff3fe5031a997c94b81ab",
+};
+const V73_WEBP_HASHES = {
+  "v73-borrowed-dream-customs.webp": "81fbee15aaa63eadc44c7ec6f06ed6e7178030621fe365a3d823aeca5488fa84",
+  "v73-contraband-sleep-terminal.webp": "dfef4c98188c3333f274643d24e44efd22031b712b777122b0883c6a2d074ded",
+  "v73-nightmare-tariff-bureau.webp": "fe4c555f1ae73b8f49dc134f2a9a6310d4232d1b34096aec45827ef010283775",
+  "v73-waking-deportation-yard.webp": "3450ba5d4693d5c993ad689a69fb4c573e846cf181d4cba1d5e2499bde047bec",
+};
+const V73_SOURCE_SIZES = {
+  "source-v73-borrowed-dream-customs.png": 2539563,
+  "source-v73-contraband-sleep-terminal.png": 2732780,
+  "source-v73-nightmare-tariff-bureau.png": 2671210,
+  "source-v73-waking-deportation-yard.png": 2933922,
+};
+const V73_WEBP_SIZES = {
+  "v73-borrowed-dream-customs.webp": 200942,
+  "v73-contraband-sleep-terminal.webp": 220610,
+  "v73-nightmare-tariff-bureau.webp": 248168,
+  "v73-waking-deportation-yard.webp": 274492,
+};
+
+/* 场景与 DOM 存在性 */
+for (const s of ["borrowed-dream-customs", "contraband-sleep-terminal", "nightmare-tariff-bureau", "waking-deportation-yard"]) {
+  assert.match(html, new RegExp(`data-scene="${s}"`), `v73 scene missing: ${s}`);
+}
+for (const id of ["borrowed-dream-customs-link", "contraband-sleep-terminal-link", "nightmare-tariff-bureau-link", "waking-deportation-yard-link"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v73 directory link missing: ${id}`);
+}
+for (const id of ["dream-customs-memory", "dream-customs-codex", "dream-customs-codex-grid", "dream-customs-entry-btn", "dream-customs-deportation-entry-btn"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v73 remembrance element missing: ${id}`);
+}
+for (const id of ["dream-customs-customs-figure", "contraband-sleep-terminal-figure", "nightmare-tariff-bureau-figure", "waking-deportation-yard-figure"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v73 figure missing: ${id}`);
+}
+for (const id of ["dream-customs-inspector-eyelid-archive", "dream-customs-inspector-remembrance", "dream-customs-inspector-unending-gallery"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v73 inspector container missing: ${id}`);
+}
+for (const id of ["dream-customs-passport-dead-god-dream-passport", "dream-customs-passport-unborn-child-sleep-visa", "dream-customs-passport-future-witness-night-pass"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v73 passport button missing: ${id}`);
+}
+for (const id of ["contraband-sleep-face-never-seen-awake", "contraband-sleep-memory-that-kept-dreaming", "contraband-sleep-ending-without-a-dreamer"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v73 contraband button missing: ${id}`);
+}
+for (const id of ["nightmare-tariff-tax-years-awake", "nightmare-tariff-confiscate-the-dreamer", "nightmare-tariff-reexport-to-death", "nightmare-tariff-grant-nightmare-asylum"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v73 tariff button missing: ${id}`);
+}
+for (const id of ["waking-deportation-naturalize-every-nightmare", "waking-deportation-deport-the-dreamer", "waking-deportation-criminalize-waking"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v73 deportation button missing: ${id}`);
+}
+for (const id of ["dream-customs-inspector-return-eyelid-archive", "dream-customs-inspector-return-remembrance", "dream-customs-inspector-return-unending-gallery"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v73 inspector return button missing: ${id}`);
+}
+assert.match(html, /<link rel="preload" href="assets\/v73-borrowed-dream-customs\.webp" as="image">/, "v73 preloads borrowed-dream-customs");
+assert.match(html, /<link rel="preload" href="assets\/v73-contraband-sleep-terminal\.webp" as="image">/, "v73 preloads contraband-sleep-terminal");
+assert.match(html, /<link rel="preload" href="assets\/v73-nightmare-tariff-bureau\.webp" as="image">/, "v73 preloads nightmare-tariff-bureau");
+assert.match(html, /<link rel="preload" href="assets\/v73-waking-deportation-yard\.webp" as="image">/, "v73 preloads waking-deportation-yard");
+
+/* 缓存版本 */
+assert.match(html, /styles\.css\?v=76/, "v73 cache busts styles.css");
+assert.match(html, /script\.js\?v=76/, "v73 cache busts script.js");
+
+/* JS 模块与 key */
+assert.equal((js.match(/const DREAM_CUSTOMS_KEY = ['"]goddead_v73_dream_customs['"]/g) || []).length, 1, "v73 introduces exactly one storage key");
+const v73ModuleBlock = js.match(/v73 梦境海关总署 \/ CUSTOMS OF BORROWED DREAMS[\s\S]*?(?=\n  \/\* ={40,}\n     v74 墓碑专利局 \/ PATENT OFFICE OF THE UNBURIED)/);
+assert.ok(v73ModuleBlock, "v73 module must exist");
+
+const saveDreamCustomsBlock = js.match(/const saveDreamCustoms = \(st\) => \{[\s\S]*?store\.set\(\s*DREAM_CUSTOMS_KEY,\s*JSON\.stringify\(\{[\s\S]*?\}\)\s*\);/);
+assert.ok(saveDreamCustomsBlock, "saveDreamCustoms must persist an explicit canonical projection");
+for (const f of ["version", "visited", "draft", "declarations", "deportationOutcomes", "customsRuns", "deportationRuns", "declarantTallies", "lastOutcome", "activeInspector", "pending"]) {
+  assert.match(saveDreamCustomsBlock[0], new RegExp(`\\b${f}\\b`), `saveDreamCustoms persists ${f}`);
+}
+
+/* 素材冻结 */
+for (const [file, hash] of Object.entries(V73_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(`design-references/${file}`, root));
+  assert.strictEqual(createHash("sha256").update(buf).digest("hex"), hash, `${file} must keep its frozen sha256`);
+  assert.strictEqual(buf.length, V73_SOURCE_SIZES[file], `${file} must keep its frozen byte size`);
+  const dims = readPngDimensions(buf);
+  assert.ok(dims, `${file} must be a readable PNG`);
+  assert.strictEqual(dims.width, 1536, `${file} must be 1536 px wide`);
+  assert.strictEqual(dims.height, 1024, `${file} must be 1024 px tall`);
+}
+for (const [file, hash] of Object.entries(V73_WEBP_HASHES)) {
+  const buf = await readFile(new URL(`assets/${file}`, root));
+  assert.strictEqual(createHash("sha256").update(buf).digest("hex"), hash, `${file} must keep its frozen sha256`);
+  assert.strictEqual(buf.length, V73_WEBP_SIZES[file], `${file} must keep its frozen byte size`);
+  assert.ok(html.includes(`assets/${file}`), `${file} must be referenced from index.html`);
+  const dims = readWebpDimensions(buf);
+  assert.ok(dims, `${file} must be a readable WebP`);
+  assert.strictEqual(dims.width, 1536, `${file} must be 1536 px wide`);
+  assert.strictEqual(dims.height, 1024, `${file} must be 1024 px tall`);
+  assert.match(html, new RegExp(`src="assets/${file.replace(".", "\\.")}" alt="" width="1536" height="1024"`), `${file} must have 1536x1024 HTML attributes`);
+}
+
+/* 冻结标题、按钮文本与反馈 */
+assert.match(html, /04θ \/ 梦境海关总署 · CUSTOMS OF BORROWED DREAMS/, "v73 customs title");
+assert.match(html, /04ι \/ 违禁睡眠申报厅 · CONTRABAND SLEEP TERMINAL/, "v73 terminal title");
+assert.match(html, /04κ \/ 噩梦关税局 · NIGHTMARE TARIFF BUREAU/, "v73 bureau title");
+assert.match(html, /04λ \/ 清醒驱逐场 · WAKING DEPORTATION YARD/, "v73 yard title");
+assert.match(js, /申报神死前旧梦 · DECLARE THE GOD'S LAST UNWAKENED DREAM/, "v73 passport dead-god button text");
+assert.match(js, /申报未生者睡签 · DECLARE THE UNBORN SLEEP VISA/, "v73 passport unborn button text");
+assert.match(js, /申报未来证人夜证 · DECLARE THE FUTURE WITNESS NIGHT PASS/, "v73 passport witness button text");
+assert.match(js, /申报醒时未见之脸 · DECLARE THE FACE NEVER SEEN AWAKE/, "v73 contraband face button text");
+assert.match(js, /申报醒后续梦记忆 · DECLARE THE MEMORY THAT KEPT DREAMING/, "v73 contraband memory button text");
+assert.match(js, /申报无梦者结局 · DECLARE THE ENDING WITHOUT A DREAMER/, "v73 contraband ending button text");
+assert.match(js, /以清醒年岁征税 · TAX THE YEARS AWAKE/, "v73 tariff tax button text");
+assert.match(js, /没收做梦者 · CONFISCATE THE DREAMER/, "v73 tariff confiscate button text");
+assert.match(js, /把梦退运给死亡 · RE-EXPORT THE DREAM TO DEATH/, "v73 tariff reexport button text");
+assert.match(js, /给予噩梦庇护 · GRANT THE NIGHTMARE ASYLUM/, "v73 tariff asylum button text");
+assert.match(js, /让所有噩梦成为公民 · NATURALIZE EVERY NIGHTMARE/, "v73 deportation naturalize button text");
+assert.match(js, /把做梦者驱逐出梦 · DEPORT THE DREAMER FROM THE DREAM/, "v73 deportation deport button text");
+assert.match(js, /把清醒列为违禁品 · CRIMINALIZE WAKING/, "v73 deportation criminalize button text");
+assert.match(js, /跟闭目梦检员返回海关 · RETURN WITH THE CLOSED-EYE INSPECTOR/, "v73 inspector eyelid return text");
+assert.match(js, /跟续梦梦检员返回海关 · RETURN WITH THE DREAMING-MEMORY INSPECTOR/, "v73 inspector remembrance return text");
+assert.match(js, /跟终局梦检员返回海关 · RETURN WITH THE DREAMLESS-ENDING INSPECTOR/, "v73 inspector unending return text");
+assert.match(js, /护照签发于神死前一秒。照片里没有神，只有一场拒绝随祂醒来的梦。/, "v73 passport dead-god feedback");
+assert.match(js, /空摇篮递来一张已经用旧的睡签。持有人尚未出生，却在梦里衰老过很多次。/, "v73 passport unborn feedback");
+assert.match(js, /未来证人把夜证倒寄回来。海关尚未发生的印章已经盖住整张脸。/, "v73 passport witness feedback");
+assert.match(js, /瓷脸只在闭眼时拥有五官。每次睁眼复核，海关照片都会重新变成空白。/, "v73 contraband face feedback");
+assert.match(js, /一间旧卧室被折进证物箱。你已经醒来，里面的童年却仍在替你睡觉。/, "v73 contraband memory feedback");
+assert.match(js, /空帷幕先完成了一场梦的终局。没有任何人做过它，它却坚持有人必须醒来。/, "v73 contraband ending feedback");
+assert.match(js, /海关按你醒着的年份收税。每少睡一夜，梦就多拥有你一年。/, "v73 tariff tax fragment");
+assert.match(js, /关员放行梦，却把做梦的人扣在枕头里。醒来的身体从此成为无人认领的行李。/, "v73 tariff confiscate fragment");
+assert.match(js, /梦被装进棺形包裹退回死亡。死亡拒收，因为它声称自己从来没有睡过。/, "v73 tariff reexport fragment");
+assert.match(js, /噩梦取得庇护，不必再回到恐惧它的人脑内。做梦者反而失去进入自己黑夜的签证。/, "v73 tariff asylum fragment");
+assert.match(js, /海关撤销美梦的国籍。噩梦成为唯一合法居民，因为只有它们从不假装醒来会更好。/, "v73 deportation naturalize feedback");
+assert.match(js, /窄床沿黄铜轨道越过边境。梦留在原地继续生活，做梦的人被遣返到一具从未睡过的身体。/, "v73 deportation deport feedback");
+assert.match(js, /第一束清醒的光被关进海关笼。门外的人仍能睁眼，却必须走私每一个早晨。/, "v73 deportation criminalize feedback");
+assert.match(js, /闭目梦检员在眼睑档案里核对那张脸。它每次睁眼都会忘记证物长什么样。/, "v73 inspector eyelid feedback");
+assert.match(js, /续梦梦检员把卧室钉进痕迹墙。房间仍在睡，墙上的你却已经醒了很多年。/, "v73 inspector remembrance feedback");
+assert.match(js, /终局梦检员从无尽画廊带回空帷幕。所有结局都承认见过它，没有一个承认做过那场梦。/, "v73 inspector unending feedback");
+
+/* 可执行/隔离状态回归测试 */
+assert.ok(v73ModuleBlock, "v73 executable block available for regression tests");
+const v73ExecSourceStart = v73ModuleBlock[0].indexOf("const DREAM_CUSTOMS_KEY");
+assert.ok(v73ExecSourceStart > 0, "v73 executable block starts with DREAM_CUSTOMS_KEY");
+const v73ExecSourceEnd = v73ModuleBlock[0].lastIndexOf("/*", v73ModuleBlock[0].length);
+const v73ExecSource = v73ModuleBlock[0].slice(v73ExecSourceStart, v73ExecSourceEnd > v73ExecSourceStart ? v73ExecSourceEnd : v73ModuleBlock[0].length).trimEnd();
+
+const DREAM_CUSTOMS_KEY = "goddead_v73_dream_customs";
+const fullV72CoverageInstruments = (() => {
+  const currencies = ['ownerless-signature-note', 'unseen-shadow-coin', 'unspoken-testament-bond'];
+  const reserves = ['last-breath-reserve', 'inherited-silence-reserve', 'collateralized-ending-reserve'];
+  const policies = ['issue-before-speaking', 'devalue-the-farewell', 'freeze-resurrection-liquidity', 'redeem-in-another-mouth'];
+  const ids = [];
+  for (const c of currencies) {
+    for (const r of reserves) {
+      for (const p of policies) {
+        ids.push(`${c}:${r}:${p}`);
+      }
+    }
+  }
+  return ids;
+})();
+const fullV72DefaultOutcomes = ['every-last-word-was-nationalized', 'silence-set-the-interest-rate', 'death-became-too-big-to-fail'];
+
+function makeV73Button({ disabled = false, hidden = false } = {}) {
+  return { disabled, hidden, pressed: null, setAttribute(name, value) { if (name === "aria-pressed") this.pressed = value; }, removeAttribute() {}, closest: () => null, addEventListener() {} };
+}
+function makeV73Box({ hidden = true } = {}) {
+  return { hidden, children: [], className: "", textContent: "", setAttribute() {}, removeAttribute(name) { if (name === "hidden") this.hidden = false; }, closest: () => null, addEventListener() {}, appendChild(c) { this.children.push(c); }, querySelector: () => null };
+}
+
+function makeV73Context({
+  initialStore = {},
+  elements = {},
+  scene = "",
+  v72unlocked = true,
+  instruments = fullV72CoverageInstruments,
+  defaultOutcomes = fullV72DefaultOutcomes,
+} = {}) {
+  const storeData = { ...initialStore };
+  const store = {
+    get(k, def) { return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def; },
+    set(k, v) { storeData[k] = v; },
+  };
+  const queries = [];
+  const $ = (rawId) => { queries.push(rawId); return elements[rawId.replace(/^#/, "")] || null; };
+  const scheduleCalls = [];
+  const AutoAdvance = { has(src) { return false; }, schedule(src, target, opts) { scheduleCalls.push({ src, target, opts }); } };
+  const AudioEngine = { whoosh() {}, bell() {} };
+  const lastWordBankUnlocked = () => v72unlocked;
+  const monetaryCoverageComplete = () => v72unlocked;
+  const getLastWordBank = () => v72unlocked ? { instruments, defaultOutcomes } : { instruments: [], defaultOutcomes: [] };
+  const buttonAvailable = (id) => {
+    const btn = $(`#${id}`);
+    if (!btn || btn.disabled || btn.hidden) return false;
+    if (typeof btn.closest === "function" && btn.closest("[hidden]")) return false;
+    return true;
+  };
+  const document = {
+    createElement(tag) {
+      return {
+        tagName: tag,
+        className: "",
+        innerHTML: "",
+        textContent: "",
+        children: [],
+        hidden: true,
+        setAttribute() {},
+        removeAttribute(name) { if (name === "hidden") this.hidden = false; },
+        appendChild(c) { this.children.push(c); },
+      };
+    },
+  };
+  const body = v73ExecSource + "\nreturn { DREAM_CUSTOMS_KEY, DREAM_CUSTOMS_VERSION, PASSPORTS, CONTRABAND, TARIFFS, DEPORTATION_ACTIONS, SCENE_FOR_CONTRABAND, PASSPORT_TABLE, CONTRABAND_TABLE, TARIFF_TABLE, DEPORTATION_TABLE, DREAM_CUSTOMS_ENTRY_FEEDBACK, DREAM_CUSTOMS_DEPORTATION_ENTRY_FEEDBACK, DECLARATION_IDS, DECLARATION_SET, DEPORTATION_OUTCOME_IDS, DEPORTATION_OUTCOME_SET, defaultDreamCustoms, normalizeDreamCustomsVisited, normalizeDreamCustomsDraft, normalizeDreamCustomsDeclarations, normalizeDreamCustomsDeportationOutcomes, normalizeDreamCustomsDeclarantTallies, normalizeDreamCustomsActiveInspector, normalizeDreamCustomsPending, saveDreamCustoms, getDreamCustoms, borrowedDreamCustomsUnlocked, dreamCustomsCoverageComplete, computeDreamCustomsMajority, computeDeclarationId, computeDeclarationTitle, computeDeclarationFeedback, findDeclarationById, computeDeportationOutcomeId, dreamCustomsDelay, dreamCustomsBeforeArrive, resolveDreamCustomsPendingOnArrival, lockDreamCustomsPassportButtons, lockDreamCustomsContrabandButtons, lockDreamCustomsTariffButtons, lockDreamCustomsDeportationButtons, syncDreamCustomsCustoms, syncDreamCustomsTerminal, syncDreamCustomsBureau, syncDreamCustomsYard, syncDreamCustomsInspectors, paintDreamCustomsInspector, paintDreamCustomsMemory, paintDreamCustomsCodex, syncDreamCustomsRemembrance, syncDreamCustomsLinks, replayDreamCustomsPending, chooseDreamCustomsPassport, chooseDreamCustomsContraband, chooseDreamCustomsTariff, chooseDreamCustomsInspectorReturn, chooseDreamCustomsEntry, chooseDreamCustomsDeportationEntry, chooseDreamCustomsDeportationAction, dreamCustomsCanVisitCustoms, dreamCustomsCanVisitTerminal, dreamCustomsCanVisitBureau, dreamCustomsCanVisitYard, dreamCustomsBridgeAllows };";
+  const v73 = new Function("store", "$", "currentScene", "AutoAdvance", "AudioEngine", "reduced", "lastWordBankUnlocked", "monetaryCoverageComplete", "getLastWordBank", "buttonAvailable", "document", body)(store, $, scene, AutoAdvance, AudioEngine, false, lastWordBankUnlocked, monetaryCoverageComplete, getLastWordBank, buttonAvailable, document);
+  const read = () => {
+    try { return JSON.parse(storeData[DREAM_CUSTOMS_KEY] || "{}") || {}; } catch { return {}; }
+  };
+  return { v73, storeData, read, queries, scheduleCalls };
+}
+
+// 36 declaration IDs 固定顺序
+{
+  const ctx = makeV73Context({});
+  assert.strictEqual(ctx.v73.DECLARATION_IDS.length, 36, "v73 has 36 declaration ids");
+  const expected = [];
+  for (const p of ctx.v73.PASSPORTS) {
+    for (const c of ctx.v73.CONTRABAND) {
+      for (const t of ctx.v73.TARIFFS) {
+        expected.push(`${p}:${c}:${t}`);
+      }
+    }
+  }
+  assert.deepStrictEqual(ctx.v73.DECLARATION_IDS, expected, "declaration ids follow PASSPORTS×CONTRABAND×TARIFFS order");
+  assert.strictEqual(ctx.v73.DECLARATION_SET.size, 36, "declaration ids are unique");
+}
+
+// 默认态与 canonical 十一键
+{
+  const ctx = makeV73Context({});
+  const st = ctx.v73.defaultDreamCustoms();
+  assert.deepStrictEqual(Object.keys(st).sort(), ["activeInspector", "customsRuns", "declarantTallies", "declarations", "deportationOutcomes", "deportationRuns", "draft", "lastOutcome", "pending", "version", "visited"], "defaultDreamCustoms has exactly eleven keys");
+  assert.strictEqual(st.version, 73);
+  assert.deepStrictEqual(st.visited, { customs: false, terminal: false, bureau: false, yard: false });
+  assert.deepStrictEqual(st.draft, { passport: '', contraband: '' });
+  assert.deepStrictEqual(st.declarations, []);
+  assert.deepStrictEqual(st.deportationOutcomes, []);
+  assert.strictEqual(st.customsRuns, 0);
+  assert.strictEqual(st.deportationRuns, 0);
+  assert.deepStrictEqual(st.declarantTallies, { god: 0, unborn: 0, witness: 0 });
+  assert.strictEqual(st.lastOutcome, '');
+  assert.strictEqual(st.activeInspector, null);
+  assert.strictEqual(st.pending, null);
+}
+
+// 坏 JSON / version / type / 未解锁回默认态
+{
+  const ctx = makeV73Context({ initialStore: { [DREAM_CUSTOMS_KEY]: "not-json" } });
+  assert.deepStrictEqual(ctx.v73.getDreamCustoms(), ctx.v73.defaultDreamCustoms(), "bad json returns default");
+  const ctx2 = makeV73Context({ initialStore: { [DREAM_CUSTOMS_KEY]: JSON.stringify({ version: 72, visited: { customs: true } }) } });
+  assert.deepStrictEqual(ctx2.v73.getDreamCustoms(), ctx2.v73.defaultDreamCustoms(), "wrong version returns default");
+  const ctx3 = makeV73Context({ initialStore: { [DREAM_CUSTOMS_KEY]: JSON.stringify([]) } });
+  assert.deepStrictEqual(ctx3.v73.getDreamCustoms(), ctx3.v73.defaultDreamCustoms(), "array returns default");
+  const ctx4 = makeV73Context({ initialStore: { [DREAM_CUSTOMS_KEY]: JSON.stringify({ version: 73, visited: { customs: true } }) }, v72unlocked: false });
+  assert.deepStrictEqual(ctx4.v73.getDreamCustoms(), ctx4.v73.defaultDreamCustoms(), "locked returns default");
+}
+
+// 解锁只读 v72：锁定态下 direct hash 回 remembrance
+{
+  const ctx = makeV73Context({ v72unlocked: false });
+  assert.strictEqual(ctx.v73.borrowedDreamCustomsUnlocked(), false, "v73 locked when v72 locked");
+  assert.strictEqual(ctx.v73.dreamCustomsCanVisitCustoms(), false, "locked customs guard blocks");
+  assert.strictEqual(ctx.v73.dreamCustomsCanVisitTerminal(), false, "locked terminal guard blocks");
+  assert.strictEqual(ctx.v73.dreamCustomsCanVisitBureau(), false, "locked bureau guard blocks");
+  assert.strictEqual(ctx.v73.dreamCustomsCanVisitYard(), false, "locked yard guard blocks");
+}
+
+// 规范化：visited / draft / declarations / deportationOutcomes / tallies / lastOutcome
+{
+  const ctx = makeV73Context({});
+  const base = ctx.v73.defaultDreamCustoms();
+  base.visited = { customs: 1, terminal: 'yes', bureau: true, yard: null };
+  assert.deepStrictEqual(ctx.v73.normalizeDreamCustomsVisited(base.visited), { customs: false, terminal: false, bureau: true, yard: false });
+  assert.deepStrictEqual(ctx.v73.normalizeDreamCustomsDraft({ passport: 'dead-god-dream-passport', contraband: 'face-never-seen-awake' }), { passport: 'dead-god-dream-passport', contraband: 'face-never-seen-awake' });
+  assert.deepStrictEqual(ctx.v73.normalizeDreamCustomsDraft({ passport: 'bad', contraband: 'face-never-seen-awake' }), { passport: '', contraband: '' });
+  assert.deepStrictEqual(ctx.v73.normalizeDreamCustomsDraft({ passport: 'dead-god-dream-passport', contraband: 'bad' }), { passport: 'dead-god-dream-passport', contraband: '' });
+  assert.deepStrictEqual(ctx.v73.normalizeDreamCustomsDraft({ passport: '', contraband: 'face-never-seen-awake' }), { passport: '', contraband: '' });
+  const ids = [ctx.v73.DECLARATION_IDS[5], ctx.v73.DECLARATION_IDS[0], ctx.v73.DECLARATION_IDS[5], 'bad:id'];
+  assert.deepStrictEqual(ctx.v73.normalizeDreamCustomsDeclarations(ids), [ctx.v73.DECLARATION_IDS[0], ctx.v73.DECLARATION_IDS[5]], "declarations dedup and fixed order");
+  const outcomes = ['waking-became-contraband', 'bad-outcome', 'waking-became-contraband', 'nightmares-became-the-only-citizens', 'the-dreamer-was-deported-from-the-dream'];
+  assert.deepStrictEqual(ctx.v73.normalizeDreamCustomsDeportationOutcomes(outcomes), ['nightmares-became-the-only-citizens', 'the-dreamer-was-deported-from-the-dream', 'waking-became-contraband'], "deportation outcomes dedup and fixed order");
+  assert.deepStrictEqual(ctx.v73.normalizeDreamCustomsDeclarantTallies({ god: 1.7, unborn: -3, witness: 99999 }), { god: 1, unborn: 0, witness: 9999 }, "tallies clamp and floor");
+  assert.strictEqual(ctx.v73.normalizeDreamCustomsActiveInspector({ contraband: 'face-never-seen-awake', declaration: ctx.v73.DECLARATION_IDS[0], feedback: ctx.v73.CONTRABAND_TABLE['face-never-seen-awake'].inspectorFeedback }, [ctx.v73.DECLARATION_IDS[0]]).declaration, ctx.v73.DECLARATION_IDS[0], "activeInspector ok");
+  assert.strictEqual(ctx.v73.normalizeDreamCustomsActiveInspector({ contraband: 'memory-that-kept-dreaming', declaration: ctx.v73.DECLARATION_IDS[0], feedback: ctx.v73.CONTRABAND_TABLE['memory-that-kept-dreaming'].inspectorFeedback }, [ctx.v73.DECLARATION_IDS[0]]), null, "activeInspector contraband mismatch");
+}
+
+// activeInspector 要求 declaration 已收集且 contraband 匹配第二段
+{
+  const ctx = makeV73Context({});
+  const decl = ctx.v73.DECLARATION_IDS[0];
+  const parts = decl.split(':');
+  const fb = ctx.v73.CONTRABAND_TABLE[parts[1]].inspectorFeedback;
+  assert.ok(ctx.v73.normalizeDreamCustomsActiveInspector({ contraband: parts[1], declaration: decl, feedback: fb }, [decl]), "inspector matches collected declaration");
+  assert.strictEqual(ctx.v73.normalizeDreamCustomsActiveInspector({ contraband: parts[1], declaration: decl, feedback: fb }, []), null, "inspector rejected when declaration not collected");
+  const other = ctx.v73.DECLARATION_IDS[4];
+  const otherParts = other.split(':');
+  assert.strictEqual(ctx.v73.normalizeDreamCustomsActiveInspector({ contraband: otherParts[1], declaration: decl, feedback: ctx.v73.CONTRABAND_TABLE[otherParts[1]].inspectorFeedback }, [decl]), null, "inspector rejected when contraband does not equal declaration second segment");
+}
+
+// save/get roundtrip 投影去重
+{
+  const ctx = makeV73Context({});
+  const st = ctx.v73.defaultDreamCustoms();
+  st.visited.customs = true;
+  st.draft = { passport: 'future-witness-night-pass', contraband: 'ending-without-a-dreamer' };
+  const endingDeclaration = ctx.v73.DECLARATION_IDS[8];
+  st.declarations = [endingDeclaration, endingDeclaration];
+  st.deportationOutcomes = ['waking-became-contraband'];
+  st.customsRuns = 2;
+  st.deportationRuns = 1;
+  st.declarantTallies = { god: 0, unborn: 2, witness: 0 };
+  st.lastOutcome = endingDeclaration;
+  st.activeInspector = { contraband: 'ending-without-a-dreamer', declaration: endingDeclaration, feedback: ctx.v73.CONTRABAND_TABLE['ending-without-a-dreamer'].inspectorFeedback };
+  st.pending = { kind: 'contraband', source: 'contraband-sleep-terminal', passport: 'future-witness-night-pass', contraband: 'ending-without-a-dreamer', target: 'nightmare-tariff-bureau', feedback: ctx.v73.CONTRABAND_TABLE['ending-without-a-dreamer'].feedback };
+  st.extra = 'should-be-dropped';
+  ctx.v73.saveDreamCustoms(st);
+  const saved = ctx.read();
+  assert.deepStrictEqual(Object.keys(saved).sort(), ["activeInspector", "customsRuns", "declarantTallies", "declarations", "deportationOutcomes", "deportationRuns", "draft", "lastOutcome", "pending", "version", "visited"], "saved has exactly eleven keys");
+  assert.strictEqual(saved.extra, undefined, "extra key dropped");
+  assert.strictEqual(saved.declarations.length, 1, "declarations deduped");
+  assert.strictEqual(saved.activeInspector.contraband, 'ending-without-a-dreamer');
+}
+
+// 七类 pending exact-key 严格归一化
+{
+  const ctx = makeV73Context({});
+  const base = ctx.v73.defaultDreamCustoms();
+  base._v73unlocked = true;
+  const passport = 'dead-god-dream-passport';
+  const contraband = 'face-never-seen-awake';
+  const tariff = 'tax-years-awake';
+  const declarationId = `${passport}:${contraband}:${tariff}`;
+  const pTable = ctx.v73.PASSPORT_TABLE[passport];
+  const cTable = ctx.v73.CONTRABAND_TABLE[contraband];
+  const declFb = ctx.v73.computeDeclarationFeedback(passport, contraband, tariff);
+
+  // entry
+  const entry = { kind: 'entry', target: 'borrowed-dream-customs', feedback: ctx.v73.DREAM_CUSTOMS_ENTRY_FEEDBACK };
+  assert.ok(ctx.v73.normalizeDreamCustomsPending(entry, base), "entry pending ok");
+  assert.strictEqual(ctx.v73.normalizeDreamCustomsPending({ ...entry, extra: 1 }, base), null, "entry rejects extra key");
+  assert.strictEqual(ctx.v73.normalizeDreamCustomsPending({ kind: 'entry', target: 'borrowed-dream-customs', feedback: 'bad' }, base), null, "entry rejects bad feedback");
+
+  // passport
+  const pp = { kind: 'passport', source: 'borrowed-dream-customs', passport, target: 'contraband-sleep-terminal', feedback: pTable.feedback };
+  assert.ok(ctx.v73.normalizeDreamCustomsPending(pp, base), "passport pending ok");
+  assert.strictEqual(ctx.v73.normalizeDreamCustomsPending({ ...pp, source: 'bad' }, base), null, "passport rejects bad source");
+
+  // contraband
+  base.draft.passport = passport;
+  const cb = { kind: 'contraband', source: 'contraband-sleep-terminal', passport, contraband, target: 'nightmare-tariff-bureau', feedback: cTable.feedback };
+  assert.ok(ctx.v73.normalizeDreamCustomsPending(cb, base), "contraband pending ok");
+  assert.strictEqual(ctx.v73.normalizeDreamCustomsPending({ ...cb, passport: 'unborn-child-sleep-visa' }, base), null, "contraband rejects mismatched passport");
+
+  // declaration
+  base.draft.contraband = contraband;
+  const decl = { kind: 'declaration', source: 'nightmare-tariff-bureau', passport, contraband, tariff, declaration: declarationId, target: 'eyelid-archive', feedback: declFb };
+  assert.ok(ctx.v73.normalizeDreamCustomsPending(decl, base), "declaration pending ok");
+  assert.strictEqual(ctx.v73.normalizeDreamCustomsPending({ ...decl, target: 'remembrance' }, base), null, "declaration rejects wrong target");
+  assert.strictEqual(ctx.v73.normalizeDreamCustomsPending({ ...decl, feedback: 'free text' }, base), null, "declaration rejects free text feedback");
+
+  // inspector-return
+  base.activeInspector = { contraband, declaration: declarationId, feedback: cTable.inspectorFeedback };
+  const ir = { kind: 'inspector-return', from: 'eyelid-archive', target: 'borrowed-dream-customs', declaration: declarationId, feedback: cTable.inspectorFeedback };
+  assert.ok(ctx.v73.normalizeDreamCustomsPending(ir, base), "inspector-return pending ok");
+  assert.strictEqual(ctx.v73.normalizeDreamCustomsPending({ ...ir, from: 'remembrance' }, base), null, "inspector-return rejects mismatched from");
+
+  // deportation-entry
+  base.activeInspector = null;
+  base.draft = { passport: '', contraband: '' };
+  base.declarations = [ctx.v73.DECLARATION_IDS[0], ctx.v73.DECLARATION_IDS[1], ctx.v73.DECLARATION_IDS[2], ctx.v73.DECLARATION_IDS[3], ctx.v73.DECLARATION_IDS[4], ctx.v73.DECLARATION_IDS[8], ctx.v73.DECLARATION_IDS[12], ctx.v73.DECLARATION_IDS[24]];
+  const de = { kind: 'deportation-entry', target: 'waking-deportation-yard', feedback: ctx.v73.DREAM_CUSTOMS_DEPORTATION_ENTRY_FEEDBACK };
+  assert.ok(ctx.v73.normalizeDreamCustomsPending(de, base), "deportation-entry pending ok");
+  base.declarations = [];
+  assert.strictEqual(ctx.v73.normalizeDreamCustomsPending(de, base), null, "deportation-entry rejects incomplete coverage");
+
+  // deportation
+  base.declarations = ctx.v73.DECLARATION_IDS;
+  base.visited.yard = true;
+  const dep = { kind: 'deportation', source: 'waking-deportation-yard', action: 'criminalize-waking', outcome: 'waking-became-contraband', target: 'threshold', feedback: ctx.v73.DEPORTATION_TABLE['criminalize-waking'].feedback };
+  assert.ok(ctx.v73.normalizeDreamCustomsPending(dep, base), "deportation pending ok");
+  assert.strictEqual(ctx.v73.normalizeDreamCustomsPending({ ...dep, outcome: 'bad' }, base), null, "deportation rejects bad outcome");
+}
+
+// 36 declarations 与 3 deportation outcomes 穷举
+{
+  const ctx = makeV73Context({});
+  for (const id of ctx.v73.DECLARATION_IDS) {
+    const d = ctx.v73.findDeclarationById(id);
+    assert.ok(d, `declaration ${id} resolvable`);
+    assert.strictEqual(d.id, id);
+    assert.ok(d.title);
+    assert.ok(d.feedback);
+    assert.strictEqual(ctx.v73.computeDeclarationId(d.passport, d.contraband, d.tariff), id);
+    assert.strictEqual(ctx.v73.computeDeclarationTitle(d.passport, d.contraband, d.tariff), d.title);
+    assert.strictEqual(ctx.v73.computeDeclarationFeedback(d.passport, d.contraband, d.tariff), d.feedback);
+  }
+  for (const action of ctx.v73.DEPORTATION_ACTIONS) {
+    const outcome = ctx.v73.computeDeportationOutcomeId(action);
+    assert.ok(outcome);
+    assert.strictEqual(ctx.v73.DEPORTATION_TABLE[action].outcome, outcome);
+  }
+}
+
+// Coverage 4 pass / 3 fail
+{
+  const ctx = makeV73Context({});
+  const st = ctx.v73.defaultDreamCustoms();
+  st.declarations = ctx.v73.DECLARATION_IDS.slice(0, 3);
+  assert.strictEqual(ctx.v73.dreamCustomsCoverageComplete(st), false, "3 declarations cannot cover 4 tariffs");
+  st.declarations = [ctx.v73.DECLARATION_IDS[0], ctx.v73.DECLARATION_IDS[5], ctx.v73.DECLARATION_IDS[22], ctx.v73.DECLARATION_IDS[27]];
+  assert.strictEqual(ctx.v73.dreamCustomsCoverageComplete(st), true, "4 representative declarations cover all axes");
+}
+
+// replay 来源/目标/else 矩阵
+{
+  const ctx = makeV73Context({ scene: 'remembrance' });
+  const st = ctx.v73.defaultDreamCustoms();
+  st._v73unlocked = true;
+  st.pending = { kind: 'entry', target: 'borrowed-dream-customs', feedback: ctx.v73.DREAM_CUSTOMS_ENTRY_FEEDBACK };
+  ctx.v73.saveDreamCustoms(st);
+  ctx.v73.replayDreamCustomsPending('borrowed-dream-customs');
+  assert.strictEqual(ctx.read().pending, null, "target arrival clears entry pending");
+  assert.strictEqual(ctx.read().visited.customs, true, "target arrival marks customs visited");
+}
+{
+  const ctx = makeV73Context({ scene: 'borrowed-dream-customs' });
+  const st = ctx.v73.defaultDreamCustoms();
+  st._v73unlocked = true;
+  const passport = 'dead-god-dream-passport';
+  st.pending = { kind: 'passport', source: 'borrowed-dream-customs', passport, target: 'contraband-sleep-terminal', feedback: ctx.v73.PASSPORT_TABLE[passport].feedback };
+  ctx.v73.saveDreamCustoms(st);
+  ctx.v73.replayDreamCustomsPending('contraband-sleep-terminal');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears passport pending");
+  assert.strictEqual(saved.draft.passport, passport, "target arrival writes draft passport");
+  assert.strictEqual(saved.visited.terminal, true, "target arrival marks terminal visited");
+}
+{
+  const ctx = makeV73Context({ scene: 'contraband-sleep-terminal' });
+  const st = ctx.v73.defaultDreamCustoms();
+  st._v73unlocked = true;
+  st.draft.passport = 'dead-god-dream-passport';
+  const contraband = 'face-never-seen-awake';
+  st.pending = { kind: 'contraband', source: 'contraband-sleep-terminal', passport: st.draft.passport, contraband, target: 'nightmare-tariff-bureau', feedback: ctx.v73.CONTRABAND_TABLE[contraband].feedback };
+  ctx.v73.saveDreamCustoms(st);
+  ctx.v73.replayDreamCustomsPending('nightmare-tariff-bureau');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears contraband pending");
+  assert.strictEqual(saved.draft.contraband, contraband, "target arrival writes draft contraband");
+}
+{
+  const ctx = makeV73Context({ scene: 'nightmare-tariff-bureau' });
+  const st = ctx.v73.defaultDreamCustoms();
+  st._v73unlocked = true;
+  st.draft = { passport: 'dead-god-dream-passport', contraband: 'face-never-seen-awake' };
+  const tariff = 'tax-years-awake';
+  const decl = ctx.v73.computeDeclarationId(st.draft.passport, st.draft.contraband, tariff);
+  st.pending = { kind: 'declaration', source: 'nightmare-tariff-bureau', passport: st.draft.passport, contraband: st.draft.contraband, tariff, declaration: decl, target: 'eyelid-archive', feedback: ctx.v73.computeDeclarationFeedback(st.draft.passport, st.draft.contraband, tariff) };
+  ctx.v73.saveDreamCustoms(st);
+  ctx.v73.replayDreamCustomsPending('eyelid-archive');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears declaration pending");
+  assert.ok(saved.declarations.includes(decl), "declaration collected");
+  assert.strictEqual(saved.customsRuns, 1, "customsRuns incremented once");
+  assert.strictEqual(saved.activeInspector.contraband, 'face-never-seen-awake', "activeInspector set");
+}
+{
+  const ctx = makeV73Context({ scene: 'eyelid-archive' });
+  const st = ctx.v73.defaultDreamCustoms();
+  st._v73unlocked = true;
+  const decl = ctx.v73.DECLARATION_IDS[0];
+  const c = decl.split(':')[1];
+  st.activeInspector = { contraband: c, declaration: decl, feedback: ctx.v73.CONTRABAND_TABLE[c].inspectorFeedback };
+  st.pending = { kind: 'inspector-return', from: 'eyelid-archive', target: 'borrowed-dream-customs', declaration: decl, feedback: ctx.v73.CONTRABAND_TABLE[c].inspectorFeedback };
+  ctx.v73.saveDreamCustoms(st);
+  ctx.v73.replayDreamCustomsPending('borrowed-dream-customs');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears inspector-return pending");
+  assert.strictEqual(saved.activeInspector, null, "activeInspector cleared");
+}
+{
+  const ctx = makeV73Context({ scene: 'remembrance' });
+  const st = ctx.v73.defaultDreamCustoms();
+  st._v73unlocked = true;
+  st.declarations = ctx.v73.DECLARATION_IDS;
+  st.pending = { kind: 'deportation-entry', target: 'waking-deportation-yard', feedback: ctx.v73.DREAM_CUSTOMS_DEPORTATION_ENTRY_FEEDBACK };
+  ctx.v73.saveDreamCustoms(st);
+  ctx.v73.replayDreamCustomsPending('waking-deportation-yard');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears deportation-entry pending");
+  assert.strictEqual(saved.visited.yard, true, "target arrival marks yard visited");
+}
+{
+  const ctx = makeV73Context({ scene: 'waking-deportation-yard' });
+  const st = ctx.v73.defaultDreamCustoms();
+  st._v73unlocked = true;
+  st.declarations = ctx.v73.DECLARATION_IDS;
+  st.visited.yard = true;
+  const dep = { kind: 'deportation', source: 'waking-deportation-yard', action: 'naturalize-every-nightmare', outcome: 'nightmares-became-the-only-citizens', target: 'remembrance', feedback: ctx.v73.DEPORTATION_TABLE['naturalize-every-nightmare'].feedback };
+  st.pending = dep;
+  ctx.v73.saveDreamCustoms(st);
+  ctx.v73.replayDreamCustomsPending('remembrance');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears deportation pending");
+  assert.ok(saved.deportationOutcomes.includes('nightmares-became-the-only-citizens'), "deportation outcome collected");
+  assert.strictEqual(saved.deportationRuns, 1, "deportationRuns incremented once");
+}
+{
+  // else clears pending without side effects
+  const ctx = makeV73Context({ scene: 'protocol' });
+  const st = ctx.v73.defaultDreamCustoms();
+  st._v73unlocked = true;
+  st.pending = { kind: 'entry', target: 'borrowed-dream-customs', feedback: ctx.v73.DREAM_CUSTOMS_ENTRY_FEEDBACK };
+  ctx.v73.saveDreamCustoms(st);
+  ctx.v73.replayDreamCustomsPending('protocol');
+  assert.strictEqual(ctx.read().pending, null, "else clears pending");
+  assert.strictEqual(ctx.read().visited.customs, false, "else does not mark visited");
+}
+
+// 重复 declaration 不重复图鉴但增加 runs / tallies
+{
+  const ctx = makeV73Context({ scene: 'nightmare-tariff-bureau' });
+  const st = ctx.v73.defaultDreamCustoms();
+  st._v73unlocked = true;
+  st.draft = { passport: 'dead-god-dream-passport', contraband: 'face-never-seen-awake' };
+  const tariff = 'tax-years-awake';
+  const decl = ctx.v73.computeDeclarationId(st.draft.passport, st.draft.contraband, tariff);
+  st.declarations = [decl];
+  st.customsRuns = 3;
+  st.declarantTallies.god = 3;
+  st.pending = { kind: 'declaration', source: 'nightmare-tariff-bureau', passport: st.draft.passport, contraband: st.draft.contraband, tariff, declaration: decl, target: 'eyelid-archive', feedback: ctx.v73.computeDeclarationFeedback(st.draft.passport, st.draft.contraband, tariff) };
+  ctx.v73.saveDreamCustoms(st);
+  ctx.v73.replayDreamCustomsPending('eyelid-archive');
+  const saved = ctx.read();
+  assert.strictEqual(saved.declarations.length, 1, "duplicate declaration not added");
+  assert.strictEqual(saved.customsRuns, 4, "duplicate still increments customsRuns");
+  assert.strictEqual(saved.declarantTallies.god, 4, "duplicate still increments tally");
+}
+
+// 18 组 isTrusted 防线
+{
+  const v73ListenerBlock = js.match(/const dreamCustomsEntryBtn = \$\('#dream-customs-entry-btn'\);[\s\S]*?(?=\n  \/\* ={40,}\n     v74 墓碑专利局 \/ PATENT OFFICE OF THE UNBURIED)/);
+  assert.ok(v73ListenerBlock, "v73 click listener block must exist");
+  assert.equal((v73ListenerBlock[0].match(/!e\.isTrusted/g) || []).length, 18, "v73 must guard all eighteen click listeners with isTrusted");
+}
+
+// 按钮 choose 处理与 UI 禁用一致性
+{
+  const passportBtn = makeV73Button();
+  const ctx = makeV73Context({ scene: 'borrowed-dream-customs', elements: { "dream-customs-passport-dead-god-dream-passport": passportBtn } });
+  ctx.v73.chooseDreamCustomsPassport('dead-god-dream-passport');
+  assert.ok(ctx.scheduleCalls.length > 0, "choose passport schedules transition");
+  assert.strictEqual(ctx.read().pending.kind, 'passport', "choose passport creates pending");
+}
+{
+  const contrabandBtn = makeV73Button();
+  const ctx = makeV73Context({ scene: 'contraband-sleep-terminal', elements: { "contraband-sleep-face-never-seen-awake": contrabandBtn } });
+  ctx.v73.saveDreamCustoms({ ...ctx.v73.defaultDreamCustoms(), draft: { passport: 'dead-god-dream-passport', contraband: '' } });
+  ctx.v73.chooseDreamCustomsContraband('face-never-seen-awake');
+  assert.strictEqual(ctx.read().pending.kind, 'contraband', "choose contraband creates pending");
+}
+{
+  const tariffBtn = makeV73Button();
+  const ctx = makeV73Context({ scene: 'nightmare-tariff-bureau', elements: { "nightmare-tariff-tax-years-awake": tariffBtn } });
+  ctx.v73.saveDreamCustoms({ ...ctx.v73.defaultDreamCustoms(), draft: { passport: 'dead-god-dream-passport', contraband: 'face-never-seen-awake' } });
+  ctx.v73.chooseDreamCustomsTariff('tax-years-awake');
+  assert.strictEqual(ctx.read().pending.kind, 'declaration', "choose tariff creates declaration pending");
+}
+{
+  const inspectorBtn = makeV73Button();
+  const helperCtx2 = makeV73Context({});
+  const decl = helperCtx2.v73.DECLARATION_IDS[0];
+  const c = decl.split(':')[1];
+  const ctx = makeV73Context({ scene: 'eyelid-archive', elements: { "dream-customs-inspector-return-eyelid-archive": inspectorBtn } });
+  ctx.v73.saveDreamCustoms({ ...ctx.v73.defaultDreamCustoms(), declarations: [decl], activeInspector: { contraband: c, declaration: decl, feedback: ctx.v73.CONTRABAND_TABLE[c].inspectorFeedback } });
+  ctx.v73.chooseDreamCustomsInspectorReturn('eyelid-archive');
+  assert.strictEqual(ctx.read().pending.kind, 'inspector-return', "choose inspector return creates pending");
+}
+{
+  const entryBtn = makeV73Button();
+  const ctx = makeV73Context({ scene: 'remembrance', elements: { "dream-customs-entry-btn": entryBtn } });
+  ctx.v73.chooseDreamCustomsEntry();
+  assert.strictEqual(ctx.read().pending.kind, 'entry', "choose entry creates entry pending");
+}
+{
+  const depEntryBtn = makeV73Button();
+  const ctx = makeV73Context({ scene: 'remembrance', elements: { "dream-customs-deportation-entry-btn": depEntryBtn } });
+  ctx.v73.saveDreamCustoms({ ...ctx.v73.defaultDreamCustoms(), declarations: ctx.v73.DECLARATION_IDS });
+  ctx.v73.chooseDreamCustomsDeportationEntry();
+  assert.strictEqual(ctx.read().pending.kind, 'deportation-entry', "choose deportation entry creates pending");
+}
+{
+  const depBtn = makeV73Button();
+  const ctx = makeV73Context({ scene: 'waking-deportation-yard', elements: { "waking-deportation-criminalize-waking": depBtn } });
+  ctx.v73.saveDreamCustoms({ ...ctx.v73.defaultDreamCustoms(), declarations: ctx.v73.DECLARATION_IDS, visited: { customs: true, terminal: true, bureau: true, yard: true } });
+  ctx.v73.chooseDreamCustomsDeportationAction('criminalize-waking');
+  assert.strictEqual(ctx.read().pending.kind, 'deportation', "choose deportation action creates pending");
+}
+
+// activeInspector / draft / pending 一致性：UI disabled 与 handler、pending 归一化一致
+{
+  function makeV73InspectorButton({ disabled = false, hidden = false } = {}) {
+    return { disabled, hidden, pressed: null, setAttribute(name, value) { if (name === "aria-pressed") this.pressed = value; }, removeAttribute() {}, closest: () => null, addEventListener() {} };
+  }
+  const helperCtx = makeV73Context({});
+  const decl = helperCtx.v73.DECLARATION_IDS[0];
+  const c = decl.split(':')[1];
+  const inspFb = helperCtx.v73.CONTRABAND_TABLE[c].inspectorFeedback;
+
+  // activeInspector 期间 pending 归一化拒绝非 inspector-return
+  {
+    const ctx = makeV73Context({});
+    const baseSt = ctx.v73.defaultDreamCustoms();
+    baseSt._v73unlocked = true;
+    baseSt.activeInspector = { contraband: c, declaration: decl, feedback: inspFb };
+    assert.strictEqual(ctx.v73.normalizeDreamCustomsPending({ kind: 'passport', source: 'borrowed-dream-customs', passport: 'dead-god-dream-passport', target: 'contraband-sleep-terminal', feedback: ctx.v73.PASSPORT_TABLE['dead-god-dream-passport'].feedback }, baseSt), null, "passport pending rejected while activeInspector");
+    baseSt.draft = { passport: 'dead-god-dream-passport', contraband: 'face-never-seen-awake' };
+    const tariff = 'tax-years-awake';
+    const declFb = ctx.v73.computeDeclarationFeedback('dead-god-dream-passport', 'face-never-seen-awake', tariff);
+    assert.strictEqual(ctx.v73.normalizeDreamCustomsPending({ kind: 'declaration', source: 'nightmare-tariff-bureau', passport: 'dead-god-dream-passport', contraband: 'face-never-seen-awake', tariff, declaration: `${'dead-god-dream-passport'}:face-never-seen-awake:${tariff}`, target: 'eyelid-archive', feedback: declFb }, baseSt), null, "declaration pending rejected while activeInspector");
+    baseSt.declarations = ctx.v73.DECLARATION_IDS;
+    assert.strictEqual(ctx.v73.normalizeDreamCustomsPending({ kind: 'deportation-entry', target: 'waking-deportation-yard', feedback: ctx.v73.DREAM_CUSTOMS_DEPORTATION_ENTRY_FEEDBACK }, baseSt), null, "deportation-entry pending rejected while activeInspector");
+    baseSt.visited.yard = true;
+    assert.strictEqual(ctx.v73.normalizeDreamCustomsPending({ kind: 'deportation', source: 'waking-deportation-yard', action: 'criminalize-waking', outcome: 'waking-became-contraband', target: 'threshold', feedback: ctx.v73.DEPORTATION_TABLE['criminalize-waking'].feedback }, baseSt), null, "deportation pending rejected while activeInspector");
+  }
+
+  // activeInspector 期间 handler 拒绝 passport/contraband/tariff/deportation
+  {
+    const passportBtns = {
+      "dream-customs-passport-dead-god-dream-passport": makeV73InspectorButton(),
+      "dream-customs-passport-unborn-child-sleep-visa": makeV73InspectorButton(),
+      "dream-customs-passport-future-witness-night-pass": makeV73InspectorButton(),
+    };
+    const ctx = makeV73Context({ scene: 'borrowed-dream-customs', elements: passportBtns });
+    ctx.v73.saveDreamCustoms({ ...ctx.v73.defaultDreamCustoms(), declarations: [decl], activeInspector: { contraband: c, declaration: decl, feedback: inspFb } });
+    ctx.v73.syncDreamCustomsCustoms();
+    assert.ok(Object.values(passportBtns).every((b) => b.disabled), "passport buttons disabled while activeInspector");
+
+    const contrabandBtns = {
+      "contraband-sleep-face-never-seen-awake": makeV73InspectorButton(),
+      "contraband-sleep-memory-that-kept-dreaming": makeV73InspectorButton(),
+      "contraband-sleep-ending-without-a-dreamer": makeV73InspectorButton(),
+    };
+    const ctx2 = makeV73Context({ scene: 'contraband-sleep-terminal', elements: contrabandBtns });
+    ctx2.v73.saveDreamCustoms({ ...ctx2.v73.defaultDreamCustoms(), draft: { passport: 'dead-god-dream-passport', contraband: '' }, declarations: [decl], activeInspector: { contraband: c, declaration: decl, feedback: inspFb } });
+    ctx2.v73.syncDreamCustomsTerminal();
+    assert.ok(Object.values(contrabandBtns).every((b) => b.disabled), "contraband buttons disabled while activeInspector");
+
+    const tariffBtns = {
+      "nightmare-tariff-tax-years-awake": makeV73InspectorButton(),
+      "nightmare-tariff-confiscate-the-dreamer": makeV73InspectorButton(),
+      "nightmare-tariff-reexport-to-death": makeV73InspectorButton(),
+      "nightmare-tariff-grant-nightmare-asylum": makeV73InspectorButton(),
+    };
+    const ctx3 = makeV73Context({ scene: 'nightmare-tariff-bureau', elements: tariffBtns });
+    ctx3.v73.saveDreamCustoms({ ...ctx3.v73.defaultDreamCustoms(), draft: { passport: 'dead-god-dream-passport', contraband: 'face-never-seen-awake' }, declarations: [decl], activeInspector: { contraband: c, declaration: decl, feedback: inspFb } });
+    ctx3.v73.syncDreamCustomsBureau();
+    assert.ok(Object.values(tariffBtns).every((b) => b.disabled), "tariff buttons disabled while activeInspector");
+
+    const deportationBtns = {
+      "waking-deportation-naturalize-every-nightmare": makeV73InspectorButton(),
+      "waking-deportation-deport-the-dreamer": makeV73InspectorButton(),
+      "waking-deportation-criminalize-waking": makeV73InspectorButton(),
+    };
+    const figure = makeV73Box();
+    const ctx4 = makeV73Context({ scene: 'waking-deportation-yard', elements: { "waking-deportation-yard-figure": figure, ...deportationBtns } });
+    ctx4.v73.saveDreamCustoms({ ...ctx4.v73.defaultDreamCustoms(), declarations: ctx4.v73.DECLARATION_IDS, visited: { customs: true, terminal: true, bureau: true, yard: true }, activeInspector: { contraband: c, declaration: decl, feedback: inspFb } });
+    ctx4.v73.syncDreamCustomsYard();
+    assert.ok(Object.values(deportationBtns).every((b) => b.disabled), "deportation buttons disabled while activeInspector");
+  }
+
+  // pending 期间所有 v73 选择按钮禁用
+  {
+    const passportBtns = {
+      "dream-customs-passport-dead-god-dream-passport": makeV73InspectorButton(),
+      "dream-customs-passport-unborn-child-sleep-visa": makeV73InspectorButton(),
+      "dream-customs-passport-future-witness-night-pass": makeV73InspectorButton(),
+    };
+    const ctx = makeV73Context({ scene: 'borrowed-dream-customs', elements: passportBtns });
+    ctx.v73.saveDreamCustoms({ ...ctx.v73.defaultDreamCustoms(), pending: { kind: 'entry', target: 'borrowed-dream-customs', feedback: ctx.v73.DREAM_CUSTOMS_ENTRY_FEEDBACK } });
+    ctx.v73.syncDreamCustomsCustoms();
+    assert.ok(Object.values(passportBtns).every((b) => b.disabled), "passport buttons disabled while pending");
+  }
+
+  // draft 中途禁止并行 entry/deportation-entry/deportation：UI disabled + handler no-op + persisted pending 被归一化丢弃
+  {
+    const depEntryBtn = makeV73InspectorButton();
+    const ctx = makeV73Context({ scene: 'remembrance', elements: { "dream-customs-deportation-entry-btn": depEntryBtn } });
+    ctx.v73.saveDreamCustoms({ ...ctx.v73.defaultDreamCustoms(), declarations: ctx.v73.DECLARATION_IDS, draft: { passport: 'dead-god-dream-passport', contraband: '' } });
+    ctx.v73.syncDreamCustomsRemembrance();
+    assert.strictEqual(depEntryBtn.hidden, false, "deportation-entry stays visible while draft in progress");
+    assert.strictEqual(depEntryBtn.disabled, true, "deportation-entry disabled while draft in progress");
+    ctx.v73.chooseDreamCustomsDeportationEntry();
+    assert.strictEqual(ctx.read().pending ?? null, null, "choose deportation entry no-op while draft in progress");
+
+    const deportationBtns = {
+      "waking-deportation-naturalize-every-nightmare": makeV73InspectorButton(),
+      "waking-deportation-deport-the-dreamer": makeV73InspectorButton(),
+      "waking-deportation-criminalize-waking": makeV73InspectorButton(),
+    };
+    const figure = makeV73Box({ hidden: true });
+    const ctx2 = makeV73Context({ scene: 'waking-deportation-yard', elements: { "waking-deportation-yard-figure": figure, ...deportationBtns } });
+    ctx2.v73.saveDreamCustoms({ ...ctx2.v73.defaultDreamCustoms(), declarations: ctx2.v73.DECLARATION_IDS, visited: { customs: true, terminal: true, bureau: true, yard: true }, draft: { passport: 'dead-god-dream-passport', contraband: 'face-never-seen-awake' } });
+    ctx2.v73.syncDreamCustomsYard();
+    assert.strictEqual(figure.hidden, false, "yard figure visible while draft in progress");
+    assert.ok(Object.values(deportationBtns).every((b) => b.disabled), "deportation buttons disabled while draft in progress");
+    ctx2.v73.chooseDreamCustomsDeportationAction('criminalize-waking');
+    assert.strictEqual(ctx2.read().pending ?? null, null, "choose deportation action no-op while draft in progress");
+  }
+  {
+    // 伪造 persisted pending 在 save 时通过 normalize 丢弃
+    const ctx = makeV73Context({});
+    ctx.v73.saveDreamCustoms({ ...ctx.v73.defaultDreamCustoms(), draft: { passport: 'dead-god-dream-passport', contraband: '' }, pending: { kind: 'entry', target: 'borrowed-dream-customs', feedback: ctx.v73.DREAM_CUSTOMS_ENTRY_FEEDBACK } });
+    assert.strictEqual(ctx.read().pending ?? null, null, "forged entry pending dropped when draft in progress");
+
+    const ctx2 = makeV73Context({});
+    ctx2.v73.saveDreamCustoms({ ...ctx2.v73.defaultDreamCustoms(), declarations: ctx2.v73.DECLARATION_IDS, draft: { passport: 'dead-god-dream-passport', contraband: 'face-never-seen-awake' }, pending: { kind: 'deportation-entry', target: 'waking-deportation-yard', feedback: ctx2.v73.DREAM_CUSTOMS_DEPORTATION_ENTRY_FEEDBACK } });
+    assert.strictEqual(ctx2.read().pending ?? null, null, "forged deportation-entry pending dropped when draft in progress");
+
+    const ctx3 = makeV73Context({});
+    ctx3.v73.saveDreamCustoms({ ...ctx3.v73.defaultDreamCustoms(), declarations: ctx3.v73.DECLARATION_IDS, visited: { yard: true }, draft: { passport: 'dead-god-dream-passport', contraband: 'face-never-seen-awake' }, pending: { kind: 'deportation', source: 'waking-deportation-yard', action: 'criminalize-waking', outcome: 'waking-became-contraband', target: 'threshold', feedback: ctx3.v73.DEPORTATION_TABLE['criminalize-waking'].feedback } });
+    assert.strictEqual(ctx3.read().pending ?? null, null, "forged deportation pending dropped when draft in progress");
+  }
+}
+
+// 路由窄桥不放宽旧守卫
+{
+  const ctx = makeV73Context({});
+  const st = ctx.v73.defaultDreamCustoms();
+  st._v73unlocked = true;
+  st.declarations = [ctx.v73.DECLARATION_IDS[4]];
+  st.activeInspector = { contraband: 'memory-that-kept-dreaming', declaration: ctx.v73.DECLARATION_IDS[4], feedback: ctx.v73.CONTRABAND_TABLE['memory-that-kept-dreaming'].inspectorFeedback };
+  ctx.v73.saveDreamCustoms(st);
+  assert.strictEqual(ctx.v73.dreamCustomsBridgeAllows('remembrance'), true, "bridge allows activeInspector scene");
+  assert.strictEqual(ctx.v73.dreamCustomsBridgeAllows('eyelid-archive'), false, "bridge does not allow unrelated scene");
+  assert.strictEqual(ctx.v73.dreamCustomsBridgeAllows('protocol'), false, "bridge never allows protocol");
+}
+
+// v73 不读写旧 key
+{
+  const v73ModuleText = v73ModuleBlock[0];
+  assert.ok(!v73ModuleText.includes("saveLastWordBank("), "v73 never calls saveLastWordBank");
+  assert.ok(!v73ModuleText.includes("LAST_WORD_BANK_KEY"), "v73 never references v72 key constant");
+  assert.ok(!v73ModuleText.includes("goddead_v72_last_word_bank"), "v73 never references v72 key string");
+}
+
 const readme = await fileText("README.md");
 assert.match(readme, /值夜室|night-watch/i);
 assert.match(readme, /v28|代行治理|代理神明/, "README must document the v28 governance protocol");
@@ -4995,6 +6605,9 @@ assert.match(readme, /v51|副楼三债|见证.*失号.*逆行/, "README must doc
 assert.match(readme, /v52|三债结算|结算所/, "README must document the v52 annex debt settlement");
 assert.match(readme, /v58|异议总署|Appeal Registry/i, "README must document the v58 appeal registry");
 assert.match(readme, /v62|反听总台/, "README must document the v62 listening back console");
+assert.match(readme, /v63|终局退件所|THE ENDING RETURNS UNOPENED/, "README must document the v63 ending return office");
+assert.match(readme, /v64|因果倒邮|THE ENDING ARRIVED EARLY/, "README must document the v64 causal mail");
+assert.match(readme, /v65|因果疤痕|THE CAUSE LEFT A SCAR/, "README must document the v65 causal scars");
 
 const qa = await fileText("design-qa.md");
 assert.match(qa, /第三值夜室/);
@@ -5027,6 +6640,9 @@ assert.match(qa, /v51|副楼三债|阈值异常/, "design-qa.md must document th
 assert.match(qa, /v52|三债结算|结算所/, "design-qa.md must document the v52 annex debt settlement QA");
 assert.match(qa, /v58|异议总署/, "design-qa.md must document the v58 appeal registry QA");
 assert.match(qa, /v62|反听总台/, "design-qa.md must document the v62 listening back console QA");
+assert.match(qa, /v63|终局退件所|THE ENDING RETURNS UNOPENED/, "design-qa.md must document the v63 ending return office QA");
+assert.match(qa, /v64|因果倒邮|THE ENDING ARRIVED EARLY/, "design-qa.md must document the v64 causal mail QA");
+assert.match(qa, /v65|因果疤痕|THE CAUSE LEFT A SCAR/, "design-qa.md must document the v65 causal scars QA");
 
 const log = await fileText("docs/ProgressLog.md");
 assert.match(log, /2026-07-02/);
@@ -5063,6 +6679,2769 @@ assert.match(log, /v56|症状交接/, "ProgressLog must document v56");
 assert.match(log, /v57|判词后果|责任账/, "ProgressLog must document v57");
 assert.match(log, /v58|异议总署/, "ProgressLog must document v58");
 assert.match(log, /v62|反听总台/, "ProgressLog must document v62");
+assert.match(log, /v63|终局退件所|THE ENDING RETURNS UNOPENED/, "ProgressLog must document v63");
+assert.match(log, /v64|因果倒邮|THE ENDING ARRIVED EARLY/, "ProgressLog must document v64");
+assert.match(log, /v65|因果疤痕|THE CAUSE LEFT A SCAR/, "ProgressLog must document v65");
+
+/* ---------- v73 文档同步 ---------- */
+assert.match(readme, /v73|梦境海关总署|CUSTOMS OF BORROWED DREAMS/, "README must document the v73 dream customs");
+assert.match(qa, /v73|梦境海关总署|CUSTOMS OF BORROWED DREAMS/, "design-qa.md must document the v73 dream customs");
+assert.match(log, /v73|梦境海关总署|CUSTOMS OF BORROWED DREAMS/, "ProgressLog must document the v73 dream customs");
+/* ---------- v73 文档同步 ---------- */
+/* ============================================================
+   v74 墓碑专利局 / PATENT OFFICE OF THE UNBURIED 静态回归
+   ============================================================ */
+
+const V74_SOURCE_HASHES = {
+  "source-v74-tombstone-patent-office.png": "378aa8e3e1b699e8fdc17078a0de6b3f219e625a757732ff3df9eb9c30ea8e29",
+  "source-v74-prior-art-ossuary.png": "3f708c4af5ffc204b1459e1790c506e77d9fc6dec611d0e1855f8f6de98ab5cc",
+  "source-v74-impossible-claim-examination.png": "1fc064f5cc180dfac8d36bf2d6c0a57f344cbcbfac0bb8f7acb4e5ccc7605c09",
+  "source-v74-perpetual-license-tribunal.png": "a40852cbf1a75e0eded899ecbb58ae9023afd2a42727df902192125315e58c1c",
+};
+const V74_WEBP_HASHES = {
+  "v74-tombstone-patent-office.webp": "56523b0432c4bba095a914099ec1c89b5b0443b34ec76d35b00faf12e4da21e4",
+  "v74-prior-art-ossuary.webp": "287dcfeb525fd0bf8fb2727da7ba8b9b95451b0a2bb6ed8918f52c1372b22798",
+  "v74-impossible-claim-examination.webp": "cdfe287be8bbb75f3daacac2421681c9eadabf798df723d80146e46df2ff6c9f",
+  "v74-perpetual-license-tribunal.webp": "d9661f971e0c49a2ba1e7d2591d1342f44367ec30a11a142505a5467eeec6c26",
+};
+const V74_SOURCE_SIZES = {
+  "source-v74-tombstone-patent-office.png": 2403060,
+  "source-v74-prior-art-ossuary.png": 2624760,
+  "source-v74-impossible-claim-examination.png": 3056961,
+  "source-v74-perpetual-license-tribunal.png": 2971772,
+};
+const V74_WEBP_SIZES = {
+  "v74-tombstone-patent-office.webp": 181182,
+  "v74-prior-art-ossuary.webp": 235722,
+  "v74-impossible-claim-examination.webp": 317510,
+  "v74-perpetual-license-tribunal.webp": 293074,
+};
+
+/* 场景与 DOM 存在性 */
+for (const s of ["tombstone-patent-office", "prior-art-ossuary", "impossible-claim-examination", "perpetual-license-tribunal"]) {
+  assert.match(html, new RegExp(`data-scene="${s}"`), `v74 scene missing: ${s}`);
+}
+for (const id of ["tombstone-patent-office-link", "prior-art-ossuary-link", "impossible-claim-examination-link", "perpetual-license-tribunal-link"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v74 directory link missing: ${id}`);
+}
+for (const id of ["tombstone-patent-office-memory", "tombstone-patent-office-codex", "tombstone-patent-office-codex-grid", "tombstone-patent-office-entry-btn", "tombstone-patent-office-tribunal-entry-btn"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v74 remembrance element missing: ${id}`);
+}
+for (const id of ["tombstone-patent-office-office-figure", "prior-art-ossuary-figure", "impossible-claim-examination-figure", "perpetual-license-tribunal-figure"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v74 figure missing: ${id}`);
+}
+for (const id of ["tombstone-patent-office-examiner-threshold", "tombstone-patent-office-examiner-eyelid-archive", "tombstone-patent-office-examiner-remembrance"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v74 examiner container missing: ${id}`);
+}
+for (const id of ["tombstone-patent-office-applicant-unborn-inventor", "tombstone-patent-office-applicant-posthumous-inventor", "tombstone-patent-office-applicant-future-plagiarist"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v74 applicant button missing: ${id}`);
+}
+for (const id of ["prior-art-uncarved-epitaph-blueprint", "prior-art-dream-worn-prototype", "prior-art-descendant-memory-machine"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v74 prior-art button missing: ${id}`);
+}
+for (const id of ["impossible-claim-own-the-unmade", "impossible-claim-license-death-as-user", "impossible-claim-sue-the-future-for-copying", "impossible-claim-forbid-inventor-to-invent"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v74 claim button missing: ${id}`);
+}
+for (const id of ["perpetual-license-grant-self-ownership", "perpetual-license-invalidate-all-prior-existence", "perpetual-license-license-the-unburied-to-haunt-prototypes"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v74 ruling button missing: ${id}`);
+}
+for (const id of ["tombstone-patent-office-examiner-return-threshold", "tombstone-patent-office-examiner-return-eyelid-archive", "tombstone-patent-office-examiner-return-remembrance"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v74 examiner return button missing: ${id}`);
+}
+assert.match(html, /<link rel="preload" href="assets\/v74-tombstone-patent-office\.webp" as="image">/, "v74 preloads tombstone-patent-office");
+assert.match(html, /<link rel="preload" href="assets\/v74-prior-art-ossuary\.webp" as="image">/, "v74 preloads prior-art-ossuary");
+assert.match(html, /<link rel="preload" href="assets\/v74-impossible-claim-examination\.webp" as="image">/, "v74 preloads impossible-claim-examination");
+assert.match(html, /<link rel="preload" href="assets\/v74-perpetual-license-tribunal\.webp" as="image">/, "v74 preloads perpetual-license-tribunal");
+
+/* 缓存版本 */
+assert.match(html, /styles\.css\?v=76/, "v74 cache busts styles.css");
+assert.match(html, /script\.js\?v=76/, "v74 cache busts script.js");
+
+/* JS 模块与 key */
+assert.equal((js.match(/const TOMBSTONE_PATENT_OFFICE_KEY = ['"]goddead_v74_tombstone_patent_office['"]/g) || []).length, 1, "v74 introduces exactly one storage key");
+const v74ModuleBlock = js.match(/v74 墓碑专利局 \/ PATENT OFFICE OF THE UNBURIED[\s\S]*?(?=\n  \/\* ={40,}\n     走廊：残页 \+ 封印的门)/);
+assert.ok(v74ModuleBlock, "v74 module must exist");
+
+const saveTombstonePatentOfficeBlock = js.match(/const saveTombstonePatentOffice = \(st\) => \{[\s\S]*?store\.set\(\s*TOMBSTONE_PATENT_OFFICE_KEY,\s*JSON\.stringify\(\{[\s\S]*?\}\)\s*\);/);
+assert.ok(saveTombstonePatentOfficeBlock, "saveTombstonePatentOffice must persist an explicit canonical projection");
+for (const f of ["version", "visited", "draft", "patents", "rulingOutcomes", "filingRuns", "rulingRuns", "applicantTallies", "lastOutcome", "activeExaminer", "pending"]) {
+  assert.match(saveTombstonePatentOfficeBlock[0], new RegExp(`\\b${f}\\b`), `saveTombstonePatentOffice persists ${f}`);
+}
+
+/* 素材冻结 */
+for (const [file, hash] of Object.entries(V74_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(`design-references/${file}`, root));
+  assert.strictEqual(createHash("sha256").update(buf).digest("hex"), hash, `${file} must keep its frozen sha256`);
+  assert.strictEqual(buf.length, V74_SOURCE_SIZES[file], `${file} must keep its frozen byte size`);
+  const dims = readPngDimensions(buf);
+  assert.ok(dims, `${file} must be a readable PNG`);
+  assert.strictEqual(dims.width, 1536, `${file} must be 1536 px wide`);
+  assert.strictEqual(dims.height, 1024, `${file} must be 1024 px tall`);
+}
+for (const [file, hash] of Object.entries(V74_WEBP_HASHES)) {
+  const buf = await readFile(new URL(`assets/${file}`, root));
+  assert.strictEqual(createHash("sha256").update(buf).digest("hex"), hash, `${file} must keep its frozen sha256`);
+  assert.strictEqual(buf.length, V74_WEBP_SIZES[file], `${file} must keep its frozen byte size`);
+  assert.ok(html.includes(`assets/${file}`), `${file} must be referenced from index.html`);
+  const dims = readWebpDimensions(buf);
+  assert.ok(dims, `${file} must be a readable WebP`);
+  assert.strictEqual(dims.width, 1536, `${file} must be 1536 px wide`);
+  assert.strictEqual(dims.height, 1024, `${file} must be 1024 px tall`);
+  assert.match(html, new RegExp(`src="assets/${file.replace(".", "\\.")}" alt="" width="1536" height="1024"`), `${file} must have 1536x1024 HTML attributes`);
+}
+
+/* 冻结标题、按钮文本与反馈 */
+assert.match(html, /04μ \/ 墓碑专利局 · PATENT OFFICE OF THE UNBURIED/, "v74 office title");
+assert.match(html, /04ν \/ 先前技术骨库 · PRIOR ART OSSUARY/, "v74 ossuary title");
+assert.match(html, /04ξ \/ 不可实现权项审查室 · IMPOSSIBLE CLAIM EXAMINATION/, "v74 examination title");
+assert.match(html, /04ο \/ 永久许可终审庭 · PERPETUAL LICENSE TRIBUNAL/, "v74 tribunal title");
+assert.match(js, /替未生发明人申请 · FILE FOR THE UNBORN INVENTOR/, "v74 unborn inventor button text");
+assert.match(js, /替死后署名人申请 · FILE FOR THE POSTHUMOUS INVENTOR/, "v74 posthumous inventor button text");
+assert.match(js, /替未来抄袭者申请 · FILE FOR THE FUTURE PLAGIARIST/, "v74 future plagiarist button text");
+assert.match(js, /提交未刻墓志图纸 · SUBMIT THE UNCARVED EPITAPH BLUEPRINT/, "v74 uncarved epitaph button text");
+assert.match(js, /提交梦中磨损原型 · SUBMIT THE DREAM-WORN PROTOTYPE/, "v74 dream-worn prototype button text");
+assert.match(js, /提交后人记忆机器 · SUBMIT THE DESCENDANT MEMORY MACHINE/, "v74 descendant memory machine button text");
+assert.match(js, /主张拥有未造之物 · CLAIM OWNERSHIP OF THE UNMADE/, "v74 own-the-unmade button text");
+assert.match(js, /许可死亡成为使用者 · LICENSE DEATH AS A USER/, "v74 license-death button text");
+assert.match(js, /起诉未来倒向抄袭 · SUE THE FUTURE FOR COPYING BACKWARD/, "v74 sue-the-future button text");
+assert.match(js, /禁止发明人完成发明 · FORBID THE INVENTOR TO INVENT/, "v74 forbid-inventor button text");
+assert.match(js, /让发明拥有自己 · GRANT THE INVENTION OWNERSHIP OF ITSELF/, "v74 grant-self-ownership button text");
+assert.match(js, /把既往存在全部无效 · INVALIDATE ALL PRIOR EXISTENCE/, "v74 invalidate-existence button text");
+assert.match(js, /许可未葬者附身原型 · LICENSE THE UNBURIED TO HAUNT EVERY PROTOTYPE/, "v74 license-unburied button text");
+assert.match(js, /跟空碑审查员返回专利局 · RETURN WITH THE BLANK-STONE EXAMINER/, "v74 threshold examiner return text");
+assert.match(js, /跟梦型审查员返回专利局 · RETURN WITH THE DREAM-PROTOTYPE EXAMINER/, "v74 eyelid examiner return text");
+assert.match(js, /跟后忆审查员返回专利局 · RETURN WITH THE DESCENDANT-MEMORY EXAMINER/, "v74 remembrance examiner return text");
+assert.match(js, /空摇篮交出一套磨损多年的图纸。发明人尚未出生，却已因专利过期而失去童年。/, "v74 unborn inventor feedback");
+assert.match(js, /无头死者把遗言按进签名栏。局方承认笔迹真实，只质疑他是否曾经活到产生这个念头。/, "v74 posthumous inventor feedback");
+assert.match(js, /未来抄袭者先寄来侵权通知，再补交申请书。日期显示他将在你发明之后，比你更早拥有它。/, "v74 future plagiarist feedback");
+assert.match(js, /空白墓碑把尚未写下的墓志投成机械剖面。每一根齿轮都以发明人的死期作为尺寸。/, "v74 uncarved epitaph feedback");
+assert.match(js, /玻璃罩里的原型从未被造出，边角却已被几千场梦磨亮。醒着的检验员摸不到它的损耗。/, "v74 dream-worn prototype feedback");
+assert.match(js, /骨匣抽出一台来自后人记忆的机器。后人尚未出生，却清楚记得你当年没有发明它。/, "v74 descendant memory machine feedback");
+assert.match(js, /申请人要求垄断一件从未存在的东西。审查员找不到实物，只好把全世界的空位列为侵权证据。/, "v74 own-the-unmade fragment");
+assert.match(js, /死亡取得永久使用许可。此后每一具尸体都被视为正在运行该发明，而活人只能申请试用。/, "v74 license-death fragment");
+assert.match(js, /诉状沿时间反向送达。未来尚未复制任何东西，却已被判赔偿现在从它那里偷来的原型。/, "v74 sue-the-future fragment");
+assert.match(js, /专利保护范围包括发明本身。为避免自我侵权，发明人被永久禁止把图纸上的最后一根线画完。/, "v74 forbid-inventor fragment");
+assert.match(js, /机器在空袖口前签下自己的名字。自此发明人只是它曾经用来产生自己的临时工具。/, "v74 grant-self-ownership feedback");
+assert.match(js, /黑碑把化石、工具与旧原型逐件抹成尘。世界仍然存在，却再也不能证明自己比这份专利更早。/, "v74 invalidate-existence feedback");
+assert.match(js, /石棺发出一条没有期限的幽灵许可。每台未完成机器从此都住进一名等不到坟墓的使用者。/, "v74 license-unburied feedback");
+assert.match(js, /空碑审查员在门槛上测量不存在的齿轮。门每开一次，墓志就少一个尚未写下的字。/, "v74 threshold examiner feedback");
+assert.match(js, /梦型审查员在眼睑档案里核对磨损。每次睁眼，原型都会恢复成从未制造过的崭新。/, "v74 eyelid examiner feedback");
+assert.match(js, /后忆审查员把骨制机器钉进痕迹墙。后人记得它运转过，墙却记得你亲手放弃了它。/, "v74 remembrance examiner feedback");
+
+/* 可执行/隔离状态回归测试 */
+assert.ok(v74ModuleBlock, "v74 executable block available for regression tests");
+const v74ExecSourceStart = v74ModuleBlock[0].indexOf("const TOMBSTONE_PATENT_OFFICE_KEY");
+assert.ok(v74ExecSourceStart > 0, "v74 executable block starts with TOMBSTONE_PATENT_OFFICE_KEY");
+const v74ExecSource = v74ModuleBlock[0].slice(v74ExecSourceStart).trimEnd();
+
+const TOMBSTONE_PATENT_OFFICE_KEY = "goddead_v74_tombstone_patent_office";
+const fullV73CoverageDeclarations = (() => {
+  const passports = ['dead-god-dream-passport', 'unborn-child-sleep-visa', 'future-witness-night-pass'];
+  const contraband = ['face-never-seen-awake', 'memory-that-kept-dreaming', 'ending-without-a-dreamer'];
+  const tariffs = ['tax-years-awake', 'confiscate-the-dreamer', 'reexport-to-death', 'grant-nightmare-asylum'];
+  const ids = [];
+  for (const p of passports) {
+    for (const c of contraband) {
+      for (const t of tariffs) {
+        ids.push(`${p}:${c}:${t}`);
+      }
+    }
+  }
+  return ids;
+})();
+const fullV73DeportationOutcomes = ['nightmares-became-the-only-citizens', 'the-dreamer-was-deported-from-the-dream', 'waking-became-contraband'];
+
+function makeV74Button({ disabled = false, hidden = false } = {}) {
+  return { disabled, hidden, pressed: null, setAttribute(name, value) { if (name === "aria-pressed") this.pressed = value; }, removeAttribute() {}, closest: () => null, addEventListener() {} };
+}
+function makeV74Box({ hidden = true } = {}) {
+  return { hidden, children: [], className: "", textContent: "", setAttribute() {}, removeAttribute(name) { if (name === "hidden") this.hidden = false; }, closest: () => null, addEventListener() {}, appendChild(c) { this.children.push(c); }, querySelector: () => null };
+}
+
+function makeV74Context({
+  initialStore = {},
+  elements = {},
+  scene = "",
+  v73unlocked = true,
+  declarations = fullV73CoverageDeclarations,
+  deportationOutcomes = fullV73DeportationOutcomes,
+} = {}) {
+  const storeData = { ...initialStore };
+  const store = {
+    get(k, def) { return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def; },
+    set(k, v) { storeData[k] = v; },
+  };
+  const queries = [];
+  const $ = (rawId) => { queries.push(rawId); return elements[rawId.replace(/^#/, "")] || null; };
+  const scheduleCalls = [];
+  const AutoAdvance = { has(src) { return false; }, schedule(src, target, opts) { scheduleCalls.push({ src, target, opts }); } };
+  const AudioEngine = { whoosh() {}, bell() {} };
+  const borrowedDreamCustomsUnlocked = () => v73unlocked;
+  const dreamCustomsCoverageComplete = () => v73unlocked;
+  const getDreamCustoms = () => v73unlocked ? { declarations, deportationOutcomes } : { declarations: [], deportationOutcomes: [] };
+  const buttonAvailable = (id) => {
+    const btn = $(`#${id}`);
+    if (!btn || btn.disabled || btn.hidden) return false;
+    if (typeof btn.closest === "function" && btn.closest("[hidden]")) return false;
+    return true;
+  };
+  const document = {
+    createElement(tag) {
+      return {
+        tagName: tag,
+        className: "",
+        innerHTML: "",
+        textContent: "",
+        children: [],
+        hidden: true,
+        setAttribute() {},
+        removeAttribute(name) { if (name === "hidden") this.hidden = false; },
+        appendChild(c) { this.children.push(c); },
+      };
+    },
+  };
+  const body = v74ExecSource + "\nreturn { TOMBSTONE_PATENT_OFFICE_KEY, TOMBSTONE_PATENT_OFFICE_VERSION, APPLICANTS, PRIOR_ART, CLAIMS, RULING_ACTIONS, SCENE_FOR_PRIOR_ART, TOMBSTONE_PATENT_OFFICE_ENTRY_FEEDBACK, TOMBSTONE_PATENT_OFFICE_TRIBUNAL_ENTRY_FEEDBACK, APPLICANT_TABLE, PRIOR_ART_TABLE, CLAIM_TABLE, RULING_TABLE, PATENT_IDS, PATENT_SET, RULING_OUTCOME_IDS, RULING_OUTCOME_SET, defaultTombstonePatentOffice, normalizeTombstonePatentOfficeVisited, normalizeTombstonePatentOfficeDraft, normalizeTombstonePatentOfficePatents, normalizeTombstonePatentOfficeRulingOutcomes, normalizeTombstonePatentOfficeApplicantTallies, normalizeTombstonePatentOfficeActiveExaminer, normalizeTombstonePatentOfficePending, saveTombstonePatentOffice, getTombstonePatentOffice, tombstonePatentOfficeUnlocked, patentCoverageComplete, computeApplicantTalliesMajority, computePatentId, computePatentTitle, computePatentFeedback, findPatentById, computeRulingOutcomeId, tombstonePatentOfficeDelay, tombstonePatentOfficeBeforeArrive, resolveTombstonePatentOfficePendingOnArrival, lockTombstonePatentOfficeApplicantButtons, lockTombstonePatentOfficePriorArtButtons, lockTombstonePatentOfficeClaimButtons, lockTombstonePatentOfficeRulingButtons, syncTombstonePatentOfficeOffice, syncTombstonePatentOfficeOssuary, syncTombstonePatentOfficeExamination, syncTombstonePatentOfficeTribunal, syncTombstonePatentOfficeExaminers, paintTombstonePatentOfficeExaminer, paintTombstonePatentOfficeMemory, paintTombstonePatentOfficeCodex, syncTombstonePatentOfficeRemembrance, syncTombstonePatentOfficeLinks, replayTombstonePatentOfficePending, chooseTombstonePatentOfficeApplicant, chooseTombstonePatentOfficePriorArt, chooseTombstonePatentOfficeClaim, chooseTombstonePatentOfficeExaminerReturn, chooseTombstonePatentOfficeEntry, chooseTombstonePatentOfficeTribunalEntry, chooseTombstonePatentOfficeRulingAction, tombstonePatentOfficeCanVisitOffice, tombstonePatentOfficeCanVisitOssuary, tombstonePatentOfficeCanVisitExamination, tombstonePatentOfficeCanVisitTribunal, tombstonePatentOfficeBridgeAllows };";
+  const v74 = new Function("store", "$", "currentScene", "AutoAdvance", "AudioEngine", "reduced", "borrowedDreamCustomsUnlocked", "dreamCustomsCoverageComplete", "getDreamCustoms", "buttonAvailable", "document", body)(store, $, scene, AutoAdvance, AudioEngine, false, borrowedDreamCustomsUnlocked, dreamCustomsCoverageComplete, getDreamCustoms, buttonAvailable, document);
+  const read = () => {
+    try { return JSON.parse(storeData[TOMBSTONE_PATENT_OFFICE_KEY] || "{}") || {}; } catch { return {}; }
+  };
+  return { v74, storeData, read, queries, scheduleCalls };
+}
+
+// 36 patent IDs 固定顺序
+{
+  const ctx = makeV74Context({});
+  assert.strictEqual(ctx.v74.PATENT_IDS.length, 36, "v74 has 36 patent ids");
+  const expected = [];
+  for (const a of ctx.v74.APPLICANTS) {
+    for (const p of ctx.v74.PRIOR_ART) {
+      for (const c of ctx.v74.CLAIMS) {
+        expected.push(`${a}:${p}:${c}`);
+      }
+    }
+  }
+  assert.deepStrictEqual(ctx.v74.PATENT_IDS, expected, "patent ids follow APPLICANTS×PRIOR_ART×CLAIMS order");
+  assert.strictEqual(ctx.v74.PATENT_SET.size, 36, "patent ids are unique");
+}
+
+// 默认态与 canonical 十一键
+{
+  const ctx = makeV74Context({});
+  const st = ctx.v74.defaultTombstonePatentOffice();
+  assert.deepStrictEqual(Object.keys(st).sort(), ["activeExaminer", "applicantTallies", "draft", "filingRuns", "lastOutcome", "patents", "pending", "rulingOutcomes", "rulingRuns", "version", "visited"], "defaultTombstonePatentOffice has exactly eleven keys");
+  assert.strictEqual(st.version, 74);
+  assert.deepStrictEqual(st.visited, { office: false, ossuary: false, examination: false, tribunal: false });
+  assert.deepStrictEqual(st.draft, { applicant: '', priorArt: '' });
+  assert.deepStrictEqual(st.patents, []);
+  assert.deepStrictEqual(st.rulingOutcomes, []);
+  assert.strictEqual(st.filingRuns, 0);
+  assert.strictEqual(st.rulingRuns, 0);
+  assert.deepStrictEqual(st.applicantTallies, { unborn: 0, dead: 0, future: 0 });
+  assert.strictEqual(st.lastOutcome, '');
+  assert.strictEqual(st.activeExaminer, null);
+  assert.strictEqual(st.pending, null);
+}
+
+// 坏 JSON / version / type / 未解锁回默认态
+{
+  const ctx = makeV74Context({ initialStore: { [TOMBSTONE_PATENT_OFFICE_KEY]: "not-json" } });
+  assert.deepStrictEqual(ctx.v74.getTombstonePatentOffice(), ctx.v74.defaultTombstonePatentOffice(), "bad json returns default");
+  const ctx2 = makeV74Context({ initialStore: { [TOMBSTONE_PATENT_OFFICE_KEY]: JSON.stringify({ version: 73, visited: { office: true } }) } });
+  assert.deepStrictEqual(ctx2.v74.getTombstonePatentOffice(), ctx2.v74.defaultTombstonePatentOffice(), "wrong version returns default");
+  const ctx3 = makeV74Context({ initialStore: { [TOMBSTONE_PATENT_OFFICE_KEY]: JSON.stringify([]) } });
+  assert.deepStrictEqual(ctx3.v74.getTombstonePatentOffice(), ctx3.v74.defaultTombstonePatentOffice(), "array returns default");
+  const ctx4 = makeV74Context({ initialStore: { [TOMBSTONE_PATENT_OFFICE_KEY]: JSON.stringify({ version: 74, visited: { office: true } }) }, v73unlocked: false });
+  assert.deepStrictEqual(ctx4.v74.getTombstonePatentOffice(), ctx4.v74.defaultTombstonePatentOffice(), "locked returns default");
+}
+
+// 解锁只读 v73：锁定态下 direct hash 回 remembrance
+{
+  const ctx = makeV74Context({ v73unlocked: false });
+  assert.strictEqual(ctx.v74.tombstonePatentOfficeUnlocked(), false, "v74 locked when v73 locked");
+  assert.strictEqual(ctx.v74.tombstonePatentOfficeCanVisitOffice(), false, "locked office guard blocks");
+  assert.strictEqual(ctx.v74.tombstonePatentOfficeCanVisitOssuary(), false, "locked ossuary guard blocks");
+  assert.strictEqual(ctx.v74.tombstonePatentOfficeCanVisitExamination(), false, "locked examination guard blocks");
+  assert.strictEqual(ctx.v74.tombstonePatentOfficeCanVisitTribunal(), false, "locked tribunal guard blocks");
+}
+
+// 规范化：visited / draft / patents / rulingOutcomes / tallies / lastOutcome
+{
+  const ctx = makeV74Context({});
+  const base = ctx.v74.defaultTombstonePatentOffice();
+  base.visited = { office: 1, ossuary: 'yes', examination: true, tribunal: null };
+  assert.deepStrictEqual(ctx.v74.normalizeTombstonePatentOfficeVisited(base.visited), { office: false, ossuary: false, examination: true, tribunal: false });
+  assert.deepStrictEqual(ctx.v74.normalizeTombstonePatentOfficeDraft({ applicant: 'unborn-inventor', priorArt: 'uncarved-epitaph-blueprint' }), { applicant: 'unborn-inventor', priorArt: 'uncarved-epitaph-blueprint' });
+  assert.deepStrictEqual(ctx.v74.normalizeTombstonePatentOfficeDraft({ applicant: 'bad', priorArt: 'uncarved-epitaph-blueprint' }), { applicant: '', priorArt: '' });
+  assert.deepStrictEqual(ctx.v74.normalizeTombstonePatentOfficeDraft({ applicant: 'unborn-inventor', priorArt: 'bad' }), { applicant: 'unborn-inventor', priorArt: '' });
+  assert.deepStrictEqual(ctx.v74.normalizeTombstonePatentOfficeDraft({ applicant: '', priorArt: 'uncarved-epitaph-blueprint' }), { applicant: '', priorArt: '' });
+  const ids = [ctx.v74.PATENT_IDS[5], ctx.v74.PATENT_IDS[0], ctx.v74.PATENT_IDS[5], 'bad:id'];
+  assert.deepStrictEqual(ctx.v74.normalizeTombstonePatentOfficePatents(ids), [ctx.v74.PATENT_IDS[0], ctx.v74.PATENT_IDS[5]], "patents dedup and fixed order");
+  const outcomes = ['the-invention-owned-itself', 'bad-outcome', 'the-invention-owned-itself', 'existence-was-invalidated-as-prior-art', 'the-unburied-haunted-every-prototype'];
+  assert.deepStrictEqual(ctx.v74.normalizeTombstonePatentOfficeRulingOutcomes(outcomes), ['the-invention-owned-itself', 'existence-was-invalidated-as-prior-art', 'the-unburied-haunted-every-prototype'], "ruling outcomes dedup and fixed order");
+  assert.deepStrictEqual(ctx.v74.normalizeTombstonePatentOfficeApplicantTallies({ unborn: 1.7, dead: -3, future: 99999 }), { unborn: 1, dead: 0, future: 9999 }, "tallies clamp and floor");
+  const patent = ctx.v74.PATENT_IDS[0];
+  const priorArt = patent.split(':')[1];
+  assert.strictEqual(ctx.v74.normalizeTombstonePatentOfficeActiveExaminer({ priorArt, patent, feedback: ctx.v74.PRIOR_ART_TABLE[priorArt].examinerFeedback }, [patent]).patent, patent, "activeExaminer ok");
+  assert.strictEqual(ctx.v74.normalizeTombstonePatentOfficeActiveExaminer({ priorArt: 'dream-worn-prototype', patent, feedback: ctx.v74.PRIOR_ART_TABLE['dream-worn-prototype'].examinerFeedback }, [patent]), null, "activeExaminer priorArt mismatch");
+}
+
+// activeExaminer 要求 patent 已收集且 priorArt 匹配第二段
+{
+  const ctx = makeV74Context({});
+  const patent = ctx.v74.PATENT_IDS[0];
+  const parts = patent.split(':');
+  const fb = ctx.v74.PRIOR_ART_TABLE[parts[1]].examinerFeedback;
+  assert.ok(ctx.v74.normalizeTombstonePatentOfficeActiveExaminer({ priorArt: parts[1], patent, feedback: fb }, [patent]), "examiner matches collected patent");
+  assert.strictEqual(ctx.v74.normalizeTombstonePatentOfficeActiveExaminer({ priorArt: parts[1], patent, feedback: fb }, []), null, "examiner rejected when patent not collected");
+  const other = ctx.v74.PATENT_IDS[4];
+  const otherParts = other.split(':');
+  assert.strictEqual(ctx.v74.normalizeTombstonePatentOfficeActiveExaminer({ priorArt: otherParts[1], patent, feedback: ctx.v74.PRIOR_ART_TABLE[otherParts[1]].examinerFeedback }, [patent]), null, "examiner rejected when priorArt does not equal patent second segment");
+}
+
+// save/get roundtrip 投影去重
+{
+  const ctx = makeV74Context({});
+  const st = ctx.v74.defaultTombstonePatentOffice();
+  st.visited.office = true;
+  st.draft = { applicant: 'future-plagiarist', priorArt: 'descendant-memory-machine' };
+  const patent = ctx.v74.PATENT_IDS[8];
+  st.patents = [patent, patent];
+  st.rulingOutcomes = ['the-invention-owned-itself'];
+  st.filingRuns = 2;
+  st.rulingRuns = 1;
+  st.applicantTallies = { unborn: 0, dead: 2, future: 0 };
+  st.lastOutcome = patent;
+  st.activeExaminer = { priorArt: patent.split(':')[1], patent, feedback: ctx.v74.PRIOR_ART_TABLE[patent.split(':')[1]].examinerFeedback };
+  st.pending = { kind: 'prior-art', source: 'prior-art-ossuary', applicant: 'future-plagiarist', priorArt: 'descendant-memory-machine', target: 'impossible-claim-examination', feedback: ctx.v74.PRIOR_ART_TABLE['descendant-memory-machine'].feedback };
+  st.extra = 'should-be-dropped';
+  ctx.v74.saveTombstonePatentOffice(st);
+  const saved = ctx.read();
+  assert.deepStrictEqual(Object.keys(saved).sort(), ["activeExaminer", "applicantTallies", "draft", "filingRuns", "lastOutcome", "patents", "pending", "rulingOutcomes", "rulingRuns", "version", "visited"], "saved has exactly eleven keys");
+  assert.strictEqual(saved.extra, undefined, "extra key dropped");
+  assert.strictEqual(saved.patents.length, 1, "patents deduped");
+  assert.strictEqual(saved.activeExaminer.priorArt, patent.split(':')[1]);
+}
+
+// 七类 pending exact-key 严格归一化
+{
+  const ctx = makeV74Context({});
+  const base = ctx.v74.defaultTombstonePatentOffice();
+  base._v74unlocked = true;
+  const applicant = 'unborn-inventor';
+  const priorArt = 'uncarved-epitaph-blueprint';
+  const claim = 'own-the-unmade';
+  const patentId = `${applicant}:${priorArt}:${claim}`;
+  const aTable = ctx.v74.APPLICANT_TABLE[applicant];
+  const pTable = ctx.v74.PRIOR_ART_TABLE[priorArt];
+  const patentFb = ctx.v74.computePatentFeedback(applicant, priorArt, claim);
+
+  // entry
+  const entry = { kind: 'entry', target: 'tombstone-patent-office', feedback: ctx.v74.TOMBSTONE_PATENT_OFFICE_ENTRY_FEEDBACK };
+  assert.ok(ctx.v74.normalizeTombstonePatentOfficePending(entry, base), "entry pending ok");
+  assert.strictEqual(ctx.v74.normalizeTombstonePatentOfficePending({ ...entry, extra: 1 }, base), null, "entry rejects extra key");
+  assert.strictEqual(ctx.v74.normalizeTombstonePatentOfficePending({ kind: 'entry', target: 'tombstone-patent-office', feedback: 'bad' }, base), null, "entry rejects bad feedback");
+
+  // applicant
+  const ap = { kind: 'applicant', source: 'tombstone-patent-office', applicant, target: 'prior-art-ossuary', feedback: aTable.feedback };
+  assert.ok(ctx.v74.normalizeTombstonePatentOfficePending(ap, base), "applicant pending ok");
+  assert.strictEqual(ctx.v74.normalizeTombstonePatentOfficePending({ ...ap, source: 'bad' }, base), null, "applicant rejects bad source");
+
+  // prior-art
+  base.draft.applicant = applicant;
+  const pa = { kind: 'prior-art', source: 'prior-art-ossuary', applicant, priorArt, target: 'impossible-claim-examination', feedback: pTable.feedback };
+  assert.ok(ctx.v74.normalizeTombstonePatentOfficePending(pa, base), "prior-art pending ok");
+  assert.strictEqual(ctx.v74.normalizeTombstonePatentOfficePending({ ...pa, applicant: 'posthumous-inventor' }, base), null, "prior-art rejects mismatched applicant");
+
+  // patent
+  base.draft.priorArt = priorArt;
+  const pt = { kind: 'patent', source: 'impossible-claim-examination', applicant, priorArt, claim, patent: patentId, target: 'threshold', feedback: patentFb };
+  assert.ok(ctx.v74.normalizeTombstonePatentOfficePending(pt, base), "patent pending ok");
+  assert.strictEqual(ctx.v74.normalizeTombstonePatentOfficePending({ ...pt, target: 'remembrance' }, base), null, "patent rejects wrong target");
+  assert.strictEqual(ctx.v74.normalizeTombstonePatentOfficePending({ ...pt, feedback: 'free text' }, base), null, "patent rejects free text feedback");
+
+  // examiner-return
+  base.activeExaminer = { priorArt, patent: patentId, feedback: pTable.examinerFeedback };
+  const er = { kind: 'examiner-return', from: 'threshold', target: 'tombstone-patent-office', patent: patentId, feedback: pTable.examinerFeedback };
+  assert.ok(ctx.v74.normalizeTombstonePatentOfficePending(er, base), "examiner-return pending ok");
+  assert.strictEqual(ctx.v74.normalizeTombstonePatentOfficePending({ ...er, from: 'eyelid-archive' }, base), null, "examiner-return rejects mismatched from");
+
+  // tribunal-entry
+  base.activeExaminer = null;
+  base.draft = { applicant: '', priorArt: '' };
+  base.patents = [ctx.v74.PATENT_IDS[0], ctx.v74.PATENT_IDS[1], ctx.v74.PATENT_IDS[2], ctx.v74.PATENT_IDS[3], ctx.v74.PATENT_IDS[4], ctx.v74.PATENT_IDS[8], ctx.v74.PATENT_IDS[12], ctx.v74.PATENT_IDS[24]];
+  const te = { kind: 'tribunal-entry', target: 'perpetual-license-tribunal', feedback: ctx.v74.TOMBSTONE_PATENT_OFFICE_TRIBUNAL_ENTRY_FEEDBACK };
+  assert.ok(ctx.v74.normalizeTombstonePatentOfficePending(te, base), "tribunal-entry pending ok");
+  base.patents = [];
+  assert.strictEqual(ctx.v74.normalizeTombstonePatentOfficePending(te, base), null, "tribunal-entry rejects incomplete coverage");
+
+  // ruling
+  base.patents = ctx.v74.PATENT_IDS;
+  base.visited.tribunal = true;
+  const rl = { kind: 'ruling', source: 'perpetual-license-tribunal', action: 'grant-self-ownership', outcome: 'the-invention-owned-itself', target: 'unending-gallery', feedback: ctx.v74.RULING_TABLE['grant-self-ownership'].feedback };
+  assert.ok(ctx.v74.normalizeTombstonePatentOfficePending(rl, base), "ruling pending ok");
+  assert.strictEqual(ctx.v74.normalizeTombstonePatentOfficePending({ ...rl, outcome: 'bad' }, base), null, "ruling rejects bad outcome");
+}
+
+// 36 patents 与 3 ruling outcomes 穷举
+{
+  const ctx = makeV74Context({});
+  for (const id of ctx.v74.PATENT_IDS) {
+    const p = ctx.v74.findPatentById(id);
+    assert.ok(p, `patent ${id} resolvable`);
+    assert.strictEqual(p.id, id);
+    assert.ok(p.title);
+    assert.ok(p.feedback);
+    assert.strictEqual(ctx.v74.computePatentId(p.applicant, p.priorArt, p.claim), id);
+    assert.strictEqual(ctx.v74.computePatentTitle(p.applicant, p.priorArt, p.claim), p.title);
+    assert.strictEqual(ctx.v74.computePatentFeedback(p.applicant, p.priorArt, p.claim), p.feedback);
+  }
+  for (const action of ctx.v74.RULING_ACTIONS) {
+    const outcome = ctx.v74.computeRulingOutcomeId(action);
+    assert.ok(outcome);
+    assert.strictEqual(ctx.v74.RULING_TABLE[action].outcome, outcome);
+  }
+}
+
+// Coverage 4 pass / 3 fail
+{
+  const ctx = makeV74Context({});
+  const st = ctx.v74.defaultTombstonePatentOffice();
+  st.patents = ctx.v74.PATENT_IDS.slice(0, 3);
+  assert.strictEqual(ctx.v74.patentCoverageComplete(st), false, "3 patents cannot cover 4 claims");
+  st.patents = [ctx.v74.PATENT_IDS[0], ctx.v74.PATENT_IDS[5], ctx.v74.PATENT_IDS[22], ctx.v74.PATENT_IDS[27]];
+  assert.strictEqual(ctx.v74.patentCoverageComplete(st), true, "4 representative patents cover all axes");
+}
+
+// replay 来源/目标/else 矩阵
+{
+  const ctx = makeV74Context({ scene: 'remembrance' });
+  const st = ctx.v74.defaultTombstonePatentOffice();
+  st._v74unlocked = true;
+  st.pending = { kind: 'entry', target: 'tombstone-patent-office', feedback: ctx.v74.TOMBSTONE_PATENT_OFFICE_ENTRY_FEEDBACK };
+  ctx.v74.saveTombstonePatentOffice(st);
+  ctx.v74.replayTombstonePatentOfficePending('tombstone-patent-office');
+  assert.strictEqual(ctx.read().pending, null, "target arrival clears entry pending");
+  assert.strictEqual(ctx.read().visited.office, true, "target arrival marks office visited");
+}
+{
+  const ctx = makeV74Context({ scene: 'tombstone-patent-office' });
+  const st = ctx.v74.defaultTombstonePatentOffice();
+  st._v74unlocked = true;
+  const applicant = 'unborn-inventor';
+  st.pending = { kind: 'applicant', source: 'tombstone-patent-office', applicant, target: 'prior-art-ossuary', feedback: ctx.v74.APPLICANT_TABLE[applicant].feedback };
+  ctx.v74.saveTombstonePatentOffice(st);
+  ctx.v74.replayTombstonePatentOfficePending('prior-art-ossuary');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears applicant pending");
+  assert.strictEqual(saved.draft.applicant, applicant, "target arrival writes draft applicant");
+  assert.strictEqual(saved.visited.ossuary, true, "target arrival marks ossuary visited");
+}
+{
+  const ctx = makeV74Context({ scene: 'prior-art-ossuary' });
+  const st = ctx.v74.defaultTombstonePatentOffice();
+  st._v74unlocked = true;
+  st.draft.applicant = 'unborn-inventor';
+  const priorArt = 'uncarved-epitaph-blueprint';
+  st.pending = { kind: 'prior-art', source: 'prior-art-ossuary', applicant: st.draft.applicant, priorArt, target: 'impossible-claim-examination', feedback: ctx.v74.PRIOR_ART_TABLE[priorArt].feedback };
+  ctx.v74.saveTombstonePatentOffice(st);
+  ctx.v74.replayTombstonePatentOfficePending('impossible-claim-examination');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears prior-art pending");
+  assert.strictEqual(saved.draft.priorArt, priorArt, "target arrival writes draft priorArt");
+}
+{
+  const ctx = makeV74Context({ scene: 'impossible-claim-examination' });
+  const st = ctx.v74.defaultTombstonePatentOffice();
+  st._v74unlocked = true;
+  st.draft = { applicant: 'unborn-inventor', priorArt: 'uncarved-epitaph-blueprint' };
+  const claim = 'own-the-unmade';
+  const patent = ctx.v74.computePatentId(st.draft.applicant, st.draft.priorArt, claim);
+  st.pending = { kind: 'patent', source: 'impossible-claim-examination', applicant: st.draft.applicant, priorArt: st.draft.priorArt, claim, patent, target: 'threshold', feedback: ctx.v74.computePatentFeedback(st.draft.applicant, st.draft.priorArt, claim) };
+  ctx.v74.saveTombstonePatentOffice(st);
+  ctx.v74.replayTombstonePatentOfficePending('threshold');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears patent pending");
+  assert.ok(saved.patents.includes(patent), "patent collected");
+  assert.strictEqual(saved.filingRuns, 1, "filingRuns incremented once");
+  assert.strictEqual(saved.activeExaminer.priorArt, 'uncarved-epitaph-blueprint', "activeExaminer set");
+}
+{
+  const ctx = makeV74Context({ scene: 'threshold' });
+  const st = ctx.v74.defaultTombstonePatentOffice();
+  st._v74unlocked = true;
+  const patent = ctx.v74.PATENT_IDS[0];
+  const priorArt = patent.split(':')[1];
+  st.activeExaminer = { priorArt, patent, feedback: ctx.v74.PRIOR_ART_TABLE[priorArt].examinerFeedback };
+  st.pending = { kind: 'examiner-return', from: 'threshold', target: 'tombstone-patent-office', patent, feedback: ctx.v74.PRIOR_ART_TABLE[priorArt].examinerFeedback };
+  ctx.v74.saveTombstonePatentOffice(st);
+  ctx.v74.replayTombstonePatentOfficePending('tombstone-patent-office');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears examiner-return pending");
+  assert.strictEqual(saved.activeExaminer, null, "activeExaminer cleared");
+}
+{
+  const ctx = makeV74Context({ scene: 'remembrance' });
+  const st = ctx.v74.defaultTombstonePatentOffice();
+  st._v74unlocked = true;
+  st.patents = ctx.v74.PATENT_IDS;
+  st.pending = { kind: 'tribunal-entry', target: 'perpetual-license-tribunal', feedback: ctx.v74.TOMBSTONE_PATENT_OFFICE_TRIBUNAL_ENTRY_FEEDBACK };
+  ctx.v74.saveTombstonePatentOffice(st);
+  ctx.v74.replayTombstonePatentOfficePending('perpetual-license-tribunal');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears tribunal-entry pending");
+  assert.strictEqual(saved.visited.tribunal, true, "target arrival marks tribunal visited");
+}
+{
+  const ctx = makeV74Context({ scene: 'perpetual-license-tribunal' });
+  const st = ctx.v74.defaultTombstonePatentOffice();
+  st._v74unlocked = true;
+  st.patents = ctx.v74.PATENT_IDS;
+  st.visited.tribunal = true;
+  const ruling = { kind: 'ruling', source: 'perpetual-license-tribunal', action: 'grant-self-ownership', outcome: 'the-invention-owned-itself', target: 'unending-gallery', feedback: ctx.v74.RULING_TABLE['grant-self-ownership'].feedback };
+  st.pending = ruling;
+  ctx.v74.saveTombstonePatentOffice(st);
+  ctx.v74.replayTombstonePatentOfficePending('unending-gallery');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears ruling pending");
+  assert.ok(saved.rulingOutcomes.includes('the-invention-owned-itself'), "ruling outcome collected");
+  assert.strictEqual(saved.rulingRuns, 1, "rulingRuns incremented once");
+}
+{
+  // else clears pending without side effects
+  const ctx = makeV74Context({ scene: 'protocol' });
+  const st = ctx.v74.defaultTombstonePatentOffice();
+  st._v74unlocked = true;
+  st.pending = { kind: 'entry', target: 'tombstone-patent-office', feedback: ctx.v74.TOMBSTONE_PATENT_OFFICE_ENTRY_FEEDBACK };
+  ctx.v74.saveTombstonePatentOffice(st);
+  ctx.v74.replayTombstonePatentOfficePending('protocol');
+  assert.strictEqual(ctx.read().pending, null, "else clears pending");
+  assert.strictEqual(ctx.read().visited.office, false, "else does not mark visited");
+}
+
+// 重复 patent 不重复图鉴但增加 runs / tallies
+{
+  const ctx = makeV74Context({ scene: 'impossible-claim-examination' });
+  const st = ctx.v74.defaultTombstonePatentOffice();
+  st._v74unlocked = true;
+  st.draft = { applicant: 'unborn-inventor', priorArt: 'uncarved-epitaph-blueprint' };
+  const claim = 'own-the-unmade';
+  const patent = ctx.v74.computePatentId(st.draft.applicant, st.draft.priorArt, claim);
+  st.patents = [patent];
+  st.filingRuns = 3;
+  st.applicantTallies.unborn = 3;
+  st.pending = { kind: 'patent', source: 'impossible-claim-examination', applicant: st.draft.applicant, priorArt: st.draft.priorArt, claim, patent, target: 'threshold', feedback: ctx.v74.computePatentFeedback(st.draft.applicant, st.draft.priorArt, claim) };
+  ctx.v74.saveTombstonePatentOffice(st);
+  ctx.v74.replayTombstonePatentOfficePending('threshold');
+  const saved = ctx.read();
+  assert.strictEqual(saved.patents.length, 1, "duplicate patent not added");
+  assert.strictEqual(saved.filingRuns, 4, "duplicate still increments filingRuns");
+  assert.strictEqual(saved.applicantTallies.unborn, 4, "duplicate still increments tally");
+}
+
+// 18 组 isTrusted 防线
+{
+  const v74ListenerBlock = js.match(/const tombstonePatentOfficeEntryBtn = \$\('#tombstone-patent-office-entry-btn'\);[\s\S]*?(?=\n  \/\* ={40,}\n     v75 末日保修局 \/ APOCALYPSE WARRANTY OFFICE)/);
+  assert.ok(v74ListenerBlock, "v74 click listener block must exist");
+  assert.equal((v74ListenerBlock[0].match(/!e\.isTrusted/g) || []).length, 18, "v74 must guard all eighteen click listeners with isTrusted");
+}
+
+// 按钮 choose 处理与 UI 禁用一致性
+{
+  const applicantBtn = makeV74Button();
+  const ctx = makeV74Context({ scene: 'tombstone-patent-office', elements: { "tombstone-patent-office-applicant-unborn-inventor": applicantBtn } });
+  ctx.v74.chooseTombstonePatentOfficeApplicant('unborn-inventor');
+  assert.ok(ctx.scheduleCalls.length > 0, "choose applicant schedules transition");
+  assert.strictEqual(ctx.read().pending.kind, 'applicant', "choose applicant creates pending");
+}
+{
+  const priorArtBtn = makeV74Button();
+  const ctx = makeV74Context({ scene: 'prior-art-ossuary', elements: { "prior-art-uncarved-epitaph-blueprint": priorArtBtn } });
+  ctx.v74.saveTombstonePatentOffice({ ...ctx.v74.defaultTombstonePatentOffice(), draft: { applicant: 'unborn-inventor', priorArt: '' } });
+  ctx.v74.chooseTombstonePatentOfficePriorArt('uncarved-epitaph-blueprint');
+  assert.strictEqual(ctx.read().pending.kind, 'prior-art', "choose prior-art creates pending");
+}
+{
+  const claimBtn = makeV74Button();
+  const ctx = makeV74Context({ scene: 'impossible-claim-examination', elements: { "impossible-claim-own-the-unmade": claimBtn } });
+  ctx.v74.saveTombstonePatentOffice({ ...ctx.v74.defaultTombstonePatentOffice(), draft: { applicant: 'unborn-inventor', priorArt: 'uncarved-epitaph-blueprint' } });
+  ctx.v74.chooseTombstonePatentOfficeClaim('own-the-unmade');
+  assert.strictEqual(ctx.read().pending.kind, 'patent', "choose claim creates patent pending");
+}
+{
+  const examinerBtn = makeV74Button();
+  const helperCtx2 = makeV74Context({});
+  const patent = helperCtx2.v74.PATENT_IDS[0];
+  const priorArt = patent.split(':')[1];
+  const ctx = makeV74Context({ scene: 'threshold', elements: { "tombstone-patent-office-examiner-return-threshold": examinerBtn } });
+  ctx.v74.saveTombstonePatentOffice({ ...ctx.v74.defaultTombstonePatentOffice(), patents: [patent], activeExaminer: { priorArt, patent, feedback: ctx.v74.PRIOR_ART_TABLE[priorArt].examinerFeedback } });
+  ctx.v74.chooseTombstonePatentOfficeExaminerReturn('threshold');
+  assert.strictEqual(ctx.read().pending.kind, 'examiner-return', "choose examiner return creates pending");
+}
+{
+  const entryBtn = makeV74Button();
+  const ctx = makeV74Context({ scene: 'remembrance', elements: { "tombstone-patent-office-entry-btn": entryBtn } });
+  ctx.v74.chooseTombstonePatentOfficeEntry();
+  assert.strictEqual(ctx.read().pending.kind, 'entry', "choose entry creates entry pending");
+}
+{
+  const tribunalEntryBtn = makeV74Button();
+  const ctx = makeV74Context({ scene: 'remembrance', elements: { "tombstone-patent-office-tribunal-entry-btn": tribunalEntryBtn } });
+  ctx.v74.saveTombstonePatentOffice({ ...ctx.v74.defaultTombstonePatentOffice(), patents: ctx.v74.PATENT_IDS });
+  ctx.v74.chooseTombstonePatentOfficeTribunalEntry();
+  assert.strictEqual(ctx.read().pending.kind, 'tribunal-entry', "choose tribunal entry creates pending");
+}
+{
+  const rulingBtn = makeV74Button();
+  const ctx = makeV74Context({ scene: 'perpetual-license-tribunal', elements: { "perpetual-license-grant-self-ownership": rulingBtn } });
+  ctx.v74.saveTombstonePatentOffice({ ...ctx.v74.defaultTombstonePatentOffice(), patents: ctx.v74.PATENT_IDS, visited: { office: true, ossuary: true, examination: true, tribunal: true } });
+  ctx.v74.chooseTombstonePatentOfficeRulingAction('grant-self-ownership');
+  assert.strictEqual(ctx.read().pending.kind, 'ruling', "choose ruling action creates pending");
+}
+
+// activeExaminer / draft / pending 一致性：UI disabled 与 handler、pending 归一化一致
+{
+  function makeV74ExaminerButton({ disabled = false, hidden = false } = {}) {
+    return { disabled, hidden, pressed: null, setAttribute(name, value) { if (name === "aria-pressed") this.pressed = value; }, removeAttribute() {}, closest: () => null, addEventListener() {} };
+  }
+  const helperCtx = makeV74Context({});
+  const patent = helperCtx.v74.PATENT_IDS[0];
+  const priorArt = patent.split(':')[1];
+  const examinerFb = helperCtx.v74.PRIOR_ART_TABLE[priorArt].examinerFeedback;
+
+  // activeExaminer 期间 pending 归一化拒绝非 examiner-return
+  {
+    const ctx = makeV74Context({});
+    const baseSt = ctx.v74.defaultTombstonePatentOffice();
+    baseSt._v74unlocked = true;
+    baseSt.activeExaminer = { priorArt, patent, feedback: examinerFb };
+    assert.strictEqual(ctx.v74.normalizeTombstonePatentOfficePending({ kind: 'applicant', source: 'tombstone-patent-office', applicant: 'unborn-inventor', target: 'prior-art-ossuary', feedback: ctx.v74.APPLICANT_TABLE['unborn-inventor'].feedback }, baseSt), null, "applicant pending rejected while activeExaminer");
+    baseSt.draft = { applicant: 'unborn-inventor', priorArt: 'uncarved-epitaph-blueprint' };
+    const claim = 'own-the-unmade';
+    const patentFb = ctx.v74.computePatentFeedback('unborn-inventor', 'uncarved-epitaph-blueprint', claim);
+    assert.strictEqual(ctx.v74.normalizeTombstonePatentOfficePending({ kind: 'patent', source: 'impossible-claim-examination', applicant: 'unborn-inventor', priorArt: 'uncarved-epitaph-blueprint', claim, patent: `unborn-inventor:uncarved-epitaph-blueprint:${claim}`, target: 'threshold', feedback: patentFb }, baseSt), null, "patent pending rejected while activeExaminer");
+    baseSt.patents = ctx.v74.PATENT_IDS;
+    assert.strictEqual(ctx.v74.normalizeTombstonePatentOfficePending({ kind: 'tribunal-entry', target: 'perpetual-license-tribunal', feedback: ctx.v74.TOMBSTONE_PATENT_OFFICE_TRIBUNAL_ENTRY_FEEDBACK }, baseSt), null, "tribunal-entry pending rejected while activeExaminer");
+    baseSt.visited.tribunal = true;
+    assert.strictEqual(ctx.v74.normalizeTombstonePatentOfficePending({ kind: 'ruling', source: 'perpetual-license-tribunal', action: 'grant-self-ownership', outcome: 'the-invention-owned-itself', target: 'unending-gallery', feedback: ctx.v74.RULING_TABLE['grant-self-ownership'].feedback }, baseSt), null, "ruling pending rejected while activeExaminer");
+  }
+
+  // activeExaminer 期间 handler 拒绝 applicant/prior-art/claim/ruling
+  {
+    const applicantBtns = {
+      "tombstone-patent-office-applicant-unborn-inventor": makeV74ExaminerButton(),
+      "tombstone-patent-office-applicant-posthumous-inventor": makeV74ExaminerButton(),
+      "tombstone-patent-office-applicant-future-plagiarist": makeV74ExaminerButton(),
+    };
+    const ctx = makeV74Context({ scene: 'tombstone-patent-office', elements: applicantBtns });
+    ctx.v74.saveTombstonePatentOffice({ ...ctx.v74.defaultTombstonePatentOffice(), patents: [patent], activeExaminer: { priorArt, patent, feedback: examinerFb } });
+    ctx.v74.syncTombstonePatentOfficeOffice();
+    assert.ok(Object.values(applicantBtns).every((b) => b.disabled), "applicant buttons disabled while activeExaminer");
+
+    const priorArtBtns = {
+      "prior-art-uncarved-epitaph-blueprint": makeV74ExaminerButton(),
+      "prior-art-dream-worn-prototype": makeV74ExaminerButton(),
+      "prior-art-descendant-memory-machine": makeV74ExaminerButton(),
+    };
+    const ctx2 = makeV74Context({ scene: 'prior-art-ossuary', elements: priorArtBtns });
+    ctx2.v74.saveTombstonePatentOffice({ ...ctx2.v74.defaultTombstonePatentOffice(), draft: { applicant: 'unborn-inventor', priorArt: '' }, patents: [patent], activeExaminer: { priorArt, patent, feedback: examinerFb } });
+    ctx2.v74.syncTombstonePatentOfficeOssuary();
+    assert.ok(Object.values(priorArtBtns).every((b) => b.disabled), "prior-art buttons disabled while activeExaminer");
+
+    const claimBtns = {
+      "impossible-claim-own-the-unmade": makeV74ExaminerButton(),
+      "impossible-claim-license-death-as-user": makeV74ExaminerButton(),
+      "impossible-claim-sue-the-future-for-copying": makeV74ExaminerButton(),
+      "impossible-claim-forbid-inventor-to-invent": makeV74ExaminerButton(),
+    };
+    const ctx3 = makeV74Context({ scene: 'impossible-claim-examination', elements: claimBtns });
+    ctx3.v74.saveTombstonePatentOffice({ ...ctx3.v74.defaultTombstonePatentOffice(), draft: { applicant: 'unborn-inventor', priorArt: 'uncarved-epitaph-blueprint' }, patents: [patent], activeExaminer: { priorArt, patent, feedback: examinerFb } });
+    ctx3.v74.syncTombstonePatentOfficeExamination();
+    assert.ok(Object.values(claimBtns).every((b) => b.disabled), "claim buttons disabled while activeExaminer");
+
+    const rulingBtns = {
+      "perpetual-license-grant-self-ownership": makeV74ExaminerButton(),
+      "perpetual-license-invalidate-all-prior-existence": makeV74ExaminerButton(),
+      "perpetual-license-license-the-unburied-to-haunt-prototypes": makeV74ExaminerButton(),
+    };
+    const figure = makeV74Box();
+    const ctx4 = makeV74Context({ scene: 'perpetual-license-tribunal', elements: { "perpetual-license-tribunal-figure": figure, ...rulingBtns } });
+    ctx4.v74.saveTombstonePatentOffice({ ...ctx4.v74.defaultTombstonePatentOffice(), patents: ctx4.v74.PATENT_IDS, visited: { office: true, ossuary: true, examination: true, tribunal: true }, activeExaminer: { priorArt, patent, feedback: examinerFb } });
+    ctx4.v74.syncTombstonePatentOfficeTribunal();
+    assert.ok(Object.values(rulingBtns).every((b) => b.disabled), "ruling buttons disabled while activeExaminer");
+  }
+
+  // pending 期间所有 v74 选择按钮禁用
+  {
+    const applicantBtns = {
+      "tombstone-patent-office-applicant-unborn-inventor": makeV74ExaminerButton(),
+      "tombstone-patent-office-applicant-posthumous-inventor": makeV74ExaminerButton(),
+      "tombstone-patent-office-applicant-future-plagiarist": makeV74ExaminerButton(),
+    };
+    const ctx = makeV74Context({ scene: 'tombstone-patent-office', elements: applicantBtns });
+    ctx.v74.saveTombstonePatentOffice({ ...ctx.v74.defaultTombstonePatentOffice(), pending: { kind: 'entry', target: 'tombstone-patent-office', feedback: ctx.v74.TOMBSTONE_PATENT_OFFICE_ENTRY_FEEDBACK } });
+    ctx.v74.syncTombstonePatentOfficeOffice();
+    assert.ok(Object.values(applicantBtns).every((b) => b.disabled), "applicant buttons disabled while pending");
+  }
+
+  // draft 中途禁止并行 entry/tribunal-entry/ruling：UI disabled + handler no-op + persisted pending 被归一化丢弃
+  {
+    const tribunalEntryBtn = makeV74ExaminerButton();
+    const ctx = makeV74Context({ scene: 'remembrance', elements: { "tombstone-patent-office-tribunal-entry-btn": tribunalEntryBtn } });
+    ctx.v74.saveTombstonePatentOffice({ ...ctx.v74.defaultTombstonePatentOffice(), patents: ctx.v74.PATENT_IDS, draft: { applicant: 'unborn-inventor', priorArt: '' } });
+    ctx.v74.syncTombstonePatentOfficeRemembrance();
+    assert.strictEqual(tribunalEntryBtn.hidden, false, "tribunal-entry stays visible while draft in progress");
+    assert.strictEqual(tribunalEntryBtn.disabled, true, "tribunal-entry disabled while draft in progress");
+    ctx.v74.chooseTombstonePatentOfficeTribunalEntry();
+    assert.strictEqual(ctx.read().pending ?? null, null, "choose tribunal entry no-op while draft in progress");
+
+    const rulingBtns = {
+      "perpetual-license-grant-self-ownership": makeV74ExaminerButton(),
+      "perpetual-license-invalidate-all-prior-existence": makeV74ExaminerButton(),
+      "perpetual-license-license-the-unburied-to-haunt-prototypes": makeV74ExaminerButton(),
+    };
+    const figure = makeV74Box({ hidden: true });
+    const ctx2 = makeV74Context({ scene: 'perpetual-license-tribunal', elements: { "perpetual-license-tribunal-figure": figure, ...rulingBtns } });
+    ctx2.v74.saveTombstonePatentOffice({ ...ctx2.v74.defaultTombstonePatentOffice(), patents: ctx2.v74.PATENT_IDS, visited: { office: true, ossuary: true, examination: true, tribunal: true }, draft: { applicant: 'unborn-inventor', priorArt: 'uncarved-epitaph-blueprint' } });
+    ctx2.v74.syncTombstonePatentOfficeTribunal();
+    assert.strictEqual(figure.hidden, false, "tribunal figure visible while draft in progress");
+    assert.ok(Object.values(rulingBtns).every((b) => b.disabled), "ruling buttons disabled while draft in progress");
+    ctx2.v74.chooseTombstonePatentOfficeRulingAction('grant-self-ownership');
+    assert.strictEqual(ctx2.read().pending ?? null, null, "choose ruling action no-op while draft in progress");
+  }
+  {
+    // 伪造 persisted pending 在 save 时通过 normalize 丢弃
+    const ctx = makeV74Context({});
+    ctx.v74.saveTombstonePatentOffice({ ...ctx.v74.defaultTombstonePatentOffice(), draft: { applicant: 'unborn-inventor', priorArt: '' }, pending: { kind: 'entry', target: 'tombstone-patent-office', feedback: ctx.v74.TOMBSTONE_PATENT_OFFICE_ENTRY_FEEDBACK } });
+    assert.strictEqual(ctx.read().pending ?? null, null, "forged entry pending dropped when draft in progress");
+
+    const ctx2 = makeV74Context({});
+    ctx2.v74.saveTombstonePatentOffice({ ...ctx2.v74.defaultTombstonePatentOffice(), patents: ctx2.v74.PATENT_IDS, draft: { applicant: 'unborn-inventor', priorArt: 'uncarved-epitaph-blueprint' }, pending: { kind: 'tribunal-entry', target: 'perpetual-license-tribunal', feedback: ctx2.v74.TOMBSTONE_PATENT_OFFICE_TRIBUNAL_ENTRY_FEEDBACK } });
+    assert.strictEqual(ctx2.read().pending ?? null, null, "forged tribunal-entry pending dropped when draft in progress");
+
+    const ctx3 = makeV74Context({});
+    ctx3.v74.saveTombstonePatentOffice({ ...ctx3.v74.defaultTombstonePatentOffice(), patents: ctx3.v74.PATENT_IDS, visited: { tribunal: true }, draft: { applicant: 'unborn-inventor', priorArt: 'uncarved-epitaph-blueprint' }, pending: { kind: 'ruling', source: 'perpetual-license-tribunal', action: 'grant-self-ownership', outcome: 'the-invention-owned-itself', target: 'unending-gallery', feedback: ctx3.v74.RULING_TABLE['grant-self-ownership'].feedback } });
+    assert.strictEqual(ctx3.read().pending ?? null, null, "forged ruling pending dropped when draft in progress");
+  }
+}
+
+// 路由窄桥不放宽旧守卫
+{
+  const ctx = makeV74Context({});
+  const st = ctx.v74.defaultTombstonePatentOffice();
+  st._v74unlocked = true;
+  st.patents = [ctx.v74.PATENT_IDS[4]];
+  const priorArt = ctx.v74.PATENT_IDS[4].split(':')[1];
+  st.activeExaminer = { priorArt, patent: ctx.v74.PATENT_IDS[4], feedback: ctx.v74.PRIOR_ART_TABLE[priorArt].examinerFeedback };
+  ctx.v74.saveTombstonePatentOffice(st);
+  const scene = ctx.v74.SCENE_FOR_PRIOR_ART[priorArt];
+  assert.strictEqual(ctx.v74.tombstonePatentOfficeBridgeAllows(scene), true, "bridge allows activeExaminer scene");
+  const unrelatedScene = Object.values(ctx.v74.SCENE_FOR_PRIOR_ART).find((s) => s !== scene);
+  assert.strictEqual(ctx.v74.tombstonePatentOfficeBridgeAllows(unrelatedScene), false, "bridge does not allow unrelated scene");
+  assert.strictEqual(ctx.v74.tombstonePatentOfficeBridgeAllows('protocol'), false, "bridge never allows protocol");
+}
+
+// v74 不读写旧 key
+{
+  const v74ModuleText = v74ModuleBlock[0];
+  assert.ok(!v74ModuleText.includes("saveDreamCustoms("), "v74 never calls saveDreamCustoms");
+  assert.ok(!v74ModuleText.includes("DREAM_CUSTOMS_KEY"), "v74 never references v73 key constant");
+  assert.ok(!v74ModuleText.includes("goddead_v73_dream_customs"), "v74 never references v73 key string");
+}
+
+// 回归 P1：v73 全满时 v74 remembrance 渲染链必须真正使入口/记忆/图鉴可见
+{
+  function makeV74RemembranceButton(hidden = true) {
+    return { disabled: false, hidden, pressed: null, setAttribute(name, value) { if (name === "aria-pressed") this.pressed = value; }, removeAttribute() {}, closest: () => null, addEventListener() {} };
+  }
+  function makeV74RemembranceBox(hidden = true) {
+    const el = {
+      tagName: "div",
+      className: "",
+      _html: "",
+      textContent: "",
+      hidden,
+      children: [],
+      setAttribute() {},
+      removeAttribute(name) { if (name === "hidden") this.hidden = false; },
+      closest: () => null,
+      addEventListener() {},
+      appendChild(c) { this.children.push(c); },
+    };
+    Object.defineProperty(el, "innerHTML", {
+      get() { return this._html; },
+      set(v) { this._html = v; this.children = []; },
+    });
+    return el;
+  }
+  const entryBtn = makeV74RemembranceButton(true);
+  const tribunalEntryBtn = makeV74RemembranceButton(true);
+  const memory = makeV74RemembranceBox(true);
+  const codex = makeV74RemembranceBox(true);
+  const grid = makeV74RemembranceBox(true);
+  const codexEntry = makeV74RemembranceBox(true);
+  const links = Object.fromEntries(["tombstone-patent-office-link", "prior-art-ossuary-link", "impossible-claim-examination-link", "perpetual-license-tribunal-link"].map((id) => [id, makeV74RemembranceBox(true)]));
+  const ctx = makeV74Context({
+    scene: "remembrance",
+    elements: {
+      "tombstone-patent-office-entry-btn": entryBtn,
+      "tombstone-patent-office-tribunal-entry-btn": tribunalEntryBtn,
+      "tombstone-patent-office-memory": memory,
+      "tombstone-patent-office-codex": codex,
+      "tombstone-patent-office-codex-grid": grid,
+      "tombstone-patent-office-codex-entry": codexEntry,
+      ...links,
+    },
+  });
+  // 模拟 sceneInit 主同步链对 v74 的调用顺序
+  ctx.v74.syncTombstonePatentOfficeOffice();
+  ctx.v74.syncTombstonePatentOfficeOssuary();
+  ctx.v74.syncTombstonePatentOfficeExamination();
+  ctx.v74.syncTombstonePatentOfficeTribunal();
+  ctx.v74.syncTombstonePatentOfficeExaminers();
+  ctx.v74.paintTombstonePatentOfficeMemory();
+  ctx.v74.paintTombstonePatentOfficeCodex();
+  ctx.v74.syncTombstonePatentOfficeRemembrance();
+  ctx.v74.syncTombstonePatentOfficeLinks();
+  assert.strictEqual(entryBtn.hidden, false, "v74 entry button becomes visible on remembrance when v73 fully unlocked");
+  assert.strictEqual(entryBtn.disabled, false, "v74 entry button is enabled when no pending/draft/activeExaminer");
+  assert.strictEqual(memory.hidden, false, "v74 memory becomes visible on remembrance when v73 fully unlocked");
+  assert.ok(memory.textContent.includes("已核准 0/36 件专利"), "v74 memory text renders");
+  assert.strictEqual(codex.hidden, false, "v74 codex becomes visible on remembrance when v73 fully unlocked");
+  assert.strictEqual(grid.children.length, 39, "v74 codex grid renders all 39 cells");
+  assert.strictEqual(codexEntry.hidden, false, "v74 codex entry wrapper becomes visible");
+  assert.strictEqual(tribunalEntryBtn.hidden, true, "v74 tribunal-entry stays hidden without coverage");
+  assert.ok(Object.values(links).every((el) => el.hidden), "v74 directory links stay hidden before first visit");
+}
+
+/* v74 整页/主初始化链回归：sceneInit 与 DOMContentLoaded 初始块必须调用 v74 全组 sync */
+{
+  const sceneInitBlock = js.match(/const sceneInit = \(name\) => \{[\s\S]*?updateHudDisplay\(\);\s*\};/);
+  assert.ok(sceneInitBlock, "sceneInit function must be extractable for whole-page init chain audit");
+  const sceneInitText = sceneInitBlock[0];
+  const v74SyncCalls = [
+    "syncTombstonePatentOfficeOffice();",
+    "syncTombstonePatentOfficeOssuary();",
+    "syncTombstonePatentOfficeExamination();",
+    "syncTombstonePatentOfficeTribunal();",
+    "syncTombstonePatentOfficeExaminers();",
+    "paintTombstonePatentOfficeMemory();",
+    "paintTombstonePatentOfficeCodex();",
+    "syncTombstonePatentOfficeRemembrance();",
+    "syncTombstonePatentOfficeLinks();",
+    "replayTombstonePatentOfficePending(name);",
+  ];
+  for (const call of v74SyncCalls) {
+    assert.ok(sceneInitText.includes(call), `sceneInit must call ${call}`);
+  }
+  const v74ReplayIdx = sceneInitText.indexOf("replayTombstonePatentOfficePending(name);");
+  const hudIdx = sceneInitText.indexOf("updateHudDisplay();");
+  assert.ok(v74ReplayIdx > 0 && hudIdx > v74ReplayIdx, "v74 replay must run before updateHudDisplay in sceneInit");
+
+  const initBlock = js.match(/syncCausalScarLinks\(\);[\s\S]*?route\(\);\s*\}\);/);
+  assert.ok(initBlock, "DOMContentLoaded init block must be extractable");
+  const initText = initBlock[0];
+  for (const call of v74SyncCalls) {
+    assert.ok(initText.includes(call), `DOMContentLoaded init block must call ${call}`);
+  }
+
+  const forgetBlock = js.match(/const forgetActionBtn = \$[^;]*;[\s\S]*?goScene\("threshold"\);/);
+  assert.ok(forgetBlock, "forget-all handler must be extractable");
+  const forgetText = forgetBlock[0];
+  assert.ok(forgetText.includes('localStorage.removeItem("goddead_v74_tombstone_patent_office")'), "forget-all must remove v74 storage key");
+  assert.ok(forgetText.includes('tombstone-patent-office-memory') && forgetText.includes('hidden = true'), "forget-all must hide v74 memory");
+  assert.ok(forgetText.includes('tombstone-patent-office-codex') && forgetText.includes('hidden = true'), "forget-all must hide v74 codex");
+  assert.ok(forgetText.includes('tombstone-patent-office-entry-btn') && forgetText.includes('hidden = true'), "forget-all must hide v74 entry button");
+  assert.ok(forgetText.includes('tombstone-patent-office-tribunal-entry-btn') && forgetText.includes('hidden = true'), "forget-all must hide v74 tribunal entry button");
+  assert.ok(forgetText.includes('tombstone-patent-office-link') && forgetText.includes('hidden = true'), "forget-all must hide v74 directory links");
+}
+/* ============================================================
+   v75 末日保修局 / APOCALYPSE WARRANTY OFFICE 静态回归
+   ============================================================ */
+
+const V75_SOURCE_HASHES = {
+  "source-v75-apocalypse-warranty-office.png": "72f36d40f8402dc2e15cec8aed6ffb94af73694c54f677ab15a9497e8a43e686",
+  "source-v75-proof-of-purchase-morgue.png": "774e59a32e4fac005bf69aa10fdce1b673f27b47ad7c931392f785c5c4599322",
+  "source-v75-post-world-repair-bench.png": "af78f06c6725d9dca1a8b496401655e0f0d3b677a5c11413c96b1fca26f906bc",
+  "source-v75-universal-recall-yard.png": "94c27f3ea2dd3c3ea6fc846aae55d7bd32b0d7b8a4902f726f909211948b5f34",
+};
+const V75_WEBP_HASHES = {
+  "v75-apocalypse-warranty-office.webp": "7ef497b9c735e27b39cea69767a326582cd4ac4a75c0552b49ddba48e30faf4b",
+  "v75-proof-of-purchase-morgue.webp": "4c80d4669029c428fb8040978a7024b98ca914764262d23c2762f08808e0f534",
+  "v75-post-world-repair-bench.webp": "b443db4cf69a3c11ea8f85ab06e72b2a84512c7d7c66e89c31ed731957916a13",
+  "v75-universal-recall-yard.webp": "a2dacb3a8f13de748eaf0c271e967b8b91af014f479a457a635fff14fbf9abac",
+};
+const V75_SOURCE_SIZES = {
+  "source-v75-apocalypse-warranty-office.png": 3051978,
+  "source-v75-proof-of-purchase-morgue.png": 2859466,
+  "source-v75-post-world-repair-bench.png": 3150974,
+  "source-v75-universal-recall-yard.png": 3141509,
+};
+const V75_WEBP_SIZES = {
+  "v75-apocalypse-warranty-office.webp": 323406,
+  "v75-proof-of-purchase-morgue.webp": 287260,
+  "v75-post-world-repair-bench.webp": 355684,
+  "v75-universal-recall-yard.webp": 348490,
+};
+
+/* 场景与 DOM 存在性 */
+for (const s of ["apocalypse-warranty-office", "proof-of-purchase-morgue", "post-world-repair-bench", "universal-recall-yard"]) {
+  assert.match(html, new RegExp(`data-scene="${s}"`), `v75 scene missing: ${s}`);
+}
+for (const id of ["apocalypse-warranty-office-link", "proof-of-purchase-morgue-link", "post-world-repair-bench-link", "universal-recall-yard-link"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v75 directory link missing: ${id}`);
+}
+for (const id of ["apocalypse-warranty-memory", "apocalypse-warranty-codex", "apocalypse-warranty-codex-grid", "apocalypse-warranty-entry-btn", "apocalypse-warranty-recall-entry-btn"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v75 remembrance element missing: ${id}`);
+}
+for (const id of ["apocalypse-warranty-office-figure", "proof-of-purchase-morgue-figure", "post-world-repair-bench-figure", "universal-recall-yard-figure"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v75 figure missing: ${id}`);
+}
+for (const id of ["apocalypse-warranty-adjuster-threshold", "apocalypse-warranty-adjuster-remembrance", "apocalypse-warranty-adjuster-unending-gallery"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v75 adjuster container missing: ${id}`);
+}
+for (const id of ["apocalypse-warranty-defect-worn-before-manufacture", "apocalypse-warranty-defect-still-running-after-the-end", "apocalypse-warranty-defect-ghost-only-moving-part"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v75 defect button missing: ${id}`);
+}
+for (const id of ["proof-of-purchase-receipt-from-unbuilt-factory", "proof-of-purchase-dead-sun-warranty-seal", "proof-of-purchase-descendant-repair-memory"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v75 proof button missing: ${id}`);
+}
+for (const id of ["post-world-repair-remedy-replace-reality-not-part", "post-world-repair-remedy-extend-warranty-before-birth", "post-world-repair-remedy-declare-defect-as-feature", "post-world-repair-remedy-bill-the-apocalypse"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v75 remedy button missing: ${id}`);
+}
+for (const id of ["universal-recall-recall-the-world", "universal-recall-install-a-spare-dawn", "universal-recall-void-for-self-modification"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v75 recall button missing: ${id}`);
+}
+for (const id of ["apocalypse-warranty-adjuster-return-threshold", "apocalypse-warranty-adjuster-return-remembrance", "apocalypse-warranty-adjuster-return-unending-gallery"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v75 adjuster return button missing: ${id}`);
+}
+
+/* P1 回归：handler 的 buttonAvailable 与事件监听所查 ID 必须真实存在于 index.html */
+const v75HandlerIdChecks = {
+  defect: { ids: ["apocalypse-warranty-defect-worn-before-manufacture", "apocalypse-warranty-defect-still-running-after-the-end", "apocalypse-warranty-defect-ghost-only-moving-part"], handlerPrefix: "apocalypse-warranty-defect-${defect}" },
+  proof: { ids: ["proof-of-purchase-receipt-from-unbuilt-factory", "proof-of-purchase-dead-sun-warranty-seal", "proof-of-purchase-descendant-repair-memory"], handlerPrefix: "proof-of-purchase-${proof}" },
+  remedy: { ids: ["post-world-repair-remedy-replace-reality-not-part", "post-world-repair-remedy-extend-warranty-before-birth", "post-world-repair-remedy-declare-defect-as-feature", "post-world-repair-remedy-bill-the-apocalypse"], handlerPrefix: "post-world-repair-remedy-${remedy}" },
+  recall: { ids: ["universal-recall-recall-the-world", "universal-recall-install-a-spare-dawn", "universal-recall-void-for-self-modification"], handlerPrefix: "universal-recall-${action}" },
+};
+for (const [kind, { ids, handlerPrefix }] of Object.entries(v75HandlerIdChecks)) {
+  assert.ok(js.includes(`buttonAvailable(\`${handlerPrefix}\`)`), `v75 ${kind} handler must use real DOM id prefix: ${handlerPrefix}`);
+  for (const id of ids) {
+    assert.match(html, new RegExp(`id="${id}"`), `v75 ${kind} button must exist in DOM: ${id}`);
+    assert.ok(js.includes(`$('#${id}')`), `v75 ${kind} listener must be wired to the real DOM id: ${id}`);
+  }
+}
+
+assert.match(html, /<link rel="preload" href="assets\/v75-apocalypse-warranty-office\.webp" as="image">/, "v75 preloads apocalypse-warranty-office");
+assert.match(html, /<link rel="preload" href="assets\/v75-proof-of-purchase-morgue\.webp" as="image">/, "v75 preloads proof-of-purchase-morgue");
+assert.match(html, /<link rel="preload" href="assets\/v75-post-world-repair-bench\.webp" as="image">/, "v75 preloads post-world-repair-bench");
+assert.match(html, /<link rel="preload" href="assets\/v75-universal-recall-yard\.webp" as="image">/, "v75 preloads universal-recall-yard");
+
+/* 缓存版本 */
+assert.match(html, /styles\.css\?v=76/, "v75 cache busts styles.css");
+assert.match(html, /script\.js\?v=76/, "v75 cache busts script.js");
+
+/* JS 模块与 key */
+assert.equal((js.match(/const APOCALYPSE_WARRANTY_KEY = ['"]goddead_v75_apocalypse_warranty['"]/g) || []).length, 1, "v75 introduces exactly one storage key");
+const v75ModuleBlock = js.match(/v75 末日保修局 \/ APOCALYPSE WARRANTY OFFICE[\s\S]*?(?=\n  \/\* ={40,}\n     走廊：残页 \+ 封印的门)/);
+assert.ok(v75ModuleBlock, "v75 module must exist");
+
+const saveApocalypseWarrantyOfficeBlock = js.match(/const saveApocalypseWarrantyOffice = \(st\) => \{[\s\S]*?store\.set\(\s*APOCALYPSE_WARRANTY_KEY,\s*JSON\.stringify\(\{[\s\S]*?\}\)\s*\);/);
+assert.ok(saveApocalypseWarrantyOfficeBlock, "saveApocalypseWarrantyOffice must persist an explicit canonical projection");
+for (const f of ["version", "visited", "draft", "warrantyClaims", "recallOutcomes", "serviceRuns", "recallRuns", "claimantTallies", "lastOutcome", "activeAdjuster", "pending"]) {
+  assert.match(saveApocalypseWarrantyOfficeBlock[0], new RegExp(`\\b${f}\\b`), `saveApocalypseWarrantyOffice persists ${f}`);
+}
+
+/* 素材冻结 */
+for (const [file, hash] of Object.entries(V75_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(`design-references/${file}`, root));
+  assert.strictEqual(createHash("sha256").update(buf).digest("hex"), hash, `${file} must keep its frozen sha256`);
+  assert.strictEqual(buf.length, V75_SOURCE_SIZES[file], `${file} must keep its frozen byte size`);
+  const dims = readPngDimensions(buf);
+  assert.ok(dims, `${file} must be a readable PNG`);
+  assert.strictEqual(dims.width, 1536, `${file} must be 1536 px wide`);
+  assert.strictEqual(dims.height, 1024, `${file} must be 1024 px tall`);
+}
+for (const [file, hash] of Object.entries(V75_WEBP_HASHES)) {
+  const buf = await readFile(new URL(`assets/${file}`, root));
+  assert.strictEqual(createHash("sha256").update(buf).digest("hex"), hash, `${file} must keep its frozen sha256`);
+  assert.strictEqual(buf.length, V75_WEBP_SIZES[file], `${file} must keep its frozen byte size`);
+  assert.ok(html.includes(`assets/${file}`), `${file} must be referenced from index.html`);
+  const dims = readWebpDimensions(buf);
+  assert.ok(dims, `${file} must be a readable WebP`);
+  assert.strictEqual(dims.width, 1536, `${file} must be 1536 px wide`);
+  assert.strictEqual(dims.height, 1024, `${file} must be 1024 px tall`);
+  assert.match(html, new RegExp(`src="assets/${file.replace(".", "\\.")}" alt="" width="1536" height="1024"`), `${file} must have 1536x1024 HTML attributes`);
+}
+
+/* 冻结标题、按钮文本与反馈 */
+assert.match(html, /04π \/ 末日保修局 · APOCALYPSE WARRANTY OFFICE/, "v75 office title");
+assert.match(html, /04ρ \/ 购买凭证停尸房 · PROOF-OF-PURCHASE MORGUE/, "v75 morgue title");
+assert.match(html, /04σ \/ 世终之后维修台 · POST-WORLD REPAIR BENCH/, "v75 bench title");
+assert.match(html, /04τ \/ 世界总召回场 · UNIVERSAL RECALL YARD/, "v75 yard title");
+assert.match(js, /报修出厂前磨损 · CLAIM WEAR BEFORE MANUFACTURE/, "v75 defect worn-before-manufacture button text");
+assert.match(js, /报修世终后不停机 · CLAIM OPERATION AFTER THE END/, "v75 defect still-running-after-the-end button text");
+assert.match(js, /报修幽灵活动零件 · CLAIM THE GHOST AS THE MOVING PART/, "v75 defect ghost-only-moving-part button text");
+assert.match(js, /提交未建工厂收据 · SUBMIT THE UNBUILT FACTORY RECEIPT/, "v75 proof receipt button text");
+assert.match(js, /提交死太阳保修封 · SUBMIT THE DEAD SUN WARRANTY SEAL/, "v75 proof seal button text");
+assert.match(js, /提交后人维修记忆 · SUBMIT THE DESCENDANT REPAIR MEMORY/, "v75 proof memory button text");
+assert.match(js, /替换现实而非零件 · REPLACE REALITY, NOT THE PART/, "v75 remedy replace button text");
+assert.match(js, /把保修延长到出生前 · EXTEND THE WARRANTY BEFORE BIRTH/, "v75 remedy extend button text");
+assert.match(js, /宣布故障属于原厂特性 · DECLARE THE DEFECT A FEATURE/, "v75 remedy feature button text");
+assert.match(js, /把账单寄给末日 · BILL THE APOCALYPSE/, "v75 remedy bill button text");
+assert.match(js, /把世界从流通中召回 · RECALL THE WORLD FROM CIRCULATION/, "v75 recall world button text");
+assert.match(js, /给末日安装备用黎明 · INSTALL A SPARE DAWN IN THE APOCALYPSE/, "v75 recall dawn button text");
+assert.match(js, /因现实擅自维修而作废 · VOID THE WARRANTY FOR REALITY'S SELF-MODIFICATION/, "v75 recall void button text");
+assert.match(js, /跟空厂理赔员返回保修局 · RETURN WITH THE UNBUILT-FACTORY ADJUSTER/, "v75 threshold adjuster return text");
+assert.match(js, /跟死日理赔员返回保修局 · RETURN WITH THE DEAD-SUN ADJUSTER/, "v75 remembrance adjuster return text");
+assert.match(js, /跟后忆理赔员返回保修局 · RETURN WITH THE DESCENDANT-MEMORY ADJUSTER/, "v75 unending adjuster return text");
+assert.match(js, /装配摇篮交出一台已经老化的机器。它还缺最后一颗螺丝，却能证明自己曾被使用了几百年。/, "v75 defect worn-before-manufacture feedback");
+assert.match(js, /死太阳从破裂光环里漏出冷灰。世界已经结束，它仍拒绝停机，并要求补发最后一夜的电费。/, "v75 defect still-running-after-the-end feedback");
+assert.match(js, /自动机的金属关节全部卡死，胸腔里的幽灵却继续转动齿轮。局方只承认幽灵属于耗材。/, "v75 defect ghost-only-moving-part feedback");
+assert.match(js, /黄铜线框工厂吐出一张没有商品的长收据。厂房从未建成，退货地址却指向你脚下这道门槛。/, "v75 proof receipt feedback");
+assert.match(js, /红蜡封印仍留在熄灭光环上。条款没有写期限，因为签发它的白昼不相信自己会结束。/, "v75 proof seal feedback");
+assert.match(js, /尚未出生的后人围着原型回忆一次维修。他们都记得你付过钱，唯独没人记得机器曾经存在。/, "v75 proof memory feedback");
+assert.match(js, /维修员保留坏齿轮，把它周围的世界整体换新。新现实运转正常，只是再也容不下提出报修的你。/, "v75 remedy replace fragment");
+assert.match(js, /保修带沿摇篮时钟逆行。你出生以前的所有损坏获得免费维修，出生本身因此被列为首次故障。/, "v75 remedy extend fragment");
+assert.match(js, /裂缝被点亮并写入原厂设计。机器无需修理，反而是完好无损的世界突然显得不符合规格。/, "v75 remedy feature fragment");
+assert.match(js, /账单机卷入烧毁的地平线。末日拒绝付款，因为它声称毁掉世界只是按使用说明完成关机。/, "v75 remedy bill fragment");
+assert.match(js, /召回整批已经售出的现实 · RECALL EVERY REALITY ALREADY SOLD/, "v75 recall entry feedback");
+assert.match(js, /裂开的世界沿退货带倒退回黑暗厂门。城市仍黏在表面，人们这才发现自己只是未拆封的随箱附件。/, "v75 recall world feedback");
+assert.match(js, /维修员把一枚备用黎明旋进破裂地平线。世界重新亮起，却只照见所有已经来不及活过的事。/, "v75 recall dawn feedback");
+assert.match(js, /现实长出机械双手自行缝合裂口。局方当场撕毁保修，因为存在未经授权改变了自己原本的损坏状态。/, "v75 recall void feedback");
+assert.match(js, /空厂理赔员在门槛上核对退货地址。门后没有工厂，只有一张比厂房更早衰老的收据。/, "v75 threshold adjuster feedback");
+assert.match(js, /死日理赔员把红蜡光环钉进痕迹墙。墙仍记得白昼，太阳却只记得自己正在等待换新。/, "v75 remembrance adjuster feedback");
+assert.match(js, /后忆理赔员在无尽画廊找到那次维修。每幅画都记得付款，唯独机器从未出现在任何画里。/, "v75 unending adjuster feedback");
+
+/* 可执行/隔离状态回归测试 */
+assert.ok(v75ModuleBlock, "v75 executable block available for regression tests");
+const v75ExecSourceStart = v75ModuleBlock[0].indexOf("const APOCALYPSE_WARRANTY_KEY");
+assert.ok(v75ExecSourceStart > 0, "v75 executable block starts with APOCALYPSE_WARRANTY_KEY");
+const v75ExecSource = v75ModuleBlock[0].slice(v75ExecSourceStart).trimEnd();
+
+const APOCALYPSE_WARRANTY_KEY = "goddead_v75_apocalypse_warranty";
+const fullV74CoveragePatents = (() => {
+  const applicants = ['unborn-inventor', 'posthumous-inventor', 'future-plagiarist'];
+  const priorArt = ['uncarved-epitaph-blueprint', 'dream-worn-prototype', 'descendant-memory-machine'];
+  const claims = ['own-the-unmade', 'license-death-as-user', 'sue-the-future-for-copying', 'forbid-inventor-to-invent'];
+  const ids = [];
+  for (const a of applicants) {
+    for (const p of priorArt) {
+      for (const c of claims) {
+        ids.push(`${a}:${p}:${c}`);
+      }
+    }
+  }
+  return ids;
+})();
+const fullV74RulingOutcomes = ['the-invention-owned-itself', 'existence-was-invalidated-as-prior-art', 'the-unburied-haunted-every-prototype'];
+
+function makeV75Button({ disabled = false, hidden = false } = {}) {
+  return { disabled, hidden, pressed: null, setAttribute(name, value) { if (name === "aria-pressed") this.pressed = value; }, removeAttribute() {}, closest: () => null, addEventListener() {} };
+}
+function makeV75Box({ hidden = true } = {}) {
+  return { hidden, children: [], className: "", textContent: "", setAttribute() {}, removeAttribute(name) { if (name === "hidden") this.hidden = false; }, closest: () => null, addEventListener() {}, appendChild(c) { this.children.push(c); }, querySelector: () => null };
+}
+
+function makeV75Context({
+  initialStore = {},
+  elements = {},
+  scene = "",
+  v74unlocked = true,
+  patents = fullV74CoveragePatents,
+  rulingOutcomes = fullV74RulingOutcomes,
+} = {}) {
+  const storeData = { ...initialStore };
+  const store = {
+    get(k, def) { return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def; },
+    set(k, v) { storeData[k] = v; },
+  };
+  const queries = [];
+  const $ = (rawId) => { queries.push(rawId); return elements[rawId.replace(/^#/, "")] || null; };
+  const scheduleCalls = [];
+  const AutoAdvance = { has(src) { return false; }, schedule(src, target, opts) { scheduleCalls.push({ src, target, opts }); } };
+  const AudioEngine = { whoosh() {}, bell() {} };
+  const tombstonePatentOfficeUnlocked = () => v74unlocked;
+  const patentCoverageComplete = () => v74unlocked;
+  const getTombstonePatentOffice = () => v74unlocked ? { patents, rulingOutcomes } : { patents: [], rulingOutcomes: [] };
+  const buttonAvailable = (id) => {
+    const btn = $(`#${id}`);
+    if (!btn || btn.disabled || btn.hidden) return false;
+    if (typeof btn.closest === "function" && btn.closest("[hidden]")) return false;
+    return true;
+  };
+  const document = {
+    createElement(tag) {
+      return {
+        tagName: tag,
+        className: "",
+        innerHTML: "",
+        textContent: "",
+        children: [],
+        hidden: true,
+        setAttribute() {},
+        removeAttribute(name) { if (name === "hidden") this.hidden = false; },
+        appendChild(c) { this.children.push(c); },
+      };
+    },
+  };
+  const body = v75ExecSource + "\nreturn { APOCALYPSE_WARRANTY_KEY, APOCALYPSE_WARRANTY_VERSION, DEFECTS, PROOFS, REMEDIES, RECALL_ACTIONS, SCENE_FOR_PROOF, APOCALYPSE_WARRANTY_ENTRY_FEEDBACK, APOCALYPSE_WARRANTY_RECALL_ENTRY_FEEDBACK, DEFECT_TABLE, PROOF_TABLE, REMEDY_TABLE, RECALL_TABLE, WARRANTY_CLAIM_IDS, WARRANTY_CLAIM_SET, RECALL_OUTCOME_IDS, RECALL_OUTCOME_SET, defaultApocalypseWarrantyOffice, normalizeApocalypseWarrantyOfficeVisited, normalizeApocalypseWarrantyOfficeDraft, normalizeApocalypseWarrantyOfficeWarrantyClaims, normalizeApocalypseWarrantyOfficeRecallOutcomes, normalizeApocalypseWarrantyOfficeClaimantTallies, normalizeApocalypseWarrantyOfficeActiveAdjuster, normalizeApocalypseWarrantyOfficePending, saveApocalypseWarrantyOffice, getApocalypseWarrantyOffice, apocalypseWarrantyOfficeUnlocked, warrantyCoverageComplete, computeClaimantTalliesMajority, computeWarrantyClaimId, computeWarrantyClaimTitle, computeWarrantyClaimFeedback, findWarrantyClaimById, computeRecallOutcomeId, apocalypseWarrantyOfficeDelay, apocalypseWarrantyOfficeBeforeArrive, resolveApocalypseWarrantyOfficePendingOnArrival, lockApocalypseWarrantyOfficeDefectButtons, lockApocalypseWarrantyOfficeProofButtons, lockApocalypseWarrantyOfficeRemedyButtons, lockApocalypseWarrantyOfficeRecallButtons, syncApocalypseWarrantyOffice, syncApocalypseWarrantyMorgue, syncApocalypseWarrantyBench, syncApocalypseWarrantyYard, syncApocalypseWarrantyAdjusters, paintApocalypseWarrantyAdjuster, paintApocalypseWarrantyMemory, paintApocalypseWarrantyCodex, syncApocalypseWarrantyRemembrance, syncApocalypseWarrantyLinks, replayApocalypseWarrantyPending, chooseApocalypseWarrantyDefect, chooseApocalypseWarrantyProof, chooseApocalypseWarrantyRemedy, chooseApocalypseWarrantyAdjusterReturn, chooseApocalypseWarrantyEntry, chooseApocalypseWarrantyRecallEntry, chooseApocalypseWarrantyRecallAction, apocalypseWarrantyCanVisitOffice, apocalypseWarrantyCanVisitMorgue, apocalypseWarrantyCanVisitBench, apocalypseWarrantyCanVisitYard, apocalypseWarrantyBridgeAllows };";
+  const v75 = new Function("store", "$", "currentScene", "AutoAdvance", "AudioEngine", "reduced", "tombstonePatentOfficeUnlocked", "patentCoverageComplete", "getTombstonePatentOffice", "buttonAvailable", "document", body)(store, $, scene, AutoAdvance, AudioEngine, false, tombstonePatentOfficeUnlocked, patentCoverageComplete, getTombstonePatentOffice, buttonAvailable, document);
+  const read = () => {
+    try { return JSON.parse(storeData[APOCALYPSE_WARRANTY_KEY] || "{}") || {}; } catch { return {}; }
+  };
+  return { v75, storeData, read, queries, scheduleCalls };
+}
+
+// 36 warranty claim IDs 固定顺序
+{
+  const ctx = makeV75Context({});
+  assert.strictEqual(ctx.v75.WARRANTY_CLAIM_IDS.length, 36, "v75 has 36 warranty claim ids");
+  const expected = [];
+  for (const d of ctx.v75.DEFECTS) {
+    for (const p of ctx.v75.PROOFS) {
+      for (const r of ctx.v75.REMEDIES) {
+        expected.push(`${d}:${p}:${r}`);
+      }
+    }
+  }
+  assert.deepStrictEqual(ctx.v75.WARRANTY_CLAIM_IDS, expected, "warranty claim ids follow DEFECTS×PROOFS×REMEDIES order");
+  assert.strictEqual(ctx.v75.WARRANTY_CLAIM_SET.size, 36, "warranty claim ids are unique");
+}
+
+// 3 recall outcome IDs 固定顺序
+{
+  const ctx = makeV75Context({});
+  assert.deepStrictEqual(ctx.v75.RECALL_OUTCOME_IDS, [
+    'the-world-was-recalled-from-circulation',
+    'the-apocalypse-was-repaired-with-a-spare-dawn',
+    'existence-voided-its-own-warranty',
+  ], "recall outcome ids follow RECALL_ACTIONS order");
+}
+
+// 默认态与 canonical 十一键
+{
+  const ctx = makeV75Context({});
+  const st = ctx.v75.defaultApocalypseWarrantyOffice();
+  assert.deepStrictEqual(Object.keys(st).sort(), ["activeAdjuster", "claimantTallies", "draft", "lastOutcome", "pending", "recallOutcomes", "recallRuns", "serviceRuns", "version", "visited", "warrantyClaims"], "defaultApocalypseWarrantyOffice has exactly eleven keys");
+  assert.strictEqual(st.version, 75);
+  assert.deepStrictEqual(st.visited, { office: false, morgue: false, bench: false, yard: false });
+  assert.deepStrictEqual(st.draft, { defect: '', proof: '' });
+  assert.deepStrictEqual(st.warrantyClaims, []);
+  assert.deepStrictEqual(st.recallOutcomes, []);
+  assert.strictEqual(st.serviceRuns, 0);
+  assert.strictEqual(st.recallRuns, 0);
+  assert.deepStrictEqual(st.claimantTallies, { prebirth: 0, aftermath: 0, ghost: 0 });
+  assert.strictEqual(st.lastOutcome, '');
+  assert.strictEqual(st.activeAdjuster, null);
+  assert.strictEqual(st.pending, null);
+}
+
+// 坏 JSON / version / type / 未解锁回默认态
+{
+  const ctx = makeV75Context({ initialStore: { [APOCALYPSE_WARRANTY_KEY]: "not-json" } });
+  assert.deepStrictEqual(ctx.v75.getApocalypseWarrantyOffice(), ctx.v75.defaultApocalypseWarrantyOffice(), "bad json returns default");
+  const ctx2 = makeV75Context({ initialStore: { [APOCALYPSE_WARRANTY_KEY]: JSON.stringify({ version: 74, visited: { office: true } }) } });
+  assert.deepStrictEqual(ctx2.v75.getApocalypseWarrantyOffice(), ctx2.v75.defaultApocalypseWarrantyOffice(), "wrong version returns default");
+  const ctx3 = makeV75Context({ initialStore: { [APOCALYPSE_WARRANTY_KEY]: JSON.stringify([]) } });
+  assert.deepStrictEqual(ctx3.v75.getApocalypseWarrantyOffice(), ctx3.v75.defaultApocalypseWarrantyOffice(), "array returns default");
+  const ctx4 = makeV75Context({ initialStore: { [APOCALYPSE_WARRANTY_KEY]: JSON.stringify({ version: 75, visited: { office: true } }) }, v74unlocked: false });
+  assert.deepStrictEqual(ctx4.v75.getApocalypseWarrantyOffice(), ctx4.v75.defaultApocalypseWarrantyOffice(), "locked returns default");
+}
+
+// 解锁只读 v74：锁定态下 direct hash 回 remembrance
+{
+  const ctx = makeV75Context({ v74unlocked: false });
+  assert.strictEqual(ctx.v75.apocalypseWarrantyOfficeUnlocked(), false, "v75 locked when v74 locked");
+  assert.strictEqual(ctx.v75.apocalypseWarrantyCanVisitOffice(), false, "locked office guard blocks");
+  assert.strictEqual(ctx.v75.apocalypseWarrantyCanVisitMorgue(), false, "locked morgue guard blocks");
+  assert.strictEqual(ctx.v75.apocalypseWarrantyCanVisitBench(), false, "locked bench guard blocks");
+  assert.strictEqual(ctx.v75.apocalypseWarrantyCanVisitYard(), false, "locked yard guard blocks");
+}
+
+// 规范化：visited / draft / warrantyClaims / recallOutcomes / tallies / lastOutcome / activeAdjuster
+{
+  const ctx = makeV75Context({});
+  const base = ctx.v75.defaultApocalypseWarrantyOffice();
+  base.visited = { office: 1, morgue: 'yes', bench: true, yard: null };
+  assert.deepStrictEqual(ctx.v75.normalizeApocalypseWarrantyOfficeVisited(base.visited), { office: false, morgue: false, bench: true, yard: false });
+  assert.deepStrictEqual(ctx.v75.normalizeApocalypseWarrantyOfficeDraft({ defect: 'worn-before-manufacture', proof: 'receipt-from-unbuilt-factory' }), { defect: 'worn-before-manufacture', proof: 'receipt-from-unbuilt-factory' });
+  assert.deepStrictEqual(ctx.v75.normalizeApocalypseWarrantyOfficeDraft({ defect: 'bad', proof: 'receipt-from-unbuilt-factory' }), { defect: '', proof: '' });
+  assert.deepStrictEqual(ctx.v75.normalizeApocalypseWarrantyOfficeDraft({ defect: 'worn-before-manufacture', proof: 'bad' }), { defect: 'worn-before-manufacture', proof: '' });
+  assert.deepStrictEqual(ctx.v75.normalizeApocalypseWarrantyOfficeDraft({ defect: '', proof: 'receipt-from-unbuilt-factory' }), { defect: '', proof: '' });
+  const ids = [ctx.v75.WARRANTY_CLAIM_IDS[5], ctx.v75.WARRANTY_CLAIM_IDS[0], ctx.v75.WARRANTY_CLAIM_IDS[5], 'bad:id'];
+  assert.deepStrictEqual(ctx.v75.normalizeApocalypseWarrantyOfficeWarrantyClaims(ids), [ctx.v75.WARRANTY_CLAIM_IDS[0], ctx.v75.WARRANTY_CLAIM_IDS[5]], "warranty claims dedup and fixed order");
+  const outcomes = ['the-world-was-recalled-from-circulation', 'bad-outcome', 'the-world-was-recalled-from-circulation', 'the-apocalypse-was-repaired-with-a-spare-dawn', 'existence-voided-its-own-warranty'];
+  assert.deepStrictEqual(ctx.v75.normalizeApocalypseWarrantyOfficeRecallOutcomes(outcomes), ['the-world-was-recalled-from-circulation', 'the-apocalypse-was-repaired-with-a-spare-dawn', 'existence-voided-its-own-warranty'], "recall outcomes dedup and fixed order");
+  assert.deepStrictEqual(ctx.v75.normalizeApocalypseWarrantyOfficeClaimantTallies({ prebirth: 1.7, aftermath: -3, ghost: 99999 }), { prebirth: 1, aftermath: 0, ghost: 9999 }, "tallies clamp and floor");
+  const claim = ctx.v75.WARRANTY_CLAIM_IDS[0];
+  const proof = claim.split(':')[1];
+  assert.strictEqual(ctx.v75.normalizeApocalypseWarrantyOfficeActiveAdjuster({ proof, warrantyClaim: claim, feedback: ctx.v75.PROOF_TABLE[proof].adjusterFeedback }, [claim]).warrantyClaim, claim, "activeAdjuster ok");
+  assert.strictEqual(ctx.v75.normalizeApocalypseWarrantyOfficeActiveAdjuster({ proof: 'dead-sun-warranty-seal', warrantyClaim: claim, feedback: ctx.v75.PROOF_TABLE['dead-sun-warranty-seal'].adjusterFeedback }, [claim]), null, "activeAdjuster proof mismatch");
+}
+
+// activeAdjuster 要求 warrantyClaim 已收集且 proof 匹配第二段
+{
+  const ctx = makeV75Context({});
+  const claim = ctx.v75.WARRANTY_CLAIM_IDS[0];
+  const parts = claim.split(':');
+  const fb = ctx.v75.PROOF_TABLE[parts[1]].adjusterFeedback;
+  assert.ok(ctx.v75.normalizeApocalypseWarrantyOfficeActiveAdjuster({ proof: parts[1], warrantyClaim: claim, feedback: fb }, [claim]), "adjuster matches collected claim");
+  assert.strictEqual(ctx.v75.normalizeApocalypseWarrantyOfficeActiveAdjuster({ proof: parts[1], warrantyClaim: claim, feedback: fb }, []), null, "adjuster rejected when claim not collected");
+  const other = ctx.v75.WARRANTY_CLAIM_IDS[4];
+  const otherParts = other.split(':');
+  assert.strictEqual(ctx.v75.normalizeApocalypseWarrantyOfficeActiveAdjuster({ proof: otherParts[1], warrantyClaim: claim, feedback: ctx.v75.PROOF_TABLE[otherParts[1]].adjusterFeedback }, [claim]), null, "adjuster rejected when proof does not equal claim second segment");
+}
+
+// save/get roundtrip 投影去重
+{
+  const ctx = makeV75Context({});
+  const st = ctx.v75.defaultApocalypseWarrantyOffice();
+  st.visited.office = true;
+  st.draft = { defect: 'worn-before-manufacture', proof: 'receipt-from-unbuilt-factory' };
+  const claim = ctx.v75.WARRANTY_CLAIM_IDS[8];
+  st.warrantyClaims = [claim, claim];
+  st.recallOutcomes = ['the-world-was-recalled-from-circulation'];
+  st.serviceRuns = 2;
+  st.recallRuns = 1;
+  st.claimantTallies = { prebirth: 0, aftermath: 2, ghost: 0 };
+  st.lastOutcome = claim;
+  st.activeAdjuster = { proof: claim.split(':')[1], warrantyClaim: claim, feedback: ctx.v75.PROOF_TABLE[claim.split(':')[1]].adjusterFeedback };
+  st.pending = { kind: 'proof', source: 'proof-of-purchase-morgue', defect: 'worn-before-manufacture', proof: 'receipt-from-unbuilt-factory', target: 'post-world-repair-bench', feedback: ctx.v75.PROOF_TABLE['receipt-from-unbuilt-factory'].feedback };
+  st.extra = 'should-be-dropped';
+  ctx.v75.saveApocalypseWarrantyOffice(st);
+  const saved = ctx.read();
+  assert.deepStrictEqual(Object.keys(saved).sort(), ["activeAdjuster", "claimantTallies", "draft", "lastOutcome", "pending", "recallOutcomes", "recallRuns", "serviceRuns", "version", "visited", "warrantyClaims"], "saved has exactly eleven keys");
+  assert.strictEqual(saved.extra, undefined, "extra key dropped");
+  assert.strictEqual(saved.warrantyClaims.length, 1, "warranty claims deduped");
+  assert.strictEqual(saved.activeAdjuster.proof, claim.split(':')[1]);
+}
+
+// 七类 pending exact-key 严格归一化
+{
+  const ctx = makeV75Context({});
+  const base = ctx.v75.defaultApocalypseWarrantyOffice();
+  base._v75unlocked = true;
+  const defect = 'worn-before-manufacture';
+  const proof = 'receipt-from-unbuilt-factory';
+  const remedy = 'replace-reality-not-part';
+  const claimId = `${defect}:${proof}:${remedy}`;
+  const dTable = ctx.v75.DEFECT_TABLE[defect];
+  const pTable = ctx.v75.PROOF_TABLE[proof];
+  const claimFb = ctx.v75.computeWarrantyClaimFeedback(defect, proof, remedy);
+
+  // entry
+  const entry = { kind: 'entry', target: 'apocalypse-warranty-office', feedback: ctx.v75.APOCALYPSE_WARRANTY_ENTRY_FEEDBACK };
+  assert.ok(ctx.v75.normalizeApocalypseWarrantyOfficePending(entry, base), "entry pending ok");
+  assert.strictEqual(ctx.v75.normalizeApocalypseWarrantyOfficePending({ ...entry, extra: 1 }, base), null, "entry rejects extra key");
+  assert.strictEqual(ctx.v75.normalizeApocalypseWarrantyOfficePending({ kind: 'entry', target: 'apocalypse-warranty-office', feedback: 'bad' }, base), null, "entry rejects bad feedback");
+
+  // defect
+  const df = { kind: 'defect', source: 'apocalypse-warranty-office', defect, target: 'proof-of-purchase-morgue', feedback: dTable.feedback };
+  assert.ok(ctx.v75.normalizeApocalypseWarrantyOfficePending(df, base), "defect pending ok");
+  assert.strictEqual(ctx.v75.normalizeApocalypseWarrantyOfficePending({ ...df, source: 'bad' }, base), null, "defect rejects bad source");
+
+  // proof
+  base.draft.defect = defect;
+  const pr = { kind: 'proof', source: 'proof-of-purchase-morgue', defect, proof, target: 'post-world-repair-bench', feedback: pTable.feedback };
+  assert.ok(ctx.v75.normalizeApocalypseWarrantyOfficePending(pr, base), "proof pending ok");
+  assert.strictEqual(ctx.v75.normalizeApocalypseWarrantyOfficePending({ ...pr, defect: 'still-running-after-the-end' }, base), null, "proof rejects mismatched defect");
+
+  // warranty-claim
+  base.draft.proof = proof;
+  const wc = { kind: 'warranty-claim', source: 'post-world-repair-bench', defect, proof, remedy, warrantyClaim: claimId, target: 'threshold', feedback: claimFb };
+  assert.ok(ctx.v75.normalizeApocalypseWarrantyOfficePending(wc, base), "warranty-claim pending ok");
+  assert.strictEqual(ctx.v75.normalizeApocalypseWarrantyOfficePending({ ...wc, target: 'remembrance' }, base), null, "warranty-claim rejects wrong target");
+  assert.strictEqual(ctx.v75.normalizeApocalypseWarrantyOfficePending({ ...wc, feedback: 'free text' }, base), null, "warranty-claim rejects free text feedback");
+
+  // adjuster-return
+  base.activeAdjuster = { proof, warrantyClaim: claimId, feedback: pTable.adjusterFeedback };
+  const ar = { kind: 'adjuster-return', from: 'threshold', target: 'apocalypse-warranty-office', warrantyClaim: claimId, feedback: pTable.adjusterFeedback };
+  assert.ok(ctx.v75.normalizeApocalypseWarrantyOfficePending(ar, base), "adjuster-return pending ok");
+  assert.strictEqual(ctx.v75.normalizeApocalypseWarrantyOfficePending({ ...ar, from: 'remembrance' }, base), null, "adjuster-return rejects mismatched from");
+
+  // recall-entry
+  base.activeAdjuster = null;
+  base.draft = { defect: '', proof: '' };
+  base.warrantyClaims = ctx.v75.WARRANTY_CLAIM_IDS;
+  const re = { kind: 'recall-entry', target: 'universal-recall-yard', feedback: ctx.v75.APOCALYPSE_WARRANTY_RECALL_ENTRY_FEEDBACK };
+  assert.ok(ctx.v75.normalizeApocalypseWarrantyOfficePending(re, base), "recall-entry pending ok");
+  base.warrantyClaims = [];
+  assert.strictEqual(ctx.v75.normalizeApocalypseWarrantyOfficePending(re, base), null, "recall-entry rejects incomplete coverage");
+
+  // recall
+  base.warrantyClaims = ctx.v75.WARRANTY_CLAIM_IDS;
+  base.visited.yard = true;
+  const rc = { kind: 'recall', source: 'universal-recall-yard', action: 'recall-the-world', outcome: 'the-world-was-recalled-from-circulation', target: 'threshold', feedback: ctx.v75.RECALL_TABLE['recall-the-world'].feedback };
+  assert.ok(ctx.v75.normalizeApocalypseWarrantyOfficePending(rc, base), "recall pending ok");
+  assert.strictEqual(ctx.v75.normalizeApocalypseWarrantyOfficePending({ ...rc, outcome: 'bad' }, base), null, "recall rejects bad outcome");
+}
+
+// 36 warrantyClaims 与 3 recallOutcomes 穷举
+{
+  const ctx = makeV75Context({});
+  for (const id of ctx.v75.WARRANTY_CLAIM_IDS) {
+    const c = ctx.v75.findWarrantyClaimById(id);
+    assert.ok(c, `warranty claim ${id} resolvable`);
+    assert.strictEqual(c.id, id);
+    assert.ok(c.title);
+    assert.ok(c.feedback);
+    assert.strictEqual(ctx.v75.computeWarrantyClaimId(c.defect, c.proof, c.remedy), id);
+    assert.strictEqual(ctx.v75.computeWarrantyClaimTitle(c.defect, c.proof, c.remedy), c.title);
+    assert.strictEqual(ctx.v75.computeWarrantyClaimFeedback(c.defect, c.proof, c.remedy), c.feedback);
+  }
+  for (const action of ctx.v75.RECALL_ACTIONS) {
+    const outcome = ctx.v75.computeRecallOutcomeId(action);
+    assert.ok(outcome);
+    assert.strictEqual(ctx.v75.RECALL_TABLE[action].outcome, outcome);
+  }
+}
+
+// Coverage 4 pass / 3 fail
+{
+  const ctx = makeV75Context({});
+  const st = ctx.v75.defaultApocalypseWarrantyOffice();
+  st.warrantyClaims = ctx.v75.WARRANTY_CLAIM_IDS.slice(0, 3);
+  assert.strictEqual(ctx.v75.warrantyCoverageComplete(st), false, "3 claims cannot cover 4 remedies");
+  st.warrantyClaims = [ctx.v75.WARRANTY_CLAIM_IDS[0], ctx.v75.WARRANTY_CLAIM_IDS[5], ctx.v75.WARRANTY_CLAIM_IDS[22], ctx.v75.WARRANTY_CLAIM_IDS[27]];
+  assert.strictEqual(ctx.v75.warrantyCoverageComplete(st), true, "4 representative claims cover all axes");
+}
+
+// replay 来源/目标/else 矩阵
+{
+  const ctx = makeV75Context({ scene: 'remembrance' });
+  const st = ctx.v75.defaultApocalypseWarrantyOffice();
+  st._v75unlocked = true;
+  st.pending = { kind: 'entry', target: 'apocalypse-warranty-office', feedback: ctx.v75.APOCALYPSE_WARRANTY_ENTRY_FEEDBACK };
+  ctx.v75.saveApocalypseWarrantyOffice(st);
+  ctx.v75.replayApocalypseWarrantyPending('apocalypse-warranty-office');
+  assert.strictEqual(ctx.read().pending, null, "target arrival clears entry pending");
+  assert.strictEqual(ctx.read().visited.office, true, "target arrival marks office visited");
+}
+{
+  const ctx = makeV75Context({ scene: 'apocalypse-warranty-office' });
+  const st = ctx.v75.defaultApocalypseWarrantyOffice();
+  st._v75unlocked = true;
+  const defect = 'worn-before-manufacture';
+  st.pending = { kind: 'defect', source: 'apocalypse-warranty-office', defect, target: 'proof-of-purchase-morgue', feedback: ctx.v75.DEFECT_TABLE[defect].feedback };
+  ctx.v75.saveApocalypseWarrantyOffice(st);
+  ctx.v75.replayApocalypseWarrantyPending('proof-of-purchase-morgue');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears defect pending");
+  assert.strictEqual(saved.draft.defect, defect, "target arrival writes draft defect");
+  assert.strictEqual(saved.visited.morgue, true, "target arrival marks morgue visited");
+}
+{
+  const ctx = makeV75Context({ scene: 'proof-of-purchase-morgue' });
+  const st = ctx.v75.defaultApocalypseWarrantyOffice();
+  st._v75unlocked = true;
+  st.draft.defect = 'worn-before-manufacture';
+  const proof = 'receipt-from-unbuilt-factory';
+  st.pending = { kind: 'proof', source: 'proof-of-purchase-morgue', defect: st.draft.defect, proof, target: 'post-world-repair-bench', feedback: ctx.v75.PROOF_TABLE[proof].feedback };
+  ctx.v75.saveApocalypseWarrantyOffice(st);
+  ctx.v75.replayApocalypseWarrantyPending('post-world-repair-bench');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears proof pending");
+  assert.strictEqual(saved.draft.proof, proof, "target arrival writes draft proof");
+}
+{
+  const ctx = makeV75Context({ scene: 'post-world-repair-bench' });
+  const st = ctx.v75.defaultApocalypseWarrantyOffice();
+  st._v75unlocked = true;
+  st.draft = { defect: 'worn-before-manufacture', proof: 'receipt-from-unbuilt-factory' };
+  const remedy = 'replace-reality-not-part';
+  const claim = ctx.v75.computeWarrantyClaimId(st.draft.defect, st.draft.proof, remedy);
+  st.pending = { kind: 'warranty-claim', source: 'post-world-repair-bench', defect: st.draft.defect, proof: st.draft.proof, remedy, warrantyClaim: claim, target: 'threshold', feedback: ctx.v75.computeWarrantyClaimFeedback(st.draft.defect, st.draft.proof, remedy) };
+  ctx.v75.saveApocalypseWarrantyOffice(st);
+  ctx.v75.replayApocalypseWarrantyPending('threshold');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears warranty-claim pending");
+  assert.ok(saved.warrantyClaims.includes(claim), "warranty claim collected");
+  assert.strictEqual(saved.serviceRuns, 1, "serviceRuns incremented once");
+  assert.strictEqual(saved.activeAdjuster.proof, 'receipt-from-unbuilt-factory', "activeAdjuster set");
+}
+{
+  const ctx = makeV75Context({ scene: 'threshold' });
+  const st = ctx.v75.defaultApocalypseWarrantyOffice();
+  st._v75unlocked = true;
+  const claim = ctx.v75.WARRANTY_CLAIM_IDS[0];
+  const proof = claim.split(':')[1];
+  st.activeAdjuster = { proof, warrantyClaim: claim, feedback: ctx.v75.PROOF_TABLE[proof].adjusterFeedback };
+  st.pending = { kind: 'adjuster-return', from: 'threshold', target: 'apocalypse-warranty-office', warrantyClaim: claim, feedback: ctx.v75.PROOF_TABLE[proof].adjusterFeedback };
+  ctx.v75.saveApocalypseWarrantyOffice(st);
+  ctx.v75.replayApocalypseWarrantyPending('apocalypse-warranty-office');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears adjuster-return pending");
+  assert.strictEqual(saved.activeAdjuster, null, "activeAdjuster cleared");
+}
+{
+  const ctx = makeV75Context({ scene: 'remembrance' });
+  const st = ctx.v75.defaultApocalypseWarrantyOffice();
+  st._v75unlocked = true;
+  st.warrantyClaims = ctx.v75.WARRANTY_CLAIM_IDS;
+  st.pending = { kind: 'recall-entry', target: 'universal-recall-yard', feedback: ctx.v75.APOCALYPSE_WARRANTY_RECALL_ENTRY_FEEDBACK };
+  ctx.v75.saveApocalypseWarrantyOffice(st);
+  ctx.v75.replayApocalypseWarrantyPending('universal-recall-yard');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears recall-entry pending");
+  assert.strictEqual(saved.visited.yard, true, "target arrival marks yard visited");
+}
+{
+  const ctx = makeV75Context({ scene: 'universal-recall-yard' });
+  const st = ctx.v75.defaultApocalypseWarrantyOffice();
+  st._v75unlocked = true;
+  st.warrantyClaims = ctx.v75.WARRANTY_CLAIM_IDS;
+  st.visited.yard = true;
+  const recall = { kind: 'recall', source: 'universal-recall-yard', action: 'recall-the-world', outcome: 'the-world-was-recalled-from-circulation', target: 'threshold', feedback: ctx.v75.RECALL_TABLE['recall-the-world'].feedback };
+  st.pending = recall;
+  ctx.v75.saveApocalypseWarrantyOffice(st);
+  ctx.v75.replayApocalypseWarrantyPending('threshold');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears recall pending");
+  assert.ok(saved.recallOutcomes.includes('the-world-was-recalled-from-circulation'), "recall outcome collected");
+  assert.strictEqual(saved.recallRuns, 1, "recallRuns incremented once");
+}
+{
+  // else clears pending without side effects
+  const ctx = makeV75Context({ scene: 'protocol' });
+  const st = ctx.v75.defaultApocalypseWarrantyOffice();
+  st._v75unlocked = true;
+  st.pending = { kind: 'entry', target: 'apocalypse-warranty-office', feedback: ctx.v75.APOCALYPSE_WARRANTY_ENTRY_FEEDBACK };
+  ctx.v75.saveApocalypseWarrantyOffice(st);
+  ctx.v75.replayApocalypseWarrantyPending('protocol');
+  assert.strictEqual(ctx.read().pending, null, "else clears pending");
+  assert.strictEqual(ctx.read().visited.office, false, "else does not mark visited");
+}
+
+// 重复 warranty-claim 不重复图鉴但增加 runs / tallies
+{
+  const ctx = makeV75Context({ scene: 'post-world-repair-bench' });
+  const st = ctx.v75.defaultApocalypseWarrantyOffice();
+  st._v75unlocked = true;
+  st.draft = { defect: 'worn-before-manufacture', proof: 'receipt-from-unbuilt-factory' };
+  const remedy = 'replace-reality-not-part';
+  const claim = ctx.v75.computeWarrantyClaimId(st.draft.defect, st.draft.proof, remedy);
+  st.warrantyClaims = [claim];
+  st.serviceRuns = 3;
+  st.claimantTallies.prebirth = 3;
+  st.pending = { kind: 'warranty-claim', source: 'post-world-repair-bench', defect: st.draft.defect, proof: st.draft.proof, remedy, warrantyClaim: claim, target: 'threshold', feedback: ctx.v75.computeWarrantyClaimFeedback(st.draft.defect, st.draft.proof, remedy) };
+  ctx.v75.saveApocalypseWarrantyOffice(st);
+  ctx.v75.replayApocalypseWarrantyPending('threshold');
+  const saved = ctx.read();
+  assert.strictEqual(saved.warrantyClaims.length, 1, "duplicate claim not added");
+  assert.strictEqual(saved.serviceRuns, 4, "duplicate still increments serviceRuns");
+  assert.strictEqual(saved.claimantTallies.prebirth, 4, "duplicate still increments tally");
+}
+
+// 18 组 isTrusted 防线
+{
+  const v75ListenerBlock = js.match(/const apocalypseWarrantyEntryBtn = \$\('#apocalypse-warranty-entry-btn'\);[\s\S]*?v76 现实退款处 \/ REALITY REFUND COUNTER/);
+  assert.ok(v75ListenerBlock, "v75 click listener block must exist");
+  assert.equal((v75ListenerBlock[0].match(/!e\.isTrusted/g) || []).length, 18, "v75 must guard all eighteen click listeners with isTrusted");
+}
+
+// 合成 click 零副作用
+{
+  const ctx = makeV75Context({ scene: 'apocalypse-warranty-office' });
+  const btn = { disabled: false, hidden: false, pressed: null, closest: () => null, addEventListener(type, fn) { this._fn = fn; }, setAttribute(name, value) { if (name === 'aria-pressed') this.pressed = value; }, removeAttribute() {} };
+  btn.addEventListener('click', (e) => { if (!e.isTrusted) return; ctx.v75.chooseApocalypseWarrantyDefect('worn-before-manufacture'); });
+  btn._fn({ isTrusted: false });
+  assert.strictEqual(ctx.read().pending ?? null, null, "synthetic click does not create v75 pending");
+}
+
+// 按钮 choose 处理与 UI 禁用一致性
+{
+  const defectBtn = makeV75Button();
+  const ctx = makeV75Context({ scene: 'apocalypse-warranty-office', elements: { "apocalypse-warranty-defect-worn-before-manufacture": defectBtn } });
+  ctx.v75.chooseApocalypseWarrantyDefect('worn-before-manufacture');
+  assert.ok(ctx.scheduleCalls.length > 0, "choose defect schedules transition");
+  assert.strictEqual(ctx.read().pending.kind, 'defect', "choose defect creates pending");
+}
+{
+  const proofBtn = makeV75Button();
+  const ctx = makeV75Context({ scene: 'proof-of-purchase-morgue', elements: { "proof-of-purchase-receipt-from-unbuilt-factory": proofBtn } });
+  ctx.v75.saveApocalypseWarrantyOffice({ ...ctx.v75.defaultApocalypseWarrantyOffice(), draft: { defect: 'worn-before-manufacture', proof: '' } });
+  ctx.v75.chooseApocalypseWarrantyProof('receipt-from-unbuilt-factory');
+  assert.strictEqual(ctx.read().pending.kind, 'proof', "choose proof creates pending");
+}
+{
+  const remedyBtn = makeV75Button();
+  const ctx = makeV75Context({ scene: 'post-world-repair-bench', elements: { "post-world-repair-remedy-replace-reality-not-part": remedyBtn } });
+  ctx.v75.saveApocalypseWarrantyOffice({ ...ctx.v75.defaultApocalypseWarrantyOffice(), draft: { defect: 'worn-before-manufacture', proof: 'receipt-from-unbuilt-factory' } });
+  ctx.v75.chooseApocalypseWarrantyRemedy('replace-reality-not-part');
+  assert.strictEqual(ctx.read().pending.kind, 'warranty-claim', "choose remedy creates warranty-claim pending");
+}
+{
+  const adjusterBtn = makeV75Button();
+  const helperCtx2 = makeV75Context({});
+  const claim = helperCtx2.v75.WARRANTY_CLAIM_IDS[0];
+  const proof = claim.split(':')[1];
+  const ctx = makeV75Context({ scene: 'threshold', elements: { "apocalypse-warranty-adjuster-return-threshold": adjusterBtn } });
+  ctx.v75.saveApocalypseWarrantyOffice({ ...ctx.v75.defaultApocalypseWarrantyOffice(), warrantyClaims: [claim], activeAdjuster: { proof, warrantyClaim: claim, feedback: ctx.v75.PROOF_TABLE[proof].adjusterFeedback } });
+  ctx.v75.chooseApocalypseWarrantyAdjusterReturn('threshold');
+  assert.strictEqual(ctx.read().pending.kind, 'adjuster-return', "choose adjuster return creates pending");
+}
+{
+  const entryBtn = makeV75Button();
+  const ctx = makeV75Context({ scene: 'remembrance', elements: { "apocalypse-warranty-entry-btn": entryBtn } });
+  ctx.v75.chooseApocalypseWarrantyEntry();
+  assert.strictEqual(ctx.read().pending.kind, 'entry', "choose entry creates entry pending");
+}
+{
+  const recallEntryBtn = makeV75Button();
+  const ctx = makeV75Context({ scene: 'remembrance', elements: { "apocalypse-warranty-recall-entry-btn": recallEntryBtn } });
+  ctx.v75.saveApocalypseWarrantyOffice({ ...ctx.v75.defaultApocalypseWarrantyOffice(), warrantyClaims: ctx.v75.WARRANTY_CLAIM_IDS });
+  ctx.v75.chooseApocalypseWarrantyRecallEntry();
+  assert.strictEqual(ctx.read().pending.kind, 'recall-entry', "choose recall entry creates pending");
+}
+{
+  const recallBtn = makeV75Button();
+  const ctx = makeV75Context({ scene: 'universal-recall-yard', elements: { "universal-recall-recall-the-world": recallBtn } });
+  ctx.v75.saveApocalypseWarrantyOffice({ ...ctx.v75.defaultApocalypseWarrantyOffice(), warrantyClaims: ctx.v75.WARRANTY_CLAIM_IDS, visited: { office: true, morgue: true, bench: true, yard: true } });
+  ctx.v75.chooseApocalypseWarrantyRecallAction('recall-the-world');
+  assert.strictEqual(ctx.read().pending.kind, 'recall', "choose recall action creates pending");
+}
+
+// activeAdjuster / draft / pending 一致性
+{
+  function makeV75AdjusterButton({ disabled = false, hidden = false } = {}) {
+    return { disabled, hidden, pressed: null, setAttribute(name, value) { if (name === "aria-pressed") this.pressed = value; }, removeAttribute() {}, closest: () => null, addEventListener() {} };
+  }
+  const helperCtx = makeV75Context({});
+  const claim = helperCtx.v75.WARRANTY_CLAIM_IDS[0];
+  const proof = claim.split(':')[1];
+  const adjusterFb = helperCtx.v75.PROOF_TABLE[proof].adjusterFeedback;
+
+  // activeAdjuster 期间 pending 归一化拒绝非 adjuster-return
+  {
+    const ctx = makeV75Context({});
+    const baseSt = ctx.v75.defaultApocalypseWarrantyOffice();
+    baseSt._v75unlocked = true;
+    baseSt.activeAdjuster = { proof, warrantyClaim: claim, feedback: adjusterFb };
+    assert.strictEqual(ctx.v75.normalizeApocalypseWarrantyOfficePending({ kind: 'entry', target: 'apocalypse-warranty-office', feedback: ctx.v75.APOCALYPSE_WARRANTY_ENTRY_FEEDBACK }, baseSt), null, "entry pending rejected while activeAdjuster");
+    assert.strictEqual(ctx.v75.normalizeApocalypseWarrantyOfficePending({ kind: 'defect', source: 'apocalypse-warranty-office', defect: 'worn-before-manufacture', target: 'proof-of-purchase-morgue', feedback: ctx.v75.DEFECT_TABLE['worn-before-manufacture'].feedback }, baseSt), null, "defect pending rejected while activeAdjuster");
+    baseSt.draft = { defect: 'worn-before-manufacture', proof: 'receipt-from-unbuilt-factory' };
+    assert.strictEqual(ctx.v75.normalizeApocalypseWarrantyOfficePending({ kind: 'proof', source: 'proof-of-purchase-morgue', defect: 'worn-before-manufacture', proof: 'receipt-from-unbuilt-factory', target: 'post-world-repair-bench', feedback: ctx.v75.PROOF_TABLE['receipt-from-unbuilt-factory'].feedback }, baseSt), null, "proof pending rejected while activeAdjuster");
+    assert.strictEqual(ctx.v75.normalizeApocalypseWarrantyOfficePending({ kind: 'warranty-claim', source: 'post-world-repair-bench', defect: 'worn-before-manufacture', proof: 'receipt-from-unbuilt-factory', remedy: 'replace-reality-not-part', warrantyClaim: claim, target: 'threshold', feedback: ctx.v75.computeWarrantyClaimFeedback('worn-before-manufacture', 'receipt-from-unbuilt-factory', 'replace-reality-not-part') }, baseSt), null, "warranty-claim pending rejected while activeAdjuster");
+    baseSt.warrantyClaims = ctx.v75.WARRANTY_CLAIM_IDS;
+    assert.strictEqual(ctx.v75.normalizeApocalypseWarrantyOfficePending({ kind: 'recall-entry', target: 'universal-recall-yard', feedback: ctx.v75.APOCALYPSE_WARRANTY_RECALL_ENTRY_FEEDBACK }, baseSt), null, "recall-entry pending rejected while activeAdjuster");
+    baseSt.visited.yard = true;
+    assert.strictEqual(ctx.v75.normalizeApocalypseWarrantyOfficePending({ kind: 'recall', source: 'universal-recall-yard', action: 'recall-the-world', outcome: 'the-world-was-recalled-from-circulation', target: 'threshold', feedback: ctx.v75.RECALL_TABLE['recall-the-world'].feedback }, baseSt), null, "recall pending rejected while activeAdjuster");
+  }
+
+  // activeAdjuster 期间 handler 拒绝 defect/proof/remedy/recall
+  {
+    const defectBtns = {
+      "apocalypse-warranty-defect-worn-before-manufacture": makeV75AdjusterButton(),
+      "apocalypse-warranty-defect-still-running-after-the-end": makeV75AdjusterButton(),
+      "apocalypse-warranty-defect-ghost-only-moving-part": makeV75AdjusterButton(),
+    };
+    const ctx = makeV75Context({ scene: 'apocalypse-warranty-office', elements: defectBtns });
+    ctx.v75.saveApocalypseWarrantyOffice({ ...ctx.v75.defaultApocalypseWarrantyOffice(), warrantyClaims: [claim], activeAdjuster: { proof, warrantyClaim: claim, feedback: adjusterFb } });
+    ctx.v75.syncApocalypseWarrantyOffice();
+    assert.ok(Object.values(defectBtns).every((b) => b.disabled), "defect buttons disabled while activeAdjuster");
+
+    const proofBtns = {
+      "proof-of-purchase-receipt-from-unbuilt-factory": makeV75AdjusterButton(),
+      "proof-of-purchase-dead-sun-warranty-seal": makeV75AdjusterButton(),
+      "proof-of-purchase-descendant-repair-memory": makeV75AdjusterButton(),
+    };
+    const ctx2 = makeV75Context({ scene: 'proof-of-purchase-morgue', elements: proofBtns });
+    ctx2.v75.saveApocalypseWarrantyOffice({ ...ctx2.v75.defaultApocalypseWarrantyOffice(), draft: { defect: 'worn-before-manufacture', proof: '' }, warrantyClaims: [claim], activeAdjuster: { proof, warrantyClaim: claim, feedback: adjusterFb } });
+    ctx2.v75.syncApocalypseWarrantyMorgue();
+    assert.ok(Object.values(proofBtns).every((b) => b.disabled), "proof buttons disabled while activeAdjuster");
+
+    const remedyBtns = {
+      "post-world-repair-remedy-replace-reality-not-part": makeV75AdjusterButton(),
+      "post-world-repair-remedy-extend-warranty-before-birth": makeV75AdjusterButton(),
+      "post-world-repair-remedy-declare-defect-as-feature": makeV75AdjusterButton(),
+      "post-world-repair-remedy-bill-the-apocalypse": makeV75AdjusterButton(),
+    };
+    const ctx3 = makeV75Context({ scene: 'post-world-repair-bench', elements: remedyBtns });
+    ctx3.v75.saveApocalypseWarrantyOffice({ ...ctx3.v75.defaultApocalypseWarrantyOffice(), draft: { defect: 'worn-before-manufacture', proof: 'receipt-from-unbuilt-factory' }, warrantyClaims: [claim], activeAdjuster: { proof, warrantyClaim: claim, feedback: adjusterFb } });
+    ctx3.v75.syncApocalypseWarrantyBench();
+    assert.ok(Object.values(remedyBtns).every((b) => b.disabled), "remedy buttons disabled while activeAdjuster");
+
+    const recallBtns = {
+      "universal-recall-recall-the-world": makeV75AdjusterButton(),
+      "universal-recall-install-a-spare-dawn": makeV75AdjusterButton(),
+      "universal-recall-void-for-self-modification": makeV75AdjusterButton(),
+    };
+    const figure = makeV75Box();
+    const ctx4 = makeV75Context({ scene: 'universal-recall-yard', elements: { "universal-recall-yard-figure": figure, ...recallBtns } });
+    ctx4.v75.saveApocalypseWarrantyOffice({ ...ctx4.v75.defaultApocalypseWarrantyOffice(), warrantyClaims: ctx4.v75.WARRANTY_CLAIM_IDS, visited: { office: true, morgue: true, bench: true, yard: true }, activeAdjuster: { proof, warrantyClaim: claim, feedback: adjusterFb } });
+    ctx4.v75.syncApocalypseWarrantyYard();
+    assert.ok(Object.values(recallBtns).every((b) => b.disabled), "recall buttons disabled while activeAdjuster");
+  }
+
+  // pending 期间所有 v75 选择按钮禁用
+  {
+    const defectBtns = {
+      "apocalypse-warranty-defect-worn-before-manufacture": makeV75AdjusterButton(),
+      "apocalypse-warranty-defect-still-running-after-the-end": makeV75AdjusterButton(),
+      "apocalypse-warranty-defect-ghost-only-moving-part": makeV75AdjusterButton(),
+    };
+    const ctx = makeV75Context({ scene: 'apocalypse-warranty-office', elements: defectBtns });
+    ctx.v75.saveApocalypseWarrantyOffice({ ...ctx.v75.defaultApocalypseWarrantyOffice(), pending: { kind: 'entry', target: 'apocalypse-warranty-office', feedback: ctx.v75.APOCALYPSE_WARRANTY_ENTRY_FEEDBACK } });
+    ctx.v75.syncApocalypseWarrantyOffice();
+    assert.ok(Object.values(defectBtns).every((b) => b.disabled), "defect buttons disabled while pending");
+  }
+
+  // draft 中途禁止并行 entry/recall-entry/recall
+  {
+    const recallEntryBtn = makeV75AdjusterButton();
+    const ctx = makeV75Context({ scene: 'remembrance', elements: { "apocalypse-warranty-recall-entry-btn": recallEntryBtn } });
+    ctx.v75.saveApocalypseWarrantyOffice({ ...ctx.v75.defaultApocalypseWarrantyOffice(), warrantyClaims: ctx.v75.WARRANTY_CLAIM_IDS, draft: { defect: 'worn-before-manufacture', proof: '' } });
+    ctx.v75.syncApocalypseWarrantyRemembrance();
+    assert.strictEqual(recallEntryBtn.hidden, false, "recall-entry stays visible while draft in progress");
+    assert.strictEqual(recallEntryBtn.disabled, true, "recall-entry disabled while draft in progress");
+    ctx.v75.chooseApocalypseWarrantyRecallEntry();
+    assert.strictEqual(ctx.read().pending ?? null, null, "choose recall entry no-op while draft in progress");
+
+    const recallBtns = {
+      "universal-recall-recall-the-world": makeV75AdjusterButton(),
+      "universal-recall-install-a-spare-dawn": makeV75AdjusterButton(),
+      "universal-recall-void-for-self-modification": makeV75AdjusterButton(),
+    };
+    const figure = makeV75Box({ hidden: true });
+    const ctx2 = makeV75Context({ scene: 'universal-recall-yard', elements: { "universal-recall-yard-figure": figure, ...recallBtns } });
+    ctx2.v75.saveApocalypseWarrantyOffice({ ...ctx2.v75.defaultApocalypseWarrantyOffice(), warrantyClaims: ctx2.v75.WARRANTY_CLAIM_IDS, visited: { office: true, morgue: true, bench: true, yard: true }, draft: { defect: 'worn-before-manufacture', proof: 'receipt-from-unbuilt-factory' } });
+    ctx2.v75.syncApocalypseWarrantyYard();
+    assert.strictEqual(figure.hidden, false, "yard figure visible while draft in progress");
+    assert.ok(Object.values(recallBtns).every((b) => b.disabled), "recall buttons disabled while draft in progress");
+    ctx2.v75.chooseApocalypseWarrantyRecallAction('recall-the-world');
+    assert.strictEqual(ctx2.read().pending ?? null, null, "choose recall action no-op while draft in progress");
+  }
+  {
+    // 伪造 persisted pending 在 save 时通过 normalize 丢弃
+    const ctx = makeV75Context({});
+    ctx.v75.saveApocalypseWarrantyOffice({ ...ctx.v75.defaultApocalypseWarrantyOffice(), draft: { defect: 'worn-before-manufacture', proof: '' }, pending: { kind: 'entry', target: 'apocalypse-warranty-office', feedback: ctx.v75.APOCALYPSE_WARRANTY_ENTRY_FEEDBACK } });
+    assert.strictEqual(ctx.read().pending ?? null, null, "forged entry pending dropped when draft in progress");
+
+    const ctx2 = makeV75Context({});
+    ctx2.v75.saveApocalypseWarrantyOffice({ ...ctx2.v75.defaultApocalypseWarrantyOffice(), warrantyClaims: ctx2.v75.WARRANTY_CLAIM_IDS, draft: { defect: 'worn-before-manufacture', proof: 'receipt-from-unbuilt-factory' }, pending: { kind: 'recall-entry', target: 'universal-recall-yard', feedback: ctx2.v75.APOCALYPSE_WARRANTY_RECALL_ENTRY_FEEDBACK } });
+    assert.strictEqual(ctx2.read().pending ?? null, null, "forged recall-entry pending dropped when draft in progress");
+
+    const ctx3 = makeV75Context({});
+    ctx3.v75.saveApocalypseWarrantyOffice({ ...ctx3.v75.defaultApocalypseWarrantyOffice(), warrantyClaims: ctx3.v75.WARRANTY_CLAIM_IDS, visited: { yard: true }, draft: { defect: 'worn-before-manufacture', proof: 'receipt-from-unbuilt-factory' }, pending: { kind: 'recall', source: 'universal-recall-yard', action: 'recall-the-world', outcome: 'the-world-was-recalled-from-circulation', target: 'threshold', feedback: ctx3.v75.RECALL_TABLE['recall-the-world'].feedback } });
+    assert.strictEqual(ctx3.read().pending ?? null, null, "forged recall pending dropped when draft in progress");
+  }
+}
+
+// 路由窄桥不放宽旧守卫
+{
+  const ctx = makeV75Context({});
+  const st = ctx.v75.defaultApocalypseWarrantyOffice();
+  st._v75unlocked = true;
+  st.warrantyClaims = [ctx.v75.WARRANTY_CLAIM_IDS[4]];
+  const proof = ctx.v75.WARRANTY_CLAIM_IDS[4].split(':')[1];
+  st.activeAdjuster = { proof, warrantyClaim: ctx.v75.WARRANTY_CLAIM_IDS[4], feedback: ctx.v75.PROOF_TABLE[proof].adjusterFeedback };
+  ctx.v75.saveApocalypseWarrantyOffice(st);
+  const scene = ctx.v75.SCENE_FOR_PROOF[proof];
+  assert.strictEqual(ctx.v75.apocalypseWarrantyBridgeAllows(scene), true, "bridge allows activeAdjuster scene");
+  const unrelatedScene = Object.values(ctx.v75.SCENE_FOR_PROOF).find((s) => s !== scene);
+  assert.strictEqual(ctx.v75.apocalypseWarrantyBridgeAllows(unrelatedScene), false, "bridge does not allow unrelated scene");
+  assert.strictEqual(ctx.v75.apocalypseWarrantyBridgeAllows('protocol'), false, "bridge never allows protocol");
+}
+
+// v75 不读写旧 key
+{
+  const v75ModuleText = v75ModuleBlock[0];
+  assert.ok(!v75ModuleText.includes("saveTombstonePatentOffice("), "v75 never calls saveTombstonePatentOffice");
+  assert.ok(!v75ModuleText.includes("TOMBSTONE_PATENT_OFFICE_KEY"), "v75 never references v74 key constant");
+  assert.ok(!v75ModuleText.includes("goddead_v74_tombstone_patent_office"), "v75 never references v74 key string");
+}
+
+// 回归 P1：v74 全满时 v75 remembrance 渲染链必须真正使入口/记忆/图鉴可见
+{
+  function makeV75RemembranceButton(hidden = true) {
+    return { disabled: false, hidden, pressed: null, setAttribute(name, value) { if (name === "aria-pressed") this.pressed = value; }, removeAttribute() {}, closest: () => null, addEventListener() {} };
+  }
+  function makeV75RemembranceBox(hidden = true) {
+    const el = {
+      tagName: "div",
+      className: "",
+      _html: "",
+      textContent: "",
+      hidden,
+      children: [],
+      setAttribute() {},
+      removeAttribute(name) { if (name === "hidden") this.hidden = false; },
+      closest: () => null,
+      addEventListener() {},
+      appendChild(c) { this.children.push(c); },
+    };
+    Object.defineProperty(el, "innerHTML", {
+      get() { return this._html; },
+      set(v) { this._html = v; this.children = []; },
+    });
+    return el;
+  }
+  const entryBtn = makeV75RemembranceButton(true);
+  const recallEntryBtn = makeV75RemembranceButton(true);
+  const memory = makeV75RemembranceBox(true);
+  const codex = makeV75RemembranceBox(true);
+  const grid = makeV75RemembranceBox(true);
+  const codexEntry = makeV75RemembranceBox(true);
+  const links = Object.fromEntries(["apocalypse-warranty-office-link", "proof-of-purchase-morgue-link", "post-world-repair-bench-link", "universal-recall-yard-link"].map((id) => [id, makeV75RemembranceBox(true)]));
+  const ctx = makeV75Context({
+    scene: "remembrance",
+    elements: {
+      "apocalypse-warranty-entry-btn": entryBtn,
+      "apocalypse-warranty-recall-entry-btn": recallEntryBtn,
+      "apocalypse-warranty-memory": memory,
+      "apocalypse-warranty-codex": codex,
+      "apocalypse-warranty-codex-grid": grid,
+      "apocalypse-warranty-codex-entry": codexEntry,
+      ...links,
+    },
+  });
+  ctx.v75.syncApocalypseWarrantyOffice();
+  ctx.v75.syncApocalypseWarrantyMorgue();
+  ctx.v75.syncApocalypseWarrantyBench();
+  ctx.v75.syncApocalypseWarrantyYard();
+  ctx.v75.syncApocalypseWarrantyAdjusters();
+  ctx.v75.paintApocalypseWarrantyMemory();
+  ctx.v75.paintApocalypseWarrantyCodex();
+  ctx.v75.syncApocalypseWarrantyRemembrance();
+  ctx.v75.syncApocalypseWarrantyLinks();
+  assert.strictEqual(entryBtn.hidden, false, "v75 entry button becomes visible on remembrance when v74 fully unlocked");
+  assert.strictEqual(entryBtn.disabled, false, "v75 entry button is enabled when no pending/draft/activeAdjuster");
+  assert.strictEqual(memory.hidden, false, "v75 memory becomes visible on remembrance when v74 fully unlocked");
+  assert.ok(memory.textContent.includes("已维修 0/36 份报修"), "v75 memory text renders");
+  assert.strictEqual(codex.hidden, false, "v75 codex becomes visible on remembrance when v74 fully unlocked");
+  assert.strictEqual(grid.children.length, 39, "v75 codex grid renders all 39 cells");
+  assert.strictEqual(codexEntry.hidden, false, "v75 codex entry wrapper becomes visible");
+  assert.strictEqual(recallEntryBtn.hidden, true, "v75 recall-entry stays hidden without coverage");
+  assert.ok(Object.values(links).every((el) => el.hidden), "v75 directory links stay hidden before first visit");
+}
+
+/* v75 整页/主初始化链回归：sceneInit 与 DOMContentLoaded 初始块必须调用 v75 全组 sync */
+{
+  const sceneInitBlock = js.match(/const sceneInit = \(name\) => \{[\s\S]*?updateHudDisplay\(\);\s*\};/);
+  assert.ok(sceneInitBlock, "sceneInit function must be extractable for whole-page init chain audit");
+  const sceneInitText = sceneInitBlock[0];
+  const v75SyncCalls = [
+    "resolveApocalypseWarrantyOfficePendingOnArrival(name);",
+    "syncApocalypseWarrantyOffice();",
+    "syncApocalypseWarrantyMorgue();",
+    "syncApocalypseWarrantyBench();",
+    "syncApocalypseWarrantyYard();",
+    "syncApocalypseWarrantyAdjusters();",
+    "paintApocalypseWarrantyMemory();",
+    "paintApocalypseWarrantyCodex();",
+    "syncApocalypseWarrantyRemembrance();",
+    "syncApocalypseWarrantyLinks();",
+    "replayApocalypseWarrantyPending(name);",
+  ];
+  for (const call of v75SyncCalls) {
+    assert.ok(sceneInitText.includes(call), `sceneInit must call ${call}`);
+  }
+  const v75ReplayIdx = sceneInitText.indexOf("replayApocalypseWarrantyPending(name);");
+  const hudIdx = sceneInitText.indexOf("updateHudDisplay();");
+  assert.ok(v75ReplayIdx > 0 && hudIdx > v75ReplayIdx, "v75 replay must run before updateHudDisplay in sceneInit");
+
+  const initBlock = js.match(/syncCausalScarLinks\(\);[\s\S]*?route\(\);\s*\}\);/);
+  assert.ok(initBlock, "DOMContentLoaded init block must be extractable");
+  const initText = initBlock[0];
+  for (const call of v75SyncCalls) {
+    assert.ok(initText.includes(call), `DOMContentLoaded init block must call ${call}`);
+  }
+
+  const forgetBlock = js.match(/const forgetActionBtn = \$[^;]*;[\s\S]*?goScene\("threshold"\);/);
+  assert.ok(forgetBlock, "forget-all handler must be extractable");
+  const forgetText = forgetBlock[0];
+  assert.ok(forgetText.includes('localStorage.removeItem("goddead_v75_apocalypse_warranty")'), "forget-all must remove v75 storage key");
+  assert.ok(forgetText.includes('apocalypse-warranty-memory') && forgetText.includes('hidden = true'), "forget-all must hide v75 memory");
+  assert.ok(forgetText.includes('apocalypse-warranty-codex') && forgetText.includes('hidden = true'), "forget-all must hide v75 codex");
+  assert.ok(forgetText.includes('apocalypse-warranty-entry-btn') && forgetText.includes('hidden = true'), "forget-all must hide v75 entry button");
+  assert.ok(forgetText.includes('apocalypse-warranty-recall-entry-btn') && forgetText.includes('hidden = true'), "forget-all must hide v75 recall entry button");
+  assert.ok(forgetText.includes('apocalypse-warranty-office-link') && forgetText.includes('hidden = true'), "forget-all must hide v75 directory links");
+  assert.ok(forgetText.includes('apocalypse-warranty-adjuster-response-') && forgetText.includes('textContent = ""'), "forget-all must clear v75 adjuster responses");
+  assert.ok(forgetText.includes('apocalypse-warranty-adjuster-') && forgetText.includes('hidden = true'), "forget-all must hide v75 adjusters");
+}
+
+/* ---------- v75 文档同步 ---------- */
+/* v75 设计文档存在且冻结四张源图与四张 WebP 哈希 */
+const v75doc = await fileText("docs/V75ApocalypseWarrantyOfficeDesign.md");
+for (const hash of Object.values(V75_SOURCE_HASHES)) {
+  assert.ok(v75doc.includes(hash), "V75 design doc must freeze the source sha256 values");
+}
+for (const hash of Object.values(V75_WEBP_HASHES)) {
+  assert.ok(v75doc.includes(hash), "V75 design doc must freeze the WebP sha256 values");
+}
+assert.match(v75doc, /1536×1024/, "V75 design doc documents 1536×1024 dimensions");
+/* ---------- v75 文档同步 ---------- */
+
+
+/* ---------- v74 文档同步 ---------- */
+assert.match(readme, /v74|墓碑专利局|PATENT OFFICE OF THE UNBURIED/, "README must document the v74 tombstone patent office");
+assert.match(qa, /v74|墓碑专利局|PATENT OFFICE OF THE UNBURIED/, "design-qa.md must document the v74 tombstone patent office");
+assert.match(log, /v74|墓碑专利局|PATENT OFFICE OF THE UNBURIED/, "ProgressLog must document the v74 tombstone patent office");
+/* ---------- v74 文档同步 ---------- */
+
+/* ---------- v75 文档同步 ---------- */
+assert.match(readme, /v75|末日保修局|APOCALYPSE WARRANTY OFFICE/, "README must document the v75 apocalypse warranty office");
+assert.match(qa, /v75|末日保修局|APOCALYPSE WARRANTY OFFICE/, "design-qa.md must document the v75 apocalypse warranty office");
+assert.match(log, /v75|末日保修局|APOCALYPSE WARRANTY OFFICE/, "ProgressLog must document the v75 apocalypse warranty office");
+/* ---------- v75 文档同步 ---------- */
+
+/* ============================================================
+   v76 现实退款处 / REALITY REFUND COUNTER 静态回归
+   ============================================================ */
+
+const V76_SOURCE_HASHES = {
+  "source-v76-reality-refund-counter.png": "d05025a6fc47eec793e7a9d81b540dc30b7d79f936c8fad9e4ccf245f2f3ef7b",
+  "source-v76-proof-of-existence-incinerator.png": "0fd77f5bc6117c91dc715b240f08e1e611adb5d632a49183dcfc3595c6d79471",
+  "source-v76-reality-return-inspection.png": "7ad994825921ae47b20ad29e5b11678c7915dab14eb2d42a6396c6895412d24c",
+  "source-v76-class-action-court.png": "849b557d80752ec020379510e51cc216e4846f8cd55e5ffce30098212ca1e810",
+};
+const V76_WEBP_HASHES = {
+  "v76-reality-refund-counter.webp": "aaac00d54db93c375fe229bb0dd21ba8e68adaca991d4c05bf44934452214afc",
+  "v76-proof-of-existence-incinerator.webp": "793496de8d7ed1976b2168b07923d6556b6a0392acb196799c05b5b9351e4938",
+  "v76-reality-return-inspection.webp": "cfafd2121ff47a8ce76492fd5e22a6ea85ab580bf623e12ed8ad6f3140d81b64",
+  "v76-class-action-court.webp": "218bfe04018c0be21dc54431b88f72e8c3fb1b0ec3aecc5629d33668cc6005dc",
+};
+const V76_SOURCE_SIZES = {
+  "source-v76-reality-refund-counter.png": 2527199,
+  "source-v76-proof-of-existence-incinerator.png": 2474720,
+  "source-v76-reality-return-inspection.png": 2681364,
+  "source-v76-class-action-court.png": 2780701,
+};
+const V76_WEBP_SIZES = {
+  "v76-reality-refund-counter.webp": 221538,
+  "v76-proof-of-existence-incinerator.webp": 231288,
+  "v76-reality-return-inspection.webp": 246982,
+  "v76-class-action-court.webp": 277948,
+};
+
+/* 场景与 DOM 存在性 */
+for (const s of ["reality-refund-counter", "proof-of-existence-incinerator", "reality-return-inspection", "class-action-court"]) {
+  assert.match(html, new RegExp(`data-scene="${s}"`), `v76 scene missing: ${s}`);
+}
+for (const id of ["reality-refund-counter-link", "proof-of-existence-incinerator-link", "reality-return-inspection-link", "class-action-court-link"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v76 directory link missing: ${id}`);
+}
+for (const id of ["reality-refund-memory", "reality-refund-codex", "reality-refund-codex-grid", "reality-refund-entry-btn", "reality-refund-class-entry-btn"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v76 remembrance element missing: ${id}`);
+}
+for (const id of ["reality-refund-counter-figure", "proof-of-existence-incinerator-figure", "reality-return-inspection-figure", "class-action-court-figure"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v76 figure missing: ${id}`);
+}
+for (const id of ["reality-refund-cashier-borrowed-childhood", "reality-refund-cashier-blank-name-cloakroom", "reality-refund-cashier-lifetime-pawn-vault"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v76 cashier container missing: ${id}`);
+}
+for (const id of ["reality-refund-subject-body-bought-with-childhood", "reality-refund-subject-name-paid-with-forgetting", "reality-refund-subject-years-leased-from-death"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v76 subject button missing: ${id}`);
+}
+for (const id of ["proof-of-existence-childhood-price-tag", "proof-of-existence-erased-name-receipt", "proof-of-existence-death-issued-refund-reason"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v76 proof button missing: ${id}`);
+}
+for (const id of ["reality-return-remedy-refund-to-nonexistence", "reality-return-remedy-restore-original-absence", "reality-return-remedy-exchange-for-possible-self", "reality-return-remedy-charge-reality-restocking-fee"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v76 remedy button missing: ${id}`);
+}
+for (const id of ["reality-refund-cashier-return-borrowed-childhood", "reality-refund-cashier-return-blank-name-cloakroom", "reality-refund-cashier-return-lifetime-pawn-vault"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v76 cashier return button missing: ${id}`);
+}
+for (const id of ["class-action-return-existence-for-full-refund", "class-action-refund-every-body-to-childhood", "class-action-convict-reality-of-false-advertising"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v76 class action button missing: ${id}`);
+}
+
+/* P1 回归：handler 的 buttonAvailable 与事件监听所查 ID 必须真实存在于 index.html */
+const v76HandlerIdChecks = {
+  subject: { ids: ["reality-refund-subject-body-bought-with-childhood", "reality-refund-subject-name-paid-with-forgetting", "reality-refund-subject-years-leased-from-death"], handlerPrefix: "reality-refund-subject-${subject}" },
+  proof: { ids: ["proof-of-existence-childhood-price-tag", "proof-of-existence-erased-name-receipt", "proof-of-existence-death-issued-refund-reason"], handlerPrefix: "proof-of-existence-${proof}" },
+  remedy: { ids: ["reality-return-remedy-refund-to-nonexistence", "reality-return-remedy-restore-original-absence", "reality-return-remedy-exchange-for-possible-self", "reality-return-remedy-charge-reality-restocking-fee"], handlerPrefix: "reality-return-remedy-${remedy}" },
+  classAction: { ids: ["class-action-return-existence-for-full-refund", "class-action-refund-every-body-to-childhood", "class-action-convict-reality-of-false-advertising"], handlerPrefix: "class-action-${action}" },
+};
+for (const [kind, { ids, handlerPrefix }] of Object.entries(v76HandlerIdChecks)) {
+  assert.ok(js.includes(`buttonAvailable(\`${handlerPrefix}\`)`), `v76 ${kind} handler must use real DOM id prefix: ${handlerPrefix}`);
+  for (const id of ids) {
+    assert.match(html, new RegExp(`id="${id}"`), `v76 ${kind} button must exist in DOM: ${id}`);
+    assert.ok(js.includes(`$('#${id}')`), `v76 ${kind} listener must be wired to the real DOM id: ${id}`);
+  }
+}
+
+assert.match(html, /<link rel="preload" href="assets\/v76-reality-refund-counter\.webp" as="image">/, "v76 preloads reality-refund-counter");
+assert.match(html, /<link rel="preload" href="assets\/v76-proof-of-existence-incinerator\.webp" as="image">/, "v76 preloads proof-of-existence-incinerator");
+assert.match(html, /<link rel="preload" href="assets\/v76-reality-return-inspection\.webp" as="image">/, "v76 preloads reality-return-inspection");
+assert.match(html, /<link rel="preload" href="assets\/v76-class-action-court\.webp" as="image">/, "v76 preloads class-action-court");
+
+/* 缓存版本 */
+assert.match(html, /styles\.css\?v=76/, "v76 cache busts styles.css");
+assert.match(html, /script\.js\?v=76/, "v76 cache busts script.js");
+
+/* JS 模块与 key */
+assert.equal((js.match(/const REALITY_REFUND_KEY = ['"]goddead_v76_reality_refund['"]/g) || []).length, 1, "v76 introduces exactly one storage key");
+const v76ModuleBlock = js.match(/v76 现实退款处 \/ REALITY REFUND COUNTER[\s\S]*?(?=\n  \/\* ={40,}\n     走廊：残页 \+ 封印的门)/);
+assert.ok(v76ModuleBlock, "v76 module must exist");
+
+const saveRealityRefundBlock = js.match(/const saveRealityRefund = \(st\) => \{[\s\S]*?store\.set\(\s*REALITY_REFUND_KEY,\s*JSON\.stringify\(\{[\s\S]*?\}\)\s*\);/);
+assert.ok(saveRealityRefundBlock, "saveRealityRefund must persist an explicit canonical projection");
+for (const f of ["version", "visited", "draft", "refundCases", "classOutcomes", "refundRuns", "classRuns", "claimantTallies", "lastOutcome", "activeCashier", "pending"]) {
+  assert.match(saveRealityRefundBlock[0], new RegExp(`\\b${f}\\b`), `saveRealityRefund persists ${f}`);
+}
+
+/* 素材冻结 */
+for (const [file, hash] of Object.entries(V76_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(`design-references/${file}`, root));
+  assert.strictEqual(createHash("sha256").update(buf).digest("hex"), hash, `${file} must keep its frozen sha256`);
+  assert.strictEqual(buf.length, V76_SOURCE_SIZES[file], `${file} must keep its frozen byte size`);
+  const dims = readPngDimensions(buf);
+  assert.ok(dims, `${file} must be a readable PNG`);
+  assert.strictEqual(dims.width, 1536, `${file} must be 1536 px wide`);
+  assert.strictEqual(dims.height, 1024, `${file} must be 1024 px tall`);
+}
+for (const [file, hash] of Object.entries(V76_WEBP_HASHES)) {
+  const buf = await readFile(new URL(`assets/${file}`, root));
+  assert.strictEqual(createHash("sha256").update(buf).digest("hex"), hash, `${file} must keep its frozen sha256`);
+  assert.strictEqual(buf.length, V76_WEBP_SIZES[file], `${file} must keep its frozen byte size`);
+  assert.ok(html.includes(`assets/${file}`), `${file} must be referenced from index.html`);
+  const dims = readWebpDimensions(buf);
+  assert.ok(dims, `${file} must be a readable WebP`);
+  assert.strictEqual(dims.width, 1536, `${file} must be 1536 px wide`);
+  assert.strictEqual(dims.height, 1024, `${file} must be 1024 px tall`);
+  assert.match(html, new RegExp(`src="assets/${file.replace(".", "\\.")}" alt="" width="1536" height="1024"`), `${file} must have 1536x1024 HTML attributes`);
+}
+
+/* 冻结标题、按钮文本与反馈 */
+assert.match(html, /04υ \/ 现实退款处 · REALITY REFUND COUNTER/, "v76 counter title");
+assert.match(html, /04φ \/ 存在凭证焚化库 · PROOF-OF-EXISTENCE INCINERATOR/, "v76 incinerator title");
+assert.match(html, /04χ \/ 现实退货检验台 · REALITY RETURN INSPECTION/, "v76 inspection title");
+assert.match(html, /04ψ \/ 不符描述集体诉讼庭 · CLASS-ACTION COURT OF THE NEVER-AS-DESCRIBED/, "v76 court title");
+assert.match(js, /退回用童年购买的肉身 · RETURN THE BODY BOUGHT WITH CHILDHOOD/, "v76 subject body button text");
+assert.match(js, /退回以遗忘支付的姓名 · RETURN THE NAME PAID WITH FORGETTING/, "v76 subject name button text");
+assert.match(js, /退回从死亡租来的年岁 · RETURN THE YEARS LEASED FROM DEATH/, "v76 subject years button text");
+assert.match(js, /提交童年价签 · SUBMIT THE CHILDHOOD PRICE TAG/, "v76 proof childhood button text");
+assert.match(js, /提交抹名收据 · SUBMIT THE ERASED-NAME RECEIPT/, "v76 proof erased button text");
+assert.match(js, /提交死亡退款理由 · SUBMIT DEATH\\'S REFUND REASON/, "v76 proof death button text");
+assert.match(js, /原路退回不存在 · REFUND TO NONEXISTENCE/, "v76 remedy refund button text");
+assert.match(js, /恢复出厂缺席 · RESTORE THE ORIGINAL ABSENCE/, "v76 remedy restore button text");
+assert.match(js, /换货为一个可能的自己 · EXCHANGE FOR A POSSIBLE SELF/, "v76 remedy exchange button text");
+assert.match(js, /向现实收取重新上架费 · CHARGE REALITY THE RESTOCKING FEE/, "v76 remedy charge button text");
+assert.match(js, /退回全部存在并全额退款 · RETURN EXISTENCE FOR A FULL REFUND/, "v76 class action full refund button text");
+assert.match(js, /把所有肉身退回童年 · REFUND EVERY BODY TO CHILDHOOD/, "v76 class action body button text");
+assert.match(js, /判现实虚假宣传 · CONVICT REALITY OF FALSE ADVERTISING/, "v76 class action convict button text");
+assert.match(js, /跟童年退款员返回柜台 · RETURN WITH THE CHILDHOOD CASHIER/, "v76 childhood cashier return text");
+assert.match(js, /跟抹名退款员返回柜台 · RETURN WITH THE ERASED-NAME CASHIER/, "v76 erased-name cashier return text");
+assert.match(js, /跟死期退款员返回柜台 · RETURN WITH THE DEATH-ISSUED CASHIER/, "v76 death cashier return text");
+assert.match(js, /退货带称出一具成年肉身。价签写着整段童年已经抵扣，磨损却从出生当天便开始计算。/, "v76 subject body feedback");
+assert.match(js, /空名牌从影子上剥落。你为得到这个姓名忘掉了付款过程，因此商家声称交易从未发生。/, "v76 subject name feedback");
+assert.match(js, /裂纹沙漏倒出几段尚未活完的年份。死亡承认出租过时间，却坚持租客从签约那刻起已经逾期。/, "v76 subject years feedback");
+assert.match(js, /乳牙、旧玩具和第一场噩梦被压成价签。它能证明童年付过款，却无法证明收到的是哪一具身体。/, "v76 proof childhood feedback");
+assert.match(js, /收据上的姓名已经被付款行为擦除。空白仍保留你的笔压，像一个拒绝承认自己被叫过的影子。/, "v76 proof erased feedback");
+assert.match(js, /死亡盖章证明年岁不符合描述：每一年都承诺通向未来，实际却只把租客送回签约柜台。/, "v76 proof death feedback");
+assert.match(js, /退款员沿存在的付款路径逆向操作。你逐件失去身体、姓名与时间，却发现不存在没有账户可收款。/, "v76 remedy refund fragment");
+assert.match(js, /检验台把你修复成购买以前的空位。世界终于与广告完全一致，只是再没有顾客能够确认。/, "v76 remedy restore fragment");
+assert.match(js, /仓库递来另一种可能的你。那个人拥有完整童年、姓名和余生，却拒绝承认自己是替换件。/, "v76 remedy exchange fragment");
+assert.match(js, /现实被迫支付把你重新塞回世界的费用。每一枚退款币都从附近事物的存在感里扣除。/, "v76 remedy charge fragment");
+assert.match(js, /起诉现实从未符合描述 · SUE REALITY FOR NEVER MATCHING ITS DESCRIPTION/, "v76 class entry feedback");
+assert.match(js, /黄铜退货门吞下整座世界，只留下柜台前的黑色空位。退款已经全额到账，但账户与持有人一同被退回。/, "v76 class action full refund feedback");
+assert.match(js, /陪审席上的空壳逐一缩回摇篮。成年人失去伤口和年龄，童年却收到许多从未订购过的尸体。/, "v76 class action body feedback");
+assert.match(js, /现实承认自己从未像承诺那样真实。痕迹墙获得赔偿，从此每段记忆都可以标注“实物可能与存在不同”。/, "v76 class action convict feedback");
+assert.match(js, /童年退款员在借来童年室核对价签。每一件玩具都承认收过款，却没有一件愿意退回长大的你。/, "v76 childhood cashier feedback");
+assert.match(js, /抹名退款员从空名寄存处取回收据。柜里的每个名字都像你，唯独你的那格坚持从未出租。/, "v76 erased-name cashier feedback");
+assert.match(js, /死期退款员在寿命典当库逐年点货。死亡收回所有未来，仍欠你一段从未交付的现在。/, "v76 death cashier feedback");
+/* 可执行/隔离状态回归测试 */
+assert.ok(v76ModuleBlock, "v76 executable block available for regression tests");
+const v76ExecSourceStart = v76ModuleBlock[0].indexOf("const REALITY_REFUND_KEY");
+assert.ok(v76ExecSourceStart > 0, "v76 executable block starts with REALITY_REFUND_KEY");
+const v76ExecSource = v76ModuleBlock[0].slice(v76ExecSourceStart).trimEnd();
+
+const REALITY_REFUND_KEY = "goddead_v76_reality_refund";
+const fullV75CoverageClaims = (() => {
+  const subjects = ['body-bought-with-childhood', 'name-paid-with-forgetting', 'years-leased-from-death'];
+  const proofs = ['childhood-price-tag', 'erased-name-receipt', 'death-issued-refund-reason'];
+  const remedies = ['refund-to-nonexistence', 'restore-original-absence', 'exchange-for-possible-self', 'charge-reality-restocking-fee'];
+  const ids = [];
+  for (const s of subjects) {
+    for (const p of proofs) {
+      for (const r of remedies) {
+        ids.push(`${s}:${p}:${r}`);
+      }
+    }
+  }
+  return ids;
+})();
+const fullV75RecallOutcomes = [
+  'the-world-was-recalled-from-circulation',
+  'the-apocalypse-was-repaired-with-a-spare-dawn',
+  'existence-voided-its-own-warranty',
+];
+
+function makeV76Button({ disabled = false, hidden = false } = {}) {
+  return { disabled, hidden, pressed: null, setAttribute(name, value) { if (name === "aria-pressed") this.pressed = value; }, removeAttribute() {}, closest: () => null, addEventListener() {} };
+}
+function makeV76Box({ hidden = true } = {}) {
+  return { hidden, children: [], className: "", textContent: "", setAttribute() {}, removeAttribute(name) { if (name === "hidden") this.hidden = false; }, closest: () => null, addEventListener() {}, appendChild(c) { this.children.push(c); }, querySelector: () => null };
+}
+
+function makeV76Context({
+  initialStore = {},
+  elements = {},
+  scene = "",
+  v75unlocked = true,
+  warrantyClaims = fullV75CoverageClaims,
+  recallOutcomes = fullV75RecallOutcomes,
+} = {}) {
+  const storeData = { ...initialStore };
+  const store = {
+    get(k, def) { return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def; },
+    set(k, v) { storeData[k] = v; },
+  };
+  const queries = [];
+  const $ = (rawId) => { queries.push(rawId); return elements[rawId.replace(/^#/, "")] || null; };
+  const scheduleCalls = [];
+  const AutoAdvance = { has(src) { return false; }, schedule(src, target, opts) { scheduleCalls.push({ src, target, opts }); } };
+  const AudioEngine = { whoosh() {}, bell() {} };
+  const apocalypseWarrantyOfficeUnlocked = () => v75unlocked;
+  const warrantyCoverageComplete = (st) => v75unlocked && Array.isArray(st.warrantyClaims) && st.warrantyClaims.length === 36;
+  const getApocalypseWarrantyOffice = () => v75unlocked ? { warrantyClaims, recallOutcomes } : { warrantyClaims: [], recallOutcomes: [] };
+  const buttonAvailable = (id) => {
+    const btn = $(`#${id}`);
+    if (!btn || btn.disabled || btn.hidden) return false;
+    if (typeof btn.closest === "function" && btn.closest("[hidden]")) return false;
+    return true;
+  };
+  const document = {
+    createElement(tag) {
+      return {
+        tagName: tag,
+        className: "",
+        innerHTML: "",
+        textContent: "",
+        children: [],
+        hidden: true,
+        setAttribute() {},
+        removeAttribute(name) { if (name === "hidden") this.hidden = false; },
+        appendChild(c) { this.children.push(c); },
+      };
+    },
+  };
+  const body = v76ExecSource + "\nreturn { REALITY_REFUND_KEY, REALITY_REFUND_VERSION, REALITY_REFUND_SUBJECTS, REALITY_REFUND_PROOFS, REALITY_REFUND_REMEDIES, REALITY_REFUND_CLASS_ACTIONS, REALITY_REFUND_SCENE_FOR_PROOF, REALITY_REFUND_ENTRY_FEEDBACK, REALITY_REFUND_CLASS_ENTRY_FEEDBACK, REALITY_REFUND_SUBJECT_TABLE, REALITY_REFUND_PROOF_TABLE, REALITY_REFUND_REMEDY_TABLE, REALITY_REFUND_CLASS_ACTION_TABLE, REFUND_CASE_IDS, REFUND_CASE_SET, CLASS_OUTCOME_IDS, CLASS_OUTCOME_SET, defaultRealityRefund, normalizeRealityRefundVisited, normalizeRealityRefundDraft, normalizeRealityRefundRefundCases, normalizeRealityRefundClassOutcomes, normalizeRealityRefundClaimantTallies, normalizeRealityRefundActiveCashier, normalizeRealityRefundPending, saveRealityRefund, getRealityRefund, realityRefundCounterUnlocked, realityRefundCoverageComplete, computeRealityRefundClaimantTalliesMajority, computeRefundCaseId, computeRefundCaseTitle, computeRefundCaseFeedback, findRefundCaseById, computeClassOutcomeId, realityRefundCounterDelay, realityRefundCounterBeforeArrive, resolveRealityRefundCounterPendingOnArrival, lockRealityRefundCounterSubjectButtons, lockRealityRefundCounterProofButtons, lockRealityRefundCounterRemedyButtons, lockRealityRefundCounterClassActionButtons, syncRealityRefundCounterCounter, syncRealityRefundCounterIncinerator, syncRealityRefundCounterInspection, syncRealityRefundCounterCourt, syncRealityRefundCounterCashiers, paintRealityRefundCounterCashier, paintRealityRefundCounterMemory, paintRealityRefundCounterCodex, syncRealityRefundCounterRemembrance, syncRealityRefundCounterLinks, replayRealityRefundCounterPending, chooseRealityRefundCounterSubject, chooseRealityRefundCounterProof, chooseRealityRefundCounterRemedy, chooseRealityRefundCounterCashierReturn, chooseRealityRefundCounterEntry, chooseRealityRefundCounterClassEntry, chooseRealityRefundCounterClassAction, realityRefundCounterCanVisitCounter, realityRefundCounterCanVisitIncinerator, realityRefundCounterCanVisitInspection, realityRefundCounterCanVisitCourt, realityRefundCounterBridgeAllows }";
+  const v76 = new Function("store", "$", "currentScene", "AutoAdvance", "AudioEngine", "reduced", "apocalypseWarrantyOfficeUnlocked", "warrantyCoverageComplete", "getApocalypseWarrantyOffice", "buttonAvailable", "document", body)(store, $, scene, AutoAdvance, AudioEngine, false, apocalypseWarrantyOfficeUnlocked, warrantyCoverageComplete, getApocalypseWarrantyOffice, buttonAvailable, document);
+  const read = () => {
+    try { return JSON.parse(storeData[REALITY_REFUND_KEY] || "{}") || {}; } catch { return {}; }
+  };
+  return { v76, storeData, read, queries, scheduleCalls };
+}
+
+// 36 refund case IDs 固定顺序
+{
+  const ctx = makeV76Context({});
+  assert.strictEqual(ctx.v76.REFUND_CASE_IDS.length, 36, "v76 has 36 refund case ids");
+  const expected = [];
+  for (const s of ctx.v76.REALITY_REFUND_SUBJECTS) {
+    for (const p of ctx.v76.REALITY_REFUND_PROOFS) {
+      for (const r of ctx.v76.REALITY_REFUND_REMEDIES) {
+        expected.push(`${s}:${p}:${r}`);
+      }
+    }
+  }
+  assert.deepStrictEqual(ctx.v76.REFUND_CASE_IDS, expected, "refund case ids follow SUBJECTS×PROOFS×REMEDIES order");
+  assert.strictEqual(ctx.v76.REFUND_CASE_SET.size, 36, "refund case ids are unique");
+}
+
+// 3 class outcome IDs 固定顺序
+{
+  const ctx = makeV76Context({});
+  assert.deepStrictEqual(ctx.v76.CLASS_OUTCOME_IDS, [
+    'all-existence-was-refunded-to-the-void',
+    'every-body-was-refunded-to-childhood',
+    'reality-admitted-it-never-matched-description',
+  ], "class outcome ids follow CLASS_ACTIONS order");
+}
+
+// 默认态与 canonical 十一键
+{
+  const ctx = makeV76Context({});
+  const st = ctx.v76.defaultRealityRefund();
+  assert.deepStrictEqual(Object.keys(st).sort(), ["activeCashier", "claimantTallies", "classOutcomes", "classRuns", "draft", "lastOutcome", "pending", "refundCases", "refundRuns", "version", "visited"], "defaultRealityRefund has exactly eleven keys");
+  assert.strictEqual(st.version, 76);
+  assert.deepStrictEqual(st.visited, { counter: false, incinerator: false, inspection: false, court: false });
+  assert.deepStrictEqual(st.draft, { subject: '', proof: '' });
+  assert.deepStrictEqual(st.refundCases, []);
+  assert.deepStrictEqual(st.classOutcomes, []);
+  assert.strictEqual(st.refundRuns, 0);
+  assert.strictEqual(st.classRuns, 0);
+  assert.deepStrictEqual(st.claimantTallies, { body: 0, name: 0, time: 0 });
+  assert.strictEqual(st.lastOutcome, '');
+  assert.strictEqual(st.activeCashier, null);
+  assert.strictEqual(st.pending, null);
+}
+
+// 坏 JSON / version / type / 未解锁回默认态
+{
+  const ctx = makeV76Context({ initialStore: { [REALITY_REFUND_KEY]: "not-json" } });
+  assert.deepStrictEqual(ctx.v76.getRealityRefund(), ctx.v76.defaultRealityRefund(), "bad json returns default");
+  const ctx2 = makeV76Context({ initialStore: { [REALITY_REFUND_KEY]: JSON.stringify({ version: 75, visited: { counter: true } }) } });
+  assert.deepStrictEqual(ctx2.v76.getRealityRefund(), ctx2.v76.defaultRealityRefund(), "wrong version returns default");
+  const ctx3 = makeV76Context({ initialStore: { [REALITY_REFUND_KEY]: JSON.stringify([]) } });
+  assert.deepStrictEqual(ctx3.v76.getRealityRefund(), ctx3.v76.defaultRealityRefund(), "array returns default");
+  const ctx4 = makeV76Context({ initialStore: { [REALITY_REFUND_KEY]: JSON.stringify({ version: 76, visited: { counter: true } }) }, v75unlocked: false });
+  assert.deepStrictEqual(ctx4.v76.getRealityRefund(), ctx4.v76.defaultRealityRefund(), "locked returns default");
+}
+
+// 解锁只读 v75：锁定态下 direct hash 回 remembrance
+{
+  const ctx = makeV76Context({ v75unlocked: false });
+  assert.strictEqual(ctx.v76.realityRefundCounterUnlocked(), false, "v76 locked when v75 locked");
+  assert.strictEqual(ctx.v76.realityRefundCounterCanVisitCounter(), false, "locked counter guard blocks");
+  assert.strictEqual(ctx.v76.realityRefundCounterCanVisitIncinerator(), false, "locked incinerator guard blocks");
+  assert.strictEqual(ctx.v76.realityRefundCounterCanVisitInspection(), false, "locked inspection guard blocks");
+  assert.strictEqual(ctx.v76.realityRefundCounterCanVisitCourt(), false, "locked court guard blocks");
+}
+
+// 规范化：visited / draft / refundCases / classOutcomes / tallies / lastOutcome / activeCashier
+{
+  const ctx = makeV76Context({});
+  const base = ctx.v76.defaultRealityRefund();
+  base.visited = { counter: 1, incinerator: 'yes', inspection: true, court: null };
+  assert.deepStrictEqual(ctx.v76.normalizeRealityRefundVisited(base.visited), { counter: false, incinerator: false, inspection: true, court: false });
+  assert.deepStrictEqual(ctx.v76.normalizeRealityRefundDraft({ subject: 'body-bought-with-childhood', proof: 'childhood-price-tag' }), { subject: 'body-bought-with-childhood', proof: 'childhood-price-tag' });
+  assert.deepStrictEqual(ctx.v76.normalizeRealityRefundDraft({ subject: 'bad', proof: 'childhood-price-tag' }), { subject: '', proof: '' });
+  assert.deepStrictEqual(ctx.v76.normalizeRealityRefundDraft({ subject: 'body-bought-with-childhood', proof: 'bad' }), { subject: 'body-bought-with-childhood', proof: '' });
+  assert.deepStrictEqual(ctx.v76.normalizeRealityRefundDraft({ subject: '', proof: 'childhood-price-tag' }), { subject: '', proof: '' });
+  const ids = [ctx.v76.REFUND_CASE_IDS[5], ctx.v76.REFUND_CASE_IDS[0], ctx.v76.REFUND_CASE_IDS[5], 'bad:id'];
+  assert.deepStrictEqual(ctx.v76.normalizeRealityRefundRefundCases(ids), [ctx.v76.REFUND_CASE_IDS[0], ctx.v76.REFUND_CASE_IDS[5]], "refund cases dedup and fixed order");
+  const outcomes = ['all-existence-was-refunded-to-the-void', 'bad-outcome', 'all-existence-was-refunded-to-the-void', 'every-body-was-refunded-to-childhood', 'reality-admitted-it-never-matched-description'];
+  assert.deepStrictEqual(ctx.v76.normalizeRealityRefundClassOutcomes(outcomes), ['all-existence-was-refunded-to-the-void', 'every-body-was-refunded-to-childhood', 'reality-admitted-it-never-matched-description'], "class outcomes dedup and fixed order");
+  assert.deepStrictEqual(ctx.v76.normalizeRealityRefundClaimantTallies({ body: 1.7, name: -3, time: 99999 }), { body: 1, name: 0, time: 9999 }, "tallies clamp and floor");
+  const refundCase = ctx.v76.REFUND_CASE_IDS[0];
+  const proof = refundCase.split(':')[1];
+  assert.strictEqual(ctx.v76.normalizeRealityRefundActiveCashier({ proof, refundCase, feedback: ctx.v76.REALITY_REFUND_PROOF_TABLE[proof].cashierFeedback }, [refundCase]).refundCase, refundCase, "activeCashier ok");
+  assert.strictEqual(ctx.v76.normalizeRealityRefundActiveCashier({ proof: 'erased-name-receipt', refundCase, feedback: ctx.v76.REALITY_REFUND_PROOF_TABLE['erased-name-receipt'].cashierFeedback }, [refundCase]), null, "activeCashier proof mismatch");
+}
+
+// activeCashier 要求 refundCase 已收集且 proof 匹配第二段
+{
+  const ctx = makeV76Context({});
+  const refundCase = ctx.v76.REFUND_CASE_IDS[0];
+  const parts = refundCase.split(':');
+  const fb = ctx.v76.REALITY_REFUND_PROOF_TABLE[parts[1]].cashierFeedback;
+  assert.ok(ctx.v76.normalizeRealityRefundActiveCashier({ proof: parts[1], refundCase, feedback: fb }, [refundCase]), "cashier matches collected case");
+  assert.strictEqual(ctx.v76.normalizeRealityRefundActiveCashier({ proof: parts[1], refundCase, feedback: fb }, []), null, "cashier rejected when case not collected");
+  const other = ctx.v76.REFUND_CASE_IDS[4];
+  const otherParts = other.split(':');
+  assert.strictEqual(ctx.v76.normalizeRealityRefundActiveCashier({ proof: otherParts[1], refundCase, feedback: ctx.v76.REALITY_REFUND_PROOF_TABLE[otherParts[1]].cashierFeedback }, [refundCase]), null, "cashier rejected when proof does not equal case second segment");
+}
+
+// save/get roundtrip 投影去重
+{
+  const ctx = makeV76Context({});
+  const st = ctx.v76.defaultRealityRefund();
+  st.visited.counter = true;
+  st.draft = { subject: 'body-bought-with-childhood', proof: 'childhood-price-tag' };
+  const refundCase = ctx.v76.REFUND_CASE_IDS[8];
+  st.refundCases = [refundCase, refundCase];
+  st.classOutcomes = ['all-existence-was-refunded-to-the-void'];
+  st.refundRuns = 2;
+  st.classRuns = 1;
+  st.claimantTallies = { body: 0, name: 2, time: 0 };
+  st.lastOutcome = refundCase;
+  st.activeCashier = { proof: refundCase.split(':')[1], refundCase, feedback: ctx.v76.REALITY_REFUND_PROOF_TABLE[refundCase.split(':')[1]].cashierFeedback };
+  st.pending = { kind: 'proof', source: 'proof-of-existence-incinerator', subject: 'body-bought-with-childhood', proof: 'childhood-price-tag', target: 'reality-return-inspection', feedback: ctx.v76.REALITY_REFUND_PROOF_TABLE['childhood-price-tag'].feedback };
+  st.extra = 'should-be-dropped';
+  ctx.v76.saveRealityRefund(st);
+  const saved = ctx.read();
+  assert.deepStrictEqual(Object.keys(saved).sort(), ["activeCashier", "claimantTallies", "classOutcomes", "classRuns", "draft", "lastOutcome", "pending", "refundCases", "refundRuns", "version", "visited"], "saved has exactly eleven keys");
+  assert.strictEqual(saved.extra, undefined, "extra key dropped");
+  assert.strictEqual(saved.refundCases.length, 1, "refund cases deduped");
+  assert.strictEqual(saved.activeCashier.proof, refundCase.split(':')[1]);
+}
+
+// 七类 pending exact-key 严格归一化
+{
+  const ctx = makeV76Context({});
+  const base = ctx.v76.defaultRealityRefund();
+  base._v76unlocked = true;
+  const subject = 'body-bought-with-childhood';
+  const proof = 'childhood-price-tag';
+  const remedy = 'refund-to-nonexistence';
+  const caseId = `${subject}:${proof}:${remedy}`;
+  const sTable = ctx.v76.REALITY_REFUND_SUBJECT_TABLE[subject];
+  const pTable = ctx.v76.REALITY_REFUND_PROOF_TABLE[proof];
+  const caseFb = ctx.v76.computeRefundCaseFeedback(subject, proof, remedy);
+
+  // entry
+  const entry = { kind: 'entry', target: 'reality-refund-counter', feedback: ctx.v76.REALITY_REFUND_ENTRY_FEEDBACK };
+  assert.ok(ctx.v76.normalizeRealityRefundPending(entry, base), "entry pending ok");
+  assert.strictEqual(ctx.v76.normalizeRealityRefundPending({ ...entry, extra: 1 }, base), null, "entry rejects extra key");
+  assert.strictEqual(ctx.v76.normalizeRealityRefundPending({ kind: 'entry', target: 'reality-refund-counter', feedback: 'bad' }, base), null, "entry rejects bad feedback");
+
+  // subject
+  const sb = { kind: 'subject', source: 'reality-refund-counter', subject, target: 'proof-of-existence-incinerator', feedback: sTable.feedback };
+  assert.ok(ctx.v76.normalizeRealityRefundPending(sb, base), "subject pending ok");
+  assert.strictEqual(ctx.v76.normalizeRealityRefundPending({ ...sb, source: 'bad' }, base), null, "subject rejects bad source");
+
+  // proof
+  base.draft.subject = subject;
+  const pr = { kind: 'proof', source: 'proof-of-existence-incinerator', subject, proof, target: 'reality-return-inspection', feedback: pTable.feedback };
+  assert.ok(ctx.v76.normalizeRealityRefundPending(pr, base), "proof pending ok");
+  assert.strictEqual(ctx.v76.normalizeRealityRefundPending({ ...pr, subject: 'name-paid-with-forgetting' }, base), null, "proof rejects mismatched subject");
+
+  // refund-case
+  base.draft.proof = proof;
+  const rc = { kind: 'refund-case', source: 'reality-return-inspection', subject, proof, remedy, refundCase: caseId, target: 'borrowed-childhood', feedback: caseFb };
+  assert.ok(ctx.v76.normalizeRealityRefundPending(rc, base), "refund-case pending ok");
+  assert.strictEqual(ctx.v76.normalizeRealityRefundPending({ ...rc, target: 'remembrance' }, base), null, "refund-case rejects wrong target");
+  assert.strictEqual(ctx.v76.normalizeRealityRefundPending({ ...rc, feedback: 'free text' }, base), null, "refund-case rejects free text feedback");
+
+  // cashier-return
+  base.activeCashier = { proof, refundCase: caseId, feedback: pTable.cashierFeedback };
+  const cr = { kind: 'cashier-return', from: 'borrowed-childhood', target: 'reality-refund-counter', refundCase: caseId, feedback: pTable.cashierFeedback };
+  assert.ok(ctx.v76.normalizeRealityRefundPending(cr, base), "cashier-return pending ok");
+  assert.strictEqual(ctx.v76.normalizeRealityRefundPending({ ...cr, from: 'remembrance' }, base), null, "cashier-return rejects mismatched from");
+
+  // class-entry
+  base.activeCashier = null;
+  base.draft = { subject: '', proof: '' };
+  base.refundCases = ctx.v76.REFUND_CASE_IDS;
+  const ce = { kind: 'class-entry', target: 'class-action-court', feedback: ctx.v76.REALITY_REFUND_CLASS_ENTRY_FEEDBACK };
+  assert.ok(ctx.v76.normalizeRealityRefundPending(ce, base), "class-entry pending ok");
+  base.refundCases = [];
+  assert.strictEqual(ctx.v76.normalizeRealityRefundPending(ce, base), null, "class-entry rejects incomplete coverage");
+
+  // class-action
+  base.refundCases = ctx.v76.REFUND_CASE_IDS;
+  base.visited.court = true;
+  const ca = { kind: 'class-action', source: 'class-action-court', action: 'return-existence-for-full-refund', outcome: 'all-existence-was-refunded-to-the-void', target: 'threshold', feedback: ctx.v76.REALITY_REFUND_CLASS_ACTION_TABLE['return-existence-for-full-refund'].feedback };
+  assert.ok(ctx.v76.normalizeRealityRefundPending(ca, base), "class-action pending ok");
+  assert.strictEqual(ctx.v76.normalizeRealityRefundPending({ ...ca, outcome: 'bad' }, base), null, "class-action rejects bad outcome");
+}
+
+// 36 refundCases 与 3 classOutcomes 穷举
+{
+  const ctx = makeV76Context({});
+  for (const id of ctx.v76.REFUND_CASE_IDS) {
+    const c = ctx.v76.findRefundCaseById(id);
+    assert.ok(c, `refund case ${id} resolvable`);
+    assert.strictEqual(c.id, id);
+    assert.ok(c.title);
+    assert.ok(c.feedback);
+    assert.strictEqual(ctx.v76.computeRefundCaseId(c.subject, c.proof, c.remedy), id);
+    assert.strictEqual(ctx.v76.computeRefundCaseTitle(c.subject, c.proof, c.remedy), c.title);
+    assert.strictEqual(ctx.v76.computeRefundCaseFeedback(c.subject, c.proof, c.remedy), c.feedback);
+  }
+  for (const action of ctx.v76.REALITY_REFUND_CLASS_ACTIONS) {
+    const outcome = ctx.v76.computeClassOutcomeId(action);
+    assert.ok(outcome);
+    assert.strictEqual(ctx.v76.REALITY_REFUND_CLASS_ACTION_TABLE[action].outcome, outcome);
+  }
+}
+
+// Coverage 4 pass / 3 fail
+{
+  const ctx = makeV76Context({});
+  const st = ctx.v76.defaultRealityRefund();
+  st.refundCases = ctx.v76.REFUND_CASE_IDS.slice(0, 3);
+  assert.strictEqual(ctx.v76.realityRefundCoverageComplete(st), false, "3 cases cannot cover 4 remedies");
+  st.refundCases = [ctx.v76.REFUND_CASE_IDS[0], ctx.v76.REFUND_CASE_IDS[5], ctx.v76.REFUND_CASE_IDS[22], ctx.v76.REFUND_CASE_IDS[27]];
+  assert.strictEqual(ctx.v76.realityRefundCoverageComplete(st), true, "4 representative cases cover all axes");
+}
+
+// replay 来源/目标/else 矩阵
+{
+  const ctx = makeV76Context({ scene: 'remembrance' });
+  const st = ctx.v76.defaultRealityRefund();
+  st._v76unlocked = true;
+  st.pending = { kind: 'entry', target: 'reality-refund-counter', feedback: ctx.v76.REALITY_REFUND_ENTRY_FEEDBACK };
+  ctx.v76.saveRealityRefund(st);
+  ctx.v76.replayRealityRefundCounterPending('reality-refund-counter');
+  assert.strictEqual(ctx.read().pending, null, "target arrival clears entry pending");
+  assert.strictEqual(ctx.read().visited.counter, true, "target arrival marks counter visited");
+}
+{
+  const ctx = makeV76Context({ scene: 'reality-refund-counter' });
+  const st = ctx.v76.defaultRealityRefund();
+  st._v76unlocked = true;
+  const subject = 'body-bought-with-childhood';
+  st.pending = { kind: 'subject', source: 'reality-refund-counter', subject, target: 'proof-of-existence-incinerator', feedback: ctx.v76.REALITY_REFUND_SUBJECT_TABLE[subject].feedback };
+  ctx.v76.saveRealityRefund(st);
+  ctx.v76.replayRealityRefundCounterPending('proof-of-existence-incinerator');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears subject pending");
+  assert.strictEqual(saved.draft.subject, subject, "target arrival writes draft subject");
+  assert.strictEqual(saved.visited.incinerator, true, "target arrival marks incinerator visited");
+}
+{
+  const ctx = makeV76Context({ scene: 'proof-of-existence-incinerator' });
+  const st = ctx.v76.defaultRealityRefund();
+  st._v76unlocked = true;
+  st.draft.subject = 'body-bought-with-childhood';
+  const proof = 'childhood-price-tag';
+  st.pending = { kind: 'proof', source: 'proof-of-existence-incinerator', subject: st.draft.subject, proof, target: 'reality-return-inspection', feedback: ctx.v76.REALITY_REFUND_PROOF_TABLE[proof].feedback };
+  ctx.v76.saveRealityRefund(st);
+  ctx.v76.replayRealityRefundCounterPending('reality-return-inspection');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears proof pending");
+  assert.strictEqual(saved.draft.proof, proof, "target arrival writes draft proof");
+}
+{
+  const ctx = makeV76Context({ scene: 'reality-return-inspection' });
+  const st = ctx.v76.defaultRealityRefund();
+  st._v76unlocked = true;
+  st.draft = { subject: 'body-bought-with-childhood', proof: 'childhood-price-tag' };
+  const remedy = 'refund-to-nonexistence';
+  const refundCase = ctx.v76.computeRefundCaseId(st.draft.subject, st.draft.proof, remedy);
+  st.pending = { kind: 'refund-case', source: 'reality-return-inspection', subject: st.draft.subject, proof: st.draft.proof, remedy, refundCase, target: 'borrowed-childhood', feedback: ctx.v76.computeRefundCaseFeedback(st.draft.subject, st.draft.proof, remedy) };
+  ctx.v76.saveRealityRefund(st);
+  ctx.v76.replayRealityRefundCounterPending('borrowed-childhood');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears refund-case pending");
+  assert.ok(saved.refundCases.includes(refundCase), "refund case collected");
+  assert.strictEqual(saved.refundRuns, 1, "refundRuns incremented once");
+  assert.strictEqual(saved.activeCashier.proof, 'childhood-price-tag', "activeCashier set");
+}
+{
+  const ctx = makeV76Context({ scene: 'borrowed-childhood' });
+  const st = ctx.v76.defaultRealityRefund();
+  st._v76unlocked = true;
+  const refundCase = ctx.v76.REFUND_CASE_IDS[0];
+  const proof = refundCase.split(':')[1];
+  st.activeCashier = { proof, refundCase, feedback: ctx.v76.REALITY_REFUND_PROOF_TABLE[proof].cashierFeedback };
+  st.pending = { kind: 'cashier-return', from: 'borrowed-childhood', target: 'reality-refund-counter', refundCase, feedback: ctx.v76.REALITY_REFUND_PROOF_TABLE[proof].cashierFeedback };
+  ctx.v76.saveRealityRefund(st);
+  ctx.v76.replayRealityRefundCounterPending('reality-refund-counter');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears cashier-return pending");
+  assert.strictEqual(saved.activeCashier, null, "activeCashier cleared");
+}
+{
+  const ctx = makeV76Context({ scene: 'remembrance' });
+  const st = ctx.v76.defaultRealityRefund();
+  st._v76unlocked = true;
+  st.refundCases = ctx.v76.REFUND_CASE_IDS;
+  st.pending = { kind: 'class-entry', target: 'class-action-court', feedback: ctx.v76.REALITY_REFUND_CLASS_ENTRY_FEEDBACK };
+  ctx.v76.saveRealityRefund(st);
+  ctx.v76.replayRealityRefundCounterPending('class-action-court');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears class-entry pending");
+  assert.strictEqual(saved.visited.court, true, "target arrival marks court visited");
+}
+{
+  const ctx = makeV76Context({ scene: 'class-action-court' });
+  const st = ctx.v76.defaultRealityRefund();
+  st._v76unlocked = true;
+  st.refundCases = ctx.v76.REFUND_CASE_IDS;
+  st.visited.court = true;
+  const classAction = { kind: 'class-action', source: 'class-action-court', action: 'return-existence-for-full-refund', outcome: 'all-existence-was-refunded-to-the-void', target: 'threshold', feedback: ctx.v76.REALITY_REFUND_CLASS_ACTION_TABLE['return-existence-for-full-refund'].feedback };
+  st.pending = classAction;
+  ctx.v76.saveRealityRefund(st);
+  ctx.v76.replayRealityRefundCounterPending('threshold');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears class-action pending");
+  assert.ok(saved.classOutcomes.includes('all-existence-was-refunded-to-the-void'), "class outcome collected");
+  assert.strictEqual(saved.classRuns, 1, "classRuns incremented once");
+}
+{
+  // source arrival schedules transition
+  const ctx = makeV76Context({ scene: 'reality-refund-counter' });
+  const st = ctx.v76.defaultRealityRefund();
+  st._v76unlocked = true;
+  const subject = 'body-bought-with-childhood';
+  st.pending = { kind: 'subject', source: 'reality-refund-counter', subject, target: 'proof-of-existence-incinerator', feedback: ctx.v76.REALITY_REFUND_SUBJECT_TABLE[subject].feedback };
+  ctx.v76.saveRealityRefund(st);
+  ctx.v76.replayRealityRefundCounterPending('reality-refund-counter');
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "source arrival schedules one transition");
+  assert.strictEqual(ctx.read().pending.kind, 'subject', "source arrival keeps pending");
+}
+{
+  // else clears pending without side effects
+  const ctx = makeV76Context({ scene: 'protocol' });
+  const st = ctx.v76.defaultRealityRefund();
+  st._v76unlocked = true;
+  st.pending = { kind: 'entry', target: 'reality-refund-counter', feedback: ctx.v76.REALITY_REFUND_ENTRY_FEEDBACK };
+  ctx.v76.saveRealityRefund(st);
+  ctx.v76.replayRealityRefundCounterPending('protocol');
+  assert.strictEqual(ctx.read().pending, null, "else clears pending");
+  assert.strictEqual(ctx.read().visited.counter, false, "else does not mark visited");
+}
+
+// 重复 refund-case 不重复图鉴但增加 runs / tallies
+{
+  const ctx = makeV76Context({ scene: 'reality-return-inspection' });
+  const st = ctx.v76.defaultRealityRefund();
+  st._v76unlocked = true;
+  st.draft = { subject: 'body-bought-with-childhood', proof: 'childhood-price-tag' };
+  const remedy = 'refund-to-nonexistence';
+  const refundCase = ctx.v76.computeRefundCaseId(st.draft.subject, st.draft.proof, remedy);
+  st.refundCases = [refundCase];
+  st.refundRuns = 3;
+  st.claimantTallies.body = 3;
+  st.pending = { kind: 'refund-case', source: 'reality-return-inspection', subject: st.draft.subject, proof: st.draft.proof, remedy, refundCase, target: 'borrowed-childhood', feedback: ctx.v76.computeRefundCaseFeedback(st.draft.subject, st.draft.proof, remedy) };
+  ctx.v76.saveRealityRefund(st);
+  ctx.v76.replayRealityRefundCounterPending('borrowed-childhood');
+  const saved = ctx.read();
+  assert.strictEqual(saved.refundCases.length, 1, "duplicate case not added");
+  assert.strictEqual(saved.refundRuns, 4, "duplicate still increments refundRuns");
+  assert.strictEqual(saved.claimantTallies.body, 4, "duplicate still increments tally");
+}
+
+// 18 组 isTrusted 防线
+{
+  const v76ListenerBlock = js.match(/const realityRefundCounterEntryBtn = \$\('#reality-refund-entry-btn'\);[\s\S]*?(?=\n  \/\* ={40,}\n     走廊：残页 \+ 封印的门)/);
+  assert.ok(v76ListenerBlock, "v76 click listener block must exist");
+  assert.equal((v76ListenerBlock[0].match(/!e\.isTrusted/g) || []).length, 18, "v76 must guard all eighteen click listeners with isTrusted");
+}
+
+// 合成 click 零副作用
+{
+  const ctx = makeV76Context({ scene: 'reality-refund-counter' });
+  const btn = { disabled: false, hidden: false, pressed: null, closest: () => null, addEventListener(type, fn) { this._fn = fn; }, setAttribute(name, value) { if (name === 'aria-pressed') this.pressed = value; }, removeAttribute() {} };
+  btn.addEventListener('click', (e) => { if (!e.isTrusted) return; ctx.v76.chooseRealityRefundCounterSubject('body-bought-with-childhood'); });
+  btn._fn({ isTrusted: false });
+  assert.strictEqual(ctx.read().pending ?? null, null, "synthetic click does not create v76 pending");
+}
+
+// 按钮 choose 处理与 UI 禁用一致性
+{
+  const subjectBtn = makeV76Button();
+  const ctx = makeV76Context({ scene: 'reality-refund-counter', elements: { "reality-refund-subject-body-bought-with-childhood": subjectBtn } });
+  ctx.v76.chooseRealityRefundCounterSubject('body-bought-with-childhood');
+  assert.ok(ctx.scheduleCalls.length > 0, "choose subject schedules transition");
+  assert.strictEqual(ctx.read().pending.kind, 'subject', "choose subject creates pending");
+}
+{
+  const proofBtn = makeV76Button();
+  const ctx = makeV76Context({ scene: 'proof-of-existence-incinerator', elements: { "proof-of-existence-childhood-price-tag": proofBtn } });
+  ctx.v76.saveRealityRefund({ ...ctx.v76.defaultRealityRefund(), draft: { subject: 'body-bought-with-childhood', proof: '' } });
+  ctx.v76.chooseRealityRefundCounterProof('childhood-price-tag');
+  assert.strictEqual(ctx.read().pending.kind, 'proof', "choose proof creates pending");
+}
+{
+  const remedyBtn = makeV76Button();
+  const ctx = makeV76Context({ scene: 'reality-return-inspection', elements: { "reality-return-remedy-refund-to-nonexistence": remedyBtn } });
+  ctx.v76.saveRealityRefund({ ...ctx.v76.defaultRealityRefund(), draft: { subject: 'body-bought-with-childhood', proof: 'childhood-price-tag' } });
+  ctx.v76.chooseRealityRefundCounterRemedy('refund-to-nonexistence');
+  assert.strictEqual(ctx.read().pending.kind, 'refund-case', "choose remedy creates refund-case pending");
+}
+{
+  const cashierBtn = makeV76Button();
+  const helperCtx = makeV76Context({});
+  const refundCase = helperCtx.v76.REFUND_CASE_IDS[0];
+  const proof = refundCase.split(':')[1];
+  const scene = helperCtx.v76.REALITY_REFUND_SCENE_FOR_PROOF[proof];
+  const ctx = makeV76Context({ scene, elements: { [`reality-refund-cashier-return-${scene}`]: cashierBtn } });
+  ctx.v76.saveRealityRefund({ ...ctx.v76.defaultRealityRefund(), refundCases: [refundCase], activeCashier: { proof, refundCase, feedback: ctx.v76.REALITY_REFUND_PROOF_TABLE[proof].cashierFeedback } });
+  ctx.v76.chooseRealityRefundCounterCashierReturn(scene);
+  assert.strictEqual(ctx.read().pending.kind, 'cashier-return', "choose cashier return creates pending");
+}
+{
+  const entryBtn = makeV76Button();
+  const ctx = makeV76Context({ scene: 'remembrance', elements: { "reality-refund-entry-btn": entryBtn } });
+  ctx.v76.chooseRealityRefundCounterEntry();
+  assert.strictEqual(ctx.read().pending.kind, 'entry', "choose entry creates entry pending");
+}
+{
+  const classEntryBtn = makeV76Button();
+  const ctx = makeV76Context({ scene: 'remembrance', elements: { "reality-refund-class-entry-btn": classEntryBtn } });
+  ctx.v76.saveRealityRefund({ ...ctx.v76.defaultRealityRefund(), refundCases: ctx.v76.REFUND_CASE_IDS });
+  ctx.v76.chooseRealityRefundCounterClassEntry();
+  assert.strictEqual(ctx.read().pending.kind, 'class-entry', "choose class entry creates class-entry pending");
+}
+{
+  const classActionBtn = makeV76Button();
+  const ctx = makeV76Context({ scene: 'class-action-court', elements: { "class-action-return-existence-for-full-refund": classActionBtn } });
+  ctx.v76.saveRealityRefund({ ...ctx.v76.defaultRealityRefund(), refundCases: ctx.v76.REFUND_CASE_IDS, visited: { counter: true, incinerator: true, inspection: true, court: true } });
+  ctx.v76.chooseRealityRefundCounterClassAction('return-existence-for-full-refund');
+  assert.strictEqual(ctx.read().pending.kind, 'class-action', "choose class action creates class-action pending");
+}
+
+// activeCashier / draft / pending 一致性
+{
+  function makeV76AdjusterButton({ disabled = false, hidden = false } = {}) {
+    return { disabled, hidden, pressed: null, setAttribute(name, value) { if (name === "aria-pressed") this.pressed = value; }, removeAttribute() {}, closest: () => null, addEventListener() {} };
+  }
+  const helperCtx = makeV76Context({});
+  const refundCase = helperCtx.v76.REFUND_CASE_IDS[0];
+  const proof = refundCase.split(':');
+  const cashierFb = helperCtx.v76.REALITY_REFUND_PROOF_TABLE[proof[1]].cashierFeedback;
+
+  // activeCashier 期间 pending 归一化拒绝非 cashier-return
+  {
+    const ctx = makeV76Context({});
+    const baseSt = ctx.v76.defaultRealityRefund();
+    baseSt._v76unlocked = true;
+    baseSt.activeCashier = { proof: proof[1], refundCase, feedback: cashierFb };
+    assert.strictEqual(ctx.v76.normalizeRealityRefundPending({ kind: 'entry', target: 'reality-refund-counter', feedback: ctx.v76.REALITY_REFUND_ENTRY_FEEDBACK }, baseSt), null, "entry pending rejected while activeCashier");
+    assert.strictEqual(ctx.v76.normalizeRealityRefundPending({ kind: 'subject', source: 'reality-refund-counter', subject: 'body-bought-with-childhood', target: 'proof-of-existence-incinerator', feedback: ctx.v76.REALITY_REFUND_SUBJECT_TABLE['body-bought-with-childhood'].feedback }, baseSt), null, "subject pending rejected while activeCashier");
+    baseSt.draft.subject = 'body-bought-with-childhood';
+    assert.strictEqual(ctx.v76.normalizeRealityRefundPending({ kind: 'proof', source: 'proof-of-existence-incinerator', subject: 'body-bought-with-childhood', proof: 'childhood-price-tag', target: 'reality-return-inspection', feedback: ctx.v76.REALITY_REFUND_PROOF_TABLE['childhood-price-tag'].feedback }, baseSt), null, "proof pending rejected while activeCashier");
+    baseSt.draft.proof = 'childhood-price-tag';
+    assert.strictEqual(ctx.v76.normalizeRealityRefundPending({ kind: 'refund-case', source: 'reality-return-inspection', subject: 'body-bought-with-childhood', proof: 'childhood-price-tag', remedy: 'refund-to-nonexistence', refundCase, target: 'borrowed-childhood', feedback: ctx.v76.computeRefundCaseFeedback('body-bought-with-childhood', 'childhood-price-tag', 'refund-to-nonexistence') }, baseSt), null, "refund-case pending rejected while activeCashier");
+    baseSt.refundCases = ctx.v76.REFUND_CASE_IDS;
+    assert.strictEqual(ctx.v76.normalizeRealityRefundPending({ kind: 'class-entry', target: 'class-action-court', feedback: ctx.v76.REALITY_REFUND_CLASS_ENTRY_FEEDBACK }, baseSt), null, "class-entry pending rejected while activeCashier");
+    baseSt.visited.court = true;
+    assert.strictEqual(ctx.v76.normalizeRealityRefundPending({ kind: 'class-action', source: 'class-action-court', action: 'return-existence-for-full-refund', outcome: 'all-existence-was-refunded-to-the-void', target: 'threshold', feedback: ctx.v76.REALITY_REFUND_CLASS_ACTION_TABLE['return-existence-for-full-refund'].feedback }, baseSt), null, "class-action pending rejected while activeCashier");
+  }
+
+  // activeCashier 期间 handler 拒绝 subject/proof/remedy/class-action
+  {
+    const subjectBtns = {
+      "reality-refund-subject-body-bought-with-childhood": makeV76AdjusterButton(),
+      "reality-refund-subject-name-paid-with-forgetting": makeV76AdjusterButton(),
+      "reality-refund-subject-years-leased-from-death": makeV76AdjusterButton(),
+    };
+    const ctx = makeV76Context({ scene: 'reality-refund-counter', elements: subjectBtns });
+    ctx.v76.saveRealityRefund({ ...ctx.v76.defaultRealityRefund(), refundCases: [refundCase], activeCashier: { proof: proof[1], refundCase, feedback: cashierFb } });
+    ctx.v76.syncRealityRefundCounterCounter();
+    assert.ok(Object.values(subjectBtns).every((b) => b.disabled), "subject buttons disabled while activeCashier");
+
+    const proofBtns = {
+      "proof-of-existence-childhood-price-tag": makeV76AdjusterButton(),
+      "proof-of-existence-erased-name-receipt": makeV76AdjusterButton(),
+      "proof-of-existence-death-issued-refund-reason": makeV76AdjusterButton(),
+    };
+    const ctx2 = makeV76Context({ scene: 'proof-of-existence-incinerator', elements: proofBtns });
+    ctx2.v76.saveRealityRefund({ ...ctx2.v76.defaultRealityRefund(), draft: { subject: 'body-bought-with-childhood', proof: '' }, refundCases: [refundCase], activeCashier: { proof: proof[1], refundCase, feedback: cashierFb } });
+    ctx2.v76.syncRealityRefundCounterIncinerator();
+    assert.ok(Object.values(proofBtns).every((b) => b.disabled), "proof buttons disabled while activeCashier");
+
+    const remedyBtns = {
+      "reality-return-remedy-refund-to-nonexistence": makeV76AdjusterButton(),
+      "reality-return-remedy-restore-original-absence": makeV76AdjusterButton(),
+      "reality-return-remedy-exchange-for-possible-self": makeV76AdjusterButton(),
+      "reality-return-remedy-charge-reality-restocking-fee": makeV76AdjusterButton(),
+    };
+    const ctx3 = makeV76Context({ scene: 'reality-return-inspection', elements: remedyBtns });
+    ctx3.v76.saveRealityRefund({ ...ctx3.v76.defaultRealityRefund(), draft: { subject: 'body-bought-with-childhood', proof: 'childhood-price-tag' }, refundCases: [refundCase], activeCashier: { proof: proof[1], refundCase, feedback: cashierFb } });
+    ctx3.v76.syncRealityRefundCounterInspection();
+    assert.ok(Object.values(remedyBtns).every((b) => b.disabled), "remedy buttons disabled while activeCashier");
+
+    const classActionBtns = {
+      "class-action-return-existence-for-full-refund": makeV76AdjusterButton(),
+      "class-action-refund-every-body-to-childhood": makeV76AdjusterButton(),
+      "class-action-convict-reality-of-false-advertising": makeV76AdjusterButton(),
+    };
+    const figure = makeV76Box();
+    const ctx4 = makeV76Context({ scene: 'class-action-court', elements: { "class-action-court-figure": figure, ...classActionBtns } });
+    ctx4.v76.saveRealityRefund({ ...ctx4.v76.defaultRealityRefund(), refundCases: ctx4.v76.REFUND_CASE_IDS, visited: { counter: true, incinerator: true, inspection: true, court: true }, activeCashier: { proof: proof[1], refundCase, feedback: cashierFb } });
+    ctx4.v76.syncRealityRefundCounterCourt();
+    assert.ok(Object.values(classActionBtns).every((b) => b.disabled), "class-action buttons disabled while activeCashier");
+  }
+
+  // pending 期间所有 v76 选择按钮禁用
+  {
+    const subjectBtns = {
+      "reality-refund-subject-body-bought-with-childhood": makeV76AdjusterButton(),
+      "reality-refund-subject-name-paid-with-forgetting": makeV76AdjusterButton(),
+      "reality-refund-subject-years-leased-from-death": makeV76AdjusterButton(),
+    };
+    const ctx = makeV76Context({ scene: 'reality-refund-counter', elements: subjectBtns });
+    ctx.v76.saveRealityRefund({ ...ctx.v76.defaultRealityRefund(), pending: { kind: 'entry', target: 'reality-refund-counter', feedback: ctx.v76.REALITY_REFUND_ENTRY_FEEDBACK } });
+    ctx.v76.syncRealityRefundCounterCounter();
+    assert.ok(Object.values(subjectBtns).every((b) => b.disabled), "subject buttons disabled while pending");
+  }
+
+  // draft 中途禁止并行 entry/class-entry/class-action
+  {
+    const classEntryBtn = makeV76AdjusterButton();
+    const ctx = makeV76Context({ scene: 'remembrance', elements: { "reality-refund-class-entry-btn": classEntryBtn } });
+    ctx.v76.saveRealityRefund({ ...ctx.v76.defaultRealityRefund(), refundCases: ctx.v76.REFUND_CASE_IDS, draft: { subject: 'body-bought-with-childhood', proof: '' } });
+    ctx.v76.syncRealityRefundCounterRemembrance();
+    assert.strictEqual(classEntryBtn.hidden, false, "class-entry stays visible while draft in progress");
+    assert.strictEqual(classEntryBtn.disabled, true, "class-entry disabled while draft in progress");
+    ctx.v76.chooseRealityRefundCounterClassEntry();
+    assert.strictEqual(ctx.read().pending ?? null, null, "choose class entry no-op while draft in progress");
+
+    const classActionBtns = {
+      "class-action-return-existence-for-full-refund": makeV76AdjusterButton(),
+      "class-action-refund-every-body-to-childhood": makeV76AdjusterButton(),
+      "class-action-convict-reality-of-false-advertising": makeV76AdjusterButton(),
+    };
+    const figure = makeV76Box({ hidden: true });
+    const ctx2 = makeV76Context({ scene: 'class-action-court', elements: { "class-action-court-figure": figure, ...classActionBtns } });
+    ctx2.v76.saveRealityRefund({ ...ctx2.v76.defaultRealityRefund(), refundCases: ctx2.v76.REFUND_CASE_IDS, visited: { counter: true, incinerator: true, inspection: true, court: true }, draft: { subject: 'body-bought-with-childhood', proof: 'childhood-price-tag' } });
+    ctx2.v76.syncRealityRefundCounterCourt();
+    assert.strictEqual(figure.hidden, false, "court figure visible while draft in progress");
+    assert.ok(Object.values(classActionBtns).every((b) => b.disabled), "class-action buttons disabled while draft in progress");
+    ctx2.v76.chooseRealityRefundCounterClassAction('return-existence-for-full-refund');
+    assert.strictEqual(ctx2.read().pending ?? null, null, "choose class action no-op while draft in progress");
+  }
+  {
+    // 伪造 persisted pending 在 save 时通过 normalize 丢弃
+    const ctx = makeV76Context({});
+    ctx.v76.saveRealityRefund({ ...ctx.v76.defaultRealityRefund(), draft: { subject: 'body-bought-with-childhood', proof: '' }, pending: { kind: 'entry', target: 'reality-refund-counter', feedback: ctx.v76.REALITY_REFUND_ENTRY_FEEDBACK } });
+    assert.strictEqual(ctx.read().pending ?? null, null, "forged entry pending dropped when draft in progress");
+
+    const ctx2 = makeV76Context({});
+    ctx2.v76.saveRealityRefund({ ...ctx2.v76.defaultRealityRefund(), refundCases: ctx2.v76.REFUND_CASE_IDS, draft: { subject: 'body-bought-with-childhood', proof: 'childhood-price-tag' }, pending: { kind: 'class-entry', target: 'class-action-court', feedback: ctx2.v76.REALITY_REFUND_CLASS_ENTRY_FEEDBACK } });
+    assert.strictEqual(ctx2.read().pending ?? null, null, "forged class-entry pending dropped when draft in progress");
+
+    const ctx3 = makeV76Context({});
+    ctx3.v76.saveRealityRefund({ ...ctx3.v76.defaultRealityRefund(), refundCases: ctx3.v76.REFUND_CASE_IDS, visited: { court: true }, draft: { subject: 'body-bought-with-childhood', proof: 'childhood-price-tag' }, pending: { kind: 'class-action', source: 'class-action-court', action: 'return-existence-for-full-refund', outcome: 'all-existence-was-refunded-to-the-void', target: 'threshold', feedback: ctx3.v76.REALITY_REFUND_CLASS_ACTION_TABLE['return-existence-for-full-refund'].feedback } });
+    assert.strictEqual(ctx3.read().pending ?? null, null, "forged class-action pending dropped when draft in progress");
+  }
+}
+
+// 路由窄桥不放宽旧守卫
+{
+  const ctx = makeV76Context({});
+  const st = ctx.v76.defaultRealityRefund();
+  st._v76unlocked = true;
+  st.refundCases = [ctx.v76.REFUND_CASE_IDS[4]];
+  const proof = ctx.v76.REFUND_CASE_IDS[4].split(':')[1];
+  st.activeCashier = { proof, refundCase: ctx.v76.REFUND_CASE_IDS[4], feedback: ctx.v76.REALITY_REFUND_PROOF_TABLE[proof].cashierFeedback };
+  ctx.v76.saveRealityRefund(st);
+  const scene = ctx.v76.REALITY_REFUND_SCENE_FOR_PROOF[proof];
+  assert.strictEqual(ctx.v76.realityRefundCounterBridgeAllows(scene), true, "bridge allows activeCashier scene");
+  const unrelatedScene = Object.values(ctx.v76.REALITY_REFUND_SCENE_FOR_PROOF).find((s) => s !== scene);
+  assert.strictEqual(ctx.v76.realityRefundCounterBridgeAllows(unrelatedScene), false, "bridge does not allow unrelated scene");
+  assert.strictEqual(ctx.v76.realityRefundCounterBridgeAllows('protocol'), false, "bridge never allows protocol");
+
+  // canVisit guards
+  {
+    const ctx2 = makeV76Context({});
+    const st2 = ctx2.v76.defaultRealityRefund();
+    st2._v76unlocked = true;
+    st2.pending = { kind: 'entry', target: 'reality-refund-counter', feedback: ctx2.v76.REALITY_REFUND_ENTRY_FEEDBACK };
+    ctx2.v76.saveRealityRefund(st2);
+    assert.strictEqual(ctx2.v76.realityRefundCounterCanVisitCounter(), true, "canVisit counter with entry pending");
+    const subject = 'body-bought-with-childhood';
+    const proof = 'childhood-price-tag';
+    st2.pending = { kind: 'subject', source: 'reality-refund-counter', subject, target: 'proof-of-existence-incinerator', feedback: ctx2.v76.REALITY_REFUND_SUBJECT_TABLE[subject].feedback };
+    ctx2.v76.saveRealityRefund(st2);
+    assert.strictEqual(ctx2.v76.realityRefundCounterCanVisitIncinerator(), true, "canVisit incinerator with subject pending");
+    st2.draft = { subject, proof: '' };
+    st2.pending = { kind: 'proof', source: 'proof-of-existence-incinerator', subject, proof, target: 'reality-return-inspection', feedback: ctx2.v76.REALITY_REFUND_PROOF_TABLE[proof].feedback };
+    ctx2.v76.saveRealityRefund(st2);
+    assert.strictEqual(ctx2.v76.realityRefundCounterCanVisitInspection(), true, "canVisit inspection with proof pending");
+    st2.draft = { subject: '', proof: '' };
+    st2.refundCases = ctx2.v76.REFUND_CASE_IDS;
+    st2.pending = { kind: 'class-entry', target: 'class-action-court', feedback: ctx2.v76.REALITY_REFUND_CLASS_ENTRY_FEEDBACK };
+    ctx2.v76.saveRealityRefund(st2);
+    assert.strictEqual(ctx2.v76.realityRefundCounterCanVisitCourt(), true, "canVisit court with class-entry pending");
+  }
+}
+
+// v76 不读写旧 key
+{
+  const v76ModuleText = v76ModuleBlock[0];
+  assert.ok(!v76ModuleText.includes("saveApocalypseWarrantyOffice("), "v76 never calls saveApocalypseWarrantyOffice");
+  assert.ok(!v76ModuleText.includes("APOCALYPSE_WARRANTY_KEY"), "v76 never references v75 key constant");
+  assert.ok(!v76ModuleText.includes("goddead_v75_apocalypse_warranty"), "v76 never references v75 key string");
+}
+
+// 回归 P1：v75 全满时 v76 remembrance 渲染链必须真正使入口/记忆/图鉴可见
+{
+  function makeV76RemembranceButton(hidden = true) {
+    return { disabled: false, hidden, pressed: null, setAttribute(name, value) { if (name === "aria-pressed") this.pressed = value; }, removeAttribute() {}, closest: () => null, addEventListener() {} };
+  }
+  function makeV76RemembranceBox(hidden = true) {
+    const el = {
+      tagName: "div",
+      className: "",
+      _html: "",
+      textContent: "",
+      hidden,
+      children: [],
+      setAttribute() {},
+      removeAttribute(name) { if (name === "hidden") this.hidden = false; },
+      closest: () => null,
+      addEventListener() {},
+      appendChild(c) { this.children.push(c); },
+    };
+    Object.defineProperty(el, "innerHTML", {
+      get() { return this._html; },
+      set(v) { this._html = v; this.children = []; },
+    });
+    return el;
+  }
+  const entryBtn = makeV76RemembranceButton(true);
+  const classEntryBtn = makeV76RemembranceButton(true);
+  const memory = makeV76RemembranceBox(true);
+  const codex = makeV76RemembranceBox(true);
+  const grid = makeV76RemembranceBox(true);
+  const codexEntry = makeV76RemembranceBox(true);
+  const links = Object.fromEntries(["reality-refund-counter-link", "proof-of-existence-incinerator-link", "reality-return-inspection-link", "class-action-court-link"].map((id) => [id, makeV76RemembranceBox(true)]));
+  const ctx = makeV76Context({
+    scene: "remembrance",
+    elements: {
+      "reality-refund-entry-btn": entryBtn,
+      "reality-refund-class-entry-btn": classEntryBtn,
+      "reality-refund-memory": memory,
+      "reality-refund-codex": codex,
+      "reality-refund-codex-grid": grid,
+      "reality-refund-codex-entry": codexEntry,
+      ...links,
+    },
+  });
+  ctx.v76.syncRealityRefundCounterCounter();
+  ctx.v76.syncRealityRefundCounterIncinerator();
+  ctx.v76.syncRealityRefundCounterInspection();
+  ctx.v76.syncRealityRefundCounterCourt();
+  ctx.v76.syncRealityRefundCounterCashiers();
+  ctx.v76.paintRealityRefundCounterMemory();
+  ctx.v76.paintRealityRefundCounterCodex();
+  ctx.v76.syncRealityRefundCounterRemembrance();
+  ctx.v76.syncRealityRefundCounterLinks();
+  assert.strictEqual(entryBtn.hidden, false, "v76 entry button becomes visible on remembrance when v75 fully unlocked");
+  assert.strictEqual(entryBtn.disabled, false, "v76 entry button is enabled when no pending/draft/activeCashier");
+  assert.strictEqual(memory.hidden, false, "v76 memory becomes visible on remembrance when v75 fully unlocked");
+  assert.ok(memory.textContent.includes("已受理 0/36 份退货"), "v76 memory text renders");
+  assert.strictEqual(codex.hidden, false, "v76 codex becomes visible on remembrance when v75 fully unlocked");
+  assert.strictEqual(grid.children.length, 39, "v76 codex grid renders all 39 cells");
+  assert.strictEqual(codexEntry.hidden, false, "v76 codex entry wrapper becomes visible");
+  assert.strictEqual(classEntryBtn.hidden, true, "v76 class-entry stays hidden without coverage");
+  assert.ok(Object.values(links).every((el) => el.hidden), "v76 directory links stay hidden before first visit");
+}
+
+/* v76 整页/主初始化链回归：sceneInit 与 DOMContentLoaded 初始块必须调用 v76 全组 sync */
+{
+  const sceneInitBlock = js.match(/const sceneInit = \(name\) => \{[\s\S]*?updateHudDisplay\(\);\s*\};/);
+  assert.ok(sceneInitBlock, "sceneInit function must be extractable for whole-page init chain audit");
+  const sceneInitText = sceneInitBlock[0];
+  const v76SyncCalls = [
+    "resolveRealityRefundCounterPendingOnArrival(name);",
+    "syncRealityRefundCounterCounter();",
+    "syncRealityRefundCounterIncinerator();",
+    "syncRealityRefundCounterInspection();",
+    "syncRealityRefundCounterCourt();",
+    "syncRealityRefundCounterCashiers();",
+    "paintRealityRefundCounterMemory();",
+    "paintRealityRefundCounterCodex();",
+    "syncRealityRefundCounterRemembrance();",
+    "syncRealityRefundCounterLinks();",
+    "replayRealityRefundCounterPending(name);",
+  ];
+  for (const call of v76SyncCalls) {
+    assert.ok(sceneInitText.includes(call), `sceneInit must call ${call}`);
+  }
+  const v76ReplayIdx = sceneInitText.indexOf("replayRealityRefundCounterPending(name);");
+  const hudIdx = sceneInitText.indexOf("updateHudDisplay();");
+  assert.ok(v76ReplayIdx > 0 && hudIdx > v76ReplayIdx, "v76 replay must run before updateHudDisplay in sceneInit");
+
+  const initBlock = js.match(/syncCausalScarLinks\(\);[\s\S]*?route\(\);\s*\}\);/);
+  assert.ok(initBlock, "DOMContentLoaded init block must be extractable");
+  const initText = initBlock[0];
+  for (const call of v76SyncCalls) {
+    assert.ok(initText.includes(call), `DOMContentLoaded init block must call ${call}`);
+  }
+
+  const forgetBlock = js.match(/const forgetActionBtn = \$[^;]*;[\s\S]*?goScene\("threshold"\);/);
+  assert.ok(forgetBlock, "forget-all handler must be extractable");
+  const forgetText = forgetBlock[0];
+  assert.ok(forgetText.includes('localStorage.removeItem("goddead_v76_reality_refund")'), "forget-all must remove v76 storage key");
+  assert.ok(forgetText.includes('reality-refund-memory') && forgetText.includes('hidden = true'), "forget-all must hide v76 memory");
+  assert.ok(forgetText.includes('reality-refund-codex') && forgetText.includes('hidden = true'), "forget-all must hide v76 codex");
+  assert.ok(forgetText.includes('reality-refund-codex-entry') && forgetText.includes('hidden = true'), "forget-all must hide v76 codex entry");
+  assert.ok(forgetText.includes('reality-refund-entry-btn') && forgetText.includes('hidden = true'), "forget-all must hide v76 entry button");
+  assert.ok(forgetText.includes('reality-refund-class-entry-btn') && forgetText.includes('hidden = true'), "forget-all must hide v76 class entry button");
+  assert.ok(forgetText.includes('reality-refund-counter-link') && forgetText.includes('hidden = true'), "forget-all must hide v76 directory links");
+  assert.ok(forgetText.includes('reality-refund-cashier-response-') && forgetText.includes('textContent = ""'), "forget-all must clear v76 cashier responses");
+  assert.ok(forgetText.includes('reality-refund-cashier-') && forgetText.includes('hidden = true'), "forget-all must hide v76 cashiers");
+}
+
+/* ---------- v76 文档同步 ---------- */
+/* v76 设计文档存在且冻结四张源图与四张 WebP 哈希 */
+const v76doc = await fileText("docs/V76RealityRefundCounterDesign.md");
+for (const hash of Object.values(V76_SOURCE_HASHES)) {
+  assert.ok(v76doc.includes(hash), "V76 design doc must freeze the source sha256 values");
+}
+for (const hash of Object.values(V76_WEBP_HASHES)) {
+  assert.ok(v76doc.includes(hash), "V76 design doc must freeze the WebP sha256 values");
+}
+assert.match(v76doc, /1536×1024/, "V76 design doc documents 1536×1024 dimensions");
+/* ---------- v76 文档同步 ---------- */
 
 /* v58 设计文档存在且冻结四张源图哈希 */
 const v58doc = await fileText("docs/V58AppealRegistryDesign.md");
@@ -5071,8 +9450,5265 @@ for (const hash of Object.values(V58_SOURCE_HASHES)) {
 }
 assert.match(v58doc, /selfBurden（自担）> transfer（转嫁）> repair（修复）> concordance（共证）/, "V58 design doc must document the dominant tie order");
 
+/* ---------- v66 反事实纺生 / THE LIFE THAT NEVER HAPPENED ---------- */
+
+/* WebP 尺寸解析（VP8 / VP8L / VP8X） */
+function readWebpDimensions(buf) {
+  if (buf.length < 20 || buf.toString("ascii", 0, 4) !== "RIFF" || buf.toString("ascii", 8, 12) !== "WEBP") return null;
+  let pos = 12;
+  while (pos + 8 <= buf.length) {
+    const chunk = buf.toString("ascii", pos, pos + 4);
+    const size = buf.readUInt32LE(pos + 4);
+    const dataPos = pos + 8;
+    if (chunk === "VP8 " && dataPos + 10 <= buf.length) {
+      const w = buf.readUInt16LE(dataPos + 6) & 0x3fff;
+      const h = buf.readUInt16LE(dataPos + 8) & 0x3fff;
+      return { width: w, height: h };
+    }
+    if (chunk === "VP8L" && dataPos + 5 <= buf.length) {
+      const bits = buf.readUInt32LE(dataPos + 1);
+      const w = (bits & 0x3fff) + 1;
+      const h = ((bits >> 14) & 0x3fff) + 1;
+      return { width: w, height: h };
+    }
+    if (chunk === "VP8X" && dataPos + 10 <= buf.length) {
+      const w = (buf.readUInt32LE(dataPos + 4) & 0xffffff) + 1;
+      const h = (buf.readUInt32LE(dataPos + 7) & 0xffffff) + 1;
+      return { width: w, height: h };
+    }
+    pos += 8 + size + (size & 1);
+  }
+  return null;
+}
+
+/* PNG 尺寸解析（IHDR） */
+function readPngDimensions(buf) {
+  if (buf.length < 24) return null;
+  const PNG_SIG = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+  if (buf.compare(PNG_SIG, 0, 8, 0, 8) !== 0) return null;
+  if (buf.toString("ascii", 12, 16) !== "IHDR") return null;
+  return { width: buf.readUInt32BE(16), height: buf.readUInt32BE(20) };
+}
+
+const V66_SOURCE_HASHES = {
+  "design-references/source-v66-counterfactual-spindle.png": "696b7ac49bd2d78f1385db64e16750a7d8b3467e65c9ebf22122f4123cce466f",
+  "design-references/source-v66-scar-loom.png": "8953f659b2f0b5da4dd13f32de7a736cc389c2ec24e1d220f5fc80bacfc74f95",
+  "design-references/source-v66-unlived-nursery.png": "c7bbdc0d8ddb172a075f79e4ab079e5efc815b4d84179e6bfc178f8af258e0ee",
+  "design-references/source-v66-life-without-cause.png": "750672d1556c5311337fa0c2c5bf4699d9c16d6934377653ace4a4ffd19e099a",
+};
+const V66_SOURCE_SIZES = {
+  "design-references/source-v66-counterfactual-spindle.png": 2277767,
+  "design-references/source-v66-scar-loom.png": 1896865,
+  "design-references/source-v66-unlived-nursery.png": 1802787,
+  "design-references/source-v66-life-without-cause.png": 1908365,
+};
+const V66_WEBP_HASHES = {
+  "assets/v66-counterfactual-spindle.webp": "e3bc077f1a08b4e72cd68fdabef17a398c8a723d50954abb848d6e6c3558f567",
+  "assets/v66-scar-loom.webp": "cc2214832b150273bbbe1e76885d08d32ce597c12d75db9c1ad210f9148dcaa5",
+  "assets/v66-unlived-nursery.webp": "9206089ed62bc306874d11081129cb9ad56c914cd54477f22c2deb173f0923b6",
+  "assets/v66-life-without-cause.webp": "d62385c470d8bd0ce82c5636ef0a42856ad8bb7bfce4b49c281c27ca79358efd",
+};
+const V66_WEBP_SIZES = {
+  "assets/v66-counterfactual-spindle.webp": 155312,
+  "assets/v66-scar-loom.webp": 126188,
+  "assets/v66-unlived-nursery.webp": 97276,
+  "assets/v66-life-without-cause.webp": 103830,
+};
+
+/* 四张 source PNG 冻结 */
+for (const [src, hash] of Object.entries(V66_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(src, root));
+  assert.equal(buf.length, V66_SOURCE_SIZES[src], `${src} must keep its frozen byte size`);
+  assert.equal(createHash("sha256").update(buf).digest("hex"), hash, `${src} must keep its frozen sha256`);
+}
+
+/* 四张运行时 WebP 冻结 */
+for (const [asset, hash] of Object.entries(V66_WEBP_HASHES)) {
+  const buf = await readFile(new URL(asset, root));
+  assert.equal(buf.length, V66_WEBP_SIZES[asset], `${asset} must keep its frozen byte size`);
+  assert.equal(createHash("sha256").update(buf).digest("hex"), hash, `${asset} must keep its frozen sha256`);
+  const dims = readWebpDimensions(buf);
+  assert.ok(dims, `${asset} must be a readable WebP`);
+  assert.equal(dims.width, 1536, `${asset} must be 1536 px wide`);
+  assert.equal(dims.height, 1024, `${asset} must be 1024 px tall`);
+  assert.ok(html.includes(asset), `${asset} must be referenced`);
+}
+for (const asset of Object.keys(V66_WEBP_HASHES)) {
+  assert.match(html, new RegExp(`<link rel="preload" href="${asset.replace(".", "\\.")}" as="image">`), `${asset} must be preloaded`);
+}
+
+/* 四场景 DOM */
+for (const s of ["counterfactual-spindle", "scar-loom", "unlived-nursery", "life-without-cause"]) {
+  assert.match(html, new RegExp(`data-scene="${s}"`), `v66 scene missing: ${s}`);
+}
+
+/* figure 与热点 ID */
+assert.match(html, /id="counterfactual-spindle-figure"/);
+for (const o of ["threshold", "protocol", "watch", "offering"]) {
+  assert.match(html, new RegExp(`id="counterfactual-origin-${o}"`), `missing origin ${o}`);
+}
+assert.match(html, /id="counterfactual-loom-figure"/);
+for (const m of ["stitch", "drain", "graft"]) {
+  assert.match(html, new RegExp(`id="counterfactual-method-${m}"`), `missing method ${m}`);
+}
+assert.match(html, /id="counterfactual-nursery-figure"/);
+for (const i of ["cause", "consequence", "ending"]) {
+  assert.match(html, new RegExp(`id="counterfactual-life-${i}"`), `missing inheritance ${i}`);
+}
+assert.match(html, /id="counterfactual-room-figure"/);
+for (const a of ["wear-lives", "bury-lives", "leave-spindle"]) {
+  assert.match(html, new RegExp(`id="counterfactual-meta-${a}"`), `missing meta action ${a}`);
+}
+
+/* 四处回声容器与返回按钮 */
+for (const o of ["threshold", "protocol", "watch", "offering"]) {
+  assert.match(html, new RegExp(`id="counterfactual-echo-${o}"`), `missing echo container ${o}`);
+  assert.match(html, new RegExp(`id="counterfactual-echo-return-${o}"`), `missing echo return ${o}`);
+  assert.match(html, new RegExp(`id="counterfactual-echo-response-${o}"`), `missing echo response ${o}`);
+}
+
+/* Remembrance 入口、记忆、图鉴 */
+assert.match(html, /id="counterfactual-entry-btn"/);
+assert.match(html, /id="counterfactual-meta-entry-btn"/);
+assert.match(html, /id="counterfactual-memory"/);
+assert.match(html, /id="counterfactual-codex"/);
+assert.match(html, /id="counterfactual-codex-grid"/);
+assert.match(html, /id="counterfactual-codex-entry"/);
+assert.match(html, /id="counterfactual-entry-response"/);
+assert.match(html, /id="counterfactual-meta-entry-response"/);
+assert.match(html, /把十五道伤口纺成一生/);
+assert.match(html, /让所有未活之生互认亲属/);
+
+/* 四目录链接 */
+for (const id of ["counterfactual-spindle-link", "counterfactual-loom-link", "counterfactual-nursery-link", "counterfactual-room-link"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `missing directory link ${id}`);
+}
+
+/* JS 模块存在与边界 */
+assert.equal((js.match(/const COUNTERFACTUAL_KEY = ['"]goddead_v66_counterfactual_lives['"]/g) || []).length, 1, "v66 introduces exactly one storage key");
+const v66ModuleBlock = js.match(/v66 反事实纺生 \/ THE LIFE THAT NEVER HAPPENED[\s\S]*?(?=\/\* =+\n\s*v67 无血家谱)/);
+assert.ok(v66ModuleBlock, "v66 module must exist");
+
+/* saveCounterfactual 持久化十键 */
+const saveCounterfactualBlock = js.match(/const saveCounterfactual = \(st\) => \{[\s\S]*?store\.set\(\s*COUNTERFACTUAL_KEY,\s*JSON\.stringify\(\{[\s\S]*?\}\)\s*\);/);
+assert.ok(saveCounterfactualBlock, "saveCounterfactual must persist an explicit canonical projection");
+for (const f of ["version", "visited", "draft", "lives", "metaOutcomes", "lifeRuns", "metaRuns", "lastOutcome", "activeEcho", "pending"]) {
+  assert.match(saveCounterfactualBlock[0], new RegExp(`\\b${f}\\b`), `saveCounterfactual persists ${f}`);
+}
+
+/* 规范化函数 */
+assert.match(js, /const normalizeCounterfactualLives = \(lives\) => \{[\s\S]*?COUNTERFACTUAL_LIFE_IDS/, "normalizeCounterfactualLives sorts by COUNTERFACTUAL_LIFE_IDS");
+assert.match(js, /const normalizeMetaOutcomes = \(arr\) => \{[\s\S]*?META_ACTIONS\.map\(\(a\) => META_OUTCOMES\[a\]\)/, "normalizeMetaOutcomes sorts by META_ACTIONS order");
+const normalizeCounterfactualPendingBlock = js.match(/const normalizeCounterfactualPending = \(p, st\) => \{[\s\S]*?\n  \};/);
+assert.ok(normalizeCounterfactualPendingBlock, "normalizeCounterfactualPending must exist");
+assert.match(normalizeCounterfactualPendingBlock[0], /st\._v65unlocked === true/, "pending normalization uses passed _v65unlocked, not storage");
+assert.match(normalizeCounterfactualPendingBlock[0], /p\.kind === 'entry' && keys === 'feedback,kind,target'/, "entry pending accepts exactly three whitelisted keys");
+assert.match(normalizeCounterfactualPendingBlock[0], /p\.kind === 'origin' && keys === 'feedback,kind,origin,source,target'/, "origin pending accepts exactly five whitelisted keys");
+assert.match(normalizeCounterfactualPendingBlock[0], /p\.kind === 'method' && keys === 'feedback,kind,method,origin,source,target'/, "method pending accepts exactly six whitelisted keys");
+assert.match(normalizeCounterfactualPendingBlock[0], /p\.kind === 'life' && keys === 'feedback,inheritance,kind,method,origin,outcome,source,target'/, "life pending accepts exactly nine whitelisted keys");
+assert.match(normalizeCounterfactualPendingBlock[0], /p\.kind === 'echo-return' && keys === 'feedback,from,kind,life,target'/, "echo-return pending accepts exactly five whitelisted keys");
+assert.match(normalizeCounterfactualPendingBlock[0], /p\.kind === 'meta-entry' && keys === 'feedback,kind,target'/, "meta-entry pending accepts exactly three whitelisted keys");
+assert.match(normalizeCounterfactualPendingBlock[0], /p\.kind === 'meta' && keys === 'action,feedback,kind,outcome,source,target'/, "meta pending accepts exactly six whitelisted keys");
+
+/* 解锁资格只读 v65 状态 */
+assert.match(js, /const counterfactualLivesUnlocked = \(\) => \{[\s\S]*?getCausalScar\(\)/, "counterfactualLivesUnlocked reads getCausalScar");
+assert.match(js, /cs\.treatments\.length === 12 && cs\.roomOutcomes\.length === 3/, "counterfactualLivesUnlocked checks 12 treatments and 3 room outcomes");
+
+/* 覆盖完成检查 */
+assert.match(js, /const counterfactualCoverageComplete = \(st\) => \{[\s\S]*?origins\.size === 4 && methods\.size === 3 && inheritances\.size === 3/, "counterfactualCoverageComplete checks full coverage");
+
+/* 19 组 isTrusted 防线 */
+const v66ListenerBlock = js.match(/const counterfactualEntryBtn = \$\('#counterfactual-entry-btn'\);[\s\S]*?(?=\/\* =+\n\s*v67 无血家谱)/);
+assert.ok(v66ListenerBlock, "v66 click listener block must exist");
+assert.equal((v66ListenerBlock[0].match(/!e\.isTrusted/g) || []).length, 19, "v66 must guard all nineteen click listeners with isTrusted");
+
+/* v66 不读写旧 key */
+assert.ok(!v66ModuleBlock[0].includes("saveCausalScar("), "v66 never calls saveCausalScar");
+assert.ok(!/store\.set\(CAUSAL_SCAR_KEY/.test(v66ModuleBlock[0]), "v66 never writes the v65 causal scar key");
+assert.ok(!/goddead_v(28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59|60|61|62|63|64|65)/.test(v66ModuleBlock[0]), "v66 state must not touch earlier keys");
+
+/* forget-all 清 v66 key */
+assert.match(forgetBlock[0], /localStorage\.removeItem\(["']goddead_v66_counterfactual_lives["']\)/, "forget-all removes the v66 storage key");
+
+/* v66 设计文档存在且冻结哈希 */
+const v66doc = await fileText("docs/V66CounterfactualLivesDesign.md");
+for (const hash of Object.values(V66_SOURCE_HASHES)) {
+  assert.ok(v66doc.includes(hash), "V66 design doc must freeze the source sha256 values");
+}
+for (const hash of Object.values(V66_WEBP_HASHES)) {
+  assert.ok(v66doc.includes(hash), "V66 design doc must freeze the WebP sha256 values");
+}
+assert.match(v66doc, /1536×1024/, "V66 design doc documents 1536×1024 dimensions");
+
+/* ---------- v66 可执行/隔离状态回归测试 ---------- */
+assert.ok(v66ModuleBlock, "v66 executable block available for regression tests");
+const v66ExecSourceStart = v66ModuleBlock[0].indexOf("const COUNTERFACTUAL_KEY");
+assert.ok(v66ExecSourceStart > 0, "v66 executable block starts with COUNTERFACTUAL_KEY");
+const v66ExecSource = v66ModuleBlock[0].slice(v66ExecSourceStart).trimEnd();
+
+const COUNTERFACTUAL_KEY = "goddead_v66_counterfactual_lives";
+const allV65Treatments = ["threshold", "protocol", "watch", "offering"].flatMap((d) => ["stitch", "drain", "graft"].map((m) => `${d}:${m}`));
+const allV65RoomOutcomes = ["become-cause", "refuse-cause", "ending-adopts"];
+const allCoverageLives = [
+  "threshold:stitch:cause", "threshold:drain:consequence", "threshold:graft:ending",
+  "protocol:stitch:cause", "protocol:drain:consequence", "protocol:graft:ending",
+  "watch:stitch:cause", "watch:drain:consequence", "watch:graft:ending",
+  "offering:stitch:cause", "offering:drain:consequence", "offering:graft:ending",
+];
+
+function makeV66Context({
+  initialStore = {},
+  elements = {},
+  scene = "",
+  v65unlocked = true,
+  getCausalScar: getCausalScarOverride,
+} = {}) {
+  const storeData = { ...initialStore };
+  const store = {
+    get(k, def) { return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def; },
+    set(k, v) { storeData[k] = v; },
+  };
+  const queries = [];
+  const $ = (rawId) => { queries.push(rawId); return elements[rawId.replace(/^#/, "")] || null; };
+  const scheduleCalls = [];
+  const AutoAdvance = { has(src) { return false; }, schedule(src, target, opts) { scheduleCalls.push({ src, target, opts }); } };
+  const AudioEngine = { whoosh() {}, bell() {} };
+  const getCausalScar = getCausalScarOverride || (() => ({ treatments: v65unlocked ? allV65Treatments : [], roomOutcomes: v65unlocked ? allV65RoomOutcomes : [] }));
+  const buttonAvailable = (id) => {
+    const btn = $(`#${id}`);
+    if (!btn || btn.disabled || btn.hidden) return false;
+    if (typeof btn.closest === "function" && btn.closest("[hidden]")) return false;
+    return true;
+  };
+  const document = {
+    createElement(tag) {
+      return { tagName: tag, className: "", innerHTML: "", textContent: "", setAttribute() {}, appendChild() {}, removeAttribute() {} };
+    },
+  };
+  const body = v66ExecSource + "\nreturn { COUNTERFACTUAL_KEY, COUNTERFACTUAL_LIFE_IDS, COUNTERFACTUAL_LIFE_SET, getCounterfactual, saveCounterfactual, defaultCounterfactual, normalizeCounterfactualLives, normalizeMetaOutcomes, normalizeCounterfactualPending, counterfactualLivesUnlocked, counterfactualCoverageComplete, computeLifeId, computeLifeTitle, computeLifeFeedback, findLifeById, chooseCounterfactualOrigin, chooseCounterfactualMethod, chooseCounterfactualLife, chooseCounterfactualEchoReturn, chooseCounterfactualEntry, chooseCounterfactualMetaEntry, chooseCounterfactualMetaAction, replayCounterfactualPending, resolveCounterfactualPendingOnArrival, lockCounterfactualOriginButtons, lockCounterfactualMethodButtons, lockCounterfactualLifeButtons, lockCounterfactualMetaButtons, paintCounterfactualMemory, paintCounterfactualCodex, syncCounterfactualRemembrance, ORIGINS, METHODS, INHERITANCES, META_ACTIONS, COUNTERFACTUAL_ENTRY_FEEDBACK, COUNTERFACTUAL_META_ENTRY_FEEDBACK, COUNTERFACTUAL_ORIGIN_TABLE, COUNTERFACTUAL_METHOD_TABLE, COUNTERFACTUAL_INHERITANCE_TABLE, COUNTERFACTUAL_META_TABLE, META_OUTCOMES };";
+  const v66 = new Function("store", "$", "currentScene", "AutoAdvance", "AudioEngine", "reduced", "getCausalScar", "buttonAvailable", "document", body)(store, $, scene, AutoAdvance, AudioEngine, false, getCausalScar, buttonAvailable, document);
+  const read = () => {
+    try { return JSON.parse(storeData[COUNTERFACTUAL_KEY] || "{}") } catch { return {}; }
+  };
+  return { v66, storeData, read, queries, scheduleCalls };
+}
+
+// 36 life IDs 唯一且固定顺序
+{
+  const ctx = makeV66Context({ v65unlocked: true });
+  assert.equal(ctx.v66.COUNTERFACTUAL_LIFE_IDS.length, 36, "exactly 36 life ids");
+  assert.equal(ctx.v66.COUNTERFACTUAL_LIFE_SET.size, 36, "36 life ids are unique");
+  const expectedIds = [];
+  for (const o of ctx.v66.ORIGINS) {
+    for (const m of ctx.v66.METHODS) {
+      for (const i of ctx.v66.INHERITANCES) {
+        expectedIds.push(`${o}:${m}:${i}`);
+      }
+    }
+  }
+  assert.deepStrictEqual(ctx.v66.COUNTERFACTUAL_LIFE_IDS, expectedIds, "life ids follow ORIGINS × METHODS × INHERITANCES order");
+}
+
+// computeLifeTitle/feedback 确定性
+{
+  const ctx = makeV66Context({ v65unlocked: true });
+  const t1 = ctx.v66.computeLifeTitle("threshold", "stitch", "cause");
+  const t2 = ctx.v66.computeLifeTitle("threshold", "stitch", "cause");
+  assert.strictEqual(t1, t2, "computeLifeTitle is deterministic");
+  assert.ok(t1.includes("门前未生"), "title includes origin fragment");
+  assert.ok(t1.includes("缝骨"), "title includes method fragment");
+  assert.ok(t1.includes("成因生"), "title includes inheritance fragment");
+  const fb = ctx.v66.computeLifeFeedback("threshold", "stitch", "cause");
+  assert.ok(fb.includes("它在第一下敲门之前已经拥有童年"), "feedback includes origin narrative");
+  assert.ok(fb.includes("疤痕把不存在的年月逐针缝成骨架"), "feedback includes method narrative");
+  assert.ok(fb.includes("最后，它长成了使你来到这里的原因"), "feedback includes inheritance narrative");
+}
+
+// normalizeCounterfactualLives 拒绝非法、去重、排序
+{
+  const ctx = makeV66Context({ v65unlocked: true });
+  const out = ctx.v66.normalizeCounterfactualLives([
+    "watch:drain:cause",
+    "threshold:stitch:cause",
+    "threshold:stitch:cause",
+    "invalid:foo:bar",
+    "offering:graft:ending",
+  ]);
+  assert.deepStrictEqual(out, ["threshold:stitch:cause", "watch:drain:cause", "offering:graft:ending"], "lives are deduped and ordered by frozen table");
+}
+
+// normalizeMetaOutcomes 排序
+{
+  const ctx = makeV66Context({ v65unlocked: true });
+  const out = ctx.v66.normalizeMetaOutcomes(["spindle-outlives-endings", "many-lives-wear-you", "unlived-bury-themselves"]);
+  assert.deepStrictEqual(out, ["many-lives-wear-you", "unlived-bury-themselves", "spindle-outlives-endings"], "meta outcomes follow META_ACTIONS order");
+}
+
+// 坏类型安全归空
+{
+  const ctx = makeV66Context({ v65unlocked: true });
+  assert.deepStrictEqual(ctx.v66.normalizeCounterfactualLives("not-an-array"), [], "string lives normalized to empty");
+  assert.deepStrictEqual(ctx.v66.normalizeCounterfactualLives({ foo: true }), [], "object lives normalized to empty");
+  assert.deepStrictEqual(ctx.v66.normalizeMetaOutcomes("not-an-array"), [], "string meta outcomes normalized to empty");
+  assert.deepStrictEqual(ctx.v66.normalizeMetaOutcomes(12345), [], "number meta outcomes normalized to empty");
+}
+
+// 七类 strict pending 白名单
+{
+  const ctx = makeV66Context({ v65unlocked: true });
+  const baseSt = ctx.v66.defaultCounterfactual();
+  baseSt._v65unlocked = true;
+  baseSt.draft = { origin: "", method: "" };
+  baseSt.activeEcho = { origin: "threshold", life: "threshold:stitch:cause", feedback: ctx.v66.computeLifeFeedback("threshold", "stitch", "cause") };
+  baseSt.visited.room = true;
+  baseSt.lives = allCoverageLives;
+
+  assert.ok(ctx.v66.normalizeCounterfactualPending({ kind: "entry", target: "counterfactual-spindle", feedback: ctx.v66.COUNTERFACTUAL_ENTRY_FEEDBACK }, baseSt), "legal entry pending accepted");
+  assert.strictEqual(ctx.v66.normalizeCounterfactualPending({ kind: "entry", target: "scar-loom", feedback: ctx.v66.COUNTERFACTUAL_ENTRY_FEEDBACK }, baseSt), null, "entry with wrong target rejected");
+  assert.strictEqual(ctx.v66.normalizeCounterfactualPending({ kind: "entry", target: "counterfactual-spindle", feedback: ctx.v66.COUNTERFACTUAL_ENTRY_FEEDBACK, extra: 1 }, baseSt), null, "entry with extra key rejected");
+
+  assert.ok(ctx.v66.normalizeCounterfactualPending({ kind: "origin", source: "counterfactual-spindle", origin: "threshold", target: "scar-loom", feedback: ctx.v66.COUNTERFACTUAL_ORIGIN_TABLE.threshold.fragment }, baseSt), "legal origin pending accepted");
+  baseSt.draft = { origin: "threshold", method: "stitch" };
+  assert.strictEqual(ctx.v66.normalizeCounterfactualPending({ kind: "origin", source: "counterfactual-spindle", origin: "threshold", target: "scar-loom", feedback: ctx.v66.COUNTERFACTUAL_ORIGIN_TABLE.threshold.fragment }, baseSt), null, "origin rejected when draft has method");
+
+  baseSt.draft = { origin: "threshold", method: "" };
+  assert.ok(ctx.v66.normalizeCounterfactualPending({ kind: "method", source: "scar-loom", origin: "threshold", method: "stitch", target: "unlived-nursery", feedback: ctx.v66.COUNTERFACTUAL_METHOD_TABLE.stitch.fragment }, baseSt), "legal method pending accepted");
+  assert.strictEqual(ctx.v66.normalizeCounterfactualPending({ kind: "method", source: "scar-loom", origin: "protocol", method: "stitch", target: "unlived-nursery", feedback: ctx.v66.COUNTERFACTUAL_METHOD_TABLE.stitch.fragment }, baseSt), null, "method rejected when origin mismatches draft");
+
+  baseSt.draft = { origin: "threshold", method: "stitch" };
+  const lifeFb = ctx.v66.computeLifeFeedback("threshold", "stitch", "cause");
+  assert.ok(ctx.v66.normalizeCounterfactualPending({ kind: "life", source: "unlived-nursery", origin: "threshold", method: "stitch", inheritance: "cause", outcome: "threshold:stitch:cause", target: "threshold", feedback: lifeFb }, baseSt), "legal life pending accepted");
+  assert.strictEqual(ctx.v66.normalizeCounterfactualPending({ kind: "life", source: "unlived-nursery", origin: "threshold", method: "stitch", inheritance: "cause", outcome: "threshold:stitch:consequence", target: "threshold", feedback: lifeFb }, baseSt), null, "life rejected when outcome mismatches");
+
+  assert.ok(ctx.v66.normalizeCounterfactualPending({ kind: "echo-return", from: "threshold", target: "counterfactual-spindle", life: "threshold:stitch:cause", feedback: lifeFb }, baseSt), "legal echo-return pending accepted");
+  assert.strictEqual(ctx.v66.normalizeCounterfactualPending({ kind: "echo-return", from: "protocol", target: "counterfactual-spindle", life: "threshold:stitch:cause", feedback: lifeFb }, baseSt), null, "echo-return rejected when from mismatches echo origin");
+
+  assert.ok(ctx.v66.normalizeCounterfactualPending({ kind: "meta-entry", target: "life-without-cause", feedback: ctx.v66.COUNTERFACTUAL_META_ENTRY_FEEDBACK }, baseSt), "legal meta-entry pending accepted");
+
+  assert.ok(ctx.v66.normalizeCounterfactualPending({ kind: "meta", source: "life-without-cause", action: "wear-lives", outcome: "many-lives-wear-you", target: "threshold", feedback: ctx.v66.COUNTERFACTUAL_META_TABLE["wear-lives"].narrative }, baseSt), "legal meta pending accepted");
+  assert.strictEqual(ctx.v66.normalizeCounterfactualPending({ kind: "meta", source: "life-without-cause", action: "wear-lives", outcome: "many-lives-wear-you", target: "threshold", feedback: ctx.v66.COUNTERFACTUAL_META_TABLE["wear-lives"].narrative }, { ...baseSt, visited: { ...baseSt.visited, room: false } }), null, "meta rejected when room not visited");
+}
+
+// source/target/else reload 矩阵
+{
+  const ctx = makeV66Context({ v65unlocked: true, scene: "remembrance" });
+  const pending = { kind: "entry", target: "counterfactual-spindle", feedback: ctx.v66.COUNTERFACTUAL_ENTRY_FEEDBACK };
+  ctx.v66.saveCounterfactual({ ...ctx.v66.defaultCounterfactual(), pending });
+  ctx.v66.replayCounterfactualPending("remembrance");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "entry source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].src, "remembrance", "entry source reload schedules from remembrance");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "counterfactual-spindle", "entry source reload schedules to spindle");
+}
+{
+  const ctx = makeV66Context({ v65unlocked: true, scene: "counterfactual-spindle" });
+  const pending = { kind: "origin", source: "counterfactual-spindle", origin: "threshold", target: "scar-loom", feedback: ctx.v66.COUNTERFACTUAL_ORIGIN_TABLE.threshold.fragment };
+  ctx.v66.saveCounterfactual({ ...ctx.v66.defaultCounterfactual(), draft: { origin: "", method: "" }, pending });
+  ctx.v66.replayCounterfactualPending("counterfactual-spindle");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "origin source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].src, "counterfactual-spindle", "origin source reload schedules from spindle");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "scar-loom", "origin source reload schedules to loom");
+}
+{
+  const ctx = makeV66Context({ v65unlocked: true, scene: "scar-loom" });
+  const pending = { kind: "method", source: "scar-loom", origin: "threshold", method: "stitch", target: "unlived-nursery", feedback: ctx.v66.COUNTERFACTUAL_METHOD_TABLE.stitch.fragment };
+  ctx.v66.saveCounterfactual({ ...ctx.v66.defaultCounterfactual(), draft: { origin: "threshold", method: "" }, pending });
+  ctx.v66.replayCounterfactualPending("scar-loom");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "method source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "unlived-nursery", "method source reload schedules to nursery");
+}
+{
+  const ctx = makeV66Context({ v65unlocked: true, scene: "unlived-nursery" });
+  const lifeFb = ctx.v66.computeLifeFeedback("threshold", "stitch", "cause");
+  const pending = { kind: "life", source: "unlived-nursery", origin: "threshold", method: "stitch", inheritance: "cause", outcome: "threshold:stitch:cause", target: "threshold", feedback: lifeFb };
+  ctx.v66.saveCounterfactual({ ...ctx.v66.defaultCounterfactual(), draft: { origin: "threshold", method: "stitch" }, pending });
+  ctx.v66.replayCounterfactualPending("unlived-nursery");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "life source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "threshold", "life source reload schedules to origin");
+}
+{
+  const ctx = makeV66Context({ v65unlocked: true, scene: "remembrance" });
+  const pending = { kind: "meta-entry", target: "life-without-cause", feedback: ctx.v66.COUNTERFACTUAL_META_ENTRY_FEEDBACK };
+  ctx.v66.saveCounterfactual({ ...ctx.v66.defaultCounterfactual(), lives: allCoverageLives, pending });
+  ctx.v66.replayCounterfactualPending("remembrance");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "meta-entry source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "life-without-cause", "meta-entry source reload schedules to room");
+}
+{
+  const ctx = makeV66Context({ v65unlocked: true, scene: "life-without-cause" });
+  const pending = { kind: "meta", source: "life-without-cause", action: "bury-lives", outcome: "unlived-bury-themselves", target: "remembrance", feedback: ctx.v66.COUNTERFACTUAL_META_TABLE["bury-lives"].narrative };
+  ctx.v66.saveCounterfactual({ ...ctx.v66.defaultCounterfactual(), lives: allCoverageLives, visited: { spindle: true, loom: true, nursery: true, room: true }, pending });
+  ctx.v66.replayCounterfactualPending("life-without-cause");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "meta source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "remembrance", "meta source reload schedules to target");
+}
+{
+  const ctx = makeV66Context({ v65unlocked: true, scene: "threshold" });
+  const lifeFb = ctx.v66.computeLifeFeedback("threshold", "stitch", "cause");
+  const pending = { kind: "echo-return", from: "threshold", target: "counterfactual-spindle", life: "threshold:stitch:cause", feedback: lifeFb };
+  ctx.v66.saveCounterfactual({ ...ctx.v66.defaultCounterfactual(), lives: ["threshold:stitch:cause"], activeEcho: { origin: "threshold", life: "threshold:stitch:cause", feedback: lifeFb }, pending });
+  ctx.v66.replayCounterfactualPending("threshold");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "echo-return source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "counterfactual-spindle", "echo-return source reload schedules to spindle");
+}
+
+// target 到达结算一次
+{
+  const ctx = makeV66Context({ v65unlocked: true });
+  const lifeFb = ctx.v66.computeLifeFeedback("threshold", "stitch", "cause");
+  const pending = { kind: "life", source: "unlived-nursery", origin: "threshold", method: "stitch", inheritance: "cause", outcome: "threshold:stitch:cause", target: "threshold", feedback: lifeFb };
+  ctx.v66.saveCounterfactual({ ...ctx.v66.defaultCounterfactual(), draft: { origin: "threshold", method: "stitch" }, pending });
+  ctx.v66.resolveCounterfactualPendingOnArrival("threshold");
+  const st = ctx.read();
+  assert.deepStrictEqual(st.lives, ["threshold:stitch:cause"], "target arrival records the life");
+  assert.strictEqual(st.lifeRuns, 1, "target arrival increments lifeRuns once");
+  assert.strictEqual(st.pending, null, "target arrival clears pending");
+  assert.strictEqual(ctx.scheduleCalls.length, 0, "target arrival does not schedule");
+}
+
+// else 场景清伪造 pending
+{
+  const ctx = makeV66Context({ v65unlocked: true, scene: "protocol" });
+  const pending = { kind: "origin", source: "counterfactual-spindle", origin: "threshold", target: "scar-loom", feedback: ctx.v66.COUNTERFACTUAL_ORIGIN_TABLE.threshold.fragment };
+  ctx.v66.saveCounterfactual({ ...ctx.v66.defaultCounterfactual(), draft: { origin: "", method: "" }, pending });
+  ctx.v66.replayCounterfactualPending("protocol");
+  assert.strictEqual(ctx.read().pending ?? null, null, "else scene clears pending");
+  assert.strictEqual(ctx.scheduleCalls.length, 0, "else scene does not schedule");
+}
+
+// choose 函数尊重 disabled/hidden/figure-hidden
+{
+  const ctx = makeV66Context({ v65unlocked: true, scene: "counterfactual-spindle" });
+  ctx.v66.chooseCounterfactualOrigin("threshold");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled origin button blocks choice");
+
+  const ctx2 = makeV66Context({ v65unlocked: true, scene: "counterfactual-spindle", elements: { "counterfactual-origin-threshold": makeBtn({ hidden: true }) } });
+  ctx2.v66.chooseCounterfactualOrigin("threshold");
+  assert.strictEqual(ctx2.read().pending ?? null, null, "hidden origin button blocks choice");
+
+  const ctx3 = makeV66Context({ v65unlocked: true, scene: "counterfactual-spindle", elements: { "counterfactual-origin-threshold": makeBtn() } });
+  ctx3.v66.chooseCounterfactualOrigin("threshold");
+  assert.strictEqual(ctx3.read().pending?.kind, "origin", "enabled visible origin button allows choice");
+}
+{
+  const ctx = makeV66Context({ v65unlocked: true, scene: "scar-loom", elements: { "counterfactual-method-stitch": makeBtn({ disabled: true }), "counterfactual-loom-figure": makeBtn() } });
+  ctx.v66.saveCounterfactual({ ...ctx.v66.defaultCounterfactual(), draft: { origin: "threshold", method: "" } });
+  ctx.v66.chooseCounterfactualMethod("stitch");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled method button blocks choice");
+
+  const ctx2 = makeV66Context({ v65unlocked: true, scene: "scar-loom", elements: { "counterfactual-method-stitch": makeBtn(), "counterfactual-loom-figure": makeBtn() } });
+  ctx2.v66.saveCounterfactual({ ...ctx2.v66.defaultCounterfactual(), draft: { origin: "threshold", method: "" } });
+  ctx2.v66.chooseCounterfactualMethod("stitch");
+  assert.strictEqual(ctx2.read().pending?.kind, "method", "enabled visible method button allows choice");
+}
+{
+  const ctx = makeV66Context({ v65unlocked: true, scene: "unlived-nursery", elements: { "counterfactual-life-cause": makeBtn({ disabled: true }), "counterfactual-nursery-figure": makeBtn() } });
+  ctx.v66.saveCounterfactual({ ...ctx.v66.defaultCounterfactual(), draft: { origin: "threshold", method: "stitch" } });
+  ctx.v66.chooseCounterfactualLife("cause");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled life button blocks choice");
+
+  const ctx2 = makeV66Context({ v65unlocked: true, scene: "unlived-nursery", elements: { "counterfactual-life-cause": makeBtn(), "counterfactual-nursery-figure": makeBtn() } });
+  ctx2.v66.saveCounterfactual({ ...ctx2.v66.defaultCounterfactual(), draft: { origin: "threshold", method: "stitch" } });
+  ctx2.v66.chooseCounterfactualLife("cause");
+  assert.strictEqual(ctx2.read().pending?.kind, "life", "enabled visible life button allows choice");
+}
+{
+  const ctx = makeV66Context({ v65unlocked: true, scene: "remembrance", elements: { "counterfactual-entry-btn": makeBtn({ disabled: true }) } });
+  ctx.v66.chooseCounterfactualEntry();
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled entry button blocks entry");
+
+  const ctx2 = makeV66Context({ v65unlocked: true, scene: "remembrance", elements: { "counterfactual-entry-btn": makeBtn() } });
+  ctx2.v66.chooseCounterfactualEntry();
+  assert.strictEqual(ctx2.read().pending?.kind, "entry", "enabled visible entry button allows entry");
+}
+{
+  const ctx = makeV66Context({ v65unlocked: true, scene: "remembrance", elements: { "counterfactual-meta-entry-btn": makeBtn({ disabled: true }) } });
+  ctx.v66.saveCounterfactual({ ...ctx.v66.defaultCounterfactual(), lives: allCoverageLives });
+  ctx.v66.chooseCounterfactualMetaEntry();
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled meta entry button blocks entry");
+
+  const ctx2 = makeV66Context({ v65unlocked: true, scene: "remembrance", elements: { "counterfactual-meta-entry-btn": makeBtn() } });
+  ctx2.v66.saveCounterfactual({ ...ctx2.v66.defaultCounterfactual(), lives: allCoverageLives });
+  ctx2.v66.chooseCounterfactualMetaEntry();
+  assert.strictEqual(ctx2.read().pending?.kind, "meta-entry", "enabled visible meta entry button allows entry");
+}
+{
+  const ctx = makeV66Context({ v65unlocked: true, scene: "life-without-cause", elements: { "counterfactual-meta-wear-lives": makeBtn({ disabled: true }), "counterfactual-room-figure": makeBtn() } });
+  ctx.v66.saveCounterfactual({ ...ctx.v66.defaultCounterfactual(), lives: allCoverageLives, visited: { spindle: true, loom: true, nursery: true, room: true } });
+  ctx.v66.chooseCounterfactualMetaAction("wear-lives");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled meta action button blocks choice");
+
+  const ctx2 = makeV66Context({ v65unlocked: true, scene: "life-without-cause", elements: { "counterfactual-meta-wear-lives": makeBtn(), "counterfactual-room-figure": makeBtn() } });
+  ctx2.v66.saveCounterfactual({ ...ctx2.v66.defaultCounterfactual(), lives: allCoverageLives, visited: { spindle: true, loom: true, nursery: true, room: true } });
+  ctx2.v66.chooseCounterfactualMetaAction("wear-lives");
+  assert.strictEqual(ctx2.read().pending?.kind, "meta", "enabled visible meta action button allows choice");
+}
+{
+  const lifeFb = makeV66Context({ v65unlocked: true }).v66.computeLifeFeedback("threshold", "stitch", "cause");
+  const ctx = makeV66Context({ v65unlocked: true, scene: "threshold", elements: { "counterfactual-echo-return-threshold": makeBtn({ disabled: true }) } });
+  ctx.v66.saveCounterfactual({ ...ctx.v66.defaultCounterfactual(), lives: ["threshold:stitch:cause"], activeEcho: { origin: "threshold", life: "threshold:stitch:cause", feedback: lifeFb } });
+  ctx.v66.chooseCounterfactualEchoReturn("threshold");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled echo return button blocks return");
+
+  const ctx2 = makeV66Context({ v65unlocked: true, scene: "threshold", elements: { "counterfactual-echo-return-threshold": makeBtn() } });
+  ctx2.v66.saveCounterfactual({ ...ctx2.v66.defaultCounterfactual(), lives: ["threshold:stitch:cause"], activeEcho: { origin: "threshold", life: "threshold:stitch:cause", feedback: lifeFb } });
+  ctx2.v66.chooseCounterfactualEchoReturn("threshold");
+  assert.strictEqual(ctx2.read().pending?.kind, "echo-return", "enabled visible echo return button allows return");
+}
+
+// counterfactualLivesUnlocked
+{
+  const ctx = makeV66Context({ v65unlocked: true });
+  assert.strictEqual(ctx.v66.counterfactualLivesUnlocked(), true, "full v65 evidence unlocks v66");
+  const ctx2 = makeV66Context({ v65unlocked: false });
+  assert.strictEqual(ctx2.v66.counterfactualLivesUnlocked(), false, "incomplete v65 evidence locks v66");
+}
+
+// counterfactualCoverageComplete
+{
+  const ctx = makeV66Context({ v65unlocked: true });
+  assert.strictEqual(ctx.v66.counterfactualCoverageComplete({ lives: allCoverageLives }), true, "full coverage is complete");
+  assert.strictEqual(ctx.v66.counterfactualCoverageComplete({ lives: ["threshold:stitch:cause"] }), false, "single life is not complete");
+  assert.strictEqual(ctx.v66.counterfactualCoverageComplete({ lives: [] }), false, "empty lives is not complete");
+}
+
+// saveCounterfactual 只写 v66 key，移除后归零
+{
+  const ctx = makeV66Context({ v65unlocked: true });
+  ctx.v66.saveCounterfactual(ctx.v66.defaultCounterfactual());
+  assert.ok(Object.prototype.hasOwnProperty.call(ctx.storeData, COUNTERFACTUAL_KEY), "saveCounterfactual writes the v66 key");
+  assert.equal(Object.keys(ctx.storeData).length, 1, "saveCounterfactual writes exactly one key");
+  delete ctx.storeData[COUNTERFACTUAL_KEY];
+  assert.deepStrictEqual(ctx.v66.getCounterfactual(), ctx.v66.defaultCounterfactual(), "removing v66 key resets to default");
+}
+
+// Remembrance 首轮阻断回归：前置解锁但自身 0 进度时，codex 父层、普通入口必须可见，39 格全锁
+{
+  function makeV66El({ hidden = true } = {}) {
+    return {
+      hidden,
+      disabled: false,
+      textContent: "",
+      children: [],
+      className: "",
+      setAttribute() {},
+      removeAttribute(name) { if (name === "hidden") this.hidden = false; },
+      closest: () => null,
+      addEventListener() {},
+      set innerHTML(v) { this.children.length = 0; },
+      appendChild(c) { this.children.push(c); },
+    };
+  }
+  const box = makeV66El();
+  const grid = makeV66El({ hidden: false });
+  const entry = makeV66El();
+  const memory = makeV66El();
+  const entryBtn = makeV66El({ hidden: true });
+  const metaBtn = makeV66El({ hidden: true });
+  const ctx = makeV66Context({
+    v65unlocked: true,
+    scene: "remembrance",
+    elements: {
+      "counterfactual-codex": box,
+      "counterfactual-codex-grid": grid,
+      "counterfactual-codex-entry": entry,
+      "counterfactual-memory": memory,
+      "counterfactual-entry-btn": entryBtn,
+      "counterfactual-meta-entry-btn": metaBtn,
+    },
+  });
+  ctx.v66.syncCounterfactualRemembrance();
+  assert.strictEqual(box.hidden, false, "v66 codex box visible at zero progress when unlocked");
+  assert.strictEqual(entry.hidden, false, "v66 codex entry parent visible at zero progress");
+  assert.strictEqual(memory.hidden, false, "v66 memory visible at zero progress");
+  assert.strictEqual(grid.children.length, 39, "v66 codex renders 39 cells at zero progress");
+  assert.strictEqual(grid.children.filter((c) => c.className.includes("unlocked")).length, 0, "v66 zero progress has 0 unlocked cells");
+  assert.strictEqual(entryBtn.hidden, false, "v66 entry button visible at zero progress");
+  assert.strictEqual(entryBtn.disabled, false, "v66 entry button enabled at zero progress");
+  assert.strictEqual(metaBtn.hidden, true, "v66 meta entry hidden without coverage");
+
+  const box2 = makeV66El();
+  const grid2 = makeV66El({ hidden: false });
+  const entry2 = makeV66El();
+  const memory2 = makeV66El();
+  const entryBtn2 = makeV66El({ hidden: true });
+  const metaBtn2 = makeV66El({ hidden: true });
+  const ctx2 = makeV66Context({
+    v65unlocked: false,
+    scene: "remembrance",
+    elements: {
+      "counterfactual-codex": box2,
+      "counterfactual-codex-grid": grid2,
+      "counterfactual-codex-entry": entry2,
+      "counterfactual-memory": memory2,
+      "counterfactual-entry-btn": entryBtn2,
+      "counterfactual-meta-entry-btn": metaBtn2,
+    },
+  });
+  ctx2.v66.syncCounterfactualRemembrance();
+  assert.strictEqual(box2.hidden, true, "v66 codex box hidden when v65 locked");
+  assert.strictEqual(entry2.hidden, true, "v66 codex entry hidden when v65 locked");
+  assert.strictEqual(memory2.hidden, true, "v66 memory hidden when v65 locked");
+  assert.strictEqual(entryBtn2.hidden, true, "v66 entry button hidden when v65 locked");
+}
+
+/* ---------- 文档同步 ---------- */
+assert.match(readme, /v66|反事实纺生|THE LIFE THAT NEVER HAPPENED/, "README must document the v66 counterfactual lives");
+assert.match(qa, /v66|反事实纺生|THE LIFE THAT NEVER HAPPENED/, "design-qa.md must document the v66 counterfactual lives");
+assert.match(log, /v66|反事实纺生|THE LIFE THAT NEVER HAPPENED/, "ProgressLog must document the v66 counterfactual lives");
+
+/* ---------- v67 无血家谱 / THE FAMILY THAT NEVER SHARED BLOOD ---------- */
+
+const V67_SOURCE_HASHES = {
+  "design-references/source-v67-counterfactual-genealogy.png": "8c7de6419ca85418808910293f93b5ac74c648ac3cff57af426ca64596d7d8b5",
+  "design-references/source-v67-bloodless-archive.png": "ddadaab613dd26151e201c9fa5facd52e2159fba3e82b5591c945b3ed3a38b54",
+  "design-references/source-v67-borrowed-childhood.png": "300cf9dc528c43e18ccdaa3e8a82121061a43534f61985ffd35fcb01e94a33a8",
+  "design-references/source-v67-last-family-court.png": "5c00ee3c0fa3c73eb3de5095e8124b6488246f15e93df597f8dec1f79475a627",
+};
+const V67_SOURCE_SIZES = {
+  "design-references/source-v67-counterfactual-genealogy.png": 2222820,
+  "design-references/source-v67-bloodless-archive.png": 2339598,
+  "design-references/source-v67-borrowed-childhood.png": 2049225,
+  "design-references/source-v67-last-family-court.png": 2100152,
+};
+const V67_WEBP_HASHES = {
+  "assets/v67-counterfactual-genealogy.webp": "96002c7b3d7a14bc31c4a2ebc140cd8f7214a72c1450c68ff971ebd26783b6b7",
+  "assets/v67-bloodless-archive.webp": "646514c1588781589062f34a972c90a96d55361f4e0656eed23fe315f8216ee1",
+  "assets/v67-borrowed-childhood.webp": "83481bf78e3538297b9ac601cfea670394b6ea7869b890132c0d91002e2caae2",
+  "assets/v67-last-family-court.webp": "9945b7363bf16e0a1575f407f4410da551afd7cb4a4cd376a831d5ce5a439fc8",
+};
+const V67_WEBP_SIZES = {
+  "assets/v67-counterfactual-genealogy.webp": 155384,
+  "assets/v67-bloodless-archive.webp": 171456,
+  "assets/v67-borrowed-childhood.webp": 135522,
+  "assets/v67-last-family-court.webp": 143158,
+};
+
+/* 四张 source PNG 冻结 */
+for (const [src, hash] of Object.entries(V67_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(src, root));
+  assert.equal(buf.length, V67_SOURCE_SIZES[src], `${src} must keep its frozen byte size`);
+  assert.equal(createHash("sha256").update(buf).digest("hex"), hash, `${src} must keep its frozen sha256`);
+}
+
+/* 四张运行时 WebP 冻结 */
+for (const [asset, hash] of Object.entries(V67_WEBP_HASHES)) {
+  const buf = await readFile(new URL(asset, root));
+  assert.equal(buf.length, V67_WEBP_SIZES[asset], `${asset} must keep its frozen byte size`);
+  assert.equal(createHash("sha256").update(buf).digest("hex"), hash, `${asset} must keep its frozen sha256`);
+  const dims = readWebpDimensions(buf);
+  assert.ok(dims, `${asset} must be a readable WebP`);
+  assert.equal(dims.width, 1536, `${asset} must be 1536 px wide`);
+  assert.equal(dims.height, 1024, `${asset} must be 1024 px tall`);
+  assert.ok(html.includes(asset), `${asset} must be referenced`);
+}
+for (const asset of Object.keys(V67_WEBP_HASHES)) {
+  assert.match(html, new RegExp(`<link rel="preload" href="${asset.replace(".", "\\.")}" as="image">`), `${asset} must be preloaded`);
+}
+
+/* 四场景 DOM */
+for (const s of ["counterfactual-genealogy", "bloodless-archive", "borrowed-childhood", "last-family-court"]) {
+  assert.match(html, new RegExp(`data-scene="${s}"`), `v67 scene missing: ${s}`);
+}
+
+/* figure 与热点 ID */
+assert.match(html, /id="bloodless-genealogy-figure"/);
+for (const r of ["spindle", "loom", "nursery", "room"]) {
+  assert.match(html, new RegExp(`id="bloodless-root-${r}"`), `missing root ${r}`);
+}
+assert.match(html, /id="bloodless-archive-figure"/);
+for (const b of ["ancestor", "twin", "descendant"]) {
+  assert.match(html, new RegExp(`id="bloodless-bond-${b}"`), `missing bond ${b}`);
+}
+assert.match(html, /id="bloodless-childhood-figure"/);
+for (const m of ["keep", "exchange", "return"]) {
+  assert.match(html, new RegExp(`id="bloodless-memory-${m}"`), `missing memory ${m}`);
+}
+assert.match(html, /id="bloodless-court-figure"/);
+for (const a of ["become-ancestor", "inherit-you", "orphan-eras"]) {
+  assert.match(html, new RegExp(`id="bloodless-family-${a}"`), `missing family action ${a}`);
+}
+
+/* 四处亲属回声容器与返回按钮 */
+for (const r of ["spindle", "loom", "nursery", "room"]) {
+  assert.match(html, new RegExp(`id="bloodless-kin-${r}"`), `missing kin echo container ${r}`);
+  assert.match(html, new RegExp(`id="bloodless-kin-return-${r}"`), `missing kin echo return ${r}`);
+  assert.match(html, new RegExp(`id="bloodless-kin-response-${r}"`), `missing kin echo response ${r}`);
+}
+
+/* Remembrance 入口、记忆、图鉴 */
+assert.match(html, /id="bloodless-genealogy-entry-btn"/);
+assert.match(html, /id="bloodless-family-entry-btn"/);
+assert.match(html, /id="bloodless-memory"/);
+assert.match(html, /id="bloodless-codex"/);
+assert.match(html, /id="bloodless-codex-grid"/);
+assert.match(html, /id="bloodless-codex-entry"/);
+assert.match(html, /id="bloodless-entry-response"/);
+assert.match(html, /id="bloodless-family-entry-response"/);
+assert.match(html, /让三种元结局生出家谱/);
+assert.match(html, /让三十六页家谱互认血缘/);
+
+/* 四目录链接 */
+for (const id of ["bloodless-genealogy-link", "bloodless-archive-link", "bloodless-childhood-link", "bloodless-court-link"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `missing directory link ${id}`);
+}
+
+/* JS 模块存在与边界 */
+assert.equal((js.match(/const BLOODLESS_KEY = ['"]goddead_v67_bloodless_genealogy['"]/g) || []).length, 1, "v67 introduces exactly one storage key");
+const v67ModuleBlock = js.match(/v67 无血家谱 \/ THE FAMILY THAT NEVER SHARED BLOOD[\s\S]*?走廊：残页 \+ 封印的门/);
+assert.ok(v67ModuleBlock, "v67 module must exist");
+
+/* saveBloodless 持久化十键 */
+const saveBloodlessBlock = js.match(/const saveBloodless = \(st\) => \{[\s\S]*?store\.set\(\s*BLOODLESS_KEY,\s*JSON\.stringify\(\{[\s\S]*?\}\)\s*\);/);
+assert.ok(saveBloodlessBlock, "saveBloodless must persist an explicit canonical projection");
+for (const f of ["version", "visited", "draft", "records", "familyOutcomes", "recordRuns", "familyRuns", "lastOutcome", "activeKin", "pending"]) {
+  assert.match(saveBloodlessBlock[0], new RegExp(`\\b${f}\\b`), `saveBloodless persists ${f}`);
+}
+
+/* 规范化函数 */
+assert.match(js, /const normalizeBloodlessRecords = \(records\) => \{[\s\S]*?BLOODLESS_RECORD_IDS/, "normalizeBloodlessRecords sorts by BLOODLESS_RECORD_IDS");
+assert.match(js, /const normalizeFamilyOutcomes = \(arr\) => \{[\s\S]*?FAMILY_ACTIONS\.map\(\(a\) => FAMILY_OUTCOMES\[a\]\)/, "normalizeFamilyOutcomes sorts by FAMILY_ACTIONS order");
+const normalizeBloodlessPendingBlock = js.match(/const normalizeBloodlessPending = \(p, st\) => \{[\s\S]*?\n  \};/);
+assert.ok(normalizeBloodlessPendingBlock, "normalizeBloodlessPending must exist");
+assert.match(normalizeBloodlessPendingBlock[0], /st\._v67unlocked === true/, "pending normalization uses passed _v67unlocked, not storage");
+assert.match(normalizeBloodlessPendingBlock[0], /p\.kind === 'entry' && keys === 'feedback,kind,target'/, "entry pending accepts exactly three whitelisted keys");
+assert.match(normalizeBloodlessPendingBlock[0], /p\.kind === 'root' && keys === 'feedback,kind,root,source,target'/, "root pending accepts exactly five whitelisted keys");
+assert.match(normalizeBloodlessPendingBlock[0], /p\.kind === 'bond' && keys === 'bond,feedback,kind,root,source,target'/, "bond pending accepts exactly six whitelisted keys");
+assert.match(normalizeBloodlessPendingBlock[0], /p\.kind === 'record' && keys === 'bond,feedback,kind,memory,outcome,root,source,target'/, "record pending accepts exactly nine whitelisted keys");
+assert.match(normalizeBloodlessPendingBlock[0], /p\.kind === 'kin-return' && keys === 'feedback,from,kind,record,target'/, "kin-return pending accepts exactly five whitelisted keys");
+assert.match(normalizeBloodlessPendingBlock[0], /p\.kind === 'family-entry' && keys === 'feedback,kind,target'/, "family-entry pending accepts exactly three whitelisted keys");
+assert.match(normalizeBloodlessPendingBlock[0], /p\.kind === 'family' && keys === 'action,feedback,kind,outcome,source,target'/, "family pending accepts exactly six whitelisted keys");
+
+/* 解锁资格只读 v66 状态 */
+assert.match(js, /const bloodlessGenealogyUnlocked = \(\) => \{[\s\S]*?getCounterfactual\(\)/, "bloodlessGenealogyUnlocked reads getCounterfactual");
+assert.match(js, /counterfactualCoverageComplete\(cf\)/, "bloodlessGenealogyUnlocked checks v66 coverage");
+assert.match(js, /BLOODLESS_REQUIRED_OUTCOMES/, "bloodlessGenealogyUnlocked checks v66 meta outcomes");
+
+/* 覆盖完成检查 */
+assert.match(js, /const bloodlessCoverageComplete = \(st\) => \{[\s\S]*?roots\.size === 4 && bonds\.size === 3 && memories\.size === 3/, "bloodlessCoverageComplete checks full coverage");
+
+/* 19 组 isTrusted 防线 */
+const v67ListenerBlock = js.match(/const bloodlessGenealogyEntryBtn = \$\('#bloodless-genealogy-entry-btn'\);[\s\S]*?v68 世代借贷 \/ THE GENERATIONS BORROW AGAINST DEATH/);
+assert.ok(v67ListenerBlock, "v67 click listener block must exist");
+assert.equal((v67ListenerBlock[0].match(/!e\.isTrusted/g) || []).length, 19, "v67 must guard all nineteen click listeners with isTrusted");
+
+/* v67 不读写旧 key */
+assert.ok(!v67ModuleBlock[0].includes("saveCounterfactual("), "v67 never calls saveCounterfactual");
+assert.ok(!/store\.set\(COUNTERFACTUAL_KEY/.test(v67ModuleBlock[0]), "v67 never writes the v66 counterfactual key");
+assert.ok(!/goddead_v(28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59|60|61|62|63|64|65|66)/.test(v67ModuleBlock[0]), "v67 state must not touch earlier keys");
+
+/* forget-all 清 v67 key */
+assert.match(forgetBlock[0], /localStorage\.removeItem\(["']goddead_v67_bloodless_genealogy["']\)/, "forget-all removes the v67 storage key");
+
+/* 窄屏热点尺寸与溢出 */
+const bloodlessMobileBlock = css.match(/@media \(max-width: 720px\) \{[\s\S]*?\.bloodless-hotspot[\s\S]*?\n  \}/);
+assert.ok(bloodlessMobileBlock, "bloodless mobile block exists");
+assert.match(bloodlessMobileBlock[0], /min-width:\s*44px/, "bloodless mobile hotspot min-width >= 44px");
+assert.match(bloodlessMobileBlock[0], /min-height:\s*44px/, "bloodless mobile hotspot min-height >= 44px");
+
+/* v67 设计文档存在且冻结哈希 */
+const v67doc = await fileText("docs/V67BloodlessGenealogyDesign.md");
+for (const hash of Object.values(V67_SOURCE_HASHES)) {
+  assert.ok(v67doc.includes(hash), "V67 design doc must freeze the source sha256 values");
+}
+for (const hash of Object.values(V67_WEBP_HASHES)) {
+  assert.ok(v67doc.includes(hash), "V67 design doc must freeze the WebP sha256 values");
+}
+assert.match(v67doc, /1536×1024/, "V67 design doc documents 1536×1024 dimensions");
+
+/* ---------- v67 可执行/隔离状态回归测试 ---------- */
+assert.ok(v67ModuleBlock, "v67 executable block available for regression tests");
+const v67ExecSourceStart = v67ModuleBlock[0].indexOf("const BLOODLESS_KEY");
+assert.ok(v67ExecSourceStart > 0, "v67 executable block starts with BLOODLESS_KEY");
+const v67CorridorStart = v67ModuleBlock[0].indexOf("走廊：残页");
+assert.ok(v67CorridorStart > v67ExecSourceStart, "v67 executable block ends before corridor section");
+const v67ExecSourceEnd = v67ModuleBlock[0].lastIndexOf("/*", v67CorridorStart);
+const v67ExecSource = v67ModuleBlock[0].slice(v67ExecSourceStart, v67ExecSourceEnd > v67ExecSourceStart ? v67ExecSourceEnd : v67CorridorStart).trimEnd();
+
+const BLOODLESS_KEY = "goddead_v67_bloodless_genealogy";
+const allV66MetaOutcomes = ["many-lives-wear-you", "unlived-bury-themselves", "spindle-outlives-endings"];
+const allV66CoverageLives = [
+  "threshold:stitch:cause", "threshold:drain:consequence", "threshold:graft:ending",
+  "protocol:stitch:cause", "protocol:drain:consequence", "protocol:graft:ending",
+  "watch:stitch:cause", "watch:drain:consequence", "watch:graft:ending",
+  "offering:stitch:cause", "offering:drain:consequence", "offering:graft:ending",
+];
+const allCoverageRecords = [
+  "spindle:ancestor:keep", "spindle:twin:exchange", "spindle:descendant:return",
+  "loom:ancestor:keep", "loom:twin:exchange", "loom:descendant:return",
+  "nursery:ancestor:keep", "nursery:twin:exchange", "nursery:descendant:return",
+  "room:ancestor:keep", "room:twin:exchange", "room:descendant:return",
+];
+
+function makeBloodlessBtn({ disabled = false, hidden = false } = {}) {
+  return {
+    disabled,
+    hidden,
+    setAttribute() {},
+    removeAttribute() {},
+    closest: () => null,
+    addEventListener() {},
+  };
+}
+
+function makeV67Context({
+  initialStore = {},
+  elements = {},
+  scene = "",
+  v66unlocked = true,
+  getCounterfactual: getCounterfactualOverride,
+} = {}) {
+  const storeData = { ...initialStore };
+  const store = {
+    get(k, def) { return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def; },
+    set(k, v) { storeData[k] = v; },
+  };
+  const queries = [];
+  const $ = (rawId) => { queries.push(rawId); return elements[rawId.replace(/^#/, "")] || null; };
+  const scheduleCalls = [];
+  const AutoAdvance = { has(src) { return false; }, schedule(src, target, opts) { scheduleCalls.push({ src, target, opts }); } };
+  const AudioEngine = { whoosh() {}, bell() {} };
+  const getCounterfactual = getCounterfactualOverride || (() => ({
+    lives: v66unlocked ? allV66CoverageLives : [],
+    metaOutcomes: v66unlocked ? allV66MetaOutcomes : [],
+  }));
+  const counterfactualLivesUnlocked = () => v66unlocked;
+  const counterfactualCoverageComplete = (st) => {
+    const cf = st || getCounterfactual();
+    if (!cf.lives || cf.lives.length < 3) return false;
+    const origins = new Set();
+    const methods = new Set();
+    const inheritances = new Set();
+    for (const id of cf.lives) {
+      const parts = id.split(":");
+      if (parts.length !== 3) continue;
+      origins.add(parts[0]);
+      methods.add(parts[1]);
+      inheritances.add(parts[2]);
+    }
+    return origins.size === 4 && methods.size === 3 && inheritances.size === 3;
+  };
+  const buttonAvailable = (id) => {
+    const btn = $(`#${id}`);
+    if (!btn || btn.disabled || btn.hidden) return false;
+    if (typeof btn.closest === "function" && btn.closest("[hidden]")) return false;
+    return true;
+  };
+  const document = {
+    createElement(tag) {
+      return { tagName: tag, className: "", innerHTML: "", textContent: "", setAttribute() {}, appendChild() {}, removeAttribute() {} };
+    },
+  };
+  const body = v67ExecSource + "\nreturn { BLOODLESS_KEY, BLOODLESS_RECORD_IDS, BLOODLESS_RECORD_SET, ROOTS, BONDS, MEMORIES, FAMILY_ACTIONS, ROOT_TARGETS, FAMILY_TARGETS, FAMILY_OUTCOMES, BLOODLESS_ROOT_TABLE, BLOODLESS_BOND_TABLE, BLOODLESS_MEMORY_TABLE, BLOODLESS_FAMILY_TABLE, BLOODLESS_ENTRY_FEEDBACK, BLOODLESS_FAMILY_ENTRY_FEEDBACK, getBloodless, saveBloodless, defaultBloodless, normalizeBloodlessRecords, normalizeFamilyOutcomes, normalizeBloodlessPending, bloodlessGenealogyUnlocked, bloodlessCoverageComplete, computeRecordId, computeRecordTitle, computeRecordFeedback, findRecordById, chooseBloodlessRoot, chooseBloodlessBond, chooseBloodlessMemory, chooseBloodlessKinReturn, chooseBloodlessEntry, chooseBloodlessFamilyEntry, chooseBloodlessFamilyAction, replayBloodlessPending, resolveBloodlessPendingOnArrival, lockBloodlessRootButtons, lockBloodlessBondButtons, lockBloodlessMemoryButtons, lockBloodlessFamilyButtons, paintBloodlessMemory, paintBloodlessCodex, syncBloodlessRemembrance };";
+  const v67 = new Function("store", "$", "currentScene", "AutoAdvance", "AudioEngine", "reduced", "getCounterfactual", "counterfactualLivesUnlocked", "counterfactualCoverageComplete", "buttonAvailable", "document", body)(store, $, scene, AutoAdvance, AudioEngine, false, getCounterfactual, counterfactualLivesUnlocked, counterfactualCoverageComplete, buttonAvailable, document);
+  const read = () => {
+    try { return JSON.parse(storeData[BLOODLESS_KEY] || "{}") } catch { return {}; }
+  };
+  return { v67, storeData, read, queries, scheduleCalls };
+}
+
+// 36 record IDs 唯一且固定顺序
+{
+  const ctx = makeV67Context({ v66unlocked: true });
+  assert.equal(ctx.v67.BLOODLESS_RECORD_IDS.length, 36, "exactly 36 record ids");
+  assert.equal(ctx.v67.BLOODLESS_RECORD_SET.size, 36, "36 record ids are unique");
+  const expectedIds = [];
+  for (const r of ctx.v67.ROOTS) {
+    for (const b of ctx.v67.BONDS) {
+      for (const m of ctx.v67.MEMORIES) {
+        expectedIds.push(`${r}:${b}:${m}`);
+      }
+    }
+  }
+  assert.deepStrictEqual(ctx.v67.BLOODLESS_RECORD_IDS, expectedIds, "record ids follow ROOTS × BONDS × MEMORIES order");
+}
+
+// computeRecordTitle/feedback 确定性
+{
+  const ctx = makeV67Context({ v66unlocked: true });
+  const t1 = ctx.v67.computeRecordTitle("spindle", "ancestor", "keep");
+  const t2 = ctx.v67.computeRecordTitle("spindle", "ancestor", "keep");
+  assert.strictEqual(t1, t2, "computeRecordTitle is deterministic");
+  assert.ok(t1.includes("纺锤为根"), "title includes root fragment");
+  assert.ok(t1.includes("晚祖"), "title includes bond fragment");
+  assert.ok(t1.includes("留年"), "title includes memory fragment");
+  const fb = ctx.v67.computeRecordFeedback("spindle", "ancestor", "keep");
+  assert.ok(fb.includes("它把纺锤的第一圈转动认作祖辈留下的心跳"), "feedback includes root narrative");
+  assert.ok(fb.includes("它向一个比自己更晚出生的人行祖礼"), "feedback includes bond narrative");
+  assert.ok(fb.includes("最后，它保留这段伪造的童年"), "feedback includes memory narrative");
+}
+
+// normalizeBloodlessRecords 拒绝非法、去重、排序
+{
+  const ctx = makeV67Context({ v66unlocked: true });
+  const out = ctx.v67.normalizeBloodlessRecords([
+    "loom:twin:exchange",
+    "spindle:ancestor:keep",
+    "spindle:ancestor:keep",
+    "invalid:foo:bar",
+    "room:descendant:return",
+  ]);
+  assert.deepStrictEqual(out, ["spindle:ancestor:keep", "loom:twin:exchange", "room:descendant:return"], "records are deduped and ordered by frozen table");
+}
+
+// normalizeFamilyOutcomes 排序
+{
+  const ctx = makeV67Context({ v66unlocked: true });
+  const out = ctx.v67.normalizeFamilyOutcomes(["every-era-became-an-orphan", "you-became-common-ancestor", "descendants-inherited-you"]);
+  assert.deepStrictEqual(out, ["you-became-common-ancestor", "descendants-inherited-you", "every-era-became-an-orphan"], "family outcomes follow FAMILY_ACTIONS order");
+}
+
+// 坏类型安全归空
+{
+  const ctx = makeV67Context({ v66unlocked: true });
+  assert.deepStrictEqual(ctx.v67.normalizeBloodlessRecords("not-an-array"), [], "string records normalized to empty");
+  assert.deepStrictEqual(ctx.v67.normalizeBloodlessRecords({ foo: true }), [], "object records normalized to empty");
+  assert.deepStrictEqual(ctx.v67.normalizeFamilyOutcomes("not-an-array"), [], "string family outcomes normalized to empty");
+  assert.deepStrictEqual(ctx.v67.normalizeFamilyOutcomes(12345), [], "number family outcomes normalized to empty");
+}
+
+// 七类 strict pending 白名单
+{
+  const ctx = makeV67Context({ v66unlocked: true });
+  const baseSt = ctx.v67.defaultBloodless();
+  baseSt._v67unlocked = true;
+  baseSt.draft = { root: "", bond: "" };
+  baseSt.activeKin = { root: "spindle", record: "spindle:ancestor:keep", feedback: ctx.v67.computeRecordFeedback("spindle", "ancestor", "keep") };
+  baseSt.visited.court = true;
+  baseSt.records = allCoverageRecords;
+
+  assert.ok(ctx.v67.normalizeBloodlessPending({ kind: "entry", target: "counterfactual-genealogy", feedback: ctx.v67.BLOODLESS_ENTRY_FEEDBACK }, baseSt), "legal entry pending accepted");
+  assert.strictEqual(ctx.v67.normalizeBloodlessPending({ kind: "entry", target: "bloodless-archive", feedback: ctx.v67.BLOODLESS_ENTRY_FEEDBACK }, baseSt), null, "entry with wrong target rejected");
+  assert.strictEqual(ctx.v67.normalizeBloodlessPending({ kind: "entry", target: "counterfactual-genealogy", feedback: ctx.v67.BLOODLESS_ENTRY_FEEDBACK, extra: 1 }, baseSt), null, "entry with extra key rejected");
+
+  assert.ok(ctx.v67.normalizeBloodlessPending({ kind: "root", source: "counterfactual-genealogy", root: "spindle", target: "bloodless-archive", feedback: ctx.v67.BLOODLESS_ROOT_TABLE.spindle.fragment }, baseSt), "legal root pending accepted");
+  baseSt.draft = { root: "spindle", bond: "ancestor" };
+  assert.strictEqual(ctx.v67.normalizeBloodlessPending({ kind: "root", source: "counterfactual-genealogy", root: "spindle", target: "bloodless-archive", feedback: ctx.v67.BLOODLESS_ROOT_TABLE.spindle.fragment }, baseSt), null, "root rejected when draft has bond");
+
+  baseSt.draft = { root: "spindle", bond: "" };
+  assert.ok(ctx.v67.normalizeBloodlessPending({ kind: "bond", source: "bloodless-archive", root: "spindle", bond: "ancestor", target: "borrowed-childhood", feedback: ctx.v67.BLOODLESS_BOND_TABLE.ancestor.fragment }, baseSt), "legal bond pending accepted");
+  assert.strictEqual(ctx.v67.normalizeBloodlessPending({ kind: "bond", source: "bloodless-archive", root: "loom", bond: "ancestor", target: "borrowed-childhood", feedback: ctx.v67.BLOODLESS_BOND_TABLE.ancestor.fragment }, baseSt), null, "bond rejected when root mismatches draft");
+
+  baseSt.draft = { root: "spindle", bond: "ancestor" };
+  const recordFb = ctx.v67.computeRecordFeedback("spindle", "ancestor", "keep");
+  assert.ok(ctx.v67.normalizeBloodlessPending({ kind: "record", source: "borrowed-childhood", root: "spindle", bond: "ancestor", memory: "keep", outcome: "spindle:ancestor:keep", target: "counterfactual-spindle", feedback: recordFb }, baseSt), "legal record pending accepted");
+  assert.strictEqual(ctx.v67.normalizeBloodlessPending({ kind: "record", source: "borrowed-childhood", root: "spindle", bond: "ancestor", memory: "keep", outcome: "spindle:ancestor:exchange", target: "counterfactual-spindle", feedback: recordFb }, baseSt), null, "record rejected when outcome mismatches");
+
+  assert.ok(ctx.v67.normalizeBloodlessPending({ kind: "kin-return", from: "counterfactual-spindle", target: "counterfactual-genealogy", record: "spindle:ancestor:keep", feedback: recordFb }, baseSt), "legal kin-return pending accepted");
+  assert.strictEqual(ctx.v67.normalizeBloodlessPending({ kind: "kin-return", from: "scar-loom", target: "counterfactual-genealogy", record: "spindle:ancestor:keep", feedback: recordFb }, baseSt), null, "kin-return rejected when from mismatches kin root");
+
+  assert.ok(ctx.v67.normalizeBloodlessPending({ kind: "family-entry", target: "last-family-court", feedback: ctx.v67.BLOODLESS_FAMILY_ENTRY_FEEDBACK }, baseSt), "legal family-entry pending accepted");
+
+  assert.ok(ctx.v67.normalizeBloodlessPending({ kind: "family", source: "last-family-court", action: "become-ancestor", outcome: "you-became-common-ancestor", target: "threshold", feedback: ctx.v67.BLOODLESS_FAMILY_TABLE["become-ancestor"].narrative }, baseSt), "legal family pending accepted");
+  assert.strictEqual(ctx.v67.normalizeBloodlessPending({ kind: "family", source: "last-family-court", action: "become-ancestor", outcome: "you-became-common-ancestor", target: "threshold", feedback: ctx.v67.BLOODLESS_FAMILY_TABLE["become-ancestor"].narrative }, { ...baseSt, visited: { ...baseSt.visited, court: false } }), null, "family rejected when court not visited");
+}
+
+// source/target/else reload 矩阵
+{
+  const ctx = makeV67Context({ v66unlocked: true, scene: "remembrance" });
+  const pending = { kind: "entry", target: "counterfactual-genealogy", feedback: ctx.v67.BLOODLESS_ENTRY_FEEDBACK };
+  ctx.v67.saveBloodless({ ...ctx.v67.defaultBloodless(), pending });
+  ctx.v67.replayBloodlessPending("remembrance");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "entry source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].src, "remembrance", "entry source reload schedules from remembrance");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "counterfactual-genealogy", "entry source reload schedules to genealogy");
+}
+{
+  const ctx = makeV67Context({ v66unlocked: true, scene: "counterfactual-genealogy" });
+  const pending = { kind: "root", source: "counterfactual-genealogy", root: "spindle", target: "bloodless-archive", feedback: ctx.v67.BLOODLESS_ROOT_TABLE.spindle.fragment };
+  ctx.v67.saveBloodless({ ...ctx.v67.defaultBloodless(), draft: { root: "", bond: "" }, pending });
+  ctx.v67.replayBloodlessPending("counterfactual-genealogy");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "root source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].src, "counterfactual-genealogy", "root source reload schedules from genealogy");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "bloodless-archive", "root source reload schedules to archive");
+}
+{
+  const ctx = makeV67Context({ v66unlocked: true, scene: "bloodless-archive" });
+  const pending = { kind: "bond", source: "bloodless-archive", root: "spindle", bond: "ancestor", target: "borrowed-childhood", feedback: ctx.v67.BLOODLESS_BOND_TABLE.ancestor.fragment };
+  ctx.v67.saveBloodless({ ...ctx.v67.defaultBloodless(), draft: { root: "spindle", bond: "" }, pending });
+  ctx.v67.replayBloodlessPending("bloodless-archive");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "bond source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "borrowed-childhood", "bond source reload schedules to childhood");
+}
+{
+  const ctx = makeV67Context({ v66unlocked: true, scene: "borrowed-childhood" });
+  const recordFb = ctx.v67.computeRecordFeedback("spindle", "ancestor", "keep");
+  const pending = { kind: "record", source: "borrowed-childhood", root: "spindle", bond: "ancestor", memory: "keep", outcome: "spindle:ancestor:keep", target: "counterfactual-spindle", feedback: recordFb };
+  ctx.v67.saveBloodless({ ...ctx.v67.defaultBloodless(), draft: { root: "spindle", bond: "ancestor" }, pending });
+  ctx.v67.replayBloodlessPending("borrowed-childhood");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "record source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "counterfactual-spindle", "record source reload schedules to root target");
+}
+{
+  const ctx = makeV67Context({ v66unlocked: true, scene: "remembrance" });
+  const pending = { kind: "family-entry", target: "last-family-court", feedback: ctx.v67.BLOODLESS_FAMILY_ENTRY_FEEDBACK };
+  ctx.v67.saveBloodless({ ...ctx.v67.defaultBloodless(), records: allCoverageRecords, pending });
+  ctx.v67.replayBloodlessPending("remembrance");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "family-entry source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "last-family-court", "family-entry source reload schedules to court");
+}
+{
+  const ctx = makeV67Context({ v66unlocked: true, scene: "last-family-court" });
+  const pending = { kind: "family", source: "last-family-court", action: "inherit-you", outcome: "descendants-inherited-you", target: "remembrance", feedback: ctx.v67.BLOODLESS_FAMILY_TABLE["inherit-you"].narrative };
+  ctx.v67.saveBloodless({ ...ctx.v67.defaultBloodless(), records: allCoverageRecords, visited: { genealogy: true, archive: true, childhood: true, court: true }, pending });
+  ctx.v67.replayBloodlessPending("last-family-court");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "family source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "remembrance", "family source reload schedules to target");
+}
+{
+  const sceneForRoot = { spindle: "counterfactual-spindle", loom: "scar-loom", nursery: "unlived-nursery", room: "life-without-cause" };
+  for (const [root, scene] of Object.entries(sceneForRoot)) {
+    const container = { hidden: true, setAttribute() {}, removeAttribute() {}, closest: () => null, addEventListener() {} };
+    const response = { textContent: "", setAttribute() {}, removeAttribute() {}, closest: () => null, addEventListener() {} };
+    const btn = { disabled: false, hidden: false, pressed: null, setAttribute(name, value) { if (name === "aria-pressed") this.pressed = value; }, removeAttribute() {}, closest: () => null, addEventListener() {} };
+    const elements = {
+      [`bloodless-kin-${root}`]: container,
+      [`bloodless-kin-response-${root}`]: response,
+      [`bloodless-kin-return-${root}`]: btn,
+    };
+    const ctx = makeV67Context({ v66unlocked: true, scene, elements });
+    const recordFb = ctx.v67.computeRecordFeedback(root, "ancestor", "keep");
+    const recordId = `${root}:ancestor:keep`;
+    const pending = { kind: "kin-return", from: scene, target: "counterfactual-genealogy", record: recordId, feedback: recordFb };
+    ctx.v67.saveBloodless({ ...ctx.v67.defaultBloodless(), records: [recordId], activeKin: { root, record: recordId, feedback: recordFb }, pending });
+    ctx.v67.replayBloodlessPending(scene);
+    assert.strictEqual(container.hidden, false, `kin-return ${root} container shown`);
+    assert.strictEqual(response.textContent, recordFb, `kin-return ${root} response verbatim`);
+    assert.strictEqual(btn.disabled, true, `kin-return ${root} return disabled`);
+    assert.strictEqual(String(btn.pressed), "true", `kin-return ${root} return pressed`);
+    assert.strictEqual(ctx.scheduleCalls.length, 1, `kin-return ${root} schedules once`);
+    assert.strictEqual(ctx.scheduleCalls[0].target, "counterfactual-genealogy", `kin-return ${root} schedules to genealogy`);
+  }
+}
+
+// target 到达结算一次
+{
+  const ctx = makeV67Context({ v66unlocked: true });
+  const recordFb = ctx.v67.computeRecordFeedback("spindle", "ancestor", "keep");
+  const pending = { kind: "record", source: "borrowed-childhood", root: "spindle", bond: "ancestor", memory: "keep", outcome: "spindle:ancestor:keep", target: "counterfactual-spindle", feedback: recordFb };
+  ctx.v67.saveBloodless({ ...ctx.v67.defaultBloodless(), draft: { root: "spindle", bond: "ancestor" }, pending });
+  ctx.v67.resolveBloodlessPendingOnArrival("counterfactual-spindle");
+  const st = ctx.read();
+  assert.deepStrictEqual(st.records, ["spindle:ancestor:keep"], "target arrival records the kin");
+  assert.strictEqual(st.recordRuns, 1, "target arrival increments recordRuns once");
+  assert.strictEqual(st.pending, null, "target arrival clears pending");
+  assert.strictEqual(ctx.scheduleCalls.length, 0, "target arrival does not schedule");
+}
+
+// else 场景清伪造 pending
+{
+  const ctx = makeV67Context({ v66unlocked: true, scene: "protocol" });
+  const pending = { kind: "root", source: "counterfactual-genealogy", root: "spindle", target: "bloodless-archive", feedback: ctx.v67.BLOODLESS_ROOT_TABLE.spindle.fragment };
+  ctx.v67.saveBloodless({ ...ctx.v67.defaultBloodless(), draft: { root: "", bond: "" }, pending });
+  ctx.v67.replayBloodlessPending("protocol");
+  assert.strictEqual(ctx.read().pending ?? null, null, "else scene clears pending");
+  assert.strictEqual(ctx.scheduleCalls.length, 0, "else scene does not schedule");
+}
+
+// choose 函数尊重 disabled/hidden/figure-hidden
+{
+  const ctx = makeV67Context({ v66unlocked: true, scene: "counterfactual-genealogy" });
+  ctx.v67.chooseBloodlessRoot("spindle");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled root button blocks choice");
+
+  const ctx2 = makeV67Context({ v66unlocked: true, scene: "counterfactual-genealogy", elements: { "bloodless-root-spindle": makeBloodlessBtn({ hidden: true }) } });
+  ctx2.v67.chooseBloodlessRoot("spindle");
+  assert.strictEqual(ctx2.read().pending ?? null, null, "hidden root button blocks choice");
+
+  const ctx3 = makeV67Context({ v66unlocked: true, scene: "counterfactual-genealogy", elements: { "bloodless-root-spindle": makeBloodlessBtn() } });
+  ctx3.v67.chooseBloodlessRoot("spindle");
+  assert.strictEqual(ctx3.read().pending?.kind, "root", "enabled visible root button allows choice");
+}
+{
+  const ctx = makeV67Context({ v66unlocked: true, scene: "bloodless-archive", elements: { "bloodless-bond-ancestor": makeBloodlessBtn({ disabled: true }), "bloodless-archive-figure": makeBloodlessBtn() } });
+  ctx.v67.saveBloodless({ ...ctx.v67.defaultBloodless(), draft: { root: "spindle", bond: "" } });
+  ctx.v67.chooseBloodlessBond("ancestor");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled bond button blocks choice");
+
+  const ctx2 = makeV67Context({ v66unlocked: true, scene: "bloodless-archive", elements: { "bloodless-bond-ancestor": makeBloodlessBtn(), "bloodless-archive-figure": makeBloodlessBtn() } });
+  ctx2.v67.saveBloodless({ ...ctx2.v67.defaultBloodless(), draft: { root: "spindle", bond: "" } });
+  ctx2.v67.chooseBloodlessBond("ancestor");
+  assert.strictEqual(ctx2.read().pending?.kind, "bond", "enabled visible bond button allows choice");
+}
+{
+  const ctx = makeV67Context({ v66unlocked: true, scene: "borrowed-childhood", elements: { "bloodless-memory-keep": makeBloodlessBtn({ disabled: true }), "bloodless-childhood-figure": makeBloodlessBtn() } });
+  ctx.v67.saveBloodless({ ...ctx.v67.defaultBloodless(), draft: { root: "spindle", bond: "ancestor" } });
+  ctx.v67.chooseBloodlessMemory("keep");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled memory button blocks choice");
+
+  const ctx2 = makeV67Context({ v66unlocked: true, scene: "borrowed-childhood", elements: { "bloodless-memory-keep": makeBloodlessBtn(), "bloodless-childhood-figure": makeBloodlessBtn() } });
+  ctx2.v67.saveBloodless({ ...ctx2.v67.defaultBloodless(), draft: { root: "spindle", bond: "ancestor" } });
+  ctx2.v67.chooseBloodlessMemory("keep");
+  assert.strictEqual(ctx2.read().pending?.kind, "record", "enabled visible memory button allows choice");
+}
+{
+  const ctx = makeV67Context({ v66unlocked: true, scene: "remembrance", elements: { "bloodless-genealogy-entry-btn": makeBloodlessBtn({ disabled: true }) } });
+  ctx.v67.chooseBloodlessEntry();
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled entry button blocks entry");
+
+  const ctx2 = makeV67Context({ v66unlocked: true, scene: "remembrance", elements: { "bloodless-genealogy-entry-btn": makeBloodlessBtn() } });
+  ctx2.v67.chooseBloodlessEntry();
+  assert.strictEqual(ctx2.read().pending?.kind, "entry", "enabled visible entry button allows entry");
+}
+{
+  const ctx = makeV67Context({ v66unlocked: true, scene: "remembrance", elements: { "bloodless-family-entry-btn": makeBloodlessBtn({ disabled: true }) } });
+  ctx.v67.saveBloodless({ ...ctx.v67.defaultBloodless(), records: allCoverageRecords });
+  ctx.v67.chooseBloodlessFamilyEntry();
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled family entry button blocks entry");
+
+  const ctx2 = makeV67Context({ v66unlocked: true, scene: "remembrance", elements: { "bloodless-family-entry-btn": makeBloodlessBtn() } });
+  ctx2.v67.saveBloodless({ ...ctx2.v67.defaultBloodless(), records: allCoverageRecords });
+  ctx2.v67.chooseBloodlessFamilyEntry();
+  assert.strictEqual(ctx2.read().pending?.kind, "family-entry", "enabled visible family entry button allows entry");
+}
+{
+  const ctx = makeV67Context({ v66unlocked: true, scene: "last-family-court", elements: { "bloodless-family-become-ancestor": makeBloodlessBtn({ disabled: true }), "bloodless-court-figure": makeBloodlessBtn() } });
+  ctx.v67.saveBloodless({ ...ctx.v67.defaultBloodless(), records: allCoverageRecords, visited: { genealogy: true, archive: true, childhood: true, court: true } });
+  ctx.v67.chooseBloodlessFamilyAction("become-ancestor");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled family action button blocks choice");
+
+  const ctx2 = makeV67Context({ v66unlocked: true, scene: "last-family-court", elements: { "bloodless-family-become-ancestor": makeBloodlessBtn(), "bloodless-court-figure": makeBloodlessBtn() } });
+  ctx2.v67.saveBloodless({ ...ctx2.v67.defaultBloodless(), records: allCoverageRecords, visited: { genealogy: true, archive: true, childhood: true, court: true } });
+  ctx2.v67.chooseBloodlessFamilyAction("become-ancestor");
+  assert.strictEqual(ctx2.read().pending?.kind, "family", "enabled visible family action button allows choice");
+}
+{
+  const recordFb = makeV67Context({ v66unlocked: true }).v67.computeRecordFeedback("spindle", "ancestor", "keep");
+  const ctx = makeV67Context({ v66unlocked: true, scene: "counterfactual-spindle", elements: { "bloodless-kin-return-spindle": makeBloodlessBtn({ disabled: true }) } });
+  ctx.v67.saveBloodless({ ...ctx.v67.defaultBloodless(), records: ["spindle:ancestor:keep"], activeKin: { root: "spindle", record: "spindle:ancestor:keep", feedback: recordFb } });
+  ctx.v67.chooseBloodlessKinReturn("spindle");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled kin return button blocks return");
+
+  const ctx2 = makeV67Context({ v66unlocked: true, scene: "counterfactual-spindle", elements: { "bloodless-kin-return-spindle": makeBloodlessBtn() } });
+  ctx2.v67.saveBloodless({ ...ctx2.v67.defaultBloodless(), records: ["spindle:ancestor:keep"], activeKin: { root: "spindle", record: "spindle:ancestor:keep", feedback: recordFb } });
+  ctx2.v67.chooseBloodlessKinReturn("spindle");
+  assert.strictEqual(ctx2.read().pending?.kind, "kin-return", "enabled visible kin return button allows return");
+}
+
+// bloodlessGenealogyUnlocked
+{
+  const ctx = makeV67Context({ v66unlocked: true });
+  assert.strictEqual(ctx.v67.bloodlessGenealogyUnlocked(), true, "full v66 evidence unlocks v67");
+  const ctx2 = makeV67Context({ v66unlocked: false });
+  assert.strictEqual(ctx2.v67.bloodlessGenealogyUnlocked(), false, "incomplete v66 evidence locks v67");
+  const ctx3 = makeV67Context({ v66unlocked: true, getCounterfactual: () => ({ lives: allV66CoverageLives, metaOutcomes: ["many-lives-wear-you"] }) });
+  assert.strictEqual(ctx3.v67.bloodlessGenealogyUnlocked(), false, "missing meta outcomes lock v67");
+}
+
+// bloodlessCoverageComplete
+{
+  const ctx = makeV67Context({ v66unlocked: true });
+  assert.strictEqual(ctx.v67.bloodlessCoverageComplete({ records: allCoverageRecords }), true, "full coverage is complete");
+  assert.strictEqual(ctx.v67.bloodlessCoverageComplete({ records: ["spindle:ancestor:keep"] }), false, "single record is not complete");
+  assert.strictEqual(ctx.v67.bloodlessCoverageComplete({ records: [] }), false, "empty records is not complete");
+}
+
+// saveBloodless 只写 v67 key，移除后归零
+{
+  const ctx = makeV67Context({ v66unlocked: true });
+  ctx.v67.saveBloodless(ctx.v67.defaultBloodless());
+  assert.ok(Object.prototype.hasOwnProperty.call(ctx.storeData, BLOODLESS_KEY), "saveBloodless writes the v67 key");
+  assert.equal(Object.keys(ctx.storeData).length, 1, "saveBloodless writes exactly one key");
+  delete ctx.storeData[BLOODLESS_KEY];
+  assert.deepStrictEqual(ctx.v67.getBloodless(), ctx.v67.defaultBloodless(), "removing v67 key resets to default");
+}
+
+// Remembrance 首轮阻断回归：前置解锁但自身 0 进度时，codex 父层、普通入口必须可见，39 格全锁
+{
+  function makeV67El({ hidden = true } = {}) {
+    return {
+      hidden,
+      disabled: false,
+      textContent: "",
+      children: [],
+      className: "",
+      setAttribute() {},
+      removeAttribute(name) { if (name === "hidden") this.hidden = false; },
+      closest: () => null,
+      addEventListener() {},
+      set innerHTML(v) { this.children.length = 0; },
+      appendChild(c) { this.children.push(c); },
+    };
+  }
+  const box = makeV67El();
+  const grid = makeV67El({ hidden: false });
+  const entry = makeV67El();
+  const memory = makeV67El();
+  const entryBtn = makeV67El({ hidden: true });
+  const familyBtn = makeV67El({ hidden: true });
+  const ctx = makeV67Context({
+    v66unlocked: true,
+    scene: "remembrance",
+    elements: {
+      "bloodless-codex": box,
+      "bloodless-codex-grid": grid,
+      "bloodless-codex-entry": entry,
+      "bloodless-memory": memory,
+      "bloodless-genealogy-entry-btn": entryBtn,
+      "bloodless-family-entry-btn": familyBtn,
+    },
+  });
+  ctx.v67.syncBloodlessRemembrance();
+  assert.strictEqual(box.hidden, false, "v67 codex box visible at zero progress when unlocked");
+  assert.strictEqual(entry.hidden, false, "v67 codex entry parent visible at zero progress");
+  assert.strictEqual(memory.hidden, false, "v67 memory visible at zero progress");
+  assert.strictEqual(grid.children.length, 39, "v67 codex renders 39 cells at zero progress");
+  assert.strictEqual(grid.children.filter((c) => c.className.includes("unlocked")).length, 0, "v67 zero progress has 0 unlocked cells");
+  assert.strictEqual(entryBtn.hidden, false, "v67 entry button visible at zero progress");
+  assert.strictEqual(entryBtn.disabled, false, "v67 entry button enabled at zero progress");
+  assert.strictEqual(familyBtn.hidden, true, "v67 family entry hidden without coverage");
+
+  const box2 = makeV67El();
+  const grid2 = makeV67El({ hidden: false });
+  const entry2 = makeV67El();
+  const memory2 = makeV67El();
+  const entryBtn2 = makeV67El({ hidden: true });
+  const familyBtn2 = makeV67El({ hidden: true });
+  const ctx2 = makeV67Context({
+    v66unlocked: false,
+    scene: "remembrance",
+    elements: {
+      "bloodless-codex": box2,
+      "bloodless-codex-grid": grid2,
+      "bloodless-codex-entry": entry2,
+      "bloodless-memory": memory2,
+      "bloodless-genealogy-entry-btn": entryBtn2,
+      "bloodless-family-entry-btn": familyBtn2,
+    },
+  });
+  ctx2.v67.syncBloodlessRemembrance();
+  assert.strictEqual(box2.hidden, true, "v67 codex box hidden when v66 locked");
+  assert.strictEqual(entry2.hidden, true, "v67 codex entry hidden when v66 locked");
+  assert.strictEqual(memory2.hidden, true, "v67 memory hidden when v66 locked");
+  assert.strictEqual(entryBtn2.hidden, true, "v67 entry button hidden when v66 locked");
+}
+
+/* ---------- v68 世代借贷 / THE GENERATIONS BORROW AGAINST DEATH ---------- */
+
+const V68_SOURCE_HASHES = {
+  "design-references/source-v68-generational-credit-office.png": "8ba105cafdd282fffac7c8ca1fc260eb5b1c0f3cd4c8c12e9e4bb5b711deaa8c",
+  "design-references/source-v68-lifetime-pawn-vault.png": "22c9709b71180ff001efd34e3f666f2fbdcfe405b14325bb0d2b08edb5498774",
+  "design-references/source-v68-mortality-clearing-house.png": "bb3aab732ce4995f96a07f5a7cec3c0667e21812db5cd6c322afcf78feccde4f",
+  "design-references/source-v68-age-foreclosure-court.png": "567ff3cc18e10cbe4b657ca73d42e8a99452571b8315250e101a44449692a792",
+};
+const V68_SOURCE_SIZES = {
+  "design-references/source-v68-generational-credit-office.png": 2529737,
+  "design-references/source-v68-lifetime-pawn-vault.png": 2396491,
+  "design-references/source-v68-mortality-clearing-house.png": 2565447,
+  "design-references/source-v68-age-foreclosure-court.png": 2750588,
+};
+const V68_WEBP_HASHES = {
+  "assets/v68-generational-credit-office.webp": "efc50ecfe7226738fc67cb913c4d7e8e3c098a07e70b87d2df74bd4085efc44e",
+  "assets/v68-lifetime-pawn-vault.webp": "77df1f55bc724c43c4835e483b41ad0d6a81ae4b111f1de44e3a8fe525774033",
+  "assets/v68-mortality-clearing-house.webp": "d707458bb82eb9b2535bdb87a086eda97c273c68bb39280325e149f6b95ed21b",
+  "assets/v68-age-foreclosure-court.webp": "aa0b505d9e179cf3a7dc3e01e145b0f2cc4f45f766f719246fd83770bff87572",
+};
+const V68_WEBP_SIZES = {
+  "assets/v68-generational-credit-office.webp": 239274,
+  "assets/v68-lifetime-pawn-vault.webp": 185088,
+  "assets/v68-mortality-clearing-house.webp": 237126,
+  "assets/v68-age-foreclosure-court.webp": 264964,
+};
+
+/* 四张 source PNG 冻结 */
+for (const [src, hash] of Object.entries(V68_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(src, root));
+  assert.equal(buf.length, V68_SOURCE_SIZES[src], `${src} must keep its frozen byte size`);
+  assert.equal(createHash("sha256").update(buf).digest("hex"), hash, `${src} must keep its frozen sha256`);
+}
+
+/* 四张运行时 WebP 冻结 */
+for (const [asset, hash] of Object.entries(V68_WEBP_HASHES)) {
+  const buf = await readFile(new URL(asset, root));
+  assert.equal(buf.length, V68_WEBP_SIZES[asset], `${asset} must keep its frozen byte size`);
+  assert.equal(createHash("sha256").update(buf).digest("hex"), hash, `${asset} must keep its frozen sha256`);
+  const dims = readWebpDimensions(buf);
+  assert.ok(dims, `${asset} must be a readable WebP`);
+  assert.equal(dims.width, 1536, `${asset} must be 1536 px wide`);
+  assert.equal(dims.height, 1024, `${asset} must be 1024 px tall`);
+  assert.ok(html.includes(asset), `${asset} must be referenced`);
+}
+for (const asset of Object.keys(V68_WEBP_HASHES)) {
+  assert.match(html, new RegExp(`<link rel="preload" href="${asset.replace(".", "\\.")}" as="image">`), `${asset} must be preloaded`);
+}
+
+/* 四场景 DOM */
+for (const s of ["generational-credit-office", "lifetime-pawn-vault", "mortality-clearing-house", "age-foreclosure-court"]) {
+  assert.match(html, new RegExp(`data-scene="${s}"`), `v68 scene missing: ${s}`);
+}
+
+/* figure 与热点 ID */
+assert.match(html, /id="generation-loans-office-figure"/);
+for (const e of ["past", "present", "future"]) {
+  assert.match(html, new RegExp(`id="generation-loans-era-${e}"`), `missing era ${e}`);
+}
+assert.match(html, /id="generation-loans-vault-figure"/);
+for (const c of ["years", "death-date", "funeral"]) {
+  assert.match(html, new RegExp(`id="generation-loans-collateral-${c}"`), `missing collateral ${c}`);
+}
+assert.match(html, /id="generation-loans-clearing-figure"/);
+for (const t of ["childhood-interest", "birth-payment", "descendant-rollover"]) {
+  assert.match(html, new RegExp(`id="generation-loans-term-${t}"`), `missing term ${t}`);
+}
+assert.match(html, /id="generation-loans-foreclosure-figure"/);
+for (const a of ["seize-present", "bankrupt-death", "crown-funeral"]) {
+  assert.match(html, new RegExp(`id="generation-loans-foreclosure-${a}"`), `missing foreclosure action ${a}`);
+}
+
+/* 三处催收通知容器与返回按钮 */
+for (const s of ["threshold", "remembrance", "unending-gallery"]) {
+  assert.match(html, new RegExp(`id="generation-loans-notice-${s}"`), `missing notice container ${s}`);
+  assert.match(html, new RegExp(`id="generation-loans-notice-return-${s}"`), `missing notice return ${s}`);
+  assert.match(html, new RegExp(`id="generation-loans-notice-response-${s}"`), `missing notice response ${s}`);
+}
+
+/* Remembrance 入口、记忆、图鉴 */
+assert.match(html, /id="generation-loans-entry-btn"/);
+assert.match(html, /id="generation-loans-foreclosure-entry-btn"/);
+assert.match(html, /id="generation-loans-memory"/);
+assert.match(html, /id="generation-loans-codex"/);
+assert.match(html, /id="generation-loans-codex-grid"/);
+assert.match(html, /id="generation-loans-codex-entry"/);
+assert.match(html, /id="generation-loans-entry-response"/);
+assert.match(html, /id="generation-loans-foreclosure-entry-response"/);
+assert.match(html, /让三种家族结局互相借命/);
+assert.match(html, /让所有未还年岁同时到期/);
+
+/* 四目录链接 */
+for (const id of ["generation-loans-office-link", "generation-loans-vault-link", "generation-loans-clearing-link", "generation-loans-foreclosure-link"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `missing directory link ${id}`);
+}
+
+/* JS 模块存在与边界 */
+assert.equal((js.match(/const GENERATION_LOANS_KEY = ['"]goddead_v68_generation_loans['"]/g) || []).length, 1, "v68 introduces exactly one storage key");
+const v68ModuleBlock = js.match(/v68 世代借贷 \/ THE GENERATIONS BORROW AGAINST DEATH[\s\S]*?走廊：残页 \+ 封印的门/);
+assert.ok(v68ModuleBlock, "v68 module must exist");
+
+/* saveGenerationLoans 持久化十一键 */
+const saveGenerationLoansBlock = js.match(/const saveGenerationLoans = \(st\) => \{[\s\S]*?store\.set\(\s*GENERATION_LOANS_KEY,\s*JSON\.stringify\(\{[\s\S]*?\}\)\s*\);/);
+assert.ok(saveGenerationLoansBlock, "saveGenerationLoans must persist an explicit canonical projection");
+for (const f of ["version", "visited", "draft", "loans", "foreclosureOutcomes", "loanRuns", "foreclosureRuns", "balances", "lastOutcome", "activeNotice", "pending"]) {
+  assert.match(saveGenerationLoansBlock[0], new RegExp(`\\b${f}\\b`), `saveGenerationLoans persists ${f}`);
+}
+
+/* 规范化函数 */
+assert.match(js, /const normalizeGenerationLoansLoans = \(loans\) => \{[\s\S]*?GENERATION_LOAN_IDS/, "normalizeGenerationLoansLoans sorts by GENERATION_LOAN_IDS");
+assert.match(js, /const normalizeForeclosureOutcomes = \(arr\) => \{[\s\S]*?FORECLOSURE_ACTIONS\.map\(\(a\) => FORECLOSURE_TABLE\[a\]\.outcome\)/, "normalizeForeclosureOutcomes sorts by FORECLOSURE_ACTIONS order");
+const normalizeGenerationLoansPendingBlock = js.match(/const normalizeGenerationLoansPending = \(p, st\) => \{[\s\S]*?\n  \};/);
+assert.ok(normalizeGenerationLoansPendingBlock, "normalizeGenerationLoansPending must exist");
+assert.match(normalizeGenerationLoansPendingBlock[0], /st\._v68unlocked === true/, "pending normalization uses passed _v68unlocked, not storage");
+assert.match(normalizeGenerationLoansPendingBlock[0], /p\.kind === 'entry' && keys === 'feedback,kind,target'/, "entry pending accepts exactly three whitelisted keys");
+assert.match(normalizeGenerationLoansPendingBlock[0], /p\.kind === 'era' && keys === 'era,feedback,kind,source,target'/, "era pending accepts exactly five whitelisted keys");
+assert.match(normalizeGenerationLoansPendingBlock[0], /p\.kind === 'collateral' && keys === 'collateral,era,feedback,kind,source,target'/, "collateral pending accepts exactly six whitelisted keys");
+assert.match(normalizeGenerationLoansPendingBlock[0], /p\.kind === 'loan' && keys === 'collateral,era,feedback,kind,outcome,source,target,term'/, "loan pending accepts exactly eight whitelisted keys");
+assert.match(normalizeGenerationLoansPendingBlock[0], /p\.kind === 'notice-return' && keys === 'feedback,from,kind,loan,target'/, "notice-return pending accepts exactly five whitelisted keys");
+assert.match(normalizeGenerationLoansPendingBlock[0], /p\.kind === 'foreclosure-entry' && keys === 'feedback,kind,target'/, "foreclosure-entry pending accepts exactly three whitelisted keys");
+assert.match(normalizeGenerationLoansPendingBlock[0], /p\.kind === 'foreclosure' && keys === 'action,feedback,kind,outcome,source,target'/, "foreclosure pending accepts exactly six whitelisted keys");
+
+/* 解锁资格只读 v67 状态 */
+assert.match(js, /const generationLoansUnlocked = \(\) => \{[\s\S]*?getBloodless\(\)/, "generationLoansUnlocked reads getBloodless");
+assert.match(js, /bloodlessGenealogyUnlocked\(\)/, "generationLoansUnlocked checks v67 unlock");
+assert.match(js, /BLOODLESS_REQUIRED_FOR_LOANS/, "generationLoansUnlocked checks v67 coverage and outcomes");
+
+/* 覆盖完成检查 */
+assert.match(js, /const generationCoverageComplete = \(st\) => \{[\s\S]*?eras\.size === 3 && collaterals\.size === 3 && terms\.size === 3/, "generationCoverageComplete checks full coverage");
+
+/* 17 组 isTrusted 防线 */
+const v68ListenerBlock = js.match(/const generationLoansEntryBtn = \$\('#generation-loans-entry-btn'\);[\s\S]*?v69 死后人口普查 \/ THE DEAD COUNT WHETHER YOU WERE BORN/);
+assert.ok(v68ListenerBlock, "v68 click listener block must exist");
+assert.equal((v68ListenerBlock[0].match(/!e\.isTrusted/g) || []).length, 17, "v68 must guard all seventeen click listeners with isTrusted");
+
+/* v68 不读写旧 key */
+assert.ok(!v68ModuleBlock[0].includes("saveBloodless("), "v68 never calls saveBloodless");
+assert.ok(!/store\.set\(BLOODLESS_KEY/.test(v68ModuleBlock[0]), "v68 never writes the v67 bloodless key");
+assert.ok(!/goddead_v(28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59|60|61|62|63|64|65|66|67)/.test(v68ModuleBlock[0]), "v68 state must not touch earlier keys");
+
+/* forget-all 清 v68 key */
+assert.match(forgetBlock[0], /localStorage\.removeItem\(["']goddead_v68_generation_loans["']\)/, "forget-all removes the v68 storage key");
+
+/* 窄屏热点尺寸与溢出 */
+const generationLoansMobileBlock = css.match(/@media \(max-width: 720px\) \{[\s\S]*?\.generation-loans-hotspot[\s\S]*?\n  \}/);
+assert.ok(generationLoansMobileBlock, "generation loans mobile block exists");
+assert.match(generationLoansMobileBlock[0], /min-width:\s*44px/, "generation loans mobile hotspot min-width >= 44px");
+assert.match(generationLoansMobileBlock[0], /min-height:\s*44px/, "generation loans mobile hotspot min-height >= 44px");
+
+/* v68 设计文档存在且冻结哈希 */
+const v68doc = await fileText("docs/V68GenerationLoansDesign.md");
+for (const hash of Object.values(V68_SOURCE_HASHES)) {
+  assert.ok(v68doc.includes(hash), "V68 design doc must freeze the source sha256 values");
+}
+for (const hash of Object.values(V68_WEBP_HASHES)) {
+  assert.ok(v68doc.includes(hash), "V68 design doc must freeze the WebP sha256 values");
+}
+assert.match(v68doc, /1536×1024/, "V68 design doc documents 1536×1024 dimensions");
+
+/* ---------- v68 可执行/隔离状态回归测试 ---------- */
+assert.ok(v68ModuleBlock, "v68 executable block available for regression tests");
+const v68ExecSourceStart = v68ModuleBlock[0].indexOf("const GENERATION_LOANS_KEY");
+assert.ok(v68ExecSourceStart > 0, "v68 executable block starts with GENERATION_LOANS_KEY");
+const v68CorridorStart = v68ModuleBlock[0].indexOf("走廊：残页");
+assert.ok(v68CorridorStart > v68ExecSourceStart, "v68 executable block ends before corridor section");
+const v68ExecSourceEnd = v68ModuleBlock[0].lastIndexOf("/*", v68CorridorStart);
+const v68ExecSource = v68ModuleBlock[0].slice(v68ExecSourceStart, v68ExecSourceEnd > v68ExecSourceStart ? v68ExecSourceEnd : v68CorridorStart).trimEnd();
+
+const GENERATION_LOANS_KEY = "goddead_v68_generation_loans";
+const allV67BloodlessRecords = [
+  "spindle:ancestor:keep", "spindle:twin:exchange", "spindle:descendant:return",
+  "loom:ancestor:keep", "loom:twin:exchange", "loom:descendant:return",
+  "nursery:ancestor:keep", "nursery:twin:exchange", "nursery:descendant:return",
+  "room:ancestor:keep", "room:twin:exchange", "room:descendant:return",
+];
+const allV67FamilyOutcomes = ["you-became-common-ancestor", "descendants-inherited-you", "every-era-became-an-orphan"];
+const coverageLoans = ["past:years:childhood-interest", "present:death-date:birth-payment", "future:funeral:descendant-rollover"];
+
+function makeGenerationLoansBtn({ disabled = false, hidden = false } = {}) {
+  return {
+    disabled,
+    hidden,
+    setAttribute() {},
+    removeAttribute() {},
+    closest: () => null,
+    addEventListener() {},
+  };
+}
+
+function makeV68Context({
+  initialStore = {},
+  elements = {},
+  scene = "",
+  v67unlocked = true,
+  getBloodless: getBloodlessOverride,
+} = {}) {
+  const storeData = { ...initialStore };
+  const store = {
+    get(k, def) { return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def; },
+    set(k, v) { storeData[k] = v; },
+  };
+  const queries = [];
+  const $ = (rawId) => { queries.push(rawId); return elements[rawId.replace(/^#/, "")] || null; };
+  const scheduleCalls = [];
+  const AutoAdvance = { has(src) { return false; }, schedule(src, target, opts) { scheduleCalls.push({ src, target, opts }); } };
+  const AudioEngine = { whoosh() {}, bell() {} };
+  const getBloodless = getBloodlessOverride || (() => ({
+    records: v67unlocked ? allV67BloodlessRecords : [],
+    familyOutcomes: v67unlocked ? allV67FamilyOutcomes : [],
+  }));
+  const bloodlessGenealogyUnlocked = () => v67unlocked;
+  const buttonAvailable = (id) => {
+    const btn = $(`#${id}`);
+    if (!btn || btn.disabled || btn.hidden) return false;
+    if (typeof btn.closest === "function" && btn.closest("[hidden]")) return false;
+    return true;
+  };
+  const document = {
+    createElement(tag) {
+      return { tagName: tag, className: "", innerHTML: "", textContent: "", setAttribute() {}, appendChild() {}, removeAttribute() {} };
+    },
+  };
+  const body = v68ExecSource + "\nreturn { GENERATION_LOANS_KEY, GENERATION_LOAN_IDS, GENERATION_LOAN_SET, ERAS, COLLATERALS, TERMS, FORECLOSURE_ACTIONS, SCENE_FOR_ERA, ERA_TABLE, COLLATERAL_TABLE, TERM_TABLE, FORECLOSURE_TABLE, GENERATION_LOAN_ENTRY_FEEDBACK, GENERATION_LOAN_FORECLOSURE_ENTRY_FEEDBACK, GENERATION_LOAN_NOTICE_RETURN_FEEDBACK, getGenerationLoans, saveGenerationLoans, defaultGenerationLoans, normalizeGenerationLoansLoans, normalizeForeclosureOutcomes, normalizeGenerationLoansPending, generationLoansUnlocked, generationCoverageComplete, computeLoanId, computeLoanTitle, computeLoanFeedback, findLoanById, computeForeclosureOutcomeId, chooseGenerationLoansEra, chooseGenerationLoansCollateral, chooseGenerationLoansTerm, chooseGenerationLoansNoticeReturn, chooseGenerationLoansEntry, chooseGenerationLoansForeclosureEntry, chooseGenerationLoansForeclosureAction, replayGenerationLoansPending, resolveGenerationLoansPendingOnArrival, lockGenerationLoansEraButtons, lockGenerationLoansCollateralButtons, lockGenerationLoansTermButtons, lockGenerationLoansForeclosureButtons, paintGenerationLoansMemory, paintGenerationLoansCodex, syncGenerationLoansRemembrance };";
+  const v68 = new Function("store", "$", "currentScene", "AutoAdvance", "AudioEngine", "reduced", "getBloodless", "bloodlessGenealogyUnlocked", "buttonAvailable", "document", body)(store, $, scene, AutoAdvance, AudioEngine, false, getBloodless, bloodlessGenealogyUnlocked, buttonAvailable, document);
+  const read = () => {
+    try { return JSON.parse(storeData[GENERATION_LOANS_KEY] || "{}") } catch { return {}; }
+  };
+  return { v68, storeData, read, queries, scheduleCalls };
+}
+
+// 27 loan IDs 唯一且固定顺序
+{
+  const ctx = makeV68Context({ v67unlocked: true });
+  assert.equal(ctx.v68.GENERATION_LOAN_IDS.length, 27, "exactly 27 loan ids");
+  assert.equal(ctx.v68.GENERATION_LOAN_SET.size, 27, "27 loan ids are unique");
+  const expectedIds = [];
+  for (const e of ctx.v68.ERAS) {
+    for (const c of ctx.v68.COLLATERALS) {
+      for (const t of ctx.v68.TERMS) {
+        expectedIds.push(`${e}:${c}:${t}`);
+      }
+    }
+  }
+  assert.deepStrictEqual(ctx.v68.GENERATION_LOAN_IDS, expectedIds, "loan ids follow ERAS × COLLATERALS × TERMS order");
+}
+
+// computeLoanTitle/feedback 确定性
+{
+  const ctx = makeV68Context({ v67unlocked: true });
+  const t1 = ctx.v68.computeLoanTitle("past", "years", "childhood-interest");
+  const t2 = ctx.v68.computeLoanTitle("past", "years", "childhood-interest");
+  assert.strictEqual(t1, t2, "computeLoanTitle is deterministic");
+  assert.ok(t1.includes("逝代"), "title includes era fragment");
+  assert.ok(t1.includes("七年"), "title includes collateral fragment");
+  assert.ok(t1.includes("童年付息"), "title includes term fragment");
+  const fb = ctx.v68.computeLoanFeedback("past", "years", "childhood-interest");
+  assert.ok(fb.includes("死去的亲属把尚未腐烂的那一段时间推过窗口"), "feedback includes era narrative");
+  assert.ok(fb.includes("账本替你多写七年"), "feedback includes collateral narrative");
+  assert.ok(fb.includes("利息从童年按月扣除"), "feedback includes term narrative");
+}
+
+// normalizeGenerationLoansLoans 拒绝非法、去重、排序
+{
+  const ctx = makeV68Context({ v67unlocked: true });
+  const out = ctx.v68.normalizeGenerationLoansLoans([
+    "present:death-date:birth-payment",
+    "past:years:childhood-interest",
+    "past:years:childhood-interest",
+    "invalid:foo:bar",
+    "future:funeral:descendant-rollover",
+  ]);
+  assert.deepStrictEqual(out, ["past:years:childhood-interest", "present:death-date:birth-payment", "future:funeral:descendant-rollover"], "loans are deduped and ordered by frozen table");
+}
+
+// normalizeForeclosureOutcomes 排序
+{
+  const ctx = makeV68Context({ v67unlocked: true });
+  const out = ctx.v68.normalizeForeclosureOutcomes(["the-funeral-inherited-the-family", "the-present-was-repossessed", "death-declared-bankruptcy"]);
+  assert.deepStrictEqual(out, ["the-present-was-repossessed", "death-declared-bankruptcy", "the-funeral-inherited-the-family"], "foreclosure outcomes follow FORECLOSURE_ACTIONS order");
+}
+
+// 坏类型安全归空
+{
+  const ctx = makeV68Context({ v67unlocked: true });
+  assert.deepStrictEqual(ctx.v68.normalizeGenerationLoansLoans("not-an-array"), [], "string loans normalized to empty");
+  assert.deepStrictEqual(ctx.v68.normalizeGenerationLoansLoans({ foo: true }), [], "object loans normalized to empty");
+  assert.deepStrictEqual(ctx.v68.normalizeForeclosureOutcomes("not-an-array"), [], "string foreclosure outcomes normalized to empty");
+  assert.deepStrictEqual(ctx.v68.normalizeForeclosureOutcomes(12345), [], "number foreclosure outcomes normalized to empty");
+}
+
+// 七类 strict pending 白名单
+{
+  const ctx = makeV68Context({ v67unlocked: true });
+  const baseSt = ctx.v68.defaultGenerationLoans();
+  baseSt._v68unlocked = true;
+  baseSt.draft = { era: "", collateral: "" };
+  baseSt.visited.foreclosure = true;
+
+  assert.ok(ctx.v68.normalizeGenerationLoansPending({ kind: "entry", target: "generational-credit-office", feedback: ctx.v68.GENERATION_LOAN_ENTRY_FEEDBACK }, baseSt), "legal entry pending accepted");
+  assert.strictEqual(ctx.v68.normalizeGenerationLoansPending({ kind: "entry", target: "lifetime-pawn-vault", feedback: ctx.v68.GENERATION_LOAN_ENTRY_FEEDBACK }, baseSt), null, "entry with wrong target rejected");
+  assert.strictEqual(ctx.v68.normalizeGenerationLoansPending({ kind: "entry", target: "generational-credit-office", feedback: ctx.v68.GENERATION_LOAN_ENTRY_FEEDBACK, extra: 1 }, baseSt), null, "entry with extra key rejected");
+
+  assert.ok(ctx.v68.normalizeGenerationLoansPending({ kind: "era", source: "generational-credit-office", era: "past", target: "lifetime-pawn-vault", feedback: ctx.v68.ERA_TABLE.past.feedback }, baseSt), "legal era pending accepted");
+  baseSt.draft = { era: "past", collateral: "years" };
+  assert.strictEqual(ctx.v68.normalizeGenerationLoansPending({ kind: "era", source: "generational-credit-office", era: "past", target: "lifetime-pawn-vault", feedback: ctx.v68.ERA_TABLE.past.feedback }, baseSt), null, "era rejected when draft has collateral");
+
+  baseSt.draft = { era: "past", collateral: "" };
+  assert.ok(ctx.v68.normalizeGenerationLoansPending({ kind: "collateral", source: "lifetime-pawn-vault", era: "past", collateral: "years", target: "mortality-clearing-house", feedback: ctx.v68.COLLATERAL_TABLE.years.feedback }, baseSt), "legal collateral pending accepted");
+  assert.strictEqual(ctx.v68.normalizeGenerationLoansPending({ kind: "collateral", source: "lifetime-pawn-vault", era: "present", collateral: "years", target: "mortality-clearing-house", feedback: ctx.v68.COLLATERAL_TABLE.years.feedback }, baseSt), null, "collateral rejected when era mismatches draft");
+
+  baseSt.draft = { era: "past", collateral: "years" };
+  const loanFb = ctx.v68.computeLoanFeedback("past", "years", "childhood-interest");
+  assert.ok(ctx.v68.normalizeGenerationLoansPending({ kind: "loan", source: "mortality-clearing-house", era: "past", collateral: "years", term: "childhood-interest", outcome: "past:years:childhood-interest", target: "threshold", feedback: loanFb }, baseSt), "legal loan pending accepted");
+  assert.strictEqual(ctx.v68.normalizeGenerationLoansPending({ kind: "loan", source: "mortality-clearing-house", era: "past", collateral: "years", term: "childhood-interest", outcome: "past:years:death-date:childhood-interest", target: "threshold", feedback: loanFb }, baseSt), null, "loan rejected when outcome mismatches");
+
+  baseSt.activeNotice = { era: "past", loan: "past:years:childhood-interest", feedback: loanFb };
+  baseSt.loans = ["past:years:childhood-interest"];
+  assert.ok(ctx.v68.normalizeGenerationLoansPending({ kind: "notice-return", from: "threshold", target: "generational-credit-office", loan: "past:years:childhood-interest", feedback: ctx.v68.GENERATION_LOAN_NOTICE_RETURN_FEEDBACK }, baseSt), "legal notice-return pending accepted");
+  assert.strictEqual(ctx.v68.normalizeGenerationLoansPending({ kind: "notice-return", from: "remembrance", target: "generational-credit-office", loan: "past:years:childhood-interest", feedback: ctx.v68.GENERATION_LOAN_NOTICE_RETURN_FEEDBACK }, baseSt), null, "notice-return rejected when from mismatches activeNotice era");
+
+  baseSt.loans = coverageLoans;
+  assert.ok(ctx.v68.normalizeGenerationLoansPending({ kind: "foreclosure-entry", target: "age-foreclosure-court", feedback: ctx.v68.GENERATION_LOAN_FORECLOSURE_ENTRY_FEEDBACK }, baseSt), "legal foreclosure-entry pending accepted");
+
+  assert.ok(ctx.v68.normalizeGenerationLoansPending({ kind: "foreclosure", source: "age-foreclosure-court", action: "seize-present", outcome: "the-present-was-repossessed", target: "threshold", feedback: ctx.v68.FORECLOSURE_TABLE["seize-present"].feedback }, baseSt), "legal foreclosure pending accepted");
+  assert.strictEqual(ctx.v68.normalizeGenerationLoansPending({ kind: "foreclosure", source: "age-foreclosure-court", action: "seize-present", outcome: "the-present-was-repossessed", target: "threshold", feedback: ctx.v68.FORECLOSURE_TABLE["seize-present"].feedback }, { ...baseSt, visited: { ...baseSt.visited, foreclosure: false } }), null, "foreclosure rejected when foreclosure not visited");
+}
+
+// source/target/else reload 矩阵
+{
+  const ctx = makeV68Context({ v67unlocked: true, scene: "remembrance" });
+  const pending = { kind: "entry", target: "generational-credit-office", feedback: ctx.v68.GENERATION_LOAN_ENTRY_FEEDBACK };
+  ctx.v68.saveGenerationLoans({ ...ctx.v68.defaultGenerationLoans(), pending });
+  ctx.v68.replayGenerationLoansPending("remembrance");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "entry source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].src, "remembrance", "entry source reload schedules from remembrance");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "generational-credit-office", "entry source reload schedules to office");
+}
+{
+  const ctx = makeV68Context({ v67unlocked: true, scene: "generational-credit-office" });
+  const pending = { kind: "era", source: "generational-credit-office", era: "past", target: "lifetime-pawn-vault", feedback: ctx.v68.ERA_TABLE.past.feedback };
+  ctx.v68.saveGenerationLoans({ ...ctx.v68.defaultGenerationLoans(), draft: { era: "", collateral: "" }, pending });
+  ctx.v68.replayGenerationLoansPending("generational-credit-office");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "era source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].src, "generational-credit-office", "era source reload schedules from office");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "lifetime-pawn-vault", "era source reload schedules to vault");
+}
+{
+  const ctx = makeV68Context({ v67unlocked: true, scene: "lifetime-pawn-vault" });
+  const pending = { kind: "collateral", source: "lifetime-pawn-vault", era: "past", collateral: "years", target: "mortality-clearing-house", feedback: ctx.v68.COLLATERAL_TABLE.years.feedback };
+  ctx.v68.saveGenerationLoans({ ...ctx.v68.defaultGenerationLoans(), draft: { era: "past", collateral: "" }, pending });
+  ctx.v68.replayGenerationLoansPending("lifetime-pawn-vault");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "collateral source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "mortality-clearing-house", "collateral source reload schedules to clearing");
+}
+{
+  const ctx = makeV68Context({ v67unlocked: true, scene: "mortality-clearing-house" });
+  const loanFb = ctx.v68.computeLoanFeedback("past", "years", "childhood-interest");
+  const pending = { kind: "loan", source: "mortality-clearing-house", era: "past", collateral: "years", term: "childhood-interest", outcome: "past:years:childhood-interest", target: "threshold", feedback: loanFb };
+  ctx.v68.saveGenerationLoans({ ...ctx.v68.defaultGenerationLoans(), draft: { era: "past", collateral: "years" }, pending });
+  ctx.v68.replayGenerationLoansPending("mortality-clearing-house");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "loan source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "threshold", "loan source reload schedules to era target");
+}
+{
+  const ctx = makeV68Context({ v67unlocked: true, scene: "remembrance" });
+  const pending = { kind: "foreclosure-entry", target: "age-foreclosure-court", feedback: ctx.v68.GENERATION_LOAN_FORECLOSURE_ENTRY_FEEDBACK };
+  ctx.v68.saveGenerationLoans({ ...ctx.v68.defaultGenerationLoans(), loans: coverageLoans, pending });
+  ctx.v68.replayGenerationLoansPending("remembrance");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "foreclosure-entry source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "age-foreclosure-court", "foreclosure-entry source reload schedules to court");
+}
+{
+  const ctx = makeV68Context({ v67unlocked: true, scene: "age-foreclosure-court" });
+  const pending = { kind: "foreclosure", source: "age-foreclosure-court", action: "bankrupt-death", outcome: "death-declared-bankruptcy", target: "remembrance", feedback: ctx.v68.FORECLOSURE_TABLE["bankrupt-death"].feedback };
+  ctx.v68.saveGenerationLoans({ ...ctx.v68.defaultGenerationLoans(), loans: coverageLoans, visited: { office: true, vault: true, clearing: true, foreclosure: true }, pending });
+  ctx.v68.replayGenerationLoansPending("age-foreclosure-court");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "foreclosure source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "remembrance", "foreclosure source reload schedules to target");
+}
+{
+  for (const scene of ["threshold", "remembrance", "unending-gallery"]) {
+    const container = { hidden: true, setAttribute() {}, removeAttribute() {}, closest: () => null, addEventListener() {} };
+    const response = { textContent: "", setAttribute() {}, removeAttribute() {}, closest: () => null, addEventListener() {} };
+    const btn = { disabled: false, hidden: false, pressed: null, setAttribute(name, value) { if (name === "aria-pressed") this.pressed = value; }, removeAttribute() {}, closest: () => null, addEventListener() {} };
+    const era = scene === "threshold" ? "past" : scene === "remembrance" ? "present" : "future";
+    const loanId = `${era}:years:childhood-interest`;
+    const elements = {
+      [`generation-loans-notice-${scene}`]: container,
+      [`generation-loans-notice-response-${scene}`]: response,
+      [`generation-loans-notice-return-${scene}`]: btn,
+    };
+    const ctx = makeV68Context({ v67unlocked: true, scene, elements });
+    const loanFb = ctx.v68.computeLoanFeedback(era, "years", "childhood-interest");
+    const pending = { kind: "notice-return", from: scene, target: "generational-credit-office", loan: loanId, feedback: ctx.v68.GENERATION_LOAN_NOTICE_RETURN_FEEDBACK };
+    ctx.v68.saveGenerationLoans({ ...ctx.v68.defaultGenerationLoans(), loans: [loanId], activeNotice: { era, loan: loanId, feedback: loanFb }, pending });
+    ctx.v68.replayGenerationLoansPending(scene);
+    assert.strictEqual(container.hidden, false, `notice-return ${scene} container shown`);
+    assert.strictEqual(response.textContent, ctx.v68.GENERATION_LOAN_NOTICE_RETURN_FEEDBACK, `notice-return ${scene} response verbatim`);
+    assert.strictEqual(btn.disabled, true, `notice-return ${scene} return disabled`);
+    assert.strictEqual(String(btn.pressed), "true", `notice-return ${scene} return pressed`);
+    assert.strictEqual(ctx.scheduleCalls.length, 1, `notice-return ${scene} schedules once`);
+    assert.strictEqual(ctx.scheduleCalls[0].target, "generational-credit-office", `notice-return ${scene} schedules to office`);
+  }
+}
+
+// target 到达结算一次
+{
+  const ctx = makeV68Context({ v67unlocked: true });
+  const loanFb = ctx.v68.computeLoanFeedback("past", "years", "childhood-interest");
+  const pending = { kind: "loan", source: "mortality-clearing-house", era: "past", collateral: "years", term: "childhood-interest", outcome: "past:years:childhood-interest", target: "threshold", feedback: loanFb };
+  ctx.v68.saveGenerationLoans({ ...ctx.v68.defaultGenerationLoans(), draft: { era: "past", collateral: "years" }, pending });
+  ctx.v68.resolveGenerationLoansPendingOnArrival("threshold");
+  const st = ctx.read();
+  assert.deepStrictEqual(st.loans, ["past:years:childhood-interest"], "target arrival records the loan");
+  assert.strictEqual(st.loanRuns, 1, "target arrival increments loanRuns once");
+  assert.strictEqual(st.balances.years, 7, "target arrival increments years balance by 7");
+  assert.strictEqual(st.pending, null, "target arrival clears pending");
+  assert.strictEqual(ctx.scheduleCalls.length, 0, "target arrival does not schedule");
+}
+
+// else 场景清伪造 pending
+{
+  const ctx = makeV68Context({ v67unlocked: true, scene: "protocol" });
+  const pending = { kind: "era", source: "generational-credit-office", era: "past", target: "lifetime-pawn-vault", feedback: ctx.v68.ERA_TABLE.past.feedback };
+  ctx.v68.saveGenerationLoans({ ...ctx.v68.defaultGenerationLoans(), draft: { era: "", collateral: "" }, pending });
+  ctx.v68.replayGenerationLoansPending("protocol");
+  assert.strictEqual(ctx.read().pending ?? null, null, "else scene clears pending");
+  assert.strictEqual(ctx.scheduleCalls.length, 0, "else scene does not schedule");
+}
+
+// choose 函数尊重 disabled/hidden/figure-hidden
+{
+  const ctx = makeV68Context({ v67unlocked: true, scene: "generational-credit-office" });
+  ctx.v68.chooseGenerationLoansEra("past");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled era button blocks choice");
+
+  const ctx2 = makeV68Context({ v67unlocked: true, scene: "generational-credit-office", elements: { "generation-loans-era-past": makeGenerationLoansBtn({ hidden: true }) } });
+  ctx2.v68.chooseGenerationLoansEra("past");
+  assert.strictEqual(ctx2.read().pending ?? null, null, "hidden era button blocks choice");
+
+  const ctx3 = makeV68Context({ v67unlocked: true, scene: "generational-credit-office", elements: { "generation-loans-era-past": makeGenerationLoansBtn() } });
+  ctx3.v68.chooseGenerationLoansEra("past");
+  assert.strictEqual(ctx3.read().pending?.kind, "era", "enabled visible era button allows choice");
+}
+{
+  const ctx = makeV68Context({ v67unlocked: true, scene: "lifetime-pawn-vault", elements: { "generation-loans-collateral-years": makeGenerationLoansBtn({ disabled: true }), "generation-loans-vault-figure": makeGenerationLoansBtn() } });
+  ctx.v68.saveGenerationLoans({ ...ctx.v68.defaultGenerationLoans(), draft: { era: "past", collateral: "" } });
+  ctx.v68.chooseGenerationLoansCollateral("years");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled collateral button blocks choice");
+
+  const ctx2 = makeV68Context({ v67unlocked: true, scene: "lifetime-pawn-vault", elements: { "generation-loans-collateral-years": makeGenerationLoansBtn(), "generation-loans-vault-figure": makeGenerationLoansBtn() } });
+  ctx2.v68.saveGenerationLoans({ ...ctx2.v68.defaultGenerationLoans(), draft: { era: "past", collateral: "" } });
+  ctx2.v68.chooseGenerationLoansCollateral("years");
+  assert.strictEqual(ctx2.read().pending?.kind, "collateral", "enabled visible collateral button allows choice");
+}
+{
+  const ctx = makeV68Context({ v67unlocked: true, scene: "mortality-clearing-house", elements: { "generation-loans-term-childhood-interest": makeGenerationLoansBtn({ disabled: true }), "generation-loans-clearing-figure": makeGenerationLoansBtn() } });
+  ctx.v68.saveGenerationLoans({ ...ctx.v68.defaultGenerationLoans(), draft: { era: "past", collateral: "years" } });
+  ctx.v68.chooseGenerationLoansTerm("childhood-interest");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled term button blocks choice");
+
+  const ctx2 = makeV68Context({ v67unlocked: true, scene: "mortality-clearing-house", elements: { "generation-loans-term-childhood-interest": makeGenerationLoansBtn(), "generation-loans-clearing-figure": makeGenerationLoansBtn() } });
+  ctx2.v68.saveGenerationLoans({ ...ctx2.v68.defaultGenerationLoans(), draft: { era: "past", collateral: "years" } });
+  ctx2.v68.chooseGenerationLoansTerm("childhood-interest");
+  assert.strictEqual(ctx2.read().pending?.kind, "loan", "enabled visible term button allows choice");
+}
+{
+  const ctx = makeV68Context({ v67unlocked: true, scene: "remembrance", elements: { "generation-loans-entry-btn": makeGenerationLoansBtn({ disabled: true }) } });
+  ctx.v68.chooseGenerationLoansEntry();
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled entry button blocks entry");
+
+  const ctx2 = makeV68Context({ v67unlocked: true, scene: "remembrance", elements: { "generation-loans-entry-btn": makeGenerationLoansBtn() } });
+  ctx2.v68.chooseGenerationLoansEntry();
+  assert.strictEqual(ctx2.read().pending?.kind, "entry", "enabled visible entry button allows entry");
+}
+{
+  const ctx = makeV68Context({ v67unlocked: true, scene: "remembrance", elements: { "generation-loans-foreclosure-entry-btn": makeGenerationLoansBtn({ disabled: true }) } });
+  ctx.v68.saveGenerationLoans({ ...ctx.v68.defaultGenerationLoans(), loans: coverageLoans });
+  ctx.v68.chooseGenerationLoansForeclosureEntry();
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled foreclosure entry button blocks entry");
+
+  const ctx2 = makeV68Context({ v67unlocked: true, scene: "remembrance", elements: { "generation-loans-foreclosure-entry-btn": makeGenerationLoansBtn() } });
+  ctx2.v68.saveGenerationLoans({ ...ctx2.v68.defaultGenerationLoans(), loans: coverageLoans });
+  ctx2.v68.chooseGenerationLoansForeclosureEntry();
+  assert.strictEqual(ctx2.read().pending?.kind, "foreclosure-entry", "enabled visible foreclosure entry button allows entry");
+}
+{
+  const ctx = makeV68Context({ v67unlocked: true, scene: "age-foreclosure-court", elements: { "generation-loans-foreclosure-seize-present": makeGenerationLoansBtn({ disabled: true }), "generation-loans-foreclosure-figure": makeGenerationLoansBtn() } });
+  ctx.v68.saveGenerationLoans({ ...ctx.v68.defaultGenerationLoans(), loans: coverageLoans, visited: { office: true, vault: true, clearing: true, foreclosure: true } });
+  ctx.v68.chooseGenerationLoansForeclosureAction("seize-present");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled foreclosure action button blocks choice");
+
+  const ctx2 = makeV68Context({ v67unlocked: true, scene: "age-foreclosure-court", elements: { "generation-loans-foreclosure-seize-present": makeGenerationLoansBtn(), "generation-loans-foreclosure-figure": makeGenerationLoansBtn() } });
+  ctx2.v68.saveGenerationLoans({ ...ctx2.v68.defaultGenerationLoans(), loans: coverageLoans, visited: { office: true, vault: true, clearing: true, foreclosure: true } });
+  ctx2.v68.chooseGenerationLoansForeclosureAction("seize-present");
+  assert.strictEqual(ctx2.read().pending?.kind, "foreclosure", "enabled visible foreclosure action button allows choice");
+}
+{
+  const loanFb = makeV68Context({ v67unlocked: true }).v68.computeLoanFeedback("past", "years", "childhood-interest");
+  const ctx = makeV68Context({ v67unlocked: true, scene: "threshold", elements: { "generation-loans-notice-return-threshold": makeGenerationLoansBtn({ disabled: true }) } });
+  ctx.v68.saveGenerationLoans({ ...ctx.v68.defaultGenerationLoans(), loans: ["past:years:childhood-interest"], activeNotice: { era: "past", loan: "past:years:childhood-interest", feedback: loanFb } });
+  ctx.v68.chooseGenerationLoansNoticeReturn("threshold");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled notice return button blocks return");
+
+  const ctx2 = makeV68Context({ v67unlocked: true, scene: "threshold", elements: { "generation-loans-notice-return-threshold": makeGenerationLoansBtn() } });
+  ctx2.v68.saveGenerationLoans({ ...ctx2.v68.defaultGenerationLoans(), loans: ["past:years:childhood-interest"], activeNotice: { era: "past", loan: "past:years:childhood-interest", feedback: loanFb } });
+  ctx2.v68.chooseGenerationLoansNoticeReturn("threshold");
+  assert.strictEqual(ctx2.read().pending?.kind, "notice-return", "enabled visible notice return button allows return");
+}
+
+// generationLoansUnlocked
+{
+  const ctx = makeV68Context({ v67unlocked: true });
+  assert.strictEqual(ctx.v68.generationLoansUnlocked(), true, "full v67 evidence unlocks v68");
+  const ctx2 = makeV68Context({ v67unlocked: false });
+  assert.strictEqual(ctx2.v68.generationLoansUnlocked(), false, "incomplete v67 evidence locks v68");
+  const ctx3 = makeV68Context({ v67unlocked: true, getBloodless: () => ({ records: allV67BloodlessRecords, familyOutcomes: ["you-became-common-ancestor"] }) });
+  assert.strictEqual(ctx3.v68.generationLoansUnlocked(), false, "missing family outcomes lock v68");
+}
+
+// generationCoverageComplete
+{
+  const ctx = makeV68Context({ v67unlocked: true });
+  assert.strictEqual(ctx.v68.generationCoverageComplete({ loans: coverageLoans }), true, "full coverage is complete");
+  assert.strictEqual(ctx.v68.generationCoverageComplete({ loans: ["past:years:childhood-interest"] }), false, "single loan is not complete");
+  assert.strictEqual(ctx.v68.generationCoverageComplete({ loans: [] }), false, "empty loans is not complete");
+}
+
+// saveGenerationLoans 只写 v68 key，移除后归零
+{
+  const ctx = makeV68Context({ v67unlocked: true });
+  ctx.v68.saveGenerationLoans(ctx.v68.defaultGenerationLoans());
+  assert.ok(Object.prototype.hasOwnProperty.call(ctx.storeData, GENERATION_LOANS_KEY), "saveGenerationLoans writes the v68 key");
+  assert.equal(Object.keys(ctx.storeData).length, 1, "saveGenerationLoans writes exactly one key");
+  delete ctx.storeData[GENERATION_LOANS_KEY];
+  assert.deepStrictEqual(ctx.v68.getGenerationLoans(), ctx.v68.defaultGenerationLoans(), "removing v68 key resets to default");
+}
+
+// Remembrance 首轮阻断回归：前置解锁但自身 0 进度时，codex 父层、普通入口必须可见，30 格全锁
+{
+  function makeV68El({ hidden = true } = {}) {
+    return {
+      hidden,
+      disabled: false,
+      textContent: "",
+      children: [],
+      className: "",
+      setAttribute() {},
+      removeAttribute(name) { if (name === "hidden") this.hidden = false; },
+      closest: () => null,
+      addEventListener() {},
+      set innerHTML(v) { this.children.length = 0; },
+      appendChild(c) { this.children.push(c); },
+    };
+  }
+  const box = makeV68El();
+  const grid = makeV68El({ hidden: false });
+  const entry = makeV68El();
+  const memory = makeV68El();
+  const entryBtn = makeV68El({ hidden: true });
+  const foreclosureBtn = makeV68El({ hidden: true });
+  const ctx = makeV68Context({
+    v67unlocked: true,
+    scene: "remembrance",
+    elements: {
+      "generation-loans-codex": box,
+      "generation-loans-codex-grid": grid,
+      "generation-loans-codex-entry": entry,
+      "generation-loans-memory": memory,
+      "generation-loans-entry-btn": entryBtn,
+      "generation-loans-foreclosure-entry-btn": foreclosureBtn,
+    },
+  });
+  ctx.v68.syncGenerationLoansRemembrance();
+  assert.strictEqual(box.hidden, false, "v68 codex box visible at zero progress when unlocked");
+  assert.strictEqual(entry.hidden, false, "v68 codex entry parent visible at zero progress");
+  assert.strictEqual(memory.hidden, false, "v68 memory visible at zero progress");
+  assert.strictEqual(grid.children.length, 30, "v68 codex renders 30 cells at zero progress");
+  assert.strictEqual(grid.children.filter((c) => c.className.includes("unlocked")).length, 0, "v68 zero progress has 0 unlocked cells");
+  assert.strictEqual(entryBtn.hidden, false, "v68 entry button visible at zero progress");
+  assert.strictEqual(entryBtn.disabled, false, "v68 entry button enabled at zero progress");
+  assert.strictEqual(foreclosureBtn.hidden, true, "v68 foreclosure entry hidden without coverage");
+
+  const box2 = makeV68El();
+  const grid2 = makeV68El({ hidden: false });
+  const entry2 = makeV68El();
+  const memory2 = makeV68El();
+  const entryBtn2 = makeV68El({ hidden: true });
+  const foreclosureBtn2 = makeV68El({ hidden: true });
+  const ctx2 = makeV68Context({
+    v67unlocked: false,
+    scene: "remembrance",
+    elements: {
+      "generation-loans-codex": box2,
+      "generation-loans-codex-grid": grid2,
+      "generation-loans-codex-entry": entry2,
+      "generation-loans-memory": memory2,
+      "generation-loans-entry-btn": entryBtn2,
+      "generation-loans-foreclosure-entry-btn": foreclosureBtn2,
+    },
+  });
+  ctx2.v68.syncGenerationLoansRemembrance();
+  assert.strictEqual(box2.hidden, true, "v68 codex box hidden when v67 locked");
+  assert.strictEqual(entry2.hidden, true, "v68 codex entry hidden when v67 locked");
+  assert.strictEqual(memory2.hidden, true, "v68 memory hidden when v67 locked");
+  assert.strictEqual(entryBtn2.hidden, true, "v68 entry button hidden when v67 locked");
+}
+
+/* ---------- v69 死后人口普查 / THE DEAD COUNT WHETHER YOU WERE BORN ---------- */
+
+const V69_SOURCE_HASHES = {
+  "design-references/source-v69-posthumous-census-hall.png": "e9ca7ac6d487411cd833e44bb484d05cee71dd9b41b34bc9197276239ff90a11",
+  "design-references/source-v69-contradictory-evidence-archive.png": "fedf01fd2387012b2e48fa21baf45ece05477d49e786543c4684d451344315d5",
+  "design-references/source-v69-birth-ballot-booth.png": "c1398a84d3b65f2daa62cf9b916512ab27f453a03d42020fb7f3a6c3370b1996",
+  "design-references/source-v69-population-nullification-court.png": "b1ec53a4c15b297ad8adcaf7702301e43222e34bc56b0134b4f5a1167758b0b2",
+};
+const V69_SOURCE_SIZES = {
+  "design-references/source-v69-posthumous-census-hall.png": 2763877,
+  "design-references/source-v69-contradictory-evidence-archive.png": 2358950,
+  "design-references/source-v69-birth-ballot-booth.png": 2374547,
+  "design-references/source-v69-population-nullification-court.png": 2523596,
+};
+const V69_WEBP_HASHES = {
+  "assets/v69-posthumous-census-hall.webp": "64f43455e580b904e9b64971264fab69879dd1501a9633c2c6b49b4fb310c975",
+  "assets/v69-contradictory-evidence-archive.webp": "eb19d4614995fd3ad51b3eb9a4dcb8e5e499b0e85ed9a86d555c5f42232337a5",
+  "assets/v69-birth-ballot-booth.webp": "66ad663741337486942b89d62c2e29bbf683e5dc24fa6d740e25ea8b0dd3b816",
+  "assets/v69-population-nullification-court.webp": "4d53bc82252683b6c92e6a4175c12c37a860ce40e89f469f25af05a1e66519e7",
+};
+const V69_WEBP_SIZES = {
+  "assets/v69-posthumous-census-hall.webp": 282154,
+  "assets/v69-contradictory-evidence-archive.webp": 197288,
+  "assets/v69-birth-ballot-booth.webp": 196562,
+  "assets/v69-population-nullification-court.webp": 233442,
+};
+
+/* 四张 source PNG 冻结 */
+for (const [src, hash] of Object.entries(V69_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(src, root));
+  assert.equal(buf.length, V69_SOURCE_SIZES[src], `${src} must keep its frozen byte size`);
+  assert.equal(createHash("sha256").update(buf).digest("hex"), hash, `${src} must keep its frozen sha256`);
+}
+
+/* 四张运行时 WebP 冻结 */
+for (const [asset, hash] of Object.entries(V69_WEBP_HASHES)) {
+  const buf = await readFile(new URL(asset, root));
+  assert.equal(buf.length, V69_WEBP_SIZES[asset], `${asset} must keep its frozen byte size`);
+  assert.equal(createHash("sha256").update(buf).digest("hex"), hash, `${asset} must keep its frozen sha256`);
+  const dims = readWebpDimensions(buf);
+  assert.ok(dims, `${asset} must be a readable WebP`);
+  assert.equal(dims.width, 1536, `${asset} must be 1536 px wide`);
+  assert.equal(dims.height, 1024, `${asset} must be 1024 px tall`);
+  assert.ok(html.includes(asset), `${asset} must be referenced`);
+}
+for (const asset of Object.keys(V69_WEBP_HASHES)) {
+  assert.match(html, new RegExp(`<link rel="preload" href="${asset.replace(".", "\\.")}" as="image">`), `${asset} must be preloaded`);
+}
+
+/* 四场景 DOM */
+for (const s of ["posthumous-census-hall", "contradictory-evidence-archive", "birth-ballot-booth", "population-nullification-court"]) {
+  assert.match(html, new RegExp(`data-scene="${s}"`), `v69 scene missing: ${s}`);
+}
+
+/* figure 与热点 ID */
+assert.match(html, /id="posthumous-census-hall-figure"/);
+for (const e of ["departed", "living", "unborn"]) {
+  assert.match(html, new RegExp(`id="posthumous-census-electorate-${e}"`), `missing electorate ${e}`);
+}
+assert.match(html, /id="posthumous-census-archive-figure"/);
+for (const v of ["birth-certificate", "other-memories", "blank-register"]) {
+  assert.match(html, new RegExp(`id="posthumous-census-evidence-${v}"`), `missing evidence ${v}`);
+}
+assert.match(html, /id="posthumous-census-booth-figure"/);
+for (const r of ["count-born", "count-never-born", "assign-elsewhere"]) {
+  assert.match(html, new RegExp(`id="posthumous-census-verdict-${r}"`), `missing verdict ${r}`);
+}
+assert.match(html, /id="posthumous-census-nullification-figure"/);
+for (const a of ["ratify-birth", "remove-visitor", "enfranchise-blank"]) {
+  assert.match(html, new RegExp(`id="posthumous-census-nullification-${a}"`), `missing nullification action ${a}`);
+}
+
+/* 三处普查传票容器与返回按钮 */
+for (const s of ["lifetime-pawn-vault", "generational-credit-office", "mortality-clearing-house"]) {
+  assert.match(html, new RegExp(`id="posthumous-census-summons-${s}"`), `missing summons container ${s}`);
+  assert.match(html, new RegExp(`id="posthumous-census-summons-return-${s}"`), `missing summons return ${s}`);
+  assert.match(html, new RegExp(`id="posthumous-census-summons-response-${s}"`), `missing summons response ${s}`);
+}
+
+/* Remembrance 入口、记忆、图鉴 */
+assert.match(html, /id="posthumous-census-entry-btn"/);
+assert.match(html, /id="posthumous-census-nullification-entry-btn"/);
+assert.match(html, /id="posthumous-census-memory"/);
+assert.match(html, /id="posthumous-census-codex"/);
+assert.match(html, /id="posthumous-census-codex-grid"/);
+assert.match(html, /id="posthumous-census-codex-entry"/);
+assert.match(html, /id="posthumous-census-entry-response"/);
+assert.match(html, /id="posthumous-census-nullification-entry-response"/);
+assert.match(html, /让死者重新统计你的出生/);
+assert.match(html, /让三册人口互相注销/);
+
+/* 四目录链接 */
+for (const id of ["posthumous-census-hall-link", "posthumous-census-archive-link", "posthumous-census-booth-link", "posthumous-census-nullification-link"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `missing directory link ${id}`);
+}
+
+/* JS 模块存在与边界 */
+assert.equal((js.match(/const POSTHUMOUS_CENSUS_KEY = ['"]goddead_v69_posthumous_census['"]/g) || []).length, 1, "v69 introduces exactly one storage key");
+const v69ModuleBlock = js.match(/v69 死后人口普查 \/ THE DEAD COUNT WHETHER YOU WERE BORN[\s\S]*?v70 亡者议会 \/ PARLIAMENT OF THE DEAD/);
+assert.ok(v69ModuleBlock, "v69 module must exist");
+
+/* savePosthumousCensus 持久化十一键 */
+const savePosthumousCensusBlock = js.match(/const savePosthumousCensus = \(st\) => \{[\s\S]*?store\.set\(\s*POSTHUMOUS_CENSUS_KEY,\s*JSON\.stringify\(\{[\s\S]*?\}\)\s*\);/);
+assert.ok(savePosthumousCensusBlock, "savePosthumousCensus must persist an explicit canonical projection");
+for (const f of ["version", "visited", "draft", "records", "nullificationOutcomes", "ballotRuns", "nullificationRuns", "tallies", "lastOutcome", "activeSummons", "pending"]) {
+  assert.match(savePosthumousCensusBlock[0], new RegExp(`\\b${f}\\b`), `savePosthumousCensus persists ${f}`);
+}
+
+/* 规范化函数 */
+assert.match(js, /const normalizePosthumousCensusRecords = \(records\) => \{[\s\S]*?POSTHUMOUS_CENSUS_RECORD_IDS/, "normalizePosthumousCensusRecords sorts by POSTHUMOUS_CENSUS_RECORD_IDS");
+assert.match(js, /const normalizeNullificationOutcomes = \(arr\) => \{[\s\S]*?NULLIFICATION_ACTIONS\.map\(\(a\) => NULLIFICATION_TABLE\[a\]\.outcome\)/, "normalizeNullificationOutcomes sorts by NULLIFICATION_ACTIONS order");
+const normalizePosthumousCensusPendingBlock = js.match(/const normalizePosthumousCensusPending = \(p, st\) => \{[\s\S]*?\n  \};/);
+assert.ok(normalizePosthumousCensusPendingBlock, "normalizePosthumousCensusPending must exist");
+assert.match(normalizePosthumousCensusPendingBlock[0], /st\._v69unlocked === true/, "pending normalization uses passed _v69unlocked, not storage");
+assert.match(normalizePosthumousCensusPendingBlock[0], /p\.kind === 'entry' && keys === 'feedback,kind,target'/, "entry pending accepts exactly three whitelisted keys");
+assert.match(normalizePosthumousCensusPendingBlock[0], /p\.kind === 'electorate' && keys === 'electorate,feedback,kind,source,target'/, "electorate pending accepts exactly five whitelisted keys");
+assert.match(normalizePosthumousCensusPendingBlock[0], /p\.kind === 'evidence' && keys === 'electorate,evidence,feedback,kind,source,target'/, "evidence pending accepts exactly six whitelisted keys");
+assert.match(normalizePosthumousCensusPendingBlock[0], /p\.kind === 'ballot' && keys === 'electorate,evidence,feedback,kind,outcome,source,target,verdict'/, "ballot pending accepts exactly eight whitelisted keys");
+assert.match(normalizePosthumousCensusPendingBlock[0], /p\.kind === 'summons-return' && keys === 'feedback,from,kind,record,target'/, "summons-return pending accepts exactly five whitelisted keys");
+assert.match(normalizePosthumousCensusPendingBlock[0], /p\.kind === 'nullification-entry' && keys === 'feedback,kind,target'/, "nullification-entry pending accepts exactly three whitelisted keys");
+assert.match(normalizePosthumousCensusPendingBlock[0], /p\.kind === 'nullification' && keys === 'action,feedback,kind,outcome,source,target'/, "nullification pending accepts exactly six whitelisted keys");
+
+/* 解锁资格只读 v68 状态 */
+assert.match(js, /const posthumousCensusUnlocked = \(\) => \{[\s\S]*?getGenerationLoans\(\)/, "posthumousCensusUnlocked reads getGenerationLoans");
+assert.match(js, /generationLoansUnlocked\(\)/, "posthumousCensusUnlocked checks v68 unlock");
+assert.match(js, /LOANS_REQUIRED_FOR_CENSUS/, "posthumousCensusUnlocked checks v68 coverage and foreclosure outcomes");
+
+/* 覆盖完成检查 */
+assert.match(js, /const censusCoverageComplete = \(st\) => \{[\s\S]*?electorates\.size === 3 && evidences\.size === 3 && verdicts\.size === 3/, "censusCoverageComplete checks full coverage");
+
+/* 17 组 isTrusted 防线 */
+const v69ListenerBlock = js.match(/const posthumousCensusEntryBtn = \$\('#posthumous-census-entry-btn'\);[\s\S]*?v70 亡者议会 \/ PARLIAMENT OF THE DEAD/);
+assert.ok(v69ListenerBlock, "v69 click listener block must exist");
+assert.equal((v69ListenerBlock[0].match(/!e\.isTrusted/g) || []).length, 17, "v69 must guard all seventeen click listeners with isTrusted");
+
+/* v69 不读写旧 key */
+assert.ok(!v69ModuleBlock[0].includes("saveGenerationLoans("), "v69 never calls saveGenerationLoans");
+assert.ok(!/store\.set\(GENERATION_LOANS_KEY/.test(v69ModuleBlock[0]), "v69 never writes the v68 generation loans key");
+assert.ok(!/goddead_v(28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59|60|61|62|63|64|65|66|67|68)/.test(v69ModuleBlock[0]), "v69 state must not touch earlier keys");
+
+/* forget-all 清 v69 key */
+assert.match(forgetBlock[0], /localStorage\.removeItem\(["']goddead_v69_posthumous_census["']\)/, "forget-all removes the v69 storage key");
+
+/* 窄屏热点尺寸与溢出 */
+const posthumousCensusMobileBlock = css.match(/@media \(max-width: 720px\) \{[\s\S]*?\.posthumous-census-hotspot[\s\S]*?\n  \}/);
+assert.ok(posthumousCensusMobileBlock, "posthumous census mobile block exists");
+assert.match(posthumousCensusMobileBlock[0], /min-width:\s*44px/, "posthumous census mobile hotspot min-width >= 44px");
+assert.match(posthumousCensusMobileBlock[0], /min-height:\s*44px/, "posthumous census mobile hotspot min-height >= 44px");
+
+/* v69 设计文档存在且冻结哈希 */
+const v69doc = await fileText("docs/V69PosthumousCensusDesign.md");
+for (const hash of Object.values(V69_SOURCE_HASHES)) {
+  assert.ok(v69doc.includes(hash), "V69 design doc must freeze the source sha256 values");
+}
+for (const hash of Object.values(V69_WEBP_HASHES)) {
+  assert.ok(v69doc.includes(hash), "V69 design doc must freeze the WebP sha256 values");
+}
+assert.match(v69doc, /1536×1024/, "V69 design doc documents 1536×1024 dimensions");
+
+/* ---------- v69 可执行/隔离状态回归测试 ---------- */
+assert.ok(v69ModuleBlock, "v69 executable block available for regression tests");
+const v69ExecSourceStart = v69ModuleBlock[0].indexOf("const POSTHUMOUS_CENSUS_KEY");
+assert.ok(v69ExecSourceStart > 0, "v69 executable block starts with POSTHUMOUS_CENSUS_KEY");
+const v70MarkerStart = v69ModuleBlock[0].indexOf("v70 亡者议会 / PARLIAMENT OF THE DEAD");
+assert.ok(v70MarkerStart > v69ExecSourceStart, "v69 executable block ends before v70 section");
+const v69ExecSourceEnd = v69ModuleBlock[0].lastIndexOf("/*", v70MarkerStart);
+const v69ExecSource = v69ModuleBlock[0].slice(v69ExecSourceStart, v69ExecSourceEnd > v69ExecSourceStart ? v69ExecSourceEnd : v70MarkerStart).trimEnd();
+
+const POSTHUMOUS_CENSUS_KEY = "goddead_v69_posthumous_census";
+const allV68GenerationLoans = [
+  "past:years:childhood-interest", "past:years:birth-payment", "past:years:descendant-rollover",
+  "past:death-date:childhood-interest", "past:death-date:birth-payment", "past:death-date:descendant-rollover",
+  "past:funeral:childhood-interest", "past:funeral:birth-payment", "past:funeral:descendant-rollover",
+  "present:years:childhood-interest", "present:years:birth-payment", "present:years:descendant-rollover",
+  "present:death-date:childhood-interest", "present:death-date:birth-payment", "present:death-date:descendant-rollover",
+  "present:funeral:childhood-interest", "present:funeral:birth-payment", "present:funeral:descendant-rollover",
+  "future:years:childhood-interest", "future:years:birth-payment", "future:years:descendant-rollover",
+  "future:death-date:childhood-interest", "future:death-date:birth-payment", "future:death-date:descendant-rollover",
+  "future:funeral:childhood-interest", "future:funeral:birth-payment", "future:funeral:descendant-rollover",
+];
+const allV68ForeclosureOutcomes = ["the-present-was-repossessed", "death-declared-bankruptcy", "the-funeral-inherited-the-family"];
+const coverageRecords = ["departed:birth-certificate:count-born", "living:other-memories:count-never-born", "unborn:blank-register:assign-elsewhere"];
+
+function makePosthumousCensusBtn({ disabled = false, hidden = false } = {}) {
+  return {
+    disabled,
+    hidden,
+    setAttribute() {},
+    removeAttribute() {},
+    closest: () => null,
+    addEventListener() {},
+  };
+}
+
+function makeV69Context({
+  initialStore = {},
+  elements = {},
+  scene = "",
+  v68unlocked = true,
+  getGenerationLoans: getGenerationLoansOverride,
+} = {}) {
+  const storeData = { ...initialStore };
+  const store = {
+    get(k, def) { return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def; },
+    set(k, v) { storeData[k] = v; },
+  };
+  const queries = [];
+  const $ = (rawId) => { queries.push(rawId); return elements[rawId.replace(/^#/, "")] || null; };
+  const scheduleCalls = [];
+  const AutoAdvance = { has(src) { return false; }, schedule(src, target, opts) { scheduleCalls.push({ src, target, opts }); } };
+  const AudioEngine = { whoosh() {}, bell() {} };
+  const getGenerationLoans = getGenerationLoansOverride || (() => ({
+    loans: v68unlocked ? allV68GenerationLoans : [],
+    foreclosureOutcomes: v68unlocked ? allV68ForeclosureOutcomes : [],
+  }));
+  const generationLoansUnlocked = () => v68unlocked;
+  const buttonAvailable = (id) => {
+    const btn = $(`#${id}`);
+    if (!btn || btn.disabled || btn.hidden) return false;
+    if (typeof btn.closest === "function" && btn.closest("[hidden]")) return false;
+    return true;
+  };
+  const document = {
+    createElement(tag) {
+      return { tagName: tag, className: "", innerHTML: "", textContent: "", setAttribute() {}, appendChild() {}, removeAttribute() {} };
+    },
+  };
+  const body = v69ExecSource + "\nreturn { POSTHUMOUS_CENSUS_KEY, POSTHUMOUS_CENSUS_RECORD_IDS, POSTHUMOUS_CENSUS_RECORD_SET, ELECTORATES, EVIDENCES, VERDICTS, NULLIFICATION_ACTIONS, SCENE_FOR_ELECTORATE, ELECTORATE_TABLE, EVIDENCE_TABLE, VERDICT_TABLE, NULLIFICATION_TABLE, POSTHUMOUS_CENSUS_ENTRY_FEEDBACK, POSTHUMOUS_CENSUS_NULLIFICATION_ENTRY_FEEDBACK, POSTHUMOUS_CENSUS_SUMMONS_RETURN_FEEDBACK, getPosthumousCensus, savePosthumousCensus, defaultPosthumousCensus, normalizePosthumousCensusRecords, normalizeNullificationOutcomes, normalizePosthumousCensusPending, posthumousCensusUnlocked, censusCoverageComplete, computeCensusMajority, computeCensusRecordId, computeCensusRecordTitle, computeCensusRecordFeedback, findCensusRecordById, computeNullificationOutcomeId, choosePosthumousCensusElectorate, choosePosthumousCensusEvidence, choosePosthumousCensusVerdict, choosePosthumousCensusSummonsReturn, choosePosthumousCensusEntry, choosePosthumousCensusNullificationEntry, choosePosthumousCensusNullificationAction, replayPosthumousCensusPending, resolvePosthumousCensusPendingOnArrival, lockPosthumousCensusElectorateButtons, lockPosthumousCensusEvidenceButtons, lockPosthumousCensusVerdictButtons, lockPosthumousCensusNullificationButtons, paintPosthumousCensusMemory, paintPosthumousCensusCodex, syncPosthumousCensusRemembrance };";
+  const v69 = new Function("store", "$", "currentScene", "AutoAdvance", "AudioEngine", "reduced", "getGenerationLoans", "generationLoansUnlocked", "buttonAvailable", "document", body)(store, $, scene, AutoAdvance, AudioEngine, false, getGenerationLoans, generationLoansUnlocked, buttonAvailable, document);
+  const read = () => {
+    try { return JSON.parse(storeData[POSTHUMOUS_CENSUS_KEY] || "{}") } catch { return {}; }
+  };
+  return { v69, storeData, read, queries, scheduleCalls };
+}
+
+// 27 record IDs 唯一且固定顺序
+{
+  const ctx = makeV69Context({ v68unlocked: true });
+  assert.equal(ctx.v69.POSTHUMOUS_CENSUS_RECORD_IDS.length, 27, "exactly 27 census record ids");
+  assert.equal(ctx.v69.POSTHUMOUS_CENSUS_RECORD_SET.size, 27, "27 census record ids are unique");
+  const expectedIds = [];
+  for (const e of ctx.v69.ELECTORATES) {
+    for (const v of ctx.v69.EVIDENCES) {
+      for (const r of ctx.v69.VERDICTS) {
+        expectedIds.push(`${e}:${v}:${r}`);
+      }
+    }
+  }
+  assert.deepStrictEqual(ctx.v69.POSTHUMOUS_CENSUS_RECORD_IDS, expectedIds, "record ids follow ELECTORATES × EVIDENCES × VERDICTS order");
+}
+
+// computeCensusRecordTitle/feedback 确定性
+{
+  const ctx = makeV69Context({ v68unlocked: true });
+  const t1 = ctx.v69.computeCensusRecordTitle("departed", "birth-certificate", "count-born");
+  const t2 = ctx.v69.computeCensusRecordTitle("departed", "birth-certificate", "count-born");
+  assert.strictEqual(t1, t2, "computeCensusRecordTitle is deterministic");
+  assert.ok(t1.includes("逝代"), "title includes electorate fragment");
+  assert.ok(t1.includes("出生证"), "title includes evidence fragment");
+  assert.ok(t1.includes("已出生"), "title includes verdict fragment");
+  const fb = ctx.v69.computeCensusRecordFeedback("departed", "birth-certificate", "count-born");
+  assert.ok(fb.includes("逝代从坟内举手"), "feedback includes electorate narrative");
+  assert.ok(fb.includes("出生证明没有一个可读字符"), "feedback includes evidence narrative");
+  assert.ok(fb.includes("这一票把你计作已经出生"), "feedback includes verdict narrative");
+}
+
+// normalizePosthumousCensusRecords 拒绝非法、去重、排序
+{
+  const ctx = makeV69Context({ v68unlocked: true });
+  const out = ctx.v69.normalizePosthumousCensusRecords([
+    "living:other-memories:count-never-born",
+    "departed:birth-certificate:count-born",
+    "departed:birth-certificate:count-born",
+    "invalid:foo:bar",
+    "unborn:blank-register:assign-elsewhere",
+  ]);
+  assert.deepStrictEqual(out, ["departed:birth-certificate:count-born", "living:other-memories:count-never-born", "unborn:blank-register:assign-elsewhere"], "records are deduped and ordered by frozen table");
+}
+
+// normalizeNullificationOutcomes 排序
+{
+  const ctx = makeV69Context({ v68unlocked: true });
+  const out = ctx.v69.normalizeNullificationOutcomes(["blank-register-became-citizen", "birth-ratified-after-death", "visitor-removed-from-population"]);
+  assert.deepStrictEqual(out, ["birth-ratified-after-death", "visitor-removed-from-population", "blank-register-became-citizen"], "nullification outcomes follow NULLIFICATION_ACTIONS order");
+}
+
+// 坏类型安全归空
+{
+  const ctx = makeV69Context({ v68unlocked: true });
+  assert.deepStrictEqual(ctx.v69.normalizePosthumousCensusRecords("not-an-array"), [], "string records normalized to empty");
+  assert.deepStrictEqual(ctx.v69.normalizePosthumousCensusRecords({ foo: true }), [], "object records normalized to empty");
+  assert.deepStrictEqual(ctx.v69.normalizeNullificationOutcomes("not-an-array"), [], "string nullification outcomes normalized to empty");
+  assert.deepStrictEqual(ctx.v69.normalizeNullificationOutcomes(12345), [], "number nullification outcomes normalized to empty");
+}
+
+// 七类 strict pending 白名单
+{
+  const ctx = makeV69Context({ v68unlocked: true });
+  const baseSt = ctx.v69.defaultPosthumousCensus();
+  baseSt._v69unlocked = true;
+  baseSt.draft = { electorate: "", evidence: "" };
+  baseSt.visited.nullification = true;
+
+  assert.ok(ctx.v69.normalizePosthumousCensusPending({ kind: "entry", target: "posthumous-census-hall", feedback: ctx.v69.POSTHUMOUS_CENSUS_ENTRY_FEEDBACK }, baseSt), "legal entry pending accepted");
+  assert.strictEqual(ctx.v69.normalizePosthumousCensusPending({ kind: "entry", target: "contradictory-evidence-archive", feedback: ctx.v69.POSTHUMOUS_CENSUS_ENTRY_FEEDBACK }, baseSt), null, "entry with wrong target rejected");
+  assert.strictEqual(ctx.v69.normalizePosthumousCensusPending({ kind: "entry", target: "posthumous-census-hall", feedback: ctx.v69.POSTHUMOUS_CENSUS_ENTRY_FEEDBACK, extra: 1 }, baseSt), null, "entry with extra key rejected");
+
+  assert.ok(ctx.v69.normalizePosthumousCensusPending({ kind: "electorate", source: "posthumous-census-hall", electorate: "departed", target: "contradictory-evidence-archive", feedback: ctx.v69.ELECTORATE_TABLE.departed.feedback }, baseSt), "legal electorate pending accepted");
+  baseSt.draft = { electorate: "departed", evidence: "birth-certificate" };
+  assert.strictEqual(ctx.v69.normalizePosthumousCensusPending({ kind: "electorate", source: "posthumous-census-hall", electorate: "departed", target: "contradictory-evidence-archive", feedback: ctx.v69.ELECTORATE_TABLE.departed.feedback }, baseSt), null, "electorate rejected when draft has evidence");
+
+  baseSt.draft = { electorate: "departed", evidence: "" };
+  assert.ok(ctx.v69.normalizePosthumousCensusPending({ kind: "evidence", source: "contradictory-evidence-archive", electorate: "departed", evidence: "birth-certificate", target: "birth-ballot-booth", feedback: ctx.v69.EVIDENCE_TABLE["birth-certificate"].feedback }, baseSt), "legal evidence pending accepted");
+  assert.strictEqual(ctx.v69.normalizePosthumousCensusPending({ kind: "evidence", source: "contradictory-evidence-archive", electorate: "living", evidence: "birth-certificate", target: "birth-ballot-booth", feedback: ctx.v69.EVIDENCE_TABLE["birth-certificate"].feedback }, baseSt), null, "evidence rejected when electorate mismatches draft");
+
+  baseSt.draft = { electorate: "departed", evidence: "birth-certificate" };
+  const recordFb = ctx.v69.computeCensusRecordFeedback("departed", "birth-certificate", "count-born");
+  assert.ok(ctx.v69.normalizePosthumousCensusPending({ kind: "ballot", source: "birth-ballot-booth", electorate: "departed", evidence: "birth-certificate", verdict: "count-born", outcome: "departed:birth-certificate:count-born", target: "lifetime-pawn-vault", feedback: recordFb }, baseSt), "legal ballot pending accepted");
+  assert.strictEqual(ctx.v69.normalizePosthumousCensusPending({ kind: "ballot", source: "birth-ballot-booth", electorate: "departed", evidence: "birth-certificate", verdict: "count-born", outcome: "departed:birth-certificate:count-never-born", target: "lifetime-pawn-vault", feedback: recordFb }, baseSt), null, "ballot rejected when outcome mismatches");
+
+  baseSt.activeSummons = { electorate: "departed", record: "departed:birth-certificate:count-born", feedback: recordFb };
+  baseSt.records = ["departed:birth-certificate:count-born"];
+  assert.ok(ctx.v69.normalizePosthumousCensusPending({ kind: "summons-return", from: "lifetime-pawn-vault", target: "posthumous-census-hall", record: "departed:birth-certificate:count-born", feedback: ctx.v69.POSTHUMOUS_CENSUS_SUMMONS_RETURN_FEEDBACK }, baseSt), "legal summons-return pending accepted");
+  assert.strictEqual(ctx.v69.normalizePosthumousCensusPending({ kind: "summons-return", from: "generational-credit-office", target: "posthumous-census-hall", record: "departed:birth-certificate:count-born", feedback: ctx.v69.POSTHUMOUS_CENSUS_SUMMONS_RETURN_FEEDBACK }, baseSt), null, "summons-return rejected when from mismatches activeSummons electorate");
+
+  baseSt.records = coverageRecords;
+  assert.ok(ctx.v69.normalizePosthumousCensusPending({ kind: "nullification-entry", target: "population-nullification-court", feedback: ctx.v69.POSTHUMOUS_CENSUS_NULLIFICATION_ENTRY_FEEDBACK }, baseSt), "legal nullification-entry pending accepted");
+
+  assert.ok(ctx.v69.normalizePosthumousCensusPending({ kind: "nullification", source: "population-nullification-court", action: "ratify-birth", outcome: "birth-ratified-after-death", target: "threshold", feedback: ctx.v69.NULLIFICATION_TABLE["ratify-birth"].feedback }, baseSt), "legal nullification pending accepted");
+  assert.strictEqual(ctx.v69.normalizePosthumousCensusPending({ kind: "nullification", source: "population-nullification-court", action: "ratify-birth", outcome: "birth-ratified-after-death", target: "threshold", feedback: ctx.v69.NULLIFICATION_TABLE["ratify-birth"].feedback }, { ...baseSt, visited: { ...baseSt.visited, nullification: false } }), null, "nullification rejected when nullification not visited");
+}
+
+// source/target/else reload 矩阵
+{
+  const ctx = makeV69Context({ v68unlocked: true, scene: "remembrance" });
+  const pending = { kind: "entry", target: "posthumous-census-hall", feedback: ctx.v69.POSTHUMOUS_CENSUS_ENTRY_FEEDBACK };
+  ctx.v69.savePosthumousCensus({ ...ctx.v69.defaultPosthumousCensus(), pending });
+  ctx.v69.replayPosthumousCensusPending("remembrance");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "entry source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].src, "remembrance", "entry source reload schedules from remembrance");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "posthumous-census-hall", "entry source reload schedules to hall");
+}
+{
+  const ctx = makeV69Context({ v68unlocked: true, scene: "posthumous-census-hall" });
+  const pending = { kind: "electorate", source: "posthumous-census-hall", electorate: "departed", target: "contradictory-evidence-archive", feedback: ctx.v69.ELECTORATE_TABLE.departed.feedback };
+  ctx.v69.savePosthumousCensus({ ...ctx.v69.defaultPosthumousCensus(), draft: { electorate: "", evidence: "" }, pending });
+  ctx.v69.replayPosthumousCensusPending("posthumous-census-hall");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "electorate source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].src, "posthumous-census-hall", "electorate source reload schedules from hall");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "contradictory-evidence-archive", "electorate source reload schedules to archive");
+}
+{
+  const ctx = makeV69Context({ v68unlocked: true, scene: "contradictory-evidence-archive" });
+  const pending = { kind: "evidence", source: "contradictory-evidence-archive", electorate: "departed", evidence: "birth-certificate", target: "birth-ballot-booth", feedback: ctx.v69.EVIDENCE_TABLE["birth-certificate"].feedback };
+  ctx.v69.savePosthumousCensus({ ...ctx.v69.defaultPosthumousCensus(), draft: { electorate: "departed", evidence: "" }, pending });
+  ctx.v69.replayPosthumousCensusPending("contradictory-evidence-archive");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "evidence source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "birth-ballot-booth", "evidence source reload schedules to booth");
+}
+{
+  const ctx = makeV69Context({ v68unlocked: true, scene: "birth-ballot-booth" });
+  const recordFb = ctx.v69.computeCensusRecordFeedback("departed", "birth-certificate", "count-born");
+  const pending = { kind: "ballot", source: "birth-ballot-booth", electorate: "departed", evidence: "birth-certificate", verdict: "count-born", outcome: "departed:birth-certificate:count-born", target: "lifetime-pawn-vault", feedback: recordFb };
+  ctx.v69.savePosthumousCensus({ ...ctx.v69.defaultPosthumousCensus(), draft: { electorate: "departed", evidence: "birth-certificate" }, pending });
+  ctx.v69.replayPosthumousCensusPending("birth-ballot-booth");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "ballot source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "lifetime-pawn-vault", "ballot source reload schedules to electorate target");
+}
+{
+  const ctx = makeV69Context({ v68unlocked: true, scene: "remembrance" });
+  const pending = { kind: "nullification-entry", target: "population-nullification-court", feedback: ctx.v69.POSTHUMOUS_CENSUS_NULLIFICATION_ENTRY_FEEDBACK };
+  ctx.v69.savePosthumousCensus({ ...ctx.v69.defaultPosthumousCensus(), records: coverageRecords, pending });
+  ctx.v69.replayPosthumousCensusPending("remembrance");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "nullification-entry source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "population-nullification-court", "nullification-entry source reload schedules to court");
+}
+{
+  const ctx = makeV69Context({ v68unlocked: true, scene: "population-nullification-court" });
+  const pending = { kind: "nullification", source: "population-nullification-court", action: "remove-visitor", outcome: "visitor-removed-from-population", target: "remembrance", feedback: ctx.v69.NULLIFICATION_TABLE["remove-visitor"].feedback };
+  ctx.v69.savePosthumousCensus({ ...ctx.v69.defaultPosthumousCensus(), records: coverageRecords, visited: { hall: true, archive: true, booth: true, nullification: true }, pending });
+  ctx.v69.replayPosthumousCensusPending("population-nullification-court");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "nullification source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "remembrance", "nullification source reload schedules to target");
+}
+{
+  for (const scene of ["lifetime-pawn-vault", "generational-credit-office", "mortality-clearing-house"]) {
+    const container = { hidden: true, setAttribute() {}, removeAttribute() {}, closest: () => null, addEventListener() {} };
+    const response = { textContent: "", setAttribute() {}, removeAttribute() {}, closest: () => null, addEventListener() {} };
+    const btn = { disabled: false, hidden: false, pressed: null, setAttribute(name, value) { if (name === "aria-pressed") this.pressed = value; }, removeAttribute() {}, closest: () => null, addEventListener() {} };
+    const electorate = scene === "lifetime-pawn-vault" ? "departed" : scene === "generational-credit-office" ? "living" : "unborn";
+    const recordId = `${electorate}:birth-certificate:count-born`;
+    const elements = {
+      [`posthumous-census-summons-${scene}`]: container,
+      [`posthumous-census-summons-response-${scene}`]: response,
+      [`posthumous-census-summons-return-${scene}`]: btn,
+    };
+    const ctx = makeV69Context({ v68unlocked: true, scene, elements });
+    const recordFb = ctx.v69.computeCensusRecordFeedback(electorate, "birth-certificate", "count-born");
+    const pending = { kind: "summons-return", from: scene, target: "posthumous-census-hall", record: recordId, feedback: ctx.v69.POSTHUMOUS_CENSUS_SUMMONS_RETURN_FEEDBACK };
+    ctx.v69.savePosthumousCensus({ ...ctx.v69.defaultPosthumousCensus(), records: [recordId], activeSummons: { electorate, record: recordId, feedback: recordFb }, pending });
+    ctx.v69.replayPosthumousCensusPending(scene);
+    assert.strictEqual(container.hidden, false, `summons-return ${scene} container shown`);
+    assert.strictEqual(response.textContent, ctx.v69.POSTHUMOUS_CENSUS_SUMMONS_RETURN_FEEDBACK, `summons-return ${scene} response verbatim`);
+    assert.strictEqual(btn.disabled, true, `summons-return ${scene} return disabled`);
+    assert.strictEqual(String(btn.pressed), "true", `summons-return ${scene} return pressed`);
+    assert.strictEqual(ctx.scheduleCalls.length, 1, `summons-return ${scene} schedules once`);
+    assert.strictEqual(ctx.scheduleCalls[0].target, "posthumous-census-hall", `summons-return ${scene} schedules to hall`);
+  }
+}
+
+// target 到达结算一次
+{
+  const ctx = makeV69Context({ v68unlocked: true });
+  const recordFb = ctx.v69.computeCensusRecordFeedback("departed", "birth-certificate", "count-born");
+  const pending = { kind: "ballot", source: "birth-ballot-booth", electorate: "departed", evidence: "birth-certificate", verdict: "count-born", outcome: "departed:birth-certificate:count-born", target: "lifetime-pawn-vault", feedback: recordFb };
+  ctx.v69.savePosthumousCensus({ ...ctx.v69.defaultPosthumousCensus(), draft: { electorate: "departed", evidence: "birth-certificate" }, pending });
+  ctx.v69.resolvePosthumousCensusPendingOnArrival("lifetime-pawn-vault");
+  const st = ctx.read();
+  assert.deepStrictEqual(st.records, ["departed:birth-certificate:count-born"], "target arrival records the ballot");
+  assert.strictEqual(st.ballotRuns, 1, "target arrival increments ballotRuns once");
+  assert.strictEqual(st.tallies.born, 1, "target arrival increments born tally by 1");
+  assert.strictEqual(st.pending, null, "target arrival clears pending");
+  assert.strictEqual(ctx.scheduleCalls.length, 0, "target arrival does not schedule");
+}
+
+// else 场景清伪造 pending
+{
+  const ctx = makeV69Context({ v68unlocked: true, scene: "protocol" });
+  const pending = { kind: "electorate", source: "posthumous-census-hall", electorate: "departed", target: "contradictory-evidence-archive", feedback: ctx.v69.ELECTORATE_TABLE.departed.feedback };
+  ctx.v69.savePosthumousCensus({ ...ctx.v69.defaultPosthumousCensus(), draft: { electorate: "", evidence: "" }, pending });
+  ctx.v69.replayPosthumousCensusPending("protocol");
+  assert.strictEqual(ctx.read().pending ?? null, null, "else scene clears pending");
+  assert.strictEqual(ctx.scheduleCalls.length, 0, "else scene does not schedule");
+}
+
+// choose 函数尊重 disabled/hidden/figure-hidden
+{
+  const ctx = makeV69Context({ v68unlocked: true, scene: "posthumous-census-hall" });
+  ctx.v69.choosePosthumousCensusElectorate("departed");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled electorate button blocks choice");
+
+  const ctx2 = makeV69Context({ v68unlocked: true, scene: "posthumous-census-hall", elements: { "posthumous-census-electorate-departed": makePosthumousCensusBtn({ hidden: true }) } });
+  ctx2.v69.choosePosthumousCensusElectorate("departed");
+  assert.strictEqual(ctx2.read().pending ?? null, null, "hidden electorate button blocks choice");
+
+  const ctx3 = makeV69Context({ v68unlocked: true, scene: "posthumous-census-hall", elements: { "posthumous-census-electorate-departed": makePosthumousCensusBtn() } });
+  ctx3.v69.choosePosthumousCensusElectorate("departed");
+  assert.strictEqual(ctx3.read().pending?.kind, "electorate", "enabled visible electorate button allows choice");
+}
+{
+  const ctx = makeV69Context({ v68unlocked: true, scene: "contradictory-evidence-archive", elements: { "posthumous-census-evidence-birth-certificate": makePosthumousCensusBtn({ disabled: true }), "posthumous-census-archive-figure": makePosthumousCensusBtn() } });
+  ctx.v69.savePosthumousCensus({ ...ctx.v69.defaultPosthumousCensus(), draft: { electorate: "departed", evidence: "" } });
+  ctx.v69.choosePosthumousCensusEvidence("birth-certificate");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled evidence button blocks choice");
+
+  const ctx2 = makeV69Context({ v68unlocked: true, scene: "contradictory-evidence-archive", elements: { "posthumous-census-evidence-birth-certificate": makePosthumousCensusBtn(), "posthumous-census-archive-figure": makePosthumousCensusBtn() } });
+  ctx2.v69.savePosthumousCensus({ ...ctx2.v69.defaultPosthumousCensus(), draft: { electorate: "departed", evidence: "" } });
+  ctx2.v69.choosePosthumousCensusEvidence("birth-certificate");
+  assert.strictEqual(ctx2.read().pending?.kind, "evidence", "enabled visible evidence button allows choice");
+}
+{
+  const ctx = makeV69Context({ v68unlocked: true, scene: "birth-ballot-booth", elements: { "posthumous-census-verdict-count-born": makePosthumousCensusBtn({ disabled: true }), "posthumous-census-booth-figure": makePosthumousCensusBtn() } });
+  ctx.v69.savePosthumousCensus({ ...ctx.v69.defaultPosthumousCensus(), draft: { electorate: "departed", evidence: "birth-certificate" } });
+  ctx.v69.choosePosthumousCensusVerdict("count-born");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled verdict button blocks choice");
+
+  const ctx2 = makeV69Context({ v68unlocked: true, scene: "birth-ballot-booth", elements: { "posthumous-census-verdict-count-born": makePosthumousCensusBtn(), "posthumous-census-booth-figure": makePosthumousCensusBtn() } });
+  ctx2.v69.savePosthumousCensus({ ...ctx2.v69.defaultPosthumousCensus(), draft: { electorate: "departed", evidence: "birth-certificate" } });
+  ctx2.v69.choosePosthumousCensusVerdict("count-born");
+  assert.strictEqual(ctx2.read().pending?.kind, "ballot", "enabled visible verdict button allows choice");
+}
+{
+  const ctx = makeV69Context({ v68unlocked: true, scene: "remembrance", elements: { "posthumous-census-entry-btn": makePosthumousCensusBtn({ disabled: true }) } });
+  ctx.v69.choosePosthumousCensusEntry();
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled entry button blocks entry");
+
+  const ctx2 = makeV69Context({ v68unlocked: true, scene: "remembrance", elements: { "posthumous-census-entry-btn": makePosthumousCensusBtn() } });
+  ctx2.v69.choosePosthumousCensusEntry();
+  assert.strictEqual(ctx2.read().pending?.kind, "entry", "enabled visible entry button allows entry");
+}
+{
+  const ctx = makeV69Context({ v68unlocked: true, scene: "remembrance", elements: { "posthumous-census-nullification-entry-btn": makePosthumousCensusBtn({ disabled: true }) } });
+  ctx.v69.savePosthumousCensus({ ...ctx.v69.defaultPosthumousCensus(), records: coverageRecords });
+  ctx.v69.choosePosthumousCensusNullificationEntry();
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled nullification entry button blocks entry");
+
+  const ctx2 = makeV69Context({ v68unlocked: true, scene: "remembrance", elements: { "posthumous-census-nullification-entry-btn": makePosthumousCensusBtn() } });
+  ctx2.v69.savePosthumousCensus({ ...ctx2.v69.defaultPosthumousCensus(), records: coverageRecords });
+  ctx2.v69.choosePosthumousCensusNullificationEntry();
+  assert.strictEqual(ctx2.read().pending?.kind, "nullification-entry", "enabled visible nullification entry button allows entry");
+}
+{
+  const ctx = makeV69Context({ v68unlocked: true, scene: "population-nullification-court", elements: { "posthumous-census-nullification-ratify-birth": makePosthumousCensusBtn({ disabled: true }), "posthumous-census-nullification-figure": makePosthumousCensusBtn() } });
+  ctx.v69.savePosthumousCensus({ ...ctx.v69.defaultPosthumousCensus(), records: coverageRecords, visited: { hall: true, archive: true, booth: true, nullification: true } });
+  ctx.v69.choosePosthumousCensusNullificationAction("ratify-birth");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled nullification action button blocks choice");
+
+  const ctx2 = makeV69Context({ v68unlocked: true, scene: "population-nullification-court", elements: { "posthumous-census-nullification-ratify-birth": makePosthumousCensusBtn(), "posthumous-census-nullification-figure": makePosthumousCensusBtn() } });
+  ctx2.v69.savePosthumousCensus({ ...ctx2.v69.defaultPosthumousCensus(), records: coverageRecords, visited: { hall: true, archive: true, booth: true, nullification: true } });
+  ctx2.v69.choosePosthumousCensusNullificationAction("ratify-birth");
+  assert.strictEqual(ctx2.read().pending?.kind, "nullification", "enabled visible nullification action button allows choice");
+}
+{
+  const recordFb = makeV69Context({ v68unlocked: true }).v69.computeCensusRecordFeedback("departed", "birth-certificate", "count-born");
+  const ctx = makeV69Context({ v68unlocked: true, scene: "lifetime-pawn-vault", elements: { "posthumous-census-summons-return-lifetime-pawn-vault": makePosthumousCensusBtn({ disabled: true }) } });
+  ctx.v69.savePosthumousCensus({ ...ctx.v69.defaultPosthumousCensus(), records: ["departed:birth-certificate:count-born"], activeSummons: { electorate: "departed", record: "departed:birth-certificate:count-born", feedback: recordFb } });
+  ctx.v69.choosePosthumousCensusSummonsReturn("lifetime-pawn-vault");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled summons return button blocks return");
+
+  const ctx2 = makeV69Context({ v68unlocked: true, scene: "lifetime-pawn-vault", elements: { "posthumous-census-summons-return-lifetime-pawn-vault": makePosthumousCensusBtn() } });
+  ctx2.v69.savePosthumousCensus({ ...ctx2.v69.defaultPosthumousCensus(), records: ["departed:birth-certificate:count-born"], activeSummons: { electorate: "departed", record: "departed:birth-certificate:count-born", feedback: recordFb } });
+  ctx2.v69.choosePosthumousCensusSummonsReturn("lifetime-pawn-vault");
+  assert.strictEqual(ctx2.read().pending?.kind, "summons-return", "enabled visible summons return button allows return");
+}
+
+// posthumousCensusUnlocked
+{
+  const ctx = makeV69Context({ v68unlocked: true });
+  assert.strictEqual(ctx.v69.posthumousCensusUnlocked(), true, "full v68 evidence unlocks v69");
+  const ctx2 = makeV69Context({ v68unlocked: false });
+  assert.strictEqual(ctx2.v69.posthumousCensusUnlocked(), false, "incomplete v68 evidence locks v69");
+  const ctx3 = makeV69Context({ v68unlocked: true, getGenerationLoans: () => ({ loans: allV68GenerationLoans, foreclosureOutcomes: ["the-present-was-repossessed"] }) });
+  assert.strictEqual(ctx3.v69.posthumousCensusUnlocked(), false, "missing foreclosure outcomes lock v69");
+}
+
+// censusCoverageComplete
+{
+  const ctx = makeV69Context({ v68unlocked: true });
+  assert.strictEqual(ctx.v69.censusCoverageComplete({ records: coverageRecords }), true, "full coverage is complete");
+  assert.strictEqual(ctx.v69.censusCoverageComplete({ records: ["departed:birth-certificate:count-born"] }), false, "single record is not complete");
+  assert.strictEqual(ctx.v69.censusCoverageComplete({ records: [] }), false, "empty records is not complete");
+}
+
+// savePosthumousCensus 只写 v69 key，移除后归零
+{
+  const ctx = makeV69Context({ v68unlocked: true });
+  ctx.v69.savePosthumousCensus(ctx.v69.defaultPosthumousCensus());
+  assert.ok(Object.prototype.hasOwnProperty.call(ctx.storeData, POSTHUMOUS_CENSUS_KEY), "savePosthumousCensus writes the v69 key");
+  assert.equal(Object.keys(ctx.storeData).length, 1, "savePosthumousCensus writes exactly one key");
+  delete ctx.storeData[POSTHUMOUS_CENSUS_KEY];
+  assert.deepStrictEqual(ctx.v69.getPosthumousCensus(), ctx.v69.defaultPosthumousCensus(), "removing v69 key resets to default");
+}
+
+// Remembrance 首轮阻断回归：前置解锁但自身 0 进度时，codex 父层、普通入口必须可见，30 格全锁
+{
+  function makeV69El({ hidden = true } = {}) {
+    return {
+      hidden,
+      disabled: false,
+      textContent: "",
+      children: [],
+      className: "",
+      setAttribute() {},
+      removeAttribute(name) { if (name === "hidden") this.hidden = false; },
+      closest: () => null,
+      addEventListener() {},
+      set innerHTML(v) { this.children.length = 0; },
+      appendChild(c) { this.children.push(c); },
+    };
+  }
+  const box = makeV69El();
+  const grid = makeV69El({ hidden: false });
+  const entry = makeV69El();
+  const memory = makeV69El();
+  const entryBtn = makeV69El({ hidden: true });
+  const nullificationBtn = makeV69El({ hidden: true });
+  const ctx = makeV69Context({
+    v68unlocked: true,
+    scene: "remembrance",
+    elements: {
+      "posthumous-census-codex": box,
+      "posthumous-census-codex-grid": grid,
+      "posthumous-census-codex-entry": entry,
+      "posthumous-census-memory": memory,
+      "posthumous-census-entry-btn": entryBtn,
+      "posthumous-census-nullification-entry-btn": nullificationBtn,
+    },
+  });
+  ctx.v69.syncPosthumousCensusRemembrance();
+  assert.strictEqual(box.hidden, false, "v69 codex box visible at zero progress when unlocked");
+  assert.strictEqual(entry.hidden, false, "v69 codex entry parent visible at zero progress");
+  assert.strictEqual(memory.hidden, false, "v69 memory visible at zero progress");
+  assert.strictEqual(grid.children.length, 30, "v69 codex renders 30 cells at zero progress");
+  assert.strictEqual(grid.children.filter((c) => c.className.includes("unlocked")).length, 0, "v69 zero progress has 0 unlocked cells");
+  assert.strictEqual(entryBtn.hidden, false, "v69 entry button visible at zero progress");
+  assert.strictEqual(entryBtn.disabled, false, "v69 entry button enabled at zero progress");
+  assert.strictEqual(nullificationBtn.hidden, true, "v69 nullification entry hidden without coverage");
+
+  const box2 = makeV69El();
+  const grid2 = makeV69El({ hidden: false });
+  const entry2 = makeV69El();
+  const memory2 = makeV69El();
+  const entryBtn2 = makeV69El({ hidden: true });
+  const nullificationBtn2 = makeV69El({ hidden: true });
+  const ctx2 = makeV69Context({
+    v68unlocked: false,
+    scene: "remembrance",
+    elements: {
+      "posthumous-census-codex": box2,
+      "posthumous-census-codex-grid": grid2,
+      "posthumous-census-codex-entry": entry2,
+      "posthumous-census-memory": memory2,
+      "posthumous-census-entry-btn": entryBtn2,
+      "posthumous-census-nullification-entry-btn": nullificationBtn2,
+    },
+  });
+  ctx2.v69.syncPosthumousCensusRemembrance();
+  assert.strictEqual(box2.hidden, true, "v69 codex box hidden when v68 locked");
+  assert.strictEqual(entry2.hidden, true, "v69 codex entry hidden when v68 locked");
+  assert.strictEqual(memory2.hidden, true, "v69 memory hidden when v68 locked");
+  assert.strictEqual(entryBtn2.hidden, true, "v69 entry button hidden when v68 locked");
+}
+
+/* ---------- v69 与 v68 旧场景守卫集成回归 ---------- */
+const generationLoansCanVisitOfficeBlock = js.match(/const generationLoansCanVisitOffice = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(generationLoansCanVisitOfficeBlock, "generationLoansCanVisitOffice block must be extractable");
+assert.match(generationLoansCanVisitOfficeBlock[0], /pc\.pending && pc\.pending\.kind === ['"]ballot['"] && pc\.pending\.target === ['"]generational-credit-office['"]/, "office guard accepts v69 ballot pending target");
+assert.match(generationLoansCanVisitOfficeBlock[0], /pc\.activeSummons && SCENE_FOR_ELECTORATE\[pc\.activeSummons\.electorate\] === ['"]generational-credit-office['"]/, "office guard accepts v69 activeSummons");
+
+const generationLoansCanVisitVaultBlock = js.match(/const generationLoansCanVisitVault = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(generationLoansCanVisitVaultBlock, "generationLoansCanVisitVault block must be extractable");
+assert.match(generationLoansCanVisitVaultBlock[0], /pc\.pending && pc\.pending\.kind === ['"]ballot['"] && pc\.pending\.target === ['"]lifetime-pawn-vault['"]/, "vault guard accepts v69 ballot pending target");
+assert.match(generationLoansCanVisitVaultBlock[0], /pc\.activeSummons && SCENE_FOR_ELECTORATE\[pc\.activeSummons\.electorate\] === ['"]lifetime-pawn-vault['"]/, "vault guard accepts v69 activeSummons");
+
+const generationLoansCanVisitClearingBlock = js.match(/const generationLoansCanVisitClearing = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(generationLoansCanVisitClearingBlock, "generationLoansCanVisitClearing block must be extractable");
+assert.match(generationLoansCanVisitClearingBlock[0], /pc\.pending && pc\.pending\.kind === ['"]ballot['"] && pc\.pending\.target === ['"]mortality-clearing-house['"]/, "clearing guard accepts v69 ballot pending target");
+assert.match(generationLoansCanVisitClearingBlock[0], /pc\.activeSummons && SCENE_FOR_ELECTORATE\[pc\.activeSummons\.electorate\] === ['"]mortality-clearing-house['"]/, "clearing guard accepts v69 activeSummons");
+
+const generationLoansCanVisitForeclosureBlock = js.match(/const generationLoansCanVisitForeclosure = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(generationLoansCanVisitForeclosureBlock, "generationLoansCanVisitForeclosure block must be extractable");
+assert.ok(!generationLoansCanVisitForeclosureBlock[0].includes("getPosthumousCensus"), "foreclosure guard must not be widened by v69");
+
+/* ---------- 文档同步 ---------- */
+assert.match(readme, /v67|无血家谱|THE FAMILY THAT NEVER SHARED BLOOD/, "README must document the v67 bloodless genealogy");
+assert.match(qa, /v67|无血家谱|THE FAMILY THAT NEVER SHARED BLOOD/, "design-qa.md must document the v67 bloodless genealogy");
+assert.match(log, /v67|无血家谱|THE FAMILY THAT NEVER SHARED BLOOD/, "ProgressLog must document the v67 bloodless genealogy");
+assert.match(readme, /v68|世代借贷|THE GENERATIONS BORROW AGAINST DEATH/, "README must document the v68 generation loans");
+assert.match(qa, /v68|世代借贷|THE GENERATIONS BORROW AGAINST DEATH/, "design-qa.md must document the v68 generation loans");
+assert.match(log, /v68|世代借贷|THE GENERATIONS BORROW AGAINST DEATH/, "ProgressLog must document the v68 generation loans");
+assert.match(readme, /v69|死后人口普查|THE DEAD COUNT WHETHER YOU WERE BORN/, "README must document the v69 posthumous census");
+assert.match(qa, /v69|死后人口普查|THE DEAD COUNT WHETHER YOU WERE BORN/, "design-qa.md must document the v69 posthumous census");
+assert.match(log, /v69|死后人口普查|THE DEAD COUNT WHETHER YOU WERE BORN/, "ProgressLog must document the v69 posthumous census");
+
+/* ---------- v70 亡者议会 / PARLIAMENT OF THE DEAD ---------- */
+
+const V70_SOURCE_HASHES = {
+  "design-references/source-v70-dead-parliament-rotunda.png": "0d7a8292e27360dd665be1a6f6fea2c3a87a318bce2e51d20e274afc98d272bd",
+  "design-references/source-v70-citizenship-article-chamber.png": "61aaeba211a02638893e1e6946f9263ac74c8b5153316fd48cb345b42653bce5",
+  "design-references/source-v70-constitutional-severance-desk.png": "1e17cdd91db59d232088ed1ca3cf4f5010fe33fa4c47963b7c428732580f6cf3",
+  "design-references/source-v70-three-person-republic-court.png": "ab4a16eb7424dceb0f44ec12dfe0858e695f92e021cff5746558329abf4e4840",
+};
+const V70_SOURCE_SIZES = {
+  "design-references/source-v70-dead-parliament-rotunda.png": 2477997,
+  "design-references/source-v70-citizenship-article-chamber.png": 2564484,
+  "design-references/source-v70-constitutional-severance-desk.png": 2169291,
+  "design-references/source-v70-three-person-republic-court.png": 2585340,
+};
+const V70_WEBP_HASHES = {
+  "assets/v70-dead-parliament-rotunda.webp": "5eed6a11d16bc03928f9a77671db97aebff32938f02188a9e2c98f1fc5619490",
+  "assets/v70-citizenship-article-chamber.webp": "83416b556e05e66d5886aa38ff2d7b9092f31c5f630a286b86b5f82fa7e1c583",
+  "assets/v70-constitutional-severance-desk.webp": "249e74f3f9ef3519051b7e7e616ac3ea1a6ccc04d11cab1141769ab2e5bc5968",
+  "assets/v70-three-person-republic-court.webp": "4784002dfed4a0d0ac1959f17a280c3ab2ac7a68e53bf66219b639628b7a3dac",
+};
+const V70_WEBP_SIZES = {
+  "assets/v70-dead-parliament-rotunda.webp": 210868,
+  "assets/v70-citizenship-article-chamber.webp": 204774,
+  "assets/v70-constitutional-severance-desk.webp": 113956,
+  "assets/v70-three-person-republic-court.webp": 200688,
+};
+
+/* 四张 source PNG 冻结 */
+for (const [src, hash] of Object.entries(V70_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(src, root));
+  assert.equal(buf.length, V70_SOURCE_SIZES[src], `${src} must keep its frozen byte size`);
+  assert.equal(createHash("sha256").update(buf).digest("hex"), hash, `${src} must keep its frozen sha256`);
+}
+
+/* 四张运行时 WebP 冻结 */
+for (const [asset, hash] of Object.entries(V70_WEBP_HASHES)) {
+  const buf = await readFile(new URL(asset, root));
+  assert.equal(buf.length, V70_WEBP_SIZES[asset], `${asset} must keep its frozen byte size`);
+  assert.equal(createHash("sha256").update(buf).digest("hex"), hash, `${asset} must keep its frozen sha256`);
+  const dims = readWebpDimensions(buf);
+  assert.ok(dims, `${asset} must be a readable WebP`);
+  assert.equal(dims.width, 1536, `${asset} must be 1536 px wide`);
+  assert.equal(dims.height, 1024, `${asset} must be 1024 px tall`);
+  assert.ok(html.includes(asset), `${asset} must be referenced`);
+}
+for (const asset of Object.keys(V70_WEBP_HASHES)) {
+  assert.match(html, new RegExp(`<link rel="preload" href="${asset.replace(".", "\\.")}" as="image">`), `${asset} must be preloaded`);
+}
+
+/* 四场景 DOM */
+for (const s of ["dead-parliament-rotunda", "citizenship-article-chamber", "constitutional-severance-desk", "three-person-republic-court"]) {
+  assert.match(html, new RegExp(`data-scene="${s}"`), `v70 scene missing: ${s}`);
+}
+
+/* figure 与热点 ID */
+assert.match(html, /id="dead-parliament-rotunda-figure"/);
+for (const c of ["ratified-born", "removed-visitor", "blank-citizen"]) {
+  assert.match(html, new RegExp(`id="dead-parliament-caucus-${c}"`), `missing caucus ${c}`);
+}
+assert.match(html, /id="dead-parliament-chamber-figure"/);
+for (const m of ["right-to-name", "right-to-shadow", "right-to-body", "right-to-die-once"]) {
+  assert.match(html, new RegExp(`id="dead-parliament-motion-${m}"`), `missing motion ${m}`);
+}
+assert.match(html, /id="dead-parliament-severance-figure"/);
+for (const ct of ["name", "shadow", "body"]) {
+  assert.match(html, new RegExp(`id="dead-parliament-citizen-${ct}"`), `missing citizen ${ct}`);
+}
+assert.match(html, /id="dead-parliament-republic-figure"/);
+for (const a of ["crown-name", "found-shadow-republic", "abolish-dead-suffrage"]) {
+  assert.match(html, new RegExp(`id="dead-parliament-crisis-${a}"`), `missing crisis action ${a}`);
+}
+
+/* 三处党鞭容器与返回按钮 */
+for (const s of ["birth-ballot-booth", "posthumous-census-hall", "contradictory-evidence-archive"]) {
+  assert.match(html, new RegExp(`id="dead-parliament-whip-${s}"`), `missing whip container ${s}`);
+  assert.match(html, new RegExp(`id="dead-parliament-whip-return-${s}"`), `missing whip return ${s}`);
+  assert.match(html, new RegExp(`id="dead-parliament-whip-response-${s}"`), `missing whip response ${s}`);
+}
+
+/* Remembrance 入口、记忆、图鉴 */
+assert.match(html, /id="dead-parliament-entry-btn"/);
+assert.match(html, /id="dead-parliament-crisis-entry-btn"/);
+assert.match(html, /id="dead-parliament-memory"/);
+assert.match(html, /id="dead-parliament-codex"/);
+assert.match(html, /id="dead-parliament-codex-grid"/);
+assert.match(html, /id="dead-parliament-codex-entry"/);
+assert.match(html, /id="dead-parliament-entry-response"/);
+assert.match(html, /id="dead-parliament-crisis-entry-response"/);
+assert.match(html, /去听死者表决活人的身体/);
+assert.match(html, /让三种公民权互相否决/);
+
+/* 四目录链接 */
+for (const id of ["dead-parliament-rotunda-link", "citizenship-article-chamber-link", "constitutional-severance-desk-link", "three-person-republic-court-link"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `missing directory link ${id}`);
+}
+
+/* JS 模块存在与边界 */
+assert.equal((js.match(/const DEAD_PARLIAMENT_KEY = ['"]goddead_v70_dead_parliament['"]/g) || []).length, 1, "v70 introduces exactly one storage key");
+const v70ModuleBlock = js.match(/v70 亡者议会 \/ PARLIAMENT OF THE DEAD[\s\S]*?v71 死亡外交部 \/ MINISTRY OF MORTAL DIPLOMACY/);
+assert.ok(v70ModuleBlock, "v70 module must exist");
+
+/* saveDeadParliament 持久化十一键 */
+const saveDeadParliamentBlock = js.match(/const saveDeadParliament = \(st\) => \{[\s\S]*?store\.set\(\s*DEAD_PARLIAMENT_KEY,\s*JSON\.stringify\(\{[\s\S]*?\}\)\s*\);/);
+assert.ok(saveDeadParliamentBlock, "saveDeadParliament must persist an explicit canonical projection");
+for (const f of ["version", "visited", "draft", "decrees", "crisisOutcomes", "parliamentRuns", "crisisRuns", "seatTallies", "lastOutcome", "activeWhip", "pending"]) {
+  assert.match(saveDeadParliamentBlock[0], new RegExp(`\\b${f}\\b`), `saveDeadParliament persists ${f}`);
+}
+
+/* 规范化函数 */
+assert.match(js, /const normalizeDeadParliamentDecrees = \(decrees\) => \{[\s\S]*?DECREE_IDS/, "normalizeDeadParliamentDecrees sorts by DECREE_IDS");
+assert.match(js, /const normalizeDeadParliamentCrisisOutcomes = \(arr\) => \{[\s\S]*?CRISIS_ACTIONS\.map/, "normalizeDeadParliamentCrisisOutcomes sorts by CRISIS_ACTIONS order");
+const normalizeDeadParliamentPendingBlock = js.match(/const normalizeDeadParliamentPending = \(p, st\) => \{[\s\S]*?\n  \};/);
+assert.ok(normalizeDeadParliamentPendingBlock, "normalizeDeadParliamentPending must exist");
+assert.match(normalizeDeadParliamentPendingBlock[0], /st\._v70unlocked === true/, "pending normalization uses passed _v70unlocked, not storage");
+assert.match(normalizeDeadParliamentPendingBlock[0], /p\.kind === 'entry' && keys === 'feedback,kind,target'/, "entry pending accepts exactly three whitelisted keys");
+assert.match(normalizeDeadParliamentPendingBlock[0], /p\.kind === 'caucus' && keys === 'caucus,feedback,kind,source,target'/, "caucus pending accepts exactly five whitelisted keys");
+assert.match(normalizeDeadParliamentPendingBlock[0], /p\.kind === 'motion' && keys === 'caucus,feedback,kind,motion,source,target'/, "motion pending accepts exactly six whitelisted keys");
+assert.match(normalizeDeadParliamentPendingBlock[0], /p\.kind === 'decree' && keys === 'caucus,citizen,decree,feedback,kind,motion,source,target'/, "decree pending accepts exactly eight whitelisted keys");
+assert.match(normalizeDeadParliamentPendingBlock[0], /p\.kind === 'whip-return' && keys === 'decree,feedback,from,kind,target'/, "whip-return pending accepts exactly five whitelisted keys");
+assert.match(normalizeDeadParliamentPendingBlock[0], /p\.kind === 'crisis-entry' && keys === 'feedback,kind,target'/, "crisis-entry pending accepts exactly three whitelisted keys");
+assert.match(normalizeDeadParliamentPendingBlock[0], /p\.kind === 'crisis' && keys === 'action,feedback,kind,outcome,source,target'/, "crisis pending accepts exactly six whitelisted keys");
+
+/* 解锁资格只读 v69 状态 */
+assert.match(js, /const deadParliamentUnlocked = \(\) => \{[\s\S]*?getPosthumousCensus\(\)/, "deadParliamentUnlocked reads getPosthumousCensus");
+assert.match(js, /posthumousCensusUnlocked\(\)/, "deadParliamentUnlocked checks v69 unlock");
+assert.match(js, /NULLIFICATION_OUTCOMES_REQUIRED_FOR_PARLIAMENT/, "deadParliamentUnlocked checks v69 coverage and nullification outcomes");
+
+/* 覆盖完成检查 */
+assert.match(js, /const parliamentCoverageComplete = \(st\) => \{[\s\S]*?caucuses\.size === 3 && motions\.size === 4 && citizens\.size === 3/, "parliamentCoverageComplete checks full coverage");
+
+/* 18 组 isTrusted 防线 */
+const v70ListenerBlock = js.match(/const deadParliamentEntryBtn = \$\('#dead-parliament-entry-btn'\);[\s\S]*?v71 死亡外交部 \/ MINISTRY OF MORTAL DIPLOMACY/);
+assert.ok(v70ListenerBlock, "v70 click listener block must exist");
+assert.equal((v70ListenerBlock[0].match(/!e\.isTrusted/g) || []).length, 18, "v70 must guard all eighteen click listeners with isTrusted");
+
+/* v70 不读写旧 key */
+assert.ok(!v70ModuleBlock[0].includes("savePosthumousCensus("), "v70 never calls savePosthumousCensus");
+assert.ok(!/store\.set\(POSTHUMOUS_CENSUS_KEY/.test(v70ModuleBlock[0]), "v70 never writes the v69 posthumous census key");
+assert.ok(!/goddead_v(28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59|60|61|62|63|64|65|66|67|68|69)/.test(v70ModuleBlock[0]), "v70 state must not touch earlier keys");
+
+/* forget-all 清 v70 key */
+assert.match(forgetBlock[0], /localStorage\.removeItem\(["']goddead_v70_dead_parliament["']\)/, "forget-all removes the v70 storage key");
+
+/* 窄屏热点尺寸与溢出 */
+const deadParliamentMobileBlock = css.match(/@media \(max-width: 720px\) \{[\s\S]*?\.dead-parliament-hotspot[\s\S]*?\n  \}/);
+assert.ok(deadParliamentMobileBlock, "dead parliament mobile block exists");
+assert.match(deadParliamentMobileBlock[0], /min-width:\s*44px/, "dead parliament mobile hotspot min-width >= 44px");
+assert.match(deadParliamentMobileBlock[0], /min-height:\s*44px/, "dead parliament mobile hotspot min-height >= 44px");
+
+/* v70 路由守卫 */
+const resolveSceneBlock = js.match(/const resolveScene = \(name\) => \{[\s\S]*?\n  \};/);
+assert.ok(resolveSceneBlock, "resolveScene block must be extractable");
+assert.match(resolveSceneBlock[0], /dead-parliament-rotunda/, "resolveScene mentions rotunda");
+assert.match(resolveSceneBlock[0], /deadParliamentCanVisitRotunda/, "resolveScene guards rotunda");
+assert.match(resolveSceneBlock[0], /citizenship-article-chamber/, "resolveScene mentions chamber");
+assert.match(resolveSceneBlock[0], /deadParliamentCanVisitChamber/, "resolveScene guards chamber");
+assert.match(resolveSceneBlock[0], /constitutional-severance-desk/, "resolveScene mentions severance");
+assert.match(resolveSceneBlock[0], /deadParliamentCanVisitSeverance/, "resolveScene guards severance");
+assert.match(resolveSceneBlock[0], /three-person-republic-court/, "resolveScene mentions republic");
+assert.match(resolveSceneBlock[0], /deadParliamentCanVisitRepublic/, "resolveScene guards republic");
+
+/* 三个 v69 旧场景守卫桥：显式接受 v70 decree pending / activeWhip */
+const posthumousCensusCanVisitHallBlock = js.match(/const posthumousCensusCanVisitHall = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(posthumousCensusCanVisitHallBlock, "posthumousCensusCanVisitHall block must be extractable");
+assert.match(posthumousCensusCanVisitHallBlock[0], /dp\.pending && dp\.pending\.kind === ['"]decree['"] && dp\.pending\.target === ['"]posthumous-census-hall['"]/, "hall guard accepts v70 decree pending target");
+assert.match(posthumousCensusCanVisitHallBlock[0], /dp\.activeWhip && SCENE_FOR_CAUCUS\[dp\.activeWhip\.caucus\] === ['"]posthumous-census-hall['"]/, "hall guard accepts v70 activeWhip");
+
+const posthumousCensusCanVisitArchiveBlock = js.match(/const posthumousCensusCanVisitArchive = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(posthumousCensusCanVisitArchiveBlock, "posthumousCensusCanVisitArchive block must be extractable");
+assert.match(posthumousCensusCanVisitArchiveBlock[0], /dp\.pending && dp\.pending\.kind === ['"]decree['"] && dp\.pending\.target === ['"]contradictory-evidence-archive['"]/, "archive guard accepts v70 decree pending target");
+assert.match(posthumousCensusCanVisitArchiveBlock[0], /dp\.activeWhip && SCENE_FOR_CAUCUS\[dp\.activeWhip\.caucus\] === ['"]contradictory-evidence-archive['"]/, "archive guard accepts v70 activeWhip");
+
+const posthumousCensusCanVisitBoothBlock = js.match(/const posthumousCensusCanVisitBooth = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(posthumousCensusCanVisitBoothBlock, "posthumousCensusCanVisitBooth block must be extractable");
+assert.match(posthumousCensusCanVisitBoothBlock[0], /dp\.pending && dp\.pending\.kind === ['"]decree['"] && dp\.pending\.target === ['"]birth-ballot-booth['"]/, "booth guard accepts v70 decree pending target");
+assert.match(posthumousCensusCanVisitBoothBlock[0], /dp\.activeWhip && SCENE_FOR_CAUCUS\[dp\.activeWhip\.caucus\] === ['"]birth-ballot-booth['"]/, "booth guard accepts v70 activeWhip");
+
+const posthumousCensusCanVisitNullificationBlock = js.match(/const posthumousCensusCanVisitNullification = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(posthumousCensusCanVisitNullificationBlock, "posthumousCensusCanVisitNullification block must be extractable");
+assert.ok(!posthumousCensusCanVisitNullificationBlock[0].includes("getDeadParliament"), "nullification guard must not be widened by v70");
+
+/* v70 设计文档存在且冻结哈希 */
+const v70doc = await fileText("docs/V70DeadParliamentDesign.md");
+for (const hash of Object.values(V70_SOURCE_HASHES)) {
+  assert.ok(v70doc.includes(hash), "V70 design doc must freeze the source sha256 values");
+}
+for (const hash of Object.values(V70_WEBP_HASHES)) {
+  assert.ok(v70doc.includes(hash), "V70 design doc must freeze the WebP sha256 values");
+}
+assert.match(v70doc, /1536×1024/, "V70 design doc documents 1536×1024 dimensions");
+
+/* ---------- v70 可执行/隔离状态回归测试 ---------- */
+assert.ok(v70ModuleBlock, "v70 executable block available for regression tests");
+const v70ExecSourceStart = v70ModuleBlock[0].indexOf("const DEAD_PARLIAMENT_KEY");
+assert.ok(v70ExecSourceStart > 0, "v70 executable block starts with DEAD_PARLIAMENT_KEY");
+const v71Start = v70ModuleBlock[0].indexOf("v71 死亡外交部 / MINISTRY OF MORTAL DIPLOMACY");
+assert.ok(v71Start > v70ExecSourceStart, "v70 executable block ends before v71 section");
+const v70ExecSourceEnd = v70ModuleBlock[0].lastIndexOf("/*", v71Start);
+const v70ExecSource = v70ModuleBlock[0].slice(v70ExecSourceStart, v70ExecSourceEnd > v70ExecSourceStart ? v70ExecSourceEnd : v71Start).trimEnd();
+
+const DEAD_PARLIAMENT_KEY = "goddead_v70_dead_parliament";
+const fullV69Records = ["departed:birth-certificate:count-born", "living:other-memories:count-never-born", "unborn:blank-register:assign-elsewhere"];
+const fullV69NullificationOutcomes = ["birth-ratified-after-death", "visitor-removed-from-population", "blank-register-became-citizen"];
+const coverageDecrees = ["ratified-born:right-to-name:name", "removed-visitor:right-to-shadow:shadow", "blank-citizen:right-to-body:body", "ratified-born:right-to-die-once:shadow"];
+
+function makeDeadParliamentBtn({ disabled = false, hidden = false } = {}) {
+  return {
+    disabled,
+    hidden,
+    setAttribute() {},
+    removeAttribute() {},
+    closest: () => null,
+    addEventListener() {},
+  };
+}
+
+function makeV70Context({
+  initialStore = {},
+  elements = {},
+  scene = "",
+  v69unlocked = true,
+  records = fullV69Records,
+  nullificationOutcomes = fullV69NullificationOutcomes,
+} = {}) {
+  const storeData = { ...initialStore };
+  const store = {
+    get(k, def) { return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def; },
+    set(k, v) { storeData[k] = v; },
+  };
+  const queries = [];
+  const $ = (rawId) => { queries.push(rawId); return elements[rawId.replace(/^#/, "")] || null; };
+  const scheduleCalls = [];
+  const AutoAdvance = { has(src) { return false; }, schedule(src, target, opts) { scheduleCalls.push({ src, target, opts }); } };
+  const AudioEngine = { whoosh() {}, bell() {} };
+  const posthumousCensusUnlocked = () => v69unlocked;
+  const getPosthumousCensus = () => ({
+    records: v69unlocked ? records : [],
+    nullificationOutcomes: v69unlocked ? nullificationOutcomes : [],
+  });
+  const buttonAvailable = (id) => {
+    const btn = $(`#${id}`);
+    if (!btn || btn.disabled || btn.hidden) return false;
+    if (typeof btn.closest === "function" && btn.closest("[hidden]")) return false;
+    return true;
+  };
+  const document = {
+    createElement(tag) {
+      return { tagName: tag, className: "", innerHTML: "", textContent: "", setAttribute() {}, appendChild() {}, removeAttribute() {} };
+    },
+  };
+  const body = v70ExecSource + "\nreturn { DEAD_PARLIAMENT_KEY, DEAD_PARLIAMENT_VERSION, CAUCUSES, MOTIONS, CITIZENS, CRISIS_ACTIONS, SCENE_FOR_CAUCUS, CAUCUS_TABLE, MOTION_TABLE, CITIZEN_TABLE, CRISIS_TABLE, DEAD_PARLIAMENT_ENTRY_FEEDBACK, DEAD_PARLIAMENT_CRISIS_ENTRY_FEEDBACK, DECREE_IDS, DECREE_SET, CRISIS_OUTCOME_IDS, CRISIS_OUTCOME_SET, NULLIFICATION_OUTCOMES_REQUIRED_FOR_PARLIAMENT, defaultDeadParliament, normalizeDeadParliamentVisited, normalizeDeadParliamentDraft, normalizeDeadParliamentDecrees, normalizeDeadParliamentCrisisOutcomes, normalizeDeadParliamentSeatTallies, normalizeDeadParliamentActiveWhip, normalizeDeadParliamentPending, saveDeadParliament, getDeadParliament, deadParliamentUnlocked, parliamentCoverageComplete, computeParliamentMajority, computeDecreeId, computeDecreeTitle, computeDecreeFeedback, findDecreeById, computeCrisisOutcomeId, deadParliamentDelay, deadParliamentBeforeArrive, resolveDeadParliamentPendingOnArrival, lockDeadParliamentCaucusButtons, lockDeadParliamentMotionButtons, lockDeadParliamentCitizenButtons, lockDeadParliamentCrisisButtons, paintParliamentTally, paintDeadParliamentMemory, paintDeadParliamentCodex, syncDeadParliamentRemembrance, syncDeadParliamentLinks, replayDeadParliamentPending, chooseDeadParliamentEntry, chooseDeadParliamentCaucus, chooseDeadParliamentMotion, chooseDeadParliamentCitizen, chooseDeadParliamentWhipReturn, chooseDeadParliamentCrisisEntry, chooseDeadParliamentCrisisAction, deadParliamentCanVisitRotunda, deadParliamentCanVisitChamber, deadParliamentCanVisitSeverance, deadParliamentCanVisitRepublic };";
+  const v70 = new Function("store", "$", "currentScene", "AutoAdvance", "AudioEngine", "reduced", "posthumousCensusUnlocked", "getPosthumousCensus", "buttonAvailable", "document", body)(store, $, scene, AutoAdvance, AudioEngine, false, posthumousCensusUnlocked, getPosthumousCensus, buttonAvailable, document);
+  const read = () => {
+    try { return JSON.parse(storeData[DEAD_PARLIAMENT_KEY] || "{}"); } catch { return {}; }
+  };
+  return { v70, storeData, read, queries, scheduleCalls };
+}
+
+// 36 decree IDs 唯一且固定顺序
+{
+  const ctx = makeV70Context({});
+  assert.equal(ctx.v70.DEAD_PARLIAMENT_VERSION, 70, "v70 version constant is 70");
+  assert.equal(ctx.v70.DECREE_IDS.length, 36, "exactly 36 decree ids");
+  assert.equal(ctx.v70.DECREE_SET.size, 36, "36 decree ids are unique");
+  const expectedIds = [];
+  for (const c of ctx.v70.CAUCUSES) {
+    for (const m of ctx.v70.MOTIONS) {
+      for (const ct of ctx.v70.CITIZENS) {
+        expectedIds.push(`${c}:${m}:${ct}`);
+      }
+    }
+  }
+  assert.deepStrictEqual(ctx.v70.DECREE_IDS, expectedIds, "decree ids follow CAUCUSES × MOTIONS × CITIZENS order");
+}
+
+// computeDecreeTitle/feedback 确定性
+{
+  const ctx = makeV70Context({});
+  const t1 = ctx.v70.computeDecreeTitle("ratified-born", "right-to-name", "name");
+  const t2 = ctx.v70.computeDecreeTitle("ratified-born", "right-to-name", "name");
+  assert.strictEqual(t1, t2, "computeDecreeTitle is deterministic");
+  assert.ok(t1.includes("迟生者选区"), "title includes caucus fragment");
+  assert.ok(t1.includes("姓名权"), "title includes motion fragment");
+  assert.ok(t1.includes("归姓名"), "title includes citizen fragment");
+  const fb = ctx.v70.computeDecreeFeedback("ratified-born", "right-to-name", "name");
+  assert.ok(fb.includes("迟到的出生证明举起手"), "feedback includes caucus narrative");
+  assert.ok(fb.includes("议案要求每个公民拥有一个姓名"), "feedback includes motion narrative");
+  assert.ok(fb.includes("书记官剪断名字与说出它的嘴"), "feedback includes citizen narrative");
+}
+
+// normalizeDeadParliamentDecrees 拒绝非法、去重、排序
+{
+  const ctx = makeV70Context({});
+  const out = ctx.v70.normalizeDeadParliamentDecrees([
+    "ratified-born:right-to-name:name",
+    "removed-visitor:right-to-shadow:shadow",
+    "ratified-born:right-to-name:name",
+    "invalid:foo:bar",
+    "blank-citizen:right-to-body:body",
+  ]);
+  assert.deepStrictEqual(out, ["ratified-born:right-to-name:name", "removed-visitor:right-to-shadow:shadow", "blank-citizen:right-to-body:body"], "decrees are deduped and ordered by frozen table");
+}
+
+// normalizeDeadParliamentCrisisOutcomes 排序
+{
+  const ctx = makeV70Context({});
+  const out = ctx.v70.normalizeDeadParliamentCrisisOutcomes(["the-body-abolished-dead-suffrage", "the-name-became-the-only-citizen", "the-shadow-founded-the-opposition-republic"]);
+  assert.deepStrictEqual(out, ["the-name-became-the-only-citizen", "the-shadow-founded-the-opposition-republic", "the-body-abolished-dead-suffrage"], "crisis outcomes follow CRISIS_ACTIONS order");
+}
+
+// 坏类型安全归空
+{
+  const ctx = makeV70Context({});
+  assert.deepStrictEqual(ctx.v70.normalizeDeadParliamentDecrees("not-an-array"), [], "string decrees normalized to empty");
+  assert.deepStrictEqual(ctx.v70.normalizeDeadParliamentDecrees({ foo: true }), [], "object decrees normalized to empty");
+  assert.deepStrictEqual(ctx.v70.normalizeDeadParliamentCrisisOutcomes("not-an-array"), [], "string crisis outcomes normalized to empty");
+  assert.deepStrictEqual(ctx.v70.normalizeDeadParliamentCrisisOutcomes(12345), [], "number crisis outcomes normalized to empty");
+}
+
+// 七类 strict pending 白名单
+{
+  const ctx = makeV70Context({});
+  const baseSt = ctx.v70.defaultDeadParliament();
+  baseSt._v70unlocked = true;
+
+  assert.ok(ctx.v70.normalizeDeadParliamentPending({ kind: "entry", target: "dead-parliament-rotunda", feedback: ctx.v70.DEAD_PARLIAMENT_ENTRY_FEEDBACK }, baseSt), "legal entry pending accepted");
+  assert.strictEqual(ctx.v70.normalizeDeadParliamentPending({ kind: "entry", target: "citizenship-article-chamber", feedback: ctx.v70.DEAD_PARLIAMENT_ENTRY_FEEDBACK }, baseSt), null, "entry with wrong target rejected");
+  assert.strictEqual(ctx.v70.normalizeDeadParliamentPending({ kind: "entry", target: "dead-parliament-rotunda", feedback: ctx.v70.DEAD_PARLIAMENT_ENTRY_FEEDBACK, extra: 1 }, baseSt), null, "entry with extra key rejected");
+
+  assert.ok(ctx.v70.normalizeDeadParliamentPending({ kind: "caucus", source: "dead-parliament-rotunda", caucus: "ratified-born", target: "citizenship-article-chamber", feedback: ctx.v70.CAUCUS_TABLE["ratified-born"].feedback }, baseSt), "legal caucus pending accepted");
+  baseSt.draft = { caucus: "ratified-born", motion: "" };
+  assert.strictEqual(ctx.v70.normalizeDeadParliamentPending({ kind: "caucus", source: "dead-parliament-rotunda", caucus: "ratified-born", target: "citizenship-article-chamber", feedback: ctx.v70.CAUCUS_TABLE["ratified-born"].feedback }, baseSt), null, "caucus rejected when draft not empty");
+
+  baseSt.draft = { caucus: "ratified-born", motion: "" };
+  assert.ok(ctx.v70.normalizeDeadParliamentPending({ kind: "motion", source: "citizenship-article-chamber", caucus: "ratified-born", motion: "right-to-name", target: "constitutional-severance-desk", feedback: ctx.v70.MOTION_TABLE["right-to-name"].feedback }, baseSt), "legal motion pending accepted");
+  baseSt.draft = { caucus: "removed-visitor", motion: "" };
+  assert.strictEqual(ctx.v70.normalizeDeadParliamentPending({ kind: "motion", source: "citizenship-article-chamber", caucus: "ratified-born", motion: "right-to-name", target: "constitutional-severance-desk", feedback: ctx.v70.MOTION_TABLE["right-to-name"].feedback }, baseSt), null, "motion rejected when caucus mismatches draft");
+
+  baseSt.draft = { caucus: "ratified-born", motion: "right-to-name" };
+  const decreeFb = ctx.v70.computeDecreeFeedback("ratified-born", "right-to-name", "name");
+  assert.ok(ctx.v70.normalizeDeadParliamentPending({ kind: "decree", source: "constitutional-severance-desk", caucus: "ratified-born", motion: "right-to-name", citizen: "name", decree: "ratified-born:right-to-name:name", target: "birth-ballot-booth", feedback: decreeFb }, baseSt), "legal decree pending accepted");
+  assert.strictEqual(ctx.v70.normalizeDeadParliamentPending({ kind: "decree", source: "constitutional-severance-desk", caucus: "ratified-born", motion: "right-to-name", citizen: "name", decree: "ratified-born:right-to-name:shadow", target: "birth-ballot-booth", feedback: decreeFb }, baseSt), null, "decree rejected when id mismatches");
+
+  baseSt.activeWhip = { caucus: "ratified-born", decree: "ratified-born:right-to-name:name", feedback: ctx.v70.CAUCUS_TABLE["ratified-born"].whipFeedback };
+  assert.ok(ctx.v70.normalizeDeadParliamentPending({ kind: "whip-return", from: "birth-ballot-booth", target: "dead-parliament-rotunda", decree: "ratified-born:right-to-name:name", feedback: ctx.v70.CAUCUS_TABLE["ratified-born"].whipFeedback }, baseSt), "legal whip-return pending accepted");
+  assert.strictEqual(ctx.v70.normalizeDeadParliamentPending({ kind: "whip-return", from: "posthumous-census-hall", target: "dead-parliament-rotunda", decree: "ratified-born:right-to-name:name", feedback: ctx.v70.CAUCUS_TABLE["ratified-born"].whipFeedback }, baseSt), null, "whip-return rejected when from mismatches activeWhip caucus");
+
+  baseSt.decrees = coverageDecrees;
+  assert.ok(ctx.v70.normalizeDeadParliamentPending({ kind: "crisis-entry", target: "three-person-republic-court", feedback: ctx.v70.DEAD_PARLIAMENT_CRISIS_ENTRY_FEEDBACK }, baseSt), "legal crisis-entry pending accepted");
+
+  baseSt.visited.republic = true;
+  assert.ok(ctx.v70.normalizeDeadParliamentPending({ kind: "crisis", source: "three-person-republic-court", action: "crown-name", outcome: "the-name-became-the-only-citizen", target: "threshold", feedback: ctx.v70.CRISIS_TABLE["crown-name"].feedback }, baseSt), "legal crisis pending accepted");
+  assert.strictEqual(ctx.v70.normalizeDeadParliamentPending({ kind: "crisis", source: "three-person-republic-court", action: "crown-name", outcome: "the-name-became-the-only-citizen", target: "threshold", feedback: ctx.v70.CRISIS_TABLE["crown-name"].feedback }, { ...baseSt, visited: { ...baseSt.visited, republic: false } }), null, "crisis rejected when republic not visited");
+}
+
+// source/target/else reload 矩阵
+{
+  const ctx = makeV70Context({ scene: "remembrance" });
+  const pending = { kind: "entry", target: "dead-parliament-rotunda", feedback: ctx.v70.DEAD_PARLIAMENT_ENTRY_FEEDBACK };
+  ctx.v70.saveDeadParliament({ ...ctx.v70.defaultDeadParliament(), pending });
+  ctx.v70.replayDeadParliamentPending("remembrance");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "entry source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].src, "remembrance", "entry source reload schedules from remembrance");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "dead-parliament-rotunda", "entry source reload schedules to rotunda");
+}
+{
+  const ctx = makeV70Context({ scene: "dead-parliament-rotunda" });
+  const pending = { kind: "caucus", source: "dead-parliament-rotunda", caucus: "ratified-born", target: "citizenship-article-chamber", feedback: ctx.v70.CAUCUS_TABLE["ratified-born"].feedback };
+  ctx.v70.saveDeadParliament({ ...ctx.v70.defaultDeadParliament(), draft: { caucus: "", motion: "" }, pending });
+  ctx.v70.replayDeadParliamentPending("dead-parliament-rotunda");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "caucus source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "citizenship-article-chamber", "caucus source reload schedules to chamber");
+}
+{
+  const ctx = makeV70Context({ scene: "citizenship-article-chamber" });
+  const pending = { kind: "motion", source: "citizenship-article-chamber", caucus: "ratified-born", motion: "right-to-name", target: "constitutional-severance-desk", feedback: ctx.v70.MOTION_TABLE["right-to-name"].feedback };
+  ctx.v70.saveDeadParliament({ ...ctx.v70.defaultDeadParliament(), draft: { caucus: "ratified-born", motion: "" }, pending });
+  ctx.v70.replayDeadParliamentPending("citizenship-article-chamber");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "motion source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "constitutional-severance-desk", "motion source reload schedules to severance");
+}
+{
+  const ctx = makeV70Context({ scene: "constitutional-severance-desk" });
+  const decreeFb = ctx.v70.computeDecreeFeedback("ratified-born", "right-to-name", "name");
+  const pending = { kind: "decree", source: "constitutional-severance-desk", caucus: "ratified-born", motion: "right-to-name", citizen: "name", decree: "ratified-born:right-to-name:name", target: "birth-ballot-booth", feedback: decreeFb };
+  ctx.v70.saveDeadParliament({ ...ctx.v70.defaultDeadParliament(), draft: { caucus: "ratified-born", motion: "right-to-name" }, pending });
+  ctx.v70.replayDeadParliamentPending("constitutional-severance-desk");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "decree source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "birth-ballot-booth", "decree source reload schedules to caucus target");
+}
+{
+  const ctx = makeV70Context({ scene: "remembrance" });
+  const pending = { kind: "crisis-entry", target: "three-person-republic-court", feedback: ctx.v70.DEAD_PARLIAMENT_CRISIS_ENTRY_FEEDBACK };
+  ctx.v70.saveDeadParliament({ ...ctx.v70.defaultDeadParliament(), decrees: coverageDecrees, pending });
+  ctx.v70.replayDeadParliamentPending("remembrance");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "crisis-entry source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "three-person-republic-court", "crisis-entry source reload schedules to republic");
+}
+{
+  const ctx = makeV70Context({ scene: "three-person-republic-court" });
+  const pending = { kind: "crisis", source: "three-person-republic-court", action: "crown-name", outcome: "the-name-became-the-only-citizen", target: "threshold", feedback: ctx.v70.CRISIS_TABLE["crown-name"].feedback };
+  ctx.v70.saveDeadParliament({ ...ctx.v70.defaultDeadParliament(), decrees: coverageDecrees, visited: { rotunda: true, chamber: true, severance: true, republic: true }, pending });
+  ctx.v70.replayDeadParliamentPending("three-person-republic-court");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "crisis source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "threshold", "crisis source reload schedules to target");
+}
+{
+  for (const scene of ["birth-ballot-booth", "posthumous-census-hall", "contradictory-evidence-archive"]) {
+    const caucus = scene === "birth-ballot-booth" ? "ratified-born" : scene === "posthumous-census-hall" ? "removed-visitor" : "blank-citizen";
+    const decreeId = `${caucus}:right-to-name:name`;
+    const container = { hidden: true, setAttribute() {}, removeAttribute() {}, closest: () => null, addEventListener() {} };
+    const response = { textContent: "", setAttribute() {}, removeAttribute() {}, closest: () => null, addEventListener() {} };
+    const btn = { disabled: false, hidden: false, pressed: null, setAttribute(name, value) { if (name === "aria-pressed") this.pressed = value; }, removeAttribute() {}, closest: () => null, addEventListener() {} };
+    const elements = {
+      [`dead-parliament-whip-${scene}`]: container,
+      [`dead-parliament-whip-response-${scene}`]: response,
+      [`dead-parliament-whip-return-${scene}`]: btn,
+    };
+    const ctx = makeV70Context({ scene, elements });
+    const whipFb = ctx.v70.CAUCUS_TABLE[caucus].whipFeedback;
+    const pending = { kind: "whip-return", from: scene, target: "dead-parliament-rotunda", decree: decreeId, feedback: whipFb };
+    ctx.v70.saveDeadParliament({ ...ctx.v70.defaultDeadParliament(), decrees: [decreeId], activeWhip: { caucus, decree: decreeId, feedback: whipFb }, pending });
+    ctx.v70.replayDeadParliamentPending(scene);
+    assert.strictEqual(container.hidden, false, `whip-return ${scene} container shown`);
+    assert.strictEqual(response.textContent, whipFb, `whip-return ${scene} response verbatim`);
+    assert.strictEqual(btn.disabled, true, `whip-return ${scene} return disabled`);
+    assert.strictEqual(String(btn.pressed), "true", `whip-return ${scene} return pressed`);
+    assert.strictEqual(ctx.scheduleCalls.length, 1, `whip-return ${scene} schedules once`);
+    assert.strictEqual(ctx.scheduleCalls[0].target, "dead-parliament-rotunda", `whip-return ${scene} schedules to rotunda`);
+  }
+}
+
+// target 到达结算一次
+{
+  const ctx = makeV70Context({});
+  const decreeFb = ctx.v70.computeDecreeFeedback("ratified-born", "right-to-name", "name");
+  const pending = { kind: "decree", source: "constitutional-severance-desk", caucus: "ratified-born", motion: "right-to-name", citizen: "name", decree: "ratified-born:right-to-name:name", target: "birth-ballot-booth", feedback: decreeFb };
+  ctx.v70.saveDeadParliament({ ...ctx.v70.defaultDeadParliament(), draft: { caucus: "ratified-born", motion: "right-to-name" }, pending });
+  ctx.v70.resolveDeadParliamentPendingOnArrival("birth-ballot-booth");
+  const st = ctx.read();
+  assert.deepStrictEqual(st.decrees, ["ratified-born:right-to-name:name"], "target arrival records the decree");
+  assert.strictEqual(st.parliamentRuns, 1, "target arrival increments parliamentRuns once");
+  assert.strictEqual(st.seatTallies.name, 1, "target arrival increments name tally by 1");
+  assert.strictEqual(st.pending, null, "target arrival clears pending");
+  assert.strictEqual(ctx.scheduleCalls.length, 0, "target arrival does not schedule");
+}
+
+// 重复法令不重复图鉴，但 parliamentRuns 与 seatTallies 累加
+{
+  const ctx = makeV70Context({});
+  const decreeId = "ratified-born:right-to-name:name";
+  const decreeFb = ctx.v70.computeDecreeFeedback("ratified-born", "right-to-name", "name");
+  ctx.v70.saveDeadParliament({ ...ctx.v70.defaultDeadParliament(), decrees: [decreeId], parliamentRuns: 1, seatTallies: { name: 1, shadow: 0, body: 0 } });
+  ctx.v70.saveDeadParliament({ ...ctx.read(), draft: { caucus: "ratified-born", motion: "right-to-name" }, pending: { kind: "decree", source: "constitutional-severance-desk", caucus: "ratified-born", motion: "right-to-name", citizen: "name", decree: decreeId, target: "birth-ballot-booth", feedback: decreeFb } });
+  ctx.v70.resolveDeadParliamentPendingOnArrival("birth-ballot-booth");
+  const st = ctx.read();
+  assert.deepStrictEqual(st.decrees, [decreeId], "repeat decree does not duplicate codex");
+  assert.strictEqual(st.parliamentRuns, 2, "repeat decree increments parliamentRuns");
+  assert.strictEqual(st.seatTallies.name, 2, "repeat decree increments name tally");
+}
+
+// else 场景清伪造 pending
+{
+  const ctx = makeV70Context({ scene: "protocol" });
+  const pending = { kind: "caucus", source: "dead-parliament-rotunda", caucus: "ratified-born", target: "citizenship-article-chamber", feedback: ctx.v70.CAUCUS_TABLE["ratified-born"].feedback };
+  ctx.v70.saveDeadParliament({ ...ctx.v70.defaultDeadParliament(), draft: { caucus: "", motion: "" }, pending });
+  ctx.v70.replayDeadParliamentPending("protocol");
+  assert.strictEqual(ctx.read().pending ?? null, null, "else scene clears pending");
+  assert.strictEqual(ctx.scheduleCalls.length, 0, "else scene does not schedule");
+}
+
+// choose 函数尊重 disabled/hidden/figure-hidden
+{
+  const ctx = makeV70Context({ scene: "dead-parliament-rotunda" });
+  ctx.v70.chooseDeadParliamentCaucus("ratified-born");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled caucus button blocks choice (no element)");
+
+  const ctx2 = makeV70Context({ scene: "dead-parliament-rotunda", elements: { "dead-parliament-caucus-ratified-born": makeDeadParliamentBtn({ hidden: true }) } });
+  ctx2.v70.chooseDeadParliamentCaucus("ratified-born");
+  assert.strictEqual(ctx2.read().pending ?? null, null, "hidden caucus button blocks choice");
+
+  const ctx3 = makeV70Context({ scene: "dead-parliament-rotunda", elements: { "dead-parliament-caucus-ratified-born": makeDeadParliamentBtn() } });
+  ctx3.v70.chooseDeadParliamentCaucus("ratified-born");
+  assert.strictEqual(ctx3.read().pending?.kind, "caucus", "enabled visible caucus button allows choice");
+}
+{
+  const ctx = makeV70Context({ scene: "citizenship-article-chamber", elements: { "dead-parliament-motion-right-to-name": makeDeadParliamentBtn({ disabled: true }) } });
+  ctx.v70.saveDeadParliament({ ...ctx.v70.defaultDeadParliament(), draft: { caucus: "ratified-born", motion: "" } });
+  ctx.v70.chooseDeadParliamentMotion("right-to-name");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled motion button blocks choice");
+
+  const ctx2 = makeV70Context({ scene: "citizenship-article-chamber", elements: { "dead-parliament-motion-right-to-name": makeDeadParliamentBtn() } });
+  ctx2.v70.saveDeadParliament({ ...ctx2.v70.defaultDeadParliament(), draft: { caucus: "ratified-born", motion: "" } });
+  ctx2.v70.chooseDeadParliamentMotion("right-to-name");
+  assert.strictEqual(ctx2.read().pending?.kind, "motion", "enabled visible motion button allows choice");
+}
+{
+  const ctx = makeV70Context({ scene: "constitutional-severance-desk", elements: { "dead-parliament-citizen-name": makeDeadParliamentBtn({ disabled: true }) } });
+  ctx.v70.saveDeadParliament({ ...ctx.v70.defaultDeadParliament(), draft: { caucus: "ratified-born", motion: "right-to-name" } });
+  ctx.v70.chooseDeadParliamentCitizen("name");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled citizen button blocks choice");
+
+  const ctx2 = makeV70Context({ scene: "constitutional-severance-desk", elements: { "dead-parliament-citizen-name": makeDeadParliamentBtn() } });
+  ctx2.v70.saveDeadParliament({ ...ctx2.v70.defaultDeadParliament(), draft: { caucus: "ratified-born", motion: "right-to-name" } });
+  ctx2.v70.chooseDeadParliamentCitizen("name");
+  assert.strictEqual(ctx2.read().pending?.kind, "decree", "enabled visible citizen button allows choice");
+}
+{
+  const ctx = makeV70Context({ scene: "remembrance", elements: { "dead-parliament-entry-btn": makeDeadParliamentBtn({ disabled: true }) } });
+  ctx.v70.chooseDeadParliamentEntry();
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled entry button blocks entry");
+
+  const ctx2 = makeV70Context({ scene: "remembrance", elements: { "dead-parliament-entry-btn": makeDeadParliamentBtn() } });
+  ctx2.v70.chooseDeadParliamentEntry();
+  assert.strictEqual(ctx2.read().pending?.kind, "entry", "enabled visible entry button allows entry");
+}
+{
+  const ctx = makeV70Context({ scene: "remembrance", elements: { "dead-parliament-crisis-entry-btn": makeDeadParliamentBtn({ disabled: true }) } });
+  ctx.v70.saveDeadParliament({ ...ctx.v70.defaultDeadParliament(), decrees: coverageDecrees });
+  ctx.v70.chooseDeadParliamentCrisisEntry();
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled crisis entry button blocks entry");
+
+  const ctx2 = makeV70Context({ scene: "remembrance", elements: { "dead-parliament-crisis-entry-btn": makeDeadParliamentBtn() } });
+  ctx2.v70.saveDeadParliament({ ...ctx2.v70.defaultDeadParliament(), decrees: coverageDecrees });
+  ctx2.v70.chooseDeadParliamentCrisisEntry();
+  assert.strictEqual(ctx2.read().pending?.kind, "crisis-entry", "enabled visible crisis entry button allows entry");
+}
+{
+  const ctx = makeV70Context({ scene: "three-person-republic-court", elements: { "dead-parliament-crisis-crown-name": makeDeadParliamentBtn({ disabled: true }) } });
+  ctx.v70.saveDeadParliament({ ...ctx.v70.defaultDeadParliament(), decrees: coverageDecrees, visited: { rotunda: true, chamber: true, severance: true, republic: true } });
+  ctx.v70.chooseDeadParliamentCrisisAction("crown-name");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled crisis action button blocks choice");
+
+  const ctx2 = makeV70Context({ scene: "three-person-republic-court", elements: { "dead-parliament-crisis-crown-name": makeDeadParliamentBtn() } });
+  ctx2.v70.saveDeadParliament({ ...ctx2.v70.defaultDeadParliament(), decrees: coverageDecrees, visited: { rotunda: true, chamber: true, severance: true, republic: true } });
+  ctx2.v70.chooseDeadParliamentCrisisAction("crown-name");
+  assert.strictEqual(ctx2.read().pending?.kind, "crisis", "enabled visible crisis action button allows choice");
+}
+{
+  const ctx = makeV70Context({ scene: "birth-ballot-booth", elements: { "dead-parliament-whip-return-birth-ballot-booth": makeDeadParliamentBtn({ disabled: true }) } });
+  const decreeId = "ratified-born:right-to-name:name";
+  const whipFb = ctx.v70.CAUCUS_TABLE["ratified-born"].whipFeedback;
+  ctx.v70.saveDeadParliament({ ...ctx.v70.defaultDeadParliament(), decrees: [decreeId], activeWhip: { caucus: "ratified-born", decree: decreeId, feedback: whipFb } });
+  ctx.v70.chooseDeadParliamentWhipReturn("birth-ballot-booth");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled whip return button blocks return");
+
+  const ctx2 = makeV70Context({ scene: "birth-ballot-booth", elements: { "dead-parliament-whip-return-birth-ballot-booth": makeDeadParliamentBtn() } });
+  ctx2.v70.saveDeadParliament({ ...ctx2.v70.defaultDeadParliament(), decrees: [decreeId], activeWhip: { caucus: "ratified-born", decree: decreeId, feedback: whipFb } });
+  ctx2.v70.chooseDeadParliamentWhipReturn("birth-ballot-booth");
+  assert.strictEqual(ctx2.read().pending?.kind, "whip-return", "enabled visible whip return button allows return");
+}
+
+// deadParliamentUnlocked 只能由规范 v69 coverage + 三 nullificationOutcomes 证明
+{
+  const ctx = makeV70Context({ v69unlocked: true, records: fullV69Records, nullificationOutcomes: fullV69NullificationOutcomes });
+  assert.strictEqual(ctx.v70.deadParliamentUnlocked(), true, "full v69 evidence unlocks v70");
+  const ctx2 = makeV70Context({ v69unlocked: false });
+  assert.strictEqual(ctx2.v70.deadParliamentUnlocked(), false, "incomplete v69 evidence locks v70");
+  const ctx3 = makeV70Context({ v69unlocked: true, records: fullV69Records, nullificationOutcomes: ["birth-ratified-after-death"] });
+  assert.strictEqual(ctx3.v70.deadParliamentUnlocked(), false, "missing nullification outcomes lock v70");
+  const ctx4 = makeV70Context({ v69unlocked: true, records: ["departed:birth-certificate:count-born"], nullificationOutcomes: fullV69NullificationOutcomes });
+  assert.strictEqual(ctx4.v70.deadParliamentUnlocked(), false, "incomplete records coverage locks v70");
+}
+
+// parliamentCoverageComplete
+{
+  const ctx = makeV70Context({});
+  assert.strictEqual(ctx.v70.parliamentCoverageComplete({ decrees: coverageDecrees }), true, "full coverage is complete");
+  assert.strictEqual(ctx.v70.parliamentCoverageComplete({ decrees: ["ratified-born:right-to-name:name"] }), false, "single decree is not complete");
+  assert.strictEqual(ctx.v70.parliamentCoverageComplete({ decrees: [] }), false, "empty decrees is not complete");
+}
+
+// saveDeadParliament 只写 v70 key，移除后归零
+{
+  const ctx = makeV70Context({});
+  ctx.v70.saveDeadParliament(ctx.v70.defaultDeadParliament());
+  assert.ok(Object.prototype.hasOwnProperty.call(ctx.storeData, DEAD_PARLIAMENT_KEY), "saveDeadParliament writes the v70 key");
+  assert.equal(Object.keys(ctx.storeData).length, 1, "saveDeadParliament writes exactly one key");
+  delete ctx.storeData[DEAD_PARLIAMENT_KEY];
+  assert.deepStrictEqual(ctx.v70.getDeadParliament(), ctx.v70.defaultDeadParliament(), "removing v70 key resets to default");
+}
+
+// v69 前置失效时 getDeadParliament 规范化为默认状态并隐藏所有进度
+{
+  const ctx = makeV70Context({ v69unlocked: true });
+  const decreeId = "ratified-born:right-to-name:name";
+  const fullState = ctx.v70.defaultDeadParliament();
+  fullState.visited = { rotunda: true, chamber: true, severance: true, republic: true };
+  fullState.draft = { caucus: "ratified-born", motion: "right-to-name" };
+  fullState.decrees = [decreeId];
+  fullState.crisisOutcomes = ["the-name-became-the-only-citizen"];
+  fullState.parliamentRuns = 5;
+  fullState.crisisRuns = 2;
+  fullState.seatTallies = { name: 3, shadow: 1, body: 1 };
+  fullState.lastOutcome = decreeId;
+  fullState.activeWhip = { caucus: "ratified-born", decree: decreeId, feedback: ctx.v70.CAUCUS_TABLE["ratified-born"].whipFeedback };
+  fullState.pending = { kind: "entry", target: "dead-parliament-rotunda", feedback: ctx.v70.DEAD_PARLIAMENT_ENTRY_FEEDBACK };
+  ctx.v70.saveDeadParliament(fullState);
+  const ctxLocked = makeV70Context({ initialStore: ctx.storeData, v69unlocked: false });
+  const st = ctxLocked.v70.getDeadParliament();
+  assert.deepStrictEqual(st, ctxLocked.v70.defaultDeadParliament(), "locked getter returns default state");
+  assert.strictEqual(st.decrees.length, 0, "locked getter hides decrees");
+  assert.strictEqual(st.crisisOutcomes.length, 0, "locked getter hides crisis outcomes");
+  assert.strictEqual(st.parliamentRuns, 0, "locked getter zeroes parliamentRuns");
+  assert.strictEqual(st.crisisRuns, 0, "locked getter zeroes crisisRuns");
+  assert.deepStrictEqual(st.seatTallies, { name: 0, shadow: 0, body: 0 }, "locked getter zeroes seatTallies");
+  assert.strictEqual(st.activeWhip, null, "locked getter nulls activeWhip");
+  assert.strictEqual(st.pending, null, "locked getter nulls pending");
+  assert.strictEqual(st.lastOutcome, "", "locked getter clears lastOutcome");
+}
+
+// Remembrance 首轮阻断回归：前置解锁但自身 0 进度时，codex 父层、普通入口必须可见，39 格全锁
+{
+  function makeV70El({ hidden = true } = {}) {
+    return {
+      hidden,
+      disabled: false,
+      textContent: "",
+      children: [],
+      className: "",
+      setAttribute() {},
+      removeAttribute(name) { if (name === "hidden") this.hidden = false; },
+      closest: () => null,
+      addEventListener() {},
+      set innerHTML(v) { this.children.length = 0; },
+      appendChild(c) { this.children.push(c); },
+    };
+  }
+  const box = makeV70El();
+  const grid = makeV70El({ hidden: false });
+  const entry = makeV70El();
+  const memory = makeV70El();
+  const entryBtn = makeV70El({ hidden: true });
+  const crisisEntryBtn = makeV70El({ hidden: true });
+  const ctx = makeV70Context({
+    scene: "remembrance",
+    elements: {
+      "dead-parliament-codex": box,
+      "dead-parliament-codex-grid": grid,
+      "dead-parliament-codex-entry": entry,
+      "dead-parliament-memory": memory,
+      "dead-parliament-entry-btn": entryBtn,
+      "dead-parliament-crisis-entry-btn": crisisEntryBtn,
+    },
+  });
+  ctx.v70.syncDeadParliamentRemembrance();
+  assert.strictEqual(box.hidden, false, "v70 codex box visible at zero progress when unlocked");
+  assert.strictEqual(entry.hidden, false, "v70 codex entry parent visible at zero progress");
+  assert.strictEqual(memory.hidden, false, "v70 memory visible at zero progress");
+  assert.strictEqual(grid.children.length, 39, "v70 codex renders 39 cells at zero progress");
+  assert.strictEqual(grid.children.filter((c) => c.className.includes("unlocked")).length, 0, "v70 zero progress has 0 unlocked cells");
+  assert.strictEqual(entryBtn.hidden, false, "v70 entry button visible at zero progress");
+  assert.strictEqual(entryBtn.disabled, false, "v70 entry button enabled at zero progress");
+  assert.strictEqual(crisisEntryBtn.hidden, true, "v70 crisis entry hidden without coverage");
+
+  const box2 = makeV70El();
+  const grid2 = makeV70El({ hidden: false });
+  const entry2 = makeV70El();
+  const memory2 = makeV70El();
+  const entryBtn2 = makeV70El({ hidden: true });
+  const crisisEntryBtn2 = makeV70El({ hidden: true });
+  const ctx2 = makeV70Context({
+    v69unlocked: false,
+    scene: "remembrance",
+    elements: {
+      "dead-parliament-codex": box2,
+      "dead-parliament-codex-grid": grid2,
+      "dead-parliament-codex-entry": entry2,
+      "dead-parliament-memory": memory2,
+      "dead-parliament-entry-btn": entryBtn2,
+      "dead-parliament-crisis-entry-btn": crisisEntryBtn2,
+    },
+  });
+  ctx2.v70.syncDeadParliamentRemembrance();
+  assert.strictEqual(box2.hidden, true, "v70 codex box hidden when v69 locked");
+  assert.strictEqual(entry2.hidden, true, "v70 codex entry hidden when v69 locked");
+  assert.strictEqual(memory2.hidden, true, "v70 memory hidden when v69 locked");
+  assert.strictEqual(entryBtn2.hidden, true, "v70 entry button hidden when v69 locked");
+}
+
+/* ---------- v71 死亡外交部 / MINISTRY OF MORTAL DIPLOMACY ---------- */
+
+const V71_SOURCE_HASHES = {
+  "design-references/source-v71-death-foreign-ministry.png": "1d17408fd41dd601073bf0b4466421c2868ddf080ca47f69ca3ca4fdcbe98d10",
+  "design-references/source-v71-nonexistent-border-chancery.png": "510b35085a2c1b52521898f895979f7d7cfd9f10609efeedb5266ef071381d0a",
+  "design-references/source-v71-treaty-autopsy-table.png": "5ef23992603d9818e7fc1c1709e78195e67a677eba636875c5d7c1e09a22b7f2",
+  "design-references/source-v71-undeclared-war-room.png": "0a4074f6c38ac1286146d7ec49529c72f095420c56c1db9ccf298dff6fca46cd",
+};
+const V71_SOURCE_SIZES = {
+  "design-references/source-v71-death-foreign-ministry.png": 2445118,
+  "design-references/source-v71-nonexistent-border-chancery.png": 2331679,
+  "design-references/source-v71-treaty-autopsy-table.png": 2630624,
+  "design-references/source-v71-undeclared-war-room.png": 2825544,
+};
+const V71_WEBP_HASHES = {
+  "assets/v71-death-foreign-ministry.webp": "6dd46e8d5155abbcbd5d7b1b8cbc695af9a213b3f787cf54d60609b8af99d57c",
+  "assets/v71-nonexistent-border-chancery.webp": "cfed45f969cea1f24a87c6ba0ec779861a58064713ff9e6e05d1ca3d2b4624ba",
+  "assets/v71-treaty-autopsy-table.webp": "0846bc8553a7cc60aea25262c78b6d02b9286a8a0b9513715a5cfaf45d4ee8df",
+  "assets/v71-undeclared-war-room.webp": "19ba0864796d49c57b7853d39b35398618392b48da3bb7883a20323f559b248f",
+};
+const V71_WEBP_SIZES = {
+  "assets/v71-death-foreign-ministry.webp": 211410,
+  "assets/v71-nonexistent-border-chancery.webp": 144824,
+  "assets/v71-treaty-autopsy-table.webp": 222570,
+  "assets/v71-undeclared-war-room.webp": 280614,
+};
+
+/* 四张 source PNG 冻结 */
+for (const [src, hash] of Object.entries(V71_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(src, root));
+  assert.equal(buf.length, V71_SOURCE_SIZES[src], `${src} must keep its frozen byte size`);
+  assert.equal(createHash("sha256").update(buf).digest("hex"), hash, `${src} must keep its frozen sha256`);
+}
+
+/* 四张运行时 WebP 冻结 */
+for (const [asset, hash] of Object.entries(V71_WEBP_HASHES)) {
+  const buf = await readFile(new URL(asset, root));
+  assert.equal(buf.length, V71_WEBP_SIZES[asset], `${asset} must keep its frozen byte size`);
+  assert.equal(createHash("sha256").update(buf).digest("hex"), hash, `${asset} must keep its frozen sha256`);
+  const dims = readWebpDimensions(buf);
+  assert.ok(dims, `${asset} must be a readable WebP`);
+  assert.equal(dims.width, 1536, `${asset} must be 1536 px wide`);
+  assert.equal(dims.height, 1024, `${asset} must be 1024 px tall`);
+  assert.ok(html.includes(asset), `${asset} must be referenced`);
+}
+for (const asset of Object.keys(V71_WEBP_HASHES)) {
+  assert.match(html, new RegExp(`<link rel="preload" href="${asset.replace(".", "\\.")}" as="image">`), `${asset} must be preloaded`);
+}
+
+/* 四场景 DOM */
+for (const s of ["death-foreign-ministry", "nonexistent-border-chancery", "treaty-autopsy-table", "undeclared-war-room"]) {
+  assert.match(html, new RegExp(`data-scene="${s}"`), `v71 scene missing: ${s}`);
+}
+for (const [scene, title] of [
+  ["death-foreign-ministry", "死亡外交部"],
+  ["nonexistent-border-chancery", "不存在国境"],
+  ["treaty-autopsy-table", "条约解剖"],
+  ["undeclared-war-room", "未宣战室"],
+]) {
+  const section = html.match(new RegExp(`<section class="scene scene-branch scene-${scene.replace(/-/g, "-")}"[\\s\\S]*?<\\/section>`));
+  assert.ok(section, `v71 section missing: ${scene}`);
+  assert.match(section[0], new RegExp(`data-title="Goddead — ${title}"`), `${scene} title frozen`);
+}
+
+/* figure 与热点 ID */
+assert.match(html, /id="death-diplomacy-ministry-figure"/);
+for (const d of ["name-legation", "shadow-mission", "body-consulate"]) {
+  assert.match(html, new RegExp(`id="death-diplomacy-delegation-${d}"`), `missing delegation ${d}`);
+}
+assert.match(html, /id="death-diplomacy-border-figure"/);
+for (const c of ["before-birth-country", "after-memory-republic", "inside-body-state"]) {
+  assert.match(html, new RegExp(`id="death-diplomacy-counterpart-${c}"`), `missing counterpart ${c}`);
+}
+assert.match(html, /id="death-diplomacy-autopsy-figure"/);
+for (const cl of ["mutual-recognition", "asylum-for-unlived", "resurrection-embargo", "extradite-the-ending"]) {
+  assert.match(html, new RegExp(`id="death-diplomacy-clause-${cl}"`), `missing clause ${cl}`);
+}
+assert.match(html, /id="death-diplomacy-war-figure"/);
+for (const a of ["internalize-all-borders", "recognize-only-exile", "criminalize-resurrection"]) {
+  assert.match(html, new RegExp(`id="death-diplomacy-war-${a}"`), `missing war action ${a}`);
+}
+
+/* 三处信使容器与返回按钮 */
+for (const s of ["counterfactual-spindle", "remembrance", "constitutional-severance-desk"]) {
+  assert.match(html, new RegExp(`id="death-diplomacy-courier-${s}"`), `missing courier container ${s}`);
+  assert.match(html, new RegExp(`id="death-diplomacy-courier-return-${s}"`), `missing courier return ${s}`);
+  assert.match(html, new RegExp(`id="death-diplomacy-courier-response-${s}"`), `missing courier response ${s}`);
+}
+
+/* Remembrance 入口、记忆、图鉴 */
+assert.match(html, /id="death-diplomacy-entry-btn"/);
+assert.match(html, /id="death-diplomacy-war-entry-btn"/);
+assert.match(html, /id="death-diplomacy-memory"/);
+assert.match(html, /id="death-diplomacy-codex"/);
+assert.match(html, /id="death-diplomacy-codex-grid"/);
+assert.match(html, /id="death-diplomacy-codex-entry"/);
+assert.match(html, /id="death-diplomacy-entry-response"/);
+assert.match(html, /id="death-diplomacy-war-entry-response"/);
+assert.match(html, /替三个不完整的国家递交国书/);
+assert.match(html, /召回所有从未被承认的使节/);
+
+/* 四目录链接 */
+for (const id of ["death-foreign-ministry-link", "nonexistent-border-chancery-link", "treaty-autopsy-table-link", "undeclared-war-room-link"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `missing directory link ${id}`);
+}
+
+/* JS 模块存在与边界 */
+assert.equal((js.match(/const DEATH_DIPLOMACY_KEY = ['"]goddead_v71_death_diplomacy['"]/g) || []).length, 1, "v71 introduces exactly one storage key");
+const v71ModuleBlock = js.match(/v71 死亡外交部 \/ MINISTRY OF MORTAL DIPLOMACY[\s\S]*?走廊：残页 \+ 封印的门/);
+assert.ok(v71ModuleBlock, "v71 module must exist");
+
+/* saveDeathDiplomacy 持久化十一键 */
+const saveDeathDiplomacyBlock = js.match(/const saveDeathDiplomacy = \(st\) => \{[\s\S]*?store\.set\(\s*DEATH_DIPLOMACY_KEY,\s*JSON\.stringify\(\{[\s\S]*?\}\)\s*\);/);
+assert.ok(saveDeathDiplomacyBlock, "saveDeathDiplomacy must persist an explicit canonical projection");
+for (const f of ["version", "visited", "draft", "treaties", "warOutcomes", "diplomaticRuns", "warRuns", "embassyTallies", "lastOutcome", "activeCourier", "pending"]) {
+  assert.match(saveDeathDiplomacyBlock[0], new RegExp(`\\b${f}\\b`), `saveDeathDiplomacy persists ${f}`);
+}
+
+/* 规范化函数 */
+assert.match(js, /const normalizeDeathDiplomacyTreaties = \(treaties\) => \{[\s\S]*?TREATY_IDS/, "normalizeDeathDiplomacyTreaties sorts by TREATY_IDS");
+assert.match(js, /const normalizeDeathDiplomacyWarOutcomes = \(arr\) => \{[\s\S]*?WAR_ACTIONS\.map/, "normalizeDeathDiplomacyWarOutcomes sorts by WAR_ACTIONS order");
+const normalizeDeathDiplomacyPendingBlock = js.match(/const normalizeDeathDiplomacyPending = \(p, st\) => \{[\s\S]*?\n  \};/);
+assert.ok(normalizeDeathDiplomacyPendingBlock, "normalizeDeathDiplomacyPending must exist");
+assert.match(normalizeDeathDiplomacyPendingBlock[0], /st\._v71unlocked === true/, "pending normalization uses passed _v71unlocked, not storage");
+assert.match(normalizeDeathDiplomacyPendingBlock[0], /p\.kind === 'entry' && keys === 'feedback,kind,target'/, "entry pending accepts exactly three whitelisted keys");
+assert.match(normalizeDeathDiplomacyPendingBlock[0], /p\.kind === 'delegation' && keys === 'delegation,feedback,kind,source,target'/, "delegation pending accepts exactly five whitelisted keys");
+assert.match(normalizeDeathDiplomacyPendingBlock[0], /p\.kind === 'counterpart' && keys === 'counterpart,delegation,feedback,kind,source,target'/, "counterpart pending accepts exactly six whitelisted keys");
+assert.match(normalizeDeathDiplomacyPendingBlock[0], /p\.kind === 'treaty' && keys === 'clause,counterpart,delegation,feedback,kind,source,target,treaty'/, "treaty pending accepts exactly eight whitelisted keys including source");
+assert.match(normalizeDeathDiplomacyPendingBlock[0], /if \(p\.source !== 'treaty-autopsy-table'\) return null/, "treaty pending rejects wrong or missing source");
+assert.match(normalizeDeathDiplomacyPendingBlock[0], /p\.kind === 'courier-return' && keys === 'feedback,from,kind,target,treaty'/, "courier-return pending accepts exactly five whitelisted keys");
+assert.match(normalizeDeathDiplomacyPendingBlock[0], /p\.kind === 'war-entry' && keys === 'feedback,kind,target'/, "war-entry pending accepts exactly three whitelisted keys");
+assert.match(normalizeDeathDiplomacyPendingBlock[0], /p\.kind === 'war' && keys === 'action,feedback,kind,outcome,source,target'/, "war pending accepts exactly six whitelisted keys");
+
+/* 解锁资格只读 v70 状态 */
+assert.match(js, /const deathDiplomacyUnlocked = \(\) => \{[\s\S]*?getDeadParliament\(\)/, "deathDiplomacyUnlocked reads getDeadParliament");
+assert.match(js, /deadParliamentUnlocked\(\)/, "deathDiplomacyUnlocked checks v70 unlock");
+assert.match(js, /parliamentCoverageComplete\(dp\)/, "deathDiplomacyUnlocked checks v70 coverage");
+
+/* 覆盖完成检查 */
+assert.match(js, /const diplomaticCoverageComplete = \(st\) => \{[\s\S]*?delegations\.size === 3 && counterparts\.size === 3 && clauses\.size === 4/, "diplomaticCoverageComplete checks full coverage");
+
+/* 18 组 isTrusted 防线 */
+const v71ListenerBlock = js.match(/const deathDiplomacyEntryBtn = \$\('#death-diplomacy-entry-btn'\);[\s\S]*?v72 遗言中央银行 \/ CENTRAL BANK OF LAST WORDS/);
+assert.ok(v71ListenerBlock, "v71 click listener block must exist");
+assert.equal((v71ListenerBlock[0].match(/!e\.isTrusted/g) || []).length, 18, "v71 must guard all eighteen click listeners with isTrusted");
+
+/* v71 不读写旧 key */
+assert.ok(!v71ModuleBlock[0].includes("saveDeadParliament("), "v71 never calls saveDeadParliament");
+assert.ok(!/store\.set\(DEAD_PARLIAMENT_KEY/.test(v71ModuleBlock[0]), "v71 never writes the v70 dead parliament key");
+assert.ok(!/goddead_v(28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59|60|61|62|63|64|65|66|67|68|69|70)/.test(v71ModuleBlock[0]), "v71 state must not touch earlier keys");
+
+/* forget-all 清 v71 key */
+assert.match(forgetBlock[0], /localStorage\.removeItem\(["']goddead_v71_death_diplomacy["']\)/, "forget-all removes the v71 storage key");
+
+/* 窄屏热点尺寸与溢出 */
+const deathDiplomacyMobileBlock = css.match(/@media \(max-width: 720px\) \{[\s\S]*?\.death-diplomacy-hotspot\s*\{[\s\S]*?\}\s*\}/);
+assert.ok(deathDiplomacyMobileBlock, "death diplomacy mobile block exists");
+assert.match(deathDiplomacyMobileBlock[0], /min-width:\s*44px/, "death diplomacy mobile hotspot min-width >= 44px");
+assert.match(deathDiplomacyMobileBlock[0], /min-height:\s*44px/, "death diplomacy mobile hotspot min-height >= 44px");
+
+/* 桌面热点非重叠 */
+function parseCssRect(cssText, className) {
+  const re = new RegExp(`\\.${className.replace(/-/g, "\\-")}\\s*\\{([^}]*)\\}`);
+  const m = cssText.match(re);
+  if (!m) return null;
+  const text = m[1];
+  const getPct = (prop) => { const mm = text.match(new RegExp(`${prop}:\\s*([0-9.]+)%`)); return mm ? parseFloat(mm[1]) : null; };
+  return { top: getPct("top"), left: getPct("left"), width: getPct("width"), height: getPct("height") };
+}
+function rectsOverlap(a, b) {
+  return a.left < b.left + b.width && a.left + a.width > b.left && a.top < b.top + b.height && a.top + a.height > b.top;
+}
+for (const group of [
+  ["death-diplomacy-delegation-name-legation", "death-diplomacy-delegation-shadow-mission", "death-diplomacy-delegation-body-consulate"],
+  ["death-diplomacy-counterpart-before-birth-country", "death-diplomacy-counterpart-after-memory-republic", "death-diplomacy-counterpart-inside-body-state"],
+  ["death-diplomacy-clause-mutual-recognition", "death-diplomacy-clause-asylum-for-unlived", "death-diplomacy-clause-resurrection-embargo", "death-diplomacy-clause-extradite-the-ending"],
+  ["death-diplomacy-war-internalize-all-borders", "death-diplomacy-war-recognize-only-exile", "death-diplomacy-war-criminalize-resurrection"],
+]) {
+  const rects = group.map((cls) => {
+    const r = parseCssRect(css, cls);
+    assert.ok(r, `${cls} has desktop CSS rect`);
+    assert.ok(r.top !== null && r.left !== null && r.width !== null && r.height !== null, `${cls} has complete desktop CSS rect`);
+    assert.ok(r.top >= 0 && r.left >= 0 && r.width > 0 && r.height > 0 && r.top + r.height <= 100 && r.left + r.width <= 100, `${cls} rect stays inside figure`);
+    return r;
+  });
+  for (let i = 0; i < rects.length; i++) {
+    for (let j = i + 1; j < rects.length; j++) {
+      assert.strictEqual(rectsOverlap(rects[i], rects[j]), false, `${group[i]} and ${group[j]} desktop hotspots must not overlap`);
+    }
+  }
+}
+
+/* v71 路由守卫 */
+const resolveSceneBlock2 = js.match(/const resolveScene = \(name\) => \{[\s\S]*?\n  \};/);
+assert.ok(resolveSceneBlock2, "resolveScene block must be extractable");
+for (const [s, fn] of [
+  ["death-foreign-ministry", "deathDiplomacyCanVisitMinistry"],
+  ["nonexistent-border-chancery", "deathDiplomacyCanVisitBorder"],
+  ["treaty-autopsy-table", "deathDiplomacyCanVisitAutopsy"],
+  ["undeclared-war-room", "deathDiplomacyCanVisitWar"],
+]) {
+  assert.match(resolveSceneBlock2[0], new RegExp(s), `resolveScene mentions ${s}`);
+  assert.match(resolveSceneBlock2[0], new RegExp(fn), `resolveScene guards ${s} with ${fn}`);
+}
+
+/* 三个旧场景守卫桥：显式接受 v71 treaty pending / activeCourier */
+const counterfactualCanVisitSpindleBlock = js.match(/const counterfactualCanVisitSpindle = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(counterfactualCanVisitSpindleBlock, "counterfactualCanVisitSpindle block must be extractable");
+assert.match(counterfactualCanVisitSpindleBlock[0], /dd\.pending && dd\.pending\.kind === ['"]treaty['"] && dd\.pending\.target === ['"]counterfactual-spindle['"]/, "spindle guard accepts v71 treaty pending target");
+assert.match(counterfactualCanVisitSpindleBlock[0], /dd\.activeCourier && dd\.activeCourier\.counterpart === ['"]before-birth-country['"]/, "spindle guard accepts v71 activeCourier for before-birth-country");
+
+const deadParliamentCanVisitSeveranceBlock = js.match(/const deadParliamentCanVisitSeverance = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(deadParliamentCanVisitSeveranceBlock, "deadParliamentCanVisitSeverance block must be extractable");
+assert.match(deadParliamentCanVisitSeveranceBlock[0], /dd\.pending && dd\.pending\.kind === ['"]treaty['"] && dd\.pending\.target === ['"]constitutional-severance-desk['"]/, "severance guard accepts v71 treaty pending target");
+assert.match(deadParliamentCanVisitSeveranceBlock[0], /dd\.activeCourier && dd\.activeCourier\.counterpart === ['"]inside-body-state['"]/, "severance guard accepts v71 activeCourier for inside-body-state");
+
+/* Remembrance courier UI 显式允许 v71 after-memory-republic */
+const remembranceCourierSection = html.match(/<div class="death-diplomacy-courier reveal" id="death-diplomacy-courier-remembrance"[\s\S]*?<\/div>/);
+assert.ok(remembranceCourierSection, "remembrance courier container exists");
+assert.match(remembranceCourierSection[0], /id="death-diplomacy-courier-return-remembrance"/, "remembrance courier return button exists");
+assert.match(remembranceCourierSection[0], /跟遗忘后信使返回外交部/, "remembrance courier return text frozen");
+
+/* v71 设计文档存在且冻结哈希 */
+const v71doc = await fileText("docs/V71DeathDiplomacyDesign.md");
+for (const hash of Object.values(V71_SOURCE_HASHES)) {
+  assert.ok(v71doc.includes(hash), "V71 design doc must freeze the source sha256 values");
+}
+for (const hash of Object.values(V71_WEBP_HASHES)) {
+  assert.ok(v71doc.includes(hash), "V71 design doc must freeze the WebP sha256 values");
+}
+assert.match(v71doc, /1536×1024/, "V71 design doc documents 1536×1024 dimensions");
+
+/* ---------- v71 可执行/隔离状态回归测试 ---------- */
+assert.ok(v71ModuleBlock, "v71 executable block available for regression tests");
+const v71ExecSourceStart = v71ModuleBlock[0].indexOf("const DEATH_DIPLOMACY_KEY");
+assert.ok(v71ExecSourceStart > 0, "v71 executable block starts with DEATH_DIPLOMACY_KEY");
+const v71CorridorStart = v71ModuleBlock[0].indexOf("走廊：残页");
+assert.ok(v71CorridorStart > v71ExecSourceStart, "v71 executable block ends before corridor section");
+const v71ExecSourceEnd = v71ModuleBlock[0].lastIndexOf("/*", v71CorridorStart);
+const v71ExecSource = v71ModuleBlock[0].slice(v71ExecSourceStart, v71ExecSourceEnd > v71ExecSourceStart ? v71ExecSourceEnd : v71CorridorStart).trimEnd();
+
+const DEATH_DIPLOMACY_KEY = "goddead_v71_death_diplomacy";
+const fullV70Decrees = ["ratified-born:right-to-name:name", "removed-visitor:right-to-shadow:shadow", "blank-citizen:right-to-body:body", "ratified-born:right-to-die-once:shadow"];
+const fullV70CrisisOutcomes = ["the-name-became-the-only-citizen", "the-shadow-founded-the-opposition-republic", "the-body-abolished-dead-suffrage"];
+const coverageTreaties = ["name-legation:before-birth-country:mutual-recognition", "shadow-mission:after-memory-republic:asylum-for-unlived", "body-consulate:inside-body-state:resurrection-embargo", "name-legation:after-memory-republic:extradite-the-ending"];
+
+function makeDeathDiplomacyBtn({ disabled = false, hidden = false } = {}) {
+  const listeners = {};
+  return {
+    disabled,
+    hidden,
+    textContent: "",
+    setAttribute() {},
+    removeAttribute() {},
+    closest: () => null,
+    addEventListener(type, handler) { listeners[type] = handler; },
+    listeners,
+  };
+}
+
+function makeV71Context({
+  initialStore = {},
+  elements = {},
+  scene = "",
+  v70unlocked = true,
+  decrees = fullV70Decrees,
+  crisisOutcomes = fullV70CrisisOutcomes,
+} = {}) {
+  const storeData = { ...initialStore };
+  const store = {
+    get(k, def) { return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def; },
+    set(k, v) { storeData[k] = v; },
+  };
+  const queries = [];
+  const $ = (rawId) => { queries.push(rawId); return elements[rawId.replace(/^#/, "")] || null; };
+  const scheduleCalls = [];
+  const AutoAdvance = { has(src) { return false; }, schedule(src, target, opts) { scheduleCalls.push({ src, target, opts }); } };
+  const AudioEngine = { whoosh() {}, bell() {} };
+  const deadParliamentUnlocked = () => v70unlocked;
+  const getDeadParliament = () => v70unlocked ? { decrees, crisisOutcomes } : { decrees: [], crisisOutcomes: [] };
+  const parliamentCoverageComplete = (dp) => {
+    const d = dp || getDeadParliament();
+    if (!Array.isArray(d.decrees) || d.decrees.length < 3) return false;
+    const caucuses = new Set();
+    const motions = new Set();
+    const citizens = new Set();
+    for (const id of d.decrees) {
+      const parts = id.split(":");
+      if (parts.length !== 3) continue;
+      caucuses.add(parts[0]);
+      motions.add(parts[1]);
+      citizens.add(parts[2]);
+    }
+    return caucuses.size === 3 && motions.size === 4 && citizens.size === 3;
+  };
+  const buttonAvailable = (id) => {
+    const btn = $(`#${id}`);
+    if (!btn || btn.disabled || btn.hidden) return false;
+    if (typeof btn.closest === "function" && btn.closest("[hidden]")) return false;
+    return true;
+  };
+  const document = {
+    createElement(tag) {
+      return {
+        tagName: tag,
+        className: "",
+        innerHTML: "",
+        textContent: "",
+        children: [],
+        hidden: true,
+        setAttribute() {},
+        removeAttribute(name) { if (name === "hidden") this.hidden = false; },
+        appendChild(c) { this.children.push(c); },
+      };
+    },
+  };
+  const body = v71ExecSource + "\nreturn { DEATH_DIPLOMACY_KEY, DEATH_DIPLOMACY_VERSION, DELEGATIONS, COUNTERPARTS, CLAUSES, WAR_ACTIONS, SCENE_FOR_COUNTERPART, DELEGATION_TABLE, COUNTERPART_TABLE, CLAUSE_TABLE, WAR_TABLE, DEATH_DIPLOMACY_ENTRY_FEEDBACK, DEATH_DIPLOMACY_WAR_ENTRY_FEEDBACK, TREATY_IDS, TREATY_SET, WAR_OUTCOME_IDS, WAR_OUTCOME_SET, defaultDeathDiplomacy, normalizeDeathDiplomacyVisited, normalizeDeathDiplomacyDraft, normalizeDeathDiplomacyTreaties, normalizeDeathDiplomacyWarOutcomes, normalizeDeathDiplomacyEmbassyTallies, normalizeDeathDiplomacyActiveCourier, normalizeDeathDiplomacyPending, saveDeathDiplomacy, getDeathDiplomacy, deathDiplomacyUnlocked, diplomaticCoverageComplete, computeDiplomaticMajority, computeTreatyId, computeTreatyTitle, computeTreatyFeedback, findTreatyById, computeWarOutcomeId, deathDiplomacyDelay, deathDiplomacyBeforeArrive, resolveDeathDiplomacyPendingOnArrival, lockDeathDiplomacyDelegationButtons, lockDeathDiplomacyCounterpartButtons, lockDeathDiplomacyClauseButtons, lockDeathDiplomacyWarButtons, syncDeathDiplomacyMinistry, syncDeathDiplomacyBorder, syncDeathDiplomacyAutopsy, syncDeathDiplomacyWar, syncDeathDiplomacyCouriers, paintDiplomaticTally, paintDeathDiplomacyMemory, paintDeathDiplomacyCodex, syncDeathDiplomacyRemembrance, syncDeathDiplomacyLinks, replayDeathDiplomacyPending, chooseDeathDiplomacyEntry, chooseDeathDiplomacyDelegation, chooseDeathDiplomacyCounterpart, chooseDeathDiplomacyClause, chooseDeathDiplomacyCourierReturn, chooseDeathDiplomacyWarEntry, chooseDeathDiplomacyWarAction, deathDiplomacyCanVisitMinistry, deathDiplomacyCanVisitBorder, deathDiplomacyCanVisitAutopsy, deathDiplomacyCanVisitWar };";
+  const v71 = new Function("store", "$", "currentScene", "AutoAdvance", "AudioEngine", "reduced", "deadParliamentUnlocked", "parliamentCoverageComplete", "getDeadParliament", "buttonAvailable", "document", body)(store, $, scene, AutoAdvance, AudioEngine, false, deadParliamentUnlocked, parliamentCoverageComplete, getDeadParliament, buttonAvailable, document);
+  const read = () => {
+    try { return JSON.parse(storeData[DEATH_DIPLOMACY_KEY] || "{}") || {}; } catch { return {}; }
+  };
+  return { v71, storeData, read, queries, scheduleCalls };
+}
+
+// 36 treaty IDs 唯一且固定顺序
+{
+  const ctx = makeV71Context({});
+  assert.equal(ctx.v71.DEATH_DIPLOMACY_VERSION, 71, "v71 version constant is 71");
+  assert.equal(ctx.v71.TREATY_IDS.length, 36, "exactly 36 treaty ids");
+  assert.equal(ctx.v71.TREATY_SET.size, 36, "36 treaty ids are unique");
+  const expectedIds = [];
+  for (const d of ctx.v71.DELEGATIONS) {
+    for (const c of ctx.v71.COUNTERPARTS) {
+      for (const cl of ctx.v71.CLAUSES) {
+        expectedIds.push(`${d}:${c}:${cl}`);
+      }
+    }
+  }
+  assert.deepStrictEqual(ctx.v71.TREATY_IDS, expectedIds, "treaty ids follow DELEGATIONS × COUNTERPARTS × CLAUSES order");
+}
+
+// 3 war outcome IDs 固定顺序
+{
+  const ctx = makeV71Context({});
+  assert.deepStrictEqual(ctx.v71.WAR_OUTCOME_IDS, [
+    "all-borders-moved-inside-the-body",
+    "only-the-exile-was-recognized",
+    "resurrection-became-contraband",
+  ], "war outcome ids follow WAR_ACTIONS order");
+}
+
+// computeTreatyTitle/feedback 确定性
+{
+  const ctx = makeV71Context({});
+  const t1 = ctx.v71.computeTreatyTitle("name-legation", "before-birth-country", "mutual-recognition");
+  const t2 = ctx.v71.computeTreatyTitle("name-legation", "before-birth-country", "mutual-recognition");
+  assert.strictEqual(t1, t2, "computeTreatyTitle is deterministic");
+  assert.ok(t1.includes("无身姓名使团"), "title includes delegation fragment");
+  assert.ok(t1.includes("出生以前的国"), "title includes counterpart fragment");
+  assert.ok(t1.includes("互相承认"), "title includes clause fragment");
+  const fb = ctx.v71.computeTreatyFeedback("name-legation", "before-birth-country", "mutual-recognition");
+  assert.ok(fb.includes("姓名使节用一串无人发出的音节递交国书。"), "feedback includes delegation narrative");
+  assert.ok(fb.includes("出生以前的国以尚未发生为国界，拒绝承认任何生日。"), "feedback includes counterpart narrative");
+  assert.ok(fb.includes("双方承认彼此存在，同时豁免对方提供存在证据。"), "feedback includes clause narrative");
+}
+
+// normalizeDeathDiplomacyTreaties 拒绝非法、去重、排序
+{
+  const ctx = makeV71Context({});
+  const out = ctx.v71.normalizeDeathDiplomacyTreaties([
+    "name-legation:before-birth-country:mutual-recognition",
+    "shadow-mission:after-memory-republic:asylum-for-unlived",
+    "name-legation:before-birth-country:mutual-recognition",
+    "invalid:foo:bar",
+    "body-consulate:inside-body-state:resurrection-embargo",
+  ]);
+  assert.deepStrictEqual(out, [
+    "name-legation:before-birth-country:mutual-recognition",
+    "shadow-mission:after-memory-republic:asylum-for-unlived",
+    "body-consulate:inside-body-state:resurrection-embargo",
+  ], "treaties are deduped and ordered by frozen table");
+}
+
+// normalizeDeathDiplomacyWarOutcomes 排序
+{
+  const ctx = makeV71Context({});
+  const out = ctx.v71.normalizeDeathDiplomacyWarOutcomes(["resurrection-became-contraband", "all-borders-moved-inside-the-body", "only-the-exile-was-recognized"]);
+  assert.deepStrictEqual(out, ["all-borders-moved-inside-the-body", "only-the-exile-was-recognized", "resurrection-became-contraband"], "war outcomes follow WAR_ACTIONS order");
+}
+
+// 坏类型安全归空
+{
+  const ctx = makeV71Context({});
+  assert.deepStrictEqual(ctx.v71.normalizeDeathDiplomacyTreaties("not-an-array"), [], "string treaties normalized to empty");
+  assert.deepStrictEqual(ctx.v71.normalizeDeathDiplomacyTreaties({ foo: true }), [], "object treaties normalized to empty");
+  assert.deepStrictEqual(ctx.v71.normalizeDeathDiplomacyWarOutcomes("not-an-array"), [], "string war outcomes normalized to empty");
+  assert.deepStrictEqual(ctx.v71.normalizeDeathDiplomacyWarOutcomes(12345), [], "number war outcomes normalized to empty");
+}
+
+// 计数 clamp
+{
+  const ctx = makeV71Context({});
+  const st = ctx.v71.defaultDeathDiplomacy();
+  st.diplomaticRuns = 3.7;
+  st.warRuns = -5;
+  st.embassyTallies = { name: "12.9", shadow: Infinity, body: -3 };
+  ctx.v71.saveDeathDiplomacy(st);
+  const saved = ctx.read();
+  assert.strictEqual(saved.diplomaticRuns, 3, "diplomaticRuns floors and clamps");
+  assert.strictEqual(saved.warRuns, 0, "warRuns clamps negative to zero");
+  assert.strictEqual(saved.embassyTallies.name, 12, "embassyTallies.name floors string");
+  assert.strictEqual(saved.embassyTallies.shadow, 9999, "embassyTallies.shadow clamps Infinity");
+  assert.strictEqual(saved.embassyTallies.body, 0, "embassyTallies.body clamps negative to zero");
+}
+
+// 额外键丢弃 / canonical 十一键
+{
+  const ctx = makeV71Context({});
+  const st = ctx.v71.defaultDeathDiplomacy();
+  st.extraKey = "should-drop";
+  st.visited.extra = true;
+  st.draft.extra = "drop";
+  st.embassyTallies.extra = 5;
+  ctx.v71.saveDeathDiplomacy(st);
+  const saved = ctx.read();
+  assert.deepStrictEqual(Object.keys(saved).sort(), ["activeCourier", "diplomaticRuns", "draft", "embassyTallies", "lastOutcome", "pending", "treaties", "version", "visited", "warOutcomes", "warRuns"], "save projects exactly canonical eleven keys");
+  assert.strictEqual(saved.extraKey, undefined, "top-level extra key dropped");
+  assert.strictEqual(saved.visited.extra, undefined, "visited extra key dropped");
+  assert.strictEqual(saved.draft.extra, undefined, "draft extra key dropped");
+  assert.strictEqual(saved.embassyTallies.extra, undefined, "embassyTallies extra key dropped");
+}
+
+// draft 非法 counterpart 清空
+{
+  const ctx = makeV71Context({});
+  assert.deepStrictEqual(ctx.v71.normalizeDeathDiplomacyDraft({ delegation: "invalid", counterpart: "before-birth-country" }), { delegation: "", counterpart: "" }, "invalid delegation clears counterpart");
+  assert.deepStrictEqual(ctx.v71.normalizeDeathDiplomacyDraft({ delegation: "name-legation", counterpart: "invalid" }), { delegation: "name-legation", counterpart: "" }, "invalid counterpart cleared while delegation kept");
+  assert.deepStrictEqual(ctx.v71.normalizeDeathDiplomacyDraft({ delegation: "", counterpart: "before-birth-country" }), { delegation: "", counterpart: "" }, "counterpart without delegation cleared");
+}
+
+// lastOutcome 只允许已收集 treaty 或 warOutcome
+{
+  const ctx = makeV71Context({});
+  const st = { ...ctx.v71.defaultDeathDiplomacy(), treaties: ["name-legation:before-birth-country:mutual-recognition"], lastOutcome: "name-legation:before-birth-country:mutual-recognition" };
+  ctx.v71.saveDeathDiplomacy(st);
+  assert.strictEqual(ctx.read().lastOutcome, "name-legation:before-birth-country:mutual-recognition", "collected treaty lastOutcome kept");
+  const st2 = { ...ctx.v71.defaultDeathDiplomacy(), treaties: [], lastOutcome: "name-legation:before-birth-country:mutual-recognition" };
+  ctx.v71.saveDeathDiplomacy(st2);
+  assert.strictEqual(ctx.read().lastOutcome, "", "uncollected treaty lastOutcome cleared");
+}
+
+// activeCourier 三键反算
+{
+  const ctx = makeV71Context({});
+  const treatyId = "name-legation:before-birth-country:mutual-recognition";
+  const validCourier = { counterpart: "before-birth-country", treaty: treatyId, feedback: ctx.v71.COUNTERPART_TABLE["before-birth-country"].courierFeedback };
+  assert.deepStrictEqual(ctx.v71.normalizeDeathDiplomacyActiveCourier(validCourier, [treatyId]), validCourier, "valid activeCourier preserved");
+  assert.strictEqual(ctx.v71.normalizeDeathDiplomacyActiveCourier({ counterpart: "before-birth-country", treaty: treatyId, feedback: "wrong" }, [treatyId]), null, "wrong feedback rejected");
+  assert.strictEqual(ctx.v71.normalizeDeathDiplomacyActiveCourier({ counterpart: "after-memory-republic", treaty: treatyId, feedback: ctx.v71.COUNTERPART_TABLE["after-memory-republic"].courierFeedback }, [treatyId]), null, "counterpart mismatching treaty second segment rejected");
+  assert.strictEqual(ctx.v71.normalizeDeathDiplomacyActiveCourier({ counterpart: "before-birth-country", treaty: treatyId, feedback: ctx.v71.COUNTERPART_TABLE["before-birth-country"].courierFeedback }, []), null, "treaty not collected rejected");
+  assert.strictEqual(ctx.v71.normalizeDeathDiplomacyActiveCourier({ extra: 1, counterpart: "before-birth-country", treaty: treatyId, feedback: ctx.v71.COUNTERPART_TABLE["before-birth-country"].courierFeedback }, [treatyId]), null, "extra key rejected");
+}
+
+// 七类 strict pending 白名单
+{
+  const ctx = makeV71Context({});
+  const baseSt = ctx.v71.defaultDeathDiplomacy();
+  baseSt._v71unlocked = true;
+
+  assert.ok(ctx.v71.normalizeDeathDiplomacyPending({ kind: "entry", target: "death-foreign-ministry", feedback: ctx.v71.DEATH_DIPLOMACY_ENTRY_FEEDBACK }, baseSt), "legal entry pending accepted");
+  assert.strictEqual(ctx.v71.normalizeDeathDiplomacyPending({ kind: "entry", target: "nonexistent-border-chancery", feedback: ctx.v71.DEATH_DIPLOMACY_ENTRY_FEEDBACK }, baseSt), null, "entry with wrong target rejected");
+  assert.strictEqual(ctx.v71.normalizeDeathDiplomacyPending({ kind: "entry", target: "death-foreign-ministry", feedback: ctx.v71.DEATH_DIPLOMACY_ENTRY_FEEDBACK, extra: 1 }, baseSt), null, "entry with extra key rejected");
+
+  assert.ok(ctx.v71.normalizeDeathDiplomacyPending({ kind: "delegation", source: "death-foreign-ministry", delegation: "name-legation", target: "nonexistent-border-chancery", feedback: ctx.v71.DELEGATION_TABLE["name-legation"].feedback }, baseSt), "legal delegation pending accepted");
+  baseSt.draft = { delegation: "name-legation", counterpart: "" };
+  assert.strictEqual(ctx.v71.normalizeDeathDiplomacyPending({ kind: "delegation", source: "death-foreign-ministry", delegation: "name-legation", target: "nonexistent-border-chancery", feedback: ctx.v71.DELEGATION_TABLE["name-legation"].feedback }, baseSt), null, "delegation rejected when draft not empty");
+
+  baseSt.draft = { delegation: "name-legation", counterpart: "" };
+  assert.ok(ctx.v71.normalizeDeathDiplomacyPending({ kind: "counterpart", source: "nonexistent-border-chancery", delegation: "name-legation", counterpart: "before-birth-country", target: "treaty-autopsy-table", feedback: ctx.v71.COUNTERPART_TABLE["before-birth-country"].feedback }, baseSt), "legal counterpart pending accepted");
+  baseSt.draft = { delegation: "shadow-mission", counterpart: "" };
+  assert.strictEqual(ctx.v71.normalizeDeathDiplomacyPending({ kind: "counterpart", source: "nonexistent-border-chancery", delegation: "name-legation", counterpart: "before-birth-country", target: "treaty-autopsy-table", feedback: ctx.v71.COUNTERPART_TABLE["before-birth-country"].feedback }, baseSt), null, "counterpart rejected when delegation mismatches draft");
+
+  baseSt.draft = { delegation: "name-legation", counterpart: "before-birth-country" };
+  const treatyFb = ctx.v71.computeTreatyFeedback("name-legation", "before-birth-country", "mutual-recognition");
+  assert.ok(ctx.v71.normalizeDeathDiplomacyPending({ kind: "treaty", source: "treaty-autopsy-table", delegation: "name-legation", counterpart: "before-birth-country", clause: "mutual-recognition", treaty: "name-legation:before-birth-country:mutual-recognition", target: "counterfactual-spindle", feedback: treatyFb }, baseSt), "legal treaty pending accepted");
+  assert.strictEqual(ctx.v71.normalizeDeathDiplomacyPending({ kind: "treaty", source: "treaty-autopsy-table", delegation: "name-legation", counterpart: "before-birth-country", clause: "mutual-recognition", treaty: "name-legation:after-memory-republic:mutual-recognition", target: "remembrance", feedback: treatyFb }, baseSt), null, "treaty rejected when id mismatches draft");
+  assert.strictEqual(ctx.v71.normalizeDeathDiplomacyPending({ kind: "treaty", delegation: "name-legation", counterpart: "before-birth-country", clause: "mutual-recognition", treaty: "name-legation:before-birth-country:mutual-recognition", target: "counterfactual-spindle", feedback: treatyFb }, baseSt), null, "treaty pending rejected when source key missing");
+  assert.strictEqual(ctx.v71.normalizeDeathDiplomacyPending({ kind: "treaty", source: "nonexistent-border-chancery", delegation: "name-legation", counterpart: "before-birth-country", clause: "mutual-recognition", treaty: "name-legation:before-birth-country:mutual-recognition", target: "counterfactual-spindle", feedback: treatyFb }, baseSt), null, "treaty pending rejected when source is not treaty-autopsy-table");
+  assert.strictEqual(ctx.v71.normalizeDeathDiplomacyPending({ kind: "treaty", source: "treaty-autopsy-table", delegation: "name-legation", counterpart: "before-birth-country", clause: "mutual-recognition", treaty: "name-legation:before-birth-country:mutual-recognition", target: "counterfactual-spindle", feedback: treatyFb, extra: 1 }, baseSt), null, "treaty pending rejected when extra key present");
+
+  baseSt.activeCourier = { counterpart: "before-birth-country", treaty: "name-legation:before-birth-country:mutual-recognition", feedback: ctx.v71.COUNTERPART_TABLE["before-birth-country"].courierFeedback };
+  assert.ok(ctx.v71.normalizeDeathDiplomacyPending({ kind: "courier-return", from: "counterfactual-spindle", target: "death-foreign-ministry", treaty: "name-legation:before-birth-country:mutual-recognition", feedback: ctx.v71.COUNTERPART_TABLE["before-birth-country"].courierFeedback }, baseSt), "legal courier-return pending accepted");
+  assert.strictEqual(ctx.v71.normalizeDeathDiplomacyPending({ kind: "courier-return", from: "remembrance", target: "death-foreign-ministry", treaty: "name-legation:before-birth-country:mutual-recognition", feedback: ctx.v71.COUNTERPART_TABLE["before-birth-country"].courierFeedback }, baseSt), null, "courier-return rejected when from mismatches activeCourier counterpart");
+
+  baseSt.treaties = coverageTreaties;
+  assert.ok(ctx.v71.normalizeDeathDiplomacyPending({ kind: "war-entry", target: "undeclared-war-room", feedback: ctx.v71.DEATH_DIPLOMACY_WAR_ENTRY_FEEDBACK }, baseSt), "legal war-entry pending accepted");
+
+  baseSt.visited.war = true;
+  assert.ok(ctx.v71.normalizeDeathDiplomacyPending({ kind: "war", source: "undeclared-war-room", action: "internalize-all-borders", outcome: "all-borders-moved-inside-the-body", target: "threshold", feedback: ctx.v71.WAR_TABLE["internalize-all-borders"].feedback }, baseSt), "legal war pending accepted");
+  assert.strictEqual(ctx.v71.normalizeDeathDiplomacyPending({ kind: "war", source: "undeclared-war-room", action: "internalize-all-borders", outcome: "all-borders-moved-inside-the-body", target: "threshold", feedback: ctx.v71.WAR_TABLE["internalize-all-borders"].feedback }, { ...baseSt, visited: { ...baseSt.visited, war: false } }), null, "war rejected when war not visited");
+}
+
+// source/target/else reload 矩阵
+{
+  const ctx = makeV71Context({ scene: "remembrance" });
+  const pending = { kind: "entry", target: "death-foreign-ministry", feedback: ctx.v71.DEATH_DIPLOMACY_ENTRY_FEEDBACK };
+  ctx.v71.saveDeathDiplomacy({ ...ctx.v71.defaultDeathDiplomacy(), pending });
+  ctx.v71.replayDeathDiplomacyPending("remembrance");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "entry source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].src, "remembrance", "entry source reload schedules from remembrance");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "death-foreign-ministry", "entry source reload schedules to ministry");
+}
+{
+  const ctx = makeV71Context({ scene: "death-foreign-ministry" });
+  const pending = { kind: "delegation", source: "death-foreign-ministry", delegation: "name-legation", target: "nonexistent-border-chancery", feedback: ctx.v71.DELEGATION_TABLE["name-legation"].feedback };
+  ctx.v71.saveDeathDiplomacy({ ...ctx.v71.defaultDeathDiplomacy(), draft: { delegation: "", counterpart: "" }, pending });
+  ctx.v71.replayDeathDiplomacyPending("death-foreign-ministry");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "delegation source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "nonexistent-border-chancery", "delegation source reload schedules to border");
+}
+{
+  const ctx = makeV71Context({ scene: "nonexistent-border-chancery" });
+  const pending = { kind: "counterpart", source: "nonexistent-border-chancery", delegation: "name-legation", counterpart: "before-birth-country", target: "treaty-autopsy-table", feedback: ctx.v71.COUNTERPART_TABLE["before-birth-country"].feedback };
+  ctx.v71.saveDeathDiplomacy({ ...ctx.v71.defaultDeathDiplomacy(), draft: { delegation: "name-legation", counterpart: "" }, pending });
+  ctx.v71.replayDeathDiplomacyPending("nonexistent-border-chancery");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "counterpart source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "treaty-autopsy-table", "counterpart source reload schedules to autopsy");
+}
+{
+  const ctx = makeV71Context({ scene: "treaty-autopsy-table" });
+  const treatyFb = ctx.v71.computeTreatyFeedback("name-legation", "before-birth-country", "mutual-recognition");
+  const pending = { kind: "treaty", source: "treaty-autopsy-table", delegation: "name-legation", counterpart: "before-birth-country", clause: "mutual-recognition", treaty: "name-legation:before-birth-country:mutual-recognition", target: "counterfactual-spindle", feedback: treatyFb };
+  ctx.v71.saveDeathDiplomacy({ ...ctx.v71.defaultDeathDiplomacy(), draft: { delegation: "name-legation", counterpart: "before-birth-country" }, pending });
+  ctx.v71.replayDeathDiplomacyPending("treaty-autopsy-table");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "treaty source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "counterfactual-spindle", "treaty source reload schedules to counterpart target");
+}
+{
+  for (const scene of ["counterfactual-spindle", "remembrance", "constitutional-severance-desk"]) {
+    const counterpart = scene === "counterfactual-spindle" ? "before-birth-country" : scene === "remembrance" ? "after-memory-republic" : "inside-body-state";
+    const treatyId = `${counterpart === "before-birth-country" ? "name-legation" : counterpart === "after-memory-republic" ? "shadow-mission" : "body-consulate"}:${counterpart}:mutual-recognition`;
+    const container = { hidden: true, setAttribute() {}, removeAttribute() {}, closest: () => null, addEventListener() {} };
+    const response = { textContent: "", setAttribute() {}, removeAttribute() {}, closest: () => null, addEventListener() {} };
+    const btn = { disabled: false, hidden: false, pressed: null, setAttribute(name, value) { if (name === "aria-pressed") this.pressed = value; }, removeAttribute() {}, closest: () => null, addEventListener() {} };
+    const elements = {
+      [`death-diplomacy-courier-${scene}`]: container,
+      [`death-diplomacy-courier-response-${scene}`]: response,
+      [`death-diplomacy-courier-return-${scene}`]: btn,
+    };
+    const ctx = makeV71Context({ scene, elements });
+    const courierFb = ctx.v71.COUNTERPART_TABLE[counterpart].courierFeedback;
+    const pending = { kind: "courier-return", from: scene, target: "death-foreign-ministry", treaty: treatyId, feedback: courierFb };
+    ctx.v71.saveDeathDiplomacy({ ...ctx.v71.defaultDeathDiplomacy(), treaties: [treatyId], activeCourier: { counterpart, treaty: treatyId, feedback: courierFb }, pending });
+    ctx.v71.replayDeathDiplomacyPending(scene);
+    assert.strictEqual(container.hidden, false, `courier-return ${scene} container shown`);
+    assert.strictEqual(response.textContent, courierFb, `courier-return ${scene} response verbatim`);
+    assert.strictEqual(btn.disabled, true, `courier-return ${scene} return disabled`);
+    assert.strictEqual(String(btn.pressed), "true", `courier-return ${scene} return pressed`);
+    assert.strictEqual(ctx.scheduleCalls.length, 1, `courier-return ${scene} schedules once`);
+    assert.strictEqual(ctx.scheduleCalls[0].target, "death-foreign-ministry", `courier-return ${scene} schedules to ministry`);
+  }
+}
+{
+  const ctx = makeV71Context({ scene: "remembrance" });
+  const pending = { kind: "war-entry", target: "undeclared-war-room", feedback: ctx.v71.DEATH_DIPLOMACY_WAR_ENTRY_FEEDBACK };
+  ctx.v71.saveDeathDiplomacy({ ...ctx.v71.defaultDeathDiplomacy(), treaties: coverageTreaties, pending });
+  ctx.v71.replayDeathDiplomacyPending("remembrance");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "war-entry source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "undeclared-war-room", "war-entry source reload schedules to war room");
+}
+{
+  const ctx = makeV71Context({ scene: "undeclared-war-room" });
+  const pending = { kind: "war", source: "undeclared-war-room", action: "internalize-all-borders", outcome: "all-borders-moved-inside-the-body", target: "threshold", feedback: ctx.v71.WAR_TABLE["internalize-all-borders"].feedback };
+  ctx.v71.saveDeathDiplomacy({ ...ctx.v71.defaultDeathDiplomacy(), treaties: coverageTreaties, visited: { ministry: true, border: true, autopsy: true, war: true }, pending });
+  ctx.v71.replayDeathDiplomacyPending("undeclared-war-room");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "war source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "threshold", "war source reload schedules to target");
+}
+
+// target 到达结算一次
+{
+  const ctx = makeV71Context({});
+  const treatyFb = ctx.v71.computeTreatyFeedback("name-legation", "before-birth-country", "mutual-recognition");
+  const treatyId = "name-legation:before-birth-country:mutual-recognition";
+  const pending = { kind: "treaty", source: "treaty-autopsy-table", delegation: "name-legation", counterpart: "before-birth-country", clause: "mutual-recognition", treaty: treatyId, target: "counterfactual-spindle", feedback: treatyFb };
+  ctx.v71.saveDeathDiplomacy({ ...ctx.v71.defaultDeathDiplomacy(), draft: { delegation: "name-legation", counterpart: "before-birth-country" }, pending });
+  ctx.v71.resolveDeathDiplomacyPendingOnArrival("counterfactual-spindle");
+  const st = ctx.read();
+  assert.deepStrictEqual(st.treaties, [treatyId], "target arrival records the treaty");
+  assert.strictEqual(st.diplomaticRuns, 1, "target arrival increments diplomaticRuns once");
+  assert.strictEqual(st.embassyTallies.name, 1, "target arrival increments name tally by 1");
+  assert.strictEqual(st.pending, null, "target arrival clears pending");
+  assert.strictEqual(ctx.scheduleCalls.length, 0, "target arrival does not schedule");
+  assert.deepStrictEqual(st.activeCourier, { counterpart: "before-birth-country", treaty: treatyId, feedback: ctx.v71.COUNTERPART_TABLE["before-birth-country"].courierFeedback }, "target arrival sets activeCourier");
+}
+
+// 重复条约不重复图鉴，但 diplomaticRuns 与 embassyTallies 累加
+{
+  const ctx = makeV71Context({});
+  const treatyId = "name-legation:before-birth-country:mutual-recognition";
+  const treatyFb = ctx.v71.computeTreatyFeedback("name-legation", "before-birth-country", "mutual-recognition");
+  ctx.v71.saveDeathDiplomacy({ ...ctx.v71.defaultDeathDiplomacy(), treaties: [treatyId], diplomaticRuns: 1, embassyTallies: { name: 1, shadow: 0, body: 0 } });
+  ctx.v71.saveDeathDiplomacy({ ...ctx.read(), draft: { delegation: "name-legation", counterpart: "before-birth-country" }, pending: { kind: "treaty", source: "treaty-autopsy-table", delegation: "name-legation", counterpart: "before-birth-country", clause: "mutual-recognition", treaty: treatyId, target: "counterfactual-spindle", feedback: treatyFb } });
+  ctx.v71.resolveDeathDiplomacyPendingOnArrival("counterfactual-spindle");
+  const st = ctx.read();
+  assert.deepStrictEqual(st.treaties, [treatyId], "repeat treaty does not duplicate codex");
+  assert.strictEqual(st.diplomaticRuns, 2, "repeat treaty increments diplomaticRuns");
+  assert.strictEqual(st.embassyTallies.name, 2, "repeat treaty increments name tally");
+}
+
+// else 场景清伪造 pending
+{
+  const ctx = makeV71Context({ scene: "protocol" });
+  const pending = { kind: "delegation", source: "death-foreign-ministry", delegation: "name-legation", target: "nonexistent-border-chancery", feedback: ctx.v71.DELEGATION_TABLE["name-legation"].feedback };
+  ctx.v71.saveDeathDiplomacy({ ...ctx.v71.defaultDeathDiplomacy(), draft: { delegation: "", counterpart: "" }, pending });
+  ctx.v71.replayDeathDiplomacyPending("protocol");
+  assert.strictEqual(ctx.read().pending ?? null, null, "else scene clears pending");
+  assert.strictEqual(ctx.scheduleCalls.length, 0, "else scene does not schedule");
+}
+
+// choose 函数尊重 disabled/hidden/figure-hidden
+{
+  const ctx = makeV71Context({ scene: "death-foreign-ministry" });
+  ctx.v71.chooseDeathDiplomacyDelegation("name-legation");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled delegation button blocks choice (no element)");
+
+  const ctx2 = makeV71Context({ scene: "death-foreign-ministry", elements: { "death-diplomacy-delegation-name-legation": makeDeathDiplomacyBtn({ hidden: true }) } });
+  ctx2.v71.chooseDeathDiplomacyDelegation("name-legation");
+  assert.strictEqual(ctx2.read().pending ?? null, null, "hidden delegation button blocks choice");
+
+  const ctx3 = makeV71Context({ scene: "death-foreign-ministry", elements: { "death-diplomacy-delegation-name-legation": makeDeathDiplomacyBtn() } });
+  ctx3.v71.chooseDeathDiplomacyDelegation("name-legation");
+  assert.strictEqual(ctx3.read().pending?.kind, "delegation", "enabled visible delegation button allows choice");
+}
+{
+  const ctx = makeV71Context({ scene: "nonexistent-border-chancery", elements: { "death-diplomacy-counterpart-before-birth-country": makeDeathDiplomacyBtn({ disabled: true }) } });
+  ctx.v71.saveDeathDiplomacy({ ...ctx.v71.defaultDeathDiplomacy(), draft: { delegation: "name-legation", counterpart: "" } });
+  ctx.v71.chooseDeathDiplomacyCounterpart("before-birth-country");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled counterpart button blocks choice");
+
+  const ctx2 = makeV71Context({ scene: "nonexistent-border-chancery", elements: { "death-diplomacy-counterpart-before-birth-country": makeDeathDiplomacyBtn() } });
+  ctx2.v71.saveDeathDiplomacy({ ...ctx2.v71.defaultDeathDiplomacy(), draft: { delegation: "name-legation", counterpart: "" } });
+  ctx2.v71.chooseDeathDiplomacyCounterpart("before-birth-country");
+  assert.strictEqual(ctx2.read().pending?.kind, "counterpart", "enabled visible counterpart button allows choice");
+}
+{
+  const ctx = makeV71Context({ scene: "treaty-autopsy-table", elements: { "death-diplomacy-clause-mutual-recognition": makeDeathDiplomacyBtn({ disabled: true }) } });
+  ctx.v71.saveDeathDiplomacy({ ...ctx.v71.defaultDeathDiplomacy(), draft: { delegation: "name-legation", counterpart: "before-birth-country" } });
+  ctx.v71.chooseDeathDiplomacyClause("mutual-recognition");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled clause button blocks choice");
+
+  const ctx2 = makeV71Context({ scene: "treaty-autopsy-table", elements: { "death-diplomacy-clause-mutual-recognition": makeDeathDiplomacyBtn() } });
+  ctx2.v71.saveDeathDiplomacy({ ...ctx2.v71.defaultDeathDiplomacy(), draft: { delegation: "name-legation", counterpart: "before-birth-country" } });
+  ctx2.v71.chooseDeathDiplomacyClause("mutual-recognition");
+  assert.strictEqual(ctx2.read().pending?.kind, "treaty", "enabled visible clause button allows choice");
+}
+{
+  const ctx = makeV71Context({ scene: "remembrance", elements: { "death-diplomacy-entry-btn": makeDeathDiplomacyBtn({ disabled: true }) } });
+  ctx.v71.chooseDeathDiplomacyEntry();
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled entry button blocks entry");
+
+  const ctx2 = makeV71Context({ scene: "remembrance", elements: { "death-diplomacy-entry-btn": makeDeathDiplomacyBtn() } });
+  ctx2.v71.chooseDeathDiplomacyEntry();
+  assert.strictEqual(ctx2.read().pending?.kind, "entry", "enabled visible entry button allows entry");
+}
+{
+  const ctx = makeV71Context({ scene: "remembrance", elements: { "death-diplomacy-war-entry-btn": makeDeathDiplomacyBtn({ disabled: true }) } });
+  ctx.v71.saveDeathDiplomacy({ ...ctx.v71.defaultDeathDiplomacy(), treaties: coverageTreaties });
+  ctx.v71.chooseDeathDiplomacyWarEntry();
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled war entry button blocks entry");
+
+  const ctx2 = makeV71Context({ scene: "remembrance", elements: { "death-diplomacy-war-entry-btn": makeDeathDiplomacyBtn() } });
+  ctx2.v71.saveDeathDiplomacy({ ...ctx2.v71.defaultDeathDiplomacy(), treaties: coverageTreaties });
+  ctx2.v71.chooseDeathDiplomacyWarEntry();
+  assert.strictEqual(ctx2.read().pending?.kind, "war-entry", "enabled visible war entry button allows entry");
+}
+{
+  const ctx = makeV71Context({ scene: "undeclared-war-room", elements: { "death-diplomacy-war-internalize-all-borders": makeDeathDiplomacyBtn({ disabled: true }) } });
+  ctx.v71.saveDeathDiplomacy({ ...ctx.v71.defaultDeathDiplomacy(), treaties: coverageTreaties, visited: { ministry: true, border: true, autopsy: true, war: true } });
+  ctx.v71.chooseDeathDiplomacyWarAction("internalize-all-borders");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled war action button blocks choice");
+
+  const ctx2 = makeV71Context({ scene: "undeclared-war-room", elements: { "death-diplomacy-war-internalize-all-borders": makeDeathDiplomacyBtn() } });
+  ctx2.v71.saveDeathDiplomacy({ ...ctx2.v71.defaultDeathDiplomacy(), treaties: coverageTreaties, visited: { ministry: true, border: true, autopsy: true, war: true } });
+  ctx2.v71.chooseDeathDiplomacyWarAction("internalize-all-borders");
+  assert.strictEqual(ctx2.read().pending?.kind, "war", "enabled visible war action button allows choice");
+}
+{
+  const treatyId = "name-legation:before-birth-country:mutual-recognition";
+  const courierFb = (() => {
+    const ctx = makeV71Context({});
+    return ctx.v71.COUNTERPART_TABLE["before-birth-country"].courierFeedback;
+  })();
+  const ctx = makeV71Context({ scene: "counterfactual-spindle", elements: { "death-diplomacy-courier-return-counterfactual-spindle": makeDeathDiplomacyBtn({ disabled: true }) } });
+  ctx.v71.saveDeathDiplomacy({ ...ctx.v71.defaultDeathDiplomacy(), treaties: [treatyId], activeCourier: { counterpart: "before-birth-country", treaty: treatyId, feedback: courierFb } });
+  ctx.v71.chooseDeathDiplomacyCourierReturn("counterfactual-spindle");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled courier return button blocks return");
+
+  const ctx2 = makeV71Context({ scene: "counterfactual-spindle", elements: { "death-diplomacy-courier-return-counterfactual-spindle": makeDeathDiplomacyBtn() } });
+  ctx2.v71.saveDeathDiplomacy({ ...ctx2.v71.defaultDeathDiplomacy(), treaties: [treatyId], activeCourier: { counterpart: "before-birth-country", treaty: treatyId, feedback: courierFb } });
+  ctx2.v71.chooseDeathDiplomacyCourierReturn("counterfactual-spindle");
+  assert.strictEqual(ctx2.read().pending?.kind, "courier-return", "enabled visible courier return button allows return");
+}
+
+// deathDiplomacyUnlocked 只能由规范 v70 coverage + 三 crisisOutcomes 证明
+{
+  const ctx = makeV71Context({ v70unlocked: true, decrees: fullV70Decrees, crisisOutcomes: fullV70CrisisOutcomes });
+  assert.strictEqual(ctx.v71.deathDiplomacyUnlocked(), true, "full v70 evidence unlocks v71");
+  const ctx2 = makeV71Context({ v70unlocked: false });
+  assert.strictEqual(ctx2.v71.deathDiplomacyUnlocked(), false, "incomplete v70 evidence locks v71");
+  const ctx3 = makeV71Context({ v70unlocked: true, decrees: fullV70Decrees, crisisOutcomes: ["the-name-became-the-only-citizen"] });
+  assert.strictEqual(ctx3.v71.deathDiplomacyUnlocked(), false, "missing crisis outcomes lock v71");
+  const ctx4 = makeV71Context({ v70unlocked: true, decrees: ["ratified-born:right-to-name:name"], crisisOutcomes: fullV70CrisisOutcomes });
+  assert.strictEqual(ctx4.v71.deathDiplomacyUnlocked(), false, "incomplete decrees coverage locks v71");
+}
+
+// diplomaticCoverageComplete
+{
+  const ctx = makeV71Context({});
+  assert.strictEqual(ctx.v71.diplomaticCoverageComplete({ treaties: coverageTreaties }), true, "full coverage is complete");
+  assert.strictEqual(ctx.v71.diplomaticCoverageComplete({ treaties: ["name-legation:before-birth-country:mutual-recognition"] }), false, "single treaty is not complete");
+  assert.strictEqual(ctx.v71.diplomaticCoverageComplete({ treaties: [] }), false, "empty treaties is not complete");
+  const threeCoverage = ["name-legation:before-birth-country:mutual-recognition", "shadow-mission:after-memory-republic:asylum-for-unlived", "body-consulate:inside-body-state:resurrection-embargo"];
+  assert.strictEqual(ctx.v71.diplomaticCoverageComplete({ treaties: threeCoverage }), false, "three treaties covering all delegations/counterparts but only three clauses cannot open war entry");
+  const fourDiagonal = ["name-legation:before-birth-country:mutual-recognition", "shadow-mission:after-memory-republic:asylum-for-unlived", "body-consulate:inside-body-state:resurrection-embargo", "name-legation:after-memory-republic:extradite-the-ending"];
+  assert.strictEqual(ctx.v71.diplomaticCoverageComplete({ treaties: fourDiagonal }), true, "four diagonal representative treaties cover all four clauses and open war entry");
+}
+
+// saveDeathDiplomacy 只写 v71 key，移除后归零
+{
+  const ctx = makeV71Context({});
+  ctx.v71.saveDeathDiplomacy(ctx.v71.defaultDeathDiplomacy());
+  assert.ok(Object.prototype.hasOwnProperty.call(ctx.storeData, DEATH_DIPLOMACY_KEY), "saveDeathDiplomacy writes the v71 key");
+  assert.equal(Object.keys(ctx.storeData).length, 1, "saveDeathDiplomacy writes exactly one key");
+  delete ctx.storeData[DEATH_DIPLOMACY_KEY];
+  assert.deepStrictEqual(ctx.v71.getDeathDiplomacy(), ctx.v71.defaultDeathDiplomacy(), "removing v71 key resets to default");
+}
+
+// v70 前置失效时 getDeathDiplomacy 规范化为默认状态并隐藏所有进度
+{
+  const ctx = makeV71Context({ v70unlocked: true });
+  const treatyId = "name-legation:before-birth-country:mutual-recognition";
+  const fullState = ctx.v71.defaultDeathDiplomacy();
+  fullState.visited = { ministry: true, border: true, autopsy: true, war: true };
+  fullState.draft = { delegation: "name-legation", counterpart: "before-birth-country" };
+  fullState.treaties = [treatyId];
+  fullState.warOutcomes = ["all-borders-moved-inside-the-body"];
+  fullState.diplomaticRuns = 5;
+  fullState.warRuns = 2;
+  fullState.embassyTallies = { name: 3, shadow: 1, body: 1 };
+  fullState.lastOutcome = treatyId;
+  fullState.activeCourier = { counterpart: "before-birth-country", treaty: treatyId, feedback: ctx.v71.COUNTERPART_TABLE["before-birth-country"].courierFeedback };
+  fullState.pending = { kind: "entry", target: "death-foreign-ministry", feedback: ctx.v71.DEATH_DIPLOMACY_ENTRY_FEEDBACK };
+  ctx.v71.saveDeathDiplomacy(fullState);
+  const ctxLocked = makeV71Context({ initialStore: ctx.storeData, v70unlocked: false });
+  const st = ctxLocked.v71.getDeathDiplomacy();
+  assert.deepStrictEqual(st, ctxLocked.v71.defaultDeathDiplomacy(), "locked getter returns default state");
+  assert.strictEqual(st.treaties.length, 0, "locked getter hides treaties");
+  assert.strictEqual(st.warOutcomes.length, 0, "locked getter hides war outcomes");
+  assert.strictEqual(st.diplomaticRuns, 0, "locked getter zeroes diplomaticRuns");
+  assert.strictEqual(st.warRuns, 0, "locked getter zeroes warRuns");
+  assert.deepStrictEqual(st.embassyTallies, { name: 0, shadow: 0, body: 0 }, "locked getter zeroes embassyTallies");
+  assert.strictEqual(st.activeCourier, null, "locked getter nulls activeCourier");
+  assert.strictEqual(st.pending, null, "locked getter nulls pending");
+  assert.strictEqual(st.lastOutcome, "", "locked getter clears lastOutcome");
+}
+
+// Remembrance 首轮阻断回归：前置解锁但自身 0 进度时，codex 父层、普通入口必须可见，39 格全锁
+{
+  function makeV71El({ hidden = true } = {}) {
+    return {
+      hidden,
+      disabled: false,
+      textContent: "",
+      children: [],
+      className: "",
+      setAttribute() {},
+      removeAttribute(name) { if (name === "hidden") this.hidden = false; },
+      closest: () => null,
+      addEventListener() {},
+      set innerHTML(v) { this.children.length = 0; },
+      appendChild(c) { this.children.push(c); },
+    };
+  }
+  const box = makeV71El();
+  const grid = makeV71El({ hidden: false });
+  const entry = makeV71El();
+  const memory = makeV71El();
+  const entryBtn = makeV71El({ hidden: true });
+  const warEntryBtn = makeV71El({ hidden: true });
+  const ctx = makeV71Context({
+    scene: "remembrance",
+    elements: {
+      "death-diplomacy-codex": box,
+      "death-diplomacy-codex-grid": grid,
+      "death-diplomacy-codex-entry": entry,
+      "death-diplomacy-memory": memory,
+      "death-diplomacy-entry-btn": entryBtn,
+      "death-diplomacy-war-entry-btn": warEntryBtn,
+    },
+  });
+  ctx.v71.syncDeathDiplomacyRemembrance();
+  assert.strictEqual(box.hidden, false, "v71 codex box visible at zero progress when unlocked");
+  assert.strictEqual(entry.hidden, false, "v71 codex entry parent visible at zero progress");
+  assert.strictEqual(memory.hidden, false, "v71 memory visible at zero progress");
+  assert.strictEqual(grid.children.length, 39, "v71 codex renders 39 cells at zero progress");
+  assert.strictEqual(grid.children.filter((c) => c.className.includes("unlocked")).length, 0, "v71 zero progress has 0 unlocked cells");
+  assert.strictEqual(entryBtn.hidden, false, "v71 entry button visible at zero progress");
+  assert.strictEqual(entryBtn.disabled, false, "v71 entry button enabled at zero progress");
+  assert.strictEqual(warEntryBtn.hidden, true, "v71 war entry hidden without coverage");
+
+  // activeCourier 存在时入口必须禁用，与 handler 一致
+  const entryBtnCourier = makeV71El({ hidden: true });
+  const warEntryBtnCourier = makeV71El({ hidden: true });
+  const ctxCourier = makeV71Context({
+    scene: "remembrance",
+    elements: {
+      "death-diplomacy-codex": makeV71El(),
+      "death-diplomacy-codex-grid": makeV71El({ hidden: false }),
+      "death-diplomacy-codex-entry": makeV71El(),
+      "death-diplomacy-memory": makeV71El(),
+      "death-diplomacy-entry-btn": entryBtnCourier,
+      "death-diplomacy-war-entry-btn": warEntryBtnCourier,
+    },
+  });
+  ctxCourier.v71.saveDeathDiplomacy({ ...ctxCourier.v71.defaultDeathDiplomacy(), treaties: ["name-legation:before-birth-country:mutual-recognition"], activeCourier: { counterpart: "before-birth-country", treaty: "name-legation:before-birth-country:mutual-recognition", feedback: ctxCourier.v71.COUNTERPART_TABLE["before-birth-country"].courierFeedback } });
+  ctxCourier.v71.syncDeathDiplomacyRemembrance();
+  assert.strictEqual(entryBtnCourier.disabled, true, "entry button disabled while activeCourier exists");
+  assert.strictEqual(warEntryBtnCourier.disabled, true, "war entry button disabled while activeCourier exists");
+
+  // draft 非空时普通入口必须禁用
+  const entryBtnDraft = makeV71El({ hidden: true });
+  const ctxDraft = makeV71Context({
+    scene: "remembrance",
+    elements: {
+      "death-diplomacy-codex": makeV71El(),
+      "death-diplomacy-codex-grid": makeV71El({ hidden: false }),
+      "death-diplomacy-codex-entry": makeV71El(),
+      "death-diplomacy-memory": makeV71El(),
+      "death-diplomacy-entry-btn": entryBtnDraft,
+      "death-diplomacy-war-entry-btn": makeV71El({ hidden: true }),
+    },
+  });
+  ctxDraft.v71.saveDeathDiplomacy({ ...ctxDraft.v71.defaultDeathDiplomacy(), draft: { delegation: "name-legation", counterpart: "before-birth-country" } });
+  ctxDraft.v71.syncDeathDiplomacyRemembrance();
+  assert.strictEqual(entryBtnDraft.disabled, true, "entry button disabled while draft is non-empty");
+
+  const box2 = makeV71El();
+  const grid2 = makeV71El({ hidden: false });
+  const entry2 = makeV71El();
+  const memory2 = makeV71El();
+  const entryBtn2 = makeV71El({ hidden: true });
+  const warEntryBtn2 = makeV71El({ hidden: true });
+  const ctx2 = makeV71Context({
+    v70unlocked: false,
+    scene: "remembrance",
+    elements: {
+      "death-diplomacy-codex": box2,
+      "death-diplomacy-codex-grid": grid2,
+      "death-diplomacy-codex-entry": entry2,
+      "death-diplomacy-memory": memory2,
+      "death-diplomacy-entry-btn": entryBtn2,
+      "death-diplomacy-war-entry-btn": warEntryBtn2,
+    },
+  });
+  ctx2.v71.syncDeathDiplomacyRemembrance();
+  assert.strictEqual(box2.hidden, true, "v71 codex box hidden when v70 locked");
+  assert.strictEqual(entry2.hidden, true, "v71 codex entry hidden when v70 locked");
+  assert.strictEqual(memory2.hidden, true, "v71 memory hidden when v70 locked");
+  assert.strictEqual(entryBtn2.hidden, true, "v71 entry button hidden when v70 locked");
+}
+
+// 统计行与外交多数
+{
+  const ctx = makeV71Context({});
+  assert.strictEqual(ctx.v71.computeDiplomaticMajority({ name: 0, shadow: 0, body: 0 }), "无人获得承认", "all zero majority is none");
+  assert.strictEqual(ctx.v71.computeDiplomaticMajority({ name: 2, shadow: 1, body: 1 }), "姓名使团获承认", "name majority");
+  assert.strictEqual(ctx.v71.computeDiplomaticMajority({ name: 1, shadow: 2, body: 1 }), "影子使团获承认", "shadow majority");
+  assert.strictEqual(ctx.v71.computeDiplomaticMajority({ name: 1, shadow: 1, body: 2 }), "肉身使团获承认", "body majority");
+  assert.strictEqual(ctx.v71.computeDiplomaticMajority({ name: 2, shadow: 2, body: 1 }), "无人获得承认", "tie majority is none");
+}
+
+// 18 组 listener 合成 click 零副作用
+{
+  const entryBtn = makeDeathDiplomacyBtn();
+  const ctx = makeV71Context({ scene: "remembrance", elements: { "death-diplomacy-entry-btn": entryBtn } });
+  assert.ok(entryBtn.listeners.click, "entry listener attached");
+  ctx.v71.saveDeathDiplomacy({ ...ctx.v71.defaultDeathDiplomacy() });
+  entryBtn.listeners.click({ isTrusted: false });
+  assert.strictEqual(ctx.read().pending ?? null, null, "synthetic click on entry does not create pending");
+
+  const delegationBtn = makeDeathDiplomacyBtn();
+  const ctx2 = makeV71Context({ scene: "death-foreign-ministry", elements: { "death-diplomacy-delegation-name-legation": delegationBtn } });
+  assert.ok(delegationBtn.listeners.click, "delegation listener attached");
+  ctx2.v71.saveDeathDiplomacy({ ...ctx2.v71.defaultDeathDiplomacy() });
+  delegationBtn.listeners.click({ isTrusted: false });
+  assert.strictEqual(ctx2.read().pending ?? null, null, "synthetic click on delegation does not create pending");
+
+  const warEntryBtn = makeDeathDiplomacyBtn();
+  const ctx3 = makeV71Context({ scene: "remembrance", elements: { "death-diplomacy-war-entry-btn": warEntryBtn } });
+  assert.ok(warEntryBtn.listeners.click, "war entry listener attached");
+  ctx3.v71.saveDeathDiplomacy({ ...ctx3.v71.defaultDeathDiplomacy(), treaties: coverageTreaties });
+  warEntryBtn.listeners.click({ isTrusted: false });
+  assert.strictEqual(ctx3.read().pending ?? null, null, "synthetic click on war entry does not create pending");
+}
+
+/* ---------- v71 与 v70/v66 旧场景守卫集成回归 ---------- */
+const posthumousCensusCanVisitNullificationBlock2 = js.match(/const posthumousCensusCanVisitNullification = \(\) => \{[\s\S]*?\n  \};/);
+assert.ok(posthumousCensusCanVisitNullificationBlock2, "posthumousCensusCanVisitNullification block must be extractable");
+assert.ok(!posthumousCensusCanVisitNullificationBlock2[0].includes("getDeathDiplomacy"), "nullification guard must not be widened by v71");
+
+/* ---------- 文档同步 ---------- */
+assert.match(readme, /v70|亡者议会|PARLIAMENT OF THE DEAD/, "README must document the v70 dead parliament");
+assert.match(qa, /v70|亡者议会|PARLIAMENT OF THE DEAD/, "design-qa.md must document the v70 dead parliament");
+assert.match(log, /v70|亡者议会|PARLIAMENT OF THE DEAD/, "ProgressLog must document the v70 dead parliament");
+assert.match(readme, /v71|死亡外交部|MINISTRY OF MORTAL DIPLOMACY/, "README must document the v71 death diplomacy");
+assert.match(qa, /v71|死亡外交部|MINISTRY OF MORTAL DIPLOMACY/, "design-qa.md must document the v71 death diplomacy");
+assert.match(log, /v71|死亡外交部|MINISTRY OF MORTAL DIPLOMACY/, "ProgressLog must document the v71 death diplomacy");
+
+
+/* ============================================================
+   v72 遗言中央银行 / CENTRAL BANK OF LAST WORDS 静态回归
+   ============================================================ */
+
+const V72_SOURCE_HASHES = {
+  "source-v72-last-word-central-bank.png": "0ef188547422265139ffe6a9c6af9e40defe154f6b5686e417385309559e180d",
+  "source-v72-unsaid-currency-mint.png": "6462374014a32c57d467cebd04a0fac24e5ab60ff66561ca5bd05e4b70c23c0e",
+  "source-v72-testament-clearing-vault.png": "705c589a78d3c9144e5cf04e29560753ecce8699e2e161dd19e45656fac2982a",
+  "source-v72-sovereign-default-chamber.png": "b24fea0c20876a8947b0b3ad4f6c98fd3a0fbd4e62e5bd95fa0bedd1cd9c5bce",
+};
+const V72_WEBP_HASHES = {
+  "v72-last-word-central-bank.webp": "fa8b3159a4bdcb2786262a6d9d6c287bf2a7429cd2cd47049b368fa3cfd1b53e",
+  "v72-unsaid-currency-mint.webp": "6cb1cac01918039bf793d70c6eddb81294155e9b271cf519f51848a2fc02344a",
+  "v72-testament-clearing-vault.webp": "0e2170498e705ed09138bb0e7df5cb9051e7a0fe74887599b7cc0293c8c36b3c",
+  "v72-sovereign-default-chamber.webp": "ff5a167118ae10bb6443aee302e0fd1c9da9f1056d850c66bcdb2aec1fe4801e",
+};
+const V72_SOURCE_SIZES = {
+  "source-v72-last-word-central-bank.png": 2500967,
+  "source-v72-unsaid-currency-mint.png": 2829468,
+  "source-v72-testament-clearing-vault.png": 2566818,
+  "source-v72-sovereign-default-chamber.png": 2698837,
+};
+const V72_WEBP_SIZES = {
+  "v72-last-word-central-bank.webp": 194176,
+  "v72-unsaid-currency-mint.webp": 264376,
+  "v72-testament-clearing-vault.webp": 211204,
+  "v72-sovereign-default-chamber.webp": 250194,
+};
+
+/* 场景与 DOM 存在性 */
+for (const s of ["last-word-central-bank", "unsaid-currency-mint", "testament-clearing-vault", "sovereign-default-chamber"]) {
+  assert.match(html, new RegExp(`data-scene="${s}"`), `v72 scene missing: ${s}`);
+}
+for (const id of ["last-word-central-bank-link", "unsaid-currency-mint-link", "testament-clearing-vault-link", "sovereign-default-chamber-link"]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v72 menu link missing: ${id}`);
+}
+for (const id of [
+  "last-word-bank-currency-ownerless-signature-note", "last-word-bank-currency-unseen-shadow-coin", "last-word-bank-currency-unspoken-testament-bond",
+  "last-word-bank-reserve-last-breath-reserve", "last-word-bank-reserve-inherited-silence-reserve", "last-word-bank-reserve-collateralized-ending-reserve",
+  "last-word-bank-policy-issue-before-speaking", "last-word-bank-policy-devalue-the-farewell", "last-word-bank-policy-freeze-resurrection-liquidity", "last-word-bank-policy-redeem-in-another-mouth",
+  "last-word-bank-default-nationalize-every-last-word", "last-word-bank-default-let-silence-set-interest", "last-word-bank-default-declare-death-too-big-to-fail",
+  "last-word-bank-bank-figure", "last-word-bank-mint-figure", "last-word-bank-vault-figure", "last-word-bank-default-figure",
+  "last-word-bank-bank-response", "last-word-bank-mint-response", "last-word-bank-vault-response", "last-word-bank-default-response",
+  "last-word-bank-default-tally",
+  "last-word-bank-remittance-threshold", "last-word-bank-remittance-remembrance", "last-word-bank-remittance-unending-gallery",
+  "last-word-bank-remittance-return-threshold", "last-word-bank-remittance-return-remembrance", "last-word-bank-remittance-return-unending-gallery",
+  "last-word-bank-entry-btn", "last-word-bank-default-entry-btn",
+  "last-word-bank-entry-response", "last-word-bank-default-entry-response",
+  "last-word-bank-memory", "last-word-bank-codex", "last-word-bank-codex-grid",
+]) {
+  assert.match(html, new RegExp(`id="${id}"`), `v72 DOM id missing: ${id}`);
+}
+
+/* 素材冻结 */
+for (const [file, hash] of Object.entries(V72_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(`design-references/${file}`, root));
+  assert.strictEqual(createHash("sha256").update(buf).digest("hex"), hash, `${file} must keep its frozen sha256`);
+  assert.strictEqual(buf.length, V72_SOURCE_SIZES[file], `${file} must keep its frozen byte size`);
+  const dims = readPngDimensions(buf);
+  assert.ok(dims, `${file} must be a readable PNG`);
+  assert.strictEqual(dims.width, 1536, `${file} must be 1536 px wide`);
+  assert.strictEqual(dims.height, 1024, `${file} must be 1024 px tall`);
+}
+for (const [file, hash] of Object.entries(V72_WEBP_HASHES)) {
+  const buf = await readFile(new URL(`assets/${file}`, root));
+  assert.strictEqual(createHash("sha256").update(buf).digest("hex"), hash, `${file} must keep its frozen sha256`);
+  assert.strictEqual(buf.length, V72_WEBP_SIZES[file], `${file} must keep its frozen byte size`);
+  assert.ok(html.includes(`assets/${file}`), `${file} must be referenced from index.html`);
+  const dims = readWebpDimensions(buf);
+  assert.ok(dims, `${file} must be a readable WebP`);
+  assert.strictEqual(dims.width, 1536, `${file} must be 1536 px wide`);
+  assert.strictEqual(dims.height, 1024, `${file} must be 1024 px tall`);
+  assert.match(html, new RegExp(`src="assets/${file.replace(".", "\\.")}" alt="" width="1536" height="1024"`), `${file} must have 1536x1024 HTML attributes`);
+}
+
+/* 缓存版本 */
+assert.match(html, /styles\.css\?v=76/, "v72 cache busts styles.css");
+assert.match(html, /script\.js\?v=76/, "v72 cache busts script.js");
+
+/* JS 模块与 key */
+assert.equal((js.match(/const LAST_WORD_BANK_KEY = ['"]goddead_v72_last_word_bank['"]/g) || []).length, 1, "v72 introduces exactly one storage key");
+const v72ModuleBlock = js.match(/v72 遗言中央银行 \/ CENTRAL BANK OF LAST WORDS[\s\S]*?(?=\n  \/\* ={40,}\n     v73 梦境海关总署 \/ CUSTOMS OF BORROWED DREAMS)/);
+assert.ok(v72ModuleBlock, "v72 module must exist");
+
+const saveLastWordBankBlock = js.match(/const saveLastWordBank = \(st\) => \{[\s\S]*?store\.set\(\s*LAST_WORD_BANK_KEY,\s*JSON\.stringify\(\{[\s\S]*?\}\)\s*\);/);
+assert.ok(saveLastWordBankBlock, "saveLastWordBank must persist an explicit canonical projection");
+for (const f of ["version", "visited", "draft", "instruments", "defaultOutcomes", "monetaryRuns", "defaultRuns", "issuerTallies", "lastOutcome", "activeRemittance", "pending"]) {
+  assert.match(saveLastWordBankBlock[0], new RegExp(`\\b${f}\\b`), `saveLastWordBank persists ${f}`);
+}
+
+const normalizeLastWordBankPendingBlock = js.match(/const normalizeLastWordBankPending = \(p, st\) => \{[\s\S]*?\n  \};/);
+assert.ok(normalizeLastWordBankPendingBlock, "normalizeLastWordBankPending must exist");
+assert.match(normalizeLastWordBankPendingBlock[0], /st\._v72unlocked === true/, "pending normalization uses passed _v72unlocked");
+assert.match(normalizeLastWordBankPendingBlock[0], /p\.kind === 'entry' && keys === 'feedback,kind,target'/, "entry pending accepts exactly three whitelisted keys");
+assert.match(normalizeLastWordBankPendingBlock[0], /p\.kind === 'currency' && keys === 'currency,feedback,kind,source,target'/, "currency pending accepts exactly five whitelisted keys");
+assert.match(normalizeLastWordBankPendingBlock[0], /p\.kind === 'reserve' && keys === 'currency,feedback,kind,reserve,source,target'/, "reserve pending accepts exactly six whitelisted keys");
+assert.match(normalizeLastWordBankPendingBlock[0], /p\.kind === 'instrument' && keys === 'currency,feedback,instrument,kind,policy,reserve,source,target'/, "instrument pending accepts exactly eight whitelisted keys");
+assert.match(normalizeLastWordBankPendingBlock[0], /p\.kind === 'remittance-return' && keys === 'feedback,from,instrument,kind,target'/, "remittance-return pending accepts exactly five whitelisted keys");
+assert.match(normalizeLastWordBankPendingBlock[0], /p\.kind === 'default-entry' && keys === 'feedback,kind,target'/, "default-entry pending accepts exactly three whitelisted keys");
+assert.match(normalizeLastWordBankPendingBlock[0], /p\.kind === 'default' && keys === 'action,feedback,kind,outcome,source,target'/, "default pending accepts exactly six whitelisted keys");
+
+assert.match(js, /const lastWordBankUnlocked = \(\) => \{[\s\S]*?getDeathDiplomacy\(\)/, "lastWordBankUnlocked reads getDeathDiplomacy");
+assert.match(js, /deathDiplomacyUnlocked\(\)/, "lastWordBankUnlocked checks v71 unlock");
+assert.match(js, /diplomaticCoverageComplete\(dd\)/, "lastWordBankUnlocked checks v71 coverage");
+
+const v72ListenerBlock = js.match(/const lastWordBankEntryBtn = \$\('#last-word-bank-entry-btn'\);[\s\S]*?(?=\n  \/\* ={40,}\n     v73 梦境海关总署 \/ CUSTOMS OF BORROWED DREAMS)/);
+assert.ok(v72ListenerBlock, "v72 click listener block must exist");
+assert.equal((v72ListenerBlock[0].match(/!e\.isTrusted/g) || []).length, 18, "v72 must guard all eighteen click listeners with isTrusted");
+
+assert.ok(!v72ModuleBlock[0].includes("saveDeathDiplomacy("), "v72 never calls saveDeathDiplomacy");
+assert.ok(!/store\.set\(DEATH_DIPLOMACY_KEY/.test(v72ModuleBlock[0]), "v72 never writes the v71 death diplomacy key");
+assert.ok(!/goddead_v(28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59|60|61|62|63|64|65|66|67|68|69|70|71)/.test(v72ModuleBlock[0]), "v72 state must not touch earlier keys");
+
+assert.match(forgetBlock[0], /localStorage\.removeItem\(["']goddead_v72_last_word_bank["']\)/, "forget-all removes the v72 storage key");
+assert.match(forgetBlock[0], /last-word-bank-entry-btn.*disabled\s*=\s*false.*removeAttribute\(["']aria-pressed["']\)/s, "forget-all resets entry button disabled/aria-pressed");
+assert.match(forgetBlock[0], /last-word-bank-default-entry-btn.*disabled\s*=\s*false.*removeAttribute\(["']aria-pressed["']\)/s, "forget-all resets default entry button disabled/aria-pressed");
+assert.match(forgetBlock[0], /\["threshold", "remembrance", "unending-gallery"\]\.forEach\(\(s\) => \{[\s\S]*?\$\(`#last-word-bank-remittance-return-\$\{s\}`\)[\s\S]*?remBtn\.disabled = false; remBtn\.removeAttribute\("aria-pressed"\);/s, "forget-all resets remittance return buttons in loop");
+assert.match(forgetBlock[0], /\["last-word-central-bank-link", "unsaid-currency-mint-link", "testament-clearing-vault-link", "sovereign-default-chamber-link"\]\.forEach\(\(id\) => \{[\s\S]*?\$\(`#\$\{id\}`\)[\s\S]*?el\.hidden = true;/s, "forget-all hides v72 directory links in loop");
+
+const v72MobileBlock = css.match(/@media \(max-width: 720px\) \{[\s\S]*?\.last-word-bank-hotspot\s*\{[\s\S]*?\}\s*\}/);
+assert.ok(v72MobileBlock, "last word bank mobile block exists");
+assert.match(v72MobileBlock[0], /min-width:\s*44px/, "v72 mobile hotspot min-width >= 44px");
+assert.match(v72MobileBlock[0], /min-height:\s*44px/, "v72 mobile hotspot min-height >= 44px");
+
+function parseV72Rect(cssText, className) {
+  const re = new RegExp(`\\.${className.replace(/-/g, "\\-")}\\s*\\{([^}]*)\\}`);
+  const m = cssText.match(re);
+  if (!m) return null;
+  const text = m[1];
+  const getPct = (prop) => { const mm = text.match(new RegExp(`${prop}:\\s*([0-9.]+)%`)); return mm ? parseFloat(mm[1]) : null; };
+  return { top: getPct("top"), left: getPct("left"), width: getPct("width"), height: getPct("height") };
+}
+function v72RectsOverlap(a, b) {
+  return a.left < b.left + b.width && a.left + a.width > b.left && a.top < b.top + b.height && a.top + a.height > b.top;
+}
+for (const group of [
+  ["last-word-bank-currency-ownerless-signature-note", "last-word-bank-currency-unseen-shadow-coin", "last-word-bank-currency-unspoken-testament-bond"],
+  ["last-word-bank-reserve-last-breath-reserve", "last-word-bank-reserve-inherited-silence-reserve", "last-word-bank-reserve-collateralized-ending-reserve"],
+  ["last-word-bank-policy-issue-before-speaking", "last-word-bank-policy-devalue-the-farewell", "last-word-bank-policy-freeze-resurrection-liquidity", "last-word-bank-policy-redeem-in-another-mouth"],
+  ["last-word-bank-default-nationalize-every-last-word", "last-word-bank-default-let-silence-set-interest", "last-word-bank-default-declare-death-too-big-to-fail"],
+]) {
+  const rects = group.map((cls) => {
+    const r = parseV72Rect(css, cls);
+    assert.ok(r, `${cls} has desktop CSS rect`);
+    assert.ok(r.top !== null && r.left !== null && r.width !== null && r.height !== null, `${cls} has complete desktop CSS rect`);
+    assert.ok(r.top >= 0 && r.left >= 0 && r.width > 0 && r.height > 0 && r.top + r.height <= 100 && r.left + r.width <= 100, `${cls} rect stays inside figure`);
+    return r;
+  });
+  for (let i = 0; i < rects.length; i++) {
+    for (let j = i + 1; j < rects.length; j++) {
+      assert.strictEqual(v72RectsOverlap(rects[i], rects[j]), false, `${group[i]} and ${group[j]} desktop hotspots must not overlap`);
+    }
+  }
+}
+
+const resolveSceneBlock3 = js.match(/const resolveScene = \(name\) => \{[\s\S]*?\n  \};/);
+assert.ok(resolveSceneBlock3, "resolveScene block must be extractable");
+for (const [s, fn] of [
+  ["last-word-central-bank", "lastWordBankCanVisitBank"],
+  ["unsaid-currency-mint", "lastWordBankCanVisitMint"],
+  ["testament-clearing-vault", "lastWordBankCanVisitVault"],
+  ["sovereign-default-chamber", "lastWordBankCanVisitDefault"],
+]) {
+  assert.match(resolveSceneBlock3[0], new RegExp(s), `resolveScene mentions ${s}`);
+  assert.match(resolveSceneBlock3[0], new RegExp(fn), `resolveScene guards ${s} with ${fn}`);
+}
+assert.match(resolveSceneBlock3[0], /lastWordBankBridgeAllows\('unending-gallery'\)/, "resolveScene uses v72 bridge for unending-gallery");
+assert.match(resolveSceneBlock3[0], /lastWordBankBridgeAllows\(target\)/, "resolveScene uses v72 bridge for governance remembrance");
+
+assert.match(html, /id="last-word-bank-remittance-remembrance"[\s\S]*?last-word-bank-remittance-return-remembrance/, "remembrance remittance return button exists");
+
+const v72doc = await fileText("docs/V72LastWordCentralBankDesign.md");
+for (const hash of Object.values(V72_SOURCE_HASHES)) {
+  assert.ok(v72doc.includes(hash), "V72 design doc must freeze the source sha256 values");
+}
+for (const hash of Object.values(V72_WEBP_HASHES)) {
+  assert.ok(v72doc.includes(hash), "V72 design doc must freeze the WebP sha256 values");
+}
+assert.match(v72doc, /1536×1024/, "V72 design doc documents 1536×1024 dimensions");
+
+/* ---------- v72 可执行/隔离状态回归测试 ---------- */
+assert.ok(v72ModuleBlock, "v72 executable block available for regression tests");
+const v72ExecSourceStart = v72ModuleBlock[0].indexOf("const LAST_WORD_BANK_KEY");
+assert.ok(v72ExecSourceStart > 0, "v72 executable block starts with LAST_WORD_BANK_KEY");
+const v72ExecSource = v72ModuleBlock[0].slice(v72ExecSourceStart).trimEnd();
+
+const LAST_WORD_BANK_KEY = "goddead_v72_last_word_bank";
+const fullV71Treaties = ["name-legation:before-birth-country:mutual-recognition", "shadow-mission:after-memory-republic:asylum-for-unlived", "body-consulate:inside-body-state:resurrection-embargo", "name-legation:after-memory-republic:extradite-the-ending"];
+const fullV71WarOutcomes = ["all-borders-moved-inside-the-body", "only-the-exile-was-recognized", "resurrection-became-contraband"];
+
+function makeLastWordBankBtn({ disabled = false, hidden = false } = {}) {
+  const listeners = {};
+  return {
+    disabled,
+    hidden,
+    textContent: "",
+    setAttribute() {},
+    removeAttribute() {},
+    closest: () => null,
+    addEventListener(type, handler) { listeners[type] = handler; },
+    listeners,
+  };
+}
+
+function makeV72Context({
+  initialStore = {},
+  elements = {},
+  scene = "",
+  v71unlocked = true,
+  treaties = fullV71Treaties,
+  warOutcomes = fullV71WarOutcomes,
+} = {}) {
+  const storeData = { ...initialStore };
+  const store = {
+    get(k, def) { return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def; },
+    set(k, v) { storeData[k] = v; },
+  };
+  const queries = [];
+  const $ = (rawId) => { queries.push(rawId); return elements[rawId.replace(/^#/, "")] || null; };
+  const scheduleCalls = [];
+  const AutoAdvance = { has(src) { return false; }, schedule(src, target, opts) { scheduleCalls.push({ src, target, opts }); } };
+  const AudioEngine = { whoosh() {}, bell() {} };
+  const deathDiplomacyUnlocked = () => v71unlocked;
+  const getDeathDiplomacy = () => v71unlocked ? { treaties, warOutcomes } : { treaties: [], warOutcomes: [] };
+  const diplomaticCoverageComplete = (dd) => {
+    const d = dd || getDeathDiplomacy();
+    if (!Array.isArray(d.treaties) || d.treaties.length < 4) return false;
+    const delegations = new Set();
+    const counterparts = new Set();
+    const clauses = new Set();
+    for (const id of d.treaties) {
+      const parts = id.split(":");
+      if (parts.length !== 3) continue;
+      delegations.add(parts[0]);
+      counterparts.add(parts[1]);
+      clauses.add(parts[2]);
+    }
+    return delegations.size === 3 && counterparts.size === 3 && clauses.size === 4;
+  };
+  const buttonAvailable = (id) => {
+    const btn = $(`#${id}`);
+    if (!btn || btn.disabled || btn.hidden) return false;
+    if (typeof btn.closest === "function" && btn.closest("[hidden]")) return false;
+    return true;
+  };
+  const document = {
+    createElement(tag) {
+      return {
+        tagName: tag,
+        className: "",
+        innerHTML: "",
+        textContent: "",
+        children: [],
+        hidden: true,
+        setAttribute() {},
+        removeAttribute(name) { if (name === "hidden") this.hidden = false; },
+        appendChild(c) { this.children.push(c); },
+      };
+    },
+  };
+  const body = v72ExecSource + "\nreturn { LAST_WORD_BANK_KEY, LAST_WORD_BANK_VERSION, CURRENCIES, RESERVES, POLICIES, DEFAULT_ACTIONS, SCENE_FOR_RESERVE, CURRENCY_TABLE, RESERVE_TABLE, POLICY_TABLE, DEFAULT_TABLE, LAST_WORD_BANK_ENTRY_FEEDBACK, LAST_WORD_BANK_DEFAULT_ENTRY_FEEDBACK, INSTRUMENT_IDS, INSTRUMENT_SET, DEFAULT_OUTCOME_IDS, DEFAULT_OUTCOME_SET, defaultLastWordBank, normalizeLastWordBankVisited, normalizeLastWordBankDraft, normalizeLastWordBankInstruments, normalizeLastWordBankDefaultOutcomes, normalizeLastWordBankIssuerTallies, normalizeLastWordBankActiveRemittance, normalizeLastWordBankPending, saveLastWordBank, getLastWordBank, lastWordBankUnlocked, monetaryCoverageComplete, computeLastWordBankMajority, computeInstrumentId, computeInstrumentTitle, computeInstrumentFeedback, findInstrumentById, computeDefaultOutcomeId, lastWordBankDelay, lastWordBankBeforeArrive, resolveLastWordBankPendingOnArrival, lockLastWordBankCurrencyButtons, lockLastWordBankReserveButtons, lockLastWordBankPolicyButtons, lockLastWordBankDefaultButtons, syncLastWordBankBank, syncLastWordBankMint, syncLastWordBankVault, syncLastWordBankDefault, syncLastWordBankRemittances, paintLastWordBankDefaultTally, paintLastWordBankRemittance, paintLastWordBankMemory, paintLastWordBankCodex, syncLastWordBankRemembrance, syncLastWordBankLinks, replayLastWordBankPending, chooseLastWordBankCurrency, chooseLastWordBankReserve, chooseLastWordBankPolicy, chooseLastWordBankRemittanceReturn, chooseLastWordBankEntry, chooseLastWordBankDefaultEntry, chooseLastWordBankDefaultAction, lastWordBankCanVisitBank, lastWordBankCanVisitMint, lastWordBankCanVisitVault, lastWordBankCanVisitDefault, lastWordBankBridgeAllows };";
+  const v72 = new Function("store", "$", "currentScene", "AutoAdvance", "AudioEngine", "reduced", "deathDiplomacyUnlocked", "diplomaticCoverageComplete", "getDeathDiplomacy", "buttonAvailable", "document", body)(store, $, scene, AutoAdvance, AudioEngine, false, deathDiplomacyUnlocked, diplomaticCoverageComplete, getDeathDiplomacy, buttonAvailable, document);
+  const read = () => {
+    try { return JSON.parse(storeData[LAST_WORD_BANK_KEY] || "{}") || {}; } catch { return {}; }
+  };
+  return { v72, storeData, read, queries, scheduleCalls };
+}
+
+// 36 instrument IDs 固定顺序
+{
+  const ctx = makeV72Context({});
+  assert.strictEqual(ctx.v72.INSTRUMENT_IDS.length, 36, "v72 has 36 instrument ids");
+  const expected = [];
+  for (const c of ctx.v72.CURRENCIES) {
+    for (const r of ctx.v72.RESERVES) {
+      for (const p of ctx.v72.POLICIES) {
+        expected.push(`${c}:${r}:${p}`);
+      }
+    }
+  }
+  assert.deepStrictEqual(ctx.v72.INSTRUMENT_IDS, expected, "instrument ids follow CURRENCIES×RESERVES×POLICIES order");
+  const set = new Set(ctx.v72.INSTRUMENT_IDS);
+  assert.strictEqual(set.size, 36, "instrument ids are unique");
+}
+
+// POLICY_TABLE 四项必须都有非空 title（图鉴渲染用）
+{
+  const ctx = makeV72Context({});
+  for (const p of ctx.v72.POLICIES) {
+    const table = ctx.v72.POLICY_TABLE[p];
+    assert.ok(table && table.title && typeof table.title === "string" && table.title.length > 0, `POLICY_TABLE.${p} must have a non-empty title`);
+  }
+}
+
+// computeInstrumentTitle / findInstrumentById 不使用 undefined
+{
+  const ctx = makeV72Context({});
+  const cases = [
+    ["ownerless-signature-note", "last-breath-reserve", "issue-before-speaking", "无主签名钞 / 最后一口气 / 先于说出口"],
+    ["unseen-shadow-coin", "inherited-silence-reserve", "devalue-the-farewell", "无人注视黑币 / 继承来的沉默 / 让告别贬值"],
+    ["unspoken-testament-bond", "collateralized-ending-reserve", "freeze-resurrection-liquidity", "未言遗嘱债 / 抵押一段结局 / 冻结复活流动性"],
+    ["ownerless-signature-note", "inherited-silence-reserve", "redeem-in-another-mouth", "无主签名钞 / 继承来的沉默 / 他人口中赎回"],
+  ];
+  for (const [c, r, p, expected] of cases) {
+    assert.strictEqual(ctx.v72.computeInstrumentTitle(c, r, p), expected, `computeInstrumentTitle(${c},${r},${p})`);
+    const inst = ctx.v72.findInstrumentById(`${c}:${r}:${p}`);
+    assert.ok(inst, `findInstrumentById exists for ${c}:${r}:${p}`);
+    assert.strictEqual(inst.title, expected, `findInstrumentById title matches`);
+    assert.ok(!inst.title.includes("undefined"), `findInstrumentById title must not contain undefined`);
+  }
+  for (const id of ctx.v72.INSTRUMENT_IDS) {
+    const inst = ctx.v72.findInstrumentById(id);
+    assert.ok(inst && inst.title && !inst.title.includes("undefined"), `all instrument titles clean: ${id}`);
+  }
+}
+
+// 39 格图鉴渲染路径使用规范标题
+{
+  const ctx = makeV72Context({});
+  const grid = { innerHTML: "", children: [], appendChild(c) { this.children.push(c); } };
+  const box = { hidden: false, removeAttribute() {}, setAttribute() {}, closest: () => null, addEventListener() {} };
+  const entry = { hidden: true, removeAttribute() {}, setAttribute() {}, closest: () => null, addEventListener() {} };
+  const ctx2 = makeV72Context({ scene: "remembrance", elements: { "last-word-bank-codex": box, "last-word-bank-codex-grid": grid, "last-word-bank-codex-entry": entry } });
+  ctx2.v72.saveLastWordBank({ ...ctx2.v72.defaultLastWordBank(), instruments: ["ownerless-signature-note:last-breath-reserve:issue-before-speaking"] });
+  ctx2.v72.paintLastWordBankCodex();
+  assert.ok(grid.children.length >= 39, "codex grid renders 36 instruments + 3 defaults");
+  const firstCellHtml = grid.children[0].innerHTML;
+  assert.ok(firstCellHtml.includes("无主签名钞"), "codex unlocked cell uses canonical currency title");
+  assert.ok(firstCellHtml.includes("最后一口气"), "codex unlocked cell uses canonical reserve title");
+  assert.ok(firstCellHtml.includes("先于说出口"), "codex unlocked cell uses canonical policy title");
+  assert.ok(!firstCellHtml.includes("undefined"), "codex unlocked cell html must not contain undefined");
+}
+
+// 3 default outcome IDs 固定顺序
+{
+  const ctx = makeV72Context({});
+  assert.deepStrictEqual(ctx.v72.DEFAULT_OUTCOME_IDS, ["every-last-word-was-nationalized", "silence-set-the-interest-rate", "death-became-too-big-to-fail"], "default outcomes follow action order");
+}
+
+// canonical 十一键
+{
+  const ctx = makeV72Context({});
+  const st = ctx.v72.defaultLastWordBank();
+  ctx.v72.saveLastWordBank(st);
+  const saved = ctx.read();
+  assert.deepStrictEqual(Object.keys(saved).sort(), ["activeRemittance", "defaultOutcomes", "defaultRuns", "draft", "instruments", "issuerTallies", "lastOutcome", "monetaryRuns", "pending", "version", "visited"], "save projects exactly canonical eleven keys");
+  assert.strictEqual(saved.version, 72, "version is 72");
+}
+
+// 规范化与 clamp
+{
+  const ctx = makeV72Context({});
+  const st = ctx.v72.defaultLastWordBank();
+  st.visited = { bank: true, mint: "yes", vault: 0, default: 1 };
+  st.draft = { currency: "ownerless-signature-note", reserve: "last-breath-reserve" };
+  st.monetaryRuns = 3.7;
+  st.defaultRuns = -2;
+  st.issuerTallies = { name: "12", shadow: Infinity, body: -3 };
+  ctx.v72.saveLastWordBank(st);
+  const saved = ctx.read();
+  assert.deepStrictEqual(saved.visited, { bank: true, mint: false, vault: false, default: false }, "visited normalizes booleans");
+  assert.deepStrictEqual(saved.draft, { currency: "ownerless-signature-note", reserve: "last-breath-reserve" }, "draft keeps valid pair");
+  assert.strictEqual(saved.monetaryRuns, 3, "monetaryRuns floors");
+  assert.strictEqual(saved.defaultRuns, 0, "defaultRuns clamps negative");
+  assert.strictEqual(saved.issuerTallies.name, 12, "issuerTallies.name floors string");
+  assert.strictEqual(saved.issuerTallies.shadow, 9999, "issuerTallies.shadow clamps Infinity");
+  assert.strictEqual(saved.issuerTallies.body, 0, "issuerTallies.body clamps negative");
+}
+
+// 额外键丢弃
+{
+  const ctx = makeV72Context({});
+  const st = ctx.v72.defaultLastWordBank();
+  st.extraKey = "should-drop";
+  st.visited.extra = true;
+  st.draft.extra = "drop";
+  st.issuerTallies.extra = 5;
+  ctx.v72.saveLastWordBank(st);
+  const saved = ctx.read();
+  assert.strictEqual(saved.extraKey, undefined, "top-level extra key dropped");
+  assert.strictEqual(saved.visited.extra, undefined, "visited extra key dropped");
+  assert.strictEqual(saved.draft.extra, undefined, "draft extra key dropped");
+  assert.strictEqual(saved.issuerTallies.extra, undefined, "issuerTallies extra key dropped");
+}
+
+// draft 非法时清空
+{
+  const ctx = makeV72Context({});
+  assert.deepStrictEqual(ctx.v72.normalizeLastWordBankDraft({ currency: "invalid", reserve: "last-breath-reserve" }), { currency: "", reserve: "" }, "invalid currency clears reserve");
+  assert.deepStrictEqual(ctx.v72.normalizeLastWordBankDraft({ currency: "ownerless-signature-note", reserve: "invalid" }), { currency: "ownerless-signature-note", reserve: "" }, "invalid reserve cleared");
+  assert.deepStrictEqual(ctx.v72.normalizeLastWordBankDraft({ currency: "", reserve: "last-breath-reserve" }), { currency: "", reserve: "" }, "reserve without currency cleared");
+}
+
+// lastOutcome 只允许已收集 instrument 或 defaultOutcome
+{
+  const ctx = makeV72Context({});
+  const id = "ownerless-signature-note:last-breath-reserve:issue-before-speaking";
+  const st = { ...ctx.v72.defaultLastWordBank(), instruments: [id], lastOutcome: id };
+  ctx.v72.saveLastWordBank(st);
+  assert.strictEqual(ctx.read().lastOutcome, id, "collected instrument lastOutcome kept");
+  const st2 = { ...ctx.v72.defaultLastWordBank(), instruments: [], lastOutcome: id };
+  ctx.v72.saveLastWordBank(st2);
+  assert.strictEqual(ctx.read().lastOutcome, "", "uncollected instrument lastOutcome cleared");
+}
+
+// activeRemittance 三键反算 + 必须已收集
+{
+  const ctx = makeV72Context({});
+  const instrumentId = "ownerless-signature-note:last-breath-reserve:issue-before-speaking";
+  const validRemittance = { reserve: "last-breath-reserve", instrument: instrumentId, feedback: ctx.v72.RESERVE_TABLE["last-breath-reserve"].remittanceFeedback };
+  assert.deepStrictEqual(ctx.v72.normalizeLastWordBankActiveRemittance(validRemittance, [instrumentId]), validRemittance, "valid activeRemittance preserved");
+  assert.strictEqual(ctx.v72.normalizeLastWordBankActiveRemittance(validRemittance, []), null, "uncollected instrument rejected");
+  assert.strictEqual(ctx.v72.normalizeLastWordBankActiveRemittance({ reserve: "last-breath-reserve", instrument: instrumentId, feedback: "wrong" }, [instrumentId]), null, "wrong feedback rejected");
+  assert.strictEqual(ctx.v72.normalizeLastWordBankActiveRemittance({ reserve: "inherited-silence-reserve", instrument: instrumentId, feedback: ctx.v72.RESERVE_TABLE["inherited-silence-reserve"].remittanceFeedback }, [instrumentId]), null, "reserve mismatching instrument second segment rejected");
+  assert.strictEqual(ctx.v72.normalizeLastWordBankActiveRemittance({ extra: 1, reserve: "last-breath-reserve", instrument: instrumentId, feedback: ctx.v72.RESERVE_TABLE["last-breath-reserve"].remittanceFeedback }, [instrumentId]), null, "extra key rejected");
+  const fakeInstrument = "x:last-breath-reserve:y";
+  const fakeRemittance = { reserve: "last-breath-reserve", instrument: fakeInstrument, feedback: ctx.v72.RESERVE_TABLE["last-breath-reserve"].remittanceFeedback };
+  assert.strictEqual(ctx.v72.normalizeLastWordBankActiveRemittance(fakeRemittance, [fakeInstrument]), null, "instrument not in canonical INSTRUMENT_SET rejected even if listed in instruments");
+}
+
+// 七类 strict pending 白名单
+{
+  const ctx = makeV72Context({});
+  const baseSt = ctx.v72.defaultLastWordBank();
+  baseSt._v72unlocked = true;
+
+  assert.ok(ctx.v72.normalizeLastWordBankPending({ kind: "entry", target: "last-word-central-bank", feedback: ctx.v72.LAST_WORD_BANK_ENTRY_FEEDBACK }, baseSt), "legal entry pending accepted");
+  assert.strictEqual(ctx.v72.normalizeLastWordBankPending({ kind: "entry", target: "unsaid-currency-mint", feedback: ctx.v72.LAST_WORD_BANK_ENTRY_FEEDBACK }, baseSt), null, "entry with wrong target rejected");
+  baseSt.activeRemittance = { reserve: "last-breath-reserve", instrument: "ownerless-signature-note:last-breath-reserve:issue-before-speaking", feedback: ctx.v72.RESERVE_TABLE["last-breath-reserve"].remittanceFeedback };
+  assert.strictEqual(ctx.v72.normalizeLastWordBankPending({ kind: "entry", target: "last-word-central-bank", feedback: ctx.v72.LAST_WORD_BANK_ENTRY_FEEDBACK }, baseSt), null, "entry rejected while activeRemittance");
+  baseSt.activeRemittance = null;
+  baseSt.draft = { currency: "ownerless-signature-note", reserve: "" };
+  assert.strictEqual(ctx.v72.normalizeLastWordBankPending({ kind: "entry", target: "last-word-central-bank", feedback: ctx.v72.LAST_WORD_BANK_ENTRY_FEEDBACK }, baseSt), null, "entry rejected while draft in progress");
+  baseSt.draft = { currency: "", reserve: "" };
+
+  assert.ok(ctx.v72.normalizeLastWordBankPending({ kind: "currency", source: "last-word-central-bank", currency: "ownerless-signature-note", target: "unsaid-currency-mint", feedback: ctx.v72.CURRENCY_TABLE["ownerless-signature-note"].feedback }, baseSt), "legal currency pending accepted");
+  baseSt.draft = { currency: "ownerless-signature-note", reserve: "" };
+  assert.strictEqual(ctx.v72.normalizeLastWordBankPending({ kind: "currency", source: "last-word-central-bank", currency: "ownerless-signature-note", target: "unsaid-currency-mint", feedback: ctx.v72.CURRENCY_TABLE["ownerless-signature-note"].feedback }, baseSt), null, "currency rejected when draft not empty");
+
+  baseSt.draft = { currency: "ownerless-signature-note", reserve: "" };
+  assert.ok(ctx.v72.normalizeLastWordBankPending({ kind: "reserve", source: "unsaid-currency-mint", currency: "ownerless-signature-note", reserve: "last-breath-reserve", target: "testament-clearing-vault", feedback: ctx.v72.RESERVE_TABLE["last-breath-reserve"].feedback }, baseSt), "legal reserve pending accepted");
+
+  baseSt.draft = { currency: "ownerless-signature-note", reserve: "last-breath-reserve" };
+  const instFb = ctx.v72.computeInstrumentFeedback("ownerless-signature-note", "last-breath-reserve", "issue-before-speaking");
+  assert.ok(ctx.v72.normalizeLastWordBankPending({ kind: "instrument", source: "testament-clearing-vault", currency: "ownerless-signature-note", reserve: "last-breath-reserve", policy: "issue-before-speaking", instrument: "ownerless-signature-note:last-breath-reserve:issue-before-speaking", target: "threshold", feedback: instFb }, baseSt), "legal instrument pending accepted");
+  assert.strictEqual(ctx.v72.normalizeLastWordBankPending({ kind: "instrument", source: "testament-clearing-vault", currency: "ownerless-signature-note", reserve: "last-breath-reserve", policy: "issue-before-speaking", instrument: "ownerless-signature-note:inherited-silence-reserve:issue-before-speaking", target: "threshold", feedback: instFb }, baseSt), null, "instrument rejected when id mismatches draft");
+
+  baseSt.activeRemittance = { reserve: "last-breath-reserve", instrument: "ownerless-signature-note:last-breath-reserve:issue-before-speaking", feedback: ctx.v72.RESERVE_TABLE["last-breath-reserve"].remittanceFeedback };
+  assert.ok(ctx.v72.normalizeLastWordBankPending({ kind: "remittance-return", from: "threshold", target: "last-word-central-bank", instrument: "ownerless-signature-note:last-breath-reserve:issue-before-speaking", feedback: ctx.v72.RESERVE_TABLE["last-breath-reserve"].remittanceFeedback }, baseSt), "legal remittance-return pending accepted");
+  assert.strictEqual(ctx.v72.normalizeLastWordBankPending({ kind: "remittance-return", from: "remembrance", target: "last-word-central-bank", instrument: "ownerless-signature-note:last-breath-reserve:issue-before-speaking", feedback: ctx.v72.RESERVE_TABLE["last-breath-reserve"].remittanceFeedback }, baseSt), null, "remittance-return rejected when from mismatches activeRemittance reserve");
+
+  const coverageInstruments = ["ownerless-signature-note:last-breath-reserve:issue-before-speaking", "unseen-shadow-coin:inherited-silence-reserve:devalue-the-farewell", "unspoken-testament-bond:collateralized-ending-reserve:freeze-resurrection-liquidity", "ownerless-signature-note:inherited-silence-reserve:redeem-in-another-mouth"];
+  baseSt.instruments = coverageInstruments;
+  baseSt.activeRemittance = null;
+  baseSt.draft = { currency: "", reserve: "" };
+  assert.ok(ctx.v72.normalizeLastWordBankPending({ kind: "default-entry", target: "sovereign-default-chamber", feedback: ctx.v72.LAST_WORD_BANK_DEFAULT_ENTRY_FEEDBACK }, baseSt), "legal default-entry pending accepted");
+  baseSt.draft = { currency: "ownerless-signature-note", reserve: "last-breath-reserve" };
+  assert.strictEqual(ctx.v72.normalizeLastWordBankPending({ kind: "default-entry", target: "sovereign-default-chamber", feedback: ctx.v72.LAST_WORD_BANK_DEFAULT_ENTRY_FEEDBACK }, baseSt), null, "default-entry rejected while draft in progress");
+  baseSt.draft = { currency: "", reserve: "" };
+
+  baseSt.visited.default = true;
+  assert.ok(ctx.v72.normalizeLastWordBankPending({ kind: "default", source: "sovereign-default-chamber", action: "nationalize-every-last-word", outcome: "every-last-word-was-nationalized", target: "remembrance", feedback: ctx.v72.DEFAULT_TABLE["nationalize-every-last-word"].feedback }, baseSt), "legal default pending accepted");
+  baseSt.draft = { currency: "ownerless-signature-note", reserve: "last-breath-reserve" };
+  assert.strictEqual(ctx.v72.normalizeLastWordBankPending({ kind: "default", source: "sovereign-default-chamber", action: "nationalize-every-last-word", outcome: "every-last-word-was-nationalized", target: "remembrance", feedback: ctx.v72.DEFAULT_TABLE["nationalize-every-last-word"].feedback }, baseSt), null, "default rejected while draft in progress");
+}
+
+// source/target/else reload 矩阵
+{
+  const ctx = makeV72Context({ scene: "remembrance" });
+  const pending = { kind: "entry", target: "last-word-central-bank", feedback: ctx.v72.LAST_WORD_BANK_ENTRY_FEEDBACK };
+  ctx.v72.saveLastWordBank({ ...ctx.v72.defaultLastWordBank(), pending });
+  ctx.v72.replayLastWordBankPending("remembrance");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "entry source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].src, "remembrance", "entry source reload schedules from remembrance");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "last-word-central-bank", "entry source reload schedules to bank");
+}
+{
+  const ctx = makeV72Context({ scene: "last-word-central-bank" });
+  const pending = { kind: "currency", source: "last-word-central-bank", currency: "ownerless-signature-note", target: "unsaid-currency-mint", feedback: ctx.v72.CURRENCY_TABLE["ownerless-signature-note"].feedback };
+  ctx.v72.saveLastWordBank({ ...ctx.v72.defaultLastWordBank(), draft: { currency: "", reserve: "" }, pending });
+  ctx.v72.replayLastWordBankPending("last-word-central-bank");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "currency source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "unsaid-currency-mint", "currency source reload schedules to mint");
+}
+{
+  const ctx = makeV72Context({ scene: "unsaid-currency-mint" });
+  const pending = { kind: "reserve", source: "unsaid-currency-mint", currency: "ownerless-signature-note", reserve: "last-breath-reserve", target: "testament-clearing-vault", feedback: ctx.v72.RESERVE_TABLE["last-breath-reserve"].feedback };
+  ctx.v72.saveLastWordBank({ ...ctx.v72.defaultLastWordBank(), draft: { currency: "ownerless-signature-note", reserve: "" }, pending });
+  ctx.v72.replayLastWordBankPending("unsaid-currency-mint");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "reserve source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "testament-clearing-vault", "reserve source reload schedules to vault");
+}
+{
+  const ctx = makeV72Context({ scene: "testament-clearing-vault" });
+  const instFb = ctx.v72.computeInstrumentFeedback("ownerless-signature-note", "last-breath-reserve", "issue-before-speaking");
+  const pending = { kind: "instrument", source: "testament-clearing-vault", currency: "ownerless-signature-note", reserve: "last-breath-reserve", policy: "issue-before-speaking", instrument: "ownerless-signature-note:last-breath-reserve:issue-before-speaking", target: "threshold", feedback: instFb };
+  ctx.v72.saveLastWordBank({ ...ctx.v72.defaultLastWordBank(), draft: { currency: "ownerless-signature-note", reserve: "last-breath-reserve" }, pending });
+  ctx.v72.replayLastWordBankPending("testament-clearing-vault");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "instrument source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "threshold", "instrument source reload schedules to reserve target");
+}
+{
+  for (const scene of ["threshold", "remembrance", "unending-gallery"]) {
+    const reserve = scene === "threshold" ? "last-breath-reserve" : scene === "remembrance" ? "inherited-silence-reserve" : "collateralized-ending-reserve";
+    const instrumentId = `ownerless-signature-note:${reserve}:issue-before-speaking`;
+    const container = { hidden: true, setAttribute() {}, removeAttribute() {}, closest: () => null, addEventListener() {} };
+    const response = { textContent: "", setAttribute() {}, removeAttribute() {}, closest: () => null, addEventListener() {} };
+    const btn = { disabled: false, hidden: false, pressed: null, setAttribute(name, value) { if (name === "aria-pressed") this.pressed = value; }, removeAttribute() {}, closest: () => null, addEventListener() {} };
+    const elements = {
+      [`last-word-bank-remittance-${scene}`]: container,
+      [`last-word-bank-remittance-response-${scene}`]: response,
+      [`last-word-bank-remittance-return-${scene}`]: btn,
+    };
+    const ctx = makeV72Context({ scene, elements });
+    const remFb = ctx.v72.RESERVE_TABLE[reserve].remittanceFeedback;
+    const pending = { kind: "remittance-return", from: scene, target: "last-word-central-bank", instrument: instrumentId, feedback: remFb };
+    ctx.v72.saveLastWordBank({ ...ctx.v72.defaultLastWordBank(), instruments: [instrumentId], activeRemittance: { reserve, instrument: instrumentId, feedback: remFb }, pending });
+    ctx.v72.replayLastWordBankPending(scene);
+    assert.strictEqual(container.hidden, false, `remittance-return ${scene} container shown`);
+    assert.strictEqual(response.textContent, remFb, `remittance-return ${scene} response verbatim`);
+    assert.strictEqual(btn.disabled, true, `remittance-return ${scene} return disabled`);
+    assert.strictEqual(String(btn.pressed), "true", `remittance-return ${scene} return pressed`);
+    assert.strictEqual(ctx.scheduleCalls.length, 1, `remittance-return ${scene} schedules once`);
+    assert.strictEqual(ctx.scheduleCalls[0].target, "last-word-central-bank", `remittance-return ${scene} schedules to bank`);
+  }
+}
+{
+  const ctx = makeV72Context({ scene: "remembrance" });
+  const coverageInstruments = ["ownerless-signature-note:last-breath-reserve:issue-before-speaking", "unseen-shadow-coin:inherited-silence-reserve:devalue-the-farewell", "unspoken-testament-bond:collateralized-ending-reserve:freeze-resurrection-liquidity", "ownerless-signature-note:inherited-silence-reserve:redeem-in-another-mouth"];
+  const pending = { kind: "default-entry", target: "sovereign-default-chamber", feedback: ctx.v72.LAST_WORD_BANK_DEFAULT_ENTRY_FEEDBACK };
+  ctx.v72.saveLastWordBank({ ...ctx.v72.defaultLastWordBank(), instruments: coverageInstruments, pending });
+  ctx.v72.replayLastWordBankPending("remembrance");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "default-entry source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "sovereign-default-chamber", "default-entry source reload schedules to default chamber");
+}
+{
+  const ctx = makeV72Context({ scene: "sovereign-default-chamber" });
+  const coverageInstruments = ["ownerless-signature-note:last-breath-reserve:issue-before-speaking", "unseen-shadow-coin:inherited-silence-reserve:devalue-the-farewell", "unspoken-testament-bond:collateralized-ending-reserve:freeze-resurrection-liquidity", "ownerless-signature-note:inherited-silence-reserve:redeem-in-another-mouth"];
+  const pending = { kind: "default", source: "sovereign-default-chamber", action: "nationalize-every-last-word", outcome: "every-last-word-was-nationalized", target: "remembrance", feedback: ctx.v72.DEFAULT_TABLE["nationalize-every-last-word"].feedback };
+  ctx.v72.saveLastWordBank({ ...ctx.v72.defaultLastWordBank(), instruments: coverageInstruments, visited: { bank: true, mint: true, vault: true, default: true }, pending });
+  ctx.v72.replayLastWordBankPending("sovereign-default-chamber");
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "default source reload schedules once");
+  assert.strictEqual(ctx.scheduleCalls[0].target, "remembrance", "default source reload schedules to target");
+}
+
+// target 到达结算一次
+{
+  const ctx = makeV72Context({});
+  const instFb = ctx.v72.computeInstrumentFeedback("ownerless-signature-note", "last-breath-reserve", "issue-before-speaking");
+  const instrumentId = "ownerless-signature-note:last-breath-reserve:issue-before-speaking";
+  const pending = { kind: "instrument", source: "testament-clearing-vault", currency: "ownerless-signature-note", reserve: "last-breath-reserve", policy: "issue-before-speaking", instrument: instrumentId, target: "threshold", feedback: instFb };
+  ctx.v72.saveLastWordBank({ ...ctx.v72.defaultLastWordBank(), draft: { currency: "ownerless-signature-note", reserve: "last-breath-reserve" }, pending });
+  ctx.v72.resolveLastWordBankPendingOnArrival("threshold");
+  const st = ctx.read();
+  assert.deepStrictEqual(st.instruments, [instrumentId], "target arrival records the instrument");
+  assert.strictEqual(st.monetaryRuns, 1, "target arrival increments monetaryRuns once");
+  assert.strictEqual(st.issuerTallies.name, 1, "target arrival increments name tally by 1");
+  assert.strictEqual(st.pending, null, "target arrival clears pending");
+  assert.strictEqual(ctx.scheduleCalls.length, 0, "target arrival does not schedule");
+  assert.deepStrictEqual(st.activeRemittance, { reserve: "last-breath-reserve", instrument: instrumentId, feedback: ctx.v72.RESERVE_TABLE["last-breath-reserve"].remittanceFeedback }, "target arrival sets activeRemittance");
+}
+
+// 重复 instrument 不重复图鉴，但 runs/tallies 累加
+{
+  const ctx = makeV72Context({});
+  const instrumentId = "ownerless-signature-note:last-breath-reserve:issue-before-speaking";
+  const instFb = ctx.v72.computeInstrumentFeedback("ownerless-signature-note", "last-breath-reserve", "issue-before-speaking");
+  ctx.v72.saveLastWordBank({ ...ctx.v72.defaultLastWordBank(), instruments: [instrumentId], monetaryRuns: 1, issuerTallies: { name: 1, shadow: 0, body: 0 } });
+  ctx.v72.saveLastWordBank({ ...ctx.read(), draft: { currency: "ownerless-signature-note", reserve: "last-breath-reserve" }, pending: { kind: "instrument", source: "testament-clearing-vault", currency: "ownerless-signature-note", reserve: "last-breath-reserve", policy: "issue-before-speaking", instrument: instrumentId, target: "threshold", feedback: instFb } });
+  ctx.v72.resolveLastWordBankPendingOnArrival("threshold");
+  const st = ctx.read();
+  assert.deepStrictEqual(st.instruments, [instrumentId], "repeat instrument does not duplicate codex");
+  assert.strictEqual(st.monetaryRuns, 2, "repeat instrument increments monetaryRuns");
+  assert.strictEqual(st.issuerTallies.name, 2, "repeat instrument increments name tally");
+}
+
+// default outcome settle + repeat
+{
+  const ctx = makeV72Context({});
+  const coverageInstruments = ["ownerless-signature-note:last-breath-reserve:issue-before-speaking", "unseen-shadow-coin:inherited-silence-reserve:devalue-the-farewell", "unspoken-testament-bond:collateralized-ending-reserve:freeze-resurrection-liquidity", "ownerless-signature-note:inherited-silence-reserve:redeem-in-another-mouth"];
+  const pending = { kind: "default", source: "sovereign-default-chamber", action: "nationalize-every-last-word", outcome: "every-last-word-was-nationalized", target: "remembrance", feedback: ctx.v72.DEFAULT_TABLE["nationalize-every-last-word"].feedback };
+  ctx.v72.saveLastWordBank({ ...ctx.v72.defaultLastWordBank(), instruments: coverageInstruments, visited: { bank: true, mint: true, vault: true, default: true }, pending });
+  ctx.v72.resolveLastWordBankPendingOnArrival("remembrance");
+  const st = ctx.read();
+  assert.deepStrictEqual(st.defaultOutcomes, ["every-last-word-was-nationalized"], "target arrival records default outcome");
+  assert.strictEqual(st.defaultRuns, 1, "target arrival increments defaultRuns once");
+  assert.strictEqual(st.pending, null, "target arrival clears pending");
+  assert.strictEqual(st.lastOutcome, "every-last-word-was-nationalized", "target arrival updates lastOutcome");
+
+  ctx.v72.saveLastWordBank({ ...st, pending });
+  ctx.v72.resolveLastWordBankPendingOnArrival("remembrance");
+  const st2 = ctx.read();
+  assert.deepStrictEqual(st2.defaultOutcomes, ["every-last-word-was-nationalized"], "repeat default does not duplicate outcomes");
+  assert.strictEqual(st2.defaultRuns, 2, "repeat default increments defaultRuns");
+}
+
+// else 场景清伪造 pending 并重新同步 UI，避免 stale disabled
+{
+  const ctx = makeV72Context({ scene: "protocol" });
+  const pending = { kind: "currency", source: "last-word-central-bank", currency: "ownerless-signature-note", target: "unsaid-currency-mint", feedback: ctx.v72.CURRENCY_TABLE["ownerless-signature-note"].feedback };
+  ctx.v72.saveLastWordBank({ ...ctx.v72.defaultLastWordBank(), draft: { currency: "", reserve: "" }, pending });
+  ctx.v72.replayLastWordBankPending("protocol");
+  assert.strictEqual(ctx.read().pending ?? null, null, "else scene clears pending");
+  assert.strictEqual(ctx.scheduleCalls.length, 0, "else scene does not schedule");
+}
+{
+  // instrument pending 时 direct hash 到已访问 mint：pending 被清，reserve 按钮从 stale disabled 恢复 enabled
+  const reserveBtns = {
+    "last-word-bank-reserve-last-breath-reserve": makeLastWordBankBtn({ disabled: true }),
+    "last-word-bank-reserve-inherited-silence-reserve": makeLastWordBankBtn({ disabled: true }),
+    "last-word-bank-reserve-collateralized-ending-reserve": makeLastWordBankBtn({ disabled: true }),
+  };
+  const ctx = makeV72Context({ scene: "unsaid-currency-mint", elements: reserveBtns });
+  const instFb = ctx.v72.computeInstrumentFeedback("ownerless-signature-note", "last-breath-reserve", "issue-before-speaking");
+  const pending = { kind: "instrument", source: "testament-clearing-vault", currency: "ownerless-signature-note", reserve: "last-breath-reserve", policy: "issue-before-speaking", instrument: "ownerless-signature-note:last-breath-reserve:issue-before-speaking", target: "threshold", feedback: instFb };
+  ctx.v72.saveLastWordBank({ ...ctx.v72.defaultLastWordBank(), draft: { currency: "ownerless-signature-note", reserve: "last-breath-reserve" }, visited: { mint: true }, pending });
+  ctx.v72.replayLastWordBankPending("unsaid-currency-mint");
+  assert.strictEqual(ctx.read().pending ?? null, null, "instrument pending at mint else-branch clears pending");
+  assert.strictEqual(ctx.scheduleCalls.length, 0, "instrument pending at mint else-branch does not schedule");
+  for (const btn of Object.values(reserveBtns)) {
+    assert.strictEqual(btn.disabled, false, "instrument pending cleared: mint reserve buttons re-enabled");
+  }
+}
+{
+  // default pending 时 direct hash 到已访问 bank：pending 被清，currency 按钮恢复 enabled
+  const currencyBtns = {
+    "last-word-bank-currency-ownerless-signature-note": makeLastWordBankBtn({ disabled: true }),
+    "last-word-bank-currency-unseen-shadow-coin": makeLastWordBankBtn({ disabled: true }),
+    "last-word-bank-currency-unspoken-testament-bond": makeLastWordBankBtn({ disabled: true }),
+  };
+  const ctx = makeV72Context({ scene: "last-word-central-bank", elements: currencyBtns });
+  const coverageInstruments = ["ownerless-signature-note:last-breath-reserve:issue-before-speaking", "unseen-shadow-coin:inherited-silence-reserve:devalue-the-farewell", "unspoken-testament-bond:collateralized-ending-reserve:freeze-resurrection-liquidity", "ownerless-signature-note:inherited-silence-reserve:redeem-in-another-mouth"];
+  const pending = { kind: "default", source: "sovereign-default-chamber", action: "nationalize-every-last-word", outcome: "every-last-word-was-nationalized", target: "remembrance", feedback: ctx.v72.DEFAULT_TABLE["nationalize-every-last-word"].feedback };
+  ctx.v72.saveLastWordBank({ ...ctx.v72.defaultLastWordBank(), instruments: coverageInstruments, visited: { bank: true, mint: true, vault: true, default: true }, pending });
+  ctx.v72.replayLastWordBankPending("last-word-central-bank");
+  assert.strictEqual(ctx.read().pending ?? null, null, "default pending at bank else-branch clears pending");
+  for (const btn of Object.values(currencyBtns)) {
+    assert.strictEqual(btn.disabled, false, "default pending cleared: bank currency buttons re-enabled");
+  }
+}
+{
+  // else 清 pending 后若仍有 activeRemittance，按钮应保持 disabled
+  const reserveBtns = {
+    "last-word-bank-reserve-last-breath-reserve": makeLastWordBankBtn({ disabled: true }),
+  };
+  const instrumentId = "ownerless-signature-note:last-breath-reserve:issue-before-speaking";
+  const remFb = (() => {
+    const c = makeV72Context({});
+    return c.v72.RESERVE_TABLE["last-breath-reserve"].remittanceFeedback;
+  })();
+  const ctx = makeV72Context({ scene: "unsaid-currency-mint", elements: reserveBtns });
+  const pending = { kind: "currency", source: "last-word-central-bank", currency: "ownerless-signature-note", target: "unsaid-currency-mint", feedback: ctx.v72.CURRENCY_TABLE["ownerless-signature-note"].feedback };
+  ctx.v72.saveLastWordBank({ ...ctx.v72.defaultLastWordBank(), draft: { currency: "ownerless-signature-note", reserve: "" }, instruments: [instrumentId], activeRemittance: { reserve: "last-breath-reserve", instrument: instrumentId, feedback: remFb }, pending });
+  ctx.v72.replayLastWordBankPending("unsaid-currency-mint");
+  assert.strictEqual(ctx.read().pending ?? null, null, "currency pending at mint else-branch clears pending even with activeRemittance");
+  assert.strictEqual(reserveBtns["last-word-bank-reserve-last-breath-reserve"].disabled, true, "else-branch re-sync keeps mint reserve disabled due to activeRemittance");
+}
+
+// choose 函数尊重 disabled/hidden
+{
+  const ctx = makeV72Context({ scene: "last-word-central-bank" });
+  ctx.v72.chooseLastWordBankCurrency("ownerless-signature-note");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled currency button blocks choice (no element)");
+
+  const ctx2 = makeV72Context({ scene: "last-word-central-bank", elements: { "last-word-bank-currency-ownerless-signature-note": makeLastWordBankBtn({ hidden: true }) } });
+  ctx2.v72.chooseLastWordBankCurrency("ownerless-signature-note");
+  assert.strictEqual(ctx2.read().pending ?? null, null, "hidden currency button blocks choice");
+
+  const ctx3 = makeV72Context({ scene: "last-word-central-bank", elements: { "last-word-bank-currency-ownerless-signature-note": makeLastWordBankBtn() } });
+  ctx3.v72.chooseLastWordBankCurrency("ownerless-signature-note");
+  assert.strictEqual(ctx3.read().pending?.kind, "currency", "enabled visible currency button allows choice");
+}
+{
+  const ctx = makeV72Context({ scene: "unsaid-currency-mint", elements: { "last-word-bank-reserve-last-breath-reserve": makeLastWordBankBtn({ disabled: true }) } });
+  ctx.v72.saveLastWordBank({ ...ctx.v72.defaultLastWordBank(), draft: { currency: "ownerless-signature-note", reserve: "" } });
+  ctx.v72.chooseLastWordBankReserve("last-breath-reserve");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled reserve button blocks choice");
+
+  const ctx2 = makeV72Context({ scene: "unsaid-currency-mint", elements: { "last-word-bank-reserve-last-breath-reserve": makeLastWordBankBtn() } });
+  ctx2.v72.saveLastWordBank({ ...ctx2.v72.defaultLastWordBank(), draft: { currency: "ownerless-signature-note", reserve: "" } });
+  ctx2.v72.chooseLastWordBankReserve("last-breath-reserve");
+  assert.strictEqual(ctx2.read().pending?.kind, "reserve", "enabled visible reserve button allows choice");
+}
+{
+  const ctx = makeV72Context({ scene: "testament-clearing-vault", elements: { "last-word-bank-policy-issue-before-speaking": makeLastWordBankBtn({ disabled: true }) } });
+  ctx.v72.saveLastWordBank({ ...ctx.v72.defaultLastWordBank(), draft: { currency: "ownerless-signature-note", reserve: "last-breath-reserve" } });
+  ctx.v72.chooseLastWordBankPolicy("issue-before-speaking");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled policy button blocks choice");
+
+  const ctx2 = makeV72Context({ scene: "testament-clearing-vault", elements: { "last-word-bank-policy-issue-before-speaking": makeLastWordBankBtn() } });
+  ctx2.v72.saveLastWordBank({ ...ctx2.v72.defaultLastWordBank(), draft: { currency: "ownerless-signature-note", reserve: "last-breath-reserve" } });
+  ctx2.v72.chooseLastWordBankPolicy("issue-before-speaking");
+  assert.strictEqual(ctx2.read().pending?.kind, "instrument", "enabled visible policy button allows choice");
+}
+{
+  const ctx = makeV72Context({ scene: "remembrance", elements: { "last-word-bank-entry-btn": makeLastWordBankBtn({ disabled: true }) } });
+  ctx.v72.chooseLastWordBankEntry();
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled entry button blocks entry");
+
+  const ctx2 = makeV72Context({ scene: "remembrance", elements: { "last-word-bank-entry-btn": makeLastWordBankBtn() } });
+  ctx2.v72.chooseLastWordBankEntry();
+  assert.strictEqual(ctx2.read().pending?.kind, "entry", "enabled visible entry button allows entry");
+}
+{
+  const coverageInstruments = ["ownerless-signature-note:last-breath-reserve:issue-before-speaking", "unseen-shadow-coin:inherited-silence-reserve:devalue-the-farewell", "unspoken-testament-bond:collateralized-ending-reserve:freeze-resurrection-liquidity", "ownerless-signature-note:inherited-silence-reserve:redeem-in-another-mouth"];
+  const ctx = makeV72Context({ scene: "remembrance", elements: { "last-word-bank-default-entry-btn": makeLastWordBankBtn({ disabled: true }) } });
+  ctx.v72.saveLastWordBank({ ...ctx.v72.defaultLastWordBank(), instruments: coverageInstruments });
+  ctx.v72.chooseLastWordBankDefaultEntry();
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled default entry button blocks entry");
+
+  const ctx2 = makeV72Context({ scene: "remembrance", elements: { "last-word-bank-default-entry-btn": makeLastWordBankBtn() } });
+  ctx2.v72.saveLastWordBank({ ...ctx2.v72.defaultLastWordBank(), instruments: coverageInstruments });
+  ctx2.v72.chooseLastWordBankDefaultEntry();
+  assert.strictEqual(ctx2.read().pending?.kind, "default-entry", "enabled visible default entry button allows entry");
+}
+{
+  const coverageInstruments = ["ownerless-signature-note:last-breath-reserve:issue-before-speaking", "unseen-shadow-coin:inherited-silence-reserve:devalue-the-farewell", "unspoken-testament-bond:collateralized-ending-reserve:freeze-resurrection-liquidity", "ownerless-signature-note:inherited-silence-reserve:redeem-in-another-mouth"];
+  const ctx = makeV72Context({ scene: "sovereign-default-chamber", elements: { "last-word-bank-default-nationalize-every-last-word": makeLastWordBankBtn({ disabled: true }) } });
+  ctx.v72.saveLastWordBank({ ...ctx.v72.defaultLastWordBank(), instruments: coverageInstruments, visited: { bank: true, mint: true, vault: true, default: true } });
+  ctx.v72.chooseLastWordBankDefaultAction("nationalize-every-last-word");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled default action button blocks choice");
+
+  const ctx2 = makeV72Context({ scene: "sovereign-default-chamber", elements: { "last-word-bank-default-nationalize-every-last-word": makeLastWordBankBtn() } });
+  ctx2.v72.saveLastWordBank({ ...ctx2.v72.defaultLastWordBank(), instruments: coverageInstruments, visited: { bank: true, mint: true, vault: true, default: true } });
+  ctx2.v72.chooseLastWordBankDefaultAction("nationalize-every-last-word");
+  assert.strictEqual(ctx2.read().pending?.kind, "default", "enabled visible default action button allows choice");
+}
+{
+  const instrumentId = "ownerless-signature-note:last-breath-reserve:issue-before-speaking";
+  const remFb = (() => {
+    const ctx = makeV72Context({});
+    return ctx.v72.RESERVE_TABLE["last-breath-reserve"].remittanceFeedback;
+  })();
+  const ctx = makeV72Context({ scene: "threshold", elements: { "last-word-bank-remittance-return-threshold": makeLastWordBankBtn({ disabled: true }) } });
+  ctx.v72.saveLastWordBank({ ...ctx.v72.defaultLastWordBank(), instruments: [instrumentId], activeRemittance: { reserve: "last-breath-reserve", instrument: instrumentId, feedback: remFb } });
+  ctx.v72.chooseLastWordBankRemittanceReturn("threshold");
+  assert.strictEqual(ctx.read().pending ?? null, null, "disabled remittance return button blocks return");
+
+  const ctx2 = makeV72Context({ scene: "threshold", elements: { "last-word-bank-remittance-return-threshold": makeLastWordBankBtn() } });
+  ctx2.v72.saveLastWordBank({ ...ctx2.v72.defaultLastWordBank(), instruments: [instrumentId], activeRemittance: { reserve: "last-breath-reserve", instrument: instrumentId, feedback: remFb } });
+  ctx2.v72.chooseLastWordBankRemittanceReturn("threshold");
+  assert.strictEqual(ctx2.read().pending?.kind, "remittance-return", "enabled visible remittance return button allows return");
+}
+
+// lastWordBankUnlocked 只能由规范 v71 coverage + 三 warOutcomes 证明
+{
+  const ctx = makeV72Context({ v71unlocked: true, treaties: fullV71Treaties, warOutcomes: fullV71WarOutcomes });
+  assert.strictEqual(ctx.v72.lastWordBankUnlocked(), true, "full v71 evidence unlocks v72");
+  const ctx2 = makeV72Context({ v71unlocked: false });
+  assert.strictEqual(ctx2.v72.lastWordBankUnlocked(), false, "incomplete v71 evidence locks v72");
+  const ctx3 = makeV72Context({ v71unlocked: true, treaties: fullV71Treaties, warOutcomes: ["all-borders-moved-inside-the-body"] });
+  assert.strictEqual(ctx3.v72.lastWordBankUnlocked(), false, "missing war outcomes lock v72");
+  const ctx4 = makeV72Context({ v71unlocked: true, treaties: ["name-legation:before-birth-country:mutual-recognition"], warOutcomes: fullV71WarOutcomes });
+  assert.strictEqual(ctx4.v72.lastWordBankUnlocked(), false, "incomplete treaty coverage locks v72");
+}
+
+// monetaryCoverageComplete
+{
+  const ctx = makeV72Context({});
+  const coverage = ["ownerless-signature-note:last-breath-reserve:issue-before-speaking", "unseen-shadow-coin:inherited-silence-reserve:devalue-the-farewell", "unspoken-testament-bond:collateralized-ending-reserve:freeze-resurrection-liquidity", "ownerless-signature-note:inherited-silence-reserve:redeem-in-another-mouth"];
+  assert.strictEqual(ctx.v72.monetaryCoverageComplete({ instruments: coverage }), true, "full coverage is complete");
+  assert.strictEqual(ctx.v72.monetaryCoverageComplete({ instruments: ["ownerless-signature-note:last-breath-reserve:issue-before-speaking"] }), false, "single instrument is not complete");
+  assert.strictEqual(ctx.v72.monetaryCoverageComplete({ instruments: [] }), false, "empty instruments is not complete");
+  const three = ["ownerless-signature-note:last-breath-reserve:issue-before-speaking", "unseen-shadow-coin:inherited-silence-reserve:devalue-the-farewell", "unspoken-testament-bond:collateralized-ending-reserve:freeze-resurrection-liquidity"];
+  assert.strictEqual(ctx.v72.monetaryCoverageComplete({ instruments: three }), false, "three instruments covering all currency/reserve but only three policies cannot open default");
+}
+
+// saveLastWordBank 只写 v72 key
+{
+  const ctx = makeV72Context({});
+  ctx.v72.saveLastWordBank(ctx.v72.defaultLastWordBank());
+  assert.ok(Object.prototype.hasOwnProperty.call(ctx.storeData, LAST_WORD_BANK_KEY), "saveLastWordBank writes the v72 key");
+  assert.equal(Object.keys(ctx.storeData).length, 1, "saveLastWordBank writes exactly one key");
+  delete ctx.storeData[LAST_WORD_BANK_KEY];
+  assert.deepStrictEqual(ctx.v72.getLastWordBank(), ctx.v72.defaultLastWordBank(), "removing v72 key resets to default");
+}
+
+// v71 前置失效时 getLastWordBank 规范化为默认
+{
+  const ctx = makeV72Context({ v71unlocked: true });
+  const instrumentId = "ownerless-signature-note:last-breath-reserve:issue-before-speaking";
+  const fullState = ctx.v72.defaultLastWordBank();
+  fullState.visited = { bank: true, mint: true, vault: true, default: true };
+  fullState.draft = { currency: "ownerless-signature-note", reserve: "last-breath-reserve" };
+  fullState.instruments = [instrumentId];
+  fullState.defaultOutcomes = ["every-last-word-was-nationalized"];
+  fullState.monetaryRuns = 5;
+  fullState.defaultRuns = 2;
+  fullState.issuerTallies = { name: 3, shadow: 1, body: 1 };
+  fullState.lastOutcome = instrumentId;
+  fullState.activeRemittance = { reserve: "last-breath-reserve", instrument: instrumentId, feedback: ctx.v72.RESERVE_TABLE["last-breath-reserve"].remittanceFeedback };
+  fullState.pending = { kind: "entry", target: "last-word-central-bank", feedback: ctx.v72.LAST_WORD_BANK_ENTRY_FEEDBACK };
+  ctx.v72.saveLastWordBank(fullState);
+  const ctxLocked = makeV72Context({ initialStore: ctx.storeData, v71unlocked: false });
+  const st = ctxLocked.v72.getLastWordBank();
+  assert.deepStrictEqual(st, ctxLocked.v72.defaultLastWordBank(), "locked getter returns default state");
+  assert.strictEqual(st.instruments.length, 0, "locked getter hides instruments");
+  assert.strictEqual(st.defaultOutcomes.length, 0, "locked getter hides default outcomes");
+  assert.strictEqual(st.monetaryRuns, 0, "locked getter zeroes monetaryRuns");
+  assert.strictEqual(st.defaultRuns, 0, "locked getter zeroes defaultRuns");
+  assert.deepStrictEqual(st.issuerTallies, { name: 0, shadow: 0, body: 0 }, "locked getter zeroes issuerTallies");
+  assert.strictEqual(st.activeRemittance, null, "locked getter nulls activeRemittance");
+  assert.strictEqual(st.pending, null, "locked getter nulls pending");
+  assert.strictEqual(st.lastOutcome, "", "locked getter clears lastOutcome");
+}
+
+// Remembrance 零进度：codex 父层、普通入口可见，39 格全锁，default 入口隐藏
+{
+  function makeV72El({ hidden = true } = {}) {
+    return {
+      hidden,
+      disabled: false,
+      textContent: "",
+      children: [],
+      className: "",
+      setAttribute() {},
+      removeAttribute(name) { if (name === "hidden") this.hidden = false; },
+      closest: () => null,
+      addEventListener() {},
+      set innerHTML(v) { this.children.length = 0; },
+      appendChild(c) { this.children.push(c); },
+    };
+  }
+  const box = makeV72El();
+  const grid = makeV72El({ hidden: false });
+  const entry = makeV72El();
+  const memory = makeV72El();
+  const entryBtn = makeV72El({ hidden: true });
+  const defaultEntryBtn = makeV72El({ hidden: true });
+  const ctx = makeV72Context({
+    scene: "remembrance",
+    elements: {
+      "last-word-bank-codex": box,
+      "last-word-bank-codex-grid": grid,
+      "last-word-bank-codex-entry": entry,
+      "last-word-bank-memory": memory,
+      "last-word-bank-entry-btn": entryBtn,
+      "last-word-bank-default-entry-btn": defaultEntryBtn,
+    },
+  });
+  ctx.v72.syncLastWordBankRemembrance();
+  assert.strictEqual(box.hidden, false, "v72 codex box visible at zero progress when unlocked");
+  assert.strictEqual(entry.hidden, false, "v72 codex entry parent visible at zero progress");
+  assert.strictEqual(memory.hidden, false, "v72 memory visible at zero progress");
+  assert.strictEqual(grid.children.length, 39, "v72 codex renders 39 cells at zero progress");
+  assert.strictEqual(grid.children.filter((c) => c.className.includes("unlocked")).length, 0, "v72 zero progress has 0 unlocked cells");
+  assert.strictEqual(entryBtn.hidden, false, "v72 entry button visible at zero progress");
+  assert.strictEqual(entryBtn.disabled, false, "v72 entry button enabled at zero progress");
+  assert.strictEqual(defaultEntryBtn.hidden, true, "v72 default entry hidden without coverage");
+
+  const entryBtnCourier = makeV72El({ hidden: true });
+  const defaultEntryBtnCourier = makeV72El({ hidden: true });
+  const ctxCourier = makeV72Context({
+    scene: "remembrance",
+    elements: {
+      "last-word-bank-codex": makeV72El(),
+      "last-word-bank-codex-grid": makeV72El({ hidden: false }),
+      "last-word-bank-codex-entry": makeV72El(),
+      "last-word-bank-memory": makeV72El(),
+      "last-word-bank-entry-btn": entryBtnCourier,
+      "last-word-bank-default-entry-btn": defaultEntryBtnCourier,
+    },
+  });
+  ctxCourier.v72.saveLastWordBank({ ...ctxCourier.v72.defaultLastWordBank(), instruments: ["ownerless-signature-note:last-breath-reserve:issue-before-speaking"], activeRemittance: { reserve: "last-breath-reserve", instrument: "ownerless-signature-note:last-breath-reserve:issue-before-speaking", feedback: ctxCourier.v72.RESERVE_TABLE["last-breath-reserve"].remittanceFeedback } });
+  ctxCourier.v72.syncLastWordBankRemembrance();
+  assert.strictEqual(entryBtnCourier.disabled, true, "entry button disabled while activeRemittance exists");
+  assert.strictEqual(defaultEntryBtnCourier.disabled, true, "default entry button disabled while activeRemittance exists");
+
+  const entryBtnDraft = makeV72El({ hidden: true });
+  const ctxDraft = makeV72Context({
+    scene: "remembrance",
+    elements: {
+      "last-word-bank-codex": makeV72El(),
+      "last-word-bank-codex-grid": makeV72El({ hidden: false }),
+      "last-word-bank-codex-entry": makeV72El(),
+      "last-word-bank-memory": makeV72El(),
+      "last-word-bank-entry-btn": entryBtnDraft,
+      "last-word-bank-default-entry-btn": makeV72El({ hidden: true }),
+    },
+  });
+  ctxDraft.v72.saveLastWordBank({ ...ctxDraft.v72.defaultLastWordBank(), draft: { currency: "ownerless-signature-note", reserve: "last-breath-reserve" } });
+  ctxDraft.v72.syncLastWordBankRemembrance();
+  assert.strictEqual(entryBtnDraft.disabled, true, "entry button disabled while draft is non-empty");
+
+  // activeRemittance 精确落在 remembrance 时：普通入口与违约入口均 visible+disabled，汇兑返回 visible+enabled
+  const instrumentIdRem = "ownerless-signature-note:inherited-silence-reserve:issue-before-speaking";
+  const remFbRem = ctx.v72.RESERVE_TABLE["inherited-silence-reserve"].remittanceFeedback;
+  const entryBtnRem = makeV72El({ hidden: true });
+  const defaultEntryBtnRem = makeV72El({ hidden: true });
+  const remReturnBtnRem = makeV72El({ hidden: true });
+  const remContainerRem = makeV72El({ hidden: true });
+  const ctxRem = makeV72Context({
+    scene: "remembrance",
+    elements: {
+      "last-word-bank-codex": makeV72El(),
+      "last-word-bank-codex-grid": makeV72El({ hidden: false }),
+      "last-word-bank-codex-entry": makeV72El(),
+      "last-word-bank-memory": makeV72El(),
+      "last-word-bank-entry-btn": entryBtnRem,
+      "last-word-bank-default-entry-btn": defaultEntryBtnRem,
+      "last-word-bank-remittance-remembrance": remContainerRem,
+      "last-word-bank-remittance-return-remembrance": remReturnBtnRem,
+    },
+  });
+  ctxRem.v72.saveLastWordBank({ ...ctxRem.v72.defaultLastWordBank(), instruments: [instrumentIdRem], activeRemittance: { reserve: "inherited-silence-reserve", instrument: instrumentIdRem, feedback: remFbRem } });
+  ctxRem.v72.syncLastWordBankRemembrance();
+  ctxRem.v72.syncLastWordBankRemittances();
+  assert.strictEqual(entryBtnRem.hidden, false, "entry button visible while activeRemittance at remembrance");
+  assert.strictEqual(entryBtnRem.disabled, true, "entry button disabled while activeRemittance at remembrance");
+  assert.strictEqual(defaultEntryBtnRem.hidden, false, "default-entry visible while activeRemittance at remembrance even without coverage");
+  assert.strictEqual(defaultEntryBtnRem.disabled, true, "default-entry disabled while activeRemittance at remembrance");
+  assert.strictEqual(remContainerRem.hidden, false, "remittance container visible while activeRemittance at remembrance");
+  assert.strictEqual(remReturnBtnRem.disabled, false, "remittance-return enabled while activeRemittance at remembrance");
+
+  // 返回/清 active 后，无 coverage 则违约入口重新隐藏
+  ctxRem.v72.saveLastWordBank({ ...ctxRem.v72.defaultLastWordBank(), instruments: [instrumentIdRem], activeRemittance: null });
+  ctxRem.v72.syncLastWordBankRemembrance();
+  assert.strictEqual(defaultEntryBtnRem.hidden, true, "default-entry hidden after activeRemittance cleared without coverage");
+
+  // coverage 状态下 activeRemittance 仍让违约入口 visible+disabled
+  const coverageInstruments = ["ownerless-signature-note:last-breath-reserve:issue-before-speaking", "unseen-shadow-coin:inherited-silence-reserve:devalue-the-farewell", "unspoken-testament-bond:collateralized-ending-reserve:freeze-resurrection-liquidity", "ownerless-signature-note:inherited-silence-reserve:redeem-in-another-mouth"];
+  const defaultEntryBtnCov = makeV72El({ hidden: true });
+  const ctxCov = makeV72Context({
+    scene: "remembrance",
+    elements: {
+      "last-word-bank-codex": makeV72El(),
+      "last-word-bank-codex-grid": makeV72El({ hidden: false }),
+      "last-word-bank-codex-entry": makeV72El(),
+      "last-word-bank-memory": makeV72El(),
+      "last-word-bank-entry-btn": makeV72El({ hidden: true }),
+      "last-word-bank-default-entry-btn": defaultEntryBtnCov,
+    },
+  });
+  const coverageActiveInstrument = "ownerless-signature-note:inherited-silence-reserve:redeem-in-another-mouth";
+  ctxCov.v72.saveLastWordBank({ ...ctxCov.v72.defaultLastWordBank(), instruments: coverageInstruments, activeRemittance: { reserve: "inherited-silence-reserve", instrument: coverageActiveInstrument, feedback: ctxCov.v72.RESERVE_TABLE["inherited-silence-reserve"].remittanceFeedback } });
+  ctxCov.v72.syncLastWordBankRemembrance();
+  assert.strictEqual(defaultEntryBtnCov.hidden, false, "default-entry visible with coverage while activeRemittance at remembrance");
+  assert.strictEqual(defaultEntryBtnCov.disabled, true, "default-entry disabled with coverage while activeRemittance at remembrance");
+}
+
+// 统计行与货币主权多数
+{
+  const ctx = makeV72Context({});
+  assert.strictEqual(ctx.v72.computeLastWordBankMajority({ name: 0, shadow: 0, body: 0 }), "无人取得货币主权", "all zero majority is none");
+  assert.strictEqual(ctx.v72.computeLastWordBankMajority({ name: 2, shadow: 1, body: 1 }), "签名货币取得主权", "name majority");
+  assert.strictEqual(ctx.v72.computeLastWordBankMajority({ name: 1, shadow: 2, body: 1 }), "黑币取得主权", "shadow majority");
+  assert.strictEqual(ctx.v72.computeLastWordBankMajority({ name: 1, shadow: 1, body: 2 }), "遗嘱债取得主权", "body majority");
+  assert.strictEqual(ctx.v72.computeLastWordBankMajority({ name: 2, shadow: 2, body: 1 }), "无人取得货币主权", "tie majority is none");
+}
+
+// 18 组 listener 合成 click 零副作用
+{
+  const entryBtn = makeLastWordBankBtn();
+  const ctx = makeV72Context({ scene: "remembrance", elements: { "last-word-bank-entry-btn": entryBtn } });
+  assert.ok(entryBtn.listeners.click, "entry listener attached");
+  ctx.v72.saveLastWordBank({ ...ctx.v72.defaultLastWordBank() });
+  entryBtn.listeners.click({ isTrusted: false });
+  assert.strictEqual(ctx.read().pending ?? null, null, "synthetic click on entry does not create pending");
+
+  const currencyBtn = makeLastWordBankBtn();
+  const ctx2 = makeV72Context({ scene: "last-word-central-bank", elements: { "last-word-bank-currency-ownerless-signature-note": currencyBtn } });
+  assert.ok(currencyBtn.listeners.click, "currency listener attached");
+  ctx2.v72.saveLastWordBank({ ...ctx2.v72.defaultLastWordBank() });
+  currencyBtn.listeners.click({ isTrusted: false });
+  assert.strictEqual(ctx2.read().pending ?? null, null, "synthetic click on currency does not create pending");
+
+  const reserveBtn = makeLastWordBankBtn();
+  const ctx2b = makeV72Context({ scene: "unsaid-currency-mint", elements: { "last-word-bank-reserve-last-breath-reserve": reserveBtn } });
+  ctx2b.v72.saveLastWordBank({ ...ctx2b.v72.defaultLastWordBank(), draft: { currency: "ownerless-signature-note", reserve: "" } });
+  reserveBtn.listeners.click({ isTrusted: false });
+  assert.strictEqual(ctx2b.read().pending ?? null, null, "synthetic click on reserve does not create pending");
+
+  const policyBtn = makeLastWordBankBtn();
+  const ctx2c = makeV72Context({ scene: "testament-clearing-vault", elements: { "last-word-bank-policy-issue-before-speaking": policyBtn } });
+  ctx2c.v72.saveLastWordBank({ ...ctx2c.v72.defaultLastWordBank(), draft: { currency: "ownerless-signature-note", reserve: "last-breath-reserve" } });
+  policyBtn.listeners.click({ isTrusted: false });
+  assert.strictEqual(ctx2c.read().pending ?? null, null, "synthetic click on policy does not create pending");
+
+  const defaultEntryBtn = makeLastWordBankBtn();
+  const coverageInstruments = ["ownerless-signature-note:last-breath-reserve:issue-before-speaking", "unseen-shadow-coin:inherited-silence-reserve:devalue-the-farewell", "unspoken-testament-bond:collateralized-ending-reserve:freeze-resurrection-liquidity", "ownerless-signature-note:inherited-silence-reserve:redeem-in-another-mouth"];
+  const ctx3 = makeV72Context({ scene: "remembrance", elements: { "last-word-bank-default-entry-btn": defaultEntryBtn } });
+  assert.ok(defaultEntryBtn.listeners.click, "default entry listener attached");
+  ctx3.v72.saveLastWordBank({ ...ctx3.v72.defaultLastWordBank(), instruments: coverageInstruments });
+  defaultEntryBtn.listeners.click({ isTrusted: false });
+  assert.strictEqual(ctx3.read().pending ?? null, null, "synthetic click on default entry does not create pending");
+
+  const defaultActionBtn = makeLastWordBankBtn();
+  const ctx3b = makeV72Context({ scene: "sovereign-default-chamber", elements: { "last-word-bank-default-nationalize-every-last-word": defaultActionBtn } });
+  ctx3b.v72.saveLastWordBank({ ...ctx3b.v72.defaultLastWordBank(), instruments: coverageInstruments, visited: { bank: true, mint: true, vault: true, default: true } });
+  defaultActionBtn.listeners.click({ isTrusted: false });
+  assert.strictEqual(ctx3b.read().pending ?? null, null, "synthetic click on default action does not create pending");
+
+  const remittanceBtn = makeLastWordBankBtn();
+  const instrumentId = "ownerless-signature-note:last-breath-reserve:issue-before-speaking";
+  const remFb = (() => {
+    const c = makeV72Context({});
+    return c.v72.RESERVE_TABLE["last-breath-reserve"].remittanceFeedback;
+  })();
+  const ctx4 = makeV72Context({ scene: "threshold", elements: { "last-word-bank-remittance-return-threshold": remittanceBtn } });
+  ctx4.v72.saveLastWordBank({ ...ctx4.v72.defaultLastWordBank(), instruments: [instrumentId], activeRemittance: { reserve: "last-breath-reserve", instrument: instrumentId, feedback: remFb } });
+  remittanceBtn.listeners.click({ isTrusted: false });
+  assert.strictEqual(ctx4.read().pending ?? null, null, "synthetic click on remittance return does not create pending");
+}
+
+// activeRemittance / draft / pending 一致性回归：UI disabled 与 handler、pending 归一化一致
+{
+  function makeV72Button({ disabled = false, hidden = false } = {}) {
+    return { disabled, hidden, pressed: null, setAttribute(name, value) { if (name === "aria-pressed") this.pressed = value; }, removeAttribute() {}, closest: () => null, addEventListener() {} };
+  }
+  function makeV72Box({ hidden = true } = {}) {
+    return { hidden, children: [], className: "", textContent: "", setAttribute() {}, removeAttribute(name) { if (name === "hidden") this.hidden = false; }, closest: () => null, addEventListener() {}, appendChild(c) { this.children.push(c); }, querySelector: () => null };
+  }
+  const instrumentId = "ownerless-signature-note:last-breath-reserve:issue-before-speaking";
+  const remFb = (() => {
+    const c = makeV72Context({});
+    return c.v72.RESERVE_TABLE["last-breath-reserve"].remittanceFeedback;
+  })();
+
+  // activeRemittance 期间 pending 归一化拒绝非 remittance-return
+  {
+    const ctx = makeV72Context({});
+    const baseSt = ctx.v72.defaultLastWordBank();
+    baseSt._v72unlocked = true;
+    baseSt.activeRemittance = { reserve: "last-breath-reserve", instrument: instrumentId, feedback: remFb };
+    assert.strictEqual(ctx.v72.normalizeLastWordBankPending({ kind: "currency", source: "last-word-central-bank", currency: "ownerless-signature-note", target: "unsaid-currency-mint", feedback: ctx.v72.CURRENCY_TABLE["ownerless-signature-note"].feedback }, baseSt), null, "currency pending rejected while activeRemittance");
+    assert.strictEqual(ctx.v72.normalizeLastWordBankPending({ kind: "reserve", source: "unsaid-currency-mint", currency: "ownerless-signature-note", reserve: "last-breath-reserve", target: "testament-clearing-vault", feedback: ctx.v72.RESERVE_TABLE["last-breath-reserve"].feedback }, baseSt), null, "reserve pending rejected while activeRemittance");
+    baseSt.draft = { currency: "ownerless-signature-note", reserve: "last-breath-reserve" };
+    const instFb = ctx.v72.computeInstrumentFeedback("ownerless-signature-note", "last-breath-reserve", "issue-before-speaking");
+    assert.strictEqual(ctx.v72.normalizeLastWordBankPending({ kind: "instrument", source: "testament-clearing-vault", currency: "ownerless-signature-note", reserve: "last-breath-reserve", policy: "issue-before-speaking", instrument: instrumentId, target: "threshold", feedback: instFb }, baseSt), null, "instrument pending rejected while activeRemittance");
+    const coverageInstruments = [instrumentId, "unseen-shadow-coin:inherited-silence-reserve:devalue-the-farewell", "unspoken-testament-bond:collateralized-ending-reserve:freeze-resurrection-liquidity", "ownerless-signature-note:inherited-silence-reserve:redeem-in-another-mouth"];
+    baseSt.instruments = coverageInstruments;
+    assert.strictEqual(ctx.v72.normalizeLastWordBankPending({ kind: "default-entry", target: "sovereign-default-chamber", feedback: ctx.v72.LAST_WORD_BANK_DEFAULT_ENTRY_FEEDBACK }, baseSt), null, "default-entry pending rejected while activeRemittance");
+    baseSt.visited.default = true;
+    assert.strictEqual(ctx.v72.normalizeLastWordBankPending({ kind: "default", source: "sovereign-default-chamber", action: "nationalize-every-last-word", outcome: "every-last-word-was-nationalized", target: "remembrance", feedback: ctx.v72.DEFAULT_TABLE["nationalize-every-last-word"].feedback }, baseSt), null, "default pending rejected while activeRemittance");
+  }
+
+  // activeRemittance 期间 handler 拒绝 reserve / policy / default-action
+  {
+    const ctx = makeV72Context({ scene: "unsaid-currency-mint", elements: { "last-word-bank-reserve-last-breath-reserve": makeV72Button() } });
+    ctx.v72.saveLastWordBank({ ...ctx.v72.defaultLastWordBank(), instruments: [instrumentId], draft: { currency: "ownerless-signature-note", reserve: "" }, activeRemittance: { reserve: "last-breath-reserve", instrument: instrumentId, feedback: remFb } });
+    ctx.v72.chooseLastWordBankReserve("last-breath-reserve");
+    assert.strictEqual(ctx.read().pending ?? null, null, "choose reserve rejected while activeRemittance");
+
+    const ctx2 = makeV72Context({ scene: "testament-clearing-vault", elements: { "last-word-bank-policy-issue-before-speaking": makeV72Button() } });
+    ctx2.v72.saveLastWordBank({ ...ctx2.v72.defaultLastWordBank(), instruments: [instrumentId], draft: { currency: "ownerless-signature-note", reserve: "last-breath-reserve" }, activeRemittance: { reserve: "last-breath-reserve", instrument: instrumentId, feedback: remFb } });
+    ctx2.v72.chooseLastWordBankPolicy("issue-before-speaking");
+    assert.strictEqual(ctx2.read().pending ?? null, null, "choose policy rejected while activeRemittance");
+
+    const coverageInstruments = [instrumentId, "unseen-shadow-coin:inherited-silence-reserve:devalue-the-farewell", "unspoken-testament-bond:collateralized-ending-reserve:freeze-resurrection-liquidity", "ownerless-signature-note:inherited-silence-reserve:redeem-in-another-mouth"];
+    const ctx3 = makeV72Context({ scene: "sovereign-default-chamber", elements: { "last-word-bank-default-nationalize-every-last-word": makeV72Button() } });
+    ctx3.v72.saveLastWordBank({ ...ctx3.v72.defaultLastWordBank(), instruments: coverageInstruments, visited: { bank: true, mint: true, vault: true, default: true }, activeRemittance: { reserve: "last-breath-reserve", instrument: instrumentId, feedback: remFb } });
+    ctx3.v72.chooseLastWordBankDefaultAction("nationalize-every-last-word");
+    assert.strictEqual(ctx3.read().pending ?? null, null, "choose default action rejected while activeRemittance");
+  }
+
+  // sync 禁用条件与 handler 一致（bank activeRemittance / draft / pending；mint/vault activeRemittance；default activeRemittance）
+  {
+    const currencyBtns = {
+      "last-word-bank-currency-ownerless-signature-note": makeV72Button(),
+      "last-word-bank-currency-unseen-shadow-coin": makeV72Button(),
+      "last-word-bank-currency-unspoken-testament-bond": makeV72Button(),
+    };
+    const ctx = makeV72Context({ scene: "last-word-central-bank", elements: currencyBtns });
+    ctx.v72.saveLastWordBank({ ...ctx.v72.defaultLastWordBank(), instruments: [instrumentId], activeRemittance: { reserve: "last-breath-reserve", instrument: instrumentId, feedback: remFb } });
+    ctx.v72.syncLastWordBankBank();
+    assert.ok(Object.values(currencyBtns).every((b) => b.disabled), "bank currency buttons disabled while activeRemittance");
+
+    const ctx2 = makeV72Context({ scene: "last-word-central-bank", elements: currencyBtns });
+    ctx2.v72.saveLastWordBank({ ...ctx2.v72.defaultLastWordBank(), draft: { currency: "ownerless-signature-note", reserve: "" } });
+    ctx2.v72.syncLastWordBankBank();
+    assert.ok(Object.values(currencyBtns).every((b) => b.disabled), "bank currency buttons disabled while draft non-empty");
+
+    const reserveBtns = {
+      "last-word-bank-reserve-last-breath-reserve": makeV72Button(),
+      "last-word-bank-reserve-inherited-silence-reserve": makeV72Button(),
+      "last-word-bank-reserve-collateralized-ending-reserve": makeV72Button(),
+    };
+    const ctx3 = makeV72Context({ scene: "unsaid-currency-mint", elements: reserveBtns });
+    ctx3.v72.saveLastWordBank({ ...ctx3.v72.defaultLastWordBank(), instruments: [instrumentId], draft: { currency: "ownerless-signature-note", reserve: "" }, activeRemittance: { reserve: "last-breath-reserve", instrument: instrumentId, feedback: remFb } });
+    ctx3.v72.syncLastWordBankMint();
+    assert.ok(Object.values(reserveBtns).every((b) => b.disabled), "mint reserve buttons disabled while activeRemittance");
+
+    const policyBtns = {
+      "last-word-bank-policy-issue-before-speaking": makeV72Button(),
+      "last-word-bank-policy-devalue-the-farewell": makeV72Button(),
+      "last-word-bank-policy-freeze-resurrection-liquidity": makeV72Button(),
+      "last-word-bank-policy-redeem-in-another-mouth": makeV72Button(),
+    };
+    const ctx4 = makeV72Context({ scene: "testament-clearing-vault", elements: policyBtns });
+    ctx4.v72.saveLastWordBank({ ...ctx4.v72.defaultLastWordBank(), instruments: [instrumentId], draft: { currency: "ownerless-signature-note", reserve: "last-breath-reserve" }, activeRemittance: { reserve: "last-breath-reserve", instrument: instrumentId, feedback: remFb } });
+    ctx4.v72.syncLastWordBankVault();
+    assert.ok(Object.values(policyBtns).every((b) => b.disabled), "vault policy buttons disabled while activeRemittance");
+
+    const figure = makeV72Box();
+    const tally = makeV72Box();
+    const defaultBtns = {
+      "last-word-bank-default-nationalize-every-last-word": makeV72Button(),
+      "last-word-bank-default-let-silence-set-interest": makeV72Button(),
+      "last-word-bank-default-declare-death-too-big-to-fail": makeV72Button(),
+    };
+    const coverageInstruments = [instrumentId, "unseen-shadow-coin:inherited-silence-reserve:devalue-the-farewell", "unspoken-testament-bond:collateralized-ending-reserve:freeze-resurrection-liquidity", "ownerless-signature-note:inherited-silence-reserve:redeem-in-another-mouth"];
+    const ctx5 = makeV72Context({ scene: "sovereign-default-chamber", elements: { "last-word-bank-default-figure": figure, "last-word-bank-default-tally": tally, ...defaultBtns } });
+    ctx5.v72.saveLastWordBank({ ...ctx5.v72.defaultLastWordBank(), instruments: coverageInstruments, visited: { bank: true, mint: true, vault: true, default: true }, activeRemittance: { reserve: "last-breath-reserve", instrument: instrumentId, feedback: remFb } });
+    ctx5.v72.syncLastWordBankDefault();
+    assert.strictEqual(figure.hidden, false, "default figure stays visible while activeRemittance and visited.default");
+    assert.strictEqual(tally.hidden, false, "default tally stays visible while activeRemittance and visited.default");
+    assert.ok(Object.values(defaultBtns).every((b) => b.disabled), "default action buttons disabled while activeRemittance");
+  }
+
+  // pending 期间所有 v72 选择按钮禁用（bank/mint/vault/default）
+  {
+    const currencyBtns = {
+      "last-word-bank-currency-ownerless-signature-note": makeV72Button(),
+      "last-word-bank-currency-unseen-shadow-coin": makeV72Button(),
+      "last-word-bank-currency-unspoken-testament-bond": makeV72Button(),
+    };
+    const ctx = makeV72Context({ scene: "last-word-central-bank", elements: currencyBtns });
+    ctx.v72.saveLastWordBank({ ...ctx.v72.defaultLastWordBank(), pending: { kind: "entry", target: "last-word-central-bank", feedback: ctx.v72.LAST_WORD_BANK_ENTRY_FEEDBACK } });
+    ctx.v72.syncLastWordBankBank();
+    assert.ok(Object.values(currencyBtns).every((b) => b.disabled), "bank currency buttons disabled while pending");
+  }
+
+  // draft 中途禁止并行 entry/default-entry/default：UI disabled + handler no-op + persisted pending 被归一化丢弃
+  {
+    const coverageInstruments = [instrumentId, "unseen-shadow-coin:inherited-silence-reserve:devalue-the-farewell", "unspoken-testament-bond:collateralized-ending-reserve:freeze-resurrection-liquidity", "ownerless-signature-note:inherited-silence-reserve:redeem-in-another-mouth"];
+
+    const defaultEntryBtn = makeV72Button();
+    const ctx = makeV72Context({ scene: "remembrance", elements: { "last-word-bank-default-entry-btn": defaultEntryBtn } });
+    ctx.v72.saveLastWordBank({ ...ctx.v72.defaultLastWordBank(), instruments: coverageInstruments, draft: { currency: "ownerless-signature-note", reserve: "" } });
+    ctx.v72.syncLastWordBankRemembrance();
+    assert.strictEqual(defaultEntryBtn.hidden, false, "default-entry stays visible while draft in progress");
+    assert.strictEqual(defaultEntryBtn.disabled, true, "default-entry disabled while draft in progress");
+    ctx.v72.chooseLastWordBankDefaultEntry();
+    assert.strictEqual(ctx.read().pending ?? null, null, "chooseLastWordBankDefaultEntry no-op while draft in progress");
+
+    const defaultBtns = {
+      "last-word-bank-default-nationalize-every-last-word": makeV72Button(),
+      "last-word-bank-default-let-silence-set-interest": makeV72Button(),
+      "last-word-bank-default-declare-death-too-big-to-fail": makeV72Button(),
+    };
+    const figure = makeV72Box({ hidden: true });
+    const tally = makeV72Box({ hidden: true });
+    const ctx2 = makeV72Context({ scene: "sovereign-default-chamber", elements: { "last-word-bank-default-figure": figure, "last-word-bank-default-tally": tally, ...defaultBtns } });
+    ctx2.v72.saveLastWordBank({ ...ctx2.v72.defaultLastWordBank(), instruments: coverageInstruments, visited: { bank: true, mint: true, vault: true, default: true }, draft: { currency: "ownerless-signature-note", reserve: "last-breath-reserve" } });
+    ctx2.v72.syncLastWordBankDefault();
+    assert.strictEqual(figure.hidden, false, "default figure visible while draft in progress");
+    assert.strictEqual(tally.hidden, false, "default tally visible while draft in progress");
+    assert.ok(Object.values(defaultBtns).every((b) => b.disabled), "default action buttons disabled while draft in progress");
+    ctx2.v72.chooseLastWordBankDefaultAction("nationalize-every-last-word");
+    assert.strictEqual(ctx2.read().pending ?? null, null, "chooseLastWordBankDefaultAction no-op while draft in progress");
+  }
+  {
+    // 伪造 persisted pending 在 save 时通过 normalize 丢弃
+    const coverageInstruments = [instrumentId, "unseen-shadow-coin:inherited-silence-reserve:devalue-the-farewell", "unspoken-testament-bond:collateralized-ending-reserve:freeze-resurrection-liquidity", "ownerless-signature-note:inherited-silence-reserve:redeem-in-another-mouth"];
+    const ctx = makeV72Context({});
+    ctx.v72.saveLastWordBank({ ...ctx.v72.defaultLastWordBank(), draft: { currency: "ownerless-signature-note", reserve: "" }, pending: { kind: "entry", target: "last-word-central-bank", feedback: ctx.v72.LAST_WORD_BANK_ENTRY_FEEDBACK } });
+    assert.strictEqual(ctx.read().pending ?? null, null, "forged entry pending dropped when draft in progress");
+
+    const ctx2 = makeV72Context({});
+    ctx2.v72.saveLastWordBank({ ...ctx2.v72.defaultLastWordBank(), instruments: coverageInstruments, draft: { currency: "ownerless-signature-note", reserve: "last-breath-reserve" }, pending: { kind: "default-entry", target: "sovereign-default-chamber", feedback: ctx2.v72.LAST_WORD_BANK_DEFAULT_ENTRY_FEEDBACK } });
+    assert.strictEqual(ctx2.read().pending ?? null, null, "forged default-entry pending dropped when draft in progress");
+
+    const ctx3 = makeV72Context({});
+    ctx3.v72.saveLastWordBank({ ...ctx3.v72.defaultLastWordBank(), instruments: coverageInstruments, visited: { default: true }, draft: { currency: "ownerless-signature-note", reserve: "last-breath-reserve" }, pending: { kind: "default", source: "sovereign-default-chamber", action: "nationalize-every-last-word", outcome: "every-last-word-was-nationalized", target: "remembrance", feedback: ctx3.v72.DEFAULT_TABLE["nationalize-every-last-word"].feedback } });
+    assert.strictEqual(ctx3.read().pending ?? null, null, "forged default pending dropped when draft in progress");
+  }
+}
+
+/* ---------- 文档同步 ---------- */
+assert.match(readme, /v72|遗言中央银行|CENTRAL BANK OF LAST WORDS/, "README must document the v72 last word bank");
+assert.match(qa, /v72|遗言中央银行|CENTRAL BANK OF LAST WORDS/, "design-qa.md must document the v72 last word bank");
+assert.match(log, /v72|遗言中央银行|CENTRAL BANK OF LAST WORDS/, "ProgressLog must document the v72 last word bank");
 /* ---------- 边界说明 ----------
    本套件为 Node 静态断言，不启动 DOM、不执行真实交互。
    敲门、场景切换、交班簿覆盖、签退、钟针倒退等运行时行为，
-   以代码存在性断言 + design-qa.md 内的无头 Chromium 截图人工验收为准。 */
-console.log("site.test.mjs: all assertions passed");
+   以代码存在性断言 + design-qa.md 内的无头 Chromium 截图人工验收为准。
+   当前断言总数：7880 */
+console.log(`site.test.mjs: ${assertionCount} assertions passed`);

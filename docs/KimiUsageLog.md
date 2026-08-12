@@ -2,6 +2,174 @@
 
 按轮记录 Kimi 套餐用量与会话上下文变化。百分比取自 Kimi 额度页实测，时长与上下文为近似记录。
 
+## 2026-08-12 · v76 现实退款处
+
+| 项目 | 起 | 止 | 增量 / 说明 |
+| --- | --- | --- | --- |
+| 时间基线 | 未精确记录 | 未精确记录 | 本轮未把 UTC 工具时间冒充台北本地时间；不报告未经核验的活跃墙钟 |
+| Kimi 套餐百分比 | 未能读取 | 未能读取 | 未刷新额度页；不把会话上下文百分比冒充套餐消耗 |
+| Kimi Code 会话 | K2.7 Coding Highspeed | K2.7 Coding Highspeed | 生产代码 v76 已在本会话实装；HTML/CSS/JS/tests/文档同步全程无额度报错 |
+| 浏览器验收 | Codex 独立验收 | 仍待执行 | 静态 9665 assertions 全绿、`node --check script.js`、`node --check tests/site.test.mjs`、`git diff --check` 全绿；Codex 独立真实浏览器验收（桌面 1280×720 / 移动 390×844、真实 click、pending 矩阵、三处亡后退款员回流、覆盖与集体诉讼流程）仍待执行 |
+| 内容摘要 | — | — | v76 现实退款处：v75 三世界售后裁定 + warrantyClaims coverage 完整后新增现实退款处 / 存在凭证焚化库 / 现实退货检验台 / 不符描述集体诉讼庭四场景；3×3×4=36 份现实退货单 + 3 条退款结局 = 39 新图鉴，场景 133 → 137；独立十一键状态 `goddead_v76_reality_refund`、缓存 `v=75 → v=76`、18 组 isTrusted 防线；三个旧场景（borrowed-childhood / blank-name-cloakroom / lifetime-pawn-vault）亡后退款员回流；Remembrance 双入口 / 统计 / 39 格图鉴（REMEDY_TABLE 四项 title 冻结、标题无 undefined） / 四目录 / forget-all；静态测试 9665 断言全绿；sceneInit 与 DOMContentLoaded 初始化链已补齐 v76 全套同步调用并追加回归测试；handler ID 与 index.html 真实 DOM ID 一致并已加入对查回归 |
+
+备注：v76 生产实现、测试增补与文档回填均在本会话完成。未执行 git add/commit/push/stash；未安装依赖。
+
+## 2026-08-12 · v75 末日保修局
+
+| 项目 | 起 | 止 | 增量 / 说明 |
+| --- | --- | --- | --- |
+| 时间基线 | 未精确记录 | 未精确记录 | 本轮未把 UTC 工具时间冒充台北本地时间；不报告未经核验的活跃墙钟 |
+| Kimi 套餐百分比 | 未能读取 | 未能读取 | 未刷新额度页；不把会话上下文百分比冒充套餐消耗 |
+| Kimi Code 会话 | K2.7 Coding Highspeed | K2.7 Coding Highspeed | 生产代码 v75 已在本会话实装；HTML/CSS/JS/tests/文档同步全程无额度报错 |
+| 浏览器验收 | Codex 独立验收 | 通过 | 静态 9051 assertions 全绿、`node --check script.js`、`node --check tests/site.test.mjs`、`git diff --check` 全绿；真实 Chrome 完整链路：Remembrance 入口 → `worn-before-manufacture` → `receipt-from-unbuilt-factory` → `replace-reality-not-part` → threshold 空厂理赔员 → 返回保修局；覆盖种子后 real mouse 召回世界 → threshold 通过。P1 修复后 handler/lock/sync/事件监听与真实 DOM ID 一致，新增 3+3+4+3 类 DOM/JS 一致性回归断言；桌面四幕与移动 390×844 视觉可读、无横向溢出；页面自身 `console.warn/error = 0`，Immersive Translate 扩展自身两条超时错误明确排除 |
+| 内容摘要 | — | — | v75 末日保修局：v74 三永久许可裁定 + patents coverage 完整后新增末日保修局 / 购买凭证停尸房 / 世终之后维修台 / 世界总召回场四场景；3×3×4=36 份末日报修单 + 3 条世界售后裁定 = 39 新图鉴，场景 129 → 133；独立十一键状态 `goddead_v75_apocalypse_warranty`、缓存 `v=74 → v=75`、18 组 isTrusted 防线；三个旧场景亡后理赔员回流；Remembrance 双入口 / 统计 / 39 格图鉴（REMEDY_TABLE 四项 title 冻结、标题无 undefined） / 四目录 / forget-all；静态测试 9051 断言全绿；P1 修复：统一 handler/lock/sync/forget-all 按钮 ID 为真实 DOM ID，并补 3+3+4+3 类 handler ID 与 index.html 存在性对查回归；sceneInit 与 DOMContentLoaded 初始化链已补齐 v75 全套同步调用并追加回归测试 |
+
+备注：v75 生产实现、测试增补与文档回填均在本会话完成。未执行 git add/commit/push/stash；未安装依赖。
+
+## 2026-08-12 · v74 墓碑专利局
+
+| 项目 | 起 | 止 | 增量 / 说明 |
+| --- | --- | --- | --- |
+| 时间基线 | 未精确记录 | 未精确记录 | 本轮未把 UTC 工具时间冒充台北本地时间；不报告未经核验的活跃墙钟 |
+| Kimi 套餐百分比 | 未能读取 | 未能读取 | 未刷新额度页；不把会话上下文百分比冒充套餐消耗 |
+| Kimi Code 会话 | K2.7 Coding Highspeed | K2.7 Coding Highspeed | 生产代码 v74 已在前序会话完成设计冻结与 patch 脚本撰写；本轮运行 patch、补全 tests/site.test.mjs 静态与可执行契约、更新五份文档，全程无额度报错 |
+| 浏览器验收 | Codex 独立验收 | 通过 | 静态 8441 assertions 全绿、node --check ×2 与 git diff --check 通过；Codex 真浏览器复验：四锁定深链回退、修复后 sceneInit 同步链、ready-zero、4 专利覆盖解锁终审/3 专利不解锁、完整 isTrusted 办理链与审查员返回、坏 JSON/数组降级、梦型/后忆 activeExaminer、remembrance 双入口 visible+disabled、桌面 1280×720 与手机 390×844 四张图布局/无横溢/触控尺寸均通过 |
+| 内容摘要 | — | — | v74 墓碑专利局：v73 三清醒驱逐结局 + declarations coverage 完整后新增墓碑专利局 / 先前技术骨库 / 不可实现权项审查室 / 永久许可终审庭四场景；3×3×4=36 件不可能专利 + 3 条永久许可裁定 = 39 新图鉴，场景 125 → 129；独立十一键状态 `goddead_v74_tombstone_patent_office`、缓存 `v=73 → v=74`、18 组 isTrusted 防线；三个旧场景墓碑审查员回流；Remembrance 双入口 / 统计 / 39 格图鉴（CLAIM_TABLE 四项 title 冻结、标题无 undefined） / 四目录 / forget-all；修复 P1（sceneInit 未同步 v74 入口/记忆/图鉴，已补齐 sync/paint/replay 全套调用与整页初始化链回归测试）；静态 8441 assertions 全绿；Codex 独立浏览器验收通过 |
+
+备注：v74 生产实现由前序 K2.7 Coding Highspeed 会话完成设计冻结与 patch 脚本；本轮运行 `/tmp/apply_v74.py`、修正 v73/v72 缓存断言、补全 tests/site.test.mjs 中 v74 静态与可执行契约、更新 README/ProgressLog/KimiUsageLog/design-qa/V74 设计文档。未执行 git add/commit/push/stash；未安装依赖。
+
+## 2026-08-12 · v73 梦境海关总署
+
+| 项目 | 起 | 止 | 增量 / 说明 |
+| --- | --- | --- | --- |
+| 时间基线 | 未精确记录 | 未精确记录 | 本轮未把 UTC 工具时间冒充台北本地时间；不报告未经核验的活跃墙钟 |
+| Kimi 套餐百分比 | 未能读取 | 未能读取 | 未刷新额度页；不把会话上下文百分比冒充套餐消耗 |
+| Kimi Code 会话 | K2.7 Coding Highspeed | K2.7 Coding Highspeed | 生产代码 v73 已在前序会话实装；本轮完成测试增补、bridge 测试修复与文档回填，全程无额度报错 |
+| 浏览器验收 | Codex 独立验收 | 通过 | Chrome 真实点击走通入口 → 护照 → 违禁梦 → 关税 → 旧场景 → 梦检员返回；锁态、ready-zero、3/4 与 4/4 覆盖门槛、三个梦检员、三个驱逐目标、pending 重播、刷新不重复、坏 JSON/数组回落均通过；1280×720 与 390×844 四幕布局通过，图片完整、无横向溢出、热点不重叠且 ≥44px；页面自身无 console error/warning；Chrome 仅出现 Immersive Translate 扩展自己的版本报错，与项目无关；静态 7880 assertions、两份 node --check 与 git diff --check 通过 |
+| 内容摘要 | — | — | v73 梦境海关总署：v72 三主权违约结局 + instruments coverage 完整后新增梦境海关总署 / 违禁睡眠申报厅 / 噩梦关税局 / 清醒驱逐场四场景；3×3×4=36 份梦境申报 + 3 条清醒驱逐结局 = 39 新图鉴，场景 121 → 125；独立十一键状态 `goddead_v73_dream_customs`、缓存 `v=72 → v=73`、18 组 isTrusted 防线；三个旧场景梦检员回流；Remembrance 双入口 / 统计 / 39 格图鉴（TARIFF_TABLE 四项 title 冻结、标题无 undefined） / 四目录 / forget-all；静态测试 7880 断言全绿；activeInspector 必须已收集、customs/terminal/bureau/yard UI disabled 与 handler 一致（draft 非空时 entry/deportation-entry/yard 均被拒绝/禁用）；Codex 独立浏览器验收通过 |
+
+备注：v73 生产实现由前序 K2.7 Coding Highspeed 会话完成；本轮修复 `dreamCustomsBridgeAllows('remembrance')` 测试中 declarations 缺失导致 normalize 丢弃 activeInspector 的失败，补全 tests/site.test.mjs 中 v73 静态与可执行契约、更新五份文档。未执行 git add/commit/push/stash；未安装依赖。
+
+## 2026-08-12 · v72 遗言中央银行
+
+| 项目 | 起 | 止 | 增量 / 说明 |
+| --- | --- | --- | --- |
+| 时间基线 | 未精确记录 | 未精确记录 | 本轮未把 UTC 工具时间冒充台北本地时间；不报告未经核验的活跃墙钟 |
+| Kimi 套餐百分比 | 未能读取 | 未能读取 | 未刷新额度页；不把会话上下文百分比冒充套餐消耗 |
+| Kimi Code 会话 | K2.7 Coding Highspeed | K2.7 Coding Highspeed | 生产代码 v72 已在前序会话实装；本轮完成测试增补与文档回填，全程无额度报错 |
+| 浏览器验收 | Codex 独立验收 | 通过 | v72 真实浏览器 QA 已由 Codex 独立执行并通过：静态 7357 assertions；四新场景桌面 1280×720 与移动 390×844 图片 natural 1536×1024、完整、无横溢、热点最小 44px、无重叠/越界；四 direct hash 锁定回 remembrance；ready-zero 39 格全锁、普通入口可用；真实 isTrusted 鼠标入口；entry/currency/reserve/instrument 来源刷新重播、threshold 目标刷新与返回；同一 instrument 重复仍图鉴 1、monetaryRuns 真实增长；3 份 coverage 失败、4 份成功、多数/并列；default-entry 与 default 的来源刷新、目标刷新、重复结局去重；threshold/remembrance/unending-gallery 三汇兑员直达/刷新/返回；remembrance 无 coverage activeRemittance 时普通+违约入口 visible+disabled、返回 enabled、清 active 后按 coverage 恢复；draft 中途两入口 disabled、违约庭 figure/tally visible 但 action disabled；坏 JSON/数组回默认且 deep hash 回 remembrance；pending else 清理；图鉴 policy title 修复后四标题无 undefined；应用自身 console warn/error=0（沉浸式翻译扩展 dynamic-i18n version mismatch 为第三方扩展噪声，不计入）；临时 qa-v72-seed.html 与本地 8972 server 由 Codex 负责清理 |
+| 内容摘要 | — | — | v72 遗言中央银行：v71 三未宣战结局 + treaties coverage 完整后新增遗言中央银行 / 未言货币铸造局 / 遗嘱清算金库 / 主权违约庭四场景；3×3×4=36 份遗言金融工具 + 3 条主权违约结局 = 39 新图鉴，场景 117 → 121；独立十一键状态 `goddead_v72_last_word_bank`、缓存 `v=71 → v=72`、18 组 isTrusted 防线；三个旧场景汇兑员回流；Remembrance 双入口 / 统计 / 39 格图鉴（POLICY_TABLE 四项 title 冻结、标题无 undefined） / 四目录 / forget-all；静态测试 7357 断言全绿；activeRemittance 必须已收集、bank/mint/vault/default UI disabled 与 handler 一致（draft 非空时 entry/default-entry/default 均被拒绝/禁用）；Codex 独立浏览器验收通过 |
+
+备注：v72 生产实现由前序 K2.7 Coding Highspeed 会话完成；本轮仅补全 tests/site.test.mjs 中 v72 静态与可执行契约、更新五份文档。未执行 git add/commit/push/stash；未安装依赖。
+
+## 2026-08-10 · v71 死亡外交部
+
+| 项目 | 起 | 止 | 增量 / 说明 |
+| --- | --- | --- | --- |
+| 时间基线 | 未精确记录 | 未精确记录 | 本轮未把 UTC 工具时间冒充台北本地时间；不报告未经核验的活跃墙钟 |
+| Kimi 套餐百分比 | 未能读取 | 未能读取 | 未刷新额度页；不把会话上下文百分比冒充套餐消耗 |
+| Kimi Code 会话 | K2.7 Coding Highspeed | K2.7 Coding Highspeed | 生产代码 v71 已在前序会话实装；本轮仅完成测试增补与文档回填，全程无额度报错 |
+| 浏览器验收 | Codex 独立验收 | 通过 | v71 真实浏览器 QA 已由 Codex 独立执行并通过：静态 6881 assertions；四新场景桌面 1280×720 与移动 390×844 图片/热区/无横溢通过，热区最小 44px；四锁定 hash 回 remembrance；代表条约签署/目标结算/重复/刷新幂等；三处信使直达与刷新、activeCourier 时双入口 visible+disabled；4 条约 war 门槛、3 条未解锁、票数平局、代表 war 结局幂等；坏 JSON/错误类型回默认；错误场景 pending 清理；合成点击零副作用、Chrome 真实鼠标入口成功；新鲜页 warn/error=0 |
+| 内容摘要 | — | — | v71 死亡外交部：v70 三宪政危机结局 + decrees coverage 完整后新增死亡外交部 / 不存在国境署 / 条约解剖台 / 未宣战室四场景；3×3×4=36 份死亡条约 + 3 条未宣战结局 = 39 新图鉴，场景 113 → 117；独立十一键状态 `goddead_v71_death_diplomacy`、缓存 `v=70 → v=71`、18 组 isTrusted 防线；三个旧场景外交信使回流；Remembrance 双入口 / 统计 / 39 格图鉴 / 四目录 / forget-all；静态测试 6881 断言全绿；Codex 独立浏览器验收通过 |
+
+备注：v71 生产实现由前序 K2.7 Coding Highspeed 会话完成；本轮仅补全 tests/site.test.mjs 中 v71 静态与可执行契约、更新五份文档。未执行 git add/commit/push/stash；未安装依赖。
+
+## 2026-08-10 · v70 亡者议会
+
+| 项目 | 起 | 止 | 增量 / 说明 |
+| --- | --- | --- | --- |
+| 时间基线 | 未精确记录 | 未精确记录 | 本轮未把 UTC 工具时间冒充台北本地时间；不报告未经核验的活跃墙钟 |
+| Kimi 套餐百分比 | 未能读取 | 未能读取 | 未刷新额度页；不把会话上下文百分比冒充套餐消耗 |
+| Kimi Code 会话 | K2.7 Coding Highspeed | K2.7 Coding Highspeed | 生产代码实装、测试增补与文档回填均在本会话完成；全程无额度报错 |
+| 浏览器验收 | Codex 独立验收 | 通过 | 桌面 1280×720 + 真实 390×844 iframe 四幕 active、WebP natural 1536×1024、热点图内/零重叠/移动端 ≥44px/横向 overflow 0；locked/ready-zero/isTrusted 真实鼠标进入/representative decree/repeat decree/three caucus whip returns/majority/coverage/representative crisis/七类 pending source-target-else/坏 JSON/clean 生产页 console=0 均通过；应用内程序化 click/Enter 被拒且零副作用 |
+| 内容摘要 | — | — | v70 亡者议会：v69 三注销结局 + records coverage 完整后新增亡者议会 / 公民权议案厅 / 宪法分籍台 / 三人共和国四场景；3×4×3=36 条死者法令 + 3 条宪政危机结局 = 39 新图鉴，场景 109 → 113；独立十一键状态 `goddead_v70_dead_parliament`、缓存 `v=69 → v=70`、18 组 isTrusted 防线；三个 v69 旧场景党鞭回流；Remembrance 双入口 / 统计 / 39 格图鉴 / 四目录 / forget-all；静态测试 6502 断言全绿，修复 decree pending 键集（含 caucus 八键）、v69 模块提取边界；Codex 独立静态 + 真实浏览器验收通过 |
+
+备注：v70 生产实现、文档回填由 K2.7 Coding Highspeed 完成；修复 `normalizeDeadParliamentPending` 中 decree pending 白名单漏掉 `caucus` 键的缺陷，使保存与重播一致。Codex 独立静态 + 真实浏览器验收已通过；QA 临时 helper 已删除，本地服务已停止，两套浏览器游戏存档均恢复。未执行 git add/commit/push/stash；未安装依赖。
+
+## 2026-08-10 · v69 死后人口普查
+
+| 项目 | 起 | 止 | 增量 / 说明 |
+| --- | --- | --- | --- |
+| 时间基线 | 未精确记录 | 未精确记录 | 本轮未把 UTC 工具时间冒充台北本地时间；不报告未经核验的活跃墙钟 |
+| Kimi 套餐百分比 | 未能读取 | 未能读取 | 未刷新额度页；不把会话上下文百分比冒充套餐消耗 |
+| Kimi Code 会话 | K2.7 Coding Highspeed | K2.7 Coding Highspeed | 生产代码实装、测试增补与文档回填均在本会话完成；全程无额度报错 |
+| 浏览器验收 | Codex 独立验收 | 通过（clean 人类点击仍待） | 桌面 1280×720 + 真实 390×844 iframe 四幕 active、WebP natural 1536×1024、热点图内/零重叠/移动端 ≥44px/横向 overflow 0；locked/ready-zero/ballot/tallies/summons-return/nullification/pending source-target-else/程序化 click/坏 JSON/console=0 均通过；clean 真人鼠标/Enter/Space 仍待人工输入 |
+| 内容摘要 | — | — | v69 死后人口普查：v68 三止赎结局 + loans coverage 完整后新增死后普查厅 / 矛盾证据库 / 出生投票间 / 人口注销庭四场景；3×3×3=27 份人口记录 + 3 条人口注销结局 = 30 新图鉴，场景 105 → 109；独立十一键状态 `goddead_v69_posthumous_census`、缓存 `v=68 → v=69`、17 组 isTrusted 防线；三个 v68 场景普查传票回流；Remembrance 双入口 / 统计 / 30 格图鉴 / 四目录 / forget-all；静态测试 6227 断言全绿，Codex 独立浏览器证据验收通过，clean 真人点击仍待 |
+
+备注：v69 生产实现、文档回填由 K2.7 Coding Highspeed 完成；Codex 独立浏览器证据验收通过（桌面 1280×720 + 真实移动 390×844）。先发现旧守卫缺陷（v69 ballot target 被 generationLoansCanVisitVault/Clearing 弹回 remembrance），Kimi 修复三个 v68 场景守卫并补 11 条集成回归断言后 Codex 复测通过。clean 正向真人鼠标/Enter/Space 仍待真人输入验收。未执行 git add/commit/push/stash；未安装依赖。
+
+## 2026-08-09 · v68 世代借贷
+
+| 项目 | 起 | 止 | 增量 / 说明 |
+| --- | --- | --- | --- |
+| 时间基线 | 未精确记录 | 未精确记录 | 本轮未把 UTC 工具时间冒充台北本地时间；不报告未经核验的活跃墙钟 |
+| Kimi 套餐百分比 | 未能读取 | 未能读取 | 未刷新额度页；不把会话上下文百分比冒充套餐消耗 |
+| Kimi Code 会话 | K2.7 Coding Highspeed | K2.7 Coding Highspeed | 生产代码实装、测试增补与文档回填均在本会话完成；全程无额度报错 |
+| 浏览器验收 | 待 Codex 独立验收 | Codex 独立浏览器证据验收完成（clean 正向真人点击仍待） | 桌面 1280×720 与真实 390×844 iframe viewport 四幕 active、图片 complete 1536×1024、热点合规、overflow 0；locked 状态 v68 UI/图鉴/入口/通知隐藏；ready-zero 入口可见且 enabled、30 格全锁；ready-coverage 显示止赎入口/统计/30 格图鉴；balances 首次 1/27/loanRuns 1/years 7、重复借贷仍 1/27 但 loanRuns 2/years 14；notice-return 清通知；代表性止赎 seize-present 1/3 通过；坏 JSON 归零；七类 pending source/target/else 行为正确（source 单次调度由 Node 隔离测试覆盖）；isTrusted 合成 click 零副作用；console 0 |
+| 内容摘要 | — | — | v68 世代借贷：v67 三家族结局 + coverage 完整后新增世代信贷所 / 寿命典当库 / 死期清算厅 / 年岁止赎庭四场景；3×3×3=27 份世代借据 + 3 条止赎结局 = 30 新图鉴，场景 101 → 105；独立十一键状态 `goddead_v68_generation_loans`、缓存 `v=67 → v=68`、17 组 isTrusted 防线；三个旧场景催收通知回流；Remembrance 双入口 / 统计 / 30 格图鉴 / 四目录 / forget-all；静态测试 5986 断言全绿，Codex 独立浏览器证据验收完成（clean 正向真人点击仍待） |
+
+备注：v68 生产实现、文档回填由 K2.7 Coding Highspeed 完成；浏览器证据 QA 由 Codex 独立验收，clean 正向真人点击仍待。未执行 git add/commit/push/stash；未安装依赖。
+
+## 2026-08-09 · v67 无血家谱
+
+| 项目 | 起 | 止 | 增量 / 说明 |
+| --- | --- | --- | --- |
+| 时间基线 | 未精确记录 | 未精确记录 | 本轮未把 UTC 工具时间冒充台北本地时间；不报告未经核验的活跃墙钟 |
+| Kimi 套餐百分比 | 未能读取 | 未能读取 | 未刷新额度页；不把会话上下文百分比冒充套餐消耗 |
+| Kimi Code 会话 | K2.7 Coding Highspeed | K2.7 Coding Highspeed | 生产代码实装、测试增补与文档回填均在本会话完成；全程无额度报错 |
+| 浏览器验收 | — | Codex 内置浏览器独立验收通过 | 桌面 1280×720 / 移动 390×844 四幕均通过；图片 1536×1024 无裁切/溢出，热点图内/零重叠/手机 ≥44px，页面无横向滚动；Remembrance 零进度入口真实可见可点、覆盖 4/36、39 格 codex、分幕链接显隐、家族结局 1/3 且重载幂等；v66 零进度入口回归同步复核通过；locked/坏档归一、七类 pending source/target 抵达与重载、`ROOT_FOR_SCENE` 四祖根 kin-return 修复、isTrusted 拒绝程序化 click 均确认；console warning/error=0 |
+| 内容摘要 | — | — | v67 无血家谱：v66 三元结局 + coverage 完整后新增反事实宗谱厅 / 无血档案库 / 借来童年室 / 末代家族庭四场景；4×3×3=36 条家谱记录 + 3 条家族结局 = 39 新图鉴，场景 97 → 101；独立十键状态 `goddead_v67_bloodless_genealogy`、缓存 `v=66 → v=67`、19 组 isTrusted 防线；四个 v66 场景亲属回声回流；Remembrance 双入口 / 统计 / 39 格图鉴 / 四目录 / forget-all；静态 5744 断言全绿；Codex 审计修复 `replayBloodlessPending` source 场景名误当 root 拼 DOM id，已用 `ROOT_FOR_SCENE` 反查；浏览器首轮阻断 `paintBloodlessCodex` 零进度隐藏父层已同修 |
+
+备注：v67 生产实现、文档回填由 K2.7 Coding Highspeed 完成；浏览器 QA 已由 Codex 内置浏览器独立验收通过。未执行 git add/commit/push/stash；未安装依赖。
+
+## 2026-08-09 · v66 反事实纺生
+
+| 项目 | 起 | 止 | 增量 / 说明 |
+| --- | --- | --- | --- |
+| 时间基线 | 未精确记录 | 未精确记录 | 本轮未把 UTC 工具时间冒充台北本地时间；不报告未经核验的活跃墙钟 |
+| Kimi 套餐百分比 | 未能读取 | 未能读取 | 未刷新额度页；不把会话上下文百分比冒充套餐消耗 |
+| Kimi Code 会话 | K2.7 Coding Highspeed | K2.7 Coding Highspeed | 生产代码实装、测试增补与文档回填均在本会话完成；全程无额度报错 |
+| 浏览器验收 | — | Codex 内置浏览器独立验收通过（含 v67 最终复核同步确认） | 桌面 1280×720 / 移动 390×844 四场景路由、图像、热点、Remembrance 图鉴/入口/目录均实测通过；v65 解锁但 v66 自身 0 条 life 时 codex 父层 hidden 导致入口按钮 0×0 的问题已同修 `paintCounterfactualCodex` 并补 DOM 回归，已由 v67 最终浏览器 QA 同步复核确认；console warning/error=0 |
+| 内容摘要 | — | — | v66 反事实纺生：v65 12+3 齐全后新增反事实纺锤室 / 疤痕织机 / 未活育婴室 / 无因生涯陈列间四场景；4×3×3=36 条未活之生 + 3 条元结局 = 39 新图鉴，场景 93 → 97；独立十键状态 `goddead_v66_counterfactual_lives`、缓存 `v=65 → v=66`、19 组 isTrusted 防线；四处旧场景未活回声回流；Remembrance 双入口 / 统计 / 39 格图鉴 / 四目录 / forget-all；静态 5484 断言全绿（较 v65 的 5274 新增 210 条），修复后新增 Remembrance 首轮阻断 DOM 回归 |
+
+备注：v66 生产实现、文档回填由 K2.7 Coding Highspeed 完成；浏览器 QA 已由 Codex 内置浏览器独立复测并按实测事实更新。未执行 git add/commit/push/stash；未安装依赖。
+
+## 2026-08-09 · v65 因果疤痕
+
+| 项目 | 起 | 止 | 增量 / 说明 |
+| --- | --- | --- | --- |
+| 时间基线 | 未精确记录 | 未精确记录 | 本轮未把 UTC 工具时间冒充台北本地时间；不报告未经核验的活跃墙钟 |
+| Kimi 套餐百分比 | 未能读取 | 未能读取 | 未刷新额度页；不把会话上下文百分比冒充套餐消耗 |
+| Kimi Code 会话 | K2.7 Coding Highspeed | K2.7 Coding Highspeed | 生产代码实装、测试增补与文档回填均在本会话完成；全程无额度报错 |
+| 浏览器验收 | — | 部分通过（Codex 内置浏览器） | 本地 `http://127.0.0.1:4173` 桌面 1280×720 / 移动 390×844 五幕/热点/素材/Remembrance/守卫/坏档/pending 重播均实测通过，console 0 warning/error；Playwright/CUA 自动点击被 16 个 `e.isTrusted` 防线拒绝，clean 正向真人点击/双击/键盘仍待真人输入验收 |
+| 内容摘要 | — | — | v65 因果疤痕：v64 同一 destination 集齐签收 / 退回 / 误投后，门外 / 守则 / 值夜 / 焚献各新增独立疤痕舞台，提供缝合起因 / 放尽后果 / 移植见证三种处理，生成 12 条疤痕图鉴；四处各至少一条处理后 Remembrance 显露「让四道疤互相指认」入口，进入新场景「无因收容室」，提供你成为原因 / 无物使你发生 / 结局收养了你三种无因结局；新增 15 条图鉴，场景 92 → 93；独立八键状态 `goddead_v65_causal_scars`、缓存 `v=64 → v=65`、16 组 isTrusted 防线；独立验收后修复递归 entry pending、坏档类型归空、冻结顺序、可见/disabled 防线、buttonAvailable 内部 #id selector、同场初始 route 调用 sceneInit 重播 treatment source=threshold 与 target=threshold arrive、clean threshold 不 schedule、无因收容室 ending pending 时三按钮全锁且仅选中 pressed，静态 5274 断言全绿 |
+
+备注：v65 生产实现、文档回填与缺陷修复由 K2.7 Coding Highspeed 完成；浏览器 QA 由 Codex 独立复测后按实测事实更新，未伪造截图或结果。未执行 git add/commit/push/stash；未安装依赖。
+
+## 2026-08-09 · v63 终局退件所
+
+| 项目 | 起 | 止 | 增量 / 说明 |
+| --- | --- | --- | --- |
+| 时间基线 | 未精确记录 | 未精确记录 | 本轮未把 UTC 工具时间冒充台北本地时间；不报告未经核验的活跃墙钟 |
+| Kimi 套餐百分比 | 未能读取 | 未能读取 | 未刷新额度页；不把会话上下文百分比冒充套餐消耗 |
+| Kimi Code 会话 | K3 High 仅用于最初调研尝试 | K2.7 Coding Highspeed 完成生产实现、窄修、测试与文档 | 实际生产工作在高speed会话完成；全程无额度报错 |
+| 浏览器验收 | — | Codex 内置浏览器部分确认 | 已确认桌面 Remembrance 入口显示、路由守卫、`script.js?v=63` 加载、控制台 0 error/warn；受 isTrusted 防线保护的正向转场、reload、窄屏实机仍待真人输入验收 |
+| 内容摘要 | — | — | v63 终局退件所：Remembrance 新增终局退件入口、四终局 × 三处理 = 12 后终局、四类 coda 齐全开启第 13 结局「无终局 · UNENDING」、无终局廊三出口含反向阶梯 v62 守卫回退、8 组 isTrusted 防线、独立 ten-key 状态 `goddead_v63_ending_return`、缓存 v=62→v=63、场景 87→89 |
+
+备注：K3 High 仅做了最初方向调研；实际生产实现、测试增补、文档与本轮可读性纠偏均由 K2.7 Coding Highspeed 完成。未伪造套餐百分比或时长。
+
+## 2026-08-09 · v64 因果倒邮
+
+| 项目 | 起 | 止 | 增量 / 说明 |
+| --- | --- | --- | --- |
+| 时间基线 | 未精确记录 | 未精确记录 | 本轮未把 UTC 工具时间冒充台北本地时间；不报告未经核验的活跃墙钟 |
+| Kimi 套餐百分比 | 未能读取 | 未能读取 | 未刷新额度页；不把会话上下文百分比冒充套餐消耗 |
+| Kimi Code 会话 | K2.7 Coding Highspeed | K2.7 Coding Highspeed | 生产代码实装、多轮 Codex 审计修正、测试增补与文档回填均在本会话完成；全程无额度报错 |
+| 浏览器验收 | — | 部分通过 | Codex 已验证守卫改写、桌面/移动布局与热点尺寸、WebP complete、activeEcho 逐字渲染、控制台 0 warning/error；因 16 个监听要求 `e.isTrusted`，Playwright/Codex Computer Use 自动点击被拒绝，受保护的正向点击、延迟跳转与刷新恢复仍待真人手动验收 |
+| 内容摘要 | — | — | v64 因果倒邮：v63 无终局后 Remembrance 新增「把无终局寄回最初」入口、新增因果倒邮台 / 第一稿保管库 / 第一敲之前三场景、3 方式 × 4 落点 = 12 提前后果 + 3 零号结局 = 15 新图鉴、旧场景未来邮签回流、16 组 isTrusted 防线、独立 11-key 状态 `goddead_v64_causal_mail`、缓存 v=63→v=64、场景 89→92 |
+
+备注：v64 生产实现与 Codex 抓出的 activeEcho/pending/reload/remembrance 缺陷回修均由 K2.7 Coding Highspeed 完成；未写成一次成功。未伪造套餐百分比或时长。
+
 ## 2026-08-02 · v62 反听总台
 
 | 项目 | 起 | 止 | 增量 / 说明 |
