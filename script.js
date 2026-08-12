@@ -1134,6 +1134,17 @@ document.addEventListener("DOMContentLoaded", () => {
     syncRealityRefundCounterRemembrance();
     syncRealityRefundCounterLinks();
     replayRealityRefundCounterPending(name);
+    resolveSelfAuthenticityPendingOnArrival(name);
+    syncSelfAuthenticityOffice();
+    syncSelfAuthenticityVault();
+    syncSelfAuthenticityExamination();
+    syncSelfAuthenticityTribunal();
+    syncSelfAuthenticityAuthenticators();
+    paintSelfAuthenticityMemory();
+    paintSelfAuthenticityCodex();
+    syncSelfAuthenticityRemembrance();
+    syncSelfAuthenticityLinks();
+    replaySelfAuthenticityPending(name);
     updateHudDisplay();
   };
 
@@ -1275,9 +1286,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
@@ -1285,7 +1296,7 @@ document.addEventListener("DOMContentLoaded", () => {
     /* v63 终局退件所守卫：仅合法 pending / 活动 activeEnding / 已到访且仍有合法结局时准入；
        v72 窄桥：instrument pending 或 activeRemittance 可抵达 unending-gallery；
        v73 窄桥：declaration pending 或 activeInspector 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1376,6 +1387,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "proof-of-existence-incinerator" && !realityRefundCounterCanVisitIncinerator()) target = "remembrance";
     if (target === "reality-return-inspection" && !realityRefundCounterCanVisitInspection()) target = "remembrance";
     if (target === "class-action-court" && !realityRefundCounterCanVisitCourt()) target = "remembrance";
+
+    /* v77 自我真伪鉴定所守卫 */
+    if (target === "self-authenticity-office" && !selfAuthenticityCanVisitOffice()) target = "remembrance";
+    if (target === "self-provenance-vault" && !selfAuthenticityCanVisitVault()) target = "remembrance";
+    if (target === "soul-counterfeit-examination" && !selfAuthenticityCanVisitExamination()) target = "remembrance";
+    if (target === "final-authenticity-tribunal" && !selfAuthenticityCanVisitTribunal()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -26159,8 +26176,1130 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ============================================================
-     走廊：残页 + 封印的门
+     v77 自我真伪鉴定所 / AUTHENTICITY OFFICE OF THE SELF
      ============================================================ */
+  const SELF_AUTHENTICITY_KEY = 'goddead_v77_self_authenticity';
+  const SELF_AUTHENTICITY_VERSION = 77;
+  const SELF_AUTHENTICITY_CLAIMANTS = ['original-personality', 'replacement-memory', 'counterfeit-soul'];
+  const SELF_AUTHENTICITY_PROVENANCES = ['first-wound-seal', 'childhood-mirror-testimony', 'warm-death-mask-cast'];
+  const SELF_AUTHENTICITY_METHODS = ['certify-earliest-version', 'compare-memories-to-scars', 'let-the-copy-identify-original', 'declare-authenticity-transferable'];
+  const SELF_AUTHENTICITY_TRIBUNAL_ACTIONS = ['recognize-one-original', 'merge-every-possible-self', 'make-every-copy-an-original'];
+  const SELF_AUTHENTICITY_SCENE_FOR_PROVENANCE = {
+    'first-wound-seal': 'scar-loom',
+    'childhood-mirror-testimony': 'borrowed-childhood',
+    'warm-death-mask-cast': 'lifetime-pawn-vault',
+  };
+  const SELF_AUTHENTICITY_ENTRY_FEEDBACK = '现实承认虚假宣传后，每一种“可能的自己”都拿着同一张换货单出现。原装人格声称第一道伤口就是防伪印；替换记忆拿出另一个童年；仿制灵魂则指出，所谓原装不过是最早成功骗过检验的赝品。';
+  const SELF_AUTHENTICITY_TRIBUNAL_ENTRY_FEEDBACK = '裁定哪一个自己有权继续说“我” · DECIDE WHICH SELF MAY KEEP SAYING I';
+
+  const SELF_AUTHENTICITY_CLAIMANT_TABLE = {
+    'original-personality': {
+      name: '鉴定原装人格 · AUTHENTICATE THE ORIGINAL PERSONALITY',
+      feedback: '它把第一道伤口按在鉴定盘上。伤口比记忆更老，却无法证明受伤之前坐在身体里的是谁。',
+      fragment: '它把第一道伤口按在鉴定盘上。伤口比记忆更老，却无法证明受伤之前坐在身体里的是谁。',
+      title: '原装人格',
+      tallyKey: 'original',
+    },
+    'replacement-memory': {
+      name: '鉴定替换记忆 · AUTHENTICATE THE REPLACEMENT MEMORY',
+      feedback: '另一段童年从胶片匣里走出来。它记得你没有经历过的一切，也记得自己一直被你忘记。',
+      fragment: '另一段童年从胶片匣里走出来。它记得你没有经历过的一切，也记得自己一直被你忘记。',
+      title: '替换记忆',
+      tallyKey: 'memory',
+    },
+    'counterfeit-soul': {
+      name: '鉴定仿制灵魂 · AUTHENTICATE THE COUNTERFEIT SOUL',
+      feedback: '暗红蜡灵魂在黄铜肋骨里呼吸。它没有编号，却能逐字背出原装灵魂从未承认过的恐惧。',
+      fragment: '暗红蜡灵魂在黄铜肋骨里呼吸。它没有编号，却能逐字背出原装灵魂从未承认过的恐惧。',
+      title: '仿制灵魂',
+      tallyKey: 'soul',
+    },
+  };
+
+  const SELF_AUTHENTICITY_PROVENANCE_TABLE = {
+    'first-wound-seal': {
+      name: '提交第一伤口封印 · SUBMIT THE FIRST-WOUND SEAL',
+      feedback: '封印把伤口追溯到所有记忆之前。它证明身体曾被某个自我打开，却没有留下开封者的姓名。',
+      fragment: '封印把伤口追溯到所有记忆之前。它证明身体曾被某个自我打开，却没有留下开封者的姓名。',
+      title: '第一伤口封印',
+      target: 'scar-loom',
+      authenticatorReturnName: '跟伤印鉴定员返回所内 · RETURN WITH THE FIRST-WOUND AUTHENTICATOR',
+      authenticatorFeedback: '伤印鉴定员在疤痕织机上找到第一根线。它连接所有版本，却没有一端肯承认自己是起点。',
+    },
+    'childhood-mirror-testimony': {
+      name: '提交童年镜证 · SUBMIT THE CHILDHOOD MIRROR TESTIMONY',
+      feedback: '镜中的孩子抬头看见另一个成年人。两边都坚持对方才是后来被替换进去的版本。',
+      fragment: '镜中的孩子抬头看见另一个成年人。两边都坚持对方才是后来被替换进去的版本。',
+      title: '童年镜证',
+      target: 'borrowed-childhood',
+      authenticatorReturnName: '跟镜证鉴定员返回所内 · RETURN WITH THE CHILDHOOD-MIRROR AUTHENTICATOR',
+      authenticatorFeedback: '镜证鉴定员在借来童年室同时见到两个你。一个从未长大，另一个从未真正小时候。',
+    },
+    'warm-death-mask-cast': {
+      name: '提交余温死面模 · SUBMIT THE WARM DEATH-MASK CAST',
+      feedback: '死后面模仍在发热。它完整复制最后一张脸，却无法说明温度属于死者、模具，还是正在佩戴它的你。',
+      fragment: '死后面模仍在发热。它完整复制最后一张脸，却无法说明温度属于死者、模具，还是正在佩戴它的你。',
+      title: '余温死面模',
+      target: 'lifetime-pawn-vault',
+      authenticatorReturnName: '跟死面鉴定员返回所内 · RETURN WITH THE WARM-MASK AUTHENTICATOR',
+      authenticatorFeedback: '死面鉴定员在寿命典当库测量余温。每多活一年，面模就比你的脸更像原装。',
+    },
+  };
+
+  const SELF_AUTHENTICITY_METHOD_TABLE = {
+    'certify-earliest-version': {
+      name: '认证最早版本 · CERTIFY THE EARLIEST VERSION',
+      title: '认证最早版本',
+      fragment: '档案员把最早出现的自我盖成原装。更早的空白立刻提出异议，因为它曾在所有人格之前占用这具身体。',
+    },
+    'compare-memories-to-scars': {
+      name: '用伤口核对记忆 · COMPARE MEMORIES AGAINST SCARS',
+      title: '用伤口核对记忆',
+      fragment: '每段记忆被逐一贴上对应伤口。没有伤的记忆被判伪，有伤却无人记得的年月反而取得合法身份。',
+    },
+    'let-the-copy-identify-original': {
+      name: '让复制品指认原装 · LET THE COPY IDENTIFY THE ORIGINAL',
+      title: '让复制品指认原装',
+      fragment: '仿制灵魂毫不犹豫地指向你。它说只有原装才会如此害怕自己其实复制得不够好。',
+    },
+    'declare-authenticity-transferable': {
+      name: '宣布真实性可转让 · DECLARE AUTHENTICITY TRANSFERABLE',
+      title: '宣布真实性可转让',
+      fragment: '原装资格从一具自我过户到另一具。每次转让都完全合法，直到所有版本都同时持有唯一真品证。',
+    },
+  };
+
+  const SELF_AUTHENTICITY_TRIBUNAL_TABLE = {
+    'recognize-one-original': {
+      name: '只承认一个原装 · RECOGNIZE A SINGLE ORIGINAL',
+      outcome: 'one-self-became-the-only-original',
+      target: 'blank-name-cloakroom',
+      feedback: '黄铜拱架挑出唯一面具。其余版本当场失去姓名，获选者却想不起自己为何比它们更真。',
+    },
+    'merge-every-possible-self': {
+      name: '合并所有可能的自己 · MERGE EVERY POSSIBLE SELF',
+      outcome: 'all-possible-selves-merged-into-one',
+      target: 'remembrance',
+      feedback: '圆镜把每一种可能压进同一张脸。新自我拥有全部记忆，也同时确信每一段都发生在别人身上。',
+    },
+    'make-every-copy-an-original': {
+      name: '让每个复制品成为原装 · MAKE EVERY COPY AN ORIGINAL',
+      outcome: 'every-copy-became-an-original',
+      target: 'unending-gallery',
+      feedback: '红蜡压机把唯一真品印分给所有面具。赝品从此消失，因为世界再也没有足够假的东西可作比较。',
+    },
+  };
+
+  const CERTIFICATE_IDS = (() => {
+    const ids = [];
+    for (const c of SELF_AUTHENTICITY_CLAIMANTS) {
+      for (const p of SELF_AUTHENTICITY_PROVENANCES) {
+        for (const m of SELF_AUTHENTICITY_METHODS) {
+          ids.push(`${c}:${p}:${m}`);
+        }
+      }
+    }
+    return ids;
+  })();
+  const CERTIFICATE_SET = new Set(CERTIFICATE_IDS);
+  const TRIBUNAL_OUTCOME_IDS = SELF_AUTHENTICITY_TRIBUNAL_ACTIONS.map((a) => SELF_AUTHENTICITY_TRIBUNAL_TABLE[a].outcome);
+  const TRIBUNAL_OUTCOME_SET = new Set(TRIBUNAL_OUTCOME_IDS);
+
+  const defaultSelfAuthenticity = () => ({
+    version: SELF_AUTHENTICITY_VERSION,
+    visited: { office: false, vault: false, examination: false, tribunal: false },
+    draft: { claimant: '', provenance: '' },
+    certificates: [],
+    tribunalOutcomes: [],
+    examRuns: 0,
+    tribunalRuns: 0,
+    claimantTallies: { original: 0, memory: 0, soul: 0 },
+    lastOutcome: '',
+    activeAuthenticator: null,
+    pending: null,
+  });
+
+  const normalizeSelfAuthenticityVisited = (visited) => {
+    const v = visited && typeof visited === 'object' && !Array.isArray(visited) ? visited : {};
+    return {
+      office: v.office === true,
+      vault: v.vault === true,
+      examination: v.examination === true,
+      tribunal: v.tribunal === true,
+    };
+  };
+
+  const normalizeSelfAuthenticityDraft = (draft) => {
+    const d = draft && typeof draft === 'object' && !Array.isArray(draft) ? draft : {};
+    let claimant = typeof d.claimant === 'string' ? d.claimant : '';
+    let provenance = typeof d.provenance === 'string' ? d.provenance : '';
+    if (!SELF_AUTHENTICITY_CLAIMANTS.includes(claimant)) {
+      claimant = '';
+      provenance = '';
+    }
+    if (!SELF_AUTHENTICITY_PROVENANCES.includes(provenance)) {
+      provenance = '';
+    }
+    if (provenance !== '' && claimant === '') {
+      provenance = '';
+    }
+    return { claimant, provenance };
+  };
+
+  const normalizeSelfAuthenticityCertificates = (arr) => {
+    const input = Array.isArray(arr) ? arr : [];
+    const seen = new Set();
+    const out = [];
+    for (const id of CERTIFICATE_IDS) {
+      if (input.includes(id) && !seen.has(id)) {
+        out.push(id);
+        seen.add(id);
+      }
+    }
+    return out;
+  };
+
+  const normalizeSelfAuthenticityTribunalOutcomes = (arr) => {
+    const input = Array.isArray(arr) ? arr : [];
+    const set = new Set(input);
+    return SELF_AUTHENTICITY_TRIBUNAL_ACTIONS.map((a) => SELF_AUTHENTICITY_TRIBUNAL_TABLE[a].outcome).filter((o) => set.has(o));
+  };
+
+  const clampSelfAuthenticityCount = (n) => Math.min(9999, Math.max(0, Math.floor(Number(n) || 0)));
+
+  const normalizeSelfAuthenticityClaimantTallies = (tallies) => {
+    const t = tallies && typeof tallies === 'object' && !Array.isArray(tallies) ? tallies : {};
+    return {
+      original: clampSelfAuthenticityCount(t.original),
+      memory: clampSelfAuthenticityCount(t.memory),
+      soul: clampSelfAuthenticityCount(t.soul),
+    };
+  };
+
+  const normalizeSelfAuthenticityActiveAuthenticator = (auth, certificates) => {
+    if (!auth || typeof auth !== 'object' || Array.isArray(auth)) return null;
+    if (Object.keys(auth).sort().join(',') !== 'certificate,feedback,provenance') return null;
+    if (!SELF_AUTHENTICITY_PROVENANCES.includes(auth.provenance)) return null;
+    const collected = Array.isArray(certificates) ? certificates : [];
+    if (!collected.includes(auth.certificate)) return null;
+    if (!CERTIFICATE_SET.has(auth.certificate)) return null;
+    const parts = auth.certificate.split(':');
+    if (parts.length !== 3 || parts[1] !== auth.provenance) return null;
+    const fb = SELF_AUTHENTICITY_PROVENANCE_TABLE[auth.provenance].authenticatorFeedback;
+    if (auth.feedback !== fb) return null;
+    return { provenance: auth.provenance, certificate: auth.certificate, feedback: fb };
+  };
+
+  const normalizeSelfAuthenticityPending = (p, st) => {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || !p.kind) return null;
+    const keys = Object.keys(p).sort().join(',');
+    const unlocked = st._v77unlocked === true;
+
+    if (p.kind === 'entry' && keys === 'feedback,kind,target') {
+      if (!unlocked || st.activeAuthenticator || st.draft.claimant !== '' || st.draft.provenance !== '') return null;
+      if (p.target === 'self-authenticity-office' && p.feedback === SELF_AUTHENTICITY_ENTRY_FEEDBACK) {
+        return { kind: 'entry', target: 'self-authenticity-office', feedback: p.feedback };
+      }
+    }
+    if (p.kind === 'claimant' && keys === 'claimant,feedback,kind,source,target') {
+      if (!unlocked) return null;
+      if (st.activeAuthenticator) return null;
+      if (p.source !== 'self-authenticity-office' || p.target !== 'self-provenance-vault') return null;
+      if (!SELF_AUTHENTICITY_CLAIMANTS.includes(p.claimant)) return null;
+      const table = SELF_AUTHENTICITY_CLAIMANT_TABLE[p.claimant];
+      if (!table || p.feedback !== table.feedback) return null;
+      if (st.draft.claimant !== '' || st.draft.provenance !== '') return null;
+      return { kind: 'claimant', source: 'self-authenticity-office', claimant: p.claimant, target: 'self-provenance-vault', feedback: p.feedback };
+    }
+    if (p.kind === 'provenance' && keys === 'claimant,feedback,kind,provenance,source,target') {
+      if (!unlocked) return null;
+      if (st.activeAuthenticator) return null;
+      if (p.source !== 'self-provenance-vault' || p.target !== 'soul-counterfeit-examination') return null;
+      if (!SELF_AUTHENTICITY_CLAIMANTS.includes(p.claimant) || !SELF_AUTHENTICITY_PROVENANCES.includes(p.provenance)) return null;
+      if (p.claimant !== st.draft.claimant) return null;
+      const table = SELF_AUTHENTICITY_PROVENANCE_TABLE[p.provenance];
+      if (!table || p.feedback !== table.feedback) return null;
+      return { kind: 'provenance', source: 'self-provenance-vault', claimant: p.claimant, provenance: p.provenance, target: 'soul-counterfeit-examination', feedback: p.feedback };
+    }
+    if (p.kind === 'certificate' && keys === 'certificate,claimant,feedback,kind,method,provenance,source,target') {
+      if (!unlocked) return null;
+      if (st.activeAuthenticator) return null;
+      if (p.source !== 'soul-counterfeit-examination') return null;
+      if (!SELF_AUTHENTICITY_CLAIMANTS.includes(p.claimant) || !SELF_AUTHENTICITY_PROVENANCES.includes(p.provenance) || !SELF_AUTHENTICITY_METHODS.includes(p.method)) return null;
+      if (p.claimant !== st.draft.claimant || p.provenance !== st.draft.provenance) return null;
+      const certificateId = computeCertificateId(p.claimant, p.provenance, p.method);
+      if (p.certificate !== certificateId) return null;
+      const target = SELF_AUTHENTICITY_SCENE_FOR_PROVENANCE[p.provenance];
+      if (p.target !== target) return null;
+      const fb = computeCertificateFeedback(p.claimant, p.provenance, p.method);
+      if (p.feedback !== fb) return null;
+      return { kind: 'certificate', source: 'soul-counterfeit-examination', claimant: p.claimant, provenance: p.provenance, method: p.method, certificate: certificateId, target, feedback: fb };
+    }
+    if (p.kind === 'authenticator-return' && keys === 'certificate,feedback,from,kind,target') {
+      if (!unlocked) return null;
+      if (p.target !== 'self-authenticity-office') return null;
+      if (!Object.values(SELF_AUTHENTICITY_SCENE_FOR_PROVENANCE).includes(p.from)) return null;
+      const auth = st.activeAuthenticator;
+      if (!auth || SELF_AUTHENTICITY_SCENE_FOR_PROVENANCE[auth.provenance] !== p.from || auth.certificate !== p.certificate) return null;
+      if (p.feedback !== auth.feedback) return null;
+      return { kind: 'authenticator-return', from: p.from, target: 'self-authenticity-office', certificate: p.certificate, feedback: p.feedback };
+    }
+    if (p.kind === 'tribunal-entry' && keys === 'feedback,kind,target') {
+      if (!unlocked) return null;
+      if (st.activeAuthenticator || st.draft.claimant !== '' || st.draft.provenance !== '') return null;
+      if (p.target !== 'final-authenticity-tribunal' || p.feedback !== SELF_AUTHENTICITY_TRIBUNAL_ENTRY_FEEDBACK) return null;
+      if (!selfAuthenticityCoverageComplete(st)) return null;
+      return { kind: 'tribunal-entry', target: 'final-authenticity-tribunal', feedback: p.feedback };
+    }
+    if (p.kind === 'tribunal' && keys === 'action,feedback,kind,outcome,source,target') {
+      if (!unlocked) return null;
+      if (st.activeAuthenticator || st.draft.claimant !== '' || st.draft.provenance !== '') return null;
+      if (!selfAuthenticityCoverageComplete(st) || !st.visited.tribunal) return null;
+      if (p.source !== 'final-authenticity-tribunal') return null;
+      if (!SELF_AUTHENTICITY_TRIBUNAL_ACTIONS.includes(p.action)) return null;
+      const table = SELF_AUTHENTICITY_TRIBUNAL_TABLE[p.action];
+      if (!table || p.outcome !== table.outcome || p.target !== table.target || p.feedback !== table.feedback) return null;
+      return { kind: 'tribunal', source: 'final-authenticity-tribunal', action: p.action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    }
+    return null;
+  };
+
+  const saveSelfAuthenticity = (st) => {
+    const visited = normalizeSelfAuthenticityVisited(st.visited);
+    const draft = normalizeSelfAuthenticityDraft(st.draft);
+    const certificates = normalizeSelfAuthenticityCertificates(st.certificates);
+    const tribunalOutcomes = normalizeSelfAuthenticityTribunalOutcomes(st.tribunalOutcomes);
+    const examRuns = clampSelfAuthenticityCount(st.examRuns);
+    const tribunalRuns = clampSelfAuthenticityCount(st.tribunalRuns);
+    const claimantTallies = normalizeSelfAuthenticityClaimantTallies(st.claimantTallies);
+    const validLast = new Set([...certificates, ...tribunalOutcomes]);
+    const lastOutcome = validLast.has(st.lastOutcome) ? st.lastOutcome : '';
+    const activeAuthenticator = normalizeSelfAuthenticityActiveAuthenticator(st.activeAuthenticator, certificates);
+    const pendingState = Object.assign(
+      defaultSelfAuthenticity(),
+      { visited, draft, certificates, tribunalOutcomes, examRuns, tribunalRuns, claimantTallies, lastOutcome, activeAuthenticator, pending: null, _v77unlocked: selfAuthenticityOfficeUnlocked() }
+    );
+    const pending = normalizeSelfAuthenticityPending(st.pending, pendingState);
+    store.set(
+      SELF_AUTHENTICITY_KEY,
+      JSON.stringify({
+        version: SELF_AUTHENTICITY_VERSION,
+        visited,
+        draft,
+        certificates,
+        tribunalOutcomes,
+        examRuns,
+        tribunalRuns,
+        claimantTallies,
+        lastOutcome,
+        activeAuthenticator,
+        pending,
+      })
+    );
+  };
+
+  const getSelfAuthenticity = () => {
+    let raw = {};
+    try { raw = JSON.parse(store.get(SELF_AUTHENTICITY_KEY, '{}')) || {}; } catch { raw = {}; }
+    if (typeof raw !== 'object' || raw === null || Array.isArray(raw) || raw.version !== SELF_AUTHENTICITY_VERSION) {
+      return defaultSelfAuthenticity();
+    }
+    if (!selfAuthenticityOfficeUnlocked()) {
+      return defaultSelfAuthenticity();
+    }
+    const st = defaultSelfAuthenticity();
+    st.visited = normalizeSelfAuthenticityVisited(raw.visited);
+    st.draft = normalizeSelfAuthenticityDraft(raw.draft);
+    st.certificates = normalizeSelfAuthenticityCertificates(raw.certificates);
+    st.tribunalOutcomes = normalizeSelfAuthenticityTribunalOutcomes(raw.tribunalOutcomes);
+    st.examRuns = clampSelfAuthenticityCount(raw.examRuns);
+    st.tribunalRuns = clampSelfAuthenticityCount(raw.tribunalRuns);
+    st.claimantTallies = normalizeSelfAuthenticityClaimantTallies(raw.claimantTallies);
+    const validLast = new Set([...st.certificates, ...st.tribunalOutcomes]);
+    st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : '';
+    st.activeAuthenticator = normalizeSelfAuthenticityActiveAuthenticator(raw.activeAuthenticator, st.certificates);
+    const normSt = Object.assign({}, st, { _v77unlocked: selfAuthenticityOfficeUnlocked() });
+    st.pending = normalizeSelfAuthenticityPending(raw.pending, normSt);
+    return st;
+  };
+
+  const selfAuthenticityOfficeUnlocked = () => {
+    if (!realityRefundCounterUnlocked()) return false;
+    const st = getRealityRefund();
+    if (!realityRefundCoverageComplete(st)) return false;
+    const required = [
+      'all-existence-was-refunded-to-the-void',
+      'every-body-was-refunded-to-childhood',
+      'reality-admitted-it-never-matched-description',
+    ];
+    if (st.classOutcomes.length !== 3) return false;
+    for (const o of required) if (!st.classOutcomes.includes(o)) return false;
+    return true;
+  };
+
+  const selfAuthenticityCoverageComplete = (st) => {
+    const state = st || getSelfAuthenticity();
+    if (state.certificates.length < 4) return false;
+    const claimants = new Set();
+    const provenances = new Set();
+    const methods = new Set();
+    for (const id of state.certificates) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      claimants.add(parts[0]);
+      provenances.add(parts[1]);
+      methods.add(parts[2]);
+    }
+    return claimants.size === 3 && provenances.size === 3 && methods.size === 4;
+  };
+
+  const computeSelfAuthenticityClaimantTalliesMajority = (tallies) => {
+    const t = tallies || { original: 0, memory: 0, soul: 0 };
+    const original = Number(t.original) || 0;
+    const memory = Number(t.memory) || 0;
+    const soul = Number(t.soul) || 0;
+    if (original === 0 && memory === 0 && soul === 0) return '无自我取得多数';
+    const max = Math.max(original, memory, soul);
+    const winners = [];
+    if (original === max) winners.push('original');
+    if (memory === max) winners.push('memory');
+    if (soul === max) winners.push('soul');
+    if (winners.length !== 1) return '无自我取得多数';
+    if (winners[0] === 'original') return '原装人格取得自我多数';
+    if (winners[0] === 'memory') return '替换记忆取得自我多数';
+    return '仿制灵魂取得自我多数';
+  };
+
+  const computeCertificateId = (claimant, provenance, method) => {
+    if (!SELF_AUTHENTICITY_CLAIMANTS.includes(claimant) || !SELF_AUTHENTICITY_PROVENANCES.includes(provenance) || !SELF_AUTHENTICITY_METHODS.includes(method)) return '';
+    return `${claimant}:${provenance}:${method}`;
+  };
+
+  const computeCertificateTitle = (claimant, provenance, method) => {
+    const c = SELF_AUTHENTICITY_CLAIMANT_TABLE[claimant];
+    const p = SELF_AUTHENTICITY_PROVENANCE_TABLE[provenance];
+    const m = SELF_AUTHENTICITY_METHOD_TABLE[method];
+    if (!c || !p || !m) return '';
+    return `${c.title} / ${p.title} / ${m.title}`;
+  };
+
+  const computeCertificateFeedback = (claimant, provenance, method) => {
+    const c = SELF_AUTHENTICITY_CLAIMANT_TABLE[claimant];
+    const p = SELF_AUTHENTICITY_PROVENANCE_TABLE[provenance];
+    const m = SELF_AUTHENTICITY_METHOD_TABLE[method];
+    if (!c || !p || !m) return '';
+    return `${c.fragment} ${p.fragment} ${m.fragment}`;
+  };
+
+  const findCertificateById = (id) => {
+    if (!CERTIFICATE_SET.has(id)) return null;
+    const parts = id.split(':');
+    if (parts.length !== 3) return null;
+    return {
+      id,
+      claimant: parts[0],
+      provenance: parts[1],
+      method: parts[2],
+      title: computeCertificateTitle(parts[0], parts[1], parts[2]),
+      feedback: computeCertificateFeedback(parts[0], parts[1], parts[2]),
+    };
+  };
+
+  const computeTribunalOutcomeId = (action) => {
+    const table = SELF_AUTHENTICITY_TRIBUNAL_TABLE[action];
+    return table ? table.outcome : '';
+  };
+
+  const selfAuthenticityDelay = () => reduced ? 300 : 900 + Math.floor(Math.random() * 300);
+
+  const selfAuthenticityBeforeArrive = (pending) => {
+    const st = getSelfAuthenticity();
+    if (!st.pending || !pending) return;
+    if (st.pending.kind !== pending.kind) return;
+    const p = st.pending;
+    if (p.kind === 'entry') {
+      st.visited.office = true;
+    } else if (p.kind === 'claimant') {
+      st.visited.vault = true;
+      st.draft.claimant = p.claimant;
+      st.draft.provenance = '';
+    } else if (p.kind === 'provenance') {
+      st.visited.examination = true;
+      st.draft.provenance = p.provenance;
+    } else if (p.kind === 'certificate') {
+      const certificateId = computeCertificateId(p.claimant, p.provenance, p.method);
+      if (!st.certificates.includes(certificateId)) st.certificates.push(certificateId);
+      st.certificates = normalizeSelfAuthenticityCertificates(st.certificates);
+      st.examRuns += 1;
+      const claimantTable = SELF_AUTHENTICITY_CLAIMANT_TABLE[p.claimant];
+      if (claimantTable) {
+        st.claimantTallies[claimantTable.tallyKey] = clampSelfAuthenticityCount((st.claimantTallies[claimantTable.tallyKey] || 0) + 1);
+      }
+      st.lastOutcome = certificateId;
+      st.activeAuthenticator = { provenance: p.provenance, certificate: certificateId, feedback: SELF_AUTHENTICITY_PROVENANCE_TABLE[p.provenance].authenticatorFeedback };
+      st.draft = { claimant: '', provenance: '' };
+    } else if (p.kind === 'authenticator-return') {
+      st.activeAuthenticator = null;
+      st.draft = { claimant: '', provenance: '' };
+    } else if (p.kind === 'tribunal-entry') {
+      st.visited.tribunal = true;
+    } else if (p.kind === 'tribunal') {
+      const outcome = computeTribunalOutcomeId(p.action);
+      if (outcome && !st.tribunalOutcomes.includes(outcome)) st.tribunalOutcomes.push(outcome);
+      st.tribunalOutcomes = normalizeSelfAuthenticityTribunalOutcomes(st.tribunalOutcomes);
+      st.tribunalRuns += 1;
+      st.lastOutcome = outcome;
+    }
+    st.pending = null;
+    saveSelfAuthenticity(st);
+  };
+
+  const resolveSelfAuthenticityPendingOnArrival = (name) => {
+    const st = getSelfAuthenticity();
+    const p = st.pending;
+    if (p && p.target === name) selfAuthenticityBeforeArrive(p);
+  };
+
+  const lockSelfAuthenticityClaimantButtons = (pressedClaimant) => {
+    SELF_AUTHENTICITY_CLAIMANTS.forEach((c) => {
+      const btn = $(`#self-authenticity-claimant-${c}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(c === pressedClaimant));
+    });
+  };
+
+  const lockSelfAuthenticityProvenanceButtons = (pressedProvenance) => {
+    SELF_AUTHENTICITY_PROVENANCES.forEach((p) => {
+      const btn = $(`#self-provenance-${p}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(p === pressedProvenance));
+    });
+  };
+
+  const lockSelfAuthenticityMethodButtons = (pressedMethod) => {
+    SELF_AUTHENTICITY_METHODS.forEach((m) => {
+      const btn = $(`#soul-counterfeit-${m}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(m === pressedMethod));
+    });
+  };
+
+  const lockSelfAuthenticityTribunalButtons = (pressedAction) => {
+    SELF_AUTHENTICITY_TRIBUNAL_ACTIONS.forEach((a) => {
+      const btn = $(`#final-authenticity-${a}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(a === pressedAction));
+    });
+  };
+
+  const syncSelfAuthenticityOffice = () => {
+    const figure = $('#self-authenticity-office-figure');
+    const unlocked = selfAuthenticityOfficeUnlocked();
+    if (figure) figure.hidden = !unlocked;
+    if (!unlocked) return;
+    const st = getSelfAuthenticity();
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeAuthenticator || st.draft.claimant !== '' || st.draft.provenance !== '';
+    const response = $('#self-authenticity-office-response');
+    SELF_AUTHENTICITY_CLAIMANTS.forEach((c) => {
+      const btn = $(`#self-authenticity-claimant-${c}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'claimant' && pending.claimant === c);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'claimant') ? pending.feedback : '';
+  };
+
+  const syncSelfAuthenticityVault = () => {
+    const figure = $('#self-provenance-vault-figure');
+    const st = getSelfAuthenticity();
+    const unlocked = selfAuthenticityOfficeUnlocked();
+    const hasDraft = unlocked && SELF_AUTHENTICITY_CLAIMANTS.includes(st.draft.claimant);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeAuthenticator;
+    const response = $('#self-provenance-vault-response');
+    SELF_AUTHENTICITY_PROVENANCES.forEach((p) => {
+      const btn = $(`#self-provenance-${p}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'provenance' && pending.provenance === p);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'provenance') ? pending.feedback : '';
+  };
+
+  const syncSelfAuthenticityExamination = () => {
+    const figure = $('#soul-counterfeit-examination-figure');
+    const st = getSelfAuthenticity();
+    const unlocked = selfAuthenticityOfficeUnlocked();
+    const hasDraft = unlocked && SELF_AUTHENTICITY_CLAIMANTS.includes(st.draft.claimant) && SELF_AUTHENTICITY_PROVENANCES.includes(st.draft.provenance);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeAuthenticator;
+    const response = $('#soul-counterfeit-examination-response');
+    SELF_AUTHENTICITY_METHODS.forEach((m) => {
+      const btn = $(`#soul-counterfeit-${m}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'certificate' && pending.method === m);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'certificate') ? pending.feedback : '';
+  };
+
+  const syncSelfAuthenticityTribunal = () => {
+    const figure = $('#final-authenticity-tribunal-figure');
+    const st = getSelfAuthenticity();
+    const open = selfAuthenticityOfficeUnlocked() && selfAuthenticityCoverageComplete(st) && st.visited.tribunal;
+    if (figure) figure.hidden = !open;
+    if (!open) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeAuthenticator || st.draft.claimant !== '' || st.draft.provenance !== '';
+    const response = $('#final-authenticity-tribunal-response');
+    SELF_AUTHENTICITY_TRIBUNAL_ACTIONS.forEach((a) => {
+      const btn = $(`#final-authenticity-${a}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'tribunal' && pending.action === a);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'tribunal') ? pending.feedback : '';
+  };
+
+  const syncSelfAuthenticityAuthenticators = () => {
+    const st = getSelfAuthenticity();
+    const unlocked = selfAuthenticityOfficeUnlocked();
+    Object.values(SELF_AUTHENTICITY_SCENE_FOR_PROVENANCE).forEach((scene) => {
+      const container = $(`#self-authenticity-authenticator-${scene}`);
+      if (!container) return;
+      const active = unlocked && st.activeAuthenticator && SELF_AUTHENTICITY_SCENE_FOR_PROVENANCE[st.activeAuthenticator.provenance] === scene && currentScene === scene;
+      container.hidden = !active;
+      if (active) paintSelfAuthenticityAuthenticator(scene);
+    });
+  };
+
+  const paintSelfAuthenticityAuthenticator = (scene) => {
+    const st = getSelfAuthenticity();
+    const auth = st.activeAuthenticator;
+    const response = $(`#self-authenticity-authenticator-response-${scene}`);
+    const btn = $(`#self-authenticity-authenticator-return-${scene}`);
+    if (response) response.textContent = (auth && SELF_AUTHENTICITY_SCENE_FOR_PROVENANCE[auth.provenance] === scene) ? auth.feedback : '';
+    if (btn) {
+      const available = !!auth && SELF_AUTHENTICITY_SCENE_FOR_PROVENANCE[auth.provenance] === scene && currentScene === scene && !st.pending && !AutoAdvance.has(scene);
+      btn.disabled = !available;
+      btn.setAttribute('aria-pressed', 'false');
+    }
+  };
+
+  const paintSelfAuthenticityMemory = () => {
+    const memory = $('#self-authenticity-memory');
+    if (!memory) return;
+    const st = getSelfAuthenticity();
+    const unlocked = selfAuthenticityOfficeUnlocked();
+    if (!unlocked) {
+      memory.hidden = true;
+      return;
+    }
+    const counts = { claimant: {}, provenance: {}, method: {} };
+    for (const id of st.certificates) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      counts.claimant[parts[0]] = (counts.claimant[parts[0]] || 0) + 1;
+      counts.provenance[parts[1]] = (counts.provenance[parts[1]] || 0) + 1;
+      counts.method[parts[2]] = (counts.method[parts[2]] || 0) + 1;
+    }
+    const get = (map, key) => map[key] || 0;
+    const tallies = st.claimantTallies;
+    memory.textContent = `自我鉴定所：已认证 ${st.certificates.length}/36 份证书，共检验 ${st.examRuns} 次；候选 原格 ${get(tallies, 'original')} / 替忆 ${get(tallies, 'memory')} / 仿魂 ${get(tallies, 'soul')}；来源 首伤 ${get(counts.provenance, 'first-wound-seal')} / 童镜 ${get(counts.provenance, 'childhood-mirror-testimony')} / 死面 ${get(counts.provenance, 'warm-death-mask-cast')}；方法 最早 ${get(counts.method, 'certify-earliest-version')} / 伤忆 ${get(counts.method, 'compare-memories-to-scars')} / 复制指认 ${get(counts.method, 'let-the-copy-identify-original')} / 真伪转让 ${get(counts.method, 'declare-authenticity-transferable')}；自我多数 ${computeSelfAuthenticityClaimantTalliesMajority(st.claimantTallies)}；终审结局 ${st.tribunalOutcomes.length}/3。`;
+    memory.hidden = false;
+  };
+
+  const paintSelfAuthenticityCodex = () => {
+    const box = $('#self-authenticity-codex');
+    const grid = $('#self-authenticity-codex-grid');
+    const entry = $('#self-authenticity-codex-entry');
+    if (!box || !grid) return;
+    const st = getSelfAuthenticity();
+    const unlocked = selfAuthenticityOfficeUnlocked();
+    if (!unlocked) {
+      box.hidden = true;
+      if (entry) entry.hidden = true;
+      return;
+    }
+    box.removeAttribute('hidden');
+    grid.innerHTML = '';
+    for (const id of CERTIFICATE_IDS) {
+      const unlocked = st.certificates.includes(id);
+      const cell = document.createElement('div');
+      cell.className = 'self-authenticity-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const c = findCertificateById(id);
+        cell.innerHTML = `<b>${c.title}</b><span>${c.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    for (const action of SELF_AUTHENTICITY_TRIBUNAL_ACTIONS) {
+      const outcome = SELF_AUTHENTICITY_TRIBUNAL_TABLE[action].outcome;
+      const unlocked = st.tribunalOutcomes.includes(outcome);
+      const cell = document.createElement('div');
+      cell.className = 'self-authenticity-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const table = SELF_AUTHENTICITY_TRIBUNAL_TABLE[action];
+        cell.innerHTML = `<b>${table.name}</b><span>${table.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    if (entry) entry.removeAttribute('hidden');
+  };
+
+  const syncSelfAuthenticityRemembrance = () => {
+    paintSelfAuthenticityMemory();
+    paintSelfAuthenticityCodex();
+    const st = getSelfAuthenticity();
+    const unlocked = selfAuthenticityOfficeUnlocked();
+    const coverage = selfAuthenticityCoverageComplete(st);
+    const entryBtn = $('#self-authenticity-entry-btn');
+    if (entryBtn) {
+      entryBtn.hidden = !(currentScene === 'remembrance' && unlocked);
+      entryBtn.disabled = !(!st.pending && !st.activeAuthenticator && st.draft.claimant === '' && st.draft.provenance === '' && currentScene === 'remembrance' && unlocked);
+    }
+    const tribunalEntryBtn = $('#self-authenticity-tribunal-entry-btn');
+    if (tribunalEntryBtn) {
+      tribunalEntryBtn.hidden = !(currentScene === 'remembrance' && unlocked && coverage);
+      tribunalEntryBtn.disabled = !(!st.pending && !st.activeAuthenticator && st.draft.claimant === '' && st.draft.provenance === '' && currentScene === 'remembrance' && unlocked && coverage);
+    }
+  };
+
+  const syncSelfAuthenticityLinks = () => {
+    const st = getSelfAuthenticity();
+    const unlocked = selfAuthenticityOfficeUnlocked();
+    const map = {
+      'self-authenticity-office-link': unlocked && st.visited.office,
+      'self-provenance-vault-link': unlocked && st.visited.vault,
+      'soul-counterfeit-examination-link': unlocked && st.visited.examination,
+      'final-authenticity-tribunal-link': unlocked && st.visited.tribunal,
+    };
+    for (const [id, show] of Object.entries(map)) {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !show;
+    }
+  };
+
+  const replaySelfAuthenticityPending = (sceneName) => {
+    const st = getSelfAuthenticity();
+    const p = st.pending;
+    if (!p) {
+      syncSelfAuthenticityOffice();
+      syncSelfAuthenticityVault();
+      syncSelfAuthenticityExamination();
+      syncSelfAuthenticityTribunal();
+      syncSelfAuthenticityAuthenticators();
+      return;
+    }
+    if (sceneName === p.target) {
+      selfAuthenticityBeforeArrive(p);
+      syncSelfAuthenticityOffice();
+      syncSelfAuthenticityVault();
+      syncSelfAuthenticityExamination();
+      syncSelfAuthenticityTribunal();
+      syncSelfAuthenticityAuthenticators();
+      if (sceneName === 'remembrance') syncSelfAuthenticityRemembrance();
+      return;
+    }
+    const schedule = (source) => AutoAdvance.schedule(source, p.target, { delay: selfAuthenticityDelay(), before: () => selfAuthenticityBeforeArrive(p) });
+
+    if (p.kind === 'entry' && sceneName === 'remembrance') {
+      const btn = $('#self-authenticity-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#self-authenticity-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'claimant' && sceneName === 'self-authenticity-office') {
+      const response = $('#self-authenticity-office-response');
+      if (response) response.textContent = p.feedback;
+      lockSelfAuthenticityClaimantButtons(p.claimant);
+      schedule('self-authenticity-office');
+    } else if (p.kind === 'provenance' && sceneName === 'self-provenance-vault') {
+      const response = $('#self-provenance-vault-response');
+      if (response) response.textContent = p.feedback;
+      lockSelfAuthenticityProvenanceButtons(p.provenance);
+      schedule('self-provenance-vault');
+    } else if (p.kind === 'certificate' && sceneName === 'soul-counterfeit-examination') {
+      const response = $('#soul-counterfeit-examination-response');
+      if (response) response.textContent = p.feedback;
+      lockSelfAuthenticityMethodButtons(p.method);
+      schedule('soul-counterfeit-examination');
+    } else if (p.kind === 'authenticator-return' && sceneName === p.from) {
+      const container = $(`#self-authenticity-authenticator-${p.from}`);
+      if (container) container.hidden = false;
+      const response = $(`#self-authenticity-authenticator-response-${p.from}`);
+      if (response) response.textContent = p.feedback;
+      const btn = $(`#self-authenticity-authenticator-return-${p.from}`);
+      if (btn) {
+        btn.disabled = true;
+        btn.setAttribute('aria-pressed', 'true');
+      }
+      schedule(p.from);
+    } else if (p.kind === 'tribunal-entry' && sceneName === 'remembrance') {
+      const btn = $('#self-authenticity-tribunal-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#self-authenticity-tribunal-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'tribunal' && sceneName === 'final-authenticity-tribunal') {
+      const response = $('#final-authenticity-tribunal-response');
+      if (response) response.textContent = p.feedback;
+      lockSelfAuthenticityTribunalButtons(p.action);
+      schedule('final-authenticity-tribunal');
+    } else {
+      st.pending = null;
+      saveSelfAuthenticity(st);
+      syncSelfAuthenticityOffice();
+      syncSelfAuthenticityVault();
+      syncSelfAuthenticityExamination();
+      syncSelfAuthenticityTribunal();
+      syncSelfAuthenticityAuthenticators();
+      if (sceneName === 'remembrance') syncSelfAuthenticityRemembrance();
+    }
+  };
+
+  const chooseSelfAuthenticityClaimant = (claimant) => {
+    if (currentScene !== 'self-authenticity-office') return;
+    if (AutoAdvance.has('self-authenticity-office')) return;
+    if (!SELF_AUTHENTICITY_CLAIMANTS.includes(claimant)) return;
+    if (!buttonAvailable(`self-authenticity-claimant-${claimant}`)) return;
+    const st = getSelfAuthenticity();
+    if (st.pending) return;
+    if (st.activeAuthenticator) return;
+    if (st.draft.claimant !== '' || st.draft.provenance !== '') return;
+    const table = SELF_AUTHENTICITY_CLAIMANT_TABLE[claimant];
+    if (!table) return;
+    const pending = { kind: 'claimant', source: 'self-authenticity-office', claimant, target: 'self-provenance-vault', feedback: table.feedback };
+    st.pending = pending;
+    saveSelfAuthenticity(st);
+    lockSelfAuthenticityClaimantButtons(claimant);
+    const response = $('#self-authenticity-office-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('self-authenticity-office', 'self-provenance-vault', { delay: selfAuthenticityDelay(), before: () => selfAuthenticityBeforeArrive(pending) });
+  };
+
+  const chooseSelfAuthenticityProvenance = (provenance) => {
+    if (currentScene !== 'self-provenance-vault') return;
+    if (AutoAdvance.has('self-provenance-vault')) return;
+    if (!SELF_AUTHENTICITY_PROVENANCES.includes(provenance)) return;
+    if (!buttonAvailable(`self-provenance-${provenance}`)) return;
+    const st = getSelfAuthenticity();
+    if (st.pending) return;
+    if (st.activeAuthenticator) return;
+    if (!SELF_AUTHENTICITY_CLAIMANTS.includes(st.draft.claimant)) return;
+    const table = SELF_AUTHENTICITY_PROVENANCE_TABLE[provenance];
+    if (!table) return;
+    const pending = { kind: 'provenance', source: 'self-provenance-vault', claimant: st.draft.claimant, provenance, target: 'soul-counterfeit-examination', feedback: table.feedback };
+    st.pending = pending;
+    saveSelfAuthenticity(st);
+    lockSelfAuthenticityProvenanceButtons(provenance);
+    const response = $('#self-provenance-vault-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('self-provenance-vault', 'soul-counterfeit-examination', { delay: selfAuthenticityDelay(), before: () => selfAuthenticityBeforeArrive(pending) });
+  };
+
+  const chooseSelfAuthenticityMethod = (method) => {
+    if (currentScene !== 'soul-counterfeit-examination') return;
+    if (AutoAdvance.has('soul-counterfeit-examination')) return;
+    if (!SELF_AUTHENTICITY_METHODS.includes(method)) return;
+    if (!buttonAvailable(`soul-counterfeit-${method}`)) return;
+    const st = getSelfAuthenticity();
+    if (st.pending) return;
+    if (st.activeAuthenticator) return;
+    const c = st.draft.claimant;
+    const p = st.draft.provenance;
+    if (!SELF_AUTHENTICITY_CLAIMANTS.includes(c) || !SELF_AUTHENTICITY_PROVENANCES.includes(p)) return;
+    const feedback = computeCertificateFeedback(c, p, method);
+    const certificateId = computeCertificateId(c, p, method);
+    const target = SELF_AUTHENTICITY_SCENE_FOR_PROVENANCE[p];
+    const pending = { kind: 'certificate', source: 'soul-counterfeit-examination', claimant: c, provenance: p, method, certificate: certificateId, target, feedback };
+    st.pending = pending;
+    saveSelfAuthenticity(st);
+    lockSelfAuthenticityMethodButtons(method);
+    const response = $('#soul-counterfeit-examination-response');
+    if (response) response.textContent = feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('soul-counterfeit-examination', target, { delay: selfAuthenticityDelay(), before: () => selfAuthenticityBeforeArrive(pending) });
+  };
+
+  const chooseSelfAuthenticityAuthenticatorReturn = (scene) => {
+    if (currentScene !== scene) return;
+    if (AutoAdvance.has(scene)) return;
+    if (!Object.values(SELF_AUTHENTICITY_SCENE_FOR_PROVENANCE).includes(scene)) return;
+    if (!buttonAvailable(`self-authenticity-authenticator-return-${scene}`)) return;
+    const st = getSelfAuthenticity();
+    if (st.pending) return;
+    const auth = st.activeAuthenticator;
+    if (!auth || SELF_AUTHENTICITY_SCENE_FOR_PROVENANCE[auth.provenance] !== scene) return;
+    const pending = { kind: 'authenticator-return', from: scene, target: 'self-authenticity-office', certificate: auth.certificate, feedback: auth.feedback };
+    st.pending = pending;
+    saveSelfAuthenticity(st);
+    const btn = $(`#self-authenticity-authenticator-return-${scene}`);
+    if (btn) {
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', 'true');
+    }
+    const response = $(`#self-authenticity-authenticator-response-${scene}`);
+    if (response) response.textContent = auth.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule(scene, 'self-authenticity-office', { delay: selfAuthenticityDelay(), before: () => selfAuthenticityBeforeArrive(pending) });
+  };
+
+  const chooseSelfAuthenticityEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('self-authenticity-entry-btn')) return;
+    if (!selfAuthenticityOfficeUnlocked()) return;
+    const st = getSelfAuthenticity();
+    if (st.pending) return;
+    if (st.activeAuthenticator) return;
+    if (st.draft.claimant !== '' || st.draft.provenance !== '') return;
+    const pending = { kind: 'entry', target: 'self-authenticity-office', feedback: SELF_AUTHENTICITY_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveSelfAuthenticity(st);
+    const btn = $('#self-authenticity-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#self-authenticity-entry-response');
+    if (response) response.textContent = SELF_AUTHENTICITY_ENTRY_FEEDBACK;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('remembrance', 'self-authenticity-office', { delay: selfAuthenticityDelay(), before: () => selfAuthenticityBeforeArrive(pending) });
+  };
+
+  const chooseSelfAuthenticityTribunalEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('self-authenticity-tribunal-entry-btn')) return;
+    const st = getSelfAuthenticity();
+    if (st.pending) return;
+    if (st.activeAuthenticator) return;
+    if (st.draft.claimant !== '' || st.draft.provenance !== '') return;
+    if (!selfAuthenticityCoverageComplete(st)) return;
+    const pending = { kind: 'tribunal-entry', target: 'final-authenticity-tribunal', feedback: SELF_AUTHENTICITY_TRIBUNAL_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveSelfAuthenticity(st);
+    const btn = $('#self-authenticity-tribunal-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#self-authenticity-tribunal-entry-response');
+    if (response) response.textContent = SELF_AUTHENTICITY_TRIBUNAL_ENTRY_FEEDBACK;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('remembrance', 'final-authenticity-tribunal', { delay: selfAuthenticityDelay(), before: () => selfAuthenticityBeforeArrive(pending) });
+  };
+
+  const chooseSelfAuthenticityTribunalAction = (action) => {
+    if (currentScene !== 'final-authenticity-tribunal') return;
+    if (AutoAdvance.has('final-authenticity-tribunal')) return;
+    if (!SELF_AUTHENTICITY_TRIBUNAL_ACTIONS.includes(action)) return;
+    if (!buttonAvailable(`final-authenticity-${action}`)) return;
+    const st = getSelfAuthenticity();
+    if (st.pending) return;
+    if (st.activeAuthenticator) return;
+    if (st.draft.claimant !== '' || st.draft.provenance !== '') return;
+    if (!st.visited.tribunal) return;
+    if (!selfAuthenticityCoverageComplete(st)) return;
+    const table = SELF_AUTHENTICITY_TRIBUNAL_TABLE[action];
+    if (!table) return;
+    const pending = { kind: 'tribunal', source: 'final-authenticity-tribunal', action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    st.pending = pending;
+    saveSelfAuthenticity(st);
+    lockSelfAuthenticityTribunalButtons(action);
+    const response = $('#final-authenticity-tribunal-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('final-authenticity-tribunal', table.target, { delay: selfAuthenticityDelay(), before: () => selfAuthenticityBeforeArrive(pending) });
+  };
+
+  const selfAuthenticityCanVisitOffice = () => {
+    if (!selfAuthenticityOfficeUnlocked()) return false;
+    const st = getSelfAuthenticity();
+    const p = st.pending;
+    if (p && (p.kind === 'entry' || p.kind === 'authenticator-return') && p.target === 'self-authenticity-office') return true;
+    if (st.visited.office) return true;
+    return false;
+  };
+
+  const selfAuthenticityCanVisitVault = () => {
+    if (!selfAuthenticityOfficeUnlocked()) return false;
+    const st = getSelfAuthenticity();
+    const p = st.pending;
+    if (p && p.kind === 'claimant' && p.target === 'self-provenance-vault') return true;
+    if (st.visited.vault && SELF_AUTHENTICITY_CLAIMANTS.includes(st.draft.claimant)) return true;
+    return false;
+  };
+
+  const selfAuthenticityCanVisitExamination = () => {
+    if (!selfAuthenticityOfficeUnlocked()) return false;
+    const st = getSelfAuthenticity();
+    const p = st.pending;
+    if (p && p.kind === 'provenance' && p.target === 'soul-counterfeit-examination') return true;
+    if (st.visited.examination && SELF_AUTHENTICITY_CLAIMANTS.includes(st.draft.claimant) && SELF_AUTHENTICITY_PROVENANCES.includes(st.draft.provenance)) return true;
+    return false;
+  };
+
+  const selfAuthenticityCanVisitTribunal = () => {
+    if (!selfAuthenticityOfficeUnlocked()) return false;
+    const st = getSelfAuthenticity();
+    if (!selfAuthenticityCoverageComplete(st)) return false;
+    const p = st.pending;
+    if (p && p.kind === 'tribunal-entry' && p.target === 'final-authenticity-tribunal') return true;
+    if (st.visited.tribunal) return true;
+    return false;
+  };
+
+  const selfAuthenticityBridgeAllows = (scene) => {
+    const st = getSelfAuthenticity();
+    const p = st.pending;
+    if (p && p.kind === 'certificate' && p.target === scene) return true;
+    if (p && p.kind === 'tribunal' && p.target === scene) return true;
+    if (st.activeAuthenticator && SELF_AUTHENTICITY_SCENE_FOR_PROVENANCE[st.activeAuthenticator.provenance] === scene) return true;
+    return false;
+  };
+
+  const selfAuthenticityEntryBtn = $('#self-authenticity-entry-btn');
+  if (selfAuthenticityEntryBtn) {
+    selfAuthenticityEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseSelfAuthenticityEntry();
+    });
+  }
+  const selfAuthenticityTribunalEntryBtn = $('#self-authenticity-tribunal-entry-btn');
+  if (selfAuthenticityTribunalEntryBtn) {
+    selfAuthenticityTribunalEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseSelfAuthenticityTribunalEntry();
+    });
+  }
+  const claimantOriginalPersonalityBtn = $('#self-authenticity-claimant-original-personality');
+  if (claimantOriginalPersonalityBtn) {
+    claimantOriginalPersonalityBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseSelfAuthenticityClaimant('original-personality');
+    });
+  }
+  const claimantReplacementMemoryBtn = $('#self-authenticity-claimant-replacement-memory');
+  if (claimantReplacementMemoryBtn) {
+    claimantReplacementMemoryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseSelfAuthenticityClaimant('replacement-memory');
+    });
+  }
+  const claimantCounterfeitSoulBtn = $('#self-authenticity-claimant-counterfeit-soul');
+  if (claimantCounterfeitSoulBtn) {
+    claimantCounterfeitSoulBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseSelfAuthenticityClaimant('counterfeit-soul');
+    });
+  }
+  const provenanceFirstWoundSealBtn = $('#self-provenance-first-wound-seal');
+  if (provenanceFirstWoundSealBtn) {
+    provenanceFirstWoundSealBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseSelfAuthenticityProvenance('first-wound-seal');
+    });
+  }
+  const provenanceChildhoodMirrorTestimonyBtn = $('#self-provenance-childhood-mirror-testimony');
+  if (provenanceChildhoodMirrorTestimonyBtn) {
+    provenanceChildhoodMirrorTestimonyBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseSelfAuthenticityProvenance('childhood-mirror-testimony');
+    });
+  }
+  const provenanceWarmDeathMaskCastBtn = $('#self-provenance-warm-death-mask-cast');
+  if (provenanceWarmDeathMaskCastBtn) {
+    provenanceWarmDeathMaskCastBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseSelfAuthenticityProvenance('warm-death-mask-cast');
+    });
+  }
+  const methodCertifyEarliestVersionBtn = $('#soul-counterfeit-certify-earliest-version');
+  if (methodCertifyEarliestVersionBtn) {
+    methodCertifyEarliestVersionBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseSelfAuthenticityMethod('certify-earliest-version');
+    });
+  }
+  const methodCompareMemoriesToScarsBtn = $('#soul-counterfeit-compare-memories-to-scars');
+  if (methodCompareMemoriesToScarsBtn) {
+    methodCompareMemoriesToScarsBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseSelfAuthenticityMethod('compare-memories-to-scars');
+    });
+  }
+  const methodLetTheCopyIdentifyOriginalBtn = $('#soul-counterfeit-let-the-copy-identify-original');
+  if (methodLetTheCopyIdentifyOriginalBtn) {
+    methodLetTheCopyIdentifyOriginalBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseSelfAuthenticityMethod('let-the-copy-identify-original');
+    });
+  }
+  const methodDeclareAuthenticityTransferableBtn = $('#soul-counterfeit-declare-authenticity-transferable');
+  if (methodDeclareAuthenticityTransferableBtn) {
+    methodDeclareAuthenticityTransferableBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseSelfAuthenticityMethod('declare-authenticity-transferable');
+    });
+  }
+  const authenticatorReturnScarLoomBtn = $('#self-authenticity-authenticator-return-scar-loom');
+  if (authenticatorReturnScarLoomBtn) {
+    authenticatorReturnScarLoomBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseSelfAuthenticityAuthenticatorReturn('scar-loom');
+    });
+  }
+  const authenticatorReturnBorrowedChildhoodBtn = $('#self-authenticity-authenticator-return-borrowed-childhood');
+  if (authenticatorReturnBorrowedChildhoodBtn) {
+    authenticatorReturnBorrowedChildhoodBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseSelfAuthenticityAuthenticatorReturn('borrowed-childhood');
+    });
+  }
+  const authenticatorReturnLifetimePawnVaultBtn = $('#self-authenticity-authenticator-return-lifetime-pawn-vault');
+  if (authenticatorReturnLifetimePawnVaultBtn) {
+    authenticatorReturnLifetimePawnVaultBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseSelfAuthenticityAuthenticatorReturn('lifetime-pawn-vault');
+    });
+  }
+  const tribunalRecognizeOneOriginalBtn = $('#final-authenticity-recognize-one-original');
+  if (tribunalRecognizeOneOriginalBtn) {
+    tribunalRecognizeOneOriginalBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseSelfAuthenticityTribunalAction('recognize-one-original');
+    });
+  }
+  const tribunalMergeEveryPossibleSelfBtn = $('#final-authenticity-merge-every-possible-self');
+  if (tribunalMergeEveryPossibleSelfBtn) {
+    tribunalMergeEveryPossibleSelfBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseSelfAuthenticityTribunalAction('merge-every-possible-self');
+    });
+  }
+  const tribunalMakeEveryCopyAnOriginalBtn = $('#final-authenticity-make-every-copy-an-original');
+  if (tribunalMakeEveryCopyAnOriginalBtn) {
+    tribunalMakeEveryCopyAnOriginalBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseSelfAuthenticityTribunalAction('make-every-copy-an-original');
+    });
+  }
+
   /* ============================================================
      走廊：残页 + 封印的门
      ============================================================ */
@@ -28690,6 +29829,51 @@ document.addEventListener("DOMContentLoaded", () => {
         if (b) { b.disabled = false; b.removeAttribute("aria-pressed"); }
       });
       ["reality-refund-counter", "proof-of-existence-incinerator", "reality-return-inspection", "class-action-court"].forEach((s) => AutoAdvance.clear(s));
+      try { localStorage.removeItem("goddead_v77_self_authenticity"); } catch {}
+      const selfAuthenticityMemory = $("#self-authenticity-memory");
+      if (selfAuthenticityMemory) selfAuthenticityMemory.hidden = true;
+      const selfAuthenticityCodex = $("#self-authenticity-codex");
+      if (selfAuthenticityCodex) selfAuthenticityCodex.hidden = true;
+      const selfAuthenticityCodexEntry = $("#self-authenticity-codex-entry");
+      if (selfAuthenticityCodexEntry) selfAuthenticityCodexEntry.hidden = true;
+      const selfAuthenticityEntryBtn = $("#self-authenticity-entry-btn");
+      if (selfAuthenticityEntryBtn) { selfAuthenticityEntryBtn.hidden = true; selfAuthenticityEntryBtn.disabled = false; selfAuthenticityEntryBtn.removeAttribute("aria-pressed"); }
+      const selfAuthenticityTribunalEntryBtn = $("#self-authenticity-tribunal-entry-btn");
+      if (selfAuthenticityTribunalEntryBtn) { selfAuthenticityTribunalEntryBtn.hidden = true; selfAuthenticityTribunalEntryBtn.disabled = false; selfAuthenticityTribunalEntryBtn.removeAttribute("aria-pressed"); }
+      const selfAuthenticityEntryResponse = $("#self-authenticity-entry-response");
+      if (selfAuthenticityEntryResponse) selfAuthenticityEntryResponse.textContent = "";
+      const selfAuthenticityTribunalEntryResponse = $("#self-authenticity-tribunal-entry-response");
+      if (selfAuthenticityTribunalEntryResponse) selfAuthenticityTribunalEntryResponse.textContent = "";
+      const saOfficeResponse = $("#self-authenticity-office-response");
+      if (saOfficeResponse) saOfficeResponse.textContent = "";
+      const saVaultResponse = $("#self-provenance-vault-response");
+      if (saVaultResponse) saVaultResponse.textContent = "";
+      const saExamResponse = $("#soul-counterfeit-examination-response");
+      if (saExamResponse) saExamResponse.textContent = "";
+      const saTribunalResponse = $("#final-authenticity-tribunal-response");
+      if (saTribunalResponse) saTribunalResponse.textContent = "";
+      ["scar-loom", "borrowed-childhood", "lifetime-pawn-vault"].forEach((s) => {
+        const ar = $(`#self-authenticity-authenticator-response-${s}`);
+        if (ar) ar.textContent = "";
+        const auth = $(`#self-authenticity-authenticator-${s}`);
+        if (auth) auth.hidden = true;
+        const authBtn = $(`#self-authenticity-authenticator-return-${s}`);
+        if (authBtn) { authBtn.disabled = false; authBtn.removeAttribute("aria-pressed"); }
+      });
+      ["self-authenticity-office-link", "self-provenance-vault-link", "soul-counterfeit-examination-link", "final-authenticity-tribunal-link"].forEach((id) => {
+        const el = $(`#${id}`);
+        if (el) el.hidden = true;
+      });
+      [
+        "self-authenticity-claimant-original-personality", "self-authenticity-claimant-replacement-memory", "self-authenticity-claimant-counterfeit-soul",
+        "self-provenance-first-wound-seal", "self-provenance-childhood-mirror-testimony", "self-provenance-warm-death-mask-cast",
+        "soul-counterfeit-certify-earliest-version", "soul-counterfeit-compare-memories-to-scars", "soul-counterfeit-let-the-copy-identify-original", "soul-counterfeit-declare-authenticity-transferable",
+        "final-authenticity-recognize-one-original", "final-authenticity-merge-every-possible-self", "final-authenticity-make-every-copy-an-original"
+      ].forEach((id) => {
+        const b = $("#" + id);
+        if (b) { b.disabled = false; b.removeAttribute("aria-pressed"); }
+      });
+      ["self-authenticity-office", "self-provenance-vault", "soul-counterfeit-examination", "final-authenticity-tribunal"].forEach((s) => AutoAdvance.clear(s));
       if (causalSorterResponse) causalSorterResponse.textContent = "";
       if (firstDraftVaultResponse) firstDraftVaultResponse.textContent = "";
       if (beforeFirstKnockResponse) beforeFirstKnockResponse.textContent = "";
@@ -28877,6 +30061,17 @@ document.addEventListener("DOMContentLoaded", () => {
   syncRealityRefundCounterRemembrance();
   syncRealityRefundCounterLinks();
   replayRealityRefundCounterPending('threshold');
+  resolveSelfAuthenticityPendingOnArrival('threshold');
+  syncSelfAuthenticityOffice();
+  syncSelfAuthenticityVault();
+  syncSelfAuthenticityExamination();
+  syncSelfAuthenticityTribunal();
+  syncSelfAuthenticityAuthenticators();
+  paintSelfAuthenticityMemory();
+  paintSelfAuthenticityCodex();
+  syncSelfAuthenticityRemembrance();
+  syncSelfAuthenticityLinks();
+  replaySelfAuthenticityPending('threshold');
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

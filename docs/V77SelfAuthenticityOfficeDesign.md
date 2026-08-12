@@ -1,8 +1,10 @@
 # v77 自我真伪鉴定所 / AUTHENTICITY OFFICE OF THE SELF
 
 版本：v77 设计冻结稿
-状态：设计与素材冻结，待 v76 独立验收后交 Kimi 实装
+状态：前端已实装，静态门禁全绿，Chrome 解锁入口预检通过，待 Codex 完整独立浏览器矩阵
 职责：Codex 设计 / 素材 / 独立验收；Kimi 生产前端 / 测试 / 文档同步
+实现日期：2026-08-12
+静态基线：`node tests/site.test.mjs = 10277 assertions passed`，`node --check script.js`、`node --check tests/site.test.mjs`、`git diff --check` 全绿
 
 ## 核心命题
 

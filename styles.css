@@ -9873,3 +9873,232 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
      .reality-refund-entry-btn,
      .reality-refund-cell { transition: none; }
    }
+
+
+   /* ============================================================
+      v77 自我真伪鉴定所 / AUTHENTICITY OFFICE OF THE SELF
+      ============================================================ */
+   .self-authenticity-office-figure,
+   .self-provenance-vault-figure,
+   .soul-counterfeit-examination-figure,
+   .final-authenticity-tribunal-figure {
+     position: relative;
+     margin: 0 auto;
+     width: min(760px, 94vw);
+   }
+   .self-authenticity-office-figure[hidden],
+   .self-provenance-vault-figure[hidden],
+   .soul-counterfeit-examination-figure[hidden],
+   .final-authenticity-tribunal-figure[hidden] { display: none !important; }
+   .self-authenticity-office-img,
+   .self-provenance-vault-img,
+   .soul-counterfeit-examination-img,
+   .final-authenticity-tribunal-img {
+     display: block;
+     width: 100%;
+     height: auto;
+     aspect-ratio: 1536 / 1024;
+     object-fit: contain;
+     border-radius: 2px;
+   }
+   .self-authenticity-office-response,
+   .self-provenance-vault-response,
+   .soul-counterfeit-examination-response,
+   .final-authenticity-tribunal-response {
+     min-height: 1.5em;
+     margin: 0.6rem 0 0;
+     color: var(--bone);
+     font-size: 0.95rem;
+     line-height: 1.5;
+   }
+   .self-authenticity-hotspot {
+     position: absolute;
+     background: rgba(192, 74, 66, 0.08);
+     border: 1px solid rgba(192, 74, 66, 0.45);
+     border-radius: 2px;
+     color: var(--bone-bright);
+     font-family: inherit;
+     cursor: pointer;
+     padding: 0;
+     transition: background 0.2s ease, border-color 0.2s ease;
+   }
+   .self-authenticity-hotspot:hover {
+     background: rgba(192, 74, 66, 0.18);
+     border-color: rgba(192, 74, 66, 0.7);
+   }
+   .self-authenticity-hotspot:disabled,
+   .self-authenticity-hotspot[aria-pressed="true"] {
+     opacity: 0.45;
+     cursor: not-allowed;
+     border-color: rgba(192, 74, 66, 0.25);
+   }
+   .self-authenticity-hotspot .dh-label {
+     position: absolute;
+     bottom: -1.6em;
+     left: 50%;
+     transform: translateX(-50%);
+     font-size: 0.68rem;
+     letter-spacing: 0.08em;
+     color: var(--bone-dim);
+     text-transform: uppercase;
+     white-space: nowrap;
+   }
+   /* 自我真伪鉴定所：三种候选自我 */
+   .self-authenticity-claimant-original-personality { top: 20%; left: 6%; width: 26%; height: 60%; }
+   .self-authenticity-claimant-replacement-memory { top: 34%; left: 37%; width: 26%; height: 50%; }
+   .self-authenticity-claimant-counterfeit-soul { top: 20%; left: 70%; width: 24%; height: 62%; }
+   /* 自我来源凭证库：三份来源凭证 */
+   .self-provenance-first-wound-seal { top: 20%; left: 6%; width: 26%; height: 60%; }
+   .self-provenance-childhood-mirror-testimony { top: 34%; left: 37%; width: 26%; height: 50%; }
+   .self-provenance-warm-death-mask-cast { top: 20%; left: 70%; width: 24%; height: 62%; }
+   /* 灵魂赝品检验室：四项鉴定方法 */
+   .soul-counterfeit-certify-earliest-version { top: 12%; left: 8%; width: 36%; height: 36%; }
+   .soul-counterfeit-compare-memories-to-scars { top: 52%; left: 8%; width: 36%; height: 36%; }
+   .soul-counterfeit-let-the-copy-identify-original { top: 12%; left: 56%; width: 36%; height: 36%; }
+   .soul-counterfeit-declare-authenticity-transferable { top: 52%; left: 56%; width: 36%; height: 36%; }
+   /* 等同自我终审庭：三项真实性裁定 */
+   .final-authenticity-recognize-one-original { top: 20%; left: 6%; width: 26%; height: 60%; }
+   .final-authenticity-merge-every-possible-self { top: 34%; left: 37%; width: 26%; height: 50%; }
+   .final-authenticity-make-every-copy-an-original { top: 20%; left: 70%; width: 24%; height: 62%; }
+   .self-authenticity-authenticator {
+     margin-top: 1rem;
+     padding: 0.8rem 1rem;
+     background: rgba(13, 10, 10, 0.55);
+     border: 1px solid rgba(192, 74, 66, 0.25);
+     border-radius: 2px;
+   }
+   .self-authenticity-authenticator[hidden] { display: none !important; }
+   .self-authenticity-authenticator-response {
+     min-height: 1.5em;
+     margin: 0 0 0.6rem;
+     color: var(--bone);
+     font-size: 0.9rem;
+     line-height: 1.45;
+   }
+   .self-authenticity-authenticator-return {
+     display: inline-block;
+     padding: 0.5rem 0.9rem;
+     background: transparent;
+     border: 1px solid rgba(192, 74, 66, 0.6);
+     border-radius: 2px;
+     color: var(--bone-bright);
+     font-family: inherit;
+     font-size: 0.85rem;
+     letter-spacing: 0.06em;
+     cursor: pointer;
+     transition: background 0.2s ease, border-color 0.2s ease;
+   }
+   .self-authenticity-authenticator-return:hover {
+     background: rgba(192, 74, 66, 0.15);
+     border-color: rgba(192, 74, 66, 0.85);
+   }
+   .self-authenticity-authenticator-return:disabled,
+   .self-authenticity-authenticator-return[hidden] {
+     opacity: 0.45;
+     cursor: not-allowed;
+   }
+   .self-authenticity-entry-btn {
+     display: block;
+     width: 100%;
+     margin: 0.6rem 0;
+     padding: 0.6rem 0.9rem;
+     background: transparent;
+     border: 1px solid rgba(192, 74, 66, 0.6);
+     border-radius: 2px;
+     color: var(--bone-bright);
+     font-family: inherit;
+     font-size: 0.9rem;
+     letter-spacing: 0.06em;
+     text-align: left;
+     cursor: pointer;
+     transition: background 0.2s ease, border-color 0.2s ease;
+   }
+   .self-authenticity-entry-btn:hover {
+     background: rgba(192, 74, 66, 0.15);
+     border-color: rgba(192, 74, 66, 0.85);
+   }
+   .self-authenticity-entry-btn:disabled,
+   .self-authenticity-entry-btn[hidden] {
+     opacity: 0.45;
+     cursor: not-allowed;
+   }
+   /* 自我真伪鉴定所图鉴 */
+   .self-authenticity-codex {
+     margin-top: 1.5rem;
+     padding: 1rem;
+     background: rgba(13, 10, 10, 0.45);
+     border: 1px solid rgba(192, 74, 66, 0.2);
+     border-radius: 2px;
+   }
+   .self-authenticity-codex[hidden] { display: none !important; }
+   .sac-kicker {
+     margin: 0 0 0.75rem;
+     font-size: 0.75rem;
+     letter-spacing: 0.12em;
+     color: var(--blood);
+     text-align: center;
+   }
+   .self-authenticity-grid {
+     display: grid;
+     grid-template-columns: repeat(4, 1fr);
+     gap: 0.5rem;
+   }
+   .self-authenticity-cell {
+     padding: 0.5rem;
+     background: rgba(13, 10, 10, 0.55);
+     border: 1px solid rgba(192, 74, 66, 0.15);
+     border-radius: 2px;
+     font-size: 0.72rem;
+     line-height: 1.35;
+     color: var(--ash);
+     min-height: 3.2rem;
+   }
+   .self-authenticity-cell.unlocked { background: rgba(30, 14, 14, 0.9); }
+   .self-authenticity-cell b {
+     display: block;
+     margin-bottom: 0.25rem;
+     color: var(--ash);
+     font-weight: 500;
+   }
+   .self-authenticity-cell.unlocked b { color: var(--bone-bright); }
+   .self-authenticity-cell span {
+     display: block;
+     line-height: 1.35;
+     color: var(--bone-dim);
+   }
+   .self-authenticity-codex-entry {
+     margin-top: 0.75rem;
+     padding-top: 0.75rem;
+     border-top: 1px solid rgba(192, 74, 66, 0.2);
+   }
+   .self-authenticity-codex-entry[hidden] { display: none !important; }
+   .self-authenticity-entry-response {
+     min-height: 1.5em;
+     margin: 0.4rem 0;
+     color: var(--bone);
+     font-size: 0.9rem;
+     line-height: 1.45;
+   }
+   @media (max-width: 720px) {
+     .self-authenticity-office-figure,
+     .self-provenance-vault-figure,
+     .soul-counterfeit-examination-figure,
+     .final-authenticity-tribunal-figure {
+       width: min(92vw, 520px);
+     }
+     .self-authenticity-hotspot {
+       min-width: 44px;
+       min-height: 44px;
+     }
+     .self-authenticity-hotspot .dh-label {
+       font-size: 0.62rem;
+       letter-spacing: 0.06em;
+     }
+     .self-authenticity-grid { grid-template-columns: 1fr; }
+   }
+   @media (prefers-reduced-motion: reduce) {
+     .self-authenticity-hotspot,
+     .self-authenticity-authenticator-return,
+     .self-authenticity-entry-btn,
+     .self-authenticity-cell { transition: none; }
+   }

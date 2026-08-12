@@ -1,7 +1,7 @@
 # v84 无罪证人保护院 / WITNESS PROTECTION FOR THE INNOCENT
 
 版本：v84 设计冻结稿
-状态：设计冻结、素材待生成，待 v83 实装并独立验收后交 Kimi 实装
+状态：设计与素材冻结，待 v83 实装并独立验收后交 Kimi 实装
 职责：Codex 设计 / 素材 / 独立验收；Kimi 生产前端 / 测试 / 文档同步
 
 ## 核心命题
@@ -189,12 +189,14 @@ version：`84`
 
 全部 `1536×1024`，无文字/logo/UI/水印；WebP 使用 Pillow `quality=85, method=6`，不裁切、不拉伸。
 
-| source PNG | runtime WebP |
-|---|---|
-| `design-references/source-v84-innocent-witness-protection.png` | `assets/v84-innocent-witness-protection.webp` |
-| `design-references/source-v84-identity-causality-laundry.png` | `assets/v84-identity-causality-laundry.webp` |
-| `design-references/source-v84-memory-relocation-safehouse.png` | `assets/v84-memory-relocation-safehouse.webp` |
-| `design-references/source-v84-anonymous-truth-lifetime-court.png` | `assets/v84-anonymous-truth-lifetime-court.webp` |
+| source PNG | runtime WebP | source SHA-256 | runtime SHA-256 |
+|---|---|---|---|
+| `assets/source-v84-innocent-witness-protection.png` | `assets/v84-innocent-witness-protection.webp` | `a4ecc93a5e37af0422b5d0fa96563732396e3011ca8ffb731b9bfa0768607835` | `832800863867a9c036a60d00c5fdf9db949901af83945e7acce67af7b32d4928` |
+| `assets/source-v84-identity-causality-laundry.png` | `assets/v84-identity-causality-laundry.webp` | `16ba0d7d403dfd7ba4effebd28f6be40b19ea07557198ad959e42abf842f40d3` | `0f692a6ef8df5641713252c02deed3db5b13a6e61121788a46a149ef066f88f1` |
+| `assets/source-v84-memory-relocation-safehouse.png` | `assets/v84-memory-relocation-safehouse.webp` | `16d86deee7e35866639210ae5bdd13f46435290748ed167e70e0038ec9b1f40a` | `e0343a7fb2fa4ce4655fc9451d39992fb32c67a772bd4e28aa9bfd445a64300d` |
+| `assets/source-v84-anonymous-truth-lifetime-court.png` | `assets/v84-anonymous-truth-lifetime-court.webp` | `8da18ce426e893c4bf4f70ead4bc8c26cb44483893ba4d58071aab521665feb1` | `5f011e2cb01cc5e7319a29b033e0b49a300d0532992d7524d1584387953cf81e` |
+
+视觉复核：四张图均为 `1536×1024`；未发现可读文字、logo、界面、边框或水印。第一幕三席、第二幕三机关、第三幕四安全室与第四幕三裁定均可在桌面宽幅中清晰区分；运行图按冻结参数由源图原尺寸转换。
 
 ## 静态与浏览器门槛
 

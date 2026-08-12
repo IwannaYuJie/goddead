@@ -38,16 +38,16 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=76/);
-assert.match(html, /script\.js\?v=76/);
+assert.match(html, /styles\.css\?v=77/);
+assert.match(html, /script\.js\?v=77/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
 assert.match(js, /DOMContentLoaded/);
 
 /* ---------- 场景探索结构 ---------- */
-const SCENES = ["threshold", "protocol", "corridor", "peephole-chamber", "glyph-niche", "return-passage", "eyelid-archive", "unnumbered-vestibule", "reverse-stairwell", "annex-clearinghouse", "unreturned-witness-gallery", "registry-before-zero", "descending-appeals-stair", "anomaly-review", "evidence-vault", "false-positive-shaft", "unclaimed-valuation", "quota-elevator", "unnumbered-floor", "bellless-ward", "seeping-records", "reverse-laundry", "night-shift-registry", "midnight-callback", "proxy-admission", "return-audit", "echo-turn", "vein-turnstile", "confession-locker", "unlit-lamp-gallery", "borrowed-shadow-gallery", "hinge-sorting-room", "red-thread-registry", "blank-name-cloakroom", "clapperless-bell-desk", "protocol-drift", "counter-knock-gallery", "unanswered-vestibule", "undersill-dispatch", "lagging-shadow-cloister", "ash-door-foundry", "retention-vault", "minute-before-archive", "cold-wick-service-bay", "absent-relief-locker", "underbed-call-station", "countersign-drain", "negative-laundry-locker", "symptom-handover-hub", "evidence-switchboard", "unseated-listening-booth", "unnumbered-jack-field", "return-ring-morgue", "unclaimed-pneumatic-intake", "returned-address-cabinet", "blank-receipt-press", "blank-screen-underarchive", "false-confirmation-desk", "witness-carbon-archive", "echo", "vein", "confession", "echo-transfer", "vein-pump", "confession-ledger", "failure-reconstruction-desk", "watch", "switchboard", "deadletter", "cancellation", "acting", "offering", "reliquary", "remembrance", "ninth", "concordance-theatre", "innocent-quarantine", "omission-transfer-shaft", "misbound-handover", "liability-ledger", "appeal-registry", "identity-correction", "evidence-contradiction", "destination-review-shaft", "cross-examination-desk", "chain-of-custody-office", "listening-back-console", "ending-return-office", "unending-gallery", "causal-sorter", "first-draft-vault", "before-first-knock", "causeless-ward", "counterfactual-spindle", "scar-loom", "unlived-nursery", "life-without-cause", "counterfactual-genealogy", "bloodless-archive", "borrowed-childhood", "last-family-court", "generational-credit-office", "lifetime-pawn-vault", "mortality-clearing-house", "age-foreclosure-court", "posthumous-census-hall", "contradictory-evidence-archive", "birth-ballot-booth", "population-nullification-court", "dead-parliament-rotunda", "citizenship-article-chamber", "constitutional-severance-desk", "three-person-republic-court", "death-foreign-ministry", "nonexistent-border-chancery", "treaty-autopsy-table", "undeclared-war-room", "last-word-central-bank", "unsaid-currency-mint", "testament-clearing-vault", "sovereign-default-chamber", "borrowed-dream-customs", "contraband-sleep-terminal", "nightmare-tariff-bureau", "waking-deportation-yard", "tombstone-patent-office", "prior-art-ossuary", "impossible-claim-examination", "perpetual-license-tribunal", "apocalypse-warranty-office", "proof-of-purchase-morgue", "post-world-repair-bench", "universal-recall-yard", "reality-refund-counter", "proof-of-existence-incinerator", "reality-return-inspection", "class-action-court"];
-assert.equal(SCENES.length, 137, "scene count must be 137 after v76");
+const SCENES = ["threshold", "protocol", "corridor", "peephole-chamber", "glyph-niche", "return-passage", "eyelid-archive", "unnumbered-vestibule", "reverse-stairwell", "annex-clearinghouse", "unreturned-witness-gallery", "registry-before-zero", "descending-appeals-stair", "anomaly-review", "evidence-vault", "false-positive-shaft", "unclaimed-valuation", "quota-elevator", "unnumbered-floor", "bellless-ward", "seeping-records", "reverse-laundry", "night-shift-registry", "midnight-callback", "proxy-admission", "return-audit", "echo-turn", "vein-turnstile", "confession-locker", "unlit-lamp-gallery", "borrowed-shadow-gallery", "hinge-sorting-room", "red-thread-registry", "blank-name-cloakroom", "clapperless-bell-desk", "protocol-drift", "counter-knock-gallery", "unanswered-vestibule", "undersill-dispatch", "lagging-shadow-cloister", "ash-door-foundry", "retention-vault", "minute-before-archive", "cold-wick-service-bay", "absent-relief-locker", "underbed-call-station", "countersign-drain", "negative-laundry-locker", "symptom-handover-hub", "evidence-switchboard", "unseated-listening-booth", "unnumbered-jack-field", "return-ring-morgue", "unclaimed-pneumatic-intake", "returned-address-cabinet", "blank-receipt-press", "blank-screen-underarchive", "false-confirmation-desk", "witness-carbon-archive", "echo", "vein", "confession", "echo-transfer", "vein-pump", "confession-ledger", "failure-reconstruction-desk", "watch", "switchboard", "deadletter", "cancellation", "acting", "offering", "reliquary", "remembrance", "ninth", "concordance-theatre", "innocent-quarantine", "omission-transfer-shaft", "misbound-handover", "liability-ledger", "appeal-registry", "identity-correction", "evidence-contradiction", "destination-review-shaft", "cross-examination-desk", "chain-of-custody-office", "listening-back-console", "ending-return-office", "unending-gallery", "causal-sorter", "first-draft-vault", "before-first-knock", "causeless-ward", "counterfactual-spindle", "scar-loom", "unlived-nursery", "life-without-cause", "counterfactual-genealogy", "bloodless-archive", "borrowed-childhood", "last-family-court", "generational-credit-office", "lifetime-pawn-vault", "mortality-clearing-house", "age-foreclosure-court", "posthumous-census-hall", "contradictory-evidence-archive", "birth-ballot-booth", "population-nullification-court", "dead-parliament-rotunda", "citizenship-article-chamber", "constitutional-severance-desk", "three-person-republic-court", "death-foreign-ministry", "nonexistent-border-chancery", "treaty-autopsy-table", "undeclared-war-room", "last-word-central-bank", "unsaid-currency-mint", "testament-clearing-vault", "sovereign-default-chamber", "borrowed-dream-customs", "contraband-sleep-terminal", "nightmare-tariff-bureau", "waking-deportation-yard", "tombstone-patent-office", "prior-art-ossuary", "impossible-claim-examination", "perpetual-license-tribunal", "apocalypse-warranty-office", "proof-of-purchase-morgue", "post-world-repair-bench", "universal-recall-yard", "reality-refund-counter", "proof-of-existence-incinerator", "reality-return-inspection", "class-action-court", "self-authenticity-office", "self-provenance-vault", "soul-counterfeit-examination", "final-authenticity-tribunal"];
+assert.equal(SCENES.length, 141, "scene count must be 141 after v77");
 for (const s of SCENES) {
   assert.match(html, new RegExp(`data-scene="${s}"`), `scene missing: ${s}`);
 }
@@ -498,8 +498,8 @@ for (const asset of VISUAL_ASSETS) {
 await access(new URL("assets/prayer-incinerator-burning.webp", root));
 assert.match(html, /assets\/prayer-incinerator-burning\.webp/);
 assert.match(html, /<link rel="preload" href="assets\/prayer-incinerator-burning\.webp" as="image">/);
-assert.match(html, /styles\.css\?v=76/);
-assert.match(html, /script\.js\?v=76/);
+assert.match(html, /styles\.css\?v=77/);
+assert.match(html, /script\.js\?v=77/);
 const offeringFigureHtml = html.match(/<figure class="offering-figure[^"]*" role="img" aria-label="[^"]*">[\s\S]*?<\/figure>/);
 assert.ok(offeringFigureHtml, "offering figure must exist");
 assert.match(offeringFigureHtml[0], /aria-label="一座沉寂的焚献炉"/);
@@ -4509,7 +4509,7 @@ assert.ok(SCENES.includes("causal-sorter"), "SCENES must list the causal sorter"
 assert.ok(SCENES.includes("first-draft-vault"), "SCENES must list the first draft vault");
 assert.ok(SCENES.includes("before-first-knock"), "SCENES must list the before first knock");
 assert.ok(SCENES.includes("causeless-ward"), "SCENES must list the causeless ward");
-assert.equal(new Set([...html.matchAll(/data-scene="([^"]+)"/g)].map((m) => m[1])).size, 137, "must expose 137 unique data-scene sections");
+assert.equal(new Set([...html.matchAll(/data-scene="([^"]+)"/g)].map((m) => m[1])).size, 141, "must expose 141 unique data-scene sections");
 const consoleSection = html.match(/<section class="scene scene-branch scene-listening-back-console"[\s\S]*?<\/section>/);
 assert.ok(consoleSection, "scene section missing: listening-back-console");
 assert.match(consoleSection[0], /data-scene="listening-back-console" data-title="Goddead — 反听总台" aria-label="反听总台"/);
@@ -4999,7 +4999,7 @@ for (const [asset, hash] of Object.entries(V63_WEBP_HASHES)) {
   assert.ok(buf.length > 100000 && buf.length < 350000, `${asset} must be 100–350 KB`);
   assert.ok(js.includes(asset) && html.includes(asset), `${asset} must be referenced`);
 }
-assert.equal(SCENES.length, 137, "v76 must bring the scene count to 137");
+assert.equal(SCENES.length, 141, "v77 must bring the scene count to 141");
 assert.equal((js.match(/goddead_v63_ending_return/g) || []).length, 1, "v63 introduces exactly one storage key");
 
 /* 两场景 DOM、标题、氛围句与图鉴容器 */
@@ -5886,8 +5886,8 @@ assert.match(html, /<link rel="preload" href="assets\/v73-nightmare-tariff-burea
 assert.match(html, /<link rel="preload" href="assets\/v73-waking-deportation-yard\.webp" as="image">/, "v73 preloads waking-deportation-yard");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=76/, "v73 cache busts styles.css");
-assert.match(html, /script\.js\?v=76/, "v73 cache busts script.js");
+assert.match(html, /styles\.css\?v=77/, "v73 cache busts styles.css");
+assert.match(html, /script\.js\?v=77/, "v73 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const DREAM_CUSTOMS_KEY = ['"]goddead_v73_dream_customs['"]/g) || []).length, 1, "v73 introduces exactly one storage key");
@@ -6754,8 +6754,8 @@ assert.match(html, /<link rel="preload" href="assets\/v74-impossible-claim-exami
 assert.match(html, /<link rel="preload" href="assets\/v74-perpetual-license-tribunal\.webp" as="image">/, "v74 preloads perpetual-license-tribunal");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=76/, "v74 cache busts styles.css");
-assert.match(html, /script\.js\?v=76/, "v74 cache busts script.js");
+assert.match(html, /styles\.css\?v=77/, "v74 cache busts styles.css");
+assert.match(html, /script\.js\?v=77/, "v74 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const TOMBSTONE_PATENT_OFFICE_KEY = ['"]goddead_v74_tombstone_patent_office['"]/g) || []).length, 1, "v74 introduces exactly one storage key");
@@ -7636,8 +7636,8 @@ assert.match(html, /<link rel="preload" href="assets\/v75-post-world-repair-benc
 assert.match(html, /<link rel="preload" href="assets\/v75-universal-recall-yard\.webp" as="image">/, "v75 preloads universal-recall-yard");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=76/, "v75 cache busts styles.css");
-assert.match(html, /script\.js\?v=76/, "v75 cache busts script.js");
+assert.match(html, /styles\.css\?v=77/, "v75 cache busts styles.css");
+assert.match(html, /script\.js\?v=77/, "v75 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const APOCALYPSE_WARRANTY_KEY = ['"]goddead_v75_apocalypse_warranty['"]/g) || []).length, 1, "v75 introduces exactly one storage key");
@@ -8566,12 +8566,12 @@ assert.match(html, /<link rel="preload" href="assets\/v76-reality-return-inspect
 assert.match(html, /<link rel="preload" href="assets\/v76-class-action-court\.webp" as="image">/, "v76 preloads class-action-court");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=76/, "v76 cache busts styles.css");
-assert.match(html, /script\.js\?v=76/, "v76 cache busts script.js");
+assert.match(html, /styles\.css\?v=77/, "v76 cache busts styles.css");
+assert.match(html, /script\.js\?v=77/, "v76 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const REALITY_REFUND_KEY = ['"]goddead_v76_reality_refund['"]/g) || []).length, 1, "v76 introduces exactly one storage key");
-const v76ModuleBlock = js.match(/v76 现实退款处 \/ REALITY REFUND COUNTER[\s\S]*?(?=\n  \/\* ={40,}\n     走廊：残页 \+ 封印的门)/);
+const v76ModuleBlock = js.match(/v76 现实退款处 \/ REALITY REFUND COUNTER[\s\S]*?(?=\n  \/\* ={40,}\n     v77 自我真伪鉴定所 \/ AUTHENTICITY OFFICE OF THE SELF)/);
 assert.ok(v76ModuleBlock, "v76 module must exist");
 
 const saveRealityRefundBlock = js.match(/const saveRealityRefund = \(st\) => \{[\s\S]*?store\.set\(\s*REALITY_REFUND_KEY,\s*JSON\.stringify\(\{[\s\S]*?\}\)\s*\);/);
@@ -9078,7 +9078,7 @@ function makeV76Context({
 
 // 18 组 isTrusted 防线
 {
-  const v76ListenerBlock = js.match(/const realityRefundCounterEntryBtn = \$\('#reality-refund-entry-btn'\);[\s\S]*?(?=\n  \/\* ={40,}\n     走廊：残页 \+ 封印的门)/);
+  const v76ListenerBlock = js.match(/const realityRefundCounterEntryBtn = \$\('#reality-refund-entry-btn'\);[\s\S]*?(?=\n  \/\* ={40,}\n     v77 自我真伪鉴定所 \/ AUTHENTICITY OFFICE OF THE SELF)/);
   assert.ok(v76ListenerBlock, "v76 click listener block must exist");
   assert.equal((v76ListenerBlock[0].match(/!e\.isTrusted/g) || []).length, 18, "v76 must guard all eighteen click listeners with isTrusted");
 }
@@ -9442,6 +9442,978 @@ for (const hash of Object.values(V76_WEBP_HASHES)) {
 }
 assert.match(v76doc, /1536×1024/, "V76 design doc documents 1536×1024 dimensions");
 /* ---------- v76 文档同步 ---------- */
+
+/* ============================================================
+   v77 自我真伪鉴定所 / AUTHENTICITY OFFICE OF THE SELF 静态回归
+   ============================================================ */
+
+const V77_SOURCE_HASHES = {
+  "source-v77-authenticity-office-of-self.png": "8ff4ee726ed821dd3d17f0c9a1238b79b974748ec803a848ed71f863e753bd3c",
+  "source-v77-self-provenance-vault.png": "9bd33aca1362c3101258a904c3cf69b013bdce293acc6e6f9bd3df292e118bb8",
+  "source-v77-soul-counterfeit-examination.png": "e0ef74ae18031ba9956d1700782833c87fb88076e65aafba974d89e0c3ec9557",
+  "source-v77-final-authenticity-tribunal.png": "fe5a7fcae730c9c6a8a23fe7a1a59046b6ad446e472fe73a24d3a6707c008567",
+};
+const V77_WEBP_HASHES = {
+  "v77-authenticity-office-of-self.webp": "900e54e45087aa6411e5f8b7f16d34c1a9e54978b7f55f95a4992d3aec64c2c4",
+  "v77-self-provenance-vault.webp": "0d08373b83c8fbf505b374158f8e7a07e7f6a205f4a4cfc5289d7c31862ceefe",
+  "v77-soul-counterfeit-examination.webp": "1ef256e317c6443ae170a75aa04af05c94e21f2d4330641fab104bc1fb4933d6",
+  "v77-final-authenticity-tribunal.webp": "f40f3a1c80f2a32e21a2bb625f7db4ef8dbf8c5ee37577bb6c6aa9ea71997228",
+};
+const V77_SOURCE_SIZES = {
+  "source-v77-authenticity-office-of-self.png": 2440259,
+  "source-v77-self-provenance-vault.png": 2501992,
+  "source-v77-soul-counterfeit-examination.png": 2569234,
+  "source-v77-final-authenticity-tribunal.png": 2669415,
+};
+const V77_WEBP_SIZES = {
+  "v77-authenticity-office-of-self.webp": 210352,
+  "v77-self-provenance-vault.webp": 213842,
+  "v77-soul-counterfeit-examination.webp": 230094,
+  "v77-final-authenticity-tribunal.webp": 253726,
+};
+
+/* 场景与 DOM 存在性 */
+assert.match(html, new RegExp(`data-scene="self-authenticity-office"`), `v77 scene missing: self-authenticity-office`);
+assert.match(html, new RegExp(`data-scene="self-provenance-vault"`), `v77 scene missing: self-provenance-vault`);
+assert.match(html, new RegExp(`data-scene="soul-counterfeit-examination"`), `v77 scene missing: soul-counterfeit-examination`);
+assert.match(html, new RegExp(`data-scene="final-authenticity-tribunal"`), `v77 scene missing: final-authenticity-tribunal`);
+assert.match(html, new RegExp(`id="self-authenticity-office-link"`), `v77 directory link missing: self-authenticity-office-link`);
+assert.match(html, new RegExp(`id="self-provenance-vault-link"`), `v77 directory link missing: self-provenance-vault-link`);
+assert.match(html, new RegExp(`id="soul-counterfeit-examination-link"`), `v77 directory link missing: soul-counterfeit-examination-link`);
+assert.match(html, new RegExp(`id="final-authenticity-tribunal-link"`), `v77 directory link missing: final-authenticity-tribunal-link`);
+assert.match(html, new RegExp(`id="self-authenticity-memory"`), `v77 remembrance element missing: self-authenticity-memory`);
+assert.match(html, new RegExp(`id="self-authenticity-codex"`), `v77 remembrance element missing: self-authenticity-codex`);
+assert.match(html, new RegExp(`id="self-authenticity-codex-entry"`), `v77 remembrance element missing: self-authenticity-codex-entry`);
+assert.match(html, new RegExp(`id="self-authenticity-office-figure"`), `v77 figure missing: self-authenticity-office-figure`);
+assert.match(html, new RegExp(`id="self-provenance-vault-figure"`), `v77 figure missing: self-provenance-vault-figure`);
+assert.match(html, new RegExp(`id="soul-counterfeit-examination-figure"`), `v77 figure missing: soul-counterfeit-examination-figure`);
+assert.match(html, new RegExp(`id="final-authenticity-tribunal-figure"`), `v77 figure missing: final-authenticity-tribunal-figure`);
+assert.match(html, new RegExp(`id="self-authenticity-claimant-original-personality"`), `v77 claimant button missing: self-authenticity-claimant-original-personality`);
+assert.match(html, new RegExp(`id="self-authenticity-claimant-replacement-memory"`), `v77 claimant button missing: self-authenticity-claimant-replacement-memory`);
+assert.match(html, new RegExp(`id="self-authenticity-claimant-counterfeit-soul"`), `v77 claimant button missing: self-authenticity-claimant-counterfeit-soul`);
+assert.match(html, new RegExp(`id="self-provenance-first-wound-seal"`), `v77 provenance button missing: self-provenance-first-wound-seal`);
+assert.match(html, new RegExp(`id="self-provenance-childhood-mirror-testimony"`), `v77 provenance button missing: self-provenance-childhood-mirror-testimony`);
+assert.match(html, new RegExp(`id="self-provenance-warm-death-mask-cast"`), `v77 provenance button missing: self-provenance-warm-death-mask-cast`);
+assert.match(html, new RegExp(`id="soul-counterfeit-certify-earliest-version"`), `v77 method button missing: soul-counterfeit-certify-earliest-version`);
+assert.match(html, new RegExp(`id="soul-counterfeit-compare-memories-to-scars"`), `v77 method button missing: soul-counterfeit-compare-memories-to-scars`);
+assert.match(html, new RegExp(`id="soul-counterfeit-let-the-copy-identify-original"`), `v77 method button missing: soul-counterfeit-let-the-copy-identify-original`);
+assert.match(html, new RegExp(`id="soul-counterfeit-declare-authenticity-transferable"`), `v77 method button missing: soul-counterfeit-declare-authenticity-transferable`);
+assert.match(html, new RegExp(`id="self-authenticity-authenticator-return-scar-loom"`), `v77 authenticator return button missing: self-authenticity-authenticator-return-scar-loom`);
+assert.match(html, new RegExp(`id="self-authenticity-authenticator-return-borrowed-childhood"`), `v77 authenticator return button missing: self-authenticity-authenticator-return-borrowed-childhood`);
+assert.match(html, new RegExp(`id="self-authenticity-authenticator-return-lifetime-pawn-vault"`), `v77 authenticator return button missing: self-authenticity-authenticator-return-lifetime-pawn-vault`);
+assert.match(html, new RegExp(`id="final-authenticity-recognize-one-original"`), `v77 tribunal button missing: final-authenticity-recognize-one-original`);
+assert.match(html, new RegExp(`id="final-authenticity-merge-every-possible-self"`), `v77 tribunal button missing: final-authenticity-merge-every-possible-self`);
+assert.match(html, new RegExp(`id="final-authenticity-make-every-copy-an-original"`), `v77 tribunal button missing: final-authenticity-make-every-copy-an-original`);
+
+/* P1 回归：handler 的 buttonAvailable 与事件监听所查 ID 必须真实存在于 index.html */
+const v77HandlerIdChecks = {
+  claimant: { ids: ["self-authenticity-claimant-original-personality", "self-authenticity-claimant-replacement-memory", "self-authenticity-claimant-counterfeit-soul"], handlerPrefix: "self-authenticity-claimant-${claimant}" },
+  provenance: { ids: ["self-provenance-first-wound-seal", "self-provenance-childhood-mirror-testimony", "self-provenance-warm-death-mask-cast"], handlerPrefix: "self-provenance-${provenance}" },
+  method: { ids: ["soul-counterfeit-certify-earliest-version", "soul-counterfeit-compare-memories-to-scars", "soul-counterfeit-let-the-copy-identify-original", "soul-counterfeit-declare-authenticity-transferable"], handlerPrefix: "soul-counterfeit-${method}" },
+  tribunal: { ids: ["final-authenticity-recognize-one-original", "final-authenticity-merge-every-possible-self", "final-authenticity-make-every-copy-an-original"], handlerPrefix: "final-authenticity-${action}" },
+};
+for (const [kind, { ids, handlerPrefix }] of Object.entries(v77HandlerIdChecks)) {
+  assert.ok(js.includes(`buttonAvailable(\`${handlerPrefix}\`)`), `v77 ${kind} handler must use real DOM id prefix: ${handlerPrefix}`);
+  for (const id of ids) {
+    assert.match(html, new RegExp(`id="${id}"`), `v77 ${kind} button must exist in DOM: ${id}`);
+    assert.ok(js.includes(`$('#${id}')`), `v77 ${kind} listener must be wired to the real DOM id: ${id}`);
+  }
+}
+
+assert.match(html, /<link rel="preload" href="assets\/v77-authenticity-office-of-self\.webp" as="image">/, "v77 preloads v77-authenticity-office-of-self");
+assert.match(html, /<link rel="preload" href="assets\/v77-self-provenance-vault\.webp" as="image">/, "v77 preloads v77-self-provenance-vault");
+assert.match(html, /<link rel="preload" href="assets\/v77-soul-counterfeit-examination\.webp" as="image">/, "v77 preloads v77-soul-counterfeit-examination");
+assert.match(html, /<link rel="preload" href="assets\/v77-final-authenticity-tribunal\.webp" as="image">/, "v77 preloads v77-final-authenticity-tribunal");
+
+/* 缓存版本 */
+assert.match(html, /styles\.css\?v=77/, "v77 cache busts styles.css");
+assert.match(html, /script\.js\?v=77/, "v77 cache busts script.js");
+
+/* JS 模块与 key */
+assert.equal((js.match(/const SELF_AUTHENTICITY_KEY = ['"]goddead_v77_self_authenticity['"]/g) || []).length, 1, "v77 introduces exactly one storage key");
+const v77ModuleBlock = js.match(/v77 自我真伪鉴定所 \/ AUTHENTICITY OFFICE OF THE SELF[\s\S]*?(?=\n  \/\* ={40,}\n     走廊：残页 \+ 封印的门)/);
+assert.ok(v77ModuleBlock, "v77 module must exist");
+
+const saveSelfAuthenticityBlock = js.match(/const saveSelfAuthenticity = \(st\) => \{[\s\S]*?store\.set\(\s*SELF_AUTHENTICITY_KEY,\s*JSON\.stringify\(\{[\s\S]*?\}\)\s*\);/);
+assert.ok(saveSelfAuthenticityBlock, "saveSelfAuthenticity must persist an explicit canonical projection");
+assert.match(saveSelfAuthenticityBlock[0], new RegExp(`\\bversion\\b`), `saveSelfAuthenticity persists version`);
+assert.match(saveSelfAuthenticityBlock[0], new RegExp(`\\bvisited\\b`), `saveSelfAuthenticity persists visited`);
+assert.match(saveSelfAuthenticityBlock[0], new RegExp(`\\bdraft\\b`), `saveSelfAuthenticity persists draft`);
+assert.match(saveSelfAuthenticityBlock[0], new RegExp(`\\bcertificates\\b`), `saveSelfAuthenticity persists certificates`);
+assert.match(saveSelfAuthenticityBlock[0], new RegExp(`\\btribunalOutcomes\\b`), `saveSelfAuthenticity persists tribunalOutcomes`);
+assert.match(saveSelfAuthenticityBlock[0], new RegExp(`\\bexamRuns\\b`), `saveSelfAuthenticity persists examRuns`);
+assert.match(saveSelfAuthenticityBlock[0], new RegExp(`\\btribunalRuns\\b`), `saveSelfAuthenticity persists tribunalRuns`);
+assert.match(saveSelfAuthenticityBlock[0], new RegExp(`\\bclaimantTallies\\b`), `saveSelfAuthenticity persists claimantTallies`);
+assert.match(saveSelfAuthenticityBlock[0], new RegExp(`\\blastOutcome\\b`), `saveSelfAuthenticity persists lastOutcome`);
+assert.match(saveSelfAuthenticityBlock[0], new RegExp(`\\bactiveAuthenticator\\b`), `saveSelfAuthenticity persists activeAuthenticator`);
+assert.match(saveSelfAuthenticityBlock[0], new RegExp(`\\bpending\\b`), `saveSelfAuthenticity persists pending`);
+
+/* 素材冻结 */
+for (const [file, hash] of Object.entries(V77_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(`design-references/${file}`, root));
+  assert.strictEqual(createHash("sha256").update(buf).digest("hex"), hash, `${file} must keep its frozen sha256`);
+  assert.strictEqual(buf.length, V77_SOURCE_SIZES[file], `${file} must keep its frozen byte size`);
+  const dims = readPngDimensions(buf);
+  assert.ok(dims, `${file} must be a readable PNG`);
+  assert.strictEqual(dims.width, 1536, `${file} must be 1536 px wide`);
+  assert.strictEqual(dims.height, 1024, `${file} must be 1024 px tall`);
+}
+for (const [file, hash] of Object.entries(V77_WEBP_HASHES)) {
+  const buf = await readFile(new URL(`assets/${file}`, root));
+  assert.strictEqual(createHash("sha256").update(buf).digest("hex"), hash, `${file} must keep its frozen sha256`);
+  assert.strictEqual(buf.length, V77_WEBP_SIZES[file], `${file} must keep its frozen byte size`);
+  assert.ok(html.includes(`assets/${file}`), `${file} must be referenced from index.html`);
+  const dims = readWebpDimensions(buf);
+  assert.ok(dims, `${file} must be a readable WebP`);
+  assert.strictEqual(dims.width, 1536, `${file} must be 1536 px wide`);
+  assert.strictEqual(dims.height, 1024, `${file} must be 1024 px tall`);
+  assert.match(html, new RegExp(`src="assets/${file.replace(".", "\\.")}" alt="" width="1536" height="1024"`), `${file} must have 1536x1024 HTML attributes`);
+}
+
+/* 冻结标题、按钮文本与反馈 */
+assert.match(html, /04ω \/ 自我真伪鉴定所 · AUTHENTICITY OFFICE OF THE SELF/, "v77 office title");
+assert.match(html, /05α \/ 自我来源凭证库 · PROVENANCE VAULT OF THE SELF/, "v77 vault title");
+assert.match(html, /05β \/ 灵魂赝品检验室 · SOUL COUNTERFEIT EXAMINATION/, "v77 examination title");
+assert.match(html, /05γ \/ 等同自我终审庭 · FINAL TRIBUNAL OF IDENTICAL SELVES/, "v77 tribunal title");
+assert.match(js, /鉴定原装人格 · AUTHENTICATE THE ORIGINAL PERSONALITY/, "v77 claimant original button text");
+assert.match(js, /鉴定替换记忆 · AUTHENTICATE THE REPLACEMENT MEMORY/, "v77 claimant replacement button text");
+assert.match(js, /鉴定仿制灵魂 · AUTHENTICATE THE COUNTERFEIT SOUL/, "v77 claimant counterfeit button text");
+assert.match(js, /提交第一伤口封印 · SUBMIT THE FIRST-WOUND SEAL/, "v77 provenance first-wound button text");
+assert.match(js, /提交童年镜证 · SUBMIT THE CHILDHOOD MIRROR TESTIMONY/, "v77 provenance childhood-mirror button text");
+assert.match(js, /提交余温死面模 · SUBMIT THE WARM DEATH-MASK CAST/, "v77 provenance warm-death-mask button text");
+assert.match(js, /认证最早版本 · CERTIFY THE EARLIEST VERSION/, "v77 method earliest button text");
+assert.match(js, /用伤口核对记忆 · COMPARE MEMORIES AGAINST SCARS/, "v77 method compare button text");
+assert.match(js, /让复制品指认原装 · LET THE COPY IDENTIFY THE ORIGINAL/, "v77 method copy button text");
+assert.match(js, /宣布真实性可转让 · DECLARE AUTHENTICITY TRANSFERABLE/, "v77 method transferable button text");
+assert.match(js, /只承认一个原装 · RECOGNIZE A SINGLE ORIGINAL/, "v77 tribunal recognize button text");
+assert.match(js, /合并所有可能的自己 · MERGE EVERY POSSIBLE SELF/, "v77 tribunal merge button text");
+assert.match(js, /让每个复制品成为原装 · MAKE EVERY COPY AN ORIGINAL/, "v77 tribunal copy-original button text");
+assert.match(js, /跟伤印鉴定员返回所内 · RETURN WITH THE FIRST-WOUND AUTHENTICATOR/, "v77 authenticator first-wound return text");
+assert.match(js, /跟镜证鉴定员返回所内 · RETURN WITH THE CHILDHOOD-MIRROR AUTHENTICATOR/, "v77 authenticator childhood-mirror return text");
+assert.match(js, /跟死面鉴定员返回所内 · RETURN WITH THE WARM-MASK AUTHENTICATOR/, "v77 authenticator warm-mask return text");
+assert.match(js, /它把第一道伤口按在鉴定盘上。伤口比记忆更老，却无法证明受伤之前坐在身体里的是谁。/, "v77 claimant original feedback");
+assert.match(js, /另一段童年从胶片匣里走出来。它记得你没有经历过的一切，也记得自己一直被你忘记。/, "v77 claimant replacement feedback");
+assert.match(js, /暗红蜡灵魂在黄铜肋骨里呼吸。它没有编号，却能逐字背出原装灵魂从未承认过的恐惧。/, "v77 claimant counterfeit feedback");
+assert.match(js, /封印把伤口追溯到所有记忆之前。它证明身体曾被某个自我打开，却没有留下开封者的姓名。/, "v77 provenance first-wound feedback");
+assert.match(js, /镜中的孩子抬头看见另一个成年人。两边都坚持对方才是后来被替换进去的版本。/, "v77 provenance childhood-mirror feedback");
+assert.match(js, /死后面模仍在发热。它完整复制最后一张脸，却无法说明温度属于死者、模具，还是正在佩戴它的你。/, "v77 provenance warm-death-mask feedback");
+assert.match(js, /档案员把最早出现的自我盖成原装。更早的空白立刻提出异议，因为它曾在所有人格之前占用这具身体。/, "v77 method earliest fragment");
+assert.match(js, /每段记忆被逐一贴上对应伤口。没有伤的记忆被判伪，有伤却无人记得的年月反而取得合法身份。/, "v77 method compare fragment");
+assert.match(js, /仿制灵魂毫不犹豫地指向你。它说只有原装才会如此害怕自己其实复制得不够好。/, "v77 method copy fragment");
+assert.match(js, /原装资格从一具自我过户到另一具。每次转让都完全合法，直到所有版本都同时持有唯一真品证。/, "v77 method transferable fragment");
+assert.match(js, /黄铜拱架挑出唯一面具。其余版本当场失去姓名，获选者却想不起自己为何比它们更真。/, "v77 tribunal recognize feedback");
+assert.match(js, /圆镜把每一种可能压进同一张脸。新自我拥有全部记忆，也同时确信每一段都发生在别人身上。/, "v77 tribunal merge feedback");
+assert.match(js, /红蜡压机把唯一真品印分给所有面具。赝品从此消失，因为世界再也没有足够假的东西可作比较。/, "v77 tribunal copy-original feedback");
+assert.match(js, /伤印鉴定员在疤痕织机上找到第一根线。它连接所有版本，却没有一端肯承认自己是起点。/, "v77 authenticator first-wound feedback");
+assert.match(js, /镜证鉴定员在借来童年室同时见到两个你。一个从未长大，另一个从未真正小时候。/, "v77 authenticator childhood-mirror feedback");
+assert.match(js, /死面鉴定员在寿命典当库测量余温。每多活一年，面模就比你的脸更像原装。/, "v77 authenticator warm-mask feedback");
+assert.match(js, /裁定哪一个自己有权继续说“我” · DECIDE WHICH SELF MAY KEEP SAYING I/, "v77 tribunal entry feedback");
+
+/* 可执行/隔离状态回归测试 */
+assert.ok(v77ModuleBlock, "v77 executable block available for regression tests");
+const v77ExecSourceStart = v77ModuleBlock[0].indexOf("const SELF_AUTHENTICITY_KEY");
+assert.ok(v77ExecSourceStart > 0, "v77 executable block starts with SELF_AUTHENTICITY_KEY");
+const v77ExecSource = v77ModuleBlock[0].slice(v77ExecSourceStart).trimEnd();
+
+const SELF_AUTHENTICITY_KEY = "goddead_v77_self_authenticity";
+const fullV76CoverageRefundCases = (() => {
+  const subjects = ['body-bought-with-childhood', 'name-paid-with-forgetting', 'years-leased-from-death'];
+  const proofs = ['childhood-price-tag', 'erased-name-receipt', 'death-issued-refund-reason'];
+  const remedies = ['refund-to-nonexistence', 'restore-original-absence', 'exchange-for-possible-self', 'charge-reality-restocking-fee'];
+  const ids = [];
+  for (const s of subjects) {
+    for (const p of proofs) {
+      for (const r of remedies) {
+        ids.push(`${s}:${p}:${r}`);
+      }
+    }
+  }
+  return ids;
+})();
+const fullV76ClassOutcomes = [
+  'all-existence-was-refunded-to-the-void',
+  'every-body-was-refunded-to-childhood',
+  'reality-admitted-it-never-matched-description',
+];
+
+function makeV77Button({ disabled = false, hidden = false } = {}) {
+  return { disabled, hidden, pressed: null, setAttribute(name, value) { if (name === "aria-pressed") this.pressed = value; }, removeAttribute() {}, closest: () => null, addEventListener() {} };
+}
+function makeV77Box({ hidden = true } = {}) {
+  return { hidden, children: [], className: "", textContent: "", setAttribute() {}, removeAttribute(name) { if (name === "hidden") this.hidden = false; }, closest: () => null, addEventListener() {}, appendChild(c) { this.children.push(c); }, querySelector: () => null };
+}
+
+function makeV77Context({
+  initialStore = {},
+  elements = {},
+  scene = '',
+  v76unlocked = true,
+  refundCases = fullV76CoverageRefundCases,
+  classOutcomes = fullV76ClassOutcomes,
+} = {}) {
+  const storeData = { ...initialStore };
+  const store = {
+    get(k, def) { return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def; },
+    set(k, v) { storeData[k] = v; },
+  };
+  const queries = [];
+  const $ = (rawId) => { queries.push(rawId); return elements[rawId.replace(/^#/, '')] || null; };
+  const scheduleCalls = [];
+  const AutoAdvance = { has(src) { return false; }, schedule(src, target, opts) { scheduleCalls.push({ src, target, opts }); } };
+  const AudioEngine = { whoosh() {}, bell() {} };
+  const realityRefundCounterUnlocked = () => v76unlocked;
+  const realityRefundCoverageComplete = (st) => v76unlocked && Array.isArray(st.refundCases) && st.refundCases.length === 36;
+  const getRealityRefund = () => v76unlocked ? { refundCases, classOutcomes } : { refundCases: [], classOutcomes: [] };
+  const buttonAvailable = (id) => {
+    const btn = $(`#${id}`);
+    if (!btn || btn.disabled || btn.hidden) return false;
+    if (typeof btn.closest === 'function' && btn.closest('[hidden]')) return false;
+    return true;
+  };
+  const document = {
+    createElement(tag) {
+      return {
+        tagName: tag,
+        className: "",
+        innerHTML: "",
+        textContent: "",
+        children: [],
+        hidden: true,
+        setAttribute() {},
+        removeAttribute(name) { if (name === "hidden") this.hidden = false; },
+        appendChild(c) { this.children.push(c); },
+      };
+    },
+  };
+  const body = v77ExecSource + "\nreturn { SELF_AUTHENTICITY_KEY, SELF_AUTHENTICITY_VERSION, SELF_AUTHENTICITY_CLAIMANTS, SELF_AUTHENTICITY_PROVENANCES, SELF_AUTHENTICITY_METHODS, SELF_AUTHENTICITY_TRIBUNAL_ACTIONS, SELF_AUTHENTICITY_SCENE_FOR_PROVENANCE, SELF_AUTHENTICITY_ENTRY_FEEDBACK, SELF_AUTHENTICITY_TRIBUNAL_ENTRY_FEEDBACK, SELF_AUTHENTICITY_CLAIMANT_TABLE, SELF_AUTHENTICITY_PROVENANCE_TABLE, SELF_AUTHENTICITY_METHOD_TABLE, SELF_AUTHENTICITY_TRIBUNAL_TABLE, CERTIFICATE_IDS, CERTIFICATE_SET, TRIBUNAL_OUTCOME_IDS, TRIBUNAL_OUTCOME_SET, defaultSelfAuthenticity, normalizeSelfAuthenticityVisited, normalizeSelfAuthenticityDraft, normalizeSelfAuthenticityCertificates, normalizeSelfAuthenticityTribunalOutcomes, normalizeSelfAuthenticityClaimantTallies, normalizeSelfAuthenticityActiveAuthenticator, normalizeSelfAuthenticityPending, saveSelfAuthenticity, getSelfAuthenticity, selfAuthenticityOfficeUnlocked, selfAuthenticityCoverageComplete, computeSelfAuthenticityClaimantTalliesMajority, computeCertificateId, computeCertificateTitle, computeCertificateFeedback, findCertificateById, computeTribunalOutcomeId, selfAuthenticityDelay, selfAuthenticityBeforeArrive, resolveSelfAuthenticityPendingOnArrival, lockSelfAuthenticityClaimantButtons, lockSelfAuthenticityProvenanceButtons, lockSelfAuthenticityMethodButtons, lockSelfAuthenticityTribunalButtons, syncSelfAuthenticityOffice, syncSelfAuthenticityVault, syncSelfAuthenticityExamination, syncSelfAuthenticityTribunal, syncSelfAuthenticityAuthenticators, paintSelfAuthenticityAuthenticator, paintSelfAuthenticityMemory, paintSelfAuthenticityCodex, syncSelfAuthenticityRemembrance, syncSelfAuthenticityLinks, replaySelfAuthenticityPending, chooseSelfAuthenticityClaimant, chooseSelfAuthenticityProvenance, chooseSelfAuthenticityMethod, chooseSelfAuthenticityAuthenticatorReturn, chooseSelfAuthenticityEntry, chooseSelfAuthenticityTribunalEntry, chooseSelfAuthenticityTribunalAction, selfAuthenticityCanVisitOffice, selfAuthenticityCanVisitVault, selfAuthenticityCanVisitExamination, selfAuthenticityCanVisitTribunal, selfAuthenticityBridgeAllows };"
+  const v77 = new Function("store", "$", "currentScene", "AutoAdvance", "AudioEngine", "reduced", "realityRefundCounterUnlocked", "getRealityRefund", "realityRefundCoverageComplete", "buttonAvailable", "document", body)(store, $, scene, AutoAdvance, AudioEngine, false, realityRefundCounterUnlocked, getRealityRefund, realityRefundCoverageComplete, buttonAvailable, document);
+  const read = () => {
+    try { return JSON.parse(storeData[SELF_AUTHENTICITY_KEY] || "{}") || {}; } catch { return {}; }
+  };
+  return { v77, storeData, read, queries, scheduleCalls };
+}
+
+// 36 certificate IDs 固定顺序
+{
+  const ctx = makeV77Context({});
+  assert.strictEqual(ctx.v77.CERTIFICATE_IDS.length, 36, "v77 has 36 certificate ids");
+  const expected = [];
+  for (const c of ctx.v77.SELF_AUTHENTICITY_CLAIMANTS) {
+    for (const p of ctx.v77.SELF_AUTHENTICITY_PROVENANCES) {
+      for (const m of ctx.v77.SELF_AUTHENTICITY_METHODS) {
+        expected.push(`${c}:${p}:${m}`);
+      }
+    }
+  }
+  assert.deepStrictEqual(ctx.v77.CERTIFICATE_IDS, expected, "certificate ids follow CLAIMANTS×PROVENANCES×METHODS order");
+  assert.strictEqual(ctx.v77.CERTIFICATE_SET.size, 36, "certificate ids are unique");
+}
+
+// 3 tribunal outcome IDs 固定顺序
+{
+  const ctx = makeV77Context({});
+  assert.deepStrictEqual(ctx.v77.TRIBUNAL_OUTCOME_IDS, [
+    'one-self-became-the-only-original',
+    'all-possible-selves-merged-into-one',
+    'every-copy-became-an-original',
+  ], "tribunal outcome ids follow TRIBUNAL_ACTIONS order");
+}
+
+// 默认态与 canonical 十一键
+{
+  const ctx = makeV77Context({});
+  const st = ctx.v77.defaultSelfAuthenticity();
+  assert.deepStrictEqual(Object.keys(st).sort(), ["activeAuthenticator", "certificates", "claimantTallies", "draft", "examRuns", "lastOutcome", "pending", "tribunalOutcomes", "tribunalRuns", "version", "visited"], "defaultSelfAuthenticity has exactly eleven keys");
+  assert.strictEqual(st.version, 77);
+  assert.deepStrictEqual(st.visited, { office: false, vault: false, examination: false, tribunal: false });
+  assert.deepStrictEqual(st.draft, { claimant: "", provenance: "" });
+  assert.deepStrictEqual(st.certificates, []);
+  assert.deepStrictEqual(st.tribunalOutcomes, []);
+  assert.strictEqual(st.examRuns, 0);
+  assert.strictEqual(st.tribunalRuns, 0);
+  assert.deepStrictEqual(st.claimantTallies, { original: 0, memory: 0, soul: 0 });
+  assert.strictEqual(st.lastOutcome, "");
+  assert.strictEqual(st.activeAuthenticator, null);
+  assert.strictEqual(st.pending, null);
+}
+
+// 坏 JSON / version / type / 未解锁回默认态
+{
+  const ctx = makeV77Context({ initialStore: { [SELF_AUTHENTICITY_KEY]: "not-json" } });
+  assert.deepStrictEqual(ctx.v77.getSelfAuthenticity(), ctx.v77.defaultSelfAuthenticity(), "bad json returns default");
+  const ctx2 = makeV77Context({ initialStore: { [SELF_AUTHENTICITY_KEY]: JSON.stringify({ version: 76, visited: { office: true } }) } });
+  assert.deepStrictEqual(ctx2.v77.getSelfAuthenticity(), ctx2.v77.defaultSelfAuthenticity(), "wrong version returns default");
+  const ctx3 = makeV77Context({ initialStore: { [SELF_AUTHENTICITY_KEY]: JSON.stringify([]) } });
+  assert.deepStrictEqual(ctx3.v77.getSelfAuthenticity(), ctx3.v77.defaultSelfAuthenticity(), "array returns default");
+  const ctx4 = makeV77Context({ initialStore: { [SELF_AUTHENTICITY_KEY]: JSON.stringify({ version: 77, visited: { office: true } }) }, v76unlocked: false });
+  assert.deepStrictEqual(ctx4.v77.getSelfAuthenticity(), ctx4.v77.defaultSelfAuthenticity(), "locked returns default");
+}
+
+// 解锁只读 v76：锁定态下 direct hash 归 remembrance
+{
+  const ctx = makeV77Context({ v76unlocked: false });
+  assert.strictEqual(ctx.v77.selfAuthenticityOfficeUnlocked(), false, "v77 locked when v76 locked");
+  assert.strictEqual(ctx.v77.selfAuthenticityCanVisitOffice(), false, "locked office guard blocks");
+  assert.strictEqual(ctx.v77.selfAuthenticityCanVisitVault(), false, "locked vault guard blocks");
+  assert.strictEqual(ctx.v77.selfAuthenticityCanVisitExamination(), false, "locked examination guard blocks");
+  assert.strictEqual(ctx.v77.selfAuthenticityCanVisitTribunal(), false, "locked tribunal guard blocks");
+}
+
+// 规范化：visited / draft / certificates / tribunalOutcomes / tallies / lastOutcome / activeAuthenticator
+{
+  const ctx = makeV77Context({});
+  const base = ctx.v77.defaultSelfAuthenticity();
+  base.visited = { office: 1, vault: "yes", examination: true, tribunal: null };
+  assert.deepStrictEqual(ctx.v77.normalizeSelfAuthenticityVisited(base.visited), { office: false, vault: false, examination: true, tribunal: false });
+  assert.deepStrictEqual(ctx.v77.normalizeSelfAuthenticityDraft({ claimant: "original-personality", provenance: "first-wound-seal" }), { claimant: "original-personality", provenance: "first-wound-seal" });
+  assert.deepStrictEqual(ctx.v77.normalizeSelfAuthenticityDraft({ claimant: "bad", provenance: "first-wound-seal" }), { claimant: "", provenance: "" });
+  assert.deepStrictEqual(ctx.v77.normalizeSelfAuthenticityDraft({ claimant: "original-personality", provenance: "bad" }), { claimant: "original-personality", provenance: "" });
+  assert.deepStrictEqual(ctx.v77.normalizeSelfAuthenticityDraft({ claimant: "", provenance: "first-wound-seal" }), { claimant: "", provenance: "" });
+  const ids = [ctx.v77.CERTIFICATE_IDS[5], ctx.v77.CERTIFICATE_IDS[0], ctx.v77.CERTIFICATE_IDS[5], 'bad:id'];
+  assert.deepStrictEqual(ctx.v77.normalizeSelfAuthenticityCertificates(ids), [ctx.v77.CERTIFICATE_IDS[0], ctx.v77.CERTIFICATE_IDS[5]], "certificates dedup and fixed order");
+  const outcomes = ['one-self-became-the-only-original', 'bad-outcome', 'one-self-became-the-only-original', 'all-possible-selves-merged-into-one', 'every-copy-became-an-original'];
+  assert.deepStrictEqual(ctx.v77.normalizeSelfAuthenticityTribunalOutcomes(outcomes), ['one-self-became-the-only-original', 'all-possible-selves-merged-into-one', 'every-copy-became-an-original'], "tribunal outcomes dedup and fixed order");
+  assert.deepStrictEqual(ctx.v77.normalizeSelfAuthenticityClaimantTallies({ original: 1.7, memory: -3, soul: 99999 }), { original: 1, memory: 0, soul: 9999 }, "tallies clamp and floor");
+  const certificate = ctx.v77.CERTIFICATE_IDS[0];
+  const provenance = certificate.split(':')[1];
+  assert.strictEqual(ctx.v77.normalizeSelfAuthenticityActiveAuthenticator({ provenance, certificate, feedback: ctx.v77.SELF_AUTHENTICITY_PROVENANCE_TABLE[provenance].authenticatorFeedback }, [certificate]).certificate, certificate, "activeAuthenticator ok");
+  assert.strictEqual(ctx.v77.normalizeSelfAuthenticityActiveAuthenticator({ provenance: 'childhood-mirror-testimony', certificate, feedback: ctx.v77.SELF_AUTHENTICITY_PROVENANCE_TABLE['childhood-mirror-testimony'].authenticatorFeedback }, [certificate]), null, "activeAuthenticator provenance mismatch");
+}
+
+// activeAuthenticator 要求 certificate 已收集且 provenance 匹配第二段
+{
+  const ctx = makeV77Context({});
+  const certificate = ctx.v77.CERTIFICATE_IDS[0];
+  const parts = certificate.split(':');
+  const fb = ctx.v77.SELF_AUTHENTICITY_PROVENANCE_TABLE[parts[1]].authenticatorFeedback;
+  assert.ok(ctx.v77.normalizeSelfAuthenticityActiveAuthenticator({ provenance: parts[1], certificate, feedback: fb }, [certificate]), "authenticator matches collected certificate");
+  assert.strictEqual(ctx.v77.normalizeSelfAuthenticityActiveAuthenticator({ provenance: parts[1], certificate, feedback: fb }, []), null, "authenticator rejected when certificate not collected");
+  const other = ctx.v77.CERTIFICATE_IDS[4];
+  const otherParts = other.split(':');
+  assert.strictEqual(ctx.v77.normalizeSelfAuthenticityActiveAuthenticator({ provenance: otherParts[1], certificate, feedback: ctx.v77.SELF_AUTHENTICITY_PROVENANCE_TABLE[otherParts[1]].authenticatorFeedback }, [certificate]), null, "authenticator rejected when provenance does not equal certificate second segment");
+}
+
+// save/get roundtrip 投影去重
+{
+  const ctx = makeV77Context({});
+  const st = ctx.v77.defaultSelfAuthenticity();
+  st.visited.office = true;
+  st.draft = { claimant: "original-personality", provenance: "first-wound-seal" };
+  const certificate = ctx.v77.CERTIFICATE_IDS[8];
+  st.certificates = [certificate, certificate];
+  st.tribunalOutcomes = ['one-self-became-the-only-original'];
+  st.examRuns = 2;
+  st.tribunalRuns = 1;
+  st.claimantTallies = { original: 0, memory: 2, soul: 0 };
+  st.lastOutcome = certificate;
+  st.activeAuthenticator = { provenance: certificate.split(':')[1], certificate, feedback: ctx.v77.SELF_AUTHENTICITY_PROVENANCE_TABLE[certificate.split(':')[1]].authenticatorFeedback };
+  st.pending = { kind: "provenance", source: "self-provenance-vault", claimant: "original-personality", provenance: "first-wound-seal", target: "soul-counterfeit-examination", feedback: ctx.v77.SELF_AUTHENTICITY_PROVENANCE_TABLE["first-wound-seal"].feedback };
+  st.extra = "should-be-dropped";
+  ctx.v77.saveSelfAuthenticity(st);
+  const saved = ctx.read();
+  assert.deepStrictEqual(Object.keys(saved).sort(), ["activeAuthenticator", "certificates", "claimantTallies", "draft", "examRuns", "lastOutcome", "pending", "tribunalOutcomes", "tribunalRuns", "version", "visited"], "saved has exactly eleven keys");
+  assert.strictEqual(saved.extra, undefined, "extra key dropped");
+  assert.strictEqual(saved.certificates.length, 1, "certificates deduped");
+  assert.strictEqual(saved.activeAuthenticator.provenance, certificate.split(':')[1]);
+}
+
+// 七类 pending exact-key 严格归一化
+{
+  const ctx = makeV77Context({});
+  const base = ctx.v77.defaultSelfAuthenticity();
+  base._v77unlocked = true;
+  const claimant = "original-personality";
+  const provenance = "first-wound-seal";
+  const method = "certify-earliest-version";
+  const certificateId = `${claimant}:${provenance}:${method}`;
+  const cTable = ctx.v77.SELF_AUTHENTICITY_CLAIMANT_TABLE[claimant];
+  const pTable = ctx.v77.SELF_AUTHENTICITY_PROVENANCE_TABLE[provenance];
+  const certFb = ctx.v77.computeCertificateFeedback(claimant, provenance, method);
+
+  // entry
+  const entry = { kind: "entry", target: "self-authenticity-office", feedback: ctx.v77.SELF_AUTHENTICITY_ENTRY_FEEDBACK };
+  assert.ok(ctx.v77.normalizeSelfAuthenticityPending(entry, base), "entry pending ok");
+  assert.strictEqual(ctx.v77.normalizeSelfAuthenticityPending({ ...entry, extra: 1 }, base), null, "entry rejects extra key");
+  assert.strictEqual(ctx.v77.normalizeSelfAuthenticityPending({ kind: "entry", target: "self-authenticity-office", feedback: "bad" }, base), null, "entry rejects bad feedback");
+
+  // claimant
+  const cb = { kind: "claimant", source: "self-authenticity-office", claimant, target: "self-provenance-vault", feedback: cTable.feedback };
+  assert.ok(ctx.v77.normalizeSelfAuthenticityPending(cb, base), "claimant pending ok");
+  assert.strictEqual(ctx.v77.normalizeSelfAuthenticityPending({ ...cb, source: "bad" }, base), null, "claimant rejects bad source");
+
+  // provenance
+  base.draft.claimant = claimant;
+  const pr = { kind: "provenance", source: "self-provenance-vault", claimant, provenance, target: "soul-counterfeit-examination", feedback: pTable.feedback };
+  assert.ok(ctx.v77.normalizeSelfAuthenticityPending(pr, base), "provenance pending ok");
+  assert.strictEqual(ctx.v77.normalizeSelfAuthenticityPending({ ...pr, claimant: "replacement-memory" }, base), null, "provenance rejects mismatched claimant");
+
+  // certificate
+  base.draft.provenance = provenance;
+  const cert = { kind: "certificate", source: "soul-counterfeit-examination", claimant, provenance, method, certificate: certificateId, target: "scar-loom", feedback: certFb };
+  assert.ok(ctx.v77.normalizeSelfAuthenticityPending(cert, base), "certificate pending ok");
+  assert.strictEqual(ctx.v77.normalizeSelfAuthenticityPending({ ...cert, target: "remembrance" }, base), null, "certificate rejects wrong target");
+  assert.strictEqual(ctx.v77.normalizeSelfAuthenticityPending({ ...cert, feedback: "free text" }, base), null, "certificate rejects free text feedback");
+
+  // authenticator-return
+  base.activeAuthenticator = { provenance, certificate: certificateId, feedback: pTable.authenticatorFeedback };
+  const ar = { kind: "authenticator-return", from: "scar-loom", target: "self-authenticity-office", certificate: certificateId, feedback: pTable.authenticatorFeedback };
+  assert.ok(ctx.v77.normalizeSelfAuthenticityPending(ar, base), "authenticator-return pending ok");
+  assert.strictEqual(ctx.v77.normalizeSelfAuthenticityPending({ ...ar, from: "remembrance" }, base), null, "authenticator-return rejects mismatched from");
+
+  // tribunal-entry
+  base.activeAuthenticator = null;
+  base.draft = { claimant: "", provenance: "" };
+  base.certificates = ctx.v77.CERTIFICATE_IDS;
+  const te = { kind: "tribunal-entry", target: "final-authenticity-tribunal", feedback: ctx.v77.SELF_AUTHENTICITY_TRIBUNAL_ENTRY_FEEDBACK };
+  assert.ok(ctx.v77.normalizeSelfAuthenticityPending(te, base), "tribunal-entry pending ok");
+  base.certificates = [];
+  assert.strictEqual(ctx.v77.normalizeSelfAuthenticityPending(te, base), null, "tribunal-entry rejects incomplete coverage");
+
+  // tribunal
+  base.certificates = ctx.v77.CERTIFICATE_IDS;
+  base.visited.tribunal = true;
+  const ta = { kind: "tribunal", source: "final-authenticity-tribunal", action: "recognize-one-original", outcome: "one-self-became-the-only-original", target: "blank-name-cloakroom", feedback: ctx.v77.SELF_AUTHENTICITY_TRIBUNAL_TABLE["recognize-one-original"].feedback };
+  assert.ok(ctx.v77.normalizeSelfAuthenticityPending(ta, base), "tribunal pending ok");
+  assert.strictEqual(ctx.v77.normalizeSelfAuthenticityPending({ ...ta, outcome: "bad" }, base), null, "tribunal rejects bad outcome");
+}
+
+// 36 certificates 与 3 tribunalOutcomes 穷举
+{
+  const ctx = makeV77Context({});
+  for (const id of ctx.v77.CERTIFICATE_IDS) {
+    const c = ctx.v77.findCertificateById(id);
+    assert.ok(c, `certificate ${id} resolvable`);
+    assert.strictEqual(c.id, id);
+    assert.ok(c.title);
+    assert.ok(c.feedback);
+    assert.strictEqual(ctx.v77.computeCertificateId(c.claimant, c.provenance, c.method), id);
+    assert.strictEqual(ctx.v77.computeCertificateTitle(c.claimant, c.provenance, c.method), c.title);
+    assert.strictEqual(ctx.v77.computeCertificateFeedback(c.claimant, c.provenance, c.method), c.feedback);
+  }
+  for (const action of ctx.v77.SELF_AUTHENTICITY_TRIBUNAL_ACTIONS) {
+    const outcome = ctx.v77.computeTribunalOutcomeId(action);
+    assert.ok(outcome);
+    assert.strictEqual(ctx.v77.SELF_AUTHENTICITY_TRIBUNAL_TABLE[action].outcome, outcome);
+  }
+}
+
+// Coverage 4 pass / 3 fail
+{
+  const ctx = makeV77Context({});
+  const st = ctx.v77.defaultSelfAuthenticity();
+  st.certificates = ctx.v77.CERTIFICATE_IDS.slice(0, 3);
+  assert.strictEqual(ctx.v77.selfAuthenticityCoverageComplete(st), false, "3 certificates cannot cover 4 methods");
+  st.certificates = [ctx.v77.CERTIFICATE_IDS[0], ctx.v77.CERTIFICATE_IDS[5], ctx.v77.CERTIFICATE_IDS[22], ctx.v77.CERTIFICATE_IDS[27]];
+  assert.strictEqual(ctx.v77.selfAuthenticityCoverageComplete(st), true, "4 representative certificates cover all axes");
+}
+
+// replay 来源/目标/else 矩阵
+{
+  const ctx = makeV77Context({ scene: 'remembrance' });
+  const st = ctx.v77.defaultSelfAuthenticity();
+  st._v77unlocked = true;
+  st.pending = { kind: "entry", target: "self-authenticity-office", feedback: ctx.v77.SELF_AUTHENTICITY_ENTRY_FEEDBACK };
+  ctx.v77.saveSelfAuthenticity(st);
+  ctx.v77.replaySelfAuthenticityPending('self-authenticity-office');
+  assert.strictEqual(ctx.read().pending, null, "target arrival clears entry pending");
+  assert.strictEqual(ctx.read().visited.office, true, "target arrival marks office visited");
+}
+{
+  const ctx = makeV77Context({ scene: 'self-authenticity-office' });
+  const st = ctx.v77.defaultSelfAuthenticity();
+  st._v77unlocked = true;
+  const claimant = "original-personality";
+  st.pending = { kind: "claimant", source: "self-authenticity-office", claimant, target: "self-provenance-vault", feedback: ctx.v77.SELF_AUTHENTICITY_CLAIMANT_TABLE[claimant].feedback };
+  ctx.v77.saveSelfAuthenticity(st);
+  ctx.v77.replaySelfAuthenticityPending('self-provenance-vault');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears claimant pending");
+  assert.strictEqual(saved.draft.claimant, claimant, "target arrival writes draft claimant");
+  assert.strictEqual(saved.visited.vault, true, "target arrival marks vault visited");
+}
+{
+  const ctx = makeV77Context({ scene: 'self-provenance-vault' });
+  const st = ctx.v77.defaultSelfAuthenticity();
+  st._v77unlocked = true;
+  st.draft.claimant = "original-personality";
+  const provenance = "first-wound-seal";
+  st.pending = { kind: "provenance", source: "self-provenance-vault", claimant: st.draft.claimant, provenance, target: "soul-counterfeit-examination", feedback: ctx.v77.SELF_AUTHENTICITY_PROVENANCE_TABLE[provenance].feedback };
+  ctx.v77.saveSelfAuthenticity(st);
+  ctx.v77.replaySelfAuthenticityPending('soul-counterfeit-examination');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears provenance pending");
+  assert.strictEqual(saved.draft.provenance, provenance, "target arrival writes draft provenance");
+}
+{
+  const ctx = makeV77Context({ scene: 'soul-counterfeit-examination' });
+  const st = ctx.v77.defaultSelfAuthenticity();
+  st._v77unlocked = true;
+  st.draft = { claimant: "original-personality", provenance: "first-wound-seal" };
+  const method = "certify-earliest-version";
+  const certificate = ctx.v77.computeCertificateId(st.draft.claimant, st.draft.provenance, method);
+  st.pending = { kind: "certificate", source: "soul-counterfeit-examination", claimant: st.draft.claimant, provenance: st.draft.provenance, method, certificate, target: "scar-loom", feedback: ctx.v77.computeCertificateFeedback(st.draft.claimant, st.draft.provenance, method) };
+  ctx.v77.saveSelfAuthenticity(st);
+  ctx.v77.replaySelfAuthenticityPending('scar-loom');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears certificate pending");
+  assert.ok(saved.certificates.includes(certificate), "certificate collected");
+  assert.strictEqual(saved.examRuns, 1, "examRuns incremented once");
+  assert.strictEqual(saved.activeAuthenticator.provenance, "first-wound-seal", "activeAuthenticator set");
+}
+{
+  const ctx = makeV77Context({ scene: 'scar-loom' });
+  const st = ctx.v77.defaultSelfAuthenticity();
+  st._v77unlocked = true;
+  const certificate = ctx.v77.CERTIFICATE_IDS[0];
+  const provenance = certificate.split(':')[1];
+  st.activeAuthenticator = { provenance, certificate, feedback: ctx.v77.SELF_AUTHENTICITY_PROVENANCE_TABLE[provenance].authenticatorFeedback };
+  st.pending = { kind: "authenticator-return", from: "scar-loom", target: "self-authenticity-office", certificate, feedback: ctx.v77.SELF_AUTHENTICITY_PROVENANCE_TABLE[provenance].authenticatorFeedback };
+  ctx.v77.saveSelfAuthenticity(st);
+  ctx.v77.replaySelfAuthenticityPending('self-authenticity-office');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears authenticator-return pending");
+  assert.strictEqual(saved.activeAuthenticator, null, "activeAuthenticator cleared");
+}
+{
+  const ctx = makeV77Context({ scene: 'remembrance' });
+  const st = ctx.v77.defaultSelfAuthenticity();
+  st._v77unlocked = true;
+  st.certificates = ctx.v77.CERTIFICATE_IDS;
+  st.pending = { kind: "tribunal-entry", target: "final-authenticity-tribunal", feedback: ctx.v77.SELF_AUTHENTICITY_TRIBUNAL_ENTRY_FEEDBACK };
+  ctx.v77.saveSelfAuthenticity(st);
+  ctx.v77.replaySelfAuthenticityPending('final-authenticity-tribunal');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears tribunal-entry pending");
+  assert.strictEqual(saved.visited.tribunal, true, "target arrival marks tribunal visited");
+}
+{
+  const ctx = makeV77Context({ scene: 'final-authenticity-tribunal' });
+  const st = ctx.v77.defaultSelfAuthenticity();
+  st._v77unlocked = true;
+  st.certificates = ctx.v77.CERTIFICATE_IDS;
+  st.visited.tribunal = true;
+  const tribunal = { kind: "tribunal", source: "final-authenticity-tribunal", action: "recognize-one-original", outcome: "one-self-became-the-only-original", target: "blank-name-cloakroom", feedback: ctx.v77.SELF_AUTHENTICITY_TRIBUNAL_TABLE["recognize-one-original"].feedback };
+  st.pending = tribunal;
+  ctx.v77.saveSelfAuthenticity(st);
+  ctx.v77.replaySelfAuthenticityPending('blank-name-cloakroom');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears tribunal pending");
+  assert.ok(saved.tribunalOutcomes.includes('one-self-became-the-only-original'), "tribunal outcome collected");
+  assert.strictEqual(saved.tribunalRuns, 1, "tribunalRuns incremented once");
+}
+{
+  // source arrival schedules transition
+  const ctx = makeV77Context({ scene: 'self-authenticity-office' });
+  const st = ctx.v77.defaultSelfAuthenticity();
+  st._v77unlocked = true;
+  const claimant = "original-personality";
+  st.pending = { kind: "claimant", source: "self-authenticity-office", claimant, target: "self-provenance-vault", feedback: ctx.v77.SELF_AUTHENTICITY_CLAIMANT_TABLE[claimant].feedback };
+  ctx.v77.saveSelfAuthenticity(st);
+  ctx.v77.replaySelfAuthenticityPending('self-authenticity-office');
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "source arrival schedules one transition");
+  assert.strictEqual(ctx.read().pending.kind, 'claimant', "source arrival keeps pending");
+}
+{
+  // else clears pending without side effects
+  const ctx = makeV77Context({ scene: 'protocol' });
+  const st = ctx.v77.defaultSelfAuthenticity();
+  st._v77unlocked = true;
+  st.pending = { kind: "entry", target: "self-authenticity-office", feedback: ctx.v77.SELF_AUTHENTICITY_ENTRY_FEEDBACK };
+  ctx.v77.saveSelfAuthenticity(st);
+  ctx.v77.replaySelfAuthenticityPending('protocol');
+  assert.strictEqual(ctx.read().pending, null, "else clears pending");
+  assert.strictEqual(ctx.read().visited.office, false, "else does not mark visited");
+}
+
+// 重复 certificate 不重复图鉴但增加 examRuns / tallies
+{
+  const ctx = makeV77Context({ scene: 'soul-counterfeit-examination' });
+  const st = ctx.v77.defaultSelfAuthenticity();
+  st._v77unlocked = true;
+  st.draft = { claimant: "original-personality", provenance: "first-wound-seal" };
+  const method = "certify-earliest-version";
+  const certificate = ctx.v77.computeCertificateId(st.draft.claimant, st.draft.provenance, method);
+  st.certificates = [certificate];
+  st.examRuns = 3;
+  st.claimantTallies.original = 3;
+  st.pending = { kind: "certificate", source: "soul-counterfeit-examination", claimant: st.draft.claimant, provenance: st.draft.provenance, method, certificate, target: "scar-loom", feedback: ctx.v77.computeCertificateFeedback(st.draft.claimant, st.draft.provenance, method) };
+  ctx.v77.saveSelfAuthenticity(st);
+  ctx.v77.replaySelfAuthenticityPending('scar-loom');
+  const saved = ctx.read();
+  assert.strictEqual(saved.certificates.length, 1, "duplicate certificate not added");
+  assert.strictEqual(saved.examRuns, 4, "duplicate still increments examRuns");
+  assert.strictEqual(saved.claimantTallies.original, 4, "duplicate still increments tally");
+}
+
+// 18 组 isTrusted 防线
+{
+  const v77ListenerBlock = v77ModuleBlock[0].match(/const selfAuthenticityEntryBtn = \$\('#self-authenticity-entry-btn'\);[\s\S]*?$/);
+  assert.ok(v77ListenerBlock, "v77 click listener block must exist");
+  assert.equal((v77ListenerBlock[0].match(/!e\.isTrusted/g) || []).length, 18, "v77 must guard all eighteen click listeners with isTrusted");
+}
+
+// 合成 click 零副作用
+{
+  const ctx = makeV77Context({ scene: 'self-authenticity-office' });
+  const btn = { disabled: false, hidden: false, pressed: null, closest: () => null, addEventListener(type, fn) { this._fn = fn; }, setAttribute(name, value) { if (name === 'aria-pressed') this.pressed = value; }, removeAttribute() {} };
+  btn.addEventListener('click', (e) => { if (!e.isTrusted) return; ctx.v77.chooseSelfAuthenticityClaimant('original-personality'); });
+  btn._fn({ isTrusted: false });
+  assert.strictEqual(ctx.read().pending ?? null, null, "synthetic click does not create v77 pending");
+}
+
+// 按钮 choose 处理与 UI 禁用一致性
+{
+  const claimantBtn = makeV77Button();
+  const ctx = makeV77Context({ scene: "self-authenticity-office", elements: { "self-authenticity-claimant-original-personality": claimantBtn } });
+  ctx.v77.chooseSelfAuthenticityClaimant('original-personality');
+  assert.ok(ctx.scheduleCalls.length > 0, "choose claimant schedules transition");
+  assert.strictEqual(ctx.read().pending.kind, 'claimant', "choose claimant creates pending");
+}
+{
+  const provenanceBtn = makeV77Button();
+  const ctx = makeV77Context({ scene: "self-provenance-vault", elements: { "self-provenance-first-wound-seal": provenanceBtn } });
+  ctx.v77.saveSelfAuthenticity({ ...ctx.v77.defaultSelfAuthenticity(), draft: { claimant: "original-personality", provenance: "" } });
+  ctx.v77.chooseSelfAuthenticityProvenance('first-wound-seal');
+  assert.strictEqual(ctx.read().pending.kind, 'provenance', "choose provenance creates pending");
+}
+{
+  const methodBtn = makeV77Button();
+  const ctx = makeV77Context({ scene: "soul-counterfeit-examination", elements: { "soul-counterfeit-certify-earliest-version": methodBtn } });
+  ctx.v77.saveSelfAuthenticity({ ...ctx.v77.defaultSelfAuthenticity(), draft: { claimant: "original-personality", provenance: "first-wound-seal" } });
+  ctx.v77.chooseSelfAuthenticityMethod('certify-earliest-version');
+  assert.strictEqual(ctx.read().pending.kind, 'certificate', "choose method creates certificate pending");
+}
+{
+  const authenticatorBtn = makeV77Button();
+  const helperCtx = makeV77Context({});
+  const certificate = helperCtx.v77.CERTIFICATE_IDS[0];
+  const provenance = certificate.split(':')[1];
+  const scene = helperCtx.v77.SELF_AUTHENTICITY_SCENE_FOR_PROVENANCE[provenance];
+  const ctx = makeV77Context({ scene, elements: { [`self-authenticity-authenticator-return-${scene}`]: authenticatorBtn } });
+  ctx.v77.saveSelfAuthenticity({ ...ctx.v77.defaultSelfAuthenticity(), certificates: [certificate], activeAuthenticator: { provenance, certificate, feedback: ctx.v77.SELF_AUTHENTICITY_PROVENANCE_TABLE[provenance].authenticatorFeedback } });
+  ctx.v77.chooseSelfAuthenticityAuthenticatorReturn(scene);
+  assert.strictEqual(ctx.read().pending.kind, 'authenticator-return', "choose authenticator return creates pending");
+}
+{
+  const entryBtn = makeV77Button();
+  const ctx = makeV77Context({ scene: "remembrance", elements: { "self-authenticity-entry-btn": entryBtn } });
+  ctx.v77.chooseSelfAuthenticityEntry();
+  assert.strictEqual(ctx.read().pending.kind, 'entry', "choose entry creates entry pending");
+}
+{
+  const tribunalEntryBtn = makeV77Button();
+  const ctx = makeV77Context({ scene: "remembrance", elements: { "self-authenticity-tribunal-entry-btn": tribunalEntryBtn } });
+  ctx.v77.saveSelfAuthenticity({ ...ctx.v77.defaultSelfAuthenticity(), certificates: ctx.v77.CERTIFICATE_IDS });
+  ctx.v77.chooseSelfAuthenticityTribunalEntry();
+  assert.strictEqual(ctx.read().pending.kind, 'tribunal-entry', "choose tribunal entry creates tribunal-entry pending");
+}
+{
+  const tribunalBtn = makeV77Button();
+  const ctx = makeV77Context({ scene: "final-authenticity-tribunal", elements: { "final-authenticity-recognize-one-original": tribunalBtn } });
+  ctx.v77.saveSelfAuthenticity({ ...ctx.v77.defaultSelfAuthenticity(), certificates: ctx.v77.CERTIFICATE_IDS, visited: { office: true, vault: true, examination: true, tribunal: true } });
+  ctx.v77.chooseSelfAuthenticityTribunalAction('recognize-one-original');
+  assert.strictEqual(ctx.read().pending.kind, 'tribunal', "choose tribunal action creates tribunal pending");
+}
+
+// activeAuthenticator / draft / pending 一致性
+{
+  function makeV77AdjusterButton({ disabled = false, hidden = false } = {}) {
+    return { disabled, hidden, pressed: null, setAttribute(name, value) { if (name === "aria-pressed") this.pressed = value; }, removeAttribute() {}, closest: () => null, addEventListener() {} };
+  }
+  const helperCtx = makeV77Context({});
+  const certificate = helperCtx.v77.CERTIFICATE_IDS[0];
+  const provenance = certificate.split(':')[1];
+  const authFb = helperCtx.v77.SELF_AUTHENTICITY_PROVENANCE_TABLE[provenance].authenticatorFeedback;
+
+  // activeAuthenticator 期间 pending 归一化拒绝非 authenticator-return
+  {
+    const ctx = makeV77Context({});
+    const baseSt = ctx.v77.defaultSelfAuthenticity();
+    baseSt._v77unlocked = true;
+    baseSt.activeAuthenticator = { provenance, certificate, feedback: authFb };
+    assert.strictEqual(ctx.v77.normalizeSelfAuthenticityPending({ kind: "entry", target: "self-authenticity-office", feedback: ctx.v77.SELF_AUTHENTICITY_ENTRY_FEEDBACK }, baseSt), null, "entry pending rejected while activeAuthenticator");
+    assert.strictEqual(ctx.v77.normalizeSelfAuthenticityPending({ kind: "claimant", source: "self-authenticity-office", claimant: "original-personality", target: "self-provenance-vault", feedback: ctx.v77.SELF_AUTHENTICITY_CLAIMANT_TABLE["original-personality"].feedback }, baseSt), null, "claimant pending rejected while activeAuthenticator");
+    baseSt.draft.claimant = 'original-personality';
+    assert.strictEqual(ctx.v77.normalizeSelfAuthenticityPending({ kind: "provenance", source: "self-provenance-vault", claimant: "original-personality", provenance: "first-wound-seal", target: "soul-counterfeit-examination", feedback: ctx.v77.SELF_AUTHENTICITY_PROVENANCE_TABLE["first-wound-seal"].feedback }, baseSt), null, "provenance pending rejected while activeAuthenticator");
+    baseSt.draft.provenance = 'first-wound-seal';
+    assert.strictEqual(ctx.v77.normalizeSelfAuthenticityPending({ kind: "certificate", source: "soul-counterfeit-examination", claimant: "original-personality", provenance: "first-wound-seal", method: "certify-earliest-version", certificate, target: "scar-loom", feedback: ctx.v77.computeCertificateFeedback("original-personality", "first-wound-seal", "certify-earliest-version") }, baseSt), null, "certificate pending rejected while activeAuthenticator");
+    baseSt.certificates = ctx.v77.CERTIFICATE_IDS;
+    assert.strictEqual(ctx.v77.normalizeSelfAuthenticityPending({ kind: "tribunal-entry", target: "final-authenticity-tribunal", feedback: ctx.v77.SELF_AUTHENTICITY_TRIBUNAL_ENTRY_FEEDBACK }, baseSt), null, "tribunal-entry pending rejected while activeAuthenticator");
+    baseSt.visited.tribunal = true;
+    assert.strictEqual(ctx.v77.normalizeSelfAuthenticityPending({ kind: "tribunal", source: "final-authenticity-tribunal", action: "recognize-one-original", outcome: "one-self-became-the-only-original", target: "blank-name-cloakroom", feedback: ctx.v77.SELF_AUTHENTICITY_TRIBUNAL_TABLE["recognize-one-original"].feedback }, baseSt), null, "tribunal pending rejected while activeAuthenticator");
+  }
+
+  // activeAuthenticator 期间 handler 拒绝 claimant/provenance/method/tribunal
+  {
+    const claimantBtns = {
+      "self-authenticity-claimant-original-personality": makeV77AdjusterButton(),
+      "self-authenticity-claimant-replacement-memory": makeV77AdjusterButton(),
+      "self-authenticity-claimant-counterfeit-soul": makeV77AdjusterButton(),
+    };
+    const ctx = makeV77Context({ scene: "self-authenticity-office", elements: claimantBtns });
+    ctx.v77.saveSelfAuthenticity({ ...ctx.v77.defaultSelfAuthenticity(), certificates: [certificate], activeAuthenticator: { provenance, certificate, feedback: authFb } });
+    ctx.v77.syncSelfAuthenticityOffice();
+    assert.ok(Object.values(claimantBtns).every((b) => b.disabled), "claimant buttons disabled while activeAuthenticator");
+
+    const provenanceBtns = {
+      "self-provenance-first-wound-seal": makeV77AdjusterButton(),
+      "self-provenance-childhood-mirror-testimony": makeV77AdjusterButton(),
+      "self-provenance-warm-death-mask-cast": makeV77AdjusterButton(),
+    };
+    const ctx2 = makeV77Context({ scene: "self-provenance-vault", elements: provenanceBtns });
+    ctx2.v77.saveSelfAuthenticity({ ...ctx2.v77.defaultSelfAuthenticity(), draft: { claimant: "original-personality", provenance: "" }, certificates: [certificate], activeAuthenticator: { provenance, certificate, feedback: authFb } });
+    ctx2.v77.syncSelfAuthenticityVault();
+    assert.ok(Object.values(provenanceBtns).every((b) => b.disabled), "provenance buttons disabled while activeAuthenticator");
+
+    const methodBtns = {
+      "soul-counterfeit-certify-earliest-version": makeV77AdjusterButton(),
+      "soul-counterfeit-compare-memories-to-scars": makeV77AdjusterButton(),
+      "soul-counterfeit-let-the-copy-identify-original": makeV77AdjusterButton(),
+      "soul-counterfeit-declare-authenticity-transferable": makeV77AdjusterButton(),
+    };
+    const ctx3 = makeV77Context({ scene: "soul-counterfeit-examination", elements: methodBtns });
+    ctx3.v77.saveSelfAuthenticity({ ...ctx3.v77.defaultSelfAuthenticity(), draft: { claimant: "original-personality", provenance: "first-wound-seal" }, certificates: [certificate], activeAuthenticator: { provenance, certificate, feedback: authFb } });
+    ctx3.v77.syncSelfAuthenticityExamination();
+    assert.ok(Object.values(methodBtns).every((b) => b.disabled), "method buttons disabled while activeAuthenticator");
+
+    const tribunalBtns = {
+      "final-authenticity-recognize-one-original": makeV77AdjusterButton(),
+      "final-authenticity-merge-every-possible-self": makeV77AdjusterButton(),
+      "final-authenticity-make-every-copy-an-original": makeV77AdjusterButton(),
+    };
+    const figure = makeV77Box();
+    const ctx4 = makeV77Context({ scene: "final-authenticity-tribunal", elements: { "final-authenticity-tribunal-figure": figure, ...tribunalBtns } });
+    ctx4.v77.saveSelfAuthenticity({ ...ctx4.v77.defaultSelfAuthenticity(), certificates: ctx4.v77.CERTIFICATE_IDS, visited: { office: true, vault: true, examination: true, tribunal: true }, activeAuthenticator: { provenance, certificate, feedback: authFb } });
+    ctx4.v77.syncSelfAuthenticityTribunal();
+    assert.ok(Object.values(tribunalBtns).every((b) => b.disabled), "tribunal buttons disabled while activeAuthenticator");
+  }
+
+  // pending 期间所有 v77 选择按钮禁用
+  {
+    const claimantBtns = {
+      "self-authenticity-claimant-original-personality": makeV77AdjusterButton(),
+      "self-authenticity-claimant-replacement-memory": makeV77AdjusterButton(),
+      "self-authenticity-claimant-counterfeit-soul": makeV77AdjusterButton(),
+    };
+    const ctx = makeV77Context({ scene: "self-authenticity-office", elements: claimantBtns });
+    ctx.v77.saveSelfAuthenticity({ ...ctx.v77.defaultSelfAuthenticity(), pending: { kind: "entry", target: "self-authenticity-office", feedback: ctx.v77.SELF_AUTHENTICITY_ENTRY_FEEDBACK } });
+    ctx.v77.syncSelfAuthenticityOffice();
+    assert.ok(Object.values(claimantBtns).every((b) => b.disabled), "claimant buttons disabled while pending");
+  }
+
+  // draft 中途禁止并行 entry/tribunal-entry/tribunal
+  {
+    const tribunalEntryBtn = makeV77AdjusterButton();
+    const ctx = makeV77Context({ scene: "remembrance", elements: { "self-authenticity-tribunal-entry-btn": tribunalEntryBtn } });
+    ctx.v77.saveSelfAuthenticity({ ...ctx.v77.defaultSelfAuthenticity(), certificates: ctx.v77.CERTIFICATE_IDS, draft: { claimant: "original-personality", provenance: "" } });
+    ctx.v77.syncSelfAuthenticityRemembrance();
+    assert.strictEqual(tribunalEntryBtn.hidden, false, "tribunal-entry stays visible while draft in progress");
+    assert.strictEqual(tribunalEntryBtn.disabled, true, "tribunal-entry disabled while draft in progress");
+    ctx.v77.chooseSelfAuthenticityTribunalEntry();
+    assert.strictEqual(ctx.read().pending ?? null, null, "choose tribunal entry no-op while draft in progress");
+
+    const tribunalBtns = {
+      "final-authenticity-recognize-one-original": makeV77AdjusterButton(),
+      "final-authenticity-merge-every-possible-self": makeV77AdjusterButton(),
+      "final-authenticity-make-every-copy-an-original": makeV77AdjusterButton(),
+    };
+    const figure = makeV77Box({ hidden: true });
+    const ctx2 = makeV77Context({ scene: "final-authenticity-tribunal", elements: { "final-authenticity-tribunal-figure": figure, ...tribunalBtns } });
+    ctx2.v77.saveSelfAuthenticity({ ...ctx2.v77.defaultSelfAuthenticity(), certificates: ctx2.v77.CERTIFICATE_IDS, visited: { office: true, vault: true, examination: true, tribunal: true }, draft: { claimant: "original-personality", provenance: "first-wound-seal" } });
+    ctx2.v77.syncSelfAuthenticityTribunal();
+    assert.strictEqual(figure.hidden, false, "tribunal figure visible while draft in progress");
+    assert.ok(Object.values(tribunalBtns).every((b) => b.disabled), "tribunal buttons disabled while draft in progress");
+    ctx2.v77.chooseSelfAuthenticityTribunalAction('recognize-one-original');
+    assert.strictEqual(ctx2.read().pending ?? null, null, "choose tribunal action no-op while draft in progress");
+  }
+  {
+    // 伪造 persisted pending 在 save 时通过 normalize 丢弃
+    const ctx = makeV77Context({});
+    ctx.v77.saveSelfAuthenticity({ ...ctx.v77.defaultSelfAuthenticity(), draft: { claimant: "original-personality", provenance: "" }, pending: { kind: "entry", target: "self-authenticity-office", feedback: ctx.v77.SELF_AUTHENTICITY_ENTRY_FEEDBACK } });
+    assert.strictEqual(ctx.read().pending ?? null, null, "forged entry pending dropped when draft in progress");
+
+    const ctx2 = makeV77Context({});
+    ctx2.v77.saveSelfAuthenticity({ ...ctx2.v77.defaultSelfAuthenticity(), certificates: ctx2.v77.CERTIFICATE_IDS, draft: { claimant: "original-personality", provenance: "first-wound-seal" }, pending: { kind: "tribunal-entry", target: "final-authenticity-tribunal", feedback: ctx2.v77.SELF_AUTHENTICITY_TRIBUNAL_ENTRY_FEEDBACK } });
+    assert.strictEqual(ctx2.read().pending ?? null, null, "forged tribunal-entry pending dropped when draft in progress");
+
+    const ctx3 = makeV77Context({});
+    ctx3.v77.saveSelfAuthenticity({ ...ctx3.v77.defaultSelfAuthenticity(), certificates: ctx3.v77.CERTIFICATE_IDS, visited: { tribunal: true }, draft: { claimant: "original-personality", provenance: "first-wound-seal" }, pending: { kind: "tribunal", source: "final-authenticity-tribunal", action: "recognize-one-original", outcome: "one-self-became-the-only-original", target: "blank-name-cloakroom", feedback: ctx3.v77.SELF_AUTHENTICITY_TRIBUNAL_TABLE["recognize-one-original"].feedback } });
+    assert.strictEqual(ctx3.read().pending ?? null, null, "forged tribunal pending dropped when draft in progress");
+  }
+}
+
+// 路由窄桥不放宽旧守卫
+{
+  const ctx = makeV77Context({});
+  const st = ctx.v77.defaultSelfAuthenticity();
+  st._v77unlocked = true;
+  st.certificates = [ctx.v77.CERTIFICATE_IDS[4]];
+  const provenance = ctx.v77.CERTIFICATE_IDS[4].split(':')[1];
+  st.activeAuthenticator = { provenance, certificate: ctx.v77.CERTIFICATE_IDS[4], feedback: ctx.v77.SELF_AUTHENTICITY_PROVENANCE_TABLE[provenance].authenticatorFeedback };
+  ctx.v77.saveSelfAuthenticity(st);
+  const scene = ctx.v77.SELF_AUTHENTICITY_SCENE_FOR_PROVENANCE[provenance];
+  assert.strictEqual(ctx.v77.selfAuthenticityBridgeAllows(scene), true, "bridge allows activeAuthenticator scene");
+  const unrelatedScene = Object.values(ctx.v77.SELF_AUTHENTICITY_SCENE_FOR_PROVENANCE).find((s) => s !== scene);
+  assert.strictEqual(ctx.v77.selfAuthenticityBridgeAllows(unrelatedScene), false, "bridge does not allow unrelated scene");
+  assert.strictEqual(ctx.v77.selfAuthenticityBridgeAllows('protocol'), false, "bridge never allows protocol");
+
+  // canVisit guards
+  {
+    const ctx2 = makeV77Context({});
+    const st2 = ctx2.v77.defaultSelfAuthenticity();
+    st2._v77unlocked = true;
+    st2.pending = { kind: "entry", target: "self-authenticity-office", feedback: ctx2.v77.SELF_AUTHENTICITY_ENTRY_FEEDBACK };
+    ctx2.v77.saveSelfAuthenticity(st2);
+    assert.strictEqual(ctx2.v77.selfAuthenticityCanVisitOffice(), true, "canVisit office with entry pending");
+    const claimant = "original-personality";
+    const provenance = "first-wound-seal";
+    st2.pending = { kind: "claimant", source: "self-authenticity-office", claimant, target: "self-provenance-vault", feedback: ctx2.v77.SELF_AUTHENTICITY_CLAIMANT_TABLE[claimant].feedback };
+    ctx2.v77.saveSelfAuthenticity(st2);
+    assert.strictEqual(ctx2.v77.selfAuthenticityCanVisitVault(), true, "canVisit vault with claimant pending");
+    st2.draft = { claimant, provenance: '' };
+    st2.pending = { kind: "provenance", source: "self-provenance-vault", claimant, provenance, target: "soul-counterfeit-examination", feedback: ctx2.v77.SELF_AUTHENTICITY_PROVENANCE_TABLE[provenance].feedback };
+    ctx2.v77.saveSelfAuthenticity(st2);
+    assert.strictEqual(ctx2.v77.selfAuthenticityCanVisitExamination(), true, "canVisit examination with provenance pending");
+    st2.draft = { claimant: '', provenance: '' };
+    st2.certificates = ctx2.v77.CERTIFICATE_IDS;
+    st2.pending = { kind: "tribunal-entry", target: "final-authenticity-tribunal", feedback: ctx2.v77.SELF_AUTHENTICITY_TRIBUNAL_ENTRY_FEEDBACK };
+    ctx2.v77.saveSelfAuthenticity(st2);
+    assert.strictEqual(ctx2.v77.selfAuthenticityCanVisitTribunal(), true, "canVisit tribunal with tribunal-entry pending");
+  }
+}
+
+// v77 不读写旧 key
+{
+  const v77ModuleText = v77ModuleBlock[0];
+  assert.ok(!v77ModuleText.includes("saveRealityRefund("), "v77 never calls saveRealityRefund");
+  assert.ok(!v77ModuleText.includes("REALITY_REFUND_KEY"), "v77 never references v76 key constant");
+  assert.ok(!v77ModuleText.includes("goddead_v76_reality_refund"), "v77 never references v76 key string");
+}
+
+// 回归 P1：v76 全满时 v77 remembrance 渲染链必须真正使入口/记忆/图鉴可见
+{
+  function makeV77RemembranceButton(hidden = true) {
+    return { disabled: false, hidden, pressed: null, setAttribute(name, value) { if (name === "aria-pressed") this.pressed = value; }, removeAttribute() {}, closest: () => null, addEventListener() {} };
+  }
+  function makeV77RemembranceBox(hidden = true) {
+    const el = {
+      tagName: "div",
+      className: "",
+      _html: "",
+      textContent: "",
+      hidden,
+      children: [],
+      setAttribute() {},
+      removeAttribute(name) { if (name === "hidden") this.hidden = false; },
+      closest: () => null,
+      addEventListener() {},
+      appendChild(c) { this.children.push(c); },
+    };
+    Object.defineProperty(el, "innerHTML", {
+      get() { return this._html; },
+      set(v) { this._html = v; this.children = []; },
+    });
+    return el;
+  }
+  const entryBtn = makeV77RemembranceButton(true);
+  const tribunalEntryBtn = makeV77RemembranceButton(true);
+  const memory = makeV77RemembranceBox(true);
+  const codex = makeV77RemembranceBox(true);
+  const grid = makeV77RemembranceBox(true);
+  const codexEntry = makeV77RemembranceBox(true);
+  const links = Object.fromEntries(["self-authenticity-office-link", "self-provenance-vault-link", "soul-counterfeit-examination-link", "final-authenticity-tribunal-link"].map((id) => [id, makeV77RemembranceBox(true)]));
+  const ctx = makeV77Context({
+    scene: "remembrance",
+    elements: {
+      "self-authenticity-entry-btn": entryBtn,
+      "self-authenticity-tribunal-entry-btn": tribunalEntryBtn,
+      "self-authenticity-memory": memory,
+      "self-authenticity-codex": codex,
+      "self-authenticity-codex-grid": grid,
+      "self-authenticity-codex-entry": codexEntry,
+      ...links,
+    },
+  });
+  ctx.v77.syncSelfAuthenticityOffice();
+  ctx.v77.syncSelfAuthenticityVault();
+  ctx.v77.syncSelfAuthenticityExamination();
+  ctx.v77.syncSelfAuthenticityTribunal();
+  ctx.v77.syncSelfAuthenticityAuthenticators();
+  ctx.v77.paintSelfAuthenticityMemory();
+  ctx.v77.paintSelfAuthenticityCodex();
+  ctx.v77.syncSelfAuthenticityRemembrance();
+  ctx.v77.syncSelfAuthenticityLinks();
+  assert.strictEqual(entryBtn.hidden, false, "v77 entry button becomes visible on remembrance when v76 fully unlocked");
+  assert.strictEqual(entryBtn.disabled, false, "v77 entry button is enabled when no pending/draft/activeAuthenticator");
+  assert.strictEqual(memory.hidden, false, "v77 memory becomes visible on remembrance when v76 fully unlocked");
+  assert.ok(memory.textContent.includes("已认证"), "v77 memory text renders");
+  assert.strictEqual(codex.hidden, false, "v77 codex becomes visible on remembrance when v76 fully unlocked");
+  assert.strictEqual(grid.children.length, 39, "v77 codex grid renders all 39 cells");
+  assert.strictEqual(codexEntry.hidden, false, "v77 codex entry wrapper becomes visible");
+  assert.strictEqual(tribunalEntryBtn.hidden, true, "v77 tribunal-entry stays hidden without coverage");
+  assert.ok(Object.values(links).every((el) => el.hidden), "v77 directory links stay hidden before first visit");
+}
+
+/* v77 整页/主初始化链回归：sceneInit 与 DOMContentLoaded 初始块必须调用 v77 全组 sync */
+{
+  const sceneInitBlock = js.match(/const sceneInit = \(name\) => \{[\s\S]*?updateHudDisplay\(\);\s*\};/);
+  assert.ok(sceneInitBlock, "sceneInit function must be extractable for whole-page init chain audit");
+  const sceneInitText = sceneInitBlock[0];
+  const v77SyncCalls = [
+    "resolveSelfAuthenticityPendingOnArrival(name);",
+    "syncSelfAuthenticityOffice();",
+    "syncSelfAuthenticityVault();",
+    "syncSelfAuthenticityExamination();",
+    "syncSelfAuthenticityTribunal();",
+    "syncSelfAuthenticityAuthenticators();",
+    "paintSelfAuthenticityMemory();",
+    "paintSelfAuthenticityCodex();",
+    "syncSelfAuthenticityRemembrance();",
+    "syncSelfAuthenticityLinks();",
+    "replaySelfAuthenticityPending(name);",
+  ];
+  for (const call of v77SyncCalls) {
+    assert.ok(sceneInitText.includes(call), `sceneInit must call ${call}`);
+  }
+  const v77ReplayIdx = sceneInitText.indexOf("replaySelfAuthenticityPending(name);");
+  const hudIdx = sceneInitText.indexOf("updateHudDisplay();");
+  assert.ok(v77ReplayIdx > 0 && hudIdx > v77ReplayIdx, "v77 replay must run before updateHudDisplay in sceneInit");
+
+  const initBlock = js.match(/syncCausalScarLinks\(\);[\s\S]*?route\(\);\s*\}\);/);
+  assert.ok(initBlock, "DOMContentLoaded init block must be extractable");
+  const initText = initBlock[0];
+  for (const call of v77SyncCalls) {
+    assert.ok(initText.includes(call), `DOMContentLoaded init block must call ${call}`);
+  }
+
+  const forgetBlock = js.match(/const forgetActionBtn = \$[^;]*;[\s\S]*?goScene\("threshold"\);/);
+  assert.ok(forgetBlock, "forget-all handler must be extractable");
+  const forgetText = forgetBlock[0];
+  assert.ok(forgetText.includes('localStorage.removeItem("goddead_v77_self_authenticity")'), "forget-all must remove v77 storage key");
+  assert.ok(forgetText.includes('self-authenticity-memory') && forgetText.includes('hidden = true'), "forget-all must hide v77 memory");
+  assert.ok(forgetText.includes('self-authenticity-codex') && forgetText.includes('hidden = true'), "forget-all must hide v77 codex");
+  assert.ok(forgetText.includes('self-authenticity-codex-entry') && forgetText.includes('hidden = true'), "forget-all must hide v77 codex entry");
+  assert.ok(forgetText.includes('self-authenticity-entry-btn') && forgetText.includes('hidden = true'), "forget-all must hide v77 entry button");
+  assert.ok(forgetText.includes('self-authenticity-tribunal-entry-btn') && forgetText.includes('hidden = true'), "forget-all must hide v77 tribunal entry button");
+  assert.ok(forgetText.includes('"self-authenticity-office-link"') && forgetText.includes("hidden = true"), "forget-all must hide v77 directory links");
+  assert.ok(forgetText.includes('self-authenticity-authenticator-response-') && forgetText.includes('textContent = ""'), "forget-all must clear v77 authenticator responses");
+  assert.ok(forgetText.includes('self-authenticity-authenticator-') && forgetText.includes('hidden = true'), "forget-all must hide v77 authenticators");
+}
+
+/* ---------- v77 文档同步 ---------- */
+assert.match(readme, /v77|自我真伪鉴定所|AUTHENTICITY OFFICE OF THE SELF/, "README must document the v77 authenticity office of the self");
+assert.match(qa, /v77|自我真伪鉴定所|AUTHENTICITY OFFICE OF THE SELF/, "design-qa.md must document the v77 authenticity office of the self");
+assert.match(log, /v77|自我真伪鉴定所|AUTHENTICITY OFFICE OF THE SELF/, "ProgressLog must document the v77 authenticity office of the self");
+const v77doc = await fileText("docs/V77SelfAuthenticityOfficeDesign.md");
+for (const hash of Object.values(V77_SOURCE_HASHES)) {
+  assert.ok(v77doc.includes(hash), "V77 design doc must freeze the source sha256 values");
+}
+for (const hash of Object.values(V77_WEBP_HASHES)) {
+  assert.ok(v77doc.includes(hash), "V77 design doc must freeze the WebP sha256 values");
+}
+assert.match(v77doc, /1536×1024/, "V77 design doc documents 1536×1024 dimensions");
+/* ---------- v77 文档同步 ---------- */
+
 
 /* v58 设计文档存在且冻结四张源图哈希 */
 const v58doc = await fileText("docs/V58AppealRegistryDesign.md");
@@ -13610,8 +14582,8 @@ for (const [file, hash] of Object.entries(V72_WEBP_HASHES)) {
 }
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=76/, "v72 cache busts styles.css");
-assert.match(html, /script\.js\?v=76/, "v72 cache busts script.js");
+assert.match(html, /styles\.css\?v=77/, "v72 cache busts styles.css");
+assert.match(html, /script\.js\?v=77/, "v72 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const LAST_WORD_BANK_KEY = ['"]goddead_v72_last_word_bank['"]/g) || []).length, 1, "v72 introduces exactly one storage key");
