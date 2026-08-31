@@ -1,3 +1,6 @@
+// gemini-v78-cache-test-repair-applied
+/* v78 cache assertion repair by Gemini 3.7 Flash High */
+/* v78 regex transport repair by Gemini 3.7 Flash High */
 import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
@@ -38,16 +41,33 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=77/);
-assert.match(html, /script\.js\?v=77/);
+assert.match(html, /styles\.css\?v=90/);
+assert.match(html, /script\.js\?v=90/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
 assert.match(js, /DOMContentLoaded/);
 
 /* ---------- 场景探索结构 ---------- */
-const SCENES = ["threshold", "protocol", "corridor", "peephole-chamber", "glyph-niche", "return-passage", "eyelid-archive", "unnumbered-vestibule", "reverse-stairwell", "annex-clearinghouse", "unreturned-witness-gallery", "registry-before-zero", "descending-appeals-stair", "anomaly-review", "evidence-vault", "false-positive-shaft", "unclaimed-valuation", "quota-elevator", "unnumbered-floor", "bellless-ward", "seeping-records", "reverse-laundry", "night-shift-registry", "midnight-callback", "proxy-admission", "return-audit", "echo-turn", "vein-turnstile", "confession-locker", "unlit-lamp-gallery", "borrowed-shadow-gallery", "hinge-sorting-room", "red-thread-registry", "blank-name-cloakroom", "clapperless-bell-desk", "protocol-drift", "counter-knock-gallery", "unanswered-vestibule", "undersill-dispatch", "lagging-shadow-cloister", "ash-door-foundry", "retention-vault", "minute-before-archive", "cold-wick-service-bay", "absent-relief-locker", "underbed-call-station", "countersign-drain", "negative-laundry-locker", "symptom-handover-hub", "evidence-switchboard", "unseated-listening-booth", "unnumbered-jack-field", "return-ring-morgue", "unclaimed-pneumatic-intake", "returned-address-cabinet", "blank-receipt-press", "blank-screen-underarchive", "false-confirmation-desk", "witness-carbon-archive", "echo", "vein", "confession", "echo-transfer", "vein-pump", "confession-ledger", "failure-reconstruction-desk", "watch", "switchboard", "deadletter", "cancellation", "acting", "offering", "reliquary", "remembrance", "ninth", "concordance-theatre", "innocent-quarantine", "omission-transfer-shaft", "misbound-handover", "liability-ledger", "appeal-registry", "identity-correction", "evidence-contradiction", "destination-review-shaft", "cross-examination-desk", "chain-of-custody-office", "listening-back-console", "ending-return-office", "unending-gallery", "causal-sorter", "first-draft-vault", "before-first-knock", "causeless-ward", "counterfactual-spindle", "scar-loom", "unlived-nursery", "life-without-cause", "counterfactual-genealogy", "bloodless-archive", "borrowed-childhood", "last-family-court", "generational-credit-office", "lifetime-pawn-vault", "mortality-clearing-house", "age-foreclosure-court", "posthumous-census-hall", "contradictory-evidence-archive", "birth-ballot-booth", "population-nullification-court", "dead-parliament-rotunda", "citizenship-article-chamber", "constitutional-severance-desk", "three-person-republic-court", "death-foreign-ministry", "nonexistent-border-chancery", "treaty-autopsy-table", "undeclared-war-room", "last-word-central-bank", "unsaid-currency-mint", "testament-clearing-vault", "sovereign-default-chamber", "borrowed-dream-customs", "contraband-sleep-terminal", "nightmare-tariff-bureau", "waking-deportation-yard", "tombstone-patent-office", "prior-art-ossuary", "impossible-claim-examination", "perpetual-license-tribunal", "apocalypse-warranty-office", "proof-of-purchase-morgue", "post-world-repair-bench", "universal-recall-yard", "reality-refund-counter", "proof-of-existence-incinerator", "reality-return-inspection", "class-action-court", "self-authenticity-office", "self-provenance-vault", "soul-counterfeit-examination", "final-authenticity-tribunal"];
-assert.equal(SCENES.length, 141, "scene count must be 141 after v77");
+const SCENES = ["threshold", "protocol", "corridor", "peephole-chamber", "glyph-niche", "return-passage", "eyelid-archive", "unnumbered-vestibule", "reverse-stairwell", "annex-clearinghouse", "unreturned-witness-gallery", "registry-before-zero", "descending-appeals-stair", "anomaly-review", "evidence-vault", "false-positive-shaft", "unclaimed-valuation", "quota-elevator", "unnumbered-floor", "bellless-ward", "seeping-records", "reverse-laundry", "night-shift-registry", "midnight-callback", "proxy-admission", "return-audit", "echo-turn", "vein-turnstile", "confession-locker", "unlit-lamp-gallery", "borrowed-shadow-gallery", "hinge-sorting-room", "red-thread-registry", "blank-name-cloakroom", "clapperless-bell-desk", "protocol-drift", "counter-knock-gallery", "unanswered-vestibule", "undersill-dispatch", "lagging-shadow-cloister", "ash-door-foundry", "retention-vault", "minute-before-archive", "cold-wick-service-bay", "absent-relief-locker", "underbed-call-station", "countersign-drain", "negative-laundry-locker", "symptom-handover-hub", "evidence-switchboard", "unseated-listening-booth", "unnumbered-jack-field", "return-ring-morgue", "unclaimed-pneumatic-intake", "returned-address-cabinet", "blank-receipt-press", "blank-screen-underarchive", "false-confirmation-desk", "witness-carbon-archive", "echo", "vein", "confession", "echo-transfer", "vein-pump", "confession-ledger", "failure-reconstruction-desk", "watch", "switchboard", "deadletter", "cancellation", "acting", "offering", "reliquary", "remembrance", "ninth", "concordance-theatre", "innocent-quarantine", "omission-transfer-shaft", "misbound-handover", "liability-ledger", "appeal-registry", "identity-correction", "evidence-contradiction", "destination-review-shaft", "cross-examination-desk", "chain-of-custody-office", "listening-back-console", "ending-return-office", "unending-gallery", "causal-sorter", "first-draft-vault", "before-first-knock", "causeless-ward", "counterfactual-spindle", "scar-loom", "unlived-nursery", "life-without-cause", "counterfactual-genealogy", "bloodless-archive", "borrowed-childhood", "last-family-court", "generational-credit-office", "lifetime-pawn-vault", "mortality-clearing-house", "age-foreclosure-court", "posthumous-census-hall", "contradictory-evidence-archive", "birth-ballot-booth", "population-nullification-court", "dead-parliament-rotunda", "citizenship-article-chamber", "constitutional-severance-desk", "three-person-republic-court", "death-foreign-ministry", "nonexistent-border-chancery", "treaty-autopsy-table", "undeclared-war-room", "last-word-central-bank", "unsaid-currency-mint", "testament-clearing-vault", "sovereign-default-chamber", "borrowed-dream-customs", "contraband-sleep-terminal", "nightmare-tariff-bureau", "waking-deportation-yard", "tombstone-patent-office", "prior-art-ossuary", "impossible-claim-examination", "perpetual-license-tribunal", "apocalypse-warranty-office", "proof-of-purchase-morgue", "post-world-repair-bench", "universal-recall-yard", "reality-refund-counter", "proof-of-existence-incinerator", "reality-return-inspection", "class-action-court", "self-authenticity-office", "self-provenance-vault", "soul-counterfeit-examination", "final-authenticity-tribunal", "first-person-rationing-bureau", "voice-entitlement-archive", "pronoun-allocation-chamber", "ownerless-voices-court", "unspoken-personhood-court", "silent-intent-archive", "personhood-inheritance-examination", "unuttered-estate-tribunal", "unfinished-thought-asylum", "interruption-trace-archive", "counterfactual-treatment-lab", "last-conclusion-hearing"];
+SCENES.push("regret-reclamation-plant", "abandonment-residue-weighhouse", "second-life-smelting-line", "zero-waste-life-furnace");
+assert.equal(SCENES.length, 157, "scene count must be 157 after v81");
+SCENES.push("forgiveness-landfill", "inert-harm-certificate-vault", "mercy-burial-trench", "harmlessness-final-well");
+assert.equal(SCENES.length, 161, "scene count must be 161 after v82");
+SCENES.push("harm-archaeology-bureau", "forensic-mercy-excavation", "crime-scene-without-offender", "second-harm-hearing-court");
+assert.equal(SCENES.length, 165, "scene count must be 165 before v84");
+SCENES.push("innocent-witness-protection", "identity-causality-laundry", "memory-relocation-safehouse", "anonymous-truth-lifetime-court");
+assert.equal(SCENES.length, 169, "scene count must be 169 after v84");
+SCENES.push("orphaned-fact-claim-office", "fact-inheritance-vault", "causal-estate-execution-desk", "ownerless-truth-estate-court");
+assert.equal(SCENES.length, 173, "scene count must be 173 after v85");
+SCENES.push("existence-renunciation-registry", "proof-of-nonexistence-archive", "ontological-disinheritance-chamber", "civil-nonexistence-final-tribunal");
+assert.equal(SCENES.length, 177, "scene count must be 177 after v86");
+SCENES.push("nonexistence-debt-collection-agency", "absence-arrears-ledger-vault", "ontological-repossession-chamber", "unpayable-existence-bankruptcy-court");
+assert.equal(SCENES.length, 181, "scene count must be 181 after v87");
+SCENES.push("auction-house-for-events-that-never-happened", "catalogue-of-unoccupied-reality", "counterfactual-bidding-floor", "retroactive-occurrence-title-court");
+assert.equal(SCENES.length, 185, "scene count must be 185 after v88");
+SCENES.push("accomplished-fact-eviction-authority", "condemned-history-survey-office", "retroactive-demolition-yard", "final-occupancy-appeal-court");
+assert.equal(SCENES.length, 189, "scene count must be 189 after v89");
 for (const s of SCENES) {
   assert.match(html, new RegExp(`data-scene="${s}"`), `scene missing: ${s}`);
 }
@@ -390,7 +410,7 @@ assert.match(js, /target === "deadletter" && !\(watchUnlocked\(\) && line4Unlock
    reliquary 自身 sealed=true 但任一上游缺失时也必须逐级回退 */
 assert.match(js, /const reliquaryUnlocked = \(\) =>/, "reliquaryUnlocked contract helper must exist");
 assert.match(js, /target === "reliquary" && !reliquaryUnlocked\(\)/, "reliquary requires all 7 upstream prerequisites — stale goddead_reliquary must not pass");
-assert.match(js, /target === "offering" && !\(watchUnlocked\(\) && line4Unlocked\(\) && getLine4\(\)\.connected && getDL\(\)\.accepted && getCancel\(\)\.refused && getActing\(\)\.appointed\)/, "offering fallback requires all 6 upstream prerequisites");
+assert.match(js, /target === "offering" && !regretReclamationBridgeAllows\("offering"\) && !forgivenessLandfillBridgeAllows\("offering"\) && !\(watchUnlocked\(\) && line4Unlocked\(\) && getLine4\(\)\.connected && getDL\(\)\.accepted && getCancel\(\)\.refused && getActing\(\)\.appointed\)/, "offering fallback requires all 6 upstream prerequisites unless the exact v81/v82 narrow bridges allow it");
 /* 守卫必须按依赖顺序：reliquary→offering→acting→cancellation→deadletter→switchboard→watch→corridor 逐级归并 */
 assert.ok(
   js.indexOf('target === "reliquary"') > -1
@@ -498,8 +518,8 @@ for (const asset of VISUAL_ASSETS) {
 await access(new URL("assets/prayer-incinerator-burning.webp", root));
 assert.match(html, /assets\/prayer-incinerator-burning\.webp/);
 assert.match(html, /<link rel="preload" href="assets\/prayer-incinerator-burning\.webp" as="image">/);
-assert.match(html, /styles\.css\?v=77/);
-assert.match(html, /script\.js\?v=77/);
+assert.match(html, /styles\.css\?v=90/);
+assert.match(html, /script\.js\?v=90/);
 const offeringFigureHtml = html.match(/<figure class="offering-figure[^"]*" role="img" aria-label="[^"]*">[\s\S]*?<\/figure>/);
 assert.ok(offeringFigureHtml, "offering figure must exist");
 assert.match(offeringFigureHtml[0], /aria-label="一座沉寂的焚献炉"/);
@@ -872,8 +892,8 @@ assert.match(js, /refuse: \{ btn: "#confession-choice-refuse", target: "confessi
 assert.match(js, /const target = ok \? choice\.target : "corridor";/, "failed conditional choices must flow back to corridor");
 /* v29 选择命中深层区域时到访标记点击即持久化 */
 assert.match(js, /if \(DEEP_SCENES\.includes\(target\)\) markDeepVisited\(target\);\s*AutoAdvance\.schedule\(sceneKey, target, \{ delay: branchDelay\(\) \}\);/, "branch choice into a deep scene must persist the visit at click time");
-/* 路由守卫：未访问支线直达落回走廊；v39 中间档 outcome 与 v53 信念 pending/已访问是仅有的窄例外 */
-assert.match(js, /if \(BRANCH_SCENES\.includes\(target\) && !branchState\.visited\[target\] && AUDIT_BRANCH_OUTCOME\[target\] !== auditGuardState\.outcome\s*\n\s*&& beliefGuard\.pendingTarget !== target && !\(BELIEF_SCENE_BRANCH\[target\] && beliefGuard\.branches\[BELIEF_SCENE_BRANCH\[target\]\]\.visits > 0\)\) target = "corridor";/, "v29 guard keeps the v39 outcome exception and adds only the narrow v53 belief exception");
+/* 路由守卫：未访问支线直达落回走廊；仅保留 v39 outcome、v53 信念与严格 v79/v80 pending/activeExecutor 窄例外 */
+assert.match(js, /if \(BRANCH_SCENES\.includes\(target\) && !branchState\.visited\[target\] && AUDIT_BRANCH_OUTCOME\[target\] !== auditGuardState\.outcome\s*\n\s*&& beliefGuard\.pendingTarget !== target && !\(BELIEF_SCENE_BRANCH\[target\] && beliefGuard\.branches\[BELIEF_SCENE_BRANCH\[target\]\]\.visits > 0\)\s*&& !innocentWitnessProtectionBridgeAllows\(target\)\s*\n\s*&& !unspokenPersonhoodBridgeAllows\(target\) && !unfinishedThoughtBridgeAllows\(target\)\) target = "corridor";/, "v29 guard keeps v39/v53 behavior and adds only strict v79 and v80 bridge exceptions");
 /* 场景进入同步与旁路记忆 */
 assert.match(js, /if \(BRANCH_SCENES\.includes\(name\)\) \{ enterBranch\(name\); syncPressureRoom\(name\); replayPressurePending\(name\); paintPressure\(\); \}/);
 assert.match(js, /if \(name === "corridor"\) \{ corridorConsumed = false; corridorDetourArmed = false; syncWatchDoor\(\); syncBranchEntries\(\); syncDeepEntries\(\); startTrace\(\); \}/);
@@ -3268,7 +3288,7 @@ for (const frag of [
    v31 glyph-niche 窄例外只放行 registry+plate 这一次合法落点 */
 const resolveBlockV52 = js.match(/const resolveScene = \(name\) => \{[\s\S]*?\n  \};/);
 assert.match(resolveBlockV52[0], /if \(target === "annex-clearinghouse" && !settleUnlocked\(\)\) target = "eyelid-archive";/, "clearinghouse requires total capacity >= 3");
-assert.match(resolveBlockV52[0], /settleGuard\.settled && settleGuard\.outcome === SETTLE_RESULT_OUTCOME\[rk\]\) \|\| settleGuard\.visited\[rk\]\)\) target = "annex-clearinghouse";/, "result rooms admit only the matching legal outcome or a past visit");
+assert.match(resolveBlockV52[0], /settleGuard\.settled && settleGuard\.outcome === SETTLE_RESULT_OUTCOME\[rk\]\) \|\| settleGuard\.visited\[rk\] \|\| regretReclamationBridgeAllows\(target\) \|\| innocentWitnessProtectionBridgeAllows\(target\)\)\) target = "annex-clearinghouse";/, "result rooms admit only the matching legal outcome, a past visit, or the exact v81 reclaimer bridge");
 assert.match(resolveBlockV52[0], /target === "glyph-niche" && settleGuard\.lastScene === "registry" && settleGuard\.lastAction === "plate"/, "the glyph-niche exception is narrowed to the v52 plate landing");
 /* 投入处理器：live scene + 首选锁 + settled/长度/实时容量三重拒绝，同拍不得重复计数 */
 const depositBlock = js.match(/const depositSettlement = \(kind\) => \{[\s\S]*?\n  \};/);
@@ -3421,9 +3441,9 @@ assert.match(beliefFlipBlock[0], /st\.pending = \{ kind: "drift", target: BELIEF
 assert.ok(!/getAudit|saveAudit|AUDIT_KEY/.test(beliefFlipBlock[0]), "flip must not touch v39 progress");
 /* reload 重播：合法 pending 精确重挂一次转场，不重复计 actions */
 assert.match(js, /replayBeliefPending\(name\)/, "scene init replays a persisted belief pending");
-/* v29 守卫：v53 窄例外只放行合法 pending 目标或历史已访问分支 */
+/* v29 守卫：v53 仍只放行合法 pending/历史分支，其后仅追加严格 v79/v80 bridge */
 const resolveBlockV53 = js.match(/const resolveScene = \(name\) => \{[\s\S]*?\n  \};/);
-assert.match(resolveBlockV53[0], /beliefGuard\.pendingTarget !== target && !\(BELIEF_SCENE_BRANCH\[target\] && beliefGuard\.branches\[BELIEF_SCENE_BRANCH\[target\]\]\.visits > 0\)\) target = "corridor";/, "v29 guard gains the narrow v53 belief exception only");
+assert.match(resolveBlockV53[0], /beliefGuard\.pendingTarget !== target && !\(BELIEF_SCENE_BRANCH\[target\] && beliefGuard\.branches\[BELIEF_SCENE_BRANCH\[target\]\]\.visits > 0\)\s*&& !innocentWitnessProtectionBridgeAllows\(target\)\s*\n\s*&& !unspokenPersonhoodBridgeAllows\(target\) && !unfinishedThoughtBridgeAllows\(target\)\) target = "corridor";/, "v29 guard preserves the narrow v53 exception before strict v79 and v80 bridges");
 assert.match(resolveBlockV53[0], /AUDIT_BRANCH_OUTCOME\[target\] !== auditGuardState\.outcome/, "the v39 outcome exception stays intact");
 /* 逐字文案：六条阈值反馈、翻转反馈、六条变异 figure aria-label、统计名 */
 for (const frag of [
@@ -3669,7 +3689,7 @@ for (const frag of ["原判被退回你留下的那条路。账房替你销了�
 /* 第三不同后果场景首次改道责任账房 */
 assert.match(js, /if \(distinct >= 3 && st\.visits\.ledger === 0 && st\.deferredTarget === ""\) \{\s*st\.deferredTarget = target;\s*target = "liability-ledger";/, "third distinct consequence scene defers to the liability ledger once");
 /* 守卫、接线与遗忘 */
-assert.match(js, /if \(LEDGER_SCENES\.includes\(target\) && ledgerGuard\.pendingTarget !== target && !ledgerGuard\.visits\[LEDGER_SCENE_KEY\[target\]\]\) target = "unnumbered-floor";/, "v57 guard admits only legal pending or past visits");
+assert.match(js, /if \(LEDGER_SCENES\.includes\(target\) && !forgivenessLandfillBridgeAllows\(target\) && !harmArchaeologyBridgeAllows\(target\) && ledgerGuard\.pendingTarget !== target && !ledgerGuard\.visits\[LEDGER_SCENE_KEY\[target\]\]\) target = "unnumbered-floor";/, "v57 guard admits only legal pending, past visits, or the exact v83 narrow bridge");
 assert.match(js, /if \(LEDGER_SCENES\.includes\(name\)\) \{ enterLedgerScene\(name\); replayLedgerPending\(name\); \}/, "ledger scene entry replays a legal pending");
 assert.match(forgetBlockV56[0], /syncLedgerLinks\(\);/, "forget-all resets the v57 directory links");
 assert.match(forgetBlockV56[0], /paintLedgerMemory\(\);/, "forget-all hides the v57 memory line");
@@ -3825,7 +3845,7 @@ for (const frag of [
   "三类异议无法裁定占上风者。结案退回责任账房，由账本重新过秤。",
 ]) assert.ok(js.includes(frag), `missing v58 close feedback: ${frag.slice(0, 16)}`);
 /* 守卫、接线与遗忘 */
-assert.match(js, /if \(APPEAL_SCENES\.includes\(target\) && appealGuard\.pendingTarget !== target && !appealGuard\.visits\[APPEAL_SCENE_KEY\[target\]\]\) target = "unnumbered-floor";/, "v58 guard admits only legal pending or past visits");
+assert.match(js, /if \(APPEAL_SCENES\.includes\(target\) && appealGuard\.pendingTarget !== target && !appealGuard\.visits\[APPEAL_SCENE_KEY\[target\]\] && !regretReclamationBridgeAllows\(target\)\) target = "unnumbered-floor";/, "v58 guard admits only legal pending or past visits");
 assert.match(js, /if \(APPEAL_SCENES\.includes\(name\)\) \{ enterAppealScene\(name\); replayAppealPending\(name\); \}/, "appeal scene entry replays a legal pending");
 assert.match(js, /if \(name === "liability-ledger"\) \{ syncAppealSeal\(\); replayAppealPending\(name\); \}/, "the liability ledger syncs the appeal seal on revisit");
 assert.match(forgetBlockV56[0], /syncAppealLinks\(\);/, "forget-all resets the v58 directory links");
@@ -4509,7 +4529,7 @@ assert.ok(SCENES.includes("causal-sorter"), "SCENES must list the causal sorter"
 assert.ok(SCENES.includes("first-draft-vault"), "SCENES must list the first draft vault");
 assert.ok(SCENES.includes("before-first-knock"), "SCENES must list the before first knock");
 assert.ok(SCENES.includes("causeless-ward"), "SCENES must list the causeless ward");
-assert.equal(new Set([...html.matchAll(/data-scene="([^"]+)"/g)].map((m) => m[1])).size, 141, "must expose 141 unique data-scene sections");
+  assert.equal(new Set([...html.matchAll(/data-scene="([^"]+)"/g)].map((m) => m[1])).size, 193, "must expose 193 unique data-scene sections");
 const consoleSection = html.match(/<section class="scene scene-branch scene-listening-back-console"[\s\S]*?<\/section>/);
 assert.ok(consoleSection, "scene section missing: listening-back-console");
 assert.match(consoleSection[0], /data-scene="listening-back-console" data-title="Goddead — 反听总台" aria-label="反听总台"/);
@@ -4999,7 +5019,7 @@ for (const [asset, hash] of Object.entries(V63_WEBP_HASHES)) {
   assert.ok(buf.length > 100000 && buf.length < 350000, `${asset} must be 100–350 KB`);
   assert.ok(js.includes(asset) && html.includes(asset), `${asset} must be referenced`);
 }
-assert.equal(SCENES.length, 141, "v77 must bring the scene count to 141");
+assert.equal(SCENES.indexOf("final-authenticity-tribunal") + 1, 141, "v77 final-authenticity-tribunal remains the 141st historical scene boundary"); // v78-scene-test-repair-applied
 assert.equal((js.match(/goddead_v63_ending_return/g) || []).length, 1, "v63 introduces exactly one storage key");
 
 /* 两场景 DOM、标题、氛围句与图鉴容器 */
@@ -5886,8 +5906,8 @@ assert.match(html, /<link rel="preload" href="assets\/v73-nightmare-tariff-burea
 assert.match(html, /<link rel="preload" href="assets\/v73-waking-deportation-yard\.webp" as="image">/, "v73 preloads waking-deportation-yard");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=77/, "v73 cache busts styles.css");
-assert.match(html, /script\.js\?v=77/, "v73 cache busts script.js");
+assert.match(html, /styles\.css\?v=90/, "v73 cache busts styles.css");
+assert.match(html, /script\.js\?v=90/, "v73 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const DREAM_CUSTOMS_KEY = ['"]goddead_v73_dream_customs['"]/g) || []).length, 1, "v73 introduces exactly one storage key");
@@ -6754,8 +6774,8 @@ assert.match(html, /<link rel="preload" href="assets\/v74-impossible-claim-exami
 assert.match(html, /<link rel="preload" href="assets\/v74-perpetual-license-tribunal\.webp" as="image">/, "v74 preloads perpetual-license-tribunal");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=77/, "v74 cache busts styles.css");
-assert.match(html, /script\.js\?v=77/, "v74 cache busts script.js");
+assert.match(html, /styles\.css\?v=90/, "v74 cache busts styles.css");
+assert.match(html, /script\.js\?v=90/, "v74 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const TOMBSTONE_PATENT_OFFICE_KEY = ['"]goddead_v74_tombstone_patent_office['"]/g) || []).length, 1, "v74 introduces exactly one storage key");
@@ -7636,8 +7656,8 @@ assert.match(html, /<link rel="preload" href="assets\/v75-post-world-repair-benc
 assert.match(html, /<link rel="preload" href="assets\/v75-universal-recall-yard\.webp" as="image">/, "v75 preloads universal-recall-yard");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=77/, "v75 cache busts styles.css");
-assert.match(html, /script\.js\?v=77/, "v75 cache busts script.js");
+assert.match(html, /styles\.css\?v=90/, "v75 cache busts styles.css");
+assert.match(html, /script\.js\?v=90/, "v75 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const APOCALYPSE_WARRANTY_KEY = ['"]goddead_v75_apocalypse_warranty['"]/g) || []).length, 1, "v75 introduces exactly one storage key");
@@ -8566,8 +8586,8 @@ assert.match(html, /<link rel="preload" href="assets\/v76-reality-return-inspect
 assert.match(html, /<link rel="preload" href="assets\/v76-class-action-court\.webp" as="image">/, "v76 preloads class-action-court");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=77/, "v76 cache busts styles.css");
-assert.match(html, /script\.js\?v=77/, "v76 cache busts script.js");
+assert.match(html, /styles\.css\?v=90/, "v76 cache busts styles.css");
+assert.match(html, /script\.js\?v=90/, "v76 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const REALITY_REFUND_KEY = ['"]goddead_v76_reality_refund['"]/g) || []).length, 1, "v76 introduces exactly one storage key");
@@ -9526,12 +9546,12 @@ assert.match(html, /<link rel="preload" href="assets\/v77-soul-counterfeit-exami
 assert.match(html, /<link rel="preload" href="assets\/v77-final-authenticity-tribunal\.webp" as="image">/, "v77 preloads v77-final-authenticity-tribunal");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=77/, "v77 cache busts styles.css");
-assert.match(html, /script\.js\?v=77/, "v77 cache busts script.js");
+assert.match(html, /styles\.css\?v=90/, "v77 cache busts styles.css");
+assert.match(html, /script\.js\?v=90/, "v77 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const SELF_AUTHENTICITY_KEY = ['"]goddead_v77_self_authenticity['"]/g) || []).length, 1, "v77 introduces exactly one storage key");
-const v77ModuleBlock = js.match(/v77 自我真伪鉴定所 \/ AUTHENTICITY OFFICE OF THE SELF[\s\S]*?(?=\n  \/\* ={40,}\n     走廊：残页 \+ 封印的门)/);
+const v77ModuleBlock = js.match(/v77 自我真伪鉴定所 \/ AUTHENTICITY OFFICE OF THE SELF[\s\S]*?(?=\n  \/\* ={40,}\n     v78 第一人称配给署 \/ FIRST-PERSON PRONOUN RATIONING BUREAU)/);
 assert.ok(v77ModuleBlock, "v77 module must exist");
 
 const saveSelfAuthenticityBlock = js.match(/const saveSelfAuthenticity = \(st\) => \{[\s\S]*?store\.set\(\s*SELF_AUTHENTICITY_KEY,\s*JSON\.stringify\(\{[\s\S]*?\}\)\s*\);/);
@@ -14582,8 +14602,8 @@ for (const [file, hash] of Object.entries(V72_WEBP_HASHES)) {
 }
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=77/, "v72 cache busts styles.css");
-assert.match(html, /script\.js\?v=77/, "v72 cache busts script.js");
+assert.match(html, /styles\.css\?v=90/, "v72 cache busts styles.css");
+assert.match(html, /script\.js\?v=90/, "v72 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const LAST_WORD_BANK_KEY = ['"]goddead_v72_last_word_bank['"]/g) || []).length, 1, "v72 introduces exactly one storage key");
@@ -15683,4 +15703,12010 @@ assert.match(log, /v72|遗言中央银行|CENTRAL BANK OF LAST WORDS/, "Progress
    敲门、场景切换、交班簿覆盖、签退、钟针倒退等运行时行为，
    以代码存在性断言 + design-qa.md 内的无头 Chromium 截图人工验收为准。
    当前断言总数：7880 */
+
+/* ============================================================
+   v78 第一人称配给署 / FIRST-PERSON PRONOUN RATIONING BUREAU 静态与运行时回归
+   ============================================================ */
+
+const V78_SOURCE_HASHES = {
+  "source-v78-first-person-rationing-bureau.png": "4965c754393a16667ec99c8d473921e855f3425f72c13f97aef5ce63ac379f26",
+  "source-v78-voice-entitlement-archive.png": "ffafe1df6e5c14ce91930bee527cc1d71bcb5e63393ee42f61810ab7155fda86",
+  "source-v78-pronoun-allocation-chamber.png": "949234dc9596f4f8ca3b1274a98a07f5ac0ab33f339bda43095f948d2dfe9586",
+  "source-v78-ownerless-voices-court.png": "54d30fa15044e36a976216e78485c1f1739a5704db280e24f39d0e616ad5d2c1",
+};
+const V78_WEBP_HASHES = {
+  "v78-first-person-rationing-bureau.webp": "70c408ec55b41016f2ff728047f4dab33e9be7a7158370f6327125cbb94cb212",
+  "v78-voice-entitlement-archive.webp": "8a76b8ce643dfcf7e11bbabbc1a682bc561e1010ccc500442da05ffd56dff5ce",
+  "v78-pronoun-allocation-chamber.webp": "9a1072aaa3109d5c330b47fedfc0b18a51926f09452030a06bdfa5fecf57d7d5",
+  "v78-ownerless-voices-court.webp": "4705d900d854453ef37209486fd92ace26a85e1983b0f6674e066549db969399",
+};
+const V78_SOURCE_SIZES = {
+  "source-v78-first-person-rationing-bureau.png": 2538619,
+  "source-v78-voice-entitlement-archive.png": 2263793,
+  "source-v78-pronoun-allocation-chamber.png": 2494473,
+  "source-v78-ownerless-voices-court.png": 2716518,
+};
+const V78_WEBP_SIZES = {
+  "v78-first-person-rationing-bureau.webp": 219184,
+  "v78-voice-entitlement-archive.webp": 163614,
+  "v78-pronoun-allocation-chamber.webp": 219346,
+  "v78-ownerless-voices-court.webp": 265626,
+};
+
+/* 场景与 DOM 存在性 */
+assert.match(html, new RegExp(`data-scene="first-person-rationing-bureau"`), `v78 scene missing: first-person-rationing-bureau`);
+assert.match(html, new RegExp(`data-scene="voice-entitlement-archive"`), `v78 scene missing: voice-entitlement-archive`);
+assert.match(html, new RegExp(`data-scene="pronoun-allocation-chamber"`), `v78 scene missing: pronoun-allocation-chamber`);
+assert.match(html, new RegExp(`data-scene="ownerless-voices-court"`), `v78 scene missing: ownerless-voices-court`);
+assert.match(html, new RegExp(`id="first-person-rationing-bureau-link"`), `v78 directory link missing: first-person-rationing-bureau-link`);
+assert.match(html, new RegExp(`id="voice-entitlement-archive-link"`), `v78 directory link missing: voice-entitlement-archive-link`);
+assert.match(html, new RegExp(`id="pronoun-allocation-chamber-link"`), `v78 directory link missing: pronoun-allocation-chamber-link`);
+assert.match(html, new RegExp(`id="ownerless-voices-court-link"`), `v78 directory link missing: ownerless-voices-court-link`);
+assert.match(html, new RegExp(`id="first-person-rationing-memory"`), `v78 remembrance element missing: first-person-rationing-memory`);
+assert.match(html, new RegExp(`id="first-person-rationing-codex"`), `v78 remembrance element missing: first-person-rationing-codex`);
+assert.match(html, new RegExp(`id="first-person-rationing-codex-entry"`), `v78 remembrance element missing: first-person-rationing-codex-entry`);
+assert.match(html, new RegExp(`id="first-person-rationing-entry-btn"`), `v78 entry button missing: first-person-rationing-entry-btn`);
+assert.match(html, new RegExp(`id="first-person-rationing-court-entry-btn"`), `v78 court entry button missing: first-person-rationing-court-entry-btn`);
+assert.match(html, new RegExp(`id="first-person-rationing-bureau-figure"`), `v78 figure missing: first-person-rationing-bureau-figure`);
+assert.match(html, new RegExp(`id="voice-entitlement-archive-figure"`), `v78 figure missing: voice-entitlement-archive-figure`);
+assert.match(html, new RegExp(`id="pronoun-allocation-chamber-figure"`), `v78 figure missing: pronoun-allocation-chamber-figure`);
+assert.match(html, new RegExp(`id="ownerless-voices-court-figure"`), `v78 figure missing: ownerless-voices-court-figure`);
+assert.match(html, new RegExp(`id="first-person-rationing-speaker-many-selves-one-body"`), `v78 speaker button missing: first-person-rationing-speaker-many-selves-one-body`);
+assert.match(html, new RegExp(`id="first-person-rationing-speaker-copies-sharing-one-voice"`), `v78 speaker button missing: first-person-rationing-speaker-copies-sharing-one-voice`);
+assert.match(html, new RegExp(`id="first-person-rationing-speaker-ownerless-silence"`), `v78 speaker button missing: first-person-rationing-speaker-ownerless-silence`);
+assert.match(html, new RegExp(`id="voice-entitlement-first-breath-token"`), `v78 entitlement button missing: voice-entitlement-first-breath-token`);
+assert.match(html, new RegExp(`id="voice-entitlement-ownerless-signature-impression"`), `v78 entitlement button missing: voice-entitlement-ownerless-signature-impression`);
+assert.match(html, new RegExp(`id="voice-entitlement-future-inherited-echo"`), `v78 entitlement button missing: voice-entitlement-future-inherited-echo`);
+assert.match(html, new RegExp(`id="pronoun-allocation-one-i-per-breath"`), `v78 scheme button missing: pronoun-allocation-one-i-per-breath`);
+assert.match(html, new RegExp(`id="pronoun-allocation-lend-the-voice-to-shadow"`), `v78 scheme button missing: pronoun-allocation-lend-the-voice-to-shadow`);
+assert.match(html, new RegExp(`id="pronoun-allocation-rotate-one-voice-among-copies"`), `v78 scheme button missing: pronoun-allocation-rotate-one-voice-among-copies`);
+assert.match(html, new RegExp(`id="pronoun-allocation-let-silence-claim-the-pronoun"`), `v78 scheme button missing: pronoun-allocation-let-silence-claim-the-pronoun`);
+assert.match(html, new RegExp(`id="first-person-rationing-allocator-return-threshold"`), `v78 allocator return button missing: first-person-rationing-allocator-return-threshold`);
+assert.match(html, new RegExp(`id="first-person-rationing-allocator-return-blank-name-cloakroom"`), `v78 allocator return button missing: first-person-rationing-allocator-return-blank-name-cloakroom`);
+assert.match(html, new RegExp(`id="first-person-rationing-allocator-return-remembrance"`), `v78 allocator return button missing: first-person-rationing-allocator-return-remembrance`);
+assert.match(html, new RegExp(`id="ownerless-voices-grant-one-voice-to-all-in-turn"`), `v78 court button missing: ownerless-voices-grant-one-voice-to-all-in-turn`);
+assert.match(html, new RegExp(`id="ownerless-voices-abolish-pronoun-rationing"`), `v78 court button missing: ownerless-voices-abolish-pronoun-rationing`);
+assert.match(html, new RegExp(`id="ownerless-voices-recognize-silence-as-only-speaker"`), `v78 court button missing: ownerless-voices-recognize-silence-as-only-speaker`);
+
+/* P1 回归：handler 的 buttonAvailable 与事件监听所查 ID 必须真实存在于 index.html */
+const v78HandlerIdChecks = {
+  speaker: { ids: ["first-person-rationing-speaker-many-selves-one-body", "first-person-rationing-speaker-copies-sharing-one-voice", "first-person-rationing-speaker-ownerless-silence"], handlerPrefix: "first-person-rationing-speaker-${speaker}" },
+  entitlement: { ids: ["voice-entitlement-first-breath-token", "voice-entitlement-ownerless-signature-impression", "voice-entitlement-future-inherited-echo"], handlerPrefix: "voice-entitlement-${entitlement}" },
+  scheme: { ids: ["pronoun-allocation-one-i-per-breath", "pronoun-allocation-lend-the-voice-to-shadow", "pronoun-allocation-rotate-one-voice-among-copies", "pronoun-allocation-let-silence-claim-the-pronoun"], handlerPrefix: "pronoun-allocation-${scheme}" },
+  court: { ids: ["ownerless-voices-grant-one-voice-to-all-in-turn", "ownerless-voices-abolish-pronoun-rationing", "ownerless-voices-recognize-silence-as-only-speaker"], handlerPrefix: "ownerless-voices-${action}" },
+};
+for (const [kind, { ids, handlerPrefix }] of Object.entries(v78HandlerIdChecks)) {
+  assert.ok(js.includes(`buttonAvailable(\`${handlerPrefix}\`)`), `v78 ${kind} handler must use real DOM id prefix: ${handlerPrefix}`);
+  for (const id of ids) {
+    assert.match(html, new RegExp(`id="${id}"`), `v78 ${kind} button must exist in DOM: ${id}`);
+    assert.ok(js.includes(`$('#${id}')`), `v78 ${kind} listener must be wired to the real DOM id: ${id}`);
+  }
+}
+
+assert.ok(html.includes('<link rel="preload" href="assets/v78-first-person-rationing-bureau.webp" as="image">'), "v78 preloads v78-first-person-rationing-bureau");
+assert.ok(html.includes('<link rel="preload" href="assets/v78-voice-entitlement-archive.webp" as="image">'), "v78 preloads v78-voice-entitlement-archive");
+assert.ok(html.includes('<link rel="preload" href="assets/v78-pronoun-allocation-chamber.webp" as="image">'), "v78 preloads v78-pronoun-allocation-chamber");
+assert.ok(html.includes('<link rel="preload" href="assets/v78-ownerless-voices-court.webp" as="image">'), "v78 preloads v78-ownerless-voices-court");
+
+/* 缓存版本 */
+assert.ok(html.includes("styles.css?v=90"), "styles.css cache bust v=86");
+assert.ok(html.includes("script.js?v=90"), "script.js cache bust v=86");
+
+/* JS 模块与 key */
+assert.equal((js.match(/const FIRST_PERSON_RATIONING_KEY = ['"]goddead_v78_first_person_rationing['"]/g) || []).length, 1, "v78 introduces exactly one storage key");
+const v78Start = js.indexOf("v78 第一人称配给署 / FIRST-PERSON PRONOUN RATIONING BUREAU");
+const v78NextHeading = "v79 未言人格继承院 / COURT OF UNSPOKEN PERSONHOOD";
+const v78NextHeadingIndex = v78Start !== -1 ? js.indexOf(v78NextHeading, v78Start) : -1;
+const v78End = v78NextHeadingIndex !== -1 ? js.lastIndexOf("/*", v78NextHeadingIndex) : -1;
+assert.ok(v78Start !== -1 && v78End !== -1 && v78End > v78Start, "v78 module boundaries must exist");
+const v78ModuleBlock = [js.slice(v78Start, v78End)];
+assert.ok(v78ModuleBlock, "v78 module must exist");
+
+const saveFirstPersonRationingBlock = js.match(/const saveFirstPersonRationing = \(st\) => \{[\s\S]*?store\.set\(\s*FIRST_PERSON_RATIONING_KEY,\s*JSON\.stringify\(\{[\s\S]*?\}\)\s*\);/);
+assert.ok(saveFirstPersonRationingBlock, "saveFirstPersonRationing must persist an explicit canonical projection");
+for (const f of ["version", "visited", "draft", "rations", "courtOutcomes", "rationRuns", "courtRuns", "speakerTallies", "lastOutcome", "activeAllocator", "pending"]) {
+  assert.match(saveFirstPersonRationingBlock[0], new RegExp(`\\b${f}\\b`), `saveFirstPersonRationing persists ${f}`);
+}
+
+/* 素材冻结 */
+for (const [file, hash] of Object.entries(V78_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(`design-references/${file}`, root));
+  assert.strictEqual(createHash("sha256").update(buf).digest("hex"), hash, `${file} must keep its frozen sha256`);
+  assert.strictEqual(buf.length, V78_SOURCE_SIZES[file], `${file} must keep its frozen byte size`);
+  const dims = readPngDimensions(buf);
+  assert.ok(dims, `${file} must be a readable PNG`);
+  assert.strictEqual(dims.width, 1536, `${file} must be 1536 px wide`);
+  assert.strictEqual(dims.height, 1024, `${file} must be 1024 px tall`);
+}
+for (const [file, hash] of Object.entries(V78_WEBP_HASHES)) {
+  const buf = await readFile(new URL(`assets/${file}`, root));
+  assert.strictEqual(createHash("sha256").update(buf).digest("hex"), hash, `${file} must keep its frozen sha256`);
+  assert.strictEqual(buf.length, V78_WEBP_SIZES[file], `${file} must keep its frozen byte size`);
+  assert.ok(html.includes(`assets/${file}`), `${file} must be referenced from index.html`);
+  const dims = readWebpDimensions(buf);
+  assert.ok(dims, `${file} must be a readable WebP`);
+  assert.strictEqual(dims.width, 1536, `${file} must be 1536 px wide`);
+  assert.strictEqual(dims.height, 1024, `${file} must be 1024 px tall`);
+  assert.match(html, new RegExp(`src="assets/${file.replace(".", "\\.")}" alt="" width="1536" height="1024"`), `${file} must have 1536x1024 HTML attributes`);
+}
+
+/* 冻结标题、按钮文本与反馈 */
+assert.ok(html.includes("05δ / 第一人称配给署 · FIRST-PERSON PRONOUN RATIONING BUREAU"), "v78 bureau title");
+assert.ok(html.includes("05ε / 声音权益凭证库 · VOICE ENTITLEMENT ARCHIVE"), "v78 archive title");
+assert.ok(html.includes("05ζ / 代词配给室 · PRONOUN ALLOCATION CHAMBER"), "v78 chamber title");
+assert.ok(html.includes("05η / 无主声音终审庭 · FINAL COURT OF OWNERLESS VOICES"), "v78 court title");
+assert.match(js, /替一身多我申请 · APPLY FOR MANY SELVES IN ONE BODY/, "v78 speaker many button text");
+assert.match(js, /替共用一声的复制品申请 · APPLY FOR COPIES SHARING ONE VOICE/, "v78 speaker copies button text");
+assert.match(js, /替无主沉默申请 · APPLY FOR OWNERLESS SILENCE/, "v78 speaker silence button text");
+assert.match(js, /提交第一口气令 · SUBMIT THE FIRST-BREATH TOKEN/, "v78 entitlement first-breath button text");
+assert.match(js, /提交无主签名压痕 · SUBMIT THE OWNERLESS SIGNATURE IMPRESSION/, "v78 entitlement ownerless-signature button text");
+assert.match(js, /提交未来继承回声 · SUBMIT THE FUTURE-INHERITED ECHO/, "v78 entitlement future-echo button text");
+assert.match(js, /每次呼吸配给一个“我” · RATION ONE I PER BREATH/, "v78 scheme one-i button text");
+assert.match(js, /把第一人称借给影子 · LEND THE FIRST PERSON TO THE SHADOW/, "v78 scheme lend-shadow button text");
+assert.match(js, /让一只声音轮值所有复制品 · ROTATE ONE VOICE AMONG ALL COPIES/, "v78 scheme rotate-copies button text");
+assert.match(js, /让沉默代领第一人称 · LET SILENCE CLAIM THE PRONOUN/, "v78 scheme silence-claim button text");
+assert.match(js, /让所有肉身轮流拥有一声 · GRANT ONE VOICE TO ALL IN TURN/, "v78 court grant-in-turn button text");
+assert.match(js, /废除第一人称配给 · ABOLISH FIRST-PERSON RATIONING/, "v78 court abolish button text");
+assert.match(js, /只承认沉默有权发声 · RECOGNIZE SILENCE AS THE ONLY SPEAKER/, "v78 court silence-speaker button text");
+assert.match(js, /跟首息发声员返回配给署 · RETURN WITH THE FIRST-BREATH ALLOCATOR/, "v78 allocator first-breath return text");
+assert.match(js, /跟无主签名员返回配给署 · RETURN WITH THE OWNERLESS-SIGNATURE ALLOCATOR/, "v78 allocator ownerless-signature return text");
+assert.match(js, /跟未来回声员返回配给署 · RETURN WITH THE FUTURE-ECHO ALLOCATOR/, "v78 allocator future-echo return text");
+assert.match(js, /同一具胸腔同时吸气。每个自我都声称呼吸属于自己，肺却只够把一个第一人称送出口。/, "v78 speaker many feedback");
+assert.match(js, /所有原装复制品围住同一只声音罐。谁先开口，其他版本的嘴里就只剩那句话的回声。/, "v78 speaker copies feedback");
+assert.match(js, /空椅没有身体，却按时递交沉默。署方承认它从未冒用任何人的“我”，因此信誉最好。/, "v78 speaker silence feedback");
+assert.match(js, /黄铜肺吐出出生时的第一口气。它证明有人曾说出自己，却不记得那时身体里有几个候选人。/, "v78 entitlement first-breath feedback");
+assert.match(js, /暗红蜡上没有姓名，只有一只确信自己签过字的手印。每个版本都认得笔势，没有一个承认落款。/, "v78 entitlement ownerless-signature feedback");
+assert.match(js, /后代尚未出生，回声已经继承了他们对你的称呼。它一直说“我”，声音却来自无人到过的未来。/, "v78 entitlement future-echo feedback");
+assert.match(js, /配给钟在每次吸气时指定一名自我。其余版本必须等到呼气，却发现句子已经由别人说完。/, "v78 scheme one-i fragment");
+assert.match(js, /影子取得临时发声权。身体继续行动，所有解释却从地面那块黑暗里传来。/, "v78 scheme lend-shadow fragment");
+assert.match(js, /声音按班表进入不同嘴里。每个版本都能说“我”，但轮到自己时总要回答上一班留下的问题。/, "v78 scheme rotate-copies fragment");
+assert.match(js, /玻璃罩收走所有未说出口的话，把它们登记为沉默的自传。从此不发声成为最完整的自我陈述。/, "v78 scheme silence-claim fragment");
+assert.match(js, /黄铜息冠依次落到每张空面具上。世界终于只剩一只声音，却永远来不及说完同一个人。/, "v78 court grant-in-turn feedback");
+assert.match(js, /暗红声音罐裂成无数等份。所有自我同时说出“我”，痕迹墙因此再也分不清谁留下了哪一生。/, "v78 court abolish feedback");
+assert.match(js, /所有面具同时闭口。玻璃罩下的空椅取得唯一发声权，并用持续不说话完成了最长的证词。/, "v78 court silence-speaker feedback");
+assert.match(js, /首息发声员在门外听见许多自我同时敲门。每一声都使用同一个胸腔，却坚持自己最先来到。/, "v78 allocator first-breath feedback");
+assert.match(js, /无主签名员在空名寄存处找到一只会说话的手印。它拥有完整语气，仍缺一个肯负责的姓名。/, "v78 allocator ownerless-signature feedback");
+assert.match(js, /未来回声员把后代的声音钉进痕迹墙。墙开始用尚未出生者的口气回忆你。/, "v78 allocator future-echo feedback");
+assert.match(js, /裁定谁拥有最后一个第一人称 · DECIDE WHO OWNS THE LAST FIRST PERSON/, "v78 court entry feedback");
+
+/* 可执行/隔离状态回归测试 */
+const v78ExecSourceStart = v78ModuleBlock[0].indexOf("const FIRST_PERSON_RATIONING_KEY");
+assert.ok(v78ExecSourceStart > 0, "v78 executable block starts with FIRST_PERSON_RATIONING_KEY");
+const v78ExecSource = v78ModuleBlock[0].slice(v78ExecSourceStart).trimEnd();
+
+const FIRST_PERSON_RATIONING_KEY = "goddead_v78_first_person_rationing";
+const fullV77CoverageCertificates = (() => {
+  const claimants = ['original-personality', 'replacement-memory', 'counterfeit-soul'];
+  const provenances = ['first-wound-seal', 'childhood-mirror-testimony', 'warm-death-mask-cast'];
+  const methods = ['certify-earliest-version', 'compare-memories-to-scars', 'let-the-copy-identify-original', 'declare-authenticity-transferable'];
+  const ids = [];
+  for (const c of claimants) {
+    for (const p of provenances) {
+      for (const m of methods) {
+        ids.push(`${c}:${p}:${m}`);
+      }
+    }
+  }
+  return ids;
+})();
+const fullV77TribunalOutcomes = [
+  'one-self-became-the-only-original',
+  'all-possible-selves-merged-into-one',
+  'every-copy-became-an-original',
+];
+
+function makeV78Button({ disabled = false, hidden = false } = {}) {
+  return { disabled, hidden, pressed: null, setAttribute(name, value) { if (name === "aria-pressed") this.pressed = value; }, removeAttribute() {}, closest: () => null, addEventListener() {} };
+}
+function makeV78Box({ hidden = true } = {}) {
+  return { hidden, children: [], className: "", textContent: "", setAttribute() {}, removeAttribute(name) { if (name === "hidden") this.hidden = false; }, closest: () => null, addEventListener() {}, appendChild(c) { this.children.push(c); }, querySelector: () => null };
+}
+
+function makeV78Context({
+  initialStore = {},
+  elements = {},
+  scene = '',
+  v77unlocked = true,
+  certificates = fullV77CoverageCertificates,
+  tribunalOutcomes = fullV77TribunalOutcomes,
+} = {}) {
+  const storeData = { ...initialStore };
+  const store = {
+    get(k, def) { return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def; },
+    set(k, v) { storeData[k] = v; },
+  };
+  const queries = [];
+  const $ = (rawId) => { queries.push(rawId); return elements[rawId.replace(/^#/, '')] || null; };
+  const scheduleCalls = [];
+  const AutoAdvance = { has(src) { return false; }, schedule(src, target, opts) { scheduleCalls.push({ src, target, opts }); } };
+  const AudioEngine = { whoosh() {}, bell() {} };
+  const selfAuthenticityOfficeUnlocked = () => v77unlocked;
+  const selfAuthenticityCoverageComplete = (st) => v77unlocked && Array.isArray(st.certificates) && st.certificates.length === 36;
+  const getSelfAuthenticity = () => v77unlocked ? { certificates, tribunalOutcomes } : { certificates: [], tribunalOutcomes: [] };
+  const buttonAvailable = (id) => {
+    const btn = $(`#${id}`);
+    if (!btn || btn.disabled || btn.hidden) return false;
+    if (typeof btn.closest === 'function' && btn.closest('[hidden]')) return false;
+    return true;
+  };
+  const document = {
+    createElement(tag) {
+      return {
+        tagName: tag,
+        className: "",
+        innerHTML: "",
+        textContent: "",
+        children: [],
+        hidden: true,
+        setAttribute() {},
+        removeAttribute(name) { if (name === "hidden") this.hidden = false; },
+        appendChild(c) { this.children.push(c); },
+      };
+    },
+  };
+  const body = v78ExecSource + "\nreturn { FIRST_PERSON_RATIONING_KEY, FIRST_PERSON_RATIONING_VERSION, FIRST_PERSON_RATIONING_SPEAKERS, FIRST_PERSON_RATIONING_ENTITLEMENTS, FIRST_PERSON_RATIONING_SCHEMES, FIRST_PERSON_RATIONING_COURT_ACTIONS, FIRST_PERSON_RATIONING_SCENE_FOR_ENTITLEMENT, FIRST_PERSON_RATIONING_ENTRY_FEEDBACK, FIRST_PERSON_RATIONING_COURT_ENTRY_FEEDBACK, FIRST_PERSON_RATIONING_SPEAKER_TABLE, FIRST_PERSON_RATIONING_ENTITLEMENT_TABLE, FIRST_PERSON_RATIONING_SCHEME_TABLE, FIRST_PERSON_RATIONING_COURT_TABLE, RATION_IDS, RATION_SET, COURT_OUTCOME_IDS, COURT_OUTCOME_SET, defaultFirstPersonRationing, normalizeFirstPersonRationingVisited, normalizeFirstPersonRationingDraft, normalizeFirstPersonRationingRations, normalizeFirstPersonRationingCourtOutcomes, normalizeFirstPersonRationingSpeakerTallies, normalizeFirstPersonRationingActiveAllocator, normalizeFirstPersonRationingPending, saveFirstPersonRationing, getFirstPersonRationing, firstPersonRationingUnlocked, firstPersonRationingCoverageComplete, computeFirstPersonRationingSpeakerTalliesMajority, computeRationId, computeRationTitle, computeRationFeedback, findRationById, computeCourtOutcomeId, firstPersonRationingDelay, firstPersonRationingBeforeArrive, resolveFirstPersonRationingPendingOnArrival, lockFirstPersonRationingSpeakerButtons, lockFirstPersonRationingEntitlementButtons, lockFirstPersonRationingSchemeButtons, lockFirstPersonRationingCourtButtons, syncFirstPersonRationingBureau, syncFirstPersonRationingArchive, syncFirstPersonRationingChamber, syncFirstPersonRationingCourt, syncFirstPersonRationingAllocators, paintFirstPersonRationingAllocator, paintFirstPersonRationingMemory, paintFirstPersonRationingCodex, syncFirstPersonRationingRemembrance, syncFirstPersonRationingLinks, replayFirstPersonRationingPending, chooseFirstPersonRationingSpeaker, chooseFirstPersonRationingEntitlement, chooseFirstPersonRationingScheme, chooseFirstPersonRationingAllocatorReturn, chooseFirstPersonRationingEntry, chooseFirstPersonRationingCourtEntry, chooseFirstPersonRationingCourtAction, firstPersonRationingCanVisitBureau, firstPersonRationingCanVisitArchive, firstPersonRationingCanVisitChamber, firstPersonRationingCanVisitCourt, firstPersonRationingBridgeAllows };";
+  const v78 = new Function("store", "$", "currentScene", "AutoAdvance", "AudioEngine", "reduced", "selfAuthenticityOfficeUnlocked", "getSelfAuthenticity", "selfAuthenticityCoverageComplete", "buttonAvailable", "document", body)(store, $, scene, AutoAdvance, AudioEngine, false, selfAuthenticityOfficeUnlocked, getSelfAuthenticity, selfAuthenticityCoverageComplete, buttonAvailable, document);
+  const read = () => {
+    try { return JSON.parse(storeData[FIRST_PERSON_RATIONING_KEY] || "{}") || {}; } catch { return {}; }
+  };
+  return { v78, storeData, read, queries, scheduleCalls };
+}
+
+// 36 ration IDs 固定顺序
+{
+  const ctx = makeV78Context({});
+  assert.strictEqual(ctx.v78.RATION_IDS.length, 36, "v78 has 36 ration ids");
+  const expected = [];
+  for (const s of ctx.v78.FIRST_PERSON_RATIONING_SPEAKERS) {
+    for (const e of ctx.v78.FIRST_PERSON_RATIONING_ENTITLEMENTS) {
+      for (const sc of ctx.v78.FIRST_PERSON_RATIONING_SCHEMES) {
+        expected.push(`${s}:${e}:${sc}`);
+      }
+    }
+  }
+  assert.deepStrictEqual(ctx.v78.RATION_IDS, expected, "ration ids follow SPEAKERS×ENTITLEMENTS×SCHEMES order");
+  assert.strictEqual(ctx.v78.RATION_SET.size, 36, "ration ids are unique");
+}
+
+// 3 court outcome IDs 固定顺序
+{
+  const ctx = makeV78Context({});
+  assert.deepStrictEqual(ctx.v78.COURT_OUTCOME_IDS, [
+    'one-voice-belonged-to-everyone-in-turn',
+    'every-self-spoke-as-i-at-once',
+    'silence-became-the-only-legal-speaker',
+  ], "court outcome ids follow COURT_ACTIONS order");
+}
+
+// 默认态与 canonical 十一键
+{
+  const ctx = makeV78Context({});
+  const st = ctx.v78.defaultFirstPersonRationing();
+  assert.deepStrictEqual(Object.keys(st).sort(), ["activeAllocator", "courtOutcomes", "courtRuns", "draft", "lastOutcome", "pending", "rationRuns", "rations", "speakerTallies", "version", "visited"], "defaultFirstPersonRationing has exactly eleven keys");
+  assert.strictEqual(st.version, 78);
+  assert.deepStrictEqual(st.visited, { bureau: false, archive: false, chamber: false, court: false });
+  assert.deepStrictEqual(st.draft, { speaker: "", entitlement: "" });
+  assert.deepStrictEqual(st.rations, []);
+  assert.deepStrictEqual(st.courtOutcomes, []);
+  assert.strictEqual(st.rationRuns, 0);
+  assert.strictEqual(st.courtRuns, 0);
+  assert.deepStrictEqual(st.speakerTallies, { many: 0, copies: 0, silence: 0 });
+  assert.strictEqual(st.lastOutcome, "");
+  assert.strictEqual(st.activeAllocator, null);
+  assert.strictEqual(st.pending, null);
+}
+
+// 坏 JSON / version / type / 未解锁回默认态
+{
+  const ctx = makeV78Context({ initialStore: { [FIRST_PERSON_RATIONING_KEY]: "not-json" } });
+  assert.deepStrictEqual(ctx.v78.getFirstPersonRationing(), ctx.v78.defaultFirstPersonRationing(), "bad json returns default");
+  const ctx2 = makeV78Context({ initialStore: { [FIRST_PERSON_RATIONING_KEY]: JSON.stringify({ version: 77, visited: { bureau: true } }) } });
+  assert.deepStrictEqual(ctx2.v78.getFirstPersonRationing(), ctx2.v78.defaultFirstPersonRationing(), "wrong version returns default");
+  const ctx3 = makeV78Context({ initialStore: { [FIRST_PERSON_RATIONING_KEY]: JSON.stringify([]) } });
+  assert.deepStrictEqual(ctx3.v78.getFirstPersonRationing(), ctx3.v78.defaultFirstPersonRationing(), "array returns default");
+  const ctx4 = makeV78Context({ initialStore: { [FIRST_PERSON_RATIONING_KEY]: JSON.stringify({ version: 78, visited: { bureau: true } }) }, v77unlocked: false });
+  assert.deepStrictEqual(ctx4.v78.getFirstPersonRationing(), ctx4.v78.defaultFirstPersonRationing(), "locked returns default");
+}
+
+// 合法解锁读取必须把运行时资格交给 v79，且不污染持久化 canonical 十一键
+{
+  const ctx = makeV78Context({});
+  ctx.v78.saveFirstPersonRationing(ctx.v78.defaultFirstPersonRationing());
+  const loaded = ctx.v78.getFirstPersonRationing();
+  assert.strictEqual(loaded._v78unlocked, true, "unlocked v78 getter exposes runtime _v78unlocked for v79");
+  assert.deepStrictEqual(Object.keys(ctx.read()).sort(), ["activeAllocator", "courtOutcomes", "courtRuns", "draft", "lastOutcome", "pending", "rationRuns", "rations", "speakerTallies", "version", "visited"], "runtime unlock flag never enters persisted v78 eleven-key state");
+}
+
+// 解锁只读 v77：锁定态下 direct hash 归 remembrance
+{
+  const ctx = makeV78Context({ v77unlocked: false });
+  assert.strictEqual(ctx.v78.firstPersonRationingUnlocked(), false, "v78 locked when v77 locked");
+  assert.strictEqual(ctx.v78.firstPersonRationingCanVisitBureau(), false, "locked bureau guard blocks");
+  assert.strictEqual(ctx.v78.firstPersonRationingCanVisitArchive(), false, "locked archive guard blocks");
+  assert.strictEqual(ctx.v78.firstPersonRationingCanVisitChamber(), false, "locked chamber guard blocks");
+  assert.strictEqual(ctx.v78.firstPersonRationingCanVisitCourt(), false, "locked court guard blocks");
+}
+
+// 规范化：visited / draft / rations / courtOutcomes / tallies / lastOutcome / activeAllocator
+{
+  const ctx = makeV78Context({});
+  const base = ctx.v78.defaultFirstPersonRationing();
+  base.visited = { bureau: 1, archive: "yes", chamber: true, court: null };
+  assert.deepStrictEqual(ctx.v78.normalizeFirstPersonRationingVisited(base.visited), { bureau: false, archive: false, chamber: true, court: false });
+  assert.deepStrictEqual(ctx.v78.normalizeFirstPersonRationingDraft({ speaker: "many-selves-one-body", entitlement: "first-breath-token" }), { speaker: "many-selves-one-body", entitlement: "first-breath-token" });
+  assert.deepStrictEqual(ctx.v78.normalizeFirstPersonRationingDraft({ speaker: "bad", entitlement: "first-breath-token" }), { speaker: "", entitlement: "" });
+  assert.deepStrictEqual(ctx.v78.normalizeFirstPersonRationingDraft({ speaker: "many-selves-one-body", entitlement: "bad" }), { speaker: "many-selves-one-body", entitlement: "" });
+  assert.deepStrictEqual(ctx.v78.normalizeFirstPersonRationingDraft({ speaker: "", entitlement: "first-breath-token" }), { speaker: "", entitlement: "" });
+  const ids = [ctx.v78.RATION_IDS[5], ctx.v78.RATION_IDS[0], ctx.v78.RATION_IDS[5], 'bad:id'];
+  assert.deepStrictEqual(ctx.v78.normalizeFirstPersonRationingRations(ids), [ctx.v78.RATION_IDS[0], ctx.v78.RATION_IDS[5]], "rations dedup and fixed order");
+  const outcomes = ['one-voice-belonged-to-everyone-in-turn', 'bad-outcome', 'one-voice-belonged-to-everyone-in-turn', 'every-self-spoke-as-i-at-once', 'silence-became-the-only-legal-speaker'];
+  assert.deepStrictEqual(ctx.v78.normalizeFirstPersonRationingCourtOutcomes(outcomes), ['one-voice-belonged-to-everyone-in-turn', 'every-self-spoke-as-i-at-once', 'silence-became-the-only-legal-speaker'], "court outcomes dedup and fixed order");
+  assert.deepStrictEqual(ctx.v78.normalizeFirstPersonRationingSpeakerTallies({ many: 1.7, copies: -3, silence: 99999 }), { many: 1, copies: 0, silence: 9999 }, "tallies clamp and floor");
+  const ration = ctx.v78.RATION_IDS[0];
+  const entitlement = ration.split(':')[1];
+  assert.strictEqual(ctx.v78.normalizeFirstPersonRationingActiveAllocator({ entitlement, ration, feedback: ctx.v78.FIRST_PERSON_RATIONING_ENTITLEMENT_TABLE[entitlement].allocatorFeedback }, [ration]).ration, ration, "activeAllocator ok");
+  assert.strictEqual(ctx.v78.normalizeFirstPersonRationingActiveAllocator({ entitlement: 'ownerless-signature-impression', ration, feedback: ctx.v78.FIRST_PERSON_RATIONING_ENTITLEMENT_TABLE['ownerless-signature-impression'].allocatorFeedback }, [ration]), null, "activeAllocator entitlement mismatch");
+}
+
+// activeAllocator 要求 ration 已收集且 entitlement 匹配第二段
+{
+  const ctx = makeV78Context({});
+  const ration = ctx.v78.RATION_IDS[0];
+  const parts = ration.split(':');
+  const fb = ctx.v78.FIRST_PERSON_RATIONING_ENTITLEMENT_TABLE[parts[1]].allocatorFeedback;
+  assert.ok(ctx.v78.normalizeFirstPersonRationingActiveAllocator({ entitlement: parts[1], ration, feedback: fb }, [ration]), "allocator matches collected ration");
+  assert.strictEqual(ctx.v78.normalizeFirstPersonRationingActiveAllocator({ entitlement: parts[1], ration, feedback: fb }, []), null, "allocator rejected when ration not collected");
+  const other = ctx.v78.RATION_IDS[4];
+  const otherParts = other.split(':');
+  assert.strictEqual(ctx.v78.normalizeFirstPersonRationingActiveAllocator({ entitlement: otherParts[1], ration, feedback: ctx.v78.FIRST_PERSON_RATIONING_ENTITLEMENT_TABLE[otherParts[1]].allocatorFeedback }, [ration]), null, "allocator rejected when entitlement does not equal ration second segment");
+}
+
+// save/get roundtrip 投影去重
+{
+  const ctx = makeV78Context({});
+  const st = ctx.v78.defaultFirstPersonRationing();
+  st.visited.bureau = true;
+  st.draft = { speaker: "many-selves-one-body", entitlement: "first-breath-token" };
+  const ration = ctx.v78.RATION_IDS[8];
+  st.rations = [ration, ration];
+  st.courtOutcomes = ['one-voice-belonged-to-everyone-in-turn'];
+  st.rationRuns = 2;
+  st.courtRuns = 1;
+  st.speakerTallies = { many: 0, copies: 2, silence: 0 };
+  st.lastOutcome = ration;
+  st.activeAllocator = { entitlement: ration.split(':')[1], ration, feedback: ctx.v78.FIRST_PERSON_RATIONING_ENTITLEMENT_TABLE[ration.split(':')[1]].allocatorFeedback };
+  st.pending = { kind: "entitlement", source: "voice-entitlement-archive", speaker: "many-selves-one-body", entitlement: "first-breath-token", target: "pronoun-allocation-chamber", feedback: ctx.v78.FIRST_PERSON_RATIONING_ENTITLEMENT_TABLE["first-breath-token"].feedback };
+  st.extra = "should-be-dropped";
+  ctx.v78.saveFirstPersonRationing(st);
+  const saved = ctx.read();
+  assert.deepStrictEqual(Object.keys(saved).sort(), ["activeAllocator", "courtOutcomes", "courtRuns", "draft", "lastOutcome", "pending", "rationRuns", "rations", "speakerTallies", "version", "visited"], "saved has exactly eleven keys");
+  assert.strictEqual(saved.extra, undefined, "extra key dropped");
+  assert.strictEqual(saved.rations.length, 1, "rations deduped");
+  assert.strictEqual(saved.activeAllocator.entitlement, ration.split(':')[1]);
+}
+
+// 七类 pending exact-key 严格归一化
+{
+  const ctx = makeV78Context({});
+  const base = ctx.v78.defaultFirstPersonRationing();
+  base._v78unlocked = true;
+  const speaker = "many-selves-one-body";
+  const entitlement = "first-breath-token";
+  const scheme = "one-i-per-breath";
+  const rationId = `${speaker}:${entitlement}:${scheme}`;
+  const sTable = ctx.v78.FIRST_PERSON_RATIONING_SPEAKER_TABLE[speaker];
+  const eTable = ctx.v78.FIRST_PERSON_RATIONING_ENTITLEMENT_TABLE[entitlement];
+  const ratFb = ctx.v78.computeRationFeedback(speaker, entitlement, scheme);
+
+  // entry
+  const entry = { kind: "entry", target: "first-person-rationing-bureau", feedback: ctx.v78.FIRST_PERSON_RATIONING_ENTRY_FEEDBACK };
+  assert.ok(ctx.v78.normalizeFirstPersonRationingPending(entry, base), "entry pending ok");
+  assert.strictEqual(ctx.v78.normalizeFirstPersonRationingPending({ ...entry, extra: 1 }, base), null, "entry rejects extra key");
+  assert.strictEqual(ctx.v78.normalizeFirstPersonRationingPending({ kind: "entry", target: "first-person-rationing-bureau", feedback: "bad" }, base), null, "entry rejects bad feedback");
+
+  // speaker
+  const sb = { kind: "speaker", source: "first-person-rationing-bureau", speaker, target: "voice-entitlement-archive", feedback: sTable.feedback };
+  assert.ok(ctx.v78.normalizeFirstPersonRationingPending(sb, base), "speaker pending ok");
+  assert.strictEqual(ctx.v78.normalizeFirstPersonRationingPending({ ...sb, source: "bad" }, base), null, "speaker rejects bad source");
+
+  // entitlement
+  base.draft.speaker = speaker;
+  const ent = { kind: "entitlement", source: "voice-entitlement-archive", speaker, entitlement, target: "pronoun-allocation-chamber", feedback: eTable.feedback };
+  assert.ok(ctx.v78.normalizeFirstPersonRationingPending(ent, base), "entitlement pending ok");
+  assert.strictEqual(ctx.v78.normalizeFirstPersonRationingPending({ ...ent, speaker: "copies-sharing-one-voice" }, base), null, "entitlement rejects mismatched speaker");
+
+  // ration
+  base.draft.entitlement = entitlement;
+  const rat = { kind: "ration", source: "pronoun-allocation-chamber", speaker, entitlement, scheme, ration: rationId, target: "threshold", feedback: ratFb };
+  assert.ok(ctx.v78.normalizeFirstPersonRationingPending(rat, base), "ration pending ok");
+  assert.strictEqual(ctx.v78.normalizeFirstPersonRationingPending({ ...rat, target: "remembrance" }, base), null, "ration rejects wrong target");
+  assert.strictEqual(ctx.v78.normalizeFirstPersonRationingPending({ ...rat, feedback: "free text" }, base), null, "ration rejects free text feedback");
+
+  // allocator-return
+  base.activeAllocator = { entitlement, ration: rationId, feedback: eTable.allocatorFeedback };
+  const ar = { kind: "allocator-return", from: "threshold", target: "first-person-rationing-bureau", ration: rationId, feedback: eTable.allocatorFeedback };
+  assert.ok(ctx.v78.normalizeFirstPersonRationingPending(ar, base), "allocator-return pending ok");
+  assert.strictEqual(ctx.v78.normalizeFirstPersonRationingPending({ ...ar, from: "remembrance" }, base), null, "allocator-return rejects mismatched from");
+
+  // court-entry
+  base.activeAllocator = null;
+  base.draft = { speaker: "", entitlement: "" };
+  base.rations = ctx.v78.RATION_IDS;
+  const ce = { kind: "court-entry", target: "ownerless-voices-court", feedback: ctx.v78.FIRST_PERSON_RATIONING_COURT_ENTRY_FEEDBACK };
+  assert.ok(ctx.v78.normalizeFirstPersonRationingPending(ce, base), "court-entry pending ok");
+  base.rations = [];
+  assert.strictEqual(ctx.v78.normalizeFirstPersonRationingPending(ce, base), null, "court-entry rejects incomplete coverage");
+
+  // court
+  base.rations = ctx.v78.RATION_IDS;
+  base.visited.court = true;
+  const ca = { kind: "court", source: "ownerless-voices-court", action: "grant-one-voice-to-all-in-turn", outcome: "one-voice-belonged-to-everyone-in-turn", target: "threshold", feedback: ctx.v78.FIRST_PERSON_RATIONING_COURT_TABLE["grant-one-voice-to-all-in-turn"].feedback };
+  assert.ok(ctx.v78.normalizeFirstPersonRationingPending(ca, base), "court pending ok");
+  assert.strictEqual(ctx.v78.normalizeFirstPersonRationingPending({ ...ca, outcome: "bad" }, base), null, "court rejects bad outcome");
+}
+
+// 36 rations 与 3 courtOutcomes 穷举
+{
+  const ctx = makeV78Context({});
+  for (const id of ctx.v78.RATION_IDS) {
+    const c = ctx.v78.findRationById(id);
+    assert.ok(c, `ration ${id} resolvable`);
+    assert.strictEqual(c.id, id);
+    assert.ok(c.title);
+    assert.ok(c.feedback);
+    assert.strictEqual(ctx.v78.computeRationId(c.speaker, c.entitlement, c.scheme), id);
+    assert.strictEqual(ctx.v78.computeRationTitle(c.speaker, c.entitlement, c.scheme), c.title);
+    assert.strictEqual(ctx.v78.computeRationFeedback(c.speaker, c.entitlement, c.scheme), c.feedback);
+  }
+  for (const action of ctx.v78.FIRST_PERSON_RATIONING_COURT_ACTIONS) {
+    const outcome = ctx.v78.computeCourtOutcomeId(action);
+    assert.ok(outcome);
+    assert.strictEqual(ctx.v78.FIRST_PERSON_RATIONING_COURT_TABLE[action].outcome, outcome);
+  }
+}
+
+// Coverage 4 pass / 3 fail
+{
+  const ctx = makeV78Context({});
+  const st = ctx.v78.defaultFirstPersonRationing();
+  st.rations = ctx.v78.RATION_IDS.slice(0, 3);
+  assert.strictEqual(ctx.v78.firstPersonRationingCoverageComplete(st), false, "3 rations cannot cover 4 schemes");
+  st.rations = [ctx.v78.RATION_IDS[0], ctx.v78.RATION_IDS[5], ctx.v78.RATION_IDS[22], ctx.v78.RATION_IDS[27]];
+  assert.strictEqual(ctx.v78.firstPersonRationingCoverageComplete(st), true, "4 representative rations cover all axes");
+}
+
+// replay 来源/目标/else 矩阵
+{
+  const ctx = makeV78Context({ scene: 'remembrance' });
+  const st = ctx.v78.defaultFirstPersonRationing();
+  st._v78unlocked = true;
+  st.pending = { kind: "entry", target: "first-person-rationing-bureau", feedback: ctx.v78.FIRST_PERSON_RATIONING_ENTRY_FEEDBACK };
+  ctx.v78.saveFirstPersonRationing(st);
+  ctx.v78.replayFirstPersonRationingPending('first-person-rationing-bureau');
+  assert.strictEqual(ctx.read().pending, null, "target arrival clears entry pending");
+  assert.strictEqual(ctx.read().visited.bureau, true, "target arrival marks bureau visited");
+}
+{
+  const ctx = makeV78Context({ scene: 'first-person-rationing-bureau' });
+  const st = ctx.v78.defaultFirstPersonRationing();
+  st._v78unlocked = true;
+  const speaker = "many-selves-one-body";
+  st.pending = { kind: "speaker", source: "first-person-rationing-bureau", speaker, target: "voice-entitlement-archive", feedback: ctx.v78.FIRST_PERSON_RATIONING_SPEAKER_TABLE[speaker].feedback };
+  ctx.v78.saveFirstPersonRationing(st);
+  ctx.v78.replayFirstPersonRationingPending('voice-entitlement-archive');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears speaker pending");
+  assert.strictEqual(saved.draft.speaker, speaker, "target arrival writes draft speaker");
+  assert.strictEqual(saved.visited.archive, true, "target arrival marks archive visited");
+}
+{
+  const ctx = makeV78Context({ scene: 'voice-entitlement-archive' });
+  const st = ctx.v78.defaultFirstPersonRationing();
+  st._v78unlocked = true;
+  st.draft.speaker = "many-selves-one-body";
+  const entitlement = "first-breath-token";
+  st.pending = { kind: "entitlement", source: "voice-entitlement-archive", speaker: st.draft.speaker, entitlement, target: "pronoun-allocation-chamber", feedback: ctx.v78.FIRST_PERSON_RATIONING_ENTITLEMENT_TABLE[entitlement].feedback };
+  ctx.v78.saveFirstPersonRationing(st);
+  ctx.v78.replayFirstPersonRationingPending('pronoun-allocation-chamber');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears entitlement pending");
+  assert.strictEqual(saved.draft.entitlement, entitlement, "target arrival writes draft entitlement");
+}
+{
+  const ctx = makeV78Context({ scene: 'pronoun-allocation-chamber' });
+  const st = ctx.v78.defaultFirstPersonRationing();
+  st._v78unlocked = true;
+  st.draft = { speaker: "many-selves-one-body", entitlement: "first-breath-token" };
+  const scheme = "one-i-per-breath";
+  const ration = ctx.v78.computeRationId(st.draft.speaker, st.draft.entitlement, scheme);
+  st.pending = { kind: "ration", source: "pronoun-allocation-chamber", speaker: st.draft.speaker, entitlement: st.draft.entitlement, scheme, ration, target: "threshold", feedback: ctx.v78.computeRationFeedback(st.draft.speaker, st.draft.entitlement, scheme) };
+  ctx.v78.saveFirstPersonRationing(st);
+  ctx.v78.replayFirstPersonRationingPending('threshold');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears ration pending");
+  assert.ok(saved.rations.includes(ration), "ration collected");
+  assert.strictEqual(saved.rationRuns, 1, "rationRuns incremented once");
+  assert.strictEqual(saved.activeAllocator.entitlement, "first-breath-token", "activeAllocator set");
+}
+{
+  const ctx = makeV78Context({ scene: 'threshold' });
+  const st = ctx.v78.defaultFirstPersonRationing();
+  st._v78unlocked = true;
+  const ration = ctx.v78.RATION_IDS[0];
+  const entitlement = ration.split(':')[1];
+  st.activeAllocator = { entitlement, ration, feedback: ctx.v78.FIRST_PERSON_RATIONING_ENTITLEMENT_TABLE[entitlement].allocatorFeedback };
+  st.pending = { kind: "allocator-return", from: "threshold", target: "first-person-rationing-bureau", ration, feedback: ctx.v78.FIRST_PERSON_RATIONING_ENTITLEMENT_TABLE[entitlement].allocatorFeedback };
+  ctx.v78.saveFirstPersonRationing(st);
+  ctx.v78.replayFirstPersonRationingPending('first-person-rationing-bureau');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears allocator-return pending");
+  assert.strictEqual(saved.activeAllocator, null, "activeAllocator cleared");
+}
+{
+  const ctx = makeV78Context({ scene: 'remembrance' });
+  const st = ctx.v78.defaultFirstPersonRationing();
+  st._v78unlocked = true;
+  st.rations = ctx.v78.RATION_IDS;
+  st.pending = { kind: "court-entry", target: "ownerless-voices-court", feedback: ctx.v78.FIRST_PERSON_RATIONING_COURT_ENTRY_FEEDBACK };
+  ctx.v78.saveFirstPersonRationing(st);
+  ctx.v78.replayFirstPersonRationingPending('ownerless-voices-court');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears court-entry pending");
+  assert.strictEqual(saved.visited.court, true, "target arrival marks court visited");
+}
+{
+  const ctx = makeV78Context({ scene: 'ownerless-voices-court' });
+  const st = ctx.v78.defaultFirstPersonRationing();
+  st._v78unlocked = true;
+  st.rations = ctx.v78.RATION_IDS;
+  st.visited.court = true;
+  const court = { kind: "court", source: "ownerless-voices-court", action: "grant-one-voice-to-all-in-turn", outcome: "one-voice-belonged-to-everyone-in-turn", target: "threshold", feedback: ctx.v78.FIRST_PERSON_RATIONING_COURT_TABLE["grant-one-voice-to-all-in-turn"].feedback };
+  st.pending = court;
+  ctx.v78.saveFirstPersonRationing(st);
+  ctx.v78.replayFirstPersonRationingPending('threshold');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears court pending");
+  assert.ok(saved.courtOutcomes.includes('one-voice-belonged-to-everyone-in-turn'), "court outcome collected");
+  assert.strictEqual(saved.courtRuns, 1, "courtRuns incremented once");
+}
+{
+  // source arrival schedules transition
+  const ctx = makeV78Context({ scene: 'first-person-rationing-bureau' });
+  const st = ctx.v78.defaultFirstPersonRationing();
+  st._v78unlocked = true;
+  const speaker = "many-selves-one-body";
+  st.pending = { kind: "speaker", source: "first-person-rationing-bureau", speaker, target: "voice-entitlement-archive", feedback: ctx.v78.FIRST_PERSON_RATIONING_SPEAKER_TABLE[speaker].feedback };
+  ctx.v78.saveFirstPersonRationing(st);
+  ctx.v78.replayFirstPersonRationingPending('first-person-rationing-bureau');
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "source arrival schedules one transition");
+  assert.strictEqual(ctx.read().pending.kind, 'speaker', "source arrival keeps pending");
+}
+{
+  // else clears pending without side effects
+  const ctx = makeV78Context({ scene: 'protocol' });
+  const st = ctx.v78.defaultFirstPersonRationing();
+  st._v78unlocked = true;
+  st.pending = { kind: "entry", target: "first-person-rationing-bureau", feedback: ctx.v78.FIRST_PERSON_RATIONING_ENTRY_FEEDBACK };
+  ctx.v78.saveFirstPersonRationing(st);
+  ctx.v78.replayFirstPersonRationingPending('protocol');
+  assert.strictEqual(ctx.read().pending, null, "else clears pending");
+  assert.strictEqual(ctx.read().visited.bureau, false, "else does not mark visited");
+}
+
+// 重复 ration 不重复图鉴但增加 rationRuns / tallies
+{
+  const ctx = makeV78Context({ scene: 'pronoun-allocation-chamber' });
+  const st = ctx.v78.defaultFirstPersonRationing();
+  st._v78unlocked = true;
+  st.draft = { speaker: "many-selves-one-body", entitlement: "first-breath-token" };
+  const scheme = "one-i-per-breath";
+  const ration = ctx.v78.computeRationId(st.draft.speaker, st.draft.entitlement, scheme);
+  st.rations = [ration];
+  st.rationRuns = 3;
+  st.speakerTallies.many = 3;
+  st.pending = { kind: "ration", source: "pronoun-allocation-chamber", speaker: st.draft.speaker, entitlement: st.draft.entitlement, scheme, ration, target: "threshold", feedback: ctx.v78.computeRationFeedback(st.draft.speaker, st.draft.entitlement, scheme) };
+  ctx.v78.saveFirstPersonRationing(st);
+  ctx.v78.replayFirstPersonRationingPending('threshold');
+  const saved = ctx.read();
+  assert.strictEqual(saved.rations.length, 1, "duplicate ration not added");
+  assert.strictEqual(saved.rationRuns, 4, "duplicate still increments rationRuns");
+  assert.strictEqual(saved.speakerTallies.many, 4, "duplicate still increments tally");
+}
+
+// 18 组 isTrusted 防线
+{
+  const v78ListenerBlock = v78ModuleBlock[0].match(/const firstPersonRationingEntryBtn = \$\('#first-person-rationing-entry-btn'\);[\s\S]*?$/);
+  assert.ok(v78ListenerBlock, "v78 click listener block must exist");
+  assert.equal((v78ListenerBlock[0].match(/!e\.isTrusted/g) || []).length, 18, "v78 must guard all eighteen click listeners with isTrusted");
+}
+
+// 合成 click 零副作用
+{
+  const ctx = makeV78Context({ scene: 'first-person-rationing-bureau' });
+  const btn = { disabled: false, hidden: false, pressed: null, closest: () => null, addEventListener(type, fn) { this._fn = fn; }, setAttribute(name, value) { if (name === 'aria-pressed') this.pressed = value; }, removeAttribute() {} };
+  btn.addEventListener('click', (e) => { if (!e.isTrusted) return; ctx.v78.chooseFirstPersonRationingSpeaker('many-selves-one-body'); });
+  btn._fn({ isTrusted: false });
+  assert.strictEqual(ctx.read().pending ?? null, null, "synthetic click does not create v78 pending");
+}
+
+// 按钮 choose 处理与 UI 禁用一致性
+{
+  const speakerBtn = makeV78Button();
+  const ctx = makeV78Context({ scene: "first-person-rationing-bureau", elements: { "first-person-rationing-speaker-many-selves-one-body": speakerBtn } });
+  ctx.v78.chooseFirstPersonRationingSpeaker('many-selves-one-body');
+  assert.ok(ctx.scheduleCalls.length > 0, "choose speaker schedules transition");
+  assert.strictEqual(ctx.read().pending.kind, 'speaker', "choose speaker creates pending");
+}
+{
+  const entitlementBtn = makeV78Button();
+  const ctx = makeV78Context({ scene: "voice-entitlement-archive", elements: { "voice-entitlement-first-breath-token": entitlementBtn } });
+  ctx.v78.saveFirstPersonRationing({ ...ctx.v78.defaultFirstPersonRationing(), draft: { speaker: "many-selves-one-body", entitlement: "" } });
+  ctx.v78.chooseFirstPersonRationingEntitlement('first-breath-token');
+  assert.strictEqual(ctx.read().pending.kind, 'entitlement', "choose entitlement creates pending");
+}
+{
+  const schemeBtn = makeV78Button();
+  const ctx = makeV78Context({ scene: "pronoun-allocation-chamber", elements: { "pronoun-allocation-one-i-per-breath": schemeBtn } });
+  ctx.v78.saveFirstPersonRationing({ ...ctx.v78.defaultFirstPersonRationing(), draft: { speaker: "many-selves-one-body", entitlement: "first-breath-token" } });
+  ctx.v78.chooseFirstPersonRationingScheme('one-i-per-breath');
+  assert.strictEqual(ctx.read().pending.kind, 'ration', "choose scheme creates ration pending");
+}
+{
+  const allocatorBtn = makeV78Button();
+  const helperCtx = makeV78Context({});
+  const ration = helperCtx.v78.RATION_IDS[0];
+  const entitlement = ration.split(':')[1];
+  const scene = helperCtx.v78.FIRST_PERSON_RATIONING_SCENE_FOR_ENTITLEMENT[entitlement];
+  const ctx = makeV78Context({ scene, elements: { [`first-person-rationing-allocator-return-${scene}`]: allocatorBtn } });
+  ctx.v78.saveFirstPersonRationing({ ...ctx.v78.defaultFirstPersonRationing(), rations: [ration], activeAllocator: { entitlement, ration, feedback: ctx.v78.FIRST_PERSON_RATIONING_ENTITLEMENT_TABLE[entitlement].allocatorFeedback } });
+  ctx.v78.chooseFirstPersonRationingAllocatorReturn(scene);
+  assert.strictEqual(ctx.read().pending.kind, 'allocator-return', "choose allocator return creates pending");
+}
+{
+  const entryBtn = makeV78Button();
+  const ctx = makeV78Context({ scene: "remembrance", elements: { "first-person-rationing-entry-btn": entryBtn } });
+  ctx.v78.chooseFirstPersonRationingEntry();
+  assert.strictEqual(ctx.read().pending.kind, 'entry', "choose entry creates entry pending");
+}
+{
+  const courtEntryBtn = makeV78Button();
+  const ctx = makeV78Context({ scene: "remembrance", elements: { "first-person-rationing-court-entry-btn": courtEntryBtn } });
+  ctx.v78.saveFirstPersonRationing({ ...ctx.v78.defaultFirstPersonRationing(), rations: ctx.v78.RATION_IDS });
+  ctx.v78.chooseFirstPersonRationingCourtEntry();
+  assert.strictEqual(ctx.read().pending.kind, 'court-entry', "choose court entry creates court-entry pending");
+}
+{
+  const courtBtn = makeV78Button();
+  const ctx = makeV78Context({ scene: "ownerless-voices-court", elements: { "ownerless-voices-grant-one-voice-to-all-in-turn": courtBtn } });
+  ctx.v78.saveFirstPersonRationing({ ...ctx.v78.defaultFirstPersonRationing(), rations: ctx.v78.RATION_IDS, visited: { bureau: true, archive: true, chamber: true, court: true } });
+  ctx.v78.chooseFirstPersonRationingCourtAction('grant-one-voice-to-all-in-turn');
+  assert.strictEqual(ctx.read().pending.kind, 'court', "choose court action creates court pending");
+}
+
+// activeAllocator / draft / pending 一致性
+{
+  function makeV78AllocatorButton({ disabled = false, hidden = false } = {}) {
+    return { disabled, hidden, pressed: null, setAttribute(name, value) { if (name === "aria-pressed") this.pressed = value; }, removeAttribute() {}, closest: () => null, addEventListener() {} };
+  }
+  const helperCtx = makeV78Context({});
+  const ration = helperCtx.v78.RATION_IDS[0];
+  const entitlement = ration.split(':')[1];
+  const allocFb = helperCtx.v78.FIRST_PERSON_RATIONING_ENTITLEMENT_TABLE[entitlement].allocatorFeedback;
+
+  // activeAllocator 期间 pending 归一化拒绝非 allocator-return
+  {
+    const ctx = makeV78Context({});
+    const baseSt = ctx.v78.defaultFirstPersonRationing();
+    baseSt._v78unlocked = true;
+    baseSt.activeAllocator = { entitlement, ration, feedback: allocFb };
+    assert.strictEqual(ctx.v78.normalizeFirstPersonRationingPending({ kind: "entry", target: "first-person-rationing-bureau", feedback: ctx.v78.FIRST_PERSON_RATIONING_ENTRY_FEEDBACK }, baseSt), null, "entry pending rejected while activeAllocator");
+    assert.strictEqual(ctx.v78.normalizeFirstPersonRationingPending({ kind: "speaker", source: "first-person-rationing-bureau", speaker: "many-selves-one-body", target: "voice-entitlement-archive", feedback: ctx.v78.FIRST_PERSON_RATIONING_SPEAKER_TABLE["many-selves-one-body"].feedback }, baseSt), null, "speaker pending rejected while activeAllocator");
+    baseSt.draft.speaker = 'many-selves-one-body';
+    assert.strictEqual(ctx.v78.normalizeFirstPersonRationingPending({ kind: "entitlement", source: "voice-entitlement-archive", speaker: "many-selves-one-body", entitlement: "first-breath-token", target: "pronoun-allocation-chamber", feedback: ctx.v78.FIRST_PERSON_RATIONING_ENTITLEMENT_TABLE["first-breath-token"].feedback }, baseSt), null, "entitlement pending rejected while activeAllocator");
+    baseSt.draft.entitlement = 'first-breath-token';
+    assert.strictEqual(ctx.v78.normalizeFirstPersonRationingPending({ kind: "ration", source: "pronoun-allocation-chamber", speaker: "many-selves-one-body", entitlement: "first-breath-token", scheme: "one-i-per-breath", ration, target: "threshold", feedback: ctx.v78.computeRationFeedback("many-selves-one-body", "first-breath-token", "one-i-per-breath") }, baseSt), null, "ration pending rejected while activeAllocator");
+    baseSt.rations = ctx.v78.RATION_IDS;
+    assert.strictEqual(ctx.v78.normalizeFirstPersonRationingPending({ kind: "court-entry", target: "ownerless-voices-court", feedback: ctx.v78.FIRST_PERSON_RATIONING_COURT_ENTRY_FEEDBACK }, baseSt), null, "court-entry pending rejected while activeAllocator");
+    baseSt.visited.court = true;
+    assert.strictEqual(ctx.v78.normalizeFirstPersonRationingPending({ kind: "court", source: "ownerless-voices-court", action: "grant-one-voice-to-all-in-turn", outcome: "one-voice-belonged-to-everyone-in-turn", target: "threshold", feedback: ctx.v78.FIRST_PERSON_RATIONING_COURT_TABLE["grant-one-voice-to-all-in-turn"].feedback }, baseSt), null, "court pending rejected while activeAllocator");
+  }
+
+  // activeAllocator 期间 handler 拒绝 speaker/entitlement/scheme/court
+  {
+    const speakerBtns = {
+      "first-person-rationing-speaker-many-selves-one-body": makeV78AllocatorButton(),
+      "first-person-rationing-speaker-copies-sharing-one-voice": makeV78AllocatorButton(),
+      "first-person-rationing-speaker-ownerless-silence": makeV78AllocatorButton(),
+    };
+    const ctx = makeV78Context({ scene: "first-person-rationing-bureau", elements: speakerBtns });
+    ctx.v78.saveFirstPersonRationing({ ...ctx.v78.defaultFirstPersonRationing(), rations: [ration], activeAllocator: { entitlement, ration, feedback: allocFb } });
+    ctx.v78.syncFirstPersonRationingBureau();
+    assert.ok(Object.values(speakerBtns).every((b) => b.disabled), "speaker buttons disabled while activeAllocator");
+
+    const entitlementBtns = {
+      "voice-entitlement-first-breath-token": makeV78AllocatorButton(),
+      "voice-entitlement-ownerless-signature-impression": makeV78AllocatorButton(),
+      "voice-entitlement-future-inherited-echo": makeV78AllocatorButton(),
+    };
+    const ctx2 = makeV78Context({ scene: "voice-entitlement-archive", elements: entitlementBtns });
+    ctx2.v78.saveFirstPersonRationing({ ...ctx2.v78.defaultFirstPersonRationing(), draft: { speaker: "many-selves-one-body", entitlement: "" }, rations: [ration], activeAllocator: { entitlement, ration, feedback: allocFb } });
+    ctx2.v78.syncFirstPersonRationingArchive();
+    assert.ok(Object.values(entitlementBtns).every((b) => b.disabled), "entitlement buttons disabled while activeAllocator");
+
+    const schemeBtns = {
+      "pronoun-allocation-one-i-per-breath": makeV78AllocatorButton(),
+      "pronoun-allocation-lend-the-voice-to-shadow": makeV78AllocatorButton(),
+      "pronoun-allocation-rotate-one-voice-among-copies": makeV78AllocatorButton(),
+      "pronoun-allocation-let-silence-claim-the-pronoun": makeV78AllocatorButton(),
+    };
+    const ctx3 = makeV78Context({ scene: "pronoun-allocation-chamber", elements: schemeBtns });
+    ctx3.v78.saveFirstPersonRationing({ ...ctx3.v78.defaultFirstPersonRationing(), draft: { speaker: "many-selves-one-body", entitlement: "first-breath-token" }, rations: [ration], activeAllocator: { entitlement, ration, feedback: allocFb } });
+    ctx3.v78.syncFirstPersonRationingChamber();
+    assert.ok(Object.values(schemeBtns).every((b) => b.disabled), "scheme buttons disabled while activeAllocator");
+
+    const courtBtns = {
+      "ownerless-voices-grant-one-voice-to-all-in-turn": makeV78AllocatorButton(),
+      "ownerless-voices-abolish-pronoun-rationing": makeV78AllocatorButton(),
+      "ownerless-voices-recognize-silence-as-only-speaker": makeV78AllocatorButton(),
+    };
+    const figure = makeV78Box();
+    const ctx4 = makeV78Context({ scene: "ownerless-voices-court", elements: { "ownerless-voices-court-figure": figure, ...courtBtns } });
+    ctx4.v78.saveFirstPersonRationing({ ...ctx4.v78.defaultFirstPersonRationing(), rations: ctx4.v78.RATION_IDS, visited: { bureau: true, archive: true, chamber: true, court: true }, activeAllocator: { entitlement, ration, feedback: allocFb } });
+    ctx4.v78.syncFirstPersonRationingCourt();
+    assert.ok(Object.values(courtBtns).every((b) => b.disabled), "court buttons disabled while activeAllocator");
+  }
+
+  // pending 期间所有 v78 选择按钮禁用
+  {
+    const speakerBtns = {
+      "first-person-rationing-speaker-many-selves-one-body": makeV78AllocatorButton(),
+      "first-person-rationing-speaker-copies-sharing-one-voice": makeV78AllocatorButton(),
+      "first-person-rationing-speaker-ownerless-silence": makeV78AllocatorButton(),
+    };
+    const ctx = makeV78Context({ scene: "first-person-rationing-bureau", elements: speakerBtns });
+    ctx.v78.saveFirstPersonRationing({ ...ctx.v78.defaultFirstPersonRationing(), pending: { kind: "entry", target: "first-person-rationing-bureau", feedback: ctx.v78.FIRST_PERSON_RATIONING_ENTRY_FEEDBACK } });
+    ctx.v78.syncFirstPersonRationingBureau();
+    assert.ok(Object.values(speakerBtns).every((b) => b.disabled), "speaker buttons disabled while pending");
+  }
+
+  // draft 中途禁止并行 entry/court-entry/court
+  {
+    const courtEntryBtn = makeV78AllocatorButton();
+    const ctx = makeV78Context({ scene: "remembrance", elements: { "first-person-rationing-court-entry-btn": courtEntryBtn } });
+    ctx.v78.saveFirstPersonRationing({ ...ctx.v78.defaultFirstPersonRationing(), rations: ctx.v78.RATION_IDS, draft: { speaker: "many-selves-one-body", entitlement: "" } });
+    ctx.v78.syncFirstPersonRationingRemembrance();
+    assert.strictEqual(courtEntryBtn.hidden, false, "court-entry stays visible while draft in progress");
+    assert.strictEqual(courtEntryBtn.disabled, true, "court-entry disabled while draft in progress");
+    ctx.v78.chooseFirstPersonRationingCourtEntry();
+    assert.strictEqual(ctx.read().pending ?? null, null, "choose court entry no-op while draft in progress");
+
+    const courtBtns = {
+      "ownerless-voices-grant-one-voice-to-all-in-turn": makeV78AllocatorButton(),
+      "ownerless-voices-abolish-pronoun-rationing": makeV78AllocatorButton(),
+      "ownerless-voices-recognize-silence-as-only-speaker": makeV78AllocatorButton(),
+    };
+    const figure = makeV78Box({ hidden: true });
+    const ctx2 = makeV78Context({ scene: "ownerless-voices-court", elements: { "ownerless-voices-court-figure": figure, ...courtBtns } });
+    ctx2.v78.saveFirstPersonRationing({ ...ctx2.v78.defaultFirstPersonRationing(), rations: ctx2.v78.RATION_IDS, visited: { bureau: true, archive: true, chamber: true, court: true }, draft: { speaker: "many-selves-one-body", entitlement: "first-breath-token" } });
+    ctx2.v78.syncFirstPersonRationingCourt();
+    assert.strictEqual(figure.hidden, false, "court figure visible while draft in progress");
+    assert.ok(Object.values(courtBtns).every((b) => b.disabled), "court buttons disabled while draft in progress");
+    ctx2.v78.chooseFirstPersonRationingCourtAction('grant-one-voice-to-all-in-turn');
+    assert.strictEqual(ctx2.read().pending ?? null, null, "choose court action no-op while draft in progress");
+  }
+  {
+    // 伪造 persisted pending 在 save 时通过 normalize 丢弃
+    const ctx = makeV78Context({});
+    ctx.v78.saveFirstPersonRationing({ ...ctx.v78.defaultFirstPersonRationing(), draft: { speaker: "many-selves-one-body", entitlement: "" }, pending: { kind: "entry", target: "first-person-rationing-bureau", feedback: ctx.v78.FIRST_PERSON_RATIONING_ENTRY_FEEDBACK } });
+    assert.strictEqual(ctx.read().pending ?? null, null, "forged entry pending dropped when draft in progress");
+
+    const ctx2 = makeV78Context({});
+    ctx2.v78.saveFirstPersonRationing({ ...ctx2.v78.defaultFirstPersonRationing(), rations: ctx2.v78.RATION_IDS, draft: { speaker: "many-selves-one-body", entitlement: "first-breath-token" }, pending: { kind: "court-entry", target: "ownerless-voices-court", feedback: ctx2.v78.FIRST_PERSON_RATIONING_COURT_ENTRY_FEEDBACK } });
+    assert.strictEqual(ctx2.read().pending ?? null, null, "forged court-entry pending dropped when draft in progress");
+
+    const ctx3 = makeV78Context({});
+    ctx3.v78.saveFirstPersonRationing({ ...ctx3.v78.defaultFirstPersonRationing(), rations: ctx3.v78.RATION_IDS, visited: { court: true }, draft: { speaker: "many-selves-one-body", entitlement: "first-breath-token" }, pending: { kind: "court", source: "ownerless-voices-court", action: "grant-one-voice-to-all-in-turn", outcome: "one-voice-belonged-to-everyone-in-turn", target: "threshold", feedback: ctx3.v78.FIRST_PERSON_RATIONING_COURT_TABLE["grant-one-voice-to-all-in-turn"].feedback } });
+    assert.strictEqual(ctx3.read().pending ?? null, null, "forged court pending dropped when draft in progress");
+  }
+}
+
+// 路由窄桥不放宽旧守卫
+{
+  const ctx = makeV78Context({});
+  const st = ctx.v78.defaultFirstPersonRationing();
+  st._v78unlocked = true;
+  st.rations = [ctx.v78.RATION_IDS[4]];
+  const entitlement = ctx.v78.RATION_IDS[4].split(':')[1];
+  st.activeAllocator = { entitlement, ration: ctx.v78.RATION_IDS[4], feedback: ctx.v78.FIRST_PERSON_RATIONING_ENTITLEMENT_TABLE[entitlement].allocatorFeedback };
+  ctx.v78.saveFirstPersonRationing(st);
+  const scene = ctx.v78.FIRST_PERSON_RATIONING_SCENE_FOR_ENTITLEMENT[entitlement];
+  assert.strictEqual(ctx.v78.firstPersonRationingBridgeAllows(scene), true, "bridge allows activeAllocator scene");
+  const unrelatedScene = Object.values(ctx.v78.FIRST_PERSON_RATIONING_SCENE_FOR_ENTITLEMENT).find((s) => s !== scene);
+  assert.strictEqual(ctx.v78.firstPersonRationingBridgeAllows(unrelatedScene), false, "bridge does not allow unrelated scene");
+  assert.strictEqual(ctx.v78.firstPersonRationingBridgeAllows('protocol'), false, "bridge never allows protocol");
+
+  // canVisit guards
+  {
+    const ctx2 = makeV78Context({});
+    const st2 = ctx2.v78.defaultFirstPersonRationing();
+    st2._v78unlocked = true;
+    st2.pending = { kind: "entry", target: "first-person-rationing-bureau", feedback: ctx2.v78.FIRST_PERSON_RATIONING_ENTRY_FEEDBACK };
+    ctx2.v78.saveFirstPersonRationing(st2);
+    assert.strictEqual(ctx2.v78.firstPersonRationingCanVisitBureau(), true, "canVisit bureau with entry pending");
+    const speaker = "many-selves-one-body";
+    const entitlement = "first-breath-token";
+    st2.pending = { kind: "speaker", source: "first-person-rationing-bureau", speaker, target: "voice-entitlement-archive", feedback: ctx2.v78.FIRST_PERSON_RATIONING_SPEAKER_TABLE[speaker].feedback };
+    ctx2.v78.saveFirstPersonRationing(st2);
+    assert.strictEqual(ctx2.v78.firstPersonRationingCanVisitArchive(), true, "canVisit archive with speaker pending");
+    st2.draft = { speaker, entitlement: '' };
+    st2.pending = { kind: "entitlement", source: "voice-entitlement-archive", speaker, entitlement, target: "pronoun-allocation-chamber", feedback: ctx2.v78.FIRST_PERSON_RATIONING_ENTITLEMENT_TABLE[entitlement].feedback };
+    ctx2.v78.saveFirstPersonRationing(st2);
+    assert.strictEqual(ctx2.v78.firstPersonRationingCanVisitChamber(), true, "canVisit chamber with entitlement pending");
+    st2.draft = { speaker: '', entitlement: '' };
+    st2.rations = ctx2.v78.RATION_IDS;
+    st2.pending = { kind: "court-entry", target: "ownerless-voices-court", feedback: ctx2.v78.FIRST_PERSON_RATIONING_COURT_ENTRY_FEEDBACK };
+    ctx2.v78.saveFirstPersonRationing(st2);
+    assert.strictEqual(ctx2.v78.firstPersonRationingCanVisitCourt(), true, "canVisit court with court-entry pending");
+  }
+}
+
+// v78 不读写旧 key
+{
+  const v78ModuleText = v78ModuleBlock[0];
+  assert.ok(!v78ModuleText.includes("saveSelfAuthenticity("), "v78 never calls saveSelfAuthenticity");
+  assert.ok(!v78ModuleText.includes("SELF_AUTHENTICITY_KEY"), "v78 never references v77 key constant");
+  assert.ok(!v78ModuleText.includes("goddead_v77_self_authenticity"), "v78 never references v77 key string");
+}
+
+// 回归 P1：v77 全满时 v78 remembrance 渲染链必须真正使入口/记忆/图鉴可见
+{
+  function makeV78RemembranceButton(hidden = true) {
+    return { disabled: false, hidden, pressed: null, setAttribute(name, value) { if (name === "aria-pressed") this.pressed = value; }, removeAttribute() {}, closest: () => null, addEventListener() {} };
+  }
+  function makeV78RemembranceBox(hidden = true) {
+    const el = {
+      tagName: "div",
+      className: "",
+      _html: "",
+      textContent: "",
+      hidden,
+      children: [],
+      setAttribute() {},
+      removeAttribute(name) { if (name === "hidden") this.hidden = false; },
+      closest: () => null,
+      addEventListener() {},
+      appendChild(c) { this.children.push(c); },
+    };
+    Object.defineProperty(el, "innerHTML", {
+      get() { return this._html; },
+      set(v) { this._html = v; this.children = []; },
+    });
+    return el;
+  }
+  const entryBtn = makeV78RemembranceButton(true);
+  const courtEntryBtn = makeV78RemembranceButton(true);
+  const memory = makeV78RemembranceBox(true);
+  const codex = makeV78RemembranceBox(true);
+  const grid = makeV78RemembranceBox(true);
+  const codexEntry = makeV78RemembranceBox(true);
+  const links = Object.fromEntries(["first-person-rationing-bureau-link", "voice-entitlement-archive-link", "pronoun-allocation-chamber-link", "ownerless-voices-court-link"].map((id) => [id, makeV78RemembranceBox(true)]));
+  const ctx = makeV78Context({
+    scene: "remembrance",
+    elements: {
+      "first-person-rationing-entry-btn": entryBtn,
+      "first-person-rationing-court-entry-btn": courtEntryBtn,
+      "first-person-rationing-memory": memory,
+      "first-person-rationing-codex": codex,
+      "first-person-rationing-codex-grid": grid,
+      "first-person-rationing-codex-entry": codexEntry,
+      ...links,
+    },
+  });
+  ctx.v78.syncFirstPersonRationingBureau();
+  ctx.v78.syncFirstPersonRationingArchive();
+  ctx.v78.syncFirstPersonRationingChamber();
+  ctx.v78.syncFirstPersonRationingCourt();
+  ctx.v78.syncFirstPersonRationingAllocators();
+  ctx.v78.paintFirstPersonRationingMemory();
+  ctx.v78.paintFirstPersonRationingCodex();
+  ctx.v78.syncFirstPersonRationingRemembrance();
+  ctx.v78.syncFirstPersonRationingLinks();
+  assert.strictEqual(entryBtn.hidden, false, "v78 entry button becomes visible on remembrance when v77 fully unlocked");
+  assert.strictEqual(entryBtn.disabled, false, "v78 entry button is enabled when no pending/draft/activeAllocator");
+  assert.strictEqual(memory.hidden, false, "v78 memory becomes visible on remembrance when v77 fully unlocked");
+  assert.ok(memory.textContent.includes("已发放"), "v78 memory text renders");
+  assert.strictEqual(codex.hidden, false, "v78 codex becomes visible on remembrance when v77 fully unlocked");
+  assert.strictEqual(grid.children.length, 39, "v78 codex grid renders all 39 cells");
+  assert.strictEqual(codexEntry.hidden, false, "v78 codex entry wrapper becomes visible");
+  assert.strictEqual(courtEntryBtn.hidden, true, "v78 court-entry stays hidden without coverage");
+  assert.ok(Object.values(links).every((el) => el.hidden), "v78 directory links stay hidden before first visit");
+}
+
+/* v78 整页/主初始化链回归：sceneInit 与 DOMContentLoaded 初始块必须调用 v78 全套 sync */
+{
+  const sceneInitBlock = js.match(/const sceneInit = \(name\) => \{[\s\S]*?updateHudDisplay\(\);\s*\};/);
+  assert.ok(sceneInitBlock, "sceneInit function must be extractable for whole-page init chain audit");
+  const sceneInitText = sceneInitBlock[0];
+  const v78SyncCalls = [
+    "resolveFirstPersonRationingPendingOnArrival(name);",
+    "syncFirstPersonRationingBureau();",
+    "syncFirstPersonRationingArchive();",
+    "syncFirstPersonRationingChamber();",
+    "syncFirstPersonRationingCourt();",
+    "syncFirstPersonRationingAllocators();",
+    "paintFirstPersonRationingMemory();",
+    "paintFirstPersonRationingCodex();",
+    "syncFirstPersonRationingRemembrance();",
+    "syncFirstPersonRationingLinks();",
+    "replayFirstPersonRationingPending(name);",
+  ];
+  for (const call of v78SyncCalls) {
+    assert.ok(sceneInitText.includes(call), `sceneInit must call ${call}`);
+  }
+  const v78ReplayIdx = sceneInitText.indexOf("replayFirstPersonRationingPending(name);");
+  const hudIdx = sceneInitText.indexOf("updateHudDisplay();");
+  assert.ok(v78ReplayIdx > 0 && hudIdx > v78ReplayIdx, "v78 replay must run before updateHudDisplay in sceneInit");
+
+  const initBlock = js.match(/syncCausalScarLinks\(\);[\s\S]*?route\(\);\s*\}\);/);
+  assert.ok(initBlock, "DOMContentLoaded init block must be extractable");
+  const initText = initBlock[0];
+  for (const call of v78SyncCalls) {
+    assert.ok(initText.includes(call), `DOMContentLoaded init block must call ${call}`);
+  }
+
+  const forgetBlock = js.match(/const forgetActionBtn = \$[^;]*;[\s\S]*?goScene\("threshold"\);/);
+  assert.ok(forgetBlock, "forget-all handler must be extractable");
+  const forgetText = forgetBlock[0];
+  assert.ok(forgetText.includes('localStorage.removeItem("goddead_v78_first_person_rationing")'), "forget-all must remove v78 storage key");
+  assert.ok(forgetText.includes('first-person-rationing-memory') && forgetText.includes('hidden = true'), "forget-all must hide v78 memory");
+  assert.ok(forgetText.includes('first-person-rationing-codex') && forgetText.includes('hidden = true'), "forget-all must hide v78 codex");
+  assert.ok(forgetText.includes('first-person-rationing-codex-entry') && forgetText.includes('hidden = true'), "forget-all must hide v78 codex entry");
+  assert.ok(forgetText.includes('first-person-rationing-entry-btn') && forgetText.includes('hidden = true'), "forget-all must hide v78 entry button");
+  assert.ok(forgetText.includes('first-person-rationing-court-entry-btn') && forgetText.includes('hidden = true'), "forget-all must hide v78 court entry button");
+  assert.ok(forgetText.includes('"first-person-rationing-bureau-link"') && forgetText.includes("hidden = true"), "forget-all must hide v78 directory links");
+  assert.ok(forgetText.includes('first-person-rationing-allocator-response-') && forgetText.includes('textContent = ""'), "forget-all must clear v78 allocator responses");
+  assert.ok(forgetText.includes('first-person-rationing-allocator-') && forgetText.includes('hidden = true'), "forget-all must hide v78 allocators");
+}
+
+/* v70-v78 解锁链线性化回归 */
+{
+  const extractArrowFn = (name) => {
+    const marker = `const ${name} = () => {`;
+    const start = js.indexOf(marker);
+    assert.ok(start !== -1, `function ${name} should exist`);
+    const end = js.indexOf('\n  };', start);
+    assert.ok(end !== -1, `function ${name} should terminate with \\n  };`);
+    return js.slice(start, end + 5);
+  };
+
+  const dpUnlockBody = extractArrowFn('deadParliamentUnlocked');
+  assert.equal((dpUnlockBody.match(/\bposthumousCensusUnlocked\s*\(/g) || []).length, 1);
+
+  const predecessorChecks = [
+    ['deathDiplomacyUnlocked', 'deadParliamentUnlocked'],
+    ['lastWordBankUnlocked', 'deathDiplomacyUnlocked'],
+    ['borrowedDreamCustomsUnlocked', 'lastWordBankUnlocked'],
+    ['tombstonePatentOfficeUnlocked', 'borrowedDreamCustomsUnlocked'],
+    ['apocalypseWarrantyOfficeUnlocked', 'tombstonePatentOfficeUnlocked'],
+    ['realityRefundCounterUnlocked', 'apocalypseWarrantyOfficeUnlocked'],
+    ['selfAuthenticityOfficeUnlocked', 'realityRefundCounterUnlocked'],
+    ['firstPersonRationingUnlocked', 'selfAuthenticityOfficeUnlocked'],
+    ['unspokenPersonhoodCourtUnlocked', 'firstPersonRationingUnlocked'],
+  ];
+  for (const [fnName, predUnlocker] of predecessorChecks) {
+    const body = extractArrowFn(fnName);
+    const regex = new RegExp(`\\b${predUnlocker}\\s*\\(`, 'g');
+    assert.equal((body.match(regex) || []).length, 0, `${fnName} should not call ${predUnlocker}`);
+  }
+
+  const getterChecks = [
+    ['getDeadParliament', 'deadParliamentUnlocked', '_v70unlocked: unlocked'],
+    ['getDeathDiplomacy', 'deathDiplomacyUnlocked', '_v71unlocked: unlocked'],
+    ['getLastWordBank', 'lastWordBankUnlocked', '_v72unlocked: unlocked'],
+    ['getDreamCustoms', 'borrowedDreamCustomsUnlocked', '_v73unlocked: unlocked'],
+    ['getTombstonePatentOffice', 'tombstonePatentOfficeUnlocked', '_v74unlocked: unlocked'],
+    ['getApocalypseWarrantyOffice', 'apocalypseWarrantyOfficeUnlocked', '_v75unlocked: unlocked'],
+    ['getRealityRefund', 'realityRefundCounterUnlocked', '_v76unlocked: unlocked'],
+    ['getSelfAuthenticity', 'selfAuthenticityOfficeUnlocked', '_v77unlocked: unlocked'],
+    ['getFirstPersonRationing', 'firstPersonRationingUnlocked', '_v78unlocked: unlocked'],
+    ['getUnspokenPersonhood', 'unspokenPersonhoodCourtUnlocked', '_v79unlocked: unlocked'],
+  ];
+  for (const [getterName, unlockerName, normKey] of getterChecks) {
+    const body = extractArrowFn(getterName);
+    const regex = new RegExp(`\\b${unlockerName}\\s*\\(`, 'g');
+    assert.equal((body.match(regex) || []).length, 1, `${getterName} should call ${unlockerName} exactly once`);
+    assert.ok(body.includes(normKey), `${getterName} should include ${normKey}`);
+  }
+  const firstPersonGetterBody = extractArrowFn('getFirstPersonRationing');
+  assert.match(firstPersonGetterBody, /st\._v78unlocked = unlocked;/, "getFirstPersonRationing must expose its computed unlock flag to v79");
+  const unspokenPersonhoodGetterBody = extractArrowFn('getUnspokenPersonhood');
+  assert.match(unspokenPersonhoodGetterBody, /st\._v79unlocked = unlocked;/, "getUnspokenPersonhood must expose its computed unlock flag to v80");
+}
+
+/* ---------- v78 文档同步 ---------- */
+assert.match(readme, /v78|第一人称配给署|FIRST-PERSON PRONOUN RATIONING BUREAU/, "README must document the v78 first-person pronoun rationing bureau");
+assert.match(qa, /v78|第一人称配给署|FIRST-PERSON PRONOUN RATIONING BUREAU/, "design-qa.md must document the v78 first-person pronoun rationing bureau");
+assert.match(log, /v78|第一人称配给署|FIRST-PERSON PRONOUN RATIONING BUREAU/, "ProgressLog must document the v78 first-person pronoun rationing bureau");
+const v78doc = await fileText("docs/V78FirstPersonRationingDesign.md");
+for (const hash of Object.values(V78_SOURCE_HASHES)) {
+  assert.ok(v78doc.includes(hash), "V78 design doc must freeze the source sha256 values");
+}
+for (const hash of Object.values(V78_WEBP_HASHES)) {
+  assert.ok(v78doc.includes(hash), "V78 design doc must freeze the WebP sha256 values");
+}
+assert.match(v78doc, /1536×1024/, "V78 design doc documents 1536×1024 dimensions");
+/* ---------- v78 文档同步 ---------- */
+
+/* ============================================================
+   v79 未言人格继承院 / COURT OF UNSPOKEN PERSONHOOD 静态与运行时回归
+   ============================================================ */
+
+const V79_SOURCE_HASHES = {
+  "source-v79-unspoken-personhood-court.png": "02cffd4890f548b23c59c5eb8625a53d0ebd48874158964518a0270dfd99fbb2",
+  "source-v79-silent-intent-archive.png": "cc42f19f52fe3293385e5fbe1d2cf727bedfb56278f9aee68bcde032d1b67f9f",
+  "source-v79-personhood-inheritance-examination.png": "6575765ea367225751121f9411cf30587b636cfc13a2a939c0dd40babda64b16",
+  "source-v79-unuttered-estate-tribunal.png": "6c15f4371ff3e85443c467ba1086d6c73d552c00318a37c1472ffbf46b4e0f05",
+};
+const V79_WEBP_HASHES = {
+  "v79-unspoken-personhood-court.webp": "963b1e746ced6e0ba68866b3fe4c1c78b4396d17babbfa282ce6928b2637b13c",
+  "v79-silent-intent-archive.webp": "0e189ab94bf0427032560bf06c400eb39ea6e856414809a887813f3606c1d1ae",
+  "v79-personhood-inheritance-examination.webp": "0daaf8dc307f5d1b43006def7fbb8029b0e3d616b80b4f70d356b208578202d7",
+  "v79-unuttered-estate-tribunal.webp": "d2e3ec4582d0ea4be8f2335fa2da85eb16b80f84b39b9e4d953953945fbec78c",
+};
+const V79_SOURCE_SIZES = {
+  "source-v79-unspoken-personhood-court.png": 2711261,
+  "source-v79-silent-intent-archive.png": 2725077,
+  "source-v79-personhood-inheritance-examination.png": 2891864,
+  "source-v79-unuttered-estate-tribunal.png": 2743225,
+};
+const V79_WEBP_SIZES = {
+  "v79-unspoken-personhood-court.webp": 242470,
+  "v79-silent-intent-archive.webp": 219234,
+  "v79-personhood-inheritance-examination.webp": 256036,
+  "v79-unuttered-estate-tribunal.webp": 272104,
+};
+
+/* 场景与 DOM 存在性 */
+assert.match(html, new RegExp(`data-scene="unspoken-personhood-court"`), `v79 scene missing: unspoken-personhood-court`);
+assert.match(html, new RegExp(`data-scene="silent-intent-archive"`), `v79 scene missing: silent-intent-archive`);
+assert.match(html, new RegExp(`data-scene="personhood-inheritance-examination"`), `v79 scene missing: personhood-inheritance-examination`);
+assert.match(html, new RegExp(`data-scene="unuttered-estate-tribunal"`), `v79 scene missing: unuttered-estate-tribunal`);
+assert.match(html, new RegExp(`id="unspoken-personhood-court-link"`), `v79 directory link missing: unspoken-personhood-court-link`);
+assert.match(html, new RegExp(`id="silent-intent-archive-link"`), `v79 directory link missing: silent-intent-archive-link`);
+assert.match(html, new RegExp(`id="personhood-inheritance-examination-link"`), `v79 directory link missing: personhood-inheritance-examination-link`);
+assert.match(html, new RegExp(`id="unuttered-estate-tribunal-link"`), `v79 directory link missing: unuttered-estate-tribunal-link`);
+assert.match(html, new RegExp(`id="unspoken-personhood-memory"`), `v79 remembrance element missing: unspoken-personhood-memory`);
+assert.match(html, new RegExp(`id="unspoken-personhood-codex"`), `v79 remembrance element missing: unspoken-personhood-codex`);
+assert.match(html, new RegExp(`id="unspoken-personhood-codex-entry"`), `v79 remembrance element missing: unspoken-personhood-codex-entry`);
+assert.match(html, new RegExp(`id="unspoken-personhood-entry-btn"`), `v79 entry button missing: unspoken-personhood-entry-btn`);
+assert.match(html, new RegExp(`id="unspoken-personhood-court-entry-btn"`), `v79 court entry button missing: unspoken-personhood-court-entry-btn`);
+assert.match(html, new RegExp(`id="unspoken-personhood-court-figure"`), `v79 figure missing: unspoken-personhood-court-figure`);
+assert.match(html, new RegExp(`id="silent-intent-archive-figure"`), `v79 figure missing: silent-intent-archive-figure`);
+assert.match(html, new RegExp(`id="personhood-inheritance-examination-figure"`), `v79 figure missing: personhood-inheritance-examination-figure`);
+assert.match(html, new RegExp(`id="unuttered-estate-tribunal-figure"`), `v79 figure missing: unuttered-estate-tribunal-figure`);
+assert.match(html, new RegExp(`id="unspoken-personhood-claimant-unsaid-love-confession"`), `v79 claimant button missing: unspoken-personhood-claimant-unsaid-love-confession`);
+assert.match(html, new RegExp(`id="unspoken-personhood-claimant-unread-final-testament"`), `v79 claimant button missing: unspoken-personhood-claimant-unread-final-testament`);
+assert.match(html, new RegExp(`id="unspoken-personhood-claimant-swallowed-cry-for-help"`), `v79 claimant button missing: unspoken-personhood-claimant-swallowed-cry-for-help`);
+assert.match(html, new RegExp(`id="silent-intent-closed-lip-pressure-seal"`), `v79 evidence button missing: silent-intent-closed-lip-pressure-seal`);
+assert.match(html, new RegExp(`id="silent-intent-unsigned-witness-echo"`), `v79 evidence button missing: silent-intent-unsigned-witness-echo`);
+assert.match(html, new RegExp(`id="silent-intent-breath-returned-from-empty-receiver"`), `v79 evidence button missing: silent-intent-breath-returned-from-empty-receiver`);
+assert.match(html, new RegExp(`id="personhood-inheritance-inherit-the-speakers-name"`), `v79 mode button missing: personhood-inheritance-inherit-the-speakers-name`);
+assert.match(html, new RegExp(`id="personhood-inheritance-inherit-the-unlived-years"`), `v79 mode button missing: personhood-inheritance-inherit-the-unlived-years`);
+assert.match(html, new RegExp(`id="personhood-inheritance-inherit-the-right-to-be-answered"`), `v79 mode button missing: personhood-inheritance-inherit-the-right-to-be-answered`);
+assert.match(html, new RegExp(`id="personhood-inheritance-refuse-a-body-and-live-as-absence"`), `v79 mode button missing: personhood-inheritance-refuse-a-body-and-live-as-absence`);
+assert.match(html, new RegExp(`id="unspoken-personhood-executor-return-confession"`), `v79 executor return button missing: unspoken-personhood-executor-return-confession`);
+assert.match(html, new RegExp(`id="unspoken-personhood-executor-return-testament-clearing-vault"`), `v79 executor return button missing: unspoken-personhood-executor-return-testament-clearing-vault`);
+assert.match(html, new RegExp(`id="unspoken-personhood-executor-return-unseated-listening-booth"`), `v79 executor return button missing: unspoken-personhood-executor-return-unseated-listening-booth`);
+assert.match(html, new RegExp(`id="unuttered-estate-grant-the-unsaid-a-whole-life"`), `v79 tribunal button missing: unuttered-estate-grant-the-unsaid-a-whole-life`);
+assert.match(html, new RegExp(`id="unuttered-estate-divide-personhood-among-all-listeners"`), `v79 tribunal button missing: unuttered-estate-divide-personhood-among-all-listeners`);
+assert.match(html, new RegExp(`id="unuttered-estate-make-the-speaker-estate-of-last-silence"`), `v79 tribunal button missing: unuttered-estate-make-the-speaker-estate-of-last-silence`);
+
+/* P1 回归：handler 的 buttonAvailable 与事件监听所查 ID 必须真实存在于 index.html */
+const v79HandlerIdChecks = {
+  claimant: { ids: ["unspoken-personhood-claimant-unsaid-love-confession", "unspoken-personhood-claimant-unread-final-testament", "unspoken-personhood-claimant-swallowed-cry-for-help"], handlerPrefix: "unspoken-personhood-claimant-${claimant}" },
+  evidence: { ids: ["silent-intent-closed-lip-pressure-seal", "silent-intent-unsigned-witness-echo", "silent-intent-breath-returned-from-empty-receiver"], handlerPrefix: "silent-intent-${evidence}" },
+  mode: { ids: ["personhood-inheritance-inherit-the-speakers-name", "personhood-inheritance-inherit-the-unlived-years", "personhood-inheritance-inherit-the-right-to-be-answered", "personhood-inheritance-refuse-a-body-and-live-as-absence"], handlerPrefix: "personhood-inheritance-${mode}" },
+  tribunal: { ids: ["unuttered-estate-grant-the-unsaid-a-whole-life", "unuttered-estate-divide-personhood-among-all-listeners", "unuttered-estate-make-the-speaker-estate-of-last-silence"], handlerPrefix: "unuttered-estate-${action}" },
+};
+for (const [kind, { ids, handlerPrefix }] of Object.entries(v79HandlerIdChecks)) {
+  assert.ok(js.includes(`buttonAvailable(\`${handlerPrefix}\`)`), `v79 ${kind} handler must use real DOM id prefix: ${handlerPrefix}`);
+  for (const id of ids) {
+    assert.match(html, new RegExp(`id="${id}"`), `v79 ${kind} button must exist in DOM: ${id}`);
+    assert.ok(js.includes(`$('#${id}')`), `v79 ${kind} listener must be wired to the real DOM id: ${id}`);
+  }
+}
+
+assert.ok(html.includes('<link rel="preload" href="assets/v79-unspoken-personhood-court.webp" as="image">'), "v79 preloads v79-unspoken-personhood-court");
+assert.ok(html.includes('<link rel="preload" href="assets/v79-silent-intent-archive.webp" as="image">'), "v79 preloads v79-silent-intent-archive");
+assert.ok(html.includes('<link rel="preload" href="assets/v79-personhood-inheritance-examination.webp" as="image">'), "v79 preloads v79-personhood-inheritance-examination");
+assert.ok(html.includes('<link rel="preload" href="assets/v79-unuttered-estate-tribunal.webp" as="image">'), "v79 preloads v79-unuttered-estate-tribunal");
+
+/* 缓存版本 */
+assert.ok(html.includes("styles.css?v=90"), "styles.css cache bust v=86");
+assert.ok(html.includes("script.js?v=90"), "script.js cache bust v=86");
+
+/* JS 模块与 key */
+assert.equal((js.match(/const UNSPOKEN_PERSONHOOD_KEY = ['"]goddead_v79_unspoken_personhood['"]/g) || []).length, 1, "v79 introduces exactly one storage key");
+const v79Start = js.indexOf("v79 未言人格继承院 / COURT OF UNSPOKEN PERSONHOOD");
+const v80NextHeading = "v80 未遂思想收容所 / ASYLUM FOR UNFINISHED THOUGHTS";
+const v80NextHeadingIndex = v79Start !== -1 ? js.indexOf(v80NextHeading, v79Start) : -1;
+const v79End = v80NextHeadingIndex !== -1 ? js.lastIndexOf("/*", v80NextHeadingIndex) : -1;
+assert.ok(v79Start !== -1 && v79End !== -1 && v79End > v79Start, "v79 module boundaries must exist");
+const v79ModuleBlock = [js.slice(v79Start, v79End)];
+assert.ok(!v79ModuleBlock[0].includes("UNFINISHED_THOUGHT_KEY"), "v79 module block must not leak v80 UNFINISHED_THOUGHT_KEY");
+assert.ok(!v79ModuleBlock[0].includes(v80NextHeading), "v79 module block must not leak v80 heading");
+assert.ok(v79ModuleBlock, "v79 module must exist");
+
+/* 旧 v29 confession 守卫必须接受 v79 的严格 pending / activeExecutor 桥 (v80 补充未竟思绪 unfinishedThought 桥) */
+const resolveSceneBlockV79 = js.match(/const resolveScene = \(name\) => \{[\s\S]*?\n  \};/);
+assert.ok(resolveSceneBlockV79, "resolveScene block must exist for v79 bridge audit");
+assert.match(resolveSceneBlockV79[0], /if \(BRANCH_SCENES\.includes\(target\)[\s\S]*?!unspokenPersonhoodBridgeAllows\(target\) && !unfinishedThoughtBridgeAllows\(target\)\) target = "corridor";/, "v29 branch guard must preserve legal v79 confession executor route alongside v80 unfinished thought route");
+
+const saveUnspokenPersonhoodBlock = js.match(/const saveUnspokenPersonhood = \(st\) => \{[\s\S]*?store\.set\(\s*UNSPOKEN_PERSONHOOD_KEY,\s*JSON\.stringify\(\{[\s\S]*?\}\)\s*\);/);
+assert.ok(saveUnspokenPersonhoodBlock, "saveUnspokenPersonhood must persist an explicit canonical projection");
+for (const f of ["version", "visited", "draft", "grants", "tribunalOutcomes", "grantRuns", "tribunalRuns", "claimantTallies", "lastOutcome", "activeExecutor", "pending"]) {
+  assert.match(saveUnspokenPersonhoodBlock[0], new RegExp(`\\b${f}\\b`), `saveUnspokenPersonhood persists ${f}`);
+}
+
+/* 素材冻结 */
+for (const [file, hash] of Object.entries(V79_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(`design-references/${file}`, root));
+  assert.strictEqual(createHash("sha256").update(buf).digest("hex"), hash, `${file} must keep its frozen sha256`);
+  assert.strictEqual(buf.length, V79_SOURCE_SIZES[file], `${file} must keep its frozen byte size`);
+  const dims = readPngDimensions(buf);
+  assert.ok(dims, `${file} must be a readable PNG`);
+  assert.strictEqual(dims.width, 1536, `${file} must be 1536 px wide`);
+  assert.strictEqual(dims.height, 1024, `${file} must be 1024 px tall`);
+}
+for (const [file, hash] of Object.entries(V79_WEBP_HASHES)) {
+  const buf = await readFile(new URL(`assets/${file}`, root));
+  assert.strictEqual(createHash("sha256").update(buf).digest("hex"), hash, `${file} must keep its frozen sha256`);
+  assert.strictEqual(buf.length, V79_WEBP_SIZES[file], `${file} must keep its frozen byte size`);
+  assert.ok(html.includes(`assets/${file}`), `${file} must be referenced from index.html`);
+  const dims = readWebpDimensions(buf);
+  assert.ok(dims, `${file} must be a readable WebP`);
+  assert.strictEqual(dims.width, 1536, `${file} must be 1536 px wide`);
+  assert.strictEqual(dims.height, 1024, `${file} must be 1024 px tall`);
+  assert.match(html, new RegExp(`src="assets/${file.replace(".", "\\.")}" alt="" width="1536" height="1024"`), `${file} must have 1536x1024 HTML attributes`);
+}
+
+/* 冻结标题、按钮文本与反馈 */
+assert.ok(html.includes("05θ / 未言人格继承院 · COURT OF UNSPOKEN PERSONHOOD"), "v79 court title");
+assert.ok(html.includes("05ι / 沉默意图证物库 · ARCHIVE OF SILENT INTENT"), "v79 archive title");
+assert.ok(html.includes("05κ / 人格继承检验室 · PERSONHOOD INHERITANCE EXAMINATION"), "v79 examination title");
+assert.ok(html.includes("05λ / 未出口遗产终审庭 · FINAL TRIBUNAL OF UNUTTERED ESTATES"), "v79 tribunal title");
+assert.match(js, /替未说出的爱申请人格 · CLAIM PERSONHOOD FOR UNSAID LOVE/, "v79 claimant love button text");
+assert.match(js, /替未宣读遗嘱申请人格 · CLAIM PERSONHOOD FOR THE UNREAD TESTAMENT/, "v79 claimant testament button text");
+assert.match(js, /替咽回的求救申请人格 · CLAIM PERSONHOOD FOR THE SWALLOWED CRY/, "v79 claimant cry button text");
+assert.match(js, /提交闭唇压力封印 · SUBMIT THE CLOSED-LIP PRESSURE SEAL/, "v79 evidence seal button text");
+assert.match(js, /提交无署名见证回声 · SUBMIT THE UNSIGNED WITNESS ECHO/, "v79 evidence echo button text");
+assert.match(js, /提交空听筒归还之息 · SUBMIT THE BREATH RETURNED BY AN EMPTY RECEIVER/, "v79 evidence breath button text");
+assert.match(js, /继承说话者姓名 · INHERIT THE SPEAKER\\'S NAME/, "v79 mode name button text");
+assert.match(js, /继承没有活过的年月 · INHERIT THE UNLIVED YEARS/, "v79 mode years button text");
+assert.match(js, /继承被回应的权利 · INHERIT THE RIGHT TO BE ANSWERED/, "v79 mode answer button text");
+assert.match(js, /拒绝肉身，以缺席生活 · REFUSE A BODY AND LIVE AS ABSENCE/, "v79 mode absence button text");
+assert.match(js, /把完整一生判给未言之句 · GRANT A WHOLE LIFE TO THE UNSAID/, "v79 tribunal whole-life button text");
+assert.match(js, /把人格分给所有未听见者 · DIVIDE PERSONHOOD AMONG ALL WHO DID NOT HEAR/, "v79 tribunal divide button text");
+assert.match(js, /让说话者成为最后沉默的遗产 · MAKE THE SPEAKER THE ESTATE OF LAST SILENCE/, "v79 tribunal last-silence button text");
+assert.match(js, /跟闭唇执行官返回继承院 · RETURN WITH THE CLOSED-LIP EXECUTOR/, "v79 executor seal return text");
+assert.match(js, /跟无署名执行官返回继承院 · RETURN WITH THE UNSIGNED EXECUTOR/, "v79 executor echo return text");
+assert.match(js, /跟空听筒执行官返回继承院 · RETURN WITH THE EMPTY-RECEIVER EXECUTOR/, "v79 executor breath return text");
+assert.match(js, /暗红情书从未离开胸腔，却记得一段没有发生的共同生活。它要求继承两个人本该一起变老的年月。/, "v79 claimant love feedback");
+assert.match(js, /封蜡遗嘱拒绝被称作死者的财物。它说自己保存了最后意志，因此死者才是它尚未办理过户的遗产。/, "v79 claimant testament feedback");
+assert.match(js, /求救声在玻璃罐里继续撞击。它一次也没被听见，却能逐个叫出所有本来可能回头的人。/, "v79 claimant cry feedback");
+assert.match(js, /蜡封保存了嘴唇决定张开的那一瞬。话没有出去，压力却完整留下一个人差点诚实的形状。/, "v79 evidence seal feedback");
+assert.match(js, /黄铜听筒复述一段无人说过的证词。它知道遗嘱写给谁，却拒绝证明自己从哪一张嘴里来。/, "v79 evidence echo feedback");
+assert.match(js, /空听筒吐回一口被咽下多年的气。它带着求救的节奏，另一端却从未真正响过。/, "v79 evidence breath feedback");
+assert.match(js, /书记官把姓名从活人的嘴上剥下，盖到未言之物上。本人仍能被叫到，却必须由那句话代为答应。/, "v79 mode name fragment");
+assert.match(js, /未发生的日历开始翻页。每一年都属于一句差点说出的话，而身体只继承它们共同留下的衰老。/, "v79 mode years fragment");
+assert.match(js, /所有没听见的人突然负有答复义务。他们必须回答一声从未抵达的求救，并证明迟到不等于拒绝。/, "v79 mode answer fragment");
+assert.match(js, /判令允许未言之物不占用身体。它以房间里少掉的一句话生活，并在每次沉默时继续长大。/, "v79 mode absence fragment");
+assert.match(js, /未拆情书继承了姓名、童年和死期。原来的身体仍在墙前呼吸，却只剩一份被句子放弃的空白遗产。/, "v79 tribunal whole-life feedback");
+assert.match(js, /求救声被分成许多微小人格，落进每张空座。此后每个没听见的人，都在体内替它继续等一次回答。/, "v79 tribunal divide feedback");
+assert.match(js, /封蜡遗嘱倒过来宣读活人。名字、身体与记忆逐项过户，最后只剩沉默作为唯一仍然在世的继承人。/, "v79 tribunal last-silence feedback");
+assert.match(js, /闭唇执行官在忏悔室量出一句话的负形。它没有内容，却准确占据了最该诚实的那一刻。/, "v79 executor seal feedback");
+assert.match(js, /无署名执行官在遗嘱清算库找到一段多余回声。每份遗产都否认拥有它，所有继承人却认得它的语气。/, "v79 executor echo feedback");
+assert.match(js, /空听筒执行官坐在无人接听的隔间。听筒不断归还气息，仿佛另一端仍有人练习如何开口求救。/, "v79 executor breath feedback");
+assert.match(js, /审理所有没能出口的人生 · TRY EVERY LIFE THAT NEVER LEFT THE MOUTH/, "v79 tribunal entry feedback");
+
+/* 可执行/隔离状态回归测试 */
+const v79ExecSourceStart = v79ModuleBlock[0].indexOf("const UNSPOKEN_PERSONHOOD_KEY");
+assert.ok(v79ExecSourceStart > 0, "v79 executable block starts with UNSPOKEN_PERSONHOOD_KEY");
+const v79ExecSource = v79ModuleBlock[0].slice(v79ExecSourceStart).trimEnd();
+
+const UNSPOKEN_PERSONHOOD_KEY = "goddead_v79_unspoken_personhood";
+const fullV78CoverageRations = (() => {
+  const speakers = ['many-selves-one-body', 'copies-sharing-one-voice', 'ownerless-silence'];
+  const entitlements = ['first-breath-token', 'ownerless-signature-impression', 'future-inherited-echo'];
+  const schemes = ['one-i-per-breath', 'lend-the-voice-to-shadow', 'rotate-one-voice-among-copies', 'let-silence-claim-the-pronoun'];
+  const ids = [];
+  for (const s of speakers) {
+    for (const e of entitlements) {
+      for (const sc of schemes) {
+        ids.push(`${s}:${e}:${sc}`);
+      }
+    }
+  }
+  return ids;
+})();
+const fullV78CourtOutcomes = [
+  'one-voice-belonged-to-everyone-in-turn',
+  'every-self-spoke-as-i-at-once',
+  'silence-became-the-only-legal-speaker',
+];
+
+function makeV79Button({ disabled = false, hidden = false } = {}) {
+  return { disabled, hidden, pressed: null, setAttribute(name, value) { if (name === "aria-pressed") this.pressed = value; }, removeAttribute() {}, closest: () => null, addEventListener() {} };
+}
+function makeV79Box({ hidden = true } = {}) {
+  return { hidden, children: [], className: "", textContent: "", setAttribute() {}, removeAttribute(name) { if (name === "hidden") this.hidden = false; }, closest: () => null, addEventListener() {}, appendChild(c) { this.children.push(c); }, querySelector: () => null };
+}
+
+function makeV79Context({
+  initialStore = {},
+  elements = {},
+  scene = '',
+  v78unlocked = true,
+  rations = fullV78CoverageRations,
+  courtOutcomes = fullV78CourtOutcomes,
+} = {}) {
+  const storeData = { ...initialStore };
+  const store = {
+    get(k, def) { return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def; },
+    set(k, v) { storeData[k] = v; },
+  };
+  const queries = [];
+  const $ = (rawId) => { queries.push(rawId); return elements[rawId.replace(/^#/, '')] || null; };
+  const scheduleCalls = [];
+  const AutoAdvance = { has(src) { return false; }, schedule(src, target, opts) { scheduleCalls.push({ src, target, opts }); } };
+  const AudioEngine = { whoosh() {}, bell() {} };
+  const firstPersonRationingUnlocked = () => v78unlocked;
+  const firstPersonRationingCoverageComplete = (st) => v78unlocked && Array.isArray(st.rations) && st.rations.length === 36;
+  const getFirstPersonRationing = () => v78unlocked ? { rations, courtOutcomes, _v78unlocked: true } : { rations: [], courtOutcomes: [], _v78unlocked: false };
+  const buttonAvailable = (id) => {
+    const btn = $(`#${id}`);
+    if (!btn || btn.disabled || btn.hidden) return false;
+    if (typeof btn.closest === 'function' && btn.closest('[hidden]')) return false;
+    return true;
+  };
+  const document = {
+    createElement(tag) {
+      return {
+        tagName: tag,
+        className: "",
+        innerHTML: "",
+        textContent: "",
+        children: [],
+        hidden: true,
+        setAttribute() {},
+        removeAttribute(name) { if (name === "hidden") this.hidden = false; },
+        appendChild(c) { this.children.push(c); },
+      };
+    },
+  };
+  const body = v79ExecSource + "\nreturn { UNSPOKEN_PERSONHOOD_KEY, UNSPOKEN_PERSONHOOD_VERSION, UNSPOKEN_PERSONHOOD_CLAIMANTS, UNSPOKEN_PERSONHOOD_EVIDENCE, UNSPOKEN_PERSONHOOD_MODES, UNSPOKEN_PERSONHOOD_TRIBUNAL_ACTIONS, UNSPOKEN_PERSONHOOD_SCENE_FOR_EVIDENCE, UNSPOKEN_PERSONHOOD_ENTRY_FEEDBACK, UNSPOKEN_PERSONHOOD_TRIBUNAL_ENTRY_FEEDBACK, UNSPOKEN_PERSONHOOD_CLAIMANT_TABLE, UNSPOKEN_PERSONHOOD_EVIDENCE_TABLE, UNSPOKEN_PERSONHOOD_MODE_TABLE, UNSPOKEN_PERSONHOOD_TRIBUNAL_TABLE, UNSPOKEN_PERSONHOOD_GRANT_IDS, UNSPOKEN_PERSONHOOD_GRANT_SET, UNSPOKEN_PERSONHOOD_TRIBUNAL_OUTCOME_IDS, UNSPOKEN_PERSONHOOD_TRIBUNAL_OUTCOME_SET, defaultUnspokenPersonhood, normalizeUnspokenPersonhoodVisited, normalizeUnspokenPersonhoodDraft, normalizeUnspokenPersonhoodGrants, normalizeUnspokenPersonhoodTribunalOutcomes, normalizeUnspokenPersonhoodClaimantTallies, normalizeUnspokenPersonhoodActiveExecutor, normalizeUnspokenPersonhoodPending, saveUnspokenPersonhood, getUnspokenPersonhood, unspokenPersonhoodCourtUnlocked, unspokenPersonhoodCoverageComplete, computeUnspokenPersonhoodClaimantTalliesMajority, computeUnspokenPersonhoodGrantId, computeUnspokenPersonhoodGrantTitle, computeUnspokenPersonhoodGrantFeedback, findUnspokenPersonhoodGrantById, computeUnspokenPersonhoodTribunalOutcomeId, unspokenPersonhoodDelay, unspokenPersonhoodBeforeArrive, resolveUnspokenPersonhoodPendingOnArrival, lockUnspokenPersonhoodClaimantButtons, lockUnspokenPersonhoodEvidenceButtons, lockUnspokenPersonhoodModeButtons, lockUnspokenPersonhoodTribunalButtons, syncUnspokenPersonhoodCourt, syncUnspokenPersonhoodArchive, syncUnspokenPersonhoodExamination, syncUnspokenPersonhoodTribunal, syncUnspokenPersonhoodExecutors, paintUnspokenPersonhoodExecutor, paintUnspokenPersonhoodMemory, paintUnspokenPersonhoodCodex, syncUnspokenPersonhoodRemembrance, syncUnspokenPersonhoodLinks, replayUnspokenPersonhoodPending, chooseUnspokenPersonhoodClaimant, chooseUnspokenPersonhoodEvidence, chooseUnspokenPersonhoodMode, chooseUnspokenPersonhoodExecutorReturn, chooseUnspokenPersonhoodEntry, chooseUnspokenPersonhoodCourtEntry, chooseUnspokenPersonhoodTribunalAction, unspokenPersonhoodCanVisitCourt, unspokenPersonhoodCanVisitArchive, unspokenPersonhoodCanVisitExamination, unspokenPersonhoodCanVisitTribunal, unspokenPersonhoodBridgeAllows };";
+  const v79 = new Function("store", "$", "currentScene", "AutoAdvance", "AudioEngine", "reduced", "firstPersonRationingUnlocked", "getFirstPersonRationing", "firstPersonRationingCoverageComplete", "buttonAvailable", "document", body)(store, $, scene, AutoAdvance, AudioEngine, false, firstPersonRationingUnlocked, getFirstPersonRationing, firstPersonRationingCoverageComplete, buttonAvailable, document);
+  const read = () => {
+    try { return JSON.parse(storeData[UNSPOKEN_PERSONHOOD_KEY] || "{}") || {}; } catch { return {}; }
+  };
+  return { v79, storeData, read, queries, scheduleCalls };
+}
+
+// 36 grant IDs 固定顺序
+{
+  const ctx = makeV79Context({});
+  assert.strictEqual(ctx.v79.UNSPOKEN_PERSONHOOD_GRANT_IDS.length, 36, "v79 has 36 grant ids");
+  const expected = [];
+  for (const c of ctx.v79.UNSPOKEN_PERSONHOOD_CLAIMANTS) {
+    for (const e of ctx.v79.UNSPOKEN_PERSONHOOD_EVIDENCE) {
+      for (const m of ctx.v79.UNSPOKEN_PERSONHOOD_MODES) {
+        expected.push(`${c}:${e}:${m}`);
+      }
+    }
+  }
+  assert.deepStrictEqual(ctx.v79.UNSPOKEN_PERSONHOOD_GRANT_IDS, expected, "grant ids follow CLAIMANTS×EVIDENCE×MODES order");
+  assert.strictEqual(ctx.v79.UNSPOKEN_PERSONHOOD_GRANT_SET.size, 36, "grant ids are unique");
+}
+
+// 3 tribunal outcome IDs 固定顺序
+{
+  const ctx = makeV79Context({});
+  assert.deepStrictEqual(ctx.v79.UNSPOKEN_PERSONHOOD_TRIBUNAL_OUTCOME_IDS, [
+    'an-unsaid-sentence-inherited-a-whole-life',
+    'personhood-was-divided-among-the-unhearing',
+    'the-speaker-became-the-estate-of-last-silence',
+  ], "tribunal outcome ids follow TRIBUNAL_ACTIONS order");
+}
+
+// 默认态与 canonical 十一键
+{
+  const ctx = makeV79Context({});
+  const st = ctx.v79.defaultUnspokenPersonhood();
+  assert.deepStrictEqual(Object.keys(st).sort(), ["activeExecutor", "claimantTallies", "draft", "grantRuns", "grants", "lastOutcome", "pending", "tribunalOutcomes", "tribunalRuns", "version", "visited"], "defaultUnspokenPersonhood has exactly eleven keys");
+  assert.strictEqual(st.version, 79);
+  assert.deepStrictEqual(st.visited, { court: false, archive: false, examination: false, tribunal: false });
+  assert.deepStrictEqual(st.draft, { claimant: "", evidence: "" });
+  assert.deepStrictEqual(st.grants, []);
+  assert.deepStrictEqual(st.tribunalOutcomes, []);
+  assert.strictEqual(st.grantRuns, 0);
+  assert.strictEqual(st.tribunalRuns, 0);
+  assert.deepStrictEqual(st.claimantTallies, { love: 0, testament: 0, cry: 0 });
+  assert.strictEqual(st.lastOutcome, "");
+  assert.strictEqual(st.activeExecutor, null);
+  assert.strictEqual(st.pending, null);
+}
+
+// 坏 JSON / version / type / 未解锁回默认态
+{
+  const ctx = makeV79Context({ initialStore: { [UNSPOKEN_PERSONHOOD_KEY]: "not-json" } });
+  assert.deepStrictEqual(ctx.v79.getUnspokenPersonhood(), ctx.v79.defaultUnspokenPersonhood(), "bad json returns default");
+  const ctx2 = makeV79Context({ initialStore: { [UNSPOKEN_PERSONHOOD_KEY]: JSON.stringify({ version: 78, visited: { court: true } }) } });
+  assert.deepStrictEqual(ctx2.v79.getUnspokenPersonhood(), ctx2.v79.defaultUnspokenPersonhood(), "wrong version returns default");
+  const ctx3 = makeV79Context({ initialStore: { [UNSPOKEN_PERSONHOOD_KEY]: JSON.stringify([]) } });
+  assert.deepStrictEqual(ctx3.v79.getUnspokenPersonhood(), ctx3.v79.defaultUnspokenPersonhood(), "array returns default");
+  const ctx4 = makeV79Context({ initialStore: { [UNSPOKEN_PERSONHOOD_KEY]: JSON.stringify({ version: 79, visited: { court: true } }) }, v78unlocked: false });
+  assert.deepStrictEqual(ctx4.v79.getUnspokenPersonhood(), ctx4.v79.defaultUnspokenPersonhood(), "locked returns default");
+}
+
+// 解锁只读 v78：锁定态下 direct hash 归 remembrance
+{
+  const ctx = makeV79Context({ v78unlocked: false });
+  assert.strictEqual(ctx.v79.unspokenPersonhoodCourtUnlocked(), false, "v79 locked when v78 locked");
+  assert.strictEqual(ctx.v79.unspokenPersonhoodCanVisitCourt(), false, "locked court guard blocks");
+  assert.strictEqual(ctx.v79.unspokenPersonhoodCanVisitArchive(), false, "locked archive guard blocks");
+  assert.strictEqual(ctx.v79.unspokenPersonhoodCanVisitExamination(), false, "locked examination guard blocks");
+  assert.strictEqual(ctx.v79.unspokenPersonhoodCanVisitTribunal(), false, "locked tribunal guard blocks");
+}
+
+// 规范化：visited / draft / grants / tribunalOutcomes / tallies / lastOutcome / activeExecutor
+{
+  const ctx = makeV79Context({});
+  const base = ctx.v79.defaultUnspokenPersonhood();
+  base.visited = { court: 1, archive: "yes", examination: true, tribunal: null };
+  assert.deepStrictEqual(ctx.v79.normalizeUnspokenPersonhoodVisited(base.visited), { court: false, archive: false, examination: true, tribunal: false });
+  assert.deepStrictEqual(ctx.v79.normalizeUnspokenPersonhoodDraft({ claimant: "unsaid-love-confession", evidence: "closed-lip-pressure-seal" }), { claimant: "unsaid-love-confession", evidence: "closed-lip-pressure-seal" });
+  assert.deepStrictEqual(ctx.v79.normalizeUnspokenPersonhoodDraft({ claimant: "bad", evidence: "closed-lip-pressure-seal" }), { claimant: "", evidence: "" });
+  assert.deepStrictEqual(ctx.v79.normalizeUnspokenPersonhoodDraft({ claimant: "unsaid-love-confession", evidence: "bad" }), { claimant: "unsaid-love-confession", evidence: "" });
+  assert.deepStrictEqual(ctx.v79.normalizeUnspokenPersonhoodDraft({ claimant: "", evidence: "closed-lip-pressure-seal" }), { claimant: "", evidence: "" });
+  const ids = [ctx.v79.UNSPOKEN_PERSONHOOD_GRANT_IDS[5], ctx.v79.UNSPOKEN_PERSONHOOD_GRANT_IDS[0], ctx.v79.UNSPOKEN_PERSONHOOD_GRANT_IDS[5], 'bad:id'];
+  assert.deepStrictEqual(ctx.v79.normalizeUnspokenPersonhoodGrants(ids), [ctx.v79.UNSPOKEN_PERSONHOOD_GRANT_IDS[0], ctx.v79.UNSPOKEN_PERSONHOOD_GRANT_IDS[5]], "grants dedup and fixed order");
+  const outcomes = ['an-unsaid-sentence-inherited-a-whole-life', 'bad-outcome', 'an-unsaid-sentence-inherited-a-whole-life', 'personhood-was-divided-among-the-unhearing', 'the-speaker-became-the-estate-of-last-silence'];
+  assert.deepStrictEqual(ctx.v79.normalizeUnspokenPersonhoodTribunalOutcomes(outcomes), ['an-unsaid-sentence-inherited-a-whole-life', 'personhood-was-divided-among-the-unhearing', 'the-speaker-became-the-estate-of-last-silence'], "tribunal outcomes dedup and fixed order");
+  assert.deepStrictEqual(ctx.v79.normalizeUnspokenPersonhoodClaimantTallies({ love: 1.7, testament: -3, cry: 99999 }), { love: 1, testament: 0, cry: 9999 }, "tallies clamp and floor");
+  const grant = ctx.v79.UNSPOKEN_PERSONHOOD_GRANT_IDS[0];
+  const evidence = grant.split(':')[1];
+  assert.strictEqual(ctx.v79.normalizeUnspokenPersonhoodActiveExecutor({ evidence, grant, feedback: ctx.v79.UNSPOKEN_PERSONHOOD_EVIDENCE_TABLE[evidence].executorFeedback }, [grant]).grant, grant, "activeExecutor ok");
+  assert.strictEqual(ctx.v79.normalizeUnspokenPersonhoodActiveExecutor({ evidence: 'unsigned-witness-echo', grant, feedback: ctx.v79.UNSPOKEN_PERSONHOOD_EVIDENCE_TABLE['unsigned-witness-echo'].executorFeedback }, [grant]), null, "activeExecutor evidence mismatch");
+}
+
+// activeExecutor 要求 grant 已收集且 evidence 匹配第二段
+{
+  const ctx = makeV79Context({});
+  const grant = ctx.v79.UNSPOKEN_PERSONHOOD_GRANT_IDS[0];
+  const parts = grant.split(':');
+  const fb = ctx.v79.UNSPOKEN_PERSONHOOD_EVIDENCE_TABLE[parts[1]].executorFeedback;
+  assert.ok(ctx.v79.normalizeUnspokenPersonhoodActiveExecutor({ evidence: parts[1], grant, feedback: fb }, [grant]), "executor matches collected grant");
+  assert.strictEqual(ctx.v79.normalizeUnspokenPersonhoodActiveExecutor({ evidence: parts[1], grant, feedback: fb }, []), null, "executor rejected when grant not collected");
+  const other = ctx.v79.UNSPOKEN_PERSONHOOD_GRANT_IDS[4];
+  const otherParts = other.split(':');
+  assert.strictEqual(ctx.v79.normalizeUnspokenPersonhoodActiveExecutor({ evidence: otherParts[1], grant, feedback: ctx.v79.UNSPOKEN_PERSONHOOD_EVIDENCE_TABLE[otherParts[1]].executorFeedback }, [grant]), null, "executor rejected when evidence does not equal grant second segment");
+}
+
+// save/get roundtrip 投影去重
+{
+  const ctx = makeV79Context({});
+  const st = ctx.v79.defaultUnspokenPersonhood();
+  st.visited.court = true;
+  st.draft = { claimant: "unsaid-love-confession", evidence: "closed-lip-pressure-seal" };
+  const grant = ctx.v79.UNSPOKEN_PERSONHOOD_GRANT_IDS[8];
+  st.grants = [grant, grant];
+  st.tribunalOutcomes = ['an-unsaid-sentence-inherited-a-whole-life'];
+  st.grantRuns = 2;
+  st.tribunalRuns = 1;
+  st.claimantTallies = { love: 0, testament: 2, cry: 0 };
+  st.lastOutcome = grant;
+  st.activeExecutor = { evidence: grant.split(':')[1], grant, feedback: ctx.v79.UNSPOKEN_PERSONHOOD_EVIDENCE_TABLE[grant.split(':')[1]].executorFeedback };
+  st.pending = { kind: "evidence", source: "silent-intent-archive", claimant: "unsaid-love-confession", evidence: "closed-lip-pressure-seal", target: "personhood-inheritance-examination", feedback: ctx.v79.UNSPOKEN_PERSONHOOD_EVIDENCE_TABLE["closed-lip-pressure-seal"].feedback };
+  st.extra = "should-be-dropped";
+  ctx.v79.saveUnspokenPersonhood(st);
+  const saved = ctx.read();
+  assert.deepStrictEqual(Object.keys(saved).sort(), ["activeExecutor", "claimantTallies", "draft", "grantRuns", "grants", "lastOutcome", "pending", "tribunalOutcomes", "tribunalRuns", "version", "visited"], "saved has exactly eleven keys");
+  assert.strictEqual(saved.extra, undefined, "extra key dropped");
+  assert.strictEqual(saved.grants.length, 1, "grants deduped");
+  assert.strictEqual(saved.activeExecutor.evidence, grant.split(':')[1]);
+}
+
+// 七类 pending exact-key 严格归一化
+{
+  const ctx = makeV79Context({});
+  const base = ctx.v79.defaultUnspokenPersonhood();
+  base._v79unlocked = true;
+  const claimant = "unsaid-love-confession";
+  const evidence = "closed-lip-pressure-seal";
+  const mode = "inherit-the-speakers-name";
+  const grantId = `${claimant}:${evidence}:${mode}`;
+  const cTable = ctx.v79.UNSPOKEN_PERSONHOOD_CLAIMANT_TABLE[claimant];
+  const eTable = ctx.v79.UNSPOKEN_PERSONHOOD_EVIDENCE_TABLE[evidence];
+  const grantFb = ctx.v79.computeUnspokenPersonhoodGrantFeedback(claimant, evidence, mode);
+
+  // entry
+  const entry = { kind: "entry", target: "unspoken-personhood-court", feedback: ctx.v79.UNSPOKEN_PERSONHOOD_ENTRY_FEEDBACK };
+  assert.ok(ctx.v79.normalizeUnspokenPersonhoodPending(entry, base), "entry pending ok");
+  assert.strictEqual(ctx.v79.normalizeUnspokenPersonhoodPending({ ...entry, extra: 1 }, base), null, "entry rejects extra key");
+  assert.strictEqual(ctx.v79.normalizeUnspokenPersonhoodPending({ kind: "entry", target: "unspoken-personhood-court", feedback: "bad" }, base), null, "entry rejects bad feedback");
+
+  // claimant
+  const cb = { kind: "claimant", source: "unspoken-personhood-court", claimant, target: "silent-intent-archive", feedback: cTable.feedback };
+  assert.ok(ctx.v79.normalizeUnspokenPersonhoodPending(cb, base), "claimant pending ok");
+  assert.strictEqual(ctx.v79.normalizeUnspokenPersonhoodPending({ ...cb, source: "bad" }, base), null, "claimant rejects bad source");
+
+  // evidence
+  base.draft.claimant = claimant;
+  const ev = { kind: "evidence", source: "silent-intent-archive", claimant, evidence, target: "personhood-inheritance-examination", feedback: eTable.feedback };
+  assert.ok(ctx.v79.normalizeUnspokenPersonhoodPending(ev, base), "evidence pending ok");
+  assert.strictEqual(ctx.v79.normalizeUnspokenPersonhoodPending({ ...ev, claimant: "unread-final-testament" }, base), null, "evidence rejects mismatched claimant");
+
+  // grant
+  base.draft.evidence = evidence;
+  const gr = { kind: "grant", source: "personhood-inheritance-examination", claimant, evidence, mode, grant: grantId, target: "confession", feedback: grantFb };
+  assert.ok(ctx.v79.normalizeUnspokenPersonhoodPending(gr, base), "grant pending ok");
+  assert.strictEqual(ctx.v79.normalizeUnspokenPersonhoodPending({ ...gr, target: "remembrance" }, base), null, "grant rejects wrong target");
+  assert.strictEqual(ctx.v79.normalizeUnspokenPersonhoodPending({ ...gr, feedback: "free text" }, base), null, "grant rejects free text feedback");
+
+  // executor-return
+  base.activeExecutor = { evidence, grant: grantId, feedback: eTable.executorFeedback };
+  const er = { kind: "executor-return", from: "confession", target: "unspoken-personhood-court", grant: grantId, feedback: eTable.executorFeedback };
+  assert.ok(ctx.v79.normalizeUnspokenPersonhoodPending(er, base), "executor-return pending ok");
+  assert.strictEqual(ctx.v79.normalizeUnspokenPersonhoodPending({ ...er, from: "remembrance" }, base), null, "executor-return rejects mismatched from");
+
+  // tribunal-entry
+  base.activeExecutor = null;
+  base.draft = { claimant: "", evidence: "" };
+  base.grants = ctx.v79.UNSPOKEN_PERSONHOOD_GRANT_IDS;
+  const te = { kind: "tribunal-entry", target: "unuttered-estate-tribunal", feedback: ctx.v79.UNSPOKEN_PERSONHOOD_TRIBUNAL_ENTRY_FEEDBACK };
+  assert.ok(ctx.v79.normalizeUnspokenPersonhoodPending(te, base), "tribunal-entry pending ok");
+  base.grants = [];
+  assert.strictEqual(ctx.v79.normalizeUnspokenPersonhoodPending(te, base), null, "tribunal-entry rejects incomplete coverage");
+
+  // tribunal
+  base.grants = ctx.v79.UNSPOKEN_PERSONHOOD_GRANT_IDS;
+  base.visited.tribunal = true;
+  const tb = { kind: "tribunal", source: "unuttered-estate-tribunal", action: "grant-the-unsaid-a-whole-life", outcome: "an-unsaid-sentence-inherited-a-whole-life", target: "remembrance", feedback: ctx.v79.UNSPOKEN_PERSONHOOD_TRIBUNAL_TABLE["grant-the-unsaid-a-whole-life"].feedback };
+  assert.ok(ctx.v79.normalizeUnspokenPersonhoodPending(tb, base), "tribunal pending ok");
+  assert.strictEqual(ctx.v79.normalizeUnspokenPersonhoodPending({ ...tb, outcome: "bad" }, base), null, "tribunal rejects bad outcome");
+}
+
+// 36 grants 与 3 tribunalOutcomes 穷举
+{
+  const ctx = makeV79Context({});
+  for (const id of ctx.v79.UNSPOKEN_PERSONHOOD_GRANT_IDS) {
+    const c = ctx.v79.findUnspokenPersonhoodGrantById(id);
+    assert.ok(c, `grant ${id} resolvable`);
+    assert.strictEqual(c.id, id);
+    assert.ok(c.title);
+    assert.ok(c.feedback);
+    assert.strictEqual(ctx.v79.computeUnspokenPersonhoodGrantId(c.claimant, c.evidence, c.mode), id);
+    assert.strictEqual(ctx.v79.computeUnspokenPersonhoodGrantTitle(c.claimant, c.evidence, c.mode), c.title);
+    assert.strictEqual(ctx.v79.computeUnspokenPersonhoodGrantFeedback(c.claimant, c.evidence, c.mode), c.feedback);
+  }
+  for (const action of ctx.v79.UNSPOKEN_PERSONHOOD_TRIBUNAL_ACTIONS) {
+    const outcome = ctx.v79.computeUnspokenPersonhoodTribunalOutcomeId(action);
+    assert.ok(outcome);
+    assert.strictEqual(ctx.v79.UNSPOKEN_PERSONHOOD_TRIBUNAL_TABLE[action].outcome, outcome);
+  }
+}
+
+// Coverage 4 pass / 3 fail
+{
+  const ctx = makeV79Context({});
+  const st = ctx.v79.defaultUnspokenPersonhood();
+  st.grants = ctx.v79.UNSPOKEN_PERSONHOOD_GRANT_IDS.slice(0, 3);
+  assert.strictEqual(ctx.v79.unspokenPersonhoodCoverageComplete(st), false, "3 grants cannot cover 4 modes");
+  st.grants = [ctx.v79.UNSPOKEN_PERSONHOOD_GRANT_IDS[0], ctx.v79.UNSPOKEN_PERSONHOOD_GRANT_IDS[5], ctx.v79.UNSPOKEN_PERSONHOOD_GRANT_IDS[22], ctx.v79.UNSPOKEN_PERSONHOOD_GRANT_IDS[27]];
+  assert.strictEqual(ctx.v79.unspokenPersonhoodCoverageComplete(st), true, "4 representative grants cover all axes");
+}
+
+// replay 来源/目标/else 矩阵
+{
+  const ctx = makeV79Context({ scene: 'remembrance' });
+  const st = ctx.v79.defaultUnspokenPersonhood();
+  st._v79unlocked = true;
+  st.pending = { kind: "entry", target: "unspoken-personhood-court", feedback: ctx.v79.UNSPOKEN_PERSONHOOD_ENTRY_FEEDBACK };
+  ctx.v79.saveUnspokenPersonhood(st);
+  ctx.v79.replayUnspokenPersonhoodPending('unspoken-personhood-court');
+  assert.strictEqual(ctx.read().pending, null, "target arrival clears entry pending");
+  assert.strictEqual(ctx.read().visited.court, true, "target arrival marks court visited");
+}
+{
+  const ctx = makeV79Context({ scene: 'unspoken-personhood-court' });
+  const st = ctx.v79.defaultUnspokenPersonhood();
+  st._v79unlocked = true;
+  const claimant = "unsaid-love-confession";
+  st.pending = { kind: "claimant", source: "unspoken-personhood-court", claimant, target: "silent-intent-archive", feedback: ctx.v79.UNSPOKEN_PERSONHOOD_CLAIMANT_TABLE[claimant].feedback };
+  ctx.v79.saveUnspokenPersonhood(st);
+  ctx.v79.replayUnspokenPersonhoodPending('silent-intent-archive');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears claimant pending");
+  assert.strictEqual(saved.draft.claimant, claimant, "target arrival writes draft claimant");
+  assert.strictEqual(saved.visited.archive, true, "target arrival marks archive visited");
+}
+{
+  const ctx = makeV79Context({ scene: 'silent-intent-archive' });
+  const st = ctx.v79.defaultUnspokenPersonhood();
+  st._v79unlocked = true;
+  st.draft.claimant = "unsaid-love-confession";
+  const evidence = "closed-lip-pressure-seal";
+  st.pending = { kind: "evidence", source: "silent-intent-archive", claimant: st.draft.claimant, evidence, target: "personhood-inheritance-examination", feedback: ctx.v79.UNSPOKEN_PERSONHOOD_EVIDENCE_TABLE[evidence].feedback };
+  ctx.v79.saveUnspokenPersonhood(st);
+  ctx.v79.replayUnspokenPersonhoodPending('personhood-inheritance-examination');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears evidence pending");
+  assert.strictEqual(saved.draft.evidence, evidence, "target arrival writes draft evidence");
+}
+{
+  const ctx = makeV79Context({ scene: 'personhood-inheritance-examination' });
+  const st = ctx.v79.defaultUnspokenPersonhood();
+  st._v79unlocked = true;
+  st.draft = { claimant: "unsaid-love-confession", evidence: "closed-lip-pressure-seal" };
+  const mode = "inherit-the-speakers-name";
+  const grant = ctx.v79.computeUnspokenPersonhoodGrantId(st.draft.claimant, st.draft.evidence, mode);
+  st.pending = { kind: "grant", source: "personhood-inheritance-examination", claimant: st.draft.claimant, evidence: st.draft.evidence, mode, grant, target: "confession", feedback: ctx.v79.computeUnspokenPersonhoodGrantFeedback(st.draft.claimant, st.draft.evidence, mode) };
+  ctx.v79.saveUnspokenPersonhood(st);
+  ctx.v79.replayUnspokenPersonhoodPending('confession');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears grant pending");
+  assert.ok(saved.grants.includes(grant), "grant collected");
+  assert.strictEqual(saved.grantRuns, 1, "grantRuns incremented once");
+  assert.strictEqual(saved.activeExecutor.evidence, "closed-lip-pressure-seal", "activeExecutor set");
+}
+{
+  const ctx = makeV79Context({ scene: 'confession' });
+  const st = ctx.v79.defaultUnspokenPersonhood();
+  st._v79unlocked = true;
+  const grant = ctx.v79.UNSPOKEN_PERSONHOOD_GRANT_IDS[0];
+  const evidence = grant.split(':')[1];
+  st.activeExecutor = { evidence, grant, feedback: ctx.v79.UNSPOKEN_PERSONHOOD_EVIDENCE_TABLE[evidence].executorFeedback };
+  st.pending = { kind: "executor-return", from: "confession", target: "unspoken-personhood-court", grant, feedback: ctx.v79.UNSPOKEN_PERSONHOOD_EVIDENCE_TABLE[evidence].executorFeedback };
+  ctx.v79.saveUnspokenPersonhood(st);
+  ctx.v79.replayUnspokenPersonhoodPending('unspoken-personhood-court');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears executor-return pending");
+  assert.strictEqual(saved.activeExecutor, null, "activeExecutor cleared");
+}
+{
+  const ctx = makeV79Context({ scene: 'remembrance' });
+  const st = ctx.v79.defaultUnspokenPersonhood();
+  st._v79unlocked = true;
+  st.grants = ctx.v79.UNSPOKEN_PERSONHOOD_GRANT_IDS;
+  st.pending = { kind: "tribunal-entry", target: "unuttered-estate-tribunal", feedback: ctx.v79.UNSPOKEN_PERSONHOOD_TRIBUNAL_ENTRY_FEEDBACK };
+  ctx.v79.saveUnspokenPersonhood(st);
+  ctx.v79.replayUnspokenPersonhoodPending('unuttered-estate-tribunal');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears tribunal-entry pending");
+  assert.strictEqual(saved.visited.tribunal, true, "target arrival marks tribunal visited");
+}
+{
+  const ctx = makeV79Context({ scene: 'unuttered-estate-tribunal' });
+  const st = ctx.v79.defaultUnspokenPersonhood();
+  st._v79unlocked = true;
+  st.grants = ctx.v79.UNSPOKEN_PERSONHOOD_GRANT_IDS;
+  st.visited.tribunal = true;
+  const tribunal = { kind: "tribunal", source: "unuttered-estate-tribunal", action: "grant-the-unsaid-a-whole-life", outcome: "an-unsaid-sentence-inherited-a-whole-life", target: "remembrance", feedback: ctx.v79.UNSPOKEN_PERSONHOOD_TRIBUNAL_TABLE["grant-the-unsaid-a-whole-life"].feedback };
+  st.pending = tribunal;
+  ctx.v79.saveUnspokenPersonhood(st);
+  ctx.v79.replayUnspokenPersonhoodPending('remembrance');
+  const saved = ctx.read();
+  assert.strictEqual(saved.pending, null, "target arrival clears tribunal pending");
+  assert.ok(saved.tribunalOutcomes.includes('an-unsaid-sentence-inherited-a-whole-life'), "tribunal outcome collected");
+  assert.strictEqual(saved.tribunalRuns, 1, "tribunalRuns incremented once");
+}
+{
+  // source arrival schedules transition
+  const ctx = makeV79Context({ scene: 'unspoken-personhood-court' });
+  const st = ctx.v79.defaultUnspokenPersonhood();
+  st._v79unlocked = true;
+  const claimant = "unsaid-love-confession";
+  st.pending = { kind: "claimant", source: "unspoken-personhood-court", claimant, target: "silent-intent-archive", feedback: ctx.v79.UNSPOKEN_PERSONHOOD_CLAIMANT_TABLE[claimant].feedback };
+  ctx.v79.saveUnspokenPersonhood(st);
+  ctx.v79.replayUnspokenPersonhoodPending('unspoken-personhood-court');
+  assert.strictEqual(ctx.scheduleCalls.length, 1, "source arrival schedules one transition");
+  assert.strictEqual(ctx.read().pending.kind, 'claimant', "source arrival keeps pending");
+}
+{
+  // else clears pending without side effects
+  const ctx = makeV79Context({ scene: 'protocol' });
+  const st = ctx.v79.defaultUnspokenPersonhood();
+  st._v79unlocked = true;
+  st.pending = { kind: "entry", target: "unspoken-personhood-court", feedback: ctx.v79.UNSPOKEN_PERSONHOOD_ENTRY_FEEDBACK };
+  ctx.v79.saveUnspokenPersonhood(st);
+  ctx.v79.replayUnspokenPersonhoodPending('protocol');
+  assert.strictEqual(ctx.read().pending, null, "else clears pending");
+  assert.strictEqual(ctx.read().visited.court, false, "else does not mark visited");
+}
+
+// 重复 grant 不重复图鉴但增加 grantRuns / tallies
+{
+  const ctx = makeV79Context({ scene: 'personhood-inheritance-examination' });
+  const st = ctx.v79.defaultUnspokenPersonhood();
+  st._v79unlocked = true;
+  st.draft = { claimant: "unsaid-love-confession", evidence: "closed-lip-pressure-seal" };
+  const mode = "inherit-the-speakers-name";
+  const grant = ctx.v79.computeUnspokenPersonhoodGrantId(st.draft.claimant, st.draft.evidence, mode);
+  st.grants = [grant];
+  st.grantRuns = 3;
+  st.claimantTallies.love = 3;
+  st.pending = { kind: "grant", source: "personhood-inheritance-examination", claimant: st.draft.claimant, evidence: st.draft.evidence, mode, grant, target: "confession", feedback: ctx.v79.computeUnspokenPersonhoodGrantFeedback(st.draft.claimant, st.draft.evidence, mode) };
+  ctx.v79.saveUnspokenPersonhood(st);
+  ctx.v79.replayUnspokenPersonhoodPending('confession');
+  const saved = ctx.read();
+  assert.strictEqual(saved.grants.length, 1, "duplicate grant not added");
+  assert.strictEqual(saved.grantRuns, 4, "duplicate still increments grantRuns");
+  assert.strictEqual(saved.claimantTallies.love, 4, "duplicate still increments tally");
+}
+
+// 18 组 isTrusted 防线
+{
+  const v79ListenerBlock = v79ModuleBlock[0].match(/const unspokenPersonhoodEntryBtn = \$\('#unspoken-personhood-entry-btn'\);[\s\S]*?$/);
+  assert.ok(v79ListenerBlock, "v79 click listener block must exist");
+  assert.equal((v79ListenerBlock[0].match(/!e\.isTrusted/g) || []).length, 18, "v79 must guard all eighteen click listeners with isTrusted");
+}
+
+// 合成 click 零副作用
+{
+  const ctx = makeV79Context({ scene: 'unspoken-personhood-court' });
+  const btn = { disabled: false, hidden: false, pressed: null, closest: () => null, addEventListener(type, fn) { this._fn = fn; }, setAttribute(name, value) { if (name === 'aria-pressed') this.pressed = value; }, removeAttribute() {} };
+  btn.addEventListener('click', (e) => { if (!e.isTrusted) return; ctx.v79.chooseUnspokenPersonhoodClaimant('unsaid-love-confession'); });
+  btn._fn({ isTrusted: false });
+  assert.strictEqual(ctx.read().pending ?? null, null, "synthetic click does not create v79 pending");
+}
+
+// v79 整页/主初始化链回归：sceneInit 与 DOMContentLoaded 初始块必须调用 v79 全套 sync
+{
+  const sceneInitBlock = js.match(/const sceneInit = \(name\) => \{[\s\S]*?updateHudDisplay\(\);\s*\};/);
+  assert.ok(sceneInitBlock, "sceneInit function must be extractable for whole-page init chain audit");
+  const sceneInitText = sceneInitBlock[0];
+  const v79SyncCalls = [
+    "resolveUnspokenPersonhoodPendingOnArrival(name);",
+    "syncUnspokenPersonhoodCourt();",
+    "syncUnspokenPersonhoodArchive();",
+    "syncUnspokenPersonhoodExamination();",
+    "syncUnspokenPersonhoodTribunal();",
+    "syncUnspokenPersonhoodExecutors();",
+    "paintUnspokenPersonhoodMemory();",
+    "paintUnspokenPersonhoodCodex();",
+    "syncUnspokenPersonhoodRemembrance();",
+    "syncUnspokenPersonhoodLinks();",
+    "replayUnspokenPersonhoodPending(name);",
+  ];
+  for (const call of v79SyncCalls) {
+    assert.ok(sceneInitText.includes(call), `sceneInit must call ${call}`);
+  }
+  const v79ReplayIdx = sceneInitText.indexOf("replayUnspokenPersonhoodPending(name);");
+  const hudIdx = sceneInitText.indexOf("updateHudDisplay();");
+  assert.ok(v79ReplayIdx > 0 && hudIdx > v79ReplayIdx, "v79 replay must run before updateHudDisplay in sceneInit");
+
+  const initBlock = js.match(/syncCausalScarLinks\(\);[\s\S]*?route\(\);\s*\}\);/);
+  assert.ok(initBlock, "DOMContentLoaded init block must be extractable");
+  const initText = initBlock[0];
+  for (const call of v79SyncCalls) {
+    assert.ok(initText.includes(call), `DOMContentLoaded init block must call ${call}`);
+  }
+
+  const forgetBlock = js.match(/const forgetActionBtn = \$[^;]*;[\s\S]*?goScene\("threshold"\);/);
+  assert.ok(forgetBlock, "forget-all handler must be extractable");
+  const forgetText = forgetBlock[0];
+  assert.ok(forgetText.includes('localStorage.removeItem("goddead_v79_unspoken_personhood")'), "forget-all must remove v79 storage key");
+  assert.ok(forgetText.includes('unspoken-personhood-memory') && forgetText.includes('hidden = true'), "forget-all must hide v79 memory");
+  assert.ok(forgetText.includes('unspoken-personhood-codex') && forgetText.includes('hidden = true'), "forget-all must hide v79 codex");
+  assert.ok(forgetText.includes('unspoken-personhood-codex-entry') && forgetText.includes('hidden = true'), "forget-all must hide v79 codex entry");
+  assert.ok(forgetText.includes('unspoken-personhood-entry-btn') && forgetText.includes('hidden = true'), "forget-all must hide v79 entry button");
+  assert.ok(forgetText.includes('unspoken-personhood-court-entry-btn') && forgetText.includes('hidden = true'), "forget-all must hide v79 court entry button");
+  assert.ok(forgetText.includes('"unspoken-personhood-court-link"') && forgetText.includes("hidden = true"), "forget-all must hide v79 directory links");
+  assert.ok(forgetText.includes('unspoken-personhood-executor-response-') && forgetText.includes('textContent = ""'), "forget-all must clear v79 executor responses");
+  assert.ok(forgetText.includes('unspoken-personhood-executor-') && forgetText.includes('hidden = true'), "forget-all must hide v79 executors");
+}
+
+/* ---------- v79 文档同步 ---------- */
+assert.match(readme, /v79|未言人格继承院|COURT OF UNSPOKEN PERSONHOOD/, "README must document the v79 unspoken personhood court");
+assert.match(qa, /v79|未言人格继承院|COURT OF UNSPOKEN PERSONHOOD/, "design-qa.md must document the v79 unspoken personhood court");
+assert.match(log, /v79|未言人格继承院|COURT OF UNSPOKEN PERSONHOOD/, "ProgressLog must document the v79 unspoken personhood court");
+const v79doc = await fileText("docs/V79UnspokenPersonhoodCourtDesign.md");
+for (const hash of Object.values(V79_SOURCE_HASHES)) {
+  assert.ok(v79doc.includes(hash), "V79 design doc must freeze the source sha256 values");
+}
+for (const hash of Object.values(V79_WEBP_HASHES)) {
+  assert.ok(v79doc.includes(hash), "V79 design doc must freeze the WebP sha256 values");
+}
+assert.match(v79doc, /1536×1024/, "V79 design doc documents 1536×1024 dimensions");
+/* ---------- v79 文档同步 ---------- */
+
+/* ============================================================
+   v80 未遂思想收容所 / ASYLUM FOR UNFINISHED THOUGHTS 静态与运行时回归
+   ============================================================ */
+
+const V80_SOURCE_HASHES = {
+  "source-v80-unfinished-thought-asylum.png": "046ec7b50c19887bc9f05fe1c7a9380bb3580dfc2e00ac599354f1b77fd35004",
+  "source-v80-interruption-trace-archive.png": "13c6c6b6c1ae11fc2230f2546c41092d9dd796f1d037af191029275609f78946",
+  "source-v80-counterfactual-treatment-lab.png": "67f38d585c150104abe3b2ba2edb84369f5ef007e006ff803f5e5c54fbf94427",
+  "source-v80-last-conclusion-hearing.png": "ab1a6626ed4d75b7dec829dc509a2705bdf38b04a7cce1146f0fdba7064eae4e",
+};
+const V80_WEBP_HASHES = {
+  "v80-unfinished-thought-asylum.webp": "f1bbdad709273778b3c83e53b956456735b464555907ce8fe0eed462c151a8b3",
+  "v80-interruption-trace-archive.webp": "8731c14525137c4fa9fc189154653ba6ff3f77759499532d0d32d02f59c98866",
+  "v80-counterfactual-treatment-lab.webp": "b567e3953265bf11d1417f53fbe99cf6060aae3e4b6840e6bc12afc5eccdbf3e",
+  "v80-last-conclusion-hearing.webp": "bc58efe9b42e2fe4a67fc5927159967cc2ac8dc699796a3d66db13dbe705bfc4",
+};
+const V80_SOURCE_SIZES = {
+  "source-v80-unfinished-thought-asylum.png": 2661767,
+  "source-v80-interruption-trace-archive.png": 2962298,
+  "source-v80-counterfactual-treatment-lab.png": 2400656,
+  "source-v80-last-conclusion-hearing.png": 2902017,
+};
+const V80_WEBP_SIZES = {
+  "v80-unfinished-thought-asylum.webp": 254726,
+  "v80-interruption-trace-archive.webp": 250326,
+  "v80-counterfactual-treatment-lab.webp": 207634,
+  "v80-last-conclusion-hearing.webp": 310448,
+};
+
+/* 场景与 DOM 存在性 */
+assert.match(html, new RegExp(`data-scene="unfinished-thought-asylum"`), `v80 scene missing: unfinished-thought-asylum`);
+assert.match(html, new RegExp(`data-scene="interruption-trace-archive"`), `v80 scene missing: interruption-trace-archive`);
+assert.match(html, new RegExp(`data-scene="counterfactual-treatment-lab"`), `v80 scene missing: counterfactual-treatment-lab`);
+assert.match(html, new RegExp(`data-scene="last-conclusion-hearing"`), `v80 scene missing: last-conclusion-hearing`);
+assert.match(html, new RegExp(`id="unfinished-thought-asylum-link"`), `v80 directory link missing: unfinished-thought-asylum-link`);
+assert.match(html, new RegExp(`id="interruption-trace-archive-link"`), `v80 directory link missing: interruption-trace-archive-link`);
+assert.match(html, new RegExp(`id="counterfactual-treatment-lab-link"`), `v80 directory link missing: counterfactual-treatment-lab-link`);
+assert.match(html, new RegExp(`id="last-conclusion-hearing-link"`), `v80 directory link missing: last-conclusion-hearing-link`);
+assert.match(html, new RegExp(`id="unfinished-thought-memory"`), `v80 remembrance element missing: unfinished-thought-memory`);
+assert.match(html, new RegExp(`id="unfinished-thought-codex"`), `v80 remembrance element missing: unfinished-thought-codex`);
+assert.match(html, new RegExp(`id="unfinished-thought-codex-entry"`), `v80 remembrance element missing: unfinished-thought-codex-entry`);
+assert.match(html, new RegExp(`id="unfinished-thought-entry-btn"`), `v80 entry button missing: unfinished-thought-entry-btn`);
+assert.match(html, new RegExp(`id="unfinished-thought-hearing-entry-btn"`), `v80 hearing entry button missing: unfinished-thought-hearing-entry-btn`);
+assert.match(html, new RegExp(`id="unfinished-thought-asylum-figure"`), `v80 figure missing: unfinished-thought-asylum-figure`);
+assert.match(html, new RegExp(`id="interruption-trace-archive-figure"`), `v80 figure missing: interruption-trace-archive-figure`);
+assert.match(html, new RegExp(`id="counterfactual-treatment-lab-figure"`), `v80 figure missing: counterfactual-treatment-lab-figure`);
+assert.match(html, new RegExp(`id="last-conclusion-hearing-figure"`), `v80 figure missing: last-conclusion-hearing-figure`);
+assert.match(html, new RegExp(`id="unfinished-thought-name-never-finished-thinking"`), `v80 thought button missing: unfinished-thought-name-never-finished-thinking`);
+assert.match(html, new RegExp(`id="unfinished-thought-escape-aborted-by-reason"`), `v80 thought button missing: unfinished-thought-escape-aborted-by-reason`);
+assert.match(html, new RegExp(`id="unfinished-thought-happiness-never-permitted"`), `v80 thought button missing: unfinished-thought-happiness-never-permitted`);
+assert.match(html, new RegExp(`id="interruption-trace-pen-stopped-before-the-name"`), `v80 trace button missing: interruption-trace-pen-stopped-before-the-name`);
+assert.match(html, new RegExp(`id="interruption-trace-last-step-before-the-door"`), `v80 trace button missing: interruption-trace-last-step-before-the-door`);
+assert.match(html, new RegExp(`id="interruption-trace-crossed-out-future-calendar"`), `v80 trace button missing: interruption-trace-crossed-out-future-calendar`);
+assert.match(html, new RegExp(`id="counterfactual-treatment-finish-it-with-a-foreign-conclusion"`), `v80 therapy button missing: counterfactual-treatment-finish-it-with-a-foreign-conclusion`);
+assert.match(html, new RegExp(`id="counterfactual-treatment-stitch-mutually-exclusive-thoughts"`), `v80 therapy button missing: counterfactual-treatment-stitch-mutually-exclusive-thoughts`);
+assert.match(html, new RegExp(`id="counterfactual-treatment-preserve-it-as-perpetually-unfinished"`), `v80 therapy button missing: counterfactual-treatment-preserve-it-as-perpetually-unfinished`);
+assert.match(html, new RegExp(`id="counterfactual-treatment-transplant-it-into-another-possible-self"`), `v80 therapy button missing: counterfactual-treatment-transplant-it-into-another-possible-self`);
+assert.match(html, new RegExp(`id="unfinished-thought-physician-return-blank-name-cloakroom"`), `v80 physician return button missing: unfinished-thought-physician-return-blank-name-cloakroom`);
+assert.match(html, new RegExp(`id="unfinished-thought-physician-return-reverse-stairwell"`), `v80 physician return button missing: unfinished-thought-physician-return-reverse-stairwell`);
+assert.match(html, new RegExp(`id="unfinished-thought-physician-return-unlived-nursery"`), `v80 physician return button missing: unfinished-thought-physician-return-unlived-nursery`);
+assert.match(html, new RegExp(`id="last-conclusion-declare-every-unfinished-thought-alive"`), `v80 hearing button missing: last-conclusion-declare-every-unfinished-thought-alive`);
+assert.match(html, new RegExp(`id="last-conclusion-let-the-thought-finish-its-thinker"`), `v80 hearing button missing: last-conclusion-let-the-thought-finish-its-thinker`);
+assert.match(html, new RegExp(`id="last-conclusion-recycle-all-abandoned-possibilities"`), `v80 hearing button missing: last-conclusion-recycle-all-abandoned-possibilities`);
+
+/* Handler 的 buttonAvailable 与事件监听所查 ID 必须真实存在于 index.html */
+const v80HandlerIdChecks = {
+  thought: { ids: ["unfinished-thought-name-never-finished-thinking", "unfinished-thought-escape-aborted-by-reason", "unfinished-thought-happiness-never-permitted"], handlerPrefix: "unfinished-thought-${thought}" },
+  trace: { ids: ["interruption-trace-pen-stopped-before-the-name", "interruption-trace-last-step-before-the-door", "interruption-trace-crossed-out-future-calendar"], handlerPrefix: "interruption-trace-${trace}" },
+  therapy: { ids: ["counterfactual-treatment-finish-it-with-a-foreign-conclusion", "counterfactual-treatment-stitch-mutually-exclusive-thoughts", "counterfactual-treatment-preserve-it-as-perpetually-unfinished", "counterfactual-treatment-transplant-it-into-another-possible-self"], handlerPrefix: "counterfactual-treatment-${therapy}" },
+  hearing: { ids: ["last-conclusion-declare-every-unfinished-thought-alive", "last-conclusion-let-the-thought-finish-its-thinker", "last-conclusion-recycle-all-abandoned-possibilities"], handlerPrefix: "last-conclusion-${action}" },
+};
+for (const [kind, { ids, handlerPrefix }] of Object.entries(v80HandlerIdChecks)) {
+  assert.ok(js.includes(`buttonAvailable(\`${handlerPrefix}\`)`), `v80 ${kind} handler must use real DOM id prefix: ${handlerPrefix}`);
+  for (const id of ids) {
+    assert.match(html, new RegExp(`id="${id}"`), `v80 ${kind} button must exist in DOM: ${id}`);
+    assert.ok(js.includes(`$('#${id}')`), `v80 ${kind} listener must be wired to the real DOM id: ${id}`);
+  }
+}
+
+assert.ok(html.includes('<link rel="preload" href="assets/v80-unfinished-thought-asylum.webp" as="image">'), "v80 preloads v80-unfinished-thought-asylum");
+assert.ok(html.includes('<link rel="preload" href="assets/v80-interruption-trace-archive.webp" as="image">'), "v80 preloads v80-interruption-trace-archive");
+assert.ok(html.includes('<link rel="preload" href="assets/v80-counterfactual-treatment-lab.webp" as="image">'), "v80 preloads v80-counterfactual-treatment-lab");
+assert.ok(html.includes('<link rel="preload" href="assets/v80-last-conclusion-hearing.webp" as="image">'), "v80 preloads v80-last-conclusion-hearing");
+
+/* 缓存版本 */
+assert.ok(html.includes("styles.css?v=90"), "styles.css cache bust v=86");
+assert.ok(html.includes("script.js?v=90"), "script.js cache bust v=86");
+
+/* JS 模块与 key */
+assert.equal((js.match(/const UNFINISHED_THOUGHT_KEY = ['"]goddead_v80_unfinished_thought_asylum['"]/g) || []).length, 1, "v80 introduces exactly one storage key");
+const v80Start = js.indexOf("v80 未遂思想收容所 / ASYLUM FOR UNFINISHED THOUGHTS");
+const v81Marker = "const REGRET_RECLAMATION_KEY = 'goddead_v81_regret_reclamation';";
+const v81MarkerIndex = v80Start !== -1 ? js.indexOf(v81Marker, v80Start) : -1;
+const v80Heading = "\n     走廊：残页 + 封印的门";
+const v80HeadingIndex = v80Start !== -1 ? js.indexOf(v80Heading, v80Start) : -1;
+const v80End = v81MarkerIndex !== -1 ? v81MarkerIndex : (v80HeadingIndex !== -1 ? js.lastIndexOf("/*", v80HeadingIndex) : -1);
+assert.ok(v80Start !== -1 && v80End !== -1 && v80End > v80Start, "v80 module boundaries must exist");
+const v80ModuleBlock = [js.slice(v80Start, v80End)];
+assert.ok(v80ModuleBlock, "v80 module must exist");
+assert.strictEqual((v80ModuleBlock[0].match(/before:\s*\(\)\s*=>\s*unfinishedThoughtBeforeArrive/g) || []).length, 0, "v80 module must not attach unfinishedThoughtBeforeArrive to scene transitions");
+assert.strictEqual((v80ModuleBlock[0].match(/AutoAdvance\.schedule\(/g) || []).length, 8, "v80 module must contain exactly 8 AutoAdvance.schedule call sites");
+assert.ok(
+  v80ModuleBlock[0].includes("if (p.thought !== st.draft.thought || st.draft.trace !== '') return null;"),
+  "normalizeUnfinishedThoughtPending must check st.draft.trace !== ''"
+);
+assert.ok(
+  v80ModuleBlock[0].includes("if (!UNFINISHED_THOUGHT_THOUGHTS.includes(st.draft.thought) || st.draft.trace !== '') return;"),
+  "chooseUnfinishedTrace must check st.draft.trace !== ''"
+);
+assert.ok(
+  v80ModuleBlock[0].includes("const blocked = !!pending || !!st.activePhysician || st.draft.trace !== '';"),
+  "syncUnfinishedThoughtArchive must disable trace buttons after trace commit"
+);
+
+/* 路由守卫与窄桥 */
+const resolveSceneBlockV80 = js.match(/const resolveScene = \(name\) => \{[\s\S]*?\n  \};/);
+assert.ok(resolveSceneBlockV80, "resolveScene block must exist for v80 bridge audit");
+assert.match(resolveSceneBlockV80[0], /if \(BRANCH_SCENES\.includes\(target\)[\s\S]*?!unfinishedThoughtBridgeAllows\(target\)\) target = "corridor";/, "v29 branch guard must preserve legal v80 bridge");
+assert.ok(resolveSceneBlockV80[0].includes('if (target === "unlived-nursery" && !counterfactualCanVisitNursery() && !unfinishedThoughtBridgeAllows("unlived-nursery") && !unhappenedEventAuctionBridgeAllows("unlived-nursery")) target = "remembrance";'), "legacy v66 nursery guard and strict v80 bridge coexist");
+
+const saveUnfinishedThoughtBlock = js.match(/const saveUnfinishedThoughtAsylum = \(st\) => \{[\s\S]*?store\.set\(\s*UNFINISHED_THOUGHT_KEY,\s*JSON\.stringify\(\{[\s\S]*?\}\)\s*\);/);
+assert.ok(saveUnfinishedThoughtBlock, "saveUnfinishedThoughtAsylum must persist an explicit canonical projection");
+for (const f of ["version", "visited", "draft", "admissions", "hearingOutcomes", "admissionRuns", "hearingRuns", "thoughtTallies", "lastOutcome", "activePhysician", "pending"]) {
+  assert.match(saveUnfinishedThoughtBlock[0], new RegExp(`\\b${f}\\b`), `saveUnfinishedThoughtAsylum persists ${f}`);
+}
+
+/* 素材冻结 */
+for (const [file, hash] of Object.entries(V80_SOURCE_HASHES)) {
+  const buf = await readFile(new URL(`design-references/${file}`, root));
+  assert.strictEqual(createHash("sha256").update(buf).digest("hex"), hash, `${file} must keep its frozen sha256`);
+  assert.strictEqual(buf.length, V80_SOURCE_SIZES[file], `${file} must keep its frozen byte size`);
+  const dims = readPngDimensions(buf);
+  assert.ok(dims, `${file} must be a readable PNG`);
+  assert.strictEqual(dims.width, 1536, `${file} must be 1536 px wide`);
+  assert.strictEqual(dims.height, 1024, `${file} must be 1024 px tall`);
+}
+for (const [file, hash] of Object.entries(V80_WEBP_HASHES)) {
+  const buf = await readFile(new URL(`assets/${file}`, root));
+  assert.strictEqual(createHash("sha256").update(buf).digest("hex"), hash, `${file} must keep its frozen sha256`);
+  assert.strictEqual(buf.length, V80_WEBP_SIZES[file], `${file} must keep its frozen byte size`);
+  assert.ok(html.includes(`assets/${file}`), `${file} must be referenced from index.html`);
+  const dims = readWebpDimensions(buf);
+  assert.ok(dims, `${file} must be a readable WebP`);
+  assert.strictEqual(dims.width, 1536, `${file} must be 1536 px wide`);
+  assert.strictEqual(dims.height, 1024, `${file} must be 1024 px tall`);
+  assert.match(html, new RegExp(`src="assets/${file.replace(".", "\\.")}" alt="" width="1536" height="1024"`), `${file} must have 1536x1024 HTML attributes`);
+}
+
+/* 冻结标题、按钮文本与反馈 */
+assert.ok(html.includes("05μ / 未遂思想收容所 · ASYLUM FOR UNFINISHED THOUGHTS"), "v80 asylum title");
+assert.ok(html.includes("05ν / 中断痕迹档案室 · ARCHIVE OF INTERRUPTION TRACES"), "v80 archive title");
+assert.ok(html.includes("05ξ / 反事实疗法室 · COUNTERFACTUAL TREATMENT LAB"), "v80 lab title");
+assert.ok(html.includes("05ο / 最后结论听证庭 · HEARING OF THE LAST CONCLUSION"), "v80 hearing title");
+assert.match(js, /收容没想完的名字 · ADMIT THE NAME NEVER FINISHED/, "v80 thought name button text");
+assert.match(js, /收容被理智中止的逃亡 · ADMIT THE ESCAPE ABORTED BY REASON/, "v80 thought escape button text");
+assert.match(js, /收容不准拥有的幸福 · ADMIT THE HAPPINESS NEVER PERMITTED/, "v80 thought happiness button text");
+assert.match(js, /提交停在名字前的笔 · SUBMIT THE PEN STOPPED BEFORE THE NAME/, "v80 trace pen button text");
+assert.match(js, /提交门前最后一步 · SUBMIT THE LAST STEP BEFORE THE DOOR/, "v80 trace step button text");
+assert.match(js, /提交被划掉的未来日历 · SUBMIT THE CROSSED-OUT FUTURE CALENDAR/, "v80 trace calendar button text");
+assert.match(js, /用陌生结论完成它 · FINISH IT WITH A FOREIGN CONCLUSION/, "v80 therapy foreign button text");
+assert.match(js, /缝合互斥思想 · STITCH MUTUALLY EXCLUSIVE THOUGHTS/, "v80 therapy stitch button text");
+assert.match(js, /永久保留未完成 · PRESERVE IT AS PERPETUALLY UNFINISHED/, "v80 therapy preserve button text");
+assert.match(js, /移植给另一个可能的自己 · TRANSPLANT IT INTO ANOTHER POSSIBLE SELF/, "v80 therapy transplant button text");
+assert.match(js, /宣布所有未遂思想仍活着 · DECLARE EVERY UNFINISHED THOUGHT ALIVE/, "v80 hearing alive button text");
+assert.match(js, /让思想完成思考者 · LET THE THOUGHT FINISH ITS THINKER/, "v80 hearing thinker button text");
+assert.match(js, /回收全部被放弃的可能 · RECYCLE ALL ABANDONED POSSIBILITIES/, "v80 hearing recycle button text");
+assert.match(js, /跟停笔医师返回收容所 · RETURN WITH THE STOPPED-PEN PHYSICIAN/, "v80 physician pen return text");
+assert.match(js, /跟门前医师返回收容所 · RETURN WITH THE LAST-STEP PHYSICIAN/, "v80 physician step return text");
+assert.match(js, /跟删日医师返回收容所 · RETURN WITH THE CROSSED-DATE PHYSICIAN/, "v80 physician calendar return text");
+assert.match(js, /半个名字在病房里继续长出笔画。它还不知道自己指向谁，却已经害怕被另一个人完整地想起。/, "v80 thought name feedback");
+assert.match(js, /折断路线每天在墙上多走一步。身体从未离开，逃亡却坚持自己早已在别处活到晚年。/, "v80 thought escape feedback");
+assert.match(js, /玻璃里的小屋亮着灯。你一次也没有住进去，它却能说出每个房间如何记住你的脚步。/, "v80 thought happiness feedback");
+assert.match(js, /笔尖保存着下一笔的重量。姓名没有形成，纸面却已被一个尚不存在的人压出凹痕。/, "v80 trace pen feedback");
+assert.match(js, /脚印停在门槛前，鞋底却沾着门外多年的尘。档案员无法判断身体退回去，还是未来独自越过了门。/, "v80 trace step feedback");
+assert.match(js, /黑线删掉所有幸福的日期，纸背仍持续发热。那些日子没有发生，却像被谁认真怀念过。/, "v80 trace calendar feedback");
+assert.match(js, /续写臂替念头安上一种它从未选择的结尾。句子终于完整，却开始梦见原来那片空白。/, "v80 therapy foreign fragment");
+assert.match(js, /骨针把逃走与留下缝成同一条思路。病历宣布冲突已经治愈，身体却同时出现在门的两边。/, "v80 therapy stitch fragment");
+assert.match(js, /暗红封存罐禁止结论抵达。思想因此永不死亡，也永远差最后一步才能证明自己活着。/, "v80 therapy preserve fragment");
+assert.match(js, /镜面交换器把念头送给另一种你。那个人立刻把它想完，而你只继承完成之后莫名其妙的后悔。/, "v80 therapy transplant fragment");
+assert.match(js, /所有半句同时恢复心跳。痕迹墙挤满没有结论的人生，每一条都要求身体为它继续活一次。/, "v80 hearing alive feedback");
+assert.match(js, /念头不再等待你把它想完。它替你补上最后一部分人格，并把原来的你标成一段成功完成的前言。/, "v80 hearing thinker feedback");
+assert.match(js, /收容室把逃亡、姓名与幸福拆成可重用零件。下一种人生拿走它们，而你只收到一张写着用途不明的后悔收据。/, "v80 hearing recycle feedback");
+assert.match(js, /停笔医师在空名寄存处找到半个姓名。衣钩认得它，寄存凭据却坚持还没有足够的人可以领取。/, "v80 physician pen feedback");
+assert.match(js, /门前医师沿逆向楼梯追查最后一步。每往下一级，脚印就更接近一个从未出发的远方。/, "v80 physician step feedback");
+assert.match(js, /删日医师在未活托儿所挂起未来日历。孩子们认得每个被划掉的生日，却不认得本来会来庆祝的你。/, "v80 physician calendar feedback");
+assert.match(js, /决定思想必须在哪里结束 · DECIDE WHERE A THOUGHT IS REQUIRED TO END/, "v80 hearing entry feedback");
+
+/* 可执行/隔离状态回归测试 */
+const v80ExecSourceStart = v80ModuleBlock[0].indexOf("const UNFINISHED_THOUGHT_KEY");
+assert.ok(v80ExecSourceStart > 0, "v80 executable block starts with UNFINISHED_THOUGHT_KEY");
+const v80ExecSource = v80ModuleBlock[0].slice(v80ExecSourceStart).trimEnd();
+
+const UNFINISHED_THOUGHT_KEY = "goddead_v80_unfinished_thought_asylum";
+const fullV79CoverageGrants = (() => {
+  const claimants = ['unsaid-love-confession', 'unread-final-testament', 'swallowed-cry-for-help'];
+  const evidence = ['closed-lip-pressure-seal', 'unsigned-witness-echo', 'breath-returned-from-empty-receiver'];
+  const modes = ['inherit-the-speakers-name', 'inherit-the-unlived-years', 'inherit-the-right-to-be-answered', 'refuse-a-body-and-live-as-absence'];
+  const ids = [];
+  for (const c of claimants) {
+    for (const e of evidence) {
+      for (const m of modes) {
+        ids.push(`${c}:${e}:${m}`);
+      }
+    }
+  }
+  return ids;
+})();
+const fullV79TribunalOutcomes = [
+  'an-unsaid-sentence-inherited-a-whole-life',
+  'personhood-was-divided-among-the-unhearing',
+  'the-speaker-became-the-estate-of-last-silence',
+];
+
+function makeV80Context({
+  initialStore = {},
+  elements = {},
+  scene = '',
+  v79unlocked = true,
+  grants = fullV79CoverageGrants,
+  tribunalOutcomes = fullV79TribunalOutcomes,
+  upstreamV79State = null,
+} = {}) {
+  const storeData = { ...initialStore };
+  const store = {
+    get(k, def) { return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def; },
+    set(k, v) { storeData[k] = v; },
+  };
+  const queries = [];
+  const $ = (rawId) => { queries.push(rawId); return elements[rawId.replace(/^#/, '')] || null; };
+  const scheduleCalls = [];
+  const AutoAdvance = { has(src) { return false; }, schedule(src, target, opts) { scheduleCalls.push({ src, target, opts }); } };
+  const AudioEngine = { whoosh() {}, bell() {} };
+  const unspokenPersonhoodCourtUnlocked = () => v79unlocked;
+  const unspokenPersonhoodCoverageComplete = (st) => v79unlocked && Array.isArray(st.grants) && st.grants.length === 36;
+  const getUnspokenPersonhood = () => upstreamV79State || (v79unlocked ? { grants, tribunalOutcomes, _v79unlocked: true } : { grants: [], tribunalOutcomes: [], _v79unlocked: false });
+  const buttonAvailable = (id) => {
+    const btn = $(`#${id}`);
+    if (!btn || btn.disabled || btn.hidden) return false;
+    if (typeof btn.closest === 'function' && btn.closest('[hidden]')) return false;
+    return true;
+  };
+  const document = {
+    createElement(tag) {
+      return {
+        tagName: tag,
+        className: "",
+        innerHTML: "",
+        textContent: "",
+        children: [],
+        hidden: true,
+        setAttribute() {},
+        removeAttribute(name) { if (name === "hidden") this.hidden = false; },
+        appendChild(c) { this.children.push(c); },
+      };
+    },
+  };
+  const body = v80ExecSource + "\nreturn { UNFINISHED_THOUGHT_KEY, UNFINISHED_THOUGHT_VERSION, UNFINISHED_THOUGHT_THOUGHTS, UNFINISHED_THOUGHT_TRACES, UNFINISHED_THOUGHT_THERAPIES, UNFINISHED_THOUGHT_HEARING_ACTIONS, UNFINISHED_THOUGHT_SCENE_FOR_TRACE, UNFINISHED_THOUGHT_ENTRY_FEEDBACK, UNFINISHED_THOUGHT_HEARING_ENTRY_FEEDBACK, UNFINISHED_THOUGHT_THOUGHT_TABLE, UNFINISHED_THOUGHT_TRACE_TABLE, UNFINISHED_THOUGHT_THERAPY_TABLE, UNFINISHED_THOUGHT_HEARING_TABLE, UNFINISHED_THOUGHT_ADMISSION_IDS, UNFINISHED_THOUGHT_ADMISSION_SET, UNFINISHED_THOUGHT_HEARING_OUTCOME_IDS, UNFINISHED_THOUGHT_HEARING_OUTCOME_SET, defaultUnfinishedThoughtAsylum, normalizeUnfinishedThoughtVisited, normalizeUnfinishedThoughtDraft, normalizeUnfinishedThoughtAdmissions, normalizeUnfinishedThoughtHearingOutcomes, normalizeUnfinishedThoughtTallies, normalizeUnfinishedThoughtActivePhysician, normalizeUnfinishedThoughtPending, saveUnfinishedThoughtAsylum, getUnfinishedThoughtAsylum, unfinishedThoughtAsylumUnlocked, unfinishedThoughtCoverageComplete, computeUnfinishedThoughtTalliesMajority, computeUnfinishedThoughtAdmissionId, computeUnfinishedThoughtAdmissionTitle, computeUnfinishedThoughtAdmissionFeedback, findUnfinishedThoughtAdmissionById, computeUnfinishedThoughtHearingOutcomeId, unfinishedThoughtDelay, unfinishedThoughtBeforeArrive, resolveUnfinishedThoughtPendingOnArrival, lockUnfinishedThoughtButtons, lockUnfinishedTraceButtons, lockUnfinishedTherapyButtons, lockUnfinishedHearingButtons, syncUnfinishedThoughtAsylum, syncUnfinishedThoughtArchive, syncUnfinishedThoughtLab, syncUnfinishedThoughtHearing, syncUnfinishedThoughtPhysicians, paintUnfinishedThoughtPhysician, paintUnfinishedThoughtMemory, paintUnfinishedThoughtCodex, syncUnfinishedThoughtRemembrance, syncUnfinishedThoughtLinks, replayUnfinishedThoughtPending, chooseUnfinishedThought, chooseUnfinishedTrace, chooseUnfinishedTherapy, chooseUnfinishedPhysicianReturn, chooseUnfinishedThoughtEntry, chooseUnfinishedThoughtHearingEntry, chooseUnfinishedThoughtHearingAction, unfinishedThoughtCanVisitAsylum, unfinishedThoughtCanVisitArchive, unfinishedThoughtCanVisitLab, unfinishedThoughtCanVisitHearing, unfinishedThoughtBridgeAllows };";
+  const v80 = new Function("store", "$", "currentScene", "AutoAdvance", "AudioEngine", "reduced", "unspokenPersonhoodCourtUnlocked", "getUnspokenPersonhood", "unspokenPersonhoodCoverageComplete", "buttonAvailable", "document", body)(store, $, scene, AutoAdvance, AudioEngine, false, unspokenPersonhoodCourtUnlocked, getUnspokenPersonhood, unspokenPersonhoodCoverageComplete, buttonAvailable, document);
+  const read = () => {
+    try { return JSON.parse(storeData[UNFINISHED_THOUGHT_KEY] || "{}") || {}; } catch { return {}; }
+  };
+  return { v80, storeData, read, queries, scheduleCalls };
+}
+
+{
+  const realV79 = makeV79Context({});
+  const completeV79 = realV79.v79.defaultUnspokenPersonhood();
+  completeV79.grants = realV79.v79.UNSPOKEN_PERSONHOOD_GRANT_IDS.slice();
+  completeV79.tribunalOutcomes = realV79.v79.UNSPOKEN_PERSONHOOD_TRIBUNAL_OUTCOME_IDS.slice();
+  realV79.v79.saveUnspokenPersonhood(completeV79);
+  const rawV79 = realV79.read();
+  const returnedV79 = realV79.v79.getUnspokenPersonhood();
+  const realV80 = makeV80Context({ upstreamV79State: returnedV79 });
+
+  assert.deepStrictEqual(
+    Object.keys(rawV79).sort(),
+    ['activeExecutor','claimantTallies','draft','grantRuns','grants','lastOutcome','pending','tribunalOutcomes','tribunalRuns','version','visited']
+  );
+  assert.strictEqual(Object.prototype.hasOwnProperty.call(rawV79, '_v79unlocked'), false);
+  assert.strictEqual(returnedV79._v79unlocked, true);
+  assert.strictEqual(returnedV79.grants.length, 36);
+  assert.strictEqual(returnedV79.tribunalOutcomes.length, 3);
+  assert.strictEqual(
+    realV80.v80.unfinishedThoughtAsylumUnlocked(),
+    true,
+    'real v79 getter unlocks v80'
+  );
+
+  const partialV79 = makeV79Context({});
+  const incompleteV79 = partialV79.v79.defaultUnspokenPersonhood();
+  incompleteV79.grants = partialV79.v79.UNSPOKEN_PERSONHOOD_GRANT_IDS.slice(0, 35);
+  incompleteV79.tribunalOutcomes = partialV79.v79.UNSPOKEN_PERSONHOOD_TRIBUNAL_OUTCOME_IDS.slice();
+  partialV79.v79.saveUnspokenPersonhood(incompleteV79);
+  const returnedPartialV79 = partialV79.v79.getUnspokenPersonhood();
+  const blockedV80 = makeV80Context({ upstreamV79State: returnedPartialV79 });
+
+  assert.strictEqual(returnedPartialV79._v79unlocked, true);
+  assert.strictEqual(returnedPartialV79.grants.length, 35);
+  assert.strictEqual(
+    blockedV80.v80.unfinishedThoughtAsylumUnlocked(),
+    false,
+    'incomplete v79 chapter coverage blocks v80 asylum unlock'
+  );
+}
+
+// 36 admission IDs 固定顺序
+{
+  const ctx = makeV80Context({});
+  assert.strictEqual(ctx.v80.UNFINISHED_THOUGHT_ADMISSION_IDS.length, 36, "v80 has 36 admission ids");
+  const expected = [];
+  for (const t of ctx.v80.UNFINISHED_THOUGHT_THOUGHTS) {
+    for (const tr of ctx.v80.UNFINISHED_THOUGHT_TRACES) {
+      for (const th of ctx.v80.UNFINISHED_THOUGHT_THERAPIES) {
+        expected.push(`${t}:${tr}:${th}`);
+      }
+    }
+  }
+  assert.deepStrictEqual(ctx.v80.UNFINISHED_THOUGHT_ADMISSION_IDS, expected, "admission ids follow THOUGHTS×TRACES×THERAPIES order");
+  assert.strictEqual(ctx.v80.UNFINISHED_THOUGHT_ADMISSION_SET.size, 36, "admission ids are unique");
+}
+
+// 3 hearing outcome IDs 固定顺序
+{
+  const ctx = makeV80Context({});
+  assert.deepStrictEqual(ctx.v80.UNFINISHED_THOUGHT_HEARING_OUTCOME_IDS, [
+    'every-unfinished-thought-kept-living',
+    'the-thought-completed-its-thinker',
+    'all-abandoned-possibilities-were-recycled',
+  ], "hearing outcome ids follow HEARING_ACTIONS order");
+}
+
+// 默认态与 canonical 十一键
+{
+  const ctx = makeV80Context({});
+  const st = ctx.v80.defaultUnfinishedThoughtAsylum();
+  assert.deepStrictEqual(Object.keys(st).sort(), ["activePhysician", "admissionRuns", "admissions", "draft", "hearingOutcomes", "hearingRuns", "lastOutcome", "pending", "thoughtTallies", "version", "visited"], "defaultUnfinishedThoughtAsylum has exactly eleven keys");
+  assert.strictEqual(st.version, 80);
+  assert.deepStrictEqual(st.visited, { asylum: false, archive: false, lab: false, hearing: false });
+  assert.deepStrictEqual(st.draft, { thought: "", trace: "" });
+  assert.deepStrictEqual(st.admissions, []);
+  assert.deepStrictEqual(st.hearingOutcomes, []);
+  assert.strictEqual(st.admissionRuns, 0);
+  assert.strictEqual(st.hearingRuns, 0);
+  assert.deepStrictEqual(st.thoughtTallies, { name: 0, escape: 0, happiness: 0 });
+  assert.strictEqual(st.lastOutcome, "");
+  assert.strictEqual(st.activePhysician, null);
+  assert.strictEqual(st.pending, null);
+}
+
+// 坏 JSON / version / type / 未解锁回默认态
+{
+  const ctx = makeV80Context({ initialStore: { [UNFINISHED_THOUGHT_KEY]: "not-json" } });
+  assert.deepStrictEqual(ctx.v80.getUnfinishedThoughtAsylum(), ctx.v80.defaultUnfinishedThoughtAsylum(), "bad json returns default");
+  const ctx2 = makeV80Context({ initialStore: { [UNFINISHED_THOUGHT_KEY]: JSON.stringify({ version: 79, visited: { asylum: true } }) } });
+  assert.deepStrictEqual(ctx2.v80.getUnfinishedThoughtAsylum(), ctx2.v80.defaultUnfinishedThoughtAsylum(), "wrong version returns default");
+  const ctx3 = makeV80Context({ initialStore: { [UNFINISHED_THOUGHT_KEY]: JSON.stringify([]) } });
+  assert.deepStrictEqual(ctx3.v80.getUnfinishedThoughtAsylum(), ctx3.v80.defaultUnfinishedThoughtAsylum(), "array returns default");
+  const ctx4 = makeV80Context({ initialStore: { [UNFINISHED_THOUGHT_KEY]: JSON.stringify({ version: 80, visited: { asylum: true } }) }, v79unlocked: false });
+  assert.deepStrictEqual(ctx4.v80.getUnfinishedThoughtAsylum(), ctx4.v80.defaultUnfinishedThoughtAsylum(), "locked returns default");
+}
+
+// 解锁只读 v79：锁定态下 direct hash 归 remembrance
+{
+  const ctx = makeV80Context({ v79unlocked: false });
+  assert.strictEqual(ctx.v80.unfinishedThoughtAsylumUnlocked(), false, "v80 locked when v79 locked");
+  assert.strictEqual(ctx.v80.unfinishedThoughtCanVisitAsylum(), false, "locked asylum guard blocks");
+  assert.strictEqual(ctx.v80.unfinishedThoughtCanVisitArchive(), false, "locked archive guard blocks");
+  assert.strictEqual(ctx.v80.unfinishedThoughtCanVisitLab(), false, "locked lab guard blocks");
+  assert.strictEqual(ctx.v80.unfinishedThoughtCanVisitHearing(), false, "locked hearing guard blocks");
+}
+
+// 规范化：visited / draft / admissions / hearingOutcomes / tallies / lastOutcome / activePhysician
+{
+  const ctx = makeV80Context({});
+  const base = ctx.v80.defaultUnfinishedThoughtAsylum();
+  base.visited = { asylum: 1, archive: "yes", lab: true, hearing: null };
+  assert.deepStrictEqual(ctx.v80.normalizeUnfinishedThoughtVisited(base.visited), { asylum: false, archive: false, lab: true, hearing: false });
+  assert.deepStrictEqual(ctx.v80.normalizeUnfinishedThoughtDraft({ thought: "name-never-finished-thinking", trace: "pen-stopped-before-the-name" }), { thought: "name-never-finished-thinking", trace: "pen-stopped-before-the-name" });
+  assert.deepStrictEqual(ctx.v80.normalizeUnfinishedThoughtDraft({ thought: "bad", trace: "pen-stopped-before-the-name" }), { thought: "", trace: "" });
+  assert.deepStrictEqual(ctx.v80.normalizeUnfinishedThoughtDraft({ thought: "name-never-finished-thinking", trace: "bad" }), { thought: "name-never-finished-thinking", trace: "" });
+  assert.deepStrictEqual(ctx.v80.normalizeUnfinishedThoughtDraft({ thought: "", trace: "pen-stopped-before-the-name" }), { thought: "", trace: "" });
+  const ids = [ctx.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[5], ctx.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[0], ctx.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[5], 'bad:id'];
+  assert.deepStrictEqual(ctx.v80.normalizeUnfinishedThoughtAdmissions(ids), [ctx.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[0], ctx.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[5]], "admissions dedup and fixed order");
+  const outcomes = ['every-unfinished-thought-kept-living', 'bad-outcome', 'every-unfinished-thought-kept-living', 'the-thought-completed-its-thinker', 'all-abandoned-possibilities-were-recycled'];
+  assert.deepStrictEqual(ctx.v80.normalizeUnfinishedThoughtHearingOutcomes(outcomes), ['every-unfinished-thought-kept-living', 'the-thought-completed-its-thinker', 'all-abandoned-possibilities-were-recycled'], "hearing outcomes dedup and fixed order");
+  assert.deepStrictEqual(ctx.v80.normalizeUnfinishedThoughtTallies({ name: 1.7, escape: -3, happiness: 99999 }), { name: 1, escape: 0, happiness: 9999 }, "tallies clamp and floor");
+  const admission = ctx.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[0];
+  const trace = admission.split(':')[1];
+  assert.strictEqual(ctx.v80.normalizeUnfinishedThoughtActivePhysician({ trace, admission, feedback: ctx.v80.UNFINISHED_THOUGHT_TRACE_TABLE[trace].physicianFeedback }, [admission]).admission, admission, "activePhysician ok");
+  assert.strictEqual(ctx.v80.normalizeUnfinishedThoughtActivePhysician({ trace: 'last-step-before-the-door', admission, feedback: ctx.v80.UNFINISHED_THOUGHT_TRACE_TABLE['last-step-before-the-door'].physicianFeedback }, [admission]), null, "activePhysician trace mismatch");
+}
+
+// save/get roundtrip 投影去重
+{
+  const ctx = makeV80Context({});
+  const st = ctx.v80.defaultUnfinishedThoughtAsylum();
+  st.visited.asylum = true;
+  st.draft = { thought: "name-never-finished-thinking", trace: "pen-stopped-before-the-name" };
+  const admission = ctx.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[8];
+  st.admissions = [admission, admission];
+  st.hearingOutcomes = ['every-unfinished-thought-kept-living'];
+  st.admissionRuns = 2;
+  st.hearingRuns = 1;
+  st.thoughtTallies = { name: 0, escape: 2, happiness: 0 };
+  st.lastOutcome = admission;
+  st.activePhysician = { trace: admission.split(':')[1], admission, feedback: ctx.v80.UNFINISHED_THOUGHT_TRACE_TABLE[admission.split(':')[1]].physicianFeedback };
+  st.pending = { kind: "trace", source: "interruption-trace-archive", thought: "name-never-finished-thinking", trace: "pen-stopped-before-the-name", target: "counterfactual-treatment-lab", feedback: ctx.v80.UNFINISHED_THOUGHT_TRACE_TABLE["pen-stopped-before-the-name"].feedback };
+  st.extra = "should-be-dropped";
+  ctx.v80.saveUnfinishedThoughtAsylum(st);
+  const saved = ctx.read();
+  assert.deepStrictEqual(Object.keys(saved).sort(), ["activePhysician", "admissionRuns", "admissions", "draft", "hearingOutcomes", "hearingRuns", "lastOutcome", "pending", "thoughtTallies", "version", "visited"], "saved has exactly eleven keys");
+  assert.strictEqual(saved.extra, undefined, "extra key dropped");
+  assert.strictEqual(saved.admissions.length, 1, "admissions deduped");
+  assert.strictEqual(saved.activePhysician.trace, admission.split(':')[1]);
+}
+
+// 七类 pending exact-key 严格归一化
+{
+  const ctx = makeV80Context({});
+  const base = ctx.v80.defaultUnfinishedThoughtAsylum();
+  base._v80unlocked = true;
+  const thought = "name-never-finished-thinking";
+  const trace = "pen-stopped-before-the-name";
+  const therapy = "finish-it-with-a-foreign-conclusion";
+  const admissionId = `${thought}:${trace}:${therapy}`;
+  const tTable = ctx.v80.UNFINISHED_THOUGHT_THOUGHT_TABLE[thought];
+  const trTable = ctx.v80.UNFINISHED_THOUGHT_TRACE_TABLE[trace];
+  const admissionFb = ctx.v80.computeUnfinishedThoughtAdmissionFeedback(thought, trace, therapy);
+
+  // entry
+  const entry = { kind: "entry", target: "unfinished-thought-asylum", feedback: ctx.v80.UNFINISHED_THOUGHT_ENTRY_FEEDBACK };
+  assert.ok(ctx.v80.normalizeUnfinishedThoughtPending(entry, base), "entry pending ok");
+  assert.strictEqual(ctx.v80.normalizeUnfinishedThoughtPending({ ...entry, extra: 1 }, base), null, "entry rejects extra key");
+  assert.strictEqual(ctx.v80.normalizeUnfinishedThoughtPending({ kind: "entry", target: "unfinished-thought-asylum", feedback: "bad" }, base), null, "entry rejects bad feedback");
+
+  // thought
+  const tb = { kind: "thought", source: "unfinished-thought-asylum", thought, target: "interruption-trace-archive", feedback: tTable.feedback };
+  assert.ok(ctx.v80.normalizeUnfinishedThoughtPending(tb, base), "thought pending ok");
+  assert.strictEqual(ctx.v80.normalizeUnfinishedThoughtPending({ ...tb, source: "bad" }, base), null, "thought rejects bad source");
+
+  // trace
+  base.draft.thought = thought;
+  const tr = { kind: "trace", source: "interruption-trace-archive", thought, trace, target: "counterfactual-treatment-lab", feedback: trTable.feedback };
+  assert.ok(ctx.v80.normalizeUnfinishedThoughtPending(tr, base), "trace pending ok");
+  assert.strictEqual(ctx.v80.normalizeUnfinishedThoughtPending({ ...tr, thought: "escape-aborted-by-reason" }, base), null, "trace rejects mismatched thought");
+  base.draft.trace = trace;
+  assert.strictEqual(ctx.v80.normalizeUnfinishedThoughtPending({ ...tr, trace: "last-step-before-the-door", feedback: ctx.v80.UNFINISHED_THOUGHT_TRACE_TABLE["last-step-before-the-door"].feedback }, base), null, "trace rejects overwrite after a trace is already committed");
+
+  // admission
+  base.draft.trace = trace;
+  const ad = { kind: "admission", source: "counterfactual-treatment-lab", thought, trace, therapy, admission: admissionId, target: "blank-name-cloakroom", feedback: admissionFb };
+  assert.ok(ctx.v80.normalizeUnfinishedThoughtPending(ad, base), "admission pending ok");
+  assert.strictEqual(ctx.v80.normalizeUnfinishedThoughtPending({ ...ad, target: "remembrance" }, base), null, "admission rejects wrong target");
+  assert.strictEqual(ctx.v80.normalizeUnfinishedThoughtPending({ ...ad, feedback: "free text" }, base), null, "admission rejects free text feedback");
+
+  // physician-return
+  base.activePhysician = { trace, admission: admissionId, feedback: trTable.physicianFeedback };
+  const pr = { kind: "physician-return", from: "blank-name-cloakroom", target: "unfinished-thought-asylum", admission: admissionId, feedback: trTable.physicianFeedback };
+  assert.ok(ctx.v80.normalizeUnfinishedThoughtPending(pr, base), "physician-return pending ok");
+  assert.strictEqual(ctx.v80.normalizeUnfinishedThoughtPending({ ...pr, from: "remembrance" }, base), null, "physician-return rejects mismatched from");
+
+  // hearing-entry
+  base.activePhysician = null;
+  base.draft = { thought: "", trace: "" };
+  base.admissions = ctx.v80.UNFINISHED_THOUGHT_ADMISSION_IDS;
+  const he = { kind: "hearing-entry", target: "last-conclusion-hearing", feedback: ctx.v80.UNFINISHED_THOUGHT_HEARING_ENTRY_FEEDBACK };
+  assert.ok(ctx.v80.normalizeUnfinishedThoughtPending(he, base), "hearing-entry pending ok");
+  base.admissions = [];
+  assert.strictEqual(ctx.v80.normalizeUnfinishedThoughtPending(he, base), null, "hearing-entry rejects incomplete coverage");
+
+  // hearing
+  base.admissions = ctx.v80.UNFINISHED_THOUGHT_ADMISSION_IDS;
+  base.visited.hearing = true;
+  const hg = { kind: "hearing", source: "last-conclusion-hearing", action: "declare-every-unfinished-thought-alive", outcome: "every-unfinished-thought-kept-living", target: "remembrance", feedback: ctx.v80.UNFINISHED_THOUGHT_HEARING_TABLE["declare-every-unfinished-thought-alive"].feedback };
+  assert.ok(ctx.v80.normalizeUnfinishedThoughtPending(hg, base), "hearing pending ok");
+  assert.strictEqual(ctx.v80.normalizeUnfinishedThoughtPending({ ...hg, outcome: "bad" }, base), null, "hearing rejects bad outcome");
+}
+
+// 36 admissions 与 3 hearingOutcomes 穷举
+{
+  const ctx = makeV80Context({});
+  for (const id of ctx.v80.UNFINISHED_THOUGHT_ADMISSION_IDS) {
+    const c = ctx.v80.findUnfinishedThoughtAdmissionById(id);
+    assert.ok(c, `admission ${id} resolvable`);
+    assert.strictEqual(c.id, id);
+    assert.ok(c.title);
+    assert.ok(c.feedback);
+    assert.strictEqual(ctx.v80.computeUnfinishedThoughtAdmissionId(c.thought, c.trace, c.therapy), id);
+    assert.strictEqual(ctx.v80.computeUnfinishedThoughtAdmissionTitle(c.thought, c.trace, c.therapy), c.title);
+    assert.strictEqual(ctx.v80.computeUnfinishedThoughtAdmissionFeedback(c.thought, c.trace, c.therapy), c.feedback);
+  }
+  for (const action of ctx.v80.UNFINISHED_THOUGHT_HEARING_ACTIONS) {
+    const outcome = ctx.v80.computeUnfinishedThoughtHearingOutcomeId(action);
+    assert.ok(outcome);
+    assert.strictEqual(ctx.v80.UNFINISHED_THOUGHT_HEARING_TABLE[action].outcome, outcome);
+  }
+}
+
+// Coverage 4 pass / 3 fail
+{
+  const ctx = makeV80Context({});
+  const st = ctx.v80.defaultUnfinishedThoughtAsylum();
+  st.admissions = ctx.v80.UNFINISHED_THOUGHT_ADMISSION_IDS.slice(0, 3);
+  assert.strictEqual(ctx.v80.unfinishedThoughtCoverageComplete(st), false, "3 admissions cannot cover 4 therapies");
+  st.admissions = [ctx.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[0], ctx.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[5], ctx.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[22], ctx.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[27]];
+  assert.strictEqual(ctx.v80.unfinishedThoughtCoverageComplete(st), true, "4 representative admissions cover all axes");
+}
+
+// v80 hearing target survives second hash resolve after settlement
+{
+  assert.ok(v80ModuleBlock[0].includes("st.lastOutcome === table.outcome"), "hearing bridge checks table outcome against lastOutcome");
+  assert.ok(v80ModuleBlock[0].includes("st.hearingOutcomes.includes(table.outcome)"), "hearing bridge verifies outcome in settled hearingOutcomes");
+
+  const pairs = [
+    {
+      action: 'let-the-thought-finish-its-thinker',
+      target: 'unending-gallery',
+      sibling: 'counterfactual-spindle',
+      outcome: 'the-thought-completed-its-thinker',
+    },
+    {
+      action: 'recycle-all-abandoned-possibilities',
+      target: 'counterfactual-spindle',
+      sibling: 'unending-gallery',
+      outcome: 'all-abandoned-possibilities-were-recycled',
+    },
+  ];
+
+  for (const p of pairs) {
+    const ctx = makeV80Context({});
+    const st = ctx.v80.defaultUnfinishedThoughtAsylum();
+    st.admissions = [
+      ctx.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[0],
+      ctx.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[5],
+      ctx.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[22],
+      ctx.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[27],
+    ];
+    st.visited.hearing = true;
+    const table = ctx.v80.UNFINISHED_THOUGHT_HEARING_TABLE[p.action];
+    st.pending = {
+      kind: 'hearing',
+      source: 'last-conclusion-hearing',
+      action: p.action,
+      outcome: table.outcome,
+      target: table.target,
+      feedback: table.feedback,
+    };
+    ctx.v80.saveUnfinishedThoughtAsylum(st);
+
+    assert.strictEqual(ctx.v80.unfinishedThoughtBridgeAllows(p.target), true, "bridge allows target while hearing pending");
+    assert.strictEqual(ctx.v80.unfinishedThoughtBridgeAllows(p.sibling), false, "bridge denies sibling while hearing pending");
+
+    ctx.v80.resolveUnfinishedThoughtPendingOnArrival(p.target);
+
+    const after = ctx.v80.getUnfinishedThoughtAsylum();
+    assert.strictEqual(after.pending, null, "pending resolved to null on arrival");
+    assert.ok(after.hearingOutcomes.includes(p.outcome), "hearing outcome saved");
+    assert.strictEqual(after.hearingRuns, 1, "hearingRuns incremented to 1");
+    assert.strictEqual(after.lastOutcome, p.outcome, "lastOutcome recorded");
+    assert.strictEqual(ctx.v80.unfinishedThoughtBridgeAllows(p.target), true, "bridge allows target after hearing resolution");
+    assert.strictEqual(ctx.v80.unfinishedThoughtBridgeAllows(p.sibling), false, "bridge still denies sibling after hearing resolution");
+  }
+
+  {
+    const ctx = makeV80Context({});
+    const st = ctx.v80.defaultUnfinishedThoughtAsylum();
+    st.lastOutcome = 'the-thought-completed-its-thinker';
+    st.hearingOutcomes = [];
+    ctx.v80.saveUnfinishedThoughtAsylum(st);
+
+    const got = ctx.v80.getUnfinishedThoughtAsylum();
+    assert.strictEqual(got.lastOutcome, "", "forged lastOutcome normalizes to empty string when not in hearingOutcomes");
+    assert.strictEqual(ctx.v80.unfinishedThoughtBridgeAllows('unending-gallery'), false, "bridge denies forged outcome without hearing history");
+    assert.strictEqual(ctx.v80.unfinishedThoughtBridgeAllows('counterfactual-spindle'), false, "bridge denies forged outcome for sibling");
+  }
+
+  {
+    const ctx = makeV80Context({});
+    const st = ctx.v80.defaultUnfinishedThoughtAsylum();
+    st.hearingOutcomes = ['the-thought-completed-its-thinker', 'all-abandoned-possibilities-were-recycled'];
+    st.lastOutcome = 'all-abandoned-possibilities-were-recycled';
+    ctx.v80.saveUnfinishedThoughtAsylum(st);
+
+    assert.strictEqual(ctx.v80.unfinishedThoughtBridgeAllows('counterfactual-spindle'), true, "counterfactual-spindle bridged when lastOutcome matches");
+    assert.strictEqual(ctx.v80.unfinishedThoughtBridgeAllows('unending-gallery'), false, "unending-gallery not bridged when not lastOutcome");
+
+    st.lastOutcome = 'the-thought-completed-its-thinker';
+    ctx.v80.saveUnfinishedThoughtAsylum(st);
+
+    assert.strictEqual(ctx.v80.unfinishedThoughtBridgeAllows('counterfactual-spindle'), false, "counterfactual-spindle not bridged when not lastOutcome");
+    assert.strictEqual(ctx.v80.unfinishedThoughtBridgeAllows('unending-gallery'), true, "unending-gallery bridged when lastOutcome matches");
+
+    const raw = ctx.read();
+    assert.deepStrictEqual(
+      Object.keys(raw).sort(),
+      ['activePhysician', 'admissionRuns', 'admissions', 'draft', 'hearingOutcomes', 'hearingRuns', 'lastOutcome', 'pending', 'thoughtTallies', 'version', 'visited'].sort(),
+      "raw storage contains exactly the canonical eleven sorted keys"
+    );
+  }
+}
+
+// 18 组 isTrusted 防线
+{
+  const v80ListenerBlock = v80ModuleBlock[0].match(/const unfinishedThoughtEntryBtn = \$\('#unfinished-thought-entry-btn'\);[\s\S]*?$/);
+  assert.ok(v80ListenerBlock, "v80 click listener block must exist");
+  assert.equal((v80ListenerBlock[0].match(/!e\.isTrusted/g) || []).length, 18, "v80 must guard all eighteen click listeners with isTrusted");
+}
+
+// v70-v80 解锁链线性回归
+{
+  const ctx = makeV80Context({});
+  assert.strictEqual(ctx.v80.unfinishedThoughtAsylumUnlocked(), true, "v80 unlocks when v79 fully complete");
+}
+
+// v80 counterfactual treatment admission pending & arrival resolution regression
+{
+  const mappings = [
+    ['pen-stopped-before-the-name', 'blank-name-cloakroom'],
+    ['last-step-before-the-door', 'reverse-stairwell'],
+    ['crossed-out-future-calendar', 'unlived-nursery'],
+  ];
+
+  const thought = 'name-never-finished-thinking';
+  const therapy = 'finish-it-with-a-foreign-conclusion';
+  let calendarPendingSnapshot = null;
+
+  for (const [trace, target] of mappings) {
+    const elements = {
+      [`counterfactual-treatment-${therapy}`]: {
+        disabled: false,
+        hidden: false,
+        pressed: null,
+        closest: () => null,
+        setAttribute(name, value) { if (name === 'aria-pressed') this.pressed = value; },
+        removeAttribute() {},
+        addEventListener() {},
+      },
+      'counterfactual-treatment-lab-response': { textContent: '', hidden: false },
+    };
+    const ctx = makeV80Context({ scene: 'counterfactual-treatment-lab', elements });
+    const state = ctx.v80.defaultUnfinishedThoughtAsylum();
+    state.draft = { thought, trace };
+    ctx.v80.saveUnfinishedThoughtAsylum(state);
+    ctx.v80.chooseUnfinishedTherapy(therapy);
+
+    const expectedAdmission = ctx.v80.computeUnfinishedThoughtAdmissionId(thought, trace, therapy);
+    const expectedFeedback = ctx.v80.computeUnfinishedThoughtAdmissionFeedback(thought, trace, therapy);
+    const physicianFeedback = ctx.v80.UNFINISHED_THOUGHT_TRACE_TABLE[trace].physicianFeedback;
+
+    const rawPending = ctx.read();
+    assert.deepStrictEqual(
+      rawPending.pending,
+      {
+        kind: 'admission',
+        source: 'counterfactual-treatment-lab',
+        thought,
+        trace,
+        therapy,
+        admission: expectedAdmission,
+        target,
+        feedback: expectedFeedback,
+      },
+      'v80 admission stays pending until exact target arrival'
+    );
+    assert.deepStrictEqual(rawPending.admissions, []);
+    assert.strictEqual(rawPending.admissionRuns, 0);
+    assert.strictEqual(rawPending.activePhysician, null);
+
+    assert.strictEqual(ctx.v80.unfinishedThoughtBridgeAllows(target), true);
+    for (const [otherTrace, otherTarget] of mappings) {
+      if (otherTarget !== target) {
+        assert.strictEqual(ctx.v80.unfinishedThoughtBridgeAllows(otherTarget), false);
+      }
+    }
+    assert.strictEqual(ctx.v80.unfinishedThoughtBridgeAllows('not-a-scene'), false);
+
+    assert.strictEqual(ctx.scheduleCalls.length, 1);
+    assert.strictEqual(ctx.scheduleCalls[0].src, 'counterfactual-treatment-lab');
+    assert.strictEqual(ctx.scheduleCalls[0].target, target);
+    assert.strictEqual(Object.prototype.hasOwnProperty.call(ctx.scheduleCalls[0].opts, 'before'), false);
+
+    if (trace === 'crossed-out-future-calendar') {
+      calendarPendingSnapshot = JSON.parse(JSON.stringify(rawPending));
+    }
+
+    ctx.v80.resolveUnfinishedThoughtPendingOnArrival(target);
+    const settledState = ctx.read();
+    assert.strictEqual(settledState.pending, null);
+    assert.deepStrictEqual(settledState.admissions, [expectedAdmission]);
+    assert.strictEqual(settledState.admissionRuns, 1);
+    assert.strictEqual(settledState.lastOutcome, expectedAdmission);
+    assert.deepStrictEqual(settledState.activePhysician, {
+      trace,
+      admission: expectedAdmission,
+      feedback: physicianFeedback,
+    });
+
+    assert.strictEqual(ctx.v80.unfinishedThoughtBridgeAllows(target), true);
+    for (const [otherTrace, otherTarget] of mappings) {
+      if (otherTarget !== target) {
+        assert.strictEqual(ctx.v80.unfinishedThoughtBridgeAllows(otherTarget), false);
+      }
+    }
+    assert.strictEqual(ctx.v80.unfinishedThoughtBridgeAllows('not-a-scene'), false);
+
+    ctx.v80.resolveUnfinishedThoughtPendingOnArrival(target);
+    assert.deepStrictEqual(ctx.read(), settledState);
+  }
+
+  const replayElements = {
+    [`counterfactual-treatment-${therapy}`]: {
+      disabled: false,
+      hidden: false,
+      pressed: null,
+      closest: () => null,
+      setAttribute(name, value) { if (name === 'aria-pressed') this.pressed = value; },
+      removeAttribute() {},
+      addEventListener() {},
+    },
+    'counterfactual-treatment-lab-response': { textContent: '', hidden: false },
+  };
+
+  const replayCtx = makeV80Context({
+    initialStore: { [UNFINISHED_THOUGHT_KEY]: JSON.stringify(calendarPendingSnapshot) },
+    scene: 'counterfactual-treatment-lab',
+    elements: replayElements,
+  });
+
+  replayCtx.v80.replayUnfinishedThoughtPending('counterfactual-treatment-lab');
+  assert.strictEqual(replayCtx.scheduleCalls.length, 1);
+  assert.strictEqual(replayCtx.scheduleCalls[0].src, 'counterfactual-treatment-lab');
+  assert.strictEqual(replayCtx.scheduleCalls[0].target, 'unlived-nursery');
+  assert.strictEqual(Object.prototype.hasOwnProperty.call(replayCtx.scheduleCalls[0].opts, 'before'), false);
+
+  const rawReplayPending = replayCtx.read();
+  assert.strictEqual(rawReplayPending.pending?.kind, 'admission');
+  assert.deepStrictEqual(rawReplayPending.admissions, []);
+  assert.strictEqual(rawReplayPending.admissionRuns, 0);
+  assert.strictEqual(rawReplayPending.activePhysician, null);
+
+  const expectedCalendarAdmission = replayCtx.v80.computeUnfinishedThoughtAdmissionId(thought, 'crossed-out-future-calendar', therapy);
+  const calendarPhysicianFeedback = replayCtx.v80.UNFINISHED_THOUGHT_TRACE_TABLE['crossed-out-future-calendar'].physicianFeedback;
+
+  replayCtx.v80.resolveUnfinishedThoughtPendingOnArrival('unlived-nursery');
+  const settledReplayState = replayCtx.read();
+  assert.strictEqual(settledReplayState.pending, null);
+  assert.deepStrictEqual(settledReplayState.admissions, [expectedCalendarAdmission]);
+  assert.strictEqual(settledReplayState.admissionRuns, 1);
+  assert.deepStrictEqual(settledReplayState.activePhysician, {
+    trace: 'crossed-out-future-calendar',
+    admission: expectedCalendarAdmission,
+    feedback: calendarPhysicianFeedback,
+  });
+
+  replayCtx.v80.resolveUnfinishedThoughtPendingOnArrival('unlived-nursery');
+  assert.deepStrictEqual(replayCtx.read(), settledReplayState);
+}
+
+// 整页/主初始化链回归：sceneInit 与 DOMContentLoaded 初始块必须调用 v80 全套 sync
+{
+  const sceneInitBlock = js.match(/const sceneInit = \(name\) => \{[\s\S]*?updateHudDisplay\(\);\s*\};/);
+  assert.ok(sceneInitBlock, "sceneInit function must be extractable for whole-page init chain audit");
+  const sceneInitText = sceneInitBlock[0];
+  const v80SyncCalls = [
+    "resolveUnfinishedThoughtPendingOnArrival(name);",
+    "syncUnfinishedThoughtAsylum();",
+    "syncUnfinishedThoughtArchive();",
+    "syncUnfinishedThoughtLab();",
+    "syncUnfinishedThoughtHearing();",
+    "syncUnfinishedThoughtPhysicians();",
+    "paintUnfinishedThoughtMemory();",
+    "paintUnfinishedThoughtCodex();",
+    "syncUnfinishedThoughtRemembrance();",
+    "syncUnfinishedThoughtLinks();",
+    "replayUnfinishedThoughtPending(name);",
+  ];
+  for (const call of v80SyncCalls) {
+    assert.ok(sceneInitText.includes(call), `sceneInit must call ${call}`);
+  }
+
+  const bootstrapBlock = js.match(/\/\* ---------- 初始化 ---------- \*\/[\s\S]*?route\(\);\s*\}\);/);
+  assert.ok(bootstrapBlock, "DOMContentLoaded bootstrap block must be extractable");
+  const bootstrapText = bootstrapBlock[0];
+  assert.strictEqual(bootstrapText.includes("resolveUnfinishedThoughtPendingOnArrival('threshold');"), false, "bootstrap must not hardcode threshold pending resolution");
+  assert.strictEqual(bootstrapText.includes("replayUnfinishedThoughtPending('threshold');"), false, "bootstrap must not hardcode threshold pending replay");
+
+  const v80BootstrapCalls = [
+    "syncUnfinishedThoughtAsylum();",
+    "syncUnfinishedThoughtArchive();",
+    "syncUnfinishedThoughtLab();",
+    "syncUnfinishedThoughtHearing();",
+    "syncUnfinishedThoughtPhysicians();",
+    "paintUnfinishedThoughtMemory();",
+    "paintUnfinishedThoughtCodex();",
+    "syncUnfinishedThoughtRemembrance();",
+    "syncUnfinishedThoughtLinks();",
+  ];
+
+  const routeIndex = bootstrapText.lastIndexOf("route();");
+  assert.ok(routeIndex !== -1, "route() must be present in bootstrap block");
+
+  for (const call of v80BootstrapCalls) {
+    const callIdx = bootstrapText.indexOf(call);
+    assert.ok(callIdx !== -1, `DOMContentLoaded bootstrap block must call ${call}`);
+    assert.ok(routeIndex > callIdx, `route() must be called after ${call}`);
+  }
+
+  assert.strictEqual((js.match(/resolveUnfinishedThoughtPendingOnArrival\(name\);/g) || []).length, 1, "js must contain exactly one resolveUnfinishedThoughtPendingOnArrival(name); call site");
+  assert.strictEqual((js.match(/replayUnfinishedThoughtPending\(name\);/g) || []).length, 1, "js must contain exactly one replayUnfinishedThoughtPending(name); call site");
+
+  const forgetBlock = js.match(/const forgetActionBtn = \$[^;]*;[\s\S]*?goScene\("threshold"\);/);
+  assert.ok(forgetBlock, "forget-all handler must be extractable");
+  const forgetText = forgetBlock[0];
+  assert.ok(forgetText.includes('localStorage.removeItem("goddead_v80_unfinished_thought_asylum")'), "forget-all must remove v80 storage key");
+  assert.ok(forgetText.includes('unfinished-thought-memory') && forgetText.includes('hidden = true'), "forget-all must hide v80 memory");
+  assert.ok(forgetText.includes('unfinished-thought-codex') && forgetText.includes('hidden = true'), "forget-all must hide v80 codex");
+  assert.ok(forgetText.includes('unfinished-thought-codex-entry') && forgetText.includes('hidden = true'), "forget-all must hide v80 codex entry");
+  assert.ok(forgetText.includes('unfinished-thought-entry-btn') && forgetText.includes('hidden = true'), "forget-all must hide v80 entry button");
+  assert.ok(forgetText.includes('unfinished-thought-hearing-entry-btn') && forgetText.includes('hidden = true'), "forget-all must hide v80 hearing entry button");
+  assert.ok([
+    '"#unfinished-thought-asylum-link"',
+    '"#interruption-trace-archive-link"',
+    '"#counterfactual-treatment-lab-link"',
+    '"#last-conclusion-hearing-link"'
+  ].every((sel) => forgetText.includes(sel)) && forgetText.includes("hidden = true"), "forget-all must hide v80 directory links");
+  assert.ok(forgetText.includes('unfinished-thought-physician-response-') && forgetText.includes('textContent = ""'), "forget-all must clear v80 physician responses");
+  assert.ok(forgetText.includes('unfinished-thought-physician-') && forgetText.includes('hidden = true'), "forget-all must hide v80 physicians");
+}
+
+/* ---------- v80 文档同步 ---------- */
+assert.match(readme, /v80|未遂思想收容所|ASYLUM FOR UNFINISHED THOUGHTS/, "README must document the v80 unfinished thought asylum");
+assert.match(qa, /v80|未遂思想收容所|ASYLUM FOR UNFINISHED THOUGHTS/, "design-qa.md must document the v80 unfinished thought asylum");
+assert.match(log, /v80|未遂思想收容所|ASYLUM FOR UNFINISHED THOUGHTS/, "ProgressLog must document the v80 unfinished thought asylum");
+const v80doc = await fileText("docs/V80UnfinishedThoughtAsylumDesign.md");
+for (const hash of Object.values(V80_SOURCE_HASHES)) {
+  assert.ok(v80doc.includes(hash), "V80 design doc must freeze the source sha256 values");
+}
+for (const hash of Object.values(V80_WEBP_HASHES)) {
+  assert.ok(v80doc.includes(hash), "V80 design doc must freeze the WebP sha256 values");
+}
+assert.match(v80doc, /1536×1024/, "V80 design doc documents 1536×1024 dimensions");
+/* ---------- v80 文档同步 ---------- */
+
+// v81 static gate: regret reclamation plant contract
+{
+  const v81Scenes = [
+    "regret-reclamation-plant",
+    "abandonment-residue-weighhouse",
+    "second-life-smelting-line",
+    "zero-waste-life-furnace"
+  ];
+  for (const sceneId of v81Scenes) {
+    assert.match(html, new RegExp(`data-scene="${sceneId}"`), `HTML must contain data-scene="${sceneId}"`);
+    assert.match(html, new RegExp(`id="scene-${sceneId}"`), `HTML must contain id="scene-${sceneId}"`);
+  }
+
+  const materialIds = [
+    "regret-material-road-never-taken",
+    "regret-material-person-never-loved",
+    "regret-material-self-never-became"
+  ];
+  for (const id of materialIds) {
+    assert.match(html, new RegExp(`id="${id}"`), `HTML must contain material button id="${id}"`);
+  }
+  const materialMatches = html.match(/id="regret-material-[^"]+"/g) || [];
+  assert.equal(materialMatches.length, 3, "HTML must contain exactly 3 regret-material ids");
+
+  const residueIds = [
+    "regret-residue-dust-from-the-unwalked-mile",
+    "regret-residue-warmth-from-the-unused-pillow",
+    "regret-residue-fingerprint-inside-an-unworn-face"
+  ];
+  for (const id of residueIds) {
+    assert.match(html, new RegExp(`id="${id}"`), `HTML must contain residue id="${id}"`);
+  }
+  const residueMatches = html.match(/id="regret-residue-[^"]+"/g) || [];
+  assert.equal(residueMatches.length, 3, "HTML must contain exactly 3 regret-residue ids");
+
+  const useIds = [
+    "regret-use-cast-a-new-childhood",
+    "regret-use-forge-courage-for-the-next-self",
+    "regret-use-build-a-strangers-spare-life",
+    "regret-use-return-regret-without-processing"
+  ];
+  for (const id of useIds) {
+    assert.match(html, new RegExp(`id="${id}"`), `HTML must contain secondary use id="${id}"`);
+  }
+  const useMatches = html.match(/id="regret-use-[^"]+"/g) || [];
+  assert.equal(useMatches.length, 4, "HTML must contain exactly 4 regret-use ids");
+
+  const furnaceIds = [
+    "regret-furnace-declare-regret-renewable",
+    "regret-furnace-manufacture-every-life-from-foreign-regret",
+    "regret-furnace-classify-forgiveness-as-unrecyclable-waste"
+  ];
+  for (const id of furnaceIds) {
+    assert.match(html, new RegExp(`id="${id}"`), `HTML must contain furnace action id="${id}"`);
+  }
+  const furnaceMatches = html.match(/id="regret-furnace-(?:declare-regret-renewable|manufacture-every-life-from-foreign-regret|classify-forgiveness-as-unrecyclable-waste)"/g) || [];
+  assert.equal(furnaceMatches.length, 3, "HTML must contain exactly 3 regret-furnace action ids");
+
+  const remembranceIds = [
+    "regret-reclamation-memory",
+    "regret-reclamation-codex",
+    "regret-reclamation-codex-grid",
+    "regret-reclamation-codex-entry",
+    "regret-reclamation-entry-btn",
+    "regret-furnace-entry-btn"
+  ];
+  for (const id of remembranceIds) {
+    assert.match(html, new RegExp(`id="${id}"`), `HTML must contain remembrance id="${id}"`);
+  }
+
+  const reclaimerFamilies = [
+    "descending-appeals-stair",
+    "borrowed-childhood",
+    "identity-correction"
+  ];
+  for (const fam of reclaimerFamilies) {
+    assert.match(html, new RegExp(`id="regret-reclaimer-${fam}"`), `HTML must contain id="regret-reclaimer-${fam}"`);
+    assert.match(html, new RegExp(`id="regret-reclaimer-response-${fam}"`), `HTML must contain id="regret-reclaimer-response-${fam}"`);
+    assert.match(html, new RegExp(`id="regret-reclaimer-return-${fam}"`), `HTML must contain id="regret-reclaimer-return-${fam}"`);
+  }
+
+  const directoryLinkIds = [
+    "regret-reclamation-plant-link",
+    "abandonment-residue-weighhouse-link",
+    "second-life-smelting-line-link",
+    "zero-waste-life-furnace-link"
+  ];
+  for (const id of directoryLinkIds) {
+    assert.match(html, new RegExp(`id="${id}"`), `HTML must contain directory link id="${id}"`);
+  }
+
+  assert.match(css, /\.regret-reclamation-plant-figure/, "CSS must define .regret-reclamation-plant-figure");
+  assert.match(css, /\.regret-reclamation-hotspot/, "CSS must define .regret-reclamation-hotspot");
+  assert.match(css, /\.regret-reclamation-grid/, "CSS must define .regret-reclamation-grid");
+  assert.match(css, /@media[^{]+\([^{]*max-width[^{]+\)[\s\S]*?\.regret-reclamation-grid[\s\S]*?grid-template-columns:\s*1fr/, "CSS must provide one-column media rule for regret-reclamation-grid");
+  assert.match(css, /\.regret-reclamation-hotspot[\s\S]*?min-width:\s*44px[\s\S]*?min-height:\s*44px|\.regret-reclamation-grid\s+button[\s\S]*?min-width:\s*44px[\s\S]*?min-height:\s*44px/, "CSS must enforce 44px touch targets for v81 interactive elements");
+
+  const v81AssetPaths = [
+    "assets/v81-regret-reclamation-plant.webp",
+    "assets/v81-abandonment-residue-weighhouse.webp",
+    "assets/v81-second-life-smelting-line.webp",
+    "assets/v81-zero-waste-life-furnace.webp"
+  ];
+  for (const assetPath of v81AssetPaths) {
+    await access(new URL(assetPath, root));
+  }
+
+  const v81Doc = await fileText("docs/V81RegretReclamationPlantDesign.md");
+  assert.match(v81Doc, /1536×1024/, "V81 doc must state asset dimensions 1536×1024");
+  assert.match(v81Doc, /goddead_v81_regret_reclamation/, "V81 doc must specify storage key goddead_v81_regret_reclamation");
+  assert.match(v81Doc, /3\s*[×*]\s*3\s*[×*]\s*4\s*=\s*36/, "V81 doc must detail the 3 × 3 × 4 = 36 permutation space");
+  assert.match(v81Doc, /宽恕填埋场/, "V81 doc must mention 宽恕填埋场 narrative anchor");
+
+  assert.match(js, /const\s+REGRET_RECLAMATION_KEY\s*=\s*['"]goddead_v81_regret_reclamation['"]/, "script.js must define REGRET_RECLAMATION_KEY");
+  assert.match(js, /const\s+regretReclamationPlantUnlocked\b/, "script.js must declare regretReclamationPlantUnlocked");
+  assert.match(js, /const\s+resolveRegretReclamationPendingOnArrival\b/, "script.js must declare resolveRegretReclamationPendingOnArrival");
+  assert.match(js, /const\s+regretReclamationBridgeAllows\b/, "script.js must declare regretReclamationBridgeAllows");
+  assert.match(js, /const\s+syncRegretReclamationPlant\b/, "script.js must declare syncRegretReclamationPlant");
+  assert.match(js, /const\s+paintRegretReclamationCodex\b/, "script.js must declare paintRegretReclamationCodex");
+}
+
+const v81ModuleStart = js.indexOf("const REGRET_RECLAMATION_KEY = 'goddead_v81_regret_reclamation';");
+const v82ModuleStart = js.indexOf("const FORGIVENESS_LANDFILL_KEY = 'goddead_v82_forgiveness_landfill';");
+const v81ModuleEnd = v82ModuleStart !== -1 ? js.lastIndexOf("/*", v82ModuleStart) : -1;
+assert.ok(v81ModuleStart !== -1 && v81ModuleEnd > v81ModuleStart, "v81 module boundaries must exist");
+const v81ModuleBlock = [js.slice(v81ModuleStart, v81ModuleEnd)];
+assert.strictEqual((v81ModuleBlock[0].match(/AutoAdvance\.schedule\(/g) || []).length, 8, "v81 module must contain exactly 8 AutoAdvance.schedule call sites");
+const v81ExecSource = v81ModuleBlock[0].trimEnd();
+
+function makeCompleteV80StateForV81() {
+  const ctx = makeV80Context({});
+  const st = ctx.v80.defaultUnfinishedThoughtAsylum();
+  st.admissions = [ctx.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[0], ctx.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[5], ctx.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[22], ctx.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[27]];
+  st.hearingOutcomes = ctx.v80.UNFINISHED_THOUGHT_HEARING_OUTCOME_IDS.slice();
+  ctx.v80.saveUnfinishedThoughtAsylum(st);
+  return ctx.v80.getUnfinishedThoughtAsylum();
+}
+
+function makeV81Context({ initialStore = {}, elements = {}, scene = '', v80unlocked = true, upstreamV80State = makeCompleteV80StateForV81() } = {}) {
+  const storeData = { ...initialStore };
+  const store = {
+    get(k, def) {
+      return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def;
+    },
+    set(k, v) {
+      storeData[k] = v;
+    }
+  };
+  const $ = (sel) => {
+    const id = typeof sel === 'string' && sel.startsWith('#') ? sel.slice(1) : sel;
+    return elements[id] || null;
+  };
+  const scheduleCalls = [];
+  const AutoAdvance = {
+    has() { return false; },
+    schedule(src, target, opts) {
+      scheduleCalls.push({ src, target, opts });
+    }
+  };
+  const AudioEngine = { whoosh() {}, bell() {} };
+  const buttonAvailable = (id) => {
+    const el = $(`#${id}`);
+    if (!el || el.disabled || el.hidden) return false;
+    if (typeof el.closest === 'function' && el.closest('[hidden]')) return false;
+    return true;
+  };
+  const doc = {
+    createElement() {
+      return {
+        className: '',
+        innerHTML: '',
+        textContent: '',
+        children: [],
+        hidden: true,
+        setAttribute() {},
+        removeAttribute(name) {
+          if (name === 'hidden') this.hidden = false;
+        },
+        appendChild(c) {
+          this.children.push(c);
+        }
+      };
+    }
+  };
+  const fn = new Function(
+    "store",
+    "$",
+    "currentScene",
+    "AutoAdvance",
+    "AudioEngine",
+    "reduced",
+    "unfinishedThoughtAsylumUnlocked",
+    "getUnfinishedThoughtAsylum",
+    "buttonAvailable",
+    "document",
+    `${v81ExecSource}\nreturn {\n  ${[
+      "REGRET_RECLAMATION_KEY",
+      "REGRET_RECLAMATION_VERSION",
+      "REGRET_MATERIALS",
+      "REGRET_RESIDUES",
+      "REGRET_USES",
+      "REGRET_FURNACE_ACTIONS",
+      "REGRET_MATERIAL_TABLE",
+      "REGRET_RESIDUE_TABLE",
+      "REGRET_USE_TABLE",
+      "REGRET_FURNACE_TABLE",
+      "REGRET_FURNACE_OUTCOME_BY_ID",
+      "REGRET_BATCH_IDS",
+      "REGRET_BATCH_SET",
+      "REGRET_FURNACE_OUTCOME_IDS",
+      "defaultRegretReclamation",
+      "normalizeRegretVisited",
+      "normalizeRegretDraft",
+      "normalizeRegretBatches",
+      "normalizeRegretFurnaceOutcomes",
+      "clampRegretCount",
+      "normalizeRegretTallies",
+      "normalizeRegretActiveReclaimer",
+      "normalizeRegretPending",
+      "saveRegretReclamation",
+      "getRegretReclamation",
+      "regretReclamationPlantUnlocked",
+      "regretReclamationCoverageComplete",
+      "computeRegretMaterialTalliesMajority",
+      "computeRegretBatchTitle",
+      "computeRegretBatchFeedback",
+      "findRegretBatchById",
+      "regretReclamationBeforeArrive",
+      "resolveRegretReclamationPendingOnArrival",
+      "regretReclamationBridgeAllows",
+      "regretReclamationCanVisitPlant",
+      "regretReclamationCanVisitWeighhouse",
+      "regretReclamationCanVisitSmelting",
+      "regretReclamationCanVisitFurnace",
+      "replayRegretReclamationPending",
+      "chooseRegretMaterial",
+      "chooseRegretResidue",
+      "chooseRegretUse",
+      "chooseRegretReclaimerReturn",
+      "chooseRegretEntry",
+      "chooseRegretFurnaceEntry",
+      "chooseRegretFurnaceAction"
+    ].join(",\n  ")}\n};`
+  );
+  const v81 = fn(
+    store,
+    $,
+    scene,
+    AutoAdvance,
+    AudioEngine,
+    false,
+    () => v80unlocked,
+    () => upstreamV80State,
+    buttonAvailable,
+    doc
+  );
+  const read = () => JSON.parse(storeData.goddead_v81_regret_reclamation || "{}");
+  return { v81, storeData, read, scheduleCalls, elements };
+}
+
+const v81Smoke = makeV81Context();
+assert.strictEqual(v81Smoke.v81.REGRET_RECLAMATION_KEY, 'goddead_v81_regret_reclamation');
+assert.strictEqual(v81Smoke.v81.REGRET_RECLAMATION_VERSION, 81);
+
+const expectedV81Materials = [
+  'road-never-taken',
+  'person-never-loved',
+  'self-never-became'
+];
+const expectedV81Residues = [
+  'dust-from-the-unwalked-mile',
+  'warmth-from-the-unused-pillow',
+  'fingerprint-inside-an-unworn-face'
+];
+const expectedV81Uses = [
+  'cast-a-new-childhood',
+  'forge-courage-for-the-next-self',
+  'build-a-strangers-spare-life',
+  'return-regret-without-processing'
+];
+const expectedV81Actions = [
+  'declare-regret-renewable',
+  'manufacture-every-life-from-foreign-regret',
+  'classify-forgiveness-as-unrecyclable-waste'
+];
+const expectedV81Outcomes = [
+  'regret-became-a-renewable-resource',
+  'every-life-was-made-from-someone-elses-regret',
+  'forgiveness-was-classified-as-unrecyclable-waste'
+];
+
+assert.deepStrictEqual(v81Smoke.v81.REGRET_MATERIALS, expectedV81Materials);
+assert.deepStrictEqual(v81Smoke.v81.REGRET_RESIDUES, expectedV81Residues);
+assert.deepStrictEqual(v81Smoke.v81.REGRET_USES, expectedV81Uses);
+assert.deepStrictEqual(v81Smoke.v81.REGRET_FURNACE_ACTIONS, expectedV81Actions);
+assert.deepStrictEqual(v81Smoke.v81.REGRET_FURNACE_OUTCOME_IDS, expectedV81Outcomes);
+
+const expectedV81BatchIds = [];
+for (const mat of expectedV81Materials) {
+  for (const res of expectedV81Residues) {
+    for (const use of expectedV81Uses) {
+      expectedV81BatchIds.push(`${mat}:${res}:${use}`);
+    }
+  }
+}
+assert.strictEqual(v81Smoke.v81.REGRET_BATCH_IDS.length, 36);
+assert.strictEqual(v81Smoke.v81.REGRET_BATCH_SET.size, 36);
+assert.deepStrictEqual(v81Smoke.v81.REGRET_BATCH_IDS, expectedV81BatchIds);
+
+assert.strictEqual(v81Smoke.v81.regretReclamationPlantUnlocked(), true);
+
+  const v81Core = v81Smoke.v81;
+  const def = v81Core.defaultRegretReclamation();
+  assert.deepStrictEqual(
+    Object.keys(def).sort(),
+    [
+      'activeReclaimer',
+      'batchRuns',
+      'batches',
+      'draft',
+      'furnaceOutcomes',
+      'furnaceRuns',
+      'lastOutcome',
+      'materialTallies',
+      'pending',
+      'version',
+      'visited',
+    ]
+  );
+  assert.strictEqual(def.version, 81);
+  assert.deepStrictEqual(def.visited, {
+    plant: false,
+    weighhouse: false,
+    smelting: false,
+    furnace: false,
+  });
+  assert.deepStrictEqual(def.draft, { material: '', residue: '' });
+  assert.deepStrictEqual(def.batches, []);
+  assert.deepStrictEqual(def.furnaceOutcomes, []);
+  assert.strictEqual(def.batchRuns, 0);
+  assert.strictEqual(def.furnaceRuns, 0);
+  assert.deepStrictEqual(def.materialTallies, { road: 0, love: 0, self: 0 });
+  assert.strictEqual(def.lastOutcome, '');
+  assert.strictEqual(def.activeReclaimer, null);
+  assert.strictEqual(def.pending, null);
+
+  assert.deepStrictEqual(
+    v81Core.normalizeRegretVisited({
+      plant: true,
+      weighhouse: 1,
+      smelting: 'yes',
+      furnace: null,
+    }),
+    {
+      plant: true,
+      weighhouse: false,
+      smelting: false,
+      furnace: false,
+    }
+  );
+
+  const [vMat, vRes] = v81Core.REGRET_BATCH_IDS[0].split(':');
+  assert.deepStrictEqual(
+    v81Core.normalizeRegretDraft({ material: 'bad_material', residue: vRes }),
+    { material: '', residue: '' }
+  );
+  assert.deepStrictEqual(
+    v81Core.normalizeRegretDraft({ material: vMat, residue: 'bad_residue' }),
+    { material: vMat, residue: '' }
+  );
+  assert.deepStrictEqual(
+    v81Core.normalizeRegretDraft({ material: '', residue: vRes }),
+    { material: '', residue: '' }
+  );
+  assert.deepStrictEqual(
+    v81Core.normalizeRegretDraft({ material: vMat, residue: vRes }),
+    { material: vMat, residue: vRes }
+  );
+
+  const id0 = v81Core.REGRET_BATCH_IDS[0];
+  const id5 = v81Core.REGRET_BATCH_IDS[5];
+  assert.deepStrictEqual(
+    v81Core.normalizeRegretBatches([id5, id0, id5, 'bad:id']),
+    [id0, id5]
+  );
+  const outcome0 = v81Core.REGRET_FURNACE_OUTCOME_IDS[0];
+  const outcome2 = v81Core.REGRET_FURNACE_OUTCOME_IDS[2];
+  assert.deepStrictEqual(
+    v81Core.normalizeRegretFurnaceOutcomes([outcome2, 'bad', outcome0, outcome2]),
+    [outcome0, outcome2]
+  );
+
+  assert.strictEqual(v81Core.clampRegretCount(1.7), 1);
+  assert.strictEqual(v81Core.clampRegretCount(-5), 0);
+  assert.strictEqual(v81Core.clampRegretCount(99999), 9999);
+  assert.strictEqual(v81Core.clampRegretCount('invalid'), 0);
+  assert.deepStrictEqual(
+    v81Core.normalizeRegretTallies({ road: 1.7, love: -3, self: 99999 }),
+    { road: 1, love: 0, self: 9999 }
+  );
+
+  assert.strictEqual(
+    v81Core.computeRegretMaterialTalliesMajority({ road: 5, love: 2, self: 1 }),
+    '未路取得原料多数'
+  );
+  assert.strictEqual(
+    v81Core.computeRegretMaterialTalliesMajority({ road: 1, love: 5, self: 2 }),
+    '未爱取得原料多数'
+  );
+  assert.strictEqual(
+    v81Core.computeRegretMaterialTalliesMajority({ road: 1, love: 2, self: 5 }),
+    '未己取得原料多数'
+  );
+  assert.strictEqual(
+    v81Core.computeRegretMaterialTalliesMajority({ road: 3, love: 3, self: 1 }),
+    '无原料取得多数'
+  );
+  assert.strictEqual(
+    v81Core.computeRegretMaterialTalliesMajority({ road: 0, love: 0, self: 0 }),
+    '无原料取得多数'
+  );
+
+  assert.strictEqual(v81Core.REGRET_BATCH_IDS.length, 36);
+  for (const batchId of v81Core.REGRET_BATCH_IDS) {
+    const batch = v81Core.findRegretBatchById(batchId);
+    assert.ok(batch);
+    assert.strictEqual(batch.id, batchId);
+    assert.strictEqual(
+      `${batch.material}:${batch.residue}:${batch.use}`,
+      batchId
+    );
+    assert.ok(batch.title && batch.title.length > 0);
+    assert.ok(batch.feedback && batch.feedback.length > 0);
+    assert.strictEqual(
+      v81Core.computeRegretBatchTitle(batch.material, batch.residue, batch.use),
+      batch.title
+    );
+    assert.strictEqual(
+      v81Core.computeRegretBatchFeedback(
+        batch.material,
+        batch.residue,
+        batch.use
+      ),
+      batch.feedback
+    );
+  }
+  assert.strictEqual(v81Core.findRegretBatchById('bad:batch:id'), null);
+
+  for (let i = 0; i < v81Core.REGRET_FURNACE_ACTIONS.length; i++) {
+    const action = v81Core.REGRET_FURNACE_ACTIONS[i];
+    const row = v81Core.REGRET_FURNACE_TABLE[action];
+    const outcome = v81Core.REGRET_FURNACE_OUTCOME_IDS[i];
+    assert.strictEqual(row.outcome, outcome);
+    assert.strictEqual(v81Core.REGRET_FURNACE_OUTCOME_BY_ID[outcome], row);
+  }
+
+{
+  const batch = v81Core.REGRET_BATCH_IDS[0];
+  const residue = batch.split(':')[1];
+  const feedback = v81Core.REGRET_RESIDUE_TABLE[residue].reclaimerFeedback;
+  const legal = { residue, batch, feedback };
+  assert.deepStrictEqual(v81Core.normalizeRegretActiveReclaimer(legal, [batch]), legal);
+  assert.strictEqual(v81Core.normalizeRegretActiveReclaimer(null, [batch]), null);
+  assert.strictEqual(v81Core.normalizeRegretActiveReclaimer([], [batch]), null);
+  assert.strictEqual(v81Core.normalizeRegretActiveReclaimer({ ...legal, extra: true }, [batch]), null);
+  assert.strictEqual(v81Core.normalizeRegretActiveReclaimer({ residue: 'bogus', batch, feedback }, [batch]), null);
+  assert.strictEqual(v81Core.normalizeRegretActiveReclaimer({ residue, batch, feedback: 'bogus' }, [batch]), null);
+  assert.strictEqual(v81Core.normalizeRegretActiveReclaimer(legal, []), null);
+  const diffBatch = v81Core.REGRET_BATCH_IDS.find((id) => id.split(':')[1] !== residue);
+  assert.strictEqual(v81Core.normalizeRegretActiveReclaimer({ residue, batch: diffBatch, feedback }, [batch, diffBatch]), null);
+}
+{
+  const ctx = makeV81Context();
+  const api = ctx.v81;
+  const base = api.defaultRegretReclamation();
+  const id1 = api.REGRET_BATCH_IDS[1];
+  const id5 = api.REGRET_BATCH_IDS[5];
+  const residue1 = id1.split(':')[1];
+  const feedback1 = api.REGRET_RESIDUE_TABLE[residue1].reclaimerFeedback;
+  const active = { residue: residue1, batch: id1, feedback: feedback1 };
+  const outcome0 = api.REGRET_FURNACE_OUTCOME_IDS[0];
+  const outcome2 = api.REGRET_FURNACE_OUTCOME_IDS[2];
+  api.saveRegretReclamation({ ...base, batches: [id5, id1, id5], furnaceOutcomes: [outcome2, outcome0, outcome2], batchRuns: 3.7, furnaceRuns: 99999, materialTallies: { road: 12.4, love: -5, self: 99999 }, lastOutcome: outcome0, activeReclaimer: active, pending: null, extra: 'drop', _v81unlocked: true });
+  const raw = ctx.read();
+  assert.deepStrictEqual(Object.keys(raw).sort(), Object.keys(base).sort());
+  assert.strictEqual(Object.keys(raw).length, 11);
+  assert.strictEqual('extra' in raw, false);
+  assert.strictEqual('_v81unlocked' in raw, false);
+  assert.deepStrictEqual(raw.batches, [id1, id5]);
+  assert.deepStrictEqual(raw.furnaceOutcomes, [outcome0, outcome2]);
+  assert.strictEqual(raw.batchRuns, 3);
+  assert.strictEqual(raw.furnaceRuns, 9999);
+  assert.deepStrictEqual(raw.materialTallies, { road: 12, love: 0, self: 9999 });
+  assert.strictEqual(raw.lastOutcome, outcome0);
+  assert.deepStrictEqual(raw.activeReclaimer, active);
+  assert.deepStrictEqual(api.getRegretReclamation(), raw);
+  assert.strictEqual('_v81unlocked' in api.getRegretReclamation(), false);
+}
+{
+  const key = 'goddead_v81_regret_reclamation';
+  const bad1 = makeV81Context({ initialStore: { [key]: 'not-json' } });
+  assert.deepStrictEqual(bad1.v81.getRegretReclamation(), bad1.v81.defaultRegretReclamation());
+
+  const bad2 = makeV81Context({ initialStore: { [key]: JSON.stringify({ version: 80 }) } });
+  assert.deepStrictEqual(bad2.v81.getRegretReclamation(), bad2.v81.defaultRegretReclamation());
+
+  const bad3 = makeV81Context({ initialStore: { [key]: JSON.stringify([]) } });
+  assert.deepStrictEqual(bad3.v81.getRegretReclamation(), bad3.v81.defaultRegretReclamation());
+
+  const validLocked = makeV81Context({
+    v80unlocked: false,
+    initialStore: {
+      [key]: JSON.stringify({
+        ...v81Core.defaultRegretReclamation(),
+        visited: { plant: true, weighhouse: false, smelting: false, furnace: false }
+      })
+    }
+  });
+  assert.deepStrictEqual(validLocked.v81.getRegretReclamation(), validLocked.v81.defaultRegretReclamation());
+  assert.strictEqual(validLocked.v81.regretReclamationCanVisitPlant(), false);
+  assert.strictEqual(validLocked.v81.regretReclamationCanVisitWeighhouse(), false);
+  assert.strictEqual(validLocked.v81.regretReclamationCanVisitSmelting(), false);
+  assert.strictEqual(validLocked.v81.regretReclamationCanVisitFurnace(), false);
+}
+
+{
+  const up1 = makeV80Context({});
+  const st1 = up1.v80.defaultUnfinishedThoughtAsylum();
+  st1.admissions = [up1.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[0], up1.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[5], up1.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[22]];
+  st1.hearingOutcomes = up1.v80.UNFINISHED_THOUGHT_HEARING_OUTCOME_IDS.slice();
+  up1.v80.saveUnfinishedThoughtAsylum(st1);
+  const ctx1 = makeV81Context({ upstreamV80State: up1.v80.getUnfinishedThoughtAsylum() });
+  assert.strictEqual(ctx1.v81.regretReclamationPlantUnlocked(), false);
+
+  const up2 = makeV80Context({});
+  const st2 = up2.v80.defaultUnfinishedThoughtAsylum();
+  st2.admissions = [up2.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[0], up2.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[5], up2.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[22], up2.v80.UNFINISHED_THOUGHT_ADMISSION_IDS[27]];
+  st2.hearingOutcomes = up2.v80.UNFINISHED_THOUGHT_HEARING_OUTCOME_IDS.slice(0, 2);
+  up2.v80.saveUnfinishedThoughtAsylum(st2);
+  const ctx2 = makeV81Context({ upstreamV80State: up2.v80.getUnfinishedThoughtAsylum() });
+  assert.strictEqual(ctx2.v81.regretReclamationPlantUnlocked(), false);
+
+  const ctxComplete = makeV81Context({ upstreamV80State: makeCompleteV80StateForV81() });
+  assert.strictEqual(ctxComplete.v81.regretReclamationPlantUnlocked(), true);
+}
+
+{
+  const coverage = v81Core.regretReclamationCoverageComplete;
+  assert.strictEqual(coverage({ batches: [] }), false);
+  assert.strictEqual(coverage({ batches: [0, 5, 22].map((i) => v81Core.REGRET_BATCH_IDS[i]) }), false);
+  assert.strictEqual(coverage({ batches: [0, 5, 22, 27].map((i) => v81Core.REGRET_BATCH_IDS[i]) }), true);
+  assert.strictEqual(coverage({ batches: [0, 5, 10, 11].map((i) => v81Core.REGRET_BATCH_IDS[i]) }), false);
+  assert.strictEqual(coverage({ batches: [0, 17, 26, 7].map((i) => v81Core.REGRET_BATCH_IDS[i]) }), false);
+  assert.strictEqual(coverage({ batches: [0, 17, 34, 4].map((i) => v81Core.REGRET_BATCH_IDS[i]) }), false);
+}
+
+const v81AssetFreeze = [
+  {
+    path: 'design-references/source-v81-regret-reclamation-plant.png',
+    type: 'png',
+    hash: 'ee12c1a052dcad1b6dcbee7b3358ee5d2b36110d08bc7a36f60b823f91ed8a4a'
+  },
+  {
+    path: 'design-references/source-v81-abandonment-residue-weighhouse.png',
+    type: 'png',
+    hash: '733b35fb6b00ea72e1a94de1bc46d1abf8f1442b515f118d9118f7767500ad48'
+  },
+  {
+    path: 'design-references/source-v81-second-life-smelting-line.png',
+    type: 'png',
+    hash: 'e7de412c2f1829f7001ca7fd6d2a719969f889a65a0bdf0e5c59a76bf2befdac'
+  },
+  {
+    path: 'design-references/source-v81-zero-waste-life-furnace.png',
+    type: 'png',
+    hash: '0edc9f53062de38151c6aa36dda6f7927935d3e859741e617b9a4a61df1a5cfa'
+  },
+  {
+    path: 'assets/v81-regret-reclamation-plant.webp',
+    type: 'webp',
+    hash: '19fb16f596223190b90b3b30e38b67a02aa2a75a30b2aa63e14e022c8da572c5'
+  },
+  {
+    path: 'assets/v81-abandonment-residue-weighhouse.webp',
+    type: 'webp',
+    hash: '93579b2413e73cb69605822d890fbaa6d740e7683e479c7959121b22e63e5a35'
+  },
+  {
+    path: 'assets/v81-second-life-smelting-line.webp',
+    type: 'webp',
+    hash: '1bcf722c0a52d9f1d9a21f21f212ffd24dc2024de4cf6438542e2ea34b2836fd'
+  },
+  {
+    path: 'assets/v81-zero-waste-life-furnace.webp',
+    type: 'webp',
+    hash: '9cd46d5fb20db33dca246a40722d111a9761b29bc88e7a437352204de0828e3d'
+  }
+];
+
+for (const asset of v81AssetFreeze) {
+  const buf = await readFile(new URL(asset.path, root));
+  const actualHash = createHash('sha256').update(buf).digest('hex');
+  assert.strictEqual(actualHash, asset.hash);
+  const dims = asset.type === 'png' ? readPngDimensions(buf) : readWebpDimensions(buf);
+  assert.ok(dims);
+  assert.strictEqual(dims.width, 1536);
+  assert.strictEqual(dims.height, 1024);
+}
+
+{
+  const api = v81Core;
+  const material = api.REGRET_MATERIALS[0];
+  const residue = api.REGRET_RESIDUES[0];
+  const use = api.REGRET_USES[0];
+  const batch = `${material}:${residue}:${use}`;
+  const residueTable = api.REGRET_RESIDUE_TABLE[residue];
+  const reclaimerFeedback = residueTable.reclaimerFeedback || residueTable.feedback;
+  const action = api.REGRET_FURNACE_ACTIONS[0];
+  const table = api.REGRET_FURNACE_TABLE[action];
+  const coverageBatches = [0, 5, 22, 27].map((i) => api.REGRET_BATCH_IDS[i]);
+
+  const state1 = { ...api.defaultRegretReclamation(), _v81unlocked: true };
+  const legal1 = {
+    kind: 'entry',
+    target: 'regret-reclamation-plant',
+    feedback: '把后悔送进回收厂 · SEND REGRET TO RECLAMATION',
+  };
+  assert.deepStrictEqual(api.normalizeRegretPending(legal1, state1), legal1);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal1, extra: true }, state1), null);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal1, target: 'wrong' }, state1), null);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal1, feedback: 'wrong' }, state1), null);
+  assert.strictEqual(api.normalizeRegretPending(legal1, { ...state1, _v81unlocked: false }), null);
+
+  const state2 = { ...api.defaultRegretReclamation(), _v81unlocked: true };
+  const legal2 = {
+    kind: 'material',
+    source: 'regret-reclamation-plant',
+    material,
+    target: 'abandonment-residue-weighhouse',
+    feedback: api.REGRET_MATERIAL_TABLE[material].feedback,
+  };
+  assert.deepStrictEqual(api.normalizeRegretPending(legal2, state2), legal2);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal2, extra: true }, state2), null);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal2, source: 'wrong' }, state2), null);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal2, material: 'wrong' }, state2), null);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal2, feedback: 'wrong' }, state2), null);
+
+  const state3 = {
+    ...api.defaultRegretReclamation(),
+    _v81unlocked: true,
+    draft: { material, residue: '' },
+  };
+  const legal3 = {
+    kind: 'residue',
+    source: 'abandonment-residue-weighhouse',
+    material,
+    residue,
+    target: 'second-life-smelting-line',
+    feedback: api.REGRET_RESIDUE_TABLE[residue].feedback,
+  };
+  assert.deepStrictEqual(api.normalizeRegretPending(legal3, state3), legal3);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal3, extra: true }, state3), null);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal3, target: 'wrong' }, state3), null);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal3, material: 'wrong' }, state3), null);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal3, feedback: 'wrong' }, state3), null);
+
+  const state4 = {
+    ...api.defaultRegretReclamation(),
+    _v81unlocked: true,
+    draft: { material, residue },
+  };
+  const legal4 = {
+    kind: 'batch',
+    source: 'second-life-smelting-line',
+    material,
+    residue,
+    use,
+    batch,
+    target: api.REGRET_RESIDUE_TABLE[residue].target,
+    feedback: api.computeRegretBatchFeedback(material, residue, use),
+  };
+  assert.deepStrictEqual(api.normalizeRegretPending(legal4, state4), legal4);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal4, extra: true }, state4), null);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal4, batch: 'wrong' }, state4), null);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal4, target: 'wrong' }, state4), null);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal4, feedback: 'wrong' }, state4), null);
+  assert.strictEqual(api.normalizeRegretPending(legal4, { ...state4, draft: { material: 'wrong', residue } }), null);
+
+  const state5 = {
+    ...api.defaultRegretReclamation(),
+    _v81unlocked: true,
+    batches: [batch],
+    activeReclaimer: { residue, batch, feedback: reclaimerFeedback },
+    draft: { material: '', residue: '' },
+  };
+  const legal5 = {
+    kind: 'reclaimer-return',
+    from: residueTable.target,
+    target: 'regret-reclamation-plant',
+    batch,
+    feedback: reclaimerFeedback,
+  };
+  assert.deepStrictEqual(api.normalizeRegretPending(legal5, state5), legal5);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal5, extra: true }, state5), null);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal5, from: 'wrong' }, state5), null);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal5, batch: 'wrong' }, state5), null);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal5, feedback: 'wrong' }, state5), null);
+  assert.strictEqual(api.normalizeRegretPending(legal5, { ...state5, activeReclaimer: null }), null);
+
+  const state6 = {
+    ...api.defaultRegretReclamation(),
+    _v81unlocked: true,
+    batches: coverageBatches,
+    draft: { material: '', residue: '' },
+    activeReclaimer: null,
+  };
+  const legal6 = {
+    kind: 'furnace-entry',
+    target: 'zero-waste-life-furnace',
+    feedback: '决定人生是否允许留下废料 · DECIDE WHETHER A LIFE MAY LEAVE WASTE',
+  };
+  assert.deepStrictEqual(api.normalizeRegretPending(legal6, state6), legal6);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal6, extra: true }, state6), null);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal6, target: 'wrong' }, state6), null);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal6, feedback: 'wrong' }, state6), null);
+  assert.strictEqual(api.normalizeRegretPending(legal6, { ...state6, batches: coverageBatches.slice(0, 3) }), null);
+
+  const state7 = {
+    ...api.defaultRegretReclamation(),
+    _v81unlocked: true,
+    batches: coverageBatches,
+    visited: { ...api.defaultRegretReclamation().visited, furnace: true },
+    draft: { material: '', residue: '' },
+    activeReclaimer: null,
+  };
+  const legal7 = {
+    kind: 'furnace',
+    source: 'zero-waste-life-furnace',
+    action,
+    outcome: table.outcome,
+    target: table.target,
+    feedback: table.feedback,
+  };
+  assert.deepStrictEqual(api.normalizeRegretPending(legal7, state7), legal7);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal7, extra: true }, state7), null);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal7, source: 'wrong' }, state7), null);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal7, action: 'wrong' }, state7), null);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal7, outcome: 'wrong' }, state7), null);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal7, target: 'wrong' }, state7), null);
+  assert.strictEqual(api.normalizeRegretPending({ ...legal7, feedback: 'wrong' }, state7), null);
+  assert.strictEqual(api.normalizeRegretPending(legal7, { ...state7, visited: { ...state7.visited, furnace: false } }), null);
+}
+
+{
+  const key = 'goddead_v81_regret_reclamation';
+  const seed = makeV81Context();
+  const state = seed.v81.defaultRegretReclamation();
+  const pending = {kind:'entry',target:'regret-reclamation-plant',feedback:'把后悔送进回收厂 · SEND REGRET TO RECLAMATION'};
+  state.pending = pending;
+  seed.v81.saveRegretReclamation(state);
+  const snapshot = JSON.stringify(seed.read());
+  const cold = makeV81Context({initialStore:{[key]:snapshot},scene:'remembrance'});
+  cold.v81.resolveRegretReclamationPendingOnArrival('remembrance');
+  cold.v81.replayRegretReclamationPending('remembrance');
+  assert.deepStrictEqual(cold.read().pending, pending);
+  assert.strictEqual(cold.scheduleCalls.length, 1);
+  assert.strictEqual(cold.scheduleCalls[0].src, 'remembrance');
+  assert.strictEqual(cold.scheduleCalls[0].target, 'regret-reclamation-plant');
+  assert.strictEqual(Object.prototype.hasOwnProperty.call(cold.scheduleCalls[0].opts, 'before'), false);
+}
+
+{
+  const key = 'goddead_v81_regret_reclamation';
+  const api = v81Core;
+  const material = api.REGRET_MATERIALS[0];
+  const residue = api.REGRET_RESIDUES[0];
+  const use = api.REGRET_USES[0];
+  const batch = `${material}:${residue}:${use}`;
+
+  const runSourceReplay = (state, pending, source, target) => {
+    const seed = makeV81Context();
+    state.pending = pending;
+    seed.v81.saveRegretReclamation(state);
+    const snapshot = JSON.stringify(seed.read());
+
+    const cold = makeV81Context({ initialStore: { [key]: snapshot }, scene: source });
+    cold.v81.resolveRegretReclamationPendingOnArrival(source);
+    cold.v81.replayRegretReclamationPending(source);
+
+    assert.deepStrictEqual(cold.v81.getRegretReclamation().pending, pending);
+    assert.strictEqual(cold.scheduleCalls.length, 1);
+    assert.strictEqual(cold.scheduleCalls[0].src, source);
+    assert.strictEqual(cold.scheduleCalls[0].target, target);
+    assert.strictEqual(Object.prototype.hasOwnProperty.call(cold.scheduleCalls[0].opts || {}, 'before'), false);
+  };
+
+  const matState = api.defaultRegretReclamation();
+  const matPending = {
+    kind: 'material',
+    source: 'regret-reclamation-plant',
+    material,
+    target: 'abandonment-residue-weighhouse',
+    feedback: api.REGRET_MATERIAL_TABLE[material].feedback
+  };
+  runSourceReplay(matState, matPending, 'regret-reclamation-plant', 'abandonment-residue-weighhouse');
+
+  const resState = api.defaultRegretReclamation();
+  resState.draft = { material, residue: '' };
+  const resPending = {
+    kind: 'residue',
+    source: 'abandonment-residue-weighhouse',
+    material,
+    residue,
+    target: 'second-life-smelting-line',
+    feedback: api.REGRET_RESIDUE_TABLE[residue].feedback
+  };
+  runSourceReplay(resState, resPending, 'abandonment-residue-weighhouse', 'second-life-smelting-line');
+
+  const batState = api.defaultRegretReclamation();
+  batState.draft = { material, residue };
+  const batPending = {
+    kind: 'batch',
+    source: 'second-life-smelting-line',
+    material,
+    residue,
+    use,
+    batch,
+    target: api.REGRET_RESIDUE_TABLE[residue].target,
+    feedback: api.computeRegretBatchFeedback(material, residue, use)
+  };
+  runSourceReplay(batState, batPending, 'second-life-smelting-line', api.REGRET_RESIDUE_TABLE[residue].target);
+}
+
+for (const residue of v81Core.REGRET_RESIDUES) {
+  const material = v81Core.REGRET_MATERIALS[0];
+  const use = v81Core.REGRET_USES[0];
+  const target = v81Core.REGRET_RESIDUE_TABLE[residue].target;
+  const siblings = v81Core.REGRET_RESIDUES.map((r) => v81Core.REGRET_RESIDUE_TABLE[r].target).filter((t) => t !== target);
+  const batch = `${material}:${residue}:${use}`;
+  const button = {
+    disabled: false,
+    hidden: false,
+    setAttribute() {},
+    removeAttribute() {},
+    closest() { return null; },
+    addEventListener() {}
+  };
+  const elements = { [`regret-use-${use}`]: button };
+  const ctx = makeV81Context({ scene: 'second-life-smelting-line', elements });
+  const state = ctx.v81.defaultRegretReclamation();
+  state.draft = { material, residue };
+  ctx.v81.saveRegretReclamation(state);
+
+  ctx.v81.chooseRegretUse(use);
+
+  const before = ctx.read();
+  assert.deepStrictEqual(before.pending, {
+    kind: 'batch',
+    source: 'second-life-smelting-line',
+    material,
+    residue,
+    use,
+    batch,
+    target,
+    feedback: v81Core.computeRegretBatchFeedback(material, residue, use)
+  });
+  assert.deepStrictEqual(before.batches, []);
+  assert.strictEqual(before.batchRuns, 0);
+  assert.deepStrictEqual(before.materialTallies, { road: 0, love: 0, self: 0 });
+  assert.strictEqual(before.activeReclaimer, null);
+  assert.strictEqual(ctx.scheduleCalls.length, 1);
+  assert.strictEqual(ctx.scheduleCalls[0].src, 'second-life-smelting-line');
+  assert.strictEqual(ctx.scheduleCalls[0].target, target);
+  assert.ok(!Object.prototype.hasOwnProperty.call(ctx.scheduleCalls[0].opts || {}, 'before'));
+  assert.strictEqual(ctx.v81.regretReclamationBridgeAllows(target), true);
+  siblings.forEach((sib) => assert.strictEqual(ctx.v81.regretReclamationBridgeAllows(sib), false));
+  assert.strictEqual(ctx.v81.regretReclamationBridgeAllows('unknown-target'), false);
+
+  ctx.v81.resolveRegretReclamationPendingOnArrival(target);
+
+  const after = ctx.read();
+  assert.strictEqual(after.pending, null);
+  assert.deepStrictEqual(after.batches, [batch]);
+  assert.strictEqual(after.batchRuns, 1);
+  assert.strictEqual(after.lastOutcome, batch);
+  const expectedTally = { road: 0, love: 0, self: 0 };
+  expectedTally[v81Core.REGRET_MATERIAL_TABLE[material].tallyKey] = 1;
+  assert.deepStrictEqual(after.materialTallies, expectedTally);
+  assert.deepStrictEqual(after.activeReclaimer, {
+    residue,
+    batch,
+    feedback: v81Core.REGRET_RESIDUE_TABLE[residue].reclaimerFeedback
+  });
+  assert.deepStrictEqual(after.draft, { material: '', residue: '' });
+  assert.strictEqual(ctx.v81.regretReclamationBridgeAllows(target), true);
+  siblings.forEach((sib) => assert.strictEqual(ctx.v81.regretReclamationBridgeAllows(sib), false));
+  assert.strictEqual(ctx.v81.regretReclamationBridgeAllows('unknown-target'), false);
+
+  const snapshot = JSON.parse(JSON.stringify(ctx.read()));
+  ctx.v81.resolveRegretReclamationPendingOnArrival(target);
+  assert.deepStrictEqual(ctx.read(), snapshot);
+}
+{
+  const coverageIds = [0, 5, 22, 27].map((i) => v81Core.REGRET_BATCH_IDS[i]);
+  const furnaceActionEntries = v81Core.REGRET_FURNACE_ACTIONS.map((action) => [action, v81Core.REGRET_FURNACE_TABLE[action]]);
+  const allFurnaceTargets = furnaceActionEntries.map(([, tbl]) => tbl.target);
+
+  for (const [action, table] of furnaceActionEntries) {
+    const target = table.target;
+    const siblingTargets = allFurnaceTargets.filter((t) => t !== target);
+    const ctx = makeV81Context({ scene: 'zero-waste-life-furnace' });
+    const state = ctx.v81.defaultRegretReclamation();
+    state.batches = [...coverageIds];
+    state.visited = { ...state.visited, furnace: true };
+    state.pending = {
+      kind: 'furnace',
+      source: 'zero-waste-life-furnace',
+      action,
+      outcome: table.outcome,
+      target,
+      feedback: table.feedback
+    };
+    ctx.v81.saveRegretReclamation(state);
+
+    assert.strictEqual(ctx.v81.regretReclamationBridgeAllows(target), true);
+    for (const sib of siblingTargets) {
+      assert.strictEqual(ctx.v81.regretReclamationBridgeAllows(sib), false);
+    }
+    assert.strictEqual(ctx.v81.regretReclamationBridgeAllows('unknown-target'), false);
+    const preRaw = ctx.v81.getRegretReclamation();
+    assert.deepStrictEqual(preRaw.furnaceOutcomes, []);
+    assert.strictEqual(preRaw.furnaceRuns, 0);
+
+    ctx.v81.resolveRegretReclamationPendingOnArrival(target);
+
+    const afterRaw = ctx.v81.getRegretReclamation();
+    assert.strictEqual(afterRaw.pending, null);
+    assert.deepStrictEqual(afterRaw.furnaceOutcomes, [table.outcome]);
+    assert.strictEqual(afterRaw.furnaceRuns, 1);
+    assert.strictEqual(afterRaw.lastOutcome, table.outcome);
+    assert.strictEqual(ctx.v81.regretReclamationBridgeAllows(target), true);
+    for (const sib of siblingTargets) {
+      assert.strictEqual(ctx.v81.regretReclamationBridgeAllows(sib), false);
+    }
+    assert.strictEqual(ctx.v81.regretReclamationBridgeAllows('unknown-target'), false);
+
+    const snapshot = JSON.parse(JSON.stringify(ctx.v81.getRegretReclamation()));
+    ctx.v81.resolveRegretReclamationPendingOnArrival(target);
+    assert.deepStrictEqual(ctx.v81.getRegretReclamation(), snapshot);
+
+    const again = ctx.v81.getRegretReclamation();
+    again.pending = {
+      kind: 'furnace',
+      source: 'zero-waste-life-furnace',
+      action,
+      outcome: table.outcome,
+      target,
+      feedback: table.feedback
+    };
+    ctx.v81.saveRegretReclamation(again);
+    const midRaw = ctx.v81.getRegretReclamation();
+    assert.deepStrictEqual(midRaw.furnaceOutcomes, [table.outcome]);
+    assert.strictEqual(midRaw.furnaceRuns, 1);
+
+    ctx.v81.resolveRegretReclamationPendingOnArrival(target);
+    const finalRaw = ctx.v81.getRegretReclamation();
+    assert.deepStrictEqual(finalRaw.furnaceOutcomes, [table.outcome]);
+    assert.strictEqual(finalRaw.furnaceRuns, 2);
+    assert.strictEqual(finalRaw.lastOutcome, table.outcome);
+  }
+
+  const firstTable = furnaceActionEntries[0][1];
+  const secondTable = furnaceActionEntries[1][1];
+
+  const ctxA = makeV81Context({ scene: 'zero-waste-life-furnace' });
+  const stateA = ctxA.v81.defaultRegretReclamation();
+  stateA.batches = [...coverageIds];
+  stateA.furnaceOutcomes = [firstTable.outcome, secondTable.outcome];
+  stateA.lastOutcome = secondTable.outcome;
+  ctxA.v81.saveRegretReclamation(stateA);
+  assert.strictEqual(ctxA.v81.regretReclamationBridgeAllows(secondTable.target), true);
+  assert.strictEqual(ctxA.v81.regretReclamationBridgeAllows(firstTable.target), false);
+
+  const ctxB = makeV81Context({ scene: 'zero-waste-life-furnace' });
+  const stateB = ctxB.v81.defaultRegretReclamation();
+  stateB.batches = [...coverageIds];
+  stateB.furnaceOutcomes = [];
+  stateB.lastOutcome = firstTable.outcome;
+  ctxB.v81.saveRegretReclamation(stateB);
+  const rawB = ctxB.v81.getRegretReclamation();
+  assert.strictEqual(rawB.lastOutcome, '');
+  assert.strictEqual(ctxB.v81.regretReclamationBridgeAllows(firstTable.target), false);
+}
+
+{
+  const api = v81Core;
+  const key = 'goddead_v81_regret_reclamation';
+  const material = api.REGRET_MATERIALS[0];
+  const residue = api.REGRET_RESIDUES[0];
+  const use = api.REGRET_USES[0];
+  const batch = `${material}:${residue}:${use}`;
+  const table = api.REGRET_RESIDUE_TABLE[residue];
+
+  const seed = makeV81Context();
+  const state = seed.v81.defaultRegretReclamation();
+  state.batches = [batch];
+  state.activeReclaimer = {
+    residue,
+    batch,
+    feedback: table.reclaimerFeedback,
+  };
+  state.draft = { material: '', residue: '' };
+
+  const pending = {
+    kind: 'reclaimer-return',
+    from: table.target,
+    target: 'regret-reclamation-plant',
+    batch,
+    feedback: table.reclaimerFeedback,
+  };
+  state.pending = pending;
+  seed.v81.saveRegretReclamation(state);
+  const snapshot = JSON.stringify(seed.read());
+
+  const cold = makeV81Context({
+    initialStore: { [key]: snapshot },
+    scene: table.target,
+  });
+
+  cold.v81.resolveRegretReclamationPendingOnArrival(table.target);
+  cold.v81.replayRegretReclamationPending(table.target);
+
+  assert.deepStrictEqual(cold.read().pending, pending);
+  assert.strictEqual(cold.scheduleCalls.length, 1);
+  assert.strictEqual(cold.scheduleCalls[0].src, table.target);
+  assert.strictEqual(cold.scheduleCalls[0].target, 'regret-reclamation-plant');
+  assert.strictEqual(Object.prototype.hasOwnProperty.call(cold.scheduleCalls[0].opts || {}, 'before'), false);
+}
+
+// ============================================================================
+// v81 Structural Integration Audit
+// ============================================================================
+{
+  const v81Mod = v81ModuleBlock[0];
+
+  // 1. Listener audit
+  const trustedGuardMatches = v81Mod.match(/!e\.isTrusted/g) || [];
+  assert.strictEqual(trustedGuardMatches.length, 18, "v81 module must contain exactly 18 isTrusted guards");
+
+  const clickListenerRegex = /\.addEventListener\(\s*['"]click['"]\s*,\s*\(\s*e\s*\)\s*=>\s*\{/g;
+  const clickMatches = v81Mod.match(clickListenerRegex) || [];
+  assert.strictEqual(clickMatches.length, 18, "v81 module must contain exactly 18 click listeners");
+
+  const clickCallbacks = [...v81Mod.matchAll(/\.addEventListener\(\s*['"]click['"]\s*,\s*\(\s*e\s*\)\s*=>\s*\{([\s\S]*?)\}\s*\);/g)];
+  assert.strictEqual(clickCallbacks.length, 18, "Should extract all 18 click listener callback blocks");
+  for (const match of clickCallbacks) {
+    const callbackBody = match[1].trim();
+    assert.ok(
+      callbackBody.startsWith("if (!e.isTrusted) return;"),
+      `Each click callback must begin with 'if (!e.isTrusted) return;'. Found: ${callbackBody.slice(0, 40)}`
+    );
+  }
+
+  // 2. sceneInit
+  const sceneInitMatch = js.match(/const\s+sceneInit\s*=\s*\(name\)\s*=>\s*\{([\s\S]*?updateHudDisplay\(\);[\s\S]*?\};)/);
+  assert.ok(sceneInitMatch, "sceneInit function definition must exist");
+  const sceneInitBody = sceneInitMatch[1];
+
+  const resolveMatches = js.match(/resolveRegretReclamationPendingOnArrival\(name\);/g) || [];
+  assert.strictEqual(resolveMatches.length, 1, "resolveRegretReclamationPendingOnArrival(name); must occur exactly once in js");
+  const replayMatches = js.match(/replayRegretReclamationPending\(name\);/g) || [];
+  assert.strictEqual(replayMatches.length, 1, "replayRegretReclamationPending(name); must occur exactly once in js");
+
+  const resolveIdx = sceneInitBody.indexOf("resolveRegretReclamationPendingOnArrival(name);");
+  const replayIdx = sceneInitBody.indexOf("replayRegretReclamationPending(name);");
+  const updateHudIdx = sceneInitBody.indexOf("updateHudDisplay();");
+
+  assert.ok(resolveIdx !== -1, "resolveRegretReclamationPendingOnArrival(name) must exist in sceneInit");
+  assert.ok(replayIdx > resolveIdx, "replayRegretReclamationPending(name) must be after resolve in sceneInit");
+  assert.ok(updateHudIdx > replayIdx, "updateHudDisplay() must be after replay in sceneInit");
+
+  const requiredNineSyncs = [
+    "syncRegretReclamationPlant();",
+    "syncRegretResidueWeighhouse();",
+    "syncRegretSmeltingLine();",
+    "syncRegretLifeFurnace();",
+    "syncRegretReclaimers();",
+    "paintRegretReclamationMemory();",
+    "paintRegretReclamationCodex();",
+    "syncRegretReclamationRemembrance();",
+    "syncRegretReclamationLinks();"
+  ];
+
+  for (const fnCall of requiredNineSyncs) {
+    const fnIdx = sceneInitBody.indexOf(fnCall);
+    assert.ok(fnIdx > resolveIdx && fnIdx < replayIdx, `${fnCall} must be called between resolve and replay in sceneInit`);
+  }
+
+  // 3. bootstrap
+  const bootstrapMatch = js.match(/\/\*\s*----------\s*初始化\s*----------\s*\*\/([\s\S]*?route\(\);)/);
+  assert.ok(bootstrapMatch, "Bootstrap initialization block must exist");
+  const bootstrapBody = bootstrapMatch[1];
+
+  assert.ok(!bootstrapBody.includes("resolveRegretReclamationPendingOnArrival('threshold')"), "Bootstrap must not contain hardcoded resolve threshold");
+  assert.ok(!bootstrapBody.includes("replayRegretReclamationPending('threshold')"), "Bootstrap must not contain hardcoded replay threshold");
+
+  const finalRouteIdx = bootstrapBody.lastIndexOf("route();");
+  for (const fnCall of requiredNineSyncs) {
+    const fnIdx = bootstrapBody.indexOf(fnCall);
+    assert.ok(fnIdx !== -1 && fnIdx < finalRouteIdx, `${fnCall} must exist before route() in bootstrap`);
+  }
+
+  // 4. six old guard integration
+  assert.ok(js.includes('!regretReclamationBridgeAllows("offering")'), 'offering must guard with !regretReclamationBridgeAllows("offering")');
+  assert.ok(js.includes('regretReclamationBridgeAllows(target)'), 'descending v52 must guard with regretReclamationBridgeAllows(target)');
+  assert.ok(js.includes('!regretReclamationBridgeAllows(target)'), 'identity appeal guard must contain !regretReclamationBridgeAllows(target)');
+  assert.ok(js.includes('!regretReclamationBridgeAllows("borrowed-childhood")'), 'borrowed must guard with !regretReclamationBridgeAllows("borrowed-childhood")');
+  assert.ok(js.includes("!regretReclamationBridgeAllows('unending-gallery')"), "unending must guard with !regretReclamationBridgeAllows('unending-gallery')");
+  assert.ok(js.includes('!regretReclamationBridgeAllows(target)'), 'governance remembrance conditions must contain !regretReclamationBridgeAllows(target)');
+
+  // 5. forget-all
+  const forgetMatch = js.match(/const\s+forgetActionBtn[\s\S]*?goScene\("threshold"\);/);
+  assert.ok(forgetMatch, "forget-all action block must exist");
+  const forgetBody = forgetMatch[0];
+
+  assert.ok(forgetBody.includes('localStorage.removeItem("goddead_v81_regret_reclamation")'), "forget block must remove v81 regret reclamation storage key");
+  assert.ok(["regret-reclamation-plant", "abandonment-residue-weighhouse", "second-life-smelting-line", "zero-waste-life-furnace"].every(s => forgetBody.includes(`"${s}"`)), "forget block must include all 4 v81 scene strings");
+  assert.ok(forgetBody.includes("AutoAdvance.clear(s)"), "forget block must invoke AutoAdvance.clear(s)");
+
+  assert.ok(["regret-reclamation-memory", "regret-reclamation-codex", "regret-reclamation-codex-entry"].every(id => forgetBody.includes(id)), "forget block must contain memory, codex, and codex entry IDs");
+  assert.ok(["regret-reclamation-entry-btn", "regret-furnace-entry-btn"].every(id => forgetBody.includes(id)), "forget block must contain entry buttons");
+  assert.ok(["regret-reclamation-plant-link", "abandonment-residue-weighhouse-link", "second-life-smelting-line-link", "zero-waste-life-furnace-link"].every(id => forgetBody.includes(id)), "forget block must contain all 4 directory links");
+  assert.ok(["regret-reclaimer-response-", "regret-reclaimer-", "regret-reclaimer-return-"].every(id => forgetBody.includes(id)), "forget block must contain reclaimer scene families");
+  assert.ok(["regret-material-road-never-taken", "regret-material-person-never-loved", "regret-material-self-never-became", "regret-residue-dust-from-the-unwalked-mile", "regret-residue-warmth-from-the-unused-pillow", "regret-residue-fingerprint-inside-an-unworn-face", "regret-use-cast-a-new-childhood", "regret-use-forge-courage-for-the-next-self", "regret-use-build-a-strangers-spare-life", "regret-use-return-regret-without-processing", "regret-furnace-declare-regret-renewable", "regret-furnace-manufacture-every-life-from-foreign-regret", "regret-furnace-classify-forgiveness-as-unrecyclable-waste"].every(id => forgetBody.includes(id)), "forget block must contain all 13 primary action IDs");
+  assert.ok(requiredNineSyncs.every(fnCall => forgetBody.includes(fnCall)), "forget block must contain all 9 sync/paint calls");
+  assert.ok(!forgetBody.includes('localStorage.setItem("goddead_v80_unfinished_thought_asylum"'), "forget block must not set v80 localStorage key");
+}
+
+{
+  const pending = {
+    kind: 'furnace-entry',
+    target: 'zero-waste-life-furnace',
+    feedback: '决定人生是否允许留下废料 · DECIDE WHETHER A LIFE MAY LEAVE WASTE'
+  };
+  const key = 'goddead_v81_regret_reclamation';
+  const seed = makeV81Context();
+  const state = seed.v81.defaultRegretReclamation();
+  state.batches = [0, 5, 22, 27].map((i) => v81Core.REGRET_BATCH_IDS[i]);
+  state.pending = pending;
+  seed.v81.saveRegretReclamation(state);
+  const snapshot = JSON.stringify(seed.read());
+  const cold = makeV81Context({ initialStore: { [key]: snapshot }, scene: 'remembrance' });
+  cold.v81.resolveRegretReclamationPendingOnArrival('remembrance');
+  cold.v81.replayRegretReclamationPending('remembrance');
+  assert.deepStrictEqual(cold.read().pending, pending);
+  assert.strictEqual(cold.scheduleCalls.length, 1);
+  assert.strictEqual(cold.scheduleCalls[0].src, 'remembrance');
+  assert.strictEqual(cold.scheduleCalls[0].target, 'zero-waste-life-furnace');
+  assert.strictEqual(Object.prototype.hasOwnProperty.call(cold.scheduleCalls[0].opts || {}, 'before'), false);
+}
+
+{
+  const button = {
+    id: 'regret-material-road-never-taken',
+    disabled: false,
+    hidden: false,
+    closest() {
+      return null;
+    },
+    setAttribute() {},
+    removeAttribute() {},
+    addEventListener(type, listener) {
+      if (type === 'click') this._listener = listener;
+    }
+  };
+  const ctx = makeV81Context({
+    scene: 'regret-reclamation-plant',
+    elements: {
+      'regret-material-road-never-taken': button
+    }
+  });
+  assert.strictEqual(typeof button._listener, 'function');
+  const storeSnapshot = JSON.stringify(ctx.storeData);
+  const scheduleSnapshot = JSON.stringify(ctx.scheduleCalls);
+  button._listener({ isTrusted: false });
+  assert.strictEqual(JSON.stringify(ctx.storeData), storeSnapshot);
+  assert.strictEqual(JSON.stringify(ctx.scheduleCalls), scheduleSnapshot);
+  assert.strictEqual(ctx.read().pending ?? null, null);
+}
+
+const v81BranchFigures = [
+  {
+    id: 'regret-reclamation-plant-figure',
+    description: '后悔回收厂：左侧没走的路、中央没爱的人、右侧没成为的自己',
+    buttonCount: 3
+  },
+  {
+    id: 'abandonment-residue-weighhouse-figure',
+    description: '放弃残留称量站：左侧未走里程的尘、中央空枕余温、右侧未戴之脸内侧指纹',
+    buttonCount: 3
+  },
+  {
+    id: 'second-life-smelting-line-figure',
+    description: '第二人生熔炼线：左上另一段童年、左下下一个自我的勇气、右上陌生人的备用人生、右下原样退回后悔',
+    buttonCount: 4
+  },
+  {
+    id: 'zero-waste-life-furnace-figure',
+    description: '零废弃人生裁定炉：左侧宣布后悔可再生、中央用陌生后悔制造所有人生、右侧把原谅列为不可回收废物',
+    buttonCount: 3
+  }
+];
+
+for (const item of v81BranchFigures) {
+  const figureRegex = new RegExp(`<figure[^>]*id="${item.id}"[\\s\\S]*?<\\/figure>`, 'm');
+  const figureMatch = html.match(figureRegex);
+  assert.ok(figureMatch, `figure with id ${item.id} must exist in html`);
+  const figureBlock = figureMatch[0];
+
+  const openTagMatch = figureBlock.match(/^<figure[^>]*>/m);
+  assert.ok(openTagMatch, `figure open tag for ${item.id} must exist`);
+  const openTag = openTagMatch[0];
+  assert.ok(!openTag.includes('role="img"'), `figure ${item.id} opening tag must not have role="img"`);
+  assert.ok(!openTag.includes('aria-label='), `figure ${item.id} opening tag must not have aria-label`);
+
+  const imgMatch = figureBlock.match(/<img[^>]*alt="([^"]*)"[^>]*>/);
+  assert.ok(imgMatch, `nested img inside ${item.id} must exist`);
+  assert.strictEqual(imgMatch[1], item.description, `nested img alt inside ${item.id} must match expected description`);
+
+  const buttonMatches = [...figureBlock.matchAll(/<button[^>]*>/g)];
+  assert.strictEqual(buttonMatches.length, item.buttonCount, `figure ${item.id} must contain ${item.buttonCount} buttons`);
+  for (const btnMatch of buttonMatches) {
+    assert.match(btnMatch[0], /aria-label="[^"]+"/, `button inside figure ${item.id} must keep a non-empty aria-label`);
+  }
+}
+
+  // ============================================================
+  // v82 Forgiveness Landfill Runtime & State Specification (TDD)
+  // ============================================================
+  {
+    const v82ModuleStart = js.indexOf("const FORGIVENESS_LANDFILL_KEY = 'goddead_v82_forgiveness_landfill';");
+    const v83ModuleStart = js.indexOf("const HARM_ARCHAEOLOGY_KEY = 'goddead_v83_harm_archaeology';");
+    const v82ModuleEnd = v83ModuleStart !== -1 ? js.lastIndexOf("/*", v83ModuleStart) : -1;
+    assert.ok(v82ModuleStart !== -1 && v82ModuleEnd > v82ModuleStart, "v82 module boundaries must exist");
+    const v82ModuleBlock = js.slice(v82ModuleStart, v82ModuleEnd);
+
+    const makeCompleteV81StateForV82 = () => ({
+      batches: [
+        'road-never-taken:dust-from-the-unwalked-mile:cast-a-new-childhood',
+        'person-never-loved:warmth-from-the-unused-pillow:forge-courage-for-the-next-self',
+        'self-never-became:fingerprint-inside-an-unworn-face:build-a-strangers-spare-life',
+        'road-never-taken:dust-from-the-unwalked-mile:return-regret-without-processing',
+      ],
+      furnaceOutcomes: [
+        'regret-became-a-renewable-resource',
+        'every-life-was-made-from-someone-elses-regret',
+        'forgiveness-was-classified-as-unrecyclable-waste',
+      ]
+    });
+
+    const createMockElement = (id = '') => {
+      const listeners = {};
+      const el = {
+        id,
+        className: '',
+        innerHTML: '',
+        textContent: '',
+        children: [],
+        hidden: false,
+        disabled: false,
+        attributes: {},
+        setAttribute(k, v) { this.attributes[k] = String(v); },
+        removeAttribute(k) { delete this.attributes[k]; },
+        appendChild(child) { this.children.push(child); return child; },
+        addEventListener(type, handler) {
+          listeners[type] = listeners[type] || [];
+          listeners[type].push(handler);
+        },
+        _listeners: listeners,
+        _dispatch(type, evt = {}) {
+          const list = listeners[type] || [];
+          for (const fn of list) fn(evt);
+        }
+      };
+      return el;
+    };
+
+    const hostV82 = (val) => JSON.parse(JSON.stringify(val));
+
+    const makeV82Context = ({
+      initialStore = {},
+      elements = {},
+      scene = '',
+      v81unlocked = true,
+      upstreamV81State = makeCompleteV81StateForV82(),
+    } = {}) => {
+      const storeData = { ...initialStore };
+      const store = {
+        get(k, def) {
+          return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def;
+        },
+        set(k, v) {
+          storeData[k] = String(v);
+        }
+      };
+
+      const elMap = { ...elements };
+      const $ = (selector) => {
+        if (typeof selector === 'string' && selector.startsWith('#')) {
+          const id = selector.slice(1);
+          if (elMap[id]) return elMap[id];
+        }
+        return null;
+      };
+
+      const scheduleCalls = [];
+      const AutoAdvance = {
+        has() { return false; },
+        schedule(src, target, opts) {
+          scheduleCalls.push({ src, target, opts: opts ? { ...opts } : undefined });
+        },
+        clear() {}
+      };
+
+      const AudioEngine = {
+        whoosh() {},
+        bell() {}
+      };
+
+      const buttonAvailable = (id) => {
+        const el = $(`#${id}`);
+        if (!el || el.hidden || el.disabled) return false;
+        return true;
+      };
+
+      const doc = {
+        createElement: (tag) => createMockElement(tag),
+      };
+
+      const factory = new Function(
+        'store', '$', 'currentScene', 'AutoAdvance', 'AudioEngine', 'reduced',
+        'regretReclamationPlantUnlocked', 'getRegretReclamation', 'buttonAvailable', 'document',
+        `${v82ModuleBlock}
+        return {
+          FORGIVENESS_LANDFILL_KEY,
+          FORGIVENESS_LANDFILL_VERSION,
+          FORGIVENESS_WASTES,
+          FORGIVENESS_CERTIFICATES,
+          FORGIVENESS_DISPOSALS,
+          FORGIVENESS_WELL_ACTIONS,
+          FORGIVENESS_WASTE_TABLE,
+          FORGIVENESS_CERTIFICATE_TABLE,
+          FORGIVENESS_DISPOSAL_TABLE,
+          FORGIVENESS_WELL_TABLE,
+          FORGIVENESS_WELL_OUTCOME_BY_ID,
+          FORGIVENESS_DISPOSAL_IDS,
+          FORGIVENESS_WELL_OUTCOME_IDS,
+          defaultForgivenessLandfill,
+          normalizeForgivenessVisited,
+          normalizeForgivenessDraft,
+          normalizeForgivenessDisposals,
+          normalizeForgivenessWellOutcomes,
+          clampForgivenessCount,
+          normalizeForgivenessTallies,
+          normalizeForgivenessActiveRecorder,
+          normalizeForgivenessPending,
+          saveForgivenessLandfill,
+          getForgivenessLandfill,
+          forgivenessLandfillUnlocked,
+          forgivenessLandfillCoverageComplete,
+          computeForgivenessDisposalTitle,
+          computeForgivenessDisposalFeedback,
+          findForgivenessDisposalById,
+          getForgivenessPendingLogicalSource,
+          forgivenessBeforeArrive,
+          resolveForgivenessPendingOnArrival,
+          forgivenessLandfillBridgeAllows,
+          forgivenessLandfillCanVisit,
+          inertHarmCertificateVaultCanVisit,
+          mercyBurialTrenchCanVisit,
+          harmlessnessFinalWellCanVisit,
+          replayForgivenessPending,
+          chooseForgivenessEntry,
+          chooseForgivenessWaste,
+          chooseForgivenessCertificate,
+          chooseForgivenessDisposal,
+          chooseForgivenessRecorderReturn,
+          chooseHarmlessnessWellEntry,
+          chooseHarmlessnessWellAction
+        };`
+      );
+
+      const api = factory(
+        store,
+        $,
+        scene,
+        AutoAdvance,
+        AudioEngine,
+        false,
+        () => v81unlocked,
+        () => upstreamV81State,
+        buttonAvailable,
+        doc
+      );
+
+      return {
+        api,
+        storeData,
+        read: () => JSON.parse(storeData['goddead_v82_forgiveness_landfill'] || 'null'),
+        scheduleCalls,
+        elements: elMap,
+        AutoAdvance,
+      };
+    };
+
+    // Frozen Shared Constants
+    const V82_ENTRY_FEEDBACK = '把不可回收的宽恕送去填埋 · SEND UNRECYCLABLE FORGIVENESS TO LANDFILL';
+    const V82_WELL_ENTRY_FEEDBACK = '裁定伤害是否可以不留证据地结束 · DECIDE WHETHER HARM MAY END WITHOUT EVIDENCE';
+    const V82_EXPECTED_DISP_RECORD = 'apology-never-accepted:unopened-absolution-receipt:bury-it-beneath-a-future-life';
+    const V82_EXPECTED_DISP_FEEDBACK = '请求之手保持弯曲，匣内的道歉却已失去收件人。它不再期待原谅，只要求有人承认自己曾经来迟。 回执从未被拆开，却已经盖上处理完毕的凹印。谁都没有接受道歉，档案却坚持宽恕已成功投递。 推土机把道歉、免债与疤痕压进新生活的地基。楼上的人从未受伤，却总在夜里听见地下有人练习原谅。';
+    const V82_COMPLETE_DISPOSALS = [
+      'apology-never-accepted:unopened-absolution-receipt:bury-it-beneath-a-future-life',
+      'debt-already-forgiven:zero-balance-debt-scale:let-the-soil-forget-the-cause',
+      'wound-that-stopped-demanding:scar-closed-without-witness:grow-innocence-from-old-harm',
+      'apology-never-accepted:unopened-absolution-receipt:exhume-it-for-permanent-record',
+    ];
+
+    const makePendingState = (api, overrides = {}) => {
+      const base = hostV82(api.defaultForgivenessLandfill());
+      base._v82unlocked = true;
+      if (overrides.visited) base.visited = { ...base.visited, ...overrides.visited };
+      if (overrides.draft) base.draft = { ...base.draft, ...overrides.draft };
+      if (overrides.wasteTallies) base.wasteTallies = { ...base.wasteTallies, ...overrides.wasteTallies };
+      if (overrides.disposals) base.disposals = [...overrides.disposals];
+      if (overrides.wellOutcomes) base.wellOutcomes = [...overrides.wellOutcomes];
+      if (overrides.disposalRuns !== undefined) base.disposalRuns = overrides.disposalRuns;
+      if (overrides.wellRuns !== undefined) base.wellRuns = overrides.wellRuns;
+      if (overrides.lastOutcome !== undefined) base.lastOutcome = overrides.lastOutcome;
+      if (overrides.activeRecorder !== undefined) base.activeRecorder = overrides.activeRecorder;
+      if (overrides.pending !== undefined) base.pending = overrides.pending;
+      return base;
+    };
+
+    const defaultCtx = makeV82Context();
+    const { api } = defaultCtx;
+
+    // 1. Constants and Frozen Tables
+    assert.strictEqual(api.FORGIVENESS_LANDFILL_KEY, 'goddead_v82_forgiveness_landfill');
+    assert.strictEqual(api.FORGIVENESS_LANDFILL_VERSION, 82);
+    assert.deepStrictEqual(hostV82(api.FORGIVENESS_WASTES), ['apology-never-accepted', 'debt-already-forgiven', 'wound-that-stopped-demanding']);
+    assert.deepStrictEqual(hostV82(api.FORGIVENESS_CERTIFICATES), ['unopened-absolution-receipt', 'zero-balance-debt-scale', 'scar-closed-without-witness']);
+    assert.deepStrictEqual(hostV82(api.FORGIVENESS_DISPOSALS), ['bury-it-beneath-a-future-life', 'let-the-soil-forget-the-cause', 'grow-innocence-from-old-harm', 'exhume-it-for-permanent-record']);
+    assert.deepStrictEqual(hostV82(api.FORGIVENESS_WELL_ACTIONS), ['seal-every-forgiven-harm-forever', 'erase-the-need-for-forgiveness', 'make-harm-survive-its-own-forgiveness']);
+
+    assert.strictEqual(hostV82(api.FORGIVENESS_DISPOSAL_IDS).length, 36);
+    assert.strictEqual(hostV82(api.FORGIVENESS_WELL_OUTCOME_IDS).length, 3);
+
+    assert.deepStrictEqual(hostV82(api.FORGIVENESS_WASTE_TABLE['apology-never-accepted']), {
+      tallyKey: 'apology',
+      title: '未受道歉',
+      feedback: '请求之手保持弯曲，匣内的道歉却已失去收件人。它不再期待原谅，只要求有人承认自己曾经来迟。'
+    });
+    assert.deepStrictEqual(hostV82(api.FORGIVENESS_CERTIFICATE_TABLE['unopened-absolution-receipt']), {
+      title: '赦回',
+      target: 'offering',
+      feedback: '回执从未被拆开，却已经盖上处理完毕的凹印。谁都没有接受道歉，档案却坚持宽恕已成功投递。',
+      recorderFeedback: '赦免记录员在焚献处找到未开回执。火焰拒绝烧掉它，因为没人接受的宽恕不属于任何人的祭品。'
+    });
+    assert.deepStrictEqual(hostV82(api.FORGIVENESS_DISPOSAL_TABLE['bury-it-beneath-a-future-life']), {
+      title: '地基',
+      fragment: '推土机把道歉、免债与疤痕压进新生活的地基。楼上的人从未受伤，却总在夜里听见地下有人练习原谅。'
+    });
+    assert.deepStrictEqual(hostV82(api.FORGIVENESS_WELL_TABLE['seal-every-forgiven-harm-forever']), {
+      outcome: 'every-forgiven-harm-was-sealed-forever',
+      target: 'remembrance',
+      feedback: '终审井合上骨白井盖。痕迹墙仍知道这里少了什么，却再也不能用那份缺席要求任何人继续受伤。'
+    });
+
+    const expectedDefaultState = {
+      version: 82,
+      visited: { landfill: false, vault: false, trench: false, well: false },
+      draft: { waste: '', certificate: '' },
+      disposals: [],
+      wellOutcomes: [],
+      disposalRuns: 0,
+      wellRuns: 0,
+      wasteTallies: { apology: 0, debt: 0, wound: 0 },
+      lastOutcome: '',
+      activeRecorder: null,
+      pending: null,
+    };
+    assert.deepStrictEqual(hostV82(api.defaultForgivenessLandfill()), expectedDefaultState);
+
+    // 2. Storage Normalization & Negative Guards Matrix
+    assert.deepStrictEqual(
+      hostV82(api.normalizeForgivenessVisited({ landfill: 1, vault: 'yes', trench: true, extra: 99 })),
+      { landfill: false, vault: false, trench: true, well: false }
+    );
+    assert.strictEqual(api.clampForgivenessCount('7'), 7);
+    assert.strictEqual(api.clampForgivenessCount(-5), 0);
+    assert.strictEqual(api.clampForgivenessCount(10005), 9999);
+    assert.strictEqual(api.clampForgivenessCount(3.8), 3);
+    assert.strictEqual(api.clampForgivenessCount('invalid'), 0);
+
+    const badStorageCtx1 = makeV82Context({ initialStore: { goddead_v82_forgiveness_landfill: 'not-json' } });
+    assert.deepStrictEqual(hostV82(badStorageCtx1.api.getForgivenessLandfill()), expectedDefaultState);
+
+    const badStorageCtx2 = makeV82Context({ initialStore: { goddead_v82_forgiveness_landfill: 'null' } });
+    assert.deepStrictEqual(hostV82(badStorageCtx2.api.getForgivenessLandfill()), expectedDefaultState);
+
+    const badStorageCtx3 = makeV82Context({ initialStore: { goddead_v82_forgiveness_landfill: '[]' } });
+    assert.deepStrictEqual(hostV82(badStorageCtx3.api.getForgivenessLandfill()), expectedDefaultState);
+
+    const badStorageCtx4 = makeV82Context({ initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify({ version: 81 }) } });
+    assert.deepStrictEqual(hostV82(badStorageCtx4.api.getForgivenessLandfill()), expectedDefaultState);
+
+    const saveTestCtx = makeV82Context();
+    const hostileState = {
+      version: 82,
+      extraField: 'intruder',
+      _v82unlocked: true,
+      visited: { landfill: true, vault: 'truthy', trench: false, well: true, bonus: true },
+      draft: { waste: 'apology-never-accepted', certificate: 'zero-balance-debt-scale', extra: 1 },
+      disposals: [
+        'wound-that-stopped-demanding:scar-closed-without-witness:grow-innocence-from-old-harm',
+        'apology-never-accepted:unopened-absolution-receipt:bury-it-beneath-a-future-life',
+        'apology-never-accepted:unopened-absolution-receipt:bury-it-beneath-a-future-life',
+        'fake-record'
+      ],
+      wellOutcomes: [
+        'the-need-for-forgiveness-was-erased',
+        'every-forgiven-harm-was-sealed-forever',
+        'every-forgiven-harm-was-sealed-forever',
+        'fake-outcome'
+      ],
+      disposalRuns: '15.9',
+      wellRuns: -10,
+      wasteTallies: { apology: 50000, debt: '3', wound: -1, extraTally: 10 },
+      lastOutcome: 'uncollected-outcome',
+      activeRecorder: { certificate: 'unopened-absolution-receipt', disposal: 'bury-it-beneath-a-future-life', feedback: 'foo', extra: 'bad' },
+      pending: { kind: 'entry', target: 'forgiveness-landfill', feedback: 'bad-fb' }
+    };
+
+    saveTestCtx.api.saveForgivenessLandfill(hostileState);
+    const rawSaved = JSON.parse(saveTestCtx.storeData['goddead_v82_forgiveness_landfill']);
+    const savedKeys = Object.keys(rawSaved);
+    assert.deepStrictEqual(savedKeys, [
+      'version', 'visited', 'draft', 'disposals', 'wellOutcomes',
+      'disposalRuns', 'wellRuns', 'wasteTallies', 'lastOutcome', 'activeRecorder', 'pending'
+    ]);
+    assert.strictEqual(rawSaved._v82unlocked, undefined);
+    assert.strictEqual(rawSaved.extraField, undefined);
+    assert.deepStrictEqual(rawSaved.visited, { landfill: true, vault: false, trench: false, well: true });
+    assert.deepStrictEqual(rawSaved.disposals, [
+      'apology-never-accepted:unopened-absolution-receipt:bury-it-beneath-a-future-life',
+      'wound-that-stopped-demanding:scar-closed-without-witness:grow-innocence-from-old-harm'
+    ]);
+    assert.deepStrictEqual(rawSaved.wellOutcomes, [
+      'every-forgiven-harm-was-sealed-forever',
+      'the-need-for-forgiveness-was-erased'
+    ]);
+    assert.strictEqual(rawSaved.disposalRuns, 15);
+    assert.strictEqual(rawSaved.wellRuns, 0);
+    assert.deepStrictEqual(rawSaved.wasteTallies, { apology: 9999, debt: 3, wound: 0 });
+    assert.strictEqual(rawSaved.lastOutcome, '');
+    assert.strictEqual(rawSaved.activeRecorder, null);
+    assert.strictEqual(rawSaved.pending, null);
+    assert.strictEqual(saveTestCtx.storeData['goddead_v81_regret_reclamation'], undefined);
+
+    // 3. Unlock and Coverage
+    const upstreamBefore = makeCompleteV81StateForV82();
+    const upstreamClone = JSON.parse(JSON.stringify(upstreamBefore));
+    const unlockCtx = makeV82Context({ upstreamV81State: upstreamBefore });
+    assert.strictEqual(unlockCtx.api.forgivenessLandfillUnlocked(), true);
+    assert.deepStrictEqual(upstreamBefore, upstreamClone, "Unlock check must not mutate upstream state");
+
+    const incompleteBatches = makeCompleteV81StateForV82();
+    incompleteBatches.batches.pop();
+    assert.strictEqual(makeV82Context({ upstreamV81State: incompleteBatches }).api.forgivenessLandfillUnlocked(), false);
+
+    const incompleteOutcomes = makeCompleteV81StateForV82();
+    incompleteOutcomes.furnaceOutcomes.pop();
+    assert.strictEqual(makeV82Context({ upstreamV81State: incompleteOutcomes }).api.forgivenessLandfillUnlocked(), false);
+    assert.strictEqual(makeV82Context({ v81unlocked: false }).api.forgivenessLandfillUnlocked(), false);
+
+    const covState = hostV82(api.defaultForgivenessLandfill());
+    covState.disposals = [...V82_COMPLETE_DISPOSALS];
+    assert.strictEqual(api.forgivenessLandfillCoverageComplete(covState), true);
+
+    const incovState = hostV82(api.defaultForgivenessLandfill());
+    incovState.disposals = V82_COMPLETE_DISPOSALS.slice(0, 3);
+    assert.strictEqual(api.forgivenessLandfillCoverageComplete(incovState), false);
+
+    const spoofedCovState = hostV82(api.defaultForgivenessLandfill());
+    spoofedCovState.disposals = V82_COMPLETE_DISPOSALS.slice(0, 3);
+    spoofedCovState.disposalRuns = 99;
+    spoofedCovState.wasteTallies = { apology: 50, debt: 50, wound: 50 };
+    assert.strictEqual(api.forgivenessLandfillCoverageComplete(spoofedCovState), false);
+
+    // 4. Seven Strict Pending Normalization Tests
+    // (1) entry
+    const validEntry = { kind: 'entry', target: 'forgiveness-landfill', feedback: V82_ENTRY_FEEDBACK };
+    const entryState = makePendingState(api);
+    assert.deepStrictEqual(hostV82(api.normalizeForgivenessPending(validEntry, entryState)), validEntry);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validEntry, extra: 1 }, entryState), null);
+    assert.strictEqual(api.normalizeForgivenessPending({ kind: 'entry', target: 'forgiveness-landfill' }, entryState), null);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validEntry, target: 'mercy-burial-trench' }, entryState), null);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validEntry, feedback: 'bad-fb' }, entryState), null);
+    assert.strictEqual(api.normalizeForgivenessPending(validEntry, makePendingState(api, { draft: { waste: 'apology-never-accepted', certificate: '' } })), null);
+
+    // (2) waste
+    const validWaste = {
+      kind: 'waste',
+      source: 'forgiveness-landfill',
+      target: 'inert-harm-certificate-vault',
+      waste: 'apology-never-accepted',
+      feedback: api.FORGIVENESS_WASTE_TABLE['apology-never-accepted'].feedback
+    };
+    const wasteState = makePendingState(api);
+    assert.deepStrictEqual(hostV82(api.normalizeForgivenessPending(validWaste, wasteState)), validWaste);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validWaste, extra: 1 }, wasteState), null);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validWaste, waste: undefined }, wasteState), null);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validWaste, target: 'forgiveness-landfill' }, wasteState), null);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validWaste, feedback: 'bad-fb' }, wasteState), null);
+    assert.strictEqual(api.normalizeForgivenessPending(validWaste, makePendingState(api, { draft: { waste: 'debt-already-forgiven', certificate: '' } })), null);
+
+    // (3) certificate
+    const validCert = {
+      kind: 'certificate',
+      source: 'inert-harm-certificate-vault',
+      target: 'mercy-burial-trench',
+      waste: 'apology-never-accepted',
+      certificate: 'unopened-absolution-receipt',
+      feedback: api.FORGIVENESS_CERTIFICATE_TABLE['unopened-absolution-receipt'].feedback
+    };
+    const certState = makePendingState(api, { draft: { waste: 'apology-never-accepted', certificate: '' } });
+    assert.deepStrictEqual(hostV82(api.normalizeForgivenessPending(validCert, certState)), validCert);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validCert, extra: 1 }, certState), null);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validCert, source: 'forgiveness-landfill' }, certState), null);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validCert, target: 'inert-harm-certificate-vault' }, certState), null);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validCert, certificate: undefined }, certState), null);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validCert, feedback: 'bad-fb' }, certState), null);
+    assert.strictEqual(api.normalizeForgivenessPending(validCert, makePendingState(api, { draft: { waste: 'debt-already-forgiven', certificate: '' } })), null);
+
+    // (4) disposal
+    const validDisp = {
+      kind: 'disposal',
+      source: 'mercy-burial-trench',
+      target: 'offering',
+      waste: 'apology-never-accepted',
+      certificate: 'unopened-absolution-receipt',
+      disposal: 'bury-it-beneath-a-future-life',
+      record: V82_EXPECTED_DISP_RECORD,
+      feedback: V82_EXPECTED_DISP_FEEDBACK
+    };
+    const dispState = makePendingState(api, { draft: { waste: 'apology-never-accepted', certificate: 'unopened-absolution-receipt' } });
+    assert.deepStrictEqual(hostV82(api.normalizeForgivenessPending(validDisp, dispState)), validDisp);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validDisp, extra: 1 }, dispState), null);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validDisp, source: 'forgiveness-landfill' }, dispState), null);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validDisp, target: 'liability-ledger' }, dispState), null);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validDisp, record: 'wrong-record' }, dispState), null);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validDisp, feedback: 'bad-fb' }, dispState), null);
+    assert.strictEqual(api.normalizeForgivenessPending(validDisp, makePendingState(api, { draft: { waste: '', certificate: '' } })), null);
+
+    // (5) recorder-return
+    const canonicalRec = {
+      certificate: 'unopened-absolution-receipt',
+      disposal: 'bury-it-beneath-a-future-life',
+      feedback: api.FORGIVENESS_CERTIFICATE_TABLE['unopened-absolution-receipt'].recorderFeedback
+    };
+    const validRecReturn = {
+      kind: 'recorder-return',
+      from: 'offering',
+      target: 'forgiveness-landfill',
+      record: V82_EXPECTED_DISP_RECORD,
+      feedback: canonicalRec.feedback
+    };
+    const recReturnState = makePendingState(api, {
+      disposals: [V82_EXPECTED_DISP_RECORD],
+      activeRecorder: canonicalRec
+    });
+    assert.deepStrictEqual(hostV82(api.normalizeForgivenessPending(validRecReturn, recReturnState)), validRecReturn);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validRecReturn, extra: 1 }, recReturnState), null);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validRecReturn, from: 'liability-ledger' }, recReturnState), null);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validRecReturn, target: 'mercy-burial-trench' }, recReturnState), null);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validRecReturn, feedback: 'bad-fb' }, recReturnState), null);
+    assert.strictEqual(api.normalizeForgivenessPending(validRecReturn, makePendingState(api, { disposals: [], activeRecorder: canonicalRec })), null);
+
+    // (6) well-entry
+    const validWellEntry = {
+      kind: 'well-entry',
+      target: 'harmlessness-final-well',
+      feedback: V82_WELL_ENTRY_FEEDBACK
+    };
+    const wellEntryState = makePendingState(api, { disposals: V82_COMPLETE_DISPOSALS });
+    assert.deepStrictEqual(hostV82(api.normalizeForgivenessPending(validWellEntry, wellEntryState)), validWellEntry);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validWellEntry, extra: 1 }, wellEntryState), null);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validWellEntry, target: 'forgiveness-landfill' }, wellEntryState), null);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validWellEntry, feedback: 'bad-fb' }, wellEntryState), null);
+    assert.strictEqual(api.normalizeForgivenessPending(validWellEntry, makePendingState(api, { disposals: [] })), null);
+
+    // (7) well
+    const validWell = {
+      kind: 'well',
+      source: 'harmlessness-final-well',
+      target: 'remembrance',
+      action: 'seal-every-forgiven-harm-forever',
+      outcome: 'every-forgiven-harm-was-sealed-forever',
+      feedback: api.FORGIVENESS_WELL_TABLE['seal-every-forgiven-harm-forever'].feedback
+    };
+    const wellActionState = makePendingState(api, { disposals: V82_COMPLETE_DISPOSALS, visited: { well: true } });
+    assert.deepStrictEqual(hostV82(api.normalizeForgivenessPending(validWell, wellActionState)), validWell);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validWell, extra: 1 }, wellActionState), null);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validWell, source: 'forgiveness-landfill' }, wellActionState), null);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validWell, target: 'threshold' }, wellActionState), null);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validWell, outcome: 'wrong-outcome' }, wellActionState), null);
+    assert.strictEqual(api.normalizeForgivenessPending({ ...validWell, feedback: 'bad-fb' }, wellActionState), null);
+    assert.strictEqual(api.normalizeForgivenessPending(validWell, makePendingState(api, { disposals: [] })), null);
+
+    // 5. Choose & Arrival Lifecycle
+    // (a) Entry
+    {
+      const btn = createMockElement('forgiveness-landfill-entry-btn');
+      const ctx = makeV82Context({ scene: 'remembrance', elements: { 'forgiveness-landfill-entry-btn': btn } });
+      ctx.api.chooseForgivenessEntry();
+      const mid = ctx.api.getForgivenessLandfill();
+      assert.strictEqual(mid.visited.landfill, false);
+      assert.strictEqual(mid.pending.kind, 'entry');
+      assert.strictEqual(ctx.scheduleCalls.length, 1);
+      assert.strictEqual(ctx.scheduleCalls[0].target, 'forgiveness-landfill');
+      ctx.api.resolveForgivenessPendingOnArrival('forgiveness-landfill');
+      const fin = ctx.api.getForgivenessLandfill();
+      assert.strictEqual(fin.visited.landfill, true);
+      assert.strictEqual(fin.pending, null);
+    }
+
+    // (b) Waste
+    {
+      const btn = createMockElement('forgiveness-waste-apology-never-accepted');
+      const ctx = makeV82Context({
+        scene: 'forgiveness-landfill',
+        elements: { 'forgiveness-waste-apology-never-accepted': btn },
+        initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(makePendingState(api, { visited: { landfill: true } })) }
+      });
+      ctx.api.chooseForgivenessWaste('apology-never-accepted');
+      const mid = ctx.api.getForgivenessLandfill();
+      assert.strictEqual(mid.draft.waste, '');
+      assert.strictEqual(mid.pending.kind, 'waste');
+      ctx.api.resolveForgivenessPendingOnArrival('inert-harm-certificate-vault');
+      const fin = ctx.api.getForgivenessLandfill();
+      assert.strictEqual(fin.draft.waste, 'apology-never-accepted');
+      assert.strictEqual(fin.visited.vault, true);
+      assert.strictEqual(fin.pending, null);
+    }
+
+    // (c) Certificate
+    {
+      const btn = createMockElement('forgiveness-certificate-unopened-absolution-receipt');
+      const ctx = makeV82Context({
+        scene: 'inert-harm-certificate-vault',
+        elements: { 'forgiveness-certificate-unopened-absolution-receipt': btn },
+        initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(makePendingState(api, { visited: { vault: true }, draft: { waste: 'apology-never-accepted', certificate: '' } })) }
+      });
+      ctx.api.chooseForgivenessCertificate('unopened-absolution-receipt');
+      const mid = ctx.api.getForgivenessLandfill();
+      assert.strictEqual(mid.draft.certificate, '');
+      assert.strictEqual(mid.pending.kind, 'certificate');
+      ctx.api.resolveForgivenessPendingOnArrival('mercy-burial-trench');
+      const fin = ctx.api.getForgivenessLandfill();
+      assert.strictEqual(fin.draft.certificate, 'unopened-absolution-receipt');
+      assert.strictEqual(fin.visited.trench, true);
+      assert.strictEqual(fin.pending, null);
+    }
+
+    // (d) Disposal & Repeated Disposal Run
+    {
+      const btn = createMockElement('forgiveness-disposal-bury-it-beneath-a-future-life');
+      const ctx = makeV82Context({
+        scene: 'mercy-burial-trench',
+        elements: { 'forgiveness-disposal-bury-it-beneath-a-future-life': btn },
+        initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(makePendingState(api, { visited: { trench: true }, draft: { waste: 'apology-never-accepted', certificate: 'unopened-absolution-receipt' } })) }
+      });
+      ctx.api.chooseForgivenessDisposal('bury-it-beneath-a-future-life');
+      const mid = ctx.api.getForgivenessLandfill();
+      assert.strictEqual(mid.disposalRuns, 0);
+      assert.strictEqual(mid.disposals.length, 0);
+      assert.strictEqual(mid.pending.kind, 'disposal');
+
+      ctx.api.resolveForgivenessPendingOnArrival('offering');
+      const fin1 = ctx.api.getForgivenessLandfill();
+      assert.strictEqual(fin1.disposalRuns, 1);
+      assert.strictEqual(fin1.wasteTallies.apology, 1);
+      assert.deepStrictEqual(hostV82(fin1.disposals), [V82_EXPECTED_DISP_RECORD]);
+      assert.strictEqual(fin1.lastOutcome, V82_EXPECTED_DISP_RECORD);
+      assert.deepStrictEqual(hostV82(fin1.activeRecorder), {
+        certificate: 'unopened-absolution-receipt',
+        disposal: 'bury-it-beneath-a-future-life',
+        feedback: api.FORGIVENESS_CERTIFICATE_TABLE['unopened-absolution-receipt'].recorderFeedback
+      });
+      assert.deepStrictEqual(hostV82(fin1.draft), { waste: '', certificate: '' });
+      assert.strictEqual(fin1.pending, null);
+
+      // Idempotence on arrival repeat
+      ctx.api.resolveForgivenessPendingOnArrival('offering');
+      assert.strictEqual(ctx.api.getForgivenessLandfill().disposalRuns, 1);
+
+      // Second legal identical disposal after recorder return cleared
+      const secondDispState = makePendingState(api, {
+        visited: { trench: true },
+        draft: { waste: 'apology-never-accepted', certificate: 'unopened-absolution-receipt' },
+        disposals: [V82_EXPECTED_DISP_RECORD],
+        disposalRuns: 1,
+        wasteTallies: { apology: 1, debt: 0, wound: 0 },
+        activeRecorder: null
+      });
+      ctx.api.saveForgivenessLandfill(secondDispState);
+      ctx.api.chooseForgivenessDisposal('bury-it-beneath-a-future-life');
+      ctx.api.resolveForgivenessPendingOnArrival('offering');
+      const fin2 = ctx.api.getForgivenessLandfill();
+      assert.strictEqual(fin2.disposalRuns, 2);
+      assert.strictEqual(fin2.wasteTallies.apology, 2);
+      assert.deepStrictEqual(hostV82(fin2.disposals), [V82_EXPECTED_DISP_RECORD]);
+    }
+
+    // (e) Recorder Return
+    {
+      const btn = createMockElement('forgiveness-recorder-return-offering');
+      const ctx = makeV82Context({
+        scene: 'offering',
+        elements: { 'forgiveness-recorder-return-offering': btn },
+        initialStore: {
+          goddead_v82_forgiveness_landfill: JSON.stringify(makePendingState(api, {
+            disposals: [V82_EXPECTED_DISP_RECORD],
+            activeRecorder: {
+              certificate: 'unopened-absolution-receipt',
+              disposal: 'bury-it-beneath-a-future-life',
+              feedback: api.FORGIVENESS_CERTIFICATE_TABLE['unopened-absolution-receipt'].recorderFeedback
+            }
+          }))
+        }
+      });
+      ctx.api.chooseForgivenessRecorderReturn('offering');
+      const mid = ctx.api.getForgivenessLandfill();
+      assert.ok(mid.activeRecorder !== null);
+      assert.strictEqual(mid.pending.kind, 'recorder-return');
+      ctx.api.resolveForgivenessPendingOnArrival('forgiveness-landfill');
+      const fin = ctx.api.getForgivenessLandfill();
+      assert.strictEqual(fin.activeRecorder, null);
+      assert.strictEqual(fin.visited.landfill, true);
+      assert.strictEqual(fin.pending, null);
+    }
+
+    // (f) Well Entry
+    {
+      const btn = createMockElement('harmlessness-final-well-entry-btn');
+      const ctx = makeV82Context({
+        scene: 'remembrance',
+        elements: { 'harmlessness-final-well-entry-btn': btn },
+        initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(makePendingState(api, { disposals: V82_COMPLETE_DISPOSALS })) }
+      });
+      ctx.api.chooseHarmlessnessWellEntry();
+      const mid = ctx.api.getForgivenessLandfill();
+      assert.strictEqual(mid.visited.well, false);
+      assert.strictEqual(mid.pending.kind, 'well-entry');
+      ctx.api.resolveForgivenessPendingOnArrival('harmlessness-final-well');
+      const fin = ctx.api.getForgivenessLandfill();
+      assert.strictEqual(fin.visited.well, true);
+      assert.strictEqual(fin.pending, null);
+    }
+
+    // (g) Well Actions (all 3, idempotence, duplicate runs, sibling arrival)
+    for (const action of api.FORGIVENESS_WELL_ACTIONS) {
+      const actionInfo = api.FORGIVENESS_WELL_TABLE[action];
+      const btn = createMockElement(`forgiveness-well-${action}`);
+      const ctx = makeV82Context({
+        scene: 'harmlessness-final-well',
+        elements: { [`forgiveness-well-${action}`]: btn },
+        initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(makePendingState(api, { disposals: V82_COMPLETE_DISPOSALS, visited: { well: true } })) }
+      });
+
+      ctx.api.chooseHarmlessnessWellAction(action);
+      const mid = ctx.api.getForgivenessLandfill();
+      assert.strictEqual(mid.wellRuns, 0);
+      assert.strictEqual(mid.wellOutcomes.length, 0);
+      assert.strictEqual(mid.pending.kind, 'well');
+
+      ctx.api.resolveForgivenessPendingOnArrival(actionInfo.target);
+      const fin1 = ctx.api.getForgivenessLandfill();
+      assert.strictEqual(fin1.wellRuns, 1);
+      assert.deepStrictEqual(hostV82(fin1.wellOutcomes), [actionInfo.outcome]);
+      assert.strictEqual(fin1.lastOutcome, actionInfo.outcome);
+      assert.strictEqual(fin1.pending, null);
+
+      // Repeated legal well verdict increments wellRuns but not outcomes list
+      ctx.api.chooseHarmlessnessWellAction(action);
+      ctx.api.resolveForgivenessPendingOnArrival(actionInfo.target);
+      const fin2 = ctx.api.getForgivenessLandfill();
+      assert.strictEqual(fin2.wellRuns, 2);
+      assert.deepStrictEqual(hostV82(fin2.wellOutcomes), [actionInfo.outcome]);
+
+      // Sibling arrival clears pending without settlement
+      ctx.api.chooseHarmlessnessWellAction(action);
+      ctx.api.resolveForgivenessPendingOnArrival('some-unrelated-scene');
+      const fin3 = ctx.api.getForgivenessLandfill();
+      assert.strictEqual(fin3.wellRuns, 2);
+      assert.strictEqual(fin3.pending, null);
+    }
+
+    // 6. Cold Source Replay Matrix
+    const pendingReplayList = [
+      {
+        name: 'entry',
+        logicalSource: 'remembrance',
+        target: 'forgiveness-landfill',
+        state: makePendingState(api, { pending: { kind: 'entry', target: 'forgiveness-landfill', feedback: V82_ENTRY_FEEDBACK } })
+      },
+      {
+        name: 'waste',
+        logicalSource: 'forgiveness-landfill',
+        target: 'inert-harm-certificate-vault',
+        state: makePendingState(api, {
+          pending: {
+            kind: 'waste',
+            source: 'forgiveness-landfill',
+            target: 'inert-harm-certificate-vault',
+            waste: 'apology-never-accepted',
+            feedback: api.FORGIVENESS_WASTE_TABLE['apology-never-accepted'].feedback
+          }
+        })
+      },
+      {
+        name: 'certificate',
+        logicalSource: 'inert-harm-certificate-vault',
+        target: 'mercy-burial-trench',
+        state: makePendingState(api, {
+          draft: { waste: 'apology-never-accepted', certificate: '' },
+          pending: {
+            kind: 'certificate',
+            source: 'inert-harm-certificate-vault',
+            target: 'mercy-burial-trench',
+            waste: 'apology-never-accepted',
+            certificate: 'unopened-absolution-receipt',
+            feedback: api.FORGIVENESS_CERTIFICATE_TABLE['unopened-absolution-receipt'].feedback
+          }
+        })
+      },
+      {
+        name: 'disposal',
+        logicalSource: 'mercy-burial-trench',
+        target: 'offering',
+        state: makePendingState(api, {
+          draft: { waste: 'apology-never-accepted', certificate: 'unopened-absolution-receipt' },
+          pending: {
+            kind: 'disposal',
+            source: 'mercy-burial-trench',
+            target: 'offering',
+            waste: 'apology-never-accepted',
+            certificate: 'unopened-absolution-receipt',
+            disposal: 'bury-it-beneath-a-future-life',
+            record: V82_EXPECTED_DISP_RECORD,
+            feedback: V82_EXPECTED_DISP_FEEDBACK
+          }
+        })
+      },
+      {
+        name: 'recorder-return',
+        logicalSource: 'offering',
+        target: 'forgiveness-landfill',
+        state: makePendingState(api, {
+          disposals: [V82_EXPECTED_DISP_RECORD],
+          activeRecorder: {
+            certificate: 'unopened-absolution-receipt',
+            disposal: 'bury-it-beneath-a-future-life',
+            feedback: api.FORGIVENESS_CERTIFICATE_TABLE['unopened-absolution-receipt'].recorderFeedback
+          },
+          pending: {
+            kind: 'recorder-return',
+            from: 'offering',
+            target: 'forgiveness-landfill',
+            record: V82_EXPECTED_DISP_RECORD,
+            feedback: api.FORGIVENESS_CERTIFICATE_TABLE['unopened-absolution-receipt'].recorderFeedback
+          }
+        })
+      },
+      {
+        name: 'well-entry',
+        logicalSource: 'remembrance',
+        target: 'harmlessness-final-well',
+        state: makePendingState(api, {
+          disposals: V82_COMPLETE_DISPOSALS,
+          pending: { kind: 'well-entry', target: 'harmlessness-final-well', feedback: V82_WELL_ENTRY_FEEDBACK }
+        })
+      },
+      {
+        name: 'well',
+        logicalSource: 'harmlessness-final-well',
+        target: 'remembrance',
+        state: makePendingState(api, {
+          disposals: V82_COMPLETE_DISPOSALS,
+          visited: { well: true },
+          pending: {
+            kind: 'well',
+            source: 'harmlessness-final-well',
+            target: 'remembrance',
+            action: 'seal-every-forgiven-harm-forever',
+            outcome: 'every-forgiven-harm-was-sealed-forever',
+            feedback: api.FORGIVENESS_WELL_TABLE['seal-every-forgiven-harm-forever'].feedback
+          }
+        })
+      }
+    ];
+
+    for (const item of pendingReplayList) {
+      const ctx = makeV82Context({ initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(item.state) } });
+      const normPending = ctx.api.getForgivenessLandfill().pending;
+      assert.strictEqual(ctx.api.getForgivenessPendingLogicalSource(normPending), item.logicalSource);
+
+      ctx.api.resolveForgivenessPendingOnArrival(item.logicalSource);
+      assert.ok(ctx.api.getForgivenessLandfill().pending !== null, `Replay logical source for ${item.name} must retain pending`);
+
+      ctx.api.replayForgivenessPending(item.logicalSource);
+      assert.strictEqual(ctx.scheduleCalls.length, 1, `Replay for ${item.name} must schedule exactly one transition`);
+      assert.strictEqual(ctx.scheduleCalls[0].target, item.target);
+      assert.strictEqual(Object.prototype.hasOwnProperty.call(ctx.scheduleCalls[0].opts || {}, 'before'), false, 'No before callback');
+
+      ctx.api.resolveForgivenessPendingOnArrival(item.target);
+      assert.strictEqual(ctx.api.getForgivenessLandfill().pending, null);
+
+      ctx.scheduleCalls.length = 0;
+      ctx.api.replayForgivenessPending(item.logicalSource);
+      assert.strictEqual(ctx.scheduleCalls.length, 0, 'No schedule after pending resolved');
+    }
+
+    // 7. Bridge & Visit Matrix
+    // Locked false
+    const lockedCtx = makeV82Context({ v81unlocked: false });
+    assert.strictEqual(lockedCtx.api.forgivenessLandfillBridgeAllows('offering'), false);
+    assert.strictEqual(lockedCtx.api.forgivenessLandfillCanVisit(), false);
+    assert.strictEqual(lockedCtx.api.inertHarmCertificateVaultCanVisit(), false);
+    assert.strictEqual(lockedCtx.api.mercyBurialTrenchCanVisit(), false);
+    assert.strictEqual(lockedCtx.api.harmlessnessFinalWellCanVisit(), false);
+
+    // Pre-settlement pending disposal bridges (all 3 mappings)
+    const certTargets = [
+      { cert: 'unopened-absolution-receipt', target: 'offering', siblings: ['liability-ledger', 'causeless-ward'] },
+      { cert: 'zero-balance-debt-scale', target: 'liability-ledger', siblings: ['offering', 'causeless-ward'] },
+      { cert: 'scar-closed-without-witness', target: 'causeless-ward', siblings: ['offering', 'liability-ledger'] },
+    ];
+    for (const { cert, target, siblings } of certTargets) {
+      const waste = 'apology-never-accepted';
+      const disp = 'bury-it-beneath-a-future-life';
+      const record = `${waste}:${cert}:${disp}`;
+      const st = makePendingState(api, {
+        draft: { waste, certificate: cert },
+        pending: {
+          kind: 'disposal',
+          source: 'mercy-burial-trench',
+          target,
+          waste,
+          certificate: cert,
+          disposal: disp,
+          record,
+          feedback: api.computeForgivenessDisposalFeedback(waste, cert, disp)
+        }
+      });
+      const bctx = makeV82Context({ initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(st) } });
+      assert.strictEqual(bctx.api.forgivenessLandfillBridgeAllows(target), true);
+      for (const sib of siblings) {
+        assert.strictEqual(bctx.api.forgivenessLandfillBridgeAllows(sib), false);
+      }
+    }
+
+    // Pre-settlement pending well bridges (all 3 actions)
+    const wellTargets = [
+      { action: 'seal-every-forgiven-harm-forever', target: 'remembrance', siblings: ['threshold', 'unending-gallery'] },
+      { action: 'erase-the-need-for-forgiveness', target: 'threshold', siblings: ['remembrance', 'unending-gallery'] },
+      { action: 'make-harm-survive-its-own-forgiveness', target: 'unending-gallery', siblings: ['remembrance', 'threshold'] },
+    ];
+    for (const { action, target, siblings } of wellTargets) {
+      const actionInfo = api.FORGIVENESS_WELL_TABLE[action];
+      const st = makePendingState(api, {
+        disposals: V82_COMPLETE_DISPOSALS,
+        visited: { well: true },
+        pending: {
+          kind: 'well',
+          source: 'harmlessness-final-well',
+          target,
+          action,
+          outcome: actionInfo.outcome,
+          feedback: actionInfo.feedback
+        }
+      });
+      const bctx = makeV82Context({ initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(st) } });
+      assert.strictEqual(bctx.api.forgivenessLandfillBridgeAllows(target), true);
+      for (const sib of siblings) {
+        assert.strictEqual(bctx.api.forgivenessLandfillBridgeAllows(sib), false);
+      }
+    }
+
+    // Post-settlement ActiveRecorder mappings (all 3)
+    for (const { cert, target, siblings } of certTargets) {
+      const recState = makePendingState(api, {
+        disposals: [`apology-never-accepted:${cert}:bury-it-beneath-a-future-life`],
+        activeRecorder: {
+          certificate: cert,
+          disposal: 'bury-it-beneath-a-future-life',
+          feedback: api.FORGIVENESS_CERTIFICATE_TABLE[cert].recorderFeedback
+        }
+      });
+      const rctx = makeV82Context({ initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(recState) } });
+      assert.strictEqual(rctx.api.forgivenessLandfillBridgeAllows(target), true);
+      for (const sib of siblings) {
+        assert.strictEqual(rctx.api.forgivenessLandfillBridgeAllows(sib), false);
+      }
+    }
+
+    // ActiveRecorder without collected record is rejected
+    const uncollectedRecState = makePendingState(api, {
+      disposals: [],
+      activeRecorder: {
+        certificate: 'unopened-absolution-receipt',
+        disposal: 'bury-it-beneath-a-future-life',
+        feedback: api.FORGIVENESS_CERTIFICATE_TABLE['unopened-absolution-receipt'].recorderFeedback
+      }
+    });
+    assert.strictEqual(makeV82Context({ initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(uncollectedRecState) } }).api.forgivenessLandfillBridgeAllows('offering'), false);
+
+    // Post-settlement Well latest outcome mappings (all 3)
+    for (const { action, target, siblings } of wellTargets) {
+      const outcome = api.FORGIVENESS_WELL_TABLE[action].outcome;
+      const wstate = makePendingState(api, {
+        disposals: V82_COMPLETE_DISPOSALS,
+        wellOutcomes: [outcome],
+        lastOutcome: outcome
+      });
+      const wctx = makeV82Context({ initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(wstate) } });
+      assert.strictEqual(wctx.api.forgivenessLandfillBridgeAllows(target), true);
+      for (const sib of siblings) {
+        assert.strictEqual(wctx.api.forgivenessLandfillBridgeAllows(sib), false);
+      }
+    }
+
+    // Stale older outcome rejected if lastOutcome is different
+    const staleOutcomeState = makePendingState(api, {
+      disposals: V82_COMPLETE_DISPOSALS,
+      wellOutcomes: ['every-forgiven-harm-was-sealed-forever', 'the-need-for-forgiveness-was-erased'],
+      lastOutcome: 'the-need-for-forgiveness-was-erased'
+    });
+    const staleCtx = makeV82Context({ initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(staleOutcomeState) } });
+    assert.strictEqual(staleCtx.api.forgivenessLandfillBridgeAllows('threshold'), true);
+    assert.strictEqual(staleCtx.api.forgivenessLandfillBridgeAllows('remembrance'), false);
+
+    // Forged outcome / lastOutcome uncollected
+    const forgedOutcomeState = makePendingState(api, {
+      disposals: V82_COMPLETE_DISPOSALS,
+      wellOutcomes: [],
+      lastOutcome: 'the-need-for-forgiveness-was-erased'
+    });
+    assert.strictEqual(makeV82Context({ initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(forgedOutcomeState) } }).api.forgivenessLandfillBridgeAllows('threshold'), false);
+
+    // Visit matrix (pending admission vs visited admission vs rejected)
+    // landfill
+    const vLandfillEntry = makeV82Context({ initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(makePendingState(api, { pending: { kind: 'entry', target: 'forgiveness-landfill', feedback: V82_ENTRY_FEEDBACK } })) } });
+    assert.strictEqual(vLandfillEntry.api.forgivenessLandfillCanVisit(), true);
+    const vLandfillRecReturn = makeV82Context({ initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(makePendingState(api, { disposals: [V82_EXPECTED_DISP_RECORD], activeRecorder: canonicalRec, pending: validRecReturn })) } });
+    assert.strictEqual(vLandfillRecReturn.api.forgivenessLandfillCanVisit(), true);
+    const vLandfillVisited = makeV82Context({ initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(makePendingState(api, { visited: { landfill: true } })) } });
+    assert.strictEqual(vLandfillVisited.api.forgivenessLandfillCanVisit(), true);
+    const vLandfillBadPending = makeV82Context({ initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(makePendingState(api, { pending: validWaste })) } });
+    assert.strictEqual(vLandfillBadPending.api.forgivenessLandfillCanVisit(), false);
+
+    // vault
+    const vVaultPending = makeV82Context({ initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(makePendingState(api, { pending: validWaste })) } });
+    assert.strictEqual(vVaultPending.api.inertHarmCertificateVaultCanVisit(), true);
+    const vVaultVisited = makeV82Context({ initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(makePendingState(api, { visited: { vault: true }, draft: { waste: 'apology-never-accepted', certificate: '' } })) } });
+    assert.strictEqual(vVaultVisited.api.inertHarmCertificateVaultCanVisit(), true);
+    const vVaultVisitedNoDraft = makeV82Context({ initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(makePendingState(api, { visited: { vault: true }, draft: { waste: '', certificate: '' } })) } });
+    assert.strictEqual(vVaultVisitedNoDraft.api.inertHarmCertificateVaultCanVisit(), false);
+
+    // trench
+    const vTrenchPending = makeV82Context({ initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(makePendingState(api, { draft: { waste: 'apology-never-accepted', certificate: '' }, pending: validCert })) } });
+    assert.strictEqual(vTrenchPending.api.mercyBurialTrenchCanVisit(), true);
+    const vTrenchVisited = makeV82Context({ initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(makePendingState(api, { visited: { trench: true }, draft: { waste: 'apology-never-accepted', certificate: 'unopened-absolution-receipt' } })) } });
+    assert.strictEqual(vTrenchVisited.api.mercyBurialTrenchCanVisit(), true);
+    const vTrenchVisitedIncompleteDraft = makeV82Context({ initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(makePendingState(api, { visited: { trench: true }, draft: { waste: 'apology-never-accepted', certificate: '' } })) } });
+    assert.strictEqual(vTrenchVisitedIncompleteDraft.api.mercyBurialTrenchCanVisit(), false);
+
+    // well
+    const vWellPending = makeV82Context({ initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(makePendingState(api, { disposals: V82_COMPLETE_DISPOSALS, pending: validWellEntry })) } });
+    assert.strictEqual(vWellPending.api.harmlessnessFinalWellCanVisit(), true);
+    const vWellVisited = makeV82Context({ initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(makePendingState(api, { disposals: V82_COMPLETE_DISPOSALS, visited: { well: true } })) } });
+    assert.strictEqual(vWellVisited.api.harmlessnessFinalWellCanVisit(), true);
+    const vWellVisitedNoCoverage = makeV82Context({ initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(makePendingState(api, { disposals: [], visited: { well: true } })) } });
+    assert.strictEqual(vWellVisitedNoCoverage.api.harmlessnessFinalWellCanVisit(), false);
+
+    // 8. Static Module, Listener, and DOM Verification
+    const scheduleMatches = v82ModuleBlock.match(/AutoAdvance\.schedule\(/g) || [];
+    assert.strictEqual(scheduleMatches.length, 8, "Module must have exactly 8 textual AutoAdvance.schedule call sites");
+
+    const listenerRegex = /\.addEventListener\('click',\s*\(e\)\s*=>\s*\{([\s\S]*?)\n\s*\}\);/g;
+    const listenerMatches = [...v82ModuleBlock.matchAll(listenerRegex)];
+    assert.strictEqual(listenerMatches.length, 18, "Module must register exactly 18 click listeners");
+
+    for (const match of listenerMatches) {
+      const body = match[1].trim();
+      assert.ok(body.startsWith('if (!e.isTrusted) return;'), 'Each click handler must guard against untrusted events first');
+    }
+
+    const exactDomIds = [
+      'forgiveness-landfill-entry-btn',
+      'harmlessness-final-well-entry-btn',
+      'forgiveness-waste-apology-never-accepted',
+      'forgiveness-waste-debt-already-forgiven',
+      'forgiveness-waste-wound-that-stopped-demanding',
+      'forgiveness-certificate-unopened-absolution-receipt',
+      'forgiveness-certificate-zero-balance-debt-scale',
+      'forgiveness-certificate-scar-closed-without-witness',
+      'forgiveness-disposal-bury-it-beneath-a-future-life',
+      'forgiveness-disposal-let-the-soil-forget-the-cause',
+      'forgiveness-disposal-grow-innocence-from-old-harm',
+      'forgiveness-disposal-exhume-it-for-permanent-record',
+      'forgiveness-recorder-return-offering',
+      'forgiveness-recorder-return-liability-ledger',
+      'forgiveness-recorder-return-causeless-ward',
+      'forgiveness-well-seal-every-forgiven-harm-forever',
+      'forgiveness-well-erase-the-need-for-forgiveness',
+      'forgiveness-well-make-harm-survive-its-own-forgiveness'
+    ];
+
+    for (const domId of exactDomIds) {
+      assert.ok(html.includes(`id="${domId}"`), `HTML must contain element id="${domId}"`);
+      assert.ok(v82ModuleBlock.includes(`'#${domId}'`) || v82ModuleBlock.includes(`"#${domId}"`), `Module must reference selector #${domId}`);
+    }
+
+    // Untrusted click dispatch test on attached element
+    const mockWasteBtn = createMockElement('forgiveness-waste-apology-never-accepted');
+    const elementsWithWaste = { 'forgiveness-waste-apology-never-accepted': mockWasteBtn };
+    const untrustedCtx = makeV82Context({
+      scene: 'forgiveness-landfill',
+      elements: elementsWithWaste,
+      initialStore: { goddead_v82_forgiveness_landfill: JSON.stringify(makePendingState(api, { visited: { landfill: true } })) }
+    });
+
+    assert.ok(mockWasteBtn._listeners['click'] && mockWasteBtn._listeners['click'].length > 0, "Listener must attach to the button");
+    const storeSnapBefore = { ...untrustedCtx.storeData };
+    const schedSnapBefore = [...untrustedCtx.scheduleCalls];
+
+    mockWasteBtn._dispatch('click', { isTrusted: false });
+    assert.deepStrictEqual(untrustedCtx.storeData, storeSnapBefore, "Untrusted click must not mutate store");
+    assert.deepStrictEqual(untrustedCtx.scheduleCalls, schedSnapBefore, "Untrusted click must not schedule transition");
+    assert.strictEqual(untrustedCtx.api.getForgivenessLandfill().pending, null);
+
+    const requiredUIRoutines = [
+      'syncForgivenessLandfill',
+      'syncInertHarmCertificateVault',
+      'syncMercyBurialTrench',
+      'syncHarmlessnessFinalWell',
+      'syncForgivenessRecorders',
+      'paintForgivenessLandfillMemory',
+      'paintForgivenessLandfillCodex',
+      'syncForgivenessLandfillRemembrance',
+      'syncForgivenessLandfillLinks',
+      'replayForgivenessPending'
+    ];
+    for (const routine of requiredUIRoutines) {
+      assert.ok(
+        v82ModuleBlock.includes(`function ${routine}`) || v82ModuleBlock.includes(`const ${routine} =`),
+        `Module must declare UI sync routine: ${routine}`
+      );
+    }
+  }
+
+{
+  const sceneInitStart = js.indexOf("const sceneInit = (name) => {");
+  assert.ok(sceneInitStart !== -1, "sceneInit definition found");
+  const sceneInitEnd = js.indexOf("/* 分层进度守卫", sceneInitStart);
+  assert.ok(sceneInitEnd !== -1, "sceneInit end marker found");
+  const sceneInitSlice = js.slice(sceneInitStart, sceneInitEnd);
+
+  const v81ReplayPos = sceneInitSlice.indexOf("replayRegretReclamationPending(name);");
+  assert.ok(v81ReplayPos !== -1, "v81 replay call found in sceneInit");
+  const hudPos = sceneInitSlice.indexOf("updateHudDisplay();", v81ReplayPos);
+  assert.ok(hudPos !== -1, "updateHudDisplay found in sceneInit after v81");
+
+  const sceneInitCalls = [
+    "resolveForgivenessPendingOnArrival(name);",
+    "syncForgivenessLandfill();",
+    "syncInertHarmCertificateVault();",
+    "syncMercyBurialTrench();",
+    "syncHarmlessnessFinalWell();",
+    "syncForgivenessRecorders();",
+    "paintForgivenessLandfillMemory();",
+    "paintForgivenessLandfillCodex();",
+    "syncForgivenessLandfillRemembrance();",
+    "syncForgivenessLandfillLinks();",
+    "replayForgivenessPending(name);"
+  ];
+
+  let lastInitPos = v81ReplayPos;
+  for (const call of sceneInitCalls) {
+    const firstIdx = sceneInitSlice.indexOf(call);
+    const lastIdx = sceneInitSlice.lastIndexOf(call);
+    assert.ok(firstIdx !== -1, `sceneInit contains ${call}`);
+    assert.strictEqual(firstIdx, lastIdx, `sceneInit contains ${call} exactly once`);
+    assert.ok(firstIdx > lastInitPos, `${call} appears in strict order after previous call`);
+    lastInitPos = firstIdx;
+  }
+  assert.ok(lastInitPos < hudPos, "all v82 sceneInit calls appear before updateHudDisplay()");
+
+  const bootstrapMarker = "/* ---------- 初始化 ---------- */";
+  const bootstrapStart = js.lastIndexOf(bootstrapMarker);
+  assert.ok(bootstrapStart !== -1, "Bootstrap block found");
+  const routePos = js.indexOf("route();", bootstrapStart);
+  assert.ok(routePos !== -1, "Bootstrap route() call found");
+  const bootstrapSlice = js.slice(bootstrapStart, routePos + "route();".length);
+
+  const v81BootAnchor = "syncRegretReclamationLinks();";
+  const v81BootPos = bootstrapSlice.indexOf(v81BootAnchor);
+  assert.ok(v81BootPos !== -1, "v81 bootstrap anchor found");
+  const revealThresholdPos = bootstrapSlice.indexOf("revealScene(scenes.threshold);", v81BootPos);
+  assert.ok(revealThresholdPos !== -1, "revealScene(scenes.threshold) found after v81 bootstrap anchor");
+
+  const bootstrapCalls = [
+    "syncForgivenessLandfill();",
+    "syncInertHarmCertificateVault();",
+    "syncMercyBurialTrench();",
+    "syncHarmlessnessFinalWell();",
+    "syncForgivenessRecorders();",
+    "paintForgivenessLandfillMemory();",
+    "paintForgivenessLandfillCodex();",
+    "syncForgivenessLandfillRemembrance();",
+    "syncForgivenessLandfillLinks();"
+  ];
+
+  let lastBootPos = v81BootPos;
+  for (const call of bootstrapCalls) {
+    const firstIdx = bootstrapSlice.indexOf(call);
+    const lastIdx = bootstrapSlice.lastIndexOf(call);
+    assert.ok(firstIdx !== -1, `bootstrap contains ${call}`);
+    assert.strictEqual(firstIdx, lastIdx, `bootstrap contains ${call} exactly once`);
+    assert.ok(firstIdx > lastBootPos, `bootstrap call ${call} in strict order after previous call`);
+    lastBootPos = firstIdx;
+  }
+  assert.ok(lastBootPos < revealThresholdPos, "all v82 bootstrap calls appear before revealScene(scenes.threshold)");
+  assert.ok(revealThresholdPos < bootstrapSlice.indexOf("route();", revealThresholdPos), "revealScene precedes route()");
+
+  const resolveSceneStart = js.indexOf("const resolveScene = (name) => {");
+  assert.ok(resolveSceneStart !== -1, "resolveScene definition found");
+  const resolveSceneEnd = js.indexOf("/* 可靠聚焦", resolveSceneStart);
+  assert.ok(resolveSceneEnd !== -1, "resolveScene end marker found");
+  const resolveSceneSlice = js.slice(resolveSceneStart, resolveSceneEnd);
+
+  const v81GuardAnchor = 'if (target === "regret-reclamation-plant" && !regretReclamationCanVisitPlant()) target = "remembrance";';
+  const v81GuardPos = resolveSceneSlice.indexOf(v81GuardAnchor);
+  assert.ok(v81GuardPos !== -1, "v81 direct guard anchor found in resolveScene");
+
+  const addressSyncPos = resolveSceneSlice.indexOf('if (target !== name && location.hash === "#" + name)');
+  assert.ok(addressSyncPos !== -1, "address sync logic found in resolveScene");
+
+  const directGuards = [
+    'if (target === "forgiveness-landfill" && !forgivenessLandfillCanVisit() && !unhappenedEventAuctionBridgeAllows("forgiveness-landfill")) target = "remembrance";',
+    'if (target === "inert-harm-certificate-vault" && !inertHarmCertificateVaultCanVisit()) target = "remembrance";',
+    'if (target === "mercy-burial-trench" && !mercyBurialTrenchCanVisit()) target = "remembrance";',
+    'if (target === "harmlessness-final-well" && !harmlessnessFinalWellCanVisit()) target = "remembrance";'
+  ];
+
+  let lastGuardPos = v81GuardPos;
+  for (const guard of directGuards) {
+    const guardIdx = resolveSceneSlice.indexOf(guard);
+    assert.ok(guardIdx !== -1, `resolveScene contains direct guard: ${guard}`);
+    assert.ok(guardIdx > lastGuardPos, `direct guard appears in order: ${guard}`);
+    lastGuardPos = guardIdx;
+  }
+  assert.ok(lastGuardPos < addressSyncPos, "direct guards appear before address bar synchronization");
+
+  assert.ok(
+    /if\s*\(\s*target\s*===\s*["']offering["']\s*&&\s*!regretReclamationBridgeAllows\(["']offering["']\)\s*&&\s*!forgivenessLandfillBridgeAllows\(["']offering["']\)\s*&&\s*!\s*\(\s*watchUnlocked\(\)\s*&&\s*line4Unlocked\(\)\s*&&\s*getLine4\(\)\.connected\s*&&\s*getDL\(\)\.accepted\s*&&\s*getCancel\(\)\.refused\s*&&\s*getActing\(\)\.appointed\s*\)\s*\)\s*target\s*=\s*["']acting["'];/.test(resolveSceneSlice),
+    "offering guard preserves prerequisites and appends !forgivenessLandfillBridgeAllows(\"offering\")"
+  );
+
+  assert.ok(
+    /if\s*\(\s*LEDGER_SCENES\.includes\(target\)\s*&&\s*!forgivenessLandfillBridgeAllows\(target\)\s*&&\s*!harmArchaeologyBridgeAllows\(target\)\s*&&\s*ledgerGuard\.pendingTarget\s*!==\s*target\s*&&\s*!ledgerGuard\.visits\[LEDGER_SCENE_KEY\[target\]\]\s*\)\s*target\s*=\s*["']unnumbered-floor["'];/.test(resolveSceneSlice),
+    "LEDGER_SCENES guard preserves pending/visited logic and appends !harmArchaeologyBridgeAllows(target)"
+  );
+
+  assert.ok(
+    /if\s*\(\s*\(target\s*===\s*["']reliquary["']\s*\|\|\s*target\s*===\s*["']remembrance["']\)\s*&&[\s\S]*?!regretReclamationBridgeAllows\(target\)\s*&&\s*!forgivenessLandfillBridgeAllows\(target\)\s*&&\s*!harmArchaeologyBridgeAllows\(target\)\s*&&\s*!innocentWitnessProtectionBridgeAllows\(target\)\s*&&\s*!orphanedFactBridgeAllows\(target\)\s*&&\s*!existenceRenunciationBridgeAllows\(target\)\s*&&\s*!nonexistenceDebtCollectionBridgeAllows\(target\)\s*&&\s*!unhappenedEventAuctionBridgeAllows\(target\)\s*&&\s*!accomplishedFactEvictionBridgeAllows\(target\)\s*&&\s*!causelessConsequenceRefugeeBridgeAllows\(target\)\s*&&\s*!gov\.rulings\.acting\s*\)\s*\{\s*target\s*=\s*["']acting["'];\s*\}/.test(resolveSceneSlice),
+    "Governance acting guard preserves prior checks and appends !accomplishedFactEvictionBridgeAllows(target) and v90 !causelessConsequenceRefugeeBridgeAllows(target)"
+  );
+
+  assert.ok(
+    /else\s+if\s*\(\s*\(target\s*===\s*["']reliquary["']\s*\|\|\s*target\s*===\s*["']remembrance["']\)\s*&&[\s\S]*?!regretReclamationBridgeAllows\(target\)\s*&&\s*!forgivenessLandfillBridgeAllows\(target\)\s*&&\s*!harmArchaeologyBridgeAllows\(target\)\s*&&\s*!innocentWitnessProtectionBridgeAllows\(target\)\s*&&\s*!orphanedFactBridgeAllows\(target\)\s*&&\s*!existenceRenunciationBridgeAllows\(target\)\s*&&\s*!nonexistenceDebtCollectionBridgeAllows\(target\)\s*&&\s*!unhappenedEventAuctionBridgeAllows\(target\)\s*&&\s*!accomplishedFactEvictionBridgeAllows\(target\)\s*&&\s*!causelessConsequenceRefugeeBridgeAllows\(target\)\s*&&\s*!gov\.rulings\.offering\s*\)\s*\{\s*target\s*=\s*["']offering["'];\s*\}/.test(resolveSceneSlice),
+    "Governance offering guard preserves prior checks and appends !accomplishedFactEvictionBridgeAllows(target) and v90 !causelessConsequenceRefugeeBridgeAllows(target)"
+  );
+
+  assert.ok(
+    /if\s*\(\s*target\s*===\s*["']unending-gallery["']\s*&&[\s\S]*?!regretReclamationBridgeAllows\(["']unending-gallery["']\)\s*&&\s*!forgivenessLandfillBridgeAllows\(["']unending-gallery["']\)\s*&&\s*!harmArchaeologyBridgeAllows\(["']unending-gallery["']\)[\s\S]*?endingReturnCanVisitGallery\(\)/.test(resolveSceneSlice),
+    "unending-gallery guard preserves prior checks and appends !harmArchaeologyBridgeAllows('unending-gallery')"
+  );
+
+  assert.ok(
+    /if\s*\(\s*target\s*===\s*["']causeless-ward["']\s*&&\s*!forgivenessLandfillBridgeAllows\(["']causeless-ward["']\)\s*&&\s*!harmArchaeologyBridgeAllows\(["']causeless-ward["']\)\s*&&\s*!causalScarCanVisitRoom\(\)\s*\)\s*\{\s*target\s*=\s*["']remembrance["'];\s*\}/.test(resolveSceneSlice),
+    "causeless-ward guard preserves causalScarCanVisitRoom() and appends !harmArchaeologyBridgeAllows(\"causeless-ward\")"
+  );
+
+  assert.ok(resolveSceneSlice.includes('forgivenessLandfillBridgeAllows("offering")'), "bridge covers offering");
+  assert.ok(resolveSceneSlice.includes('forgivenessLandfillBridgeAllows(target)'), "bridge covers target (ledger/remembrance)");
+  assert.ok(resolveSceneSlice.includes('forgivenessLandfillBridgeAllows("causeless-ward")'), "bridge covers causeless-ward");
+  assert.ok(resolveSceneSlice.includes("forgivenessLandfillBridgeAllows('unending-gallery')"), "bridge covers unending-gallery");
+
+  const forgetStart = js.indexOf("if (forgetActionBtn) {");
+  assert.ok(forgetStart !== -1, "forgetActionBtn block found");
+  const forgetEnd = js.indexOf("/* ---------- 初始化 ---------- */", forgetStart);
+  assert.ok(forgetEnd !== -1, "forget block end marker found");
+  const forgetSlice = js.slice(forgetStart, forgetEnd);
+
+  const v81CleanupAnchor = 'localStorage.removeItem("goddead_v81_regret_reclamation");';
+  const v81CleanupPos = forgetSlice.indexOf(v81CleanupAnchor);
+  assert.ok(v81CleanupPos !== -1, "v81 storage removal found in forget block");
+  const v82ForgetSlice = forgetSlice.slice(v81CleanupPos);
+
+  assert.ok(
+    /localStorage\.removeItem\(["']goddead_v82_forgiveness_landfill["']\);/.test(v82ForgetSlice),
+    "v82 storage removal found in forget block"
+  );
+
+  const autoAdvanceScenes = [
+    "forgiveness-landfill",
+    "inert-harm-certificate-vault",
+    "mercy-burial-trench",
+    "harmlessness-final-well"
+  ];
+  for (const scene of autoAdvanceScenes) {
+    assert.ok(
+      new RegExp(`AutoAdvance\\.clear\\(["']${scene}["']\\);`).test(v82ForgetSlice),
+      `AutoAdvance cleared for ${scene}`
+    );
+  }
+
+  const hiddenIds = [
+    "forgiveness-landfill-memory",
+    "forgiveness-landfill-codex",
+    "forgiveness-landfill-codex-entry",
+    "forgiveness-landfill-entry-btn",
+    "harmlessness-final-well-entry-btn",
+    "forgiveness-landfill-link",
+    "inert-harm-certificate-vault-link",
+    "mercy-burial-trench-link",
+    "harmlessness-final-well-link",
+    "forgiveness-recorder-offering",
+    "forgiveness-recorder-liability-ledger",
+    "forgiveness-recorder-causeless-ward"
+  ];
+  for (const id of hiddenIds) {
+    assert.ok(
+      new RegExp(`\\$\\([\"']#${id}[\"']\\)[\\s\\S]*?\\.hidden\\s*=\\s*true`).test(v82ForgetSlice),
+      `forget reset hides #${id}`
+    );
+  }
+
+  const textClearIds = [
+    "forgiveness-landfill-entry-response",
+    "harmlessness-final-well-entry-response",
+    "forgiveness-landfill-response",
+    "inert-harm-certificate-vault-response",
+    "mercy-burial-trench-response",
+    "harmlessness-final-well-response",
+    "forgiveness-recorder-response-offering",
+    "forgiveness-recorder-response-liability-ledger",
+    "forgiveness-recorder-response-causeless-ward"
+  ];
+  for (const id of textClearIds) {
+    assert.ok(
+      new RegExp(`\\$\\([\"']#${id}[\"']\\)[\\s\\S]*?\\.textContent\\s*=\\s*["']["']`).test(v82ForgetSlice),
+      `forget reset clears text content of #${id}`
+    );
+  }
+
+  const actionButtonIds = [
+    "forgiveness-landfill-entry-btn",
+    "harmlessness-final-well-entry-btn",
+    "forgiveness-waste-apology-never-accepted",
+    "forgiveness-waste-debt-already-forgiven",
+    "forgiveness-waste-wound-that-stopped-demanding",
+    "forgiveness-certificate-unopened-absolution-receipt",
+    "forgiveness-certificate-zero-balance-debt-scale",
+    "forgiveness-certificate-scar-closed-without-witness",
+    "forgiveness-disposal-bury-it-beneath-a-future-life",
+    "forgiveness-disposal-let-the-soil-forget-the-cause",
+    "forgiveness-disposal-grow-innocence-from-old-harm",
+    "forgiveness-disposal-exhume-it-for-permanent-record",
+    "forgiveness-recorder-return-offering",
+    "forgiveness-recorder-return-liability-ledger",
+    "forgiveness-recorder-return-causeless-ward",
+    "forgiveness-well-seal-every-forgiven-harm-forever",
+    "forgiveness-well-erase-the-need-for-forgiveness",
+    "forgiveness-well-make-harm-survive-its-own-forgiveness"
+  ];
+  for (const id of actionButtonIds) {
+    assert.ok(
+      new RegExp(`\\$\\([\"']#${id}[\"']\\)[\\s\\S]*?\\.disabled\\s*=\\s*false`).test(v82ForgetSlice),
+      `forget reset re-enables #${id}`
+    );
+    assert.ok(
+      new RegExp(`\\$\\([\"']#${id}[\"']\\)[\\s\\S]*?\\.removeAttribute\\([\"']aria-pressed[\"']\\)`).test(v82ForgetSlice),
+      `forget reset removes aria-pressed on #${id}`
+    );
+  }
+
+  let lastForgetSyncPos = 0;
+  for (const call of bootstrapCalls) {
+    const firstIdx = v82ForgetSlice.indexOf(call);
+    const lastIdx = v82ForgetSlice.lastIndexOf(call);
+    assert.ok(firstIdx !== -1, `forget reset contains UI call: ${call}`);
+    assert.strictEqual(firstIdx, lastIdx, `forget reset contains UI call exactly once: ${call}`);
+    assert.ok(firstIdx > lastForgetSyncPos, `forget reset UI call ${call} in strict order`);
+    lastForgetSyncPos = firstIdx;
+  }
+}
+
+{
+  const v82CodexFnStart = js.indexOf('function paintForgivenessLandfillCodex()');
+  const v82CodexFnEnd = js.indexOf('\n  }\n\n  function syncForgivenessLandfillRemembrance()', v82CodexFnStart);
+  assert.ok(v82CodexFnStart !== -1 && v82CodexFnEnd !== -1, 'v82 codex painter boundary exists');
+  const v82CodexFnSrc = js.slice(v82CodexFnStart, v82CodexFnEnd);
+
+  assert.ok(v82CodexFnSrc.includes("$('#forgiveness-landfill-codex')"), 'v82 codex painter selects the shell');
+  assert.ok(v82CodexFnSrc.includes("$('#forgiveness-landfill-codex-grid')"), 'v82 codex painter selects the grid');
+  assert.ok(v82CodexFnSrc.includes('if (!codex || !grid) return;'), 'v82 codex painter guards shell and grid');
+  assert.strictEqual(v82CodexFnSrc.split("codex.textContent = '';").length - 1, 0, 'v82 codex painter never clears the shell');
+  assert.strictEqual(v82CodexFnSrc.split("grid.textContent = '';").length - 1, 1, 'v82 codex painter clears the grid exactly once');
+  assert.strictEqual(v82CodexFnSrc.split('codex.appendChild(cell);').length - 1, 0, 'v82 codex painter never appends cells to the shell');
+  assert.strictEqual(v82CodexFnSrc.split('grid.appendChild(cell);').length - 1, 2, 'v82 codex painter appends both cell families to the grid');
+
+  const v82CodexRequiredIds = [
+    'forgiveness-landfill-codex',
+    'forgiveness-landfill-codex-grid',
+    'forgiveness-landfill-codex-entry',
+    'forgiveness-landfill-entry-btn',
+    'harmlessness-final-well-entry-btn',
+    'forgiveness-landfill-entry-response',
+    'harmlessness-final-well-entry-response'
+  ];
+  for (const id of v82CodexRequiredIds) {
+    assert.ok(html.includes(`id="${id}"`), `v82 codex shell markup retains #${id}`);
+  }
+}
+
+{
+  const v82EntrySyncStart = js.indexOf('function syncForgivenessLandfillRemembrance()');
+  const v82EntrySyncEnd = js.indexOf('\n  }\n\n  function syncForgivenessLandfillLinks()', v82EntrySyncStart);
+  assert.ok(v82EntrySyncStart !== -1 && v82EntrySyncEnd !== -1, 'v82 remembrance entry sync boundary exists');
+  const v82EntrySyncSrc = js.slice(v82EntrySyncStart, v82EntrySyncEnd);
+
+  assert.ok(v82EntrySyncSrc.includes("const entryShell = $('#forgiveness-landfill-codex-entry');"), 'v82 remembrance sync selects the entry shell');
+  assert.ok(v82EntrySyncSrc.includes('if (entryShell) entryShell.hidden = true;'), 'v82 remembrance sync hides the entry shell while locked');
+  assert.ok(v82EntrySyncSrc.includes('entryShell.hidden = false;'), 'v82 remembrance sync unhides the entry shell when unlocked');
+  assert.ok(v82EntrySyncSrc.includes("entryShell.removeAttribute('hidden');"), 'v82 remembrance sync removes the shell hidden attribute when unlocked');
+  assert.ok(html.includes('id="forgiveness-landfill-codex-entry"'), 'v82 entry shell remains in markup');
+  assert.ok(html.includes('id="forgiveness-landfill-entry-btn"'), 'v82 ordinary entry button remains in markup');
+  assert.ok(html.includes('id="harmlessness-final-well-entry-btn"'), 'v82 well entry button remains in markup');
+}
+
+{
+  const v82RecorderSyncStart = js.indexOf('function syncForgivenessRecorders()');
+  const v82RecorderSyncEnd = js.indexOf('\n  }\n\n  function paintForgivenessLandfillMemory()', v82RecorderSyncStart);
+  assert.ok(v82RecorderSyncStart !== -1 && v82RecorderSyncEnd !== -1, 'v82 recorder sync boundary exists');
+  const v82RecorderSyncSrc = js.slice(v82RecorderSyncStart, v82RecorderSyncEnd);
+  assert.ok(v82RecorderSyncSrc.includes('cont.hidden = !shouldShow;'), 'v82 recorder sync toggles the container');
+  assert.ok(v82RecorderSyncSrc.includes("if (shouldShow) cont.removeAttribute('hidden');"), 'v82 recorder sync removes container hidden when active');
+  assert.ok(v82RecorderSyncSrc.includes('resp.textContent = st.activeRecorder.feedback;'), 'v82 recorder sync restores canonical recorder feedback');
+  assert.ok(v82RecorderSyncSrc.includes('resp.hidden = false;'), 'v82 recorder sync unhides the response when active');
+  assert.ok(v82RecorderSyncSrc.includes("resp.removeAttribute('hidden');"), 'v82 recorder sync removes response hidden when active');
+  assert.ok(v82RecorderSyncSrc.includes('btn.hidden = !shouldShow;'), 'v82 recorder sync toggles the return button');
+  assert.ok(v82RecorderSyncSrc.includes("if (shouldShow) btn.removeAttribute('hidden');"), 'v82 recorder sync removes button hidden when active');
+  assert.ok(v82RecorderSyncSrc.includes('btn.disabled = !shouldShow || !!st.pending;'), 'v82 recorder sync preserves pending disable contract');
+  assert.ok(v82RecorderSyncSrc.includes("st.pending.kind === 'recorder-return' && st.pending.from === scene"), 'v82 recorder sync preserves exact pressed contract');
+  assert.ok(html.includes('id="forgiveness-recorder-offering"'), 'v82 offering recorder container remains in markup');
+  assert.ok(html.includes('id="forgiveness-recorder-response-offering"'), 'v82 offering recorder response remains in markup');
+  assert.ok(html.includes('id="forgiveness-recorder-return-offering"'), 'v82 offering recorder button remains in markup');
+  assert.ok(html.includes('id="forgiveness-recorder-liability-ledger"'), 'v82 ledger recorder container remains in markup');
+  assert.ok(html.includes('id="forgiveness-recorder-response-liability-ledger"'), 'v82 ledger recorder response remains in markup');
+  assert.ok(html.includes('id="forgiveness-recorder-return-liability-ledger"'), 'v82 ledger recorder button remains in markup');
+  assert.ok(html.includes('id="forgiveness-recorder-causeless-ward"'), 'v82 ward recorder container remains in markup');
+  assert.ok(html.includes('id="forgiveness-recorder-response-causeless-ward"'), 'v82 ward recorder response remains in markup');
+  assert.ok(html.includes('id="forgiveness-recorder-return-causeless-ward"'), 'v82 ward recorder button remains in markup');
+}
+
+// v82 static asset freeze and static markup verification
+const V82_ASSET_FREEZE = [
+  {
+    path: "design-references/source-v82-forgiveness-landfill.png",
+    sha256: "e28c1a3ffff9668597e55f415ee3c6e3148f3d2bccbd6212e41a9ca96d102d99",
+    type: "png"
+  },
+  {
+    path: "design-references/source-v82-inert-harm-certificate-vault.png",
+    sha256: "eacc34edbac8cdde1a334e986732c8ac2d1ed216db6b3698aa42ea641638d3c8",
+    type: "png"
+  },
+  {
+    path: "design-references/source-v82-mercy-burial-trench.png",
+    sha256: "6c038d1e5e9bc4e2609801ec28be7cbb84064f8120d45ccd5aaa4d007d9cd750",
+    type: "png"
+  },
+  {
+    path: "design-references/source-v82-harmlessness-final-well.png",
+    sha256: "327309717c6de8a759b88bcd3ffc24d92467bb6709426ada11d959dc5466a145",
+    type: "png"
+  },
+  {
+    path: "assets/v82-forgiveness-landfill.webp",
+    sha256: "102ecfa75c03b9b7cb212b2a0db393846e0b448ed8a8fada7716faf1330dc3ad",
+    type: "webp"
+  },
+  {
+    path: "assets/v82-inert-harm-certificate-vault.webp",
+    sha256: "165521f4e35fea7339d69aa41f93c905873197bbc0d23cd45c20f27bb3fe0f81",
+    type: "webp"
+  },
+  {
+    path: "assets/v82-mercy-burial-trench.webp",
+    sha256: "253c326a5f4052f82ecbe6b0aba9fda77ae9cd2df40c98fb7ffe4004d8c06533",
+    type: "webp"
+  },
+  {
+    path: "assets/v82-harmlessness-final-well.webp",
+    sha256: "0195bebccfcd4ba41ae247db4bbe8c3dc0aeb691318af6088c812e693a87b24a",
+    type: "webp"
+  }
+];
+
+for (const asset of V82_ASSET_FREEZE) {
+  const buf = await readFile(new URL(asset.path, root));
+  const actualHash = createHash("sha256").update(buf).digest("hex");
+  assert.equal(actualHash, asset.sha256, `${asset.path} sha256 mismatch`);
+  const dims = asset.type === "png" ? readPngDimensions(buf) : readWebpDimensions(buf);
+  assert.equal(dims.width, 1536, `${asset.path} width must be 1536`);
+  assert.equal(dims.height, 1024, `${asset.path} height must be 1024`);
+}
+
+const V82_SCENES = [
+  {
+    id: "forgiveness-landfill",
+    title: "宽恕填埋场",
+    webp: "assets/v82-forgiveness-landfill.webp"
+  },
+  {
+    id: "inert-harm-certificate-vault",
+    title: "惰性伤害凭证库",
+    webp: "assets/v82-inert-harm-certificate-vault.webp"
+  },
+  {
+    id: "mercy-burial-trench",
+    title: "慈悲处置沟",
+    webp: "assets/v82-mercy-burial-trench.webp"
+  },
+  {
+    id: "harmlessness-final-well",
+    title: "无害化终审井",
+    webp: "assets/v82-harmlessness-final-well.webp"
+  }
+];
+
+for (const scene of V82_SCENES) {
+  assert.match(
+    html,
+    new RegExp(`<link\\s+rel="preload"\\s+as="image"\\s+type="image/webp"\\s+href="${scene.webp}">`),
+    `must preload ${scene.webp}`
+  );
+  assert.match(
+    html,
+    new RegExp(`data-scene="${scene.id}"`),
+    `must have data-scene="${scene.id}"`
+  );
+  assert.match(
+    html,
+    new RegExp(`data-title="Goddead — ${scene.title}"`),
+    `must have data-title="Goddead — ${scene.title}"`
+  );
+}
+
+const V82_ACTIONS = [
+  "forgiveness-waste-apology-never-accepted",
+  "forgiveness-waste-debt-already-forgiven",
+  "forgiveness-waste-wound-that-stopped-demanding",
+  "forgiveness-certificate-unopened-absolution-receipt",
+  "forgiveness-certificate-zero-balance-debt-scale",
+  "forgiveness-certificate-scar-closed-without-witness",
+  "forgiveness-disposal-bury-it-beneath-a-future-life",
+  "forgiveness-disposal-let-the-soil-forget-the-cause",
+  "forgiveness-disposal-grow-innocence-from-old-harm",
+  "forgiveness-disposal-exhume-it-for-permanent-record",
+  "forgiveness-well-seal-every-forgiven-harm-forever",
+  "forgiveness-well-erase-the-need-for-forgiveness",
+  "forgiveness-well-make-harm-survive-its-own-forgiveness"
+];
+
+for (const actionId of V82_ACTIONS) {
+  assert.match(
+    html,
+    new RegExp(`id="${actionId}"`),
+    `must have action element with id="${actionId}"`
+  );
+}
+
+const V82_REGISTRATION_IDS = [
+  "forgiveness-landfill-memory",
+  "forgiveness-landfill-codex",
+  "forgiveness-landfill-codex-grid",
+  "forgiveness-landfill-codex-entry",
+  "forgiveness-landfill-entry-btn",
+  "harmlessness-final-well-entry-btn",
+  "forgiveness-recorder-offering",
+  "forgiveness-recorder-liability-ledger",
+  "forgiveness-recorder-causeless-ward",
+  "forgiveness-recorder-return-offering",
+  "forgiveness-recorder-return-liability-ledger",
+  "forgiveness-recorder-return-causeless-ward",
+  "forgiveness-landfill-link",
+  "inert-harm-certificate-vault-link",
+  "mercy-burial-trench-link",
+  "harmlessness-final-well-link"
+];
+
+for (const id of V82_REGISTRATION_IDS) {
+  assert.match(
+    html,
+    new RegExp(`id="${id}"`),
+    `must have element with id="${id}"`
+  );
+}
+
+assert.match(css, /\.forgiveness-landfill-figure\b/, "css must contain .forgiveness-landfill-figure");
+assert.match(css, /\.forgiveness-landfill-hotspot\b/, "css must contain .forgiveness-landfill-hotspot");
+assert.match(css, /\.forgiveness-landfill-grid\b/, "css must contain .forgiveness-landfill-grid");
+assert.match(css, /\.forgiveness-recorder-return\b/, "css must contain .forgiveness-recorder-return");
+
+const v82MediaMatch = css.match(/@media\s*\([^{}]*max-width[^{}]*\)\s*\{[\s\S]*?\}/g) || [];
+const v82MobileCss = v82MediaMatch.join("\n");
+assert.match(v82MobileCss, /\.forgiveness-landfill-figure|\.forgiveness-landfill-hotspot|\.forgiveness-landfill-grid|\.forgiveness-recorder-return/, "mobile media queries must style v82 classes");
+
+const v82ReducedMotionMatch = css.match(/@media\s*\([^{}]*prefers-reduced-motion[^{}]*\)\s*\{[\s\S]*?\}/g) || [];
+const v82ReducedMotionCss = v82ReducedMotionMatch.join("\n");
+assert.match(v82ReducedMotionCss, /\.forgiveness-landfill-hotspot|\.forgiveness-recorder-return/, "reduced-motion query must cover v82 interactive elements");
+
+const V82_FIGURE_SPECS = [
+  ['forgiveness-landfill-figure', '宽恕填埋场：左侧未被接受的道歉、中央已经免除的债、右侧不再索取的伤口', 3],
+  ['inert-harm-certificate-vault-figure', '惰性伤害凭证库：左侧未开封赦免回执、中央归零债秤、右侧无目击闭合疤痕', 3],
+  ['mercy-burial-trench-figure', '慈悲处置沟：左上埋入未来人生地基、右上让土壤忘因、左下用旧伤培育无罪、右下挖回伤害永久存档', 4],
+  ['harmlessness-final-well-figure', '无害化终审井：左侧永久封存已宽恕伤害、中央抹除原谅曾被需要、右侧让伤害活过原谅', 3]
+];
+
+for (const [figureClass, expectedAlt, buttonCount] of V82_FIGURE_SPECS) {
+  const figRegex = new RegExp(`<figure[^>]*class="[^"]*\\b${figureClass}\\b[^"]*"[^>]*>([\\s\\S]*?)<\\/figure>`, "i");
+  const figMatch = html.match(figRegex);
+  assert.ok(figMatch, `figure .${figureClass} must exist`);
+
+  const openingTag = figMatch[0].match(/^<figure[^>]*>/i)[0];
+  assert.ok(!openingTag.includes('role="img"'), `figure .${figureClass} opening tag must not have role="img"`);
+  assert.ok(!openingTag.includes('aria-label='), `figure .${figureClass} opening tag must not have aria-label`);
+
+  const insideHtml = figMatch[1];
+  const imgRegex = new RegExp(`<img[^>]+alt="${expectedAlt.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`, "i");
+  assert.match(insideHtml, imgRegex, `figure .${figureClass} must contain nested img with exact alt "${expectedAlt}"`);
+
+  const buttons = insideHtml.match(/<button\b[^>]*>/gi) || [];
+  assert.equal(buttons.length, buttonCount, `figure .${figureClass} must have exactly ${buttonCount} button hotspots`);
+
+  for (const btn of buttons) {
+    const labelMatch = btn.match(/aria-label="([^"]+)"/i);
+    assert.ok(labelMatch && labelMatch[1].trim().length > 0, `hotspot button ${btn} in .${figureClass} must have nonempty aria-label`);
+  }
+}
+
+  // ============================================================
+  // v83 Harm Archaeology Runtime & State Specification (TDD)
+  // ============================================================
+  {
+    const v83ModuleStart = js.indexOf("const HARM_ARCHAEOLOGY_KEY = 'goddead_v83_harm_archaeology';");
+    const v84ModuleStart = js.indexOf("const WITNESS_PROTECTION_KEY = 'goddead_v84_innocent_witness_protection';");
+    const v83CorridorHeading = "\n     v84: 无罪证人保护院";
+    const v83CorridorHeadingIndex = v84ModuleStart !== -1 ? v84ModuleStart : (v83ModuleStart !== -1 ? js.indexOf(v83CorridorHeading, v83ModuleStart) : -1);
+    const v83ModuleEnd = v83CorridorHeadingIndex !== -1 ? js.lastIndexOf("/*", v83CorridorHeadingIndex) : -1;
+    assert.ok(v83ModuleStart !== -1 && v83ModuleEnd > v83ModuleStart, "v83 module boundaries must exist");
+    const v83ModuleBlock = js.slice(v83ModuleStart, v83ModuleEnd);
+
+    const makeCompleteV82StateForV83 = () => ({
+      disposals: [
+        'apology-never-accepted:unopened-absolution-receipt:bury-it-beneath-a-future-life',
+        'debt-already-forgiven:zero-balance-debt-scale:let-the-soil-forget-the-cause',
+        'wound-that-stopped-demanding:scar-closed-without-witness:grow-innocence-from-old-harm',
+        'apology-never-accepted:unopened-absolution-receipt:exhume-it-for-permanent-record',
+      ],
+      wellOutcomes: [
+        'every-forgiven-harm-was-sealed-forever',
+        'the-need-for-forgiveness-was-erased',
+        'harm-outlived-its-own-forgiveness',
+      ]
+    });
+
+    const createMockElement = (id = '') => {
+      const listeners = {};
+      const el = {
+        id,
+        className: '',
+        innerHTML: '',
+        textContent: '',
+        children: [],
+        hidden: false,
+        disabled: false,
+        attributes: {},
+        setAttribute(k, v) { this.attributes[k] = String(v); },
+        removeAttribute(k) { delete this.attributes[k]; },
+        appendChild(child) { this.children.push(child); return child; },
+        addEventListener(type, handler) {
+          listeners[type] = listeners[type] || [];
+          listeners[type].push(handler);
+        },
+        _listeners: listeners,
+        _dispatch(type, evt = {}) {
+          const list = listeners[type] || [];
+          for (const fn of list) fn(evt);
+        }
+      };
+      return el;
+    };
+
+    const hostV83 = (val) => JSON.parse(JSON.stringify(val));
+
+    const makeV83Context = ({
+      initialStore = {},
+      elements = {},
+      scene = '',
+      v82unlocked = true,
+      upstreamV82State = makeCompleteV82StateForV83(),
+    } = {}) => {
+      const storeData = { ...initialStore };
+      const store = {
+        get(k, def) {
+          return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def;
+        },
+        set(k, v) {
+          storeData[k] = String(v);
+        }
+      };
+
+      const elMap = { ...elements };
+      const $ = (selector) => {
+        if (typeof selector === 'string' && selector.startsWith('#')) {
+          const id = selector.slice(1);
+          if (elMap[id]) return elMap[id];
+        }
+        return null;
+      };
+
+      const scheduleCalls = [];
+      const AutoAdvance = {
+        has() { return false; },
+        schedule(src, target, opts) {
+          scheduleCalls.push({ src, target, opts: opts ? { ...opts } : undefined });
+        },
+        clear() {}
+      };
+
+      const AudioEngine = {
+        whoosh() {},
+        bell() {}
+      };
+
+      const buttonAvailable = (id) => {
+        const el = $(`#${id}`);
+        if (!el || el.hidden || el.disabled) return false;
+        return true;
+      };
+
+      const doc = {
+        createElement: (tag) => createMockElement(tag),
+      };
+
+      const factory = new Function(
+        'store', '$', 'currentScene', 'AutoAdvance', 'AudioEngine', 'reduced',
+        'forgivenessLandfillUnlocked', 'getForgivenessLandfill', 'buttonAvailable', 'document',
+        `${v83ModuleBlock}
+        return {
+          HARM_ARCHAEOLOGY_KEY,
+          HARM_ARCHAEOLOGY_VERSION,
+          HARM_SITES,
+          HARM_INSTRUMENTS,
+          HARM_INTERPRETATIONS,
+          HARM_HEARING_ACTIONS,
+          HARM_SITE_TABLE,
+          HARM_INSTRUMENT_TABLE,
+          HARM_INTERPRETATION_TABLE,
+          HARM_HEARING_TABLE,
+          HARM_HEARING_OUTCOME_BY_ID,
+          HARM_REPORT_IDS,
+          HARM_HEARING_OUTCOME_IDS,
+          defaultHarmArchaeology,
+          normalizeHarmVisited,
+          normalizeHarmDraft,
+          normalizeHarmReports,
+          normalizeHarmHearingOutcomes,
+          clampHarmCount,
+          normalizeHarmTallies,
+          normalizeHarmActiveReconstructor,
+          normalizeHarmPending,
+          saveHarmArchaeology,
+          getHarmArchaeology,
+          harmArchaeologyUnlocked,
+          harmArchaeologyCoverageComplete,
+          computeHarmReportTitle,
+          computeHarmReportFeedback,
+          findHarmReportById,
+          getHarmPendingLogicalSource,
+          harmArchaeologyBeforeArrive,
+          resolveHarmPendingOnArrival,
+          harmArchaeologyBridgeAllows,
+          harmArchaeologyBureauCanVisit,
+          forensicMercyExcavationCanVisit,
+          crimeSceneWithoutOffenderCanVisit,
+          secondHarmHearingCourtCanVisit,
+          replayHarmArchaeologyPending,
+          chooseHarmArchaeologyEntry,
+          chooseHarmSite,
+          chooseHarmInstrument,
+          chooseHarmInterpretation,
+          chooseHarmReconstructorReturn,
+          chooseHarmHearingEntry,
+          chooseHarmHearingAction
+        };`
+      );
+
+      const api = factory(
+        store,
+        $,
+        scene,
+        AutoAdvance,
+        AudioEngine,
+        false,
+        () => v82unlocked,
+        () => upstreamV82State,
+        buttonAvailable,
+        doc
+      );
+
+      return {
+        api,
+        storeData,
+        read: () => JSON.parse(storeData['goddead_v83_harm_archaeology'] || 'null'),
+        scheduleCalls,
+        elements: elMap,
+        AutoAdvance,
+      };
+    };
+
+    // Frozen Shared Constants
+    const V83_ENTRY_FEEDBACK = '去复原被宽恕覆盖的伤害现场 · RECOVER HARM COVERED BY FORGIVENESS';
+    const V83_HEARING_ENTRY_FEEDBACK = '听证调查是否成为第二次伤害 · HEAR WHETHER INVESTIGATION BECAME THE SECOND HARM';
+    const V83_EXPECTED_REPORT = 'closed-scar-site:pain-reconstruction-brush:the-offender-never-existed';
+    const V83_EXPECTED_FEEDBACK = '疤痕拒绝张开。考古员只好沿愈合纹路倒着切入，像把一句已经说完的话重新拆回尖叫。 细刷没有触碰肉身，却让遗址记起当时应该怎样疼。复原越精确，当事人越像一份被强迫重演的标本。 现场拥有伤口、时间与因果，却找不到任何人站在行为发生的位置。报告因此认定：伤害完整发生了，加害者只是世界后来为了方便追责而虚构的语法。';
+    const V83_COMPLETE_REPORTS = [
+      'closed-scar-site:pain-reconstruction-brush:the-offender-never-existed',
+      'zeroed-ledger-site:responsibility-pollen-sieve:excavation-created-the-truth',
+      'innocent-soil-site:missing-witness-cast:the-wound-was-an-alibi',
+      'closed-scar-site:pain-reconstruction-brush:the-archive-was-the-second-offender',
+    ];
+
+    const makePendingState = (api, overrides = {}) => {
+      const base = hostV83(api.defaultHarmArchaeology());
+      base._v83unlocked = true;
+      if (overrides.visited) base.visited = { ...base.visited, ...overrides.visited };
+      if (overrides.draft) base.draft = { ...base.draft, ...overrides.draft };
+      if (overrides.siteTallies) base.siteTallies = { ...base.siteTallies, ...overrides.siteTallies };
+      if (overrides.reports) base.reports = [...overrides.reports];
+      if (overrides.hearingOutcomes) base.hearingOutcomes = [...overrides.hearingOutcomes];
+      if (overrides.excavationRuns !== undefined) base.excavationRuns = overrides.excavationRuns;
+      if (overrides.hearingRuns !== undefined) base.hearingRuns = overrides.hearingRuns;
+      if (overrides.lastOutcome !== undefined) base.lastOutcome = overrides.lastOutcome;
+      if (overrides.activeReconstructor !== undefined) base.activeReconstructor = overrides.activeReconstructor;
+      if (overrides.pending !== undefined) base.pending = overrides.pending;
+      return base;
+    };
+
+    const defaultCtx = makeV83Context();
+    const { api } = defaultCtx;
+
+    // 1. Constants and Frozen Tables
+    assert.strictEqual(api.HARM_ARCHAEOLOGY_KEY, 'goddead_v83_harm_archaeology');
+    assert.strictEqual(api.HARM_ARCHAEOLOGY_VERSION, 83);
+    assert.deepStrictEqual(hostV83(api.HARM_SITES), ['closed-scar-site', 'zeroed-ledger-site', 'innocent-soil-site']);
+    assert.deepStrictEqual(hostV83(api.HARM_INSTRUMENTS), ['pain-reconstruction-brush', 'responsibility-pollen-sieve', 'missing-witness-cast']);
+    assert.deepStrictEqual(hostV83(api.HARM_INTERPRETATIONS), ['the-offender-never-existed', 'excavation-created-the-truth', 'the-wound-was-an-alibi', 'the-archive-was-the-second-offender']);
+    assert.deepStrictEqual(hostV83(api.HARM_HEARING_ACTIONS), ['convict-the-investigation', 'grant-the-wound-right-to-refuse-evidence', 'make-truth-outlive-every-victim']);
+
+    assert.strictEqual(hostV83(api.HARM_REPORT_IDS).length, 36);
+    assert.strictEqual(hostV83(api.HARM_HEARING_OUTCOME_IDS).length, 3);
+
+    assert.deepStrictEqual(hostV83(api.HARM_SITE_TABLE['closed-scar-site']), {
+      tallyKey: 'scar',
+      title: '闭疤',
+      feedback: '疤痕拒绝张开。考古员只好沿愈合纹路倒着切入，像把一句已经说完的话重新拆回尖叫。'
+    });
+    assert.deepStrictEqual(hostV83(api.HARM_INSTRUMENT_TABLE['pain-reconstruction-brush']), {
+      title: '疼刷',
+      target: 'threshold',
+      feedback: '细刷没有触碰肉身，却让遗址记起当时应该怎样疼。复原越精确，当事人越像一份被强迫重演的标本。',
+      reconstructorFeedback: '复原员在门槛上刷回一声旧疼。门没有承认自己夹伤过谁，却开始为每一次关闭保留一份神经记录。'
+    });
+    assert.deepStrictEqual(hostV83(api.HARM_INTERPRETATION_TABLE['the-offender-never-existed']), {
+      title: '无犯',
+      fragment: '现场拥有伤口、时间与因果，却找不到任何人站在行为发生的位置。报告因此认定：伤害完整发生了，加害者只是世界后来为了方便追责而虚构的语法。'
+    });
+    assert.deepStrictEqual(hostV83(api.HARM_HEARING_TABLE['convict-the-investigation']), {
+      outcome: 'the-investigation-was-convicted-of-second-harm',
+      target: 'remembrance',
+      feedback: '听证庭给所有铲、刷与模具戴上封条。真相仍然成立，但此后任何人想引用它，都必须先承认自己正在让某处旧伤重新工作。'
+    });
+
+    const expectedDefaultState = {
+      version: 83,
+      visited: { bureau: false, excavation: false, scene: false, court: false },
+      draft: { site: '', instrument: '' },
+      reports: [],
+      hearingOutcomes: [],
+      excavationRuns: 0,
+      hearingRuns: 0,
+      siteTallies: { scar: 0, ledger: 0, soil: 0 },
+      lastOutcome: '',
+      activeReconstructor: null,
+      pending: null,
+    };
+    assert.deepStrictEqual(hostV83(api.defaultHarmArchaeology()), expectedDefaultState);
+
+    // 2. Storage Normalization & Negative Guards Matrix
+    assert.deepStrictEqual(
+      hostV83(api.normalizeHarmVisited({ bureau: 1, excavation: 'yes', scene: true, extra: 99 })),
+      { bureau: false, excavation: false, scene: true, court: false }
+    );
+    assert.strictEqual(api.clampHarmCount('7'), 7);
+    assert.strictEqual(api.clampHarmCount(-5), 0);
+    assert.strictEqual(api.clampHarmCount(10005), 9999);
+    assert.strictEqual(api.clampHarmCount(3.8), 3);
+    assert.strictEqual(api.clampHarmCount('invalid'), 0);
+
+    const badStorageCtx1 = makeV83Context({ initialStore: { goddead_v83_harm_archaeology: 'not-json' } });
+    assert.deepStrictEqual(hostV83(badStorageCtx1.api.getHarmArchaeology()), expectedDefaultState);
+
+    const badStorageCtx2 = makeV83Context({ initialStore: { goddead_v83_harm_archaeology: 'null' } });
+    assert.deepStrictEqual(hostV83(badStorageCtx2.api.getHarmArchaeology()), expectedDefaultState);
+
+    const badStorageCtx3 = makeV83Context({ initialStore: { goddead_v83_harm_archaeology: '[]' } });
+    assert.deepStrictEqual(hostV83(badStorageCtx3.api.getHarmArchaeology()), expectedDefaultState);
+
+    const badStorageCtx4 = makeV83Context({ initialStore: { goddead_v83_harm_archaeology: JSON.stringify({ version: 82 }) } });
+    assert.deepStrictEqual(hostV83(badStorageCtx4.api.getHarmArchaeology()), expectedDefaultState);
+
+    const saveTestCtx = makeV83Context();
+    const hostileState = {
+      version: 83,
+      extraField: 'intruder',
+      _v83unlocked: true,
+      visited: { bureau: true, excavation: 'truthy', scene: false, court: true, bonus: true },
+      draft: { site: 'closed-scar-site', instrument: 'pain-reconstruction-brush', extra: 1 },
+      reports: [
+        'innocent-soil-site:missing-witness-cast:the-wound-was-an-alibi',
+        'closed-scar-site:pain-reconstruction-brush:the-offender-never-existed',
+        'closed-scar-site:pain-reconstruction-brush:the-offender-never-existed',
+        'fake-report'
+      ],
+      hearingOutcomes: [
+        'grant-the-wound-right-to-refuse-evidence',
+        'the-investigation-was-convicted-of-second-harm',
+        'the-investigation-was-convicted-of-second-harm',
+        'fake-outcome'
+      ],
+      excavationRuns: '15.9',
+      hearingRuns: -10,
+      siteTallies: { scar: 50000, ledger: '3', soil: -1, extraTally: 10 },
+      lastOutcome: 'uncollected-outcome',
+      activeReconstructor: { instrument: 'pain-reconstruction-brush', report: 'closed-scar-site:pain-reconstruction-brush:the-offender-never-existed', feedback: 'foo', extra: 'bad' },
+      pending: { kind: 'entry', target: 'harm-archaeology-bureau', feedback: 'bad-fb' }
+    };
+
+    saveTestCtx.api.saveHarmArchaeology(hostileState);
+    const rawSaved = JSON.parse(saveTestCtx.storeData['goddead_v83_harm_archaeology']);
+    const savedKeys = Object.keys(rawSaved);
+    assert.deepStrictEqual(savedKeys, [
+      'version', 'visited', 'draft', 'reports', 'hearingOutcomes',
+      'excavationRuns', 'hearingRuns', 'siteTallies', 'lastOutcome', 'activeReconstructor', 'pending'
+    ]);
+    assert.strictEqual(rawSaved._v83unlocked, undefined);
+    assert.strictEqual(rawSaved.extraField, undefined);
+    assert.deepStrictEqual(rawSaved.visited, { bureau: true, excavation: false, scene: false, court: true });
+    assert.deepStrictEqual(rawSaved.reports, [
+      'closed-scar-site:pain-reconstruction-brush:the-offender-never-existed',
+      'innocent-soil-site:missing-witness-cast:the-wound-was-an-alibi'
+    ]);
+    assert.deepStrictEqual(rawSaved.hearingOutcomes, [
+      'the-investigation-was-convicted-of-second-harm'
+    ]);
+    assert.strictEqual(rawSaved.excavationRuns, 15);
+    assert.strictEqual(rawSaved.hearingRuns, 0);
+    assert.deepStrictEqual(rawSaved.siteTallies, { scar: 9999, ledger: 3, soil: 0 });
+    assert.strictEqual(rawSaved.lastOutcome, '');
+    assert.strictEqual(rawSaved.activeReconstructor, null);
+    assert.strictEqual(rawSaved.pending, null);
+    assert.strictEqual(saveTestCtx.storeData['goddead_v82_forgiveness_landfill'], undefined);
+
+    // 3. Unlock and Coverage
+    const upstreamBefore = makeCompleteV82StateForV83();
+    const upstreamClone = JSON.parse(JSON.stringify(upstreamBefore));
+    const unlockCtx = makeV83Context({ upstreamV82State: upstreamBefore });
+    assert.strictEqual(unlockCtx.api.harmArchaeologyUnlocked(), true);
+    assert.deepStrictEqual(upstreamBefore, upstreamClone, "Unlock check must not mutate upstream state");
+
+    const incompleteDisposals = makeCompleteV82StateForV83();
+    incompleteDisposals.disposals.pop();
+    assert.strictEqual(makeV83Context({ upstreamV82State: incompleteDisposals }).api.harmArchaeologyUnlocked(), false);
+
+    const incompleteOutcomes = makeCompleteV82StateForV83();
+    incompleteOutcomes.wellOutcomes.pop();
+    assert.strictEqual(makeV83Context({ upstreamV82State: incompleteOutcomes }).api.harmArchaeologyUnlocked(), false);
+    assert.strictEqual(makeV83Context({ v82unlocked: false }).api.harmArchaeologyUnlocked(), false);
+
+    const covState = hostV83(api.defaultHarmArchaeology());
+    covState.reports = [...V83_COMPLETE_REPORTS];
+    assert.strictEqual(api.harmArchaeologyCoverageComplete(covState), true);
+
+    const incovState = hostV83(api.defaultHarmArchaeology());
+    incovState.reports = V83_COMPLETE_REPORTS.slice(0, 3);
+    assert.strictEqual(api.harmArchaeologyCoverageComplete(incovState), false);
+
+    const spoofedCovState = hostV83(api.defaultHarmArchaeology());
+    spoofedCovState.reports = V83_COMPLETE_REPORTS.slice(0, 3);
+    spoofedCovState.excavationRuns = 99;
+    spoofedCovState.siteTallies = { scar: 50, ledger: 50, soil: 50 };
+    assert.strictEqual(api.harmArchaeologyCoverageComplete(spoofedCovState), false);
+
+    // 4. Seven Strict Pending Normalization Tests
+    // (1) entry
+    const validEntry = { kind: 'entry', target: 'harm-archaeology-bureau', feedback: V83_ENTRY_FEEDBACK };
+    const entryState = makePendingState(api);
+    assert.deepStrictEqual(hostV83(api.normalizeHarmPending(validEntry, entryState)), validEntry);
+    assert.strictEqual(api.normalizeHarmPending({ ...validEntry, extra: 1 }, entryState), null);
+    assert.strictEqual(api.normalizeHarmPending({ kind: 'entry', target: 'harm-archaeology-bureau' }, entryState), null);
+    assert.strictEqual(api.normalizeHarmPending({ ...validEntry, target: 'crime-scene-without-offender' }, entryState), null);
+    assert.strictEqual(api.normalizeHarmPending({ ...validEntry, feedback: 'bad-fb' }, entryState), null);
+    assert.strictEqual(api.normalizeHarmPending(validEntry, makePendingState(api, { draft: { site: 'closed-scar-site', instrument: '' } })), null);
+
+    // (2) site
+    const validSite = {
+      kind: 'site',
+      source: 'harm-archaeology-bureau',
+      target: 'forensic-mercy-excavation',
+      site: 'closed-scar-site',
+      feedback: api.HARM_SITE_TABLE['closed-scar-site'].feedback
+    };
+    const siteState = makePendingState(api);
+    assert.deepStrictEqual(hostV83(api.normalizeHarmPending(validSite, siteState)), validSite);
+    assert.strictEqual(api.normalizeHarmPending({ ...validSite, extra: 1 }, siteState), null);
+    assert.strictEqual(api.normalizeHarmPending({ ...validSite, site: undefined }, siteState), null);
+    assert.strictEqual(api.normalizeHarmPending({ ...validSite, target: 'harm-archaeology-bureau' }, siteState), null);
+    assert.strictEqual(api.normalizeHarmPending({ ...validSite, feedback: 'bad-fb' }, siteState), null);
+    assert.strictEqual(api.normalizeHarmPending(validSite, makePendingState(api, { draft: { site: 'zeroed-ledger-site', instrument: '' } })), null);
+
+    // (3) instrument
+    const validInst = {
+      kind: 'instrument',
+      source: 'forensic-mercy-excavation',
+      target: 'crime-scene-without-offender',
+      site: 'closed-scar-site',
+      instrument: 'pain-reconstruction-brush',
+      feedback: api.HARM_INSTRUMENT_TABLE['pain-reconstruction-brush'].feedback
+    };
+    const instState = makePendingState(api, { draft: { site: 'closed-scar-site', instrument: '' } });
+    assert.deepStrictEqual(hostV83(api.normalizeHarmPending(validInst, instState)), validInst);
+    assert.strictEqual(api.normalizeHarmPending({ ...validInst, extra: 1 }, instState), null);
+    assert.strictEqual(api.normalizeHarmPending({ ...validInst, source: 'harm-archaeology-bureau' }, instState), null);
+    assert.strictEqual(api.normalizeHarmPending({ ...validInst, target: 'forensic-mercy-excavation' }, instState), null);
+    assert.strictEqual(api.normalizeHarmPending({ ...validInst, instrument: undefined }, instState), null);
+    assert.strictEqual(api.normalizeHarmPending({ ...validInst, feedback: 'bad-fb' }, instState), null);
+    assert.strictEqual(api.normalizeHarmPending(validInst, makePendingState(api, { draft: { site: 'zeroed-ledger-site', instrument: '' } })), null);
+
+    // (4) report
+    const validReport = {
+      kind: 'report',
+      source: 'crime-scene-without-offender',
+      target: 'threshold',
+      site: 'closed-scar-site',
+      instrument: 'pain-reconstruction-brush',
+      interpretation: 'the-offender-never-existed',
+      report: V83_EXPECTED_REPORT,
+      feedback: V83_EXPECTED_FEEDBACK
+    };
+    const reportState = makePendingState(api, { draft: { site: 'closed-scar-site', instrument: 'pain-reconstruction-brush' } });
+    assert.deepStrictEqual(hostV83(api.normalizeHarmPending(validReport, reportState)), validReport);
+    assert.strictEqual(api.normalizeHarmPending({ ...validReport, extra: 1 }, reportState), null);
+    assert.strictEqual(api.normalizeHarmPending({ ...validReport, source: 'harm-archaeology-bureau' }, reportState), null);
+    assert.strictEqual(api.normalizeHarmPending({ ...validReport, target: 'liability-ledger' }, reportState), null);
+    assert.strictEqual(api.normalizeHarmPending({ ...validReport, report: 'wrong-report' }, reportState), null);
+    assert.strictEqual(api.normalizeHarmPending({ ...validReport, feedback: 'bad-fb' }, reportState), null);
+    assert.strictEqual(api.normalizeHarmPending(validReport, makePendingState(api, { draft: { site: '', instrument: '' } })), null);
+
+    // (5) reconstructor-return
+    const canonicalRec = {
+      instrument: 'pain-reconstruction-brush',
+      report: V83_EXPECTED_REPORT,
+      feedback: api.HARM_INSTRUMENT_TABLE['pain-reconstruction-brush'].reconstructorFeedback
+    };
+    const validRecReturn = {
+      kind: 'reconstructor-return',
+      from: 'threshold',
+      target: 'harm-archaeology-bureau',
+      report: V83_EXPECTED_REPORT,
+      feedback: canonicalRec.feedback
+    };
+    const recReturnState = makePendingState(api, {
+      reports: [V83_EXPECTED_REPORT],
+      activeReconstructor: canonicalRec
+    });
+    assert.deepStrictEqual(hostV83(api.normalizeHarmPending(validRecReturn, recReturnState)), validRecReturn);
+    assert.strictEqual(api.normalizeHarmPending({ ...validRecReturn, extra: 1 }, recReturnState), null);
+    assert.strictEqual(api.normalizeHarmPending({ ...validRecReturn, from: 'liability-ledger' }, recReturnState), null);
+    assert.strictEqual(api.normalizeHarmPending({ ...validRecReturn, target: 'crime-scene-without-offender' }, recReturnState), null);
+    assert.strictEqual(api.normalizeHarmPending({ ...validRecReturn, feedback: 'bad-fb' }, recReturnState), null);
+    assert.strictEqual(api.normalizeHarmPending(validRecReturn, makePendingState(api, { reports: [], activeReconstructor: canonicalRec })), null);
+
+    // (6) hearing-entry
+    const validHearingEntry = {
+      kind: 'hearing-entry',
+      target: 'second-harm-hearing-court',
+      feedback: V83_HEARING_ENTRY_FEEDBACK
+    };
+    const hearingEntryState = makePendingState(api, { reports: V83_COMPLETE_REPORTS });
+    assert.deepStrictEqual(hostV83(api.normalizeHarmPending(validHearingEntry, hearingEntryState)), validHearingEntry);
+    assert.strictEqual(api.normalizeHarmPending({ ...validHearingEntry, extra: 1 }, hearingEntryState), null);
+    assert.strictEqual(api.normalizeHarmPending({ ...validHearingEntry, target: 'harm-archaeology-bureau' }, hearingEntryState), null);
+    assert.strictEqual(api.normalizeHarmPending({ ...validHearingEntry, feedback: 'bad-fb' }, hearingEntryState), null);
+    assert.strictEqual(api.normalizeHarmPending(validHearingEntry, makePendingState(api, { reports: [] })), null);
+
+    // (7) hearing
+    const validHearing = {
+      kind: 'hearing',
+      source: 'second-harm-hearing-court',
+      target: 'remembrance',
+      action: 'convict-the-investigation',
+      outcome: 'the-investigation-was-convicted-of-second-harm',
+      feedback: api.HARM_HEARING_TABLE['convict-the-investigation'].feedback
+    };
+    const hearingActionState = makePendingState(api, { reports: V83_COMPLETE_REPORTS, visited: { court: true } });
+    assert.deepStrictEqual(hostV83(api.normalizeHarmPending(validHearing, hearingActionState)), validHearing);
+    assert.strictEqual(api.normalizeHarmPending({ ...validHearing, extra: 1 }, hearingActionState), null);
+    assert.strictEqual(api.normalizeHarmPending({ ...validHearing, source: 'harm-archaeology-bureau' }, hearingActionState), null);
+    assert.strictEqual(api.normalizeHarmPending({ ...validHearing, target: 'threshold' }, hearingActionState), null);
+    assert.strictEqual(api.normalizeHarmPending({ ...validHearing, outcome: 'wrong-outcome' }, hearingActionState), null);
+    assert.strictEqual(api.normalizeHarmPending({ ...validHearing, feedback: 'bad-fb' }, hearingActionState), null);
+    assert.strictEqual(api.normalizeHarmPending(validHearing, makePendingState(api, { reports: [] })), null);
+
+    // 5. Choose & Arrival Lifecycle
+    // (a) Entry
+    {
+      const btn = createMockElement('harm-archaeology-entry-btn');
+      const ctx = makeV83Context({ scene: 'remembrance', elements: { 'harm-archaeology-entry-btn': btn } });
+      ctx.api.chooseHarmArchaeologyEntry();
+      const mid = ctx.api.getHarmArchaeology();
+      assert.strictEqual(mid.visited.bureau, false);
+      assert.strictEqual(mid.pending.kind, 'entry');
+      assert.strictEqual(ctx.scheduleCalls.length, 1);
+      assert.strictEqual(ctx.scheduleCalls[0].target, 'harm-archaeology-bureau');
+      ctx.api.resolveHarmPendingOnArrival('harm-archaeology-bureau');
+      const fin = ctx.api.getHarmArchaeology();
+      assert.strictEqual(fin.visited.bureau, true);
+      assert.strictEqual(fin.pending, null);
+    }
+
+    // (b) Site
+    {
+      const btn = createMockElement('harm-site-closed-scar-site');
+      const ctx = makeV83Context({
+        scene: 'harm-archaeology-bureau',
+        elements: { 'harm-site-closed-scar-site': btn },
+        initialStore: { goddead_v83_harm_archaeology: JSON.stringify(makePendingState(api, { visited: { bureau: true } })) }
+      });
+      ctx.api.chooseHarmSite('closed-scar-site');
+      const mid = ctx.api.getHarmArchaeology();
+      assert.strictEqual(mid.draft.site, '');
+      assert.strictEqual(mid.pending.kind, 'site');
+      ctx.api.resolveHarmPendingOnArrival('forensic-mercy-excavation');
+      const fin = ctx.api.getHarmArchaeology();
+      assert.strictEqual(fin.draft.site, 'closed-scar-site');
+      assert.strictEqual(fin.visited.excavation, true);
+      assert.strictEqual(fin.pending, null);
+    }
+
+    // (c) Instrument
+    {
+      const btn = createMockElement('harm-instrument-pain-reconstruction-brush');
+      const ctx = makeV83Context({
+        scene: 'forensic-mercy-excavation',
+        elements: { 'harm-instrument-pain-reconstruction-brush': btn },
+        initialStore: { goddead_v83_harm_archaeology: JSON.stringify(makePendingState(api, { visited: { excavation: true }, draft: { site: 'closed-scar-site', instrument: '' } })) }
+      });
+      ctx.api.chooseHarmInstrument('pain-reconstruction-brush');
+      const mid = ctx.api.getHarmArchaeology();
+      assert.strictEqual(mid.draft.instrument, '');
+      assert.strictEqual(mid.pending.kind, 'instrument');
+      ctx.api.resolveHarmPendingOnArrival('crime-scene-without-offender');
+      const fin = ctx.api.getHarmArchaeology();
+      assert.strictEqual(fin.draft.instrument, 'pain-reconstruction-brush');
+      assert.strictEqual(fin.visited.scene, true);
+      assert.strictEqual(fin.pending, null);
+    }
+
+    // (d) Report & Repeated Report Run
+    {
+      const btn = createMockElement('harm-interpretation-the-offender-never-existed');
+      const ctx = makeV83Context({
+        scene: 'crime-scene-without-offender',
+        elements: { 'harm-interpretation-the-offender-never-existed': btn },
+        initialStore: { goddead_v83_harm_archaeology: JSON.stringify(makePendingState(api, { visited: { scene: true }, draft: { site: 'closed-scar-site', instrument: 'pain-reconstruction-brush' } })) }
+      });
+      ctx.api.chooseHarmInterpretation('the-offender-never-existed');
+      const mid = ctx.api.getHarmArchaeology();
+      assert.strictEqual(mid.excavationRuns, 0);
+      assert.strictEqual(mid.reports.length, 0);
+      assert.strictEqual(mid.pending.kind, 'report');
+
+      ctx.api.resolveHarmPendingOnArrival('threshold');
+      const fin1 = ctx.api.getHarmArchaeology();
+      assert.strictEqual(fin1.excavationRuns, 1);
+      assert.strictEqual(fin1.siteTallies.scar, 1);
+      assert.deepStrictEqual(hostV83(fin1.reports), [V83_EXPECTED_REPORT]);
+      assert.strictEqual(fin1.lastOutcome, V83_EXPECTED_REPORT);
+      assert.deepStrictEqual(hostV83(fin1.activeReconstructor), {
+        instrument: 'pain-reconstruction-brush',
+        report: V83_EXPECTED_REPORT,
+        feedback: api.HARM_INSTRUMENT_TABLE['pain-reconstruction-brush'].reconstructorFeedback
+      });
+      assert.deepStrictEqual(hostV83(fin1.draft), { site: '', instrument: '' });
+      assert.strictEqual(fin1.pending, null);
+
+      // Idempotence on arrival repeat
+      ctx.api.resolveHarmPendingOnArrival('threshold');
+      assert.strictEqual(ctx.api.getHarmArchaeology().excavationRuns, 1);
+
+      // Second legal identical report after reconstructor return cleared
+      const secondReportState = makePendingState(api, {
+        visited: { scene: true },
+        draft: { site: 'closed-scar-site', instrument: 'pain-reconstruction-brush' },
+        reports: [V83_EXPECTED_REPORT],
+        excavationRuns: 1,
+        siteTallies: { scar: 1, ledger: 0, soil: 0 },
+        activeReconstructor: null
+      });
+      ctx.api.saveHarmArchaeology(secondReportState);
+      ctx.api.chooseHarmInterpretation('the-offender-never-existed');
+      ctx.api.resolveHarmPendingOnArrival('threshold');
+      const fin2 = ctx.api.getHarmArchaeology();
+      assert.strictEqual(fin2.excavationRuns, 2);
+      assert.strictEqual(fin2.siteTallies.scar, 2);
+      assert.deepStrictEqual(hostV83(fin2.reports), [V83_EXPECTED_REPORT]);
+    }
+
+    // (e) Reconstructor Return
+    {
+      const btn = createMockElement('harm-reconstructor-return-threshold');
+      const ctx = makeV83Context({
+        scene: 'threshold',
+        elements: { 'harm-reconstructor-return-threshold': btn },
+        initialStore: {
+          goddead_v83_harm_archaeology: JSON.stringify(makePendingState(api, {
+            reports: [V83_EXPECTED_REPORT],
+            activeReconstructor: {
+              instrument: 'pain-reconstruction-brush',
+              report: V83_EXPECTED_REPORT,
+              feedback: api.HARM_INSTRUMENT_TABLE['pain-reconstruction-brush'].reconstructorFeedback
+            }
+          }))
+        }
+      });
+      ctx.api.chooseHarmReconstructorReturn('threshold');
+      const mid = ctx.api.getHarmArchaeology();
+      assert.ok(mid.activeReconstructor !== null);
+      assert.strictEqual(mid.pending.kind, 'reconstructor-return');
+      ctx.api.resolveHarmPendingOnArrival('harm-archaeology-bureau');
+      const fin = ctx.api.getHarmArchaeology();
+      assert.strictEqual(fin.activeReconstructor, null);
+      assert.strictEqual(fin.visited.bureau, true);
+      assert.strictEqual(fin.pending, null);
+    }
+
+    // (f) Hearing Entry
+    {
+      const btn = createMockElement('harm-hearing-entry-btn');
+      const ctx = makeV83Context({
+        scene: 'remembrance',
+        elements: { 'harm-hearing-entry-btn': btn },
+        initialStore: { goddead_v83_harm_archaeology: JSON.stringify(makePendingState(api, { reports: V83_COMPLETE_REPORTS })) }
+      });
+      ctx.api.chooseHarmHearingEntry();
+      const mid = ctx.api.getHarmArchaeology();
+      assert.strictEqual(mid.visited.court, false);
+      assert.strictEqual(mid.pending.kind, 'hearing-entry');
+      ctx.api.resolveHarmPendingOnArrival('second-harm-hearing-court');
+      const fin = ctx.api.getHarmArchaeology();
+      assert.strictEqual(fin.visited.court, true);
+      assert.strictEqual(fin.pending, null);
+    }
+
+    // (g) Hearing Actions (all 3, idempotence, duplicate runs, sibling arrival)
+    for (const action of api.HARM_HEARING_ACTIONS) {
+      const actionInfo = api.HARM_HEARING_TABLE[action];
+      const btn = createMockElement(`harm-hearing-${action}`);
+      const ctx = makeV83Context({
+        scene: 'second-harm-hearing-court',
+        elements: { [`harm-hearing-${action}`]: btn },
+        initialStore: { goddead_v83_harm_archaeology: JSON.stringify(makePendingState(api, { reports: V83_COMPLETE_REPORTS, visited: { court: true } })) }
+      });
+
+      ctx.api.chooseHarmHearingAction(action);
+      const mid = ctx.api.getHarmArchaeology();
+      assert.strictEqual(mid.hearingRuns, 0);
+      assert.strictEqual(mid.hearingOutcomes.length, 0);
+      assert.strictEqual(mid.pending.kind, 'hearing');
+
+      ctx.api.resolveHarmPendingOnArrival(actionInfo.target);
+      const fin1 = ctx.api.getHarmArchaeology();
+      assert.strictEqual(fin1.hearingRuns, 1);
+      assert.deepStrictEqual(hostV83(fin1.hearingOutcomes), [actionInfo.outcome]);
+      assert.strictEqual(fin1.lastOutcome, actionInfo.outcome);
+      assert.strictEqual(fin1.pending, null);
+
+      // Repeated legal hearing verdict increments hearingRuns but not outcomes list
+      ctx.api.chooseHarmHearingAction(action);
+      ctx.api.resolveHarmPendingOnArrival(actionInfo.target);
+      const fin2 = ctx.api.getHarmArchaeology();
+      assert.strictEqual(fin2.hearingRuns, 2);
+      assert.deepStrictEqual(hostV83(fin2.hearingOutcomes), [actionInfo.outcome]);
+
+      // Sibling arrival clears pending without settlement
+      ctx.api.chooseHarmHearingAction(action);
+      ctx.api.resolveHarmPendingOnArrival('some-unrelated-scene');
+      const fin3 = ctx.api.getHarmArchaeology();
+      assert.strictEqual(fin3.hearingRuns, 2);
+      assert.strictEqual(fin3.pending, null);
+    }
+
+    // 6. Cold Source Replay Matrix
+    const pendingReplayList = [
+      {
+        name: 'entry',
+        logicalSource: 'remembrance',
+        target: 'harm-archaeology-bureau',
+        state: makePendingState(api, { pending: { kind: 'entry', target: 'harm-archaeology-bureau', feedback: V83_ENTRY_FEEDBACK } })
+      },
+      {
+        name: 'site',
+        logicalSource: 'harm-archaeology-bureau',
+        target: 'forensic-mercy-excavation',
+        state: makePendingState(api, {
+          pending: {
+            kind: 'site',
+            source: 'harm-archaeology-bureau',
+            target: 'forensic-mercy-excavation',
+            site: 'closed-scar-site',
+            feedback: api.HARM_SITE_TABLE['closed-scar-site'].feedback
+          }
+        })
+      },
+      {
+        name: 'instrument',
+        logicalSource: 'forensic-mercy-excavation',
+        target: 'crime-scene-without-offender',
+        state: makePendingState(api, {
+          draft: { site: 'closed-scar-site', instrument: '' },
+          pending: {
+            kind: 'instrument',
+            source: 'forensic-mercy-excavation',
+            target: 'crime-scene-without-offender',
+            site: 'closed-scar-site',
+            instrument: 'pain-reconstruction-brush',
+            feedback: api.HARM_INSTRUMENT_TABLE['pain-reconstruction-brush'].feedback
+          }
+        })
+      },
+      {
+        name: 'report',
+        logicalSource: 'crime-scene-without-offender',
+        target: 'threshold',
+        state: makePendingState(api, {
+          draft: { site: 'closed-scar-site', instrument: 'pain-reconstruction-brush' },
+          pending: {
+            kind: 'report',
+            source: 'crime-scene-without-offender',
+            target: 'threshold',
+            site: 'closed-scar-site',
+            instrument: 'pain-reconstruction-brush',
+            interpretation: 'the-offender-never-existed',
+            report: V83_EXPECTED_REPORT,
+            feedback: V83_EXPECTED_FEEDBACK
+          }
+        })
+      },
+      {
+        name: 'reconstructor-return',
+        logicalSource: 'threshold',
+        target: 'harm-archaeology-bureau',
+        state: makePendingState(api, {
+          reports: [V83_EXPECTED_REPORT],
+          activeReconstructor: {
+            instrument: 'pain-reconstruction-brush',
+            report: V83_EXPECTED_REPORT,
+            feedback: api.HARM_INSTRUMENT_TABLE['pain-reconstruction-brush'].reconstructorFeedback
+          },
+          pending: {
+            kind: 'reconstructor-return',
+            from: 'threshold',
+            target: 'harm-archaeology-bureau',
+            report: V83_EXPECTED_REPORT,
+            feedback: api.HARM_INSTRUMENT_TABLE['pain-reconstruction-brush'].reconstructorFeedback
+          }
+        })
+      },
+      {
+        name: 'hearing-entry',
+        logicalSource: 'remembrance',
+        target: 'second-harm-hearing-court',
+        state: makePendingState(api, {
+          reports: V83_COMPLETE_REPORTS,
+          pending: { kind: 'hearing-entry', target: 'second-harm-hearing-court', feedback: V83_HEARING_ENTRY_FEEDBACK }
+        })
+      },
+      {
+        name: 'hearing',
+        logicalSource: 'second-harm-hearing-court',
+        target: 'remembrance',
+        state: makePendingState(api, {
+          reports: V83_COMPLETE_REPORTS,
+          visited: { court: true },
+          pending: {
+            kind: 'hearing',
+            source: 'second-harm-hearing-court',
+            target: 'remembrance',
+            action: 'convict-the-investigation',
+            outcome: 'the-investigation-was-convicted-of-second-harm',
+            feedback: api.HARM_HEARING_TABLE['convict-the-investigation'].feedback
+          }
+        })
+      }
+    ];
+
+    for (const item of pendingReplayList) {
+      const ctx = makeV83Context({ initialStore: { goddead_v83_harm_archaeology: JSON.stringify(item.state) } });
+      const normPending = ctx.api.getHarmArchaeology().pending;
+      assert.strictEqual(ctx.api.getHarmPendingLogicalSource(normPending), item.logicalSource);
+
+      ctx.api.resolveHarmPendingOnArrival(item.logicalSource);
+      assert.ok(ctx.api.getHarmArchaeology().pending !== null, `Replay logical source for ${item.name} must retain pending`);
+
+      ctx.api.replayHarmArchaeologyPending(item.logicalSource);
+      assert.strictEqual(ctx.scheduleCalls.length, 1, `Replay for ${item.name} must schedule exactly one transition`);
+      assert.strictEqual(ctx.scheduleCalls[0].target, item.target);
+      assert.strictEqual(Object.prototype.hasOwnProperty.call(ctx.scheduleCalls[0].opts || {}, 'before'), false, 'No before callback');
+
+      ctx.api.resolveHarmPendingOnArrival(item.target);
+      assert.strictEqual(ctx.api.getHarmArchaeology().pending, null);
+
+      ctx.scheduleCalls.length = 0;
+      ctx.api.replayHarmArchaeologyPending(item.logicalSource);
+      assert.strictEqual(ctx.scheduleCalls.length, 0, 'No schedule after pending resolved');
+    }
+
+    // 7. Bridge & Visit Matrix
+    // Locked false
+    const lockedCtx = makeV83Context({ v82unlocked: false });
+    assert.strictEqual(lockedCtx.api.harmArchaeologyBridgeAllows('threshold'), false);
+    assert.strictEqual(lockedCtx.api.harmArchaeologyBureauCanVisit(), false);
+    assert.strictEqual(lockedCtx.api.forensicMercyExcavationCanVisit(), false);
+    assert.strictEqual(lockedCtx.api.crimeSceneWithoutOffenderCanVisit(), false);
+    assert.strictEqual(lockedCtx.api.secondHarmHearingCourtCanVisit(), false);
+
+    // Pre-settlement pending report bridges (all 3 mappings)
+    const instTargets = [
+      { inst: 'pain-reconstruction-brush', target: 'threshold', siblings: ['liability-ledger', 'causeless-ward'] },
+      { inst: 'responsibility-pollen-sieve', target: 'liability-ledger', siblings: ['threshold', 'causeless-ward'] },
+      { inst: 'missing-witness-cast', target: 'causeless-ward', siblings: ['threshold', 'liability-ledger'] },
+    ];
+    for (const { inst, target, siblings } of instTargets) {
+      const site = 'closed-scar-site';
+      const interp = 'the-offender-never-existed';
+      const rep = `${site}:${inst}:${interp}`;
+      const st = makePendingState(api, {
+        draft: { site, instrument: inst },
+        pending: {
+          kind: 'report',
+          source: 'crime-scene-without-offender',
+          target,
+          site,
+          instrument: inst,
+          interpretation: interp,
+          report: rep,
+          feedback: api.computeHarmReportFeedback(site, inst, interp)
+        }
+      });
+      const bctx = makeV83Context({ initialStore: { goddead_v83_harm_archaeology: JSON.stringify(st) } });
+      assert.strictEqual(bctx.api.harmArchaeologyBridgeAllows(target), true);
+      for (const sib of siblings) {
+        assert.strictEqual(bctx.api.harmArchaeologyBridgeAllows(sib), false);
+      }
+    }
+
+    // Pre-settlement pending hearing bridges (all 3 actions)
+    const hearingTargets = [
+      { action: 'convict-the-investigation', target: 'remembrance', siblings: ['threshold', 'unending-gallery'] },
+      { action: 'grant-the-wound-right-to-refuse-evidence', target: 'threshold', siblings: ['remembrance', 'unending-gallery'] },
+      { action: 'make-truth-outlive-every-victim', target: 'unending-gallery', siblings: ['remembrance', 'threshold'] },
+    ];
+    for (const { action, target, siblings } of hearingTargets) {
+      const actionInfo = api.HARM_HEARING_TABLE[action];
+      const st = makePendingState(api, {
+        reports: V83_COMPLETE_REPORTS,
+        visited: { court: true },
+        pending: {
+          kind: 'hearing',
+          source: 'second-harm-hearing-court',
+          target,
+          action,
+          outcome: actionInfo.outcome,
+          feedback: actionInfo.feedback
+        }
+      });
+      const bctx = makeV83Context({ initialStore: { goddead_v83_harm_archaeology: JSON.stringify(st) } });
+      assert.strictEqual(bctx.api.harmArchaeologyBridgeAllows(target), true);
+      for (const sib of siblings) {
+        assert.strictEqual(bctx.api.harmArchaeologyBridgeAllows(sib), false);
+      }
+    }
+
+    // Post-settlement ActiveReconstructor mappings (all 3)
+    for (const { inst, target, siblings } of instTargets) {
+      const recState = makePendingState(api, {
+        reports: [`closed-scar-site:${inst}:the-offender-never-existed`],
+        activeReconstructor: {
+          instrument: inst,
+          report: `closed-scar-site:${inst}:the-offender-never-existed`,
+          feedback: api.HARM_INSTRUMENT_TABLE[inst].reconstructorFeedback
+        }
+      });
+      const rctx = makeV83Context({ initialStore: { goddead_v83_harm_archaeology: JSON.stringify(recState) } });
+      assert.strictEqual(rctx.api.harmArchaeologyBridgeAllows(target), true);
+      for (const sib of siblings) {
+        assert.strictEqual(rctx.api.harmArchaeologyBridgeAllows(sib), false);
+      }
+    }
+
+    // ActiveReconstructor without collected report is rejected
+    const uncollectedRecState = makePendingState(api, {
+      reports: [],
+      activeReconstructor: {
+        instrument: 'pain-reconstruction-brush',
+        report: 'closed-scar-site:pain-reconstruction-brush:the-offender-never-existed',
+        feedback: api.HARM_INSTRUMENT_TABLE['pain-reconstruction-brush'].reconstructorFeedback
+      }
+    });
+    assert.strictEqual(makeV83Context({ initialStore: { goddead_v83_harm_archaeology: JSON.stringify(uncollectedRecState) } }).api.harmArchaeologyBridgeAllows('threshold'), false);
+
+    // Post-settlement Hearing latest outcome mappings (all 3)
+    for (const { action, target, siblings } of hearingTargets) {
+      const outcome = api.HARM_HEARING_TABLE[action].outcome;
+      const wstate = makePendingState(api, {
+        reports: V83_COMPLETE_REPORTS,
+        hearingOutcomes: [outcome],
+        lastOutcome: outcome
+      });
+      const wctx = makeV83Context({ initialStore: { goddead_v83_harm_archaeology: JSON.stringify(wstate) } });
+      assert.strictEqual(wctx.api.harmArchaeologyBridgeAllows(target), true);
+      for (const sib of siblings) {
+        assert.strictEqual(wctx.api.harmArchaeologyBridgeAllows(sib), false);
+      }
+    }
+
+    // Stale older outcome rejected if lastOutcome is different
+    const staleOutcomeState = makePendingState(api, {
+      reports: V83_COMPLETE_REPORTS,
+      hearingOutcomes: ['the-investigation-was-convicted-of-second-harm', 'the-wound-was-granted-the-right-to-refuse-evidence'],
+      lastOutcome: 'the-wound-was-granted-the-right-to-refuse-evidence'
+    });
+    const staleCtx = makeV83Context({ initialStore: { goddead_v83_harm_archaeology: JSON.stringify(staleOutcomeState) } });
+    assert.strictEqual(staleCtx.api.harmArchaeologyBridgeAllows('threshold'), true);
+    assert.strictEqual(staleCtx.api.harmArchaeologyBridgeAllows('remembrance'), false);
+
+    // Forged outcome / lastOutcome uncollected
+    const forgedOutcomeState = makePendingState(api, {
+      reports: V83_COMPLETE_REPORTS,
+      hearingOutcomes: [],
+      lastOutcome: 'the-wound-was-granted-the-right-to-refuse-evidence'
+    });
+    assert.strictEqual(makeV83Context({ initialStore: { goddead_v83_harm_archaeology: JSON.stringify(forgedOutcomeState) } }).api.harmArchaeologyBridgeAllows('threshold'), false);
+
+    // Visit matrix (pending admission vs visited admission vs rejected)
+    // bureau
+    const vBureauEntry = makeV83Context({ initialStore: { goddead_v83_harm_archaeology: JSON.stringify(makePendingState(api, { pending: { kind: 'entry', target: 'harm-archaeology-bureau', feedback: V83_ENTRY_FEEDBACK } })) } });
+    assert.strictEqual(vBureauEntry.api.harmArchaeologyBureauCanVisit(), true);
+    const vBureauRecReturn = makeV83Context({ initialStore: { goddead_v83_harm_archaeology: JSON.stringify(makePendingState(api, { reports: [V83_EXPECTED_REPORT], activeReconstructor: canonicalRec, pending: validRecReturn })) } });
+    assert.strictEqual(vBureauRecReturn.api.harmArchaeologyBureauCanVisit(), true);
+    const vBureauVisited = makeV83Context({ initialStore: { goddead_v83_harm_archaeology: JSON.stringify(makePendingState(api, { visited: { bureau: true } })) } });
+    assert.strictEqual(vBureauVisited.api.harmArchaeologyBureauCanVisit(), true);
+    const vBureauBadPending = makeV83Context({ initialStore: { goddead_v83_harm_archaeology: JSON.stringify(makePendingState(api, { pending: validSite })) } });
+    assert.strictEqual(vBureauBadPending.api.harmArchaeologyBureauCanVisit(), false);
+
+    // excavation
+    const vExcavationPending = makeV83Context({ initialStore: { goddead_v83_harm_archaeology: JSON.stringify(makePendingState(api, { pending: validSite })) } });
+    assert.strictEqual(vExcavationPending.api.forensicMercyExcavationCanVisit(), true);
+    const vExcavationVisited = makeV83Context({ initialStore: { goddead_v83_harm_archaeology: JSON.stringify(makePendingState(api, { visited: { excavation: true }, draft: { site: 'closed-scar-site', instrument: '' } })) } });
+    assert.strictEqual(vExcavationVisited.api.forensicMercyExcavationCanVisit(), true);
+    const vExcavationVisitedNoDraft = makeV83Context({ initialStore: { goddead_v83_harm_archaeology: JSON.stringify(makePendingState(api, { visited: { excavation: true }, draft: { site: '', instrument: '' } })) } });
+    assert.strictEqual(vExcavationVisitedNoDraft.api.forensicMercyExcavationCanVisit(), false);
+
+    // scene
+    const vScenePending = makeV83Context({ initialStore: { goddead_v83_harm_archaeology: JSON.stringify(makePendingState(api, { draft: { site: 'closed-scar-site', instrument: '' }, pending: validInst })) } });
+    assert.strictEqual(vScenePending.api.crimeSceneWithoutOffenderCanVisit(), true);
+    const vSceneVisited = makeV83Context({ initialStore: { goddead_v83_harm_archaeology: JSON.stringify(makePendingState(api, { visited: { scene: true }, draft: { site: 'closed-scar-site', instrument: 'pain-reconstruction-brush' } })) } });
+    assert.strictEqual(vSceneVisited.api.crimeSceneWithoutOffenderCanVisit(), true);
+    const vSceneVisitedIncompleteDraft = makeV83Context({ initialStore: { goddead_v83_harm_archaeology: JSON.stringify(makePendingState(api, { visited: { scene: true }, draft: { site: 'closed-scar-site', instrument: '' } })) } });
+    assert.strictEqual(vSceneVisitedIncompleteDraft.api.crimeSceneWithoutOffenderCanVisit(), false);
+
+    // court
+    const vCourtPending = makeV83Context({ initialStore: { goddead_v83_harm_archaeology: JSON.stringify(makePendingState(api, { reports: V83_COMPLETE_REPORTS, pending: validHearingEntry })) } });
+    assert.strictEqual(vCourtPending.api.secondHarmHearingCourtCanVisit(), true);
+    const vCourtVisited = makeV83Context({ initialStore: { goddead_v83_harm_archaeology: JSON.stringify(makePendingState(api, { reports: V83_COMPLETE_REPORTS, visited: { court: true } })) } });
+    assert.strictEqual(vCourtVisited.api.secondHarmHearingCourtCanVisit(), true);
+    const vCourtVisitedNoCoverage = makeV83Context({ initialStore: { goddead_v83_harm_archaeology: JSON.stringify(makePendingState(api, { reports: [], visited: { court: true } })) } });
+    assert.strictEqual(vCourtVisitedNoCoverage.api.secondHarmHearingCourtCanVisit(), false);
+
+    // 8. Static Module, Listener, and DOM Verification
+    const scheduleMatches = v83ModuleBlock.match(/AutoAdvance\.schedule\(/g) || [];
+    assert.strictEqual(scheduleMatches.length, 8, "Module must have exactly 8 textual AutoAdvance.schedule call sites");
+
+    const listenerRegex = /\.addEventListener\('click',\s*\(e\)\s*=>\s*\{([\s\S]*?)\n\s*\}\);/g;
+    const listenerMatches = [...v83ModuleBlock.matchAll(listenerRegex)];
+    assert.strictEqual(listenerMatches.length, 18, "v83 Module must register exactly 18 click listeners");
+
+    for (const match of listenerMatches) {
+      const body = match[1].trim();
+      assert.ok(body.startsWith('if (!e.isTrusted) return;'), 'Each click handler must guard against untrusted events first');
+    }
+
+    const exactDomIds = [
+      'harm-archaeology-entry-btn',
+      'harm-hearing-entry-btn',
+      'harm-site-closed-scar-site',
+      'harm-site-zeroed-ledger-site',
+      'harm-site-innocent-soil-site',
+      'harm-instrument-pain-reconstruction-brush',
+      'harm-instrument-responsibility-pollen-sieve',
+      'harm-instrument-missing-witness-cast',
+      'harm-interpretation-the-offender-never-existed',
+      'harm-interpretation-excavation-created-the-truth',
+      'harm-interpretation-the-wound-was-an-alibi',
+      'harm-interpretation-the-archive-was-the-second-offender',
+      'harm-reconstructor-return-threshold',
+      'harm-reconstructor-return-liability-ledger',
+      'harm-reconstructor-return-causeless-ward',
+      'harm-hearing-convict-the-investigation',
+      'harm-hearing-grant-the-wound-right-to-refuse-evidence',
+      'harm-hearing-make-truth-outlive-every-victim'
+    ];
+
+    for (const domId of exactDomIds) {
+      assert.ok(html.includes(`id="${domId}"`), `HTML must contain element id="${domId}"`);
+      assert.ok(v83ModuleBlock.includes(`'#${domId}'`) || v83ModuleBlock.includes(`"#${domId}"`), `Module must reference selector #${domId}`);
+    }
+
+    // Untrusted click dispatch test on attached element
+    const mockSiteBtn = createMockElement('harm-site-closed-scar-site');
+    const elementsWithSite = { 'harm-site-closed-scar-site': mockSiteBtn };
+    const untrustedCtx = makeV83Context({
+      scene: 'harm-archaeology-bureau',
+      elements: elementsWithSite,
+      initialStore: { goddead_v83_harm_archaeology: JSON.stringify(makePendingState(api, { visited: { bureau: true } })) }
+    });
+
+    assert.ok(mockSiteBtn._listeners['click'] && mockSiteBtn._listeners['click'].length > 0, "Listener must attach to the button");
+    const storeSnapBefore = { ...untrustedCtx.storeData };
+    const schedSnapBefore = [...untrustedCtx.scheduleCalls];
+
+    mockSiteBtn._dispatch('click', { isTrusted: false });
+    assert.deepStrictEqual(untrustedCtx.storeData, storeSnapBefore, "Untrusted click must not mutate store");
+    assert.deepStrictEqual(untrustedCtx.scheduleCalls, schedSnapBefore, "Untrusted click must not schedule transition");
+    assert.strictEqual(untrustedCtx.api.getHarmArchaeology().pending, null);
+
+    const requiredUIRoutines = [
+      'syncHarmArchaeologyBureau',
+      'syncForensicMercyExcavation',
+      'syncCrimeSceneWithoutOffender',
+      'syncSecondHarmHearingCourt',
+      'syncHarmReconstructors',
+      'paintHarmArchaeologyMemory',
+      'paintHarmArchaeologyCodex',
+      'syncHarmArchaeologyRemembrance',
+      'syncHarmArchaeologyLinks',
+      'replayHarmArchaeologyPending'
+    ];
+    for (const routine of requiredUIRoutines) {
+      assert.ok(
+        v83ModuleBlock.includes(`function ${routine}`) || v83ModuleBlock.includes(`const ${routine} =`),
+        `Module must declare UI sync routine: ${routine}`
+      );
+    }
+  }
+
+{
+  const sceneInitStart = js.indexOf("const sceneInit = (name) => {");
+  assert.ok(sceneInitStart !== -1, "sceneInit definition found");
+  const sceneInitEnd = js.indexOf("/* 分层进度守卫", sceneInitStart);
+  assert.ok(sceneInitEnd !== -1, "sceneInit end marker found");
+  const sceneInitSlice = js.slice(sceneInitStart, sceneInitEnd);
+
+  const v82ReplayPos = sceneInitSlice.indexOf("replayForgivenessPending(name);");
+  assert.ok(v82ReplayPos !== -1, "v82 replay call found in sceneInit");
+  const hudPos = sceneInitSlice.indexOf("updateHudDisplay();", v82ReplayPos);
+  assert.ok(hudPos !== -1, "updateHudDisplay found in sceneInit after v82");
+
+  const sceneInitCalls = [
+    "resolveHarmPendingOnArrival(name);",
+    "syncHarmArchaeologyBureau();",
+    "syncForensicMercyExcavation();",
+    "syncCrimeSceneWithoutOffender();",
+    "syncSecondHarmHearingCourt();",
+    "syncHarmReconstructors();",
+    "paintHarmArchaeologyMemory();",
+    "paintHarmArchaeologyCodex();",
+    "syncHarmArchaeologyRemembrance();",
+    "syncHarmArchaeologyLinks();",
+    "replayHarmArchaeologyPending(name);"
+  ];
+
+  let lastInitPos = v82ReplayPos;
+  for (const call of sceneInitCalls) {
+    const firstIdx = sceneInitSlice.indexOf(call);
+    const lastIdx = sceneInitSlice.lastIndexOf(call);
+    assert.ok(firstIdx !== -1, `sceneInit contains ${call}`);
+    assert.strictEqual(firstIdx, lastIdx, `sceneInit contains ${call} exactly once`);
+    assert.ok(firstIdx > lastInitPos, `${call} appears in strict order after previous call`);
+    lastInitPos = firstIdx;
+  }
+  assert.ok(lastInitPos < hudPos, "all v83 sceneInit calls appear before updateHudDisplay()");
+
+  const bootstrapMarker = "/* ---------- 初始化 ---------- */";
+  const bootstrapStart = js.lastIndexOf(bootstrapMarker);
+  assert.ok(bootstrapStart !== -1, "Bootstrap block found");
+  const routePos = js.indexOf("route();", bootstrapStart);
+  assert.ok(routePos !== -1, "Bootstrap route() call found");
+  const bootstrapSlice = js.slice(bootstrapStart, routePos + "route();".length);
+
+  const v82BootAnchor = "syncForgivenessLandfillLinks();";
+  const v82BootPos = bootstrapSlice.indexOf(v82BootAnchor);
+  assert.ok(v82BootPos !== -1, "v82 bootstrap anchor found");
+  const revealThresholdPos = bootstrapSlice.indexOf("revealScene(scenes.threshold);", v82BootPos);
+  assert.ok(revealThresholdPos !== -1, "revealScene(scenes.threshold) found after v82 bootstrap anchor");
+
+  const bootstrapCalls = [
+    "resolveHarmPendingOnArrival(\"threshold\");",
+    "syncHarmArchaeologyBureau();",
+    "syncForensicMercyExcavation();",
+    "syncCrimeSceneWithoutOffender();",
+    "syncSecondHarmHearingCourt();",
+    "syncHarmReconstructors();",
+    "paintHarmArchaeologyMemory();",
+    "paintHarmArchaeologyCodex();",
+    "syncHarmArchaeologyRemembrance();",
+    "syncHarmArchaeologyLinks();",
+    "replayHarmArchaeologyPending(\"threshold\");"
+  ];
+
+  let lastBootPos = v82BootPos;
+  for (const call of bootstrapCalls) {
+    const firstIdx = bootstrapSlice.indexOf(call);
+    const lastIdx = bootstrapSlice.lastIndexOf(call);
+    assert.ok(firstIdx !== -1, `bootstrap contains ${call}`);
+    assert.strictEqual(firstIdx, lastIdx, `bootstrap contains ${call} exactly once`);
+    assert.ok(firstIdx > lastBootPos, `bootstrap call ${call} in strict order after previous call`);
+    lastBootPos = firstIdx;
+  }
+  assert.ok(lastBootPos < revealThresholdPos, "all v83 bootstrap calls appear before revealScene(scenes.threshold)");
+  assert.ok(revealThresholdPos < bootstrapSlice.indexOf("route();", revealThresholdPos), "revealScene precedes route()");
+
+  const resolveSceneStart = js.indexOf("const resolveScene = (name) => {");
+  assert.ok(resolveSceneStart !== -1, "resolveScene definition found");
+  const resolveSceneEnd = js.indexOf("/* 可靠聚焦", resolveSceneStart);
+  assert.ok(resolveSceneEnd !== -1, "resolveScene end marker found");
+  const resolveSceneSlice = js.slice(resolveSceneStart, resolveSceneEnd);
+
+  const v82GuardAnchor = 'if (target === "harmlessness-final-well" && !harmlessnessFinalWellCanVisit()) target = "remembrance";';
+  const v82GuardPos = resolveSceneSlice.indexOf(v82GuardAnchor);
+  assert.ok(v82GuardPos !== -1, "v82 direct guard anchor found in resolveScene");
+
+  const addressSyncPos = resolveSceneSlice.indexOf('if (target !== name && location.hash === "#" + name)');
+  assert.ok(addressSyncPos !== -1, "address sync logic found in resolveScene");
+
+  const directGuards = [
+    'if (target === "harm-archaeology-bureau" && !harmArchaeologyBureauCanVisit()) target = "remembrance";',
+    'if (target === "forensic-mercy-excavation" && !forensicMercyExcavationCanVisit()) target = "remembrance";',
+    'if (target === "crime-scene-without-offender" && !crimeSceneWithoutOffenderCanVisit() && !accomplishedFactEvictionBridgeAllows("crime-scene-without-offender")) target = "remembrance";',
+    'if (target === "second-harm-hearing-court" && !secondHarmHearingCourtCanVisit()) target = "remembrance";'
+  ];
+
+  let lastGuardPos = v82GuardPos;
+  for (const guard of directGuards) {
+    const guardIdx = resolveSceneSlice.indexOf(guard);
+    assert.ok(guardIdx !== -1, `resolveScene contains direct guard: ${guard}`);
+    assert.ok(guardIdx > lastGuardPos, `direct guard appears in order: ${guard}`);
+    lastGuardPos = guardIdx;
+  }
+  assert.ok(lastGuardPos < addressSyncPos, "direct guards appear before address bar synchronization");
+
+  assert.ok(resolveSceneSlice.includes('harmArchaeologyBridgeAllows("threshold")') || resolveSceneSlice.includes('harmArchaeologyBridgeAllows(target)'), "bridge covers target in resolveScene");
+  assert.ok(resolveSceneSlice.includes('harmArchaeologyBridgeAllows("causeless-ward")'), "bridge covers causeless-ward");
+  assert.ok(resolveSceneSlice.includes("harmArchaeologyBridgeAllows('unending-gallery')"), "bridge covers unending-gallery");
+
+  const forgetStart = js.indexOf("if (forgetActionBtn) {");
+  assert.ok(forgetStart !== -1, "forgetActionBtn block found");
+  const forgetEnd = js.indexOf("/* ---------- 初始化 ---------- */", forgetStart);
+  assert.ok(forgetEnd !== -1, "forget block end marker found");
+  const forgetSlice = js.slice(forgetStart, forgetEnd);
+
+  const v82CleanupAnchor = 'localStorage.removeItem("goddead_v82_forgiveness_landfill");';
+  const v82CleanupPos = forgetSlice.indexOf(v82CleanupAnchor);
+  assert.ok(v82CleanupPos !== -1, "v82 storage removal found in forget block");
+  const v83ForgetSlice = forgetSlice.slice(v82CleanupPos);
+
+  assert.ok(
+    /localStorage\.removeItem\(["']goddead_v83_harm_archaeology["']\);/.test(v83ForgetSlice),
+    "v83 storage removal found in forget block"
+  );
+
+  const autoAdvanceScenes = [
+    "harm-archaeology-bureau",
+    "forensic-mercy-excavation",
+    "crime-scene-without-offender",
+    "second-harm-hearing-court"
+  ];
+  for (const scene of autoAdvanceScenes) {
+    assert.ok(
+      new RegExp(`AutoAdvance\\.clear\\(["']${scene}["']\\);`).test(v83ForgetSlice),
+      `AutoAdvance cleared for ${scene}`
+    );
+  }
+
+  const hiddenIds = [
+    "harm-archaeology-memory",
+    "harm-archaeology-codex",
+    "harm-archaeology-codex-entry",
+    "harm-archaeology-entry-btn",
+    "harm-hearing-entry-btn",
+    "harm-archaeology-bureau-link",
+    "forensic-mercy-excavation-link",
+    "crime-scene-without-offender-link",
+    "second-harm-hearing-court-link",
+    "harm-reconstructor-threshold",
+    "harm-reconstructor-liability-ledger",
+    "harm-reconstructor-causeless-ward",
+    "harm-reconstructor-return-threshold",
+    "harm-reconstructor-return-liability-ledger",
+    "harm-reconstructor-return-causeless-ward"
+  ];
+  for (const id of hiddenIds) {
+    assert.ok(
+      new RegExp(`\\$\\([\"']#${id}[\"']\\)[\\s\\S]*?\\.hidden\\s*=\\s*true`).test(v83ForgetSlice),
+      `forget reset hides #${id}`
+    );
+  }
+
+  const textClearIds = [
+    "harm-archaeology-entry-response",
+    "harm-hearing-entry-response",
+    "harm-archaeology-bureau-response",
+    "forensic-mercy-excavation-response",
+    "crime-scene-without-offender-response",
+    "second-harm-hearing-court-response",
+    "harm-reconstructor-response-threshold",
+    "harm-reconstructor-response-liability-ledger",
+    "harm-reconstructor-response-causeless-ward"
+  ];
+  for (const id of textClearIds) {
+    assert.ok(
+      new RegExp(`\\$\\([\"']#${id}[\"']\\)[\\s\\S]*?\\.textContent\\s*=\\s*["']["']`).test(v83ForgetSlice),
+      `forget reset clears text content of #${id}`
+    );
+  }
+
+  const actionButtonIds = [
+    "harm-archaeology-entry-btn",
+    "harm-hearing-entry-btn",
+    "harm-site-closed-scar-site",
+    "harm-site-zeroed-ledger-site",
+    "harm-site-innocent-soil-site",
+    "harm-instrument-pain-reconstruction-brush",
+    "harm-instrument-responsibility-pollen-sieve",
+    "harm-instrument-missing-witness-cast",
+    "harm-interpretation-the-offender-never-existed",
+    "harm-interpretation-excavation-created-the-truth",
+    "harm-interpretation-the-wound-was-an-alibi",
+    "harm-interpretation-the-archive-was-the-second-offender",
+    "harm-reconstructor-return-threshold",
+    "harm-reconstructor-return-liability-ledger",
+    "harm-reconstructor-return-causeless-ward",
+    "harm-hearing-convict-the-investigation",
+    "harm-hearing-grant-the-wound-right-to-refuse-evidence",
+    "harm-hearing-make-truth-outlive-every-victim"
+  ];
+  for (const id of actionButtonIds) {
+    assert.ok(
+      new RegExp(`\\$\\([\"']#${id}[\"']\\)[\\s\\S]*?\\.disabled\\s*=\\s*false`).test(v83ForgetSlice),
+      `forget reset re-enables #${id}`
+    );
+    assert.ok(
+      new RegExp(`\\$\\([\"']#${id}[\"']\\)[\\s\\S]*?\\.removeAttribute\\([\"']aria-pressed[\"']\\)`).test(v83ForgetSlice),
+      `forget reset removes aria-pressed on #${id}`
+    );
+  }
+
+  const v83ForgetSyncCalls = [
+    "syncHarmArchaeologyBureau();",
+    "syncForensicMercyExcavation();",
+    "syncCrimeSceneWithoutOffender();",
+    "syncSecondHarmHearingCourt();",
+    "syncHarmReconstructors();",
+    "paintHarmArchaeologyMemory();",
+    "paintHarmArchaeologyCodex();",
+    "syncHarmArchaeologyRemembrance();",
+    "syncHarmArchaeologyLinks();"
+  ];
+
+  let lastForgetSyncPos = 0;
+  for (const call of v83ForgetSyncCalls) {
+    const firstIdx = v83ForgetSlice.indexOf(call);
+    const lastIdx = v83ForgetSlice.lastIndexOf(call);
+    assert.ok(firstIdx !== -1, `forget reset contains UI call: ${call}`);
+    assert.strictEqual(firstIdx, lastIdx, `forget reset contains UI call exactly once: ${call}`);
+    assert.ok(firstIdx > lastForgetSyncPos, `forget reset UI call ${call} in strict order`);
+    lastForgetSyncPos = firstIdx;
+  }
+}
+
+{
+  const v83CodexFnStart = js.indexOf('function paintHarmArchaeologyCodex()');
+  const v83CodexFnEnd = js.indexOf('\n  }\n\n  function syncHarmArchaeologyRemembrance()', v83CodexFnStart);
+  assert.ok(v83CodexFnStart !== -1 && v83CodexFnEnd !== -1, 'v83 codex painter boundary exists');
+  const v83CodexFnSrc = js.slice(v83CodexFnStart, v83CodexFnEnd);
+
+  assert.ok(v83CodexFnSrc.includes("$('#harm-archaeology-codex')"), 'v83 codex painter selects the shell');
+  assert.ok(v83CodexFnSrc.includes("$('#harm-archaeology-codex-grid')"), 'v83 codex painter selects the grid');
+  assert.ok(v83CodexFnSrc.includes('if (!codex || !grid) return;'), 'v83 codex painter guards shell and grid');
+  assert.strictEqual(v83CodexFnSrc.split("codex.textContent = '';").length - 1, 0, 'v83 codex painter never clears the shell');
+  assert.strictEqual(v83CodexFnSrc.split("grid.textContent = '';").length - 1, 1, 'v83 codex painter clears the grid exactly once');
+  assert.strictEqual(v83CodexFnSrc.split('codex.appendChild(cell);').length - 1, 0, 'v83 codex painter never appends cells to the shell');
+  assert.strictEqual(v83CodexFnSrc.split('grid.appendChild(cell);').length - 1, 2, 'v83 codex painter appends both cell families to the grid');
+
+  const v83CodexRequiredIds = [
+    'harm-archaeology-codex',
+    'harm-archaeology-codex-grid',
+    'harm-archaeology-codex-entry',
+    'harm-archaeology-entry-btn',
+    'harm-hearing-entry-btn',
+    'harm-archaeology-entry-response',
+    'harm-hearing-entry-response'
+  ];
+  for (const id of v83CodexRequiredIds) {
+    assert.ok(html.includes(`id="${id}"`), `v83 codex shell markup retains #${id}`);
+  }
+}
+
+{
+  const v83EntrySyncStart = js.indexOf('function syncHarmArchaeologyRemembrance()');
+  const v83EntrySyncEnd = js.indexOf('\n  }\n\n  function syncHarmArchaeologyLinks()', v83EntrySyncStart);
+  assert.ok(v83EntrySyncStart !== -1 && v83EntrySyncEnd !== -1, 'v83 remembrance entry sync boundary exists');
+  const v83EntrySyncSrc = js.slice(v83EntrySyncStart, v83EntrySyncEnd);
+
+  assert.ok(v83EntrySyncSrc.includes("const entryShell = $('#harm-archaeology-codex-entry');"), 'v83 remembrance sync selects the entry shell');
+  assert.ok(v83EntrySyncSrc.includes('if (entryShell) entryShell.hidden = true;'), 'v83 remembrance sync hides the entry shell while locked');
+  assert.ok(v83EntrySyncSrc.includes('entryShell.hidden = false;'), 'v83 remembrance sync unhides the entry shell when unlocked');
+  assert.ok(v83EntrySyncSrc.includes("entryShell.removeAttribute('hidden');"), 'v83 remembrance sync removes the shell hidden attribute when unlocked');
+  assert.ok(html.includes('id="harm-archaeology-codex-entry"'), 'v83 entry shell remains in markup');
+  assert.ok(html.includes('id="harm-archaeology-entry-btn"'), 'v83 ordinary entry button remains in markup');
+  assert.ok(html.includes('id="harm-hearing-entry-btn"'), 'v83 hearing entry button remains in markup');
+}
+
+{
+  const v83RecorderSyncStart = js.indexOf('function syncHarmReconstructors()');
+  const v83RecorderSyncEnd = js.indexOf('\n  }\n\n  function paintHarmArchaeologyMemory()', v83RecorderSyncStart);
+  assert.ok(v83RecorderSyncStart !== -1 && v83RecorderSyncEnd !== -1, 'v83 reconstructor sync boundary exists');
+  const v83RecorderSyncSrc = js.slice(v83RecorderSyncStart, v83RecorderSyncEnd);
+  assert.ok(v83RecorderSyncSrc.includes('cont.hidden = !shouldShow;'), 'v83 reconstructor sync toggles the container');
+  assert.ok(v83RecorderSyncSrc.includes("if (shouldShow) cont.removeAttribute('hidden');"), 'v83 reconstructor sync removes container hidden when active');
+  assert.ok(v83RecorderSyncSrc.includes('resp.textContent = st.activeReconstructor.feedback;'), 'v83 reconstructor sync restores canonical reconstructor feedback');
+  assert.ok(v83RecorderSyncSrc.includes('resp.hidden = false;'), 'v83 reconstructor sync unhides the response when active');
+  assert.ok(v83RecorderSyncSrc.includes("resp.removeAttribute('hidden');"), 'v83 reconstructor sync removes response hidden when active');
+  assert.ok(v83RecorderSyncSrc.includes('btn.hidden = !shouldShow;'), 'v83 reconstructor sync toggles the return button');
+  assert.ok(v83RecorderSyncSrc.includes("if (shouldShow) btn.removeAttribute('hidden');"), 'v83 reconstructor sync removes button hidden when active');
+  assert.ok(v83RecorderSyncSrc.includes('btn.disabled = !shouldShow || !!st.pending;'), 'v83 reconstructor sync preserves pending disable contract');
+  assert.ok(v83RecorderSyncSrc.includes("st.pending.kind === 'reconstructor-return' && st.pending.from === scene"), 'v83 reconstructor sync preserves exact pressed contract');
+  assert.ok(html.includes('id="harm-reconstructor-threshold"'), 'v83 threshold reconstructor container remains in markup');
+  assert.ok(html.includes('id="harm-reconstructor-response-threshold"'), 'v83 threshold reconstructor response remains in markup');
+  assert.ok(html.includes('id="harm-reconstructor-return-threshold"'), 'v83 threshold reconstructor button remains in markup');
+  assert.ok(html.includes('id="harm-reconstructor-liability-ledger"'), 'v83 ledger reconstructor container remains in markup');
+  assert.ok(html.includes('id="harm-reconstructor-response-liability-ledger"'), 'v83 ledger reconstructor response remains in markup');
+  assert.ok(html.includes('id="harm-reconstructor-return-liability-ledger"'), 'v83 ledger reconstructor button remains in markup');
+  assert.ok(html.includes('id="harm-reconstructor-causeless-ward"'), 'v83 ward reconstructor container remains in markup');
+  assert.ok(html.includes('id="harm-reconstructor-response-causeless-ward"'), 'v83 ward reconstructor response remains in markup');
+  assert.ok(html.includes('id="harm-reconstructor-return-causeless-ward"'), 'v83 ward reconstructor button remains in markup');
+}
+
+// v83 static asset freeze and static markup verification
+const V83_ASSET_FREEZE = [
+  {
+    path: "design-references/source-v83-harm-archaeology-bureau.png",
+    sha256: "a617f68548b099f6d6f384b4176def7083ae22fb4dde3e338670a1eee1ab33b2",
+    type: "png"
+  },
+  {
+    path: "design-references/source-v83-forensic-mercy-excavation.png",
+    sha256: "5ab503ef560cf7ad29f78a5a7eca3bac718aa2a1bc3b55a2df5b854020766629",
+    type: "png"
+  },
+  {
+    path: "design-references/source-v83-crime-scene-without-offender.png",
+    sha256: "6c96a1f28b6a3a1011abeb86e190fb2e7aa01c0e0daccc4e338e8df4abf2fb8a",
+    type: "png"
+  },
+  {
+    path: "design-references/source-v83-second-harm-hearing-court.png",
+    sha256: "c0a97c021b18fae2759357c3950ff17249058365841e08b7045991a999d13bf1",
+    type: "png"
+  },
+  {
+    path: "assets/v83-harm-archaeology-bureau.webp",
+    sha256: "5d8ae26436ed228c8dec494de2aceecf41ac75f879f3b3019c30e36adeae8433",
+    type: "webp"
+  },
+  {
+    path: "assets/v83-forensic-mercy-excavation.webp",
+    sha256: "b2c23995d6f3fddee6647f7fbc8543de8a9f6f4da8c266454d1731fe94b6184c",
+    type: "webp"
+  },
+  {
+    path: "assets/v83-crime-scene-without-offender.webp",
+    sha256: "657c84f8836460c5cb6019256497a36842e4ad85b62becf04387731581d868b9",
+    type: "webp"
+  },
+  {
+    path: "assets/v83-second-harm-hearing-court.webp",
+    sha256: "cc68a511dd68166e8d06ff9ee84583c0051850d84d20d82756644cb354b4a2de",
+    type: "webp"
+  }
+];
+
+for (const asset of V83_ASSET_FREEZE) {
+  const buf = await readFile(new URL(asset.path, root));
+  const actualHash = createHash("sha256").update(buf).digest("hex");
+  assert.equal(actualHash, asset.sha256, `${asset.path} sha256 mismatch`);
+  const dims = asset.type === "png" ? readPngDimensions(buf) : readWebpDimensions(buf);
+  assert.equal(dims.width, 1536, `${asset.path} width must be 1536`);
+  assert.equal(dims.height, 1024, `${asset.path} height must be 1024`);
+}
+
+const V83_SCENES = [
+  {
+    id: "harm-archaeology-bureau",
+    title: "伤害考古局",
+    webp: "assets/v83-harm-archaeology-bureau.webp"
+  },
+  {
+    id: "forensic-mercy-excavation",
+    title: "慈悲法证发掘坑",
+    webp: "assets/v83-forensic-mercy-excavation.webp"
+  },
+  {
+    id: "crime-scene-without-offender",
+    title: "无加害者犯罪现场",
+    webp: "assets/v83-crime-scene-without-offender.webp"
+  },
+  {
+    id: "second-harm-hearing-court",
+    title: "二次伤害听证庭",
+    webp: "assets/v83-second-harm-hearing-court.webp"
+  }
+];
+
+for (const scene of V83_SCENES) {
+  assert.match(
+    html,
+    new RegExp(`<link\\s+rel="preload"\\s+as="image"\\s+type="image/webp"\\s+href="${scene.webp}">`),
+    `must preload ${scene.webp}`
+  );
+  assert.match(
+    html,
+    new RegExp(`data-scene="${scene.id}"`),
+    `must have data-scene="${scene.id}"`
+  );
+  assert.match(
+    html,
+    new RegExp(`data-title="Goddead — ${scene.title}"`),
+    `must have data-title="Goddead — ${scene.title}"`
+  );
+}
+
+const V83_ACTIONS = [
+  "harm-site-closed-scar-site",
+  "harm-site-zeroed-ledger-site",
+  "harm-site-innocent-soil-site",
+  "harm-instrument-pain-reconstruction-brush",
+  "harm-instrument-responsibility-pollen-sieve",
+  "harm-instrument-missing-witness-cast",
+  "harm-interpretation-the-offender-never-existed",
+  "harm-interpretation-excavation-created-the-truth",
+  "harm-interpretation-the-wound-was-an-alibi",
+  "harm-interpretation-the-archive-was-the-second-offender",
+  "harm-hearing-convict-the-investigation",
+  "harm-hearing-grant-the-wound-right-to-refuse-evidence",
+  "harm-hearing-make-truth-outlive-every-victim"
+];
+
+for (const actionId of V83_ACTIONS) {
+  assert.match(
+    html,
+    new RegExp(`id="${actionId}"`),
+    `must have action element with id="${actionId}"`
+  );
+}
+
+const V83_REGISTRATION_IDS = [
+  "harm-archaeology-memory",
+  "harm-archaeology-codex",
+  "harm-archaeology-codex-grid",
+  "harm-archaeology-codex-entry",
+  "harm-archaeology-entry-btn",
+  "harm-hearing-entry-btn",
+  "harm-reconstructor-threshold",
+  "harm-reconstructor-liability-ledger",
+  "harm-reconstructor-causeless-ward",
+  "harm-reconstructor-return-threshold",
+  "harm-reconstructor-return-liability-ledger",
+  "harm-reconstructor-return-causeless-ward",
+  "harm-archaeology-bureau-link",
+  "forensic-mercy-excavation-link",
+  "crime-scene-without-offender-link",
+  "second-harm-hearing-court-link"
+];
+
+for (const id of V83_REGISTRATION_IDS) {
+  assert.match(
+    html,
+    new RegExp(`id="${id}"`),
+    `must have element with id="${id}"`
+  );
+}
+
+assert.match(css, /\.harm-archaeology-bureau-figure\b/, "css must contain .harm-archaeology-bureau-figure");
+assert.match(css, /\.harm-archaeology-hotspot\b/, "css must contain .harm-archaeology-hotspot");
+assert.match(css, /\.harm-archaeology-grid\b/, "css must contain .harm-archaeology-grid");
+assert.match(css, /\.harm-reconstructor-return\b/, "css must contain .harm-reconstructor-return");
+
+const v83MediaMatch = css.match(/@media\s*\([^{}]*max-width[^{}]*\)\s*\{[\s\S]*?\}/g) || [];
+const v83MobileCss = v83MediaMatch.join("\n");
+assert.match(v83MobileCss, /\.harm-archaeology-bureau-figure|\.harm-archaeology-hotspot|\.harm-archaeology-grid|\.harm-reconstructor-return/, "mobile media queries must style v83 classes");
+
+const v83ReducedMotionMatch = css.match(/@media\s*\([^{}]*prefers-reduced-motion[^{}]*\)\s*\{[\s\S]*?\}/g) || [];
+const v83ReducedMotionCss = v83ReducedMotionMatch.join("\n");
+assert.match(v83ReducedMotionCss, /\.harm-archaeology-hotspot|\.harm-reconstructor-return/, "reduced-motion query must cover v83 interactive elements");
+
+const V83_FIGURE_SPECS = [
+  ['harm-archaeology-bureau-figure', '伤害考古局：左侧拒绝再次疼痛的闭合疤痕、中央笔迹移动的归零账簿、右侧压着断裂因果链的无罪土层', 3],
+  ['forensic-mercy-excavation-figure', '慈悲法证发掘坑：左侧黄铜疼痛复原刷、中央黑色责任花粉筛、右侧骨白缺席目击模具', 3],
+  ['crime-scene-without-offender-figure', '无加害者犯罪现场：左上加害者从未存在、右上发掘制造真相、左下伤口是不在场证明、右下档案是第二加害者', 4],
+  ['second-harm-hearing-court-figure', '二次伤害听证庭：左侧判调查构成第二次伤害、中央授予伤口拒绝作证权、右侧让真相活过所有受伤者', 3]
+];
+
+for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
+  const figRegex = new RegExp(`<figure[^>]*class="[^"]*\\b${figureClass}\\b[^"]*"[^>]*>([\\s\\S]*?)<\\/figure>`, "i");
+  const figMatch = html.match(figRegex);
+  assert.ok(figMatch, `figure .${figureClass} must exist`);
+
+  const openingTag = figMatch[0].match(/^<figure[^>]*>/i)[0];
+  assert.ok(!openingTag.includes('role="img"'), `figure .${figureClass} opening tag must not have role="img"`);
+  assert.ok(!openingTag.includes('aria-label='), `figure .${figureClass} opening tag must not have aria-label`);
+
+  const insideHtml = figMatch[1];
+  const imgRegex = new RegExp(`<img[^>]+alt="${expectedAlt.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`, "i");
+  assert.match(insideHtml, imgRegex, `figure .${figureClass} must contain nested img with exact alt "${expectedAlt}"`);
+
+  const buttons = insideHtml.match(/<button\b[^>]*>/gi) || [];
+  assert.equal(buttons.length, buttonCount, `figure .${figureClass} must have exactly ${buttonCount} button hotspots`);
+
+  for (const btn of buttons) {
+    const labelMatch = btn.match(/aria-label="([^"]+)"/i);
+    assert.ok(labelMatch && labelMatch[1].trim().length > 0, `hotspot button ${btn} in .${figureClass} must have nonempty aria-label`);
+  }
+}
+
+
+  // ============================================================
+  // v84 Innocent Witness Protection Runtime & State Specification (TDD)
+  // ============================================================
+  {
+    const v84ModuleStart = js.indexOf("const WITNESS_PROTECTION_KEY = 'goddead_v84_innocent_witness_protection';");
+    const v85ModuleStart = js.indexOf("const ORPHANED_FACT_KEY = 'goddead_v85_orphaned_fact_claims';");
+    const v84CorridorHeading = "\n     v85: 孤事实认领处";
+    const v84CorridorHeadingIndex = v85ModuleStart !== -1 ? v85ModuleStart : (v84ModuleStart !== -1 ? js.indexOf(v84CorridorHeading, v84ModuleStart) : -1);
+    const v84ModuleEnd = v84CorridorHeadingIndex !== -1 ? js.lastIndexOf("/*", v84CorridorHeadingIndex) : -1;
+    assert.ok(v84ModuleStart !== -1 && v84ModuleEnd > v84ModuleStart, "v84 module boundaries must exist");
+    const v84ModuleBlock = js.slice(v84ModuleStart, v84ModuleEnd);
+
+    const makeCompleteV83StateForV84 = () => ({
+      reports: [
+        'closed-scar-site:pain-reconstruction-brush:the-offender-never-existed',
+        'zeroed-ledger-site:responsibility-pollen-sieve:excavation-created-the-truth',
+        'innocent-soil-site:missing-witness-cast:the-wound-was-an-alibi',
+        'closed-scar-site:pain-reconstruction-brush:the-archive-was-the-second-offender',
+      ],
+      hearingOutcomes: [
+        'the-investigation-was-convicted-of-second-harm',
+        'the-wound-was-granted-the-right-to-refuse-evidence',
+        'truth-outlived-every-victim',
+      ]
+    });
+
+    const createMockElement = (id = '') => {
+      const listeners = {};
+      const el = {
+        id,
+        className: '',
+        innerHTML: '',
+        textContent: '',
+        children: [],
+        hidden: false,
+        disabled: false,
+        attributes: {},
+        setAttribute(k, v) { this.attributes[k] = String(v); },
+        removeAttribute(k) { delete this.attributes[k]; },
+        appendChild(child) { this.children.push(child); return child; },
+        addEventListener(type, handler) {
+          listeners[type] = listeners[type] || [];
+          listeners[type].push(handler);
+        },
+        _listeners: listeners,
+        _dispatch(type, evt = {}) {
+          const list = listeners[type] || [];
+          for (const fn of list) fn(evt);
+        }
+      };
+      return el;
+    };
+
+    const hostV84 = (val) => JSON.parse(JSON.stringify(val));
+
+    const makeV84Context = ({
+      initialStore = {},
+      elements = {},
+      scene = '',
+      v83unlocked = true,
+      upstreamV83State = makeCompleteV83StateForV84(),
+    } = {}) => {
+      const storeData = { ...initialStore };
+      const store = {
+        get(k, def) {
+          return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def;
+        },
+        set(k, v) {
+          storeData[k] = String(v);
+        }
+      };
+
+      const elMap = { ...elements };
+      const $ = (selector) => {
+        if (typeof selector === 'string' && selector.startsWith('#')) {
+          const id = selector.slice(1);
+          if (elMap[id]) return elMap[id];
+        }
+        return null;
+      };
+
+      const scheduleCalls = [];
+      const AutoAdvance = {
+        has() { return false; },
+        schedule(src, target, opts) {
+          scheduleCalls.push({ src, target, opts: opts ? { ...opts } : undefined });
+        },
+        clear() {}
+      };
+
+      const AudioEngine = {
+        whoosh() {},
+        bell() {}
+      };
+
+      const buttonAvailable = (id) => {
+        const el = $(`#${id}`);
+        if (!el || el.hidden || el.disabled) return false;
+        return true;
+      };
+
+      const doc = {
+        createElement: (tag) => createMockElement(tag),
+      };
+
+      const factory = new Function(
+        'store', '$', 'currentScene', 'AutoAdvance', 'AudioEngine', 'reduced',
+        'harmArchaeologyUnlocked', 'getHarmArchaeology', 'buttonAvailable', 'document',
+        `${v84ModuleBlock}
+        return {
+          WITNESS_PROTECTION_KEY,
+          WITNESS_PROTECTION_VERSION,
+          WITNESS_TARGETS,
+          WITNESS_PROCEDURES,
+          WITNESS_TERMS,
+          WITNESS_COURT_ACTIONS,
+          WITNESS_TARGET_TABLE,
+          WITNESS_PROCEDURE_TABLE,
+          WITNESS_TERM_TABLE,
+          WITNESS_COURT_TABLE,
+          WITNESS_COURT_OUTCOME_BY_ID,
+          WITNESS_PLACEMENT_IDS,
+          WITNESS_COURT_OUTCOME_IDS,
+          defaultInnocentWitnessProtection,
+          normalizeWitnessVisited,
+          normalizeWitnessDraft,
+          normalizeWitnessPlacements,
+          normalizeWitnessCourtOutcomes,
+          clampWitnessCount,
+          normalizeWitnessTallies,
+          normalizeWitnessActiveHandler,
+          normalizeWitnessPending,
+          saveInnocentWitnessProtection,
+          getInnocentWitnessProtection,
+          innocentWitnessProtectionUnlocked,
+          innocentWitnessCoverageComplete,
+          computeWitnessPlacementTitle,
+          computeWitnessPlacementFeedback,
+          findWitnessPlacementById,
+          getWitnessPendingLogicalSource,
+          innocentWitnessProtectionBeforeArrive,
+          resolveWitnessProtectionPendingOnArrival,
+          innocentWitnessProtectionBridgeAllows,
+          innocentWitnessProtectionBureauCanVisit,
+          identityCausalityLaundryCanVisit,
+          memoryRelocationSafehouseCanVisit,
+          anonymousTruthLifetimeCourtCanVisit,
+          replayWitnessProtectionPending,
+          chooseWitnessProtectionEntry,
+          chooseWitnessTarget,
+          chooseWitnessProcedure,
+          chooseWitnessTerm,
+          chooseWitnessHandlerReturn,
+          chooseWitnessCourtEntry,
+          chooseWitnessCourtAction
+        };`
+      );
+
+      const api = factory(
+        store,
+        $,
+        scene,
+        AutoAdvance,
+        AudioEngine,
+        false,
+        () => v83unlocked,
+        () => upstreamV83State,
+        buttonAvailable,
+        doc
+      );
+
+      return {
+        api,
+        storeData,
+        read: () => JSON.parse(storeData['goddead_v84_innocent_witness_protection'] || 'null'),
+        scheduleCalls,
+        elements: elMap,
+        AutoAdvance,
+      };
+    };
+
+    const V84_ENTRY_FEEDBACK = '为危险证人申请身份迁移 · APPLY FOR IDENTITY MIGRATION FOR DANGEROUS WITNESSES';
+    const V84_COURT_ENTRY_FEEDBACK = '为匿名真相安排终身保护 · PLACE ANONYMOUS TRUTH UNDER LIFETIME PROTECTION';
+    const V84_EXPECTED_PLACEMENT = 'witness-who-survived-testimony:launder-the-recognized-face:witness-forgets-what-was-seen';
+    const V84_EXPECTED_FEEDBACK = '证词已经离开嘴巴，仍沿着说话者的骨头继续回响。保护院判定：只要证人还活着，真相就拥有可以追踪的回声。 面模吸走所有被证物记住的角度。镜子仍能看见证人，现场却再也无法证明这张脸曾经朝向它。 保护员逐件移走现场，直到证人只剩一份无法解释的害怕。安全终于成立，因为危险和理解危险的人同时失去了彼此。';
+    const V84_COMPLETE_PLACEMENTS = [
+      'witness-who-survived-testimony:launder-the-recognized-face:witness-forgets-what-was-seen',
+      'witness-shaped-like-offender:relocate-the-incriminating-shadow:testimony-uses-a-future-name',
+      'witness-whose-silence-confessed:rehouse-the-witness-memory:world-forgets-the-crime',
+      'witness-who-survived-testimony:launder-the-recognized-face:innocence-impersonates-the-witness',
+    ];
+
+    const makePendingState = (api, overrides = {}) => {
+      const base = hostV84(api.defaultInnocentWitnessProtection());
+      base._v84unlocked = true;
+      if (overrides.visited) base.visited = { ...base.visited, ...overrides.visited };
+      if (overrides.draft) base.draft = { ...base.draft, ...overrides.draft };
+      if (overrides.witnessTallies) base.witnessTallies = { ...base.witnessTallies, ...overrides.witnessTallies };
+      if (overrides.placements) base.placements = [...overrides.placements];
+      if (overrides.courtOutcomes) base.courtOutcomes = [...overrides.courtOutcomes];
+      if (overrides.placementRuns !== undefined) base.placementRuns = overrides.placementRuns;
+      if (overrides.courtRuns !== undefined) base.courtRuns = overrides.courtRuns;
+      if (overrides.lastOutcome !== undefined) base.lastOutcome = overrides.lastOutcome;
+      if (overrides.activeHandler !== undefined) base.activeHandler = overrides.activeHandler;
+      if (overrides.pending !== undefined) base.pending = overrides.pending;
+      return base;
+    };
+
+    const defaultCtx = makeV84Context();
+    const { api } = defaultCtx;
+
+    assert.strictEqual(api.WITNESS_PROTECTION_KEY, 'goddead_v84_innocent_witness_protection');
+    assert.strictEqual(api.WITNESS_PROTECTION_VERSION, 84);
+    assert.deepStrictEqual(hostV84(api.WITNESS_TARGETS), ['witness-who-survived-testimony', 'witness-shaped-like-offender', 'witness-whose-silence-confessed']);
+    assert.deepStrictEqual(hostV84(api.WITNESS_PROCEDURES), ['launder-the-recognized-face', 'relocate-the-incriminating-shadow', 'rehouse-the-witness-memory']);
+    assert.deepStrictEqual(hostV84(api.WITNESS_TERMS), ['witness-forgets-what-was-seen', 'testimony-uses-a-future-name', 'world-forgets-the-crime', 'innocence-impersonates-the-witness']);
+    assert.deepStrictEqual(hostV84(api.WITNESS_COURT_ACTIONS), ['abolish-eyewitnesses-to-protect-them', 'hide-truth-under-eternal-alias', 'return-memory-to-every-protected-witness']);
+
+    assert.strictEqual(hostV84(api.WITNESS_PLACEMENT_IDS).length, 36);
+    assert.strictEqual(hostV84(api.WITNESS_COURT_OUTCOME_IDS).length, 3);
+
+    const expectedDefaultState = {
+      version: 84,
+      visited: { office: false, laundry: false, safehouse: false, court: false },
+      draft: { witness: '', procedure: '' },
+      placements: [],
+      courtOutcomes: [],
+      placementRuns: 0,
+      courtRuns: 0,
+      witnessTallies: { survivor: 0, double: 0, silence: 0 },
+      lastOutcome: '',
+      activeHandler: null,
+      pending: null,
+    };
+    assert.deepStrictEqual(hostV84(api.defaultInnocentWitnessProtection()), expectedDefaultState);
+
+    const saveTestCtx = makeV84Context();
+    const hostileState = {
+      version: 84,
+      extraField: 'intruder',
+      _v84unlocked: true,
+      visited: { office: true, laundry: 'truthy', safehouse: false, court: true, bonus: true },
+      draft: { witness: 'witness-who-survived-testimony', procedure: 'launder-the-recognized-face', extra: 1 },
+      placements: [
+        'witness-who-survived-testimony:launder-the-recognized-face:witness-forgets-what-was-seen',
+        'witness-who-survived-testimony:launder-the-recognized-face:witness-forgets-what-was-seen',
+        'fake-placement'
+      ],
+      courtOutcomes: [
+        'eyewitnesses-were-abolished-for-their-safety',
+        'eyewitnesses-were-abolished-for-their-safety',
+        'fake-outcome'
+      ],
+      placementRuns: '15.9',
+      courtRuns: -10,
+      witnessTallies: { survivor: 50000, double: '3', silence: -1, extraTally: 10 },
+      lastOutcome: 'uncollected-outcome',
+      activeHandler: { procedure: 'launder-the-recognized-face', placement: 'witness-who-survived-testimony:launder-the-recognized-face:witness-forgets-what-was-seen', feedback: 'foo', extra: 'bad' },
+      pending: { kind: 'entry', target: 'innocent-witness-protection', feedback: 'bad-fb' }
+    };
+
+    saveTestCtx.api.saveInnocentWitnessProtection(hostileState);
+    const rawSaved = JSON.parse(saveTestCtx.storeData['goddead_v84_innocent_witness_protection']);
+    const savedKeys = Object.keys(rawSaved);
+    assert.deepStrictEqual(savedKeys, [
+      'version', 'visited', 'draft', 'placements', 'courtOutcomes',
+      'placementRuns', 'courtRuns', 'witnessTallies', 'lastOutcome', 'activeHandler', 'pending'
+    ]);
+    assert.strictEqual(rawSaved._v84unlocked, undefined);
+    assert.strictEqual(rawSaved.extraField, undefined);
+    assert.deepStrictEqual(rawSaved.visited, { office: true, laundry: false, safehouse: false, court: true });
+    assert.deepStrictEqual(rawSaved.placements, [
+      'witness-who-survived-testimony:launder-the-recognized-face:witness-forgets-what-was-seen'
+    ]);
+    assert.deepStrictEqual(rawSaved.courtOutcomes, [
+      'eyewitnesses-were-abolished-for-their-safety'
+    ]);
+    assert.strictEqual(rawSaved.placementRuns, 15);
+    assert.strictEqual(rawSaved.courtRuns, 0);
+    assert.deepStrictEqual(rawSaved.witnessTallies, { survivor: 9999, double: 3, silence: 0 });
+    assert.strictEqual(rawSaved.lastOutcome, '');
+    assert.strictEqual(rawSaved.activeHandler, null);
+    assert.strictEqual(rawSaved.pending, null);
+    assert.strictEqual(saveTestCtx.storeData['goddead_v83_harm_archaeology'], undefined);
+
+    const upstreamBefore = makeCompleteV83StateForV84();
+    const upstreamClone = JSON.parse(JSON.stringify(upstreamBefore));
+    const unlockCtx = makeV84Context({ upstreamV83State: upstreamBefore });
+    assert.strictEqual(unlockCtx.api.innocentWitnessProtectionUnlocked(), true);
+    assert.deepStrictEqual(upstreamBefore, upstreamClone, "Unlock check must not mutate upstream state");
+
+    const covState = hostV84(api.defaultInnocentWitnessProtection());
+    covState.placements = [...V84_COMPLETE_PLACEMENTS];
+    assert.strictEqual(api.innocentWitnessCoverageComplete(covState), true);
+
+    // Seven strict pending types
+    const validEntry = { kind: 'entry', target: 'innocent-witness-protection', feedback: V84_ENTRY_FEEDBACK };
+    const entryState = makePendingState(api);
+    assert.deepStrictEqual(hostV84(api.normalizeWitnessPending(validEntry, entryState)), validEntry);
+
+    const validWitness = {
+      kind: 'witness',
+      source: 'innocent-witness-protection',
+      target: 'identity-causality-laundry',
+      witness: 'witness-who-survived-testimony',
+      feedback: api.WITNESS_TARGET_TABLE['witness-who-survived-testimony'].feedback
+    };
+    const witnessState = makePendingState(api);
+    assert.deepStrictEqual(hostV84(api.normalizeWitnessPending(validWitness, witnessState)), validWitness);
+
+    const validProc = {
+      kind: 'procedure',
+      source: 'identity-causality-laundry',
+      target: 'memory-relocation-safehouse',
+      witness: 'witness-who-survived-testimony',
+      procedure: 'launder-the-recognized-face',
+      feedback: api.WITNESS_PROCEDURE_TABLE['launder-the-recognized-face'].feedback
+    };
+    const procState = makePendingState(api, { draft: { witness: 'witness-who-survived-testimony', procedure: '' } });
+    assert.deepStrictEqual(hostV84(api.normalizeWitnessPending(validProc, procState)), validProc);
+
+    const validPlacement = {
+      kind: 'placement',
+      source: 'memory-relocation-safehouse',
+      target: 'blank-name-cloakroom',
+      witness: 'witness-who-survived-testimony',
+      procedure: 'launder-the-recognized-face',
+      term: 'witness-forgets-what-was-seen',
+      placement: V84_EXPECTED_PLACEMENT,
+      feedback: V84_EXPECTED_FEEDBACK
+    };
+    const placementState = makePendingState(api, { draft: { witness: 'witness-who-survived-testimony', procedure: 'launder-the-recognized-face' } });
+    assert.deepStrictEqual(hostV84(api.normalizeWitnessPending(validPlacement, placementState)), validPlacement);
+
+    const canonicalHandler = {
+      procedure: 'launder-the-recognized-face',
+      placement: V84_EXPECTED_PLACEMENT,
+      feedback: api.WITNESS_PROCEDURE_TABLE['launder-the-recognized-face'].handlerFeedback
+    };
+    const validHandlerReturn = {
+      kind: 'handler-return',
+      from: 'blank-name-cloakroom',
+      target: 'innocent-witness-protection',
+      placement: V84_EXPECTED_PLACEMENT,
+      feedback: canonicalHandler.feedback
+    };
+    const handlerReturnState = makePendingState(api, {
+      placements: [V84_EXPECTED_PLACEMENT],
+      activeHandler: canonicalHandler
+    });
+    assert.deepStrictEqual(hostV84(api.normalizeWitnessPending(validHandlerReturn, handlerReturnState)), validHandlerReturn);
+
+    const validCourtEntry = {
+      kind: 'court-entry',
+      target: 'anonymous-truth-lifetime-court',
+      feedback: V84_COURT_ENTRY_FEEDBACK
+    };
+    const courtEntryState = makePendingState(api, { placements: V84_COMPLETE_PLACEMENTS });
+    assert.deepStrictEqual(hostV84(api.normalizeWitnessPending(validCourtEntry, courtEntryState)), validCourtEntry);
+
+    const validCourtAction = {
+      kind: 'court-action',
+      source: 'anonymous-truth-lifetime-court',
+      target: 'eyelid-archive',
+      action: 'abolish-eyewitnesses-to-protect-them',
+      outcome: 'eyewitnesses-were-abolished-for-their-safety',
+      feedback: api.WITNESS_COURT_TABLE['abolish-eyewitnesses-to-protect-them'].feedback
+    };
+    const courtActionState = makePendingState(api, { placements: V84_COMPLETE_PLACEMENTS, visited: { court: true } });
+    assert.deepStrictEqual(hostV84(api.normalizeWitnessPending(validCourtAction, courtActionState)), validCourtAction);
+
+    // Lifecycle: Placement and repeat
+    {
+      const btn = createMockElement('witness-term-witness-forgets-what-was-seen');
+      const ctx = makeV84Context({
+        scene: 'memory-relocation-safehouse',
+        elements: { 'witness-term-witness-forgets-what-was-seen': btn },
+        initialStore: { goddead_v84_innocent_witness_protection: JSON.stringify(makePendingState(api, { visited: { safehouse: true }, draft: { witness: 'witness-who-survived-testimony', procedure: 'launder-the-recognized-face' } })) }
+      });
+      ctx.api.chooseWitnessTerm('witness-forgets-what-was-seen');
+      ctx.api.resolveWitnessProtectionPendingOnArrival('blank-name-cloakroom');
+      const fin1 = ctx.api.getInnocentWitnessProtection();
+      assert.strictEqual(fin1.placementRuns, 1);
+      assert.strictEqual(fin1.witnessTallies.survivor, 1);
+      assert.deepStrictEqual(hostV84(fin1.placements), [V84_EXPECTED_PLACEMENT]);
+      assert.strictEqual(fin1.lastOutcome, V84_EXPECTED_PLACEMENT);
+      assert.deepStrictEqual(hostV84(fin1.activeHandler), {
+        procedure: 'launder-the-recognized-face',
+        placement: V84_EXPECTED_PLACEMENT,
+        feedback: api.WITNESS_PROCEDURE_TABLE['launder-the-recognized-face'].handlerFeedback
+      });
+    }
+
+    // Bridge tests
+    assert.strictEqual(makeV84Context({ v83unlocked: false }).api.innocentWitnessProtectionBridgeAllows('blank-name-cloakroom'), false);
+    const bridgeState = makePendingState(api, {
+      placements: [V84_EXPECTED_PLACEMENT],
+      activeHandler: canonicalHandler
+    });
+    const bctx = makeV84Context({ initialStore: { goddead_v84_innocent_witness_protection: JSON.stringify(bridgeState) } });
+    assert.strictEqual(bctx.api.innocentWitnessProtectionBridgeAllows('blank-name-cloakroom'), true);
+    assert.strictEqual(bctx.api.innocentWitnessProtectionBridgeAllows('borrowed-shadow-gallery'), false);
+
+    // 18 trusted click listeners
+    const listenerRegex = /\.addEventListener\('click',\s*\(e\)\s*=>\s*\{([\s\S]*?)\n\s*\}\);/g;
+    const listenerMatches = [...v84ModuleBlock.matchAll(listenerRegex)];
+    assert.strictEqual(listenerMatches.length, 18, "v84 Module must register exactly 18 click listeners");
+    for (const match of listenerMatches) {
+      const body = match[1].trim();
+      assert.ok(body.startsWith('if (!e.isTrusted) return;'), 'Each click handler must guard against untrusted events first');
+    }
+  }
+
+  // Scene init and bootstrap inspection
+  {
+    const sceneInitStart = js.indexOf("const sceneInit = (name) => {");
+    assert.ok(sceneInitStart !== -1, "sceneInit definition found");
+    const sceneInitEnd = js.indexOf("/* 分层进度守卫", sceneInitStart);
+    assert.ok(sceneInitEnd !== -1, "sceneInit end marker found");
+    const sceneInitSlice = js.slice(sceneInitStart, sceneInitEnd);
+
+    assert.ok(sceneInitSlice.includes("resolveWitnessProtectionPendingOnArrival(name);"));
+    assert.ok(sceneInitSlice.includes("syncInnocentWitnessProtectionBureau();"));
+    assert.ok(sceneInitSlice.includes("syncIdentityCausalityLaundry();"));
+    assert.ok(sceneInitSlice.includes("syncMemoryRelocationSafehouse();"));
+    assert.ok(sceneInitSlice.includes("syncAnonymousTruthLifetimeCourt();"));
+    assert.ok(sceneInitSlice.includes("syncWitnessProtectionHandlers();"));
+    assert.ok(sceneInitSlice.includes("paintWitnessProtectionMemory();"));
+    assert.ok(sceneInitSlice.includes("paintWitnessProtectionCodex();"));
+    assert.ok(sceneInitSlice.includes("syncWitnessProtectionRemembrance();"));
+    assert.ok(sceneInitSlice.includes("syncWitnessProtectionLinks();"));
+    assert.ok(sceneInitSlice.includes("replayWitnessProtectionPending(name);"));
+
+    const resolveSceneStart = js.indexOf("const resolveScene = (name) => {");
+    const resolveSceneEnd = js.indexOf("/* 可靠聚焦", resolveSceneStart);
+    const resolveSceneSlice = js.slice(resolveSceneStart, resolveSceneEnd);
+
+    assert.ok(resolveSceneSlice.includes('if (target === "innocent-witness-protection" && !innocentWitnessProtectionBureauCanVisit()) target = "remembrance";'));
+    assert.ok(resolveSceneSlice.includes('if (target === "identity-causality-laundry" && !identityCausalityLaundryCanVisit()) target = "remembrance";'));
+    assert.ok(resolveSceneSlice.includes('if (target === "memory-relocation-safehouse" && !memoryRelocationSafehouseCanVisit()) target = "remembrance";'));
+    assert.ok(resolveSceneSlice.includes('if (target === "anonymous-truth-lifetime-court" && !anonymousTruthLifetimeCourtCanVisit()) target = "remembrance";'));
+
+    // Governance route duplicate & empty-body regression test
+    const govBlockStart = resolveSceneSlice.indexOf("/* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */");
+    const govBlockEnd = resolveSceneSlice.indexOf("/* v63 终局退件所守卫：", govBlockStart);
+    assert.ok(govBlockStart !== -1, "Governance routing guard start found in resolveScene");
+    assert.ok(govBlockEnd > govBlockStart, "Governance routing guard end found in resolveScene");
+    const govBlockBody = resolveSceneSlice.slice(govBlockStart, govBlockEnd);
+    const offeringMatches = [...govBlockBody.matchAll(/!gov\.rulings\.offering/g)];
+    assert.strictEqual(offeringMatches.length, 1, "Governance block must contain exactly one !gov.rulings.offering condition");
+
+    assert.ok(
+      /else\s+if\s*\(\s*\(target\s*===\s*["']reliquary["']\s*\|\|\s*target\s*===\s*["']remembrance["']\)[\s\S]*?!harmArchaeologyBridgeAllows\(target\)\s*&&\s*!innocentWitnessProtectionBridgeAllows\(target\)\s*&&\s*!orphanedFactBridgeAllows\(target\)\s*&&\s*!existenceRenunciationBridgeAllows\(target\)\s*&&\s*!nonexistenceDebtCollectionBridgeAllows\(target\)\s*&&\s*!unhappenedEventAuctionBridgeAllows\(target\)\s*&&\s*!accomplishedFactEvictionBridgeAllows\(target\)\s*&&\s*!causelessConsequenceRefugeeBridgeAllows\(target\)\s*&&\s*!gov\.rulings\.offering\s*\)\s*\{\s*target\s*=\s*["']offering["'];\s*\}/.test(govBlockBody),
+      "Unique offering else-if preserves the full bridge chain through causelessConsequenceRefugeeBridgeAllows (v90) before setting target to offering"
+    );
+
+    assert.ok(
+      !/else\s+if\s*\([^)]*\)\s*\{\s*\}\s*else\s+if/.test(govBlockBody),
+      "No empty else-if block immediately before another else-if in Governance block"
+    );
+    assert.ok(
+      !/\{\s*\}\s*else\s+if/.test(govBlockBody),
+      "No empty body preceding an else-if in Governance block"
+    );
+
+    const forgetStart = js.indexOf("if (forgetActionBtn) {");
+    const forgetEnd = js.indexOf("/* ---------- 初始化 ---------- */", forgetStart);
+    const forgetSlice = js.slice(forgetStart, forgetEnd);
+    assert.ok(forgetSlice.includes('localStorage.removeItem("goddead_v84_innocent_witness_protection");'));
+  }
+
+  // Static assets freeze verification for v84
+  const V84_ASSET_FREEZE = [
+    {
+      path: "assets/source-v84-innocent-witness-protection.png",
+      sha256: "a4ecc93a5e37af0422b5d0fa96563732396e3011ca8ffb731b9bfa0768607835",
+      type: "png"
+    },
+    {
+      path: "assets/source-v84-identity-causality-laundry.png",
+      sha256: "16ba0d7d403dfd7ba4effebd28f6be40b19ea07557198ad959e42abf842f40d3",
+      type: "png"
+    },
+    {
+      path: "assets/source-v84-memory-relocation-safehouse.png",
+      sha256: "16d86deee7e35866639210ae5bdd13f46435290748ed167e70e0038ec9b1f40a",
+      type: "png"
+    },
+    {
+      path: "assets/source-v84-anonymous-truth-lifetime-court.png",
+      sha256: "8da18ce426e893c4bf4f70ead4bc8c26cb44483893ba4d58071aab521665feb1",
+      type: "png"
+    },
+    {
+      path: "assets/v84-innocent-witness-protection.webp",
+      sha256: "832800863867a9c036a60d00c5fdf9db949901af83945e7acce67af7b32d4928",
+      type: "webp"
+    },
+    {
+      path: "assets/v84-identity-causality-laundry.webp",
+      sha256: "0f692a6ef8df5641713252c02deed3db5b13a6e61121788a46a149ef066f88f1",
+      type: "webp"
+    },
+    {
+      path: "assets/v84-memory-relocation-safehouse.webp",
+      sha256: "e0343a7fb2fa4ce4655fc9451d39992fb32c67a772bd4e28aa9bfd445a64300d",
+      type: "webp"
+    },
+    {
+      path: "assets/v84-anonymous-truth-lifetime-court.webp",
+      sha256: "5f011e2cb01cc5e7319a29b033e0b49a300d0532992d7524d1584387953cf81e",
+      type: "webp"
+    }
+  ];
+
+  for (const asset of V84_ASSET_FREEZE) {
+    const buf = await readFile(new URL(asset.path, root));
+    const actualHash = createHash("sha256").update(buf).digest("hex");
+    assert.equal(actualHash, asset.sha256, `${asset.path} sha256 mismatch`);
+    const dims = asset.type === "png" ? readPngDimensions(buf) : readWebpDimensions(buf);
+    assert.equal(dims.width, 1536, `${asset.path} width must be 1536`);
+    assert.equal(dims.height, 1024, `${asset.path} height must be 1024`);
+  }
+
+  const V84_SCENES = [
+    {
+      id: "innocent-witness-protection",
+      title: "无罪证人保护院",
+      webp: "assets/v84-innocent-witness-protection.webp"
+    },
+    {
+      id: "identity-causality-laundry",
+      title: "身份因果洗衣房",
+      webp: "assets/v84-identity-causality-laundry.webp"
+    },
+    {
+      id: "memory-relocation-safehouse",
+      title: "记忆迁移安全屋",
+      webp: "assets/v84-memory-relocation-safehouse.webp"
+    },
+    {
+      id: "anonymous-truth-lifetime-court",
+      title: "匿名真相终身安置庭",
+      webp: "assets/v84-anonymous-truth-lifetime-court.webp"
+    }
+  ];
+
+  for (const scene of V84_SCENES) {
+    assert.match(
+      html,
+      new RegExp(`<link\\s+rel="preload"\\s+as="image"\\s+type="image/webp"\\s+href="${scene.webp}">`),
+      `must preload ${scene.webp}`
+    );
+    assert.match(
+      html,
+      new RegExp(`data-scene="${scene.id}"`),
+      `must have data-scene="${scene.id}"`
+    );
+    assert.match(
+      html,
+      new RegExp(`data-title="Goddead — ${scene.title}"`),
+      `must have data-title="Goddead — ${scene.title}"`
+    );
+  }
+
+  const V84_ACTIONS = [
+    "witness-target-witness-who-survived-testimony",
+    "witness-target-witness-shaped-like-offender",
+    "witness-target-witness-whose-silence-confessed",
+    "witness-procedure-launder-the-recognized-face",
+    "witness-procedure-relocate-the-incriminating-shadow",
+    "witness-procedure-rehouse-the-witness-memory",
+    "witness-term-witness-forgets-what-was-seen",
+    "witness-term-testimony-uses-a-future-name",
+    "witness-term-world-forgets-the-crime",
+    "witness-term-innocence-impersonates-the-witness",
+    "witness-court-abolish-eyewitnesses-to-protect-them",
+    "witness-court-hide-truth-under-eternal-alias",
+    "witness-court-return-memory-to-every-protected-witness"
+  ];
+
+  for (const actionId of V84_ACTIONS) {
+    assert.match(
+      html,
+      new RegExp(`id="${actionId}"`),
+      `must have action element with id="${actionId}"`
+    );
+  }
+
+  assert.match(css, /\.innocent-witness-protection-figure\b/, "css must contain .innocent-witness-protection-figure");
+  assert.match(css, /\.witness-protection-hotspot\b/, "css must contain .witness-protection-hotspot");
+  assert.match(css, /\.witness-protection-grid\b/, "css must contain .witness-protection-grid");
+  assert.match(css, /\.witness-protection-handler-return\b/, "css must contain .witness-protection-handler-return");
+
+  const V84_FIGURE_SPECS = [
+    ['innocent-witness-protection-figure', '无罪证人保护院：左侧嘴巴缝合的活证人、中央轮廓重合的影子证人、右侧沉默认罪的留声证人', 3],
+    ['identity-causality-laundry-figure', '身份因果洗衣房：左侧洗去面孔的无字面模、中央剥离动作的黄铜影剪、右侧搬迁经历的记忆箱', 3],
+    ['memory-relocation-safehouse-figure', '记忆迁移安全屋：左上让证人忘记所见、右上让证词使用未来姓名、左下让世界忘记犯罪、右下让无罪冒充证人', 4],
+    ['anonymous-truth-lifetime-court-figure', '匿名真相终身安置庭：左侧废除目击者、中央真相使用永恒化名、右侧归还记忆', 3]
+  ];
+
+  for (const [figureClass, expectedAlt, buttonCount] of V84_FIGURE_SPECS) {
+    const figRegex = new RegExp(`<figure[^>]*class="[^"]*\\b${figureClass}\\b[^"]*"[^>]*>([\\s\\S]*?)<\\/figure>`, "i");
+    const figMatch = html.match(figRegex);
+    assert.ok(figMatch, `figure .${figureClass} must exist`);
+
+    const insideHtml = figMatch[1];
+    const imgRegex = new RegExp(`<img[^>]+alt="${expectedAlt.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`, "i");
+    assert.match(insideHtml, imgRegex, `figure .${figureClass} must contain nested img with exact alt "${expectedAlt}"`);
+
+    const buttons = insideHtml.match(/<button\b[^>]*>/gi) || [];
+    assert.equal(buttons.length, buttonCount, `figure .${figureClass} must have exactly ${buttonCount} button hotspots`);
+  }
+
+  // ============================================================
+  // v85 Claim Office for Orphaned Facts Runtime & State Specification (TDD)
+  // ============================================================
+  {
+    const v85ModuleStart = js.indexOf("const ORPHANED_FACT_KEY = 'goddead_v85_orphaned_fact_claims';");
+    const v86ModuleStart = js.indexOf("const EXISTENCE_RENUNCIATION_KEY = 'goddead_v86_existence_renunciation';");
+    const v85CorridorHeading = "\n     v86: 存在放弃登记局";
+    const v85CorridorHeadingIndex = v86ModuleStart !== -1 ? v86ModuleStart : (v85ModuleStart !== -1 ? js.indexOf(v85CorridorHeading, v85ModuleStart) : -1);
+    const v85ModuleEnd = v85CorridorHeadingIndex !== -1 ? js.lastIndexOf("/*", v85CorridorHeadingIndex) : -1;
+    assert.ok(v85ModuleStart !== -1 && v85ModuleEnd > v85ModuleStart, "v85 module boundaries must exist");
+    const v85ModuleBlock = js.slice(v85ModuleStart, v85ModuleEnd);
+
+    const makeCompleteV84StateForV85 = () => ({
+      placements: [
+        'witness-who-survived-testimony:launder-the-recognized-face:witness-forgets-what-was-seen',
+        'witness-shaped-like-offender:relocate-the-incriminating-shadow:testimony-uses-a-future-name',
+        'witness-whose-silence-confessed:rehouse-the-witness-memory:world-forgets-the-crime',
+        'witness-who-survived-testimony:launder-the-recognized-face:innocence-impersonates-the-witness',
+      ],
+      courtOutcomes: [
+        'eyewitnesses-were-abolished-for-their-safety',
+        'truth-entered-protection-under-an-eternal-alias',
+        'every-protected-witness-remembered-at-once',
+      ]
+    });
+
+    const createMockElement = (id = '') => {
+      const listeners = {};
+      const el = {
+        id,
+        className: '',
+        innerHTML: '',
+        textContent: '',
+        children: [],
+        hidden: false,
+        disabled: false,
+        attributes: {},
+        setAttribute(k, v) { this.attributes[k] = String(v); },
+        removeAttribute(k) { delete this.attributes[k]; },
+        appendChild(child) { this.children.push(child); return child; },
+        addEventListener(type, handler) {
+          listeners[type] = listeners[type] || [];
+          listeners[type].push(handler);
+        },
+        _listeners: listeners,
+        _dispatch(type, evt = {}) {
+          const list = listeners[type] || [];
+          for (const fn of list) fn(evt);
+        }
+      };
+      return el;
+    };
+
+    const hostV85 = (val) => JSON.parse(JSON.stringify(val));
+
+    const makeV85Context = ({
+      initialStore = {},
+      elements = {},
+      scene = '',
+      v84unlocked = true,
+      upstreamV84State = makeCompleteV84StateForV85(),
+    } = {}) => {
+      const storeData = { ...initialStore };
+      const store = {
+        get(k, def) {
+          return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def;
+        },
+        set(k, v) {
+          storeData[k] = String(v);
+        }
+      };
+
+      const elMap = { ...elements };
+      const $ = (selector) => {
+        if (typeof selector === 'string' && selector.startsWith('#')) {
+          const id = selector.slice(1);
+          if (elMap[id]) return elMap[id];
+        }
+        return null;
+      };
+
+      const scheduleCalls = [];
+      const AutoAdvance = {
+        has() { return false; },
+        schedule(src, target, opts) {
+          scheduleCalls.push({ src, target, opts: opts ? { ...opts } : undefined });
+        },
+        clear() {}
+      };
+
+      const AudioEngine = {
+        whoosh() {},
+        bell() {}
+      };
+
+      const buttonAvailable = (id) => {
+        const el = $(`#${id}`);
+        if (!el || el.hidden || el.disabled) return false;
+        return true;
+      };
+
+      const doc = {
+        createElement: (tag) => createMockElement(tag),
+      };
+
+      const factory = new Function(
+        'store', '$', 'currentScene', 'AutoAdvance', 'AudioEngine', 'reduced',
+        'innocentWitnessProtectionUnlocked', 'getInnocentWitnessProtection', 'buttonAvailable', 'document',
+        `${v85ModuleBlock}
+        return {
+          ORPHANED_FACT_KEY,
+          ORPHANED_FACT_VERSION,
+          ORPHANED_FACTS,
+          ORPHANED_PROOFS,
+          ORPHANED_OBLIGATIONS,
+          ORPHANED_COURT_ACTIONS,
+          ORPHANED_FACT_TABLE,
+          ORPHANED_PROOF_TABLE,
+          ORPHANED_OBLIGATION_TABLE,
+          ORPHANED_COURT_TABLE,
+          ORPHANED_COURT_OUTCOME_BY_ID,
+          ORPHANED_INHERITANCE_IDS,
+          ORPHANED_COURT_OUTCOME_IDS,
+          defaultOrphanedFactClaims,
+          normalizeOrphanedVisited,
+          normalizeOrphanedDraft,
+          normalizeOrphanedInheritances,
+          normalizeOrphanedEstateOutcomes,
+          clampOrphanedCount,
+          normalizeOrphanedTallies,
+          normalizeOrphanedActiveExecutor,
+          normalizeOrphanedPending,
+          saveOrphanedFactClaims,
+          getOrphanedFactClaims,
+          orphanedFactClaimUnlocked,
+          orphanedFactCoverageComplete,
+          computeOrphanedInheritanceTitle,
+          computeOrphanedInheritanceFeedback,
+          findOrphanedInheritanceById,
+          getOrphanedPendingLogicalSource,
+          orphanedFactClaimsBeforeArrive,
+          resolveOrphanedFactPendingOnArrival,
+          orphanedFactBridgeAllows,
+          orphanedFactClaimOfficeCanVisit,
+          factInheritanceVaultCanVisit,
+          causalEstateExecutionDeskCanVisit,
+          ownerlessTruthEstateCourtCanVisit,
+          replayOrphanedFactPending,
+          chooseOrphanedFactEntry,
+          chooseOrphanedFact,
+          chooseOrphanedProof,
+          chooseOrphanedObligation,
+          chooseOrphanedExecutorReturn,
+          chooseOrphanedCourtEntry,
+          chooseOrphanedCourtAction
+        };`
+      );
+
+      const api = factory(
+        store,
+        $,
+        scene,
+        AutoAdvance,
+        AudioEngine,
+        false,
+        () => v84unlocked,
+        () => upstreamV84State,
+        buttonAvailable,
+        doc
+      );
+
+      return {
+        api,
+        storeData,
+        read: () => JSON.parse(storeData['goddead_v85_orphaned_fact_claims'] || 'null'),
+        scheduleCalls,
+        elements: elMap,
+        AutoAdvance,
+      };
+    };
+
+    const V85_ENTRY_FEEDBACK = '去认领无人负责的准确事实 · CLAIM ACCURATE FACTS WITHOUT AN OWNER';
+    const V85_COURT_ENTRY_FEEDBACK = '替无主真相指定最后继承人 · APPOINT THE LAST HEIR OF OWNERLESS TRUTH';
+    const V85_EXPECTED_INHERITANCE = 'fact-whose-witness-entered-protection:unclaimed-fingerprint-of-the-wound:inherit-every-victim';
+    const V85_EXPECTED_FEEDBACK = '事实把目击者的化名填进申请栏。名字完全合法，却没有任何过去可以证明它曾站在现场。 指纹从伤口内侧按出来，纹路属于每一位受害者，也不完全属于任何一位。保险匣承认它真实，拒绝承认它有主人。 遗产执行员把每一道伤口写成亲属。你没有经历他们的疼痛，却从此必须在每次自我介绍时带上所有缺席者。';
+    const V85_COMPLETE_INHERITANCES = [
+      'fact-whose-witness-entered-protection:unclaimed-fingerprint-of-the-wound:inherit-every-victim',
+      'fact-whose-cause-died-childless:shadow-of-an-unsigned-confession:inherit-every-omitted-cause',
+      'fact-rejected-by-every-archive:receipt-for-a-future-consequence:adopt-contradiction-as-a-surname',
+      'fact-whose-witness-entered-protection:unclaimed-fingerprint-of-the-wound:leave-fact-ownerless-and-become-its-alibi',
+    ];
+
+    const makePendingState = (api, overrides = {}) => {
+      const base = hostV85(api.defaultOrphanedFactClaims());
+      base._v85unlocked = true;
+      if (overrides.visited) base.visited = { ...base.visited, ...overrides.visited };
+      if (overrides.draft) base.draft = { ...base.draft, ...overrides.draft };
+      if (overrides.factTallies) base.factTallies = { ...base.factTallies, ...overrides.factTallies };
+      if (overrides.inheritances) base.inheritances = [...overrides.inheritances];
+      if (overrides.estateOutcomes) base.estateOutcomes = [...overrides.estateOutcomes];
+      if (overrides.inheritanceRuns !== undefined) base.inheritanceRuns = overrides.inheritanceRuns;
+      if (overrides.estateRuns !== undefined) base.estateRuns = overrides.estateRuns;
+      if (overrides.lastOutcome !== undefined) base.lastOutcome = overrides.lastOutcome;
+      if (overrides.activeExecutor !== undefined) base.activeExecutor = overrides.activeExecutor;
+      if (overrides.pending !== undefined) base.pending = overrides.pending;
+      return base;
+    };
+
+    const defaultCtx = makeV85Context();
+    const { api } = defaultCtx;
+
+    assert.strictEqual(api.ORPHANED_FACT_KEY, 'goddead_v85_orphaned_fact_claims');
+    assert.strictEqual(api.ORPHANED_FACT_VERSION, 85);
+    assert.deepStrictEqual(hostV85(api.ORPHANED_FACTS), ['fact-whose-witness-entered-protection', 'fact-whose-cause-died-childless', 'fact-rejected-by-every-archive']);
+    assert.deepStrictEqual(hostV85(api.ORPHANED_PROOFS), ['unclaimed-fingerprint-of-the-wound', 'shadow-of-an-unsigned-confession', 'receipt-for-a-future-consequence']);
+    assert.deepStrictEqual(hostV85(api.ORPHANED_OBLIGATIONS), ['inherit-every-victim', 'inherit-every-omitted-cause', 'adopt-contradiction-as-a-surname', 'leave-fact-ownerless-and-become-its-alibi']);
+    assert.deepStrictEqual(hostV85(api.ORPHANED_COURT_ACTIONS), ['let-every-fact-inherit-its-observer', 'abolish-ownership-of-truth', 'make-the-claimant-inherit-the-whole-world']);
+
+    assert.strictEqual(hostV85(api.ORPHANED_INHERITANCE_IDS).length, 36);
+    assert.strictEqual(hostV85(api.ORPHANED_COURT_OUTCOME_IDS).length, 3);
+
+    const expectedDefaultState = {
+      version: 85,
+      visited: { office: false, vault: false, execution: false, court: false },
+      draft: { fact: '', proof: '' },
+      inheritances: [],
+      estateOutcomes: [],
+      inheritanceRuns: 0,
+      estateRuns: 0,
+      factTallies: { witnessless: 0, causeless: 0, unfiled: 0 },
+      lastOutcome: '',
+      activeExecutor: null,
+      pending: null,
+    };
+    assert.deepStrictEqual(hostV85(api.defaultOrphanedFactClaims()), expectedDefaultState);
+
+    const saveTestCtx = makeV85Context();
+    const hostileState = {
+      version: 85,
+      extraField: 'intruder',
+      _v85unlocked: true,
+      visited: { office: true, vault: 'truthy', execution: false, court: true, bonus: true },
+      draft: { fact: 'fact-whose-witness-entered-protection', proof: 'unclaimed-fingerprint-of-the-wound', extra: 1 },
+      inheritances: [
+        'fact-whose-witness-entered-protection:unclaimed-fingerprint-of-the-wound:inherit-every-victim',
+        'fact-whose-witness-entered-protection:unclaimed-fingerprint-of-the-wound:inherit-every-victim',
+        'fake-inheritance'
+      ],
+      estateOutcomes: [
+        'every-fact-inherited-the-person-who-noticed-it',
+        'every-fact-inherited-the-person-who-noticed-it',
+        'fake-outcome'
+      ],
+      inheritanceRuns: '15.9',
+      estateRuns: -10,
+      factTallies: { witnessless: 50000, causeless: '3', unfiled: -1, extraTally: 10 },
+      lastOutcome: 'uncollected-outcome',
+      activeExecutor: { proof: 'unclaimed-fingerprint-of-the-wound', inheritance: 'fact-whose-witness-entered-protection:unclaimed-fingerprint-of-the-wound:inherit-every-victim', feedback: 'foo', extra: 'bad' },
+      pending: { kind: 'entry', target: 'orphaned-fact-claim-office', feedback: 'bad-fb' }
+    };
+
+    saveTestCtx.api.saveOrphanedFactClaims(hostileState);
+    const rawSaved = JSON.parse(saveTestCtx.storeData['goddead_v85_orphaned_fact_claims']);
+    const savedKeys = Object.keys(rawSaved);
+    assert.deepStrictEqual(savedKeys, [
+      'version', 'visited', 'draft', 'inheritances', 'estateOutcomes',
+      'inheritanceRuns', 'estateRuns', 'factTallies', 'lastOutcome', 'activeExecutor', 'pending'
+    ]);
+    assert.strictEqual(rawSaved._v85unlocked, undefined);
+    assert.strictEqual(rawSaved.extraField, undefined);
+    assert.deepStrictEqual(rawSaved.visited, { office: true, vault: false, execution: false, court: true });
+    assert.deepStrictEqual(rawSaved.inheritances, [
+      'fact-whose-witness-entered-protection:unclaimed-fingerprint-of-the-wound:inherit-every-victim'
+    ]);
+    assert.deepStrictEqual(rawSaved.estateOutcomes, [
+      'every-fact-inherited-the-person-who-noticed-it'
+    ]);
+    assert.strictEqual(rawSaved.inheritanceRuns, 15);
+    assert.strictEqual(rawSaved.estateRuns, 0);
+    assert.deepStrictEqual(rawSaved.factTallies, { witnessless: 9999, causeless: 3, unfiled: 0 });
+    assert.strictEqual(rawSaved.lastOutcome, '');
+    assert.strictEqual(rawSaved.activeExecutor, null);
+    assert.strictEqual(rawSaved.pending, null);
+    assert.strictEqual(saveTestCtx.storeData['goddead_v84_innocent_witness_protection'], undefined);
+
+    const upstreamBefore = makeCompleteV84StateForV85();
+    const upstreamClone = JSON.parse(JSON.stringify(upstreamBefore));
+    const unlockCtx = makeV85Context({ upstreamV84State: upstreamBefore });
+    assert.strictEqual(unlockCtx.api.orphanedFactClaimUnlocked(), true);
+    assert.deepStrictEqual(upstreamBefore, upstreamClone, "Unlock check must not mutate upstream state");
+
+    const covState = hostV85(api.defaultOrphanedFactClaims());
+    covState.inheritances = [...V85_COMPLETE_INHERITANCES];
+    assert.strictEqual(api.orphanedFactCoverageComplete(covState), true);
+
+    // Seven strict pending types
+    const validEntry = { kind: 'entry', target: 'orphaned-fact-claim-office', feedback: V85_ENTRY_FEEDBACK };
+    const entryState = makePendingState(api);
+    assert.deepStrictEqual(hostV85(api.normalizeOrphanedPending(validEntry, entryState)), validEntry);
+
+    const validFact = {
+      fact: 'fact-whose-witness-entered-protection',
+      feedback: api.ORPHANED_FACT_TABLE['fact-whose-witness-entered-protection'].feedback,
+      kind: 'fact',
+      source: 'orphaned-fact-claim-office',
+      target: 'fact-inheritance-vault'
+    };
+    const factState = makePendingState(api);
+    assert.deepStrictEqual(hostV85(api.normalizeOrphanedPending(validFact, factState)), validFact);
+
+    const validProof = {
+      fact: 'fact-whose-witness-entered-protection',
+      feedback: api.ORPHANED_PROOF_TABLE['unclaimed-fingerprint-of-the-wound'].feedback,
+      kind: 'proof',
+      proof: 'unclaimed-fingerprint-of-the-wound',
+      source: 'fact-inheritance-vault',
+      target: 'causal-estate-execution-desk'
+    };
+    const proofState = makePendingState(api, { draft: { fact: 'fact-whose-witness-entered-protection', proof: '' } });
+    assert.deepStrictEqual(hostV85(api.normalizeOrphanedPending(validProof, proofState)), validProof);
+
+    const validInheritance = {
+      fact: 'fact-whose-witness-entered-protection',
+      feedback: V85_EXPECTED_FEEDBACK,
+      inheritance: V85_EXPECTED_INHERITANCE,
+      kind: 'inheritance',
+      obligation: 'inherit-every-victim',
+      proof: 'unclaimed-fingerprint-of-the-wound',
+      source: 'causal-estate-execution-desk',
+      target: 'contradictory-evidence-archive'
+    };
+    const inheritanceState = makePendingState(api, { draft: { fact: 'fact-whose-witness-entered-protection', proof: 'unclaimed-fingerprint-of-the-wound' } });
+    assert.deepStrictEqual(hostV85(api.normalizeOrphanedPending(validInheritance, inheritanceState)), validInheritance);
+
+    const canonicalExecutor = {
+      feedback: api.ORPHANED_PROOF_TABLE['unclaimed-fingerprint-of-the-wound'].executorFeedback,
+      inheritance: V85_EXPECTED_INHERITANCE,
+      proof: 'unclaimed-fingerprint-of-the-wound'
+    };
+    const validExecutorReturn = {
+      feedback: canonicalExecutor.feedback,
+      from: 'contradictory-evidence-archive',
+      inheritance: V85_EXPECTED_INHERITANCE,
+      kind: 'executor-return',
+      target: 'orphaned-fact-claim-office'
+    };
+    const executorReturnState = makePendingState(api, {
+      inheritances: [V85_EXPECTED_INHERITANCE],
+      activeExecutor: canonicalExecutor
+    });
+    assert.deepStrictEqual(hostV85(api.normalizeOrphanedPending(validExecutorReturn, executorReturnState)), validExecutorReturn);
+
+    const validCourtEntry = {
+      feedback: V85_COURT_ENTRY_FEEDBACK,
+      kind: 'court-entry',
+      target: 'ownerless-truth-estate-court'
+    };
+    const courtEntryState = makePendingState(api, { inheritances: V85_COMPLETE_INHERITANCES });
+    assert.deepStrictEqual(hostV85(api.normalizeOrphanedPending(validCourtEntry, courtEntryState)), validCourtEntry);
+
+    const validCourtAction = {
+      action: 'let-every-fact-inherit-its-observer',
+      feedback: api.ORPHANED_COURT_TABLE['let-every-fact-inherit-its-observer'].feedback,
+      kind: 'court-action',
+      outcome: 'every-fact-inherited-the-person-who-noticed-it',
+      source: 'ownerless-truth-estate-court',
+      target: 'threshold'
+    };
+    const courtActionState = makePendingState(api, { inheritances: V85_COMPLETE_INHERITANCES, visited: { court: true } });
+    assert.deepStrictEqual(hostV85(api.normalizeOrphanedPending(validCourtAction, courtActionState)), validCourtAction);
+
+    // Lifecycle: Inheritance and repeat
+    {
+      const btn = createMockElement('orphaned-obligation-inherit-every-victim');
+      const ctx = makeV85Context({
+        scene: 'causal-estate-execution-desk',
+        elements: { 'orphaned-obligation-inherit-every-victim': btn },
+        initialStore: { goddead_v85_orphaned_fact_claims: JSON.stringify(makePendingState(api, { visited: { execution: true }, draft: { fact: 'fact-whose-witness-entered-protection', proof: 'unclaimed-fingerprint-of-the-wound' } })) }
+      });
+      ctx.api.chooseOrphanedObligation('inherit-every-victim');
+      ctx.api.resolveOrphanedFactPendingOnArrival('contradictory-evidence-archive');
+      const fin1 = ctx.api.getOrphanedFactClaims();
+      assert.strictEqual(fin1.inheritanceRuns, 1);
+      assert.strictEqual(fin1.factTallies.witnessless, 1);
+      assert.deepStrictEqual(hostV85(fin1.inheritances), [V85_EXPECTED_INHERITANCE]);
+      assert.strictEqual(fin1.lastOutcome, V85_EXPECTED_INHERITANCE);
+      assert.deepStrictEqual(hostV85(fin1.activeExecutor), {
+        feedback: api.ORPHANED_PROOF_TABLE['unclaimed-fingerprint-of-the-wound'].executorFeedback,
+        inheritance: V85_EXPECTED_INHERITANCE,
+        proof: 'unclaimed-fingerprint-of-the-wound'
+      });
+    }
+
+    // Bridge tests
+    assert.strictEqual(makeV85Context({ v84unlocked: false }).api.orphanedFactBridgeAllows('contradictory-evidence-archive'), false);
+    const bridgeState = makePendingState(api, {
+      inheritances: [V85_EXPECTED_INHERITANCE],
+      activeExecutor: canonicalExecutor
+    });
+    const bctx = makeV85Context({ initialStore: { goddead_v85_orphaned_fact_claims: JSON.stringify(bridgeState) } });
+    assert.strictEqual(bctx.api.orphanedFactBridgeAllows('contradictory-evidence-archive'), true);
+    assert.strictEqual(bctx.api.orphanedFactBridgeAllows('blank-name-cloakroom'), false);
+
+    // 18 trusted click listeners
+    const listenerRegex = /\.addEventListener\('click',\s*\(e\)\s*=>\s*\{([\s\S]*?)\n\s*\}\);/g;
+    const listenerMatches = [...v85ModuleBlock.matchAll(listenerRegex)];
+    assert.strictEqual(listenerMatches.length, 18, "v85 Module must register exactly 18 click listeners");
+    for (const match of listenerMatches) {
+      const body = match[1].trim();
+      assert.ok(body.startsWith('if (!e.isTrusted) return;'), 'Each click handler must guard against untrusted events first');
+    }
+  }
+
+  // Scene init and bootstrap inspection for v85
+  {
+    const sceneInitStart = js.indexOf("const sceneInit = (name) => {");
+    assert.ok(sceneInitStart !== -1, "sceneInit definition found");
+    const sceneInitEnd = js.indexOf("/* 分层进度守卫", sceneInitStart);
+    assert.ok(sceneInitEnd !== -1, "sceneInit end marker found");
+    const sceneInitSlice = js.slice(sceneInitStart, sceneInitEnd);
+
+    assert.ok(sceneInitSlice.includes("resolveOrphanedFactPendingOnArrival(name);"));
+    assert.ok(sceneInitSlice.includes("syncOrphanedFactClaimOffice();"));
+    assert.ok(sceneInitSlice.includes("syncFactInheritanceVault();"));
+    assert.ok(sceneInitSlice.includes("syncCausalEstateExecutionDesk();"));
+    assert.ok(sceneInitSlice.includes("syncOwnerlessTruthEstateCourt();"));
+    assert.ok(sceneInitSlice.includes("syncOrphanedFactExecutors();"));
+    assert.ok(sceneInitSlice.includes("paintOrphanedFactMemory();"));
+    assert.ok(sceneInitSlice.includes("paintOrphanedFactCodex();"));
+    assert.ok(sceneInitSlice.includes("syncOrphanedFactRemembrance();"));
+    assert.ok(sceneInitSlice.includes("syncOrphanedFactLinks();"));
+    assert.ok(sceneInitSlice.includes("replayOrphanedFactPending(name);"));
+
+    const resolveSceneStart = js.indexOf("const resolveScene = (name) => {");
+    const resolveSceneEnd = js.indexOf("/* 可靠聚焦", resolveSceneStart);
+    const resolveSceneSlice = js.slice(resolveSceneStart, resolveSceneEnd);
+
+    assert.ok(resolveSceneSlice.includes('if (target === "orphaned-fact-claim-office" && !orphanedFactClaimOfficeCanVisit()) target = "remembrance";'));
+    assert.ok(resolveSceneSlice.includes('if (target === "fact-inheritance-vault" && !factInheritanceVaultCanVisit()) target = "remembrance";'));
+    assert.ok(resolveSceneSlice.includes('if (target === "causal-estate-execution-desk" && !causalEstateExecutionDeskCanVisit()) target = "remembrance";'));
+    assert.ok(resolveSceneSlice.includes('if (target === "ownerless-truth-estate-court" && !ownerlessTruthEstateCourtCanVisit()) target = "remembrance";'));
+    assert.ok(resolveSceneSlice.includes('!orphanedFactBridgeAllows(\'unending-gallery\')'));
+
+    const forgetStart = js.indexOf("if (forgetActionBtn) {");
+    const forgetEnd = js.indexOf("/* ---------- 初始化 ---------- */", forgetStart);
+    const forgetSlice = js.slice(forgetStart, forgetEnd);
+    assert.ok(forgetSlice.includes('localStorage.removeItem("goddead_v85_orphaned_fact_claims");'));
+  }
+
+  // Static assets freeze verification for v85
+  const V85_ASSET_FREEZE = [
+    {
+      path: "assets/source-v85-orphaned-fact-claim-office.png",
+      sha256: "b7291dcb435c6b8595c47d210caf5dc0c15a201bc5e54753e3d0748afd0d7496",
+      type: "png"
+    },
+    {
+      path: "assets/source-v85-fact-inheritance-vault.png",
+      sha256: "a2fd2c0ed4b7239f1729f12dd11b7ff4394049aff4515cfcb09c5225b8815142",
+      type: "png"
+    },
+    {
+      path: "assets/source-v85-causal-estate-execution-desk.png",
+      sha256: "cf121d55772a06c935345934a26900c8912df09e6147e6331cdd752d473e2ef3",
+      type: "png"
+    },
+    {
+      path: "assets/source-v85-ownerless-truth-estate-court.png",
+      sha256: "3bd8e0e19945c813cb901e83e0d4aec4750cd799ff7ba29f7c709f925ed953b4",
+      type: "png"
+    },
+    {
+      path: "assets/v85-orphaned-fact-claim-office.webp",
+      sha256: "fec3de50f4330eeda4ab0b5fa664b763133632ee5bab2aff43c964dc53d4b9bd",
+      type: "webp"
+    },
+    {
+      path: "assets/v85-fact-inheritance-vault.webp",
+      sha256: "5e7ea4822a3f5271d04bfb71998057a4e70fabadeccd658b6c1b4f4840209ce9",
+      type: "webp"
+    },
+    {
+      path: "assets/v85-causal-estate-execution-desk.webp",
+      sha256: "bdb5491aa00ca7b64f79b0c8f456dfeb6a7e2ba4c8f9b255bde5c301f3caf01b",
+      type: "webp"
+    },
+    {
+      path: "assets/v85-ownerless-truth-estate-court.webp",
+      sha256: "28600e9faf240536e26ad3f5f3f166a59bf019bd27d0851d4d5f95e003083847",
+      type: "webp"
+    }
+  ];
+
+  for (const asset of V85_ASSET_FREEZE) {
+    const buf = await readFile(new URL(asset.path, root));
+    const actualHash = createHash("sha256").update(buf).digest("hex");
+    assert.equal(actualHash, asset.sha256, `${asset.path} sha256 mismatch`);
+    const dims = asset.type === "png" ? readPngDimensions(buf) : readWebpDimensions(buf);
+    assert.equal(dims.width, 1536, `${asset.path} width must be 1536`);
+    assert.equal(dims.height, 1024, `${asset.path} height must be 1024`);
+  }
+
+  const V85_FIGURE_SPECS = [
+    ['orphaned-fact-claim-office-figure', '孤事实认领处：左侧认领证人已被保护的事实、中央认领原因已经绝嗣的事实、右侧认领被所有档案拒收的事实', 3],
+    ['fact-inheritance-vault-figure', '事实继承凭证库：左侧伤口的无主指纹、中央未签供词的影子、右侧未来后果收据', 3],
+    ['causal-estate-execution-desk-figure', '因果遗产执行台：左上继承事实的所有受害者、右上继承所有被省略的原因、左下把矛盾收作姓氏、右下让事实无主并成为它的不在场证明', 4],
+    ['ownerless-truth-estate-court-figure', '无主真相遗产庭：左侧让事实继承观察者、中央废除真相所有权、右侧让认领者继承整个世界', 3]
+  ];
+
+    for (const [figureClass, expectedAlt, buttonCount] of V85_FIGURE_SPECS) {
+    const figRegex = new RegExp(`<figure[^>]*class="[^"]*\\b${figureClass}\\b[^"]*"[^>]*>([\\s\\S]*?)<\\/figure>`, "i");
+    const figMatch = html.match(figRegex);
+    assert.ok(figMatch, `figure .${figureClass} must exist`);
+
+    const insideHtml = figMatch[1];
+    const imgRegex = new RegExp(`<img[^>]+alt="${expectedAlt.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`, "i");
+    assert.match(insideHtml, imgRegex, `figure .${figureClass} must contain nested img with exact alt "${expectedAlt}"`);
+
+    const buttons = insideHtml.match(/<button\b[^>]*>/gi) || [];
+    assert.equal(buttons.length, buttonCount, `figure .${figureClass} must have exactly ${buttonCount} button hotspots`);
+  }
+
+  // ============================================================
+  // v86 Registry for Renouncing Existence Runtime & State Specification (TDD)
+  // ============================================================
+  {
+    const v86ModuleStart = js.indexOf("const EXISTENCE_RENUNCIATION_KEY = 'goddead_v86_existence_renunciation';");
+    const v87Heading = "\n     v87: 不存在债务催收局";
+    const v87HeadingIndex = v86ModuleStart !== -1 ? js.indexOf(v87Heading, v86ModuleStart) : -1;
+    const v86ModuleEnd = v87HeadingIndex !== -1 ? js.lastIndexOf("/*", v87HeadingIndex) : -1;
+    assert.ok(v86ModuleStart !== -1 && v86ModuleEnd > v86ModuleStart, "v86 module boundaries must exist");
+    const v86ModuleBlock = js.slice(v86ModuleStart, v86ModuleEnd);
+
+    const makeCompleteV85StateForV86 = () => ({
+      inheritances: [
+        'fact-whose-witness-entered-protection:unclaimed-fingerprint-of-the-wound:inherit-every-victim',
+        'fact-whose-cause-died-childless:shadow-of-an-unsigned-confession:inherit-every-omitted-cause',
+        'fact-rejected-by-every-archive:receipt-for-a-future-consequence:adopt-contradiction-as-a-surname',
+        'fact-whose-witness-entered-protection:unclaimed-fingerprint-of-the-wound:leave-fact-ownerless-and-become-its-alibi',
+      ],
+      estateOutcomes: [
+        'every-fact-inherited-the-person-who-noticed-it',
+        'truth-was-freed-from-every-owner',
+        'the-claimant-inherited-every-unclaimed-consequence',
+      ]
+    });
+
+    const createMockElement = (id = '') => {
+      const listeners = {};
+      const el = {
+        id,
+        className: '',
+        innerHTML: '',
+        textContent: '',
+        children: [],
+        hidden: false,
+        disabled: false,
+        attributes: {},
+        setAttribute(k, v) { this.attributes[k] = String(v); },
+        removeAttribute(k) { delete this.attributes[k]; },
+        appendChild(child) { this.children.push(child); return child; },
+        addEventListener(type, handler) {
+          listeners[type] = listeners[type] || [];
+          listeners[type].push(handler);
+        },
+        _listeners: listeners,
+        _dispatch(type, evt = {}) {
+          const list = listeners[type] || [];
+          for (const fn of list) fn(evt);
+        }
+      };
+      return el;
+    };
+
+    const hostV86 = (val) => JSON.parse(JSON.stringify(val));
+
+    const makeV86Context = ({
+      initialStore = {},
+      elements = {},
+      scene = '',
+      v85unlocked = true,
+      upstreamV85State = makeCompleteV85StateForV86(),
+    } = {}) => {
+      const storeData = { ...initialStore };
+      const store = {
+        get(k, def) {
+          return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def;
+        },
+        set(k, v) {
+          storeData[k] = String(v);
+        }
+      };
+
+      const elMap = { ...elements };
+      const $ = (selector) => {
+        if (typeof selector === 'string' && selector.startsWith('#')) {
+          const id = selector.slice(1);
+          if (elMap[id]) return elMap[id];
+        }
+        return null;
+      };
+
+      const scheduleCalls = [];
+      const AutoAdvance = {
+        has() { return false; },
+        schedule(src, target, opts) {
+          scheduleCalls.push({ src, target, opts: opts ? { ...opts } : undefined });
+        },
+        clear() {}
+      };
+
+      const AudioEngine = {
+        whoosh() {},
+        bell() {}
+      };
+
+      const buttonAvailable = (id) => {
+        const el = $(`#${id}`);
+        if (!el || el.hidden || el.disabled) return false;
+        return true;
+      };
+
+      const doc = {
+        createElement: (tag) => createMockElement(tag),
+      };
+
+      const factory = new Function(
+        'store', '$', 'currentScene', 'AutoAdvance', 'AudioEngine', 'reduced',
+        'orphanedFactClaimUnlocked', 'getOrphanedFactClaims', 'buttonAvailable', 'document',
+        `${v86ModuleBlock}
+        return {
+          EXISTENCE_RENUNCIATION_KEY,
+          EXISTENCE_RENUNCIATION_VERSION,
+          EXISTENCE_RENUNCIANTS,
+          EXISTENCE_EVIDENCES,
+          EXISTENCE_CLAUSES,
+          EXISTENCE_TRIBUNAL_ACTIONS,
+          EXISTENCE_RENUNCIANT_TABLE,
+          EXISTENCE_EVIDENCE_TABLE,
+          EXISTENCE_CLAUSE_TABLE,
+          EXISTENCE_TRIBUNAL_TABLE,
+          EXISTENCE_TRIBUNAL_OUTCOME_BY_ID,
+          EXISTENCE_RENUNCIATION_IDS,
+          EXISTENCE_TRIBUNAL_OUTCOME_IDS,
+          defaultExistenceRenunciationClaims,
+          normalizeExistenceVisited,
+          normalizeExistenceDraft,
+          normalizeExistenceRenunciations,
+          normalizeExistenceTribunalOutcomes,
+          clampExistenceCount,
+          normalizeExistenceTallies,
+          normalizeExistenceActiveRegistrar,
+          normalizeExistencePending,
+          saveExistenceRenunciationClaims,
+          getExistenceRenunciationClaims,
+          existenceRenunciationUnlocked,
+          existenceRenunciationCoverageComplete,
+          computeExistenceRenunciationTitle,
+          computeExistenceRenunciationFeedback,
+          findExistenceRenunciationById,
+          getExistencePendingLogicalSource,
+          existenceRenunciationClaimsBeforeArrive,
+          resolveExistenceRenunciationPendingOnArrival,
+          existenceRenunciationBridgeAllows,
+          existenceRenunciationRegistryCanVisit,
+          proofOfNonexistenceArchiveCanVisit,
+          ontologicalDisinheritanceChamberCanVisit,
+          civilNonexistenceFinalTribunalCanVisit,
+          replayExistenceRenunciationPending,
+          chooseExistenceRenunciationEntry,
+          chooseExistenceRenunciant,
+          chooseExistenceEvidence,
+          chooseExistenceClause,
+          chooseExistenceRegistrarReturn,
+          chooseExistenceTribunalEntry,
+          chooseExistenceTribunalAction
+        };`
+      );
+
+      const api = factory(
+        store,
+        $,
+        scene,
+        AutoAdvance,
+        AudioEngine,
+        false,
+        () => v85unlocked,
+        () => upstreamV85State,
+        buttonAvailable,
+        doc
+      );
+
+      return {
+        api,
+        storeData,
+        read: () => JSON.parse(storeData['goddead_v86_existence_renunciation'] || 'null'),
+        scheduleCalls,
+        elements: elMap,
+        AutoAdvance,
+      };
+    };
+
+    const V86_ENTRY_FEEDBACK = '申请退出存在的临时继承 ⟶';
+    const V86_TRIBUNAL_ENTRY_FEEDBACK = '申请让整个世界退出存在 · PETITION THE WHOLE WORLD TO WITHDRAW FROM EXISTENCE';
+    const V86_EXPECTED_RENUNCIATION = 'observer-inherited-by-every-fact:birth-certificate-for-an-empty-crib:declare-existence-a-clerical-error';
+    const V86_EXPECTED_FEEDBACK = '观察者只看了一眼，目击便把他列为财产。现在每件被注意到的事都拥有他的一小部分，连闭眼也会新增一名债权人。 出生证完整记录第一次呼吸，摇篮却从未承受过重量。档案员认定：文书出生了，婴儿只是它后来伪造的附件。 登记员把出生、记忆与伤口划进同一处错别字。你的生命没有被删除，只是被解释成一名疲惫文书在空栏里多写的一笔。';
+    const V86_COMPLETE_RENUNCIATIONS = [
+      'observer-inherited-by-every-fact:birth-certificate-for-an-empty-crib:declare-existence-a-clerical-error',
+      'claimant-buried-under-unclaimed-consequences:shadow-of-a-person-erased-in-advance:return-the-first-person-pronoun-unused',
+      'person-rejected-by-every-archive:refund-receipt-for-an-undelivered-body:transfer-the-body-to-its-original-absence',
+      'observer-inherited-by-every-fact:birth-certificate-for-an-empty-crib:accept-nonexistence-as-an-inherited-debt',
+    ];
+
+    const makePendingStateV86 = (api, overrides = {}) => {
+      const base = hostV86(api.defaultExistenceRenunciationClaims());
+      base._v86unlocked = true;
+      if (overrides.visited) base.visited = { ...base.visited, ...overrides.visited };
+      if (overrides.draft) base.draft = { ...base.draft, ...overrides.draft };
+      if (overrides.renunciantTallies) base.renunciantTallies = { ...base.renunciantTallies, ...overrides.renunciantTallies };
+      if (overrides.renunciations) base.renunciations = [...overrides.renunciations];
+      if (overrides.tribunalOutcomes) base.tribunalOutcomes = [...overrides.tribunalOutcomes];
+      if (overrides.renunciationRuns !== undefined) base.renunciationRuns = overrides.renunciationRuns;
+      if (overrides.tribunalRuns !== undefined) base.tribunalRuns = overrides.tribunalRuns;
+      if (overrides.lastOutcome !== undefined) base.lastOutcome = overrides.lastOutcome;
+      if (overrides.activeRegistrar !== undefined) base.activeRegistrar = overrides.activeRegistrar;
+      if (overrides.pending !== undefined) base.pending = overrides.pending;
+      return base;
+    };
+
+    const defaultCtx = makeV86Context();
+    const { api } = defaultCtx;
+
+    assert.strictEqual(api.EXISTENCE_RENUNCIATION_KEY, 'goddead_v86_existence_renunciation');
+    assert.strictEqual(api.EXISTENCE_RENUNCIATION_VERSION, 86);
+    assert.deepStrictEqual(hostV86(api.EXISTENCE_RENUNCIANTS), ['observer-inherited-by-every-fact', 'claimant-buried-under-unclaimed-consequences', 'person-rejected-by-every-archive']);
+    assert.deepStrictEqual(hostV86(api.EXISTENCE_EVIDENCES), ['birth-certificate-for-an-empty-crib', 'shadow-of-a-person-erased-in-advance', 'refund-receipt-for-an-undelivered-body']);
+    assert.deepStrictEqual(hostV86(api.EXISTENCE_CLAUSES), ['declare-existence-a-clerical-error', 'return-the-first-person-pronoun-unused', 'transfer-the-body-to-its-original-absence', 'accept-nonexistence-as-an-inherited-debt']);
+    assert.deepStrictEqual(hostV86(api.EXISTENCE_TRIBUNAL_ACTIONS), ['strike-every-visitor-from-reality', 'register-nonexistence-as-a-citizen', 'make-the-world-disinherit-itself']);
+
+    assert.strictEqual(hostV86(api.EXISTENCE_RENUNCIATION_IDS).length, 36);
+    assert.strictEqual(hostV86(api.EXISTENCE_TRIBUNAL_OUTCOME_IDS).length, 3);
+
+    const expectedDefaultState = {
+      version: 86,
+      visited: { registry: false, archive: false, chamber: false, tribunal: false },
+      draft: { renunciant: '', evidence: '' },
+      renunciations: [],
+      tribunalOutcomes: [],
+      renunciationRuns: 0,
+      tribunalRuns: 0,
+      renunciantTallies: { observer: 0, claimant: 0, unfiled: 0 },
+      lastOutcome: '',
+      activeRegistrar: null,
+      pending: null,
+    };
+    assert.deepStrictEqual(hostV86(api.defaultExistenceRenunciationClaims()), expectedDefaultState);
+
+    const saveTestCtx = makeV86Context();
+    const hostileState = {
+      version: 86,
+      extraField: 'intruder',
+      _v86unlocked: true,
+      visited: { registry: true, archive: 'truthy', chamber: false, tribunal: true, bonus: true },
+      draft: { renunciant: 'observer-inherited-by-every-fact', evidence: 'birth-certificate-for-an-empty-crib', extra: 1 },
+      renunciations: [
+        'observer-inherited-by-every-fact:birth-certificate-for-an-empty-crib:declare-existence-a-clerical-error',
+        'observer-inherited-by-every-fact:birth-certificate-for-an-empty-crib:declare-existence-a-clerical-error',
+        'fake-renunciation'
+      ],
+      tribunalOutcomes: [
+        'every-visitor-was-struck-from-reality',
+        'every-visitor-was-struck-from-reality',
+        'fake-outcome'
+      ],
+      renunciationRuns: '15.9',
+      tribunalRuns: -10,
+      renunciantTallies: { observer: 50000, claimant: '3', unfiled: -1, extraTally: 10 },
+      lastOutcome: 'uncollected-outcome',
+      activeRegistrar: { evidence: 'birth-certificate-for-an-empty-crib', renunciation: 'observer-inherited-by-every-fact:birth-certificate-for-an-empty-crib:declare-existence-a-clerical-error', feedback: 'foo', extra: 'bad' },
+      pending: { kind: 'entry', target: 'existence-renunciation-registry', feedback: 'bad-fb' }
+    };
+
+    saveTestCtx.api.saveExistenceRenunciationClaims(hostileState);
+    const rawSaved = JSON.parse(saveTestCtx.storeData['goddead_v86_existence_renunciation']);
+    const savedKeys = Object.keys(rawSaved);
+    assert.deepStrictEqual(savedKeys, [
+      'version', 'visited', 'draft', 'renunciations', 'tribunalOutcomes',
+      'renunciationRuns', 'tribunalRuns', 'renunciantTallies', 'lastOutcome', 'activeRegistrar', 'pending'
+    ]);
+    assert.strictEqual(rawSaved._v86unlocked, undefined);
+    assert.strictEqual(rawSaved.extraField, undefined);
+    assert.deepStrictEqual(rawSaved.visited, { registry: true, archive: false, chamber: false, tribunal: true });
+    assert.deepStrictEqual(rawSaved.renunciations, [
+      'observer-inherited-by-every-fact:birth-certificate-for-an-empty-crib:declare-existence-a-clerical-error'
+    ]);
+    assert.deepStrictEqual(rawSaved.tribunalOutcomes, [
+      'every-visitor-was-struck-from-reality'
+    ]);
+    assert.strictEqual(rawSaved.renunciationRuns, 15);
+    assert.strictEqual(rawSaved.tribunalRuns, 0);
+    assert.deepStrictEqual(rawSaved.renunciantTallies, { observer: 9999, claimant: 3, unfiled: 0 });
+    assert.strictEqual(rawSaved.lastOutcome, '');
+    assert.strictEqual(rawSaved.activeRegistrar, null);
+    assert.strictEqual(rawSaved.pending, null);
+    assert.strictEqual(saveTestCtx.storeData['goddead_v85_orphaned_fact_claims'], undefined);
+
+    const upstreamBefore = makeCompleteV85StateForV86();
+    const upstreamClone = JSON.parse(JSON.stringify(upstreamBefore));
+    const unlockCtx = makeV86Context({ upstreamV85State: upstreamBefore });
+    assert.strictEqual(unlockCtx.api.existenceRenunciationUnlocked(), true);
+    assert.deepStrictEqual(upstreamBefore, upstreamClone, "Unlock check must not mutate upstream state");
+
+    const covState = hostV86(api.defaultExistenceRenunciationClaims());
+    covState.renunciations = [...V86_COMPLETE_RENUNCIATIONS];
+    assert.strictEqual(api.existenceRenunciationCoverageComplete(covState), true);
+
+    // Seven strict pending types
+    const validEntry = { kind: 'entry', target: 'existence-renunciation-registry', feedback: V86_ENTRY_FEEDBACK };
+    const entryState = makePendingStateV86(api);
+    assert.deepStrictEqual(hostV86(api.normalizeExistencePending(validEntry, entryState)), validEntry);
+
+    const validRenunciant = {
+      feedback: api.EXISTENCE_RENUNCIANT_TABLE['observer-inherited-by-every-fact'].feedback,
+      kind: 'renunciant',
+      renunciant: 'observer-inherited-by-every-fact',
+      source: 'existence-renunciation-registry',
+      target: 'proof-of-nonexistence-archive'
+    };
+    const renunciantState = makePendingStateV86(api);
+    assert.deepStrictEqual(hostV86(api.normalizeExistencePending(validRenunciant, renunciantState)), validRenunciant);
+
+    const validEvidence = {
+      evidence: 'birth-certificate-for-an-empty-crib',
+      feedback: api.EXISTENCE_EVIDENCE_TABLE['birth-certificate-for-an-empty-crib'].feedback,
+      kind: 'evidence',
+      renunciant: 'observer-inherited-by-every-fact',
+      source: 'proof-of-nonexistence-archive',
+      target: 'ontological-disinheritance-chamber'
+    };
+    const evidenceState = makePendingStateV86(api, { draft: { renunciant: 'observer-inherited-by-every-fact', evidence: '' } });
+    assert.deepStrictEqual(hostV86(api.normalizeExistencePending(validEvidence, evidenceState)), validEvidence);
+
+    const validRenunciation = {
+      clause: 'declare-existence-a-clerical-error',
+      evidence: 'birth-certificate-for-an-empty-crib',
+      feedback: V86_EXPECTED_FEEDBACK,
+      kind: 'renunciation',
+      renunciant: 'observer-inherited-by-every-fact',
+      renunciation: V86_EXPECTED_RENUNCIATION,
+      source: 'ontological-disinheritance-chamber',
+      target: 'birth-ballot-booth'
+    };
+    const renunciationState = makePendingStateV86(api, { draft: { renunciant: 'observer-inherited-by-every-fact', evidence: 'birth-certificate-for-an-empty-crib' } });
+    assert.deepStrictEqual(hostV86(api.normalizeExistencePending(validRenunciation, renunciationState)), validRenunciation);
+
+    const canonicalRegistrar = {
+      evidence: 'birth-certificate-for-an-empty-crib',
+      feedback: api.EXISTENCE_EVIDENCE_TABLE['birth-certificate-for-an-empty-crib'].registrarFeedback,
+      renunciation: V86_EXPECTED_RENUNCIATION
+    };
+    const validRegistrarReturn = {
+      feedback: canonicalRegistrar.feedback,
+      from: 'birth-ballot-booth',
+      kind: 'registrar-return',
+      renunciation: V86_EXPECTED_RENUNCIATION,
+      target: 'existence-renunciation-registry'
+    };
+    const registrarReturnState = makePendingStateV86(api, {
+      renunciations: [V86_EXPECTED_RENUNCIATION],
+      activeRegistrar: canonicalRegistrar
+    });
+    assert.deepStrictEqual(hostV86(api.normalizeExistencePending(validRegistrarReturn, registrarReturnState)), validRegistrarReturn);
+
+    const validTribunalEntry = {
+      feedback: V86_TRIBUNAL_ENTRY_FEEDBACK,
+      kind: 'tribunal-entry',
+      target: 'civil-nonexistence-final-tribunal'
+    };
+    const tribunalEntryState = makePendingStateV86(api, { renunciations: V86_COMPLETE_RENUNCIATIONS });
+    assert.deepStrictEqual(hostV86(api.normalizeExistencePending(validTribunalEntry, tribunalEntryState)), validTribunalEntry);
+
+    const validTribunalAction = {
+      action: 'strike-every-visitor-from-reality',
+      feedback: api.EXISTENCE_TRIBUNAL_TABLE['strike-every-visitor-from-reality'].feedback,
+      kind: 'tribunal-action',
+      outcome: 'every-visitor-was-struck-from-reality',
+      source: 'civil-nonexistence-final-tribunal',
+      target: 'threshold'
+    };
+    const tribunalActionState = makePendingStateV86(api, { renunciations: V86_COMPLETE_RENUNCIATIONS, visited: { tribunal: true } });
+    assert.deepStrictEqual(hostV86(api.normalizeExistencePending(validTribunalAction, tribunalActionState)), validTribunalAction);
+
+    // Lifecycle: Renunciation and repeat
+    {
+      const btn = createMockElement('renunciation-clause-declare-existence-a-clerical-error');
+      const ctx = makeV86Context({
+        scene: 'ontological-disinheritance-chamber',
+        elements: { 'renunciation-clause-declare-existence-a-clerical-error': btn },
+        initialStore: { goddead_v86_existence_renunciation: JSON.stringify(makePendingStateV86(api, { visited: { chamber: true }, draft: { renunciant: 'observer-inherited-by-every-fact', evidence: 'birth-certificate-for-an-empty-crib' } })) }
+      });
+      ctx.api.chooseExistenceClause('declare-existence-a-clerical-error');
+      ctx.api.resolveExistenceRenunciationPendingOnArrival('birth-ballot-booth');
+      const fin1 = ctx.api.getExistenceRenunciationClaims();
+      assert.strictEqual(fin1.renunciationRuns, 1);
+      assert.strictEqual(fin1.renunciantTallies.observer, 1);
+      assert.deepStrictEqual(hostV86(fin1.renunciations), [V86_EXPECTED_RENUNCIATION]);
+      assert.strictEqual(fin1.lastOutcome, V86_EXPECTED_RENUNCIATION);
+      assert.deepStrictEqual(hostV86(fin1.activeRegistrar), {
+        evidence: 'birth-certificate-for-an-empty-crib',
+        feedback: api.EXISTENCE_EVIDENCE_TABLE['birth-certificate-for-an-empty-crib'].registrarFeedback,
+        renunciation: V86_EXPECTED_RENUNCIATION
+      });
+    }
+
+    // Bridge tests
+    assert.strictEqual(makeV86Context({ v85unlocked: false }).api.existenceRenunciationBridgeAllows('birth-ballot-booth'), false);
+    const bridgeState = makePendingStateV86(api, {
+      renunciations: [V86_EXPECTED_RENUNCIATION],
+      activeRegistrar: canonicalRegistrar
+    });
+    const bctx = makeV86Context({ initialStore: { goddead_v86_existence_renunciation: JSON.stringify(bridgeState) } });
+    assert.strictEqual(bctx.api.existenceRenunciationBridgeAllows('birth-ballot-booth'), true);
+    assert.strictEqual(bctx.api.existenceRenunciationBridgeAllows('reality-refund-counter'), false);
+
+    // 18 trusted click listeners
+    const listenerRegex = /\.addEventListener\('click',\s*\(e\)\s*=>\s*\{([\s\S]*?)\n\s*\}\);/g;
+    const listenerMatches = [...v86ModuleBlock.matchAll(listenerRegex)];
+    assert.strictEqual(listenerMatches.length, 18, "v86 Module must register exactly 18 click listeners");
+    for (const match of listenerMatches) {
+      const body = match[1].trim();
+      assert.ok(body.startsWith('if (!e.isTrusted) return;'), 'Each click handler must guard against untrusted events first');
+    }
+  }
+
+  // Scene init and bootstrap inspection for v86
+  {
+    const sceneInitStart = js.indexOf("const sceneInit = (name) => {");
+    assert.ok(sceneInitStart !== -1, "sceneInit definition found");
+    const sceneInitEnd = js.indexOf("/* 分层进度守卫", sceneInitStart);
+    assert.ok(sceneInitEnd !== -1, "sceneInit end marker found");
+    const sceneInitSlice = js.slice(sceneInitStart, sceneInitEnd);
+
+    assert.ok(sceneInitSlice.includes("resolveExistenceRenunciationPendingOnArrival(name);"));
+    assert.ok(sceneInitSlice.includes("syncExistenceRenunciationRegistry();"));
+    assert.ok(sceneInitSlice.includes("syncProofOfNonexistenceArchive();"));
+    assert.ok(sceneInitSlice.includes("syncOntologicalDisinheritanceChamber();"));
+    assert.ok(sceneInitSlice.includes("syncCivilNonexistenceFinalTribunal();"));
+    assert.ok(sceneInitSlice.includes("syncExistenceRenunciationRegistrars();"));
+    assert.ok(sceneInitSlice.includes("paintExistenceRenunciationMemory();"));
+    assert.ok(sceneInitSlice.includes("paintExistenceRenunciationCodex();"));
+    assert.ok(sceneInitSlice.includes("syncExistenceRenunciationRemembrance();"));
+    assert.ok(sceneInitSlice.includes("syncExistenceRenunciationLinks();"));
+    assert.ok(sceneInitSlice.includes("replayExistenceRenunciationPending(name);"));
+
+    const resolveSceneStart = js.indexOf("const resolveScene = (name) => {");
+    const resolveSceneEnd = js.indexOf("/* 可靠聚焦", resolveSceneStart);
+    const resolveSceneSlice = js.slice(resolveSceneStart, resolveSceneEnd);
+
+    assert.ok(resolveSceneSlice.includes('if (target === "existence-renunciation-registry" && !existenceRenunciationRegistryCanVisit()) target = "remembrance";'));
+    assert.ok(resolveSceneSlice.includes('if (target === "proof-of-nonexistence-archive" && !proofOfNonexistenceArchiveCanVisit()) target = "remembrance";'));
+    assert.ok(resolveSceneSlice.includes('if (target === "ontological-disinheritance-chamber" && !ontologicalDisinheritanceChamberCanVisit()) target = "remembrance";'));
+    assert.ok(resolveSceneSlice.includes('if (target === "civil-nonexistence-final-tribunal" && !civilNonexistenceFinalTribunalCanVisit()) target = "remembrance";'));
+    assert.ok(resolveSceneSlice.includes('!existenceRenunciationBridgeAllows(\'unending-gallery\')'));
+
+    const forgetStart = js.indexOf("if (forgetActionBtn) {");
+    const forgetEnd = js.indexOf("/* ---------- 初始化 ---------- */", forgetStart);
+    const forgetSlice = js.slice(forgetStart, forgetEnd);
+    assert.ok(forgetSlice.includes('localStorage.removeItem("goddead_v86_existence_renunciation");'));
+  }
+
+  // Static assets freeze verification for v86
+  const V86_ASSET_FREEZE = [
+    {
+      path: "assets/source-v86-existence-renunciation-registry.png",
+      sha256: "06732a8027ff4a6c24eb4bb3c370e35cb4aae75f0097b0675c70b986e2123677",
+      type: "png"
+    },
+    {
+      path: "assets/source-v86-proof-of-nonexistence-archive.png",
+      sha256: "243d30de78eee7c70d6af28d52f2833e19860dbd87ef7f9a6edfbe0983a80df4",
+      type: "png"
+    },
+    {
+      path: "assets/source-v86-ontological-disinheritance-chamber.png",
+      sha256: "180b100ce1873a00ec174d59ec1ccf92f169da58ba6d69ba846615530fd9bc29",
+      type: "png"
+    },
+    {
+      path: "assets/source-v86-civil-nonexistence-final-tribunal.png",
+      sha256: "346f6b9999aadfd890d167ef885bae420f15a314ff7a176ca33f89516485f6c8",
+      type: "png"
+    },
+    {
+      path: "assets/v86-existence-renunciation-registry.webp",
+      sha256: "fce0caed579f24cd62059b0583c33325cd67f1c0b01cfdca05104cc3ede0e72d",
+      type: "webp"
+    },
+    {
+      path: "assets/v86-proof-of-nonexistence-archive.webp",
+      sha256: "44f60b851538b8110cb3aafccb8aaf4e923e978500b3165523d68e0c30f2bdce",
+      type: "webp"
+    },
+    {
+      path: "assets/v86-ontological-disinheritance-chamber.webp",
+      sha256: "7814317a9e345efce37786a08567749cc481fbc3cb476055a003b8e209f43e29",
+      type: "webp"
+    },
+    {
+      path: "assets/v86-civil-nonexistence-final-tribunal.webp",
+      sha256: "648513b4730a875aadd2eac1697dc3b9a55c527e233ec50ffdc256cff1b92c62",
+      type: "webp"
+    }
+  ];
+
+  for (const asset of V86_ASSET_FREEZE) {
+    const buf = await readFile(new URL(asset.path, root));
+    const actualHash = createHash("sha256").update(buf).digest("hex");
+    assert.equal(actualHash, asset.sha256, `${asset.path} sha256 mismatch`);
+    const dims = asset.type === "png" ? readPngDimensions(buf) : readWebpDimensions(buf);
+    assert.equal(dims.width, 1536, `${asset.path} width must be 1536`);
+    assert.equal(dims.height, 1024, `${asset.path} height must be 1024`);
+  }
+
+  const V86_FIGURE_SPECS = [
+    ['existence-renunciation-registry-figure', '存在放弃登记局：左侧观察者被看见的事实缝在证物上、中央认领者被无主后果掩埋、右侧无档者被所有档案拒收', 3],
+    ['proof-of-nonexistence-archive-figure', '不存在凭证档案库：左侧空摇篮中的出生证、中央提前被抹除者的影子、右侧未交付肉身退款单', 3],
+    ['ontological-disinheritance-chamber-figure', '本体除继承室：左上把存在改成文书错误、右上退回第一人称代词、左下把肉身过户给原始缺席、右下把不存在登记为继承债', 4],
+    ['civil-nonexistence-final-tribunal-figure', '民事不存在终审庭：左侧把所有来访者从现实除名、中央把不存在登记为公民、右侧让世界放弃继承自己', 3]
+  ];
+
+  for (const [figureClass, expectedAlt, buttonCount] of V86_FIGURE_SPECS) {
+    const figRegex = new RegExp(`<figure[^>]*class="[^"]*\\b${figureClass}\\b[^"]*"[^>]*>([\\s\\S]*?)<\\/figure>`, "i");
+    const figMatch = html.match(figRegex);
+    assert.ok(figMatch, `figure .${figureClass} must exist`);
+
+    const insideHtml = figMatch[1];
+    const imgRegex = new RegExp(`<img[^>]+alt="${expectedAlt.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`, "i");
+    assert.match(insideHtml, imgRegex, `figure .${figureClass} must contain nested img with exact alt "${expectedAlt}"`);
+
+    const buttons = insideHtml.match(/<button\b[^>]*>/gi) || [];
+    assert.equal(buttons.length, buttonCount, `figure .${figureClass} must have exactly ${buttonCount} button hotspots`);
+  }
+
+  // ============================================================
+  // v87 Collection Agency for Nonexistence Debt Specification (TDD)
+  // ============================================================
+  {
+    const v87ModuleStart = js.indexOf("const NONEXISTENCE_DEBT_KEY = 'goddead_v87_nonexistence_debt_collection';");
+    const v88ModuleStartForV87 = v87ModuleStart !== -1 ? js.indexOf("const UNHAPPENED_EVENT_AUCTION_KEY = 'goddead_v88_unhappened_event_auction';", v87ModuleStart) : -1;
+    const v87ModuleEnd = v88ModuleStartForV87 !== -1 ? js.lastIndexOf("/*", v88ModuleStartForV87) : -1;
+    assert.ok(v87ModuleStart !== -1 && v88ModuleStartForV87 > v87ModuleStart && v87ModuleEnd > v87ModuleStart, "v87 module boundaries must exist");
+    const v87ModuleBlock = js.slice(v87ModuleStart, v87ModuleEnd);
+
+    const makeCompleteV86StateForV87 = () => ({
+      renunciations: [
+        'observer-inherited-by-every-fact:birth-certificate-for-an-empty-crib:declare-existence-a-clerical-error',
+        'claimant-buried-under-unclaimed-consequences:shadow-of-a-person-erased-in-advance:return-the-first-person-pronoun-unused',
+        'person-rejected-by-every-archive:refund-receipt-for-an-undelivered-body:transfer-the-body-to-its-original-absence',
+        'observer-inherited-by-every-fact:birth-certificate-for-an-empty-crib:accept-nonexistence-as-an-inherited-debt',
+      ],
+      tribunalOutcomes: [
+        'every-visitor-was-struck-from-reality',
+        'nonexistence-became-a-citizen',
+        'the-world-disinherited-itself',
+      ]
+    });
+
+    const createMockElement = (id = '') => {
+      const listeners = {};
+      const el = {
+        id,
+        className: '',
+        innerHTML: '',
+        textContent: '',
+        children: [],
+        hidden: false,
+        disabled: false,
+        attributes: {},
+        setAttribute(k, v) { this.attributes[k] = String(v); },
+        removeAttribute(k) { delete this.attributes[k]; },
+        appendChild(child) { this.children.push(child); return child; },
+        addEventListener(type, handler) {
+          listeners[type] = listeners[type] || [];
+          listeners[type].push(handler);
+        },
+        _listeners: listeners,
+        _dispatch(type, evt = {}) {
+          const list = listeners[type] || [];
+          for (const fn of list) fn(evt);
+        }
+      };
+      return el;
+    };
+
+    const hostV87 = (val) => JSON.parse(JSON.stringify(val));
+
+    const makeV87Context = ({
+      initialStore = {},
+      elements = {},
+      scene = '',
+      v86unlocked = true,
+      upstreamV86State = makeCompleteV86StateForV87(),
+    } = {}) => {
+      const storeData = { ...initialStore };
+      const store = {
+        get(k, def) {
+          return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def;
+        },
+        set(k, v) {
+          storeData[k] = String(v);
+        }
+      };
+
+      const elMap = { ...elements };
+      const $ = (selector) => {
+        if (typeof selector === 'string' && selector.startsWith('#')) {
+          const id = selector.slice(1);
+          if (elMap[id]) return elMap[id];
+        }
+        return null;
+      };
+
+      const scheduleCalls = [];
+      const AutoAdvance = {
+        has() { return false; },
+        schedule(src, target, opts) {
+          scheduleCalls.push({ src, target, opts: opts ? { ...opts } : undefined });
+        },
+        clear() {}
+      };
+
+      const AudioEngine = {
+        whoosh() {},
+        bell() {}
+      };
+
+      const buttonAvailable = (id) => {
+        const el = $(`#${id}`);
+        if (!el || el.hidden || el.disabled) return false;
+        return true;
+      };
+
+      const doc = {
+        createElement: (tag) => createMockElement(tag),
+      };
+
+      const factory = new Function(
+        'store', '$', 'currentScene', 'AutoAdvance', 'AudioEngine', 'reduced',
+        'existenceRenunciationUnlocked', 'getExistenceRenunciationClaims', 'buttonAvailable', 'document',
+        `${v87ModuleBlock}
+        return {
+          NONEXISTENCE_DEBT_KEY,
+          NONEXISTENCE_DEBT_VERSION,
+          NONEXISTENCE_DEBTORS,
+          NONEXISTENCE_INSTRUMENTS,
+          NONEXISTENCE_REMEDIES,
+          NONEXISTENCE_BANKRUPTCY_ACTIONS,
+          NONEXISTENCE_DEBTOR_TABLE,
+          NONEXISTENCE_INSTRUMENT_TABLE,
+          NONEXISTENCE_REMEDY_TABLE,
+          NONEXISTENCE_BANKRUPTCY_TABLE,
+          NONEXISTENCE_BANKRUPTCY_OUTCOME_BY_ID,
+          NONEXISTENCE_BANKRUPTCY_OUTCOME_IDS,
+          NONEXISTENCE_COLLECTION_IDS,
+          defaultNonexistenceDebtClaims,
+          normalizeDebtVisited,
+          normalizeDebtDraft,
+          normalizeDebtCollections,
+          normalizeDebtBankruptcyOutcomes,
+          clampDebtCount,
+          normalizeDebtTallies,
+          normalizeDebtActiveCollector,
+          computeNonexistenceCollectionTitle,
+          computeNonexistenceCollectionFeedback,
+          findNonexistenceCollectionById,
+          nonexistenceDebtCollectionUnlocked,
+          nonexistenceDebtCoverageComplete,
+          normalizeDebtPending,
+          getNonexistenceDebtClaims,
+          saveNonexistenceDebtClaims,
+          getNonexistencePendingLogicalSource,
+          resolveNonexistenceDebtPendingOnArrival,
+          replayNonexistenceDebtPending,
+          chooseNonexistenceDebtEntry,
+          chooseNonexistenceDebtor,
+          chooseNonexistenceInstrument,
+          chooseNonexistenceRemedy,
+          chooseNonexistenceCollectorReturn,
+          chooseNonexistenceCourtEntry,
+          chooseNonexistenceBankruptcyAction,
+          nonexistenceDebtCollectionBridgeAllows,
+          nonexistenceDebtCollectionAgencyCanVisit,
+          absenceArrearsLedgerVaultCanVisit,
+          ontologicalRepossessionChamberCanVisit,
+          unpayableExistenceBankruptcyCourtCanVisit
+        };`
+      );
+
+      const api = factory(
+        store,
+        $,
+        scene,
+        AutoAdvance,
+        AudioEngine,
+        false,
+        () => v86unlocked,
+        () => upstreamV86State,
+        buttonAvailable,
+        doc
+      );
+
+      return {
+        api,
+        storeData,
+        read: () => JSON.parse(storeData['goddead_v87_nonexistence_debt_collection'] || 'null'),
+        scheduleCalls,
+        elements: elMap,
+        AutoAdvance,
+      };
+    };
+
+    const V87_ENTRY_FEEDBACK = '前往不存在债务催收局 · GO TO NONEXISTENCE DEBT COLLECTION AGENCY';
+    const V87_COURT_ENTRY_FEEDBACK = '进入不可偿还存在破产庭 · ENTER UNPAYABLE EXISTENCE BANKRUPTCY COURT';
+    const V87_EXPECTED_COLLECTION = 'citizen-who-exists-only-as-nonexistence:absence-tax-bill-addressed-to-a-blank-citizen:garnish-every-memory-that-proves-existence';
+    const V87_EXPECTED_FEEDBACK = '不存在取得公民身份后立刻收到第一张税单。税号有效，住址为空，纳税人只有在被否认时才能被准确送达。 税单以空白姓名为收件人，人口普查却能逐年统计它未曾居住的天数。每一处空栏都产生滞纳金。 所有能证明债务人存在过的记忆被逐笔扣押。债务因此失去主体，却因为无人能够否认而变得更可靠。';
+    const V87_COMPLETE_COLLECTIONS = [
+      'citizen-who-exists-only-as-nonexistence:absence-tax-bill-addressed-to-a-blank-citizen:garnish-every-memory-that-proves-existence',
+      'visitor-erased-but-still-in-arrears:mortgage-on-space-never-occupied:repossess-the-body-before-delivery',
+      'world-that-disinherited-itself:bond-backed-by-years-never-lived:capitalize-nonexistence-into-eternal-interest',
+      'citizen-who-exists-only-as-nonexistence:absence-tax-bill-addressed-to-a-blank-citizen:declare-death-an-insufficient-payment',
+    ];
+
+    const makePendingStateV87 = (api, overrides = {}) => {
+      const base = hostV87(api.defaultNonexistenceDebtClaims());
+      base._v87unlocked = true;
+      if (overrides.visited) base.visited = { ...base.visited, ...overrides.visited };
+      if (overrides.draft) base.draft = { ...base.draft, ...overrides.draft };
+      if (overrides.debtorTallies) base.debtorTallies = { ...base.debtorTallies, ...overrides.debtorTallies };
+      if (overrides.collections) base.collections = [...overrides.collections];
+      if (overrides.bankruptcyOutcomes) base.bankruptcyOutcomes = [...overrides.bankruptcyOutcomes];
+      if (overrides.collectionRuns !== undefined) base.collectionRuns = overrides.collectionRuns;
+      if (overrides.bankruptcyRuns !== undefined) base.bankruptcyRuns = overrides.bankruptcyRuns;
+      if (overrides.lastOutcome !== undefined) base.lastOutcome = overrides.lastOutcome;
+      if (overrides.activeCollector !== undefined) base.activeCollector = overrides.activeCollector;
+      if (overrides.pending !== undefined) base.pending = overrides.pending;
+      return base;
+    };
+
+    const defaultCtx = makeV87Context();
+    const { api } = defaultCtx;
+
+    assert.strictEqual(api.NONEXISTENCE_DEBT_KEY, 'goddead_v87_nonexistence_debt_collection');
+    assert.strictEqual(api.NONEXISTENCE_DEBT_VERSION, 87);
+    assert.deepStrictEqual(hostV87(api.NONEXISTENCE_DEBTORS), ['citizen-who-exists-only-as-nonexistence', 'visitor-erased-but-still-in-arrears', 'world-that-disinherited-itself']);
+    assert.deepStrictEqual(hostV87(api.NONEXISTENCE_INSTRUMENTS), ['absence-tax-bill-addressed-to-a-blank-citizen', 'mortgage-on-space-never-occupied', 'bond-backed-by-years-never-lived']);
+    assert.deepStrictEqual(hostV87(api.NONEXISTENCE_REMEDIES), ['garnish-every-memory-that-proves-existence', 'repossess-the-body-before-delivery', 'capitalize-nonexistence-into-eternal-interest', 'declare-death-an-insufficient-payment']);
+    assert.deepStrictEqual(hostV87(api.NONEXISTENCE_BANKRUPTCY_ACTIONS), ['forgive-every-debt-before-existence', 'make-nonexistence-the-sole-creditor', 'foreclose-on-the-worlds-right-to-exist']);
+
+    assert.strictEqual(hostV87(api.NONEXISTENCE_COLLECTION_IDS).length, 36);
+    assert.strictEqual(hostV87(api.NONEXISTENCE_BANKRUPTCY_OUTCOME_IDS).length, 3);
+
+    const expectedDefaultState = {
+      version: 87,
+      visited: { agency: false, ledger: false, chamber: false, court: false },
+      draft: { debtor: '', instrument: '' },
+      collections: [],
+      bankruptcyOutcomes: [],
+      collectionRuns: 0,
+      bankruptcyRuns: 0,
+      debtorTallies: { citizen: 0, visitor: 0, world: 0 },
+      lastOutcome: '',
+      activeCollector: null,
+      pending: null,
+    };
+    assert.deepStrictEqual(hostV87(api.defaultNonexistenceDebtClaims()), expectedDefaultState);
+
+    // Strict serialization and normalization checks
+    const saveTestCtx = makeV87Context();
+    const hostileState = {
+      version: 87,
+      extraField: 'intruder',
+      _v87unlocked: true,
+      visited: { agency: true, ledger: 'truthy', chamber: false, court: true, bonus: true },
+      draft: { debtor: 'citizen-who-exists-only-as-nonexistence', instrument: 'absence-tax-bill-addressed-to-a-blank-citizen', extra: 1 },
+      collections: [
+        'citizen-who-exists-only-as-nonexistence:absence-tax-bill-addressed-to-a-blank-citizen:garnish-every-memory-that-proves-existence',
+        'citizen-who-exists-only-as-nonexistence:absence-tax-bill-addressed-to-a-blank-citizen:garnish-every-memory-that-proves-existence',
+        'fake-collection'
+      ],
+      bankruptcyOutcomes: [
+        'every-debt-was-forgiven-before-anyone-existed',
+        'every-debt-was-forgiven-before-anyone-existed',
+        'fake-outcome'
+      ],
+      collectionRuns: '15.9',
+      bankruptcyRuns: -10,
+      debtorTallies: { citizen: 50000, visitor: '3', world: -1, extraTally: 10 },
+      lastOutcome: 'uncollected-outcome',
+      activeCollector: { instrument: 'absence-tax-bill-addressed-to-a-blank-citizen', collection: 'citizen-who-exists-only-as-nonexistence:absence-tax-bill-addressed-to-a-blank-citizen:garnish-every-memory-that-proves-existence', feedback: 'foo', extra: 'bad' },
+      pending: { kind: 'entry', target: 'nonexistence-debt-collection-agency', feedback: 'bad-fb' }
+    };
+
+    saveTestCtx.api.saveNonexistenceDebtClaims(hostileState);
+    const rawSaved = JSON.parse(saveTestCtx.storeData['goddead_v87_nonexistence_debt_collection']);
+    const savedKeys = Object.keys(rawSaved);
+    assert.deepStrictEqual(savedKeys, [
+      'version', 'visited', 'draft', 'collections', 'bankruptcyOutcomes',
+      'collectionRuns', 'bankruptcyRuns', 'debtorTallies', 'lastOutcome', 'activeCollector', 'pending'
+    ]);
+    assert.strictEqual(rawSaved._v87unlocked, undefined);
+    assert.strictEqual(rawSaved.extraField, undefined);
+    assert.deepStrictEqual(rawSaved.visited, { agency: true, ledger: false, chamber: false, court: true });
+    assert.deepStrictEqual(rawSaved.collections, [
+      'citizen-who-exists-only-as-nonexistence:absence-tax-bill-addressed-to-a-blank-citizen:garnish-every-memory-that-proves-existence'
+    ]);
+    assert.deepStrictEqual(rawSaved.bankruptcyOutcomes, [
+      'every-debt-was-forgiven-before-anyone-existed'
+    ]);
+    assert.strictEqual(rawSaved.collectionRuns, 15);
+    assert.strictEqual(rawSaved.bankruptcyRuns, 0);
+    assert.deepStrictEqual(rawSaved.debtorTallies, { citizen: 9999, visitor: 3, world: 0 });
+    assert.strictEqual(rawSaved.lastOutcome, '');
+    assert.strictEqual(rawSaved.activeCollector, null);
+    assert.strictEqual(rawSaved.pending, null);
+    assert.strictEqual(saveTestCtx.storeData['goddead_v86_existence_renunciation'], undefined, "v87 must never write to v86 key");
+
+    // Unlock checks (v86 positive and negative cases)
+    const upstreamBefore = makeCompleteV86StateForV87();
+    const upstreamClone = JSON.parse(JSON.stringify(upstreamBefore));
+    const unlockCtx = makeV87Context({ upstreamV86State: upstreamBefore });
+    assert.strictEqual(unlockCtx.api.nonexistenceDebtCollectionUnlocked(), true);
+    assert.deepStrictEqual(upstreamBefore, upstreamClone, "Unlock check must not mutate upstream state");
+
+    assert.strictEqual(makeV87Context({ v86unlocked: false }).api.nonexistenceDebtCollectionUnlocked(), false);
+    assert.strictEqual(makeV87Context({ upstreamV86State: { renunciations: upstreamBefore.renunciations.slice(0, 3), tribunalOutcomes: upstreamBefore.tribunalOutcomes } }).api.nonexistenceDebtCollectionUnlocked(), false);
+    assert.strictEqual(makeV87Context({ upstreamV86State: { renunciations: upstreamBefore.renunciations, tribunalOutcomes: upstreamBefore.tribunalOutcomes.slice(0, 2) } }).api.nonexistenceDebtCollectionUnlocked(), false);
+
+    // Coverage check
+    const covState = hostV87(api.defaultNonexistenceDebtClaims());
+    assert.strictEqual(api.nonexistenceDebtCoverageComplete(covState), false);
+    covState.collections = [...V87_COMPLETE_COLLECTIONS];
+    assert.strictEqual(api.nonexistenceDebtCoverageComplete(covState), true);
+
+    // Seven strict pending types
+    const validEntry = { kind: 'entry', target: 'nonexistence-debt-collection-agency', feedback: V87_ENTRY_FEEDBACK };
+    const entryState = makePendingStateV87(api);
+    assert.deepStrictEqual(hostV87(api.normalizeDebtPending(validEntry, entryState)), validEntry);
+
+    const validDebtor = {
+      debtor: 'citizen-who-exists-only-as-nonexistence',
+      feedback: api.NONEXISTENCE_DEBTOR_TABLE['citizen-who-exists-only-as-nonexistence'].feedback,
+      kind: 'debtor',
+      source: 'nonexistence-debt-collection-agency',
+      target: 'absence-arrears-ledger-vault'
+    };
+    const debtorState = makePendingStateV87(api);
+    assert.deepStrictEqual(hostV87(api.normalizeDebtPending(validDebtor, debtorState)), validDebtor);
+
+    const validInstrument = {
+      debtor: 'citizen-who-exists-only-as-nonexistence',
+      feedback: api.NONEXISTENCE_INSTRUMENT_TABLE['absence-tax-bill-addressed-to-a-blank-citizen'].feedback,
+      instrument: 'absence-tax-bill-addressed-to-a-blank-citizen',
+      kind: 'instrument',
+      source: 'absence-arrears-ledger-vault',
+      target: 'ontological-repossession-chamber'
+    };
+    const instrumentState = makePendingStateV87(api, { draft: { debtor: 'citizen-who-exists-only-as-nonexistence', instrument: '' } });
+    assert.deepStrictEqual(hostV87(api.normalizeDebtPending(validInstrument, instrumentState)), validInstrument);
+
+    const validCollection = {
+      collection: V87_EXPECTED_COLLECTION,
+      debtor: 'citizen-who-exists-only-as-nonexistence',
+      feedback: V87_EXPECTED_FEEDBACK,
+      instrument: 'absence-tax-bill-addressed-to-a-blank-citizen',
+      kind: 'collection',
+      remedy: 'garnish-every-memory-that-proves-existence',
+      source: 'ontological-repossession-chamber',
+      target: 'posthumous-census-hall'
+    };
+    const collectionState = makePendingStateV87(api, { draft: { debtor: 'citizen-who-exists-only-as-nonexistence', instrument: 'absence-tax-bill-addressed-to-a-blank-citizen' } });
+    assert.deepStrictEqual(hostV87(api.normalizeDebtPending(validCollection, collectionState)), validCollection);
+
+    const canonicalCollector = {
+      collection: V87_EXPECTED_COLLECTION,
+      feedback: api.NONEXISTENCE_INSTRUMENT_TABLE['absence-tax-bill-addressed-to-a-blank-citizen'].collectorFeedback,
+      instrument: 'absence-tax-bill-addressed-to-a-blank-citizen'
+    };
+    const validCollectorReturn = {
+      collection: V87_EXPECTED_COLLECTION,
+      feedback: canonicalCollector.feedback,
+      from: 'posthumous-census-hall',
+      kind: 'collector-return',
+      target: 'nonexistence-debt-collection-agency'
+    };
+    const collectorReturnState = makePendingStateV87(api, {
+      collections: [V87_EXPECTED_COLLECTION],
+      activeCollector: canonicalCollector
+    });
+    assert.deepStrictEqual(hostV87(api.normalizeDebtPending(validCollectorReturn, collectorReturnState)), validCollectorReturn);
+
+    const validCourtEntry = {
+      feedback: V87_COURT_ENTRY_FEEDBACK,
+      kind: 'bankruptcy-entry',
+      target: 'unpayable-existence-bankruptcy-court'
+    };
+    const courtEntryState = makePendingStateV87(api, { collections: V87_COMPLETE_COLLECTIONS });
+    assert.deepStrictEqual(hostV87(api.normalizeDebtPending(validCourtEntry, courtEntryState)), validCourtEntry);
+
+    const validBankruptcyAction = {
+      action: 'forgive-every-debt-before-existence',
+      feedback: api.NONEXISTENCE_BANKRUPTCY_TABLE['forgive-every-debt-before-existence'].feedback,
+      kind: 'bankruptcy-action',
+      outcome: 'every-debt-was-forgiven-before-anyone-existed',
+      source: 'unpayable-existence-bankruptcy-court',
+      target: 'threshold'
+    };
+    const bankruptcyActionState = makePendingStateV87(api, { collections: V87_COMPLETE_COLLECTIONS, visited: { court: true } });
+    assert.deepStrictEqual(hostV87(api.normalizeDebtPending(validBankruptcyAction, bankruptcyActionState)), validBankruptcyAction);
+
+    // Lifecycle: Collection and repeat run
+    {
+      const btn = createMockElement('remedy-garnish-every-memory-that-proves-existence');
+      const ctx = makeV87Context({
+        scene: 'ontological-repossession-chamber',
+        elements: { 'remedy-garnish-every-memory-that-proves-existence': btn },
+        initialStore: { goddead_v87_nonexistence_debt_collection: JSON.stringify(makePendingStateV87(api, { visited: { chamber: true }, draft: { debtor: 'citizen-who-exists-only-as-nonexistence', instrument: 'absence-tax-bill-addressed-to-a-blank-citizen' } })) }
+      });
+      ctx.api.chooseNonexistenceRemedy('garnish-every-memory-that-proves-existence');
+      ctx.api.resolveNonexistenceDebtPendingOnArrival('posthumous-census-hall');
+      const fin1 = ctx.api.getNonexistenceDebtClaims();
+      assert.strictEqual(fin1.collectionRuns, 1);
+      assert.strictEqual(fin1.debtorTallies.citizen, 1);
+      assert.deepStrictEqual(hostV87(fin1.collections), [V87_EXPECTED_COLLECTION]);
+      assert.strictEqual(fin1.lastOutcome, V87_EXPECTED_COLLECTION);
+      assert.deepStrictEqual(hostV87(fin1.activeCollector), {
+        instrument: 'absence-tax-bill-addressed-to-a-blank-citizen',
+        feedback: api.NONEXISTENCE_INSTRUMENT_TABLE['absence-tax-bill-addressed-to-a-blank-citizen'].collectorFeedback,
+        collection: V87_EXPECTED_COLLECTION
+      });
+    }
+
+    // Bridge tests
+    assert.strictEqual(makeV87Context({ v86unlocked: false }).api.nonexistenceDebtCollectionBridgeAllows('posthumous-census-hall'), false);
+    const bridgeState = makePendingStateV87(api, {
+      collections: [V87_EXPECTED_COLLECTION],
+      activeCollector: canonicalCollector
+    });
+    const bctx = makeV87Context({ initialStore: { goddead_v87_nonexistence_debt_collection: JSON.stringify(bridgeState) } });
+    assert.strictEqual(bctx.api.nonexistenceDebtCollectionBridgeAllows('posthumous-census-hall'), true);
+    assert.strictEqual(bctx.api.nonexistenceDebtCollectionBridgeAllows('last-word-central-bank'), false);
+
+    // Button disabled state regression contract
+    {
+      const isVisitDisabled = (canVisit, pending) => !canVisit || Boolean(pending);
+      const isCollectorDisabled = (shouldShow, pending) => !shouldShow || Boolean(pending);
+
+      assert.strictEqual(isVisitDisabled(true, false), false, 'valid settled visit button must be enabled');
+      assert.strictEqual(isVisitDisabled(true, true), true, 'valid pending visit button must be disabled');
+      assert.strictEqual(isVisitDisabled(false, false), true, 'invalid settled visit button must be disabled');
+
+      assert.strictEqual(isCollectorDisabled(true, false), false, 'valid settled collector button must be enabled');
+      assert.strictEqual(isCollectorDisabled(true, true), true, 'valid pending collector button must be disabled');
+      assert.strictEqual(isCollectorDisabled(false, false), true, 'invalid settled collector button must be disabled');
+
+      const visitMatches = (v87ModuleBlock.match(/btn\.disabled = !canVisit \|\| Boolean\(st\.pending\);/g) || []).length;
+      const collectorMatches = (v87ModuleBlock.match(/btn\.disabled = !shouldShow \|\| Boolean\(st\.pending\);/g) || []).length;
+      assert.strictEqual(visitMatches, 4, 'expected exactly 4 occurrences of corrected canVisit disabled check');
+      assert.strictEqual(collectorMatches, 1, 'expected exactly 1 occurrence of corrected shouldShow disabled check');
+      assert.strictEqual(/btn\.disabled = !(?:canVisit|shouldShow) \|\| !st\.pending;/.test(v87ModuleBlock), false, 'legacy inverted pending disabled check must not exist');
+    }
+
+    // 18 trusted click listeners
+    const listenerRegex = /\.addEventListener\('click',\s*\(e\)\s*=>\s*\{([\s\S]*?)\n\s*\}\);/g;
+    const listenerMatches = [...v87ModuleBlock.matchAll(listenerRegex)];
+    assert.strictEqual(listenerMatches.length, 18, "v87 Module must register exactly 18 click listeners");
+    for (const match of listenerMatches) {
+      const body = match[1].trim();
+      assert.ok(body.startsWith('if (!e.isTrusted) return;'), 'Each click handler must guard against untrusted events first');
+    }
+  }
+
+  // Scene init and bootstrap inspection for v87
+  {
+    const sceneInitStart = js.indexOf("const sceneInit = (name) => {");
+    assert.ok(sceneInitStart !== -1, "sceneInit definition found");
+    const sceneInitEnd = js.indexOf("/* 分层进度守卫", sceneInitStart);
+    assert.ok(sceneInitEnd !== -1, "sceneInit end marker found");
+    const sceneInitSlice = js.slice(sceneInitStart, sceneInitEnd);
+
+    assert.ok(sceneInitSlice.includes("resolveNonexistenceDebtPendingOnArrival(name);"));
+    assert.ok(sceneInitSlice.includes("syncNonexistenceDebtCollectionAgency();"));
+    assert.ok(sceneInitSlice.includes("syncAbsenceArrearsLedgerVault();"));
+    assert.ok(sceneInitSlice.includes("syncOntologicalRepossessionChamber();"));
+    assert.ok(sceneInitSlice.includes("syncUnpayableExistenceBankruptcyCourt();"));
+    assert.ok(sceneInitSlice.includes("syncNonexistenceDebtCollectors();"));
+    assert.ok(sceneInitSlice.includes("paintNonexistenceDebtMemory();"));
+    assert.ok(sceneInitSlice.includes("paintNonexistenceDebtCodex();"));
+    assert.ok(sceneInitSlice.includes("syncNonexistenceDebtRemembrance();"));
+    assert.ok(sceneInitSlice.includes("syncNonexistenceDebtLinks();"));
+    assert.ok(sceneInitSlice.includes("replayNonexistenceDebtPending(name);"));
+
+    const resolveSceneStart = js.indexOf("const resolveScene = (name) => {");
+    const resolveSceneEnd = js.indexOf("/* 可靠聚焦", resolveSceneStart);
+    const resolveSceneSlice = js.slice(resolveSceneStart, resolveSceneEnd);
+
+    assert.ok(resolveSceneSlice.includes('if (target === "nonexistence-debt-collection-agency" && !nonexistenceDebtCollectionAgencyCanVisit()) target = "remembrance";'));
+    assert.ok(resolveSceneSlice.includes('if (target === "absence-arrears-ledger-vault" && !absenceArrearsLedgerVaultCanVisit()) target = "remembrance";'));
+    assert.ok(resolveSceneSlice.includes('if (target === "ontological-repossession-chamber" && !ontologicalRepossessionChamberCanVisit()) target = "remembrance";'));
+    assert.ok(resolveSceneSlice.includes('if (target === "unpayable-existence-bankruptcy-court" && !unpayableExistenceBankruptcyCourtCanVisit()) target = "remembrance";'));
+    assert.ok(resolveSceneSlice.includes('!nonexistenceDebtCollectionBridgeAllows(\'unending-gallery\')'));
+
+    const forgetStart = js.indexOf("if (forgetActionBtn) {");
+    const forgetEnd = js.indexOf("/* ---------- 初始化 ---------- */", forgetStart);
+    const forgetSlice = js.slice(forgetStart, forgetEnd);
+    assert.ok(forgetSlice.includes('localStorage.removeItem("goddead_v87_nonexistence_debt_collection");'));
+  }
+
+  // Static assets freeze verification for v87
+  const V87_ASSET_FREEZE = [
+    {
+      path: "assets/source-v87-nonexistence-debt-collection-agency.png",
+      sha256: "391bf83ad9fc433d177cfe3312bb4a7452e6d3613037c09690ae9af302fbca06",
+      type: "png"
+    },
+    {
+      path: "assets/source-v87-absence-arrears-ledger-vault.png",
+      sha256: "2ab2f23275ae13891257697894c4f5fa1d9c4d60f2f8a22437df58391833e37d",
+      type: "png"
+    },
+    {
+      path: "assets/source-v87-ontological-repossession-chamber.png",
+      sha256: "7631278f553f71d5913f6f6deb2ea2560c5f76da3253a00f50eeabda5313d517",
+      type: "png"
+    },
+    {
+      path: "assets/source-v87-unpayable-existence-bankruptcy-court.png",
+      sha256: "f058ae4c0f9db2e258ce622b2ce1722906de1921dc9292a043310599aae92a0c",
+      type: "png"
+    },
+    {
+      path: "assets/v87-nonexistence-debt-collection-agency.webp",
+      sha256: "cf2b41eb6e0c0d2a30c5cbca03d3ab5bfc7fe25d0b37e7bad2b2c442546d34d2",
+      type: "webp"
+    },
+    {
+      path: "assets/v87-absence-arrears-ledger-vault.webp",
+      sha256: "372f7679b90d69c2a402237d5ec061d63a20d1d33f1e798c645b7de173b2e973",
+      type: "webp"
+    },
+    {
+      path: "assets/v87-ontological-repossession-chamber.webp",
+      sha256: "309b9996fcabc9415e29680643eecc924c4960820c35cdaf91dd0ad36bd9d82d",
+      type: "webp"
+    },
+    {
+      path: "assets/v87-unpayable-existence-bankruptcy-court.webp",
+      sha256: "e281851b263df79cda02ae3c75fa7f0336841944e6ecf8332fd9253bc49ceef8",
+      type: "webp"
+    }
+  ];
+
+  for (const asset of V87_ASSET_FREEZE) {
+    const buf = await readFile(new URL(asset.path, root));
+    const actualHash = createHash("sha256").update(buf).digest("hex");
+    assert.equal(actualHash, asset.sha256, `${asset.path} sha256 mismatch`);
+    const dims = asset.type === "png" ? readPngDimensions(buf) : readWebpDimensions(buf);
+    assert.equal(dims.width, 1536, `${asset.path} width must be 1536`);
+    assert.equal(dims.height, 1024, `${asset.path} height must be 1024`);
+  }
+
+  const V87_FIGURE_SPECS = [
+    ['nonexistence-debt-collection-agency-figure', '不存在债务催收局：左侧空白公民窗口、中央除名访客窗口、右侧弃继世界窗口', 3],
+    ['absence-arrears-ledger-vault-figure', '缺席欠账簿库：左侧空白公民缺席税单、中央空位抵押契、右侧未活年债券', 3],
+    ['ontological-repossession-chamber-figure', '本体财产收回室：左上扣押证明存在的记忆、右上收回未交付肉身、左下将不存在转化为复利、右下认定死亡不足以结清', 4],
+    ['unpayable-existence-bankruptcy-court-figure', '不可偿还存在破产庭：左侧出生前全部免债、中央不存在成为唯一债权人、右侧查封世界存在权', 3]
+  ];
+
+  for (const [figureClass, expectedAlt, buttonCount] of V87_FIGURE_SPECS) {
+    const figRegex = new RegExp(`<figure[^>]*class="[^"]*\\b${figureClass}\\b[^"]*"[^>]*>([\\s\\S]*?)<\\/figure>`, "i");
+    const figMatch = html.match(figRegex);
+    assert.ok(figMatch, `figure .${figureClass} must exist`);
+
+    const insideHtml = figMatch[1];
+    const imgRegex = new RegExp(`<img[^>]+alt="${expectedAlt.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`, "i");
+    assert.match(insideHtml, imgRegex, `figure .${figureClass} must contain nested img with exact alt "${expectedAlt}"`);
+
+    const buttons = insideHtml.match(/<button\b[^>]*>/gi) || [];
+    assert.equal(buttons.length, buttonCount, `figure .${figureClass} must have exactly ${buttonCount} button hotspots`);
+  }
+
+  // ============================================================
+  // v88 Auction House for Events That Never Happened Specification (TDD)
+  // ============================================================
+  {
+    const v88ModuleStart = js.indexOf("const UNHAPPENED_EVENT_AUCTION_KEY = 'goddead_v88_unhappened_event_auction';");
+    const v89ModuleStartForV88 = v88ModuleStart !== -1 ? js.indexOf("const ACCOMPLISHED_FACT_EVICTION_KEY = 'goddead_v89_accomplished_fact_eviction';", v88ModuleStart) : -1;
+    const v88ModuleEnd = v89ModuleStartForV88 !== -1 ? js.lastIndexOf("/*", v89ModuleStartForV88) : -1;
+    assert.ok(v88ModuleStart !== -1 && v89ModuleStartForV88 > v88ModuleStart && v88ModuleEnd > v88ModuleStart, "v88 module boundaries must exist");
+    const v88ModuleBlock = js.slice(v88ModuleStart, v88ModuleEnd);
+
+    const makeCompleteV87StateForV88 = () => ({
+      collections: [
+        'citizen-who-exists-only-as-nonexistence:absence-tax-bill-addressed-to-a-blank-citizen:garnish-every-memory-that-proves-existence',
+        'visitor-erased-but-still-in-arrears:mortgage-on-space-never-occupied:repossess-the-body-before-delivery',
+        'world-that-disinherited-itself:bond-backed-by-years-never-lived:capitalize-nonexistence-into-eternal-interest',
+        'citizen-who-exists-only-as-nonexistence:absence-tax-bill-addressed-to-a-blank-citizen:declare-death-an-insufficient-payment',
+      ],
+      bankruptcyOutcomes: [
+        'every-debt-was-forgiven-before-anyone-existed',
+        'nonexistence-became-the-only-creditor',
+        'the-world-was-foreclosed-for-nonpayment',
+      ]
+    });
+
+    const createMockElement = (id = '') => {
+      const listeners = {};
+      const el = {
+        id,
+        className: '',
+        innerHTML: '',
+        textContent: '',
+        children: [],
+        hidden: false,
+        disabled: false,
+        attributes: {},
+        setAttribute(k, v) { this.attributes[k] = String(v); },
+        removeAttribute(k) { delete this.attributes[k]; },
+        appendChild(child) { this.children.push(child); return child; },
+        addEventListener(type, handler) {
+          listeners[type] = listeners[type] || [];
+          listeners[type].push(handler);
+        },
+        _listeners: listeners,
+        _dispatch(type, evt = {}) {
+          const list = listeners[type] || [];
+          for (const fn of list) fn(evt);
+        }
+      };
+      return el;
+    };
+
+    const hostV88 = (val) => JSON.parse(JSON.stringify(val));
+
+    const makeV88Context = ({
+      initialStore = {},
+      elements = {},
+      scene = '',
+      v87unlocked = true,
+      upstreamV87State = makeCompleteV87StateForV88(),
+    } = {}) => {
+      const storeData = { ...initialStore };
+      const store = {
+        get(k, def) {
+          return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def;
+        },
+        set(k, v) {
+          storeData[k] = String(v);
+        }
+      };
+
+      const elMap = { ...elements };
+      const $ = (selector) => {
+        if (typeof selector === 'string' && selector.startsWith('#')) {
+          const id = selector.slice(1);
+          if (elMap[id]) return elMap[id];
+        }
+        return null;
+      };
+
+      const scheduleCalls = [];
+      const AutoAdvance = {
+        has() { return false; },
+        schedule(src, target, opts) {
+          scheduleCalls.push({ src, target, opts: opts ? { ...opts } : undefined });
+        },
+        clear() {}
+      };
+
+      const AudioEngine = {
+        whoosh() {},
+        bell() {}
+      };
+
+      const buttonAvailable = (id) => {
+        const el = $(`#${id}`);
+        if (!el || el.hidden || el.disabled) return false;
+        return true;
+      };
+
+      const doc = {
+        createElement: (tag) => createMockElement(tag),
+      };
+
+      const factory = new Function(
+        'store', '$', 'currentScene', 'AutoAdvance', 'AudioEngine', 'reduced',
+        'nonexistenceDebtCollectionUnlocked', 'getNonexistenceDebtClaims', 'buttonAvailable', 'document',
+        `${v88ModuleBlock}
+        return {
+          UNHAPPENED_EVENT_AUCTION_KEY,
+          UNHAPPENED_EVENT_AUCTION_VERSION,
+          UNHAPPENED_BIDDERS,
+          UNHAPPENED_LOTS,
+          UNHAPPENED_BID_METHODS,
+          UNHAPPENED_TITLE_ACTIONS,
+          UNHAPPENED_BIDDER_TABLE,
+          UNHAPPENED_LOT_TABLE,
+          UNHAPPENED_BID_METHOD_TABLE,
+          UNHAPPENED_TITLE_ACTION_TABLE,
+          UNHAPPENED_TITLE_OUTCOME_BY_ID,
+          UNHAPPENED_TITLE_OUTCOME_IDS,
+          UNHAPPENED_PURCHASE_IDS,
+          defaultUnhappenedAuctionClaims,
+          normalizeAuctionVisited,
+          normalizeAuctionDraft,
+          normalizeAuctionPurchases,
+          normalizeAuctionTitleOutcomes,
+          clampAuctionCount,
+          normalizeAuctionTallies,
+          normalizeAuctionActiveAuctioneer,
+          computeUnhappenedPurchaseTitle,
+          computeUnhappenedPurchaseFeedback,
+          findUnhappenedPurchaseById,
+          unhappenedEventAuctionUnlocked,
+          unhappenedAuctionCoverageComplete,
+          normalizeAuctionPending,
+          getUnhappenedEventAuctionClaims,
+          saveUnhappenedEventAuctionClaims,
+          getUnhappenedPendingLogicalSource,
+          resolveUnhappenedAuctionPendingOnArrival,
+          replayUnhappenedAuctionPending,
+          chooseUnhappenedAuctionEntry,
+          chooseUnhappenedBidder,
+          chooseUnhappenedLot,
+          chooseUnhappenedBidMethod,
+          chooseUnhappenedAuctioneerReturn,
+          chooseUnhappenedCourtEntry,
+          chooseUnhappenedTitleAction,
+          unhappenedEventAuctionBridgeAllows,
+          auctionHouseForEventsThatNeverHappenedCanVisit,
+          catalogueOfUnoccupiedRealityCanVisit,
+          counterfactualBiddingFloorCanVisit,
+          retroactiveOccurrenceTitleCourtCanVisit
+        };`
+      );
+
+      const api = factory(
+        store,
+        $,
+        scene,
+        AutoAdvance,
+        AudioEngine,
+        false,
+        () => v87unlocked,
+        () => upstreamV87State,
+        buttonAvailable,
+        doc
+      );
+
+      return {
+        api,
+        storeData,
+        read: () => JSON.parse(storeData['goddead_v88_unhappened_event_auction'] || 'null'),
+        scheduleCalls,
+        elements: elMap,
+        AutoAdvance,
+      };
+    };
+
+    const V88_ENTRY_FEEDBACK = '前往未发生事件拍卖行 · GO TO AUCTION HOUSE FOR EVENTS THAT NEVER HAPPENED';
+    const V88_COURT_ENTRY_FEEDBACK = '进入追溯发生产权庭 · ENTER RETROACTIVE OCCURRENCE TITLE COURT';
+    const V88_EXPECTED_PURCHASE = 'apology-never-spoken:right-to-be-remembered-as-if-it-happened:bid-with-memory-of-consequences';
+    const V88_EXPECTED_FEEDBACK = '它在舌尖以前就被撤回，却完整保存了羞耻、原谅和迟到的体温。它想买下一个曾经伤害过人的过去，好让自己终于有对象可以抵达。 一份没有内容的记忆产权。买家可以被所有人记得，却不必真的发生；宽恕填埋场负责证明，一句没有说出口的话也能留下等待被原谅的重量。 先记住事件发生后的后果，再用这段记忆证明事件值得发生。买家获得过去，旁观者承担一段没有原因的创伤。';
+    const V88_COMPLETE_PURCHASES = [
+      'apology-never-spoken:right-to-be-remembered-as-if-it-happened:bid-with-memory-of-consequences',
+      'war-that-never-erupted:territory-inside-an-undeclared-border:mortgage-the-future-that-would-have-followed',
+      'child-never-born:childhood-no-body-ever-lived:counterfeit-a-witness-who-remembers-it',
+      'apology-never-spoken:right-to-be-remembered-as-if-it-happened:outbid-reality-with-the-cost-of-never-happening',
+    ];
+
+    const makePendingStateV88 = (api, overrides = {}) => {
+      const base = hostV88(api.defaultUnhappenedAuctionClaims());
+      base._v88unlocked = true;
+      if (overrides.visited) base.visited = { ...base.visited, ...overrides.visited };
+      if (overrides.draft) base.draft = { ...base.draft, ...overrides.draft };
+      if (overrides.bidderTallies) base.bidderTallies = { ...base.bidderTallies, ...overrides.bidderTallies };
+      if (overrides.purchases) base.purchases = [...overrides.purchases];
+      if (overrides.titleOutcomes) base.titleOutcomes = [...overrides.titleOutcomes];
+      if (overrides.auctionRuns !== undefined) base.auctionRuns = overrides.auctionRuns;
+      if (overrides.titleRuns !== undefined) base.titleRuns = overrides.titleRuns;
+      if (overrides.lastOutcome !== undefined) base.lastOutcome = overrides.lastOutcome;
+      if (overrides.activeAuctioneer !== undefined) base.activeAuctioneer = overrides.activeAuctioneer;
+      if (overrides.pending !== undefined) base.pending = overrides.pending;
+      return base;
+    };
+
+    const defaultCtx = makeV88Context();
+    const { api } = defaultCtx;
+
+    assert.strictEqual(api.UNHAPPENED_EVENT_AUCTION_KEY, 'goddead_v88_unhappened_event_auction');
+    assert.strictEqual(api.UNHAPPENED_EVENT_AUCTION_VERSION, 88);
+    assert.deepStrictEqual(hostV88(api.UNHAPPENED_BIDDERS), ['apology-never-spoken', 'war-that-never-erupted', 'child-never-born']);
+    assert.deepStrictEqual(hostV88(api.UNHAPPENED_LOTS), ['right-to-be-remembered-as-if-it-happened', 'territory-inside-an-undeclared-border', 'childhood-no-body-ever-lived']);
+    assert.deepStrictEqual(hostV88(api.UNHAPPENED_BID_METHODS), ['bid-with-memory-of-consequences', 'mortgage-the-future-that-would-have-followed', 'counterfeit-a-witness-who-remembers-it', 'outbid-reality-with-the-cost-of-never-happening']);
+    assert.deepStrictEqual(hostV88(api.UNHAPPENED_TITLE_ACTIONS), ['grant-every-unhappened-event-retroactive-occurrence', 'sell-reality-to-the-highest-absence', 'annul-the-distinction-between-event-and-memory']);
+
+    assert.strictEqual(hostV88(api.UNHAPPENED_PURCHASE_IDS).length, 36);
+    assert.strictEqual(hostV88(api.UNHAPPENED_TITLE_OUTCOME_IDS).length, 3);
+
+    const expectedDefaultState = {
+      version: 88,
+      visited: { house: false, catalogue: false, floor: false, court: false },
+      draft: { bidder: '', lot: '' },
+      purchases: [],
+      titleOutcomes: [],
+      auctionRuns: 0,
+      titleRuns: 0,
+      bidderTallies: { apology: 0, war: 0, child: 0 },
+      lastOutcome: '',
+      activeAuctioneer: null,
+      pending: null,
+    };
+    assert.deepStrictEqual(hostV88(api.defaultUnhappenedAuctionClaims()), expectedDefaultState);
+
+    // Strict serialization and normalization checks
+    const saveTestCtx = makeV88Context();
+    const hostileState = {
+      version: 88,
+      extraField: 'intruder',
+      _v88unlocked: true,
+      visited: { house: true, catalogue: 'truthy', floor: false, court: true, bonus: true },
+      draft: { bidder: 'apology-never-spoken', lot: 'right-to-be-remembered-as-if-it-happened', extra: 1 },
+      purchases: [
+        'apology-never-spoken:right-to-be-remembered-as-if-it-happened:bid-with-memory-of-consequences',
+        'apology-never-spoken:right-to-be-remembered-as-if-it-happened:bid-with-memory-of-consequences',
+        'fake-purchase'
+      ],
+      titleOutcomes: [
+        'every-unhappened-event-became-history',
+        'every-unhappened-event-became-history',
+        'fake-outcome'
+      ],
+      auctionRuns: '15.9',
+      titleRuns: -10,
+      bidderTallies: { apology: 50000, war: '3', child: -1, extraTally: 10 },
+      lastOutcome: 'uncollected-outcome',
+      activeAuctioneer: { lot: 'right-to-be-remembered-as-if-it-happened', purchase: 'apology-never-spoken:right-to-be-remembered-as-if-it-happened:bid-with-memory-of-consequences', feedback: 'foo', extra: 'bad' },
+      pending: { kind: 'entry', target: 'auction-house-for-events-that-never-happened', feedback: 'bad-fb' }
+    };
+
+    saveTestCtx.api.saveUnhappenedEventAuctionClaims(hostileState);
+    const rawSaved = JSON.parse(saveTestCtx.storeData['goddead_v88_unhappened_event_auction']);
+    const savedKeys = Object.keys(rawSaved);
+    assert.deepStrictEqual(savedKeys, [
+      'version', 'visited', 'draft', 'purchases', 'titleOutcomes',
+      'auctionRuns', 'titleRuns', 'bidderTallies', 'lastOutcome', 'activeAuctioneer', 'pending'
+    ]);
+    assert.strictEqual(rawSaved._v88unlocked, undefined);
+    assert.strictEqual(rawSaved.extraField, undefined);
+    assert.deepStrictEqual(rawSaved.visited, { house: true, catalogue: false, floor: false, court: true });
+    assert.deepStrictEqual(rawSaved.purchases, [
+      'apology-never-spoken:right-to-be-remembered-as-if-it-happened:bid-with-memory-of-consequences'
+    ]);
+    assert.deepStrictEqual(rawSaved.titleOutcomes, [
+      'every-unhappened-event-became-history'
+    ]);
+    assert.strictEqual(rawSaved.auctionRuns, 15);
+    assert.strictEqual(rawSaved.titleRuns, 0);
+    assert.deepStrictEqual(rawSaved.bidderTallies, { apology: 9999, war: 3, child: 0 });
+    assert.strictEqual(rawSaved.lastOutcome, '');
+    assert.strictEqual(rawSaved.activeAuctioneer, null);
+    assert.strictEqual(rawSaved.pending, null);
+    assert.strictEqual(saveTestCtx.storeData['goddead_v87_nonexistence_debt_collection'], undefined, "v88 must never write to v87 key");
+
+    // Unlock checks (v87 positive and negative cases)
+    const upstreamBefore = makeCompleteV87StateForV88();
+    const upstreamClone = JSON.parse(JSON.stringify(upstreamBefore));
+    const unlockCtx = makeV88Context({ upstreamV87State: upstreamBefore });
+    assert.strictEqual(unlockCtx.api.unhappenedEventAuctionUnlocked(), true);
+    assert.deepStrictEqual(upstreamBefore, upstreamClone, "Unlock check must not mutate upstream state");
+
+    assert.strictEqual(makeV88Context({ v87unlocked: false }).api.unhappenedEventAuctionUnlocked(), false);
+    assert.strictEqual(makeV88Context({ upstreamV87State: { collections: upstreamBefore.collections.slice(0, 3), bankruptcyOutcomes: upstreamBefore.bankruptcyOutcomes } }).api.unhappenedEventAuctionUnlocked(), false);
+    assert.strictEqual(makeV88Context({ upstreamV87State: { collections: upstreamBefore.collections, bankruptcyOutcomes: upstreamBefore.bankruptcyOutcomes.slice(0, 2) } }).api.unhappenedEventAuctionUnlocked(), false);
+
+    // Coverage check
+    const covState = hostV88(api.defaultUnhappenedAuctionClaims());
+    assert.strictEqual(api.unhappenedAuctionCoverageComplete(covState), false);
+    covState.purchases = [...V88_COMPLETE_PURCHASES];
+    assert.strictEqual(api.unhappenedAuctionCoverageComplete(covState), true);
+
+    // Seven strict pending types
+    const validEntry = { feedback: V88_ENTRY_FEEDBACK, kind: 'entry', target: 'auction-house-for-events-that-never-happened' };
+    const entryState = makePendingStateV88(api);
+    assert.deepStrictEqual(hostV88(api.normalizeAuctionPending(validEntry, entryState)), validEntry);
+
+    const validBidder = {
+      bidder: 'apology-never-spoken',
+      feedback: api.UNHAPPENED_BIDDER_TABLE['apology-never-spoken'].feedback,
+      kind: 'bidder',
+      source: 'auction-house-for-events-that-never-happened',
+      target: 'catalogue-of-unoccupied-reality'
+    };
+    const bidderState = makePendingStateV88(api);
+    assert.deepStrictEqual(hostV88(api.normalizeAuctionPending(validBidder, bidderState)), validBidder);
+
+    const validLot = {
+      bidder: 'apology-never-spoken',
+      feedback: api.UNHAPPENED_LOT_TABLE['right-to-be-remembered-as-if-it-happened'].feedback,
+      kind: 'lot',
+      lot: 'right-to-be-remembered-as-if-it-happened',
+      source: 'catalogue-of-unoccupied-reality',
+      target: 'counterfactual-bidding-floor'
+    };
+    const lotState = makePendingStateV88(api, { draft: { bidder: 'apology-never-spoken', lot: '' } });
+    assert.deepStrictEqual(hostV88(api.normalizeAuctionPending(validLot, lotState)), validLot);
+
+    const validPurchase = {
+      bidder: 'apology-never-spoken',
+      feedback: V88_EXPECTED_FEEDBACK,
+      kind: 'purchase',
+      lot: 'right-to-be-remembered-as-if-it-happened',
+      method: 'bid-with-memory-of-consequences',
+      purchase: V88_EXPECTED_PURCHASE,
+      source: 'counterfactual-bidding-floor',
+      target: 'forgiveness-landfill'
+    };
+    const purchaseState = makePendingStateV88(api, { draft: { bidder: 'apology-never-spoken', lot: 'right-to-be-remembered-as-if-it-happened' } });
+    assert.deepStrictEqual(hostV88(api.normalizeAuctionPending(validPurchase, purchaseState)), validPurchase);
+
+    const canonicalAuctioneer = {
+      feedback: api.UNHAPPENED_LOT_TABLE['right-to-be-remembered-as-if-it-happened'].auctioneerFeedback,
+      lot: 'right-to-be-remembered-as-if-it-happened',
+      purchase: V88_EXPECTED_PURCHASE
+    };
+    const validAuctioneerReturn = {
+      feedback: canonicalAuctioneer.feedback,
+      from: 'forgiveness-landfill',
+      kind: 'auctioneer-return',
+      purchase: V88_EXPECTED_PURCHASE,
+      target: 'auction-house-for-events-that-never-happened'
+    };
+    const auctioneerReturnState = makePendingStateV88(api, {
+      purchases: [V88_EXPECTED_PURCHASE],
+      activeAuctioneer: canonicalAuctioneer
+    });
+    assert.deepStrictEqual(hostV88(api.normalizeAuctionPending(validAuctioneerReturn, auctioneerReturnState)), validAuctioneerReturn);
+
+    const validCourtEntry = {
+      feedback: V88_COURT_ENTRY_FEEDBACK,
+      kind: 'title-entry',
+      target: 'retroactive-occurrence-title-court'
+    };
+    const courtEntryState = makePendingStateV88(api, { purchases: V88_COMPLETE_PURCHASES });
+    assert.deepStrictEqual(hostV88(api.normalizeAuctionPending(validCourtEntry, courtEntryState)), validCourtEntry);
+
+    const validTitleAction = {
+      action: 'grant-every-unhappened-event-retroactive-occurrence',
+      feedback: api.UNHAPPENED_TITLE_ACTION_TABLE['grant-every-unhappened-event-retroactive-occurrence'].feedback,
+      kind: 'title-action',
+      outcome: 'every-unhappened-event-became-history',
+      source: 'retroactive-occurrence-title-court',
+      target: 'threshold'
+    };
+    const titleActionState = makePendingStateV88(api, { purchases: V88_COMPLETE_PURCHASES, visited: { court: true } });
+    assert.deepStrictEqual(hostV88(api.normalizeAuctionPending(validTitleAction, titleActionState)), validTitleAction);
+
+    // Lifecycle: Purchase and repeat run
+    {
+      const btn = createMockElement('bid-method-bid-with-memory-of-consequences');
+      const ctx = makeV88Context({
+        scene: 'counterfactual-bidding-floor',
+        elements: { 'bid-method-bid-with-memory-of-consequences': btn },
+        initialStore: { goddead_v88_unhappened_event_auction: JSON.stringify(makePendingStateV88(api, { visited: { floor: true }, draft: { bidder: 'apology-never-spoken', lot: 'right-to-be-remembered-as-if-it-happened' } })) }
+      });
+      ctx.api.chooseUnhappenedBidMethod('bid-with-memory-of-consequences');
+      ctx.api.resolveUnhappenedAuctionPendingOnArrival('forgiveness-landfill');
+      const fin1 = ctx.api.getUnhappenedEventAuctionClaims();
+      assert.strictEqual(fin1.auctionRuns, 1);
+      assert.strictEqual(fin1.bidderTallies.apology, 1);
+      assert.deepStrictEqual(hostV88(fin1.purchases), [V88_EXPECTED_PURCHASE]);
+      assert.strictEqual(fin1.lastOutcome, V88_EXPECTED_PURCHASE);
+      assert.deepStrictEqual(hostV88(fin1.activeAuctioneer), {
+        lot: 'right-to-be-remembered-as-if-it-happened',
+        feedback: api.UNHAPPENED_LOT_TABLE['right-to-be-remembered-as-if-it-happened'].auctioneerFeedback,
+        purchase: V88_EXPECTED_PURCHASE
+      });
+    }
+
+    // Bridge tests
+    assert.strictEqual(makeV88Context({ v87unlocked: false }).api.unhappenedEventAuctionBridgeAllows('forgiveness-landfill'), false);
+    const bridgeState = makePendingStateV88(api, {
+      purchases: [V88_EXPECTED_PURCHASE],
+      activeAuctioneer: canonicalAuctioneer
+    });
+    const bctx = makeV88Context({ initialStore: { goddead_v88_unhappened_event_auction: JSON.stringify(bridgeState) } });
+    assert.strictEqual(bctx.api.unhappenedEventAuctionBridgeAllows('forgiveness-landfill'), true);
+    assert.strictEqual(bctx.api.unhappenedEventAuctionBridgeAllows('last-word-central-bank'), false);
+
+    // 18 trusted click listeners
+    const listenerRegex = /\.addEventListener\('click',\s*\(e\)\s*=>\s*\{([\s\S]*?)\n\s*\}\);/g;
+    const listenerMatches = [...v88ModuleBlock.matchAll(listenerRegex)];
+    assert.strictEqual(listenerMatches.length, 18, "v88 Module must register exactly 18 click listeners");
+    for (const match of listenerMatches) {
+      const body = match[1].trim();
+      assert.ok(body.startsWith('if (!e.isTrusted) return;'), 'Each click handler must guard against untrusted events first');
+    }
+
+  // Scene init and bootstrap inspection for v88
+  {
+    const sceneInitStart = js.indexOf("const sceneInit = (name) => {");
+    assert.ok(sceneInitStart !== -1, "sceneInit definition found");
+    const sceneInitEnd = js.indexOf("/* 分层进度守卫", sceneInitStart);
+    assert.ok(sceneInitEnd !== -1, "sceneInit end marker found");
+    const sceneInitSlice = js.slice(sceneInitStart, sceneInitEnd);
+
+    assert.ok(sceneInitSlice.includes("resolveUnhappenedAuctionPendingOnArrival(name);"));
+    assert.ok(sceneInitSlice.includes("syncAuctionHouseForEventsThatNeverHappened();"));
+    assert.ok(sceneInitSlice.includes("syncCatalogueOfUnoccupiedReality();"));
+    assert.ok(sceneInitSlice.includes("syncCounterfactualBiddingFloor();"));
+    assert.ok(sceneInitSlice.includes("syncRetroactiveOccurrenceTitleCourt();"));
+    assert.ok(sceneInitSlice.includes("syncUnhappenedAuctioneers();"));
+    assert.ok(sceneInitSlice.includes("paintUnhappenedAuctionMemory();"));
+    assert.ok(sceneInitSlice.includes("paintUnhappenedAuctionCodex();"));
+    assert.ok(sceneInitSlice.includes("syncUnhappenedAuctionRemembrance();"));
+    assert.ok(sceneInitSlice.includes("syncUnhappenedAuctionLinks();"));
+    assert.ok(sceneInitSlice.includes("replayUnhappenedAuctionPending(name);"));
+
+    const resolveSceneStart = js.indexOf("const resolveScene = (name) => {");
+    const resolveSceneEnd = js.indexOf("/* 可靠聚焦", resolveSceneStart);
+    const resolveSceneSlice = js.slice(resolveSceneStart, resolveSceneEnd);
+
+    assert.ok(resolveSceneSlice.includes('if (target === "auction-house-for-events-that-never-happened" && !auctionHouseForEventsThatNeverHappenedCanVisit()) target = "remembrance";'));
+    assert.ok(resolveSceneSlice.includes('if (target === "catalogue-of-unoccupied-reality" && !catalogueOfUnoccupiedRealityCanVisit()) target = "remembrance";'));
+    assert.ok(resolveSceneSlice.includes('if (target === "counterfactual-bidding-floor" && !counterfactualBiddingFloorCanVisit()) target = "remembrance";'));
+    assert.ok(resolveSceneSlice.includes('if (target === "retroactive-occurrence-title-court" && !retroactiveOccurrenceTitleCourtCanVisit()) target = "remembrance";'));
+    assert.ok(resolveSceneSlice.includes('!unhappenedEventAuctionBridgeAllows(\'unending-gallery\')'));
+
+    const forgetStart = js.indexOf("if (forgetActionBtn) {");
+    const forgetEnd = js.indexOf("/* ---------- 初始化 ---------- */", forgetStart);
+    const forgetSlice = js.slice(forgetStart, forgetEnd);
+    assert.ok(forgetSlice.includes('localStorage.removeItem(UNHAPPENED_EVENT_AUCTION_KEY);') || forgetSlice.includes('forgetUnhappenedAuctionState();'));
+  }
+
+  // Static assets freeze verification for v88
+  const V88_ASSET_FREEZE = [
+    {
+      path: "assets/source-v88-auction-house-for-events-that-never-happened.png",
+      sha256: "7545583bbd6b8984a3e8cfcb4fd300c98507b56f90b7a482b8d36ff07586806d",
+      size: 2538336,
+      type: "png"
+    },
+    {
+      path: "assets/source-v88-catalogue-of-unoccupied-reality.png",
+      sha256: "689a4f490f1aec1cfe497b24f7eac9afab4db38cbef0b4e9c5f96382f11ef725",
+      size: 2558379,
+      type: "png"
+    },
+    {
+      path: "assets/source-v88-counterfactual-bidding-floor.png",
+      sha256: "dee2ae3015706612b0d4c08d6967ca1c511a474b03bd78747f9dd4f163ae381b",
+      size: 2846205,
+      type: "png"
+    },
+    {
+      path: "assets/source-v88-retroactive-occurrence-title-court.png",
+      sha256: "efc517b9024d6de38e6ddcf4f3800097151ca6edbf166b548682efb0097d118c",
+      size: 2874891,
+      type: "png"
+    },
+    {
+      path: "assets/v88-auction-house-for-events-that-never-happened.webp",
+      sha256: "4d4cd515b41b4a62a4f3c4fc3909e2be853f2395354685946eac7a9ebbd0ce09",
+      size: 211722,
+      type: "webp"
+    },
+    {
+      path: "assets/v88-catalogue-of-unoccupied-reality.webp",
+      sha256: "3b0a7895940d540dc25aaf87d1509590c3a1d122215eb7d07b6d4ae676a3cbf3",
+      size: 219354,
+      type: "webp"
+    },
+    {
+      path: "assets/v88-counterfactual-bidding-floor.webp",
+      sha256: "72d471e3f408ed1496343c6bc0b5f315fd3de0bc34ee8366decbd2d4715298f2",
+      size: 298388,
+      type: "webp"
+    },
+    {
+      path: "assets/v88-retroactive-occurrence-title-court.webp",
+      sha256: "09ddea912a36fcd82dce9c1cb78ab2d3a884977ee91a21eab0b4f1590dbe655b",
+      size: 295890,
+      type: "webp"
+    }
+  ];
+
+  for (const asset of V88_ASSET_FREEZE) {
+    const buf = await readFile(new URL(asset.path, root));
+    const actualHash = createHash("sha256").update(buf).digest("hex");
+    assert.equal(actualHash, asset.sha256, `${asset.path} sha256 mismatch`);
+    assert.equal(buf.length, asset.size, `${asset.path} size mismatch`);
+    const dims = asset.type === "png" ? readPngDimensions(buf) : readWebpDimensions(buf);
+    assert.equal(dims.width, 1536, `${asset.path} width must be 1536`);
+    assert.equal(dims.height, 1024, `${asset.path} height must be 1024`);
+  }
+
+  const V88_FIGURE_SPECS = [
+    ['auction-house-for-events-that-never-happened-figure', '未发生事件拍卖行：左侧喉前未言道歉、中央空盔未爆战争、右侧星尘未生孩子', 3],
+    ['catalogue-of-unoccupied-reality-figure', '无主现实拍品库：左侧无源记忆产权匣、中央折叠未宣边境、右侧无人身体透明童年房', 3],
+    ['counterfactual-bidding-floor-figure', '反事实竞价厅：左上后果记忆瓶、右上本可未来抵押树、左下伪证人空面模、右下称量未发生代价黑秤', 4],
+    ['retroactive-occurrence-title-court-figure', '追溯发生产权庭：左侧追授全部未发事件为历史、中央现实售予最高缺席、右侧撤销事件与记忆之别', 3]
+  ];
+
+  for (const [figureClass, expectedAlt, buttonCount] of V88_FIGURE_SPECS) {
+    const figRegex = new RegExp(`<figure[^>]*class="[^"]*\\b${figureClass}\\b[^"]*"[^>]*>([\\s\\S]*?)<\\/figure>`, "i");
+    const figMatch = html.match(figRegex);
+    assert.ok(figMatch, `figure .${figureClass} must exist`);
+
+    const insideHtml = figMatch[1];
+    assert.ok(!figMatch[0].includes('role="img"'), `figure .${figureClass} must not have role="img"`);
+    const imgRegex = new RegExp(`<img[^>]+alt="${expectedAlt.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`, "i");
+    assert.match(insideHtml, imgRegex, `figure .${figureClass} must contain nested img with exact alt "${expectedAlt}"`);
+
+    const buttons = insideHtml.match(/<button\b[^>]*>/gi) || [];
+    assert.equal(buttons.length, buttonCount, `figure .${figureClass} must have exactly ${buttonCount} button hotspots`);
+  }
+
+  // 39 codex cells contract
+  {
+    const gridEl = createMockElement('unhappened-event-auction-codex-grid');
+    const codexEl = createMockElement('unhappened-event-auction-codex');
+    const memEl = createMockElement('unhappened-event-auction-memory');
+    const ctx = makeV88Context({
+      elements: {
+        'unhappened-event-auction-codex-grid': gridEl,
+        'unhappened-event-auction-codex': codexEl,
+        'unhappened-event-auction-memory': memEl
+      },
+      initialStore: {
+        goddead_v88_unhappened_event_auction: JSON.stringify(makePendingStateV88(api, {
+          purchases: [V88_EXPECTED_PURCHASE],
+          titleOutcomes: ['every-unhappened-event-became-history']
+        }))
+      }
+    });
+
+    const paintUnhappenedAuctionCodexFn = new Function('$', 'getUnhappenedEventAuctionClaims', 'unhappenedEventAuctionUnlocked', 'UNHAPPENED_PURCHASE_IDS', 'findUnhappenedPurchaseById', 'UNHAPPENED_TITLE_ACTIONS', 'UNHAPPENED_TITLE_ACTION_TABLE', 'document', `
+      const codex = $('#unhappened-event-auction-codex');
+      const grid = $('#unhappened-event-auction-codex-grid');
+      if (!codex || !grid) return;
+      if (!unhappenedEventAuctionUnlocked()) {
+        codex.hidden = true;
+        return;
+      }
+      codex.hidden = false;
+      codex.removeAttribute('hidden');
+      grid.textContent = '';
+
+      const st = getUnhappenedEventAuctionClaims();
+      const collectedPurchases = new Set(st.purchases);
+      const collectedOutcomes = new Set(st.titleOutcomes);
+
+      UNHAPPENED_PURCHASE_IDS.forEach(id => {
+        const cell = document.createElement('div');
+        if (collectedPurchases.has(id)) {
+          cell.className = 'unhappened-event-cell is-unlocked';
+          const item = findUnhappenedPurchaseById(id);
+          cell.textContent = item ? \`\${item.title}\\n\${item.feedback}\` : id;
+        } else {
+          cell.className = 'unhappened-event-cell is-locked';
+          cell.textContent = '？？？';
+        }
+        grid.appendChild(cell);
+      });
+
+      UNHAPPENED_TITLE_ACTIONS.forEach(action => {
+        const tObj = UNHAPPENED_TITLE_ACTION_TABLE[action];
+        const cell = document.createElement('div');
+        if (collectedOutcomes.has(tObj.outcome)) {
+          cell.className = 'unhappened-event-cell is-unlocked';
+          cell.textContent = \`[追溯发生产权庭] \${tObj.outcome}\\n\${tObj.feedback}\`;
+        } else {
+          cell.className = 'unhappened-event-cell is-locked';
+          cell.textContent = '？？？';
+        }
+        grid.appendChild(cell);
+      });
+    `);
+
+    paintUnhappenedAuctionCodexFn(
+      (sel) => ctx.elements[sel.slice(1)],
+      () => ctx.api.getUnhappenedEventAuctionClaims(),
+      () => ctx.api.unhappenedEventAuctionUnlocked(),
+      ctx.api.UNHAPPENED_PURCHASE_IDS,
+      ctx.api.findUnhappenedPurchaseById,
+      ctx.api.UNHAPPENED_TITLE_ACTIONS,
+      ctx.api.UNHAPPENED_TITLE_ACTION_TABLE,
+      { createElement: (tag) => createMockElement(tag) }
+    );
+
+    assert.strictEqual(gridEl.children.length, 39, "Codex must render exactly 39 cells (36 purchases + 3 title outcomes)");
+  }
+
+  // CSS contracts
+  assert.ok(css.includes(".unhappened-auction-hotspot"), "styles.css must contain .unhappened-auction-hotspot");
+  assert.ok(css.includes("min-width: 44px;"), "Hotspots must enforce minimum touch target");
+  assert.ok(css.includes("min-height: 44px;"), "Hotspots must enforce minimum touch target height");
+  assert.ok(css.includes(".unhappened-hotspot-left"), "styles.css must contain left zone geometry");
+  assert.ok(css.includes(".unhappened-hotspot-center"), "styles.css must contain center zone geometry");
+  assert.ok(css.includes(".unhappened-hotspot-right"), "styles.css must contain right zone geometry");
+  assert.ok(css.includes(".unhappened-hotspot-left-top"), "styles.css must contain 2x2 grid geometry");
+  assert.ok(css.includes(".unhappened-hotspot-right-bottom"), "styles.css must contain 2x2 grid geometry");
+  assert.ok(css.includes("prefers-reduced-motion"), "styles.css must include reduced-motion rules");
+
+  }
+
+  // ============================================================
+  // v89 Eviction Authority for Accomplished Facts Specification (TDD)
+  // ============================================================
+  {
+    const v89ModuleStart = js.indexOf("const ACCOMPLISHED_FACT_EVICTION_KEY = 'goddead_v89_accomplished_fact_eviction';");
+    const v89CorridorHeading = "const CAUSELESS_CONSEQUENCE_KEY = 'goddead_v90_causeless_consequence_refugee';";
+    const v89CorridorHeadingIndex = v89ModuleStart !== -1 ? js.indexOf(v89CorridorHeading, v89ModuleStart) : -1;
+    const v89ModuleEnd = v89CorridorHeadingIndex !== -1 ? js.lastIndexOf("/*", v89CorridorHeadingIndex) : -1;
+    assert.ok(v89ModuleStart !== -1 && v89ModuleEnd > v89ModuleStart, "v89 module boundaries must exist in script.js");
+    const v89ModuleBlock = js.slice(v89ModuleStart, v89ModuleEnd);
+
+    const makeCompleteV88StateForV89 = () => ({
+      purchases: [
+        'apology-never-spoken:right-to-be-remembered-as-if-it-happened:bid-with-memory-of-consequences',
+        'war-that-never-erupted:territory-inside-an-undeclared-border:mortgage-the-future-that-would-have-followed',
+        'child-never-born:childhood-no-body-ever-lived:counterfeit-a-witness-who-remembers-it',
+        'apology-never-spoken:right-to-be-remembered-as-if-it-happened:outbid-reality-with-the-cost-of-never-happening',
+      ],
+      titleOutcomes: [
+        'every-unhappened-event-became-history',
+        'reality-belonged-to-what-never-occurred',
+        'history-could-no-longer-prove-it-happened',
+      ],
+    });
+
+    const createMockElement = (id = '') => {
+      const listeners = {};
+      const el = {
+        id,
+        className: '',
+        innerHTML: '',
+        textContent: '',
+        children: [],
+        hidden: false,
+        disabled: false,
+        attributes: {},
+        setAttribute(k, v) { this.attributes[k] = String(v); },
+        removeAttribute(k) { delete this.attributes[k]; },
+        appendChild(child) { this.children.push(child); return child; },
+        addEventListener(type, handler) {
+          listeners[type] = listeners[type] || [];
+          listeners[type].push(handler);
+        },
+        _listeners: listeners,
+        _dispatch(type, evt = {}) {
+          const list = listeners[type] || [];
+          for (const fn of list) fn(evt);
+        },
+      };
+      return el;
+    };
+
+    const hostV89 = (val) => JSON.parse(JSON.stringify(val));
+
+    const makeV89Context = ({
+      initialStore = {},
+      elements = {},
+      scene = '',
+      v88unlocked = true,
+      upstreamV88State = makeCompleteV88StateForV89(),
+    } = {}) => {
+      const storeData = { ...initialStore };
+      const store = {
+        get(k, def) {
+          return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def;
+        },
+        set(k, v) {
+          storeData[k] = String(v);
+        },
+      };
+      const localStorageMock = {
+        getItem(k) {
+          return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : null;
+        },
+        setItem(k, v) {
+          storeData[k] = String(v);
+        },
+        removeItem(k) {
+          delete storeData[k];
+        },
+        clear() {
+          for (const k of Object.keys(storeData)) {
+            delete storeData[k];
+          }
+        },
+      };
+
+      const elMap = { ...elements };
+      const $ = (selector) => {
+        if (typeof selector === 'string' && selector.startsWith('#')) {
+          const id = selector.slice(1);
+          if (elMap[id]) return elMap[id];
+        }
+        return null;
+      };
+
+      const scheduleCalls = [];
+      const clearedScenes = [];
+      const AutoAdvance = {
+        has(s) { return scheduleCalls.some(c => c.src === s); },
+        schedule(src, target, opts) {
+          scheduleCalls.push({ src, target, opts: opts ? { ...opts } : undefined });
+        },
+        clear(s) { clearedScenes.push(s); },
+      };
+
+      const AudioEngine = {
+        whoosh() {},
+        bell() {},
+      };
+
+      const buttonAvailable = (id) => {
+        const el = $(`#${id}`);
+        if (!el || el.hidden || el.disabled) return false;
+        return true;
+      };
+
+      const doc = {
+        createElement: (tag) => createMockElement(tag),
+      };
+
+      const factory = new Function(
+        'store', '$', 'currentScene', 'AutoAdvance', 'AudioEngine', 'reduced',
+        'unhappenedEventAuctionUnlocked', 'getUnhappenedEventAuctionClaims', 'buttonAvailable', 'document', 'localStorage',
+        `${v89ModuleBlock}
+        return {
+          ACCOMPLISHED_FACT_EVICTION_KEY,
+          ACCOMPLISHED_FACT_EVICTION_VERSION,
+          ACCOMPLISHED_FACT_TENANTS,
+          ACCOMPLISHED_FACT_PROPERTIES,
+          ACCOMPLISHED_FACT_DEMOLITION_METHODS,
+          ACCOMPLISHED_FACT_APPEAL_ACTIONS,
+          ACCOMPLISHED_FACT_TENANT_TABLE,
+          ACCOMPLISHED_FACT_PROPERTY_TABLE,
+          ACCOMPLISHED_FACT_DEMOLITION_METHOD_TABLE,
+          ACCOMPLISHED_FACT_APPEAL_ACTION_TABLE,
+          ACCOMPLISHED_FACT_APPEAL_OUTCOME_BY_ID,
+          ACCOMPLISHED_FACT_APPEAL_OUTCOME_IDS,
+          ACCOMPLISHED_FACT_EVICTION_IDS,
+          defaultAccomplishedFactEvictionClaims,
+          normalizeAccomplishedFactVisited,
+          normalizeAccomplishedFactDraft,
+          normalizeAccomplishedFactEvictions,
+          normalizeAccomplishedFactAppealOutcomes,
+          clampAccomplishedFactCount,
+          normalizeAccomplishedFactTallies,
+          normalizeAccomplishedFactActiveBailiff,
+          computeAccomplishedFactEvictionTitle,
+          computeAccomplishedFactEvictionFeedback,
+          findAccomplishedFactEvictionById,
+          accomplishedFactEvictionUnlocked,
+          accomplishedFactEvictionCoverageComplete,
+          normalizeAccomplishedFactPending,
+          getAccomplishedFactEvictionClaims,
+          saveAccomplishedFactEvictionClaims,
+          getAccomplishedFactPendingLogicalSource,
+          resolveAccomplishedFactEvictionPendingOnArrival,
+          replayAccomplishedFactEvictionPending,
+          chooseAccomplishedFactEvictionEntry,
+          chooseAccomplishedFactTenant,
+          chooseAccomplishedFactProperty,
+          chooseAccomplishedFactDemolitionMethod,
+          chooseAccomplishedFactBailiffReturn,
+          chooseAccomplishedFactCourtEntry,
+          chooseAccomplishedFactAppealAction,
+          accomplishedFactEvictionBridgeAllows,
+          accomplishedFactEvictionAuthorityCanVisit,
+          condemnedHistorySurveyOfficeCanVisit,
+          retroactiveDemolitionYardCanVisit,
+          finalOccupancyAppealCourtCanVisit,
+          syncAccomplishedFactEvictionAuthority,
+          syncCondemnedHistorySurveyOffice,
+          syncRetroactiveDemolitionYard,
+          syncFinalOccupancyAppealCourt,
+          syncAccomplishedFactBailiffs,
+          paintAccomplishedFactEvictionMemory,
+          paintAccomplishedFactEvictionCodex,
+          syncAccomplishedFactEvictionRemembrance,
+          syncAccomplishedFactEvictionLinks,
+          forgetAccomplishedFactEvictionState,
+        };`
+      );
+
+      const api = factory(
+        store,
+        $,
+        scene,
+        AutoAdvance,
+        AudioEngine,
+        false,
+        () => v88unlocked,
+        () => upstreamV88State,
+        buttonAvailable,
+        doc,
+        localStorageMock
+      );
+
+      return {
+        api,
+        storeData,
+        read: () => JSON.parse(storeData['goddead_v89_accomplished_fact_eviction'] || 'null'),
+        scheduleCalls,
+        clearedScenes,
+        elements: elMap,
+        AutoAdvance,
+      };
+    };
+
+    const V89_ENTRY_FEEDBACK = '前往既成事实拆迁局 · GO TO EVICTION AUTHORITY FOR ACCOMPLISHED FACTS';
+    const V89_COURT_ENTRY_FEEDBACK = '进入最后居住权上诉庭 · ENTER FINAL OCCUPANCY APPEAL COURT';
+    const V89_EXPECTED_EVICTION = 'birth-that-issued-a-body:right-to-have-already-begun:demolish-the-cause-and-leave-the-consequence';
+    const V89_EXPECTED_FEEDBACK = '它只发生过一次，却把一具身体、一个生日和此后全部年龄都登记在自己名下。现在身体已经活得比出生更久，出生仍拒绝交还门牌。 一份证明生命不是临时入住的起始产权。出生投票亭保存着第一次呼吸的门牌；一旦拆除，身体仍会继续衰老，却无法证明自己从哪一天开始。 从历史地基里整根拔走原因，保留一切已经长出的后果。身体继续出生，伤疤继续存在，废墟继续风化，只是再也没有任何事情配得上它们。';
+    const V89_COMPLETE_EVICTIONS = [
+      'birth-that-issued-a-body:right-to-have-already-begun:demolish-the-cause-and-leave-the-consequence',
+      'scar-that-outlived-the-wound:address-inside-a-healed-wound:relocate-all-witnesses-outside-time',
+      'war-that-kept-its-ruins:ownership-of-a-ruin-left-by-war:condemn-memory-as-structurally-unsafe',
+      'birth-that-issued-a-body:right-to-have-already-begun:compensate-reality-with-an-alternate-past',
+    ];
+
+    const makePendingStateV89 = (api, overrides = {}) => {
+      const base = hostV89(api.defaultAccomplishedFactEvictionClaims());
+      base._v89unlocked = true;
+      if (overrides.visited) base.visited = { ...base.visited, ...overrides.visited };
+      if (overrides.draft) base.draft = { ...base.draft, ...overrides.draft };
+      if (overrides.tenantTallies) base.tenantTallies = { ...base.tenantTallies, ...overrides.tenantTallies };
+      if (overrides.evictions) base.evictions = [...overrides.evictions];
+      if (overrides.appealOutcomes) base.appealOutcomes = [...overrides.appealOutcomes];
+      if (overrides.evictionRuns !== undefined) base.evictionRuns = overrides.evictionRuns;
+      if (overrides.appealRuns !== undefined) base.appealRuns = overrides.appealRuns;
+      if (overrides.lastOutcome !== undefined) base.lastOutcome = overrides.lastOutcome;
+      if (overrides.activeBailiff !== undefined) base.activeBailiff = overrides.activeBailiff;
+      if (overrides.pending !== undefined) base.pending = overrides.pending;
+      return base;
+    };
+
+    const defaultCtx = makeV89Context();
+    const { api } = defaultCtx;
+
+    // ------------------------------------------------------------
+    // 1. Canonical DOM IDs, HTML Nesting, Preload & Script Binding Contract
+    // ------------------------------------------------------------
+    const V89_CANONICAL_DOM_IDS = [
+      'accomplished-fact-eviction-memory',
+      'accomplished-fact-eviction-codex',
+      'accomplished-fact-eviction-codex-grid',
+      'accomplished-fact-eviction-codex-entry',
+      'accomplished-fact-eviction-entry-btn',
+      'accomplished-fact-eviction-entry-response',
+      'accomplished-fact-eviction-appeal-entry-btn',
+      'accomplished-fact-eviction-appeal-entry-response',
+      'accomplished-fact-bailiff-birth-ballot-booth',
+      'accomplished-fact-bailiff-response-birth-ballot-booth',
+      'accomplished-fact-bailiff-return-birth-ballot-booth',
+      'accomplished-fact-bailiff-crime-scene-without-offender',
+      'accomplished-fact-bailiff-response-crime-scene-without-offender',
+      'accomplished-fact-bailiff-return-crime-scene-without-offender',
+      'accomplished-fact-bailiff-undeclared-war-room',
+      'accomplished-fact-bailiff-response-undeclared-war-room',
+      'accomplished-fact-bailiff-return-undeclared-war-room',
+      'scene-accomplished-fact-eviction-authority',
+      'accomplished-fact-eviction-authority-figure',
+      'accomplished-fact-tenant-birth-that-issued-a-body',
+      'accomplished-fact-tenant-scar-that-outlived-the-wound',
+      'accomplished-fact-tenant-war-that-kept-its-ruins',
+      'accomplished-fact-eviction-authority-response',
+      'scene-condemned-history-survey-office',
+      'condemned-history-survey-office-figure',
+      'accomplished-fact-property-right-to-have-already-begun',
+      'accomplished-fact-property-address-inside-a-healed-wound',
+      'accomplished-fact-property-ownership-of-a-ruin-left-by-war',
+      'condemned-history-survey-office-response',
+      'scene-retroactive-demolition-yard',
+      'retroactive-demolition-yard-figure',
+      'accomplished-fact-method-demolish-the-cause-and-leave-the-consequence',
+      'accomplished-fact-method-relocate-all-witnesses-outside-time',
+      'accomplished-fact-method-condemn-memory-as-structurally-unsafe',
+      'accomplished-fact-method-compensate-reality-with-an-alternate-past',
+      'retroactive-demolition-yard-response',
+      'scene-final-occupancy-appeal-court',
+      'final-occupancy-appeal-court-figure',
+      'accomplished-fact-appeal-grant-permanent-residency-to-every-accomplished-fact',
+      'accomplished-fact-appeal-evict-history-and-let-consequences-squat',
+      'accomplished-fact-appeal-demolish-the-present-for-illegal-construction-on-the-past',
+      'final-occupancy-appeal-court-response',
+      'accomplished-fact-eviction-authority-link',
+      'condemned-history-survey-office-link',
+      'retroactive-demolition-yard-link',
+      'final-occupancy-appeal-court-link',
+    ];
+
+    for (const domId of V89_CANONICAL_DOM_IDS) {
+      const idPattern = new RegExp(`id=["']${domId}["']`, 'g');
+      const matches = html.match(idPattern) || [];
+      assert.strictEqual(matches.length, 1, `HTML ID #${domId} must exist exactly once in index.html`);
+    }
+
+    const scriptSelectorRegex = /\$\('#([^']+)'\)/g;
+    const staticSelectors = new Set([...v89ModuleBlock.matchAll(scriptSelectorRegex)].map(m => m[1]));
+    for (const selectorId of staticSelectors) {
+      assert.ok(
+        V89_CANONICAL_DOM_IDS.includes(selectorId),
+        `Static selector #${selectorId} used in script module must be part of canonical v89 DOM IDs`
+      );
+      assert.ok(html.includes(`id="${selectorId}"`), `Static selector #${selectorId} must resolve to a DOM element in index.html`);
+    }
+
+    const V89_HANDLER_BUTTON_IDS = [
+      'accomplished-fact-eviction-entry-btn',
+      'accomplished-fact-eviction-appeal-entry-btn',
+      'accomplished-fact-tenant-birth-that-issued-a-body',
+      'accomplished-fact-tenant-scar-that-outlived-the-wound',
+      'accomplished-fact-tenant-war-that-kept-its-ruins',
+      'accomplished-fact-property-right-to-have-already-begun',
+      'accomplished-fact-property-address-inside-a-healed-wound',
+      'accomplished-fact-property-ownership-of-a-ruin-left-by-war',
+      'accomplished-fact-method-demolish-the-cause-and-leave-the-consequence',
+      'accomplished-fact-method-relocate-all-witnesses-outside-time',
+      'accomplished-fact-method-condemn-memory-as-structurally-unsafe',
+      'accomplished-fact-method-compensate-reality-with-an-alternate-past',
+      'accomplished-fact-bailiff-return-birth-ballot-booth',
+      'accomplished-fact-bailiff-return-crime-scene-without-offender',
+      'accomplished-fact-bailiff-return-undeclared-war-room',
+      'accomplished-fact-appeal-grant-permanent-residency-to-every-accomplished-fact',
+      'accomplished-fact-appeal-evict-history-and-let-consequences-squat',
+      'accomplished-fact-appeal-demolish-the-present-for-illegal-construction-on-the-past',
+    ];
+    assert.strictEqual(V89_HANDLER_BUTTON_IDS.length, 18, "There must be exactly 18 handler buttons in v89");
+    for (const btnId of V89_HANDLER_BUTTON_IDS) {
+      const btnPattern = new RegExp(`<button[^>]*id=["']${btnId}["'][^>]*type=["']button["']`, 'i');
+      assert.match(html, btnPattern, `Button #${btnId} must be a button element with type="button"`);
+    }
+
+    const V89_PRELOAD_FILES = [
+      'assets/v89-accomplished-fact-eviction-authority.webp',
+      'assets/v89-condemned-history-survey-office.webp',
+      'assets/v89-retroactive-demolition-yard.webp',
+      'assets/v89-final-occupancy-appeal-court.webp',
+    ];
+    for (const preload of V89_PRELOAD_FILES) {
+      assert.ok(
+        html.includes(`<link rel="preload" as="image" type="image/webp" href="${preload}">`),
+        `index.html must contain preload tag for ${preload}`
+      );
+    }
+
+    const V89_DATA_SCENES = [
+      'accomplished-fact-eviction-authority',
+      'condemned-history-survey-office',
+      'retroactive-demolition-yard',
+      'final-occupancy-appeal-court',
+    ];
+    for (const sc of V89_DATA_SCENES) {
+      const secPattern = new RegExp(`<section[^>]*id=["']scene-${sc}["'][^>]*data-scene=["']${sc}["']`, 'i');
+      assert.match(html, secPattern, `Section #scene-${sc} must have data-scene="${sc}"`);
+      const linkPattern = new RegExp(`<a[^>]*href=["']#${sc}["'][^>]*id=["']${sc}-link["'][^>]*hidden`, 'i');
+      assert.match(html, linkPattern, `Directory menu link #${sc}-link must link to #${sc} and start hidden`);
+    }
+
+    assert.ok(
+      html.includes('<div class="accomplished-fact-eviction-grid" id="accomplished-fact-eviction-codex-grid"></div>'),
+      'Remembrance must have empty dynamic codex grid container #accomplished-fact-eviction-codex-grid'
+    );
+
+    const oldSceneNesting = [
+      ['birth-ballot-booth', 'birth-ballot-booth'],
+      ['crime-scene-without-offender', 'crime-scene-without-offender'],
+      ['undeclared-war-room', 'undeclared-war-room'],
+    ];
+    for (const [oldScene, slug] of oldSceneNesting) {
+      const sceneBlockRegex = new RegExp(`<section[^>]*id=["']scene-${oldScene}["'][\\s\\S]*?<\\/section>`, 'i');
+      const match = html.match(sceneBlockRegex);
+      assert.ok(match, `Scene #scene-${oldScene} must exist in index.html`);
+      const sceneBody = match[0];
+      assert.ok(sceneBody.includes(`id="accomplished-fact-bailiff-${slug}"`), `Bailiff container for ${slug} must be inside #scene-${oldScene}`);
+      assert.ok(sceneBody.includes(`id="accomplished-fact-bailiff-response-${slug}"`), `Bailiff response for ${slug} must be inside #scene-${oldScene}`);
+      assert.ok(sceneBody.includes(`id="accomplished-fact-bailiff-return-${slug}"`), `Bailiff return button for ${slug} must be inside #scene-${oldScene}`);
+    }
+
+    // ------------------------------------------------------------
+    // 2. CSS Rules, Touch Targets, Responsive & Hidden Guard Contract
+    // ------------------------------------------------------------
+    assert.ok(css.includes('.accomplished-fact-hotspot'), 'styles.css must contain .accomplished-fact-hotspot');
+    assert.match(css, /\.accomplished-fact-hotspot\s*\{[\s\S]*?min-width:\s*44px;[\s\S]*?min-height:\s*44px;/);
+    assert.match(css, /\.accomplished-fact-eviction-entry-btn[\s\S]*?min-height:\s*44px;/);
+    assert.match(css, /\.accomplished-fact-bailiff-return[\s\S]*?min-height:\s*44px;/);
+
+    const hiddenSelectors = [
+      '.accomplished-fact-eviction-memory[hidden]',
+      '.accomplished-fact-eviction-codex[hidden]',
+      '.accomplished-fact-eviction-codex-entry[hidden]',
+      '.accomplished-fact-eviction-entry-btn[hidden]',
+      '.accomplished-fact-bailiff[hidden]',
+      '.accomplished-fact-bailiff-return[hidden]',
+    ];
+    for (const sel of hiddenSelectors) {
+      assert.ok(css.includes(sel), `CSS must explicitly guard hidden state for ${sel}`);
+    }
+    assert.match(css, /\.accomplished-fact-eviction-memory\[hidden\][\s\S]*?display:\s*none\s*!important;/);
+
+    assert.ok(css.includes('@media (max-width: 720px)'), 'styles.css must include mobile responsive query');
+    assert.ok(css.includes('@media (prefers-reduced-motion: reduce)'), 'styles.css must include reduced motion query');
+    assert.ok(css.includes('.accomplished-fact-eviction-cell.is-locked'), 'styles.css must style locked codex cell');
+    assert.ok(css.includes('.accomplished-fact-eviction-cell.is-unlocked'), 'styles.css must style unlocked codex cell');
+
+    // ------------------------------------------------------------
+    // 3. Constants, Tables, IDs & 36 Evictions
+    // ------------------------------------------------------------
+    assert.strictEqual(api.ACCOMPLISHED_FACT_EVICTION_KEY, 'goddead_v89_accomplished_fact_eviction');
+    assert.strictEqual(api.ACCOMPLISHED_FACT_EVICTION_VERSION, 89);
+    assert.deepStrictEqual(hostV89(api.ACCOMPLISHED_FACT_TENANTS), ['birth-that-issued-a-body', 'scar-that-outlived-the-wound', 'war-that-kept-its-ruins']);
+    assert.deepStrictEqual(hostV89(api.ACCOMPLISHED_FACT_PROPERTIES), ['right-to-have-already-begun', 'address-inside-a-healed-wound', 'ownership-of-a-ruin-left-by-war']);
+    assert.deepStrictEqual(hostV89(api.ACCOMPLISHED_FACT_DEMOLITION_METHODS), [
+      'demolish-the-cause-and-leave-the-consequence',
+      'relocate-all-witnesses-outside-time',
+      'condemn-memory-as-structurally-unsafe',
+      'compensate-reality-with-an-alternate-past',
+    ]);
+    assert.deepStrictEqual(hostV89(api.ACCOMPLISHED_FACT_APPEAL_ACTIONS), [
+      'grant-permanent-residency-to-every-accomplished-fact',
+      'evict-history-and-let-consequences-squat',
+      'demolish-the-present-for-illegal-construction-on-the-past',
+    ]);
+
+    assert.strictEqual(hostV89(api.ACCOMPLISHED_FACT_EVICTION_IDS).length, 36);
+    assert.strictEqual(hostV89(api.ACCOMPLISHED_FACT_APPEAL_OUTCOME_IDS).length, 3);
+
+    for (const evictionId of api.ACCOMPLISHED_FACT_EVICTION_IDS) {
+      const item = api.findAccomplishedFactEvictionById(evictionId);
+      assert.ok(item, `Eviction ${evictionId} must be resolvable`);
+      assert.strictEqual(item.id, evictionId);
+      assert.ok(item.title.length > 0, `Eviction ${evictionId} title must not be empty`);
+      assert.ok(item.feedback.length > 0, `Eviction ${evictionId} feedback must not be empty`);
+      const [t, p, m] = evictionId.split(':');
+      assert.ok(item.feedback.includes(api.ACCOMPLISHED_FACT_TENANT_TABLE[t].feedback));
+      assert.ok(item.feedback.includes(api.ACCOMPLISHED_FACT_PROPERTY_TABLE[p].feedback));
+      assert.ok(item.feedback.includes(api.ACCOMPLISHED_FACT_DEMOLITION_METHOD_TABLE[m].fragment));
+    }
+
+    const expectedDefaultState = {
+      version: 89,
+      visited: { authority: false, survey: false, yard: false, court: false },
+      draft: { tenant: '', property: '' },
+      evictions: [],
+      appealOutcomes: [],
+      evictionRuns: 0,
+      appealRuns: 0,
+      tenantTallies: { birth: 0, scar: 0, war: 0 },
+      lastOutcome: '',
+      activeBailiff: null,
+      pending: null,
+    };
+    assert.deepStrictEqual(hostV89(api.defaultAccomplishedFactEvictionClaims()), expectedDefaultState);
+
+    // ------------------------------------------------------------
+    // 4. Strict Normalization, Serialization & v88 Sentinel Isolation
+    // ------------------------------------------------------------
+    const V88_SENTINEL_DATA = JSON.stringify({
+      version: 88,
+      purchases: ['apology-never-spoken:right-to-be-remembered-as-if-it-happened:bid-with-memory-of-consequences'],
+      titleOutcomes: ['every-unhappened-event-became-history'],
+      sentinel: 'frozen_immutable_v88_contract',
+    });
+
+    const saveTestCtx = makeV89Context({
+      initialStore: {
+        goddead_v88_unhappened_event_auction: V88_SENTINEL_DATA,
+      },
+    });
+
+    const hostileState = {
+      version: 89,
+      extraField: 'intruder',
+      _v89unlocked: true,
+      visited: { authority: true, survey: 'truthy', yard: false, court: true, bonus: true },
+      draft: { tenant: 'birth-that-issued-a-body', property: 'right-to-have-already-begun', extra: 1 },
+      evictions: [
+        'birth-that-issued-a-body:right-to-have-already-begun:demolish-the-cause-and-leave-the-consequence',
+        'birth-that-issued-a-body:right-to-have-already-begun:demolish-the-cause-and-leave-the-consequence',
+        'fake-eviction',
+      ],
+      appealOutcomes: [
+        'the-past-became-an-undeletable-address',
+        'the-past-became-an-undeletable-address',
+        'fake-outcome',
+      ],
+      evictionRuns: '15.9',
+      appealRuns: -10,
+      tenantTallies: { birth: 50000, scar: '3', war: -1, extraTally: 10 },
+      lastOutcome: 'uncollected-outcome',
+      activeBailiff: { property: 'right-to-have-already-begun', eviction: 'birth-that-issued-a-body:right-to-have-already-begun:demolish-the-cause-and-leave-the-consequence', feedback: 'foo', extra: 'bad' },
+      pending: { kind: 'entry', target: 'accomplished-fact-eviction-authority', feedback: 'bad-fb' },
+    };
+
+    saveTestCtx.api.saveAccomplishedFactEvictionClaims(hostileState);
+    const rawSaved = JSON.parse(saveTestCtx.storeData['goddead_v89_accomplished_fact_eviction']);
+    const savedKeys = Object.keys(rawSaved);
+    assert.deepStrictEqual(savedKeys, [
+      'version', 'visited', 'draft', 'evictions', 'appealOutcomes',
+      'evictionRuns', 'appealRuns', 'tenantTallies', 'lastOutcome', 'activeBailiff', 'pending',
+    ]);
+    assert.strictEqual(rawSaved._v89unlocked, undefined);
+    assert.strictEqual(rawSaved.extraField, undefined);
+    assert.deepStrictEqual(rawSaved.visited, { authority: true, survey: false, yard: false, court: true });
+    assert.deepStrictEqual(rawSaved.evictions, [
+      'birth-that-issued-a-body:right-to-have-already-begun:demolish-the-cause-and-leave-the-consequence',
+    ]);
+    assert.deepStrictEqual(rawSaved.appealOutcomes, [
+      'the-past-became-an-undeletable-address',
+    ]);
+    assert.strictEqual(rawSaved.evictionRuns, 15);
+    assert.strictEqual(rawSaved.appealRuns, 0);
+    assert.deepStrictEqual(rawSaved.tenantTallies, { birth: 9999, scar: 3, war: 0 });
+    assert.strictEqual(rawSaved.lastOutcome, '');
+    assert.strictEqual(rawSaved.activeBailiff, null);
+    assert.strictEqual(rawSaved.pending, null);
+    assert.strictEqual(
+      saveTestCtx.storeData['goddead_v88_unhappened_event_auction'],
+      V88_SENTINEL_DATA,
+      "v89 save/normalization must never mutate or overwrite v88 store key"
+    );
+
+    // ------------------------------------------------------------
+    // 5. Upstream Unlock Gate Matrix
+    // ------------------------------------------------------------
+    const upstreamBefore = makeCompleteV88StateForV89();
+    const upstreamClone = JSON.parse(JSON.stringify(upstreamBefore));
+    const unlockCtx = makeV89Context({ upstreamV88State: upstreamBefore });
+    assert.strictEqual(unlockCtx.api.accomplishedFactEvictionUnlocked(), true);
+    assert.deepStrictEqual(upstreamBefore, upstreamClone, "Unlock check must not mutate upstream state");
+
+    assert.strictEqual(makeV89Context({ v88unlocked: false }).api.accomplishedFactEvictionUnlocked(), false);
+    assert.strictEqual(makeV89Context({ upstreamV88State: { purchases: upstreamBefore.purchases.slice(0, 3), titleOutcomes: upstreamBefore.titleOutcomes } }).api.accomplishedFactEvictionUnlocked(), false);
+    assert.strictEqual(makeV89Context({ upstreamV88State: { purchases: upstreamBefore.purchases, titleOutcomes: upstreamBefore.titleOutcomes.slice(0, 2) } }).api.accomplishedFactEvictionUnlocked(), false);
+
+    // ------------------------------------------------------------
+    // 6. Coverage Evaluation Matrix
+    // ------------------------------------------------------------
+    const covState = hostV89(api.defaultAccomplishedFactEvictionClaims());
+    assert.strictEqual(api.accomplishedFactEvictionCoverageComplete(covState), false);
+    covState.evictions = V89_COMPLETE_EVICTIONS.slice(0, 3);
+    assert.strictEqual(api.accomplishedFactEvictionCoverageComplete(covState), false);
+    covState.evictions = [...V89_COMPLETE_EVICTIONS];
+    assert.strictEqual(api.accomplishedFactEvictionCoverageComplete(covState), true);
+
+    // ------------------------------------------------------------
+    // 7. Exhaustive Normalization & Exact-Key Rejection on 7 Pending Kinds
+    // ------------------------------------------------------------
+    const canonicalBailiff = {
+      eviction: V89_EXPECTED_EVICTION,
+      feedback: api.ACCOMPLISHED_FACT_PROPERTY_TABLE['right-to-have-already-begun'].bailiffFeedback,
+      property: 'right-to-have-already-begun',
+    };
+
+    const pendingTypes = [
+      {
+        name: 'entry',
+        valid: { feedback: V89_ENTRY_FEEDBACK, kind: 'entry', target: 'accomplished-fact-eviction-authority' },
+        state: makePendingStateV89(api),
+        badTarget: 'condemned-history-survey-office',
+        badFeedback: 'wrong feedback',
+      },
+      {
+        name: 'tenant',
+        valid: {
+          feedback: api.ACCOMPLISHED_FACT_TENANT_TABLE['birth-that-issued-a-body'].feedback,
+          kind: 'tenant',
+          source: 'accomplished-fact-eviction-authority',
+          target: 'condemned-history-survey-office',
+          tenant: 'birth-that-issued-a-body',
+        },
+        state: makePendingStateV89(api),
+        badTarget: 'retroactive-demolition-yard',
+        badFeedback: 'wrong feedback',
+      },
+      {
+        name: 'property',
+        valid: {
+          feedback: api.ACCOMPLISHED_FACT_PROPERTY_TABLE['right-to-have-already-begun'].feedback,
+          kind: 'property',
+          property: 'right-to-have-already-begun',
+          source: 'condemned-history-survey-office',
+          target: 'retroactive-demolition-yard',
+          tenant: 'birth-that-issued-a-body',
+        },
+        state: makePendingStateV89(api, { draft: { tenant: 'birth-that-issued-a-body', property: '' } }),
+        badTarget: 'final-occupancy-appeal-court',
+        badFeedback: 'wrong feedback',
+      },
+      {
+        name: 'eviction',
+        valid: {
+          eviction: V89_EXPECTED_EVICTION,
+          feedback: V89_EXPECTED_FEEDBACK,
+          kind: 'eviction',
+          method: 'demolish-the-cause-and-leave-the-consequence',
+          property: 'right-to-have-already-begun',
+          source: 'retroactive-demolition-yard',
+          target: 'birth-ballot-booth',
+          tenant: 'birth-that-issued-a-body',
+        },
+        state: makePendingStateV89(api, { draft: { tenant: 'birth-that-issued-a-body', property: 'right-to-have-already-begun' } }),
+        badTarget: 'undeclared-war-room',
+        badFeedback: 'wrong feedback',
+      },
+      {
+        name: 'bailiff-return',
+        valid: {
+          eviction: V89_EXPECTED_EVICTION,
+          feedback: canonicalBailiff.feedback,
+          from: 'birth-ballot-booth',
+          kind: 'bailiff-return',
+          target: 'accomplished-fact-eviction-authority',
+        },
+        state: makePendingStateV89(api, {
+          evictions: [V89_EXPECTED_EVICTION],
+          activeBailiff: canonicalBailiff,
+        }),
+        badTarget: 'remembrance',
+        badFeedback: 'wrong feedback',
+      },
+      {
+        name: 'appeal-entry',
+        valid: {
+          feedback: V89_COURT_ENTRY_FEEDBACK,
+          kind: 'appeal-entry',
+          target: 'final-occupancy-appeal-court',
+        },
+        state: makePendingStateV89(api, { evictions: V89_COMPLETE_EVICTIONS }),
+        badTarget: 'threshold',
+        badFeedback: 'wrong feedback',
+      },
+      {
+        name: 'appeal-action',
+        valid: {
+          action: 'grant-permanent-residency-to-every-accomplished-fact',
+          feedback: api.ACCOMPLISHED_FACT_APPEAL_ACTION_TABLE['grant-permanent-residency-to-every-accomplished-fact'].feedback,
+          kind: 'appeal-action',
+          outcome: 'the-past-became-an-undeletable-address',
+          source: 'final-occupancy-appeal-court',
+          target: 'threshold',
+        },
+        state: makePendingStateV89(api, { evictions: V89_COMPLETE_EVICTIONS, visited: { court: true } }),
+        badTarget: 'remembrance',
+        badFeedback: 'wrong feedback',
+      },
+    ];
+
+    for (const pt of pendingTypes) {
+      assert.deepStrictEqual(
+        hostV89(api.normalizeAccomplishedFactPending(pt.valid, pt.state)),
+        pt.valid,
+        `Pending type "${pt.name}" must normalize when valid`
+      );
+
+      const withExtraKey = { ...pt.valid, rogueKey: 'bad' };
+      assert.strictEqual(
+        api.normalizeAccomplishedFactPending(withExtraKey, pt.state),
+        null,
+        `Pending type "${pt.name}" must reject extra keys`
+      );
+
+      const keys = Object.keys(pt.valid);
+      for (const k of keys) {
+        const missingKey = { ...pt.valid };
+        delete missingKey[k];
+        assert.strictEqual(
+          api.normalizeAccomplishedFactPending(missingKey, pt.state),
+          null,
+          `Pending type "${pt.name}" must reject missing key "${k}"`
+        );
+      }
+
+      const withBadTarget = { ...pt.valid, target: pt.badTarget };
+      assert.strictEqual(
+        api.normalizeAccomplishedFactPending(withBadTarget, pt.state),
+        null,
+        `Pending type "${pt.name}" must reject bad target`
+      );
+
+      const withBadFeedback = { ...pt.valid, feedback: pt.badFeedback };
+      assert.strictEqual(
+        api.normalizeAccomplishedFactPending(withBadFeedback, pt.state),
+        null,
+        `Pending type "${pt.name}" must reject bad feedback`
+      );
+    }
+
+    // ------------------------------------------------------------
+    // 8. Replay Scheduling, Target Settle, Idempotence & Sibling Cleanup
+    // ------------------------------------------------------------
+    {
+      const evPending = {
+        eviction: V89_EXPECTED_EVICTION,
+        feedback: V89_EXPECTED_FEEDBACK,
+        kind: 'eviction',
+        method: 'demolish-the-cause-and-leave-the-consequence',
+        property: 'right-to-have-already-begun',
+        source: 'retroactive-demolition-yard',
+        target: 'birth-ballot-booth',
+        tenant: 'birth-that-issued-a-body',
+      };
+      const replayCtx = makeV89Context({
+        scene: 'retroactive-demolition-yard',
+        initialStore: {
+          goddead_v89_accomplished_fact_eviction: JSON.stringify(makePendingStateV89(api, {
+            visited: { yard: true },
+            draft: { tenant: 'birth-that-issued-a-body', property: 'right-to-have-already-begun' },
+            pending: evPending,
+          })),
+        },
+      });
+      replayCtx.api.replayAccomplishedFactEvictionPending('retroactive-demolition-yard');
+      assert.strictEqual(replayCtx.scheduleCalls.length, 1);
+      assert.strictEqual(replayCtx.scheduleCalls[0].src, 'retroactive-demolition-yard');
+      assert.strictEqual(replayCtx.scheduleCalls[0].target, 'birth-ballot-booth');
+
+      // Illegal sibling arrival cleans pending without advancing
+      const siblingCtx = makeV89Context({
+        scene: 'undeclared-war-room',
+        initialStore: {
+          goddead_v89_accomplished_fact_eviction: JSON.stringify(makePendingStateV89(api, {
+            visited: { yard: true },
+            draft: { tenant: 'birth-that-issued-a-body', property: 'right-to-have-already-begun' },
+            pending: evPending,
+          })),
+        },
+      });
+      siblingCtx.api.replayAccomplishedFactEvictionPending('undeclared-war-room');
+      assert.strictEqual(siblingCtx.scheduleCalls.length, 0);
+      assert.strictEqual(siblingCtx.read().pending, null);
+
+      // Target one-time settlement and duplicate arrival idempotence
+      const targetCtx = makeV89Context({
+        scene: 'birth-ballot-booth',
+        initialStore: {
+          goddead_v89_accomplished_fact_eviction: JSON.stringify(makePendingStateV89(api, {
+            visited: { yard: true },
+            draft: { tenant: 'birth-that-issued-a-body', property: 'right-to-have-already-begun' },
+            pending: evPending,
+          })),
+        },
+      });
+      targetCtx.api.resolveAccomplishedFactEvictionPendingOnArrival('birth-ballot-booth');
+      const settled = targetCtx.read();
+      assert.strictEqual(settled.pending, null);
+      assert.strictEqual(settled.evictionRuns, 1);
+      assert.strictEqual(settled.tenantTallies.birth, 1);
+      assert.deepStrictEqual(settled.evictions, [V89_EXPECTED_EVICTION]);
+      assert.strictEqual(settled.lastOutcome, V89_EXPECTED_EVICTION);
+
+      // Duplicate arrival on same target is a no-op
+      targetCtx.api.resolveAccomplishedFactEvictionPendingOnArrival('birth-ballot-booth');
+      const duplicateSettled = targetCtx.read();
+      assert.strictEqual(duplicateSettled.evictionRuns, 1);
+      assert.deepStrictEqual(duplicateSettled.evictions, [V89_EXPECTED_EVICTION]);
+    }
+
+    // ------------------------------------------------------------
+    // 9. Multiple Evictions on Same Property & Bailiff Return Regression
+    // ------------------------------------------------------------
+    {
+      const ev1 = 'birth-that-issued-a-body:right-to-have-already-begun:demolish-the-cause-and-leave-the-consequence';
+      const ev2 = 'birth-that-issued-a-body:right-to-have-already-begun:compensate-reality-with-an-alternate-past';
+
+      const multiEvState = makePendingStateV89(api, {
+        evictions: [ev1, ev2],
+        activeBailiff: {
+          eviction: ev2,
+          feedback: api.ACCOMPLISHED_FACT_PROPERTY_TABLE['right-to-have-already-begun'].bailiffFeedback,
+          property: 'right-to-have-already-begun',
+        },
+      });
+
+      const retBtn = createMockElement('accomplished-fact-bailiff-return-birth-ballot-booth');
+      const multiCtx = makeV89Context({
+        scene: 'birth-ballot-booth',
+        elements: { 'accomplished-fact-bailiff-return-birth-ballot-booth': retBtn },
+        initialStore: {
+          goddead_v89_accomplished_fact_eviction: JSON.stringify(multiEvState),
+        },
+      });
+
+      multiCtx.api.chooseAccomplishedFactBailiffReturn('birth-ballot-booth');
+      const afterChoose = multiCtx.read();
+      assert.ok(afterChoose.pending, 'Pending bailiff-return must be created');
+      assert.strictEqual(afterChoose.pending.kind, 'bailiff-return');
+      assert.strictEqual(
+        afterChoose.pending.eviction,
+        ev2,
+        'Bailiff-return must bind to activeBailiff.eviction (the latest run), not first prior eviction'
+      );
+
+      multiCtx.api.resolveAccomplishedFactEvictionPendingOnArrival('accomplished-fact-eviction-authority');
+      const finMulti = multiCtx.read();
+      assert.strictEqual(finMulti.activeBailiff, null);
+      assert.strictEqual(finMulti.pending, null);
+      assert.strictEqual(finMulti.visited.authority, true);
+    }
+
+    // ------------------------------------------------------------
+    // 10. Appeal Actions, Targets & Unending-Gallery Bridge Allowance
+    // ------------------------------------------------------------
+    {
+      const appealActions = [
+        {
+          action: 'grant-permanent-residency-to-every-accomplished-fact',
+          expectedOutcome: 'the-past-became-an-undeletable-address',
+          expectedTarget: 'threshold',
+        },
+        {
+          action: 'evict-history-and-let-consequences-squat',
+          expectedOutcome: 'only-the-consequences-remained-home',
+          expectedTarget: 'remembrance',
+        },
+        {
+          action: 'demolish-the-present-for-illegal-construction-on-the-past',
+          expectedOutcome: 'the-present-was-condemned-for-occupying-history',
+          expectedTarget: 'unending-gallery',
+        },
+      ];
+
+      for (const item of appealActions) {
+        const btn = createMockElement(`accomplished-fact-appeal-${item.action}`);
+        const appCtx = makeV89Context({
+          scene: 'final-occupancy-appeal-court',
+          elements: { [`accomplished-fact-appeal-${item.action}`]: btn },
+          initialStore: {
+            goddead_v89_accomplished_fact_eviction: JSON.stringify(makePendingStateV89(api, {
+              evictions: V89_COMPLETE_EVICTIONS,
+              visited: { court: true },
+            })),
+          },
+        });
+
+        appCtx.api.chooseAccomplishedFactAppealAction(item.action);
+        appCtx.api.resolveAccomplishedFactEvictionPendingOnArrival(item.expectedTarget);
+        const appState = appCtx.read();
+        assert.strictEqual(appState.appealRuns, 1);
+        assert.ok(appState.appealOutcomes.includes(item.expectedOutcome));
+        assert.strictEqual(appState.lastOutcome, item.expectedOutcome);
+
+        // Verify unending-gallery bridge allowance
+        if (item.expectedTarget === 'unending-gallery') {
+          assert.strictEqual(
+            appCtx.api.accomplishedFactEvictionBridgeAllows('unending-gallery'),
+            true,
+            'unending-gallery must be allowed by bridge when lastOutcome is demolish-the-present'
+          );
+        }
+      }
+    }
+
+    // ------------------------------------------------------------
+    // 11. forgetAccomplishedFactEvictionState & Sentinel Immutability
+    // ------------------------------------------------------------
+    {
+      const memEl = createMockElement('accomplished-fact-eviction-memory');
+      const codexEl = createMockElement('accomplished-fact-eviction-codex');
+      const entryShell = createMockElement('accomplished-fact-eviction-codex-entry');
+      const entryBtn = createMockElement('accomplished-fact-eviction-entry-btn');
+      const courtBtn = createMockElement('accomplished-fact-eviction-appeal-entry-btn');
+      const authLink = createMockElement('accomplished-fact-eviction-authority-link');
+      const respEl = createMockElement('accomplished-fact-eviction-authority-response');
+
+      const forgetCtx = makeV89Context({
+        initialStore: {
+          goddead_v88_unhappened_event_auction: V88_SENTINEL_DATA,
+          goddead_v89_accomplished_fact_eviction: JSON.stringify(makePendingStateV89(api, {
+            visited: { authority: true, court: true },
+            evictions: V89_COMPLETE_EVICTIONS,
+          })),
+        },
+        elements: {
+          'accomplished-fact-eviction-memory': memEl,
+          'accomplished-fact-eviction-codex': codexEl,
+          'accomplished-fact-eviction-codex-entry': entryShell,
+          'accomplished-fact-eviction-entry-btn': entryBtn,
+          'accomplished-fact-eviction-appeal-entry-btn': courtBtn,
+          'accomplished-fact-eviction-authority-link': authLink,
+          'accomplished-fact-eviction-authority-response': respEl,
+        },
+      });
+
+      forgetCtx.api.forgetAccomplishedFactEvictionState();
+      assert.strictEqual(
+        forgetCtx.storeData['goddead_v89_accomplished_fact_eviction'],
+        undefined,
+        'v89 store state must be completely cleared on forget'
+      );
+      assert.strictEqual(
+        forgetCtx.storeData['goddead_v88_unhappened_event_auction'],
+        V88_SENTINEL_DATA,
+        'v88 store data must remain byte-identical after v89 forget'
+      );
+      assert.strictEqual(memEl.hidden, true);
+      assert.strictEqual(codexEl.hidden, true);
+      assert.strictEqual(respEl.textContent, '');
+    }
+
+    // ------------------------------------------------------------
+    // 12. Trusted Event Guards for all 18 Click Listeners
+    // ------------------------------------------------------------
+    const listenerRegex = /\.addEventListener\('click',\s*\(e\)\s*=>\s*\{([\s\S]*?)\n\s*\}\);/g;
+    const listenerMatches = [...v89ModuleBlock.matchAll(listenerRegex)];
+    assert.strictEqual(listenerMatches.length, 18, "v89 Module must register exactly 18 click listeners");
+    for (const match of listenerMatches) {
+      const body = match[1].trim();
+      assert.ok(body.startsWith('if (!e.isTrusted) return;'), 'Each click handler must guard against untrusted events first');
+    }
+
+    // Untrusted event simulation
+    {
+      const btn = createMockElement('accomplished-fact-tenant-birth-that-issued-a-body');
+      let called = false;
+      btn.addEventListener('click', (e) => {
+        if (!e.isTrusted) return;
+        called = true;
+      });
+      btn._dispatch('click', { isTrusted: false });
+      assert.strictEqual(called, false, 'Untrusted click event must be blocked');
+      btn._dispatch('click', { isTrusted: true });
+      assert.strictEqual(called, true, 'Trusted click event must proceed');
+    }
+
+  // ------------------------------------------------------------
+  // 13. Integration Points in script.js (sceneInit, resolveScene, forget-all)
+  // ------------------------------------------------------------
+  {
+    const sceneInitStart = js.indexOf("const sceneInit = (name) => {");
+    assert.ok(sceneInitStart !== -1, "sceneInit definition found");
+    const sceneInitEnd = js.indexOf("/* 分层进度守卫", sceneInitStart);
+    assert.ok(sceneInitEnd !== -1, "sceneInit end marker found");
+    const sceneInitSlice = js.slice(sceneInitStart, sceneInitEnd);
+
+    assert.ok(sceneInitSlice.includes("resolveAccomplishedFactEvictionPendingOnArrival(name);"));
+    assert.ok(sceneInitSlice.includes("syncAccomplishedFactEvictionAuthority();"));
+    assert.ok(sceneInitSlice.includes("syncCondemnedHistorySurveyOffice();"));
+    assert.ok(sceneInitSlice.includes("syncRetroactiveDemolitionYard();"));
+    assert.ok(sceneInitSlice.includes("syncFinalOccupancyAppealCourt();"));
+    assert.ok(sceneInitSlice.includes("syncAccomplishedFactBailiffs();"));
+    assert.ok(sceneInitSlice.includes("paintAccomplishedFactEvictionMemory();"));
+    assert.ok(sceneInitSlice.includes("paintAccomplishedFactEvictionCodex();"));
+    assert.ok(sceneInitSlice.includes("syncAccomplishedFactEvictionRemembrance();"));
+    assert.ok(sceneInitSlice.includes("syncAccomplishedFactEvictionLinks();"));
+    assert.ok(sceneInitSlice.includes("replayAccomplishedFactEvictionPending(name);"));
+
+    const resolveSceneStart = js.indexOf("const resolveScene = (name) => {");
+    const resolveSceneEnd = js.indexOf("/* 可靠聚焦", resolveSceneStart);
+    const resolveSceneSlice = js.slice(resolveSceneStart, resolveSceneEnd);
+
+    assert.ok(resolveSceneSlice.includes('if (target === "accomplished-fact-eviction-authority" && !accomplishedFactEvictionAuthorityCanVisit()) target = "remembrance";'));
+    assert.ok(resolveSceneSlice.includes('if (target === "condemned-history-survey-office" && !condemnedHistorySurveyOfficeCanVisit()) target = "remembrance";'));
+    assert.ok(resolveSceneSlice.includes('if (target === "retroactive-demolition-yard" && !retroactiveDemolitionYardCanVisit()) target = "remembrance";'));
+    assert.ok(resolveSceneSlice.includes('if (target === "final-occupancy-appeal-court" && !finalOccupancyAppealCourtCanVisit()) target = "remembrance";'));
+    assert.ok(resolveSceneSlice.includes("!accomplishedFactEvictionBridgeAllows('birth-ballot-booth')"));
+    assert.ok(resolveSceneSlice.includes('!accomplishedFactEvictionBridgeAllows("crime-scene-without-offender")'));
+    assert.ok(resolveSceneSlice.includes('!accomplishedFactEvictionBridgeAllows("undeclared-war-room")'));
+
+    const forgetStart = js.indexOf("if (forgetActionBtn) {");
+    const forgetEnd = js.indexOf("/* ---------- 初始化 ---------- */", forgetStart);
+    const forgetSlice = js.slice(forgetStart, forgetEnd);
+    assert.ok(forgetSlice.includes('forgetAccomplishedFactEvictionState();') || forgetSlice.includes('localStorage.removeItem(ACCOMPLISHED_FACT_EVICTION_KEY);'));
+  }
+
+  // ------------------------------------------------------------
+  // 14. Static Assets Freeze Verification for v89
+  // ------------------------------------------------------------
+  const V89_ASSET_FREEZE = [
+    {
+      path: "assets/source-v89-accomplished-fact-eviction-authority.png",
+      sha256: "ef0eb750f3e6883ab22836b3dd827854a99d38115f5ea2bbf83da8a5977709cb",
+      size: 2588120,
+      type: "png",
+    },
+    {
+      path: "assets/source-v89-condemned-history-survey-office.png",
+      sha256: "8774f08fb89965491e90d67dba569e0f1aa613c6615b544ebf75ea6b5de0864f",
+      size: 2963404,
+      type: "png",
+    },
+    {
+      path: "assets/source-v89-retroactive-demolition-yard.png",
+      sha256: "623428a597634d5c07a7a85fad905a36083bda302325aa80121805462238c216",
+      size: 2633463,
+      type: "png",
+    },
+    {
+      path: "assets/source-v89-final-occupancy-appeal-court.png",
+      sha256: "bb8dfb3073e79b613bee6f0b25e37cddad9715e5f6d4d74a32e2dc561843721a",
+      size: 3138928,
+      type: "png",
+    },
+    {
+      path: "assets/v89-accomplished-fact-eviction-authority.webp",
+      sha256: "f13a2d439a97c4618bb969f07eb139f0118910e1fa4e96c407bbd15150317432",
+      size: 223166,
+      type: "webp",
+    },
+    {
+      path: "assets/v89-condemned-history-survey-office.webp",
+      sha256: "fdec4d8b13b9c36b0eade0ea60c49abbfd4714137211b496efda9c9f122f14d2",
+      size: 292764,
+      type: "webp",
+    },
+    {
+      path: "assets/v89-retroactive-demolition-yard.webp",
+      sha256: "2fa1cd0e9ab12bd48233920c753a210517d665f7800383a51222567a38b81e28",
+      size: 273044,
+      type: "webp",
+    },
+    {
+      path: "assets/v89-final-occupancy-appeal-court.webp",
+      sha256: "9818c5533556e1dd4568ab214bc7cafdd2360982781a8ed9c3c192edeb38d83b",
+      size: 343904,
+      type: "webp",
+    },
+  ];
+
+  for (const asset of V89_ASSET_FREEZE) {
+    const buf = await readFile(new URL(asset.path, root));
+    const actualHash = createHash("sha256").update(buf).digest("hex");
+    assert.equal(actualHash, asset.sha256, `${asset.path} sha256 mismatch`);
+    assert.equal(buf.length, asset.size, `${asset.path} size mismatch`);
+    const dims = asset.type === "png" ? readPngDimensions(buf) : readWebpDimensions(buf);
+    assert.equal(dims.width, 1536, `${asset.path} width must be 1536`);
+    assert.equal(dims.height, 1024, `${asset.path} height must be 1024`);
+  }
+
+  const V89_FIGURE_SPECS = [
+    ['accomplished-fact-eviction-authority-figure', '既成事实拆迁局：左侧已生出生黄铜脐带门、中央长住伤疤石质皮肤屋、右侧留墟战争断墙残火', 3],
+    ['condemned-history-survey-office-figure', '危历史勘测所：左侧第一口呼吸摇篮门牌、中央愈伤内部微缩无名屋、右侧战后街区透明产权罩', 3],
+    ['retroactive-demolition-yard-figure', '追溯拆除场：左上拔桩拆因留果机、右上时间外证人迁移闸、左下结构判危骨白架、右下替代过去补偿机', 4],
+    ['final-occupancy-appeal-court-figure', '最后居住权上诉庭：左侧永久门牌地基、中央无因占屋冷灶、右侧拆除违章现在空框', 3],
+  ];
+
+  for (const [figureClass, expectedAlt, buttonCount] of V89_FIGURE_SPECS) {
+    const figRegex = new RegExp(`<figure[^>]*class="[^"]*\\b${figureClass}\\b[^"]*"[^>]*>([\\s\\S]*?)<\\/figure>`, "i");
+    const figMatch = html.match(figRegex);
+    assert.ok(figMatch, `figure .${figureClass} must exist`);
+
+    const insideHtml = figMatch[1];
+    assert.ok(!figMatch[0].includes('role="img"'), `figure .${figureClass} must not have role="img"`);
+    const imgRegex = new RegExp(`<img[^>]+alt="${expectedAlt.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`, "i");
+    assert.match(insideHtml, imgRegex, `figure .${figureClass} must contain nested img with exact alt "${expectedAlt}"`);
+
+    const buttons = insideHtml.match(/<button\b[^>]*>/gi) || [];
+    assert.equal(buttons.length, buttonCount, `figure .${figureClass} must have exactly ${buttonCount} button hotspots`);
+  }
+
+  // ------------------------------------------------------------
+  // 15. 39 Codex Cells Contract (36 Evictions + 3 Appeal Outcomes)
+  // ------------------------------------------------------------
+  {
+    const gridEl = createMockElement('accomplished-fact-eviction-codex-grid');
+    const codexEl = createMockElement('accomplished-fact-eviction-codex');
+    const memEl = createMockElement('accomplished-fact-eviction-memory');
+    const ctx = makeV89Context({
+      elements: {
+        'accomplished-fact-eviction-codex-grid': gridEl,
+        'accomplished-fact-eviction-codex': codexEl,
+        'accomplished-fact-eviction-memory': memEl,
+      },
+      initialStore: {
+        goddead_v89_accomplished_fact_eviction: JSON.stringify(makePendingStateV89(api, {
+          evictions: [V89_EXPECTED_EVICTION],
+          appealOutcomes: ['the-past-became-an-undeletable-address'],
+        })),
+      },
+    });
+
+    const paintAccomplishedFactEvictionCodexFn = new Function('$', 'getAccomplishedFactEvictionClaims', 'accomplishedFactEvictionUnlocked', 'ACCOMPLISHED_FACT_EVICTION_IDS', 'findAccomplishedFactEvictionById', 'ACCOMPLISHED_FACT_APPEAL_ACTIONS', 'ACCOMPLISHED_FACT_APPEAL_ACTION_TABLE', 'document', `
+      const codex = $('#accomplished-fact-eviction-codex');
+      const grid = $('#accomplished-fact-eviction-codex-grid');
+      if (!codex || !grid) return;
+      if (!accomplishedFactEvictionUnlocked()) {
+        codex.hidden = true;
+        return;
+      }
+      codex.hidden = false;
+      codex.removeAttribute('hidden');
+      grid.textContent = '';
+
+      const st = getAccomplishedFactEvictionClaims();
+      const collectedEvictions = new Set(st.evictions);
+      const collectedOutcomes = new Set(st.appealOutcomes);
+
+      ACCOMPLISHED_FACT_EVICTION_IDS.forEach(id => {
+        const cell = document.createElement('div');
+        if (collectedEvictions.has(id)) {
+          cell.className = 'accomplished-fact-eviction-cell is-unlocked';
+          const item = findAccomplishedFactEvictionById(id);
+          cell.textContent = item ? \`\${item.title}\\n\${item.feedback}\` : id;
+        } else {
+          cell.className = 'accomplished-fact-eviction-cell is-locked';
+          cell.textContent = '？？？';
+        }
+        grid.appendChild(cell);
+      });
+
+      ACCOMPLISHED_FACT_APPEAL_ACTIONS.forEach(action => {
+        const aObj = ACCOMPLISHED_FACT_APPEAL_ACTION_TABLE[action];
+        const cell = document.createElement('div');
+        if (collectedOutcomes.has(aObj.outcome)) {
+          cell.className = 'accomplished-fact-eviction-cell is-unlocked';
+          cell.textContent = \`[最后居住权上诉庭] \${aObj.outcome}\\n\${aObj.feedback}\`;
+        } else {
+          cell.className = 'accomplished-fact-eviction-cell is-locked';
+          cell.textContent = '？？？';
+        }
+        grid.appendChild(cell);
+      });
+    `);
+
+    paintAccomplishedFactEvictionCodexFn(
+      (sel) => ctx.elements[sel.slice(1)],
+      () => ctx.api.getAccomplishedFactEvictionClaims(),
+      () => ctx.api.accomplishedFactEvictionUnlocked(),
+      ctx.api.ACCOMPLISHED_FACT_EVICTION_IDS,
+      ctx.api.findAccomplishedFactEvictionById,
+      ctx.api.ACCOMPLISHED_FACT_APPEAL_ACTIONS,
+      ctx.api.ACCOMPLISHED_FACT_APPEAL_ACTION_TABLE,
+      { createElement: (tag) => createMockElement(tag) }
+    );
+
+    assert.strictEqual(gridEl.children.length, 39, "Codex must render exactly 39 cells (36 evictions + 3 appeal outcomes)");
+  }
+}
+
+
+  // ============================================================
+  // v90 Refugee Authority for Consequences Without Causes Specification (TDD)
+  // ============================================================
+  {
+    // Assert v89 module boundary now ends at v90 module start rather than the corridor
+    const v89ModuleStart = js.indexOf("const ACCOMPLISHED_FACT_EVICTION_KEY = 'goddead_v89_accomplished_fact_eviction';");
+    const v90ModuleStart = js.indexOf("const CAUSELESS_CONSEQUENCE_KEY = 'goddead_v90_causeless_consequence_refugee';");
+    assert.ok(v89ModuleStart !== -1, "v89 module start must exist in script.js");
+    assert.ok(v90ModuleStart !== -1, "v90 module start must exist in script.js");
+    assert.ok(v90ModuleStart > v89ModuleStart, "v90 module must be inserted after v89 module");
+
+    const v90CorridorHeading = "\n     走廊：残页 + 封印的门";
+    const v90CorridorHeadingIndex = v90ModuleStart !== -1 ? js.indexOf(v90CorridorHeading, v90ModuleStart) : -1;
+    const v90ModuleEnd = v90CorridorHeadingIndex !== -1 ? js.lastIndexOf("/*", v90CorridorHeadingIndex) : -1;
+    assert.ok(v90ModuleStart !== -1 && v90ModuleEnd > v90ModuleStart, "v90 module boundaries must exist in script.js");
+
+    const textBetweenV89AndV90 = js.slice(v89ModuleStart, v90ModuleStart);
+    assert.ok(!textBetweenV89AndV90.includes("走廊：残页 + 封印的门"), "v89 module must now transition into v90 module instead of the corridor");
+
+    const v90ModuleBlock = js.slice(v90ModuleStart, v90ModuleEnd);
+
+    // Scene count and cache query checks for v90
+    SCENES.push(
+      "causeless-consequence-refugee-authority",
+      "borrowed-cause-sponsorship-office",
+      "causal-border-processing-station",
+      "final-asylum-tribunal-for-causeless-consequences"
+    );
+    assert.equal(SCENES.length, 193, "scene count must be 193 after v90");
+    for (const sc of [
+      "causeless-consequence-refugee-authority",
+      "borrowed-cause-sponsorship-office",
+      "causal-border-processing-station",
+      "final-asylum-tribunal-for-causeless-consequences"
+    ]) {
+      assert.match(html, new RegExp(`data-scene="${sc}"`), `scene missing: ${sc}`);
+    }
+
+    assert.match(html, /styles\.css\?v=90/, "styles.css cache query must be updated to v=90");
+    assert.match(html, /script\.js\?v=90/, "script.js cache query must be updated to v=90");
+
+    let cursor = js.lastIndexOf('replayAccomplishedFactEvictionPending("threshold");');
+    assert.ok(cursor !== -1, 'v90 browser-initialization failure: anchor replayAccomplishedFactEvictionPending("threshold"); not found');
+    const v90InitSteps = [
+      'resolveCauselessConsequencePendingOnArrival("threshold");',
+      'syncCauselessConsequenceRefugeeAuthority();',
+      'syncBorrowedCauseSponsorshipOffice();',
+      'syncCausalBorderProcessingStation();',
+      'syncFinalAsylumTribunalForCauselessConsequences();',
+      'syncCauselessConsequenceConsuls();',
+      'paintCauselessConsequenceRefugeeMemory();',
+      'paintCauselessConsequenceRefugeeCodex();',
+      'syncCauselessConsequenceRefugeeRemembrance();',
+      'syncCauselessConsequenceRefugeeLinks();',
+      'replayCauselessConsequenceRefugeePending("threshold");'
+    ];
+    for (const step of v90InitSteps) {
+      const nextIndex = js.indexOf(step, cursor + 1);
+      assert.ok(nextIndex > cursor, `v90 browser-initialization failure: missing or out of order step ${step}`);
+      cursor = nextIndex;
+    }
+    const revealIndex = js.indexOf('revealScene(scenes.threshold);', cursor + 1);
+    assert.ok(revealIndex > cursor, 'v90 browser-initialization failure: revealScene(scenes.threshold); must execute after v90 initialization sequence');
+
+    const makeCompleteV89StateForV90 = () => ({
+      evictions: [
+        'birth-that-issued-a-body:right-to-have-already-begun:demolish-the-cause-and-leave-the-consequence',
+        'scar-that-outlived-the-wound:address-inside-a-healed-wound:relocate-all-witnesses-outside-time',
+        'war-that-kept-its-ruins:ownership-of-a-ruin-left-by-war:condemn-memory-as-structurally-unsafe',
+        'birth-that-issued-a-body:right-to-have-already-begun:compensate-reality-with-an-alternate-past',
+      ],
+      appealOutcomes: [
+        'the-past-became-an-undeletable-address',
+        'only-the-consequences-remained-home',
+        'the-present-was-condemned-for-occupying-history',
+      ],
+    });
+
+    const createMockElement = (id = '') => {
+      const listeners = {};
+      const el = {
+        id,
+        className: '',
+        innerHTML: '',
+        textContent: '',
+        children: [],
+        hidden: false,
+        disabled: false,
+        attributes: {},
+        setAttribute(k, v) { this.attributes[k] = String(v); },
+        removeAttribute(k) { delete this.attributes[k]; },
+        appendChild(child) { this.children.push(child); return child; },
+        addEventListener(type, handler) {
+          listeners[type] = listeners[type] || [];
+          listeners[type].push(handler);
+        },
+        _listeners: listeners,
+        _dispatch(type, evt = {}) {
+          const list = listeners[type] || [];
+          for (const fn of list) fn(evt);
+        },
+      };
+      return el;
+    };
+
+    const hostV90 = (val) => JSON.parse(JSON.stringify(val));
+
+    const makeV90Context = ({
+      initialStore = {},
+      elements = {},
+      scene = '',
+      v89unlocked = true,
+      upstreamV89State = makeCompleteV89StateForV90(),
+    } = {}) => {
+      const storeData = { ...initialStore };
+      const store = {
+        get(k, def) {
+          return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def;
+        },
+        set(k, v) {
+          storeData[k] = String(v);
+        },
+      };
+      const localStorageMock = {
+        getItem(k) {
+          return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : null;
+        },
+        setItem(k, v) {
+          storeData[k] = String(v);
+        },
+        removeItem(k) {
+          delete storeData[k];
+        },
+        clear() {
+          for (const k of Object.keys(storeData)) {
+            delete storeData[k];
+          }
+        },
+      };
+
+      const elMap = { ...elements };
+      const $ = (selector) => {
+        if (typeof selector === 'string' && selector.startsWith('#')) {
+          const id = selector.slice(1);
+          if (elMap[id]) return elMap[id];
+        }
+        return null;
+      };
+
+      const scheduleCalls = [];
+      const clearedScenes = [];
+      const AutoAdvance = {
+        has(s) { return scheduleCalls.some(c => c.src === s); },
+        schedule(src, target, opts) {
+          scheduleCalls.push({ src, target, opts: opts ? { ...opts } : undefined });
+        },
+        clear(s) { clearedScenes.push(s); },
+      };
+
+      const AudioEngine = {
+        whoosh() {},
+        bell() {},
+      };
+
+      const buttonAvailable = (id) => {
+        const el = $(`#${id}`);
+        if (!el || el.hidden || el.disabled) return false;
+        return true;
+      };
+
+      const doc = {
+        createElement: (tag) => createMockElement(tag),
+      };
+
+      const factory = new Function(
+        'store', '$', 'currentScene', 'AutoAdvance', 'AudioEngine', 'reduced',
+        'accomplishedFactEvictionUnlocked', 'getAccomplishedFactEvictionClaims', 'buttonAvailable', 'document', 'localStorage',
+        `${v90ModuleBlock}
+        return {
+          CAUSELESS_CONSEQUENCE_KEY,
+          CAUSELESS_CONSEQUENCE_VERSION,
+          CAUSELESS_CONSEQUENCE_REFUGEES,
+          CAUSELESS_CONSEQUENCE_SPONSORS,
+          CAUSELESS_CONSEQUENCE_BORDER_PROTOCOLS,
+          CAUSELESS_CONSEQUENCE_VERDICT_ACTIONS,
+          CAUSELESS_CONSEQUENCE_REFUGEE_TABLE,
+          CAUSELESS_CONSEQUENCE_SPONSOR_TABLE,
+          CAUSELESS_CONSEQUENCE_BORDER_PROTOCOL_TABLE,
+          CAUSELESS_CONSEQUENCE_VERDICT_ACTION_TABLE,
+          CAUSELESS_CONSEQUENCE_VERDICT_OUTCOME_BY_ID,
+          CAUSELESS_CONSEQUENCE_VERDICT_OUTCOME_IDS,
+          CAUSELESS_CONSEQUENCE_ASYLUM_IDS,
+          defaultCauselessConsequenceClaims,
+          normalizeCauselessConsequenceVisited,
+          normalizeCauselessConsequenceDraft,
+          normalizeCauselessConsequenceAsylumCases,
+          normalizeCauselessConsequenceVerdictOutcomes,
+          clampCauselessConsequenceCount,
+          normalizeCauselessConsequenceTallies,
+          normalizeCauselessConsequenceActiveConsul,
+          computeCauselessConsequenceAsylumTitle,
+          computeCauselessConsequenceAsylumFeedback,
+          findCauselessConsequenceAsylumById,
+          causelessConsequenceRefugeeUnlocked,
+          causelessConsequenceRefugeeCoverageComplete,
+          normalizeCauselessConsequencePending,
+          getCauselessConsequenceRefugeeClaims,
+          saveCauselessConsequenceRefugeeClaims,
+          getCauselessConsequencePendingLogicalSource,
+          resolveCauselessConsequencePendingOnArrival,
+          replayCauselessConsequenceRefugeePending,
+          chooseCauselessConsequenceRefugeeEntry,
+          chooseCauselessConsequenceRefugee,
+          chooseCauselessConsequenceSponsor,
+          chooseCauselessConsequenceBorderProtocol,
+          chooseCauselessConsequenceConsulReturn,
+          chooseCauselessConsequenceTribunalEntry,
+          chooseCauselessConsequenceVerdictAction,
+          causelessConsequenceRefugeeBridgeAllows,
+          causelessConsequenceRefugeeAuthorityCanVisit,
+          borrowedCauseSponsorshipOfficeCanVisit,
+          causalBorderProcessingStationCanVisit,
+          finalAsylumTribunalForCauselessConsequencesCanVisit,
+          syncCauselessConsequenceRefugeeAuthority,
+          syncBorrowedCauseSponsorshipOffice,
+          syncCausalBorderProcessingStation,
+          syncFinalAsylumTribunalForCauselessConsequences,
+          syncCauselessConsequenceConsuls,
+          paintCauselessConsequenceRefugeeMemory,
+          paintCauselessConsequenceRefugeeCodex,
+          syncCauselessConsequenceRefugeeRemembrance,
+          syncCauselessConsequenceRefugeeLinks,
+          forgetCauselessConsequenceRefugeeState,
+        };`
+      );
+
+      const api = factory(
+        store,
+        $,
+        scene,
+        AutoAdvance,
+        AudioEngine,
+        false,
+        () => v89unlocked,
+        () => upstreamV89State,
+        buttonAvailable,
+        doc,
+        localStorageMock
+      );
+
+      return {
+        api,
+        storeData,
+        read: () => JSON.parse(storeData['goddead_v90_causeless_consequence_refugee'] || 'null'),
+        scheduleCalls,
+        clearedScenes,
+        elements: elMap,
+        AutoAdvance,
+      };
+    };
+
+    const V90_ENTRY_FEEDBACK = '前往无因后果难民署 · GO TO REFUGEE AUTHORITY FOR CONSEQUENCES WITHOUT CAUSES';
+    const V90_TRIBUNAL_ENTRY_FEEDBACK = '进入无因后果终审庇护庭 · ENTER FINAL ASYLUM TRIBUNAL FOR CAUSELESS CONSEQUENCES';
+    const V90_EXPECTED_ASYLUM = 'age-that-arrived-without-a-birth:doorway-that-claims-it-was-the-birth:issue-a-temporary-cause-visa';
+    const V90_EXPECTED_FEEDBACK = '身体仍在增长年龄，出生日期却已被拆除。它提着装满生日蜡烛的箱子来到难民署，每根蜡烛都能证明它老了一岁，却没有一根能证明第一岁从何开始。 门槛记得每一次进入，愿意宣称其中一次跨越就是出生。它能给年龄补一张起点证明，但从此所有开门都可能被登记为新生。 签发一枚每天午夜失效的临时原因。后果可以合法存在二十四小时，然后必须再次证明自己为何发生；现实因此学会每天早晨重写一次昨天。';
+    const V90_COMPLETE_ASYLUM_CASES = [
+      'age-that-arrived-without-a-birth:doorway-that-claims-it-was-the-birth:issue-a-temporary-cause-visa',
+      'scar-with-no-wound-to-remember:memory-that-volunteers-to-have-been-the-wound:sew-the-borrowed-cause-into-the-effect',
+      'ruins-from-a-war-that-cannot-be-found:empty-frame-that-confesses-it-was-the-war:declare-the-refugee-self-caused',
+      'age-that-arrived-without-a-birth:doorway-that-claims-it-was-the-birth:leave-the-cause-field-blank-and-stamp-reality',
+    ];
+
+    const makePendingStateV90 = (api, overrides = {}) => {
+      const base = hostV90(api.defaultCauselessConsequenceClaims());
+      base._v90unlocked = true;
+      if (overrides.visited) base.visited = { ...base.visited, ...overrides.visited };
+      if (overrides.draft) base.draft = { ...base.draft, ...overrides.draft };
+      if (overrides.refugeeTallies) base.refugeeTallies = { ...base.refugeeTallies, ...overrides.refugeeTallies };
+      if (overrides.asylumCases) base.asylumCases = [...overrides.asylumCases];
+      if (overrides.verdictOutcomes) base.verdictOutcomes = [...overrides.verdictOutcomes];
+      if (overrides.processingRuns !== undefined) base.processingRuns = overrides.processingRuns;
+      if (overrides.verdictRuns !== undefined) base.verdictRuns = overrides.verdictRuns;
+      if (overrides.lastOutcome !== undefined) base.lastOutcome = overrides.lastOutcome;
+      if (overrides.activeConsul !== undefined) base.activeConsul = overrides.activeConsul;
+      if (overrides.pending !== undefined) base.pending = overrides.pending;
+      return base;
+    };
+
+    const defaultCtx = makeV90Context();
+    const { api } = defaultCtx;
+
+    // ------------------------------------------------------------
+    // 1. Canonical DOM IDs, HTML Nesting, Preload & Script Binding Contract
+    // ------------------------------------------------------------
+    const V90_CANONICAL_DOM_IDS = [
+      'causeless-consequence-refugee-memory',
+      'causeless-consequence-refugee-codex',
+      'causeless-consequence-refugee-codex-grid',
+      'causeless-consequence-refugee-codex-entry',
+      'causeless-consequence-refugee-entry-btn',
+      'causeless-consequence-refugee-entry-response',
+      'causeless-consequence-refugee-tribunal-entry-btn',
+      'causeless-consequence-refugee-tribunal-entry-response',
+      'causeless-consequence-consul-threshold',
+      'causeless-consequence-consul-response-threshold',
+      'causeless-consequence-consul-return-threshold',
+      'causeless-consequence-consul-remembrance',
+      'causeless-consequence-consul-response-remembrance',
+      'causeless-consequence-consul-return-remembrance',
+      'causeless-consequence-consul-unending-gallery',
+      'causeless-consequence-consul-response-unending-gallery',
+      'causeless-consequence-consul-return-unending-gallery',
+      'scene-causeless-consequence-refugee-authority',
+      'causeless-consequence-refugee-authority-figure',
+      'causeless-consequence-refugee-age-that-arrived-without-a-birth',
+      'causeless-consequence-refugee-scar-with-no-wound-to-remember',
+      'causeless-consequence-refugee-ruins-from-a-war-that-cannot-be-found',
+      'causeless-consequence-refugee-authority-response',
+      'scene-borrowed-cause-sponsorship-office',
+      'borrowed-cause-sponsorship-office-figure',
+      'causeless-consequence-sponsor-doorway-that-claims-it-was-the-birth',
+      'causeless-consequence-sponsor-memory-that-volunteers-to-have-been-the-wound',
+      'causeless-consequence-sponsor-empty-frame-that-confesses-it-was-the-war',
+      'borrowed-cause-sponsorship-office-response',
+      'scene-causal-border-processing-station',
+      'causal-border-processing-station-figure',
+      'causeless-consequence-protocol-issue-a-temporary-cause-visa',
+      'causeless-consequence-protocol-sew-the-borrowed-cause-into-the-effect',
+      'causeless-consequence-protocol-declare-the-refugee-self-caused',
+      'causeless-consequence-protocol-leave-the-cause-field-blank-and-stamp-reality',
+      'causal-border-processing-station-response',
+      'scene-final-asylum-tribunal-for-causeless-consequences',
+      'final-asylum-tribunal-for-causeless-consequences-figure',
+      'causeless-consequence-verdict-grant-causal-asylum-to-every-orphaned-consequence',
+      'causeless-consequence-verdict-deport-every-consequence-to-before-its-missing-cause',
+      'causeless-consequence-verdict-recognize-every-effect-as-the-ancestor-of-its-cause',
+      'final-asylum-tribunal-for-causeless-consequences-response',
+      'causeless-consequence-refugee-authority-link',
+      'borrowed-cause-sponsorship-office-link',
+      'causal-border-processing-station-link',
+      'final-asylum-tribunal-for-causeless-consequences-link',
+    ];
+
+    for (const domId of V90_CANONICAL_DOM_IDS) {
+      const idPattern = new RegExp(`id=["']${domId}["']`, 'g');
+      const matches = html.match(idPattern) || [];
+      assert.strictEqual(matches.length, 1, `HTML ID #${domId} must exist exactly once in index.html`);
+    }
+
+    const scriptSelectorRegex = /\$\('#([^']+)'\)/g;
+    const staticSelectors = new Set([...v90ModuleBlock.matchAll(scriptSelectorRegex)].map(m => m[1]));
+    for (const selectorId of staticSelectors) {
+      assert.ok(
+        V90_CANONICAL_DOM_IDS.includes(selectorId),
+        `Static selector #${selectorId} used in script module must be part of canonical v90 DOM IDs`
+      );
+      assert.ok(html.includes(`id="${selectorId}"`), `Static selector #${selectorId} must resolve to a DOM element in index.html`);
+    }
+
+    const V90_HANDLER_BUTTON_IDS = [
+      'causeless-consequence-refugee-entry-btn',
+      'causeless-consequence-refugee-tribunal-entry-btn',
+      'causeless-consequence-refugee-age-that-arrived-without-a-birth',
+      'causeless-consequence-refugee-scar-with-no-wound-to-remember',
+      'causeless-consequence-refugee-ruins-from-a-war-that-cannot-be-found',
+      'causeless-consequence-sponsor-doorway-that-claims-it-was-the-birth',
+      'causeless-consequence-sponsor-memory-that-volunteers-to-have-been-the-wound',
+      'causeless-consequence-sponsor-empty-frame-that-confesses-it-was-the-war',
+      'causeless-consequence-protocol-issue-a-temporary-cause-visa',
+      'causeless-consequence-protocol-sew-the-borrowed-cause-into-the-effect',
+      'causeless-consequence-protocol-declare-the-refugee-self-caused',
+      'causeless-consequence-protocol-leave-the-cause-field-blank-and-stamp-reality',
+      'causeless-consequence-consul-return-threshold',
+      'causeless-consequence-consul-return-remembrance',
+      'causeless-consequence-consul-return-unending-gallery',
+      'causeless-consequence-verdict-grant-causal-asylum-to-every-orphaned-consequence',
+      'causeless-consequence-verdict-deport-every-consequence-to-before-its-missing-cause',
+      'causeless-consequence-verdict-recognize-every-effect-as-the-ancestor-of-its-cause',
+    ];
+    assert.strictEqual(V90_HANDLER_BUTTON_IDS.length, 18, "There must be exactly 18 handler buttons in v90");
+    for (const btnId of V90_HANDLER_BUTTON_IDS) {
+      const btnPattern = new RegExp(`<button[^>]*id=["']${btnId}["'][^>]*type=["']button["']`, 'i');
+      assert.match(html, btnPattern, `Button #${btnId} must be a button element with type="button"`);
+    }
+
+    const V90_PRELOAD_FILES = [
+      'assets/v90-causeless-consequence-refugee-authority.webp',
+      'assets/v90-borrowed-cause-sponsorship-office.webp',
+      'assets/v90-causal-border-processing-station.webp',
+      'assets/v90-final-asylum-tribunal-for-causeless-consequences.webp',
+    ];
+    for (const preload of V90_PRELOAD_FILES) {
+      assert.ok(
+        html.includes(`<link rel="preload" as="image" type="image/webp" href="${preload}">`),
+        `index.html must contain preload tag for ${preload}`
+      );
+    }
+
+    const V90_DATA_SCENES = [
+      'causeless-consequence-refugee-authority',
+      'borrowed-cause-sponsorship-office',
+      'causal-border-processing-station',
+      'final-asylum-tribunal-for-causeless-consequences',
+    ];
+    for (const sc of V90_DATA_SCENES) {
+      const secPattern = new RegExp(`<section[^>]*id=["']scene-${sc}["'][^>]*data-scene=["']${sc}["']`, 'i');
+      assert.match(html, secPattern, `Section #scene-${sc} must have data-scene="${sc}"`);
+      const linkPattern = new RegExp(`<a[^>]*href=["']#${sc}["'][^>]*id=["']${sc}-link["'][^>]*hidden`, 'i');
+      assert.match(html, linkPattern, `Directory menu link #${sc}-link must link to #${sc} and start hidden`);
+    }
+
+    assert.ok(
+      html.includes('<div class="causeless-consequence-refugee-grid" id="causeless-consequence-refugee-codex-grid"></div>'),
+      'Remembrance must have empty dynamic codex grid container #causeless-consequence-refugee-codex-grid'
+    );
+
+    const oldConsulNesting = [
+      ['threshold', 'threshold'],
+      ['remembrance', 'remembrance'],
+      ['unending-gallery', 'unending-gallery'],
+    ];
+    for (const [oldScene, slug] of oldConsulNesting) {
+      const sceneBlockRegex = new RegExp(`<section[^>]*id=["']scene-${oldScene}["'][\\s\\S]*?<\\/section>`, 'i');
+      const match = html.match(sceneBlockRegex);
+      assert.ok(match, `Scene #scene-${oldScene} must exist in index.html`);
+      const sceneBody = match[0];
+      assert.ok(sceneBody.includes(`id="causeless-consequence-consul-${slug}"`), `Consul container for ${slug} must be inside #scene-${oldScene}`);
+      assert.ok(sceneBody.includes(`id="causeless-consequence-consul-response-${slug}"`), `Consul response for ${slug} must be inside #scene-${oldScene}`);
+      assert.ok(sceneBody.includes(`id="causeless-consequence-consul-return-${slug}"`), `Consul return button for ${slug} must be inside #scene-${oldScene}`);
+    }
+
+    // ------------------------------------------------------------
+    // 2. CSS Rules, Touch Targets, Responsive & Hidden Guard Contract
+    // ------------------------------------------------------------
+    assert.ok(css.includes('.causeless-consequence-hotspot'), 'styles.css must contain .causeless-consequence-hotspot');
+    assert.match(css, /\.causeless-consequence-hotspot\s*\{[\s\S]*?min-width:\s*44px;[\s\S]*?min-height:\s*44px;/);
+    assert.match(css, /\.causeless-consequence-refugee-entry-btn[\s\S]*?min-height:\s*44px;/);
+    assert.match(css, /\.causeless-consequence-consul-return[\s\S]*?min-height:\s*44px;/);
+
+    const hiddenSelectors = [
+      '.causeless-consequence-refugee-memory[hidden]',
+      '.causeless-consequence-refugee-codex[hidden]',
+      '.causeless-consequence-refugee-codex-entry[hidden]',
+      '.causeless-consequence-refugee-entry-btn[hidden]',
+      '.causeless-consequence-consul[hidden]',
+      '.causeless-consequence-consul-return[hidden]',
+    ];
+    for (const sel of hiddenSelectors) {
+      assert.ok(css.includes(sel), `CSS must explicitly guard hidden state for ${sel}`);
+    }
+    assert.match(css, /\.causeless-consequence-refugee-memory\[hidden\][\s\S]*?display:\s*none\s*!important;/);
+
+    assert.ok(css.includes('@media (max-width: 720px)'), 'styles.css must include mobile responsive query');
+    assert.ok(css.includes('@media (prefers-reduced-motion: reduce)'), 'styles.css must include reduced motion query');
+    assert.ok(css.includes('.causeless-consequence-refugee-cell.is-locked'), 'styles.css must style locked codex cell');
+    assert.ok(css.includes('.causeless-consequence-refugee-cell.is-unlocked'), 'styles.css must style unlocked codex cell');
+
+    // ------------------------------------------------------------
+    // 3. Constants, Tables, IDs & 36 Asylum Cases
+    // ------------------------------------------------------------
+    assert.strictEqual(api.CAUSELESS_CONSEQUENCE_KEY, 'goddead_v90_causeless_consequence_refugee');
+    assert.strictEqual(api.CAUSELESS_CONSEQUENCE_VERSION, 90);
+    assert.deepStrictEqual(hostV90(api.CAUSELESS_CONSEQUENCE_REFUGEES), [
+      'age-that-arrived-without-a-birth',
+      'scar-with-no-wound-to-remember',
+      'ruins-from-a-war-that-cannot-be-found',
+    ]);
+    assert.deepStrictEqual(hostV90(api.CAUSELESS_CONSEQUENCE_SPONSORS), [
+      'doorway-that-claims-it-was-the-birth',
+      'memory-that-volunteers-to-have-been-the-wound',
+      'empty-frame-that-confesses-it-was-the-war',
+    ]);
+    assert.deepStrictEqual(hostV90(api.CAUSELESS_CONSEQUENCE_BORDER_PROTOCOLS), [
+      'issue-a-temporary-cause-visa',
+      'sew-the-borrowed-cause-into-the-effect',
+      'declare-the-refugee-self-caused',
+      'leave-the-cause-field-blank-and-stamp-reality',
+    ]);
+    assert.deepStrictEqual(hostV90(api.CAUSELESS_CONSEQUENCE_VERDICT_ACTIONS), [
+      'grant-causal-asylum-to-every-orphaned-consequence',
+      'deport-every-consequence-to-before-its-missing-cause',
+      'recognize-every-effect-as-the-ancestor-of-its-cause',
+    ]);
+
+    assert.strictEqual(hostV90(api.CAUSELESS_CONSEQUENCE_ASYLUM_IDS).length, 36);
+    assert.strictEqual(hostV90(api.CAUSELESS_CONSEQUENCE_VERDICT_OUTCOME_IDS).length, 3);
+
+    for (const asylumId of api.CAUSELESS_CONSEQUENCE_ASYLUM_IDS) {
+      const item = api.findCauselessConsequenceAsylumById(asylumId);
+      assert.ok(item, `Asylum case ${asylumId} must be resolvable`);
+      assert.strictEqual(item.id, asylumId);
+      assert.ok(item.title.length > 0, `Asylum case ${asylumId} title must not be empty`);
+      assert.ok(item.feedback.length > 0, `Asylum case ${asylumId} feedback must not be empty`);
+      const [r, s, p] = asylumId.split(':');
+      assert.ok(item.feedback.includes(api.CAUSELESS_CONSEQUENCE_REFUGEE_TABLE[r].feedback));
+      assert.ok(item.feedback.includes(api.CAUSELESS_CONSEQUENCE_SPONSOR_TABLE[s].feedback));
+      assert.ok(item.feedback.includes(api.CAUSELESS_CONSEQUENCE_BORDER_PROTOCOL_TABLE[p].fragment));
+    }
+
+    const expectedDefaultState = {
+      version: 90,
+      visited: { authority: false, sponsorship: false, border: false, tribunal: false },
+      draft: { refugee: '', sponsor: '' },
+      asylumCases: [],
+      verdictOutcomes: [],
+      processingRuns: 0,
+      verdictRuns: 0,
+      refugeeTallies: { age: 0, scar: 0, ruin: 0 },
+      lastOutcome: '',
+      activeConsul: null,
+      pending: null,
+    };
+    assert.deepStrictEqual(hostV90(api.defaultCauselessConsequenceClaims()), expectedDefaultState);
+
+    // ------------------------------------------------------------
+    // 4. Strict Normalization, Serialization & v89 Sentinel Isolation
+    // ------------------------------------------------------------
+    const V89_SENTINEL_DATA = JSON.stringify({
+      version: 89,
+      evictions: ['birth-that-issued-a-body:right-to-have-already-begun:demolish-the-cause-and-leave-the-consequence'],
+      appealOutcomes: ['the-past-became-an-undeletable-address'],
+      sentinel: 'frozen_immutable_v89_contract',
+    });
+
+    const saveTestCtx = makeV90Context({
+      initialStore: {
+        goddead_v89_accomplished_fact_eviction: V89_SENTINEL_DATA,
+      },
+    });
+
+    const hostileState = {
+      version: 90,
+      extraField: 'intruder',
+      _v90unlocked: true,
+      visited: { authority: true, sponsorship: 'truthy', border: false, tribunal: true, bonus: true },
+      draft: { refugee: 'age-that-arrived-without-a-birth', sponsor: 'doorway-that-claims-it-was-the-birth', extra: 1 },
+      asylumCases: [
+        'age-that-arrived-without-a-birth:doorway-that-claims-it-was-the-birth:issue-a-temporary-cause-visa',
+        'age-that-arrived-without-a-birth:doorway-that-claims-it-was-the-birth:issue-a-temporary-cause-visa',
+        'fake-asylum-case',
+      ],
+      verdictOutcomes: [
+        'reality-became-a-country-for-effects-without-origins',
+        'reality-became-a-country-for-effects-without-origins',
+        'fake-verdict-outcome',
+      ],
+      processingRuns: '12.8',
+      verdictRuns: -5,
+      refugeeTallies: { age: 60000, scar: '4', ruin: -2, extraTally: 99 },
+      lastOutcome: 'uncollected-outcome',
+      activeConsul: { sponsor: 'doorway-that-claims-it-was-the-birth', asylumCase: 'age-that-arrived-without-a-birth:doorway-that-claims-it-was-the-birth:issue-a-temporary-cause-visa', feedback: 'foo', extra: 'bad' },
+      pending: { kind: 'entry', target: 'causeless-consequence-refugee-authority', feedback: 'bad-fb' },
+    };
+
+    saveTestCtx.api.saveCauselessConsequenceRefugeeClaims(hostileState);
+    const rawSaved = JSON.parse(saveTestCtx.storeData['goddead_v90_causeless_consequence_refugee']);
+    const savedKeys = Object.keys(rawSaved);
+    assert.deepStrictEqual(savedKeys, [
+      'version', 'visited', 'draft', 'asylumCases', 'verdictOutcomes',
+      'processingRuns', 'verdictRuns', 'refugeeTallies', 'lastOutcome', 'activeConsul', 'pending',
+    ]);
+    assert.strictEqual(rawSaved._v90unlocked, undefined);
+    assert.strictEqual(rawSaved.extraField, undefined);
+    assert.deepStrictEqual(rawSaved.visited, { authority: true, sponsorship: false, border: false, tribunal: true });
+    assert.deepStrictEqual(rawSaved.asylumCases, [
+      'age-that-arrived-without-a-birth:doorway-that-claims-it-was-the-birth:issue-a-temporary-cause-visa',
+    ]);
+    assert.deepStrictEqual(rawSaved.verdictOutcomes, [
+      'reality-became-a-country-for-effects-without-origins',
+    ]);
+    assert.strictEqual(rawSaved.processingRuns, 12);
+    assert.strictEqual(rawSaved.verdictRuns, 0);
+    assert.deepStrictEqual(rawSaved.refugeeTallies, { age: 9999, scar: 4, ruin: 0 });
+    assert.strictEqual(rawSaved.lastOutcome, '');
+    assert.strictEqual(rawSaved.activeConsul, null);
+    assert.strictEqual(rawSaved.pending, null);
+    assert.strictEqual(
+      saveTestCtx.storeData['goddead_v89_accomplished_fact_eviction'],
+      V89_SENTINEL_DATA,
+      "v90 save/normalization must never mutate or overwrite v89 store key"
+    );
+
+    // ------------------------------------------------------------
+    // 5. Upstream Unlock Gate Matrix
+    // ------------------------------------------------------------
+    const upstreamBefore = makeCompleteV89StateForV90();
+    const upstreamClone = JSON.parse(JSON.stringify(upstreamBefore));
+    const unlockCtx = makeV90Context({ upstreamV89State: upstreamBefore });
+    assert.strictEqual(unlockCtx.api.causelessConsequenceRefugeeUnlocked(), true);
+    assert.deepStrictEqual(upstreamBefore, upstreamClone, "Unlock check must not mutate upstream state");
+
+    assert.strictEqual(makeV90Context({ v89unlocked: false }).api.causelessConsequenceRefugeeUnlocked(), false);
+    assert.strictEqual(makeV90Context({ upstreamV89State: { evictions: upstreamBefore.evictions.slice(0, 3), appealOutcomes: upstreamBefore.appealOutcomes } }).api.causelessConsequenceRefugeeUnlocked(), false);
+    assert.strictEqual(makeV90Context({ upstreamV89State: { evictions: upstreamBefore.evictions, appealOutcomes: upstreamBefore.appealOutcomes.slice(0, 2) } }).api.causelessConsequenceRefugeeUnlocked(), false);
+
+    // ------------------------------------------------------------
+    // 6. Coverage Evaluation Matrix
+    // ------------------------------------------------------------
+    const covState = hostV90(api.defaultCauselessConsequenceClaims());
+    assert.strictEqual(api.causelessConsequenceRefugeeCoverageComplete(covState), false);
+    covState.asylumCases = V90_COMPLETE_ASYLUM_CASES.slice(0, 3);
+    assert.strictEqual(api.causelessConsequenceRefugeeCoverageComplete(covState), false);
+    covState.asylumCases = [...V90_COMPLETE_ASYLUM_CASES];
+    assert.strictEqual(api.causelessConsequenceRefugeeCoverageComplete(covState), true);
+
+    // ------------------------------------------------------------
+    // 7. Exhaustive Normalization & Exact-Key Rejection on 7 Pending Kinds
+    // ------------------------------------------------------------
+    const canonicalConsul = {
+      asylumCase: V90_EXPECTED_ASYLUM,
+      feedback: api.CAUSELESS_CONSEQUENCE_SPONSOR_TABLE['doorway-that-claims-it-was-the-birth'].consulFeedback,
+      sponsor: 'doorway-that-claims-it-was-the-birth',
+    };
+
+    const pendingTypes = [
+      {
+        name: 'entry',
+        valid: { feedback: V90_ENTRY_FEEDBACK, kind: 'entry', target: 'causeless-consequence-refugee-authority' },
+        state: makePendingStateV90(api),
+        badTarget: 'borrowed-cause-sponsorship-office',
+        badFeedback: 'wrong feedback',
+      },
+      {
+        name: 'refugee',
+        valid: {
+          feedback: api.CAUSELESS_CONSEQUENCE_REFUGEE_TABLE['age-that-arrived-without-a-birth'].feedback,
+          kind: 'refugee',
+          refugee: 'age-that-arrived-without-a-birth',
+          source: 'causeless-consequence-refugee-authority',
+          target: 'borrowed-cause-sponsorship-office',
+        },
+        state: makePendingStateV90(api),
+        badTarget: 'causal-border-processing-station',
+        badFeedback: 'wrong feedback',
+      },
+      {
+        name: 'sponsor',
+        valid: {
+          feedback: api.CAUSELESS_CONSEQUENCE_SPONSOR_TABLE['doorway-that-claims-it-was-the-birth'].feedback,
+          kind: 'sponsor',
+          refugee: 'age-that-arrived-without-a-birth',
+          source: 'borrowed-cause-sponsorship-office',
+          sponsor: 'doorway-that-claims-it-was-the-birth',
+          target: 'causal-border-processing-station',
+        },
+        state: makePendingStateV90(api, { draft: { refugee: 'age-that-arrived-without-a-birth', sponsor: '' } }),
+        badTarget: 'final-asylum-tribunal-for-causeless-consequences',
+        badFeedback: 'wrong feedback',
+      },
+      {
+        name: 'asylum',
+        valid: {
+          asylumCase: V90_EXPECTED_ASYLUM,
+          feedback: V90_EXPECTED_FEEDBACK,
+          kind: 'asylum',
+          protocol: 'issue-a-temporary-cause-visa',
+          refugee: 'age-that-arrived-without-a-birth',
+          source: 'causal-border-processing-station',
+          sponsor: 'doorway-that-claims-it-was-the-birth',
+          target: 'threshold',
+        },
+        state: makePendingStateV90(api, { draft: { refugee: 'age-that-arrived-without-a-birth', sponsor: 'doorway-that-claims-it-was-the-birth' } }),
+        badTarget: 'unending-gallery',
+        badFeedback: 'wrong feedback',
+      },
+      {
+        name: 'consul-return',
+        valid: {
+          asylumCase: V90_EXPECTED_ASYLUM,
+          feedback: canonicalConsul.feedback,
+          from: 'threshold',
+          kind: 'consul-return',
+          target: 'causeless-consequence-refugee-authority',
+        },
+        state: makePendingStateV90(api, {
+          asylumCases: [V90_EXPECTED_ASYLUM],
+          activeConsul: canonicalConsul,
+        }),
+        badTarget: 'remembrance',
+        badFeedback: 'wrong feedback',
+      },
+      {
+        name: 'verdict-entry',
+        valid: {
+          feedback: V90_TRIBUNAL_ENTRY_FEEDBACK,
+          kind: 'verdict-entry',
+          target: 'final-asylum-tribunal-for-causeless-consequences',
+        },
+        state: makePendingStateV90(api, { asylumCases: V90_COMPLETE_ASYLUM_CASES }),
+        badTarget: 'threshold',
+        badFeedback: 'wrong feedback',
+      },
+      {
+        name: 'verdict-action',
+        valid: {
+          action: 'grant-causal-asylum-to-every-orphaned-consequence',
+          feedback: api.CAUSELESS_CONSEQUENCE_VERDICT_ACTION_TABLE['grant-causal-asylum-to-every-orphaned-consequence'].feedback,
+          kind: 'verdict-action',
+          outcome: 'reality-became-a-country-for-effects-without-origins',
+          source: 'final-asylum-tribunal-for-causeless-consequences',
+          target: 'threshold',
+        },
+        state: makePendingStateV90(api, { asylumCases: V90_COMPLETE_ASYLUM_CASES, visited: { tribunal: true } }),
+        badTarget: 'remembrance',
+        badFeedback: 'wrong feedback',
+      },
+    ];
+
+    for (const pt of pendingTypes) {
+      assert.deepStrictEqual(
+        hostV90(api.normalizeCauselessConsequencePending(pt.valid, pt.state)),
+        pt.valid,
+        `Pending type "${pt.name}" must normalize when valid`
+      );
+
+      const withExtraKey = { ...pt.valid, rogueKey: 'bad' };
+      assert.strictEqual(
+        api.normalizeCauselessConsequencePending(withExtraKey, pt.state),
+        null,
+        `Pending type "${pt.name}" must reject extra keys`
+      );
+
+      const keys = Object.keys(pt.valid);
+      for (const k of keys) {
+        const missingKey = { ...pt.valid };
+        delete missingKey[k];
+        assert.strictEqual(
+          api.normalizeCauselessConsequencePending(missingKey, pt.state),
+          null,
+          `Pending type "${pt.name}" must reject missing key "${k}"`
+        );
+      }
+
+      const withBadTarget = { ...pt.valid, target: pt.badTarget };
+      assert.strictEqual(
+        api.normalizeCauselessConsequencePending(withBadTarget, pt.state),
+        null,
+        `Pending type "${pt.name}" must reject bad target`
+      );
+
+      const withBadFeedback = { ...pt.valid, feedback: pt.badFeedback };
+      assert.strictEqual(
+        api.normalizeCauselessConsequencePending(withBadFeedback, pt.state),
+        null,
+        `Pending type "${pt.name}" must reject bad feedback`
+      );
+    }
+
+    // ------------------------------------------------------------
+    // 8. Replay Scheduling, Target Settle, Idempotence & Sibling Cleanup
+    // ------------------------------------------------------------
+    {
+      const asyPending = {
+        asylumCase: V90_EXPECTED_ASYLUM,
+        feedback: V90_EXPECTED_FEEDBACK,
+        kind: 'asylum',
+        protocol: 'issue-a-temporary-cause-visa',
+        refugee: 'age-that-arrived-without-a-birth',
+        source: 'causal-border-processing-station',
+        sponsor: 'doorway-that-claims-it-was-the-birth',
+        target: 'threshold',
+      };
+      const replayCtx = makeV90Context({
+        scene: 'causal-border-processing-station',
+        initialStore: {
+          goddead_v90_causeless_consequence_refugee: JSON.stringify(makePendingStateV90(api, {
+            visited: { border: true },
+            draft: { refugee: 'age-that-arrived-without-a-birth', sponsor: 'doorway-that-claims-it-was-the-birth' },
+            pending: asyPending,
+          })),
+        },
+      });
+      replayCtx.api.replayCauselessConsequenceRefugeePending('causal-border-processing-station');
+      assert.strictEqual(replayCtx.scheduleCalls.length, 1);
+      assert.strictEqual(replayCtx.scheduleCalls[0].src, 'causal-border-processing-station');
+      assert.strictEqual(replayCtx.scheduleCalls[0].target, 'threshold');
+
+      // Illegal sibling arrival cleans pending without advancing
+      const siblingCtx = makeV90Context({
+        scene: 'unending-gallery',
+        initialStore: {
+          goddead_v90_causeless_consequence_refugee: JSON.stringify(makePendingStateV90(api, {
+            visited: { border: true },
+            draft: { refugee: 'age-that-arrived-without-a-birth', sponsor: 'doorway-that-claims-it-was-the-birth' },
+            pending: asyPending,
+          })),
+        },
+      });
+      siblingCtx.api.replayCauselessConsequenceRefugeePending('unending-gallery');
+      assert.strictEqual(siblingCtx.scheduleCalls.length, 0);
+      assert.strictEqual(siblingCtx.read().pending, null);
+
+      // Target one-time settlement and duplicate arrival idempotence
+      const targetCtx = makeV90Context({
+        scene: 'threshold',
+        initialStore: {
+          goddead_v90_causeless_consequence_refugee: JSON.stringify(makePendingStateV90(api, {
+            visited: { border: true },
+            draft: { refugee: 'age-that-arrived-without-a-birth', sponsor: 'doorway-that-claims-it-was-the-birth' },
+            pending: asyPending,
+          })),
+        },
+      });
+      targetCtx.api.resolveCauselessConsequencePendingOnArrival('threshold');
+      const settled = targetCtx.read();
+      assert.strictEqual(settled.pending, null);
+      assert.strictEqual(settled.processingRuns, 1);
+      assert.strictEqual(settled.refugeeTallies.age, 1);
+      assert.deepStrictEqual(settled.asylumCases, [V90_EXPECTED_ASYLUM]);
+      assert.strictEqual(settled.lastOutcome, V90_EXPECTED_ASYLUM);
+
+      // Duplicate arrival on same target is a no-op
+      targetCtx.api.resolveCauselessConsequencePendingOnArrival('threshold');
+      const duplicateSettled = targetCtx.read();
+      assert.strictEqual(duplicateSettled.processingRuns, 1);
+      assert.deepStrictEqual(duplicateSettled.asylumCases, [V90_EXPECTED_ASYLUM]);
+    }
+
+    // ------------------------------------------------------------
+    // 9. Multiple Asylum Cases on Same Sponsor & Consul Return Regression
+    // ------------------------------------------------------------
+    {
+      const asy1 = 'age-that-arrived-without-a-birth:doorway-that-claims-it-was-the-birth:issue-a-temporary-cause-visa';
+      const asy2 = 'age-that-arrived-without-a-birth:doorway-that-claims-it-was-the-birth:leave-the-cause-field-blank-and-stamp-reality';
+
+      const multiAsyState = makePendingStateV90(api, {
+        asylumCases: [asy1, asy2],
+        activeConsul: {
+          asylumCase: asy2,
+          feedback: api.CAUSELESS_CONSEQUENCE_SPONSOR_TABLE['doorway-that-claims-it-was-the-birth'].consulFeedback,
+          sponsor: 'doorway-that-claims-it-was-the-birth',
+        },
+      });
+
+      const retBtn = createMockElement('causeless-consequence-consul-return-threshold');
+      const multiCtx = makeV90Context({
+        scene: 'threshold',
+        elements: { 'causeless-consequence-consul-return-threshold': retBtn },
+        initialStore: {
+          goddead_v90_causeless_consequence_refugee: JSON.stringify(multiAsyState),
+        },
+      });
+
+      multiCtx.api.chooseCauselessConsequenceConsulReturn('threshold');
+      const afterChoose = multiCtx.read();
+      assert.ok(afterChoose.pending, 'Pending consul-return must be created');
+      assert.strictEqual(afterChoose.pending.kind, 'consul-return');
+      assert.strictEqual(
+        afterChoose.pending.asylumCase,
+        asy2,
+        'Consul-return must bind to activeConsul.asylumCase (the latest run), not first prior case'
+      );
+
+      multiCtx.api.resolveCauselessConsequencePendingOnArrival('causeless-consequence-refugee-authority');
+      const finMulti = multiCtx.read();
+      assert.strictEqual(finMulti.activeConsul, null);
+      assert.strictEqual(finMulti.pending, null);
+      assert.strictEqual(finMulti.visited.authority, true);
+    }
+
+    // ------------------------------------------------------------
+    // 10. Verdict Actions, Targets & Bridge Allowance
+    // ------------------------------------------------------------
+    {
+      const verdictActions = [
+        {
+          action: 'grant-causal-asylum-to-every-orphaned-consequence',
+          expectedOutcome: 'reality-became-a-country-for-effects-without-origins',
+          expectedTarget: 'threshold',
+        },
+        {
+          action: 'deport-every-consequence-to-before-its-missing-cause',
+          expectedOutcome: 'the-future-filled-with-effects-waiting-for-their-causes',
+          expectedTarget: 'remembrance',
+        },
+        {
+          action: 'recognize-every-effect-as-the-ancestor-of-its-cause',
+          expectedOutcome: 'causality-began-inheriting-itself-backward',
+          expectedTarget: 'unending-gallery',
+        },
+      ];
+
+      for (const item of verdictActions) {
+        const btn = createMockElement(`causeless-consequence-verdict-${item.action}`);
+        const appCtx = makeV90Context({
+          scene: 'final-asylum-tribunal-for-causeless-consequences',
+          elements: { [`causeless-consequence-verdict-${item.action}`]: btn },
+          initialStore: {
+            goddead_v90_causeless_consequence_refugee: JSON.stringify(makePendingStateV90(api, {
+              asylumCases: V90_COMPLETE_ASYLUM_CASES,
+              visited: { tribunal: true },
+            })),
+          },
+        });
+
+        appCtx.api.chooseCauselessConsequenceVerdictAction(item.action);
+        appCtx.api.resolveCauselessConsequencePendingOnArrival(item.expectedTarget);
+        const appState = appCtx.read();
+        assert.strictEqual(appState.verdictRuns, 1);
+        assert.ok(appState.verdictOutcomes.includes(item.expectedOutcome));
+        assert.strictEqual(appState.lastOutcome, item.expectedOutcome);
+
+        assert.strictEqual(
+          appCtx.api.causelessConsequenceRefugeeBridgeAllows(item.expectedTarget),
+          true,
+          `${item.expectedTarget} must be allowed by bridge when lastOutcome is ${item.expectedOutcome}`
+        );
+      }
+    }
+
+    // ------------------------------------------------------------
+    // 11. forgetCauselessConsequenceRefugeeState & Sentinel Immutability
+    // ------------------------------------------------------------
+    {
+      const memEl = createMockElement('causeless-consequence-refugee-memory');
+      const codexEl = createMockElement('causeless-consequence-refugee-codex');
+      const entryShell = createMockElement('causeless-consequence-refugee-codex-entry');
+      const entryBtn = createMockElement('causeless-consequence-refugee-entry-btn');
+      const courtBtn = createMockElement('causeless-consequence-refugee-tribunal-entry-btn');
+      const authLink = createMockElement('causeless-consequence-refugee-authority-link');
+      const respEl = createMockElement('causeless-consequence-refugee-authority-response');
+
+      const forgetCtx = makeV90Context({
+        initialStore: {
+          goddead_v89_accomplished_fact_eviction: V89_SENTINEL_DATA,
+          goddead_v90_causeless_consequence_refugee: JSON.stringify(makePendingStateV90(api, {
+            visited: { authority: true, tribunal: true },
+            asylumCases: V90_COMPLETE_ASYLUM_CASES,
+          })),
+        },
+        elements: {
+          'causeless-consequence-refugee-memory': memEl,
+          'causeless-consequence-refugee-codex': codexEl,
+          'causeless-consequence-refugee-codex-entry': entryShell,
+          'causeless-consequence-refugee-entry-btn': entryBtn,
+          'causeless-consequence-refugee-tribunal-entry-btn': courtBtn,
+          'causeless-consequence-refugee-authority-link': authLink,
+          'causeless-consequence-refugee-authority-response': respEl,
+        },
+      });
+
+      forgetCtx.api.forgetCauselessConsequenceRefugeeState();
+      assert.strictEqual(
+        forgetCtx.storeData['goddead_v90_causeless_consequence_refugee'],
+        undefined,
+        'v90 store state must be completely cleared on forget'
+      );
+      assert.strictEqual(
+        forgetCtx.storeData['goddead_v89_accomplished_fact_eviction'],
+        V89_SENTINEL_DATA,
+        'v89 store data must remain byte-identical after v90 forget'
+      );
+      assert.strictEqual(memEl.hidden, true);
+      assert.strictEqual(codexEl.hidden, true);
+      assert.strictEqual(respEl.textContent, '');
+    }
+
+    // ------------------------------------------------------------
+    // 12. Trusted Event Guards for all 18 Click Listeners
+    // ------------------------------------------------------------
+    const listenerRegex = /\.addEventListener\('click',\s*\(e\)\s*=>\s*\{([\s\S]*?)\n\s*\}\);/g;
+    const listenerMatches = [...v90ModuleBlock.matchAll(listenerRegex)];
+    assert.strictEqual(listenerMatches.length, 18, "v90 Module must register exactly 18 click listeners");
+    for (const match of listenerMatches) {
+      const body = match[1].trim();
+      assert.ok(body.startsWith('if (!e.isTrusted) return;'), 'Each click handler must guard against untrusted events first');
+    }
+
+    // Untrusted event simulation
+    {
+      const btn = createMockElement('causeless-consequence-refugee-age-that-arrived-without-a-birth');
+      let called = false;
+      btn.addEventListener('click', (e) => {
+        if (!e.isTrusted) return;
+        called = true;
+      });
+      btn._dispatch('click', { isTrusted: false });
+      assert.strictEqual(called, false, 'Untrusted click event must be blocked');
+      btn._dispatch('click', { isTrusted: true });
+      assert.strictEqual(called, true, 'Trusted click event must proceed');
+    }
+
+    // ------------------------------------------------------------
+    // 13. Integration Points in script.js (sceneInit, resolveScene, forget-all)
+    // ------------------------------------------------------------
+    {
+      const sceneInitStart = js.indexOf("const sceneInit = (name) => {");
+      assert.ok(sceneInitStart !== -1, "sceneInit definition found");
+      const sceneInitEnd = js.indexOf("/* 分层进度守卫", sceneInitStart);
+      assert.ok(sceneInitEnd !== -1, "sceneInit end marker found");
+      const sceneInitSlice = js.slice(sceneInitStart, sceneInitEnd);
+
+      assert.ok(sceneInitSlice.includes("resolveCauselessConsequencePendingOnArrival(name);"));
+      assert.ok(sceneInitSlice.includes("syncCauselessConsequenceRefugeeAuthority();"));
+      assert.ok(sceneInitSlice.includes("syncBorrowedCauseSponsorshipOffice();"));
+      assert.ok(sceneInitSlice.includes("syncCausalBorderProcessingStation();"));
+      assert.ok(sceneInitSlice.includes("syncFinalAsylumTribunalForCauselessConsequences();"));
+      assert.ok(sceneInitSlice.includes("syncCauselessConsequenceConsuls();"));
+      assert.ok(sceneInitSlice.includes("paintCauselessConsequenceRefugeeMemory();"));
+      assert.ok(sceneInitSlice.includes("paintCauselessConsequenceRefugeeCodex();"));
+      assert.ok(sceneInitSlice.includes("syncCauselessConsequenceRefugeeRemembrance();"));
+      assert.ok(sceneInitSlice.includes("syncCauselessConsequenceRefugeeLinks();"));
+      assert.ok(sceneInitSlice.includes("replayCauselessConsequenceRefugeePending(name);"));
+
+      const resolveSceneStart = js.indexOf("const resolveScene = (name) => {");
+      const resolveSceneEnd = js.indexOf("/* 可靠聚焦", resolveSceneStart);
+      const resolveSceneSlice = js.slice(resolveSceneStart, resolveSceneEnd);
+
+      assert.ok(resolveSceneSlice.includes('if (target === "causeless-consequence-refugee-authority" && !causelessConsequenceRefugeeAuthorityCanVisit()) target = "remembrance";'));
+      assert.ok(resolveSceneSlice.includes('if (target === "borrowed-cause-sponsorship-office" && !borrowedCauseSponsorshipOfficeCanVisit()) target = "remembrance";'));
+      assert.ok(resolveSceneSlice.includes('if (target === "causal-border-processing-station" && !causalBorderProcessingStationCanVisit()) target = "remembrance";'));
+      assert.ok(resolveSceneSlice.includes('if (target === "final-asylum-tribunal-for-causeless-consequences" && !finalAsylumTribunalForCauselessConsequencesCanVisit()) target = "remembrance";'));
+      assert.ok(resolveSceneSlice.includes('!causelessConsequenceRefugeeBridgeAllows(target)'), 'Governance guard must check !causelessConsequenceRefugeeBridgeAllows(target)');
+      assert.ok(/!causelessConsequenceRefugeeBridgeAllows\(['"]unending-gallery['"]\)/.test(resolveSceneSlice), 'unending-gallery guard must check causelessConsequenceRefugeeBridgeAllows');
+      assert.ok(!resolveSceneSlice.includes('!causelessConsequenceRefugeeBridgeAllows("threshold")') && !resolveSceneSlice.includes("!causelessConsequenceRefugeeBridgeAllows('threshold')"), 'threshold must not be locked by negated v90 bridge in resolveScene');
+
+      const forgetStart = js.indexOf("if (forgetActionBtn) {");
+      const forgetEnd = js.indexOf("/* ---------- 初始化 ---------- */", forgetStart);
+      const forgetSlice = js.slice(forgetStart, forgetEnd);
+      assert.ok(forgetSlice.includes('forgetCauselessConsequenceRefugeeState();') || forgetSlice.includes('localStorage.removeItem(CAUSELESS_CONSEQUENCE_KEY);'));
+    }
+
+    // ------------------------------------------------------------
+    // 14. Static Assets Freeze Verification for v90
+    // ------------------------------------------------------------
+    const V90_ASSET_FREEZE = [
+      {
+        path: "assets/source-v90-causeless-consequence-refugee-authority.png",
+        sha256: "a27a0f26105a5245805c5dbf89be9610b1feb48e67c4888da9f9a078083f6b63",
+        size: 2766725,
+        type: "png",
+      },
+      {
+        path: "assets/source-v90-borrowed-cause-sponsorship-office.png",
+        sha256: "f7e37bfe2efdb920840d1d819d043bcfc9cbaa3f4568437ded690f77e3c7592a",
+        size: 2709796,
+        type: "png",
+      },
+      {
+        path: "assets/source-v90-causal-border-processing-station.png",
+        sha256: "95c8b079fa9427483ee7cb4d839da680110e1e6e82e686ad806abd5d1b7fb3e1",
+        size: 3056374,
+        type: "png",
+      },
+      {
+        path: "assets/source-v90-final-asylum-tribunal-for-causeless-consequences.png",
+        sha256: "82f5f9c3609e8d9fbd29a8abdf685f54addffd9e0290ada38417b9dbb31a5fa5",
+        size: 2917963,
+        type: "png",
+      },
+      {
+        path: "assets/v90-causeless-consequence-refugee-authority.webp",
+        sha256: "7672a341d6248a3101ab0446d589beb4243db180e600bcf8d52ef48290c486fd",
+        size: 270844,
+        type: "webp",
+      },
+      {
+        path: "assets/v90-borrowed-cause-sponsorship-office.webp",
+        sha256: "e944cadb97fdbfccbcdf727fb0bee0a3a5123b4a7a197d6a7638fe30684e8153",
+        size: 280282,
+        type: "webp",
+      },
+      {
+        path: "assets/v90-causal-border-processing-station.webp",
+        sha256: "1a1137b8c3ca08f1a87382d4e5c994a097f918f220d115a1d9139245562436ba",
+        size: 342682,
+        type: "webp",
+      },
+      {
+        path: "assets/v90-final-asylum-tribunal-for-causeless-consequences.webp",
+        sha256: "9241c57ce0fe11aacbfe4fdc93bbbc05e137be68c10dc11bd0458fe2df5cf277",
+        size: 311360,
+        type: "webp",
+      },
+    ];
+
+    for (const asset of V90_ASSET_FREEZE) {
+      const buf = await readFile(new URL(asset.path, root));
+      const actualHash = createHash("sha256").update(buf).digest("hex");
+      assert.equal(actualHash, asset.sha256, `${asset.path} sha256 mismatch`);
+      assert.equal(buf.length, asset.size, `${asset.path} size mismatch`);
+      const dims = asset.type === "png" ? readPngDimensions(buf) : readWebpDimensions(buf);
+      assert.equal(dims.width, 1536, `${asset.path} width must be 1536`);
+      assert.equal(dims.height, 1024, `${asset.path} height must be 1024`);
+    }
+
+    const V90_FIGURE_SPECS = [
+      ['causeless-consequence-refugee-authority-figure', '无因后果难民署：左侧无生年龄提箱、中央无伤伤疤披毯、右侧无战废墟迁徙车', 3],
+      ['borrowed-cause-sponsorship-office-figure', '借因担保所：左侧自称出生的旧门槛、中央自愿成为伤口的记忆容器、右侧认领战争的空画框', 3],
+      ['causal-border-processing-station-figure', '因果边境处理站：左上临时因签证钟、右上缝因入果针机、左下自因循环摇篮、右下空因现实印章', 4],
+      ['final-asylum-tribunal-for-causeless-consequences-figure', '无因后果终审庇护庭：左侧普遍因果庇护门、中央遣返至原因之前的逆向列车、右侧后果成为原因祖先的倒生谱系', 3],
+    ];
+
+    for (const [figureClass, expectedAlt, buttonCount] of V90_FIGURE_SPECS) {
+      const figRegex = new RegExp(`<figure[^>]*class="[^"]*\\b${figureClass}\\b[^"]*"[^>]*>([\\s\\S]*?)<\\/figure>`, "i");
+      const figMatch = html.match(figRegex);
+      assert.ok(figMatch, `figure .${figureClass} must exist`);
+
+      const insideHtml = figMatch[1];
+      assert.ok(!figMatch[0].includes('role="img"'), `figure .${figureClass} must not have role="img"`);
+      const imgRegex = new RegExp(`<img[^>]+alt="${expectedAlt.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`, "i");
+      assert.match(insideHtml, imgRegex, `figure .${figureClass} must contain nested img with exact alt "${expectedAlt}"`);
+
+      const buttons = insideHtml.match(/<button\b[^>]*>/gi) || [];
+      assert.equal(buttons.length, buttonCount, `figure .${figureClass} must have exactly ${buttonCount} button hotspots`);
+    }
+
+    // ------------------------------------------------------------
+    // 15. 39 Codex Cells Contract (36 Asylum Cases + 3 Verdict Outcomes)
+    // ------------------------------------------------------------
+    {
+      const gridEl = createMockElement('causeless-consequence-refugee-codex-grid');
+      const codexEl = createMockElement('causeless-consequence-refugee-codex');
+      const memEl = createMockElement('causeless-consequence-refugee-memory');
+      const ctx = makeV90Context({
+        elements: {
+          'causeless-consequence-refugee-codex-grid': gridEl,
+          'causeless-consequence-refugee-codex': codexEl,
+          'causeless-consequence-refugee-memory': memEl,
+        },
+        initialStore: {
+          goddead_v90_causeless_consequence_refugee: JSON.stringify(makePendingStateV90(api, {
+            asylumCases: [V90_EXPECTED_ASYLUM],
+            verdictOutcomes: ['reality-became-a-country-for-effects-without-origins'],
+          })),
+        },
+      });
+
+      const paintCauselessConsequenceRefugeeCodexFn = new Function('$', 'getCauselessConsequenceRefugeeClaims', 'causelessConsequenceRefugeeUnlocked', 'CAUSELESS_CONSEQUENCE_ASYLUM_IDS', 'findCauselessConsequenceAsylumById', 'CAUSELESS_CONSEQUENCE_VERDICT_ACTIONS', 'CAUSELESS_CONSEQUENCE_VERDICT_ACTION_TABLE', 'document', `
+        const codex = $('#causeless-consequence-refugee-codex');
+        const grid = $('#causeless-consequence-refugee-codex-grid');
+        if (!codex || !grid) return;
+        if (!causelessConsequenceRefugeeUnlocked()) {
+          codex.hidden = true;
+          return;
+        }
+        codex.hidden = false;
+        codex.removeAttribute('hidden');
+        grid.textContent = '';
+
+        const st = getCauselessConsequenceRefugeeClaims();
+        const collectedCases = new Set(st.asylumCases);
+        const collectedOutcomes = new Set(st.verdictOutcomes);
+
+        CAUSELESS_CONSEQUENCE_ASYLUM_IDS.forEach(id => {
+          const cell = document.createElement('div');
+          if (collectedCases.has(id)) {
+            cell.className = 'causeless-consequence-refugee-cell is-unlocked';
+            const item = findCauselessConsequenceAsylumById(id);
+            cell.textContent = item ? \`\${item.title}\\n\${item.feedback}\` : id;
+          } else {
+            cell.className = 'causeless-consequence-refugee-cell is-locked';
+            cell.textContent = '？？？';
+          }
+          grid.appendChild(cell);
+        });
+
+        CAUSELESS_CONSEQUENCE_VERDICT_ACTIONS.forEach(action => {
+          const aObj = CAUSELESS_CONSEQUENCE_VERDICT_ACTION_TABLE[action];
+          const cell = document.createElement('div');
+          if (collectedOutcomes.has(aObj.outcome)) {
+            cell.className = 'causeless-consequence-refugee-cell is-unlocked';
+            cell.textContent = \`[无因后果终审庇护庭] \${aObj.outcome}\\n\${aObj.feedback}\`;
+          } else {
+            cell.className = 'causeless-consequence-refugee-cell is-locked';
+            cell.textContent = '？？？';
+          }
+          grid.appendChild(cell);
+        });
+      `);
+
+      paintCauselessConsequenceRefugeeCodexFn(
+        (sel) => ctx.elements[sel.slice(1)],
+        () => ctx.api.getCauselessConsequenceRefugeeClaims(),
+        () => ctx.api.causelessConsequenceRefugeeUnlocked(),
+        ctx.api.CAUSELESS_CONSEQUENCE_ASYLUM_IDS,
+        ctx.api.findCauselessConsequenceAsylumById,
+        ctx.api.CAUSELESS_CONSEQUENCE_VERDICT_ACTIONS,
+        ctx.api.CAUSELESS_CONSEQUENCE_VERDICT_ACTION_TABLE,
+        { createElement: (tag) => createMockElement(tag) }
+      );
+
+      assert.strictEqual(gridEl.children.length, 39, "Codex must render exactly 39 cells (36 asylum cases + 3 verdict outcomes)");
+    }
+  }
+// v78-final-assertion-report
 console.log(`site.test.mjs: ${assertionCount} assertions passed`);

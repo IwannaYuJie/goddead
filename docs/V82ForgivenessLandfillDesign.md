@@ -1,8 +1,8 @@
 # v82 宽恕填埋场 / FORGIVENESS LANDFILL
 
-版本：v82 设计冻结稿
-状态：设计与素材冻结，待 v81 独立验收后交 Kimi 实装
-职责：Codex 设计 / 素材 / 独立验收；Kimi 生产前端 / 测试 / 文档同步
+版本：v82 审定冻结稿
+状态：v82 生产实现与独立静态 / 真实浏览器 QA 验收已全部完成；已纳入 v90 汇总发布批次
+职责：Codex 设计 / 生图复核 / 应用输出 / 诊断 / 独立验收；Gemini 3.7 Flash High 生产前端 / 测试 / 缺陷修复 / 实现文档
 
 ## 核心命题
 
@@ -15,6 +15,12 @@
 3. 一种会改变遗忘含义的处置方式；
 
 形成 `3 × 3 × 4 = 36` 份宽恕处置单。每次处置后，一名填埋记录员停留在对应旧场景；三轴全部覆盖后，无害化终审井开放，产生三条新的宽恕结局。
+
+## 审定方向
+
+沿用已经冻结的四幕、三轴处置、三处旧场景记录员与三项井裁，不增加污染值、填埋容量、宽恕币等第二套经营系统。v82 的核心新鲜感是：玩家不是决定“原不原谅”，而是决定原谅之后还应不应该保存伤害证据；每次短选择都必须在旧场景留下可以返回、可以追责的实体后果。
+
+四张 1536×1024 源图与运行图已经逐张复核：第一幕三坑、第二幕三柜、第三幕四象限、第四幕三终局结构均可直接承载原生按钮热区，因此不重复生图、不改动冻结素材。
 
 ## 解锁合同
 
@@ -173,7 +179,15 @@ version：`82`
 
 ## UI / 路由 / 交互防线
 
-四新场景使用 visited + 合法 pending/draft/coverage 守卫；三个旧 target 只增加 v82 合法窄桥，不收窄旧准入、不放宽其他守卫。
+四新场景使用 visited + 合法 pending/draft/coverage 守卫。v82 的旧落点一共六处：三处记录员目的地 `offering / liability-ledger / causeless-ward`，三处井裁目的地 `remembrance / threshold / unending-gallery`。六处都必须由同一个 `forgivenessLandfillBridgeAllows(scene)` 提供精确窄授权，并与现有 v81 及更早 bridge 以“或”关系组合，禁止替换、收窄旧准入或放宽其他场景。
+
+- disposal 抵达前：仅合法 `pending.kind === 'disposal' && pending.target === scene` 放行；
+- disposal 抵达后：仅 certificate 与规范 disposal 对应、且 disposal 已收集的 `activeRecorder` 放行；
+- well 抵达前：仅合法 `pending.kind === 'well' && pending.target === scene` 放行；
+- well 抵达后：仅“最新且已收集的规范 well outcome”授权其表中准确 target，避免首次 `sceneInit` 清 pending 后第二次 hashchange 被旧守卫弹走；
+- sibling target、旧 outcome、伪造 outcome、只改 `lastOutcome`、只改 URL 均不得放行。
+
+桥接至少覆盖主线 `offering / remembrance / threshold`、责任账簿 `liability-ledger`、无因病房 `causeless-ward` 与 v63 `unending-gallery` 的现有守卫入口。`offering / remembrance / unending-gallery` 同时可能被 v81 合法事务占用，v82 bridge 只能追加自己的精确授权，不能让 v81 的合法重播失效。
 
 记忆行：
 
@@ -196,10 +210,10 @@ version：`82`
 
 ## 静态与浏览器门槛
 
-- cache `v=82`，161 场景，四幕标题 / 路由 / preload / 目录；
-- 解锁只读 v81；十一键、36+3、七 pending、三 activeRecorder、四份 coverage、18 isTrusted、forget-all、v81 回归；
-- 整页主初始化链包含 v82 全套 sync / paint / replay；所有 choose 的 buttonAvailable / figure 动态 ID 与 index.html 真实 ID 一一匹配；
-- Codex 浏览器验桌面/手机、真实三段点击、三个旧场景回程、coverage/井裁/刷新/坏档/console。
+- [x] 语法与测试门槛：`node --check script.js`、`node --check tests/site.test.mjs` 与 `git diff --check` 无错误通过；自动化测试套件输出 `site.test.mjs: 13642 assertions passed`。
+- [x] 场景与视觉资产门槛：场景数扩充至 161 处（新增 4 处场景），4 张源 PNG 对应转换 4 张运行时 WebP（自然分辨率 1536x1024），静态查询参数设为 `v=82`。
+- [x] 状态持久化与状态机安全门槛：独立持久化键 `goddead_v82_forgiveness_landfill` 包含 11 个规范字段、7 种挂起类型与 3 族回写，单向读取 v81 且全局遗忘不写 v81；支持损坏数据自愈与锁定态直达规约。
+- [x] 真实浏览器 QA 门槛：单 Chrome 窗口/单标签页 DevTools 联动 Computer Use 验收通过；桌面 (915x774) 与移动端 (390x844) 无水平溢出且热区达标；修复图鉴、入口及记录器 3 项浏览器缺陷；18 处 `isTrusted` 监听正常，应用 0 异常（仅 1 处非致命预加载警告），5 份 QA 证据全部归档。
 
 ## v83 活口
 

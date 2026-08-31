@@ -1,8 +1,8 @@
 # v81 后悔回收厂 / REGRET RECLAMATION PLANT
 
-版本：v81 设计冻结稿
-状态：设计与素材冻结，待 v80 独立验收后交 Kimi 实装
-职责：Codex 设计 / 素材 / 独立验收；Kimi 生产前端 / 测试 / 文档同步
+版本：v81 审定冻结稿
+状态：生产前端、测试、缺陷修复与实现文档已完成；Codex 静态门禁与真实浏览器 QA 通过
+职责：Codex 设计 / 生图 / 应用输出 / 诊断 / 独立验收；Gemini 3.7 Flash High 生产前端 / 测试 / 缺陷修复 / 实现文档
 
 ## 核心命题
 
@@ -15,6 +15,12 @@
 3. 一种荒谬的再生用途；
 
 形成 `3 × 3 × 4 = 36` 批再生人生材料。每批出炉后，一名回收技师停留在对应旧场景；三轴全部覆盖后，零废弃人生裁定炉开放，产生三条新的回收结局。
+
+## 审定方向
+
+沿用既有四幕、三轴组合、三处旧场景技师与三项炉裁，不加入炉温、纯度、货币或库存等第二套经营数值。v81 的新鲜感来自“后悔被工业化”及其旧场景后果，而不是额外仪表盘；这样可保持 Goddead 既有的短反馈、自动转场、一次选择即留下后果的节奏。
+
+四张冻结图继续使用，不重复生成同题素材。后续新的生图额度留给 v82《宽恕填埋场》，让视觉世界继续向前而不是重画同一工厂。
 
 ## 解锁合同
 
@@ -173,7 +179,15 @@ version：`81`
 
 ## UI / 路由 / 交互防线
 
-四新场景使用 visited + 合法 pending/draft/coverage 守卫；三个旧 target 只增加 v81 合法窄桥，不收窄旧准入、不放宽其他守卫。
+四新场景使用 visited + 合法 pending/draft/coverage 守卫。v81 的旧落点不只包含三处技师场景，还包含三项炉裁的 `remembrance / unending-gallery / offering`；六个旧目的地都必须由同一个 `regretReclamationBridgeAllows(scene)` 提供窄授权，并插在各自旧守卫判定之前：
+
+- batch 抵达前：仅合法 `pending.kind === 'batch' && pending.target === scene` 放行；
+- batch 抵达后：仅与规范 residue 对应、且 batch 已收集的 `activeReclaimer` 放行；
+- furnace 抵达前：仅合法 `pending.kind === 'furnace' && pending.target === scene` 放行；
+- furnace 抵达后：仅“最新且已收集的规范 furnace outcome”授权其表中准确 target，防止首次 `sceneInit` 清 pending 后第二次 hashchange 又被旧守卫弹走；
+- sibling target、旧 outcome、伪造 outcome、只改 `lastOutcome`、只改 URL 都不得放行。
+
+桥接点至少覆盖：治理守卫中的 `remembrance`、v63 `unending-gallery`、主线 `offering`、v52 `descending-appeals-stair`、v58 `identity-correction` 与 v67 `borrowed-childhood`。只增加 v81 精确窄桥，不收窄旧准入、不放宽其它旧场景。
 
 记忆行：
 
@@ -200,6 +214,14 @@ version：`81`
 - 解锁只读 v80；十一键、36+3、七 pending、三 activeReclaimer、四份 coverage、18 isTrusted、forget-all、v80 回归；
 - 整页主初始化链必须包含 v81 全套 sync / paint / replay，禁止只测隔离模块；
 - Codex 浏览器验桌面/手机、真实三段点击、三个旧场景回程、coverage/炉裁/刷新/坏档/console。
+
+## 最终实现与独立验收状态
+* 静态与自动化测试：通过 `node --check script.js`、`node --check tests/site.test.mjs`、`git diff --check` 校验，执行 `site.test.mjs: 12967 assertions passed`；自动化回归覆盖 36 批次重塑流转与 3 种熔炉终局。
+* 真实浏览器交互验收：在单 Chrome 窗口/单标签页及已停靠 DevTools 中完成手工实机验收，手工演练 4 批次并完整覆盖 3 种材料、3 种残渣与 4 种用途，验证 3 次重塑返回流，触发全部 3 种熔炉动作并精准导向 remembrance、unending-gallery 与 offering。
+* 响应式布局与静态资源：桌面端 915x784 实测宽度 915 且无溢出，移动端 390x844 实测宽度 390 且无溢出；精准校验 assets/v81-regret-reclamation-plant.webp、assets/v81-abandonment-residue-weighhouse.webp、assets/v81-second-life-smelting-line.webp 与 assets/v81-zero-waste-life-furnace.webp，天然分辨率均为 1536x1024。
+* 可访问性修复与无障碍树重构：排查发现 4 个交互式 figure 的 role="img" 导致 Chrome AX 树将后代按钮语义压平；Gemini 移除 figure 的 role 与 aria-label，将完整中文描述迁移至嵌套 img 的非空 alt 属性；测试严格断言 figure 语义、精准 alt 文本、3-3-4-3 按钮结构及按钮非空 aria-label。
+* 诊断排查与证据留存：应用控制台零错误零警告，built-in-AI info 确认为环境底噪；排查 macOS 平台 document.hidden=true 导致的合成器全黑截图异常，通过同窗口停靠 DevTools 获取真实全尺寸截图；审查所用运行时 CSS 规范化未写入生产代码；完整留存证据文件 design-qa-evidence/v81-browser-qa.json、design-qa-evidence/v81-regret-reclamation-plant-desktop.png 与 design-qa-evidence/v81-regret-reclamation-plant-mobile.png。
+* 本地状态与后续隔离：全部修改保持为未提交本地变更（uncommitted local changes），未执行任何 commit、push、部署或发布操作；v82 钩子未被触及。
 
 ## v82 活口
 

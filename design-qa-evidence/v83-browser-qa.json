@@ -1,0 +1,129 @@
+{
+  "version": 83,
+  "checkedAt": "2026-08-29T20:38:03+08:00",
+  "browser": "Google Chrome",
+  "operator": "Computer Use with DevTools docked in the same window",
+  "windowPolicy": {
+    "windows": 1,
+    "tabs": 1,
+    "result": "pass"
+  },
+  "visualEvidence": [
+    "design-qa-evidence/v83-harm-archaeology-bureau-desktop.png",
+    "design-qa-evidence/v83-crime-scene-without-offender-desktop.png",
+    "design-qa-evidence/v83-second-harm-hearing-court-desktop.png",
+    "design-qa-evidence/v83-harm-archaeology-bureau-mobile.png",
+    "design-qa-evidence/v83-second-harm-hearing-court-mobile.png"
+  ],
+  "lockedRoute": {
+    "requestedHash": "#harm-archaeology-bureau",
+    "normalizedHash": "#remembrance",
+    "ordinaryEntryVisible": true,
+    "hearingEntryVisible": false,
+    "result": "pass"
+  },
+  "trustedInteractionFlows": [
+    {
+      "site": "closed-scar-site",
+      "instrument": "pain-reconstruction-brush",
+      "interpretation": "the-offender-never-existed",
+      "legacyTarget": "threshold",
+      "reconstructorReturn": "pass"
+    },
+    {
+      "site": "zeroed-ledger-site",
+      "instrument": "responsibility-pollen-sieve",
+      "interpretation": "excavation-created-the-truth",
+      "legacyTarget": "liability-ledger",
+      "reconstructorReturn": "pass"
+    },
+    {
+      "site": "innocent-soil-site",
+      "instrument": "missing-witness-cast",
+      "interpretation": "the-wound-was-an-alibi",
+      "legacyTarget": "causeless-ward",
+      "reconstructorReturn": "pass"
+    },
+    {
+      "site": "closed-scar-site",
+      "instrument": "pain-reconstruction-brush",
+      "interpretation": "the-archive-was-the-second-offender",
+      "legacyTarget": "threshold",
+      "reconstructorReturn": "pass"
+    },
+    {
+      "hearingAction": "convict-the-investigation",
+      "outcome": "the-investigation-was-convicted-of-second-harm",
+      "target": "remembrance",
+      "result": "pass"
+    }
+  ],
+  "coverage": {
+    "realTrustedReports": 4,
+    "realAxisCoverage": ["3/3", "3/3", "4/4"],
+    "canonicalCompletionSeed": "36/36 reports after the four trusted flows",
+    "finalReports": 36,
+    "excavationRuns": 36,
+    "siteTallies": { "scar": 12, "ledger": 12, "soil": 12 },
+    "hearingRuns": 1,
+    "hearingOutcomes": ["the-investigation-was-convicted-of-second-harm"]
+  },
+  "stateSafety": {
+    "refreshIdempotence": "pass",
+    "beforeRefresh": { "reports": 36, "excavationRuns": 36, "hearingRuns": 1, "outcomes": 1 },
+    "afterRefresh": { "reports": 36, "excavationRuns": 36, "hearingRuns": 1, "outcomes": 1 },
+    "lockedDirectHashNormalization": "pass",
+    "malformedStateRecovery": "pass",
+    "malformedRequestedHash": "#second-harm-hearing-court",
+    "malformedNormalizedHash": "#remembrance",
+    "canonicalStateRestored": true,
+    "temporaryQaBackupRemoved": true
+  },
+  "desktop": {
+    "viewport": "1470x774",
+    "document": "1470x774",
+    "horizontalOverflow": false,
+    "imageNaturalSize": "1536x1024",
+    "hotspots": [
+      { "width": 235, "height": 404 },
+      { "width": 243, "height": 404 },
+      { "width": 235, "height": 404 }
+    ],
+    "result": "pass"
+  },
+  "mobile": {
+    "viewport": "390x844",
+    "document": "390x844",
+    "horizontalOverflow": false,
+    "imageNaturalSize": "1536x1024",
+    "bureauHotspots": [
+      { "width": 111, "height": 190 },
+      { "width": 114, "height": 190 },
+      { "width": 111, "height": 190 }
+    ],
+    "hearingHotspots": [
+      { "width": 111, "height": 190 },
+      { "width": 114, "height": 190 },
+      { "width": 111, "height": 190 }
+    ],
+    "minimumTargetRequirement": "44x44",
+    "result": "pass"
+  },
+  "console": {
+    "applicationErrors": 0,
+    "warnings": [
+      "hero.png was preloaded but was not used shortly after the window load event"
+    ]
+  },
+  "automatedChecks": {
+    "nodeCheckScript": "pass",
+    "nodeCheckTests": "pass",
+    "gitDiffCheck": "pass",
+    "assertions": 14319
+  },
+  "delivery": {
+    "commit": false,
+    "push": false,
+    "deploy": false
+  }
+}

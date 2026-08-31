@@ -1,8 +1,8 @@
 # v80 未遂思想收容所 / ASYLUM FOR UNFINISHED THOUGHTS
 
-版本：v80 设计冻结稿
-状态：设计与素材冻结，待 v79 独立验收后交 Kimi 实装
-职责：Codex 设计 / 素材 / 独立验收；Kimi 生产前端 / 测试 / 文档同步
+版本：v80 已实现并通过独立验收
+状态：生产前端、测试与缺陷修复已完成；Codex 本地静态门禁与真实浏览器 QA 通过
+职责：Gemini 3.7 Flash High 生产前端 / 测试 / 缺陷修复 / 实现文档；Codex 设计 / 生图 / 应用输出 / 诊断 / 真实浏览器 QA / 证据
 
 ## 核心命题
 
@@ -200,6 +200,15 @@ version：`80`
 - 解锁只读 v79；十一键、36+3、七 pending、三 activePhysician、四份 coverage、18 isTrusted、forget-all、v79 回归；
 - 整页主初始化链必须包含 v80 全套 sync / paint / replay，禁止只测隔离模块；
 - Codex 浏览器验桌面/手机、真实三段点击、三个旧场景回程、coverage/听证/刷新/坏档/console。
+
+## 实现与独立验收
+
+- v80 已新增四场景并把总数扩为 153；3×3×4=36 admissions、3 hearing outcomes、39 格图鉴、canonical 十一键、7 类 pending、18 个 `isTrusted` listener 与三处旧场景医师均已接线。
+- 修复运行时 `_v79unlocked` 分离、`unlived-nursery` 窄桥、pending source / target 抵达结算、trace 三层空值单选、forget-all，以及 hearing target 的两阶段 hashchange 派生授权；不新增持久字段，不放宽 sibling / 伪造 outcome。
+- 最终门禁为 `site.test.mjs: 12213 assertions passed`，两个 node --check 与 `git diff --check` 全绿。
+- Computer Use 在同一个 Chrome 窗口 / 标签页完成代表 admission、cold pending、四幕桌面看图、两幕移动看图与两条 hearing 真点击；移动 viewport 500×778、documentWidth 500、无横溢，asylum 热点 124×215 / 147×215 / 124×215。
+- 证据：`design-qa-evidence/v80-browser-qa.json`、`design-qa-evidence/v80-unfinished-thought-asylum-desktop.jpeg`、`design-qa-evidence/v80-last-conclusion-hearing-desktop.jpeg`、`design-qa-evidence/v80-unfinished-thought-asylum-mobile.jpeg`、`design-qa-evidence/v80-last-conclusion-hearing-mobile.jpeg`。
+- 本轮仅本地验收，未 commit、push、deploy 或发布。
 
 ## v81 活口
 

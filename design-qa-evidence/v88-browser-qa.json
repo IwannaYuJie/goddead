@@ -1,0 +1,165 @@
+{
+  "version": 88,
+  "feature": "未发生事件拍卖行 / AUCTION HOUSE FOR EVENTS THAT NEVER HAPPENED",
+  "date": "2026-08-30",
+  "status": "pass",
+  "environment": {
+    "browser": "Google Chrome",
+    "url": "http://127.0.0.1:4173/",
+    "control": "Computer Use",
+    "windowCount": 1,
+    "tabCount": 1,
+    "devtools": "docked in the same window for state and layout evidence, then closed"
+  },
+  "routeAndInteractionEvidence": {
+    "lockedDirectRouteFallback": {
+      "requested": "#auction-house-for-events-that-never-happened",
+      "result": "#remembrance",
+      "status": "pass"
+    },
+    "entry": {
+      "control": "前往未发生事件拍卖行 · GO TO AUCTION HOUSE FOR EVENTS THAT NEVER HAPPENED",
+      "result": "#auction-house-for-events-that-never-happened",
+      "status": "pass"
+    },
+    "purchases": [
+      {
+        "bidder": "apology-never-spoken",
+        "lot": "right-to-be-remembered-as-if-it-happened",
+        "method": "bid-with-memory-of-consequences",
+        "target": "forgiveness-landfill",
+        "auctioneerReturn": "跟未言道歉拍卖员返回拍卖行",
+        "status": "pass"
+      },
+      {
+        "bidder": "war-that-never-erupted",
+        "lot": "territory-inside-an-undeclared-border",
+        "method": "mortgage-the-future-that-would-have-followed",
+        "target": "undeclared-war-room",
+        "auctioneerReturn": "跟无战和平经纪返回拍卖行",
+        "status": "pass"
+      },
+      {
+        "bidder": "child-never-born",
+        "lot": "childhood-no-body-ever-lived",
+        "method": "counterfeit-a-witness-who-remembers-it",
+        "target": "unlived-nursery",
+        "auctioneerReturn": "跟未生继承登记员返回拍卖行",
+        "status": "pass"
+      },
+      {
+        "bidder": "apology-never-spoken",
+        "lot": "right-to-be-remembered-as-if-it-happened",
+        "method": "outbid-reality-with-the-cost-of-never-happening",
+        "target": "forgiveness-landfill",
+        "auctioneerReturn": "跟未言道歉拍卖员返回拍卖行",
+        "status": "pass"
+      }
+    ],
+    "coverageAfterPurchases": {
+      "purchases": 4,
+      "auctionRuns": 4,
+      "bidderTallies": {
+        "apology": 2,
+        "war": 1,
+        "child": 1
+      },
+      "bidderCoverage": "3/3",
+      "lotCoverage": "3/3",
+      "methodCoverage": "4/4",
+      "status": "pass"
+    },
+    "titleOutcomes": [
+      {
+        "action": "grant-every-unhappened-event-retroactive-occurrence",
+        "outcome": "every-unhappened-event-became-history",
+        "target": "threshold",
+        "status": "pass"
+      },
+      {
+        "action": "sell-reality-to-the-highest-absence",
+        "outcome": "reality-belonged-to-what-never-occurred",
+        "target": "remembrance",
+        "status": "pass"
+      },
+      {
+        "action": "annul-the-distinction-between-event-and-memory",
+        "outcome": "history-could-no-longer-prove-it-happened",
+        "target": "unending-gallery",
+        "status": "pass"
+      }
+    ],
+    "finalQaState": {
+      "purchases": 4,
+      "auctionRuns": 4,
+      "titleRuns": 3,
+      "titleOutcomes": 3,
+      "visited": {
+        "house": true,
+        "catalogue": true,
+        "floor": true,
+        "court": true
+      }
+    }
+  },
+  "persistenceAndRecovery": {
+    "reloadIdempotence": {
+      "stateEqualBeforeAndAfterReload": true,
+      "route": "#unending-gallery",
+      "status": "pass"
+    },
+    "malformedJson": {
+      "input": "{",
+      "fallbackScene": "remembrance",
+      "entryButton": {
+        "hidden": false,
+        "disabled": false,
+        "display": "block"
+      },
+      "status": "pass"
+    },
+    "cleanReloadConsole": {
+      "uncaught": 0,
+      "typeErrors": 0,
+      "referenceErrors": 0,
+      "resource404": 0,
+      "status": "pass"
+    }
+  },
+  "layout": {
+    "desktop": {
+      "viewport": [915, 774],
+      "horizontalOverflow": false,
+      "scenes": {
+        "house": { "figure": [720, 480], "minHotspot": [223, 382] },
+        "catalogue": { "figure": [720, 480], "minHotspot": [223, 382] },
+        "floor": { "figure": [720, 480], "minHotspot": [345, 215] },
+        "court": { "figure": [720, 480], "minHotspot": [223, 382] }
+      },
+      "status": "pass"
+    },
+    "mobile": {
+      "viewport": [390, 844],
+      "horizontalOverflow": false,
+      "scenes": {
+        "house": { "figure": [343, 229], "minHotspot": [106, 181] },
+        "catalogue": { "figure": [343, 229], "minHotspot": [106, 181] },
+        "floor": { "figure": [343, 229], "minHotspot": [164, 102] },
+        "court": { "figure": [343, 229], "minHotspot": [106, 181] }
+      },
+      "status": "pass"
+    }
+  },
+  "captureNote": "Computer Use screenshot capture returned an off-white compositor frame after DevTools use. No misleading screenshot artifact was saved; acceptance uses trusted UI actions, accessibility state, route state, console state, and live layout metrics.",
+  "userStateRestoration": {
+    "localStorageEntryCount": 22,
+    "route": "#remembrance",
+    "v84ThroughV88QaKeysPresent": false,
+    "temporarySessionKeysPresent": false,
+    "deviceEmulation": false,
+    "devtoolsOpen": false,
+    "windowCount": 1,
+    "tabCount": 1,
+    "status": "pass"
+  }
+}

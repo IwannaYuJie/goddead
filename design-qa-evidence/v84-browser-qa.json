@@ -1,0 +1,164 @@
+{
+  "version": 84,
+  "checkedAt": "2026-08-29T21:41:00+08:00",
+  "browser": "Google Chrome",
+  "operator": "Computer Use with DevTools docked in the same window",
+  "windowPolicy": {
+    "windows": 1,
+    "tabs": 1,
+    "result": "pass"
+  },
+  "visualEvidence": [
+    "design-qa-evidence/v84-innocent-witness-protection-desktop.png",
+    "design-qa-evidence/v84-anonymous-truth-lifetime-court-desktop.png",
+    "design-qa-evidence/v84-innocent-witness-protection-mobile.png",
+    "design-qa-evidence/v84-anonymous-truth-lifetime-court-mobile.png"
+  ],
+  "lockedRoute": {
+    "requestedHash": "#innocent-witness-protection",
+    "v84StatePresent": false,
+    "finalNormalizedHash": "#threshold",
+    "applicationCrash": false,
+    "result": "pass"
+  },
+  "upstreamUnlock": {
+    "entryHiddenWithV83HearingOutcomes": 1,
+    "entryVisibleWithV83HearingOutcomes": 3,
+    "enteredWithTrustedClick": true,
+    "result": "pass"
+  },
+  "trustedPlacementFlows": [
+    {
+      "witness": "witness-who-survived-testimony",
+      "procedure": "launder-the-recognized-face",
+      "term": "witness-forgets-what-was-seen",
+      "handlerTarget": "blank-name-cloakroom",
+      "handlerReturn": "pass"
+    },
+    {
+      "witness": "witness-shaped-like-offender",
+      "procedure": "relocate-the-incriminating-shadow",
+      "term": "testimony-uses-a-future-name",
+      "handlerTarget": "borrowed-shadow-gallery",
+      "handlerReturn": "pass"
+    },
+    {
+      "witness": "witness-whose-silence-confessed",
+      "procedure": "rehouse-the-witness-memory",
+      "term": "world-forgets-the-crime",
+      "handlerTarget": "unreturned-witness-gallery",
+      "handlerReturn": "pass"
+    },
+    {
+      "witness": "witness-who-survived-testimony",
+      "procedure": "launder-the-recognized-face",
+      "term": "innocence-must-impersonate-the-witness",
+      "handlerTarget": "blank-name-cloakroom",
+      "handlerReturn": "pass"
+    }
+  ],
+  "coverage": {
+    "realTrustedPlacements": 4,
+    "placementRuns": 4,
+    "totalCombinations": 36,
+    "witnessTallies": [2, 1, 1],
+    "procedureTallies": [2, 1, 1],
+    "termTallies": [1, 1, 1, 1],
+    "allWitnessAxesCovered": true,
+    "allProcedureAxesCovered": true,
+    "allTermAxesCovered": true
+  },
+  "court": {
+    "enteredWithTrustedClick": true,
+    "runs": 3,
+    "outcomes": [
+      {
+        "action": "abolish-eyewitnesses-to-protect-them",
+        "outcome": "eyewitnesses-were-abolished-for-their-safety",
+        "target": "eyelid-archive",
+        "result": "pass"
+      },
+      {
+        "action": "hide-truth-under-eternal-alias",
+        "outcome": "truth-entered-protection-under-an-eternal-alias",
+        "target": "remembrance",
+        "result": "pass"
+      },
+      {
+        "action": "return-memory-to-every-protected-witness",
+        "outcome": "every-protected-witness-remembered-at-once",
+        "target": "unreturned-witness-gallery",
+        "result": "pass"
+      }
+    ]
+  },
+  "stateSafety": {
+    "refreshIdempotence": "pass",
+    "beforeRefresh": {
+      "placements": 4,
+      "placementRuns": 4,
+      "courtOutcomes": 3,
+      "courtRuns": 3,
+      "lastOutcome": "every-protected-witness-remembered-at-once",
+      "pending": null,
+      "activeHandler": null
+    },
+    "afterRefresh": {
+      "placements": 4,
+      "placementRuns": 4,
+      "courtOutcomes": 3,
+      "courtRuns": 3,
+      "lastOutcome": "every-protected-witness-remembered-at-once",
+      "pending": null,
+      "activeHandler": null
+    },
+    "malformedStateRecovery": "pass",
+    "malformedRequestedHash": "#anonymous-truth-lifetime-court",
+    "malformedNormalizedHash": "#remembrance",
+    "applicationCrash": false,
+    "userStorageRestored": true,
+    "restoredKeyCount": 22,
+    "temporaryQaBackupRemoved": true,
+    "temporaryV84StateRemoved": true
+  },
+  "desktop": {
+    "screenshots": "1312x768",
+    "visualHorizontalOverflow": false,
+    "threeDistinctImageZones": true,
+    "result": "pass"
+  },
+  "mobile": {
+    "viewport": "390x844",
+    "document": "390x844",
+    "horizontalOverflow": false,
+    "officeHotspots": [
+      { "width": 106, "height": 181 },
+      { "width": 109, "height": 181 },
+      { "width": 106, "height": 181 }
+    ],
+    "courtHotspots": [
+      { "width": 106, "height": 181 },
+      { "width": 109, "height": 181 },
+      { "width": 106, "height": 181 }
+    ],
+    "minimumTargetRequirement": "44x44",
+    "result": "pass"
+  },
+  "console": {
+    "applicationErrors": 0,
+    "warnings": [
+      "hero.png was preloaded but was not used shortly after the window load event"
+    ]
+  },
+  "automatedChecks": {
+    "nodeCheckScript": "pass",
+    "nodeCheckTests": "pass",
+    "gitDiffCheck": "pass",
+    "assertions": 14473
+  },
+  "delivery": {
+    "commit": false,
+    "push": false,
+    "deploy": false
+  }
+}

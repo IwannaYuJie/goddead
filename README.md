@@ -4,9 +4,13 @@ Static landing page for [goddead.com](https://goddead.com).
 
 ## Current Experience
 
+当前实现基线为 **v90「无因后果难民署 / REFUGEE AUTHORITY FOR CONSEQUENCES WITHOUT CAUSES」**：全站共 193 个 hash 场景，静态资源缓存标记为 `v=90`。v90 在 v89 完整腾退与上诉结果之上新增 4 个场景、36 份庇护案、3 项终审裁定、3 处旧结局领事馆回桥，并以独立键 `goddead_v90_causeless_consequence_refugee` 持久化；它只读 v89，不回写任何旧版本状态。
+
+完整玩家路线、支线网、v63-v90 解锁链与 v90 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
+
 The homepage is **The Living Shrine**, a hash-routed, scene-by-scene exploration game. Visitors knock three times at the sealed threshold — now a photographed bureau door — and on the third knock the door visually opens into a deep black-gold corridor before the visitor is pulled through into the next room; each completed action thereafter advances the ritual automatically.
 
-The flow is auto-advancing: three knocks open the door and lead into the **Visitor Protocol**; activating a rule either walks the main line down the **Scripture Corridor** (rules one, five, six, eight) or detours into the v31 forecourt scenes (rules two, three, four, seven — see below); reading three crooked fragments reveals the **Third Night-Watch Room**; covering the 05:02 log entry and attempting sign-out unlock the **Echo Switchboard**; listening to the first three callback lines and connecting the fourth opens the **Dead Letter Office**; archiving three returns and signing the blank receipt spawn the **Divine Name Cancellation Office**; searching `GODDEAD` and refusing cancellation rewrite the refusal as an appointment at the **Acting Deity Desk**; pushing the presence switch to 100% opens the **Offering** furnace; offering a non-empty prayer ignites the incinerator and auto-advances into **The Sacred Reliquary Vault**; auditing three remnants and stamping the final seal advances the visitor into **Remembrance**, where the page records what it remembers. Once v71's death diplomacy has covered all three delegations, three counterparts, and four treaty clauses and collected the three undeclared-war outcomes, Remembrance reveals the **Central Bank of Last Words** (`#last-word-central-bank`): the visitor issues a last-word currency (ownerless signature note, unseen shadow coin, or unspoken testament bond), deposits an impossible reserve (last breath, inherited silence, or collateralized ending), and chooses a monetary policy (issue before speaking, devalue the farewell, freeze resurrection liquidity, or redeem in another mouth), producing 3 × 3 × 4 = 36 **last-word financial instruments**; each completed instrument leaves an independent **remittance teller** in the corresponding old scene (threshold, remembrance, or unending-gallery), and after covering all three currencies, three reserves, and four policies, Remembrance reveals **让所有遗言同时违约**, opening the **Sovereign Default Chamber** with three macro outcomes. A hidden **Ninth Rule** remains accessible through the protocol anomaly and does not auto-cycle. Once v72's central bank has issued instruments covering all three currencies, three reserves, and four policies and collected the three sovereign-default outcomes, Remembrance reveals the **CUSTOMS OF BORROWED DREAMS** (`#borrowed-dream-customs`): the visitor declares an impossible dream passport (a god's last un-woken dream, an unborn sleep visa, or a future witness night pass), declares a piece of contraband sleep (a face never seen awake, a memory that kept dreaming after waking, or an ending without a dreamer), and chooses a nightmare tariff (tax the years awake, confiscate the dreamer, re-export the dream to death, or grant the nightmare asylum), producing 3 × 3 × 4 = 36 **dream declarations**; each completed declaration leaves an independent **customs inspector** in the corresponding old scene (eyelid-archive, remembrance, or unending-gallery), and after covering all three passports, three contrabands, and four tariffs, Remembrance reveals **把所有清醒者驱逐出梦境**, opening the **WAKING DEPORTATION YARD** with three final verdicts.
+The flow is auto-advancing: three knocks open the door and lead into the **Visitor Protocol**. Rule one reaches the **Scripture Corridor**; rules two through four and seven enter the v31 forecourt weave; rule five enters the return audit, rule six the midnight callback, and rule eight the proxy-admission window. Reading three crooked fragments reveals the **Third Night-Watch Room**; covering the 05:02 log entry and attempting sign-out unlock the **Echo Switchboard**; listening to the first three callback lines and connecting the fourth opens the **Dead Letter Office**; archiving three returns and signing the blank receipt spawn the **Divine Name Cancellation Office**; searching `GODDEAD` and refusing cancellation rewrite the refusal as an appointment at the **Acting Deity Desk**; pushing the presence switch to 100% opens the **Offering** furnace; offering a non-empty prayer ignites the incinerator and auto-advances into **The Sacred Reliquary Vault**; auditing three remnants and stamping the final seal advances the visitor into **Remembrance**, where the page records what it remembers. Remembrance then acts as the hub for the v28 endings and the sequential v63-v90 post-ending chapters. A hidden **Ninth Rule** remains accessible through the protocol anomaly and does not auto-cycle.
 
 Three optional branch rooms (v29) hang off the corridor's fragments. The first active click on the 回声 fragment opens the **Echo Archive**, the 血管 fragment the **Vein Maintenance Well**, and the 忏悔 fragment the **Confession Weighing Room** — each after a ~0.7–1.0 s feedback beat (~0.3 s under reduced-motion), with the main-line auto-advance cancelled in the branch's favour and no second continue button anywhere. Every room holds three focusable hotspots: the archive's receivers return to the threshold or the corridor, and the 03:17 bell transfers deeper into the **Distortion Transfer Chamber**; the well's valves run downstream to the corridor, upstream to the protocol, or open the **Reverse-Flow Pump Room** behind the isolation valve; the weighing room's pans confess into the protocol or the corridor, while refusing confession is filed into the **Nameless Ledger Vault**. Branches are always optional, never a hard gate on the main line; visited rooms gain re-entry buttons in the corridor and directory entries that survive reloads, all recorded in a fault-tolerant `goddead_v29_branches` state that never touches main-line progress. Remembrance gains a single branch-memory line — still eight stat cards.
 
@@ -176,7 +180,113 @@ After the v76 class-action court has convicted reality of false advertising, eve
 
 **v77 状态：** 已实现，静态测试 `node tests/site.test.mjs = 10277 assertions passed`。`node --check script.js`、`node --check tests/site.test.mjs`、`git diff --check` 全绿。Chrome 深链种子真实点击已确认解锁后的 Remembrance 记忆、39 格图鉴与普通入口显露，完整三段链、三处鉴定员回流、终审与桌面/移动几何矩阵仍待独立验收。
 
-## Future design queue
+## v78 — 第一人称配给署 / FIRST-PERSON PRONOUN RATIONING BUREAU
 
-- **v84 无罪证人保护院 / WITNESS PROTECTION FOR THE INNOCENT**：完整 3×3×4 分支、三处旧场景掩护员、三终庭结局与 4 张源 PNG / 4 张运行 WebP 已冻结，等待 v83 实装后进入 Kimi 生产阶段。
-- **v85 孤事实认领处 / CLAIM OFFICE FOR ORPHANED FACTS**：完整 3×3×4 分支、三处旧场景遗产执行员、三终庭结局与 4 张源 PNG / 4 张运行 WebP 已冻结，等待 v84 实装后进入 Kimi 生产阶段。
+After the v77 tribunal has granted authenticity to every copy and collected the three authenticity rulings, the world is crowded with too many simultaneously legitimate instances of "I". The visitor first picks a claimant competing for the first person (many selves in one body, copies sharing one voice, or ownerless silence), then one of three voice entitlement tokens (first-breath token, ownerless signature impression, or future-inherited echo), and finally one of four rationing schemes (ration one "I" per breath, lend the voice to the shadow, rotate one voice among all copies, or let silence claim the pronoun), producing 3 × 3 × 4 = 36 **first-person rationing orders** such as *多我 / 首息 / 一息一我*. Each completed order leaves an independent **posthumous voice allocator** in the corresponding old scene (threshold, blank-name-cloakroom, or remembrance), echoing the full narrative and offering a return to the rationing bureau. After covering all three speakers, three entitlements, and four schemes (possible in as few as four representative orders), **Remembrance** reveals **裁定谁拥有最后一个第一人称 · DECIDE WHO OWNS THE LAST FIRST PERSON**, opening the **Final Court of Ownerless Voices** (`#ownerless-voices-court`) and its three final vocal rulings: *让所有肉身轮流拥有一声 · GRANT ONE VOICE TO ALL IN TURN*, *废除第一人称配给 · ABOLISH FIRST-PERSON RATIONING*, and *只承认沉默有权发声 · RECOGNIZE SILENCE AS THE ONLY SPEAKER*. v78 adds four new scenes (`#first-person-rationing-bureau`, `#voice-entitlement-archive`, `#pronoun-allocation-chamber`, `#ownerless-voices-court`), bringing the total from 141 to 145, and 39 new codex cells (36 orders + 3 court outcomes) after the v77 codex. All v78 runtime state lives in the single fault-tolerant key `goddead_v78_first_person_rationing` (version 78) with a canonical eleven-field projection; `firstPersonRationingUnlocked` reads only the v77 `getSelfAuthenticity()` state and v78 never writes the v77 key or any earlier state key. Assets are `assets/v78-first-person-rationing-bureau.webp`, `assets/v78-voice-entitlement-archive.webp`, `assets/v78-pronoun-allocation-chamber.webp`, and `assets/v78-ownerless-voices-court.webp` (all 1536×1024).
+
+**v78 状态：** 已由 Gemini 3.7 Flash High 完成实现并提供获采纳的 v70–v78 解锁链线性化修复逻辑，Codex 完成性能根因诊断、按现有上下文集成与独立验收。静态门禁全绿（`node --check script.js`、`node --check tests/site.test.mjs`、`git diff --check`，`node tests/site.test.mjs` 恰好 10954 assertions passed，含永久线性化回归）。无扩展 In-App Browser 的成熟 v64–v77 存档可完成 1280×720 冷启动；真实 Chrome 已走通首息路线的 `主体 → 凭证 → 方案 → 旧场景发声员 → 返回配给署`，另外两处旧落点的专属反馈与可用返回控件也已核对；四份代表配给可解锁终审，中央「废除第一人称配给」真实裁定后保持 4/36、1/3 与 5 格图鉴，刷新幂等，锁定 hash、坏 JSON 与 console 均通过。三种终审均有静态覆盖，但浏览器只真点中央结局；390×844 手动视口未生效，仅保留窄屏静态断言。本轮未执行 commit、push、deploy 或 v79+ 接线。
+
+## v79 — 未言人格继承院 / COURT OF UNSPOKEN PERSONHOOD
+
+After silence becomes the only legal speaker in v78 and collects the three vocal rulings, every unspoken sentence becomes a personless refugee demanding to inherit names, unlived years, and the right to be answered. The visitor first picks a silent claimant (unsaid love confession, unread final testament, or swallowed cry for help), then one of three intent evidence seals (closed-lip pressure seal, unsigned witness echo, or breath returned from an empty receiver), and finally one of four inheritance modes (inherit the speaker's name, inherit the unlived years, inherit the right to be answered, or refuse a body and live as absence), producing 3 × 3 × 4 = 36 **unspoken personhood grants** such as *未爱 / 闭唇 / 姓名*. Each completed grant leaves an independent **silent executor** in the corresponding old scene (confession, testament-clearing-vault, or unseated-listening-booth), echoing the full narrative and offering a return to the court. After covering all three claimants, three evidence items, and four modes (possible in as few as four representative grants), **Remembrance** reveals **审理所有没能出口的人生 · TRY EVERY LIFE THAT NEVER LEFT THE MOUTH**, opening the **Final Tribunal of Unuttered Estates** (`#unuttered-estate-tribunal`) and its three final inheritance rulings: *把完整一生判给未言之句 · GRANT A WHOLE LIFE TO THE UNSAID*, *把人格分给所有未听见者 · DIVIDE PERSONHOOD AMONG ALL WHO DID NOT HEAR*, and *让说话者成为最后沉默的遗产 · MAKE THE SPEAKER THE ESTATE OF LAST SILENCE*. v79 adds four new scenes (`#unspoken-personhood-court`, `#silent-intent-archive`, `#personhood-inheritance-examination`, `#unuttered-estate-tribunal`), bringing the total from 145 to 149, and 39 new codex cells (36 grants + 3 tribunal outcomes) after the v78 codex. All v79 runtime state lives in the single fault-tolerant key `goddead_v79_unspoken_personhood` (version 79) with a canonical eleven-field projection; `unspokenPersonhoodCourtUnlocked` reads only the v78 `getFirstPersonRationing()` state and v79 never writes the v78 key or any earlier state key. Assets are `assets/v79-unspoken-personhood-court.webp`, `assets/v79-silent-intent-archive.webp`, `assets/v79-personhood-inheritance-examination.webp`, and `assets/v79-unuttered-estate-tribunal.webp` (all 1536×1024).
+
+**v79 状态：** Gemini 3.7 Flash High 编写生产前端、测试和两项修复；Codex 负责设计素材、应用输出、诊断与独立 QA。四项静态门禁全绿，最终 `11535 assertions passed`。真实 4 条三段点击流合计覆盖 3 claimant / 3 evidence / 4 mode；三处执行官回程、4/36 终审门槛、中央动作/结局、4 grants / 1 tribunal outcome 的重载严格相等与 UI 5 格图鉴均通过。修复运行时 `_v78unlocked` / 持久化十一键分离，以及 v29 `!unspokenPersonhoodBridgeAllows(target)` 窄桥，避免 `confession` 被改写到 `#corridor`。桌面 1280×720、移动 390×844、四图 1536×1024、热区与横溢、锁定/malformed、console/page/resource 0 均通过。证据：`design-qa-evidence/v79-browser-qa.json`、`design-qa-evidence/v79-executor-confession-desktop.png`、`design-qa-evidence/v79-unspoken-personhood-court-desktop.png`、`design-qa-evidence/v79-tribunal-coverage-desktop.png`、`design-qa-evidence/v79-unspoken-personhood-court-mobile.png`。仅本地验收，未 commit、push、deploy 或发布。
+
+## v80 — Asylum for Unfinished Thoughts / 未遂思想收容所
+
+After v79 grants personhood to every unspoken sentence and records all three estate rulings, the sentences that still never reached a conclusion demand medical rather than legal custody. The visitor first admits one of three unfinished thoughts, then identifies one of three interruption traces, and finally chooses one of four counterfactual therapies, producing 3 × 3 × 4 = 36 **thought admissions**. Each completed admission leaves an independent physician in the matching old scene (`reverse-stairwell`, `blank-name-cloakroom`, or `unlived-nursery`) and offers a return to the asylum. Covering all three thoughts, three traces, and four therapies opens the **Last Conclusion Hearing** with three outcomes: `every-unfinished-thought-kept-living`, `the-thought-completed-its-thinker`, and `all-abandoned-possibilities-were-recycled`.
+
+v80 adds four scenes (`#unfinished-thought-asylum`, `#interruption-trace-archive`, `#counterfactual-treatment-lab`, `#last-conclusion-hearing`), bringing the total from 149 to 153, plus 39 codex cells (36 admissions + 3 hearing outcomes). Its only persistent key is `goddead_v80_unfinished_thought_asylum`, projected to the canonical eleven fields `version / visited / draft / admissions / hearingOutcomes / admissionRuns / hearingRuns / thoughtTallies / lastOutcome / activePhysician / pending`. The four runtime WebP assets are `assets/v80-unfinished-thought-asylum.webp`, `assets/v80-interruption-trace-archive.webp`, `assets/v80-counterfactual-treatment-lab.webp`, and `assets/v80-last-conclusion-hearing.webp` (natural 1536×1024).
+
+**v80 状态：** Gemini 3.7 Flash High 编写生产前端、测试、缺陷修复与实现文档；Codex 负责设计、生图、应用输出、诊断、真实浏览器 QA 与证据。两个 `node --check`、`git diff --check` 全绿，`node tests/site.test.mjs` 输出 `site.test.mjs: 12213 assertions passed`。Computer Use 在同一个 Chrome 窗口 / 标签页完成代表 admission 闭环、cold source / target pending、四幕桌面看图、asylum / hearing 两幕移动看图，以及 `#unending-gallery` / `#counterfactual-spindle` 两条 hearing 真点击；第三条 hearing 只由自动矩阵覆盖。移动 viewport 500×778、documentWidth 500、无横向溢出。证据见 `design-qa-evidence/v80-browser-qa.json` 与四张 v80 桌面 / 移动截图。本轮仅本地验收，未 commit、push、deploy 或发布。
+
+## v81 — 后悔回收厂 / REGRET RECLAMATION PLANT
+
+- **场景扩充**：场景规模由 153 增至 157（新增 4 个场景：`regret-reclamation-plant` 后悔回收厂、`abandonment-residue-weighhouse` 遗弃残渣称重房、`second-life-smelting-line` 二世冶炼线、`zero-waste-life-furnace` 零废弃人生熔炉）。
+- **视觉资源**：交付 4 组 1536×1024 高清源图 PNG 与运行时 WebP，均通过尺寸与 SHA-256 哈希校验。
+- **重塑与熔炼矩阵**：支持 3×3×4=36 批次重塑组合、3 种熔炉产物，共计 39 个典籍图鉴单元格。
+- **跨场景调度**：重塑回收器支持跳转至 `descending-appeals-stair`、`borrowed-childhood`、`identity-correction`；人生熔炉支持注入产物至 `remembrance`、`unending-gallery`、`offering`。
+- **状态与防御**：统一采用单一持久化键 `goddead_v81_regret_reclamation`，强校验 11 项规范字段（`version`, `visited`, `draft`, `batches`, `furnaceOutcomes`, `batchRuns`, `furnaceRuns`, `materialTallies`, `lastOutcome`, `activeReclaimer`, `pending`）；7 种严格 pending 校验类型；全站配置恰好 18 处 `isTrusted` 原生点击守卫，杜绝脚本伪造操作。
+- **质量门禁**：通过 Node 语法检查与 git diff 检查；`site.test.mjs: 12967 assertions passed`；在单 Chrome 窗口/标签页中通过 Computer Use 完成人工 4 批次验证，覆盖 3 种材料、3 种残渣、4 种用途及全部三个熔炉目标 `remembrance`、`unending-gallery`、`offering`；完成 figure role="img" 可访问性树修复；生成证据路径 `design-qa-evidence/v81-browser-qa.json`、`design-qa-evidence/v81-regret-reclamation-plant-desktop.png` 与 `design-qa-evidence/v81-regret-reclamation-plant-mobile.png`；全部变更保持本地未提交状态，未执行 commit/push/deploy/publication。
+
+## v83 — 伤害考古局 / BUREAU OF HARM ARCHAEOLOGY
+
+- **路线标识**: `harm-archaeology-bureau`, `forensic-mercy-excavation`, `crime-scene-without-offender`, `second-harm-hearing-court`
+- **场景规模**: 4 个新场景（总场景数 165），视觉资产尺寸 1536x1024（缓存标记 `v=83`）
+- **机制设计**: 3 大遗址 (`closed-scar-site`, `zeroed-ledger-site`, `innocent-soil-site`) × 3 种法医器具 (`pain-reconstruction-brush`, `responsibility-pollen-sieve`, `missing-witness-cast`) × 4 种案发阐释 (`the-offender-never-existed`, `excavation-created-the-truth`, `the-wound-was-an-alibi`, `the-archive-was-the-second-offender`)，产出 36 份伤害考古报告并解锁二次伤害听证庭（3 种终局裁决）。
+- **状态持久化**: 本地存储键名 `goddead_v83_harm_archaeology`，严格包含 11 个标准字段，18 处交互事件均绑定 `isTrusted` 校验，未解锁或非法直接访问重定向至 `#remembrance`。
+- **验收凭证**: 自动化测试全部通过（14319 个断言），单窗口桌面与移动端真实浏览器 QA 验收通过（凭证见 `design-qa-evidence/v83-browser-qa.json` 及截图）。
+
+## v82 — 宽恕填埋场 / FORGIVENESS LANDFILL
+- 新增 4 处场景（157 -> 161）：`forgiveness-landfill`、`inert-harm-certificate-vault`、`mercy-burial-trench`、`harmlessness-final-well`。
+- 4 张冻结源 PNG 与 4 张运行时 WebP（自然分辨率 1536x1024），静态缓存查询版本升至 `v=82`。
+- 废料 (3) × 凭证 (3) × 处置 (4) 组合构成 36 种填埋记录，配合 3 种井裁结局，共 39 格图鉴单元。
+- 独立持久化存储键 `goddead_v82_forgiveness_landfill`（包含 11 个规范字段、7 种挂起类型与 3 族回写），解锁严格单向读取 v81 且全局重置不写入 v81。
+- 接入 18 处 `isTrusted` 点击监听与 3 族记录器回跳目标，完成真实浏览器全链路交互与异常数据恢复验收。
+
+## v86 存在放弃登记局 / REGISTRY FOR RENOUNCING EXISTENCE (2026-08-30)
+
+- **场景与资产**：场景总数 173→177；新增 `existence-renunciation-registry`、`proof-of-nonexistence-archive`、`ontological-disinheritance-chamber`、`civil-nonexistence-final-tribunal` 四个 route；配齐 1536×1024 源 PNG 与运行时 WebP，静态缓存标记 `v=86`。
+- **状态契约**：状态键 `goddead_v86_existence_renunciation` 规范包含 11 个字段、7 处 strict pending 校验与 18 项 `isTrusted` 交互事件；生成 36 条本体注销令与 3 种终庭裁定；只读校验 v85 解锁状态且绝不回写旧版本键。
+- **落点与回程**：3 个旧落点 `birth-ballot-booth`、`blank-name-cloakroom`、`reality-refund-counter`；空摇篮登记员、预先抹除登记员与未交付肉身登记员均支持受信任交互返回。
+- **自动化与人工 QA**：自动化套件全覆盖 36 本体注销令与 3 裁定；人工验收通过 4 条受信任流程合计覆盖 3/3 renunciants / 3/3 evidences / 4/4 clauses / 3/3 old targets，且三终庭裁定真实导航抵达 `threshold`、`remembrance` 与 `unending-gallery`。
+- **静态门禁与容灾**：门禁通过 `node --check script.js`、`node --check tests/site.test.mjs`、`git diff --check` 及 `node tests/site.test.mjs`（`site.test.mjs: 14713 assertions passed`）。
+- **环境与分工**：单窗单标签运行，Desktop 与 Mobile（390×844，`scrollWidth`/`bodyScrollWidth` 为 390）均无横向溢出；未解锁直达回退 `threshold`，刷新恢复 `unending-gallery`，坏 JSON 安全容错无崩溃并保留原始值直至测试还原，精确恢复原 22 个 localStorage 键（包含原始 v83 听证数 1，无 QA 残留键）；归档 1 份 JSON 证据与 5 张截图；本地实装与独立验收完成，未执行 commit、push、deploy 或 public release。分工由 Gemini 编写生产前端、测试与实现文档，Codex 负责设计、资产生成接入、补丁应用与 Computer Use QA 验收。
+
+### v84 无罪证人保护院 / WITNESS PROTECTION FOR THE INNOCENT (2026-08-29)
+
+- **新增场景**：`innocent-witness-protection`（无罪证人保护院）、`identity-causality-laundry`（身份因果洗衣房）、`memory-relocation-safehouse`（记忆迁移安全屋）、`anonymous-truth-lifetime-court`（匿名真相终身安置庭），场景总数达 169（Cache `v=84`）。
+- **核心机制**：承接 v83 伤害考古局全部 3 项听证结果解锁；提供 3 名无罪证人 × 3 种洗消程序 × 4 条保护条款（共 36 种安置组合矩阵）、3 位身份掩护员（调度 `blank-name-cloakroom`、`borrowed-shadow-gallery`、`unreturned-witness-gallery`）以及终身安置庭 3 种历史裁决终局。
+- **数据架构**：本地存储键 `goddead_v84_innocent_witness_protection`，规范定义 11 个持久化字段（`version`, `visited`, `draft`, `placements`, `courtOutcomes`, `placementRuns`, `courtRuns`, `witnessTallies`, `lastOutcome`, `activeHandler`, `pending`），严格单向读取 `goddead_v83_harm_archaeology`，重置操作保持隔离。
+- **验收与交付**：全量测试套件 14,473 项断言全部通过；在单一 Chrome 窗口且单一标签页下完成实机路由门禁、交互分支、容灾及双端视觉热区验收；交付状态严格保持本地闭环（no commit / no push / no deploy / no public release）。
+
+## v85 孤事实认领处 / CLAIM OFFICE FOR ORPHANED FACTS (2026-08-30)
+
+- **场景与资产**：场景总数 169→173；新增 `orphaned-fact-claim-office`、`fact-inheritance-vault`、`causal-estate-execution-desk`、`ownerless-truth-estate-court` 四个 route；配齐 1536×1024 源 PNG 与运行时 WebP，静态缓存标记 `v=85`。
+- **状态契约**：状态键 `goddead_v85_orphaned_fact_claims` 规范包含 11 个字段、7 处 strict pending 校验与 18 项 `isTrusted` 交互事件；生成 36 条继承契与 3 种终庭裁定；只读校验 v84 解锁状态且绝不回写旧版本键。
+- **落点与回程**：3 个旧落点 `contradictory-evidence-archive`、`blank-name-cloakroom`、`minute-before-archive`；伤印执行员、影供执行员与未来账单执行员均支持受信任交互返回。
+- **自动化与人工 QA**：自动化套件全覆盖 36 继承契与 3 裁定；人工验收通过 4 条受信任流程合计覆盖 3 facts / 3 proofs / 4 obligations / 3 old targets，且三终庭真实导航抵达 `threshold`、`remembrance` 与 `unending-gallery`。
+- **缺陷修复**：针对 Codex 诊断出的第三裁定被旧 guard 改写问题，Gemini 增加 `!orphanedFactBridgeAllows('unending-gallery')` 放行并补齐永久回归断言；门禁通过 `node --check script.js`、`node --check tests/site.test.mjs`、`git diff --check` 及 `node tests/site.test.mjs`（`site.test.mjs: 14593 assertions passed`）。
+- **环境与分工**：单窗单标签运行，Desktop 1312×768 与 Mobile 390×844 均无横向溢出；验证刷新幂等、坏 JSON 安全回退并恢复原 22 个 localStorage 键；产出 1 份 JSON 证据与 5 张截图；本地实装完成，未执行 commit、push、deploy 或 public release。分工由 Gemini 编写生产前端、测试、修复与实现文档，Codex 负责设计、资产生成接入、机械应用、诊断与 Computer Use QA 验收。
+
+## Version design documents
+
+- `docs/V84WitnessProtectionForInnocentDesign.md`: v84 无罪证人保护院 / WITNESS PROTECTION FOR THE INNOCENT；本地实装与独立验收已完成。
+- `docs/V85OrphanedFactClaimOfficeDesign.md`: v85 孤事实认领处 / CLAIM OFFICE FOR ORPHANED FACTS；本地实装与独立验收已完成。
+- `docs/V86ExistenceRenunciationRegistryDesign.md` 至 `docs/V90CauselessConsequenceRefugeeAuthorityDesign.md`：v86-v90 的冻结设计、状态合同、素材清单与验收边界。
+
+## v88 未发生事件拍卖行 / AUCTION HOUSE FOR EVENTS THAT NEVER HAPPENED (2026-08-30)
+
+- **场景与资产**：场景总数 181→185；新增 `auction-house-for-events-that-never-happened`、`catalogue-of-unoccupied-reality`、`counterfactual-bidding-floor`、`retroactive-occurrence-title-court`；缓存标记升至 `v=88`。配齐 4 张源 PNG 与 4 张运行时 WebP，全部 1536×1024，冻结明细见 `docs/V88UnhappenedEventAuctionHouseDesign.md`。
+- **机制与状态**：3 bidders × 3 lots × 4 methods = 36 purchases，并提供 3 项 title outcomes；coverage 最少 4 份且覆盖 3/3 bidders、3/3 lots、4/4 methods。状态键 `goddead_v88_unhappened_event_auction` 严格投影 11 个顶层字段，校验 7 类 pending，绑定恰好 18 个 `isTrusted` 点击监听；v88 只读 v87，不回写旧键。
+- **旧场景与终局**：三位 auctioneer 分别在 `forgiveness-landfill`、`undeclared-war-room`、`unlived-nursery` 提供窄桥返回；三项产权裁定分别抵达 `threshold`、`remembrance`、`unending-gallery`。
+- **自动化门禁**：`node --check script.js`、`node --check tests/site.test.mjs`、`git diff --check` 与 `node tests/site.test.mjs` 全绿，最终输出 `site.test.mjs: 14992 assertions passed`。
+- **Computer Use QA**：在一个 Chrome 窗口、一个标签页中完成 4 条真实成交并覆盖 3/3/4，验证三回桥、三终局、刷新幂等、malformed JSON 回退与干净控制台；桌面 915×774 与手机 390×844 均无横向溢出，热点大于 44×44。compositor 空白截图未保存，证据见 `design-qa-evidence/v88-browser-qa.json`。
+- **恢复与分工**：QA 后恢复用户原 22 个 localStorage 项和 `#remembrance`，清除临时键并关闭 DevTools 与设备模拟。Gemini 3.7 Flash High 编写生产前端、测试、修复与实现文档；Codex 负责设计、ImageGen 生图、机械集成、诊断和独立 QA。
+- **本地边界与后续**：本轮未 commit、push、deploy 或 public release。下一版本为 `既成事实拆迁局 / EVICTION AUTHORITY FOR ACCOMPLISHED FACTS`；v88 不包含 v89 实现。
+
+### v89: 既成事实拆迁局 / EVICTION AUTHORITY FOR ACCOMPLISHED FACTS (2026-08-30)
+- 新增第 186 至 189 处场景（全站总场景数增至 189）：
+  - `accomplished-fact-eviction-authority`（既成事实拆迁局）
+  - `condemned-history-survey-office`（危历史勘测所）
+  - `retroactive-demolition-yard`（追溯拆除场）
+  - `final-occupancy-appeal-court`（最后居住权上诉庭）
+- 状态持久化：`goddead_v89_accomplished_fact_eviction`，包含严格规范的 11 个规范键。
+- 内容矩阵：3 类租客 × 3 处危历史产权 × 4 种拆除方式 = 36 道腾退令；3 种上诉判决；39 格典籍档案。
+- 旧场景联动：在 `birth-ballot-booth`（出生投票间）、`crime-scene-without-offender`（无加害者犯罪现场）、`undeclared-war-room`（未宣战室）部署拆迁勘测员/法警；目录与纪念碑接入；静态资源缓存版本升级至 `?v=89`。
+- 资产生成：
+  - `assets/v89-accomplished-fact-eviction-authority.webp`
+  - `assets/v89-condemned-history-survey-office.webp`
+  - `assets/v89-retroactive-demolition-yard.webp`
+  - `assets/v89-final-occupancy-appeal-court.webp`
+- 交互与安全：18 处受信任点击监听器配备严格 `event.isTrusted` 守卫。
+- 自动化验证：`node tests/site.test.mjs` 通过 15657 项断言（较 v88 增加 665 项）。
+- 本地可见 Chrome 真机验收：单窗口单标签页（DevTools 仅同窗停靠）完成完整流程与 390×687 移动端适配验收。当前处于本地完成阶段，未执行 commit、push 或部署。
+
+## v90 无因后果难民署 / REFUGEE AUTHORITY FOR CONSEQUENCES WITHOUT CAUSES (2026-08-31)
+
+- **场景与资产**：场景总数 189→193；新增 `causeless-consequence-refugee-authority`、`borrowed-cause-sponsorship-office`、`causal-border-processing-station`、`final-asylum-tribunal-for-causeless-consequences`，缓存标记升至 `v=90`；4 组源 PNG 与运行时 WebP 均为 1536×1024。
+- **玩法矩阵**：3 类无因难民 × 3 名借因担保人 × 4 种边境程序 = 36 份庇护案；覆盖 3/3/4 后开放三项终审裁定，共 39 格图鉴。
+- **旧场景回桥**：门槛认生、记忆代伤、空框认战分别将流程送往 `threshold`、`remembrance`、`unending-gallery`，由本章领事受信任点击返回难民署。
+- **状态与门禁**：独立键 `goddead_v90_causeless_consequence_refugee` 保持 11 个规范字段、7 类严格 pending、18 处 `isTrusted` 点击守卫；v90 只读 v89，非法深链回退 `remembrance`。
+- **当前验证**：两项 `node --check`、`git diff --check` 和全量 `node tests/site.test.mjs` 通过，输出 `site.test.mjs: 16343 assertions passed`；本地浏览器复核确认页面初始化、锁定深链归一到 `#remembrance`、刷新稳定且控制台无 error/warn。完整 3/3/4 受信任点击矩阵沿用实现期测试合同，本次整理未重写生产逻辑。

@@ -1,8 +1,8 @@
 # v85 孤事实认领处 / CLAIM OFFICE FOR ORPHANED FACTS
 
-版本：v85 设计与素材冻结稿
-状态：设计与素材冻结，待 v84 实装并独立验收后交 Kimi 实装
-职责：Codex 设计 / 素材 / 独立验收；Kimi 生产前端 / 测试 / 文档同步
+版本：v85 本地实装与独立验收完成稿
+状态：2026-08-30 实装与独立验收完成；已纳入 v90 汇总发布批次
+职责：Codex 设计 / 资产复核接入 / 机械应用 / 诊断 / Computer Use QA 证据；Gemini 生产前端 / 测试 / 修复 / 实现文档
 
 ## 核心命题
 
@@ -179,3 +179,21 @@ activeExecutor 只在准确 target 出现。返回后清 activeExecutor 并进�
 `存在放弃登记局 / REGISTRY FOR RENOUNCING EXISTENCE`
 
 它会问：如果拒绝继承世界的唯一方式，是证明自己从未存在过，那么“不存在”究竟是一种自由，还是一笔更古老的债？
+
+
+## 实装与独立验收状态（2026-08-30）
+
+- **路由与资产**：场景总数 169→173；实装 `orphaned-fact-claim-office`、`fact-inheritance-vault`、`causal-estate-execution-desk`、`ownerless-truth-estate-court`；配备 1536×1024 源 PNG 与 WebP，缓存标记 `v=85`。
+- **状态契约**：持久化键 `goddead_v85_orphaned_fact_claims` 规范包含 11 个字段、7 处 strict pending 守卫、18 项 `isTrusted` 事件，覆盖 36 继承契与 3 终庭裁定；只读依赖 v84 解锁状态，不篡改旧键。
+- **分工协同**：Gemini 负责生产前端逻辑、测试套件、bug 修复与文档同步；Codex 负责系统设计、资产生成接入、机械应用、缺陷诊断与 Computer Use QA 实机验收。
+- **流程覆盖与真实导航**：自动化测试完整覆盖 36+3 组合；人工实机执行 4 条受信任继承流程，覆盖 3 facts / 3 proofs / 4 obligations / 3 old targets（`contradictory-evidence-archive`、`blank-name-cloakroom`、`minute-before-archive`），伤印、影供、未来账单三执行员均可受信任返回，三终庭真实抵达 `threshold`、`remembrance` 与 `unending-gallery`。
+- **缺陷诊断与修复**：Codex 诊断出第三裁定被旧路由 guard 误拦截问题，Gemini 实施 `!orphanedFactBridgeAllows('unending-gallery')` 修复并添加永久回归断言。
+- **门禁与环境**：通过 `node --check script.js`、`node --check tests/site.test.mjs`、`git diff --check` 与 `node tests/site.test.mjs`（`site.test.mjs: 14593 assertions passed`）；单窗单标签运行，Desktop 1312×768 与 Mobile 390×844 无水平滚动条；通过刷新幂等性测试与坏 JSON 回退测试，恢复原 22 个 localStorage 键。
+- **独立验收证据归档**：
+  - `design-qa-evidence/v85-browser-qa.json`
+  - `design-qa-evidence/v85-orphaned-fact-claim-office-desktop.png`
+  - `design-qa-evidence/v85-wound-print-executor-desktop.png`
+  - `design-qa-evidence/v85-ownerless-truth-estate-court-desktop.png`
+  - `design-qa-evidence/v85-orphaned-fact-claim-office-mobile.png`
+  - `design-qa-evidence/v85-ownerless-truth-estate-court-mobile.png`
+- **后续排期与交付边界**：v86 存在放弃登记局为下一个实现目标，其设计与四组资产已冻结但尚未实装；当前交付严格处于本地完成状态，无 commit、push、deploy 或 public release。

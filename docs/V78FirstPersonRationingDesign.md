@@ -1,8 +1,8 @@
 # v78 第一人称配给署 / FIRST-PERSON PRONOUN RATIONING BUREAU
 
 版本：v78 设计冻结稿
-状态：设计与素材冻结，待 v77 独立验收后交 Kimi 实装
-职责：Codex 设计 / 素材 / 独立验收；Kimi 生产前端 / 测试 / 文档同步
+状态：implementation + static regression passed (suite expanded to 11535 assertions in v79 round with runtime `_v78unlocked` handoff fix and canonical 11 persisted keys maintained); Codex desktop browser QA accepted (central ruling only; manual mobile unclaimed)
+职责：Codex 设计 / 素材 / 独立验收；Gemini 3.7 Flash High 生产前端 / 测试 / 文档同步
 
 ## 核心命题
 
@@ -199,7 +199,10 @@ version：`78`
 - cache `v=78`，145 场景，8 素材冻结；
 - 解锁只读 v77；十一键、36+3、七 pending、三 activeAllocator、四份 coverage、18 isTrusted、forget-all、v77 回归；
 - 整页主初始化链必须包含 v78 全套 sync / paint / replay，禁止只测隔离模块；
-- Codex 浏览器验桌面/手机、真实三段点击、三个旧场景回程、coverage/终审/刷新/坏档/console。
+- 性能与静态：Gemini 3.7 Flash High 提供获采纳的 v70–v78 解锁链线性化逻辑，Codex 完成根因诊断、按当前上下文集成与 10954 assertions 独立回归。
+- 浏览器：In-App Browser 1280×720 成熟存档冷启动、锁定 hash、malformed JSON 通过；真实 Chrome 首息 `speaker → entitlement → scheme` 与发声员返回、另外两处旧落点反馈/返回控件、四份 coverage、中央终审、刷新幂等、console 无 error 通过。三终审静态全覆盖但浏览器只真点中央结局；390×844 未生效，不作手动移动端声明。
+
+- **v79 运行态继承修复**：在 v79 独立验收轮次中，修复了跨版本运行态 `_v78unlocked` 内存继承透传，维持 v78 归档状态 11 个 canonical key 格式不变，全套 11535 测试断言保持全绿。
 
 ## v79 活口
 

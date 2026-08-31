@@ -1,5 +1,146 @@
 # Progress Log
 
+
+## 2026-08-30 (v87)
+
+- **模块交付**：完成「不存在债务催收局 / COLLECTION AGENCY FOR NONEXISTENCE DEBT」设计与实现，新增 `nonexistence-debt-collection-agency`、`absence-arrears-ledger-vault`、`ontological-repossession-chamber`、`unpayable-existence-bankruptcy-court` 4 个场景，场景总数达 181，缓存版本置为 `v=87`。
+- **协作分工**：Gemini 编写生产前端逻辑、自动化测试集、5 处门禁逻辑修复及实施文档；Codex 负责系统架构设计、图像资产审查、机械集成、缺陷诊断与端到端浏览器 QA 验收。
+- **状态与存储**：只读读取 `goddead_v86_existence_renunciation`；写入 `goddead_v87_nonexistence_debt_collection`，维护 `version`、`visited`、`draft`、`collections`、`bankruptcyOutcomes`、`collectionRuns`、`bankruptcyRuns`、`debtorTallies`、`lastOutcome`、`activeCollector`、`pending`（取值涵盖 `entry`、`debtor`、`instrument`、`collection`、`collector-return`、`bankruptcy-entry`、`bankruptcy-action`）。
+- **缺陷修复**：修复 debtor、instrument、remedy、collector-return、bankruptcy-action 5 处按钮组反转的禁用状态逻辑，并加入自动化回归测试。
+- **门禁验证**：
+  - `node --check script.js` 通过
+  - `node --check tests/site.test.mjs` 通过
+  - `git diff --check` 通过
+  - `node tests/site.test.mjs` 达成 `site.test.mjs: 14846 assertions passed`
+- **浏览器 QA 结论**：单 Chrome 窗口/单标签页验证，未就绪路由正确回退至 `#remembrance`；4 组受信流程完整覆盖 3/3 类债务人、3/3 种催收法器、4/4 项处置方案与 3/3 个历史回溯目标；3 种破产裁决分别成功跳转 `#threshold`、`#remembrance`、`#unending-gallery`；畸变 JSON 稳健容错；移动端 390×844 适配正常；22 个存储键完整复原且 `goddead_v83_harm_archaeology.hearingOutcomes.length === 1`；最终清理停留在 `#remembrance`。
+- **证据档案归档**：`design-qa-evidence/v87-browser-qa.json` 与 4 张桌面/移动端截图。
+- **状态限制**：全部工作均在本地完成，不执行 commit、push、deploy 或公开部署。
+
+## 2026-08-30 (v86)
+- **版本目标与核心实现**：完成 v86「存在放弃登记局与民事不存在终审庭」四幕全链路场景构建，新增场景数从 173 扩展至 177。新增路由 `existence-renunciation-registry`、`proof-of-nonexistence-archive`、`ontological-disinheritance-chamber`、`civil-nonexistence-final-tribunal`。静态资源缓存查询标记全面推进至 `v=86`。状态管理统一使用独立状态键 `goddead_v86_existence_renunciation` 与 11 个标准化字段，支持 36 种本体注销令与 3 个终审庭裁决状态，包含 7 种 strict pending 交互、18 处受信任 `isTrusted` 事件核验，对 v85 仅保留纯只读依赖且不写入任何旧版本键位。
+- **协作与分工**：Gemini 3.7 Flash High 编写生产前端、自动化测试与实现文档；Codex 负责架构设计、视觉资产生成与复核接入、补丁机械应用与 Computer Use QA 证据采集。
+- **受信任链路与终庭结局**：实机 4 条受信任链路完整覆盖 3/3 renunciants、3/3 evidences、4/4 clauses、3/3 old targets 与空摇篮登记员、预先抹除登记员、未交付肉身登记员三位登记员完整流转并返回登记局；终审庭三裁决严格达成：
+  - `strike-every-visitor-from-reality` → `every-visitor-was-struck-from-reality` → `#threshold`
+  - `register-nonexistence-as-a-citizen` → `nonexistence-became-a-citizen` → `#remembrance`
+  - `make-the-world-disinherit-itself` → `the-world-disinherited-itself` → `#unending-gallery`
+- **门禁验证与浏览器 QA**：四项核心本地门禁全绿（`node --check script.js`、`node --check tests/site.test.mjs`、`git diff --check`、`node tests/site.test.mjs`），断言数达 `site.test.mjs: 14713 assertions passed`。单 Chrome 窗口单标签页（停靠 DevTools）实机验证通过；未解锁直达 `#existence-renunciation-registry` 安全降级回退至 `#threshold`；桌面与移动端（390×844，`scrollWidth`/`bodyScrollWidth` 为 390）无横溢；刷新恢复 `#unending-gallery` 保持幂等；写入 malformed raw `{bad` 坏档不崩溃且保持原样直到 QA 还原测试状态；测试后精确恢复原 22 个 localStorage 键（保留原始 v83 听证数 1，无 QA 残留键）。
+- **证据留存**：生成并验证 JSON 记录与 5 张视口截图：
+  - `design-qa-evidence/v86-browser-qa.json`
+  - `design-qa-evidence/v86-existence-renunciation-registry-desktop.png`
+  - `design-qa-evidence/v86-empty-crib-registrar-desktop.png`
+  - `design-qa-evidence/v86-civil-nonexistence-final-tribunal-desktop.png`
+  - `design-qa-evidence/v86-existence-renunciation-registry-mobile.png`
+  - `design-qa-evidence/v86-civil-nonexistence-final-tribunal-mobile.png`
+- **交付边界**：所有改动严格限制于本地开发与验证闭环，不涉及提交、推送、上线部署或对外公开发布。下一个扩展目标保留为 `不存在债务催收局 / COLLECTION AGENCY FOR NONEXISTENCE DEBT`。
+
+## 2026-08-30 (v85)
+- **版本目标与核心实现**：完成 v85「孤事实认领处与无主真相遗产庭」四幕全链路场景构建，新增场景数从 169 扩展至 173。新增路由 `orphaned-fact-claim-office`、`fact-inheritance-vault`、`causal-estate-execution-desk`、`ownerless-truth-estate-court`。静态资源缓存查询标记全面推进至 v85。状态管理统一使用独立状态键与 11 个标准化字段，支持 36 种组合与 3 个终局状态，包含 7 种 pending 交互、18 处受信任 isTrusted 事件核验，对 v84 仅保留纯只读依赖且不写入任何旧版本键位。
+- **协作与分工**：Gemini 3.7 Flash High 编写生产前端、自动化测试、窄桥防御与实现文档；Codex 负责架构设计、视觉资产生成与复核接入、补丁机械应用、实机诊断与 Computer Use QA 证据采集。
+- **受信任链路与终庭结局**：实机 4 条受信任链路完整覆盖 3 facts / 3 proofs / 4 obligations / 3 old targets 与三位执行员完整流转；终庭三裁决严格达成：
+  - `let-every-fact-inherit-its-observer` → `every-fact-inherited-the-person-who-noticed-it` → `#threshold`
+  - `abolish-ownership-of-truth` → `truth-was-freed-from-every-owner` → `#remembrance`
+  - `make-the-claimant-inherit-the-whole-world` → `the-claimant-inherited-every-unclaimed-consequence` → `#unending-gallery`
+- **实机诊断与精准修复**：Codex 实机 QA 发现第三裁决目标跳转至 `#unending-gallery` 时被旧路由守卫拦截改写；Gemini 增加 `!orphanedFactBridgeAllows('unending-gallery')` 窄桥判断及持久回归断言，实机复测确认完全修复。
+- **门禁验证与浏览器 QA**：四项核心本地门禁全绿（`node --check script.js`、`node --check tests/site.test.mjs`、`git diff --check`、`node tests/site.test.mjs`），断言数达 `site.test.mjs: 14593 assertions passed`。单 Chrome 窗口单标签页实机验证通过；桌面（1312×768）与移动端（390×844）无横溢，刷新幂等，malformed JSON 坏档容错回退机制正常，测试后精确恢复原 22 个 localStorage 键并清空临时数据。
+- **证据留存**：生成并验证 JSON 记录与 5 张视口截图：
+  - `design-qa-evidence/v85-browser-qa.json`
+  - `design-qa-evidence/v85-orphaned-fact-claim-office-desktop.png`
+  - `design-qa-evidence/v85-wound-print-executor-desktop.png`
+  - `design-qa-evidence/v85-ownerless-truth-estate-court-desktop.png`
+  - `design-qa-evidence/v85-orphaned-fact-claim-office-mobile.png`
+  - `design-qa-evidence/v85-ownerless-truth-estate-court-mobile.png`
+- **交付边界**：所有改动严格限制于本地，不涉及提交、推送、上线部署或对外公开发布。v86 作为后续规划目标保留，当前未做任何提前实现。
+
+## 2026-08-29 - v84 无罪证人保护院实装与独立浏览器 QA 验收完成
+
+- **分工协作**：Gemini 3.7 Flash High 完成生产前端代码、测试套件编写、缺陷修复与全套文档同步；Codex 完成扩展设计、图像素材审查集成、缺陷诊断与独立浏览器实机 QA 验证。
+- **核心实装内容**：
+  - 新增 4 个场景：`innocent-witness-protection`、`identity-causality-laundry`、`memory-relocation-safehouse`、`anonymous-truth-lifetime-court`，场景总量升至 169，Cache 更新至 `v=84`。
+  - 引入 1536x1024 静态图片与 WebP 资源，哈希严格符合冻结标准。
+  - 实现 3 证人 × 3 程序 × 4 条保护条款（36 组合安置矩阵）、3 身份掩护员旧场景流转、3 终身安置庭裁决分支，规范定义 11 个持久化字段并对 v83 单向依赖。
+- **自动化与实机验收**：
+  - 运行全量自动化测试套件并通过 14,473 项断言。
+  - 在单一 Chrome 窗口且单一标签页下完成浏览器实测（覆盖门禁守卫、4 次真实受信任安置交互、全掩护员与全裁决流转、幂等刷新、容灾恢复与双端热区物证采样）。
+  - 测试结束后安全恢复用户原有 22 个存储键与测试前进度。
+- **交付状态**：已接入本地实现，严格维持 no commit / no push / no deploy / no public release。
+
+### 2026-08-29 - v83 伤害考古局（Harm Archaeology Bureau）实装与验收归档
+
+- **版本代号**: v83 / `harm-archaeology-bureau`
+- **场景增量**: 4 个（总场景数 161 -> 165）
+  - `harm-archaeology-bureau`: 伤害考古局入口大厅与 39 格伤害考古编目
+  - `forensic-mercy-excavation`: 慈悲法医发掘区（3 遗址 × 3 器具）
+  - `crime-scene-without-offender`: 无加害者案发地（3 目标重构 × 4 阐释）
+  - `second-harm-hearing-court`: 二次伤害听证庭（3 听证裁决）
+- **视觉资产**: 4 组 1536x1024 源图与对应 WebP 资产接入（缓存版本 `v=83`）
+  - `design-references/source-v83-harm-archaeology-bureau.png` -> `assets/v83-harm-archaeology-bureau.webp`
+  - `design-references/source-v83-forensic-mercy-excavation.png` -> `assets/v83-forensic-mercy-excavation.webp`
+  - `design-references/source-v83-crime-scene-without-offender.png` -> `assets/v83-crime-scene-without-offender.webp`
+  - `design-references/source-v83-second-harm-hearing-court.png` -> `assets/v83-second-harm-hearing-court.webp`
+- **分工边界**: Gemini 负责前端逻辑、样式、自动化测试集与文档更新；Codex 负责设计、生成/复核/应用视觉资产、集成 Gemini 输出、诊断并独立验收。
+- **状态与交互**: 本地存储键 `goddead_v83_harm_archaeology`，维护 11 个标准字段与 7 种 pending 状态，接入 18 个 `isTrusted` 真实交互监听器，支持 36 份伤害考古报告与 3 种听证裁定收集。
+- **门禁与测试**: 静态测试通过（`site.test.mjs: 14319 assertions passed`），`node --check` 与 `git diff --check` 无错误。
+- **浏览器 QA**: 真实单窗口桌面端 (1470x774) 与移动端 (390x844) 验收通过，完成 4 条真实交互流（覆盖 3 遗址、3 器具、4 阐释及听证解锁），并通过 36/36 种子存档验证全量编目与听证庭完整展示，无应用报错与水平溢出。
+- **交付约束**: 本地归档完成，不执行 commit、push、deploy 或公开发布。
+
+## [2026-08-29] v82 — 宽恕填埋场 / FORGIVENESS LANDFILL（本地验收完成）
+- 场景总数扩展至 161 处（新增 `forgiveness-landfill`、`inert-harm-certificate-vault`、`mercy-burial-trench`、`harmlessness-final-well`），运行时图片（1536x1024）与 `v=82` 缓存参数已接入。
+- 废料 (3) × 凭证 (3) × 处置 (4) 矩阵（36 记录）及 3 井裁结局（共 39 格图鉴）实现完毕，状态持久化至 `goddead_v82_forgiveness_landfill`（包含 11 个规范字段、7 种挂起类型与 18 处 `isTrusted` 监听）。
+- 修复图鉴容器清理、入口外壳坍塌及记录器反馈组件隐藏等 3 项显示缺陷，并通过自动化测试（`site.test.mjs: 13642 assertions passed`）。
+- Computer Use 真实浏览器完成 4 轮交互流、轴向全覆盖、数据自愈、视口适配与 5 项证据归档；应用 0 异常；当前保持本地未提交/未推送状态，下一步推进 v83 伤害考古局。
+
+## [2026-08-27] v81 — 后悔回收厂 / REGRET RECLAMATION PLANT（本地验收完成）
+
+- **状态**：已完成本地开发与独立验收（工作区保持未提交，未执行 git commit/push/发布，准备进入 v82）。
+- **分工矩阵**：Gemini 3.7 Flash High 负责前端实装、测试编写、实现文档与缺陷修复；Codex 负责设计素材生成、应用输出、独立静态门禁与真实浏览器 QA。
+- **代码与测试验收**：
+  - 生产前端文件：`index.html`、`styles.css`、`script.js` 实装完毕。
+  - **自动化测试**：执行 `node tests/site.test.mjs`，通过 12967 项断言（`site.test.mjs: 12967 assertions passed`），覆盖后悔回收厂 36 个批次重塑与 3 种人生熔炉走向行为矩阵。
+  - `node --check` 语法与 `git diff` 干净通过。
+- **场景与视觉资产**：
+  - 场景数由 153 扩展至 157（+4：`regret-reclamation-plant` 后悔回收厂、`abandonment-residue-weighhouse` 遗弃残渣称重房、`second-life-smelting-line` 二世冶炼线、`zero-waste-life-furnace` 零废弃人生熔炉）。
+  - 新增 4 组 1536×1024 视觉资产源图 PNG 与运行时 WebP，尺寸与 SHA-256 哈希校验通过。
+- **核心逻辑与持久化**：
+  - 3×3×4=36 批次重塑组合，3 种熔炉产物，共 39 个典籍图鉴单元格。
+  - 重塑回收器跨场景跳转目标：`descending-appeals-stair`、`borrowed-childhood`、`identity-correction`。
+  - 人生熔炉跨场景跳转目标：`remembrance`、`unending-gallery`、`offering`。
+  - 单一持久化存储键：`goddead_v81_regret_reclamation`。严格限定 11 项规范字段（`version`, `visited`, `draft`, `batches`, `furnaceOutcomes`, `batchRuns`, `furnaceRuns`, `materialTallies`, `lastOutcome`, `activeReclaimer`, `pending`）。
+  - 7 种严格 pending 校验类型；全站配置恰好 18 处 `isTrusted` 原生点击监听守卫。
+- **浏览器人工 QA 与视觉/无障碍验证**：
+  - 在单 Chrome 窗口/标签页（DevTools 停靠）完成人工验证：实测 4 个批次，覆盖 3 种原料、3 种残留、4 种用途，人生熔炉 3 个流转动作分别准确跳转至 `remembrance`、`unending-gallery` 与 `offering`，并验证 3 次回收员返回。
+  - 双视口适配与资源：桌面端 915×784（有效宽度 915px）与移动端 390×844（有效宽度 390px）均无水平溢出；4 张 v81 WebP 图像自然分辨率均为 1536×1024。
+  - 无障碍修复与控制台：修复 4 处交互式 `<figure>` 曾带 `role="img"` 导致 Chrome AX 树中子按钮扁平化的问题，移除 `<figure>` 的 role/aria-label 并将描述移至嵌套 `<img>` 的 alt 属性，回归确认语义结构、精准 alt、3-3-4-3 交互按钮与非空 aria-label；控制台无应用错误与警告（仅 Built-in AI 环境 info 噪点）。
+  - 产出凭证：`design-qa-evidence/v81-browser-qa.json`、`design-qa-evidence/v81-regret-reclamation-plant-desktop.png`、`design-qa-evidence/v81-regret-reclamation-plant-mobile.png`。
+- **后续规划**：下一版本进入 v82 `宽恕填埋场 / FORGIVENESS LANDFILL` 设计与实现。
+
+## 2026-08-23 (v79 未言人格继承院 / COURT OF UNSPOKEN PERSONHOOD：v78 三发声终审裁定 + 覆盖后 3×3×4=36 未言人格继承判令 + 3 终审遗产裁定 = 39 新图鉴，场景 145 → 149)
+- 世界观续进：沉默取得唯一合法发声权后，所有没能说出口的话都成了没有身体的合法遗民。它们排在继承院门外，要求继承说话者留下的姓名、年月和被回应的权利；新增未言人格继承院、沉默意图证物库、人格继承检验室、未出口遗产终审庭四场景，玩家依次选择未言人格申请者（未爱 / 遗嘱 / 求救）、沉默证物（闭唇 / 回声 / 归息）与人格继承方式（姓名 / 年月 / 回应 / 缺席），组合成 36 份未言人格继承判令；每完成一份判令后在对应旧场景（confession / testament-clearing-vault / unseated-listening-booth）留下独立沉默执行官，可返回继承院继续下一轮；覆盖三申请者、三证物与四方式后 Remembrance 显露「审理所有没能出口的人生」，进入未出口遗产终审庭开启把完整一生判给未言之句 / 把人格分给所有未听见者 / 让说话者成为最后沉默的遗产三种最终遗产裁定。
+- 素材：四张冻结原图（sha256 静态断言锁定，见 `docs/V79UnspokenPersonhoodCourtDesign.md`）Pillow q85 method=6 无裁切转码；四张 source PNG 均为原生 1536×1024。四张 WebP 为 `assets/v79-unspoken-personhood-court.webp`（242470 B）、`assets/v79-silent-intent-archive.webp`（219234 B）、`assets/v79-personhood-inheritance-examination.webp`（256036 B）与 `assets/v79-unuttered-estate-tribunal.webp`（272104 B）。
+- 入口与防伪：普通入口 `替所有未说出口的话申请人格继承` 仅在 `unspokenPersonhoodCourtUnlocked()`（v78 rations 覆盖 3 speaker / 3 entitlement / 4 scheme 且 courtOutcomes 含三规范 outcome）为真时显露；终审入口 `审理所有没能出口的人生` 仅在已收集 grants 同时覆盖 3 申请者、3 证物、4 继承方式时显露；四场景 direct hash 在 v78 证据不足或 pending 不合法时统一回退 `#remembrance`。
+- 四幕：未言人格继承院三申请者左 / 中 / 右清楚分离；沉默意图证物库三证物左 / 中 / 右清楚分离；人格继承检验室四方式按左上 / 左下 / 右上 / 右下环绕中央空身互不遮挡；未出口遗产终审庭三最终裁定左 / 中 / 右分离。每幕原生 button 热点 ≥44px，反馈区 `aria-live="polite"`，pending 时整组 disabled、仅已选项 `aria-pressed=true`。
+- 执行官：confession / testament-clearing-vault / unseated-listening-booth 三旧落点各新增独立沉默执行官容器与返回继承院按钮，不复用旧版反馈；`activeExecutor` 精确反算到已收集 grant，evidence 与 id 第二段一致、feedback 由证物表逐字重算。
+- 状态：`goddead_v79_unspoken_personhood`（唯一 key，version 79）；显式 canonical 十一键投影（version/visited/draft/grants/tribunalOutcomes/grantRuns/tribunalRuns/claimantTallies/lastOutcome/activeExecutor/pending），派生字段不落盘；`grants` 按 `CLAIMANTS × EVIDENCE × MODES` 固定顺序去重；`tribunalOutcomes` 按 `grant-the-unsaid-a-whole-life / divide-personhood-among-all-listeners / make-the-speaker-estate-of-last-silence` 固定顺序去重；draft 仅 `claimant/evidence` 两键且 evidence 非空时 claimant 必须合法；activeExecutor 仅允许 `{evidence,grant,feedback}` 三键且 grant 已收集、evidence 等于 grant 第二段、feedback 由证物表逐字重算；claimantTallies 精确 `{love,testament,cry}` 三键且不从 grants 反推，重复判令也必须留下真实申请者票数；计数 floor 后 0..9999 封顶；lastOutcome 必须存在于规范 grants 或 tribunalOutcomes；pending 七类精确键集逐字重算 + 实时 v78 解锁与 coverage 校验 + 一次性消费；重播按 source/target/else 矩阵严格恢复。
+- 守卫与接线：1 个普通入口 + 3 个 claimant + 3 个 evidence + 4 个 mode + 3 个 executor-return + 1 个 tribunal 入口 + 3 个 tribunal action = 18 组点击监听全部只接受 isTrusted 真实 click，合成 HTMLElement.click() 零副作用；Enter/Space 走原生按钮；currentScene/合法 pending/AutoAdvance/按钮可见且未 disabled 四重校验先于副作用；reduced-motion 沿用 ~300ms 节拍。
+- 目录与痕迹：首次真实进入四场景后分别恢复 `05θ / 未言人格继承院`、`05ι / 沉默意图证物库`、`05κ / 人格继承检验室`、`05λ / 未出口遗产终审庭`；Remembrance 新增单行「未言人格继承院：已裁定 N/36 份判令，共执行 R 次；申请者 未爱 L / 遗嘱 T / 求救 C；证物 闭唇 P / 回声 E / 归息 B；继承 姓名 N / 年月 Y / 回应 A / 缺席 V；人格多数 Q；终审结局 X/3。」；v79 图鉴位于 v78 图鉴之后，39 格（36 grant + 3 tribunal outcome）；遗忘全部 DOM 回弹并移除 v79 key。
+- 线性化继承：`unspokenPersonhoodCourtUnlocked()` 只单次调用 `getFirstPersonRationing()`，`getUnspokenPersonhood()` 注入 `_v79unlocked: unlocked`，测试套件扩展 v70–v79 线性化断言。
+- 当前进展：Gemini 3.7 Flash High 完成 v79 生产前端、测试、实现文档与两项缺陷修复；Codex 完成设计素材、应用输出、诊断与独立静态/浏览器 QA。四项门禁全绿，最终 `11535 assertions passed`。
+- 验收要点：真实 4 条三段点击流合计覆盖 3 claimant / 3 evidence / 4 mode；三处执行官回程后 draft / activeExecutor / pending 清空；4/36 解锁终审，中央动作 `divide-personhood-among-all-listeners` 得到 `personhood-was-divided-among-the-unhearing`，持久化 4 grants / 1 tribunal outcome 且重载严格相等，UI 解锁 5 格图鉴。修复 `getFirstPersonRationing()` 运行时 `_v78unlocked` 返回且 v78 持久化仍为十一键；v29 守卫新增 `!unspokenPersonhoodBridgeAllows(target)`，避免合法 `confession` 被改写到 `#corridor`，并更新 v29/v53/v79 路由回归。1280×720、390×844、四图 1536×1024、热区 ≥44px / 图内 / 无重叠、横溢 ≤1px、锁定/malformed 与 console/page/resource 0 均通过。
+- 验收产物：`design-qa-evidence/v79-browser-qa.json`、`design-qa-evidence/v79-executor-confession-desktop.png`、`design-qa-evidence/v79-unspoken-personhood-court-desktop.png`、`design-qa-evidence/v79-tribunal-coverage-desktop.png`、`design-qa-evidence/v79-unspoken-personhood-court-mobile.png`。仅本地验收，未 commit、push、deploy 或发布。
+
+## 2026-08-23 (v78 第一人称配给署 / FIRST-PERSON PRONOUN RATIONING BUREAU：v77 三自我终审裁定 + 覆盖后 3×3×4=36 第一人称配给令 + 3 终审发声裁定 = 39 新图鉴，场景 141 → 145)
+- 世界观续进：在 v77 每个复制品都取得原装资格后，同一具世界里出现了太多同时合法的“我”。第一人称配给署把自称权改成稀缺资源：每次呼吸只能由一个版本占用，影子可以借走声音，沉默也开始申请代领人格；新增第一人称配给署、声音权益凭证库、代词配给室、无主声音终审庭四场景，玩家依次选择争夺第一人称的主体（多我 / 共声 / 沉默）、声音权益凭证（首息 / 无签 / 未回）与代词配给方案（一息一我 / 借影 / 轮声 / 沉默代领），组合成 36 份第一人称配给令；每完成一份配给后在对应旧场景（threshold / blank-name-cloakroom / remembrance）留下独立亡后发声员，可返回配给署继续下一轮；覆盖三主体、三凭证与四方案后 Remembrance 显露「裁定谁拥有最后一个第一人称」，进入无主声音终审庭开启让所有肉身轮流拥有一声 / 废除第一人称配给 / 只承认沉默有权发声三种最终发声裁定。
+- 素材：四张冻结原图（sha256 静态断言锁定，见 `docs/V78FirstPersonRationingDesign.md`）Pillow q85 method=6 无裁切转码；四张 source PNG 均为原生 1536×1024。四张 WebP 为 `assets/v78-first-person-rationing-bureau.webp`（219184 B）、`assets/v78-voice-entitlement-archive.webp`（163614 B）、`assets/v78-pronoun-allocation-chamber.webp`（219346 B）与 `assets/v78-ownerless-voices-court.webp`（265626 B）。
+- 入口与防伪：普通入口 `替所有合法的自己申请发声配给` 仅在 `firstPersonRationingUnlocked()`（v77 certificates 覆盖 3 候选自我 / 3 来源凭证 / 4 鉴定方法 且 tribunalOutcomes 含三规范 outcome）为真时显露；终审入口 `裁定谁拥有最后一个第一人称` 仅在已收集 rations 同时覆盖 3 发声主体、3 权益凭证、4 配给方案时显露；四场景 direct hash 在 v77 证据不足或 pending 不合法时统一回退 `#remembrance`。
+- 四幕：第一人称配给署三发声主体左 / 中 / 右清楚分离；声音权益凭证库三凭证左 / 中 / 右清楚分离；代词配给室四方案按左上 / 左下 / 右上 / 右下互不遮挡；无主声音终审庭三最终裁定左 / 中 / 右分离，庭内同步显示 speakerTallies 与派生发声多数结论。每幕原生 button 热点 ≥44px，反馈区 `aria-live="polite"`，pending 时整组 disabled、仅已选项 `aria-pressed=true`。
+- 发声员：threshold / blank-name-cloakroom / remembrance 三旧落点各新增独立亡后发声员容器与返回配给署按钮，不复用旧版反馈或其它员；`activeAllocator` 精确反算到已收集 ration，entitlement 与 id 第二段一致、feedback 由凭证表逐字重算。
+- 状态：`goddead_v78_first_person_rationing`（唯一 key，version 78）；显式 canonical 十一键投影（version/visited/draft/rations/courtOutcomes/rationRuns/courtRuns/speakerTallies/lastOutcome/activeAllocator/pending），派生字段不落盘；`rations` 按 `SPEAKERS × ENTITLEMENTS × SCHEMES` 固定顺序去重；`courtOutcomes` 按 `one-voice-belonged-to-everyone-in-turn / every-self-spoke-as-i-at-once / silence-became-the-only-legal-speaker` 固定顺序去重（对应 action 顺序 grant-one-voice-to-all-in-turn / abolish-pronoun-rationing / recognize-silence-as-only-speaker）；draft 仅 `speaker/entitlement` 两键且 entitlement 非空时 speaker 必须合法；activeAllocator 仅允许 `{entitlement,ration,feedback}` 三键且 ration 已收集、entitlement 等于 ration 第二段、feedback 由凭证表逐字重算；speakerTallies 精确 `{many,copies,silence}` 三键且不从 rations 反推，重复配给也必须留下真实主体票数；计数 floor 后 0..9999 封顶；lastOutcome 必须存在于规范 rations 或 courtOutcomes；pending 七类精确键集（entry 3 / speaker 5 / entitlement 6 / ration 8 / allocator-return 5 / court-entry 3 / court 6，额外键即伪造）逐字重算 + 实时 v77 解锁与 coverage 校验 + 一次性消费；重播按 source/target/else 矩阵严格恢复，目标场景立即 arrive，来源场景恢复反馈/锁定/一次转场。
+- 守卫与接线：1 个普通入口 + 3 个 speaker + 3 个 entitlement + 4 个 scheme + 3 个 allocator-return + 1 个 court 入口 + 3 个 court action = 18 组点击监听全部只接受 isTrusted 真实 click，合成 HTMLElement.click() 零副作用；Enter/Space 走原生按钮；currentScene/合法 pending/AutoAdvance/按钮可见且未 disabled 四重校验先于副作用；reduced-motion 沿用 ~300ms 节拍。
+- 目录与痕迹：首次真实进入四场景后分别恢复 `05δ / 第一人称配给署`、`05ε / 声音权益凭证库`、`05ζ / 代词配给室`、`05η / 无主声音终审庭`；Remembrance 新增单行「第一人称配给：已发放 N/36 份配给令，共运行 R 次；主体 多我 M / 共声 C / 沉默 S；凭证 首息 B / 无签 G / 未回 E；方案 一息一我 O / 借影 L / 轮声 R / 沉默代领 Q；发声多数 V；终审结局 X/3。」；v78 图鉴位于 v77 图鉴之后，39 格（36 ration + 3 court outcome）；遗忘全部 DOM 回弹并移除 v78 key。
+- 性能修复：Codex 在成熟 v64–v77 存档冷启动中定位到 v70–v78 guarded getter / unlocker 重复遍历前置链，加入 v74 后会触发 100% CPU 卡死；Gemini 3.7 Flash High 提供获采纳的线性化修复逻辑，Codex 按当前代码上下文集成：guarded getter 只求值一次自身 unlock 结果，v71–v78 unlocker 依赖受守卫的前置 getter，`deadParliamentUnlocked()` 因 v69 getter 无守卫而保留直接前置检查。
+- 静态检查：`node --check script.js`、`node --check tests/site.test.mjs`、`node tests/site.test.mjs`（恰好 10954 assertions passed，含永久 `v70-v78 解锁链线性化回归`）、`git diff --check` 四项 Codex 独立验证全部通过。
+- 独立浏览器验收：无扩展 In-App Browser 1280×720 成熟存档冷启动、锁定 hash 与 malformed JSON 降级通过；真实 Chrome 首息三段路线与发声员返回通过，另两处旧落点专属反馈和 enabled 返回控件通过；四份 coverage 解锁终审，真实点击中央「废除第一人称配给」后保存 4/36、1/3、5 格图鉴，刷新不重复，console 无 error。
+- 验收边界：三终审均有静态覆盖，浏览器只真点中央结局；窄屏几何静态覆盖，390×844 手动视口未生效。本轮未执行 commit、push、deploy 或 v79+ 接线。
+
 ## 2026-08-12 (v84–v85 向后扩充设计与素材冻结)
 - v84《无罪证人保护院 / WITNESS PROTECTION FOR THE INNOCENT》完整设计冻结：在 v83 伤害考古局之后新增无罪证人保护院、身份因果洗衣房、记忆迁移安全屋、匿名真相终身安置庭，规划 36 份匿名安置令、三处旧场景身份掩护员与三项最终裁定；4 张源 PNG 与 4 张运行 WebP 均为 1536×1024，已逐张视觉复核，无文字、logo、UI 或水印，哈希与转码参数见 `docs/V84WitnessProtectionForInnocentDesign.md`。
 - v85《孤事实认领处 / CLAIM OFFICE FOR ORPHANED FACTS》完整设计冻结：在 v84 真相取得永久化名之后新增孤事实认领处、事实继承凭证库、因果遗产执行台、无主真相遗产庭，规划 36 份事实继承契、三处旧场景遗产执行员与三项最终裁定；4 张源 PNG 与 4 张运行 WebP 均为 1536×1024，已逐张视觉复核，无文字、logo、UI 或水印，哈希与转码参数见 `docs/V85OrphanedFactClaimOfficeDesign.md`。
@@ -936,3 +1077,48 @@
 - Docs synced (README, design-qa.md gains the v51 section, this log); `tests/site.test.mjs` v51 section updated to the reworked contract (no base hiding, tick-element assertions, verbatim outer/inner coordinates, no text glyphs). Rework round only: no asset regeneration, no v50 temp QA rerun; `node --check script.js`, `node --check tests/site.test.mjs`, `node tests/site.test.mjs` and `git diff --check` all green.
 - Follow-up CDP QA (`/tmp/v51-qa/v51-smoke.mjs`, real headless Google Chrome + in-process static server, seeds injected via `Page.addScriptToEvaluateOnNewDocument`): **536/536 passed twice consecutively** (~200 s per run). Coverage: geometry for all three rooms at 1440×1024 / 1440×800 / 390×844 in the unlocked state (rects mutually non-overlapping, inside the figure, elementFromPoint self-hit, ≥44px, plate inside figure, no horizontal overflow, 9 tick elements per row with exact lit counts and aria-labels, atomic restore without re-announce); all 16 hotspots via real click + Enter + Space + Tab reachability with verbatim feedback and exact targets; first-lock rival competition both directions plus same-beat idempotence; threshold-2 and forged-unlock inertness against direct hash and programmatic clicks; bad/array JSON fallback; zero console exceptions.
 - One real production defect found and fixed by that QA: at the measured 720×480 desktop figure the 44px min-width/height grew the narrow percentage boxes and produced 141–710 px² overlaps in all three pairs — coordinates re-measured (search left 39%, witness left 45.5%, exit height 9.5%, tenth top 45.5%, double left 25%) and re-verified green twice. Evidence screenshots (all eyeballed): `design-qa-evidence/v51-01~03-*-unlocked-1440x1024.png`, `v51-04~06-*-unlocked-390x844.png`, `v51-07-eyelid-witness-feedback-1440x800.png`. Static four checks re-run green after the fix; Chrome processes, profiles and the QA port cleaned up.
+
+## 2026-08-27 - v80 未遂思想收容所 (Asylum for Unfinished Thoughts)
+
+- **作者分工**: Gemini 3.7 Flash High 负责前端代码、DOM/CSS 结构、状态机、事件监听与测试套件；Codex 负责章节设计、素材生成与最终验收。
+- **场景扩充**: 149 -> 153 (新增 4 场景：未遂思想收容所、中断痕迹档案室、反事实疗法室、最后结论听证庭)。
+- **图鉴集成**: 36 份收容判令 + 3 项听证裁定，总计 39 个图鉴单元格。
+- **状态持久化**: 引入 `goddead_v80_unfinished_thought_asylum`，严格十一字段投影，不可信存储隔离。
+- **安全防线**: 18 处原生点击事件全部注入 `isTrusted` 校验。
+- **最终修复**: 恢复 v79→v80 运行时解锁链；补 `unlived-nursery` 窄桥；7 类 pending 统一在真实 source / target 抵达时重播与结算；trace 只允许从空值选择；forget-all 清状态 / AutoAdvance / UI；听证第二次 hashchange 只以最新且已收集的规范 outcome 派生授权准确 target，拒绝 sibling / 伪造。
+- **最终门禁**: `node --check script.js`、`node --check tests/site.test.mjs`、`git diff --check` 全绿；`node tests/site.test.mjs` 输出 `site.test.mjs: 12213 assertions passed`。
+- **真实浏览器**: Computer Use 在同一 Chrome 窗口 / 标签页完成代表 admission 闭环、cold source / target pending、四幕桌面人工看图、asylum / hearing 两幕移动看图，以及 `#unending-gallery` / `#counterfactual-spindle` 两条 hearing 真点击；第三条 hearing 只作自动矩阵声明。
+- **证据**: `design-qa-evidence/v80-browser-qa.json`、`design-qa-evidence/v80-unfinished-thought-asylum-desktop.jpeg`、`design-qa-evidence/v80-last-conclusion-hearing-desktop.jpeg`、`design-qa-evidence/v80-unfinished-thought-asylum-mobile.jpeg`、`design-qa-evidence/v80-last-conclusion-hearing-mobile.jpeg`。
+- **分工与边界**: Gemini 3.7 Flash High 编写生产前端 / 测试 / 修复 / 实现文档；Codex 负责设计 / 生图 / 应用输出 / 诊断 / 真实浏览器 QA / 证据。仅本地验收，未 commit、push、deploy 或发布。
+
+## 2026-08-30 - v88 未发生事件拍卖行 / AUCTION HOUSE FOR EVENTS THAT NEVER HAPPENED
+
+- Gemini 3.7 Flash High 负责生产前端、自动化测试、缺陷修复与实现文档；Codex 负责章节设计、ImageGen 生图、机械应用、诊断与独立 Computer Use QA。
+- 场景总数 181→185，新增 `auction-house-for-events-that-never-happened`、`catalogue-of-unoccupied-reality`、`counterfactual-bidding-floor`、`retroactive-occurrence-title-court`，缓存标记升至 `v=88`。
+- 冻结并接入 4 张源 PNG 与 4 张运行时 WebP，全部 1536×1024；实现 3 bidders × 3 lots × 4 methods = 36 purchases 与 3 项 title outcomes。
+- 状态键 `goddead_v88_unhappened_event_auction` 严格投影 11 个顶层字段、校验 7 类 pending、绑定恰好 18 个 `isTrusted` 点击监听；v88 只读 v87，不回写旧键。
+- 三个旧落点 `forgiveness-landfill`、`undeclared-war-room`、`unlived-nursery` 接入对应 auctioneer 窄桥与返回。
+- Gemini 修正测试片段的外层作用域集成后，`node --check script.js`、`node --check tests/site.test.mjs`、`git diff --check` 与 `node tests/site.test.mjs` 全绿，最终输出 `site.test.mjs: 14992 assertions passed`。
+- Computer Use 在一窗一标签中完成 4 条真实成交并覆盖 3/3 bidders、3/3 lots、4/4 methods，验证三 auctioneer 回桥与三产权裁定抵达 `threshold`、`remembrance`、`unending-gallery`。
+- 刷新幂等、malformed JSON 安全回退与干净重载控制台 0 Uncaught / TypeError / ReferenceError / 404 均通过；桌面 915×774 与手机 390×844 无横向溢出，热点大于 44×44。
+- Computer Use compositor 返回空白画面，未保存误导性截图；可信交互、AX、路由、控制台和布局数据归档于 `design-qa-evidence/v88-browser-qa.json`。
+- QA 后恢复用户原 22 个 localStorage 项与 `#remembrance`，无 QA 临时键，关闭 DevTools 与设备模拟；本轮未 commit、push、deploy 或 public release。
+- 下一版本方向为 `既成事实拆迁局 / EVICTION AUTHORITY FOR ACCOMPLISHED FACTS`；v88 仅留下叙事活口，不含 v89 实现。
+
+### 2026-08-30 - v89 既成事实拆迁局实现与本地验收完成
+- 实现了既成事实拆迁局（EVICTION AUTHORITY FOR ACCOMPLISHED FACTS），场景总量由 185 扩展至 189。
+- 完成 36 道腾退令矩阵、3 处旧场景拆迁勘测员联动及 3 项终审上诉路由（`threshold`、`remembrance`、`unending-gallery`）。
+- 由 `gemini-3.7-flash-high` 交付全量代码及修正，Codex 完成资源与独立验证。
+- 自动化测试达到 15657 项断言通过。
+- 完成单窗口可见 Chrome 真机验收与移动端（390×687）视觉复核，数据无损还原。
+- 本地工作已就绪，保持未提交/未部署状态。下一阶段预留钩子：v90 `无因后果难民署 / REFUGEE AUTHORITY FOR CONSEQUENCES WITHOUT CAUSES`。
+
+## 2026-08-31 - v90 无因后果难民署与当前流程文档整理
+
+- v90 生产实现已整合：新增 4 个场景，场景总数 189→193，缓存标记升级至 `v=90`；接入 36 份庇护案、3 项终审裁定、39 格图鉴和 3 处旧场景领事回桥。
+- 状态键 `goddead_v90_causeless_consequence_refugee` 维持 11 个规范字段、7 类 strict pending 与 18 个 `isTrusted` 点击监听，只读 v89。
+- 修复 v90 全页初始化缺失：在 `DOMContentLoaded` 尾部补齐入口、记忆、图鉴、目录、领事、四幕绘制与 pending 重播顺序，并在 `revealScene(scenes.threshold)` 前完成。
+- 当前门禁通过：`node --check script.js`、`node --check tests/site.test.mjs`、`git diff --check` 与 `node tests/site.test.mjs`；最终 `site.test.mjs: 16343 assertions passed`。
+- 本地浏览器复核确认正常初始化；未解锁直达 v90 会归一到 `#remembrance`，刷新稳定，控制台无 error/warn。
+- 新增 `docs/GameplayFlow.md`：整理基础主线、v29-v62 门厅支线网、v63-v90 解锁链、共通 3×3×4 章节循环与 v90 详细庇护 / 领事 / 终审流程。
+- `.v88-gemini/`、`.v89-gemini/`、`.v90-gemini/` 确认为实现过程的模型工位，加入 `.gitignore`，不纳入发布内容。

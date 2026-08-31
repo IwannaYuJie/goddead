@@ -1,0 +1,132 @@
+{
+  "timestamp": "2026-08-23T15:30:09.528Z",
+  "baseUrl": "http://127.0.0.1:8997",
+  "chromeExecutable": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 720
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844
+    }
+  },
+  "lockedRouteResult": {
+    "finalHash": "#remembrance",
+    "v79InStorage": null
+  },
+  "malformedRecoveryResult": {
+    "codexVisible": true,
+    "totalCells": 39,
+    "unlockedCells": 0,
+    "entryBtnVisible": true,
+    "courtEntryBtnVisible": false
+  },
+  "grantFlows": [
+    {
+      "flowIndex": 1,
+      "grantId": "unsaid-love-confession:closed-lip-pressure-seal:inherit-the-speakers-name",
+      "target": "confession"
+    },
+    {
+      "flowIndex": 2,
+      "grantId": "unread-final-testament:unsigned-witness-echo:inherit-the-unlived-years",
+      "target": "testament-clearing-vault"
+    },
+    {
+      "flowIndex": 3,
+      "grantId": "swallowed-cry-for-help:breath-returned-from-empty-receiver:inherit-the-right-to-be-answered",
+      "target": "unseated-listening-booth"
+    },
+    {
+      "flowIndex": 4,
+      "grantId": "unsaid-love-confession:unsigned-witness-echo:refuse-a-body-and-live-as-absence",
+      "target": "testament-clearing-vault"
+    }
+  ],
+  "postGrantCoverageCounts": {
+    "grants": [
+      "unsaid-love-confession:closed-lip-pressure-seal:inherit-the-speakers-name",
+      "unsaid-love-confession:unsigned-witness-echo:refuse-a-body-and-live-as-absence",
+      "unread-final-testament:unsigned-witness-echo:inherit-the-unlived-years",
+      "swallowed-cry-for-help:breath-returned-from-empty-receiver:inherit-the-right-to-be-answered"
+    ],
+    "grantRuns": 4,
+    "claimantTallies": {
+      "love": 2,
+      "testament": 1,
+      "cry": 1
+    },
+    "uniqueClaimants": [
+      "unsaid-love-confession",
+      "unread-final-testament",
+      "swallowed-cry-for-help"
+    ],
+    "uniqueEvidence": [
+      "closed-lip-pressure-seal",
+      "unsigned-witness-echo",
+      "breath-returned-from-empty-receiver"
+    ],
+    "uniqueModes": [
+      "inherit-the-speakers-name",
+      "refuse-a-body-and-live-as-absence",
+      "inherit-the-unlived-years",
+      "inherit-the-right-to-be-answered"
+    ]
+  },
+  "tribunalOutcome": "personhood-was-divided-among-the-unhearing",
+  "reloadEquality": true,
+  "mobileObservations": [
+    {
+      "sceneId": "unspoken-personhood-court",
+      "naturalDimensions": {
+        "width": 1536,
+        "height": 1024
+      },
+      "hotspotCount": 3,
+      "overflowX": 0
+    },
+    {
+      "sceneId": "silent-intent-archive",
+      "naturalDimensions": {
+        "width": 1536,
+        "height": 1024
+      },
+      "hotspotCount": 3,
+      "overflowX": 0
+    },
+    {
+      "sceneId": "personhood-inheritance-examination",
+      "naturalDimensions": {
+        "width": 1536,
+        "height": 1024
+      },
+      "hotspotCount": 4,
+      "overflowX": 0
+    },
+    {
+      "sceneId": "unuttered-estate-tribunal",
+      "naturalDimensions": {
+        "width": 1536,
+        "height": 1024
+      },
+      "hotspotCount": 3,
+      "overflowX": 0
+    }
+  ],
+  "collectedDiagnostics": {
+    "pageErrors": [],
+    "consoleErrors": [],
+    "consoleWarnings": [],
+    "failedRequests": [],
+    "httpResponsesGte400": []
+  },
+  "screenshotPaths": {
+    "executorConfessionDesktop": "design-qa-evidence/v79-executor-confession-desktop.png",
+    "courtDesktop": "design-qa-evidence/v79-unspoken-personhood-court-desktop.png",
+    "tribunalDesktop": "design-qa-evidence/v79-tribunal-coverage-desktop.png",
+    "courtMobile": "design-qa-evidence/v79-unspoken-personhood-court-mobile.png"
+  },
+  "overallPass": true
+}

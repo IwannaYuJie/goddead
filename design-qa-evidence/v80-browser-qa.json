@@ -1,0 +1,88 @@
+{
+  "version": 80,
+  "checkedAt": "2026-08-27T16:32:00+08:00",
+  "browser": "Google Chrome",
+  "windowPolicy": "one window, one tab",
+  "desktop": {
+    "result": "pass",
+    "scenes": [
+      "unfinished-thought-asylum",
+      "interruption-trace-archive",
+      "counterfactual-treatment-lab",
+      "last-conclusion-hearing"
+    ],
+    "evidence": [
+      "v80-unfinished-thought-asylum-desktop.jpeg",
+      "v80-last-conclusion-hearing-desktop.jpeg"
+    ]
+  },
+  "mobile": {
+    "result": "pass",
+    "viewport": {
+      "width": 500,
+      "height": 778,
+      "documentWidth": 500,
+      "horizontalOverflow": false
+    },
+    "asylumHotspots": [
+      {
+        "id": "unfinished-thought-name-never-finished-thinking",
+        "width": 124,
+        "height": 215
+      },
+      {
+        "id": "unfinished-thought-escape-aborted-by-reason",
+        "width": 147,
+        "height": 215
+      },
+      {
+        "id": "unfinished-thought-happiness-never-permitted",
+        "width": 124,
+        "height": 215
+      }
+    ],
+    "evidence": [
+      "v80-unfinished-thought-asylum-mobile.jpeg",
+      "v80-last-conclusion-hearing-mobile.jpeg"
+    ]
+  },
+  "trustedInteractionFlows": [
+    {
+      "name": "complete admission loop",
+      "path": [
+        "remembrance",
+        "unfinished-thought-asylum",
+        "interruption-trace-archive",
+        "counterfactual-treatment-lab",
+        "unlived-nursery",
+        "unfinished-thought-asylum"
+      ],
+      "result": "pass"
+    },
+    {
+      "name": "thought completes its thinker",
+      "target": "unending-gallery",
+      "outcome": "the-thought-completed-its-thinker",
+      "pending": null,
+      "result": "pass"
+    },
+    {
+      "name": "recycle abandoned possibilities",
+      "target": "counterfactual-spindle",
+      "outcome": "all-abandoned-possibilities-were-recycled",
+      "pending": null,
+      "result": "pass"
+    }
+  ],
+  "coldLoadPending": {
+    "targetArrival": "pass",
+    "sourceResume": "pass",
+    "settlesOnce": true
+  },
+  "automatedChecks": {
+    "nodeCheckScript": "pass",
+    "nodeCheckTests": "pass",
+    "gitDiffCheck": "pass",
+    "assertions": 12213
+  }
+}

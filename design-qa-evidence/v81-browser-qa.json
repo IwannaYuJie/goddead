@@ -1,0 +1,112 @@
+{
+  "version": 81,
+  "checkedAt": "2026-08-27T19:14:50+08:00",
+  "browser": "Google Chrome",
+  "windowPolicy": "one window, one tab",
+  "operator": "Computer Use with docked DevTools in the same window",
+  "visualCapture": {
+    "result": "pass",
+    "method": "Chrome DevTools full-size screenshot command in the same tab",
+    "reason": "The macOS compositor screenshot stayed blank while Computer Use kept the inspected tab document.hidden; Chrome full-size capture rendered the real page pixels.",
+    "evidence": [
+      "v81-regret-reclamation-plant-desktop.png",
+      "v81-regret-reclamation-plant-mobile.png"
+    ]
+  },
+  "accessibilityCorrection": {
+    "result": "pass",
+    "defect": "Interactive hotspot buttons were descendants of figure role=img and were suppressed from Chrome's accessibility tree.",
+    "fix": "Gemini 3.7 Flash High moved each figure description to the nested image alt and removed role=img plus aria-label from all four interactive figures.",
+    "exposedHotspots": {
+      "regret-reclamation-plant": 3,
+      "abandonment-residue-weighhouse": 3,
+      "second-life-smelting-line": 4,
+      "zero-waste-life-furnace": 3
+    }
+  },
+  "desktop": {
+    "result": "pass",
+    "viewport": {
+      "width": 915,
+      "height": 784,
+      "documentWidth": 915,
+      "documentHeight": 784,
+      "horizontalOverflow": false
+    },
+    "plantHotspots": [
+      { "id": "regret-material-road-never-taken", "width": 236, "height": 405, "x": 78, "right": 313 },
+      { "id": "regret-material-person-never-loved", "width": 243, "height": 405, "x": 336, "right": 579 },
+      { "id": "regret-material-self-never-became", "width": 236, "height": 405, "x": 602, "right": 837 }
+    ]
+  },
+  "mobile": {
+    "result": "pass",
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "documentWidth": 390,
+      "documentHeight": 844,
+      "horizontalOverflow": false
+    },
+    "plantHotspots": [
+      { "id": "regret-material-road-never-taken", "width": 111, "height": 191, "x": 23, "right": 135 },
+      { "id": "regret-material-person-never-loved", "width": 115, "height": 191, "x": 145, "right": 260 },
+      { "id": "regret-material-self-never-became", "width": 111, "height": 191, "x": 271, "right": 382 }
+    ]
+  },
+  "trustedInteractionFlows": [
+    {
+      "name": "unwalked-mile batch and return",
+      "path": [
+        "remembrance",
+        "regret-reclamation-plant",
+        "abandonment-residue-weighhouse",
+        "second-life-smelting-line",
+        "descending-appeals-stair",
+        "regret-reclamation-plant"
+      ],
+      "selection": ["road-never-taken", "dust-from-the-unwalked-mile", "cast-a-new-childhood"],
+      "result": "pass"
+    },
+    {
+      "name": "unused-pillow batch and return",
+      "target": "borrowed-childhood",
+      "selection": ["person-never-loved", "warmth-from-the-unused-pillow", "forge-courage-for-the-next-self"],
+      "returnControl": "unused-pillow reclaimer",
+      "result": "pass"
+    },
+    {
+      "name": "unworn-face batch and return",
+      "target": "identity-correction",
+      "selection": ["self-never-became", "fingerprint-inside-an-unworn-face", "build-a-strangers-spare-life"],
+      "returnControl": "unworn-face reclaimer",
+      "result": "pass"
+    },
+    {
+      "name": "fourth-use coverage batch",
+      "target": "descending-appeals-stair",
+      "selection": ["road-never-taken", "dust-from-the-unwalked-mile", "return-regret-without-processing"],
+      "coverage": { "materials": 3, "residues": 3, "uses": 4, "batches": 4 },
+      "result": "pass"
+    },
+    {
+      "name": "furnace outcomes",
+      "outcomes": [
+        { "action": "declare-regret-renewable", "target": "remembrance" },
+        { "action": "manufacture-every-life-from-foreign-regret", "target": "unending-gallery" },
+        { "action": "classify-forgiveness-as-unrecyclable-waste", "target": "offering" }
+      ],
+      "result": "pass"
+    }
+  ],
+  "qaRuntimeOnly": {
+    "productionFilesChanged": false,
+    "style": ".scene transitions disabled only in the inspected tab so hidden-document timers could be inspected without a stuck opacity transition"
+  },
+  "automatedChecks": {
+    "nodeCheckScript": "pass",
+    "nodeCheckTests": "pass",
+    "gitDiffCheck": "pass",
+    "assertions": 12967
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "version": 82,
+  "checkedAt": "2026-08-29T19:34:24+08:00",
+  "browser": "Google Chrome",
+  "operator": "Computer Use with DevTools docked in the same window",
+  "windowPolicy": {
+    "windows": 1,
+    "tabs": 1,
+    "result": "pass"
+  },
+  "visualEvidence": [
+    "design-qa-evidence/v82-forgiveness-landfill-desktop.png",
+    "design-qa-evidence/v82-harmlessness-final-well-desktop.png",
+    "design-qa-evidence/v82-forgiveness-landfill-mobile.png",
+    "design-qa-evidence/v82-harmlessness-final-well-mobile.png"
+  ],
+  "browserDefectsResolved": [
+    {
+      "area": "remembrance codex",
+      "symptom": "painting the codex cleared the outer shell and removed its entry controls",
+      "resolution": "paint only the dedicated codex grid and preserve the shell"
+    },
+    {
+      "area": "remembrance entry",
+      "symptom": "the entry button existed but its parent remained hidden with a zero-sized rectangle",
+      "resolution": "synchronize the parent shell visibility together with the button"
+    },
+    {
+      "area": "legacy recorder returns",
+      "symptom": "the recorder panel opened while its response and return button remained hidden with zero-sized rectangles",
+      "resolution": "synchronize container, canonical feedback, and return-button visibility for all three recorder families"
+    }
+  ],
+  "trustedInteractionFlows": [
+    {
+      "waste": "apology-never-accepted",
+      "certificate": "unopened-absolution-receipt",
+      "disposal": "bury-it-beneath-a-future-life",
+      "legacyTarget": "offering",
+      "recorderReturn": "pass"
+    },
+    {
+      "waste": "debt-already-forgiven",
+      "certificate": "zero-balance-debt-scale",
+      "disposal": "let-the-soil-forget-the-cause",
+      "legacyTarget": "liability-ledger",
+      "recorderReturn": "pass"
+    },
+    {
+      "waste": "wound-that-stopped-demanding",
+      "certificate": "scar-closed-without-witness",
+      "disposal": "grow-innocence-from-old-harm",
+      "legacyTarget": "causeless-ward",
+      "recorderReturn": "pass"
+    },
+    {
+      "waste": "apology-never-accepted",
+      "certificate": "unopened-absolution-receipt",
+      "disposal": "exhume-it-for-permanent-record",
+      "legacyTarget": "offering",
+      "recorderReturn": "pass"
+    },
+    {
+      "wellAction": "seal-every-forgiven-harm-forever",
+      "target": "remembrance",
+      "result": "pass"
+    }
+  ],
+  "resultingMemory": {
+    "uniqueDisposals": "4/36",
+    "runs": 4,
+    "wasteTallies": [2, 1, 1],
+    "axisCoverage": ["3/3", "3/3", "4/4"],
+    "wellOutcomes": "1/3"
+  },
+  "stateSafety": {
+    "refreshIdempotence": "pass",
+    "lockedDirectHashNormalization": "pass",
+    "malformedStateRecovery": "pass",
+    "duplicateSettlementAfterReload": false
+  },
+  "desktop": {
+    "viewport": "915x774",
+    "document": "915x774",
+    "horizontalOverflow": false,
+    "imageNaturalSize": "1536x1024",
+    "hotspots": [
+      { "width": 234.977, "height": 403.727 },
+      { "width": 242.555, "height": 403.727 },
+      { "width": 234.977, "height": 403.727 }
+    ]
+  },
+  "mobile": {
+    "viewport": "390x844",
+    "document": "390x844",
+    "horizontalOverflow": false,
+    "imageNaturalSize": "1536x1024",
+    "minimumObservedHotspot": "110.6x189.75",
+    "minimumTargetRequirement": "44x44",
+    "result": "pass"
+  },
+  "console": {
+    "applicationErrors": 0,
+    "warnings": [
+      "hero.png was preloaded but was not used shortly after the window load event"
+    ]
+  },
+  "automatedChecks": {
+    "nodeCheckScript": "pass",
+    "nodeCheckTests": "pass",
+    "gitDiffCheck": "pass",
+    "assertions": 13642
+  },
+  "delivery": {
+    "commit": false,
+    "push": false,
+    "deploy": false
+  }
+}

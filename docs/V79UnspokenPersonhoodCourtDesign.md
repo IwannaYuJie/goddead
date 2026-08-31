@@ -1,8 +1,8 @@
 # v79 未言人格继承院 / COURT OF UNSPOKEN PERSONHOOD
 
 版本：v79 设计冻结稿
-状态：设计与素材冻结，待 v78 独立验收后交 Kimi 实装
-职责：Codex 设计 / 素材 / 独立验收；Kimi 生产前端 / 测试 / 文档同步
+状态：Codex 独立静态门禁（11535 测试断言全绿）与桌面 / 手机独立浏览器 QA 验收通过；已纳入 v90 汇总发布批次
+职责：Codex 设计 / 素材 / 独立验收；Gemini 3.7 Flash High 生产前端 / 测试 / 文档同步
 
 ## 核心命题
 
@@ -200,6 +200,19 @@ version：`79`
 - 解锁只读 v78；十一键、36+3、七 pending、三 activeExecutor、四份 coverage、18 isTrusted、forget-all、v78 回归；
 - 整页主初始化链必须包含 v79 全套 sync / paint / replay，禁止只测隔离模块；
 - Codex 浏览器验桌面/手机、真实三段点击、三个旧场景回程、coverage/终审/刷新/坏档/console。
+
+## 最终独立验收
+
+- **分工**：Gemini 3.7 Flash High 编写生产前端、测试、实现文档与两项缺陷修复；Codex 负责设计素材、应用输出、诊断与独立 QA。
+- **静态门禁**：`node --check script.js`、`node --check tests/site.test.mjs`、`node tests/site.test.mjs`（`11535 assertions passed`）与 `git diff --check` 全绿。
+- **生产修复一**：`getFirstPersonRationing()` 原本计算了解锁却未在返回状态中带上运行时 `_v78unlocked`，令 v79 永久锁定；Gemini 现返回运行时标记，持久化 v78 仍严格保持 canonical 十一键，并追加 runtime/persisted separation 回归。
+- **生产修复二**：旧 v29 守卫曾把合法 v79 目标 `confession` 改写到 `#corridor`；Gemini 增加窄条件 `!unspokenPersonhoodBridgeAllows(target)` 并更新 v29/v53/v79 路由回归，未放宽无关路线。
+- **锁定与坏档**：锁定 direct `#unspoken-personhood-court` 回到 `#remembrance` 且不创建 v79 key；malformed v79 JSON 在成熟有效 v78 前置下安全降级，普通 v79 入口 visible/enabled，39 格图鉴全部存在且锁定，终审入口隐藏。
+- **真实流程**：四条受信任三次点击流合计覆盖 3 claimant、3 evidence、4 mode（未声称点击 36 种组合）；三个目标 `confession`、`testament-clearing-vault`、`unseated-listening-booth` 的专属执行官和 enabled 返回均通过，每次返回后 draft / activeExecutor / pending 清空。
+- **终审与重载**：4/36 解锁终审；真实点击 `divide-personhood-among-all-listeners` 得到 `personhood-was-divided-among-the-unhearing`，持久化保持 4 grants、1/3 tribunal outcomes，UI 解锁 5 格图鉴；重载后完整 v79 持久化状态严格深相等。
+- **双端视觉与诊断**：桌面 1280×720 和真实移动 390×844 通过；四场景图片 natural 1536×1024，热点在图内、互不重叠、各 ≥44px，横向溢出 ≤1px；console / page / resource 诊断全为 0。
+- **证据**：`design-qa-evidence/v79-browser-qa.json`、`design-qa-evidence/v79-executor-confession-desktop.png`、`design-qa-evidence/v79-unspoken-personhood-court-desktop.png`、`design-qa-evidence/v79-tribunal-coverage-desktop.png`、`design-qa-evidence/v79-unspoken-personhood-court-mobile.png`。
+- **边界**：仅本地验收，未 commit、push、deploy 或生产发布。
 
 ## v80 活口
 

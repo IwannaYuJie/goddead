@@ -1,0 +1,192 @@
+{
+  "version": 87,
+  "date": "2026-08-30",
+  "method": "Computer Use against the local Chrome UI",
+  "browserPolicy": {
+    "windows": 1,
+    "tabs": 1,
+    "devtools": "temporarily docked in the same Chrome window",
+    "extraBrowserInstances": false
+  },
+  "lockedDirectRoute": {
+    "requestedHash": "nonexistence-debt-collection-agency",
+    "fallbackHash": "remembrance",
+    "v87StatePresent": false,
+    "passed": true
+  },
+  "runtimeRegression": {
+    "finding": "v87 settled choice buttons were disabled because the pending gate was inverted",
+    "affectedGroups": [
+      "debtors",
+      "instruments",
+      "remedies",
+      "collector-return",
+      "bankruptcy-actions"
+    ],
+    "correctionAuthor": "gemini-3.7-flash-high",
+    "verifiedByTrustedClicks": true,
+    "staticAssertionsAfterCorrection": 14846,
+    "passed": true
+  },
+  "trustedClickCoverage": {
+    "collectionFlows": [
+      {
+        "debtor": "citizen-who-exists-only-as-nonexistence",
+        "instrument": "absence-tax-bill-addressed-to-a-blank-citizen",
+        "remedy": "garnish-every-memory-that-proves-existence",
+        "target": "posthumous-census-hall",
+        "collector": "absence-tax-bailiff",
+        "returnToAgency": true
+      },
+      {
+        "debtor": "visitor-erased-but-still-in-arrears",
+        "instrument": "mortgage-on-space-never-occupied",
+        "remedy": "repossess-the-body-before-delivery",
+        "target": "reality-refund-counter",
+        "collector": "vacancy-repossessor",
+        "returnToAgency": true
+      },
+      {
+        "debtor": "world-that-disinherited-itself",
+        "instrument": "bond-backed-by-years-never-lived",
+        "remedy": "capitalize-nonexistence-into-eternal-interest",
+        "target": "last-word-central-bank",
+        "collector": "unlived-years-auditor",
+        "returnToAgency": true
+      },
+      {
+        "debtor": "citizen-who-exists-only-as-nonexistence",
+        "instrument": "absence-tax-bill-addressed-to-a-blank-citizen",
+        "remedy": "declare-death-an-insufficient-payment",
+        "target": "posthumous-census-hall",
+        "collector": "absence-tax-bailiff",
+        "returnToAgency": true
+      }
+    ],
+    "dimensionCoverage": {
+      "debtors": "3/3",
+      "instruments": "3/3",
+      "remedies": "4/4",
+      "oldTargets": "3/3"
+    },
+    "collectionState": {
+      "collections": 4,
+      "collectionRuns": 4,
+      "debtorTallies": {
+        "citizen": 2,
+        "visitor": 1,
+        "world": 1
+      },
+      "pending": null,
+      "activeCollector": null,
+      "draft": {
+        "debtor": "",
+        "instrument": ""
+      }
+    },
+    "bankruptcyOutcomes": [
+      {
+        "action": "forgive-every-debt-before-existence",
+        "outcome": "every-debt-was-forgiven-before-anyone-existed",
+        "target": "threshold"
+      },
+      {
+        "action": "make-nonexistence-the-sole-creditor",
+        "outcome": "nonexistence-became-the-only-creditor",
+        "target": "remembrance"
+      },
+      {
+        "action": "foreclose-on-the-worlds-right-to-exist",
+        "outcome": "the-world-was-foreclosed-for-nonpayment",
+        "target": "unending-gallery"
+      }
+    ],
+    "finalBankruptcyState": {
+      "bankruptcyOutcomes": 3,
+      "bankruptcyRuns": 3,
+      "lastRoute": "unending-gallery",
+      "pending": null
+    }
+  },
+  "refreshIdempotence": {
+    "route": "unending-gallery",
+    "before": {
+      "collections": 4,
+      "collectionRuns": 4,
+      "bankruptcyOutcomes": 3,
+      "bankruptcyRuns": 3
+    },
+    "after": {
+      "collections": 4,
+      "collectionRuns": 4,
+      "bankruptcyOutcomes": 3,
+      "bankruptcyRuns": 3,
+      "pending": null
+    },
+    "passed": true
+  },
+  "malformedStorageRecovery": {
+    "valueWritten": "{bad",
+    "reloadHash": "unending-gallery",
+    "activeScene": "scene-unending-gallery",
+    "rawValueBeforeExplicitQaRestore": "{bad",
+    "pageRemainedReachable": true,
+    "crash": false,
+    "passed": true
+  },
+  "responsiveQA": {
+    "deviceViewport": {
+      "width": 390,
+      "height": 844
+    },
+    "nonexistenceDebtCollectionAgency": {
+      "scrollWidth": 390,
+      "bodyScrollWidth": 390,
+      "horizontalOverflow": false
+    },
+    "unpayableExistenceBankruptcyCourt": {
+      "scrollWidth": 390,
+      "bodyScrollWidth": 390,
+      "horizontalOverflow": false
+    }
+  },
+  "screenshots": [
+    {
+      "file": "v87-nonexistence-debt-collection-agency-desktop.png",
+      "bytes": 304449,
+      "sha256": "beaea5712c39537d964093ee9459118dcbc6da8487ac97f83d2382cdbd8d9725"
+    },
+    {
+      "file": "v87-unpayable-existence-bankruptcy-court-desktop.png",
+      "bytes": 745238,
+      "sha256": "6c33725932ad555c00df26f146a070e6865e703fcdf0e61f1cf74a6e1099d631"
+    },
+    {
+      "file": "v87-nonexistence-debt-collection-agency-mobile.png",
+      "bytes": 164665,
+      "sha256": "8a9c0b6127e6c065ee20f645f027a817dcee34f8182b58a78e05e5bd8f4d299f"
+    },
+    {
+      "file": "v87-unpayable-existence-bankruptcy-court-mobile.png",
+      "bytes": 380081,
+      "sha256": "fb21e159a9a442da3cd8406aa1a80df9bf08c1ae81f8751799222d1ebde2c26b"
+    }
+  ],
+  "storageRestoration": {
+    "backupKeyCount": 22,
+    "restoredKeyCount": 22,
+    "backupKeyPresentAfterRestore": false,
+    "validQaBackupPresentAfterRestore": false,
+    "v87KeyPresentAfterRestore": false,
+    "v83OriginalKey": "goddead_v83_harm_archaeology",
+    "v83OriginalHearingOutcomeCount": 1,
+    "passed": true
+  },
+  "finalChromeState": {
+    "windows": 1,
+    "tabs": 1,
+    "devtoolsOpen": false,
+    "deviceEmulation": false,
+    "hash": "remembrance"
+  }
+}

@@ -1,8 +1,8 @@
 # v83 伤害考古局 / BUREAU OF HARM ARCHAEOLOGY
 
-版本：v83 设计冻结稿
-状态：设计与素材冻结，待 v82 实装并独立验收后交 Kimi 实装
-职责：Codex 设计 / 素材 / 独立验收；Kimi 生产前端 / 测试 / 文档同步
+版本：v83 实装完成稿
+状态：实装完成 / 真实浏览器 QA 通过 / 自动化测试 14319 断言通过
+职责分工：Codex 设计功能、生成/审校/压缩四张插画、集成模型输出并独立验证；Gemini 3.7 Flash High 编写前端代码、测试套件、实现文档并完成修复
 
 ## 核心命题
 
@@ -196,12 +196,26 @@ version：`83`
 | `design-references/source-v83-crime-scene-without-offender.png`（1536×1024 / 2899772 B / `6c96a1f28b6a3a1011abeb86e190fb2e7aa01c0e0daccc4e338e8df4abf2fb8a`） | `assets/v83-crime-scene-without-offender.webp`（1536×1024 / 268420 B / `657c84f8836460c5cb6019256497a36842e4ad85b62becf04387731581d868b9`） |
 | `design-references/source-v83-second-harm-hearing-court.png`（1536×1024 / 2732087 B / `c0a97c021b18fae2759357c3950ff17249058365841e08b7045991a999d13bf1`） | `assets/v83-second-harm-hearing-court.webp`（1536×1024 / 244890 B / `cc68a511dd68166e8d06ff9ee84583c0051850d84d20d82756644cb354b4a2de`） |
 
-## 静态与浏览器门槛
+## 静态与浏览器门槛（已完成验证）
 
-- cache `v=83`，165 场景，四幕标题 / 路由 / preload / 目录；
-- 解锁只读 v82；十一键、36+3、七 pending、三 activeReconstructor、四份 coverage、18 isTrusted、forget-all、v82 回归；
-- 主初始化链包含 v83 全套 sync / paint / replay；handler 动态 ID 与 index.html 真实 ID 全量联动测试；
-- Codex 浏览器验桌面/手机、真实三段点击、三个旧场景回程、coverage/听证/刷新/坏档/console。
+- **静态语法与自动化断言门禁**：
+  - `node --check script.js`：通过。
+  - `node --check tests/site.test.mjs`：通过。
+  - `git diff --check`：通过。
+  - `node tests/site.test.mjs`：通过，输出 `site.test.mjs: 14319 assertions passed`。
+- **独立浏览器 QA 验收（单 Chrome 窗口单标签页）**：
+  - 直达锁止与损坏存储自愈：直达 `#harm-archaeology-bureau` 或损坏存储直达 `#second-harm-hearing-court` 均安全规范化重定向至 `#remembrance`。
+  - 4 轮真实发掘与 3 处重构器链路：实测覆盖 3 遗址、3 器具、4 定性，痛感重构刷 -> `threshold`、责任花粉筛 -> `liability-ledger`、缺席证人石膏像 -> `causeless-ward` 均无缝跳转。
+  - 庭审法庭终审与 39 格全法典：执行 `convict-the-investigation` 产出 `the-investigation-was-convicted-of-second-harm`；36 报告全图鉴展示完整。
+  - 幂等性与视口规范：页面刷新前后数据严格一致（reports: 36, excavationRuns: 36, hearingRuns: 1, outcomes: 1）；桌面（1470x774）与移动端（390x844）均无横向溢出，交互热区均满足并超过触控标准。
+  - 控制台 0 应用错误（仅 1 处非致命 `hero.png` 预加载告警）。
+- **落盘取证凭证**：
+  - `design-qa-evidence/v83-browser-qa.json`
+  - `design-qa-evidence/v83-harm-archaeology-bureau-desktop.png`
+  - `design-qa-evidence/v83-crime-scene-without-offender-desktop.png`
+  - `design-qa-evidence/v83-second-harm-hearing-court-desktop.png`
+  - `design-qa-evidence/v83-harm-archaeology-bureau-mobile.png`
+  - `design-qa-evidence/v83-second-harm-hearing-court-mobile.png`
 
 ## v84 活口
 

@@ -1,8 +1,8 @@
 # v84 无罪证人保护院 / WITNESS PROTECTION FOR THE INNOCENT
 
-版本：v84 设计冻结稿
-状态：设计与素材冻结，待 v83 实装并独立验收后交 Kimi 实装
-职责：Codex 设计 / 素材 / 独立验收；Kimi 生产前端 / 测试 / 文档同步
+版本：v84 本地实装与独立验收完成稿
+状态：实现闭环完成，独立验收通过；已纳入 v90 汇总发布批次
+职责：Codex 设计 / 素材 / 独立验收；Gemini 3.7 Flash High 生产前端 / 测试 / 文档同步
 
 ## 核心命题
 
@@ -204,6 +204,14 @@ version：`84`
 - 解锁只读 v83；十一键、36+3、七 pending、三 activeHandler、四份 coverage、18 isTrusted、forget-all、v83 回归；
 - 主初始化链包含 v84 全套 sync / paint / replay；handler 动态 ID 与 index.html 真实 ID 全量联动测试；
 - Codex 浏览器验桌面/手机、真实三段点击、三个旧场景回程、coverage/终庭/刷新/坏档/console。
+
+## 验收结论与实装记录（2026-08-29）
+
+- **代码与测试实现**：由 Gemini 3.7 Flash High 完成前端场景、状态机逻辑与单元测试编写。测试套件通过全部 14,473 项断言。
+- **场景拓扑扩展**：场景数由 165 扩展至 169（Cache `v=84`），4 张 1536x1024 冻结素材与 WebP 运行时资源均已就位并核验哈希一致。
+- **机制与状态模型**：建立 `goddead_v84_innocent_witness_protection` 存储契约（11 个规范持久化字段），单向读取上游 `goddead_v83_harm_archaeology`；完整实装 36 组合安置矩阵、3 位身份掩护员调度及 3 项终身安置庭裁决终局。
+- **独立浏览器实机 QA**：由 Codex 使用单一 Chrome 窗口与单一标签页完成实机验收，验证了无 v84 状态下既有进度的门禁拦截重定向、v83 全听证解锁入口、4 次真实受信任安置操作（覆盖 3 证人、3 程序、4 条保护条款）、3 位掩护员与 3 种裁决链路、幂等刷新、损坏数据容灾恢复及双端无溢出热区达标。测试完成后已精确恢复用户测试前数据。
+- **交付状态**：本地实装与验收全链路闭环，保持 no commit / no push / no deploy / no public release。
 
 ## v85 活口
 

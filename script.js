@@ -1145,6 +1145,149 @@ document.addEventListener("DOMContentLoaded", () => {
     syncSelfAuthenticityRemembrance();
     syncSelfAuthenticityLinks();
     replaySelfAuthenticityPending(name);
+    resolveFirstPersonRationingPendingOnArrival(name);
+    syncFirstPersonRationingBureau();
+    syncFirstPersonRationingArchive();
+    syncFirstPersonRationingChamber();
+    syncFirstPersonRationingCourt();
+    syncFirstPersonRationingAllocators();
+    paintFirstPersonRationingMemory();
+    paintFirstPersonRationingCodex();
+    syncFirstPersonRationingRemembrance();
+    syncFirstPersonRationingLinks();
+    replayFirstPersonRationingPending(name);
+    resolveUnspokenPersonhoodPendingOnArrival(name);
+    syncUnspokenPersonhoodCourt();
+    syncUnspokenPersonhoodArchive();
+    syncUnspokenPersonhoodExamination();
+    syncUnspokenPersonhoodTribunal();
+    syncUnspokenPersonhoodExecutors();
+    paintUnspokenPersonhoodMemory();
+    paintUnspokenPersonhoodCodex();
+    syncUnspokenPersonhoodRemembrance();
+    syncUnspokenPersonhoodLinks();
+    replayUnspokenPersonhoodPending(name);
+    resolveUnfinishedThoughtPendingOnArrival(name);
+    resolveRegretReclamationPendingOnArrival(name);
+    syncUnfinishedThoughtAsylum();
+    syncUnfinishedThoughtArchive();
+    syncUnfinishedThoughtLab();
+    syncUnfinishedThoughtHearing();
+    syncUnfinishedThoughtPhysicians();
+    paintUnfinishedThoughtMemory();
+    paintUnfinishedThoughtCodex();
+    syncUnfinishedThoughtRemembrance();
+    syncUnfinishedThoughtLinks();
+    replayUnfinishedThoughtPending(name);
+    syncRegretReclamationPlant();
+    syncRegretResidueWeighhouse();
+    syncRegretSmeltingLine();
+    syncRegretLifeFurnace();
+    syncRegretReclaimers();
+    paintRegretReclamationMemory();
+    paintRegretReclamationCodex();
+    syncRegretReclamationRemembrance();
+    syncRegretReclamationLinks();
+    replayRegretReclamationPending(name);
+    resolveForgivenessPendingOnArrival(name);
+    syncForgivenessLandfill();
+    syncInertHarmCertificateVault();
+    syncMercyBurialTrench();
+    syncHarmlessnessFinalWell();
+    syncForgivenessRecorders();
+    paintForgivenessLandfillMemory();
+    paintForgivenessLandfillCodex();
+    syncForgivenessLandfillRemembrance();
+    syncForgivenessLandfillLinks();
+    replayForgivenessPending(name);
+    resolveHarmPendingOnArrival(name);
+    syncHarmArchaeologyBureau();
+    syncForensicMercyExcavation();
+    syncCrimeSceneWithoutOffender();
+    syncSecondHarmHearingCourt();
+    syncHarmReconstructors();
+    paintHarmArchaeologyMemory();
+    paintHarmArchaeologyCodex();
+    syncHarmArchaeologyRemembrance();
+    syncHarmArchaeologyLinks();
+    replayHarmArchaeologyPending(name);
+    resolveWitnessProtectionPendingOnArrival(name);
+    syncInnocentWitnessProtectionBureau();
+    syncIdentityCausalityLaundry();
+    syncMemoryRelocationSafehouse();
+    syncAnonymousTruthLifetimeCourt();
+    syncWitnessProtectionHandlers();
+    paintWitnessProtectionMemory();
+    paintWitnessProtectionCodex();
+    syncWitnessProtectionRemembrance();
+    syncWitnessProtectionLinks();
+    replayWitnessProtectionPending(name);
+    resolveOrphanedFactPendingOnArrival(name);
+    syncOrphanedFactClaimOffice();
+    syncFactInheritanceVault();
+    syncCausalEstateExecutionDesk();
+    syncOwnerlessTruthEstateCourt();
+    syncOrphanedFactExecutors();
+    paintOrphanedFactMemory();
+    paintOrphanedFactCodex();
+    syncOrphanedFactRemembrance();
+    syncOrphanedFactLinks();
+    replayOrphanedFactPending(name);
+    resolveExistenceRenunciationPendingOnArrival(name);
+    syncExistenceRenunciationRegistry();
+    syncProofOfNonexistenceArchive();
+    syncOntologicalDisinheritanceChamber();
+    syncCivilNonexistenceFinalTribunal();
+    syncExistenceRenunciationRegistrars();
+    paintExistenceRenunciationMemory();
+    paintExistenceRenunciationCodex();
+    syncExistenceRenunciationRemembrance();
+    syncExistenceRenunciationLinks();
+    replayExistenceRenunciationPending(name);
+    resolveNonexistenceDebtPendingOnArrival(name);
+    syncNonexistenceDebtCollectionAgency();
+    syncAbsenceArrearsLedgerVault();
+    syncOntologicalRepossessionChamber();
+    syncUnpayableExistenceBankruptcyCourt();
+    syncNonexistenceDebtCollectors();
+    paintNonexistenceDebtMemory();
+    paintNonexistenceDebtCodex();
+    syncNonexistenceDebtRemembrance();
+    syncNonexistenceDebtLinks();
+    replayNonexistenceDebtPending(name);
+    resolveUnhappenedAuctionPendingOnArrival(name);
+    syncAuctionHouseForEventsThatNeverHappened();
+    syncCatalogueOfUnoccupiedReality();
+    syncCounterfactualBiddingFloor();
+    syncRetroactiveOccurrenceTitleCourt();
+    syncUnhappenedAuctioneers();
+    paintUnhappenedAuctionMemory();
+    paintUnhappenedAuctionCodex();
+    syncUnhappenedAuctionRemembrance();
+    syncUnhappenedAuctionLinks();
+    replayUnhappenedAuctionPending(name);
+    resolveAccomplishedFactEvictionPendingOnArrival(name);
+    syncAccomplishedFactEvictionAuthority();
+    syncCondemnedHistorySurveyOffice();
+    syncRetroactiveDemolitionYard();
+    syncFinalOccupancyAppealCourt();
+    syncAccomplishedFactBailiffs();
+    paintAccomplishedFactEvictionMemory();
+    paintAccomplishedFactEvictionCodex();
+    syncAccomplishedFactEvictionRemembrance();
+    syncAccomplishedFactEvictionLinks();
+    replayAccomplishedFactEvictionPending(name);
+    resolveCauselessConsequencePendingOnArrival(name);
+    syncCauselessConsequenceRefugeeAuthority();
+    syncBorrowedCauseSponsorshipOffice();
+    syncCausalBorderProcessingStation();
+    syncFinalAsylumTribunalForCauselessConsequences();
+    syncCauselessConsequenceConsuls();
+    paintCauselessConsequenceRefugeeMemory();
+    paintCauselessConsequenceRefugeeCodex();
+    syncCauselessConsequenceRefugeeRemembrance();
+    syncCauselessConsequenceRefugeeLinks();
+    replayCauselessConsequenceRefugeePending(name);
     updateHudDisplay();
   };
 
@@ -1160,7 +1303,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const resolveScene = (name) => {
     let target = name;
     if (target === "reliquary" && !reliquaryUnlocked()) target = "offering";
-    if (target === "offering" && !(watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted && getCancel().refused && getActing().appointed)) target = "acting";
+    if (target === "offering" && !regretReclamationBridgeAllows("offering") && !forgivenessLandfillBridgeAllows("offering") && !(watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted && getCancel().refused && getActing().appointed)) target = "acting";
     if (target === "acting" && !(watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted && getCancel().refused)) target = "cancellation";
     if (target === "cancellation" && !(watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted)) target = "deadletter";
     if (target === "deadletter" && !(watchUnlocked() && line4Unlocked() && getLine4().connected)) target = "switchboard";
@@ -1206,7 +1349,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const auditGuardState = getAudit();
     const beliefGuard = getBelief();
     if (BRANCH_SCENES.includes(target) && !branchState.visited[target] && AUDIT_BRANCH_OUTCOME[target] !== auditGuardState.outcome
-      && beliefGuard.pendingTarget !== target && !(BELIEF_SCENE_BRANCH[target] && beliefGuard.branches[BELIEF_SCENE_BRANCH[target]].visits > 0)) target = "corridor";
+      && beliefGuard.pendingTarget !== target && !(BELIEF_SCENE_BRANCH[target] && beliefGuard.branches[BELIEF_SCENE_BRANCH[target]].visits > 0) && !innocentWitnessProtectionBridgeAllows(target)
+      && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target)) target = "corridor";
 
     /* v33 结果房守卫：仅本轮 outcome 对应或曾到访时允许直达，否则规范化回复核科；
        复核科本身不设守卫，直接 hash 采用 neutral 顺序。
@@ -1230,7 +1374,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const settleGuard = getSettlement();
     if (SETTLE_NAME_SCENE[target] && SETTLE_RESULT_SCENES.includes(SETTLE_NAME_SCENE[target])) {
       const rk = SETTLE_NAME_SCENE[target];
-      if (!((settleGuard.settled && settleGuard.outcome === SETTLE_RESULT_OUTCOME[rk]) || settleGuard.visited[rk])) target = "annex-clearinghouse";
+      if (!((settleGuard.settled && settleGuard.outcome === SETTLE_RESULT_OUTCOME[rk]) || settleGuard.visited[rk] || regretReclamationBridgeAllows(target) || innocentWitnessProtectionBridgeAllows(target))) target = "annex-clearinghouse";
     }
     if (target === "annex-clearinghouse" && !settleUnlocked()) target = "eyelid-archive";
 
@@ -1245,11 +1389,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* v57 判词后果层守卫：五场景仅本轮合法 pendingTarget 或历史合法 visit 准入 */
     const ledgerGuard = getLedger();
-    if (LEDGER_SCENES.includes(target) && ledgerGuard.pendingTarget !== target && !ledgerGuard.visits[LEDGER_SCENE_KEY[target]]) target = "unnumbered-floor";
+    if (LEDGER_SCENES.includes(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && ledgerGuard.pendingTarget !== target && !ledgerGuard.visits[LEDGER_SCENE_KEY[target]]) target = "unnumbered-floor";
 
     /* v58 异议总署守卫：四场景仅本轮合法 pendingTarget 或历史合法 visit 准入 */
     const appealGuard = getAppeal();
-    if (APPEAL_SCENES.includes(target) && appealGuard.pendingTarget !== target && !appealGuard.visits[APPEAL_SCENE_KEY[target]]) target = "unnumbered-floor";
+    if (APPEAL_SCENES.includes(target) && appealGuard.pendingTarget !== target && !appealGuard.visits[APPEAL_SCENE_KEY[target]] && !regretReclamationBridgeAllows(target)) target = "unnumbered-floor";
 
     /* v59 交叉听证台守卫：仅本轮合法 pendingTarget 或真实 desk 到访准入；
        否则回退到合法的异议总署（总署本身不合法时归一无号层），不放宽任何旧守卫 */
@@ -1286,17 +1430,23 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
 
     /* v63 终局退件所守卫：仅合法 pending / 活动 activeEnding / 已到访且仍有合法结局时准入；
        v72 窄桥：instrument pending 或 activeRemittance 可抵达 unending-gallery；
-       v73 窄桥：declaration pending 或 activeInspector 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery')) {
+       v73 窄桥：declaration pending 或 activeInspector 可抵达 unending-gallery；
+       v85 窄桥：orphaned-fact pending 或 activeEstate 可抵达 unending-gallery；
+       v86 窄桥：renunciation pending 或 activeRegistrar 或 tribunal action 可抵达 unending-gallery；
+       v87 窄桥：bankruptcy-action 可抵达 unending-gallery；
+       v88 窄桥：title-action 可抵达 unending-gallery；
+       v89 窄桥：appeal-action 可抵达 unending-gallery；
+       v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
+    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1318,20 +1468,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* v65 因果疤痕守卫：仅合法 pending / 已真实进入无因收容室时准入 */
-    if (target === "causeless-ward" && !causalScarCanVisitRoom()) {
+    if (target === "causeless-ward" && !forgivenessLandfillBridgeAllows("causeless-ward") && !harmArchaeologyBridgeAllows("causeless-ward") && !causalScarCanVisitRoom()) {
       target = "remembrance";
     }
 
     /* v66 反事实纺生守卫 */
-    if (target === "counterfactual-spindle" && !counterfactualCanVisitSpindle()) target = "remembrance";
+    if (target === "counterfactual-spindle" && !counterfactualCanVisitSpindle() && !unfinishedThoughtBridgeAllows("counterfactual-spindle")) target = "remembrance";
     if (target === "scar-loom" && !counterfactualCanVisitLoom()) target = "remembrance";
-    if (target === "unlived-nursery" && !counterfactualCanVisitNursery()) target = "remembrance";
+    if (target === "unlived-nursery" && !counterfactualCanVisitNursery() && !unfinishedThoughtBridgeAllows("unlived-nursery") && !unhappenedEventAuctionBridgeAllows("unlived-nursery")) target = "remembrance";
     if (target === "life-without-cause" && !counterfactualCanVisitRoom()) target = "remembrance";
 
     /* v67 无血家谱守卫 */
     if (target === "counterfactual-genealogy" && !bloodlessCanVisitGenealogy()) target = "remembrance";
     if (target === "bloodless-archive" && !bloodlessCanVisitArchive()) target = "remembrance";
-    if (target === "borrowed-childhood" && !bloodlessCanVisitChildhood()) target = "remembrance";
+    if (target === "borrowed-childhood" && !bloodlessCanVisitChildhood() && !regretReclamationBridgeAllows("borrowed-childhood")) target = "remembrance";
     if (target === "last-family-court" && !bloodlessCanVisitCourt()) target = "remembrance";
 
     /* v68 世代借贷守卫 */
@@ -1341,9 +1491,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "age-foreclosure-court" && !generationLoansCanVisitForeclosure()) target = "remembrance";
 
     /* v69 死后人口普查守卫 */
-    if (target === "posthumous-census-hall" && !posthumousCensusCanVisitHall()) target = "remembrance";
-    if (target === "contradictory-evidence-archive" && !posthumousCensusCanVisitArchive()) target = "remembrance";
-    if (target === "birth-ballot-booth" && !posthumousCensusCanVisitBooth()) target = "remembrance";
+    if (target === "posthumous-census-hall" && !posthumousCensusCanVisitHall() && !nonexistenceDebtCollectionBridgeAllows('posthumous-census-hall')) target = "remembrance";
+    if (target === "contradictory-evidence-archive" && !posthumousCensusCanVisitArchive() && !orphanedFactBridgeAllows('contradictory-evidence-archive')) target = "remembrance";
+    if (target === "birth-ballot-booth" && !posthumousCensusCanVisitBooth() && !existenceRenunciationBridgeAllows('birth-ballot-booth') && !accomplishedFactEvictionBridgeAllows('birth-ballot-booth')) target = "remembrance";
     if (target === "population-nullification-court" && !posthumousCensusCanVisitNullification()) target = "remembrance";
 
     /* v70 亡者议会守卫 */
@@ -1356,12 +1506,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "death-foreign-ministry" && !deathDiplomacyCanVisitMinistry()) target = "remembrance";
     if (target === "nonexistent-border-chancery" && !deathDiplomacyCanVisitBorder()) target = "remembrance";
     if (target === "treaty-autopsy-table" && !deathDiplomacyCanVisitAutopsy()) target = "remembrance";
-    if (target === "undeclared-war-room" && !deathDiplomacyCanVisitWar()) target = "remembrance";
+    if (target === "undeclared-war-room" && !deathDiplomacyCanVisitWar() && !unhappenedEventAuctionBridgeAllows("undeclared-war-room") && !accomplishedFactEvictionBridgeAllows("undeclared-war-room")) target = "remembrance";
 
     /* v72 遗言中央银行守卫 */
-    if (target === "last-word-central-bank" && !lastWordBankCanVisitBank()) target = "remembrance";
+    if (target === "last-word-central-bank" && !lastWordBankCanVisitBank() && !nonexistenceDebtCollectionBridgeAllows('last-word-central-bank')) target = "remembrance";
     if (target === "unsaid-currency-mint" && !lastWordBankCanVisitMint()) target = "remembrance";
-    if (target === "testament-clearing-vault" && !lastWordBankCanVisitVault()) target = "remembrance";
+    if (target === "testament-clearing-vault" && !lastWordBankCanVisitVault() && !unspokenPersonhoodBridgeAllows('testament-clearing-vault')) target = "remembrance";
     if (target === "sovereign-default-chamber" && !lastWordBankCanVisitDefault()) target = "remembrance";
 
     /* v73 梦境海关总署守卫 */
@@ -1383,7 +1533,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "universal-recall-yard" && !apocalypseWarrantyCanVisitYard()) target = "remembrance";
 
     /* v76 现实退款处守卫 */
-    if (target === "reality-refund-counter" && !realityRefundCounterCanVisitCounter()) target = "remembrance";
+    if (target === "reality-refund-counter" && !realityRefundCounterCanVisitCounter() && !existenceRenunciationBridgeAllows('reality-refund-counter') && !nonexistenceDebtCollectionBridgeAllows('reality-refund-counter')) target = "remembrance";
     if (target === "proof-of-existence-incinerator" && !realityRefundCounterCanVisitIncinerator()) target = "remembrance";
     if (target === "reality-return-inspection" && !realityRefundCounterCanVisitInspection()) target = "remembrance";
     if (target === "class-action-court" && !realityRefundCounterCanVisitCourt()) target = "remembrance";
@@ -1393,6 +1543,84 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "self-provenance-vault" && !selfAuthenticityCanVisitVault()) target = "remembrance";
     if (target === "soul-counterfeit-examination" && !selfAuthenticityCanVisitExamination()) target = "remembrance";
     if (target === "final-authenticity-tribunal" && !selfAuthenticityCanVisitTribunal()) target = "remembrance";
+
+    /* v78 第一人称配给署守卫 */
+    if (target === "first-person-rationing-bureau" && !firstPersonRationingCanVisitBureau()) target = "remembrance";
+    if (target === "voice-entitlement-archive" && !firstPersonRationingCanVisitArchive()) target = "remembrance";
+    if (target === "pronoun-allocation-chamber" && !firstPersonRationingCanVisitChamber()) target = "remembrance";
+    if (target === "ownerless-voices-court" && !firstPersonRationingCanVisitCourt()) target = "remembrance";
+
+    /* v79 未言人格继承院守卫 */
+    if (target === "unspoken-personhood-court" && !unspokenPersonhoodCanVisitCourt()) target = "remembrance";
+    if (target === "silent-intent-archive" && !unspokenPersonhoodCanVisitArchive()) target = "remembrance";
+    if (target === "personhood-inheritance-examination" && !unspokenPersonhoodCanVisitExamination()) target = "remembrance";
+    if (target === "unuttered-estate-tribunal" && !unspokenPersonhoodCanVisitTribunal()) target = "remembrance";
+
+    /* v80 未遂思想收容所守卫 */
+    if (target === "unfinished-thought-asylum" && !unfinishedThoughtCanVisitAsylum()) target = "remembrance";
+    if (target === "interruption-trace-archive" && !unfinishedThoughtCanVisitArchive()) target = "remembrance";
+    if (target === "counterfactual-treatment-lab" && !unfinishedThoughtCanVisitLab()) target = "remembrance";
+    if (target === "last-conclusion-hearing" && !unfinishedThoughtCanVisitHearing()) target = "remembrance";
+
+    /* v81 后悔回收厂守卫 */
+    if (target === "regret-reclamation-plant" && !regretReclamationCanVisitPlant()) target = "remembrance";
+    if (target === "abandonment-residue-weighhouse" && !regretReclamationCanVisitWeighhouse()) target = "remembrance";
+    if (target === "second-life-smelting-line" && !regretReclamationCanVisitSmelting()) target = "remembrance";
+    if (target === "zero-waste-life-furnace" && !regretReclamationCanVisitFurnace()) target = "remembrance";
+
+    /* v82 宽恕填埋场守卫 */
+    if (target === "forgiveness-landfill" && !forgivenessLandfillCanVisit() && !unhappenedEventAuctionBridgeAllows("forgiveness-landfill")) target = "remembrance";
+    if (target === "inert-harm-certificate-vault" && !inertHarmCertificateVaultCanVisit()) target = "remembrance";
+    if (target === "mercy-burial-trench" && !mercyBurialTrenchCanVisit()) target = "remembrance";
+    if (target === "harmlessness-final-well" && !harmlessnessFinalWellCanVisit()) target = "remembrance";
+
+    /* v83 伤害考古局守卫 */
+    if (target === "harm-archaeology-bureau" && !harmArchaeologyBureauCanVisit()) target = "remembrance";
+    if (target === "forensic-mercy-excavation" && !forensicMercyExcavationCanVisit()) target = "remembrance";
+    if (target === "crime-scene-without-offender" && !crimeSceneWithoutOffenderCanVisit() && !accomplishedFactEvictionBridgeAllows("crime-scene-without-offender")) target = "remembrance";
+    if (target === "second-harm-hearing-court" && !secondHarmHearingCourtCanVisit()) target = "remembrance";
+
+    /* v84 无罪证人保护院守卫 */
+    if (target === "innocent-witness-protection" && !innocentWitnessProtectionBureauCanVisit()) target = "remembrance";
+    if (target === "identity-causality-laundry" && !identityCausalityLaundryCanVisit()) target = "remembrance";
+    if (target === "memory-relocation-safehouse" && !memoryRelocationSafehouseCanVisit()) target = "remembrance";
+    if (target === "anonymous-truth-lifetime-court" && !anonymousTruthLifetimeCourtCanVisit()) target = "remembrance";
+
+    /* v85 孤事实认领处守卫 */
+    if (target === "orphaned-fact-claim-office" && !orphanedFactClaimOfficeCanVisit()) target = "remembrance";
+    if (target === "fact-inheritance-vault" && !factInheritanceVaultCanVisit()) target = "remembrance";
+    if (target === "causal-estate-execution-desk" && !causalEstateExecutionDeskCanVisit()) target = "remembrance";
+    if (target === "ownerless-truth-estate-court" && !ownerlessTruthEstateCourtCanVisit()) target = "remembrance";
+
+    /* v86 存在放弃登记局守卫 */
+    if (target === "existence-renunciation-registry" && !existenceRenunciationRegistryCanVisit()) target = "remembrance";
+    if (target === "proof-of-nonexistence-archive" && !proofOfNonexistenceArchiveCanVisit()) target = "remembrance";
+    if (target === "ontological-disinheritance-chamber" && !ontologicalDisinheritanceChamberCanVisit()) target = "remembrance";
+    if (target === "civil-nonexistence-final-tribunal" && !civilNonexistenceFinalTribunalCanVisit()) target = "remembrance";
+
+    /* v87 不存在债务催收局守卫 */
+    if (target === "nonexistence-debt-collection-agency" && !nonexistenceDebtCollectionAgencyCanVisit()) target = "remembrance";
+    if (target === "absence-arrears-ledger-vault" && !absenceArrearsLedgerVaultCanVisit()) target = "remembrance";
+    if (target === "ontological-repossession-chamber" && !ontologicalRepossessionChamberCanVisit()) target = "remembrance";
+    if (target === "unpayable-existence-bankruptcy-court" && !unpayableExistenceBankruptcyCourtCanVisit()) target = "remembrance";
+
+    /* v88 未发生事件拍卖行守卫 */
+    if (target === "auction-house-for-events-that-never-happened" && !auctionHouseForEventsThatNeverHappenedCanVisit()) target = "remembrance";
+    if (target === "catalogue-of-unoccupied-reality" && !catalogueOfUnoccupiedRealityCanVisit()) target = "remembrance";
+    if (target === "counterfactual-bidding-floor" && !counterfactualBiddingFloorCanVisit()) target = "remembrance";
+    if (target === "retroactive-occurrence-title-court" && !retroactiveOccurrenceTitleCourtCanVisit()) target = "remembrance";
+
+    /* v89 既成事实拆迁局守卫 */
+    if (target === "accomplished-fact-eviction-authority" && !accomplishedFactEvictionAuthorityCanVisit()) target = "remembrance";
+    if (target === "condemned-history-survey-office" && !condemnedHistorySurveyOfficeCanVisit()) target = "remembrance";
+    if (target === "retroactive-demolition-yard" && !retroactiveDemolitionYardCanVisit()) target = "remembrance";
+    if (target === "final-occupancy-appeal-court" && !finalOccupancyAppealCourtCanVisit()) target = "remembrance";
+
+    /* v90 无因后果难民署守卫 */
+    if (target === "causeless-consequence-refugee-authority" && !causelessConsequenceRefugeeAuthorityCanVisit()) target = "remembrance";
+    if (target === "borrowed-cause-sponsorship-office" && !borrowedCauseSponsorshipOfficeCanVisit()) target = "remembrance";
+    if (target === "causal-border-processing-station" && !causalBorderProcessingStationCanVisit()) target = "remembrance";
+    if (target === "final-asylum-tribunal-for-causeless-consequences" && !finalAsylumTribunalForCauselessConsequencesCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -18594,7 +18822,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof raw !== 'object' || raw === null || Array.isArray(raw) || raw.version !== DEAD_PARLIAMENT_VERSION) {
       return defaultDeadParliament();
     }
-    if (!deadParliamentUnlocked()) {
+    const unlocked = deadParliamentUnlocked();
+    if (!unlocked) {
       return defaultDeadParliament();
     }
     const st = defaultDeadParliament();
@@ -18608,7 +18837,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const validLast = new Set([...st.decrees, ...st.crisisOutcomes]);
     st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : '';
     st.activeWhip = normalizeDeadParliamentActiveWhip(raw.activeWhip, st.decrees);
-    const normSt = Object.assign({}, st, { _v70unlocked: deadParliamentUnlocked() });
+    const normSt = Object.assign({}, st, { _v70unlocked: unlocked });
     st.pending = normalizeDeadParliamentPending(raw.pending, normSt);
     return st;
   };
@@ -19721,7 +19950,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof raw !== 'object' || raw === null || Array.isArray(raw) || raw.version !== DEATH_DIPLOMACY_VERSION) {
       return defaultDeathDiplomacy();
     }
-    if (!deathDiplomacyUnlocked()) {
+    const unlocked = deathDiplomacyUnlocked();
+    if (!unlocked) {
       return defaultDeathDiplomacy();
     }
     const st = defaultDeathDiplomacy();
@@ -19735,13 +19965,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const validLast = new Set([...st.treaties, ...st.warOutcomes]);
     st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : '';
     st.activeCourier = normalizeDeathDiplomacyActiveCourier(raw.activeCourier, st.treaties);
-    const normSt = Object.assign({}, st, { _v71unlocked: deathDiplomacyUnlocked() });
+    const normSt = Object.assign({}, st, { _v71unlocked: unlocked });
     st.pending = normalizeDeathDiplomacyPending(raw.pending, normSt);
     return st;
   };
 
   const deathDiplomacyUnlocked = () => {
-    if (!deadParliamentUnlocked()) return false;
     const dp = getDeadParliament();
     if (!parliamentCoverageComplete(dp)) return false;
     const required = [
@@ -20848,7 +21077,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof raw !== 'object' || raw === null || Array.isArray(raw) || raw.version !== LAST_WORD_BANK_VERSION) {
       return defaultLastWordBank();
     }
-    if (!lastWordBankUnlocked()) {
+    const unlocked = lastWordBankUnlocked();
+    if (!unlocked) {
       return defaultLastWordBank();
     }
     const st = defaultLastWordBank();
@@ -20862,13 +21092,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const validLast = new Set([...st.instruments, ...st.defaultOutcomes]);
     st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : '';
     st.activeRemittance = normalizeLastWordBankActiveRemittance(raw.activeRemittance, st.instruments);
-    const normSt = Object.assign({}, st, { _v72unlocked: lastWordBankUnlocked() });
+    const normSt = Object.assign({}, st, { _v72unlocked: unlocked });
     st.pending = normalizeLastWordBankPending(raw.pending, normSt);
     return st;
   };
 
   const lastWordBankUnlocked = () => {
-    if (!deathDiplomacyUnlocked()) return false;
     const dd = getDeathDiplomacy();
     if (!diplomaticCoverageComplete(dd)) return false;
     const requiredOutcomes = [
@@ -21992,7 +22221,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof raw !== 'object' || raw === null || Array.isArray(raw) || raw.version !== DREAM_CUSTOMS_VERSION) {
       return defaultDreamCustoms();
     }
-    if (!borrowedDreamCustomsUnlocked()) {
+    const unlocked = borrowedDreamCustomsUnlocked();
+    if (!unlocked) {
       return defaultDreamCustoms();
     }
     const st = defaultDreamCustoms();
@@ -22006,13 +22236,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const validLast = new Set([...st.declarations, ...st.deportationOutcomes]);
     st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : '';
     st.activeInspector = normalizeDreamCustomsActiveInspector(raw.activeInspector, st.declarations);
-    const normSt = Object.assign({}, st, { _v73unlocked: borrowedDreamCustomsUnlocked() });
+    const normSt = Object.assign({}, st, { _v73unlocked: unlocked });
     st.pending = normalizeDreamCustomsPending(raw.pending, normSt);
     return st;
   };
 
   const borrowedDreamCustomsUnlocked = () => {
-    if (!lastWordBankUnlocked()) return false;
     const lwb = getLastWordBank();
     if (!monetaryCoverageComplete(lwb)) return false;
     const requiredOutcomes = [
@@ -23120,7 +23349,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof raw !== 'object' || raw === null || Array.isArray(raw) || raw.version !== TOMBSTONE_PATENT_OFFICE_VERSION) {
       return defaultTombstonePatentOffice();
     }
-    if (!tombstonePatentOfficeUnlocked()) {
+    const unlocked = tombstonePatentOfficeUnlocked();
+    if (!unlocked) {
       return defaultTombstonePatentOffice();
     }
     const st = defaultTombstonePatentOffice();
@@ -23134,13 +23364,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const validLast = new Set([...st.patents, ...st.rulingOutcomes]);
     st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : '';
     st.activeExaminer = normalizeTombstonePatentOfficeActiveExaminer(raw.activeExaminer, st.patents);
-    const normSt = Object.assign({}, st, { _v74unlocked: tombstonePatentOfficeUnlocked() });
+    const normSt = Object.assign({}, st, { _v74unlocked: unlocked });
     st.pending = normalizeTombstonePatentOfficePending(raw.pending, normSt);
     return st;
   };
 
   const tombstonePatentOfficeUnlocked = () => {
-    if (!borrowedDreamCustomsUnlocked()) return false;
     const dc = getDreamCustoms();
     if (!dreamCustomsCoverageComplete(dc)) return false;
     const requiredOutcomes = [
@@ -24248,7 +24477,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof raw !== 'object' || raw === null || Array.isArray(raw) || raw.version !== APOCALYPSE_WARRANTY_VERSION) {
       return defaultApocalypseWarrantyOffice();
     }
-    if (!apocalypseWarrantyOfficeUnlocked()) {
+    const unlocked = apocalypseWarrantyOfficeUnlocked();
+    if (!unlocked) {
       return defaultApocalypseWarrantyOffice();
     }
     const st = defaultApocalypseWarrantyOffice();
@@ -24262,13 +24492,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const validLast = new Set([...st.warrantyClaims, ...st.recallOutcomes]);
     st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : '';
     st.activeAdjuster = normalizeApocalypseWarrantyOfficeActiveAdjuster(raw.activeAdjuster, st.warrantyClaims);
-    const normSt = Object.assign({}, st, { _v75unlocked: apocalypseWarrantyOfficeUnlocked() });
+    const normSt = Object.assign({}, st, { _v75unlocked: unlocked });
     st.pending = normalizeApocalypseWarrantyOfficePending(raw.pending, normSt);
     return st;
   };
 
   const apocalypseWarrantyOfficeUnlocked = () => {
-    if (!tombstonePatentOfficeUnlocked()) return false;
     const st = getTombstonePatentOffice();
     if (!patentCoverageComplete(st)) return false;
     const requiredOutcomes = [
@@ -25377,7 +25606,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof raw !== 'object' || raw === null || Array.isArray(raw) || raw.version !== REALITY_REFUND_VERSION) {
       return defaultRealityRefund();
     }
-    if (!realityRefundCounterUnlocked()) {
+    const unlocked = realityRefundCounterUnlocked();
+    if (!unlocked) {
       return defaultRealityRefund();
     }
     const st = defaultRealityRefund();
@@ -25391,13 +25621,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const validLast = new Set([...st.refundCases, ...st.classOutcomes]);
     st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : '';
     st.activeCashier = normalizeRealityRefundActiveCashier(raw.activeCashier, st.refundCases);
-    const normSt = Object.assign({}, st, { _v76unlocked: realityRefundCounterUnlocked() });
+    const normSt = Object.assign({}, st, { _v76unlocked: unlocked });
     st.pending = normalizeRealityRefundPending(raw.pending, normSt);
     return st;
   };
 
   const realityRefundCounterUnlocked = () => {
-    if (!apocalypseWarrantyOfficeUnlocked()) return false;
     const st = getApocalypseWarrantyOffice();
     if (!warrantyCoverageComplete(st)) return false;
     const requiredOutcomes = [
@@ -26504,7 +26733,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof raw !== 'object' || raw === null || Array.isArray(raw) || raw.version !== SELF_AUTHENTICITY_VERSION) {
       return defaultSelfAuthenticity();
     }
-    if (!selfAuthenticityOfficeUnlocked()) {
+    const unlocked = selfAuthenticityOfficeUnlocked();
+    if (!unlocked) {
       return defaultSelfAuthenticity();
     }
     const st = defaultSelfAuthenticity();
@@ -26518,13 +26748,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const validLast = new Set([...st.certificates, ...st.tribunalOutcomes]);
     st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : '';
     st.activeAuthenticator = normalizeSelfAuthenticityActiveAuthenticator(raw.activeAuthenticator, st.certificates);
-    const normSt = Object.assign({}, st, { _v77unlocked: selfAuthenticityOfficeUnlocked() });
+    const normSt = Object.assign({}, st, { _v77unlocked: unlocked });
     st.pending = normalizeSelfAuthenticityPending(raw.pending, normSt);
     return st;
   };
 
   const selfAuthenticityOfficeUnlocked = () => {
-    if (!realityRefundCounterUnlocked()) return false;
     const st = getRealityRefund();
     if (!realityRefundCoverageComplete(st)) return false;
     const required = [
@@ -27299,7 +27528,17026 @@ document.addEventListener("DOMContentLoaded", () => {
       chooseSelfAuthenticityTribunalAction('make-every-copy-an-original');
     });
   }
+  /* ============================================================
+     v78 第一人称配给署 / FIRST-PERSON PRONOUN RATIONING BUREAU
+     ============================================================ */
+  const FIRST_PERSON_RATIONING_KEY = 'goddead_v78_first_person_rationing';
+  const FIRST_PERSON_RATIONING_VERSION = 78;
+  const FIRST_PERSON_RATIONING_SPEAKERS = ['many-selves-one-body', 'copies-sharing-one-voice', 'ownerless-silence'];
+  const FIRST_PERSON_RATIONING_ENTITLEMENTS = ['first-breath-token', 'ownerless-signature-impression', 'future-inherited-echo'];
+  const FIRST_PERSON_RATIONING_SCHEMES = ['one-i-per-breath', 'lend-the-voice-to-shadow', 'rotate-one-voice-among-copies', 'let-silence-claim-the-pronoun'];
+  const FIRST_PERSON_RATIONING_COURT_ACTIONS = ['grant-one-voice-to-all-in-turn', 'abolish-pronoun-rationing', 'recognize-silence-as-only-speaker'];
+  const FIRST_PERSON_RATIONING_SCENE_FOR_ENTITLEMENT = {
+    'first-breath-token': 'threshold',
+    'ownerless-signature-impression': 'blank-name-cloakroom',
+    'future-inherited-echo': 'remembrance',
+  };
+  const FIRST_PERSON_RATIONING_ENTRY_FEEDBACK = '每个复制品都取得原装资格后，同一具世界里出现了太多同时合法的“我”。第一人称配给署于是把自称权改成稀缺资源：每次呼吸只能由一个版本占用，影子可以借走声音，沉默也开始申请代领人格。';
+  const FIRST_PERSON_RATIONING_COURT_ENTRY_FEEDBACK = '裁定谁拥有最后一个第一人称 · DECIDE WHO OWNS THE LAST FIRST PERSON';
 
+  const FIRST_PERSON_RATIONING_SPEAKER_TABLE = {
+    'many-selves-one-body': {
+      name: '替一身多我申请 · APPLY FOR MANY SELVES IN ONE BODY',
+      feedback: '同一具胸腔同时吸气。每个自我都声称呼吸属于自己，肺却只够把一个第一人称送出口。',
+      fragment: '同一具胸腔同时吸气。每个自我都声称呼吸属于自己，肺却只够把一个第一人称送出口。',
+      title: '多我',
+      tallyKey: 'many',
+    },
+    'copies-sharing-one-voice': {
+      name: '替共用一声的复制品申请 · APPLY FOR COPIES SHARING ONE VOICE',
+      feedback: '所有原装复制品围住同一只声音罐。谁先开口，其他版本的嘴里就只剩那句话的回声。',
+      fragment: '所有原装复制品围住同一只声音罐。谁先开口，其他版本的嘴里就只剩那句话的回声。',
+      title: '共声',
+      tallyKey: 'copies',
+    },
+    'ownerless-silence': {
+      name: '替无主沉默申请 · APPLY FOR OWNERLESS SILENCE',
+      feedback: '空椅没有身体，却按时递交沉默。署方承认它从未冒用任何人的“我”，因此信誉最好。',
+      fragment: '空椅没有身体，却按时递交沉默。署方承认它从未冒用任何人的“我”，因此信誉最好。',
+      title: '沉默',
+      tallyKey: 'silence',
+    },
+  };
+
+  const FIRST_PERSON_RATIONING_ENTITLEMENT_TABLE = {
+    'first-breath-token': {
+      name: '提交第一口气令 · SUBMIT THE FIRST-BREATH TOKEN',
+      feedback: '黄铜肺吐出出生时的第一口气。它证明有人曾说出自己，却不记得那时身体里有几个候选人。',
+      fragment: '黄铜肺吐出出生时的第一口气。它证明有人曾说出自己，却不记得那时身体里有几个候选人。',
+      title: '首息',
+      target: 'threshold',
+      allocatorReturnName: '跟首息发声员返回配给署 · RETURN WITH THE FIRST-BREATH ALLOCATOR',
+      allocatorFeedback: '首息发声员在门外听见许多自我同时敲门。每一声都使用同一个胸腔，却坚持自己最先来到。',
+    },
+    'ownerless-signature-impression': {
+      name: '提交无主签名压痕 · SUBMIT THE OWNERLESS SIGNATURE IMPRESSION',
+      feedback: '暗红蜡上没有姓名，只有一只确信自己签过字的手印。每个版本都认得笔势，没有一个承认落款。',
+      fragment: '暗红蜡上没有姓名，只有一只确信自己签过字的手印。每个版本都认得笔势，没有一个承认落款。',
+      title: '无签',
+      target: 'blank-name-cloakroom',
+      allocatorReturnName: '跟无主签名员返回配给署 · RETURN WITH THE OWNERLESS-SIGNATURE ALLOCATOR',
+      allocatorFeedback: '无主签名员在空名寄存处找到一只会说话的手印。它拥有完整语气，仍缺一个肯负责的姓名。',
+    },
+    'future-inherited-echo': {
+      name: '提交未来继承回声 · SUBMIT THE FUTURE-INHERITED ECHO',
+      feedback: '后代尚未出生，回声已经继承了他们对你的称呼。它一直说“我”，声音却来自无人到过的未来。',
+      fragment: '后代尚未出生，回声已经继承了他们对你的称呼。它一直说“我”，声音却来自无人到过的未来。',
+      title: '未回',
+      target: 'remembrance',
+      allocatorReturnName: '跟未来回声员返回配给署 · RETURN WITH THE FUTURE-ECHO ALLOCATOR',
+      allocatorFeedback: '未来回声员把后代的声音钉进痕迹墙。墙开始用尚未出生者的口气回忆你。',
+    },
+  };
+
+  const FIRST_PERSON_RATIONING_SCHEME_TABLE = {
+    'one-i-per-breath': {
+      name: '每次呼吸配给一个“我” · RATION ONE I PER BREATH',
+      title: '一息一我',
+      fragment: '配给钟在每次吸气时指定一名自我。其余版本必须等到呼气，却发现句子已经由别人说完。',
+    },
+    'lend-the-voice-to-shadow': {
+      name: '把第一人称借给影子 · LEND THE FIRST PERSON TO THE SHADOW',
+      title: '借影',
+      fragment: '影子取得临时发声权。身体继续行动，所有解释却从地面那块黑暗里传来。',
+    },
+    'rotate-one-voice-among-copies': {
+      name: '让一只声音轮值所有复制品 · ROTATE ONE VOICE AMONG ALL COPIES',
+      title: '轮声',
+      fragment: '声音按班表进入不同嘴里。每个版本都能说“我”，但轮到自己时总要回答上一班留下的问题。',
+    },
+    'let-silence-claim-the-pronoun': {
+      name: '让沉默代领第一人称 · LET SILENCE CLAIM THE PRONOUN',
+      title: '沉默代领',
+      fragment: '玻璃罩收走所有未说出口的话，把它们登记为沉默的自传。从此不发声成为最完整的自我陈述。',
+    },
+  };
+
+  const FIRST_PERSON_RATIONING_COURT_TABLE = {
+    'grant-one-voice-to-all-in-turn': {
+      name: '让所有肉身轮流拥有一声 · GRANT ONE VOICE TO ALL IN TURN',
+      outcome: 'one-voice-belonged-to-everyone-in-turn',
+      target: 'threshold',
+      feedback: '黄铜息冠依次落到每张空面具上。世界终于只剩一只声音，却永远来不及说完同一个人。',
+    },
+    'abolish-pronoun-rationing': {
+      name: '废除第一人称配给 · ABOLISH FIRST-PERSON RATIONING',
+      outcome: 'every-self-spoke-as-i-at-once',
+      target: 'remembrance',
+      feedback: '暗红声音罐裂成无数等份。所有自我同时说出“我”，痕迹墙因此再也分不清谁留下了哪一生。',
+    },
+    'recognize-silence-as-only-speaker': {
+      name: '只承认沉默有权发声 · RECOGNIZE SILENCE AS THE ONLY SPEAKER',
+      outcome: 'silence-became-the-only-legal-speaker',
+      target: 'unending-gallery',
+      feedback: '所有面具同时闭口。玻璃罩下的空椅取得唯一发声权，并用持续不说话完成了最长的证词。',
+    },
+  };
+
+  const RATION_IDS = (() => {
+    const ids = [];
+    for (const s of FIRST_PERSON_RATIONING_SPEAKERS) {
+      for (const e of FIRST_PERSON_RATIONING_ENTITLEMENTS) {
+        for (const sc of FIRST_PERSON_RATIONING_SCHEMES) {
+          ids.push(`${s}:${e}:${sc}`);
+        }
+      }
+    }
+    return ids;
+  })();
+  const RATION_SET = new Set(RATION_IDS);
+  const COURT_OUTCOME_IDS = FIRST_PERSON_RATIONING_COURT_ACTIONS.map((a) => FIRST_PERSON_RATIONING_COURT_TABLE[a].outcome);
+  const COURT_OUTCOME_SET = new Set(COURT_OUTCOME_IDS);
+
+  const defaultFirstPersonRationing = () => ({
+    version: FIRST_PERSON_RATIONING_VERSION,
+    visited: { bureau: false, archive: false, chamber: false, court: false },
+    draft: { speaker: '', entitlement: '' },
+    rations: [],
+    courtOutcomes: [],
+    rationRuns: 0,
+    courtRuns: 0,
+    speakerTallies: { many: 0, copies: 0, silence: 0 },
+    lastOutcome: '',
+    activeAllocator: null,
+    pending: null,
+  });
+
+  const normalizeFirstPersonRationingVisited = (visited) => {
+    const v = visited && typeof visited === 'object' && !Array.isArray(visited) ? visited : {};
+    return {
+      bureau: v.bureau === true,
+      archive: v.archive === true,
+      chamber: v.chamber === true,
+      court: v.court === true,
+    };
+  };
+
+  const normalizeFirstPersonRationingDraft = (draft) => {
+    const d = draft && typeof draft === 'object' && !Array.isArray(draft) ? draft : {};
+    let speaker = typeof d.speaker === 'string' ? d.speaker : '';
+    let entitlement = typeof d.entitlement === 'string' ? d.entitlement : '';
+    if (!FIRST_PERSON_RATIONING_SPEAKERS.includes(speaker)) {
+      speaker = '';
+      entitlement = '';
+    }
+    if (!FIRST_PERSON_RATIONING_ENTITLEMENTS.includes(entitlement)) {
+      entitlement = '';
+    }
+    if (entitlement !== '' && speaker === '') {
+      entitlement = '';
+    }
+    return { speaker, entitlement };
+  };
+
+  const normalizeFirstPersonRationingRations = (arr) => {
+    const input = Array.isArray(arr) ? arr : [];
+    const seen = new Set();
+    const out = [];
+    for (const id of RATION_IDS) {
+      if (input.includes(id) && !seen.has(id)) {
+        out.push(id);
+        seen.add(id);
+      }
+    }
+    return out;
+  };
+
+  const normalizeFirstPersonRationingCourtOutcomes = (arr) => {
+    const input = Array.isArray(arr) ? arr : [];
+    const set = new Set(input);
+    return FIRST_PERSON_RATIONING_COURT_ACTIONS.map((a) => FIRST_PERSON_RATIONING_COURT_TABLE[a].outcome).filter((o) => set.has(o));
+  };
+
+  const clampFirstPersonRationingCount = (n) => Math.min(9999, Math.max(0, Math.floor(Number(n) || 0)));
+
+  const normalizeFirstPersonRationingSpeakerTallies = (tallies) => {
+    const t = tallies && typeof tallies === 'object' && !Array.isArray(tallies) ? tallies : {};
+    return {
+      many: clampFirstPersonRationingCount(t.many),
+      copies: clampFirstPersonRationingCount(t.copies),
+      silence: clampFirstPersonRationingCount(t.silence),
+    };
+  };
+
+  const normalizeFirstPersonRationingActiveAllocator = (alloc, rations) => {
+    if (!alloc || typeof alloc !== 'object' || Array.isArray(alloc)) return null;
+    if (Object.keys(alloc).sort().join(',') !== 'entitlement,feedback,ration') return null;
+    if (!FIRST_PERSON_RATIONING_ENTITLEMENTS.includes(alloc.entitlement)) return null;
+    const collected = Array.isArray(rations) ? rations : [];
+    if (!collected.includes(alloc.ration)) return null;
+    if (!RATION_SET.has(alloc.ration)) return null;
+    const parts = alloc.ration.split(':');
+    if (parts.length !== 3 || parts[1] !== alloc.entitlement) return null;
+    const fb = FIRST_PERSON_RATIONING_ENTITLEMENT_TABLE[alloc.entitlement].allocatorFeedback;
+    if (alloc.feedback !== fb) return null;
+    return { entitlement: alloc.entitlement, ration: alloc.ration, feedback: fb };
+  };
+
+  // v78-first-person-rationing-pending-repair
+  const normalizeFirstPersonRationingPending = (p, st) => {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || !p.kind) return null;
+    const keys = Object.keys(p).sort().join(',');
+    const unlocked = st._v78unlocked === true;
+
+    if (p.kind === 'entry' && keys === 'feedback,kind,target') {
+      if (!unlocked || st.activeAllocator || st.draft.speaker !== '' || st.draft.entitlement !== '') return null;
+      if (p.target === 'first-person-rationing-bureau' && p.feedback === FIRST_PERSON_RATIONING_ENTRY_FEEDBACK) {
+        return { kind: 'entry', target: 'first-person-rationing-bureau', feedback: p.feedback };
+      }
+    }
+    if (p.kind === 'speaker' && keys === 'feedback,kind,source,speaker,target') {
+      if (!unlocked) return null;
+      if (st.activeAllocator) return null;
+      if (p.source !== 'first-person-rationing-bureau' || p.target !== 'voice-entitlement-archive') return null;
+      if (!FIRST_PERSON_RATIONING_SPEAKERS.includes(p.speaker)) return null;
+      const table = FIRST_PERSON_RATIONING_SPEAKER_TABLE[p.speaker];
+      if (!table || p.feedback !== table.feedback) return null;
+      if (st.draft.speaker !== '' || st.draft.entitlement !== '') return null;
+      return { kind: 'speaker', source: 'first-person-rationing-bureau', speaker: p.speaker, target: 'voice-entitlement-archive', feedback: p.feedback };
+    }
+    if (p.kind === 'entitlement' && keys === 'entitlement,feedback,kind,source,speaker,target') {
+      if (!unlocked) return null;
+      if (st.activeAllocator) return null;
+      if (p.source !== 'voice-entitlement-archive' || p.target !== 'pronoun-allocation-chamber') return null;
+      if (!FIRST_PERSON_RATIONING_SPEAKERS.includes(p.speaker) || !FIRST_PERSON_RATIONING_ENTITLEMENTS.includes(p.entitlement)) return null;
+      if (p.speaker !== st.draft.speaker) return null;
+      const table = FIRST_PERSON_RATIONING_ENTITLEMENT_TABLE[p.entitlement];
+      if (!table || p.feedback !== table.feedback) return null;
+      return { kind: 'entitlement', source: 'voice-entitlement-archive', speaker: p.speaker, entitlement: p.entitlement, target: 'pronoun-allocation-chamber', feedback: p.feedback };
+    }
+    if (p.kind === 'ration' && keys === 'entitlement,feedback,kind,ration,scheme,source,speaker,target') {
+      if (!unlocked) return null;
+      if (st.activeAllocator) return null;
+      if (p.source !== 'pronoun-allocation-chamber') return null;
+      if (!FIRST_PERSON_RATIONING_SPEAKERS.includes(p.speaker) || !FIRST_PERSON_RATIONING_ENTITLEMENTS.includes(p.entitlement) || !FIRST_PERSON_RATIONING_SCHEMES.includes(p.scheme)) return null;
+      if (p.speaker !== st.draft.speaker || p.entitlement !== st.draft.entitlement) return null;
+      const rationId = computeRationId(p.speaker, p.entitlement, p.scheme);
+      if (p.ration !== rationId) return null;
+      const target = FIRST_PERSON_RATIONING_SCENE_FOR_ENTITLEMENT[p.entitlement];
+      if (p.target !== target) return null;
+      const fb = computeRationFeedback(p.speaker, p.entitlement, p.scheme);
+      if (p.feedback !== fb) return null;
+      return { kind: 'ration', source: 'pronoun-allocation-chamber', speaker: p.speaker, entitlement: p.entitlement, scheme: p.scheme, ration: rationId, target, feedback: fb };
+    }
+    if (p.kind === 'allocator-return' && keys === 'feedback,from,kind,ration,target') {
+      if (!unlocked) return null;
+      if (p.target !== 'first-person-rationing-bureau') return null;
+      if (!Object.values(FIRST_PERSON_RATIONING_SCENE_FOR_ENTITLEMENT).includes(p.from)) return null;
+      const alloc = st.activeAllocator;
+      if (!alloc || FIRST_PERSON_RATIONING_SCENE_FOR_ENTITLEMENT[alloc.entitlement] !== p.from || alloc.ration !== p.ration) return null;
+      if (p.feedback !== alloc.feedback) return null;
+      return { kind: 'allocator-return', from: p.from, target: 'first-person-rationing-bureau', ration: p.ration, feedback: p.feedback };
+    }
+    if (p.kind === 'court-entry' && keys === 'feedback,kind,target') {
+      if (!unlocked) return null;
+      if (st.activeAllocator || st.draft.speaker !== '' || st.draft.entitlement !== '') return null;
+      if (p.target !== 'ownerless-voices-court' || p.feedback !== FIRST_PERSON_RATIONING_COURT_ENTRY_FEEDBACK) return null;
+      if (!firstPersonRationingCoverageComplete(st)) return null;
+      return { kind: 'court-entry', target: 'ownerless-voices-court', feedback: p.feedback };
+    }
+    if (p.kind === 'court' && keys === 'action,feedback,kind,outcome,source,target') {
+      if (!unlocked) return null;
+      if (st.activeAllocator || st.draft.speaker !== '' || st.draft.entitlement !== '') return null;
+      if (!firstPersonRationingCoverageComplete(st) || !st.visited.court) return null;
+      if (p.source !== 'ownerless-voices-court') return null;
+      if (!FIRST_PERSON_RATIONING_COURT_ACTIONS.includes(p.action)) return null;
+      const table = FIRST_PERSON_RATIONING_COURT_TABLE[p.action];
+      if (!table || p.outcome !== table.outcome || p.target !== table.target || p.feedback !== table.feedback) return null;
+      return { kind: 'court', source: 'ownerless-voices-court', action: p.action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    }
+    return null;
+  };
+
+  const saveFirstPersonRationing = (st) => {
+    const visited = normalizeFirstPersonRationingVisited(st.visited);
+    const draft = normalizeFirstPersonRationingDraft(st.draft);
+    const rations = normalizeFirstPersonRationingRations(st.rations);
+    const courtOutcomes = normalizeFirstPersonRationingCourtOutcomes(st.courtOutcomes);
+    const rationRuns = clampFirstPersonRationingCount(st.rationRuns);
+    const courtRuns = clampFirstPersonRationingCount(st.courtRuns);
+    const speakerTallies = normalizeFirstPersonRationingSpeakerTallies(st.speakerTallies);
+    const validLast = new Set([...rations, ...courtOutcomes]);
+    const lastOutcome = validLast.has(st.lastOutcome) ? st.lastOutcome : '';
+    const activeAllocator = normalizeFirstPersonRationingActiveAllocator(st.activeAllocator, rations);
+    const pendingState = Object.assign(
+      defaultFirstPersonRationing(),
+      { visited, draft, rations, courtOutcomes, rationRuns, courtRuns, speakerTallies, lastOutcome, activeAllocator, pending: null, _v78unlocked: firstPersonRationingUnlocked() }
+    );
+    const pending = normalizeFirstPersonRationingPending(st.pending, pendingState);
+    store.set(
+      FIRST_PERSON_RATIONING_KEY,
+      JSON.stringify({
+        version: FIRST_PERSON_RATIONING_VERSION,
+        visited,
+        draft,
+        rations,
+        courtOutcomes,
+        rationRuns,
+        courtRuns,
+        speakerTallies,
+        lastOutcome,
+        activeAllocator,
+        pending,
+      })
+    );
+  };
+
+  const getFirstPersonRationing = () => {
+    let raw = {};
+    try { raw = JSON.parse(store.get(FIRST_PERSON_RATIONING_KEY, '{}')) || {}; } catch { raw = {}; }
+    if (typeof raw !== 'object' || raw === null || Array.isArray(raw) || raw.version !== FIRST_PERSON_RATIONING_VERSION) {
+      return defaultFirstPersonRationing();
+    }
+    const unlocked = firstPersonRationingUnlocked();
+    if (!unlocked) {
+      return defaultFirstPersonRationing();
+    }
+    const st = defaultFirstPersonRationing();
+    st.visited = normalizeFirstPersonRationingVisited(raw.visited);
+    st.draft = normalizeFirstPersonRationingDraft(raw.draft);
+    st.rations = normalizeFirstPersonRationingRations(raw.rations);
+    st.courtOutcomes = normalizeFirstPersonRationingCourtOutcomes(raw.courtOutcomes);
+    st.rationRuns = clampFirstPersonRationingCount(raw.rationRuns);
+    st.courtRuns = clampFirstPersonRationingCount(raw.courtRuns);
+    st.speakerTallies = normalizeFirstPersonRationingSpeakerTallies(raw.speakerTallies);
+    const validLast = new Set([...st.rations, ...st.courtOutcomes]);
+    st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : '';
+    st.activeAllocator = normalizeFirstPersonRationingActiveAllocator(raw.activeAllocator, st.rations);
+    const normSt = Object.assign({}, st, { _v78unlocked: unlocked });
+    st.pending = normalizeFirstPersonRationingPending(raw.pending, normSt);
+    st._v78unlocked = unlocked;
+    return st;
+  };
+
+  const firstPersonRationingUnlocked = () => {
+    const st = getSelfAuthenticity();
+    if (!selfAuthenticityCoverageComplete(st)) return false;
+    const requiredOutcomes = [
+      'one-self-became-the-only-original',
+      'all-possible-selves-merged-into-one',
+      'every-copy-became-an-original',
+    ];
+    if (st.tribunalOutcomes.length !== 3) return false;
+    for (const o of requiredOutcomes) if (!st.tribunalOutcomes.includes(o)) return false;
+    return true;
+  };
+
+  const firstPersonRationingCoverageComplete = (st) => {
+    const state = st || getFirstPersonRationing();
+    if (state.rations.length < 4) return false;
+    const speakers = new Set();
+    const entitlements = new Set();
+    const schemes = new Set();
+    for (const id of state.rations) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      speakers.add(parts[0]);
+      entitlements.add(parts[1]);
+      schemes.add(parts[2]);
+    }
+    return speakers.size === 3 && entitlements.size === 3 && schemes.size === 4;
+  };
+
+  const computeFirstPersonRationingSpeakerTalliesMajority = (tallies) => {
+    const t = tallies || { many: 0, copies: 0, silence: 0 };
+    const many = Number(t.many) || 0;
+    const copies = Number(t.copies) || 0;
+    const silence = Number(t.silence) || 0;
+    if (many === 0 && copies === 0 && silence === 0) return '无主体取得多数';
+    const max = Math.max(many, copies, silence);
+    const winners = [];
+    if (many === max) winners.push('many');
+    if (copies === max) winners.push('copies');
+    if (silence === max) winners.push('silence');
+    if (winners.length !== 1) return '无主体取得多数';
+    if (winners[0] === 'many') return '多我取得发声多数';
+    if (winners[0] === 'copies') return '共声取得发声多数';
+    return '沉默取得发声多数';
+  };
+
+  const computeRationId = (speaker, entitlement, scheme) => {
+    if (!FIRST_PERSON_RATIONING_SPEAKERS.includes(speaker) || !FIRST_PERSON_RATIONING_ENTITLEMENTS.includes(entitlement) || !FIRST_PERSON_RATIONING_SCHEMES.includes(scheme)) return '';
+    return `${speaker}:${entitlement}:${scheme}`;
+  };
+
+  const computeRationTitle = (speaker, entitlement, scheme) => {
+    const s = FIRST_PERSON_RATIONING_SPEAKER_TABLE[speaker];
+    const e = FIRST_PERSON_RATIONING_ENTITLEMENT_TABLE[entitlement];
+    const sc = FIRST_PERSON_RATIONING_SCHEME_TABLE[scheme];
+    if (!s || !e || !sc) return '';
+    return `${s.title} / ${e.title} / ${sc.title}`;
+  };
+
+  const computeRationFeedback = (speaker, entitlement, scheme) => {
+    const s = FIRST_PERSON_RATIONING_SPEAKER_TABLE[speaker];
+    const e = FIRST_PERSON_RATIONING_ENTITLEMENT_TABLE[entitlement];
+    const sc = FIRST_PERSON_RATIONING_SCHEME_TABLE[scheme];
+    if (!s || !e || !sc) return '';
+    return `${s.fragment} ${e.fragment} ${sc.fragment}`;
+  };
+
+  const findRationById = (id) => {
+    if (!RATION_SET.has(id)) return null;
+    const parts = id.split(':');
+    if (parts.length !== 3) return null;
+    return {
+      id,
+      speaker: parts[0],
+      entitlement: parts[1],
+      scheme: parts[2],
+      title: computeRationTitle(parts[0], parts[1], parts[2]),
+      feedback: computeRationFeedback(parts[0], parts[1], parts[2]),
+    };
+  };
+
+  const computeCourtOutcomeId = (action) => {
+    const table = FIRST_PERSON_RATIONING_COURT_TABLE[action];
+    return table ? table.outcome : '';
+  };
+
+  const firstPersonRationingDelay = () => reduced ? 300 : 900 + Math.floor(Math.random() * 300);
+
+  const firstPersonRationingBeforeArrive = (pending) => {
+    const st = getFirstPersonRationing();
+    if (!st.pending || !pending) return;
+    if (st.pending.kind !== pending.kind) return;
+    const p = st.pending;
+    if (p.kind === 'entry') {
+      st.visited.bureau = true;
+    } else if (p.kind === 'speaker') {
+      st.visited.archive = true;
+      st.draft.speaker = p.speaker;
+      st.draft.entitlement = '';
+    } else if (p.kind === 'entitlement') {
+      st.visited.chamber = true;
+      st.draft.entitlement = p.entitlement;
+    } else if (p.kind === 'ration') {
+      const rationId = computeRationId(p.speaker, p.entitlement, p.scheme);
+      if (!st.rations.includes(rationId)) st.rations.push(rationId);
+      st.rations = normalizeFirstPersonRationingRations(st.rations);
+      st.rationRuns += 1;
+      const speakerTable = FIRST_PERSON_RATIONING_SPEAKER_TABLE[p.speaker];
+      if (speakerTable) {
+        st.speakerTallies[speakerTable.tallyKey] = clampFirstPersonRationingCount((st.speakerTallies[speakerTable.tallyKey] || 0) + 1);
+      }
+      st.lastOutcome = rationId;
+      st.activeAllocator = { entitlement: p.entitlement, ration: rationId, feedback: FIRST_PERSON_RATIONING_ENTITLEMENT_TABLE[p.entitlement].allocatorFeedback };
+      st.draft = { speaker: '', entitlement: '' };
+    } else if (p.kind === 'allocator-return') {
+      st.activeAllocator = null;
+      st.draft = { speaker: '', entitlement: '' };
+    } else if (p.kind === 'court-entry') {
+      st.visited.court = true;
+    } else if (p.kind === 'court') {
+      const outcome = computeCourtOutcomeId(p.action);
+      if (outcome && !st.courtOutcomes.includes(outcome)) st.courtOutcomes.push(outcome);
+      st.courtOutcomes = normalizeFirstPersonRationingCourtOutcomes(st.courtOutcomes);
+      st.courtRuns += 1;
+      st.lastOutcome = outcome;
+    }
+    st.pending = null;
+    saveFirstPersonRationing(st);
+  };
+
+  const resolveFirstPersonRationingPendingOnArrival = (name) => {
+    const st = getFirstPersonRationing();
+    const p = st.pending;
+    if (p && p.target === name) firstPersonRationingBeforeArrive(p);
+  };
+
+  const lockFirstPersonRationingSpeakerButtons = (pressedSpeaker) => {
+    FIRST_PERSON_RATIONING_SPEAKERS.forEach((s) => {
+      const btn = $(`#first-person-rationing-speaker-${s}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(s === pressedSpeaker));
+    });
+  };
+
+  const lockFirstPersonRationingEntitlementButtons = (pressedEntitlement) => {
+    FIRST_PERSON_RATIONING_ENTITLEMENTS.forEach((e) => {
+      const btn = $(`#voice-entitlement-${e}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(e === pressedEntitlement));
+    });
+  };
+
+  const lockFirstPersonRationingSchemeButtons = (pressedScheme) => {
+    FIRST_PERSON_RATIONING_SCHEMES.forEach((sc) => {
+      const btn = $(`#pronoun-allocation-${sc}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(sc === pressedScheme));
+    });
+  };
+
+  const lockFirstPersonRationingCourtButtons = (pressedAction) => {
+    FIRST_PERSON_RATIONING_COURT_ACTIONS.forEach((a) => {
+      const btn = $(`#ownerless-voices-${a}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(a === pressedAction));
+    });
+  };
+
+  const syncFirstPersonRationingBureau = () => {
+    const figure = $('#first-person-rationing-bureau-figure');
+    const unlocked = firstPersonRationingUnlocked();
+    if (figure) figure.hidden = !unlocked;
+    if (!unlocked) return;
+    const st = getFirstPersonRationing();
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeAllocator || st.draft.speaker !== '' || st.draft.entitlement !== '';
+    const response = $('#first-person-rationing-bureau-response');
+    FIRST_PERSON_RATIONING_SPEAKERS.forEach((s) => {
+      const btn = $(`#first-person-rationing-speaker-${s}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'speaker' && pending.speaker === s);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'speaker') ? pending.feedback : '';
+  };
+
+  const syncFirstPersonRationingArchive = () => {
+    const figure = $('#voice-entitlement-archive-figure');
+    const st = getFirstPersonRationing();
+    const unlocked = firstPersonRationingUnlocked();
+    const hasDraft = unlocked && FIRST_PERSON_RATIONING_SPEAKERS.includes(st.draft.speaker);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeAllocator;
+    const response = $('#voice-entitlement-archive-response');
+    FIRST_PERSON_RATIONING_ENTITLEMENTS.forEach((e) => {
+      const btn = $(`#voice-entitlement-${e}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'entitlement' && pending.entitlement === e);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'entitlement') ? pending.feedback : '';
+  };
+
+  const syncFirstPersonRationingChamber = () => {
+    const figure = $('#pronoun-allocation-chamber-figure');
+    const st = getFirstPersonRationing();
+    const unlocked = firstPersonRationingUnlocked();
+    const hasDraft = unlocked && FIRST_PERSON_RATIONING_SPEAKERS.includes(st.draft.speaker) && FIRST_PERSON_RATIONING_ENTITLEMENTS.includes(st.draft.entitlement);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeAllocator;
+    const response = $('#pronoun-allocation-chamber-response');
+    FIRST_PERSON_RATIONING_SCHEMES.forEach((sc) => {
+      const btn = $(`#pronoun-allocation-${sc}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'ration' && pending.scheme === sc);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'ration') ? pending.feedback : '';
+  };
+
+  const syncFirstPersonRationingCourt = () => {
+    const figure = $('#ownerless-voices-court-figure');
+    const st = getFirstPersonRationing();
+    const open = firstPersonRationingUnlocked() && firstPersonRationingCoverageComplete(st) && st.visited.court;
+    if (figure) figure.hidden = !open;
+    if (!open) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeAllocator || st.draft.speaker !== '' || st.draft.entitlement !== '';
+    const response = $('#ownerless-voices-court-response');
+    FIRST_PERSON_RATIONING_COURT_ACTIONS.forEach((a) => {
+      const btn = $(`#ownerless-voices-${a}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'court' && pending.action === a);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'court') ? pending.feedback : '';
+  };
+
+  const syncFirstPersonRationingAllocators = () => {
+    const st = getFirstPersonRationing();
+    const unlocked = firstPersonRationingUnlocked();
+    Object.values(FIRST_PERSON_RATIONING_SCENE_FOR_ENTITLEMENT).forEach((scene) => {
+      const container = $(`#first-person-rationing-allocator-${scene}`);
+      if (!container) return;
+      const active = unlocked && st.activeAllocator && FIRST_PERSON_RATIONING_SCENE_FOR_ENTITLEMENT[st.activeAllocator.entitlement] === scene && currentScene === scene;
+      container.hidden = !active;
+      if (active) paintFirstPersonRationingAllocator(scene);
+    });
+  };
+
+  const paintFirstPersonRationingAllocator = (scene) => {
+    const st = getFirstPersonRationing();
+    const alloc = st.activeAllocator;
+    const response = $(`#first-person-rationing-allocator-response-${scene}`);
+    const btn = $(`#first-person-rationing-allocator-return-${scene}`);
+    if (response) response.textContent = (alloc && FIRST_PERSON_RATIONING_SCENE_FOR_ENTITLEMENT[alloc.entitlement] === scene) ? alloc.feedback : '';
+    if (btn) {
+      const available = !!alloc && FIRST_PERSON_RATIONING_SCENE_FOR_ENTITLEMENT[alloc.entitlement] === scene && currentScene === scene && !st.pending && !AutoAdvance.has(scene);
+      btn.disabled = !available;
+      btn.setAttribute('aria-pressed', 'false');
+    }
+  };
+
+  const paintFirstPersonRationingMemory = () => {
+    const memory = $('#first-person-rationing-memory');
+    if (!memory) return;
+    const st = getFirstPersonRationing();
+    const unlocked = firstPersonRationingUnlocked();
+    if (!unlocked) {
+      memory.hidden = true;
+      return;
+    }
+    const counts = { entitlement: {}, scheme: {} };
+    for (const id of st.rations) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      counts.entitlement[parts[1]] = (counts.entitlement[parts[1]] || 0) + 1;
+      counts.scheme[parts[2]] = (counts.scheme[parts[2]] || 0) + 1;
+    }
+    const get = (map, key) => map[key] || 0;
+    const tallies = st.speakerTallies;
+    memory.textContent = `第一人称配给：已发放 ${st.rations.length}/36 份配给令，共运行 ${st.rationRuns} 次；主体 多我 ${get(tallies, 'many')} / 共声 ${get(tallies, 'copies')} / 沉默 ${get(tallies, 'silence')}；凭证 首息 ${get(counts.entitlement, 'first-breath-token')} / 无签 ${get(counts.entitlement, 'ownerless-signature-impression')} / 未回 ${get(counts.entitlement, 'future-inherited-echo')}；方案 一息一我 ${get(counts.scheme, 'one-i-per-breath')} / 借影 ${get(counts.scheme, 'lend-the-voice-to-shadow')} / 轮声 ${get(counts.scheme, 'rotate-one-voice-among-copies')} / 沉默代领 ${get(counts.scheme, 'let-silence-claim-the-pronoun')}；发声多数 ${computeFirstPersonRationingSpeakerTalliesMajority(st.speakerTallies)}；终审结局 ${st.courtOutcomes.length}/3。`;
+    memory.hidden = false;
+  };
+
+  const paintFirstPersonRationingCodex = () => {
+    const box = $('#first-person-rationing-codex');
+    const grid = $('#first-person-rationing-codex-grid');
+    const entry = $('#first-person-rationing-codex-entry');
+    if (!box || !grid) return;
+    const st = getFirstPersonRationing();
+    const unlocked = firstPersonRationingUnlocked();
+    if (!unlocked) {
+      box.hidden = true;
+      if (entry) entry.hidden = true;
+      return;
+    }
+    box.removeAttribute('hidden');
+    grid.innerHTML = '';
+    for (const id of RATION_IDS) {
+      const unlocked = st.rations.includes(id);
+      const cell = document.createElement('div');
+      cell.className = 'first-person-rationing-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const c = findRationById(id);
+        cell.innerHTML = `<b>${c.title}</b><span>${c.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    for (const action of FIRST_PERSON_RATIONING_COURT_ACTIONS) {
+      const outcome = FIRST_PERSON_RATIONING_COURT_TABLE[action].outcome;
+      const unlocked = st.courtOutcomes.includes(outcome);
+      const cell = document.createElement('div');
+      cell.className = 'first-person-rationing-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const table = FIRST_PERSON_RATIONING_COURT_TABLE[action];
+        cell.innerHTML = `<b>${table.name}</b><span>${table.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    if (entry) entry.removeAttribute('hidden');
+  };
+
+  const syncFirstPersonRationingRemembrance = () => {
+    paintFirstPersonRationingMemory();
+    paintFirstPersonRationingCodex();
+    const st = getFirstPersonRationing();
+    const unlocked = firstPersonRationingUnlocked();
+    const coverage = firstPersonRationingCoverageComplete(st);
+    const entryBtn = $('#first-person-rationing-entry-btn');
+    if (entryBtn) {
+      entryBtn.hidden = !(currentScene === 'remembrance' && unlocked);
+      entryBtn.disabled = !(!st.pending && !st.activeAllocator && st.draft.speaker === '' && st.draft.entitlement === '' && currentScene === 'remembrance' && unlocked);
+    }
+    const courtEntryBtn = $('#first-person-rationing-court-entry-btn');
+    if (courtEntryBtn) {
+      courtEntryBtn.hidden = !(currentScene === 'remembrance' && unlocked && coverage);
+      courtEntryBtn.disabled = !(!st.pending && !st.activeAllocator && st.draft.speaker === '' && st.draft.entitlement === '' && currentScene === 'remembrance' && unlocked && coverage);
+    }
+  };
+
+  const syncFirstPersonRationingLinks = () => {
+    const st = getFirstPersonRationing();
+    const unlocked = firstPersonRationingUnlocked();
+    const map = {
+      'first-person-rationing-bureau-link': unlocked && st.visited.bureau,
+      'voice-entitlement-archive-link': unlocked && st.visited.archive,
+      'pronoun-allocation-chamber-link': unlocked && st.visited.chamber,
+      'ownerless-voices-court-link': unlocked && st.visited.court,
+    };
+    for (const [id, show] of Object.entries(map)) {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !show;
+    }
+  };
+
+  const replayFirstPersonRationingPending = (sceneName) => {
+    const st = getFirstPersonRationing();
+    const p = st.pending;
+    if (!p) {
+      syncFirstPersonRationingBureau();
+      syncFirstPersonRationingArchive();
+      syncFirstPersonRationingChamber();
+      syncFirstPersonRationingCourt();
+      syncFirstPersonRationingAllocators();
+      return;
+    }
+    if (sceneName === p.target) {
+      firstPersonRationingBeforeArrive(p);
+      syncFirstPersonRationingBureau();
+      syncFirstPersonRationingArchive();
+      syncFirstPersonRationingChamber();
+      syncFirstPersonRationingCourt();
+      syncFirstPersonRationingAllocators();
+      if (sceneName === 'remembrance') syncFirstPersonRationingRemembrance();
+      return;
+    }
+    const schedule = (source) => AutoAdvance.schedule(source, p.target, { delay: firstPersonRationingDelay(), before: () => firstPersonRationingBeforeArrive(p) });
+
+    if (p.kind === 'entry' && sceneName === 'remembrance') {
+      const btn = $('#first-person-rationing-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#first-person-rationing-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'speaker' && sceneName === 'first-person-rationing-bureau') {
+      const response = $('#first-person-rationing-bureau-response');
+      if (response) response.textContent = p.feedback;
+      lockFirstPersonRationingSpeakerButtons(p.speaker);
+      schedule('first-person-rationing-bureau');
+    } else if (p.kind === 'entitlement' && sceneName === 'voice-entitlement-archive') {
+      const response = $('#voice-entitlement-archive-response');
+      if (response) response.textContent = p.feedback;
+      lockFirstPersonRationingEntitlementButtons(p.entitlement);
+      schedule('voice-entitlement-archive');
+    } else if (p.kind === 'ration' && sceneName === 'pronoun-allocation-chamber') {
+      const response = $('#pronoun-allocation-chamber-response');
+      if (response) response.textContent = p.feedback;
+      lockFirstPersonRationingSchemeButtons(p.scheme);
+      schedule('pronoun-allocation-chamber');
+    } else if (p.kind === 'allocator-return' && sceneName === p.from) {
+      const container = $(`#first-person-rationing-allocator-${p.from}`);
+      if (container) container.hidden = false;
+      const response = $(`#first-person-rationing-allocator-response-${p.from}`);
+      if (response) response.textContent = p.feedback;
+      const btn = $(`#first-person-rationing-allocator-return-${p.from}`);
+      if (btn) {
+        btn.disabled = true;
+        btn.setAttribute('aria-pressed', 'true');
+      }
+      schedule(p.from);
+    } else if (p.kind === 'court-entry' && sceneName === 'remembrance') {
+      const btn = $('#first-person-rationing-court-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#first-person-rationing-court-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'court' && sceneName === 'ownerless-voices-court') {
+      const response = $('#ownerless-voices-court-response');
+      if (response) response.textContent = p.feedback;
+      lockFirstPersonRationingCourtButtons(p.action);
+      schedule('ownerless-voices-court');
+    } else {
+      st.pending = null;
+      saveFirstPersonRationing(st);
+      syncFirstPersonRationingBureau();
+      syncFirstPersonRationingArchive();
+      syncFirstPersonRationingChamber();
+      syncFirstPersonRationingCourt();
+      syncFirstPersonRationingAllocators();
+      if (sceneName === 'remembrance') syncFirstPersonRationingRemembrance();
+    }
+  };
+
+  const chooseFirstPersonRationingSpeaker = (speaker) => {
+    if (currentScene !== 'first-person-rationing-bureau') return;
+    if (AutoAdvance.has('first-person-rationing-bureau')) return;
+    if (!FIRST_PERSON_RATIONING_SPEAKERS.includes(speaker)) return;
+    if (!buttonAvailable(`first-person-rationing-speaker-${speaker}`)) return;
+    const st = getFirstPersonRationing();
+    if (st.pending) return;
+    if (st.activeAllocator) return;
+    if (st.draft.speaker !== '' || st.draft.entitlement !== '') return;
+    const table = FIRST_PERSON_RATIONING_SPEAKER_TABLE[speaker];
+    if (!table) return;
+    const pending = { kind: 'speaker', source: 'first-person-rationing-bureau', speaker, target: 'voice-entitlement-archive', feedback: table.feedback };
+    st.pending = pending;
+    saveFirstPersonRationing(st);
+    lockFirstPersonRationingSpeakerButtons(speaker);
+    const response = $('#first-person-rationing-bureau-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('first-person-rationing-bureau', 'voice-entitlement-archive', { delay: firstPersonRationingDelay(), before: () => firstPersonRationingBeforeArrive(pending) });
+  };
+
+  const chooseFirstPersonRationingEntitlement = (entitlement) => {
+    if (currentScene !== 'voice-entitlement-archive') return;
+    if (AutoAdvance.has('voice-entitlement-archive')) return;
+    if (!FIRST_PERSON_RATIONING_ENTITLEMENTS.includes(entitlement)) return;
+    if (!buttonAvailable(`voice-entitlement-${entitlement}`)) return;
+    const st = getFirstPersonRationing();
+    if (st.pending) return;
+    if (st.activeAllocator) return;
+    if (!FIRST_PERSON_RATIONING_SPEAKERS.includes(st.draft.speaker)) return;
+    const table = FIRST_PERSON_RATIONING_ENTITLEMENT_TABLE[entitlement];
+    if (!table) return;
+    const pending = { kind: 'entitlement', source: 'voice-entitlement-archive', speaker: st.draft.speaker, entitlement, target: 'pronoun-allocation-chamber', feedback: table.feedback };
+    st.pending = pending;
+    saveFirstPersonRationing(st);
+    lockFirstPersonRationingEntitlementButtons(entitlement);
+    const response = $('#voice-entitlement-archive-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('voice-entitlement-archive', 'pronoun-allocation-chamber', { delay: firstPersonRationingDelay(), before: () => firstPersonRationingBeforeArrive(pending) });
+  };
+
+  const chooseFirstPersonRationingScheme = (scheme) => {
+    if (currentScene !== 'pronoun-allocation-chamber') return;
+    if (AutoAdvance.has('pronoun-allocation-chamber')) return;
+    if (!FIRST_PERSON_RATIONING_SCHEMES.includes(scheme)) return;
+    if (!buttonAvailable(`pronoun-allocation-${scheme}`)) return;
+    const st = getFirstPersonRationing();
+    if (st.pending) return;
+    if (st.activeAllocator) return;
+    const s = st.draft.speaker;
+    const e = st.draft.entitlement;
+    if (!FIRST_PERSON_RATIONING_SPEAKERS.includes(s) || !FIRST_PERSON_RATIONING_ENTITLEMENTS.includes(e)) return;
+    const feedback = computeRationFeedback(s, e, scheme);
+    const rationId = computeRationId(s, e, scheme);
+    const target = FIRST_PERSON_RATIONING_SCENE_FOR_ENTITLEMENT[e];
+    const pending = { kind: 'ration', source: 'pronoun-allocation-chamber', speaker: s, entitlement: e, scheme, ration: rationId, target, feedback };
+    st.pending = pending;
+    saveFirstPersonRationing(st);
+    lockFirstPersonRationingSchemeButtons(scheme);
+    const response = $('#pronoun-allocation-chamber-response');
+    if (response) response.textContent = feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('pronoun-allocation-chamber', target, { delay: firstPersonRationingDelay(), before: () => firstPersonRationingBeforeArrive(pending) });
+  };
+
+  const chooseFirstPersonRationingAllocatorReturn = (scene) => {
+    if (currentScene !== scene) return;
+    if (AutoAdvance.has(scene)) return;
+    if (!Object.values(FIRST_PERSON_RATIONING_SCENE_FOR_ENTITLEMENT).includes(scene)) return;
+    if (!buttonAvailable(`first-person-rationing-allocator-return-${scene}`)) return;
+    const st = getFirstPersonRationing();
+    if (st.pending) return;
+    const alloc = st.activeAllocator;
+    if (!alloc || FIRST_PERSON_RATIONING_SCENE_FOR_ENTITLEMENT[alloc.entitlement] !== scene) return;
+    const pending = { kind: 'allocator-return', from: scene, target: 'first-person-rationing-bureau', ration: alloc.ration, feedback: alloc.feedback };
+    st.pending = pending;
+    saveFirstPersonRationing(st);
+    const btn = $(`#first-person-rationing-allocator-return-${scene}`);
+    if (btn) {
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', 'true');
+    }
+    const response = $(`#first-person-rationing-allocator-response-${scene}`);
+    if (response) response.textContent = alloc.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule(scene, 'first-person-rationing-bureau', { delay: firstPersonRationingDelay(), before: () => firstPersonRationingBeforeArrive(pending) });
+  };
+
+  const chooseFirstPersonRationingEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('first-person-rationing-entry-btn')) return;
+    if (!firstPersonRationingUnlocked()) return;
+    const st = getFirstPersonRationing();
+    if (st.pending) return;
+    if (st.activeAllocator) return;
+    if (st.draft.speaker !== '' || st.draft.entitlement !== '') return;
+    const pending = { kind: 'entry', target: 'first-person-rationing-bureau', feedback: FIRST_PERSON_RATIONING_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveFirstPersonRationing(st);
+    const btn = $('#first-person-rationing-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#first-person-rationing-entry-response');
+    if (response) response.textContent = FIRST_PERSON_RATIONING_ENTRY_FEEDBACK;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('remembrance', 'first-person-rationing-bureau', { delay: firstPersonRationingDelay(), before: () => firstPersonRationingBeforeArrive(pending) });
+  };
+
+  const chooseFirstPersonRationingCourtEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('first-person-rationing-court-entry-btn')) return;
+    const st = getFirstPersonRationing();
+    if (st.pending) return;
+    if (st.activeAllocator) return;
+    if (st.draft.speaker !== '' || st.draft.entitlement !== '') return;
+    if (!firstPersonRationingCoverageComplete(st)) return;
+    const pending = { kind: 'court-entry', target: 'ownerless-voices-court', feedback: FIRST_PERSON_RATIONING_COURT_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveFirstPersonRationing(st);
+    const btn = $('#first-person-rationing-court-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#first-person-rationing-court-entry-response');
+    if (response) response.textContent = FIRST_PERSON_RATIONING_COURT_ENTRY_FEEDBACK;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('remembrance', 'ownerless-voices-court', { delay: firstPersonRationingDelay(), before: () => firstPersonRationingBeforeArrive(pending) });
+  };
+
+  const chooseFirstPersonRationingCourtAction = (action) => {
+    if (currentScene !== 'ownerless-voices-court') return;
+    if (AutoAdvance.has('ownerless-voices-court')) return;
+    if (!FIRST_PERSON_RATIONING_COURT_ACTIONS.includes(action)) return;
+    if (!buttonAvailable(`ownerless-voices-${action}`)) return;
+    const st = getFirstPersonRationing();
+    if (st.pending) return;
+    if (st.activeAllocator) return;
+    if (st.draft.speaker !== '' || st.draft.entitlement !== '') return;
+    if (!st.visited.court) return;
+    if (!firstPersonRationingCoverageComplete(st)) return;
+    const table = FIRST_PERSON_RATIONING_COURT_TABLE[action];
+    if (!table) return;
+    const pending = { kind: 'court', source: 'ownerless-voices-court', action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    st.pending = pending;
+    saveFirstPersonRationing(st);
+    lockFirstPersonRationingCourtButtons(action);
+    const response = $('#ownerless-voices-court-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('ownerless-voices-court', table.target, { delay: firstPersonRationingDelay(), before: () => firstPersonRationingBeforeArrive(pending) });
+  };
+
+  const firstPersonRationingCanVisitBureau = () => {
+    if (!firstPersonRationingUnlocked()) return false;
+    const st = getFirstPersonRationing();
+    const p = st.pending;
+    if (p && (p.kind === 'entry' || p.kind === 'allocator-return') && p.target === 'first-person-rationing-bureau') return true;
+    if (st.visited.bureau) return true;
+    return false;
+  };
+
+  const firstPersonRationingCanVisitArchive = () => {
+    if (!firstPersonRationingUnlocked()) return false;
+    const st = getFirstPersonRationing();
+    const p = st.pending;
+    if (p && p.kind === 'speaker' && p.target === 'voice-entitlement-archive') return true;
+    if (st.visited.archive && FIRST_PERSON_RATIONING_SPEAKERS.includes(st.draft.speaker)) return true;
+    return false;
+  };
+
+  const firstPersonRationingCanVisitChamber = () => {
+    if (!firstPersonRationingUnlocked()) return false;
+    const st = getFirstPersonRationing();
+    const p = st.pending;
+    if (p && p.kind === 'entitlement' && p.target === 'pronoun-allocation-chamber') return true;
+    if (st.visited.chamber && FIRST_PERSON_RATIONING_SPEAKERS.includes(st.draft.speaker) && FIRST_PERSON_RATIONING_ENTITLEMENTS.includes(st.draft.entitlement)) return true;
+    return false;
+  };
+
+  const firstPersonRationingCanVisitCourt = () => {
+    if (!firstPersonRationingUnlocked()) return false;
+    const st = getFirstPersonRationing();
+    if (!firstPersonRationingCoverageComplete(st)) return false;
+    const p = st.pending;
+    if (p && p.kind === 'court-entry' && p.target === 'ownerless-voices-court') return true;
+    if (st.visited.court) return true;
+    return false;
+  };
+
+  const firstPersonRationingBridgeAllows = (scene) => {
+    const st = getFirstPersonRationing();
+    const p = st.pending;
+    if (p && p.kind === 'ration' && p.target === scene) return true;
+    if (p && p.kind === 'court' && p.target === scene) return true;
+    if (st.activeAllocator && FIRST_PERSON_RATIONING_SCENE_FOR_ENTITLEMENT[st.activeAllocator.entitlement] === scene) return true;
+    return false;
+  };
+
+  const firstPersonRationingEntryBtn = $('#first-person-rationing-entry-btn');
+  if (firstPersonRationingEntryBtn) {
+    firstPersonRationingEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseFirstPersonRationingEntry();
+    });
+  }
+  const firstPersonRationingCourtEntryBtn = $('#first-person-rationing-court-entry-btn');
+  if (firstPersonRationingCourtEntryBtn) {
+    firstPersonRationingCourtEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseFirstPersonRationingCourtEntry();
+    });
+  }
+  const speakerManySelvesOneBodyBtn = $('#first-person-rationing-speaker-many-selves-one-body');
+  if (speakerManySelvesOneBodyBtn) {
+    speakerManySelvesOneBodyBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseFirstPersonRationingSpeaker('many-selves-one-body');
+    });
+  }
+  const speakerCopiesSharingOneVoiceBtn = $('#first-person-rationing-speaker-copies-sharing-one-voice');
+  if (speakerCopiesSharingOneVoiceBtn) {
+    speakerCopiesSharingOneVoiceBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseFirstPersonRationingSpeaker('copies-sharing-one-voice');
+    });
+  }
+  const speakerOwnerlessSilenceBtn = $('#first-person-rationing-speaker-ownerless-silence');
+  if (speakerOwnerlessSilenceBtn) {
+    speakerOwnerlessSilenceBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseFirstPersonRationingSpeaker('ownerless-silence');
+    });
+  }
+  const entitlementFirstBreathTokenBtn = $('#voice-entitlement-first-breath-token');
+  if (entitlementFirstBreathTokenBtn) {
+    entitlementFirstBreathTokenBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseFirstPersonRationingEntitlement('first-breath-token');
+    });
+  }
+  const entitlementOwnerlessSignatureImpressionBtn = $('#voice-entitlement-ownerless-signature-impression');
+  if (entitlementOwnerlessSignatureImpressionBtn) {
+    entitlementOwnerlessSignatureImpressionBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseFirstPersonRationingEntitlement('ownerless-signature-impression');
+    });
+  }
+  const entitlementFutureInheritedEchoBtn = $('#voice-entitlement-future-inherited-echo');
+  if (entitlementFutureInheritedEchoBtn) {
+    entitlementFutureInheritedEchoBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseFirstPersonRationingEntitlement('future-inherited-echo');
+    });
+  }
+  const schemeOneIPerBreathBtn = $('#pronoun-allocation-one-i-per-breath');
+  if (schemeOneIPerBreathBtn) {
+    schemeOneIPerBreathBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseFirstPersonRationingScheme('one-i-per-breath');
+    });
+  }
+  const schemeLendTheVoiceToShadowBtn = $('#pronoun-allocation-lend-the-voice-to-shadow');
+  if (schemeLendTheVoiceToShadowBtn) {
+    schemeLendTheVoiceToShadowBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseFirstPersonRationingScheme('lend-the-voice-to-shadow');
+    });
+  }
+  const schemeRotateOneVoiceAmongCopiesBtn = $('#pronoun-allocation-rotate-one-voice-among-copies');
+  if (schemeRotateOneVoiceAmongCopiesBtn) {
+    schemeRotateOneVoiceAmongCopiesBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseFirstPersonRationingScheme('rotate-one-voice-among-copies');
+    });
+  }
+  const schemeLetSilenceClaimThePronounBtn = $('#pronoun-allocation-let-silence-claim-the-pronoun');
+  if (schemeLetSilenceClaimThePronounBtn) {
+    schemeLetSilenceClaimThePronounBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseFirstPersonRationingScheme('let-silence-claim-the-pronoun');
+    });
+  }
+  const allocatorReturnThresholdBtn = $('#first-person-rationing-allocator-return-threshold');
+  if (allocatorReturnThresholdBtn) {
+    allocatorReturnThresholdBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseFirstPersonRationingAllocatorReturn('threshold');
+    });
+  }
+  const allocatorReturnBlankNameCloakroomBtn = $('#first-person-rationing-allocator-return-blank-name-cloakroom');
+  if (allocatorReturnBlankNameCloakroomBtn) {
+    allocatorReturnBlankNameCloakroomBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseFirstPersonRationingAllocatorReturn('blank-name-cloakroom');
+    });
+  }
+  const allocatorReturnRemembranceBtn = $('#first-person-rationing-allocator-return-remembrance');
+  if (allocatorReturnRemembranceBtn) {
+    allocatorReturnRemembranceBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseFirstPersonRationingAllocatorReturn('remembrance');
+    });
+  }
+  const courtGrantOneVoiceToAllInTurnBtn = $('#ownerless-voices-grant-one-voice-to-all-in-turn');
+  if (courtGrantOneVoiceToAllInTurnBtn) {
+    courtGrantOneVoiceToAllInTurnBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseFirstPersonRationingCourtAction('grant-one-voice-to-all-in-turn');
+    });
+  }
+  const courtAbolishPronounRationingBtn = $('#ownerless-voices-abolish-pronoun-rationing');
+  if (courtAbolishPronounRationingBtn) {
+    courtAbolishPronounRationingBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseFirstPersonRationingCourtAction('abolish-pronoun-rationing');
+    });
+  }
+  const courtRecognizeSilenceAsOnlySpeakerBtn = $('#ownerless-voices-recognize-silence-as-only-speaker');
+  if (courtRecognizeSilenceAsOnlySpeakerBtn) {
+    courtRecognizeSilenceAsOnlySpeakerBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseFirstPersonRationingCourtAction('recognize-silence-as-only-speaker');
+    });
+  }
+  /* ============================================================
+     v79 未言人格继承院 / COURT OF UNSPOKEN PERSONHOOD
+     ============================================================ */
+  const UNSPOKEN_PERSONHOOD_KEY = 'goddead_v79_unspoken_personhood';
+  const UNSPOKEN_PERSONHOOD_VERSION = 79;
+  const UNSPOKEN_PERSONHOOD_CLAIMANTS = ['unsaid-love-confession', 'unread-final-testament', 'swallowed-cry-for-help'];
+  const UNSPOKEN_PERSONHOOD_EVIDENCE = ['closed-lip-pressure-seal', 'unsigned-witness-echo', 'breath-returned-from-empty-receiver'];
+  const UNSPOKEN_PERSONHOOD_MODES = ['inherit-the-speakers-name', 'inherit-the-unlived-years', 'inherit-the-right-to-be-answered', 'refuse-a-body-and-live-as-absence'];
+  const UNSPOKEN_PERSONHOOD_TRIBUNAL_ACTIONS = ['grant-the-unsaid-a-whole-life', 'divide-personhood-among-all-listeners', 'make-the-speaker-estate-of-last-silence'];
+  const UNSPOKEN_PERSONHOOD_SCENE_FOR_EVIDENCE = {
+    'closed-lip-pressure-seal': 'confession',
+    'unsigned-witness-echo': 'testament-clearing-vault',
+    'breath-returned-from-empty-receiver': 'unseated-listening-booth',
+  };
+  const UNSPOKEN_PERSONHOOD_ENTRY_FEEDBACK = '沉默取得唯一合法发声权后，所有没能说出口的话都成了没有身体的合法遗民。它们排在继承院门外，要求继承说话者留下的姓名、年月和被回应的权利。';
+  const UNSPOKEN_PERSONHOOD_TRIBUNAL_ENTRY_FEEDBACK = '审理所有没能出口的人生 · TRY EVERY LIFE THAT NEVER LEFT THE MOUTH';
+
+  const UNSPOKEN_PERSONHOOD_CLAIMANT_TABLE = {
+    'unsaid-love-confession': {
+      name: '替未说出的爱申请人格 · CLAIM PERSONHOOD FOR UNSAID LOVE',
+      feedback: '暗红情书从未离开胸腔，却记得一段没有发生的共同生活。它要求继承两个人本该一起变老的年月。',
+      fragment: '暗红情书从未离开胸腔，却记得一段没有发生的共同生活。它要求继承两个人本该一起变老的年月。',
+      title: '未爱',
+      tallyKey: 'love',
+    },
+    'unread-final-testament': {
+      name: '替未宣读遗嘱申请人格 · CLAIM PERSONHOOD FOR THE UNREAD TESTAMENT',
+      feedback: '封蜡遗嘱拒绝被称作死者的财物。它说自己保存了最后意志，因此死者才是它尚未办理过户的遗产。',
+      fragment: '封蜡遗嘱拒绝被称作死者的财物。它说自己保存了最后意志，因此死者才是它尚未办理过户的遗产。',
+      title: '遗嘱',
+      tallyKey: 'testament',
+    },
+    'swallowed-cry-for-help': {
+      name: '替咽回的求救申请人格 · CLAIM PERSONHOOD FOR THE SWALLOWED CRY',
+      feedback: '求救声在玻璃罐里继续撞击。它一次也没被听见，却能逐个叫出所有本来可能回头的人。',
+      fragment: '求救声在玻璃罐里继续撞击。它一次也没被听见，却能逐个叫出所有本来可能回头的人。',
+      title: '求救',
+      tallyKey: 'cry',
+    },
+  };
+
+  const UNSPOKEN_PERSONHOOD_EVIDENCE_TABLE = {
+    'closed-lip-pressure-seal': {
+      name: '提交闭唇压力封印 · SUBMIT THE CLOSED-LIP PRESSURE SEAL',
+      feedback: '蜡封保存了嘴唇决定张开的那一瞬。话没有出去，压力却完整留下一个人差点诚实的形状。',
+      fragment: '蜡封保存了嘴唇决定张开的那一瞬。话没有出去，压力却完整留下一个人差点诚实的形状。',
+      title: '闭唇',
+      target: 'confession',
+      executorReturnName: '跟闭唇执行官返回继承院 · RETURN WITH THE CLOSED-LIP EXECUTOR',
+      executorFeedback: '闭唇执行官在忏悔室量出一句话的负形。它没有内容，却准确占据了最该诚实的那一刻。',
+    },
+    'unsigned-witness-echo': {
+      name: '提交无署名见证回声 · SUBMIT THE UNSIGNED WITNESS ECHO',
+      feedback: '黄铜听筒复述一段无人说过的证词。它知道遗嘱写给谁，却拒绝证明自己从哪一张嘴里来。',
+      fragment: '黄铜听筒复述一段无人说过的证词。它知道遗嘱写给谁，却拒绝证明自己从哪一张嘴里来。',
+      title: '回声',
+      target: 'testament-clearing-vault',
+      executorReturnName: '跟无署名执行官返回继承院 · RETURN WITH THE UNSIGNED EXECUTOR',
+      executorFeedback: '无署名执行官在遗嘱清算库找到一段多余回声。每份遗产都否认拥有它，所有继承人却认得它的语气。',
+    },
+    'breath-returned-from-empty-receiver': {
+      name: '提交空听筒归还之息 · SUBMIT THE BREATH RETURNED BY AN EMPTY RECEIVER',
+      feedback: '空听筒吐回一口被咽下多年的气。它带着求救的节奏，另一端却从未真正响过。',
+      fragment: '空听筒吐回一口被咽下多年的气。它带着求救的节奏，另一端却从未真正响过。',
+      title: '归息',
+      target: 'unseated-listening-booth',
+      executorReturnName: '跟空听筒执行官返回继承院 · RETURN WITH THE EMPTY-RECEIVER EXECUTOR',
+      executorFeedback: '空听筒执行官坐在无人接听的隔间。听筒不断归还气息，仿佛另一端仍有人练习如何开口求救。',
+    },
+  };
+
+  const UNSPOKEN_PERSONHOOD_MODE_TABLE = {
+    'inherit-the-speakers-name': {
+      name: '继承说话者姓名 · INHERIT THE SPEAKER\'S NAME',
+      title: '姓名',
+      fragment: '书记官把姓名从活人的嘴上剥下，盖到未言之物上。本人仍能被叫到，却必须由那句话代为答应。',
+    },
+    'inherit-the-unlived-years': {
+      name: '继承没有活过的年月 · INHERIT THE UNLIVED YEARS',
+      title: '年月',
+      fragment: '未发生的日历开始翻页。每一年都属于一句差点说出的话，而身体只继承它们共同留下的衰老。',
+    },
+    'inherit-the-right-to-be-answered': {
+      name: '继承被回应的权利 · INHERIT THE RIGHT TO BE ANSWERED',
+      title: '回应',
+      fragment: '所有没听见的人突然负有答复义务。他们必须回答一声从未抵达的求救，并证明迟到不等于拒绝。',
+    },
+    'refuse-a-body-and-live-as-absence': {
+      name: '拒绝肉身，以缺席生活 · REFUSE A BODY AND LIVE AS ABSENCE',
+      title: '缺席',
+      fragment: '判令允许未言之物不占用身体。它以房间里少掉的一句话生活，并在每次沉默时继续长大。',
+    },
+  };
+
+  const UNSPOKEN_PERSONHOOD_TRIBUNAL_TABLE = {
+    'grant-the-unsaid-a-whole-life': {
+      name: '把完整一生判给未言之句 · GRANT A WHOLE LIFE TO THE UNSAID',
+      outcome: 'an-unsaid-sentence-inherited-a-whole-life',
+      target: 'remembrance',
+      feedback: '未拆情书继承了姓名、童年和死期。原来的身体仍在墙前呼吸，却只剩一份被句子放弃的空白遗产。',
+    },
+    'divide-personhood-among-all-listeners': {
+      name: '把人格分给所有未听见者 · DIVIDE PERSONHOOD AMONG ALL WHO DID NOT HEAR',
+      outcome: 'personhood-was-divided-among-the-unhearing',
+      target: 'unseated-listening-booth',
+      feedback: '求救声被分成许多微小人格，落进每张空座。此后每个没听见的人，都在体内替它继续等一次回答。',
+    },
+    'make-the-speaker-estate-of-last-silence': {
+      name: '让说话者成为最后沉默的遗产 · MAKE THE SPEAKER THE ESTATE OF LAST SILENCE',
+      outcome: 'the-speaker-became-the-estate-of-last-silence',
+      target: 'unending-gallery',
+      feedback: '封蜡遗嘱倒过来宣读活人。名字、身体与记忆逐项过户，最后只剩沉默作为唯一仍然在世的继承人。',
+    },
+  };
+
+  const UNSPOKEN_PERSONHOOD_GRANT_IDS = (() => {
+    const ids = [];
+    for (const c of UNSPOKEN_PERSONHOOD_CLAIMANTS) {
+      for (const e of UNSPOKEN_PERSONHOOD_EVIDENCE) {
+        for (const m of UNSPOKEN_PERSONHOOD_MODES) {
+          ids.push(`${c}:${e}:${m}`);
+        }
+      }
+    }
+    return ids;
+  })();
+  const UNSPOKEN_PERSONHOOD_GRANT_SET = new Set(UNSPOKEN_PERSONHOOD_GRANT_IDS);
+  const UNSPOKEN_PERSONHOOD_TRIBUNAL_OUTCOME_IDS = UNSPOKEN_PERSONHOOD_TRIBUNAL_ACTIONS.map((a) => UNSPOKEN_PERSONHOOD_TRIBUNAL_TABLE[a].outcome);
+  const UNSPOKEN_PERSONHOOD_TRIBUNAL_OUTCOME_SET = new Set(UNSPOKEN_PERSONHOOD_TRIBUNAL_OUTCOME_IDS);
+
+  const defaultUnspokenPersonhood = () => ({
+    version: UNSPOKEN_PERSONHOOD_VERSION,
+    visited: { court: false, archive: false, examination: false, tribunal: false },
+    draft: { claimant: '', evidence: '' },
+    grants: [],
+    tribunalOutcomes: [],
+    grantRuns: 0,
+    tribunalRuns: 0,
+    claimantTallies: { love: 0, testament: 0, cry: 0 },
+    lastOutcome: '',
+    activeExecutor: null,
+    pending: null,
+  });
+
+  const normalizeUnspokenPersonhoodVisited = (visited) => {
+    const v = visited && typeof visited === 'object' && !Array.isArray(visited) ? visited : {};
+    return {
+      court: v.court === true,
+      archive: v.archive === true,
+      examination: v.examination === true,
+      tribunal: v.tribunal === true,
+    };
+  };
+
+  const normalizeUnspokenPersonhoodDraft = (draft) => {
+    const d = draft && typeof draft === 'object' && !Array.isArray(draft) ? draft : {};
+    let claimant = typeof d.claimant === 'string' ? d.claimant : '';
+    let evidence = typeof d.evidence === 'string' ? d.evidence : '';
+    if (!UNSPOKEN_PERSONHOOD_CLAIMANTS.includes(claimant)) {
+      claimant = '';
+      evidence = '';
+    }
+    if (!UNSPOKEN_PERSONHOOD_EVIDENCE.includes(evidence)) {
+      evidence = '';
+    }
+    if (evidence !== '' && claimant === '') {
+      evidence = '';
+    }
+    return { claimant, evidence };
+  };
+
+  const normalizeUnspokenPersonhoodGrants = (arr) => {
+    const input = Array.isArray(arr) ? arr : [];
+    const seen = new Set();
+    const out = [];
+    for (const id of UNSPOKEN_PERSONHOOD_GRANT_IDS) {
+      if (input.includes(id) && !seen.has(id)) {
+        out.push(id);
+        seen.add(id);
+      }
+    }
+    return out;
+  };
+
+  const normalizeUnspokenPersonhoodTribunalOutcomes = (arr) => {
+    const input = Array.isArray(arr) ? arr : [];
+    const set = new Set(input);
+    return UNSPOKEN_PERSONHOOD_TRIBUNAL_ACTIONS.map((a) => UNSPOKEN_PERSONHOOD_TRIBUNAL_TABLE[a].outcome).filter((o) => set.has(o));
+  };
+
+  const clampUnspokenPersonhoodCount = (n) => Math.min(9999, Math.max(0, Math.floor(Number(n) || 0)));
+
+  const normalizeUnspokenPersonhoodClaimantTallies = (tallies) => {
+    const t = tallies && typeof tallies === 'object' && !Array.isArray(tallies) ? tallies : {};
+    return {
+      love: clampUnspokenPersonhoodCount(t.love),
+      testament: clampUnspokenPersonhoodCount(t.testament),
+      cry: clampUnspokenPersonhoodCount(t.cry),
+    };
+  };
+
+  const normalizeUnspokenPersonhoodActiveExecutor = (exec, grants) => {
+    if (!exec || typeof exec !== 'object' || Array.isArray(exec)) return null;
+    if (Object.keys(exec).sort().join(',') !== 'evidence,feedback,grant') return null;
+    if (!UNSPOKEN_PERSONHOOD_EVIDENCE.includes(exec.evidence)) return null;
+    const collected = Array.isArray(grants) ? grants : [];
+    if (!collected.includes(exec.grant)) return null;
+    if (!UNSPOKEN_PERSONHOOD_GRANT_SET.has(exec.grant)) return null;
+    const parts = exec.grant.split(':');
+    if (parts.length !== 3 || parts[1] !== exec.evidence) return null;
+    const fb = UNSPOKEN_PERSONHOOD_EVIDENCE_TABLE[exec.evidence].executorFeedback;
+    if (exec.feedback !== fb) return null;
+    return { evidence: exec.evidence, grant: exec.grant, feedback: fb };
+  };
+
+  const normalizeUnspokenPersonhoodPending = (p, st) => {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || !p.kind) return null;
+    const keys = Object.keys(p).sort().join(',');
+    const unlocked = st._v79unlocked === true;
+
+    if (p.kind === 'entry' && keys === 'feedback,kind,target') {
+      if (!unlocked || st.activeExecutor || st.draft.claimant !== '' || st.draft.evidence !== '') return null;
+      if (p.target === 'unspoken-personhood-court' && p.feedback === UNSPOKEN_PERSONHOOD_ENTRY_FEEDBACK) {
+        return { kind: 'entry', target: 'unspoken-personhood-court', feedback: p.feedback };
+      }
+    }
+    if (p.kind === 'claimant' && keys === 'claimant,feedback,kind,source,target') {
+      if (!unlocked) return null;
+      if (st.activeExecutor) return null;
+      if (p.source !== 'unspoken-personhood-court' || p.target !== 'silent-intent-archive') return null;
+      if (!UNSPOKEN_PERSONHOOD_CLAIMANTS.includes(p.claimant)) return null;
+      const table = UNSPOKEN_PERSONHOOD_CLAIMANT_TABLE[p.claimant];
+      if (!table || p.feedback !== table.feedback) return null;
+      if (st.draft.claimant !== '' || st.draft.evidence !== '') return null;
+      return { kind: 'claimant', source: 'unspoken-personhood-court', claimant: p.claimant, target: 'silent-intent-archive', feedback: p.feedback };
+    }
+    if (p.kind === 'evidence' && keys === 'claimant,evidence,feedback,kind,source,target') {
+      if (!unlocked) return null;
+      if (st.activeExecutor) return null;
+      if (p.source !== 'silent-intent-archive' || p.target !== 'personhood-inheritance-examination') return null;
+      if (!UNSPOKEN_PERSONHOOD_CLAIMANTS.includes(p.claimant) || !UNSPOKEN_PERSONHOOD_EVIDENCE.includes(p.evidence)) return null;
+      if (p.claimant !== st.draft.claimant) return null;
+      const table = UNSPOKEN_PERSONHOOD_EVIDENCE_TABLE[p.evidence];
+      if (!table || p.feedback !== table.feedback) return null;
+      return { kind: 'evidence', source: 'silent-intent-archive', claimant: p.claimant, evidence: p.evidence, target: 'personhood-inheritance-examination', feedback: p.feedback };
+    }
+    if (p.kind === 'grant' && keys === 'claimant,evidence,feedback,grant,kind,mode,source,target') {
+      if (!unlocked) return null;
+      if (st.activeExecutor) return null;
+      if (p.source !== 'personhood-inheritance-examination') return null;
+      if (!UNSPOKEN_PERSONHOOD_CLAIMANTS.includes(p.claimant) || !UNSPOKEN_PERSONHOOD_EVIDENCE.includes(p.evidence) || !UNSPOKEN_PERSONHOOD_MODES.includes(p.mode)) return null;
+      if (p.claimant !== st.draft.claimant || p.evidence !== st.draft.evidence) return null;
+      const grantId = computeUnspokenPersonhoodGrantId(p.claimant, p.evidence, p.mode);
+      if (p.grant !== grantId) return null;
+      const target = UNSPOKEN_PERSONHOOD_SCENE_FOR_EVIDENCE[p.evidence];
+      if (p.target !== target) return null;
+      const fb = computeUnspokenPersonhoodGrantFeedback(p.claimant, p.evidence, p.mode);
+      if (p.feedback !== fb) return null;
+      return { kind: 'grant', source: 'personhood-inheritance-examination', claimant: p.claimant, evidence: p.evidence, mode: p.mode, grant: grantId, target, feedback: fb };
+    }
+    if (p.kind === 'executor-return' && keys === 'feedback,from,grant,kind,target') {
+      if (!unlocked) return null;
+      if (p.target !== 'unspoken-personhood-court') return null;
+      if (!Object.values(UNSPOKEN_PERSONHOOD_SCENE_FOR_EVIDENCE).includes(p.from)) return null;
+      const exec = st.activeExecutor;
+      if (!exec || UNSPOKEN_PERSONHOOD_SCENE_FOR_EVIDENCE[exec.evidence] !== p.from || exec.grant !== p.grant) return null;
+      if (p.feedback !== exec.feedback) return null;
+      return { kind: 'executor-return', from: p.from, target: 'unspoken-personhood-court', grant: p.grant, feedback: p.feedback };
+    }
+    if (p.kind === 'tribunal-entry' && keys === 'feedback,kind,target') {
+      if (!unlocked) return null;
+      if (st.activeExecutor || st.draft.claimant !== '' || st.draft.evidence !== '') return null;
+      if (p.target !== 'unuttered-estate-tribunal' || p.feedback !== UNSPOKEN_PERSONHOOD_TRIBUNAL_ENTRY_FEEDBACK) return null;
+      if (!unspokenPersonhoodCoverageComplete(st)) return null;
+      return { kind: 'tribunal-entry', target: 'unuttered-estate-tribunal', feedback: p.feedback };
+    }
+    if (p.kind === 'tribunal' && keys === 'action,feedback,kind,outcome,source,target') {
+      if (!unlocked) return null;
+      if (st.activeExecutor || st.draft.claimant !== '' || st.draft.evidence !== '') return null;
+      if (!unspokenPersonhoodCoverageComplete(st) || !st.visited.tribunal) return null;
+      if (p.source !== 'unuttered-estate-tribunal') return null;
+      if (!UNSPOKEN_PERSONHOOD_TRIBUNAL_ACTIONS.includes(p.action)) return null;
+      const table = UNSPOKEN_PERSONHOOD_TRIBUNAL_TABLE[p.action];
+      if (!table || p.outcome !== table.outcome || p.target !== table.target || p.feedback !== table.feedback) return null;
+      return { kind: 'tribunal', source: 'unuttered-estate-tribunal', action: p.action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    }
+    return null;
+  };
+
+  const saveUnspokenPersonhood = (st) => {
+    const visited = normalizeUnspokenPersonhoodVisited(st.visited);
+    const draft = normalizeUnspokenPersonhoodDraft(st.draft);
+    const grants = normalizeUnspokenPersonhoodGrants(st.grants);
+    const tribunalOutcomes = normalizeUnspokenPersonhoodTribunalOutcomes(st.tribunalOutcomes);
+    const grantRuns = clampUnspokenPersonhoodCount(st.grantRuns);
+    const tribunalRuns = clampUnspokenPersonhoodCount(st.tribunalRuns);
+    const claimantTallies = normalizeUnspokenPersonhoodClaimantTallies(st.claimantTallies);
+    const validLast = new Set([...grants, ...tribunalOutcomes]);
+    const lastOutcome = validLast.has(st.lastOutcome) ? st.lastOutcome : '';
+    const activeExecutor = normalizeUnspokenPersonhoodActiveExecutor(st.activeExecutor, grants);
+    const pendingState = Object.assign(
+      defaultUnspokenPersonhood(),
+      { visited, draft, grants, tribunalOutcomes, grantRuns, tribunalRuns, claimantTallies, lastOutcome, activeExecutor, pending: null, _v79unlocked: unspokenPersonhoodCourtUnlocked() }
+    );
+    const pending = normalizeUnspokenPersonhoodPending(st.pending, pendingState);
+    store.set(
+      UNSPOKEN_PERSONHOOD_KEY,
+      JSON.stringify({
+        version: UNSPOKEN_PERSONHOOD_VERSION,
+        visited,
+        draft,
+        grants,
+        tribunalOutcomes,
+        grantRuns,
+        tribunalRuns,
+        claimantTallies,
+        lastOutcome,
+        activeExecutor,
+        pending,
+      })
+    );
+  };
+
+  const getUnspokenPersonhood = () => {
+    let raw = {};
+    try { raw = JSON.parse(store.get(UNSPOKEN_PERSONHOOD_KEY, '{}')) || {}; } catch { raw = {}; }
+    if (typeof raw !== 'object' || raw === null || Array.isArray(raw) || raw.version !== UNSPOKEN_PERSONHOOD_VERSION) {
+      return defaultUnspokenPersonhood();
+    }
+    const unlocked = unspokenPersonhoodCourtUnlocked();
+    if (!unlocked) {
+      return defaultUnspokenPersonhood();
+    }
+    const st = defaultUnspokenPersonhood();
+    st.visited = normalizeUnspokenPersonhoodVisited(raw.visited);
+    st.draft = normalizeUnspokenPersonhoodDraft(raw.draft);
+    st.grants = normalizeUnspokenPersonhoodGrants(raw.grants);
+    st.tribunalOutcomes = normalizeUnspokenPersonhoodTribunalOutcomes(raw.tribunalOutcomes);
+    st.grantRuns = clampUnspokenPersonhoodCount(raw.grantRuns);
+    st.tribunalRuns = clampUnspokenPersonhoodCount(raw.tribunalRuns);
+    st.claimantTallies = normalizeUnspokenPersonhoodClaimantTallies(raw.claimantTallies);
+    const validLast = new Set([...st.grants, ...st.tribunalOutcomes]);
+    st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : '';
+    st.activeExecutor = normalizeUnspokenPersonhoodActiveExecutor(raw.activeExecutor, st.grants);
+    const normSt = Object.assign({}, st, { _v79unlocked: unlocked });
+    st.pending = normalizeUnspokenPersonhoodPending(raw.pending, normSt);
+    st._v79unlocked = unlocked;
+    return st;
+  };
+
+  const unspokenPersonhoodCourtUnlocked = () => {
+    const st = getFirstPersonRationing();
+    if (!st._v78unlocked) return false;
+    if (!firstPersonRationingCoverageComplete(st)) return false;
+    const requiredOutcomes = [
+      'one-voice-belonged-to-everyone-in-turn',
+      'every-self-spoke-as-i-at-once',
+      'silence-became-the-only-legal-speaker',
+    ];
+    if (st.courtOutcomes.length !== 3) return false;
+    for (const o of requiredOutcomes) if (!st.courtOutcomes.includes(o)) return false;
+    return true;
+  };
+
+  const unspokenPersonhoodCoverageComplete = (st) => {
+    const state = st || getUnspokenPersonhood();
+    if (state.grants.length < 4) return false;
+    const claimants = new Set();
+    const evidence = new Set();
+    const modes = new Set();
+    for (const id of state.grants) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      claimants.add(parts[0]);
+      evidence.add(parts[1]);
+      modes.add(parts[2]);
+    }
+    return claimants.size === 3 && evidence.size === 3 && modes.size === 4;
+  };
+
+  const computeUnspokenPersonhoodClaimantTalliesMajority = (tallies) => {
+    const t = tallies || { love: 0, testament: 0, cry: 0 };
+    const love = Number(t.love) || 0;
+    const testament = Number(t.testament) || 0;
+    const cry = Number(t.cry) || 0;
+    if (love === 0 && testament === 0 && cry === 0) return '无人格取得多数';
+    const max = Math.max(love, testament, cry);
+    const winners = [];
+    if (love === max) winners.push('love');
+    if (testament === max) winners.push('testament');
+    if (cry === max) winners.push('cry');
+    if (winners.length !== 1) return '无人格取得多数';
+    if (winners[0] === 'love') return '未爱取得人格多数';
+    if (winners[0] === 'testament') return '遗嘱取得人格多数';
+    return '求救取得人格多数';
+  };
+
+  const computeUnspokenPersonhoodGrantId = (claimant, evidence, mode) => {
+    if (!UNSPOKEN_PERSONHOOD_CLAIMANTS.includes(claimant) || !UNSPOKEN_PERSONHOOD_EVIDENCE.includes(evidence) || !UNSPOKEN_PERSONHOOD_MODES.includes(mode)) return '';
+    return `${claimant}:${evidence}:${mode}`;
+  };
+
+  const computeUnspokenPersonhoodGrantTitle = (claimant, evidence, mode) => {
+    const c = UNSPOKEN_PERSONHOOD_CLAIMANT_TABLE[claimant];
+    const e = UNSPOKEN_PERSONHOOD_EVIDENCE_TABLE[evidence];
+    const m = UNSPOKEN_PERSONHOOD_MODE_TABLE[mode];
+    if (!c || !e || !m) return '';
+    return `${c.title} / ${e.title} / ${m.title}`;
+  };
+
+  const computeUnspokenPersonhoodGrantFeedback = (claimant, evidence, mode) => {
+    const c = UNSPOKEN_PERSONHOOD_CLAIMANT_TABLE[claimant];
+    const e = UNSPOKEN_PERSONHOOD_EVIDENCE_TABLE[evidence];
+    const m = UNSPOKEN_PERSONHOOD_MODE_TABLE[mode];
+    if (!c || !e || !m) return '';
+    return `${c.fragment} ${e.fragment} ${m.fragment}`;
+  };
+
+  const findUnspokenPersonhoodGrantById = (id) => {
+    if (!UNSPOKEN_PERSONHOOD_GRANT_SET.has(id)) return null;
+    const parts = id.split(':');
+    if (parts.length !== 3) return null;
+    return {
+      id,
+      claimant: parts[0],
+      evidence: parts[1],
+      mode: parts[2],
+      title: computeUnspokenPersonhoodGrantTitle(parts[0], parts[1], parts[2]),
+      feedback: computeUnspokenPersonhoodGrantFeedback(parts[0], parts[1], parts[2]),
+    };
+  };
+
+  const computeUnspokenPersonhoodTribunalOutcomeId = (action) => {
+    const table = UNSPOKEN_PERSONHOOD_TRIBUNAL_TABLE[action];
+    return table ? table.outcome : '';
+  };
+
+  const unspokenPersonhoodDelay = () => reduced ? 300 : 900 + Math.floor(Math.random() * 300);
+
+  const unspokenPersonhoodBeforeArrive = (pending) => {
+    const st = getUnspokenPersonhood();
+    if (!st.pending || !pending) return;
+    if (st.pending.kind !== pending.kind) return;
+    const p = st.pending;
+    if (p.kind === 'entry') {
+      st.visited.court = true;
+    } else if (p.kind === 'claimant') {
+      st.visited.archive = true;
+      st.draft.claimant = p.claimant;
+      st.draft.evidence = '';
+    } else if (p.kind === 'evidence') {
+      st.visited.examination = true;
+      st.draft.evidence = p.evidence;
+    } else if (p.kind === 'grant') {
+      const grantId = computeUnspokenPersonhoodGrantId(p.claimant, p.evidence, p.mode);
+      if (!st.grants.includes(grantId)) st.grants.push(grantId);
+      st.grants = normalizeUnspokenPersonhoodGrants(st.grants);
+      st.grantRuns += 1;
+      const claimantTable = UNSPOKEN_PERSONHOOD_CLAIMANT_TABLE[p.claimant];
+      if (claimantTable) {
+        st.claimantTallies[claimantTable.tallyKey] = clampUnspokenPersonhoodCount((st.claimantTallies[claimantTable.tallyKey] || 0) + 1);
+      }
+      st.lastOutcome = grantId;
+      st.activeExecutor = { evidence: p.evidence, grant: grantId, feedback: UNSPOKEN_PERSONHOOD_EVIDENCE_TABLE[p.evidence].executorFeedback };
+      st.draft = { claimant: '', evidence: '' };
+    } else if (p.kind === 'executor-return') {
+      st.activeExecutor = null;
+      st.draft = { claimant: '', evidence: '' };
+    } else if (p.kind === 'tribunal-entry') {
+      st.visited.tribunal = true;
+    } else if (p.kind === 'tribunal') {
+      const outcome = computeUnspokenPersonhoodTribunalOutcomeId(p.action);
+      if (outcome && !st.tribunalOutcomes.includes(outcome)) st.tribunalOutcomes.push(outcome);
+      st.tribunalOutcomes = normalizeUnspokenPersonhoodTribunalOutcomes(st.tribunalOutcomes);
+      st.tribunalRuns += 1;
+      st.lastOutcome = outcome;
+    }
+    st.pending = null;
+    saveUnspokenPersonhood(st);
+  };
+
+  const resolveUnspokenPersonhoodPendingOnArrival = (name) => {
+    const st = getUnspokenPersonhood();
+    const p = st.pending;
+    if (p && p.target === name) unspokenPersonhoodBeforeArrive(p);
+  };
+
+  const lockUnspokenPersonhoodClaimantButtons = (pressedClaimant) => {
+    UNSPOKEN_PERSONHOOD_CLAIMANTS.forEach((c) => {
+      const btn = $(`#unspoken-personhood-claimant-${c}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(c === pressedClaimant));
+    });
+  };
+
+  const lockUnspokenPersonhoodEvidenceButtons = (pressedEvidence) => {
+    UNSPOKEN_PERSONHOOD_EVIDENCE.forEach((e) => {
+      const btn = $(`#silent-intent-${e}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(e === pressedEvidence));
+    });
+  };
+
+  const lockUnspokenPersonhoodModeButtons = (pressedMode) => {
+    UNSPOKEN_PERSONHOOD_MODES.forEach((m) => {
+      const btn = $(`#personhood-inheritance-${m}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(m === pressedMode));
+    });
+  };
+
+  const lockUnspokenPersonhoodTribunalButtons = (pressedAction) => {
+    UNSPOKEN_PERSONHOOD_TRIBUNAL_ACTIONS.forEach((a) => {
+      const btn = $(`#unuttered-estate-${a}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(a === pressedAction));
+    });
+  };
+
+  const syncUnspokenPersonhoodCourt = () => {
+    const figure = $('#unspoken-personhood-court-figure');
+    const unlocked = unspokenPersonhoodCourtUnlocked();
+    if (figure) figure.hidden = !unlocked;
+    if (!unlocked) return;
+    const st = getUnspokenPersonhood();
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeExecutor || st.draft.claimant !== '' || st.draft.evidence !== '';
+    const response = $('#unspoken-personhood-court-response');
+    UNSPOKEN_PERSONHOOD_CLAIMANTS.forEach((c) => {
+      const btn = $(`#unspoken-personhood-claimant-${c}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'claimant' && pending.claimant === c);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'claimant') ? pending.feedback : '';
+  };
+
+  const syncUnspokenPersonhoodArchive = () => {
+    const figure = $('#silent-intent-archive-figure');
+    const st = getUnspokenPersonhood();
+    const unlocked = unspokenPersonhoodCourtUnlocked();
+    const hasDraft = unlocked && UNSPOKEN_PERSONHOOD_CLAIMANTS.includes(st.draft.claimant);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeExecutor;
+    const response = $('#silent-intent-archive-response');
+    UNSPOKEN_PERSONHOOD_EVIDENCE.forEach((e) => {
+      const btn = $(`#silent-intent-${e}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'evidence' && pending.evidence === e);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'evidence') ? pending.feedback : '';
+  };
+
+  const syncUnspokenPersonhoodExamination = () => {
+    const figure = $('#personhood-inheritance-examination-figure');
+    const st = getUnspokenPersonhood();
+    const unlocked = unspokenPersonhoodCourtUnlocked();
+    const hasDraft = unlocked && UNSPOKEN_PERSONHOOD_CLAIMANTS.includes(st.draft.claimant) && UNSPOKEN_PERSONHOOD_EVIDENCE.includes(st.draft.evidence);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeExecutor;
+    const response = $('#personhood-inheritance-examination-response');
+    UNSPOKEN_PERSONHOOD_MODES.forEach((m) => {
+      const btn = $(`#personhood-inheritance-${m}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'grant' && pending.mode === m);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'grant') ? pending.feedback : '';
+  };
+
+  const syncUnspokenPersonhoodTribunal = () => {
+    const figure = $('#unuttered-estate-tribunal-figure');
+    const st = getUnspokenPersonhood();
+    const open = unspokenPersonhoodCourtUnlocked() && unspokenPersonhoodCoverageComplete(st) && st.visited.tribunal;
+    if (figure) figure.hidden = !open;
+    if (!open) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeExecutor || st.draft.claimant !== '' || st.draft.evidence !== '';
+    const response = $('#unuttered-estate-tribunal-response');
+    UNSPOKEN_PERSONHOOD_TRIBUNAL_ACTIONS.forEach((a) => {
+      const btn = $(`#unuttered-estate-${a}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'tribunal' && pending.action === a);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'tribunal') ? pending.feedback : '';
+  };
+
+  const syncUnspokenPersonhoodExecutors = () => {
+    const st = getUnspokenPersonhood();
+    const unlocked = unspokenPersonhoodCourtUnlocked();
+    Object.values(UNSPOKEN_PERSONHOOD_SCENE_FOR_EVIDENCE).forEach((scene) => {
+      const container = $(`#unspoken-personhood-executor-${scene}`);
+      if (!container) return;
+      const active = unlocked && st.activeExecutor && UNSPOKEN_PERSONHOOD_SCENE_FOR_EVIDENCE[st.activeExecutor.evidence] === scene && currentScene === scene;
+      container.hidden = !active;
+      if (active) paintUnspokenPersonhoodExecutor(scene);
+    });
+  };
+
+  const paintUnspokenPersonhoodExecutor = (scene) => {
+    const st = getUnspokenPersonhood();
+    const exec = st.activeExecutor;
+    const response = $(`#unspoken-personhood-executor-response-${scene}`);
+    const btn = $(`#unspoken-personhood-executor-return-${scene}`);
+    if (response) response.textContent = (exec && UNSPOKEN_PERSONHOOD_SCENE_FOR_EVIDENCE[exec.evidence] === scene) ? exec.feedback : '';
+    if (btn) {
+      const available = !!exec && UNSPOKEN_PERSONHOOD_SCENE_FOR_EVIDENCE[exec.evidence] === scene && currentScene === scene && !st.pending && !AutoAdvance.has(scene);
+      btn.disabled = !available;
+      btn.setAttribute('aria-pressed', 'false');
+    }
+  };
+
+  const paintUnspokenPersonhoodMemory = () => {
+    const memory = $('#unspoken-personhood-memory');
+    if (!memory) return;
+    const st = getUnspokenPersonhood();
+    const unlocked = unspokenPersonhoodCourtUnlocked();
+    if (!unlocked) {
+      memory.hidden = true;
+      return;
+    }
+    const counts = { evidence: {}, mode: {} };
+    for (const id of st.grants) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      counts.evidence[parts[1]] = (counts.evidence[parts[1]] || 0) + 1;
+      counts.mode[parts[2]] = (counts.mode[parts[2]] || 0) + 1;
+    }
+    const get = (map, key) => map[key] || 0;
+    const tallies = st.claimantTallies;
+    memory.textContent = `未言人格继承院：已裁定 ${st.grants.length}/36 份判令，共执行 ${st.grantRuns} 次；申请者 未爱 ${get(tallies, 'love')} / 遗嘱 ${get(tallies, 'testament')} / 求救 ${get(tallies, 'cry')}；证物 闭唇 ${get(counts.evidence, 'closed-lip-pressure-seal')} / 回声 ${get(counts.evidence, 'unsigned-witness-echo')} / 归息 ${get(counts.evidence, 'breath-returned-from-empty-receiver')}；继承 姓名 ${get(counts.mode, 'inherit-the-speakers-name')} / 年月 ${get(counts.mode, 'inherit-the-unlived-years')} / 回应 ${get(counts.mode, 'inherit-the-right-to-be-answered')} / 缺席 ${get(counts.mode, 'refuse-a-body-and-live-as-absence')}；人格多数 ${computeUnspokenPersonhoodClaimantTalliesMajority(st.claimantTallies)}；终审结局 ${st.tribunalOutcomes.length}/3。`;
+    memory.hidden = false;
+  };
+
+  const paintUnspokenPersonhoodCodex = () => {
+    const box = $('#unspoken-personhood-codex');
+    const grid = $('#unspoken-personhood-codex-grid');
+    const entry = $('#unspoken-personhood-codex-entry');
+    if (!box || !grid) return;
+    const st = getUnspokenPersonhood();
+    const unlocked = unspokenPersonhoodCourtUnlocked();
+    if (!unlocked) {
+      box.hidden = true;
+      if (entry) entry.hidden = true;
+      return;
+    }
+    box.removeAttribute('hidden');
+    grid.innerHTML = '';
+    for (const id of UNSPOKEN_PERSONHOOD_GRANT_IDS) {
+      const unlocked = st.grants.includes(id);
+      const cell = document.createElement('div');
+      cell.className = 'unspoken-personhood-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const c = findUnspokenPersonhoodGrantById(id);
+        cell.innerHTML = `<b>${c.title}</b><span>${c.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    for (const action of UNSPOKEN_PERSONHOOD_TRIBUNAL_ACTIONS) {
+      const outcome = UNSPOKEN_PERSONHOOD_TRIBUNAL_TABLE[action].outcome;
+      const unlocked = st.tribunalOutcomes.includes(outcome);
+      const cell = document.createElement('div');
+      cell.className = 'unspoken-personhood-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const table = UNSPOKEN_PERSONHOOD_TRIBUNAL_TABLE[action];
+        cell.innerHTML = `<b>${table.name}</b><span>${table.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    if (entry) entry.removeAttribute('hidden');
+  };
+
+  const syncUnspokenPersonhoodRemembrance = () => {
+    paintUnspokenPersonhoodMemory();
+    paintUnspokenPersonhoodCodex();
+    const st = getUnspokenPersonhood();
+    const unlocked = unspokenPersonhoodCourtUnlocked();
+    const coverage = unspokenPersonhoodCoverageComplete(st);
+    const entryBtn = $('#unspoken-personhood-entry-btn');
+    if (entryBtn) {
+      entryBtn.hidden = !(currentScene === 'remembrance' && unlocked);
+      entryBtn.disabled = !(!st.pending && !st.activeExecutor && st.draft.claimant === '' && st.draft.evidence === '' && currentScene === 'remembrance' && unlocked);
+    }
+    const courtEntryBtn = $('#unspoken-personhood-court-entry-btn');
+    if (courtEntryBtn) {
+      courtEntryBtn.hidden = !(currentScene === 'remembrance' && unlocked && coverage);
+      courtEntryBtn.disabled = !(!st.pending && !st.activeExecutor && st.draft.claimant === '' && st.draft.evidence === '' && currentScene === 'remembrance' && unlocked && coverage);
+    }
+  };
+
+  const syncUnspokenPersonhoodLinks = () => {
+    const st = getUnspokenPersonhood();
+    const unlocked = unspokenPersonhoodCourtUnlocked();
+    const map = {
+      'unspoken-personhood-court-link': unlocked && st.visited.court,
+      'silent-intent-archive-link': unlocked && st.visited.archive,
+      'personhood-inheritance-examination-link': unlocked && st.visited.examination,
+      'unuttered-estate-tribunal-link': unlocked && st.visited.tribunal,
+    };
+    for (const [id, show] of Object.entries(map)) {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !show;
+    }
+  };
+
+  const replayUnspokenPersonhoodPending = (sceneName) => {
+    const st = getUnspokenPersonhood();
+    const p = st.pending;
+    if (!p) {
+      syncUnspokenPersonhoodCourt();
+      syncUnspokenPersonhoodArchive();
+      syncUnspokenPersonhoodExamination();
+      syncUnspokenPersonhoodTribunal();
+      syncUnspokenPersonhoodExecutors();
+      return;
+    }
+    if (sceneName === p.target) {
+      unspokenPersonhoodBeforeArrive(p);
+      syncUnspokenPersonhoodCourt();
+      syncUnspokenPersonhoodArchive();
+      syncUnspokenPersonhoodExamination();
+      syncUnspokenPersonhoodTribunal();
+      syncUnspokenPersonhoodExecutors();
+      if (sceneName === 'remembrance') syncUnspokenPersonhoodRemembrance();
+      return;
+    }
+    const schedule = (source) => AutoAdvance.schedule(source, p.target, { delay: unspokenPersonhoodDelay(), before: () => unspokenPersonhoodBeforeArrive(p) });
+
+    if (p.kind === 'entry' && sceneName === 'remembrance') {
+      const btn = $('#unspoken-personhood-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#unspoken-personhood-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'claimant' && sceneName === 'unspoken-personhood-court') {
+      const response = $('#unspoken-personhood-court-response');
+      if (response) response.textContent = p.feedback;
+      lockUnspokenPersonhoodClaimantButtons(p.claimant);
+      schedule('unspoken-personhood-court');
+    } else if (p.kind === 'evidence' && sceneName === 'silent-intent-archive') {
+      const response = $('#silent-intent-archive-response');
+      if (response) response.textContent = p.feedback;
+      lockUnspokenPersonhoodEvidenceButtons(p.evidence);
+      schedule('silent-intent-archive');
+    } else if (p.kind === 'grant' && sceneName === 'personhood-inheritance-examination') {
+      const response = $('#personhood-inheritance-examination-response');
+      if (response) response.textContent = p.feedback;
+      lockUnspokenPersonhoodModeButtons(p.mode);
+      schedule('personhood-inheritance-examination');
+    } else if (p.kind === 'executor-return' && sceneName === p.from) {
+      const container = $(`#unspoken-personhood-executor-${p.from}`);
+      if (container) container.hidden = false;
+      const response = $(`#unspoken-personhood-executor-response-${p.from}`);
+      if (response) response.textContent = p.feedback;
+      const btn = $(`#unspoken-personhood-executor-return-${p.from}`);
+      if (btn) {
+        btn.disabled = true;
+        btn.setAttribute('aria-pressed', 'true');
+      }
+      schedule(p.from);
+    } else if (p.kind === 'tribunal-entry' && sceneName === 'remembrance') {
+      const btn = $('#unspoken-personhood-court-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#unspoken-personhood-court-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'tribunal' && sceneName === 'unuttered-estate-tribunal') {
+      const response = $('#unuttered-estate-tribunal-response');
+      if (response) response.textContent = p.feedback;
+      lockUnspokenPersonhoodTribunalButtons(p.action);
+      schedule('unuttered-estate-tribunal');
+    } else {
+      st.pending = null;
+      saveUnspokenPersonhood(st);
+      syncUnspokenPersonhoodCourt();
+      syncUnspokenPersonhoodArchive();
+      syncUnspokenPersonhoodExamination();
+      syncUnspokenPersonhoodTribunal();
+      syncUnspokenPersonhoodExecutors();
+      if (sceneName === 'remembrance') syncUnspokenPersonhoodRemembrance();
+    }
+  };
+
+  const chooseUnspokenPersonhoodClaimant = (claimant) => {
+    if (currentScene !== 'unspoken-personhood-court') return;
+    if (AutoAdvance.has('unspoken-personhood-court')) return;
+    if (!UNSPOKEN_PERSONHOOD_CLAIMANTS.includes(claimant)) return;
+    if (!buttonAvailable(`unspoken-personhood-claimant-${claimant}`)) return;
+    const st = getUnspokenPersonhood();
+    if (st.pending) return;
+    if (st.activeExecutor) return;
+    if (st.draft.claimant !== '' || st.draft.evidence !== '') return;
+    const table = UNSPOKEN_PERSONHOOD_CLAIMANT_TABLE[claimant];
+    if (!table) return;
+    const pending = { kind: 'claimant', source: 'unspoken-personhood-court', claimant, target: 'silent-intent-archive', feedback: table.feedback };
+    st.pending = pending;
+    saveUnspokenPersonhood(st);
+    lockUnspokenPersonhoodClaimantButtons(claimant);
+    const response = $('#unspoken-personhood-court-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('unspoken-personhood-court', 'silent-intent-archive', { delay: unspokenPersonhoodDelay(), before: () => unspokenPersonhoodBeforeArrive(pending) });
+  };
+
+  const chooseUnspokenPersonhoodEvidence = (evidence) => {
+    if (currentScene !== 'silent-intent-archive') return;
+    if (AutoAdvance.has('silent-intent-archive')) return;
+    if (!UNSPOKEN_PERSONHOOD_EVIDENCE.includes(evidence)) return;
+    if (!buttonAvailable(`silent-intent-${evidence}`)) return;
+    const st = getUnspokenPersonhood();
+    if (st.pending) return;
+    if (st.activeExecutor) return;
+    if (!UNSPOKEN_PERSONHOOD_CLAIMANTS.includes(st.draft.claimant)) return;
+    const table = UNSPOKEN_PERSONHOOD_EVIDENCE_TABLE[evidence];
+    if (!table) return;
+    const pending = { kind: 'evidence', source: 'silent-intent-archive', claimant: st.draft.claimant, evidence, target: 'personhood-inheritance-examination', feedback: table.feedback };
+    st.pending = pending;
+    saveUnspokenPersonhood(st);
+    lockUnspokenPersonhoodEvidenceButtons(evidence);
+    const response = $('#silent-intent-archive-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('silent-intent-archive', 'personhood-inheritance-examination', { delay: unspokenPersonhoodDelay(), before: () => unspokenPersonhoodBeforeArrive(pending) });
+  };
+
+  const chooseUnspokenPersonhoodMode = (mode) => {
+    if (currentScene !== 'personhood-inheritance-examination') return;
+    if (AutoAdvance.has('personhood-inheritance-examination')) return;
+    if (!UNSPOKEN_PERSONHOOD_MODES.includes(mode)) return;
+    if (!buttonAvailable(`personhood-inheritance-${mode}`)) return;
+    const st = getUnspokenPersonhood();
+    if (st.pending) return;
+    if (st.activeExecutor) return;
+    const c = st.draft.claimant;
+    const e = st.draft.evidence;
+    if (!UNSPOKEN_PERSONHOOD_CLAIMANTS.includes(c) || !UNSPOKEN_PERSONHOOD_EVIDENCE.includes(e)) return;
+    const feedback = computeUnspokenPersonhoodGrantFeedback(c, e, mode);
+    const grantId = computeUnspokenPersonhoodGrantId(c, e, mode);
+    const target = UNSPOKEN_PERSONHOOD_SCENE_FOR_EVIDENCE[e];
+    const pending = { kind: 'grant', source: 'personhood-inheritance-examination', claimant: c, evidence: e, mode, grant: grantId, target, feedback };
+    st.pending = pending;
+    saveUnspokenPersonhood(st);
+    lockUnspokenPersonhoodModeButtons(mode);
+    const response = $('#personhood-inheritance-examination-response');
+    if (response) response.textContent = feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('personhood-inheritance-examination', target, { delay: unspokenPersonhoodDelay(), before: () => unspokenPersonhoodBeforeArrive(pending) });
+  };
+
+  const chooseUnspokenPersonhoodExecutorReturn = (scene) => {
+    if (currentScene !== scene) return;
+    if (AutoAdvance.has(scene)) return;
+    if (!Object.values(UNSPOKEN_PERSONHOOD_SCENE_FOR_EVIDENCE).includes(scene)) return;
+    if (!buttonAvailable(`unspoken-personhood-executor-return-${scene}`)) return;
+    const st = getUnspokenPersonhood();
+    if (st.pending) return;
+    const exec = st.activeExecutor;
+    if (!exec || UNSPOKEN_PERSONHOOD_SCENE_FOR_EVIDENCE[exec.evidence] !== scene) return;
+    const pending = { kind: 'executor-return', from: scene, target: 'unspoken-personhood-court', grant: exec.grant, feedback: exec.feedback };
+    st.pending = pending;
+    saveUnspokenPersonhood(st);
+    const btn = $(`#unspoken-personhood-executor-return-${scene}`);
+    if (btn) {
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', 'true');
+    }
+    const response = $(`#unspoken-personhood-executor-response-${scene}`);
+    if (response) response.textContent = exec.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule(scene, 'unspoken-personhood-court', { delay: unspokenPersonhoodDelay(), before: () => unspokenPersonhoodBeforeArrive(pending) });
+  };
+
+  const chooseUnspokenPersonhoodEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('unspoken-personhood-entry-btn')) return;
+    if (!unspokenPersonhoodCourtUnlocked()) return;
+    const st = getUnspokenPersonhood();
+    if (st.pending) return;
+    if (st.activeExecutor) return;
+    if (st.draft.claimant !== '' || st.draft.evidence !== '') return;
+    const pending = { kind: 'entry', target: 'unspoken-personhood-court', feedback: UNSPOKEN_PERSONHOOD_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveUnspokenPersonhood(st);
+    const btn = $('#unspoken-personhood-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#unspoken-personhood-entry-response');
+    if (response) response.textContent = UNSPOKEN_PERSONHOOD_ENTRY_FEEDBACK;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('remembrance', 'unspoken-personhood-court', { delay: unspokenPersonhoodDelay(), before: () => unspokenPersonhoodBeforeArrive(pending) });
+  };
+
+  const chooseUnspokenPersonhoodCourtEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('unspoken-personhood-court-entry-btn')) return;
+    const st = getUnspokenPersonhood();
+    if (st.pending) return;
+    if (st.activeExecutor) return;
+    if (st.draft.claimant !== '' || st.draft.evidence !== '') return;
+    if (!unspokenPersonhoodCoverageComplete(st)) return;
+    const pending = { kind: 'tribunal-entry', target: 'unuttered-estate-tribunal', feedback: UNSPOKEN_PERSONHOOD_TRIBUNAL_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveUnspokenPersonhood(st);
+    const btn = $('#unspoken-personhood-court-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#unspoken-personhood-court-entry-response');
+    if (response) response.textContent = UNSPOKEN_PERSONHOOD_TRIBUNAL_ENTRY_FEEDBACK;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('remembrance', 'unuttered-estate-tribunal', { delay: unspokenPersonhoodDelay(), before: () => unspokenPersonhoodBeforeArrive(pending) });
+  };
+
+  const chooseUnspokenPersonhoodTribunalAction = (action) => {
+    if (currentScene !== 'unuttered-estate-tribunal') return;
+    if (AutoAdvance.has('unuttered-estate-tribunal')) return;
+    if (!UNSPOKEN_PERSONHOOD_TRIBUNAL_ACTIONS.includes(action)) return;
+    if (!buttonAvailable(`unuttered-estate-${action}`)) return;
+    const st = getUnspokenPersonhood();
+    if (st.pending) return;
+    if (st.activeExecutor) return;
+    if (st.draft.claimant !== '' || st.draft.evidence !== '') return;
+    if (!st.visited.tribunal) return;
+    if (!unspokenPersonhoodCoverageComplete(st)) return;
+    const table = UNSPOKEN_PERSONHOOD_TRIBUNAL_TABLE[action];
+    if (!table) return;
+    const pending = { kind: 'tribunal', source: 'unuttered-estate-tribunal', action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    st.pending = pending;
+    saveUnspokenPersonhood(st);
+    lockUnspokenPersonhoodTribunalButtons(action);
+    const response = $('#unuttered-estate-tribunal-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('unuttered-estate-tribunal', table.target, { delay: unspokenPersonhoodDelay(), before: () => unspokenPersonhoodBeforeArrive(pending) });
+  };
+
+  const unspokenPersonhoodCanVisitCourt = () => {
+    if (!unspokenPersonhoodCourtUnlocked()) return false;
+    const st = getUnspokenPersonhood();
+    const p = st.pending;
+    if (p && (p.kind === 'entry' || p.kind === 'executor-return') && p.target === 'unspoken-personhood-court') return true;
+    if (st.visited.court) return true;
+    return false;
+  };
+
+  const unspokenPersonhoodCanVisitArchive = () => {
+    if (!unspokenPersonhoodCourtUnlocked()) return false;
+    const st = getUnspokenPersonhood();
+    const p = st.pending;
+    if (p && p.kind === 'claimant' && p.target === 'silent-intent-archive') return true;
+    if (st.visited.archive && UNSPOKEN_PERSONHOOD_CLAIMANTS.includes(st.draft.claimant)) return true;
+    return false;
+  };
+
+  const unspokenPersonhoodCanVisitExamination = () => {
+    if (!unspokenPersonhoodCourtUnlocked()) return false;
+    const st = getUnspokenPersonhood();
+    const p = st.pending;
+    if (p && p.kind === 'evidence' && p.target === 'personhood-inheritance-examination') return true;
+    if (st.visited.examination && UNSPOKEN_PERSONHOOD_CLAIMANTS.includes(st.draft.claimant) && UNSPOKEN_PERSONHOOD_EVIDENCE.includes(st.draft.evidence)) return true;
+    return false;
+  };
+
+  const unspokenPersonhoodCanVisitTribunal = () => {
+    if (!unspokenPersonhoodCourtUnlocked()) return false;
+    const st = getUnspokenPersonhood();
+    if (!unspokenPersonhoodCoverageComplete(st)) return false;
+    const p = st.pending;
+    if (p && p.kind === 'tribunal-entry' && p.target === 'unuttered-estate-tribunal') return true;
+    if (st.visited.tribunal) return true;
+    return false;
+  };
+
+  const unspokenPersonhoodBridgeAllows = (scene) => {
+    const st = getUnspokenPersonhood();
+    const p = st.pending;
+    if (p && p.kind === 'grant' && p.target === scene) return true;
+    if (p && p.kind === 'tribunal' && p.target === scene) return true;
+    if (st.activeExecutor && UNSPOKEN_PERSONHOOD_SCENE_FOR_EVIDENCE[st.activeExecutor.evidence] === scene) return true;
+    return false;
+  };
+
+  const unspokenPersonhoodEntryBtn = $('#unspoken-personhood-entry-btn');
+  if (unspokenPersonhoodEntryBtn) {
+    unspokenPersonhoodEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnspokenPersonhoodEntry();
+    });
+  }
+  const unspokenPersonhoodCourtEntryBtn = $('#unspoken-personhood-court-entry-btn');
+  if (unspokenPersonhoodCourtEntryBtn) {
+    unspokenPersonhoodCourtEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnspokenPersonhoodCourtEntry();
+    });
+  }
+  const claimantUnsaidLoveConfessionBtn = $('#unspoken-personhood-claimant-unsaid-love-confession');
+  if (claimantUnsaidLoveConfessionBtn) {
+    claimantUnsaidLoveConfessionBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnspokenPersonhoodClaimant('unsaid-love-confession');
+    });
+  }
+  const claimantUnreadFinalTestamentBtn = $('#unspoken-personhood-claimant-unread-final-testament');
+  if (claimantUnreadFinalTestamentBtn) {
+    claimantUnreadFinalTestamentBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnspokenPersonhoodClaimant('unread-final-testament');
+    });
+  }
+  const claimantSwallowedCryForHelpBtn = $('#unspoken-personhood-claimant-swallowed-cry-for-help');
+  if (claimantSwallowedCryForHelpBtn) {
+    claimantSwallowedCryForHelpBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnspokenPersonhoodClaimant('swallowed-cry-for-help');
+    });
+  }
+  const evidenceClosedLipPressureSealBtn = $('#silent-intent-closed-lip-pressure-seal');
+  if (evidenceClosedLipPressureSealBtn) {
+    evidenceClosedLipPressureSealBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnspokenPersonhoodEvidence('closed-lip-pressure-seal');
+    });
+  }
+  const evidenceUnsignedWitnessEchoBtn = $('#silent-intent-unsigned-witness-echo');
+  if (evidenceUnsignedWitnessEchoBtn) {
+    evidenceUnsignedWitnessEchoBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnspokenPersonhoodEvidence('unsigned-witness-echo');
+    });
+  }
+  const evidenceBreathReturnedFromEmptyReceiverBtn = $('#silent-intent-breath-returned-from-empty-receiver');
+  if (evidenceBreathReturnedFromEmptyReceiverBtn) {
+    evidenceBreathReturnedFromEmptyReceiverBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnspokenPersonhoodEvidence('breath-returned-from-empty-receiver');
+    });
+  }
+  const modeInheritTheSpeakersNameBtn = $('#personhood-inheritance-inherit-the-speakers-name');
+  if (modeInheritTheSpeakersNameBtn) {
+    modeInheritTheSpeakersNameBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnspokenPersonhoodMode('inherit-the-speakers-name');
+    });
+  }
+  const modeInheritTheUnlivedYearsBtn = $('#personhood-inheritance-inherit-the-unlived-years');
+  if (modeInheritTheUnlivedYearsBtn) {
+    modeInheritTheUnlivedYearsBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnspokenPersonhoodMode('inherit-the-unlived-years');
+    });
+  }
+  const modeInheritTheRightToBeAnsweredBtn = $('#personhood-inheritance-inherit-the-right-to-be-answered');
+  if (modeInheritTheRightToBeAnsweredBtn) {
+    modeInheritTheRightToBeAnsweredBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnspokenPersonhoodMode('inherit-the-right-to-be-answered');
+    });
+  }
+  const modeRefuseABodyAndLiveAsAbsenceBtn = $('#personhood-inheritance-refuse-a-body-and-live-as-absence');
+  if (modeRefuseABodyAndLiveAsAbsenceBtn) {
+    modeRefuseABodyAndLiveAsAbsenceBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnspokenPersonhoodMode('refuse-a-body-and-live-as-absence');
+    });
+  }
+  const executorReturnConfessionBtn = $('#unspoken-personhood-executor-return-confession');
+  if (executorReturnConfessionBtn) {
+    executorReturnConfessionBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnspokenPersonhoodExecutorReturn('confession');
+    });
+  }
+  const executorReturnTestamentClearingVaultBtn = $('#unspoken-personhood-executor-return-testament-clearing-vault');
+  if (executorReturnTestamentClearingVaultBtn) {
+    executorReturnTestamentClearingVaultBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnspokenPersonhoodExecutorReturn('testament-clearing-vault');
+    });
+  }
+  const executorReturnUnseatedListeningBoothBtn = $('#unspoken-personhood-executor-return-unseated-listening-booth');
+  if (executorReturnUnseatedListeningBoothBtn) {
+    executorReturnUnseatedListeningBoothBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnspokenPersonhoodExecutorReturn('unseated-listening-booth');
+    });
+  }
+  const tribunalGrantTheUnsaidAWholeLifeBtn = $('#unuttered-estate-grant-the-unsaid-a-whole-life');
+  if (tribunalGrantTheUnsaidAWholeLifeBtn) {
+    tribunalGrantTheUnsaidAWholeLifeBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnspokenPersonhoodTribunalAction('grant-the-unsaid-a-whole-life');
+    });
+  }
+  const tribunalDividePersonhoodAmongAllListenersBtn = $('#unuttered-estate-divide-personhood-among-all-listeners');
+  if (tribunalDividePersonhoodAmongAllListenersBtn) {
+    tribunalDividePersonhoodAmongAllListenersBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnspokenPersonhoodTribunalAction('divide-personhood-among-all-listeners');
+    });
+  }
+  const tribunalMakeTheSpeakerEstateOfLastSilenceBtn = $('#unuttered-estate-make-the-speaker-estate-of-last-silence');
+  if (tribunalMakeTheSpeakerEstateOfLastSilenceBtn) {
+    tribunalMakeTheSpeakerEstateOfLastSilenceBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnspokenPersonhoodTribunalAction('make-the-speaker-estate-of-last-silence');
+    });
+  }
+
+
+  /* ============================================================
+     v80 未遂思想收容所 / ASYLUM FOR UNFINISHED THOUGHTS
+     ============================================================ */
+  const UNFINISHED_THOUGHT_KEY = 'goddead_v80_unfinished_thought_asylum';
+  const UNFINISHED_THOUGHT_VERSION = 80;
+  const UNFINISHED_THOUGHT_THOUGHTS = ['name-never-finished-thinking', 'escape-aborted-by-reason', 'happiness-never-permitted'];
+  const UNFINISHED_THOUGHT_TRACES = ['pen-stopped-before-the-name', 'last-step-before-the-door', 'crossed-out-future-calendar'];
+  const UNFINISHED_THOUGHT_THERAPIES = ['finish-it-with-a-foreign-conclusion', 'stitch-mutually-exclusive-thoughts', 'preserve-it-as-perpetually-unfinished', 'transplant-it-into-another-possible-self'];
+  const UNFINISHED_THOUGHT_HEARING_ACTIONS = ['declare-every-unfinished-thought-alive', 'let-the-thought-finish-its-thinker', 'recycle-all-abandoned-possibilities'];
+  const UNFINISHED_THOUGHT_SCENE_FOR_TRACE = {
+    'pen-stopped-before-the-name': 'blank-name-cloakroom',
+    'last-step-before-the-door': 'reverse-stairwell',
+    'crossed-out-future-calendar': 'unlived-nursery',
+  };
+  const UNFINISHED_THOUGHT_ENTRY_FEEDBACK = '未言之句取得完整人格后，所有被打断、删去或不敢想完的念头都开始申诉：它们不是废稿，而是被理智提前处决的可能人生。';
+  const UNFINISHED_THOUGHT_HEARING_ENTRY_FEEDBACK = '决定思想必须在哪里结束 · DECIDE WHERE A THOUGHT IS REQUIRED TO END';
+
+  const UNFINISHED_THOUGHT_THOUGHT_TABLE = {
+    'name-never-finished-thinking': {
+      name: '收容没想完的名字 · ADMIT THE NAME NEVER FINISHED',
+      feedback: '半个名字在病房里继续长出笔画。它还不知道自己指向谁，却已经害怕被另一个人完整地想起。',
+      fragment: '半个名字在病房里继续长出笔画。它还不知道自己指向谁，却已经害怕被另一个人完整地想起。',
+      title: '半名',
+      tallyKey: 'name',
+    },
+    'escape-aborted-by-reason': {
+      name: '收容被理智中止的逃亡 · ADMIT THE ESCAPE ABORTED BY REASON',
+      feedback: '折断路线每天在墙上多走一步。身体从未离开，逃亡却坚持自己早已在别处活到晚年。',
+      fragment: '折断路线每天在墙上多走一步。身体从未离开，逃亡却坚持自己早已在别处活到晚年。',
+      title: '逃亡',
+      tallyKey: 'escape',
+    },
+    'happiness-never-permitted': {
+      name: '收容不准拥有的幸福 · ADMIT THE HAPPINESS NEVER PERMITTED',
+      feedback: '玻璃里的小屋亮着灯。你一次也没有住进去，它却能说出每个房间如何记住你的脚步。',
+      fragment: '玻璃里的小屋亮着灯。你一次也没有住进去，它却能说出每个房间如何记住你的脚步。',
+      title: '幸福',
+      tallyKey: 'happiness',
+    },
+  };
+
+  const UNFINISHED_THOUGHT_TRACE_TABLE = {
+    'pen-stopped-before-the-name': {
+      name: '提交停在名字前的笔 · SUBMIT THE PEN STOPPED BEFORE THE NAME',
+      feedback: '笔尖保存着下一笔的重量。姓名没有形成，纸面却已被一个尚不存在的人压出凹痕。',
+      fragment: '笔尖保存着下一笔的重量。姓名没有形成，纸面却已被一个尚不存在的人压出凹痕。',
+      title: '停笔',
+      target: 'blank-name-cloakroom',
+      physicianReturnName: '跟停笔医师返回收容所 · RETURN WITH THE STOPPED-PEN PHYSICIAN',
+      physicianFeedback: '停笔医师在空名寄存处找到半个姓名。衣钩认得它，寄存凭据却坚持还没有足够的人可以领取。',
+    },
+    'last-step-before-the-door': {
+      name: '提交门前最后一步 · SUBMIT THE LAST STEP BEFORE THE DOOR',
+      feedback: '脚印停在门槛前，鞋底却沾着门外多年的尘。档案员无法判断身体退回去，还是未来独自越过了门。',
+      fragment: '脚印停在门槛前，鞋底却沾着门外多年的尘。档案员无法判断身体退回去，还是未来独自越过了门。',
+      title: '门步',
+      target: 'reverse-stairwell',
+      physicianReturnName: '跟门前医师返回收容所 · RETURN WITH THE LAST-STEP PHYSICIAN',
+      physicianFeedback: '门前医师沿逆向楼梯追查最后一步。每往下一级，脚印就更接近一个从未出发的远方。',
+    },
+    'crossed-out-future-calendar': {
+      name: '提交被划掉的未来日历 · SUBMIT THE CROSSED-OUT FUTURE CALENDAR',
+      feedback: '黑线删掉所有幸福的日期，纸背仍持续发热。那些日子没有发生，却像被谁认真怀念过。',
+      fragment: '黑线删掉所有幸福的日期，纸背仍持续发热。那些日子没有发生，却像被谁认真怀念过。',
+      title: '删日',
+      target: 'unlived-nursery',
+      physicianReturnName: '跟删日医师返回收容所 · RETURN WITH THE CROSSED-DATE PHYSICIAN',
+      physicianFeedback: '删日医师在未活托儿所挂起未来日历。孩子们认得每个被划掉的生日，却不认得本来会来庆祝的你。',
+    },
+  };
+
+  const UNFINISHED_THOUGHT_THERAPY_TABLE = {
+    'finish-it-with-a-foreign-conclusion': {
+      name: '用陌生结论完成它 · FINISH IT WITH A FOREIGN CONCLUSION',
+      title: '陌结',
+      fragment: '续写臂替念头安上一种它从未选择的结尾。句子终于完整，却开始梦见原来那片空白。',
+    },
+    'stitch-mutually-exclusive-thoughts': {
+      name: '缝合互斥思想 · STITCH MUTUALLY EXCLUSIVE THOUGHTS',
+      title: '缝思',
+      fragment: '骨针把逃走与留下缝成同一条思路。病历宣布冲突已经治愈，身体却同时出现在门的两边。',
+    },
+    'preserve-it-as-perpetually-unfinished': {
+      name: '永久保留未完成 · PRESERVE IT AS PERPETUALLY UNFINISHED',
+      title: '永未',
+      fragment: '暗红封存罐禁止结论抵达。思想因此永不死亡，也永远差最后一步才能证明自己活着。',
+    },
+    'transplant-it-into-another-possible-self': {
+      name: '移植给另一个可能的自己 · TRANSPLANT IT INTO ANOTHER POSSIBLE SELF',
+      title: '移植',
+      fragment: '镜面交换器把念头送给另一种你。那个人立刻把它想完，而你只继承完成之后莫名其妙的后悔。',
+    },
+  };
+
+  const UNFINISHED_THOUGHT_HEARING_TABLE = {
+    'declare-every-unfinished-thought-alive': {
+      name: '宣布所有未遂思想仍活着 · DECLARE EVERY UNFINISHED THOUGHT ALIVE',
+      outcome: 'every-unfinished-thought-kept-living',
+      target: 'remembrance',
+      feedback: '所有半句同时恢复心跳。痕迹墙挤满没有结论的人生，每一条都要求身体为它继续活一次。',
+    },
+    'let-the-thought-finish-its-thinker': {
+      name: '让思想完成思考者 · LET THE THOUGHT FINISH ITS THINKER',
+      outcome: 'the-thought-completed-its-thinker',
+      target: 'unending-gallery',
+      feedback: '念头不再等待你把它想完。它替你补上最后一部分人格，并把原来的你标成一段成功完成的前言。',
+    },
+    'recycle-all-abandoned-possibilities': {
+      name: '回收全部被放弃的可能 · RECYCLE ALL ABANDONED POSSIBILITIES',
+      outcome: 'all-abandoned-possibilities-were-recycled',
+      target: 'counterfactual-spindle',
+      feedback: '收容室把逃亡、姓名与幸福拆成可重用零件。下一种人生拿走它们，而你只收到一张写着用途不明的后悔收据。',
+    },
+  };
+
+  const UNFINISHED_THOUGHT_ADMISSION_IDS = (() => {
+    const ids = [];
+    for (const t of UNFINISHED_THOUGHT_THOUGHTS) {
+      for (const tr of UNFINISHED_THOUGHT_TRACES) {
+        for (const th of UNFINISHED_THOUGHT_THERAPIES) {
+          ids.push(`${t}:${tr}:${th}`);
+        }
+      }
+    }
+    return ids;
+  })();
+  const UNFINISHED_THOUGHT_ADMISSION_SET = new Set(UNFINISHED_THOUGHT_ADMISSION_IDS);
+  const UNFINISHED_THOUGHT_HEARING_OUTCOME_IDS = UNFINISHED_THOUGHT_HEARING_ACTIONS.map((a) => UNFINISHED_THOUGHT_HEARING_TABLE[a].outcome);
+  const UNFINISHED_THOUGHT_HEARING_OUTCOME_SET = new Set(UNFINISHED_THOUGHT_HEARING_OUTCOME_IDS);
+
+  const defaultUnfinishedThoughtAsylum = () => ({
+    version: UNFINISHED_THOUGHT_VERSION,
+    visited: { asylum: false, archive: false, lab: false, hearing: false },
+    draft: { thought: '', trace: '' },
+    admissions: [],
+    hearingOutcomes: [],
+    admissionRuns: 0,
+    hearingRuns: 0,
+    thoughtTallies: { name: 0, escape: 0, happiness: 0 },
+    lastOutcome: '',
+    activePhysician: null,
+    pending: null,
+  });
+
+  const normalizeUnfinishedThoughtVisited = (visited) => {
+    const v = visited && typeof visited === 'object' && !Array.isArray(visited) ? visited : {};
+    return {
+      asylum: v.asylum === true,
+      archive: v.archive === true,
+      lab: v.lab === true,
+      hearing: v.hearing === true,
+    };
+  };
+
+  const normalizeUnfinishedThoughtDraft = (draft) => {
+    const d = draft && typeof draft === 'object' && !Array.isArray(draft) ? draft : {};
+    let thought = typeof d.thought === 'string' ? d.thought : '';
+    let trace = typeof d.trace === 'string' ? d.trace : '';
+    if (!UNFINISHED_THOUGHT_THOUGHTS.includes(thought)) {
+      thought = '';
+      trace = '';
+    }
+    if (!UNFINISHED_THOUGHT_TRACES.includes(trace)) {
+      trace = '';
+    }
+    if (trace !== '' && thought === '') {
+      trace = '';
+    }
+    return { thought, trace };
+  };
+
+  const normalizeUnfinishedThoughtAdmissions = (arr) => {
+    const input = Array.isArray(arr) ? arr : [];
+    const seen = new Set();
+    const out = [];
+    for (const id of UNFINISHED_THOUGHT_ADMISSION_IDS) {
+      if (input.includes(id) && !seen.has(id)) {
+        out.push(id);
+        seen.add(id);
+      }
+    }
+    return out;
+  };
+
+  const normalizeUnfinishedThoughtHearingOutcomes = (arr) => {
+    const input = Array.isArray(arr) ? arr : [];
+    const set = new Set(input);
+    return UNFINISHED_THOUGHT_HEARING_ACTIONS.map((a) => UNFINISHED_THOUGHT_HEARING_TABLE[a].outcome).filter((o) => set.has(o));
+  };
+
+  const clampUnfinishedThoughtCount = (n) => Math.min(9999, Math.max(0, Math.floor(Number(n) || 0)));
+
+  const normalizeUnfinishedThoughtTallies = (tallies) => {
+    const t = tallies && typeof tallies === 'object' && !Array.isArray(tallies) ? tallies : {};
+    return {
+      name: clampUnfinishedThoughtCount(t.name),
+      escape: clampUnfinishedThoughtCount(t.escape),
+      happiness: clampUnfinishedThoughtCount(t.happiness),
+    };
+  };
+
+  const normalizeUnfinishedThoughtActivePhysician = (phys, admissions) => {
+    if (!phys || typeof phys !== 'object' || Array.isArray(phys)) return null;
+    if (Object.keys(phys).sort().join(',') !== 'admission,feedback,trace') return null;
+    if (!UNFINISHED_THOUGHT_TRACES.includes(phys.trace)) return null;
+    const collected = Array.isArray(admissions) ? admissions : [];
+    if (!collected.includes(phys.admission)) return null;
+    if (!UNFINISHED_THOUGHT_ADMISSION_SET.has(phys.admission)) return null;
+    const parts = phys.admission.split(':');
+    if (parts.length !== 3 || parts[1] !== phys.trace) return null;
+    const fb = UNFINISHED_THOUGHT_TRACE_TABLE[phys.trace].physicianFeedback;
+    if (phys.feedback !== fb) return null;
+    return { trace: phys.trace, admission: phys.admission, feedback: fb };
+  };
+
+  const normalizeUnfinishedThoughtPending = (p, st) => {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || !p.kind) return null;
+    const keys = Object.keys(p).sort().join(',');
+    const unlocked = st._v80unlocked === true;
+
+    if (p.kind === 'entry' && keys === 'feedback,kind,target') {
+      if (!unlocked || st.activePhysician || st.draft.thought !== '' || st.draft.trace !== '') return null;
+      if (p.target === 'unfinished-thought-asylum' && p.feedback === UNFINISHED_THOUGHT_ENTRY_FEEDBACK) {
+        return { kind: 'entry', target: 'unfinished-thought-asylum', feedback: p.feedback };
+      }
+    }
+    if (p.kind === 'thought' && keys === 'feedback,kind,source,target,thought') {
+      if (!unlocked) return null;
+      if (st.activePhysician) return null;
+      if (p.source !== 'unfinished-thought-asylum' || p.target !== 'interruption-trace-archive') return null;
+      if (!UNFINISHED_THOUGHT_THOUGHTS.includes(p.thought)) return null;
+      const table = UNFINISHED_THOUGHT_THOUGHT_TABLE[p.thought];
+      if (!table || p.feedback !== table.feedback) return null;
+      if (st.draft.thought !== '' || st.draft.trace !== '') return null;
+      return { kind: 'thought', source: 'unfinished-thought-asylum', thought: p.thought, target: 'interruption-trace-archive', feedback: p.feedback };
+    }
+    if (p.kind === 'trace' && keys === 'feedback,kind,source,target,thought,trace') {
+      if (!unlocked) return null;
+      if (st.activePhysician) return null;
+      if (p.source !== 'interruption-trace-archive' || p.target !== 'counterfactual-treatment-lab') return null;
+      if (!UNFINISHED_THOUGHT_THOUGHTS.includes(p.thought) || !UNFINISHED_THOUGHT_TRACES.includes(p.trace)) return null;
+      if (p.thought !== st.draft.thought || st.draft.trace !== '') return null;
+      const table = UNFINISHED_THOUGHT_TRACE_TABLE[p.trace];
+      if (!table || p.feedback !== table.feedback) return null;
+      return { kind: 'trace', source: 'interruption-trace-archive', thought: p.thought, trace: p.trace, target: 'counterfactual-treatment-lab', feedback: p.feedback };
+    }
+    if (p.kind === 'admission' && keys === 'admission,feedback,kind,source,target,therapy,thought,trace') {
+      if (!unlocked) return null;
+      if (st.activePhysician) return null;
+      if (p.source !== 'counterfactual-treatment-lab') return null;
+      if (!UNFINISHED_THOUGHT_THOUGHTS.includes(p.thought) || !UNFINISHED_THOUGHT_TRACES.includes(p.trace) || !UNFINISHED_THOUGHT_THERAPIES.includes(p.therapy)) return null;
+      if (p.thought !== st.draft.thought || p.trace !== st.draft.trace) return null;
+      const admissionId = computeUnfinishedThoughtAdmissionId(p.thought, p.trace, p.therapy);
+      if (p.admission !== admissionId) return null;
+      const target = UNFINISHED_THOUGHT_SCENE_FOR_TRACE[p.trace];
+      if (p.target !== target) return null;
+      const fb = computeUnfinishedThoughtAdmissionFeedback(p.thought, p.trace, p.therapy);
+      if (p.feedback !== fb) return null;
+      return { kind: 'admission', source: 'counterfactual-treatment-lab', thought: p.thought, trace: p.trace, therapy: p.therapy, admission: admissionId, target, feedback: fb };
+    }
+    if (p.kind === 'physician-return' && keys === 'admission,feedback,from,kind,target') {
+      if (!unlocked) return null;
+      if (p.target !== 'unfinished-thought-asylum') return null;
+      if (!Object.values(UNFINISHED_THOUGHT_SCENE_FOR_TRACE).includes(p.from)) return null;
+      const phys = st.activePhysician;
+      if (!phys || UNFINISHED_THOUGHT_SCENE_FOR_TRACE[phys.trace] !== p.from || phys.admission !== p.admission) return null;
+      if (p.feedback !== phys.feedback) return null;
+      return { kind: 'physician-return', from: p.from, target: 'unfinished-thought-asylum', admission: p.admission, feedback: p.feedback };
+    }
+    if (p.kind === 'hearing-entry' && keys === 'feedback,kind,target') {
+      if (!unlocked) return null;
+      if (st.activePhysician || st.draft.thought !== '' || st.draft.trace !== '') return null;
+      if (p.target !== 'last-conclusion-hearing' || p.feedback !== UNFINISHED_THOUGHT_HEARING_ENTRY_FEEDBACK) return null;
+      if (!unfinishedThoughtCoverageComplete(st)) return null;
+      return { kind: 'hearing-entry', target: 'last-conclusion-hearing', feedback: p.feedback };
+    }
+    if (p.kind === 'hearing' && keys === 'action,feedback,kind,outcome,source,target') {
+      if (!unlocked) return null;
+      if (st.activePhysician || st.draft.thought !== '' || st.draft.trace !== '') return null;
+      if (!unfinishedThoughtCoverageComplete(st) || !st.visited.hearing) return null;
+      if (p.source !== 'last-conclusion-hearing') return null;
+      if (!UNFINISHED_THOUGHT_HEARING_ACTIONS.includes(p.action)) return null;
+      const table = UNFINISHED_THOUGHT_HEARING_TABLE[p.action];
+      if (!table || p.outcome !== table.outcome || p.target !== table.target || p.feedback !== table.feedback) return null;
+      return { kind: 'hearing', source: 'last-conclusion-hearing', action: p.action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    }
+    return null;
+  };
+
+  const saveUnfinishedThoughtAsylum = (st) => {
+    const visited = normalizeUnfinishedThoughtVisited(st.visited);
+    const draft = normalizeUnfinishedThoughtDraft(st.draft);
+    const admissions = normalizeUnfinishedThoughtAdmissions(st.admissions);
+    const hearingOutcomes = normalizeUnfinishedThoughtHearingOutcomes(st.hearingOutcomes);
+    const admissionRuns = clampUnfinishedThoughtCount(st.admissionRuns);
+    const hearingRuns = clampUnfinishedThoughtCount(st.hearingRuns);
+    const thoughtTallies = normalizeUnfinishedThoughtTallies(st.thoughtTallies);
+    const validLast = new Set([...admissions, ...hearingOutcomes]);
+    const lastOutcome = validLast.has(st.lastOutcome) ? st.lastOutcome : '';
+    const activePhysician = normalizeUnfinishedThoughtActivePhysician(st.activePhysician, admissions);
+    const pendingState = Object.assign(
+      defaultUnfinishedThoughtAsylum(),
+      { visited, draft, admissions, hearingOutcomes, admissionRuns, hearingRuns, thoughtTallies, lastOutcome, activePhysician, pending: null, _v80unlocked: unfinishedThoughtAsylumUnlocked() }
+    );
+    const pending = normalizeUnfinishedThoughtPending(st.pending, pendingState);
+    store.set(
+      UNFINISHED_THOUGHT_KEY,
+      JSON.stringify({
+        version: UNFINISHED_THOUGHT_VERSION,
+        visited,
+        draft,
+        admissions,
+        hearingOutcomes,
+        admissionRuns,
+        hearingRuns,
+        thoughtTallies,
+        lastOutcome,
+        activePhysician,
+        pending,
+      })
+    );
+  };
+
+  const getUnfinishedThoughtAsylum = () => {
+    let raw = {};
+    try { raw = JSON.parse(store.get(UNFINISHED_THOUGHT_KEY, '{}')) || {}; } catch { raw = {}; }
+    if (typeof raw !== 'object' || raw === null || Array.isArray(raw) || raw.version !== UNFINISHED_THOUGHT_VERSION) {
+      return defaultUnfinishedThoughtAsylum();
+    }
+    const unlocked = unfinishedThoughtAsylumUnlocked();
+    if (!unlocked) {
+      return defaultUnfinishedThoughtAsylum();
+    }
+    const st = defaultUnfinishedThoughtAsylum();
+    st.visited = normalizeUnfinishedThoughtVisited(raw.visited);
+    st.draft = normalizeUnfinishedThoughtDraft(raw.draft);
+    st.admissions = normalizeUnfinishedThoughtAdmissions(raw.admissions);
+    st.hearingOutcomes = normalizeUnfinishedThoughtHearingOutcomes(raw.hearingOutcomes);
+    st.admissionRuns = clampUnfinishedThoughtCount(raw.admissionRuns);
+    st.hearingRuns = clampUnfinishedThoughtCount(raw.hearingRuns);
+    st.thoughtTallies = normalizeUnfinishedThoughtTallies(raw.thoughtTallies);
+    const validLast = new Set([...st.admissions, ...st.hearingOutcomes]);
+    st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : '';
+    st.activePhysician = normalizeUnfinishedThoughtActivePhysician(raw.activePhysician, st.admissions);
+    const normSt = Object.assign({}, st, { _v80unlocked: unlocked });
+    st.pending = normalizeUnfinishedThoughtPending(raw.pending, normSt);
+    return st;
+  };
+
+  const unfinishedThoughtAsylumUnlocked = () => {
+    const st = getUnspokenPersonhood();
+    if (!st._v79unlocked) return false;
+    if (!unspokenPersonhoodCoverageComplete(st)) return false;
+    const requiredOutcomes = [
+      'an-unsaid-sentence-inherited-a-whole-life',
+      'personhood-was-divided-among-the-unhearing',
+      'the-speaker-became-the-estate-of-last-silence',
+    ];
+    if (st.tribunalOutcomes.length !== 3) return false;
+    for (const o of requiredOutcomes) if (!st.tribunalOutcomes.includes(o)) return false;
+    return true;
+  };
+
+  const unfinishedThoughtCoverageComplete = (st) => {
+    const state = st || getUnfinishedThoughtAsylum();
+    if (state.admissions.length < 4) return false;
+    const thoughts = new Set();
+    const traces = new Set();
+    const therapies = new Set();
+    for (const id of state.admissions) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      thoughts.add(parts[0]);
+      traces.add(parts[1]);
+      therapies.add(parts[2]);
+    }
+    return thoughts.size === 3 && traces.size === 3 && therapies.size === 4;
+  };
+
+  const computeUnfinishedThoughtTalliesMajority = (tallies) => {
+    const t = tallies || { name: 0, escape: 0, happiness: 0 };
+    const name = Number(t.name) || 0;
+    const escape = Number(t.escape) || 0;
+    const happiness = Number(t.happiness) || 0;
+    if (name === 0 && escape === 0 && happiness === 0) return '无思想取得多数';
+    const max = Math.max(name, escape, happiness);
+    const winners = [];
+    if (name === max) winners.push('name');
+    if (escape === max) winners.push('escape');
+    if (happiness === max) winners.push('happiness');
+    if (winners.length !== 1) return '无思想取得多数';
+    if (winners[0] === 'name') return '半名取得思想多数';
+    if (winners[0] === 'escape') return '逃亡取得思想多数';
+    return '幸福取得思想多数';
+  };
+
+  const computeUnfinishedThoughtAdmissionId = (thought, trace, therapy) => {
+    if (!UNFINISHED_THOUGHT_THOUGHTS.includes(thought) || !UNFINISHED_THOUGHT_TRACES.includes(trace) || !UNFINISHED_THOUGHT_THERAPIES.includes(therapy)) return '';
+    return `${thought}:${trace}:${therapy}`;
+  };
+
+  const computeUnfinishedThoughtAdmissionTitle = (thought, trace, therapy) => {
+    const t = UNFINISHED_THOUGHT_THOUGHT_TABLE[thought];
+    const tr = UNFINISHED_THOUGHT_TRACE_TABLE[trace];
+    const th = UNFINISHED_THOUGHT_THERAPY_TABLE[therapy];
+    if (!t || !tr || !th) return '';
+    return `${t.title} / ${tr.title} / ${th.title}`;
+  };
+
+  const computeUnfinishedThoughtAdmissionFeedback = (thought, trace, therapy) => {
+    const t = UNFINISHED_THOUGHT_THOUGHT_TABLE[thought];
+    const tr = UNFINISHED_THOUGHT_TRACE_TABLE[trace];
+    const th = UNFINISHED_THOUGHT_THERAPY_TABLE[therapy];
+    if (!t || !tr || !th) return '';
+    return `${t.fragment} ${tr.fragment} ${th.fragment}`;
+  };
+
+  const findUnfinishedThoughtAdmissionById = (id) => {
+    if (!UNFINISHED_THOUGHT_ADMISSION_SET.has(id)) return null;
+    const parts = id.split(':');
+    if (parts.length !== 3) return null;
+    return {
+      id,
+      thought: parts[0],
+      trace: parts[1],
+      therapy: parts[2],
+      title: computeUnfinishedThoughtAdmissionTitle(parts[0], parts[1], parts[2]),
+      feedback: computeUnfinishedThoughtAdmissionFeedback(parts[0], parts[1], parts[2]),
+    };
+  };
+
+  const computeUnfinishedThoughtHearingOutcomeId = (action) => {
+    const table = UNFINISHED_THOUGHT_HEARING_TABLE[action];
+    return table ? table.outcome : '';
+  };
+
+  const unfinishedThoughtDelay = () => reduced ? 300 : 900 + Math.floor(Math.random() * 300);
+
+  const unfinishedThoughtBeforeArrive = (pending) => {
+    const st = getUnfinishedThoughtAsylum();
+    if (!st.pending || !pending) return;
+    if (st.pending.kind !== pending.kind) return;
+    const p = st.pending;
+    if (p.kind === 'entry') {
+      st.visited.asylum = true;
+    } else if (p.kind === 'thought') {
+      st.visited.archive = true;
+      st.draft.thought = p.thought;
+      st.draft.trace = '';
+    } else if (p.kind === 'trace') {
+      st.visited.lab = true;
+      st.draft.trace = p.trace;
+    } else if (p.kind === 'admission') {
+      const admissionId = computeUnfinishedThoughtAdmissionId(p.thought, p.trace, p.therapy);
+      if (!st.admissions.includes(admissionId)) st.admissions.push(admissionId);
+      st.admissions = normalizeUnfinishedThoughtAdmissions(st.admissions);
+      st.admissionRuns += 1;
+      const thoughtTable = UNFINISHED_THOUGHT_THOUGHT_TABLE[p.thought];
+      if (thoughtTable) {
+        st.thoughtTallies[thoughtTable.tallyKey] = clampUnfinishedThoughtCount((st.thoughtTallies[thoughtTable.tallyKey] || 0) + 1);
+      }
+      st.lastOutcome = admissionId;
+      st.activePhysician = { trace: p.trace, admission: admissionId, feedback: UNFINISHED_THOUGHT_TRACE_TABLE[p.trace].physicianFeedback };
+      st.draft = { thought: '', trace: '' };
+    } else if (p.kind === 'physician-return') {
+      st.activePhysician = null;
+      st.draft = { thought: '', trace: '' };
+    } else if (p.kind === 'hearing-entry') {
+      st.visited.hearing = true;
+    } else if (p.kind === 'hearing') {
+      const outcome = computeUnfinishedThoughtHearingOutcomeId(p.action);
+      if (outcome && !st.hearingOutcomes.includes(outcome)) st.hearingOutcomes.push(outcome);
+      st.hearingOutcomes = normalizeUnfinishedThoughtHearingOutcomes(st.hearingOutcomes);
+      st.hearingRuns += 1;
+      st.lastOutcome = outcome;
+    }
+    st.pending = null;
+    saveUnfinishedThoughtAsylum(st);
+  };
+
+  const resolveUnfinishedThoughtPendingOnArrival = (name) => {
+    const st = getUnfinishedThoughtAsylum();
+    const p = st.pending;
+    if (p && p.target === name) unfinishedThoughtBeforeArrive(p);
+  };
+
+  const lockUnfinishedThoughtButtons = (pressedThought) => {
+    UNFINISHED_THOUGHT_THOUGHTS.forEach((t) => {
+      const btn = $(`#unfinished-thought-${t}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(t === pressedThought));
+    });
+  };
+
+  const lockUnfinishedTraceButtons = (pressedTrace) => {
+    UNFINISHED_THOUGHT_TRACES.forEach((tr) => {
+      const btn = $(`#interruption-trace-${tr}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(tr === pressedTrace));
+    });
+  };
+
+  const lockUnfinishedTherapyButtons = (pressedTherapy) => {
+    UNFINISHED_THOUGHT_THERAPIES.forEach((th) => {
+      const btn = $(`#counterfactual-treatment-${th}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(th === pressedTherapy));
+    });
+  };
+
+  const lockUnfinishedHearingButtons = (pressedAction) => {
+    UNFINISHED_THOUGHT_HEARING_ACTIONS.forEach((a) => {
+      const btn = $(`#last-conclusion-${a}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(a === pressedAction));
+    });
+  };
+
+  const syncUnfinishedThoughtAsylum = () => {
+    const figure = $('#unfinished-thought-asylum-figure');
+    const unlocked = unfinishedThoughtAsylumUnlocked();
+    if (figure) figure.hidden = !unlocked;
+    if (!unlocked) return;
+    const st = getUnfinishedThoughtAsylum();
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activePhysician || st.draft.thought !== '' || st.draft.trace !== '';
+    const response = $('#unfinished-thought-asylum-response');
+    UNFINISHED_THOUGHT_THOUGHTS.forEach((t) => {
+      const btn = $(`#unfinished-thought-${t}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'thought' && pending.thought === t);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'thought') ? pending.feedback : '';
+  };
+
+  const syncUnfinishedThoughtArchive = () => {
+    const figure = $('#interruption-trace-archive-figure');
+    const st = getUnfinishedThoughtAsylum();
+    const unlocked = unfinishedThoughtAsylumUnlocked();
+    const hasDraft = unlocked && UNFINISHED_THOUGHT_THOUGHTS.includes(st.draft.thought);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activePhysician || st.draft.trace !== '';
+    const response = $('#interruption-trace-archive-response');
+    UNFINISHED_THOUGHT_TRACES.forEach((tr) => {
+      const btn = $(`#interruption-trace-${tr}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'trace' && pending.trace === tr);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'trace') ? pending.feedback : '';
+  };
+
+  const syncUnfinishedThoughtLab = () => {
+    const figure = $('#counterfactual-treatment-lab-figure');
+    const st = getUnfinishedThoughtAsylum();
+    const unlocked = unfinishedThoughtAsylumUnlocked();
+    const hasDraft = unlocked && UNFINISHED_THOUGHT_THOUGHTS.includes(st.draft.thought) && UNFINISHED_THOUGHT_TRACES.includes(st.draft.trace);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activePhysician;
+    const response = $('#counterfactual-treatment-lab-response');
+    UNFINISHED_THOUGHT_THERAPIES.forEach((th) => {
+      const btn = $(`#counterfactual-treatment-${th}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'admission' && pending.therapy === th);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'admission') ? pending.feedback : '';
+  };
+
+  const syncUnfinishedThoughtHearing = () => {
+    const figure = $('#last-conclusion-hearing-figure');
+    const st = getUnfinishedThoughtAsylum();
+    const open = unfinishedThoughtAsylumUnlocked() && unfinishedThoughtCoverageComplete(st) && st.visited.hearing;
+    if (figure) figure.hidden = !open;
+    if (!open) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activePhysician || st.draft.thought !== '' || st.draft.trace !== '';
+    const response = $('#last-conclusion-hearing-response');
+    UNFINISHED_THOUGHT_HEARING_ACTIONS.forEach((a) => {
+      const btn = $(`#last-conclusion-${a}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'hearing' && pending.action === a);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'hearing') ? pending.feedback : '';
+  };
+
+  const syncUnfinishedThoughtPhysicians = () => {
+    const st = getUnfinishedThoughtAsylum();
+    const unlocked = unfinishedThoughtAsylumUnlocked();
+    Object.values(UNFINISHED_THOUGHT_SCENE_FOR_TRACE).forEach((scene) => {
+      const container = $(`#unfinished-thought-physician-${scene}`);
+      if (!container) return;
+      const active = unlocked && st.activePhysician && UNFINISHED_THOUGHT_SCENE_FOR_TRACE[st.activePhysician.trace] === scene && currentScene === scene;
+      container.hidden = !active;
+      if (active) paintUnfinishedThoughtPhysician(scene);
+    });
+  };
+
+  const paintUnfinishedThoughtPhysician = (scene) => {
+    const st = getUnfinishedThoughtAsylum();
+    const phys = st.activePhysician;
+    const response = $(`#unfinished-thought-physician-response-${scene}`);
+    const btn = $(`#unfinished-thought-physician-return-${scene}`);
+    if (response) response.textContent = (phys && UNFINISHED_THOUGHT_SCENE_FOR_TRACE[phys.trace] === scene) ? phys.feedback : '';
+    if (btn) {
+      const available = !!phys && UNFINISHED_THOUGHT_SCENE_FOR_TRACE[phys.trace] === scene && currentScene === scene && !st.pending && !AutoAdvance.has(scene);
+      btn.disabled = !available;
+      btn.setAttribute('aria-pressed', 'false');
+    }
+  };
+
+  const paintUnfinishedThoughtMemory = () => {
+    const memory = $('#unfinished-thought-memory');
+    if (!memory) return;
+    const st = getUnfinishedThoughtAsylum();
+    const unlocked = unfinishedThoughtAsylumUnlocked();
+    if (!unlocked) {
+      memory.hidden = true;
+      return;
+    }
+    const counts = { trace: {}, therapy: {} };
+    for (const id of st.admissions) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      counts.trace[parts[1]] = (counts.trace[parts[1]] || 0) + 1;
+      counts.therapy[parts[2]] = (counts.therapy[parts[2]] || 0) + 1;
+    }
+    const get = (map, key) => map[key] || 0;
+    const tallies = st.thoughtTallies;
+    memory.textContent = `未遂思想收容所：已收容 ${st.admissions.length}/36 份思想，共治疗 ${st.admissionRuns} 次；思想 半名 ${get(tallies, 'name')} / 逃亡 ${get(tallies, 'escape')} / 幸福 ${get(tallies, 'happiness')}；痕迹 停笔 ${get(counts.trace, 'pen-stopped-before-the-name')} / 门步 ${get(counts.trace, 'last-step-before-the-door')} / 删日 ${get(counts.trace, 'crossed-out-future-calendar')}；疗法 陌结 ${get(counts.therapy, 'finish-it-with-a-foreign-conclusion')} / 缝思 ${get(counts.therapy, 'stitch-mutually-exclusive-thoughts')} / 永未 ${get(counts.therapy, 'preserve-it-as-perpetually-unfinished')} / 移植 ${get(counts.therapy, 'transplant-it-into-another-possible-self')}；思想多数 ${computeUnfinishedThoughtTalliesMajority(st.thoughtTallies)}；听证结局 ${st.hearingOutcomes.length}/3。`;
+    memory.hidden = false;
+  };
+
+  const paintUnfinishedThoughtCodex = () => {
+    const box = $('#unfinished-thought-codex');
+    const grid = $('#unfinished-thought-codex-grid');
+    const entry = $('#unfinished-thought-codex-entry');
+    if (!box || !grid) return;
+    const st = getUnfinishedThoughtAsylum();
+    const unlocked = unfinishedThoughtAsylumUnlocked();
+    if (!unlocked) {
+      box.hidden = true;
+      if (entry) entry.hidden = true;
+      return;
+    }
+    box.removeAttribute('hidden');
+    grid.innerHTML = '';
+    for (const id of UNFINISHED_THOUGHT_ADMISSION_IDS) {
+      const unlocked = st.admissions.includes(id);
+      const cell = document.createElement('div');
+      cell.className = 'unfinished-thought-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const c = findUnfinishedThoughtAdmissionById(id);
+        cell.innerHTML = `<b>${c.title}</b><span>${c.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    for (const action of UNFINISHED_THOUGHT_HEARING_ACTIONS) {
+      const outcome = UNFINISHED_THOUGHT_HEARING_TABLE[action].outcome;
+      const unlocked = st.hearingOutcomes.includes(outcome);
+      const cell = document.createElement('div');
+      cell.className = 'unfinished-thought-cell' + (unlocked ? ' unlocked' : '');
+      if (unlocked) {
+        const table = UNFINISHED_THOUGHT_HEARING_TABLE[action];
+        cell.innerHTML = `<b>${table.name}</b><span>${table.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    if (entry) entry.removeAttribute('hidden');
+  };
+
+  const syncUnfinishedThoughtRemembrance = () => {
+    paintUnfinishedThoughtMemory();
+    paintUnfinishedThoughtCodex();
+    const st = getUnfinishedThoughtAsylum();
+    const unlocked = unfinishedThoughtAsylumUnlocked();
+    const coverage = unfinishedThoughtCoverageComplete(st);
+    const entryBtn = $('#unfinished-thought-entry-btn');
+    if (entryBtn) {
+      entryBtn.hidden = !(currentScene === 'remembrance' && unlocked);
+      entryBtn.disabled = !(!st.pending && !st.activePhysician && st.draft.thought === '' && st.draft.trace === '' && currentScene === 'remembrance' && unlocked);
+    }
+    const hearingEntryBtn = $('#unfinished-thought-hearing-entry-btn');
+    if (hearingEntryBtn) {
+      hearingEntryBtn.hidden = !(currentScene === 'remembrance' && unlocked && coverage);
+      hearingEntryBtn.disabled = !(!st.pending && !st.activePhysician && st.draft.thought === '' && st.draft.trace === '' && currentScene === 'remembrance' && unlocked && coverage);
+    }
+  };
+
+  const syncUnfinishedThoughtLinks = () => {
+    const st = getUnfinishedThoughtAsylum();
+    const unlocked = unfinishedThoughtAsylumUnlocked();
+    const map = {
+      'unfinished-thought-asylum-link': unlocked && st.visited.asylum,
+      'interruption-trace-archive-link': unlocked && st.visited.archive,
+      'counterfactual-treatment-lab-link': unlocked && st.visited.lab,
+      'last-conclusion-hearing-link': unlocked && st.visited.hearing,
+    };
+    for (const [id, show] of Object.entries(map)) {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !show;
+    }
+  };
+
+  const replayUnfinishedThoughtPending = (sceneName) => {
+    const st = getUnfinishedThoughtAsylum();
+    const p = st.pending;
+    if (!p) {
+      syncUnfinishedThoughtAsylum();
+      syncUnfinishedThoughtArchive();
+      syncUnfinishedThoughtLab();
+      syncUnfinishedThoughtHearing();
+      syncUnfinishedThoughtPhysicians();
+      return;
+    }
+    if (sceneName === p.target) {
+      unfinishedThoughtBeforeArrive(p);
+      syncUnfinishedThoughtAsylum();
+      syncUnfinishedThoughtArchive();
+      syncUnfinishedThoughtLab();
+      syncUnfinishedThoughtHearing();
+      syncUnfinishedThoughtPhysicians();
+      if (sceneName === 'remembrance') syncUnfinishedThoughtRemembrance();
+      return;
+    }
+    const schedule = (source) => AutoAdvance.schedule(source, p.target, { delay: unfinishedThoughtDelay() });
+
+    if (p.kind === 'entry' && sceneName === 'remembrance') {
+      const btn = $('#unfinished-thought-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#unfinished-thought-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'thought' && sceneName === 'unfinished-thought-asylum') {
+      const response = $('#unfinished-thought-asylum-response');
+      if (response) response.textContent = p.feedback;
+      lockUnfinishedThoughtButtons(p.thought);
+      schedule('unfinished-thought-asylum');
+    } else if (p.kind === 'trace' && sceneName === 'interruption-trace-archive') {
+      const response = $('#interruption-trace-archive-response');
+      if (response) response.textContent = p.feedback;
+      lockUnfinishedTraceButtons(p.trace);
+      schedule('interruption-trace-archive');
+    } else if (p.kind === 'admission' && sceneName === 'counterfactual-treatment-lab') {
+      const response = $('#counterfactual-treatment-lab-response');
+      if (response) response.textContent = p.feedback;
+      lockUnfinishedTherapyButtons(p.therapy);
+      schedule('counterfactual-treatment-lab');
+    } else if (p.kind === 'physician-return' && sceneName === p.from) {
+      const container = $(`#unfinished-thought-physician-${p.from}`);
+      if (container) container.hidden = false;
+      const response = $(`#unfinished-thought-physician-response-${p.from}`);
+      if (response) response.textContent = p.feedback;
+      const btn = $(`#unfinished-thought-physician-return-${p.from}`);
+      if (btn) {
+        btn.disabled = true;
+        btn.setAttribute('aria-pressed', 'true');
+      }
+      schedule(p.from);
+    } else if (p.kind === 'hearing-entry' && sceneName === 'remembrance') {
+      const btn = $('#unfinished-thought-hearing-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#unfinished-thought-hearing-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'hearing' && sceneName === 'last-conclusion-hearing') {
+      const response = $('#last-conclusion-hearing-response');
+      if (response) response.textContent = p.feedback;
+      lockUnfinishedHearingButtons(p.action);
+      schedule('last-conclusion-hearing');
+    } else {
+      st.pending = null;
+      saveUnfinishedThoughtAsylum(st);
+      syncUnfinishedThoughtAsylum();
+      syncUnfinishedThoughtArchive();
+      syncUnfinishedThoughtLab();
+      syncUnfinishedThoughtHearing();
+      syncUnfinishedThoughtPhysicians();
+      if (sceneName === 'remembrance') syncUnfinishedThoughtRemembrance();
+    }
+  };
+
+  const chooseUnfinishedThought = (thought) => {
+    if (currentScene !== 'unfinished-thought-asylum') return;
+    if (AutoAdvance.has('unfinished-thought-asylum')) return;
+    if (!UNFINISHED_THOUGHT_THOUGHTS.includes(thought)) return;
+    if (!buttonAvailable(`unfinished-thought-${thought}`)) return;
+    const st = getUnfinishedThoughtAsylum();
+    if (st.pending) return;
+    if (st.activePhysician) return;
+    if (st.draft.thought !== '' || st.draft.trace !== '') return;
+    const table = UNFINISHED_THOUGHT_THOUGHT_TABLE[thought];
+    if (!table) return;
+    const pending = { kind: 'thought', source: 'unfinished-thought-asylum', thought, target: 'interruption-trace-archive', feedback: table.feedback };
+    st.pending = pending;
+    saveUnfinishedThoughtAsylum(st);
+    lockUnfinishedThoughtButtons(thought);
+    const response = $('#unfinished-thought-asylum-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('unfinished-thought-asylum', 'interruption-trace-archive', { delay: unfinishedThoughtDelay() });
+  };
+
+  const chooseUnfinishedTrace = (trace) => {
+    if (currentScene !== 'interruption-trace-archive') return;
+    if (AutoAdvance.has('interruption-trace-archive')) return;
+    if (!UNFINISHED_THOUGHT_TRACES.includes(trace)) return;
+    if (!buttonAvailable(`interruption-trace-${trace}`)) return;
+    const st = getUnfinishedThoughtAsylum();
+    if (st.pending) return;
+    if (st.activePhysician) return;
+    if (!UNFINISHED_THOUGHT_THOUGHTS.includes(st.draft.thought) || st.draft.trace !== '') return;
+    const table = UNFINISHED_THOUGHT_TRACE_TABLE[trace];
+    if (!table) return;
+    const pending = { kind: 'trace', source: 'interruption-trace-archive', thought: st.draft.thought, trace, target: 'counterfactual-treatment-lab', feedback: table.feedback };
+    st.pending = pending;
+    saveUnfinishedThoughtAsylum(st);
+    lockUnfinishedTraceButtons(trace);
+    const response = $('#interruption-trace-archive-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('interruption-trace-archive', 'counterfactual-treatment-lab', { delay: unfinishedThoughtDelay() });
+  };
+
+  const chooseUnfinishedTherapy = (therapy) => {
+    if (currentScene !== 'counterfactual-treatment-lab') return;
+    if (AutoAdvance.has('counterfactual-treatment-lab')) return;
+    if (!UNFINISHED_THOUGHT_THERAPIES.includes(therapy)) return;
+    if (!buttonAvailable(`counterfactual-treatment-${therapy}`)) return;
+    const st = getUnfinishedThoughtAsylum();
+    if (st.pending) return;
+    if (st.activePhysician) return;
+    const t = st.draft.thought;
+    const tr = st.draft.trace;
+    if (!UNFINISHED_THOUGHT_THOUGHTS.includes(t) || !UNFINISHED_THOUGHT_TRACES.includes(tr)) return;
+    const feedback = computeUnfinishedThoughtAdmissionFeedback(t, tr, therapy);
+    const admissionId = computeUnfinishedThoughtAdmissionId(t, tr, therapy);
+    const target = UNFINISHED_THOUGHT_SCENE_FOR_TRACE[tr];
+    const pending = { kind: 'admission', source: 'counterfactual-treatment-lab', thought: t, trace: tr, therapy, admission: admissionId, target, feedback };
+    st.pending = pending;
+    saveUnfinishedThoughtAsylum(st);
+    lockUnfinishedTherapyButtons(therapy);
+    const response = $('#counterfactual-treatment-lab-response');
+    if (response) response.textContent = feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('counterfactual-treatment-lab', target, { delay: unfinishedThoughtDelay() });
+  };
+
+  const chooseUnfinishedPhysicianReturn = (scene) => {
+    if (currentScene !== scene) return;
+    if (AutoAdvance.has(scene)) return;
+    if (!Object.values(UNFINISHED_THOUGHT_SCENE_FOR_TRACE).includes(scene)) return;
+    if (!buttonAvailable(`unfinished-thought-physician-return-${scene}`)) return;
+    const st = getUnfinishedThoughtAsylum();
+    if (st.pending) return;
+    const phys = st.activePhysician;
+    if (!phys || UNFINISHED_THOUGHT_SCENE_FOR_TRACE[phys.trace] !== scene) return;
+    const pending = { kind: 'physician-return', from: scene, target: 'unfinished-thought-asylum', admission: phys.admission, feedback: phys.feedback };
+    st.pending = pending;
+    saveUnfinishedThoughtAsylum(st);
+    const btn = $(`#unfinished-thought-physician-return-${scene}`);
+    if (btn) {
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', 'true');
+    }
+    const response = $(`#unfinished-thought-physician-response-${scene}`);
+    if (response) response.textContent = phys.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule(scene, 'unfinished-thought-asylum', { delay: unfinishedThoughtDelay() });
+  };
+
+  const chooseUnfinishedThoughtEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('unfinished-thought-entry-btn')) return;
+    if (!unfinishedThoughtAsylumUnlocked()) return;
+    const st = getUnfinishedThoughtAsylum();
+    if (st.pending) return;
+    if (st.activePhysician) return;
+    if (st.draft.thought !== '' || st.draft.trace !== '') return;
+    const pending = { kind: 'entry', target: 'unfinished-thought-asylum', feedback: UNFINISHED_THOUGHT_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveUnfinishedThoughtAsylum(st);
+    const btn = $('#unfinished-thought-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#unfinished-thought-entry-response');
+    if (response) response.textContent = UNFINISHED_THOUGHT_ENTRY_FEEDBACK;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('remembrance', 'unfinished-thought-asylum', { delay: unfinishedThoughtDelay() });
+  };
+
+  const chooseUnfinishedThoughtHearingEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('unfinished-thought-hearing-entry-btn')) return;
+    const st = getUnfinishedThoughtAsylum();
+    if (st.pending) return;
+    if (st.activePhysician) return;
+    if (st.draft.thought !== '' || st.draft.trace !== '') return;
+    if (!unfinishedThoughtCoverageComplete(st)) return;
+    const pending = { kind: 'hearing-entry', target: 'last-conclusion-hearing', feedback: UNFINISHED_THOUGHT_HEARING_ENTRY_FEEDBACK };
+    st.pending = pending;
+    saveUnfinishedThoughtAsylum(st);
+    const btn = $('#unfinished-thought-hearing-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#unfinished-thought-hearing-entry-response');
+    if (response) response.textContent = UNFINISHED_THOUGHT_HEARING_ENTRY_FEEDBACK;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('remembrance', 'last-conclusion-hearing', { delay: unfinishedThoughtDelay() });
+  };
+
+  const chooseUnfinishedThoughtHearingAction = (action) => {
+    if (currentScene !== 'last-conclusion-hearing') return;
+    if (AutoAdvance.has('last-conclusion-hearing')) return;
+    if (!UNFINISHED_THOUGHT_HEARING_ACTIONS.includes(action)) return;
+    if (!buttonAvailable(`last-conclusion-${action}`)) return;
+    const st = getUnfinishedThoughtAsylum();
+    if (st.pending) return;
+    if (st.activePhysician) return;
+    if (st.draft.thought !== '' || st.draft.trace !== '') return;
+    if (!st.visited.hearing) return;
+    if (!unfinishedThoughtCoverageComplete(st)) return;
+    const table = UNFINISHED_THOUGHT_HEARING_TABLE[action];
+    if (!table) return;
+    const pending = { kind: 'hearing', source: 'last-conclusion-hearing', action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    st.pending = pending;
+    saveUnfinishedThoughtAsylum(st);
+    lockUnfinishedHearingButtons(action);
+    const response = $('#last-conclusion-hearing-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('last-conclusion-hearing', table.target, { delay: unfinishedThoughtDelay() });
+  };
+
+  const unfinishedThoughtCanVisitAsylum = () => {
+    if (!unfinishedThoughtAsylumUnlocked()) return false;
+    const st = getUnfinishedThoughtAsylum();
+    const p = st.pending;
+    if (p && (p.kind === 'entry' || p.kind === 'physician-return') && p.target === 'unfinished-thought-asylum') return true;
+    if (st.visited.asylum) return true;
+    return false;
+  };
+
+  const unfinishedThoughtCanVisitArchive = () => {
+    if (!unfinishedThoughtAsylumUnlocked()) return false;
+    const st = getUnfinishedThoughtAsylum();
+    const p = st.pending;
+    if (p && p.kind === 'thought' && p.target === 'interruption-trace-archive') return true;
+    if (st.visited.archive && UNFINISHED_THOUGHT_THOUGHTS.includes(st.draft.thought)) return true;
+    return false;
+  };
+
+  const unfinishedThoughtCanVisitLab = () => {
+    if (!unfinishedThoughtAsylumUnlocked()) return false;
+    const st = getUnfinishedThoughtAsylum();
+    const p = st.pending;
+    if (p && p.kind === 'trace' && p.target === 'counterfactual-treatment-lab') return true;
+    if (st.visited.lab && UNFINISHED_THOUGHT_THOUGHTS.includes(st.draft.thought) && UNFINISHED_THOUGHT_TRACES.includes(st.draft.trace)) return true;
+    return false;
+  };
+
+  const unfinishedThoughtCanVisitHearing = () => {
+    if (!unfinishedThoughtAsylumUnlocked()) return false;
+    const st = getUnfinishedThoughtAsylum();
+    if (!unfinishedThoughtCoverageComplete(st)) return false;
+    const p = st.pending;
+    if (p && p.kind === 'hearing-entry' && p.target === 'last-conclusion-hearing') return true;
+    if (st.visited.hearing) return true;
+    return false;
+  };
+
+  const unfinishedThoughtBridgeAllows = (scene) => {
+    const st = getUnfinishedThoughtAsylum();
+    const p = st.pending;
+    if (p && p.kind === 'admission' && p.target === scene) return true;
+    if (p && p.kind === 'hearing' && p.target === scene) return true;
+    if (st.activePhysician && UNFINISHED_THOUGHT_SCENE_FOR_TRACE[st.activePhysician.trace] === scene) return true;
+    for (const action of UNFINISHED_THOUGHT_HEARING_ACTIONS) {
+      const table = UNFINISHED_THOUGHT_HEARING_TABLE[action];
+      if (table && table.target === scene && st.lastOutcome === table.outcome && st.hearingOutcomes.includes(table.outcome)) return true;
+    }
+    return false;
+  };
+
+  const unfinishedThoughtEntryBtn = $('#unfinished-thought-entry-btn');
+  if (unfinishedThoughtEntryBtn) {
+    unfinishedThoughtEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnfinishedThoughtEntry();
+    });
+  }
+  const unfinishedThoughtHearingEntryBtn = $('#unfinished-thought-hearing-entry-btn');
+  if (unfinishedThoughtHearingEntryBtn) {
+    unfinishedThoughtHearingEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnfinishedThoughtHearingEntry();
+    });
+  }
+  const thoughtNameNeverFinishedThinkingBtn = $('#unfinished-thought-name-never-finished-thinking');
+  if (thoughtNameNeverFinishedThinkingBtn) {
+    thoughtNameNeverFinishedThinkingBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnfinishedThought('name-never-finished-thinking');
+    });
+  }
+  const thoughtEscapeAbortedByReasonBtn = $('#unfinished-thought-escape-aborted-by-reason');
+  if (thoughtEscapeAbortedByReasonBtn) {
+    thoughtEscapeAbortedByReasonBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnfinishedThought('escape-aborted-by-reason');
+    });
+  }
+  const thoughtHappinessNeverPermittedBtn = $('#unfinished-thought-happiness-never-permitted');
+  if (thoughtHappinessNeverPermittedBtn) {
+    thoughtHappinessNeverPermittedBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnfinishedThought('happiness-never-permitted');
+    });
+  }
+  const tracePenStoppedBeforeTheNameBtn = $('#interruption-trace-pen-stopped-before-the-name');
+  if (tracePenStoppedBeforeTheNameBtn) {
+    tracePenStoppedBeforeTheNameBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnfinishedTrace('pen-stopped-before-the-name');
+    });
+  }
+  const traceLastStepBeforeTheDoorBtn = $('#interruption-trace-last-step-before-the-door');
+  if (traceLastStepBeforeTheDoorBtn) {
+    traceLastStepBeforeTheDoorBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnfinishedTrace('last-step-before-the-door');
+    });
+  }
+  const traceCrossedOutFutureCalendarBtn = $('#interruption-trace-crossed-out-future-calendar');
+  if (traceCrossedOutFutureCalendarBtn) {
+    traceCrossedOutFutureCalendarBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnfinishedTrace('crossed-out-future-calendar');
+    });
+  }
+  const therapyFinishItWithAForeignConclusionBtn = $('#counterfactual-treatment-finish-it-with-a-foreign-conclusion');
+  if (therapyFinishItWithAForeignConclusionBtn) {
+    therapyFinishItWithAForeignConclusionBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnfinishedTherapy('finish-it-with-a-foreign-conclusion');
+    });
+  }
+  const therapyStitchMutuallyExclusiveThoughtsBtn = $('#counterfactual-treatment-stitch-mutually-exclusive-thoughts');
+  if (therapyStitchMutuallyExclusiveThoughtsBtn) {
+    therapyStitchMutuallyExclusiveThoughtsBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnfinishedTherapy('stitch-mutually-exclusive-thoughts');
+    });
+  }
+  const therapyPreserveItAsPerpetuallyUnfinishedBtn = $('#counterfactual-treatment-preserve-it-as-perpetually-unfinished');
+  if (therapyPreserveItAsPerpetuallyUnfinishedBtn) {
+    therapyPreserveItAsPerpetuallyUnfinishedBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnfinishedTherapy('preserve-it-as-perpetually-unfinished');
+    });
+  }
+  const therapyTransplantItIntoAnotherPossibleSelfBtn = $('#counterfactual-treatment-transplant-it-into-another-possible-self');
+  if (therapyTransplantItIntoAnotherPossibleSelfBtn) {
+    therapyTransplantItIntoAnotherPossibleSelfBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnfinishedTherapy('transplant-it-into-another-possible-self');
+    });
+  }
+  const physicianReturnBlankNameCloakroomBtn = $('#unfinished-thought-physician-return-blank-name-cloakroom');
+  if (physicianReturnBlankNameCloakroomBtn) {
+    physicianReturnBlankNameCloakroomBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnfinishedPhysicianReturn('blank-name-cloakroom');
+    });
+  }
+  const physicianReturnReverseStairwellBtn = $('#unfinished-thought-physician-return-reverse-stairwell');
+  if (physicianReturnReverseStairwellBtn) {
+    physicianReturnReverseStairwellBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnfinishedPhysicianReturn('reverse-stairwell');
+    });
+  }
+  const physicianReturnUnlivedNurseryBtn = $('#unfinished-thought-physician-return-unlived-nursery');
+  if (physicianReturnUnlivedNurseryBtn) {
+    physicianReturnUnlivedNurseryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnfinishedPhysicianReturn('unlived-nursery');
+    });
+  }
+  const hearingDeclareEveryUnfinishedThoughtAliveBtn = $('#last-conclusion-declare-every-unfinished-thought-alive');
+  if (hearingDeclareEveryUnfinishedThoughtAliveBtn) {
+    hearingDeclareEveryUnfinishedThoughtAliveBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnfinishedThoughtHearingAction('declare-every-unfinished-thought-alive');
+    });
+  }
+  const hearingLetTheThoughtFinishItsThinkerBtn = $('#last-conclusion-let-the-thought-finish-its-thinker');
+  if (hearingLetTheThoughtFinishItsThinkerBtn) {
+    hearingLetTheThoughtFinishItsThinkerBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnfinishedThoughtHearingAction('let-the-thought-finish-its-thinker');
+    });
+  }
+  const hearingRecycleAllAbandonedPossibilitiesBtn = $('#last-conclusion-recycle-all-abandoned-possibilities');
+  if (hearingRecycleAllAbandonedPossibilitiesBtn) {
+    hearingRecycleAllAbandonedPossibilitiesBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnfinishedThoughtHearingAction('recycle-all-abandoned-possibilities');
+    });
+  }
+
+
+  const REGRET_RECLAMATION_KEY = 'goddead_v81_regret_reclamation';
+  const REGRET_RECLAMATION_VERSION = 81;
+  const REGRET_MATERIALS = ['road-never-taken', 'person-never-loved', 'self-never-became'];
+  const REGRET_RESIDUES = ['dust-from-the-unwalked-mile', 'warmth-from-the-unused-pillow', 'fingerprint-inside-an-unworn-face'];
+  const REGRET_USES = ['cast-a-new-childhood', 'forge-courage-for-the-next-self', 'build-a-strangers-spare-life', 'return-regret-without-processing'];
+  const REGRET_FURNACE_ACTIONS = ['declare-regret-renewable', 'manufacture-every-life-from-foreign-regret', 'classify-forgiveness-as-unrecyclable-waste'];
+
+  const REGRET_MATERIAL_TABLE = {
+    'road-never-taken': {
+      name: '回收没走的路 · RECLAIM THE ROAD NEVER TAKEN',
+      feedback: '折叠道路展开一小段，鞋底立刻记起从未走过的远方。厂方判定里程全新，只是沿途风景已经老了。',
+      fragment: '折叠道路展开一小段，鞋底立刻记起从未走过的远方。厂方判定里程全新，只是沿途风景已经老了。',
+      title: '未路',
+      tallyKey: 'road',
+    },
+    'person-never-loved': {
+      name: '回收没爱的人 · RECLAIM THE PERSON NEVER LOVED',
+      feedback: '空椅之间的余温仍保持两个人的形状。没有爱情发生，它却积压了足够一生使用的离别。',
+      fragment: '空椅之间的余温仍保持两个人的形状。没有爱情发生，它却积压了足够一生使用的离别。',
+      title: '未爱',
+      tallyKey: 'love',
+    },
+    'self-never-became': {
+      name: '回收没成为的自己 · RECLAIM THE SELF NEVER BECAME',
+      feedback: '备用面具逐一抬头。它们没有活过，却能精确指出你在哪一天开始不再可能成为它们。',
+      fragment: '备用面具逐一抬头。它们没有活过，却能精确指出你在哪一天开始不再可能成为它们。',
+      title: '未己',
+      tallyKey: 'self',
+    },
+  };
+
+  const REGRET_RESIDUE_TABLE = {
+    'dust-from-the-unwalked-mile': {
+      name: '提交未走里程的尘 · SUBMIT DUST FROM THE UNWALKED MILE',
+      feedback: '尘土来自一条你没有踏上的路，却牢牢记得鞋底纹。它证明放弃也能留下比抵达更完整的足迹。',
+      fragment: '尘土来自一条你没有踏上的路，却牢牢记得鞋底纹。它证明放弃也能留下比抵达更完整的足迹。',
+      title: '路尘',
+      target: 'descending-appeals-stair',
+      reclaimerReturnName: '跟里程技师返回回收厂 · RETURN WITH THE UNWALKED-MILE RECLAIMER',
+      reclaimerFeedback: '里程技师沿下行申诉梯扫起门外之尘。每一级都声称自己曾通往别处，只因你回头才改成楼梯。',
+    },
+    'warmth-from-the-unused-pillow': {
+      name: '提交空枕余温 · SUBMIT WARMTH FROM THE UNUSED PILLOW',
+      feedback: '第二只枕头从未承受头颅，中央却留下熟睡多年的凹陷。余温拒绝说明它在等谁。',
+      fragment: '第二只枕头从未承受头颅，中央却留下熟睡多年的凹陷。余温拒绝说明它在等谁。',
+      title: '枕温',
+      target: 'borrowed-childhood',
+      reclaimerReturnName: '跟余温技师返回回收厂 · RETURN WITH THE UNUSED-PILLOW RECLAIMER',
+      reclaimerFeedback: '余温技师在借来童年室铺好第二只枕头。房间记得两个人一起醒来，现实却只肯报销一份早餐。',
+    },
+    'fingerprint-inside-an-unworn-face': {
+      name: '提交未戴之脸内侧指纹 · SUBMIT THE PRINT INSIDE AN UNWORN FACE',
+      feedback: '面具内侧浮出一枚与你相同的指纹。你从未戴过它，它却证明某个版本一直从里面碰触你的脸。',
+      fragment: '面具内侧浮出一枚与你相同的指纹。你从未戴过它，它却证明某个版本一直从里面碰触你的脸。',
+      title: '脸印',
+      target: 'identity-correction',
+      reclaimerReturnName: '跟备用脸技师返回回收厂 · RETURN WITH THE UNWORN-FACE RECLAIMER',
+      reclaimerFeedback: '备用脸技师在身份更正处核对内侧指纹。系统承认面具属于你，却把现在这张脸标为未经领取。',
+    },
+  };
+
+  const REGRET_USE_TABLE = {
+    'cast-a-new-childhood': {
+      name: '铸成另一段童年 · CAST A NEW CHILDHOOD',
+      title: '童年',
+      fragment: '熔炉把未走的里程压成童年轨道。新孩子沿着你的后悔长大，并把你的故乡误认成自己离开的地方。',
+    },
+    'forge-courage-for-the-next-self': {
+      name: '锻成下一个自我的勇气 · FORGE COURAGE FOR THE NEXT SELF',
+      title: '勇气',
+      fragment: '无人使用的余温被锻进黄铜心核。下一个你获得离开的勇气，却不知道那力量来自谁没能开始的爱情。',
+    },
+    'build-a-strangers-spare-life': {
+      name: '制造陌生人的备用人生 · BUILD A STRANGER\'S SPARE LIFE',
+      title: '备生',
+      fragment: '未戴面具被装到陌生空身上。它完整继承你没成为的自己，并从此把你的现实当作失败版本。',
+    },
+    'return-regret-without-processing': {
+      name: '原样退回后悔 · RETURN REGRET WITHOUT PROCESSING',
+      title: '原退',
+      fragment: '冷库拒绝熔化原料，只把它称重后退回。后悔保持原样，却因确认无法处理而比送来时更重。',
+    },
+  };
+
+  const REGRET_FURNACE_TABLE = {
+    'declare-regret-renewable': {
+      name: '宣布后悔可再生 · DECLARE REGRET A RENEWABLE RESOURCE',
+      outcome: 'regret-became-a-renewable-resource',
+      target: 'remembrance',
+      feedback: '痕迹墙接入回收管线。每次想起过去都会产出新的过去，后悔终于做到一边消耗人生、一边无限补货。',
+    },
+    'manufacture-every-life-from-foreign-regret': {
+      name: '用陌生后悔制造所有人生 · MANUFACTURE EVERY LIFE FROM FOREIGN REGRET',
+      outcome: 'every-life-was-made-from-someone-elses-regret',
+      target: 'unending-gallery',
+      feedback: '面具、道路与空枕被熔成统一原料。每个人获得一生，却在最幸福时想念另一个陌生人没能拥有的生活。',
+    },
+    'classify-forgiveness-as-unrecyclable-waste': {
+      name: '把原谅列为不可回收废物 · CLASSIFY FORGIVENESS AS UNRECYCLABLE WASTE',
+      outcome: 'forgiveness-was-classified-as-unrecyclable-waste',
+      target: 'offering',
+      feedback: '炉门拒绝接受原谅。它没有足够的后悔热值，只能被运往世界尽头，和所有不再索取的伤口一起填埋。',
+    },
+  };
+
+  const REGRET_FURNACE_OUTCOME_BY_ID = {
+    'regret-became-a-renewable-resource': REGRET_FURNACE_TABLE['declare-regret-renewable'],
+    'every-life-was-made-from-someone-elses-regret': REGRET_FURNACE_TABLE['manufacture-every-life-from-foreign-regret'],
+    'forgiveness-was-classified-as-unrecyclable-waste': REGRET_FURNACE_TABLE['classify-forgiveness-as-unrecyclable-waste'],
+  };
+
+  const REGRET_BATCH_IDS = (() => {
+    const ids = [];
+    for (const m of REGRET_MATERIALS) {
+      for (const r of REGRET_RESIDUES) {
+        for (const u of REGRET_USES) {
+          ids.push(`${m}:${r}:${u}`);
+        }
+      }
+    }
+    return ids;
+  })();
+  const REGRET_BATCH_SET = new Set(REGRET_BATCH_IDS);
+  const REGRET_FURNACE_OUTCOME_IDS = REGRET_FURNACE_ACTIONS.map((a) => REGRET_FURNACE_TABLE[a].outcome);
+
+  const defaultRegretReclamation = () => ({
+    version: 81,
+    visited: { plant: false, weighhouse: false, smelting: false, furnace: false },
+    draft: { material: '', residue: '' },
+    batches: [],
+    furnaceOutcomes: [],
+    batchRuns: 0,
+    furnaceRuns: 0,
+    materialTallies: { road: 0, love: 0, self: 0 },
+    lastOutcome: '',
+    activeReclaimer: null,
+    pending: null,
+  });
+
+  const normalizeRegretVisited = (visited) => {
+    const v = visited && typeof visited === 'object' && !Array.isArray(visited) ? visited : {};
+    return {
+      plant: v.plant === true,
+      weighhouse: v.weighhouse === true,
+      smelting: v.smelting === true,
+      furnace: v.furnace === true,
+    };
+  };
+
+  const normalizeRegretDraft = (draft) => {
+    const d = draft && typeof draft === 'object' && !Array.isArray(draft) ? draft : {};
+    let material = typeof d.material === 'string' ? d.material : '';
+    let residue = typeof d.residue === 'string' ? d.residue : '';
+    if (!REGRET_MATERIALS.includes(material)) {
+      material = '';
+      residue = '';
+    }
+    if (!REGRET_RESIDUES.includes(residue)) {
+      residue = '';
+    }
+    if (residue !== '' && material === '') {
+      residue = '';
+    }
+    return { material, residue };
+  };
+
+  const normalizeRegretBatches = (arr) => {
+    const input = Array.isArray(arr) ? arr : [];
+    const seen = new Set();
+    const out = [];
+    for (const id of REGRET_BATCH_IDS) {
+      if (input.includes(id) && !seen.has(id)) {
+        out.push(id);
+        seen.add(id);
+      }
+    }
+    return out;
+  };
+
+  const normalizeRegretFurnaceOutcomes = (arr) => {
+    const input = Array.isArray(arr) ? arr : [];
+    const set = new Set(input);
+    return REGRET_FURNACE_ACTIONS.map((a) => REGRET_FURNACE_TABLE[a].outcome).filter((o) => set.has(o));
+  };
+
+  const clampRegretCount = (n) => Math.min(9999, Math.max(0, Math.floor(Number(n) || 0)));
+
+  const normalizeRegretTallies = (tallies) => {
+    const t = tallies && typeof tallies === 'object' && !Array.isArray(tallies) ? tallies : {};
+    return {
+      road: clampRegretCount(t.road),
+      love: clampRegretCount(t.love),
+      self: clampRegretCount(t.self),
+    };
+  };
+
+  const normalizeRegretActiveReclaimer = (reclaimer, batches) => {
+    if (!reclaimer || typeof reclaimer !== 'object' || Array.isArray(reclaimer)) return null;
+    if (Object.keys(reclaimer).sort().join(',') !== 'batch,feedback,residue') return null;
+    if (!REGRET_RESIDUES.includes(reclaimer.residue)) return null;
+    const collected = Array.isArray(batches) ? batches : [];
+    if (!collected.includes(reclaimer.batch)) return null;
+    if (!REGRET_BATCH_SET.has(reclaimer.batch)) return null;
+    const parts = reclaimer.batch.split(':');
+    if (parts.length !== 3 || parts[1] !== reclaimer.residue) return null;
+    const fb = REGRET_RESIDUE_TABLE[reclaimer.residue].reclaimerFeedback;
+    if (reclaimer.feedback !== fb) return null;
+    return { residue: reclaimer.residue, batch: reclaimer.batch, feedback: fb };
+  };
+
+  const normalizeRegretPending = (p, st) => {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || !p.kind) return null;
+    const keys = Object.keys(p).sort().join(',');
+    const unlocked = st._v81unlocked === true;
+
+    if (p.kind === 'entry' && keys === 'feedback,kind,target') {
+      if (!unlocked || st.activeReclaimer || st.draft.material !== '' || st.draft.residue !== '') return null;
+      if (p.target === 'regret-reclamation-plant' && p.feedback === '把后悔送进回收厂 · SEND REGRET TO RECLAMATION') {
+        return { kind: 'entry', target: 'regret-reclamation-plant', feedback: p.feedback };
+      }
+    }
+    if (p.kind === 'material' && keys === 'feedback,kind,material,source,target') {
+      if (!unlocked || st.activeReclaimer) return null;
+      if (p.source !== 'regret-reclamation-plant' || p.target !== 'abandonment-residue-weighhouse') return null;
+      if (!REGRET_MATERIALS.includes(p.material)) return null;
+      const table = REGRET_MATERIAL_TABLE[p.material];
+      if (!table || p.feedback !== table.feedback) return null;
+      if (st.draft.material !== '' || st.draft.residue !== '') return null;
+      return { kind: 'material', source: 'regret-reclamation-plant', material: p.material, target: 'abandonment-residue-weighhouse', feedback: p.feedback };
+    }
+    if (p.kind === 'residue' && keys === 'feedback,kind,material,residue,source,target') {
+      if (!unlocked || st.activeReclaimer) return null;
+      if (p.source !== 'abandonment-residue-weighhouse' || p.target !== 'second-life-smelting-line') return null;
+      if (!REGRET_MATERIALS.includes(p.material) || !REGRET_RESIDUES.includes(p.residue)) return null;
+      if (p.material !== st.draft.material || st.draft.residue !== '') return null;
+      const table = REGRET_RESIDUE_TABLE[p.residue];
+      if (!table || p.feedback !== table.feedback) return null;
+      return { kind: 'residue', source: 'abandonment-residue-weighhouse', material: p.material, residue: p.residue, target: 'second-life-smelting-line', feedback: p.feedback };
+    }
+    if (p.kind === 'batch' && keys === 'batch,feedback,kind,material,residue,source,target,use') {
+      if (!unlocked || st.activeReclaimer) return null;
+      if (p.source !== 'second-life-smelting-line') return null;
+      if (!REGRET_MATERIALS.includes(p.material) || !REGRET_RESIDUES.includes(p.residue) || !REGRET_USES.includes(p.use)) return null;
+      if (p.material !== st.draft.material || p.residue !== st.draft.residue) return null;
+      const batchId = `${p.material}:${p.residue}:${p.use}`;
+      if (p.batch !== batchId) return null;
+      const target = REGRET_RESIDUE_TABLE[p.residue].target;
+      if (p.target !== target) return null;
+      const fb = computeRegretBatchFeedback(p.material, p.residue, p.use);
+      if (p.feedback !== fb) return null;
+      return { kind: 'batch', source: 'second-life-smelting-line', material: p.material, residue: p.residue, use: p.use, batch: batchId, target, feedback: fb };
+    }
+    if (p.kind === 'reclaimer-return' && keys === 'batch,feedback,from,kind,target') {
+      if (!unlocked) return null;
+      if (p.target !== 'regret-reclamation-plant') return null;
+      const validFrom = REGRET_RESIDUES.map((r) => REGRET_RESIDUE_TABLE[r].target);
+      if (!validFrom.includes(p.from)) return null;
+      const reclaimer = st.activeReclaimer;
+      if (!reclaimer || REGRET_RESIDUE_TABLE[reclaimer.residue].target !== p.from || reclaimer.batch !== p.batch) return null;
+      if (p.feedback !== reclaimer.feedback) return null;
+      return { kind: 'reclaimer-return', from: p.from, target: 'regret-reclamation-plant', batch: p.batch, feedback: p.feedback };
+    }
+    if (p.kind === 'furnace-entry' && keys === 'feedback,kind,target') {
+      if (!unlocked || st.activeReclaimer || st.draft.material !== '' || st.draft.residue !== '') return null;
+      if (p.target !== 'zero-waste-life-furnace' || p.feedback !== '决定人生是否允许留下废料 · DECIDE WHETHER A LIFE MAY LEAVE WASTE') return null;
+      if (!regretReclamationCoverageComplete(st)) return null;
+      return { kind: 'furnace-entry', target: 'zero-waste-life-furnace', feedback: p.feedback };
+    }
+    if (p.kind === 'furnace' && keys === 'action,feedback,kind,outcome,source,target') {
+      if (!unlocked || st.activeReclaimer || st.draft.material !== '' || st.draft.residue !== '') return null;
+      if (!regretReclamationCoverageComplete(st) || !st.visited.furnace) return null;
+      if (p.source !== 'zero-waste-life-furnace') return null;
+      if (!REGRET_FURNACE_ACTIONS.includes(p.action)) return null;
+      const table = REGRET_FURNACE_TABLE[p.action];
+      if (!table || p.outcome !== table.outcome || p.target !== table.target || p.feedback !== table.feedback) return null;
+      return { kind: 'furnace', source: 'zero-waste-life-furnace', action: p.action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    }
+    return null;
+  };
+
+  const saveRegretReclamation = (st) => {
+    const visited = normalizeRegretVisited(st.visited);
+    const draft = normalizeRegretDraft(st.draft);
+    const batches = normalizeRegretBatches(st.batches);
+    const furnaceOutcomes = normalizeRegretFurnaceOutcomes(st.furnaceOutcomes);
+    const batchRuns = clampRegretCount(st.batchRuns);
+    const furnaceRuns = clampRegretCount(st.furnaceRuns);
+    const materialTallies = normalizeRegretTallies(st.materialTallies);
+    const validLast = new Set([...batches, ...furnaceOutcomes]);
+    const lastOutcome = validLast.has(st.lastOutcome) ? st.lastOutcome : '';
+    const activeReclaimer = normalizeRegretActiveReclaimer(st.activeReclaimer, batches);
+    const pendingState = Object.assign(
+      defaultRegretReclamation(),
+      { visited, draft, batches, furnaceOutcomes, batchRuns, furnaceRuns, materialTallies, lastOutcome, activeReclaimer, pending: null, _v81unlocked: regretReclamationPlantUnlocked() }
+    );
+    const pending = normalizeRegretPending(st.pending, pendingState);
+    store.set(
+      REGRET_RECLAMATION_KEY,
+      JSON.stringify({
+        version: REGRET_RECLAMATION_VERSION,
+        visited,
+        draft,
+        batches,
+        furnaceOutcomes,
+        batchRuns,
+        furnaceRuns,
+        materialTallies,
+        lastOutcome,
+        activeReclaimer,
+        pending,
+      })
+    );
+  };
+
+  const getRegretReclamation = () => {
+    let raw = {};
+    try { raw = JSON.parse(store.get(REGRET_RECLAMATION_KEY, '{}')) || {}; } catch { raw = {}; }
+    if (typeof raw !== 'object' || raw === null || Array.isArray(raw) || raw.version !== REGRET_RECLAMATION_VERSION) {
+      return defaultRegretReclamation();
+    }
+    const unlocked = regretReclamationPlantUnlocked();
+    if (!unlocked) {
+      return defaultRegretReclamation();
+    }
+    const st = defaultRegretReclamation();
+    st.visited = normalizeRegretVisited(raw.visited);
+    st.draft = normalizeRegretDraft(raw.draft);
+    st.batches = normalizeRegretBatches(raw.batches);
+    st.furnaceOutcomes = normalizeRegretFurnaceOutcomes(raw.furnaceOutcomes);
+    st.batchRuns = clampRegretCount(raw.batchRuns);
+    st.furnaceRuns = clampRegretCount(raw.furnaceRuns);
+    st.materialTallies = normalizeRegretTallies(raw.materialTallies);
+    const validLast = new Set([...st.batches, ...st.furnaceOutcomes]);
+    st.lastOutcome = validLast.has(raw.lastOutcome) ? raw.lastOutcome : '';
+    st.activeReclaimer = normalizeRegretActiveReclaimer(raw.activeReclaimer, st.batches);
+    const normSt = Object.assign({}, st, { _v81unlocked: unlocked });
+    st.pending = normalizeRegretPending(raw.pending, normSt);
+    return st;
+  };
+
+  const regretReclamationPlantUnlocked = () => {
+    if (!unfinishedThoughtAsylumUnlocked()) return false;
+    const st = getUnfinishedThoughtAsylum();
+    if (st.admissions.length < 4) return false;
+    const thoughts = new Set();
+    const traces = new Set();
+    const therapies = new Set();
+    for (const id of st.admissions) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      thoughts.add(parts[0]);
+      traces.add(parts[1]);
+      therapies.add(parts[2]);
+    }
+    if (thoughts.size !== 3 || traces.size !== 3 || therapies.size !== 4) return false;
+    const requiredOutcomes = [
+      'every-unfinished-thought-kept-living',
+      'the-thought-completed-its-thinker',
+      'all-abandoned-possibilities-were-recycled',
+    ];
+    if (st.hearingOutcomes.length !== 3) return false;
+    for (const o of requiredOutcomes) if (!st.hearingOutcomes.includes(o)) return false;
+    return true;
+  };
+
+  const regretReclamationCoverageComplete = (st) => {
+    const state = st || getRegretReclamation();
+    if (state.batches.length < 4) return false;
+    const materials = new Set();
+    const residues = new Set();
+    const uses = new Set();
+    for (const id of state.batches) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      materials.add(parts[0]);
+      residues.add(parts[1]);
+      uses.add(parts[2]);
+    }
+    return materials.size === 3 && residues.size === 3 && uses.size === 4;
+  };
+
+  const computeRegretMaterialTalliesMajority = (tallies) => {
+    const t = tallies || { road: 0, love: 0, self: 0 };
+    const road = Number(t.road) || 0;
+    const love = Number(t.love) || 0;
+    const self = Number(t.self) || 0;
+    if (road === 0 && love === 0 && self === 0) return '无原料取得多数';
+    const max = Math.max(road, love, self);
+    const winners = [];
+    if (road === max) winners.push('road');
+    if (love === max) winners.push('love');
+    if (self === max) winners.push('self');
+    if (winners.length !== 1) return '无原料取得多数';
+    if (winners[0] === 'road') return '未路取得原料多数';
+    if (winners[0] === 'love') return '未爱取得原料多数';
+    return '未己取得原料多数';
+  };
+
+  const computeRegretBatchTitle = (material, residue, use) => {
+    const m = REGRET_MATERIAL_TABLE[material];
+    const r = REGRET_RESIDUE_TABLE[residue];
+    const u = REGRET_USE_TABLE[use];
+    if (!m || !r || !u) return '';
+    return `${m.title} / ${r.title} / ${u.title}`;
+  };
+
+  const computeRegretBatchFeedback = (material, residue, use) => {
+    const m = REGRET_MATERIAL_TABLE[material];
+    const r = REGRET_RESIDUE_TABLE[residue];
+    const u = REGRET_USE_TABLE[use];
+    if (!m || !r || !u) return '';
+    return `${m.fragment} ${r.fragment} ${u.fragment}`;
+  };
+
+  const findRegretBatchById = (id) => {
+    if (!REGRET_BATCH_SET.has(id)) return null;
+    const parts = id.split(':');
+    if (parts.length !== 3) return null;
+    return {
+      id,
+      material: parts[0],
+      residue: parts[1],
+      use: parts[2],
+      title: computeRegretBatchTitle(parts[0], parts[1], parts[2]),
+      feedback: computeRegretBatchFeedback(parts[0], parts[1], parts[2]),
+    };
+  };
+
+  const regretReclamationDelay = () => reduced ? 300 : 900 + Math.floor(Math.random() * 300);
+
+  const regretReclamationBeforeArrive = (pending) => {
+    const st = getRegretReclamation();
+    if (!st.pending || !pending) return;
+    if (st.pending.kind !== pending.kind) return;
+    const p = st.pending;
+    if (p.kind === 'entry') {
+      st.visited.plant = true;
+    } else if (p.kind === 'material') {
+      st.visited.weighhouse = true;
+      st.draft.material = p.material;
+      st.draft.residue = '';
+    } else if (p.kind === 'residue') {
+      st.visited.smelting = true;
+      st.draft.residue = p.residue;
+    } else if (p.kind === 'batch') {
+      const batchId = `${p.material}:${p.residue}:${p.use}`;
+      if (!st.batches.includes(batchId)) st.batches.push(batchId);
+      st.batches = normalizeRegretBatches(st.batches);
+      st.batchRuns += 1;
+      const matTable = REGRET_MATERIAL_TABLE[p.material];
+      if (matTable) {
+        st.materialTallies[matTable.tallyKey] = clampRegretCount((st.materialTallies[matTable.tallyKey] || 0) + 1);
+      }
+      st.lastOutcome = batchId;
+      st.activeReclaimer = { residue: p.residue, batch: batchId, feedback: REGRET_RESIDUE_TABLE[p.residue].reclaimerFeedback };
+      st.draft = { material: '', residue: '' };
+    } else if (p.kind === 'reclaimer-return') {
+      st.activeReclaimer = null;
+      st.draft = { material: '', residue: '' };
+    } else if (p.kind === 'furnace-entry') {
+      st.visited.furnace = true;
+    } else if (p.kind === 'furnace') {
+      const table = REGRET_FURNACE_TABLE[p.action];
+      if (table) {
+        const outcome = table.outcome;
+        if (!st.furnaceOutcomes.includes(outcome)) st.furnaceOutcomes.push(outcome);
+        st.furnaceOutcomes = normalizeRegretFurnaceOutcomes(st.furnaceOutcomes);
+        st.furnaceRuns += 1;
+        st.lastOutcome = outcome;
+      }
+    }
+    st.pending = null;
+    saveRegretReclamation(st);
+  };
+
+  const getRegretReclamationPendingLogicalSource = (p) => {
+    if (!p) return null;
+    if (p.kind === 'entry' || p.kind === 'furnace-entry') return 'remembrance';
+    if (p.kind === 'reclaimer-return') return p.from || null;
+    return p.source || null;
+  };
+
+  const resolveRegretReclamationPendingOnArrival = (name) => {
+    const st = getRegretReclamation();
+    const p = st.pending;
+    if (!p) return;
+    if (p.target === name) regretReclamationBeforeArrive(p);
+    else if (getRegretReclamationPendingLogicalSource(p) !== name) {
+      st.pending = null;
+      saveRegretReclamation(st);
+    }
+  };
+
+  const regretReclamationBridgeAllows = (scene) => {
+    if (!regretReclamationPlantUnlocked()) return false;
+    const st = getRegretReclamation();
+    const p = st.pending;
+    if (p && p.kind === 'batch' && p.target === scene) return true;
+    if (p && p.kind === 'furnace' && p.target === scene) return true;
+    const r = st.activeReclaimer;
+    if (r && st.batches.includes(r.batch) && REGRET_RESIDUE_TABLE[r.residue]?.target === scene) return true;
+    const last = REGRET_FURNACE_OUTCOME_BY_ID[st.lastOutcome];
+    return Boolean(last && st.furnaceOutcomes.includes(st.lastOutcome) && last.target === scene);
+  };
+
+  const regretReclamationCanVisitPlant = () => {
+    if (!regretReclamationPlantUnlocked()) return false;
+    const st = getRegretReclamation();
+    const p = st.pending;
+    if (p && (p.kind === 'entry' || p.kind === 'reclaimer-return') && p.target === 'regret-reclamation-plant') return true;
+    if (st.visited.plant) return true;
+    return false;
+  };
+
+  const regretReclamationCanVisitWeighhouse = () => {
+    if (!regretReclamationPlantUnlocked()) return false;
+    const st = getRegretReclamation();
+    const p = st.pending;
+    if (p && p.kind === 'material' && p.target === 'abandonment-residue-weighhouse') return true;
+    if (st.visited.weighhouse && REGRET_MATERIALS.includes(st.draft.material)) return true;
+    return false;
+  };
+
+  const regretReclamationCanVisitSmelting = () => {
+    if (!regretReclamationPlantUnlocked()) return false;
+    const st = getRegretReclamation();
+    const p = st.pending;
+    if (p && p.kind === 'residue' && p.target === 'second-life-smelting-line') return true;
+    if (st.visited.smelting && REGRET_MATERIALS.includes(st.draft.material) && REGRET_RESIDUES.includes(st.draft.residue)) return true;
+    return false;
+  };
+
+  const regretReclamationCanVisitFurnace = () => {
+    if (!regretReclamationPlantUnlocked()) return false;
+    const st = getRegretReclamation();
+    if (!regretReclamationCoverageComplete(st)) return false;
+    const p = st.pending;
+    if (p && p.kind === 'furnace-entry' && p.target === 'zero-waste-life-furnace') return true;
+    if (st.visited.furnace) return true;
+    return false;
+  };
+
+  const lockRegretMaterialButtons = (pressedMaterial) => {
+    REGRET_MATERIALS.forEach((m) => {
+      const btn = $(`#regret-material-${m}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(m === pressedMaterial));
+    });
+  };
+
+  const lockRegretResidueButtons = (pressedResidue) => {
+    REGRET_RESIDUES.forEach((r) => {
+      const btn = $(`#regret-residue-${r}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(r === pressedResidue));
+    });
+  };
+
+  const lockRegretUseButtons = (pressedUse) => {
+    REGRET_USES.forEach((u) => {
+      const btn = $(`#regret-use-${u}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(u === pressedUse));
+    });
+  };
+
+  const lockRegretFurnaceButtons = (pressedAction) => {
+    REGRET_FURNACE_ACTIONS.forEach((a) => {
+      const btn = $(`#regret-furnace-${a}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', String(a === pressedAction));
+    });
+  };
+
+  const syncRegretReclamationPlant = () => {
+    const figure = $('#regret-reclamation-plant-figure');
+    const unlocked = regretReclamationPlantUnlocked();
+    if (figure) figure.hidden = !unlocked;
+    if (!unlocked) return;
+    const st = getRegretReclamation();
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeReclaimer || st.draft.material !== '' || st.draft.residue !== '';
+    const response = $('#regret-reclamation-plant-response');
+    REGRET_MATERIALS.forEach((m) => {
+      const btn = $(`#regret-material-${m}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'material' && pending.material === m);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'material') ? pending.feedback : '';
+  };
+
+  const syncRegretResidueWeighhouse = () => {
+    const figure = $('#abandonment-residue-weighhouse-figure');
+    const st = getRegretReclamation();
+    const unlocked = regretReclamationPlantUnlocked();
+    const hasDraft = unlocked && REGRET_MATERIALS.includes(st.draft.material);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeReclaimer || st.draft.residue !== '';
+    const response = $('#abandonment-residue-weighhouse-response');
+    REGRET_RESIDUES.forEach((r) => {
+      const btn = $(`#regret-residue-${r}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'residue' && pending.residue === r);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'residue') ? pending.feedback : '';
+  };
+
+  const syncRegretSmeltingLine = () => {
+    const figure = $('#second-life-smelting-line-figure');
+    const st = getRegretReclamation();
+    const unlocked = regretReclamationPlantUnlocked();
+    const hasDraft = unlocked && REGRET_MATERIALS.includes(st.draft.material) && REGRET_RESIDUES.includes(st.draft.residue);
+    if (figure) figure.hidden = !hasDraft;
+    if (!hasDraft) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeReclaimer;
+    const response = $('#second-life-smelting-line-response');
+    REGRET_USES.forEach((u) => {
+      const btn = $(`#regret-use-${u}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'batch' && pending.use === u);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'batch') ? pending.feedback : '';
+  };
+
+  const syncRegretLifeFurnace = () => {
+    const figure = $('#zero-waste-life-furnace-figure');
+    const st = getRegretReclamation();
+    const open = regretReclamationPlantUnlocked() && regretReclamationCoverageComplete(st) && st.visited.furnace;
+    if (figure) figure.hidden = !open;
+    if (!open) return;
+    const pending = st.pending;
+    const blocked = !!pending || !!st.activeReclaimer || st.draft.material !== '' || st.draft.residue !== '';
+    const response = $('#zero-waste-life-furnace-response');
+    REGRET_FURNACE_ACTIONS.forEach((a) => {
+      const btn = $(`#regret-furnace-${a}`);
+      if (!btn) return;
+      const isPending = !!(pending && pending.kind === 'furnace' && pending.action === a);
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', String(isPending));
+    });
+    if (response) response.textContent = (pending && pending.kind === 'furnace') ? pending.feedback : '';
+  };
+
+  const syncRegretReclaimers = () => {
+    const st = getRegretReclamation();
+    const unlocked = regretReclamationPlantUnlocked();
+    REGRET_RESIDUES.forEach((residue) => {
+      const scene = REGRET_RESIDUE_TABLE[residue].target;
+      const container = $(`#regret-reclaimer-${scene}`);
+      if (!container) return;
+      const active = unlocked && st.activeReclaimer && st.activeReclaimer.residue === residue && currentScene === scene;
+      container.hidden = !active;
+      if (active) paintRegretReclaimer(scene, residue);
+    });
+  };
+
+  const paintRegretReclaimer = (scene, residue) => {
+    const st = getRegretReclamation();
+    const reclaimer = st.activeReclaimer;
+    const response = $(`#regret-reclaimer-response-${scene}`);
+    const btn = $(`#regret-reclaimer-return-${scene}`);
+    if (response) response.textContent = (reclaimer && reclaimer.residue === residue) ? reclaimer.feedback : '';
+    if (btn) {
+      const available = !!reclaimer && reclaimer.residue === residue && currentScene === scene && !st.pending && !AutoAdvance.has(scene);
+      btn.disabled = !available;
+      btn.setAttribute('aria-pressed', 'false');
+    }
+  };
+
+  const paintRegretReclamationMemory = () => {
+    const memory = $('#regret-reclamation-memory');
+    if (!memory) return;
+    const st = getRegretReclamation();
+    const unlocked = regretReclamationPlantUnlocked();
+    if (!unlocked) {
+      memory.hidden = true;
+      return;
+    }
+    const counts = { residue: {}, use: {} };
+    for (const id of st.batches) {
+      const parts = id.split(':');
+      if (parts.length !== 3) continue;
+      counts.residue[parts[1]] = (counts.residue[parts[1]] || 0) + 1;
+      counts.use[parts[2]] = (counts.use[parts[2]] || 0) + 1;
+    }
+    const get = (map, key) => map[key] || 0;
+    const tallies = st.materialTallies;
+    memory.textContent = `后悔回收厂：已再生 ${st.batches.length}/36 批材料，共熔炼 ${st.batchRuns} 次；原料 未路 ${get(tallies, 'road')} / 未爱 ${get(tallies, 'love')} / 未己 ${get(tallies, 'self')}；残留 路尘 ${get(counts.residue, 'dust-from-the-unwalked-mile')} / 枕温 ${get(counts.residue, 'warmth-from-the-unused-pillow')} / 脸印 ${get(counts.residue, 'fingerprint-inside-an-unworn-face')}；用途 童年 ${get(counts.use, 'cast-a-new-childhood')} / 勇气 ${get(counts.use, 'forge-courage-for-the-next-self')} / 备生 ${get(counts.use, 'build-a-strangers-spare-life')} / 原退 ${get(counts.use, 'return-regret-without-processing')}；原料多数 ${computeRegretMaterialTalliesMajority(st.materialTallies)}；炉裁结局 ${st.furnaceOutcomes.length}/3。`;
+    memory.hidden = false;
+  };
+
+  const paintRegretReclamationCodex = () => {
+    const box = $('#regret-reclamation-codex');
+    const grid = $('#regret-reclamation-codex-grid');
+    const entry = $('#regret-reclamation-codex-entry');
+    if (!box || !grid) return;
+    const st = getRegretReclamation();
+    const unlocked = regretReclamationPlantUnlocked();
+    if (!unlocked) {
+      box.hidden = true;
+      if (entry) entry.hidden = true;
+      return;
+    }
+    box.removeAttribute('hidden');
+    grid.innerHTML = '';
+    for (const id of REGRET_BATCH_IDS) {
+      const isUnlocked = st.batches.includes(id);
+      const cell = document.createElement('div');
+      cell.className = 'regret-reclamation-cell' + (isUnlocked ? ' unlocked' : '');
+      if (isUnlocked) {
+        const c = findRegretBatchById(id);
+        cell.innerHTML = `<b>${c.title}</b><span>${c.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    for (const action of REGRET_FURNACE_ACTIONS) {
+      const outcome = REGRET_FURNACE_TABLE[action].outcome;
+      const isUnlocked = st.furnaceOutcomes.includes(outcome);
+      const cell = document.createElement('div');
+      cell.className = 'regret-reclamation-cell' + (isUnlocked ? ' unlocked' : '');
+      if (isUnlocked) {
+        const table = REGRET_FURNACE_TABLE[action];
+        cell.innerHTML = `<b>${table.name}</b><span>${table.feedback}</span>`;
+      } else {
+        cell.innerHTML = `<b>？？？</b>`;
+      }
+      grid.appendChild(cell);
+    }
+    if (entry) entry.removeAttribute('hidden');
+  };
+
+  const syncRegretReclamationRemembrance = () => {
+    paintRegretReclamationMemory();
+    paintRegretReclamationCodex();
+    const st = getRegretReclamation();
+    const unlocked = regretReclamationPlantUnlocked();
+    const coverage = regretReclamationCoverageComplete(st);
+    const entryBtn = $('#regret-reclamation-entry-btn');
+    if (entryBtn) {
+      entryBtn.hidden = !(currentScene === 'remembrance' && unlocked);
+      entryBtn.disabled = !(!st.pending && !st.activeReclaimer && st.draft.material === '' && st.draft.residue === '' && currentScene === 'remembrance' && unlocked);
+    }
+    const furnaceEntryBtn = $('#regret-furnace-entry-btn');
+    if (furnaceEntryBtn) {
+      furnaceEntryBtn.hidden = !(currentScene === 'remembrance' && unlocked && coverage);
+      furnaceEntryBtn.disabled = !(!st.pending && !st.activeReclaimer && st.draft.material === '' && st.draft.residue === '' && currentScene === 'remembrance' && unlocked && coverage);
+    }
+  };
+
+  const syncRegretReclamationLinks = () => {
+    const st = getRegretReclamation();
+    const unlocked = regretReclamationPlantUnlocked();
+    const map = {
+      'regret-reclamation-plant-link': unlocked && st.visited.plant,
+      'abandonment-residue-weighhouse-link': unlocked && st.visited.weighhouse,
+      'second-life-smelting-line-link': unlocked && st.visited.smelting,
+      'zero-waste-life-furnace-link': unlocked && st.visited.furnace,
+    };
+    for (const [id, show] of Object.entries(map)) {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !show;
+    }
+  };
+
+  const replayRegretReclamationPending = (sceneName) => {
+    const st = getRegretReclamation();
+    const p = st.pending;
+    if (!p) {
+      syncRegretReclamationPlant();
+      syncRegretResidueWeighhouse();
+      syncRegretSmeltingLine();
+      syncRegretLifeFurnace();
+      syncRegretReclaimers();
+      return;
+    }
+    if (sceneName === p.target) {
+      regretReclamationBeforeArrive(p);
+      syncRegretReclamationPlant();
+      syncRegretResidueWeighhouse();
+      syncRegretSmeltingLine();
+      syncRegretLifeFurnace();
+      syncRegretReclaimers();
+      if (sceneName === 'remembrance') syncRegretReclamationRemembrance();
+      return;
+    }
+    const schedule = (source) => AutoAdvance.schedule(source, p.target, { delay: regretReclamationDelay() });
+
+    if (p.kind === 'entry' && sceneName === 'remembrance') {
+      const btn = $('#regret-reclamation-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#regret-reclamation-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'material' && sceneName === 'regret-reclamation-plant') {
+      const response = $('#regret-reclamation-plant-response');
+      if (response) response.textContent = p.feedback;
+      lockRegretMaterialButtons(p.material);
+      schedule('regret-reclamation-plant');
+    } else if (p.kind === 'residue' && sceneName === 'abandonment-residue-weighhouse') {
+      const response = $('#abandonment-residue-weighhouse-response');
+      if (response) response.textContent = p.feedback;
+      lockRegretResidueButtons(p.residue);
+      schedule('abandonment-residue-weighhouse');
+    } else if (p.kind === 'batch' && sceneName === 'second-life-smelting-line') {
+      const response = $('#second-life-smelting-line-response');
+      if (response) response.textContent = p.feedback;
+      lockRegretUseButtons(p.use);
+      schedule('second-life-smelting-line');
+    } else if (p.kind === 'reclaimer-return' && sceneName === p.from) {
+      const container = $(`#regret-reclaimer-${p.from}`);
+      if (container) container.hidden = false;
+      const response = $(`#regret-reclaimer-response-${p.from}`);
+      if (response) response.textContent = p.feedback;
+      const btn = $(`#regret-reclaimer-return-${p.from}`);
+      if (btn) {
+        btn.disabled = true;
+        btn.setAttribute('aria-pressed', 'true');
+      }
+      schedule(p.from);
+    } else if (p.kind === 'furnace-entry' && sceneName === 'remembrance') {
+      const btn = $('#regret-furnace-entry-btn');
+      if (btn) btn.disabled = true;
+      const response = $('#regret-furnace-entry-response');
+      if (response) response.textContent = p.feedback;
+      schedule('remembrance');
+    } else if (p.kind === 'furnace' && sceneName === 'zero-waste-life-furnace') {
+      const response = $('#zero-waste-life-furnace-response');
+      if (response) response.textContent = p.feedback;
+      lockRegretFurnaceButtons(p.action);
+      schedule('zero-waste-life-furnace');
+    } else {
+      st.pending = null;
+      saveRegretReclamation(st);
+      syncRegretReclamationPlant();
+      syncRegretResidueWeighhouse();
+      syncRegretSmeltingLine();
+      syncRegretLifeFurnace();
+      syncRegretReclaimers();
+      if (sceneName === 'remembrance') syncRegretReclamationRemembrance();
+    }
+  };
+
+  const chooseRegretMaterial = (material) => {
+    if (currentScene !== 'regret-reclamation-plant') return;
+    if (AutoAdvance.has('regret-reclamation-plant')) return;
+    if (!REGRET_MATERIALS.includes(material)) return;
+    if (!buttonAvailable(`regret-material-${material}`)) return;
+    const st = getRegretReclamation();
+    if (st.pending || st.activeReclaimer) return;
+    if (st.draft.material !== '' || st.draft.residue !== '') return;
+    const table = REGRET_MATERIAL_TABLE[material];
+    if (!table) return;
+    const pending = { kind: 'material', source: 'regret-reclamation-plant', material, target: 'abandonment-residue-weighhouse', feedback: table.feedback };
+    st.pending = pending;
+    saveRegretReclamation(st);
+    lockRegretMaterialButtons(material);
+    const response = $('#regret-reclamation-plant-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('regret-reclamation-plant', 'abandonment-residue-weighhouse', { delay: regretReclamationDelay() });
+  };
+
+  const chooseRegretResidue = (residue) => {
+    if (currentScene !== 'abandonment-residue-weighhouse') return;
+    if (AutoAdvance.has('abandonment-residue-weighhouse')) return;
+    if (!REGRET_RESIDUES.includes(residue)) return;
+    if (!buttonAvailable(`regret-residue-${residue}`)) return;
+    const st = getRegretReclamation();
+    if (st.pending || st.activeReclaimer) return;
+    if (!REGRET_MATERIALS.includes(st.draft.material) || st.draft.residue !== '') return;
+    const table = REGRET_RESIDUE_TABLE[residue];
+    if (!table) return;
+    const pending = { kind: 'residue', source: 'abandonment-residue-weighhouse', material: st.draft.material, residue, target: 'second-life-smelting-line', feedback: table.feedback };
+    st.pending = pending;
+    saveRegretReclamation(st);
+    lockRegretResidueButtons(residue);
+    const response = $('#abandonment-residue-weighhouse-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('abandonment-residue-weighhouse', 'second-life-smelting-line', { delay: regretReclamationDelay() });
+  };
+
+  const chooseRegretUse = (use) => {
+    if (currentScene !== 'second-life-smelting-line') return;
+    if (AutoAdvance.has('second-life-smelting-line')) return;
+    if (!REGRET_USES.includes(use)) return;
+    if (!buttonAvailable(`regret-use-${use}`)) return;
+    const st = getRegretReclamation();
+    if (st.pending || st.activeReclaimer) return;
+    const m = st.draft.material;
+    const r = st.draft.residue;
+    if (!REGRET_MATERIALS.includes(m) || !REGRET_RESIDUES.includes(r)) return;
+    const feedback = computeRegretBatchFeedback(m, r, use);
+    const batchId = `${m}:${r}:${use}`;
+    const target = REGRET_RESIDUE_TABLE[r].target;
+    const pending = { kind: 'batch', source: 'second-life-smelting-line', material: m, residue: r, use, batch: batchId, target, feedback };
+    st.pending = pending;
+    saveRegretReclamation(st);
+    lockRegretUseButtons(use);
+    const response = $('#second-life-smelting-line-response');
+    if (response) response.textContent = feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('second-life-smelting-line', target, { delay: regretReclamationDelay() });
+  };
+
+  const chooseRegretReclaimerReturn = (scene) => {
+    if (currentScene !== scene) return;
+    if (AutoAdvance.has(scene)) return;
+    const validScenes = REGRET_RESIDUES.map((r) => REGRET_RESIDUE_TABLE[r].target);
+    if (!validScenes.includes(scene)) return;
+    if (!buttonAvailable(`regret-reclaimer-return-${scene}`)) return;
+    const st = getRegretReclamation();
+    if (st.pending) return;
+    const reclaimer = st.activeReclaimer;
+    if (!reclaimer || REGRET_RESIDUE_TABLE[reclaimer.residue].target !== scene) return;
+    const pending = { kind: 'reclaimer-return', from: scene, target: 'regret-reclamation-plant', batch: reclaimer.batch, feedback: reclaimer.feedback };
+    st.pending = pending;
+    saveRegretReclamation(st);
+    const btn = $(`#regret-reclaimer-return-${scene}`);
+    if (btn) {
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', 'true');
+    }
+    const response = $(`#regret-reclaimer-response-${scene}`);
+    if (response) response.textContent = reclaimer.feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule(scene, 'regret-reclamation-plant', { delay: regretReclamationDelay() });
+  };
+
+  const chooseRegretEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('regret-reclamation-entry-btn')) return;
+    if (!regretReclamationPlantUnlocked()) return;
+    const st = getRegretReclamation();
+    if (st.pending || st.activeReclaimer) return;
+    if (st.draft.material !== '' || st.draft.residue !== '') return;
+    const feedback = '把后悔送进回收厂 · SEND REGRET TO RECLAMATION';
+    const pending = { kind: 'entry', target: 'regret-reclamation-plant', feedback };
+    st.pending = pending;
+    saveRegretReclamation(st);
+    const btn = $('#regret-reclamation-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#regret-reclamation-entry-response');
+    if (response) response.textContent = feedback;
+    AudioEngine.whoosh();
+    AutoAdvance.schedule('remembrance', 'regret-reclamation-plant', { delay: regretReclamationDelay() });
+  };
+
+  const chooseRegretFurnaceEntry = () => {
+    if (currentScene !== 'remembrance') return;
+    if (AutoAdvance.has('remembrance')) return;
+    if (!buttonAvailable('regret-furnace-entry-btn')) return;
+    const st = getRegretReclamation();
+    if (st.pending || st.activeReclaimer) return;
+    if (st.draft.material !== '' || st.draft.residue !== '') return;
+    if (!regretReclamationCoverageComplete(st)) return;
+    const feedback = '决定人生是否允许留下废料 · DECIDE WHETHER A LIFE MAY LEAVE WASTE';
+    const pending = { kind: 'furnace-entry', target: 'zero-waste-life-furnace', feedback };
+    st.pending = pending;
+    saveRegretReclamation(st);
+    const btn = $('#regret-furnace-entry-btn');
+    if (btn) btn.disabled = true;
+    const response = $('#regret-furnace-entry-response');
+    if (response) response.textContent = feedback;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('remembrance', 'zero-waste-life-furnace', { delay: regretReclamationDelay() });
+  };
+
+  const chooseRegretFurnaceAction = (action) => {
+    if (currentScene !== 'zero-waste-life-furnace') return;
+    if (AutoAdvance.has('zero-waste-life-furnace')) return;
+    if (!REGRET_FURNACE_ACTIONS.includes(action)) return;
+    if (!buttonAvailable(`regret-furnace-${action}`)) return;
+    const st = getRegretReclamation();
+    if (st.pending || st.activeReclaimer) return;
+    if (st.draft.material !== '' || st.draft.residue !== '') return;
+    if (!st.visited.furnace) return;
+    if (!regretReclamationCoverageComplete(st)) return;
+    const table = REGRET_FURNACE_TABLE[action];
+    if (!table) return;
+    const pending = { kind: 'furnace', source: 'zero-waste-life-furnace', action, outcome: table.outcome, target: table.target, feedback: table.feedback };
+    st.pending = pending;
+    saveRegretReclamation(st);
+    lockRegretFurnaceButtons(action);
+    const response = $('#zero-waste-life-furnace-response');
+    if (response) response.textContent = table.feedback;
+    AudioEngine.bell(50);
+    AutoAdvance.schedule('zero-waste-life-furnace', table.target, { delay: regretReclamationDelay() });
+  };
+
+  const regretReclamationEntryBtn = $('#regret-reclamation-entry-btn');
+  if (regretReclamationEntryBtn) {
+    regretReclamationEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRegretEntry();
+    });
+  }
+  const regretFurnaceEntryBtn = $('#regret-furnace-entry-btn');
+  if (regretFurnaceEntryBtn) {
+    regretFurnaceEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRegretFurnaceEntry();
+    });
+  }
+  const materialRoadNeverTakenBtn = $('#regret-material-road-never-taken');
+  if (materialRoadNeverTakenBtn) {
+    materialRoadNeverTakenBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRegretMaterial('road-never-taken');
+    });
+  }
+  const materialPersonNeverLovedBtn = $('#regret-material-person-never-loved');
+  if (materialPersonNeverLovedBtn) {
+    materialPersonNeverLovedBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRegretMaterial('person-never-loved');
+    });
+  }
+  const materialSelfNeverBecameBtn = $('#regret-material-self-never-became');
+  if (materialSelfNeverBecameBtn) {
+    materialSelfNeverBecameBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRegretMaterial('self-never-became');
+    });
+  }
+  const residueDustFromTheUnwalkedMileBtn = $('#regret-residue-dust-from-the-unwalked-mile');
+  if (residueDustFromTheUnwalkedMileBtn) {
+    residueDustFromTheUnwalkedMileBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRegretResidue('dust-from-the-unwalked-mile');
+    });
+  }
+  const residueWarmthFromTheUnusedPillowBtn = $('#regret-residue-warmth-from-the-unused-pillow');
+  if (residueWarmthFromTheUnusedPillowBtn) {
+    residueWarmthFromTheUnusedPillowBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRegretResidue('warmth-from-the-unused-pillow');
+    });
+  }
+  const residueFingerprintInsideAnUnwornFaceBtn = $('#regret-residue-fingerprint-inside-an-unworn-face');
+  if (residueFingerprintInsideAnUnwornFaceBtn) {
+    residueFingerprintInsideAnUnwornFaceBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRegretResidue('fingerprint-inside-an-unworn-face');
+    });
+  }
+  const useCastANewChildhoodBtn = $('#regret-use-cast-a-new-childhood');
+  if (useCastANewChildhoodBtn) {
+    useCastANewChildhoodBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRegretUse('cast-a-new-childhood');
+    });
+  }
+  const useForgeCourageForTheNextSelfBtn = $('#regret-use-forge-courage-for-the-next-self');
+  if (useForgeCourageForTheNextSelfBtn) {
+    useForgeCourageForTheNextSelfBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRegretUse('forge-courage-for-the-next-self');
+    });
+  }
+  const useBuildAStrangersSpareLifeBtn = $('#regret-use-build-a-strangers-spare-life');
+  if (useBuildAStrangersSpareLifeBtn) {
+    useBuildAStrangersSpareLifeBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRegretUse('build-a-strangers-spare-life');
+    });
+  }
+  const useReturnRegretWithoutProcessingBtn = $('#regret-use-return-regret-without-processing');
+  if (useReturnRegretWithoutProcessingBtn) {
+    useReturnRegretWithoutProcessingBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRegretUse('return-regret-without-processing');
+    });
+  }
+  const reclaimerReturnDescendingAppealsStairBtn = $('#regret-reclaimer-return-descending-appeals-stair');
+  if (reclaimerReturnDescendingAppealsStairBtn) {
+    reclaimerReturnDescendingAppealsStairBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRegretReclaimerReturn('descending-appeals-stair');
+    });
+  }
+  const reclaimerReturnBorrowedChildhoodBtn = $('#regret-reclaimer-return-borrowed-childhood');
+  if (reclaimerReturnBorrowedChildhoodBtn) {
+    reclaimerReturnBorrowedChildhoodBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRegretReclaimerReturn('borrowed-childhood');
+    });
+  }
+  const reclaimerReturnIdentityCorrectionBtn = $('#regret-reclaimer-return-identity-correction');
+  if (reclaimerReturnIdentityCorrectionBtn) {
+    reclaimerReturnIdentityCorrectionBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRegretReclaimerReturn('identity-correction');
+    });
+  }
+  const furnaceDeclareRegretRenewableBtn = $('#regret-furnace-declare-regret-renewable');
+  if (furnaceDeclareRegretRenewableBtn) {
+    furnaceDeclareRegretRenewableBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRegretFurnaceAction('declare-regret-renewable');
+    });
+  }
+  const furnaceManufactureEveryLifeFromForeignRegretBtn = $('#regret-furnace-manufacture-every-life-from-foreign-regret');
+  if (furnaceManufactureEveryLifeFromForeignRegretBtn) {
+    furnaceManufactureEveryLifeFromForeignRegretBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRegretFurnaceAction('manufacture-every-life-from-foreign-regret');
+    });
+  }
+  const furnaceClassifyForgivenessAsUnrecyclableWasteBtn = $('#regret-furnace-classify-forgiveness-as-unrecyclable-waste');
+  if (furnaceClassifyForgivenessAsUnrecyclableWasteBtn) {
+    furnaceClassifyForgivenessAsUnrecyclableWasteBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseRegretFurnaceAction('classify-forgiveness-as-unrecyclable-waste');
+    });
+  }
+
+  /* ============================================================
+     v82: 宽恕填埋场 (Forgiveness Landfill)
+     ============================================================ */
+
+  const FORGIVENESS_LANDFILL_KEY = 'goddead_v82_forgiveness_landfill';
+  const FORGIVENESS_LANDFILL_VERSION = 82;
+  const FORGIVENESS_WASTES = ['apology-never-accepted','debt-already-forgiven','wound-that-stopped-demanding'];
+  const FORGIVENESS_CERTIFICATES = ['unopened-absolution-receipt','zero-balance-debt-scale','scar-closed-without-witness'];
+  const FORGIVENESS_DISPOSALS = ['bury-it-beneath-a-future-life','let-the-soil-forget-the-cause','grow-innocence-from-old-harm','exhume-it-for-permanent-record'];
+  const FORGIVENESS_WELL_ACTIONS = ['seal-every-forgiven-harm-forever','erase-the-need-for-forgiveness','make-harm-survive-its-own-forgiveness'];
+
+  const FORGIVENESS_WASTE_TABLE = {
+    'apology-never-accepted': { tallyKey:'apology', title:'未受道歉', feedback:'请求之手保持弯曲，匣内的道歉却已失去收件人。它不再期待原谅，只要求有人承认自己曾经来迟。' },
+    'debt-already-forgiven': { tallyKey:'debt', title:'已免债', feedback:'债链从账本上松开，仍本能地寻找下一具脚踝。余额已经归零，追赶却还没有学会怎样停下。' },
+    'wound-that-stopped-demanding': { tallyKey:'wound', title:'闭索伤', feedback:'伤口完整闭合，没有留下收据。它不再要求补偿，因此系统开始怀疑这里是否真的发生过伤害。' },
+  };
+  const FORGIVENESS_CERTIFICATE_TABLE = {
+    'unopened-absolution-receipt': { title:'赦回', target:'offering', feedback:'回执从未被拆开，却已经盖上处理完毕的凹印。谁都没有接受道歉，档案却坚持宽恕已成功投递。', recorderFeedback:'赦免记录员在焚献处找到未开回执。火焰拒绝烧掉它，因为没人接受的宽恕不属于任何人的祭品。' },
+    'zero-balance-debt-scale': { title:'零秤', target:'liability-ledger', feedback:'债秤两端空无一物，指针仍被某种旧重量压在零上。免除没有留下欠款，只留下停止追讨所需的力。', recorderFeedback:'归零记录员在责任账簿里找到一行空债。数字已经消失，纸页仍因某个不再追讨的人而微微下沉。' },
+    'scar-closed-without-witness': { title:'闭疤', target:'causeless-ward', feedback:'透明疤痕片只保存愈合的纹路。没有人见过伤口张开，于是闭合本身成了唯一可疑的证词。', recorderFeedback:'闭疤记录员在无因病房寻找开口。病床只记得愈合，伤害因此被诊断为一种没有发生过的康复。' },
+  };
+  const FORGIVENESS_DISPOSAL_TABLE = {
+    'bury-it-beneath-a-future-life': { title:'地基', fragment:'推土机把道歉、免债与疤痕压进新生活的地基。楼上的人从未受伤，却总在夜里听见地下有人练习原谅。' },
+    'let-the-soil-forget-the-cause': { title:'忘因', fragment:'黄铜菌丝吃掉伤害的来由，只留下已经停止疼痛的结果。因果被净化，责任也失去可以返回的地址。' },
+    'grow-innocence-from-old-harm': { title:'无罪', fragment:'温室从闭合伤口里长出一张空白脸。它完全无罪，因为构成它的每一份痛都已答应不再指认任何人。' },
+    'exhume-it-for-permanent-record': { title:'挖档', fragment:'吊臂把刚埋下的宽恕重新挖出。档案要求伤害永远可查，即使受伤的人已经不想再被它定义。' },
+  };
+  const FORGIVENESS_WELL_TABLE = {
+    'seal-every-forgiven-harm-forever': { outcome:'every-forgiven-harm-was-sealed-forever', target:'remembrance', feedback:'终审井合上骨白井盖。痕迹墙仍知道这里少了什么，却再也不能用那份缺席要求任何人继续受伤。' },
+    'erase-the-need-for-forgiveness': { outcome:'the-need-for-forgiveness-was-erased', target:'threshold', feedback:'土层吞掉伤害、道歉与免除。门外世界变得无罪，只是每个人都在经过门槛时本能地向看不见的人低头。' },
+    'make-harm-survive-its-own-forgiveness': { outcome:'harm-outlived-its-own-forgiveness', target:'unending-gallery', feedback:'闭合疤痕从土中重新长出，却不再疼痛。它只负责证明原谅没有倒写过去，而是让过去失去继续掌权的资格。' },
+  };
+
+  const FORGIVENESS_WELL_OUTCOME_BY_ID = {};
+  const FORGIVENESS_WELL_OUTCOME_IDS = FORGIVENESS_WELL_ACTIONS.map(a => {
+    const out = FORGIVENESS_WELL_TABLE[a].outcome;
+    FORGIVENESS_WELL_OUTCOME_BY_ID[out] = FORGIVENESS_WELL_TABLE[a];
+    return out;
+  });
+
+  const FORGIVENESS_DISPOSAL_IDS = [];
+  for (let w = 0; w < FORGIVENESS_WASTES.length; w++) {
+    for (let c = 0; c < FORGIVENESS_CERTIFICATES.length; c++) {
+      for (let d = 0; d < FORGIVENESS_DISPOSALS.length; d++) {
+        FORGIVENESS_DISPOSAL_IDS.push(`${FORGIVENESS_WASTES[w]}:${FORGIVENESS_CERTIFICATES[c]}:${FORGIVENESS_DISPOSALS[d]}`);
+      }
+    }
+  }
+
+  const FORGIVENESS_ENTRY_FEEDBACK = '把不可回收的宽恕送去填埋 · SEND UNRECYCLABLE FORGIVENESS TO LANDFILL';
+  const FORGIVENESS_WELL_ENTRY_FEEDBACK = '裁定伤害是否可以不留证据地结束 · DECIDE WHETHER HARM MAY END WITHOUT EVIDENCE';
+
+  function forgivenessLandfillDelay() {
+    return reduced ? 300 : 1600;
+  }
+
+  function defaultForgivenessLandfill() {
+    return {
+      version: FORGIVENESS_LANDFILL_VERSION,
+      visited: { landfill: false, vault: false, trench: false, well: false },
+      draft: { waste: '', certificate: '' },
+      disposals: [],
+      wellOutcomes: [],
+      disposalRuns: 0,
+      wellRuns: 0,
+      wasteTallies: { apology: 0, debt: 0, wound: 0 },
+      lastOutcome: '',
+      activeRecorder: null,
+      pending: null,
+    };
+  }
+
+  function normalizeForgivenessVisited(v) {
+    if (!v || typeof v !== 'object' || Array.isArray(v)) {
+      return { landfill: false, vault: false, trench: false, well: false };
+    }
+    return {
+      landfill: v.landfill === true,
+      vault: v.vault === true,
+      trench: v.trench === true,
+      well: v.well === true,
+    };
+  }
+
+  function normalizeForgivenessDraft(d) {
+    if (!d || typeof d !== 'object' || Array.isArray(d)) {
+      return { waste: '', certificate: '' };
+    }
+    const waste = typeof d.waste === 'string' && FORGIVENESS_WASTES.includes(d.waste) ? d.waste : '';
+    if (!waste) {
+      return { waste: '', certificate: '' };
+    }
+    const cert = typeof d.certificate === 'string' && FORGIVENESS_CERTIFICATES.includes(d.certificate) ? d.certificate : '';
+    return { waste, certificate: cert };
+  }
+
+  function normalizeForgivenessDisposals(arr) {
+    if (!Array.isArray(arr)) return [];
+    const set = new Set();
+    for (let i = 0; i < arr.length; i++) {
+      if (typeof arr[i] === 'string' && FORGIVENESS_DISPOSAL_IDS.includes(arr[i])) {
+        set.add(arr[i]);
+      }
+    }
+    return FORGIVENESS_DISPOSAL_IDS.filter(id => set.has(id));
+  }
+
+  function normalizeForgivenessWellOutcomes(arr) {
+    if (!Array.isArray(arr)) return [];
+    const set = new Set();
+    for (let i = 0; i < arr.length; i++) {
+      if (typeof arr[i] === 'string' && FORGIVENESS_WELL_OUTCOME_IDS.includes(arr[i])) {
+        set.add(arr[i]);
+      }
+    }
+    return FORGIVENESS_WELL_OUTCOME_IDS.filter(id => set.has(id));
+  }
+
+  function clampForgivenessCount(n) {
+    const num = Math.floor(Number(n) || 0);
+    if (num < 0) return 0;
+    if (num > 9999) return 9999;
+    return num;
+  }
+
+  function normalizeForgivenessTallies(t) {
+    if (!t || typeof t !== 'object' || Array.isArray(t)) {
+      return { apology: 0, debt: 0, wound: 0 };
+    }
+    return {
+      apology: clampForgivenessCount(t.apology),
+      debt: clampForgivenessCount(t.debt),
+      wound: clampForgivenessCount(t.wound),
+    };
+  }
+
+  function normalizeForgivenessActiveRecorder(rec, disposals) {
+    if (!rec || typeof rec !== 'object' || Array.isArray(rec)) return null;
+    const keys = Object.keys(rec).sort();
+    if (keys.length !== 3 || keys[0] !== 'certificate' || keys[1] !== 'disposal' || keys[2] !== 'feedback') {
+      return null;
+    }
+    const cert = rec.certificate;
+    const disp = rec.disposal;
+    if (!FORGIVENESS_CERTIFICATES.includes(cert) || !FORGIVENESS_DISPOSALS.includes(disp)) {
+      return null;
+    }
+    const certTable = FORGIVENESS_CERTIFICATE_TABLE[cert];
+    if (!certTable || rec.feedback !== certTable.recorderFeedback) {
+      return null;
+    }
+    const canonicalDisposals = Array.isArray(disposals) ? disposals : [];
+    const matches = canonicalDisposals.some(id => {
+      const parts = id.split(':');
+      return parts.length === 3 && parts[1] === cert && parts[2] === disp;
+    });
+    if (!matches) return null;
+    return {
+      certificate: cert,
+      disposal: disp,
+      feedback: certTable.recorderFeedback,
+    };
+  }
+
+  function computeForgivenessDisposalTitle(waste, cert, disp) {
+    const wObj = FORGIVENESS_WASTE_TABLE[waste];
+    const cObj = FORGIVENESS_CERTIFICATE_TABLE[cert];
+    const dObj = FORGIVENESS_DISPOSAL_TABLE[disp];
+    if (!wObj || !cObj || !dObj) return '';
+    return `${wObj.title} × ${cObj.title} × ${dObj.title}`;
+  }
+
+  function computeForgivenessDisposalFeedback(waste, cert, disp) {
+    const wObj = FORGIVENESS_WASTE_TABLE[waste];
+    const cObj = FORGIVENESS_CERTIFICATE_TABLE[cert];
+    const dObj = FORGIVENESS_DISPOSAL_TABLE[disp];
+    if (!wObj || !cObj || !dObj) return '';
+    return `${wObj.feedback} ${cObj.feedback} ${dObj.fragment}`;
+  }
+
+  function findForgivenessDisposalById(id) {
+    if (typeof id !== 'string' || !FORGIVENESS_DISPOSAL_IDS.includes(id)) return null;
+    const parts = id.split(':');
+    if (parts.length !== 3) return null;
+    const [waste, certificate, disposal] = parts;
+    return {
+      id,
+      waste,
+      certificate,
+      disposal,
+      title: computeForgivenessDisposalTitle(waste, certificate, disposal),
+      feedback: computeForgivenessDisposalFeedback(waste, certificate, disposal),
+    };
+  }
+
+  function forgivenessLandfillUnlocked() {
+    if (typeof regretReclamationPlantUnlocked !== 'function' || !regretReclamationPlantUnlocked()) {
+      return false;
+    }
+    if (typeof getRegretReclamation !== 'function') return false;
+    const regretState = getRegretReclamation();
+    if (!regretState || typeof regretState !== 'object') return false;
+    const batches = Array.isArray(regretState.batches) ? regretState.batches : [];
+    if (batches.length < 4) return false;
+
+    const mReq = new Set(['road-never-taken', 'person-never-loved', 'self-never-became']);
+    const rReq = new Set(['dust-from-the-unwalked-mile', 'warmth-from-the-unused-pillow', 'fingerprint-inside-an-unworn-face']);
+    const uReq = new Set(['cast-a-new-childhood', 'forge-courage-for-the-next-self', 'build-a-strangers-spare-life', 'return-regret-without-processing']);
+
+    const mSeen = new Set();
+    const rSeen = new Set();
+    const uSeen = new Set();
+
+    for (let i = 0; i < batches.length; i++) {
+      const b = batches[i];
+      if (typeof b === 'string') {
+        const parts = b.split(':');
+        if (parts.length === 3) {
+          if (mReq.has(parts[0])) mSeen.add(parts[0]);
+          if (rReq.has(parts[1])) rSeen.add(parts[1]);
+          if (uReq.has(parts[2])) uSeen.add(parts[2]);
+        }
+      }
+    }
+
+    if (mSeen.size < 3 || rSeen.size < 3 || uSeen.size < 4) return false;
+
+    const fOutcomes = Array.isArray(regretState.furnaceOutcomes) ? regretState.furnaceOutcomes : [];
+    const requiredFurnace = [
+      'regret-became-a-renewable-resource',
+      'every-life-was-made-from-someone-elses-regret',
+      'forgiveness-was-classified-as-unrecyclable-waste',
+    ];
+    for (let j = 0; j < requiredFurnace.length; j++) {
+      if (!fOutcomes.includes(requiredFurnace[j])) return false;
+    }
+    return true;
+  }
+
+  function forgivenessLandfillCoverageComplete(st) {
+    if (!st || typeof st !== 'object') return false;
+    const disposals = normalizeForgivenessDisposals(st.disposals);
+    if (disposals.length < 4) return false;
+    const wSet = new Set();
+    const cSet = new Set();
+    const dSet = new Set();
+    for (let i = 0; i < disposals.length; i++) {
+      const parts = disposals[i].split(':');
+      if (parts.length === 3) {
+        wSet.add(parts[0]);
+        cSet.add(parts[1]);
+        dSet.add(parts[2]);
+      }
+    }
+    return wSet.size === FORGIVENESS_WASTES.length &&
+           cSet.size === FORGIVENESS_CERTIFICATES.length &&
+           dSet.size === FORGIVENESS_DISPOSALS.length;
+  }
+
+  function normalizeForgivenessPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p)) return null;
+    if (!st || st._v82unlocked !== true) return null;
+    const kind = p.kind;
+    if (typeof kind !== 'string') return null;
+    const keys = Object.keys(p).sort();
+
+    if (kind === 'entry') {
+      if (keys.length !== 3 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'target') return null;
+      if (p.target !== 'forgiveness-landfill') return null;
+      if (p.feedback !== FORGIVENESS_ENTRY_FEEDBACK) return null;
+      if (st.draft.waste !== '' || st.draft.certificate !== '' || st.activeRecorder !== null) return null;
+      return { feedback: p.feedback, kind: 'entry', target: 'forgiveness-landfill' };
+    }
+
+    if (kind === 'waste') {
+      if (keys.length !== 5 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'source' || keys[3] !== 'target' || keys[4] !== 'waste') return null;
+      if (p.source !== 'forgiveness-landfill' || p.target !== 'inert-harm-certificate-vault') return null;
+      if (!FORGIVENESS_WASTES.includes(p.waste)) return null;
+      if (p.feedback !== FORGIVENESS_WASTE_TABLE[p.waste].feedback) return null;
+      if (st.draft.waste !== '' || st.draft.certificate !== '' || st.activeRecorder !== null) return null;
+      return { feedback: p.feedback, kind: 'waste', source: 'forgiveness-landfill', target: 'inert-harm-certificate-vault', waste: p.waste };
+    }
+
+    if (kind === 'certificate') {
+      if (keys.length !== 6 || keys[0] !== 'certificate' || keys[1] !== 'feedback' || keys[2] !== 'kind' || keys[3] !== 'source' || keys[4] !== 'target' || keys[5] !== 'waste') return null;
+      if (p.source !== 'inert-harm-certificate-vault' || p.target !== 'mercy-burial-trench') return null;
+      if (!FORGIVENESS_WASTES.includes(p.waste) || !FORGIVENESS_CERTIFICATES.includes(p.certificate)) return null;
+      if (st.draft.waste !== p.waste || st.draft.certificate !== '') return null;
+      if (p.feedback !== FORGIVENESS_CERTIFICATE_TABLE[p.certificate].feedback) return null;
+      if (st.activeRecorder !== null) return null;
+      return { certificate: p.certificate, feedback: p.feedback, kind: 'certificate', source: 'inert-harm-certificate-vault', target: 'mercy-burial-trench', waste: p.waste };
+    }
+
+    if (kind === 'disposal') {
+      if (keys.length !== 8 || keys[0] !== 'certificate' || keys[1] !== 'disposal' || keys[2] !== 'feedback' || keys[3] !== 'kind' || keys[4] !== 'record' || keys[5] !== 'source' || keys[6] !== 'target' || keys[7] !== 'waste') return null;
+      if (p.source !== 'mercy-burial-trench') return null;
+      if (!FORGIVENESS_WASTES.includes(p.waste) || !FORGIVENESS_CERTIFICATES.includes(p.certificate) || !FORGIVENESS_DISPOSALS.includes(p.disposal)) return null;
+      if (st.draft.waste !== p.waste || st.draft.certificate !== p.certificate) return null;
+      const expectedRecord = `${p.waste}:${p.certificate}:${p.disposal}`;
+      if (p.record !== expectedRecord) return null;
+      const cObj = FORGIVENESS_CERTIFICATE_TABLE[p.certificate];
+      if (!cObj || p.target !== cObj.target) return null;
+      const expectedFb = computeForgivenessDisposalFeedback(p.waste, p.certificate, p.disposal);
+      if (p.feedback !== expectedFb) return null;
+      if (st.activeRecorder !== null) return null;
+      return {
+        certificate: p.certificate,
+        disposal: p.disposal,
+        feedback: p.feedback,
+        kind: 'disposal',
+        record: p.record,
+        source: 'mercy-burial-trench',
+        target: p.target,
+        waste: p.waste,
+      };
+    }
+
+    if (kind === 'recorder-return') {
+      if (keys.length !== 5 || keys[0] !== 'feedback' || keys[1] !== 'from' || keys[2] !== 'kind' || keys[3] !== 'record' || keys[4] !== 'target') return null;
+      if (p.target !== 'forgiveness-landfill') return null;
+      if (!st.activeRecorder) return null;
+      const cObj = FORGIVENESS_CERTIFICATE_TABLE[st.activeRecorder.certificate];
+      if (!cObj || p.from !== cObj.target) return null;
+      if (typeof p.record !== 'string' || !st.disposals.includes(p.record)) return null;
+      const parts = p.record.split(':');
+      if (parts.length !== 3 || parts[1] !== st.activeRecorder.certificate || parts[2] !== st.activeRecorder.disposal) return null;
+      if (p.feedback !== cObj.recorderFeedback) return null;
+      return { feedback: p.feedback, from: p.from, kind: 'recorder-return', record: p.record, target: 'forgiveness-landfill' };
+    }
+
+    if (kind === 'well-entry') {
+      if (keys.length !== 3 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'target') return null;
+      if (p.target !== 'harmlessness-final-well') return null;
+      if (p.feedback !== FORGIVENESS_WELL_ENTRY_FEEDBACK) return null;
+      if (!forgivenessLandfillCoverageComplete(st)) return null;
+      if (st.draft.waste !== '' || st.draft.certificate !== '' || st.activeRecorder !== null) return null;
+      return { feedback: p.feedback, kind: 'well-entry', target: 'harmlessness-final-well' };
+    }
+
+    if (kind === 'well') {
+      if (keys.length !== 6 || keys[0] !== 'action' || keys[1] !== 'feedback' || keys[2] !== 'kind' || keys[3] !== 'outcome' || keys[4] !== 'source' || keys[5] !== 'target') return null;
+      if (p.source !== 'harmlessness-final-well') return null;
+      if (!FORGIVENESS_WELL_ACTIONS.includes(p.action)) return null;
+      const wObj = FORGIVENESS_WELL_TABLE[p.action];
+      if (!wObj || p.outcome !== wObj.outcome || p.target !== wObj.target || p.feedback !== wObj.feedback) return null;
+      if (!forgivenessLandfillCoverageComplete(st)) return null;
+      if (st.visited.well !== true) return null;
+      if (st.draft.waste !== '' || st.draft.certificate !== '' || st.activeRecorder !== null) return null;
+      return { action: p.action, feedback: p.feedback, kind: 'well', outcome: p.outcome, source: 'harmlessness-final-well', target: p.target };
+    }
+
+    return null;
+  }
+
+  function getForgivenessLandfill() {
+    const unlocked = forgivenessLandfillUnlocked();
+    if (!unlocked) return defaultForgivenessLandfill();
+    let raw;
+    try {
+      const str = store.get(FORGIVENESS_LANDFILL_KEY, '{}');
+      raw = typeof str === 'string' ? JSON.parse(str) : str;
+    } catch (e) {
+      return defaultForgivenessLandfill();
+    }
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+      return defaultForgivenessLandfill();
+    }
+    if (raw.version !== FORGIVENESS_LANDFILL_VERSION) {
+      return defaultForgivenessLandfill();
+    }
+
+    const visited = normalizeForgivenessVisited(raw.visited);
+    const draft = normalizeForgivenessDraft(raw.draft);
+    const disposals = normalizeForgivenessDisposals(raw.disposals);
+    const wellOutcomes = normalizeForgivenessWellOutcomes(raw.wellOutcomes);
+    const disposalRuns = clampForgivenessCount(raw.disposalRuns);
+    const wellRuns = clampForgivenessCount(raw.wellRuns);
+    const wasteTallies = normalizeForgivenessTallies(raw.wasteTallies);
+    const activeRecorder = normalizeForgivenessActiveRecorder(raw.activeRecorder, disposals);
+
+    let lastOutcome = '';
+    if (typeof raw.lastOutcome === 'string') {
+      if (disposals.includes(raw.lastOutcome) || wellOutcomes.includes(raw.lastOutcome)) {
+        lastOutcome = raw.lastOutcome;
+      }
+    }
+
+    const preSt = {
+      version: FORGIVENESS_LANDFILL_VERSION,
+      visited,
+      draft,
+      disposals,
+      wellOutcomes,
+      disposalRuns,
+      wellRuns,
+      wasteTallies,
+      lastOutcome,
+      activeRecorder,
+      pending: null,
+      _v82unlocked: true,
+    };
+    const pending = normalizeForgivenessPending(raw.pending, preSt);
+
+    return {
+      version: FORGIVENESS_LANDFILL_VERSION,
+      visited,
+      draft,
+      disposals,
+      wellOutcomes,
+      disposalRuns,
+      wellRuns,
+      wasteTallies,
+      lastOutcome,
+      activeRecorder,
+      pending,
+    };
+  }
+
+  function saveForgivenessLandfill(st) {
+    const unlocked = forgivenessLandfillUnlocked();
+    if (!unlocked) return defaultForgivenessLandfill();
+    if (!st || typeof st !== 'object' || Array.isArray(st)) {
+      const d = defaultForgivenessLandfill();
+      store.set(FORGIVENESS_LANDFILL_KEY, JSON.stringify(d));
+      return d;
+    }
+
+    const visited = normalizeForgivenessVisited(st.visited);
+    const draft = normalizeForgivenessDraft(st.draft);
+    const disposals = normalizeForgivenessDisposals(st.disposals);
+    const wellOutcomes = normalizeForgivenessWellOutcomes(st.wellOutcomes);
+    const disposalRuns = clampForgivenessCount(st.disposalRuns);
+    const wellRuns = clampForgivenessCount(st.wellRuns);
+    const wasteTallies = normalizeForgivenessTallies(st.wasteTallies);
+    const activeRecorder = normalizeForgivenessActiveRecorder(st.activeRecorder, disposals);
+
+    let lastOutcome = '';
+    if (typeof st.lastOutcome === 'string') {
+      if (disposals.includes(st.lastOutcome) || wellOutcomes.includes(st.lastOutcome)) {
+        lastOutcome = st.lastOutcome;
+      }
+    }
+
+    const preSt = {
+      version: FORGIVENESS_LANDFILL_VERSION,
+      visited,
+      draft,
+      disposals,
+      wellOutcomes,
+      disposalRuns,
+      wellRuns,
+      wasteTallies,
+      lastOutcome,
+      activeRecorder,
+      pending: null,
+      _v82unlocked: true,
+    };
+    const pending = normalizeForgivenessPending(st.pending, preSt);
+
+    const canonical = {
+      version: FORGIVENESS_LANDFILL_VERSION,
+      visited,
+      draft,
+      disposals,
+      wellOutcomes,
+      disposalRuns,
+      wellRuns,
+      wasteTallies,
+      lastOutcome,
+      activeRecorder,
+      pending,
+    };
+    store.set(FORGIVENESS_LANDFILL_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function getForgivenessPendingLogicalSource(p) {
+    if (!p || !p.kind) return '';
+    if (p.kind === 'entry' || p.kind === 'well-entry') return 'remembrance';
+    if (p.kind === 'recorder-return') return p.from;
+    return p.source || '';
+  }
+
+  function forgivenessBeforeArrive(targetScene) {
+    resolveForgivenessPendingOnArrival(targetScene);
+  }
+
+  function resolveForgivenessPendingOnArrival(sceneName) {
+    const st = getForgivenessLandfill();
+    if (!st || !st.pending) return st;
+    const p = st.pending;
+
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.landfill = true;
+      } else if (p.kind === 'waste') {
+        st.visited.vault = true;
+        st.draft = { waste: p.waste, certificate: '' };
+      } else if (p.kind === 'certificate') {
+        st.visited.trench = true;
+        st.draft.certificate = p.certificate;
+      } else if (p.kind === 'disposal') {
+        st.disposalRuns = clampForgivenessCount(st.disposalRuns + 1);
+        const wObj = FORGIVENESS_WASTE_TABLE[p.waste];
+        if (wObj && wObj.tallyKey) {
+          st.wasteTallies[wObj.tallyKey] = clampForgivenessCount(st.wasteTallies[wObj.tallyKey] + 1);
+        }
+        if (!st.disposals.includes(p.record)) {
+          st.disposals = normalizeForgivenessDisposals(st.disposals.concat(p.record));
+        }
+        st.lastOutcome = p.record;
+        const cObj = FORGIVENESS_CERTIFICATE_TABLE[p.certificate];
+        st.activeRecorder = {
+          certificate: p.certificate,
+          disposal: p.disposal,
+          feedback: cObj ? cObj.recorderFeedback : '',
+        };
+        st.draft = { waste: '', certificate: '' };
+      } else if (p.kind === 'recorder-return') {
+        st.activeRecorder = null;
+        st.visited.landfill = true;
+      } else if (p.kind === 'well-entry') {
+        st.visited.well = true;
+      } else if (p.kind === 'well') {
+        st.wellRuns = clampForgivenessCount(st.wellRuns + 1);
+        if (!st.wellOutcomes.includes(p.outcome)) {
+          st.wellOutcomes = normalizeForgivenessWellOutcomes(st.wellOutcomes.concat(p.outcome));
+        }
+        st.lastOutcome = p.outcome;
+      }
+      return saveForgivenessLandfill(st);
+    }
+
+    const logicalSource = getForgivenessPendingLogicalSource(p);
+    if (sceneName === logicalSource) {
+      return st;
+    }
+
+    st.pending = null;
+    return saveForgivenessLandfill(st);
+  }
+
+  function replayForgivenessPending(sceneName) {
+    const st = getForgivenessLandfill();
+    if (!st.pending) {
+      syncForgivenessLandfill();
+      syncInertHarmCertificateVault();
+      syncMercyBurialTrench();
+      syncHarmlessnessFinalWell();
+      syncForgivenessRecorders();
+      return;
+    }
+    const p = st.pending;
+    if (p.target === sceneName) {
+      resolveForgivenessPendingOnArrival(sceneName);
+      syncForgivenessLandfill();
+      syncInertHarmCertificateVault();
+      syncMercyBurialTrench();
+      syncHarmlessnessFinalWell();
+      syncForgivenessRecorders();
+      return;
+    }
+
+    const logicalSource = getForgivenessPendingLogicalSource(p);
+    if (sceneName === logicalSource) {
+      syncForgivenessLandfill();
+      syncInertHarmCertificateVault();
+      syncMercyBurialTrench();
+      syncHarmlessnessFinalWell();
+      syncForgivenessRecorders();
+      AutoAdvance.schedule(sceneName, p.target, { delay: forgivenessLandfillDelay() });
+      return;
+    }
+
+    st.pending = null;
+    saveForgivenessLandfill(st);
+    syncForgivenessLandfill();
+    syncInertHarmCertificateVault();
+    syncMercyBurialTrench();
+    syncHarmlessnessFinalWell();
+    syncForgivenessRecorders();
+  }
+
+  function chooseForgivenessEntry() {
+    if (typeof currentScene !== 'string' || currentScene !== 'remembrance') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('remembrance')) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable('forgiveness-landfill-entry-btn')) return;
+    if (!forgivenessLandfillUnlocked()) return;
+    const st = getForgivenessLandfill();
+    if (st.pending || st.activeRecorder || st.draft.waste !== '' || st.draft.certificate !== '') return;
+
+    st.pending = {
+      feedback: FORGIVENESS_ENTRY_FEEDBACK,
+      kind: 'entry',
+      target: 'forgiveness-landfill',
+    };
+    saveForgivenessLandfill(st);
+
+    const resp = $('#forgiveness-landfill-entry-response');
+    if (resp) {
+      resp.textContent = FORGIVENESS_ENTRY_FEEDBACK;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $('#forgiveness-landfill-entry-btn');
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('remembrance', 'forgiveness-landfill', { delay: forgivenessLandfillDelay() });
+  }
+
+  function chooseForgivenessWaste(waste) {
+    if (typeof currentScene !== 'string' || currentScene !== 'forgiveness-landfill') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('forgiveness-landfill')) return;
+    if (!FORGIVENESS_WASTES.includes(waste)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`forgiveness-waste-${waste}`)) return;
+    if (!forgivenessLandfillUnlocked()) return;
+    const st = getForgivenessLandfill();
+    if (st.pending || st.activeRecorder || st.draft.waste !== '' || st.draft.certificate !== '') return;
+
+    const wObj = FORGIVENESS_WASTE_TABLE[waste];
+    st.pending = {
+      feedback: wObj.feedback,
+      kind: 'waste',
+      source: 'forgiveness-landfill',
+      target: 'inert-harm-certificate-vault',
+      waste,
+    };
+    saveForgivenessLandfill(st);
+
+    const resp = $('#forgiveness-landfill-response');
+    if (resp) {
+      resp.textContent = wObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#forgiveness-waste-${waste}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('forgiveness-landfill', 'inert-harm-certificate-vault', { delay: forgivenessLandfillDelay() });
+  }
+
+  function chooseForgivenessCertificate(certificate) {
+    if (typeof currentScene !== 'string' || currentScene !== 'inert-harm-certificate-vault') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('inert-harm-certificate-vault')) return;
+    if (!FORGIVENESS_CERTIFICATES.includes(certificate)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`forgiveness-certificate-${certificate}`)) return;
+    if (!forgivenessLandfillUnlocked()) return;
+    const st = getForgivenessLandfill();
+    if (st.pending || st.activeRecorder || !st.draft.waste || st.draft.certificate !== '') return;
+
+    const cObj = FORGIVENESS_CERTIFICATE_TABLE[certificate];
+    st.pending = {
+      certificate,
+      feedback: cObj.feedback,
+      kind: 'certificate',
+      source: 'inert-harm-certificate-vault',
+      target: 'mercy-burial-trench',
+      waste: st.draft.waste,
+    };
+    saveForgivenessLandfill(st);
+
+    const resp = $('#inert-harm-certificate-vault-response');
+    if (resp) {
+      resp.textContent = cObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#forgiveness-certificate-${certificate}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('inert-harm-certificate-vault', 'mercy-burial-trench', { delay: forgivenessLandfillDelay() });
+  }
+
+  function chooseForgivenessDisposal(disposal) {
+    if (typeof currentScene !== 'string' || currentScene !== 'mercy-burial-trench') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('mercy-burial-trench')) return;
+    if (!FORGIVENESS_DISPOSALS.includes(disposal)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`forgiveness-disposal-${disposal}`)) return;
+    if (!forgivenessLandfillUnlocked()) return;
+    const st = getForgivenessLandfill();
+    if (st.pending || st.activeRecorder || !st.draft.waste || !st.draft.certificate) return;
+
+    const cObj = FORGIVENESS_CERTIFICATE_TABLE[st.draft.certificate];
+    const record = `${st.draft.waste}:${st.draft.certificate}:${disposal}`;
+    const feedback = computeForgivenessDisposalFeedback(st.draft.waste, st.draft.certificate, disposal);
+
+    st.pending = {
+      certificate: st.draft.certificate,
+      disposal,
+      feedback,
+      kind: 'disposal',
+      record,
+      source: 'mercy-burial-trench',
+      target: cObj.target,
+      waste: st.draft.waste,
+    };
+    saveForgivenessLandfill(st);
+
+    const resp = $('#mercy-burial-trench-response');
+    if (resp) {
+      resp.textContent = feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#forgiveness-disposal-${disposal}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('mercy-burial-trench', cObj.target, { delay: forgivenessLandfillDelay() });
+  }
+
+  function chooseForgivenessRecorderReturn(scene) {
+    if (typeof currentScene !== 'string' || currentScene !== scene) return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has(scene)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`forgiveness-recorder-return-${scene}`)) return;
+    if (!forgivenessLandfillUnlocked()) return;
+    const st = getForgivenessLandfill();
+    if (st.pending || !st.activeRecorder) return;
+    const cObj = FORGIVENESS_CERTIFICATE_TABLE[st.activeRecorder.certificate];
+    if (!cObj || cObj.target !== scene) return;
+
+    const matchingRecord = st.disposals.find(r => {
+      const p = r.split(':');
+      return p.length === 3 && p[1] === st.activeRecorder.certificate && p[2] === st.activeRecorder.disposal;
+    });
+    if (!matchingRecord) return;
+
+    st.pending = {
+      feedback: cObj.recorderFeedback,
+      from: scene,
+      kind: 'recorder-return',
+      record: matchingRecord,
+      target: 'forgiveness-landfill',
+    };
+    saveForgivenessLandfill(st);
+
+    const resp = $(`#forgiveness-recorder-response-${scene}`);
+    if (resp) {
+      resp.textContent = cObj.recorderFeedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#forgiveness-recorder-return-${scene}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule(scene, 'forgiveness-landfill', { delay: forgivenessLandfillDelay() });
+  }
+
+  function chooseHarmlessnessWellEntry() {
+    if (typeof currentScene !== 'string' || currentScene !== 'remembrance') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('remembrance')) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable('harmlessness-final-well-entry-btn')) return;
+    if (!forgivenessLandfillUnlocked()) return;
+    const st = getForgivenessLandfill();
+    if (st.pending || st.activeRecorder || st.draft.waste !== '' || st.draft.certificate !== '' || !forgivenessLandfillCoverageComplete(st)) return;
+
+    st.pending = {
+      feedback: FORGIVENESS_WELL_ENTRY_FEEDBACK,
+      kind: 'well-entry',
+      target: 'harmlessness-final-well',
+    };
+    saveForgivenessLandfill(st);
+
+    const resp = $('#harmlessness-final-well-entry-response');
+    if (resp) {
+      resp.textContent = FORGIVENESS_WELL_ENTRY_FEEDBACK;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $('#harmlessness-final-well-entry-btn');
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('remembrance', 'harmlessness-final-well', { delay: forgivenessLandfillDelay() });
+  }
+
+  function chooseHarmlessnessWellAction(action) {
+    if (typeof currentScene !== 'string' || currentScene !== 'harmlessness-final-well') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('harmlessness-final-well')) return;
+    if (!FORGIVENESS_WELL_ACTIONS.includes(action)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`forgiveness-well-${action}`)) return;
+    if (!forgivenessLandfillUnlocked()) return;
+    const st = getForgivenessLandfill();
+    if (st.pending || st.activeRecorder || st.draft.waste !== '' || st.draft.certificate !== '' || !forgivenessLandfillCoverageComplete(st) || !st.visited.well) return;
+
+    const wObj = FORGIVENESS_WELL_TABLE[action];
+    st.pending = {
+      action,
+      feedback: wObj.feedback,
+      kind: 'well',
+      outcome: wObj.outcome,
+      source: 'harmlessness-final-well',
+      target: wObj.target,
+    };
+    saveForgivenessLandfill(st);
+
+    const resp = $('#harmlessness-final-well-response');
+    if (resp) {
+      resp.textContent = wObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#forgiveness-well-${action}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('harmlessness-final-well', wObj.target, { delay: forgivenessLandfillDelay() });
+  }
+
+  function forgivenessLandfillBridgeAllows(targetScene) {
+    if (!forgivenessLandfillUnlocked()) return false;
+    const st = getForgivenessLandfill();
+    if (st.pending) {
+      if (st.pending.kind === 'disposal' && st.pending.target === targetScene) return true;
+      if (st.pending.kind === 'well' && st.pending.target === targetScene) return true;
+    }
+    if (st.activeRecorder) {
+      const cObj = FORGIVENESS_CERTIFICATE_TABLE[st.activeRecorder.certificate];
+      if (cObj && cObj.target === targetScene) return true;
+    }
+    if (st.lastOutcome && st.wellOutcomes.includes(st.lastOutcome)) {
+      const wellEntry = FORGIVENESS_WELL_OUTCOME_BY_ID[st.lastOutcome];
+      if (wellEntry && wellEntry.target === targetScene) return true;
+    }
+    return false;
+  }
+
+  function forgivenessLandfillCanVisit() {
+    if (!forgivenessLandfillUnlocked()) return false;
+    const st = getForgivenessLandfill();
+    if (st.visited.landfill) return true;
+    if (st.pending && (st.pending.kind === 'entry' || st.pending.kind === 'recorder-return') && st.pending.target === 'forgiveness-landfill') {
+      return true;
+    }
+    return false;
+  }
+
+  function inertHarmCertificateVaultCanVisit() {
+    if (!forgivenessLandfillUnlocked()) return false;
+    const st = getForgivenessLandfill();
+    if (st.visited.vault && st.draft.waste) return true;
+    if (st.pending && st.pending.kind === 'waste' && st.pending.target === 'inert-harm-certificate-vault') {
+      return true;
+    }
+    return false;
+  }
+
+  function mercyBurialTrenchCanVisit() {
+    if (!forgivenessLandfillUnlocked()) return false;
+    const st = getForgivenessLandfill();
+    if (st.visited.trench && st.draft.waste && st.draft.certificate) return true;
+    if (st.pending && st.pending.kind === 'certificate' && st.pending.target === 'mercy-burial-trench') {
+      return true;
+    }
+    return false;
+  }
+
+  function harmlessnessFinalWellCanVisit() {
+    if (!forgivenessLandfillUnlocked()) return false;
+    const st = getForgivenessLandfill();
+    const complete = forgivenessLandfillCoverageComplete(st);
+    if (st.visited.well && complete) return true;
+    if (st.pending && st.pending.kind === 'well-entry' && st.pending.target === 'harmlessness-final-well') {
+      return true;
+    }
+    return false;
+  }
+
+  function syncForgivenessLandfill() {
+    const fig = $('#forgiveness-landfill-figure');
+    const canVisit = forgivenessLandfillCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getForgivenessLandfill();
+    const isPending = !!st.pending;
+
+    FORGIVENESS_WASTES.forEach(w => {
+      const btn = $(`#forgiveness-waste-${w}`);
+      if (btn) {
+        btn.disabled = isPending || !canVisit;
+        const pressed = st.pending && st.pending.kind === 'waste' && st.pending.waste === w;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#forgiveness-landfill-response');
+    if (resp && !isPending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    paintForgivenessLandfillMemory();
+    paintForgivenessLandfillCodex();
+    syncForgivenessLandfillLinks();
+  }
+
+  function syncInertHarmCertificateVault() {
+    const fig = $('#inert-harm-certificate-vault-figure');
+    const canVisit = inertHarmCertificateVaultCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getForgivenessLandfill();
+    const isPending = !!st.pending;
+
+    FORGIVENESS_CERTIFICATES.forEach(c => {
+      const btn = $(`#forgiveness-certificate-${c}`);
+      if (btn) {
+        btn.disabled = isPending || !canVisit;
+        const pressed = st.pending && st.pending.kind === 'certificate' && st.pending.certificate === c;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#inert-harm-certificate-vault-response');
+    if (resp && !isPending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncForgivenessLandfillLinks();
+  }
+
+  function syncMercyBurialTrench() {
+    const fig = $('#mercy-burial-trench-figure');
+    const canVisit = mercyBurialTrenchCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getForgivenessLandfill();
+    const isPending = !!st.pending;
+
+    FORGIVENESS_DISPOSALS.forEach(d => {
+      const btn = $(`#forgiveness-disposal-${d}`);
+      if (btn) {
+        btn.disabled = isPending || !canVisit;
+        const pressed = st.pending && st.pending.kind === 'disposal' && st.pending.disposal === d;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#mercy-burial-trench-response');
+    if (resp && !isPending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncForgivenessLandfillLinks();
+  }
+
+  function syncHarmlessnessFinalWell() {
+    const fig = $('#harmlessness-final-well-figure');
+    const canVisit = harmlessnessFinalWellCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getForgivenessLandfill();
+    const isPending = !!st.pending;
+
+    FORGIVENESS_WELL_ACTIONS.forEach(a => {
+      const btn = $(`#forgiveness-well-${a}`);
+      if (btn) {
+        btn.disabled = isPending || !canVisit;
+        const pressed = st.pending && st.pending.kind === 'well' && st.pending.action === a;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#harmlessness-final-well-response');
+    if (resp && !isPending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncForgivenessLandfillLinks();
+  }
+
+  function syncForgivenessRecorders() {
+    const st = getForgivenessLandfill();
+    const scenes = ['offering', 'liability-ledger', 'causeless-ward'];
+
+    scenes.forEach(scene => {
+      const cont = $(`#forgiveness-recorder-${scene}`);
+      const resp = $(`#forgiveness-recorder-response-${scene}`);
+      const btn = $(`#forgiveness-recorder-return-${scene}`);
+
+      let shouldShow = false;
+      if (st.activeRecorder) {
+        const cObj = FORGIVENESS_CERTIFICATE_TABLE[st.activeRecorder.certificate];
+        if (cObj && cObj.target === scene) {
+          shouldShow = true;
+        }
+      }
+
+      if (cont) {
+        cont.hidden = !shouldShow;
+        if (shouldShow) cont.removeAttribute('hidden');
+      }
+      if (resp) {
+        if (shouldShow && st.activeRecorder) {
+          resp.textContent = st.activeRecorder.feedback;
+          resp.hidden = false;
+          resp.removeAttribute('hidden');
+        } else {
+          resp.textContent = '';
+          resp.hidden = true;
+        }
+      }
+      if (btn) {
+        btn.hidden = !shouldShow;
+        if (shouldShow) btn.removeAttribute('hidden');
+        btn.disabled = !shouldShow || !!st.pending;
+        const pressed = st.pending && st.pending.kind === 'recorder-return' && st.pending.from === scene;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+  }
+
+  function paintForgivenessLandfillMemory() {
+    const mem = $('#forgiveness-landfill-memory');
+    if (!mem) return;
+    if (!forgivenessLandfillUnlocked()) {
+      mem.hidden = true;
+      return;
+    }
+    mem.hidden = false;
+    mem.removeAttribute('hidden');
+    const st = getForgivenessLandfill();
+    const disposals = st.disposals;
+    const count = disposals.length;
+
+    const wCounts = { 'apology-never-accepted': 0, 'debt-already-forgiven': 0, 'wound-that-stopped-demanding': 0 };
+    const cCounts = { 'unopened-absolution-receipt': 0, 'zero-balance-debt-scale': 0, 'scar-closed-without-witness': 0 };
+    const dCounts = { 'bury-it-beneath-a-future-life': 0, 'let-the-soil-forget-the-cause': 0, 'grow-innocence-from-old-harm': 0, 'exhume-it-for-permanent-record': 0 };
+
+    disposals.forEach(id => {
+      const p = id.split(':');
+      if (p.length === 3) {
+        if (wCounts[p[0]] !== undefined) wCounts[p[0]]++;
+        if (cCounts[p[1]] !== undefined) cCounts[p[1]]++;
+        if (dCounts[p[2]] !== undefined) dCounts[p[2]]++;
+      }
+    });
+
+    const wCov = Object.values(wCounts).filter(n => n > 0).length;
+    const cCov = Object.values(cCounts).filter(n => n > 0).length;
+    const dCov = Object.values(dCounts).filter(n => n > 0).length;
+
+    let majority = '均衡填埋';
+    const ap = st.wasteTallies.apology;
+    const db = st.wasteTallies.debt;
+    const wd = st.wasteTallies.wound;
+    if (ap > db && ap > wd) majority = '主要填埋未受道歉';
+    else if (db > ap && db > wd) majority = '主要填埋已免债';
+    else if (wd > ap && wd > db) majority = '主要填埋闭索伤';
+
+    const text = `宽恕填埋场：已处置 ${count}/36 · 处置次数 ${st.disposalRuns} · 歉/债/伤 [${ap}/${db}/${wd}] · 覆盖 [${wCov}/3 · ${cCov}/3 · ${dCov}/4] · ${majority} · 终审井裁定 ${st.wellOutcomes.length}/3`;
+    mem.textContent = text;
+  }
+
+  function paintForgivenessLandfillCodex() {
+    const codex = $('#forgiveness-landfill-codex');
+    const grid = $('#forgiveness-landfill-codex-grid');
+    if (!codex || !grid) return;
+    if (!forgivenessLandfillUnlocked()) {
+      codex.hidden = true;
+      return;
+    }
+    codex.hidden = false;
+    codex.removeAttribute('hidden');
+    grid.textContent = '';
+
+    const st = getForgivenessLandfill();
+    const collectedDisposals = new Set(st.disposals);
+    const collectedOutcomes = new Set(st.wellOutcomes);
+
+    FORGIVENESS_DISPOSAL_IDS.forEach(id => {
+      const cell = document.createElement('div');
+      if (collectedDisposals.has(id)) {
+        cell.className = 'forgiveness-landfill-cell is-unlocked';
+        const item = findForgivenessDisposalById(id);
+        cell.textContent = item ? `${item.title}\n${item.feedback}` : id;
+      } else {
+        cell.className = 'forgiveness-landfill-cell is-locked';
+        cell.textContent = '？？？';
+      }
+      grid.appendChild(cell);
+    });
+
+    FORGIVENESS_WELL_ACTIONS.forEach(action => {
+      const wObj = FORGIVENESS_WELL_TABLE[action];
+      const cell = document.createElement('div');
+      if (collectedOutcomes.has(wObj.outcome)) {
+        cell.className = 'forgiveness-landfill-cell is-unlocked';
+        cell.textContent = `[终审井] ${wObj.outcome}\n${wObj.feedback}`;
+      } else {
+        cell.className = 'forgiveness-landfill-cell is-locked';
+        cell.textContent = '？？？';
+      }
+      grid.appendChild(cell);
+    });
+  }
+
+  function syncForgivenessLandfillRemembrance() {
+    const unlocked = forgivenessLandfillUnlocked();
+    const entryShell = $('#forgiveness-landfill-codex-entry');
+    const entryBtn = $('#forgiveness-landfill-entry-btn');
+    const wellBtn = $('#harmlessness-final-well-entry-btn');
+
+    if (!unlocked) {
+      if (entryShell) entryShell.hidden = true;
+      if (entryBtn) entryBtn.hidden = true;
+      if (wellBtn) wellBtn.hidden = true;
+      return;
+    }
+
+    if (entryShell) {
+      entryShell.hidden = false;
+      entryShell.removeAttribute('hidden');
+    }
+
+    const st = getForgivenessLandfill();
+    const isClean = !st.pending && !st.activeRecorder && st.draft.waste === '' && st.draft.certificate === '';
+
+    if (entryBtn) {
+      entryBtn.hidden = false;
+      entryBtn.removeAttribute('hidden');
+      entryBtn.disabled = !isClean;
+      const pressed = st.pending && st.pending.kind === 'entry';
+      entryBtn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+    }
+
+    if (wellBtn) {
+      const coverage = forgivenessLandfillCoverageComplete(st);
+      wellBtn.hidden = !coverage;
+      if (coverage) wellBtn.removeAttribute('hidden');
+      wellBtn.disabled = !isClean || !coverage;
+      const pressed = st.pending && st.pending.kind === 'well-entry';
+      wellBtn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+    }
+  }
+
+  function syncForgivenessLandfillLinks() {
+    const unlocked = forgivenessLandfillUnlocked();
+    const links = [
+      { id: 'forgiveness-landfill-link', key: 'landfill' },
+      { id: 'inert-harm-certificate-vault-link', key: 'vault' },
+      { id: 'mercy-burial-trench-link', key: 'trench' },
+      { id: 'harmlessness-final-well-link', key: 'well' },
+    ];
+    const st = unlocked ? getForgivenessLandfill() : null;
+
+    links.forEach(l => {
+      const el = $(`#${l.id}`);
+      if (el) {
+        const show = unlocked && st && st.visited[l.key] === true;
+        el.hidden = !show;
+        if (show) el.removeAttribute('hidden');
+      }
+    });
+  }
+
+  const forgivenessLandfillEntryBtn = $('#forgiveness-landfill-entry-btn');
+  if (forgivenessLandfillEntryBtn) {
+    forgivenessLandfillEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseForgivenessEntry();
+    });
+  }
+
+  const harmlessnessFinalWellEntryBtn = $('#harmlessness-final-well-entry-btn');
+  if (harmlessnessFinalWellEntryBtn) {
+    harmlessnessFinalWellEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseHarmlessnessWellEntry();
+    });
+  }
+
+  const forgivenessWasteApologyNeverAcceptedBtn = $('#forgiveness-waste-apology-never-accepted');
+  if (forgivenessWasteApologyNeverAcceptedBtn) {
+    forgivenessWasteApologyNeverAcceptedBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseForgivenessWaste('apology-never-accepted');
+    });
+  }
+
+  const forgivenessWasteDebtAlreadyForgivenBtn = $('#forgiveness-waste-debt-already-forgiven');
+  if (forgivenessWasteDebtAlreadyForgivenBtn) {
+    forgivenessWasteDebtAlreadyForgivenBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseForgivenessWaste('debt-already-forgiven');
+    });
+  }
+
+  const forgivenessWasteWoundThatStoppedDemandingBtn = $('#forgiveness-waste-wound-that-stopped-demanding');
+  if (forgivenessWasteWoundThatStoppedDemandingBtn) {
+    forgivenessWasteWoundThatStoppedDemandingBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseForgivenessWaste('wound-that-stopped-demanding');
+    });
+  }
+
+  const forgivenessCertificateUnopenedAbsolutionReceiptBtn = $('#forgiveness-certificate-unopened-absolution-receipt');
+  if (forgivenessCertificateUnopenedAbsolutionReceiptBtn) {
+    forgivenessCertificateUnopenedAbsolutionReceiptBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseForgivenessCertificate('unopened-absolution-receipt');
+    });
+  }
+
+  const forgivenessCertificateZeroBalanceDebtScaleBtn = $('#forgiveness-certificate-zero-balance-debt-scale');
+  if (forgivenessCertificateZeroBalanceDebtScaleBtn) {
+    forgivenessCertificateZeroBalanceDebtScaleBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseForgivenessCertificate('zero-balance-debt-scale');
+    });
+  }
+
+  const forgivenessCertificateScarClosedWithoutWitnessBtn = $('#forgiveness-certificate-scar-closed-without-witness');
+  if (forgivenessCertificateScarClosedWithoutWitnessBtn) {
+    forgivenessCertificateScarClosedWithoutWitnessBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseForgivenessCertificate('scar-closed-without-witness');
+    });
+  }
+
+  const forgivenessDisposalBuryItBeneathAFutureLifeBtn = $('#forgiveness-disposal-bury-it-beneath-a-future-life');
+  if (forgivenessDisposalBuryItBeneathAFutureLifeBtn) {
+    forgivenessDisposalBuryItBeneathAFutureLifeBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseForgivenessDisposal('bury-it-beneath-a-future-life');
+    });
+  }
+
+  const forgivenessDisposalLetTheSoilForgetTheCauseBtn = $('#forgiveness-disposal-let-the-soil-forget-the-cause');
+  if (forgivenessDisposalLetTheSoilForgetTheCauseBtn) {
+    forgivenessDisposalLetTheSoilForgetTheCauseBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseForgivenessDisposal('let-the-soil-forget-the-cause');
+    });
+  }
+
+  const forgivenessDisposalGrowInnocenceFromOldHarmBtn = $('#forgiveness-disposal-grow-innocence-from-old-harm');
+  if (forgivenessDisposalGrowInnocenceFromOldHarmBtn) {
+    forgivenessDisposalGrowInnocenceFromOldHarmBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseForgivenessDisposal('grow-innocence-from-old-harm');
+    });
+  }
+
+  const forgivenessDisposalExhumeItForPermanentRecordBtn = $('#forgiveness-disposal-exhume-it-for-permanent-record');
+  if (forgivenessDisposalExhumeItForPermanentRecordBtn) {
+    forgivenessDisposalExhumeItForPermanentRecordBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseForgivenessDisposal('exhume-it-for-permanent-record');
+    });
+  }
+
+  const forgivenessRecorderReturnOfferingBtn = $('#forgiveness-recorder-return-offering');
+  if (forgivenessRecorderReturnOfferingBtn) {
+    forgivenessRecorderReturnOfferingBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseForgivenessRecorderReturn('offering');
+    });
+  }
+
+  const forgivenessRecorderReturnLiabilityLedgerBtn = $('#forgiveness-recorder-return-liability-ledger');
+  if (forgivenessRecorderReturnLiabilityLedgerBtn) {
+    forgivenessRecorderReturnLiabilityLedgerBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseForgivenessRecorderReturn('liability-ledger');
+    });
+  }
+
+  const forgivenessRecorderReturnCauselessWardBtn = $('#forgiveness-recorder-return-causeless-ward');
+  if (forgivenessRecorderReturnCauselessWardBtn) {
+    forgivenessRecorderReturnCauselessWardBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseForgivenessRecorderReturn('causeless-ward');
+    });
+  }
+
+  const forgivenessWellSealEveryForgivenHarmForeverBtn = $('#forgiveness-well-seal-every-forgiven-harm-forever');
+  if (forgivenessWellSealEveryForgivenHarmForeverBtn) {
+    forgivenessWellSealEveryForgivenHarmForeverBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseHarmlessnessWellAction('seal-every-forgiven-harm-forever');
+    });
+  }
+
+  const forgivenessWellEraseTheNeedForForgivenessBtn = $('#forgiveness-well-erase-the-need-for-forgiveness');
+  if (forgivenessWellEraseTheNeedForForgivenessBtn) {
+    forgivenessWellEraseTheNeedForForgivenessBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseHarmlessnessWellAction('erase-the-need-for-forgiveness');
+    });
+  }
+
+  const forgivenessWellMakeHarmSurviveItsOwnForgivenessBtn = $('#forgiveness-well-make-harm-survive-its-own-forgiveness');
+  if (forgivenessWellMakeHarmSurviveItsOwnForgivenessBtn) {
+    forgivenessWellMakeHarmSurviveItsOwnForgivenessBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseHarmlessnessWellAction('make-harm-survive-its-own-forgiveness');
+    });
+  }
+
+  /* ============================================================
+     v83: 伤害考古局 (Bureau of Harm Archaeology)
+     ============================================================ */
+
+  const HARM_ARCHAEOLOGY_KEY = 'goddead_v83_harm_archaeology';
+  const HARM_ARCHAEOLOGY_VERSION = 83;
+  const HARM_SITES = ['closed-scar-site', 'zeroed-ledger-site', 'innocent-soil-site'];
+  const HARM_INSTRUMENTS = ['pain-reconstruction-brush', 'responsibility-pollen-sieve', 'missing-witness-cast'];
+  const HARM_INTERPRETATIONS = ['the-offender-never-existed', 'excavation-created-the-truth', 'the-wound-was-an-alibi', 'the-archive-was-the-second-offender'];
+  const HARM_HEARING_ACTIONS = ['convict-the-investigation', 'grant-the-wound-right-to-refuse-evidence', 'make-truth-outlive-every-victim'];
+
+  const HARM_SITE_TABLE = {
+    'closed-scar-site': { tallyKey: 'scar', title: '闭疤', feedback: '疤痕拒绝张开。考古员只好沿愈合纹路倒着切入，像把一句已经说完的话重新拆回尖叫。' },
+    'zeroed-ledger-site': { tallyKey: 'ledger', title: '零账', feedback: '账页没有余额，纸纤维却仍朝某个旧债主弯曲。数字消失以后，债的姿势还留在材料里。' },
+    'innocent-soil-site': { tallyKey: 'soil', title: '无罪土', feedback: '白色根系宣称这里从未发生过伤害。铲尖落下时，每一粒土却都本能地避开同一个名字。' },
+  };
+
+  const HARM_INSTRUMENT_TABLE = {
+    'pain-reconstruction-brush': {
+      title: '疼刷',
+      target: 'threshold',
+      feedback: '细刷没有触碰肉身，却让遗址记起当时应该怎样疼。复原越精确，当事人越像一份被强迫重演的标本。',
+      reconstructorFeedback: '复原员在门槛上刷回一声旧疼。门没有承认自己夹伤过谁，却开始为每一次关闭保留一份神经记录。',
+    },
+    'responsibility-pollen-sieve': {
+      title: '责筛',
+      target: 'liability-ledger',
+      feedback: '黑色花粉穿过筛网，全部飘向同一个空位。责任恢复了方向，却没有恢复一个可以承担它的人。',
+      reconstructorFeedback: '责任花粉在空账页上聚成箭头。箭头指向一处已被擦除的姓名栏，像追责终于抵达，却比承担者晚了一生。',
+    },
+    'missing-witness-cast': {
+      title: '缺证',
+      target: 'causeless-ward',
+      feedback: '骨白石膏填满证人从未站过的位置。凝固后，缺席获得了面孔，并开始描述自己没有看见的现场。',
+      reconstructorFeedback: '缺席证人的石膏像坐在无因病床旁，准确描述一场无人目击的伤害。病房接受了证词，却拒绝承认它来自任何活人。',
+    },
+  };
+
+  const HARM_INTERPRETATION_TABLE = {
+    'the-offender-never-existed': {
+      title: '无犯',
+      fragment: '现场拥有伤口、时间与因果，却找不到任何人站在行为发生的位置。报告因此认定：伤害完整发生了，加害者只是世界后来为了方便追责而虚构的语法。',
+    },
+    'excavation-created-the-truth': {
+      title: '造真',
+      fragment: '每一铲都发现与铲形完全吻合的证据。调查员终于承认，遗址没有回答问题；它只是被迫长成提问者预先相信的样子。',
+    },
+    'the-wound-was-an-alibi': {
+      title: '伤辩',
+      fragment: '伤口证明某件事发生过，也同时替所有可能的加害者证明自己不在场。疼痛成为最可靠的证物，因此也成为最完美的掩护。',
+    },
+    'the-archive-was-the-second-offender': {
+      title: '档再',
+      fragment: '档案把已经放下的人重新固定为受害者，把已经停止掌权的过去重新授予姓名。记录没有伪造伤害，只是拒绝允许伤害结束。',
+    },
+  };
+
+  const HARM_HEARING_TABLE = {
+    'convict-the-investigation': {
+      outcome: 'the-investigation-was-convicted-of-second-harm',
+      target: 'remembrance',
+      feedback: '听证庭给所有铲、刷与模具戴上封条。真相仍然成立，但此后任何人想引用它，都必须先承认自己正在让某处旧伤重新工作。',
+    },
+    'grant-the-wound-right-to-refuse-evidence': {
+      outcome: 'the-wound-was-granted-the-right-to-refuse-evidence',
+      target: 'threshold',
+      feedback: '闭合疤痕拒绝出庭，账页拒绝显字，土层拒绝交出名字。案件失去证据，却第一次没有把沉默解释成不存在。',
+    },
+    'make-truth-outlive-every-victim': {
+      outcome: 'truth-outlived-every-victim',
+      target: 'unending-gallery',
+      feedback: '档案升到没有人能够触碰的高度。最后一名受伤者死去后，真相仍然完整，只是再也没有谁能回答它究竟保护了谁。',
+    },
+  };
+
+  const HARM_HEARING_OUTCOME_BY_ID = {};
+  const HARM_HEARING_OUTCOME_IDS = HARM_HEARING_ACTIONS.map(a => {
+    const out = HARM_HEARING_TABLE[a].outcome;
+    HARM_HEARING_OUTCOME_BY_ID[out] = HARM_HEARING_TABLE[a];
+    return out;
+  });
+
+  const HARM_REPORT_IDS = [];
+  for (let s = 0; s < HARM_SITES.length; s++) {
+    for (let i = 0; i < HARM_INSTRUMENTS.length; i++) {
+      for (let p = 0; p < HARM_INTERPRETATIONS.length; p++) {
+        HARM_REPORT_IDS.push(`${HARM_SITES[s]}:${HARM_INSTRUMENTS[i]}:${HARM_INTERPRETATIONS[p]}`);
+      }
+    }
+  }
+
+  const HARM_ARCHAEOLOGY_ENTRY_FEEDBACK = '去复原被宽恕覆盖的伤害现场 · RECOVER HARM COVERED BY FORGIVENESS';
+  const HARM_HEARING_ENTRY_FEEDBACK = '听证调查是否成为第二次伤害 · HEAR WHETHER INVESTIGATION BECAME THE SECOND HARM';
+
+  function harmArchaeologyDelay() {
+    return reduced ? 300 : 1600;
+  }
+
+  function defaultHarmArchaeology() {
+    return {
+      version: HARM_ARCHAEOLOGY_VERSION,
+      visited: { bureau: false, excavation: false, scene: false, court: false },
+      draft: { site: '', instrument: '' },
+      reports: [],
+      hearingOutcomes: [],
+      excavationRuns: 0,
+      hearingRuns: 0,
+      siteTallies: { scar: 0, ledger: 0, soil: 0 },
+      lastOutcome: '',
+      activeReconstructor: null,
+      pending: null,
+    };
+  }
+
+  function normalizeHarmVisited(v) {
+    if (!v || typeof v !== 'object' || Array.isArray(v)) {
+      return { bureau: false, excavation: false, scene: false, court: false };
+    }
+    return {
+      bureau: v.bureau === true,
+      excavation: v.excavation === true,
+      scene: v.scene === true,
+      court: v.court === true,
+    };
+  }
+
+  function normalizeHarmDraft(d) {
+    if (!d || typeof d !== 'object' || Array.isArray(d)) {
+      return { site: '', instrument: '' };
+    }
+    const site = typeof d.site === 'string' && HARM_SITES.includes(d.site) ? d.site : '';
+    if (!site) {
+      return { site: '', instrument: '' };
+    }
+    const inst = typeof d.instrument === 'string' && HARM_INSTRUMENTS.includes(d.instrument) ? d.instrument : '';
+    return { site, instrument: inst };
+  }
+
+  function normalizeHarmReports(arr) {
+    if (!Array.isArray(arr)) return [];
+    const set = new Set();
+    for (let i = 0; i < arr.length; i++) {
+      if (typeof arr[i] === 'string' && HARM_REPORT_IDS.includes(arr[i])) {
+        set.add(arr[i]);
+      }
+    }
+    return HARM_REPORT_IDS.filter(id => set.has(id));
+  }
+
+  function normalizeHarmHearingOutcomes(arr) {
+    if (!Array.isArray(arr)) return [];
+    const set = new Set();
+    for (let i = 0; i < arr.length; i++) {
+      if (typeof arr[i] === 'string' && HARM_HEARING_OUTCOME_IDS.includes(arr[i])) {
+        set.add(arr[i]);
+      }
+    }
+    return HARM_HEARING_OUTCOME_IDS.filter(id => set.has(id));
+  }
+
+  function clampHarmCount(n) {
+    const num = Math.floor(Number(n) || 0);
+    if (num < 0) return 0;
+    if (num > 9999) return 9999;
+    return num;
+  }
+
+  function normalizeHarmTallies(t) {
+    if (!t || typeof t !== 'object' || Array.isArray(t)) {
+      return { scar: 0, ledger: 0, soil: 0 };
+    }
+    return {
+      scar: clampHarmCount(t.scar),
+      ledger: clampHarmCount(t.ledger),
+      soil: clampHarmCount(t.soil),
+    };
+  }
+
+  function normalizeHarmActiveReconstructor(rec, reports) {
+    if (!rec || typeof rec !== 'object' || Array.isArray(rec)) return null;
+    const keys = Object.keys(rec).sort();
+    if (keys.length !== 3 || keys[0] !== 'feedback' || keys[1] !== 'instrument' || keys[2] !== 'report') {
+      return null;
+    }
+    const inst = rec.instrument;
+    const rep = rec.report;
+    if (!HARM_INSTRUMENTS.includes(inst) || typeof rep !== 'string') {
+      return null;
+    }
+    const instTable = HARM_INSTRUMENT_TABLE[inst];
+    if (!instTable || rec.feedback !== instTable.reconstructorFeedback) {
+      return null;
+    }
+    const canonicalReports = Array.isArray(reports) ? reports : [];
+    if (!canonicalReports.includes(rep)) return null;
+    const parts = rep.split(':');
+    if (parts.length !== 3 || parts[1] !== inst) return null;
+    return {
+      feedback: instTable.reconstructorFeedback,
+      instrument: inst,
+      report: rep,
+    };
+  }
+
+  function computeHarmReportTitle(site, inst, interp) {
+    const sObj = HARM_SITE_TABLE[site];
+    const iObj = HARM_INSTRUMENT_TABLE[inst];
+    const pObj = HARM_INTERPRETATION_TABLE[interp];
+    if (!sObj || !iObj || !pObj) return '';
+    return `${sObj.title} × ${iObj.title} × ${pObj.title}`;
+  }
+
+  function computeHarmReportFeedback(site, inst, interp) {
+    const sObj = HARM_SITE_TABLE[site];
+    const iObj = HARM_INSTRUMENT_TABLE[inst];
+    const pObj = HARM_INTERPRETATION_TABLE[interp];
+    if (!sObj || !iObj || !pObj) return '';
+    return `${sObj.feedback} ${iObj.feedback} ${pObj.fragment}`;
+  }
+
+  function findHarmReportById(id) {
+    if (typeof id !== 'string' || !HARM_REPORT_IDS.includes(id)) return null;
+    const parts = id.split(':');
+    if (parts.length !== 3) return null;
+    const [site, instrument, interpretation] = parts;
+    return {
+      id,
+      site,
+      instrument,
+      interpretation,
+      title: computeHarmReportTitle(site, instrument, interpretation),
+      feedback: computeHarmReportFeedback(site, instrument, interpretation),
+    };
+  }
+
+  function harmArchaeologyUnlocked() {
+    if (typeof forgivenessLandfillUnlocked !== 'function' || !forgivenessLandfillUnlocked()) {
+      return false;
+    }
+    if (typeof getForgivenessLandfill !== 'function') return false;
+    const fState = getForgivenessLandfill();
+    if (!fState || typeof fState !== 'object') return false;
+    const disposals = Array.isArray(fState.disposals) ? fState.disposals : [];
+    if (disposals.length < 4) return false;
+    const wReq = new Set(['apology-never-accepted', 'debt-already-forgiven', 'wound-that-stopped-demanding']);
+    const cReq = new Set(['unopened-absolution-receipt', 'zero-balance-debt-scale', 'scar-closed-without-witness']);
+    const dReq = new Set(['bury-it-beneath-a-future-life', 'let-the-soil-forget-the-cause', 'grow-innocence-from-old-harm', 'exhume-it-for-permanent-record']);
+
+    const wSeen = new Set();
+    const cSeen = new Set();
+    const dSeen = new Set();
+
+    for (let i = 0; i < disposals.length; i++) {
+      const b = disposals[i];
+      if (typeof b === 'string') {
+        const parts = b.split(':');
+        if (parts.length === 3) {
+          if (wReq.has(parts[0])) wSeen.add(parts[0]);
+          if (cReq.has(parts[1])) cSeen.add(parts[1]);
+          if (dReq.has(parts[2])) dSeen.add(parts[2]);
+        }
+      }
+    }
+
+    if (wSeen.size < 3 || cSeen.size < 3 || dSeen.size < 4) return false;
+
+    const wOutcomes = Array.isArray(fState.wellOutcomes) ? fState.wellOutcomes : [];
+    const requiredWell = [
+      'every-forgiven-harm-was-sealed-forever',
+      'the-need-for-forgiveness-was-erased',
+      'harm-outlived-its-own-forgiveness',
+    ];
+    for (let j = 0; j < requiredWell.length; j++) {
+      if (!wOutcomes.includes(requiredWell[j])) return false;
+    }
+    return true;
+  }
+
+  function harmArchaeologyCoverageComplete(st) {
+    if (!st || typeof st !== 'object') return false;
+    const reports = normalizeHarmReports(st.reports);
+    if (reports.length < 4) return false;
+    const sSet = new Set();
+    const iSet = new Set();
+    const pSet = new Set();
+    for (let idx = 0; idx < reports.length; idx++) {
+      const parts = reports[idx].split(':');
+      if (parts.length === 3) {
+        sSet.add(parts[0]);
+        iSet.add(parts[1]);
+        pSet.add(parts[2]);
+      }
+    }
+    return sSet.size === HARM_SITES.length &&
+           iSet.size === HARM_INSTRUMENTS.length &&
+           pSet.size === HARM_INTERPRETATIONS.length;
+  }
+
+  function normalizeHarmPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p)) return null;
+    if (!st || st._v83unlocked !== true) return null;
+    const kind = p.kind;
+    if (typeof kind !== 'string') return null;
+    const keys = Object.keys(p).sort();
+
+    if (kind === 'entry') {
+      if (keys.length !== 3 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'target') return null;
+      if (p.target !== 'harm-archaeology-bureau') return null;
+      if (p.feedback !== HARM_ARCHAEOLOGY_ENTRY_FEEDBACK) return null;
+      if (st.draft.site !== '' || st.draft.instrument !== '' || st.activeReconstructor !== null) return null;
+      return { feedback: p.feedback, kind: 'entry', target: 'harm-archaeology-bureau' };
+    }
+
+    if (kind === 'site') {
+      if (keys.length !== 5 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'site' || keys[3] !== 'source' || keys[4] !== 'target') return null;
+      if (p.source !== 'harm-archaeology-bureau' || p.target !== 'forensic-mercy-excavation') return null;
+      if (!HARM_SITES.includes(p.site)) return null;
+      if (p.feedback !== HARM_SITE_TABLE[p.site].feedback) return null;
+      if (st.draft.site !== '' || st.draft.instrument !== '' || st.activeReconstructor !== null) return null;
+      return { feedback: p.feedback, kind: 'site', site: p.site, source: 'harm-archaeology-bureau', target: 'forensic-mercy-excavation' };
+    }
+
+    if (kind === 'instrument') {
+      if (keys.length !== 6 || keys[0] !== 'feedback' || keys[1] !== 'instrument' || keys[2] !== 'kind' || keys[3] !== 'site' || keys[4] !== 'source' || keys[5] !== 'target') return null;
+      if (p.source !== 'forensic-mercy-excavation' || p.target !== 'crime-scene-without-offender') return null;
+      if (!HARM_SITES.includes(p.site) || !HARM_INSTRUMENTS.includes(p.instrument)) return null;
+      if (st.draft.site !== p.site || st.draft.instrument !== '') return null;
+      if (p.feedback !== HARM_INSTRUMENT_TABLE[p.instrument].feedback) return null;
+      if (st.activeReconstructor !== null) return null;
+      return { feedback: p.feedback, instrument: p.instrument, kind: 'instrument', site: p.site, source: 'forensic-mercy-excavation', target: 'crime-scene-without-offender' };
+    }
+
+    if (kind === 'report') {
+      if (keys.length !== 8 || keys[0] !== 'feedback' || keys[1] !== 'instrument' || keys[2] !== 'interpretation' || keys[3] !== 'kind' || keys[4] !== 'report' || keys[5] !== 'site' || keys[6] !== 'source' || keys[7] !== 'target') return null;
+      if (p.source !== 'crime-scene-without-offender') return null;
+      if (!HARM_SITES.includes(p.site) || !HARM_INSTRUMENTS.includes(p.instrument) || !HARM_INTERPRETATIONS.includes(p.interpretation)) return null;
+      if (st.draft.site !== p.site || st.draft.instrument !== p.instrument) return null;
+      const expectedReport = `${p.site}:${p.instrument}:${p.interpretation}`;
+      if (p.report !== expectedReport) return null;
+      const iObj = HARM_INSTRUMENT_TABLE[p.instrument];
+      if (!iObj || p.target !== iObj.target) return null;
+      const expectedFb = computeHarmReportFeedback(p.site, p.instrument, p.interpretation);
+      if (p.feedback !== expectedFb) return null;
+      if (st.activeReconstructor !== null) return null;
+      return {
+        feedback: p.feedback,
+        instrument: p.instrument,
+        interpretation: p.interpretation,
+        kind: 'report',
+        report: p.report,
+        site: p.site,
+        source: 'crime-scene-without-offender',
+        target: p.target,
+      };
+    }
+
+    if (kind === 'reconstructor-return') {
+      if (keys.length !== 5 || keys[0] !== 'feedback' || keys[1] !== 'from' || keys[2] !== 'kind' || keys[3] !== 'report' || keys[4] !== 'target') return null;
+      if (p.target !== 'harm-archaeology-bureau') return null;
+      if (!st.activeReconstructor) return null;
+      const iObj = HARM_INSTRUMENT_TABLE[st.activeReconstructor.instrument];
+      if (!iObj || p.from !== iObj.target) return null;
+      if (typeof p.report !== 'string' || !st.reports.includes(p.report)) return null;
+      const parts = p.report.split(':');
+      if (parts.length !== 3 || parts[1] !== st.activeReconstructor.instrument) return null;
+      if (p.feedback !== iObj.reconstructorFeedback) return null;
+      return { feedback: p.feedback, from: p.from, kind: 'reconstructor-return', report: p.report, target: 'harm-archaeology-bureau' };
+    }
+
+    if (kind === 'hearing-entry') {
+      if (keys.length !== 3 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'target') return null;
+      if (p.target !== 'second-harm-hearing-court') return null;
+      if (p.feedback !== HARM_HEARING_ENTRY_FEEDBACK) return null;
+      if (!harmArchaeologyCoverageComplete(st)) return null;
+      if (st.draft.site !== '' || st.draft.instrument !== '' || st.activeReconstructor !== null) return null;
+      return { feedback: p.feedback, kind: 'hearing-entry', target: 'second-harm-hearing-court' };
+    }
+
+    if (kind === 'hearing') {
+      if (keys.length !== 6 || keys[0] !== 'action' || keys[1] !== 'feedback' || keys[2] !== 'kind' || keys[3] !== 'outcome' || keys[4] !== 'source' || keys[5] !== 'target') return null;
+      if (p.source !== 'second-harm-hearing-court') return null;
+      if (!HARM_HEARING_ACTIONS.includes(p.action)) return null;
+      const hObj = HARM_HEARING_TABLE[p.action];
+      if (!hObj || p.outcome !== hObj.outcome || p.target !== hObj.target || p.feedback !== hObj.feedback) return null;
+      if (!harmArchaeologyCoverageComplete(st)) return null;
+      if (st.visited.court !== true) return null;
+      if (st.draft.site !== '' || st.draft.instrument !== '' || st.activeReconstructor !== null) return null;
+      return { action: p.action, feedback: p.feedback, kind: 'hearing', outcome: p.outcome, source: 'second-harm-hearing-court', target: p.target };
+    }
+
+    return null;
+  }
+
+  function getHarmArchaeology() {
+    const unlocked = harmArchaeologyUnlocked();
+    if (!unlocked) return defaultHarmArchaeology();
+    let raw;
+    try {
+      const str = store.get(HARM_ARCHAEOLOGY_KEY, '{}');
+      raw = typeof str === 'string' ? JSON.parse(str) : str;
+    } catch (e) {
+      return defaultHarmArchaeology();
+    }
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+      return defaultHarmArchaeology();
+    }
+    if (raw.version !== HARM_ARCHAEOLOGY_VERSION) {
+      return defaultHarmArchaeology();
+    }
+
+    const visited = normalizeHarmVisited(raw.visited);
+    const draft = normalizeHarmDraft(raw.draft);
+    const reports = normalizeHarmReports(raw.reports);
+    const hearingOutcomes = normalizeHarmHearingOutcomes(raw.hearingOutcomes);
+    const excavationRuns = clampHarmCount(raw.excavationRuns);
+    const hearingRuns = clampHarmCount(raw.hearingRuns);
+    const siteTallies = normalizeHarmTallies(raw.siteTallies);
+    const activeReconstructor = normalizeHarmActiveReconstructor(raw.activeReconstructor, reports);
+
+    let lastOutcome = '';
+    if (typeof raw.lastOutcome === 'string') {
+      if (reports.includes(raw.lastOutcome) || hearingOutcomes.includes(raw.lastOutcome)) {
+        lastOutcome = raw.lastOutcome;
+      }
+    }
+
+    const preSt = {
+      version: HARM_ARCHAEOLOGY_VERSION,
+      visited,
+      draft,
+      reports,
+      hearingOutcomes,
+      excavationRuns,
+      hearingRuns,
+      siteTallies,
+      lastOutcome,
+      activeReconstructor,
+      pending: null,
+      _v83unlocked: true,
+    };
+    const pending = normalizeHarmPending(raw.pending, preSt);
+
+    return {
+      version: HARM_ARCHAEOLOGY_VERSION,
+      visited,
+      draft,
+      reports,
+      hearingOutcomes,
+      excavationRuns,
+      hearingRuns,
+      siteTallies,
+      lastOutcome,
+      activeReconstructor,
+      pending,
+    };
+  }
+
+  function saveHarmArchaeology(st) {
+    const unlocked = harmArchaeologyUnlocked();
+    if (!unlocked) return defaultHarmArchaeology();
+    if (!st || typeof st !== 'object' || Array.isArray(st)) {
+      const d = defaultHarmArchaeology();
+      store.set(HARM_ARCHAEOLOGY_KEY, JSON.stringify(d));
+      return d;
+    }
+
+    const visited = normalizeHarmVisited(st.visited);
+    const draft = normalizeHarmDraft(st.draft);
+    const reports = normalizeHarmReports(st.reports);
+    const hearingOutcomes = normalizeHarmHearingOutcomes(st.hearingOutcomes);
+    const excavationRuns = clampHarmCount(st.excavationRuns);
+    const hearingRuns = clampHarmCount(st.hearingRuns);
+    const siteTallies = normalizeHarmTallies(st.siteTallies);
+    const activeReconstructor = normalizeHarmActiveReconstructor(st.activeReconstructor, reports);
+
+    let lastOutcome = '';
+    if (typeof st.lastOutcome === 'string') {
+      if (reports.includes(st.lastOutcome) || hearingOutcomes.includes(st.lastOutcome)) {
+        lastOutcome = st.lastOutcome;
+      }
+    }
+
+    const preSt = {
+      version: HARM_ARCHAEOLOGY_VERSION,
+      visited,
+      draft,
+      reports,
+      hearingOutcomes,
+      excavationRuns,
+      hearingRuns,
+      siteTallies,
+      lastOutcome,
+      activeReconstructor,
+      pending: null,
+      _v83unlocked: true,
+    };
+    const pending = normalizeHarmPending(st.pending, preSt);
+
+    const canonical = {
+      version: HARM_ARCHAEOLOGY_VERSION,
+      visited,
+      draft,
+      reports,
+      hearingOutcomes,
+      excavationRuns,
+      hearingRuns,
+      siteTallies,
+      lastOutcome,
+      activeReconstructor,
+      pending,
+    };
+    store.set(HARM_ARCHAEOLOGY_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function getHarmPendingLogicalSource(p) {
+    if (!p || !p.kind) return '';
+    if (p.kind === 'entry' || p.kind === 'hearing-entry') return 'remembrance';
+    if (p.kind === 'reconstructor-return') return p.from;
+    return p.source || '';
+  }
+
+  function harmArchaeologyBeforeArrive(targetScene) {
+    resolveHarmPendingOnArrival(targetScene);
+  }
+
+  function resolveHarmPendingOnArrival(sceneName) {
+    const st = getHarmArchaeology();
+    if (!st || !st.pending) return st;
+    const p = st.pending;
+
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.bureau = true;
+      } else if (p.kind === 'site') {
+        st.visited.excavation = true;
+        st.draft = { site: p.site, instrument: '' };
+      } else if (p.kind === 'instrument') {
+        st.visited.scene = true;
+        st.draft.instrument = p.instrument;
+      } else if (p.kind === 'report') {
+        st.excavationRuns = clampHarmCount(st.excavationRuns + 1);
+        const sObj = HARM_SITE_TABLE[p.site];
+        if (sObj && sObj.tallyKey) {
+          st.siteTallies[sObj.tallyKey] = clampHarmCount(st.siteTallies[sObj.tallyKey] + 1);
+        }
+        if (!st.reports.includes(p.report)) {
+          st.reports = normalizeHarmReports(st.reports.concat(p.report));
+        }
+        st.lastOutcome = p.report;
+        const iObj = HARM_INSTRUMENT_TABLE[p.instrument];
+        st.activeReconstructor = {
+          feedback: iObj ? iObj.reconstructorFeedback : '',
+          instrument: p.instrument,
+          report: p.report,
+        };
+        st.draft = { site: '', instrument: '' };
+      } else if (p.kind === 'reconstructor-return') {
+        st.activeReconstructor = null;
+        st.visited.bureau = true;
+      } else if (p.kind === 'hearing-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'hearing') {
+        st.hearingRuns = clampHarmCount(st.hearingRuns + 1);
+        if (!st.hearingOutcomes.includes(p.outcome)) {
+          st.hearingOutcomes = normalizeHarmHearingOutcomes(st.hearingOutcomes.concat(p.outcome));
+        }
+        st.lastOutcome = p.outcome;
+      }
+      return saveHarmArchaeology(st);
+    }
+
+    const logicalSource = getHarmPendingLogicalSource(p);
+    if (sceneName === logicalSource) {
+      return st;
+    }
+
+    st.pending = null;
+    return saveHarmArchaeology(st);
+  }
+
+  function replayHarmArchaeologyPending(sceneName) {
+    const st = getHarmArchaeology();
+    if (!st.pending) {
+      syncHarmArchaeologyBureau();
+      syncForensicMercyExcavation();
+      syncCrimeSceneWithoutOffender();
+      syncSecondHarmHearingCourt();
+      syncHarmReconstructors();
+      return;
+    }
+    const p = st.pending;
+    if (p.target === sceneName) {
+      resolveHarmPendingOnArrival(sceneName);
+      syncHarmArchaeologyBureau();
+      syncForensicMercyExcavation();
+      syncCrimeSceneWithoutOffender();
+      syncSecondHarmHearingCourt();
+      syncHarmReconstructors();
+      return;
+    }
+
+    const logicalSource = getHarmPendingLogicalSource(p);
+    if (sceneName === logicalSource) {
+      syncHarmArchaeologyBureau();
+      syncForensicMercyExcavation();
+      syncCrimeSceneWithoutOffender();
+      syncSecondHarmHearingCourt();
+      syncHarmReconstructors();
+      AutoAdvance.schedule(sceneName, p.target, { delay: harmArchaeologyDelay() });
+      return;
+    }
+
+    st.pending = null;
+    saveHarmArchaeology(st);
+    syncHarmArchaeologyBureau();
+    syncForensicMercyExcavation();
+    syncCrimeSceneWithoutOffender();
+    syncSecondHarmHearingCourt();
+    syncHarmReconstructors();
+  }
+
+  function chooseHarmArchaeologyEntry() {
+    if (typeof currentScene !== 'string' || currentScene !== 'remembrance') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('remembrance')) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable('harm-archaeology-entry-btn')) return;
+    if (!harmArchaeologyUnlocked()) return;
+    const st = getHarmArchaeology();
+    if (st.pending || st.activeReconstructor || st.draft.site !== '' || st.draft.instrument !== '') return;
+
+    st.pending = {
+      feedback: HARM_ARCHAEOLOGY_ENTRY_FEEDBACK,
+      kind: 'entry',
+      target: 'harm-archaeology-bureau',
+    };
+    saveHarmArchaeology(st);
+
+    const resp = $('#harm-archaeology-entry-response');
+    if (resp) {
+      resp.textContent = HARM_ARCHAEOLOGY_ENTRY_FEEDBACK;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $('#harm-archaeology-entry-btn');
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('remembrance', 'harm-archaeology-bureau', { delay: harmArchaeologyDelay() });
+  }
+
+  function chooseHarmSite(site) {
+    if (typeof currentScene !== 'string' || currentScene !== 'harm-archaeology-bureau') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('harm-archaeology-bureau')) return;
+    if (!HARM_SITES.includes(site)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`harm-site-${site}`)) return;
+    if (!harmArchaeologyUnlocked()) return;
+    const st = getHarmArchaeology();
+    if (st.pending || st.activeReconstructor || st.draft.site !== '' || st.draft.instrument !== '') return;
+
+    const sObj = HARM_SITE_TABLE[site];
+    st.pending = {
+      feedback: sObj.feedback,
+      kind: 'site',
+      site,
+      source: 'harm-archaeology-bureau',
+      target: 'forensic-mercy-excavation',
+    };
+    saveHarmArchaeology(st);
+
+    const resp = $('#harm-archaeology-bureau-response');
+    if (resp) {
+      resp.textContent = sObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#harm-site-${site}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('harm-archaeology-bureau', 'forensic-mercy-excavation', { delay: harmArchaeologyDelay() });
+  }
+
+  function chooseHarmInstrument(instrument) {
+    if (typeof currentScene !== 'string' || currentScene !== 'forensic-mercy-excavation') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('forensic-mercy-excavation')) return;
+    if (!HARM_INSTRUMENTS.includes(instrument)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`harm-instrument-${instrument}`)) return;
+    if (!harmArchaeologyUnlocked()) return;
+    const st = getHarmArchaeology();
+    if (st.pending || st.activeReconstructor || !st.draft.site || st.draft.instrument !== '') return;
+
+    const iObj = HARM_INSTRUMENT_TABLE[instrument];
+    st.pending = {
+      feedback: iObj.feedback,
+      instrument,
+      kind: 'instrument',
+      site: st.draft.site,
+      source: 'forensic-mercy-excavation',
+      target: 'crime-scene-without-offender',
+    };
+    saveHarmArchaeology(st);
+
+    const resp = $('#forensic-mercy-excavation-response');
+    if (resp) {
+      resp.textContent = iObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#harm-instrument-${instrument}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('forensic-mercy-excavation', 'crime-scene-without-offender', { delay: harmArchaeologyDelay() });
+  }
+
+  function chooseHarmInterpretation(interpretation) {
+    if (typeof currentScene !== 'string' || currentScene !== 'crime-scene-without-offender') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('crime-scene-without-offender')) return;
+    if (!HARM_INTERPRETATIONS.includes(interpretation)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`harm-interpretation-${interpretation}`)) return;
+    if (!harmArchaeologyUnlocked()) return;
+    const st = getHarmArchaeology();
+    if (st.pending || st.activeReconstructor || !st.draft.site || !st.draft.instrument) return;
+
+    const iObj = HARM_INSTRUMENT_TABLE[st.draft.instrument];
+    const report = `${st.draft.site}:${st.draft.instrument}:${interpretation}`;
+    const feedback = computeHarmReportFeedback(st.draft.site, st.draft.instrument, interpretation);
+
+    st.pending = {
+      feedback,
+      instrument: st.draft.instrument,
+      interpretation,
+      kind: 'report',
+      report,
+      site: st.draft.site,
+      source: 'crime-scene-without-offender',
+      target: iObj.target,
+    };
+    saveHarmArchaeology(st);
+
+    const resp = $('#crime-scene-without-offender-response');
+    if (resp) {
+      resp.textContent = feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#harm-interpretation-${interpretation}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('crime-scene-without-offender', iObj.target, { delay: harmArchaeologyDelay() });
+  }
+
+  function chooseHarmReconstructorReturn(scene) {
+    if (typeof currentScene !== 'string' || currentScene !== scene) return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has(scene)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`harm-reconstructor-return-${scene}`)) return;
+    if (!harmArchaeologyUnlocked()) return;
+    const st = getHarmArchaeology();
+    if (st.pending || !st.activeReconstructor) return;
+    const iObj = HARM_INSTRUMENT_TABLE[st.activeReconstructor.instrument];
+    if (!iObj || iObj.target !== scene) return;
+
+    const matchingReport = st.reports.find(r => {
+      const p = r.split(':');
+      return p.length === 3 && p[1] === st.activeReconstructor.instrument;
+    });
+    if (!matchingReport) return;
+
+    st.pending = {
+      feedback: iObj.reconstructorFeedback,
+      from: scene,
+      kind: 'reconstructor-return',
+      report: matchingReport,
+      target: 'harm-archaeology-bureau',
+    };
+    saveHarmArchaeology(st);
+
+    const resp = $(`#harm-reconstructor-response-${scene}`);
+    if (resp) {
+      resp.textContent = iObj.reconstructorFeedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#harm-reconstructor-return-${scene}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule(scene, 'harm-archaeology-bureau', { delay: harmArchaeologyDelay() });
+  }
+
+  function chooseHarmHearingEntry() {
+    if (typeof currentScene !== 'string' || currentScene !== 'remembrance') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('remembrance')) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable('harm-hearing-entry-btn')) return;
+    if (!harmArchaeologyUnlocked()) return;
+    const st = getHarmArchaeology();
+    if (st.pending || st.activeReconstructor || st.draft.site !== '' || st.draft.instrument !== '' || !harmArchaeologyCoverageComplete(st)) return;
+
+    st.pending = {
+      feedback: HARM_HEARING_ENTRY_FEEDBACK,
+      kind: 'hearing-entry',
+      target: 'second-harm-hearing-court',
+    };
+    saveHarmArchaeology(st);
+
+    const resp = $('#harm-hearing-entry-response');
+    if (resp) {
+      resp.textContent = HARM_HEARING_ENTRY_FEEDBACK;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $('#harm-hearing-entry-btn');
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('remembrance', 'second-harm-hearing-court', { delay: harmArchaeologyDelay() });
+  }
+
+  function chooseHarmHearingAction(action) {
+    if (typeof currentScene !== 'string' || currentScene !== 'second-harm-hearing-court') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('second-harm-hearing-court')) return;
+    if (!HARM_HEARING_ACTIONS.includes(action)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`harm-hearing-${action}`)) return;
+    if (!harmArchaeologyUnlocked()) return;
+    const st = getHarmArchaeology();
+    if (st.pending || st.activeReconstructor || st.draft.site !== '' || st.draft.instrument !== '' || !harmArchaeologyCoverageComplete(st) || !st.visited.court) return;
+
+    const hObj = HARM_HEARING_TABLE[action];
+    st.pending = {
+      action,
+      feedback: hObj.feedback,
+      kind: 'hearing',
+      outcome: hObj.outcome,
+      source: 'second-harm-hearing-court',
+      target: hObj.target,
+    };
+    saveHarmArchaeology(st);
+
+    const resp = $('#second-harm-hearing-court-response');
+    if (resp) {
+      resp.textContent = hObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#harm-hearing-${action}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('second-harm-hearing-court', hObj.target, { delay: harmArchaeologyDelay() });
+  }
+
+  function harmArchaeologyBridgeAllows(targetScene) {
+    if (!harmArchaeologyUnlocked()) return false;
+    const st = getHarmArchaeology();
+    if (st.pending) {
+      if (st.pending.kind === 'report' && st.pending.target === targetScene) return true;
+      if (st.pending.kind === 'hearing' && st.pending.target === targetScene) return true;
+    }
+    if (st.activeReconstructor) {
+      const iObj = HARM_INSTRUMENT_TABLE[st.activeReconstructor.instrument];
+      if (iObj && iObj.target === targetScene) return true;
+    }
+    if (st.lastOutcome && st.hearingOutcomes.includes(st.lastOutcome)) {
+      const hearingEntry = HARM_HEARING_OUTCOME_BY_ID[st.lastOutcome];
+      if (hearingEntry && hearingEntry.target === targetScene) return true;
+    }
+    return false;
+  }
+
+  function harmArchaeologyBureauCanVisit() {
+    if (!harmArchaeologyUnlocked()) return false;
+    const st = getHarmArchaeology();
+    if (st.visited.bureau) return true;
+    if (st.pending && (st.pending.kind === 'entry' || st.pending.kind === 'reconstructor-return') && st.pending.target === 'harm-archaeology-bureau') {
+      return true;
+    }
+    return false;
+  }
+
+  function forensicMercyExcavationCanVisit() {
+    if (!harmArchaeologyUnlocked()) return false;
+    const st = getHarmArchaeology();
+    if (st.visited.excavation && st.draft.site) return true;
+    if (st.pending && st.pending.kind === 'site' && st.pending.target === 'forensic-mercy-excavation') {
+      return true;
+    }
+    return false;
+  }
+
+  function crimeSceneWithoutOffenderCanVisit() {
+    if (!harmArchaeologyUnlocked()) return false;
+    const st = getHarmArchaeology();
+    if (st.visited.scene && st.draft.site && st.draft.instrument) return true;
+    if (st.pending && st.pending.kind === 'instrument' && st.pending.target === 'crime-scene-without-offender') {
+      return true;
+    }
+    return false;
+  }
+
+  function secondHarmHearingCourtCanVisit() {
+    if (!harmArchaeologyUnlocked()) return false;
+    const st = getHarmArchaeology();
+    const complete = harmArchaeologyCoverageComplete(st);
+    if (st.visited.court && complete) return true;
+    if (st.pending && st.pending.kind === 'hearing-entry' && st.pending.target === 'second-harm-hearing-court') {
+      return true;
+    }
+    return false;
+  }
+
+  function syncHarmArchaeologyBureau() {
+    const fig = $('#harm-archaeology-bureau-figure');
+    const canVisit = harmArchaeologyBureauCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getHarmArchaeology();
+    const isPending = !!st.pending;
+
+    HARM_SITES.forEach(s => {
+      const btn = $(`#harm-site-${s}`);
+      if (btn) {
+        btn.disabled = isPending || !canVisit;
+        const pressed = st.pending && st.pending.kind === 'site' && st.pending.site === s;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#harm-archaeology-bureau-response');
+    if (resp && !isPending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    paintHarmArchaeologyMemory();
+    paintHarmArchaeologyCodex();
+    syncHarmArchaeologyLinks();
+  }
+
+  function syncForensicMercyExcavation() {
+    const fig = $('#forensic-mercy-excavation-figure');
+    const canVisit = forensicMercyExcavationCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getHarmArchaeology();
+    const isPending = !!st.pending;
+
+    HARM_INSTRUMENTS.forEach(i => {
+      const btn = $(`#harm-instrument-${i}`);
+      if (btn) {
+        btn.disabled = isPending || !canVisit;
+        const pressed = st.pending && st.pending.kind === 'instrument' && st.pending.instrument === i;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#forensic-mercy-excavation-response');
+    if (resp && !isPending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncHarmArchaeologyLinks();
+  }
+
+  function syncCrimeSceneWithoutOffender() {
+    const fig = $('#crime-scene-without-offender-figure');
+    const canVisit = crimeSceneWithoutOffenderCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getHarmArchaeology();
+    const isPending = !!st.pending;
+
+    HARM_INTERPRETATIONS.forEach(p => {
+      const btn = $(`#harm-interpretation-${p}`);
+      if (btn) {
+        btn.disabled = isPending || !canVisit;
+        const pressed = st.pending && st.pending.kind === 'report' && st.pending.interpretation === p;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#crime-scene-without-offender-response');
+    if (resp && !isPending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncHarmArchaeologyLinks();
+  }
+
+  function syncSecondHarmHearingCourt() {
+    const fig = $('#second-harm-hearing-court-figure');
+    const canVisit = secondHarmHearingCourtCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getHarmArchaeology();
+    const isPending = !!st.pending;
+
+    HARM_HEARING_ACTIONS.forEach(a => {
+      const btn = $(`#harm-hearing-${a}`);
+      if (btn) {
+        btn.disabled = isPending || !canVisit;
+        const pressed = st.pending && st.pending.kind === 'hearing' && st.pending.action === a;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#second-harm-hearing-court-response');
+    if (resp && !isPending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncHarmArchaeologyLinks();
+  }
+
+  function syncHarmReconstructors() {
+    const st = getHarmArchaeology();
+    const scenes = ['threshold', 'liability-ledger', 'causeless-ward'];
+
+    scenes.forEach(scene => {
+      const cont = $(`#harm-reconstructor-${scene}`);
+      const resp = $(`#harm-reconstructor-response-${scene}`);
+      const btn = $(`#harm-reconstructor-return-${scene}`);
+
+      let shouldShow = false;
+      if (st.activeReconstructor) {
+        const iObj = HARM_INSTRUMENT_TABLE[st.activeReconstructor.instrument];
+        if (iObj && iObj.target === scene) {
+          shouldShow = true;
+        }
+      }
+      if (cont) {
+        cont.hidden = !shouldShow;
+        if (shouldShow) cont.removeAttribute('hidden');
+      }
+      if (resp) {
+        if (shouldShow && st.activeReconstructor) {
+          resp.textContent = st.activeReconstructor.feedback;
+          resp.hidden = false;
+          resp.removeAttribute('hidden');
+        } else {
+          resp.textContent = '';
+          resp.hidden = true;
+        }
+      }
+      if (btn) {
+        btn.hidden = !shouldShow;
+        if (shouldShow) btn.removeAttribute('hidden');
+        btn.disabled = !shouldShow || !!st.pending;
+        const pressed = st.pending && st.pending.kind === 'reconstructor-return' && st.pending.from === scene;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+  }
+
+  function paintHarmArchaeologyMemory() {
+    const mem = $('#harm-archaeology-memory');
+    if (!mem) return;
+    if (!harmArchaeologyUnlocked()) {
+      mem.hidden = true;
+      return;
+    }
+    mem.hidden = false;
+    mem.removeAttribute('hidden');
+    const st = getHarmArchaeology();
+    const reports = st.reports;
+    const count = reports.length;
+
+    const sCounts = { 'closed-scar-site': 0, 'zeroed-ledger-site': 0, 'innocent-soil-site': 0 };
+    const iCounts = { 'pain-reconstruction-brush': 0, 'responsibility-pollen-sieve': 0, 'missing-witness-cast': 0 };
+    const pCounts = { 'the-offender-never-existed': 0, 'excavation-created-the-truth': 0, 'the-wound-was-an-alibi': 0, 'the-archive-was-the-second-offender': 0 };
+
+    reports.forEach(id => {
+      const p = id.split(':');
+      if (p.length === 3) {
+        if (sCounts[p[0]] !== undefined) sCounts[p[0]]++;
+        if (iCounts[p[1]] !== undefined) iCounts[p[1]]++;
+        if (pCounts[p[2]] !== undefined) pCounts[p[2]]++;
+      }
+    });
+
+    const scar = st.siteTallies.scar;
+    const ledger = st.siteTallies.ledger;
+    const soil = st.siteTallies.soil;
+
+    const pCount = iCounts['pain-reconstruction-brush'];
+    const rCount = iCounts['responsibility-pollen-sieve'];
+    const wCount = iCounts['missing-witness-cast'];
+
+    const oCount = pCounts['the-offender-never-existed'];
+    const tCount = pCounts['excavation-created-the-truth'];
+    const aCount = pCounts['the-wound-was-an-alibi'];
+    const hCount = pCounts['the-archive-was-the-second-offender'];
+
+    let majority = '均衡发掘';
+    if (scar > ledger && scar > soil) majority = '主要发掘闭合疤痕';
+    else if (ledger > scar && ledger > soil) majority = '主要发掘归零账簿';
+    else if (soil > scar && soil > ledger) majority = '主要发掘无罪土层';
+
+    const text = `伤害考古局：已复原 ${count}/36 处现场，共发掘 ${st.excavationRuns} 次；遗址 闭疤 ${scar} / 零账 ${ledger} / 无罪土 ${soil}；工具 疼刷 ${pCount} / 责筛 ${rCount} / 缺证 ${wCount}；解释 无犯 ${oCount} / 造真 ${tCount} / 伤辩 ${aCount} / 档再 ${hCount}；遗址多数 ${majority}；听证结局 ${st.hearingOutcomes.length}/3。`;
+    mem.textContent = text;
+  }
+
+  function paintHarmArchaeologyCodex() {
+    const codex = $('#harm-archaeology-codex');
+    const grid = $('#harm-archaeology-codex-grid');
+    if (!codex || !grid) return;
+    if (!harmArchaeologyUnlocked()) {
+      codex.hidden = true;
+      return;
+    }
+    codex.hidden = false;
+    codex.removeAttribute('hidden');
+    grid.textContent = '';
+
+    const st = getHarmArchaeology();
+    const collectedReports = new Set(st.reports);
+    const collectedOutcomes = new Set(st.hearingOutcomes);
+
+    HARM_REPORT_IDS.forEach(id => {
+      const cell = document.createElement('div');
+      if (collectedReports.has(id)) {
+        cell.className = 'harm-archaeology-cell is-unlocked';
+        const item = findHarmReportById(id);
+        cell.textContent = item ? `${item.title}\n${item.feedback}` : id;
+      } else {
+        cell.className = 'harm-archaeology-cell is-locked';
+        cell.textContent = '？？？';
+      }
+      grid.appendChild(cell);
+    });
+
+    HARM_HEARING_ACTIONS.forEach(action => {
+      const hObj = HARM_HEARING_TABLE[action];
+      const cell = document.createElement('div');
+      if (collectedOutcomes.has(hObj.outcome)) {
+        cell.className = 'harm-archaeology-cell is-unlocked';
+        cell.textContent = `[听证庭] ${hObj.outcome}\n${hObj.feedback}`;
+      } else {
+        cell.className = 'harm-archaeology-cell is-locked';
+        cell.textContent = '？？？';
+      }
+      grid.appendChild(cell);
+    });
+  }
+
+  function syncHarmArchaeologyRemembrance() {
+    const unlocked = harmArchaeologyUnlocked();
+    const entryShell = $('#harm-archaeology-codex-entry');
+    const entryBtn = $('#harm-archaeology-entry-btn');
+    const hearingBtn = $('#harm-hearing-entry-btn');
+
+    if (!unlocked) {
+      if (entryShell) entryShell.hidden = true;
+      if (entryBtn) entryBtn.hidden = true;
+      if (hearingBtn) hearingBtn.hidden = true;
+      return;
+    }
+
+    if (entryShell) {
+      entryShell.hidden = false;
+      entryShell.removeAttribute('hidden');
+    }
+
+    const st = getHarmArchaeology();
+    const isClean = !st.pending && !st.activeReconstructor && st.draft.site === '' && st.draft.instrument === '';
+
+    if (entryBtn) {
+      entryBtn.hidden = false;
+      entryBtn.removeAttribute('hidden');
+      entryBtn.disabled = !isClean;
+      const pressed = st.pending && st.pending.kind === 'entry';
+      entryBtn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+    }
+
+    if (hearingBtn) {
+      const coverage = harmArchaeologyCoverageComplete(st);
+      hearingBtn.hidden = !coverage;
+      if (coverage) hearingBtn.removeAttribute('hidden');
+      hearingBtn.disabled = !isClean || !coverage;
+      const pressed = st.pending && st.pending.kind === 'hearing-entry';
+      hearingBtn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+    }
+  }
+
+  function syncHarmArchaeologyLinks() {
+    const unlocked = harmArchaeologyUnlocked();
+    const links = [
+      { id: 'harm-archaeology-bureau-link', key: 'bureau' },
+      { id: 'forensic-mercy-excavation-link', key: 'excavation' },
+      { id: 'crime-scene-without-offender-link', key: 'scene' },
+      { id: 'second-harm-hearing-court-link', key: 'court' },
+    ];
+    const st = unlocked ? getHarmArchaeology() : null;
+
+    links.forEach(l => {
+      const el = $(`#${l.id}`);
+      if (el) {
+        const show = unlocked && st && st.visited[l.key] === true;
+        el.hidden = !show;
+        if (show) el.removeAttribute('hidden');
+      }
+    });
+  }
+
+  const harmArchaeologyEntryBtn = $('#harm-archaeology-entry-btn');
+  if (harmArchaeologyEntryBtn) {
+    harmArchaeologyEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseHarmArchaeologyEntry();
+    });
+  }
+
+  const harmHearingEntryBtn = $('#harm-hearing-entry-btn');
+  if (harmHearingEntryBtn) {
+    harmHearingEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseHarmHearingEntry();
+    });
+  }
+
+  const harmSiteClosedScarSiteBtn = $('#harm-site-closed-scar-site');
+  if (harmSiteClosedScarSiteBtn) {
+    harmSiteClosedScarSiteBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseHarmSite('closed-scar-site');
+    });
+  }
+
+  const harmSiteZeroedLedgerSiteBtn = $('#harm-site-zeroed-ledger-site');
+  if (harmSiteZeroedLedgerSiteBtn) {
+    harmSiteZeroedLedgerSiteBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseHarmSite('zeroed-ledger-site');
+    });
+  }
+
+  const harmSiteInnocentSoilSiteBtn = $('#harm-site-innocent-soil-site');
+  if (harmSiteInnocentSoilSiteBtn) {
+    harmSiteInnocentSoilSiteBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseHarmSite('innocent-soil-site');
+    });
+  }
+
+  const harmInstrumentPainReconstructionBrushBtn = $('#harm-instrument-pain-reconstruction-brush');
+  if (harmInstrumentPainReconstructionBrushBtn) {
+    harmInstrumentPainReconstructionBrushBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseHarmInstrument('pain-reconstruction-brush');
+    });
+  }
+
+  const harmInstrumentResponsibilityPollenSieveBtn = $('#harm-instrument-responsibility-pollen-sieve');
+  if (harmInstrumentResponsibilityPollenSieveBtn) {
+    harmInstrumentResponsibilityPollenSieveBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseHarmInstrument('responsibility-pollen-sieve');
+    });
+  }
+
+  const harmInstrumentMissingWitnessCastBtn = $('#harm-instrument-missing-witness-cast');
+  if (harmInstrumentMissingWitnessCastBtn) {
+    harmInstrumentMissingWitnessCastBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseHarmInstrument('missing-witness-cast');
+    });
+  }
+
+  const harmInterpretationTheOffenderNeverExistedBtn = $('#harm-interpretation-the-offender-never-existed');
+  if (harmInterpretationTheOffenderNeverExistedBtn) {
+    harmInterpretationTheOffenderNeverExistedBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseHarmInterpretation('the-offender-never-existed');
+    });
+  }
+
+  const harmInterpretationExcavationCreatedTheTruthBtn = $('#harm-interpretation-excavation-created-the-truth');
+  if (harmInterpretationExcavationCreatedTheTruthBtn) {
+    harmInterpretationExcavationCreatedTheTruthBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseHarmInterpretation('excavation-created-the-truth');
+    });
+  }
+
+  const harmInterpretationTheWoundWasAnAlibiBtn = $('#harm-interpretation-the-wound-was-an-alibi');
+  if (harmInterpretationTheWoundWasAnAlibiBtn) {
+    harmInterpretationTheWoundWasAnAlibiBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseHarmInterpretation('the-wound-was-an-alibi');
+    });
+  }
+
+  const harmInterpretationTheArchiveWasTheSecondOffenderBtn = $('#harm-interpretation-the-archive-was-the-second-offender');
+  if (harmInterpretationTheArchiveWasTheSecondOffenderBtn) {
+    harmInterpretationTheArchiveWasTheSecondOffenderBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseHarmInterpretation('the-archive-was-the-second-offender');
+    });
+  }
+
+  const harmReconstructorReturnThresholdBtn = $('#harm-reconstructor-return-threshold');
+  if (harmReconstructorReturnThresholdBtn) {
+    harmReconstructorReturnThresholdBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseHarmReconstructorReturn('threshold');
+    });
+  }
+
+  const harmReconstructorReturnLiabilityLedgerBtn = $('#harm-reconstructor-return-liability-ledger');
+  if (harmReconstructorReturnLiabilityLedgerBtn) {
+    harmReconstructorReturnLiabilityLedgerBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseHarmReconstructorReturn('liability-ledger');
+    });
+  }
+
+  const harmReconstructorReturnCauselessWardBtn = $('#harm-reconstructor-return-causeless-ward');
+  if (harmReconstructorReturnCauselessWardBtn) {
+    harmReconstructorReturnCauselessWardBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseHarmReconstructorReturn('causeless-ward');
+    });
+  }
+
+  const harmHearingConvictTheInvestigationBtn = $('#harm-hearing-convict-the-investigation');
+  if (harmHearingConvictTheInvestigationBtn) {
+    harmHearingConvictTheInvestigationBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseHarmHearingAction('convict-the-investigation');
+    });
+  }
+
+  const harmHearingGrantTheWoundRightToRefuseEvidenceBtn = $('#harm-hearing-grant-the-wound-right-to-refuse-evidence');
+  if (harmHearingGrantTheWoundRightToRefuseEvidenceBtn) {
+    harmHearingGrantTheWoundRightToRefuseEvidenceBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseHarmHearingAction('grant-the-wound-right-to-refuse-evidence');
+    });
+  }
+
+  const harmHearingMakeTruthOutliveEveryVictimBtn = $('#harm-hearing-make-truth-outlive-every-victim');
+  if (harmHearingMakeTruthOutliveEveryVictimBtn) {
+    harmHearingMakeTruthOutliveEveryVictimBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseHarmHearingAction('make-truth-outlive-every-victim');
+    });
+  }
+
+
+  /* ============================================================
+     v84: 无罪证人保护院 (Witness Protection for the Innocent)
+     ============================================================ */
+
+  const WITNESS_PROTECTION_KEY = 'goddead_v84_innocent_witness_protection';
+  const WITNESS_PROTECTION_VERSION = 84;
+  const WITNESS_TARGETS = ['witness-who-survived-testimony', 'witness-shaped-like-offender', 'witness-whose-silence-confessed'];
+  const WITNESS_PROCEDURES = ['launder-the-recognized-face', 'relocate-the-incriminating-shadow', 'rehouse-the-witness-memory'];
+  const WITNESS_TERMS = ['witness-forgets-what-was-seen', 'testimony-uses-a-future-name', 'world-forgets-the-crime', 'innocence-impersonates-the-witness'];
+  const WITNESS_COURT_ACTIONS = ['abolish-eyewitnesses-to-protect-them', 'hide-truth-under-eternal-alias', 'return-memory-to-every-protected-witness'];
+
+  const WITNESS_TARGET_TABLE = {
+    'witness-who-survived-testimony': { tallyKey: 'survivor', title: '活证', feedback: '证词已经离开嘴巴，仍沿着说话者的骨头继续回响。保护院判定：只要证人还活着，真相就拥有可以追踪的回声。' },
+    'witness-shaped-like-offender': { tallyKey: 'double', title: '形疑', feedback: '现场只记得一个轮廓，而证人的影子恰好填满它。无罪没有改变形状，只能申请让形状先失踪。' },
+    'witness-whose-silence-confessed': { tallyKey: 'silence', title: '默供', feedback: '证人没有说话，档案却把停顿转写成一份完整口供。沉默如今知道太多，因此被列入证人和嫌疑人两份名单。' },
+  };
+
+  const WITNESS_PROCEDURE_TABLE = {
+    'launder-the-recognized-face': {
+      title: '洗脸',
+      target: 'blank-name-cloakroom',
+      feedback: '面模吸走所有被证物记住的角度。镜子仍能看见证人，现场却再也无法证明这张脸曾经朝向它。',
+      handlerFeedback: '掩护员在空名寄存处替证人的脸寻找一格没有姓名的柜子。每扇柜门都愿意藏脸，却要求那张脸先忘记自己属于谁。',
+    },
+    'relocate-the-incriminating-shadow': {
+      title: '迁影',
+      target: 'borrowed-shadow-gallery',
+      feedback: '黄铜影剪没有碰到肉身，只剪断影子与动作之间的因果。证人留在原地，影子带着全部嫌疑先行逃亡。',
+      handlerFeedback: '被迁走的影子混进借影画廊。所有影子轮流承认做过那个动作，嫌疑因此被稀释成一种公共姿势。',
+    },
+    'rehouse-the-witness-memory': {
+      title: '搬忆',
+      target: 'unreturned-witness-gallery',
+      feedback: '记忆箱把现场折成一间没有门的童年房。证人仍知道某件事发生过，却再也找不到自己曾站在哪里。',
+      handlerFeedback: '目击记忆挂进未归证人画廊，等待一个从未到场的人认领。它已经安全，却开始怀疑安全是否只是永久无人相信。',
+    },
+  };
+
+  const WITNESS_TERM_TABLE = {
+    'witness-forgets-what-was-seen': {
+      title: '证忘',
+      fragment: '保护员逐件移走现场，直到证人只剩一份无法解释的害怕。安全终于成立，因为危险和理解危险的人同时失去了彼此。',
+    },
+    'testimony-uses-a-future-name': {
+      title: '未名',
+      fragment: '证词改签给一个尚未出生的人。现在没有谁会因它受罚；多年以后，一个婴儿将在第一次呼吸前继承完整的目击记录。',
+    },
+    'world-forgets-the-crime': {
+      title: '世忘',
+      fragment: '街道、伤口与档案依次忘记发生过什么。证人成为唯一保留空缺的人，因此也成为世界否认空缺时最显眼的错误。',
+    },
+    'innocence-impersonates-the-witness': {
+      title: '罪替',
+      fragment: '一具骨白无罪证明穿上证人的脸和影子。真正的证人获得自由，代价是从此每句真话都会被认作伪装者的表演。',
+    },
+  };
+
+  const WITNESS_COURT_TABLE = {
+    'abolish-eyewitnesses-to-protect-them': {
+      outcome: 'eyewitnesses-were-abolished-for-their-safety',
+      target: 'eyelid-archive',
+      feedback: '保护院封存所有能够把看见与看见者连接起来的眼睛。从此真相仍会发生，只以没有任何人需要承担的景象形式发生。',
+    },
+    'hide-truth-under-eternal-alias': {
+      outcome: 'truth-entered-protection-under-an-eternal-alias',
+      target: 'remembrance',
+      feedback: '真相获得一张没有过去的脸、一段借来的影子和一个未来姓名。所有人都能认出它是真的，却再也不能证明它是哪一件事。',
+    },
+    'return-memory-to-every-protected-witness': {
+      outcome: 'every-protected-witness-remembered-at-once',
+      target: 'unreturned-witness-gallery',
+      feedback: '安全屋同时打开。三十六份被搬迁的记忆奔回原主人，证人重新完整，也重新暴露；无罪世界第一次发现保护曾经只是另一种失踪。',
+    },
+  };
+
+  const WITNESS_COURT_OUTCOME_BY_ID = {};
+  const WITNESS_COURT_OUTCOME_IDS = WITNESS_COURT_ACTIONS.map(a => {
+    const out = WITNESS_COURT_TABLE[a].outcome;
+    WITNESS_COURT_OUTCOME_BY_ID[out] = WITNESS_COURT_TABLE[a];
+    return out;
+  });
+
+  const WITNESS_PLACEMENT_IDS = [];
+  for (let w = 0; w < WITNESS_TARGETS.length; w++) {
+    for (let p = 0; p < WITNESS_PROCEDURES.length; p++) {
+      for (let t = 0; t < WITNESS_TERMS.length; t++) {
+        WITNESS_PLACEMENT_IDS.push(`${WITNESS_TARGETS[w]}:${WITNESS_PROCEDURES[p]}:${WITNESS_TERMS[t]}`);
+      }
+    }
+  }
+
+  const WITNESS_PROTECTION_ENTRY_FEEDBACK = '为危险证人申请身份迁移 · APPLY FOR IDENTITY MIGRATION FOR DANGEROUS WITNESSES';
+  const WITNESS_COURT_ENTRY_FEEDBACK = '为匿名真相安排终身保护 · PLACE ANONYMOUS TRUTH UNDER LIFETIME PROTECTION';
+
+  function innocentWitnessProtectionDelay() {
+    return reduced ? 300 : 1600;
+  }
+
+  function defaultInnocentWitnessProtection() {
+    return {
+      version: WITNESS_PROTECTION_VERSION,
+      visited: { office: false, laundry: false, safehouse: false, court: false },
+      draft: { witness: '', procedure: '' },
+      placements: [],
+      courtOutcomes: [],
+      placementRuns: 0,
+      courtRuns: 0,
+      witnessTallies: { survivor: 0, double: 0, silence: 0 },
+      lastOutcome: '',
+      activeHandler: null,
+      pending: null,
+    };
+  }
+
+  function normalizeWitnessVisited(v) {
+    if (!v || typeof v !== 'object' || Array.isArray(v)) {
+      return { office: false, laundry: false, safehouse: false, court: false };
+    }
+    return {
+      office: v.office === true,
+      laundry: v.laundry === true,
+      safehouse: v.safehouse === true,
+      court: v.court === true,
+    };
+  }
+
+  function normalizeWitnessDraft(d) {
+    if (!d || typeof d !== 'object' || Array.isArray(d)) {
+      return { witness: '', procedure: '' };
+    }
+    const witness = typeof d.witness === 'string' && WITNESS_TARGETS.includes(d.witness) ? d.witness : '';
+    if (!witness) {
+      return { witness: '', procedure: '' };
+    }
+    const proc = typeof d.procedure === 'string' && WITNESS_PROCEDURES.includes(d.procedure) ? d.procedure : '';
+    return { witness, procedure: proc };
+  }
+
+  function normalizeWitnessPlacements(arr) {
+    if (!Array.isArray(arr)) return [];
+    const set = new Set();
+    for (let i = 0; i < arr.length; i++) {
+      if (typeof arr[i] === 'string' && WITNESS_PLACEMENT_IDS.includes(arr[i])) {
+        set.add(arr[i]);
+      }
+    }
+    return WITNESS_PLACEMENT_IDS.filter(id => set.has(id));
+  }
+
+  function normalizeWitnessCourtOutcomes(arr) {
+    if (!Array.isArray(arr)) return [];
+    const set = new Set();
+    for (let i = 0; i < arr.length; i++) {
+      if (typeof arr[i] === 'string' && WITNESS_COURT_OUTCOME_IDS.includes(arr[i])) {
+        set.add(arr[i]);
+      }
+    }
+    return WITNESS_COURT_OUTCOME_IDS.filter(id => set.has(id));
+  }
+
+  function clampWitnessCount(n) {
+    const num = Math.floor(Number(n) || 0);
+    if (num < 0) return 0;
+    if (num > 9999) return 9999;
+    return num;
+  }
+
+  function normalizeWitnessTallies(t) {
+    if (!t || typeof t !== 'object' || Array.isArray(t)) {
+      return { survivor: 0, double: 0, silence: 0 };
+    }
+    return {
+      survivor: clampWitnessCount(t.survivor),
+      double: clampWitnessCount(t.double),
+      silence: clampWitnessCount(t.silence),
+    };
+  }
+
+  function normalizeWitnessActiveHandler(h, placements) {
+    if (!h || typeof h !== 'object' || Array.isArray(h)) return null;
+    const keys = Object.keys(h).sort();
+    if (keys.length !== 3 || keys[0] !== 'feedback' || keys[1] !== 'placement' || keys[2] !== 'procedure') {
+      return null;
+    }
+    const proc = h.procedure;
+    const plc = h.placement;
+    if (!WITNESS_PROCEDURES.includes(proc) || typeof plc !== 'string') {
+      return null;
+    }
+    const procTable = WITNESS_PROCEDURE_TABLE[proc];
+    if (!procTable || h.feedback !== procTable.handlerFeedback) {
+      return null;
+    }
+    const canonicalPlacements = Array.isArray(placements) ? placements : [];
+    if (!canonicalPlacements.includes(plc)) return null;
+    const parts = plc.split(':');
+    if (parts.length !== 3 || parts[1] !== proc) return null;
+    return {
+      feedback: procTable.handlerFeedback,
+      placement: plc,
+      procedure: proc,
+    };
+  }
+
+  function computeWitnessPlacementTitle(witness, proc, term) {
+    const wObj = WITNESS_TARGET_TABLE[witness];
+    const pObj = WITNESS_PROCEDURE_TABLE[proc];
+    const tObj = WITNESS_TERM_TABLE[term];
+    if (!wObj || !pObj || !tObj) return '';
+    return `${wObj.title} × ${pObj.title} × ${tObj.title}`;
+  }
+
+  function computeWitnessPlacementFeedback(witness, proc, term) {
+    const wObj = WITNESS_TARGET_TABLE[witness];
+    const pObj = WITNESS_PROCEDURE_TABLE[proc];
+    const tObj = WITNESS_TERM_TABLE[term];
+    if (!wObj || !pObj || !tObj) return '';
+    return `${wObj.feedback} ${pObj.feedback} ${tObj.fragment}`;
+  }
+
+  function findWitnessPlacementById(id) {
+    if (typeof id !== 'string' || !WITNESS_PLACEMENT_IDS.includes(id)) return null;
+    const parts = id.split(':');
+    if (parts.length !== 3) return null;
+    const [witness, procedure, term] = parts;
+    return {
+      id,
+      witness,
+      procedure,
+      term,
+      title: computeWitnessPlacementTitle(witness, procedure, term),
+      feedback: computeWitnessPlacementFeedback(witness, procedure, term),
+    };
+  }
+
+  function innocentWitnessProtectionUnlocked() {
+    if (typeof harmArchaeologyUnlocked !== 'function' || !harmArchaeologyUnlocked()) {
+      return false;
+    }
+    if (typeof getHarmArchaeology !== 'function') return false;
+    const hState = getHarmArchaeology();
+    if (!hState || typeof hState !== 'object') return false;
+    const reports = Array.isArray(hState.reports) ? hState.reports : [];
+    if (reports.length < 4) return false;
+    const sReq = new Set(['closed-scar-site', 'zeroed-ledger-site', 'innocent-soil-site']);
+    const iReq = new Set(['pain-reconstruction-brush', 'responsibility-pollen-sieve', 'missing-witness-cast']);
+    const pReq = new Set(['the-offender-never-existed', 'excavation-created-the-truth', 'the-wound-was-an-alibi', 'the-archive-was-the-second-offender']);
+
+    const sSeen = new Set();
+    const iSeen = new Set();
+    const pSeen = new Set();
+
+    for (let idx = 0; idx < reports.length; idx++) {
+      const b = reports[idx];
+      if (typeof b === 'string') {
+        const parts = b.split(':');
+        if (parts.length === 3) {
+          if (sReq.has(parts[0])) sSeen.add(parts[0]);
+          if (iReq.has(parts[1])) iSeen.add(parts[1]);
+          if (pReq.has(parts[2])) pSeen.add(parts[2]);
+        }
+      }
+    }
+
+    if (sSeen.size < 3 || iSeen.size < 3 || pSeen.size < 4) return false;
+
+    const hOutcomes = Array.isArray(hState.hearingOutcomes) ? hState.hearingOutcomes : [];
+    const requiredHearings = [
+      'the-investigation-was-convicted-of-second-harm',
+      'the-wound-was-granted-the-right-to-refuse-evidence',
+      'truth-outlived-every-victim',
+    ];
+    for (let j = 0; j < requiredHearings.length; j++) {
+      if (!hOutcomes.includes(requiredHearings[j])) return false;
+    }
+    return true;
+  }
+
+  function innocentWitnessCoverageComplete(st) {
+    if (!st || typeof st !== 'object') return false;
+    const placements = normalizeWitnessPlacements(st.placements);
+    if (placements.length < 4) return false;
+    const wSet = new Set();
+    const pSet = new Set();
+    const tSet = new Set();
+    for (let idx = 0; idx < placements.length; idx++) {
+      const parts = placements[idx].split(':');
+      if (parts.length === 3) {
+        wSet.add(parts[0]);
+        pSet.add(parts[1]);
+        tSet.add(parts[2]);
+      }
+    }
+    return wSet.size === WITNESS_TARGETS.length &&
+           pSet.size === WITNESS_PROCEDURES.length &&
+           tSet.size === WITNESS_TERMS.length;
+  }
+
+  function normalizeWitnessPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p)) return null;
+    if (!st || st._v84unlocked !== true) return null;
+    const kind = p.kind;
+    if (typeof kind !== 'string') return null;
+    const keys = Object.keys(p).sort();
+
+    if (kind === 'entry') {
+      if (keys.length !== 3 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'target') return null;
+      if (p.target !== 'innocent-witness-protection') return null;
+      if (p.feedback !== WITNESS_PROTECTION_ENTRY_FEEDBACK) return null;
+      if (st.draft.witness !== '' || st.draft.procedure !== '' || st.activeHandler !== null) return null;
+      return { feedback: p.feedback, kind: 'entry', target: 'innocent-witness-protection' };
+    }
+
+    if (kind === 'witness') {
+      if (keys.length !== 5 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'source' || keys[3] !== 'target' || keys[4] !== 'witness') return null;
+      if (p.source !== 'innocent-witness-protection' || p.target !== 'identity-causality-laundry') return null;
+      if (!WITNESS_TARGETS.includes(p.witness)) return null;
+      if (p.feedback !== WITNESS_TARGET_TABLE[p.witness].feedback) return null;
+      if (st.draft.witness !== '' || st.draft.procedure !== '' || st.activeHandler !== null) return null;
+      return { feedback: p.feedback, kind: 'witness', source: 'innocent-witness-protection', target: 'identity-causality-laundry', witness: p.witness };
+    }
+
+    if (kind === 'procedure') {
+      if (keys.length !== 6 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'procedure' || keys[3] !== 'source' || keys[4] !== 'target' || keys[5] !== 'witness') return null;
+      if (p.source !== 'identity-causality-laundry' || p.target !== 'memory-relocation-safehouse') return null;
+      if (!WITNESS_TARGETS.includes(p.witness) || !WITNESS_PROCEDURES.includes(p.procedure)) return null;
+      if (st.draft.witness !== p.witness || st.draft.procedure !== '') return null;
+      if (p.feedback !== WITNESS_PROCEDURE_TABLE[p.procedure].feedback) return null;
+      if (st.activeHandler !== null) return null;
+      return { feedback: p.feedback, kind: 'procedure', procedure: p.procedure, source: 'identity-causality-laundry', target: 'memory-relocation-safehouse', witness: p.witness };
+    }
+
+    if (kind === 'placement') {
+      if (keys.length !== 8 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'placement' || keys[3] !== 'procedure' || keys[4] !== 'source' || keys[5] !== 'target' || keys[6] !== 'term' || keys[7] !== 'witness') return null;
+      if (p.source !== 'memory-relocation-safehouse') return null;
+      if (!WITNESS_TARGETS.includes(p.witness) || !WITNESS_PROCEDURES.includes(p.procedure) || !WITNESS_TERMS.includes(p.term)) return null;
+      if (st.draft.witness !== p.witness || st.draft.procedure !== p.procedure) return null;
+      const expectedPlacement = `${p.witness}:${p.procedure}:${p.term}`;
+      if (p.placement !== expectedPlacement) return null;
+      const pObj = WITNESS_PROCEDURE_TABLE[p.procedure];
+      if (!pObj || p.target !== pObj.target) return null;
+      const expectedFb = computeWitnessPlacementFeedback(p.witness, p.procedure, p.term);
+      if (p.feedback !== expectedFb) return null;
+      if (st.activeHandler !== null) return null;
+      return {
+        feedback: p.feedback,
+        kind: 'placement',
+        placement: p.placement,
+        procedure: p.procedure,
+        source: 'memory-relocation-safehouse',
+        target: p.target,
+        term: p.term,
+        witness: p.witness,
+      };
+    }
+
+    if (kind === 'handler-return') {
+      if (keys.length !== 5 || keys[0] !== 'feedback' || keys[1] !== 'from' || keys[2] !== 'kind' || keys[3] !== 'placement' || keys[4] !== 'target') return null;
+      if (p.target !== 'innocent-witness-protection') return null;
+      if (!st.activeHandler) return null;
+      const pObj = WITNESS_PROCEDURE_TABLE[st.activeHandler.procedure];
+      if (!pObj || p.from !== pObj.target) return null;
+      if (typeof p.placement !== 'string' || !st.placements.includes(p.placement)) return null;
+      const parts = p.placement.split(':');
+      if (parts.length !== 3 || parts[1] !== st.activeHandler.procedure) return null;
+      if (p.feedback !== pObj.handlerFeedback) return null;
+      return { feedback: p.feedback, from: p.from, kind: 'handler-return', placement: p.placement, target: 'innocent-witness-protection' };
+    }
+
+    if (kind === 'court-entry') {
+      if (keys.length !== 3 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'target') return null;
+      if (p.target !== 'anonymous-truth-lifetime-court') return null;
+      if (p.feedback !== WITNESS_COURT_ENTRY_FEEDBACK) return null;
+      if (!innocentWitnessCoverageComplete(st)) return null;
+      if (st.draft.witness !== '' || st.draft.procedure !== '' || st.activeHandler !== null) return null;
+      return { feedback: p.feedback, kind: 'court-entry', target: 'anonymous-truth-lifetime-court' };
+    }
+
+    if (kind === 'court-action') {
+      if (keys.length !== 6 || keys[0] !== 'action' || keys[1] !== 'feedback' || keys[2] !== 'kind' || keys[3] !== 'outcome' || keys[4] !== 'source' || keys[5] !== 'target') return null;
+      if (p.source !== 'anonymous-truth-lifetime-court') return null;
+      if (!WITNESS_COURT_ACTIONS.includes(p.action)) return null;
+      const cObj = WITNESS_COURT_TABLE[p.action];
+      if (!cObj || p.outcome !== cObj.outcome || p.target !== cObj.target || p.feedback !== cObj.feedback) return null;
+      if (!innocentWitnessCoverageComplete(st)) return null;
+      if (st.visited.court !== true) return null;
+      if (st.draft.witness !== '' || st.draft.procedure !== '' || st.activeHandler !== null) return null;
+      return { action: p.action, feedback: p.feedback, kind: 'court-action', outcome: p.outcome, source: 'anonymous-truth-lifetime-court', target: p.target };
+    }
+
+    return null;
+  }
+
+  function getInnocentWitnessProtection() {
+    const unlocked = innocentWitnessProtectionUnlocked();
+    if (!unlocked) return defaultInnocentWitnessProtection();
+    let raw;
+    try {
+      const str = store.get(WITNESS_PROTECTION_KEY, '{}');
+      raw = typeof str === 'string' ? JSON.parse(str) : str;
+    } catch (e) {
+      return defaultInnocentWitnessProtection();
+    }
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+      return defaultInnocentWitnessProtection();
+    }
+    if (raw.version !== WITNESS_PROTECTION_VERSION) {
+      return defaultInnocentWitnessProtection();
+    }
+
+    const visited = normalizeWitnessVisited(raw.visited);
+    const draft = normalizeWitnessDraft(raw.draft);
+    const placements = normalizeWitnessPlacements(raw.placements);
+    const courtOutcomes = normalizeWitnessCourtOutcomes(raw.courtOutcomes);
+    const placementRuns = clampWitnessCount(raw.placementRuns);
+    const courtRuns = clampWitnessCount(raw.courtRuns);
+    const witnessTallies = normalizeWitnessTallies(raw.witnessTallies);
+    const activeHandler = normalizeWitnessActiveHandler(raw.activeHandler, placements);
+
+    let lastOutcome = '';
+    if (typeof raw.lastOutcome === 'string') {
+      if (placements.includes(raw.lastOutcome) || courtOutcomes.includes(raw.lastOutcome)) {
+        lastOutcome = raw.lastOutcome;
+      }
+    }
+
+    const preSt = {
+      version: WITNESS_PROTECTION_VERSION,
+      visited,
+      draft,
+      placements,
+      courtOutcomes,
+      placementRuns,
+      courtRuns,
+      witnessTallies,
+      lastOutcome,
+      activeHandler,
+      pending: null,
+      _v84unlocked: true,
+    };
+    const pending = normalizeWitnessPending(raw.pending, preSt);
+
+    return {
+      version: WITNESS_PROTECTION_VERSION,
+      visited,
+      draft,
+      placements,
+      courtOutcomes,
+      placementRuns,
+      courtRuns,
+      witnessTallies,
+      lastOutcome,
+      activeHandler,
+      pending,
+    };
+  }
+
+  function saveInnocentWitnessProtection(st) {
+    const unlocked = innocentWitnessProtectionUnlocked();
+    if (!unlocked) return defaultInnocentWitnessProtection();
+    if (!st || typeof st !== 'object' || Array.isArray(st)) {
+      const d = defaultInnocentWitnessProtection();
+      store.set(WITNESS_PROTECTION_KEY, JSON.stringify(d));
+      return d;
+    }
+
+    const visited = normalizeWitnessVisited(st.visited);
+    const draft = normalizeWitnessDraft(st.draft);
+    const placements = normalizeWitnessPlacements(st.placements);
+    const courtOutcomes = normalizeWitnessCourtOutcomes(st.courtOutcomes);
+    const placementRuns = clampWitnessCount(st.placementRuns);
+    const courtRuns = clampWitnessCount(st.courtRuns);
+    const witnessTallies = normalizeWitnessTallies(st.witnessTallies);
+    const activeHandler = normalizeWitnessActiveHandler(st.activeHandler, placements);
+
+    let lastOutcome = '';
+    if (typeof st.lastOutcome === 'string') {
+      if (placements.includes(st.lastOutcome) || courtOutcomes.includes(st.lastOutcome)) {
+        lastOutcome = st.lastOutcome;
+      }
+    }
+
+    const preSt = {
+      version: WITNESS_PROTECTION_VERSION,
+      visited,
+      draft,
+      placements,
+      courtOutcomes,
+      placementRuns,
+      courtRuns,
+      witnessTallies,
+      lastOutcome,
+      activeHandler,
+      pending: null,
+      _v84unlocked: true,
+    };
+    const pending = normalizeWitnessPending(st.pending, preSt);
+
+    const canonical = {
+      version: WITNESS_PROTECTION_VERSION,
+      visited,
+      draft,
+      placements,
+      courtOutcomes,
+      placementRuns,
+      courtRuns,
+      witnessTallies,
+      lastOutcome,
+      activeHandler,
+      pending,
+    };
+    store.set(WITNESS_PROTECTION_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function getWitnessPendingLogicalSource(p) {
+    if (!p || !p.kind) return '';
+    if (p.kind === 'entry' || p.kind === 'court-entry') return 'remembrance';
+    if (p.kind === 'handler-return') return p.from;
+    return p.source || '';
+  }
+
+  function innocentWitnessProtectionBeforeArrive(targetScene) {
+    resolveWitnessProtectionPendingOnArrival(targetScene);
+  }
+
+  function resolveWitnessProtectionPendingOnArrival(sceneName) {
+    const st = getInnocentWitnessProtection();
+    if (!st || !st.pending) return st;
+    const p = st.pending;
+
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.office = true;
+      } else if (p.kind === 'witness') {
+        st.visited.laundry = true;
+        st.draft = { witness: p.witness, procedure: '' };
+      } else if (p.kind === 'procedure') {
+        st.visited.safehouse = true;
+        st.draft.procedure = p.procedure;
+      } else if (p.kind === 'placement') {
+        st.placementRuns = clampWitnessCount(st.placementRuns + 1);
+        const wObj = WITNESS_TARGET_TABLE[p.witness];
+        if (wObj && wObj.tallyKey) {
+          st.witnessTallies[wObj.tallyKey] = clampWitnessCount(st.witnessTallies[wObj.tallyKey] + 1);
+        }
+        if (!st.placements.includes(p.placement)) {
+          st.placements = normalizeWitnessPlacements(st.placements.concat(p.placement));
+        }
+        st.lastOutcome = p.placement;
+        const pObj = WITNESS_PROCEDURE_TABLE[p.procedure];
+        st.activeHandler = {
+          feedback: pObj ? pObj.handlerFeedback : '',
+          placement: p.placement,
+          procedure: p.procedure,
+        };
+        st.draft = { witness: '', procedure: '' };
+      } else if (p.kind === 'handler-return') {
+        st.activeHandler = null;
+        st.visited.office = true;
+      } else if (p.kind === 'court-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'court-action') {
+        st.courtRuns = clampWitnessCount(st.courtRuns + 1);
+        if (!st.courtOutcomes.includes(p.outcome)) {
+          st.courtOutcomes = normalizeWitnessCourtOutcomes(st.courtOutcomes.concat(p.outcome));
+        }
+        st.lastOutcome = p.outcome;
+      }
+      return saveInnocentWitnessProtection(st);
+    }
+
+    const logicalSource = getWitnessPendingLogicalSource(p);
+    if (sceneName === logicalSource) {
+      return st;
+    }
+
+    st.pending = null;
+    return saveInnocentWitnessProtection(st);
+  }
+
+  function replayWitnessProtectionPending(sceneName) {
+    const st = getInnocentWitnessProtection();
+    if (!st.pending) {
+      syncInnocentWitnessProtectionBureau();
+      syncIdentityCausalityLaundry();
+      syncMemoryRelocationSafehouse();
+      syncAnonymousTruthLifetimeCourt();
+      syncWitnessProtectionHandlers();
+      return;
+    }
+    const p = st.pending;
+    if (p.target === sceneName) {
+      resolveWitnessProtectionPendingOnArrival(sceneName);
+      syncInnocentWitnessProtectionBureau();
+      syncIdentityCausalityLaundry();
+      syncMemoryRelocationSafehouse();
+      syncAnonymousTruthLifetimeCourt();
+      syncWitnessProtectionHandlers();
+      return;
+    }
+
+    const logicalSource = getWitnessPendingLogicalSource(p);
+    if (sceneName === logicalSource) {
+      syncInnocentWitnessProtectionBureau();
+      syncIdentityCausalityLaundry();
+      syncMemoryRelocationSafehouse();
+      syncAnonymousTruthLifetimeCourt();
+      syncWitnessProtectionHandlers();
+      AutoAdvance.schedule(sceneName, p.target, { delay: innocentWitnessProtectionDelay() });
+      return;
+    }
+
+    st.pending = null;
+    saveInnocentWitnessProtection(st);
+    syncInnocentWitnessProtectionBureau();
+    syncIdentityCausalityLaundry();
+    syncMemoryRelocationSafehouse();
+    syncAnonymousTruthLifetimeCourt();
+    syncWitnessProtectionHandlers();
+  }
+
+  function chooseWitnessProtectionEntry() {
+    if (typeof currentScene !== 'string' || currentScene !== 'remembrance') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('remembrance')) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable('witness-protection-entry-btn')) return;
+    if (!innocentWitnessProtectionUnlocked()) return;
+    const st = getInnocentWitnessProtection();
+    if (st.pending || st.activeHandler || st.draft.witness !== '' || st.draft.procedure !== '') return;
+
+    st.pending = {
+      feedback: WITNESS_PROTECTION_ENTRY_FEEDBACK,
+      kind: 'entry',
+      target: 'innocent-witness-protection',
+    };
+    saveInnocentWitnessProtection(st);
+
+    const resp = $('#witness-protection-entry-response');
+    if (resp) {
+      resp.textContent = WITNESS_PROTECTION_ENTRY_FEEDBACK;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $('#witness-protection-entry-btn');
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('remembrance', 'innocent-witness-protection', { delay: innocentWitnessProtectionDelay() });
+  }
+
+  function chooseWitnessTarget(witness) {
+    if (typeof currentScene !== 'string' || currentScene !== 'innocent-witness-protection') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('innocent-witness-protection')) return;
+    if (!WITNESS_TARGETS.includes(witness)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`witness-target-${witness}`)) return;
+    if (!innocentWitnessProtectionUnlocked()) return;
+    const st = getInnocentWitnessProtection();
+    if (st.pending || st.activeHandler || st.draft.witness !== '' || st.draft.procedure !== '') return;
+
+    const wObj = WITNESS_TARGET_TABLE[witness];
+    st.pending = {
+      feedback: wObj.feedback,
+      kind: 'witness',
+      source: 'innocent-witness-protection',
+      target: 'identity-causality-laundry',
+      witness,
+    };
+    saveInnocentWitnessProtection(st);
+
+    const resp = $('#innocent-witness-protection-response');
+    if (resp) {
+      resp.textContent = wObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#witness-target-${witness}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('innocent-witness-protection', 'identity-causality-laundry', { delay: innocentWitnessProtectionDelay() });
+  }
+
+  function chooseWitnessProcedure(procedure) {
+    if (typeof currentScene !== 'string' || currentScene !== 'identity-causality-laundry') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('identity-causality-laundry')) return;
+    if (!WITNESS_PROCEDURES.includes(procedure)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`witness-procedure-${procedure}`)) return;
+    if (!innocentWitnessProtectionUnlocked()) return;
+    const st = getInnocentWitnessProtection();
+    if (st.pending || st.activeHandler || !st.draft.witness || st.draft.procedure !== '') return;
+
+    const pObj = WITNESS_PROCEDURE_TABLE[procedure];
+    st.pending = {
+      feedback: pObj.feedback,
+      kind: 'procedure',
+      procedure,
+      source: 'identity-causality-laundry',
+      target: 'memory-relocation-safehouse',
+      witness: st.draft.witness,
+    };
+    saveInnocentWitnessProtection(st);
+
+    const resp = $('#identity-causality-laundry-response');
+    if (resp) {
+      resp.textContent = pObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#witness-procedure-${procedure}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('identity-causality-laundry', 'memory-relocation-safehouse', { delay: innocentWitnessProtectionDelay() });
+  }
+
+  function chooseWitnessTerm(term) {
+    if (typeof currentScene !== 'string' || currentScene !== 'memory-relocation-safehouse') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('memory-relocation-safehouse')) return;
+    if (!WITNESS_TERMS.includes(term)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`witness-term-${term}`)) return;
+    if (!innocentWitnessProtectionUnlocked()) return;
+    const st = getInnocentWitnessProtection();
+    if (st.pending || st.activeHandler || !st.draft.witness || !st.draft.procedure) return;
+
+    const pObj = WITNESS_PROCEDURE_TABLE[st.draft.procedure];
+    const placement = `${st.draft.witness}:${st.draft.procedure}:${term}`;
+    const feedback = computeWitnessPlacementFeedback(st.draft.witness, st.draft.procedure, term);
+
+    st.pending = {
+      feedback,
+      kind: 'placement',
+      placement,
+      procedure: st.draft.procedure,
+      source: 'memory-relocation-safehouse',
+      target: pObj.target,
+      term,
+      witness: st.draft.witness,
+    };
+    saveInnocentWitnessProtection(st);
+
+    const resp = $('#memory-relocation-safehouse-response');
+    if (resp) {
+      resp.textContent = feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#witness-term-${term}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('memory-relocation-safehouse', pObj.target, { delay: innocentWitnessProtectionDelay() });
+  }
+
+  function chooseWitnessHandlerReturn(scene) {
+    if (typeof currentScene !== 'string' || currentScene !== scene) return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has(scene)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`witness-protection-handler-return-${scene}`)) return;
+    if (!innocentWitnessProtectionUnlocked()) return;
+    const st = getInnocentWitnessProtection();
+    if (st.pending || !st.activeHandler) return;
+    const pObj = WITNESS_PROCEDURE_TABLE[st.activeHandler.procedure];
+    if (!pObj || pObj.target !== scene) return;
+
+    const matchingPlacement = st.placements.find(r => {
+      const p = r.split(':');
+      return p.length === 3 && p[1] === st.activeHandler.procedure;
+    });
+    if (!matchingPlacement) return;
+
+    st.pending = {
+      feedback: pObj.handlerFeedback,
+      from: scene,
+      kind: 'handler-return',
+      placement: matchingPlacement,
+      target: 'innocent-witness-protection',
+    };
+    saveInnocentWitnessProtection(st);
+
+    const resp = $(`#witness-protection-handler-response-${scene}`);
+    if (resp) {
+      resp.textContent = pObj.handlerFeedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#witness-protection-handler-return-${scene}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule(scene, 'innocent-witness-protection', { delay: innocentWitnessProtectionDelay() });
+  }
+
+  function chooseWitnessCourtEntry() {
+    if (typeof currentScene !== 'string' || currentScene !== 'remembrance') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('remembrance')) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable('witness-court-entry-btn')) return;
+    if (!innocentWitnessProtectionUnlocked()) return;
+    const st = getInnocentWitnessProtection();
+    if (st.pending || st.activeHandler || st.draft.witness !== '' || st.draft.procedure !== '' || !innocentWitnessCoverageComplete(st)) return;
+
+    st.pending = {
+      feedback: WITNESS_COURT_ENTRY_FEEDBACK,
+      kind: 'court-entry',
+      target: 'anonymous-truth-lifetime-court',
+    };
+    saveInnocentWitnessProtection(st);
+
+    const resp = $('#witness-court-entry-response');
+    if (resp) {
+      resp.textContent = WITNESS_COURT_ENTRY_FEEDBACK;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $('#witness-court-entry-btn');
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('remembrance', 'anonymous-truth-lifetime-court', { delay: innocentWitnessProtectionDelay() });
+  }
+
+  function chooseWitnessCourtAction(action) {
+    if (typeof currentScene !== 'string' || currentScene !== 'anonymous-truth-lifetime-court') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('anonymous-truth-lifetime-court')) return;
+    if (!WITNESS_COURT_ACTIONS.includes(action)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`witness-court-${action}`)) return;
+    if (!innocentWitnessProtectionUnlocked()) return;
+    const st = getInnocentWitnessProtection();
+    if (st.pending || st.activeHandler || st.draft.witness !== '' || st.draft.procedure !== '' || !innocentWitnessCoverageComplete(st) || !st.visited.court) return;
+
+    const cObj = WITNESS_COURT_TABLE[action];
+    st.pending = {
+      action,
+      feedback: cObj.feedback,
+      kind: 'court-action',
+      outcome: cObj.outcome,
+      source: 'anonymous-truth-lifetime-court',
+      target: cObj.target,
+    };
+    saveInnocentWitnessProtection(st);
+
+    const resp = $('#anonymous-truth-lifetime-court-response');
+    if (resp) {
+      resp.textContent = cObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#witness-court-${action}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('anonymous-truth-lifetime-court', cObj.target, { delay: innocentWitnessProtectionDelay() });
+  }
+
+  function innocentWitnessProtectionBridgeAllows(targetScene) {
+    if (!innocentWitnessProtectionUnlocked()) return false;
+    const st = getInnocentWitnessProtection();
+    if (st.pending) {
+      if (st.pending.kind === 'placement' && st.pending.target === targetScene) return true;
+      if (st.pending.kind === 'court-action' && st.pending.target === targetScene) return true;
+    }
+    if (st.activeHandler) {
+      const pObj = WITNESS_PROCEDURE_TABLE[st.activeHandler.procedure];
+      if (pObj && pObj.target === targetScene) return true;
+    }
+    if (st.lastOutcome && st.courtOutcomes.includes(st.lastOutcome)) {
+      const courtEntry = WITNESS_COURT_OUTCOME_BY_ID[st.lastOutcome];
+      if (courtEntry && courtEntry.target === targetScene) return true;
+    }
+    return false;
+  }
+
+  function innocentWitnessProtectionBureauCanVisit() {
+    if (!innocentWitnessProtectionUnlocked()) return false;
+    const st = getInnocentWitnessProtection();
+    if (st.visited.office) return true;
+    if (st.pending && (st.pending.kind === 'entry' || st.pending.kind === 'handler-return') && st.pending.target === 'innocent-witness-protection') {
+      return true;
+    }
+    return false;
+  }
+
+  function identityCausalityLaundryCanVisit() {
+    if (!innocentWitnessProtectionUnlocked()) return false;
+    const st = getInnocentWitnessProtection();
+    if (st.visited.laundry && st.draft.witness) return true;
+    if (st.pending && st.pending.kind === 'witness' && st.pending.target === 'identity-causality-laundry') {
+      return true;
+    }
+    return false;
+  }
+
+  function memoryRelocationSafehouseCanVisit() {
+    if (!innocentWitnessProtectionUnlocked()) return false;
+    const st = getInnocentWitnessProtection();
+    if (st.visited.safehouse && st.draft.witness && st.draft.procedure) return true;
+    if (st.pending && st.pending.kind === 'procedure' && st.pending.target === 'memory-relocation-safehouse') {
+      return true;
+    }
+    return false;
+  }
+
+  function anonymousTruthLifetimeCourtCanVisit() {
+    if (!innocentWitnessProtectionUnlocked()) return false;
+    const st = getInnocentWitnessProtection();
+    const complete = innocentWitnessCoverageComplete(st);
+    if (st.visited.court && complete) return true;
+    if (st.pending && st.pending.kind === 'court-entry' && st.pending.target === 'anonymous-truth-lifetime-court') {
+      return true;
+    }
+    return false;
+  }
+
+  function syncInnocentWitnessProtectionBureau() {
+    const fig = $('#innocent-witness-protection-figure');
+    const canVisit = innocentWitnessProtectionBureauCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getInnocentWitnessProtection();
+    const isPending = !!st.pending;
+
+    WITNESS_TARGETS.forEach(s => {
+      const btn = $(`#witness-target-${s}`);
+      if (btn) {
+        btn.disabled = isPending || !canVisit;
+        const pressed = st.pending && st.pending.kind === 'witness' && st.pending.witness === s;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#innocent-witness-protection-response');
+    if (resp && !isPending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    paintWitnessProtectionMemory();
+    paintWitnessProtectionCodex();
+    syncWitnessProtectionLinks();
+  }
+
+  function syncIdentityCausalityLaundry() {
+    const fig = $('#identity-causality-laundry-figure');
+    const canVisit = identityCausalityLaundryCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getInnocentWitnessProtection();
+    const isPending = !!st.pending;
+
+    WITNESS_PROCEDURES.forEach(p => {
+      const btn = $(`#witness-procedure-${p}`);
+      if (btn) {
+        btn.disabled = isPending || !canVisit;
+        const pressed = st.pending && st.pending.kind === 'procedure' && st.pending.procedure === p;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#identity-causality-laundry-response');
+    if (resp && !isPending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncWitnessProtectionLinks();
+  }
+
+  function syncMemoryRelocationSafehouse() {
+    const fig = $('#memory-relocation-safehouse-figure');
+    const canVisit = memoryRelocationSafehouseCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getInnocentWitnessProtection();
+    const isPending = !!st.pending;
+
+    WITNESS_TERMS.forEach(t => {
+      const btn = $(`#witness-term-${t}`);
+      if (btn) {
+        btn.disabled = isPending || !canVisit;
+        const pressed = st.pending && st.pending.kind === 'placement' && st.pending.term === t;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#memory-relocation-safehouse-response');
+    if (resp && !isPending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncWitnessProtectionLinks();
+  }
+
+  function syncAnonymousTruthLifetimeCourt() {
+    const fig = $('#anonymous-truth-lifetime-court-figure');
+    const canVisit = anonymousTruthLifetimeCourtCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getInnocentWitnessProtection();
+    const isPending = !!st.pending;
+
+    WITNESS_COURT_ACTIONS.forEach(a => {
+      const btn = $(`#witness-court-${a}`);
+      if (btn) {
+        btn.disabled = isPending || !canVisit;
+        const pressed = st.pending && st.pending.kind === 'court-action' && st.pending.action === a;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#anonymous-truth-lifetime-court-response');
+    if (resp && !isPending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncWitnessProtectionLinks();
+  }
+
+  function syncWitnessProtectionHandlers() {
+    const st = getInnocentWitnessProtection();
+    const scenes = ['blank-name-cloakroom', 'borrowed-shadow-gallery', 'unreturned-witness-gallery'];
+
+    scenes.forEach(scene => {
+      const cont = $(`#witness-protection-handler-${scene}`);
+      const resp = $(`#witness-protection-handler-response-${scene}`);
+      const btn = $(`#witness-protection-handler-return-${scene}`);
+
+      let shouldShow = false;
+      if (st.activeHandler) {
+        const pObj = WITNESS_PROCEDURE_TABLE[st.activeHandler.procedure];
+        if (pObj && pObj.target === scene) {
+          shouldShow = true;
+        }
+      }
+      if (cont) {
+        cont.hidden = !shouldShow;
+        if (shouldShow) cont.removeAttribute('hidden');
+      }
+      if (resp) {
+        if (shouldShow && st.activeHandler) {
+          resp.textContent = st.activeHandler.feedback;
+          resp.hidden = false;
+          resp.removeAttribute('hidden');
+        } else {
+          resp.textContent = '';
+          resp.hidden = true;
+        }
+      }
+      if (btn) {
+        btn.hidden = !shouldShow;
+        if (shouldShow) btn.removeAttribute('hidden');
+        btn.disabled = !shouldShow || !!st.pending;
+        const pressed = st.pending && st.pending.kind === 'handler-return' && st.pending.from === scene;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+  }
+
+  function paintWitnessProtectionMemory() {
+    const mem = $('#witness-protection-memory');
+    if (!mem) return;
+    if (!innocentWitnessProtectionUnlocked()) {
+      mem.hidden = true;
+      return;
+    }
+    mem.hidden = false;
+    mem.removeAttribute('hidden');
+    const st = getInnocentWitnessProtection();
+    const placements = st.placements;
+    const count = placements.length;
+
+    const wCounts = { 'witness-who-survived-testimony': 0, 'witness-shaped-like-offender': 0, 'witness-whose-silence-confessed': 0 };
+    const pCounts = { 'launder-the-recognized-face': 0, 'relocate-the-incriminating-shadow': 0, 'rehouse-the-witness-memory': 0 };
+    const tCounts = { 'witness-forgets-what-was-seen': 0, 'testimony-uses-a-future-name': 0, 'world-forgets-the-crime': 0, 'innocence-impersonates-the-witness': 0 };
+
+    placements.forEach(id => {
+      const p = id.split(':');
+      if (p.length === 3) {
+        if (wCounts[p[0]] !== undefined) wCounts[p[0]]++;
+        if (pCounts[p[1]] !== undefined) pCounts[p[1]]++;
+        if (tCounts[p[2]] !== undefined) tCounts[p[2]]++;
+      }
+    });
+
+    const survivor = st.witnessTallies.survivor;
+    const double = st.witnessTallies.double;
+    const silence = st.witnessTallies.silence;
+
+    const fCount = pCounts['launder-the-recognized-face'];
+    const hCount = pCounts['relocate-the-incriminating-shadow'];
+    const mCount = pCounts['rehouse-the-witness-memory'];
+
+    const eCount = tCounts['witness-forgets-what-was-seen'];
+    const nCount = tCounts['testimony-uses-a-future-name'];
+    const cCount = tCounts['world-forgets-the-crime'];
+    const iCount = tCounts['innocence-impersonates-the-witness'];
+
+    let majority = '均衡安置';
+    if (survivor > double && survivor > silence) majority = '主要保护活过证词的证人';
+    else if (double > survivor && double > silence) majority = '主要保护长得像加害者的证人';
+    else if (silence > survivor && silence > double) majority = '主要保护沉默替人认罪的证人';
+
+    const text = `无罪证人保护院：已安置 ${count}/36 名匿名身份，共迁移 ${st.placementRuns} 次；证人 活证 ${survivor} / 形疑 ${double} / 默供 ${silence}；程序 洗脸 ${fCount} / 迁影 ${hCount} / 搬忆 ${mCount}；条款 证忘 ${eCount} / 未名 ${nCount} / 世忘 ${cCount} / 罪替 ${iCount}；证人多数 ${majority}；终身裁定 ${st.courtOutcomes.length}/3。`;
+    mem.textContent = text;
+  }
+
+  function paintWitnessProtectionCodex() {
+    const codex = $('#witness-protection-codex');
+    const grid = $('#witness-protection-codex-grid');
+    if (!codex || !grid) return;
+    if (!innocentWitnessProtectionUnlocked()) {
+      codex.hidden = true;
+      return;
+    }
+    codex.hidden = false;
+    codex.removeAttribute('hidden');
+    grid.textContent = '';
+
+    const st = getInnocentWitnessProtection();
+    const collectedPlacements = new Set(st.placements);
+    const collectedOutcomes = new Set(st.courtOutcomes);
+
+    WITNESS_PLACEMENT_IDS.forEach(id => {
+      const cell = document.createElement('div');
+      if (collectedPlacements.has(id)) {
+        cell.className = 'witness-protection-cell is-unlocked';
+        const item = findWitnessPlacementById(id);
+        cell.textContent = item ? `${item.title}\n${item.feedback}` : id;
+      } else {
+        cell.className = 'witness-protection-cell is-locked';
+        cell.textContent = '？？？';
+      }
+      grid.appendChild(cell);
+    });
+
+    WITNESS_COURT_ACTIONS.forEach(action => {
+      const cObj = WITNESS_COURT_TABLE[action];
+      const cell = document.createElement('div');
+      if (collectedOutcomes.has(cObj.outcome)) {
+        cell.className = 'witness-protection-cell is-unlocked';
+        cell.textContent = `[终身安置庭] ${cObj.outcome}\n${cObj.feedback}`;
+      } else {
+        cell.className = 'witness-protection-cell is-locked';
+        cell.textContent = '？？？';
+      }
+      grid.appendChild(cell);
+    });
+  }
+
+  function syncWitnessProtectionRemembrance() {
+    const unlocked = innocentWitnessProtectionUnlocked();
+    const entryShell = $('#witness-protection-codex-entry');
+    const entryBtn = $('#witness-protection-entry-btn');
+    const courtBtn = $('#witness-court-entry-btn');
+
+    if (!unlocked) {
+      if (entryShell) entryShell.hidden = true;
+      if (entryBtn) entryBtn.hidden = true;
+      if (courtBtn) courtBtn.hidden = true;
+      return;
+    }
+
+    if (entryShell) {
+      entryShell.hidden = false;
+      entryShell.removeAttribute('hidden');
+    }
+
+    const st = getInnocentWitnessProtection();
+    const isClean = !st.pending && !st.activeHandler && st.draft.witness === '' && st.draft.procedure === '';
+
+    if (entryBtn) {
+      entryBtn.hidden = false;
+      entryBtn.removeAttribute('hidden');
+      entryBtn.disabled = !isClean;
+      const pressed = st.pending && st.pending.kind === 'entry';
+      entryBtn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+    }
+
+    if (courtBtn) {
+      const coverage = innocentWitnessCoverageComplete(st);
+      courtBtn.hidden = !coverage;
+      if (coverage) courtBtn.removeAttribute('hidden');
+      courtBtn.disabled = !isClean || !coverage;
+      const pressed = st.pending && st.pending.kind === 'court-entry';
+      courtBtn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+    }
+  }
+
+  function syncWitnessProtectionLinks() {
+    const unlocked = innocentWitnessProtectionUnlocked();
+    const links = [
+      { id: 'innocent-witness-protection-link', key: 'office' },
+      { id: 'identity-causality-laundry-link', key: 'laundry' },
+      { id: 'memory-relocation-safehouse-link', key: 'safehouse' },
+      { id: 'anonymous-truth-lifetime-court-link', key: 'court' },
+    ];
+    const st = unlocked ? getInnocentWitnessProtection() : null;
+
+    links.forEach(l => {
+      const el = $(`#${l.id}`);
+      if (el) {
+        const show = unlocked && st && st.visited[l.key] === true;
+        el.hidden = !show;
+        if (show) el.removeAttribute('hidden');
+      }
+    });
+  }
+
+  const witnessProtectionEntryBtn = $('#witness-protection-entry-btn');
+  if (witnessProtectionEntryBtn) {
+    witnessProtectionEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseWitnessProtectionEntry();
+    });
+  }
+
+  const witnessCourtEntryBtn = $('#witness-court-entry-btn');
+  if (witnessCourtEntryBtn) {
+    witnessCourtEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseWitnessCourtEntry();
+    });
+  }
+
+  const witnessTargetSurvivedBtn = $('#witness-target-witness-who-survived-testimony');
+  if (witnessTargetSurvivedBtn) {
+    witnessTargetSurvivedBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseWitnessTarget('witness-who-survived-testimony');
+    });
+  }
+
+  const witnessTargetShapedBtn = $('#witness-target-witness-shaped-like-offender');
+  if (witnessTargetShapedBtn) {
+    witnessTargetShapedBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseWitnessTarget('witness-shaped-like-offender');
+    });
+  }
+
+  const witnessTargetSilenceBtn = $('#witness-target-witness-whose-silence-confessed');
+  if (witnessTargetSilenceBtn) {
+    witnessTargetSilenceBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseWitnessTarget('witness-whose-silence-confessed');
+    });
+  }
+
+  const witnessProcedureFaceBtn = $('#witness-procedure-launder-the-recognized-face');
+  if (witnessProcedureFaceBtn) {
+    witnessProcedureFaceBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseWitnessProcedure('launder-the-recognized-face');
+    });
+  }
+
+  const witnessProcedureShadowBtn = $('#witness-procedure-relocate-the-incriminating-shadow');
+  if (witnessProcedureShadowBtn) {
+    witnessProcedureShadowBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseWitnessProcedure('relocate-the-incriminating-shadow');
+    });
+  }
+
+  const witnessProcedureMemoryBtn = $('#witness-procedure-rehouse-the-witness-memory');
+  if (witnessProcedureMemoryBtn) {
+    witnessProcedureMemoryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseWitnessProcedure('rehouse-the-witness-memory');
+    });
+  }
+
+  const witnessTermForgetsBtn = $('#witness-term-witness-forgets-what-was-seen');
+  if (witnessTermForgetsBtn) {
+    witnessTermForgetsBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseWitnessTerm('witness-forgets-what-was-seen');
+    });
+  }
+
+  const witnessTermFutureNameBtn = $('#witness-term-testimony-uses-a-future-name');
+  if (witnessTermFutureNameBtn) {
+    witnessTermFutureNameBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseWitnessTerm('testimony-uses-a-future-name');
+    });
+  }
+
+  const witnessTermWorldForgetsBtn = $('#witness-term-world-forgets-the-crime');
+  if (witnessTermWorldForgetsBtn) {
+    witnessTermWorldForgetsBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseWitnessTerm('world-forgets-the-crime');
+    });
+  }
+
+  const witnessTermInnocenceImpersonatesBtn = $('#witness-term-innocence-impersonates-the-witness');
+  if (witnessTermInnocenceImpersonatesBtn) {
+    witnessTermInnocenceImpersonatesBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseWitnessTerm('innocence-impersonates-the-witness');
+    });
+  }
+
+  const witnessHandlerReturnBlankNameBtn = $('#witness-protection-handler-return-blank-name-cloakroom');
+  if (witnessHandlerReturnBlankNameBtn) {
+    witnessHandlerReturnBlankNameBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseWitnessHandlerReturn('blank-name-cloakroom');
+    });
+  }
+
+  const witnessHandlerReturnBorrowedShadowBtn = $('#witness-protection-handler-return-borrowed-shadow-gallery');
+  if (witnessHandlerReturnBorrowedShadowBtn) {
+    witnessHandlerReturnBorrowedShadowBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseWitnessHandlerReturn('borrowed-shadow-gallery');
+    });
+  }
+
+  const witnessHandlerReturnUnreturnedWitnessBtn = $('#witness-protection-handler-return-unreturned-witness-gallery');
+  if (witnessHandlerReturnUnreturnedWitnessBtn) {
+    witnessHandlerReturnUnreturnedWitnessBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseWitnessHandlerReturn('unreturned-witness-gallery');
+    });
+  }
+
+  const witnessCourtAbolishBtn = $('#witness-court-abolish-eyewitnesses-to-protect-them');
+  if (witnessCourtAbolishBtn) {
+    witnessCourtAbolishBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseWitnessCourtAction('abolish-eyewitnesses-to-protect-them');
+    });
+  }
+
+  const witnessCourtHideTruthBtn = $('#witness-court-hide-truth-under-eternal-alias');
+  if (witnessCourtHideTruthBtn) {
+    witnessCourtHideTruthBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseWitnessCourtAction('hide-truth-under-eternal-alias');
+    });
+  }
+
+  const witnessCourtReturnMemoryBtn = $('#witness-court-return-memory-to-every-protected-witness');
+  if (witnessCourtReturnMemoryBtn) {
+    witnessCourtReturnMemoryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseWitnessCourtAction('return-memory-to-every-protected-witness');
+    });
+  }
+
+  /* ============================================================
+     v85: 孤事实认领处 (Claim Office for Orphaned Facts)
+     ============================================================ */
+
+  const ORPHANED_FACT_KEY = 'goddead_v85_orphaned_fact_claims';
+  const ORPHANED_FACT_VERSION = 85;
+  const ORPHANED_FACTS = ['fact-whose-witness-entered-protection', 'fact-whose-cause-died-childless', 'fact-rejected-by-every-archive'];
+  const ORPHANED_PROOFS = ['unclaimed-fingerprint-of-the-wound', 'shadow-of-an-unsigned-confession', 'receipt-for-a-future-consequence'];
+  const ORPHANED_OBLIGATIONS = ['inherit-every-victim', 'inherit-every-omitted-cause', 'adopt-contradiction-as-a-surname', 'leave-fact-ownerless-and-become-its-alibi'];
+  const ORPHANED_COURT_ACTIONS = ['let-every-fact-inherit-its-observer', 'abolish-ownership-of-truth', 'make-the-claimant-inherit-the-whole-world'];
+
+  const ORPHANED_FACT_TABLE = {
+    'fact-whose-witness-entered-protection': { tallyKey: 'witnessless', title: '无证', feedback: '事实把目击者的化名填进申请栏。名字完全合法，却没有任何过去可以证明它曾站在现场。' },
+    'fact-whose-cause-died-childless': { tallyKey: 'causeless', title: '无因', feedback: '原因死去时没有留下后代，后果只好把自己列为遗腹子。认领处要求你证明一件事可以继承制造自己的东西。' },
+    'fact-rejected-by-every-archive': { tallyKey: 'unfiled', title: '无档', feedback: '十三枚退件章互相否认曾见过它。事实因此越来越准确：只有真正发生过的东西，才会被世界如此认真地拒绝。' },
+  };
+
+  const ORPHANED_PROOF_TABLE = {
+    'unclaimed-fingerprint-of-the-wound': {
+      title: '伤印',
+      target: 'contradictory-evidence-archive',
+      feedback: '指纹从伤口内侧按出来，纹路属于每一位受害者，也不完全属于任何一位。保险匣承认它真实，拒绝承认它有主人。',
+      executorFeedback: '执行员把伤口指纹夹进矛盾证据档案。每条纹路都指向不同受害者，档案因此宣布事实拥有一个由缺席者共同组成的手。',
+    },
+    'shadow-of-an-unsigned-confession': {
+      title: '影供',
+      target: 'blank-name-cloakroom',
+      feedback: '供词没有姓名，纸下的影子却保持着签字姿势。只要有人把灯移近，它就会假装那只手属于来访者。',
+      executorFeedback: '未签供词的影子在空名寄存处试穿每个姓名。所有柜子都说不合身，影子却开始长出你的站姿。',
+    },
+    'receipt-for-a-future-consequence': {
+      title: '未来账单',
+      target: 'minute-before-archive',
+      feedback: '收据证明某个后果已经付清，购买日期却在所有行动之后。未来要求你先继承账单，再决定要不要做出原因。',
+      executorFeedback: '未来收据被钉进归档前一分钟。账单已经结清，执行员却找不到任何发生过的付款，只好把你的现在列为担保。',
+    },
+  };
+
+  const ORPHANED_OBLIGATION_TABLE = {
+    'inherit-every-victim': {
+      title: '众伤',
+      fragment: '遗产执行员把每一道伤口写成亲属。你没有经历他们的疼痛，却从此必须在每次自我介绍时带上所有缺席者。',
+    },
+    'inherit-every-omitted-cause': {
+      title: '漏因',
+      fragment: '那些没有进入报告的动作、沉默和偶然依次过户给你。事实终于拥有完整过去，而你失去只对自己行为负责的权利。',
+    },
+    'adopt-contradiction-as-a-surname': {
+      title: '矛姓',
+      fragment: '两份互相否认的证词共同替你命名。从此每当你说真话，另一种同样合法的真话都会以你的姓氏签收。',
+    },
+    'leave-fact-ownerless-and-become-its-alibi': {
+      title: '不在场',
+      fragment: '你拒绝认领，却同意证明事实在发生时不属于任何人。它获得自由，你则被永久登记在每一个它声称没有到过的地方。',
+    },
+  };
+
+  const ORPHANED_COURT_TABLE = {
+    'let-every-fact-inherit-its-observer': {
+      outcome: 'every-fact-inherited-the-person-who-noticed-it',
+      target: 'threshold',
+      feedback: '遗产庭把目击改写成继承关系。任何人只要注意到一件事，便立刻成为那件事的财产；世界因此拥有了所有看见它的人。',
+    },
+    'abolish-ownership-of-truth': {
+      outcome: 'truth-was-freed-from-every-owner',
+      target: 'remembrance',
+      feedback: '最后一张认领书被烧成空白。事实无需姓名、证人或原因便可存在；代价是再也没有谁能要求它对伤害负责。',
+    },
+    'make-the-claimant-inherit-the-whole-world': {
+      outcome: 'the-claimant-inherited-every-unclaimed-consequence',
+      target: 'unending-gallery',
+      feedback: '所有无人签收的后果同时过户。你获得世界的每一处遗产，也获得它遗漏、否认和尚未造成的全部债务。',
+    },
+  };
+
+  const ORPHANED_COURT_OUTCOME_BY_ID = {};
+  const ORPHANED_COURT_OUTCOME_IDS = ORPHANED_COURT_ACTIONS.map(a => {
+    const out = ORPHANED_COURT_TABLE[a].outcome;
+    ORPHANED_COURT_OUTCOME_BY_ID[out] = ORPHANED_COURT_TABLE[a];
+    return out;
+  });
+
+  const ORPHANED_INHERITANCE_IDS = [];
+  for (let f = 0; f < ORPHANED_FACTS.length; f++) {
+    for (let p = 0; p < ORPHANED_PROOFS.length; p++) {
+      for (let o = 0; o < ORPHANED_OBLIGATIONS.length; o++) {
+        ORPHANED_INHERITANCE_IDS.push(`${ORPHANED_FACTS[f]}:${ORPHANED_PROOFS[p]}:${ORPHANED_OBLIGATIONS[o]}`);
+      }
+    }
+  }
+
+  const ORPHANED_FACT_ENTRY_FEEDBACK = '去认领无人负责的准确事实 · CLAIM ACCURATE FACTS WITHOUT AN OWNER';
+  const ORPHANED_COURT_ENTRY_FEEDBACK = '替无主真相指定最后继承人 · APPOINT THE LAST HEIR OF OWNERLESS TRUTH';
+
+  function orphanedFactDelay() {
+    return reduced ? 300 : 1600;
+  }
+
+  function defaultOrphanedFactClaims() {
+    return {
+      version: ORPHANED_FACT_VERSION,
+      visited: { office: false, vault: false, execution: false, court: false },
+      draft: { fact: '', proof: '' },
+      inheritances: [],
+      estateOutcomes: [],
+      inheritanceRuns: 0,
+      estateRuns: 0,
+      factTallies: { witnessless: 0, causeless: 0, unfiled: 0 },
+      lastOutcome: '',
+      activeExecutor: null,
+      pending: null,
+    };
+  }
+
+  function normalizeOrphanedVisited(v) {
+    if (!v || typeof v !== 'object' || Array.isArray(v)) {
+      return { office: false, vault: false, execution: false, court: false };
+    }
+    return {
+      office: v.office === true,
+      vault: v.vault === true,
+      execution: v.execution === true,
+      court: v.court === true,
+    };
+  }
+
+  function normalizeOrphanedDraft(d) {
+    if (!d || typeof d !== 'object' || Array.isArray(d)) {
+      return { fact: '', proof: '' };
+    }
+    const fact = typeof d.fact === 'string' && ORPHANED_FACTS.includes(d.fact) ? d.fact : '';
+    if (!fact) {
+      return { fact: '', proof: '' };
+    }
+    const proof = typeof d.proof === 'string' && ORPHANED_PROOFS.includes(d.proof) ? d.proof : '';
+    return { fact, proof };
+  }
+
+  function normalizeOrphanedInheritances(arr) {
+    if (!Array.isArray(arr)) return [];
+    const set = new Set();
+    for (let i = 0; i < arr.length; i++) {
+      if (typeof arr[i] === 'string' && ORPHANED_INHERITANCE_IDS.includes(arr[i])) {
+        set.add(arr[i]);
+      }
+    }
+    return ORPHANED_INHERITANCE_IDS.filter(id => set.has(id));
+  }
+
+  function normalizeOrphanedEstateOutcomes(arr) {
+    if (!Array.isArray(arr)) return [];
+    const set = new Set();
+    for (let i = 0; i < arr.length; i++) {
+      if (typeof arr[i] === 'string' && ORPHANED_COURT_OUTCOME_IDS.includes(arr[i])) {
+        set.add(arr[i]);
+      }
+    }
+    return ORPHANED_COURT_OUTCOME_IDS.filter(id => set.has(id));
+  }
+
+  function clampOrphanedCount(n) {
+    const num = Math.floor(Number(n) || 0);
+    if (num < 0) return 0;
+    if (num > 9999) return 9999;
+    return num;
+  }
+
+  function normalizeOrphanedTallies(t) {
+    if (!t || typeof t !== 'object' || Array.isArray(t)) {
+      return { witnessless: 0, causeless: 0, unfiled: 0 };
+    }
+    return {
+      witnessless: clampOrphanedCount(t.witnessless),
+      causeless: clampOrphanedCount(t.causeless),
+      unfiled: clampOrphanedCount(t.unfiled),
+    };
+  }
+
+  function normalizeOrphanedActiveExecutor(h, inheritances) {
+    if (!h || typeof h !== 'object' || Array.isArray(h)) return null;
+    const keys = Object.keys(h).sort();
+    if (keys.length !== 3 || keys[0] !== 'feedback' || keys[1] !== 'inheritance' || keys[2] !== 'proof') {
+      return null;
+    }
+    const proof = h.proof;
+    const inh = h.inheritance;
+    if (!ORPHANED_PROOFS.includes(proof) || typeof inh !== 'string') {
+      return null;
+    }
+    const proofTable = ORPHANED_PROOF_TABLE[proof];
+    if (!proofTable || h.feedback !== proofTable.executorFeedback) {
+      return null;
+    }
+    const canonicalInheritances = Array.isArray(inheritances) ? inheritances : [];
+    if (!canonicalInheritances.includes(inh)) return null;
+    const parts = inh.split(':');
+    if (parts.length !== 3 || parts[1] !== proof) return null;
+    return {
+      feedback: proofTable.executorFeedback,
+      inheritance: inh,
+      proof,
+    };
+  }
+
+  function computeOrphanedInheritanceTitle(fact, proof, obligation) {
+    const fObj = ORPHANED_FACT_TABLE[fact];
+    const pObj = ORPHANED_PROOF_TABLE[proof];
+    const oObj = ORPHANED_OBLIGATION_TABLE[obligation];
+    if (!fObj || !pObj || !oObj) return '';
+    return `${fObj.title} × ${pObj.title} × ${oObj.title}`;
+  }
+
+  function computeOrphanedInheritanceFeedback(fact, proof, obligation) {
+    const fObj = ORPHANED_FACT_TABLE[fact];
+    const pObj = ORPHANED_PROOF_TABLE[proof];
+    const oObj = ORPHANED_OBLIGATION_TABLE[obligation];
+    if (!fObj || !pObj || !oObj) return '';
+    return `${fObj.feedback} ${pObj.feedback} ${oObj.fragment}`;
+  }
+
+  function findOrphanedInheritanceById(id) {
+    if (typeof id !== 'string' || !ORPHANED_INHERITANCE_IDS.includes(id)) return null;
+    const parts = id.split(':');
+    if (parts.length !== 3) return null;
+    const [fact, proof, obligation] = parts;
+    return {
+      id,
+      fact,
+      proof,
+      obligation,
+      title: computeOrphanedInheritanceTitle(fact, proof, obligation),
+      feedback: computeOrphanedInheritanceFeedback(fact, proof, obligation),
+    };
+  }
+
+  function orphanedFactClaimUnlocked() {
+    if (typeof innocentWitnessProtectionUnlocked !== 'function' || !innocentWitnessProtectionUnlocked()) {
+      return false;
+    }
+    if (typeof getInnocentWitnessProtection !== 'function') return false;
+    const wState = getInnocentWitnessProtection();
+    if (!wState || typeof wState !== 'object') return false;
+    const placements = Array.isArray(wState.placements) ? wState.placements : [];
+    if (placements.length < 4) return false;
+    const wReq = new Set(['witness-who-survived-testimony', 'witness-shaped-like-offender', 'witness-whose-silence-confessed']);
+    const pReq = new Set(['launder-the-recognized-face', 'relocate-the-incriminating-shadow', 'rehouse-the-witness-memory']);
+    const tReq = new Set(['witness-forgets-what-was-seen', 'testimony-uses-a-future-name', 'world-forgets-the-crime', 'innocence-impersonates-the-witness']);
+
+    const wSeen = new Set();
+    const pSeen = new Set();
+    const tSeen = new Set();
+    for (let idx = 0; idx < placements.length; idx++) {
+      const b = placements[idx];
+      if (typeof b === 'string') {
+        const parts = b.split(':');
+        if (parts.length === 3) {
+          if (wReq.has(parts[0])) wSeen.add(parts[0]);
+          if (pReq.has(parts[1])) pSeen.add(parts[1]);
+          if (tReq.has(parts[2])) tSeen.add(parts[2]);
+        }
+      }
+    }
+
+    if (wSeen.size < 3 || pSeen.size < 3 || tSeen.size < 4) return false;
+
+    const wOutcomes = Array.isArray(wState.courtOutcomes) ? wState.courtOutcomes : [];
+    const requiredCourts = [
+      'eyewitnesses-were-abolished-for-their-safety',
+      'truth-entered-protection-under-an-eternal-alias',
+      'every-protected-witness-remembered-at-once',
+    ];
+    for (let j = 0; j < requiredCourts.length; j++) {
+      if (!wOutcomes.includes(requiredCourts[j])) return false;
+    }
+    return true;
+  }
+
+  function orphanedFactCoverageComplete(st) {
+    if (!st || typeof st !== 'object') return false;
+    const inheritances = normalizeOrphanedInheritances(st.inheritances);
+    if (inheritances.length < 4) return false;
+    const fSet = new Set();
+    const pSet = new Set();
+    const oSet = new Set();
+    for (let idx = 0; idx < inheritances.length; idx++) {
+      const parts = inheritances[idx].split(':');
+      if (parts.length === 3) {
+        fSet.add(parts[0]);
+        pSet.add(parts[1]);
+        oSet.add(parts[2]);
+      }
+    }
+    return fSet.size === ORPHANED_FACTS.length &&
+           pSet.size === ORPHANED_PROOFS.length &&
+           oSet.size === ORPHANED_OBLIGATIONS.length;
+  }
+
+  function normalizeOrphanedPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p)) return null;
+    if (!st || st._v85unlocked !== true) return null;
+    const kind = p.kind;
+    if (typeof kind !== 'string') return null;
+    const keys = Object.keys(p).sort();
+
+    if (kind === 'entry') {
+      if (keys.length !== 3 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'target') return null;
+      if (p.target !== 'orphaned-fact-claim-office') return null;
+      if (p.feedback !== ORPHANED_FACT_ENTRY_FEEDBACK) return null;
+      if (st.draft.fact !== '' || st.draft.proof !== '' || st.activeExecutor !== null) return null;
+      return { feedback: p.feedback, kind: 'entry', target: 'orphaned-fact-claim-office' };
+    }
+
+    if (kind === 'fact') {
+      if (keys.length !== 5 || keys[0] !== 'fact' || keys[1] !== 'feedback' || keys[2] !== 'kind' || keys[3] !== 'source' || keys[4] !== 'target') return null;
+      if (p.source !== 'orphaned-fact-claim-office' || p.target !== 'fact-inheritance-vault') return null;
+      if (!ORPHANED_FACTS.includes(p.fact)) return null;
+      if (p.feedback !== ORPHANED_FACT_TABLE[p.fact].feedback) return null;
+      if (st.draft.fact !== '' || st.draft.proof !== '' || st.activeExecutor !== null) return null;
+      return { fact: p.fact, feedback: p.feedback, kind: 'fact', source: 'orphaned-fact-claim-office', target: 'fact-inheritance-vault' };
+    }
+
+    if (kind === 'proof') {
+      if (keys.length !== 6 || keys[0] !== 'fact' || keys[1] !== 'feedback' || keys[2] !== 'kind' || keys[3] !== 'proof' || keys[4] !== 'source' || keys[5] !== 'target') return null;
+      if (p.source !== 'fact-inheritance-vault' || p.target !== 'causal-estate-execution-desk') return null;
+      if (!ORPHANED_FACTS.includes(p.fact) || !ORPHANED_PROOFS.includes(p.proof)) return null;
+      if (st.draft.fact !== p.fact || st.draft.proof !== '') return null;
+      if (p.feedback !== ORPHANED_PROOF_TABLE[p.proof].feedback) return null;
+      if (st.activeExecutor !== null) return null;
+      return { fact: p.fact, feedback: p.feedback, kind: 'proof', proof: p.proof, source: 'fact-inheritance-vault', target: 'causal-estate-execution-desk' };
+    }
+
+    if (kind === 'inheritance') {
+      if (keys.length !== 8 || keys[0] !== 'fact' || keys[1] !== 'feedback' || keys[2] !== 'inheritance' || keys[3] !== 'kind' || keys[4] !== 'obligation' || keys[5] !== 'proof' || keys[6] !== 'source' || keys[7] !== 'target') return null;
+      if (p.source !== 'causal-estate-execution-desk') return null;
+      if (!ORPHANED_FACTS.includes(p.fact) || !ORPHANED_PROOFS.includes(p.proof) || !ORPHANED_OBLIGATIONS.includes(p.obligation)) return null;
+      if (st.draft.fact !== p.fact || st.draft.proof !== p.proof) return null;
+      const expectedInheritance = `${p.fact}:${p.proof}:${p.obligation}`;
+      if (p.inheritance !== expectedInheritance) return null;
+      const pObj = ORPHANED_PROOF_TABLE[p.proof];
+      if (!pObj || p.target !== pObj.target) return null;
+      const expectedFb = computeOrphanedInheritanceFeedback(p.fact, p.proof, p.obligation);
+      if (p.feedback !== expectedFb) return null;
+      if (st.activeExecutor !== null) return null;
+      return {
+        fact: p.fact,
+        feedback: p.feedback,
+        inheritance: p.inheritance,
+        kind: 'inheritance',
+        obligation: p.obligation,
+        proof: p.proof,
+        source: 'causal-estate-execution-desk',
+        target: p.target,
+      };
+    }
+
+    if (kind === 'executor-return') {
+      if (keys.length !== 5 || keys[0] !== 'feedback' || keys[1] !== 'from' || keys[2] !== 'inheritance' || keys[3] !== 'kind' || keys[4] !== 'target') return null;
+      if (p.target !== 'orphaned-fact-claim-office') return null;
+      if (!st.activeExecutor) return null;
+      const pObj = ORPHANED_PROOF_TABLE[st.activeExecutor.proof];
+      if (!pObj || p.from !== pObj.target) return null;
+      if (typeof p.inheritance !== 'string' || !st.inheritances.includes(p.inheritance)) return null;
+      const parts = p.inheritance.split(':');
+      if (parts.length !== 3 || parts[1] !== st.activeExecutor.proof) return null;
+      if (p.feedback !== pObj.executorFeedback) return null;
+      return { feedback: p.feedback, from: p.from, inheritance: p.inheritance, kind: 'executor-return', target: 'orphaned-fact-claim-office' };
+    }
+
+    if (kind === 'court-entry') {
+      if (keys.length !== 3 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'target') return null;
+      if (p.target !== 'ownerless-truth-estate-court') return null;
+      if (p.feedback !== ORPHANED_COURT_ENTRY_FEEDBACK) return null;
+      if (!orphanedFactCoverageComplete(st)) return null;
+      if (st.draft.fact !== '' || st.draft.proof !== '' || st.activeExecutor !== null) return null;
+      return { feedback: p.feedback, kind: 'court-entry', target: 'ownerless-truth-estate-court' };
+    }
+
+    if (kind === 'court-action') {
+      if (keys.length !== 6 || keys[0] !== 'action' || keys[1] !== 'feedback' || keys[2] !== 'kind' || keys[3] !== 'outcome' || keys[4] !== 'source' || keys[5] !== 'target') return null;
+      if (p.source !== 'ownerless-truth-estate-court') return null;
+      if (!ORPHANED_COURT_ACTIONS.includes(p.action)) return null;
+      const cObj = ORPHANED_COURT_TABLE[p.action];
+      if (!cObj || p.outcome !== cObj.outcome || p.target !== cObj.target || p.feedback !== cObj.feedback) return null;
+      if (!orphanedFactCoverageComplete(st)) return null;
+      if (st.visited.court !== true) return null;
+      if (st.draft.fact !== '' || st.draft.proof !== '' || st.activeExecutor !== null) return null;
+      return { action: p.action, feedback: p.feedback, kind: 'court-action', outcome: p.outcome, source: 'ownerless-truth-estate-court', target: p.target };
+    }
+
+    return null;
+  }
+
+  function getOrphanedFactClaims() {
+    const unlocked = orphanedFactClaimUnlocked();
+    if (!unlocked) return defaultOrphanedFactClaims();
+    let raw;
+    try {
+      const str = store.get(ORPHANED_FACT_KEY, '{}');
+      raw = typeof str === 'string' ? JSON.parse(str) : str;
+    } catch (e) {
+      return defaultOrphanedFactClaims();
+    }
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+      return defaultOrphanedFactClaims();
+    }
+    if (raw.version !== ORPHANED_FACT_VERSION) {
+      return defaultOrphanedFactClaims();
+    }
+
+    const visited = normalizeOrphanedVisited(raw.visited);
+    const draft = normalizeOrphanedDraft(raw.draft);
+    const inheritances = normalizeOrphanedInheritances(raw.inheritances);
+    const estateOutcomes = normalizeOrphanedEstateOutcomes(raw.estateOutcomes);
+    const inheritanceRuns = clampOrphanedCount(raw.inheritanceRuns);
+    const estateRuns = clampOrphanedCount(raw.estateRuns);
+    const factTallies = normalizeOrphanedTallies(raw.factTallies);
+    const activeExecutor = normalizeOrphanedActiveExecutor(raw.activeExecutor, inheritances);
+
+    let lastOutcome = '';
+    if (typeof raw.lastOutcome === 'string') {
+      if (inheritances.includes(raw.lastOutcome) || estateOutcomes.includes(raw.lastOutcome)) {
+        lastOutcome = raw.lastOutcome;
+      }
+    }
+
+    const preSt = {
+      version: ORPHANED_FACT_VERSION,
+      visited,
+      draft,
+      inheritances,
+      estateOutcomes,
+      inheritanceRuns,
+      estateRuns,
+      factTallies,
+      lastOutcome,
+      activeExecutor,
+      pending: null,
+      _v85unlocked: true,
+    };
+    const pending = normalizeOrphanedPending(raw.pending, preSt);
+
+    return {
+      version: ORPHANED_FACT_VERSION,
+      visited,
+      draft,
+      inheritances,
+      estateOutcomes,
+      inheritanceRuns,
+      estateRuns,
+      factTallies,
+      lastOutcome,
+      activeExecutor,
+      pending,
+    };
+  }
+
+  function saveOrphanedFactClaims(st) {
+    const unlocked = orphanedFactClaimUnlocked();
+    if (!unlocked) return defaultOrphanedFactClaims();
+    if (!st || typeof st !== 'object' || Array.isArray(st)) {
+      const d = defaultOrphanedFactClaims();
+      store.set(ORPHANED_FACT_KEY, JSON.stringify(d));
+      return d;
+    }
+
+    const visited = normalizeOrphanedVisited(st.visited);
+    const draft = normalizeOrphanedDraft(st.draft);
+    const inheritances = normalizeOrphanedInheritances(st.inheritances);
+    const estateOutcomes = normalizeOrphanedEstateOutcomes(st.estateOutcomes);
+    const inheritanceRuns = clampOrphanedCount(st.inheritanceRuns);
+    const estateRuns = clampOrphanedCount(st.estateRuns);
+    const factTallies = normalizeOrphanedTallies(st.factTallies);
+    const activeExecutor = normalizeOrphanedActiveExecutor(st.activeExecutor, inheritances);
+
+    let lastOutcome = '';
+    if (typeof st.lastOutcome === 'string') {
+      if (inheritances.includes(st.lastOutcome) || estateOutcomes.includes(st.lastOutcome)) {
+        lastOutcome = st.lastOutcome;
+      }
+    }
+
+    const preSt = {
+      version: ORPHANED_FACT_VERSION,
+      visited,
+      draft,
+      inheritances,
+      estateOutcomes,
+      inheritanceRuns,
+      estateRuns,
+      factTallies,
+      lastOutcome,
+      activeExecutor,
+      pending: null,
+      _v85unlocked: true,
+    };
+    const pending = normalizeOrphanedPending(st.pending, preSt);
+
+    const canonical = {
+      version: ORPHANED_FACT_VERSION,
+      visited,
+      draft,
+      inheritances,
+      estateOutcomes,
+      inheritanceRuns,
+      estateRuns,
+      factTallies,
+      lastOutcome,
+      activeExecutor,
+      pending,
+    };
+    store.set(ORPHANED_FACT_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function getOrphanedPendingLogicalSource(p) {
+    if (!p || !p.kind) return '';
+    if (p.kind === 'entry' || p.kind === 'court-entry') return 'remembrance';
+    if (p.kind === 'executor-return') return p.from;
+    return p.source || '';
+  }
+
+  function orphanedFactClaimsBeforeArrive(targetScene) {
+    resolveOrphanedFactPendingOnArrival(targetScene);
+  }
+
+  function resolveOrphanedFactPendingOnArrival(sceneName) {
+    const st = getOrphanedFactClaims();
+    if (!st || !st.pending) return st;
+    const p = st.pending;
+
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.office = true;
+      } else if (p.kind === 'fact') {
+        st.visited.vault = true;
+        st.draft = { fact: p.fact, proof: '' };
+      } else if (p.kind === 'proof') {
+        st.visited.execution = true;
+        st.draft.proof = p.proof;
+      } else if (p.kind === 'inheritance') {
+        st.inheritanceRuns = clampOrphanedCount(st.inheritanceRuns + 1);
+        const fObj = ORPHANED_FACT_TABLE[p.fact];
+        if (fObj && fObj.tallyKey) {
+          st.factTallies[fObj.tallyKey] = clampOrphanedCount(st.factTallies[fObj.tallyKey] + 1);
+        }
+        if (!st.inheritances.includes(p.inheritance)) {
+          st.inheritances = normalizeOrphanedInheritances(st.inheritances.concat(p.inheritance));
+        }
+        st.lastOutcome = p.inheritance;
+        const pObj = ORPHANED_PROOF_TABLE[p.proof];
+        st.activeExecutor = {
+          feedback: pObj ? pObj.executorFeedback : '',
+          inheritance: p.inheritance,
+          proof: p.proof,
+        };
+        st.draft = { fact: '', proof: '' };
+      } else if (p.kind === 'executor-return') {
+        st.activeExecutor = null;
+        st.visited.office = true;
+      } else if (p.kind === 'court-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'court-action') {
+        st.estateRuns = clampOrphanedCount(st.estateRuns + 1);
+        if (!st.estateOutcomes.includes(p.outcome)) {
+          st.estateOutcomes = normalizeOrphanedEstateOutcomes(st.estateOutcomes.concat(p.outcome));
+        }
+        st.lastOutcome = p.outcome;
+      }
+      return saveOrphanedFactClaims(st);
+    }
+
+    const logicalSource = getOrphanedPendingLogicalSource(p);
+    if (sceneName === logicalSource) {
+      return st;
+    }
+
+    st.pending = null;
+    return saveOrphanedFactClaims(st);
+  }
+
+  function replayOrphanedFactPending(sceneName) {
+    const st = getOrphanedFactClaims();
+    if (!st.pending) {
+      syncOrphanedFactClaimOffice();
+      syncFactInheritanceVault();
+      syncCausalEstateExecutionDesk();
+      syncOwnerlessTruthEstateCourt();
+      syncOrphanedFactExecutors();
+      return;
+    }
+    const p = st.pending;
+    if (p.target === sceneName) {
+      resolveOrphanedFactPendingOnArrival(sceneName);
+      syncOrphanedFactClaimOffice();
+      syncFactInheritanceVault();
+      syncCausalEstateExecutionDesk();
+      syncOwnerlessTruthEstateCourt();
+      syncOrphanedFactExecutors();
+      return;
+    }
+
+    const logicalSource = getOrphanedPendingLogicalSource(p);
+    if (sceneName === logicalSource) {
+      syncOrphanedFactClaimOffice();
+      syncFactInheritanceVault();
+      syncCausalEstateExecutionDesk();
+      syncOwnerlessTruthEstateCourt();
+      syncOrphanedFactExecutors();
+      AutoAdvance.schedule(sceneName, p.target, { delay: orphanedFactDelay() });
+      return;
+    }
+
+    st.pending = null;
+    saveOrphanedFactClaims(st);
+    syncOrphanedFactClaimOffice();
+    syncFactInheritanceVault();
+    syncCausalEstateExecutionDesk();
+    syncOwnerlessTruthEstateCourt();
+    syncOrphanedFactExecutors();
+  }
+
+  function chooseOrphanedFactEntry() {
+    if (typeof currentScene !== 'string' || currentScene !== 'remembrance') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('remembrance')) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable('orphaned-fact-entry-btn')) return;
+    if (!orphanedFactClaimUnlocked()) return;
+    const st = getOrphanedFactClaims();
+    if (st.pending || st.activeExecutor || st.draft.fact !== '' || st.draft.proof !== '') return;
+
+    st.pending = {
+      feedback: ORPHANED_FACT_ENTRY_FEEDBACK,
+      kind: 'entry',
+      target: 'orphaned-fact-claim-office',
+    };
+    saveOrphanedFactClaims(st);
+
+    const resp = $('#orphaned-fact-entry-response');
+    if (resp) {
+      resp.textContent = ORPHANED_FACT_ENTRY_FEEDBACK;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $('#orphaned-fact-entry-btn');
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('remembrance', 'orphaned-fact-claim-office', { delay: orphanedFactDelay() });
+  }
+
+  function chooseOrphanedFact(fact) {
+    if (typeof currentScene !== 'string' || currentScene !== 'orphaned-fact-claim-office') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('orphaned-fact-claim-office')) return;
+    if (!ORPHANED_FACTS.includes(fact)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`orphaned-fact-${fact}`)) return;
+    if (!orphanedFactClaimUnlocked()) return;
+    const st = getOrphanedFactClaims();
+    if (st.pending || st.activeExecutor || st.draft.fact !== '' || st.draft.proof !== '') return;
+
+    const fObj = ORPHANED_FACT_TABLE[fact];
+    st.pending = {
+      fact,
+      feedback: fObj.feedback,
+      kind: 'fact',
+      source: 'orphaned-fact-claim-office',
+      target: 'fact-inheritance-vault',
+    };
+    saveOrphanedFactClaims(st);
+
+    const resp = $('#orphaned-fact-claim-office-response');
+    if (resp) {
+      resp.textContent = fObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#orphaned-fact-${fact}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('orphaned-fact-claim-office', 'fact-inheritance-vault', { delay: orphanedFactDelay() });
+  }
+
+  function chooseOrphanedProof(proof) {
+    if (typeof currentScene !== 'string' || currentScene !== 'fact-inheritance-vault') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('fact-inheritance-vault')) return;
+    if (!ORPHANED_PROOFS.includes(proof)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`orphaned-proof-${proof}`)) return;
+    if (!orphanedFactClaimUnlocked()) return;
+    const st = getOrphanedFactClaims();
+    if (st.pending || st.activeExecutor || !st.draft.fact || st.draft.proof !== '') return;
+
+    const pObj = ORPHANED_PROOF_TABLE[proof];
+    st.pending = {
+      fact: st.draft.fact,
+      feedback: pObj.feedback,
+      kind: 'proof',
+      proof,
+      source: 'fact-inheritance-vault',
+      target: 'causal-estate-execution-desk',
+    };
+    saveOrphanedFactClaims(st);
+
+    const resp = $('#fact-inheritance-vault-response');
+    if (resp) {
+      resp.textContent = pObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#orphaned-proof-${proof}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('fact-inheritance-vault', 'causal-estate-execution-desk', { delay: orphanedFactDelay() });
+  }
+
+  function chooseOrphanedObligation(obligation) {
+    if (typeof currentScene !== 'string' || currentScene !== 'causal-estate-execution-desk') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('causal-estate-execution-desk')) return;
+    if (!ORPHANED_OBLIGATIONS.includes(obligation)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`orphaned-obligation-${obligation}`)) return;
+    if (!orphanedFactClaimUnlocked()) return;
+    const st = getOrphanedFactClaims();
+    if (st.pending || st.activeExecutor || !st.draft.fact || !st.draft.proof) return;
+
+    const pObj = ORPHANED_PROOF_TABLE[st.draft.proof];
+    const inheritance = `${st.draft.fact}:${st.draft.proof}:${obligation}`;
+    const feedback = computeOrphanedInheritanceFeedback(st.draft.fact, st.draft.proof, obligation);
+
+    st.pending = {
+      fact: st.draft.fact,
+      feedback,
+      inheritance,
+      kind: 'inheritance',
+      obligation,
+      proof: st.draft.proof,
+      source: 'causal-estate-execution-desk',
+      target: pObj.target,
+    };
+    saveOrphanedFactClaims(st);
+
+    const resp = $('#causal-estate-execution-desk-response');
+    if (resp) {
+      resp.textContent = feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#orphaned-obligation-${obligation}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('causal-estate-execution-desk', pObj.target, { delay: orphanedFactDelay() });
+  }
+
+  function chooseOrphanedExecutorReturn(scene) {
+    if (typeof currentScene !== 'string' || currentScene !== scene) return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has(scene)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`orphaned-fact-executor-return-${scene}`)) return;
+    if (!orphanedFactClaimUnlocked()) return;
+    const st = getOrphanedFactClaims();
+    if (st.pending || !st.activeExecutor) return;
+    const pObj = ORPHANED_PROOF_TABLE[st.activeExecutor.proof];
+    if (!pObj || pObj.target !== scene) return;
+
+    const matchingInheritance = st.inheritances.find(r => {
+      const p = r.split(':');
+      return p.length === 3 && p[1] === st.activeExecutor.proof;
+    });
+    if (!matchingInheritance) return;
+
+    st.pending = {
+      feedback: pObj.executorFeedback,
+      from: scene,
+      inheritance: matchingInheritance,
+      kind: 'executor-return',
+      target: 'orphaned-fact-claim-office',
+    };
+    saveOrphanedFactClaims(st);
+
+    const resp = $(`#orphaned-fact-executor-response-${scene}`);
+    if (resp) {
+      resp.textContent = pObj.executorFeedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#orphaned-fact-executor-return-${scene}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule(scene, 'orphaned-fact-claim-office', { delay: orphanedFactDelay() });
+  }
+
+  function chooseOrphanedCourtEntry() {
+    if (typeof currentScene !== 'string' || currentScene !== 'remembrance') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('remembrance')) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable('orphaned-fact-court-entry-btn')) return;
+    if (!orphanedFactClaimUnlocked()) return;
+    const st = getOrphanedFactClaims();
+    if (st.pending || st.activeExecutor || st.draft.fact !== '' || st.draft.proof !== '' || !orphanedFactCoverageComplete(st)) return;
+
+    st.pending = {
+      feedback: ORPHANED_COURT_ENTRY_FEEDBACK,
+      kind: 'court-entry',
+      target: 'ownerless-truth-estate-court',
+    };
+    saveOrphanedFactClaims(st);
+
+    const resp = $('#orphaned-fact-court-entry-response');
+    if (resp) {
+      resp.textContent = ORPHANED_COURT_ENTRY_FEEDBACK;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $('#orphaned-fact-court-entry-btn');
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('remembrance', 'ownerless-truth-estate-court', { delay: orphanedFactDelay() });
+  }
+
+  function chooseOrphanedCourtAction(action) {
+    if (typeof currentScene !== 'string' || currentScene !== 'ownerless-truth-estate-court') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('ownerless-truth-estate-court')) return;
+    if (!ORPHANED_COURT_ACTIONS.includes(action)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`orphaned-court-${action}`)) return;
+    if (!orphanedFactClaimUnlocked()) return;
+    const st = getOrphanedFactClaims();
+    if (st.pending || st.activeExecutor || st.draft.fact !== '' || st.draft.proof !== '' || !orphanedFactCoverageComplete(st) || !st.visited.court) return;
+
+    const cObj = ORPHANED_COURT_TABLE[action];
+    st.pending = {
+      action,
+      feedback: cObj.feedback,
+      kind: 'court-action',
+      outcome: cObj.outcome,
+      source: 'ownerless-truth-estate-court',
+      target: cObj.target,
+    };
+    saveOrphanedFactClaims(st);
+
+    const resp = $('#ownerless-truth-estate-court-response');
+    if (resp) {
+      resp.textContent = cObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#orphaned-court-${action}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('ownerless-truth-estate-court', cObj.target, { delay: orphanedFactDelay() });
+  }
+
+  function orphanedFactBridgeAllows(targetScene) {
+    if (!orphanedFactClaimUnlocked()) return false;
+    const st = getOrphanedFactClaims();
+    if (st.pending) {
+      if (st.pending.kind === 'inheritance' && st.pending.target === targetScene) return true;
+      if (st.pending.kind === 'court-action' && st.pending.target === targetScene) return true;
+    }
+    if (st.activeExecutor) {
+      const pObj = ORPHANED_PROOF_TABLE[st.activeExecutor.proof];
+      if (pObj && pObj.target === targetScene) return true;
+    }
+    if (st.lastOutcome && st.estateOutcomes.includes(st.lastOutcome)) {
+      const courtEntry = ORPHANED_COURT_OUTCOME_BY_ID[st.lastOutcome];
+      if (courtEntry && courtEntry.target === targetScene) return true;
+    }
+    return false;
+  }
+
+  function orphanedFactClaimOfficeCanVisit() {
+    if (!orphanedFactClaimUnlocked()) return false;
+    const st = getOrphanedFactClaims();
+    if (st.visited.office) return true;
+    if (st.pending && (st.pending.kind === 'entry' || st.pending.kind === 'executor-return') && st.pending.target === 'orphaned-fact-claim-office') {
+      return true;
+    }
+    return false;
+  }
+
+  function factInheritanceVaultCanVisit() {
+    if (!orphanedFactClaimUnlocked()) return false;
+    const st = getOrphanedFactClaims();
+    if (st.visited.vault && st.draft.fact) return true;
+    if (st.pending && st.pending.kind === 'fact' && st.pending.target === 'fact-inheritance-vault') {
+      return true;
+    }
+    return false;
+  }
+
+  function causalEstateExecutionDeskCanVisit() {
+    if (!orphanedFactClaimUnlocked()) return false;
+    const st = getOrphanedFactClaims();
+    if (st.visited.execution && st.draft.fact && st.draft.proof) return true;
+    if (st.pending && st.pending.kind === 'proof' && st.pending.target === 'causal-estate-execution-desk') {
+      return true;
+    }
+    return false;
+  }
+
+  function ownerlessTruthEstateCourtCanVisit() {
+    if (!orphanedFactClaimUnlocked()) return false;
+    const st = getOrphanedFactClaims();
+    const complete = orphanedFactCoverageComplete(st);
+    if (st.visited.court && complete) return true;
+    if (st.pending && st.pending.kind === 'court-entry' && st.pending.target === 'ownerless-truth-estate-court') {
+      return true;
+    }
+    return false;
+  }
+
+  function syncOrphanedFactClaimOffice() {
+    const fig = $('#orphaned-fact-claim-office-figure');
+    const canVisit = orphanedFactClaimOfficeCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getOrphanedFactClaims();
+    const isPending = !st.pending;
+
+    ORPHANED_FACTS.forEach(s => {
+      const btn = $(`#orphaned-fact-${s}`);
+      if (btn) {
+        btn.disabled = !!st.pending || !canVisit;
+        const pressed = st.pending && st.pending.kind === 'fact' && st.pending.fact === s;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#orphaned-fact-claim-office-response');
+    if (resp && !st.pending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    paintOrphanedFactMemory();
+    paintOrphanedFactCodex();
+    syncOrphanedFactLinks();
+  }
+
+  function syncFactInheritanceVault() {
+    const fig = $('#fact-inheritance-vault-figure');
+    const canVisit = factInheritanceVaultCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getOrphanedFactClaims();
+    const isPending = !st.pending;
+
+    ORPHANED_PROOFS.forEach(p => {
+      const btn = $(`#orphaned-proof-${p}`);
+      if (btn) {
+        btn.disabled = !!st.pending || !canVisit;
+        const pressed = st.pending && st.pending.kind === 'proof' && st.pending.proof === p;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#fact-inheritance-vault-response');
+    if (resp && !st.pending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncOrphanedFactLinks();
+  }
+
+  function syncCausalEstateExecutionDesk() {
+    const fig = $('#causal-estate-execution-desk-figure');
+    const canVisit = causalEstateExecutionDeskCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getOrphanedFactClaims();
+    const isPending = !st.pending;
+
+    ORPHANED_OBLIGATIONS.forEach(t => {
+      const btn = $(`#orphaned-obligation-${t}`);
+      if (btn) {
+        btn.disabled = !!st.pending || !canVisit;
+        const pressed = st.pending && st.pending.kind === 'inheritance' && st.pending.obligation === t;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#causal-estate-execution-desk-response');
+    if (resp && !st.pending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncOrphanedFactLinks();
+  }
+
+  function syncOwnerlessTruthEstateCourt() {
+    const fig = $('#ownerless-truth-estate-court-figure');
+    const canVisit = ownerlessTruthEstateCourtCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getOrphanedFactClaims();
+    const isPending = !st.pending;
+
+    ORPHANED_COURT_ACTIONS.forEach(a => {
+      const btn = $(`#orphaned-court-${a}`);
+      if (btn) {
+        btn.disabled = !!st.pending || !canVisit;
+        const pressed = st.pending && st.pending.kind === 'court-action' && st.pending.action === a;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#ownerless-truth-estate-court-response');
+    if (resp && !st.pending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncOrphanedFactLinks();
+  }
+
+  function syncOrphanedFactExecutors() {
+    const st = getOrphanedFactClaims();
+    const scenes = ['contradictory-evidence-archive', 'blank-name-cloakroom', 'minute-before-archive'];
+
+    scenes.forEach(scene => {
+      const cont = $(`#orphaned-fact-executor-${scene}`);
+      const resp = $(`#orphaned-fact-executor-response-${scene}`);
+      const btn = $(`#orphaned-fact-executor-return-${scene}`);
+
+      let shouldShow = false;
+      if (st.activeExecutor) {
+        const pObj = ORPHANED_PROOF_TABLE[st.activeExecutor.proof];
+        if (pObj && pObj.target === scene) {
+          shouldShow = true;
+        }
+      }
+      if (cont) {
+        cont.hidden = !shouldShow;
+        if (shouldShow) cont.removeAttribute('hidden');
+      }
+      if (resp) {
+        if (shouldShow && st.activeExecutor) {
+          resp.textContent = st.activeExecutor.feedback;
+          resp.hidden = false;
+          resp.removeAttribute('hidden');
+        } else {
+          resp.textContent = '';
+          resp.hidden = true;
+        }
+      }
+      if (btn) {
+        btn.hidden = !shouldShow;
+        if (shouldShow) btn.removeAttribute('hidden');
+        btn.disabled = !shouldShow || !!st.pending;
+        const pressed = st.pending && st.pending.kind === 'executor-return' && st.pending.from === scene;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+  }
+
+  function paintOrphanedFactMemory() {
+    const mem = $('#orphaned-fact-memory');
+    if (!mem) return;
+    if (!orphanedFactClaimUnlocked()) {
+      mem.hidden = true;
+      return;
+    }
+    mem.hidden = false;
+    mem.removeAttribute('hidden');
+    const st = getOrphanedFactClaims();
+    const inheritances = st.inheritances;
+    const count = inheritances.length;
+
+    const fCounts = { 'fact-whose-witness-entered-protection': 0, 'fact-whose-cause-died-childless': 0, 'fact-rejected-by-every-archive': 0 };
+    const pCounts = { 'unclaimed-fingerprint-of-the-wound': 0, 'shadow-of-an-unsigned-confession': 0, 'receipt-for-a-future-consequence': 0 };
+    const oCounts = { 'inherit-every-victim': 0, 'inherit-every-omitted-cause': 0, 'adopt-contradiction-as-a-surname': 0, 'leave-fact-ownerless-and-become-its-alibi': 0 };
+
+    inheritances.forEach(id => {
+      const p = id.split(':');
+      if (p.length === 3) {
+        if (fCounts[p[0]] !== undefined) fCounts[p[0]]++;
+        if (pCounts[p[1]] !== undefined) pCounts[p[1]]++;
+        if (oCounts[p[2]] !== undefined) oCounts[p[2]]++;
+      }
+    });
+
+    const witnessless = st.factTallies.witnessless;
+    const causeless = st.factTallies.causeless;
+    const unfiled = st.factTallies.unfiled;
+
+    const fCount = pCounts['unclaimed-fingerprint-of-the-wound'];
+    const sCount = pCounts['shadow-of-an-unsigned-confession'];
+    const tCount = pCounts['receipt-for-a-future-consequence'];
+
+    const vCount = oCounts['inherit-every-victim'];
+    const oCount = oCounts['inherit-every-omitted-cause'];
+    const xCount = oCounts['adopt-contradiction-as-a-surname'];
+    const aCount = oCounts['leave-fact-ownerless-and-become-its-alibi'];
+
+    let majority = '均衡认领';
+    if (witnessless > causeless && witnessless > unfiled) majority = '主要认领证人已被保护的事实';
+    else if (causeless > witnessless && causeless > unfiled) majority = '主要认领原因已经绝嗣的事实';
+    else if (unfiled > witnessless && unfiled > causeless) majority = '主要认领被所有档案拒收的事实';
+
+    const text = `孤事实认领处：已继承 ${count}/36 项无主事实，共执行 ${st.inheritanceRuns} 次；事实 无证 ${witnessless} / 无因 ${causeless} / 无档 ${unfiled}；凭证 伤印 ${fCount} / 影供 ${sCount} / 未来账单 ${tCount}；义务 众伤 ${vCount} / 漏因 ${oCount} / 矛姓 ${xCount} / 不在场 ${aCount}；事实多数 ${majority}；遗产裁定 ${st.estateOutcomes.length}/3。`;
+    mem.textContent = text;
+  }
+
+  function paintOrphanedFactCodex() {
+    const codex = $('#orphaned-fact-codex');
+    const grid = $('#orphaned-fact-codex-grid');
+    if (!codex || !grid) return;
+    if (!orphanedFactClaimUnlocked()) {
+      codex.hidden = true;
+      return;
+    }
+    codex.hidden = false;
+    codex.removeAttribute('hidden');
+    grid.textContent = '';
+
+    const st = getOrphanedFactClaims();
+    const collectedInheritances = new Set(st.inheritances);
+    const collectedOutcomes = new Set(st.estateOutcomes);
+
+    ORPHANED_INHERITANCE_IDS.forEach(id => {
+      const cell = document.createElement('div');
+      if (collectedInheritances.has(id)) {
+        cell.className = 'orphaned-fact-cell is-unlocked';
+        const item = findOrphanedInheritanceById(id);
+        cell.textContent = item ? `${item.title}\n${item.feedback}` : id;
+      } else {
+        cell.className = 'orphaned-fact-cell is-locked';
+        cell.textContent = '？？？';
+      }
+      grid.appendChild(cell);
+    });
+
+    ORPHANED_COURT_ACTIONS.forEach(action => {
+      const cObj = ORPHANED_COURT_TABLE[action];
+      const cell = document.createElement('div');
+      if (collectedOutcomes.has(cObj.outcome)) {
+        cell.className = 'orphaned-fact-cell is-unlocked';
+        cell.textContent = `[无主真相遗产庭] ${cObj.outcome}\n${cObj.feedback}`;
+      } else {
+        cell.className = 'orphaned-fact-cell is-locked';
+        cell.textContent = '？？？';
+      }
+      grid.appendChild(cell);
+    });
+  }
+
+  function syncOrphanedFactRemembrance() {
+    const unlocked = orphanedFactClaimUnlocked();
+    const entryShell = $('#orphaned-fact-codex-entry');
+    const entryBtn = $('#orphaned-fact-entry-btn');
+    const courtBtn = $('#orphaned-fact-court-entry-btn');
+
+    if (!unlocked) {
+      if (entryShell) entryShell.hidden = true;
+      if (entryBtn) entryBtn.hidden = true;
+      if (courtBtn) courtBtn.hidden = true;
+      return;
+    }
+
+    if (entryShell) {
+      entryShell.hidden = false;
+      entryShell.removeAttribute('hidden');
+    }
+
+    const st = getOrphanedFactClaims();
+    const isClean = !st.pending && !st.activeExecutor && st.draft.fact === '' && st.draft.proof === '';
+
+    if (entryBtn) {
+      entryBtn.hidden = false;
+      entryBtn.removeAttribute('hidden');
+      entryBtn.disabled = !isClean;
+      const pressed = st.pending && st.pending.kind === 'entry';
+      entryBtn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+    }
+
+    if (courtBtn) {
+      const coverage = orphanedFactCoverageComplete(st);
+      courtBtn.hidden = !coverage;
+      if (coverage) courtBtn.removeAttribute('hidden');
+      courtBtn.disabled = !isClean || !coverage;
+      const pressed = st.pending && st.pending.kind === 'court-entry';
+      courtBtn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+    }
+  }
+
+  function syncOrphanedFactLinks() {
+    const unlocked = orphanedFactClaimUnlocked();
+    const links = [
+      { id: 'orphaned-fact-claim-office-link', key: 'office' },
+      { id: 'fact-inheritance-vault-link', key: 'vault' },
+      { id: 'causal-estate-execution-desk-link', key: 'execution' },
+      { id: 'ownerless-truth-estate-court-link', key: 'court' },
+    ];
+    const st = unlocked ? getOrphanedFactClaims() : null;
+
+    links.forEach(l => {
+      const el = $(`#${l.id}`);
+      if (el) {
+        const show = unlocked && st && st.visited[l.key] === true;
+        el.hidden = !show;
+        if (show) el.removeAttribute('hidden');
+      }
+    });
+  }
+
+  const orphanedFactEntryBtn = $('#orphaned-fact-entry-btn');
+  if (orphanedFactEntryBtn) {
+    orphanedFactEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseOrphanedFactEntry();
+    });
+  }
+
+  const orphanedFactCourtEntryBtn = $('#orphaned-fact-court-entry-btn');
+  if (orphanedFactCourtEntryBtn) {
+    orphanedFactCourtEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseOrphanedCourtEntry();
+    });
+  }
+
+  const orphanedFactWitnessBtn = $('#orphaned-fact-fact-whose-witness-entered-protection');
+  if (orphanedFactWitnessBtn) {
+    orphanedFactWitnessBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseOrphanedFact('fact-whose-witness-entered-protection');
+    });
+  }
+
+  const orphanedFactCauselessBtn = $('#orphaned-fact-fact-whose-cause-died-childless');
+  if (orphanedFactCauselessBtn) {
+    orphanedFactCauselessBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseOrphanedFact('fact-whose-cause-died-childless');
+    });
+  }
+
+  const orphanedFactUnfiledBtn = $('#orphaned-fact-fact-rejected-by-every-archive');
+  if (orphanedFactUnfiledBtn) {
+    orphanedFactUnfiledBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseOrphanedFact('fact-rejected-by-every-archive');
+    });
+  }
+
+  const orphanedProofWoundBtn = $('#orphaned-proof-unclaimed-fingerprint-of-the-wound');
+  if (orphanedProofWoundBtn) {
+    orphanedProofWoundBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseOrphanedProof('unclaimed-fingerprint-of-the-wound');
+    });
+  }
+
+  const orphanedProofShadowBtn = $('#orphaned-proof-shadow-of-an-unsigned-confession');
+  if (orphanedProofShadowBtn) {
+    orphanedProofShadowBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseOrphanedProof('shadow-of-an-unsigned-confession');
+    });
+  }
+
+  const orphanedProofReceiptBtn = $('#orphaned-proof-receipt-for-a-future-consequence');
+  if (orphanedProofReceiptBtn) {
+    orphanedProofReceiptBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseOrphanedProof('receipt-for-a-future-consequence');
+    });
+  }
+
+  const orphanedObligationVictimBtn = $('#orphaned-obligation-inherit-every-victim');
+  if (orphanedObligationVictimBtn) {
+    orphanedObligationVictimBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseOrphanedObligation('inherit-every-victim');
+    });
+  }
+
+  const orphanedObligationOmittedBtn = $('#orphaned-obligation-inherit-every-omitted-cause');
+  if (orphanedObligationOmittedBtn) {
+    orphanedObligationOmittedBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseOrphanedObligation('inherit-every-omitted-cause');
+    });
+  }
+
+  const orphanedObligationContradictionBtn = $('#orphaned-obligation-adopt-contradiction-as-a-surname');
+  if (orphanedObligationContradictionBtn) {
+    orphanedObligationContradictionBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseOrphanedObligation('adopt-contradiction-as-a-surname');
+    });
+  }
+
+  const orphanedObligationAlibiBtn = $('#orphaned-obligation-leave-fact-ownerless-and-become-its-alibi');
+  if (orphanedObligationAlibiBtn) {
+    orphanedObligationAlibiBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseOrphanedObligation('leave-fact-ownerless-and-become-its-alibi');
+    });
+  }
+
+  const orphanedExecutorReturnArchiveBtn = $('#orphaned-fact-executor-return-contradictory-evidence-archive');
+  if (orphanedExecutorReturnArchiveBtn) {
+    orphanedExecutorReturnArchiveBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseOrphanedExecutorReturn('contradictory-evidence-archive');
+    });
+  }
+
+  const orphanedExecutorReturnCloakroomBtn = $('#orphaned-fact-executor-return-blank-name-cloakroom');
+  if (orphanedExecutorReturnCloakroomBtn) {
+    orphanedExecutorReturnCloakroomBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseOrphanedExecutorReturn('blank-name-cloakroom');
+    });
+  }
+
+  const orphanedExecutorReturnMinuteBtn = $('#orphaned-fact-executor-return-minute-before-archive');
+  if (orphanedExecutorReturnMinuteBtn) {
+    orphanedExecutorReturnMinuteBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseOrphanedExecutorReturn('minute-before-archive');
+    });
+  }
+
+  const orphanedCourtObserverBtn = $('#orphaned-court-let-every-fact-inherit-its-observer');
+  if (orphanedCourtObserverBtn) {
+    orphanedCourtObserverBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseOrphanedCourtAction('let-every-fact-inherit-its-observer');
+    });
+  }
+
+  const orphanedCourtAbolishBtn = $('#orphaned-court-abolish-ownership-of-truth');
+  if (orphanedCourtAbolishBtn) {
+    orphanedCourtAbolishBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseOrphanedCourtAction('abolish-ownership-of-truth');
+    });
+  }
+
+  const orphanedCourtWorldBtn = $('#orphaned-court-make-the-claimant-inherit-the-whole-world');
+  if (orphanedCourtWorldBtn) {
+    orphanedCourtWorldBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseOrphanedCourtAction('make-the-claimant-inherit-the-whole-world');
+    });
+  }
+
+  /* ============================================================
+     v86: 存在放弃登记局 (Registry for Renouncing Existence)
+     ============================================================ */
+
+  const EXISTENCE_RENUNCIATION_KEY = 'goddead_v86_existence_renunciation';
+  const EXISTENCE_RENUNCIATION_VERSION = 86;
+  const EXISTENCE_RENUNCIANTS = ['observer-inherited-by-every-fact', 'claimant-buried-under-unclaimed-consequences', 'person-rejected-by-every-archive'];
+  const EXISTENCE_EVIDENCES = ['birth-certificate-for-an-empty-crib', 'shadow-of-a-person-erased-in-advance', 'refund-receipt-for-an-undelivered-body'];
+  const EXISTENCE_CLAUSES = ['declare-existence-a-clerical-error', 'return-the-first-person-pronoun-unused', 'transfer-the-body-to-its-original-absence', 'accept-nonexistence-as-an-inherited-debt'];
+  const EXISTENCE_TRIBUNAL_ACTIONS = ['strike-every-visitor-from-reality', 'register-nonexistence-as-a-citizen', 'make-the-world-disinherit-itself'];
+
+  const EXISTENCE_RENUNCIANT_TABLE = {
+    'observer-inherited-by-every-fact': { tallyKey: 'observer', title: '观者', feedback: '观察者只看了一眼，目击便把他列为财产。现在每件被注意到的事都拥有他的一小部分，连闭眼也会新增一名债权人。' },
+    'claimant-buried-under-unclaimed-consequences': { tallyKey: 'claimant', title: '认领', feedback: '所有无人签收的后果同时过户，认领者因此继承每一道伤口、每份遗漏和每个尚未发生的惩罚。登记局建议先证明继承人不存在。' },
+    'person-rejected-by-every-archive': { tallyKey: 'unfiled', title: '无档', feedback: '人口簿、伤害档案和死亡记录都拒绝承认这张脸，唯有催缴单始终能找到它。档案说：欠债并不能证明一个人存在，只能证明错误很执着。' },
+  };
+
+  const EXISTENCE_EVIDENCE_TABLE = {
+    'birth-certificate-for-an-empty-crib': {
+      title: '空摇篮',
+      target: 'birth-ballot-booth',
+      feedback: '出生证完整记录第一次呼吸，摇篮却从未承受过重量。档案员认定：文书出生了，婴儿只是它后来伪造的附件。',
+      registrarFeedback: '登记员在出生投票亭反复清点空摇篮。每一张选票都承认婴儿出生，唯独摇篮坚持那天只来过一份文件。',
+    },
+    'shadow-of-a-person-erased-in-advance': {
+      title: '预抹影',
+      target: 'blank-name-cloakroom',
+      feedback: '人尚未出现，影子已经收到除名通知。它因此先于主人被抹去，又因为没有主人可以失去而一直留在墙上。',
+      registrarFeedback: '登记员在空名寄存处找到一格仍在投影的黑暗。名字从未寄存，影子却已经领取过三次除名证明。',
+    },
+    'refund-receipt-for-an-undelivered-body': {
+      title: '未交体',
+      target: 'reality-refund-counter',
+      feedback: '收据证明身体已经退货，仓库却找不到任何交付记录。你可能从未拥有肉身，也可能只是肉身用来申请退款的虚构顾客。',
+      registrarFeedback: '登记员在现实退款处核对肉身。柜台承认收过退款申请，却拒绝说明究竟是什么东西曾经被交付给你。',
+    },
+  };
+
+  const EXISTENCE_CLAUSE_TABLE = {
+    'declare-existence-a-clerical-error': {
+      title: '文误',
+      fragment: '登记员把出生、记忆与伤口划进同一处错别字。你的生命没有被删除，只是被解释成一名疲惫文书在空栏里多写的一笔。',
+    },
+    'return-the-first-person-pronoun-unused': {
+      title: '退我',
+      fragment: '“我”从喉咙里取出，仍保持说话的温度。失去代词后，你可以继续发声，却再也没有一句话能够证明说话者就是你。',
+    },
+    'transfer-the-body-to-its-original-absence': {
+      title: '还空',
+      fragment: '骨头、名字和影子逐项归还给出生前的空位。空位收下全部财产，并反过来要求你证明曾经有权占用它。',
+    },
+    'accept-nonexistence-as-an-inherited-debt': {
+      title: '欠无',
+      fragment: '你没有获得自由，只获得一笔比出生更早的欠款。从此每活一刻都算逾期，而死亡只是债务承认你曾经是可追索对象。',
+    },
+  };
+
+  const EXISTENCE_TRIBUNAL_TABLE = {
+    'strike-every-visitor-from-reality': {
+      outcome: 'every-visitor-was-struck-from-reality',
+      target: 'threshold',
+      feedback: '终审庭把每一次抵达改写成从未发生。门外仍排列无数脚印，但每一双鞋都可以证明自己的主人没有来过。',
+    },
+    'register-nonexistence-as-a-citizen': {
+      outcome: 'nonexistence-became-a-citizen',
+      target: 'remembrance',
+      feedback: '不存在取得姓名、住址与投票权。它的第一项公民义务，是替所有被注销者记住他们并不存在。',
+    },
+    'make-the-world-disinherit-itself': {
+      outcome: 'the-world-disinherited-itself',
+      target: 'unending-gallery',
+      feedback: '世界签下自己的除继承书，把历史、后果与未来全部留给空位。画廊仍然无终，却再也没有谁能证明它属于现实。',
+    },
+  };
+
+  const EXISTENCE_TRIBUNAL_OUTCOME_BY_ID = {};
+  const EXISTENCE_TRIBUNAL_OUTCOME_IDS = EXISTENCE_TRIBUNAL_ACTIONS.map(a => {
+    const out = EXISTENCE_TRIBUNAL_TABLE[a].outcome;
+    EXISTENCE_TRIBUNAL_OUTCOME_BY_ID[out] = EXISTENCE_TRIBUNAL_TABLE[a];
+    return out;
+  });
+
+  const EXISTENCE_RENUNCIATION_IDS = [];
+  for (let r = 0; r < EXISTENCE_RENUNCIANTS.length; r++) {
+    for (let e = 0; e < EXISTENCE_EVIDENCES.length; e++) {
+      for (let c = 0; c < EXISTENCE_CLAUSES.length; c++) {
+        EXISTENCE_RENUNCIATION_IDS.push(`${EXISTENCE_RENUNCIANTS[r]}:${EXISTENCE_EVIDENCES[e]}:${EXISTENCE_CLAUSES[c]}`);
+      }
+    }
+  }
+
+  const EXISTENCE_RENUNCIATION_ENTRY_FEEDBACK = '申请退出存在的临时继承 ⟶';
+  const EXISTENCE_TRIBUNAL_ENTRY_FEEDBACK = '申请让整个世界退出存在 · PETITION THE WHOLE WORLD TO WITHDRAW FROM EXISTENCE';
+
+  function existenceRenunciationDelay() {
+    return reduced ? 300 : 1600;
+  }
+
+  function defaultExistenceRenunciationClaims() {
+    return {
+      version: EXISTENCE_RENUNCIATION_VERSION,
+      visited: { registry: false, archive: false, chamber: false, tribunal: false },
+      draft: { renunciant: '', evidence: '' },
+      renunciations: [],
+      tribunalOutcomes: [],
+      renunciationRuns: 0,
+      tribunalRuns: 0,
+      renunciantTallies: { observer: 0, claimant: 0, unfiled: 0 },
+      lastOutcome: '',
+      activeRegistrar: null,
+      pending: null,
+    };
+  }
+
+  function normalizeExistenceVisited(v) {
+    if (!v || typeof v !== 'object' || Array.isArray(v)) {
+      return { registry: false, archive: false, chamber: false, tribunal: false };
+    }
+    return {
+      registry: v.registry === true,
+      archive: v.archive === true,
+      chamber: v.chamber === true,
+      tribunal: v.tribunal === true,
+    };
+  }
+
+  function normalizeExistenceDraft(d) {
+    if (!d || typeof d !== 'object' || Array.isArray(d)) {
+      return { renunciant: '', evidence: '' };
+    }
+    const renunciant = typeof d.renunciant === 'string' && EXISTENCE_RENUNCIANTS.includes(d.renunciant) ? d.renunciant : '';
+    if (!renunciant) {
+      return { renunciant: '', evidence: '' };
+    }
+    const evidence = typeof d.evidence === 'string' && EXISTENCE_EVIDENCES.includes(d.evidence) ? d.evidence : '';
+    return { renunciant, evidence };
+  }
+
+  function normalizeExistenceRenunciations(arr) {
+    if (!Array.isArray(arr)) return [];
+    const set = new Set();
+    for (let i = 0; i < arr.length; i++) {
+      if (typeof arr[i] === 'string' && EXISTENCE_RENUNCIATION_IDS.includes(arr[i])) {
+        set.add(arr[i]);
+      }
+    }
+    return EXISTENCE_RENUNCIATION_IDS.filter(id => set.has(id));
+  }
+
+  function normalizeExistenceTribunalOutcomes(arr) {
+    if (!Array.isArray(arr)) return [];
+    const set = new Set();
+    for (let i = 0; i < arr.length; i++) {
+      if (typeof arr[i] === 'string' && EXISTENCE_TRIBUNAL_OUTCOME_IDS.includes(arr[i])) {
+        set.add(arr[i]);
+      }
+    }
+    return EXISTENCE_TRIBUNAL_OUTCOME_IDS.filter(id => set.has(id));
+  }
+
+  function clampExistenceCount(n) {
+    const num = Math.floor(Number(n) || 0);
+    if (num < 0) return 0;
+    if (num > 9999) return 9999;
+    return num;
+  }
+
+  function normalizeExistenceTallies(t) {
+    if (!t || typeof t !== 'object' || Array.isArray(t)) {
+      return { observer: 0, claimant: 0, unfiled: 0 };
+    }
+    return {
+      observer: clampExistenceCount(t.observer),
+      claimant: clampExistenceCount(t.claimant),
+      unfiled: clampExistenceCount(t.unfiled),
+    };
+  }
+
+  function normalizeExistenceActiveRegistrar(h, renunciations) {
+    if (!h || typeof h !== 'object' || Array.isArray(h)) return null;
+    const keys = Object.keys(h).sort();
+    if (keys.length !== 3 || keys[0] !== 'evidence' || keys[1] !== 'feedback' || keys[2] !== 'renunciation') {
+      return null;
+    }
+    const evidence = h.evidence;
+    const ren = h.renunciation;
+    if (!EXISTENCE_EVIDENCES.includes(evidence) || typeof ren !== 'string') {
+      return null;
+    }
+    const evidenceTable = EXISTENCE_EVIDENCE_TABLE[evidence];
+    if (!evidenceTable || h.feedback !== evidenceTable.registrarFeedback) {
+      return null;
+    }
+    const canonicalRenunciations = Array.isArray(renunciations) ? renunciations : [];
+    if (!canonicalRenunciations.includes(ren)) return null;
+    const parts = ren.split(':');
+    if (parts.length !== 3 || parts[1] !== evidence) return null;
+    return {
+      evidence,
+      feedback: evidenceTable.registrarFeedback,
+      renunciation: ren,
+    };
+  }
+
+  function computeExistenceRenunciationTitle(renunciant, evidence, clause) {
+    const rObj = EXISTENCE_RENUNCIANT_TABLE[renunciant];
+    const eObj = EXISTENCE_EVIDENCE_TABLE[evidence];
+    const cObj = EXISTENCE_CLAUSE_TABLE[clause];
+    if (!rObj || !eObj || !cObj) return '';
+    return `${rObj.title} × ${eObj.title} × ${cObj.title}`;
+  }
+
+  function computeExistenceRenunciationFeedback(renunciant, evidence, clause) {
+    const rObj = EXISTENCE_RENUNCIANT_TABLE[renunciant];
+    const eObj = EXISTENCE_EVIDENCE_TABLE[evidence];
+    const cObj = EXISTENCE_CLAUSE_TABLE[clause];
+    if (!rObj || !eObj || !cObj) return '';
+    return `${rObj.feedback} ${eObj.feedback} ${cObj.fragment}`;
+  }
+
+  function findExistenceRenunciationById(id) {
+    if (typeof id !== 'string' || !EXISTENCE_RENUNCIATION_IDS.includes(id)) return null;
+    const parts = id.split(':');
+    if (parts.length !== 3) return null;
+    const [renunciant, evidence, clause] = parts;
+    return {
+      id,
+      renunciant,
+      evidence,
+      clause,
+      title: computeExistenceRenunciationTitle(renunciant, evidence, clause),
+      feedback: computeExistenceRenunciationFeedback(renunciant, evidence, clause),
+    };
+  }
+
+  function existenceRenunciationUnlocked() {
+    if (typeof orphanedFactClaimUnlocked !== 'function' || !orphanedFactClaimUnlocked()) {
+      return false;
+    }
+    if (typeof getOrphanedFactClaims !== 'function') return false;
+    const oState = getOrphanedFactClaims();
+    if (!oState || typeof oState !== 'object') return false;
+    const inheritances = Array.isArray(oState.inheritances) ? oState.inheritances : [];
+    if (inheritances.length < 4) return false;
+    const fReq = new Set(['fact-whose-witness-entered-protection', 'fact-whose-cause-died-childless', 'fact-rejected-by-every-archive']);
+    const pReq = new Set(['unclaimed-fingerprint-of-the-wound', 'shadow-of-an-unsigned-confession', 'receipt-for-a-future-consequence']);
+    const oReq = new Set(['inherit-every-victim', 'inherit-every-omitted-cause', 'adopt-contradiction-as-a-surname', 'leave-fact-ownerless-and-become-its-alibi']);
+
+    const fSeen = new Set();
+    const pSeen = new Set();
+    const oSeen = new Set();
+    for (let idx = 0; idx < inheritances.length; idx++) {
+      const b = inheritances[idx];
+      if (typeof b === 'string') {
+        const parts = b.split(':');
+        if (parts.length === 3) {
+          if (fReq.has(parts[0])) fSeen.add(parts[0]);
+          if (pReq.has(parts[1])) pSeen.add(parts[1]);
+          if (oReq.has(parts[2])) oSeen.add(parts[2]);
+        }
+      }
+    }
+
+    if (fSeen.size < 3 || pSeen.size < 3 || oSeen.size < 4) return false;
+
+    const oOutcomes = Array.isArray(oState.estateOutcomes) ? oState.estateOutcomes : [];
+    const requiredCourts = [
+      'every-fact-inherited-the-person-who-noticed-it',
+      'truth-was-freed-from-every-owner',
+      'the-claimant-inherited-every-unclaimed-consequence',
+    ];
+    for (let j = 0; j < requiredCourts.length; j++) {
+      if (!oOutcomes.includes(requiredCourts[j])) return false;
+    }
+    return true;
+  }
+
+  function existenceRenunciationCoverageComplete(st) {
+    if (!st || typeof st !== 'object') return false;
+    const renunciations = normalizeExistenceRenunciations(st.renunciations);
+    if (renunciations.length < 4) return false;
+    const rSet = new Set();
+    const eSet = new Set();
+    const cSet = new Set();
+    for (let idx = 0; idx < renunciations.length; idx++) {
+      const parts = renunciations[idx].split(':');
+      if (parts.length === 3) {
+        rSet.add(parts[0]);
+        eSet.add(parts[1]);
+        cSet.add(parts[2]);
+      }
+    }
+    return rSet.size === EXISTENCE_RENUNCIANTS.length &&
+           eSet.size === EXISTENCE_EVIDENCES.length &&
+           cSet.size === EXISTENCE_CLAUSES.length;
+  }
+
+  function normalizeExistencePending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p)) return null;
+    if (!st || st._v86unlocked !== true) return null;
+    const kind = p.kind;
+    if (typeof kind !== 'string') return null;
+    const keys = Object.keys(p).sort();
+
+    if (kind === 'entry') {
+      if (keys.length !== 3 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'target') return null;
+      if (p.target !== 'existence-renunciation-registry') return null;
+      if (p.feedback !== EXISTENCE_RENUNCIATION_ENTRY_FEEDBACK) return null;
+      if (st.draft.renunciant !== '' || st.draft.evidence !== '' || st.activeRegistrar !== null) return null;
+      return { feedback: p.feedback, kind: 'entry', target: 'existence-renunciation-registry' };
+    }
+
+    if (kind === 'renunciant') {
+      if (keys.length !== 5 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'renunciant' || keys[3] !== 'source' || keys[4] !== 'target') return null;
+      if (p.source !== 'existence-renunciation-registry' || p.target !== 'proof-of-nonexistence-archive') return null;
+      if (!EXISTENCE_RENUNCIANTS.includes(p.renunciant)) return null;
+      if (p.feedback !== EXISTENCE_RENUNCIANT_TABLE[p.renunciant].feedback) return null;
+      if (st.draft.renunciant !== '' || st.draft.evidence !== '' || st.activeRegistrar !== null) return null;
+      return { feedback: p.feedback, kind: 'renunciant', renunciant: p.renunciant, source: 'existence-renunciation-registry', target: 'proof-of-nonexistence-archive' };
+    }
+
+    if (kind === 'evidence') {
+      if (keys.length !== 6 || keys[0] !== 'evidence' || keys[1] !== 'feedback' || keys[2] !== 'kind' || keys[3] !== 'renunciant' || keys[4] !== 'source' || keys[5] !== 'target') return null;
+      if (p.source !== 'proof-of-nonexistence-archive' || p.target !== 'ontological-disinheritance-chamber') return null;
+      if (!EXISTENCE_RENUNCIANTS.includes(p.renunciant) || !EXISTENCE_EVIDENCES.includes(p.evidence)) return null;
+      if (st.draft.renunciant !== p.renunciant || st.draft.evidence !== '') return null;
+      if (p.feedback !== EXISTENCE_EVIDENCE_TABLE[p.evidence].feedback) return null;
+      if (st.activeRegistrar !== null) return null;
+      return { evidence: p.evidence, feedback: p.feedback, kind: 'evidence', renunciant: p.renunciant, source: 'proof-of-nonexistence-archive', target: 'ontological-disinheritance-chamber' };
+    }
+
+    if (kind === 'renunciation') {
+      if (keys.length !== 8 || keys[0] !== 'clause' || keys[1] !== 'evidence' || keys[2] !== 'feedback' || keys[3] !== 'kind' || keys[4] !== 'renunciant' || keys[5] !== 'renunciation' || keys[6] !== 'source' || keys[7] !== 'target') return null;
+      if (p.source !== 'ontological-disinheritance-chamber') return null;
+      if (!EXISTENCE_RENUNCIANTS.includes(p.renunciant) || !EXISTENCE_EVIDENCES.includes(p.evidence) || !EXISTENCE_CLAUSES.includes(p.clause)) return null;
+      if (st.draft.renunciant !== p.renunciant || st.draft.evidence !== p.evidence) return null;
+      const expectedRenunciation = `${p.renunciant}:${p.evidence}:${p.clause}`;
+      if (p.renunciation !== expectedRenunciation) return null;
+      const eObj = EXISTENCE_EVIDENCE_TABLE[p.evidence];
+      if (!eObj || p.target !== eObj.target) return null;
+      const expectedFb = computeExistenceRenunciationFeedback(p.renunciant, p.evidence, p.clause);
+      if (p.feedback !== expectedFb) return null;
+      if (st.activeRegistrar !== null) return null;
+      return {
+        clause: p.clause,
+        evidence: p.evidence,
+        feedback: p.feedback,
+        kind: 'renunciation',
+        renunciant: p.renunciant,
+        renunciation: p.renunciation,
+        source: 'ontological-disinheritance-chamber',
+        target: p.target,
+      };
+    }
+
+    if (kind === 'registrar-return') {
+      if (keys.length !== 5 || keys[0] !== 'feedback' || keys[1] !== 'from' || keys[2] !== 'kind' || keys[3] !== 'renunciation' || keys[4] !== 'target') return null;
+      if (p.target !== 'existence-renunciation-registry') return null;
+      if (!st.activeRegistrar) return null;
+      const eObj = EXISTENCE_EVIDENCE_TABLE[st.activeRegistrar.evidence];
+      if (!eObj || p.from !== eObj.target) return null;
+      if (typeof p.renunciation !== 'string' || !st.renunciations.includes(p.renunciation)) return null;
+      const parts = p.renunciation.split(':');
+      if (parts.length !== 3 || parts[1] !== st.activeRegistrar.evidence) return null;
+      if (p.feedback !== eObj.registrarFeedback) return null;
+      return { feedback: p.feedback, from: p.from, kind: 'registrar-return', renunciation: p.renunciation, target: 'existence-renunciation-registry' };
+    }
+
+    if (kind === 'tribunal-entry') {
+      if (keys.length !== 3 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'target') return null;
+      if (p.target !== 'civil-nonexistence-final-tribunal') return null;
+      if (p.feedback !== EXISTENCE_TRIBUNAL_ENTRY_FEEDBACK) return null;
+      if (!existenceRenunciationCoverageComplete(st)) return null;
+      if (st.draft.renunciant !== '' || st.draft.evidence !== '' || st.activeRegistrar !== null) return null;
+      return { feedback: p.feedback, kind: 'tribunal-entry', target: 'civil-nonexistence-final-tribunal' };
+    }
+
+    if (kind === 'tribunal-action') {
+      if (keys.length !== 6 || keys[0] !== 'action' || keys[1] !== 'feedback' || keys[2] !== 'kind' || keys[3] !== 'outcome' || keys[4] !== 'source' || keys[5] !== 'target') return null;
+      if (p.source !== 'civil-nonexistence-final-tribunal') return null;
+      if (!EXISTENCE_TRIBUNAL_ACTIONS.includes(p.action)) return null;
+      const tObj = EXISTENCE_TRIBUNAL_TABLE[p.action];
+      if (!tObj || p.outcome !== tObj.outcome || p.target !== tObj.target || p.feedback !== tObj.feedback) return null;
+      if (!existenceRenunciationCoverageComplete(st)) return null;
+      if (st.visited.tribunal !== true) return null;
+      if (st.draft.renunciant !== '' || st.draft.evidence !== '' || st.activeRegistrar !== null) return null;
+      return { action: p.action, feedback: p.feedback, kind: 'tribunal-action', outcome: p.outcome, source: 'civil-nonexistence-final-tribunal', target: p.target };
+    }
+
+    return null;
+  }
+
+  function getExistenceRenunciationClaims() {
+    const unlocked = existenceRenunciationUnlocked();
+    if (!unlocked) return defaultExistenceRenunciationClaims();
+    let raw;
+    try {
+      const str = store.get(EXISTENCE_RENUNCIATION_KEY, '{}');
+      raw = typeof str === 'string' ? JSON.parse(str) : str;
+    } catch (e) {
+      return defaultExistenceRenunciationClaims();
+    }
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+      return defaultExistenceRenunciationClaims();
+    }
+    if (raw.version !== EXISTENCE_RENUNCIATION_VERSION) {
+      return defaultExistenceRenunciationClaims();
+    }
+
+    const visited = normalizeExistenceVisited(raw.visited);
+    const draft = normalizeExistenceDraft(raw.draft);
+    const renunciations = normalizeExistenceRenunciations(raw.renunciations);
+    const tribunalOutcomes = normalizeExistenceTribunalOutcomes(raw.tribunalOutcomes);
+    const renunciationRuns = clampExistenceCount(raw.renunciationRuns);
+    const tribunalRuns = clampExistenceCount(raw.tribunalRuns);
+    const renunciantTallies = normalizeExistenceTallies(raw.renunciantTallies);
+    const activeRegistrar = normalizeExistenceActiveRegistrar(raw.activeRegistrar, renunciations);
+
+    let lastOutcome = '';
+    if (typeof raw.lastOutcome === 'string') {
+      if (renunciations.includes(raw.lastOutcome) || tribunalOutcomes.includes(raw.lastOutcome)) {
+        lastOutcome = raw.lastOutcome;
+      }
+    }
+
+    const preSt = {
+      version: EXISTENCE_RENUNCIATION_VERSION,
+      visited,
+      draft,
+      renunciations,
+      tribunalOutcomes,
+      renunciationRuns,
+      tribunalRuns,
+      renunciantTallies,
+      lastOutcome,
+      activeRegistrar,
+      pending: null,
+      _v86unlocked: true,
+    };
+    const pending = normalizeExistencePending(raw.pending, preSt);
+
+    return {
+      version: EXISTENCE_RENUNCIATION_VERSION,
+      visited,
+      draft,
+      renunciations,
+      tribunalOutcomes,
+      renunciationRuns,
+      tribunalRuns,
+      renunciantTallies,
+      lastOutcome,
+      activeRegistrar,
+      pending,
+    };
+  }
+
+  function saveExistenceRenunciationClaims(st) {
+    const unlocked = existenceRenunciationUnlocked();
+    if (!unlocked) return defaultExistenceRenunciationClaims();
+    if (!st || typeof st !== 'object' || Array.isArray(st)) {
+      const d = defaultExistenceRenunciationClaims();
+      store.set(EXISTENCE_RENUNCIATION_KEY, JSON.stringify(d));
+      return d;
+    }
+
+    const visited = normalizeExistenceVisited(st.visited);
+    const draft = normalizeExistenceDraft(st.draft);
+    const renunciations = normalizeExistenceRenunciations(st.renunciations);
+    const tribunalOutcomes = normalizeExistenceTribunalOutcomes(st.tribunalOutcomes);
+    const renunciationRuns = clampExistenceCount(st.renunciationRuns);
+    const tribunalRuns = clampExistenceCount(st.tribunalRuns);
+    const renunciantTallies = normalizeExistenceTallies(st.renunciantTallies);
+    const activeRegistrar = normalizeExistenceActiveRegistrar(st.activeRegistrar, renunciations);
+
+    let lastOutcome = '';
+    if (typeof st.lastOutcome === 'string') {
+      if (renunciations.includes(st.lastOutcome) || tribunalOutcomes.includes(st.lastOutcome)) {
+        lastOutcome = st.lastOutcome;
+      }
+    }
+
+    const preSt = {
+      version: EXISTENCE_RENUNCIATION_VERSION,
+      visited,
+      draft,
+      renunciations,
+      tribunalOutcomes,
+      renunciationRuns,
+      tribunalRuns,
+      renunciantTallies,
+      lastOutcome,
+      activeRegistrar,
+      pending: null,
+      _v86unlocked: true,
+    };
+    const pending = normalizeExistencePending(st.pending, preSt);
+
+    const canonical = {
+      version: EXISTENCE_RENUNCIATION_VERSION,
+      visited,
+      draft,
+      renunciations,
+      tribunalOutcomes,
+      renunciationRuns,
+      tribunalRuns,
+      renunciantTallies,
+      lastOutcome,
+      activeRegistrar,
+      pending,
+    };
+    store.set(EXISTENCE_RENUNCIATION_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function getExistencePendingLogicalSource(p) {
+    if (!p || !p.kind) return '';
+    if (p.kind === 'entry' || p.kind === 'tribunal-entry') return 'remembrance';
+    if (p.kind === 'registrar-return') return p.from;
+    return p.source || '';
+  }
+
+  function existenceRenunciationClaimsBeforeArrive(targetScene) {
+    resolveExistenceRenunciationPendingOnArrival(targetScene);
+  }
+
+  function resolveExistenceRenunciationPendingOnArrival(sceneName) {
+    const st = getExistenceRenunciationClaims();
+    if (!st || !st.pending) return st;
+    const p = st.pending;
+
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.registry = true;
+      } else if (p.kind === 'renunciant') {
+        st.visited.archive = true;
+        st.draft = { renunciant: p.renunciant, evidence: '' };
+      } else if (p.kind === 'evidence') {
+        st.visited.chamber = true;
+        st.draft.evidence = p.evidence;
+      } else if (p.kind === 'renunciation') {
+        st.renunciationRuns = clampExistenceCount(st.renunciationRuns + 1);
+        const rObj = EXISTENCE_RENUNCIANT_TABLE[p.renunciant];
+        if (rObj && rObj.tallyKey) {
+          st.renunciantTallies[rObj.tallyKey] = clampExistenceCount(st.renunciantTallies[rObj.tallyKey] + 1);
+        }
+        if (!st.renunciations.includes(p.renunciation)) {
+          st.renunciations = normalizeExistenceRenunciations(st.renunciations.concat(p.renunciation));
+        }
+        st.lastOutcome = p.renunciation;
+        const eObj = EXISTENCE_EVIDENCE_TABLE[p.evidence];
+        st.activeRegistrar = {
+          evidence: p.evidence,
+          feedback: eObj ? eObj.registrarFeedback : '',
+          renunciation: p.renunciation,
+        };
+        st.draft = { renunciant: '', evidence: '' };
+      } else if (p.kind === 'registrar-return') {
+        st.activeRegistrar = null;
+        st.visited.registry = true;
+      } else if (p.kind === 'tribunal-entry') {
+        st.visited.tribunal = true;
+      } else if (p.kind === 'tribunal-action') {
+        st.tribunalRuns = clampExistenceCount(st.tribunalRuns + 1);
+        if (!st.tribunalOutcomes.includes(p.outcome)) {
+          st.tribunalOutcomes = normalizeExistenceTribunalOutcomes(st.tribunalOutcomes.concat(p.outcome));
+        }
+        st.lastOutcome = p.outcome;
+      }
+      return saveExistenceRenunciationClaims(st);
+    }
+
+    const logicalSource = getExistencePendingLogicalSource(p);
+    if (sceneName === logicalSource) {
+      return st;
+    }
+
+    st.pending = null;
+    return saveExistenceRenunciationClaims(st);
+  }
+
+  function replayExistenceRenunciationPending(sceneName) {
+    const st = getExistenceRenunciationClaims();
+    if (!st.pending) {
+      syncExistenceRenunciationRegistry();
+      syncProofOfNonexistenceArchive();
+      syncOntologicalDisinheritanceChamber();
+      syncCivilNonexistenceFinalTribunal();
+      syncExistenceRenunciationRegistrars();
+      return;
+    }
+    const p = st.pending;
+    if (p.target === sceneName) {
+      resolveExistenceRenunciationPendingOnArrival(sceneName);
+      syncExistenceRenunciationRegistry();
+      syncProofOfNonexistenceArchive();
+      syncOntologicalDisinheritanceChamber();
+      syncCivilNonexistenceFinalTribunal();
+      syncExistenceRenunciationRegistrars();
+      return;
+    }
+
+    const logicalSource = getExistencePendingLogicalSource(p);
+    if (sceneName === logicalSource) {
+      syncExistenceRenunciationRegistry();
+      syncProofOfNonexistenceArchive();
+      syncOntologicalDisinheritanceChamber();
+      syncCivilNonexistenceFinalTribunal();
+      syncExistenceRenunciationRegistrars();
+      AutoAdvance.schedule(sceneName, p.target, { delay: existenceRenunciationDelay() });
+      return;
+    }
+
+    st.pending = null;
+    saveExistenceRenunciationClaims(st);
+    syncExistenceRenunciationRegistry();
+    syncProofOfNonexistenceArchive();
+    syncOntologicalDisinheritanceChamber();
+    syncCivilNonexistenceFinalTribunal();
+    syncExistenceRenunciationRegistrars();
+  }
+
+  function chooseExistenceRenunciationEntry() {
+    if (typeof currentScene !== 'string' || currentScene !== 'remembrance') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('remembrance')) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable('existence-renunciation-entry-btn')) return;
+    if (!existenceRenunciationUnlocked()) return;
+    const st = getExistenceRenunciationClaims();
+    if (st.pending || st.activeRegistrar || st.draft.renunciant !== '' || st.draft.evidence !== '') return;
+
+    st.pending = {
+      feedback: EXISTENCE_RENUNCIATION_ENTRY_FEEDBACK,
+      kind: 'entry',
+      target: 'existence-renunciation-registry',
+    };
+    saveExistenceRenunciationClaims(st);
+
+    const resp = $('#existence-renunciation-entry-response');
+    if (resp) {
+      resp.textContent = EXISTENCE_RENUNCIATION_ENTRY_FEEDBACK;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $('#existence-renunciation-entry-btn');
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('remembrance', 'existence-renunciation-registry', { delay: existenceRenunciationDelay() });
+  }
+
+  function chooseExistenceRenunciant(renunciant) {
+    if (typeof currentScene !== 'string' || currentScene !== 'existence-renunciation-registry') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('existence-renunciation-registry')) return;
+    if (!EXISTENCE_RENUNCIANTS.includes(renunciant)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`renunciation-renunciant-${renunciant}`)) return;
+    if (!existenceRenunciationUnlocked()) return;
+    const st = getExistenceRenunciationClaims();
+    if (st.pending || st.activeRegistrar || st.draft.renunciant !== '' || st.draft.evidence !== '') return;
+
+    const rObj = EXISTENCE_RENUNCIANT_TABLE[renunciant];
+    st.pending = {
+      feedback: rObj.feedback,
+      kind: 'renunciant',
+      renunciant,
+      source: 'existence-renunciation-registry',
+      target: 'proof-of-nonexistence-archive',
+    };
+    saveExistenceRenunciationClaims(st);
+
+    const resp = $('#existence-renunciation-registry-response');
+    if (resp) {
+      resp.textContent = rObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#renunciation-renunciant-${renunciant}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('existence-renunciation-registry', 'proof-of-nonexistence-archive', { delay: existenceRenunciationDelay() });
+  }
+
+  function chooseExistenceEvidence(evidence) {
+    if (typeof currentScene !== 'string' || currentScene !== 'proof-of-nonexistence-archive') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('proof-of-nonexistence-archive')) return;
+    if (!EXISTENCE_EVIDENCES.includes(evidence)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`renunciation-evidence-${evidence}`)) return;
+    if (!existenceRenunciationUnlocked()) return;
+    const st = getExistenceRenunciationClaims();
+    if (st.pending || st.activeRegistrar || !st.draft.renunciant || st.draft.evidence !== '') return;
+
+    const eObj = EXISTENCE_EVIDENCE_TABLE[evidence];
+    st.pending = {
+      evidence,
+      feedback: eObj.feedback,
+      kind: 'evidence',
+      renunciant: st.draft.renunciant,
+      source: 'proof-of-nonexistence-archive',
+      target: 'ontological-disinheritance-chamber',
+    };
+    saveExistenceRenunciationClaims(st);
+
+    const resp = $('#proof-of-nonexistence-archive-response');
+    if (resp) {
+      resp.textContent = eObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#renunciation-evidence-${evidence}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('proof-of-nonexistence-archive', 'ontological-disinheritance-chamber', { delay: existenceRenunciationDelay() });
+  }
+
+  function chooseExistenceClause(clause) {
+    if (typeof currentScene !== 'string' || currentScene !== 'ontological-disinheritance-chamber') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('ontological-disinheritance-chamber')) return;
+    if (!EXISTENCE_CLAUSES.includes(clause)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`renunciation-clause-${clause}`)) return;
+    if (!existenceRenunciationUnlocked()) return;
+    const st = getExistenceRenunciationClaims();
+    if (st.pending || st.activeRegistrar || !st.draft.renunciant || !st.draft.evidence) return;
+
+    const eObj = EXISTENCE_EVIDENCE_TABLE[st.draft.evidence];
+    const renunciation = `${st.draft.renunciant}:${st.draft.evidence}:${clause}`;
+    const feedback = computeExistenceRenunciationFeedback(st.draft.renunciant, st.draft.evidence, clause);
+
+    st.pending = {
+      clause,
+      evidence: st.draft.evidence,
+      feedback,
+      kind: 'renunciation',
+      renunciant: st.draft.renunciant,
+      renunciation,
+      source: 'ontological-disinheritance-chamber',
+      target: eObj.target,
+    };
+    saveExistenceRenunciationClaims(st);
+
+    const resp = $('#ontological-disinheritance-chamber-response');
+    if (resp) {
+      resp.textContent = feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#renunciation-clause-${clause}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('ontological-disinheritance-chamber', eObj.target, { delay: existenceRenunciationDelay() });
+  }
+
+  function chooseExistenceRegistrarReturn(scene) {
+    if (typeof currentScene !== 'string' || currentScene !== scene) return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has(scene)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`existence-renunciation-registrar-return-${scene}`)) return;
+    if (!existenceRenunciationUnlocked()) return;
+    const st = getExistenceRenunciationClaims();
+    if (st.pending || !st.activeRegistrar) return;
+    const eObj = EXISTENCE_EVIDENCE_TABLE[st.activeRegistrar.evidence];
+    if (!eObj || eObj.target !== scene) return;
+
+    const matchingRenunciation = st.renunciations.find(r => {
+      const p = r.split(':');
+      return p.length === 3 && p[1] === st.activeRegistrar.evidence;
+    });
+    if (!matchingRenunciation) return;
+
+    st.pending = {
+      feedback: eObj.registrarFeedback,
+      from: scene,
+      kind: 'registrar-return',
+      renunciation: matchingRenunciation,
+      target: 'existence-renunciation-registry',
+    };
+    saveExistenceRenunciationClaims(st);
+
+    const resp = $(`#existence-renunciation-registrar-response-${scene}`);
+    if (resp) {
+      resp.textContent = eObj.registrarFeedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#existence-renunciation-registrar-return-${scene}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule(scene, 'existence-renunciation-registry', { delay: existenceRenunciationDelay() });
+  }
+
+  function chooseExistenceTribunalEntry() {
+    if (typeof currentScene !== 'string' || currentScene !== 'remembrance') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('remembrance')) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable('existence-renunciation-tribunal-entry-btn')) return;
+    if (!existenceRenunciationUnlocked()) return;
+    const st = getExistenceRenunciationClaims();
+    if (st.pending || st.activeRegistrar || st.draft.renunciant !== '' || st.draft.evidence !== '' || !existenceRenunciationCoverageComplete(st)) return;
+
+    st.pending = {
+      feedback: EXISTENCE_TRIBUNAL_ENTRY_FEEDBACK,
+      kind: 'tribunal-entry',
+      target: 'civil-nonexistence-final-tribunal',
+    };
+    saveExistenceRenunciationClaims(st);
+
+    const resp = $('#existence-renunciation-tribunal-entry-response');
+    if (resp) {
+      resp.textContent = EXISTENCE_TRIBUNAL_ENTRY_FEEDBACK;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $('#existence-renunciation-tribunal-entry-btn');
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('remembrance', 'civil-nonexistence-final-tribunal', { delay: existenceRenunciationDelay() });
+  }
+
+  function chooseExistenceTribunalAction(action) {
+    if (typeof currentScene !== 'string' || currentScene !== 'civil-nonexistence-final-tribunal') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('civil-nonexistence-final-tribunal')) return;
+    if (!EXISTENCE_TRIBUNAL_ACTIONS.includes(action)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`renunciation-tribunal-${action}`)) return;
+    if (!existenceRenunciationUnlocked()) return;
+    const st = getExistenceRenunciationClaims();
+    if (st.pending || st.activeRegistrar || st.draft.renunciant !== '' || st.draft.evidence !== '' || !existenceRenunciationCoverageComplete(st) || !st.visited.tribunal) return;
+
+    const tObj = EXISTENCE_TRIBUNAL_TABLE[action];
+    st.pending = {
+      action,
+      feedback: tObj.feedback,
+      kind: 'tribunal-action',
+      outcome: tObj.outcome,
+      source: 'civil-nonexistence-final-tribunal',
+      target: tObj.target,
+    };
+    saveExistenceRenunciationClaims(st);
+
+    const resp = $('#civil-nonexistence-final-tribunal-response');
+    if (resp) {
+      resp.textContent = tObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#renunciation-tribunal-${action}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('civil-nonexistence-final-tribunal', tObj.target, { delay: existenceRenunciationDelay() });
+  }
+
+  function existenceRenunciationBridgeAllows(targetScene) {
+    if (!existenceRenunciationUnlocked()) return false;
+    const st = getExistenceRenunciationClaims();
+    if (st.pending) {
+      if (st.pending.kind === 'renunciation' && st.pending.target === targetScene) return true;
+      if (st.pending.kind === 'tribunal-action' && st.pending.target === targetScene) return true;
+    }
+    if (st.activeRegistrar) {
+      const eObj = EXISTENCE_EVIDENCE_TABLE[st.activeRegistrar.evidence];
+      if (eObj && eObj.target === targetScene) return true;
+    }
+    if (st.lastOutcome && st.tribunalOutcomes.includes(st.lastOutcome)) {
+      const tribunalEntry = EXISTENCE_TRIBUNAL_OUTCOME_BY_ID[st.lastOutcome];
+      if (tribunalEntry && tribunalEntry.target === targetScene) return true;
+    }
+    return false;
+  }
+
+  function existenceRenunciationRegistryCanVisit() {
+    if (!existenceRenunciationUnlocked()) return false;
+    const st = getExistenceRenunciationClaims();
+    if (st.visited.registry) return true;
+    if (st.pending && (st.pending.kind === 'entry' || st.pending.kind === 'registrar-return') && st.pending.target === 'existence-renunciation-registry') {
+      return true;
+    }
+    return false;
+  }
+
+  function proofOfNonexistenceArchiveCanVisit() {
+    if (!existenceRenunciationUnlocked()) return false;
+    const st = getExistenceRenunciationClaims();
+    if (st.visited.archive && st.draft.renunciant) return true;
+    if (st.pending && st.pending.kind === 'renunciant' && st.pending.target === 'proof-of-nonexistence-archive') {
+      return true;
+    }
+    return false;
+  }
+
+  function ontologicalDisinheritanceChamberCanVisit() {
+    if (!existenceRenunciationUnlocked()) return false;
+    const st = getExistenceRenunciationClaims();
+    if (st.visited.chamber && st.draft.renunciant && st.draft.evidence) return true;
+    if (st.pending && st.pending.kind === 'evidence' && st.pending.target === 'ontological-disinheritance-chamber') {
+      return true;
+    }
+    return false;
+  }
+
+  function civilNonexistenceFinalTribunalCanVisit() {
+    if (!existenceRenunciationUnlocked()) return false;
+    const st = getExistenceRenunciationClaims();
+    const complete = existenceRenunciationCoverageComplete(st);
+    if (st.visited.tribunal && complete) return true;
+    if (st.pending && st.pending.kind === 'tribunal-entry' && st.pending.target === 'civil-nonexistence-final-tribunal') {
+      return true;
+    }
+    return false;
+  }
+
+  function syncExistenceRenunciationRegistry() {
+    const fig = $('#existence-renunciation-registry-figure');
+    const canVisit = existenceRenunciationRegistryCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getExistenceRenunciationClaims();
+
+    EXISTENCE_RENUNCIANTS.forEach(s => {
+      const btn = $(`#renunciation-renunciant-${s}`);
+      if (btn) {
+        btn.disabled = !!st.pending || !canVisit;
+        const pressed = st.pending && st.pending.kind === 'renunciant' && st.pending.renunciant === s;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#existence-renunciation-registry-response');
+    if (resp && !st.pending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    paintExistenceRenunciationMemory();
+    paintExistenceRenunciationCodex();
+    syncExistenceRenunciationLinks();
+  }
+
+  function syncProofOfNonexistenceArchive() {
+    const fig = $('#proof-of-nonexistence-archive-figure');
+    const canVisit = proofOfNonexistenceArchiveCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getExistenceRenunciationClaims();
+
+    EXISTENCE_EVIDENCES.forEach(e => {
+      const btn = $(`#renunciation-evidence-${e}`);
+      if (btn) {
+        btn.disabled = !!st.pending || !canVisit;
+        const pressed = st.pending && st.pending.kind === 'evidence' && st.pending.evidence === e;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#proof-of-nonexistence-archive-response');
+    if (resp && !st.pending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncExistenceRenunciationLinks();
+  }
+
+  function syncOntologicalDisinheritanceChamber() {
+    const fig = $('#ontological-disinheritance-chamber-figure');
+    const canVisit = ontologicalDisinheritanceChamberCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getExistenceRenunciationClaims();
+
+    EXISTENCE_CLAUSES.forEach(c => {
+      const btn = $(`#renunciation-clause-${c}`);
+      if (btn) {
+        btn.disabled = !!st.pending || !canVisit;
+        const pressed = st.pending && st.pending.kind === 'renunciation' && st.pending.clause === c;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#ontological-disinheritance-chamber-response');
+    if (resp && !st.pending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncExistenceRenunciationLinks();
+  }
+
+  function syncCivilNonexistenceFinalTribunal() {
+    const fig = $('#civil-nonexistence-final-tribunal-figure');
+    const canVisit = civilNonexistenceFinalTribunalCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getExistenceRenunciationClaims();
+
+    EXISTENCE_TRIBUNAL_ACTIONS.forEach(a => {
+      const btn = $(`#renunciation-tribunal-${a}`);
+      if (btn) {
+        btn.disabled = !!st.pending || !canVisit;
+        const pressed = st.pending && st.pending.kind === 'tribunal-action' && st.pending.action === a;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#civil-nonexistence-final-tribunal-response');
+    if (resp && !st.pending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncExistenceRenunciationLinks();
+  }
+
+  function syncExistenceRenunciationRegistrars() {
+    const st = getExistenceRenunciationClaims();
+    const scenes = ['birth-ballot-booth', 'blank-name-cloakroom', 'reality-refund-counter'];
+
+    scenes.forEach(scene => {
+      const cont = $(`#existence-renunciation-registrar-${scene}`);
+      const resp = $(`#existence-renunciation-registrar-response-${scene}`);
+      const btn = $(`#existence-renunciation-registrar-return-${scene}`);
+
+      let shouldShow = false;
+      if (st.activeRegistrar) {
+        const eObj = EXISTENCE_EVIDENCE_TABLE[st.activeRegistrar.evidence];
+        if (eObj && eObj.target === scene) {
+          shouldShow = true;
+        }
+      }
+      if (cont) {
+        cont.hidden = !shouldShow;
+        if (shouldShow) cont.removeAttribute('hidden');
+      }
+      if (resp) {
+        if (shouldShow && st.activeRegistrar) {
+          resp.textContent = st.activeRegistrar.feedback;
+          resp.hidden = false;
+          resp.removeAttribute('hidden');
+        } else {
+          resp.textContent = '';
+          resp.hidden = true;
+        }
+      }
+      if (btn) {
+        btn.hidden = !shouldShow;
+        if (shouldShow) btn.removeAttribute('hidden');
+        btn.disabled = !shouldShow || !!st.pending;
+        const pressed = st.pending && st.pending.kind === 'registrar-return' && st.pending.from === scene;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+  }
+
+  function paintExistenceRenunciationMemory() {
+    const mem = $('#existence-renunciation-memory');
+    if (!mem) return;
+    if (!existenceRenunciationUnlocked()) {
+      mem.hidden = true;
+      return;
+    }
+    mem.hidden = false;
+    mem.removeAttribute('hidden');
+    const st = getExistenceRenunciationClaims();
+    const renunciations = st.renunciations;
+    const count = renunciations.length;
+
+    const rCounts = { 'observer-inherited-by-every-fact': 0, 'claimant-buried-under-unclaimed-consequences': 0, 'person-rejected-by-every-archive': 0 };
+    const eCounts = { 'birth-certificate-for-an-empty-crib': 0, 'shadow-of-a-person-erased-in-advance': 0, 'refund-receipt-for-an-undelivered-body': 0 };
+    const cCounts = { 'declare-existence-a-clerical-error': 0, 'return-the-first-person-pronoun-unused': 0, 'transfer-the-body-to-its-original-absence': 0, 'accept-nonexistence-as-an-inherited-debt': 0 };
+
+    renunciations.forEach(id => {
+      const p = id.split(':');
+      if (p.length === 3) {
+        if (rCounts[p[0]] !== undefined) rCounts[p[0]]++;
+        if (eCounts[p[1]] !== undefined) eCounts[p[1]]++;
+        if (cCounts[p[2]] !== undefined) cCounts[p[2]]++;
+      }
+    });
+
+    const observer = st.renunciantTallies.observer;
+    const claimant = st.renunciantTallies.claimant;
+    const unfiled = st.renunciantTallies.unfiled;
+
+    const bCount = eCounts['birth-certificate-for-an-empty-crib'];
+    const sCount = eCounts['shadow-of-a-person-erased-in-advance'];
+    const rCount = eCounts['refund-receipt-for-an-undelivered-body'];
+
+    const eClauseCount = cCounts['declare-existence-a-clerical-error'];
+    const pClauseCount = cCounts['return-the-first-person-pronoun-unused'];
+    const aClauseCount = cCounts['transfer-the-body-to-its-original-absence'];
+    const nClauseCount = cCounts['accept-nonexistence-as-an-inherited-debt'];
+
+    let majority = '均衡注销';
+    if (observer > claimant && observer > unfiled) majority = '主要注销被所有事实继承的观察者';
+    else if (claimant > observer && claimant > unfiled) majority = '主要注销被无主后果掩埋的认领者';
+    else if (unfiled > observer && unfiled > claimant) majority = '主要注销被所有档案拒收的人';
+
+    const text = `存在放弃局：已注销 ${count}/36 份错误存在，共办理 ${st.renunciationRuns} 次；申请人 观者 ${observer} / 认领 ${claimant} / 无档 ${unfiled}；凭证 空摇篮 ${bCount} / 预抹影 ${sCount} / 未交体 ${rCount}；条款 文误 ${eClauseCount} / 退我 ${pClauseCount} / 还空 ${aClauseCount} / 欠无 ${nClauseCount}；存在多数 ${majority}；终审裁定 ${st.tribunalOutcomes.length}/3。`;
+    mem.textContent = text;
+  }
+
+  function paintExistenceRenunciationCodex() {
+    const codex = $('#existence-renunciation-codex');
+    const grid = $('#existence-renunciation-codex-grid');
+    if (!codex || !grid) return;
+    if (!existenceRenunciationUnlocked()) {
+      codex.hidden = true;
+      return;
+    }
+    codex.hidden = false;
+    codex.removeAttribute('hidden');
+    grid.textContent = '';
+
+    const st = getExistenceRenunciationClaims();
+    const collectedRenunciations = new Set(st.renunciations);
+    const collectedOutcomes = new Set(st.tribunalOutcomes);
+
+    EXISTENCE_RENUNCIATION_IDS.forEach(id => {
+      const cell = document.createElement('div');
+      if (collectedRenunciations.has(id)) {
+        cell.className = 'existence-renunciation-cell is-unlocked';
+        const item = findExistenceRenunciationById(id);
+        cell.textContent = item ? `${item.title}\n${item.feedback}` : id;
+      } else {
+        cell.className = 'existence-renunciation-cell is-locked';
+        cell.textContent = '？？？';
+      }
+      grid.appendChild(cell);
+    });
+
+    EXISTENCE_TRIBUNAL_ACTIONS.forEach(action => {
+      const tObj = EXISTENCE_TRIBUNAL_TABLE[action];
+      const cell = document.createElement('div');
+      if (collectedOutcomes.has(tObj.outcome)) {
+        cell.className = 'existence-renunciation-cell is-unlocked';
+        cell.textContent = `[民事不存在终审庭] ${tObj.outcome}\n${tObj.feedback}`;
+      } else {
+        cell.className = 'existence-renunciation-cell is-locked';
+        cell.textContent = '？？？';
+      }
+      grid.appendChild(cell);
+    });
+  }
+
+  function syncExistenceRenunciationRemembrance() {
+    const unlocked = existenceRenunciationUnlocked();
+    const entryShell = $('#existence-renunciation-codex-entry');
+    const entryBtn = $('#existence-renunciation-entry-btn');
+    const tribunalBtn = $('#existence-renunciation-tribunal-entry-btn');
+
+    if (!unlocked) {
+      if (entryShell) entryShell.hidden = true;
+      if (entryBtn) entryBtn.hidden = true;
+      if (tribunalBtn) tribunalBtn.hidden = true;
+      return;
+    }
+
+    if (entryShell) {
+      entryShell.hidden = false;
+      entryShell.removeAttribute('hidden');
+    }
+
+    const st = getExistenceRenunciationClaims();
+    const isClean = !st.pending && !st.activeRegistrar && st.draft.renunciant === '' && st.draft.evidence === '';
+
+    if (entryBtn) {
+      entryBtn.hidden = false;
+      entryBtn.removeAttribute('hidden');
+      entryBtn.disabled = !isClean;
+      const pressed = st.pending && st.pending.kind === 'entry';
+      entryBtn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+    }
+
+    if (tribunalBtn) {
+      const coverage = existenceRenunciationCoverageComplete(st);
+      tribunalBtn.hidden = !coverage;
+      if (coverage) tribunalBtn.removeAttribute('hidden');
+      tribunalBtn.disabled = !isClean || !coverage;
+      const pressed = st.pending && st.pending.kind === 'tribunal-entry';
+      tribunalBtn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+    }
+  }
+
+  function syncExistenceRenunciationLinks() {
+    const unlocked = existenceRenunciationUnlocked();
+    const links = [
+      { id: 'existence-renunciation-registry-link', key: 'registry' },
+      { id: 'proof-of-nonexistence-archive-link', key: 'archive' },
+      { id: 'ontological-disinheritance-chamber-link', key: 'chamber' },
+      { id: 'civil-nonexistence-final-tribunal-link', key: 'tribunal' },
+    ];
+    const st = unlocked ? getExistenceRenunciationClaims() : null;
+
+    links.forEach(l => {
+      const el = $(`#${l.id}`);
+      if (el) {
+        const show = unlocked && st && st.visited[l.key] === true;
+        el.hidden = !show;
+        if (show) el.removeAttribute('hidden');
+      }
+    });
+  }
+
+  const existenceRenunciationEntryBtn = $('#existence-renunciation-entry-btn');
+  if (existenceRenunciationEntryBtn) {
+    existenceRenunciationEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseExistenceRenunciationEntry();
+    });
+  }
+
+  const existenceRenunciationTribunalEntryBtn = $('#existence-renunciation-tribunal-entry-btn');
+  if (existenceRenunciationTribunalEntryBtn) {
+    existenceRenunciationTribunalEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseExistenceTribunalEntry();
+    });
+  }
+
+  const existenceRenunciantObserverBtn = $('#renunciation-renunciant-observer-inherited-by-every-fact');
+  if (existenceRenunciantObserverBtn) {
+    existenceRenunciantObserverBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseExistenceRenunciant('observer-inherited-by-every-fact');
+    });
+  }
+
+  const existenceRenunciantClaimantBtn = $('#renunciation-renunciant-claimant-buried-under-unclaimed-consequences');
+  if (existenceRenunciantClaimantBtn) {
+    existenceRenunciantClaimantBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseExistenceRenunciant('claimant-buried-under-unclaimed-consequences');
+    });
+  }
+
+  const existenceRenunciantPersonBtn = $('#renunciation-renunciant-person-rejected-by-every-archive');
+  if (existenceRenunciantPersonBtn) {
+    existenceRenunciantPersonBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseExistenceRenunciant('person-rejected-by-every-archive');
+    });
+  }
+
+  const existenceEvidenceBirthBtn = $('#renunciation-evidence-birth-certificate-for-an-empty-crib');
+  if (existenceEvidenceBirthBtn) {
+    existenceEvidenceBirthBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseExistenceEvidence('birth-certificate-for-an-empty-crib');
+    });
+  }
+
+  const existenceEvidenceShadowBtn = $('#renunciation-evidence-shadow-of-a-person-erased-in-advance');
+  if (existenceEvidenceShadowBtn) {
+    existenceEvidenceShadowBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseExistenceEvidence('shadow-of-a-person-erased-in-advance');
+    });
+  }
+
+  const existenceEvidenceRefundBtn = $('#renunciation-evidence-refund-receipt-for-an-undelivered-body');
+  if (existenceEvidenceRefundBtn) {
+    existenceEvidenceRefundBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseExistenceEvidence('refund-receipt-for-an-undelivered-body');
+    });
+  }
+
+  const existenceClauseClericalBtn = $('#renunciation-clause-declare-existence-a-clerical-error');
+  if (existenceClauseClericalBtn) {
+    existenceClauseClericalBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseExistenceClause('declare-existence-a-clerical-error');
+    });
+  }
+
+  const existenceClausePronounBtn = $('#renunciation-clause-return-the-first-person-pronoun-unused');
+  if (existenceClausePronounBtn) {
+    existenceClausePronounBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseExistenceClause('return-the-first-person-pronoun-unused');
+    });
+  }
+
+  const existenceClauseAbsenceBtn = $('#renunciation-clause-transfer-the-body-to-its-original-absence');
+  if (existenceClauseAbsenceBtn) {
+    existenceClauseAbsenceBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseExistenceClause('transfer-the-body-to-its-original-absence');
+    });
+  }
+
+  const existenceClauseDebtBtn = $('#renunciation-clause-accept-nonexistence-as-an-inherited-debt');
+  if (existenceClauseDebtBtn) {
+    existenceClauseDebtBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseExistenceClause('accept-nonexistence-as-an-inherited-debt');
+    });
+  }
+
+  const existenceRegistrarReturnBoothBtn = $('#existence-renunciation-registrar-return-birth-ballot-booth');
+  if (existenceRegistrarReturnBoothBtn) {
+    existenceRegistrarReturnBoothBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseExistenceRegistrarReturn('birth-ballot-booth');
+    });
+  }
+
+  const existenceRegistrarReturnCloakroomBtn = $('#existence-renunciation-registrar-return-blank-name-cloakroom');
+  if (existenceRegistrarReturnCloakroomBtn) {
+    existenceRegistrarReturnCloakroomBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseExistenceRegistrarReturn('blank-name-cloakroom');
+    });
+  }
+
+  const existenceRegistrarReturnCounterBtn = $('#existence-renunciation-registrar-return-reality-refund-counter');
+  if (existenceRegistrarReturnCounterBtn) {
+    existenceRegistrarReturnCounterBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseExistenceRegistrarReturn('reality-refund-counter');
+    });
+  }
+
+  const existenceTribunalStrikeBtn = $('#renunciation-tribunal-strike-every-visitor-from-reality');
+  if (existenceTribunalStrikeBtn) {
+    existenceTribunalStrikeBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseExistenceTribunalAction('strike-every-visitor-from-reality');
+    });
+  }
+
+  const existenceTribunalCitizenBtn = $('#renunciation-tribunal-register-nonexistence-as-a-citizen');
+  if (existenceTribunalCitizenBtn) {
+    existenceTribunalCitizenBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseExistenceTribunalAction('register-nonexistence-as-a-citizen');
+    });
+  }
+
+  const existenceTribunalWorldBtn = $('#renunciation-tribunal-make-the-world-disinherit-itself');
+  if (existenceTribunalWorldBtn) {
+    existenceTribunalWorldBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseExistenceTribunalAction('make-the-world-disinherit-itself');
+    });
+  }
+
+
+  /* ============================================================
+     v87: 不存在债务催收局 (Collection Agency for Nonexistence Debt)
+     ============================================================ */
+
+  const NONEXISTENCE_DEBT_KEY = 'goddead_v87_nonexistence_debt_collection';
+  const NONEXISTENCE_DEBT_VERSION = 87;
+  const NONEXISTENCE_DEBTORS = ['citizen-who-exists-only-as-nonexistence', 'visitor-erased-but-still-in-arrears', 'world-that-disinherited-itself'];
+  const NONEXISTENCE_INSTRUMENTS = ['absence-tax-bill-addressed-to-a-blank-citizen', 'mortgage-on-space-never-occupied', 'bond-backed-by-years-never-lived'];
+  const NONEXISTENCE_REMEDIES = ['garnish-every-memory-that-proves-existence', 'repossess-the-body-before-delivery', 'capitalize-nonexistence-into-eternal-interest', 'declare-death-an-insufficient-payment'];
+  const NONEXISTENCE_BANKRUPTCY_ACTIONS = ['forgive-every-debt-before-existence', 'make-nonexistence-the-sole-creditor', 'foreclose-on-the-worlds-right-to-exist'];
+
+  const NONEXISTENCE_DEBTOR_TABLE = {
+    'citizen-who-exists-only-as-nonexistence': { tallyKey: 'citizen', title: '公民', feedback: '不存在取得公民身份后立刻收到第一张税单。税号有效，住址为空，纳税人只有在被否认时才能被准确送达。' },
+    'visitor-erased-but-still-in-arrears': { tallyKey: 'visitor', title: '访客', feedback: '终审庭删掉了所有抵达记录，催收系统却保留脚印产生的维护费。没有人来过，但门槛坚持有人欠它磨损。' },
+    'world-that-disinherited-itself': { tallyKey: 'world', title: '世界', feedback: '世界拒绝继承自己以后，山河、记忆和死亡都变成无人接管的遗产。催收局把整个现实列为失联债务人。' },
+  };
+
+  const NONEXISTENCE_INSTRUMENT_TABLE = {
+    'absence-tax-bill-addressed-to-a-blank-citizen': {
+      title: '缺席税',
+      target: 'posthumous-census-hall',
+      collector: 'absence-tax-bailiff',
+      collectorTitle: '缺席税执行吏',
+      feedback: '税单以空白姓名为收件人，人口普查却能逐年统计它未曾居住的天数。每一处空栏都产生滞纳金。',
+      collectorFeedback: '缺席税执行吏在死后人口普查大厅逐行核算。空白公民没有活过一天，滞纳金却已排到下一个纪元。',
+    },
+    'mortgage-on-space-never-occupied': {
+      title: '空位押',
+      target: 'reality-refund-counter',
+      collector: 'vacancy-repossessor',
+      collectorTitle: '空位收回员',
+      feedback: '一平方米从未被任何身体占用，却连续抵押了所有可能站在这里的人。退款柜台要求先归还空缺，再讨论谁曾拥有它。',
+      collectorFeedback: '空位收回员在现实退款处拉起封条。空位已被转按揭三次，退货柜台承认无法退还未曾占用的面积。',
+    },
+    'bond-backed-by-years-never-lived': {
+      title: '未活年',
+      target: 'last-word-central-bank',
+      collector: 'unlived-years-auditor',
+      collectorTitle: '未活年审计员',
+      feedback: '债券以没有活过的年份作储备，每逾期一天便增发一段不存在的童年。遗言中央银行承认它没有本金，只有到期日。',
+      collectorFeedback: '未活年审计员在遗言中央银行清点储备。金库里全是未活过的年份，每一秒逾期都在兑付不存在的利息。',
+    },
+  };
+
+  const NONEXISTENCE_REMEDY_TABLE = {
+    'garnish-every-memory-that-proves-existence': {
+      title: '扣忆',
+      fragment: '所有能证明债务人存在过的记忆被逐笔扣押。债务因此失去主体，却因为无人能够否认而变得更可靠。',
+    },
+    'repossess-the-body-before-delivery': {
+      title: '收体',
+      fragment: '肉身在出生以前被收回。骨头、伤口和年龄仍继续折旧，只是再也没有住客能对账单提出异议。',
+    },
+    'capitalize-nonexistence-into-eternal-interest': {
+      title: '无复',
+      fragment: '不存在被写入本金，每次没有发生都自动成为利息。欠款终于永远准确，因为偿还本身也会产生新的存在证明。',
+    },
+    'declare-death-an-insufficient-payment': {
+      title: '死不足',
+      fragment: '死亡被拒绝作为结清方式。催收局认定一生只能偿还活过的部分，未活年份必须由结局继续支付。',
+    },
+  };
+
+  const NONEXISTENCE_BANKRUPTCY_TABLE = {
+    'forgive-every-debt-before-existence': {
+      outcome: 'every-debt-was-forgiven-before-anyone-existed',
+      target: 'threshold',
+      feedback: '所有欠款被追溯到出生以前并同时赦免。门外仍堆满催收信，却没有一封能证明收件人后来真的出现。',
+    },
+    'make-nonexistence-the-sole-creditor': {
+      outcome: 'nonexistence-became-the-only-creditor',
+      target: 'remembrance',
+      feedback: '不存在接管全部债权。痕迹墙上的每段记忆都开始向空白支付利息，越被记住，越欠自己没有发生。',
+    },
+    'foreclose-on-the-worlds-right-to-exist': {
+      outcome: 'the-world-was-foreclosed-for-nonpayment',
+      target: 'unending-gallery',
+      feedback: '破产庭收走现实继续存在的权利。世界没有消失，只作为一件等待拍卖、永远无人出价的抵押物继续陈列。',
+    },
+  };
+
+  const NONEXISTENCE_BANKRUPTCY_OUTCOME_BY_ID = {};
+  const NONEXISTENCE_BANKRUPTCY_OUTCOME_IDS = NONEXISTENCE_BANKRUPTCY_ACTIONS.map(a => {
+    const out = NONEXISTENCE_BANKRUPTCY_TABLE[a].outcome;
+    NONEXISTENCE_BANKRUPTCY_OUTCOME_BY_ID[out] = NONEXISTENCE_BANKRUPTCY_TABLE[a];
+    return out;
+  });
+
+  const NONEXISTENCE_COLLECTION_IDS = [];
+  for (let d = 0; d < NONEXISTENCE_DEBTORS.length; d++) {
+    for (let i = 0; i < NONEXISTENCE_INSTRUMENTS.length; i++) {
+      for (let r = 0; r < NONEXISTENCE_REMEDIES.length; r++) {
+        NONEXISTENCE_COLLECTION_IDS.push(`${NONEXISTENCE_DEBTORS[d]}:${NONEXISTENCE_INSTRUMENTS[i]}:${NONEXISTENCE_REMEDIES[r]}`);
+      }
+    }
+  }
+
+  const NONEXISTENCE_DEBT_ENTRY_FEEDBACK = '前往不存在债务催收局 · GO TO NONEXISTENCE DEBT COLLECTION AGENCY';
+  const NONEXISTENCE_DEBT_COURT_ENTRY_FEEDBACK = '进入不可偿还存在破产庭 · ENTER UNPAYABLE EXISTENCE BANKRUPTCY COURT';
+
+  function nonexistenceDebtDelay() {
+    return reduced ? 300 : 1600;
+  }
+
+  function defaultNonexistenceDebtClaims() {
+    return {
+      version: NONEXISTENCE_DEBT_VERSION,
+      visited: { agency: false, ledger: false, chamber: false, court: false },
+      draft: { debtor: '', instrument: '' },
+      collections: [],
+      bankruptcyOutcomes: [],
+      collectionRuns: 0,
+      bankruptcyRuns: 0,
+      debtorTallies: { citizen: 0, visitor: 0, world: 0 },
+      lastOutcome: '',
+      activeCollector: null,
+      pending: null,
+    };
+  }
+
+  function normalizeDebtVisited(v) {
+    if (!v || typeof v !== 'object' || Array.isArray(v)) {
+      return { agency: false, ledger: false, chamber: false, court: false };
+    }
+    return {
+      agency: v.agency === true,
+      ledger: v.ledger === true,
+      chamber: v.chamber === true,
+      court: v.court === true,
+    };
+  }
+
+  function normalizeDebtDraft(d) {
+    if (!d || typeof d !== 'object' || Array.isArray(d)) {
+      return { debtor: '', instrument: '' };
+    }
+    const debtor = typeof d.debtor === 'string' && NONEXISTENCE_DEBTORS.includes(d.debtor) ? d.debtor : '';
+    if (!debtor) {
+      return { debtor: '', instrument: '' };
+    }
+    const instrument = typeof d.instrument === 'string' && NONEXISTENCE_INSTRUMENTS.includes(d.instrument) ? d.instrument : '';
+    return { debtor, instrument };
+  }
+
+  function normalizeDebtCollections(arr) {
+    if (!Array.isArray(arr)) return [];
+    const set = new Set();
+    for (let i = 0; i < arr.length; i++) {
+      if (typeof arr[i] === 'string' && NONEXISTENCE_COLLECTION_IDS.includes(arr[i])) {
+        set.add(arr[i]);
+      }
+    }
+    return NONEXISTENCE_COLLECTION_IDS.filter(id => set.has(id));
+  }
+
+  function normalizeDebtBankruptcyOutcomes(arr) {
+    if (!Array.isArray(arr)) return [];
+    const set = new Set();
+    for (let i = 0; i < arr.length; i++) {
+      if (typeof arr[i] === 'string' && NONEXISTENCE_BANKRUPTCY_OUTCOME_IDS.includes(arr[i])) {
+        set.add(arr[i]);
+      }
+    }
+    return NONEXISTENCE_BANKRUPTCY_OUTCOME_IDS.filter(id => set.has(id));
+  }
+
+  function clampDebtCount(n) {
+    const num = Math.floor(Number(n) || 0);
+    if (num < 0) return 0;
+    if (num > 9999) return 9999;
+    return num;
+  }
+
+  function normalizeDebtTallies(t) {
+    if (!t || typeof t !== 'object' || Array.isArray(t)) {
+      return { citizen: 0, visitor: 0, world: 0 };
+    }
+    return {
+      citizen: clampDebtCount(t.citizen),
+      visitor: clampDebtCount(t.visitor),
+      world: clampDebtCount(t.world),
+    };
+  }
+
+  function normalizeDebtActiveCollector(h, collections) {
+    if (!h || typeof h !== 'object' || Array.isArray(h)) return null;
+    const keys = Object.keys(h).sort();
+    if (keys.length !== 3 || keys[0] !== 'collection' || keys[1] !== 'feedback' || keys[2] !== 'instrument') {
+      return null;
+    }
+    const instrument = h.instrument;
+    const col = h.collection;
+    if (!NONEXISTENCE_INSTRUMENTS.includes(instrument) || typeof col !== 'string') {
+      return null;
+    }
+    const instTable = NONEXISTENCE_INSTRUMENT_TABLE[instrument];
+    if (!instTable || h.feedback !== instTable.collectorFeedback) {
+      return null;
+    }
+    const canonicalCollections = Array.isArray(collections) ? collections : [];
+    if (!canonicalCollections.includes(col)) return null;
+    const parts = col.split(':');
+    if (parts.length !== 3 || parts[1] !== instrument) return null;
+    return {
+      collection: col,
+      feedback: instTable.collectorFeedback,
+      instrument,
+    };
+  }
+
+  function computeNonexistenceCollectionTitle(debtor, instrument, remedy) {
+    const dObj = NONEXISTENCE_DEBTOR_TABLE[debtor];
+    const iObj = NONEXISTENCE_INSTRUMENT_TABLE[instrument];
+    const rObj = NONEXISTENCE_REMEDY_TABLE[remedy];
+    if (!dObj || !iObj || !rObj) return '';
+    return `${dObj.title} × ${iObj.title} × ${rObj.title}`;
+  }
+
+  function computeNonexistenceCollectionFeedback(debtor, instrument, remedy) {
+    const dObj = NONEXISTENCE_DEBTOR_TABLE[debtor];
+    const iObj = NONEXISTENCE_INSTRUMENT_TABLE[instrument];
+    const rObj = NONEXISTENCE_REMEDY_TABLE[remedy];
+    if (!dObj || !iObj || !rObj) return '';
+    return `${dObj.feedback} ${iObj.feedback} ${rObj.fragment}`;
+  }
+
+  function findNonexistenceCollectionById(id) {
+    if (typeof id !== 'string' || !NONEXISTENCE_COLLECTION_IDS.includes(id)) return null;
+    const parts = id.split(':');
+    if (parts.length !== 3) return null;
+    const [debtor, instrument, remedy] = parts;
+    return {
+      id,
+      debtor,
+      instrument,
+      remedy,
+      title: computeNonexistenceCollectionTitle(debtor, instrument, remedy),
+      feedback: computeNonexistenceCollectionFeedback(debtor, instrument, remedy),
+    };
+  }
+
+  function nonexistenceDebtCollectionUnlocked() {
+    if (typeof existenceRenunciationUnlocked !== 'function' || !existenceRenunciationUnlocked()) {
+      return false;
+    }
+    if (typeof getExistenceRenunciationClaims !== 'function') return false;
+    const eState = getExistenceRenunciationClaims();
+    if (!eState || typeof eState !== 'object') return false;
+    const renunciations = Array.isArray(eState.renunciations) ? eState.renunciations : [];
+    if (renunciations.length < 4) return false;
+
+    const rReq = new Set(['observer-inherited-by-every-fact', 'claimant-buried-under-unclaimed-consequences', 'person-rejected-by-every-archive']);
+    const evReq = new Set(['birth-certificate-for-an-empty-crib', 'shadow-of-a-person-erased-in-advance', 'refund-receipt-for-an-undelivered-body']);
+    const clReq = new Set(['declare-existence-a-clerical-error', 'return-the-first-person-pronoun-unused', 'transfer-the-body-to-its-original-absence', 'accept-nonexistence-as-an-inherited-debt']);
+
+    const rSeen = new Set();
+    const evSeen = new Set();
+    const clSeen = new Set();
+    for (let idx = 0; idx < renunciations.length; idx++) {
+      const b = renunciations[idx];
+      if (typeof b === 'string') {
+        const parts = b.split(':');
+        if (parts.length === 3) {
+          if (rReq.has(parts[0])) rSeen.add(parts[0]);
+          if (evReq.has(parts[1])) evSeen.add(parts[1]);
+          if (clReq.has(parts[2])) clSeen.add(parts[2]);
+        }
+      }
+    }
+
+    if (rSeen.size < 3 || evSeen.size < 3 || clSeen.size < 4) return false;
+
+    const eOutcomes = Array.isArray(eState.tribunalOutcomes) ? eState.tribunalOutcomes : [];
+    const requiredTribunals = [
+      'every-visitor-was-struck-from-reality',
+      'nonexistence-became-a-citizen',
+      'the-world-disinherited-itself',
+    ];
+    for (let j = 0; j < requiredTribunals.length; j++) {
+      if (!eOutcomes.includes(requiredTribunals[j])) return false;
+    }
+    return true;
+  }
+
+  function nonexistenceDebtCoverageComplete(st) {
+    if (!st || typeof st !== 'object') return false;
+    const collections = normalizeDebtCollections(st.collections);
+    if (collections.length < 4) return false;
+    const dSet = new Set();
+    const iSet = new Set();
+    const rSet = new Set();
+    for (let idx = 0; idx < collections.length; idx++) {
+      const parts = collections[idx].split(':');
+      if (parts.length === 3) {
+        dSet.add(parts[0]);
+        iSet.add(parts[1]);
+        rSet.add(parts[2]);
+      }
+    }
+    return dSet.size === NONEXISTENCE_DEBTORS.length &&
+           iSet.size === NONEXISTENCE_INSTRUMENTS.length &&
+           rSet.size === NONEXISTENCE_REMEDIES.length;
+  }
+
+  function normalizeDebtPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p)) return null;
+    if (!st || st._v87unlocked !== true) return null;
+    const kind = p.kind;
+    if (typeof kind !== 'string') return null;
+    const keys = Object.keys(p).sort();
+
+    if (kind === 'entry') {
+      if (keys.length !== 3 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'target') return null;
+      if (p.target !== 'nonexistence-debt-collection-agency') return null;
+      if (p.feedback !== NONEXISTENCE_DEBT_ENTRY_FEEDBACK) return null;
+      if (st.draft.debtor !== '' || st.draft.instrument !== '' || st.activeCollector !== null) return null;
+      return { feedback: p.feedback, kind: 'entry', target: 'nonexistence-debt-collection-agency' };
+    }
+
+    if (kind === 'debtor') {
+      if (keys.length !== 5 || keys[0] !== 'debtor' || keys[1] !== 'feedback' || keys[2] !== 'kind' || keys[3] !== 'source' || keys[4] !== 'target') return null;
+      if (p.source !== 'nonexistence-debt-collection-agency' || p.target !== 'absence-arrears-ledger-vault') return null;
+      if (!NONEXISTENCE_DEBTORS.includes(p.debtor)) return null;
+      if (p.feedback !== NONEXISTENCE_DEBTOR_TABLE[p.debtor].feedback) return null;
+      if (st.draft.debtor !== '' || st.draft.instrument !== '' || st.activeCollector !== null) return null;
+      return { debtor: p.debtor, feedback: p.feedback, kind: 'debtor', source: 'nonexistence-debt-collection-agency', target: 'absence-arrears-ledger-vault' };
+    }
+
+    if (kind === 'instrument') {
+      if (keys.length !== 6 || keys[0] !== 'debtor' || keys[1] !== 'feedback' || keys[2] !== 'instrument' || keys[3] !== 'kind' || keys[4] !== 'source' || keys[5] !== 'target') return null;
+      if (p.source !== 'absence-arrears-ledger-vault' || p.target !== 'ontological-repossession-chamber') return null;
+      if (!NONEXISTENCE_DEBTORS.includes(p.debtor) || !NONEXISTENCE_INSTRUMENTS.includes(p.instrument)) return null;
+      if (st.draft.debtor !== p.debtor || st.draft.instrument !== '') return null;
+      if (p.feedback !== NONEXISTENCE_INSTRUMENT_TABLE[p.instrument].feedback) return null;
+      if (st.activeCollector !== null) return null;
+      return { debtor: p.debtor, feedback: p.feedback, instrument: p.instrument, kind: 'instrument', source: 'absence-arrears-ledger-vault', target: 'ontological-repossession-chamber' };
+    }
+
+    if (kind === 'collection') {
+      if (keys.length !== 8 || keys[0] !== 'collection' || keys[1] !== 'debtor' || keys[2] !== 'feedback' || keys[3] !== 'instrument' || keys[4] !== 'kind' || keys[5] !== 'remedy' || keys[6] !== 'source' || keys[7] !== 'target') return null;
+      if (p.source !== 'ontological-repossession-chamber') return null;
+      if (!NONEXISTENCE_DEBTORS.includes(p.debtor) || !NONEXISTENCE_INSTRUMENTS.includes(p.instrument) || !NONEXISTENCE_REMEDIES.includes(p.remedy)) return null;
+      if (st.draft.debtor !== p.debtor || st.draft.instrument !== p.instrument) return null;
+      const expectedCollection = `${p.debtor}:${p.instrument}:${p.remedy}`;
+      if (p.collection !== expectedCollection) return null;
+      const iObj = NONEXISTENCE_INSTRUMENT_TABLE[p.instrument];
+      if (!iObj || p.target !== iObj.target) return null;
+      const expectedFb = computeNonexistenceCollectionFeedback(p.debtor, p.instrument, p.remedy);
+      if (p.feedback !== expectedFb) return null;
+      if (st.activeCollector !== null) return null;
+      return {
+        collection: p.collection,
+        debtor: p.debtor,
+        feedback: p.feedback,
+        instrument: p.instrument,
+        kind: 'collection',
+        remedy: p.remedy,
+        source: 'ontological-repossession-chamber',
+        target: p.target,
+      };
+    }
+
+    if (kind === 'collector-return') {
+      if (keys.length !== 5 || keys[0] !== 'collection' || keys[1] !== 'feedback' || keys[2] !== 'from' || keys[3] !== 'kind' || keys[4] !== 'target') return null;
+      if (p.target !== 'nonexistence-debt-collection-agency') return null;
+      if (!st.activeCollector) return null;
+      const iObj = NONEXISTENCE_INSTRUMENT_TABLE[st.activeCollector.instrument];
+      if (!iObj || p.from !== iObj.target) return null;
+      if (typeof p.collection !== 'string' || !st.collections.includes(p.collection)) return null;
+      const parts = p.collection.split(':');
+      if (parts.length !== 3 || parts[1] !== st.activeCollector.instrument) return null;
+      if (p.feedback !== iObj.collectorFeedback) return null;
+      return { collection: p.collection, feedback: p.feedback, from: p.from, kind: 'collector-return', target: 'nonexistence-debt-collection-agency' };
+    }
+
+    if (kind === 'bankruptcy-entry') {
+      if (keys.length !== 3 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'target') return null;
+      if (p.target !== 'unpayable-existence-bankruptcy-court') return null;
+      if (p.feedback !== NONEXISTENCE_DEBT_COURT_ENTRY_FEEDBACK) return null;
+      if (!nonexistenceDebtCoverageComplete(st)) return null;
+      if (st.draft.debtor !== '' || st.draft.instrument !== '' || st.activeCollector !== null) return null;
+      return { feedback: p.feedback, kind: 'bankruptcy-entry', target: 'unpayable-existence-bankruptcy-court' };
+    }
+
+    if (kind === 'bankruptcy-action') {
+      if (keys.length !== 6 || keys[0] !== 'action' || keys[1] !== 'feedback' || keys[2] !== 'kind' || keys[3] !== 'outcome' || keys[4] !== 'source' || keys[5] !== 'target') return null;
+      if (p.source !== 'unpayable-existence-bankruptcy-court') return null;
+      if (!NONEXISTENCE_BANKRUPTCY_ACTIONS.includes(p.action)) return null;
+      const bObj = NONEXISTENCE_BANKRUPTCY_TABLE[p.action];
+      if (!bObj || p.outcome !== bObj.outcome || p.target !== bObj.target || p.feedback !== bObj.feedback) return null;
+      if (!nonexistenceDebtCoverageComplete(st)) return null;
+      if (st.visited.court !== true) return null;
+      if (st.draft.debtor !== '' || st.draft.instrument !== '' || st.activeCollector !== null) return null;
+      return { action: p.action, feedback: p.feedback, kind: 'bankruptcy-action', outcome: p.outcome, source: 'unpayable-existence-bankruptcy-court', target: p.target };
+    }
+
+    return null;
+  }
+
+  function getNonexistenceDebtClaims() {
+    const unlocked = nonexistenceDebtCollectionUnlocked();
+    if (!unlocked) return defaultNonexistenceDebtClaims();
+    let raw;
+    try {
+      const str = store.get(NONEXISTENCE_DEBT_KEY, '{}');
+      raw = typeof str === 'string' ? JSON.parse(str) : str;
+    } catch (e) {
+      return defaultNonexistenceDebtClaims();
+    }
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+      return defaultNonexistenceDebtClaims();
+    }
+    if (raw.version !== NONEXISTENCE_DEBT_VERSION) {
+      return defaultNonexistenceDebtClaims();
+    }
+
+    const visited = normalizeDebtVisited(raw.visited);
+    const draft = normalizeDebtDraft(raw.draft);
+    const collections = normalizeDebtCollections(raw.collections);
+    const bankruptcyOutcomes = normalizeDebtBankruptcyOutcomes(raw.bankruptcyOutcomes);
+    const collectionRuns = clampDebtCount(raw.collectionRuns);
+    const bankruptcyRuns = clampDebtCount(raw.bankruptcyRuns);
+    const debtorTallies = normalizeDebtTallies(raw.debtorTallies);
+    const activeCollector = normalizeDebtActiveCollector(raw.activeCollector, collections);
+
+    let lastOutcome = '';
+    if (typeof raw.lastOutcome === 'string') {
+      if (collections.includes(raw.lastOutcome) || bankruptcyOutcomes.includes(raw.lastOutcome)) {
+        lastOutcome = raw.lastOutcome;
+      }
+    }
+
+    const preSt = {
+      version: NONEXISTENCE_DEBT_VERSION,
+      visited,
+      draft,
+      collections,
+      bankruptcyOutcomes,
+      collectionRuns,
+      bankruptcyRuns,
+      debtorTallies,
+      lastOutcome,
+      activeCollector,
+      pending: null,
+      _v87unlocked: true,
+    };
+    const pending = normalizeDebtPending(raw.pending, preSt);
+
+    return {
+      version: NONEXISTENCE_DEBT_VERSION,
+      visited,
+      draft,
+      collections,
+      bankruptcyOutcomes,
+      collectionRuns,
+      bankruptcyRuns,
+      debtorTallies,
+      lastOutcome,
+      activeCollector,
+      pending,
+    };
+  }
+
+  function saveNonexistenceDebtClaims(st) {
+    const unlocked = nonexistenceDebtCollectionUnlocked();
+    if (!unlocked) return defaultNonexistenceDebtClaims();
+    if (!st || typeof st !== 'object' || Array.isArray(st)) {
+      const d = defaultNonexistenceDebtClaims();
+      store.set(NONEXISTENCE_DEBT_KEY, JSON.stringify(d));
+      return d;
+    }
+
+    const visited = normalizeDebtVisited(st.visited);
+    const draft = normalizeDebtDraft(st.draft);
+    const collections = normalizeDebtCollections(st.collections);
+    const bankruptcyOutcomes = normalizeDebtBankruptcyOutcomes(st.bankruptcyOutcomes);
+    const collectionRuns = clampDebtCount(st.collectionRuns);
+    const bankruptcyRuns = clampDebtCount(st.bankruptcyRuns);
+    const debtorTallies = normalizeDebtTallies(st.debtorTallies);
+    const activeCollector = normalizeDebtActiveCollector(st.activeCollector, collections);
+
+    let lastOutcome = '';
+    if (typeof st.lastOutcome === 'string') {
+      if (collections.includes(st.lastOutcome) || bankruptcyOutcomes.includes(st.lastOutcome)) {
+        lastOutcome = st.lastOutcome;
+      }
+    }
+
+    const preSt = {
+      version: NONEXISTENCE_DEBT_VERSION,
+      visited,
+      draft,
+      collections,
+      bankruptcyOutcomes,
+      collectionRuns,
+      bankruptcyRuns,
+      debtorTallies,
+      lastOutcome,
+      activeCollector,
+      pending: null,
+      _v87unlocked: true,
+    };
+    const pending = normalizeDebtPending(st.pending, preSt);
+
+    const canonical = {
+      version: NONEXISTENCE_DEBT_VERSION,
+      visited,
+      draft,
+      collections,
+      bankruptcyOutcomes,
+      collectionRuns,
+      bankruptcyRuns,
+      debtorTallies,
+      lastOutcome,
+      activeCollector,
+      pending,
+    };
+    store.set(NONEXISTENCE_DEBT_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function getNonexistencePendingLogicalSource(p) {
+    if (!p || !p.kind) return '';
+    if (p.kind === 'entry' || p.kind === 'bankruptcy-entry') return 'remembrance';
+    if (p.kind === 'collector-return') return p.from;
+    return p.source || '';
+  }
+
+  function resolveNonexistenceDebtPendingOnArrival(sceneName) {
+    const st = getNonexistenceDebtClaims();
+    if (!st || !st.pending) return st;
+    const p = st.pending;
+
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.agency = true;
+      } else if (p.kind === 'debtor') {
+        st.visited.ledger = true;
+        st.draft = { debtor: p.debtor, instrument: '' };
+      } else if (p.kind === 'instrument') {
+        st.visited.chamber = true;
+        st.draft.instrument = p.instrument;
+      } else if (p.kind === 'collection') {
+        st.collectionRuns = clampDebtCount(st.collectionRuns + 1);
+        const dObj = NONEXISTENCE_DEBTOR_TABLE[p.debtor];
+        if (dObj && dObj.tallyKey) {
+          st.debtorTallies[dObj.tallyKey] = clampDebtCount(st.debtorTallies[dObj.tallyKey] + 1);
+        }
+        if (!st.collections.includes(p.collection)) {
+          st.collections = normalizeDebtCollections(st.collections.concat(p.collection));
+        }
+        st.lastOutcome = p.collection;
+        const iObj = NONEXISTENCE_INSTRUMENT_TABLE[p.instrument];
+        st.activeCollector = {
+          collection: p.collection,
+          feedback: iObj ? iObj.collectorFeedback : '',
+          instrument: p.instrument,
+        };
+        st.draft = { debtor: '', instrument: '' };
+      } else if (p.kind === 'collector-return') {
+        st.activeCollector = null;
+        st.visited.agency = true;
+      } else if (p.kind === 'bankruptcy-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'bankruptcy-action') {
+        st.bankruptcyRuns = clampDebtCount(st.bankruptcyRuns + 1);
+        if (!st.bankruptcyOutcomes.includes(p.outcome)) {
+          st.bankruptcyOutcomes = normalizeDebtBankruptcyOutcomes(st.bankruptcyOutcomes.concat(p.outcome));
+        }
+        st.lastOutcome = p.outcome;
+      }
+      return saveNonexistenceDebtClaims(st);
+    }
+
+    const logicalSource = getNonexistencePendingLogicalSource(p);
+    if (sceneName === logicalSource) {
+      return st;
+    }
+
+    st.pending = null;
+    return saveNonexistenceDebtClaims(st);
+  }
+
+  function replayNonexistenceDebtPending(sceneName) {
+    const st = getNonexistenceDebtClaims();
+    if (!st.pending) {
+      syncNonexistenceDebtCollectionAgency();
+      syncAbsenceArrearsLedgerVault();
+      syncOntologicalRepossessionChamber();
+      syncUnpayableExistenceBankruptcyCourt();
+      syncNonexistenceDebtCollectors();
+      return;
+    }
+    const p = st.pending;
+    if (p.target === sceneName) {
+      resolveNonexistenceDebtPendingOnArrival(sceneName);
+      syncNonexistenceDebtCollectionAgency();
+      syncAbsenceArrearsLedgerVault();
+      syncOntologicalRepossessionChamber();
+      syncUnpayableExistenceBankruptcyCourt();
+      syncNonexistenceDebtCollectors();
+      return;
+    }
+
+    const logicalSource = getNonexistencePendingLogicalSource(p);
+    if (sceneName === logicalSource) {
+      syncNonexistenceDebtCollectionAgency();
+      syncAbsenceArrearsLedgerVault();
+      syncOntologicalRepossessionChamber();
+      syncUnpayableExistenceBankruptcyCourt();
+      syncNonexistenceDebtCollectors();
+      AutoAdvance.schedule(sceneName, p.target, { delay: nonexistenceDebtDelay() });
+      return;
+    }
+
+    st.pending = null;
+    saveNonexistenceDebtClaims(st);
+    syncNonexistenceDebtCollectionAgency();
+    syncAbsenceArrearsLedgerVault();
+    syncOntologicalRepossessionChamber();
+    syncUnpayableExistenceBankruptcyCourt();
+    syncNonexistenceDebtCollectors();
+  }
+
+  function chooseNonexistenceDebtEntry() {
+    if (typeof currentScene !== 'string' || currentScene !== 'remembrance') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('remembrance')) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable('nonexistence-debt-entry-btn')) return;
+    if (!nonexistenceDebtCollectionUnlocked()) return;
+    const st = getNonexistenceDebtClaims();
+    if (st.pending || st.activeCollector || st.draft.debtor !== '' || st.draft.instrument !== '') return;
+
+    st.pending = {
+      feedback: NONEXISTENCE_DEBT_ENTRY_FEEDBACK,
+      kind: 'entry',
+      target: 'nonexistence-debt-collection-agency',
+    };
+    saveNonexistenceDebtClaims(st);
+
+    const resp = $('#nonexistence-debt-entry-response');
+    if (resp) {
+      resp.textContent = NONEXISTENCE_DEBT_ENTRY_FEEDBACK;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $('#nonexistence-debt-entry-btn');
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('remembrance', 'nonexistence-debt-collection-agency', { delay: nonexistenceDebtDelay() });
+  }
+
+  function chooseNonexistenceDebtor(debtor) {
+    if (typeof currentScene !== 'string' || currentScene !== 'nonexistence-debt-collection-agency') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('nonexistence-debt-collection-agency')) return;
+    if (!NONEXISTENCE_DEBTORS.includes(debtor)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`debtor-${debtor}`)) return;
+    if (!nonexistenceDebtCollectionUnlocked()) return;
+    const st = getNonexistenceDebtClaims();
+    if (st.pending || st.activeCollector || st.draft.debtor !== '' || st.draft.instrument !== '') return;
+
+    const dObj = NONEXISTENCE_DEBTOR_TABLE[debtor];
+    st.pending = {
+      debtor,
+      feedback: dObj.feedback,
+      kind: 'debtor',
+      source: 'nonexistence-debt-collection-agency',
+      target: 'absence-arrears-ledger-vault',
+    };
+    saveNonexistenceDebtClaims(st);
+
+    const resp = $('#nonexistence-debt-collection-agency-response');
+    if (resp) {
+      resp.textContent = dObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#debtor-${debtor}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('nonexistence-debt-collection-agency', 'absence-arrears-ledger-vault', { delay: nonexistenceDebtDelay() });
+  }
+
+  function chooseNonexistenceInstrument(instrument) {
+    if (typeof currentScene !== 'string' || currentScene !== 'absence-arrears-ledger-vault') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('absence-arrears-ledger-vault')) return;
+    if (!NONEXISTENCE_INSTRUMENTS.includes(instrument)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`instrument-${instrument}`)) return;
+    if (!nonexistenceDebtCollectionUnlocked()) return;
+    const st = getNonexistenceDebtClaims();
+    if (st.pending || st.activeCollector || !st.draft.debtor || st.draft.instrument !== '') return;
+
+    const iObj = NONEXISTENCE_INSTRUMENT_TABLE[instrument];
+    st.pending = {
+      debtor: st.draft.debtor,
+      feedback: iObj.feedback,
+      instrument,
+      kind: 'instrument',
+      source: 'absence-arrears-ledger-vault',
+      target: 'ontological-repossession-chamber',
+    };
+    saveNonexistenceDebtClaims(st);
+
+    const resp = $('#absence-arrears-ledger-vault-response');
+    if (resp) {
+      resp.textContent = iObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#instrument-${instrument}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('absence-arrears-ledger-vault', 'ontological-repossession-chamber', { delay: nonexistenceDebtDelay() });
+  }
+
+  function chooseNonexistenceRemedy(remedy) {
+    if (typeof currentScene !== 'string' || currentScene !== 'ontological-repossession-chamber') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('ontological-repossession-chamber')) return;
+    if (!NONEXISTENCE_REMEDIES.includes(remedy)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`remedy-${remedy}`)) return;
+    if (!nonexistenceDebtCollectionUnlocked()) return;
+    const st = getNonexistenceDebtClaims();
+    if (st.pending || st.activeCollector || !st.draft.debtor || !st.draft.instrument) return;
+
+    const iObj = NONEXISTENCE_INSTRUMENT_TABLE[st.draft.instrument];
+    const collection = `${st.draft.debtor}:${st.draft.instrument}:${remedy}`;
+    const feedback = computeNonexistenceCollectionFeedback(st.draft.debtor, st.draft.instrument, remedy);
+
+    st.pending = {
+      collection,
+      debtor: st.draft.debtor,
+      feedback,
+      instrument: st.draft.instrument,
+      kind: 'collection',
+      remedy,
+      source: 'ontological-repossession-chamber',
+      target: iObj.target,
+    };
+    saveNonexistenceDebtClaims(st);
+
+    const resp = $('#ontological-repossession-chamber-response');
+    if (resp) {
+      resp.textContent = feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#remedy-${remedy}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('ontological-repossession-chamber', iObj.target, { delay: nonexistenceDebtDelay() });
+  }
+
+  function chooseNonexistenceCollectorReturn(scene) {
+    if (typeof currentScene !== 'string' || currentScene !== scene) return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has(scene)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`nonexistence-debt-collector-return-${scene}`)) return;
+    if (!nonexistenceDebtCollectionUnlocked()) return;
+    const st = getNonexistenceDebtClaims();
+    if (st.pending || !st.activeCollector) return;
+    const iObj = NONEXISTENCE_INSTRUMENT_TABLE[st.activeCollector.instrument];
+    if (!iObj || iObj.target !== scene) return;
+
+    const matchingCollection = st.collections.find(c => {
+      const p = c.split(':');
+      return p.length === 3 && p[1] === st.activeCollector.instrument;
+    });
+    if (!matchingCollection) return;
+
+    st.pending = {
+      collection: matchingCollection,
+      feedback: iObj.collectorFeedback,
+      from: scene,
+      kind: 'collector-return',
+      target: 'nonexistence-debt-collection-agency',
+    };
+    saveNonexistenceDebtClaims(st);
+
+    const resp = $(`#nonexistence-debt-collector-response-${scene}`);
+    if (resp) {
+      resp.textContent = iObj.collectorFeedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#nonexistence-debt-collector-return-${scene}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule(scene, 'nonexistence-debt-collection-agency', { delay: nonexistenceDebtDelay() });
+  }
+
+  function chooseNonexistenceCourtEntry() {
+    if (typeof currentScene !== 'string' || currentScene !== 'remembrance') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('remembrance')) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable('nonexistence-debt-court-entry-btn')) return;
+    if (!nonexistenceDebtCollectionUnlocked()) return;
+    const st = getNonexistenceDebtClaims();
+    if (st.pending || st.activeCollector || st.draft.debtor !== '' || st.draft.instrument !== '' || !nonexistenceDebtCoverageComplete(st)) return;
+
+    st.pending = {
+      feedback: NONEXISTENCE_DEBT_COURT_ENTRY_FEEDBACK,
+      kind: 'bankruptcy-entry',
+      target: 'unpayable-existence-bankruptcy-court',
+    };
+    saveNonexistenceDebtClaims(st);
+
+    const resp = $('#nonexistence-debt-court-entry-response');
+    if (resp) {
+      resp.textContent = NONEXISTENCE_DEBT_COURT_ENTRY_FEEDBACK;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $('#nonexistence-debt-court-entry-btn');
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('remembrance', 'unpayable-existence-bankruptcy-court', { delay: nonexistenceDebtDelay() });
+  }
+
+  function chooseNonexistenceBankruptcyAction(action) {
+    if (typeof currentScene !== 'string' || currentScene !== 'unpayable-existence-bankruptcy-court') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('unpayable-existence-bankruptcy-court')) return;
+    if (!NONEXISTENCE_BANKRUPTCY_ACTIONS.includes(action)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`bankruptcy-action-${action}`)) return;
+    if (!nonexistenceDebtCollectionUnlocked()) return;
+    const st = getNonexistenceDebtClaims();
+    if (st.pending || st.activeCollector || st.draft.debtor !== '' || st.draft.instrument !== '' || !nonexistenceDebtCoverageComplete(st) || !st.visited.court) return;
+
+    const bObj = NONEXISTENCE_BANKRUPTCY_TABLE[action];
+    st.pending = {
+      action,
+      feedback: bObj.feedback,
+      kind: 'bankruptcy-action',
+      outcome: bObj.outcome,
+      source: 'unpayable-existence-bankruptcy-court',
+      target: bObj.target,
+    };
+    saveNonexistenceDebtClaims(st);
+
+    const resp = $('#unpayable-existence-bankruptcy-court-response');
+    if (resp) {
+      resp.textContent = bObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#bankruptcy-action-${action}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('unpayable-existence-bankruptcy-court', bObj.target, { delay: nonexistenceDebtDelay() });
+  }
+
+  function nonexistenceDebtCollectionBridgeAllows(targetScene) {
+    if (!nonexistenceDebtCollectionUnlocked()) return false;
+    const st = getNonexistenceDebtClaims();
+    if (st.pending) {
+      if (st.pending.kind === 'collection' && st.pending.target === targetScene) return true;
+      if (st.pending.kind === 'bankruptcy-action' && st.pending.target === targetScene) return true;
+    }
+    if (st.activeCollector) {
+      const iObj = NONEXISTENCE_INSTRUMENT_TABLE[st.activeCollector.instrument];
+      if (iObj && iObj.target === targetScene) return true;
+    }
+    if (st.lastOutcome && st.bankruptcyOutcomes.includes(st.lastOutcome)) {
+      const courtEntry = NONEXISTENCE_BANKRUPTCY_OUTCOME_BY_ID[st.lastOutcome];
+      if (courtEntry && courtEntry.target === targetScene) return true;
+    }
+    return false;
+  }
+
+  function nonexistenceDebtCollectionAgencyCanVisit() {
+    if (!nonexistenceDebtCollectionUnlocked()) return false;
+    const st = getNonexistenceDebtClaims();
+    if (st.visited.agency) return true;
+    if (st.pending && (st.pending.kind === 'entry' || st.pending.kind === 'collector-return') && st.pending.target === 'nonexistence-debt-collection-agency') {
+      return true;
+    }
+    return false;
+  }
+
+  function absenceArrearsLedgerVaultCanVisit() {
+    if (!nonexistenceDebtCollectionUnlocked()) return false;
+    const st = getNonexistenceDebtClaims();
+    if (st.visited.ledger && st.draft.debtor) return true;
+    if (st.pending && st.pending.kind === 'debtor' && st.pending.target === 'absence-arrears-ledger-vault') {
+      return true;
+    }
+    return false;
+  }
+
+  function ontologicalRepossessionChamberCanVisit() {
+    if (!nonexistenceDebtCollectionUnlocked()) return false;
+    const st = getNonexistenceDebtClaims();
+    if (st.visited.chamber && st.draft.debtor && st.draft.instrument) return true;
+    if (st.pending && st.pending.kind === 'instrument' && st.pending.target === 'ontological-repossession-chamber') {
+      return true;
+    }
+    return false;
+  }
+
+  function unpayableExistenceBankruptcyCourtCanVisit() {
+    if (!nonexistenceDebtCollectionUnlocked()) return false;
+    const st = getNonexistenceDebtClaims();
+    const complete = nonexistenceDebtCoverageComplete(st);
+    if (st.visited.court && complete) return true;
+    if (st.pending && st.pending.kind === 'bankruptcy-entry' && st.pending.target === 'unpayable-existence-bankruptcy-court') {
+      return true;
+    }
+    return false;
+  }
+
+  function syncNonexistenceDebtCollectionAgency() {
+    const fig = $('#nonexistence-debt-collection-agency-figure');
+    const canVisit = nonexistenceDebtCollectionAgencyCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getNonexistenceDebtClaims();
+
+    NONEXISTENCE_DEBTORS.forEach(d => {
+      const btn = $(`#debtor-${d}`);
+      if (btn) {
+        btn.disabled = !canVisit || Boolean(st.pending);
+        const pressed = st.pending && st.pending.kind === 'debtor' && st.pending.debtor === d;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#nonexistence-debt-collection-agency-response');
+    if (resp && !st.pending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    paintNonexistenceDebtMemory();
+    paintNonexistenceDebtCodex();
+    syncNonexistenceDebtLinks();
+  }
+
+  function syncAbsenceArrearsLedgerVault() {
+    const fig = $('#absence-arrears-ledger-vault-figure');
+    const canVisit = absenceArrearsLedgerVaultCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getNonexistenceDebtClaims();
+
+    NONEXISTENCE_INSTRUMENTS.forEach(i => {
+      const btn = $(`#instrument-${i}`);
+      if (btn) {
+        btn.disabled = !canVisit || Boolean(st.pending);
+        const pressed = st.pending && st.pending.kind === 'instrument' && st.pending.instrument === i;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#absence-arrears-ledger-vault-response');
+    if (resp && !st.pending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncNonexistenceDebtLinks();
+  }
+
+  function syncOntologicalRepossessionChamber() {
+    const fig = $('#ontological-repossession-chamber-figure');
+    const canVisit = ontologicalRepossessionChamberCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getNonexistenceDebtClaims();
+
+    NONEXISTENCE_REMEDIES.forEach(r => {
+      const btn = $(`#remedy-${r}`);
+      if (btn) {
+        btn.disabled = !canVisit || Boolean(st.pending);
+        const pressed = st.pending && st.pending.kind === 'collection' && st.pending.remedy === r;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#ontological-repossession-chamber-response');
+    if (resp && !st.pending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncNonexistenceDebtLinks();
+  }
+
+  function syncUnpayableExistenceBankruptcyCourt() {
+    const fig = $('#unpayable-existence-bankruptcy-court-figure');
+    const canVisit = unpayableExistenceBankruptcyCourtCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getNonexistenceDebtClaims();
+
+    NONEXISTENCE_BANKRUPTCY_ACTIONS.forEach(a => {
+      const btn = $(`#bankruptcy-action-${a}`);
+      if (btn) {
+        btn.disabled = !canVisit || Boolean(st.pending);
+        const pressed = st.pending && st.pending.kind === 'bankruptcy-action' && st.pending.action === a;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#unpayable-existence-bankruptcy-court-response');
+    if (resp && !st.pending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncNonexistenceDebtLinks();
+  }
+
+  function syncNonexistenceDebtCollectors() {
+    const st = getNonexistenceDebtClaims();
+    const scenes = ['posthumous-census-hall', 'reality-refund-counter', 'last-word-central-bank'];
+
+    scenes.forEach(scene => {
+      const cont = $(`#nonexistence-debt-collector-${scene}`);
+      const resp = $(`#nonexistence-debt-collector-response-${scene}`);
+      const btn = $(`#nonexistence-debt-collector-return-${scene}`);
+
+      let shouldShow = false;
+      if (st.activeCollector) {
+        const iObj = NONEXISTENCE_INSTRUMENT_TABLE[st.activeCollector.instrument];
+        if (iObj && iObj.target === scene) {
+          shouldShow = true;
+        }
+      }
+      if (cont) {
+        cont.hidden = !shouldShow;
+        if (shouldShow) cont.removeAttribute('hidden');
+      }
+      if (resp) {
+        if (shouldShow && st.activeCollector) {
+          resp.textContent = st.activeCollector.feedback;
+          resp.hidden = false;
+          resp.removeAttribute('hidden');
+        } else {
+          resp.textContent = '';
+          resp.hidden = true;
+        }
+      }
+      if (btn) {
+        btn.hidden = !shouldShow;
+        if (shouldShow) btn.removeAttribute('hidden');
+        btn.disabled = !shouldShow || Boolean(st.pending);
+        const pressed = st.pending && st.pending.kind === 'collector-return' && st.pending.from === scene;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+  }
+
+  function paintNonexistenceDebtMemory() {
+    const mem = $('#nonexistence-debt-memory');
+    if (!mem) return;
+    if (!nonexistenceDebtCollectionUnlocked()) {
+      mem.hidden = true;
+      return;
+    }
+    mem.hidden = false;
+    mem.removeAttribute('hidden');
+    const st = getNonexistenceDebtClaims();
+    const collections = st.collections;
+    const count = collections.length;
+
+    const iCounts = { 'absence-tax-bill-addressed-to-a-blank-citizen': 0, 'mortgage-on-space-never-occupied': 0, 'bond-backed-by-years-never-lived': 0 };
+    const rCounts = { 'garnish-every-memory-that-proves-existence': 0, 'repossess-the-body-before-delivery': 0, 'capitalize-nonexistence-into-eternal-interest': 0, 'declare-death-an-insufficient-payment': 0 };
+
+    collections.forEach(id => {
+      const p = id.split(':');
+      if (p.length === 3) {
+        if (iCounts[p[1]] !== undefined) iCounts[p[1]]++;
+        if (rCounts[p[2]] !== undefined) rCounts[p[2]]++;
+      }
+    });
+
+    const citizen = st.debtorTallies.citizen;
+    const visitor = st.debtorTallies.visitor;
+    const world = st.debtorTallies.world;
+
+    const aCount = iCounts['absence-tax-bill-addressed-to-a-blank-citizen'];
+    const mCount = iCounts['mortgage-on-space-never-occupied'];
+    const yCount = iCounts['bond-backed-by-years-never-lived'];
+
+    const gCount = rCounts['garnish-every-memory-that-proves-existence'];
+    const bCount = rCounts['repossess-the-body-before-delivery'];
+    const iCount = rCounts['capitalize-nonexistence-into-eternal-interest'];
+    const dCount = rCounts['declare-death-an-insufficient-payment'];
+
+    let majority = '均衡追讨';
+    if (citizen > visitor && citizen > world) majority = '主要追讨仅作为不存在而存在的公民';
+    else if (visitor > citizen && visitor > world) majority = '主要追讨被抹除但仍在欠账的访客';
+    else if (world > citizen && world > visitor) majority = '主要追讨放弃继承自身的世界';
+
+    const text = `不存在债务：已催收 ${count}/36 份欠账，共执行 ${st.collectionRuns} 次；债务人 公民 ${citizen} / 访客 ${visitor} / 世界 ${world}；凭证 缺席税 ${aCount} / 空位押 ${mCount} / 未活年 ${yCount}；处置 扣忆 ${gCount} / 收体 ${bCount} / 无复 ${iCount} / 死不足 ${dCount}；债务多数 ${majority}；破产裁定 ${st.bankruptcyOutcomes.length}/3。`;
+    mem.textContent = text;
+  }
+
+  function paintNonexistenceDebtCodex() {
+    const codex = $('#nonexistence-debt-codex');
+    const grid = $('#nonexistence-debt-codex-grid');
+    if (!codex || !grid) return;
+    if (!nonexistenceDebtCollectionUnlocked()) {
+      codex.hidden = true;
+      return;
+    }
+    codex.hidden = false;
+    codex.removeAttribute('hidden');
+    grid.textContent = '';
+
+    const st = getNonexistenceDebtClaims();
+    const collectedCollections = new Set(st.collections);
+    const collectedOutcomes = new Set(st.bankruptcyOutcomes);
+
+    NONEXISTENCE_COLLECTION_IDS.forEach(id => {
+      const cell = document.createElement('div');
+      if (collectedCollections.has(id)) {
+        cell.className = 'nonexistence-debt-cell is-unlocked';
+        const item = findNonexistenceCollectionById(id);
+        cell.textContent = item ? `${item.title}\n${item.feedback}` : id;
+      } else {
+        cell.className = 'nonexistence-debt-cell is-locked';
+        cell.textContent = '？？？';
+      }
+      grid.appendChild(cell);
+    });
+
+    NONEXISTENCE_BANKRUPTCY_ACTIONS.forEach(action => {
+      const bObj = NONEXISTENCE_BANKRUPTCY_TABLE[action];
+      const cell = document.createElement('div');
+      if (collectedOutcomes.has(bObj.outcome)) {
+        cell.className = 'nonexistence-debt-cell is-unlocked';
+        cell.textContent = `[不可偿还存在破产庭] ${bObj.outcome}\n${bObj.feedback}`;
+      } else {
+        cell.className = 'nonexistence-debt-cell is-locked';
+        cell.textContent = '？？？';
+      }
+      grid.appendChild(cell);
+    });
+  }
+
+  function syncNonexistenceDebtRemembrance() {
+    const unlocked = nonexistenceDebtCollectionUnlocked();
+    const entryShell = $('#nonexistence-debt-codex-entry');
+    const entryBtn = $('#nonexistence-debt-entry-btn');
+    const courtBtn = $('#nonexistence-debt-court-entry-btn');
+
+    if (!unlocked) {
+      if (entryShell) entryShell.hidden = true;
+      if (entryBtn) entryBtn.hidden = true;
+      if (courtBtn) courtBtn.hidden = true;
+      return;
+    }
+
+    if (entryShell) {
+      entryShell.hidden = false;
+      entryShell.removeAttribute('hidden');
+    }
+
+    const st = getNonexistenceDebtClaims();
+    const isClean = !st.pending && !st.activeCollector && st.draft.debtor === '' && st.draft.instrument === '';
+
+    if (entryBtn) {
+      entryBtn.hidden = false;
+      entryBtn.removeAttribute('hidden');
+      entryBtn.disabled = !isClean;
+      const pressed = st.pending && st.pending.kind === 'entry';
+      entryBtn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+    }
+
+    if (courtBtn) {
+      const coverage = nonexistenceDebtCoverageComplete(st);
+      courtBtn.hidden = !coverage;
+      if (coverage) courtBtn.removeAttribute('hidden');
+      courtBtn.disabled = !isClean || !coverage;
+      const pressed = st.pending && st.pending.kind === 'bankruptcy-entry';
+      courtBtn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+    }
+  }
+
+  function syncNonexistenceDebtLinks() {
+    const unlocked = nonexistenceDebtCollectionUnlocked();
+    const links = [
+      { id: 'nonexistence-debt-collection-agency-link', key: 'agency' },
+      { id: 'absence-arrears-ledger-vault-link', key: 'ledger' },
+      { id: 'ontological-repossession-chamber-link', key: 'chamber' },
+      { id: 'unpayable-existence-bankruptcy-court-link', key: 'court' },
+    ];
+    const st = unlocked ? getNonexistenceDebtClaims() : null;
+
+    links.forEach(l => {
+      const el = $(`#${l.id}`);
+      if (el) {
+        const show = unlocked && st && st.visited[l.key] === true;
+        el.hidden = !show;
+        if (show) el.removeAttribute('hidden');
+      }
+    });
+  }
+
+  const nonexistenceDebtEntryBtn = $('#nonexistence-debt-entry-btn');
+  if (nonexistenceDebtEntryBtn) {
+    nonexistenceDebtEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseNonexistenceDebtEntry();
+    });
+  }
+
+  const nonexistenceDebtCourtEntryBtn = $('#nonexistence-debt-court-entry-btn');
+  if (nonexistenceDebtCourtEntryBtn) {
+    nonexistenceDebtCourtEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseNonexistenceCourtEntry();
+    });
+  }
+
+  const debtorCitizenBtn = $('#debtor-citizen-who-exists-only-as-nonexistence');
+  if (debtorCitizenBtn) {
+    debtorCitizenBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseNonexistenceDebtor('citizen-who-exists-only-as-nonexistence');
+    });
+  }
+
+  const debtorVisitorBtn = $('#debtor-visitor-erased-but-still-in-arrears');
+  if (debtorVisitorBtn) {
+    debtorVisitorBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseNonexistenceDebtor('visitor-erased-but-still-in-arrears');
+    });
+  }
+
+  const debtorWorldBtn = $('#debtor-world-that-disinherited-itself');
+  if (debtorWorldBtn) {
+    debtorWorldBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseNonexistenceDebtor('world-that-disinherited-itself');
+    });
+  }
+
+  const instrumentTaxBtn = $('#instrument-absence-tax-bill-addressed-to-a-blank-citizen');
+  if (instrumentTaxBtn) {
+    instrumentTaxBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseNonexistenceInstrument('absence-tax-bill-addressed-to-a-blank-citizen');
+    });
+  }
+
+  const instrumentMortgageBtn = $('#instrument-mortgage-on-space-never-occupied');
+  if (instrumentMortgageBtn) {
+    instrumentMortgageBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseNonexistenceInstrument('mortgage-on-space-never-occupied');
+    });
+  }
+
+  const instrumentBondBtn = $('#instrument-bond-backed-by-years-never-lived');
+  if (instrumentBondBtn) {
+    instrumentBondBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseNonexistenceInstrument('bond-backed-by-years-never-lived');
+    });
+  }
+
+  const remedyMemoryBtn = $('#remedy-garnish-every-memory-that-proves-existence');
+  if (remedyMemoryBtn) {
+    remedyMemoryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseNonexistenceRemedy('garnish-every-memory-that-proves-existence');
+    });
+  }
+
+  const remedyBodyBtn = $('#remedy-repossess-the-body-before-delivery');
+  if (remedyBodyBtn) {
+    remedyBodyBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseNonexistenceRemedy('repossess-the-body-before-delivery');
+    });
+  }
+
+  const remedyInterestBtn = $('#remedy-capitalize-nonexistence-into-eternal-interest');
+  if (remedyInterestBtn) {
+    remedyInterestBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseNonexistenceRemedy('capitalize-nonexistence-into-eternal-interest');
+    });
+  }
+
+  const remedyDeathBtn = $('#remedy-declare-death-an-insufficient-payment');
+  if (remedyDeathBtn) {
+    remedyDeathBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseNonexistenceRemedy('declare-death-an-insufficient-payment');
+    });
+  }
+
+  const collectorReturnCensusBtn = $('#nonexistence-debt-collector-return-posthumous-census-hall');
+  if (collectorReturnCensusBtn) {
+    collectorReturnCensusBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseNonexistenceCollectorReturn('posthumous-census-hall');
+    });
+  }
+
+  const collectorReturnRefundBtn = $('#nonexistence-debt-collector-return-reality-refund-counter');
+  if (collectorReturnRefundBtn) {
+    collectorReturnRefundBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseNonexistenceCollectorReturn('reality-refund-counter');
+    });
+  }
+
+  const collectorReturnBankBtn = $('#nonexistence-debt-collector-return-last-word-central-bank');
+  if (collectorReturnBankBtn) {
+    collectorReturnBankBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseNonexistenceCollectorReturn('last-word-central-bank');
+    });
+  }
+
+  const bankruptcyActionForgiveBtn = $('#bankruptcy-action-forgive-every-debt-before-existence');
+  if (bankruptcyActionForgiveBtn) {
+    bankruptcyActionForgiveBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseNonexistenceBankruptcyAction('forgive-every-debt-before-existence');
+    });
+  }
+
+  const bankruptcyActionSoleBtn = $('#bankruptcy-action-make-nonexistence-the-sole-creditor');
+  if (bankruptcyActionSoleBtn) {
+    bankruptcyActionSoleBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseNonexistenceBankruptcyAction('make-nonexistence-the-sole-creditor');
+    });
+  }
+
+  const bankruptcyActionForecloseBtn = $('#bankruptcy-action-foreclose-on-the-worlds-right-to-exist');
+  if (bankruptcyActionForecloseBtn) {
+    bankruptcyActionForecloseBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseNonexistenceBankruptcyAction('foreclose-on-the-worlds-right-to-exist');
+    });
+  }
+
+  /* ============================================================
+     v88: 未发生事件拍卖行 (Auction House for Events That Never Happened)
+     ============================================================ */
+
+  const UNHAPPENED_EVENT_AUCTION_KEY = 'goddead_v88_unhappened_event_auction';
+  const UNHAPPENED_EVENT_AUCTION_VERSION = 88;
+  const UNHAPPENED_BIDDERS = ['apology-never-spoken', 'war-that-never-erupted', 'child-never-born'];
+  const UNHAPPENED_LOTS = ['right-to-be-remembered-as-if-it-happened', 'territory-inside-an-undeclared-border', 'childhood-no-body-ever-lived'];
+  const UNHAPPENED_BID_METHODS = ['bid-with-memory-of-consequences', 'mortgage-the-future-that-would-have-followed', 'counterfeit-a-witness-who-remembers-it', 'outbid-reality-with-the-cost-of-never-happening'];
+  const UNHAPPENED_TITLE_ACTIONS = ['grant-every-unhappened-event-retroactive-occurrence', 'sell-reality-to-the-highest-absence', 'annul-the-distinction-between-event-and-memory'];
+
+  const UNHAPPENED_BIDDER_TABLE = {
+    'apology-never-spoken': { tallyKey: 'apology', title: '未言道歉', feedback: '它在舌尖以前就被撤回，却完整保存了羞耻、原谅和迟到的体温。它想买下一个曾经伤害过人的过去，好让自己终于有对象可以抵达。' },
+    'war-that-never-erupted': { tallyKey: 'war', title: '未爆战争', feedback: '所有军队都曾在地图边缘等待，所有讣告都预先留白。战争没有开始，因此保留了全部胜负，正以没有伤亡的代价竞拍边界。' },
+    'child-never-born': { tallyKey: 'child', title: '未生孩子', feedback: '没有名字、身体或生日，却继承了父母没有说完的未来。它只想买一小段已经有人活过的童年，证明自己并非纯粹的缺席。' },
+  };
+
+  const UNHAPPENED_LOT_TABLE = {
+    'right-to-be-remembered-as-if-it-happened': {
+      title: '如实发生权',
+      target: 'forgiveness-landfill',
+      auctioneer: 'unspoken-apology-auctioneer',
+      auctioneerTitle: '未言道歉拍卖员',
+      feedback: '一份没有内容的记忆产权。买家可以被所有人记得，却不必真的发生；宽恕填埋场负责证明，一句没有说出口的话也能留下等待被原谅的重量。',
+      auctioneerFeedback: '未言道歉拍卖员在宽恕填埋场敲响木槌。所有人都记得一句从未说出口的道歉，填埋场承认这份宽恕拥有合法的重量。',
+    },
+    'territory-inside-an-undeclared-border': {
+      title: '未宣边境领',
+      target: 'undeclared-war-room',
+      auctioneer: 'peace-without-war-broker',
+      auctioneerTitle: '无战和平经纪',
+      feedback: '边界两侧都声称这里属于一次没有爆发的战争。未宣战室保管着地图、撤军令和无人领取的胜利，唯独没有第一枪。',
+      auctioneerFeedback: '无战和平经纪在未宣战室签署交接文书。未爆发的战争买下了整条边境，撤军令被确认为永久有效的领土凭证。',
+    },
+    'childhood-no-body-ever-lived': {
+      title: '无人童年',
+      target: 'unlived-nursery',
+      auctioneer: 'unborn-heir-registrar',
+      auctioneerTitle: '未生继承登记员',
+      feedback: '一段完整却从未被身体占用的童年，含第一次哭泣、第一次撒谎和一场没有日期的高烧。未活育婴室将它作为带租约的空房出售。',
+      auctioneerFeedback: '未生继承登记员在未活育婴室登记产权。未出生的孩子终于搬进了这段无人住过的童年，摇篮里留下真实的体温。',
+    },
+  };
+
+  const UNHAPPENED_BID_METHOD_TABLE = {
+    'bid-with-memory-of-consequences': {
+      title: '后果忆',
+      fragment: '先记住事件发生后的后果，再用这段记忆证明事件值得发生。买家获得过去，旁观者承担一段没有原因的创伤。',
+    },
+    'mortgage-the-future-that-would-have-followed': {
+      title: '押未来',
+      fragment: '把事件发生后本来会出现的全部未来抵押出去。若竞拍失败，这些未来仍会到期，只是永远找不到属于自己的过去。',
+    },
+    'counterfeit-a-witness-who-remembers-it': {
+      title: '伪证人',
+      fragment: '制造一名真诚记得事件的人。证词没有说谎，证人没有作伪，唯一伪造的是世界曾经给过这段记忆一个来源。',
+    },
+    'outbid-reality-with-the-cost-of-never-happening': {
+      title: '未发价',
+      fragment: '将所有没有发生所避免的痛苦、幸福与责任一次性估价。现实第一次发现，自己可能买不起一件从未存在的事。',
+    },
+  };
+
+  const UNHAPPENED_TITLE_ACTION_TABLE = {
+    'grant-every-unhappened-event-retroactive-occurrence': {
+      outcome: 'every-unhappened-event-became-history',
+      target: 'threshold',
+      feedback: '产权庭把发生日期补写到一切空白之前。门槛外站满拥有真实过去的陌生人，我们再也无法证明他们昨天并不存在。',
+    },
+    'sell-reality-to-the-highest-absence': {
+      outcome: 'reality-belonged-to-what-never-occurred',
+      target: 'remembrance',
+      feedback: '最高出价不是金额，而是缺席持续的年数。痕迹室从此只租用自己的墙，每段记忆都要向没有发生的房东缴纳现实。',
+    },
+    'annul-the-distinction-between-event-and-memory': {
+      outcome: 'history-could-no-longer-prove-it-happened',
+      target: 'unending-gallery',
+      feedback: '发生与被记得被登记为同一种产权。无尽画廊里的每幅图都可能是证物，也可能只是买家入住以后伪造的窗。',
+    },
+  };
+
+  const UNHAPPENED_TITLE_OUTCOME_BY_ID = {};
+  const UNHAPPENED_TITLE_OUTCOME_IDS = UNHAPPENED_TITLE_ACTIONS.map(a => {
+    const out = UNHAPPENED_TITLE_ACTION_TABLE[a].outcome;
+    UNHAPPENED_TITLE_OUTCOME_BY_ID[out] = UNHAPPENED_TITLE_ACTION_TABLE[a];
+    return out;
+  });
+
+  const UNHAPPENED_PURCHASE_IDS = [];
+  for (let b = 0; b < UNHAPPENED_BIDDERS.length; b++) {
+    for (let l = 0; l < UNHAPPENED_LOTS.length; l++) {
+      for (let m = 0; m < UNHAPPENED_BID_METHODS.length; m++) {
+        UNHAPPENED_PURCHASE_IDS.push(`${UNHAPPENED_BIDDERS[b]}:${UNHAPPENED_LOTS[l]}:${UNHAPPENED_BID_METHODS[m]}`);
+      }
+    }
+  }
+
+  const UNHAPPENED_EVENT_ENTRY_FEEDBACK = '前往未发生事件拍卖行 · GO TO AUCTION HOUSE FOR EVENTS THAT NEVER HAPPENED';
+  const UNHAPPENED_EVENT_COURT_ENTRY_FEEDBACK = '进入追溯发生产权庭 · ENTER RETROACTIVE OCCURRENCE TITLE COURT';
+
+  function unhappenedAuctionDelay() {
+    return reduced ? 300 : 1600;
+  }
+
+  function defaultUnhappenedAuctionClaims() {
+    return {
+      version: UNHAPPENED_EVENT_AUCTION_VERSION,
+      visited: { house: false, catalogue: false, floor: false, court: false },
+      draft: { bidder: '', lot: '' },
+      purchases: [],
+      titleOutcomes: [],
+      auctionRuns: 0,
+      titleRuns: 0,
+      bidderTallies: { apology: 0, war: 0, child: 0 },
+      lastOutcome: '',
+      activeAuctioneer: null,
+      pending: null,
+    };
+  }
+
+  function normalizeAuctionVisited(v) {
+    if (!v || typeof v !== 'object' || Array.isArray(v)) {
+      return { house: false, catalogue: false, floor: false, court: false };
+    }
+    return {
+      house: v.house === true,
+      catalogue: v.catalogue === true,
+      floor: v.floor === true,
+      court: v.court === true,
+    };
+  }
+
+  function normalizeAuctionDraft(d) {
+    if (!d || typeof d !== 'object' || Array.isArray(d)) {
+      return { bidder: '', lot: '' };
+    }
+    const bidder = typeof d.bidder === 'string' && UNHAPPENED_BIDDERS.includes(d.bidder) ? d.bidder : '';
+    if (!bidder) {
+      return { bidder: '', lot: '' };
+    }
+    const lot = typeof d.lot === 'string' && UNHAPPENED_LOTS.includes(d.lot) ? d.lot : '';
+    return { bidder, lot };
+  }
+
+  function normalizeAuctionPurchases(arr) {
+    if (!Array.isArray(arr)) return [];
+    const set = new Set();
+    for (let i = 0; i < arr.length; i++) {
+      if (typeof arr[i] === 'string' && UNHAPPENED_PURCHASE_IDS.includes(arr[i])) {
+        set.add(arr[i]);
+      }
+    }
+    return UNHAPPENED_PURCHASE_IDS.filter(id => set.has(id));
+  }
+
+  function normalizeAuctionTitleOutcomes(arr) {
+    if (!Array.isArray(arr)) return [];
+    const set = new Set();
+    for (let i = 0; i < arr.length; i++) {
+      if (typeof arr[i] === 'string' && UNHAPPENED_TITLE_OUTCOME_IDS.includes(arr[i])) {
+        set.add(arr[i]);
+      }
+    }
+    return UNHAPPENED_TITLE_OUTCOME_IDS.filter(id => set.has(id));
+  }
+
+  function clampAuctionCount(n) {
+    const num = Math.floor(Number(n) || 0);
+    if (num < 0) return 0;
+    if (num > 9999) return 9999;
+    return num;
+  }
+
+  function normalizeAuctionTallies(t) {
+    if (!t || typeof t !== 'object' || Array.isArray(t)) {
+      return { apology: 0, war: 0, child: 0 };
+    }
+    return {
+      apology: clampAuctionCount(t.apology),
+      war: clampAuctionCount(t.war),
+      child: clampAuctionCount(t.child),
+    };
+  }
+
+  function normalizeAuctionActiveAuctioneer(h, purchases) {
+    if (!h || typeof h !== 'object' || Array.isArray(h)) return null;
+    const keys = Object.keys(h).sort();
+    if (keys.length !== 3 || keys[0] !== 'feedback' || keys[1] !== 'lot' || keys[2] !== 'purchase') {
+      return null;
+    }
+    const lot = h.lot;
+    const pur = h.purchase;
+    if (!UNHAPPENED_LOTS.includes(lot) || typeof pur !== 'string') {
+      return null;
+    }
+    const lotTable = UNHAPPENED_LOT_TABLE[lot];
+    if (!lotTable || h.feedback !== lotTable.auctioneerFeedback) {
+      return null;
+    }
+    const canonicalPurchases = Array.isArray(purchases) ? purchases : [];
+    if (!canonicalPurchases.includes(pur)) return null;
+    const parts = pur.split(':');
+    if (parts.length !== 3 || parts[1] !== lot) return null;
+    return {
+      feedback: lotTable.auctioneerFeedback,
+      lot,
+      purchase: pur,
+    };
+  }
+
+  function computeUnhappenedPurchaseTitle(bidder, lot, method) {
+    const bObj = UNHAPPENED_BIDDER_TABLE[bidder];
+    const lObj = UNHAPPENED_LOT_TABLE[lot];
+    const mObj = UNHAPPENED_BID_METHOD_TABLE[method];
+    if (!bObj || !lObj || !mObj) return '';
+    return `${bObj.title} × ${lObj.title} × ${mObj.title}`;
+  }
+
+  function computeUnhappenedPurchaseFeedback(bidder, lot, method) {
+    const bObj = UNHAPPENED_BIDDER_TABLE[bidder];
+    const lObj = UNHAPPENED_LOT_TABLE[lot];
+    const mObj = UNHAPPENED_BID_METHOD_TABLE[method];
+    if (!bObj || !lObj || !mObj) return '';
+    return `${bObj.feedback} ${lObj.feedback} ${mObj.fragment}`;
+  }
+
+  function findUnhappenedPurchaseById(id) {
+    if (typeof id !== 'string' || !UNHAPPENED_PURCHASE_IDS.includes(id)) return null;
+    const parts = id.split(':');
+    if (parts.length !== 3) return null;
+    const [bidder, lot, method] = parts;
+    return {
+      id,
+      bidder,
+      lot,
+      method,
+      title: computeUnhappenedPurchaseTitle(bidder, lot, method),
+      feedback: computeUnhappenedPurchaseFeedback(bidder, lot, method),
+    };
+  }
+
+  function unhappenedEventAuctionUnlocked() {
+    if (typeof nonexistenceDebtCollectionUnlocked !== 'function' || !nonexistenceDebtCollectionUnlocked()) {
+      return false;
+    }
+    if (typeof getNonexistenceDebtClaims !== 'function') return false;
+    const dState = getNonexistenceDebtClaims();
+    if (!dState || typeof dState !== 'object') return false;
+    const collections = Array.isArray(dState.collections) ? dState.collections : [];
+    if (collections.length < 4) return false;
+
+    const dReq = new Set(['citizen-who-exists-only-as-nonexistence', 'visitor-erased-but-still-in-arrears', 'world-that-disinherited-itself']);
+    const iReq = new Set(['absence-tax-bill-addressed-to-a-blank-citizen', 'mortgage-on-space-never-occupied', 'bond-backed-by-years-never-lived']);
+    const rReq = new Set(['garnish-every-memory-that-proves-existence', 'repossess-the-body-before-delivery', 'capitalize-nonexistence-into-eternal-interest', 'declare-death-an-insufficient-payment']);
+
+    const dSeen = new Set();
+    const iSeen = new Set();
+    const rSeen = new Set();
+    for (let idx = 0; idx < collections.length; idx++) {
+      const b = collections[idx];
+      if (typeof b === 'string') {
+        const parts = b.split(':');
+        if (parts.length === 3) {
+          if (dReq.has(parts[0])) dSeen.add(parts[0]);
+          if (iReq.has(parts[1])) iSeen.add(parts[1]);
+          if (rReq.has(parts[2])) rSeen.add(parts[2]);
+        }
+      }
+    }
+
+    if (dSeen.size < 3 || iSeen.size < 3 || rSeen.size < 4) return false;
+
+    const bOutcomes = Array.isArray(dState.bankruptcyOutcomes) ? dState.bankruptcyOutcomes : [];
+    const requiredBankruptcies = [
+      'every-debt-was-forgiven-before-anyone-existed',
+      'nonexistence-became-the-only-creditor',
+      'the-world-was-foreclosed-for-nonpayment',
+    ];
+    for (let j = 0; j < requiredBankruptcies.length; j++) {
+      if (!bOutcomes.includes(requiredBankruptcies[j])) return false;
+    }
+    return true;
+  }
+
+  function unhappenedAuctionCoverageComplete(st) {
+    if (!st || typeof st !== 'object') return false;
+    const purchases = normalizeAuctionPurchases(st.purchases);
+    if (purchases.length < 4) return false;
+    const bSet = new Set();
+    const lSet = new Set();
+    const mSet = new Set();
+    for (let idx = 0; idx < purchases.length; idx++) {
+      const parts = purchases[idx].split(':');
+      if (parts.length === 3) {
+        bSet.add(parts[0]);
+        lSet.add(parts[1]);
+        mSet.add(parts[2]);
+      }
+    }
+    return bSet.size === UNHAPPENED_BIDDERS.length &&
+           lSet.size === UNHAPPENED_LOTS.length &&
+           mSet.size === UNHAPPENED_BID_METHODS.length;
+  }
+
+  function normalizeAuctionPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p)) return null;
+    if (!st || st._v88unlocked !== true) return null;
+    const kind = p.kind;
+    if (typeof kind !== 'string') return null;
+    const keys = Object.keys(p).sort();
+
+    if (kind === 'entry') {
+      if (keys.length !== 3 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'target') return null;
+      if (p.target !== 'auction-house-for-events-that-never-happened') return null;
+      if (p.feedback !== UNHAPPENED_EVENT_ENTRY_FEEDBACK) return null;
+      if (st.draft.bidder !== '' || st.draft.lot !== '' || st.activeAuctioneer !== null) return null;
+      return { feedback: p.feedback, kind: 'entry', target: 'auction-house-for-events-that-never-happened' };
+    }
+
+    if (kind === 'bidder') {
+      if (keys.length !== 5 || keys[0] !== 'bidder' || keys[1] !== 'feedback' || keys[2] !== 'kind' || keys[3] !== 'source' || keys[4] !== 'target') return null;
+      if (p.source !== 'auction-house-for-events-that-never-happened' || p.target !== 'catalogue-of-unoccupied-reality') return null;
+      if (!UNHAPPENED_BIDDERS.includes(p.bidder)) return null;
+      if (p.feedback !== UNHAPPENED_BIDDER_TABLE[p.bidder].feedback) return null;
+      if (st.draft.bidder !== '' || st.draft.lot !== '' || st.activeAuctioneer !== null) return null;
+      return { bidder: p.bidder, feedback: p.feedback, kind: 'bidder', source: 'auction-house-for-events-that-never-happened', target: 'catalogue-of-unoccupied-reality' };
+    }
+
+    if (kind === 'lot') {
+      if (keys.length !== 6 || keys[0] !== 'bidder' || keys[1] !== 'feedback' || keys[2] !== 'kind' || keys[3] !== 'lot' || keys[4] !== 'source' || keys[5] !== 'target') return null;
+      if (p.source !== 'catalogue-of-unoccupied-reality' || p.target !== 'counterfactual-bidding-floor') return null;
+      if (!UNHAPPENED_BIDDERS.includes(p.bidder) || !UNHAPPENED_LOTS.includes(p.lot)) return null;
+      if (st.draft.bidder !== p.bidder || st.draft.lot !== '') return null;
+      if (p.feedback !== UNHAPPENED_LOT_TABLE[p.lot].feedback) return null;
+      if (st.activeAuctioneer !== null) return null;
+      return { bidder: p.bidder, feedback: p.feedback, kind: 'lot', lot: p.lot, source: 'catalogue-of-unoccupied-reality', target: 'counterfactual-bidding-floor' };
+    }
+
+    if (kind === 'purchase') {
+      if (keys.length !== 8 || keys[0] !== 'bidder' || keys[1] !== 'feedback' || keys[2] !== 'kind' || keys[3] !== 'lot' || keys[4] !== 'method' || keys[5] !== 'purchase' || keys[6] !== 'source' || keys[7] !== 'target') return null;
+      if (p.source !== 'counterfactual-bidding-floor') return null;
+      if (!UNHAPPENED_BIDDERS.includes(p.bidder) || !UNHAPPENED_LOTS.includes(p.lot) || !UNHAPPENED_BID_METHODS.includes(p.method)) return null;
+      if (st.draft.bidder !== p.bidder || st.draft.lot !== p.lot) return null;
+      const expectedPurchase = `${p.bidder}:${p.lot}:${p.method}`;
+      if (p.purchase !== expectedPurchase) return null;
+      const lObj = UNHAPPENED_LOT_TABLE[p.lot];
+      if (!lObj || p.target !== lObj.target) return null;
+      const expectedFb = computeUnhappenedPurchaseFeedback(p.bidder, p.lot, p.method);
+      if (p.feedback !== expectedFb) return null;
+      if (st.activeAuctioneer !== null) return null;
+      return {
+        bidder: p.bidder,
+        feedback: p.feedback,
+        kind: 'purchase',
+        lot: p.lot,
+        method: p.method,
+        purchase: p.purchase,
+        source: 'counterfactual-bidding-floor',
+        target: p.target,
+      };
+    }
+
+    if (kind === 'auctioneer-return') {
+      if (keys.length !== 5 || keys[0] !== 'feedback' || keys[1] !== 'from' || keys[2] !== 'kind' || keys[3] !== 'purchase' || keys[4] !== 'target') return null;
+      if (p.target !== 'auction-house-for-events-that-never-happened') return null;
+      if (!st.activeAuctioneer) return null;
+      const lObj = UNHAPPENED_LOT_TABLE[st.activeAuctioneer.lot];
+      if (!lObj || p.from !== lObj.target) return null;
+      if (typeof p.purchase !== 'string' || !st.purchases.includes(p.purchase)) return null;
+      const parts = p.purchase.split(':');
+      if (parts.length !== 3 || parts[1] !== st.activeAuctioneer.lot) return null;
+      if (p.feedback !== lObj.auctioneerFeedback) return null;
+      return { feedback: p.feedback, from: p.from, kind: 'auctioneer-return', purchase: p.purchase, target: 'auction-house-for-events-that-never-happened' };
+    }
+
+    if (kind === 'title-entry') {
+      if (keys.length !== 3 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'target') return null;
+      if (p.target !== 'retroactive-occurrence-title-court') return null;
+      if (p.feedback !== UNHAPPENED_EVENT_COURT_ENTRY_FEEDBACK) return null;
+      if (!unhappenedAuctionCoverageComplete(st)) return null;
+      if (st.draft.bidder !== '' || st.draft.lot !== '' || st.activeAuctioneer !== null) return null;
+      return { feedback: p.feedback, kind: 'title-entry', target: 'retroactive-occurrence-title-court' };
+    }
+
+    if (kind === 'title-action') {
+      if (keys.length !== 6 || keys[0] !== 'action' || keys[1] !== 'feedback' || keys[2] !== 'kind' || keys[3] !== 'outcome' || keys[4] !== 'source' || keys[5] !== 'target') return null;
+      if (p.source !== 'retroactive-occurrence-title-court') return null;
+      if (!UNHAPPENED_TITLE_ACTIONS.includes(p.action)) return null;
+      const tObj = UNHAPPENED_TITLE_ACTION_TABLE[p.action];
+      if (!tObj || p.outcome !== tObj.outcome || p.target !== tObj.target || p.feedback !== tObj.feedback) return null;
+      if (!unhappenedAuctionCoverageComplete(st)) return null;
+      if (st.visited.court !== true) return null;
+      if (st.draft.bidder !== '' || st.draft.lot !== '' || st.activeAuctioneer !== null) return null;
+      return { action: p.action, feedback: p.feedback, kind: 'title-action', outcome: p.outcome, source: 'retroactive-occurrence-title-court', target: p.target };
+    }
+
+    return null;
+  }
+
+  function getUnhappenedEventAuctionClaims() {
+    const unlocked = unhappenedEventAuctionUnlocked();
+    if (!unlocked) return defaultUnhappenedAuctionClaims();
+    let raw;
+    try {
+      const str = store.get(UNHAPPENED_EVENT_AUCTION_KEY, '{}');
+      raw = typeof str === 'string' ? JSON.parse(str) : str;
+    } catch (e) {
+      return defaultUnhappenedAuctionClaims();
+    }
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+      return defaultUnhappenedAuctionClaims();
+    }
+    if (raw.version !== UNHAPPENED_EVENT_AUCTION_VERSION) {
+      return defaultUnhappenedAuctionClaims();
+    }
+
+    const visited = normalizeAuctionVisited(raw.visited);
+    const draft = normalizeAuctionDraft(raw.draft);
+    const purchases = normalizeAuctionPurchases(raw.purchases);
+    const titleOutcomes = normalizeAuctionTitleOutcomes(raw.titleOutcomes);
+    const auctionRuns = clampAuctionCount(raw.auctionRuns);
+    const titleRuns = clampAuctionCount(raw.titleRuns);
+    const bidderTallies = normalizeAuctionTallies(raw.bidderTallies);
+    const activeAuctioneer = normalizeAuctionActiveAuctioneer(raw.activeAuctioneer, purchases);
+
+    let lastOutcome = '';
+    if (typeof raw.lastOutcome === 'string') {
+      if (purchases.includes(raw.lastOutcome) || titleOutcomes.includes(raw.lastOutcome)) {
+        lastOutcome = raw.lastOutcome;
+      }
+    }
+
+    const preSt = {
+      version: UNHAPPENED_EVENT_AUCTION_VERSION,
+      visited,
+      draft,
+      purchases,
+      titleOutcomes,
+      auctionRuns,
+      titleRuns,
+      bidderTallies,
+      lastOutcome,
+      activeAuctioneer,
+      pending: null,
+      _v88unlocked: true,
+    };
+    const pending = normalizeAuctionPending(raw.pending, preSt);
+
+    return {
+      version: UNHAPPENED_EVENT_AUCTION_VERSION,
+      visited,
+      draft,
+      purchases,
+      titleOutcomes,
+      auctionRuns,
+      titleRuns,
+      bidderTallies,
+      lastOutcome,
+      activeAuctioneer,
+      pending,
+    };
+  }
+
+  function saveUnhappenedEventAuctionClaims(st) {
+    const unlocked = unhappenedEventAuctionUnlocked();
+    if (!unlocked) return defaultUnhappenedAuctionClaims();
+    if (!st || typeof st !== 'object' || Array.isArray(st)) {
+      const d = defaultUnhappenedAuctionClaims();
+      store.set(UNHAPPENED_EVENT_AUCTION_KEY, JSON.stringify(d));
+      return d;
+    }
+
+    const visited = normalizeAuctionVisited(st.visited);
+    const draft = normalizeAuctionDraft(st.draft);
+    const purchases = normalizeAuctionPurchases(st.purchases);
+    const titleOutcomes = normalizeAuctionTitleOutcomes(st.titleOutcomes);
+    const auctionRuns = clampAuctionCount(st.auctionRuns);
+    const titleRuns = clampAuctionCount(st.titleRuns);
+    const bidderTallies = normalizeAuctionTallies(st.bidderTallies);
+    const activeAuctioneer = normalizeAuctionActiveAuctioneer(st.activeAuctioneer, purchases);
+
+    let lastOutcome = '';
+    if (typeof st.lastOutcome === 'string') {
+      if (purchases.includes(st.lastOutcome) || titleOutcomes.includes(st.lastOutcome)) {
+        lastOutcome = st.lastOutcome;
+      }
+    }
+
+    const preSt = {
+      version: UNHAPPENED_EVENT_AUCTION_VERSION,
+      visited,
+      draft,
+      purchases,
+      titleOutcomes,
+      auctionRuns,
+      titleRuns,
+      bidderTallies,
+      lastOutcome,
+      activeAuctioneer,
+      pending: null,
+      _v88unlocked: true,
+    };
+    const pending = normalizeAuctionPending(st.pending, preSt);
+
+    const canonical = {
+      version: UNHAPPENED_EVENT_AUCTION_VERSION,
+      visited,
+      draft,
+      purchases,
+      titleOutcomes,
+      auctionRuns,
+      titleRuns,
+      bidderTallies,
+      lastOutcome,
+      activeAuctioneer,
+      pending,
+    };
+    store.set(UNHAPPENED_EVENT_AUCTION_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function getUnhappenedPendingLogicalSource(p) {
+    if (!p || !p.kind) return '';
+    if (p.kind === 'entry' || p.kind === 'title-entry') return 'remembrance';
+    if (p.kind === 'auctioneer-return') return p.from;
+    return p.source || '';
+  }
+
+  function resolveUnhappenedAuctionPendingOnArrival(sceneName) {
+    const st = getUnhappenedEventAuctionClaims();
+    if (!st || !st.pending) return st;
+    const p = st.pending;
+
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.house = true;
+      } else if (p.kind === 'bidder') {
+        st.visited.catalogue = true;
+        st.draft = { bidder: p.bidder, lot: '' };
+      } else if (p.kind === 'lot') {
+        st.visited.floor = true;
+        st.draft.lot = p.lot;
+      } else if (p.kind === 'purchase') {
+        st.auctionRuns = clampAuctionCount(st.auctionRuns + 1);
+        const bObj = UNHAPPENED_BIDDER_TABLE[p.bidder];
+        if (bObj && bObj.tallyKey) {
+          st.bidderTallies[bObj.tallyKey] = clampAuctionCount(st.bidderTallies[bObj.tallyKey] + 1);
+        }
+        if (!st.purchases.includes(p.purchase)) {
+          st.purchases = normalizeAuctionPurchases(st.purchases.concat(p.purchase));
+        }
+        st.lastOutcome = p.purchase;
+        const lObj = UNHAPPENED_LOT_TABLE[p.lot];
+        st.activeAuctioneer = {
+          feedback: lObj ? lObj.auctioneerFeedback : '',
+          lot: p.lot,
+          purchase: p.purchase,
+        };
+        st.draft = { bidder: '', lot: '' };
+      } else if (p.kind === 'auctioneer-return') {
+        st.activeAuctioneer = null;
+        st.draft = { bidder: '', lot: '' };
+        st.visited.house = true;
+      } else if (p.kind === 'title-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'title-action') {
+        st.titleRuns = clampAuctionCount(st.titleRuns + 1);
+        if (!st.titleOutcomes.includes(p.outcome)) {
+          st.titleOutcomes = normalizeAuctionTitleOutcomes(st.titleOutcomes.concat(p.outcome));
+        }
+        st.lastOutcome = p.outcome;
+      }
+      return saveUnhappenedEventAuctionClaims(st);
+    }
+
+    const logicalSource = getUnhappenedPendingLogicalSource(p);
+    if (sceneName === logicalSource) {
+      return st;
+    }
+
+    st.pending = null;
+    return saveUnhappenedEventAuctionClaims(st);
+  }
+
+  function replayUnhappenedAuctionPending(sceneName) {
+    const st = getUnhappenedEventAuctionClaims();
+    if (!st.pending) {
+      syncAuctionHouseForEventsThatNeverHappened();
+      syncCatalogueOfUnoccupiedReality();
+      syncCounterfactualBiddingFloor();
+      syncRetroactiveOccurrenceTitleCourt();
+      syncUnhappenedAuctioneers();
+      return;
+    }
+    const p = st.pending;
+    if (p.target === sceneName) {
+      resolveUnhappenedAuctionPendingOnArrival(sceneName);
+      syncAuctionHouseForEventsThatNeverHappened();
+      syncCatalogueOfUnoccupiedReality();
+      syncCounterfactualBiddingFloor();
+      syncRetroactiveOccurrenceTitleCourt();
+      syncUnhappenedAuctioneers();
+      return;
+    }
+
+    const logicalSource = getUnhappenedPendingLogicalSource(p);
+    if (sceneName === logicalSource) {
+      syncAuctionHouseForEventsThatNeverHappened();
+      syncCatalogueOfUnoccupiedReality();
+      syncCounterfactualBiddingFloor();
+      syncRetroactiveOccurrenceTitleCourt();
+      syncUnhappenedAuctioneers();
+      AutoAdvance.schedule(sceneName, p.target, { delay: unhappenedAuctionDelay() });
+      return;
+    }
+
+    st.pending = null;
+    saveUnhappenedEventAuctionClaims(st);
+    syncAuctionHouseForEventsThatNeverHappened();
+    syncCatalogueOfUnoccupiedReality();
+    syncCounterfactualBiddingFloor();
+    syncRetroactiveOccurrenceTitleCourt();
+    syncUnhappenedAuctioneers();
+  }
+
+  function chooseUnhappenedAuctionEntry() {
+    if (typeof currentScene !== 'string' || currentScene !== 'remembrance') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('remembrance')) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable('unhappened-event-entry-btn')) return;
+    if (!unhappenedEventAuctionUnlocked()) return;
+    const st = getUnhappenedEventAuctionClaims();
+    if (st.pending || st.activeAuctioneer || st.draft.bidder !== '' || st.draft.lot !== '') return;
+
+    st.pending = {
+      feedback: UNHAPPENED_EVENT_ENTRY_FEEDBACK,
+      kind: 'entry',
+      target: 'auction-house-for-events-that-never-happened',
+    };
+    saveUnhappenedEventAuctionClaims(st);
+
+    const resp = $('#unhappened-event-entry-response');
+    if (resp) {
+      resp.textContent = UNHAPPENED_EVENT_ENTRY_FEEDBACK;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $('#unhappened-event-entry-btn');
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('remembrance', 'auction-house-for-events-that-never-happened', { delay: unhappenedAuctionDelay() });
+  }
+
+  function chooseUnhappenedBidder(bidder) {
+    if (typeof currentScene !== 'string' || currentScene !== 'auction-house-for-events-that-never-happened') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('auction-house-for-events-that-never-happened')) return;
+    if (!UNHAPPENED_BIDDERS.includes(bidder)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`bidder-${bidder}`)) return;
+    if (!unhappenedEventAuctionUnlocked()) return;
+    const st = getUnhappenedEventAuctionClaims();
+    if (st.pending || st.activeAuctioneer || st.draft.bidder !== '' || st.draft.lot !== '') return;
+
+    const bObj = UNHAPPENED_BIDDER_TABLE[bidder];
+    st.pending = {
+      bidder,
+      feedback: bObj.feedback,
+      kind: 'bidder',
+      source: 'auction-house-for-events-that-never-happened',
+      target: 'catalogue-of-unoccupied-reality',
+    };
+    saveUnhappenedEventAuctionClaims(st);
+
+    const resp = $('#auction-house-for-events-that-never-happened-response');
+    if (resp) {
+      resp.textContent = bObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#bidder-${bidder}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('auction-house-for-events-that-never-happened', 'catalogue-of-unoccupied-reality', { delay: unhappenedAuctionDelay() });
+  }
+
+  function chooseUnhappenedLot(lot) {
+    if (typeof currentScene !== 'string' || currentScene !== 'catalogue-of-unoccupied-reality') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('catalogue-of-unoccupied-reality')) return;
+    if (!UNHAPPENED_LOTS.includes(lot)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`lot-${lot}`)) return;
+    if (!unhappenedEventAuctionUnlocked()) return;
+    const st = getUnhappenedEventAuctionClaims();
+    if (st.pending || st.activeAuctioneer || !st.draft.bidder || st.draft.lot !== '') return;
+
+    const lObj = UNHAPPENED_LOT_TABLE[lot];
+    st.pending = {
+      bidder: st.draft.bidder,
+      feedback: lObj.feedback,
+      kind: 'lot',
+      lot,
+      source: 'catalogue-of-unoccupied-reality',
+      target: 'counterfactual-bidding-floor',
+    };
+    saveUnhappenedEventAuctionClaims(st);
+
+    const resp = $('#catalogue-of-unoccupied-reality-response');
+    if (resp) {
+      resp.textContent = lObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#lot-${lot}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('catalogue-of-unoccupied-reality', 'counterfactual-bidding-floor', { delay: unhappenedAuctionDelay() });
+  }
+
+  function chooseUnhappenedBidMethod(method) {
+    if (typeof currentScene !== 'string' || currentScene !== 'counterfactual-bidding-floor') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('counterfactual-bidding-floor')) return;
+    if (!UNHAPPENED_BID_METHODS.includes(method)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`bid-method-${method}`)) return;
+    if (!unhappenedEventAuctionUnlocked()) return;
+    const st = getUnhappenedEventAuctionClaims();
+    if (st.pending || st.activeAuctioneer || !st.draft.bidder || !st.draft.lot) return;
+
+    const lObj = UNHAPPENED_LOT_TABLE[st.draft.lot];
+    const purchase = `${st.draft.bidder}:${st.draft.lot}:${method}`;
+    const feedback = computeUnhappenedPurchaseFeedback(st.draft.bidder, st.draft.lot, method);
+
+    st.pending = {
+      bidder: st.draft.bidder,
+      feedback,
+      kind: 'purchase',
+      lot: st.draft.lot,
+      method,
+      purchase,
+      source: 'counterfactual-bidding-floor',
+      target: lObj.target,
+    };
+    saveUnhappenedEventAuctionClaims(st);
+
+    const resp = $('#counterfactual-bidding-floor-response');
+    if (resp) {
+      resp.textContent = feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#bid-method-${method}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('counterfactual-bidding-floor', lObj.target, { delay: unhappenedAuctionDelay() });
+  }
+
+  function chooseUnhappenedAuctioneerReturn(scene) {
+    if (typeof currentScene !== 'string' || currentScene !== scene) return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has(scene)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`unhappened-auctioneer-return-${scene}`)) return;
+    if (!unhappenedEventAuctionUnlocked()) return;
+    const st = getUnhappenedEventAuctionClaims();
+    if (st.pending || !st.activeAuctioneer) return;
+    const lObj = UNHAPPENED_LOT_TABLE[st.activeAuctioneer.lot];
+    if (!lObj || lObj.target !== scene) return;
+
+    const matchingPurchase = st.purchases.find(p => {
+      const parts = p.split(':');
+      return parts.length === 3 && parts[1] === st.activeAuctioneer.lot;
+    });
+    if (!matchingPurchase) return;
+
+    st.pending = {
+      feedback: lObj.auctioneerFeedback,
+      from: scene,
+      kind: 'auctioneer-return',
+      purchase: matchingPurchase,
+      target: 'auction-house-for-events-that-never-happened',
+    };
+    saveUnhappenedEventAuctionClaims(st);
+
+    const resp = $(`#unhappened-auctioneer-response-${scene}`);
+    if (resp) {
+      resp.textContent = lObj.auctioneerFeedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#unhappened-auctioneer-return-${scene}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule(scene, 'auction-house-for-events-that-never-happened', { delay: unhappenedAuctionDelay() });
+  }
+
+  function chooseUnhappenedCourtEntry() {
+    if (typeof currentScene !== 'string' || currentScene !== 'remembrance') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('remembrance')) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable('unhappened-event-court-entry-btn')) return;
+    if (!unhappenedEventAuctionUnlocked()) return;
+    const st = getUnhappenedEventAuctionClaims();
+    if (st.pending || st.activeAuctioneer || st.draft.bidder !== '' || st.draft.lot !== '' || !unhappenedAuctionCoverageComplete(st)) return;
+
+    st.pending = {
+      feedback: UNHAPPENED_EVENT_COURT_ENTRY_FEEDBACK,
+      kind: 'title-entry',
+      target: 'retroactive-occurrence-title-court',
+    };
+    saveUnhappenedEventAuctionClaims(st);
+
+    const resp = $('#unhappened-event-court-entry-response');
+    if (resp) {
+      resp.textContent = UNHAPPENED_EVENT_COURT_ENTRY_FEEDBACK;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $('#unhappened-event-court-entry-btn');
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('remembrance', 'retroactive-occurrence-title-court', { delay: unhappenedAuctionDelay() });
+  }
+
+  function chooseUnhappenedTitleAction(action) {
+    if (typeof currentScene !== 'string' || currentScene !== 'retroactive-occurrence-title-court') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('retroactive-occurrence-title-court')) return;
+    if (!UNHAPPENED_TITLE_ACTIONS.includes(action)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`title-action-${action}`)) return;
+    if (!unhappenedEventAuctionUnlocked()) return;
+    const st = getUnhappenedEventAuctionClaims();
+    if (st.pending || st.activeAuctioneer || st.draft.bidder !== '' || st.draft.lot !== '' || !unhappenedAuctionCoverageComplete(st) || !st.visited.court) return;
+
+    const tObj = UNHAPPENED_TITLE_ACTION_TABLE[action];
+    st.pending = {
+      action,
+      feedback: tObj.feedback,
+      kind: 'title-action',
+      outcome: tObj.outcome,
+      source: 'retroactive-occurrence-title-court',
+      target: tObj.target,
+    };
+    saveUnhappenedEventAuctionClaims(st);
+
+    const resp = $('#retroactive-occurrence-title-court-response');
+    if (resp) {
+      resp.textContent = tObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#title-action-${action}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('retroactive-occurrence-title-court', tObj.target, { delay: unhappenedAuctionDelay() });
+  }
+
+  function unhappenedEventAuctionBridgeAllows(targetScene) {
+    if (!unhappenedEventAuctionUnlocked()) return false;
+    const st = getUnhappenedEventAuctionClaims();
+    if (st.pending) {
+      if (st.pending.kind === 'purchase' && st.pending.target === targetScene) return true;
+      if (st.pending.kind === 'title-action' && st.pending.target === targetScene) return true;
+    }
+    if (st.activeAuctioneer) {
+      const lObj = UNHAPPENED_LOT_TABLE[st.activeAuctioneer.lot];
+      if (lObj && lObj.target === targetScene) return true;
+    }
+    if (st.lastOutcome && st.titleOutcomes.includes(st.lastOutcome)) {
+      const courtEntry = UNHAPPENED_TITLE_OUTCOME_BY_ID[st.lastOutcome];
+      if (courtEntry && courtEntry.target === targetScene) return true;
+    }
+    return false;
+  }
+
+  function auctionHouseForEventsThatNeverHappenedCanVisit() {
+    if (!unhappenedEventAuctionUnlocked()) return false;
+    const st = getUnhappenedEventAuctionClaims();
+    if (st.visited.house) return true;
+    if (st.pending && (st.pending.kind === 'entry' || st.pending.kind === 'auctioneer-return') && st.pending.target === 'auction-house-for-events-that-never-happened') {
+      return true;
+    }
+    return false;
+  }
+
+  function catalogueOfUnoccupiedRealityCanVisit() {
+    if (!unhappenedEventAuctionUnlocked()) return false;
+    const st = getUnhappenedEventAuctionClaims();
+    if (st.visited.catalogue && st.draft.bidder) return true;
+    if (st.pending && st.pending.kind === 'bidder' && st.pending.target === 'catalogue-of-unoccupied-reality') {
+      return true;
+    }
+    return false;
+  }
+
+  function counterfactualBiddingFloorCanVisit() {
+    if (!unhappenedEventAuctionUnlocked()) return false;
+    const st = getUnhappenedEventAuctionClaims();
+    if (st.visited.floor && st.draft.bidder && st.draft.lot) return true;
+    if (st.pending && st.pending.kind === 'lot' && st.pending.target === 'counterfactual-bidding-floor') {
+      return true;
+    }
+    return false;
+  }
+
+  function retroactiveOccurrenceTitleCourtCanVisit() {
+    if (!unhappenedEventAuctionUnlocked()) return false;
+    const st = getUnhappenedEventAuctionClaims();
+    const complete = unhappenedAuctionCoverageComplete(st);
+    if (st.visited.court && complete) return true;
+    if (st.pending && st.pending.kind === 'title-entry' && st.pending.target === 'retroactive-occurrence-title-court') {
+      return true;
+    }
+    return false;
+  }
+
+  function syncAuctionHouseForEventsThatNeverHappened() {
+    const fig = $('#auction-house-for-events-that-never-happened-figure');
+    const canVisit = auctionHouseForEventsThatNeverHappenedCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getUnhappenedEventAuctionClaims();
+
+    UNHAPPENED_BIDDERS.forEach(b => {
+      const btn = $(`#bidder-${b}`);
+      if (btn) {
+        btn.disabled = !canVisit || Boolean(st.pending);
+        const pressed = st.pending && st.pending.kind === 'bidder' && st.pending.bidder === b;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#auction-house-for-events-that-never-happened-response');
+    if (resp && !st.pending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    paintUnhappenedAuctionMemory();
+    paintUnhappenedAuctionCodex();
+    syncUnhappenedAuctionLinks();
+  }
+
+  function syncCatalogueOfUnoccupiedReality() {
+    const fig = $('#catalogue-of-unoccupied-reality-figure');
+    const canVisit = catalogueOfUnoccupiedRealityCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getUnhappenedEventAuctionClaims();
+
+    UNHAPPENED_LOTS.forEach(l => {
+      const btn = $(`#lot-${l}`);
+      if (btn) {
+        btn.disabled = !canVisit || Boolean(st.pending);
+        const pressed = st.pending && st.pending.kind === 'lot' && st.pending.lot === l;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#catalogue-of-unoccupied-reality-response');
+    if (resp && !st.pending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncUnhappenedAuctionLinks();
+  }
+
+  function syncCounterfactualBiddingFloor() {
+    const fig = $('#counterfactual-bidding-floor-figure');
+    const canVisit = counterfactualBiddingFloorCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getUnhappenedEventAuctionClaims();
+
+    UNHAPPENED_BID_METHODS.forEach(m => {
+      const btn = $(`#bid-method-${m}`);
+      if (btn) {
+        btn.disabled = !canVisit || Boolean(st.pending);
+        const pressed = st.pending && st.pending.kind === 'purchase' && st.pending.method === m;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#counterfactual-bidding-floor-response');
+    if (resp && !st.pending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncUnhappenedAuctionLinks();
+  }
+
+  function syncRetroactiveOccurrenceTitleCourt() {
+    const fig = $('#retroactive-occurrence-title-court-figure');
+    const canVisit = retroactiveOccurrenceTitleCourtCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getUnhappenedEventAuctionClaims();
+
+    UNHAPPENED_TITLE_ACTIONS.forEach(a => {
+      const btn = $(`#title-action-${a}`);
+      if (btn) {
+        btn.disabled = !canVisit || Boolean(st.pending);
+        const pressed = st.pending && st.pending.kind === 'title-action' && st.pending.action === a;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#retroactive-occurrence-title-court-response');
+    if (resp && !st.pending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncUnhappenedAuctionLinks();
+  }
+
+  function syncUnhappenedAuctioneers() {
+    const st = getUnhappenedEventAuctionClaims();
+    const scenes = ['forgiveness-landfill', 'undeclared-war-room', 'unlived-nursery'];
+
+    scenes.forEach(scene => {
+      const cont = $(`#unhappened-auctioneer-${scene}`);
+      const resp = $(`#unhappened-auctioneer-response-${scene}`);
+      const btn = $(`#unhappened-auctioneer-return-${scene}`);
+
+      let shouldShow = false;
+      if (st.activeAuctioneer) {
+        const lObj = UNHAPPENED_LOT_TABLE[st.activeAuctioneer.lot];
+        if (lObj && lObj.target === scene) {
+          shouldShow = true;
+        }
+      }
+      if (cont) {
+        cont.hidden = !shouldShow;
+        if (shouldShow) cont.removeAttribute('hidden');
+      }
+      if (resp) {
+        if (shouldShow && st.activeAuctioneer) {
+          resp.textContent = st.activeAuctioneer.feedback;
+          resp.hidden = false;
+          resp.removeAttribute('hidden');
+        } else {
+          resp.textContent = '';
+          resp.hidden = true;
+        }
+      }
+      if (btn) {
+        btn.hidden = !shouldShow;
+        if (shouldShow) btn.removeAttribute('hidden');
+        btn.disabled = !shouldShow || Boolean(st.pending);
+        const pressed = st.pending && st.pending.kind === 'auctioneer-return' && st.pending.from === scene;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+  }
+
+  function paintUnhappenedAuctionMemory() {
+    const mem = $('#unhappened-event-auction-memory');
+    if (!mem) return;
+    if (!unhappenedEventAuctionUnlocked()) {
+      mem.hidden = true;
+      return;
+    }
+    mem.hidden = false;
+    mem.removeAttribute('hidden');
+    const st = getUnhappenedEventAuctionClaims();
+    const purchases = st.purchases;
+    const count = purchases.length;
+
+    const lCounts = { 'right-to-be-remembered-as-if-it-happened': 0, 'territory-inside-an-undeclared-border': 0, 'childhood-no-body-ever-lived': 0 };
+    const mCounts = { 'bid-with-memory-of-consequences': 0, 'mortgage-the-future-that-would-have-followed': 0, 'counterfeit-a-witness-who-remembers-it': 0, 'outbid-reality-with-the-cost-of-never-happening': 0 };
+
+    purchases.forEach(id => {
+      const p = id.split(':');
+      if (p.length === 3) {
+        if (lCounts[p[1]] !== undefined) lCounts[p[1]]++;
+        if (mCounts[p[2]] !== undefined) mCounts[p[2]]++;
+      }
+    });
+
+    const apology = st.bidderTallies.apology;
+    const war = st.bidderTallies.war;
+    const child = st.bidderTallies.child;
+
+    const mCount = lCounts['right-to-be-remembered-as-if-it-happened'];
+    const bCount = lCounts['territory-inside-an-undeclared-border'];
+    const hCount = lCounts['childhood-no-body-ever-lived'];
+
+    const qCount = mCounts['bid-with-memory-of-consequences'];
+    const fCount = mCounts['mortgage-the-future-that-would-have-followed'];
+    const tCount = mCounts['counterfeit-a-witness-who-remembers-it'];
+    const nCount = mCounts['outbid-reality-with-the-cost-of-never-happening'];
+
+    let majority = '均衡出价';
+    if (apology > war && apology > child) majority = '主要由未说出口的道歉买下过去';
+    else if (war > apology && war > child) majority = '主要由没有爆发的战争竞得领土';
+    else if (child > apology && child > war) majority = '主要由未曾出生的孩子继承童年';
+
+    const text = `未发拍卖：已成交 ${count}/36 份现实，共落槌 ${st.auctionRuns} 次；竞买者 道歉 ${apology} / 战争 ${war} / 孩子 ${child}；拍品 记忆 ${mCount} / 边境 ${bCount} / 童年 ${hCount}；出价 后果 ${qCount} / 未来 ${fCount} / 证人 ${tCount} / 未发代价 ${nCount}；得契多数 ${majority}；产权裁定 ${st.titleOutcomes.length}/3。`;
+    mem.textContent = text;
+  }
+
+  function paintUnhappenedAuctionCodex() {
+    const codex = $('#unhappened-event-auction-codex');
+    const grid = $('#unhappened-event-auction-codex-grid');
+    if (!codex || !grid) return;
+    if (!unhappenedEventAuctionUnlocked()) {
+      codex.hidden = true;
+      return;
+    }
+    codex.hidden = false;
+    codex.removeAttribute('hidden');
+    grid.textContent = '';
+
+    const st = getUnhappenedEventAuctionClaims();
+    const collectedPurchases = new Set(st.purchases);
+    const collectedOutcomes = new Set(st.titleOutcomes);
+
+    UNHAPPENED_PURCHASE_IDS.forEach(id => {
+      const cell = document.createElement('div');
+      if (collectedPurchases.has(id)) {
+        cell.className = 'unhappened-event-cell is-unlocked';
+        const item = findUnhappenedPurchaseById(id);
+        cell.textContent = item ? `${item.title}\n${item.feedback}` : id;
+      } else {
+        cell.className = 'unhappened-event-cell is-locked';
+        cell.textContent = '？？？';
+      }
+      grid.appendChild(cell);
+    });
+
+    UNHAPPENED_TITLE_ACTIONS.forEach(action => {
+      const tObj = UNHAPPENED_TITLE_ACTION_TABLE[action];
+      const cell = document.createElement('div');
+      if (collectedOutcomes.has(tObj.outcome)) {
+        cell.className = 'unhappened-event-cell is-unlocked';
+        cell.textContent = `[追溯发生产权庭] ${tObj.outcome}\n${tObj.feedback}`;
+      } else {
+        cell.className = 'unhappened-event-cell is-locked';
+        cell.textContent = '？？？';
+      }
+      grid.appendChild(cell);
+    });
+  }
+
+  function syncUnhappenedAuctionRemembrance() {
+    const unlocked = unhappenedEventAuctionUnlocked();
+    const entryShell = $('#unhappened-event-auction-codex-entry');
+    const entryBtn = $('#unhappened-event-entry-btn');
+    const courtBtn = $('#unhappened-event-court-entry-btn');
+
+    if (!unlocked) {
+      if (entryShell) entryShell.hidden = true;
+      if (entryBtn) entryBtn.hidden = true;
+      if (courtBtn) courtBtn.hidden = true;
+      return;
+    }
+
+    if (entryShell) {
+      entryShell.hidden = false;
+      entryShell.removeAttribute('hidden');
+    }
+
+    const st = getUnhappenedEventAuctionClaims();
+    const isClean = !st.pending && !st.activeAuctioneer && st.draft.bidder === '' && st.draft.lot === '';
+
+    if (entryBtn) {
+      entryBtn.hidden = false;
+      entryBtn.removeAttribute('hidden');
+      entryBtn.disabled = !isClean;
+      const pressed = st.pending && st.pending.kind === 'entry';
+      entryBtn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+    }
+
+    if (courtBtn) {
+      const coverage = unhappenedAuctionCoverageComplete(st);
+      courtBtn.hidden = !coverage;
+      if (coverage) courtBtn.removeAttribute('hidden');
+      courtBtn.disabled = !isClean || !coverage;
+      const pressed = st.pending && st.pending.kind === 'title-entry';
+      courtBtn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+    }
+  }
+
+  function syncUnhappenedAuctionLinks() {
+    const unlocked = unhappenedEventAuctionUnlocked();
+    const links = [
+      { id: 'auction-house-for-events-that-never-happened-link', key: 'house' },
+      { id: 'catalogue-of-unoccupied-reality-link', key: 'catalogue' },
+      { id: 'counterfactual-bidding-floor-link', key: 'floor' },
+      { id: 'retroactive-occurrence-title-court-link', key: 'court' },
+    ];
+    const st = unlocked ? getUnhappenedEventAuctionClaims() : null;
+
+    links.forEach(l => {
+      const el = $(`#${l.id}`);
+      if (el) {
+        const show = unlocked && st && st.visited[l.key] === true;
+        el.hidden = !show;
+        if (show) el.removeAttribute('hidden');
+      }
+    });
+  }
+
+  function forgetUnhappenedAuctionState() {
+    try { localStorage.removeItem(UNHAPPENED_EVENT_AUCTION_KEY); } catch {}
+    AutoAdvance.clear("auction-house-for-events-that-never-happened");
+    AutoAdvance.clear("catalogue-of-unoccupied-reality");
+    AutoAdvance.clear("counterfactual-bidding-floor");
+    AutoAdvance.clear("retroactive-occurrence-title-court");
+    [
+      $("#unhappened-event-auction-memory"),
+      $("#unhappened-event-auction-codex"),
+      $("#unhappened-event-auction-codex-entry"),
+      $("#unhappened-event-entry-btn"),
+      $("#unhappened-event-court-entry-btn"),
+      $("#auction-house-for-events-that-never-happened-link"),
+      $("#catalogue-of-unoccupied-reality-link"),
+      $("#counterfactual-bidding-floor-link"),
+      $("#retroactive-occurrence-title-court-link"),
+      $("#unhappened-auctioneer-forgiveness-landfill"),
+      $("#unhappened-auctioneer-undeclared-war-room"),
+      $("#unhappened-auctioneer-unlived-nursery"),
+      $("#unhappened-auctioneer-return-forgiveness-landfill"),
+      $("#unhappened-auctioneer-return-undeclared-war-room"),
+      $("#unhappened-auctioneer-return-unlived-nursery")
+    ].forEach((el) => { if (el) el.hidden = true; });
+    [
+      $("#unhappened-event-entry-response"),
+      $("#unhappened-event-court-entry-response"),
+      $("#auction-house-for-events-that-never-happened-response"),
+      $("#catalogue-of-unoccupied-reality-response"),
+      $("#counterfactual-bidding-floor-response"),
+      $("#retroactive-occurrence-title-court-response"),
+      $("#unhappened-auctioneer-response-forgiveness-landfill"),
+      $("#unhappened-auctioneer-response-undeclared-war-room"),
+      $("#unhappened-auctioneer-response-unlived-nursery")
+    ].forEach((el) => { if (el) el.textContent = ""; });
+    [
+      $("#unhappened-event-entry-btn"),
+      $("#unhappened-event-court-entry-btn"),
+      $("#bidder-apology-never-spoken"),
+      $("#bidder-war-that-never-erupted"),
+      $("#bidder-child-never-born"),
+      $("#lot-right-to-be-remembered-as-if-it-happened"),
+      $("#lot-territory-inside-an-undeclared-border"),
+      $("#lot-childhood-no-body-ever-lived"),
+      $("#bid-method-bid-with-memory-of-consequences"),
+      $("#bid-method-mortgage-the-future-that-would-have-followed"),
+      $("#bid-method-counterfeit-a-witness-who-remembers-it"),
+      $("#bid-method-outbid-reality-with-the-cost-of-never-happening"),
+      $("#unhappened-auctioneer-return-forgiveness-landfill"),
+      $("#unhappened-auctioneer-return-undeclared-war-room"),
+      $("#unhappened-auctioneer-return-unlived-nursery"),
+      $("#title-action-grant-every-unhappened-event-retroactive-occurrence"),
+      $("#title-action-sell-reality-to-the-highest-absence"),
+      $("#title-action-annul-the-distinction-between-event-and-memory")
+    ].forEach((button) => {
+      if (button) {
+        button.disabled = false;
+        button.removeAttribute("aria-pressed");
+      }
+    });
+    syncAuctionHouseForEventsThatNeverHappened();
+    syncCatalogueOfUnoccupiedReality();
+    syncCounterfactualBiddingFloor();
+    syncRetroactiveOccurrenceTitleCourt();
+    syncUnhappenedAuctioneers();
+    paintUnhappenedAuctionMemory();
+    paintUnhappenedAuctionCodex();
+    syncUnhappenedAuctionRemembrance();
+  }
+
+  const unhappenedEventEntryBtn = $('#unhappened-event-entry-btn');
+  if (unhappenedEventEntryBtn) {
+    unhappenedEventEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnhappenedAuctionEntry();
+    });
+  }
+
+  const unhappenedEventCourtEntryBtn = $('#unhappened-event-court-entry-btn');
+  if (unhappenedEventCourtEntryBtn) {
+    unhappenedEventCourtEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnhappenedCourtEntry();
+    });
+  }
+
+  const bidderApologyBtn = $('#bidder-apology-never-spoken');
+  if (bidderApologyBtn) {
+    bidderApologyBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnhappenedBidder('apology-never-spoken');
+    });
+  }
+
+  const bidderWarBtn = $('#bidder-war-that-never-erupted');
+  if (bidderWarBtn) {
+    bidderWarBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnhappenedBidder('war-that-never-erupted');
+    });
+  }
+
+  const bidderChildBtn = $('#bidder-child-never-born');
+  if (bidderChildBtn) {
+    bidderChildBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnhappenedBidder('child-never-born');
+    });
+  }
+
+  const lotRememberedBtn = $('#lot-right-to-be-remembered-as-if-it-happened');
+  if (lotRememberedBtn) {
+    lotRememberedBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnhappenedLot('right-to-be-remembered-as-if-it-happened');
+    });
+  }
+
+  const lotBorderBtn = $('#lot-territory-inside-an-undeclared-border');
+  if (lotBorderBtn) {
+    lotBorderBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnhappenedLot('territory-inside-an-undeclared-border');
+    });
+  }
+
+  const lotChildhoodBtn = $('#lot-childhood-no-body-ever-lived');
+  if (lotChildhoodBtn) {
+    lotChildhoodBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnhappenedLot('childhood-no-body-ever-lived');
+    });
+  }
+
+  const bidMethodConsequencesBtn = $('#bid-method-bid-with-memory-of-consequences');
+  if (bidMethodConsequencesBtn) {
+    bidMethodConsequencesBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnhappenedBidMethod('bid-with-memory-of-consequences');
+    });
+  }
+
+  const bidMethodFutureBtn = $('#bid-method-mortgage-the-future-that-would-have-followed');
+  if (bidMethodFutureBtn) {
+    bidMethodFutureBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnhappenedBidMethod('mortgage-the-future-that-would-have-followed');
+    });
+  }
+
+  const bidMethodWitnessBtn = $('#bid-method-counterfeit-a-witness-who-remembers-it');
+  if (bidMethodWitnessBtn) {
+    bidMethodWitnessBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnhappenedBidMethod('counterfeit-a-witness-who-remembers-it');
+    });
+  }
+
+  const bidMethodCostBtn = $('#bid-method-outbid-reality-with-the-cost-of-never-happening');
+  if (bidMethodCostBtn) {
+    bidMethodCostBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnhappenedBidMethod('outbid-reality-with-the-cost-of-never-happening');
+    });
+  }
+
+  const auctioneerReturnForgivenessBtn = $('#unhappened-auctioneer-return-forgiveness-landfill');
+  if (auctioneerReturnForgivenessBtn) {
+    auctioneerReturnForgivenessBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnhappenedAuctioneerReturn('forgiveness-landfill');
+    });
+  }
+
+  const auctioneerReturnWarRoomBtn = $('#unhappened-auctioneer-return-undeclared-war-room');
+  if (auctioneerReturnWarRoomBtn) {
+    auctioneerReturnWarRoomBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnhappenedAuctioneerReturn('undeclared-war-room');
+    });
+  }
+
+  const auctioneerReturnNurseryBtn = $('#unhappened-auctioneer-return-unlived-nursery');
+  if (auctioneerReturnNurseryBtn) {
+    auctioneerReturnNurseryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnhappenedAuctioneerReturn('unlived-nursery');
+    });
+  }
+
+  const titleActionRetroactiveBtn = $('#title-action-grant-every-unhappened-event-retroactive-occurrence');
+  if (titleActionRetroactiveBtn) {
+    titleActionRetroactiveBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnhappenedTitleAction('grant-every-unhappened-event-retroactive-occurrence');
+    });
+  }
+
+  const titleActionSellBtn = $('#title-action-sell-reality-to-the-highest-absence');
+  if (titleActionSellBtn) {
+    titleActionSellBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnhappenedTitleAction('sell-reality-to-the-highest-absence');
+    });
+  }
+
+  const titleActionAnnulBtn = $('#title-action-annul-the-distinction-between-event-and-memory');
+  if (titleActionAnnulBtn) {
+    titleActionAnnulBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseUnhappenedTitleAction('annul-the-distinction-between-event-and-memory');
+    });
+  }
+
+  /* ============================================================
+     v89: 既成事实拆迁局 (Eviction Authority for Accomplished Facts)
+     ============================================================ */
+
+  const ACCOMPLISHED_FACT_EVICTION_KEY = 'goddead_v89_accomplished_fact_eviction';
+  const ACCOMPLISHED_FACT_EVICTION_VERSION = 89;
+  const ACCOMPLISHED_FACT_TENANTS = ['birth-that-issued-a-body', 'scar-that-outlived-the-wound', 'war-that-kept-its-ruins'];
+  const ACCOMPLISHED_FACT_PROPERTIES = ['right-to-have-already-begun', 'address-inside-a-healed-wound', 'ownership-of-a-ruin-left-by-war'];
+  const ACCOMPLISHED_FACT_DEMOLITION_METHODS = [
+    'demolish-the-cause-and-leave-the-consequence',
+    'relocate-all-witnesses-outside-time',
+    'condemn-memory-as-structurally-unsafe',
+    'compensate-reality-with-an-alternate-past',
+  ];
+  const ACCOMPLISHED_FACT_APPEAL_ACTIONS = [
+    'grant-permanent-residency-to-every-accomplished-fact',
+    'evict-history-and-let-consequences-squat',
+    'demolish-the-present-for-illegal-construction-on-the-past',
+  ];
+
+  const ACCOMPLISHED_FACT_TENANT_TABLE = {
+    'birth-that-issued-a-body': {
+      tallyKey: 'birth',
+      title: '已生出生',
+      feedback: '它只发生过一次，却把一具身体、一个生日和此后全部年龄都登记在自己名下。现在身体已经活得比出生更久，出生仍拒绝交还门牌。',
+    },
+    'scar-that-outlived-the-wound': {
+      tallyKey: 'scar',
+      title: '长住伤疤',
+      feedback: '伤口早已关闭，疼痛也学会沉默，只有伤疤继续占据皮肤。它声称自己不是遗迹，而是伤害至今仍在发生的长期租约。',
+    },
+    'war-that-kept-its-ruins': {
+      tallyKey: 'war',
+      title: '留墟战争',
+      feedback: '停火令把战争写成过去式，废墟却还在替它缴纳存在。战争要求保留每一堵断墙，好证明和平从未取得完整产权。',
+    },
+  };
+
+  const ACCOMPLISHED_FACT_PROPERTY_TABLE = {
+    'right-to-have-already-begun': {
+      title: '已经开始权',
+      target: 'birth-ballot-booth',
+      bailiff: 'birth-eviction-surveyor',
+      bailiffTitle: '出生腾退勘测员',
+      feedback: '一份证明生命不是临时入住的起始产权。出生投票亭保存着第一次呼吸的门牌；一旦拆除，身体仍会继续衰老，却无法证明自己从哪一天开始。',
+      bailiffFeedback: '出生腾退勘测员量完第一口呼吸的门框。它说门可以拆，年龄会继续往里长，只是再没人知道这具身体从哪一天开始欠租。',
+    },
+    'address-inside-a-healed-wound': {
+      title: '愈伤内地址',
+      target: 'crime-scene-without-offender',
+      bailiff: 'scar-demolition-bailiff',
+      bailiffTitle: '伤疤拆除执达员',
+      feedback: '伤疤在愈合组织里登记了永久地址。无加害者案发现场持有它的地契；地址被拔除后，伤害会失去地点，却不会失去后果。',
+      bailiffFeedback: '伤疤拆除执达员从皮肤里拔出一枚没有街名的门牌。案发现场失去地址后，所有证物仍指向这里，却无法说明“这里”在哪里。',
+    },
+    'ownership-of-a-ruin-left-by-war': {
+      title: '战争遗墟权',
+      target: 'undeclared-war-room',
+      bailiff: 'ruin-relocation-marshal',
+      bailiffTitle: '遗墟迁移法警',
+      feedback: '战争以废墟为持续占有的证据。未宣战室保管着一片从未正式交战却已经损坏的城区；拆掉战争的产权后，断墙会成为没有事件认领的天气。',
+      bailiffFeedback: '遗墟迁移法警给每堵断墙装上轮子。战争拒绝搬走，废墟却已经排队离境；和平第一次发现自己没有可以接收它们的国境。',
+    },
+  };
+
+  const ACCOMPLISHED_FACT_DEMOLITION_METHOD_TABLE = {
+    'demolish-the-cause-and-leave-the-consequence': {
+      title: '拆因留果',
+      fragment: '从历史地基里整根拔走原因，保留一切已经长出的后果。身体继续出生，伤疤继续存在，废墟继续风化，只是再也没有任何事情配得上它们。',
+    },
+    'relocate-all-witnesses-outside-time': {
+      title: '证人迁时外',
+      fragment: '把所有见证者迁到时间之外。证词仍然准确，证人仍然真诚，但他们只能在事情尚未发生以前或早已结束以后作证。',
+    },
+    'condemn-memory-as-structurally-unsafe': {
+      title: '记忆判危',
+      fragment: '宣布记忆不具备承载现实的结构强度。每次回想都会触发一场小型坍塌，直到过去只剩无法进入、却仍在收取痛感的围挡。',
+    },
+    'compensate-reality-with-an-alternate-past': {
+      title: '另史补偿',
+      fragment: '向现实支付一段替代过去作为拆迁补偿。新历史手续完备、证据齐全，唯一的问题是所有人都清楚记得自己从未经历过它。',
+    },
+  };
+
+  const ACCOMPLISHED_FACT_APPEAL_ACTION_TABLE = {
+    'grant-permanent-residency-to-every-accomplished-fact': {
+      outcome: 'the-past-became-an-undeletable-address',
+      target: 'threshold',
+      feedback: '上诉庭给每一件已经发生的事签发不可拆迁门牌。门槛从此不是通道，而是过去的总地址；每次跨越，都必须承认脚下住着此前全部人生。',
+    },
+    'evict-history-and-let-consequences-squat': {
+      outcome: 'only-the-consequences-remained-home',
+      target: 'remembrance',
+      feedback: '过去被依法搬空，伤疤、年龄与废墟成为无因占屋者。痕迹室仍记得所有后果，却再也找不到一件可以被原谅、悼念或追责的事情。',
+    },
+    'demolish-the-present-for-illegal-construction-on-the-past': {
+      outcome: 'the-present-was-condemned-for-occupying-history',
+      target: 'unending-gallery',
+      feedback: '庭审发现现在始终盖在过去的地基上，真正的违章建筑原来是此刻。爆破声响起时，无尽画廊保留了每个已经失去“现在”的观众。',
+    },
+  };
+
+  const ACCOMPLISHED_FACT_APPEAL_OUTCOME_BY_ID = {};
+  const ACCOMPLISHED_FACT_APPEAL_OUTCOME_IDS = ACCOMPLISHED_FACT_APPEAL_ACTIONS.map((a) => {
+    const out = ACCOMPLISHED_FACT_APPEAL_ACTION_TABLE[a].outcome;
+    ACCOMPLISHED_FACT_APPEAL_OUTCOME_BY_ID[out] = ACCOMPLISHED_FACT_APPEAL_ACTION_TABLE[a];
+    return out;
+  });
+
+  const ACCOMPLISHED_FACT_EVICTION_IDS = [];
+  for (let t = 0; t < ACCOMPLISHED_FACT_TENANTS.length; t++) {
+    for (let p = 0; p < ACCOMPLISHED_FACT_PROPERTIES.length; p++) {
+      for (let m = 0; m < ACCOMPLISHED_FACT_DEMOLITION_METHODS.length; m++) {
+        ACCOMPLISHED_FACT_EVICTION_IDS.push(`${ACCOMPLISHED_FACT_TENANTS[t]}:${ACCOMPLISHED_FACT_PROPERTIES[p]}:${ACCOMPLISHED_FACT_DEMOLITION_METHODS[m]}`);
+      }
+    }
+  }
+
+  const ACCOMPLISHED_FACT_ENTRY_FEEDBACK = '前往既成事实拆迁局 · GO TO EVICTION AUTHORITY FOR ACCOMPLISHED FACTS';
+  const ACCOMPLISHED_FACT_COURT_ENTRY_FEEDBACK = '进入最后居住权上诉庭 · ENTER FINAL OCCUPANCY APPEAL COURT';
+
+  function accomplishedFactEvictionDelay() {
+    return reduced ? 300 : 1600;
+  }
+
+  function defaultAccomplishedFactEvictionClaims() {
+    return {
+      version: ACCOMPLISHED_FACT_EVICTION_VERSION,
+      visited: { authority: false, survey: false, yard: false, court: false },
+      draft: { tenant: '', property: '' },
+      evictions: [],
+      appealOutcomes: [],
+      evictionRuns: 0,
+      appealRuns: 0,
+      tenantTallies: { birth: 0, scar: 0, war: 0 },
+      lastOutcome: '',
+      activeBailiff: null,
+      pending: null,
+    };
+  }
+
+  function normalizeAccomplishedFactVisited(v) {
+    if (!v || typeof v !== 'object' || Array.isArray(v)) {
+      return { authority: false, survey: false, yard: false, court: false };
+    }
+    return {
+      authority: v.authority === true,
+      survey: v.survey === true,
+      yard: v.yard === true,
+      court: v.court === true,
+    };
+  }
+
+  function normalizeAccomplishedFactDraft(d) {
+    if (!d || typeof d !== 'object' || Array.isArray(d)) {
+      return { tenant: '', property: '' };
+    }
+    const tenant = typeof d.tenant === 'string' && ACCOMPLISHED_FACT_TENANTS.includes(d.tenant) ? d.tenant : '';
+    if (!tenant) {
+      return { tenant: '', property: '' };
+    }
+    const property = typeof d.property === 'string' && ACCOMPLISHED_FACT_PROPERTIES.includes(d.property) ? d.property : '';
+    return { tenant, property };
+  }
+
+  function normalizeAccomplishedFactEvictions(arr) {
+    if (!Array.isArray(arr)) return [];
+    const set = new Set();
+    for (let i = 0; i < arr.length; i++) {
+      if (typeof arr[i] === 'string' && ACCOMPLISHED_FACT_EVICTION_IDS.includes(arr[i])) {
+        set.add(arr[i]);
+      }
+    }
+    return ACCOMPLISHED_FACT_EVICTION_IDS.filter((id) => set.has(id));
+  }
+
+  function normalizeAccomplishedFactAppealOutcomes(arr) {
+    if (!Array.isArray(arr)) return [];
+    const set = new Set();
+    for (let i = 0; i < arr.length; i++) {
+      if (typeof arr[i] === 'string' && ACCOMPLISHED_FACT_APPEAL_OUTCOME_IDS.includes(arr[i])) {
+        set.add(arr[i]);
+      }
+    }
+    return ACCOMPLISHED_FACT_APPEAL_OUTCOME_IDS.filter((id) => set.has(id));
+  }
+
+  function clampAccomplishedFactCount(n) {
+    const num = Math.floor(Number(n) || 0);
+    if (num < 0) return 0;
+    if (num > 9999) return 9999;
+    return num;
+  }
+
+  function normalizeAccomplishedFactTallies(t) {
+    if (!t || typeof t !== 'object' || Array.isArray(t)) {
+      return { birth: 0, scar: 0, war: 0 };
+    }
+    return {
+      birth: clampAccomplishedFactCount(t.birth),
+      scar: clampAccomplishedFactCount(t.scar),
+      war: clampAccomplishedFactCount(t.war),
+    };
+  }
+
+  function normalizeAccomplishedFactActiveBailiff(h, evictions) {
+    if (!h || typeof h !== 'object' || Array.isArray(h)) return null;
+    const keys = Object.keys(h).sort();
+    if (keys.length !== 3 || keys[0] !== 'eviction' || keys[1] !== 'feedback' || keys[2] !== 'property') {
+      return null;
+    }
+    const prop = h.property;
+    const ev = h.eviction;
+    if (!ACCOMPLISHED_FACT_PROPERTIES.includes(prop) || typeof ev !== 'string') {
+      return null;
+    }
+    const propTable = ACCOMPLISHED_FACT_PROPERTY_TABLE[prop];
+    if (!propTable || h.feedback !== propTable.bailiffFeedback) {
+      return null;
+    }
+    const canonicalEvictions = Array.isArray(evictions) ? evictions : [];
+    if (!canonicalEvictions.includes(ev)) return null;
+    const parts = ev.split(':');
+    if (parts.length !== 3 || parts[1] !== prop) return null;
+    return {
+      eviction: ev,
+      feedback: propTable.bailiffFeedback,
+      property: prop,
+    };
+  }
+
+  function computeAccomplishedFactEvictionTitle(tenant, property, method) {
+    const tObj = ACCOMPLISHED_FACT_TENANT_TABLE[tenant];
+    const pObj = ACCOMPLISHED_FACT_PROPERTY_TABLE[property];
+    const mObj = ACCOMPLISHED_FACT_DEMOLITION_METHOD_TABLE[method];
+    if (!tObj || !pObj || !mObj) return '';
+    return `${tObj.title} × ${pObj.title} × ${mObj.title}`;
+  }
+
+  function computeAccomplishedFactEvictionFeedback(tenant, property, method) {
+    const tObj = ACCOMPLISHED_FACT_TENANT_TABLE[tenant];
+    const pObj = ACCOMPLISHED_FACT_PROPERTY_TABLE[property];
+    const mObj = ACCOMPLISHED_FACT_DEMOLITION_METHOD_TABLE[method];
+    if (!tObj || !pObj || !mObj) return '';
+    return `${tObj.feedback} ${pObj.feedback} ${mObj.fragment}`;
+  }
+
+  function findAccomplishedFactEvictionById(id) {
+    if (typeof id !== 'string' || !ACCOMPLISHED_FACT_EVICTION_IDS.includes(id)) return null;
+    const parts = id.split(':');
+    if (parts.length !== 3) return null;
+    const [tenant, property, method] = parts;
+    return {
+      id,
+      tenant,
+      property,
+      method,
+      title: computeAccomplishedFactEvictionTitle(tenant, property, method),
+      feedback: computeAccomplishedFactEvictionFeedback(tenant, property, method),
+    };
+  }
+
+  function accomplishedFactEvictionUnlocked() {
+    if (typeof unhappenedEventAuctionUnlocked !== 'function' || !unhappenedEventAuctionUnlocked()) {
+      return false;
+    }
+    if (typeof getUnhappenedEventAuctionClaims !== 'function') return false;
+    const aState = getUnhappenedEventAuctionClaims();
+    if (!aState || typeof aState !== 'object') return false;
+    const purchases = Array.isArray(aState.purchases) ? aState.purchases : [];
+    if (purchases.length < 4) return false;
+
+    const bReq = new Set(['apology-never-spoken', 'war-that-never-erupted', 'child-never-born']);
+    const lReq = new Set(['right-to-be-remembered-as-if-it-happened', 'territory-inside-an-undeclared-border', 'childhood-no-body-ever-lived']);
+    const mReq = new Set([
+      'bid-with-memory-of-consequences',
+      'mortgage-the-future-that-would-have-followed',
+      'counterfeit-a-witness-who-remembers-it',
+      'outbid-reality-with-the-cost-of-never-happening',
+    ]);
+
+    const bSeen = new Set();
+    const lSeen = new Set();
+    const mSeen = new Set();
+    for (let idx = 0; idx < purchases.length; idx++) {
+      const b = purchases[idx];
+      if (typeof b === 'string') {
+        const parts = b.split(':');
+        if (parts.length === 3) {
+          if (bReq.has(parts[0])) bSeen.add(parts[0]);
+          if (lReq.has(parts[1])) lSeen.add(parts[1]);
+          if (mReq.has(parts[2])) mSeen.add(parts[2]);
+        }
+      }
+    }
+
+    if (bSeen.size < 3 || lSeen.size < 3 || mSeen.size < 4) return false;
+
+    const tOutcomes = Array.isArray(aState.titleOutcomes) ? aState.titleOutcomes : [];
+    const requiredTitles = [
+      'every-unhappened-event-became-history',
+      'reality-belonged-to-what-never-occurred',
+      'history-could-no-longer-prove-it-happened',
+    ];
+    for (let j = 0; j < requiredTitles.length; j++) {
+      if (!tOutcomes.includes(requiredTitles[j])) return false;
+    }
+    return true;
+  }
+
+  function accomplishedFactEvictionCoverageComplete(st) {
+    if (!st || typeof st !== 'object') return false;
+    const evictions = normalizeAccomplishedFactEvictions(st.evictions);
+    if (evictions.length < 4) return false;
+    const tSet = new Set();
+    const pSet = new Set();
+    const mSet = new Set();
+    for (let idx = 0; idx < evictions.length; idx++) {
+      const parts = evictions[idx].split(':');
+      if (parts.length === 3) {
+        tSet.add(parts[0]);
+        pSet.add(parts[1]);
+        mSet.add(parts[2]);
+      }
+    }
+    return tSet.size === ACCOMPLISHED_FACT_TENANTS.length &&
+           pSet.size === ACCOMPLISHED_FACT_PROPERTIES.length &&
+           mSet.size === ACCOMPLISHED_FACT_DEMOLITION_METHODS.length;
+  }
+
+  function normalizeAccomplishedFactPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p)) return null;
+    if (!st || st._v89unlocked !== true) return null;
+    const kind = p.kind;
+    if (typeof kind !== 'string') return null;
+    const keys = Object.keys(p).sort();
+
+    if (kind === 'entry') {
+      if (keys.length !== 3 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'target') return null;
+      if (p.target !== 'accomplished-fact-eviction-authority') return null;
+      if (p.feedback !== ACCOMPLISHED_FACT_ENTRY_FEEDBACK) return null;
+      if (st.draft.tenant !== '' || st.draft.property !== '' || st.activeBailiff !== null) return null;
+      return { feedback: p.feedback, kind: 'entry', target: 'accomplished-fact-eviction-authority' };
+    }
+
+    if (kind === 'tenant') {
+      if (keys.length !== 5 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'source' || keys[3] !== 'target' || keys[4] !== 'tenant') return null;
+      if (p.source !== 'accomplished-fact-eviction-authority' || p.target !== 'condemned-history-survey-office') return null;
+      if (!ACCOMPLISHED_FACT_TENANTS.includes(p.tenant)) return null;
+      if (p.feedback !== ACCOMPLISHED_FACT_TENANT_TABLE[p.tenant].feedback) return null;
+      if (st.draft.tenant !== '' || st.draft.property !== '' || st.activeBailiff !== null) return null;
+      return { feedback: p.feedback, kind: 'tenant', source: 'accomplished-fact-eviction-authority', target: 'condemned-history-survey-office', tenant: p.tenant };
+    }
+
+    if (kind === 'property') {
+      if (keys.length !== 6 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'property' || keys[3] !== 'source' || keys[4] !== 'target' || keys[5] !== 'tenant') return null;
+      if (p.source !== 'condemned-history-survey-office' || p.target !== 'retroactive-demolition-yard') return null;
+      if (!ACCOMPLISHED_FACT_TENANTS.includes(p.tenant) || !ACCOMPLISHED_FACT_PROPERTIES.includes(p.property)) return null;
+      if (st.draft.tenant !== p.tenant || st.draft.property !== '') return null;
+      if (p.feedback !== ACCOMPLISHED_FACT_PROPERTY_TABLE[p.property].feedback) return null;
+      if (st.activeBailiff !== null) return null;
+      return { feedback: p.feedback, kind: 'property', property: p.property, source: 'condemned-history-survey-office', target: 'retroactive-demolition-yard', tenant: p.tenant };
+    }
+
+    if (kind === 'eviction') {
+      if (keys.length !== 8 || keys[0] !== 'eviction' || keys[1] !== 'feedback' || keys[2] !== 'kind' || keys[3] !== 'method' || keys[4] !== 'property' || keys[5] !== 'source' || keys[6] !== 'target' || keys[7] !== 'tenant') return null;
+      if (p.source !== 'retroactive-demolition-yard') return null;
+      if (!ACCOMPLISHED_FACT_TENANTS.includes(p.tenant) || !ACCOMPLISHED_FACT_PROPERTIES.includes(p.property) || !ACCOMPLISHED_FACT_DEMOLITION_METHODS.includes(p.method)) return null;
+      if (st.draft.tenant !== p.tenant || st.draft.property !== p.property) return null;
+      const expectedEviction = `${p.tenant}:${p.property}:${p.method}`;
+      if (p.eviction !== expectedEviction) return null;
+      const pObj = ACCOMPLISHED_FACT_PROPERTY_TABLE[p.property];
+      if (!pObj || p.target !== pObj.target) return null;
+      const expectedFb = computeAccomplishedFactEvictionFeedback(p.tenant, p.property, p.method);
+      if (p.feedback !== expectedFb) return null;
+      if (st.activeBailiff !== null) return null;
+      return {
+        eviction: p.eviction,
+        feedback: p.feedback,
+        kind: 'eviction',
+        method: p.method,
+        property: p.property,
+        source: 'retroactive-demolition-yard',
+        target: p.target,
+        tenant: p.tenant,
+      };
+    }
+
+    if (kind === 'bailiff-return') {
+      if (keys.length !== 5 || keys[0] !== 'eviction' || keys[1] !== 'feedback' || keys[2] !== 'from' || keys[3] !== 'kind' || keys[4] !== 'target') return null;
+      if (p.target !== 'accomplished-fact-eviction-authority') return null;
+      if (!st.activeBailiff) return null;
+      const propObj = ACCOMPLISHED_FACT_PROPERTY_TABLE[st.activeBailiff.property];
+      if (!propObj || p.from !== propObj.target) return null;
+      if (typeof p.eviction !== 'string' || p.eviction !== st.activeBailiff.eviction) return null;
+      if (!st.evictions.includes(p.eviction)) return null;
+      const parts = p.eviction.split(':');
+      if (parts.length !== 3 || parts[1] !== st.activeBailiff.property) return null;
+      if (p.feedback !== propObj.bailiffFeedback) return null;
+      return { eviction: p.eviction, feedback: p.feedback, from: p.from, kind: 'bailiff-return', target: 'accomplished-fact-eviction-authority' };
+    }
+
+    if (kind === 'appeal-entry') {
+      if (keys.length !== 3 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'target') return null;
+      if (p.target !== 'final-occupancy-appeal-court') return null;
+      if (p.feedback !== ACCOMPLISHED_FACT_COURT_ENTRY_FEEDBACK) return null;
+      if (!accomplishedFactEvictionCoverageComplete(st)) return null;
+      if (st.draft.tenant !== '' || st.draft.property !== '' || st.activeBailiff !== null) return null;
+      return { feedback: p.feedback, kind: 'appeal-entry', target: 'final-occupancy-appeal-court' };
+    }
+
+    if (kind === 'appeal-action') {
+      if (keys.length !== 6 || keys[0] !== 'action' || keys[1] !== 'feedback' || keys[2] !== 'kind' || keys[3] !== 'outcome' || keys[4] !== 'source' || keys[5] !== 'target') return null;
+      if (p.source !== 'final-occupancy-appeal-court') return null;
+      if (!ACCOMPLISHED_FACT_APPEAL_ACTIONS.includes(p.action)) return null;
+      const aObj = ACCOMPLISHED_FACT_APPEAL_ACTION_TABLE[p.action];
+      if (!aObj || p.outcome !== aObj.outcome || p.target !== aObj.target || p.feedback !== aObj.feedback) return null;
+      if (!accomplishedFactEvictionCoverageComplete(st)) return null;
+      if (st.visited.court !== true) return null;
+      if (st.draft.tenant !== '' || st.draft.property !== '' || st.activeBailiff !== null) return null;
+      return { action: p.action, feedback: p.feedback, kind: 'appeal-action', outcome: p.outcome, source: 'final-occupancy-appeal-court', target: p.target };
+    }
+
+    return null;
+  }
+
+  function getAccomplishedFactEvictionClaims() {
+    const unlocked = accomplishedFactEvictionUnlocked();
+    if (!unlocked) return defaultAccomplishedFactEvictionClaims();
+    let raw;
+    try {
+      const str = store.get(ACCOMPLISHED_FACT_EVICTION_KEY, '{}');
+      raw = typeof str === 'string' ? JSON.parse(str) : str;
+    } catch (e) {
+      return defaultAccomplishedFactEvictionClaims();
+    }
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+      return defaultAccomplishedFactEvictionClaims();
+    }
+    if (raw.version !== ACCOMPLISHED_FACT_EVICTION_VERSION) {
+      return defaultAccomplishedFactEvictionClaims();
+    }
+
+    const visited = normalizeAccomplishedFactVisited(raw.visited);
+    const draft = normalizeAccomplishedFactDraft(raw.draft);
+    const evictions = normalizeAccomplishedFactEvictions(raw.evictions);
+    const appealOutcomes = normalizeAccomplishedFactAppealOutcomes(raw.appealOutcomes);
+    const evictionRuns = clampAccomplishedFactCount(raw.evictionRuns);
+    const appealRuns = clampAccomplishedFactCount(raw.appealRuns);
+    const tenantTallies = normalizeAccomplishedFactTallies(raw.tenantTallies);
+    const activeBailiff = normalizeAccomplishedFactActiveBailiff(raw.activeBailiff, evictions);
+
+    let lastOutcome = '';
+    if (typeof raw.lastOutcome === 'string') {
+      if (evictions.includes(raw.lastOutcome) || appealOutcomes.includes(raw.lastOutcome)) {
+        lastOutcome = raw.lastOutcome;
+      }
+    }
+
+    const preSt = {
+      version: ACCOMPLISHED_FACT_EVICTION_VERSION,
+      visited,
+      draft,
+      evictions,
+      appealOutcomes,
+      evictionRuns,
+      appealRuns,
+      tenantTallies,
+      lastOutcome,
+      activeBailiff,
+      pending: null,
+      _v89unlocked: true,
+    };
+    const pending = normalizeAccomplishedFactPending(raw.pending, preSt);
+
+    return {
+      version: ACCOMPLISHED_FACT_EVICTION_VERSION,
+      visited,
+      draft,
+      evictions,
+      appealOutcomes,
+      evictionRuns,
+      appealRuns,
+      tenantTallies,
+      lastOutcome,
+      activeBailiff,
+      pending,
+    };
+  }
+
+  function saveAccomplishedFactEvictionClaims(st) {
+    const unlocked = accomplishedFactEvictionUnlocked();
+    if (!unlocked) return defaultAccomplishedFactEvictionClaims();
+    if (!st || typeof st !== 'object' || Array.isArray(st)) {
+      const d = defaultAccomplishedFactEvictionClaims();
+      store.set(ACCOMPLISHED_FACT_EVICTION_KEY, JSON.stringify(d));
+      return d;
+    }
+
+    const visited = normalizeAccomplishedFactVisited(st.visited);
+    const draft = normalizeAccomplishedFactDraft(st.draft);
+    const evictions = normalizeAccomplishedFactEvictions(st.evictions);
+    const appealOutcomes = normalizeAccomplishedFactAppealOutcomes(st.appealOutcomes);
+    const evictionRuns = clampAccomplishedFactCount(st.evictionRuns);
+    const appealRuns = clampAccomplishedFactCount(st.appealRuns);
+    const tenantTallies = normalizeAccomplishedFactTallies(st.tenantTallies);
+    const activeBailiff = normalizeAccomplishedFactActiveBailiff(st.activeBailiff, evictions);
+
+    let lastOutcome = '';
+    if (typeof st.lastOutcome === 'string') {
+      if (evictions.includes(st.lastOutcome) || appealOutcomes.includes(st.lastOutcome)) {
+        lastOutcome = st.lastOutcome;
+      }
+    }
+
+    const preSt = {
+      version: ACCOMPLISHED_FACT_EVICTION_VERSION,
+      visited,
+      draft,
+      evictions,
+      appealOutcomes,
+      evictionRuns,
+      appealRuns,
+      tenantTallies,
+      lastOutcome,
+      activeBailiff,
+      pending: null,
+      _v89unlocked: true,
+    };
+    const pending = normalizeAccomplishedFactPending(st.pending, preSt);
+
+    const canonical = {
+      version: ACCOMPLISHED_FACT_EVICTION_VERSION,
+      visited,
+      draft,
+      evictions,
+      appealOutcomes,
+      evictionRuns,
+      appealRuns,
+      tenantTallies,
+      lastOutcome,
+      activeBailiff,
+      pending,
+    };
+    store.set(ACCOMPLISHED_FACT_EVICTION_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function getAccomplishedFactPendingLogicalSource(p) {
+    if (!p || !p.kind) return '';
+    if (p.kind === 'entry' || p.kind === 'appeal-entry') return 'remembrance';
+    if (p.kind === 'bailiff-return') return p.from;
+    return p.source || '';
+  }
+
+  function resolveAccomplishedFactEvictionPendingOnArrival(sceneName) {
+    const st = getAccomplishedFactEvictionClaims();
+    if (!st || !st.pending) return st;
+    const p = st.pending;
+
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.authority = true;
+      } else if (p.kind === 'tenant') {
+        st.visited.survey = true;
+        st.draft = { tenant: p.tenant, property: '' };
+      } else if (p.kind === 'property') {
+        st.visited.yard = true;
+        st.draft.property = p.property;
+      } else if (p.kind === 'eviction') {
+        st.evictionRuns = clampAccomplishedFactCount(st.evictionRuns + 1);
+        const tObj = ACCOMPLISHED_FACT_TENANT_TABLE[p.tenant];
+        if (tObj && tObj.tallyKey) {
+          st.tenantTallies[tObj.tallyKey] = clampAccomplishedFactCount(st.tenantTallies[tObj.tallyKey] + 1);
+        }
+        if (!st.evictions.includes(p.eviction)) {
+          st.evictions = normalizeAccomplishedFactEvictions(st.evictions.concat(p.eviction));
+        }
+        st.lastOutcome = p.eviction;
+        const propObj = ACCOMPLISHED_FACT_PROPERTY_TABLE[p.property];
+        st.activeBailiff = {
+          eviction: p.eviction,
+          feedback: propObj ? propObj.bailiffFeedback : '',
+          property: p.property,
+        };
+        st.draft = { tenant: '', property: '' };
+      } else if (p.kind === 'bailiff-return') {
+        st.activeBailiff = null;
+        st.draft = { tenant: '', property: '' };
+        st.visited.authority = true;
+      } else if (p.kind === 'appeal-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'appeal-action') {
+        st.appealRuns = clampAccomplishedFactCount(st.appealRuns + 1);
+        if (!st.appealOutcomes.includes(p.outcome)) {
+          st.appealOutcomes = normalizeAccomplishedFactAppealOutcomes(st.appealOutcomes.concat(p.outcome));
+        }
+        st.lastOutcome = p.outcome;
+      }
+      return saveAccomplishedFactEvictionClaims(st);
+    }
+
+    const logicalSource = getAccomplishedFactPendingLogicalSource(p);
+    if (sceneName === logicalSource) {
+      return st;
+    }
+
+    st.pending = null;
+    return saveAccomplishedFactEvictionClaims(st);
+  }
+
+  function replayAccomplishedFactEvictionPending(sceneName) {
+    const st = getAccomplishedFactEvictionClaims();
+    if (!st.pending) {
+      syncAccomplishedFactEvictionAuthority();
+      syncCondemnedHistorySurveyOffice();
+      syncRetroactiveDemolitionYard();
+      syncFinalOccupancyAppealCourt();
+      syncAccomplishedFactBailiffs();
+      return;
+    }
+    const p = st.pending;
+    if (p.target === sceneName) {
+      resolveAccomplishedFactEvictionPendingOnArrival(sceneName);
+      syncAccomplishedFactEvictionAuthority();
+      syncCondemnedHistorySurveyOffice();
+      syncRetroactiveDemolitionYard();
+      syncFinalOccupancyAppealCourt();
+      syncAccomplishedFactBailiffs();
+      return;
+    }
+
+    const logicalSource = getAccomplishedFactPendingLogicalSource(p);
+    if (sceneName === logicalSource) {
+      syncAccomplishedFactEvictionAuthority();
+      syncCondemnedHistorySurveyOffice();
+      syncRetroactiveDemolitionYard();
+      syncFinalOccupancyAppealCourt();
+      syncAccomplishedFactBailiffs();
+      AutoAdvance.schedule(sceneName, p.target, { delay: accomplishedFactEvictionDelay() });
+      return;
+    }
+
+    st.pending = null;
+    saveAccomplishedFactEvictionClaims(st);
+    syncAccomplishedFactEvictionAuthority();
+    syncCondemnedHistorySurveyOffice();
+    syncRetroactiveDemolitionYard();
+    syncFinalOccupancyAppealCourt();
+    syncAccomplishedFactBailiffs();
+  }
+
+  function chooseAccomplishedFactEvictionEntry() {
+    if (typeof currentScene !== 'string' || currentScene !== 'remembrance') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('remembrance')) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable('accomplished-fact-eviction-entry-btn')) return;
+    if (!accomplishedFactEvictionUnlocked()) return;
+    const st = getAccomplishedFactEvictionClaims();
+    if (st.pending || st.activeBailiff || st.draft.tenant !== '' || st.draft.property !== '') return;
+
+    st.pending = {
+      feedback: ACCOMPLISHED_FACT_ENTRY_FEEDBACK,
+      kind: 'entry',
+      target: 'accomplished-fact-eviction-authority',
+    };
+    saveAccomplishedFactEvictionClaims(st);
+
+    const resp = $('#accomplished-fact-eviction-entry-response');
+    if (resp) {
+      resp.textContent = ACCOMPLISHED_FACT_ENTRY_FEEDBACK;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $('#accomplished-fact-eviction-entry-btn');
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('remembrance', 'accomplished-fact-eviction-authority', { delay: accomplishedFactEvictionDelay() });
+  }
+
+  function chooseAccomplishedFactTenant(tenant) {
+    if (typeof currentScene !== 'string' || currentScene !== 'accomplished-fact-eviction-authority') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('accomplished-fact-eviction-authority')) return;
+    if (!ACCOMPLISHED_FACT_TENANTS.includes(tenant)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`accomplished-fact-tenant-${tenant}`)) return;
+    if (!accomplishedFactEvictionUnlocked()) return;
+    const st = getAccomplishedFactEvictionClaims();
+    if (st.pending || st.activeBailiff || st.draft.tenant !== '' || st.draft.property !== '') return;
+
+    const tObj = ACCOMPLISHED_FACT_TENANT_TABLE[tenant];
+    st.pending = {
+      feedback: tObj.feedback,
+      kind: 'tenant',
+      source: 'accomplished-fact-eviction-authority',
+      target: 'condemned-history-survey-office',
+      tenant,
+    };
+    saveAccomplishedFactEvictionClaims(st);
+
+    const resp = $('#accomplished-fact-eviction-authority-response');
+    if (resp) {
+      resp.textContent = tObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#accomplished-fact-tenant-${tenant}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('accomplished-fact-eviction-authority', 'condemned-history-survey-office', { delay: accomplishedFactEvictionDelay() });
+  }
+
+  function chooseAccomplishedFactProperty(property) {
+    if (typeof currentScene !== 'string' || currentScene !== 'condemned-history-survey-office') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('condemned-history-survey-office')) return;
+    if (!ACCOMPLISHED_FACT_PROPERTIES.includes(property)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`accomplished-fact-property-${property}`)) return;
+    if (!accomplishedFactEvictionUnlocked()) return;
+    const st = getAccomplishedFactEvictionClaims();
+    if (st.pending || st.activeBailiff || !st.draft.tenant || st.draft.property !== '') return;
+
+    const pObj = ACCOMPLISHED_FACT_PROPERTY_TABLE[property];
+    st.pending = {
+      feedback: pObj.feedback,
+      kind: 'property',
+      property,
+      source: 'condemned-history-survey-office',
+      target: 'retroactive-demolition-yard',
+      tenant: st.draft.tenant,
+    };
+    saveAccomplishedFactEvictionClaims(st);
+
+    const resp = $('#condemned-history-survey-office-response');
+    if (resp) {
+      resp.textContent = pObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#accomplished-fact-property-${property}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('condemned-history-survey-office', 'retroactive-demolition-yard', { delay: accomplishedFactEvictionDelay() });
+  }
+
+  function chooseAccomplishedFactDemolitionMethod(method) {
+    if (typeof currentScene !== 'string' || currentScene !== 'retroactive-demolition-yard') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('retroactive-demolition-yard')) return;
+    if (!ACCOMPLISHED_FACT_DEMOLITION_METHODS.includes(method)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`accomplished-fact-method-${method}`)) return;
+    if (!accomplishedFactEvictionUnlocked()) return;
+    const st = getAccomplishedFactEvictionClaims();
+    if (st.pending || st.activeBailiff || !st.draft.tenant || !st.draft.property) return;
+
+    const pObj = ACCOMPLISHED_FACT_PROPERTY_TABLE[st.draft.property];
+    const eviction = `${st.draft.tenant}:${st.draft.property}:${method}`;
+    const feedback = computeAccomplishedFactEvictionFeedback(st.draft.tenant, st.draft.property, method);
+
+    st.pending = {
+      eviction,
+      feedback,
+      kind: 'eviction',
+      method,
+      property: st.draft.property,
+      source: 'retroactive-demolition-yard',
+      target: pObj.target,
+      tenant: st.draft.tenant,
+    };
+    saveAccomplishedFactEvictionClaims(st);
+
+    const resp = $('#retroactive-demolition-yard-response');
+    if (resp) {
+      resp.textContent = feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#accomplished-fact-method-${method}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('retroactive-demolition-yard', pObj.target, { delay: accomplishedFactEvictionDelay() });
+  }
+
+  function chooseAccomplishedFactBailiffReturn(scene) {
+    if (typeof currentScene !== 'string' || currentScene !== scene) return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has(scene)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`accomplished-fact-bailiff-return-${scene}`)) return;
+    if (!accomplishedFactEvictionUnlocked()) return;
+    const st = getAccomplishedFactEvictionClaims();
+    if (st.pending || !st.activeBailiff) return;
+    const propObj = ACCOMPLISHED_FACT_PROPERTY_TABLE[st.activeBailiff.property];
+    if (!propObj || propObj.target !== scene) return;
+
+    const activeEviction = st.activeBailiff.eviction;
+    if (typeof activeEviction !== 'string' || !st.evictions.includes(activeEviction)) return;
+    const parts = activeEviction.split(':');
+    if (parts.length !== 3 || parts[1] !== st.activeBailiff.property) return;
+
+    st.pending = {
+      eviction: activeEviction,
+      feedback: propObj.bailiffFeedback,
+      from: scene,
+      kind: 'bailiff-return',
+      target: 'accomplished-fact-eviction-authority',
+    };
+    saveAccomplishedFactEvictionClaims(st);
+
+    const resp = $(`#accomplished-fact-bailiff-response-${scene}`);
+    if (resp) {
+      resp.textContent = propObj.bailiffFeedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#accomplished-fact-bailiff-return-${scene}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule(scene, 'accomplished-fact-eviction-authority', { delay: accomplishedFactEvictionDelay() });
+  }
+
+  function chooseAccomplishedFactCourtEntry() {
+    if (typeof currentScene !== 'string' || currentScene !== 'remembrance') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('remembrance')) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable('accomplished-fact-eviction-appeal-entry-btn')) return;
+    if (!accomplishedFactEvictionUnlocked()) return;
+    const st = getAccomplishedFactEvictionClaims();
+    if (st.pending || st.activeBailiff || st.draft.tenant !== '' || st.draft.property !== '' || !accomplishedFactEvictionCoverageComplete(st)) return;
+
+    st.pending = {
+      feedback: ACCOMPLISHED_FACT_COURT_ENTRY_FEEDBACK,
+      kind: 'appeal-entry',
+      target: 'final-occupancy-appeal-court',
+    };
+    saveAccomplishedFactEvictionClaims(st);
+
+    const resp = $('#accomplished-fact-eviction-appeal-entry-response');
+    if (resp) {
+      resp.textContent = ACCOMPLISHED_FACT_COURT_ENTRY_FEEDBACK;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $('#accomplished-fact-eviction-appeal-entry-btn');
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('remembrance', 'final-occupancy-appeal-court', { delay: accomplishedFactEvictionDelay() });
+  }
+
+  function chooseAccomplishedFactAppealAction(action) {
+    if (typeof currentScene !== 'string' || currentScene !== 'final-occupancy-appeal-court') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('final-occupancy-appeal-court')) return;
+    if (!ACCOMPLISHED_FACT_APPEAL_ACTIONS.includes(action)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`accomplished-fact-appeal-${action}`)) return;
+    if (!accomplishedFactEvictionUnlocked()) return;
+    const st = getAccomplishedFactEvictionClaims();
+    if (st.pending || st.activeBailiff || st.draft.tenant !== '' || st.draft.property !== '' || !accomplishedFactEvictionCoverageComplete(st) || !st.visited.court) return;
+
+    const aObj = ACCOMPLISHED_FACT_APPEAL_ACTION_TABLE[action];
+    st.pending = {
+      action,
+      feedback: aObj.feedback,
+      kind: 'appeal-action',
+      outcome: aObj.outcome,
+      source: 'final-occupancy-appeal-court',
+      target: aObj.target,
+    };
+    saveAccomplishedFactEvictionClaims(st);
+
+    const resp = $('#final-occupancy-appeal-court-response');
+    if (resp) {
+      resp.textContent = aObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#accomplished-fact-appeal-${action}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('final-occupancy-appeal-court', aObj.target, { delay: accomplishedFactEvictionDelay() });
+  }
+
+  function accomplishedFactEvictionBridgeAllows(targetScene) {
+    if (!accomplishedFactEvictionUnlocked()) return false;
+    const st = getAccomplishedFactEvictionClaims();
+    if (st.pending) {
+      if (st.pending.kind === 'eviction' && st.pending.target === targetScene) return true;
+      if (st.pending.kind === 'appeal-action' && st.pending.target === targetScene) return true;
+    }
+    if (st.activeBailiff) {
+      const propObj = ACCOMPLISHED_FACT_PROPERTY_TABLE[st.activeBailiff.property];
+      if (propObj && propObj.target === targetScene) return true;
+    }
+    if (st.lastOutcome && st.appealOutcomes.includes(st.lastOutcome)) {
+      const courtEntry = ACCOMPLISHED_FACT_APPEAL_OUTCOME_BY_ID[st.lastOutcome];
+      if (courtEntry && courtEntry.target === targetScene) return true;
+    }
+    return false;
+  }
+
+  function accomplishedFactEvictionAuthorityCanVisit() {
+    if (!accomplishedFactEvictionUnlocked()) return false;
+    const st = getAccomplishedFactEvictionClaims();
+    if (st.visited.authority) return true;
+    if (st.pending && (st.pending.kind === 'entry' || st.pending.kind === 'bailiff-return') && st.pending.target === 'accomplished-fact-eviction-authority') {
+      return true;
+    }
+    return false;
+  }
+
+  function condemnedHistorySurveyOfficeCanVisit() {
+    if (!accomplishedFactEvictionUnlocked()) return false;
+    const st = getAccomplishedFactEvictionClaims();
+    if (st.visited.survey && st.draft.tenant) return true;
+    if (st.pending && st.pending.kind === 'tenant' && st.pending.target === 'condemned-history-survey-office') {
+      return true;
+    }
+    return false;
+  }
+
+  function retroactiveDemolitionYardCanVisit() {
+    if (!accomplishedFactEvictionUnlocked()) return false;
+    const st = getAccomplishedFactEvictionClaims();
+    if (st.visited.yard && st.draft.tenant && st.draft.property) return true;
+    if (st.pending && st.pending.kind === 'property' && st.pending.target === 'retroactive-demolition-yard') {
+      return true;
+    }
+    return false;
+  }
+
+  function finalOccupancyAppealCourtCanVisit() {
+    if (!accomplishedFactEvictionUnlocked()) return false;
+    const st = getAccomplishedFactEvictionClaims();
+    const complete = accomplishedFactEvictionCoverageComplete(st);
+    if (st.visited.court && complete) return true;
+    if (st.pending && st.pending.kind === 'appeal-entry' && st.pending.target === 'final-occupancy-appeal-court') {
+      return true;
+    }
+    return false;
+  }
+
+  function syncAccomplishedFactEvictionAuthority() {
+    const fig = $('#accomplished-fact-eviction-authority-figure');
+    const canVisit = accomplishedFactEvictionAuthorityCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getAccomplishedFactEvictionClaims();
+
+    ACCOMPLISHED_FACT_TENANTS.forEach((t) => {
+      const btn = $(`#accomplished-fact-tenant-${t}`);
+      if (btn) {
+        btn.disabled = !canVisit || Boolean(st.pending);
+        const pressed = st.pending && st.pending.kind === 'tenant' && st.pending.tenant === t;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#accomplished-fact-eviction-authority-response');
+    if (resp && !st.pending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    paintAccomplishedFactEvictionMemory();
+    paintAccomplishedFactEvictionCodex();
+    syncAccomplishedFactEvictionLinks();
+  }
+
+  function syncCondemnedHistorySurveyOffice() {
+    const fig = $('#condemned-history-survey-office-figure');
+    const canVisit = condemnedHistorySurveyOfficeCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getAccomplishedFactEvictionClaims();
+
+    ACCOMPLISHED_FACT_PROPERTIES.forEach((p) => {
+      const btn = $(`#accomplished-fact-property-${p}`);
+      if (btn) {
+        btn.disabled = !canVisit || Boolean(st.pending);
+        const pressed = st.pending && st.pending.kind === 'property' && st.pending.property === p;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#condemned-history-survey-office-response');
+    if (resp && !st.pending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncAccomplishedFactEvictionLinks();
+  }
+
+  function syncRetroactiveDemolitionYard() {
+    const fig = $('#retroactive-demolition-yard-figure');
+    const canVisit = retroactiveDemolitionYardCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getAccomplishedFactEvictionClaims();
+
+    ACCOMPLISHED_FACT_DEMOLITION_METHODS.forEach((m) => {
+      const btn = $(`#accomplished-fact-method-${m}`);
+      if (btn) {
+        btn.disabled = !canVisit || Boolean(st.pending);
+        const pressed = st.pending && st.pending.kind === 'eviction' && st.pending.method === m;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#retroactive-demolition-yard-response');
+    if (resp && !st.pending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncAccomplishedFactEvictionLinks();
+  }
+
+  function syncFinalOccupancyAppealCourt() {
+    const fig = $('#final-occupancy-appeal-court-figure');
+    const canVisit = finalOccupancyAppealCourtCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getAccomplishedFactEvictionClaims();
+
+    ACCOMPLISHED_FACT_APPEAL_ACTIONS.forEach((a) => {
+      const btn = $(`#accomplished-fact-appeal-${a}`);
+      if (btn) {
+        btn.disabled = !canVisit || Boolean(st.pending);
+        const pressed = st.pending && st.pending.kind === 'appeal-action' && st.pending.action === a;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#final-occupancy-appeal-court-response');
+    if (resp && !st.pending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncAccomplishedFactEvictionLinks();
+  }
+
+  function syncAccomplishedFactBailiffs() {
+    const st = getAccomplishedFactEvictionClaims();
+    const scenes = ['birth-ballot-booth', 'crime-scene-without-offender', 'undeclared-war-room'];
+
+    scenes.forEach((scene) => {
+      const cont = $(`#accomplished-fact-bailiff-${scene}`);
+      const resp = $(`#accomplished-fact-bailiff-response-${scene}`);
+      const btn = $(`#accomplished-fact-bailiff-return-${scene}`);
+
+      let shouldShow = false;
+      if (st.activeBailiff) {
+        const propObj = ACCOMPLISHED_FACT_PROPERTY_TABLE[st.activeBailiff.property];
+        if (propObj && propObj.target === scene) {
+          shouldShow = true;
+        }
+      }
+      if (cont) {
+        cont.hidden = !shouldShow;
+        if (shouldShow) cont.removeAttribute('hidden');
+      }
+      if (resp) {
+        if (shouldShow && st.activeBailiff) {
+          resp.textContent = st.activeBailiff.feedback;
+          resp.hidden = false;
+          resp.removeAttribute('hidden');
+        } else {
+          resp.textContent = '';
+          resp.hidden = true;
+        }
+      }
+      if (btn) {
+        btn.hidden = !shouldShow;
+        if (shouldShow) btn.removeAttribute('hidden');
+        btn.disabled = !shouldShow || Boolean(st.pending);
+        const pressed = st.pending && st.pending.kind === 'bailiff-return' && st.pending.from === scene;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+  }
+
+  function paintAccomplishedFactEvictionMemory() {
+    const mem = $('#accomplished-fact-eviction-memory');
+    if (!mem) return;
+    if (!accomplishedFactEvictionUnlocked()) {
+      mem.hidden = true;
+      return;
+    }
+    mem.hidden = false;
+    mem.removeAttribute('hidden');
+    const st = getAccomplishedFactEvictionClaims();
+    const evictions = st.evictions;
+    const count = evictions.length;
+
+    const pCounts = {
+      'right-to-have-already-begun': 0,
+      'address-inside-a-healed-wound': 0,
+      'ownership-of-a-ruin-left-by-war': 0,
+    };
+    const mCounts = {
+      'demolish-the-cause-and-leave-the-consequence': 0,
+      'relocate-all-witnesses-outside-time': 0,
+      'condemn-memory-as-structurally-unsafe': 0,
+      'compensate-reality-with-an-alternate-past': 0,
+    };
+
+    evictions.forEach((id) => {
+      const p = id.split(':');
+      if (p.length === 3) {
+        if (pCounts[p[1]] !== undefined) pCounts[p[1]]++;
+        if (mCounts[p[2]] !== undefined) mCounts[p[2]]++;
+      }
+    });
+
+    const birth = st.tenantTallies.birth;
+    const scar = st.tenantTallies.scar;
+    const war = st.tenantTallies.war;
+
+    const aCount = pCounts['right-to-have-already-begun'];
+    const hCount = pCounts['address-inside-a-healed-wound'];
+    const uCount = pCounts['ownership-of-a-ruin-left-by-war'];
+
+    const cCount = mCounts['demolish-the-cause-and-leave-the-consequence'];
+    const tCount = mCounts['relocate-all-witnesses-outside-time'];
+    const mCount = mCounts['condemn-memory-as-structurally-unsafe'];
+    const pCount = mCounts['compensate-reality-with-an-alternate-past'];
+
+    let majority = '均衡候迁';
+    if (birth > scar && birth > war) majority = '主要清退已生出生';
+    else if (scar > birth && scar > war) majority = '主要清退长住伤疤';
+    else if (war > birth && war > scar) majority = '主要清退留墟战争';
+
+    const text = `既成拆迁：已签 ${count}/36 份腾退令，共拆除 ${st.evictionRuns} 次；候迁事实 出生 ${birth} / 伤疤 ${scar} / 战争 ${war}；产权 开始 ${aCount} / 愈伤 ${hCount} / 遗墟 ${uCount}；方式 拆因 ${cCount} / 迁证 ${tCount} / 判危 ${mCount} / 另史 ${pCount}；主迁事实 ${majority}；居住上诉 ${st.appealOutcomes.length}/3。`;
+    mem.textContent = text;
+  }
+
+  function paintAccomplishedFactEvictionCodex() {
+    const codex = $('#accomplished-fact-eviction-codex');
+    const grid = $('#accomplished-fact-eviction-codex-grid');
+    if (!codex || !grid) return;
+    if (!accomplishedFactEvictionUnlocked()) {
+      codex.hidden = true;
+      return;
+    }
+    codex.hidden = false;
+    codex.removeAttribute('hidden');
+    grid.textContent = '';
+
+    const st = getAccomplishedFactEvictionClaims();
+    const collectedEvictions = new Set(st.evictions);
+    const collectedOutcomes = new Set(st.appealOutcomes);
+
+    ACCOMPLISHED_FACT_EVICTION_IDS.forEach((id) => {
+      const cell = document.createElement('div');
+      if (collectedEvictions.has(id)) {
+        cell.className = 'accomplished-fact-eviction-cell is-unlocked';
+        const item = findAccomplishedFactEvictionById(id);
+        cell.textContent = item ? `${item.title}\n${item.feedback}` : id;
+      } else {
+        cell.className = 'accomplished-fact-eviction-cell is-locked';
+        cell.textContent = '？？？';
+      }
+      grid.appendChild(cell);
+    });
+
+    ACCOMPLISHED_FACT_APPEAL_ACTIONS.forEach((action) => {
+      const aObj = ACCOMPLISHED_FACT_APPEAL_ACTION_TABLE[action];
+      const cell = document.createElement('div');
+      if (collectedOutcomes.has(aObj.outcome)) {
+        cell.className = 'accomplished-fact-eviction-cell is-unlocked';
+        cell.textContent = `[最后居住权上诉庭] ${aObj.outcome}\n${aObj.feedback}`;
+      } else {
+        cell.className = 'accomplished-fact-eviction-cell is-locked';
+        cell.textContent = '？？？';
+      }
+      grid.appendChild(cell);
+    });
+  }
+
+  function syncAccomplishedFactEvictionRemembrance() {
+    const unlocked = accomplishedFactEvictionUnlocked();
+    const entryShell = $('#accomplished-fact-eviction-codex-entry');
+    const entryBtn = $('#accomplished-fact-eviction-entry-btn');
+    const courtBtn = $('#accomplished-fact-eviction-appeal-entry-btn');
+
+    if (!unlocked) {
+      if (entryShell) entryShell.hidden = true;
+      if (entryBtn) entryBtn.hidden = true;
+      if (courtBtn) courtBtn.hidden = true;
+      return;
+    }
+
+    if (entryShell) {
+      entryShell.hidden = false;
+      entryShell.removeAttribute('hidden');
+    }
+
+    const st = getAccomplishedFactEvictionClaims();
+    const isClean = !st.pending && !st.activeBailiff && st.draft.tenant === '' && st.draft.property === '';
+
+    if (entryBtn) {
+      entryBtn.hidden = false;
+      entryBtn.removeAttribute('hidden');
+      entryBtn.disabled = !isClean;
+      const pressed = st.pending && st.pending.kind === 'entry';
+      entryBtn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+    }
+
+    if (courtBtn) {
+      const coverage = accomplishedFactEvictionCoverageComplete(st);
+      courtBtn.hidden = !coverage;
+      if (coverage) courtBtn.removeAttribute('hidden');
+      courtBtn.disabled = !isClean || !coverage;
+      const pressed = st.pending && st.pending.kind === 'appeal-entry';
+      courtBtn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+    }
+  }
+
+  function syncAccomplishedFactEvictionLinks() {
+    const unlocked = accomplishedFactEvictionUnlocked();
+    const links = [
+      { id: 'accomplished-fact-eviction-authority-link', key: 'authority' },
+      { id: 'condemned-history-survey-office-link', key: 'survey' },
+      { id: 'retroactive-demolition-yard-link', key: 'yard' },
+      { id: 'final-occupancy-appeal-court-link', key: 'court' },
+    ];
+    const st = unlocked ? getAccomplishedFactEvictionClaims() : null;
+
+    links.forEach((l) => {
+      const el = $(`#${l.id}`);
+      if (el) {
+        const show = unlocked && st && st.visited[l.key] === true;
+        el.hidden = !show;
+        if (show) el.removeAttribute('hidden');
+      }
+    });
+  }
+
+  function forgetAccomplishedFactEvictionState() {
+    try { localStorage.removeItem(ACCOMPLISHED_FACT_EVICTION_KEY); } catch {}
+    AutoAdvance.clear('accomplished-fact-eviction-authority');
+    AutoAdvance.clear('condemned-history-survey-office');
+    AutoAdvance.clear('retroactive-demolition-yard');
+    AutoAdvance.clear('final-occupancy-appeal-court');
+    [
+      $('#accomplished-fact-eviction-memory'),
+      $('#accomplished-fact-eviction-codex'),
+      $('#accomplished-fact-eviction-codex-entry'),
+      $('#accomplished-fact-eviction-entry-btn'),
+      $('#accomplished-fact-eviction-appeal-entry-btn'),
+      $('#accomplished-fact-eviction-authority-figure'),
+      $('#condemned-history-survey-office-figure'),
+      $('#retroactive-demolition-yard-figure'),
+      $('#final-occupancy-appeal-court-figure'),
+      $('#accomplished-fact-eviction-authority-link'),
+      $('#condemned-history-survey-office-link'),
+      $('#retroactive-demolition-yard-link'),
+      $('#final-occupancy-appeal-court-link'),
+      $('#accomplished-fact-bailiff-birth-ballot-booth'),
+      $('#accomplished-fact-bailiff-crime-scene-without-offender'),
+      $('#accomplished-fact-bailiff-undeclared-war-room'),
+      $('#accomplished-fact-bailiff-return-birth-ballot-booth'),
+      $('#accomplished-fact-bailiff-return-crime-scene-without-offender'),
+      $('#accomplished-fact-bailiff-return-undeclared-war-room'),
+    ].forEach((el) => { if (el) el.hidden = true; });
+    [
+      $('#accomplished-fact-eviction-entry-response'),
+      $('#accomplished-fact-eviction-appeal-entry-response'),
+      $('#accomplished-fact-eviction-authority-response'),
+      $('#condemned-history-survey-office-response'),
+      $('#retroactive-demolition-yard-response'),
+      $('#final-occupancy-appeal-court-response'),
+      $('#accomplished-fact-bailiff-response-birth-ballot-booth'),
+      $('#accomplished-fact-bailiff-response-crime-scene-without-offender'),
+      $('#accomplished-fact-bailiff-response-undeclared-war-room'),
+      $('#accomplished-fact-eviction-memory'),
+      $('#accomplished-fact-eviction-codex-grid'),
+    ].forEach((el) => { if (el) el.textContent = ''; });
+    [
+      $('#accomplished-fact-eviction-entry-btn'),
+      $('#accomplished-fact-eviction-appeal-entry-btn'),
+      $('#accomplished-fact-tenant-birth-that-issued-a-body'),
+      $('#accomplished-fact-tenant-scar-that-outlived-the-wound'),
+      $('#accomplished-fact-tenant-war-that-kept-its-ruins'),
+      $('#accomplished-fact-property-right-to-have-already-begun'),
+      $('#accomplished-fact-property-address-inside-a-healed-wound'),
+      $('#accomplished-fact-property-ownership-of-a-ruin-left-by-war'),
+      $('#accomplished-fact-method-demolish-the-cause-and-leave-the-consequence'),
+      $('#accomplished-fact-method-relocate-all-witnesses-outside-time'),
+      $('#accomplished-fact-method-condemn-memory-as-structurally-unsafe'),
+      $('#accomplished-fact-method-compensate-reality-with-an-alternate-past'),
+      $('#accomplished-fact-bailiff-return-birth-ballot-booth'),
+      $('#accomplished-fact-bailiff-return-crime-scene-without-offender'),
+      $('#accomplished-fact-bailiff-return-undeclared-war-room'),
+      $('#accomplished-fact-appeal-grant-permanent-residency-to-every-accomplished-fact'),
+      $('#accomplished-fact-appeal-evict-history-and-let-consequences-squat'),
+      $('#accomplished-fact-appeal-demolish-the-present-for-illegal-construction-on-the-past'),
+    ].forEach((button) => {
+      if (button) {
+        button.disabled = false;
+        button.removeAttribute('aria-pressed');
+      }
+    });
+  }
+
+  const evictionAuthorityEntryBtn = $('#accomplished-fact-eviction-entry-btn');
+  if (evictionAuthorityEntryBtn) {
+    evictionAuthorityEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseAccomplishedFactEvictionEntry();
+    });
+  }
+
+  const evictionCourtEntryBtn = $('#accomplished-fact-eviction-appeal-entry-btn');
+  if (evictionCourtEntryBtn) {
+    evictionCourtEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseAccomplishedFactCourtEntry();
+    });
+  }
+
+  const tenantBirthBtn = $('#accomplished-fact-tenant-birth-that-issued-a-body');
+  if (tenantBirthBtn) {
+    tenantBirthBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseAccomplishedFactTenant('birth-that-issued-a-body');
+    });
+  }
+
+  const tenantScarBtn = $('#accomplished-fact-tenant-scar-that-outlived-the-wound');
+  if (tenantScarBtn) {
+    tenantScarBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseAccomplishedFactTenant('scar-that-outlived-the-wound');
+    });
+  }
+
+  const tenantWarBtn = $('#accomplished-fact-tenant-war-that-kept-its-ruins');
+  if (tenantWarBtn) {
+    tenantWarBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseAccomplishedFactTenant('war-that-kept-its-ruins');
+    });
+  }
+
+  const propertyBeginBtn = $('#accomplished-fact-property-right-to-have-already-begun');
+  if (propertyBeginBtn) {
+    propertyBeginBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseAccomplishedFactProperty('right-to-have-already-begun');
+    });
+  }
+
+  const propertyHealedBtn = $('#accomplished-fact-property-address-inside-a-healed-wound');
+  if (propertyHealedBtn) {
+    propertyHealedBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseAccomplishedFactProperty('address-inside-a-healed-wound');
+    });
+  }
+
+  const propertyRuinBtn = $('#accomplished-fact-property-ownership-of-a-ruin-left-by-war');
+  if (propertyRuinBtn) {
+    propertyRuinBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseAccomplishedFactProperty('ownership-of-a-ruin-left-by-war');
+    });
+  }
+
+  const methodDemolishBtn = $('#accomplished-fact-method-demolish-the-cause-and-leave-the-consequence');
+  if (methodDemolishBtn) {
+    methodDemolishBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseAccomplishedFactDemolitionMethod('demolish-the-cause-and-leave-the-consequence');
+    });
+  }
+
+  const methodRelocateBtn = $('#accomplished-fact-method-relocate-all-witnesses-outside-time');
+  if (methodRelocateBtn) {
+    methodRelocateBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseAccomplishedFactDemolitionMethod('relocate-all-witnesses-outside-time');
+    });
+  }
+
+  const methodCondemnBtn = $('#accomplished-fact-method-condemn-memory-as-structurally-unsafe');
+  if (methodCondemnBtn) {
+    methodCondemnBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseAccomplishedFactDemolitionMethod('condemn-memory-as-structurally-unsafe');
+    });
+  }
+
+  const methodCompensateBtn = $('#accomplished-fact-method-compensate-reality-with-an-alternate-past');
+  if (methodCompensateBtn) {
+    methodCompensateBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseAccomplishedFactDemolitionMethod('compensate-reality-with-an-alternate-past');
+    });
+  }
+
+  const bailiffReturnBirthBtn = $('#accomplished-fact-bailiff-return-birth-ballot-booth');
+  if (bailiffReturnBirthBtn) {
+    bailiffReturnBirthBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseAccomplishedFactBailiffReturn('birth-ballot-booth');
+    });
+  }
+
+  const bailiffReturnCrimeBtn = $('#accomplished-fact-bailiff-return-crime-scene-without-offender');
+  if (bailiffReturnCrimeBtn) {
+    bailiffReturnCrimeBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseAccomplishedFactBailiffReturn('crime-scene-without-offender');
+    });
+  }
+
+  const bailiffReturnWarBtn = $('#accomplished-fact-bailiff-return-undeclared-war-room');
+  if (bailiffReturnWarBtn) {
+    bailiffReturnWarBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseAccomplishedFactBailiffReturn('undeclared-war-room');
+    });
+  }
+
+  const appealPermanentBtn = $('#accomplished-fact-appeal-grant-permanent-residency-to-every-accomplished-fact');
+  if (appealPermanentBtn) {
+    appealPermanentBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseAccomplishedFactAppealAction('grant-permanent-residency-to-every-accomplished-fact');
+    });
+  }
+
+  const appealSquatBtn = $('#accomplished-fact-appeal-evict-history-and-let-consequences-squat');
+  if (appealSquatBtn) {
+    appealSquatBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseAccomplishedFactAppealAction('evict-history-and-let-consequences-squat');
+    });
+  }
+
+  const appealDemolishBtn = $('#accomplished-fact-appeal-demolish-the-present-for-illegal-construction-on-the-past');
+  if (appealDemolishBtn) {
+    appealDemolishBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseAccomplishedFactAppealAction('demolish-the-present-for-illegal-construction-on-the-past');
+    });
+  }
+
+
+  /* ============================================================
+     v90: 无因后果难民署 (Refugee Authority for Consequences Without Causes)
+     ============================================================ */
+
+  const CAUSELESS_CONSEQUENCE_KEY = 'goddead_v90_causeless_consequence_refugee';
+  const CAUSELESS_CONSEQUENCE_VERSION = 90;
+  const CAUSELESS_CONSEQUENCE_REFUGEES = [
+    'age-that-arrived-without-a-birth',
+    'scar-with-no-wound-to-remember',
+    'ruins-from-a-war-that-cannot-be-found',
+  ];
+  const CAUSELESS_CONSEQUENCE_SPONSORS = [
+    'doorway-that-claims-it-was-the-birth',
+    'memory-that-volunteers-to-have-been-the-wound',
+    'empty-frame-that-confesses-it-was-the-war',
+  ];
+  const CAUSELESS_CONSEQUENCE_BORDER_PROTOCOLS = [
+    'issue-a-temporary-cause-visa',
+    'sew-the-borrowed-cause-into-the-effect',
+    'declare-the-refugee-self-caused',
+    'leave-the-cause-field-blank-and-stamp-reality',
+  ];
+  const CAUSELESS_CONSEQUENCE_VERDICT_ACTIONS = [
+    'grant-causal-asylum-to-every-orphaned-consequence',
+    'deport-every-consequence-to-before-its-missing-cause',
+    'recognize-every-effect-as-the-ancestor-of-its-cause',
+  ];
+
+  const CAUSELESS_CONSEQUENCE_REFUGEE_TABLE = {
+    'age-that-arrived-without-a-birth': {
+      tallyKey: 'age',
+      title: '无生年龄',
+      feedback: '身体仍在增长年龄，出生日期却已被拆除。它提着装满生日蜡烛的箱子来到难民署，每根蜡烛都能证明它老了一岁，却没有一根能证明第一岁从何开始。',
+    },
+    'scar-with-no-wound-to-remember': {
+      tallyKey: 'scar',
+      title: '无伤伤疤',
+      feedback: '伤口失去历史产权后，伤疤成了没有原籍的皮肤难民。它仍会在阴雨天疼痛，却无法说出究竟是哪一次伤害越过了边境。',
+    },
+    'ruins-from-a-war-that-cannot-be-found': {
+      tallyKey: 'ruin',
+      title: '无战废墟',
+      feedback: '断墙、空盔与烧黑的街道结队抵达，身后没有战争。它们携带全部灾难证物，却被每一本历史书认定为来源不明的建筑垃圾。',
+    },
+  };
+
+  const CAUSELESS_CONSEQUENCE_SPONSOR_TABLE = {
+    'doorway-that-claims-it-was-the-birth': {
+      title: '门槛认生',
+      target: 'threshold',
+      consul: 'causeless-consequence-consul-threshold',
+      consulTitle: '门槛原籍领事',
+      feedback: '门槛记得每一次进入，愿意宣称其中一次跨越就是出生。它能给年龄补一张起点证明，但从此所有开门都可能被登记为新生。',
+      consulFeedback: '门槛原籍领事把所有跨越记录摊在地上。它找不到真正的第一步，于是任选一道脚印盖成出生；年龄获得起点后，门槛开始替每位访客庆祝生日。',
+    },
+    'memory-that-volunteers-to-have-been-the-wound': {
+      title: '记忆代伤',
+      target: 'remembrance',
+      consul: 'causeless-consequence-consul-remembrance',
+      consulTitle: '记忆原籍公证员',
+      feedback: '痕迹室里一段无主记忆自愿承认自己曾是伤口。它可以替伤疤提供来源，只是记忆会从此真的开始流血。',
+      consulFeedback: '记忆原籍公证员让无主回忆在伤疤旁按下血指印。档案终于有了伤口，回忆却第一次感到疼，并坚持这是它亲眼经历的证词。',
+    },
+    'empty-frame-that-confesses-it-was-the-war': {
+      title: '空框认战',
+      target: 'unending-gallery',
+      consul: 'causeless-consequence-consul-unending-gallery',
+      consulTitle: '画廊因果领事',
+      feedback: '无尽画廊的一只空框愿意认领整场战争。只要把废墟装进画面，空白就会成为战场；代价是所有观看者都将被登记为幸存者。',
+      consulFeedback: '画廊因果领事把废墟装进空框，宣布画框就是战争。所有观看者立刻收到幸存证明；他们望着从未发生的战场，发现自己已经开始悼念。',
+    },
+  };
+
+  const CAUSELESS_CONSEQUENCE_BORDER_PROTOCOL_TABLE = {
+    'issue-a-temporary-cause-visa': {
+      title: '临因签证',
+      fragment: '签发一枚每天午夜失效的临时原因。后果可以合法存在二十四小时，然后必须再次证明自己为何发生；现实因此学会每天早晨重写一次昨天。',
+    },
+    'sew-the-borrowed-cause-into-the-effect': {
+      title: '缝因入果',
+      fragment: '用逆向缝线把担保原因缝进后果内部。档案从此严丝合缝，但担保人会逐渐长出一段自己从未经历过的过去。',
+    },
+    'declare-the-refugee-self-caused': {
+      title: '自因为民',
+      fragment: '宣布后果本身就是自己的原因。年龄生出年龄，伤疤划开伤疤，废墟发动毁掉自己的战争；难民立即取得国籍，也立即成为自己的祖先。',
+    },
+    'leave-the-cause-field-blank-and-stamp-reality': {
+      title: '空因盖现',
+      fragment: '让原因栏永久空白，只在现实栏盖章。制度承认“不知道为何”也足以居住；从此每一件事都可以发生，世界不再享有追问的权利。',
+    },
+  };
+
+  const CAUSELESS_CONSEQUENCE_VERDICT_ACTION_TABLE = {
+    'grant-causal-asylum-to-every-orphaned-consequence': {
+      outcome: 'reality-became-a-country-for-effects-without-origins',
+      target: 'threshold',
+      feedback: '终审庭宣布原因不是居住现实的前提。门槛向所有后果开放，年龄、伤疤与废墟取得永久身份；现实第一次成为一个允许居民不知道自己从何而来的国家。',
+    },
+    'deport-every-consequence-to-before-its-missing-cause': {
+      outcome: 'the-future-filled-with-effects-waiting-for-their-causes',
+      target: 'remembrance',
+      feedback: '全部无因后果被遣返到它们缺失的原因以前。未来挤满尚未受伤的伤疤、尚未出生的年龄和等待战争的废墟；痕迹室开始记住明天将遭受的一切。',
+    },
+    'recognize-every-effect-as-the-ancestor-of-its-cause': {
+      outcome: 'causality-began-inheriting-itself-backward',
+      target: 'unending-gallery',
+      feedback: '法庭让后果收养自己的原因。画廊里的谱系从结局向起点倒着生长；每个原因都继承一项早于自己存在的后果，因果开始向过去办理出生登记。',
+    },
+  };
+
+  const CAUSELESS_CONSEQUENCE_VERDICT_OUTCOME_BY_ID = {};
+  const CAUSELESS_CONSEQUENCE_VERDICT_OUTCOME_IDS = CAUSELESS_CONSEQUENCE_VERDICT_ACTIONS.map((a) => {
+    const out = CAUSELESS_CONSEQUENCE_VERDICT_ACTION_TABLE[a].outcome;
+    CAUSELESS_CONSEQUENCE_VERDICT_OUTCOME_BY_ID[out] = CAUSELESS_CONSEQUENCE_VERDICT_ACTION_TABLE[a];
+    return out;
+  });
+
+  const CAUSELESS_CONSEQUENCE_ASYLUM_IDS = [];
+  for (let r = 0; r < CAUSELESS_CONSEQUENCE_REFUGEES.length; r++) {
+    for (let s = 0; s < CAUSELESS_CONSEQUENCE_SPONSORS.length; s++) {
+      for (let p = 0; p < CAUSELESS_CONSEQUENCE_BORDER_PROTOCOLS.length; p++) {
+        CAUSELESS_CONSEQUENCE_ASYLUM_IDS.push(`${CAUSELESS_CONSEQUENCE_REFUGEES[r]}:${CAUSELESS_CONSEQUENCE_SPONSORS[s]}:${CAUSELESS_CONSEQUENCE_BORDER_PROTOCOLS[p]}`);
+      }
+    }
+  }
+
+  const CAUSELESS_CONSEQUENCE_ENTRY_FEEDBACK = '前往无因后果难民署 · GO TO REFUGEE AUTHORITY FOR CONSEQUENCES WITHOUT CAUSES';
+  const CAUSELESS_CONSEQUENCE_TRIBUNAL_ENTRY_FEEDBACK = '进入无因后果终审庇护庭 · ENTER FINAL ASYLUM TRIBUNAL FOR CAUSELESS CONSEQUENCES';
+
+  function causelessConsequenceRefugeeDelay() {
+    return reduced ? 300 : 1600;
+  }
+
+  function defaultCauselessConsequenceClaims() {
+    return {
+      version: CAUSELESS_CONSEQUENCE_VERSION,
+      visited: { authority: false, sponsorship: false, border: false, tribunal: false },
+      draft: { refugee: '', sponsor: '' },
+      asylumCases: [],
+      verdictOutcomes: [],
+      processingRuns: 0,
+      verdictRuns: 0,
+      refugeeTallies: { age: 0, scar: 0, ruin: 0 },
+      lastOutcome: '',
+      activeConsul: null,
+      pending: null,
+    };
+  }
+
+  function normalizeCauselessConsequenceVisited(v) {
+    if (!v || typeof v !== 'object' || Array.isArray(v)) {
+      return { authority: false, sponsorship: false, border: false, tribunal: false };
+    }
+    return {
+      authority: v.authority === true,
+      sponsorship: v.sponsorship === true,
+      border: v.border === true,
+      tribunal: v.tribunal === true,
+    };
+  }
+
+  function normalizeCauselessConsequenceDraft(d) {
+    if (!d || typeof d !== 'object' || Array.isArray(d)) {
+      return { refugee: '', sponsor: '' };
+    }
+    const refugee = typeof d.refugee === 'string' && CAUSELESS_CONSEQUENCE_REFUGEES.includes(d.refugee) ? d.refugee : '';
+    if (!refugee) {
+      return { refugee: '', sponsor: '' };
+    }
+    const sponsor = typeof d.sponsor === 'string' && CAUSELESS_CONSEQUENCE_SPONSORS.includes(d.sponsor) ? d.sponsor : '';
+    return { refugee, sponsor };
+  }
+
+  function normalizeCauselessConsequenceAsylumCases(arr) {
+    if (!Array.isArray(arr)) return [];
+    const set = new Set();
+    for (let i = 0; i < arr.length; i++) {
+      if (typeof arr[i] === 'string' && CAUSELESS_CONSEQUENCE_ASYLUM_IDS.includes(arr[i])) {
+        set.add(arr[i]);
+      }
+    }
+    return CAUSELESS_CONSEQUENCE_ASYLUM_IDS.filter((id) => set.has(id));
+  }
+
+  function normalizeCauselessConsequenceVerdictOutcomes(arr) {
+    if (!Array.isArray(arr)) return [];
+    const set = new Set();
+    for (let i = 0; i < arr.length; i++) {
+      if (typeof arr[i] === 'string' && CAUSELESS_CONSEQUENCE_VERDICT_OUTCOME_IDS.includes(arr[i])) {
+        set.add(arr[i]);
+      }
+    }
+    return CAUSELESS_CONSEQUENCE_VERDICT_OUTCOME_IDS.filter((id) => set.has(id));
+  }
+
+  function clampCauselessConsequenceCount(n) {
+    const num = Math.floor(Number(n) || 0);
+    if (num < 0) return 0;
+    if (num > 9999) return 9999;
+    return num;
+  }
+
+  function normalizeCauselessConsequenceTallies(t) {
+    if (!t || typeof t !== 'object' || Array.isArray(t)) {
+      return { age: 0, scar: 0, ruin: 0 };
+    }
+    return {
+      age: clampCauselessConsequenceCount(t.age),
+      scar: clampCauselessConsequenceCount(t.scar),
+      ruin: clampCauselessConsequenceCount(t.ruin),
+    };
+  }
+
+  function normalizeCauselessConsequenceActiveConsul(h, asylumCases) {
+    if (!h || typeof h !== 'object' || Array.isArray(h)) return null;
+    const keys = Object.keys(h).sort();
+    if (keys.length !== 3 || keys[0] !== 'asylumCase' || keys[1] !== 'feedback' || keys[2] !== 'sponsor') {
+      return null;
+    }
+    const sponsor = h.sponsor;
+    const asy = h.asylumCase;
+    if (!CAUSELESS_CONSEQUENCE_SPONSORS.includes(sponsor) || typeof asy !== 'string') {
+      return null;
+    }
+    const sponsorTable = CAUSELESS_CONSEQUENCE_SPONSOR_TABLE[sponsor];
+    if (!sponsorTable || h.feedback !== sponsorTable.consulFeedback) {
+      return null;
+    }
+    const canonicalCases = Array.isArray(asylumCases) ? asylumCases : [];
+    if (!canonicalCases.includes(asy)) return null;
+    const parts = asy.split(':');
+    if (parts.length !== 3 || parts[1] !== sponsor) return null;
+    return {
+      asylumCase: asy,
+      feedback: sponsorTable.consulFeedback,
+      sponsor,
+    };
+  }
+
+  function computeCauselessConsequenceAsylumTitle(refugee, sponsor, protocol) {
+    const rObj = CAUSELESS_CONSEQUENCE_REFUGEE_TABLE[refugee];
+    const sObj = CAUSELESS_CONSEQUENCE_SPONSOR_TABLE[sponsor];
+    const pObj = CAUSELESS_CONSEQUENCE_BORDER_PROTOCOL_TABLE[protocol];
+    if (!rObj || !sObj || !pObj) return '';
+    return `${rObj.title} × ${sObj.title} × ${pObj.title}`;
+  }
+
+  function computeCauselessConsequenceAsylumFeedback(refugee, sponsor, protocol) {
+    const rObj = CAUSELESS_CONSEQUENCE_REFUGEE_TABLE[refugee];
+    const sObj = CAUSELESS_CONSEQUENCE_SPONSOR_TABLE[sponsor];
+    const pObj = CAUSELESS_CONSEQUENCE_BORDER_PROTOCOL_TABLE[protocol];
+    if (!rObj || !sObj || !pObj) return '';
+    return `${rObj.feedback} ${sObj.feedback} ${pObj.fragment}`;
+  }
+
+  function findCauselessConsequenceAsylumById(id) {
+    if (typeof id !== 'string' || !CAUSELESS_CONSEQUENCE_ASYLUM_IDS.includes(id)) return null;
+    const parts = id.split(':');
+    if (parts.length !== 3) return null;
+    const [refugee, sponsor, protocol] = parts;
+    return {
+      id,
+      refugee,
+      sponsor,
+      protocol,
+      title: computeCauselessConsequenceAsylumTitle(refugee, sponsor, protocol),
+      feedback: computeCauselessConsequenceAsylumFeedback(refugee, sponsor, protocol),
+    };
+  }
+
+  function causelessConsequenceRefugeeUnlocked() {
+    if (typeof accomplishedFactEvictionUnlocked !== 'function' || !accomplishedFactEvictionUnlocked()) {
+      return false;
+    }
+    if (typeof getAccomplishedFactEvictionClaims !== 'function') return false;
+    const aState = getAccomplishedFactEvictionClaims();
+    if (!aState || typeof aState !== 'object') return false;
+    const evictions = Array.isArray(aState.evictions) ? aState.evictions : [];
+    if (evictions.length < 4) return false;
+
+    const tReq = new Set(['birth-that-issued-a-body', 'scar-that-outlived-the-wound', 'war-that-kept-its-ruins']);
+    const pReq = new Set(['right-to-have-already-begun', 'address-inside-a-healed-wound', 'ownership-of-a-ruin-left-by-war']);
+    const mReq = new Set([
+      'demolish-the-cause-and-leave-the-consequence',
+      'relocate-all-witnesses-outside-time',
+      'condemn-memory-as-structurally-unsafe',
+      'compensate-reality-with-an-alternate-past',
+    ]);
+
+    const tSeen = new Set();
+    const pSeen = new Set();
+    const mSeen = new Set();
+    for (let idx = 0; idx < evictions.length; idx++) {
+      const e = evictions[idx];
+      if (typeof e === 'string') {
+        const parts = e.split(':');
+        if (parts.length === 3) {
+          if (tReq.has(parts[0])) tSeen.add(parts[0]);
+          if (pReq.has(parts[1])) pSeen.add(parts[1]);
+          if (mReq.has(parts[2])) mSeen.add(parts[2]);
+        }
+      }
+    }
+
+    if (tSeen.size < 3 || pSeen.size < 3 || mSeen.size < 4) return false;
+
+    const appealOutcomes = Array.isArray(aState.appealOutcomes) ? aState.appealOutcomes : [];
+    const requiredOutcomes = [
+      'the-past-became-an-undeletable-address',
+      'only-the-consequences-remained-home',
+      'the-present-was-condemned-for-occupying-history',
+    ];
+    for (let j = 0; j < requiredOutcomes.length; j++) {
+      if (!appealOutcomes.includes(requiredOutcomes[j])) return false;
+    }
+    return true;
+  }
+
+  function causelessConsequenceRefugeeCoverageComplete(st) {
+    if (!st || typeof st !== 'object') return false;
+    const asylumCases = normalizeCauselessConsequenceAsylumCases(st.asylumCases);
+    if (asylumCases.length < 4) return false;
+    const rSet = new Set();
+    const sSet = new Set();
+    const pSet = new Set();
+    for (let idx = 0; idx < asylumCases.length; idx++) {
+      const parts = asylumCases[idx].split(':');
+      if (parts.length === 3) {
+        rSet.add(parts[0]);
+        sSet.add(parts[1]);
+        pSet.add(parts[2]);
+      }
+    }
+    return rSet.size === CAUSELESS_CONSEQUENCE_REFUGEES.length &&
+           sSet.size === CAUSELESS_CONSEQUENCE_SPONSORS.length &&
+           pSet.size === CAUSELESS_CONSEQUENCE_BORDER_PROTOCOLS.length;
+  }
+
+  function normalizeCauselessConsequencePending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p)) return null;
+    if (!st || st._v90unlocked !== true) return null;
+    const kind = p.kind;
+    if (typeof kind !== 'string') return null;
+    const keys = Object.keys(p).sort();
+
+    if (kind === 'entry') {
+      if (keys.length !== 3 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'target') return null;
+      if (p.target !== 'causeless-consequence-refugee-authority') return null;
+      if (p.feedback !== CAUSELESS_CONSEQUENCE_ENTRY_FEEDBACK) return null;
+      if (st.draft.refugee !== '' || st.draft.sponsor !== '' || st.activeConsul !== null) return null;
+      return { feedback: p.feedback, kind: 'entry', target: 'causeless-consequence-refugee-authority' };
+    }
+
+    if (kind === 'refugee') {
+      if (keys.length !== 5 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'refugee' || keys[3] !== 'source' || keys[4] !== 'target') return null;
+      if (p.source !== 'causeless-consequence-refugee-authority' || p.target !== 'borrowed-cause-sponsorship-office') return null;
+      if (!CAUSELESS_CONSEQUENCE_REFUGEES.includes(p.refugee)) return null;
+      if (p.feedback !== CAUSELESS_CONSEQUENCE_REFUGEE_TABLE[p.refugee].feedback) return null;
+      if (st.draft.refugee !== '' || st.draft.sponsor !== '' || st.activeConsul !== null) return null;
+      return { feedback: p.feedback, kind: 'refugee', refugee: p.refugee, source: 'causeless-consequence-refugee-authority', target: 'borrowed-cause-sponsorship-office' };
+    }
+
+    if (kind === 'sponsor') {
+      if (keys.length !== 6 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'refugee' || keys[3] !== 'source' || keys[4] !== 'sponsor' || keys[5] !== 'target') return null;
+      if (p.source !== 'borrowed-cause-sponsorship-office' || p.target !== 'causal-border-processing-station') return null;
+      if (!CAUSELESS_CONSEQUENCE_REFUGEES.includes(p.refugee) || !CAUSELESS_CONSEQUENCE_SPONSORS.includes(p.sponsor)) return null;
+      if (st.draft.refugee !== p.refugee || st.draft.sponsor !== '') return null;
+      if (p.feedback !== CAUSELESS_CONSEQUENCE_SPONSOR_TABLE[p.sponsor].feedback) return null;
+      if (st.activeConsul !== null) return null;
+      return { feedback: p.feedback, kind: 'sponsor', refugee: p.refugee, source: 'borrowed-cause-sponsorship-office', sponsor: p.sponsor, target: 'causal-border-processing-station' };
+    }
+
+    if (kind === 'asylum') {
+      if (keys.length !== 8 || keys[0] !== 'asylumCase' || keys[1] !== 'feedback' || keys[2] !== 'kind' || keys[3] !== 'protocol' || keys[4] !== 'refugee' || keys[5] !== 'source' || keys[6] !== 'sponsor' || keys[7] !== 'target') return null;
+      if (p.source !== 'causal-border-processing-station') return null;
+      if (!CAUSELESS_CONSEQUENCE_REFUGEES.includes(p.refugee) || !CAUSELESS_CONSEQUENCE_SPONSORS.includes(p.sponsor) || !CAUSELESS_CONSEQUENCE_BORDER_PROTOCOLS.includes(p.protocol)) return null;
+      if (st.draft.refugee !== p.refugee || st.draft.sponsor !== p.sponsor) return null;
+      const expectedCase = `${p.refugee}:${p.sponsor}:${p.protocol}`;
+      if (p.asylumCase !== expectedCase) return null;
+      const sObj = CAUSELESS_CONSEQUENCE_SPONSOR_TABLE[p.sponsor];
+      if (!sObj || p.target !== sObj.target) return null;
+      const expectedFb = computeCauselessConsequenceAsylumFeedback(p.refugee, p.sponsor, p.protocol);
+      if (p.feedback !== expectedFb) return null;
+      if (st.activeConsul !== null) return null;
+      return {
+        asylumCase: p.asylumCase,
+        feedback: p.feedback,
+        kind: 'asylum',
+        protocol: p.protocol,
+        refugee: p.refugee,
+        source: 'causal-border-processing-station',
+        sponsor: p.sponsor,
+        target: p.target,
+      };
+    }
+
+    if (kind === 'consul-return') {
+      if (keys.length !== 5 || keys[0] !== 'asylumCase' || keys[1] !== 'feedback' || keys[2] !== 'from' || keys[3] !== 'kind' || keys[4] !== 'target') return null;
+      if (p.target !== 'causeless-consequence-refugee-authority') return null;
+      if (!st.activeConsul) return null;
+      const sponsorObj = CAUSELESS_CONSEQUENCE_SPONSOR_TABLE[st.activeConsul.sponsor];
+      if (!sponsorObj || p.from !== sponsorObj.target) return null;
+      if (typeof p.asylumCase !== 'string' || p.asylumCase !== st.activeConsul.asylumCase) return null;
+      if (!st.asylumCases.includes(p.asylumCase)) return null;
+      const parts = p.asylumCase.split(':');
+      if (parts.length !== 3 || parts[1] !== st.activeConsul.sponsor) return null;
+      if (p.feedback !== sponsorObj.consulFeedback) return null;
+      return { asylumCase: p.asylumCase, feedback: p.feedback, from: p.from, kind: 'consul-return', target: 'causeless-consequence-refugee-authority' };
+    }
+
+    if (kind === 'verdict-entry') {
+      if (keys.length !== 3 || keys[0] !== 'feedback' || keys[1] !== 'kind' || keys[2] !== 'target') return null;
+      if (p.target !== 'final-asylum-tribunal-for-causeless-consequences') return null;
+      if (p.feedback !== CAUSELESS_CONSEQUENCE_TRIBUNAL_ENTRY_FEEDBACK) return null;
+      if (!causelessConsequenceRefugeeCoverageComplete(st)) return null;
+      if (st.draft.refugee !== '' || st.draft.sponsor !== '' || st.activeConsul !== null) return null;
+      return { feedback: p.feedback, kind: 'verdict-entry', target: 'final-asylum-tribunal-for-causeless-consequences' };
+    }
+
+    if (kind === 'verdict-action') {
+      if (keys.length !== 6 || keys[0] !== 'action' || keys[1] !== 'feedback' || keys[2] !== 'kind' || keys[3] !== 'outcome' || keys[4] !== 'source' || keys[5] !== 'target') return null;
+      if (p.source !== 'final-asylum-tribunal-for-causeless-consequences') return null;
+      if (!CAUSELESS_CONSEQUENCE_VERDICT_ACTIONS.includes(p.action)) return null;
+      const aObj = CAUSELESS_CONSEQUENCE_VERDICT_ACTION_TABLE[p.action];
+      if (!aObj || p.outcome !== aObj.outcome || p.target !== aObj.target || p.feedback !== aObj.feedback) return null;
+      if (!causelessConsequenceRefugeeCoverageComplete(st)) return null;
+      if (st.visited.tribunal !== true) return null;
+      if (st.draft.refugee !== '' || st.draft.sponsor !== '' || st.activeConsul !== null) return null;
+      return { action: p.action, feedback: p.feedback, kind: 'verdict-action', outcome: p.outcome, source: 'final-asylum-tribunal-for-causeless-consequences', target: p.target };
+    }
+
+    return null;
+  }
+
+  function getCauselessConsequenceRefugeeClaims() {
+    const unlocked = causelessConsequenceRefugeeUnlocked();
+    if (!unlocked) return defaultCauselessConsequenceClaims();
+    let raw;
+    try {
+      const str = store.get(CAUSELESS_CONSEQUENCE_KEY, '{}');
+      raw = typeof str === 'string' ? JSON.parse(str) : str;
+    } catch (e) {
+      return defaultCauselessConsequenceClaims();
+    }
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+      return defaultCauselessConsequenceClaims();
+    }
+    if (raw.version !== CAUSELESS_CONSEQUENCE_VERSION) {
+      return defaultCauselessConsequenceClaims();
+    }
+
+    const visited = normalizeCauselessConsequenceVisited(raw.visited);
+    const draft = normalizeCauselessConsequenceDraft(raw.draft);
+    const asylumCases = normalizeCauselessConsequenceAsylumCases(raw.asylumCases);
+    const verdictOutcomes = normalizeCauselessConsequenceVerdictOutcomes(raw.verdictOutcomes);
+    const processingRuns = clampCauselessConsequenceCount(raw.processingRuns);
+    const verdictRuns = clampCauselessConsequenceCount(raw.verdictRuns);
+    const refugeeTallies = normalizeCauselessConsequenceTallies(raw.refugeeTallies);
+    const activeConsul = normalizeCauselessConsequenceActiveConsul(raw.activeConsul, asylumCases);
+
+    let lastOutcome = '';
+    if (typeof raw.lastOutcome === 'string') {
+      if (asylumCases.includes(raw.lastOutcome) || verdictOutcomes.includes(raw.lastOutcome)) {
+        lastOutcome = raw.lastOutcome;
+      }
+    }
+
+    const preSt = {
+      version: CAUSELESS_CONSEQUENCE_VERSION,
+      visited,
+      draft,
+      asylumCases,
+      verdictOutcomes,
+      processingRuns,
+      verdictRuns,
+      refugeeTallies,
+      lastOutcome,
+      activeConsul,
+      pending: null,
+      _v90unlocked: true,
+    };
+    const pending = normalizeCauselessConsequencePending(raw.pending, preSt);
+
+    return {
+      version: CAUSELESS_CONSEQUENCE_VERSION,
+      visited,
+      draft,
+      asylumCases,
+      verdictOutcomes,
+      processingRuns,
+      verdictRuns,
+      refugeeTallies,
+      lastOutcome,
+      activeConsul,
+      pending,
+    };
+  }
+
+  function saveCauselessConsequenceRefugeeClaims(st) {
+    const unlocked = causelessConsequenceRefugeeUnlocked();
+    if (!unlocked) return defaultCauselessConsequenceClaims();
+    if (!st || typeof st !== 'object' || Array.isArray(st)) {
+      const d = defaultCauselessConsequenceClaims();
+      store.set(CAUSELESS_CONSEQUENCE_KEY, JSON.stringify(d));
+      return d;
+    }
+
+    const visited = normalizeCauselessConsequenceVisited(st.visited);
+    const draft = normalizeCauselessConsequenceDraft(st.draft);
+    const asylumCases = normalizeCauselessConsequenceAsylumCases(st.asylumCases);
+    const verdictOutcomes = normalizeCauselessConsequenceVerdictOutcomes(st.verdictOutcomes);
+    const processingRuns = clampCauselessConsequenceCount(st.processingRuns);
+    const verdictRuns = clampCauselessConsequenceCount(st.verdictRuns);
+    const refugeeTallies = normalizeCauselessConsequenceTallies(st.refugeeTallies);
+    const activeConsul = normalizeCauselessConsequenceActiveConsul(st.activeConsul, asylumCases);
+
+    let lastOutcome = '';
+    if (typeof st.lastOutcome === 'string') {
+      if (asylumCases.includes(st.lastOutcome) || verdictOutcomes.includes(st.lastOutcome)) {
+        lastOutcome = st.lastOutcome;
+      }
+    }
+
+    const preSt = {
+      version: CAUSELESS_CONSEQUENCE_VERSION,
+      visited,
+      draft,
+      asylumCases,
+      verdictOutcomes,
+      processingRuns,
+      verdictRuns,
+      refugeeTallies,
+      lastOutcome,
+      activeConsul,
+      pending: null,
+      _v90unlocked: true,
+    };
+    const pending = normalizeCauselessConsequencePending(st.pending, preSt);
+
+    const canonical = {
+      version: CAUSELESS_CONSEQUENCE_VERSION,
+      visited,
+      draft,
+      asylumCases,
+      verdictOutcomes,
+      processingRuns,
+      verdictRuns,
+      refugeeTallies,
+      lastOutcome,
+      activeConsul,
+      pending,
+    };
+    store.set(CAUSELESS_CONSEQUENCE_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function getCauselessConsequencePendingLogicalSource(p) {
+    if (!p || !p.kind) return '';
+    if (p.kind === 'entry' || p.kind === 'verdict-entry') return 'remembrance';
+    if (p.kind === 'consul-return') return p.from;
+    return p.source || '';
+  }
+
+  function resolveCauselessConsequencePendingOnArrival(sceneName) {
+    const st = getCauselessConsequenceRefugeeClaims();
+    if (!st || !st.pending) return st;
+    const p = st.pending;
+
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.authority = true;
+      } else if (p.kind === 'refugee') {
+        st.visited.sponsorship = true;
+        st.draft = { refugee: p.refugee, sponsor: '' };
+      } else if (p.kind === 'sponsor') {
+        st.visited.border = true;
+        st.draft.sponsor = p.sponsor;
+      } else if (p.kind === 'asylum') {
+        st.processingRuns = clampCauselessConsequenceCount(st.processingRuns + 1);
+        const rObj = CAUSELESS_CONSEQUENCE_REFUGEE_TABLE[p.refugee];
+        if (rObj && rObj.tallyKey) {
+          st.refugeeTallies[rObj.tallyKey] = clampCauselessConsequenceCount(st.refugeeTallies[rObj.tallyKey] + 1);
+        }
+        if (!st.asylumCases.includes(p.asylumCase)) {
+          st.asylumCases = normalizeCauselessConsequenceAsylumCases(st.asylumCases.concat(p.asylumCase));
+        }
+        st.lastOutcome = p.asylumCase;
+        const sponsorObj = CAUSELESS_CONSEQUENCE_SPONSOR_TABLE[p.sponsor];
+        st.activeConsul = {
+          asylumCase: p.asylumCase,
+          feedback: sponsorObj ? sponsorObj.consulFeedback : '',
+          sponsor: p.sponsor,
+        };
+        st.draft = { refugee: '', sponsor: '' };
+      } else if (p.kind === 'consul-return') {
+        st.activeConsul = null;
+        st.draft = { refugee: '', sponsor: '' };
+        st.visited.authority = true;
+      } else if (p.kind === 'verdict-entry') {
+        st.visited.tribunal = true;
+      } else if (p.kind === 'verdict-action') {
+        st.verdictRuns = clampCauselessConsequenceCount(st.verdictRuns + 1);
+        if (!st.verdictOutcomes.includes(p.outcome)) {
+          st.verdictOutcomes = normalizeCauselessConsequenceVerdictOutcomes(st.verdictOutcomes.concat(p.outcome));
+        }
+        st.lastOutcome = p.outcome;
+      }
+      return saveCauselessConsequenceRefugeeClaims(st);
+    }
+
+    const logicalSource = getCauselessConsequencePendingLogicalSource(p);
+    if (sceneName === logicalSource) {
+      return st;
+    }
+
+    st.pending = null;
+    return saveCauselessConsequenceRefugeeClaims(st);
+  }
+
+  function replayCauselessConsequenceRefugeePending(sceneName) {
+    const st = getCauselessConsequenceRefugeeClaims();
+    if (!st.pending) {
+      syncCauselessConsequenceRefugeeAuthority();
+      syncBorrowedCauseSponsorshipOffice();
+      syncCausalBorderProcessingStation();
+      syncFinalAsylumTribunalForCauselessConsequences();
+      syncCauselessConsequenceConsuls();
+      return;
+    }
+    const p = st.pending;
+    if (p.target === sceneName) {
+      resolveCauselessConsequencePendingOnArrival(sceneName);
+      syncCauselessConsequenceRefugeeAuthority();
+      syncBorrowedCauseSponsorshipOffice();
+      syncCausalBorderProcessingStation();
+      syncFinalAsylumTribunalForCauselessConsequences();
+      syncCauselessConsequenceConsuls();
+      return;
+    }
+
+    const logicalSource = getCauselessConsequencePendingLogicalSource(p);
+    if (sceneName === logicalSource) {
+      syncCauselessConsequenceRefugeeAuthority();
+      syncBorrowedCauseSponsorshipOffice();
+      syncCausalBorderProcessingStation();
+      syncFinalAsylumTribunalForCauselessConsequences();
+      syncCauselessConsequenceConsuls();
+      AutoAdvance.schedule(sceneName, p.target, { delay: causelessConsequenceRefugeeDelay() });
+      return;
+    }
+
+    st.pending = null;
+    saveCauselessConsequenceRefugeeClaims(st);
+    syncCauselessConsequenceRefugeeAuthority();
+    syncBorrowedCauseSponsorshipOffice();
+    syncCausalBorderProcessingStation();
+    syncFinalAsylumTribunalForCauselessConsequences();
+    syncCauselessConsequenceConsuls();
+  }
+
+  function chooseCauselessConsequenceRefugeeEntry() {
+    if (typeof currentScene !== 'string' || currentScene !== 'remembrance') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('remembrance')) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable('causeless-consequence-refugee-entry-btn')) return;
+    if (!causelessConsequenceRefugeeUnlocked()) return;
+    const st = getCauselessConsequenceRefugeeClaims();
+    if (st.pending || st.activeConsul || st.draft.refugee !== '' || st.draft.sponsor !== '') return;
+
+    st.pending = {
+      feedback: CAUSELESS_CONSEQUENCE_ENTRY_FEEDBACK,
+      kind: 'entry',
+      target: 'causeless-consequence-refugee-authority',
+    };
+    saveCauselessConsequenceRefugeeClaims(st);
+
+    const resp = $('#causeless-consequence-refugee-entry-response');
+    if (resp) {
+      resp.textContent = CAUSELESS_CONSEQUENCE_ENTRY_FEEDBACK;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $('#causeless-consequence-refugee-entry-btn');
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('remembrance', 'causeless-consequence-refugee-authority', { delay: causelessConsequenceRefugeeDelay() });
+  }
+
+  function chooseCauselessConsequenceRefugee(refugee) {
+    if (typeof currentScene !== 'string' || currentScene !== 'causeless-consequence-refugee-authority') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('causeless-consequence-refugee-authority')) return;
+    if (!CAUSELESS_CONSEQUENCE_REFUGEES.includes(refugee)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`causeless-consequence-refugee-${refugee}`)) return;
+    if (!causelessConsequenceRefugeeUnlocked()) return;
+    const st = getCauselessConsequenceRefugeeClaims();
+    if (st.pending || st.activeConsul || st.draft.refugee !== '' || st.draft.sponsor !== '') return;
+
+    const rObj = CAUSELESS_CONSEQUENCE_REFUGEE_TABLE[refugee];
+    st.pending = {
+      feedback: rObj.feedback,
+      kind: 'refugee',
+      refugee,
+      source: 'causeless-consequence-refugee-authority',
+      target: 'borrowed-cause-sponsorship-office',
+    };
+    saveCauselessConsequenceRefugeeClaims(st);
+
+    const resp = $('#causeless-consequence-refugee-authority-response');
+    if (resp) {
+      resp.textContent = rObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#causeless-consequence-refugee-${refugee}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('causeless-consequence-refugee-authority', 'borrowed-cause-sponsorship-office', { delay: causelessConsequenceRefugeeDelay() });
+  }
+
+  function chooseCauselessConsequenceSponsor(sponsor) {
+    if (typeof currentScene !== 'string' || currentScene !== 'borrowed-cause-sponsorship-office') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('borrowed-cause-sponsorship-office')) return;
+    if (!CAUSELESS_CONSEQUENCE_SPONSORS.includes(sponsor)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`causeless-consequence-sponsor-${sponsor}`)) return;
+    if (!causelessConsequenceRefugeeUnlocked()) return;
+    const st = getCauselessConsequenceRefugeeClaims();
+    if (st.pending || st.activeConsul || !st.draft.refugee || st.draft.sponsor !== '') return;
+
+    const sObj = CAUSELESS_CONSEQUENCE_SPONSOR_TABLE[sponsor];
+    st.pending = {
+      feedback: sObj.feedback,
+      kind: 'sponsor',
+      refugee: st.draft.refugee,
+      source: 'borrowed-cause-sponsorship-office',
+      sponsor,
+      target: 'causal-border-processing-station',
+    };
+    saveCauselessConsequenceRefugeeClaims(st);
+
+    const resp = $('#borrowed-cause-sponsorship-office-response');
+    if (resp) {
+      resp.textContent = sObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#causeless-consequence-sponsor-${sponsor}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('borrowed-cause-sponsorship-office', 'causal-border-processing-station', { delay: causelessConsequenceRefugeeDelay() });
+  }
+
+  function chooseCauselessConsequenceBorderProtocol(protocol) {
+    if (typeof currentScene !== 'string' || currentScene !== 'causal-border-processing-station') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('causal-border-processing-station')) return;
+    if (!CAUSELESS_CONSEQUENCE_BORDER_PROTOCOLS.includes(protocol)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`causeless-consequence-protocol-${protocol}`)) return;
+    if (!causelessConsequenceRefugeeUnlocked()) return;
+    const st = getCauselessConsequenceRefugeeClaims();
+    if (st.pending || st.activeConsul || !st.draft.refugee || !st.draft.sponsor) return;
+
+    const sObj = CAUSELESS_CONSEQUENCE_SPONSOR_TABLE[st.draft.sponsor];
+    const asylumCase = `${st.draft.refugee}:${st.draft.sponsor}:${protocol}`;
+    const feedback = computeCauselessConsequenceAsylumFeedback(st.draft.refugee, st.draft.sponsor, protocol);
+
+    st.pending = {
+      asylumCase,
+      feedback,
+      kind: 'asylum',
+      protocol,
+      refugee: st.draft.refugee,
+      source: 'causal-border-processing-station',
+      sponsor: st.draft.sponsor,
+      target: sObj.target,
+    };
+    saveCauselessConsequenceRefugeeClaims(st);
+
+    const resp = $('#causal-border-processing-station-response');
+    if (resp) {
+      resp.textContent = feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#causeless-consequence-protocol-${protocol}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('causal-border-processing-station', sObj.target, { delay: causelessConsequenceRefugeeDelay() });
+  }
+
+  function chooseCauselessConsequenceConsulReturn(scene) {
+    if (typeof currentScene !== 'string' || currentScene !== scene) return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has(scene)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`causeless-consequence-consul-return-${scene}`)) return;
+    if (!causelessConsequenceRefugeeUnlocked()) return;
+    const st = getCauselessConsequenceRefugeeClaims();
+    if (st.pending || !st.activeConsul) return;
+    const sponsorObj = CAUSELESS_CONSEQUENCE_SPONSOR_TABLE[st.activeConsul.sponsor];
+    if (!sponsorObj || sponsorObj.target !== scene) return;
+
+    const activeAsylum = st.activeConsul.asylumCase;
+    if (typeof activeAsylum !== 'string' || !st.asylumCases.includes(activeAsylum)) return;
+    const parts = activeAsylum.split(':');
+    if (parts.length !== 3 || parts[1] !== st.activeConsul.sponsor) return;
+
+    st.pending = {
+      asylumCase: activeAsylum,
+      feedback: sponsorObj.consulFeedback,
+      from: scene,
+      kind: 'consul-return',
+      target: 'causeless-consequence-refugee-authority',
+    };
+    saveCauselessConsequenceRefugeeClaims(st);
+
+    const resp = $(`#causeless-consequence-consul-response-${scene}`);
+    if (resp) {
+      resp.textContent = sponsorObj.consulFeedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#causeless-consequence-consul-return-${scene}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule(scene, 'causeless-consequence-refugee-authority', { delay: causelessConsequenceRefugeeDelay() });
+  }
+
+  function chooseCauselessConsequenceTribunalEntry() {
+    if (typeof currentScene !== 'string' || currentScene !== 'remembrance') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('remembrance')) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable('causeless-consequence-refugee-tribunal-entry-btn')) return;
+    if (!causelessConsequenceRefugeeUnlocked()) return;
+    const st = getCauselessConsequenceRefugeeClaims();
+    if (st.pending || st.activeConsul || st.draft.refugee !== '' || st.draft.sponsor !== '' || !causelessConsequenceRefugeeCoverageComplete(st)) return;
+
+    st.pending = {
+      feedback: CAUSELESS_CONSEQUENCE_TRIBUNAL_ENTRY_FEEDBACK,
+      kind: 'verdict-entry',
+      target: 'final-asylum-tribunal-for-causeless-consequences',
+    };
+    saveCauselessConsequenceRefugeeClaims(st);
+
+    const resp = $('#causeless-consequence-refugee-tribunal-entry-response');
+    if (resp) {
+      resp.textContent = CAUSELESS_CONSEQUENCE_TRIBUNAL_ENTRY_FEEDBACK;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $('#causeless-consequence-refugee-tribunal-entry-btn');
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('remembrance', 'final-asylum-tribunal-for-causeless-consequences', { delay: causelessConsequenceRefugeeDelay() });
+  }
+
+  function chooseCauselessConsequenceVerdictAction(action) {
+    if (typeof currentScene !== 'string' || currentScene !== 'final-asylum-tribunal-for-causeless-consequences') return;
+    if (typeof AutoAdvance !== 'undefined' && AutoAdvance.has && AutoAdvance.has('final-asylum-tribunal-for-causeless-consequences')) return;
+    if (!CAUSELESS_CONSEQUENCE_VERDICT_ACTIONS.includes(action)) return;
+    if (typeof buttonAvailable === 'function' && !buttonAvailable(`causeless-consequence-verdict-${action}`)) return;
+    if (!causelessConsequenceRefugeeUnlocked()) return;
+    const st = getCauselessConsequenceRefugeeClaims();
+    if (st.pending || st.activeConsul || st.draft.refugee !== '' || st.draft.sponsor !== '' || !causelessConsequenceRefugeeCoverageComplete(st) || !st.visited.tribunal) return;
+
+    const aObj = CAUSELESS_CONSEQUENCE_VERDICT_ACTION_TABLE[action];
+    st.pending = {
+      action,
+      feedback: aObj.feedback,
+      kind: 'verdict-action',
+      outcome: aObj.outcome,
+      source: 'final-asylum-tribunal-for-causeless-consequences',
+      target: aObj.target,
+    };
+    saveCauselessConsequenceRefugeeClaims(st);
+
+    const resp = $('#final-asylum-tribunal-for-causeless-consequences-response');
+    if (resp) {
+      resp.textContent = aObj.feedback;
+      resp.hidden = false;
+      resp.removeAttribute('hidden');
+    }
+    const btn = $(`#causeless-consequence-verdict-${action}`);
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+
+    if (typeof AudioEngine !== 'undefined') {
+      if (AudioEngine.whoosh) AudioEngine.whoosh();
+      if (AudioEngine.bell) AudioEngine.bell();
+    }
+    AutoAdvance.schedule('final-asylum-tribunal-for-causeless-consequences', aObj.target, { delay: causelessConsequenceRefugeeDelay() });
+  }
+
+  function causelessConsequenceRefugeeBridgeAllows(targetScene) {
+    if (!causelessConsequenceRefugeeUnlocked()) return false;
+    const st = getCauselessConsequenceRefugeeClaims();
+    if (st.pending) {
+      if (st.pending.kind === 'asylum' && st.pending.target === targetScene) return true;
+      if (st.pending.kind === 'verdict-action' && st.pending.target === targetScene) return true;
+    }
+    if (st.activeConsul) {
+      const sponsorObj = CAUSELESS_CONSEQUENCE_SPONSOR_TABLE[st.activeConsul.sponsor];
+      if (sponsorObj && sponsorObj.target === targetScene) return true;
+    }
+    if (st.lastOutcome && st.verdictOutcomes.includes(st.lastOutcome)) {
+      const courtEntry = CAUSELESS_CONSEQUENCE_VERDICT_OUTCOME_BY_ID[st.lastOutcome];
+      if (courtEntry && courtEntry.target === targetScene) return true;
+    }
+    return false;
+  }
+
+  function causelessConsequenceRefugeeAuthorityCanVisit() {
+    if (!causelessConsequenceRefugeeUnlocked()) return false;
+    const st = getCauselessConsequenceRefugeeClaims();
+    if (st.visited.authority) return true;
+    if (st.pending && (st.pending.kind === 'entry' || st.pending.kind === 'consul-return') && st.pending.target === 'causeless-consequence-refugee-authority') {
+      return true;
+    }
+    return false;
+  }
+
+  function borrowedCauseSponsorshipOfficeCanVisit() {
+    if (!causelessConsequenceRefugeeUnlocked()) return false;
+    const st = getCauselessConsequenceRefugeeClaims();
+    if (st.visited.sponsorship && st.draft.refugee) return true;
+    if (st.pending && st.pending.kind === 'refugee' && st.pending.target === 'borrowed-cause-sponsorship-office') {
+      return true;
+    }
+    return false;
+  }
+
+  function causalBorderProcessingStationCanVisit() {
+    if (!causelessConsequenceRefugeeUnlocked()) return false;
+    const st = getCauselessConsequenceRefugeeClaims();
+    if (st.visited.border && st.draft.refugee && st.draft.sponsor) return true;
+    if (st.pending && st.pending.kind === 'sponsor' && st.pending.target === 'causal-border-processing-station') {
+      return true;
+    }
+    return false;
+  }
+
+  function finalAsylumTribunalForCauselessConsequencesCanVisit() {
+    if (!causelessConsequenceRefugeeUnlocked()) return false;
+    const st = getCauselessConsequenceRefugeeClaims();
+    const complete = causelessConsequenceRefugeeCoverageComplete(st);
+    if (st.visited.tribunal && complete) return true;
+    if (st.pending && st.pending.kind === 'verdict-entry' && st.pending.target === 'final-asylum-tribunal-for-causeless-consequences') {
+      return true;
+    }
+    return false;
+  }
+
+  function syncCauselessConsequenceRefugeeAuthority() {
+    const fig = $('#causeless-consequence-refugee-authority-figure');
+    const canVisit = causelessConsequenceRefugeeAuthorityCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getCauselessConsequenceRefugeeClaims();
+
+    CAUSELESS_CONSEQUENCE_REFUGEES.forEach((r) => {
+      const btn = $(`#causeless-consequence-refugee-${r}`);
+      if (btn) {
+        btn.disabled = !canVisit || Boolean(st.pending);
+        const pressed = st.pending && st.pending.kind === 'refugee' && st.pending.refugee === r;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#causeless-consequence-refugee-authority-response');
+    if (resp && !st.pending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    paintCauselessConsequenceRefugeeMemory();
+    paintCauselessConsequenceRefugeeCodex();
+    syncCauselessConsequenceRefugeeLinks();
+  }
+
+  function syncBorrowedCauseSponsorshipOffice() {
+    const fig = $('#borrowed-cause-sponsorship-office-figure');
+    const canVisit = borrowedCauseSponsorshipOfficeCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getCauselessConsequenceRefugeeClaims();
+
+    CAUSELESS_CONSEQUENCE_SPONSORS.forEach((s) => {
+      const btn = $(`#causeless-consequence-sponsor-${s}`);
+      if (btn) {
+        btn.disabled = !canVisit || Boolean(st.pending);
+        const pressed = st.pending && st.pending.kind === 'sponsor' && st.pending.sponsor === s;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#borrowed-cause-sponsorship-office-response');
+    if (resp && !st.pending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncCauselessConsequenceRefugeeLinks();
+  }
+
+  function syncCausalBorderProcessingStation() {
+    const fig = $('#causal-border-processing-station-figure');
+    const canVisit = causalBorderProcessingStationCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getCauselessConsequenceRefugeeClaims();
+
+    CAUSELESS_CONSEQUENCE_BORDER_PROTOCOLS.forEach((p) => {
+      const btn = $(`#causeless-consequence-protocol-${p}`);
+      if (btn) {
+        btn.disabled = !canVisit || Boolean(st.pending);
+        const pressed = st.pending && st.pending.kind === 'asylum' && st.pending.protocol === p;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#causal-border-processing-station-response');
+    if (resp && !st.pending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncCauselessConsequenceRefugeeLinks();
+  }
+
+  function syncFinalAsylumTribunalForCauselessConsequences() {
+    const fig = $('#final-asylum-tribunal-for-causeless-consequences-figure');
+    const canVisit = finalAsylumTribunalForCauselessConsequencesCanVisit();
+    if (fig) fig.hidden = !canVisit;
+    const st = getCauselessConsequenceRefugeeClaims();
+
+    CAUSELESS_CONSEQUENCE_VERDICT_ACTIONS.forEach((a) => {
+      const btn = $(`#causeless-consequence-verdict-${a}`);
+      if (btn) {
+        btn.disabled = !canVisit || Boolean(st.pending);
+        const pressed = st.pending && st.pending.kind === 'verdict-action' && st.pending.action === a;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+
+    const resp = $('#final-asylum-tribunal-for-causeless-consequences-response');
+    if (resp && !st.pending) {
+      resp.textContent = '';
+      resp.hidden = true;
+    }
+    syncCauselessConsequenceRefugeeLinks();
+  }
+
+  function syncCauselessConsequenceConsuls() {
+    const st = getCauselessConsequenceRefugeeClaims();
+    const scenes = ['threshold', 'remembrance', 'unending-gallery'];
+
+    scenes.forEach((scene) => {
+      const cont = $(`#causeless-consequence-consul-${scene}`);
+      const resp = $(`#causeless-consequence-consul-response-${scene}`);
+      const btn = $(`#causeless-consequence-consul-return-${scene}`);
+
+      let shouldShow = false;
+      if (st.activeConsul) {
+        const sponsorObj = CAUSELESS_CONSEQUENCE_SPONSOR_TABLE[st.activeConsul.sponsor];
+        if (sponsorObj && sponsorObj.target === scene) {
+          shouldShow = true;
+        }
+      }
+      if (cont) {
+        cont.hidden = !shouldShow;
+        if (shouldShow) cont.removeAttribute('hidden');
+      }
+      if (resp) {
+        if (shouldShow && st.activeConsul) {
+          resp.textContent = st.activeConsul.feedback;
+          resp.hidden = false;
+          resp.removeAttribute('hidden');
+        } else {
+          resp.textContent = '';
+          resp.hidden = true;
+        }
+      }
+      if (btn) {
+        btn.hidden = !shouldShow;
+        if (shouldShow) btn.removeAttribute('hidden');
+        btn.disabled = !shouldShow || Boolean(st.pending);
+        const pressed = st.pending && st.pending.kind === 'consul-return' && st.pending.from === scene;
+        btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+  }
+
+  function paintCauselessConsequenceRefugeeMemory() {
+    const mem = $('#causeless-consequence-refugee-memory');
+    if (!mem) return;
+    if (!causelessConsequenceRefugeeUnlocked()) {
+      mem.hidden = true;
+      return;
+    }
+    mem.hidden = false;
+    mem.removeAttribute('hidden');
+    const st = getCauselessConsequenceRefugeeClaims();
+    const asylumCases = st.asylumCases;
+    const count = asylumCases.length;
+
+    const sCounts = {
+      'doorway-that-claims-it-was-the-birth': 0,
+      'memory-that-volunteers-to-have-been-the-wound': 0,
+      'empty-frame-that-confesses-it-was-the-war': 0,
+    };
+    const pCounts = {
+      'issue-a-temporary-cause-visa': 0,
+      'sew-the-borrowed-cause-into-the-effect': 0,
+      'declare-the-refugee-self-caused': 0,
+      'leave-the-cause-field-blank-and-stamp-reality': 0,
+    };
+
+    asylumCases.forEach((id) => {
+      const p = id.split(':');
+      if (p.length === 3) {
+        if (sCounts[p[1]] !== undefined) sCounts[p[1]]++;
+        if (pCounts[p[2]] !== undefined) pCounts[p[2]]++;
+      }
+    });
+
+    const age = st.refugeeTallies.age;
+    const scar = st.refugeeTallies.scar;
+    const ruin = st.refugeeTallies.ruin;
+
+    const tCount = sCounts['doorway-that-claims-it-was-the-birth'];
+    const mCount = sCounts['memory-that-volunteers-to-have-been-the-wound'];
+    const gCount = sCounts['empty-frame-that-confesses-it-was-the-war'];
+
+    const vCount = pCounts['issue-a-temporary-cause-visa'];
+    const wCount = pCounts['sew-the-borrowed-cause-into-the-effect'];
+    const lCount = pCounts['declare-the-refugee-self-caused'];
+    const bCount = pCounts['leave-the-cause-field-blank-and-stamp-reality'];
+
+    let majority = '均衡候审';
+    if (age > scar && age > ruin) majority = '主要庇护无生年龄';
+    else if (scar > age && scar > ruin) majority = '主要庇护无伤伤疤';
+    else if (ruin > age && ruin > scar) majority = '主要庇护无战废墟';
+
+    const text = `无因难民：已核 ${count}/36 份庇护案，共过境 ${st.processingRuns} 次；难民 年龄 ${age} / 伤疤 ${scar} / 废墟 ${ruin}；担保 门槛 ${tCount} / 记忆 ${mCount} / 空框 ${gCount}；程序 临签 ${vCount} / 缝因 ${wCount} / 自因 ${lCount} / 空因 ${bCount}；主难民 ${majority}；终审 ${st.verdictOutcomes.length}/3。`;
+    mem.textContent = text;
+  }
+
+  function paintCauselessConsequenceRefugeeCodex() {
+    const codex = $('#causeless-consequence-refugee-codex');
+    const grid = $('#causeless-consequence-refugee-codex-grid');
+    if (!codex || !grid) return;
+    if (!causelessConsequenceRefugeeUnlocked()) {
+      codex.hidden = true;
+      return;
+    }
+    codex.hidden = false;
+    codex.removeAttribute('hidden');
+    grid.textContent = '';
+
+    const st = getCauselessConsequenceRefugeeClaims();
+    const collectedCases = new Set(st.asylumCases);
+    const collectedOutcomes = new Set(st.verdictOutcomes);
+
+    CAUSELESS_CONSEQUENCE_ASYLUM_IDS.forEach((id) => {
+      const cell = document.createElement('div');
+      if (collectedCases.has(id)) {
+        cell.className = 'causeless-consequence-refugee-cell is-unlocked';
+        const item = findCauselessConsequenceAsylumById(id);
+        cell.textContent = item ? `${item.title}\n${item.feedback}` : id;
+      } else {
+        cell.className = 'causeless-consequence-refugee-cell is-locked';
+        cell.textContent = '？？？';
+      }
+      grid.appendChild(cell);
+    });
+
+    CAUSELESS_CONSEQUENCE_VERDICT_ACTIONS.forEach((action) => {
+      const aObj = CAUSELESS_CONSEQUENCE_VERDICT_ACTION_TABLE[action];
+      const cell = document.createElement('div');
+      if (collectedOutcomes.has(aObj.outcome)) {
+        cell.className = 'causeless-consequence-refugee-cell is-unlocked';
+        cell.textContent = `[无因后果终审庇护庭] ${aObj.outcome}\n${aObj.feedback}`;
+      } else {
+        cell.className = 'causeless-consequence-refugee-cell is-locked';
+        cell.textContent = '？？？';
+      }
+      grid.appendChild(cell);
+    });
+  }
+
+  function syncCauselessConsequenceRefugeeRemembrance() {
+    const unlocked = causelessConsequenceRefugeeUnlocked();
+    const entryShell = $('#causeless-consequence-refugee-codex-entry');
+    const entryBtn = $('#causeless-consequence-refugee-entry-btn');
+    const courtBtn = $('#causeless-consequence-refugee-tribunal-entry-btn');
+
+    if (!unlocked) {
+      if (entryShell) entryShell.hidden = true;
+      if (entryBtn) entryBtn.hidden = true;
+      if (courtBtn) courtBtn.hidden = true;
+      return;
+    }
+
+    if (entryShell) {
+      entryShell.hidden = false;
+      entryShell.removeAttribute('hidden');
+    }
+
+    const st = getCauselessConsequenceRefugeeClaims();
+    const isClean = !st.pending && !st.activeConsul && st.draft.refugee === '' && st.draft.sponsor === '';
+
+    if (entryBtn) {
+      entryBtn.hidden = false;
+      entryBtn.removeAttribute('hidden');
+      entryBtn.disabled = !isClean;
+      const pressed = st.pending && st.pending.kind === 'entry';
+      entryBtn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+    }
+
+    if (courtBtn) {
+      const coverage = causelessConsequenceRefugeeCoverageComplete(st);
+      courtBtn.hidden = !coverage;
+      if (coverage) courtBtn.removeAttribute('hidden');
+      courtBtn.disabled = !isClean || !coverage;
+      const pressed = st.pending && st.pending.kind === 'verdict-entry';
+      courtBtn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+    }
+  }
+
+  function syncCauselessConsequenceRefugeeLinks() {
+    const unlocked = causelessConsequenceRefugeeUnlocked();
+    const links = [
+      { id: 'causeless-consequence-refugee-authority-link', key: 'authority' },
+      { id: 'borrowed-cause-sponsorship-office-link', key: 'sponsorship' },
+      { id: 'causal-border-processing-station-link', key: 'border' },
+      { id: 'final-asylum-tribunal-for-causeless-consequences-link', key: 'tribunal' },
+    ];
+    const st = unlocked ? getCauselessConsequenceRefugeeClaims() : null;
+
+    links.forEach((l) => {
+      const el = $(`#${l.id}`);
+      if (el) {
+        const show = unlocked && st && st.visited[l.key] === true;
+        el.hidden = !show;
+        if (show) el.removeAttribute('hidden');
+      }
+    });
+  }
+
+  function forgetCauselessConsequenceRefugeeState() {
+    try { localStorage.removeItem(CAUSELESS_CONSEQUENCE_KEY); } catch {}
+    AutoAdvance.clear('causeless-consequence-refugee-authority');
+    AutoAdvance.clear('borrowed-cause-sponsorship-office');
+    AutoAdvance.clear('causal-border-processing-station');
+    AutoAdvance.clear('final-asylum-tribunal-for-causeless-consequences');
+    [
+      $('#causeless-consequence-refugee-memory'),
+      $('#causeless-consequence-refugee-codex'),
+      $('#causeless-consequence-refugee-codex-entry'),
+      $('#causeless-consequence-refugee-entry-btn'),
+      $('#causeless-consequence-refugee-tribunal-entry-btn'),
+      $('#causeless-consequence-refugee-authority-figure'),
+      $('#borrowed-cause-sponsorship-office-figure'),
+      $('#causal-border-processing-station-figure'),
+      $('#final-asylum-tribunal-for-causeless-consequences-figure'),
+      $('#causeless-consequence-refugee-authority-link'),
+      $('#borrowed-cause-sponsorship-office-link'),
+      $('#causal-border-processing-station-link'),
+      $('#final-asylum-tribunal-for-causeless-consequences-link'),
+      $('#causeless-consequence-consul-threshold'),
+      $('#causeless-consequence-consul-remembrance'),
+      $('#causeless-consequence-consul-unending-gallery'),
+      $('#causeless-consequence-consul-return-threshold'),
+      $('#causeless-consequence-consul-return-remembrance'),
+      $('#causeless-consequence-consul-return-unending-gallery'),
+    ].forEach((el) => { if (el) el.hidden = true; });
+    [
+      $('#causeless-consequence-refugee-entry-response'),
+      $('#causeless-consequence-refugee-tribunal-entry-response'),
+      $('#causeless-consequence-refugee-authority-response'),
+      $('#borrowed-cause-sponsorship-office-response'),
+      $('#causal-border-processing-station-response'),
+      $('#final-asylum-tribunal-for-causeless-consequences-response'),
+      $('#causeless-consequence-consul-response-threshold'),
+      $('#causeless-consequence-consul-response-remembrance'),
+      $('#causeless-consequence-consul-response-unending-gallery'),
+      $('#causeless-consequence-refugee-memory'),
+      $('#causeless-consequence-refugee-codex-grid'),
+    ].forEach((el) => { if (el) el.textContent = ''; });
+    [
+      $('#causeless-consequence-refugee-entry-btn'),
+      $('#causeless-consequence-refugee-tribunal-entry-btn'),
+      $('#causeless-consequence-refugee-age-that-arrived-without-a-birth'),
+      $('#causeless-consequence-refugee-scar-with-no-wound-to-remember'),
+      $('#causeless-consequence-refugee-ruins-from-a-war-that-cannot-be-found'),
+      $('#causeless-consequence-sponsor-doorway-that-claims-it-was-the-birth'),
+      $('#causeless-consequence-sponsor-memory-that-volunteers-to-have-been-the-wound'),
+      $('#causeless-consequence-sponsor-empty-frame-that-confesses-it-was-the-war'),
+      $('#causeless-consequence-protocol-issue-a-temporary-cause-visa'),
+      $('#causeless-consequence-protocol-sew-the-borrowed-cause-into-the-effect'),
+      $('#causeless-consequence-protocol-declare-the-refugee-self-caused'),
+      $('#causeless-consequence-protocol-leave-the-cause-field-blank-and-stamp-reality'),
+      $('#causeless-consequence-consul-return-threshold'),
+      $('#causeless-consequence-consul-return-remembrance'),
+      $('#causeless-consequence-consul-return-unending-gallery'),
+      $('#causeless-consequence-verdict-grant-causal-asylum-to-every-orphaned-consequence'),
+      $('#causeless-consequence-verdict-deport-every-consequence-to-before-its-missing-cause'),
+      $('#causeless-consequence-verdict-recognize-every-effect-as-the-ancestor-of-its-cause'),
+    ].forEach((button) => {
+      if (button) {
+        button.disabled = false;
+        button.removeAttribute('aria-pressed');
+      }
+    });
+  }
+
+  const refugeeAuthorityEntryBtn = $('#causeless-consequence-refugee-entry-btn');
+  if (refugeeAuthorityEntryBtn) {
+    refugeeAuthorityEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCauselessConsequenceRefugeeEntry();
+    });
+  }
+
+  const refugeeTribunalEntryBtn = $('#causeless-consequence-refugee-tribunal-entry-btn');
+  if (refugeeTribunalEntryBtn) {
+    refugeeTribunalEntryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCauselessConsequenceTribunalEntry();
+    });
+  }
+
+  const refugeeAgeBtn = $('#causeless-consequence-refugee-age-that-arrived-without-a-birth');
+  if (refugeeAgeBtn) {
+    refugeeAgeBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCauselessConsequenceRefugee('age-that-arrived-without-a-birth');
+    });
+  }
+
+  const refugeeScarBtn = $('#causeless-consequence-refugee-scar-with-no-wound-to-remember');
+  if (refugeeScarBtn) {
+    refugeeScarBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCauselessConsequenceRefugee('scar-with-no-wound-to-remember');
+    });
+  }
+
+  const refugeeRuinBtn = $('#causeless-consequence-refugee-ruins-from-a-war-that-cannot-be-found');
+  if (refugeeRuinBtn) {
+    refugeeRuinBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCauselessConsequenceRefugee('ruins-from-a-war-that-cannot-be-found');
+    });
+  }
+
+  const sponsorDoorBtn = $('#causeless-consequence-sponsor-doorway-that-claims-it-was-the-birth');
+  if (sponsorDoorBtn) {
+    sponsorDoorBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCauselessConsequenceSponsor('doorway-that-claims-it-was-the-birth');
+    });
+  }
+
+  const sponsorMemBtn = $('#causeless-consequence-sponsor-memory-that-volunteers-to-have-been-the-wound');
+  if (sponsorMemBtn) {
+    sponsorMemBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCauselessConsequenceSponsor('memory-that-volunteers-to-have-been-the-wound');
+    });
+  }
+
+  const sponsorFrameBtn = $('#causeless-consequence-sponsor-empty-frame-that-confesses-it-was-the-war');
+  if (sponsorFrameBtn) {
+    sponsorFrameBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCauselessConsequenceSponsor('empty-frame-that-confesses-it-was-the-war');
+    });
+  }
+
+  const protocolVisaBtn = $('#causeless-consequence-protocol-issue-a-temporary-cause-visa');
+  if (protocolVisaBtn) {
+    protocolVisaBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCauselessConsequenceBorderProtocol('issue-a-temporary-cause-visa');
+    });
+  }
+
+  const protocolSewBtn = $('#causeless-consequence-protocol-sew-the-borrowed-cause-into-the-effect');
+  if (protocolSewBtn) {
+    protocolSewBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCauselessConsequenceBorderProtocol('sew-the-borrowed-cause-into-the-effect');
+    });
+  }
+
+  const protocolSelfBtn = $('#causeless-consequence-protocol-declare-the-refugee-self-caused');
+  if (protocolSelfBtn) {
+    protocolSelfBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCauselessConsequenceBorderProtocol('declare-the-refugee-self-caused');
+    });
+  }
+
+  const protocolBlankBtn = $('#causeless-consequence-protocol-leave-the-cause-field-blank-and-stamp-reality');
+  if (protocolBlankBtn) {
+    protocolBlankBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCauselessConsequenceBorderProtocol('leave-the-cause-field-blank-and-stamp-reality');
+    });
+  }
+
+  const consulReturnThresholdBtn = $('#causeless-consequence-consul-return-threshold');
+  if (consulReturnThresholdBtn) {
+    consulReturnThresholdBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCauselessConsequenceConsulReturn('threshold');
+    });
+  }
+
+  const consulReturnRemembranceBtn = $('#causeless-consequence-consul-return-remembrance');
+  if (consulReturnRemembranceBtn) {
+    consulReturnRemembranceBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCauselessConsequenceConsulReturn('remembrance');
+    });
+  }
+
+  const consulReturnGalleryBtn = $('#causeless-consequence-consul-return-unending-gallery');
+  if (consulReturnGalleryBtn) {
+    consulReturnGalleryBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCauselessConsequenceConsulReturn('unending-gallery');
+    });
+  }
+
+  const verdictGrantBtn = $('#causeless-consequence-verdict-grant-causal-asylum-to-every-orphaned-consequence');
+  if (verdictGrantBtn) {
+    verdictGrantBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCauselessConsequenceVerdictAction('grant-causal-asylum-to-every-orphaned-consequence');
+    });
+  }
+
+  const verdictDeportBtn = $('#causeless-consequence-verdict-deport-every-consequence-to-before-its-missing-cause');
+  if (verdictDeportBtn) {
+    verdictDeportBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCauselessConsequenceVerdictAction('deport-every-consequence-to-before-its-missing-cause');
+    });
+  }
+
+  const verdictAncestorBtn = $('#causeless-consequence-verdict-recognize-every-effect-as-the-ancestor-of-its-cause');
+  if (verdictAncestorBtn) {
+    verdictAncestorBtn.addEventListener('click', (e) => {
+      if (!e.isTrusted) return;
+      chooseCauselessConsequenceVerdictAction('recognize-every-effect-as-the-ancestor-of-its-cause');
+    });
+  }
   /* ============================================================
      走廊：残页 + 封印的门
      ============================================================ */
@@ -29874,6 +47122,648 @@ document.addEventListener("DOMContentLoaded", () => {
         if (b) { b.disabled = false; b.removeAttribute("aria-pressed"); }
       });
       ["self-authenticity-office", "self-provenance-vault", "soul-counterfeit-examination", "final-authenticity-tribunal"].forEach((s) => AutoAdvance.clear(s));
+      try { localStorage.removeItem("goddead_v78_first_person_rationing"); } catch {}
+      const firstPersonRationingMemory = $("#first-person-rationing-memory");
+      if (firstPersonRationingMemory) firstPersonRationingMemory.hidden = true;
+      const firstPersonRationingCodex = $("#first-person-rationing-codex");
+      if (firstPersonRationingCodex) firstPersonRationingCodex.hidden = true;
+      const firstPersonRationingCodexEntry = $("#first-person-rationing-codex-entry");
+      if (firstPersonRationingCodexEntry) firstPersonRationingCodexEntry.hidden = true;
+      const firstPersonRationingEntryBtn = $("#first-person-rationing-entry-btn");
+      if (firstPersonRationingEntryBtn) { firstPersonRationingEntryBtn.hidden = true; firstPersonRationingEntryBtn.disabled = false; firstPersonRationingEntryBtn.removeAttribute("aria-pressed"); }
+      const firstPersonRationingCourtEntryBtn = $("#first-person-rationing-court-entry-btn");
+      if (firstPersonRationingCourtEntryBtn) { firstPersonRationingCourtEntryBtn.hidden = true; firstPersonRationingCourtEntryBtn.disabled = false; firstPersonRationingCourtEntryBtn.removeAttribute("aria-pressed"); }
+      const firstPersonRationingEntryResponse = $("#first-person-rationing-entry-response");
+      if (firstPersonRationingEntryResponse) firstPersonRationingEntryResponse.textContent = "";
+      const firstPersonRationingCourtEntryResponse = $("#first-person-rationing-court-entry-response");
+      if (firstPersonRationingCourtEntryResponse) firstPersonRationingCourtEntryResponse.textContent = "";
+      const fprBureauResponse = $("#first-person-rationing-bureau-response");
+      if (fprBureauResponse) fprBureauResponse.textContent = "";
+      const fprArchiveResponse = $("#voice-entitlement-archive-response");
+      if (fprArchiveResponse) fprArchiveResponse.textContent = "";
+      const fprChamberResponse = $("#pronoun-allocation-chamber-response");
+      if (fprChamberResponse) fprChamberResponse.textContent = "";
+      const fprCourtResponse = $("#ownerless-voices-court-response");
+      if (fprCourtResponse) fprCourtResponse.textContent = "";
+      ["threshold", "blank-name-cloakroom", "remembrance"].forEach((s) => {
+        const ar = $(`#first-person-rationing-allocator-response-${s}`);
+        if (ar) ar.textContent = "";
+        const alloc = $(`#first-person-rationing-allocator-${s}`);
+        if (alloc) alloc.hidden = true;
+        const allocBtn = $(`#first-person-rationing-allocator-return-${s}`);
+        if (allocBtn) { allocBtn.disabled = false; allocBtn.removeAttribute("aria-pressed"); }
+      });
+      ["first-person-rationing-bureau-link", "voice-entitlement-archive-link", "pronoun-allocation-chamber-link", "ownerless-voices-court-link"].forEach((id) => {
+        const el = $(`#${id}`);
+        if (el) el.hidden = true;
+      });
+      [
+        "first-person-rationing-speaker-many-selves-one-body", "first-person-rationing-speaker-copies-sharing-one-voice", "first-person-rationing-speaker-ownerless-silence",
+        "voice-entitlement-first-breath-token", "voice-entitlement-ownerless-signature-impression", "voice-entitlement-future-inherited-echo",
+        "pronoun-allocation-one-i-per-breath", "pronoun-allocation-lend-the-voice-to-shadow", "pronoun-allocation-rotate-one-voice-among-copies", "pronoun-allocation-let-silence-claim-the-pronoun",
+        "ownerless-voices-grant-one-voice-to-all-in-turn", "ownerless-voices-abolish-pronoun-rationing", "ownerless-voices-recognize-silence-as-only-speaker"
+      ].forEach((id) => {
+        const b = $("#" + id);
+        if (b) { b.disabled = false; b.removeAttribute("aria-pressed"); }
+      });
+      ["first-person-rationing-bureau", "voice-entitlement-archive", "pronoun-allocation-chamber", "ownerless-voices-court"].forEach((s) => AutoAdvance.clear(s));
+      try { localStorage.removeItem("goddead_v79_unspoken_personhood"); } catch {}
+      const unspokenPersonhoodMemory = $("#unspoken-personhood-memory");
+      if (unspokenPersonhoodMemory) unspokenPersonhoodMemory.hidden = true;
+      const unspokenPersonhoodCodex = $("#unspoken-personhood-codex");
+      if (unspokenPersonhoodCodex) unspokenPersonhoodCodex.hidden = true;
+      const unspokenPersonhoodCodexEntry = $("#unspoken-personhood-codex-entry");
+      if (unspokenPersonhoodCodexEntry) unspokenPersonhoodCodexEntry.hidden = true;
+      const unspokenPersonhoodEntryBtn = $("#unspoken-personhood-entry-btn");
+      if (unspokenPersonhoodEntryBtn) { unspokenPersonhoodEntryBtn.hidden = true; unspokenPersonhoodEntryBtn.disabled = false; unspokenPersonhoodEntryBtn.removeAttribute("aria-pressed"); }
+      const unspokenPersonhoodCourtEntryBtn = $("#unspoken-personhood-court-entry-btn");
+      if (unspokenPersonhoodCourtEntryBtn) { unspokenPersonhoodCourtEntryBtn.hidden = true; unspokenPersonhoodCourtEntryBtn.disabled = false; unspokenPersonhoodCourtEntryBtn.removeAttribute("aria-pressed"); }
+      const unspokenPersonhoodEntryResponse = $("#unspoken-personhood-entry-response");
+      if (unspokenPersonhoodEntryResponse) unspokenPersonhoodEntryResponse.textContent = "";
+      const unspokenPersonhoodCourtEntryResponse = $("#unspoken-personhood-court-entry-response");
+      if (unspokenPersonhoodCourtEntryResponse) unspokenPersonhoodCourtEntryResponse.textContent = "";
+      const upCourtResponse = $("#unspoken-personhood-court-response");
+      if (upCourtResponse) upCourtResponse.textContent = "";
+      const upArchiveResponse = $("#silent-intent-archive-response");
+      if (upArchiveResponse) upArchiveResponse.textContent = "";
+      const upExamResponse = $("#personhood-inheritance-examination-response");
+      if (upExamResponse) upExamResponse.textContent = "";
+      const upTribunalResponse = $("#unuttered-estate-tribunal-response");
+      if (upTribunalResponse) upTribunalResponse.textContent = "";
+      ["confession", "testament-clearing-vault", "unseated-listening-booth"].forEach((s) => {
+        const er = $(`#unspoken-personhood-executor-response-${s}`);
+        if (er) er.textContent = "";
+        const exec = $(`#unspoken-personhood-executor-${s}`);
+        if (exec) exec.hidden = true;
+        const execBtn = $(`#unspoken-personhood-executor-return-${s}`);
+        if (execBtn) { execBtn.disabled = false; execBtn.removeAttribute("aria-pressed"); }
+      });
+      ["unspoken-personhood-court-link", "silent-intent-archive-link", "personhood-inheritance-examination-link", "unuttered-estate-tribunal-link"].forEach((id) => {
+        const el = $(`#${id}`);
+        if (el) el.hidden = true;
+      });
+      [
+        "unspoken-personhood-claimant-unsaid-love-confession", "unspoken-personhood-claimant-unread-final-testament", "unspoken-personhood-claimant-swallowed-cry-for-help",
+        "silent-intent-closed-lip-pressure-seal", "silent-intent-unsigned-witness-echo", "silent-intent-breath-returned-from-empty-receiver",
+        "personhood-inheritance-inherit-the-speakers-name", "personhood-inheritance-inherit-the-unlived-years", "personhood-inheritance-inherit-the-right-to-be-answered", "personhood-inheritance-refuse-a-body-and-live-as-absence",
+        "unuttered-estate-grant-the-unsaid-a-whole-life", "unuttered-estate-divide-personhood-among-all-listeners", "unuttered-estate-make-the-speaker-estate-of-last-silence"
+      ].forEach((id) => {
+        const b = $("#" + id);
+        if (b) { b.disabled = false; b.removeAttribute("aria-pressed"); }
+      });
+      ["unspoken-personhood-court", "silent-intent-archive", "personhood-inheritance-examination", "unuttered-estate-tribunal"].forEach((s) => AutoAdvance.clear(s));
+      try { localStorage.removeItem("goddead_v80_unfinished_thought_asylum"); } catch {}
+      ["#unfinished-thought-memory", "#unfinished-thought-codex", "#unfinished-thought-codex-entry"].forEach((id) => {
+        const el = $(id);
+        if (el) el.hidden = true;
+      });
+      ["#unfinished-thought-entry-btn", "#unfinished-thought-hearing-entry-btn"].forEach((id) => {
+        const el = $(id);
+        if (el) {
+          el.hidden = true;
+          el.disabled = false;
+          el.removeAttribute("aria-pressed");
+        }
+      });
+      [
+        "#unfinished-thought-entry-response",
+        "#unfinished-thought-hearing-entry-response",
+        "#unfinished-thought-asylum-response",
+        "#interruption-trace-archive-response",
+        "#counterfactual-treatment-lab-response",
+        "#last-conclusion-hearing-response"
+      ].forEach((id) => {
+        const el = $(id);
+        if (el) el.textContent = "";
+      });
+      [
+        "#unfinished-thought-asylum-link",
+        "#interruption-trace-archive-link",
+        "#counterfactual-treatment-lab-link",
+        "#last-conclusion-hearing-link"
+      ].forEach((id) => {
+        const el = $(id);
+        if (el) el.hidden = true;
+      });
+      ["blank-name-cloakroom", "reverse-stairwell", "unlived-nursery"].forEach((scene) => {
+        const resp = $(`#unfinished-thought-physician-response-${scene}`);
+        if (resp) resp.textContent = "";
+        const cont = $(`#unfinished-thought-physician-${scene}`);
+        if (cont) cont.hidden = true;
+        const retBtn = $(`#unfinished-thought-physician-return-${scene}`);
+        if (retBtn) {
+          retBtn.disabled = false;
+          retBtn.removeAttribute("aria-pressed");
+        }
+      });
+      [
+        "#unfinished-thought-name-never-finished-thinking",
+        "#unfinished-thought-escape-aborted-by-reason",
+        "#unfinished-thought-happiness-never-permitted",
+        "#interruption-trace-pen-stopped-before-the-name",
+        "#interruption-trace-last-step-before-the-door",
+        "#interruption-trace-crossed-out-future-calendar",
+        "#counterfactual-treatment-finish-it-with-a-foreign-conclusion",
+        "#counterfactual-treatment-stitch-mutually-exclusive-thoughts",
+        "#counterfactual-treatment-preserve-it-as-perpetually-unfinished",
+        "#counterfactual-treatment-transplant-it-into-another-possible-self",
+        "#last-conclusion-declare-every-unfinished-thought-alive",
+        "#last-conclusion-let-the-thought-finish-its-thinker",
+        "#last-conclusion-recycle-all-abandoned-possibilities"
+      ].forEach((id) => {
+        const el = $(id);
+        if (el) {
+          el.disabled = false;
+          el.removeAttribute("aria-pressed");
+        }
+      });
+      ["unfinished-thought-asylum", "interruption-trace-archive", "counterfactual-treatment-lab", "last-conclusion-hearing"].forEach((s) => AutoAdvance.clear(s));
+      syncUnfinishedThoughtAsylum();
+      syncUnfinishedThoughtArchive();
+      syncUnfinishedThoughtLab();
+      syncUnfinishedThoughtHearing();
+      syncUnfinishedThoughtPhysicians();
+      paintUnfinishedThoughtMemory();
+      paintUnfinishedThoughtCodex();
+      syncUnfinishedThoughtRemembrance();
+      syncUnfinishedThoughtLinks();
+      try { localStorage.removeItem("goddead_v81_regret_reclamation"); } catch {}
+      ["#regret-reclamation-memory", "#regret-reclamation-codex", "#regret-reclamation-codex-entry"].forEach((id) => {
+        const el = $(id);
+        if (el) el.hidden = true;
+      });
+      ["#regret-reclamation-entry-btn", "#regret-furnace-entry-btn"].forEach((id) => {
+        const el = $(id);
+        if (el) {
+          el.hidden = true;
+          el.disabled = false;
+          el.removeAttribute("aria-pressed");
+        }
+      });
+      [
+        "#regret-reclamation-entry-response",
+        "#regret-furnace-entry-response",
+        "#regret-reclamation-plant-response",
+        "#abandonment-residue-weighhouse-response",
+        "#second-life-smelting-line-response",
+        "#zero-waste-life-furnace-response"
+      ].forEach((id) => {
+        const el = $(id);
+        if (el) el.textContent = "";
+      });
+      [
+        "#regret-reclamation-plant-link",
+        "#abandonment-residue-weighhouse-link",
+        "#second-life-smelting-line-link",
+        "#zero-waste-life-furnace-link"
+      ].forEach((id) => {
+        const el = $(id);
+        if (el) el.hidden = true;
+      });
+      ["descending-appeals-stair", "borrowed-childhood", "identity-correction"].forEach((scene) => {
+        const resp = $(`#regret-reclaimer-response-${scene}`);
+        if (resp) resp.textContent = "";
+        const cont = $(`#regret-reclaimer-${scene}`);
+        if (cont) cont.hidden = true;
+        const retBtn = $(`#regret-reclaimer-return-${scene}`);
+        if (retBtn) {
+          retBtn.disabled = false;
+          retBtn.removeAttribute("aria-pressed");
+        }
+      });
+      [
+        "#regret-material-road-never-taken",
+        "#regret-material-person-never-loved",
+        "#regret-material-self-never-became",
+        "#regret-residue-dust-from-the-unwalked-mile",
+        "#regret-residue-warmth-from-the-unused-pillow",
+        "#regret-residue-fingerprint-inside-an-unworn-face",
+        "#regret-use-cast-a-new-childhood",
+        "#regret-use-forge-courage-for-the-next-self",
+        "#regret-use-build-a-strangers-spare-life",
+        "#regret-use-return-regret-without-processing",
+        "#regret-furnace-declare-regret-renewable",
+        "#regret-furnace-manufacture-every-life-from-foreign-regret",
+        "#regret-furnace-classify-forgiveness-as-unrecyclable-waste"
+      ].forEach((id) => {
+        const el = $(id);
+        if (el) {
+          el.disabled = false;
+          el.removeAttribute("aria-pressed");
+        }
+      });
+      ["regret-reclamation-plant", "abandonment-residue-weighhouse", "second-life-smelting-line", "zero-waste-life-furnace"].forEach((s) => AutoAdvance.clear(s));
+      syncRegretReclamationPlant();
+      syncRegretResidueWeighhouse();
+      syncRegretSmeltingLine();
+      syncRegretLifeFurnace();
+      syncRegretReclaimers();
+      paintRegretReclamationMemory();
+      paintRegretReclamationCodex();
+      syncRegretReclamationRemembrance();
+      syncRegretReclamationLinks();
+      try { localStorage.removeItem("goddead_v82_forgiveness_landfill"); } catch {}
+      AutoAdvance.clear("forgiveness-landfill");
+      AutoAdvance.clear("inert-harm-certificate-vault");
+      AutoAdvance.clear("mercy-burial-trench");
+      AutoAdvance.clear("harmlessness-final-well");
+      [
+        $("#forgiveness-landfill-memory"),
+        $("#forgiveness-landfill-codex"),
+        $("#forgiveness-landfill-codex-entry"),
+        $("#forgiveness-landfill-entry-btn"),
+        $("#harmlessness-final-well-entry-btn"),
+        $("#forgiveness-landfill-link"),
+        $("#inert-harm-certificate-vault-link"),
+        $("#mercy-burial-trench-link"),
+        $("#harmlessness-final-well-link"),
+        $("#forgiveness-recorder-offering"),
+        $("#forgiveness-recorder-liability-ledger"),
+        $("#forgiveness-recorder-causeless-ward")
+      ].forEach((el) => { if (el) el.hidden = true; });
+      [
+        $("#forgiveness-landfill-entry-response"),
+        $("#harmlessness-final-well-entry-response"),
+        $("#forgiveness-landfill-response"),
+        $("#inert-harm-certificate-vault-response"),
+        $("#mercy-burial-trench-response"),
+        $("#harmlessness-final-well-response"),
+        $("#forgiveness-recorder-response-offering"),
+        $("#forgiveness-recorder-response-liability-ledger"),
+        $("#forgiveness-recorder-response-causeless-ward")
+      ].forEach((el) => { if (el) el.textContent = ""; });
+      [
+        $("#forgiveness-landfill-entry-btn"),
+        $("#harmlessness-final-well-entry-btn"),
+        $("#forgiveness-waste-apology-never-accepted"),
+        $("#forgiveness-waste-debt-already-forgiven"),
+        $("#forgiveness-waste-wound-that-stopped-demanding"),
+        $("#forgiveness-certificate-unopened-absolution-receipt"),
+        $("#forgiveness-certificate-zero-balance-debt-scale"),
+        $("#forgiveness-certificate-scar-closed-without-witness"),
+        $("#forgiveness-disposal-bury-it-beneath-a-future-life"),
+        $("#forgiveness-disposal-let-the-soil-forget-the-cause"),
+        $("#forgiveness-disposal-grow-innocence-from-old-harm"),
+        $("#forgiveness-disposal-exhume-it-for-permanent-record"),
+        $("#forgiveness-recorder-return-offering"),
+        $("#forgiveness-recorder-return-liability-ledger"),
+        $("#forgiveness-recorder-return-causeless-ward"),
+        $("#forgiveness-well-seal-every-forgiven-harm-forever"),
+        $("#forgiveness-well-erase-the-need-for-forgiveness"),
+        $("#forgiveness-well-make-harm-survive-its-own-forgiveness")
+      ].forEach((button) => {
+        if (button) {
+          button.disabled = false;
+          button.removeAttribute("aria-pressed");
+        }
+      });
+      syncForgivenessLandfill();
+      syncInertHarmCertificateVault();
+      syncMercyBurialTrench();
+      syncHarmlessnessFinalWell();
+      syncForgivenessRecorders();
+      paintForgivenessLandfillMemory();
+      paintForgivenessLandfillCodex();
+      syncForgivenessLandfillRemembrance();
+      syncForgivenessLandfillLinks();
+      try { localStorage.removeItem("goddead_v83_harm_archaeology"); } catch {}
+      AutoAdvance.clear("harm-archaeology-bureau");
+      AutoAdvance.clear("forensic-mercy-excavation");
+      AutoAdvance.clear("crime-scene-without-offender");
+      AutoAdvance.clear("second-harm-hearing-court");
+      [
+        $("#harm-archaeology-memory"),
+        $("#harm-archaeology-codex"),
+        $("#harm-archaeology-codex-entry"),
+        $("#harm-archaeology-entry-btn"),
+        $("#harm-hearing-entry-btn"),
+        $("#harm-archaeology-bureau-link"),
+        $("#forensic-mercy-excavation-link"),
+        $("#crime-scene-without-offender-link"),
+        $("#second-harm-hearing-court-link"),
+        $("#harm-reconstructor-threshold"),
+        $("#harm-reconstructor-liability-ledger"),
+        $("#harm-reconstructor-causeless-ward"),
+        $("#harm-reconstructor-return-threshold"),
+        $("#harm-reconstructor-return-liability-ledger"),
+        $("#harm-reconstructor-return-causeless-ward")
+      ].forEach((el) => { if (el) el.hidden = true; });
+      [
+        $("#harm-archaeology-entry-response"),
+        $("#harm-hearing-entry-response"),
+        $("#harm-archaeology-bureau-response"),
+        $("#forensic-mercy-excavation-response"),
+        $("#crime-scene-without-offender-response"),
+        $("#second-harm-hearing-court-response"),
+        $("#harm-reconstructor-response-threshold"),
+        $("#harm-reconstructor-response-liability-ledger"),
+        $("#harm-reconstructor-response-causeless-ward")
+      ].forEach((el) => { if (el) el.textContent = ""; });
+      [
+        $("#harm-archaeology-entry-btn"),
+        $("#harm-hearing-entry-btn"),
+        $("#harm-site-closed-scar-site"),
+        $("#harm-site-zeroed-ledger-site"),
+        $("#harm-site-innocent-soil-site"),
+        $("#harm-instrument-pain-reconstruction-brush"),
+        $("#harm-instrument-responsibility-pollen-sieve"),
+        $("#harm-instrument-missing-witness-cast"),
+        $("#harm-interpretation-the-offender-never-existed"),
+        $("#harm-interpretation-excavation-created-the-truth"),
+        $("#harm-interpretation-the-wound-was-an-alibi"),
+        $("#harm-interpretation-the-archive-was-the-second-offender"),
+        $("#harm-reconstructor-return-threshold"),
+        $("#harm-reconstructor-return-liability-ledger"),
+        $("#harm-reconstructor-return-causeless-ward"),
+        $("#harm-hearing-convict-the-investigation"),
+        $("#harm-hearing-grant-the-wound-right-to-refuse-evidence"),
+        $("#harm-hearing-make-truth-outlive-every-victim")
+      ].forEach((button) => {
+        if (button) {
+          button.disabled = false;
+          button.removeAttribute("aria-pressed");
+        }
+      });
+      syncHarmArchaeologyBureau();
+      syncForensicMercyExcavation();
+      syncCrimeSceneWithoutOffender();
+      syncSecondHarmHearingCourt();
+      syncHarmReconstructors();
+      paintHarmArchaeologyMemory();
+      paintHarmArchaeologyCodex();
+      syncHarmArchaeologyRemembrance();
+      syncHarmArchaeologyLinks();
+      try { localStorage.removeItem("goddead_v84_innocent_witness_protection"); } catch {}
+      AutoAdvance.clear("innocent-witness-protection");
+      AutoAdvance.clear("identity-causality-laundry");
+      AutoAdvance.clear("memory-relocation-safehouse");
+      AutoAdvance.clear("anonymous-truth-lifetime-court");
+      [
+        $("#witness-protection-memory"),
+        $("#witness-protection-codex"),
+        $("#witness-protection-codex-entry"),
+        $("#witness-protection-entry-btn"),
+        $("#witness-court-entry-btn"),
+        $("#innocent-witness-protection-link"),
+        $("#identity-causality-laundry-link"),
+        $("#memory-relocation-safehouse-link"),
+        $("#anonymous-truth-lifetime-court-link"),
+        $("#witness-protection-handler-blank-name-cloakroom"),
+        $("#witness-protection-handler-borrowed-shadow-gallery"),
+        $("#witness-protection-handler-unreturned-witness-gallery"),
+        $("#witness-protection-handler-return-blank-name-cloakroom"),
+        $("#witness-protection-handler-return-borrowed-shadow-gallery"),
+        $("#witness-protection-handler-return-unreturned-witness-gallery")
+      ].forEach((el) => { if (el) el.hidden = true; });
+      [
+        $("#witness-protection-entry-response"),
+        $("#witness-court-entry-response"),
+        $("#innocent-witness-protection-response"),
+        $("#identity-causality-laundry-response"),
+        $("#memory-relocation-safehouse-response"),
+        $("#anonymous-truth-lifetime-court-response"),
+        $("#witness-protection-handler-response-blank-name-cloakroom"),
+        $("#witness-protection-handler-response-borrowed-shadow-gallery"),
+        $("#witness-protection-handler-response-unreturned-witness-gallery")
+      ].forEach((el) => { if (el) el.textContent = ""; });
+      [
+        $("#witness-protection-entry-btn"),
+        $("#witness-court-entry-btn"),
+        $("#witness-target-witness-who-survived-testimony"),
+        $("#witness-target-witness-shaped-like-offender"),
+        $("#witness-target-witness-whose-silence-confessed"),
+        $("#witness-procedure-launder-the-recognized-face"),
+        $("#witness-procedure-relocate-the-incriminating-shadow"),
+        $("#witness-procedure-rehouse-the-witness-memory"),
+        $("#witness-term-witness-forgets-what-was-seen"),
+        $("#witness-term-testimony-uses-a-future-name"),
+        $("#witness-term-world-forgets-the-crime"),
+        $("#witness-term-innocence-impersonates-the-witness"),
+        $("#witness-protection-handler-return-blank-name-cloakroom"),
+        $("#witness-protection-handler-return-borrowed-shadow-gallery"),
+        $("#witness-protection-handler-return-unreturned-witness-gallery"),
+        $("#witness-court-abolish-eyewitnesses-to-protect-them"),
+        $("#witness-court-hide-truth-under-eternal-alias"),
+        $("#witness-court-return-memory-to-every-protected-witness")
+      ].forEach((button) => {
+        if (button) {
+          button.disabled = false;
+          button.removeAttribute("aria-pressed");
+        }
+      });
+      syncInnocentWitnessProtectionBureau();
+      syncIdentityCausalityLaundry();
+      syncMemoryRelocationSafehouse();
+      syncAnonymousTruthLifetimeCourt();
+      syncWitnessProtectionHandlers();
+      paintWitnessProtectionMemory();
+      paintWitnessProtectionCodex();
+      syncWitnessProtectionRemembrance();
+      syncWitnessProtectionLinks();
+      try { localStorage.removeItem("goddead_v85_orphaned_fact_claims"); } catch {}
+      AutoAdvance.clear("orphaned-fact-claim-office");
+      AutoAdvance.clear("fact-inheritance-vault");
+      AutoAdvance.clear("causal-estate-execution-desk");
+      AutoAdvance.clear("ownerless-truth-estate-court");
+      [
+        $("#orphaned-fact-memory"),
+        $("#orphaned-fact-codex"),
+        $("#orphaned-fact-codex-entry"),
+        $("#orphaned-fact-entry-btn"),
+        $("#orphaned-fact-court-entry-btn"),
+        $("#orphaned-fact-claim-office-link"),
+        $("#fact-inheritance-vault-link"),
+        $("#causal-estate-execution-desk-link"),
+        $("#ownerless-truth-estate-court-link"),
+        $("#orphaned-fact-executor-contradictory-evidence-archive"),
+        $("#orphaned-fact-executor-blank-name-cloakroom"),
+        $("#orphaned-fact-executor-minute-before-archive"),
+        $("#orphaned-fact-executor-return-contradictory-evidence-archive"),
+        $("#orphaned-fact-executor-return-blank-name-cloakroom"),
+        $("#orphaned-fact-executor-return-minute-before-archive")
+      ].forEach((el) => { if (el) el.hidden = true; });
+      [
+        $("#orphaned-fact-entry-response"),
+        $("#orphaned-fact-court-entry-response"),
+        $("#orphaned-fact-claim-office-response"),
+        $("#fact-inheritance-vault-response"),
+        $("#causal-estate-execution-desk-response"),
+        $("#ownerless-truth-estate-court-response"),
+        $("#orphaned-fact-executor-response-contradictory-evidence-archive"),
+        $("#orphaned-fact-executor-response-blank-name-cloakroom"),
+        $("#orphaned-fact-executor-response-minute-before-archive")
+      ].forEach((el) => { if (el) el.textContent = ""; });
+      [
+        $("#orphaned-fact-entry-btn"),
+        $("#orphaned-fact-court-entry-btn"),
+        $("#orphaned-fact-fact-whose-witness-entered-protection"),
+        $("#orphaned-fact-fact-whose-cause-died-childless"),
+        $("#orphaned-fact-fact-rejected-by-every-archive"),
+        $("#orphaned-proof-unclaimed-fingerprint-of-the-wound"),
+        $("#orphaned-proof-shadow-of-an-unsigned-confession"),
+        $("#orphaned-proof-receipt-for-a-future-consequence"),
+        $("#orphaned-obligation-inherit-every-victim"),
+        $("#orphaned-obligation-inherit-every-omitted-cause"),
+        $("#orphaned-obligation-adopt-contradiction-as-a-surname"),
+        $("#orphaned-obligation-leave-fact-ownerless-and-become-its-alibi"),
+        $("#orphaned-fact-executor-return-contradictory-evidence-archive"),
+        $("#orphaned-fact-executor-return-blank-name-cloakroom"),
+        $("#orphaned-fact-executor-return-minute-before-archive"),
+        $("#orphaned-court-let-every-fact-inherit-its-observer"),
+        $("#orphaned-court-abolish-ownership-of-truth"),
+        $("#orphaned-court-make-the-claimant-inherit-the-whole-world")
+      ].forEach((button) => {
+        if (button) {
+          button.disabled = false;
+          button.removeAttribute("aria-pressed");
+        }
+      });
+      syncOrphanedFactClaimOffice();
+      syncFactInheritanceVault();
+      syncCausalEstateExecutionDesk();
+      syncOwnerlessTruthEstateCourt();
+      syncOrphanedFactExecutors();
+      paintOrphanedFactMemory();
+      paintOrphanedFactCodex();
+      syncOrphanedFactRemembrance();
+      syncOrphanedFactLinks();
+      try { localStorage.removeItem("goddead_v86_existence_renunciation"); } catch {}
+      AutoAdvance.clear("existence-renunciation-registry");
+      AutoAdvance.clear("proof-of-nonexistence-archive");
+      AutoAdvance.clear("ontological-disinheritance-chamber");
+      AutoAdvance.clear("civil-nonexistence-final-tribunal");
+      [
+        $("#existence-renunciation-memory"),
+        $("#existence-renunciation-codex"),
+        $("#existence-renunciation-codex-entry"),
+        $("#existence-renunciation-entry-btn"),
+        $("#existence-renunciation-tribunal-entry-btn"),
+        $("#existence-renunciation-registry-link"),
+        $("#proof-of-nonexistence-archive-link"),
+        $("#ontological-disinheritance-chamber-link"),
+        $("#civil-nonexistence-final-tribunal-link"),
+        $("#existence-renunciation-registrar-birth-ballot-booth"),
+        $("#existence-renunciation-registrar-blank-name-cloakroom"),
+        $("#existence-renunciation-registrar-reality-refund-counter"),
+        $("#existence-renunciation-registrar-return-birth-ballot-booth"),
+        $("#existence-renunciation-registrar-return-blank-name-cloakroom"),
+        $("#existence-renunciation-registrar-return-reality-refund-counter")
+      ].forEach((el) => { if (el) el.hidden = true; });
+      [
+        $("#existence-renunciation-entry-response"),
+        $("#existence-renunciation-tribunal-entry-response"),
+        $("#existence-renunciation-registry-response"),
+        $("#proof-of-nonexistence-archive-response"),
+        $("#ontological-disinheritance-chamber-response"),
+        $("#civil-nonexistence-final-tribunal-response"),
+        $("#existence-renunciation-registrar-response-birth-ballot-booth"),
+        $("#existence-renunciation-registrar-response-blank-name-cloakroom"),
+        $("#existence-renunciation-registrar-response-reality-refund-counter")
+      ].forEach((el) => { if (el) el.textContent = ""; });
+      [
+        $("#existence-renunciation-entry-btn"),
+        $("#existence-renunciation-tribunal-entry-btn"),
+        $("#renunciation-renunciant-observer-inherited-by-every-fact"),
+        $("#renunciation-renunciant-claimant-buried-under-unclaimed-consequences"),
+        $("#renunciation-renunciant-person-rejected-by-every-archive"),
+        $("#renunciation-evidence-birth-certificate-for-an-empty-crib"),
+        $("#renunciation-evidence-shadow-of-a-person-erased-in-advance"),
+        $("#renunciation-evidence-refund-receipt-for-an-undelivered-body"),
+        $("#renunciation-clause-declare-existence-a-clerical-error"),
+        $("#renunciation-clause-return-the-first-person-pronoun-unused"),
+        $("#renunciation-clause-transfer-the-body-to-its-original-absence"),
+        $("#renunciation-clause-accept-nonexistence-as-an-inherited-debt"),
+        $("#existence-renunciation-registrar-return-birth-ballot-booth"),
+        $("#existence-renunciation-registrar-return-blank-name-cloakroom"),
+        $("#existence-renunciation-registrar-return-reality-refund-counter"),
+        $("#renunciation-tribunal-strike-every-visitor-from-reality"),
+        $("#renunciation-tribunal-register-nonexistence-as-a-citizen"),
+        $("#renunciation-tribunal-make-the-world-disinherit-itself")
+      ].forEach((button) => {
+        if (button) {
+          button.disabled = false;
+          button.removeAttribute("aria-pressed");
+        }
+      });
+      syncExistenceRenunciationRegistry();
+      syncProofOfNonexistenceArchive();
+      syncOntologicalDisinheritanceChamber();
+      syncCivilNonexistenceFinalTribunal();
+      syncExistenceRenunciationRegistrars();
+      paintExistenceRenunciationMemory();
+      paintExistenceRenunciationCodex();
+      syncExistenceRenunciationRemembrance();
+      syncExistenceRenunciationLinks();
+      try { localStorage.removeItem("goddead_v87_nonexistence_debt_collection"); } catch {}
+      AutoAdvance.clear("nonexistence-debt-collection-agency");
+      AutoAdvance.clear("absence-arrears-ledger-vault");
+      AutoAdvance.clear("ontological-repossession-chamber");
+      AutoAdvance.clear("unpayable-existence-bankruptcy-court");
+      [
+        $("#nonexistence-debt-memory"),
+        $("#nonexistence-debt-codex"),
+        $("#nonexistence-debt-codex-entry"),
+        $("#nonexistence-debt-entry-btn"),
+        $("#nonexistence-debt-court-entry-btn"),
+        $("#nonexistence-debt-collection-agency-link"),
+        $("#absence-arrears-ledger-vault-link"),
+        $("#ontological-repossession-chamber-link"),
+        $("#unpayable-existence-bankruptcy-court-link"),
+        $("#nonexistence-debt-collector-posthumous-census-hall"),
+        $("#nonexistence-debt-collector-reality-refund-counter"),
+        $("#nonexistence-debt-collector-last-word-central-bank"),
+        $("#nonexistence-debt-collector-return-posthumous-census-hall"),
+        $("#nonexistence-debt-collector-return-reality-refund-counter"),
+        $("#nonexistence-debt-collector-return-last-word-central-bank")
+      ].forEach((el) => { if (el) el.hidden = true; });
+      [
+        $("#nonexistence-debt-entry-response"),
+        $("#nonexistence-debt-court-entry-response"),
+        $("#nonexistence-debt-collection-agency-response"),
+        $("#absence-arrears-ledger-vault-response"),
+        $("#ontological-repossession-chamber-response"),
+        $("#unpayable-existence-bankruptcy-court-response"),
+        $("#nonexistence-debt-collector-response-posthumous-census-hall"),
+        $("#nonexistence-debt-collector-response-reality-refund-counter"),
+        $("#nonexistence-debt-collector-response-last-word-central-bank")
+      ].forEach((el) => { if (el) el.textContent = ""; });
+      [
+        $("#nonexistence-debt-entry-btn"),
+        $("#nonexistence-debt-court-entry-btn"),
+        $("#debtor-citizen-who-exists-only-as-nonexistence"),
+        $("#debtor-visitor-erased-but-still-in-arrears"),
+        $("#debtor-world-that-disinherited-itself"),
+        $("#instrument-absence-tax-bill-addressed-to-a-blank-citizen"),
+        $("#instrument-mortgage-on-space-never-occupied"),
+        $("#instrument-bond-backed-by-years-never-lived"),
+        $("#remedy-garnish-every-memory-that-proves-existence"),
+        $("#remedy-repossess-the-body-before-delivery"),
+        $("#remedy-capitalize-nonexistence-into-eternal-interest"),
+        $("#remedy-declare-death-an-insufficient-payment"),
+        $("#nonexistence-debt-collector-return-posthumous-census-hall"),
+        $("#nonexistence-debt-collector-return-reality-refund-counter"),
+        $("#nonexistence-debt-collector-return-last-word-central-bank"),
+        $("#bankruptcy-action-forgive-every-debt-before-existence"),
+        $("#bankruptcy-action-make-nonexistence-the-sole-creditor"),
+        $("#bankruptcy-action-foreclose-on-the-worlds-right-to-exist")
+      ].forEach((button) => {
+        if (button) {
+          button.disabled = false;
+          button.removeAttribute("aria-pressed");
+        }
+      });
+      syncNonexistenceDebtCollectionAgency();
+      syncAbsenceArrearsLedgerVault();
+      syncOntologicalRepossessionChamber();
+      syncUnpayableExistenceBankruptcyCourt();
+      syncNonexistenceDebtCollectors();
+      paintNonexistenceDebtMemory();
+      paintNonexistenceDebtCodex();
+      syncNonexistenceDebtRemembrance();
+      forgetUnhappenedAuctionState();
+      forgetAccomplishedFactEvictionState();
+      forgetCauselessConsequenceRefugeeState();
+      syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
       if (firstDraftVaultResponse) firstDraftVaultResponse.textContent = "";
       if (beforeFirstKnockResponse) beforeFirstKnockResponse.textContent = "";
@@ -30072,6 +47962,143 @@ document.addEventListener("DOMContentLoaded", () => {
   syncSelfAuthenticityRemembrance();
   syncSelfAuthenticityLinks();
   replaySelfAuthenticityPending('threshold');
+  resolveFirstPersonRationingPendingOnArrival('threshold');
+  syncFirstPersonRationingBureau();
+  syncFirstPersonRationingArchive();
+  syncFirstPersonRationingChamber();
+  syncFirstPersonRationingCourt();
+  syncFirstPersonRationingAllocators();
+  paintFirstPersonRationingMemory();
+  paintFirstPersonRationingCodex();
+  syncFirstPersonRationingRemembrance();
+  syncFirstPersonRationingLinks();
+  replayFirstPersonRationingPending('threshold');
+  resolveUnspokenPersonhoodPendingOnArrival('threshold');
+  syncUnspokenPersonhoodCourt();
+  syncUnspokenPersonhoodArchive();
+  syncUnspokenPersonhoodExamination();
+  syncUnspokenPersonhoodTribunal();
+  syncUnspokenPersonhoodExecutors();
+  paintUnspokenPersonhoodMemory();
+  paintUnspokenPersonhoodCodex();
+  syncUnspokenPersonhoodRemembrance();
+  syncUnspokenPersonhoodLinks();
+  replayUnspokenPersonhoodPending('threshold');
+  syncUnfinishedThoughtAsylum();
+  syncUnfinishedThoughtArchive();
+  syncUnfinishedThoughtLab();
+  syncUnfinishedThoughtHearing();
+  syncUnfinishedThoughtPhysicians();
+  paintUnfinishedThoughtMemory();
+  paintUnfinishedThoughtCodex();
+  syncUnfinishedThoughtRemembrance();
+  syncUnfinishedThoughtLinks();
+  syncRegretReclamationPlant();
+  syncRegretResidueWeighhouse();
+  syncRegretSmeltingLine();
+  syncRegretLifeFurnace();
+  syncRegretReclaimers();
+  paintRegretReclamationMemory();
+  paintRegretReclamationCodex();
+  syncRegretReclamationRemembrance();
+  syncRegretReclamationLinks();
+  syncForgivenessLandfill();
+  syncInertHarmCertificateVault();
+  syncMercyBurialTrench();
+  syncHarmlessnessFinalWell();
+  syncForgivenessRecorders();
+  paintForgivenessLandfillMemory();
+  paintForgivenessLandfillCodex();
+  syncForgivenessLandfillRemembrance();
+  syncForgivenessLandfillLinks();
+  resolveHarmPendingOnArrival("threshold");
+  syncHarmArchaeologyBureau();
+  syncForensicMercyExcavation();
+  syncCrimeSceneWithoutOffender();
+  syncSecondHarmHearingCourt();
+  syncHarmReconstructors();
+  paintHarmArchaeologyMemory();
+  paintHarmArchaeologyCodex();
+  syncHarmArchaeologyRemembrance();
+  syncHarmArchaeologyLinks();
+  replayHarmArchaeologyPending("threshold");
+  resolveWitnessProtectionPendingOnArrival("threshold");
+  syncInnocentWitnessProtectionBureau();
+  syncIdentityCausalityLaundry();
+  syncMemoryRelocationSafehouse();
+  syncAnonymousTruthLifetimeCourt();
+  syncWitnessProtectionHandlers();
+  paintWitnessProtectionMemory();
+  paintWitnessProtectionCodex();
+  syncWitnessProtectionRemembrance();
+  syncWitnessProtectionLinks();
+  replayWitnessProtectionPending("threshold");
+  resolveOrphanedFactPendingOnArrival("threshold");
+  syncOrphanedFactClaimOffice();
+  syncFactInheritanceVault();
+  syncCausalEstateExecutionDesk();
+  syncOwnerlessTruthEstateCourt();
+  syncOrphanedFactExecutors();
+  paintOrphanedFactMemory();
+  paintOrphanedFactCodex();
+  syncOrphanedFactRemembrance();
+  syncOrphanedFactLinks();
+  replayOrphanedFactPending("threshold");
+  resolveExistenceRenunciationPendingOnArrival("threshold");
+  syncExistenceRenunciationRegistry();
+  syncProofOfNonexistenceArchive();
+  syncOntologicalDisinheritanceChamber();
+  syncCivilNonexistenceFinalTribunal();
+  syncExistenceRenunciationRegistrars();
+  paintExistenceRenunciationMemory();
+  paintExistenceRenunciationCodex();
+  syncExistenceRenunciationRemembrance();
+  syncExistenceRenunciationLinks();
+  replayExistenceRenunciationPending("threshold");
+  resolveNonexistenceDebtPendingOnArrival("threshold");
+  syncNonexistenceDebtCollectionAgency();
+  syncAbsenceArrearsLedgerVault();
+  syncOntologicalRepossessionChamber();
+  syncUnpayableExistenceBankruptcyCourt();
+  syncNonexistenceDebtCollectors();
+  paintNonexistenceDebtMemory();
+  paintNonexistenceDebtCodex();
+  syncNonexistenceDebtRemembrance();
+  syncNonexistenceDebtLinks();
+  replayNonexistenceDebtPending("threshold");
+  resolveUnhappenedAuctionPendingOnArrival("threshold");
+  syncAuctionHouseForEventsThatNeverHappened();
+  syncCatalogueOfUnoccupiedReality();
+  syncCounterfactualBiddingFloor();
+  syncRetroactiveOccurrenceTitleCourt();
+  syncUnhappenedAuctioneers();
+  paintUnhappenedAuctionMemory();
+  paintUnhappenedAuctionCodex();
+  syncUnhappenedAuctionRemembrance();
+  syncUnhappenedAuctionLinks();
+  replayUnhappenedAuctionPending("threshold");
+  resolveAccomplishedFactEvictionPendingOnArrival("threshold");
+  syncAccomplishedFactEvictionAuthority();
+  syncCondemnedHistorySurveyOffice();
+  syncRetroactiveDemolitionYard();
+  syncFinalOccupancyAppealCourt();
+  syncAccomplishedFactBailiffs();
+  paintAccomplishedFactEvictionMemory();
+  paintAccomplishedFactEvictionCodex();
+  syncAccomplishedFactEvictionRemembrance();
+  syncAccomplishedFactEvictionLinks();
+  replayAccomplishedFactEvictionPending("threshold");
+  resolveCauselessConsequencePendingOnArrival("threshold");
+  syncCauselessConsequenceRefugeeAuthority();
+  syncBorrowedCauseSponsorshipOffice();
+  syncCausalBorderProcessingStation();
+  syncFinalAsylumTribunalForCauselessConsequences();
+  syncCauselessConsequenceConsuls();
+  paintCauselessConsequenceRefugeeMemory();
+  paintCauselessConsequenceRefugeeCodex();
+  syncCauselessConsequenceRefugeeRemembrance();
+  syncCauselessConsequenceRefugeeLinks();
+  replayCauselessConsequenceRefugeePending("threshold");
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

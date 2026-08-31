@@ -1,0 +1,102 @@
+{
+  "version": 89,
+  "feature": "accomplished-fact-eviction-authority",
+  "title": "既成事实拆迁局 / EVICTION AUTHORITY FOR ACCOMPLISHED FACTS",
+  "date": "2026-08-30",
+  "scope": "local-only",
+  "browser": {
+    "controller": "Computer Use",
+    "app": "Google Chrome",
+    "windows": 1,
+    "tabs": 1,
+    "playwrightUsed": false,
+    "devtools": "docked in the same window only"
+  },
+  "staticAcceptance": {
+    "nodeCheckScript": "pass",
+    "nodeCheckTests": "pass",
+    "gitDiffCheck": "pass",
+    "assertions": 15657,
+    "v88Assertions": 14992,
+    "assertionDelta": 665
+  },
+  "desktopFlow": {
+    "entry": "remembrance -> accomplished-fact-eviction-authority",
+    "trustedClickChain": [
+      "birth-that-issued-a-body",
+      "right-to-have-already-begun",
+      "demolish-the-cause-and-leave-the-consequence",
+      "birth-ballot-booth",
+      "return-with-birth-eviction-surveyor",
+      "accomplished-fact-eviction-authority"
+    ],
+    "result": "pass",
+    "returnState": {
+      "pending": null,
+      "activeBailiff": null,
+      "evictionRecorded": true
+    }
+  },
+  "appealRoutes": [
+    {
+      "action": "grant-permanent-residency-to-every-accomplished-fact",
+      "destination": "threshold",
+      "result": "pass"
+    },
+    {
+      "action": "evict-history-and-let-consequences-squat",
+      "destination": "remembrance",
+      "result": "pass"
+    },
+    {
+      "action": "demolish-the-present-for-illegal-construction-on-the-past",
+      "destination": "unending-gallery",
+      "result": "pass"
+    }
+  ],
+  "responsive": {
+    "viewport": {
+      "width": 390,
+      "height": 687
+    },
+    "scenes": [
+      "accomplished-fact-eviction-authority",
+      "final-occupancy-appeal-court"
+    ],
+    "checks": {
+      "titleReadable": true,
+      "descriptionReadable": true,
+      "generatedImageVisible": true,
+      "threeHotspotsVisible": true,
+      "clippingObserved": false,
+      "horizontalOverflowObserved": false
+    },
+    "result": "pass"
+  },
+  "console": {
+    "productionErrorsObserved": [],
+    "qaGeneratedNoiseExcluded": [
+      "ReferenceError from a manual probe of an intentionally scoped function"
+    ]
+  },
+  "storageSafety": {
+    "baselineEntries": 22,
+    "restoredEntries": 22,
+    "sortedEntryComparisonEqual": true,
+    "temporaryV88KeyAbsent": true,
+    "temporaryV89KeyAbsent": true,
+    "finalRoute": "remembrance",
+    "result": "pass"
+  },
+  "screenshots": [
+    "design-qa-evidence/v89-browser-birth-bailiff.jpg",
+    "design-qa-evidence/v89-mobile-authority.jpg",
+    "design-qa-evidence/v89-mobile-final-court.jpg"
+  ],
+  "release": {
+    "commit": false,
+    "push": false,
+    "deploy": false
+  },
+  "nextHook": "无因后果难民署 / REFUGEE AUTHORITY FOR CONSEQUENCES WITHOUT CAUSES"
+}

@@ -1,0 +1,134 @@
+{
+  "version": 85,
+  "date": "2026-08-30",
+  "method": "Computer Use against the local Chrome UI",
+  "browserPolicy": {
+    "windows": 1,
+    "tabs": 1,
+    "devtools": "temporarily docked in the same Chrome window",
+    "extraBrowserInstances": false
+  },
+  "trustedClickCoverage": {
+    "inheritanceFlows": [
+      {
+        "fact": "fact-whose-witness-entered-protection",
+        "proof": "unclaimed-fingerprint-of-the-wound",
+        "obligation": "inherit-every-victim",
+        "target": "contradictory-evidence-archive",
+        "executor": "wound-print",
+        "returnToOffice": true
+      },
+      {
+        "fact": "fact-whose-cause-died-childless",
+        "proof": "shadow-of-an-unsigned-confession",
+        "obligation": "inherit-every-omitted-cause",
+        "target": "blank-name-cloakroom",
+        "executor": "shadow-confession",
+        "returnToOffice": true
+      },
+      {
+        "fact": "fact-rejected-by-every-archive",
+        "proof": "receipt-for-a-future-consequence",
+        "obligation": "adopt-contradiction-as-a-surname",
+        "target": "minute-before-archive",
+        "executor": "future-receipt",
+        "returnToOffice": true
+      },
+      {
+        "fact": "fact-whose-witness-entered-protection",
+        "proof": "unclaimed-fingerprint-of-the-wound",
+        "obligation": "leave-fact-ownerless-and-become-its-alibi",
+        "target": "contradictory-evidence-archive",
+        "executor": "wound-print",
+        "returnToOffice": true
+      }
+    ],
+    "dimensionCoverage": {
+      "facts": "3/3",
+      "proofs": "3/3",
+      "obligations": "4/4",
+      "oldTargets": "3/3"
+    },
+    "courtOutcomes": [
+      {
+        "action": "let-every-fact-inherit-its-observer",
+        "outcome": "every-fact-inherited-the-person-who-noticed-it",
+        "target": "threshold"
+      },
+      {
+        "action": "abolish-ownership-of-truth",
+        "outcome": "truth-was-freed-from-every-owner",
+        "target": "remembrance"
+      },
+      {
+        "action": "make-the-claimant-inherit-the-whole-world",
+        "outcome": "the-claimant-inherited-every-unclaimed-consequence",
+        "target": "unending-gallery"
+      }
+    ],
+    "finalCourtState": {
+      "estateOutcomes": 3,
+      "estateRuns": 3,
+      "pending": null
+    }
+  },
+  "regressionFoundAndFixed": {
+    "symptom": "The third court action staged correctly but the legacy unending-gallery guard redirected it to remembrance before settlement.",
+    "rootCause": "The unending-gallery guard omitted orphanedFactBridgeAllows('unending-gallery').",
+    "author": "gemini-3.7-flash-high",
+    "verification": "The repaired trusted flow reached unending-gallery and settled the third canonical outcome."
+  },
+  "refreshIdempotence": {
+    "route": "unending-gallery",
+    "before": {
+      "estateOutcomes": 3,
+      "estateRuns": 3,
+      "pending": null
+    },
+    "after": {
+      "estateOutcomes": 3,
+      "estateRuns": 3,
+      "pending": null
+    },
+    "passed": true
+  },
+  "malformedStorageRecovery": {
+    "valueWritten": "{bad",
+    "reloadHash": "ownerless-truth-estate-court",
+    "recoveredHash": "remembrance",
+    "recoveredV85Inheritances": 0,
+    "recoveredV85EstateOutcomes": 0,
+    "crash": false,
+    "passed": true
+  },
+  "responsiveQA": {
+    "deviceViewport": {
+      "width": 390,
+      "height": 844
+    },
+    "orphanedFactClaimOffice": {
+      "scrollWidth": 390,
+      "horizontalOverflow": false
+    },
+    "ownerlessTruthEstateCourt": {
+      "scrollWidth": 390,
+      "horizontalOverflow": false
+    }
+  },
+  "screenshots": [
+    "v85-orphaned-fact-claim-office-desktop.png",
+    "v85-wound-print-executor-desktop.png",
+    "v85-ownerless-truth-estate-court-desktop.png",
+    "v85-orphaned-fact-claim-office-mobile.png",
+    "v85-ownerless-truth-estate-court-mobile.png"
+  ],
+  "storageRestoration": {
+    "backupKeyCount": 22,
+    "restoredKeyCount": 22,
+    "backupKeyPresentAfterRestore": false,
+    "v85KeyPresentAfterRestore": false,
+    "v84QaKeyPresentAfterRestore": false,
+    "v83OriginalHearingOutcomeCount": 1,
+    "passed": true
+  }
+}

@@ -2759,6 +2759,1778 @@ body.miracle::after {
   }
 }
 
+/* ---------- v84 无罪证人保护院 ---------- */
+
+.innocent-witness-protection-figure,
+.identity-causality-laundry-figure,
+.memory-relocation-safehouse-figure,
+.anonymous-truth-lifetime-court-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  aspect-ratio: 3 / 2;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--void);
+}
+
+.innocent-witness-protection-img,
+.identity-causality-laundry-img,
+.memory-relocation-safehouse-img,
+.anonymous-truth-lifetime-court-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.witness-protection-hotspot {
+  position: absolute;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  background: rgba(10, 10, 10, 0.72);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
+  box-sizing: border-box;
+}
+
+.witness-protection-hotspot:hover,
+.witness-protection-hotspot:focus-visible {
+  border-color: var(--gold);
+  background: rgba(30, 25, 20, 0.88);
+  color: var(--bone-bright);
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.witness-protection-hotspot:disabled,
+.witness-protection-hotspot[aria-pressed="true"] {
+  border-color: var(--blood);
+  background: rgba(40, 12, 12, 0.82);
+  color: var(--bone-bright);
+  cursor: default;
+  outline: none;
+}
+
+.witness-hotspot-left {
+  left: 0;
+  top: 12%;
+  width: 31%;
+  height: 80%;
+}
+
+.witness-hotspot-center {
+  left: 34%;
+  top: 12%;
+  width: 32%;
+  height: 80%;
+}
+
+.witness-hotspot-right {
+  left: 69%;
+  top: 12%;
+  width: 31%;
+  height: 80%;
+}
+
+.witness-hotspot-left-top {
+  left: 0;
+  top: 3%;
+  width: 34%;
+  height: 45%;
+}
+
+.witness-hotspot-right-top {
+  left: 66%;
+  top: 3%;
+  width: 34%;
+  height: 45%;
+}
+
+.witness-hotspot-left-bottom {
+  left: 0;
+  top: 52%;
+  width: 34%;
+  height: 45%;
+}
+
+.witness-hotspot-right-bottom {
+  left: 66%;
+  top: 52%;
+  width: 34%;
+  height: 45%;
+}
+
+.witness-protection-memory {
+  margin: 1.5rem auto;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.witness-protection-codex {
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  background: var(--void-soft);
+  max-width: 760px;
+}
+
+.wpc-kicker {
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.witness-protection-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.witness-protection-cell {
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.witness-protection-cell.locked {
+  color: var(--ash);
+  border-style: dashed;
+  opacity: 0.6;
+}
+
+.witness-protection-cell.unlocked {
+  color: var(--bone-bright);
+  border-color: var(--gold);
+  background: rgba(30, 25, 20, 0.5);
+}
+
+.witness-protection-codex-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.witness-protection-entry-btn,
+.witness-protection-handler-return {
+  min-height: 44px;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--gold);
+  background: var(--void);
+  color: var(--bone-bright);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.witness-protection-entry-btn:hover,
+.witness-protection-entry-btn:focus-visible,
+.witness-protection-handler-return:hover,
+.witness-protection-handler-return:focus-visible {
+  background: var(--gold);
+  color: var(--void);
+  outline: 2px solid var(--bone-bright);
+  outline-offset: 2px;
+}
+
+.witness-protection-entry-response,
+.witness-protection-handler-response {
+  margin: 0.5rem 0;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.witness-protection-handler {
+  margin: 1.5rem auto;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: var(--void-soft);
+  text-align: center;
+}
+
+.witness-protection-memory[hidden],
+.witness-protection-codex[hidden],
+.witness-protection-codex-entry[hidden],
+.witness-protection-entry-btn[hidden],
+.witness-protection-handler[hidden],
+.witness-protection-handler-return[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 720px) {
+  .innocent-witness-protection-figure,
+  .identity-causality-laundry-figure,
+  .memory-relocation-safehouse-figure,
+  .anonymous-truth-lifetime-court-figure,
+  .witness-protection-grid {
+    width: min(92vw, 520px);
+  }
+  .witness-protection-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .witness-protection-hotspot,
+  .witness-protection-entry-btn,
+  .witness-protection-handler-return {
+    transition: none;
+  }
+}
+
+/* ---------- v85 孤事实认领处 ---------- */
+
+.orphaned-fact-claim-office-figure,
+.fact-inheritance-vault-figure,
+.causal-estate-execution-desk-figure,
+.ownerless-truth-estate-court-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  aspect-ratio: 3 / 2;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--void);
+}
+
+.orphaned-fact-claim-office-img,
+.fact-inheritance-vault-img,
+.causal-estate-execution-desk-img,
+.ownerless-truth-estate-court-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.orphaned-fact-hotspot {
+  position: absolute;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  background: rgba(10, 10, 10, 0.72);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
+  box-sizing: border-box;
+}
+
+.orphaned-fact-hotspot:hover,
+.orphaned-fact-hotspot:focus-visible {
+  border-color: var(--gold);
+  background: rgba(30, 25, 20, 0.88);
+  color: var(--bone-bright);
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.orphaned-fact-hotspot:disabled,
+.orphaned-fact-hotspot[aria-pressed="true"] {
+  border-color: var(--blood);
+  background: rgba(40, 12, 12, 0.82);
+  color: var(--bone-bright);
+  cursor: default;
+  outline: none;
+}
+
+.orphaned-hotspot-left {
+  left: 0;
+  top: 12%;
+  width: 31%;
+  height: 80%;
+}
+
+.orphaned-hotspot-center {
+  left: 34%;
+  top: 12%;
+  width: 32%;
+  height: 80%;
+}
+
+.orphaned-hotspot-right {
+  left: 69%;
+  top: 12%;
+  width: 31%;
+  height: 80%;
+}
+
+.orphaned-hotspot-left-top {
+  left: 0;
+  top: 3%;
+  width: 34%;
+  height: 45%;
+}
+
+.orphaned-hotspot-right-top {
+  left: 66%;
+  top: 3%;
+  width: 34%;
+  height: 45%;
+}
+
+.orphaned-hotspot-left-bottom {
+  left: 0;
+  top: 52%;
+  width: 34%;
+  height: 45%;
+}
+
+.orphaned-hotspot-right-bottom {
+  left: 66%;
+  top: 52%;
+  width: 34%;
+  height: 45%;
+}
+
+.orphaned-fact-memory {
+  margin: 1.5rem auto;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.orphaned-fact-codex {
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  background: var(--void-soft);
+  max-width: 760px;
+}
+
+.ofc-kicker {
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.orphaned-fact-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.orphaned-fact-cell {
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.orphaned-fact-cell.is-locked {
+  color: var(--ash);
+  border-style: dashed;
+  opacity: 0.6;
+}
+
+.orphaned-fact-cell.is-unlocked {
+  color: var(--bone-bright);
+  border-color: var(--gold);
+  background: rgba(30, 25, 20, 0.5);
+}
+
+.orphaned-fact-codex-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.orphaned-fact-entry-btn,
+.orphaned-fact-executor-return {
+  min-height: 44px;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--gold);
+  background: var(--void);
+  color: var(--bone-bright);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.orphaned-fact-entry-btn:hover,
+.orphaned-fact-entry-btn:focus-visible,
+.orphaned-fact-executor-return:hover,
+.orphaned-fact-executor-return:focus-visible {
+  background: var(--gold);
+  color: var(--void);
+  outline: 2px solid var(--bone-bright);
+  outline-offset: 2px;
+}
+
+.orphaned-fact-entry-response,
+.orphaned-fact-executor-response {
+  margin: 0.5rem 0;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.orphaned-fact-executor {
+  margin: 1.5rem auto;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: var(--void-soft);
+  text-align: center;
+}
+
+.orphaned-fact-memory[hidden],
+.orphaned-fact-codex[hidden],
+.orphaned-fact-codex-entry[hidden],
+.orphaned-fact-entry-btn[hidden],
+.orphaned-fact-executor[hidden],
+.orphaned-fact-executor-return[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 720px) {
+  .orphaned-fact-claim-office-figure,
+  .fact-inheritance-vault-figure,
+  .causal-estate-execution-desk-figure,
+  .ownerless-truth-estate-court-figure,
+  .orphaned-fact-grid {
+    width: min(92vw, 520px);
+  }
+  .orphaned-fact-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orphaned-fact-hotspot,
+  .orphaned-fact-entry-btn,
+  .orphaned-fact-executor-return {
+    transition: none;
+  }
+}
+
+/* ---------- v86 存在放弃登记局 ---------- */
+
+.existence-renunciation-registry-figure,
+.proof-of-nonexistence-archive-figure,
+.ontological-disinheritance-chamber-figure,
+.civil-nonexistence-final-tribunal-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  aspect-ratio: 3 / 2;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--void);
+}
+
+.existence-renunciation-registry-img,
+.proof-of-nonexistence-archive-img,
+.ontological-disinheritance-chamber-img,
+.civil-nonexistence-final-tribunal-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.existence-renunciation-hotspot {
+  position: absolute;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  background: rgba(10, 10, 10, 0.72);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
+  box-sizing: border-box;
+}
+
+.existence-renunciation-hotspot:hover,
+.existence-renunciation-hotspot:focus-visible {
+  border-color: var(--gold);
+  background: rgba(30, 25, 20, 0.88);
+  color: var(--bone-bright);
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.existence-renunciation-hotspot:disabled,
+.existence-renunciation-hotspot[aria-pressed="true"] {
+  border-color: var(--blood);
+  background: rgba(40, 12, 12, 0.82);
+  color: var(--bone-bright);
+  cursor: default;
+  outline: none;
+}
+
+.existence-hotspot-left {
+  left: 0;
+  top: 12%;
+  width: 31%;
+  height: 80%;
+}
+
+.existence-hotspot-center {
+  left: 34%;
+  top: 12%;
+  width: 32%;
+  height: 80%;
+}
+
+.existence-hotspot-right {
+  left: 69%;
+  top: 12%;
+  width: 31%;
+  height: 80%;
+}
+
+.existence-hotspot-left-top {
+  left: 0;
+  top: 3%;
+  width: 34%;
+  height: 45%;
+}
+
+.existence-hotspot-right-top {
+  left: 66%;
+  top: 3%;
+  width: 34%;
+  height: 45%;
+}
+
+.existence-hotspot-left-bottom {
+  left: 0;
+  top: 52%;
+  width: 34%;
+  height: 45%;
+}
+
+.existence-hotspot-right-bottom {
+  left: 66%;
+  top: 52%;
+  width: 34%;
+  height: 45%;
+}
+
+.existence-renunciation-memory {
+  margin: 1.5rem auto;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.existence-renunciation-codex {
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  background: var(--void-soft);
+  max-width: 760px;
+}
+
+.erc-kicker {
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.existence-renunciation-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.existence-renunciation-cell {
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.existence-renunciation-cell.is-locked {
+  color: var(--ash);
+  border-style: dashed;
+  opacity: 0.6;
+}
+
+.existence-renunciation-cell.is-unlocked {
+  color: var(--bone-bright);
+  border-color: var(--gold);
+  background: rgba(30, 25, 20, 0.5);
+}
+
+.existence-renunciation-codex-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.existence-renunciation-entry-btn,
+.existence-renunciation-registrar-return {
+  min-height: 44px;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--gold);
+  background: var(--void);
+  color: var(--bone-bright);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.existence-renunciation-entry-btn:hover,
+.existence-renunciation-entry-btn:focus-visible,
+.existence-renunciation-registrar-return:hover,
+.existence-renunciation-registrar-return:focus-visible {
+  background: var(--gold);
+  color: var(--void);
+  outline: 2px solid var(--bone-bright);
+  outline-offset: 2px;
+}
+
+.existence-renunciation-entry-response,
+.existence-renunciation-tribunal-entry-response,
+.existence-renunciation-registrar-response {
+  margin: 0.5rem 0;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.existence-renunciation-registrar {
+  margin: 1.5rem auto;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: var(--void-soft);
+  text-align: center;
+}
+
+.existence-renunciation-memory[hidden],
+.existence-renunciation-codex[hidden],
+.existence-renunciation-codex-entry[hidden],
+.existence-renunciation-entry-btn[hidden],
+.existence-renunciation-registrar[hidden],
+.existence-renunciation-registrar-return[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 720px) {
+  .existence-renunciation-registry-figure,
+  .proof-of-nonexistence-archive-figure,
+  .ontological-disinheritance-chamber-figure,
+  .civil-nonexistence-final-tribunal-figure,
+  .existence-renunciation-grid {
+    width: min(92vw, 520px);
+  }
+  .existence-renunciation-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .existence-renunciation-hotspot,
+  .existence-renunciation-entry-btn,
+  .existence-renunciation-registrar-return {
+    transition: none;
+  }
+}
+
+/* ---------- v87 不存在债务催收局 ---------- */
+
+.nonexistence-debt-collection-agency-figure,
+.absence-arrears-ledger-vault-figure,
+.ontological-repossession-chamber-figure,
+.unpayable-existence-bankruptcy-court-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  aspect-ratio: 3 / 2;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--void);
+}
+
+.nonexistence-debt-collection-agency-img,
+.absence-arrears-ledger-vault-img,
+.ontological-repossession-chamber-img,
+.unpayable-existence-bankruptcy-court-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.nonexistence-debt-hotspot {
+  position: absolute;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  background: rgba(10, 10, 10, 0.72);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
+  box-sizing: border-box;
+}
+
+.nonexistence-debt-hotspot:hover,
+.nonexistence-debt-hotspot:focus-visible {
+  border-color: var(--gold);
+  background: rgba(30, 25, 20, 0.88);
+  color: var(--bone-bright);
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.nonexistence-debt-hotspot:disabled,
+.nonexistence-debt-hotspot[aria-pressed="true"] {
+  border-color: var(--blood);
+  background: rgba(40, 12, 12, 0.82);
+  color: var(--bone-bright);
+  cursor: default;
+  outline: none;
+}
+
+.nonexistence-hotspot-left {
+  left: 0;
+  top: 12%;
+  width: 31%;
+  height: 80%;
+}
+
+.nonexistence-hotspot-center {
+  left: 34%;
+  top: 12%;
+  width: 32%;
+  height: 80%;
+}
+
+.nonexistence-hotspot-right {
+  left: 69%;
+  top: 12%;
+  width: 31%;
+  height: 80%;
+}
+
+.nonexistence-hotspot-left-top {
+  left: 0;
+  top: 3%;
+  width: 34%;
+  height: 45%;
+}
+
+.nonexistence-hotspot-right-top {
+  left: 66%;
+  top: 3%;
+  width: 34%;
+  height: 45%;
+}
+
+.nonexistence-hotspot-left-bottom {
+  left: 0;
+  top: 52%;
+  width: 34%;
+  height: 45%;
+}
+
+.nonexistence-hotspot-right-bottom {
+  left: 66%;
+  top: 52%;
+  width: 34%;
+  height: 45%;
+}
+
+.nonexistence-debt-memory {
+  margin: 1.5rem auto;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.nonexistence-debt-codex {
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  background: var(--void-soft);
+  max-width: 760px;
+}
+
+.ndc-kicker {
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.nonexistence-debt-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.nonexistence-debt-cell {
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.nonexistence-debt-cell.is-locked {
+  color: var(--ash);
+  border-style: dashed;
+  opacity: 0.6;
+}
+
+.nonexistence-debt-cell.is-unlocked {
+  color: var(--bone-bright);
+  border-color: var(--gold);
+  background: rgba(30, 25, 20, 0.5);
+}
+
+.nonexistence-debt-codex-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.nonexistence-debt-entry-btn,
+.nonexistence-debt-collector-return {
+  min-height: 44px;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--gold);
+  background: var(--void);
+  color: var(--bone-bright);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.nonexistence-debt-entry-btn:hover,
+.nonexistence-debt-entry-btn:focus-visible,
+.nonexistence-debt-collector-return:hover,
+.nonexistence-debt-collector-return:focus-visible {
+  background: var(--gold);
+  color: var(--void);
+  outline: 2px solid var(--bone-bright);
+  outline-offset: 2px;
+}
+
+.nonexistence-debt-entry-response,
+.nonexistence-debt-court-entry-response,
+.nonexistence-debt-collector-response {
+  margin: 0.5rem 0;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.nonexistence-debt-collector {
+  margin: 1.5rem auto;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: var(--void-soft);
+  text-align: center;
+}
+
+.nonexistence-debt-memory[hidden],
+.nonexistence-debt-codex[hidden],
+.nonexistence-debt-codex-entry[hidden],
+.nonexistence-debt-entry-btn[hidden],
+.nonexistence-debt-collector[hidden],
+.nonexistence-debt-collector-return[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 720px) {
+  .nonexistence-debt-collection-agency-figure,
+  .absence-arrears-ledger-vault-figure,
+  .ontological-repossession-chamber-figure,
+  .unpayable-existence-bankruptcy-court-figure,
+  .nonexistence-debt-grid {
+    width: min(92vw, 520px);
+  }
+  .nonexistence-debt-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nonexistence-debt-hotspot,
+  .nonexistence-debt-entry-btn,
+  .nonexistence-debt-collector-return {
+    transition: none;
+  }
+}
+
+/* ---------- v88 未发生事件拍卖行 ---------- */
+
+.auction-house-for-events-that-never-happened-figure,
+.catalogue-of-unoccupied-reality-figure,
+.counterfactual-bidding-floor-figure,
+.retroactive-occurrence-title-court-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  aspect-ratio: 3 / 2;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--void);
+}
+
+.auction-house-for-events-that-never-happened-img,
+.catalogue-of-unoccupied-reality-img,
+.counterfactual-bidding-floor-img,
+.retroactive-occurrence-title-court-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.unhappened-auction-hotspot {
+  position: absolute;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  background: rgba(10, 10, 10, 0.72);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
+  box-sizing: border-box;
+}
+
+.unhappened-auction-hotspot:hover,
+.unhappened-auction-hotspot:focus-visible {
+  border-color: var(--gold);
+  background: rgba(30, 25, 20, 0.88);
+  color: var(--bone-bright);
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.unhappened-auction-hotspot:disabled,
+.unhappened-auction-hotspot[aria-pressed="true"] {
+  border-color: var(--blood);
+  background: rgba(40, 12, 12, 0.82);
+  color: var(--bone-bright);
+  cursor: default;
+  outline: none;
+}
+
+.unhappened-hotspot-left {
+  left: 0;
+  top: 12%;
+  width: 31%;
+  height: 80%;
+}
+
+.unhappened-hotspot-center {
+  left: 34%;
+  top: 12%;
+  width: 32%;
+  height: 80%;
+}
+
+.unhappened-hotspot-right {
+  left: 69%;
+  top: 12%;
+  width: 31%;
+  height: 80%;
+}
+
+.unhappened-hotspot-left-top {
+  left: 0;
+  top: 3%;
+  width: 48%;
+  height: 45%;
+}
+
+.unhappened-hotspot-right-top {
+  left: 52%;
+  top: 3%;
+  width: 48%;
+  height: 45%;
+}
+
+.unhappened-hotspot-left-bottom {
+  left: 0;
+  top: 52%;
+  width: 48%;
+  height: 45%;
+}
+
+.unhappened-hotspot-right-bottom {
+  left: 52%;
+  top: 52%;
+  width: 48%;
+  height: 45%;
+}
+
+.unhappened-event-auction-memory {
+  margin: 1.5rem auto;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.unhappened-event-auction-codex {
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  background: var(--void-soft);
+  max-width: 760px;
+}
+
+.uea-kicker {
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.unhappened-event-auction-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.unhappened-event-auction-cell {
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.unhappened-event-auction-cell.is-locked {
+  color: var(--ash);
+  border-style: dashed;
+  opacity: 0.6;
+}
+
+.unhappened-event-auction-cell.is-unlocked {
+  color: var(--bone-bright);
+  border-color: var(--gold);
+  background: rgba(30, 25, 20, 0.5);
+}
+
+.unhappened-event-auction-codex-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.unhappened-event-entry-btn,
+.unhappened-auctioneer-return {
+  min-height: 44px;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--gold);
+  background: var(--void);
+  color: var(--bone-bright);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.unhappened-event-entry-btn:hover,
+.unhappened-event-entry-btn:focus-visible,
+.unhappened-auctioneer-return:hover,
+.unhappened-auctioneer-return:focus-visible {
+  background: var(--gold);
+  color: var(--void);
+  outline: 2px solid var(--bone-bright);
+  outline-offset: 2px;
+}
+
+.unhappened-event-entry-response,
+.unhappened-event-court-entry-response,
+.unhappened-auctioneer-response {
+  margin: 0.5rem 0;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.unhappened-auctioneer {
+  margin: 1.5rem auto;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: var(--void-soft);
+  text-align: center;
+}
+
+.unhappened-event-auction-memory[hidden],
+.unhappened-event-auction-codex[hidden],
+.unhappened-event-auction-codex-entry[hidden],
+.unhappened-event-entry-btn[hidden],
+.unhappened-auctioneer[hidden],
+.unhappened-auctioneer-return[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 720px) {
+  .auction-house-for-events-that-never-happened-figure,
+  .catalogue-of-unoccupied-reality-figure,
+  .counterfactual-bidding-floor-figure,
+  .retroactive-occurrence-title-court-figure,
+  .unhappened-event-auction-grid {
+    width: min(92vw, 520px);
+  }
+  .unhappened-event-auction-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .unhappened-auction-hotspot,
+  .unhappened-event-entry-btn,
+  .unhappened-auctioneer-return {
+    transition: none;
+  }
+}
+
+/* ---------- v89 既成事实拆迁局 ---------- */
+
+.accomplished-fact-eviction-authority-figure,
+.condemned-history-survey-office-figure,
+.retroactive-demolition-yard-figure,
+.final-occupancy-appeal-court-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  aspect-ratio: 3 / 2;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--void);
+}
+
+.accomplished-fact-eviction-authority-img,
+.condemned-history-survey-office-img,
+.retroactive-demolition-yard-img,
+.final-occupancy-appeal-court-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.accomplished-fact-hotspot {
+  position: absolute;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  background: rgba(10, 10, 10, 0.72);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
+  box-sizing: border-box;
+}
+
+.accomplished-fact-hotspot:hover,
+.accomplished-fact-hotspot:focus-visible {
+  border-color: var(--gold);
+  background: rgba(30, 25, 20, 0.88);
+  color: var(--bone-bright);
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.accomplished-fact-hotspot:disabled,
+.accomplished-fact-hotspot[aria-pressed="true"] {
+  border-color: var(--blood);
+  background: rgba(40, 12, 12, 0.82);
+  color: var(--bone-bright);
+  cursor: default;
+  outline: none;
+}
+
+.accomplished-fact-hotspot-left {
+  left: 0;
+  top: 12%;
+  width: 31%;
+  height: 80%;
+}
+
+.accomplished-fact-hotspot-center {
+  left: 34%;
+  top: 12%;
+  width: 32%;
+  height: 80%;
+}
+
+.accomplished-fact-hotspot-right {
+  left: 69%;
+  top: 12%;
+  width: 31%;
+  height: 80%;
+}
+
+.accomplished-fact-hotspot-left-top {
+  left: 0;
+  top: 3%;
+  width: 48%;
+  height: 45%;
+}
+
+.accomplished-fact-hotspot-right-top {
+  left: 52%;
+  top: 3%;
+  width: 48%;
+  height: 45%;
+}
+
+.accomplished-fact-hotspot-left-bottom {
+  left: 0;
+  top: 52%;
+  width: 48%;
+  height: 45%;
+}
+
+.accomplished-fact-hotspot-right-bottom {
+  left: 52%;
+  top: 52%;
+  width: 48%;
+  height: 45%;
+}
+
+.accomplished-fact-eviction-memory {
+  margin: 1.5rem auto;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.accomplished-fact-eviction-codex {
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  background: var(--void-soft);
+  max-width: 760px;
+}
+
+.afe-kicker {
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.accomplished-fact-eviction-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.accomplished-fact-eviction-cell {
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.accomplished-fact-eviction-cell.is-locked {
+  color: var(--ash);
+  border-style: dashed;
+  opacity: 0.6;
+}
+
+.accomplished-fact-eviction-cell.is-unlocked {
+  color: var(--bone-bright);
+  border-color: var(--gold);
+  background: rgba(30, 25, 20, 0.5);
+}
+
+.accomplished-fact-eviction-codex-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.accomplished-fact-eviction-entry-btn,
+.accomplished-fact-bailiff-return {
+  min-height: 44px;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--gold);
+  background: var(--void);
+  color: var(--bone-bright);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.accomplished-fact-eviction-entry-btn:hover,
+.accomplished-fact-eviction-entry-btn:focus-visible,
+.accomplished-fact-bailiff-return:hover,
+.accomplished-fact-bailiff-return:focus-visible {
+  background: var(--gold);
+  color: var(--void);
+  outline: 2px solid var(--bone-bright);
+  outline-offset: 2px;
+}
+
+.accomplished-fact-eviction-entry-response,
+.accomplished-fact-bailiff-response {
+  margin: 0.5rem 0;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.accomplished-fact-bailiff {
+  margin: 1.5rem auto;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: var(--void-soft);
+  text-align: center;
+}
+
+.accomplished-fact-eviction-memory[hidden],
+.accomplished-fact-eviction-codex[hidden],
+.accomplished-fact-eviction-codex-entry[hidden],
+.accomplished-fact-eviction-entry-btn[hidden],
+.accomplished-fact-bailiff[hidden],
+.accomplished-fact-bailiff-return[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 720px) {
+  .accomplished-fact-eviction-authority-figure,
+  .condemned-history-survey-office-figure,
+  .retroactive-demolition-yard-figure,
+  .final-occupancy-appeal-court-figure,
+  .accomplished-fact-eviction-grid {
+    width: min(92vw, 520px);
+  }
+  .accomplished-fact-eviction-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .accomplished-fact-hotspot,
+  .accomplished-fact-eviction-entry-btn,
+  .accomplished-fact-bailiff-return {
+    transition: none;
+  }
+}
+
+
+/* ---------- v90 无因后果难民署 ---------- */
+
+.causeless-consequence-refugee-authority-figure,
+.borrowed-cause-sponsorship-office-figure,
+.causal-border-processing-station-figure,
+.final-asylum-tribunal-for-causeless-consequences-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  aspect-ratio: 3 / 2;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--void);
+}
+
+.causeless-consequence-refugee-authority-img,
+.borrowed-cause-sponsorship-office-img,
+.causal-border-processing-station-img,
+.final-asylum-tribunal-for-causeless-consequences-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.causeless-consequence-hotspot {
+  position: absolute;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  background: rgba(10, 10, 10, 0.72);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
+  box-sizing: border-box;
+}
+
+.causeless-consequence-hotspot:hover,
+.causeless-consequence-hotspot:focus-visible {
+  border-color: var(--gold);
+  background: rgba(30, 25, 20, 0.88);
+  color: var(--bone-bright);
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.causeless-consequence-hotspot:disabled,
+.causeless-consequence-hotspot[aria-pressed="true"] {
+  border-color: var(--blood);
+  background: rgba(40, 12, 12, 0.82);
+  color: var(--bone-bright);
+  cursor: default;
+  outline: none;
+}
+
+.causeless-consequence-hotspot-left {
+  left: 0;
+  top: 12%;
+  width: 31%;
+  height: 80%;
+}
+
+.causeless-consequence-hotspot-center {
+  left: 34%;
+  top: 12%;
+  width: 32%;
+  height: 80%;
+}
+
+.causeless-consequence-hotspot-right {
+  left: 69%;
+  top: 12%;
+  width: 31%;
+  height: 80%;
+}
+
+.causeless-consequence-hotspot-left-top {
+  left: 0;
+  top: 3%;
+  width: 48%;
+  height: 45%;
+}
+
+.causeless-consequence-hotspot-right-top {
+  left: 52%;
+  top: 3%;
+  width: 48%;
+  height: 45%;
+}
+
+.causeless-consequence-hotspot-left-bottom {
+  left: 0;
+  top: 52%;
+  width: 48%;
+  height: 45%;
+}
+
+.causeless-consequence-hotspot-right-bottom {
+  left: 52%;
+  top: 52%;
+  width: 48%;
+  height: 45%;
+}
+
+.causeless-consequence-refugee-authority-response,
+.borrowed-cause-sponsorship-office-response,
+.causal-border-processing-station-response,
+.final-asylum-tribunal-for-causeless-consequences-response {
+  margin: 1rem auto;
+  max-width: 760px;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  text-align: center;
+  min-height: 1.5em;
+}
+
+.causeless-consequence-refugee-memory {
+  margin: 1.5rem auto;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.causeless-consequence-refugee-codex {
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  background: var(--void-soft);
+  max-width: 760px;
+}
+
+.ccr-kicker {
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.causeless-consequence-refugee-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.causeless-consequence-refugee-cell {
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.causeless-consequence-refugee-cell.is-locked {
+  color: var(--ash);
+  border-style: dashed;
+  opacity: 0.6;
+}
+
+.causeless-consequence-refugee-cell.is-unlocked {
+  color: var(--bone-bright);
+  border-color: var(--gold);
+  background: rgba(30, 25, 20, 0.5);
+}
+
+.causeless-consequence-refugee-codex-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.causeless-consequence-refugee-entry-btn,
+.causeless-consequence-consul-return {
+  min-height: 44px;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--gold);
+  background: var(--void);
+  color: var(--bone-bright);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.causeless-consequence-refugee-entry-btn:hover,
+.causeless-consequence-refugee-entry-btn:focus-visible,
+.causeless-consequence-consul-return:hover,
+.causeless-consequence-consul-return:focus-visible {
+  background: var(--gold);
+  color: var(--void);
+  outline: 2px solid var(--bone-bright);
+  outline-offset: 2px;
+}
+
+.causeless-consequence-refugee-entry-response,
+.causeless-consequence-consul-response {
+  margin: 0.5rem 0;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.causeless-consequence-consul {
+  margin: 1.5rem auto;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: var(--void-soft);
+  text-align: center;
+}
+
+.causeless-consequence-refugee-memory[hidden],
+.causeless-consequence-refugee-codex[hidden],
+.causeless-consequence-refugee-codex-entry[hidden],
+.causeless-consequence-refugee-entry-btn[hidden],
+.causeless-consequence-consul[hidden],
+.causeless-consequence-consul-return[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 720px) {
+  .causeless-consequence-refugee-authority-figure,
+  .borrowed-cause-sponsorship-office-figure,
+  .causal-border-processing-station-figure,
+  .final-asylum-tribunal-for-causeless-consequences-figure,
+  .causeless-consequence-refugee-grid {
+    width: min(92vw, 520px);
+  }
+  .causeless-consequence-refugee-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .causeless-consequence-refugee-authority-figure,
+  .borrowed-cause-sponsorship-office-figure,
+  .causal-border-processing-station-figure,
+  .final-asylum-tribunal-for-causeless-consequences-figure {
+    width: 95vw;
+  }
+  .causeless-consequence-refugee-cell {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.75rem;
+    min-height: 70px;
+  }
+  .causeless-consequence-refugee-entry-btn,
+  .causeless-consequence-consul-return {
+    width: 100%;
+    padding: 0.75rem 0.75rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .causeless-consequence-hotspot,
+  .causeless-consequence-refugee-entry-btn,
+  .causeless-consequence-consul-return {
+    transition: none;
+  }
+}
 @keyframes message-rise {
   0% { opacity: 0; transform: translate(-50%, 12px); }
   16%, 74% { opacity: 0.9; transform: translate(-50%, 0); }
@@ -3850,6 +5622,261 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
 
 @media (prefers-reduced-motion: reduce) {
   .review-case-img {
+    transition: none;
+  }
+}
+
+/* ---------- v83 伤害考古局 ---------- */
+
+.harm-archaeology-bureau-figure,
+.forensic-mercy-excavation-figure,
+.crime-scene-without-offender-figure,
+.second-harm-hearing-court-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  aspect-ratio: 3 / 2;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--void);
+}
+
+.harm-archaeology-bureau-img,
+.forensic-mercy-excavation-img,
+.crime-scene-without-offender-img,
+.second-harm-hearing-court-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.harm-archaeology-hotspot {
+  position: absolute;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  background: rgba(10, 10, 10, 0.72);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
+  box-sizing: border-box;
+}
+
+.harm-archaeology-hotspot:hover,
+.harm-archaeology-hotspot:focus-visible {
+  border-color: var(--gold);
+  background: rgba(30, 25, 20, 0.88);
+  color: var(--bone-bright);
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.harm-archaeology-hotspot:disabled,
+.harm-archaeology-hotspot[aria-pressed="true"] {
+  border-color: var(--blood);
+  background: rgba(40, 12, 12, 0.82);
+  color: var(--bone-bright);
+  cursor: default;
+  outline: none;
+}
+
+/* Three-column hotspot layout */
+.harm-hotspot-left {
+  left: 0;
+  top: 12%;
+  width: 31%;
+  height: 80%;
+}
+
+.harm-hotspot-center {
+  left: 34%;
+  top: 12%;
+  width: 32%;
+  height: 80%;
+}
+
+.harm-hotspot-right {
+  left: 69%;
+  top: 12%;
+  width: 31%;
+  height: 80%;
+}
+
+/* Four-quadrant hotspot layout */
+.harm-hotspot-left-top {
+  left: 0;
+  top: 3%;
+  width: 34%;
+  height: 45%;
+}
+
+.harm-hotspot-right-top {
+  left: 66%;
+  top: 3%;
+  width: 34%;
+  height: 45%;
+}
+
+.harm-hotspot-left-bottom {
+  left: 0;
+  top: 52%;
+  width: 34%;
+  height: 45%;
+}
+
+.harm-hotspot-right-bottom {
+  left: 66%;
+  top: 52%;
+  width: 34%;
+  height: 45%;
+}
+
+/* Remembrance & Codex */
+.harm-archaeology-memory {
+  margin: 1.5rem auto;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.harm-archaeology-codex {
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  background: var(--void-soft);
+  max-width: 760px;
+}
+
+.hac-kicker {
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.harm-archaeology-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.harm-archaeology-cell {
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.harm-archaeology-cell.locked {
+  color: var(--ash);
+  border-style: dashed;
+  opacity: 0.6;
+}
+
+.harm-archaeology-cell.unlocked {
+  color: var(--bone-bright);
+  border-color: var(--gold);
+  background: rgba(30, 25, 20, 0.5);
+}
+
+.harm-archaeology-codex-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.harm-archaeology-entry-btn,
+.harm-reconstructor-return {
+  min-height: 44px;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--gold);
+  background: var(--void);
+  color: var(--bone-bright);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.harm-archaeology-entry-btn:hover,
+.harm-archaeology-entry-btn:focus-visible,
+.harm-reconstructor-return:hover,
+.harm-reconstructor-return:focus-visible {
+  background: var(--gold);
+  color: var(--void);
+  outline: 2px solid var(--bone-bright);
+  outline-offset: 2px;
+}
+
+.harm-archaeology-entry-response,
+.harm-reconstructor-response {
+  margin: 0.5rem 0;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.harm-reconstructor {
+  margin: 1.5rem auto;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: var(--void-soft);
+  text-align: center;
+}
+
+.harm-archaeology-memory[hidden],
+.harm-archaeology-codex[hidden],
+.harm-archaeology-codex-entry[hidden],
+.harm-archaeology-entry-btn[hidden],
+.harm-reconstructor[hidden],
+.harm-reconstructor-return[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 720px) {
+  .harm-archaeology-bureau-figure,
+  .forensic-mercy-excavation-figure,
+  .crime-scene-without-offender-figure,
+  .second-harm-hearing-court-figure,
+  .harm-archaeology-grid {
+    width: min(92vw, 520px);
+  }
+
+  .harm-archaeology-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .harm-archaeology-hotspot {
+    font-size: 0.75rem;
+    padding: 0.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .harm-archaeology-hotspot,
+  .harm-reconstructor-return {
     transition: none;
   }
 }
@@ -10102,3 +12129,1245 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
      .self-authenticity-entry-btn,
      .self-authenticity-cell { transition: none; }
    }
+
+
+   /* ============================================================
+      v78 第一人称配给署 / FIRST-PERSON PRONOUN RATIONING BUREAU
+      ============================================================ */
+   .first-person-rationing-bureau-figure,
+   .voice-entitlement-archive-figure,
+   .pronoun-allocation-chamber-figure,
+   .ownerless-voices-court-figure {
+     position: relative;
+     margin: 0 auto;
+     width: min(760px, 94vw);
+   }
+   .first-person-rationing-bureau-figure[hidden],
+   .voice-entitlement-archive-figure[hidden],
+   .pronoun-allocation-chamber-figure[hidden],
+   .ownerless-voices-court-figure[hidden] { display: none !important; }
+   .first-person-rationing-bureau-img,
+   .voice-entitlement-archive-img,
+   .pronoun-allocation-chamber-img,
+   .ownerless-voices-court-img {
+     display: block;
+     width: 100%;
+     height: auto;
+     aspect-ratio: 1536 / 1024;
+     object-fit: contain;
+     border-radius: 2px;
+   }
+   .first-person-rationing-bureau-response,
+   .voice-entitlement-archive-response,
+   .pronoun-allocation-chamber-response,
+   .ownerless-voices-court-response {
+     min-height: 1.5em;
+     margin: 0.6rem 0 0;
+     color: var(--bone);
+     font-size: 0.95rem;
+     line-height: 1.5;
+   }
+   .first-person-rationing-hotspot {
+     position: absolute;
+     background: rgba(192, 74, 66, 0.08);
+     border: 1px solid rgba(192, 74, 66, 0.45);
+     border-radius: 2px;
+     color: var(--bone-bright);
+     font-family: inherit;
+     cursor: pointer;
+     padding: 0;
+     transition: background 0.2s ease, border-color 0.2s ease;
+   }
+   .first-person-rationing-hotspot:hover {
+     background: rgba(192, 74, 66, 0.18);
+     border-color: rgba(192, 74, 66, 0.7);
+   }
+   .first-person-rationing-hotspot:disabled,
+   .first-person-rationing-hotspot[aria-pressed="true"] {
+     opacity: 0.45;
+     cursor: not-allowed;
+     border-color: rgba(192, 74, 66, 0.25);
+   }
+   .first-person-rationing-hotspot .dh-label {
+     position: absolute;
+     bottom: -1.6em;
+     left: 50%;
+     transform: translateX(-50%);
+     font-size: 0.68rem;
+     letter-spacing: 0.08em;
+     color: var(--bone-dim);
+     text-transform: uppercase;
+     white-space: nowrap;
+   }
+   /* 第一人称配给署：三种发声主体 */
+   .first-person-rationing-speaker-many-selves-one-body { top: 20%; left: 6%; width: 26%; height: 60%; }
+   .first-person-rationing-speaker-copies-sharing-one-voice { top: 34%; left: 37%; width: 26%; height: 50%; }
+   .first-person-rationing-speaker-ownerless-silence { top: 20%; left: 70%; width: 24%; height: 62%; }
+   /* 声音权益凭证库：三份权益凭证 */
+   .voice-entitlement-first-breath-token { top: 20%; left: 6%; width: 26%; height: 60%; }
+   .voice-entitlement-ownerless-signature-impression { top: 34%; left: 37%; width: 26%; height: 50%; }
+   .voice-entitlement-future-inherited-echo { top: 20%; left: 70%; width: 24%; height: 62%; }
+   /* 代词配给室：四项配给方案 */
+   .pronoun-allocation-one-i-per-breath { top: 12%; left: 8%; width: 36%; height: 36%; }
+   .pronoun-allocation-lend-the-voice-to-shadow { top: 52%; left: 8%; width: 36%; height: 36%; }
+   .pronoun-allocation-rotate-one-voice-among-copies { top: 12%; left: 56%; width: 36%; height: 36%; }
+   .pronoun-allocation-let-silence-claim-the-pronoun { top: 52%; left: 56%; width: 36%; height: 36%; }
+   /* 无主声音终审庭：三项发声裁定 */
+   .ownerless-voices-grant-one-voice-to-all-in-turn { top: 20%; left: 6%; width: 26%; height: 60%; }
+   .ownerless-voices-abolish-pronoun-rationing { top: 34%; left: 37%; width: 26%; height: 50%; }
+   .ownerless-voices-recognize-silence-as-only-speaker { top: 20%; left: 70%; width: 24%; height: 62%; }
+   .first-person-rationing-allocator {
+     margin-top: 1rem;
+     padding: 0.8rem 1rem;
+     background: rgba(13, 10, 10, 0.55);
+     border: 1px solid rgba(192, 74, 66, 0.25);
+     border-radius: 2px;
+   }
+   .first-person-rationing-allocator[hidden] { display: none !important; }
+   .first-person-rationing-allocator-response {
+     min-height: 1.5em;
+     margin: 0 0 0.6rem;
+     color: var(--bone);
+     font-size: 0.9rem;
+     line-height: 1.45;
+   }
+   .first-person-rationing-allocator-return {
+     display: inline-block;
+     padding: 0.5rem 0.9rem;
+     background: transparent;
+     border: 1px solid rgba(192, 74, 66, 0.6);
+     border-radius: 2px;
+     color: var(--bone-bright);
+     font-family: inherit;
+     font-size: 0.85rem;
+     letter-spacing: 0.06em;
+     cursor: pointer;
+     transition: background 0.2s ease, border-color 0.2s ease;
+   }
+   .first-person-rationing-allocator-return:hover {
+     background: rgba(192, 74, 66, 0.15);
+     border-color: rgba(192, 74, 66, 0.85);
+   }
+   .first-person-rationing-allocator-return:disabled,
+   .first-person-rationing-allocator-return[hidden] {
+     opacity: 0.45;
+     cursor: not-allowed;
+   }
+   .first-person-rationing-entry-btn {
+     display: block;
+     width: 100%;
+     margin: 0.6rem 0;
+     padding: 0.6rem 0.9rem;
+     background: transparent;
+     border: 1px solid rgba(192, 74, 66, 0.6);
+     border-radius: 2px;
+     color: var(--bone-bright);
+     font-family: inherit;
+     font-size: 0.9rem;
+     letter-spacing: 0.06em;
+     text-align: left;
+     cursor: pointer;
+     transition: background 0.2s ease, border-color 0.2s ease;
+   }
+   .first-person-rationing-entry-btn:hover {
+     background: rgba(192, 74, 66, 0.15);
+     border-color: rgba(192, 74, 66, 0.85);
+   }
+   .first-person-rationing-entry-btn:disabled,
+   .first-person-rationing-entry-btn[hidden] {
+     opacity: 0.45;
+     cursor: not-allowed;
+   }
+   /* 第一人称配给署图鉴 */
+   .first-person-rationing-codex {
+     margin-top: 1.5rem;
+     padding: 1rem;
+     background: rgba(13, 10, 10, 0.45);
+     border: 1px solid rgba(192, 74, 66, 0.2);
+     border-radius: 2px;
+   }
+   .first-person-rationing-codex[hidden] { display: none !important; }
+   .fpr-kicker {
+     margin: 0 0 0.75rem;
+     font-size: 0.75rem;
+     letter-spacing: 0.12em;
+     color: var(--blood);
+     text-align: center;
+   }
+   .first-person-rationing-grid {
+     display: grid;
+     grid-template-columns: repeat(4, 1fr);
+     gap: 0.5rem;
+   }
+   .first-person-rationing-cell {
+     padding: 0.5rem;
+     background: rgba(13, 10, 10, 0.55);
+     border: 1px solid rgba(192, 74, 66, 0.15);
+     border-radius: 2px;
+     font-size: 0.72rem;
+     line-height: 1.35;
+     color: var(--ash);
+     min-height: 3.2rem;
+   }
+   .first-person-rationing-cell.unlocked { background: rgba(30, 14, 14, 0.9); }
+   .first-person-rationing-cell b {
+     display: block;
+     margin-bottom: 0.25rem;
+     color: var(--ash);
+     font-weight: 500;
+   }
+   .first-person-rationing-cell.unlocked b { color: var(--bone-bright); }
+   .first-person-rationing-cell span {
+     display: block;
+     line-height: 1.35;
+     color: var(--bone-dim);
+   }
+   .first-person-rationing-codex-entry {
+     margin-top: 0.75rem;
+     padding-top: 0.75rem;
+     border-top: 1px solid rgba(192, 74, 66, 0.2);
+   }
+   .first-person-rationing-codex-entry[hidden] { display: none !important; }
+   .first-person-rationing-entry-response {
+     min-height: 1.5em;
+     margin: 0.4rem 0;
+     color: var(--bone);
+     font-size: 0.9rem;
+     line-height: 1.45;
+   }
+   @media (max-width: 720px) {
+     .first-person-rationing-bureau-figure,
+     .voice-entitlement-archive-figure,
+     .pronoun-allocation-chamber-figure,
+     .ownerless-voices-court-figure {
+       width: min(92vw, 520px);
+     }
+     .first-person-rationing-hotspot {
+       min-width: 44px;
+       min-height: 44px;
+     }
+     .first-person-rationing-hotspot .dh-label {
+       font-size: 0.62rem;
+       letter-spacing: 0.06em;
+     }
+     .first-person-rationing-grid { grid-template-columns: 1fr; }
+   }
+@media (prefers-reduced-motion: reduce) {
+  .first-person-rationing-hotspot,
+  .first-person-rationing-allocator-return,
+  .first-person-rationing-entry-btn,
+  .first-person-rationing-cell { transition: none; }
+}
+
+/* ============================================================
+   v79 未言人格继承院 / COURT OF UNSPOKEN PERSONHOOD
+   ============================================================ */
+.unspoken-personhood-court-figure,
+.silent-intent-archive-figure,
+.personhood-inheritance-examination-figure,
+.unuttered-estate-tribunal-figure {
+  position: relative;
+  margin: 0 auto;
+  width: min(760px, 94vw);
+}
+.unspoken-personhood-court-figure[hidden],
+.silent-intent-archive-figure[hidden],
+.personhood-inheritance-examination-figure[hidden],
+.unuttered-estate-tribunal-figure[hidden] { display: none !important; }
+.unspoken-personhood-court-img,
+.silent-intent-archive-img,
+.personhood-inheritance-examination-img,
+.unuttered-estate-tribunal-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1536 / 1024;
+  object-fit: contain;
+  border-radius: 2px;
+}
+.unspoken-personhood-court-response,
+.silent-intent-archive-response,
+.personhood-inheritance-examination-response,
+.unuttered-estate-tribunal-response {
+  min-height: 1.5em;
+  margin: 0.6rem 0 0;
+  color: var(--bone);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.unspoken-personhood-hotspot {
+  position: absolute;
+  background: rgba(192, 74, 66, 0.08);
+  border: 1px solid rgba(192, 74, 66, 0.45);
+  border-radius: 2px;
+  color: var(--bone-bright);
+  font-family: inherit;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.unspoken-personhood-hotspot:hover {
+  background: rgba(192, 74, 66, 0.18);
+  border-color: rgba(192, 74, 66, 0.7);
+}
+.unspoken-personhood-hotspot:disabled,
+.unspoken-personhood-hotspot[aria-pressed="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  border-color: rgba(192, 74, 66, 0.25);
+}
+.unspoken-personhood-hotspot .dh-label {
+  position: absolute;
+  bottom: -1.6em;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--bone-dim);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+/* 未言人格继承院：三种人格申请者 */
+.unspoken-personhood-claimant-unsaid-love-confession { top: 20%; left: 6%; width: 26%; height: 60%; }
+.unspoken-personhood-claimant-unread-final-testament { top: 34%; left: 37%; width: 26%; height: 50%; }
+.unspoken-personhood-claimant-swallowed-cry-for-help { top: 20%; left: 70%; width: 24%; height: 62%; }
+/* 沉默意图证物库：三份沉默证物 */
+.silent-intent-closed-lip-pressure-seal { top: 20%; left: 6%; width: 26%; height: 60%; }
+.silent-intent-unsigned-witness-echo { top: 34%; left: 37%; width: 26%; height: 50%; }
+.silent-intent-breath-returned-from-empty-receiver { top: 20%; left: 70%; width: 24%; height: 62%; }
+/* 人格继承检验室：四项继承方式（环绕中央空身，不遮挡中央） */
+.personhood-inheritance-inherit-the-speakers-name { top: 10%; left: 8%; width: 34%; height: 36%; }
+.personhood-inheritance-inherit-the-unlived-years { top: 54%; left: 8%; width: 34%; height: 36%; }
+.personhood-inheritance-inherit-the-right-to-be-answered { top: 10%; left: 58%; width: 34%; height: 36%; }
+.personhood-inheritance-refuse-a-body-and-live-as-absence { top: 54%; left: 58%; width: 34%; height: 36%; }
+/* 未出口遗产终审庭：三项人格遗产裁定 */
+.unuttered-estate-grant-the-unsaid-a-whole-life { top: 20%; left: 6%; width: 26%; height: 60%; }
+.unuttered-estate-divide-personhood-among-all-listeners { top: 34%; left: 37%; width: 26%; height: 50%; }
+.unuttered-estate-make-the-speaker-estate-of-last-silence { top: 20%; left: 70%; width: 24%; height: 62%; }
+.unspoken-personhood-executor {
+  margin-top: 1rem;
+  padding: 0.8rem 1rem;
+  background: rgba(13, 10, 10, 0.55);
+  border: 1px solid rgba(192, 74, 66, 0.25);
+  border-radius: 2px;
+}
+.unspoken-personhood-executor[hidden] { display: none !important; }
+.unspoken-personhood-executor-response {
+  min-height: 1.5em;
+  margin: 0 0 0.6rem;
+  color: var(--bone);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+.unspoken-personhood-executor-return {
+  display: inline-block;
+  padding: 0.5rem 0.9rem;
+  background: transparent;
+  border: 1px solid rgba(192, 74, 66, 0.6);
+  border-radius: 2px;
+  color: var(--bone-bright);
+  font-family: inherit;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.unspoken-personhood-executor-return:hover {
+  background: rgba(192, 74, 66, 0.15);
+  border-color: rgba(192, 74, 66, 0.85);
+}
+.unspoken-personhood-executor-return:disabled,
+.unspoken-personhood-executor-return[hidden] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.unspoken-personhood-entry-btn {
+  display: block;
+  width: 100%;
+  margin: 0.6rem 0;
+  padding: 0.6rem 0.9rem;
+  background: transparent;
+  border: 1px solid rgba(192, 74, 66, 0.6);
+  border-radius: 2px;
+  color: var(--bone-bright);
+  font-family: inherit;
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.unspoken-personhood-entry-btn:hover {
+  background: rgba(192, 74, 66, 0.15);
+  border-color: rgba(192, 74, 66, 0.85);
+}
+.unspoken-personhood-entry-btn:disabled,
+.unspoken-personhood-entry-btn[hidden] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+/* 未言人格继承院图鉴 */
+.unspoken-personhood-codex {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(13, 10, 10, 0.45);
+  border: 1px solid rgba(192, 74, 66, 0.2);
+  border-radius: 2px;
+}
+.unspoken-personhood-codex[hidden] { display: none !important; }
+.upc-kicker {
+  margin: 0 0 0.75rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--blood);
+  text-align: center;
+}
+.unspoken-personhood-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+.unspoken-personhood-cell {
+  padding: 0.5rem;
+  background: rgba(13, 10, 10, 0.55);
+  border: 1px solid rgba(192, 74, 66, 0.15);
+  border-radius: 2px;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  color: var(--ash);
+  min-height: 3.2rem;
+}
+.unspoken-personhood-cell.unlocked { background: rgba(30, 14, 14, 0.9); }
+.unspoken-personhood-cell b {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--ash);
+  font-weight: 500;
+}
+.unspoken-personhood-cell.unlocked b { color: var(--bone-bright); }
+.unspoken-personhood-cell span {
+  display: block;
+  line-height: 1.35;
+  color: var(--bone-dim);
+}
+.unspoken-personhood-codex-entry {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(192, 74, 66, 0.2);
+}
+.unspoken-personhood-codex-entry[hidden] { display: none !important; }
+.unspoken-personhood-entry-response {
+  min-height: 1.5em;
+  margin: 0.4rem 0;
+  color: var(--bone);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+@media (max-width: 720px) {
+  .unspoken-personhood-court-figure,
+  .silent-intent-archive-figure,
+  .personhood-inheritance-examination-figure,
+  .unuttered-estate-tribunal-figure {
+    width: min(92vw, 520px);
+  }
+  .unspoken-personhood-hotspot {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .unspoken-personhood-hotspot .dh-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+  }
+  .unspoken-personhood-grid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .unspoken-personhood-hotspot,
+  .unspoken-personhood-executor-return,
+  .unspoken-personhood-entry-btn,
+  .unspoken-personhood-cell { transition: none; }
+}
+
+/* ============================================================
+   v80 未遂思想收容所 / ASYLUM FOR UNFINISHED THOUGHTS
+   ============================================================ */
+.unfinished-thought-asylum-figure,
+.interruption-trace-archive-figure,
+.counterfactual-treatment-lab-figure,
+.last-conclusion-hearing-figure {
+  position: relative;
+  margin: 0 auto;
+  width: min(760px, 94vw);
+}
+.unfinished-thought-asylum-figure[hidden],
+.interruption-trace-archive-figure[hidden],
+.counterfactual-treatment-lab-figure[hidden],
+.last-conclusion-hearing-figure[hidden] { display: none !important; }
+.unfinished-thought-asylum-img,
+.interruption-trace-archive-img,
+.counterfactual-treatment-lab-img,
+.last-conclusion-hearing-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1536 / 1024;
+  object-fit: contain;
+  border-radius: 2px;
+}
+.unfinished-thought-asylum-response,
+.interruption-trace-archive-response,
+.counterfactual-treatment-lab-response,
+.last-conclusion-hearing-response {
+  min-height: 1.5em;
+  margin: 0.6rem 0 0;
+  color: var(--bone);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.unfinished-thought-hotspot {
+  position: absolute;
+  background: rgba(192, 74, 66, 0.08);
+  border: 1px solid rgba(192, 74, 66, 0.45);
+  border-radius: 2px;
+  color: var(--bone-bright);
+  font-family: inherit;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.unfinished-thought-hotspot:hover {
+  background: rgba(192, 74, 66, 0.18);
+  border-color: rgba(192, 74, 66, 0.7);
+}
+.unfinished-thought-hotspot:disabled,
+.unfinished-thought-hotspot[aria-pressed="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  border-color: rgba(192, 74, 66, 0.25);
+}
+.unfinished-thought-hotspot .dh-label {
+  position: absolute;
+  bottom: -1.6em;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--bone-dim);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+/* 未遂思想收容所：三项未遂思想 */
+.unfinished-thought-name-never-finished-thinking { top: 18%; left: 4%; width: 27%; height: 70%; }
+.unfinished-thought-escape-aborted-by-reason { top: 18%; left: 34%; width: 32%; height: 70%; }
+.unfinished-thought-happiness-never-permitted { top: 18%; left: 69%; width: 27%; height: 70%; }
+/* 中断痕迹档案室：三份中断物证 */
+.interruption-trace-pen-stopped-before-the-name { top: 12%; left: 0%; width: 31%; height: 80%; }
+.interruption-trace-last-step-before-the-door { top: 12%; left: 34%; width: 32%; height: 80%; }
+.interruption-trace-crossed-out-future-calendar { top: 12%; left: 69%; width: 31%; height: 80%; }
+/* 反事实疗法室：四项疗法（四周布置，中央脑壳不可点） */
+.counterfactual-treatment-finish-it-with-a-foreign-conclusion { top: 3%; left: 0%; width: 34%; height: 46%; }
+.counterfactual-treatment-stitch-mutually-exclusive-thoughts { top: 51%; left: 0%; width: 35%; height: 47%; }
+.counterfactual-treatment-preserve-it-as-perpetually-unfinished { top: 3%; left: 66%; width: 34%; height: 46%; }
+.counterfactual-treatment-transplant-it-into-another-possible-self { top: 51%; left: 65%; width: 35%; height: 47%; }
+/* 最后结论听证庭：三项听证裁定 */
+.last-conclusion-declare-every-unfinished-thought-alive { top: 12%; left: 0%; width: 31%; height: 82%; }
+.last-conclusion-let-the-thought-finish-its-thinker { top: 12%; left: 34%; width: 32%; height: 82%; }
+.last-conclusion-recycle-all-abandoned-possibilities { top: 12%; left: 68%; width: 32%; height: 82%; }
+.unfinished-thought-physician {
+  margin-top: 1rem;
+  padding: 0.8rem 1rem;
+  background: rgba(13, 10, 10, 0.55);
+  border: 1px solid rgba(192, 74, 66, 0.25);
+  border-radius: 2px;
+}
+.unfinished-thought-physician[hidden] { display: none !important; }
+.unfinished-thought-physician-response {
+  min-height: 1.5em;
+  margin: 0 0 0.6rem;
+  color: var(--bone);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+.unfinished-thought-physician-return {
+  display: inline-block;
+  padding: 0.5rem 0.9rem;
+  background: transparent;
+  border: 1px solid rgba(192, 74, 66, 0.6);
+  border-radius: 2px;
+  color: var(--bone-bright);
+  font-family: inherit;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.unfinished-thought-physician-return:hover {
+  background: rgba(192, 74, 66, 0.15);
+  border-color: rgba(192, 74, 66, 0.85);
+}
+.unfinished-thought-physician-return:disabled,
+.unfinished-thought-physician-return[hidden] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.unfinished-thought-entry-btn {
+  display: block;
+  width: 100%;
+  margin: 0.6rem 0;
+  padding: 0.6rem 0.9rem;
+  background: transparent;
+  border: 1px solid rgba(192, 74, 66, 0.6);
+  border-radius: 2px;
+  color: var(--bone-bright);
+  font-family: inherit;
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.unfinished-thought-entry-btn:hover {
+  background: rgba(192, 74, 66, 0.15);
+  border-color: rgba(192, 74, 66, 0.85);
+}
+.unfinished-thought-entry-btn:disabled,
+.unfinished-thought-entry-btn[hidden] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+/* 未遂思想收容所图鉴 */
+.unfinished-thought-codex {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(13, 10, 10, 0.45);
+  border: 1px solid rgba(192, 74, 66, 0.2);
+  border-radius: 2px;
+}
+.unfinished-thought-codex[hidden] { display: none !important; }
+.utc-kicker {
+  margin: 0 0 0.75rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--blood);
+  text-align: center;
+}
+.unfinished-thought-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+.unfinished-thought-cell {
+  padding: 0.5rem;
+  background: rgba(13, 10, 10, 0.55);
+  border: 1px solid rgba(192, 74, 66, 0.15);
+  border-radius: 2px;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  color: var(--ash);
+  min-height: 3.2rem;
+}
+.unfinished-thought-cell.unlocked { background: rgba(30, 14, 14, 0.9); }
+.unfinished-thought-cell b {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--ash);
+  font-weight: 500;
+}
+.unfinished-thought-cell.unlocked b { color: var(--bone-bright); }
+.unfinished-thought-cell span {
+  display: block;
+  line-height: 1.35;
+  color: var(--bone-dim);
+}
+.unfinished-thought-codex-entry {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(192, 74, 66, 0.2);
+}
+.unfinished-thought-codex-entry[hidden] { display: none !important; }
+.unfinished-thought-entry-response,
+.unfinished-thought-hearing-entry-response {
+  min-height: 1.5em;
+  margin: 0.4rem 0;
+  color: var(--bone);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+@media (max-width: 720px) {
+  .unfinished-thought-asylum-figure,
+  .interruption-trace-archive-figure,
+  .counterfactual-treatment-lab-figure,
+  .last-conclusion-hearing-figure {
+    width: min(92vw, 520px);
+  }
+  .unfinished-thought-hotspot {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .unfinished-thought-hotspot .dh-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+  }
+  .unfinished-thought-grid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .unfinished-thought-hotspot,
+  .unfinished-thought-physician-return,
+  .unfinished-thought-entry-btn,
+  .unfinished-thought-cell { transition: none; }
+}
+
+/* ==========================================================================
+   v81 后悔回收厂 (Regret Reclamation Plant)
+   ========================================================================== */
+
+.regret-reclamation-plant-figure,
+.abandonment-residue-weighhouse-figure,
+.second-life-smelting-line-figure,
+.zero-waste-life-furnace-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  margin: 1.5rem auto;
+  aspect-ratio: 3 / 2;
+  border: 1px solid var(--bone-dim);
+  background: #000;
+  overflow: hidden;
+}
+
+.regret-reclamation-plant-img,
+.abandonment-residue-weighhouse-img,
+.second-life-smelting-line-img,
+.zero-waste-life-furnace-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.regret-reclamation-plant-figure[hidden],
+.abandonment-residue-weighhouse-figure[hidden],
+.second-life-smelting-line-figure[hidden],
+.zero-waste-life-furnace-figure[hidden] {
+  display: none !important;
+}
+
+.regret-reclamation-hotspot {
+  position: absolute;
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid rgba(220, 20, 60, 0.45);
+  background: rgba(10, 10, 12, 0.5);
+  color: var(--bone);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  z-index: 2;
+}
+
+.regret-reclamation-hotspot .dh-label {
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 4px #000, 0 0 8px #000;
+  pointer-events: none;
+  text-align: center;
+}
+
+.regret-reclamation-hotspot:hover {
+  background: rgba(220, 20, 60, 0.3);
+  border-color: var(--blood);
+  color: var(--bone-bright);
+  transform: scale(1.02);
+}
+
+.regret-reclamation-hotspot:focus-visible {
+  outline: 2px solid var(--bone-bright);
+  outline-offset: 2px;
+}
+
+.regret-reclamation-hotspot[aria-pressed="true"],
+.regret-reclamation-hotspot:disabled {
+  border-color: var(--ash);
+  opacity: 0.7;
+}
+
+/* Hotspot Layout: Scene 1, Scene 2, Scene 4 (3 Columns) */
+.regret-material-road-never-taken,
+.regret-residue-dust-from-the-unwalked-mile,
+.regret-furnace-declare-regret-renewable {
+  left: 0;
+  top: 12%;
+  width: 31%;
+  height: 80%;
+}
+
+.regret-material-person-never-loved,
+.regret-residue-warmth-from-the-unused-pillow,
+.regret-furnace-manufacture-every-life-from-foreign-regret {
+  left: 34%;
+  top: 12%;
+  width: 32%;
+  height: 80%;
+}
+
+.regret-material-self-never-became,
+.regret-residue-fingerprint-inside-an-unworn-face,
+.regret-furnace-classify-forgiveness-as-unrecyclable-waste {
+  left: 69%;
+  top: 12%;
+  width: 31%;
+  height: 80%;
+}
+
+/* Hotspot Layout: Scene 3 (2x2 Grid) */
+.regret-use-cast-a-new-childhood {
+  left: 0;
+  top: 3%;
+  width: 34%;
+  height: 45%;
+}
+
+.regret-use-forge-courage-for-the-next-self {
+  left: 0;
+  top: 52%;
+  width: 34%;
+  height: 45%;
+}
+
+.regret-use-build-a-strangers-spare-life {
+  left: 66%;
+  top: 3%;
+  width: 34%;
+  height: 45%;
+}
+
+.regret-use-return-regret-without-processing {
+  left: 66%;
+  top: 52%;
+  width: 34%;
+  height: 45%;
+}
+
+@media (max-width: 720px) {
+  .regret-reclamation-plant-figure,
+  .abandonment-residue-weighhouse-figure,
+  .second-life-smelting-line-figure,
+  .zero-waste-life-furnace-figure {
+    width: min(92vw, 520px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .regret-reclamation-hotspot {
+    transition: none;
+  }
+}
+
+/* v81 后悔回收厂 / 追念与图鉴 UI */
+.regret-reclamation-memory[hidden],
+.regret-reclamation-codex[hidden],
+.regret-reclamation-codex-entry[hidden],
+.regret-reclamation-entry-btn[hidden],
+.regret-reclaimer[hidden] {
+  display: none !important;
+}
+
+.regret-reclamation-memory {
+  margin: 1.25rem 0;
+  padding: 0.75rem 1rem;
+  background: rgba(184, 41, 41, 0.08);
+  border-left: 2px solid var(--blood);
+  color: var(--bone-bright);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+}
+
+.regret-reclamation-codex {
+  margin: 2.5rem 0;
+  padding: 1.5rem;
+  background: rgba(10, 10, 10, 0.85);
+  border: 1px solid rgba(184, 41, 41, 0.35);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+.rrc-kicker {
+  margin: 0 0 1.25rem 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--blood);
+  border-bottom: 1px solid rgba(184, 41, 41, 0.25);
+  padding-bottom: 0.5rem;
+}
+
+.regret-reclamation-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 720px) {
+  .regret-reclamation-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.regret-reclamation-cell {
+  padding: 0.85rem;
+  background: rgba(20, 20, 20, 0.6);
+  border: 1px solid rgba(100, 100, 100, 0.25);
+  color: var(--bone-dim);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  opacity: 0.6;
+  transition: opacity 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.regret-reclamation-cell.unlocked {
+  opacity: 1;
+  border-color: rgba(184, 41, 41, 0.45);
+  background: rgba(30, 16, 16, 0.45);
+  color: var(--bone);
+}
+
+.regret-reclamation-cell b {
+  color: var(--bone-bright);
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
+}
+
+.regret-reclamation-cell span {
+  font-size: 0.72rem;
+  color: var(--ash);
+  letter-spacing: 0.02em;
+}
+
+.regret-reclamation-codex-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed rgba(184, 41, 41, 0.3);
+}
+
+.regret-reclamation-entry-btn,
+.regret-reclaimer-return {
+  min-height: 44px;
+  padding: 0.65rem 1.2rem;
+  background: rgba(184, 41, 41, 0.12);
+  border: 1px solid var(--blood);
+  color: var(--bone-bright);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.regret-reclamation-entry-btn:hover,
+.regret-reclamation-entry-btn:focus-visible,
+.regret-reclaimer-return:hover,
+.regret-reclaimer-return:focus-visible {
+  background: rgba(184, 41, 41, 0.28);
+  border-color: var(--blood);
+  color: #fff;
+  outline: none;
+}
+
+.regret-reclamation-entry-btn:disabled,
+.regret-reclaimer-return:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  border-color: var(--ash);
+  color: var(--ash);
+  background: rgba(30, 30, 30, 0.4);
+}
+
+.regret-reclamation-entry-response,
+.regret-furnace-entry-response,
+.regret-reclaimer-response {
+  margin: 0.4rem 0;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--bone);
+}
+
+.regret-reclaimer {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: rgba(184, 41, 41, 0.06);
+  border-left: 2px solid var(--blood);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .regret-reclamation-cell,
+  .regret-reclamation-entry-btn,
+  .regret-reclaimer-return {
+    transition: none;
+  }
+}
+
+/* ---------- v82 宽恕填埋场 ---------- */
+
+.forgiveness-landfill-figure,
+.inert-harm-certificate-vault-figure,
+.mercy-burial-trench-figure,
+.harmlessness-final-well-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  aspect-ratio: 3 / 2;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--void);
+}
+
+.forgiveness-landfill-img,
+.inert-harm-certificate-vault-img,
+.mercy-burial-trench-img,
+.harmlessness-final-well-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.forgiveness-landfill-hotspot {
+  position: absolute;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  background: rgba(10, 10, 10, 0.72);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
+  box-sizing: border-box;
+}
+
+.forgiveness-landfill-hotspot:hover,
+.forgiveness-landfill-hotspot:focus-visible {
+  border-color: var(--gold);
+  background: rgba(30, 25, 20, 0.88);
+  color: var(--bone-bright);
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.forgiveness-landfill-hotspot:disabled,
+.forgiveness-landfill-hotspot[aria-pressed="true"] {
+  border-color: var(--blood);
+  background: rgba(40, 12, 12, 0.82);
+  color: var(--bone-bright);
+  cursor: default;
+  outline: none;
+}
+
+/* Three-column hotspot layout */
+.forgiveness-hotspot-left {
+  left: 0;
+  top: 12%;
+  width: 31%;
+  height: 80%;
+}
+
+.forgiveness-hotspot-center {
+  left: 34%;
+  top: 12%;
+  width: 32%;
+  height: 80%;
+}
+
+.forgiveness-hotspot-right {
+  left: 69%;
+  top: 12%;
+  width: 31%;
+  height: 80%;
+}
+
+/* Four-quadrant hotspot layout */
+.forgiveness-hotspot-left-top {
+  left: 0;
+  top: 3%;
+  width: 34%;
+  height: 45%;
+}
+
+.forgiveness-hotspot-right-top {
+  left: 66%;
+  top: 3%;
+  width: 34%;
+  height: 45%;
+}
+
+.forgiveness-hotspot-left-bottom {
+  left: 0;
+  top: 52%;
+  width: 34%;
+  height: 45%;
+}
+
+.forgiveness-hotspot-right-bottom {
+  left: 66%;
+  top: 52%;
+  width: 34%;
+  height: 45%;
+}
+
+/* Remembrance & Codex */
+.forgiveness-landfill-memory {
+  margin: 1.5rem auto;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.forgiveness-landfill-codex {
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  background: var(--void-soft);
+  max-width: 760px;
+}
+
+.flc-kicker {
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.forgiveness-landfill-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.forgiveness-landfill-cell {
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.forgiveness-landfill-cell.locked {
+  color: var(--ash);
+  border-style: dashed;
+  opacity: 0.6;
+}
+
+.forgiveness-landfill-cell.unlocked {
+  color: var(--bone-bright);
+  border-color: var(--gold);
+  background: rgba(30, 25, 20, 0.5);
+}
+
+.forgiveness-landfill-codex-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.forgiveness-landfill-entry-btn,
+.forgiveness-recorder-return {
+  min-height: 44px;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--gold);
+  background: var(--void);
+  color: var(--bone-bright);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.forgiveness-landfill-entry-btn:hover,
+.forgiveness-landfill-entry-btn:focus-visible,
+.forgiveness-recorder-return:hover,
+.forgiveness-recorder-return:focus-visible {
+  background: var(--gold);
+  color: var(--void);
+  outline: 2px solid var(--bone-bright);
+  outline-offset: 2px;
+}
+
+.forgiveness-landfill-entry-response,
+.forgiveness-recorder-response {
+  margin: 0.5rem 0;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.forgiveness-recorder {
+  margin: 1.5rem auto;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: var(--void-soft);
+  text-align: center;
+}
+
+.forgiveness-landfill-memory[hidden],
+.forgiveness-landfill-codex[hidden],
+.forgiveness-landfill-codex-entry[hidden],
+.forgiveness-landfill-entry-btn[hidden],
+.forgiveness-recorder[hidden],
+.forgiveness-recorder-return[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 720px) {
+  .forgiveness-landfill-figure,
+  .inert-harm-certificate-vault-figure,
+  .mercy-burial-trench-figure,
+  .harmlessness-final-well-figure,
+  .forgiveness-landfill-grid {
+    width: min(92vw, 520px);
+  }
+
+  .forgiveness-landfill-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .forgiveness-landfill-hotspot {
+    font-size: 0.75rem;
+    padding: 0.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .forgiveness-landfill-hotspot,
+  .forgiveness-recorder-return {
+    transition: none;
+  }
+}

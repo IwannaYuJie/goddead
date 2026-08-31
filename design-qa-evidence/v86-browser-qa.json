@@ -1,0 +1,140 @@
+{
+  "version": 86,
+  "date": "2026-08-30",
+  "method": "Computer Use against the local Chrome UI",
+  "browserPolicy": {
+    "windows": 1,
+    "tabs": 1,
+    "devtools": "temporarily docked in the same Chrome window",
+    "extraBrowserInstances": false
+  },
+  "lockedDirectRoute": {
+    "requestedHash": "existence-renunciation-registry",
+    "fallbackHash": "threshold",
+    "v86SceneRendered": false,
+    "passed": true
+  },
+  "trustedClickCoverage": {
+    "renunciationFlows": [
+      {
+        "renunciant": "observer-inherited-by-every-fact",
+        "evidence": "birth-certificate-for-an-empty-crib",
+        "clause": "declare-existence-a-clerical-error",
+        "target": "birth-ballot-booth",
+        "registrar": "empty-crib",
+        "returnToRegistry": true
+      },
+      {
+        "renunciant": "claimant-buried-under-unclaimed-consequences",
+        "evidence": "shadow-of-a-person-erased-in-advance",
+        "clause": "return-the-first-person-pronoun-unused",
+        "target": "blank-name-cloakroom",
+        "registrar": "advance-erasure",
+        "returnToRegistry": true
+      },
+      {
+        "renunciant": "person-rejected-by-every-archive",
+        "evidence": "refund-receipt-for-an-undelivered-body",
+        "clause": "transfer-the-body-to-its-original-absence",
+        "target": "reality-refund-counter",
+        "registrar": "undelivered-body",
+        "returnToRegistry": true
+      },
+      {
+        "renunciant": "observer-inherited-by-every-fact",
+        "evidence": "birth-certificate-for-an-empty-crib",
+        "clause": "accept-nonexistence-as-an-inherited-debt",
+        "target": "birth-ballot-booth",
+        "registrar": "empty-crib",
+        "returnToRegistry": true
+      }
+    ],
+    "dimensionCoverage": {
+      "renunciants": "3/3",
+      "evidences": "3/3",
+      "clauses": "4/4",
+      "oldTargets": "3/3"
+    },
+    "tribunalOutcomes": [
+      {
+        "action": "strike-every-visitor-from-reality",
+        "outcome": "every-visitor-was-struck-from-reality",
+        "target": "threshold"
+      },
+      {
+        "action": "register-nonexistence-as-a-citizen",
+        "outcome": "nonexistence-became-a-citizen",
+        "target": "remembrance"
+      },
+      {
+        "action": "make-the-world-disinherit-itself",
+        "outcome": "the-world-disinherited-itself",
+        "target": "unending-gallery"
+      }
+    ],
+    "finalTribunalState": {
+      "renunciations": 4,
+      "renunciationRuns": 4,
+      "tribunalOutcomes": 3,
+      "tribunalRuns": 3,
+      "lastOutcome": "the-world-disinherited-itself"
+    }
+  },
+  "refreshIdempotence": {
+    "route": "unending-gallery",
+    "before": {
+      "tribunalOutcomes": 3,
+      "tribunalRuns": 3
+    },
+    "afterRoute": "unending-gallery",
+    "passed": true
+  },
+  "malformedStorageRecovery": {
+    "valueWritten": "{bad",
+    "reloadHash": "unending-gallery",
+    "rawValueBeforeExplicitQaRestore": "{bad",
+    "pageRemainedReachable": true,
+    "crash": false,
+    "passed": true
+  },
+  "responsiveQA": {
+    "deviceViewport": {
+      "width": 390,
+      "height": 844
+    },
+    "existenceRenunciationRegistry": {
+      "scrollWidth": 390,
+      "bodyScrollWidth": 390,
+      "horizontalOverflow": false
+    },
+    "civilNonexistenceFinalTribunal": {
+      "scrollWidth": 390,
+      "bodyScrollWidth": 390,
+      "horizontalOverflow": false
+    }
+  },
+  "screenshots": [
+    "v86-existence-renunciation-registry-desktop.png",
+    "v86-empty-crib-registrar-desktop.png",
+    "v86-civil-nonexistence-final-tribunal-desktop.png",
+    "v86-existence-renunciation-registry-mobile.png",
+    "v86-civil-nonexistence-final-tribunal-mobile.png"
+  ],
+  "storageRestoration": {
+    "backupKeyCount": 22,
+    "restoredKeyCount": 22,
+    "backupKeyPresentAfterRestore": false,
+    "v84QaKeyPresentAfterRestore": false,
+    "v85QaKeyPresentAfterRestore": false,
+    "v86KeyPresentAfterRestore": false,
+    "v83OriginalHearingOutcomeCount": 1,
+    "passed": true
+  },
+  "finalChromeState": {
+    "windows": 1,
+    "tabs": 1,
+    "devtoolsOpen": false,
+    "deviceEmulation": false,
+    "hash": "remembrance"
+  }
+}
