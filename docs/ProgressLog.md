@@ -1143,3 +1143,13 @@
 - 痕迹室「下一步」扩展到 v91，按开庭三条件与裁定数给出缺项。
 - 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 17378 assertions passed`。
 - 浏览器（内置浏览器，本地静态服务器，v28–v90 全通关存档）：真实点击走完三份出生证、三处接生回执、开庭与三项裁定；未解锁深链回痕迹室；375px 无横向溢出；控制台无错误。本章未生成新图片，沿用已有三张场景图。
+
+## 2026-09-24 - v92 目击责任保险局实装
+
+- 新增 `witness-liability-insurance-bureau`、`eyelid-actuarial-room`、`blind-exemption-hearing` 3 个场景，场景总数 196 → 199，缓存标记 `v=92`。
+- 玩法：为玩家自己真正看过的三件事投保（目击档案读取来访次数、祷词数与 v91 见证者先出生的家庭）；五档原生滑杆决定“看见了多少”，CSS 眼睛随之开合；三种保单 × 三件事 = 9 份；理赔回执出现在门外 / 焚献室 / 倒生原因助产院，并留下随最近理赔变化的记忆段。
+- 听证条件：三件事、三种保单、一次闭眼、一次凝视；三项豁免裁定分别抵达 threshold / remembrance / unending-gallery，可重复进入。
+- 状态键 `goddead_v92_witness_liability`（12 字段、7 类 pending、严格归一化），只读 v91；v91 在途时入口禁用；元素 id 与样式类用 `wl-` 前缀避开 v84。
+- 场景图：本机 Codex CLI（`codex exec`，内置 image generation）生成三张 1536×1024 原画，源图存 `design-references/`，Pillow 转 WebP；提示词与哈希见 `docs/V92ImagePrompts.md`。
+- 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 17482 assertions passed`。
+- 浏览器（内置浏览器，v91 全通关存档）：真实点击 + 键盘操作滑杆走完三份保单、三处回执、听证与三项裁定；锁定深链回痕迹室；375px 无溢出；控制台无错误。

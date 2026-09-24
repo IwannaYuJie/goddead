@@ -1380,6 +1380,8 @@ document.addEventListener("DOMContentLoaded", () => {
     replayCauselessConsequenceRefugeePending(name);
     resolveLateCausePendingOnArrival(name);
     replayLateCausePending(name);
+    resolveWitnessPendingOnArrival(name);
+    replayWitnessPending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1523,9 +1525,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
@@ -1539,7 +1541,7 @@ document.addEventListener("DOMContentLoaded", () => {
        v88 窄桥：title-action 可抵达 unending-gallery；
        v89 窄桥：appeal-action 可抵达 unending-gallery；
        v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1719,6 +1721,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "late-cause-maternity-ward" && !lateCauseMaternityWardCanVisit()) target = "remembrance";
     if (target === "reverse-birth-order-registry" && !reverseBirthOrderRegistryCanVisit()) target = "remembrance";
     if (target === "first-cause-custody-court" && !firstCauseCustodyCourtCanVisit()) target = "remembrance";
+
+    /* v92 目击责任保险局：未解锁或无合法抵达时一律回痕迹室 */
+    if (target === "witness-liability-insurance-bureau" && !witnessBureauCanVisit()) target = "remembrance";
+    if (target === "eyelid-actuarial-room" && !eyelidActuarialRoomCanVisit()) target = "remembrance";
+    if (target === "blind-exemption-hearing" && !blindExemptionHearingCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -47945,6 +47952,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetAccomplishedFactEvictionState();
       forgetCauselessConsequenceRefugeeState();
       forgetLateCauseMaternityState();
+      forgetWitnessLiabilityState();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
       if (firstDraftVaultResponse) firstDraftVaultResponse.textContent = "";
@@ -48756,6 +48764,766 @@ document.addEventListener("DOMContentLoaded", () => {
     moveLateCauseRole(btn.dataset.role, Number(btn.dataset.delta));
   });
 
+  /* ============================================================
+     v92 目击责任保险局 / BUREAU OF WITNESS LIABILITY INSURANCE
+     看见即抚养：为玩家自己真正看过的三件事投保。三件事 × 三种保单 = 9 份保单；
+     眼睑滑杆决定“看见了多少”，只进最近理赔与闭眼 / 凝视两个标记，不进收集键。
+     只读 v91 与主线计数；独立键 goddead_v92_witness_liability；所有新操作只接受真实点击 / 输入。
+     ============================================================ */
+  const WITNESS_LIABILITY_KEY = 'goddead_v92_witness_liability';
+  const WITNESS_LIABILITY_VERSION = 92;
+  const WITNESS_BUREAU = 'witness-liability-insurance-bureau';
+  const WITNESS_ACTUARIAL = 'eyelid-actuarial-room';
+  const WITNESS_HEARING = 'blind-exemption-hearing';
+  const WITNESS_DEFAULT_LEVEL = 2;
+  const WITNESS_LEVELS = [
+    { name: '闭眼', percent: 0, note: '你声称全程闭眼。精算师在你的眼睑上盖了一枚“未见”的红印。' },
+    { name: '眯眼', percent: 25, note: '你只眯着眼看了一道缝。那道缝被折算成四分之一个监护人。' },
+    { name: '半睁', percent: 50, note: '你看见了一半。另一半由你的想象补齐，想象也要缴税。' },
+    { name: '注视', percent: 75, note: '你一直在看，只是偶尔眨眼。每一次眨眼都被登记为请假。' },
+    { name: '凝视', percent: 100, note: '你从头看到尾，一眼没眨。这件事从此把你叫作家长。' },
+  ];
+  const WITNESS_EVENTS = [
+    'the-door-you-knocked-open',
+    'the-prayer-you-let-burn',
+    'the-witness-you-let-be-born-first',
+  ];
+  const WITNESS_EVENT_TABLE = {
+    'the-door-you-knocked-open': {
+      title: '你敲开的门',
+      target: 'threshold',
+      place: '门外',
+      adjusterTitle: '门槛理赔员',
+      feedback: '保险员从陈列柜里取出那扇小门。门把手上还留着你的指纹，被登记为第一份目击证据。',
+      echoLead: '门把手上挂了一张保单。',
+    },
+    'the-prayer-you-let-burn': {
+      title: '你让它烧掉的祷词',
+      target: 'offering',
+      place: '焚献室',
+      adjusterTitle: '焚献理赔员',
+      feedback: '保险员把那缕烟连同玻璃一起抬下来。烟还在往上飘，好像不知道自己已经被当成了证物。',
+      echoLead: '炉口边多了一张没被烧掉的保单。',
+    },
+    'the-witness-you-let-be-born-first': {
+      title: '你让它先出生的见证者',
+      target: 'late-cause-maternity-ward',
+      place: '倒生原因助产院',
+      adjusterTitle: '摇篮理赔员',
+      feedback: '保险员把摇篮里的镜子翻过来。镜子里的你还在看，它说自己才是第一个出生的那个。',
+      echoLead: '镜子摇篮上夹着一张保单。',
+    },
+  };
+  const WITNESS_POLICIES = ['retroactive-blindness', 'shared-guardianship', 'reverse-liability'];
+  const WITNESS_POLICY_TABLE = {
+    'retroactive-blindness': {
+      title: '事后闭眼险',
+      clause: '保单生效后，你将被追认为当时没有在看。',
+      result: '档案里你的眼睛被补画上了眼睑。',
+    },
+    'shared-guardianship': {
+      title: '共同监护险',
+      clause: '所有在场的目光按比例分摊抚养，包括墙上的画和门缝里的风。',
+      result: '墙上的画和门缝里的风，各领走了一份抚养义务。',
+    },
+    'reverse-liability': {
+      title: '反向转嫁险',
+      clause: '由事件抚养你：它记得你，替你长大，你只需要继续被它看见。',
+      result: '事件在监护人一栏签下了自己的名字，你被登记为它的孩子。',
+    },
+  };
+  const WITNESS_CLAIM_IDS = [];
+  WITNESS_EVENTS.forEach((event) => WITNESS_POLICIES.forEach((policy) => WITNESS_CLAIM_IDS.push(`${event}:${policy}`)));
+  const WITNESS_VERDICT_ACTIONS = [
+    'insure-every-eye-at-birth',
+    'register-witnessing-as-parenthood',
+    'let-events-insure-against-being-seen',
+  ];
+  const WITNESS_VERDICT_TABLE = {
+    'insure-every-eye-at-birth': {
+      title: '每只眼睛出生即强制投保',
+      outcome: 'every-eye-was-insured-at-birth',
+      target: 'threshold',
+      feedback: '法庭宣布：每只眼睛出生时即自动投保。门外的新访客还没睁眼，就已经在保单上签了名。',
+    },
+    'register-witnessing-as-parenthood': {
+      title: '把目击登记为亲职',
+      outcome: 'witnessing-became-parenthood',
+      target: 'remembrance',
+      feedback: '法庭把“看见”写进亲属法。痕迹墙上的每一件事，都多了一个名字是你的家长。',
+    },
+    'let-events-insure-against-being-seen': {
+      title: '让事件为不被看见投保',
+      outcome: 'events-insured-themselves-against-witnesses',
+      target: 'unending-gallery',
+      feedback: '法庭允许事件为自己投保。画廊里的画开始背对观众，只在没人看的时候继续发生。',
+    },
+  };
+  const WITNESS_VERDICT_OUTCOME_IDS = WITNESS_VERDICT_ACTIONS.map((a) => WITNESS_VERDICT_TABLE[a].outcome);
+  const WITNESS_ENTRY_FEEDBACK = '保险局的门牌上写着：看见即抚养。本局承保一切你本可以不看的事。';
+  const WITNESS_ABANDON_FEEDBACK = '精算师把保单撕成两半，一半还给你，一半留作你来过的证据。';
+  const WITNESS_HEARING_ENTRY_FEEDBACK = '三件事都有了保单。闭眼豁免听证庭开庭，旁听席上只剩下叠好的眼罩。';
+  const WITNESS_ADJUSTER_RETURN_FEEDBACK = '理赔员把回执对折，领你回到保险局的柜台。';
+
+  function witnessLiabilityDelay() {
+    return reduced ? 300 : 1400;
+  }
+
+  function witnessClaimSummary(event, policy, level) {
+    const e = WITNESS_EVENT_TABLE[event];
+    const p = WITNESS_POLICY_TABLE[policy];
+    const l = WITNESS_LEVELS[level];
+    return `${e.title} · ${l.name} ${l.percent}% · ${p.title}`;
+  }
+
+  function witnessClaimFeedback(event, policy, level) {
+    return `${WITNESS_LEVELS[level].note}${WITNESS_POLICY_TABLE[policy].result}`;
+  }
+
+  /* 目击档案：只读玩家自己的存档，缺省时用通用句 */
+  function witnessDossierLine(event) {
+    if (event === 'the-door-you-knocked-open') {
+      const n = Math.max(1, Number(arrivals) || 0);
+      return `你来过 ${n} 次。第三下之后，门就归你抚养了。`;
+    }
+    if (event === 'the-prayer-you-let-burn') {
+      const n = Math.max(1, Number(gstate && gstate.prayersOffered) || 0);
+      return `你交出过 ${n} 条祷词，每一条烧起来的时候你都在场。`;
+    }
+    const v91 = getLateCauseMaternity();
+    const first = v91.birthRecords.find((id) => id.split(':')[1].startsWith('witness-'));
+    const family = first && LATE_CAUSE_FAMILY_TABLE[first.split(':')[0]];
+    return family ? `在「${family.title}」那一家，你让见证者先出生。从此它看见的一切都记在你名下。` : '你让一个见证者先于事件出生。从此它看见的一切都记在你名下。';
+  }
+
+  function defaultWitnessLiability() {
+    return {
+      version: WITNESS_LIABILITY_VERSION,
+      visited: { bureau: false, actuarial: false, hearing: false },
+      draft: { event: '', level: WITNESS_DEFAULT_LEVEL },
+      claims: [],
+      hearingOutcomes: [],
+      claimRuns: 0,
+      hearingRuns: 0,
+      levelMarks: { closed: false, open: false },
+      latestClaimByEvent: { 'the-door-you-knocked-open': '', 'the-prayer-you-let-burn': '', 'the-witness-you-let-be-born-first': '' },
+      lastOutcome: '',
+      activeAdjuster: null,
+      pending: null,
+    };
+  }
+
+  function clampWitnessCount(n) {
+    const v = Math.floor(Number(n));
+    return Number.isFinite(v) ? Math.min(9999, Math.max(0, v)) : 0;
+  }
+
+  function validWitnessLevel(n) {
+    return Number.isInteger(n) && n >= 0 && n < WITNESS_LEVELS.length;
+  }
+
+  /* 理赔全键：event:policy:level；用于回执与最近理赔 */
+  function parseWitnessClaim(full) {
+    if (typeof full !== 'string') return null;
+    const [event, policy, levelText] = full.split(':');
+    const level = Number(levelText);
+    if (!WITNESS_EVENT_TABLE[event] || !WITNESS_POLICY_TABLE[policy] || String(level) !== levelText || !validWitnessLevel(level)) return null;
+    return { event, policy, level };
+  }
+
+  function normalizeWitnessState(raw) {
+    const d = defaultWitnessLiability();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== WITNESS_LIABILITY_VERSION) return d;
+    const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
+    d.visited = { bureau: v.bureau === true, actuarial: v.actuarial === true, hearing: v.hearing === true };
+    const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
+    d.draft = {
+      event: WITNESS_EVENTS.includes(dr.event) ? dr.event : '',
+      level: validWitnessLevel(dr.level) ? dr.level : WITNESS_DEFAULT_LEVEL,
+    };
+    const claims = new Set(Array.isArray(raw.claims) ? raw.claims : []);
+    d.claims = WITNESS_CLAIM_IDS.filter((id) => claims.has(id));
+    const outcomes = new Set(Array.isArray(raw.hearingOutcomes) ? raw.hearingOutcomes : []);
+    d.hearingOutcomes = WITNESS_VERDICT_OUTCOME_IDS.filter((id) => outcomes.has(id));
+    d.claimRuns = clampWitnessCount(raw.claimRuns);
+    d.hearingRuns = clampWitnessCount(raw.hearingRuns);
+    const marks = raw.levelMarks && typeof raw.levelMarks === 'object' ? raw.levelMarks : {};
+    d.levelMarks = { closed: marks.closed === true && d.claims.length > 0, open: marks.open === true && d.claims.length > 0 };
+    const latest = raw.latestClaimByEvent && typeof raw.latestClaimByEvent === 'object' ? raw.latestClaimByEvent : {};
+    WITNESS_EVENTS.forEach((event) => {
+      const c = parseWitnessClaim(latest[event]);
+      d.latestClaimByEvent[event] = c && c.event === event && d.claims.includes(`${c.event}:${c.policy}`) ? latest[event] : '';
+    });
+    if (typeof raw.lastOutcome === 'string' && (d.claims.includes(raw.lastOutcome) || d.hearingOutcomes.includes(raw.lastOutcome))) {
+      d.lastOutcome = raw.lastOutcome;
+    }
+    const a = raw.activeAdjuster;
+    if (a && typeof a === 'object' && !Array.isArray(a) && Object.keys(a).length === 1) {
+      const c = parseWitnessClaim(a.claim);
+      if (c && d.claims.includes(`${c.event}:${c.policy}`)) d.activeAdjuster = { claim: a.claim };
+    }
+    d.pending = normalizeWitnessPending(raw.pending, d);
+    return d;
+  }
+
+  function witnessHearingProgress(st) {
+    const events = new Set();
+    const policies = new Set();
+    st.claims.forEach((id) => {
+      const [event, policy] = id.split(':');
+      events.add(event);
+      policies.add(policy);
+    });
+    return { events: events.size, policies: policies.size, closed: st.levelMarks.closed ? 1 : 0, open: st.levelMarks.open ? 1 : 0 };
+  }
+
+  function witnessHearingEligible(st) {
+    const p = witnessHearingProgress(st);
+    return p.events === 3 && p.policies === 3 && p.closed === 1 && p.open === 1;
+  }
+
+  /* 严格白名单：按 kind 与当前状态重建期望的 pending，只有逐字段完全一致才接受 */
+  function expectedWitnessPending(p, st) {
+    const clean = !st.activeAdjuster;
+    switch (p.kind) {
+      case 'entry':
+        return clean ? { feedback: WITNESS_ENTRY_FEEDBACK, kind: 'entry', target: WITNESS_BUREAU } : null;
+      case 'event': {
+        const e = WITNESS_EVENT_TABLE[p.event];
+        if (!e || !clean) return null;
+        return { event: p.event, feedback: e.feedback, kind: 'event', source: WITNESS_BUREAU, target: WITNESS_ACTUARIAL };
+      }
+      case 'claim': {
+        const e = WITNESS_EVENT_TABLE[p.event];
+        if (!e || !clean || !WITNESS_POLICY_TABLE[p.policy] || !validWitnessLevel(p.level)) return null;
+        if (st.draft.event !== p.event || st.draft.level !== p.level) return null;
+        return { claim: `${p.event}:${p.policy}:${p.level}`, event: p.event, feedback: witnessClaimFeedback(p.event, p.policy, p.level), kind: 'claim', level: p.level, policy: p.policy, source: WITNESS_ACTUARIAL, target: e.target };
+      }
+      case 'abandon':
+        return st.draft.event ? { feedback: WITNESS_ABANDON_FEEDBACK, kind: 'abandon', source: WITNESS_ACTUARIAL, target: WITNESS_BUREAU } : null;
+      case 'adjuster-return': {
+        if (!st.activeAdjuster) return null;
+        const c = parseWitnessClaim(st.activeAdjuster.claim);
+        return { claim: st.activeAdjuster.claim, feedback: WITNESS_ADJUSTER_RETURN_FEEDBACK, from: WITNESS_EVENT_TABLE[c.event].target, kind: 'adjuster-return', target: WITNESS_BUREAU };
+      }
+      case 'hearing-entry':
+        return clean && witnessHearingEligible(st) ? { feedback: WITNESS_HEARING_ENTRY_FEEDBACK, kind: 'hearing-entry', target: WITNESS_HEARING } : null;
+      case 'verdict': {
+        const a = WITNESS_VERDICT_TABLE[p.action];
+        if (!a || !clean || !st.visited.hearing || !witnessHearingEligible(st)) return null;
+        return { action: p.action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: WITNESS_HEARING, target: a.target };
+      }
+      default:
+        return null;
+    }
+  }
+
+  function normalizeWitnessPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+    const expected = expectedWitnessPending(p, st);
+    if (!expected) return null;
+    const keys = Object.keys(p).sort();
+    const want = Object.keys(expected).sort();
+    if (keys.length !== want.length || keys.some((k, i) => k !== want[i] || p[k] !== expected[k])) return null;
+    return expected;
+  }
+
+  function witnessLiabilityUnlocked() {
+    const compute = () => {
+      if (!lateCauseMaternityUnlocked()) return false;
+      const v91 = getLateCauseMaternity();
+      return lateCauseCourtEligible(v91) && LATE_CAUSE_CUSTODY_OUTCOME_IDS.every((o) => v91.custodyOutcomes.includes(o));
+    };
+    return store.memo ? store.memo("witnessLiabilityUnlocked", compute) : compute();
+  }
+
+  function getWitnessLiability() {
+    if (!witnessLiabilityUnlocked()) return defaultWitnessLiability();
+    let raw;
+    try { raw = JSON.parse(store.get(WITNESS_LIABILITY_KEY, '{}')); } catch { return defaultWitnessLiability(); }
+    return normalizeWitnessState(raw);
+  }
+
+  function saveWitnessLiability(st) {
+    if (!witnessLiabilityUnlocked()) return defaultWitnessLiability();
+    const canonical = normalizeWitnessState(Object.assign({}, st, { version: WITNESS_LIABILITY_VERSION }));
+    store.set(WITNESS_LIABILITY_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function witnessPendingLogicalSource(p) {
+    if (!p) return '';
+    if (p.kind === 'entry' || p.kind === 'hearing-entry') return 'remembrance';
+    if (p.kind === 'adjuster-return') return p.from;
+    return p.source || '';
+  }
+
+  /* 目标抵达才落账；在逻辑来源处刷新继续等待；到其他页安全取消 */
+  function resolveWitnessPendingOnArrival(sceneName) {
+    const st = getWitnessLiability();
+    const p = st.pending;
+    if (!p) return st;
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.bureau = true;
+      } else if (p.kind === 'event') {
+        st.visited.actuarial = true;
+        st.draft = { event: p.event, level: st.draft.event === p.event ? st.draft.level : WITNESS_DEFAULT_LEVEL };
+      } else if (p.kind === 'claim') {
+        const id = `${p.event}:${p.policy}`;
+        st.claimRuns = clampWitnessCount(st.claimRuns + 1);
+        if (!st.claims.includes(id)) st.claims = st.claims.concat(id);
+        if (p.level === 0) st.levelMarks.closed = true;
+        if (p.level === WITNESS_LEVELS.length - 1) st.levelMarks.open = true;
+        st.latestClaimByEvent[p.event] = p.claim;
+        st.lastOutcome = id;
+        st.activeAdjuster = { claim: p.claim };
+        st.draft = { event: '', level: WITNESS_DEFAULT_LEVEL };
+      } else if (p.kind === 'abandon') {
+        st.draft = { event: '', level: WITNESS_DEFAULT_LEVEL };
+        st.visited.bureau = true;
+      } else if (p.kind === 'adjuster-return') {
+        st.activeAdjuster = null;
+        st.visited.bureau = true;
+      } else if (p.kind === 'hearing-entry') {
+        st.visited.hearing = true;
+      } else if (p.kind === 'verdict') {
+        st.hearingRuns = clampWitnessCount(st.hearingRuns + 1);
+        if (!st.hearingOutcomes.includes(p.outcome)) st.hearingOutcomes = st.hearingOutcomes.concat(p.outcome);
+        st.lastOutcome = p.outcome;
+      }
+      return saveWitnessLiability(st);
+    }
+    if (sceneName === witnessPendingLogicalSource(p)) return st;
+    st.pending = null;
+    return saveWitnessLiability(st);
+  }
+
+  const WITNESS_RESPONSE_BY_KIND = {
+    entry: '#wl-liability-entry-response',
+    event: '#witness-liability-insurance-bureau-response',
+    claim: '#eyelid-actuarial-room-response',
+    abandon: '#eyelid-actuarial-room-response',
+    'hearing-entry': '#wl-hearing-entry-response',
+    verdict: '#blind-exemption-hearing-response',
+  };
+
+  function showWitnessResponse(selector, text) {
+    const el = $(selector);
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = !text;
+  }
+
+  function syncWitnessAll() {
+    syncWitnessBureau();
+    syncEyelidActuarialRoom();
+    syncBlindExemptionHearing();
+    syncWitnessAdjusters();
+    syncWitnessEchoes();
+    syncWitnessRemembrance();
+    syncWitnessLinks();
+  }
+
+  function replayWitnessPending(sceneName) {
+    const st = getWitnessLiability();
+    const p = st.pending;
+    if (p && p.target === sceneName) resolveWitnessPendingOnArrival(sceneName);
+    else if (p && sceneName === witnessPendingLogicalSource(p)) {
+      syncWitnessAll();
+      const selector = p.kind === 'adjuster-return' ? `#wl-adjuster-response-${p.from}` : WITNESS_RESPONSE_BY_KIND[p.kind];
+      if (selector) showWitnessResponse(selector, p.feedback);
+      AutoAdvance.schedule(sceneName, p.target, { delay: witnessLiabilityDelay() });
+      return;
+    } else if (p) {
+      st.pending = null;
+      saveWitnessLiability(st);
+    }
+    syncWitnessAll();
+  }
+
+  function launchWitness(scene, buttonId, pending, responseSelector) {
+    const st = getWitnessLiability();
+    st.pending = pending;
+    const saved = saveWitnessLiability(st);
+    if (!saved.pending) return false;
+    const btn = buttonId ? $(`#${buttonId}`) : null;
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+    if (AudioEngine.whoosh) AudioEngine.whoosh();
+    syncWitnessAll();
+    showWitnessResponse(responseSelector, pending.feedback);
+    AutoAdvance.schedule(scene, pending.target, { delay: witnessLiabilityDelay() });
+    return true;
+  }
+
+  function witnessReady(scene, buttonId) {
+    if (currentScene !== scene) return null;
+    if (AutoAdvance.has(scene)) return null;
+    if (buttonId && !buttonAvailable(buttonId)) return null;
+    if (!witnessLiabilityUnlocked()) return null;
+    const st = getWitnessLiability();
+    return st.pending ? null : st;
+  }
+
+  function chooseWitnessEntry() {
+    const st = witnessReady('remembrance', 'wl-liability-entry-btn');
+    if (!st || st.activeAdjuster) return;
+    if (getLateCauseMaternity().pending) return;
+    launchWitness('remembrance', 'wl-liability-entry-btn', { feedback: WITNESS_ENTRY_FEEDBACK, kind: 'entry', target: WITNESS_BUREAU }, '#wl-liability-entry-response');
+  }
+
+  function chooseWitnessEvent(event) {
+    const e = WITNESS_EVENT_TABLE[event];
+    if (!e) return;
+    const st = witnessReady(WITNESS_BUREAU, `wl-event-${event}`);
+    if (!st || st.activeAdjuster) return;
+    launchWitness(WITNESS_BUREAU, `wl-event-${event}`, { event, feedback: e.feedback, kind: 'event', source: WITNESS_BUREAU, target: WITNESS_ACTUARIAL }, '#witness-liability-insurance-bureau-response');
+  }
+
+  function chooseWitnessContinue() {
+    const st = witnessReady(WITNESS_BUREAU, 'wl-continue');
+    if (!st || st.activeAdjuster || !st.draft.event) return;
+    const event = st.draft.event;
+    launchWitness(WITNESS_BUREAU, 'wl-continue', { event, feedback: WITNESS_EVENT_TABLE[event].feedback, kind: 'event', source: WITNESS_BUREAU, target: WITNESS_ACTUARIAL }, '#witness-liability-insurance-bureau-response');
+  }
+
+  /* 眼睑滑杆只改草稿，不产生 pending、不计进度 */
+  function setWitnessLevel(level) {
+    if (!validWitnessLevel(level)) return;
+    const st = witnessReady(WITNESS_ACTUARIAL, null);
+    if (!st || !st.draft.event || !st.visited.actuarial) return;
+    if (st.draft.level === level) return;
+    st.draft.level = level;
+    saveWitnessLiability(st);
+    syncEyelidActuarialRoom();
+  }
+
+  function chooseWitnessPolicy(policy) {
+    if (!WITNESS_POLICY_TABLE[policy]) return;
+    const st = witnessReady(WITNESS_ACTUARIAL, `wl-policy-${policy}`);
+    if (!st || !st.draft.event || st.activeAdjuster) return;
+    const { event, level } = st.draft;
+    launchWitness(WITNESS_ACTUARIAL, `wl-policy-${policy}`, {
+      claim: `${event}:${policy}:${level}`, event, feedback: witnessClaimFeedback(event, policy, level), kind: 'claim', level, policy, source: WITNESS_ACTUARIAL, target: WITNESS_EVENT_TABLE[event].target,
+    }, '#eyelid-actuarial-room-response');
+  }
+
+  function chooseWitnessAbandon() {
+    const st = witnessReady(WITNESS_ACTUARIAL, 'wl-abandon');
+    if (!st || !st.draft.event) return;
+    launchWitness(WITNESS_ACTUARIAL, 'wl-abandon', { feedback: WITNESS_ABANDON_FEEDBACK, kind: 'abandon', source: WITNESS_ACTUARIAL, target: WITNESS_BUREAU }, '#eyelid-actuarial-room-response');
+  }
+
+  function chooseWitnessAdjusterReturn(scene) {
+    const st = witnessReady(scene, `wl-adjuster-return-${scene}`);
+    if (!st || !st.activeAdjuster) return;
+    const c = parseWitnessClaim(st.activeAdjuster.claim);
+    if (!c || WITNESS_EVENT_TABLE[c.event].target !== scene) return;
+    launchWitness(scene, `wl-adjuster-return-${scene}`, { claim: st.activeAdjuster.claim, feedback: WITNESS_ADJUSTER_RETURN_FEEDBACK, from: scene, kind: 'adjuster-return', target: WITNESS_BUREAU }, `#wl-adjuster-response-${scene}`);
+  }
+
+  function chooseWitnessHearingEntry() {
+    const st = witnessReady('remembrance', 'wl-hearing-entry-btn');
+    if (!st || st.activeAdjuster || !witnessHearingEligible(st)) return;
+    launchWitness('remembrance', 'wl-hearing-entry-btn', { feedback: WITNESS_HEARING_ENTRY_FEEDBACK, kind: 'hearing-entry', target: WITNESS_HEARING }, '#wl-hearing-entry-response');
+  }
+
+  function chooseWitnessVerdict(action) {
+    const a = WITNESS_VERDICT_TABLE[action];
+    if (!a) return;
+    const st = witnessReady(WITNESS_HEARING, `wl-verdict-${action}`);
+    if (!st || st.activeAdjuster || !st.visited.hearing || !witnessHearingEligible(st)) return;
+    launchWitness(WITNESS_HEARING, `wl-verdict-${action}`, { action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: WITNESS_HEARING, target: a.target }, '#blind-exemption-hearing-response');
+  }
+
+  /* 旧场景窄桥：只放行本章正在抵达、正在回执或刚刚裁定的目标 */
+  function witnessLiabilityBridgeAllows(targetScene) {
+    if (!witnessLiabilityUnlocked()) return false;
+    const st = getWitnessLiability();
+    if (st.pending && (st.pending.kind === 'claim' || st.pending.kind === 'verdict') && st.pending.target === targetScene) return true;
+    if (st.activeAdjuster) {
+      const c = parseWitnessClaim(st.activeAdjuster.claim);
+      if (c && WITNESS_EVENT_TABLE[c.event].target === targetScene) return true;
+    }
+    const verdict = WITNESS_VERDICT_ACTIONS.find((a) => WITNESS_VERDICT_TABLE[a].outcome === st.lastOutcome);
+    return Boolean(verdict && WITNESS_VERDICT_TABLE[verdict].target === targetScene);
+  }
+
+  function witnessBureauCanVisit() {
+    if (!witnessLiabilityUnlocked()) return false;
+    const st = getWitnessLiability();
+    if (st.visited.bureau) return true;
+    return Boolean(st.pending && st.pending.target === WITNESS_BUREAU);
+  }
+
+  function eyelidActuarialRoomCanVisit() {
+    if (!witnessLiabilityUnlocked()) return false;
+    const st = getWitnessLiability();
+    if (st.visited.actuarial && st.draft.event) return true;
+    return Boolean(st.pending && st.pending.kind === 'event');
+  }
+
+  function blindExemptionHearingCanVisit() {
+    if (!witnessLiabilityUnlocked()) return false;
+    const st = getWitnessLiability();
+    if (st.visited.hearing && witnessHearingEligible(st)) return true;
+    return Boolean(st.pending && st.pending.kind === 'hearing-entry');
+  }
+
+  function syncWitnessBureau() {
+    const canVisit = witnessBureauCanVisit();
+    const st = getWitnessLiability();
+    const fig = $('#witness-liability-insurance-bureau-figure');
+    if (fig) fig.hidden = !canVisit;
+    const blocked = !canVisit || Boolean(st.pending) || Boolean(st.activeAdjuster);
+    WITNESS_EVENTS.forEach((event) => {
+      const btn = $(`#wl-event-${event}`);
+      if (btn) {
+        btn.disabled = blocked;
+        btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'event' && st.pending.event === event ? 'true' : 'false');
+      }
+    });
+    const dossier = $('#wl-dossier');
+    if (dossier) {
+      dossier.hidden = !canVisit;
+      if (canVisit) {
+        dossier.replaceChildren(...WITNESS_EVENTS.map((event) => {
+          const li = document.createElement('li');
+          const title = document.createElement('strong');
+          title.textContent = `${WITNESS_EVENT_TABLE[event].title}：`;
+          const latest = parseWitnessClaim(st.latestClaimByEvent[event]);
+          li.append(title, `${witnessDossierLine(event)}${latest ? `（已投保：${WITNESS_POLICY_TABLE[latest.policy].title}）` : ''}`);
+          return li;
+        }));
+      }
+    }
+    const cont = $('#wl-continue');
+    if (cont) {
+      const show = canVisit && Boolean(st.draft.event) && !st.activeAdjuster;
+      cont.hidden = !show;
+      cont.disabled = !show || Boolean(st.pending);
+      if (show) cont.textContent = `继续投保：${WITNESS_EVENT_TABLE[st.draft.event].title}（${WITNESS_LEVELS[st.draft.level].name}） ⟶`;
+    }
+    const note = $('#wl-bureau-note');
+    if (note) {
+      let text = '';
+      if (st.activeAdjuster) {
+        const c = parseWitnessClaim(st.activeAdjuster.claim);
+        const e = WITNESS_EVENT_TABLE[c.event];
+        text = `先完成正在进行的理赔：${e.adjusterTitle}还在${e.place}等你。`;
+      } else if (st.draft.event) {
+        text = '换一件事会把眼睑重置为“半睁”。';
+      }
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    if (!st.pending || st.pending.source !== WITNESS_BUREAU) showWitnessResponse('#witness-liability-insurance-bureau-response', '');
+  }
+
+  function syncEyelidActuarialRoom() {
+    const canVisit = eyelidActuarialRoomCanVisit();
+    const st = getWitnessLiability();
+    const panel = $('#wl-actuarial-panel');
+    const ready = canVisit && Boolean(st.draft.event);
+    if (panel) panel.hidden = !ready;
+    if (ready) {
+      const e = WITNESS_EVENT_TABLE[st.draft.event];
+      const level = WITNESS_LEVELS[st.draft.level];
+      const title = $('#wl-actuarial-event');
+      if (title) title.textContent = `投保事件：${e.title} —— ${witnessDossierLine(st.draft.event)}`;
+      const slider = $('#wl-eyelid-slider');
+      if (slider) {
+        slider.value = String(st.draft.level);
+        slider.disabled = Boolean(st.pending);
+        slider.setAttribute('aria-valuetext', `${level.name} ${level.percent}%`);
+      }
+      const meter = $('#wl-eyelid-meter');
+      if (meter) meter.style.setProperty('--witness-open', String(level.percent / 100));
+      const reading = $('#wl-eyelid-reading');
+      if (reading) reading.textContent = `${level.name} · 看见了 ${level.percent}%`;
+      const note = $('#wl-actuarial-note');
+      if (note) note.textContent = level.note;
+      const dest = $('#wl-actuarial-destination');
+      if (dest) dest.textContent = `盖章后会去${e.place}，由${e.adjusterTitle}出具理赔回执。没有错误答案。`;
+    }
+    WITNESS_POLICIES.forEach((policy) => {
+      const btn = $(`#wl-policy-${policy}`);
+      if (!btn) return;
+      btn.disabled = !ready || Boolean(st.pending);
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'claim' && st.pending.policy === policy ? 'true' : 'false');
+      btn.classList.toggle('is-collected', Boolean(st.draft.event) && st.claims.includes(`${st.draft.event}:${policy}`));
+    });
+    const abandon = $('#wl-abandon');
+    if (abandon) abandon.disabled = !ready || Boolean(st.pending);
+    if (!st.pending || st.pending.source !== WITNESS_ACTUARIAL) showWitnessResponse('#eyelid-actuarial-room-response', '');
+  }
+
+  function syncBlindExemptionHearing() {
+    const canVisit = blindExemptionHearingCanVisit();
+    const st = getWitnessLiability();
+    const fig = $('#blind-exemption-hearing-figure');
+    if (fig) fig.hidden = !canVisit;
+    WITNESS_VERDICT_ACTIONS.forEach((action) => {
+      const btn = $(`#wl-verdict-${action}`);
+      if (!btn) return;
+      btn.disabled = !canVisit || Boolean(st.pending) || Boolean(st.activeAdjuster);
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'verdict' && st.pending.action === action ? 'true' : 'false');
+      btn.classList.toggle('is-collected', st.hearingOutcomes.includes(WITNESS_VERDICT_TABLE[action].outcome));
+    });
+    if (!st.pending || st.pending.source !== WITNESS_HEARING) showWitnessResponse('#blind-exemption-hearing-response', '');
+  }
+
+  const WITNESS_OLD_TARGETS = ['threshold', 'offering', 'late-cause-maternity-ward'];
+
+  /* 理赔回执：抵达旧场景后出现，写明事件、档位、保单与一句结果 */
+  function syncWitnessAdjusters() {
+    const st = witnessLiabilityUnlocked() ? getWitnessLiability() : defaultWitnessLiability();
+    const c = st.activeAdjuster ? parseWitnessClaim(st.activeAdjuster.claim) : null;
+    WITNESS_OLD_TARGETS.forEach((scene) => {
+      const box = $(`#wl-adjuster-${scene}`);
+      if (!box) return;
+      const show = Boolean(c) && WITNESS_EVENT_TABLE[c.event].target === scene;
+      box.hidden = !show;
+      const btn = $(`#wl-adjuster-return-${scene}`);
+      if (btn) {
+        btn.disabled = !show || Boolean(st.pending);
+        btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'adjuster-return' && st.pending.from === scene ? 'true' : 'false');
+      }
+      if (!show) return;
+      const e = WITNESS_EVENT_TABLE[c.event];
+      const head = $(`#wl-adjuster-title-${scene}`);
+      if (head) head.textContent = `理赔回执 · ${e.adjusterTitle}`;
+      const summary = $(`#wl-adjuster-summary-${scene}`);
+      if (summary) summary.textContent = witnessClaimSummary(c.event, c.policy, c.level);
+      const body = $(`#wl-adjuster-body-${scene}`);
+      if (body) body.textContent = witnessClaimFeedback(c.event, c.policy, c.level);
+      if (!st.pending || st.pending.kind !== 'adjuster-return') showWitnessResponse(`#wl-adjuster-response-${scene}`, '');
+    });
+  }
+
+  /* 三个旧场景各多一段独立记忆：由该事件最近一次理赔（保单 + 档位）决定 */
+  function syncWitnessEchoes() {
+    const st = witnessLiabilityUnlocked() ? getWitnessLiability() : defaultWitnessLiability();
+    WITNESS_EVENTS.forEach((event) => {
+      const e = WITNESS_EVENT_TABLE[event];
+      const el = $(`#wl-echo-${e.target}`);
+      if (!el) return;
+      const c = parseWitnessClaim(st.latestClaimByEvent[event]);
+      if (!c) { el.hidden = true; el.textContent = ''; return; }
+      el.textContent = `${e.echoLead}「${WITNESS_POLICY_TABLE[c.policy].title} · ${WITNESS_LEVELS[c.level].name}」${WITNESS_POLICY_TABLE[c.policy].result}`;
+      el.hidden = false;
+    });
+  }
+
+  function syncWitnessRemembrance() {
+    const unlocked = witnessLiabilityUnlocked();
+    const shell = $('#wl-codex');
+    const memory = $('#wl-memory');
+    if (!unlocked) {
+      [shell, memory].forEach((el) => { if (el) el.hidden = true; });
+      return;
+    }
+    const st = getWitnessLiability();
+    const v91Pending = Boolean(getLateCauseMaternity().pending);
+    if (shell) shell.hidden = false;
+    const progress = witnessHearingProgress(st);
+    if (memory) {
+      memory.hidden = false;
+      memory.textContent = `目击责任：已签 ${st.claims.length}/9 份保单，共理赔 ${st.claimRuns} 次；闭眼 ${progress.closed ? '已' : '未'}投保 / 凝视 ${progress.open ? '已' : '未'}投保；豁免裁定 ${st.hearingOutcomes.length}/3。`;
+    }
+    const hints = $('#wl-hearing-hints');
+    if (hints) {
+      const rows = [['三件事都投过保', progress.events, 3], ['三种保单都用过', progress.policies, 3], ['有一次“闭眼”', progress.closed, 1], ['有一次“凝视”', progress.open, 1]];
+      hints.replaceChildren(...rows.map(([label, have, need]) => {
+        const li = document.createElement('li');
+        li.className = have >= need ? 'is-met' : '';
+        li.textContent = `${label} ${have}/${need}`;
+        return li;
+      }));
+    }
+    const clean = !st.pending && !st.activeAdjuster;
+    const entry = $('#wl-liability-entry-btn');
+    if (entry) {
+      entry.hidden = false;
+      entry.disabled = !clean || v91Pending;
+      entry.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' ? 'true' : 'false');
+    }
+    const note = $('#wl-entry-note');
+    if (note) {
+      const text = v91Pending ? '先完成正在抵达的回执：倒生原因助产院还有一份出生证在路上。' : st.activeAdjuster ? '先完成正在进行的理赔。' : '';
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const hearing = $('#wl-hearing-entry-btn');
+    if (hearing) {
+      const eligible = witnessHearingEligible(st);
+      hearing.hidden = !eligible;
+      hearing.disabled = !eligible || !clean;
+      hearing.setAttribute('aria-pressed', st.pending && st.pending.kind === 'hearing-entry' ? 'true' : 'false');
+    }
+    const grid = $('#wl-codex-grid');
+    if (grid) {
+      const have = new Set(st.claims);
+      const cells = WITNESS_CLAIM_IDS.map((id) => {
+        const [event, policy] = id.split(':');
+        const cell = document.createElement('div');
+        cell.className = `wl-cell ${have.has(id) ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = have.has(id) ? `${WITNESS_EVENT_TABLE[event].title}\n${WITNESS_POLICY_TABLE[policy].title}` : '？？？';
+        return cell;
+      });
+      WITNESS_VERDICT_ACTIONS.forEach((action) => {
+        const a = WITNESS_VERDICT_TABLE[action];
+        const got = st.hearingOutcomes.includes(a.outcome);
+        const cell = document.createElement('div');
+        cell.className = `wl-cell wl-cell-verdict ${got ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = got ? `[闭眼豁免听证庭] ${a.title}\n${a.feedback}` : '？？？';
+        cells.push(cell);
+      });
+      grid.replaceChildren(...cells);
+    }
+    if (!st.pending || (st.pending.kind !== 'entry' && st.pending.kind !== 'hearing-entry')) {
+      showWitnessResponse('#wl-liability-entry-response', '');
+      showWitnessResponse('#wl-hearing-entry-response', '');
+    }
+  }
+
+  function syncWitnessLinks() {
+    const st = witnessLiabilityUnlocked() ? getWitnessLiability() : null;
+    [['witness-liability-insurance-bureau-link', 'bureau'], ['eyelid-actuarial-room-link', 'actuarial'], ['blind-exemption-hearing-link', 'hearing']].forEach(([id, key]) => {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !(st && st.visited[key]);
+    });
+  }
+
+  function forgetWitnessLiabilityState() {
+    try { localStorage.removeItem(WITNESS_LIABILITY_KEY); } catch {}
+    [WITNESS_BUREAU, WITNESS_ACTUARIAL, WITNESS_HEARING].forEach((scene) => AutoAdvance.clear(scene));
+    ['#wl-codex', '#wl-memory', '#witness-liability-insurance-bureau-figure', '#wl-dossier', '#wl-actuarial-panel', '#blind-exemption-hearing-figure',
+      '#witness-liability-insurance-bureau-link', '#eyelid-actuarial-room-link', '#blind-exemption-hearing-link',
+      '#wl-adjuster-threshold', '#wl-adjuster-offering', '#wl-adjuster-late-cause-maternity-ward',
+      '#wl-echo-threshold', '#wl-echo-offering', '#wl-echo-late-cause-maternity-ward',
+      '#wl-liability-entry-response', '#wl-hearing-entry-response', '#witness-liability-insurance-bureau-response',
+      '#eyelid-actuarial-room-response', '#blind-exemption-hearing-response', '#wl-continue', '#wl-hearing-entry-btn',
+    ].forEach((sel) => { const el = $(sel); if (el) el.hidden = true; });
+    $$('[id^="wl-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+  }
+
+  const onTrustedWitness = (selector, type, handler) => {
+    const el = $(selector);
+    if (el) el.addEventListener(type, (e) => { if (e.isTrusted) handler(e); });
+  };
+  onTrustedWitness('#wl-liability-entry-btn', 'click', chooseWitnessEntry);
+  onTrustedWitness('#wl-hearing-entry-btn', 'click', chooseWitnessHearingEntry);
+  onTrustedWitness('#wl-continue', 'click', chooseWitnessContinue);
+  onTrustedWitness('#wl-abandon', 'click', chooseWitnessAbandon);
+  WITNESS_EVENTS.forEach((event) => onTrustedWitness(`#wl-event-${event}`, 'click', () => chooseWitnessEvent(event)));
+  WITNESS_POLICIES.forEach((policy) => onTrustedWitness(`#wl-policy-${policy}`, 'click', () => chooseWitnessPolicy(policy)));
+  WITNESS_VERDICT_ACTIONS.forEach((action) => onTrustedWitness(`#wl-verdict-${action}`, 'click', () => chooseWitnessVerdict(action)));
+  WITNESS_OLD_TARGETS.forEach((scene) => onTrustedWitness(`#wl-adjuster-return-${scene}`, 'click', () => chooseWitnessAdjusterReturn(scene)));
+  /* 滑杆：键盘与拖动都会产生真实 input 事件 */
+  onTrustedWitness('#wl-eyelid-slider', 'input', (e) => setWitnessLevel(Number(e.target.value)));
+
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -48882,8 +49650,28 @@ document.addEventListener("DOMContentLoaded", () => {
     if (st.activeMidwife) items.push("有一份出生证在旧场景等接生回执：点接生员返回助产院");
     else if (st.draft.family) items.push(`助产院里有一份没签发的登记：${LATE_CAUSE_FAMILY_TABLE[st.draft.family].title}`);
     const done = eligible && st.custodyOutcomes.length >= 3;
-    if (done) return { title: "v91 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    if (done) return witnessProgressStep();
     return { title: "v91 倒生原因助产院", items, target: eligible ? "late-cause-custody" : "late-cause-maternity", done: false };
+  };
+
+  /* v92：按听证四条件与三项豁免裁定给出缺项 */
+  const witnessProgressStep = () => {
+    if (!witnessLiabilityUnlocked()) return null;
+    const st = getWitnessLiability();
+    const p = witnessHearingProgress(st);
+    const items = [];
+    const events = WITNESS_EVENTS.filter((e) => !st.claims.some((id) => id.startsWith(`${e}:`))).map((e) => WITNESS_EVENT_TABLE[e].title);
+    const policies = WITNESS_POLICIES.filter((x) => !st.claims.some((id) => id.endsWith(`:${x}`))).map((x) => WITNESS_POLICY_TABLE[x].title);
+    if (events.length) items.push(`还没投保的事：${events.join("、")}`);
+    if (policies.length) items.push(`还没用过的保单：${policies.join("、")}`);
+    if (!p.closed) items.push("至少一次把眼睑拨到“闭眼”再投保");
+    if (!p.open) items.push("至少一次把眼睑拨到“凝视”再投保");
+    const eligible = witnessHearingEligible(st);
+    if (eligible) items.push(`听证条件已满足；豁免裁定已得 ${st.hearingOutcomes.length}/3`);
+    if (st.activeAdjuster) items.push("有一份理赔回执在旧场景等你：点理赔员返回保险局");
+    else if (st.draft.event) items.push(`保险局里有一份没盖章的投保：${WITNESS_EVENT_TABLE[st.draft.event].title}`);
+    if (eligible && st.hearingOutcomes.length >= 3) return { title: "v92 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    return { title: "v92 目击责任保险局", items, target: eligible ? "wl-hearing" : "wl-liability", done: false };
   };
 
   const syncProgressGuide = () => {
@@ -49228,6 +50016,7 @@ document.addEventListener("DOMContentLoaded", () => {
   syncCauselessConsequenceRefugeeRemembrance();
   syncCauselessConsequenceRefugeeLinks();
   syncLateCauseAll();
+  syncWitnessAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

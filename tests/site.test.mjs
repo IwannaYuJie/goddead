@@ -45,8 +45,8 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=91/);
-assert.match(html, /script\.js\?v=91/);
+assert.match(html, /styles\.css\?v=92/);
+assert.match(html, /script\.js\?v=92/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
@@ -135,7 +135,7 @@ assert.match(js, /DOMContentLoaded/);
   assert.match(rawHtml, /<aside class="progress-guide" id="progress-guide" aria-labelledby="progress-guide-title" hidden>/, "remembrance hosts a hidden progress guide");
   const remembranceSection = rawHtml.match(/<section[^>]*data-scene="remembrance"[\s\S]*?<\/section>/);
   assert.ok(remembranceSection && remembranceSection[0].includes('id="progress-guide"'), "the guide lives inside the remembrance scene");
-  assert.match(js, /replayLateCausePending\(name\);\s*if \(name === "remembrance"\) syncProgressGuide\(\);\s*updateHudDisplay\(\);/, "arriving at remembrance refreshes the guide after every chapter sync");
+  assert.match(js, /replayWitnessPending\(name\);\s*if \(name === "remembrance"\) syncProgressGuide\(\);\s*updateHudDisplay\(\);/, "arriving at remembrance refreshes the guide after every chapter sync");
   const guideStart = js.indexOf("/* ---------- 痕迹室「下一步」 ----------");
   const guideEnd = js.indexOf("/* ---------- 初始化 ---------- */");
   assert.ok(guideStart !== -1 && guideEnd > guideStart, "guide block sits before init");
@@ -699,8 +699,8 @@ for (const asset of VISUAL_ASSETS) {
 await access(new URL("assets/prayer-incinerator-burning.webp", root));
 assert.match(html, /assets\/prayer-incinerator-burning\.webp/);
 assert.match(html, /<link rel="preload" href="assets\/prayer-incinerator-burning\.webp" as="image">/);
-assert.match(html, /styles\.css\?v=91/);
-assert.match(html, /script\.js\?v=91/);
+assert.match(html, /styles\.css\?v=92/);
+assert.match(html, /script\.js\?v=92/);
 const offeringFigureHtml = html.match(/<figure class="offering-figure[^"]*" role="img" aria-label="[^"]*">[\s\S]*?<\/figure>/);
 assert.ok(offeringFigureHtml, "offering figure must exist");
 assert.match(offeringFigureHtml[0], /aria-label="一座沉寂的焚献炉"/);
@@ -4710,7 +4710,7 @@ assert.ok(SCENES.includes("causal-sorter"), "SCENES must list the causal sorter"
 assert.ok(SCENES.includes("first-draft-vault"), "SCENES must list the first draft vault");
 assert.ok(SCENES.includes("before-first-knock"), "SCENES must list the before first knock");
 assert.ok(SCENES.includes("causeless-ward"), "SCENES must list the causeless ward");
-  assert.equal(new Set([...html.matchAll(/data-scene="([^"]+)"/g)].map((m) => m[1])).size, 196, "must expose 196 unique data-scene sections");
+  assert.equal(new Set([...html.matchAll(/data-scene="([^"]+)"/g)].map((m) => m[1])).size, 199, "must expose 199 unique data-scene sections");
 const consoleSection = html.match(/<section class="scene scene-branch scene-listening-back-console"[\s\S]*?<\/section>/);
 assert.ok(consoleSection, "scene section missing: listening-back-console");
 assert.match(consoleSection[0], /data-scene="listening-back-console" data-title="Goddead — 反听总台" aria-label="反听总台"/);
@@ -6095,8 +6095,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v73-nightmare-ta
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v73-waking-deportation-yard\.webp"/, "v73 loads on demand: waking-deportation-yard");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=91/, "v73 cache busts styles.css");
-assert.match(html, /script\.js\?v=91/, "v73 cache busts script.js");
+assert.match(html, /styles\.css\?v=92/, "v73 cache busts styles.css");
+assert.match(html, /script\.js\?v=92/, "v73 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const DREAM_CUSTOMS_KEY = ['"]goddead_v73_dream_customs['"]/g) || []).length, 1, "v73 introduces exactly one storage key");
@@ -6963,8 +6963,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v74-impossible-c
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v74-perpetual-license-tribunal\.webp"/, "v74 loads on demand: perpetual-license-tribunal");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=91/, "v74 cache busts styles.css");
-assert.match(html, /script\.js\?v=91/, "v74 cache busts script.js");
+assert.match(html, /styles\.css\?v=92/, "v74 cache busts styles.css");
+assert.match(html, /script\.js\?v=92/, "v74 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const TOMBSTONE_PATENT_OFFICE_KEY = ['"]goddead_v74_tombstone_patent_office['"]/g) || []).length, 1, "v74 introduces exactly one storage key");
@@ -7845,8 +7845,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v75-post-world-r
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v75-universal-recall-yard\.webp"/, "v75 loads on demand: universal-recall-yard");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=91/, "v75 cache busts styles.css");
-assert.match(html, /script\.js\?v=91/, "v75 cache busts script.js");
+assert.match(html, /styles\.css\?v=92/, "v75 cache busts styles.css");
+assert.match(html, /script\.js\?v=92/, "v75 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const APOCALYPSE_WARRANTY_KEY = ['"]goddead_v75_apocalypse_warranty['"]/g) || []).length, 1, "v75 introduces exactly one storage key");
@@ -8775,8 +8775,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v76-reality-retu
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v76-class-action-court\.webp"/, "v76 loads on demand: class-action-court");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=91/, "v76 cache busts styles.css");
-assert.match(html, /script\.js\?v=91/, "v76 cache busts script.js");
+assert.match(html, /styles\.css\?v=92/, "v76 cache busts styles.css");
+assert.match(html, /script\.js\?v=92/, "v76 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const REALITY_REFUND_KEY = ['"]goddead_v76_reality_refund['"]/g) || []).length, 1, "v76 introduces exactly one storage key");
@@ -9735,8 +9735,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v77-soul-counter
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v77-final-authenticity-tribunal\.webp"/, "v77 loads on demand: v77-final-authenticity-tribunal");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=91/, "v77 cache busts styles.css");
-assert.match(html, /script\.js\?v=91/, "v77 cache busts script.js");
+assert.match(html, /styles\.css\?v=92/, "v77 cache busts styles.css");
+assert.match(html, /script\.js\?v=92/, "v77 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const SELF_AUTHENTICITY_KEY = ['"]goddead_v77_self_authenticity['"]/g) || []).length, 1, "v77 introduces exactly one storage key");
@@ -14807,8 +14807,8 @@ for (const [file, hash] of Object.entries(V72_WEBP_HASHES)) {
 }
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=91/, "v72 cache busts styles.css");
-assert.match(html, /script\.js\?v=91/, "v72 cache busts script.js");
+assert.match(html, /styles\.css\?v=92/, "v72 cache busts styles.css");
+assert.match(html, /script\.js\?v=92/, "v72 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const LAST_WORD_BANK_KEY = ['"]goddead_v72_last_word_bank['"]/g) || []).length, 1, "v72 introduces exactly one storage key");
@@ -15994,8 +15994,8 @@ assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v78-pronoun-alloca
 assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v78-ownerless-voices-court.webp"'), "v78 loads on demand: v78-ownerless-voices-court");
 
 /* 缓存版本 */
-assert.ok(html.includes("styles.css?v=91"), "styles.css cache bust v=86");
-assert.ok(html.includes("script.js?v=91"), "script.js cache bust v=86");
+assert.ok(html.includes("styles.css?v=92"), "styles.css cache bust v=86");
+assert.ok(html.includes("script.js?v=92"), "script.js cache bust v=86");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const FIRST_PERSON_RATIONING_KEY = ['"]goddead_v78_first_person_rationing['"]/g) || []).length, 1, "v78 introduces exactly one storage key");
@@ -17027,8 +17027,8 @@ assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v79-personhood-inh
 assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v79-unuttered-estate-tribunal.webp"'), "v79 loads on demand: v79-unuttered-estate-tribunal");
 
 /* 缓存版本 */
-assert.ok(html.includes("styles.css?v=91"), "styles.css cache bust v=86");
-assert.ok(html.includes("script.js?v=91"), "script.js cache bust v=86");
+assert.ok(html.includes("styles.css?v=92"), "styles.css cache bust v=86");
+assert.ok(html.includes("script.js?v=92"), "script.js cache bust v=86");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const UNSPOKEN_PERSONHOOD_KEY = ['"]goddead_v79_unspoken_personhood['"]/g) || []).length, 1, "v79 introduces exactly one storage key");
@@ -17710,8 +17710,8 @@ assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v80-counterfactual
 assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v80-last-conclusion-hearing.webp"'), "v80 loads on demand: v80-last-conclusion-hearing");
 
 /* 缓存版本 */
-assert.ok(html.includes("styles.css?v=91"), "styles.css cache bust v=86");
-assert.ok(html.includes("script.js?v=91"), "script.js cache bust v=86");
+assert.ok(html.includes("styles.css?v=92"), "styles.css cache bust v=86");
+assert.ok(html.includes("script.js?v=92"), "script.js cache bust v=86");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const UNFINISHED_THOUGHT_KEY = ['"]goddead_v80_unfinished_thought_asylum['"]/g) || []).length, 1, "v80 introduces exactly one storage key");
@@ -20854,12 +20854,12 @@ for (const item of v81BranchFigures) {
   );
 
   assert.ok(
-    /if\s*\(\s*\(target\s*===\s*["']reliquary["']\s*\|\|\s*target\s*===\s*["']remembrance["']\)\s*&&[\s\S]*?!regretReclamationBridgeAllows\(target\)\s*&&\s*!forgivenessLandfillBridgeAllows\(target\)\s*&&\s*!harmArchaeologyBridgeAllows\(target\)\s*&&\s*!innocentWitnessProtectionBridgeAllows\(target\)\s*&&\s*!orphanedFactBridgeAllows\(target\)\s*&&\s*!existenceRenunciationBridgeAllows\(target\)\s*&&\s*!nonexistenceDebtCollectionBridgeAllows\(target\)\s*&&\s*!unhappenedEventAuctionBridgeAllows\(target\)\s*&&\s*!accomplishedFactEvictionBridgeAllows\(target\)\s*&&\s*!causelessConsequenceRefugeeBridgeAllows\(target\)\s*&&\s*!lateCauseMaternityBridgeAllows\(target\)\s*&&\s*!gov\.rulings\.acting\s*\)\s*\{\s*target\s*=\s*["']acting["'];\s*\}/.test(resolveSceneSlice),
+    /if\s*\(\s*\(target\s*===\s*["']reliquary["']\s*\|\|\s*target\s*===\s*["']remembrance["']\)\s*&&[\s\S]*?!regretReclamationBridgeAllows\(target\)\s*&&\s*!forgivenessLandfillBridgeAllows\(target\)\s*&&\s*!harmArchaeologyBridgeAllows\(target\)\s*&&\s*!innocentWitnessProtectionBridgeAllows\(target\)\s*&&\s*!orphanedFactBridgeAllows\(target\)\s*&&\s*!existenceRenunciationBridgeAllows\(target\)\s*&&\s*!nonexistenceDebtCollectionBridgeAllows\(target\)\s*&&\s*!unhappenedEventAuctionBridgeAllows\(target\)\s*&&\s*!accomplishedFactEvictionBridgeAllows\(target\)\s*&&\s*!causelessConsequenceRefugeeBridgeAllows\(target\)\s*&&\s*!lateCauseMaternityBridgeAllows\(target\)\s*&&\s*!witnessLiabilityBridgeAllows\(target\)\s*&&\s*!gov\.rulings\.acting\s*\)\s*\{\s*target\s*=\s*["']acting["'];\s*\}/.test(resolveSceneSlice),
     "Governance acting guard preserves prior checks and appends !accomplishedFactEvictionBridgeAllows(target) and v90 !causelessConsequenceRefugeeBridgeAllows(target)"
   );
 
   assert.ok(
-    /else\s+if\s*\(\s*\(target\s*===\s*["']reliquary["']\s*\|\|\s*target\s*===\s*["']remembrance["']\)\s*&&[\s\S]*?!regretReclamationBridgeAllows\(target\)\s*&&\s*!forgivenessLandfillBridgeAllows\(target\)\s*&&\s*!harmArchaeologyBridgeAllows\(target\)\s*&&\s*!innocentWitnessProtectionBridgeAllows\(target\)\s*&&\s*!orphanedFactBridgeAllows\(target\)\s*&&\s*!existenceRenunciationBridgeAllows\(target\)\s*&&\s*!nonexistenceDebtCollectionBridgeAllows\(target\)\s*&&\s*!unhappenedEventAuctionBridgeAllows\(target\)\s*&&\s*!accomplishedFactEvictionBridgeAllows\(target\)\s*&&\s*!causelessConsequenceRefugeeBridgeAllows\(target\)\s*&&\s*!lateCauseMaternityBridgeAllows\(target\)\s*&&\s*!gov\.rulings\.offering\s*\)\s*\{\s*target\s*=\s*["']offering["'];\s*\}/.test(resolveSceneSlice),
+    /else\s+if\s*\(\s*\(target\s*===\s*["']reliquary["']\s*\|\|\s*target\s*===\s*["']remembrance["']\)\s*&&[\s\S]*?!regretReclamationBridgeAllows\(target\)\s*&&\s*!forgivenessLandfillBridgeAllows\(target\)\s*&&\s*!harmArchaeologyBridgeAllows\(target\)\s*&&\s*!innocentWitnessProtectionBridgeAllows\(target\)\s*&&\s*!orphanedFactBridgeAllows\(target\)\s*&&\s*!existenceRenunciationBridgeAllows\(target\)\s*&&\s*!nonexistenceDebtCollectionBridgeAllows\(target\)\s*&&\s*!unhappenedEventAuctionBridgeAllows\(target\)\s*&&\s*!accomplishedFactEvictionBridgeAllows\(target\)\s*&&\s*!causelessConsequenceRefugeeBridgeAllows\(target\)\s*&&\s*!lateCauseMaternityBridgeAllows\(target\)\s*&&\s*!witnessLiabilityBridgeAllows\(target\)\s*&&\s*!gov\.rulings\.offering\s*\)\s*\{\s*target\s*=\s*["']offering["'];\s*\}/.test(resolveSceneSlice),
     "Governance offering guard preserves prior checks and appends !accomplishedFactEvictionBridgeAllows(target) and v90 !causelessConsequenceRefugeeBridgeAllows(target)"
   );
 
@@ -23222,7 +23222,7 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
     assert.strictEqual(offeringMatches.length, 1, "Governance block must contain exactly one !gov.rulings.offering condition");
 
     assert.ok(
-      /else\s+if\s*\(\s*\(target\s*===\s*["']reliquary["']\s*\|\|\s*target\s*===\s*["']remembrance["']\)[\s\S]*?!harmArchaeologyBridgeAllows\(target\)\s*&&\s*!innocentWitnessProtectionBridgeAllows\(target\)\s*&&\s*!orphanedFactBridgeAllows\(target\)\s*&&\s*!existenceRenunciationBridgeAllows\(target\)\s*&&\s*!nonexistenceDebtCollectionBridgeAllows\(target\)\s*&&\s*!unhappenedEventAuctionBridgeAllows\(target\)\s*&&\s*!accomplishedFactEvictionBridgeAllows\(target\)\s*&&\s*!causelessConsequenceRefugeeBridgeAllows\(target\)\s*&&\s*!lateCauseMaternityBridgeAllows\(target\)\s*&&\s*!gov\.rulings\.offering\s*\)\s*\{\s*target\s*=\s*["']offering["'];\s*\}/.test(govBlockBody),
+      /else\s+if\s*\(\s*\(target\s*===\s*["']reliquary["']\s*\|\|\s*target\s*===\s*["']remembrance["']\)[\s\S]*?!harmArchaeologyBridgeAllows\(target\)\s*&&\s*!innocentWitnessProtectionBridgeAllows\(target\)\s*&&\s*!orphanedFactBridgeAllows\(target\)\s*&&\s*!existenceRenunciationBridgeAllows\(target\)\s*&&\s*!nonexistenceDebtCollectionBridgeAllows\(target\)\s*&&\s*!unhappenedEventAuctionBridgeAllows\(target\)\s*&&\s*!accomplishedFactEvictionBridgeAllows\(target\)\s*&&\s*!causelessConsequenceRefugeeBridgeAllows\(target\)\s*&&\s*!lateCauseMaternityBridgeAllows\(target\)\s*&&\s*!witnessLiabilityBridgeAllows\(target\)\s*&&\s*!gov\.rulings\.offering\s*\)\s*\{\s*target\s*=\s*["']offering["'];\s*\}/.test(govBlockBody),
       "Unique offering else-if preserves the full bridge chain through causelessConsequenceRefugeeBridgeAllows (v90) before setting target to offering"
     );
 
@@ -26766,8 +26766,8 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
       assert.match(html, new RegExp(`data-scene="${sc}"`), `scene missing: ${sc}`);
     }
 
-    assert.match(html, /styles\.css\?v=91/, "styles.css cache query must be updated to v=90");
-    assert.match(html, /script\.js\?v=91/, "script.js cache query must be updated to v=90");
+    assert.match(html, /styles\.css\?v=92/, "styles.css cache query must be updated to v=90");
+    assert.match(html, /script\.js\?v=92/, "script.js cache query must be updated to v=90");
 
     const bootstrapStartIdx = js.lastIndexOf('/* ---------- 初始化 ---------- */');
     assert.ok(bootstrapStartIdx !== -1, 'v90 browser-initialization failure: bootstrap start marker not found');
@@ -28898,7 +28898,7 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
     assert.ok(section.includes(`id="late-cause-echo-${scene}"`), `${scene} hosts the v91 echo paragraph`);
   }
   assert.match(js, /resolveLateCausePendingOnArrival\(name\);\s*replayLateCausePending\(name\);/, "sceneInit resolves then replays v91 pending on the real route");
-  assert.match(js, /syncCauselessConsequenceRefugeeLinks\(\);\s*syncLateCauseAll\(\);\s*revealScene\(scenes\.threshold\);/, "bootstrap only syncs v91 UI, never resolves a hardcoded threshold");
+  assert.match(js, /syncCauselessConsequenceRefugeeLinks\(\);\s*syncLateCauseAll\(\);\s*syncWitnessAll\(\);\s*revealScene\(scenes\.threshold\);/, "bootstrap only syncs v91 UI, never resolves a hardcoded threshold");
   assert.match(js, /forgetCauselessConsequenceRefugeeState\(\);\s*forgetLateCauseMaternityState\(\);/, "forget-all clears v91");
   assert.ok(js.includes("&& !lateCauseMaternityBridgeAllows('unending-gallery')"), "gallery guard lets v91 arrivals through");
 
@@ -29121,6 +29121,206 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
     assert.equal(forged.visited.court, true);
     const g = makeV91({ initial: { version: 91, visited: { court: true } } });
     assert.equal(g.courtOk(), false, "a visited flag alone cannot open the court without its conditions");
+  }
+}
+
+
+/* ================= v92 目击责任保险局 ================= */
+{
+  const V92_SCENES = ["witness-liability-insurance-bureau", "eyelid-actuarial-room", "blind-exemption-hearing"];
+  for (const s of V92_SCENES) {
+    assert.match(rawHtml, new RegExp(`<section[^>]*data-scene="${s}"`), `v92 scene ${s} exists`);
+    assert.match(js, new RegExp(`if \\(target === "${s}" && ![a-zA-Z]+CanVisit\\(\\)\\) target = "remembrance";`), `v92 scene ${s} is guarded`);
+  }
+  for (const name of V92_SCENES) {
+    const buf = await readFile(new URL(`assets/v92-${name}.webp`, root));
+    assert.equal(buf.toString("ascii", 0, 4), "RIFF", `v92 ${name} is a webp`);
+    assert.ok(buf.length < 300 * 1024, `v92 ${name} stays under 300KB`);
+    assert.ok(rawHtml.includes(`data-src="assets/v92-${name}.webp"`), `v92 ${name} loads on demand`);
+    await access(new URL(`design-references/source-v92-${name}.png`, root));
+  }
+  for (const scene of ["threshold", "offering", "late-cause-maternity-ward"]) {
+    const section = rawHtml.split(/(?=<section[^>]*\bdata-scene=")/).find((p) => p.startsWith(`<section`) && p.includes(`data-scene="${scene}"`) && p.indexOf(`data-scene="${scene}"`) < 300);
+    assert.ok(section && section.includes(`id="wl-adjuster-${scene}"`), `${scene} hosts the v92 claim receipt`);
+    assert.ok(section.includes(`id="wl-echo-${scene}"`), `${scene} hosts the v92 echo paragraph`);
+  }
+  assert.match(rawHtml, /<input class="wl-eyelid-slider" id="wl-eyelid-slider" type="range" min="0" max="4" step="1" value="2"/, "the eyelid is a native five-stop range input");
+  assert.match(rawHtml, /<label class="wl-eyelid-label" for="wl-eyelid-slider">/, "the eyelid slider is labelled");
+  assert.match(js, /resolveWitnessPendingOnArrival\(name\);\s*replayWitnessPending\(name\);/, "sceneInit resolves then replays v92 pending");
+  assert.match(js, /forgetLateCauseMaternityState\(\);\s*forgetWitnessLiabilityState\(\);/, "forget-all clears v92");
+  assert.ok(js.includes("&& !witnessLiabilityBridgeAllows('unending-gallery')"), "gallery guard lets v92 verdicts through");
+  assert.doesNotMatch(rawHtml, /id="witness-(event|policy|verdict|adjuster|echo|codex|memory|dossier)/, "v92 ids use the wl- prefix and never collide with v84 witness-protection");
+
+  const modStart = js.indexOf("/* ============================================================\n     v92 目击责任保险局");
+  const modEnd = js.indexOf("  /* ---------- 痕迹室「下一步」 ----------");
+  assert.ok(modStart !== -1 && modEnd > modStart, "v92 module is extractable");
+  const modSrc = js.slice(modStart, modEnd);
+  assert.equal((modSrc.match(/addEventListener\(type, \(e\) => \{ if \(e\.isTrusted\) handler\(e\); \}\)/g) || []).length, 1, "every v92 control, slider included, goes through the trusted-event helper");
+  assert.doesNotMatch(modSrc, /innerHTML/, "v92 never writes save data as HTML");
+
+  const makeV92 = ({ v91Done = true, v91Pending = null, initial = null, arrivals = 7, prayers = 2, v91Records = ["door-born-from-its-own-shadow:witness-cause-effect"] } = {}) => {
+    const mem = new Map();
+    if (initial !== null) mem.set("goddead_v92_witness_liability", typeof initial === "string" ? initial : JSON.stringify(initial));
+    const store = { get: (k, f) => (mem.has(k) ? mem.get(k) : f), set: (k, v) => mem.set(k, String(v)) };
+    const els = new Map();
+    const mkEl = (id = "") => ({
+      id, hidden: false, disabled: false, textContent: "", value: "", children: [], attrs: {}, style: { props: {}, setProperty(k, v) { this.props[k] = v; } },
+      classList: { set: new Set(), toggle(c, on) { on ? this.set.add(c) : this.set.delete(c); }, contains(c) { return this.set.has(c); } },
+      setAttribute(k, v) { this.attrs[k] = String(v); }, getAttribute(k) { return k in this.attrs ? this.attrs[k] : null; },
+      replaceChildren(...c) { this.children = c; }, append(...c) { this.children.push(...c); }, addEventListener() {}, focus() {},
+    });
+    const $ = (sel) => { const id = sel.replace(/^#/, ""); if (!els.has(id)) els.set(id, mkEl(id)); return els.get(id); };
+    const schedules = [];
+    const AutoAdvance = { schedule: (scene, target) => schedules.push([scene, target]), has: () => false, clear: () => {} };
+    const v91 = { pending: v91Pending, birthRecords: v91Records, custodyOutcomes: v91Done ? ["x", "y", "z"] : ["x"] };
+    const api = new Function(
+      "store", "$", "$$", "reduced", "AutoAdvance", "AudioEngine", "buttonAvailable", "document", "localStorage", "arrivals", "gstate",
+      "lateCauseMaternityUnlocked", "getLateCauseMaternity", "lateCauseCourtEligible", "LATE_CAUSE_CUSTODY_OUTCOME_IDS", "LATE_CAUSE_FAMILY_TABLE",
+      `let currentScene = "remembrance";\n${modSrc}\nreturn { go: (s) => { currentScene = s; }, arrive: (s) => { currentScene = s; resolveWitnessPendingOnArrival(s); syncWitnessAll(); },
+        get: getWitnessLiability, unlocked: witnessLiabilityUnlocked, entry: chooseWitnessEntry, event: chooseWitnessEvent, cont: chooseWitnessContinue, level: setWitnessLevel,
+        policy: chooseWitnessPolicy, abandon: chooseWitnessAbandon, adjuster: chooseWitnessAdjusterReturn, hearingEntry: chooseWitnessHearingEntry, verdict: chooseWitnessVerdict,
+        eligible: witnessHearingEligible, progress: witnessHearingProgress, bridge: witnessLiabilityBridgeAllows, bureauOk: witnessBureauCanVisit, actuarialOk: eyelidActuarialRoomCanVisit,
+        hearingOk: blindExemptionHearingCanVisit, resolve: resolveWitnessPendingOnArrival, replay: replayWitnessPending, dossier: witnessDossierLine, forget: forgetWitnessLiabilityState, CLAIMS: WITNESS_CLAIM_IDS };`
+    )(store, $, () => [], false, AutoAdvance, { whoosh() {} }, (id) => { const el = els.get(id); return !el || (!el.disabled && !el.hidden); },
+      { createElement: () => mkEl() }, { removeItem: (k) => mem.delete(k) }, arrivals, { prayersOffered: prayers },
+      () => true, () => v91, () => true, ["x", "y", "z"], { "door-born-from-its-own-shadow": { title: "门与影子" } });
+    return { ...api, mem, els, schedules };
+  };
+
+  /* 9 份保单；目击档案读取玩家自己的存档 */
+  {
+    const g = makeV92();
+    assert.equal(g.CLAIMS.length, 9);
+    assert.equal(g.dossier("the-door-you-knocked-open"), "你来过 7 次。第三下之后，门就归你抚养了。", "the door line counts the player's real arrivals");
+    assert.match(g.dossier("the-prayer-you-let-burn"), /你交出过 2 条祷词/, "the prayer line counts real offerings");
+    assert.match(g.dossier("the-witness-you-let-be-born-first"), /「门与影子」/, "the witness line names the player's own v91 family");
+    assert.match(makeV92({ v91Records: ["door-born-from-its-own-shadow:cause-effect-witness"] }).dossier("the-witness-you-let-be-born-first"), /^你让一个见证者先于事件出生/, "falls back without a witness-first record");
+  }
+
+  /* 锁定：v91 三项监护裁定未齐时一切不可达 */
+  {
+    const g = makeV92({ v91Done: false, initial: { version: 92, visited: { bureau: true, actuarial: true, hearing: true } } });
+    assert.equal(g.unlocked(), false);
+    assert.equal(g.bureauOk() || g.actuarialOk() || g.hearingOk() || g.bridge("offering"), false, "locked chapter grants no deep link or bridge");
+    g.entry();
+    assert.equal(g.schedules.length, 0);
+  }
+
+  /* 最短听证路径：门 × 事后闭眼 × 闭眼、祷词 × 共同监护 × 凝视、见证者 × 反向转嫁 × 半睁 */
+  {
+    const g = makeV92();
+    g.entry();
+    assert.deepEqual(g.schedules.pop(), ["remembrance", "witness-liability-insurance-bureau"]);
+    g.arrive("witness-liability-insurance-bureau");
+    assert.equal(g.els.get("wl-dossier").children.length, 3, "the bureau lists the player's three witnessed events");
+    const claim = (event, level, policy, target) => {
+      g.go("witness-liability-insurance-bureau");
+      g.event(event);
+      g.arrive("eyelid-actuarial-room");
+      assert.equal(g.get().draft.level, 2, "a new event starts half-open");
+      const runsBefore = g.get().claimRuns;
+      g.level(level);
+      assert.equal(g.get().draft.level, level, "the slider only moves the draft");
+      assert.equal(g.get().claimRuns, runsBefore, "moving the eyelid never counts as a claim");
+      assert.equal(g.els.get("wl-eyelid-meter").style.props["--witness-open"], String([0, 0.25, 0.5, 0.75, 1][level]), "the drawn eyelid follows the slider");
+      g.policy(policy);
+      assert.deepEqual(g.schedules.pop(), ["eyelid-actuarial-room", target]);
+      assert.equal(g.bridge(target), true, "the claim may land on its old scene");
+      g.arrive(target);
+      const st = g.get();
+      assert.ok(st.claims.includes(`${event}:${policy}`), "arrival books the policy");
+      assert.deepEqual(st.activeAdjuster, { claim: `${event}:${policy}:${level}` });
+      assert.equal(g.els.get(`wl-adjuster-${target}`).hidden, false, "the claim receipt shows on the old scene");
+      assert.match(g.els.get(`wl-echo-${target}`).textContent, /「/, "the old scene gains its echo paragraph");
+      g.adjuster(target);
+      g.arrive("witness-liability-insurance-bureau");
+      assert.equal(g.get().activeAdjuster, null);
+    };
+    claim("the-door-you-knocked-open", 0, "retroactive-blindness", "threshold");
+    assert.deepEqual(g.progress(g.get()), { events: 1, policies: 1, closed: 1, open: 0 });
+    claim("the-prayer-you-let-burn", 4, "shared-guardianship", "offering");
+    assert.equal(g.eligible(g.get()), false);
+    claim("the-witness-you-let-be-born-first", 2, "reverse-liability", "late-cause-maternity-ward");
+    assert.equal(g.eligible(g.get()), true, "three claims open the hearing");
+    assert.equal(g.els.get("wl-hearing-entry-btn").hidden, false);
+    g.go("remembrance");
+    g.hearingEntry();
+    g.arrive("blind-exemption-hearing");
+    for (const [action, target] of [["insure-every-eye-at-birth", "threshold"], ["register-witnessing-as-parenthood", "remembrance"], ["let-events-insure-against-being-seen", "unending-gallery"]]) {
+      g.go("blind-exemption-hearing");
+      g.verdict(action);
+      assert.deepEqual(g.schedules.pop(), ["blind-exemption-hearing", target]);
+      g.arrive(target);
+      assert.equal(g.bridge(target), true);
+    }
+    assert.equal(g.get().hearingOutcomes.length, 3);
+    g.forget();
+    assert.equal(g.mem.has("goddead_v92_witness_liability"), false, "forget-all removes the v92 save");
+  }
+
+  /* 草稿、重复理赔、pending 生命周期、上游在途 */
+  {
+    const g = makeV92();
+    g.entry(); g.arrive("witness-liability-insurance-bureau");
+    g.event("the-door-you-knocked-open"); g.arrive("eyelid-actuarial-room");
+    g.level(4); g.level(9); g.level(-1);
+    assert.equal(g.get().draft.level, 4, "out-of-range stops are ignored");
+    g.go("witness-liability-insurance-bureau"); g.cont(); g.arrive("eyelid-actuarial-room");
+    assert.equal(g.get().draft.level, 4, "continuing the same event keeps the eyelid");
+    g.go("witness-liability-insurance-bureau"); g.event("the-prayer-you-let-burn"); g.arrive("eyelid-actuarial-room");
+    assert.deepEqual(g.get().draft, { event: "the-prayer-you-let-burn", level: 2 }, "another event resets to half-open");
+    g.abandon(); g.arrive("witness-liability-insurance-bureau");
+    assert.equal(g.get().draft.event, "", "abandoning clears the draft");
+    assert.equal(g.actuarialOk(), false);
+    const run = (level) => {
+      g.go("witness-liability-insurance-bureau"); g.event("the-door-you-knocked-open"); g.arrive("eyelid-actuarial-room");
+      g.level(level); g.policy("reverse-liability");
+    };
+    run(1);
+    g.resolve("eyelid-actuarial-room");
+    assert.equal(g.get().pending?.kind, "claim", "refreshing on the actuarial room keeps waiting");
+    g.replay("eyelid-actuarial-room");
+    assert.deepEqual(g.schedules.pop(), ["eyelid-actuarial-room", "threshold"]);
+    g.arrive("threshold"); g.arrive("threshold");
+    assert.equal(g.get().claimRuns, 1, "repeated arrival books once");
+    g.adjuster("threshold"); g.arrive("corridor");
+    assert.equal(g.get().pending, null, "wandering elsewhere cancels safely");
+    assert.ok(g.get().activeAdjuster, "the receipt survives a cancelled return");
+    g.go("threshold"); g.adjuster("threshold"); g.arrive("witness-liability-insurance-bureau");
+    const echo1 = g.els.get("wl-echo-threshold").textContent;
+    run(4); g.arrive("threshold");
+    assert.equal(g.get().claims.length, 1, "the same event and policy is collected once");
+    assert.equal(g.get().claimRuns, 2);
+    assert.equal(g.get().latestClaimByEvent["the-door-you-knocked-open"], "the-door-you-knocked-open:reverse-liability:4");
+    assert.notEqual(g.els.get("wl-echo-threshold").textContent, echo1, "a different eyelid visibly changes the old scene");
+    const h = makeV92({ v91Pending: { kind: "birth" } });
+    h.entry();
+    assert.equal(h.schedules.length, 0, "a v91 certificate in transit blocks the v92 entry");
+  }
+
+  /* 存档归一：坏 JSON、伪造 pending / 回执 / 标记 */
+  {
+    assert.equal(makeV92({ initial: "{bad" }).get().visited.bureau, false);
+    const forged = makeV92({ initial: {
+      version: 92, visited: { bureau: true, actuarial: true }, junk: 1,
+      draft: { event: "the-door-you-knocked-open", level: 7 },
+      claims: ["the-door-you-knocked-open:reverse-liability", "the-door-you-knocked-open:reverse-liability", "nope"],
+      hearingOutcomes: ["made-up"], claimRuns: "3", levelMarks: { closed: true, open: "yes" },
+      latestClaimByEvent: { "the-door-you-knocked-open": "the-door-you-knocked-open:reverse-liability:2.5", "the-prayer-you-let-burn": "the-prayer-you-let-burn:shared-guardianship:4" },
+      activeAdjuster: { claim: "the-prayer-you-let-burn:shared-guardianship:4" },
+      pending: { kind: "claim", event: "the-door-you-knocked-open", level: 2, policy: "reverse-liability", claim: "the-door-you-knocked-open:reverse-liability:2", source: "eyelid-actuarial-room", target: "offering", feedback: "x" },
+    } }).get();
+    assert.equal("junk" in forged, false);
+    assert.equal(forged.draft.level, 2, "an impossible eyelid falls back to half-open");
+    assert.deepEqual(forged.claims, ["the-door-you-knocked-open:reverse-liability"]);
+    assert.deepEqual(forged.hearingOutcomes, []);
+    assert.equal(forged.claimRuns, 3);
+    assert.deepEqual(forged.levelMarks, { closed: true, open: false });
+    assert.equal(forged.latestClaimByEvent["the-door-you-knocked-open"], "", "a fractional eyelid is rejected");
+    assert.equal(forged.latestClaimByEvent["the-prayer-you-let-burn"], "", "a latest claim never collected is rejected");
+    assert.equal(forged.activeAdjuster, null, "a receipt for an uncollected policy is dropped");
+    assert.equal(forged.pending, null, "a claim pending to the wrong scene is rejected");
+    assert.equal(makeV92({ initial: { version: 92, visited: { hearing: true } } }).hearingOk(), false, "a visited flag alone cannot open the hearing");
   }
 }
 

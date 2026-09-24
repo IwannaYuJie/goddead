@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=91">
+  <link rel="stylesheet" href="styles.css?v=92">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -194,6 +194,15 @@
               <p class="harm-reconstructor-response" id="harm-reconstructor-response-threshold" aria-live="polite"></p>
               <button class="harm-reconstructor-return" id="harm-reconstructor-return-threshold" type="button" hidden data-hover>跟疼痛复原员返回考古局 · RETURN WITH THE PAIN RECONSTRUCTOR ⟶</button>
             </div>
+          <!-- v92 门槛理赔回执与记忆 -->
+          <p class="watch-memory wl-echo" id="wl-echo-threshold" hidden></p>
+          <div class="wl-adjuster reveal" id="wl-adjuster-threshold" hidden>
+            <p class="wl-adjuster-title" id="wl-adjuster-title-threshold"></p>
+            <p class="wl-adjuster-summary" id="wl-adjuster-summary-threshold"></p>
+            <p class="wl-adjuster-body" id="wl-adjuster-body-threshold"></p>
+            <p class="wl-response" id="wl-adjuster-response-threshold" aria-live="polite" hidden></p>
+            <button class="wl-action" id="wl-adjuster-return-threshold" type="button" data-hover>带着回执回到保险局 ⟶</button>
+          </div>
           <!-- v91 门槛接生回执与记忆 -->
           <p class="watch-memory late-cause-echo" id="late-cause-echo-threshold" hidden></p>
           <div class="late-cause-midwife reveal" id="late-cause-midwife-threshold" hidden>
@@ -4050,6 +4059,15 @@
             <p class="counterfactual-echo-response" id="counterfactual-echo-response-offering" aria-live="polite"></p>
             <button class="counterfactual-echo-return" id="counterfactual-echo-return-offering" type="button" data-hover>把灰中多出的一生送回纺锤 ⟶</button>
           </div>
+          <!-- v92 焚献理赔回执与记忆 -->
+          <p class="watch-memory wl-echo" id="wl-echo-offering" hidden></p>
+          <div class="wl-adjuster reveal" id="wl-adjuster-offering" hidden>
+            <p class="wl-adjuster-title" id="wl-adjuster-title-offering"></p>
+            <p class="wl-adjuster-summary" id="wl-adjuster-summary-offering"></p>
+            <p class="wl-adjuster-body" id="wl-adjuster-body-offering"></p>
+            <p class="wl-response" id="wl-adjuster-response-offering" aria-live="polite" hidden></p>
+            <button class="wl-action" id="wl-adjuster-return-offering" type="button" data-hover>带着回执回到保险局 ⟶</button>
+          </div>
           <div class="forgiveness-recorder reveal" id="forgiveness-recorder-offering" hidden>
             <p class="forgiveness-recorder-response" id="forgiveness-recorder-response-offering" aria-live="polite"></p>
             <button class="forgiveness-recorder-return" id="forgiveness-recorder-return-offering" type="button" hidden data-hover>跟赦免记录员返回填埋场 · RETURN WITH THE ABSOLUTION RECORDER ⟶</button>
@@ -4501,6 +4519,22 @@
               <p class="late-cause-response" id="late-cause-maternity-entry-response" aria-live="polite" hidden></p>
               <button class="late-cause-entry-btn" id="late-cause-custody-entry-btn" type="button" hidden data-hover>进入第一因监护法庭 · ENTER FIRST CAUSE CUSTODY COURT ⟶</button>
               <p class="late-cause-response" id="late-cause-custody-entry-response" aria-live="polite" hidden></p>
+            </div>
+          </div>
+
+          <!-- v92 目击责任保险局图鉴 -->
+          <p class="watch-memory wl-memory" id="wl-memory" hidden></p>
+          <div class="wl-codex reveal" id="wl-codex" hidden>
+            <p class="wl-kicker">BUREAU OF WITNESS LIABILITY INSURANCE · 目 击 责 任 图 鉴</p>
+            <div class="wl-grid" id="wl-codex-grid"></div>
+            <p class="wl-hints-title">闭眼豁免听证开庭条件</p>
+            <ul class="wl-hints" id="wl-hearing-hints"></ul>
+            <div class="wl-codex-entry">
+              <button class="wl-entry-btn" id="wl-liability-entry-btn" type="button" hidden data-hover>前往目击责任保险局 · GO TO THE BUREAU OF WITNESS LIABILITY ⟶</button>
+              <p class="wl-note" id="wl-entry-note" hidden></p>
+              <p class="wl-response" id="wl-liability-entry-response" aria-live="polite" hidden></p>
+              <button class="wl-entry-btn" id="wl-hearing-entry-btn" type="button" hidden data-hover>进入闭眼豁免听证庭 · ENTER THE BLIND EXEMPTION HEARING ⟶</button>
+              <p class="wl-response" id="wl-hearing-entry-response" aria-live="polite" hidden></p>
             </div>
           </div>
 
@@ -7118,6 +7152,15 @@
             <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
             <button class="late-cause-action" id="late-cause-continue" type="button" hidden data-hover>继续登记 ⟶</button>
           </nav>
+          <!-- v92 助产院理赔回执与记忆 -->
+          <p class="watch-memory wl-echo" id="wl-echo-late-cause-maternity-ward" hidden></p>
+          <div class="wl-adjuster reveal" id="wl-adjuster-late-cause-maternity-ward" hidden>
+            <p class="wl-adjuster-title" id="wl-adjuster-title-late-cause-maternity-ward"></p>
+            <p class="wl-adjuster-summary" id="wl-adjuster-summary-late-cause-maternity-ward"></p>
+            <p class="wl-adjuster-body" id="wl-adjuster-body-late-cause-maternity-ward"></p>
+            <p class="wl-response" id="wl-adjuster-response-late-cause-maternity-ward" aria-live="polite" hidden></p>
+            <button class="wl-action" id="wl-adjuster-return-late-cause-maternity-ward" type="button" data-hover>带着回执回到保险局 ⟶</button>
+          </div>
         </div>
       </section>
 
@@ -7165,6 +7208,90 @@
           </figure>
           <p class="branch-response late-cause-response" id="first-cause-custody-court-response" aria-live="polite" hidden></p>
           <nav class="scene-exits reveal" aria-label="离开监护法庭">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v92 第一幕：目击责任保险局 -->
+      <section class="scene scene-branch scene-witness-liability-insurance-bureau" id="scene-witness-liability-insurance-bureau" data-scene="witness-liability-insurance-bureau" data-title="Goddead — 目击责任保险局" aria-label="目击责任保险局">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">10α / 目击责任 · BUREAU OF WITNESS LIABILITY INSURANCE</p>
+            <h2 class="sec-title">目击责任保险局</h2>
+            <p class="sec-desc">看见即抚养。本局承保一切你本可以不看的事。三个陈列柜里，放着你在这里真正看过的三件事。</p>
+          </header>
+          <figure class="branch-figure wl-figure reveal" id="witness-liability-insurance-bureau-figure">
+            <img class="branch-img wl-img" data-src="assets/v92-witness-liability-insurance-bureau.webp" alt="目击责任保险局：三个玻璃陈列柜，左边一扇透出金光的小门，中间一座冒烟的小焚献炉，右边一只放着镜子的铜摇篮" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot wl-hotspot wl-hotspot-case-left" id="wl-event-the-door-you-knocked-open" type="button" aria-label="目击事件：你敲开的门" data-hover><span class="dh-label" aria-hidden="true">你敲开的门</span></button>
+            <button class="scene-hotspot wl-hotspot wl-hotspot-case-center" id="wl-event-the-prayer-you-let-burn" type="button" aria-label="目击事件：你让它烧掉的祷词" data-hover><span class="dh-label" aria-hidden="true">烧掉的祷词</span></button>
+            <button class="scene-hotspot wl-hotspot wl-hotspot-case-right" id="wl-event-the-witness-you-let-be-born-first" type="button" aria-label="目击事件：你让它先出生的见证者" data-hover><span class="dh-label" aria-hidden="true">先出生的见证者</span></button>
+          </figure>
+          <div class="wl-dossier-wrap reveal" role="group" aria-labelledby="wl-dossier-title">
+            <h3 class="wl-dossier-title" id="wl-dossier-title">你的目击档案</h3>
+            <ul class="wl-dossier" id="wl-dossier" hidden></ul>
+          </div>
+          <p class="wl-note reveal" id="wl-bureau-note" hidden></p>
+          <p class="branch-response wl-response" id="witness-liability-insurance-bureau-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开保险局">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+            <button class="wl-action" id="wl-continue" type="button" hidden data-hover>继续投保 ⟶</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v92 第二幕：眼睑精算室 -->
+      <section class="scene scene-branch scene-eyelid-actuarial-room" id="scene-eyelid-actuarial-room" data-scene="eyelid-actuarial-room" data-title="Goddead — 眼睑精算室" aria-label="眼睑精算室">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">10β / 眼睑精算 · EYELID ACTUARIAL ROOM</p>
+            <h2 class="sec-title">眼睑精算室</h2>
+            <p class="sec-desc">精算师只问一个问题：你当时看见了多少？拨好眼睑，再选一枚印章。</p>
+          </header>
+          <figure class="branch-figure wl-figure reveal" role="img" aria-label="眼睑精算室：桌上一台铜制仪器，五扇眼睑从闭合到全开排成一排，右边立着黑、红、金三枚印章">
+            <img class="branch-img wl-img" data-src="assets/v92-eyelid-actuarial-room.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+          <div class="wl-actuarial reveal" id="wl-actuarial-panel" hidden>
+            <p class="wl-actuarial-event" id="wl-actuarial-event"></p>
+            <div class="wl-eyelid">
+              <div class="wl-eyelid-meter" id="wl-eyelid-meter" aria-hidden="true"><span class="wl-eyelid-iris"></span></div>
+              <div class="wl-eyelid-control">
+                <label class="wl-eyelid-label" for="wl-eyelid-slider">你当时看见了多少</label>
+                <input class="wl-eyelid-slider" id="wl-eyelid-slider" type="range" min="0" max="4" step="1" value="2" list="wl-eyelid-stops">
+                <datalist id="wl-eyelid-stops"><option value="0" label="闭眼"></option><option value="1" label="眯眼"></option><option value="2" label="半睁"></option><option value="3" label="注视"></option><option value="4" label="凝视"></option></datalist>
+                <ol class="wl-eyelid-ticks" aria-hidden="true"><li>闭眼</li><li>眯眼</li><li>半睁</li><li>注视</li><li>凝视</li></ol>
+                <p class="wl-eyelid-reading" id="wl-eyelid-reading" aria-live="polite"></p>
+              </div>
+            </div>
+            <p class="wl-actuarial-note" id="wl-actuarial-note" aria-live="polite"></p>
+            <div class="wl-policies">
+              <button class="wl-policy wl-policy-black" id="wl-policy-retroactive-blindness" type="button" data-hover><strong>事后闭眼险</strong><span>保单生效后，你将被追认为当时没有在看。</span><em>盖黑章投保 ⟶</em></button>
+              <button class="wl-policy wl-policy-red" id="wl-policy-shared-guardianship" type="button" data-hover><strong>共同监护险</strong><span>所有在场的目光按比例分摊抚养，包括墙上的画和门缝里的风。</span><em>盖红章投保 ⟶</em></button>
+              <button class="wl-policy wl-policy-gold" id="wl-policy-reverse-liability" type="button" data-hover><strong>反向转嫁险</strong><span>由事件抚养你：它记得你，替你长大，你只需要继续被它看见。</span><em>盖金章投保 ⟶</em></button>
+            </div>
+            <p class="wl-note" id="wl-actuarial-destination"></p>
+            <div class="wl-actions"><button class="wl-action" id="wl-abandon" type="button" data-hover>放弃这份投保</button></div>
+          </div>
+          <p class="branch-response wl-response" id="eyelid-actuarial-room-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <!-- v92 第三幕：闭眼豁免听证庭 -->
+      <section class="scene scene-branch scene-blind-exemption-hearing" id="scene-blind-exemption-hearing" data-scene="blind-exemption-hearing" data-title="Goddead — 闭眼豁免听证庭" aria-label="闭眼豁免听证庭">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">10γ / 闭眼豁免 · BLIND EXEMPTION HEARING</p>
+            <h2 class="sec-title">闭眼豁免听证庭</h2>
+            <p class="sec-desc">旁听席上没有人，只有叠好的眼罩。三份空白裁定分别压着钥匙、红线和沙漏。裁定之后仍可回来。</p>
+          </header>
+          <figure class="branch-figure wl-figure reveal" id="blind-exemption-hearing-figure">
+            <img class="branch-img wl-img" data-src="assets/v92-blind-exemption-hearing.webp" alt="闭眼豁免听证庭：环形旁听席上留着眼罩，高处刻着一只闭着的巨眼，桌上三份空白文件压着钥匙、红线轴和沙漏" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot wl-hotspot wl-hotspot-paper-left" id="wl-verdict-insure-every-eye-at-birth" type="button" aria-label="豁免裁定：每只眼睛出生即强制投保" data-hover><span class="dh-label" aria-hidden="true">出生即投保</span></button>
+            <button class="scene-hotspot wl-hotspot wl-hotspot-paper-center" id="wl-verdict-register-witnessing-as-parenthood" type="button" aria-label="豁免裁定：把目击登记为亲职" data-hover><span class="dh-label" aria-hidden="true">目击即亲职</span></button>
+            <button class="scene-hotspot wl-hotspot wl-hotspot-paper-right" id="wl-verdict-let-events-insure-against-being-seen" type="button" aria-label="豁免裁定：让事件为不被看见投保" data-hover><span class="dh-label" aria-hidden="true">事件自保</span></button>
+          </figure>
+          <p class="branch-response wl-response" id="blind-exemption-hearing-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开听证庭">
             <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
           </nav>
         </div>
@@ -7379,6 +7506,9 @@
         <a href="#late-cause-maternity-ward" id="late-cause-maternity-ward-link" hidden data-hover>09α / 倒生原因</a>
         <a href="#reverse-birth-order-registry" id="reverse-birth-order-registry-link" hidden data-hover>09β / 出生先后</a>
         <a href="#first-cause-custody-court" id="first-cause-custody-court-link" hidden data-hover>09γ / 第一因监护</a>
+        <a href="#witness-liability-insurance-bureau" id="witness-liability-insurance-bureau-link" hidden data-hover>10α / 目击责任</a>
+        <a href="#eyelid-actuarial-room" id="eyelid-actuarial-room-link" hidden data-hover>10β / 眼睑精算</a>
+        <a href="#blind-exemption-hearing" id="blind-exemption-hearing-link" hidden data-hover>10γ / 闭眼豁免</a>
 
       <a href="#three-person-republic-court" id="three-person-republic-court-link" hidden data-hover>04β / 三人共和国</a>
       <a href="#remembrance" data-hover>04 / 痕迹</a>
@@ -7387,6 +7517,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=91"></script>
+    <script src="script.js?v=92"></script>
   </body>
 </html>

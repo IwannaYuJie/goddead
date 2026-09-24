@@ -13799,3 +13799,333 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
 @media (min-width: 721px) {
   .late-cause-hotspot .dh-label { white-space: nowrap; }
 }
+
+/* ============================================================
+   v92 目击责任保险局：陈列柜、眼睑滑杆与三枚印章
+   ============================================================ */
+.wl-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  aspect-ratio: 3 / 2;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border: 1px solid rgba(154, 127, 71, 0.35);
+  background: var(--void);
+}
+
+.wl-figure .wl-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+.wl-hotspot {
+  position: absolute;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0.4rem;
+  border: 1px solid rgba(222, 217, 208, 0.18);
+  background: rgba(8, 7, 6, 0.1);
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+
+.wl-hotspot .dh-label {
+  padding: 0.2rem 0.55rem;
+  background: rgba(8, 7, 6, 0.74);
+  letter-spacing: 0.12em;
+}
+
+.wl-hotspot:hover,
+.wl-hotspot:focus-visible {
+  border-color: var(--gold);
+  background: rgba(154, 127, 71, 0.16);
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.wl-hotspot:disabled,
+.wl-hotspot[aria-pressed="true"] { border-color: var(--blood); cursor: default; outline: none; }
+.wl-hotspot.is-collected .dh-label::after { content: " ✓"; color: var(--gold); }
+
+.wl-hotspot-case-left { left: 8%; top: 37%; width: 25%; height: 46%; }
+.wl-hotspot-case-center { left: 39%; top: 37%; width: 22%; height: 46%; }
+.wl-hotspot-case-right { left: 67%; top: 37%; width: 27%; height: 46%; }
+.wl-hotspot-paper-left { left: 8%; top: 68%; width: 25%; height: 17%; }
+.wl-hotspot-paper-center { left: 38.5%; top: 68%; width: 22.5%; height: 17%; }
+.wl-hotspot-paper-right { left: 67%; top: 68%; width: 25.5%; height: 17%; }
+
+.wl-note {
+  width: min(720px, 100%);
+  margin: 0.6rem auto 0;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.wl-response { white-space: pre-line; }
+
+.wl-dossier-wrap {
+  width: min(720px, 100%);
+  margin: 0 auto;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--blood-bright);
+  background: rgba(10, 9, 8, 0.82);
+}
+
+.wl-dossier-title {
+  margin: 0 0 0.5rem;
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+}
+
+.wl-dossier {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: 0.88rem;
+  line-height: 1.9;
+}
+
+.wl-dossier strong { color: var(--bone-bright); font-weight: 500; }
+
+.wl-actuarial {
+  width: min(720px, 100%);
+  margin: 1.2rem auto 0;
+  padding: 1rem 1.1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--gold);
+  background: rgba(10, 9, 8, 0.86);
+}
+
+.wl-actuarial-event {
+  margin: 0 0 1rem;
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 0.92rem;
+  line-height: 1.8;
+}
+
+.wl-eyelid {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 1.2rem;
+  align-items: center;
+}
+
+/* 一只眼睛：上下眼睑按 --witness-open（0–1）张开 */
+.wl-eyelid-meter {
+  --witness-open: 0.5;
+  position: relative;
+  width: 120px;
+  height: 64px;
+  overflow: hidden;
+  border-radius: 50% / 50%;
+  background: radial-gradient(circle at 50% 50%, #1b1410 0 18%, #6d5226 19% 34%, #d9c89a 35% 100%);
+  box-shadow: 0 0 0 1px rgba(154, 127, 71, 0.6), 0 0 18px rgba(154, 127, 71, 0.18);
+}
+
+.wl-eyelid-meter::before,
+.wl-eyelid-meter::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: calc(50% * (1 - var(--witness-open)) + 1px);
+  background: #2a1d17;
+  transition: height 0.35s var(--ease);
+}
+
+.wl-eyelid-meter::before { top: 0; border-bottom: 2px solid var(--blood); }
+.wl-eyelid-meter::after { bottom: 0; border-top: 1px solid rgba(154, 127, 71, 0.4); }
+
+.wl-eyelid-iris { position: absolute; inset: 0; }
+
+.wl-eyelid-control { display: grid; gap: 0.4rem; }
+
+.wl-eyelid-label {
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+}
+
+.wl-eyelid-slider {
+  width: 100%;
+  min-height: 44px;
+  margin: 0;
+  accent-color: #b8914a;
+  cursor: pointer;
+}
+
+.wl-eyelid-slider:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+.wl-eyelid-ticks {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+}
+
+.wl-eyelid-reading {
+  margin: 0.2rem 0 0;
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 0.95rem;
+}
+
+.wl-actuarial-note {
+  margin: 1rem 0;
+  padding: 0.7rem 0.9rem;
+  border-left: 2px solid var(--blood-bright);
+  background: rgba(8, 7, 6, 0.6);
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 0.9rem;
+  line-height: 1.9;
+}
+
+.wl-policies {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+}
+
+.wl-policy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  min-height: 44px;
+  padding: 0.85rem;
+  border: 1px solid var(--line);
+  background: rgba(20, 16, 12, 0.8);
+  color: var(--bone);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+
+.wl-policy strong { color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.95rem; font-weight: 500; }
+.wl-policy span { font-size: 0.8rem; line-height: 1.7; }
+.wl-policy em { margin-top: auto; color: var(--gold); font-family: var(--mono); font-size: 0.68rem; font-style: normal; letter-spacing: 0.15em; }
+.wl-policy-black { border-top: 3px solid #1d1a18; }
+.wl-policy-red { border-top: 3px solid var(--blood); }
+.wl-policy-gold { border-top: 3px solid var(--gold); }
+.wl-policy.is-collected strong::after { content: " ✓"; color: var(--gold); }
+
+.wl-policy:hover:not(:disabled),
+.wl-policy:focus-visible {
+  border-color: var(--gold);
+  background: rgba(154, 127, 71, 0.14);
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.wl-policy:disabled { opacity: 0.45; cursor: default; }
+
+.wl-action,
+.wl-entry-btn {
+  min-height: 44px;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.wl-entry-btn { border-color: var(--gold); color: var(--bone-bright); }
+
+.wl-action:hover:not(:disabled),
+.wl-action:focus-visible,
+.wl-entry-btn:hover:not(:disabled),
+.wl-entry-btn:focus-visible {
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--void);
+  outline: 2px solid var(--bone-bright);
+  outline-offset: 2px;
+}
+
+.wl-action:disabled,
+.wl-entry-btn:disabled { opacity: 0.4; cursor: default; }
+
+.wl-actions { display: flex; justify-content: center; margin-top: 0.9rem; }
+
+.wl-adjuster {
+  position: relative;
+  z-index: 1;
+  width: min(720px, 100%);
+  margin: 1.5rem auto;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--blood-bright);
+  background: rgba(10, 9, 8, 0.86);
+  text-align: left;
+}
+
+.wl-adjuster-title { margin: 0 0 0.5rem; color: var(--gold); font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.18em; }
+.wl-adjuster-summary { margin: 0 0 0.5rem; color: var(--blood-bright); font-family: var(--serif-cn); font-size: 0.85rem; }
+.wl-adjuster-body { margin: 0 0 0.8rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.9rem; line-height: 1.9; }
+
+.wl-codex {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  background: var(--void-soft);
+}
+
+.wl-kicker { margin-bottom: 1.25rem; color: var(--gold); font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.15em; text-align: center; }
+.wl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+.wl-cell { min-height: 64px; padding: 0.8rem; border: 1px solid var(--line); background: var(--void); font-family: var(--mono); font-size: 0.75rem; line-height: 1.6; white-space: pre-line; text-align: center; }
+.wl-cell.is-locked { color: var(--ash); border-style: dashed; opacity: 0.6; }
+.wl-cell.is-unlocked { color: var(--bone-bright); border-color: var(--gold); background: rgba(30, 25, 20, 0.5); }
+.wl-hints-title { margin: 0 0 0.4rem; color: var(--bone); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; }
+.wl-hints { margin: 0 0 1rem; padding-left: 1.1rem; color: var(--ash); font-size: 0.82rem; line-height: 1.8; }
+.wl-hints li.is-met { color: var(--gold); }
+.wl-codex-entry { display: flex; flex-direction: column; gap: 0.6rem; align-items: center; }
+
+@media (min-width: 721px) {
+  .wl-hotspot .dh-label { white-space: nowrap; }
+}
+
+@media (max-width: 720px) {
+  .wl-figure { width: min(92vw, 520px); }
+  .wl-eyelid { grid-template-columns: 1fr; justify-items: center; }
+  .wl-eyelid-control { width: 100%; }
+  .wl-policies { grid-template-columns: 1fr; }
+  .wl-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+  .wl-hotspot .dh-label { font-size: 0.68rem; padding: 0.15rem 0.35rem; letter-spacing: 0.04em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wl-eyelid-meter::before,
+  .wl-eyelid-meter::after { transition: none; }
+}

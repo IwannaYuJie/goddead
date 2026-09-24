@@ -4,9 +4,9 @@ Static landing page for [goddead.com](https://goddead.com).
 
 ## Current Experience
 
-当前实现基线为 **v91「倒生原因助产院 / MATERNITY WARD FOR CAUSES BORN AFTER THEIR CONSEQUENCES」**：全站共 196 个 hash 场景，静态资源缓存标记为 `v=91`。v91 在 v90 三项终审集齐后开放 3 个新场景：三个家庭 × 六种出生顺序 = 18 份出生证，登记后到门外 / 痕迹室 / 无终局画廊领取接生回执；三个家庭各一份、两种亲子方向、一次见证者先出生即可开第一因监护法庭，三项监护裁定可重复进入。独立键 `goddead_v91_late_cause_maternity`，只读 v90。v90.1 起主线以外的场景图按需加载、解锁判定有缓存、痕迹室顶部有「下一步」指引。
+当前实现基线为 **v92「目击责任保险局 / BUREAU OF WITNESS LIABILITY INSURANCE」**：全站共 199 个 hash 场景，静态资源缓存标记为 `v=92`。v92 在 v91 三项监护裁定集齐后开放 3 个新场景：为玩家自己真正看过的三件事（敲开的门、烧掉的祷词、先出生的见证者；档案行读取玩家存档）投保，用五档眼睑滑杆决定“看见了多少”，三种保单 × 三件事 = 9 份；理赔回执出现在门外 / 焚献室 / 倒生原因助产院；三件事、三种保单、一次闭眼、一次凝视即可开闭眼豁免听证庭。独立键 `goddead_v92_witness_liability`，只读 v91。v91 倒生原因助产院见 `docs/V91LateCauseMaternityWardDesign.md`。
 
-完整玩家路线、支线网、v63-v91 解锁链与 v90 / v91 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
+完整玩家路线、支线网、v63-v92 解锁链与 v90–v92 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
 
 The homepage is **The Living Shrine**, a hash-routed, scene-by-scene exploration game. Visitors knock three times at the sealed threshold — now a photographed bureau door — and on the third knock the door visually opens into a deep black-gold corridor before the visitor is pulled through into the next room; each completed action thereafter advances the ritual automatically.
 
