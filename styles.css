@@ -14982,3 +14982,258 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
 @media (min-width: 721px) {
   .hb-hotspot .dh-label { white-space: nowrap; }
 }
+
+/* ============================================================
+   v97 失重局：浮着的东西、铜砝码与会倾斜的秤杆
+   ============================================================ */
+.lw-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  aspect-ratio: 3 / 2;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border: 1px solid rgba(154, 127, 71, 0.35);
+  background: var(--void);
+}
+
+.lw-figure .lw-img { display: block; width: 100%; height: 100%; object-fit: cover; -webkit-mask-image: none; mask-image: none; }
+
+.lw-hotspot {
+  position: absolute;
+  z-index: 3;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0.4rem;
+  border: 1px solid rgba(222, 217, 208, 0.18);
+  background: rgba(8, 7, 6, 0.1);
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+
+.lw-hotspot .dh-label { padding: 0.2rem 0.55rem; background: rgba(8, 7, 6, 0.74); letter-spacing: 0.1em; }
+.lw-hotspot:hover,
+.lw-hotspot:focus-visible { border-color: var(--gold); background: rgba(154, 127, 71, 0.16); outline: 2px solid var(--gold); outline-offset: 2px; }
+.lw-hotspot:disabled,
+.lw-hotspot[aria-pressed="true"] { border-color: var(--blood); cursor: default; outline: none; }
+.lw-hotspot.is-collected .dh-label::after { content: " ✓"; color: var(--gold); }
+
+.lw-hotspot-left { left: 9.5%; top: 27%; width: 19%; height: 39%; }
+.lw-hotspot-center { left: 40%; top: 27%; width: 19.5%; height: 39%; }
+.lw-hotspot-right { left: 71%; top: 27%; width: 19%; height: 39%; }
+.lw-hotspot-court-left { left: 8%; top: 70%; width: 19%; height: 16%; }
+.lw-hotspot-court-center { left: 43%; top: 63%; width: 14%; height: 22%; }
+.lw-hotspot-court-right { left: 70%; top: 71%; width: 23%; height: 15%; }
+
+/* 秤杆：画在图中天平立柱的轴心上（原图 (767, 340)），随砝码倾斜；秤盘始终竖直垂下 */
+.lw-figure { container-type: inline-size; }
+.lw-beam {
+  --lw-tilt: 0deg;
+  position: absolute;
+  left: 20%;
+  top: 33.2%;
+  z-index: 3;
+  width: 60%;
+  height: 0;
+  pointer-events: none;
+}
+
+.lw-beam-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -3px;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(#e6c27a, #8a6a33);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+  transform: rotate(var(--lw-tilt));
+  transition: transform 0.6s cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+
+.lw-pan {
+  position: absolute;
+  top: 3px;
+  width: 22cqw;
+  height: 22cqw;
+  margin-left: -11cqw;
+  transform-origin: 50% 0;
+  transform: rotate(calc(var(--lw-tilt) * -1));
+  transition: transform 0.6s cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+
+.lw-pan-left { left: 3%; }
+.lw-pan-right { left: 97%; }
+.lw-pan::before {
+  content: "";
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  top: 0;
+  bottom: 18%;
+  background:
+    linear-gradient(to bottom right, transparent calc(50% - 1px), rgba(230, 194, 122, 0.75) 50%, transparent calc(50% + 1px)) left / 50% 100% no-repeat,
+    linear-gradient(to bottom left, transparent calc(50% - 1px), rgba(230, 194, 122, 0.75) 50%, transparent calc(50% + 1px)) right / 50% 100% no-repeat;
+}
+
+.lw-pan::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 18%;
+  border-radius: 0 0 50% 50% / 0 0 100% 100%;
+  background: linear-gradient(#d8b36a, #6e5226);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+.lw-pan b {
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  bottom: 22%;
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 0.78rem;
+  font-weight: normal;
+  letter-spacing: 0.1em;
+  text-align: center;
+  text-shadow: 0 1px 3px #000, 0 0 8px #000;
+}
+
+.lw-beam.is-level .lw-beam-bar { box-shadow: 0 0 14px rgba(230, 194, 122, 0.8); }
+
+.lw-balance-status {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4%;
+  z-index: 4;
+  margin: 0;
+  padding: 0 1rem;
+  color: var(--bone-bright);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-shadow: 0 1px 3px #000, 0 0 8px #000;
+  pointer-events: none;
+}
+
+/* 砝码：可多选的铜块按钮 */
+.lw-weights { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; margin-top: 1rem; }
+.lw-weight {
+  min-height: 44px;
+  padding: 0.4rem;
+  border: 1px solid var(--line);
+  border-radius: 10px 10px 4px 4px;
+  background: rgba(20, 16, 12, 0.8);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.lw-weight[aria-pressed="true"] { border-color: #e6c27a; background: linear-gradient(#c9a35b, #7a5c2a); color: var(--void); }
+.lw-weight:hover:not(:disabled),
+.lw-weight:focus-visible { border-color: var(--gold); outline: 2px solid var(--gold); outline-offset: 2px; }
+.lw-weight:disabled { opacity: 0.45; cursor: default; }
+.lw-pan-total { margin: 0.6rem 0 0; color: #e6c27a; font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.12em; text-align: center; }
+
+.lw-note { width: min(720px, 100%); margin: 0.6rem auto 0; color: var(--ash); font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; line-height: 1.8; text-align: center; }
+.lw-response { white-space: pre-line; }
+
+.lw-panel {
+  width: min(720px, 100%);
+  margin: 1.2rem auto 0;
+  padding: 1rem 1.1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--gold);
+  background: rgba(10, 9, 8, 0.86);
+}
+
+.lw-panel-thing { margin: 0 0 1rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.92rem; line-height: 1.8; }
+.lw-methods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+
+.lw-method {
+  min-height: 44px;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  background: rgba(20, 16, 12, 0.8);
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.lw-method[aria-pressed="true"] { border-color: var(--gold); color: var(--bone-bright); background: rgba(154, 127, 71, 0.18); }
+.lw-method.is-collected::after { content: " ✓"; color: var(--gold); }
+.lw-method:hover:not(:disabled),
+.lw-method:focus-visible { border-color: var(--gold); outline: 2px solid var(--gold); outline-offset: 2px; }
+.lw-method:disabled { opacity: 0.45; cursor: default; }
+
+.lw-action,
+.lw-entry-btn {
+  min-height: 44px;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.lw-entry-btn,
+.lw-drop { border-color: var(--gold); color: var(--bone-bright); }
+.lw-action:hover:not(:disabled),
+.lw-action:focus-visible,
+.lw-entry-btn:hover:not(:disabled),
+.lw-entry-btn:focus-visible { border-color: var(--gold); background: var(--gold); color: var(--void); outline: 2px solid var(--bone-bright); outline-offset: 2px; }
+.lw-action:disabled,
+.lw-entry-btn:disabled { opacity: 0.4; cursor: default; }
+.lw-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; margin-top: 0.9rem; }
+
+.lw-weigher,
+.lw-echo { grid-column: 1 / -1; justify-self: center; width: min(720px, 100%); }
+.lw-weigher { position: relative; z-index: 1; margin: 1.5rem auto; padding: 1rem 1.1rem; border: 1px solid var(--line); border-left: 2px solid #b8914f; background: rgba(10, 9, 8, 0.86); text-align: left; }
+.lw-weigher-title { margin: 0 0 0.4rem; color: var(--gold); font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.18em; }
+.lw-weigher-level { margin: 0 0 0.4rem; color: #e6c27a; font-family: var(--serif-cn); font-size: 1rem; }
+.lw-weigher-body { margin: 0 0 0.8rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.9rem; line-height: 1.9; }
+
+.lw-codex { position: relative; z-index: 1; max-width: 760px; margin: 2rem auto; padding: 1.5rem; border: 1px solid var(--line); background: var(--void-soft); }
+.lw-kicker { margin-bottom: 1.25rem; color: var(--gold); font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.15em; text-align: center; }
+.lw-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+.lw-cell { min-height: 64px; padding: 0.8rem; border: 1px solid var(--line); background: var(--void); font-family: var(--mono); font-size: 0.75rem; line-height: 1.6; white-space: pre-line; text-align: center; }
+.lw-cell.is-locked { color: var(--ash); border-style: dashed; opacity: 0.6; }
+.lw-cell.is-unlocked { color: var(--bone-bright); border-color: var(--gold); background: rgba(30, 25, 20, 0.5); }
+.lw-hints-title { margin: 0 0 0.4rem; color: var(--bone); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; }
+.lw-hints { margin: 0 0 1rem; padding-left: 1.1rem; color: var(--ash); font-size: 0.82rem; line-height: 1.8; }
+.lw-hints li.is-met { color: var(--gold); }
+.lw-codex-entry { display: flex; flex-direction: column; gap: 0.6rem; align-items: center; }
+
+@media (max-width: 720px) {
+  .lw-figure { width: min(92vw, 520px); }
+  .lw-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+  .lw-hotspot .dh-label { font-size: 0.64rem; padding: 0.12rem 0.3rem; letter-spacing: 0.02em; }
+  .lw-methods { grid-template-columns: 1fr; }
+  .lw-balance-status { font-size: 0.64rem; letter-spacing: 0.04em; }
+  .lw-pan b { font-size: 0.64rem; letter-spacing: 0.02em; }
+  .lw-weights { gap: 0.3rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lw-beam-bar,
+  .lw-pan { transition: none; }
+}
+
+@media (min-width: 721px) {
+  .lw-hotspot .dh-label { white-space: nowrap; }
+}

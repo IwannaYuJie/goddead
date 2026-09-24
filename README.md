@@ -4,9 +4,9 @@ Static landing page for [goddead.com](https://goddead.com).
 
 ## Current Experience
 
-当前实现基线为 **v96「屏息当铺 / PAWNSHOP OF HELD BREATH」**：全站共 211 个 hash 场景，静态资源缓存标记为 `v=96`。v96 在 v95 三项听证集齐后开放 3 个新场景：三只封着最后一口气的玻璃瓶（走廊 / 余响交换台 / 无主投递所，长短不同），在风箱柜台按住风箱（键盘按住空格），压力表升进金色区间时松手（原样还给他 / 只还一半 / 替他屏住），赎回的气送回原房间签收；三口气、三种赎法都用过即开最后一口气法庭。独立键 `goddead_v96_held_breath`。v91–v95 见 `docs/` 下对应设计文档。
+当前实现基线为 **v97「失重局 / BUREAU OF LOST WEIGHT」**：全站共 214 个 hash 场景，静态资源缓存标记为 `v=97`。v97 在 v96 三项裁定集齐后开放 3 个新场景：回声 / 脉搏 / 忏悔三样丢了分量的东西，在天平室勾选铜砝码（1、2、4、8、16 两）让秤杆放平再落秤（称回原重 / 加倍奉还 / 补足一斤，旧秤一斤十六两），称单送回回声档案室 / 血管维修井 / 忏悔称量室签收；三样东西、三种称法都用过即开足斤法庭。独立键 `goddead_v97_lost_weight`。v91–v96 见 `docs/` 下对应设计文档。
 
-完整玩家路线、支线网、v63-v96 解锁链与 v90–v96 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
+完整玩家路线、支线网、v63-v97 解锁链与 v90–v97 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
 
 The homepage is **The Living Shrine**, a hash-routed, scene-by-scene exploration game. Visitors knock three times at the sealed threshold — now a photographed bureau door — and on the third knock the door visually opens into a deep black-gold corridor before the visitor is pulled through into the next room; each completed action thereafter advances the ritual automatically.
 

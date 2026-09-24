@@ -1390,6 +1390,8 @@ document.addEventListener("DOMContentLoaded", () => {
     replayStoppedClockPending(name);
     resolveHeldBreathPendingOnArrival(name);
     replayHeldBreathPending(name);
+    resolveLostWeightPendingOnArrival(name);
+    replayLostWeightPending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1453,7 +1455,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const beliefGuard = getBelief();
     if (BRANCH_SCENES.includes(target) && !branchState.visited[target] && AUDIT_BRANCH_OUTCOME[target] !== auditGuardState.outcome
       && beliefGuard.pendingTarget !== target && !(BELIEF_SCENE_BRANCH[target] && beliefGuard.branches[BELIEF_SCENE_BRANCH[target]].visits > 0) && !innocentWitnessProtectionBridgeAllows(target)
-      && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target)) target = "corridor";
+      && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !lostWeightBridgeAllows(target)) target = "corridor";
 
     /* v33 结果房守卫：仅本轮 outcome 对应或曾到访时允许直达，否则规范化回复核科；
        复核科本身不设守卫，直接 hash 采用 neutral 顺序。
@@ -1533,9 +1535,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
@@ -1549,7 +1551,7 @@ document.addEventListener("DOMContentLoaded", () => {
        v88 窄桥：title-action 可抵达 unending-gallery；
        v89 窄桥：appeal-action 可抵达 unending-gallery；
        v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1754,6 +1756,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "held-breath-pawnshop" && !hbCounterCanVisit()) target = "remembrance";
     if (target === "bellows-counter" && !bellowsCounterCanVisit()) target = "remembrance";
     if (target === "tribunal-of-the-last-breath" && !hbCourtCanVisit()) target = "remembrance";
+
+    /* v97 失重局：未解锁或无合法抵达时一律回痕迹室 */
+    if (target === "bureau-of-lost-weight" && !lwBureauCanVisit()) target = "remembrance";
+    if (target === "balance-room" && !balanceRoomCanVisit()) target = "remembrance";
+    if (target === "court-of-full-weight" && !lwCourtCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -47985,6 +47992,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetReturnedKnocksState();
       forgetStoppedClocksState();
       forgetHeldBreathState();
+      forgetLostWeightState();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
       if (firstDraftVaultResponse) firstDraftVaultResponse.textContent = "";
@@ -52487,6 +52495,716 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  /* ============================================================
+     v97 失重局 / BUREAU OF LOST WEIGHT
+     v96 把气还了回去，可神死以后东西都轻了一点。失重局收了三样丢了分量的东西：回声、脉搏、忏悔。
+     三样东西 × 三种称法 = 9 张称单；在天平上勾选铜砝码（1、2、4、8、16 两），秤杆放平了再落秤。
+     只读 v96；独立键 goddead_v97_lost_weight；所有新操作只接受真实点击。
+     ============================================================ */
+  const LOST_WEIGHT_KEY = 'goddead_v97_lost_weight';
+  const LOST_WEIGHT_VERSION = 97;
+  const LW_BUREAU = 'bureau-of-lost-weight';
+  const LW_BALANCE = 'balance-room';
+  const LW_COURT = 'court-of-full-weight';
+  const LW_THINGS = ['lost-echo', 'lost-pulse', 'lost-confession'];
+  const LW_THING_TABLE = {
+    'lost-echo': {
+      title: '回声', weight: 7, target: 'echo', place: '回声档案室', weigherTitle: '回声秤手',
+      feedback: '一只海螺浮在绒垫上方。它原本重七两，是回声档案室里最后一句没人应的话。',
+      echoLead: '回声档案室的抽屉里压着一张称单。',
+    },
+    'lost-pulse': {
+      title: '脉搏', weight: 5, target: 'vein', place: '血管维修井', weigherTitle: '脉搏秤手',
+      feedback: '心形小瓶里一点红光，一跳一跳，却压不住绒垫。它原本重五两，是血管维修井里停掉的那一下。',
+      echoLead: '血管维修井的阀门上挂着一张称单。',
+    },
+    'lost-confession': {
+      title: '忏悔', weight: 9, target: 'confession', place: '忏悔称量室', weigherTitle: '忏悔秤手',
+      feedback: '一封封蜡的信飘着，忏悔称量室的秤一直称不出它。它原本重九两。',
+      echoLead: '忏悔称量室的秤盘里放着一张称单。',
+    },
+  };
+  const LW_METHODS = ['restore', 'double', 'fill'];
+  const LW_METHOD_TABLE = {
+    restore: { title: '称回原重', hint: '砝码加起来等于它原来的重量。', result: '它落回绒垫上，发出一声很轻的响。原来它一直在等这一声。' },
+    double: { title: '加倍奉还', hint: '砝码加起来是它原重的两倍。', result: '它比从前重了一倍，沉得几乎拿不起来。它说这样才记得住。' },
+    fill: { title: '补足一斤', hint: '旧秤一斤十六两：补上它离一斤还差的分量。', result: '它和补上的分量加在一起，正好一斤。秤手说，差的那部分本来就该是别人的。' },
+  };
+  const LW_WEIGHING_IDS = [];
+  LW_THINGS.forEach((thing) => LW_METHODS.forEach((method) => LW_WEIGHING_IDS.push(`${thing}:${method}`)));
+  const LW_VERDICT_ACTIONS = ['weigh-the-living-too', 'keep-the-scale-for-god', 'let-weightless-things-float'];
+  const LW_VERDICT_TABLE = {
+    'weigh-the-living-too': {
+      title: '活人也要过秤', outcome: 'the-living-were-weighed', target: 'threshold',
+      feedback: '法庭裁定：进门的人也要过秤。门外多了一块踏板，你踩上去，它记下了你今天的分量。',
+    },
+    'keep-the-scale-for-god': {
+      title: '把秤留给神', outcome: 'the-scale-kept-for-god', target: 'remembrance',
+      feedback: '法庭把天平挂在痕迹室，一边空着。那一边留给神，等它哪天回来称一称这里。',
+    },
+    'let-weightless-things-float': {
+      title: '让失重的东西浮着', outcome: 'weightless-things-float', target: 'unending-gallery',
+      feedback: '法庭准许失重的东西继续浮着。画廊里的空框轻轻离开墙面，悬在半空，谁也不再往下掉。',
+    },
+  };
+  const LW_VERDICT_OUTCOME_IDS = LW_VERDICT_ACTIONS.map((a) => LW_VERDICT_TABLE[a].outcome);
+  const LW_ENTRY_FEEDBACK = '失重局的门比看上去轻，一推就开。架子上三只玻璃罩，里面的东西都浮着。';
+  const LW_ABANDON_FEEDBACK = '你把它放回玻璃罩。它又慢慢浮了起来。';
+  const LW_COURT_ENTRY_FEEDBACK = '三样东西都称过了。穹顶上那架大天平第一次动了一下。';
+  const LW_WEIGHER_RETURN_FEEDBACK = '秤手把称单夹进账本，领你回到失重局。';
+  const LW_OLD_TARGETS = ['echo', 'vein', 'confession'];
+  const LW_WEIGHTS = [1, 2, 4, 8, 16];
+
+  function lwDelay() {
+    return reduced ? 300 : 1400;
+  }
+
+  /* 某样东西在某种称法下，砝码应加到的两数 */
+  function lwTargetWeight(thing, method) {
+    const w = LW_THING_TABLE[thing].weight;
+    if (method === 'double') return w * 2;
+    if (method === 'fill') return 16 - w;
+    return w;
+  }
+
+  /* 纯函数：一组砝码（两数）的合计；非法砝码、重复砝码一律作废 */
+  function lwPanTotal(weights) {
+    if (!Array.isArray(weights)) return NaN;
+    const seen = new Set();
+    let total = 0;
+    for (const w of weights) {
+      if (!LW_WEIGHTS.includes(w) || seen.has(w)) return NaN;
+      seen.add(w);
+      total += w;
+    }
+    return total;
+  }
+
+  /* 纯函数：秤杆倾角（度）。砝码盘重则往右沉，每两 3°，限幅 ±15° */
+  function lwBeamAngle(total, target) {
+    if (!Number.isFinite(total)) return 0;
+    return Math.max(-15, Math.min(15, (total - target) * 3));
+  }
+
+  function lwWeighFeedback(thing, method) {
+    return `${LW_THING_TABLE[thing].title}：${LW_METHOD_TABLE[method].result}`;
+  }
+
+  function defaultLostWeight() {
+    const latest = {};
+    LW_THINGS.forEach((b) => { latest[b] = ''; });
+    return {
+      version: LOST_WEIGHT_VERSION,
+      visited: { bureau: false, balance: false, court: false },
+      draft: { thing: '', method: 'restore' },
+      weighings: [],
+      courtOutcomes: [],
+      weighingRuns: 0,
+      courtRuns: 0,
+      latestMethodByThing: latest,
+      lastOutcome: '',
+      activeWeigher: null,
+      pending: null,
+    };
+  }
+
+  function clampLwCount(n) {
+    const v = Math.floor(Number(n));
+    return Number.isFinite(v) ? Math.min(9999, Math.max(0, v)) : 0;
+  }
+
+  function normalizeLostWeight(raw) {
+    const d = defaultLostWeight();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== LOST_WEIGHT_VERSION) return d;
+    const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
+    d.visited = { bureau: v.bureau === true, balance: v.balance === true, court: v.court === true };
+    const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
+    d.draft = { thing: LW_THINGS.includes(dr.thing) ? dr.thing : '', method: LW_METHODS.includes(dr.method) ? dr.method : 'restore' };
+    const weighings = new Set(Array.isArray(raw.weighings) ? raw.weighings : []);
+    d.weighings = LW_WEIGHING_IDS.filter((id) => weighings.has(id));
+    const outcomes = new Set(Array.isArray(raw.courtOutcomes) ? raw.courtOutcomes : []);
+    d.courtOutcomes = LW_VERDICT_OUTCOME_IDS.filter((id) => outcomes.has(id));
+    d.weighingRuns = clampLwCount(raw.weighingRuns);
+    d.courtRuns = clampLwCount(raw.courtRuns);
+    const latest = raw.latestMethodByThing && typeof raw.latestMethodByThing === 'object' ? raw.latestMethodByThing : {};
+    LW_THINGS.forEach((b) => {
+      d.latestMethodByThing[b] = LW_METHODS.includes(latest[b]) && d.weighings.includes(`${b}:${latest[b]}`) ? latest[b] : '';
+    });
+    if (typeof raw.lastOutcome === 'string' && (d.weighings.includes(raw.lastOutcome) || d.courtOutcomes.includes(raw.lastOutcome))) d.lastOutcome = raw.lastOutcome;
+    const a = raw.activeWeigher;
+    if (a && typeof a === 'object' && !Array.isArray(a) && Object.keys(a).length === 1 && d.weighings.includes(a.weighing)) d.activeWeigher = { weighing: a.weighing };
+    d.pending = normalizeLwPending(raw.pending, d);
+    return d;
+  }
+
+  function lwCourtProgress(st) {
+    const things = new Set();
+    const methods = new Set();
+    st.weighings.forEach((id) => {
+      const [thing, method] = id.split(':');
+      things.add(thing);
+      methods.add(method);
+    });
+    return { things: things.size, methods: methods.size };
+  }
+
+  function lwCourtEligible(st) {
+    const p = lwCourtProgress(st);
+    return p.things === LW_THINGS.length && p.methods === LW_METHODS.length;
+  }
+
+  function expectedLwPending(p, st) {
+    const clean = !st.activeWeigher;
+    switch (p.kind) {
+      case 'entry':
+        return clean ? { feedback: LW_ENTRY_FEEDBACK, kind: 'entry', target: LW_BUREAU } : null;
+      case 'thing': {
+        const b = LW_THING_TABLE[p.thing];
+        if (!b || !clean) return null;
+        return { thing: p.thing, feedback: b.feedback, kind: 'thing', source: LW_BUREAU, target: LW_BALANCE };
+      }
+      case 'weigh': {
+        const b = LW_THING_TABLE[p.thing];
+        if (!b || !LW_METHOD_TABLE[p.method] || !clean || st.draft.thing !== p.thing || st.draft.method !== p.method) return null;
+        return { thing: p.thing, feedback: lwWeighFeedback(p.thing, p.method), kind: 'weigh', method: p.method, weighing: `${p.thing}:${p.method}`, source: LW_BALANCE, target: b.target };
+      }
+      case 'abandon':
+        return st.draft.thing ? { feedback: LW_ABANDON_FEEDBACK, kind: 'abandon', source: LW_BALANCE, target: LW_BUREAU } : null;
+      case 'weigher-return': {
+        if (!st.activeWeigher) return null;
+        const thing = st.activeWeigher.weighing.split(':')[0];
+        return { feedback: LW_WEIGHER_RETURN_FEEDBACK, from: LW_THING_TABLE[thing].target, kind: 'weigher-return', weighing: st.activeWeigher.weighing, target: LW_BUREAU };
+      }
+      case 'court-entry':
+        return clean && lwCourtEligible(st) ? { feedback: LW_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: LW_COURT } : null;
+      case 'verdict': {
+        const a = LW_VERDICT_TABLE[p.action];
+        if (!a || !clean || !st.visited.court || !lwCourtEligible(st)) return null;
+        return { action: p.action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: LW_COURT, target: a.target };
+      }
+      default:
+        return null;
+    }
+  }
+
+  function normalizeLwPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+    const expected = expectedLwPending(p, st);
+    if (!expected) return null;
+    const keys = Object.keys(p).sort();
+    const want = Object.keys(expected).sort();
+    if (keys.length !== want.length || keys.some((k, i) => k !== want[i] || p[k] !== expected[k])) return null;
+    return expected;
+  }
+
+  function lostWeightUnlocked() {
+    const compute = () => {
+      if (!heldBreathUnlocked()) return false;
+      const v96 = getHeldBreath();
+      return hbCourtEligible(v96) && HB_VERDICT_OUTCOME_IDS.every((o) => v96.courtOutcomes.includes(o));
+    };
+    return store.memo ? store.memo("lostWeightUnlocked", compute) : compute();
+  }
+
+  function getLostWeight() {
+    if (!lostWeightUnlocked()) return defaultLostWeight();
+    let raw;
+    try { raw = JSON.parse(store.get(LOST_WEIGHT_KEY, '{}')); } catch { return defaultLostWeight(); }
+    return normalizeLostWeight(raw);
+  }
+
+  function saveLostWeight(st) {
+    if (!lostWeightUnlocked()) return defaultLostWeight();
+    const canonical = normalizeLostWeight(Object.assign({}, st, { version: LOST_WEIGHT_VERSION }));
+    store.set(LOST_WEIGHT_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function lwPendingLogicalSource(p) {
+    if (!p) return '';
+    if (p.kind === 'entry' || p.kind === 'court-entry') return 'remembrance';
+    if (p.kind === 'weigher-return') return p.from;
+    return p.source || '';
+  }
+
+  function resolveLostWeightPendingOnArrival(sceneName) {
+    const st = getLostWeight();
+    const p = st.pending;
+    if (!p) return st;
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.bureau = true;
+      } else if (p.kind === 'thing') {
+        st.visited.balance = true;
+        st.draft = { thing: p.thing, method: st.draft.thing === p.thing ? st.draft.method : 'restore' };
+      } else if (p.kind === 'weigh') {
+        st.weighingRuns = clampLwCount(st.weighingRuns + 1);
+        if (!st.weighings.includes(p.weighing)) st.weighings = st.weighings.concat(p.weighing);
+        st.latestMethodByThing[p.thing] = p.method;
+        st.lastOutcome = p.weighing;
+        st.activeWeigher = { weighing: p.weighing };
+        st.draft = { thing: '', method: 'restore' };
+      } else if (p.kind === 'abandon') {
+        st.draft = { thing: '', method: 'restore' };
+        st.visited.bureau = true;
+      } else if (p.kind === 'weigher-return') {
+        st.activeWeigher = null;
+        st.visited.bureau = true;
+      } else if (p.kind === 'court-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'verdict') {
+        st.courtRuns = clampLwCount(st.courtRuns + 1);
+        if (!st.courtOutcomes.includes(p.outcome)) st.courtOutcomes = st.courtOutcomes.concat(p.outcome);
+        st.lastOutcome = p.outcome;
+      }
+      return saveLostWeight(st);
+    }
+    if (sceneName === lwPendingLogicalSource(p)) return st;
+    st.pending = null;
+    return saveLostWeight(st);
+  }
+
+  const LW_RESPONSE_BY_KIND = {
+    entry: '#lw-entry-response',
+    thing: '#bureau-of-lost-weight-response',
+    weigh: '#balance-room-response',
+    abandon: '#balance-room-response',
+    'court-entry': '#lw-court-entry-response',
+    verdict: '#court-of-full-weight-response',
+  };
+
+  function showLwResponse(selector, text) {
+    const el = $(selector);
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = !text;
+  }
+
+  function syncLostWeightAll() {
+    syncLwBureau();
+    syncBalanceRoom();
+    syncLwCourt();
+    syncLwWeighers();
+    syncLwEchoes();
+    syncLwRemembrance();
+    syncLwLinks();
+  }
+
+  function replayLostWeightPending(sceneName) {
+    const st = getLostWeight();
+    const p = st.pending;
+    if (p && p.target === sceneName) resolveLostWeightPendingOnArrival(sceneName);
+    else if (p && sceneName === lwPendingLogicalSource(p)) {
+      syncLostWeightAll();
+      const selector = p.kind === 'weigher-return' ? `#lw-weigher-response-${p.from}` : LW_RESPONSE_BY_KIND[p.kind];
+      if (selector) showLwResponse(selector, p.feedback);
+      AutoAdvance.schedule(sceneName, p.target, { delay: lwDelay() });
+      return;
+    } else if (p) {
+      st.pending = null;
+      saveLostWeight(st);
+    }
+    syncLostWeightAll();
+  }
+
+  function launchLw(scene, buttonId, pending, responseSelector) {
+    const st = getLostWeight();
+    st.pending = pending;
+    const saved = saveLostWeight(st);
+    if (!saved.pending) return false;
+    const btn = buttonId ? $(`#${buttonId}`) : null;
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+    if (AudioEngine.whoosh) AudioEngine.whoosh();
+    syncLostWeightAll();
+    showLwResponse(responseSelector, pending.feedback);
+    AutoAdvance.schedule(scene, pending.target, { delay: lwDelay() });
+    return true;
+  }
+
+  function lwReady(scene, buttonId) {
+    if (currentScene !== scene) return null;
+    if (AutoAdvance.has(scene)) return null;
+    if (buttonId && !buttonAvailable(buttonId)) return null;
+    if (!lostWeightUnlocked()) return null;
+    const st = getLostWeight();
+    return st.pending ? null : st;
+  }
+
+  function chooseLwEntry() {
+    const st = lwReady('remembrance', 'lw-entry-btn');
+    if (!st || st.activeWeigher) return;
+    if (getHeldBreath().pending) return;
+    launchLw('remembrance', 'lw-entry-btn', { feedback: LW_ENTRY_FEEDBACK, kind: 'entry', target: LW_BUREAU }, '#lw-entry-response');
+  }
+
+  function chooseLwThing(thing) {
+    const b = LW_THING_TABLE[thing];
+    if (!b) return;
+    const st = lwReady(LW_BUREAU, `lw-thing-${thing}`);
+    if (!st || st.activeWeigher) return;
+    launchLw(LW_BUREAU, `lw-thing-${thing}`, { thing, feedback: b.feedback, kind: 'thing', source: LW_BUREAU, target: LW_BALANCE }, '#bureau-of-lost-weight-response');
+  }
+
+  function chooseLwMethod(method) {
+    if (!LW_METHOD_TABLE[method]) return;
+    const st = lwReady(LW_BALANCE, `lw-method-${method}`);
+    if (!st || !st.draft.thing || !st.visited.balance || st.draft.method === method) return;
+    st.draft.method = method;
+    saveLostWeight(st);
+    syncBalanceRoom();
+  }
+
+  /* 天平：砝码只放在内存里；换一样东西时清盘，落秤时秤平才写 pending */
+  const lwPan = new Set();
+  let lwPanThing = '';
+
+  function lwPanList() {
+    return LW_WEIGHTS.filter((w) => lwPan.has(w));
+  }
+
+  function paintLwBalance(message) {
+    const st = getLostWeight();
+    const beam = $('#lw-beam');
+    const status = $('#lw-balance-status');
+    const total = lwPanTotal(lwPanList());
+    if (!st.draft.thing) {
+      if (beam && beam.style && beam.style.setProperty) beam.style.setProperty('--lw-tilt', '0deg');
+      if (status) status.textContent = '';
+      return;
+    }
+    const target = lwTargetWeight(st.draft.thing, st.draft.method);
+    const angle = lwBeamAngle(total, target);
+    if (beam) {
+      if (beam.style && beam.style.setProperty) beam.style.setProperty('--lw-tilt', `${angle}deg`);
+      beam.classList.toggle('is-level', total === target);
+      beam.setAttribute('aria-label', `秤杆：砝码 ${total} 两，${total === target ? '已放平' : total > target ? '砝码一侧往下沉' : '东西一侧往下沉'}`);
+    }
+    LW_WEIGHTS.forEach((w) => {
+      const btn = $(`#lw-weight-${w}`);
+      if (btn) btn.setAttribute('aria-pressed', lwPan.has(w) ? 'true' : 'false');
+    });
+    const sum = $('#lw-pan-total');
+    if (sum) sum.textContent = `砝码盘：${total} 两`;
+    if (status) status.textContent = message || (total === target ? '秤杆平了，可以落秤。' : total > target ? '砝码一侧往下沉。' : '东西那一侧还轻。');
+  }
+
+  function toggleLwWeight(w) {
+    if (!LW_WEIGHTS.includes(w)) return;
+    const st = lwReady(LW_BALANCE, `lw-weight-${w}`);
+    if (!st || !st.draft.thing || st.activeWeigher) return;
+    if (lwPan.has(w)) lwPan.delete(w); else lwPan.add(w);
+    if (AudioEngine.clamp) AudioEngine.clamp();
+    paintLwBalance('');
+  }
+
+  function dropLwScale() {
+    const st = lwReady(LW_BALANCE, 'lw-drop');
+    if (!st || !st.draft.thing || st.activeWeigher) return;
+    const { thing, method } = st.draft;
+    const target = lwTargetWeight(thing, method);
+    const total = lwPanTotal(lwPanList());
+    if (total !== target) {
+      const side = total > target ? '砝码加多了' : '砝码还不够';
+      paintLwBalance(`秤杆没平：${side}。${LW_METHOD_TABLE[method].hint}`);
+      return;
+    }
+    paintLwBalance('秤平了。');
+    launchLw(LW_BALANCE, 'lw-drop', {
+      feedback: lwWeighFeedback(thing, method), kind: 'weigh', method, thing, weighing: `${thing}:${method}`, source: LW_BALANCE, target: LW_THING_TABLE[thing].target,
+    }, '#balance-room-response');
+  }
+
+  function chooseLwAbandon() {
+    const st = lwReady(LW_BALANCE, 'lw-abandon');
+    if (!st || !st.draft.thing) return;
+    lwPan.clear();
+    launchLw(LW_BALANCE, 'lw-abandon', { feedback: LW_ABANDON_FEEDBACK, kind: 'abandon', source: LW_BALANCE, target: LW_BUREAU }, '#balance-room-response');
+  }
+
+  function chooseLwWeigherReturn(scene) {
+    const st = lwReady(scene, `lw-weigher-return-${scene}`);
+    if (!st || !st.activeWeigher) return;
+    if (LW_THING_TABLE[st.activeWeigher.weighing.split(':')[0]].target !== scene) return;
+    launchLw(scene, `lw-weigher-return-${scene}`, { feedback: LW_WEIGHER_RETURN_FEEDBACK, from: scene, kind: 'weigher-return', weighing: st.activeWeigher.weighing, target: LW_BUREAU }, `#lw-weigher-response-${scene}`);
+  }
+
+  function chooseLwCourtEntry() {
+    const st = lwReady('remembrance', 'lw-court-entry-btn');
+    if (!st || st.activeWeigher || !lwCourtEligible(st)) return;
+    launchLw('remembrance', 'lw-court-entry-btn', { feedback: LW_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: LW_COURT }, '#lw-court-entry-response');
+  }
+
+  function chooseLwVerdict(action) {
+    const a = LW_VERDICT_TABLE[action];
+    if (!a) return;
+    const st = lwReady(LW_COURT, `lw-verdict-${action}`);
+    if (!st || st.activeWeigher || !st.visited.court || !lwCourtEligible(st)) return;
+    launchLw(LW_COURT, `lw-verdict-${action}`, { action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: LW_COURT, target: a.target }, '#court-of-full-weight-response');
+  }
+
+  function lostWeightBridgeAllows(targetScene) {
+    if (!lostWeightUnlocked()) return false;
+    const st = getLostWeight();
+    if (st.pending && (st.pending.kind === 'weigh' || st.pending.kind === 'verdict') && st.pending.target === targetScene) return true;
+    if (st.activeWeigher && LW_THING_TABLE[st.activeWeigher.weighing.split(':')[0]].target === targetScene) return true;
+    const verdict = LW_VERDICT_ACTIONS.find((a) => LW_VERDICT_TABLE[a].outcome === st.lastOutcome);
+    return Boolean(verdict && LW_VERDICT_TABLE[verdict].target === targetScene);
+  }
+
+  function lwBureauCanVisit() {
+    if (!lostWeightUnlocked()) return false;
+    const st = getLostWeight();
+    return st.visited.bureau || Boolean(st.pending && st.pending.target === LW_BUREAU);
+  }
+
+  function balanceRoomCanVisit() {
+    if (!lostWeightUnlocked()) return false;
+    const st = getLostWeight();
+    if (st.visited.balance && st.draft.thing) return true;
+    return Boolean(st.pending && st.pending.kind === 'thing');
+  }
+
+  function lwCourtCanVisit() {
+    if (!lostWeightUnlocked()) return false;
+    const st = getLostWeight();
+    if (st.visited.court && lwCourtEligible(st)) return true;
+    return Boolean(st.pending && st.pending.kind === 'court-entry');
+  }
+
+  function syncLwBureau() {
+    const canVisit = lwBureauCanVisit();
+    const st = getLostWeight();
+    const fig = $('#lw-bureau-figure');
+    if (fig) fig.hidden = !canVisit;
+    const blocked = !canVisit || Boolean(st.pending) || Boolean(st.activeWeigher);
+    LW_THINGS.forEach((thing) => {
+      const btn = $(`#lw-thing-${thing}`);
+      if (!btn) return;
+      btn.disabled = blocked;
+      btn.classList.toggle('is-collected', LW_METHODS.every((m) => st.weighings.includes(`${thing}:${m}`)));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'thing' && st.pending.thing === thing ? 'true' : 'false');
+    });
+    const note = $('#lw-bureau-note');
+    if (note) {
+      let text = '';
+      if (st.activeWeigher) {
+        const b = LW_THING_TABLE[st.activeWeigher.weighing.split(':')[0]];
+        text = `先完成正在送出的称单：${b.weigherTitle}还在${b.place}等你签收。`;
+      } else if (st.draft.thing) {
+        text = `天平上还放着「${LW_THING_TABLE[st.draft.thing].title}」。`;
+      }
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const cont = $('#lw-continue');
+    if (cont) {
+      const show = canVisit && Boolean(st.draft.thing) && !st.activeWeigher;
+      cont.hidden = !show;
+      cont.disabled = !show || Boolean(st.pending);
+    }
+    if (!st.pending || st.pending.source !== LW_BUREAU) showLwResponse('#bureau-of-lost-weight-response', '');
+  }
+
+  function syncBalanceRoom() {
+    const canVisit = balanceRoomCanVisit();
+    const st = getLostWeight();
+    const ready = canVisit && Boolean(st.draft.thing);
+    if (st.draft.thing !== lwPanThing && !(st.pending && st.pending.kind === 'weigh')) { lwPanThing = st.draft.thing; lwPan.clear(); }
+    const panel = $('#lw-balance-panel');
+    if (panel) panel.hidden = !ready;
+    const beam = $('#lw-beam');
+    if (beam) beam.hidden = !ready;
+    if (ready) {
+      const t = LW_THING_TABLE[st.draft.thing];
+      const title = $('#lw-balance-thing');
+      if (title) title.textContent = `${t.title}（原重 ${t.weight} 两）—— ${t.feedback}`;
+      const hint = $('#lw-method-hint');
+      if (hint) hint.textContent = `${LW_METHOD_TABLE[st.draft.method].hint}称准了会送回${t.place}，由${t.weigherTitle}签收。`;
+      const load = $('#lw-thing-load');
+      if (load) load.textContent = t.title;
+    }
+    LW_METHODS.forEach((method) => {
+      const btn = $(`#lw-method-${method}`);
+      if (!btn) return;
+      btn.disabled = !ready || Boolean(st.pending);
+      btn.setAttribute('aria-pressed', ready && st.draft.method === method ? 'true' : 'false');
+      btn.classList.toggle('is-collected', Boolean(st.draft.thing) && st.weighings.includes(`${st.draft.thing}:${method}`));
+    });
+    ['lw-drop', 'lw-abandon', ...LW_WEIGHTS.map((w) => `lw-weight-${w}`)].forEach((id) => {
+      const btn = $(`#${id}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending);
+    });
+    paintLwBalance(st.pending && st.pending.kind === 'weigh' ? '秤平了，称单正在送出去。' : '');
+    if (!st.pending || st.pending.source !== LW_BALANCE) showLwResponse('#balance-room-response', '');
+  }
+
+  function syncLwCourt() {
+    const canVisit = lwCourtCanVisit();
+    const st = getLostWeight();
+    const fig = $('#court-of-full-weight-figure');
+    if (fig) fig.hidden = !canVisit;
+    LW_VERDICT_ACTIONS.forEach((action) => {
+      const btn = $(`#lw-verdict-${action}`);
+      if (!btn) return;
+      btn.disabled = !canVisit || Boolean(st.pending) || Boolean(st.activeWeigher);
+      btn.classList.toggle('is-collected', st.courtOutcomes.includes(LW_VERDICT_TABLE[action].outcome));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'verdict' && st.pending.action === action ? 'true' : 'false');
+    });
+    if (!st.pending || st.pending.source !== LW_COURT) showLwResponse('#court-of-full-weight-response', '');
+  }
+
+  function syncLwWeighers() {
+    const st = lostWeightUnlocked() ? getLostWeight() : defaultLostWeight();
+    const [thing, method] = st.activeWeigher ? st.activeWeigher.weighing.split(':') : ['', ''];
+    LW_OLD_TARGETS.forEach((scene) => {
+      const box = $(`#lw-weigher-${scene}`);
+      if (!box) return;
+      const show = Boolean(thing) && LW_THING_TABLE[thing].target === scene;
+      box.hidden = !show;
+      const btn = $(`#lw-weigher-return-${scene}`);
+      if (btn) {
+        btn.disabled = !show || Boolean(st.pending);
+        btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'weigher-return' && st.pending.from === scene ? 'true' : 'false');
+      }
+      if (!show) return;
+      const b = LW_THING_TABLE[thing];
+      const head = $(`#lw-weigher-title-${scene}`);
+      if (head) head.textContent = `称单签收 · ${b.weigherTitle} · ${b.title}（${LW_METHOD_TABLE[method].title}）`;
+      const level = $(`#lw-weigher-level-${scene}`);
+      if (level) level.textContent = `原重 ${b.weight} 两 → 称回 ${lwTargetWeight(thing, method)} 两`;
+      const body = $(`#lw-weigher-body-${scene}`);
+      if (body) body.textContent = LW_METHOD_TABLE[method].result;
+      if (!st.pending || st.pending.kind !== 'weigher-return') showLwResponse(`#lw-weigher-response-${scene}`, '');
+    });
+  }
+
+  function syncLwEchoes() {
+    const st = lostWeightUnlocked() ? getLostWeight() : defaultLostWeight();
+    LW_THINGS.forEach((thing) => {
+      const b = LW_THING_TABLE[thing];
+      const el = $(`#lw-echo-${b.target}`);
+      if (!el) return;
+      const method = st.latestMethodByThing[thing];
+      if (!method) { el.hidden = true; el.textContent = ''; return; }
+      el.textContent = `${b.echoLead}「${LW_METHOD_TABLE[method].title} · ${lwTargetWeight(thing, method)} 两」${LW_METHOD_TABLE[method].result}`;
+      el.hidden = false;
+    });
+  }
+
+  function syncLwRemembrance() {
+    const unlocked = lostWeightUnlocked();
+    const shell = $('#lw-codex');
+    const memory = $('#lw-memory');
+    if (!unlocked) {
+      [shell, memory].forEach((el) => { if (el) el.hidden = true; });
+      return;
+    }
+    const st = getLostWeight();
+    const v96Pending = Boolean(getHeldBreath().pending);
+    if (shell) shell.hidden = false;
+    const progress = lwCourtProgress(st);
+    if (memory) {
+      memory.hidden = false;
+      memory.textContent = `失重：已称回 ${st.weighings.length}/9 张，共落秤 ${st.weighingRuns} 次；足斤法庭 ${st.courtOutcomes.length}/3。`;
+    }
+    const hints = $('#lw-court-hints');
+    if (hints) {
+      const rows = [['三样东西都称过', progress.things, LW_THINGS.length], ['三种称法都用过', progress.methods, LW_METHODS.length]];
+      hints.replaceChildren(...rows.map(([label, have, need]) => {
+        const li = document.createElement('li');
+        li.className = have >= need ? 'is-met' : '';
+        li.textContent = `${label} ${have}/${need}`;
+        return li;
+      }));
+    }
+    const clean = !st.pending && !st.activeWeigher;
+    const entry = $('#lw-entry-btn');
+    if (entry) {
+      entry.hidden = false;
+      entry.disabled = !clean || v96Pending;
+      entry.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' ? 'true' : 'false');
+    }
+    const note = $('#lw-entry-note');
+    if (note) {
+      const text = v96Pending ? '先完成正在送还的那口气：屏息当铺还有一张赎票在路上。' : st.activeWeigher ? '先完成正在送出的称单。' : '';
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const court = $('#lw-court-entry-btn');
+    if (court) {
+      const eligible = lwCourtEligible(st);
+      court.hidden = !eligible;
+      court.disabled = !eligible || !clean;
+      court.setAttribute('aria-pressed', st.pending && st.pending.kind === 'court-entry' ? 'true' : 'false');
+    }
+    const grid = $('#lw-codex-grid');
+    if (grid) {
+      const have = new Set(st.weighings);
+      const cells = LW_WEIGHING_IDS.map((id) => {
+        const [thing, method] = id.split(':');
+        const cell = document.createElement('div');
+        cell.className = `lw-cell ${have.has(id) ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = have.has(id) ? `${LW_THING_TABLE[thing].title}\n${LW_METHOD_TABLE[method].title} · ${lwTargetWeight(thing, method)} 两` : '？？？';
+        return cell;
+      });
+      LW_VERDICT_ACTIONS.forEach((action) => {
+        const a = LW_VERDICT_TABLE[action];
+        const got = st.courtOutcomes.includes(a.outcome);
+        const cell = document.createElement('div');
+        cell.className = `lw-cell lw-cell-verdict ${got ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = got ? `[足斤法庭] ${a.title}\n${a.feedback}` : '？？？';
+        cells.push(cell);
+      });
+      grid.replaceChildren(...cells);
+    }
+    if (!st.pending || (st.pending.kind !== 'entry' && st.pending.kind !== 'court-entry')) {
+      showLwResponse('#lw-entry-response', '');
+      showLwResponse('#lw-court-entry-response', '');
+    }
+  }
+
+  function syncLwLinks() {
+    const st = lostWeightUnlocked() ? getLostWeight() : null;
+    [['bureau-of-lost-weight-link', 'bureau'], ['balance-room-link', 'balance'], ['court-of-full-weight-link', 'court']].forEach(([id, key]) => {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !(st && st.visited[key]);
+    });
+  }
+
+  function forgetLostWeightState() {
+    try { localStorage.removeItem(LOST_WEIGHT_KEY); } catch {}
+    [LW_BUREAU, LW_BALANCE, LW_COURT].forEach((scene) => AutoAdvance.clear(scene));
+    lwPan.clear();
+    lwPanThing = '';
+    ['#lw-codex', '#lw-memory', '#lw-bureau-figure', '#lw-balance-panel', '#court-of-full-weight-figure',
+      '#bureau-of-lost-weight-link', '#balance-room-link', '#court-of-full-weight-link', '#lw-continue', '#lw-court-entry-btn',
+      '#lw-entry-response', '#lw-court-entry-response', '#bureau-of-lost-weight-response', '#balance-room-response', '#court-of-full-weight-response',
+      ...LW_OLD_TARGETS.flatMap((scene) => [`#lw-weigher-${scene}`, `#lw-echo-${scene}`]),
+    ].forEach((sel) => { const el = $(sel); if (el) el.hidden = true; });
+    $$('[id^="lw-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+  }
+
+  const onTrustedLw = (selector, handler) => {
+    const el = $(selector);
+    if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+  };
+  onTrustedLw('#lw-entry-btn', chooseLwEntry);
+  onTrustedLw('#lw-court-entry-btn', chooseLwCourtEntry);
+  onTrustedLw('#lw-abandon', chooseLwAbandon);
+  onTrustedLw('#lw-continue', () => {
+    const st = lwReady(LW_BUREAU, 'lw-continue');
+    if (!st || !st.draft.thing || st.activeWeigher) return;
+    const thing = st.draft.thing;
+    launchLw(LW_BUREAU, 'lw-continue', { thing, feedback: LW_THING_TABLE[thing].feedback, kind: 'thing', source: LW_BUREAU, target: LW_BALANCE }, '#bureau-of-lost-weight-response');
+  });
+  LW_THINGS.forEach((thing) => onTrustedLw(`#lw-thing-${thing}`, () => chooseLwThing(thing)));
+  LW_METHODS.forEach((method) => onTrustedLw(`#lw-method-${method}`, () => chooseLwMethod(method)));
+  LW_VERDICT_ACTIONS.forEach((action) => onTrustedLw(`#lw-verdict-${action}`, () => chooseLwVerdict(action)));
+  LW_OLD_TARGETS.forEach((scene) => onTrustedLw(`#lw-weigher-return-${scene}`, () => chooseLwWeigherReturn(scene)));
+  LW_WEIGHTS.forEach((w) => onTrustedLw(`#lw-weight-${w}`, () => toggleLwWeight(w)));
+  onTrustedLw('#lw-drop', dropLwScale);
+
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -52701,8 +53419,25 @@ document.addEventListener("DOMContentLoaded", () => {
     if (eligible) items.push(`开庭条件已满足；最后一口气裁定已得 ${st.courtOutcomes.length}/3`);
     if (st.activeAppraiser) items.push("有一口气在旧场景等你签收：点估价师回到当铺");
     else if (st.draft.breath) items.push(`风箱柜台上还放着「${HB_BREATH_TABLE[st.draft.breath].title}」`);
-    if (eligible && st.courtOutcomes.length >= 3) return { title: "v96 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    if (eligible && st.courtOutcomes.length >= 3) return lostWeightProgressStep();
     return { title: "v96 屏息当铺", items, target: eligible ? "hb-court" : "hb", done: false };
+  };
+
+  /* v97：按三样东西、三种称法与三项裁定给出缺项 */
+  const lostWeightProgressStep = () => {
+    if (!lostWeightUnlocked()) return null;
+    const st = getLostWeight();
+    const items = [];
+    const things = LW_THINGS.filter((x) => !st.weighings.some((id) => id.startsWith(`${x}:`))).map((x) => LW_THING_TABLE[x].title);
+    const methods = LW_METHODS.filter((m) => !st.weighings.some((id) => id.endsWith(`:${m}`))).map((m) => LW_METHOD_TABLE[m].title);
+    if (things.length) items.push(`还没称的东西：${things.join("、")}`);
+    if (methods.length) items.push(`还没用过的称法：${methods.join("、")}`);
+    const eligible = lwCourtEligible(st);
+    if (eligible) items.push(`开庭条件已满足；足斤裁定已得 ${st.courtOutcomes.length}/3`);
+    if (st.activeWeigher) items.push("有一张称单在旧支线等你签收：点秤手回到失重局");
+    else if (st.draft.thing) items.push(`天平上还放着「${LW_THING_TABLE[st.draft.thing].title}」`);
+    if (eligible && st.courtOutcomes.length >= 3) return { title: "v97 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    return { title: "v97 失重局", items, target: eligible ? "lw-court" : "lw", done: false };
   };
 
   const syncProgressGuide = () => {
@@ -53052,6 +53787,7 @@ document.addEventListener("DOMContentLoaded", () => {
   syncReturnedKnocksAll();
   syncStoppedClocksAll();
   syncHeldBreathAll();
+  syncLostWeightAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

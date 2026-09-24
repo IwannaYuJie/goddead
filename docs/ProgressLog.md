@@ -1191,3 +1191,12 @@
 - 场景图：本机 Codex CLI 生成三张原画，提示词与哈希见 `docs/V96ImagePrompts.md`。
 - 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 17869 assertions passed`。
 - 浏览器：真实单击 / 空格判松早；一次真实按住约两秒落在区间内，送回走廊签收；手机宽度正常。按住时长无法由浏览器工具精确控制，其余路径由自动测试覆盖。
+
+## 2026-09-24 - v97 失重局实装
+
+- 新增 `bureau-of-lost-weight`、`balance-room`、`court-of-full-weight` 3 个场景，场景总数 211 → 214，缓存标记 `v=97`。
+- 新交互“勾选砝码”：五个可多选的铜砝码按钮，秤杆按差值实时倾斜、秤盘竖直下垂，放平后落秤；三样东西（回声 7 / 脉搏 5 / 忏悔 9 两）× 称回原重 / 加倍奉还 / 补足一斤 = 9 张称单，送回回声档案室 / 血管维修井 / 忏悔称量室签收。
+- 状态键 `goddead_v97_lost_weight`（11 字段、7 类 pending、严格归一化），只读 v96；v96 在途时入口禁用；前缀 `lw-`；桥接接入治理守卫、画廊守卫与 v29 支线守卫。
+- 场景图：本机 Codex CLI 生成三张原画，提示词与哈希见 `docs/V97ImagePrompts.md`。
+- 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 17979 assertions passed`。
+- 浏览器：真实点击选“补足一斤”，8 两时秤杆下沉，1 + 2 + 4 两放平后落秤，送到忏悔称量室签收；修正了秤盘吊绳方向和倾斜幅度。

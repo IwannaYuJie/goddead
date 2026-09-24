@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=96">
+  <link rel="stylesheet" href="styles.css?v=97">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -3347,6 +3347,16 @@
           </figure>
           <p class="branch-response" id="echo-response" aria-live="polite"></p>
 
+          <!-- v97 回声档案室称单签收与记忆 -->
+          <p class="watch-memory lw-echo" id="lw-echo-echo" hidden></p>
+          <div class="lw-weigher reveal" id="lw-weigher-echo" hidden>
+            <p class="lw-weigher-title" id="lw-weigher-title-echo"></p>
+            <p class="lw-weigher-level" id="lw-weigher-level-echo"></p>
+            <p class="lw-weigher-body" id="lw-weigher-body-echo"></p>
+            <p class="lw-response" id="lw-weigher-response-echo" aria-live="polite" hidden></p>
+            <button class="lw-action" id="lw-weigher-return-echo" type="button" data-hover>带着称单回到失重局 ⟶</button>
+          </div>
+
           <nav class="scene-exits reveal" aria-label="离开回声档案室">
             <button class="exit-link" type="button" data-go="corridor" data-hover>⟵ 回到走廊</button>
           </nav>
@@ -3393,6 +3403,16 @@
             </button>
           </figure>
           <p class="branch-response" id="vein-response" aria-live="polite"></p>
+
+          <!-- v97 血管维修井称单签收与记忆 -->
+          <p class="watch-memory lw-echo" id="lw-echo-vein" hidden></p>
+          <div class="lw-weigher reveal" id="lw-weigher-vein" hidden>
+            <p class="lw-weigher-title" id="lw-weigher-title-vein"></p>
+            <p class="lw-weigher-level" id="lw-weigher-level-vein"></p>
+            <p class="lw-weigher-body" id="lw-weigher-body-vein"></p>
+            <p class="lw-response" id="lw-weigher-response-vein" aria-live="polite" hidden></p>
+            <button class="lw-action" id="lw-weigher-return-vein" type="button" data-hover>带着称单回到失重局 ⟶</button>
+          </div>
 
           <nav class="scene-exits reveal" aria-label="离开血管维修井">
             <button class="exit-link" type="button" data-go="corridor" data-hover>⟵ 回到走廊</button>
@@ -3446,6 +3466,16 @@
             <button class="unspoken-personhood-executor-return" id="unspoken-personhood-executor-return-confession" type="button" data-hover>跟闭唇执行官返回继承院 · RETURN WITH THE CLOSED-LIP EXECUTOR ⟶</button>
           </div>
           <p class="branch-response" id="confession-response" aria-live="polite"></p>
+
+          <!-- v97 忏悔称量室称单签收与记忆 -->
+          <p class="watch-memory lw-echo" id="lw-echo-confession" hidden></p>
+          <div class="lw-weigher reveal" id="lw-weigher-confession" hidden>
+            <p class="lw-weigher-title" id="lw-weigher-title-confession"></p>
+            <p class="lw-weigher-level" id="lw-weigher-level-confession"></p>
+            <p class="lw-weigher-body" id="lw-weigher-body-confession"></p>
+            <p class="lw-response" id="lw-weigher-response-confession" aria-live="polite" hidden></p>
+            <button class="lw-action" id="lw-weigher-return-confession" type="button" data-hover>带着称单回到失重局 ⟶</button>
+          </div>
 
           <nav class="scene-exits reveal" aria-label="离开忏悔称量室">
             <button class="exit-link" type="button" data-go="corridor" data-hover>⟵ 回到走廊</button>
@@ -4712,6 +4742,22 @@
               <p class="hb-response" id="hb-entry-response" aria-live="polite" hidden></p>
               <button class="hb-entry-btn" id="hb-court-entry-btn" type="button" hidden data-hover>进入最后一口气法庭 · ENTER THE TRIBUNAL OF THE LAST BREATH ⟶</button>
               <p class="hb-response" id="hb-court-entry-response" aria-live="polite" hidden></p>
+            </div>
+          </div>
+
+          <!-- v97 失重图鉴 -->
+          <p class="watch-memory lw-memory" id="lw-memory" hidden></p>
+          <div class="lw-codex reveal" id="lw-codex" hidden>
+            <p class="lw-kicker">BUREAU OF LOST WEIGHT · 失 重 图 鉴</p>
+            <div class="lw-grid" id="lw-codex-grid"></div>
+            <p class="lw-hints-title">足斤法庭开庭条件</p>
+            <ul class="lw-hints" id="lw-court-hints"></ul>
+            <div class="lw-codex-entry">
+              <button class="lw-entry-btn" id="lw-entry-btn" type="button" hidden data-hover>前往失重局 · GO TO THE BUREAU OF LOST WEIGHT ⟶</button>
+              <p class="lw-note" id="lw-entry-note" hidden></p>
+              <p class="lw-response" id="lw-entry-response" aria-live="polite" hidden></p>
+              <button class="lw-entry-btn" id="lw-court-entry-btn" type="button" hidden data-hover>进入足斤法庭 · ENTER THE COURT OF THE FULL WEIGHT ⟶</button>
+              <p class="lw-response" id="lw-court-entry-response" aria-live="polite" hidden></p>
             </div>
           </div>
 
@@ -7788,6 +7834,93 @@
         </div>
       </section>
 
+      <!-- v97 第一幕：失重局 -->
+      <section class="scene scene-branch scene-bureau-of-lost-weight" id="scene-bureau-of-lost-weight" data-scene="bureau-of-lost-weight" data-title="Goddead — 失重局" aria-label="失重局">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">15α / 失重 · BUREAU OF LOST WEIGHT</p>
+            <h2 class="sec-title">失重局</h2>
+            <p class="sec-desc">神死以后，东西都轻了一点。架子上三只玻璃罩，里面的东西浮在绒垫上方——它们是从三条老支线里收来的，各自丢了分量。</p>
+          </header>
+          <figure class="branch-figure lw-figure reveal" id="lw-bureau-figure">
+            <img class="branch-img lw-img" data-src="assets/v97-bureau-of-lost-weight.webp" alt="失重局：柜台上三只玻璃罩，左边一只海螺、中间一只发红光的心形小瓶、右边一封封蜡的信，都浮在绒垫上方" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot lw-hotspot lw-hotspot-left" id="lw-thing-lost-echo" type="button" aria-label="过秤：回声，原重七两" data-hover><span class="dh-label" aria-hidden="true">回声 · 原重七两</span></button>
+            <button class="scene-hotspot lw-hotspot lw-hotspot-center" id="lw-thing-lost-pulse" type="button" aria-label="过秤：脉搏，原重五两" data-hover><span class="dh-label" aria-hidden="true">脉搏 · 原重五两</span></button>
+            <button class="scene-hotspot lw-hotspot lw-hotspot-right" id="lw-thing-lost-confession" type="button" aria-label="过秤：忏悔，原重九两" data-hover><span class="dh-label" aria-hidden="true">忏悔 · 原重九两</span></button>
+          </figure>
+          <p class="lw-note reveal" id="lw-bureau-note" hidden></p>
+          <p class="branch-response lw-response" id="bureau-of-lost-weight-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开失重局">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+            <button class="lw-action" id="lw-continue" type="button" hidden data-hover>回到天平 ⟶</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v97 第二幕：天平室 -->
+      <section class="scene scene-branch scene-balance-room" id="scene-balance-room" data-scene="balance-room" data-title="Goddead — 天平室" aria-label="天平室">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">15β / 过秤 · THE BALANCE ROOM</p>
+            <h2 class="sec-title">天平室</h2>
+            <p class="sec-desc">选一种称法，勾选铜砝码放上右盘。秤杆会跟着往一边沉；放平了再落秤。旧秤一斤是十六两。</p>
+          </header>
+          <figure class="branch-figure lw-figure lw-balance-figure reveal" id="lw-balance-figure">
+            <img class="branch-img lw-img" data-src="assets/v97-balance-room.webp" alt="天平室：一根华丽的铜天平立柱立在正中，秤杆和秤盘已经卸下，桌上放着一盏吊灯的光" width="1536" height="1024" loading="lazy" decoding="async">
+            <div class="lw-beam" id="lw-beam" role="img" aria-label="秤杆" hidden>
+              <span class="lw-beam-bar" aria-hidden="true">
+                <span class="lw-pan lw-pan-left"><b id="lw-thing-load"></b></span>
+                <span class="lw-pan lw-pan-right"><b>砝码</b></span>
+              </span>
+            </div>
+            <p class="lw-balance-status" id="lw-balance-status" aria-live="polite"></p>
+          </figure>
+          <div class="lw-panel reveal" id="lw-balance-panel" hidden>
+            <p class="lw-panel-thing" id="lw-balance-thing"></p>
+            <div class="lw-methods" role="group" aria-label="称法">
+              <button class="lw-method" id="lw-method-restore" type="button" data-hover>称回原重</button>
+              <button class="lw-method" id="lw-method-double" type="button" data-hover>加倍奉还</button>
+              <button class="lw-method" id="lw-method-fill" type="button" data-hover>补足一斤</button>
+            </div>
+            <p class="lw-note" id="lw-method-hint"></p>
+            <div class="lw-weights" role="group" aria-label="铜砝码（可多选）">
+              <button class="lw-weight" id="lw-weight-1" type="button" aria-pressed="false" data-hover>1 两</button>
+              <button class="lw-weight" id="lw-weight-2" type="button" aria-pressed="false" data-hover>2 两</button>
+              <button class="lw-weight" id="lw-weight-4" type="button" aria-pressed="false" data-hover>4 两</button>
+              <button class="lw-weight" id="lw-weight-8" type="button" aria-pressed="false" data-hover>8 两</button>
+              <button class="lw-weight" id="lw-weight-16" type="button" aria-pressed="false" data-hover>16 两</button>
+            </div>
+            <p class="lw-pan-total" id="lw-pan-total"></p>
+            <div class="lw-actions">
+              <button class="lw-action lw-drop" id="lw-drop" type="button" data-hover>落秤</button>
+              <button class="lw-action" id="lw-abandon" type="button" data-hover>放回玻璃罩</button>
+            </div>
+          </div>
+          <p class="branch-response lw-response" id="balance-room-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <!-- v97 第三幕：足斤法庭 -->
+      <section class="scene scene-branch scene-court-of-full-weight" id="scene-court-of-full-weight" data-scene="court-of-full-weight" data-title="Goddead — 足斤法庭" aria-label="足斤法庭">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">15γ / 足斤 · COURT OF THE FULL WEIGHT</p>
+            <h2 class="sec-title">足斤法庭</h2>
+            <p class="sec-desc">穹顶吊着一架大天平，两边一样平。桌上三件东西：一根白羽毛、一摞铜砝码、一只空秤盘。裁定之后仍可回来。</p>
+          </header>
+          <figure class="branch-figure lw-figure reveal" id="court-of-full-weight-figure">
+            <img class="branch-img lw-img" data-src="assets/v97-court-of-full-weight.webp" alt="足斤法庭：穹顶吊着一架水平的大铜天平，空椅子前的长桌上放着一根白羽毛、一摞铜砝码和一只空秤盘" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot lw-hotspot lw-hotspot-court-left" id="lw-verdict-let-weightless-things-float" type="button" aria-label="裁定：让失重的东西浮着" data-hover><span class="dh-label" aria-hidden="true">让失重的东西浮着</span></button>
+            <button class="scene-hotspot lw-hotspot lw-hotspot-court-center" id="lw-verdict-weigh-the-living-too" type="button" aria-label="裁定：活人也要过秤" data-hover><span class="dh-label" aria-hidden="true">活人也要过秤</span></button>
+            <button class="scene-hotspot lw-hotspot lw-hotspot-court-right" id="lw-verdict-keep-the-scale-for-god" type="button" aria-label="裁定：把秤留给神" data-hover><span class="dh-label" aria-hidden="true">把秤留给神</span></button>
+          </figure>
+          <p class="branch-response lw-response" id="court-of-full-weight-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开法庭">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+          </nav>
+        </div>
+      </section>
+
       <!-- 隐藏幕 · 第九条 -->
       <section class="scene scene-ninth" id="scene-ninth" data-scene="ninth" data-title="Goddead — ？？？" aria-label="第九条">
         <figure class="ninth-figure" role="img" aria-label="一道不该存在的裂口，底部有一扇错误的窄门">
@@ -8012,6 +8145,9 @@
         <a href="#held-breath-pawnshop" id="held-breath-pawnshop-link" hidden data-hover>14α / 屏息当铺</a>
         <a href="#bellows-counter" id="bellows-counter-link" hidden data-hover>14β / 风箱柜台</a>
         <a href="#tribunal-of-the-last-breath" id="tribunal-of-the-last-breath-link" hidden data-hover>14γ / 最后一口气</a>
+        <a href="#bureau-of-lost-weight" id="bureau-of-lost-weight-link" hidden data-hover>15α / 失重局</a>
+        <a href="#balance-room" id="balance-room-link" hidden data-hover>15β / 天平室</a>
+        <a href="#court-of-full-weight" id="court-of-full-weight-link" hidden data-hover>15γ / 足斤法庭</a>
 
       <a href="#three-person-republic-court" id="three-person-republic-court-link" hidden data-hover>04β / 三人共和国</a>
       <a href="#remembrance" data-hover>04 / 痕迹</a>
@@ -8020,6 +8156,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=96"></script>
+    <script src="script.js?v=97"></script>
   </body>
 </html>
