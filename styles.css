@@ -14556,3 +14556,216 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
 @media (min-width: 721px) {
   .rk-hotspot .dh-label { white-space: nowrap; }
 }
+
+/* ============================================================
+   v95 停摆钟修理铺：没有表针的钟、可拖动的表盘
+   ============================================================ */
+.sc-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  aspect-ratio: 3 / 2;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border: 1px solid rgba(154, 127, 71, 0.35);
+  background: var(--void);
+}
+
+.sc-figure .sc-img { display: block; width: 100%; height: 100%; object-fit: cover; -webkit-mask-image: none; mask-image: none; }
+
+.sc-hotspot {
+  position: absolute;
+  z-index: 3;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0.4rem;
+  border: 1px solid rgba(222, 217, 208, 0.18);
+  background: rgba(8, 7, 6, 0.1);
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+
+.sc-hotspot .dh-label { padding: 0.2rem 0.55rem; background: rgba(8, 7, 6, 0.74); letter-spacing: 0.1em; }
+.sc-hotspot:hover,
+.sc-hotspot:focus-visible { border-color: var(--gold); background: rgba(154, 127, 71, 0.16); outline: 2px solid var(--gold); outline-offset: 2px; }
+.sc-hotspot:disabled,
+.sc-hotspot[aria-pressed="true"] { border-color: var(--blood); cursor: default; outline: none; }
+.sc-hotspot.is-collected .dh-label::after { content: " ✓"; color: var(--gold); }
+
+.sc-hotspot-watch { left: 12%; top: 9%; width: 24.5%; height: 38%; }
+.sc-hotspot-protocol { left: 41%; top: 5%; width: 21.5%; height: 57%; }
+.sc-hotspot-offering { left: 71%; top: 19%; width: 22%; height: 30%; }
+.sc-hotspot-court-watch { left: 8.5%; top: 62%; width: 22%; height: 23%; }
+.sc-hotspot-court-glass { left: 43%; top: 50%; width: 13.5%; height: 32%; }
+.sc-hotspot-court-bell { left: 77.5%; top: 56%; width: 14.5%; height: 28%; }
+
+/* 表盘：覆盖在图中央的空表盘上；刻痕是停摆的位置，表针跟着指针转 */
+.sc-dial {
+  --sc-hand-angle: 0deg;
+  --sc-mark-angle: 0deg;
+  position: absolute;
+  left: var(--sc-dial-left, 26.67%);
+  top: var(--sc-dial-top, 15%);
+  z-index: 3;
+  width: var(--sc-dial-size, 46.67%);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  cursor: grab;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* 按 assets/v95-clock-bench.webp 的表盘对齐：中心 (767, 494)，半径 348（原图 1536×1024） */
+.sc-bench-figure .sc-dial { --sc-dial-left: 27.28%; --sc-dial-top: 14.26%; --sc-dial-size: 45.31%; }
+.sc-bench-figure .sc-ticks { display: none; }
+.sc-dial:active { cursor: grabbing; }
+.sc-dial:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+.sc-dial[aria-disabled="true"] { cursor: default; }
+.sc-dial > span { position: absolute; inset: 0; pointer-events: none; }
+.sc-ticks i { position: absolute; left: 50%; top: 3%; width: 2px; height: 7%; margin-left: -1px; background: rgba(40, 28, 16, 0.55); transform-origin: 50% 671%; transform: rotate(calc(var(--i) * 30deg)); }
+.sc-mark::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 2%;
+  width: 8px;
+  height: 11%;
+  margin-left: -4px;
+  border-radius: 3px;
+  background: rgba(139, 26, 26, 0.85);
+  box-shadow: 0 0 10px rgba(139, 26, 26, 0.7);
+  transform-origin: 50% 436%;
+  transform: rotate(var(--sc-mark-angle));
+}
+
+.sc-hand { opacity: 0; transition: opacity 0.2s var(--ease); }
+.sc-dial.has-hand .sc-hand { opacity: 1; }
+.sc-hand::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 14%;
+  width: 6px;
+  height: 36%;
+  margin-left: -3px;
+  border-radius: 3px 3px 1px 1px;
+  background: linear-gradient(#1a130c, #3a2a18);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  transform-origin: 50% 100%;
+  transform: rotate(var(--sc-hand-angle));
+  transition: transform 0.12s ease-out;
+}
+
+.sc-pivot::before { content: ""; position: absolute; left: 50%; top: 50%; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: #b8914f; box-shadow: 0 0 6px rgba(0, 0, 0, 0.6); }
+
+.sc-dial-status {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 3%;
+  z-index: 4;
+  margin: 0;
+  padding: 0 1rem;
+  color: var(--bone-bright);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-shadow: 0 1px 3px #000, 0 0 8px #000;
+  pointer-events: none;
+}
+
+.sc-note { width: min(720px, 100%); margin: 0.6rem auto 0; color: var(--ash); font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; line-height: 1.8; text-align: center; }
+.sc-response { white-space: pre-line; }
+
+.sc-bench {
+  width: min(720px, 100%);
+  margin: 1.2rem auto 0;
+  padding: 1rem 1.1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--gold);
+  background: rgba(10, 9, 8, 0.86);
+}
+
+.sc-bench-clock { margin: 0 0 1rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.92rem; line-height: 1.8; }
+.sc-methods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+
+.sc-method {
+  min-height: 44px;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  background: rgba(20, 16, 12, 0.8);
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.sc-method[aria-pressed="true"] { border-color: var(--gold); color: var(--bone-bright); background: rgba(154, 127, 71, 0.18); }
+.sc-method.is-collected::after { content: " ✓"; color: var(--gold); }
+.sc-method:hover:not(:disabled),
+.sc-method:focus-visible { border-color: var(--gold); outline: 2px solid var(--gold); outline-offset: 2px; }
+.sc-method:disabled { opacity: 0.45; cursor: default; }
+
+.sc-action,
+.sc-entry-btn {
+  min-height: 44px;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.sc-entry-btn,
+.sc-wind { border-color: var(--gold); color: var(--bone-bright); }
+.sc-action:hover:not(:disabled),
+.sc-action:focus-visible,
+.sc-entry-btn:hover:not(:disabled),
+.sc-entry-btn:focus-visible { border-color: var(--gold); background: var(--gold); color: var(--void); outline: 2px solid var(--bone-bright); outline-offset: 2px; }
+.sc-action:disabled,
+.sc-entry-btn:disabled { opacity: 0.4; cursor: default; }
+.sc-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; margin-top: 0.9rem; }
+
+.sc-smith,
+.sc-echo { grid-column: 1 / -1; justify-self: center; width: min(720px, 100%); }
+.sc-smith { position: relative; z-index: 1; margin: 1.5rem auto; padding: 1rem 1.1rem; border: 1px solid var(--line); border-left: 2px solid #b8914f; background: rgba(10, 9, 8, 0.86); text-align: left; }
+.sc-smith-title { margin: 0 0 0.4rem; color: var(--gold); font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.18em; }
+.sc-smith-time { margin: 0 0 0.4rem; color: #e6c27a; font-family: var(--serif-cn); font-size: 1rem; }
+.sc-smith-body { margin: 0 0 0.8rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.9rem; line-height: 1.9; }
+
+.sc-codex { position: relative; z-index: 1; max-width: 760px; margin: 2rem auto; padding: 1.5rem; border: 1px solid var(--line); background: var(--void-soft); }
+.sc-kicker { margin-bottom: 1.25rem; color: var(--gold); font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.15em; text-align: center; }
+.sc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+.sc-cell { min-height: 64px; padding: 0.8rem; border: 1px solid var(--line); background: var(--void); font-family: var(--mono); font-size: 0.75rem; line-height: 1.6; white-space: pre-line; text-align: center; }
+.sc-cell.is-locked { color: var(--ash); border-style: dashed; opacity: 0.6; }
+.sc-cell.is-unlocked { color: var(--bone-bright); border-color: var(--gold); background: rgba(30, 25, 20, 0.5); }
+.sc-hints-title { margin: 0 0 0.4rem; color: var(--bone); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; }
+.sc-hints { margin: 0 0 1rem; padding-left: 1.1rem; color: var(--ash); font-size: 0.82rem; line-height: 1.8; }
+.sc-hints li.is-met { color: var(--gold); }
+.sc-codex-entry { display: flex; flex-direction: column; gap: 0.6rem; align-items: center; }
+
+@media (max-width: 720px) {
+  .sc-figure { width: min(92vw, 520px); }
+  .sc-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+  .sc-hotspot .dh-label { font-size: 0.64rem; padding: 0.12rem 0.3rem; letter-spacing: 0.02em; }
+  .sc-methods { grid-template-columns: 1fr; }
+  .sc-dial-status { font-size: 0.64rem; letter-spacing: 0.04em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sc-hand::before { transition: none; }
+}
+
+@media (min-width: 721px) {
+  .sc-hotspot .dh-label { white-space: nowrap; }
+}

@@ -1386,6 +1386,8 @@ document.addEventListener("DOMContentLoaded", () => {
     replayUnseenPending(name);
     resolveReturnedKnockPendingOnArrival(name);
     replayReturnedKnockPending(name);
+    resolveStoppedClockPendingOnArrival(name);
+    replayStoppedClockPending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1529,9 +1531,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
@@ -1545,7 +1547,7 @@ document.addEventListener("DOMContentLoaded", () => {
        v88 窄桥：title-action 可抵达 unending-gallery；
        v89 窄桥：appeal-action 可抵达 unending-gallery；
        v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1740,6 +1742,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "returned-knock-post-office" && !rkOfficeCanVisit()) target = "remembrance";
     if (target === "knocker-booth" && !knockerBoothCanVisit()) target = "remembrance";
     if (target === "arbitration-of-the-first-knock" && !rkCourtCanVisit()) target = "remembrance";
+
+    /* v95 停摆钟修理铺：未解锁或无合法抵达时一律回痕迹室 */
+    if (target === "stopped-clock-repair-shop" && !scShopCanVisit()) target = "remembrance";
+    if (target === "clock-bench" && !clockBenchCanVisit()) target = "remembrance";
+    if (target === "hearing-of-the-thirteenth-hour" && !scCourtCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -47969,6 +47976,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetWitnessLiabilityState();
       forgetUnseenClaimsState();
       forgetReturnedKnocksState();
+      forgetStoppedClocksState();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
       if (firstDraftVaultResponse) firstDraftVaultResponse.textContent = "";
@@ -50958,6 +50966,746 @@ document.addEventListener("DOMContentLoaded", () => {
   RK_VERDICT_ACTIONS.forEach((action) => onTrustedRk(`#rk-verdict-${action}`, () => chooseRkVerdict(action)));
   RK_OLD_TARGETS.forEach((scene) => onTrustedRk(`#rk-courier-return-${scene}`, () => chooseRkCourierReturn(scene)));
 
+  /* ============================================================
+     v95 停摆钟修理铺 / REPAIR SHOP OF STOPPED CLOCKS
+     神死的那一刻，每只钟停在不同的点上。修理铺收了三只：值夜室、守则板、焚献炉。
+     三只钟 × 三种修法 = 9 份修理单；在修钟台上拖动表针（或用方向键）拨到该拨的点，再上弦。
+     只读 v94；独立键 goddead_v95_stopped_clocks；所有新操作只接受真实输入。
+     ============================================================ */
+  const STOPPED_CLOCK_KEY = 'goddead_v95_stopped_clocks';
+  const STOPPED_CLOCK_VERSION = 95;
+  const SC_SHOP = 'stopped-clock-repair-shop';
+  const SC_BENCH = 'clock-bench';
+  const SC_COURT = 'hearing-of-the-thirteenth-hour';
+  const SC_CLOCKS = ['watch-clock', 'protocol-clock', 'offering-clock'];
+  const SC_CLOCK_TABLE = {
+    'watch-clock': {
+      title: '值夜室的挂钟', hour: 5, target: 'watch', place: '值夜室', smithTitle: '值夜钟表匠',
+      feedback: '表盘上有一道刻痕停在五点。交班簿那一行 05:02 的记录，就是它停下时写的。',
+      echoLead: '值夜室的挂钟背面贴着一张修理单。',
+    },
+    'protocol-clock': {
+      title: '守则板上的钟', hour: 12, target: 'protocol', place: '访客守则', smithTitle: '守则钟表匠',
+      feedback: '刻痕停在十二点。守则第六条说子夜的客人不要停留超过一小时，这只钟替你一直停着。',
+      echoLead: '守则布告板的钉子上挂着一张修理单。',
+    },
+    'offering-clock': {
+      title: '焚献炉的座钟', hour: 9, target: 'offering', place: '焚献炉', smithTitle: '焚献钟表匠',
+      feedback: '刻痕停在九点，表盘被香灰熏黑。炉里剩下九根香梗，最后一根烧到一半。',
+      echoLead: '焚献炉的灰里压着一张修理单。',
+    },
+  };
+  const SC_METHODS = ['restore', 'advance', 'oppose'];
+  const SC_METHOD_TABLE = {
+    restore: { title: '拨回停摆那一刻', offset: 0, hint: '把表针拨回刻痕上。', result: '钟回到它停下的那一刻，并且决定就在这里多待一会儿。' },
+    advance: { title: '让它走一格', offset: 1, hint: '把表针拨到刻痕后面的一点。', result: '钟往前走了一格。那一刻终于过去了，屋里的人都松了口气。' },
+    oppose: { title: '拨到对面', offset: 6, hint: '把表针拨到刻痕的正对面，相差六点。', result: '钟指向它停下时的反面。那边的时间一直没人去过，现在有了。' },
+  };
+  const SC_REPAIR_IDS = [];
+  SC_CLOCKS.forEach((clock) => SC_METHODS.forEach((method) => SC_REPAIR_IDS.push(`${clock}:${method}`)));
+  const SC_VERDICT_ACTIONS = ['let-the-clocks-stay-stopped', 'lend-the-dead-an-hour', 'strike-thirteen'];
+  const SC_VERDICT_TABLE = {
+    'let-the-clocks-stay-stopped': {
+      title: '让钟停着', outcome: 'clocks-left-stopped', target: 'watch',
+      feedback: '听证会裁定：钟可以停着。值夜室的挂钟不再走，交班的人也不必再等到六点。',
+    },
+    'lend-the-dead-an-hour': {
+      title: '借给死者一小时', outcome: 'hour-lent-to-the-dead', target: 'remembrance',
+      feedback: '听证会把一小时借给死者，不收利息。痕迹墙上多出一格，谁都可以在里面待一会儿。',
+    },
+    'strike-thirteen': {
+      title: '敲第十三下', outcome: 'thirteenth-hour-struck', target: 'unending-gallery',
+      feedback: '墙上的大钟敲了第十三下。画廊里的空框都听见了，那是一个不属于任何一天的钟点。',
+    },
+  };
+  const SC_VERDICT_OUTCOME_IDS = SC_VERDICT_ACTIONS.map((a) => SC_VERDICT_TABLE[a].outcome);
+  const SC_ENTRY_FEEDBACK = '修理铺的门铃没有响，因为它也停了。墙上挂着三只没有表针的钟。';
+  const SC_ABANDON_FEEDBACK = '你把钟挂回墙上。刻痕还在原来的地方。';
+  const SC_COURT_ENTRY_FEEDBACK = '三只钟都修过了。墙上那只有十三道刻度的大钟，开始往下走。';
+  const SC_SMITH_RETURN_FEEDBACK = '钟表匠把修理单折好塞进表袋，领你回到修理铺。';
+  const SC_OLD_TARGETS = ['watch', 'protocol', 'offering'];
+  const SC_HOUR_NAMES = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二'];
+
+  function scDelay() {
+    return reduced ? 300 : 1400;
+  }
+
+  /* 某只钟在某种修法下表针该指的点（1–12） */
+  function scTargetHour(clock, method) {
+    return ((SC_CLOCK_TABLE[clock].hour - 1 + SC_METHOD_TABLE[method].offset) % 12) + 1;
+  }
+
+  /* 纯函数：以表盘中心为原点，把指针位置换算成最近的整点（1–12）；离中心太近返回 0 */
+  function hourFromDialPoint(dx, dy) {
+    if (!Number.isFinite(dx) || !Number.isFinite(dy) || Math.hypot(dx, dy) < 4) return 0;
+    const deg = ((Math.atan2(dx, -dy) * 180) / Math.PI + 360) % 360;
+    return Math.round(deg / 30) % 12 || 12;
+  }
+
+  function scHourText(h) {
+    return h >= 1 && h <= 12 ? `${SC_HOUR_NAMES[h]}点` : '';
+  }
+
+  function scRepairFeedback(clock, method) {
+    return `${SC_CLOCK_TABLE[clock].title}：${SC_METHOD_TABLE[method].result}`;
+  }
+
+  function defaultStoppedClocks() {
+    const latest = {};
+    SC_CLOCKS.forEach((c) => { latest[c] = ''; });
+    return {
+      version: STOPPED_CLOCK_VERSION,
+      visited: { shop: false, bench: false, court: false },
+      draft: { clock: '', method: 'restore' },
+      repairs: [],
+      courtOutcomes: [],
+      repairRuns: 0,
+      courtRuns: 0,
+      latestMethodByClock: latest,
+      lastOutcome: '',
+      activeSmith: null,
+      pending: null,
+    };
+  }
+
+  function clampScCount(n) {
+    const v = Math.floor(Number(n));
+    return Number.isFinite(v) ? Math.min(9999, Math.max(0, v)) : 0;
+  }
+
+  function normalizeStoppedClocks(raw) {
+    const d = defaultStoppedClocks();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== STOPPED_CLOCK_VERSION) return d;
+    const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
+    d.visited = { shop: v.shop === true, bench: v.bench === true, court: v.court === true };
+    const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
+    d.draft = { clock: SC_CLOCKS.includes(dr.clock) ? dr.clock : '', method: SC_METHODS.includes(dr.method) ? dr.method : 'restore' };
+    const repairs = new Set(Array.isArray(raw.repairs) ? raw.repairs : []);
+    d.repairs = SC_REPAIR_IDS.filter((id) => repairs.has(id));
+    const outcomes = new Set(Array.isArray(raw.courtOutcomes) ? raw.courtOutcomes : []);
+    d.courtOutcomes = SC_VERDICT_OUTCOME_IDS.filter((id) => outcomes.has(id));
+    d.repairRuns = clampScCount(raw.repairRuns);
+    d.courtRuns = clampScCount(raw.courtRuns);
+    const latest = raw.latestMethodByClock && typeof raw.latestMethodByClock === 'object' ? raw.latestMethodByClock : {};
+    SC_CLOCKS.forEach((c) => {
+      d.latestMethodByClock[c] = SC_METHODS.includes(latest[c]) && d.repairs.includes(`${c}:${latest[c]}`) ? latest[c] : '';
+    });
+    if (typeof raw.lastOutcome === 'string' && (d.repairs.includes(raw.lastOutcome) || d.courtOutcomes.includes(raw.lastOutcome))) d.lastOutcome = raw.lastOutcome;
+    const s = raw.activeSmith;
+    if (s && typeof s === 'object' && !Array.isArray(s) && Object.keys(s).length === 1 && d.repairs.includes(s.repair)) d.activeSmith = { repair: s.repair };
+    d.pending = normalizeScPending(raw.pending, d);
+    return d;
+  }
+
+  function scCourtProgress(st) {
+    const clocks = new Set();
+    const methods = new Set();
+    st.repairs.forEach((id) => {
+      const [clock, method] = id.split(':');
+      clocks.add(clock);
+      methods.add(method);
+    });
+    return { clocks: clocks.size, methods: methods.size };
+  }
+
+  function scCourtEligible(st) {
+    const p = scCourtProgress(st);
+    return p.clocks === SC_CLOCKS.length && p.methods === SC_METHODS.length;
+  }
+
+  function expectedScPending(p, st) {
+    const clean = !st.activeSmith;
+    switch (p.kind) {
+      case 'entry':
+        return clean ? { feedback: SC_ENTRY_FEEDBACK, kind: 'entry', target: SC_SHOP } : null;
+      case 'clock': {
+        const c = SC_CLOCK_TABLE[p.clock];
+        if (!c || !clean) return null;
+        return { clock: p.clock, feedback: c.feedback, kind: 'clock', source: SC_SHOP, target: SC_BENCH };
+      }
+      case 'repair': {
+        const c = SC_CLOCK_TABLE[p.clock];
+        if (!c || !SC_METHOD_TABLE[p.method] || !clean || st.draft.clock !== p.clock || st.draft.method !== p.method) return null;
+        return { clock: p.clock, feedback: scRepairFeedback(p.clock, p.method), kind: 'repair', method: p.method, repair: `${p.clock}:${p.method}`, source: SC_BENCH, target: c.target };
+      }
+      case 'abandon':
+        return st.draft.clock ? { feedback: SC_ABANDON_FEEDBACK, kind: 'abandon', source: SC_BENCH, target: SC_SHOP } : null;
+      case 'smith-return': {
+        if (!st.activeSmith) return null;
+        const clock = st.activeSmith.repair.split(':')[0];
+        return { feedback: SC_SMITH_RETURN_FEEDBACK, from: SC_CLOCK_TABLE[clock].target, kind: 'smith-return', repair: st.activeSmith.repair, target: SC_SHOP };
+      }
+      case 'court-entry':
+        return clean && scCourtEligible(st) ? { feedback: SC_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: SC_COURT } : null;
+      case 'verdict': {
+        const a = SC_VERDICT_TABLE[p.action];
+        if (!a || !clean || !st.visited.court || !scCourtEligible(st)) return null;
+        return { action: p.action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: SC_COURT, target: a.target };
+      }
+      default:
+        return null;
+    }
+  }
+
+  function normalizeScPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+    const expected = expectedScPending(p, st);
+    if (!expected) return null;
+    const keys = Object.keys(p).sort();
+    const want = Object.keys(expected).sort();
+    if (keys.length !== want.length || keys.some((k, i) => k !== want[i] || p[k] !== expected[k])) return null;
+    return expected;
+  }
+
+  function stoppedClocksUnlocked() {
+    const compute = () => {
+      if (!returnedKnocksUnlocked()) return false;
+      const v94 = getReturnedKnocks();
+      return rkCourtEligible(v94) && RK_VERDICT_OUTCOME_IDS.every((o) => v94.courtOutcomes.includes(o));
+    };
+    return store.memo ? store.memo("stoppedClocksUnlocked", compute) : compute();
+  }
+
+  function getStoppedClocks() {
+    if (!stoppedClocksUnlocked()) return defaultStoppedClocks();
+    let raw;
+    try { raw = JSON.parse(store.get(STOPPED_CLOCK_KEY, '{}')); } catch { return defaultStoppedClocks(); }
+    return normalizeStoppedClocks(raw);
+  }
+
+  function saveStoppedClocks(st) {
+    if (!stoppedClocksUnlocked()) return defaultStoppedClocks();
+    const canonical = normalizeStoppedClocks(Object.assign({}, st, { version: STOPPED_CLOCK_VERSION }));
+    store.set(STOPPED_CLOCK_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function scPendingLogicalSource(p) {
+    if (!p) return '';
+    if (p.kind === 'entry' || p.kind === 'court-entry') return 'remembrance';
+    if (p.kind === 'smith-return') return p.from;
+    return p.source || '';
+  }
+
+  function resolveStoppedClockPendingOnArrival(sceneName) {
+    const st = getStoppedClocks();
+    const p = st.pending;
+    if (!p) return st;
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.shop = true;
+      } else if (p.kind === 'clock') {
+        st.visited.bench = true;
+        st.draft = { clock: p.clock, method: st.draft.clock === p.clock ? st.draft.method : 'restore' };
+      } else if (p.kind === 'repair') {
+        st.repairRuns = clampScCount(st.repairRuns + 1);
+        if (!st.repairs.includes(p.repair)) st.repairs = st.repairs.concat(p.repair);
+        st.latestMethodByClock[p.clock] = p.method;
+        st.lastOutcome = p.repair;
+        st.activeSmith = { repair: p.repair };
+        st.draft = { clock: '', method: 'restore' };
+      } else if (p.kind === 'abandon') {
+        st.draft = { clock: '', method: 'restore' };
+        st.visited.shop = true;
+      } else if (p.kind === 'smith-return') {
+        st.activeSmith = null;
+        st.visited.shop = true;
+      } else if (p.kind === 'court-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'verdict') {
+        st.courtRuns = clampScCount(st.courtRuns + 1);
+        if (!st.courtOutcomes.includes(p.outcome)) st.courtOutcomes = st.courtOutcomes.concat(p.outcome);
+        st.lastOutcome = p.outcome;
+      }
+      return saveStoppedClocks(st);
+    }
+    if (sceneName === scPendingLogicalSource(p)) return st;
+    st.pending = null;
+    return saveStoppedClocks(st);
+  }
+
+  const SC_RESPONSE_BY_KIND = {
+    entry: '#sc-entry-response',
+    clock: '#stopped-clock-repair-shop-response',
+    repair: '#clock-bench-response',
+    abandon: '#clock-bench-response',
+    'court-entry': '#sc-court-entry-response',
+    verdict: '#hearing-of-the-thirteenth-hour-response',
+  };
+
+  function showScResponse(selector, text) {
+    const el = $(selector);
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = !text;
+  }
+
+  function syncStoppedClocksAll() {
+    syncScShop();
+    syncClockBench();
+    syncScCourt();
+    syncScSmiths();
+    syncScEchoes();
+    syncScRemembrance();
+    syncScLinks();
+  }
+
+  function replayStoppedClockPending(sceneName) {
+    const st = getStoppedClocks();
+    const p = st.pending;
+    if (p && p.target === sceneName) resolveStoppedClockPendingOnArrival(sceneName);
+    else if (p && sceneName === scPendingLogicalSource(p)) {
+      syncStoppedClocksAll();
+      const selector = p.kind === 'smith-return' ? `#sc-smith-response-${p.from}` : SC_RESPONSE_BY_KIND[p.kind];
+      if (selector) showScResponse(selector, p.feedback);
+      AutoAdvance.schedule(sceneName, p.target, { delay: scDelay() });
+      return;
+    } else if (p) {
+      st.pending = null;
+      saveStoppedClocks(st);
+    }
+    syncStoppedClocksAll();
+  }
+
+  function launchSc(scene, buttonId, pending, responseSelector) {
+    const st = getStoppedClocks();
+    st.pending = pending;
+    const saved = saveStoppedClocks(st);
+    if (!saved.pending) return false;
+    const btn = buttonId ? $(`#${buttonId}`) : null;
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+    if (AudioEngine.whoosh) AudioEngine.whoosh();
+    syncStoppedClocksAll();
+    showScResponse(responseSelector, pending.feedback);
+    AutoAdvance.schedule(scene, pending.target, { delay: scDelay() });
+    return true;
+  }
+
+  function scReady(scene, buttonId) {
+    if (currentScene !== scene) return null;
+    if (AutoAdvance.has(scene)) return null;
+    if (buttonId && !buttonAvailable(buttonId)) return null;
+    if (!stoppedClocksUnlocked()) return null;
+    const st = getStoppedClocks();
+    return st.pending ? null : st;
+  }
+
+  function chooseScEntry() {
+    const st = scReady('remembrance', 'sc-entry-btn');
+    if (!st || st.activeSmith) return;
+    if (getReturnedKnocks().pending) return;
+    launchSc('remembrance', 'sc-entry-btn', { feedback: SC_ENTRY_FEEDBACK, kind: 'entry', target: SC_SHOP }, '#sc-entry-response');
+  }
+
+  function chooseScClock(clock) {
+    const c = SC_CLOCK_TABLE[clock];
+    if (!c) return;
+    const st = scReady(SC_SHOP, `sc-clock-${clock}`);
+    if (!st || st.activeSmith) return;
+    launchSc(SC_SHOP, `sc-clock-${clock}`, { clock, feedback: c.feedback, kind: 'clock', source: SC_SHOP, target: SC_BENCH }, '#stopped-clock-repair-shop-response');
+  }
+
+  function chooseScMethod(method) {
+    if (!SC_METHOD_TABLE[method]) return;
+    const st = scReady(SC_BENCH, `sc-method-${method}`);
+    if (!st || !st.draft.clock || !st.visited.bench || st.draft.method === method) return;
+    st.draft.method = method;
+    saveStoppedClocks(st);
+    syncClockBench();
+  }
+
+  /* 修钟台的表针：位置只放在内存里；换一只钟才卸下表针，上弦对了才写 pending */
+  let scHand = 0;
+  let scHandClock = '';
+  let scDragging = false;
+
+  function paintScDial(message) {
+    const st = getStoppedClocks();
+    const dial = $('#sc-dial');
+    const status = $('#sc-dial-status');
+    if (!st.draft.clock) {
+      if (dial) { dial.classList.remove('has-hand'); dial.setAttribute('aria-valuenow', '0'); dial.setAttribute('aria-valuetext', '没有表针'); }
+      if (status) status.textContent = '';
+      return;
+    }
+    const c = SC_CLOCK_TABLE[st.draft.clock];
+    if (dial) {
+      dial.classList.toggle('has-hand', scHand > 0);
+      if (dial.style && dial.style.setProperty) {
+        dial.style.setProperty('--sc-hand-angle', `${(scHand % 12) * 30}deg`);
+        dial.style.setProperty('--sc-mark-angle', `${(c.hour % 12) * 30}deg`);
+      }
+      dial.setAttribute('aria-valuenow', String(scHand));
+      dial.setAttribute('aria-valuetext', scHand ? `表针指着${scHourText(scHand)}，刻痕在${scHourText(c.hour)}` : `还没装表针，刻痕在${scHourText(c.hour)}`);
+    }
+    if (status) status.textContent = message || (scHand ? `表针指着${scHourText(scHand)}。` : '表针还没装上：拖动表盘，或用方向键拨。');
+  }
+
+  function setScHand(h) {
+    const st = scReady(SC_BENCH, 'sc-dial');
+    if (!st || !st.draft.clock || st.activeSmith) return false;
+    const next = ((Math.round(h) - 1 + 1200) % 12) + 1;
+    if (next === scHand) return false;
+    scHand = next;
+    if (AudioEngine.tick) AudioEngine.tick();
+    paintScDial('');
+    return true;
+  }
+
+  function windScClock() {
+    const st = scReady(SC_BENCH, 'sc-wind');
+    if (!st || !st.draft.clock || st.activeSmith) return;
+    const { clock, method } = st.draft;
+    const want = scTargetHour(clock, method);
+    if (!scHand) { paintScDial('表针还没装上，上弦没有用。'); return; }
+    if (scHand !== want) { paintScDial(`齿轮咬不上。表针指着${scHourText(scHand)}；${SC_METHOD_TABLE[method].hint}`); return; }
+    paintScDial('齿轮咬上了。');
+    launchSc(SC_BENCH, 'sc-wind', {
+      clock, feedback: scRepairFeedback(clock, method), kind: 'repair', method, repair: `${clock}:${method}`, source: SC_BENCH, target: SC_CLOCK_TABLE[clock].target,
+    }, '#clock-bench-response');
+  }
+
+  function scHandFromEvent(e) {
+    const dial = $('#sc-dial');
+    if (!dial || !dial.getBoundingClientRect) return 0;
+    const r = dial.getBoundingClientRect();
+    return hourFromDialPoint(e.clientX - (r.left + r.width / 2), e.clientY - (r.top + r.height / 2));
+  }
+
+  function onScDialPointerDown(e) {
+    if (!e.isTrusted || (e.button !== undefined && e.button !== 0)) return;
+    const h = scHandFromEvent(e);
+    if (!h || !scReady(SC_BENCH, 'sc-dial')) return;
+    scDragging = true;
+    const dial = $('#sc-dial');
+    if (dial && dial.setPointerCapture && e.pointerId !== undefined) { try { dial.setPointerCapture(e.pointerId); } catch {} }
+    if (dial && dial.focus) dial.focus({ preventScroll: true });
+    setScHand(h);
+    e.preventDefault();
+  }
+
+  function onScDialPointerMove(e) {
+    if (!scDragging || !e.isTrusted) return;
+    const h = scHandFromEvent(e);
+    if (h) setScHand(h);
+  }
+
+  function onScDialPointerEnd() {
+    scDragging = false;
+  }
+
+  function onScDialKey(e) {
+    if (!e.isTrusted) return;
+    const step = { ArrowRight: 1, ArrowUp: 1, ArrowLeft: -1, ArrowDown: -1 }[e.key];
+    if (step) { setScHand((scHand || 12) + step); e.preventDefault(); return; }
+    if (e.key === 'Home') { setScHand(12); e.preventDefault(); return; }
+    if (e.key === 'Enter') { windScClock(); e.preventDefault(); }
+  }
+
+  function chooseScAbandon() {
+    const st = scReady(SC_BENCH, 'sc-abandon');
+    if (!st || !st.draft.clock) return;
+    launchSc(SC_BENCH, 'sc-abandon', { feedback: SC_ABANDON_FEEDBACK, kind: 'abandon', source: SC_BENCH, target: SC_SHOP }, '#clock-bench-response');
+  }
+
+  function chooseScSmithReturn(scene) {
+    const st = scReady(scene, `sc-smith-return-${scene}`);
+    if (!st || !st.activeSmith) return;
+    if (SC_CLOCK_TABLE[st.activeSmith.repair.split(':')[0]].target !== scene) return;
+    launchSc(scene, `sc-smith-return-${scene}`, { feedback: SC_SMITH_RETURN_FEEDBACK, from: scene, kind: 'smith-return', repair: st.activeSmith.repair, target: SC_SHOP }, `#sc-smith-response-${scene}`);
+  }
+
+  function chooseScCourtEntry() {
+    const st = scReady('remembrance', 'sc-court-entry-btn');
+    if (!st || st.activeSmith || !scCourtEligible(st)) return;
+    launchSc('remembrance', 'sc-court-entry-btn', { feedback: SC_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: SC_COURT }, '#sc-court-entry-response');
+  }
+
+  function chooseScVerdict(action) {
+    const a = SC_VERDICT_TABLE[action];
+    if (!a) return;
+    const st = scReady(SC_COURT, `sc-verdict-${action}`);
+    if (!st || st.activeSmith || !st.visited.court || !scCourtEligible(st)) return;
+    launchSc(SC_COURT, `sc-verdict-${action}`, { action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: SC_COURT, target: a.target }, '#hearing-of-the-thirteenth-hour-response');
+  }
+
+  function stoppedClocksBridgeAllows(targetScene) {
+    if (!stoppedClocksUnlocked()) return false;
+    const st = getStoppedClocks();
+    if (st.pending && (st.pending.kind === 'repair' || st.pending.kind === 'verdict') && st.pending.target === targetScene) return true;
+    if (st.activeSmith && SC_CLOCK_TABLE[st.activeSmith.repair.split(':')[0]].target === targetScene) return true;
+    const verdict = SC_VERDICT_ACTIONS.find((a) => SC_VERDICT_TABLE[a].outcome === st.lastOutcome);
+    return Boolean(verdict && SC_VERDICT_TABLE[verdict].target === targetScene);
+  }
+
+  function scShopCanVisit() {
+    if (!stoppedClocksUnlocked()) return false;
+    const st = getStoppedClocks();
+    return st.visited.shop || Boolean(st.pending && st.pending.target === SC_SHOP);
+  }
+
+  function clockBenchCanVisit() {
+    if (!stoppedClocksUnlocked()) return false;
+    const st = getStoppedClocks();
+    if (st.visited.bench && st.draft.clock) return true;
+    return Boolean(st.pending && st.pending.kind === 'clock');
+  }
+
+  function scCourtCanVisit() {
+    if (!stoppedClocksUnlocked()) return false;
+    const st = getStoppedClocks();
+    if (st.visited.court && scCourtEligible(st)) return true;
+    return Boolean(st.pending && st.pending.kind === 'court-entry');
+  }
+
+  function syncScShop() {
+    const canVisit = scShopCanVisit();
+    const st = getStoppedClocks();
+    const fig = $('#sc-shop-figure');
+    if (fig) fig.hidden = !canVisit;
+    const blocked = !canVisit || Boolean(st.pending) || Boolean(st.activeSmith);
+    SC_CLOCKS.forEach((clock) => {
+      const btn = $(`#sc-clock-${clock}`);
+      if (!btn) return;
+      btn.disabled = blocked;
+      btn.classList.toggle('is-collected', SC_METHODS.every((m) => st.repairs.includes(`${clock}:${m}`)));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'clock' && st.pending.clock === clock ? 'true' : 'false');
+    });
+    const note = $('#sc-shop-note');
+    if (note) {
+      let text = '';
+      if (st.activeSmith) {
+        const c = SC_CLOCK_TABLE[st.activeSmith.repair.split(':')[0]];
+        text = `先完成正在送回的钟：${c.smithTitle}还在${c.place}等你签收。`;
+      } else if (st.draft.clock) {
+        text = `修钟台上还放着「${SC_CLOCK_TABLE[st.draft.clock].title}」。`;
+      }
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const cont = $('#sc-continue');
+    if (cont) {
+      const show = canVisit && Boolean(st.draft.clock) && !st.activeSmith;
+      cont.hidden = !show;
+      cont.disabled = !show || Boolean(st.pending);
+    }
+    if (!st.pending || st.pending.source !== SC_SHOP) showScResponse('#stopped-clock-repair-shop-response', '');
+  }
+
+  function syncClockBench() {
+    const canVisit = clockBenchCanVisit();
+    const st = getStoppedClocks();
+    const ready = canVisit && Boolean(st.draft.clock);
+    if (st.draft.clock !== scHandClock) { scHandClock = st.draft.clock; scHand = 0; }
+    const panel = $('#sc-bench-panel');
+    if (panel) panel.hidden = !ready;
+    if (ready) {
+      const c = SC_CLOCK_TABLE[st.draft.clock];
+      const title = $('#sc-bench-clock');
+      if (title) title.textContent = `${c.title} —— ${c.feedback}`;
+      const hint = $('#sc-method-hint');
+      if (hint) hint.textContent = `${SC_METHOD_TABLE[st.draft.method].hint}拨好后上弦，修好会送回${c.place}，由${c.smithTitle}签收。`;
+    }
+    SC_METHODS.forEach((method) => {
+      const btn = $(`#sc-method-${method}`);
+      if (!btn) return;
+      btn.disabled = !ready || Boolean(st.pending);
+      btn.setAttribute('aria-pressed', ready && st.draft.method === method ? 'true' : 'false');
+      btn.classList.toggle('is-collected', Boolean(st.draft.clock) && st.repairs.includes(`${st.draft.clock}:${method}`));
+    });
+    ['sc-wind', 'sc-abandon'].forEach((id) => {
+      const btn = $(`#${id}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending);
+    });
+    const dial = $('#sc-dial');
+    if (dial) {
+      const live = ready && !st.pending;
+      dial.setAttribute('aria-disabled', live ? 'false' : 'true');
+      dial.setAttribute('tabindex', live ? '0' : '-1');
+      dial.hidden = !ready;
+    }
+    paintScDial(st.pending && st.pending.kind === 'repair' ? '齿轮咬上了，钟正在送回去。' : '');
+    if (!st.pending || st.pending.source !== SC_BENCH) showScResponse('#clock-bench-response', '');
+  }
+
+  function syncScCourt() {
+    const canVisit = scCourtCanVisit();
+    const st = getStoppedClocks();
+    const fig = $('#hearing-of-the-thirteenth-hour-figure');
+    if (fig) fig.hidden = !canVisit;
+    SC_VERDICT_ACTIONS.forEach((action) => {
+      const btn = $(`#sc-verdict-${action}`);
+      if (!btn) return;
+      btn.disabled = !canVisit || Boolean(st.pending) || Boolean(st.activeSmith);
+      btn.classList.toggle('is-collected', st.courtOutcomes.includes(SC_VERDICT_TABLE[action].outcome));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'verdict' && st.pending.action === action ? 'true' : 'false');
+    });
+    if (!st.pending || st.pending.source !== SC_COURT) showScResponse('#hearing-of-the-thirteenth-hour-response', '');
+  }
+
+  function syncScSmiths() {
+    const st = stoppedClocksUnlocked() ? getStoppedClocks() : defaultStoppedClocks();
+    const [clock, method] = st.activeSmith ? st.activeSmith.repair.split(':') : ['', ''];
+    SC_OLD_TARGETS.forEach((scene) => {
+      const box = $(`#sc-smith-${scene}`);
+      if (!box) return;
+      const show = Boolean(clock) && SC_CLOCK_TABLE[clock].target === scene;
+      box.hidden = !show;
+      const btn = $(`#sc-smith-return-${scene}`);
+      if (btn) {
+        btn.disabled = !show || Boolean(st.pending);
+        btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'smith-return' && st.pending.from === scene ? 'true' : 'false');
+      }
+      if (!show) return;
+      const c = SC_CLOCK_TABLE[clock];
+      const head = $(`#sc-smith-title-${scene}`);
+      if (head) head.textContent = `修理单签收 · ${c.smithTitle} · ${c.title}（${SC_METHOD_TABLE[method].title}）`;
+      const time = $(`#sc-smith-time-${scene}`);
+      if (time) time.textContent = `停在${scHourText(c.hour)} → 现在指着${scHourText(scTargetHour(clock, method))}`;
+      const body = $(`#sc-smith-body-${scene}`);
+      if (body) body.textContent = SC_METHOD_TABLE[method].result;
+      if (!st.pending || st.pending.kind !== 'smith-return') showScResponse(`#sc-smith-response-${scene}`, '');
+    });
+  }
+
+  function syncScEchoes() {
+    const st = stoppedClocksUnlocked() ? getStoppedClocks() : defaultStoppedClocks();
+    SC_CLOCKS.forEach((clock) => {
+      const c = SC_CLOCK_TABLE[clock];
+      const el = $(`#sc-echo-${c.target}`);
+      if (!el) return;
+      const method = st.latestMethodByClock[clock];
+      if (!method) { el.hidden = true; el.textContent = ''; return; }
+      el.textContent = `${c.echoLead}「${SC_METHOD_TABLE[method].title} · 指着${scHourText(scTargetHour(clock, method))}」${SC_METHOD_TABLE[method].result}`;
+      el.hidden = false;
+    });
+  }
+
+  function syncScRemembrance() {
+    const unlocked = stoppedClocksUnlocked();
+    const shell = $('#sc-codex');
+    const memory = $('#sc-memory');
+    if (!unlocked) {
+      [shell, memory].forEach((el) => { if (el) el.hidden = true; });
+      return;
+    }
+    const st = getStoppedClocks();
+    const v94Pending = Boolean(getReturnedKnocks().pending);
+    if (shell) shell.hidden = false;
+    const progress = scCourtProgress(st);
+    if (memory) {
+      memory.hidden = false;
+      memory.textContent = `停摆钟：已修 ${st.repairs.length}/9 份，共上弦 ${st.repairRuns} 次；第十三点听证 ${st.courtOutcomes.length}/3。`;
+    }
+    const hints = $('#sc-court-hints');
+    if (hints) {
+      const rows = [['三只钟都修过', progress.clocks, SC_CLOCKS.length], ['三种修法都用过', progress.methods, SC_METHODS.length]];
+      hints.replaceChildren(...rows.map(([label, have, need]) => {
+        const li = document.createElement('li');
+        li.className = have >= need ? 'is-met' : '';
+        li.textContent = `${label} ${have}/${need}`;
+        return li;
+      }));
+    }
+    const clean = !st.pending && !st.activeSmith;
+    const entry = $('#sc-entry-btn');
+    if (entry) {
+      entry.hidden = false;
+      entry.disabled = !clean || v94Pending;
+      entry.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' ? 'true' : 'false');
+    }
+    const note = $('#sc-entry-note');
+    if (note) {
+      const text = v94Pending ? '先完成正在寄出的回信：回敲邮局还有一封信在路上。' : st.activeSmith ? '先完成正在送回的钟。' : '';
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const court = $('#sc-court-entry-btn');
+    if (court) {
+      const eligible = scCourtEligible(st);
+      court.hidden = !eligible;
+      court.disabled = !eligible || !clean;
+      court.setAttribute('aria-pressed', st.pending && st.pending.kind === 'court-entry' ? 'true' : 'false');
+    }
+    const grid = $('#sc-codex-grid');
+    if (grid) {
+      const have = new Set(st.repairs);
+      const cells = SC_REPAIR_IDS.map((id) => {
+        const [clock, method] = id.split(':');
+        const cell = document.createElement('div');
+        cell.className = `sc-cell ${have.has(id) ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = have.has(id) ? `${SC_CLOCK_TABLE[clock].title}\n${SC_METHOD_TABLE[method].title} · 指着${scHourText(scTargetHour(clock, method))}` : '？？？';
+        return cell;
+      });
+      SC_VERDICT_ACTIONS.forEach((action) => {
+        const a = SC_VERDICT_TABLE[action];
+        const got = st.courtOutcomes.includes(a.outcome);
+        const cell = document.createElement('div');
+        cell.className = `sc-cell sc-cell-verdict ${got ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = got ? `[第十三点听证会] ${a.title}\n${a.feedback}` : '？？？';
+        cells.push(cell);
+      });
+      grid.replaceChildren(...cells);
+    }
+    if (!st.pending || (st.pending.kind !== 'entry' && st.pending.kind !== 'court-entry')) {
+      showScResponse('#sc-entry-response', '');
+      showScResponse('#sc-court-entry-response', '');
+    }
+  }
+
+  function syncScLinks() {
+    const st = stoppedClocksUnlocked() ? getStoppedClocks() : null;
+    [['stopped-clock-repair-shop-link', 'shop'], ['clock-bench-link', 'bench'], ['hearing-of-the-thirteenth-hour-link', 'court']].forEach(([id, key]) => {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !(st && st.visited[key]);
+    });
+  }
+
+  function forgetStoppedClocksState() {
+    try { localStorage.removeItem(STOPPED_CLOCK_KEY); } catch {}
+    [SC_SHOP, SC_BENCH, SC_COURT].forEach((scene) => AutoAdvance.clear(scene));
+    scHand = 0;
+    scHandClock = '';
+    scDragging = false;
+    ['#sc-codex', '#sc-memory', '#sc-shop-figure', '#sc-bench-panel', '#hearing-of-the-thirteenth-hour-figure',
+      '#stopped-clock-repair-shop-link', '#clock-bench-link', '#hearing-of-the-thirteenth-hour-link', '#sc-continue', '#sc-court-entry-btn',
+      '#sc-entry-response', '#sc-court-entry-response', '#stopped-clock-repair-shop-response', '#clock-bench-response', '#hearing-of-the-thirteenth-hour-response',
+      ...SC_OLD_TARGETS.flatMap((scene) => [`#sc-smith-${scene}`, `#sc-echo-${scene}`]),
+    ].forEach((sel) => { const el = $(sel); if (el) el.hidden = true; });
+    $$('[id^="sc-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+  }
+
+  const onTrustedSc = (selector, handler) => {
+    const el = $(selector);
+    if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+  };
+  onTrustedSc('#sc-entry-btn', chooseScEntry);
+  onTrustedSc('#sc-court-entry-btn', chooseScCourtEntry);
+  onTrustedSc('#sc-abandon', chooseScAbandon);
+  onTrustedSc('#sc-wind', windScClock);
+  onTrustedSc('#sc-continue', () => {
+    const st = scReady(SC_SHOP, 'sc-continue');
+    if (!st || !st.draft.clock || st.activeSmith) return;
+    const clock = st.draft.clock;
+    launchSc(SC_SHOP, 'sc-continue', { clock, feedback: SC_CLOCK_TABLE[clock].feedback, kind: 'clock', source: SC_SHOP, target: SC_BENCH }, '#stopped-clock-repair-shop-response');
+  });
+  SC_CLOCKS.forEach((clock) => onTrustedSc(`#sc-clock-${clock}`, () => chooseScClock(clock)));
+  SC_METHODS.forEach((method) => onTrustedSc(`#sc-method-${method}`, () => chooseScMethod(method)));
+  SC_VERDICT_ACTIONS.forEach((action) => onTrustedSc(`#sc-verdict-${action}`, () => chooseScVerdict(action)));
+  SC_OLD_TARGETS.forEach((scene) => onTrustedSc(`#sc-smith-return-${scene}`, () => chooseScSmithReturn(scene)));
+  {
+    const dial = $('#sc-dial');
+    if (dial) {
+      dial.addEventListener('pointerdown', onScDialPointerDown);
+      dial.addEventListener('pointermove', onScDialPointerMove);
+      dial.addEventListener('pointerup', onScDialPointerEnd);
+      dial.addEventListener('pointercancel', onScDialPointerEnd);
+      dial.addEventListener('lostpointercapture', onScDialPointerEnd);
+      dial.addEventListener('keydown', onScDialKey);
+    }
+  }
+
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -51138,8 +51886,25 @@ document.addEventListener("DOMContentLoaded", () => {
     if (eligible) items.push(`开庭条件已满足；第一下仲裁已得 ${st.courtOutcomes.length}/3`);
     if (st.activeCourier) items.push("有一封回信在旧场景等你签收：点邮差回到回敲邮局");
     else if (st.draft.sender) items.push(`叩门间里还放着「${RK_SENDER_TABLE[st.draft.sender].title}」`);
-    if (eligible && st.courtOutcomes.length >= 3) return { title: "v94 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    if (eligible && st.courtOutcomes.length >= 3) return stoppedClocksProgressStep();
     return { title: "v94 回敲邮局", items, target: eligible ? "rk-court" : "rk", done: false };
+  };
+
+  /* v95：按三只钟、三种修法与三项听证给出缺项 */
+  const stoppedClocksProgressStep = () => {
+    if (!stoppedClocksUnlocked()) return null;
+    const st = getStoppedClocks();
+    const items = [];
+    const clocks = SC_CLOCKS.filter((x) => !st.repairs.some((id) => id.startsWith(`${x}:`))).map((x) => SC_CLOCK_TABLE[x].title);
+    const methods = SC_METHODS.filter((m) => !st.repairs.some((id) => id.endsWith(`:${m}`))).map((m) => SC_METHOD_TABLE[m].title);
+    if (clocks.length) items.push(`还没修的钟：${clocks.join("、")}`);
+    if (methods.length) items.push(`还没用过的修法：${methods.join("、")}`);
+    const eligible = scCourtEligible(st);
+    if (eligible) items.push(`开庭条件已满足；第十三点听证已得 ${st.courtOutcomes.length}/3`);
+    if (st.activeSmith) items.push("有一只钟在旧场景等你签收：点钟表匠回到修理铺");
+    else if (st.draft.clock) items.push(`修钟台上还放着「${SC_CLOCK_TABLE[st.draft.clock].title}」`);
+    if (eligible && st.courtOutcomes.length >= 3) return { title: "v95 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    return { title: "v95 停摆钟修理铺", items, target: eligible ? "sc-court" : "sc", done: false };
   };
 
   const syncProgressGuide = () => {
@@ -51487,6 +52252,7 @@ document.addEventListener("DOMContentLoaded", () => {
   syncWitnessAll();
   syncUnseenAll();
   syncReturnedKnocksAll();
+  syncStoppedClocksAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

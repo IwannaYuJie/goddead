@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=94">
+  <link rel="stylesheet" href="styles.css?v=95">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -277,6 +277,16 @@
             <li data-rule="8" tabindex="0" role="button" data-hover><b>其八</b><p>离开时，请确认你没有被记住。<del>确认有效。</del><em>确认无效。你会被记住。</em></p></li>
           </ol>
           <p class="rules-foot reveal">守则如有变动，恕不另行通知。——有些变动并非我们所为。</p>
+
+          <!-- v95 守则修理单签收与记忆 -->
+          <p class="watch-memory sc-echo" id="sc-echo-protocol" hidden></p>
+          <div class="sc-smith reveal" id="sc-smith-protocol" hidden>
+            <p class="sc-smith-title" id="sc-smith-title-protocol"></p>
+            <p class="sc-smith-time" id="sc-smith-time-protocol"></p>
+            <p class="sc-smith-body" id="sc-smith-body-protocol"></p>
+            <p class="sc-response" id="sc-smith-response-protocol" aria-live="polite" hidden></p>
+            <button class="sc-action" id="sc-smith-return-protocol" type="button" data-hover>带着修理单回到修理铺 ⟶</button>
+          </div>
 
           <nav class="scene-exits reveal" aria-label="离开守则">
             <button class="exit-link" type="button" data-go="threshold" data-hover>⟵ 回到门外</button>
@@ -3704,6 +3714,15 @@
             </div>
           </div>
 
+          <!-- v95 值夜室修理单签收与记忆 -->
+          <p class="watch-memory sc-echo" id="sc-echo-watch" hidden></p>
+          <div class="sc-smith reveal" id="sc-smith-watch" hidden>
+            <p class="sc-smith-title" id="sc-smith-title-watch"></p>
+            <p class="sc-smith-time" id="sc-smith-time-watch"></p>
+            <p class="sc-smith-body" id="sc-smith-body-watch"></p>
+            <p class="sc-response" id="sc-smith-response-watch" aria-live="polite" hidden></p>
+            <button class="sc-action" id="sc-smith-return-watch" type="button" data-hover>带着修理单回到修理铺 ⟶</button>
+          </div>
           <!-- v93 值夜认领回执与记忆 -->
           <p class="watch-memory us-echo" id="us-echo-watch" hidden></p>
           <div class="us-clerk reveal" id="us-clerk-watch" hidden>
@@ -4116,6 +4135,15 @@
           <div class="counterfactual-echo reveal" id="counterfactual-echo-offering" hidden>
             <p class="counterfactual-echo-response" id="counterfactual-echo-response-offering" aria-live="polite"></p>
             <button class="counterfactual-echo-return" id="counterfactual-echo-return-offering" type="button" data-hover>把灰中多出的一生送回纺锤 ⟶</button>
+          </div>
+          <!-- v95 焚献炉修理单签收与记忆 -->
+          <p class="watch-memory sc-echo" id="sc-echo-offering" hidden></p>
+          <div class="sc-smith reveal" id="sc-smith-offering" hidden>
+            <p class="sc-smith-title" id="sc-smith-title-offering"></p>
+            <p class="sc-smith-time" id="sc-smith-time-offering"></p>
+            <p class="sc-smith-body" id="sc-smith-body-offering"></p>
+            <p class="sc-response" id="sc-smith-response-offering" aria-live="polite" hidden></p>
+            <button class="sc-action" id="sc-smith-return-offering" type="button" data-hover>带着修理单回到修理铺 ⟶</button>
           </div>
           <!-- v92 焚献理赔回执与记忆 -->
           <p class="watch-memory wl-echo" id="wl-echo-offering" hidden></p>
@@ -4625,6 +4653,22 @@
               <p class="rk-response" id="rk-entry-response" aria-live="polite" hidden></p>
               <button class="rk-entry-btn" id="rk-court-entry-btn" type="button" hidden data-hover>进入第一下仲裁庭 · ENTER THE ARBITRATION OF THE FIRST KNOCK ⟶</button>
               <p class="rk-response" id="rk-court-entry-response" aria-live="polite" hidden></p>
+            </div>
+          </div>
+
+          <!-- v95 停摆钟图鉴 -->
+          <p class="watch-memory sc-memory" id="sc-memory" hidden></p>
+          <div class="sc-codex reveal" id="sc-codex" hidden>
+            <p class="sc-kicker">REPAIR SHOP OF STOPPED CLOCKS · 停 摆 图 鉴</p>
+            <div class="sc-grid" id="sc-codex-grid"></div>
+            <p class="sc-hints-title">第十三点听证会开庭条件</p>
+            <ul class="sc-hints" id="sc-court-hints"></ul>
+            <div class="sc-codex-entry">
+              <button class="sc-entry-btn" id="sc-entry-btn" type="button" hidden data-hover>前往停摆钟修理铺 · GO TO THE REPAIR SHOP OF STOPPED CLOCKS ⟶</button>
+              <p class="sc-note" id="sc-entry-note" hidden></p>
+              <p class="sc-response" id="sc-entry-response" aria-live="polite" hidden></p>
+              <button class="sc-entry-btn" id="sc-court-entry-btn" type="button" hidden data-hover>进入第十三点听证会 · ENTER THE HEARING OF THE THIRTEENTH HOUR ⟶</button>
+              <p class="sc-response" id="sc-court-entry-response" aria-live="polite" hidden></p>
             </div>
           </div>
 
@@ -7545,6 +7589,85 @@
         </div>
       </section>
 
+      <!-- v95 第一幕：停摆钟修理铺 -->
+      <section class="scene scene-branch scene-stopped-clock-repair-shop" id="scene-stopped-clock-repair-shop" data-scene="stopped-clock-repair-shop" data-title="Goddead — 停摆钟修理铺" aria-label="停摆钟修理铺">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">13α / 停摆 · REPAIR SHOP OF STOPPED CLOCKS</p>
+            <h2 class="sec-title">停摆钟修理铺</h2>
+            <p class="sec-desc">神死的那一刻，每只钟停在不同的点上。墙上三只钟都没了表针，表盘上只留一道刻痕，记着它停下的地方。</p>
+          </header>
+          <figure class="branch-figure sc-figure reveal" id="sc-shop-figure">
+            <img class="branch-img sc-img" data-src="assets/v95-stopped-clock-repair-shop.webp" alt="停摆钟修理铺：墙上挂着三只没有表针的钟——左边一只大圆挂钟，中间一块刻着八道横线的布告板顶上嵌着钟，右边架子上一只被香灰熏黑的铜座钟；前面是摆满齿轮和镊子的工作台" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot sc-hotspot sc-hotspot-watch" id="sc-clock-watch-clock" type="button" aria-label="修钟：值夜室的挂钟，刻痕停在五点" data-hover><span class="dh-label" aria-hidden="true">值夜室 · 停在五点</span></button>
+            <button class="scene-hotspot sc-hotspot sc-hotspot-protocol" id="sc-clock-protocol-clock" type="button" aria-label="修钟：守则板上的钟，刻痕停在十二点" data-hover><span class="dh-label" aria-hidden="true">守则板 · 停在十二点</span></button>
+            <button class="scene-hotspot sc-hotspot sc-hotspot-offering" id="sc-clock-offering-clock" type="button" aria-label="修钟：焚献炉的座钟，刻痕停在九点" data-hover><span class="dh-label" aria-hidden="true">焚献炉 · 停在九点</span></button>
+          </figure>
+          <p class="sc-note reveal" id="sc-shop-note" hidden></p>
+          <p class="branch-response sc-response" id="stopped-clock-repair-shop-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开停摆钟修理铺">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+            <button class="sc-action" id="sc-continue" type="button" hidden data-hover>回到修钟台 ⟶</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v95 第二幕：修钟台 -->
+      <section class="scene scene-branch scene-clock-bench" id="scene-clock-bench" data-scene="clock-bench" data-title="Goddead — 修钟台" aria-label="修钟台">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">13β / 修钟 · THE CLOCK BENCH</p>
+            <h2 class="sec-title">修钟台</h2>
+            <p class="sec-desc">选一种修法，按住表盘拖动，把表针拨到该指的点（键盘用方向键），然后上弦。拨错了齿轮咬不上，可以一直重拨。</p>
+          </header>
+          <figure class="branch-figure sc-figure sc-bench-figure reveal" id="sc-bench-figure">
+            <img class="branch-img sc-img" data-src="assets/v95-clock-bench.webp" alt="修钟台：绿绒台面正中放着一只没有表针的大表盘，周围散着表针、齿轮、上弦钥匙、放大镜和一支蜡烛" width="1536" height="1024" loading="lazy" decoding="async">
+            <div class="sc-dial" id="sc-dial" role="slider" tabindex="-1" aria-label="表盘：拖动或用方向键拨动表针，回车上弦" aria-valuemin="1" aria-valuemax="12" aria-valuenow="0" aria-valuetext="没有表针" aria-disabled="true" hidden data-hover>
+              <span class="sc-ticks" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i><i style="--i:9"></i><i style="--i:10"></i><i style="--i:11"></i></span>
+              <span class="sc-mark" aria-hidden="true"></span>
+              <span class="sc-hand" aria-hidden="true"></span>
+              <span class="sc-pivot" aria-hidden="true"></span>
+            </div>
+            <p class="sc-dial-status" id="sc-dial-status" aria-live="polite"></p>
+          </figure>
+          <div class="sc-bench reveal" id="sc-bench-panel" hidden>
+            <p class="sc-bench-clock" id="sc-bench-clock"></p>
+            <div class="sc-methods" role="group" aria-label="修法">
+              <button class="sc-method" id="sc-method-restore" type="button" data-hover>拨回停摆那一刻</button>
+              <button class="sc-method" id="sc-method-advance" type="button" data-hover>让它走一格</button>
+              <button class="sc-method" id="sc-method-oppose" type="button" data-hover>拨到对面</button>
+            </div>
+            <p class="sc-note" id="sc-method-hint"></p>
+            <div class="sc-actions">
+              <button class="sc-action sc-wind" id="sc-wind" type="button" data-hover>上弦</button>
+              <button class="sc-action" id="sc-abandon" type="button" data-hover>把钟挂回墙上</button>
+            </div>
+          </div>
+          <p class="branch-response sc-response" id="clock-bench-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <!-- v95 第三幕：第十三点听证会 -->
+      <section class="scene scene-branch scene-hearing-of-the-thirteenth-hour" id="scene-hearing-of-the-thirteenth-hour" data-scene="hearing-of-the-thirteenth-hour" data-title="Goddead — 第十三点听证会" aria-label="第十三点听证会">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">13γ / 第十三点 · HEARING OF THE THIRTEENTH HOUR</p>
+            <h2 class="sec-title">第十三点听证会</h2>
+            <p class="sec-desc">整面墙是一只有十三道刻度的钟。桌上三件东西：一只停了的怀表、一只沙停在半空的沙漏、一只小铜铃。裁定之后仍可回来。</p>
+          </header>
+          <figure class="branch-figure sc-figure reveal" id="hearing-of-the-thirteenth-hour-figure">
+            <img class="branch-img sc-img" data-src="assets/v95-hearing-of-the-thirteenth-hour.webp" alt="第十三点听证会：整面墙是一只有十三道刻度的大钟，空椅子前的长桌上放着打开的怀表、停住的沙漏和一只小铜铃" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot sc-hotspot sc-hotspot-court-watch" id="sc-verdict-let-the-clocks-stay-stopped" type="button" aria-label="裁定：让钟停着" data-hover><span class="dh-label" aria-hidden="true">让钟停着</span></button>
+            <button class="scene-hotspot sc-hotspot sc-hotspot-court-glass" id="sc-verdict-lend-the-dead-an-hour" type="button" aria-label="裁定：借给死者一小时" data-hover><span class="dh-label" aria-hidden="true">借给死者一小时</span></button>
+            <button class="scene-hotspot sc-hotspot sc-hotspot-court-bell" id="sc-verdict-strike-thirteen" type="button" aria-label="裁定：敲第十三下" data-hover><span class="dh-label" aria-hidden="true">敲第十三下</span></button>
+          </figure>
+          <p class="branch-response sc-response" id="hearing-of-the-thirteenth-hour-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开听证会">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+          </nav>
+        </div>
+      </section>
+
       <!-- 隐藏幕 · 第九条 -->
       <section class="scene scene-ninth" id="scene-ninth" data-scene="ninth" data-title="Goddead — ？？？" aria-label="第九条">
         <figure class="ninth-figure" role="img" aria-label="一道不该存在的裂口，底部有一扇错误的窄门">
@@ -7763,6 +7886,9 @@
         <a href="#returned-knock-post-office" id="returned-knock-post-office-link" hidden data-hover>12α / 回敲邮局</a>
         <a href="#knocker-booth" id="knocker-booth-link" hidden data-hover>12β / 叩门回信</a>
         <a href="#arbitration-of-the-first-knock" id="arbitration-of-the-first-knock-link" hidden data-hover>12γ / 第一下仲裁</a>
+        <a href="#stopped-clock-repair-shop" id="stopped-clock-repair-shop-link" hidden data-hover>13α / 停摆钟</a>
+        <a href="#clock-bench" id="clock-bench-link" hidden data-hover>13β / 修钟台</a>
+        <a href="#hearing-of-the-thirteenth-hour" id="hearing-of-the-thirteenth-hour-link" hidden data-hover>13γ / 第十三点</a>
 
       <a href="#three-person-republic-court" id="three-person-republic-court-link" hidden data-hover>04β / 三人共和国</a>
       <a href="#remembrance" data-hover>04 / 痕迹</a>
@@ -7771,6 +7897,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=94"></script>
+    <script src="script.js?v=95"></script>
   </body>
 </html>

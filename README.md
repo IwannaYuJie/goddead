@@ -4,9 +4,9 @@ Static landing page for [goddead.com](https://goddead.com).
 
 ## Current Experience
 
-当前实现基线为 **v94「回敲邮局 / POST OFFICE OF RETURNED KNOCKS」**：全站共 205 个 hash 场景，静态资源缓存标记为 `v=94`。v94 在 v93 三项裁定集齐后开放 3 个新场景：三封只有孔的回敲信（门 / 代神席 / 来之前的你），在叩门间对着铜门环按节奏敲回去（原样 / 倒着 / 多敲一下，只看节奏比例，可听示范，空格键也能敲），回信寄到门外 / 代神席 / 痕迹室签收；三封信、三种方式都用过即开第一下仲裁庭。独立键 `goddead_v94_returned_knocks`。v91–v93 见 `docs/` 下对应设计文档。
+当前实现基线为 **v95「停摆钟修理铺 / REPAIR SHOP OF STOPPED CLOCKS」**：全站共 208 个 hash 场景，静态资源缓存标记为 `v=95`。v95 在 v94 三项仲裁集齐后开放 3 个新场景：三只没有表针的钟（值夜室 / 守则板 / 焚献炉），在修钟台上拖动表针（键盘用方向键）拨到该拨的点再上弦（拨回停摆那一刻 / 让它走一格 / 拨到对面），修好的钟送回值夜室 / 访客守则 / 焚献炉签收；三只钟、三种修法都用过即开第十三点听证会。独立键 `goddead_v95_stopped_clocks`。v91–v94 见 `docs/` 下对应设计文档。
 
-完整玩家路线、支线网、v63-v94 解锁链与 v90–v94 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
+完整玩家路线、支线网、v63-v95 解锁链与 v90–v95 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
 
 The homepage is **The Living Shrine**, a hash-routed, scene-by-scene exploration game. Visitors knock three times at the sealed threshold — now a photographed bureau door — and on the third knock the door visually opens into a deep black-gold corridor before the visitor is pulled through into the next room; each completed action thereafter advances the ritual automatically.
 

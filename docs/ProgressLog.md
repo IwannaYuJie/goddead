@@ -1173,3 +1173,12 @@
 - 场景图：本机 Codex CLI 生成三张原画，提示词与哈希见 `docs/V94ImagePrompts.md`。
 - 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 17652 assertions passed`。
 - 浏览器：真实点击敲对“咚 ·咚 ·咚”寄门外、“倒着回敲”先错后对寄代神席；锁定深链回痕迹室；控制台无错误。第三封信与仲裁庭的真实点击因面板转入后台未完成，由自动测试覆盖。
+
+## 2026-09-24 - v95 停摆钟修理铺实装
+
+- 新增 `stopped-clock-repair-shop`、`clock-bench`、`hearing-of-the-thirteenth-hour` 3 个场景，场景总数 205 → 208，缓存标记 `v=95`。
+- 新交互“拖动表针”：修钟台表盘是 `role="slider"`，按住拖动吸附到整点，方向键拨一格、回车上弦；刻痕标出停摆的点。三只钟（值夜室五点 / 守则十二点 / 焚献炉九点）× 拨回 / 走一格 / 拨到对面 = 9 份修理单，修好的钟送回值夜室 / 访客守则 / 焚献炉签收。
+- 状态键 `goddead_v95_stopped_clocks`（11 字段、7 类 pending、严格归一化），只读 v94；v94 在途时入口禁用；前缀 `sc-`；桥接接入治理守卫与画廊守卫。
+- 场景图：本机 Codex CLI 生成三张原画，提示词与哈希见 `docs/V95ImagePrompts.md`。
+- 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 17762 assertions passed`。
+- 浏览器：三只钟分别用拖动、键盘、单击修好并送回签收，键盘拨错被拒；听证两项裁定抵达画廊与痕迹室；手机宽度正常。
