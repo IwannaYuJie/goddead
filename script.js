@@ -1378,6 +1378,8 @@ document.addEventListener("DOMContentLoaded", () => {
     syncCauselessConsequenceRefugeeRemembrance();
     syncCauselessConsequenceRefugeeLinks();
     replayCauselessConsequenceRefugeePending(name);
+    resolveLateCausePendingOnArrival(name);
+    replayLateCausePending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1521,9 +1523,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
@@ -1537,7 +1539,7 @@ document.addEventListener("DOMContentLoaded", () => {
        v88 窄桥：title-action 可抵达 unending-gallery；
        v89 窄桥：appeal-action 可抵达 unending-gallery；
        v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1712,6 +1714,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "borrowed-cause-sponsorship-office" && !borrowedCauseSponsorshipOfficeCanVisit()) target = "remembrance";
     if (target === "causal-border-processing-station" && !causalBorderProcessingStationCanVisit()) target = "remembrance";
     if (target === "final-asylum-tribunal-for-causeless-consequences" && !finalAsylumTribunalForCauselessConsequencesCanVisit()) target = "remembrance";
+
+    /* v91 倒生原因助产院：未解锁或无合法抵达时一律回痕迹室 */
+    if (target === "late-cause-maternity-ward" && !lateCauseMaternityWardCanVisit()) target = "remembrance";
+    if (target === "reverse-birth-order-registry" && !reverseBirthOrderRegistryCanVisit()) target = "remembrance";
+    if (target === "first-cause-custody-court" && !firstCauseCustodyCourtCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -47937,6 +47944,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetUnhappenedAuctionState();
       forgetAccomplishedFactEvictionState();
       forgetCauselessConsequenceRefugeeState();
+      forgetLateCauseMaternityState();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
       if (firstDraftVaultResponse) firstDraftVaultResponse.textContent = "";
@@ -47956,6 +47964,797 @@ document.addEventListener("DOMContentLoaded", () => {
       goScene("threshold");
     });
   }
+
+  /* ============================================================
+     v91 倒生原因助产院 / MATERNITY WARD FOR CAUSES BORN AFTER THEIR CONSEQUENCES
+     三个家庭 × 六种出生顺序 = 18 份出生证；登记后到旧场景接生回执落账；
+     法庭门槛只要求三个家庭、两种亲子方向与一次见证者先出生，不要求刷满 18 份。
+     只读 v90；独立键 goddead_v91_late_cause_maternity；所有新操作只接受真实点击。
+     ============================================================ */
+  const LATE_CAUSE_KEY = 'goddead_v91_late_cause_maternity';
+  const LATE_CAUSE_VERSION = 91;
+  const LATE_CAUSE_WARD = 'late-cause-maternity-ward';
+  const LATE_CAUSE_REGISTRY = 'reverse-birth-order-registry';
+  const LATE_CAUSE_COURT = 'first-cause-custody-court';
+  const LATE_CAUSE_ROLES = ['cause', 'effect', 'witness'];
+  const LATE_CAUSE_DEFAULT_ORDER = 'cause-effect-witness';
+  const LATE_CAUSE_ORDERS = [
+    'cause-effect-witness',
+    'cause-witness-effect',
+    'effect-cause-witness',
+    'effect-witness-cause',
+    'witness-cause-effect',
+    'witness-effect-cause',
+  ];
+  const LATE_CAUSE_ORDER_LABELS = {
+    'cause-effect-witness': '通常家谱',
+    'cause-witness-effect': '预知证词',
+    'effect-cause-witness': '倒生家谱',
+    'effect-witness-cause': '被等待的原因',
+    'witness-cause-effect': '先验见证',
+    'witness-effect-cause': '证词接生',
+  };
+  const LATE_CAUSE_POSITION_LABELS = ['第一个', '第二个', '最后一个'];
+  const LATE_CAUSE_FAMILIES = [
+    'door-born-from-its-own-shadow',
+    'wound-born-from-a-healed-scar',
+    'fire-born-from-cold-ashes',
+  ];
+  const LATE_CAUSE_FAMILY_TABLE = {
+    'door-born-from-its-own-shadow': {
+      title: '门与影子',
+      tallyKey: 'door',
+      target: 'threshold',
+      midwifeTitle: '门槛接生员',
+      card: '影子把门抱了起来。门还不知道什么叫里面。',
+      roles: { cause: '刚学会打开的门', effect: '门外等了一生的影子', witness: '还没有进来的你' },
+      echoLead: '门把自己的出生证明递给了门外的人。',
+    },
+    'wound-born-from-a-healed-scar': {
+      title: '金线与裂口',
+      tallyKey: 'wound',
+      target: 'remembrance',
+      midwifeTitle: '痕迹接生员',
+      card: '一道金色缝线已经愈合了七十年。它要缝的那道裂口，今天才来报到。',
+      roles: { cause: '尚未发生的裂口', effect: '痊愈七十年的金色缝线', witness: '忘记疼痛的记忆' },
+      echoLead: '痕迹墙上多了一道比伤口更早的金线。',
+    },
+    'fire-born-from-cold-ashes': {
+      title: '灰烬与火柴',
+      tallyKey: 'fire',
+      target: 'unending-gallery',
+      midwifeTitle: '画框接生员',
+      card: '灰烬早就凉了。那根把它们烧成灰的火柴，还躺在摇篮里没有划过。',
+      roles: { cause: '从未点燃的火柴', effect: '已经冷却的灰烬', witness: '挂在空画框里的烟' },
+      echoLead: '空画框里的烟，按登记的顺序排着队。',
+    },
+  };
+  /* 18 条预览：每个家庭 × 每种顺序两句，第一句写出生先后，第二句写旧场景留下的余响 */
+  const LATE_CAUSE_PREVIEWS = {
+    'door-born-from-its-own-shadow': {
+      'cause-effect-witness': ['门先被造出来，影子才落在门外，你最后走进来替它们作证。', '一切都按老规矩：先有门，后有等门的人。'],
+      'cause-witness-effect': ['门刚造好，你就站在门外说：这里会有一道很长的影子。', '影子后来果然来了，像是在赶一场约定。'],
+      'effect-cause-witness': ['影子在门外等了一辈子，门才终于出生在它怀里。', '你进来时，看见年长的影子正在教门怎样打开。'],
+      'effect-witness-cause': ['影子先到，你也到了，你们一起在空地上等一扇门。', '门最后被叫出名字，它第一次打开，是为了让你们进去。'],
+      'witness-cause-effect': ['你先站在这里，门才照着你的目光长出来。', '影子最后赶到，只能落在你已经站过的位置。'],
+      'witness-effect-cause': ['你说“这里一直有人在等”，影子便出现了。', '门最后出生，被登记为影子的孩子。'],
+    },
+    'wound-born-from-a-healed-scar': {
+      'cause-effect-witness': ['裂口先出现，金线后来缝上它，记忆最后才学会不疼。', '痕迹墙上的这道线，终于有了一个老实的来历。'],
+      'cause-witness-effect': ['裂口刚出现，记忆就说出了它会怎样愈合。', '金线照着证词缝好，一针也没有差。'],
+      'effect-cause-witness': ['金线愈合了七十年，才等到那道由它缝合的裂口。', '记忆把年长的缝线登记成了伤口的孩子。'],
+      'effect-witness-cause': ['金线和忘记疼痛的记忆一起，把迟到的裂口抚养长大。', '裂口长大后第一句话是：原来我早就被缝好了。'],
+      'witness-cause-effect': ['记忆先忘了疼，裂口才按它忘掉的形状出现。', '金线最后到来，缝的是一段从没疼过的记忆。'],
+      'witness-effect-cause': ['记忆先说“这里已经好了”，金线便亮起来。', '裂口最后被叫出名字，却已经没有地方可以疼。'],
+    },
+    'fire-born-from-cold-ashes': {
+      'cause-effect-witness': ['火柴先被划亮，灰烬随后冷却，烟最后挂进画框作证。', '画廊里多了一幅按时间顺序排好的旧画。'],
+      'cause-witness-effect': ['火柴还没落地，烟就先在画框里描出了灰烬的形状。', '灰烬后来落下，刚好填满那张草图。'],
+      'effect-cause-witness': ['灰烬早就凉了，才等来那根从未点燃的火柴。', '烟在画框里把年长的灰烬登记成了火的孩子。'],
+      'effect-witness-cause': ['灰烬和画框里的烟一起，等一根迟到的火柴。', '火柴终于划亮时，照见的是一场早已结束的火。'],
+      'witness-cause-effect': ['烟先挂在空画框里，火柴才按它的样子燃起来。', '灰烬最后落下，像是为一幅画补上落款。'],
+      'witness-effect-cause': ['烟先说“这里烧过”，灰烬便冷冷地出现了。', '火柴最后出生，还没划亮就已经被当成凶手。'],
+    },
+  };
+  const LATE_CAUSE_RECORD_IDS = [];
+  LATE_CAUSE_FAMILIES.forEach((family) => {
+    LATE_CAUSE_ORDERS.forEach((order) => LATE_CAUSE_RECORD_IDS.push(`${family}:${order}`));
+  });
+  const LATE_CAUSE_CUSTODY_ACTIONS = [
+    'let-effects-raise-their-causes',
+    'abolish-the-firstborn',
+    'give-custody-to-the-witness',
+  ];
+  const LATE_CAUSE_CUSTODY_TABLE = {
+    'let-effects-raise-their-causes': {
+      title: '让年长的后果抚养原因',
+      outcome: 'every-effect-adopted-its-younger-cause',
+      target: 'threshold',
+      feedback: '法庭把每个原因判给比它年长的后果抚养。门已经会开了，却仍要影子牵着它。',
+    },
+    'abolish-the-firstborn': {
+      title: '废除“必须有第一个”',
+      outcome: 'nothing-had-to-be-first-to-be-real',
+      target: 'remembrance',
+      feedback: '法庭划掉了“第一个”这个栏位。家谱没了根，树却终于开始长。',
+    },
+    'give-custody-to-the-witness': {
+      title: '把监护权交给见证者',
+      outcome: 'the-witness-became-the-parent-of-events',
+      target: 'unending-gallery',
+      feedback: '法庭把所有事件交给最先看见它们的人。你只是看了一眼，它们便都叫你母亲。',
+    },
+  };
+  const LATE_CAUSE_CUSTODY_OUTCOME_IDS = LATE_CAUSE_CUSTODY_ACTIONS.map((a) => LATE_CAUSE_CUSTODY_TABLE[a].outcome);
+  const LATE_CAUSE_ENTRY_FEEDBACK = '摇篮已经空了七十年。今天，里面终于传出一扇门打开的声音。';
+  const LATE_CAUSE_ABANDON_FEEDBACK = '登记员把三张卡片放回抽屉。这份出生证没有签发，摇篮继续等着。';
+  const LATE_CAUSE_COURT_ENTRY_FEEDBACK = '三个家庭都有了出生证。第一因监护法庭的门开了，没有人知道该让谁先进去。';
+  const LATE_CAUSE_MIDWIFE_RETURN_FEEDBACK = '接生员把出生证夹进袖口，领你回到那排摇篮。';
+  const LATE_CAUSE_OLD_TARGETS = ['threshold', 'remembrance', 'unending-gallery'];
+
+  function lateCauseDelay() {
+    return reduced ? 300 : 1400;
+  }
+
+  function lateCauseRoleLabel(family, role) {
+    const f = LATE_CAUSE_FAMILY_TABLE[family];
+    return f ? f.roles[role] : role;
+  }
+
+  function lateCauseOrderSentence(family, order) {
+    return order.split('-').map((role) => lateCauseRoleLabel(family, role)).join(' → ');
+  }
+
+  function lateCausePreview(family, order) {
+    const f = LATE_CAUSE_PREVIEWS[family];
+    return f && f[order] ? f[order] : ['', ''];
+  }
+
+  function lateCauseBirthFeedback(family, order) {
+    return lateCausePreview(family, order).join('');
+  }
+
+  function defaultLateCauseMaternity() {
+    return {
+      version: LATE_CAUSE_VERSION,
+      visited: { ward: false, registry: false, court: false },
+      draft: { family: '', order: LATE_CAUSE_DEFAULT_ORDER },
+      birthRecords: [],
+      custodyOutcomes: [],
+      registrationRuns: 0,
+      custodyRuns: 0,
+      familyTallies: { door: 0, wound: 0, fire: 0 },
+      latestBirthByFamily: { 'door-born-from-its-own-shadow': '', 'wound-born-from-a-healed-scar': '', 'fire-born-from-cold-ashes': '' },
+      lastOutcome: '',
+      activeMidwife: null,
+      pending: null,
+    };
+  }
+
+  function clampLateCauseCount(n) {
+    const v = Math.floor(Number(n));
+    return Number.isFinite(v) ? Math.min(9999, Math.max(0, v)) : 0;
+  }
+
+  function normalizeLateCauseState(raw) {
+    const d = defaultLateCauseMaternity();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== LATE_CAUSE_VERSION) return d;
+    const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
+    d.visited = { ward: v.ward === true, registry: v.registry === true, court: v.court === true };
+    const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
+    d.draft = {
+      family: LATE_CAUSE_FAMILIES.includes(dr.family) ? dr.family : '',
+      order: LATE_CAUSE_ORDERS.includes(dr.order) ? dr.order : LATE_CAUSE_DEFAULT_ORDER,
+    };
+    const records = new Set(Array.isArray(raw.birthRecords) ? raw.birthRecords : []);
+    d.birthRecords = LATE_CAUSE_RECORD_IDS.filter((id) => records.has(id));
+    const outcomes = new Set(Array.isArray(raw.custodyOutcomes) ? raw.custodyOutcomes : []);
+    d.custodyOutcomes = LATE_CAUSE_CUSTODY_OUTCOME_IDS.filter((id) => outcomes.has(id));
+    d.registrationRuns = clampLateCauseCount(raw.registrationRuns);
+    d.custodyRuns = clampLateCauseCount(raw.custodyRuns);
+    const t = raw.familyTallies && typeof raw.familyTallies === 'object' ? raw.familyTallies : {};
+    d.familyTallies = { door: clampLateCauseCount(t.door), wound: clampLateCauseCount(t.wound), fire: clampLateCauseCount(t.fire) };
+    const latest = raw.latestBirthByFamily && typeof raw.latestBirthByFamily === 'object' ? raw.latestBirthByFamily : {};
+    LATE_CAUSE_FAMILIES.forEach((family) => {
+      const id = latest[family];
+      d.latestBirthByFamily[family] = typeof id === 'string' && id.startsWith(`${family}:`) && d.birthRecords.includes(id) ? id : '';
+    });
+    if (typeof raw.lastOutcome === 'string' && (d.birthRecords.includes(raw.lastOutcome) || d.custodyOutcomes.includes(raw.lastOutcome))) {
+      d.lastOutcome = raw.lastOutcome;
+    }
+    const m = raw.activeMidwife;
+    if (m && typeof m === 'object' && !Array.isArray(m) && Object.keys(m).length === 1 && d.birthRecords.includes(m.record)) {
+      d.activeMidwife = { record: m.record };
+    }
+    d.pending = normalizeLateCausePending(raw.pending, d);
+    return d;
+  }
+
+  function lateCauseCourtProgress(st) {
+    const families = new Set();
+    let causeFirst = false;
+    let effectFirst = false;
+    let witnessFirst = false;
+    st.birthRecords.forEach((id) => {
+      const [family, order] = id.split(':');
+      const roles = order.split('-');
+      families.add(family);
+      if (roles.indexOf('cause') < roles.indexOf('effect')) causeFirst = true;
+      else effectFirst = true;
+      if (roles[0] === 'witness') witnessFirst = true;
+    });
+    return {
+      families: families.size,
+      directions: (causeFirst ? 1 : 0) + (effectFirst ? 1 : 0),
+      witnessFirst: witnessFirst ? 1 : 0,
+    };
+  }
+
+  function lateCauseCourtEligible(st) {
+    const p = lateCauseCourtProgress(st);
+    return p.families === 3 && p.directions === 2 && p.witnessFirst === 1;
+  }
+
+  /* 严格白名单：按 kind 与当前状态重建期望的 pending，只有逐字段完全一致才接受 */
+  function expectedLateCausePending(p, st) {
+    const clean = !st.activeMidwife;
+    switch (p.kind) {
+      case 'entry':
+        return clean ? { feedback: LATE_CAUSE_ENTRY_FEEDBACK, kind: 'entry', target: LATE_CAUSE_WARD } : null;
+      case 'family': {
+        const f = LATE_CAUSE_FAMILY_TABLE[p.family];
+        if (!f || !clean) return null;
+        return { family: p.family, feedback: f.card, kind: 'family', source: LATE_CAUSE_WARD, target: LATE_CAUSE_REGISTRY };
+      }
+      case 'birth': {
+        const f = LATE_CAUSE_FAMILY_TABLE[p.family];
+        if (!f || !clean || !LATE_CAUSE_ORDERS.includes(p.order)) return null;
+        if (st.draft.family !== p.family || st.draft.order !== p.order) return null;
+        return { family: p.family, feedback: lateCauseBirthFeedback(p.family, p.order), kind: 'birth', order: p.order, record: `${p.family}:${p.order}`, source: LATE_CAUSE_REGISTRY, target: f.target };
+      }
+      case 'abandon':
+        return st.draft.family ? { feedback: LATE_CAUSE_ABANDON_FEEDBACK, kind: 'abandon', source: LATE_CAUSE_REGISTRY, target: LATE_CAUSE_WARD } : null;
+      case 'midwife-return': {
+        if (!st.activeMidwife) return null;
+        const family = st.activeMidwife.record.split(':')[0];
+        return { feedback: LATE_CAUSE_MIDWIFE_RETURN_FEEDBACK, from: LATE_CAUSE_FAMILY_TABLE[family].target, kind: 'midwife-return', record: st.activeMidwife.record, target: LATE_CAUSE_WARD };
+      }
+      case 'court-entry':
+        return clean && lateCauseCourtEligible(st) ? { feedback: LATE_CAUSE_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: LATE_CAUSE_COURT } : null;
+      case 'custody': {
+        const a = LATE_CAUSE_CUSTODY_TABLE[p.action];
+        if (!a || !clean || !st.visited.court || !lateCauseCourtEligible(st)) return null;
+        return { action: p.action, feedback: a.feedback, kind: 'custody', outcome: a.outcome, source: LATE_CAUSE_COURT, target: a.target };
+      }
+      default:
+        return null;
+    }
+  }
+
+  function normalizeLateCausePending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+    const expected = expectedLateCausePending(p, st);
+    if (!expected) return null;
+    const keys = Object.keys(p).sort();
+    const want = Object.keys(expected).sort();
+    if (keys.length !== want.length || keys.some((k, i) => k !== want[i] || p[k] !== expected[k])) return null;
+    return expected;
+  }
+
+  function lateCauseMaternityUnlocked() {
+    const compute = () => {
+      const v90 = getCauselessConsequenceRefugeeClaims();
+      if (!causelessConsequenceRefugeeCoverageComplete(v90)) return false;
+      return CAUSELESS_CONSEQUENCE_VERDICT_OUTCOME_IDS.every((o) => v90.verdictOutcomes.includes(o));
+    };
+    return store.memo ? store.memo("lateCauseMaternityUnlocked", compute) : compute();
+  }
+
+  function getLateCauseMaternity() {
+    if (!lateCauseMaternityUnlocked()) return defaultLateCauseMaternity();
+    let raw;
+    try { raw = JSON.parse(store.get(LATE_CAUSE_KEY, '{}')); } catch { return defaultLateCauseMaternity(); }
+    return normalizeLateCauseState(raw);
+  }
+
+  function saveLateCauseMaternity(st) {
+    if (!lateCauseMaternityUnlocked()) return defaultLateCauseMaternity();
+    const canonical = normalizeLateCauseState(Object.assign({}, st, { version: LATE_CAUSE_VERSION }));
+    store.set(LATE_CAUSE_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function lateCausePendingLogicalSource(p) {
+    if (!p) return '';
+    if (p.kind === 'entry' || p.kind === 'court-entry') return 'remembrance';
+    if (p.kind === 'midwife-return') return p.from;
+    return p.source || '';
+  }
+
+  /* 目标抵达才落账；在逻辑来源处刷新继续等待；到其他页安全取消 */
+  function resolveLateCausePendingOnArrival(sceneName) {
+    const st = getLateCauseMaternity();
+    const p = st.pending;
+    if (!p) return st;
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.ward = true;
+      } else if (p.kind === 'family') {
+        st.visited.registry = true;
+        st.draft = { family: p.family, order: st.draft.family === p.family ? st.draft.order : LATE_CAUSE_DEFAULT_ORDER };
+      } else if (p.kind === 'birth') {
+        const f = LATE_CAUSE_FAMILY_TABLE[p.family];
+        st.registrationRuns = clampLateCauseCount(st.registrationRuns + 1);
+        st.familyTallies[f.tallyKey] = clampLateCauseCount(st.familyTallies[f.tallyKey] + 1);
+        if (!st.birthRecords.includes(p.record)) st.birthRecords = st.birthRecords.concat(p.record);
+        st.latestBirthByFamily[p.family] = p.record;
+        st.lastOutcome = p.record;
+        st.activeMidwife = { record: p.record };
+        st.draft = { family: '', order: LATE_CAUSE_DEFAULT_ORDER };
+      } else if (p.kind === 'abandon') {
+        st.draft = { family: '', order: LATE_CAUSE_DEFAULT_ORDER };
+        st.visited.ward = true;
+      } else if (p.kind === 'midwife-return') {
+        st.activeMidwife = null;
+        st.visited.ward = true;
+      } else if (p.kind === 'court-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'custody') {
+        st.custodyRuns = clampLateCauseCount(st.custodyRuns + 1);
+        if (!st.custodyOutcomes.includes(p.outcome)) st.custodyOutcomes = st.custodyOutcomes.concat(p.outcome);
+        st.lastOutcome = p.outcome;
+      }
+      return saveLateCauseMaternity(st);
+    }
+    if (sceneName === lateCausePendingLogicalSource(p)) return st;
+    st.pending = null;
+    return saveLateCauseMaternity(st);
+  }
+
+  const LATE_CAUSE_RESPONSE_BY_KIND = {
+    entry: '#late-cause-maternity-entry-response',
+    family: '#late-cause-maternity-ward-response',
+    birth: '#reverse-birth-order-registry-response',
+    abandon: '#reverse-birth-order-registry-response',
+    'court-entry': '#late-cause-custody-entry-response',
+    custody: '#first-cause-custody-court-response',
+  };
+
+  function showLateCauseResponse(selector, text) {
+    const el = $(selector);
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = !text;
+  }
+
+  function syncLateCauseAll() {
+    syncLateCauseMaternityWard();
+    syncReverseBirthOrderRegistry();
+    syncFirstCauseCustodyCourt();
+    syncLateCauseMidwives();
+    syncLateCauseEchoes();
+    syncLateCauseRemembrance();
+    syncLateCauseLinks();
+  }
+
+  function replayLateCausePending(sceneName) {
+    const st = getLateCauseMaternity();
+    const p = st.pending;
+    if (p && p.target === sceneName) resolveLateCausePendingOnArrival(sceneName);
+    else if (p && sceneName === lateCausePendingLogicalSource(p)) {
+      syncLateCauseAll();
+      const selector = p.kind === 'midwife-return' ? `#late-cause-midwife-response-${p.from}` : LATE_CAUSE_RESPONSE_BY_KIND[p.kind];
+      if (selector) showLateCauseResponse(selector, p.feedback);
+      AutoAdvance.schedule(sceneName, p.target, { delay: lateCauseDelay() });
+      return;
+    } else if (p) {
+      st.pending = null;
+      saveLateCauseMaternity(st);
+    }
+    syncLateCauseAll();
+  }
+
+  /* 所有选择共用的起跳：检查当前场景、未排定转场、按钮可用，写 pending、给反馈、排定转场 */
+  function launchLateCause(scene, buttonId, pending, responseSelector) {
+    const st = getLateCauseMaternity();
+    st.pending = pending;
+    const saved = saveLateCauseMaternity(st);
+    if (!saved.pending) return false;
+    showLateCauseResponse(responseSelector, pending.feedback);
+    const btn = buttonId ? $(`#${buttonId}`) : null;
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+    if (AudioEngine.whoosh) AudioEngine.whoosh();
+    syncLateCauseAll();
+    showLateCauseResponse(responseSelector, pending.feedback);
+    AutoAdvance.schedule(scene, pending.target, { delay: lateCauseDelay() });
+    return true;
+  }
+
+  function lateCauseReady(scene, buttonId) {
+    if (currentScene !== scene) return null;
+    if (AutoAdvance.has(scene)) return null;
+    if (buttonId && !buttonAvailable(buttonId)) return null;
+    if (!lateCauseMaternityUnlocked()) return null;
+    const st = getLateCauseMaternity();
+    return st.pending ? null : st;
+  }
+
+  function chooseLateCauseEntry() {
+    const st = lateCauseReady('remembrance', 'late-cause-maternity-entry-btn');
+    if (!st || st.activeMidwife) return;
+    if (getCauselessConsequenceRefugeeClaims().pending) return;
+    launchLateCause('remembrance', 'late-cause-maternity-entry-btn', { feedback: LATE_CAUSE_ENTRY_FEEDBACK, kind: 'entry', target: LATE_CAUSE_WARD }, '#late-cause-maternity-entry-response');
+  }
+
+  function chooseLateCauseFamily(family) {
+    const f = LATE_CAUSE_FAMILY_TABLE[family];
+    if (!f) return;
+    const st = lateCauseReady(LATE_CAUSE_WARD, `late-cause-family-${family}`);
+    if (!st || st.activeMidwife) return;
+    launchLateCause(LATE_CAUSE_WARD, `late-cause-family-${family}`, { family, feedback: f.card, kind: 'family', source: LATE_CAUSE_WARD, target: LATE_CAUSE_REGISTRY }, '#late-cause-maternity-ward-response');
+  }
+
+  function chooseLateCauseContinue() {
+    const st = lateCauseReady(LATE_CAUSE_WARD, 'late-cause-continue');
+    if (!st || st.activeMidwife || !st.draft.family) return;
+    const f = LATE_CAUSE_FAMILY_TABLE[st.draft.family];
+    launchLateCause(LATE_CAUSE_WARD, 'late-cause-continue', { family: st.draft.family, feedback: f.card, kind: 'family', source: LATE_CAUSE_WARD, target: LATE_CAUSE_REGISTRY }, '#late-cause-maternity-ward-response');
+  }
+
+  /* 换序只改草稿，不产生 pending、不计进度 */
+  function moveLateCauseRole(role, delta) {
+    if (!LATE_CAUSE_ROLES.includes(role) || (delta !== -1 && delta !== 1)) return;
+    const st = lateCauseReady(LATE_CAUSE_REGISTRY, null);
+    if (!st || !st.draft.family || !st.visited.registry) return;
+    const roles = st.draft.order.split('-');
+    const i = roles.indexOf(role);
+    const j = i + delta;
+    if (i < 0 || j < 0 || j >= roles.length) return;
+    [roles[i], roles[j]] = [roles[j], roles[i]];
+    st.draft.order = roles.join('-');
+    saveLateCauseMaternity(st);
+    syncReverseBirthOrderRegistry();
+    const focus = $(`#late-cause-move-${delta < 0 ? 'up' : 'down'}-${role}`);
+    if (focus && !focus.disabled) focus.focus({ preventScroll: true });
+    else { const other = $(`#late-cause-move-${delta < 0 ? 'down' : 'up'}-${role}`); if (other) other.focus({ preventScroll: true }); }
+  }
+
+  function chooseLateCauseRegister() {
+    const st = lateCauseReady(LATE_CAUSE_REGISTRY, 'late-cause-register');
+    if (!st || !st.draft.family || st.activeMidwife) return;
+    const { family, order } = st.draft;
+    launchLateCause(LATE_CAUSE_REGISTRY, 'late-cause-register', {
+      family, feedback: lateCauseBirthFeedback(family, order), kind: 'birth', order, record: `${family}:${order}`, source: LATE_CAUSE_REGISTRY, target: LATE_CAUSE_FAMILY_TABLE[family].target,
+    }, '#reverse-birth-order-registry-response');
+  }
+
+  function chooseLateCauseAbandon() {
+    const st = lateCauseReady(LATE_CAUSE_REGISTRY, 'late-cause-abandon');
+    if (!st || !st.draft.family) return;
+    launchLateCause(LATE_CAUSE_REGISTRY, 'late-cause-abandon', { feedback: LATE_CAUSE_ABANDON_FEEDBACK, kind: 'abandon', source: LATE_CAUSE_REGISTRY, target: LATE_CAUSE_WARD }, '#reverse-birth-order-registry-response');
+  }
+
+  function chooseLateCauseMidwifeReturn(scene) {
+    const st = lateCauseReady(scene, `late-cause-midwife-return-${scene}`);
+    if (!st || !st.activeMidwife) return;
+    const family = st.activeMidwife.record.split(':')[0];
+    if (LATE_CAUSE_FAMILY_TABLE[family].target !== scene) return;
+    launchLateCause(scene, `late-cause-midwife-return-${scene}`, { feedback: LATE_CAUSE_MIDWIFE_RETURN_FEEDBACK, from: scene, kind: 'midwife-return', record: st.activeMidwife.record, target: LATE_CAUSE_WARD }, `#late-cause-midwife-response-${scene}`);
+  }
+
+  function chooseLateCauseCourtEntry() {
+    const st = lateCauseReady('remembrance', 'late-cause-custody-entry-btn');
+    if (!st || st.activeMidwife || !lateCauseCourtEligible(st)) return;
+    launchLateCause('remembrance', 'late-cause-custody-entry-btn', { feedback: LATE_CAUSE_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: LATE_CAUSE_COURT }, '#late-cause-custody-entry-response');
+  }
+
+  function chooseLateCauseCustody(action) {
+    const a = LATE_CAUSE_CUSTODY_TABLE[action];
+    if (!a) return;
+    const st = lateCauseReady(LATE_CAUSE_COURT, `late-cause-custody-${action}`);
+    if (!st || st.activeMidwife || !st.visited.court || !lateCauseCourtEligible(st)) return;
+    launchLateCause(LATE_CAUSE_COURT, `late-cause-custody-${action}`, { action, feedback: a.feedback, kind: 'custody', outcome: a.outcome, source: LATE_CAUSE_COURT, target: a.target }, '#first-cause-custody-court-response');
+  }
+
+  /* 旧场景窄桥：只放行本章正在抵达、正在回执或刚刚裁定的目标 */
+  function lateCauseMaternityBridgeAllows(targetScene) {
+    if (!lateCauseMaternityUnlocked()) return false;
+    const st = getLateCauseMaternity();
+    if (st.pending && (st.pending.kind === 'birth' || st.pending.kind === 'custody') && st.pending.target === targetScene) return true;
+    if (st.activeMidwife && LATE_CAUSE_FAMILY_TABLE[st.activeMidwife.record.split(':')[0]].target === targetScene) return true;
+    const verdict = LATE_CAUSE_CUSTODY_ACTIONS.find((a) => LATE_CAUSE_CUSTODY_TABLE[a].outcome === st.lastOutcome);
+    return Boolean(verdict && LATE_CAUSE_CUSTODY_TABLE[verdict].target === targetScene);
+  }
+
+  function lateCauseMaternityWardCanVisit() {
+    if (!lateCauseMaternityUnlocked()) return false;
+    const st = getLateCauseMaternity();
+    if (st.visited.ward) return true;
+    return Boolean(st.pending && st.pending.target === LATE_CAUSE_WARD);
+  }
+
+  function reverseBirthOrderRegistryCanVisit() {
+    if (!lateCauseMaternityUnlocked()) return false;
+    const st = getLateCauseMaternity();
+    if (st.visited.registry && st.draft.family) return true;
+    return Boolean(st.pending && st.pending.kind === 'family');
+  }
+
+  function firstCauseCustodyCourtCanVisit() {
+    if (!lateCauseMaternityUnlocked()) return false;
+    const st = getLateCauseMaternity();
+    if (st.visited.court && lateCauseCourtEligible(st)) return true;
+    return Boolean(st.pending && st.pending.kind === 'court-entry');
+  }
+
+  function syncLateCauseMaternityWard() {
+    const canVisit = lateCauseMaternityWardCanVisit();
+    const st = getLateCauseMaternity();
+    const fig = $('#late-cause-maternity-ward-figure');
+    if (fig) fig.hidden = !canVisit;
+    const blocked = !canVisit || Boolean(st.pending) || Boolean(st.activeMidwife);
+    LATE_CAUSE_FAMILIES.forEach((family) => {
+      const btn = $(`#late-cause-family-${family}`);
+      if (!btn) return;
+      btn.disabled = blocked;
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'family' && st.pending.family === family ? 'true' : 'false');
+    });
+    const cont = $('#late-cause-continue');
+    if (cont) {
+      const show = canVisit && Boolean(st.draft.family) && !st.activeMidwife;
+      cont.hidden = !show;
+      cont.disabled = !show || Boolean(st.pending);
+      if (show) cont.textContent = `继续登记：${LATE_CAUSE_FAMILY_TABLE[st.draft.family].title}（${LATE_CAUSE_ORDER_LABELS[st.draft.order]}） ⟶`;
+    }
+    const note = $('#late-cause-maternity-ward-note');
+    if (note) {
+      let text = '';
+      if (st.activeMidwife) {
+        const f = LATE_CAUSE_FAMILY_TABLE[st.activeMidwife.record.split(':')[0]];
+        text = `先完成正在抵达的回执：${f.midwifeTitle}还在${f.target === 'threshold' ? '门外' : f.target === 'remembrance' ? '痕迹室' : '无终局画廊'}等你。`;
+      } else if (st.draft.family) {
+        text = '换一个家庭会把顺序重置为“原因 → 后果 → 见证者”。';
+      }
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    if (!st.pending || st.pending.source !== LATE_CAUSE_WARD) showLateCauseResponse('#late-cause-maternity-ward-response', '');
+  }
+
+  function renderLateCauseCards(st) {
+    const list = $('#late-cause-order-cards');
+    if (!list) return;
+    const family = st.draft.family;
+    const roles = st.draft.order.split('-');
+    const locked = Boolean(st.pending);
+    list.replaceChildren(...roles.map((role, i) => {
+      const li = document.createElement('li');
+      li.className = `late-cause-card late-cause-card-${role}`;
+      const pos = document.createElement('span');
+      pos.className = 'late-cause-card-pos';
+      pos.textContent = LATE_CAUSE_POSITION_LABELS[i];
+      const name = document.createElement('strong');
+      name.className = 'late-cause-card-name';
+      name.textContent = lateCauseRoleLabel(family, role);
+      const kind = document.createElement('span');
+      kind.className = 'late-cause-card-role';
+      kind.textContent = role === 'cause' ? '原因' : role === 'effect' ? '后果' : '见证者';
+      const controls = document.createElement('span');
+      controls.className = 'late-cause-card-controls';
+      [['up', -1, '提前一位'], ['down', 1, '延后一位']].forEach(([dir, delta, label]) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.id = `late-cause-move-${dir}-${role}`;
+        b.className = 'late-cause-move';
+        b.dataset.role = role;
+        b.dataset.delta = String(delta);
+        b.textContent = label;
+        b.setAttribute('aria-label', `${lateCauseRoleLabel(family, role)}：${label}`);
+        b.disabled = locked || i + delta < 0 || i + delta >= roles.length;
+        controls.appendChild(b);
+      });
+      li.append(pos, kind, name, controls);
+      return li;
+    }));
+  }
+
+  function syncReverseBirthOrderRegistry() {
+    const canVisit = reverseBirthOrderRegistryCanVisit();
+    const st = getLateCauseMaternity();
+    const panel = $('#late-cause-registry-panel');
+    if (panel) panel.hidden = !canVisit || !st.draft.family;
+    if (canVisit && st.draft.family) {
+      const f = LATE_CAUSE_FAMILY_TABLE[st.draft.family];
+      const title = $('#late-cause-registry-family');
+      if (title) title.textContent = `${f.title}：${f.card}`;
+      renderLateCauseCards(st);
+      const tag = $('#late-cause-order-tag');
+      if (tag) tag.textContent = LATE_CAUSE_ORDER_LABELS[st.draft.order];
+      const preview = $('#late-cause-order-preview');
+      if (preview) preview.textContent = lateCauseBirthFeedback(st.draft.family, st.draft.order);
+      const dest = $('#late-cause-register-destination');
+      if (dest) dest.textContent = `签发后会去${f.target === 'threshold' ? '门外' : f.target === 'remembrance' ? '痕迹室' : '无终局画廊'}，由${f.midwifeTitle}接生。没有错误答案。`;
+    }
+    ['late-cause-register', 'late-cause-abandon'].forEach((id) => {
+      const btn = $(`#${id}`);
+      if (btn) btn.disabled = !canVisit || !st.draft.family || Boolean(st.pending);
+    });
+    if (!st.pending || st.pending.source !== LATE_CAUSE_REGISTRY) showLateCauseResponse('#reverse-birth-order-registry-response', '');
+  }
+
+  function syncFirstCauseCustodyCourt() {
+    const canVisit = firstCauseCustodyCourtCanVisit();
+    const st = getLateCauseMaternity();
+    const fig = $('#first-cause-custody-court-figure');
+    if (fig) fig.hidden = !canVisit;
+    LATE_CAUSE_CUSTODY_ACTIONS.forEach((action) => {
+      const btn = $(`#late-cause-custody-${action}`);
+      if (!btn) return;
+      btn.disabled = !canVisit || Boolean(st.pending) || Boolean(st.activeMidwife);
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'custody' && st.pending.action === action ? 'true' : 'false');
+      btn.classList.toggle('is-collected', st.custodyOutcomes.includes(LATE_CAUSE_CUSTODY_TABLE[action].outcome));
+    });
+    if (!st.pending || st.pending.source !== LATE_CAUSE_COURT) showLateCauseResponse('#first-cause-custody-court-response', '');
+  }
+
+  /* 接生回执：抵达旧场景后出现，显示家庭、三步顺序与两句结果 */
+  function syncLateCauseMidwives() {
+    const st = lateCauseMaternityUnlocked() ? getLateCauseMaternity() : defaultLateCauseMaternity();
+    LATE_CAUSE_OLD_TARGETS.forEach((scene) => {
+      const box = $(`#late-cause-midwife-${scene}`);
+      if (!box) return;
+      const record = st.activeMidwife ? st.activeMidwife.record : '';
+      const [family, order] = record ? record.split(':') : ['', ''];
+      const show = Boolean(record) && LATE_CAUSE_FAMILY_TABLE[family].target === scene;
+      box.hidden = !show;
+      const btn = $(`#late-cause-midwife-return-${scene}`);
+      if (btn) {
+        btn.disabled = !show || Boolean(st.pending);
+        btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'midwife-return' && st.pending.from === scene ? 'true' : 'false');
+      }
+      if (!show) return;
+      const f = LATE_CAUSE_FAMILY_TABLE[family];
+      const head = $(`#late-cause-midwife-title-${scene}`);
+      if (head) head.textContent = `接生回执 · ${f.midwifeTitle} · ${f.title}（${LATE_CAUSE_ORDER_LABELS[order]}）`;
+      const seq = $(`#late-cause-midwife-order-${scene}`);
+      if (seq) seq.textContent = lateCauseOrderSentence(family, order);
+      const body = $(`#late-cause-midwife-body-${scene}`);
+      if (body) body.textContent = lateCauseBirthFeedback(family, order);
+      if (!st.pending || st.pending.kind !== 'midwife-return') showLateCauseResponse(`#late-cause-midwife-response-${scene}`, '');
+    });
+  }
+
+  /* 三个旧场景各多一段独立记忆：由该家庭最近一次完成的出生顺序决定 */
+  function syncLateCauseEchoes() {
+    const st = lateCauseMaternityUnlocked() ? getLateCauseMaternity() : defaultLateCauseMaternity();
+    LATE_CAUSE_FAMILIES.forEach((family) => {
+      const f = LATE_CAUSE_FAMILY_TABLE[family];
+      const el = $(`#late-cause-echo-${f.target}`);
+      if (!el) return;
+      const record = st.latestBirthByFamily[family];
+      if (!record) { el.hidden = true; el.textContent = ''; return; }
+      const order = record.split(':')[1];
+      el.textContent = `${f.echoLead}「${LATE_CAUSE_ORDER_LABELS[order]}」${lateCausePreview(family, order)[1]}`;
+      el.hidden = false;
+    });
+  }
+
+  function syncLateCauseRemembrance() {
+    const unlocked = lateCauseMaternityUnlocked();
+    const shell = $('#late-cause-codex');
+    const memory = $('#late-cause-memory');
+    if (!unlocked) {
+      [shell, memory].forEach((el) => { if (el) el.hidden = true; });
+      return;
+    }
+    const st = getLateCauseMaternity();
+    const v90Pending = Boolean(getCauselessConsequenceRefugeeClaims().pending);
+    if (shell) shell.hidden = false;
+    const progress = lateCauseCourtProgress(st);
+    if (memory) {
+      memory.hidden = false;
+      memory.textContent = `倒生原因：已签发 ${st.birthRecords.length}/18 份出生证，共登记 ${st.registrationRuns} 次；家庭 门 ${st.familyTallies.door} / 金线 ${st.familyTallies.wound} / 灰烬 ${st.familyTallies.fire}；监护裁定 ${st.custodyOutcomes.length}/3。`;
+    }
+    const hints = $('#late-cause-court-hints');
+    if (hints) {
+      const rows = [
+        ['家庭', progress.families, 3],
+        ['两种亲子方向（原因在前 / 后果在前）', progress.directions, 2],
+        ['见证者先出生', progress.witnessFirst, 1],
+      ];
+      hints.replaceChildren(...rows.map(([label, have, need]) => {
+        const li = document.createElement('li');
+        li.className = have >= need ? 'is-met' : '';
+        li.textContent = `${label} ${have}/${need}`;
+        return li;
+      }));
+    }
+    const clean = !st.pending && !st.activeMidwife;
+    const entry = $('#late-cause-maternity-entry-btn');
+    if (entry) {
+      entry.hidden = false;
+      entry.disabled = !clean || v90Pending;
+      entry.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' ? 'true' : 'false');
+    }
+    const note = $('#late-cause-entry-note');
+    if (note) {
+      const text = v90Pending ? '先完成正在抵达的回执：无因后果难民署还有一份记录在路上。' : st.activeMidwife ? '先完成正在抵达的接生回执。' : '';
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const court = $('#late-cause-custody-entry-btn');
+    if (court) {
+      const eligible = lateCauseCourtEligible(st);
+      court.hidden = !eligible;
+      court.disabled = !eligible || !clean;
+      court.setAttribute('aria-pressed', st.pending && st.pending.kind === 'court-entry' ? 'true' : 'false');
+    }
+    const grid = $('#late-cause-codex-grid');
+    if (grid) {
+      const have = new Set(st.birthRecords);
+      const cells = LATE_CAUSE_RECORD_IDS.map((id) => {
+        const [family, order] = id.split(':');
+        const cell = document.createElement('div');
+        cell.className = `late-cause-cell ${have.has(id) ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = have.has(id) ? `${LATE_CAUSE_FAMILY_TABLE[family].title} · ${LATE_CAUSE_ORDER_LABELS[order]}\n${lateCausePreview(family, order)[0]}` : '？？？';
+        return cell;
+      });
+      LATE_CAUSE_CUSTODY_ACTIONS.forEach((action) => {
+        const a = LATE_CAUSE_CUSTODY_TABLE[action];
+        const cell = document.createElement('div');
+        const got = st.custodyOutcomes.includes(a.outcome);
+        cell.className = `late-cause-cell late-cause-cell-verdict ${got ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = got ? `[第一因监护法庭] ${a.title}\n${a.feedback}` : '？？？';
+        cells.push(cell);
+      });
+      grid.replaceChildren(...cells);
+    }
+    if (!st.pending || (st.pending.kind !== 'entry' && st.pending.kind !== 'court-entry')) {
+      showLateCauseResponse('#late-cause-maternity-entry-response', '');
+      showLateCauseResponse('#late-cause-custody-entry-response', '');
+    }
+  }
+
+  function syncLateCauseLinks() {
+    const st = lateCauseMaternityUnlocked() ? getLateCauseMaternity() : null;
+    [['late-cause-maternity-ward-link', 'ward'], ['reverse-birth-order-registry-link', 'registry'], ['first-cause-custody-court-link', 'court']].forEach(([id, key]) => {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !(st && st.visited[key]);
+    });
+  }
+
+  function forgetLateCauseMaternityState() {
+    try { localStorage.removeItem(LATE_CAUSE_KEY); } catch {}
+    [LATE_CAUSE_WARD, LATE_CAUSE_REGISTRY, LATE_CAUSE_COURT].forEach((scene) => AutoAdvance.clear(scene));
+    ['#late-cause-codex', '#late-cause-memory', '#late-cause-maternity-ward-figure', '#late-cause-registry-panel', '#first-cause-custody-court-figure',
+      '#late-cause-maternity-ward-link', '#reverse-birth-order-registry-link', '#first-cause-custody-court-link',
+      '#late-cause-midwife-threshold', '#late-cause-midwife-remembrance', '#late-cause-midwife-unending-gallery',
+      '#late-cause-echo-threshold', '#late-cause-echo-remembrance', '#late-cause-echo-unending-gallery',
+      '#late-cause-maternity-entry-response', '#late-cause-custody-entry-response', '#late-cause-maternity-ward-response',
+      '#reverse-birth-order-registry-response', '#first-cause-custody-court-response', '#late-cause-continue', '#late-cause-custody-entry-btn',
+    ].forEach((sel) => { const el = $(sel); if (el) el.hidden = true; });
+    $$('[id^="late-cause-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+  }
+
+  const onTrustedClick = (selector, handler) => {
+    const el = $(selector);
+    if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+  };
+  onTrustedClick('#late-cause-maternity-entry-btn', chooseLateCauseEntry);
+  onTrustedClick('#late-cause-custody-entry-btn', chooseLateCauseCourtEntry);
+  onTrustedClick('#late-cause-continue', chooseLateCauseContinue);
+  onTrustedClick('#late-cause-register', chooseLateCauseRegister);
+  onTrustedClick('#late-cause-abandon', chooseLateCauseAbandon);
+  LATE_CAUSE_FAMILIES.forEach((family) => onTrustedClick(`#late-cause-family-${family}`, () => chooseLateCauseFamily(family)));
+  LATE_CAUSE_CUSTODY_ACTIONS.forEach((action) => onTrustedClick(`#late-cause-custody-${action}`, () => chooseLateCauseCustody(action)));
+  LATE_CAUSE_OLD_TARGETS.forEach((scene) => onTrustedClick(`#late-cause-midwife-return-${scene}`, () => chooseLateCauseMidwifeReturn(scene)));
+  /* 顺序卡按钮随渲染重建，用委托监听；同样只接受真实点击 */
+  onTrustedClick('#late-cause-order-cards', (e) => {
+    const btn = e.target.closest && e.target.closest('.late-cause-move');
+    if (!btn || btn.disabled) return;
+    moveLateCauseRole(btn.dataset.role, Number(btn.dataset.delta));
+  });
 
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
@@ -48062,10 +48861,29 @@ document.addEventListener("DOMContentLoaded", () => {
       const next = chapters[i + 1];
       if (next && next.unlocked()) continue;
       const step = describeChapterProgress(spec);
-      if (!next && step.done) return { title: "v90 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+      if (!next && step.done) return lateCauseProgressStep();
       return step;
     }
     return null;
+  };
+
+  /* v91 不是三轴模板：按开庭三条件与三项监护裁定给出缺项 */
+  const lateCauseProgressStep = () => {
+    if (!lateCauseMaternityUnlocked()) return null;
+    const st = getLateCauseMaternity();
+    const p = lateCauseCourtProgress(st);
+    const items = [];
+    const missingFamilies = LATE_CAUSE_FAMILIES.filter((f) => !st.birthRecords.some((id) => id.startsWith(`${f}:`))).map((f) => LATE_CAUSE_FAMILY_TABLE[f].title);
+    if (missingFamilies.length) items.push(`还没签发出生证的家庭：${missingFamilies.join("、")}`);
+    if (p.directions < 2) items.push("两种亲子方向都要有：至少一份原因排在后果之前、一份后果排在原因之前");
+    if (!p.witnessFirst) items.push("至少一份出生证让见证者排第一个");
+    const eligible = lateCauseCourtEligible(st);
+    if (eligible) items.push(`开庭条件已满足；监护裁定已得 ${st.custodyOutcomes.length}/3`);
+    if (st.activeMidwife) items.push("有一份出生证在旧场景等接生回执：点接生员返回助产院");
+    else if (st.draft.family) items.push(`助产院里有一份没签发的登记：${LATE_CAUSE_FAMILY_TABLE[st.draft.family].title}`);
+    const done = eligible && st.custodyOutcomes.length >= 3;
+    if (done) return { title: "v91 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    return { title: "v91 倒生原因助产院", items, target: eligible ? "late-cause-custody" : "late-cause-maternity", done: false };
   };
 
   const syncProgressGuide = () => {
@@ -48409,6 +49227,7 @@ document.addEventListener("DOMContentLoaded", () => {
   paintCauselessConsequenceRefugeeCodex();
   syncCauselessConsequenceRefugeeRemembrance();
   syncCauselessConsequenceRefugeeLinks();
+  syncLateCauseAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

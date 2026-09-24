@@ -4,9 +4,9 @@ Static landing page for [goddead.com](https://goddead.com).
 
 ## Current Experience
 
-当前实现基线为 **v90「无因后果难民署 / REFUGEE AUTHORITY FOR CONSEQUENCES WITHOUT CAUSES」**：全站共 193 个 hash 场景，静态资源缓存标记为 `v=90`。v90 在 v89 完整腾退与上诉结果之上新增 4 个场景、36 份庇护案、3 项终审裁定、3 处旧结局领事馆回桥，并以独立键 `goddead_v90_causeless_consequence_refugee` 持久化；它只读 v89，不回写任何旧版本状态。
+当前实现基线为 **v91「倒生原因助产院 / MATERNITY WARD FOR CAUSES BORN AFTER THEIR CONSEQUENCES」**：全站共 196 个 hash 场景，静态资源缓存标记为 `v=91`。v91 在 v90 三项终审集齐后开放 3 个新场景：三个家庭 × 六种出生顺序 = 18 份出生证，登记后到门外 / 痕迹室 / 无终局画廊领取接生回执；三个家庭各一份、两种亲子方向、一次见证者先出生即可开第一因监护法庭，三项监护裁定可重复进入。独立键 `goddead_v91_late_cause_maternity`，只读 v90。v90.1 起主线以外的场景图按需加载、解锁判定有缓存、痕迹室顶部有「下一步」指引。
 
-完整玩家路线、支线网、v63-v90 解锁链与 v90 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
+完整玩家路线、支线网、v63-v91 解锁链与 v90 / v91 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
 
 The homepage is **The Living Shrine**, a hash-routed, scene-by-scene exploration game. Visitors knock three times at the sealed threshold — now a photographed bureau door — and on the third knock the door visually opens into a deep black-gold corridor before the visitor is pulled through into the next room; each completed action thereafter advances the ritual automatically.
 

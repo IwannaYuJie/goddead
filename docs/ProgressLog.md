@@ -1133,3 +1133,13 @@
 - 自动转场可跳过：等待期间真实点击场景空白处立即继续（`AutoAdvance.flush`，与定时器同一条 fire），底部淡入提示。
 - 静态资源缓存标记 `v=90` → `v=90.1`，避免老访客用缓存旧脚本搭配新的 `data-src` HTML。
 - 门禁：`node --check script.js`、`node --check tests/site.test.mjs`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 17257 assertions passed`。浏览器（内置浏览器、本地静态服务器）验证了首屏请求、换场阻塞、全通关存档 53 个入口、门槛放宽、进度指引、跳过等待、新玩家敲门流程与 375px 宽度无溢出；控制台无报错。
+
+## 2026-09-24 - v91 倒生原因助产院实装
+
+- 新增 `late-cause-maternity-ward`、`reverse-birth-order-registry`、`first-cause-custody-court` 3 个场景，场景总数 193 → 196，缓存标记 `v=91`。
+- 玩法：三个家庭 × 六种出生顺序 = 18 份出生证；登记室用“提前一位 / 延后一位”排原因、后果、见证者，预览实时更新；签发后到门外 / 痕迹室 / 无终局画廊领取接生回执，旧场景多一段随最近顺序变化的记忆。
+- 开庭条件：三个家庭各一份、原因在前与后果在前各一份、见证者排第一一份；痕迹室逐条显示 x/3、x/2、x/1。三项监护裁定可重复进入，唯一收集不重复计数。
+- 状态键 `goddead_v91_late_cause_maternity`（12 字段、7 类 pending、严格归一化），只读 v90；v90 有在途记录时禁用入口；所有新操作只接受真实点击。
+- 痕迹室「下一步」扩展到 v91，按开庭三条件与裁定数给出缺项。
+- 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 17378 assertions passed`。
+- 浏览器（内置浏览器，本地静态服务器，v28–v90 全通关存档）：真实点击走完三份出生证、三处接生回执、开庭与三项裁定；未解锁深链回痕迹室；375px 无横向溢出；控制台无错误。本章未生成新图片，沿用已有三张场景图。

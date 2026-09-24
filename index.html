@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=90.1">
+  <link rel="stylesheet" href="styles.css?v=91">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -193,7 +193,16 @@
             <div class="harm-reconstructor reveal" id="harm-reconstructor-threshold" hidden>
               <p class="harm-reconstructor-response" id="harm-reconstructor-response-threshold" aria-live="polite"></p>
               <button class="harm-reconstructor-return" id="harm-reconstructor-return-threshold" type="button" hidden data-hover>跟疼痛复原员返回考古局 · RETURN WITH THE PAIN RECONSTRUCTOR ⟶</button>
-            </div><!-- v90 门槛原籍领事 -->
+            </div>
+          <!-- v91 门槛接生回执与记忆 -->
+          <p class="watch-memory late-cause-echo" id="late-cause-echo-threshold" hidden></p>
+          <div class="late-cause-midwife reveal" id="late-cause-midwife-threshold" hidden>
+            <p class="late-cause-midwife-title" id="late-cause-midwife-title-threshold"></p>
+            <p class="late-cause-midwife-order" id="late-cause-midwife-order-threshold"></p>
+            <p class="late-cause-midwife-body" id="late-cause-midwife-body-threshold"></p>
+            <p class="late-cause-response" id="late-cause-midwife-response-threshold" aria-live="polite" hidden></p>
+            <button class="late-cause-action" id="late-cause-midwife-return-threshold" type="button" data-hover>带着出生证回到助产院 ⟶</button>
+          </div><!-- v90 门槛原籍领事 -->
 <div class="causeless-consequence-consul reveal" id="causeless-consequence-consul-threshold" hidden>
   <p class="causeless-consequence-consul-response" id="causeless-consequence-consul-response-threshold" aria-live="polite"></p>
   <button class="causeless-consequence-consul-return" id="causeless-consequence-consul-return-threshold" type="button" data-hover>跟门槛原籍领事返回难民署 · RETURN WITH THE THRESHOLD ORIGIN CONSUL ⟶</button>
@@ -4479,6 +4488,22 @@
             </div>
           </div>
 
+          <!-- v91 倒生原因助产院图鉴 -->
+          <p class="watch-memory late-cause-memory" id="late-cause-memory" hidden></p>
+          <div class="late-cause-codex reveal" id="late-cause-codex" hidden>
+            <p class="late-cause-kicker">MATERNITY WARD FOR CAUSES BORN AFTER THEIR CONSEQUENCES · 倒 生 原 因 图 鉴</p>
+            <div class="late-cause-grid" id="late-cause-codex-grid"></div>
+            <p class="late-cause-hints-title">监护法庭开庭条件</p>
+            <ul class="late-cause-hints" id="late-cause-court-hints"></ul>
+            <div class="late-cause-codex-entry">
+              <button class="late-cause-entry-btn" id="late-cause-maternity-entry-btn" type="button" hidden data-hover>前往倒生原因助产院 · GO TO THE LATE CAUSE MATERNITY WARD ⟶</button>
+              <p class="late-cause-note" id="late-cause-entry-note" hidden></p>
+              <p class="late-cause-response" id="late-cause-maternity-entry-response" aria-live="polite" hidden></p>
+              <button class="late-cause-entry-btn" id="late-cause-custody-entry-btn" type="button" hidden data-hover>进入第一因监护法庭 · ENTER FIRST CAUSE CUSTODY COURT ⟶</button>
+              <p class="late-cause-response" id="late-cause-custody-entry-response" aria-live="polite" hidden></p>
+            </div>
+          </div>
+
           <!-- v70 亡者议会图鉴 -->
           <div class="dead-parliament-codex reveal" id="dead-parliament-codex" hidden>
             <p class="dpc-kicker">PARLIAMENT OF THE DEAD · 亡 者 议 会 图 鉴</p>
@@ -4501,7 +4526,17 @@
           <div class="last-word-bank-remittance reveal" id="last-word-bank-remittance-remembrance" hidden>
             <p class="last-word-bank-remittance-response" id="last-word-bank-remittance-response-remembrance" aria-live="polite"></p>
             <button class="last-word-bank-remittance-return" id="last-word-bank-remittance-return-remembrance" type="button" data-hover>跟沉默汇兑员返回央行 ⟶</button>
-          </div><!-- v90 记忆原籍公证员 -->
+          </div>
+          <!-- v91 痕迹室接生回执与记忆 -->
+          <p class="watch-memory late-cause-echo" id="late-cause-echo-remembrance" hidden></p>
+          <div class="late-cause-midwife reveal" id="late-cause-midwife-remembrance" hidden>
+            <p class="late-cause-midwife-title" id="late-cause-midwife-title-remembrance"></p>
+            <p class="late-cause-midwife-order" id="late-cause-midwife-order-remembrance"></p>
+            <p class="late-cause-midwife-body" id="late-cause-midwife-body-remembrance"></p>
+            <p class="late-cause-response" id="late-cause-midwife-response-remembrance" aria-live="polite" hidden></p>
+            <button class="late-cause-action" id="late-cause-midwife-return-remembrance" type="button" data-hover>带着出生证回到助产院 ⟶</button>
+          </div>
+<!-- v90 记忆原籍公证员 -->
 <div class="causeless-consequence-consul reveal" id="causeless-consequence-consul-remembrance" hidden>
   <p class="causeless-consequence-consul-response" id="causeless-consequence-consul-response-remembrance" aria-live="polite"></p>
   <button class="causeless-consequence-consul-return" id="causeless-consequence-consul-return-remembrance" type="button" data-hover>跟记忆原籍公证员返回难民署 · RETURN WITH THE MEMORY-ORIGIN NOTARY ⟶</button>
@@ -4748,7 +4783,17 @@
           <div class="apocalypse-warranty-adjuster reveal" id="apocalypse-warranty-adjuster-unending-gallery" hidden>
             <p class="apocalypse-warranty-adjuster-response" id="apocalypse-warranty-adjuster-response-unending-gallery" aria-live="polite"></p>
             <button class="apocalypse-warranty-adjuster-return" id="apocalypse-warranty-adjuster-return-unending-gallery" type="button" data-hover>跟后忆理赔员返回保修局 · RETURN WITH THE DESCENDANT-MEMORY ADJUSTER ⟶</button>
-          </div><div class="causeless-consequence-consul reveal" id="causeless-consequence-consul-unending-gallery" hidden>
+          </div>
+          <!-- v91 画廊接生回执与记忆 -->
+          <p class="watch-memory late-cause-echo" id="late-cause-echo-unending-gallery" hidden></p>
+          <div class="late-cause-midwife reveal" id="late-cause-midwife-unending-gallery" hidden>
+            <p class="late-cause-midwife-title" id="late-cause-midwife-title-unending-gallery"></p>
+            <p class="late-cause-midwife-order" id="late-cause-midwife-order-unending-gallery"></p>
+            <p class="late-cause-midwife-body" id="late-cause-midwife-body-unending-gallery"></p>
+            <p class="late-cause-response" id="late-cause-midwife-response-unending-gallery" aria-live="polite" hidden></p>
+            <button class="late-cause-action" id="late-cause-midwife-return-unending-gallery" type="button" data-hover>带着出生证回到助产院 ⟶</button>
+          </div>
+<div class="causeless-consequence-consul reveal" id="causeless-consequence-consul-unending-gallery" hidden>
   <p class="causeless-consequence-consul-response" id="causeless-consequence-consul-response-unending-gallery" aria-live="polite"></p>
   <button class="causeless-consequence-consul-return" id="causeless-consequence-consul-return-unending-gallery" type="button" data-hover>跟画廊因果领事返回难民署 · RETURN WITH THE GALLERY CAUSALITY CONSUL ⟶</button>
 </div>
@@ -7052,6 +7097,79 @@
 
 
 
+
+      <!-- v91 第一幕：倒生原因助产院 -->
+      <section class="scene scene-branch scene-late-cause-maternity-ward" id="scene-late-cause-maternity-ward" data-scene="late-cause-maternity-ward" data-title="Goddead — 倒生原因助产院" aria-label="倒生原因助产院">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">09α / 倒生原因 · MATERNITY WARD FOR CAUSES BORN AFTER THEIR CONSEQUENCES</p>
+            <h2 class="sec-title">倒生原因助产院</h2>
+            <p class="sec-desc">衰老的后果坐在走廊外，等着自己的原因出生。选一个等了很久的家庭。</p>
+          </header>
+          <figure class="branch-figure late-cause-figure late-cause-maternity-ward-figure reveal" id="late-cause-maternity-ward-figure">
+            <img class="branch-img late-cause-img" data-src="assets/v91-late-cause-maternity-ward.webp" alt="倒生原因助产院：三只铜摇篮，左边一扇从影子里长出的小门，中间一道发光的金线，右边冷灰里立着没点过的火柴" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot late-cause-hotspot late-cause-hotspot-cradle-left" id="late-cause-family-door-born-from-its-own-shadow" type="button" aria-label="家庭：门与影子 · 影子把门抱了起来" data-hover><span class="dh-label" aria-hidden="true">门与影子</span></button>
+            <button class="scene-hotspot late-cause-hotspot late-cause-hotspot-cradle-center" id="late-cause-family-wound-born-from-a-healed-scar" type="button" aria-label="家庭：金线与裂口 · 愈合的缝线在等它的裂口" data-hover><span class="dh-label" aria-hidden="true">金线与裂口</span></button>
+            <button class="scene-hotspot late-cause-hotspot late-cause-hotspot-cradle-right" id="late-cause-family-fire-born-from-cold-ashes" type="button" aria-label="家庭：灰烬与火柴 · 冷灰在等没划过的火柴" data-hover><span class="dh-label" aria-hidden="true">灰烬与火柴</span></button>
+          </figure>
+          <p class="late-cause-note reveal" id="late-cause-maternity-ward-note" hidden></p>
+          <p class="branch-response late-cause-response" id="late-cause-maternity-ward-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开助产院">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+            <button class="late-cause-action" id="late-cause-continue" type="button" hidden data-hover>继续登记 ⟶</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v91 第二幕：出生先后登记室 -->
+      <section class="scene scene-branch scene-reverse-birth-order-registry" id="scene-reverse-birth-order-registry" data-scene="reverse-birth-order-registry" data-title="Goddead — 出生先后登记室" aria-label="出生先后登记室">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">09β / 出生先后 · REVERSE BIRTH ORDER REGISTRY</p>
+            <h2 class="sec-title">出生先后登记室</h2>
+            <p class="sec-desc">原因、后果、见证者，谁先出生由你排。不是猜谜，没有错误答案。</p>
+          </header>
+          <figure class="branch-figure late-cause-figure reveal" role="img" aria-label="出生先后登记室：长桌上三个铜框，分别装着火柴、灰烬和一面镜子，一根金线把它们连在一起">
+            <img class="branch-img late-cause-img" data-src="assets/v91-reverse-birth-order-registry.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+          <div class="late-cause-registry reveal" id="late-cause-registry-panel" hidden>
+            <p class="late-cause-registry-family" id="late-cause-registry-family"></p>
+            <ol class="late-cause-order-cards" id="late-cause-order-cards" aria-label="出生顺序"></ol>
+            <div class="late-cause-preview" aria-live="polite">
+              <span class="late-cause-order-tag" id="late-cause-order-tag"></span>
+              <p class="late-cause-order-preview" id="late-cause-order-preview"></p>
+            </div>
+            <p class="late-cause-note" id="late-cause-register-destination"></p>
+            <div class="late-cause-actions">
+              <button class="late-cause-action late-cause-action-primary" id="late-cause-register" type="button" data-hover>按这个顺序签发出生证 ⟶</button>
+              <button class="late-cause-action" id="late-cause-abandon" type="button" data-hover>放弃这份登记</button>
+            </div>
+          </div>
+          <p class="branch-response late-cause-response" id="reverse-birth-order-registry-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <!-- v91 第三幕：第一因监护法庭 -->
+      <section class="scene scene-branch scene-first-cause-custody-court" id="scene-first-cause-custody-court" data-scene="first-cause-custody-court" data-title="Goddead — 第一因监护法庭" aria-label="第一因监护法庭">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">09γ / 第一因监护 · FIRST CAUSE CUSTODY COURT</p>
+            <h2 class="sec-title">第一因监护法庭</h2>
+            <p class="sec-desc">一棵没有根的树悬在空监护席上方。三份空白证件等着写上谁来抚养谁。裁定之后仍可回来。</p>
+          </header>
+          <figure class="branch-figure late-cause-figure first-cause-custody-court-figure reveal" id="first-cause-custody-court-figure">
+            <img class="branch-img late-cause-img" data-src="assets/v91-first-cause-custody-court.webp" alt="第一因监护法庭：无根的金色树悬在铜盆上方，三张空监护席，桌上三份空白证件" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot late-cause-hotspot late-cause-hotspot-paper-left" id="late-cause-custody-let-effects-raise-their-causes" type="button" aria-label="监护裁定：让年长的后果抚养原因" data-hover><span class="dh-label" aria-hidden="true">后果抚养原因</span></button>
+            <button class="scene-hotspot late-cause-hotspot late-cause-hotspot-paper-center" id="late-cause-custody-abolish-the-firstborn" type="button" aria-label="监护裁定：废除“必须有第一个”" data-hover><span class="dh-label" aria-hidden="true">废除第一个</span></button>
+            <button class="scene-hotspot late-cause-hotspot late-cause-hotspot-paper-right" id="late-cause-custody-give-custody-to-the-witness" type="button" aria-label="监护裁定：把监护权交给见证者" data-hover><span class="dh-label" aria-hidden="true">交给见证者</span></button>
+          </figure>
+          <p class="branch-response late-cause-response" id="first-cause-custody-court-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开监护法庭">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+          </nav>
+        </div>
+      </section>
+
       <!-- 隐藏幕 · 第九条 -->
       <section class="scene scene-ninth" id="scene-ninth" data-scene="ninth" data-title="Goddead — ？？？" aria-label="第九条">
         <figure class="ninth-figure" role="img" aria-label="一道不该存在的裂口，底部有一扇错误的窄门">
@@ -7258,6 +7376,9 @@
         <a href="#borrowed-cause-sponsorship-office" id="borrowed-cause-sponsorship-office-link" hidden data-hover>08β / 借因担保</a>
         <a href="#causal-border-processing-station" id="causal-border-processing-station-link" hidden data-hover>08γ / 因果边检</a>
         <a href="#final-asylum-tribunal-for-causeless-consequences" id="final-asylum-tribunal-for-causeless-consequences-link" hidden data-hover>08δ / 后果庇护</a>
+        <a href="#late-cause-maternity-ward" id="late-cause-maternity-ward-link" hidden data-hover>09α / 倒生原因</a>
+        <a href="#reverse-birth-order-registry" id="reverse-birth-order-registry-link" hidden data-hover>09β / 出生先后</a>
+        <a href="#first-cause-custody-court" id="first-cause-custody-court-link" hidden data-hover>09γ / 第一因监护</a>
 
       <a href="#three-person-republic-court" id="three-person-republic-court-link" hidden data-hover>04β / 三人共和国</a>
       <a href="#remembrance" data-hover>04 / 痕迹</a>
@@ -7266,6 +7387,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=90.1"></script>
+    <script src="script.js?v=91"></script>
   </body>
 </html>

@@ -2,7 +2,7 @@
 
 日期：2026-09-22。设计与原画：Codex；前端实现、测试与实现文档：`gemini-3.7-flash-high`。
 
-状态：设计与三张场景原画已完成，尚未接入游戏。先完成 v90 的冷启动/解锁链性能修复与真实点击验收，再交付 v91 实现；不能把本文件当作已上线说明。
+状态：2026-09-24 已实装（Claude 按本设计实现生产代码与测试，场景原画沿用 Codex 生成的三张）。实现差异与验收见文末「实现记录」。
 
 ## 1. 从后果那里出生
 
@@ -130,3 +130,14 @@ threshold 的新增段是前部新支线：“门把自己的出生证明递给�
 5. 原存档、hash、viewport 逐项恢复；实现文档更新真实测试数字和未完成边界，不把自动测试当完整实玩。
 
 本章尚未实现。保持本状态直到 Gemini 代码通过实际检查。
+
+
+## 11. 实现记录（2026-09-24）
+
+- 场景 193 → 196，缓存 `v=91`；三张 WebP 随场景按需加载。
+- 状态键 `goddead_v91_late_cause_maternity` 十二字段按设计实现；pending 共 7 类（entry / family / birth / abandon / midwife-return / court-entry / custody），归一化时按 kind 与当前状态重建期望对象，逐字段一致才接受。
+- 解锁：`causelessConsequenceRefugeeCoverageComplete(v90)` 且 v90 三项终审全收集，只经 v90 getter，不再额外调用 v90 解锁函数；结果经 `store.memo` 缓存。v90 有 pending 时入口禁用。
+- 开庭条件、三条缺项提示、重复办理只更新 latest、旧场景记忆段、放弃草稿、三项可重复裁定均按设计。启动只同步 UI（`syncLateCauseAll`），由真实 route 的 `sceneInit` 结算 / 续播。
+- 测试：`tests/site.test.mjs` 新增 v91 块，覆盖 18 份记录与六种排列、锁定深链、最短三份开庭、换序边界、同家庭保留 / 换家庭重置、放弃、重复办理、pending 源刷新 / 目标只结算一次 / 他处取消、v90 在途禁用入口、坏档与伪造字段；全套 `site.test.mjs: 17378 assertions passed`（完成时数字见 ProgressLog）。
+- 浏览器：内置浏览器真实点击完成三家庭（先验见证 / 倒生家谱 / 通常家谱）、三处接生回执与记忆段、开庭、三项裁定分别抵达 threshold / remembrance / unending-gallery；未解锁深链回到痕迹室；375px 宽度无横向溢出、按钮不小于 44px；控制台无错误。
+- 后续钩子：“目击责任保险局”仅保留在本文，未实现。
