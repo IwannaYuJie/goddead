@@ -15461,3 +15461,71 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
 @media (min-width: 721px) {
   .vc-hotspot .dh-label { white-space: nowrap; }
 }
+
+/* ============================================================
+   v98.1 痕迹室档案柜：图鉴折叠成一行标题
+   ============================================================ */
+.codex-fold-bar {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  align-items: center;
+  justify-content: space-between;
+  width: min(760px, 100%);
+  margin: 1.2rem auto;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--line);
+  background: rgba(10, 9, 8, 0.72);
+}
+
+.codex-fold-note { margin: 0; color: var(--ash); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; line-height: 1.7; }
+.codex-fold-actions { display: flex; gap: 0.5rem; }
+.codex-fold-all {
+  min-height: 44px;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+
+.codex-fold-all:hover,
+.codex-fold-all:focus-visible { border-color: var(--gold); color: var(--bone-bright); outline: 2px solid var(--gold); outline-offset: 2px; }
+
+.codex-fold {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 44px;
+  margin: 0 0 1rem;
+  padding: 0.2rem 0;
+  border: 0;
+  background: transparent;
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-align: left;
+  cursor: pointer;
+}
+
+.codex-fold::after { content: "收起 ▴"; flex: none; color: var(--ash); font-size: 0.68rem; letter-spacing: 0.1em; }
+.codex-fold:hover,
+.codex-fold:focus-visible { color: var(--bone-bright); outline: 2px solid var(--gold); outline-offset: 4px; }
+.codex-fold + p[class*="kicker"] { display: none; }
+[id$="-codex"].is-folded { box-sizing: border-box; width: min(760px, 100%); padding-top: 0.35rem !important; padding-bottom: 0.35rem !important; margin-top: 0.6rem !important; margin-bottom: 0.6rem !important; }
+[id$="-codex"].is-folded > :not(.codex-fold) { display: none !important; }
+[id$="-codex"].is-folded > .codex-fold { margin: 0; }
+[id$="-codex"].is-folded > .codex-fold::after { content: "展开 ▾"; }
+
+@media (max-width: 720px) {
+  .codex-fold { font-size: 0.66rem; letter-spacing: 0.06em; }
+  .codex-fold-actions { width: 100%; }
+  .codex-fold-all { flex: 1; }
+}

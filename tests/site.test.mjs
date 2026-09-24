@@ -30386,5 +30386,73 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
   }
 }
 
+/* ================= v98.1 痕迹室档案柜 ================= */
+{
+  assert.match(rawHtml, /styles\.css\?v=98\.1"/, "v98.1 busts the stylesheet cache");
+  assert.match(rawHtml, /script\.js\?v=98\.1"/, "v98.1 busts the script cache");
+  const remembranceSection = rawHtml.match(/<section[^>]*data-scene="remembrance"[\s\S]*?<\/section>/);
+  assert.ok(remembranceSection && /id="codex-fold-bar"[^>]*hidden/.test(remembranceSection[0]), "the fold bar lives in remembrance and starts hidden");
+  assert.ok(remembranceSection[0].indexOf('id="progress-guide"') < remembranceSection[0].indexOf('id="codex-fold-bar"'), "the fold bar sits right under the progress guide");
+  assert.match(js, /const syncProgressGuide = \(\) => \{\s*paintProgressGuide\(\);\s*syncCodexFolds\(\);\s*\};/, "every guide refresh re-applies the folds");
+  assert.match(js, /forgetVigilCandlesState\(\);\s*forgetCodexFolds\(\);/, "forget-all clears the fold preference");
+  assert.match(js, /const box = target\.closest\('\[id\$="-codex"\]'\);\s*if \(box\) setCodexFolded\(box, false\);/, "jumping to an entry unfolds its codex first");
+  assert.match(css, /\[id\$="-codex"\]\.is-folded > :not\(\.codex-fold\) \{ display: none !important; \}/, "a folded codex shows only its title button");
+
+  const start = js.indexOf("  const CODEX_FOLD_KEY");
+  const end = js.indexOf("  const syncProgressGuide = () => {");
+  assert.ok(start > 0 && end > start, "the fold module is extractable");
+  const src = js.slice(start, end);
+  const mem = new Map();
+  const localStorage = { getItem: (k) => (mem.has(k) ? mem.get(k) : null), setItem: (k, v) => mem.set(k, String(v)), removeItem: (k) => mem.delete(k) };
+  const mkEl = (id, hidden = false) => {
+    const el = {
+      id, hidden, children: [], attrs: {}, listeners: {}, textContent: "",
+      classList: { set: new Set(), add(c) { this.set.add(c); }, remove(c) { this.set.delete(c); }, toggle(c, on) { on ? this.set.add(c) : this.set.delete(c); }, contains(c) { return this.set.has(c); } },
+      setAttribute(k, v) { this.attrs[k] = String(v); },
+      addEventListener(t, f) { this.listeners[t] = f; },
+      prepend(c) { this.children.unshift(c); c.parent = el; },
+      querySelector(sel) {
+        if (sel === ":scope > .codex-fold") return this.children.find((c) => c.className === "codex-fold") || null;
+        if (sel === '[class*="kicker"]') return { textContent: `  ${id.toUpperCase()} KICKER  ` };
+        return null;
+      },
+      closest() { return this.parent || null; },
+    };
+    return el;
+  };
+  const codices = [mkEl("a-codex"), mkEl("b-codex"), mkEl("c-codex", true)];
+  const entry = mkEl("b-entry-btn");
+  codices[1].children.push(entry); entry.parent = codices[1];
+  entry.closest = () => codices[1];
+  const bar = mkEl("codex-fold-bar", true);
+  const api = new Function("$", "$$", "document", "localStorage", "getTarget",
+    `let progressGuideTarget = null;\n${src}\nreturn { sync: (t) => { progressGuideTarget = t; syncCodexFolds(); }, all: setAllCodexFolds, forget: forgetCodexFolds, read: readUnfoldedCodices };`
+  )((sel) => (sel === "#codex-fold-bar" ? bar : null), () => codices, { createElement: () => mkEl("") }, localStorage);
+  api.sync(entry);
+  assert.ok(codices.every((c) => c.children[0].className === "codex-fold"), "each codex gets one title button");
+  assert.equal(codices[0].children[0].textContent, "A-CODEX KICKER", "the title button reuses the kicker text");
+  assert.equal(codices[0].classList.contains("is-folded"), true, "codices fold by default");
+  assert.equal(codices[1].classList.contains("is-folded"), false, "the codex the guide points into stays open");
+  assert.equal(codices[1].children[0].attrs["aria-expanded"], "true");
+  assert.equal(bar.hidden, false, "the fold bar appears once a codex is visible");
+  api.sync(entry);
+  assert.equal(codices[0].children.filter((c) => c.className === "codex-fold").length, 1, "re-syncing never duplicates the title button");
+  codices[0].children[0].listeners.click();
+  assert.equal(codices[0].classList.contains("is-folded"), false, "clicking a title unfolds it");
+  api.sync(null);
+  assert.equal(codices[0].classList.contains("is-folded"), false, "a manual unfold is remembered");
+  assert.equal(codices[1].classList.contains("is-folded"), true, "without a guide target the guided codex folds again");
+  api.all(false);
+  assert.deepEqual([...api.read()].sort(), ["a-codex", "b-codex"], "unfold-all remembers every visible codex");
+  api.all(true);
+  assert.equal(api.read().size, 0, "fold-all clears the preference");
+  mem.set("goddead_codex_unfolded", JSON.stringify(["a-codex", "<img>", 3]));
+  assert.deepEqual([...api.read()], ["a-codex"], "forged fold entries are dropped");
+  mem.set("goddead_codex_unfolded", "{bad");
+  assert.equal(api.read().size, 0, "a broken preference reads as empty");
+  api.forget();
+  assert.equal(mem.has("goddead_codex_unfolded"), false);
+}
+
 // v78-final-assertion-report
 console.log(`site.test.mjs: ${assertionCount} assertions passed`);

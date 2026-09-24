@@ -1209,3 +1209,11 @@
 - 场景图：本机 Codex CLI 生成三张原画；守夜厅左架成图只亮对角两端，数据随图改为 0、8。提示词与哈希见 `docs/V98ImagePrompts.md`。
 - 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 18111 assertions passed`。
 - 浏览器：真实点击问守夜人、点四个角全灭、封灯送到神名注销科签收；火苗对准烛芯。
+
+## 2026-09-25 - v98.1 痕迹室档案柜
+
+- 问题：v63–v98 的图鉴全部堆在痕迹室，v97 全部完成的存档下痕迹室高 81,413 px（约 106 屏），36 个图鉴全部展开。
+- 做法：每个图鉴在同步时插入一个标题按钮（复用原 kicker 文字，`aria-expanded`），默认折叠，只展开「下一步」正指向的那一章；点标题展开 / 收起，手动展开的图鉴 id 记在本机 `goddead_codex_unfolded`（阅读偏好，伪造值过滤，遗忘全部时清除）；进度引导“找到入口”会先展开目标所在图鉴；新增“展开全部图鉴 / 收起全部图鉴”工具条。
+- 结果：同一存档下痕迹室高 8,038 px，35 个折叠、只展开 v98。缓存标记 `v=98.1`。
+- 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 18133 assertions passed`。
+- 浏览器：真实点击标题展开回敲图鉴并记住；折叠行统一宽度。

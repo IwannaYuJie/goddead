@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=98">
+  <link rel="stylesheet" href="styles.css?v=98.1">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -4345,6 +4345,14 @@
             <ul class="progress-guide-list" id="progress-guide-list"></ul>
             <button class="progress-guide-go" id="progress-guide-go" type="button" data-hover hidden>找到入口 ⟶</button>
           </aside>
+          <!-- v98.1 痕迹室档案柜：图鉴默认折叠，只展开当前这一章 -->
+          <div class="codex-fold-bar" id="codex-fold-bar" hidden>
+            <p class="codex-fold-note">图鉴档案柜 · 默认只展开「下一步」指向的那一章，点标题可展开或收起</p>
+            <div class="codex-fold-actions">
+              <button class="codex-fold-all" id="codex-unfold-all" type="button" data-hover>展开全部图鉴</button>
+              <button class="codex-fold-all" id="codex-fold-all" type="button" data-hover>收起全部图鉴</button>
+            </div>
+          </div>
 
           <figure class="remembrance-figure" role="img" aria-label="一面挂满证物柜与档案袋的痕迹墙">
             <img class="remembrance-img" src="assets/remembrance-evidence-wall.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
@@ -8293,6 +8301,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=98"></script>
+    <script src="script.js?v=98.1"></script>
   </body>
 </html>

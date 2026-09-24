@@ -48001,6 +48001,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetHeldBreathState();
       forgetLostWeightState();
       forgetVigilCandlesState();
+      forgetCodexFolds();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
       if (firstDraftVaultResponse) firstDraftVaultResponse.textContent = "";
@@ -54213,11 +54214,11 @@ document.addEventListener("DOMContentLoaded", () => {
     return { title: "v98 守夜烛台", items, target: eligible ? "vc-court" : "vc", done: false };
   };
 
-  const syncProgressGuide = () => {
+  const paintProgressGuide = () => {
     if (!progressGuide) return;
     let step = null;
     try { step = currentProgressStep(); } catch { step = null; }
-    if (!step) { progressGuide.hidden = true; return; }
+    if (!step) { progressGuide.hidden = true; progressGuideTarget = null; return; }
     progressGuideTitle.textContent = step.title;
     progressGuideList.replaceChildren(...step.items.map((text) => {
       const li = document.createElement("li");
@@ -54231,9 +54232,88 @@ document.addEventListener("DOMContentLoaded", () => {
     progressGuide.hidden = false;
   };
 
+  /* ---------- v98.1 痕迹室档案柜 ----------
+     痕迹室的图鉴已有三十多个，全部展开有上百屏。每个图鉴默认折成一行标题按钮，
+     只展开进度引导正指向的那一章；玩家手动展开的记在本机（仅是阅读偏好，不是进度）。 */
+  const CODEX_FOLD_KEY = "goddead_codex_unfolded";
+  const remembranceCodices = () => $$('#scene-remembrance [id$="-codex"]');
+
+  const readUnfoldedCodices = () => {
+    try {
+      const v = JSON.parse(localStorage.getItem(CODEX_FOLD_KEY) || "[]");
+      return new Set(Array.isArray(v) ? v.filter((id) => typeof id === "string" && /^[a-z0-9-]+-codex$/.test(id)) : []);
+    } catch { return new Set(); }
+  };
+
+  const writeUnfoldedCodices = (set) => {
+    try { localStorage.setItem(CODEX_FOLD_KEY, JSON.stringify([...set])); } catch {}
+  };
+
+  const setCodexFolded = (codex, folded) => {
+    codex.classList.toggle("is-folded", folded);
+    const head = codex.querySelector(":scope > .codex-fold");
+    if (head) head.setAttribute("aria-expanded", folded ? "false" : "true");
+  };
+
+  const guideCodexId = () => {
+    const box = progressGuideTarget && progressGuideTarget.closest('[id$="-codex"]');
+    return box ? box.id : "";
+  };
+
+  const syncCodexFolds = () => {
+    const open = readUnfoldedCodices();
+    const guided = guideCodexId();
+    remembranceCodices().forEach((codex) => {
+      if (!codex.querySelector(":scope > .codex-fold")) {
+        const kicker = codex.querySelector('[class*="kicker"]');
+        const head = document.createElement("button");
+        head.type = "button";
+        head.className = "codex-fold";
+        head.setAttribute("aria-controls", codex.id);
+        head.textContent = kicker ? kicker.textContent.trim() : codex.id;
+        head.addEventListener("click", () => {
+          const set = readUnfoldedCodices();
+          const folding = !codex.classList.contains("is-folded");
+          if (folding) set.delete(codex.id); else set.add(codex.id);
+          writeUnfoldedCodices(set);
+          setCodexFolded(codex, folding);
+        });
+        codex.prepend(head);
+      }
+      setCodexFolded(codex, !(open.has(codex.id) || codex.id === guided));
+    });
+    const bar = $("#codex-fold-bar");
+    if (bar) bar.hidden = !remembranceCodices().some((c) => !c.hidden);
+  };
+
+  const setAllCodexFolds = (folded) => {
+    const set = new Set();
+    remembranceCodices().forEach((codex) => {
+      if (!folded && !codex.hidden) set.add(codex.id);
+      setCodexFolded(codex, folded && codex.id !== guideCodexId());
+    });
+    writeUnfoldedCodices(set);
+  };
+
+  const forgetCodexFolds = () => {
+    try { localStorage.removeItem(CODEX_FOLD_KEY); } catch {}
+  };
+
+  const codexUnfoldAll = $("#codex-unfold-all");
+  const codexFoldAll = $("#codex-fold-all");
+  if (codexUnfoldAll) codexUnfoldAll.addEventListener("click", () => setAllCodexFolds(false));
+  if (codexFoldAll) codexFoldAll.addEventListener("click", () => setAllCodexFolds(true));
+
+  const syncProgressGuide = () => {
+    paintProgressGuide();
+    syncCodexFolds();
+  };
+
   if (progressGuideGo) progressGuideGo.addEventListener("click", () => {
     const target = progressGuideTarget;
     if (!target || !target.isConnected) return;
+    const box = target.closest('[id$="-codex"]');
+    if (box) setCodexFolded(box, false);
     target.scrollIntoView({ block: "center", behavior: reduced ? "auto" : "smooth" });
     target.focus({ preventScroll: true });
     target.classList.add("progress-guide-target");
