@@ -13,14 +13,31 @@ document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
 
   /* ---------- 安全读写 ---------- */
+  /* 解锁判定缓存：v66–v90 的解锁函数逐章向上游递归，满进度时一次换场会读档数万次。
+     这里只缓存纯由存档推导的布尔结果；任何 set、键数量变化（遗忘时 removeItem）
+     或其他标签页写入都会让缓存整体失效。测试桩的 store 没有 memo，照常直接计算。 */
+  let storeGeneration = 0;
+  const unlockCache = new Map();
   const store = {
     get(key, fallback) {
       try { return localStorage.getItem(key) ?? fallback; } catch { return fallback; }
     },
     set(key, value) {
+      storeGeneration++;
       try { localStorage.setItem(key, value); } catch { /* 遗忘也是一种重量 */ }
     },
+    memo(name, compute) {
+      let size = -1;
+      try { size = localStorage.length; } catch { /* 无存储时每次重算 */ }
+      const hit = unlockCache.get(name);
+      if (hit && hit.generation === storeGeneration && hit.size === size && size !== -1) return hit.value;
+      const generation = storeGeneration;
+      const value = compute();
+      if (generation === storeGeneration) unlockCache.set(name, { generation, size, value });
+      return value;
+    },
   };
+  window.addEventListener("storage", () => { storeGeneration++; });
 
   /* ---------- 状态 ---------- */
   let awake = store.get("goddead_awake", "false") === "true";
@@ -873,6 +890,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const schedule = (scene, target, options = {}) => {
       if (!initialRouteDone) return;
       clear(scene);
+      hydrateSceneImages(target);
       const ms = options.delay ?? baseDelay();
       /* 代际令牌：主定时器与看门狗共享同一条记录，
          已触发/已取消后记录不在 timers 里，看门狗自动空转；
@@ -884,6 +902,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (options.before) options.before();
         goScene(target);
       };
+      record.fire = fire;
       const id = setTimeout(fire, ms);
       record.id = id;
       timers.set(scene, record);
@@ -892,11 +911,82 @@ document.addEventListener("DOMContentLoaded", () => {
       if (options.onSchedule) options.onSchedule(ms);
     };
 
-    return { schedule, clear, clearAll, has: (scene) => timers.has(scene) };
+    /* 玩家点击空白处时立即执行已排定的转场：与定时器触发走同一条 fire，
+       before 回调、代际令牌与看门狗语义都不变 */
+    const flush = () => {
+      const record = timers.values().next().value;
+      if (!record) return false;
+      clearTimeout(record.id);
+      record.fire();
+      return true;
+    };
+
+    return { schedule, clear, clearAll, flush, pending: () => timers.size > 0, has: (scene) => timers.has(scene) };
   })();
 
   const scenes = {};
   $$(".scene").forEach((s) => { scenes[s.dataset.scene] = s; });
+
+  /* 场景图按需加载：主线以外的 <img> 把地址放在 data-src，
+     在调度转场、悬停出口或进入场景时才写回 src。
+     所有场景叠在同一视口里，loading="lazy" 无法区分可见与否，只能靠这里。
+     已被状态同步函数写过 src 的图片保持原样，不被基准图覆盖。 */
+  /* 场景内阈值 / 巡检换图用的变体图：登记到所属场景，随场景一起按需预载，不在启动时抓取 */
+  const sceneVariantPrefetch = new Map();
+  const prefetchWithScene = (name, url) => {
+    if (!sceneVariantPrefetch.has(name)) sceneVariantPrefetch.set(name, new Set());
+    sceneVariantPrefetch.get(name).add(url);
+  };
+  const hydrateSceneImages = (name) => {
+    const scene = scenes[name];
+    if (!scene) return;
+    scene.querySelectorAll("img[data-src]").forEach((img) => {
+      /* 写回即代表马上要看：改为立即加载，转场等待期间就开始下载 */
+      img.loading = "eager";
+      if (!img.getAttribute("src")) img.setAttribute("src", img.dataset.src);
+      img.removeAttribute("data-src");
+    });
+    const variants = sceneVariantPrefetch.get(name);
+    if (variants) {
+      sceneVariantPrefetch.delete(name);
+      variants.forEach((url) => { const pre = new Image(); pre.src = url; });
+    }
+  };
+  /* 状态同步换图：场景尚未按需加载（仍带 data-src）时只改待加载地址，
+     避免启动时的 sync* 把所有变异图提前抓下来；已加载的场景照常换 src。 */
+  const setSceneImageSrc = (img, url) => {
+    if (!img) return;
+    if (img.hasAttribute("data-src")) img.setAttribute("data-src", url);
+    else if (img.getAttribute("src") !== url) img.setAttribute("src", url);
+  };
+  const prefetchFromExit = (e) => {
+    const go = e.target.closest && e.target.closest("[data-go]");
+    if (go) hydrateSceneImages(go.dataset.go);
+  };
+  document.addEventListener("pointerover", prefetchFromExit, { passive: true });
+  document.addEventListener("focusin", prefetchFromExit);
+
+  /* 跳过等待：自动转场排定后，点击场景空白处立即继续；点在任何可交互元素上都不算。
+     等待期间底部淡入一行提示，转场触发或被取消后自动收起。 */
+  const advanceHint = $("#advance-hint");
+  let advanceHintTimer = 0;
+  const syncAdvanceHint = () => {
+    if (!advanceHint) return;
+    clearTimeout(advanceHintTimer);
+    advanceHint.hidden = !AutoAdvance.pending();
+    if (!advanceHint.hidden) advanceHintTimer = setTimeout(syncAdvanceHint, 250);
+  };
+  const scheduleAutoAdvance = AutoAdvance.schedule;
+  AutoAdvance.schedule = (...args) => {
+    scheduleAutoAdvance(...args);
+    syncAdvanceHint();
+  };
+  const ADVANCE_SKIP_IGNORE = "button, a, input, textarea, select, label, summary, [role='button'], [contenteditable], [data-go], [tabindex]:not([tabindex='-1'])";
+  document.addEventListener("click", (e) => {
+    if (!e.isTrusted || !AutoAdvance.pending()) return;
+    if (e.target.closest && e.target.closest(ADVANCE_SKIP_IGNORE)) return;
+    if (AutoAdvance.flush()) syncAdvanceHint();
+  });
   let currentScene = "threshold";
   let veilBusy = false;
   let statsCounted = false;
@@ -1288,6 +1378,7 @@ document.addEventListener("DOMContentLoaded", () => {
     syncCauselessConsequenceRefugeeRemembrance();
     syncCauselessConsequenceRefugeeLinks();
     replayCauselessConsequenceRefugeePending(name);
+    if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
 
@@ -1653,6 +1744,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!scenes[name] || veilBusy) return;
     name = resolveScene(name);
     if (name === currentScene) return;
+    hydrateSceneImages(name);
     AutoAdvance.clearAll();
     veilBusy = true;
     stopAnomaly();
@@ -1735,6 +1827,8 @@ document.addEventListener("DOMContentLoaded", () => {
       hover: false,
     };
   });
+  /* 经文带是启动期唯一需要量不在场场景尺寸的地方；量完后才让不在场的场景跳过样式与布局（见 styles.css） */
+  body.classList.add("scenes-settled");
 
   bandsEl.addEventListener("pointerenter", () => bands.forEach((b) => (b.hover = true)));
   bandsEl.addEventListener("pointerleave", () => bands.forEach((b) => (b.hover = false)));
@@ -1805,7 +1899,8 @@ document.addEventListener("DOMContentLoaded", () => {
     resizeCanvas();
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
-      bands.forEach((b) => (b.period = b.el.scrollWidth / 2));
+      /* 走廊不在场时不参与渲染，量到 0 就沿用上次的周期 */
+      bands.forEach((b) => (b.period = b.el.scrollWidth / 2 || b.period));
     }, 250);
   });
 
@@ -2911,7 +3006,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const figure = section.querySelector("figure.branch-figure");
     const img = figure && figure.querySelector(".branch-img");
     const wantSrc = on ? meta.img : DEBT_BASE_IMG[sceneKey];
-    if (img && img.getAttribute("src") !== wantSrc) img.setAttribute("src", wantSrc);
+    setSceneImageSrc(img, wantSrc);
     if (figure) figure.setAttribute("aria-label", on ? meta.figLabel : meta.baseFigLabel);
     const anomaly = $(meta.anomalyBtn);
     if (anomaly) {
@@ -2966,9 +3061,8 @@ document.addEventListener("DOMContentLoaded", () => {
   ANNEX_SCENES.forEach((sceneKey) => {
     const btn = $(DEBT_ANOMALY[sceneKey].anomalyBtn);
     if (btn) btn.addEventListener("click", () => chooseDebtAnomaly(sceneKey));
-    /* 变体图预载，阈值切换无闪烁 */
-    const pre = new Image();
-    pre.src = DEBT_ANOMALY[sceneKey].img;
+    /* 变体图随场景预载，阈值切换无闪烁 */
+    prefetchWithScene(sceneKey, DEBT_ANOMALY[sceneKey].img);
   });
   paintDebtPlate();
   ANNEX_SCENES.forEach(syncAnnexDebts);
@@ -5979,7 +6073,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const figure = section.querySelector("figure.branch-figure");
     const img = figure && figure.querySelector(".branch-img");
     const wantSrc = side ? meta[side].img : meta.baseImg;
-    if (img && img.getAttribute("src") !== wantSrc) img.setAttribute("src", wantSrc);
+    setSceneImageSrc(img, wantSrc);
     if (figure) {
       figure.setAttribute("aria-label", side ? meta[side].figLabel : meta.baseFigLabel);
       figure.classList.toggle("belief-variant-official", variant === "official");
@@ -6159,10 +6253,9 @@ document.addEventListener("DOMContentLoaded", () => {
   BELIEF_ROUTES.forEach((route) => {
     const btn = $(BELIEF_ROUTE_META[route].thresholdBtn);
     if (btn) btn.addEventListener("click", () => chooseBeliefThreshold(route));
-    /* 六张变异图预载，阈值切换无闪烁 */
+    /* 六张变异图随场景预载，阈值切换无闪烁 */
     BELIEF_SIDES.forEach((side) => {
-      const pre = new Image();
-      pre.src = BELIEF_ROUTE_META[route][side].img;
+      prefetchWithScene(BELIEF_ROUTE_META[route].scene, BELIEF_ROUTE_META[route][side].img);
     });
   });
   const beliefFlipBtn = $(BELIEF_FLIP.btn);
@@ -6326,7 +6419,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const img = figure && figure.querySelector(".branch-img");
     const moved = st.approach >= PRESSURE_APPROACH_IMG;
     const wantSrc = moved ? PRESSURE_IMG[room] : PRESSURE_BASE_IMG[room];
-    if (img && img.getAttribute("src") !== wantSrc) img.setAttribute("src", wantSrc);
+    setSceneImageSrc(img, wantSrc);
     if (figure) figure.setAttribute("aria-label", moved ? PRESSURE_FIGLABEL[room] : PRESSURE_BASE_FIGLABEL[room]);
     const lastChoice = getBranches().lastChoice[room];
     const armed = st.approach >= PRESSURE_BREACH_MIN && !!PRESSURE_BREACH[room][lastChoice];
@@ -6429,9 +6522,8 @@ document.addEventListener("DOMContentLoaded", () => {
   PRESSURE_SCENES.forEach((room) => {
     const btn = $(PRESSURE_BREACH[room].btn);
     if (btn) btn.addEventListener("click", () => choosePressureBreach(room));
-    /* 三张异动图预载，阈值切换无闪烁 */
-    const pre = new Image();
-    pre.src = PRESSURE_IMG[room];
+    /* 三张异动图随场景预载，阈值切换无闪烁 */
+    prefetchWithScene(room, PRESSURE_IMG[room]);
     syncPressureRoom(room);
   });
   paintPressure();
@@ -6668,7 +6760,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const figure = section.querySelector("figure.branch-figure");
     const img = figure && figure.querySelector(".branch-img");
     const wantSrc = inspecting && st.assignment[room] === "anomaly" ? ANOMALY_IMG[room] : ANOMALY_BASE_IMG[room];
-    if (img && img.getAttribute("src") !== wantSrc) img.setAttribute("src", wantSrc);
+    setSceneImageSrc(img, wantSrc);
     if (figure) figure.setAttribute("aria-label", inspecting && st.assignment[room] === "anomaly" ? ANOMALY_FIGLABEL[room] : ANOMALY_BASE_FIGLABEL[room]);
     const meta = FLOOR_ROOM_META[sceneKey];
     Object.keys(meta.choices).forEach((mark) => {
@@ -6902,9 +6994,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const btn = $(`#${room}-report-${report}`);
       if (btn) btn.addEventListener("click", () => chooseAnomalyReport(ANOMALY_ROOM_SCENE[room], report));
     });
-    /* 三张异常图预载，巡检切换无闪烁 */
-    const pre = new Image();
-    pre.src = ANOMALY_IMG[room];
+    /* 三张异常图随场景预载，巡检切换无闪烁 */
+    prefetchWithScene(ANOMALY_ROOM_SCENE[room], ANOMALY_IMG[room]);
   });
   ANOMALY_BACKROOMS.forEach((backroom) => {
     Object.keys(ANOMALY_BACKROOM_META[backroom].actions).forEach((actionKey) => {
@@ -7153,7 +7244,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const figure = section && section.querySelector("figure.branch-figure");
       const img = figure && figure.querySelector(".branch-img");
       const wantSrc = truth === "anomaly" ? meta.anomalyImg : meta.normalImg;
-      if (img && img.getAttribute("src") !== wantSrc) img.setAttribute("src", wantSrc);
+      setSceneImageSrc(img, wantSrc);
       if (figure) figure.setAttribute("aria-label", truth === "anomaly" ? meta.anomalyLabel : meta.normalLabel);
     }
     paintEvidence();
@@ -7200,7 +7291,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const figure = section && section.querySelector("figure.branch-figure");
     const img = figure && figure.querySelector(".branch-img");
     const wantSrc = truth === "anomaly" ? meta.anomalyImg : meta.normalImg;
-    if (img && img.getAttribute("src") !== wantSrc) img.setAttribute("src", wantSrc);
+    setSceneImageSrc(img, wantSrc);
     if (figure) figure.setAttribute("aria-label", truth === "anomaly" ? meta.anomalyLabel : meta.normalLabel);
     const btn = $(meta.btn);
     if (btn) {
@@ -7405,11 +7496,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (checkBtn) checkBtn.addEventListener("click", () => chooseEvidenceCheck(ANOMALY_ROOM_SCENE[room]));
     const handoverBtn = $(`#handover-choice-${room}`);
     if (handoverBtn) handoverBtn.addEventListener("click", () => chooseEvidenceHandover(room));
-    /* 六张深查图预载，深查切换无闪烁 */
-    const preA = new Image();
-    preA.src = EVIDENCE_CHECK_META[room].anomalyImg;
-    const preN = new Image();
-    preN.src = EVIDENCE_CHECK_META[room].normalImg;
+    /* 六张深查图随场景预载，深查切换无闪烁 */
+    prefetchWithScene(ANOMALY_ROOM_SCENE[room], EVIDENCE_CHECK_META[room].anomalyImg);
+    prefetchWithScene(ANOMALY_ROOM_SCENE[room], EVIDENCE_CHECK_META[room].normalImg);
   });
   Object.keys(EVIDENCE_SWITCH_META).forEach((actionKey) => {
     const btn = $(EVIDENCE_SWITCH_META[actionKey].btn);
@@ -8584,7 +8673,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const section = $(`#scene-${APPEAL_KEY_SCENE[roomKey]}`);
     if (!section) return;
     const img = section.querySelector(".branch-img");
-    if (img) img.src = isDeep ? meta.img : meta.baseImg;
+    setSceneImageSrc(img, isDeep ? meta.img : meta.baseImg);
     const figure = section.querySelector(".branch-figure");
     if (figure) figure.setAttribute("aria-label", isDeep ? meta.figLabel : meta.baseFigLabel);
     const seal = $(meta.sealBtn);
@@ -9296,7 +9385,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const section = $(`#scene-${FAILURE_ROOM_SCENE[room]}`);
     if (!section) return;
     const img = section.querySelector(".branch-img");
-    if (img) img.src = isRecon ? meta.reconImg : meta.baseImg;
+    setSceneImageSrc(img, isRecon ? meta.reconImg : meta.baseImg);
     const figure = section.querySelector(".branch-figure");
     if (figure) figure.setAttribute("aria-label", isRecon ? meta.reconFigLabel : meta.baseFigLabel);
     meta.baseBtns.concat([meta.entryBtn]).forEach((sel) => {
@@ -11446,7 +11535,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const section = $(`#scene-${LISTENING_ROOM_SCENE[room]}`);
     if (!section) return;
     const img = section.querySelector(".branch-img");
-    if (img) img.src = isReplay ? meta.replayImg : meta.baseImg;
+    setSceneImageSrc(img, isReplay ? meta.replayImg : meta.baseImg);
     const figure = section.querySelector(".branch-figure");
     if (figure) figure.setAttribute("aria-label", isReplay ? meta.replayFigLabel : meta.baseFigLabel);
     meta.baseBtns.forEach((sel) => {
@@ -13807,7 +13896,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!CAUSAL_SCAR_DESTINATIONS.includes(destination)) return false;
     const cm = getCausalMail();
     const outcomes = cm.outcomes || [];
-    return ["accept", "return", "misroute"].every((m) => outcomes.includes(`${m}:${destination}`));
+    /* 该落点收到任一种倒邮后果即显露疤痕舞台（原先要求签收 / 退回 / 误投三种齐全，
+       等于强迫刷满 v64 的 12 格；现与 v66 之后的章节一致，只要求覆盖） */
+    return ["accept", "return", "misroute"].some((m) => outcomes.includes(`${m}:${destination}`));
   };
 
   const allScarSourcesTreated = (st) => {
@@ -14334,7 +14425,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const META_ACTIONS = ['wear-lives', 'bury-lives', 'leave-spindle'];
   const META_TARGETS = { 'wear-lives': 'threshold', 'bury-lives': 'remembrance', 'leave-spindle': 'unending-gallery' };
   const META_OUTCOMES = { 'wear-lives': 'many-lives-wear-you', 'bury-lives': 'unlived-bury-themselves', 'leave-spindle': 'spindle-outlives-endings' };
-  const COUNTERFACTUAL_ENTRY_FEEDBACK = '十五道因果疤痕在记忆中互相指认，开始把未活之生纺出来。';
+  const COUNTERFACTUAL_ENTRY_FEEDBACK = '四处因果疤痕在记忆中互相指认，开始把未活之生纺出来。';
   const COUNTERFACTUAL_META_ENTRY_FEEDBACK = '已覆盖的起点、处理与归属互相承认亲属，无因生涯陈列间的目录项因此亮起。';
 
   const COUNTERFACTUAL_ORIGIN_TABLE = {
@@ -14385,9 +14476,27 @@ document.addEventListener("DOMContentLoaded", () => {
     pending: null,
   });
 
+  const COUNTERFACTUAL_REQUIRED_SCARS = {
+    destinations: ["threshold", "protocol", "watch", "offering"],
+    methods: ["stitch", "drain", "graft"],
+  };
+
   const counterfactualLivesUnlocked = () => {
-    const cs = getCausalScar();
-    return cs.treatments.length === 12 && cs.roomOutcomes.length === 3;
+    const compute = () => {
+      /* 覆盖四处疤痕与三种处理、并集齐三个无因结局即可（原先要求 12 条处理全收集） */
+      const cs = getCausalScar();
+      if (cs.roomOutcomes.length !== 3) return false;
+      const scarred = new Set();
+      const methods = new Set();
+      for (const id of cs.treatments) {
+        const [destination, method] = String(id).split(":");
+        scarred.add(destination);
+        methods.add(method);
+      }
+      return COUNTERFACTUAL_REQUIRED_SCARS.destinations.every((d) => scarred.has(d))
+        && COUNTERFACTUAL_REQUIRED_SCARS.methods.every((m) => methods.has(m));
+    };
+    return store.memo ? store.memo("counterfactualLivesUnlocked", compute) : compute();
   };
 
   const counterfactualCoverageComplete = (st) => {
@@ -15368,13 +15477,16 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const bloodlessGenealogyUnlocked = () => {
-    if (!counterfactualLivesUnlocked()) return false;
-    const cf = getCounterfactual();
-    if (!counterfactualCoverageComplete(cf)) return false;
-    for (const o of BLOODLESS_REQUIRED_OUTCOMES) {
-      if (!cf.metaOutcomes.includes(o)) return false;
-    }
-    return true;
+    const compute = () => {
+      if (!counterfactualLivesUnlocked()) return false;
+      const cf = getCounterfactual();
+      if (!counterfactualCoverageComplete(cf)) return false;
+      for (const o of BLOODLESS_REQUIRED_OUTCOMES) {
+        if (!cf.metaOutcomes.includes(o)) return false;
+      }
+      return true;
+    };
+    return store.memo ? store.memo("bloodlessGenealogyUnlocked", compute) : compute();
   };
 
   const bloodlessCoverageComplete = (st) => {
@@ -16635,26 +16747,29 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const generationLoansUnlocked = () => {
-    if (!bloodlessGenealogyUnlocked()) return false;
-    const bl = getBloodless();
-    if (!bl || !Array.isArray(bl.records) || !Array.isArray(bl.familyOutcomes)) return false;
-    const roots = new Set();
-    const bonds = new Set();
-    const memories = new Set();
-    for (const id of bl.records) {
-      const parts = String(id).split(':');
-      if (parts.length !== 3) continue;
-      roots.add(parts[0]);
-      bonds.add(parts[1]);
-      memories.add(parts[2]);
-    }
-    for (const r of BLOODLESS_REQUIRED_FOR_LOANS.roots) if (!roots.has(r)) return false;
-    for (const b of BLOODLESS_REQUIRED_FOR_LOANS.bonds) if (!bonds.has(b)) return false;
-    for (const m of BLOODLESS_REQUIRED_FOR_LOANS.memories) if (!memories.has(m)) return false;
-    for (const o of BLOODLESS_REQUIRED_FOR_LOANS.familyOutcomes) {
-      if (!bl.familyOutcomes.includes(o)) return false;
-    }
-    return true;
+    const compute = () => {
+      if (!bloodlessGenealogyUnlocked()) return false;
+      const bl = getBloodless();
+      if (!bl || !Array.isArray(bl.records) || !Array.isArray(bl.familyOutcomes)) return false;
+      const roots = new Set();
+      const bonds = new Set();
+      const memories = new Set();
+      for (const id of bl.records) {
+        const parts = String(id).split(':');
+        if (parts.length !== 3) continue;
+        roots.add(parts[0]);
+        bonds.add(parts[1]);
+        memories.add(parts[2]);
+      }
+      for (const r of BLOODLESS_REQUIRED_FOR_LOANS.roots) if (!roots.has(r)) return false;
+      for (const b of BLOODLESS_REQUIRED_FOR_LOANS.bonds) if (!bonds.has(b)) return false;
+      for (const m of BLOODLESS_REQUIRED_FOR_LOANS.memories) if (!memories.has(m)) return false;
+      for (const o of BLOODLESS_REQUIRED_FOR_LOANS.familyOutcomes) {
+        if (!bl.familyOutcomes.includes(o)) return false;
+      }
+      return true;
+    };
+    return store.memo ? store.memo("generationLoansUnlocked", compute) : compute();
   };
 
   const generationCoverageComplete = (st) => {
@@ -17714,26 +17829,29 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const posthumousCensusUnlocked = () => {
-    if (!generationLoansUnlocked()) return false;
-    const gl = getGenerationLoans();
-    if (!gl || !Array.isArray(gl.loans) || !Array.isArray(gl.foreclosureOutcomes)) return false;
-    const eras = new Set();
-    const collaterals = new Set();
-    const terms = new Set();
-    for (const id of gl.loans) {
-      const parts = String(id).split(':');
-      if (parts.length !== 3) continue;
-      eras.add(parts[0]);
-      collaterals.add(parts[1]);
-      terms.add(parts[2]);
-    }
-    for (const r of LOANS_REQUIRED_FOR_CENSUS.eras) if (!eras.has(r)) return false;
-    for (const c of LOANS_REQUIRED_FOR_CENSUS.collaterals) if (!collaterals.has(c)) return false;
-    for (const t of LOANS_REQUIRED_FOR_CENSUS.terms) if (!terms.has(t)) return false;
-    for (const o of LOANS_REQUIRED_FOR_CENSUS.foreclosureOutcomes) {
-      if (!gl.foreclosureOutcomes.includes(o)) return false;
-    }
-    return true;
+    const compute = () => {
+      if (!generationLoansUnlocked()) return false;
+      const gl = getGenerationLoans();
+      if (!gl || !Array.isArray(gl.loans) || !Array.isArray(gl.foreclosureOutcomes)) return false;
+      const eras = new Set();
+      const collaterals = new Set();
+      const terms = new Set();
+      for (const id of gl.loans) {
+        const parts = String(id).split(':');
+        if (parts.length !== 3) continue;
+        eras.add(parts[0]);
+        collaterals.add(parts[1]);
+        terms.add(parts[2]);
+      }
+      for (const r of LOANS_REQUIRED_FOR_CENSUS.eras) if (!eras.has(r)) return false;
+      for (const c of LOANS_REQUIRED_FOR_CENSUS.collaterals) if (!collaterals.has(c)) return false;
+      for (const t of LOANS_REQUIRED_FOR_CENSUS.terms) if (!terms.has(t)) return false;
+      for (const o of LOANS_REQUIRED_FOR_CENSUS.foreclosureOutcomes) {
+        if (!gl.foreclosureOutcomes.includes(o)) return false;
+      }
+      return true;
+    };
+    return store.memo ? store.memo("posthumousCensusUnlocked", compute) : compute();
   };
 
   const censusCoverageComplete = (st) => {
@@ -18843,24 +18961,27 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const deadParliamentUnlocked = () => {
-    if (!posthumousCensusUnlocked()) return false;
-    const pc = getPosthumousCensus();
-    if (!pc || !Array.isArray(pc.records) || !Array.isArray(pc.nullificationOutcomes)) return false;
-    const electorates = new Set();
-    const evidences = new Set();
-    const verdicts = new Set();
-    for (const id of pc.records) {
-      const parts = String(id).split(':');
-      if (parts.length !== 3) continue;
-      electorates.add(parts[0]);
-      evidences.add(parts[1]);
-      verdicts.add(parts[2]);
-    }
-    if (electorates.size < 3 || evidences.size < 3 || verdicts.size < 3) return false;
-    for (const o of NULLIFICATION_OUTCOMES_REQUIRED_FOR_PARLIAMENT) {
-      if (!pc.nullificationOutcomes.includes(o)) return false;
-    }
-    return true;
+    const compute = () => {
+      if (!posthumousCensusUnlocked()) return false;
+      const pc = getPosthumousCensus();
+      if (!pc || !Array.isArray(pc.records) || !Array.isArray(pc.nullificationOutcomes)) return false;
+      const electorates = new Set();
+      const evidences = new Set();
+      const verdicts = new Set();
+      for (const id of pc.records) {
+        const parts = String(id).split(':');
+        if (parts.length !== 3) continue;
+        electorates.add(parts[0]);
+        evidences.add(parts[1]);
+        verdicts.add(parts[2]);
+      }
+      if (electorates.size < 3 || evidences.size < 3 || verdicts.size < 3) return false;
+      for (const o of NULLIFICATION_OUTCOMES_REQUIRED_FOR_PARLIAMENT) {
+        if (!pc.nullificationOutcomes.includes(o)) return false;
+      }
+      return true;
+    };
+    return store.memo ? store.memo("deadParliamentUnlocked", compute) : compute();
   };
 
   const parliamentCoverageComplete = (st) => {
@@ -19971,17 +20092,20 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const deathDiplomacyUnlocked = () => {
-    const dp = getDeadParliament();
-    if (!parliamentCoverageComplete(dp)) return false;
-    const required = [
-      'the-name-became-the-only-citizen',
-      'the-shadow-founded-the-opposition-republic',
-      'the-body-abolished-dead-suffrage',
-    ];
-    for (const o of required) {
-      if (!dp.crisisOutcomes.includes(o)) return false;
-    }
-    return true;
+    const compute = () => {
+      const dp = getDeadParliament();
+      if (!parliamentCoverageComplete(dp)) return false;
+      const required = [
+        'the-name-became-the-only-citizen',
+        'the-shadow-founded-the-opposition-republic',
+        'the-body-abolished-dead-suffrage',
+      ];
+      for (const o of required) {
+        if (!dp.crisisOutcomes.includes(o)) return false;
+      }
+      return true;
+    };
+    return store.memo ? store.memo("deathDiplomacyUnlocked", compute) : compute();
   };
 
   const diplomaticCoverageComplete = (st) => {
@@ -21098,18 +21222,21 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const lastWordBankUnlocked = () => {
-    const dd = getDeathDiplomacy();
-    if (!diplomaticCoverageComplete(dd)) return false;
-    const requiredOutcomes = [
-      'all-borders-moved-inside-the-body',
-      'only-the-exile-was-recognized',
-      'resurrection-became-contraband',
-    ];
-    if (dd.warOutcomes.length !== 3) return false;
-    for (const o of requiredOutcomes) {
-      if (!dd.warOutcomes.includes(o)) return false;
-    }
-    return true;
+    const compute = () => {
+      const dd = getDeathDiplomacy();
+      if (!diplomaticCoverageComplete(dd)) return false;
+      const requiredOutcomes = [
+        'all-borders-moved-inside-the-body',
+        'only-the-exile-was-recognized',
+        'resurrection-became-contraband',
+      ];
+      if (dd.warOutcomes.length !== 3) return false;
+      for (const o of requiredOutcomes) {
+        if (!dd.warOutcomes.includes(o)) return false;
+      }
+      return true;
+    };
+    return store.memo ? store.memo("lastWordBankUnlocked", compute) : compute();
   };
 
   const monetaryCoverageComplete = (st) => {
@@ -22242,18 +22369,21 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const borrowedDreamCustomsUnlocked = () => {
-    const lwb = getLastWordBank();
-    if (!monetaryCoverageComplete(lwb)) return false;
-    const requiredOutcomes = [
-      'every-last-word-was-nationalized',
-      'silence-set-the-interest-rate',
-      'death-became-too-big-to-fail',
-    ];
-    if (lwb.defaultOutcomes.length !== 3) return false;
-    for (const o of requiredOutcomes) {
-      if (!lwb.defaultOutcomes.includes(o)) return false;
-    }
-    return true;
+    const compute = () => {
+      const lwb = getLastWordBank();
+      if (!monetaryCoverageComplete(lwb)) return false;
+      const requiredOutcomes = [
+        'every-last-word-was-nationalized',
+        'silence-set-the-interest-rate',
+        'death-became-too-big-to-fail',
+      ];
+      if (lwb.defaultOutcomes.length !== 3) return false;
+      for (const o of requiredOutcomes) {
+        if (!lwb.defaultOutcomes.includes(o)) return false;
+      }
+      return true;
+    };
+    return store.memo ? store.memo("borrowedDreamCustomsUnlocked", compute) : compute();
   };
 
   const dreamCustomsCoverageComplete = (st) => {
@@ -23370,18 +23500,21 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const tombstonePatentOfficeUnlocked = () => {
-    const dc = getDreamCustoms();
-    if (!dreamCustomsCoverageComplete(dc)) return false;
-    const requiredOutcomes = [
-      'nightmares-became-the-only-citizens',
-      'the-dreamer-was-deported-from-the-dream',
-      'waking-became-contraband',
-    ];
-    if (dc.deportationOutcomes.length !== 3) return false;
-    for (const o of requiredOutcomes) {
-      if (!dc.deportationOutcomes.includes(o)) return false;
-    }
-    return true;
+    const compute = () => {
+      const dc = getDreamCustoms();
+      if (!dreamCustomsCoverageComplete(dc)) return false;
+      const requiredOutcomes = [
+        'nightmares-became-the-only-citizens',
+        'the-dreamer-was-deported-from-the-dream',
+        'waking-became-contraband',
+      ];
+      if (dc.deportationOutcomes.length !== 3) return false;
+      for (const o of requiredOutcomes) {
+        if (!dc.deportationOutcomes.includes(o)) return false;
+      }
+      return true;
+    };
+    return store.memo ? store.memo("tombstonePatentOfficeUnlocked", compute) : compute();
   };
 
   const patentCoverageComplete = (st) => {
@@ -24498,18 +24631,21 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const apocalypseWarrantyOfficeUnlocked = () => {
-    const st = getTombstonePatentOffice();
-    if (!patentCoverageComplete(st)) return false;
-    const requiredOutcomes = [
-      'the-invention-owned-itself',
-      'existence-was-invalidated-as-prior-art',
-      'the-unburied-haunted-every-prototype',
-    ];
-    if (st.rulingOutcomes.length !== 3) return false;
-    for (const o of requiredOutcomes) {
-      if (!st.rulingOutcomes.includes(o)) return false;
-    }
-    return true;
+    const compute = () => {
+      const st = getTombstonePatentOffice();
+      if (!patentCoverageComplete(st)) return false;
+      const requiredOutcomes = [
+        'the-invention-owned-itself',
+        'existence-was-invalidated-as-prior-art',
+        'the-unburied-haunted-every-prototype',
+      ];
+      if (st.rulingOutcomes.length !== 3) return false;
+      for (const o of requiredOutcomes) {
+        if (!st.rulingOutcomes.includes(o)) return false;
+      }
+      return true;
+    };
+    return store.memo ? store.memo("apocalypseWarrantyOfficeUnlocked", compute) : compute();
   };
 
   const warrantyCoverageComplete = (st) => {
@@ -25627,18 +25763,21 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const realityRefundCounterUnlocked = () => {
-    const st = getApocalypseWarrantyOffice();
-    if (!warrantyCoverageComplete(st)) return false;
-    const requiredOutcomes = [
-      'the-world-was-recalled-from-circulation',
-      'the-apocalypse-was-repaired-with-a-spare-dawn',
-      'existence-voided-its-own-warranty',
-    ];
-    if (st.recallOutcomes.length !== 3) return false;
-    for (const o of requiredOutcomes) {
-      if (!st.recallOutcomes.includes(o)) return false;
-    }
-    return true;
+    const compute = () => {
+      const st = getApocalypseWarrantyOffice();
+      if (!warrantyCoverageComplete(st)) return false;
+      const requiredOutcomes = [
+        'the-world-was-recalled-from-circulation',
+        'the-apocalypse-was-repaired-with-a-spare-dawn',
+        'existence-voided-its-own-warranty',
+      ];
+      if (st.recallOutcomes.length !== 3) return false;
+      for (const o of requiredOutcomes) {
+        if (!st.recallOutcomes.includes(o)) return false;
+      }
+      return true;
+    };
+    return store.memo ? store.memo("realityRefundCounterUnlocked", compute) : compute();
   };
 
   const realityRefundCoverageComplete = (st) => {
@@ -26754,16 +26893,19 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const selfAuthenticityOfficeUnlocked = () => {
-    const st = getRealityRefund();
-    if (!realityRefundCoverageComplete(st)) return false;
-    const required = [
-      'all-existence-was-refunded-to-the-void',
-      'every-body-was-refunded-to-childhood',
-      'reality-admitted-it-never-matched-description',
-    ];
-    if (st.classOutcomes.length !== 3) return false;
-    for (const o of required) if (!st.classOutcomes.includes(o)) return false;
-    return true;
+    const compute = () => {
+      const st = getRealityRefund();
+      if (!realityRefundCoverageComplete(st)) return false;
+      const required = [
+        'all-existence-was-refunded-to-the-void',
+        'every-body-was-refunded-to-childhood',
+        'reality-admitted-it-never-matched-description',
+      ];
+      if (st.classOutcomes.length !== 3) return false;
+      for (const o of required) if (!st.classOutcomes.includes(o)) return false;
+      return true;
+    };
+    return store.memo ? store.memo("selfAuthenticityOfficeUnlocked", compute) : compute();
   };
 
   const selfAuthenticityCoverageComplete = (st) => {
@@ -27880,16 +28022,19 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const firstPersonRationingUnlocked = () => {
-    const st = getSelfAuthenticity();
-    if (!selfAuthenticityCoverageComplete(st)) return false;
-    const requiredOutcomes = [
-      'one-self-became-the-only-original',
-      'all-possible-selves-merged-into-one',
-      'every-copy-became-an-original',
-    ];
-    if (st.tribunalOutcomes.length !== 3) return false;
-    for (const o of requiredOutcomes) if (!st.tribunalOutcomes.includes(o)) return false;
-    return true;
+    const compute = () => {
+      const st = getSelfAuthenticity();
+      if (!selfAuthenticityCoverageComplete(st)) return false;
+      const requiredOutcomes = [
+        'one-self-became-the-only-original',
+        'all-possible-selves-merged-into-one',
+        'every-copy-became-an-original',
+      ];
+      if (st.tribunalOutcomes.length !== 3) return false;
+      for (const o of requiredOutcomes) if (!st.tribunalOutcomes.includes(o)) return false;
+      return true;
+    };
+    return store.memo ? store.memo("firstPersonRationingUnlocked", compute) : compute();
   };
 
   const firstPersonRationingCoverageComplete = (st) => {
@@ -29004,17 +29149,20 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const unspokenPersonhoodCourtUnlocked = () => {
-    const st = getFirstPersonRationing();
-    if (!st._v78unlocked) return false;
-    if (!firstPersonRationingCoverageComplete(st)) return false;
-    const requiredOutcomes = [
-      'one-voice-belonged-to-everyone-in-turn',
-      'every-self-spoke-as-i-at-once',
-      'silence-became-the-only-legal-speaker',
-    ];
-    if (st.courtOutcomes.length !== 3) return false;
-    for (const o of requiredOutcomes) if (!st.courtOutcomes.includes(o)) return false;
-    return true;
+    const compute = () => {
+      const st = getFirstPersonRationing();
+      if (!st._v78unlocked) return false;
+      if (!firstPersonRationingCoverageComplete(st)) return false;
+      const requiredOutcomes = [
+        'one-voice-belonged-to-everyone-in-turn',
+        'every-self-spoke-as-i-at-once',
+        'silence-became-the-only-legal-speaker',
+      ];
+      if (st.courtOutcomes.length !== 3) return false;
+      for (const o of requiredOutcomes) if (!st.courtOutcomes.includes(o)) return false;
+      return true;
+    };
+    return store.memo ? store.memo("unspokenPersonhoodCourtUnlocked", compute) : compute();
   };
 
   const unspokenPersonhoodCoverageComplete = (st) => {
@@ -30130,17 +30278,20 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const unfinishedThoughtAsylumUnlocked = () => {
-    const st = getUnspokenPersonhood();
-    if (!st._v79unlocked) return false;
-    if (!unspokenPersonhoodCoverageComplete(st)) return false;
-    const requiredOutcomes = [
-      'an-unsaid-sentence-inherited-a-whole-life',
-      'personhood-was-divided-among-the-unhearing',
-      'the-speaker-became-the-estate-of-last-silence',
-    ];
-    if (st.tribunalOutcomes.length !== 3) return false;
-    for (const o of requiredOutcomes) if (!st.tribunalOutcomes.includes(o)) return false;
-    return true;
+    const compute = () => {
+      const st = getUnspokenPersonhood();
+      if (!st._v79unlocked) return false;
+      if (!unspokenPersonhoodCoverageComplete(st)) return false;
+      const requiredOutcomes = [
+        'an-unsaid-sentence-inherited-a-whole-life',
+        'personhood-was-divided-among-the-unhearing',
+        'the-speaker-became-the-estate-of-last-silence',
+      ];
+      if (st.tribunalOutcomes.length !== 3) return false;
+      for (const o of requiredOutcomes) if (!st.tribunalOutcomes.includes(o)) return false;
+      return true;
+    };
+    return store.memo ? store.memo("unfinishedThoughtAsylumUnlocked", compute) : compute();
   };
 
   const unfinishedThoughtCoverageComplete = (st) => {
@@ -31251,28 +31402,30 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const regretReclamationPlantUnlocked = () => {
-    if (!unfinishedThoughtAsylumUnlocked()) return false;
-    const st = getUnfinishedThoughtAsylum();
-    if (st.admissions.length < 4) return false;
-    const thoughts = new Set();
-    const traces = new Set();
-    const therapies = new Set();
-    for (const id of st.admissions) {
-      const parts = id.split(':');
-      if (parts.length !== 3) continue;
-      thoughts.add(parts[0]);
-      traces.add(parts[1]);
-      therapies.add(parts[2]);
-    }
-    if (thoughts.size !== 3 || traces.size !== 3 || therapies.size !== 4) return false;
-    const requiredOutcomes = [
-      'every-unfinished-thought-kept-living',
-      'the-thought-completed-its-thinker',
-      'all-abandoned-possibilities-were-recycled',
-    ];
-    if (st.hearingOutcomes.length !== 3) return false;
-    for (const o of requiredOutcomes) if (!st.hearingOutcomes.includes(o)) return false;
-    return true;
+    const compute = () => {
+      const st = getUnfinishedThoughtAsylum();
+      if (st.admissions.length < 4) return false;
+      const thoughts = new Set();
+      const traces = new Set();
+      const therapies = new Set();
+      for (const id of st.admissions) {
+        const parts = id.split(':');
+        if (parts.length !== 3) continue;
+        thoughts.add(parts[0]);
+        traces.add(parts[1]);
+        therapies.add(parts[2]);
+      }
+      if (thoughts.size !== 3 || traces.size !== 3 || therapies.size !== 4) return false;
+      const requiredOutcomes = [
+        'every-unfinished-thought-kept-living',
+        'the-thought-completed-its-thinker',
+        'all-abandoned-possibilities-were-recycled',
+      ];
+      if (st.hearingOutcomes.length !== 3) return false;
+      for (const o of requiredOutcomes) if (!st.hearingOutcomes.includes(o)) return false;
+      return true;
+    };
+    return store.memo ? store.memo("regretReclamationPlantUnlocked", compute) : compute();
   };
 
   const regretReclamationCoverageComplete = (st) => {
@@ -32239,47 +32392,47 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function forgivenessLandfillUnlocked() {
-    if (typeof regretReclamationPlantUnlocked !== 'function' || !regretReclamationPlantUnlocked()) {
-      return false;
-    }
-    if (typeof getRegretReclamation !== 'function') return false;
-    const regretState = getRegretReclamation();
-    if (!regretState || typeof regretState !== 'object') return false;
-    const batches = Array.isArray(regretState.batches) ? regretState.batches : [];
-    if (batches.length < 4) return false;
+    const compute = () => {
+      if (typeof getRegretReclamation !== 'function') return false;
+      const regretState = getRegretReclamation();
+      if (!regretState || typeof regretState !== 'object') return false;
+      const batches = Array.isArray(regretState.batches) ? regretState.batches : [];
+      if (batches.length < 4) return false;
 
-    const mReq = new Set(['road-never-taken', 'person-never-loved', 'self-never-became']);
-    const rReq = new Set(['dust-from-the-unwalked-mile', 'warmth-from-the-unused-pillow', 'fingerprint-inside-an-unworn-face']);
-    const uReq = new Set(['cast-a-new-childhood', 'forge-courage-for-the-next-self', 'build-a-strangers-spare-life', 'return-regret-without-processing']);
+      const mReq = new Set(['road-never-taken', 'person-never-loved', 'self-never-became']);
+      const rReq = new Set(['dust-from-the-unwalked-mile', 'warmth-from-the-unused-pillow', 'fingerprint-inside-an-unworn-face']);
+      const uReq = new Set(['cast-a-new-childhood', 'forge-courage-for-the-next-self', 'build-a-strangers-spare-life', 'return-regret-without-processing']);
 
-    const mSeen = new Set();
-    const rSeen = new Set();
-    const uSeen = new Set();
+      const mSeen = new Set();
+      const rSeen = new Set();
+      const uSeen = new Set();
 
-    for (let i = 0; i < batches.length; i++) {
-      const b = batches[i];
-      if (typeof b === 'string') {
-        const parts = b.split(':');
-        if (parts.length === 3) {
-          if (mReq.has(parts[0])) mSeen.add(parts[0]);
-          if (rReq.has(parts[1])) rSeen.add(parts[1]);
-          if (uReq.has(parts[2])) uSeen.add(parts[2]);
+      for (let i = 0; i < batches.length; i++) {
+        const b = batches[i];
+        if (typeof b === 'string') {
+          const parts = b.split(':');
+          if (parts.length === 3) {
+            if (mReq.has(parts[0])) mSeen.add(parts[0]);
+            if (rReq.has(parts[1])) rSeen.add(parts[1]);
+            if (uReq.has(parts[2])) uSeen.add(parts[2]);
+          }
         }
       }
-    }
 
-    if (mSeen.size < 3 || rSeen.size < 3 || uSeen.size < 4) return false;
+      if (mSeen.size < 3 || rSeen.size < 3 || uSeen.size < 4) return false;
 
-    const fOutcomes = Array.isArray(regretState.furnaceOutcomes) ? regretState.furnaceOutcomes : [];
-    const requiredFurnace = [
-      'regret-became-a-renewable-resource',
-      'every-life-was-made-from-someone-elses-regret',
-      'forgiveness-was-classified-as-unrecyclable-waste',
-    ];
-    for (let j = 0; j < requiredFurnace.length; j++) {
-      if (!fOutcomes.includes(requiredFurnace[j])) return false;
-    }
-    return true;
+      const fOutcomes = Array.isArray(regretState.furnaceOutcomes) ? regretState.furnaceOutcomes : [];
+      const requiredFurnace = [
+        'regret-became-a-renewable-resource',
+        'every-life-was-made-from-someone-elses-regret',
+        'forgiveness-was-classified-as-unrecyclable-waste',
+      ];
+      for (let j = 0; j < requiredFurnace.length; j++) {
+        if (!fOutcomes.includes(requiredFurnace[j])) return false;
+      }
+      return true;
+    };
+    return store.memo ? store.memo("forgivenessLandfillUnlocked", compute) : compute();
   }
 
   function forgivenessLandfillCoverageComplete(st) {
@@ -33600,46 +33753,46 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function harmArchaeologyUnlocked() {
-    if (typeof forgivenessLandfillUnlocked !== 'function' || !forgivenessLandfillUnlocked()) {
-      return false;
-    }
-    if (typeof getForgivenessLandfill !== 'function') return false;
-    const fState = getForgivenessLandfill();
-    if (!fState || typeof fState !== 'object') return false;
-    const disposals = Array.isArray(fState.disposals) ? fState.disposals : [];
-    if (disposals.length < 4) return false;
-    const wReq = new Set(['apology-never-accepted', 'debt-already-forgiven', 'wound-that-stopped-demanding']);
-    const cReq = new Set(['unopened-absolution-receipt', 'zero-balance-debt-scale', 'scar-closed-without-witness']);
-    const dReq = new Set(['bury-it-beneath-a-future-life', 'let-the-soil-forget-the-cause', 'grow-innocence-from-old-harm', 'exhume-it-for-permanent-record']);
+    const compute = () => {
+      if (typeof getForgivenessLandfill !== 'function') return false;
+      const fState = getForgivenessLandfill();
+      if (!fState || typeof fState !== 'object') return false;
+      const disposals = Array.isArray(fState.disposals) ? fState.disposals : [];
+      if (disposals.length < 4) return false;
+      const wReq = new Set(['apology-never-accepted', 'debt-already-forgiven', 'wound-that-stopped-demanding']);
+      const cReq = new Set(['unopened-absolution-receipt', 'zero-balance-debt-scale', 'scar-closed-without-witness']);
+      const dReq = new Set(['bury-it-beneath-a-future-life', 'let-the-soil-forget-the-cause', 'grow-innocence-from-old-harm', 'exhume-it-for-permanent-record']);
 
-    const wSeen = new Set();
-    const cSeen = new Set();
-    const dSeen = new Set();
+      const wSeen = new Set();
+      const cSeen = new Set();
+      const dSeen = new Set();
 
-    for (let i = 0; i < disposals.length; i++) {
-      const b = disposals[i];
-      if (typeof b === 'string') {
-        const parts = b.split(':');
-        if (parts.length === 3) {
-          if (wReq.has(parts[0])) wSeen.add(parts[0]);
-          if (cReq.has(parts[1])) cSeen.add(parts[1]);
-          if (dReq.has(parts[2])) dSeen.add(parts[2]);
+      for (let i = 0; i < disposals.length; i++) {
+        const b = disposals[i];
+        if (typeof b === 'string') {
+          const parts = b.split(':');
+          if (parts.length === 3) {
+            if (wReq.has(parts[0])) wSeen.add(parts[0]);
+            if (cReq.has(parts[1])) cSeen.add(parts[1]);
+            if (dReq.has(parts[2])) dSeen.add(parts[2]);
+          }
         }
       }
-    }
 
-    if (wSeen.size < 3 || cSeen.size < 3 || dSeen.size < 4) return false;
+      if (wSeen.size < 3 || cSeen.size < 3 || dSeen.size < 4) return false;
 
-    const wOutcomes = Array.isArray(fState.wellOutcomes) ? fState.wellOutcomes : [];
-    const requiredWell = [
-      'every-forgiven-harm-was-sealed-forever',
-      'the-need-for-forgiveness-was-erased',
-      'harm-outlived-its-own-forgiveness',
-    ];
-    for (let j = 0; j < requiredWell.length; j++) {
-      if (!wOutcomes.includes(requiredWell[j])) return false;
-    }
-    return true;
+      const wOutcomes = Array.isArray(fState.wellOutcomes) ? fState.wellOutcomes : [];
+      const requiredWell = [
+        'every-forgiven-harm-was-sealed-forever',
+        'the-need-for-forgiveness-was-erased',
+        'harm-outlived-its-own-forgiveness',
+      ];
+      for (let j = 0; j < requiredWell.length; j++) {
+        if (!wOutcomes.includes(requiredWell[j])) return false;
+      }
+      return true;
+    };
+    return store.memo ? store.memo("harmArchaeologyUnlocked", compute) : compute();
   }
 
   function harmArchaeologyCoverageComplete(st) {
@@ -34966,46 +35119,46 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function innocentWitnessProtectionUnlocked() {
-    if (typeof harmArchaeologyUnlocked !== 'function' || !harmArchaeologyUnlocked()) {
-      return false;
-    }
-    if (typeof getHarmArchaeology !== 'function') return false;
-    const hState = getHarmArchaeology();
-    if (!hState || typeof hState !== 'object') return false;
-    const reports = Array.isArray(hState.reports) ? hState.reports : [];
-    if (reports.length < 4) return false;
-    const sReq = new Set(['closed-scar-site', 'zeroed-ledger-site', 'innocent-soil-site']);
-    const iReq = new Set(['pain-reconstruction-brush', 'responsibility-pollen-sieve', 'missing-witness-cast']);
-    const pReq = new Set(['the-offender-never-existed', 'excavation-created-the-truth', 'the-wound-was-an-alibi', 'the-archive-was-the-second-offender']);
+    const compute = () => {
+      if (typeof getHarmArchaeology !== 'function') return false;
+      const hState = getHarmArchaeology();
+      if (!hState || typeof hState !== 'object') return false;
+      const reports = Array.isArray(hState.reports) ? hState.reports : [];
+      if (reports.length < 4) return false;
+      const sReq = new Set(['closed-scar-site', 'zeroed-ledger-site', 'innocent-soil-site']);
+      const iReq = new Set(['pain-reconstruction-brush', 'responsibility-pollen-sieve', 'missing-witness-cast']);
+      const pReq = new Set(['the-offender-never-existed', 'excavation-created-the-truth', 'the-wound-was-an-alibi', 'the-archive-was-the-second-offender']);
 
-    const sSeen = new Set();
-    const iSeen = new Set();
-    const pSeen = new Set();
+      const sSeen = new Set();
+      const iSeen = new Set();
+      const pSeen = new Set();
 
-    for (let idx = 0; idx < reports.length; idx++) {
-      const b = reports[idx];
-      if (typeof b === 'string') {
-        const parts = b.split(':');
-        if (parts.length === 3) {
-          if (sReq.has(parts[0])) sSeen.add(parts[0]);
-          if (iReq.has(parts[1])) iSeen.add(parts[1]);
-          if (pReq.has(parts[2])) pSeen.add(parts[2]);
+      for (let idx = 0; idx < reports.length; idx++) {
+        const b = reports[idx];
+        if (typeof b === 'string') {
+          const parts = b.split(':');
+          if (parts.length === 3) {
+            if (sReq.has(parts[0])) sSeen.add(parts[0]);
+            if (iReq.has(parts[1])) iSeen.add(parts[1]);
+            if (pReq.has(parts[2])) pSeen.add(parts[2]);
+          }
         }
       }
-    }
 
-    if (sSeen.size < 3 || iSeen.size < 3 || pSeen.size < 4) return false;
+      if (sSeen.size < 3 || iSeen.size < 3 || pSeen.size < 4) return false;
 
-    const hOutcomes = Array.isArray(hState.hearingOutcomes) ? hState.hearingOutcomes : [];
-    const requiredHearings = [
-      'the-investigation-was-convicted-of-second-harm',
-      'the-wound-was-granted-the-right-to-refuse-evidence',
-      'truth-outlived-every-victim',
-    ];
-    for (let j = 0; j < requiredHearings.length; j++) {
-      if (!hOutcomes.includes(requiredHearings[j])) return false;
-    }
-    return true;
+      const hOutcomes = Array.isArray(hState.hearingOutcomes) ? hState.hearingOutcomes : [];
+      const requiredHearings = [
+        'the-investigation-was-convicted-of-second-harm',
+        'the-wound-was-granted-the-right-to-refuse-evidence',
+        'truth-outlived-every-victim',
+      ];
+      for (let j = 0; j < requiredHearings.length; j++) {
+        if (!hOutcomes.includes(requiredHearings[j])) return false;
+      }
+      return true;
+    };
+    return store.memo ? store.memo("innocentWitnessProtectionUnlocked", compute) : compute();
   }
 
   function innocentWitnessCoverageComplete(st) {
@@ -36331,45 +36484,45 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function orphanedFactClaimUnlocked() {
-    if (typeof innocentWitnessProtectionUnlocked !== 'function' || !innocentWitnessProtectionUnlocked()) {
-      return false;
-    }
-    if (typeof getInnocentWitnessProtection !== 'function') return false;
-    const wState = getInnocentWitnessProtection();
-    if (!wState || typeof wState !== 'object') return false;
-    const placements = Array.isArray(wState.placements) ? wState.placements : [];
-    if (placements.length < 4) return false;
-    const wReq = new Set(['witness-who-survived-testimony', 'witness-shaped-like-offender', 'witness-whose-silence-confessed']);
-    const pReq = new Set(['launder-the-recognized-face', 'relocate-the-incriminating-shadow', 'rehouse-the-witness-memory']);
-    const tReq = new Set(['witness-forgets-what-was-seen', 'testimony-uses-a-future-name', 'world-forgets-the-crime', 'innocence-impersonates-the-witness']);
+    const compute = () => {
+      if (typeof getInnocentWitnessProtection !== 'function') return false;
+      const wState = getInnocentWitnessProtection();
+      if (!wState || typeof wState !== 'object') return false;
+      const placements = Array.isArray(wState.placements) ? wState.placements : [];
+      if (placements.length < 4) return false;
+      const wReq = new Set(['witness-who-survived-testimony', 'witness-shaped-like-offender', 'witness-whose-silence-confessed']);
+      const pReq = new Set(['launder-the-recognized-face', 'relocate-the-incriminating-shadow', 'rehouse-the-witness-memory']);
+      const tReq = new Set(['witness-forgets-what-was-seen', 'testimony-uses-a-future-name', 'world-forgets-the-crime', 'innocence-impersonates-the-witness']);
 
-    const wSeen = new Set();
-    const pSeen = new Set();
-    const tSeen = new Set();
-    for (let idx = 0; idx < placements.length; idx++) {
-      const b = placements[idx];
-      if (typeof b === 'string') {
-        const parts = b.split(':');
-        if (parts.length === 3) {
-          if (wReq.has(parts[0])) wSeen.add(parts[0]);
-          if (pReq.has(parts[1])) pSeen.add(parts[1]);
-          if (tReq.has(parts[2])) tSeen.add(parts[2]);
+      const wSeen = new Set();
+      const pSeen = new Set();
+      const tSeen = new Set();
+      for (let idx = 0; idx < placements.length; idx++) {
+        const b = placements[idx];
+        if (typeof b === 'string') {
+          const parts = b.split(':');
+          if (parts.length === 3) {
+            if (wReq.has(parts[0])) wSeen.add(parts[0]);
+            if (pReq.has(parts[1])) pSeen.add(parts[1]);
+            if (tReq.has(parts[2])) tSeen.add(parts[2]);
+          }
         }
       }
-    }
 
-    if (wSeen.size < 3 || pSeen.size < 3 || tSeen.size < 4) return false;
+      if (wSeen.size < 3 || pSeen.size < 3 || tSeen.size < 4) return false;
 
-    const wOutcomes = Array.isArray(wState.courtOutcomes) ? wState.courtOutcomes : [];
-    const requiredCourts = [
-      'eyewitnesses-were-abolished-for-their-safety',
-      'truth-entered-protection-under-an-eternal-alias',
-      'every-protected-witness-remembered-at-once',
-    ];
-    for (let j = 0; j < requiredCourts.length; j++) {
-      if (!wOutcomes.includes(requiredCourts[j])) return false;
-    }
-    return true;
+      const wOutcomes = Array.isArray(wState.courtOutcomes) ? wState.courtOutcomes : [];
+      const requiredCourts = [
+        'eyewitnesses-were-abolished-for-their-safety',
+        'truth-entered-protection-under-an-eternal-alias',
+        'every-protected-witness-remembered-at-once',
+      ];
+      for (let j = 0; j < requiredCourts.length; j++) {
+        if (!wOutcomes.includes(requiredCourts[j])) return false;
+      }
+      return true;
+    };
+    return store.memo ? store.memo("orphanedFactClaimUnlocked", compute) : compute();
   }
 
   function orphanedFactCoverageComplete(st) {
@@ -37695,45 +37848,45 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function existenceRenunciationUnlocked() {
-    if (typeof orphanedFactClaimUnlocked !== 'function' || !orphanedFactClaimUnlocked()) {
-      return false;
-    }
-    if (typeof getOrphanedFactClaims !== 'function') return false;
-    const oState = getOrphanedFactClaims();
-    if (!oState || typeof oState !== 'object') return false;
-    const inheritances = Array.isArray(oState.inheritances) ? oState.inheritances : [];
-    if (inheritances.length < 4) return false;
-    const fReq = new Set(['fact-whose-witness-entered-protection', 'fact-whose-cause-died-childless', 'fact-rejected-by-every-archive']);
-    const pReq = new Set(['unclaimed-fingerprint-of-the-wound', 'shadow-of-an-unsigned-confession', 'receipt-for-a-future-consequence']);
-    const oReq = new Set(['inherit-every-victim', 'inherit-every-omitted-cause', 'adopt-contradiction-as-a-surname', 'leave-fact-ownerless-and-become-its-alibi']);
+    const compute = () => {
+      if (typeof getOrphanedFactClaims !== 'function') return false;
+      const oState = getOrphanedFactClaims();
+      if (!oState || typeof oState !== 'object') return false;
+      const inheritances = Array.isArray(oState.inheritances) ? oState.inheritances : [];
+      if (inheritances.length < 4) return false;
+      const fReq = new Set(['fact-whose-witness-entered-protection', 'fact-whose-cause-died-childless', 'fact-rejected-by-every-archive']);
+      const pReq = new Set(['unclaimed-fingerprint-of-the-wound', 'shadow-of-an-unsigned-confession', 'receipt-for-a-future-consequence']);
+      const oReq = new Set(['inherit-every-victim', 'inherit-every-omitted-cause', 'adopt-contradiction-as-a-surname', 'leave-fact-ownerless-and-become-its-alibi']);
 
-    const fSeen = new Set();
-    const pSeen = new Set();
-    const oSeen = new Set();
-    for (let idx = 0; idx < inheritances.length; idx++) {
-      const b = inheritances[idx];
-      if (typeof b === 'string') {
-        const parts = b.split(':');
-        if (parts.length === 3) {
-          if (fReq.has(parts[0])) fSeen.add(parts[0]);
-          if (pReq.has(parts[1])) pSeen.add(parts[1]);
-          if (oReq.has(parts[2])) oSeen.add(parts[2]);
+      const fSeen = new Set();
+      const pSeen = new Set();
+      const oSeen = new Set();
+      for (let idx = 0; idx < inheritances.length; idx++) {
+        const b = inheritances[idx];
+        if (typeof b === 'string') {
+          const parts = b.split(':');
+          if (parts.length === 3) {
+            if (fReq.has(parts[0])) fSeen.add(parts[0]);
+            if (pReq.has(parts[1])) pSeen.add(parts[1]);
+            if (oReq.has(parts[2])) oSeen.add(parts[2]);
+          }
         }
       }
-    }
 
-    if (fSeen.size < 3 || pSeen.size < 3 || oSeen.size < 4) return false;
+      if (fSeen.size < 3 || pSeen.size < 3 || oSeen.size < 4) return false;
 
-    const oOutcomes = Array.isArray(oState.estateOutcomes) ? oState.estateOutcomes : [];
-    const requiredCourts = [
-      'every-fact-inherited-the-person-who-noticed-it',
-      'truth-was-freed-from-every-owner',
-      'the-claimant-inherited-every-unclaimed-consequence',
-    ];
-    for (let j = 0; j < requiredCourts.length; j++) {
-      if (!oOutcomes.includes(requiredCourts[j])) return false;
-    }
-    return true;
+      const oOutcomes = Array.isArray(oState.estateOutcomes) ? oState.estateOutcomes : [];
+      const requiredCourts = [
+        'every-fact-inherited-the-person-who-noticed-it',
+        'truth-was-freed-from-every-owner',
+        'the-claimant-inherited-every-unclaimed-consequence',
+      ];
+      for (let j = 0; j < requiredCourts.length; j++) {
+        if (!oOutcomes.includes(requiredCourts[j])) return false;
+      }
+      return true;
+    };
+    return store.memo ? store.memo("existenceRenunciationUnlocked", compute) : compute();
   }
 
   function existenceRenunciationCoverageComplete(st) {
@@ -39062,46 +39215,46 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function nonexistenceDebtCollectionUnlocked() {
-    if (typeof existenceRenunciationUnlocked !== 'function' || !existenceRenunciationUnlocked()) {
-      return false;
-    }
-    if (typeof getExistenceRenunciationClaims !== 'function') return false;
-    const eState = getExistenceRenunciationClaims();
-    if (!eState || typeof eState !== 'object') return false;
-    const renunciations = Array.isArray(eState.renunciations) ? eState.renunciations : [];
-    if (renunciations.length < 4) return false;
+    const compute = () => {
+      if (typeof getExistenceRenunciationClaims !== 'function') return false;
+      const eState = getExistenceRenunciationClaims();
+      if (!eState || typeof eState !== 'object') return false;
+      const renunciations = Array.isArray(eState.renunciations) ? eState.renunciations : [];
+      if (renunciations.length < 4) return false;
 
-    const rReq = new Set(['observer-inherited-by-every-fact', 'claimant-buried-under-unclaimed-consequences', 'person-rejected-by-every-archive']);
-    const evReq = new Set(['birth-certificate-for-an-empty-crib', 'shadow-of-a-person-erased-in-advance', 'refund-receipt-for-an-undelivered-body']);
-    const clReq = new Set(['declare-existence-a-clerical-error', 'return-the-first-person-pronoun-unused', 'transfer-the-body-to-its-original-absence', 'accept-nonexistence-as-an-inherited-debt']);
+      const rReq = new Set(['observer-inherited-by-every-fact', 'claimant-buried-under-unclaimed-consequences', 'person-rejected-by-every-archive']);
+      const evReq = new Set(['birth-certificate-for-an-empty-crib', 'shadow-of-a-person-erased-in-advance', 'refund-receipt-for-an-undelivered-body']);
+      const clReq = new Set(['declare-existence-a-clerical-error', 'return-the-first-person-pronoun-unused', 'transfer-the-body-to-its-original-absence', 'accept-nonexistence-as-an-inherited-debt']);
 
-    const rSeen = new Set();
-    const evSeen = new Set();
-    const clSeen = new Set();
-    for (let idx = 0; idx < renunciations.length; idx++) {
-      const b = renunciations[idx];
-      if (typeof b === 'string') {
-        const parts = b.split(':');
-        if (parts.length === 3) {
-          if (rReq.has(parts[0])) rSeen.add(parts[0]);
-          if (evReq.has(parts[1])) evSeen.add(parts[1]);
-          if (clReq.has(parts[2])) clSeen.add(parts[2]);
+      const rSeen = new Set();
+      const evSeen = new Set();
+      const clSeen = new Set();
+      for (let idx = 0; idx < renunciations.length; idx++) {
+        const b = renunciations[idx];
+        if (typeof b === 'string') {
+          const parts = b.split(':');
+          if (parts.length === 3) {
+            if (rReq.has(parts[0])) rSeen.add(parts[0]);
+            if (evReq.has(parts[1])) evSeen.add(parts[1]);
+            if (clReq.has(parts[2])) clSeen.add(parts[2]);
+          }
         }
       }
-    }
 
-    if (rSeen.size < 3 || evSeen.size < 3 || clSeen.size < 4) return false;
+      if (rSeen.size < 3 || evSeen.size < 3 || clSeen.size < 4) return false;
 
-    const eOutcomes = Array.isArray(eState.tribunalOutcomes) ? eState.tribunalOutcomes : [];
-    const requiredTribunals = [
-      'every-visitor-was-struck-from-reality',
-      'nonexistence-became-a-citizen',
-      'the-world-disinherited-itself',
-    ];
-    for (let j = 0; j < requiredTribunals.length; j++) {
-      if (!eOutcomes.includes(requiredTribunals[j])) return false;
-    }
-    return true;
+      const eOutcomes = Array.isArray(eState.tribunalOutcomes) ? eState.tribunalOutcomes : [];
+      const requiredTribunals = [
+        'every-visitor-was-struck-from-reality',
+        'nonexistence-became-a-citizen',
+        'the-world-disinherited-itself',
+      ];
+      for (let j = 0; j < requiredTribunals.length; j++) {
+        if (!eOutcomes.includes(requiredTribunals[j])) return false;
+      }
+      return true;
+    };
+    return store.memo ? store.memo("nonexistenceDebtCollectionUnlocked", compute) : compute();
   }
 
   function nonexistenceDebtCoverageComplete(st) {
@@ -40423,46 +40576,46 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function unhappenedEventAuctionUnlocked() {
-    if (typeof nonexistenceDebtCollectionUnlocked !== 'function' || !nonexistenceDebtCollectionUnlocked()) {
-      return false;
-    }
-    if (typeof getNonexistenceDebtClaims !== 'function') return false;
-    const dState = getNonexistenceDebtClaims();
-    if (!dState || typeof dState !== 'object') return false;
-    const collections = Array.isArray(dState.collections) ? dState.collections : [];
-    if (collections.length < 4) return false;
+    const compute = () => {
+      if (typeof getNonexistenceDebtClaims !== 'function') return false;
+      const dState = getNonexistenceDebtClaims();
+      if (!dState || typeof dState !== 'object') return false;
+      const collections = Array.isArray(dState.collections) ? dState.collections : [];
+      if (collections.length < 4) return false;
 
-    const dReq = new Set(['citizen-who-exists-only-as-nonexistence', 'visitor-erased-but-still-in-arrears', 'world-that-disinherited-itself']);
-    const iReq = new Set(['absence-tax-bill-addressed-to-a-blank-citizen', 'mortgage-on-space-never-occupied', 'bond-backed-by-years-never-lived']);
-    const rReq = new Set(['garnish-every-memory-that-proves-existence', 'repossess-the-body-before-delivery', 'capitalize-nonexistence-into-eternal-interest', 'declare-death-an-insufficient-payment']);
+      const dReq = new Set(['citizen-who-exists-only-as-nonexistence', 'visitor-erased-but-still-in-arrears', 'world-that-disinherited-itself']);
+      const iReq = new Set(['absence-tax-bill-addressed-to-a-blank-citizen', 'mortgage-on-space-never-occupied', 'bond-backed-by-years-never-lived']);
+      const rReq = new Set(['garnish-every-memory-that-proves-existence', 'repossess-the-body-before-delivery', 'capitalize-nonexistence-into-eternal-interest', 'declare-death-an-insufficient-payment']);
 
-    const dSeen = new Set();
-    const iSeen = new Set();
-    const rSeen = new Set();
-    for (let idx = 0; idx < collections.length; idx++) {
-      const b = collections[idx];
-      if (typeof b === 'string') {
-        const parts = b.split(':');
-        if (parts.length === 3) {
-          if (dReq.has(parts[0])) dSeen.add(parts[0]);
-          if (iReq.has(parts[1])) iSeen.add(parts[1]);
-          if (rReq.has(parts[2])) rSeen.add(parts[2]);
+      const dSeen = new Set();
+      const iSeen = new Set();
+      const rSeen = new Set();
+      for (let idx = 0; idx < collections.length; idx++) {
+        const b = collections[idx];
+        if (typeof b === 'string') {
+          const parts = b.split(':');
+          if (parts.length === 3) {
+            if (dReq.has(parts[0])) dSeen.add(parts[0]);
+            if (iReq.has(parts[1])) iSeen.add(parts[1]);
+            if (rReq.has(parts[2])) rSeen.add(parts[2]);
+          }
         }
       }
-    }
 
-    if (dSeen.size < 3 || iSeen.size < 3 || rSeen.size < 4) return false;
+      if (dSeen.size < 3 || iSeen.size < 3 || rSeen.size < 4) return false;
 
-    const bOutcomes = Array.isArray(dState.bankruptcyOutcomes) ? dState.bankruptcyOutcomes : [];
-    const requiredBankruptcies = [
-      'every-debt-was-forgiven-before-anyone-existed',
-      'nonexistence-became-the-only-creditor',
-      'the-world-was-foreclosed-for-nonpayment',
-    ];
-    for (let j = 0; j < requiredBankruptcies.length; j++) {
-      if (!bOutcomes.includes(requiredBankruptcies[j])) return false;
-    }
-    return true;
+      const bOutcomes = Array.isArray(dState.bankruptcyOutcomes) ? dState.bankruptcyOutcomes : [];
+      const requiredBankruptcies = [
+        'every-debt-was-forgiven-before-anyone-existed',
+        'nonexistence-became-the-only-creditor',
+        'the-world-was-foreclosed-for-nonpayment',
+      ];
+      for (let j = 0; j < requiredBankruptcies.length; j++) {
+        if (!bOutcomes.includes(requiredBankruptcies[j])) return false;
+      }
+      return true;
+    };
+    return store.memo ? store.memo("unhappenedEventAuctionUnlocked", compute) : compute();
   }
 
   function unhappenedAuctionCoverageComplete(st) {
@@ -41875,51 +42028,51 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function accomplishedFactEvictionUnlocked() {
-    if (typeof unhappenedEventAuctionUnlocked !== 'function' || !unhappenedEventAuctionUnlocked()) {
-      return false;
-    }
-    if (typeof getUnhappenedEventAuctionClaims !== 'function') return false;
-    const aState = getUnhappenedEventAuctionClaims();
-    if (!aState || typeof aState !== 'object') return false;
-    const purchases = Array.isArray(aState.purchases) ? aState.purchases : [];
-    if (purchases.length < 4) return false;
+    const compute = () => {
+      if (typeof getUnhappenedEventAuctionClaims !== 'function') return false;
+      const aState = getUnhappenedEventAuctionClaims();
+      if (!aState || typeof aState !== 'object') return false;
+      const purchases = Array.isArray(aState.purchases) ? aState.purchases : [];
+      if (purchases.length < 4) return false;
 
-    const bReq = new Set(['apology-never-spoken', 'war-that-never-erupted', 'child-never-born']);
-    const lReq = new Set(['right-to-be-remembered-as-if-it-happened', 'territory-inside-an-undeclared-border', 'childhood-no-body-ever-lived']);
-    const mReq = new Set([
-      'bid-with-memory-of-consequences',
-      'mortgage-the-future-that-would-have-followed',
-      'counterfeit-a-witness-who-remembers-it',
-      'outbid-reality-with-the-cost-of-never-happening',
-    ]);
+      const bReq = new Set(['apology-never-spoken', 'war-that-never-erupted', 'child-never-born']);
+      const lReq = new Set(['right-to-be-remembered-as-if-it-happened', 'territory-inside-an-undeclared-border', 'childhood-no-body-ever-lived']);
+      const mReq = new Set([
+        'bid-with-memory-of-consequences',
+        'mortgage-the-future-that-would-have-followed',
+        'counterfeit-a-witness-who-remembers-it',
+        'outbid-reality-with-the-cost-of-never-happening',
+      ]);
 
-    const bSeen = new Set();
-    const lSeen = new Set();
-    const mSeen = new Set();
-    for (let idx = 0; idx < purchases.length; idx++) {
-      const b = purchases[idx];
-      if (typeof b === 'string') {
-        const parts = b.split(':');
-        if (parts.length === 3) {
-          if (bReq.has(parts[0])) bSeen.add(parts[0]);
-          if (lReq.has(parts[1])) lSeen.add(parts[1]);
-          if (mReq.has(parts[2])) mSeen.add(parts[2]);
+      const bSeen = new Set();
+      const lSeen = new Set();
+      const mSeen = new Set();
+      for (let idx = 0; idx < purchases.length; idx++) {
+        const b = purchases[idx];
+        if (typeof b === 'string') {
+          const parts = b.split(':');
+          if (parts.length === 3) {
+            if (bReq.has(parts[0])) bSeen.add(parts[0]);
+            if (lReq.has(parts[1])) lSeen.add(parts[1]);
+            if (mReq.has(parts[2])) mSeen.add(parts[2]);
+          }
         }
       }
-    }
 
-    if (bSeen.size < 3 || lSeen.size < 3 || mSeen.size < 4) return false;
+      if (bSeen.size < 3 || lSeen.size < 3 || mSeen.size < 4) return false;
 
-    const tOutcomes = Array.isArray(aState.titleOutcomes) ? aState.titleOutcomes : [];
-    const requiredTitles = [
-      'every-unhappened-event-became-history',
-      'reality-belonged-to-what-never-occurred',
-      'history-could-no-longer-prove-it-happened',
-    ];
-    for (let j = 0; j < requiredTitles.length; j++) {
-      if (!tOutcomes.includes(requiredTitles[j])) return false;
-    }
-    return true;
+      const tOutcomes = Array.isArray(aState.titleOutcomes) ? aState.titleOutcomes : [];
+      const requiredTitles = [
+        'every-unhappened-event-became-history',
+        'reality-belonged-to-what-never-occurred',
+        'history-could-no-longer-prove-it-happened',
+      ];
+      for (let j = 0; j < requiredTitles.length; j++) {
+        if (!tOutcomes.includes(requiredTitles[j])) return false;
+      }
+      return true;
+    };
+    return store.memo ? store.memo("accomplishedFactEvictionUnlocked", compute) : compute();
   }
 
   function accomplishedFactEvictionCoverageComplete(st) {
@@ -43348,51 +43501,51 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function causelessConsequenceRefugeeUnlocked() {
-    if (typeof accomplishedFactEvictionUnlocked !== 'function' || !accomplishedFactEvictionUnlocked()) {
-      return false;
-    }
-    if (typeof getAccomplishedFactEvictionClaims !== 'function') return false;
-    const aState = getAccomplishedFactEvictionClaims();
-    if (!aState || typeof aState !== 'object') return false;
-    const evictions = Array.isArray(aState.evictions) ? aState.evictions : [];
-    if (evictions.length < 4) return false;
+    const compute = () => {
+      if (typeof getAccomplishedFactEvictionClaims !== 'function') return false;
+      const aState = getAccomplishedFactEvictionClaims();
+      if (!aState || typeof aState !== 'object') return false;
+      const evictions = Array.isArray(aState.evictions) ? aState.evictions : [];
+      if (evictions.length < 4) return false;
 
-    const tReq = new Set(['birth-that-issued-a-body', 'scar-that-outlived-the-wound', 'war-that-kept-its-ruins']);
-    const pReq = new Set(['right-to-have-already-begun', 'address-inside-a-healed-wound', 'ownership-of-a-ruin-left-by-war']);
-    const mReq = new Set([
-      'demolish-the-cause-and-leave-the-consequence',
-      'relocate-all-witnesses-outside-time',
-      'condemn-memory-as-structurally-unsafe',
-      'compensate-reality-with-an-alternate-past',
-    ]);
+      const tReq = new Set(['birth-that-issued-a-body', 'scar-that-outlived-the-wound', 'war-that-kept-its-ruins']);
+      const pReq = new Set(['right-to-have-already-begun', 'address-inside-a-healed-wound', 'ownership-of-a-ruin-left-by-war']);
+      const mReq = new Set([
+        'demolish-the-cause-and-leave-the-consequence',
+        'relocate-all-witnesses-outside-time',
+        'condemn-memory-as-structurally-unsafe',
+        'compensate-reality-with-an-alternate-past',
+      ]);
 
-    const tSeen = new Set();
-    const pSeen = new Set();
-    const mSeen = new Set();
-    for (let idx = 0; idx < evictions.length; idx++) {
-      const e = evictions[idx];
-      if (typeof e === 'string') {
-        const parts = e.split(':');
-        if (parts.length === 3) {
-          if (tReq.has(parts[0])) tSeen.add(parts[0]);
-          if (pReq.has(parts[1])) pSeen.add(parts[1]);
-          if (mReq.has(parts[2])) mSeen.add(parts[2]);
+      const tSeen = new Set();
+      const pSeen = new Set();
+      const mSeen = new Set();
+      for (let idx = 0; idx < evictions.length; idx++) {
+        const e = evictions[idx];
+        if (typeof e === 'string') {
+          const parts = e.split(':');
+          if (parts.length === 3) {
+            if (tReq.has(parts[0])) tSeen.add(parts[0]);
+            if (pReq.has(parts[1])) pSeen.add(parts[1]);
+            if (mReq.has(parts[2])) mSeen.add(parts[2]);
+          }
         }
       }
-    }
 
-    if (tSeen.size < 3 || pSeen.size < 3 || mSeen.size < 4) return false;
+      if (tSeen.size < 3 || pSeen.size < 3 || mSeen.size < 4) return false;
 
-    const appealOutcomes = Array.isArray(aState.appealOutcomes) ? aState.appealOutcomes : [];
-    const requiredOutcomes = [
-      'the-past-became-an-undeletable-address',
-      'only-the-consequences-remained-home',
-      'the-present-was-condemned-for-occupying-history',
-    ];
-    for (let j = 0; j < requiredOutcomes.length; j++) {
-      if (!appealOutcomes.includes(requiredOutcomes[j])) return false;
-    }
-    return true;
+      const appealOutcomes = Array.isArray(aState.appealOutcomes) ? aState.appealOutcomes : [];
+      const requiredOutcomes = [
+        'the-past-became-an-undeletable-address',
+        'only-the-consequences-remained-home',
+        'the-present-was-condemned-for-occupying-history',
+      ];
+      for (let j = 0; j < requiredOutcomes.length; j++) {
+        if (!appealOutcomes.includes(requiredOutcomes[j])) return false;
+      }
+      return true;
+    };
+    return store.memo ? store.memo("causelessConsequenceRefugeeUnlocked", compute) : compute();
   }
 
   function causelessConsequenceRefugeeCoverageComplete(st) {
@@ -43725,6 +43878,27 @@ document.addEventListener("DOMContentLoaded", () => {
       syncCausalBorderProcessingStation();
       syncFinalAsylumTribunalForCauselessConsequences();
       syncCauselessConsequenceConsuls();
+      let respEl = null;
+      if (p.kind === 'entry') {
+        respEl = $('#causeless-consequence-refugee-entry-response');
+      } else if (p.kind === 'refugee') {
+        respEl = $('#causeless-consequence-refugee-authority-response');
+      } else if (p.kind === 'sponsor') {
+        respEl = $('#borrowed-cause-sponsorship-office-response');
+      } else if (p.kind === 'asylum') {
+        respEl = $('#causal-border-processing-station-response');
+      } else if (p.kind === 'consul-return') {
+        respEl = $(`#causeless-consequence-consul-response-${p.from}`);
+      } else if (p.kind === 'verdict-entry') {
+        respEl = $('#causeless-consequence-refugee-tribunal-entry-response');
+      } else if (p.kind === 'verdict-action') {
+        respEl = $('#final-asylum-tribunal-for-causeless-consequences-response');
+      }
+      if (respEl && typeof p.feedback === 'string' && p.feedback) {
+        respEl.textContent = p.feedback;
+        respEl.hidden = false;
+        respEl.removeAttribute('hidden');
+      }
       AutoAdvance.schedule(sceneName, p.target, { delay: causelessConsequenceRefugeeDelay() });
       return;
     }
@@ -47783,6 +47957,144 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  /* ---------- 痕迹室「下一步」 ----------
+     后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
+     这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
+     并把视线带到对应入口；不替玩家点击（各章入口只接受真实点击），也不写任何存档。 */
+  const progressGuide = $("#progress-guide");
+  const progressGuideTitle = $("#progress-guide-title");
+  const progressGuideList = $("#progress-guide-list");
+  const progressGuideGo = $("#progress-guide-go");
+  let progressGuideTarget = null;
+
+  const progressLabel = (table, field, id) => {
+    const row = table && table[id];
+    const raw = row && (row[field] || row.title || row.name);
+    return raw ? String(raw).split(" · ")[0] : id;
+  };
+
+  const progressEntryButton = (prefix) => $(`#${prefix}-entry-btn`) || $(`#${prefix}-entry`);
+
+  const describeChapterProgress = (spec) => {
+    const st = spec.get();
+    const records = Array.isArray(st[spec.records]) ? st[spec.records] : [];
+    const outcomes = Array.isArray(st[spec.outcomes]) ? st[spec.outcomes] : [];
+    const used = spec.axes.map(() => new Set());
+    for (const id of records) {
+      String(id).split(":").forEach((part, i) => { if (used[i]) used[i].add(part); });
+    }
+    const items = [];
+    spec.axes.forEach(([label, values, table, field], i) => {
+      const missing = values.filter((v) => !used[i].has(v)).map((v) => progressLabel(table, field, v));
+      if (missing.length) items.push(`${label}还没选过：${missing.join("、")}`);
+    });
+    const covered = items.length === 0;
+    if (covered) items.push(`三轴选项已全部覆盖；终审已得 ${Math.min(3, outcomes.length)}/3${outcomes.length >= 3 ? "" : "，三项都要拿到才开下一章"}`);
+    else items.push("覆盖以上选项后，痕迹室会开放本章终审（三项结果都要拿到）");
+    if (st.pending) items.push("有一份记录还在路上：到达目标场景后，点本章处理员才算返回");
+    return { title: `v${spec.v} ${spec.name}`, items, target: covered ? spec.court : spec.entry, done: covered && outcomes.length >= 3 };
+  };
+
+  const currentProgressStep = () => {
+    const gov = parseAndValidateGovernance();
+    if (!gov.unlockedEndings.length) return null;
+    const er = getEndingReturn();
+    if (!er.unendingUnlocked) {
+      const withCoda = new Set(er.codas.map((id) => String(id).split(":")[0]));
+      const items = [];
+      const unreached = ENDING_RETURN_ENDINGS.filter((e) => !gov.unlockedEndings.includes(e)).map((e) => ENDING_RETURN_BASE_NAMES[e]);
+      const unreturned = ENDING_RETURN_ENDINGS.filter((e) => gov.unlockedEndings.includes(e) && !withCoda.has(e)).map((e) => ENDING_RETURN_BASE_NAMES[e]);
+      if (unreached.length) items.push(`还没拿到的治理终局：${unreached.join("、")}（从结局卡开启新一轮，重做三次甲乙裁决）`);
+      if (unreturned.length) items.push(`已拿到但还没退件：${unreturned.join("、")}`);
+      items.push("四种终局各退件一次后，退件所后墙的四盏灯会亮起");
+      return { title: "v63 终局退件所", items, target: "ending-return", done: false };
+    }
+    const cm = getCausalMail();
+    const delivered = new Set((cm.outcomes || []).map((id) => String(id).split(":")[1]));
+    const places = [["threshold", "门外"], ["protocol", "访客守则"], ["watch", "第三值夜室"], ["offering", "焚献室"]];
+    const undelivered = places.filter(([d]) => !delivered.has(d)).map(([, n]) => n);
+    if (undelivered.length) {
+      return { title: "v64 因果倒邮", items: [`还没寄到的早期落点：${undelivered.join("、")}`, "每处寄到一次，该处就会出现 v65 的疤痕舞台"], target: "causal-mail", done: false };
+    }
+    if (!counterfactualLivesUnlocked()) {
+      const cs = getCausalScar();
+      const scarred = new Set();
+      const methods = new Set();
+      cs.treatments.forEach((id) => { const [d, m] = String(id).split(":"); scarred.add(d); methods.add(m); });
+      const items = [];
+      const untreated = places.filter(([d]) => !scarred.has(d)).map(([, n]) => n);
+      const unused = [["stitch", "缝合起因"], ["drain", "放尽后果"], ["graft", "移植见证"]].filter(([m]) => !methods.has(m)).map(([, n]) => n);
+      if (untreated.length) items.push(`还没处理的疤痕：${untreated.join("、")}（在这些旧场景里找疤痕舞台）`);
+      if (unused.length) items.push(`还没用过的处理：${unused.join("、")}`);
+      items.push(`无因收容室结局：已得 ${Math.min(3, cs.roomOutcomes.length)}/3`);
+      return { title: "v65 因果疤痕", items, target: untreated.length ? null : "causal-scar-room", done: false };
+    }
+    const chapters = [
+      { v: 66, name: "反事实纺生", get: getCounterfactual, unlocked: counterfactualLivesUnlocked, records: "lives", outcomes: "metaOutcomes", entry: "counterfactual", court: "counterfactual-meta", axes: [["起点", ORIGINS, COUNTERFACTUAL_ORIGIN_TABLE, "name"], ["处理", METHODS, COUNTERFACTUAL_METHOD_TABLE, "name"], ["归属", INHERITANCES, COUNTERFACTUAL_INHERITANCE_TABLE, "name"]] },
+      { v: 67, name: "无血家谱", get: getBloodless, unlocked: bloodlessGenealogyUnlocked, records: "records", outcomes: "familyOutcomes", entry: "bloodless-genealogy", court: "bloodless-family", axes: [["祖根", ROOTS, BLOODLESS_ROOT_TABLE, "name"], ["亲属", BONDS, BLOODLESS_BOND_TABLE, "name"], ["童年", MEMORIES, BLOODLESS_MEMORY_TABLE, "name"]] },
+      { v: 68, name: "世代借贷", get: getGenerationLoans, unlocked: generationLoansUnlocked, records: "loans", outcomes: "foreclosureOutcomes", entry: "generation-loans", court: "generation-loans-foreclosure", axes: [["时代", ERAS, ERA_TABLE, "name"], ["抵押", COLLATERALS, COLLATERAL_TABLE, "name"], ["条款", TERMS, TERM_TABLE, "name"]] },
+      { v: 69, name: "死后人口普查", get: getPosthumousCensus, unlocked: posthumousCensusUnlocked, records: "records", outcomes: "nullificationOutcomes", entry: "posthumous-census", court: "posthumous-census-nullification", axes: [["选民", ELECTORATES, ELECTORATE_TABLE, "name"], ["证据", EVIDENCES, EVIDENCE_TABLE, "name"], ["计票", VERDICTS, VERDICT_TABLE, "name"]] },
+      { v: 70, name: "亡者议会", get: getDeadParliament, unlocked: deadParliamentUnlocked, records: "decrees", outcomes: "crisisOutcomes", entry: "dead-parliament", court: "dead-parliament-crisis", axes: [["选区", CAUCUSES, CAUCUS_TABLE, "title"], ["议案", MOTIONS, MOTION_TABLE, "title"], ["归属", CITIZENS, CITIZEN_TABLE, "title"]] },
+      { v: 71, name: "死亡外交部", get: getDeathDiplomacy, unlocked: deathDiplomacyUnlocked, records: "treaties", outcomes: "warOutcomes", entry: "death-diplomacy", court: "death-diplomacy-war", axes: [["使团", DELEGATIONS, DELEGATION_TABLE, "title"], ["对方国家", COUNTERPARTS, COUNTERPART_TABLE, "title"], ["条款", CLAUSES, CLAUSE_TABLE, "title"]] },
+      { v: 72, name: "遗言中央银行", get: getLastWordBank, unlocked: lastWordBankUnlocked, records: "instruments", outcomes: "defaultOutcomes", entry: "last-word-bank", court: "last-word-bank-default", axes: [["货币", CURRENCIES, CURRENCY_TABLE, "title"], ["储备", RESERVES, RESERVE_TABLE, "title"], ["政策", POLICIES, POLICY_TABLE, "title"]] },
+      { v: 73, name: "梦境海关", get: getDreamCustoms, unlocked: borrowedDreamCustomsUnlocked, records: "declarations", outcomes: "deportationOutcomes", entry: "dream-customs", court: "dream-customs-deportation", axes: [["护照", PASSPORTS, PASSPORT_TABLE, "title"], ["违禁品", CONTRABAND, CONTRABAND_TABLE, "title"], ["关税", TARIFFS, TARIFF_TABLE, "title"]] },
+      { v: 74, name: "墓碑专利局", get: getTombstonePatentOffice, unlocked: tombstonePatentOfficeUnlocked, records: "patents", outcomes: "rulingOutcomes", entry: "tombstone-patent-office", court: "tombstone-patent-office-tribunal", axes: [["申请人", APPLICANTS, APPLICANT_TABLE, "title"], ["先前技术", PRIOR_ART, PRIOR_ART_TABLE, "title"], ["权项", CLAIMS, CLAIM_TABLE, "title"]] },
+      { v: 75, name: "末日保修局", get: getApocalypseWarrantyOffice, unlocked: apocalypseWarrantyOfficeUnlocked, records: "warrantyClaims", outcomes: "recallOutcomes", entry: "apocalypse-warranty", court: "apocalypse-warranty-recall", axes: [["故障", DEFECTS, DEFECT_TABLE, "title"], ["凭证", PROOFS, PROOF_TABLE, "title"], ["方案", REMEDIES, REMEDY_TABLE, "title"]] },
+      { v: 76, name: "现实退款处", get: getRealityRefund, unlocked: realityRefundCounterUnlocked, records: "refundCases", outcomes: "classOutcomes", entry: "reality-refund", court: "reality-refund-class", axes: [["退货", REALITY_REFUND_SUBJECTS, REALITY_REFUND_SUBJECT_TABLE, "title"], ["凭证", REALITY_REFUND_PROOFS, REALITY_REFUND_PROOF_TABLE, "title"], ["方案", REALITY_REFUND_REMEDIES, REALITY_REFUND_REMEDY_TABLE, "title"]] },
+      { v: 77, name: "自我真伪鉴定所", get: getSelfAuthenticity, unlocked: selfAuthenticityOfficeUnlocked, records: "certificates", outcomes: "tribunalOutcomes", entry: "self-authenticity", court: "self-authenticity-tribunal", axes: [["送检", SELF_AUTHENTICITY_CLAIMANTS, SELF_AUTHENTICITY_CLAIMANT_TABLE, "title"], ["来源", SELF_AUTHENTICITY_PROVENANCES, SELF_AUTHENTICITY_PROVENANCE_TABLE, "title"], ["方法", SELF_AUTHENTICITY_METHODS, SELF_AUTHENTICITY_METHOD_TABLE, "title"]] },
+      { v: 78, name: "第一人称配给署", get: getFirstPersonRationing, unlocked: firstPersonRationingUnlocked, records: "rations", outcomes: "courtOutcomes", entry: "first-person-rationing", court: "first-person-rationing-court", axes: [["申请者", FIRST_PERSON_RATIONING_SPEAKERS, FIRST_PERSON_RATIONING_SPEAKER_TABLE, "title"], ["凭证", FIRST_PERSON_RATIONING_ENTITLEMENTS, FIRST_PERSON_RATIONING_ENTITLEMENT_TABLE, "title"], ["方案", FIRST_PERSON_RATIONING_SCHEMES, FIRST_PERSON_RATIONING_SCHEME_TABLE, "title"]] },
+      { v: 79, name: "未言人格继承院", get: getUnspokenPersonhood, unlocked: unspokenPersonhoodCourtUnlocked, records: "grants", outcomes: "tribunalOutcomes", entry: "unspoken-personhood", court: "unspoken-personhood-court", axes: [["申请人格", UNSPOKEN_PERSONHOOD_CLAIMANTS, UNSPOKEN_PERSONHOOD_CLAIMANT_TABLE, "title"], ["证物", UNSPOKEN_PERSONHOOD_EVIDENCE, UNSPOKEN_PERSONHOOD_EVIDENCE_TABLE, "title"], ["继承", UNSPOKEN_PERSONHOOD_MODES, UNSPOKEN_PERSONHOOD_MODE_TABLE, "title"]] },
+      { v: 80, name: "未遂思想收容所", get: getUnfinishedThoughtAsylum, unlocked: unfinishedThoughtAsylumUnlocked, records: "admissions", outcomes: "hearingOutcomes", entry: "unfinished-thought", court: "unfinished-thought-hearing", axes: [["思想", UNFINISHED_THOUGHT_THOUGHTS, UNFINISHED_THOUGHT_THOUGHT_TABLE, "title"], ["痕迹", UNFINISHED_THOUGHT_TRACES, UNFINISHED_THOUGHT_TRACE_TABLE, "title"], ["疗法", UNFINISHED_THOUGHT_THERAPIES, UNFINISHED_THOUGHT_THERAPY_TABLE, "title"]] },
+      { v: 81, name: "后悔回收厂", get: getRegretReclamation, unlocked: regretReclamationPlantUnlocked, records: "batches", outcomes: "furnaceOutcomes", entry: "regret-reclamation", court: "regret-furnace", axes: [["材料", REGRET_MATERIALS, REGRET_MATERIAL_TABLE, "title"], ["残留", REGRET_RESIDUES, REGRET_RESIDUE_TABLE, "title"], ["用途", REGRET_USES, REGRET_USE_TABLE, "title"]] },
+      { v: 82, name: "宽恕填埋场", get: getForgivenessLandfill, unlocked: forgivenessLandfillUnlocked, records: "disposals", outcomes: "wellOutcomes", entry: "forgiveness-landfill", court: "harmlessness-final-well", axes: [["废弃物", FORGIVENESS_WASTES, FORGIVENESS_WASTE_TABLE, "title"], ["凭证", FORGIVENESS_CERTIFICATES, FORGIVENESS_CERTIFICATE_TABLE, "title"], ["处置", FORGIVENESS_DISPOSALS, FORGIVENESS_DISPOSAL_TABLE, "title"]] },
+      { v: 83, name: "伤害考古局", get: getHarmArchaeology, unlocked: harmArchaeologyUnlocked, records: "reports", outcomes: "hearingOutcomes", entry: "harm-archaeology", court: "harm-hearing", axes: [["遗址", HARM_SITES, HARM_SITE_TABLE, "title"], ["工具", HARM_INSTRUMENTS, HARM_INSTRUMENT_TABLE, "title"], ["解读", HARM_INTERPRETATIONS, HARM_INTERPRETATION_TABLE, "title"]] },
+      { v: 84, name: "无罪证人保护院", get: getInnocentWitnessProtection, unlocked: innocentWitnessProtectionUnlocked, records: "placements", outcomes: "courtOutcomes", entry: "witness-protection", court: "witness-court", axes: [["证人", WITNESS_TARGETS, WITNESS_TARGET_TABLE, "title"], ["程序", WITNESS_PROCEDURES, WITNESS_PROCEDURE_TABLE, "title"], ["条款", WITNESS_TERMS, WITNESS_TERM_TABLE, "title"]] },
+      { v: 85, name: "孤事实认领处", get: getOrphanedFactClaims, unlocked: orphanedFactClaimUnlocked, records: "inheritances", outcomes: "estateOutcomes", entry: "orphaned-fact", court: "orphaned-fact-court", axes: [["事实", ORPHANED_FACTS, ORPHANED_FACT_TABLE, "title"], ["凭证", ORPHANED_PROOFS, ORPHANED_PROOF_TABLE, "title"], ["义务", ORPHANED_OBLIGATIONS, ORPHANED_OBLIGATION_TABLE, "title"]] },
+      { v: 86, name: "存在放弃登记局", get: getExistenceRenunciationClaims, unlocked: existenceRenunciationUnlocked, records: "renunciations", outcomes: "tribunalOutcomes", entry: "existence-renunciation", court: "existence-renunciation-tribunal", axes: [["放弃人", EXISTENCE_RENUNCIANTS, EXISTENCE_RENUNCIANT_TABLE, "title"], ["证据", EXISTENCE_EVIDENCES, EXISTENCE_EVIDENCE_TABLE, "title"], ["条款", EXISTENCE_CLAUSES, EXISTENCE_CLAUSE_TABLE, "title"]] },
+      { v: 87, name: "不存在债务催收局", get: getNonexistenceDebtClaims, unlocked: nonexistenceDebtCollectionUnlocked, records: "collections", outcomes: "bankruptcyOutcomes", entry: "nonexistence-debt", court: "nonexistence-debt-court", axes: [["债务人", NONEXISTENCE_DEBTORS, NONEXISTENCE_DEBTOR_TABLE, "title"], ["法器", NONEXISTENCE_INSTRUMENTS, NONEXISTENCE_INSTRUMENT_TABLE, "title"], ["处置", NONEXISTENCE_REMEDIES, NONEXISTENCE_REMEDY_TABLE, "title"]] },
+      { v: 88, name: "未发生事件拍卖行", get: getUnhappenedEventAuctionClaims, unlocked: unhappenedEventAuctionUnlocked, records: "purchases", outcomes: "titleOutcomes", entry: "unhappened-event", court: "unhappened-event-court", axes: [["竞买人", UNHAPPENED_BIDDERS, UNHAPPENED_BIDDER_TABLE, "title"], ["拍品", UNHAPPENED_LOTS, UNHAPPENED_LOT_TABLE, "title"], ["出价", UNHAPPENED_BID_METHODS, UNHAPPENED_BID_METHOD_TABLE, "title"]] },
+      { v: 89, name: "既成事实拆迁局", get: getAccomplishedFactEvictionClaims, unlocked: accomplishedFactEvictionUnlocked, records: "evictions", outcomes: "appealOutcomes", entry: "accomplished-fact-eviction", court: "accomplished-fact-eviction-appeal", axes: [["租客", ACCOMPLISHED_FACT_TENANTS, ACCOMPLISHED_FACT_TENANT_TABLE, "title"], ["危历史产权", ACCOMPLISHED_FACT_PROPERTIES, ACCOMPLISHED_FACT_PROPERTY_TABLE, "title"], ["拆除方式", ACCOMPLISHED_FACT_DEMOLITION_METHODS, ACCOMPLISHED_FACT_DEMOLITION_METHOD_TABLE, "title"]] },
+      { v: 90, name: "无因后果难民署", get: getCauselessConsequenceRefugeeClaims, unlocked: causelessConsequenceRefugeeUnlocked, records: "asylumCases", outcomes: "verdictOutcomes", entry: "causeless-consequence-refugee", court: "causeless-consequence-refugee-tribunal", axes: [["难民", CAUSELESS_CONSEQUENCE_REFUGEES, CAUSELESS_CONSEQUENCE_REFUGEE_TABLE, "title"], ["担保人", CAUSELESS_CONSEQUENCE_SPONSORS, CAUSELESS_CONSEQUENCE_SPONSOR_TABLE, "title"], ["边境程序", CAUSELESS_CONSEQUENCE_BORDER_PROTOCOLS, CAUSELESS_CONSEQUENCE_BORDER_PROTOCOL_TABLE, "title"]] },
+    ];
+    for (let i = 0; i < chapters.length; i++) {
+      const spec = chapters[i];
+      if (!spec.unlocked()) continue;
+      const next = chapters[i + 1];
+      if (next && next.unlocked()) continue;
+      const step = describeChapterProgress(spec);
+      if (!next && step.done) return { title: "v90 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+      return step;
+    }
+    return null;
+  };
+
+  const syncProgressGuide = () => {
+    if (!progressGuide) return;
+    let step = null;
+    try { step = currentProgressStep(); } catch { step = null; }
+    if (!step) { progressGuide.hidden = true; return; }
+    progressGuideTitle.textContent = step.title;
+    progressGuideList.replaceChildren(...step.items.map((text) => {
+      const li = document.createElement("li");
+      li.textContent = text;
+      return li;
+    }));
+    const target = step.target ? progressEntryButton(step.target) : null;
+    const reachable = target && !target.hidden && !target.closest("[hidden]");
+    progressGuideTarget = reachable ? target : null;
+    progressGuideGo.hidden = !reachable;
+    progressGuide.hidden = false;
+  };
+
+  if (progressGuideGo) progressGuideGo.addEventListener("click", () => {
+    const target = progressGuideTarget;
+    if (!target || !target.isConnected) return;
+    target.scrollIntoView({ block: "center", behavior: reduced ? "auto" : "smooth" });
+    target.focus({ preventScroll: true });
+    target.classList.add("progress-guide-target");
+    setTimeout(() => target.classList.remove("progress-guide-target"), 2400);
+  });
+
   /* ---------- 初始化 ---------- */
   paintStats();
   saveState();
@@ -48088,7 +48400,6 @@ document.addEventListener("DOMContentLoaded", () => {
   syncAccomplishedFactEvictionRemembrance();
   syncAccomplishedFactEvictionLinks();
   replayAccomplishedFactEvictionPending("threshold");
-  resolveCauselessConsequencePendingOnArrival("threshold");
   syncCauselessConsequenceRefugeeAuthority();
   syncBorrowedCauseSponsorshipOffice();
   syncCausalBorderProcessingStation();
@@ -48098,7 +48409,6 @@ document.addEventListener("DOMContentLoaded", () => {
   paintCauselessConsequenceRefugeeCodex();
   syncCauselessConsequenceRefugeeRemembrance();
   syncCauselessConsequenceRefugeeLinks();
-  replayCauselessConsequenceRefugeePending("threshold");
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

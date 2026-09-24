@@ -35,7 +35,11 @@ await access(new URL("script.js", root));
 await access(new URL("assets/hero.png", root));
 await access(new URL("docs/ProgressLog.md", root));
 
-const html = await fileText("index.html");
+const rawHtml = await fileText("index.html");
+/* 主线以外的场景图用 data-src 按需加载（见 script.js hydrateSceneImages）。
+   图片接线类断言只关心“哪张图挂在哪个场景、尺寸几何”，因此这里把 data-src 统一视作 src 比对；
+   按需加载本身的契约在下方单独断言，并且一律针对 rawHtml。 */
+const html = rawHtml.replace(/(<img\b[^>]*?)\sdata-src="/g, "$1 src=\"");
 const css = await fileText("styles.css");
 const js = await fileText("script.js");
 
@@ -47,6 +51,183 @@ assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
 assert.match(js, /DOMContentLoaded/);
+
+/* ---------- 解锁判定缓存 ----------
+   v66–v90 解锁函数逐章递归上游；满进度下一次换场曾读档约 4.7 万次、主线程卡 0.7–1.1 秒。
+   契约：25 个解锁函数都经 store.memo 缓存；任何 store.set、键数量变化（removeItem）、
+   其他标签页 storage 事件都会失效；compute 期间发生写入则不缓存；测试桩 store 无 memo 时直接计算。 */
+{
+  const UNLOCK_CHAIN = ["counterfactualLivesUnlocked", "bloodlessGenealogyUnlocked", "generationLoansUnlocked", "posthumousCensusUnlocked", "deadParliamentUnlocked", "deathDiplomacyUnlocked", "lastWordBankUnlocked", "borrowedDreamCustomsUnlocked", "tombstonePatentOfficeUnlocked", "apocalypseWarrantyOfficeUnlocked", "realityRefundCounterUnlocked", "selfAuthenticityOfficeUnlocked", "firstPersonRationingUnlocked", "unspokenPersonhoodCourtUnlocked", "unfinishedThoughtAsylumUnlocked", "regretReclamationPlantUnlocked", "forgivenessLandfillUnlocked", "harmArchaeologyUnlocked", "innocentWitnessProtectionUnlocked", "orphanedFactClaimUnlocked", "existenceRenunciationUnlocked", "nonexistenceDebtCollectionUnlocked", "unhappenedEventAuctionUnlocked", "accomplishedFactEvictionUnlocked", "causelessConsequenceRefugeeUnlocked"];
+  for (const name of UNLOCK_CHAIN) {
+    assert.ok(js.includes(`return store.memo ? store.memo("${name}", compute) : compute();`), `${name} must go through store.memo`);
+  }
+  const storeStart = js.indexOf("let storeGeneration = 0;");
+  const storeEnd = js.indexOf('window.addEventListener("storage", () => { storeGeneration++; });');
+  assert.ok(storeStart !== -1 && storeEnd > storeStart, "store memo block must exist with a cross-tab invalidation listener");
+  const fakeLocal = (() => {
+    const m = new Map();
+    return { getItem: (k) => (m.has(k) ? m.get(k) : null), setItem: (k, v) => m.set(k, String(v)), removeItem: (k) => m.delete(k), get length() { return m.size; } };
+  })();
+  const { store: memoStore, bump } = new Function("localStorage", `${js.slice(storeStart, storeEnd)}; return { store, bump: () => { storeGeneration++; } };`)(fakeLocal);
+  let computeCalls = 0;
+  const unlocked = () => memoStore.memo("probe", () => { computeCalls++; return memoStore.get("gate", "no") === "yes"; });
+  assert.equal(unlocked(), false);
+  assert.equal(unlocked(), false);
+  assert.equal(computeCalls, 1, "repeat checks without writes hit the cache");
+  memoStore.set("gate", "yes");
+  assert.equal(unlocked(), true, "store.set invalidates the cache");
+  assert.equal(computeCalls, 2);
+  fakeLocal.removeItem("gate");
+  assert.equal(unlocked(), false, "removeItem (forget-all) invalidates via key count");
+  assert.equal(computeCalls, 3);
+  bump();
+  unlocked();
+  assert.equal(computeCalls, 4, "storage events from other tabs invalidate the cache");
+  let writes = 0;
+  const writer = () => memoStore.memo("writer", () => { writes++; memoStore.set("side", String(writes)); return true; });
+  writer();
+  writer();
+  assert.equal(writes, 2, "a compute that writes is never cached");
+}
+
+/* ---------- 不在场场景跳过渲染 ----------
+   193 个场景叠放，visibility:hidden 仍参与样式与布局；满进度换场曾阻塞主线程 0.6–0.75 秒。
+   契约：经文带启动测量之后才给 body 加 scenes-settled；不在场场景 content-visibility:hidden；
+   窗口缩放时走廊不在场量到 0 则沿用旧周期。 */
+{
+  assert.match(css, /body\.scenes-settled \.scene:not\(\.active\) \{ content-visibility: hidden; \}/, "inactive scenes skip style and layout once settled");
+  const bandsInit = js.indexOf('const bands = $$(".band").map((band) => {');
+  const settle = js.indexOf('body.classList.add("scenes-settled");');
+  assert.ok(bandsInit !== -1 && settle > bandsInit, "scenes settle only after the scripture bands are measured");
+  assert.ok(settle < js.lastIndexOf("  route();\n});"), "scenes settle before the first route renders a scene");
+  assert.match(js, /bands\.forEach\(\(b\) => \(b\.period = b\.el\.scrollWidth \/ 2 \|\| b\.period\)\);/, "resize keeps the last band period while the corridor is not rendered");
+}
+
+/* ---------- 跳过等待 ----------
+   契约：AutoAdvance.flush 立即执行已排定的转场，走同一条 fire（before 回调照常执行，看门狗随后空转）；
+   只有真实点击、且点在非交互元素上时才触发；等待期间显示提示。 */
+{
+  const aaSrc = js.slice(js.indexOf("const AutoAdvance = (() => {"), js.indexOf("const scenes = {};"));
+  const queue = [];
+  const fakeSetTimeout = (fn, ms) => { queue.push({ fn, ms, dead: false }); return queue.length; };
+  const fakeClearTimeout = (id) => { if (queue[id - 1]) queue[id - 1].dead = true; };
+  const went = [];
+  const befores = [];
+  const AA = new Function("setTimeout", "clearTimeout", "initialRouteDone", "reduced", "hydrateSceneImages", "goScene", `${aaSrc}; return AutoAdvance;`)(fakeSetTimeout, fakeClearTimeout, true, false, () => {}, (t) => went.push(t));
+  assert.equal(AA.pending(), false);
+  assert.equal(AA.flush(), false, "flush without a pending transition does nothing");
+  AA.schedule("protocol", "corridor", { delay: 1600, before: () => befores.push("corridor") });
+  assert.equal(AA.pending(), true);
+  assert.equal(AA.flush(), true);
+  assert.deepEqual(went, ["corridor"], "flush moves on immediately");
+  assert.deepEqual(befores, ["corridor"], "flush runs the scheduled before-callback");
+  assert.equal(AA.pending(), false);
+  queue.filter((t) => !t.dead).forEach((t) => t.fn());
+  assert.deepEqual(went, ["corridor"], "the original timer and watchdog stay idle after a flush");
+  assert.match(js, /document\.addEventListener\("click", \(e\) => \{\s*if \(!e\.isTrusted \|\| !AutoAdvance\.pending\(\)\) return;\s*if \(e\.target\.closest && e\.target\.closest\(ADVANCE_SKIP_IGNORE\)\) return;/, "only trusted clicks on non-interactive space skip the wait");
+  assert.match(js, /const ADVANCE_SKIP_IGNORE = "button, a, input, textarea, select, label, summary, \[role='button'\], \[contenteditable\], \[data-go\], \[tabindex\]:not\(\[tabindex='-1'\]\)";/, "every interactive element is excluded from skip");
+  assert.match(rawHtml, /<p class="advance-hint" id="advance-hint" aria-hidden="true" hidden>点击空白处立即继续<\/p>/, "the skip hint exists and starts hidden");
+}
+
+/* ---------- 痕迹室「下一步」 ----------
+   契约：进入痕迹室时只读地找出当前卡住的章节并列出缺项；「找到入口」只滚动与聚焦，不替玩家点击、不写存档。 */
+{
+  assert.match(rawHtml, /<aside class="progress-guide" id="progress-guide" aria-labelledby="progress-guide-title" hidden>/, "remembrance hosts a hidden progress guide");
+  const remembranceSection = rawHtml.match(/<section[^>]*data-scene="remembrance"[\s\S]*?<\/section>/);
+  assert.ok(remembranceSection && remembranceSection[0].includes('id="progress-guide"'), "the guide lives inside the remembrance scene");
+  assert.match(js, /replayCauselessConsequenceRefugeePending\(name\);\s*if \(name === "remembrance"\) syncProgressGuide\(\);\s*updateHudDisplay\(\);/, "arriving at remembrance refreshes the guide after every chapter sync");
+  const guideStart = js.indexOf("/* ---------- 痕迹室「下一步」 ----------");
+  const guideEnd = js.indexOf("/* ---------- 初始化 ---------- */");
+  assert.ok(guideStart !== -1 && guideEnd > guideStart, "guide block sits before init");
+  const guideSrc = js.slice(guideStart, guideEnd);
+  assert.doesNotMatch(guideSrc, /\.click\(\)|store\.set|save[A-Z][A-Za-z]*\(/, "the guide never clicks for the player nor writes storage");
+  for (let v = 66; v <= 90; v++) assert.ok(guideSrc.includes(`{ v: ${v}, name: `), `guide covers v${v}`);
+  const describeStart = guideSrc.indexOf("const progressLabel = ");
+  const describeEnd = guideSrc.indexOf("const currentProgressStep = ");
+  const describe = new Function(`${guideSrc.slice(describeStart, describeEnd)}; return describeChapterProgress;`)();
+  const T = { a: { title: "甲" }, b: { title: "乙" }, c: { name: "丙 · C" } };
+  const spec = (records, outcomes, pending = null) => ({
+    v: 70, name: "测试章", entry: "e", court: "c", records: "records", outcomes: "outcomes",
+    get: () => ({ records, outcomes, pending }),
+    axes: [["一轴", ["a", "b"], T, "title"], ["二轴", ["c"], T, "name"], ["三轴", ["a", "c"], T, "title"]],
+  });
+  const partial = describe(spec(["a:c:a"], []));
+  assert.deepEqual(partial.items.slice(0, 2), ["一轴还没选过：乙", "三轴还没选过：丙"], "missing options are named per axis, labels stripped of English");
+  assert.equal(partial.target, "e", "incomplete coverage points at the chapter entry");
+  assert.equal(partial.done, false);
+  const court = describe(spec(["a:c:a", "b:c:c"], ["x"]));
+  assert.match(court.items[0], /终审已得 1\/3/, "covered chapters report verdict progress");
+  assert.equal(court.target, "c", "covered chapters point at the court entry");
+  assert.equal(describe(spec(["a:c:a", "b:c:c"], ["x", "y", "z"])).done, true);
+  assert.ok(describe(spec([], [], { kind: "entry" })).items.some((t) => t.includes("处理员")), "a pending record reminds the player to return through the handler");
+}
+
+/* ---------- 场景图按需加载 ----------
+   所有场景叠在同一视口里，loading="lazy" 对隐藏场景无效；整章 preload 会让首访下载全部场景图。
+   契约：只有主线 11 个场景直接写 src；其余场景的 <img> 只写 data-src，由 hydrateSceneImages 在
+   调度转场、悬停/聚焦出口或 goScene 时写回；v63 之后的场景图不得 preload。 */
+{
+  const MAIN_LINE = new Set(["threshold", "protocol", "corridor", "watch", "switchboard", "deadletter", "cancellation", "acting", "offering", "reliquary", "remembrance"]);
+  const sections = rawHtml.split(/(?=<section[^>]*\bdata-scene=")/).slice(1);
+  let deferred = 0;
+  for (const part of sections) {
+    const scene = part.match(/data-scene="([^"]+)"/)[1];
+    const imgs = part.match(/<img\b[^>]*>/g) || [];
+    for (const tag of imgs) {
+      if (MAIN_LINE.has(scene)) {
+        assert.match(tag, /\ssrc="assets\//, `main-line scene ${scene} keeps direct src: ${tag}`);
+        assert.doesNotMatch(tag, /data-src=/, `main-line scene ${scene} must not defer: ${tag}`);
+      } else {
+        assert.doesNotMatch(tag, /\ssrc="/, `off-main scene ${scene} must not fetch on first load: ${tag}`);
+        assert.match(tag, /\sdata-src="assets\/[^"]+"/, `off-main scene ${scene} defers via quoted data-src: ${tag}`);
+        deferred++;
+      }
+    }
+  }
+  assert.ok(deferred >= 190, `expected ~193 deferred scene images, got ${deferred}`);
+  /* 旧的 script.js?v=90 不认识 data-src；缓存版本必须前进，否则老访客会拿新 HTML 配旧脚本而看不到场景图 */
+  assert.doesNotMatch(rawHtml, /(script\.js|styles\.css)\?v=90"/, "deferred images ship with a bumped asset version");
+  assert.doesNotMatch(rawHtml, /<link\b[^>]*rel="preload"[^>]*assets\/v(6[3-9]|[7-9]\d)-/, "post-ending chapter art must not be preloaded");
+
+  const hydrateStart = js.indexOf("const sceneVariantPrefetch = new Map();");
+  assert.ok(hydrateStart !== -1, "hydrateSceneImages must exist");
+  const hydrateEnd = js.indexOf("\n  };", js.indexOf("const hydrateSceneImages = (name) => {", hydrateStart)) + "\n  };".length;
+  const hydrateSrc = js.slice(hydrateStart, hydrateEnd);
+  const makeImg = (attrs) => ({
+    attrs: { ...attrs },
+    get dataset() { return { src: this.attrs["data-src"] }; },
+    getAttribute(k) { return k in this.attrs ? this.attrs[k] : null; },
+    setAttribute(k, v) { this.attrs[k] = String(v); },
+    removeAttribute(k) { delete this.attrs[k]; },
+  });
+  const fresh = makeImg({ "data-src": "assets/a.webp" });
+  const swapped = makeImg({ "data-src": "assets/base.webp", src: "assets/variant.webp" });
+  const scenesStub = { room: { querySelectorAll: (sel) => (sel === "img[data-src]" ? [fresh, swapped].filter((i) => "data-src" in i.attrs) : []) } };
+  const prefetched = [];
+  class ImageStub { set src(v) { prefetched.push(v); } }
+  const { hydrate, prefetchWithScene } = new Function("scenes", "Image", `${hydrateSrc}; return { hydrate: hydrateSceneImages, prefetchWithScene };`)(scenesStub, ImageStub);
+  prefetchWithScene("room", "assets/variant-a.webp");
+  prefetchWithScene("room", "assets/variant-a.webp");
+  prefetchWithScene("other-room", "assets/variant-b.webp");
+  assert.deepEqual(prefetched, [], "variant art is only registered at boot, never fetched");
+  hydrate("missing-scene");
+  hydrate("room");
+  assert.deepEqual(prefetched, ["assets/variant-a.webp"], "variant art is fetched once, with its own scene only");
+  assert.equal(fresh.getAttribute("src"), "assets/a.webp", "hydration writes data-src into src");
+  assert.equal(swapped.getAttribute("src"), "assets/variant.webp", "hydration never overwrites a state-synced src");
+  assert.equal(fresh.getAttribute("data-src"), null, "hydrated images drop data-src");
+  assert.equal(swapped.getAttribute("data-src"), null, "state-synced images drop data-src too");
+  hydrate("room");
+  assert.deepEqual(prefetched, ["assets/variant-a.webp"], "repeat hydration does not refetch variants");
+  assert.equal((js.match(/new Image\(\)/g) || []).length, 1, "the only Image() preload lives inside hydrateSceneImages; no boot-time variant preloads");
+
+  const autoAdvanceBody = js.slice(js.indexOf("const AutoAdvance = (() => {"), js.indexOf("const scenes = {};"));
+  assert.match(autoAdvanceBody, /clear\(scene\);\s*hydrateSceneImages\(target\);/, "scheduling a transition prefetches the target scene art");
+  const goSceneBody = js.slice(js.indexOf("const goScene = (name) => {"), js.indexOf("const route = () => {"));
+  assert.match(goSceneBody, /name = resolveScene\(name\);\s*if \(name === currentScene\) return;\s*hydrateSceneImages\(name\);/, "goScene hydrates the resolved scene before the veil");
+  assert.match(js, /document\.addEventListener\("pointerover", prefetchFromExit, \{ passive: true \}\);/, "hovering an exit prefetches its scene");
+  assert.match(js, /document\.addEventListener\("focusin", prefetchFromExit\);/, "focusing an exit prefetches its scene");
+}
 
 /* ---------- 场景探索结构 ---------- */
 const SCENES = ["threshold", "protocol", "corridor", "peephole-chamber", "glyph-niche", "return-passage", "eyelid-archive", "unnumbered-vestibule", "reverse-stairwell", "annex-clearinghouse", "unreturned-witness-gallery", "registry-before-zero", "descending-appeals-stair", "anomaly-review", "evidence-vault", "false-positive-shaft", "unclaimed-valuation", "quota-elevator", "unnumbered-floor", "bellless-ward", "seeping-records", "reverse-laundry", "night-shift-registry", "midnight-callback", "proxy-admission", "return-audit", "echo-turn", "vein-turnstile", "confession-locker", "unlit-lamp-gallery", "borrowed-shadow-gallery", "hinge-sorting-room", "red-thread-registry", "blank-name-cloakroom", "clapperless-bell-desk", "protocol-drift", "counter-knock-gallery", "unanswered-vestibule", "undersill-dispatch", "lagging-shadow-cloister", "ash-door-foundry", "retention-vault", "minute-before-archive", "cold-wick-service-bay", "absent-relief-locker", "underbed-call-station", "countersign-drain", "negative-laundry-locker", "symptom-handover-hub", "evidence-switchboard", "unseated-listening-booth", "unnumbered-jack-field", "return-ring-morgue", "unclaimed-pneumatic-intake", "returned-address-cabinet", "blank-receipt-press", "blank-screen-underarchive", "false-confirmation-desk", "witness-carbon-archive", "echo", "vein", "confession", "echo-transfer", "vein-pump", "confession-ledger", "failure-reconstruction-desk", "watch", "switchboard", "deadletter", "cancellation", "acting", "offering", "reliquary", "remembrance", "ninth", "concordance-theatre", "innocent-quarantine", "omission-transfer-shaft", "misbound-handover", "liability-ledger", "appeal-registry", "identity-correction", "evidence-contradiction", "destination-review-shaft", "cross-examination-desk", "chain-of-custody-office", "listening-back-console", "ending-return-office", "unending-gallery", "causal-sorter", "first-draft-vault", "before-first-knock", "causeless-ward", "counterfactual-spindle", "scar-loom", "unlived-nursery", "life-without-cause", "counterfactual-genealogy", "bloodless-archive", "borrowed-childhood", "last-family-court", "generational-credit-office", "lifetime-pawn-vault", "mortality-clearing-house", "age-foreclosure-court", "posthumous-census-hall", "contradictory-evidence-archive", "birth-ballot-booth", "population-nullification-court", "dead-parliament-rotunda", "citizenship-article-chamber", "constitutional-severance-desk", "three-person-republic-court", "death-foreign-ministry", "nonexistent-border-chancery", "treaty-autopsy-table", "undeclared-war-room", "last-word-central-bank", "unsaid-currency-mint", "testament-clearing-vault", "sovereign-default-chamber", "borrowed-dream-customs", "contraband-sleep-terminal", "nightmare-tariff-bureau", "waking-deportation-yard", "tombstone-patent-office", "prior-art-ossuary", "impossible-claim-examination", "perpetual-license-tribunal", "apocalypse-warranty-office", "proof-of-purchase-morgue", "post-world-repair-bench", "universal-recall-yard", "reality-refund-counter", "proof-of-existence-incinerator", "reality-return-inspection", "class-action-court", "self-authenticity-office", "self-provenance-vault", "soul-counterfeit-examination", "final-authenticity-tribunal", "first-person-rationing-bureau", "voice-entitlement-archive", "pronoun-allocation-chamber", "ownerless-voices-court", "unspoken-personhood-court", "silent-intent-archive", "personhood-inheritance-examination", "unuttered-estate-tribunal", "unfinished-thought-asylum", "interruption-trace-archive", "counterfactual-treatment-lab", "last-conclusion-hearing"];
@@ -4063,7 +4244,7 @@ assert.match(forgetBlockV56[0], /paintCrossMemory\(\);/, "forget-all hides the v
 assert.match(forgetBlockV56[0], /resetCrossArmed\(\);\s*APPEAL_ROOM_KEYS\.forEach\(syncCrossRoom\);/, "forget-all disarms and restores every room image/hotspot/seal state");
 const syncCrossRoomBlock = js.match(/const syncCrossRoom = \(roomKey\) => \{[\s\S]*?\n  \};/);
 assert.match(syncCrossRoomBlock[0], /const isDeep = Boolean\(deepAction\) \|\| crossArmed\[roomKey\];/, "the deep visual state derives from canonical history or a trusted session arming");
-assert.match(syncCrossRoomBlock[0], /if \(img\) img\.src = isDeep \? meta\.img : meta\.baseImg;/, "the room image swaps to the deep webp and back");
+assert.match(syncCrossRoomBlock[0], /setSceneImageSrc\(img, isDeep \? meta\.img : meta\.baseImg\);/, "the room image swaps to the deep webp and back");
 assert.match(syncCrossRoomBlock[0], /if \(appeal\.settled\[roomKey\] && !isDeep\) seal\.removeAttribute\("hidden"\);/, "the hearing seal only shows on a settled, not-yet-deep room");
 assert.match(syncCrossRoomBlock[0], /if \(isDeep\) btn\.setAttribute\("hidden", ""\);\s*else btn\.removeAttribute\("hidden"\);/, "the original v58 hotspots hide in the deep state and restore after forget");
 assert.match(syncCrossRoomBlock[0], /if \(responseEl\) responseEl\.textContent = deepAction \? meta\.actions\[deepAction\]\.feedback : "";/, "the deep revisit shows the prior result without rescoring");
@@ -5176,7 +5357,7 @@ assert.match(html, /这里不寄信。这里只把后果寄到原因之前。/);
 assert.match(html, /每个房间都有一份比自己更早的草稿。这里保存被结局改过的版本。/);
 assert.match(html, /神还没有死。门也还不知道自己会活得更久。/);
 for (const asset of Object.keys(V64_WEBP_HASHES)) {
-  assert.match(html, new RegExp(`<link rel="preload" href="${asset.replace(".", "\\.")}" as="image">`), `${asset} must be preloaded`);
+  assert.ok(!rawHtml.includes(`<link rel="preload" href="${asset}"`) && rawHtml.includes(`src="${asset}`), `${asset} must load on demand with its scene, not be preloaded`);
 }
 
 /* 目录与 Remembrance 复用入口 */
@@ -5346,7 +5527,7 @@ for (const [asset, hash] of Object.entries(V65_WEBP_HASHES)) {
   assert.ok(html.includes(asset), `${asset} must be referenced`);
 }
 for (const asset of Object.keys(V65_WEBP_HASHES)) {
-  assert.match(html, new RegExp(`<link rel="preload" href="${asset.replace(".", "\\.")}" as="image">`), `${asset} must be preloaded`);
+  assert.ok(!rawHtml.includes(`<link rel="preload" href="${asset}"`) && rawHtml.includes(`src="${asset}`), `${asset} must load on demand with its scene, not be preloaded`);
 }
 
 assert.equal((js.match(/goddead_v65_causal_scars/g) || []).length, 1, "v65 introduces exactly one storage key");
@@ -5407,11 +5588,19 @@ assert.match(saveCausalScarBlock[0], /normalizeCausalScarTreatments\(st\.treatme
 assert.match(saveCausalScarBlock[0], /normalizeCausalScarRoomOutcomes\(st\.roomOutcomes\)/, "roomOutcomes are canonicalized before save");
 assert.match(saveCausalScarBlock[0], /normalizeCausalScarPending\([^)]+\)/, "pending is canonicalized before save");
 
-/* 解锁资格只读 v64 同一 destination 三模式齐全 */
+/* 解锁资格只读 v64：同一 destination 收到任一倒邮后果即可（不再要求三模式齐全） */
 const scarEligibleBlock = js.match(/const scarEligible = \(destination\) => \{[\s\S]*?\n  \};/);
 assert.ok(scarEligibleBlock, "scarEligible must exist");
 assert.match(scarEligibleBlock[0], /getCausalMail\(\)/, "scar eligibility reads the v64 state read-only");
-assert.match(scarEligibleBlock[0], /\["accept", "return", "misroute"\]\.every\(\(m\) => outcomes\.includes\(\`\$\{m\}:\$\{destination\}\`\)\)/, "scarEligible requires all three v64 destination outcomes");
+assert.match(scarEligibleBlock[0], /\["accept", "return", "misroute"\]\.some\(\(m\) => outcomes\.includes\(\`\$\{m\}:\$\{destination\}\`\)\)/, "scarEligible opens a destination on any v64 outcome there");
+{
+  const eligible = (outcomes, destination) => new Function("CAUSAL_SCAR_DESTINATIONS", "getCausalMail", `${scarEligibleBlock[0]}; return scarEligible;`)(["threshold", "protocol", "watch", "offering"], () => ({ outcomes }))(destination);
+  assert.equal(eligible(["misroute:watch"], "watch"), true, "one delivered outcome opens the watch scar");
+  assert.equal(eligible(["misroute:watch"], "offering"), false, "an undelivered destination stays closed");
+  assert.equal(eligible(["accept:threshold", "return:threshold", "misroute:threshold"], "threshold"), true, "full delivery still opens");
+  assert.equal(eligible([], "threshold"), false, "no v64 outcomes, no scar");
+  assert.equal(eligible(["accept:ninth"], "ninth"), false, "unknown destinations never open");
+}
 assert.match(js, /const allScarSourcesTreated = \(st\)/, "allScarSourcesTreated accepts an optional state argument to avoid storage recursion");
 
 /* 严格三类 pending */
@@ -5900,10 +6089,10 @@ for (const id of ["waking-deportation-naturalize-every-nightmare", "waking-depor
 for (const id of ["dream-customs-inspector-return-eyelid-archive", "dream-customs-inspector-return-remembrance", "dream-customs-inspector-return-unending-gallery"]) {
   assert.match(html, new RegExp(`id="${id}"`), `v73 inspector return button missing: ${id}`);
 }
-assert.match(html, /<link rel="preload" href="assets\/v73-borrowed-dream-customs\.webp" as="image">/, "v73 preloads borrowed-dream-customs");
-assert.match(html, /<link rel="preload" href="assets\/v73-contraband-sleep-terminal\.webp" as="image">/, "v73 preloads contraband-sleep-terminal");
-assert.match(html, /<link rel="preload" href="assets\/v73-nightmare-tariff-bureau\.webp" as="image">/, "v73 preloads nightmare-tariff-bureau");
-assert.match(html, /<link rel="preload" href="assets\/v73-waking-deportation-yard\.webp" as="image">/, "v73 preloads waking-deportation-yard");
+assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v73-borrowed-dream-customs\.webp"/, "v73 loads on demand: borrowed-dream-customs");
+assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v73-contraband-sleep-terminal\.webp"/, "v73 loads on demand: contraband-sleep-terminal");
+assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v73-nightmare-tariff-bureau\.webp"/, "v73 loads on demand: nightmare-tariff-bureau");
+assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v73-waking-deportation-yard\.webp"/, "v73 loads on demand: waking-deportation-yard");
 
 /* 缓存版本 */
 assert.match(html, /styles\.css\?v=90/, "v73 cache busts styles.css");
@@ -6768,10 +6957,10 @@ for (const id of ["perpetual-license-grant-self-ownership", "perpetual-license-i
 for (const id of ["tombstone-patent-office-examiner-return-threshold", "tombstone-patent-office-examiner-return-eyelid-archive", "tombstone-patent-office-examiner-return-remembrance"]) {
   assert.match(html, new RegExp(`id="${id}"`), `v74 examiner return button missing: ${id}`);
 }
-assert.match(html, /<link rel="preload" href="assets\/v74-tombstone-patent-office\.webp" as="image">/, "v74 preloads tombstone-patent-office");
-assert.match(html, /<link rel="preload" href="assets\/v74-prior-art-ossuary\.webp" as="image">/, "v74 preloads prior-art-ossuary");
-assert.match(html, /<link rel="preload" href="assets\/v74-impossible-claim-examination\.webp" as="image">/, "v74 preloads impossible-claim-examination");
-assert.match(html, /<link rel="preload" href="assets\/v74-perpetual-license-tribunal\.webp" as="image">/, "v74 preloads perpetual-license-tribunal");
+assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v74-tombstone-patent-office\.webp"/, "v74 loads on demand: tombstone-patent-office");
+assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v74-prior-art-ossuary\.webp"/, "v74 loads on demand: prior-art-ossuary");
+assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v74-impossible-claim-examination\.webp"/, "v74 loads on demand: impossible-claim-examination");
+assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v74-perpetual-license-tribunal\.webp"/, "v74 loads on demand: perpetual-license-tribunal");
 
 /* 缓存版本 */
 assert.match(html, /styles\.css\?v=90/, "v74 cache busts styles.css");
@@ -7650,10 +7839,10 @@ for (const [kind, { ids, handlerPrefix }] of Object.entries(v75HandlerIdChecks))
   }
 }
 
-assert.match(html, /<link rel="preload" href="assets\/v75-apocalypse-warranty-office\.webp" as="image">/, "v75 preloads apocalypse-warranty-office");
-assert.match(html, /<link rel="preload" href="assets\/v75-proof-of-purchase-morgue\.webp" as="image">/, "v75 preloads proof-of-purchase-morgue");
-assert.match(html, /<link rel="preload" href="assets\/v75-post-world-repair-bench\.webp" as="image">/, "v75 preloads post-world-repair-bench");
-assert.match(html, /<link rel="preload" href="assets\/v75-universal-recall-yard\.webp" as="image">/, "v75 preloads universal-recall-yard");
+assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v75-apocalypse-warranty-office\.webp"/, "v75 loads on demand: apocalypse-warranty-office");
+assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v75-proof-of-purchase-morgue\.webp"/, "v75 loads on demand: proof-of-purchase-morgue");
+assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v75-post-world-repair-bench\.webp"/, "v75 loads on demand: post-world-repair-bench");
+assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v75-universal-recall-yard\.webp"/, "v75 loads on demand: universal-recall-yard");
 
 /* 缓存版本 */
 assert.match(html, /styles\.css\?v=90/, "v75 cache busts styles.css");
@@ -8580,10 +8769,10 @@ for (const [kind, { ids, handlerPrefix }] of Object.entries(v76HandlerIdChecks))
   }
 }
 
-assert.match(html, /<link rel="preload" href="assets\/v76-reality-refund-counter\.webp" as="image">/, "v76 preloads reality-refund-counter");
-assert.match(html, /<link rel="preload" href="assets\/v76-proof-of-existence-incinerator\.webp" as="image">/, "v76 preloads proof-of-existence-incinerator");
-assert.match(html, /<link rel="preload" href="assets\/v76-reality-return-inspection\.webp" as="image">/, "v76 preloads reality-return-inspection");
-assert.match(html, /<link rel="preload" href="assets\/v76-class-action-court\.webp" as="image">/, "v76 preloads class-action-court");
+assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v76-reality-refund-counter\.webp"/, "v76 loads on demand: reality-refund-counter");
+assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v76-proof-of-existence-incinerator\.webp"/, "v76 loads on demand: proof-of-existence-incinerator");
+assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v76-reality-return-inspection\.webp"/, "v76 loads on demand: reality-return-inspection");
+assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v76-class-action-court\.webp"/, "v76 loads on demand: class-action-court");
 
 /* 缓存版本 */
 assert.match(html, /styles\.css\?v=90/, "v76 cache busts styles.css");
@@ -9540,10 +9729,10 @@ for (const [kind, { ids, handlerPrefix }] of Object.entries(v77HandlerIdChecks))
   }
 }
 
-assert.match(html, /<link rel="preload" href="assets\/v77-authenticity-office-of-self\.webp" as="image">/, "v77 preloads v77-authenticity-office-of-self");
-assert.match(html, /<link rel="preload" href="assets\/v77-self-provenance-vault\.webp" as="image">/, "v77 preloads v77-self-provenance-vault");
-assert.match(html, /<link rel="preload" href="assets\/v77-soul-counterfeit-examination\.webp" as="image">/, "v77 preloads v77-soul-counterfeit-examination");
-assert.match(html, /<link rel="preload" href="assets\/v77-final-authenticity-tribunal\.webp" as="image">/, "v77 preloads v77-final-authenticity-tribunal");
+assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v77-authenticity-office-of-self\.webp"/, "v77 loads on demand: v77-authenticity-office-of-self");
+assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v77-self-provenance-vault\.webp"/, "v77 loads on demand: v77-self-provenance-vault");
+assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v77-soul-counterfeit-examination\.webp"/, "v77 loads on demand: v77-soul-counterfeit-examination");
+assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v77-final-authenticity-tribunal\.webp"/, "v77 loads on demand: v77-final-authenticity-tribunal");
 
 /* 缓存版本 */
 assert.match(html, /styles\.css\?v=90/, "v77 cache busts styles.css");
@@ -10526,7 +10715,7 @@ for (const [asset, hash] of Object.entries(V66_WEBP_HASHES)) {
   assert.ok(html.includes(asset), `${asset} must be referenced`);
 }
 for (const asset of Object.keys(V66_WEBP_HASHES)) {
-  assert.match(html, new RegExp(`<link rel="preload" href="${asset.replace(".", "\\.")}" as="image">`), `${asset} must be preloaded`);
+  assert.ok(!rawHtml.includes(`<link rel="preload" href="${asset}"`) && rawHtml.includes(`src="${asset}`), `${asset} must load on demand with its scene, not be preloaded`);
 }
 
 /* 四场景 DOM */
@@ -10604,7 +10793,23 @@ assert.match(normalizeCounterfactualPendingBlock[0], /p\.kind === 'meta' && keys
 
 /* 解锁资格只读 v65 状态 */
 assert.match(js, /const counterfactualLivesUnlocked = \(\) => \{[\s\S]*?getCausalScar\(\)/, "counterfactualLivesUnlocked reads getCausalScar");
-assert.match(js, /cs\.treatments\.length === 12 && cs\.roomOutcomes\.length === 3/, "counterfactualLivesUnlocked checks 12 treatments and 3 room outcomes");
+{
+  /* v66 解锁：覆盖四处疤痕与三种处理 + 三个无因结局即可，不再要求 12 条全收集 */
+  const reqStart = js.indexOf("const COUNTERFACTUAL_REQUIRED_SCARS = {");
+  const unlockStart = js.indexOf("const counterfactualLivesUnlocked = () => {");
+  const unlockEnd = js.indexOf("\n  };", unlockStart) + "\n  };".length;
+  assert.ok(reqStart !== -1 && unlockStart > reqStart, "v66 declares its own v65 coverage requirement");
+  const unlockSrc = js.slice(reqStart, unlockEnd);
+  const unlockedWith = (treatments, roomOutcomes) => new Function("getCausalScar", "store", `${unlockSrc}; return counterfactualLivesUnlocked;`)(() => ({ treatments, roomOutcomes }), {})();
+  const rooms = ["become-cause", "refuse-cause", "ending-adopts"];
+  const minimal = ["threshold:stitch", "protocol:drain", "watch:graft", "offering:stitch"];
+  assert.equal(unlockedWith(minimal, rooms), true, "four treatments covering every scar and method unlock v66");
+  assert.equal(unlockedWith(minimal.slice(0, 3), rooms), false, "an untreated offering scar keeps v66 locked");
+  assert.equal(unlockedWith(["threshold:stitch", "protocol:stitch", "watch:drain", "offering:drain"], rooms), false, "a never-used graft method keeps v66 locked");
+  assert.equal(unlockedWith(minimal, rooms.slice(0, 2)), false, "all three causeless-ward outcomes are still required");
+  const all12 = ["threshold", "protocol", "watch", "offering"].flatMap((d) => ["stitch", "drain", "graft"].map((m) => `${d}:${m}`));
+  assert.equal(unlockedWith(all12, rooms), true, "full collection still unlocks");
+}
 
 /* 覆盖完成检查 */
 assert.match(js, /const counterfactualCoverageComplete = \(st\) => \{[\s\S]*?origins\.size === 4 && methods\.size === 3 && inheritances\.size === 3/, "counterfactualCoverageComplete checks full coverage");
@@ -11094,7 +11299,7 @@ for (const [asset, hash] of Object.entries(V67_WEBP_HASHES)) {
   assert.ok(html.includes(asset), `${asset} must be referenced`);
 }
 for (const asset of Object.keys(V67_WEBP_HASHES)) {
-  assert.match(html, new RegExp(`<link rel="preload" href="${asset.replace(".", "\\.")}" as="image">`), `${asset} must be preloaded`);
+  assert.ok(!rawHtml.includes(`<link rel="preload" href="${asset}"`) && rawHtml.includes(`src="${asset}`), `${asset} must load on demand with its scene, not be preloaded`);
 }
 
 /* 四场景 DOM */
@@ -11720,7 +11925,7 @@ for (const [asset, hash] of Object.entries(V68_WEBP_HASHES)) {
   assert.ok(html.includes(asset), `${asset} must be referenced`);
 }
 for (const asset of Object.keys(V68_WEBP_HASHES)) {
-  assert.match(html, new RegExp(`<link rel="preload" href="${asset.replace(".", "\\.")}" as="image">`), `${asset} must be preloaded`);
+  assert.ok(!rawHtml.includes(`<link rel="preload" href="${asset}"`) && rawHtml.includes(`src="${asset}`), `${asset} must load on demand with its scene, not be preloaded`);
 }
 
 /* 四场景 DOM */
@@ -12328,7 +12533,7 @@ for (const [asset, hash] of Object.entries(V69_WEBP_HASHES)) {
   assert.ok(html.includes(asset), `${asset} must be referenced`);
 }
 for (const asset of Object.keys(V69_WEBP_HASHES)) {
-  assert.match(html, new RegExp(`<link rel="preload" href="${asset.replace(".", "\\.")}" as="image">`), `${asset} must be preloaded`);
+  assert.ok(!rawHtml.includes(`<link rel="preload" href="${asset}"`) && rawHtml.includes(`src="${asset}`), `${asset} must load on demand with its scene, not be preloaded`);
 }
 
 /* 四场景 DOM */
@@ -12972,7 +13177,7 @@ for (const [asset, hash] of Object.entries(V70_WEBP_HASHES)) {
   assert.ok(html.includes(asset), `${asset} must be referenced`);
 }
 for (const asset of Object.keys(V70_WEBP_HASHES)) {
-  assert.match(html, new RegExp(`<link rel="preload" href="${asset.replace(".", "\\.")}" as="image">`), `${asset} must be preloaded`);
+  assert.ok(!rawHtml.includes(`<link rel="preload" href="${asset}"`) && rawHtml.includes(`src="${asset}`), `${asset} must load on demand with its scene, not be preloaded`);
 }
 
 /* 四场景 DOM */
@@ -13652,7 +13857,7 @@ for (const [asset, hash] of Object.entries(V71_WEBP_HASHES)) {
   assert.ok(html.includes(asset), `${asset} must be referenced`);
 }
 for (const asset of Object.keys(V71_WEBP_HASHES)) {
-  assert.match(html, new RegExp(`<link rel="preload" href="${asset.replace(".", "\\.")}" as="image">`), `${asset} must be preloaded`);
+  assert.ok(!rawHtml.includes(`<link rel="preload" href="${asset}"`) && rawHtml.includes(`src="${asset}`), `${asset} must load on demand with its scene, not be preloaded`);
 }
 
 /* 四场景 DOM */
@@ -15783,10 +15988,10 @@ for (const [kind, { ids, handlerPrefix }] of Object.entries(v78HandlerIdChecks))
   }
 }
 
-assert.ok(html.includes('<link rel="preload" href="assets/v78-first-person-rationing-bureau.webp" as="image">'), "v78 preloads v78-first-person-rationing-bureau");
-assert.ok(html.includes('<link rel="preload" href="assets/v78-voice-entitlement-archive.webp" as="image">'), "v78 preloads v78-voice-entitlement-archive");
-assert.ok(html.includes('<link rel="preload" href="assets/v78-pronoun-allocation-chamber.webp" as="image">'), "v78 preloads v78-pronoun-allocation-chamber");
-assert.ok(html.includes('<link rel="preload" href="assets/v78-ownerless-voices-court.webp" as="image">'), "v78 preloads v78-ownerless-voices-court");
+assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v78-first-person-rationing-bureau.webp"'), "v78 loads on demand: v78-first-person-rationing-bureau");
+assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v78-voice-entitlement-archive.webp"'), "v78 loads on demand: v78-voice-entitlement-archive");
+assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v78-pronoun-allocation-chamber.webp"'), "v78 loads on demand: v78-pronoun-allocation-chamber");
+assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v78-ownerless-voices-court.webp"'), "v78 loads on demand: v78-ownerless-voices-court");
 
 /* 缓存版本 */
 assert.ok(html.includes("styles.css?v=90"), "styles.css cache bust v=86");
@@ -16816,10 +17021,10 @@ for (const [kind, { ids, handlerPrefix }] of Object.entries(v79HandlerIdChecks))
   }
 }
 
-assert.ok(html.includes('<link rel="preload" href="assets/v79-unspoken-personhood-court.webp" as="image">'), "v79 preloads v79-unspoken-personhood-court");
-assert.ok(html.includes('<link rel="preload" href="assets/v79-silent-intent-archive.webp" as="image">'), "v79 preloads v79-silent-intent-archive");
-assert.ok(html.includes('<link rel="preload" href="assets/v79-personhood-inheritance-examination.webp" as="image">'), "v79 preloads v79-personhood-inheritance-examination");
-assert.ok(html.includes('<link rel="preload" href="assets/v79-unuttered-estate-tribunal.webp" as="image">'), "v79 preloads v79-unuttered-estate-tribunal");
+assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v79-unspoken-personhood-court.webp"'), "v79 loads on demand: v79-unspoken-personhood-court");
+assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v79-silent-intent-archive.webp"'), "v79 loads on demand: v79-silent-intent-archive");
+assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v79-personhood-inheritance-examination.webp"'), "v79 loads on demand: v79-personhood-inheritance-examination");
+assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v79-unuttered-estate-tribunal.webp"'), "v79 loads on demand: v79-unuttered-estate-tribunal");
 
 /* 缓存版本 */
 assert.ok(html.includes("styles.css?v=90"), "styles.css cache bust v=86");
@@ -17499,10 +17704,10 @@ for (const [kind, { ids, handlerPrefix }] of Object.entries(v80HandlerIdChecks))
   }
 }
 
-assert.ok(html.includes('<link rel="preload" href="assets/v80-unfinished-thought-asylum.webp" as="image">'), "v80 preloads v80-unfinished-thought-asylum");
-assert.ok(html.includes('<link rel="preload" href="assets/v80-interruption-trace-archive.webp" as="image">'), "v80 preloads v80-interruption-trace-archive");
-assert.ok(html.includes('<link rel="preload" href="assets/v80-counterfactual-treatment-lab.webp" as="image">'), "v80 preloads v80-counterfactual-treatment-lab");
-assert.ok(html.includes('<link rel="preload" href="assets/v80-last-conclusion-hearing.webp" as="image">'), "v80 preloads v80-last-conclusion-hearing");
+assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v80-unfinished-thought-asylum.webp"'), "v80 loads on demand: v80-unfinished-thought-asylum");
+assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v80-interruption-trace-archive.webp"'), "v80 loads on demand: v80-interruption-trace-archive");
+assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v80-counterfactual-treatment-lab.webp"'), "v80 loads on demand: v80-counterfactual-treatment-lab");
+assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v80-last-conclusion-hearing.webp"'), "v80 loads on demand: v80-last-conclusion-hearing");
 
 /* 缓存版本 */
 assert.ok(html.includes("styles.css?v=90"), "styles.css cache bust v=86");
@@ -18515,7 +18720,7 @@ function makeV81Context({ initialStore = {}, elements = {}, scene = '', v80unloc
     AudioEngine,
     false,
     () => v80unlocked,
-    () => upstreamV80State,
+    () => (v80unlocked ? upstreamV80State : { admissions: [], hearingOutcomes: [] }),
     buttonAvailable,
     doc
   );
@@ -19663,7 +19868,7 @@ for (const item of v81BranchFigures) {
         AudioEngine,
         false,
         () => v81unlocked,
-        () => upstreamV81State,
+        () => (v81unlocked ? upstreamV81State : { batches: [], furnaceOutcomes: [] }),
         buttonAvailable,
         doc
       );
@@ -20928,10 +21133,10 @@ const V82_SCENES = [
 ];
 
 for (const scene of V82_SCENES) {
-  assert.match(
-    html,
-    new RegExp(`<link\\s+rel="preload"\\s+as="image"\\s+type="image/webp"\\s+href="${scene.webp}">`),
-    `must preload ${scene.webp}`
+  assert.doesNotMatch(
+    rawHtml,
+    new RegExp(`<link\\s+rel="preload"[^>]*href="${scene.webp}"`),
+    `${scene.webp} must load on demand, not be preloaded`
   );
   assert.match(
     html,
@@ -21204,7 +21409,7 @@ for (const [figureClass, expectedAlt, buttonCount] of V82_FIGURE_SPECS) {
         AudioEngine,
         false,
         () => v82unlocked,
-        () => upstreamV82State,
+        () => (v82unlocked ? upstreamV82State : { disposals: [], wellOutcomes: [] }),
         buttonAvailable,
         doc
       );
@@ -22454,10 +22659,10 @@ const V83_SCENES = [
 ];
 
 for (const scene of V83_SCENES) {
-  assert.match(
-    html,
-    new RegExp(`<link\\s+rel="preload"\\s+as="image"\\s+type="image/webp"\\s+href="${scene.webp}">`),
-    `must preload ${scene.webp}`
+  assert.doesNotMatch(
+    rawHtml,
+    new RegExp(`<link\\s+rel="preload"[^>]*href="${scene.webp}"`),
+    `${scene.webp} must load on demand, not be preloaded`
   );
   assert.match(
     html,
@@ -22731,7 +22936,7 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
         AudioEngine,
         false,
         () => v83unlocked,
-        () => upstreamV83State,
+        () => (v83unlocked ? upstreamV83State : { reports: [], hearingOutcomes: [] }),
         buttonAvailable,
         doc
       );
@@ -23113,10 +23318,10 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
   ];
 
   for (const scene of V84_SCENES) {
-    assert.match(
-      html,
-      new RegExp(`<link\\s+rel="preload"\\s+as="image"\\s+type="image/webp"\\s+href="${scene.webp}">`),
-      `must preload ${scene.webp}`
+    assert.doesNotMatch(
+      rawHtml,
+      new RegExp(`<link\\s+rel="preload"[^>]*href="${scene.webp}"`),
+      `${scene.webp} must load on demand, not be preloaded`
     );
     assert.match(
       html,
@@ -23345,7 +23550,7 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
         AudioEngine,
         false,
         () => v84unlocked,
-        () => upstreamV84State,
+        () => (v84unlocked ? upstreamV84State : { placements: [], courtOutcomes: [] }),
         buttonAvailable,
         doc
       );
@@ -23866,7 +24071,7 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
         AudioEngine,
         false,
         () => v85unlocked,
-        () => upstreamV85State,
+        () => (v85unlocked ? upstreamV85State : { inheritances: [], estateOutcomes: [] }),
         buttonAvailable,
         doc
       );
@@ -24385,7 +24590,7 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
         AudioEngine,
         false,
         () => v86unlocked,
-        () => upstreamV86State,
+        () => (v86unlocked ? upstreamV86State : { renunciations: [], tribunalOutcomes: [] }),
         buttonAvailable,
         doc
       );
@@ -24932,7 +25137,7 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
         AudioEngine,
         false,
         () => v87unlocked,
-        () => upstreamV87State,
+        () => (v87unlocked ? upstreamV87State : { collections: [], bankruptcyOutcomes: [] }),
         buttonAvailable,
         doc
       );
@@ -25585,7 +25790,7 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
         AudioEngine,
         false,
         () => v88unlocked,
-        () => upstreamV88State,
+        () => (v88unlocked ? upstreamV88State : { purchases: [], titleOutcomes: [] }),
         buttonAvailable,
         doc,
         localStorageMock
@@ -25734,8 +25939,8 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
     ];
     for (const preload of V89_PRELOAD_FILES) {
       assert.ok(
-        html.includes(`<link rel="preload" as="image" type="image/webp" href="${preload}">`),
-        `index.html must contain preload tag for ${preload}`
+        !rawHtml.includes(`<link rel="preload" as="image" type="image/webp" href="${preload}">`) && rawHtml.includes(`src="${preload}`),
+        `${preload} must load on demand with its scene, not be preloaded`
       );
     }
 
@@ -26564,10 +26769,48 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
     assert.match(html, /styles\.css\?v=90/, "styles.css cache query must be updated to v=90");
     assert.match(html, /script\.js\?v=90/, "script.js cache query must be updated to v=90");
 
-    let cursor = js.lastIndexOf('replayAccomplishedFactEvictionPending("threshold");');
-    assert.ok(cursor !== -1, 'v90 browser-initialization failure: anchor replayAccomplishedFactEvictionPending("threshold"); not found');
-    const v90InitSteps = [
-      'resolveCauselessConsequencePendingOnArrival("threshold");',
+    const bootstrapStartIdx = js.lastIndexOf('/* ---------- 初始化 ---------- */');
+    assert.ok(bootstrapStartIdx !== -1, 'v90 browser-initialization failure: bootstrap start marker not found');
+    const bootstrapRouteIdx = js.indexOf('route();', bootstrapStartIdx);
+    assert.ok(bootstrapRouteIdx !== -1, 'v90 browser-initialization failure: bootstrap route() invocation not found');
+    const bootstrapSection = js.slice(bootstrapStartIdx, bootstrapRouteIdx + 'route();'.length);
+
+    assert.ok(!/resolveCauselessConsequencePendingOnArrival\s*\(/.test(bootstrapSection), 'v90 browser-initialization failure: bootstrap must not call resolveCauselessConsequencePendingOnArrival');
+    assert.ok(!/replayCauselessConsequenceRefugeePending\s*\(/.test(bootstrapSection), 'v90 browser-initialization failure: bootstrap must not call replayCauselessConsequenceRefugeePending');
+
+    const v90BootstrapUiSteps = [
+      'syncCauselessConsequenceRefugeeAuthority();',
+      'syncBorrowedCauseSponsorshipOffice();',
+      'syncCausalBorderProcessingStation();',
+      'syncFinalAsylumTribunalForCauselessConsequences();',
+      'syncCauselessConsequenceConsuls();',
+      'paintCauselessConsequenceRefugeeMemory();',
+      'paintCauselessConsequenceRefugeeCodex();',
+      'syncCauselessConsequenceRefugeeRemembrance();',
+      'syncCauselessConsequenceRefugeeLinks();'
+    ];
+
+    let bCursor = 0;
+    for (const step of v90BootstrapUiSteps) {
+      const idx = bootstrapSection.indexOf(step, bCursor);
+      assert.ok(idx !== -1 && idx >= bCursor, `v90 browser-initialization failure: missing or out of order UI step in bootstrap: ${step}`);
+      const stepOccurrences = bootstrapSection.split(step).length - 1;
+      assert.strictEqual(stepOccurrences, 1, `v90 browser-initialization failure: UI step must appear exactly once in bootstrap: ${step}`);
+      bCursor = idx + step.length;
+    }
+    const revealSceneIdx = bootstrapSection.indexOf('revealScene(scenes.threshold);', bCursor);
+    assert.ok(revealSceneIdx !== -1 && revealSceneIdx >= bCursor, 'v90 browser-initialization failure: revealScene(scenes.threshold) must occur after v90 bootstrap UI syncs');
+
+    const sceneInitStartMarker = 'const sceneInit = (name) => {';
+    const sceneInitEndMarker = '/* 分层进度守卫';
+    const sceneInitStart = js.indexOf(sceneInitStartMarker);
+    assert.ok(sceneInitStart !== -1, 'v90 sceneInit boundary failure: sceneInit start marker not found');
+    const sceneInitEnd = js.indexOf(sceneInitEndMarker, sceneInitStart);
+    assert.ok(sceneInitEnd !== -1, 'v90 sceneInit boundary failure: sceneInit end marker not found');
+    const sceneInitBody = js.slice(sceneInitStart, sceneInitEnd);
+
+    const v90SceneInitSteps = [
+      'resolveCauselessConsequencePendingOnArrival(name);',
       'syncCauselessConsequenceRefugeeAuthority();',
       'syncBorrowedCauseSponsorshipOffice();',
       'syncCausalBorderProcessingStation();',
@@ -26577,15 +26820,15 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
       'paintCauselessConsequenceRefugeeCodex();',
       'syncCauselessConsequenceRefugeeRemembrance();',
       'syncCauselessConsequenceRefugeeLinks();',
-      'replayCauselessConsequenceRefugeePending("threshold");'
+      'replayCauselessConsequenceRefugeePending(name);'
     ];
-    for (const step of v90InitSteps) {
-      const nextIndex = js.indexOf(step, cursor + 1);
-      assert.ok(nextIndex > cursor, `v90 browser-initialization failure: missing or out of order step ${step}`);
-      cursor = nextIndex;
+
+    let sCursor = 0;
+    for (const step of v90SceneInitSteps) {
+      const idx = sceneInitBody.indexOf(step, sCursor);
+      assert.ok(idx !== -1 && idx >= sCursor, `v90 sceneInit boundary failure: missing or out of order step in sceneInit: ${step}`);
+      sCursor = idx + step.length;
     }
-    const revealIndex = js.indexOf('revealScene(scenes.threshold);', cursor + 1);
-    assert.ok(revealIndex > cursor, 'v90 browser-initialization failure: revealScene(scenes.threshold); must execute after v90 initialization sequence');
 
     const makeCompleteV89StateForV90 = () => ({
       evictions: [
@@ -26767,7 +27010,7 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
         AudioEngine,
         false,
         () => v89unlocked,
-        () => upstreamV89State,
+        () => (v89unlocked ? upstreamV89State : { evictions: [], appealOutcomes: [] }),
         buttonAvailable,
         doc,
         localStorageMock
@@ -26916,8 +27159,8 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
     ];
     for (const preload of V90_PRELOAD_FILES) {
       assert.ok(
-        html.includes(`<link rel="preload" as="image" type="image/webp" href="${preload}">`),
-        `index.html must contain preload tag for ${preload}`
+        !rawHtml.includes(`<link rel="preload" as="image" type="image/webp" href="${preload}">`) && rawHtml.includes(`src="${preload}`),
+        `${preload} must load on demand with its scene, not be preloaded`
       );
     }
 
@@ -27707,6 +27950,933 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
 
       assert.strictEqual(gridEl.children.length, 39, "Codex must render exactly 39 cells (36 asylum cases + 3 verdict outcomes)");
     }
+{
+  // ==========================================
+  // Cold-bootstrap regression tests for v90
+  // ==========================================
+
+  // 1. Extract raw production bootstrap code from production js
+  const bootMarker = '/* ---------- 初始化 ---------- */';
+  const bootIdx = js.lastIndexOf(bootMarker);
+  assert.ok(bootIdx !== -1, 'Production JS must contain bootstrap marker');
+  const bootEndIdx = js.indexOf('route();', bootIdx);
+  assert.ok(bootEndIdx !== -1, 'Production JS must terminate bootstrap with route();');
+  const productionBootstrapRaw = js.slice(bootIdx, bootEndIdx + 'route();'.length);
+
+  // 2. Extract actual AutoAdvance implementation from production js
+  const autoAdvanceMarker = 'const AutoAdvance = (() => {';
+  const autoAdvanceIdx = js.indexOf(autoAdvanceMarker);
+  assert.ok(autoAdvanceIdx !== -1, 'Production JS must contain AutoAdvance definition');
+  const scenesMarker = 'const scenes = {';
+  const scenesIdx = js.indexOf(scenesMarker, autoAdvanceIdx);
+  assert.ok(scenesIdx !== -1, 'Production JS must contain scenes marker after AutoAdvance');
+  const autoAdvanceSrc = js.slice(autoAdvanceIdx, scenesIdx).trim();
+
+  // 3. Extract actual router & hashchange registration from production js
+  const goSceneMarker = 'const goScene = (name) => {';
+  const goSceneIdx = js.indexOf(goSceneMarker);
+  assert.ok(goSceneIdx !== -1, 'Production JS must contain goScene definition');
+  const outletMarker = '/* 场景出口按钮 */';
+  const outletIdx = js.indexOf(outletMarker, goSceneIdx);
+  assert.ok(outletIdx !== -1, 'Production JS must contain outlet button marker after route');
+  const routerSrc = js.slice(goSceneIdx, outletIdx).trim();
+
+  // 4. Extract v90 sceneInit sub-boundary from production js
+  const v90ResolveMarker = 'resolveCauselessConsequencePendingOnArrival(name);';
+  const v90ReplayMarker = 'replayCauselessConsequenceRefugeePending(name);';
+  const v90InitStartIdx = js.indexOf(v90ResolveMarker);
+  assert.ok(v90InitStartIdx !== -1, 'Production JS must contain v90 sceneInit resolve call');
+  const v90InitEndIdx = js.indexOf(v90ReplayMarker, v90InitStartIdx);
+  assert.ok(v90InitEndIdx !== -1, 'Production JS must contain v90 sceneInit replay call');
+  const v90SceneInitBody = js.slice(v90InitStartIdx, v90InitEndIdx + v90ReplayMarker.length);
+
+  // 5. Parse non-v90 bootstrap calls to construct dynamic stubs
+  const callRegex = /([a-zA-Z0-9_$]+)\s*\(/g;
+  const bootstrapCalls = new Set();
+  let match;
+  while ((match = callRegex.exec(productionBootstrapRaw)) !== null) {
+    bootstrapCalls.add(match[1]);
+  }
+  const knownV90Names = new Set([
+    'resolveCauselessConsequencePendingOnArrival',
+    'replayCauselessConsequenceRefugeePending',
+    'syncCauselessConsequenceRefugeeAuthority',
+    'syncBorrowedCauseSponsorshipOffice',
+    'syncCausalBorderProcessingStation',
+    'syncFinalAsylumTribunalForCauselessConsequences',
+    'syncCauselessConsequenceConsuls',
+    'paintCauselessConsequenceRefugeeMemory',
+    'paintCauselessConsequenceRefugeeCodex',
+    'syncCauselessConsequenceRefugeeRemembrance',
+    'syncCauselessConsequenceRefugeeLinks',
+    'chooseCauselessConsequenceRefugeeEntry',
+    'chooseCauselessConsequenceRefugee',
+    'chooseCauselessConsequenceSponsor',
+    'chooseCauselessConsequenceBorderProtocol',
+    'chooseCauselessConsequenceConsulReturn',
+    'chooseCauselessConsequenceTribunalEntry',
+    'chooseCauselessConsequenceVerdictAction',
+    'route',
+    'goScene',
+    'sceneInit',
+    'revealScene',
+    'syncDoorOpenState',
+    'forEach'
+  ]);
+  const nonV90BootstrapStubs = Array.from(bootstrapCalls)
+    .filter(name => !knownV90Names.has(name))
+    .map(name => `var ${name} = function() {};`)
+    .join('\n');
+
+  // 6. Build harness runner using Function with source extraction
+  const createBootstrapHarness = ({
+    initialHash = '#threshold',
+    initialStore = {},
+    customBootstrap = null,
+  } = {}) => {
+    let timerCounter = 1;
+    let virtualClock = 0;
+    // Map id -> { id, fn, runAt, ms }
+    const activeTimers = new Map();
+
+    const mockSetTimeout = (fn, ms) => {
+      const id = timerCounter++;
+      const delay = Math.max(0, Number(ms) || 0);
+      activeTimers.set(id, { id, fn, runAt: virtualClock + delay, ms: delay });
+      return id;
+    };
+    const mockClearTimeout = (id) => {
+      activeTimers.delete(id);
+    };
+
+    const runOneEarliestTimer = () => {
+      if (activeTimers.size === 0) return false;
+      let earliest = null;
+      for (const t of activeTimers.values()) {
+        if (!earliest || t.runAt < earliest.runAt || (t.runAt === earliest.runAt && t.id < earliest.id)) {
+          earliest = t;
+        }
+      }
+      activeTimers.delete(earliest.id);
+      virtualClock = earliest.runAt;
+      earliest.fn();
+      return true;
+    };
+
+    const flushTimers = (maxCycles = 500) => {
+      let cycles = 0;
+      while (activeTimers.size > 0) {
+        cycles++;
+        if (cycles > maxCycles) {
+          throw new Error('flushTimers exceeded safety bound (' + maxCycles + ' cycles)');
+        }
+        runOneEarliestTimer();
+      }
+    };
+
+    const runUntil = (predicate, maxCycles = 500) => {
+      let cycles = 0;
+      while (!predicate()) {
+        cycles++;
+        if (cycles > maxCycles) {
+          throw new Error('runUntil exceeded safety bound (' + maxCycles + ' cycles)');
+        }
+        if (activeTimers.size === 0) {
+          throw new Error('runUntil exhausted all timers without satisfying predicate');
+        }
+        runOneEarliestTimer();
+      }
+    };
+
+    const storeData = { ...initialStore };
+    const store = {
+      get(k, def) {
+        return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : def;
+      },
+      set(k, v) {
+        storeData[k] = String(v);
+      },
+    };
+    const localStorageMock = {
+      getItem(k) {
+        return Object.prototype.hasOwnProperty.call(storeData, k) ? storeData[k] : null;
+      },
+      setItem(k, v) {
+        storeData[k] = String(v);
+      },
+      removeItem(k) {
+        delete storeData[k];
+      },
+      clear() {
+        for (const k of Object.keys(storeData)) delete storeData[k];
+      },
+    };
+
+    const elementStore = {};
+    const getEl = (id) => {
+      if (!elementStore[id]) {
+        elementStore[id] = createMockElement(id);
+      }
+      return elementStore[id];
+    };
+
+    const $ = (selector) => {
+      if (typeof selector === 'string' && selector.startsWith('#')) {
+        return getEl(selector.slice(1));
+      }
+      return null;
+    };
+
+    const windowListeners = {};
+    const win = {
+      addEventListener(type, fn) {
+        windowListeners[type] = windowListeners[type] || [];
+        windowListeners[type].push(fn);
+      },
+      _dispatch(type, evt) {
+        const list = windowListeners[type] || [];
+        for (const f of list) f(evt);
+      }
+    };
+
+    const locationMock = { hash: initialHash };
+    let preRouteSnapshot = null;
+
+    const bootstrapToRun = customBootstrap !== null ? customBootstrap : productionBootstrapRaw;
+    const wrappedBootstrap = bootstrapToRun.replace(
+      /\broute\(\);?\s*$/,
+      `__capturePreRoute();\nactualRoute();`
+    );
+
+    const fullHarnessBody = `
+      // Controlled timer injection
+      var setTimeout = __injectedSetTimeout;
+      var clearTimeout = __injectedClearTimeout;
+      var location = __injectedLocation;
+      var window = __injectedWindow;
+
+      // Production v90 functions
+      ${v90ModuleBlock}
+
+      // Production router state & stubs
+      var initialRouteDone = false;
+      var currentScene = "threshold";
+      var veilBusy = false;
+      var pendingSceneFocus = null;
+      var collapseModal = null;
+      var retryGovernanceBtn = null;
+      var veil = { classList: { add() {}, remove() {} } };
+      var AudioEngine = { whoosh() {}, bell() {} };
+      var stopAnomaly = function() {};
+      var stopTrace = function() {};
+      var leaveWatch = function() {};
+      var leaveSwitch = function() {};
+      var leaveDeadletter = function() {};
+      var leaveCancel = function() {};
+      var leaveActing = function() {};
+      var leaveReliquary = function() {};
+      var closeCollapseModal = function() {};
+      var focusReliably = function() {};
+      var revealScene = function() {};
+      var syncDoorOpenState = function() {};
+
+      // Array dependencies and loop callbacks for non-v90 bootstrap loops
+      var APPEAL_ROOM_KEYS = [];
+      var FAILURE_ROOMS = [];
+      var LISTENING_ROOMS = [];
+      var syncCrossRoom = function() {};
+      var syncFailureRoom = function() {};
+      var syncListeningRoom = function() {};
+
+      // Non-v90 stubs derived from bootstrap
+      ${nonV90BootstrapStubs}
+
+      var scenes = {
+        'threshold': createMockElement('threshold'),
+        'remembrance': createMockElement('remembrance'),
+        'unending-gallery': createMockElement('unending-gallery'),
+        'causeless-consequence-refugee-authority': createMockElement('causeless-consequence-refugee-authority'),
+        'borrowed-cause-sponsorship-office': createMockElement('borrowed-cause-sponsorship-office'),
+        'causal-border-processing-station': createMockElement('causal-border-processing-station'),
+        'final-asylum-tribunal-for-causeless-consequences': createMockElement('final-asylum-tribunal-for-causeless-consequences'),
+        'acting': createMockElement('acting'),
+        'reliquary': createMockElement('reliquary')
+      };
+      for (var scKey in scenes) {
+        scenes[scKey].scrollTop = 0;
+        scenes[scKey].classList = {
+          add: function(c) { this[c] = true; },
+          remove: function(c) { delete this[c]; }
+        };
+        scenes[scKey].querySelector = function() { return null; };
+      }
+
+      // Stated legacy-guard isolation boundary: allows any known scene directly for scheduler/router tests
+      var resolveScene = function(n) { return scenes[n] ? n : 'threshold'; };
+
+      // Scene image hydration only touches <img data-src>; irrelevant to pending lifecycle
+      var hydrateSceneImages = function() {};
+
+      // Extracted AutoAdvance
+      ${autoAdvanceSrc}
+
+      // Extracted sceneInit sub-boundary
+      var sceneInit = function(name) {
+        ${v90SceneInitBody}
+      };
+
+      // Extracted router
+      ${routerSrc}
+
+      // Expose actual route wrapper to intercept preRoute
+      var actualRoute = route;
+
+      return {
+        runBootstrap: function() {
+          ${wrappedBootstrap}
+        },
+        getCurrentScene: function() { return currentScene; },
+        getInitialRouteDone: function() { return initialRouteDone; },
+        AutoAdvance: AutoAdvance,
+        getCauselessConsequenceRefugeeClaims: getCauselessConsequenceRefugeeClaims,
+        saveCauselessConsequenceRefugeeClaims: saveCauselessConsequenceRefugeeClaims,
+        route: actualRoute,
+        goScene: goScene,
+        sceneInit: sceneInit
+      };
+    `;
+
+    const capturePreRoute = () => {
+      const raw = storeData['goddead_v90_causeless_consequence_refugee'];
+      preRouteSnapshot = raw ? JSON.parse(raw) : null;
+    };
+
+    const harnessFn = new Function(
+      '__injectedSetTimeout',
+      '__injectedClearTimeout',
+      '__injectedLocation',
+      '__injectedWindow',
+      '__capturePreRoute',
+      'store',
+      '$',
+      'reduced',
+      'accomplishedFactEvictionUnlocked',
+      'getAccomplishedFactEvictionClaims',
+      'buttonAvailable',
+      'document',
+      'localStorage',
+      'createMockElement',
+      fullHarnessBody
+    );
+
+    const context = harnessFn(
+      mockSetTimeout,
+      mockClearTimeout,
+      locationMock,
+      win,
+      capturePreRoute,
+      store,
+      $,
+      false,
+      () => true,
+      () => makeCompleteV89StateForV90(),
+      (id) => {
+        const el = $(`#${id}`);
+        return Boolean(el && !el.hidden && !el.disabled);
+      },
+      { createElement: (tag) => createMockElement(tag) },
+      localStorageMock,
+      createMockElement
+    );
+
+    return {
+      context,
+      storeData,
+      locationMock,
+      win,
+      $,
+      getEl,
+      getPreRouteSnapshot: () => preRouteSnapshot,
+      readStore: () => JSON.parse(storeData['goddead_v90_causeless_consequence_refugee'] || 'null'),
+      getNormalizedClaims: () => context.getCauselessConsequenceRefugeeClaims(),
+      flushTimers,
+      runUntil,
+      getActiveTimersCount: () => activeTimers.size,
+      getAllKnownSceneTimerStatus: () => {
+        const known = [
+          'threshold',
+          'remembrance',
+          'unending-gallery',
+          'causeless-consequence-refugee-authority',
+          'borrowed-cause-sponsorship-office',
+          'causal-border-processing-station',
+          'final-asylum-tribunal-for-causeless-consequences'
+        ];
+        return known.filter(sc => context.AutoAdvance.has(sc));
+      }
+    };
+  };
+
+  // 7. Define full matrix fixtures for all 7 pending kinds with canonical visited flags
+  const fullMatrixCases = [
+    {
+      kind: 'entry',
+      target: 'causeless-consequence-refugee-authority',
+      source: 'remembrance',
+      unrelated: 'unending-gallery',
+      responseElId: 'causeless-consequence-refugee-entry-response',
+      pending: {
+        feedback: V90_ENTRY_FEEDBACK,
+        kind: 'entry',
+        target: 'causeless-consequence-refugee-authority'
+      },
+      initialOverrides: {},
+      assertSettled: (st) => {
+        assert.ok(st.visited.authority === true, 'entry must mark authority visited');
+        assert.ok(st.pending === null, 'pending must be cleared upon arrival');
+      }
+    },
+    {
+      kind: 'refugee',
+      target: 'borrowed-cause-sponsorship-office',
+      source: 'causeless-consequence-refugee-authority',
+      unrelated: 'threshold',
+      responseElId: 'causeless-consequence-refugee-authority-response',
+      pending: {
+        feedback: api.CAUSELESS_CONSEQUENCE_REFUGEE_TABLE['age-that-arrived-without-a-birth'].feedback,
+        kind: 'refugee',
+        refugee: 'age-that-arrived-without-a-birth',
+        source: 'causeless-consequence-refugee-authority',
+        target: 'borrowed-cause-sponsorship-office'
+      },
+      initialOverrides: {
+        visited: { authority: true }
+      },
+      assertSettled: (st) => {
+        assert.ok(st.visited.authority === true, 'authority remains visited');
+        assert.ok(st.visited.sponsorship === true, 'refugee must mark sponsorship visited');
+        assert.ok(st.draft.refugee === 'age-that-arrived-without-a-birth', 'draft refugee set');
+        assert.ok(st.pending === null, 'pending must be cleared upon arrival');
+      }
+    },
+    {
+      kind: 'sponsor',
+      target: 'causal-border-processing-station',
+      source: 'borrowed-cause-sponsorship-office',
+      unrelated: 'remembrance',
+      responseElId: 'borrowed-cause-sponsorship-office-response',
+      pending: {
+        feedback: api.CAUSELESS_CONSEQUENCE_SPONSOR_TABLE['doorway-that-claims-it-was-the-birth'].feedback,
+        kind: 'sponsor',
+        refugee: 'age-that-arrived-without-a-birth',
+        source: 'borrowed-cause-sponsorship-office',
+        sponsor: 'doorway-that-claims-it-was-the-birth',
+        target: 'causal-border-processing-station'
+      },
+      initialOverrides: {
+        visited: { authority: true, sponsorship: true },
+        draft: { refugee: 'age-that-arrived-without-a-birth', sponsor: '' }
+      },
+      assertSettled: (st) => {
+        assert.ok(st.visited.border === true, 'sponsor must mark border visited');
+        assert.ok(st.draft.sponsor === 'doorway-that-claims-it-was-the-birth', 'draft sponsor set');
+        assert.ok(st.pending === null, 'pending must be cleared upon arrival');
+      }
+    },
+    // Asylum targets across threshold, remembrance, unending-gallery
+    {
+      kind: 'asylum',
+      subKind: 'asylum-to-threshold',
+      target: 'threshold',
+      source: 'causal-border-processing-station',
+      unrelated: 'remembrance',
+      responseElId: 'causal-border-processing-station-response',
+      pending: {
+        asylumCase: 'age-that-arrived-without-a-birth:doorway-that-claims-it-was-the-birth:issue-a-temporary-cause-visa',
+        feedback: api.computeCauselessConsequenceAsylumFeedback('age-that-arrived-without-a-birth', 'doorway-that-claims-it-was-the-birth', 'issue-a-temporary-cause-visa'),
+        kind: 'asylum',
+        protocol: 'issue-a-temporary-cause-visa',
+        refugee: 'age-that-arrived-without-a-birth',
+        source: 'causal-border-processing-station',
+        sponsor: 'doorway-that-claims-it-was-the-birth',
+        target: 'threshold'
+      },
+      initialOverrides: {
+        visited: { authority: true, sponsorship: true, border: true },
+        draft: { refugee: 'age-that-arrived-without-a-birth', sponsor: 'doorway-that-claims-it-was-the-birth' }
+      },
+      assertSettled: (st) => {
+        assert.ok(st.processingRuns === 1, 'processing runs incremented');
+        assert.ok(st.refugeeTallies.age === 1, 'age tally incremented');
+        assert.ok(st.asylumCases.includes('age-that-arrived-without-a-birth:doorway-that-claims-it-was-the-birth:issue-a-temporary-cause-visa'), 'asylum case recorded');
+        assert.ok(st.activeConsul !== null && st.activeConsul.sponsor === 'doorway-that-claims-it-was-the-birth', 'active consul set');
+        assert.ok(st.pending === null, 'pending must be cleared upon arrival');
+      }
+    },
+    {
+      kind: 'asylum',
+      subKind: 'asylum-to-remembrance',
+      target: 'remembrance',
+      source: 'causal-border-processing-station',
+      unrelated: 'threshold',
+      responseElId: 'causal-border-processing-station-response',
+      pending: {
+        asylumCase: 'scar-with-no-wound-to-remember:memory-that-volunteers-to-have-been-the-wound:sew-the-borrowed-cause-into-the-effect',
+        feedback: api.computeCauselessConsequenceAsylumFeedback('scar-with-no-wound-to-remember', 'memory-that-volunteers-to-have-been-the-wound', 'sew-the-borrowed-cause-into-the-effect'),
+        kind: 'asylum',
+        protocol: 'sew-the-borrowed-cause-into-the-effect',
+        refugee: 'scar-with-no-wound-to-remember',
+        source: 'causal-border-processing-station',
+        sponsor: 'memory-that-volunteers-to-have-been-the-wound',
+        target: 'remembrance'
+      },
+      initialOverrides: {
+        visited: { authority: true, sponsorship: true, border: true },
+        draft: { refugee: 'scar-with-no-wound-to-remember', sponsor: 'memory-that-volunteers-to-have-been-the-wound' }
+      },
+      assertSettled: (st) => {
+        assert.ok(st.processingRuns === 1);
+        assert.ok(st.refugeeTallies.scar === 1);
+        assert.ok(st.asylumCases.includes('scar-with-no-wound-to-remember:memory-that-volunteers-to-have-been-the-wound:sew-the-borrowed-cause-into-the-effect'));
+        assert.ok(st.activeConsul !== null && st.activeConsul.sponsor === 'memory-that-volunteers-to-have-been-the-wound');
+        assert.ok(st.pending === null);
+      }
+    },
+    {
+      kind: 'asylum',
+      subKind: 'asylum-to-gallery',
+      target: 'unending-gallery',
+      source: 'causal-border-processing-station',
+      unrelated: 'threshold',
+      responseElId: 'causal-border-processing-station-response',
+      pending: {
+        asylumCase: 'ruins-from-a-war-that-cannot-be-found:empty-frame-that-confesses-it-was-the-war:declare-the-refugee-self-caused',
+        feedback: api.computeCauselessConsequenceAsylumFeedback('ruins-from-a-war-that-cannot-be-found', 'empty-frame-that-confesses-it-was-the-war', 'declare-the-refugee-self-caused'),
+        kind: 'asylum',
+        protocol: 'declare-the-refugee-self-caused',
+        refugee: 'ruins-from-a-war-that-cannot-be-found',
+        source: 'causal-border-processing-station',
+        sponsor: 'empty-frame-that-confesses-it-was-the-war',
+        target: 'unending-gallery'
+      },
+      initialOverrides: {
+        visited: { authority: true, sponsorship: true, border: true },
+        draft: { refugee: 'ruins-from-a-war-that-cannot-be-found', sponsor: 'empty-frame-that-confesses-it-was-the-war' }
+      },
+      assertSettled: (st) => {
+        assert.ok(st.processingRuns === 1);
+        assert.ok(st.refugeeTallies.ruin === 1);
+        assert.ok(st.asylumCases.includes('ruins-from-a-war-that-cannot-be-found:empty-frame-that-confesses-it-was-the-war:declare-the-refugee-self-caused'));
+        assert.ok(st.activeConsul !== null && st.activeConsul.sponsor === 'empty-frame-that-confesses-it-was-the-war');
+        assert.ok(st.pending === null);
+      }
+    },
+    // Consul return targets (all 3 origins)
+    {
+      kind: 'consul-return',
+      subKind: 'consul-return-threshold',
+      target: 'causeless-consequence-refugee-authority',
+      source: 'threshold',
+      unrelated: 'remembrance',
+      responseElId: 'causeless-consequence-consul-response-threshold',
+      pending: {
+        asylumCase: 'age-that-arrived-without-a-birth:doorway-that-claims-it-was-the-birth:issue-a-temporary-cause-visa',
+        feedback: api.CAUSELESS_CONSEQUENCE_SPONSOR_TABLE['doorway-that-claims-it-was-the-birth'].consulFeedback,
+        from: 'threshold',
+        kind: 'consul-return',
+        target: 'causeless-consequence-refugee-authority'
+      },
+      initialOverrides: {
+        visited: { authority: true, sponsorship: true, border: true },
+        asylumCases: ['age-that-arrived-without-a-birth:doorway-that-claims-it-was-the-birth:issue-a-temporary-cause-visa'],
+        activeConsul: {
+          asylumCase: 'age-that-arrived-without-a-birth:doorway-that-claims-it-was-the-birth:issue-a-temporary-cause-visa',
+          feedback: api.CAUSELESS_CONSEQUENCE_SPONSOR_TABLE['doorway-that-claims-it-was-the-birth'].consulFeedback,
+          sponsor: 'doorway-that-claims-it-was-the-birth'
+        }
+      },
+      assertSettled: (st) => {
+        assert.ok(st.activeConsul === null, 'active consul cleared');
+        assert.ok(st.visited.authority === true);
+        assert.ok(st.pending === null);
+      }
+    },
+    {
+      kind: 'consul-return',
+      subKind: 'consul-return-remembrance',
+      target: 'causeless-consequence-refugee-authority',
+      source: 'remembrance',
+      unrelated: 'threshold',
+      responseElId: 'causeless-consequence-consul-response-remembrance',
+      pending: {
+        asylumCase: 'scar-with-no-wound-to-remember:memory-that-volunteers-to-have-been-the-wound:sew-the-borrowed-cause-into-the-effect',
+        feedback: api.CAUSELESS_CONSEQUENCE_SPONSOR_TABLE['memory-that-volunteers-to-have-been-the-wound'].consulFeedback,
+        from: 'remembrance',
+        kind: 'consul-return',
+        target: 'causeless-consequence-refugee-authority'
+      },
+      initialOverrides: {
+        visited: { authority: true, sponsorship: true, border: true },
+        asylumCases: ['scar-with-no-wound-to-remember:memory-that-volunteers-to-have-been-the-wound:sew-the-borrowed-cause-into-the-effect'],
+        activeConsul: {
+          asylumCase: 'scar-with-no-wound-to-remember:memory-that-volunteers-to-have-been-the-wound:sew-the-borrowed-cause-into-the-effect',
+          feedback: api.CAUSELESS_CONSEQUENCE_SPONSOR_TABLE['memory-that-volunteers-to-have-been-the-wound'].consulFeedback,
+          sponsor: 'memory-that-volunteers-to-have-been-the-wound'
+        }
+      },
+      assertSettled: (st) => {
+        assert.ok(st.activeConsul === null);
+        assert.ok(st.visited.authority === true);
+        assert.ok(st.pending === null);
+      }
+    },
+    {
+      kind: 'consul-return',
+      subKind: 'consul-return-gallery',
+      target: 'causeless-consequence-refugee-authority',
+      source: 'unending-gallery',
+      unrelated: 'threshold',
+      responseElId: 'causeless-consequence-consul-response-unending-gallery',
+      pending: {
+        asylumCase: 'ruins-from-a-war-that-cannot-be-found:empty-frame-that-confesses-it-was-the-war:declare-the-refugee-self-caused',
+        feedback: api.CAUSELESS_CONSEQUENCE_SPONSOR_TABLE['empty-frame-that-confesses-it-was-the-war'].consulFeedback,
+        from: 'unending-gallery',
+        kind: 'consul-return',
+        target: 'causeless-consequence-refugee-authority'
+      },
+      initialOverrides: {
+        visited: { authority: true, sponsorship: true, border: true },
+        asylumCases: ['ruins-from-a-war-that-cannot-be-found:empty-frame-that-confesses-it-was-the-war:declare-the-refugee-self-caused'],
+        activeConsul: {
+          asylumCase: 'ruins-from-a-war-that-cannot-be-found:empty-frame-that-confesses-it-was-the-war:declare-the-refugee-self-caused',
+          feedback: api.CAUSELESS_CONSEQUENCE_SPONSOR_TABLE['empty-frame-that-confesses-it-was-the-war'].consulFeedback,
+          sponsor: 'empty-frame-that-confesses-it-was-the-war'
+        }
+      },
+      assertSettled: (st) => {
+        assert.ok(st.activeConsul === null);
+        assert.ok(st.visited.authority === true);
+        assert.ok(st.pending === null);
+      }
+    },
+    // Verdict Entry
+    {
+      kind: 'verdict-entry',
+      target: 'final-asylum-tribunal-for-causeless-consequences',
+      source: 'remembrance',
+      unrelated: 'threshold',
+      responseElId: 'causeless-consequence-refugee-tribunal-entry-response',
+      pending: {
+        feedback: V90_TRIBUNAL_ENTRY_FEEDBACK,
+        kind: 'verdict-entry',
+        target: 'final-asylum-tribunal-for-causeless-consequences'
+      },
+      initialOverrides: {
+        visited: { authority: true, sponsorship: true, border: true },
+        asylumCases: V90_COMPLETE_ASYLUM_CASES
+      },
+      assertSettled: (st) => {
+        assert.ok(st.visited.tribunal === true);
+        assert.ok(st.pending === null);
+      }
+    },
+    // Verdict Actions (all 3 targets)
+    {
+      kind: 'verdict-action',
+      subKind: 'verdict-action-threshold',
+      target: 'threshold',
+      source: 'final-asylum-tribunal-for-causeless-consequences',
+      unrelated: 'remembrance',
+      responseElId: 'final-asylum-tribunal-for-causeless-consequences-response',
+      pending: {
+        action: 'grant-causal-asylum-to-every-orphaned-consequence',
+        feedback: api.CAUSELESS_CONSEQUENCE_VERDICT_ACTION_TABLE['grant-causal-asylum-to-every-orphaned-consequence'].feedback,
+        kind: 'verdict-action',
+        outcome: 'reality-became-a-country-for-effects-without-origins',
+        source: 'final-asylum-tribunal-for-causeless-consequences',
+        target: 'threshold'
+      },
+      initialOverrides: {
+        asylumCases: V90_COMPLETE_ASYLUM_CASES,
+        visited: { authority: true, sponsorship: true, border: true, tribunal: true }
+      },
+      assertSettled: (st) => {
+        assert.ok(st.verdictRuns === 1);
+        assert.ok(st.verdictOutcomes.includes('reality-became-a-country-for-effects-without-origins'));
+        assert.ok(st.pending === null);
+      }
+    },
+    {
+      kind: 'verdict-action',
+      subKind: 'verdict-action-remembrance',
+      target: 'remembrance',
+      source: 'final-asylum-tribunal-for-causeless-consequences',
+      unrelated: 'threshold',
+      responseElId: 'final-asylum-tribunal-for-causeless-consequences-response',
+      pending: {
+        action: 'deport-every-consequence-to-before-its-missing-cause',
+        feedback: api.CAUSELESS_CONSEQUENCE_VERDICT_ACTION_TABLE['deport-every-consequence-to-before-its-missing-cause'].feedback,
+        kind: 'verdict-action',
+        outcome: 'the-future-filled-with-effects-waiting-for-their-causes',
+        source: 'final-asylum-tribunal-for-causeless-consequences',
+        target: 'remembrance'
+      },
+      initialOverrides: {
+        asylumCases: V90_COMPLETE_ASYLUM_CASES,
+        visited: { authority: true, sponsorship: true, border: true, tribunal: true }
+      },
+      assertSettled: (st) => {
+        assert.ok(st.verdictRuns === 1);
+        assert.ok(st.verdictOutcomes.includes('the-future-filled-with-effects-waiting-for-their-causes'));
+        assert.ok(st.pending === null);
+      }
+    },
+    {
+      kind: 'verdict-action',
+      subKind: 'verdict-action-gallery',
+      target: 'unending-gallery',
+      source: 'final-asylum-tribunal-for-causeless-consequences',
+      unrelated: 'threshold',
+      responseElId: 'final-asylum-tribunal-for-causeless-consequences-response',
+      pending: {
+        action: 'recognize-every-effect-as-the-ancestor-of-its-cause',
+        feedback: api.CAUSELESS_CONSEQUENCE_VERDICT_ACTION_TABLE['recognize-every-effect-as-the-ancestor-of-its-cause'].feedback,
+        kind: 'verdict-action',
+        outcome: 'causality-began-inheriting-itself-backward',
+        source: 'final-asylum-tribunal-for-causeless-consequences',
+        target: 'unending-gallery'
+      },
+      initialOverrides: {
+        asylumCases: V90_COMPLETE_ASYLUM_CASES,
+        visited: { authority: true, sponsorship: true, border: true, tribunal: true }
+      },
+      assertSettled: (st) => {
+        assert.ok(st.verdictRuns === 1);
+        assert.ok(st.verdictOutcomes.includes('causality-began-inheriting-itself-backward'));
+        assert.ok(st.pending === null);
+      }
+    }
+  ];
+
+  // 8. Positive test suite across the full matrix
+  fullMatrixCases.forEach((tc) => {
+    const label = tc.subKind || tc.kind;
+
+    // A. Cold start at SOURCE
+    {
+      const initialStoreState = makePendingStateV90(api, {
+        ...tc.initialOverrides,
+        pending: tc.pending
+      });
+      const harness = createBootstrapHarness({
+        initialHash: '#' + tc.source,
+        initialStore: { 'goddead_v90_causeless_consequence_refugee': JSON.stringify(initialStoreState) }
+      });
+
+      harness.context.runBootstrap();
+      assert.deepStrictEqual(
+        harness.getPreRouteSnapshot(),
+        initialStoreState,
+        `[${label}] bootstrap preRoute snapshot must preserve full initial raw state untouched before route()`
+      );
+
+      // Advance virtual time only until currentScene reaches source, leaving source's AutoAdvance pending
+      harness.runUntil(() => harness.context.getCurrentScene() === tc.source);
+
+      assert.strictEqual(harness.context.getCurrentScene(), tc.source, `[${label}] current scene must be source`);
+      const stAfterSource = harness.readStore();
+      assert.deepStrictEqual(stAfterSource.pending, tc.pending, `[${label}] pending must remain intact at source`);
+      const liveTimers = harness.getAllKnownSceneTimerStatus();
+      assert.deepStrictEqual(liveTimers, [tc.source], `[${label}] exactly one live AutoAdvance timer scheduled on source`);
+
+      // Verify resume contract: feedback visible in appropriate response node at source
+      if (tc.responseElId) {
+        const respEl = harness.$( '#' + tc.responseElId );
+        assert.ok(respEl, `[${label}] response element must exist: ${tc.responseElId}`);
+        assert.strictEqual(
+          respEl.textContent,
+          tc.pending.feedback,
+          `[${label}] feedback text must be restored in response node upon cold start at source`
+        );
+      }
+
+      // Duplicate hashchange at source before timer fires
+      harness.win._dispatch('hashchange', {});
+      const liveTimersAfterDup = harness.getAllKnownSceneTimerStatus();
+      assert.deepStrictEqual(liveTimersAfterDup, [tc.source], `[${label}] duplicate route at source must preserve exactly one timer`);
+
+      // Let AutoAdvance timer fire and advance to target
+      harness.flushTimers();
+      assert.strictEqual(harness.context.getCurrentScene(), tc.target, `[${label}] scene must advance to target`);
+      const stAfterTarget = harness.readStore();
+      tc.assertSettled(stAfterTarget);
+      assert.deepStrictEqual(harness.getAllKnownSceneTimerStatus(), [], `[${label}] no live timers after target arrival`);
+    }
+
+    // B. Cold start at TARGET
+    {
+      const initialStoreState = makePendingStateV90(api, {
+        ...tc.initialOverrides,
+        pending: tc.pending
+      });
+      const harness = createBootstrapHarness({
+        initialHash: '#' + tc.target,
+        initialStore: { 'goddead_v90_causeless_consequence_refugee': JSON.stringify(initialStoreState) }
+      });
+
+      harness.context.runBootstrap();
+      assert.deepStrictEqual(
+        harness.getPreRouteSnapshot(),
+        initialStoreState,
+        `[${label}] target cold-start preRoute snapshot must preserve full initial raw state untouched`
+      );
+
+      // Advance virtual time until target is reached and completed
+      harness.runUntil(() => harness.context.getCurrentScene() === tc.target);
+      harness.flushTimers();
+
+      assert.strictEqual(harness.context.getCurrentScene(), tc.target, `[${label}] current scene must be target`);
+      const stSettled = harness.readStore();
+      const normSettledBeforeDup = harness.getNormalizedClaims();
+      tc.assertSettled(stSettled);
+      assert.deepStrictEqual(harness.getAllKnownSceneTimerStatus(), [], `[${label}] target cold-start has no stray timers`);
+
+      // Duplicate hashchange at target after settlement: compare FULL canonical state deep equality
+      harness.win._dispatch('hashchange', {});
+      const normSettledAfterDup = harness.getNormalizedClaims();
+      assert.deepStrictEqual(
+        normSettledAfterDup,
+        normSettledBeforeDup,
+        `[${label}] duplicate hashchange at target must produce full byte/deep equality with settled state`
+      );
+      assert.strictEqual(normSettledAfterDup.pending, null, `[${label}] duplicate route at target must not revive pending`);
+      assert.deepStrictEqual(harness.getAllKnownSceneTimerStatus(), [], `[${label}] duplicate route at target has no timers`);
+    }
+
+    // C. Cold start at UNRELATED
+    {
+      const initialStoreState = makePendingStateV90(api, {
+        ...tc.initialOverrides,
+        pending: tc.pending
+      });
+      const harness = createBootstrapHarness({
+        initialHash: '#' + tc.unrelated,
+        initialStore: { 'goddead_v90_causeless_consequence_refugee': JSON.stringify(initialStoreState) }
+      });
+
+      harness.context.runBootstrap();
+      assert.deepStrictEqual(
+        harness.getPreRouteSnapshot(),
+        initialStoreState,
+        `[${label}] unrelated cold-start preRoute snapshot must preserve full initial raw state untouched`
+      );
+
+      harness.runUntil(() => harness.context.getCurrentScene() === tc.unrelated);
+      harness.flushTimers();
+
+      assert.strictEqual(harness.context.getCurrentScene(), tc.unrelated, `[${label}] current scene must be unrelated`);
+      const normUnrelated = harness.getNormalizedClaims();
+      assert.strictEqual(normUnrelated.pending, null, `[${label}] pending must be cleaned on unrelated scene arrival`);
+      assert.deepStrictEqual(harness.getAllKnownSceneTimerStatus(), [], `[${label}] no timers on unrelated arrival`);
+
+      // Verify every canonical field except pending is strictly identical to initial state
+      // (Counts, arrays, activeConsul, draft, visited must remain completely unchanged)
+      const expectedOriginalNormalized = harness.context.getCauselessConsequenceRefugeeClaims();
+      // Temporarily write initial store into context getter to read normalized initial shape
+      const initialHarnessForNorm = createBootstrapHarness({
+        initialStore: { 'goddead_v90_causeless_consequence_refugee': JSON.stringify(initialStoreState) }
+      });
+      const initialNorm = initialHarnessForNorm.getNormalizedClaims();
+
+      const { pending: _discardInitPending, ...expectedCanonicalFields } = initialNorm;
+      const { pending: _discardActualPending, ...actualCanonicalFields } = normUnrelated;
+      assert.deepStrictEqual(
+        actualCanonicalFields,
+        expectedCanonicalFields,
+        `[${label}] unrelated scene arrival must leave all canonical fields untouched except cleared pending`
+      );
+    }
+  });
+
+  // 9. Negative mutation control
+  // Construct mutated bootstrap with bad resolve/replay("threshold") inserted before v90 UI sync
+  const badBootstrapCalls = `
+    resolveCauselessConsequencePendingOnArrival("threshold");
+    replayCauselessConsequenceRefugeePending("threshold");
+  `;
+  const v90AuthorityCallMarker = 'syncCauselessConsequenceRefugeeAuthority();';
+  const mutatedBootstrapRaw = productionBootstrapRaw.replace(
+    v90AuthorityCallMarker,
+    `${badBootstrapCalls}\n${v90AuthorityCallMarker}`
+  );
+
+  // Negative Case 1: Entry pending with cold start at remembrance (source)
+  {
+    const entryTc = fullMatrixCases.find(c => c.kind === 'entry');
+    const initialStoreState = makePendingStateV90(api, {
+      ...entryTc.initialOverrides,
+      pending: entryTc.pending
+    });
+    const mutatedHarness = createBootstrapHarness({
+      initialHash: '#' + entryTc.source,
+      initialStore: { 'goddead_v90_causeless_consequence_refugee': JSON.stringify(initialStoreState) },
+      customBootstrap: mutatedBootstrapRaw
+    });
+
+    mutatedHarness.context.runBootstrap();
+    const preRouteSnap = mutatedHarness.getPreRouteSnapshot();
+    // The mutated bootstrap prematurely evaluates threshold before route(), wiping entry pending
+    assert.strictEqual(
+      preRouteSnap.pending,
+      null,
+      'Negative control: mutated bootstrap must wipe entry pending before route()'
+    );
+  }
+
+  // Negative Case 2: Refugee pending with cold start at authority (source)
+  {
+    const refugeeTc = fullMatrixCases.find(c => c.kind === 'refugee');
+    const initialStoreState = makePendingStateV90(api, {
+      ...refugeeTc.initialOverrides,
+      pending: refugeeTc.pending
+    });
+    const mutatedHarness = createBootstrapHarness({
+      initialHash: '#' + refugeeTc.source,
+      initialStore: { 'goddead_v90_causeless_consequence_refugee': JSON.stringify(initialStoreState) },
+      customBootstrap: mutatedBootstrapRaw
+    });
+
+    mutatedHarness.context.runBootstrap();
+    const preRouteSnap = mutatedHarness.getPreRouteSnapshot();
+    assert.strictEqual(
+      preRouteSnap.pending,
+      null,
+      'Negative control: mutated bootstrap must wipe refugee pending before route()'
+    );
+  }
+
+  // Negative Case 3: Asylum to remembrance pending with cold start at remembrance (target)
+  {
+    const asylumTc = fullMatrixCases.find(c => c.subKind === 'asylum-to-remembrance');
+    const initialStoreState = makePendingStateV90(api, {
+      ...asylumTc.initialOverrides,
+      pending: asylumTc.pending
+    });
+    const mutatedHarness = createBootstrapHarness({
+      initialHash: '#' + asylumTc.target,
+      initialStore: { 'goddead_v90_causeless_consequence_refugee': JSON.stringify(initialStoreState) },
+      customBootstrap: mutatedBootstrapRaw
+    });
+
+    mutatedHarness.context.runBootstrap();
+    const preRouteSnap = mutatedHarness.getPreRouteSnapshot();
+    assert.strictEqual(
+      preRouteSnap.pending,
+      null,
+      'Negative control: mutated bootstrap must wipe asylum-to-remembrance pending before route()'
+    );
+  }
+}
   }
 // v78-final-assertion-report
 console.log(`site.test.mjs: ${assertionCount} assertions passed`);

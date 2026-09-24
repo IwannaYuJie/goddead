@@ -211,7 +211,7 @@ body.link-hover .cursor-ring {
   position: absolute;
   inset: -6%;
   z-index: -2;
-  background-image: url("assets/testament-left.png");
+  background-image: url("assets/testament-left.jpg");
   background-position: center;
   background-size: cover;
   opacity: 0.3;
@@ -963,6 +963,10 @@ body { overflow: hidden; }
 
 .scene.active { opacity: 1; visibility: visible; }
 
+/* 193 个场景叠在同一视口里；visibility:hidden 仍会参与样式与布局，满进度时一次换场会重排整站。
+   换场发生在全黑遮罩之下，离场场景立刻停止渲染不可见，因此启动后让不在场的场景跳过渲染。 */
+body.scenes-settled .scene:not(.active) { content-visibility: hidden; }
+
 .scene-body {
   width: 100%;
   min-height: 100%;
@@ -988,6 +992,32 @@ body.idle .scene-body { filter: brightness(0.55); }
 }
 
 .scene-veil.on { opacity: 1; pointer-events: all; }
+
+/* 自动转场等待中的跳过提示：延迟淡入，短暂的转场几乎看不到它 */
+.advance-hint {
+  position: fixed;
+  left: 50%;
+  bottom: calc(1.2rem + env(safe-area-inset-bottom, 0px));
+  z-index: 34;
+  margin: 0;
+  transform: translateX(-50%);
+  color: rgba(179, 174, 165, 0.55);
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: advance-hint-in 0.4s ease 0.45s both;
+}
+
+@keyframes advance-hint-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .advance-hint { animation: none; }
+}
 
 /* 场景出口 */
 .scene-exits {
@@ -2403,6 +2433,73 @@ body.idle .scene-body { filter: brightness(0.55); }
   mask-image: radial-gradient(ellipse 86% 80% at 50% 50%, #000 50%, transparent 96%);
 }
 
+/* 痕迹室「下一步」：只指出当前卡住的那一章还缺什么，不替玩家点击 */
+.progress-guide {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin: 0 0 1.6rem;
+  padding: 1.1rem 1.2rem 1.2rem;
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--gold);
+  background: rgba(8, 8, 8, 0.78);
+  text-align: left;
+}
+
+.progress-guide-kicker {
+  margin: 0 0 0.5rem;
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.4em;
+}
+
+.progress-guide-title {
+  margin: 0 0 0.7rem;
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+.progress-guide-list {
+  margin: 0;
+  padding: 0 0 0 1.1rem;
+  color: var(--bone);
+  font-size: 0.85rem;
+  line-height: 1.8;
+}
+
+.progress-guide-list li::marker { color: var(--blood-bright); }
+
+.progress-guide-go {
+  min-height: 44px;
+  margin-top: 0.9rem;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--gold);
+  background: var(--void);
+  color: var(--bone-bright);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.progress-guide-go:hover,
+.progress-guide-go:focus-visible {
+  background: var(--gold);
+  color: var(--void);
+  outline: 2px solid var(--bone-bright);
+  outline-offset: 2px;
+}
+
+/* 被「找到入口」定位到的按钮短暂描边，方便在长长的痕迹墙里认出来 */
+.progress-guide-target {
+  outline: 2px solid var(--gold) !important;
+  outline-offset: 4px;
+}
+
 .remembrance-body .sec-head,
 .remembrance-body .stat-grid,
 .remembrance-body .watch-memory,
@@ -2572,7 +2669,7 @@ body.idle .scene-body { filter: brightness(0.55); }
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: url("assets/testament-gates.png") center / cover;
+  background: url("assets/testament-gates.jpg") center / cover;
   opacity: 0.14;
   filter: grayscale(0.6) brightness(0.6);
 }
