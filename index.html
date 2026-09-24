@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=97">
+  <link rel="stylesheet" href="styles.css?v=98">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -4053,6 +4053,16 @@
             <p class="answer-note" id="acting-note" role="status" aria-live="polite"></p>
           </div>
 
+          <!-- v98 神名注销科守夜签签收与记忆 -->
+          <p class="watch-memory vc-echo" id="vc-echo-cancellation" hidden></p>
+          <div class="vc-keeper reveal" id="vc-keeper-cancellation" hidden>
+            <p class="vc-keeper-title" id="vc-keeper-title-cancellation"></p>
+            <p class="vc-keeper-level" id="vc-keeper-level-cancellation"></p>
+            <p class="vc-keeper-body" id="vc-keeper-body-cancellation"></p>
+            <p class="vc-response" id="vc-keeper-response-cancellation" aria-live="polite" hidden></p>
+            <button class="vc-action" id="vc-keeper-return-cancellation" type="button" data-hover>带着守夜签回到守夜厅 ⟶</button>
+          </div>
+
           <nav class="scene-exits reveal" aria-label="离开注销科">
             <button class="exit-link" type="button" data-go="deadletter" data-hover>⟵ 回到投递所</button>
           </nav>
@@ -4112,6 +4122,15 @@
             </div>
           </div>
 
+          <!-- v98 代神席守夜签签收与记忆 -->
+          <p class="watch-memory vc-echo" id="vc-echo-acting" hidden></p>
+          <div class="vc-keeper reveal" id="vc-keeper-acting" hidden>
+            <p class="vc-keeper-title" id="vc-keeper-title-acting"></p>
+            <p class="vc-keeper-level" id="vc-keeper-level-acting"></p>
+            <p class="vc-keeper-body" id="vc-keeper-body-acting"></p>
+            <p class="vc-response" id="vc-keeper-response-acting" aria-live="polite" hidden></p>
+            <button class="vc-action" id="vc-keeper-return-acting" type="button" data-hover>带着守夜签回到守夜厅 ⟶</button>
+          </div>
           <!-- v94 代神席回信签收与记忆 -->
           <p class="watch-memory rk-echo" id="rk-echo-acting" hidden></p>
           <div class="rk-courier reveal" id="rk-courier-acting" hidden>
@@ -4293,6 +4312,16 @@
               <div class="ruling-consequence" id="ruling-reliquary-consequence" role="status" aria-live="polite"></div>
               <button class="continue-protocol-btn" id="continue-reliquary-btn" type="button" hidden data-hover>继续代行协议 ⟶</button>
             </div>
+          </div>
+
+          <!-- v98 神圣遗物科守夜签签收与记忆 -->
+          <p class="watch-memory vc-echo" id="vc-echo-reliquary" hidden></p>
+          <div class="vc-keeper reveal" id="vc-keeper-reliquary" hidden>
+            <p class="vc-keeper-title" id="vc-keeper-title-reliquary"></p>
+            <p class="vc-keeper-level" id="vc-keeper-level-reliquary"></p>
+            <p class="vc-keeper-body" id="vc-keeper-body-reliquary"></p>
+            <p class="vc-response" id="vc-keeper-response-reliquary" aria-live="polite" hidden></p>
+            <button class="vc-action" id="vc-keeper-return-reliquary" type="button" data-hover>带着守夜签回到守夜厅 ⟶</button>
           </div>
 
           <nav class="scene-exits reveal" aria-label="离开神圣遗物科">
@@ -4758,6 +4787,22 @@
               <p class="lw-response" id="lw-entry-response" aria-live="polite" hidden></p>
               <button class="lw-entry-btn" id="lw-court-entry-btn" type="button" hidden data-hover>进入足斤法庭 · ENTER THE COURT OF THE FULL WEIGHT ⟶</button>
               <p class="lw-response" id="lw-court-entry-response" aria-live="polite" hidden></p>
+            </div>
+          </div>
+
+          <!-- v98 守夜图鉴 -->
+          <p class="watch-memory vc-memory" id="vc-memory" hidden></p>
+          <div class="vc-codex reveal" id="vc-codex" hidden>
+            <p class="vc-kicker">VIGIL OF NINE CANDLES · 守 夜 图 鉴</p>
+            <div class="vc-grid" id="vc-codex-grid"></div>
+            <p class="vc-hints-title">未点之灯听证会开庭条件</p>
+            <ul class="vc-hints" id="vc-court-hints"></ul>
+            <div class="vc-codex-entry">
+              <button class="vc-entry-btn" id="vc-entry-btn" type="button" hidden data-hover>前往守夜厅 · GO TO THE VIGIL OF NINE CANDLES ⟶</button>
+              <p class="vc-note" id="vc-entry-note" hidden></p>
+              <p class="vc-response" id="vc-entry-response" aria-live="polite" hidden></p>
+              <button class="vc-entry-btn" id="vc-court-entry-btn" type="button" hidden data-hover>进入未点之灯听证会 · ENTER THE HEARING OF THE UNLIT ⟶</button>
+              <p class="vc-response" id="vc-court-entry-response" aria-live="polite" hidden></p>
             </div>
           </div>
 
@@ -7921,6 +7966,95 @@
         </div>
       </section>
 
+      <!-- v98 第一幕：守夜厅 -->
+      <section class="scene scene-branch scene-vigil-candle-hall" id="scene-vigil-candle-hall" data-scene="vigil-candle-hall" data-title="Goddead — 守夜厅" aria-label="守夜厅">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">16α / 守夜 · VIGIL OF NINE CANDLES</p>
+            <h2 class="sec-title">守夜厅</h2>
+            <p class="sec-desc">秤留给了神，死者开始替神守夜。石台上三架铁烛台，每架九支，是三个旧房间送来的——亮着的那几支，记着它们各自那一夜。</p>
+          </header>
+          <figure class="branch-figure vc-figure reveal" id="vc-hall-figure">
+            <img class="branch-img vc-img" data-src="assets/v98-vigil-candle-hall.webp" alt="守夜厅：石台上三架方形铁烛台，每架九支白蜡烛；左边亮着斜对的两个角，中间亮着四个角，右边只亮着正中一支" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot vc-hotspot vc-hotspot-left" id="vc-stand-reliquary-stand" type="button" aria-label="守夜：神圣遗物科的烛台，亮着斜对的两个角" data-hover><span class="dh-label" aria-hidden="true">遗物科 · 斜对两角</span></button>
+            <button class="scene-hotspot vc-hotspot vc-hotspot-center" id="vc-stand-cancellation-stand" type="button" aria-label="守夜：神名注销科的烛台，亮着四个角" data-hover><span class="dh-label" aria-hidden="true">注销科 · 四个角</span></button>
+            <button class="scene-hotspot vc-hotspot vc-hotspot-right" id="vc-stand-acting-stand" type="button" aria-label="守夜：代神席的烛台，亮着正中一支" data-hover><span class="dh-label" aria-hidden="true">代神席 · 正中一支</span></button>
+          </figure>
+          <p class="vc-note reveal" id="vc-hall-note" hidden></p>
+          <p class="branch-response vc-response" id="vigil-candle-hall-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开守夜厅">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+            <button class="vc-action" id="vc-continue" type="button" hidden data-hover>回到守夜台 ⟶</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v98 第二幕：守夜台 -->
+      <section class="scene scene-branch scene-candle-board" id="scene-candle-board" data-scene="candle-board" data-title="Goddead — 守夜台" aria-label="守夜台">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">16β / 点烛 · THE CANDLE BOARD</p>
+            <h2 class="sec-title">守夜台</h2>
+            <p class="sec-desc">选一种守法，照面板里的小图把烛台点成那个样子。点一支蜡烛，它和上下左右挨着的几支会一起翻转——亮的灭，灭的亮。卡住了可以问守夜人，或者复位重来。</p>
+          </header>
+          <figure class="branch-figure vc-figure vc-board-figure reveal" id="vc-board-figure">
+            <img class="branch-img vc-img" data-src="assets/v98-candle-board.webp" alt="守夜台：正中一只方形黑铁托盘，九支粗白蜡烛排成三行三列，都还没点" width="1536" height="1024" loading="lazy" decoding="async">
+            <div class="vc-candles" id="vc-candles" role="group" aria-label="九支蜡烛" hidden>
+              <button class="vc-candle" id="vc-candle-0" type="button" aria-pressed="false" aria-label="上左的蜡烛" data-hover><span class="vc-flame" aria-hidden="true"></span></button>
+              <button class="vc-candle" id="vc-candle-1" type="button" aria-pressed="false" aria-label="上中的蜡烛" data-hover><span class="vc-flame" aria-hidden="true"></span></button>
+              <button class="vc-candle" id="vc-candle-2" type="button" aria-pressed="false" aria-label="上右的蜡烛" data-hover><span class="vc-flame" aria-hidden="true"></span></button>
+              <button class="vc-candle" id="vc-candle-3" type="button" aria-pressed="false" aria-label="中左的蜡烛" data-hover><span class="vc-flame" aria-hidden="true"></span></button>
+              <button class="vc-candle" id="vc-candle-4" type="button" aria-pressed="false" aria-label="正中的蜡烛" data-hover><span class="vc-flame" aria-hidden="true"></span></button>
+              <button class="vc-candle" id="vc-candle-5" type="button" aria-pressed="false" aria-label="中右的蜡烛" data-hover><span class="vc-flame" aria-hidden="true"></span></button>
+              <button class="vc-candle" id="vc-candle-6" type="button" aria-pressed="false" aria-label="下左的蜡烛" data-hover><span class="vc-flame" aria-hidden="true"></span></button>
+              <button class="vc-candle" id="vc-candle-7" type="button" aria-pressed="false" aria-label="下中的蜡烛" data-hover><span class="vc-flame" aria-hidden="true"></span></button>
+              <button class="vc-candle" id="vc-candle-8" type="button" aria-pressed="false" aria-label="下右的蜡烛" data-hover><span class="vc-flame" aria-hidden="true"></span></button>
+            </div>
+            <p class="vc-board-status" id="vc-board-status" aria-live="polite"></p>
+          </figure>
+          <div class="vc-panel reveal" id="vc-board-panel" hidden>
+            <p class="vc-panel-stand" id="vc-board-stand"></p>
+            <div class="vc-methods" role="group" aria-label="守法">
+              <button class="vc-method" id="vc-method-snuff" type="button" data-hover>全部熄灭</button>
+              <button class="vc-method" id="vc-method-cross" type="button" data-hover>点成十字</button>
+              <button class="vc-method" id="vc-method-ring" type="button" data-hover>点成一圈</button>
+            </div>
+            <div class="vc-goal">
+              <span class="vc-target" id="vc-target" role="img" aria-label="要点成的图案"></span>
+              <p class="vc-note" id="vc-method-hint"></p>
+            </div>
+            <div class="vc-actions">
+              <button class="vc-action vc-seal" id="vc-seal" type="button" data-hover>封灯</button>
+              <button class="vc-action" id="vc-hint" type="button" data-hover>问守夜人</button>
+              <button class="vc-action" id="vc-reset" type="button" data-hover>复位</button>
+              <button class="vc-action" id="vc-abandon" type="button" data-hover>放回石台</button>
+            </div>
+          </div>
+          <p class="branch-response vc-response" id="candle-board-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <!-- v98 第三幕：未点之灯听证会 -->
+      <section class="scene scene-branch scene-hearing-of-the-unlit" id="scene-hearing-of-the-unlit" data-scene="hearing-of-the-unlit" data-title="Goddead — 未点之灯听证会" aria-label="未点之灯听证会">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">16γ / 未点之灯 · HEARING OF THE UNLIT</p>
+            <h2 class="sec-title">未点之灯听证会</h2>
+            <p class="sec-desc">墙龛里点着几百支小蜡烛，只有正中的铁吊灯一支没点。桌上三件东西：一支点着的蜡烛、一把熄烛罩、一盏开着门的提灯。裁定之后仍可回来。</p>
+          </header>
+          <figure class="branch-figure vc-figure reveal" id="hearing-of-the-unlit-figure">
+            <img class="branch-img vc-img" data-src="assets/v98-hearing-of-the-unlit.webp" alt="未点之灯听证会：墙龛里点满小蜡烛，空椅子上方的大铁吊灯全都没点，长桌上放着一支点着的蜡烛、一把熄烛罩和一盏开着门的铁提灯" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot vc-hotspot vc-hotspot-court-left" id="vc-verdict-leave-one-lit-for-god" type="button" aria-label="裁定：给神留一盏" data-hover><span class="dh-label" aria-hidden="true">给神留一盏</span></button>
+            <button class="scene-hotspot vc-hotspot vc-hotspot-court-center" id="vc-verdict-let-the-dead-blow-them-out" type="button" aria-label="裁定：让死者自己吹灭" data-hover><span class="dh-label" aria-hidden="true">让死者自己吹灭</span></button>
+            <button class="scene-hotspot vc-hotspot vc-hotspot-court-right" id="vc-verdict-hang-the-lamp-at-the-door" type="button" aria-label="裁定：把灯挂到门口" data-hover><span class="dh-label" aria-hidden="true">把灯挂到门口</span></button>
+          </figure>
+          <p class="branch-response vc-response" id="hearing-of-the-unlit-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开听证会">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+          </nav>
+        </div>
+      </section>
+
       <!-- 隐藏幕 · 第九条 -->
       <section class="scene scene-ninth" id="scene-ninth" data-scene="ninth" data-title="Goddead — ？？？" aria-label="第九条">
         <figure class="ninth-figure" role="img" aria-label="一道不该存在的裂口，底部有一扇错误的窄门">
@@ -8148,6 +8282,9 @@
         <a href="#bureau-of-lost-weight" id="bureau-of-lost-weight-link" hidden data-hover>15α / 失重局</a>
         <a href="#balance-room" id="balance-room-link" hidden data-hover>15β / 天平室</a>
         <a href="#court-of-full-weight" id="court-of-full-weight-link" hidden data-hover>15γ / 足斤法庭</a>
+        <a href="#vigil-candle-hall" id="vigil-candle-hall-link" hidden data-hover>16α / 守夜厅</a>
+        <a href="#candle-board" id="candle-board-link" hidden data-hover>16β / 守夜台</a>
+        <a href="#hearing-of-the-unlit" id="hearing-of-the-unlit-link" hidden data-hover>16γ / 未点之灯</a>
 
       <a href="#three-person-republic-court" id="three-person-republic-court-link" hidden data-hover>04β / 三人共和国</a>
       <a href="#remembrance" data-hover>04 / 痕迹</a>
@@ -8156,6 +8293,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=97"></script>
+    <script src="script.js?v=98"></script>
   </body>
 </html>

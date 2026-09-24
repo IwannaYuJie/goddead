@@ -4,9 +4,9 @@ Static landing page for [goddead.com](https://goddead.com).
 
 ## Current Experience
 
-当前实现基线为 **v97「失重局 / BUREAU OF LOST WEIGHT」**：全站共 214 个 hash 场景，静态资源缓存标记为 `v=97`。v97 在 v96 三项裁定集齐后开放 3 个新场景：回声 / 脉搏 / 忏悔三样丢了分量的东西，在天平室勾选铜砝码（1、2、4、8、16 两）让秤杆放平再落秤（称回原重 / 加倍奉还 / 补足一斤，旧秤一斤十六两），称单送回回声档案室 / 血管维修井 / 忏悔称量室签收；三样东西、三种称法都用过即开足斤法庭。独立键 `goddead_v97_lost_weight`。v91–v96 见 `docs/` 下对应设计文档。
+当前实现基线为 **v98「守夜烛台 / VIGIL OF NINE CANDLES」**：全站共 217 个 hash 场景，静态资源缓存标记为 `v=98`。v98 在 v97 三项裁定集齐后开放 3 个新场景：神圣遗物科 / 神名注销科 / 代神席送来的三架 3×3 烛台，在守夜台上点蜡烛（点一支，它和上下左右的邻烛一起翻转）把烛台点成全部熄灭 / 十字 / 一圈再封灯，可以问守夜人要提示；守夜签送回三个房间签收，三架烛台、三种守法都用过即开未点之灯听证会。独立键 `goddead_v98_vigil_candles`。v91–v97 见 `docs/` 下对应设计文档。
 
-完整玩家路线、支线网、v63-v97 解锁链与 v90–v97 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
+完整玩家路线、支线网、v63-v98 解锁链与 v90–v98 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
 
 The homepage is **The Living Shrine**, a hash-routed, scene-by-scene exploration game. Visitors knock three times at the sealed threshold — now a photographed bureau door — and on the third knock the door visually opens into a deep black-gold corridor before the visitor is pulled through into the next room; each completed action thereafter advances the ritual automatically.
 

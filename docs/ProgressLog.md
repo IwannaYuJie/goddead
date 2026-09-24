@@ -1200,3 +1200,12 @@
 - 场景图：本机 Codex CLI 生成三张原画，提示词与哈希见 `docs/V97ImagePrompts.md`。
 - 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 17979 assertions passed`。
 - 浏览器：真实点击选“补足一斤”，8 两时秤杆下沉，1 + 2 + 4 两放平后落秤，送到忏悔称量室签收；修正了秤盘吊绳方向和倾斜幅度。
+
+## 2026-09-24 - v98 守夜烛台实装
+
+- 新增 `vigil-candle-hall`、`candle-board`、`hearing-of-the-unlit` 3 个场景，场景总数 214 → 217，缓存标记 `v=98`。
+- 新交互“熄灯谜题”：九支蜡烛是按原画逐支定位的原生按钮，点一支翻转自己和上下左右；目标小图、问守夜人（提示下一支）、复位、封灯。三架烛台（遗物科斜对两角 / 注销科四个角 / 代神席正中）× 全部熄灭 / 十字 / 一圈 = 9 张守夜签，送回神圣遗物科 / 神名注销科 / 代神席签收。
+- 状态键 `goddead_v98_vigil_candles`（11 字段、7 类 pending、严格归一化），只读 v97；v97 在途时入口禁用；前缀 `vc-`；桥接接入治理守卫与画廊守卫。
+- 场景图：本机 Codex CLI 生成三张原画；守夜厅左架成图只亮对角两端，数据随图改为 0、8。提示词与哈希见 `docs/V98ImagePrompts.md`。
+- 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 18111 assertions passed`。
+- 浏览器：真实点击问守夜人、点四个角全灭、封灯送到神名注销科签收；火苗对准烛芯。

@@ -1392,6 +1392,8 @@ document.addEventListener("DOMContentLoaded", () => {
     replayHeldBreathPending(name);
     resolveLostWeightPendingOnArrival(name);
     replayLostWeightPending(name);
+    resolveVigilCandlesPendingOnArrival(name);
+    replayVigilCandlesPending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1535,9 +1537,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
@@ -1551,7 +1553,7 @@ document.addEventListener("DOMContentLoaded", () => {
        v88 窄桥：title-action 可抵达 unending-gallery；
        v89 窄桥：appeal-action 可抵达 unending-gallery；
        v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1761,6 +1763,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "bureau-of-lost-weight" && !lwBureauCanVisit()) target = "remembrance";
     if (target === "balance-room" && !balanceRoomCanVisit()) target = "remembrance";
     if (target === "court-of-full-weight" && !lwCourtCanVisit()) target = "remembrance";
+
+    /* v98 守夜烛台：未解锁或无合法抵达时一律回痕迹室 */
+    if (target === "vigil-candle-hall" && !vcHallCanVisit()) target = "remembrance";
+    if (target === "candle-board" && !candleBoardCanVisit()) target = "remembrance";
+    if (target === "hearing-of-the-unlit" && !vcCourtCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -47993,6 +48000,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetStoppedClocksState();
       forgetHeldBreathState();
       forgetLostWeightState();
+      forgetVigilCandlesState();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
       if (firstDraftVaultResponse) firstDraftVaultResponse.textContent = "";
@@ -53205,6 +53213,754 @@ document.addEventListener("DOMContentLoaded", () => {
   LW_WEIGHTS.forEach((w) => onTrustedLw(`#lw-weight-${w}`, () => toggleLwWeight(w)));
   onTrustedLw('#lw-drop', dropLwScale);
 
+  /* ============================================================
+     v98 守夜烛台 / VIGIL OF NINE CANDLES
+     v97 把秤留给了神；死者开始替神守夜。三处旧房间各送来一架 3×3 烛台，亮着的图案各不相同。
+     三架烛台 × 三种守法 = 9 张守夜签；点一支蜡烛，它和上下左右的邻烛一起翻转，把烛台点成要求的图案再封灯。
+     只读 v97；独立键 goddead_v98_vigil_candles；所有新操作只接受真实点击。
+     ============================================================ */
+  const VIGIL_CANDLE_KEY = 'goddead_v98_vigil_candles';
+  const VIGIL_CANDLE_VERSION = 98;
+  const VC_HALL = 'vigil-candle-hall';
+  const VC_BOARD = 'candle-board';
+  const VC_COURT = 'hearing-of-the-unlit';
+  const VC_STANDS = ['reliquary-stand', 'cancellation-stand', 'acting-stand'];
+  const VC_STAND_TABLE = {
+    'reliquary-stand': {
+      title: '神圣遗物科的烛台', lit: [0, 8], shape: '斜对的两个角', target: 'reliquary', place: '神圣遗物科', keeperTitle: '遗物守夜人',
+      feedback: '九支蜡烛，只有斜对的两个角亮着。遗物科封存最后一件圣物那晚，有人从一角走到另一角，只点了两头。',
+      echoLead: '神圣遗物科的封条旁立着一张守夜签。',
+    },
+    'cancellation-stand': {
+      title: '神名注销科的烛台', lit: [0, 2, 6, 8], shape: '四个角', target: 'cancellation', place: '神名注销科', keeperTitle: '注销守夜人',
+      feedback: '只有四个角亮着，中间一片黑。注销科划掉神名的时候，只肯点四个角，像给名字留一个框。',
+      echoLead: '神名注销科的柜台上压着一张守夜签。',
+    },
+    'acting-stand': {
+      title: '代神席的烛台', lit: [4], shape: '正中一支', target: 'acting', place: '代神席', keeperTitle: '代神守夜人',
+      feedback: '只有正中一支亮着。代神席空着的那些夜里，一直是这一支在替神坐着。',
+      echoLead: '代神席的扶手上夹着一张守夜签。',
+    },
+  };
+  const VC_METHODS = ['snuff', 'cross', 'ring'];
+  const VC_METHOD_TABLE = {
+    snuff: { title: '全部熄灭', lit: [], hint: '把九支都弄灭。', result: '烛台全黑了。死者说，黑也是一种守夜，只是不必再有人看着。' },
+    cross: { title: '点成十字', lit: [1, 3, 4, 5, 7], hint: '只留中间一横一竖，点成十字。', result: '十字立在烛台上。它不是给神的，是给路过的人认方向的。' },
+    ring: { title: '点成一圈', lit: [0, 1, 2, 3, 5, 6, 7, 8], hint: '外面八支点亮，正中那支熄掉。', result: '八支围成一圈，中间空着。守夜人说，那个位置留给还没到的人。' },
+  };
+  const VC_VIGIL_IDS = [];
+  VC_STANDS.forEach((stand) => VC_METHODS.forEach((method) => VC_VIGIL_IDS.push(`${stand}:${method}`)));
+  const VC_VERDICT_ACTIONS = ['hang-the-lamp-at-the-door', 'leave-one-lit-for-god', 'let-the-dead-blow-them-out'];
+  const VC_VERDICT_TABLE = {
+    'hang-the-lamp-at-the-door': {
+      title: '把灯挂到门口', outcome: 'the-lamp-hung-at-the-door', target: 'threshold',
+      feedback: '法庭把那盏提灯判给门。门外第一次有了灯，来的人不用再摸黑敲门。',
+    },
+    'leave-one-lit-for-god': {
+      title: '给神留一盏', outcome: 'one-left-lit-for-god', target: 'remembrance',
+      feedback: '法庭裁定：永远给神留一盏。痕迹室的角落多了一支蜡烛，它不会烧短。',
+    },
+    'let-the-dead-blow-them-out': {
+      title: '让死者自己吹灭', outcome: 'the-dead-blew-them-out', target: 'unending-gallery',
+      feedback: '法庭准许死者自己吹灭蜡烛。画廊里的空框一个接一个暗下去，像终于睡着了。',
+    },
+  };
+  const VC_VERDICT_OUTCOME_IDS = VC_VERDICT_ACTIONS.map((a) => VC_VERDICT_TABLE[a].outcome);
+  const VC_ENTRY_FEEDBACK = '守夜厅里很静，只有烛芯在响。石台上三架铁烛台，各亮着几支。';
+  const VC_ABANDON_FEEDBACK = '你把烛台放回石台。亮着的那几支晃了一下，又站直了。';
+  const VC_COURT_ENTRY_FEEDBACK = '三架烛台都守过了。听证厅的铁吊灯自己降了下来。';
+  const VC_KEEPER_RETURN_FEEDBACK = '守夜人把签折好，插进烛台底座，领你回到守夜厅。';
+  const VC_OLD_TARGETS = ['reliquary', 'cancellation', 'acting'];
+  const VC_ROWS = ['上', '中', '下'];
+  const VC_COLS = ['左', '中', '右'];
+
+  function vcDelay() {
+    return reduced ? 300 : 1400;
+  }
+
+  function vcMaskOf(cells) {
+    return cells.reduce((m, i) => m | (1 << i), 0);
+  }
+
+  /* 纯函数：点第 i 支蜡烛，它和上下左右的邻烛一起翻转 */
+  function vcPress(mask, i) {
+    if (!Number.isInteger(i) || i < 0 || i > 8) return mask;
+    let flip = 1 << i;
+    const r = Math.floor(i / 3);
+    const c = i % 3;
+    if (r > 0) flip |= 1 << (i - 3);
+    if (r < 2) flip |= 1 << (i + 3);
+    if (c > 0) flip |= 1 << (i - 1);
+    if (c < 2) flip |= 1 << (i + 1);
+    return mask ^ flip;
+  }
+
+  /* 纯函数：从 from 到 to 的最少点法（点的顺序无关，每支最多点一次）；无解返回 null */
+  function vcSolve(from, to) {
+    let best = null;
+    for (let presses = 0; presses < 512; presses++) {
+      let m = from;
+      const list = [];
+      for (let i = 0; i < 9; i++) if (presses & (1 << i)) { m = vcPress(m, i); list.push(i); }
+      if (m === to && (!best || list.length < best.length)) best = list;
+    }
+    return best;
+  }
+
+  function vcStartMask(stand) {
+    return vcMaskOf(VC_STAND_TABLE[stand].lit);
+  }
+
+  function vcTargetMask(method) {
+    return vcMaskOf(VC_METHOD_TABLE[method].lit);
+  }
+
+  function vcCellName(i) {
+    return `${VC_ROWS[Math.floor(i / 3)]}${VC_COLS[i % 3]}`;
+  }
+
+  function vcSealFeedback(stand, method) {
+    return `${VC_STAND_TABLE[stand].title}：${VC_METHOD_TABLE[method].result}`;
+  }
+
+  function defaultVigilCandles() {
+    const latest = {};
+    VC_STANDS.forEach((b) => { latest[b] = ''; });
+    return {
+      version: VIGIL_CANDLE_VERSION,
+      visited: { hall: false, board: false, court: false },
+      draft: { stand: '', method: 'snuff' },
+      vigils: [],
+      courtOutcomes: [],
+      vigilRuns: 0,
+      courtRuns: 0,
+      latestMethodByStand: latest,
+      lastOutcome: '',
+      activeKeeper: null,
+      pending: null,
+    };
+  }
+
+  function clampVcCount(n) {
+    const v = Math.floor(Number(n));
+    return Number.isFinite(v) ? Math.min(9999, Math.max(0, v)) : 0;
+  }
+
+  function normalizeVigilCandles(raw) {
+    const d = defaultVigilCandles();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== VIGIL_CANDLE_VERSION) return d;
+    const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
+    d.visited = { hall: v.hall === true, board: v.board === true, court: v.court === true };
+    const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
+    d.draft = { stand: VC_STANDS.includes(dr.stand) ? dr.stand : '', method: VC_METHODS.includes(dr.method) ? dr.method : 'snuff' };
+    const vigils = new Set(Array.isArray(raw.vigils) ? raw.vigils : []);
+    d.vigils = VC_VIGIL_IDS.filter((id) => vigils.has(id));
+    const outcomes = new Set(Array.isArray(raw.courtOutcomes) ? raw.courtOutcomes : []);
+    d.courtOutcomes = VC_VERDICT_OUTCOME_IDS.filter((id) => outcomes.has(id));
+    d.vigilRuns = clampVcCount(raw.vigilRuns);
+    d.courtRuns = clampVcCount(raw.courtRuns);
+    const latest = raw.latestMethodByStand && typeof raw.latestMethodByStand === 'object' ? raw.latestMethodByStand : {};
+    VC_STANDS.forEach((b) => {
+      d.latestMethodByStand[b] = VC_METHODS.includes(latest[b]) && d.vigils.includes(`${b}:${latest[b]}`) ? latest[b] : '';
+    });
+    if (typeof raw.lastOutcome === 'string' && (d.vigils.includes(raw.lastOutcome) || d.courtOutcomes.includes(raw.lastOutcome))) d.lastOutcome = raw.lastOutcome;
+    const a = raw.activeKeeper;
+    if (a && typeof a === 'object' && !Array.isArray(a) && Object.keys(a).length === 1 && d.vigils.includes(a.vigil)) d.activeKeeper = { vigil: a.vigil };
+    d.pending = normalizeVcPending(raw.pending, d);
+    return d;
+  }
+
+  function vcCourtProgress(st) {
+    const stands = new Set();
+    const methods = new Set();
+    st.vigils.forEach((id) => {
+      const [stand, method] = id.split(':');
+      stands.add(stand);
+      methods.add(method);
+    });
+    return { stands: stands.size, methods: methods.size };
+  }
+
+  function vcCourtEligible(st) {
+    const p = vcCourtProgress(st);
+    return p.stands === VC_STANDS.length && p.methods === VC_METHODS.length;
+  }
+
+  function expectedVcPending(p, st) {
+    const clean = !st.activeKeeper;
+    switch (p.kind) {
+      case 'entry':
+        return clean ? { feedback: VC_ENTRY_FEEDBACK, kind: 'entry', target: VC_HALL } : null;
+      case 'stand': {
+        const b = VC_STAND_TABLE[p.stand];
+        if (!b || !clean) return null;
+        return { stand: p.stand, feedback: b.feedback, kind: 'stand', source: VC_HALL, target: VC_BOARD };
+      }
+      case 'seal': {
+        const b = VC_STAND_TABLE[p.stand];
+        if (!b || !VC_METHOD_TABLE[p.method] || !clean || st.draft.stand !== p.stand || st.draft.method !== p.method) return null;
+        return { stand: p.stand, feedback: vcSealFeedback(p.stand, p.method), kind: 'seal', method: p.method, vigil: `${p.stand}:${p.method}`, source: VC_BOARD, target: b.target };
+      }
+      case 'abandon':
+        return st.draft.stand ? { feedback: VC_ABANDON_FEEDBACK, kind: 'abandon', source: VC_BOARD, target: VC_HALL } : null;
+      case 'keeper-return': {
+        if (!st.activeKeeper) return null;
+        const stand = st.activeKeeper.vigil.split(':')[0];
+        return { feedback: VC_KEEPER_RETURN_FEEDBACK, from: VC_STAND_TABLE[stand].target, kind: 'keeper-return', vigil: st.activeKeeper.vigil, target: VC_HALL };
+      }
+      case 'court-entry':
+        return clean && vcCourtEligible(st) ? { feedback: VC_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: VC_COURT } : null;
+      case 'verdict': {
+        const a = VC_VERDICT_TABLE[p.action];
+        if (!a || !clean || !st.visited.court || !vcCourtEligible(st)) return null;
+        return { action: p.action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: VC_COURT, target: a.target };
+      }
+      default:
+        return null;
+    }
+  }
+
+  function normalizeVcPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+    const expected = expectedVcPending(p, st);
+    if (!expected) return null;
+    const keys = Object.keys(p).sort();
+    const want = Object.keys(expected).sort();
+    if (keys.length !== want.length || keys.some((k, i) => k !== want[i] || p[k] !== expected[k])) return null;
+    return expected;
+  }
+
+  function vigilCandlesUnlocked() {
+    const compute = () => {
+      if (!lostWeightUnlocked()) return false;
+      const v97 = getLostWeight();
+      return lwCourtEligible(v97) && LW_VERDICT_OUTCOME_IDS.every((o) => v97.courtOutcomes.includes(o));
+    };
+    return store.memo ? store.memo("vigilCandlesUnlocked", compute) : compute();
+  }
+
+  function getVigilCandles() {
+    if (!vigilCandlesUnlocked()) return defaultVigilCandles();
+    let raw;
+    try { raw = JSON.parse(store.get(VIGIL_CANDLE_KEY, '{}')); } catch { return defaultVigilCandles(); }
+    return normalizeVigilCandles(raw);
+  }
+
+  function saveVigilCandles(st) {
+    if (!vigilCandlesUnlocked()) return defaultVigilCandles();
+    const canonical = normalizeVigilCandles(Object.assign({}, st, { version: VIGIL_CANDLE_VERSION }));
+    store.set(VIGIL_CANDLE_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function vcPendingLogicalSource(p) {
+    if (!p) return '';
+    if (p.kind === 'entry' || p.kind === 'court-entry') return 'remembrance';
+    if (p.kind === 'keeper-return') return p.from;
+    return p.source || '';
+  }
+
+  function resolveVigilCandlesPendingOnArrival(sceneName) {
+    const st = getVigilCandles();
+    const p = st.pending;
+    if (!p) return st;
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.hall = true;
+      } else if (p.kind === 'stand') {
+        st.visited.board = true;
+        st.draft = { stand: p.stand, method: st.draft.stand === p.stand ? st.draft.method : 'snuff' };
+      } else if (p.kind === 'seal') {
+        st.vigilRuns = clampVcCount(st.vigilRuns + 1);
+        if (!st.vigils.includes(p.vigil)) st.vigils = st.vigils.concat(p.vigil);
+        st.latestMethodByStand[p.stand] = p.method;
+        st.lastOutcome = p.vigil;
+        st.activeKeeper = { vigil: p.vigil };
+        st.draft = { stand: '', method: 'snuff' };
+      } else if (p.kind === 'abandon') {
+        st.draft = { stand: '', method: 'snuff' };
+        st.visited.hall = true;
+      } else if (p.kind === 'keeper-return') {
+        st.activeKeeper = null;
+        st.visited.hall = true;
+      } else if (p.kind === 'court-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'verdict') {
+        st.courtRuns = clampVcCount(st.courtRuns + 1);
+        if (!st.courtOutcomes.includes(p.outcome)) st.courtOutcomes = st.courtOutcomes.concat(p.outcome);
+        st.lastOutcome = p.outcome;
+      }
+      return saveVigilCandles(st);
+    }
+    if (sceneName === vcPendingLogicalSource(p)) return st;
+    st.pending = null;
+    return saveVigilCandles(st);
+  }
+
+  const VC_RESPONSE_BY_KIND = {
+    entry: '#vc-entry-response',
+    stand: '#vigil-candle-hall-response',
+    light: '#candle-board-response',
+    abandon: '#candle-board-response',
+    'court-entry': '#vc-court-entry-response',
+    verdict: '#hearing-of-the-unlit-response',
+  };
+
+  function showVcResponse(selector, text) {
+    const el = $(selector);
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = !text;
+  }
+
+  function syncVigilCandlesAll() {
+    syncVcHall();
+    syncCandleBoard();
+    syncVcCourt();
+    syncVcKeepers();
+    syncVcEchoes();
+    syncVcRemembrance();
+    syncVcLinks();
+  }
+
+  function replayVigilCandlesPending(sceneName) {
+    const st = getVigilCandles();
+    const p = st.pending;
+    if (p && p.target === sceneName) resolveVigilCandlesPendingOnArrival(sceneName);
+    else if (p && sceneName === vcPendingLogicalSource(p)) {
+      syncVigilCandlesAll();
+      const selector = p.kind === 'keeper-return' ? `#vc-keeper-response-${p.from}` : VC_RESPONSE_BY_KIND[p.kind];
+      if (selector) showVcResponse(selector, p.feedback);
+      AutoAdvance.schedule(sceneName, p.target, { delay: vcDelay() });
+      return;
+    } else if (p) {
+      st.pending = null;
+      saveVigilCandles(st);
+    }
+    syncVigilCandlesAll();
+  }
+
+  function launchVc(scene, buttonId, pending, responseSelector) {
+    const st = getVigilCandles();
+    st.pending = pending;
+    const saved = saveVigilCandles(st);
+    if (!saved.pending) return false;
+    const btn = buttonId ? $(`#${buttonId}`) : null;
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+    if (AudioEngine.whoosh) AudioEngine.whoosh();
+    syncVigilCandlesAll();
+    showVcResponse(responseSelector, pending.feedback);
+    AutoAdvance.schedule(scene, pending.target, { delay: vcDelay() });
+    return true;
+  }
+
+  function vcReady(scene, buttonId) {
+    if (currentScene !== scene) return null;
+    if (AutoAdvance.has(scene)) return null;
+    if (buttonId && !buttonAvailable(buttonId)) return null;
+    if (!vigilCandlesUnlocked()) return null;
+    const st = getVigilCandles();
+    return st.pending ? null : st;
+  }
+
+  function chooseVcEntry() {
+    const st = vcReady('remembrance', 'vc-entry-btn');
+    if (!st || st.activeKeeper) return;
+    if (getLostWeight().pending) return;
+    launchVc('remembrance', 'vc-entry-btn', { feedback: VC_ENTRY_FEEDBACK, kind: 'entry', target: VC_HALL }, '#vc-entry-response');
+  }
+
+  function chooseVcStand(stand) {
+    const b = VC_STAND_TABLE[stand];
+    if (!b) return;
+    const st = vcReady(VC_HALL, `vc-stand-${stand}`);
+    if (!st || st.activeKeeper) return;
+    launchVc(VC_HALL, `vc-stand-${stand}`, { stand, feedback: b.feedback, kind: 'stand', source: VC_HALL, target: VC_BOARD }, '#vigil-candle-hall-response');
+  }
+
+  function chooseVcMethod(method) {
+    if (!VC_METHOD_TABLE[method]) return;
+    const st = vcReady(VC_BOARD, `vc-method-${method}`);
+    if (!st || !st.draft.stand || !st.visited.board || st.draft.method === method) return;
+    st.draft.method = method;
+    saveVigilCandles(st);
+    syncCandleBoard();
+  }
+
+  /* 烛台：亮灯状态只放在内存里；换一架烛台时复位，封灯时图案对上才写 pending */
+  let vcMask = 0;
+  let vcBoardStand = '';
+  let vcMoves = 0;
+  let vcHintTimer = 0;
+
+  function paintVcBoard(message) {
+    const st = getVigilCandles();
+    const status = $('#vc-board-status');
+    for (let i = 0; i < 9; i++) {
+      const btn = $(`#vc-candle-${i}`);
+      if (!btn) continue;
+      const lit = Boolean(st.draft.stand) && Boolean(vcMask & (1 << i));
+      btn.classList.toggle('is-lit', lit);
+      btn.setAttribute('aria-pressed', lit ? 'true' : 'false');
+      btn.setAttribute('aria-label', `${vcCellName(i)}的蜡烛，${lit ? '亮着' : '熄着'}`);
+    }
+    if (!st.draft.stand) {
+      if (status) status.textContent = '';
+      return;
+    }
+    const target = vcTargetMask(st.draft.method);
+    const goal = $('#vc-target');
+    if (goal) {
+      goal.replaceChildren(...Array.from({ length: 9 }, (_, i) => {
+        const dot = document.createElement('span');
+        dot.className = `vc-target-dot${target & (1 << i) ? ' is-lit' : ''}`;
+        return dot;
+      }));
+      goal.setAttribute('aria-label', `要点成的图案：${VC_METHOD_TABLE[st.draft.method].title}`);
+    }
+    if (status) status.textContent = message || (vcMask === target ? '图案对上了，可以封灯。' : `已经点了 ${vcMoves} 次。`);
+  }
+
+  function pressVcCandle(i) {
+    const st = vcReady(VC_BOARD, `vc-candle-${i}`);
+    if (!st || !st.draft.stand || st.activeKeeper) return;
+    vcMask = vcPress(vcMask, i);
+    vcMoves += 1;
+    if (AudioEngine.tick) AudioEngine.tick();
+    paintVcBoard('');
+  }
+
+  function resetVcBoard() {
+    const st = vcReady(VC_BOARD, 'vc-reset');
+    if (!st || !st.draft.stand || st.activeKeeper) return;
+    vcMask = vcStartMask(st.draft.stand);
+    vcMoves = 0;
+    paintVcBoard('烛台回到送来时的样子。');
+  }
+
+  /* 问守夜人：只指出下一支该点哪支，不改任何进度 */
+  function hintVcBoard() {
+    const st = vcReady(VC_BOARD, 'vc-hint');
+    if (!st || !st.draft.stand || st.activeKeeper) return;
+    const plan = vcSolve(vcMask, vcTargetMask(st.draft.method)) || [];
+    if (!plan.length) { paintVcBoard('已经对上了，不用再点。'); return; }
+    const next = plan[0];
+    for (let i = 0; i < 9; i++) { const b = $(`#vc-candle-${i}`); if (b) b.classList.toggle('is-hint', i === next); }
+    clearTimeout(vcHintTimer);
+    vcHintTimer = setTimeout(() => { const b = $(`#vc-candle-${next}`); if (b) b.classList.remove('is-hint'); }, 1800);
+    paintVcBoard(`守夜人指了指${vcCellName(next)}那支。照这样还要点 ${plan.length} 次。`);
+  }
+
+  function sealVcVigil() {
+    const st = vcReady(VC_BOARD, 'vc-seal');
+    if (!st || !st.draft.stand || st.activeKeeper) return;
+    const { stand, method } = st.draft;
+    if (vcMask !== vcTargetMask(method)) {
+      paintVcBoard(`图案还没对上。${VC_METHOD_TABLE[method].hint}`);
+      return;
+    }
+    paintVcBoard('图案对上了。');
+    launchVc(VC_BOARD, 'vc-seal', {
+      feedback: vcSealFeedback(stand, method), kind: 'seal', method, stand, vigil: `${stand}:${method}`, source: VC_BOARD, target: VC_STAND_TABLE[stand].target,
+    }, '#candle-board-response');
+  }
+
+  function chooseVcAbandon() {
+    const st = vcReady(VC_BOARD, 'vc-abandon');
+    if (!st || !st.draft.stand) return;
+    launchVc(VC_BOARD, 'vc-abandon', { feedback: VC_ABANDON_FEEDBACK, kind: 'abandon', source: VC_BOARD, target: VC_HALL }, '#candle-board-response');
+  }
+
+  function chooseVcKeeperReturn(scene) {
+    const st = vcReady(scene, `vc-keeper-return-${scene}`);
+    if (!st || !st.activeKeeper) return;
+    if (VC_STAND_TABLE[st.activeKeeper.vigil.split(':')[0]].target !== scene) return;
+    launchVc(scene, `vc-keeper-return-${scene}`, { feedback: VC_KEEPER_RETURN_FEEDBACK, from: scene, kind: 'keeper-return', vigil: st.activeKeeper.vigil, target: VC_HALL }, `#vc-keeper-response-${scene}`);
+  }
+
+  function chooseVcCourtEntry() {
+    const st = vcReady('remembrance', 'vc-court-entry-btn');
+    if (!st || st.activeKeeper || !vcCourtEligible(st)) return;
+    launchVc('remembrance', 'vc-court-entry-btn', { feedback: VC_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: VC_COURT }, '#vc-court-entry-response');
+  }
+
+  function chooseVcVerdict(action) {
+    const a = VC_VERDICT_TABLE[action];
+    if (!a) return;
+    const st = vcReady(VC_COURT, `vc-verdict-${action}`);
+    if (!st || st.activeKeeper || !st.visited.court || !vcCourtEligible(st)) return;
+    launchVc(VC_COURT, `vc-verdict-${action}`, { action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: VC_COURT, target: a.target }, '#hearing-of-the-unlit-response');
+  }
+
+  function vigilCandlesBridgeAllows(targetScene) {
+    if (!vigilCandlesUnlocked()) return false;
+    const st = getVigilCandles();
+    if (st.pending && (st.pending.kind === 'seal' || st.pending.kind === 'verdict') && st.pending.target === targetScene) return true;
+    if (st.activeKeeper && VC_STAND_TABLE[st.activeKeeper.vigil.split(':')[0]].target === targetScene) return true;
+    const verdict = VC_VERDICT_ACTIONS.find((a) => VC_VERDICT_TABLE[a].outcome === st.lastOutcome);
+    return Boolean(verdict && VC_VERDICT_TABLE[verdict].target === targetScene);
+  }
+
+  function vcHallCanVisit() {
+    if (!vigilCandlesUnlocked()) return false;
+    const st = getVigilCandles();
+    return st.visited.hall || Boolean(st.pending && st.pending.target === VC_HALL);
+  }
+
+  function candleBoardCanVisit() {
+    if (!vigilCandlesUnlocked()) return false;
+    const st = getVigilCandles();
+    if (st.visited.board && st.draft.stand) return true;
+    return Boolean(st.pending && st.pending.kind === 'stand');
+  }
+
+  function vcCourtCanVisit() {
+    if (!vigilCandlesUnlocked()) return false;
+    const st = getVigilCandles();
+    if (st.visited.court && vcCourtEligible(st)) return true;
+    return Boolean(st.pending && st.pending.kind === 'court-entry');
+  }
+
+  function syncVcHall() {
+    const canVisit = vcHallCanVisit();
+    const st = getVigilCandles();
+    const fig = $('#vc-hall-figure');
+    if (fig) fig.hidden = !canVisit;
+    const blocked = !canVisit || Boolean(st.pending) || Boolean(st.activeKeeper);
+    VC_STANDS.forEach((stand) => {
+      const btn = $(`#vc-stand-${stand}`);
+      if (!btn) return;
+      btn.disabled = blocked;
+      btn.classList.toggle('is-collected', VC_METHODS.every((m) => st.vigils.includes(`${stand}:${m}`)));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'stand' && st.pending.stand === stand ? 'true' : 'false');
+    });
+    const note = $('#vc-hall-note');
+    if (note) {
+      let text = '';
+      if (st.activeKeeper) {
+        const b = VC_STAND_TABLE[st.activeKeeper.vigil.split(':')[0]];
+        text = `先完成正在送出的守夜签：${b.keeperTitle}还在${b.place}等你签收。`;
+      } else if (st.draft.stand) {
+        text = `守夜台上还放着「${VC_STAND_TABLE[st.draft.stand].title}」。`;
+      }
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const cont = $('#vc-continue');
+    if (cont) {
+      const show = canVisit && Boolean(st.draft.stand) && !st.activeKeeper;
+      cont.hidden = !show;
+      cont.disabled = !show || Boolean(st.pending);
+    }
+    if (!st.pending || st.pending.source !== VC_HALL) showVcResponse('#vigil-candle-hall-response', '');
+  }
+
+  function syncCandleBoard() {
+    const canVisit = candleBoardCanVisit();
+    const st = getVigilCandles();
+    const ready = canVisit && Boolean(st.draft.stand);
+    if (st.draft.stand !== vcBoardStand && !(st.pending && st.pending.kind === 'seal')) {
+      vcBoardStand = st.draft.stand;
+      vcMask = st.draft.stand ? vcStartMask(st.draft.stand) : 0;
+      vcMoves = 0;
+    }
+    const panel = $('#vc-board-panel');
+    if (panel) panel.hidden = !ready;
+    const grid = $('#vc-candles');
+    if (grid) grid.hidden = !ready;
+    if (ready) {
+      const t = VC_STAND_TABLE[st.draft.stand];
+      const title = $('#vc-board-stand');
+      if (title) title.textContent = `${t.title}（送来时亮着${t.shape}）—— ${t.feedback}`;
+      const hint = $('#vc-method-hint');
+      if (hint) hint.textContent = `${VC_METHOD_TABLE[st.draft.method].hint}点一支，它和上下左右的邻烛一起翻转。对上了封灯，会送回${t.place}，由${t.keeperTitle}签收。`;
+    }
+    VC_METHODS.forEach((method) => {
+      const btn = $(`#vc-method-${method}`);
+      if (!btn) return;
+      btn.disabled = !ready || Boolean(st.pending);
+      btn.setAttribute('aria-pressed', ready && st.draft.method === method ? 'true' : 'false');
+      btn.classList.toggle('is-collected', Boolean(st.draft.stand) && st.vigils.includes(`${st.draft.stand}:${method}`));
+    });
+    ['vc-seal', 'vc-reset', 'vc-hint', 'vc-abandon', ...Array.from({ length: 9 }, (_, i) => `vc-candle-${i}`)].forEach((id) => {
+      const btn = $(`#${id}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending);
+    });
+    paintVcBoard(st.pending && st.pending.kind === 'seal' ? '图案对上了，守夜签正在送出去。' : '');
+    if (!st.pending || st.pending.source !== VC_BOARD) showVcResponse('#candle-board-response', '');
+  }
+
+  function syncVcCourt() {
+    const canVisit = vcCourtCanVisit();
+    const st = getVigilCandles();
+    const fig = $('#hearing-of-the-unlit-figure');
+    if (fig) fig.hidden = !canVisit;
+    VC_VERDICT_ACTIONS.forEach((action) => {
+      const btn = $(`#vc-verdict-${action}`);
+      if (!btn) return;
+      btn.disabled = !canVisit || Boolean(st.pending) || Boolean(st.activeKeeper);
+      btn.classList.toggle('is-collected', st.courtOutcomes.includes(VC_VERDICT_TABLE[action].outcome));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'verdict' && st.pending.action === action ? 'true' : 'false');
+    });
+    if (!st.pending || st.pending.source !== VC_COURT) showVcResponse('#hearing-of-the-unlit-response', '');
+  }
+
+  function syncVcKeepers() {
+    const st = vigilCandlesUnlocked() ? getVigilCandles() : defaultVigilCandles();
+    const [stand, method] = st.activeKeeper ? st.activeKeeper.vigil.split(':') : ['', ''];
+    VC_OLD_TARGETS.forEach((scene) => {
+      const box = $(`#vc-keeper-${scene}`);
+      if (!box) return;
+      const show = Boolean(stand) && VC_STAND_TABLE[stand].target === scene;
+      box.hidden = !show;
+      const btn = $(`#vc-keeper-return-${scene}`);
+      if (btn) {
+        btn.disabled = !show || Boolean(st.pending);
+        btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'keeper-return' && st.pending.from === scene ? 'true' : 'false');
+      }
+      if (!show) return;
+      const b = VC_STAND_TABLE[stand];
+      const head = $(`#vc-keeper-title-${scene}`);
+      if (head) head.textContent = `守夜签签收 · ${b.keeperTitle} · ${b.title}（${VC_METHOD_TABLE[method].title}）`;
+      const level = $(`#vc-keeper-level-${scene}`);
+      if (level) level.textContent = `送来时亮着${b.shape} → 守成「${VC_METHOD_TABLE[method].title}」`;
+      const body = $(`#vc-keeper-body-${scene}`);
+      if (body) body.textContent = VC_METHOD_TABLE[method].result;
+      if (!st.pending || st.pending.kind !== 'keeper-return') showVcResponse(`#vc-keeper-response-${scene}`, '');
+    });
+  }
+
+  function syncVcEchoes() {
+    const st = vigilCandlesUnlocked() ? getVigilCandles() : defaultVigilCandles();
+    VC_STANDS.forEach((stand) => {
+      const b = VC_STAND_TABLE[stand];
+      const el = $(`#vc-echo-${b.target}`);
+      if (!el) return;
+      const method = st.latestMethodByStand[stand];
+      if (!method) { el.hidden = true; el.textContent = ''; return; }
+      el.textContent = `${b.echoLead}「${VC_METHOD_TABLE[method].title}」${VC_METHOD_TABLE[method].result}`;
+      el.hidden = false;
+    });
+  }
+
+  function syncVcRemembrance() {
+    const unlocked = vigilCandlesUnlocked();
+    const shell = $('#vc-codex');
+    const memory = $('#vc-memory');
+    if (!unlocked) {
+      [shell, memory].forEach((el) => { if (el) el.hidden = true; });
+      return;
+    }
+    const st = getVigilCandles();
+    const v97Pending = Boolean(getLostWeight().pending);
+    if (shell) shell.hidden = false;
+    const progress = vcCourtProgress(st);
+    if (memory) {
+      memory.hidden = false;
+      memory.textContent = `守夜：已守 ${st.vigils.length}/9 张签，共封灯 ${st.vigilRuns} 次；未点之灯听证 ${st.courtOutcomes.length}/3。`;
+    }
+    const hints = $('#vc-court-hints');
+    if (hints) {
+      const rows = [['三架烛台都守过', progress.stands, VC_STANDS.length], ['三种守法都用过', progress.methods, VC_METHODS.length]];
+      hints.replaceChildren(...rows.map(([label, have, need]) => {
+        const li = document.createElement('li');
+        li.className = have >= need ? 'is-met' : '';
+        li.textContent = `${label} ${have}/${need}`;
+        return li;
+      }));
+    }
+    const clean = !st.pending && !st.activeKeeper;
+    const entry = $('#vc-entry-btn');
+    if (entry) {
+      entry.hidden = false;
+      entry.disabled = !clean || v97Pending;
+      entry.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' ? 'true' : 'false');
+    }
+    const note = $('#vc-entry-note');
+    if (note) {
+      const text = v97Pending ? '先完成正在送出的称单：失重局还有一张称单在路上。' : st.activeKeeper ? '先完成正在送出的守夜签。' : '';
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const court = $('#vc-court-entry-btn');
+    if (court) {
+      const eligible = vcCourtEligible(st);
+      court.hidden = !eligible;
+      court.disabled = !eligible || !clean;
+      court.setAttribute('aria-pressed', st.pending && st.pending.kind === 'court-entry' ? 'true' : 'false');
+    }
+    const grid = $('#vc-codex-grid');
+    if (grid) {
+      const have = new Set(st.vigils);
+      const cells = VC_VIGIL_IDS.map((id) => {
+        const [stand, method] = id.split(':');
+        const cell = document.createElement('div');
+        cell.className = `vc-cell ${have.has(id) ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = have.has(id) ? `${VC_STAND_TABLE[stand].title}\n${VC_METHOD_TABLE[method].title}` : '？？？';
+        return cell;
+      });
+      VC_VERDICT_ACTIONS.forEach((action) => {
+        const a = VC_VERDICT_TABLE[action];
+        const got = st.courtOutcomes.includes(a.outcome);
+        const cell = document.createElement('div');
+        cell.className = `vc-cell vc-cell-verdict ${got ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = got ? `[未点之灯听证会] ${a.title}\n${a.feedback}` : '？？？';
+        cells.push(cell);
+      });
+      grid.replaceChildren(...cells);
+    }
+    if (!st.pending || (st.pending.kind !== 'entry' && st.pending.kind !== 'court-entry')) {
+      showVcResponse('#vc-entry-response', '');
+      showVcResponse('#vc-court-entry-response', '');
+    }
+  }
+
+  function syncVcLinks() {
+    const st = vigilCandlesUnlocked() ? getVigilCandles() : null;
+    [['vigil-candle-hall-link', 'hall'], ['candle-board-link', 'board'], ['hearing-of-the-unlit-link', 'court']].forEach(([id, key]) => {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !(st && st.visited[key]);
+    });
+  }
+
+  function forgetVigilCandlesState() {
+    try { localStorage.removeItem(VIGIL_CANDLE_KEY); } catch {}
+    [VC_HALL, VC_BOARD, VC_COURT].forEach((scene) => AutoAdvance.clear(scene));
+    vcMask = 0;
+    vcBoardStand = '';
+    vcMoves = 0;
+    clearTimeout(vcHintTimer);
+    ['#vc-codex', '#vc-memory', '#vc-hall-figure', '#vc-board-panel', '#hearing-of-the-unlit-figure',
+      '#vigil-candle-hall-link', '#candle-board-link', '#hearing-of-the-unlit-link', '#vc-continue', '#vc-court-entry-btn',
+      '#vc-entry-response', '#vc-court-entry-response', '#vigil-candle-hall-response', '#candle-board-response', '#hearing-of-the-unlit-response',
+      ...VC_OLD_TARGETS.flatMap((scene) => [`#vc-keeper-${scene}`, `#vc-echo-${scene}`]),
+    ].forEach((sel) => { const el = $(sel); if (el) el.hidden = true; });
+    $$('[id^="vc-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+  }
+
+  const onTrustedVc = (selector, handler) => {
+    const el = $(selector);
+    if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+  };
+  onTrustedVc('#vc-entry-btn', chooseVcEntry);
+  onTrustedVc('#vc-court-entry-btn', chooseVcCourtEntry);
+  onTrustedVc('#vc-abandon', chooseVcAbandon);
+  onTrustedVc('#vc-continue', () => {
+    const st = vcReady(VC_HALL, 'vc-continue');
+    if (!st || !st.draft.stand || st.activeKeeper) return;
+    const stand = st.draft.stand;
+    launchVc(VC_HALL, 'vc-continue', { stand, feedback: VC_STAND_TABLE[stand].feedback, kind: 'stand', source: VC_HALL, target: VC_BOARD }, '#vigil-candle-hall-response');
+  });
+  VC_STANDS.forEach((stand) => onTrustedVc(`#vc-stand-${stand}`, () => chooseVcStand(stand)));
+  VC_METHODS.forEach((method) => onTrustedVc(`#vc-method-${method}`, () => chooseVcMethod(method)));
+  VC_VERDICT_ACTIONS.forEach((action) => onTrustedVc(`#vc-verdict-${action}`, () => chooseVcVerdict(action)));
+  VC_OLD_TARGETS.forEach((scene) => onTrustedVc(`#vc-keeper-return-${scene}`, () => chooseVcKeeperReturn(scene)));
+  for (let i = 0; i < 9; i++) onTrustedVc(`#vc-candle-${i}`, () => pressVcCandle(i));
+  onTrustedVc('#vc-reset', resetVcBoard);
+  onTrustedVc('#vc-hint', hintVcBoard);
+  onTrustedVc('#vc-seal', sealVcVigil);
+
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -53436,8 +54192,25 @@ document.addEventListener("DOMContentLoaded", () => {
     if (eligible) items.push(`开庭条件已满足；足斤裁定已得 ${st.courtOutcomes.length}/3`);
     if (st.activeWeigher) items.push("有一张称单在旧支线等你签收：点秤手回到失重局");
     else if (st.draft.thing) items.push(`天平上还放着「${LW_THING_TABLE[st.draft.thing].title}」`);
-    if (eligible && st.courtOutcomes.length >= 3) return { title: "v97 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    if (eligible && st.courtOutcomes.length >= 3) return vigilCandlesProgressStep();
     return { title: "v97 失重局", items, target: eligible ? "lw-court" : "lw", done: false };
+  };
+
+  /* v98：按三架烛台、三种守法与三项裁定给出缺项 */
+  const vigilCandlesProgressStep = () => {
+    if (!vigilCandlesUnlocked()) return null;
+    const st = getVigilCandles();
+    const items = [];
+    const stands = VC_STANDS.filter((x) => !st.vigils.some((id) => id.startsWith(`${x}:`))).map((x) => VC_STAND_TABLE[x].title);
+    const methods = VC_METHODS.filter((m) => !st.vigils.some((id) => id.endsWith(`:${m}`))).map((m) => VC_METHOD_TABLE[m].title);
+    if (stands.length) items.push(`还没守过的烛台：${stands.join("、")}`);
+    if (methods.length) items.push(`还没用过的守法：${methods.join("、")}`);
+    const eligible = vcCourtEligible(st);
+    if (eligible) items.push(`开庭条件已满足；未点之灯裁定已得 ${st.courtOutcomes.length}/3`);
+    if (st.activeKeeper) items.push("有一张守夜签在旧房间等你签收：点守夜人回到守夜厅");
+    else if (st.draft.stand) items.push(`守夜台上还放着「${VC_STAND_TABLE[st.draft.stand].title}」`);
+    if (eligible && st.courtOutcomes.length >= 3) return { title: "v98 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    return { title: "v98 守夜烛台", items, target: eligible ? "vc-court" : "vc", done: false };
   };
 
   const syncProgressGuide = () => {
@@ -53788,6 +54561,7 @@ document.addEventListener("DOMContentLoaded", () => {
   syncStoppedClocksAll();
   syncHeldBreathAll();
   syncLostWeightAll();
+  syncVigilCandlesAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();
