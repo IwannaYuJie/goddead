@@ -1153,3 +1153,14 @@
 - 场景图：本机 Codex CLI（`codex exec`，内置 image generation）生成三张 1536×1024 原画，源图存 `design-references/`，Pillow 转 WebP；提示词与哈希见 `docs/V92ImagePrompts.md`。
 - 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 17482 assertions passed`。
 - 浏览器（内置浏览器，v91 全通关存档）：真实点击 + 键盘操作滑杆走完三份保单、三处回执、听证与三项裁定；锁定深链回痕迹室；375px 无溢出；控制台无错误。
+
+## 2026-09-24 - v93 未被看见之物认领处实装
+
+- 新增 `unseen-claims-office`、`retroactive-witness-desk`、`court-of-the-unwitnessed` 3 个场景，场景总数 199 → 202，缓存标记 `v=93`。
+- 新交互“提灯搜寻”：全黑大厅里指针 / 手指 / 方向键移动一盏灯，Tab 聚焦会把灯移到物件；视觉光圈与判定共用同一个像素半径（图宽 14%，触屏 19%）。灯只改显示，不写存档。
+- 五件没人看见的事分属门外、经文走廊、第三值夜室、余响交换台、无主投递所；补证台三种认领方式中只有“交给旧场景作证”要跑主线房间领回执，另外两种当场结算。开庭条件：五件事都有下落 + 三种方式都用过。
+- 状态键 `goddead_v93_unseen_claims`（12 字段、7 类 pending、严格归一化），只读 v92；v92 在途时入口禁用；前缀 `us-`。
+- 修正：v91–v93 旧场景面板在交换台 / 值夜室等 grid 布局中被挤成窄列，统一横跨整行。
+- 场景图：本机 Codex CLI 生成三张原画，源图存 `design-references/`，提示词与哈希见 `docs/V93ImagePrompts.md`。
+- 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 17567 assertions passed`。
+- 浏览器：真实指针 / 键盘走完五件认领（一次铜铃去交换台）、开庭与三项裁定；未解锁深链回痕迹室；375px 无横向溢出；控制台无错误。

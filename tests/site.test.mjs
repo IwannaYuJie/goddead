@@ -45,8 +45,8 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=92/);
-assert.match(html, /script\.js\?v=92/);
+assert.match(html, /styles\.css\?v=93/);
+assert.match(html, /script\.js\?v=93/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
@@ -135,7 +135,7 @@ assert.match(js, /DOMContentLoaded/);
   assert.match(rawHtml, /<aside class="progress-guide" id="progress-guide" aria-labelledby="progress-guide-title" hidden>/, "remembrance hosts a hidden progress guide");
   const remembranceSection = rawHtml.match(/<section[^>]*data-scene="remembrance"[\s\S]*?<\/section>/);
   assert.ok(remembranceSection && remembranceSection[0].includes('id="progress-guide"'), "the guide lives inside the remembrance scene");
-  assert.match(js, /replayWitnessPending\(name\);\s*if \(name === "remembrance"\) syncProgressGuide\(\);\s*updateHudDisplay\(\);/, "arriving at remembrance refreshes the guide after every chapter sync");
+  assert.match(js, /replayUnseenPending\(name\);\s*if \(name === "remembrance"\) syncProgressGuide\(\);\s*updateHudDisplay\(\);/, "arriving at remembrance refreshes the guide after every chapter sync");
   const guideStart = js.indexOf("/* ---------- 痕迹室「下一步」 ----------");
   const guideEnd = js.indexOf("/* ---------- 初始化 ---------- */");
   assert.ok(guideStart !== -1 && guideEnd > guideStart, "guide block sits before init");
@@ -699,8 +699,8 @@ for (const asset of VISUAL_ASSETS) {
 await access(new URL("assets/prayer-incinerator-burning.webp", root));
 assert.match(html, /assets\/prayer-incinerator-burning\.webp/);
 assert.match(html, /<link rel="preload" href="assets\/prayer-incinerator-burning\.webp" as="image">/);
-assert.match(html, /styles\.css\?v=92/);
-assert.match(html, /script\.js\?v=92/);
+assert.match(html, /styles\.css\?v=93/);
+assert.match(html, /script\.js\?v=93/);
 const offeringFigureHtml = html.match(/<figure class="offering-figure[^"]*" role="img" aria-label="[^"]*">[\s\S]*?<\/figure>/);
 assert.ok(offeringFigureHtml, "offering figure must exist");
 assert.match(offeringFigureHtml[0], /aria-label="一座沉寂的焚献炉"/);
@@ -4710,7 +4710,7 @@ assert.ok(SCENES.includes("causal-sorter"), "SCENES must list the causal sorter"
 assert.ok(SCENES.includes("first-draft-vault"), "SCENES must list the first draft vault");
 assert.ok(SCENES.includes("before-first-knock"), "SCENES must list the before first knock");
 assert.ok(SCENES.includes("causeless-ward"), "SCENES must list the causeless ward");
-  assert.equal(new Set([...html.matchAll(/data-scene="([^"]+)"/g)].map((m) => m[1])).size, 199, "must expose 199 unique data-scene sections");
+  assert.equal(new Set([...html.matchAll(/data-scene="([^"]+)"/g)].map((m) => m[1])).size, 202, "must expose 202 unique data-scene sections");
 const consoleSection = html.match(/<section class="scene scene-branch scene-listening-back-console"[\s\S]*?<\/section>/);
 assert.ok(consoleSection, "scene section missing: listening-back-console");
 assert.match(consoleSection[0], /data-scene="listening-back-console" data-title="Goddead — 反听总台" aria-label="反听总台"/);
@@ -6095,8 +6095,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v73-nightmare-ta
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v73-waking-deportation-yard\.webp"/, "v73 loads on demand: waking-deportation-yard");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=92/, "v73 cache busts styles.css");
-assert.match(html, /script\.js\?v=92/, "v73 cache busts script.js");
+assert.match(html, /styles\.css\?v=93/, "v73 cache busts styles.css");
+assert.match(html, /script\.js\?v=93/, "v73 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const DREAM_CUSTOMS_KEY = ['"]goddead_v73_dream_customs['"]/g) || []).length, 1, "v73 introduces exactly one storage key");
@@ -6963,8 +6963,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v74-impossible-c
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v74-perpetual-license-tribunal\.webp"/, "v74 loads on demand: perpetual-license-tribunal");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=92/, "v74 cache busts styles.css");
-assert.match(html, /script\.js\?v=92/, "v74 cache busts script.js");
+assert.match(html, /styles\.css\?v=93/, "v74 cache busts styles.css");
+assert.match(html, /script\.js\?v=93/, "v74 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const TOMBSTONE_PATENT_OFFICE_KEY = ['"]goddead_v74_tombstone_patent_office['"]/g) || []).length, 1, "v74 introduces exactly one storage key");
@@ -7845,8 +7845,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v75-post-world-r
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v75-universal-recall-yard\.webp"/, "v75 loads on demand: universal-recall-yard");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=92/, "v75 cache busts styles.css");
-assert.match(html, /script\.js\?v=92/, "v75 cache busts script.js");
+assert.match(html, /styles\.css\?v=93/, "v75 cache busts styles.css");
+assert.match(html, /script\.js\?v=93/, "v75 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const APOCALYPSE_WARRANTY_KEY = ['"]goddead_v75_apocalypse_warranty['"]/g) || []).length, 1, "v75 introduces exactly one storage key");
@@ -8775,8 +8775,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v76-reality-retu
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v76-class-action-court\.webp"/, "v76 loads on demand: class-action-court");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=92/, "v76 cache busts styles.css");
-assert.match(html, /script\.js\?v=92/, "v76 cache busts script.js");
+assert.match(html, /styles\.css\?v=93/, "v76 cache busts styles.css");
+assert.match(html, /script\.js\?v=93/, "v76 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const REALITY_REFUND_KEY = ['"]goddead_v76_reality_refund['"]/g) || []).length, 1, "v76 introduces exactly one storage key");
@@ -9735,8 +9735,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v77-soul-counter
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v77-final-authenticity-tribunal\.webp"/, "v77 loads on demand: v77-final-authenticity-tribunal");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=92/, "v77 cache busts styles.css");
-assert.match(html, /script\.js\?v=92/, "v77 cache busts script.js");
+assert.match(html, /styles\.css\?v=93/, "v77 cache busts styles.css");
+assert.match(html, /script\.js\?v=93/, "v77 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const SELF_AUTHENTICITY_KEY = ['"]goddead_v77_self_authenticity['"]/g) || []).length, 1, "v77 introduces exactly one storage key");
@@ -14807,8 +14807,8 @@ for (const [file, hash] of Object.entries(V72_WEBP_HASHES)) {
 }
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=92/, "v72 cache busts styles.css");
-assert.match(html, /script\.js\?v=92/, "v72 cache busts script.js");
+assert.match(html, /styles\.css\?v=93/, "v72 cache busts styles.css");
+assert.match(html, /script\.js\?v=93/, "v72 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const LAST_WORD_BANK_KEY = ['"]goddead_v72_last_word_bank['"]/g) || []).length, 1, "v72 introduces exactly one storage key");
@@ -15994,8 +15994,8 @@ assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v78-pronoun-alloca
 assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v78-ownerless-voices-court.webp"'), "v78 loads on demand: v78-ownerless-voices-court");
 
 /* 缓存版本 */
-assert.ok(html.includes("styles.css?v=92"), "styles.css cache bust v=86");
-assert.ok(html.includes("script.js?v=92"), "script.js cache bust v=86");
+assert.ok(html.includes("styles.css?v=93"), "styles.css cache bust v=86");
+assert.ok(html.includes("script.js?v=93"), "script.js cache bust v=86");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const FIRST_PERSON_RATIONING_KEY = ['"]goddead_v78_first_person_rationing['"]/g) || []).length, 1, "v78 introduces exactly one storage key");
@@ -17027,8 +17027,8 @@ assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v79-personhood-inh
 assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v79-unuttered-estate-tribunal.webp"'), "v79 loads on demand: v79-unuttered-estate-tribunal");
 
 /* 缓存版本 */
-assert.ok(html.includes("styles.css?v=92"), "styles.css cache bust v=86");
-assert.ok(html.includes("script.js?v=92"), "script.js cache bust v=86");
+assert.ok(html.includes("styles.css?v=93"), "styles.css cache bust v=86");
+assert.ok(html.includes("script.js?v=93"), "script.js cache bust v=86");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const UNSPOKEN_PERSONHOOD_KEY = ['"]goddead_v79_unspoken_personhood['"]/g) || []).length, 1, "v79 introduces exactly one storage key");
@@ -17710,8 +17710,8 @@ assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v80-counterfactual
 assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v80-last-conclusion-hearing.webp"'), "v80 loads on demand: v80-last-conclusion-hearing");
 
 /* 缓存版本 */
-assert.ok(html.includes("styles.css?v=92"), "styles.css cache bust v=86");
-assert.ok(html.includes("script.js?v=92"), "script.js cache bust v=86");
+assert.ok(html.includes("styles.css?v=93"), "styles.css cache bust v=86");
+assert.ok(html.includes("script.js?v=93"), "script.js cache bust v=86");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const UNFINISHED_THOUGHT_KEY = ['"]goddead_v80_unfinished_thought_asylum['"]/g) || []).length, 1, "v80 introduces exactly one storage key");
@@ -20854,12 +20854,12 @@ for (const item of v81BranchFigures) {
   );
 
   assert.ok(
-    /if\s*\(\s*\(target\s*===\s*["']reliquary["']\s*\|\|\s*target\s*===\s*["']remembrance["']\)\s*&&[\s\S]*?!regretReclamationBridgeAllows\(target\)\s*&&\s*!forgivenessLandfillBridgeAllows\(target\)\s*&&\s*!harmArchaeologyBridgeAllows\(target\)\s*&&\s*!innocentWitnessProtectionBridgeAllows\(target\)\s*&&\s*!orphanedFactBridgeAllows\(target\)\s*&&\s*!existenceRenunciationBridgeAllows\(target\)\s*&&\s*!nonexistenceDebtCollectionBridgeAllows\(target\)\s*&&\s*!unhappenedEventAuctionBridgeAllows\(target\)\s*&&\s*!accomplishedFactEvictionBridgeAllows\(target\)\s*&&\s*!causelessConsequenceRefugeeBridgeAllows\(target\)\s*&&\s*!lateCauseMaternityBridgeAllows\(target\)\s*&&\s*!witnessLiabilityBridgeAllows\(target\)\s*&&\s*!gov\.rulings\.acting\s*\)\s*\{\s*target\s*=\s*["']acting["'];\s*\}/.test(resolveSceneSlice),
+    /if\s*\(\s*\(target\s*===\s*["']reliquary["']\s*\|\|\s*target\s*===\s*["']remembrance["']\)\s*&&[\s\S]*?!regretReclamationBridgeAllows\(target\)\s*&&\s*!forgivenessLandfillBridgeAllows\(target\)\s*&&\s*!harmArchaeologyBridgeAllows\(target\)\s*&&\s*!innocentWitnessProtectionBridgeAllows\(target\)\s*&&\s*!orphanedFactBridgeAllows\(target\)\s*&&\s*!existenceRenunciationBridgeAllows\(target\)\s*&&\s*!nonexistenceDebtCollectionBridgeAllows\(target\)\s*&&\s*!unhappenedEventAuctionBridgeAllows\(target\)\s*&&\s*!accomplishedFactEvictionBridgeAllows\(target\)\s*&&\s*!causelessConsequenceRefugeeBridgeAllows\(target\)\s*&&\s*!lateCauseMaternityBridgeAllows\(target\)\s*&&\s*!witnessLiabilityBridgeAllows\(target\)\s*&&\s*!unseenClaimsBridgeAllows\(target\)\s*&&\s*!gov\.rulings\.acting\s*\)\s*\{\s*target\s*=\s*["']acting["'];\s*\}/.test(resolveSceneSlice),
     "Governance acting guard preserves prior checks and appends !accomplishedFactEvictionBridgeAllows(target) and v90 !causelessConsequenceRefugeeBridgeAllows(target)"
   );
 
   assert.ok(
-    /else\s+if\s*\(\s*\(target\s*===\s*["']reliquary["']\s*\|\|\s*target\s*===\s*["']remembrance["']\)\s*&&[\s\S]*?!regretReclamationBridgeAllows\(target\)\s*&&\s*!forgivenessLandfillBridgeAllows\(target\)\s*&&\s*!harmArchaeologyBridgeAllows\(target\)\s*&&\s*!innocentWitnessProtectionBridgeAllows\(target\)\s*&&\s*!orphanedFactBridgeAllows\(target\)\s*&&\s*!existenceRenunciationBridgeAllows\(target\)\s*&&\s*!nonexistenceDebtCollectionBridgeAllows\(target\)\s*&&\s*!unhappenedEventAuctionBridgeAllows\(target\)\s*&&\s*!accomplishedFactEvictionBridgeAllows\(target\)\s*&&\s*!causelessConsequenceRefugeeBridgeAllows\(target\)\s*&&\s*!lateCauseMaternityBridgeAllows\(target\)\s*&&\s*!witnessLiabilityBridgeAllows\(target\)\s*&&\s*!gov\.rulings\.offering\s*\)\s*\{\s*target\s*=\s*["']offering["'];\s*\}/.test(resolveSceneSlice),
+    /else\s+if\s*\(\s*\(target\s*===\s*["']reliquary["']\s*\|\|\s*target\s*===\s*["']remembrance["']\)\s*&&[\s\S]*?!regretReclamationBridgeAllows\(target\)\s*&&\s*!forgivenessLandfillBridgeAllows\(target\)\s*&&\s*!harmArchaeologyBridgeAllows\(target\)\s*&&\s*!innocentWitnessProtectionBridgeAllows\(target\)\s*&&\s*!orphanedFactBridgeAllows\(target\)\s*&&\s*!existenceRenunciationBridgeAllows\(target\)\s*&&\s*!nonexistenceDebtCollectionBridgeAllows\(target\)\s*&&\s*!unhappenedEventAuctionBridgeAllows\(target\)\s*&&\s*!accomplishedFactEvictionBridgeAllows\(target\)\s*&&\s*!causelessConsequenceRefugeeBridgeAllows\(target\)\s*&&\s*!lateCauseMaternityBridgeAllows\(target\)\s*&&\s*!witnessLiabilityBridgeAllows\(target\)\s*&&\s*!unseenClaimsBridgeAllows\(target\)\s*&&\s*!gov\.rulings\.offering\s*\)\s*\{\s*target\s*=\s*["']offering["'];\s*\}/.test(resolveSceneSlice),
     "Governance offering guard preserves prior checks and appends !accomplishedFactEvictionBridgeAllows(target) and v90 !causelessConsequenceRefugeeBridgeAllows(target)"
   );
 
@@ -23222,7 +23222,7 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
     assert.strictEqual(offeringMatches.length, 1, "Governance block must contain exactly one !gov.rulings.offering condition");
 
     assert.ok(
-      /else\s+if\s*\(\s*\(target\s*===\s*["']reliquary["']\s*\|\|\s*target\s*===\s*["']remembrance["']\)[\s\S]*?!harmArchaeologyBridgeAllows\(target\)\s*&&\s*!innocentWitnessProtectionBridgeAllows\(target\)\s*&&\s*!orphanedFactBridgeAllows\(target\)\s*&&\s*!existenceRenunciationBridgeAllows\(target\)\s*&&\s*!nonexistenceDebtCollectionBridgeAllows\(target\)\s*&&\s*!unhappenedEventAuctionBridgeAllows\(target\)\s*&&\s*!accomplishedFactEvictionBridgeAllows\(target\)\s*&&\s*!causelessConsequenceRefugeeBridgeAllows\(target\)\s*&&\s*!lateCauseMaternityBridgeAllows\(target\)\s*&&\s*!witnessLiabilityBridgeAllows\(target\)\s*&&\s*!gov\.rulings\.offering\s*\)\s*\{\s*target\s*=\s*["']offering["'];\s*\}/.test(govBlockBody),
+      /else\s+if\s*\(\s*\(target\s*===\s*["']reliquary["']\s*\|\|\s*target\s*===\s*["']remembrance["']\)[\s\S]*?!harmArchaeologyBridgeAllows\(target\)\s*&&\s*!innocentWitnessProtectionBridgeAllows\(target\)\s*&&\s*!orphanedFactBridgeAllows\(target\)\s*&&\s*!existenceRenunciationBridgeAllows\(target\)\s*&&\s*!nonexistenceDebtCollectionBridgeAllows\(target\)\s*&&\s*!unhappenedEventAuctionBridgeAllows\(target\)\s*&&\s*!accomplishedFactEvictionBridgeAllows\(target\)\s*&&\s*!causelessConsequenceRefugeeBridgeAllows\(target\)\s*&&\s*!lateCauseMaternityBridgeAllows\(target\)\s*&&\s*!witnessLiabilityBridgeAllows\(target\)\s*&&\s*!unseenClaimsBridgeAllows\(target\)\s*&&\s*!gov\.rulings\.offering\s*\)\s*\{\s*target\s*=\s*["']offering["'];\s*\}/.test(govBlockBody),
       "Unique offering else-if preserves the full bridge chain through causelessConsequenceRefugeeBridgeAllows (v90) before setting target to offering"
     );
 
@@ -26766,8 +26766,8 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
       assert.match(html, new RegExp(`data-scene="${sc}"`), `scene missing: ${sc}`);
     }
 
-    assert.match(html, /styles\.css\?v=92/, "styles.css cache query must be updated to v=90");
-    assert.match(html, /script\.js\?v=92/, "script.js cache query must be updated to v=90");
+    assert.match(html, /styles\.css\?v=93/, "styles.css cache query must be updated to v=90");
+    assert.match(html, /script\.js\?v=93/, "script.js cache query must be updated to v=90");
 
     const bootstrapStartIdx = js.lastIndexOf('/* ---------- 初始化 ---------- */');
     assert.ok(bootstrapStartIdx !== -1, 'v90 browser-initialization failure: bootstrap start marker not found');
@@ -28898,12 +28898,12 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
     assert.ok(section.includes(`id="late-cause-echo-${scene}"`), `${scene} hosts the v91 echo paragraph`);
   }
   assert.match(js, /resolveLateCausePendingOnArrival\(name\);\s*replayLateCausePending\(name\);/, "sceneInit resolves then replays v91 pending on the real route");
-  assert.match(js, /syncCauselessConsequenceRefugeeLinks\(\);\s*syncLateCauseAll\(\);\s*syncWitnessAll\(\);\s*revealScene\(scenes\.threshold\);/, "bootstrap only syncs v91 UI, never resolves a hardcoded threshold");
+  assert.match(js, /syncCauselessConsequenceRefugeeLinks\(\);\s*syncLateCauseAll\(\);\s*syncWitnessAll\(\);\s*syncUnseenAll\(\);\s*revealScene\(scenes\.threshold\);/, "bootstrap only syncs v91 UI, never resolves a hardcoded threshold");
   assert.match(js, /forgetCauselessConsequenceRefugeeState\(\);\s*forgetLateCauseMaternityState\(\);/, "forget-all clears v91");
   assert.ok(js.includes("&& !lateCauseMaternityBridgeAllows('unending-gallery')"), "gallery guard lets v91 arrivals through");
 
   const modStart = js.indexOf("/* ============================================================\n     v91 倒生原因助产院");
-  const modEnd = js.indexOf("  /* ---------- 痕迹室「下一步」 ----------");
+  const modEnd = js.indexOf("  /* ============================================================\n     v92 目击责任保险局");
   assert.ok(modStart !== -1 && modEnd > modStart, "v91 module is extractable");
   const modSrc = js.slice(modStart, modEnd);
   assert.equal((modSrc.match(/addEventListener\('click', \(e\) => \{ if \(e\.isTrusted\) handler\(e\); \}\)/g) || []).length, 1, "every v91 control goes through the single trusted-click helper");
@@ -29152,7 +29152,7 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
   assert.doesNotMatch(rawHtml, /id="witness-(event|policy|verdict|adjuster|echo|codex|memory|dossier)/, "v92 ids use the wl- prefix and never collide with v84 witness-protection");
 
   const modStart = js.indexOf("/* ============================================================\n     v92 目击责任保险局");
-  const modEnd = js.indexOf("  /* ---------- 痕迹室「下一步」 ----------");
+  const modEnd = js.indexOf("  /* ============================================================\n     v93 未被看见之物认领处");
   assert.ok(modStart !== -1 && modEnd > modStart, "v92 module is extractable");
   const modSrc = js.slice(modStart, modEnd);
   assert.equal((modSrc.match(/addEventListener\(type, \(e\) => \{ if \(e\.isTrusted\) handler\(e\); \}\)/g) || []).length, 1, "every v92 control, slider included, goes through the trusted-event helper");
@@ -29321,6 +29321,168 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
     assert.equal(forged.activeAdjuster, null, "a receipt for an uncollected policy is dropped");
     assert.equal(forged.pending, null, "a claim pending to the wrong scene is rejected");
     assert.equal(makeV92({ initial: { version: 92, visited: { hearing: true } } }).hearingOk(), false, "a visited flag alone cannot open the hearing");
+  }
+}
+
+
+/* ================= v93 未被看见之物认领处 ================= */
+{
+  const V93_SCENES = ["unseen-claims-office", "retroactive-witness-desk", "court-of-the-unwitnessed"];
+  for (const s of V93_SCENES) {
+    assert.match(rawHtml, new RegExp(`<section[^>]*data-scene="${s}"`), `v93 scene ${s} exists`);
+    assert.match(js, new RegExp(`if \\(target === "${s}" && ![a-zA-Z]+CanVisit\\(\\)\\) target = "remembrance";`), `v93 scene ${s} is guarded`);
+    const buf = await readFile(new URL(`assets/v93-${s}.webp`, root));
+    assert.equal(buf.toString("ascii", 0, 4), "RIFF", `v93 ${s} is a webp`);
+    assert.ok(buf.length < 300 * 1024, `v93 ${s} stays under 300KB`);
+    assert.ok(rawHtml.includes(`data-src="assets/v93-${s}.webp"`), `v93 ${s} loads on demand`);
+    await access(new URL(`design-references/source-v93-${s}.png`, root));
+  }
+  for (const scene of ["threshold", "corridor", "watch", "switchboard", "deadletter"]) {
+    const section = rawHtml.split(/(?=<section[^>]*\bdata-scene=")/).find((p) => p.startsWith("<section") && p.indexOf(`data-scene="${scene}"`) > -1 && p.indexOf(`data-scene="${scene}"`) < 300);
+    assert.ok(section && section.includes(`id="us-clerk-${scene}"`) && section.includes(`id="us-echo-${scene}"`), `${scene} hosts the v93 claim receipt and echo`);
+  }
+  assert.match(rawHtml, /<figure class="branch-figure us-figure us-office-figure reveal" id="us-office-figure" tabindex="0" aria-label="[^"]*方向键[^"]*Tab[^"]*">/, "the dark office is keyboard-operable and explains how");
+  assert.equal((rawHtml.match(/class="scene-hotspot us-thing us-thing-[a-z]+" id="us-thing-[a-z-]+" type="button" data-cx="[\d.]+" data-cy="[\d.]+"/g) || []).length, 5, "five things hide in the dark with lamp coordinates");
+  assert.match(css, /\.us-thing\.is-lit,\n\.us-thing:focus-visible \{ opacity: 1;/, "a thing appears when lit or focused");
+  assert.match(js, /resolveUnseenPendingOnArrival\(name\);\s*replayUnseenPending\(name\);/, "sceneInit resolves then replays v93 pending");
+  assert.match(js, /forgetWitnessLiabilityState\(\);\s*forgetUnseenClaimsState\(\);/, "forget-all clears v93");
+
+  const modStart = js.indexOf("/* ============================================================\n     v93 未被看见之物认领处");
+  const modEnd = js.indexOf("  /* ---------- 痕迹室「下一步」 ----------");
+  assert.ok(modStart !== -1 && modEnd > modStart, "v93 module is extractable");
+  const modSrc = js.slice(modStart, modEnd);
+  assert.equal((modSrc.match(/addEventListener\('click', \(e\) => \{ if \(e\.isTrusted\) handler\(e\); \}\)/g) || []).length, 1, "every v93 control goes through the trusted-click helper");
+  assert.doesNotMatch(modSrc, /innerHTML/, "v93 never writes save data as HTML");
+  const lampBlock = modSrc.slice(modSrc.indexOf("function paintUnseenLamp"), modSrc.indexOf("function syncUnseenOffice"));
+  assert.doesNotMatch(lampBlock, /store\.set|saveUnseenClaims/, "moving the lamp never touches the save");
+
+  const makeV93 = ({ v92Done = true, v92Pending = null, initial = null } = {}) => {
+    const mem = new Map();
+    if (initial !== null) mem.set("goddead_v93_unseen_claims", typeof initial === "string" ? initial : JSON.stringify(initial));
+    const store = { get: (k, f) => (mem.has(k) ? mem.get(k) : f), set: (k, v) => mem.set(k, String(v)) };
+    const els = new Map();
+    const coords = { "the-chair-still-warm": [10.5, 73], "the-footprints-on-the-ceiling": [46, 11], "the-letter-no-one-opened": [46, 73], "the-socket-that-lit-once": [82, 42], "the-knock-before-the-first": [93.5, 71] };
+    const mkEl = (id = "") => {
+      const thing = id.startsWith("us-thing-") ? coords[id.slice(9)] : null;
+      return {
+        id, hidden: false, disabled: false, textContent: "", children: [], attrs: {}, dataset: thing ? { cx: String(thing[0]), cy: String(thing[1]) } : {},
+        style: { props: {}, setProperty(k, v) { this.props[k] = v; } },
+        classList: { set: new Set(), toggle(c, on) { on ? this.set.add(c) : this.set.delete(c); }, contains(c) { return this.set.has(c); } },
+        setAttribute(k, v) { this.attrs[k] = String(v); }, getAttribute(k) { return k in this.attrs ? this.attrs[k] : null; },
+        replaceChildren(...c) { this.children = c; }, addEventListener() {}, getBoundingClientRect: () => ({ left: 0, top: 0, width: 300, height: 200 }),
+      };
+    };
+    const $ = (sel) => { const id = sel.replace(/^#/, ""); if (!els.has(id)) els.set(id, mkEl(id)); return els.get(id); };
+    const schedules = [];
+    const AutoAdvance = { schedule: (scene, target) => schedules.push([scene, target]), has: () => false, clear: () => {} };
+    const v92 = { pending: v92Pending, hearingOutcomes: v92Done ? ["a", "b", "c"] : ["a"] };
+    const api = new Function(
+      "store", "$", "$$", "reduced", "AutoAdvance", "AudioEngine", "buttonAvailable", "document", "localStorage",
+      "witnessLiabilityUnlocked", "getWitnessLiability", "witnessHearingEligible", "WITNESS_VERDICT_OUTCOME_IDS",
+      `let currentScene = "remembrance";\n${modSrc}\nreturn { go: (s) => { currentScene = s; }, arrive: (s) => { currentScene = s; resolveUnseenPendingOnArrival(s); syncUnseenAll(); },
+        get: getUnseenClaims, unlocked: unseenClaimsUnlocked, entry: chooseUnseenEntry, thing: chooseUnseenThing, method: chooseUnseenMethod, abandon: chooseUnseenAbandon,
+        clerk: chooseUnseenClerkReturn, courtEntry: chooseUnseenCourtEntry, verdict: chooseUnseenVerdict, eligible: unseenCourtEligible, progress: unseenCourtProgress,
+        bridge: unseenClaimsBridgeAllows, officeOk: unseenOfficeCanVisit, deskOk: retroactiveWitnessDeskCanVisit, courtOk: courtOfTheUnwitnessedCanVisit,
+        resolve: resolveUnseenPendingOnArrival, replay: replayUnseenPending, lamp: moveUnseenLamp, forget: forgetUnseenClaimsState, CLAIMS: UNSEEN_CLAIM_IDS };`
+    )(store, $, () => [], false, AutoAdvance, { whoosh() {} }, (id) => { const el = els.get(id); return !el || (!el.disabled && !el.hidden); },
+      { createElement: () => mkEl() }, { removeItem: (k) => mem.delete(k) }, () => true, () => v92, () => true, ["a", "b", "c"]);
+    return { ...api, mem, els, schedules };
+  };
+
+  /* 15 份认领；提灯只点亮灯圈里的东西 */
+  {
+    const g = makeV93();
+    assert.equal(g.CLAIMS.length, 15);
+    g.lamp(10, 72);
+    assert.equal(g.els.get("us-thing-the-chair-still-warm").classList.contains("is-lit"), true, "the lamp lights the chair");
+    assert.equal(g.els.get("us-thing-the-knock-before-the-first").classList.contains("is-lit"), false, "things outside the lamp stay dark");
+    g.lamp(200, -50);
+    assert.equal(g.els.get("us-office-figure").style.props["--us-lamp-x"], "100%", "the lamp is clamped to the room");
+    assert.equal(g.mem.size, 0, "moving the lamp writes nothing");
+  }
+
+  /* 锁定 */
+  {
+    const g = makeV93({ v92Done: false, initial: { version: 93, visited: { office: true, desk: true, court: true } } });
+    assert.equal(g.unlocked(), false);
+    assert.equal(g.officeOk() || g.deskOk() || g.courtOk() || g.bridge("watch"), false, "locked chapter grants nothing");
+    g.entry();
+    assert.equal(g.schedules.length, 0);
+  }
+
+  /* 最短开庭：五件事各认领一次，三种方式都用过，只有“交给旧场景”要跑一趟 */
+  {
+    const g = makeV93();
+    g.entry(); g.arrive("unseen-claims-office");
+    const claim = (thing, method, target) => {
+      g.go("unseen-claims-office"); g.thing(thing); g.arrive("retroactive-witness-desk");
+      assert.equal(g.get().found.includes(thing), true, "reaching the desk marks the thing as found");
+      g.method(method);
+      assert.deepEqual(g.schedules.pop(), ["retroactive-witness-desk", target], `${method} lands on ${target}`);
+      assert.equal(g.get().claims.includes(`${thing}:${method}`), false, "nothing is booked at click time");
+      g.arrive(target);
+      assert.ok(g.get().claims.includes(`${thing}:${method}`), "arrival books the claim");
+      if (target !== "unseen-claims-office") {
+        assert.equal(g.bridge(target), true);
+        assert.equal(g.els.get(`us-clerk-${target}`).hidden, false, "the clerk receipt shows in the main-line room");
+        g.clerk(target); g.arrive("unseen-claims-office");
+        assert.equal(g.get().activeClerk, null);
+      }
+      assert.match(g.els.get(`us-echo-${ { "the-chair-still-warm": "watch", "the-footprints-on-the-ceiling": "corridor", "the-letter-no-one-opened": "deadletter", "the-socket-that-lit-once": "switchboard", "the-knock-before-the-first": "threshold" }[thing]}`).textContent, /「/, "the main-line room gains an echo either way");
+    };
+    claim("the-chair-still-warm", "witness-it-yourself", "unseen-claims-office");
+    claim("the-footprints-on-the-ceiling", "leave-it-unseen", "unseen-claims-office");
+    claim("the-letter-no-one-opened", "assign-an-old-witness", "deadletter");
+    assert.equal(g.eligible(g.get()), false);
+    claim("the-socket-that-lit-once", "witness-it-yourself", "unseen-claims-office");
+    claim("the-knock-before-the-first", "leave-it-unseen", "unseen-claims-office");
+    assert.equal(g.eligible(g.get()), true, "five claims covering every method open the court");
+    g.go("remembrance"); g.courtEntry(); g.arrive("court-of-the-unwitnessed");
+    for (const [action, target] of [["let-unseen-things-keep-happening", "threshold"], ["make-the-lamp-the-only-witness", "remembrance"], ["close-every-eye-to-set-things-free", "unending-gallery"]]) {
+      g.go("court-of-the-unwitnessed"); g.verdict(action);
+      assert.deepEqual(g.schedules.pop(), ["court-of-the-unwitnessed", target]);
+      g.arrive(target);
+    }
+    assert.equal(g.get().courtOutcomes.length, 3);
+    g.forget();
+    assert.equal(g.mem.has("goddead_v93_unseen_claims"), false, "forget-all removes the v93 save");
+  }
+
+  /* 放回黑暗、pending 生命周期、上游在途、坏档 */
+  {
+    const g = makeV93();
+    g.entry(); g.arrive("unseen-claims-office");
+    g.thing("the-letter-no-one-opened"); g.arrive("retroactive-witness-desk");
+    g.abandon(); g.arrive("unseen-claims-office");
+    assert.equal(g.get().draft.thing, "", "putting it back clears the desk");
+    assert.equal(g.get().claims.length, 0);
+    assert.equal(g.deskOk(), false);
+    g.thing("the-letter-no-one-opened"); g.arrive("retroactive-witness-desk");
+    g.method("assign-an-old-witness");
+    g.resolve("retroactive-witness-desk");
+    assert.equal(g.get().pending?.kind, "claim", "refreshing at the desk keeps waiting");
+    g.arrive("deadletter"); g.arrive("deadletter");
+    assert.equal(g.get().claimRuns, 1, "repeated arrival books once");
+    g.clerk("deadletter"); g.arrive("corridor");
+    assert.equal(g.get().pending, null, "wandering elsewhere cancels safely");
+    assert.ok(g.get().activeClerk, "the receipt survives");
+    const h = makeV93({ v92Pending: { kind: "claim" } });
+    h.entry();
+    assert.equal(h.schedules.length, 0, "a v92 claim in transit blocks the v93 entry");
+    assert.equal(makeV93({ initial: "{bad" }).get().visited.office, false);
+    const forged = makeV93({ initial: {
+      version: 93, visited: { office: true, desk: true }, x: 1, draft: { thing: "nope" },
+      found: ["nope"], claims: ["the-chair-still-warm:leave-it-unseen", "fake:claim"], courtOutcomes: ["made-up"],
+      latestMethodByThing: { "the-chair-still-warm": "witness-it-yourself" },
+      activeClerk: { claim: "the-chair-still-warm:leave-it-unseen" },
+      pending: { kind: "thing", thing: "the-chair-still-warm", source: "unseen-claims-office", target: "retroactive-witness-desk", feedback: "forged" },
+    } }).get();
+    assert.equal("x" in forged, false);
+    assert.deepEqual(forged.found, ["the-chair-still-warm"], "found is whitelisted and implied by claims");
+    assert.deepEqual(forged.claims, ["the-chair-still-warm:leave-it-unseen"]);
+    assert.equal(forged.latestMethodByThing["the-chair-still-warm"], "", "a latest method never collected is rejected");
+    assert.equal(forged.activeClerk, null, "only old-witness claims can have a clerk");
+    assert.equal(forged.pending, null, "forged feedback is rejected");
   }
 }
 

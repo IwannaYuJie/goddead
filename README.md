@@ -4,9 +4,9 @@ Static landing page for [goddead.com](https://goddead.com).
 
 ## Current Experience
 
-当前实现基线为 **v92「目击责任保险局 / BUREAU OF WITNESS LIABILITY INSURANCE」**：全站共 199 个 hash 场景，静态资源缓存标记为 `v=92`。v92 在 v91 三项监护裁定集齐后开放 3 个新场景：为玩家自己真正看过的三件事（敲开的门、烧掉的祷词、先出生的见证者；档案行读取玩家存档）投保，用五档眼睑滑杆决定“看见了多少”，三种保单 × 三件事 = 9 份；理赔回执出现在门外 / 焚献室 / 倒生原因助产院；三件事、三种保单、一次闭眼、一次凝视即可开闭眼豁免听证庭。独立键 `goddead_v92_witness_liability`，只读 v91。v91 倒生原因助产院见 `docs/V91LateCauseMaternityWardDesign.md`。
+当前实现基线为 **v93「未被看见之物认领处 / CLAIMS OFFICE FOR THINGS NO ONE SAW」**：全站共 202 个 hash 场景，静态资源缓存标记为 `v=93`。v93 在 v92 三项豁免裁定集齐后开放 3 个新场景：提着一盏灯在全黑的认领大厅里找五件没人看见的事（指针 / 手指 / 方向键移动灯，Tab 也能逐个聚焦），到补证台用三种方式认领；只有“交给旧场景作证”要回到对应的主线房间（门外、走廊、值夜室、交换台、投递所）领回执。五件事都有下落、三种方式都用过即开无人目击终审庭。独立键 `goddead_v93_unseen_claims`。v92 目击责任保险局与 v91 倒生原因助产院见 `docs/` 下对应设计文档。
 
-完整玩家路线、支线网、v63-v92 解锁链与 v90–v92 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
+完整玩家路线、支线网、v63-v93 解锁链与 v90–v93 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
 
 The homepage is **The Living Shrine**, a hash-routed, scene-by-scene exploration game. Visitors knock three times at the sealed threshold — now a photographed bureau door — and on the third knock the door visually opens into a deep black-gold corridor before the visitor is pulled through into the next room; each completed action thereafter advances the ritual automatically.
 

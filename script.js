@@ -1382,6 +1382,8 @@ document.addEventListener("DOMContentLoaded", () => {
     replayLateCausePending(name);
     resolveWitnessPendingOnArrival(name);
     replayWitnessPending(name);
+    resolveUnseenPendingOnArrival(name);
+    replayUnseenPending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1525,9 +1527,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
@@ -1541,7 +1543,7 @@ document.addEventListener("DOMContentLoaded", () => {
        v88 窄桥：title-action 可抵达 unending-gallery；
        v89 窄桥：appeal-action 可抵达 unending-gallery；
        v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1726,6 +1728,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "witness-liability-insurance-bureau" && !witnessBureauCanVisit()) target = "remembrance";
     if (target === "eyelid-actuarial-room" && !eyelidActuarialRoomCanVisit()) target = "remembrance";
     if (target === "blind-exemption-hearing" && !blindExemptionHearingCanVisit()) target = "remembrance";
+
+    /* v93 未被看见之物认领处：未解锁或无合法抵达时一律回痕迹室 */
+    if (target === "unseen-claims-office" && !unseenOfficeCanVisit()) target = "remembrance";
+    if (target === "retroactive-witness-desk" && !retroactiveWitnessDeskCanVisit()) target = "remembrance";
+    if (target === "court-of-the-unwitnessed" && !courtOfTheUnwitnessedCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -47953,6 +47960,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetCauselessConsequenceRefugeeState();
       forgetLateCauseMaternityState();
       forgetWitnessLiabilityState();
+      forgetUnseenClaimsState();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
       if (firstDraftVaultResponse) firstDraftVaultResponse.textContent = "";
@@ -49524,6 +49532,707 @@ document.addEventListener("DOMContentLoaded", () => {
   /* 滑杆：键盘与拖动都会产生真实 input 事件 */
   onTrustedWitness('#wl-eyelid-slider', 'input', (e) => setWitnessLevel(Number(e.target.value)));
 
+  /* ============================================================
+     v93 未被看见之物认领处 / CLAIMS OFFICE FOR THINGS NO ONE SAW
+     看见成了法定义务之后，所有没人看见的事都堆到这里。玩家提着一盏灯在黑暗里找，
+     五件事 × 三种认领方式 = 15 份认领；只有“交给旧场景作证”要回主线房间领回执。
+     只读 v92；独立键 goddead_v93_unseen_claims；所有新操作只接受真实点击。
+     ============================================================ */
+  const UNSEEN_KEY = 'goddead_v93_unseen_claims';
+  const UNSEEN_VERSION = 93;
+  const UNSEEN_OFFICE = 'unseen-claims-office';
+  const UNSEEN_DESK = 'retroactive-witness-desk';
+  const UNSEEN_COURT = 'court-of-the-unwitnessed';
+  const UNSEEN_THINGS = [
+    'the-chair-still-warm',
+    'the-footprints-on-the-ceiling',
+    'the-letter-no-one-opened',
+    'the-socket-that-lit-once',
+    'the-knock-before-the-first',
+  ];
+  const UNSEEN_THING_TABLE = {
+    'the-chair-still-warm': {
+      title: '还温着的椅子', target: 'watch', place: '第三值夜室', clerkTitle: '值夜认领员',
+      feedback: '值夜室那把椅子还是温的。交班表上没有人坐过它。',
+      echoLead: '椅背上挂了一张认领签。',
+    },
+    'the-footprints-on-the-ceiling': {
+      title: '天花板上的脚印', target: 'corridor', place: '经文走廊', clerkTitle: '走廊认领员',
+      feedback: '一行脚印走过走廊的拱顶，走到经文最长的那一句就停了。',
+      echoLead: '拱顶的脚印旁多了一枚铜钉。',
+    },
+    'the-letter-no-one-opened': {
+      title: '没人拆的信', target: 'deadletter', place: '无主投递所', clerkTitle: '投递认领员',
+      feedback: '一封红蜡封口的信，收件人一栏写着“看见它的人”。',
+      echoLead: '退件架上多了一封没拆过的信。',
+    },
+    'the-socket-that-lit-once': {
+      title: '亮过一次的插孔', target: 'switchboard', place: '余响交换台', clerkTitle: '交换台认领员',
+      feedback: '交换台第五排的插孔亮过一次，那时候谁也没在听。',
+      echoLead: '第五排的插孔上贴了一张认领签。',
+    },
+    'the-knock-before-the-first': {
+      title: '第一下之前的敲门', target: 'threshold', place: '门外', clerkTitle: '门槛认领员',
+      feedback: '门板上有一道比你第一下更早的指节印。那时候门外还没有人。',
+      echoLead: '门上那道更早的指节印旁，多了一张认领签。',
+    },
+  };
+  const UNSEEN_METHODS = ['witness-it-yourself', 'leave-it-unseen', 'assign-an-old-witness'];
+  const UNSEEN_METHOD_TABLE = {
+    'witness-it-yourself': { title: '替它作证', tool: '放大镜', result: '从此这件事有了第一个目击者：你。它终于算是发生过。' },
+    'leave-it-unseen': { title: '继续不看', tool: '黑绒布', result: '你把黑布盖了回去。它继续在没人看的地方发生，登记簿上只写了一个“待”字。' },
+    'assign-an-old-witness': { title: '交给旧场景作证', tool: '铜铃', result: '铃声传回原处，那里的旧物被指定为补发的目击者。' },
+  };
+  const UNSEEN_CLAIM_IDS = [];
+  UNSEEN_THINGS.forEach((thing) => UNSEEN_METHODS.forEach((method) => UNSEEN_CLAIM_IDS.push(`${thing}:${method}`)));
+  const UNSEEN_VERDICT_ACTIONS = [
+    'let-unseen-things-keep-happening',
+    'make-the-lamp-the-only-witness',
+    'close-every-eye-to-set-things-free',
+  ];
+  const UNSEEN_VERDICT_TABLE = {
+    'let-unseen-things-keep-happening': {
+      title: '让未被看见的事继续发生', outcome: 'the-unseen-kept-happening', target: 'threshold',
+      feedback: '法庭驳回了所有目击申请。门外的事照常发生，只是再也没有人来签收。',
+    },
+    'make-the-lamp-the-only-witness': {
+      title: '让这盏灯成为唯一的目击者', outcome: 'the-lamp-became-the-only-witness', target: 'remembrance',
+      feedback: '法庭把证人席让给那盏灯。痕迹墙上从此只记录被照亮过的东西。',
+    },
+    'close-every-eye-to-set-things-free': {
+      title: '让所有眼睛闭上，事物自由', outcome: 'every-eye-closed-and-things-went-free', target: 'unending-gallery',
+      feedback: '法庭命令所有目击者闭眼。画廊里的画第一次在有人的时候也继续动。',
+    },
+  };
+  const UNSEEN_VERDICT_OUTCOME_IDS = UNSEEN_VERDICT_ACTIONS.map((a) => UNSEEN_VERDICT_TABLE[a].outcome);
+  const UNSEEN_ENTRY_FEEDBACK = '认领处没有开灯。门口的办事员递给你一盏提灯：看见什么，就认领什么。';
+  const UNSEEN_ABANDON_FEEDBACK = '你把它放回黑暗。办事员没有记录，好像你从没照到过它。';
+  const UNSEEN_COURT_ENTRY_FEEDBACK = '五件事都有了下落。无人目击终审庭点亮了唯一的一盏灯。';
+  const UNSEEN_CLERK_RETURN_FEEDBACK = '认领员把认领签系好，提着灯送你回到认领处。';
+  const UNSEEN_OLD_TARGETS = ['threshold', 'corridor', 'watch', 'switchboard', 'deadletter'];
+
+  function unseenDelay() {
+    return reduced ? 300 : 1400;
+  }
+
+  function unseenClaimTarget(thing, method) {
+    return method === 'assign-an-old-witness' ? UNSEEN_THING_TABLE[thing].target : UNSEEN_OFFICE;
+  }
+
+  function unseenClaimFeedback(thing, method) {
+    const t = UNSEEN_THING_TABLE[thing];
+    const m = UNSEEN_METHOD_TABLE[method];
+    return method === 'assign-an-old-witness' ? `铃声传回${t.place}，${t.clerkTitle}提着灯去认领「${t.title}」。` : `「${t.title}」：${m.result}`;
+  }
+
+  function defaultUnseenClaims() {
+    const latest = {};
+    UNSEEN_THINGS.forEach((thing) => { latest[thing] = ''; });
+    return {
+      version: UNSEEN_VERSION,
+      visited: { office: false, desk: false, court: false },
+      draft: { thing: '' },
+      found: [],
+      claims: [],
+      courtOutcomes: [],
+      claimRuns: 0,
+      courtRuns: 0,
+      latestMethodByThing: latest,
+      lastOutcome: '',
+      activeClerk: null,
+      pending: null,
+    };
+  }
+
+  function clampUnseenCount(n) {
+    const v = Math.floor(Number(n));
+    return Number.isFinite(v) ? Math.min(9999, Math.max(0, v)) : 0;
+  }
+
+  function normalizeUnseenState(raw) {
+    const d = defaultUnseenClaims();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== UNSEEN_VERSION) return d;
+    const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
+    d.visited = { office: v.office === true, desk: v.desk === true, court: v.court === true };
+    const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
+    d.draft = { thing: UNSEEN_THINGS.includes(dr.thing) ? dr.thing : '' };
+    const claims = new Set(Array.isArray(raw.claims) ? raw.claims : []);
+    d.claims = UNSEEN_CLAIM_IDS.filter((id) => claims.has(id));
+    const found = new Set(Array.isArray(raw.found) ? raw.found : []);
+    d.claims.forEach((id) => found.add(id.split(':')[0]));
+    d.found = UNSEEN_THINGS.filter((t) => found.has(t));
+    const outcomes = new Set(Array.isArray(raw.courtOutcomes) ? raw.courtOutcomes : []);
+    d.courtOutcomes = UNSEEN_VERDICT_OUTCOME_IDS.filter((id) => outcomes.has(id));
+    d.claimRuns = clampUnseenCount(raw.claimRuns);
+    d.courtRuns = clampUnseenCount(raw.courtRuns);
+    const latest = raw.latestMethodByThing && typeof raw.latestMethodByThing === 'object' ? raw.latestMethodByThing : {};
+    UNSEEN_THINGS.forEach((thing) => {
+      d.latestMethodByThing[thing] = UNSEEN_METHODS.includes(latest[thing]) && d.claims.includes(`${thing}:${latest[thing]}`) ? latest[thing] : '';
+    });
+    if (typeof raw.lastOutcome === 'string' && (d.claims.includes(raw.lastOutcome) || d.courtOutcomes.includes(raw.lastOutcome))) d.lastOutcome = raw.lastOutcome;
+    const c = raw.activeClerk;
+    if (c && typeof c === 'object' && !Array.isArray(c) && Object.keys(c).length === 1 && typeof c.claim === 'string' && c.claim.endsWith(':assign-an-old-witness') && d.claims.includes(c.claim)) {
+      d.activeClerk = { claim: c.claim };
+    }
+    d.pending = normalizeUnseenPending(raw.pending, d);
+    return d;
+  }
+
+  function unseenCourtProgress(st) {
+    const things = new Set();
+    const methods = new Set();
+    st.claims.forEach((id) => {
+      const [thing, method] = id.split(':');
+      things.add(thing);
+      methods.add(method);
+    });
+    return { things: things.size, methods: methods.size };
+  }
+
+  function unseenCourtEligible(st) {
+    const p = unseenCourtProgress(st);
+    return p.things === UNSEEN_THINGS.length && p.methods === UNSEEN_METHODS.length;
+  }
+
+  function expectedUnseenPending(p, st) {
+    const clean = !st.activeClerk;
+    switch (p.kind) {
+      case 'entry':
+        return clean ? { feedback: UNSEEN_ENTRY_FEEDBACK, kind: 'entry', target: UNSEEN_OFFICE } : null;
+      case 'thing': {
+        const t = UNSEEN_THING_TABLE[p.thing];
+        if (!t || !clean) return null;
+        return { feedback: t.feedback, kind: 'thing', source: UNSEEN_OFFICE, target: UNSEEN_DESK, thing: p.thing };
+      }
+      case 'claim': {
+        if (!UNSEEN_THING_TABLE[p.thing] || !UNSEEN_METHOD_TABLE[p.method] || !clean || st.draft.thing !== p.thing) return null;
+        return { claim: `${p.thing}:${p.method}`, feedback: unseenClaimFeedback(p.thing, p.method), kind: 'claim', method: p.method, source: UNSEEN_DESK, target: unseenClaimTarget(p.thing, p.method), thing: p.thing };
+      }
+      case 'abandon':
+        return st.draft.thing ? { feedback: UNSEEN_ABANDON_FEEDBACK, kind: 'abandon', source: UNSEEN_DESK, target: UNSEEN_OFFICE } : null;
+      case 'clerk-return': {
+        if (!st.activeClerk) return null;
+        const thing = st.activeClerk.claim.split(':')[0];
+        return { claim: st.activeClerk.claim, feedback: UNSEEN_CLERK_RETURN_FEEDBACK, from: UNSEEN_THING_TABLE[thing].target, kind: 'clerk-return', target: UNSEEN_OFFICE };
+      }
+      case 'court-entry':
+        return clean && unseenCourtEligible(st) ? { feedback: UNSEEN_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: UNSEEN_COURT } : null;
+      case 'verdict': {
+        const a = UNSEEN_VERDICT_TABLE[p.action];
+        if (!a || !clean || !st.visited.court || !unseenCourtEligible(st)) return null;
+        return { action: p.action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: UNSEEN_COURT, target: a.target };
+      }
+      default:
+        return null;
+    }
+  }
+
+  function normalizeUnseenPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+    const expected = expectedUnseenPending(p, st);
+    if (!expected) return null;
+    const keys = Object.keys(p).sort();
+    const want = Object.keys(expected).sort();
+    if (keys.length !== want.length || keys.some((k, i) => k !== want[i] || p[k] !== expected[k])) return null;
+    return expected;
+  }
+
+  function unseenClaimsUnlocked() {
+    const compute = () => {
+      if (!witnessLiabilityUnlocked()) return false;
+      const v92 = getWitnessLiability();
+      return witnessHearingEligible(v92) && WITNESS_VERDICT_OUTCOME_IDS.every((o) => v92.hearingOutcomes.includes(o));
+    };
+    return store.memo ? store.memo("unseenClaimsUnlocked", compute) : compute();
+  }
+
+  function getUnseenClaims() {
+    if (!unseenClaimsUnlocked()) return defaultUnseenClaims();
+    let raw;
+    try { raw = JSON.parse(store.get(UNSEEN_KEY, '{}')); } catch { return defaultUnseenClaims(); }
+    return normalizeUnseenState(raw);
+  }
+
+  function saveUnseenClaims(st) {
+    if (!unseenClaimsUnlocked()) return defaultUnseenClaims();
+    const canonical = normalizeUnseenState(Object.assign({}, st, { version: UNSEEN_VERSION }));
+    store.set(UNSEEN_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function unseenPendingLogicalSource(p) {
+    if (!p) return '';
+    if (p.kind === 'entry' || p.kind === 'court-entry') return 'remembrance';
+    if (p.kind === 'clerk-return') return p.from;
+    return p.source || '';
+  }
+
+  function resolveUnseenPendingOnArrival(sceneName) {
+    const st = getUnseenClaims();
+    const p = st.pending;
+    if (!p) return st;
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.office = true;
+      } else if (p.kind === 'thing') {
+        st.visited.desk = true;
+        st.draft = { thing: p.thing };
+        if (!st.found.includes(p.thing)) st.found = st.found.concat(p.thing);
+      } else if (p.kind === 'claim') {
+        st.claimRuns = clampUnseenCount(st.claimRuns + 1);
+        if (!st.claims.includes(p.claim)) st.claims = st.claims.concat(p.claim);
+        st.latestMethodByThing[p.thing] = p.method;
+        st.lastOutcome = p.claim;
+        st.draft = { thing: '' };
+        st.visited.office = true;
+        if (p.method === 'assign-an-old-witness') st.activeClerk = { claim: p.claim };
+      } else if (p.kind === 'abandon') {
+        st.draft = { thing: '' };
+        st.visited.office = true;
+      } else if (p.kind === 'clerk-return') {
+        st.activeClerk = null;
+        st.visited.office = true;
+      } else if (p.kind === 'court-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'verdict') {
+        st.courtRuns = clampUnseenCount(st.courtRuns + 1);
+        if (!st.courtOutcomes.includes(p.outcome)) st.courtOutcomes = st.courtOutcomes.concat(p.outcome);
+        st.lastOutcome = p.outcome;
+      }
+      return saveUnseenClaims(st);
+    }
+    if (sceneName === unseenPendingLogicalSource(p)) return st;
+    st.pending = null;
+    return saveUnseenClaims(st);
+  }
+
+  const UNSEEN_RESPONSE_BY_KIND = {
+    entry: '#us-entry-response',
+    thing: '#unseen-claims-office-response',
+    claim: '#retroactive-witness-desk-response',
+    abandon: '#retroactive-witness-desk-response',
+    'court-entry': '#us-court-entry-response',
+    verdict: '#court-of-the-unwitnessed-response',
+  };
+
+  function showUnseenResponse(selector, text) {
+    const el = $(selector);
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = !text;
+  }
+
+  function syncUnseenAll() {
+    syncUnseenOffice();
+    syncRetroactiveWitnessDesk();
+    syncCourtOfTheUnwitnessed();
+    syncUnseenClerks();
+    syncUnseenEchoes();
+    syncUnseenRemembrance();
+    syncUnseenLinks();
+  }
+
+  function replayUnseenPending(sceneName) {
+    const st = getUnseenClaims();
+    const p = st.pending;
+    if (p && p.target === sceneName) resolveUnseenPendingOnArrival(sceneName);
+    else if (p && sceneName === unseenPendingLogicalSource(p)) {
+      syncUnseenAll();
+      const selector = p.kind === 'clerk-return' ? `#us-clerk-response-${p.from}` : UNSEEN_RESPONSE_BY_KIND[p.kind];
+      if (selector) showUnseenResponse(selector, p.feedback);
+      AutoAdvance.schedule(sceneName, p.target, { delay: unseenDelay() });
+      return;
+    } else if (p) {
+      st.pending = null;
+      saveUnseenClaims(st);
+    }
+    syncUnseenAll();
+  }
+
+  function launchUnseen(scene, buttonId, pending, responseSelector) {
+    const st = getUnseenClaims();
+    st.pending = pending;
+    const saved = saveUnseenClaims(st);
+    if (!saved.pending) return false;
+    const btn = buttonId ? $(`#${buttonId}`) : null;
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+    if (AudioEngine.whoosh) AudioEngine.whoosh();
+    syncUnseenAll();
+    showUnseenResponse(responseSelector, pending.feedback);
+    AutoAdvance.schedule(scene, pending.target, { delay: unseenDelay() });
+    return true;
+  }
+
+  function unseenReady(scene, buttonId) {
+    if (currentScene !== scene) return null;
+    if (AutoAdvance.has(scene)) return null;
+    if (buttonId && !buttonAvailable(buttonId)) return null;
+    if (!unseenClaimsUnlocked()) return null;
+    const st = getUnseenClaims();
+    return st.pending ? null : st;
+  }
+
+  function chooseUnseenEntry() {
+    const st = unseenReady('remembrance', 'us-entry-btn');
+    if (!st || st.activeClerk) return;
+    if (getWitnessLiability().pending) return;
+    launchUnseen('remembrance', 'us-entry-btn', { feedback: UNSEEN_ENTRY_FEEDBACK, kind: 'entry', target: UNSEEN_OFFICE }, '#us-entry-response');
+  }
+
+  function chooseUnseenThing(thing) {
+    const t = UNSEEN_THING_TABLE[thing];
+    if (!t) return;
+    const st = unseenReady(UNSEEN_OFFICE, `us-thing-${thing}`);
+    if (!st || st.activeClerk) return;
+    launchUnseen(UNSEEN_OFFICE, `us-thing-${thing}`, { feedback: t.feedback, kind: 'thing', source: UNSEEN_OFFICE, target: UNSEEN_DESK, thing }, '#unseen-claims-office-response');
+  }
+
+  function chooseUnseenMethod(method) {
+    if (!UNSEEN_METHOD_TABLE[method]) return;
+    const st = unseenReady(UNSEEN_DESK, `us-method-${method}`);
+    if (!st || !st.draft.thing || st.activeClerk) return;
+    const thing = st.draft.thing;
+    launchUnseen(UNSEEN_DESK, `us-method-${method}`, {
+      claim: `${thing}:${method}`, feedback: unseenClaimFeedback(thing, method), kind: 'claim', method, source: UNSEEN_DESK, target: unseenClaimTarget(thing, method), thing,
+    }, '#retroactive-witness-desk-response');
+  }
+
+  function chooseUnseenAbandon() {
+    const st = unseenReady(UNSEEN_DESK, 'us-abandon');
+    if (!st || !st.draft.thing) return;
+    launchUnseen(UNSEEN_DESK, 'us-abandon', { feedback: UNSEEN_ABANDON_FEEDBACK, kind: 'abandon', source: UNSEEN_DESK, target: UNSEEN_OFFICE }, '#retroactive-witness-desk-response');
+  }
+
+  function chooseUnseenClerkReturn(scene) {
+    const st = unseenReady(scene, `us-clerk-return-${scene}`);
+    if (!st || !st.activeClerk) return;
+    if (UNSEEN_THING_TABLE[st.activeClerk.claim.split(':')[0]].target !== scene) return;
+    launchUnseen(scene, `us-clerk-return-${scene}`, { claim: st.activeClerk.claim, feedback: UNSEEN_CLERK_RETURN_FEEDBACK, from: scene, kind: 'clerk-return', target: UNSEEN_OFFICE }, `#us-clerk-response-${scene}`);
+  }
+
+  function chooseUnseenCourtEntry() {
+    const st = unseenReady('remembrance', 'us-court-entry-btn');
+    if (!st || st.activeClerk || !unseenCourtEligible(st)) return;
+    launchUnseen('remembrance', 'us-court-entry-btn', { feedback: UNSEEN_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: UNSEEN_COURT }, '#us-court-entry-response');
+  }
+
+  function chooseUnseenVerdict(action) {
+    const a = UNSEEN_VERDICT_TABLE[action];
+    if (!a) return;
+    const st = unseenReady(UNSEEN_COURT, `us-verdict-${action}`);
+    if (!st || st.activeClerk || !st.visited.court || !unseenCourtEligible(st)) return;
+    launchUnseen(UNSEEN_COURT, `us-verdict-${action}`, { action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: UNSEEN_COURT, target: a.target }, '#court-of-the-unwitnessed-response');
+  }
+
+  function unseenClaimsBridgeAllows(targetScene) {
+    if (!unseenClaimsUnlocked()) return false;
+    const st = getUnseenClaims();
+    if (st.pending && (st.pending.kind === 'claim' || st.pending.kind === 'verdict') && st.pending.target === targetScene) return true;
+    if (st.activeClerk && UNSEEN_THING_TABLE[st.activeClerk.claim.split(':')[0]].target === targetScene) return true;
+    const verdict = UNSEEN_VERDICT_ACTIONS.find((a) => UNSEEN_VERDICT_TABLE[a].outcome === st.lastOutcome);
+    return Boolean(verdict && UNSEEN_VERDICT_TABLE[verdict].target === targetScene);
+  }
+
+  function unseenOfficeCanVisit() {
+    if (!unseenClaimsUnlocked()) return false;
+    const st = getUnseenClaims();
+    return st.visited.office || Boolean(st.pending && st.pending.target === UNSEEN_OFFICE);
+  }
+
+  function retroactiveWitnessDeskCanVisit() {
+    if (!unseenClaimsUnlocked()) return false;
+    const st = getUnseenClaims();
+    if (st.visited.desk && st.draft.thing) return true;
+    return Boolean(st.pending && st.pending.kind === 'thing');
+  }
+
+  function courtOfTheUnwitnessedCanVisit() {
+    if (!unseenClaimsUnlocked()) return false;
+    const st = getUnseenClaims();
+    if (st.visited.court && unseenCourtEligible(st)) return true;
+    return Boolean(st.pending && st.pending.kind === 'court-entry');
+  }
+
+  /* 提灯：指针或方向键移动灯光；按钮聚焦时灯移到它身上；在灯圈里的东西才显形 */
+  /* 视觉光圈与“照到”判定共用同一个像素半径：图宽的 14%，粗指针（触屏）放大到 19% */
+  const unseenLamp = { x: 50, y: 55 };
+  const unseenLampFactor = () => (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(pointer: coarse)').matches ? 0.19 : 0.14);
+
+  function paintUnseenLamp() {
+    const fig = $('#us-office-figure');
+    if (!fig) return;
+    const rect = fig.getBoundingClientRect ? fig.getBoundingClientRect() : { width: 0, height: 0 };
+    const width = rect.width || 760;
+    const height = rect.height || width / 1.5;
+    const radius = width * unseenLampFactor();
+    fig.style.setProperty('--us-lamp-x', `${unseenLamp.x}%`);
+    fig.style.setProperty('--us-lamp-y', `${unseenLamp.y}%`);
+    fig.style.setProperty('--us-lamp-r', `${Math.round(radius)}px`);
+    UNSEEN_THINGS.forEach((thing) => {
+      const btn = $(`#us-thing-${thing}`);
+      if (!btn) return;
+      const dx = ((Number(btn.dataset.cx) - unseenLamp.x) / 100) * width;
+      const dy = ((Number(btn.dataset.cy) - unseenLamp.y) / 100) * height;
+      btn.classList.toggle('is-lit', Math.hypot(dx, dy) <= radius);
+    });
+  }
+
+  function moveUnseenLamp(x, y) {
+    unseenLamp.x = Math.max(0, Math.min(100, x));
+    unseenLamp.y = Math.max(0, Math.min(100, y));
+    paintUnseenLamp();
+  }
+
+  function syncUnseenOffice() {
+    const canVisit = unseenOfficeCanVisit();
+    const st = getUnseenClaims();
+    const fig = $('#us-office-figure');
+    if (fig) fig.hidden = !canVisit;
+    const blocked = !canVisit || Boolean(st.pending) || Boolean(st.activeClerk);
+    UNSEEN_THINGS.forEach((thing) => {
+      const btn = $(`#us-thing-${thing}`);
+      if (!btn) return;
+      btn.disabled = blocked;
+      btn.classList.toggle('is-found', st.found.includes(thing));
+      btn.classList.toggle('is-claimed', st.claims.some((id) => id.startsWith(`${thing}:`)));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'thing' && st.pending.thing === thing ? 'true' : 'false');
+    });
+    const tally = $('#us-office-tally');
+    if (tally) {
+      const claimed = UNSEEN_THINGS.filter((t) => st.claims.some((id) => id.startsWith(`${t}:`))).length;
+      tally.textContent = `灯下已认领 ${claimed}/${UNSEEN_THINGS.length} 件；照亮过 ${st.found.length} 件。`;
+      tally.hidden = !canVisit;
+    }
+    const note = $('#us-office-note');
+    if (note) {
+      let text = '';
+      if (st.activeClerk) {
+        const t = UNSEEN_THING_TABLE[st.activeClerk.claim.split(':')[0]];
+        text = `先完成正在进行的认领：${t.clerkTitle}还在${t.place}等你。`;
+      } else if (st.draft.thing) {
+        text = `补证台上还放着「${UNSEEN_THING_TABLE[st.draft.thing].title}」。`;
+      }
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const cont = $('#us-continue');
+    if (cont) {
+      const show = canVisit && Boolean(st.draft.thing) && !st.activeClerk;
+      cont.hidden = !show;
+      cont.disabled = !show || Boolean(st.pending);
+    }
+    paintUnseenLamp();
+    if (!st.pending || st.pending.source !== UNSEEN_OFFICE) showUnseenResponse('#unseen-claims-office-response', '');
+  }
+
+  function syncRetroactiveWitnessDesk() {
+    const canVisit = retroactiveWitnessDeskCanVisit();
+    const st = getUnseenClaims();
+    const ready = canVisit && Boolean(st.draft.thing);
+    const panel = $('#us-desk-panel');
+    if (panel) panel.hidden = !ready;
+    if (ready) {
+      const t = UNSEEN_THING_TABLE[st.draft.thing];
+      const title = $('#us-desk-thing');
+      if (title) title.textContent = `待认领：${t.title} —— ${t.feedback}`;
+      const assign = $('#us-method-assign-an-old-witness-where');
+      if (assign) assign.textContent = `会去${t.place}，由${t.clerkTitle}出具回执。`;
+    }
+    UNSEEN_METHODS.forEach((method) => {
+      const btn = $(`#us-method-${method}`);
+      if (!btn) return;
+      btn.disabled = !ready || Boolean(st.pending);
+      btn.classList.toggle('is-collected', Boolean(st.draft.thing) && st.claims.includes(`${st.draft.thing}:${method}`));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'claim' && st.pending.method === method ? 'true' : 'false');
+    });
+    const abandon = $('#us-abandon');
+    if (abandon) abandon.disabled = !ready || Boolean(st.pending);
+    if (!st.pending || st.pending.source !== UNSEEN_DESK) showUnseenResponse('#retroactive-witness-desk-response', '');
+  }
+
+  function syncCourtOfTheUnwitnessed() {
+    const canVisit = courtOfTheUnwitnessedCanVisit();
+    const st = getUnseenClaims();
+    const fig = $('#court-of-the-unwitnessed-figure');
+    if (fig) fig.hidden = !canVisit;
+    UNSEEN_VERDICT_ACTIONS.forEach((action) => {
+      const btn = $(`#us-verdict-${action}`);
+      if (!btn) return;
+      btn.disabled = !canVisit || Boolean(st.pending) || Boolean(st.activeClerk);
+      btn.classList.toggle('is-collected', st.courtOutcomes.includes(UNSEEN_VERDICT_TABLE[action].outcome));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'verdict' && st.pending.action === action ? 'true' : 'false');
+    });
+    if (!st.pending || st.pending.source !== UNSEEN_COURT) showUnseenResponse('#court-of-the-unwitnessed-response', '');
+  }
+
+  function syncUnseenClerks() {
+    const st = unseenClaimsUnlocked() ? getUnseenClaims() : defaultUnseenClaims();
+    const thing = st.activeClerk ? st.activeClerk.claim.split(':')[0] : '';
+    UNSEEN_OLD_TARGETS.forEach((scene) => {
+      const box = $(`#us-clerk-${scene}`);
+      if (!box) return;
+      const show = Boolean(thing) && UNSEEN_THING_TABLE[thing].target === scene;
+      box.hidden = !show;
+      const btn = $(`#us-clerk-return-${scene}`);
+      if (btn) {
+        btn.disabled = !show || Boolean(st.pending);
+        btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'clerk-return' && st.pending.from === scene ? 'true' : 'false');
+      }
+      if (!show) return;
+      const t = UNSEEN_THING_TABLE[thing];
+      const head = $(`#us-clerk-title-${scene}`);
+      if (head) head.textContent = `认领回执 · ${t.clerkTitle} · ${t.title}`;
+      const body = $(`#us-clerk-body-${scene}`);
+      if (body) body.textContent = `${t.feedback}${UNSEEN_METHOD_TABLE['assign-an-old-witness'].result}`;
+      if (!st.pending || st.pending.kind !== 'clerk-return') showUnseenResponse(`#us-clerk-response-${scene}`, '');
+    });
+  }
+
+  function syncUnseenEchoes() {
+    const st = unseenClaimsUnlocked() ? getUnseenClaims() : defaultUnseenClaims();
+    UNSEEN_THINGS.forEach((thing) => {
+      const t = UNSEEN_THING_TABLE[thing];
+      const el = $(`#us-echo-${t.target}`);
+      if (!el) return;
+      const method = st.latestMethodByThing[thing];
+      if (!method) { el.hidden = true; el.textContent = ''; return; }
+      el.textContent = `${t.echoLead}「${UNSEEN_METHOD_TABLE[method].title}」${UNSEEN_METHOD_TABLE[method].result}`;
+      el.hidden = false;
+    });
+  }
+
+  function syncUnseenRemembrance() {
+    const unlocked = unseenClaimsUnlocked();
+    const shell = $('#us-codex');
+    const memory = $('#us-memory');
+    if (!unlocked) {
+      [shell, memory].forEach((el) => { if (el) el.hidden = true; });
+      return;
+    }
+    const st = getUnseenClaims();
+    const v92Pending = Boolean(getWitnessLiability().pending);
+    if (shell) shell.hidden = false;
+    const progress = unseenCourtProgress(st);
+    if (memory) {
+      memory.hidden = false;
+      memory.textContent = `未被看见之物：照亮 ${st.found.length}/5 件，认领 ${st.claims.length}/15 份，共认领 ${st.claimRuns} 次；无人目击裁定 ${st.courtOutcomes.length}/3。`;
+    }
+    const hints = $('#us-court-hints');
+    if (hints) {
+      const rows = [['五件事都有下落', progress.things, UNSEEN_THINGS.length], ['三种认领方式都用过', progress.methods, UNSEEN_METHODS.length]];
+      hints.replaceChildren(...rows.map(([label, have, need]) => {
+        const li = document.createElement('li');
+        li.className = have >= need ? 'is-met' : '';
+        li.textContent = `${label} ${have}/${need}`;
+        return li;
+      }));
+    }
+    const clean = !st.pending && !st.activeClerk;
+    const entry = $('#us-entry-btn');
+    if (entry) {
+      entry.hidden = false;
+      entry.disabled = !clean || v92Pending;
+      entry.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' ? 'true' : 'false');
+    }
+    const note = $('#us-entry-note');
+    if (note) {
+      const text = v92Pending ? '先完成正在抵达的回执：目击责任保险局还有一份保单在路上。' : st.activeClerk ? '先完成正在进行的认领。' : '';
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const court = $('#us-court-entry-btn');
+    if (court) {
+      const eligible = unseenCourtEligible(st);
+      court.hidden = !eligible;
+      court.disabled = !eligible || !clean;
+      court.setAttribute('aria-pressed', st.pending && st.pending.kind === 'court-entry' ? 'true' : 'false');
+    }
+    const grid = $('#us-codex-grid');
+    if (grid) {
+      const have = new Set(st.claims);
+      const cells = UNSEEN_CLAIM_IDS.map((id) => {
+        const [thing, method] = id.split(':');
+        const cell = document.createElement('div');
+        cell.className = `us-cell ${have.has(id) ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = have.has(id) ? `${UNSEEN_THING_TABLE[thing].title}\n${UNSEEN_METHOD_TABLE[method].title}` : '？？？';
+        return cell;
+      });
+      UNSEEN_VERDICT_ACTIONS.forEach((action) => {
+        const a = UNSEEN_VERDICT_TABLE[action];
+        const got = st.courtOutcomes.includes(a.outcome);
+        const cell = document.createElement('div');
+        cell.className = `us-cell us-cell-verdict ${got ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = got ? `[无人目击终审庭] ${a.title}\n${a.feedback}` : '？？？';
+        cells.push(cell);
+      });
+      grid.replaceChildren(...cells);
+    }
+    if (!st.pending || (st.pending.kind !== 'entry' && st.pending.kind !== 'court-entry')) {
+      showUnseenResponse('#us-entry-response', '');
+      showUnseenResponse('#us-court-entry-response', '');
+    }
+  }
+
+  function syncUnseenLinks() {
+    const st = unseenClaimsUnlocked() ? getUnseenClaims() : null;
+    [['unseen-claims-office-link', 'office'], ['retroactive-witness-desk-link', 'desk'], ['court-of-the-unwitnessed-link', 'court']].forEach(([id, key]) => {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !(st && st.visited[key]);
+    });
+  }
+
+  function forgetUnseenClaimsState() {
+    try { localStorage.removeItem(UNSEEN_KEY); } catch {}
+    [UNSEEN_OFFICE, UNSEEN_DESK, UNSEEN_COURT].forEach((scene) => AutoAdvance.clear(scene));
+    ['#us-codex', '#us-memory', '#us-office-figure', '#us-desk-panel', '#court-of-the-unwitnessed-figure', '#us-office-tally',
+      '#unseen-claims-office-link', '#retroactive-witness-desk-link', '#court-of-the-unwitnessed-link', '#us-continue', '#us-court-entry-btn',
+      '#us-entry-response', '#us-court-entry-response', '#unseen-claims-office-response', '#retroactive-witness-desk-response', '#court-of-the-unwitnessed-response',
+      ...UNSEEN_OLD_TARGETS.flatMap((scene) => [`#us-clerk-${scene}`, `#us-echo-${scene}`]),
+    ].forEach((sel) => { const el = $(sel); if (el) el.hidden = true; });
+    $$('[id^="us-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+  }
+
+  const onTrustedUnseen = (selector, handler) => {
+    const el = $(selector);
+    if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+  };
+  onTrustedUnseen('#us-entry-btn', chooseUnseenEntry);
+  onTrustedUnseen('#us-court-entry-btn', chooseUnseenCourtEntry);
+  onTrustedUnseen('#us-abandon', chooseUnseenAbandon);
+  onTrustedUnseen('#us-continue', () => {
+    const st = unseenReady(UNSEEN_OFFICE, 'us-continue');
+    if (!st || !st.draft.thing || st.activeClerk) return;
+    const thing = st.draft.thing;
+    launchUnseen(UNSEEN_OFFICE, 'us-continue', { feedback: UNSEEN_THING_TABLE[thing].feedback, kind: 'thing', source: UNSEEN_OFFICE, target: UNSEEN_DESK, thing }, '#unseen-claims-office-response');
+  });
+  UNSEEN_THINGS.forEach((thing) => onTrustedUnseen(`#us-thing-${thing}`, () => chooseUnseenThing(thing)));
+  UNSEEN_METHODS.forEach((method) => onTrustedUnseen(`#us-method-${method}`, () => chooseUnseenMethod(method)));
+  UNSEEN_VERDICT_ACTIONS.forEach((action) => onTrustedUnseen(`#us-verdict-${action}`, () => chooseUnseenVerdict(action)));
+  UNSEEN_OLD_TARGETS.forEach((scene) => onTrustedUnseen(`#us-clerk-return-${scene}`, () => chooseUnseenClerkReturn(scene)));
+
+  /* 灯光只是视觉，不改任何状态；指针、触控、方向键与聚焦都能移动它 */
+  const unseenFigure = $('#us-office-figure');
+  if (unseenFigure) {
+    const fromPointer = (e) => {
+      const r = unseenFigure.getBoundingClientRect();
+      if (!r.width || !r.height) return;
+      moveUnseenLamp(((e.clientX - r.left) / r.width) * 100, ((e.clientY - r.top) / r.height) * 100);
+    };
+    unseenFigure.addEventListener('pointermove', fromPointer, { passive: true });
+    unseenFigure.addEventListener('pointerdown', fromPointer, { passive: true });
+    unseenFigure.addEventListener('keydown', (e) => {
+      const step = { ArrowLeft: [-5, 0], ArrowRight: [5, 0], ArrowUp: [0, -6], ArrowDown: [0, 6] }[e.key];
+      if (!step || e.target !== unseenFigure) return;
+      e.preventDefault();
+      moveUnseenLamp(unseenLamp.x + step[0], unseenLamp.y + step[1]);
+    });
+    unseenFigure.addEventListener('focusin', (e) => {
+      const btn = e.target.closest && e.target.closest('.us-thing');
+      if (btn) moveUnseenLamp(Number(btn.dataset.cx), Number(btn.dataset.cy));
+    });
+  }
+
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -49670,8 +50379,25 @@ document.addEventListener("DOMContentLoaded", () => {
     if (eligible) items.push(`听证条件已满足；豁免裁定已得 ${st.hearingOutcomes.length}/3`);
     if (st.activeAdjuster) items.push("有一份理赔回执在旧场景等你：点理赔员返回保险局");
     else if (st.draft.event) items.push(`保险局里有一份没盖章的投保：${WITNESS_EVENT_TABLE[st.draft.event].title}`);
-    if (eligible && st.hearingOutcomes.length >= 3) return { title: "v92 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    if (eligible && st.hearingOutcomes.length >= 3) return unseenProgressStep();
     return { title: "v92 目击责任保险局", items, target: eligible ? "wl-hearing" : "wl-liability", done: false };
+  };
+
+  /* v93：按五件事的下落、三种认领方式与三项裁定给出缺项 */
+  const unseenProgressStep = () => {
+    if (!unseenClaimsUnlocked()) return null;
+    const st = getUnseenClaims();
+    const items = [];
+    const things = UNSEEN_THINGS.filter((t) => !st.claims.some((id) => id.startsWith(`${t}:`))).map((t) => UNSEEN_THING_TABLE[t].title);
+    const methods = UNSEEN_METHODS.filter((m) => !st.claims.some((id) => id.endsWith(`:${m}`))).map((m) => UNSEEN_METHOD_TABLE[m].title);
+    if (things.length) items.push(`黑暗里还没认领的：${things.length} 件（提着灯去认领处找）`);
+    if (methods.length) items.push(`还没用过的认领方式：${methods.join("、")}`);
+    const eligible = unseenCourtEligible(st);
+    if (eligible) items.push(`开庭条件已满足；无人目击裁定已得 ${st.courtOutcomes.length}/3`);
+    if (st.activeClerk) items.push("有一份认领回执在主线房间等你：点认领员回到认领处");
+    else if (st.draft.thing) items.push(`补证台上还放着「${UNSEEN_THING_TABLE[st.draft.thing].title}」`);
+    if (eligible && st.courtOutcomes.length >= 3) return { title: "v93 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    return { title: "v93 未被看见之物认领处", items, target: eligible ? "us-court" : "us", done: false };
   };
 
   const syncProgressGuide = () => {
@@ -50017,6 +50743,7 @@ document.addEventListener("DOMContentLoaded", () => {
   syncCauselessConsequenceRefugeeLinks();
   syncLateCauseAll();
   syncWitnessAll();
+  syncUnseenAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

@@ -14129,3 +14129,249 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
   .wl-eyelid-meter::before,
   .wl-eyelid-meter::after { transition: none; }
 }
+
+/* ============================================================
+   v93 未被看见之物认领处：黑暗、提灯与五件没人看见的事
+   ============================================================ */
+.us-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  aspect-ratio: 3 / 2;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border: 1px solid rgba(154, 127, 71, 0.35);
+  background: #030303;
+}
+
+.us-figure .us-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+/* 灯圈：一层几乎全黑的幕布，在 --us-lamp-x / --us-lamp-y 处开一个暖色的洞 */
+.us-office-figure {
+  --us-lamp-x: 50%;
+  --us-lamp-y: 55%;
+  --us-lamp-r: 106px;
+  cursor: none;
+  touch-action: none;
+}
+
+.us-office-figure .us-img { filter: brightness(1.9) contrast(1.05); }
+
+.us-dark {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(circle var(--us-lamp-r) at var(--us-lamp-x) var(--us-lamp-y),
+    rgba(255, 196, 120, 0.08) 0,
+    rgba(3, 3, 3, 0.08) 62%,
+    rgba(3, 3, 3, 0.86) 100%,
+    rgba(3, 3, 3, 0.97) 170%);
+}
+
+.us-office-figure:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+.us-thing {
+  position: absolute;
+  z-index: 3;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0.3rem;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 0.78rem;
+  cursor: none;
+  opacity: 0;
+  transition: opacity 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+
+.us-thing .dh-label { padding: 0.15rem 0.5rem; background: rgba(8, 7, 6, 0.78); letter-spacing: 0.1em; white-space: nowrap; }
+.us-thing.is-lit,
+.us-thing:focus-visible { opacity: 1; border-color: rgba(222, 196, 140, 0.55); }
+.us-thing:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.us-thing.is-claimed { opacity: 0.55; }
+.us-thing.is-claimed .dh-label::after { content: " ✓"; color: var(--gold); }
+.us-thing:disabled { cursor: default; }
+.us-thing[aria-pressed="true"] { opacity: 1; border-color: var(--blood); }
+
+.us-thing-chair { left: 5%; top: 62%; width: 11.5%; height: 21%; }
+.us-thing-ceiling { left: 36%; top: 1%; width: 21%; height: 21%; }
+.us-thing-letter { left: 41.5%; top: 66%; width: 9.5%; height: 19%; }
+.us-thing-socket { left: 75.5%; top: 29%; width: 12.5%; height: 28%; }
+.us-thing-door { left: 89.5%; top: 60%; width: 8%; height: 22%; }
+
+/* 灯的光晕跟着指针，只作装饰 */
+.us-office-figure::after {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  left: var(--us-lamp-x);
+  top: var(--us-lamp-y);
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 214, 150, 0.95), rgba(255, 170, 80, 0));
+  pointer-events: none;
+}
+
+.us-hotspot {
+  position: absolute;
+  z-index: 3;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0.4rem;
+  border: 1px solid rgba(222, 217, 208, 0.18);
+  background: rgba(8, 7, 6, 0.1);
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.us-hotspot .dh-label { padding: 0.2rem 0.55rem; background: rgba(8, 7, 6, 0.74); letter-spacing: 0.12em; white-space: nowrap; }
+.us-hotspot:hover,
+.us-hotspot:focus-visible { border-color: var(--gold); background: rgba(154, 127, 71, 0.16); outline: 2px solid var(--gold); outline-offset: 2px; }
+.us-hotspot:disabled,
+.us-hotspot[aria-pressed="true"] { border-color: var(--blood); cursor: default; outline: none; }
+.us-hotspot.is-collected .dh-label::after { content: " ✓"; color: var(--gold); }
+.us-hotspot-door { left: 16%; top: 52%; width: 15%; height: 30%; }
+.us-hotspot-lamp { left: 43%; top: 52%; width: 14%; height: 30%; }
+.us-hotspot-blindfold { left: 61%; top: 68%; width: 29%; height: 17%; }
+
+.us-note {
+  width: min(720px, 100%);
+  margin: 0.6rem auto 0;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.us-tally { color: var(--gold); }
+.us-response { white-space: pre-line; }
+
+.us-desk {
+  width: min(720px, 100%);
+  margin: 1.2rem auto 0;
+  padding: 1rem 1.1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--gold);
+  background: rgba(10, 9, 8, 0.86);
+}
+
+.us-desk-thing { margin: 0 0 1rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.92rem; line-height: 1.8; }
+.us-methods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
+
+.us-method {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-height: 44px;
+  padding: 0.85rem;
+  border: 1px solid var(--line);
+  background: rgba(20, 16, 12, 0.8);
+  color: var(--bone);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+
+.us-method-tool { color: var(--gold); font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.3em; }
+.us-method strong { color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.95rem; font-weight: 500; }
+.us-method span:last-child { font-size: 0.8rem; line-height: 1.7; }
+.us-method.is-collected strong::after { content: " ✓"; color: var(--gold); }
+.us-method:hover:not(:disabled),
+.us-method:focus-visible { border-color: var(--gold); background: rgba(154, 127, 71, 0.14); outline: 2px solid var(--gold); outline-offset: 2px; }
+.us-method:disabled { opacity: 0.45; cursor: default; }
+
+.us-action,
+.us-entry-btn {
+  min-height: 44px;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.us-entry-btn { border-color: var(--gold); color: var(--bone-bright); }
+.us-action:hover:not(:disabled),
+.us-action:focus-visible,
+.us-entry-btn:hover:not(:disabled),
+.us-entry-btn:focus-visible { border-color: var(--gold); background: var(--gold); color: var(--void); outline: 2px solid var(--bone-bright); outline-offset: 2px; }
+.us-action:disabled,
+.us-entry-btn:disabled { opacity: 0.4; cursor: default; }
+.us-actions { display: flex; justify-content: center; margin-top: 0.9rem; }
+
+.us-clerk {
+  position: relative;
+  z-index: 1;
+  width: min(720px, 100%);
+  margin: 1.5rem auto;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--gold);
+  background: rgba(10, 9, 8, 0.86);
+  text-align: left;
+}
+
+.us-clerk-title { margin: 0 0 0.5rem; color: var(--gold); font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.18em; }
+.us-clerk-body { margin: 0 0 0.8rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.9rem; line-height: 1.9; }
+
+.us-codex { position: relative; z-index: 1; max-width: 760px; margin: 2rem auto; padding: 1.5rem; border: 1px solid var(--line); background: var(--void-soft); }
+.us-kicker { margin-bottom: 1.25rem; color: var(--gold); font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.15em; text-align: center; }
+.us-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+.us-cell { min-height: 64px; padding: 0.8rem; border: 1px solid var(--line); background: var(--void); font-family: var(--mono); font-size: 0.75rem; line-height: 1.6; white-space: pre-line; text-align: center; }
+.us-cell.is-locked { color: var(--ash); border-style: dashed; opacity: 0.6; }
+.us-cell.is-unlocked { color: var(--bone-bright); border-color: var(--gold); background: rgba(30, 25, 20, 0.5); }
+.us-hints-title { margin: 0 0 0.4rem; color: var(--bone); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; }
+.us-hints { margin: 0 0 1rem; padding-left: 1.1rem; color: var(--ash); font-size: 0.82rem; line-height: 1.8; }
+.us-hints li.is-met { color: var(--gold); }
+.us-codex-entry { display: flex; flex-direction: column; gap: 0.6rem; align-items: center; }
+
+@media (max-width: 720px) {
+  .us-figure { width: min(92vw, 520px); }
+  .us-methods { grid-template-columns: 1fr; }
+  .us-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+  .us-thing .dh-label,
+  .us-hotspot .dh-label { font-size: 0.66rem; padding: 0.12rem 0.3rem; letter-spacing: 0.02em; }
+}
+
+
+/* v91–v93 旧场景里的回执与记忆段：有些旧场景（交换台、值夜室）是 grid，横跨整行居中 */
+.late-cause-midwife,
+.late-cause-echo,
+.wl-adjuster,
+.wl-echo,
+.us-clerk,
+.us-echo {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: min(720px, 100%);
+}
+
+/* 贴着右边缘的两件事：标签靠右并允许换行，不被画框截断 */
+.us-thing-socket,
+.us-thing-door { justify-content: flex-end; }
+.us-thing-socket .dh-label,
+.us-thing-door .dh-label { white-space: normal; text-align: right; }

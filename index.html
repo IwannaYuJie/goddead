@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=92">
+  <link rel="stylesheet" href="styles.css?v=93">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -194,6 +194,14 @@
               <p class="harm-reconstructor-response" id="harm-reconstructor-response-threshold" aria-live="polite"></p>
               <button class="harm-reconstructor-return" id="harm-reconstructor-return-threshold" type="button" hidden data-hover>跟疼痛复原员返回考古局 · RETURN WITH THE PAIN RECONSTRUCTOR ⟶</button>
             </div>
+          <!-- v93 门槛认领回执与记忆 -->
+          <p class="watch-memory us-echo" id="us-echo-threshold" hidden></p>
+          <div class="us-clerk reveal" id="us-clerk-threshold" hidden>
+            <p class="us-clerk-title" id="us-clerk-title-threshold"></p>
+            <p class="us-clerk-body" id="us-clerk-body-threshold"></p>
+            <p class="us-response" id="us-clerk-response-threshold" aria-live="polite" hidden></p>
+            <button class="us-action" id="us-clerk-return-threshold" type="button" data-hover>提着灯回到认领处 ⟶</button>
+          </div>
           <!-- v92 门槛理赔回执与记忆 -->
           <p class="watch-memory wl-echo" id="wl-echo-threshold" hidden></p>
           <div class="wl-adjuster reveal" id="wl-adjuster-threshold" hidden>
@@ -3256,6 +3264,14 @@
             <button class="branch-entry branch-entry-deep" id="branch-entry-confession-ledger" type="button" hidden data-go="confession-ledger" data-hover>无名罪籍库 ⟶</button>
           </nav>
 
+          <!-- v93 走廊认领回执与记忆 -->
+          <p class="watch-memory us-echo" id="us-echo-corridor" hidden></p>
+          <div class="us-clerk reveal" id="us-clerk-corridor" hidden>
+            <p class="us-clerk-title" id="us-clerk-title-corridor"></p>
+            <p class="us-clerk-body" id="us-clerk-body-corridor"></p>
+            <p class="us-response" id="us-clerk-response-corridor" aria-live="polite" hidden></p>
+            <button class="us-action" id="us-clerk-return-corridor" type="button" data-hover>提着灯回到认领处 ⟶</button>
+          </div>
           <nav class="scene-exits reveal" aria-label="离开走廊">
             <button class="exit-link" type="button" data-go="protocol" data-hover>⟵ 回到守则</button>
           </nav>
@@ -3679,6 +3695,14 @@
             </div>
           </div>
 
+          <!-- v93 值夜认领回执与记忆 -->
+          <p class="watch-memory us-echo" id="us-echo-watch" hidden></p>
+          <div class="us-clerk reveal" id="us-clerk-watch" hidden>
+            <p class="us-clerk-title" id="us-clerk-title-watch"></p>
+            <p class="us-clerk-body" id="us-clerk-body-watch"></p>
+            <p class="us-response" id="us-clerk-response-watch" aria-live="polite" hidden></p>
+            <button class="us-action" id="us-clerk-return-watch" type="button" data-hover>提着灯回到认领处 ⟶</button>
+          </div>
           <nav class="scene-exits reveal" aria-label="离开值夜室">
             <button class="exit-link" type="button" data-go="corridor" data-hover>⟵ 回到走廊</button>
             <button class="future-echo-stamp" id="causal-echo-watch" type="button" aria-label="把提前的班交回去" hidden data-hover>把提前的班交回去 ⟶</button>
@@ -3783,6 +3807,14 @@
             <p class="answer-note" id="deliver-note" role="status" aria-live="polite"></p>
           </div>
 
+          <!-- v93 交换台认领回执与记忆 -->
+          <p class="watch-memory us-echo" id="us-echo-switchboard" hidden></p>
+          <div class="us-clerk reveal" id="us-clerk-switchboard" hidden>
+            <p class="us-clerk-title" id="us-clerk-title-switchboard"></p>
+            <p class="us-clerk-body" id="us-clerk-body-switchboard"></p>
+            <p class="us-response" id="us-clerk-response-switchboard" aria-live="polite" hidden></p>
+            <button class="us-action" id="us-clerk-return-switchboard" type="button" data-hover>提着灯回到认领处 ⟶</button>
+          </div>
           <nav class="scene-exits reveal" aria-label="离开交换台">
             <button class="exit-link" type="button" data-go="watch" data-hover>⟵ 回到值夜室</button>
           </nav>
@@ -3865,6 +3897,14 @@
             <p class="answer-note" id="cancel-note" role="status" aria-live="polite"></p>
           </div>
 
+          <!-- v93 投递认领回执与记忆 -->
+          <p class="watch-memory us-echo" id="us-echo-deadletter" hidden></p>
+          <div class="us-clerk reveal" id="us-clerk-deadletter" hidden>
+            <p class="us-clerk-title" id="us-clerk-title-deadletter"></p>
+            <p class="us-clerk-body" id="us-clerk-body-deadletter"></p>
+            <p class="us-response" id="us-clerk-response-deadletter" aria-live="polite" hidden></p>
+            <button class="us-action" id="us-clerk-return-deadletter" type="button" data-hover>提着灯回到认领处 ⟶</button>
+          </div>
           <nav class="scene-exits reveal" aria-label="离开投递所">
             <button class="exit-link" type="button" data-go="switchboard" data-hover>⟵ 回到交换台</button>
           </nav>
@@ -4535,6 +4575,22 @@
               <p class="wl-response" id="wl-liability-entry-response" aria-live="polite" hidden></p>
               <button class="wl-entry-btn" id="wl-hearing-entry-btn" type="button" hidden data-hover>进入闭眼豁免听证庭 · ENTER THE BLIND EXEMPTION HEARING ⟶</button>
               <p class="wl-response" id="wl-hearing-entry-response" aria-live="polite" hidden></p>
+            </div>
+          </div>
+
+          <!-- v93 未被看见之物认领处图鉴 -->
+          <p class="watch-memory us-memory" id="us-memory" hidden></p>
+          <div class="us-codex reveal" id="us-codex" hidden>
+            <p class="us-kicker">CLAIMS OFFICE FOR THINGS NO ONE SAW · 未 被 看 见 之 物 图 鉴</p>
+            <div class="us-grid" id="us-codex-grid"></div>
+            <p class="us-hints-title">无人目击终审庭开庭条件</p>
+            <ul class="us-hints" id="us-court-hints"></ul>
+            <div class="us-codex-entry">
+              <button class="us-entry-btn" id="us-entry-btn" type="button" hidden data-hover>前往未被看见之物认领处 · GO TO THE CLAIMS OFFICE FOR THINGS NO ONE SAW ⟶</button>
+              <p class="us-note" id="us-entry-note" hidden></p>
+              <p class="us-response" id="us-entry-response" aria-live="polite" hidden></p>
+              <button class="us-entry-btn" id="us-court-entry-btn" type="button" hidden data-hover>进入无人目击终审庭 · ENTER THE COURT OF THE UNWITNESSED ⟶</button>
+              <p class="us-response" id="us-court-entry-response" aria-live="polite" hidden></p>
             </div>
           </div>
 
@@ -7297,6 +7353,79 @@
         </div>
       </section>
 
+      <!-- v93 第一幕：未被看见之物认领处 -->
+      <section class="scene scene-branch scene-unseen-claims-office" id="scene-unseen-claims-office" data-scene="unseen-claims-office" data-title="Goddead — 未被看见之物认领处" aria-label="未被看见之物认领处">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">11α / 未被看见 · CLAIMS OFFICE FOR THINGS NO ONE SAW</p>
+            <h2 class="sec-title">未被看见之物认领处</h2>
+            <p class="sec-desc">看见成了义务之后，所有没人看见的事都堆到了这里。认领处不开灯，你手里只有一盏提灯。</p>
+          </header>
+          <figure class="branch-figure us-figure us-office-figure reveal" id="us-office-figure" tabindex="0" aria-label="黑暗中的认领处。移动指针或按方向键移动提灯，也可以按 Tab 逐个找到藏在黑暗里的东西。">
+            <img class="branch-img us-img" data-src="assets/v93-unseen-claims-office.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <span class="us-dark" aria-hidden="true"></span>
+            <button class="scene-hotspot us-thing us-thing-chair" id="us-thing-the-chair-still-warm" type="button" data-cx="10.5" data-cy="73" aria-label="黑暗中的一件事：还温着的椅子" data-hover><span class="dh-label" aria-hidden="true">还温着的椅子</span></button>
+            <button class="scene-hotspot us-thing us-thing-ceiling" id="us-thing-the-footprints-on-the-ceiling" type="button" data-cx="46" data-cy="11" aria-label="黑暗中的一件事：天花板上的脚印" data-hover><span class="dh-label" aria-hidden="true">天花板上的脚印</span></button>
+            <button class="scene-hotspot us-thing us-thing-letter" id="us-thing-the-letter-no-one-opened" type="button" data-cx="46" data-cy="73" aria-label="黑暗中的一件事：没人拆的信" data-hover><span class="dh-label" aria-hidden="true">没人拆的信</span></button>
+            <button class="scene-hotspot us-thing us-thing-socket" id="us-thing-the-socket-that-lit-once" type="button" data-cx="82" data-cy="42" aria-label="黑暗中的一件事：亮过一次的插孔" data-hover><span class="dh-label" aria-hidden="true">亮过一次的插孔</span></button>
+            <button class="scene-hotspot us-thing us-thing-door" id="us-thing-the-knock-before-the-first" type="button" data-cx="93.5" data-cy="71" aria-label="黑暗中的一件事：第一下之前的敲门" data-hover><span class="dh-label" aria-hidden="true">第一下之前的敲门</span></button>
+          </figure>
+          <p class="us-note reveal">移动指针、手指或方向键照亮黑暗；灯光照到的东西才能认领。</p>
+          <p class="us-note us-tally reveal" id="us-office-tally" hidden></p>
+          <p class="us-note reveal" id="us-office-note" hidden></p>
+          <p class="branch-response us-response" id="unseen-claims-office-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开认领处">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+            <button class="us-action" id="us-continue" type="button" hidden data-hover>回到补证台 ⟶</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v93 第二幕：补证台 -->
+      <section class="scene scene-branch scene-retroactive-witness-desk" id="scene-retroactive-witness-desk" data-scene="retroactive-witness-desk" data-title="Goddead — 补证台" aria-label="补证台">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">11β / 补证台 · RETROACTIVE WITNESS DESK</p>
+            <h2 class="sec-title">补证台</h2>
+            <p class="sec-desc">办事员把你照亮的东西放上柜台：要么你来作证，要么盖回去，要么摇铃叫它原来那间屋子作证。</p>
+          </header>
+          <figure class="branch-figure us-figure reveal" role="img" aria-label="补证台：柜台上一面铜放大镜、一块叠好的黑绒布、一只系红丝带的铜铃">
+            <img class="branch-img us-img" data-src="assets/v93-retroactive-witness-desk.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+          <div class="us-desk reveal" id="us-desk-panel" hidden>
+            <p class="us-desk-thing" id="us-desk-thing"></p>
+            <div class="us-methods">
+              <button class="us-method" id="us-method-witness-it-yourself" type="button" data-hover><span class="us-method-tool">放大镜</span><strong>替它作证</strong><span>你成为它的第一个目击者，当场登记。</span></button>
+              <button class="us-method" id="us-method-leave-it-unseen" type="button" data-hover><span class="us-method-tool">黑绒布</span><strong>继续不看</strong><span>盖回去，让它在没人看的地方继续发生。</span></button>
+              <button class="us-method" id="us-method-assign-an-old-witness" type="button" data-hover><span class="us-method-tool">铜铃</span><strong>交给旧场景作证</strong><span id="us-method-assign-an-old-witness-where">摇铃，让它原来的房间作证。</span></button>
+            </div>
+            <div class="us-actions"><button class="us-action" id="us-abandon" type="button" data-hover>放回黑暗</button></div>
+          </div>
+          <p class="branch-response us-response" id="retroactive-witness-desk-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <!-- v93 第三幕：无人目击终审庭 -->
+      <section class="scene scene-branch scene-court-of-the-unwitnessed" id="scene-court-of-the-unwitnessed" data-scene="court-of-the-unwitnessed" data-title="Goddead — 无人目击终审庭" aria-label="无人目击终审庭">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">11γ / 无人目击 · COURT OF THE UNWITNESSED</p>
+            <h2 class="sec-title">无人目击终审庭</h2>
+            <p class="sec-desc">陪审席上坐满了没点亮的灯。桌上三件东西：一扇半开的门、一盏亮着的灯、一副眼罩。裁定之后仍可回来。</p>
+          </header>
+          <figure class="branch-figure us-figure reveal" id="court-of-the-unwitnessed-figure">
+            <img class="branch-img us-img" data-src="assets/v93-court-of-the-unwitnessed.webp" alt="无人目击终审庭：一盏吊灯照着空法官席，陪审席上是未点亮的灯，桌上有半开的小门、亮着的提灯和一副眼罩" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot us-hotspot us-hotspot-door" id="us-verdict-let-unseen-things-keep-happening" type="button" aria-label="终审裁定：让未被看见的事继续发生" data-hover><span class="dh-label" aria-hidden="true">继续发生</span></button>
+            <button class="scene-hotspot us-hotspot us-hotspot-lamp" id="us-verdict-make-the-lamp-the-only-witness" type="button" aria-label="终审裁定：让这盏灯成为唯一的目击者" data-hover><span class="dh-label" aria-hidden="true">灯为目击</span></button>
+            <button class="scene-hotspot us-hotspot us-hotspot-blindfold" id="us-verdict-close-every-eye-to-set-things-free" type="button" aria-label="终审裁定：让所有眼睛闭上，事物自由" data-hover><span class="dh-label" aria-hidden="true">闭眼放行</span></button>
+          </figure>
+          <p class="branch-response us-response" id="court-of-the-unwitnessed-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开终审庭">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+          </nav>
+        </div>
+      </section>
+
       <!-- 隐藏幕 · 第九条 -->
       <section class="scene scene-ninth" id="scene-ninth" data-scene="ninth" data-title="Goddead — ？？？" aria-label="第九条">
         <figure class="ninth-figure" role="img" aria-label="一道不该存在的裂口，底部有一扇错误的窄门">
@@ -7509,6 +7638,9 @@
         <a href="#witness-liability-insurance-bureau" id="witness-liability-insurance-bureau-link" hidden data-hover>10α / 目击责任</a>
         <a href="#eyelid-actuarial-room" id="eyelid-actuarial-room-link" hidden data-hover>10β / 眼睑精算</a>
         <a href="#blind-exemption-hearing" id="blind-exemption-hearing-link" hidden data-hover>10γ / 闭眼豁免</a>
+        <a href="#unseen-claims-office" id="unseen-claims-office-link" hidden data-hover>11α / 未被看见</a>
+        <a href="#retroactive-witness-desk" id="retroactive-witness-desk-link" hidden data-hover>11β / 补证台</a>
+        <a href="#court-of-the-unwitnessed" id="court-of-the-unwitnessed-link" hidden data-hover>11γ / 无人目击</a>
 
       <a href="#three-person-republic-court" id="three-person-republic-court-link" hidden data-hover>04β / 三人共和国</a>
       <a href="#remembrance" data-hover>04 / 痕迹</a>
@@ -7517,6 +7649,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=92"></script>
+    <script src="script.js?v=93"></script>
   </body>
 </html>
