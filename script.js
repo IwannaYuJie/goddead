@@ -1394,6 +1394,8 @@ document.addEventListener("DOMContentLoaded", () => {
     replayLostWeightPending(name);
     resolveVigilCandlesPendingOnArrival(name);
     replayVigilCandlesPending(name);
+    resolveDeadRoadsPendingOnArrival(name);
+    replayDeadRoadsPending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1537,9 +1539,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
@@ -1553,7 +1555,7 @@ document.addEventListener("DOMContentLoaded", () => {
        v88 窄桥：title-action 可抵达 unending-gallery；
        v89 窄桥：appeal-action 可抵达 unending-gallery；
        v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1768,6 +1770,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "vigil-candle-hall" && !vcHallCanVisit()) target = "remembrance";
     if (target === "candle-board" && !candleBoardCanVisit()) target = "remembrance";
     if (target === "hearing-of-the-unlit" && !vcCourtCanVisit()) target = "remembrance";
+
+    /* v99 引路司：未解锁或无合法抵达时一律回痕迹室 */
+    if (target === "bureau-of-roads" && !rdOfficeCanVisit()) target = "remembrance";
+    if (target === "road-table" && !roadTableCanVisit()) target = "remembrance";
+    if (target === "hearing-of-the-last-road" && !rdCourtCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -48001,6 +48008,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetHeldBreathState();
       forgetLostWeightState();
       forgetVigilCandlesState();
+      forgetDeadRoadsState();
       forgetCodexFolds();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
@@ -53962,6 +53970,739 @@ document.addEventListener("DOMContentLoaded", () => {
   onTrustedVc('#vc-hint', hintVcBoard);
   onTrustedVc('#vc-seal', sealVcVigil);
 
+  /* ============================================================
+     v99 引路司 / BUREAU OF ROADS FOR THE DEAD
+     v98 把灯挂到了门口，可死者还是找不到路。引路司收了三张旧房间的路图：门外、访客守则、值夜室。
+     三张路图 × 三个去处 = 9 份路条；在铺路台上点路砖转 90°，把左边的入口接到指定的出口再落定。
+     只读 v98；独立键 goddead_v99_roads_for_the_dead；所有新操作只接受真实点击。
+     ============================================================ */
+  const DEAD_ROAD_KEY = 'goddead_v99_roads_for_the_dead';
+  const DEAD_ROAD_VERSION = 99;
+  const RD_OFFICE = 'bureau-of-roads';
+  const RD_TABLE = 'road-table';
+  const RD_COURT = 'hearing-of-the-last-road';
+  const RD_N = 1;
+  const RD_E = 2;
+  const RD_S = 4;
+  const RD_W = 8;
+  const RD_TILE_MASKS = { I: RD_N | RD_S, L: RD_N | RD_E, T: RD_N | RD_E | RD_S };
+  const RD_ROADS = ['threshold-road', 'protocol-road', 'watch-road'];
+  const RD_ROAD_TABLE = {
+    'threshold-road': {
+      title: '门外的来路', tiles: 'LILLTTTLL', turns: [3, 0, 0, 3, 2, 2, 0, 0, 2], target: 'threshold', place: '门外', leaderTitle: '门外引路人',
+      feedback: '路图上压着一只小门环。你第一次来时走的就是这条路，走到门口，就再也没找到回去的方向。',
+      echoLead: '门槛下压着一张路条。',
+    },
+    'protocol-road': {
+      title: '守则背后的小路', tiles: 'IIITLTTLI', turns: [0, 3, 1, 1, 0, 1, 1, 2, 1], target: 'protocol', place: '访客守则', leaderTitle: '守则引路人',
+      feedback: '路图上别着一枚布告钉。守则第五条说要记得回来的路，这张图就是那条没人记住的路。',
+      echoLead: '守则布告板背面钉着一张路条。',
+    },
+    'watch-road': {
+      title: '值夜室的后巷', tiles: 'LLTTLLTIT', turns: [0, 3, 3, 1, 2, 3, 1, 1, 0], target: 'watch', place: '值夜室', leaderTitle: '值夜引路人',
+      feedback: '路图上放着一只停了的怀表。交班的人都从这条后巷走，走到一半，天还是没亮。',
+      echoLead: '值夜室的窗台上压着一张路条。',
+    },
+  };
+  const RD_METHODS = ['rise', 'forth', 'sink'];
+  const RD_METHOD_TABLE = {
+    rise: { title: '升上去', exit: [2, RD_N], hint: '把入口接到右上角，往上出去。', result: '他顺着路往上走，走到看不见的地方，脚步声还在。' },
+    forth: { title: '走出去', exit: [5, RD_E], hint: '把入口接到右边正中，一直往前走出去。', result: '他从右边走出去了，没有回头。路在他身后一块一块暗下去。' },
+    sink: { title: '沉下去', exit: [8, RD_S], hint: '把入口接到右下角，往下沉。', result: '路把他带到最底下。那里很安静，他说总算不用再找了。' },
+  };
+  const RD_ROUTE_IDS = [];
+  RD_ROADS.forEach((road) => RD_METHODS.forEach((method) => RD_ROUTE_IDS.push(`${road}:${method}`)));
+  const RD_VERDICT_ACTIONS = ['let-every-road-lead-home', 'keep-a-road-for-god', 'let-the-roads-end'];
+  const RD_VERDICT_TABLE = {
+    'let-every-road-lead-home': {
+      title: '条条路都回门外', outcome: 'every-road-led-home', target: 'threshold',
+      feedback: '听证会裁定：所有的路最后都通到门外。你站在门口，脚下多了一块路砖，箭头指着你来的方向。',
+    },
+    'keep-a-road-for-god': {
+      title: '给神留一条路', outcome: 'a-road-kept-for-god', target: 'remembrance',
+      feedback: '听证会给神留了一条路，铺在痕迹室的墙上，从地板一直通到天花板，谁也不许走。',
+    },
+    'let-the-roads-end': {
+      title: '让路走到尽头', outcome: 'the-roads-ended', target: 'unending-gallery',
+      feedback: '听证会准许路有尽头。画廊的空框后面，每条路都停在一块写着“到了”的石头前。',
+    },
+  };
+  const RD_VERDICT_OUTCOME_IDS = RD_VERDICT_ACTIONS.map((a) => RD_VERDICT_TABLE[a].outcome);
+  const RD_ENTRY_FEEDBACK = '引路司的门朝里开，门后是一张长桌。桌上摊着三张路图，都画了一半。';
+  const RD_ABANDON_FEEDBACK = '你把路图卷好放回桌上。路砖在纸上轻轻转了一下，又停住了。';
+  const RD_COURT_ENTRY_FEEDBACK = '三张路图都铺过了。末路听证会的门口，所有的路都汇到了一起。';
+  const RD_LEADER_RETURN_FEEDBACK = '引路人把路条对折，塞进鞋里，领你回到引路司。';
+  const RD_OLD_TARGETS = ['threshold', 'protocol', 'watch'];
+
+  function rdDelay() {
+    return reduced ? 300 : 1400;
+  }
+
+  /* 纯函数：把一块路砖顺时针转 turns 个 90°后的通口 */
+  function rdRotate(mask, turns) {
+    const t = ((turns % 4) + 4) % 4;
+    return ((mask << t) | (mask >> (4 - t))) & 15;
+  }
+
+  /* 纯函数：从左边入口（中间一行最左那块的西口）出发，能走到的路砖编号；接不通的砖不算 */
+  function rdReach(tiles, turns) {
+    const m = Array.from({ length: 9 }, (_, i) => rdRotate(RD_TILE_MASKS[tiles[i]] || 0, turns[i] || 0));
+    const seen = new Set();
+    if (!(m[3] & RD_W)) return seen;
+    const queue = [3];
+    seen.add(3);
+    while (queue.length) {
+      const i = queue.shift();
+      const r = Math.floor(i / 3);
+      const c = i % 3;
+      [[RD_N, r > 0, i - 3, RD_S], [RD_E, c < 2, i + 1, RD_W], [RD_S, r < 2, i + 3, RD_N], [RD_W, c > 0, i - 1, RD_E]].forEach(([d, ok, j, back]) => {
+        if (ok && (m[i] & d) && (m[j] & back) && !seen.has(j)) { seen.add(j); queue.push(j); }
+      });
+    }
+    return seen;
+  }
+
+  /* 纯函数：入口是否接到了某个去处的出口 */
+  function rdConnected(tiles, turns, method) {
+    const [cell, dir] = RD_METHOD_TABLE[method].exit;
+    return rdReach(tiles, turns).has(cell) && Boolean(rdRotate(RD_TILE_MASKS[tiles[cell]], turns[cell]) & dir);
+  }
+
+  function rdCellName(i) {
+    return `${['上', '中', '下'][Math.floor(i / 3)]}${['左', '中', '右'][i % 3]}`;
+  }
+
+  function rdPaveFeedback(road, method) {
+    return `${RD_ROAD_TABLE[road].title}：${RD_METHOD_TABLE[method].result}`;
+  }
+
+  function defaultDeadRoads() {
+    const latest = {};
+    RD_ROADS.forEach((b) => { latest[b] = ''; });
+    return {
+      version: DEAD_ROAD_VERSION,
+      visited: { office: false, table: false, court: false },
+      draft: { road: '', method: 'rise' },
+      routes: [],
+      courtOutcomes: [],
+      routeRuns: 0,
+      courtRuns: 0,
+      latestMethodByRoad: latest,
+      lastOutcome: '',
+      activeLeader: null,
+      pending: null,
+    };
+  }
+
+  function clampRdCount(n) {
+    const v = Math.floor(Number(n));
+    return Number.isFinite(v) ? Math.min(9999, Math.max(0, v)) : 0;
+  }
+
+  function normalizeDeadRoads(raw) {
+    const d = defaultDeadRoads();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== DEAD_ROAD_VERSION) return d;
+    const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
+    d.visited = { office: v.office === true, table: v.table === true, court: v.court === true };
+    const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
+    d.draft = { road: RD_ROADS.includes(dr.road) ? dr.road : '', method: RD_METHODS.includes(dr.method) ? dr.method : 'rise' };
+    const routes = new Set(Array.isArray(raw.routes) ? raw.routes : []);
+    d.routes = RD_ROUTE_IDS.filter((id) => routes.has(id));
+    const outcomes = new Set(Array.isArray(raw.courtOutcomes) ? raw.courtOutcomes : []);
+    d.courtOutcomes = RD_VERDICT_OUTCOME_IDS.filter((id) => outcomes.has(id));
+    d.routeRuns = clampRdCount(raw.routeRuns);
+    d.courtRuns = clampRdCount(raw.courtRuns);
+    const latest = raw.latestMethodByRoad && typeof raw.latestMethodByRoad === 'object' ? raw.latestMethodByRoad : {};
+    RD_ROADS.forEach((b) => {
+      d.latestMethodByRoad[b] = RD_METHODS.includes(latest[b]) && d.routes.includes(`${b}:${latest[b]}`) ? latest[b] : '';
+    });
+    if (typeof raw.lastOutcome === 'string' && (d.routes.includes(raw.lastOutcome) || d.courtOutcomes.includes(raw.lastOutcome))) d.lastOutcome = raw.lastOutcome;
+    const a = raw.activeLeader;
+    if (a && typeof a === 'object' && !Array.isArray(a) && Object.keys(a).length === 1 && d.routes.includes(a.route)) d.activeLeader = { route: a.route };
+    d.pending = normalizeRdPending(raw.pending, d);
+    return d;
+  }
+
+  function rdCourtProgress(st) {
+    const roads = new Set();
+    const methods = new Set();
+    st.routes.forEach((id) => {
+      const [road, method] = id.split(':');
+      roads.add(road);
+      methods.add(method);
+    });
+    return { roads: roads.size, methods: methods.size };
+  }
+
+  function rdCourtEligible(st) {
+    const p = rdCourtProgress(st);
+    return p.roads === RD_ROADS.length && p.methods === RD_METHODS.length;
+  }
+
+  function expectedRdPending(p, st) {
+    const clean = !st.activeLeader;
+    switch (p.kind) {
+      case 'entry':
+        return clean ? { feedback: RD_ENTRY_FEEDBACK, kind: 'entry', target: RD_OFFICE } : null;
+      case 'road': {
+        const b = RD_ROAD_TABLE[p.road];
+        if (!b || !clean) return null;
+        return { road: p.road, feedback: b.feedback, kind: 'road', source: RD_OFFICE, target: RD_TABLE };
+      }
+      case 'pave': {
+        const b = RD_ROAD_TABLE[p.road];
+        if (!b || !RD_METHOD_TABLE[p.method] || !clean || st.draft.road !== p.road || st.draft.method !== p.method) return null;
+        return { road: p.road, feedback: rdPaveFeedback(p.road, p.method), kind: 'pave', method: p.method, route: `${p.road}:${p.method}`, source: RD_TABLE, target: b.target };
+      }
+      case 'abandon':
+        return st.draft.road ? { feedback: RD_ABANDON_FEEDBACK, kind: 'abandon', source: RD_TABLE, target: RD_OFFICE } : null;
+      case 'leader-return': {
+        if (!st.activeLeader) return null;
+        const road = st.activeLeader.route.split(':')[0];
+        return { feedback: RD_LEADER_RETURN_FEEDBACK, from: RD_ROAD_TABLE[road].target, kind: 'leader-return', route: st.activeLeader.route, target: RD_OFFICE };
+      }
+      case 'court-entry':
+        return clean && rdCourtEligible(st) ? { feedback: RD_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: RD_COURT } : null;
+      case 'verdict': {
+        const a = RD_VERDICT_TABLE[p.action];
+        if (!a || !clean || !st.visited.court || !rdCourtEligible(st)) return null;
+        return { action: p.action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: RD_COURT, target: a.target };
+      }
+      default:
+        return null;
+    }
+  }
+
+  function normalizeRdPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+    const expected = expectedRdPending(p, st);
+    if (!expected) return null;
+    const keys = Object.keys(p).sort();
+    const want = Object.keys(expected).sort();
+    if (keys.length !== want.length || keys.some((k, i) => k !== want[i] || p[k] !== expected[k])) return null;
+    return expected;
+  }
+
+  function deadRoadsUnlocked() {
+    const compute = () => {
+      if (!vigilCandlesUnlocked()) return false;
+      const v98 = getVigilCandles();
+      return vcCourtEligible(v98) && VC_VERDICT_OUTCOME_IDS.every((o) => v98.courtOutcomes.includes(o));
+    };
+    return store.memo ? store.memo("deadRoadsUnlocked", compute) : compute();
+  }
+
+  function getDeadRoads() {
+    if (!deadRoadsUnlocked()) return defaultDeadRoads();
+    let raw;
+    try { raw = JSON.parse(store.get(DEAD_ROAD_KEY, '{}')); } catch { return defaultDeadRoads(); }
+    return normalizeDeadRoads(raw);
+  }
+
+  function saveDeadRoads(st) {
+    if (!deadRoadsUnlocked()) return defaultDeadRoads();
+    const canonical = normalizeDeadRoads(Object.assign({}, st, { version: DEAD_ROAD_VERSION }));
+    store.set(DEAD_ROAD_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function rdPendingLogicalSource(p) {
+    if (!p) return '';
+    if (p.kind === 'entry' || p.kind === 'court-entry') return 'remembrance';
+    if (p.kind === 'leader-return') return p.from;
+    return p.source || '';
+  }
+
+  function resolveDeadRoadsPendingOnArrival(sceneName) {
+    const st = getDeadRoads();
+    const p = st.pending;
+    if (!p) return st;
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.office = true;
+      } else if (p.kind === 'road') {
+        st.visited.table = true;
+        st.draft = { road: p.road, method: st.draft.road === p.road ? st.draft.method : 'rise' };
+      } else if (p.kind === 'pave') {
+        st.routeRuns = clampRdCount(st.routeRuns + 1);
+        if (!st.routes.includes(p.route)) st.routes = st.routes.concat(p.route);
+        st.latestMethodByRoad[p.road] = p.method;
+        st.lastOutcome = p.route;
+        st.activeLeader = { route: p.route };
+        st.draft = { road: '', method: 'rise' };
+      } else if (p.kind === 'abandon') {
+        st.draft = { road: '', method: 'rise' };
+        st.visited.office = true;
+      } else if (p.kind === 'leader-return') {
+        st.activeLeader = null;
+        st.visited.office = true;
+      } else if (p.kind === 'court-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'verdict') {
+        st.courtRuns = clampRdCount(st.courtRuns + 1);
+        if (!st.courtOutcomes.includes(p.outcome)) st.courtOutcomes = st.courtOutcomes.concat(p.outcome);
+        st.lastOutcome = p.outcome;
+      }
+      return saveDeadRoads(st);
+    }
+    if (sceneName === rdPendingLogicalSource(p)) return st;
+    st.pending = null;
+    return saveDeadRoads(st);
+  }
+
+  const RD_RESPONSE_BY_KIND = {
+    entry: '#rd-entry-response',
+    road: '#bureau-of-roads-response',
+    light: '#road-table-response',
+    abandon: '#road-table-response',
+    'court-entry': '#rd-court-entry-response',
+    verdict: '#hearing-of-the-last-road-response',
+  };
+
+  function showRdResponse(selector, text) {
+    const el = $(selector);
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = !text;
+  }
+
+  function syncDeadRoadsAll() {
+    syncRdOffice();
+    syncRoadTable();
+    syncRdCourt();
+    syncRdLeaders();
+    syncRdEchoes();
+    syncRdRemembrance();
+    syncRdLinks();
+  }
+
+  function replayDeadRoadsPending(sceneName) {
+    const st = getDeadRoads();
+    const p = st.pending;
+    if (p && p.target === sceneName) resolveDeadRoadsPendingOnArrival(sceneName);
+    else if (p && sceneName === rdPendingLogicalSource(p)) {
+      syncDeadRoadsAll();
+      const selector = p.kind === 'leader-return' ? `#rd-leader-response-${p.from}` : RD_RESPONSE_BY_KIND[p.kind];
+      if (selector) showRdResponse(selector, p.feedback);
+      AutoAdvance.schedule(sceneName, p.target, { delay: rdDelay() });
+      return;
+    } else if (p) {
+      st.pending = null;
+      saveDeadRoads(st);
+    }
+    syncDeadRoadsAll();
+  }
+
+  function launchRd(scene, buttonId, pending, responseSelector) {
+    const st = getDeadRoads();
+    st.pending = pending;
+    const saved = saveDeadRoads(st);
+    if (!saved.pending) return false;
+    const btn = buttonId ? $(`#${buttonId}`) : null;
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+    if (AudioEngine.whoosh) AudioEngine.whoosh();
+    syncDeadRoadsAll();
+    showRdResponse(responseSelector, pending.feedback);
+    AutoAdvance.schedule(scene, pending.target, { delay: rdDelay() });
+    return true;
+  }
+
+  function rdReady(scene, buttonId) {
+    if (currentScene !== scene) return null;
+    if (AutoAdvance.has(scene)) return null;
+    if (buttonId && !buttonAvailable(buttonId)) return null;
+    if (!deadRoadsUnlocked()) return null;
+    const st = getDeadRoads();
+    return st.pending ? null : st;
+  }
+
+  function chooseRdEntry() {
+    const st = rdReady('remembrance', 'rd-entry-btn');
+    if (!st || st.activeLeader) return;
+    if (getVigilCandles().pending) return;
+    launchRd('remembrance', 'rd-entry-btn', { feedback: RD_ENTRY_FEEDBACK, kind: 'entry', target: RD_OFFICE }, '#rd-entry-response');
+  }
+
+  function chooseRdRoad(road) {
+    const b = RD_ROAD_TABLE[road];
+    if (!b) return;
+    const st = rdReady(RD_OFFICE, `rd-road-${road}`);
+    if (!st || st.activeLeader) return;
+    launchRd(RD_OFFICE, `rd-road-${road}`, { road, feedback: b.feedback, kind: 'road', source: RD_OFFICE, target: RD_TABLE }, '#bureau-of-roads-response');
+  }
+
+  function chooseRdMethod(method) {
+    if (!RD_METHOD_TABLE[method]) return;
+    const st = rdReady(RD_TABLE, `rd-method-${method}`);
+    if (!st || !st.draft.road || !st.visited.table || st.draft.method === method) return;
+    st.draft.method = method;
+    saveDeadRoads(st);
+    syncRoadTable();
+  }
+
+  /* 铺路台：每块砖转了几次只放在内存里；换一张路图时复位，落定时接通才写 pending */
+  let rdTurns = [];
+  let rdTableRoad = '';
+  let rdMoves = 0;
+
+  function rdCurrentTurns(road) {
+    return rdTurns.length === 9 ? rdTurns.map((t) => ((t % 4) + 4) % 4) : RD_ROAD_TABLE[road].turns.slice();
+  }
+
+  function paintRdTable(message) {
+    const st = getDeadRoads();
+    const status = $('#rd-table-status');
+    if (!st.draft.road) {
+      if (status) status.textContent = '';
+      return;
+    }
+    const road = RD_ROAD_TABLE[st.draft.road];
+    const turns = rdCurrentTurns(st.draft.road);
+    const lit = rdReach(road.tiles, turns);
+    const done = rdConnected(road.tiles, turns, st.draft.method);
+    for (let i = 0; i < 9; i++) {
+      const btn = $(`#rd-tile-${i}`);
+      if (!btn) continue;
+      btn.setAttribute('data-shape', road.tiles[i]);
+      if (btn.style && btn.style.setProperty) btn.style.setProperty('--rd-turn', `${rdTurns[i] * 90}deg`);
+      btn.classList.toggle('is-lit', lit.has(i));
+      btn.setAttribute('aria-label', `${rdCellName(i)}的路砖，${lit.has(i) ? '已经接上入口' : '还没接上'}，点一下顺时针转 90°`);
+    }
+    RD_METHODS.forEach((method) => {
+      const mark = $(`#rd-exit-${method}`);
+      if (mark) {
+        mark.classList.toggle('is-target', method === st.draft.method);
+        mark.classList.toggle('is-open', method === st.draft.method && done);
+      }
+    });
+    if (status) status.textContent = message || (done ? '路接通了，可以落定。' : `已经转了 ${rdMoves} 次，入口接上了 ${lit.size} 块砖。`);
+  }
+
+  function turnRdTile(i) {
+    const st = rdReady(RD_TABLE, `rd-tile-${i}`);
+    if (!st || !st.draft.road || st.activeLeader || !Number.isInteger(i) || i < 0 || i > 8) return;
+    rdTurns[i] += 1;
+    rdMoves += 1;
+    if (AudioEngine.clamp) AudioEngine.clamp();
+    paintRdTable('');
+  }
+
+  function resetRdTable() {
+    const st = rdReady(RD_TABLE, 'rd-reset');
+    if (!st || !st.draft.road || st.activeLeader) return;
+    rdTurns = RD_ROAD_TABLE[st.draft.road].turns.slice();
+    rdMoves = 0;
+    paintRdTable('路砖回到路图上画的样子。');
+  }
+
+  function paveRdRoute() {
+    const st = rdReady(RD_TABLE, 'rd-pave');
+    if (!st || !st.draft.road || st.activeLeader) return;
+    const { road, method } = st.draft;
+    if (!rdConnected(RD_ROAD_TABLE[road].tiles, rdCurrentTurns(road), method)) {
+      paintRdTable(`路还没接通。${RD_METHOD_TABLE[method].hint}`);
+      return;
+    }
+    paintRdTable('路接通了。');
+    launchRd(RD_TABLE, 'rd-pave', {
+      feedback: rdPaveFeedback(road, method), kind: 'pave', method, road, route: `${road}:${method}`, source: RD_TABLE, target: RD_ROAD_TABLE[road].target,
+    }, '#road-table-response');
+  }
+
+  function chooseRdAbandon() {
+    const st = rdReady(RD_TABLE, 'rd-abandon');
+    if (!st || !st.draft.road) return;
+    launchRd(RD_TABLE, 'rd-abandon', { feedback: RD_ABANDON_FEEDBACK, kind: 'abandon', source: RD_TABLE, target: RD_OFFICE }, '#road-table-response');
+  }
+
+  function chooseRdLeaderReturn(scene) {
+    const st = rdReady(scene, `rd-leader-return-${scene}`);
+    if (!st || !st.activeLeader) return;
+    if (RD_ROAD_TABLE[st.activeLeader.route.split(':')[0]].target !== scene) return;
+    launchRd(scene, `rd-leader-return-${scene}`, { feedback: RD_LEADER_RETURN_FEEDBACK, from: scene, kind: 'leader-return', route: st.activeLeader.route, target: RD_OFFICE }, `#rd-leader-response-${scene}`);
+  }
+
+  function chooseRdCourtEntry() {
+    const st = rdReady('remembrance', 'rd-court-entry-btn');
+    if (!st || st.activeLeader || !rdCourtEligible(st)) return;
+    launchRd('remembrance', 'rd-court-entry-btn', { feedback: RD_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: RD_COURT }, '#rd-court-entry-response');
+  }
+
+  function chooseRdVerdict(action) {
+    const a = RD_VERDICT_TABLE[action];
+    if (!a) return;
+    const st = rdReady(RD_COURT, `rd-verdict-${action}`);
+    if (!st || st.activeLeader || !st.visited.court || !rdCourtEligible(st)) return;
+    launchRd(RD_COURT, `rd-verdict-${action}`, { action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: RD_COURT, target: a.target }, '#hearing-of-the-last-road-response');
+  }
+
+  function deadRoadsBridgeAllows(targetScene) {
+    if (!deadRoadsUnlocked()) return false;
+    const st = getDeadRoads();
+    if (st.pending && (st.pending.kind === 'pave' || st.pending.kind === 'verdict') && st.pending.target === targetScene) return true;
+    if (st.activeLeader && RD_ROAD_TABLE[st.activeLeader.route.split(':')[0]].target === targetScene) return true;
+    const verdict = RD_VERDICT_ACTIONS.find((a) => RD_VERDICT_TABLE[a].outcome === st.lastOutcome);
+    return Boolean(verdict && RD_VERDICT_TABLE[verdict].target === targetScene);
+  }
+
+  function rdOfficeCanVisit() {
+    if (!deadRoadsUnlocked()) return false;
+    const st = getDeadRoads();
+    return st.visited.office || Boolean(st.pending && st.pending.target === RD_OFFICE);
+  }
+
+  function roadTableCanVisit() {
+    if (!deadRoadsUnlocked()) return false;
+    const st = getDeadRoads();
+    if (st.visited.table && st.draft.road) return true;
+    return Boolean(st.pending && st.pending.kind === 'road');
+  }
+
+  function rdCourtCanVisit() {
+    if (!deadRoadsUnlocked()) return false;
+    const st = getDeadRoads();
+    if (st.visited.court && rdCourtEligible(st)) return true;
+    return Boolean(st.pending && st.pending.kind === 'court-entry');
+  }
+
+  function syncRdOffice() {
+    const canVisit = rdOfficeCanVisit();
+    const st = getDeadRoads();
+    const fig = $('#rd-office-figure');
+    if (fig) fig.hidden = !canVisit;
+    const blocked = !canVisit || Boolean(st.pending) || Boolean(st.activeLeader);
+    RD_ROADS.forEach((road) => {
+      const btn = $(`#rd-road-${road}`);
+      if (!btn) return;
+      btn.disabled = blocked;
+      btn.classList.toggle('is-collected', RD_METHODS.every((m) => st.routes.includes(`${road}:${m}`)));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'road' && st.pending.road === road ? 'true' : 'false');
+    });
+    const note = $('#rd-office-note');
+    if (note) {
+      let text = '';
+      if (st.activeLeader) {
+        const b = RD_ROAD_TABLE[st.activeLeader.route.split(':')[0]];
+        text = `先完成正在送出的路条：${b.leaderTitle}还在${b.place}等你签收。`;
+      } else if (st.draft.road) {
+        text = `铺路台上还摊着「${RD_ROAD_TABLE[st.draft.road].title}」。`;
+      }
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const cont = $('#rd-continue');
+    if (cont) {
+      const show = canVisit && Boolean(st.draft.road) && !st.activeLeader;
+      cont.hidden = !show;
+      cont.disabled = !show || Boolean(st.pending);
+    }
+    if (!st.pending || st.pending.source !== RD_OFFICE) showRdResponse('#bureau-of-roads-response', '');
+  }
+
+  function syncRoadTable() {
+    const canVisit = roadTableCanVisit();
+    const st = getDeadRoads();
+    const ready = canVisit && Boolean(st.draft.road);
+    if (st.draft.road !== rdTableRoad && !(st.pending && st.pending.kind === 'pave')) {
+      rdTableRoad = st.draft.road;
+      rdTurns = st.draft.road ? RD_ROAD_TABLE[st.draft.road].turns.slice() : [];
+      rdMoves = 0;
+    }
+    const panel = $('#rd-table-panel');
+    if (panel) panel.hidden = !ready;
+    const grid = $('#rd-tiles');
+    if (grid) grid.hidden = !ready;
+    if (ready) {
+      const t = RD_ROAD_TABLE[st.draft.road];
+      const title = $('#rd-table-road');
+      if (title) title.textContent = `${t.title} —— ${t.feedback}`;
+      const hint = $('#rd-method-hint');
+      if (hint) hint.textContent = `${RD_METHOD_TABLE[st.draft.method].hint}点一块路砖，它顺时针转 90°；接上入口的砖会亮起来。接通后落定，会送回${t.place}，由${t.leaderTitle}签收。`;
+    }
+    RD_METHODS.forEach((method) => {
+      const btn = $(`#rd-method-${method}`);
+      if (!btn) return;
+      btn.disabled = !ready || Boolean(st.pending);
+      btn.setAttribute('aria-pressed', ready && st.draft.method === method ? 'true' : 'false');
+      btn.classList.toggle('is-collected', Boolean(st.draft.road) && st.routes.includes(`${st.draft.road}:${method}`));
+    });
+    ['rd-pave', 'rd-reset', 'rd-abandon', ...Array.from({ length: 9 }, (_, i) => `rd-tile-${i}`)].forEach((id) => {
+      const btn = $(`#${id}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending);
+    });
+    paintRdTable(st.pending && st.pending.kind === 'pave' ? '路接通了，路条正在送出去。' : '');
+    if (!st.pending || st.pending.source !== RD_TABLE) showRdResponse('#road-table-response', '');
+  }
+
+  function syncRdCourt() {
+    const canVisit = rdCourtCanVisit();
+    const st = getDeadRoads();
+    const fig = $('#hearing-of-the-last-road-figure');
+    if (fig) fig.hidden = !canVisit;
+    RD_VERDICT_ACTIONS.forEach((action) => {
+      const btn = $(`#rd-verdict-${action}`);
+      if (!btn) return;
+      btn.disabled = !canVisit || Boolean(st.pending) || Boolean(st.activeLeader);
+      btn.classList.toggle('is-collected', st.courtOutcomes.includes(RD_VERDICT_TABLE[action].outcome));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'verdict' && st.pending.action === action ? 'true' : 'false');
+    });
+    if (!st.pending || st.pending.source !== RD_COURT) showRdResponse('#hearing-of-the-last-road-response', '');
+  }
+
+  function syncRdLeaders() {
+    const st = deadRoadsUnlocked() ? getDeadRoads() : defaultDeadRoads();
+    const [road, method] = st.activeLeader ? st.activeLeader.route.split(':') : ['', ''];
+    RD_OLD_TARGETS.forEach((scene) => {
+      const box = $(`#rd-leader-${scene}`);
+      if (!box) return;
+      const show = Boolean(road) && RD_ROAD_TABLE[road].target === scene;
+      box.hidden = !show;
+      const btn = $(`#rd-leader-return-${scene}`);
+      if (btn) {
+        btn.disabled = !show || Boolean(st.pending);
+        btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'leader-return' && st.pending.from === scene ? 'true' : 'false');
+      }
+      if (!show) return;
+      const b = RD_ROAD_TABLE[road];
+      const head = $(`#rd-leader-title-${scene}`);
+      if (head) head.textContent = `路条签收 · ${b.leaderTitle} · ${b.title}（${RD_METHOD_TABLE[method].title}）`;
+      const level = $(`#rd-leader-level-${scene}`);
+      if (level) level.textContent = `从入口一路接到「${RD_METHOD_TABLE[method].title}」的出口`;
+      const body = $(`#rd-leader-body-${scene}`);
+      if (body) body.textContent = RD_METHOD_TABLE[method].result;
+      if (!st.pending || st.pending.kind !== 'leader-return') showRdResponse(`#rd-leader-response-${scene}`, '');
+    });
+  }
+
+  function syncRdEchoes() {
+    const st = deadRoadsUnlocked() ? getDeadRoads() : defaultDeadRoads();
+    RD_ROADS.forEach((road) => {
+      const b = RD_ROAD_TABLE[road];
+      const el = $(`#rd-echo-${b.target}`);
+      if (!el) return;
+      const method = st.latestMethodByRoad[road];
+      if (!method) { el.hidden = true; el.textContent = ''; return; }
+      el.textContent = `${b.echoLead}「${RD_METHOD_TABLE[method].title}」${RD_METHOD_TABLE[method].result}`;
+      el.hidden = false;
+    });
+  }
+
+  function syncRdRemembrance() {
+    const unlocked = deadRoadsUnlocked();
+    const shell = $('#rd-codex');
+    const memory = $('#rd-memory');
+    if (!unlocked) {
+      [shell, memory].forEach((el) => { if (el) el.hidden = true; });
+      return;
+    }
+    const st = getDeadRoads();
+    const v98Pending = Boolean(getVigilCandles().pending);
+    if (shell) shell.hidden = false;
+    const progress = rdCourtProgress(st);
+    if (memory) {
+      memory.hidden = false;
+      memory.textContent = `引路：已铺 ${st.routes.length}/9 份路条，共落定 ${st.routeRuns} 次；末路听证 ${st.courtOutcomes.length}/3。`;
+    }
+    const hints = $('#rd-court-hints');
+    if (hints) {
+      const rows = [['三张路图都铺过', progress.roads, RD_ROADS.length], ['三个去处都用过', progress.methods, RD_METHODS.length]];
+      hints.replaceChildren(...rows.map(([label, have, need]) => {
+        const li = document.createElement('li');
+        li.className = have >= need ? 'is-met' : '';
+        li.textContent = `${label} ${have}/${need}`;
+        return li;
+      }));
+    }
+    const clean = !st.pending && !st.activeLeader;
+    const entry = $('#rd-entry-btn');
+    if (entry) {
+      entry.hidden = false;
+      entry.disabled = !clean || v98Pending;
+      entry.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' ? 'true' : 'false');
+    }
+    const note = $('#rd-entry-note');
+    if (note) {
+      const text = v98Pending ? '先完成正在送出的守夜签：守夜厅还有一张签在路上。' : st.activeLeader ? '先完成正在送出的路条。' : '';
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const court = $('#rd-court-entry-btn');
+    if (court) {
+      const eligible = rdCourtEligible(st);
+      court.hidden = !eligible;
+      court.disabled = !eligible || !clean;
+      court.setAttribute('aria-pressed', st.pending && st.pending.kind === 'court-entry' ? 'true' : 'false');
+    }
+    const grid = $('#rd-codex-grid');
+    if (grid) {
+      const have = new Set(st.routes);
+      const cells = RD_ROUTE_IDS.map((id) => {
+        const [road, method] = id.split(':');
+        const cell = document.createElement('div');
+        cell.className = `rd-cell ${have.has(id) ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = have.has(id) ? `${RD_ROAD_TABLE[road].title}\n${RD_METHOD_TABLE[method].title}` : '？？？';
+        return cell;
+      });
+      RD_VERDICT_ACTIONS.forEach((action) => {
+        const a = RD_VERDICT_TABLE[action];
+        const got = st.courtOutcomes.includes(a.outcome);
+        const cell = document.createElement('div');
+        cell.className = `rd-cell rd-cell-verdict ${got ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = got ? `[末路听证会] ${a.title}\n${a.feedback}` : '？？？';
+        cells.push(cell);
+      });
+      grid.replaceChildren(...cells);
+    }
+    if (!st.pending || (st.pending.kind !== 'entry' && st.pending.kind !== 'court-entry')) {
+      showRdResponse('#rd-entry-response', '');
+      showRdResponse('#rd-court-entry-response', '');
+    }
+  }
+
+  function syncRdLinks() {
+    const st = deadRoadsUnlocked() ? getDeadRoads() : null;
+    [['bureau-of-roads-link', 'office'], ['road-table-link', 'table'], ['hearing-of-the-last-road-link', 'court']].forEach(([id, key]) => {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !(st && st.visited[key]);
+    });
+  }
+
+  function forgetDeadRoadsState() {
+    try { localStorage.removeItem(DEAD_ROAD_KEY); } catch {}
+    [RD_OFFICE, RD_TABLE, RD_COURT].forEach((scene) => AutoAdvance.clear(scene));
+    rdTurns = [];
+    rdTableRoad = '';
+    rdMoves = 0;
+    ['#rd-codex', '#rd-memory', '#rd-office-figure', '#rd-table-panel', '#hearing-of-the-last-road-figure',
+      '#bureau-of-roads-link', '#road-table-link', '#hearing-of-the-last-road-link', '#rd-continue', '#rd-court-entry-btn',
+      '#rd-entry-response', '#rd-court-entry-response', '#bureau-of-roads-response', '#road-table-response', '#hearing-of-the-last-road-response',
+      ...RD_OLD_TARGETS.flatMap((scene) => [`#rd-leader-${scene}`, `#rd-echo-${scene}`]),
+    ].forEach((sel) => { const el = $(sel); if (el) el.hidden = true; });
+    $$('[id^="rd-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+  }
+
+  const onTrustedRd = (selector, handler) => {
+    const el = $(selector);
+    if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+  };
+  onTrustedRd('#rd-entry-btn', chooseRdEntry);
+  onTrustedRd('#rd-court-entry-btn', chooseRdCourtEntry);
+  onTrustedRd('#rd-abandon', chooseRdAbandon);
+  onTrustedRd('#rd-continue', () => {
+    const st = rdReady(RD_OFFICE, 'rd-continue');
+    if (!st || !st.draft.road || st.activeLeader) return;
+    const road = st.draft.road;
+    launchRd(RD_OFFICE, 'rd-continue', { road, feedback: RD_ROAD_TABLE[road].feedback, kind: 'road', source: RD_OFFICE, target: RD_TABLE }, '#bureau-of-roads-response');
+  });
+  RD_ROADS.forEach((road) => onTrustedRd(`#rd-road-${road}`, () => chooseRdRoad(road)));
+  RD_METHODS.forEach((method) => onTrustedRd(`#rd-method-${method}`, () => chooseRdMethod(method)));
+  RD_VERDICT_ACTIONS.forEach((action) => onTrustedRd(`#rd-verdict-${action}`, () => chooseRdVerdict(action)));
+  RD_OLD_TARGETS.forEach((scene) => onTrustedRd(`#rd-leader-return-${scene}`, () => chooseRdLeaderReturn(scene)));
+  for (let i = 0; i < 9; i++) onTrustedRd(`#rd-tile-${i}`, () => turnRdTile(i));
+  onTrustedRd('#rd-reset', resetRdTable);
+  onTrustedRd('#rd-pave', paveRdRoute);
+
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -54210,8 +54951,25 @@ document.addEventListener("DOMContentLoaded", () => {
     if (eligible) items.push(`开庭条件已满足；未点之灯裁定已得 ${st.courtOutcomes.length}/3`);
     if (st.activeKeeper) items.push("有一张守夜签在旧房间等你签收：点守夜人回到守夜厅");
     else if (st.draft.stand) items.push(`守夜台上还放着「${VC_STAND_TABLE[st.draft.stand].title}」`);
-    if (eligible && st.courtOutcomes.length >= 3) return { title: "v98 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    if (eligible && st.courtOutcomes.length >= 3) return deadRoadsProgressStep();
     return { title: "v98 守夜烛台", items, target: eligible ? "vc-court" : "vc", done: false };
+  };
+
+  /* v99：按三张路图、三个去处与三项裁定给出缺项 */
+  const deadRoadsProgressStep = () => {
+    if (!deadRoadsUnlocked()) return null;
+    const st = getDeadRoads();
+    const items = [];
+    const roads = RD_ROADS.filter((x) => !st.routes.some((id) => id.startsWith(`${x}:`))).map((x) => RD_ROAD_TABLE[x].title);
+    const methods = RD_METHODS.filter((m) => !st.routes.some((id) => id.endsWith(`:${m}`))).map((m) => RD_METHOD_TABLE[m].title);
+    if (roads.length) items.push(`还没铺的路图：${roads.join("、")}`);
+    if (methods.length) items.push(`还没用过的去处：${methods.join("、")}`);
+    const eligible = rdCourtEligible(st);
+    if (eligible) items.push(`开庭条件已满足；末路裁定已得 ${st.courtOutcomes.length}/3`);
+    if (st.activeLeader) items.push("有一份路条在旧房间等你签收：点引路人回到引路司");
+    else if (st.draft.road) items.push(`铺路台上还摊着「${RD_ROAD_TABLE[st.draft.road].title}」`);
+    if (eligible && st.courtOutcomes.length >= 3) return { title: "v99 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    return { title: "v99 引路司", items, target: eligible ? "rd-court" : "rd", done: false };
   };
 
   const paintProgressGuide = () => {
@@ -54642,6 +55400,7 @@ document.addEventListener("DOMContentLoaded", () => {
   syncHeldBreathAll();
   syncLostWeightAll();
   syncVigilCandlesAll();
+  syncDeadRoadsAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

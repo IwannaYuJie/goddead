@@ -45,8 +45,8 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=98/);
-assert.match(html, /script\.js\?v=98/);
+assert.match(html, /styles\.css\?v=99/);
+assert.match(html, /script\.js\?v=99/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
@@ -135,7 +135,7 @@ assert.match(js, /DOMContentLoaded/);
   assert.match(rawHtml, /<aside class="progress-guide" id="progress-guide" aria-labelledby="progress-guide-title" hidden>/, "remembrance hosts a hidden progress guide");
   const remembranceSection = rawHtml.match(/<section[^>]*data-scene="remembrance"[\s\S]*?<\/section>/);
   assert.ok(remembranceSection && remembranceSection[0].includes('id="progress-guide"'), "the guide lives inside the remembrance scene");
-  assert.match(js, /replayVigilCandlesPending\(name\);\s*if \(name === "remembrance"\) syncProgressGuide\(\);\s*updateHudDisplay\(\);/, "arriving at remembrance refreshes the guide after every chapter sync");
+  assert.match(js, /replayDeadRoadsPending\(name\);\s*if \(name === "remembrance"\) syncProgressGuide\(\);\s*updateHudDisplay\(\);/, "arriving at remembrance refreshes the guide after every chapter sync");
   const guideStart = js.indexOf("/* ---------- 痕迹室「下一步」 ----------");
   const guideEnd = js.indexOf("/* ---------- 初始化 ---------- */");
   assert.ok(guideStart !== -1 && guideEnd > guideStart, "guide block sits before init");
@@ -699,8 +699,8 @@ for (const asset of VISUAL_ASSETS) {
 await access(new URL("assets/prayer-incinerator-burning.webp", root));
 assert.match(html, /assets\/prayer-incinerator-burning\.webp/);
 assert.match(html, /<link rel="preload" href="assets\/prayer-incinerator-burning\.webp" as="image">/);
-assert.match(html, /styles\.css\?v=98/);
-assert.match(html, /script\.js\?v=98/);
+assert.match(html, /styles\.css\?v=99/);
+assert.match(html, /script\.js\?v=99/);
 const offeringFigureHtml = html.match(/<figure class="offering-figure[^"]*" role="img" aria-label="[^"]*">[\s\S]*?<\/figure>/);
 assert.ok(offeringFigureHtml, "offering figure must exist");
 assert.match(offeringFigureHtml[0], /aria-label="一座沉寂的焚献炉"/);
@@ -4710,7 +4710,7 @@ assert.ok(SCENES.includes("causal-sorter"), "SCENES must list the causal sorter"
 assert.ok(SCENES.includes("first-draft-vault"), "SCENES must list the first draft vault");
 assert.ok(SCENES.includes("before-first-knock"), "SCENES must list the before first knock");
 assert.ok(SCENES.includes("causeless-ward"), "SCENES must list the causeless ward");
-  assert.equal(new Set([...html.matchAll(/data-scene="([^"]+)"/g)].map((m) => m[1])).size, 217, "must expose 217 unique data-scene sections");
+  assert.equal(new Set([...html.matchAll(/data-scene="([^"]+)"/g)].map((m) => m[1])).size, 220, "must expose 220 unique data-scene sections");
 const consoleSection = html.match(/<section class="scene scene-branch scene-listening-back-console"[\s\S]*?<\/section>/);
 assert.ok(consoleSection, "scene section missing: listening-back-console");
 assert.match(consoleSection[0], /data-scene="listening-back-console" data-title="Goddead — 反听总台" aria-label="反听总台"/);
@@ -6095,8 +6095,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v73-nightmare-ta
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v73-waking-deportation-yard\.webp"/, "v73 loads on demand: waking-deportation-yard");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=98/, "v73 cache busts styles.css");
-assert.match(html, /script\.js\?v=98/, "v73 cache busts script.js");
+assert.match(html, /styles\.css\?v=99/, "v73 cache busts styles.css");
+assert.match(html, /script\.js\?v=99/, "v73 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const DREAM_CUSTOMS_KEY = ['"]goddead_v73_dream_customs['"]/g) || []).length, 1, "v73 introduces exactly one storage key");
@@ -6963,8 +6963,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v74-impossible-c
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v74-perpetual-license-tribunal\.webp"/, "v74 loads on demand: perpetual-license-tribunal");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=98/, "v74 cache busts styles.css");
-assert.match(html, /script\.js\?v=98/, "v74 cache busts script.js");
+assert.match(html, /styles\.css\?v=99/, "v74 cache busts styles.css");
+assert.match(html, /script\.js\?v=99/, "v74 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const TOMBSTONE_PATENT_OFFICE_KEY = ['"]goddead_v74_tombstone_patent_office['"]/g) || []).length, 1, "v74 introduces exactly one storage key");
@@ -7845,8 +7845,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v75-post-world-r
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v75-universal-recall-yard\.webp"/, "v75 loads on demand: universal-recall-yard");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=98/, "v75 cache busts styles.css");
-assert.match(html, /script\.js\?v=98/, "v75 cache busts script.js");
+assert.match(html, /styles\.css\?v=99/, "v75 cache busts styles.css");
+assert.match(html, /script\.js\?v=99/, "v75 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const APOCALYPSE_WARRANTY_KEY = ['"]goddead_v75_apocalypse_warranty['"]/g) || []).length, 1, "v75 introduces exactly one storage key");
@@ -8775,8 +8775,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v76-reality-retu
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v76-class-action-court\.webp"/, "v76 loads on demand: class-action-court");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=98/, "v76 cache busts styles.css");
-assert.match(html, /script\.js\?v=98/, "v76 cache busts script.js");
+assert.match(html, /styles\.css\?v=99/, "v76 cache busts styles.css");
+assert.match(html, /script\.js\?v=99/, "v76 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const REALITY_REFUND_KEY = ['"]goddead_v76_reality_refund['"]/g) || []).length, 1, "v76 introduces exactly one storage key");
@@ -9735,8 +9735,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v77-soul-counter
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v77-final-authenticity-tribunal\.webp"/, "v77 loads on demand: v77-final-authenticity-tribunal");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=98/, "v77 cache busts styles.css");
-assert.match(html, /script\.js\?v=98/, "v77 cache busts script.js");
+assert.match(html, /styles\.css\?v=99/, "v77 cache busts styles.css");
+assert.match(html, /script\.js\?v=99/, "v77 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const SELF_AUTHENTICITY_KEY = ['"]goddead_v77_self_authenticity['"]/g) || []).length, 1, "v77 introduces exactly one storage key");
@@ -14807,8 +14807,8 @@ for (const [file, hash] of Object.entries(V72_WEBP_HASHES)) {
 }
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=98/, "v72 cache busts styles.css");
-assert.match(html, /script\.js\?v=98/, "v72 cache busts script.js");
+assert.match(html, /styles\.css\?v=99/, "v72 cache busts styles.css");
+assert.match(html, /script\.js\?v=99/, "v72 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const LAST_WORD_BANK_KEY = ['"]goddead_v72_last_word_bank['"]/g) || []).length, 1, "v72 introduces exactly one storage key");
@@ -15994,8 +15994,8 @@ assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v78-pronoun-alloca
 assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v78-ownerless-voices-court.webp"'), "v78 loads on demand: v78-ownerless-voices-court");
 
 /* 缓存版本 */
-assert.ok(html.includes("styles.css?v=98"), "styles.css cache bust v=86");
-assert.ok(html.includes("script.js?v=98"), "script.js cache bust v=86");
+assert.ok(html.includes("styles.css?v=99"), "styles.css cache bust v=86");
+assert.ok(html.includes("script.js?v=99"), "script.js cache bust v=86");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const FIRST_PERSON_RATIONING_KEY = ['"]goddead_v78_first_person_rationing['"]/g) || []).length, 1, "v78 introduces exactly one storage key");
@@ -17027,8 +17027,8 @@ assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v79-personhood-inh
 assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v79-unuttered-estate-tribunal.webp"'), "v79 loads on demand: v79-unuttered-estate-tribunal");
 
 /* 缓存版本 */
-assert.ok(html.includes("styles.css?v=98"), "styles.css cache bust v=86");
-assert.ok(html.includes("script.js?v=98"), "script.js cache bust v=86");
+assert.ok(html.includes("styles.css?v=99"), "styles.css cache bust v=86");
+assert.ok(html.includes("script.js?v=99"), "script.js cache bust v=86");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const UNSPOKEN_PERSONHOOD_KEY = ['"]goddead_v79_unspoken_personhood['"]/g) || []).length, 1, "v79 introduces exactly one storage key");
@@ -17710,8 +17710,8 @@ assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v80-counterfactual
 assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v80-last-conclusion-hearing.webp"'), "v80 loads on demand: v80-last-conclusion-hearing");
 
 /* 缓存版本 */
-assert.ok(html.includes("styles.css?v=98"), "styles.css cache bust v=86");
-assert.ok(html.includes("script.js?v=98"), "script.js cache bust v=86");
+assert.ok(html.includes("styles.css?v=99"), "styles.css cache bust v=86");
+assert.ok(html.includes("script.js?v=99"), "script.js cache bust v=86");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const UNFINISHED_THOUGHT_KEY = ['"]goddead_v80_unfinished_thought_asylum['"]/g) || []).length, 1, "v80 introduces exactly one storage key");
@@ -20854,12 +20854,12 @@ for (const item of v81BranchFigures) {
   );
 
   assert.ok(
-    /if\s*\(\s*\(target\s*===\s*["']reliquary["']\s*\|\|\s*target\s*===\s*["']remembrance["']\)\s*&&[\s\S]*?!regretReclamationBridgeAllows\(target\)\s*&&\s*!forgivenessLandfillBridgeAllows\(target\)\s*&&\s*!harmArchaeologyBridgeAllows\(target\)\s*&&\s*!innocentWitnessProtectionBridgeAllows\(target\)\s*&&\s*!orphanedFactBridgeAllows\(target\)\s*&&\s*!existenceRenunciationBridgeAllows\(target\)\s*&&\s*!nonexistenceDebtCollectionBridgeAllows\(target\)\s*&&\s*!unhappenedEventAuctionBridgeAllows\(target\)\s*&&\s*!accomplishedFactEvictionBridgeAllows\(target\)\s*&&\s*!causelessConsequenceRefugeeBridgeAllows\(target\)\s*&&\s*!lateCauseMaternityBridgeAllows\(target\)\s*&&\s*!witnessLiabilityBridgeAllows\(target\)\s*&&\s*!unseenClaimsBridgeAllows\(target\)\s*&&\s*!returnedKnocksBridgeAllows\(target\)\s*&&\s*!stoppedClocksBridgeAllows\(target\)\s*&&\s*!heldBreathBridgeAllows\(target\)\s*&&\s*!lostWeightBridgeAllows\(target\)\s*&&\s*!vigilCandlesBridgeAllows\(target\)\s*&&\s*!gov\.rulings\.acting\s*\)\s*\{\s*target\s*=\s*["']acting["'];\s*\}/.test(resolveSceneSlice),
+    /if\s*\(\s*\(target\s*===\s*["']reliquary["']\s*\|\|\s*target\s*===\s*["']remembrance["']\)\s*&&[\s\S]*?!regretReclamationBridgeAllows\(target\)\s*&&\s*!forgivenessLandfillBridgeAllows\(target\)\s*&&\s*!harmArchaeologyBridgeAllows\(target\)\s*&&\s*!innocentWitnessProtectionBridgeAllows\(target\)\s*&&\s*!orphanedFactBridgeAllows\(target\)\s*&&\s*!existenceRenunciationBridgeAllows\(target\)\s*&&\s*!nonexistenceDebtCollectionBridgeAllows\(target\)\s*&&\s*!unhappenedEventAuctionBridgeAllows\(target\)\s*&&\s*!accomplishedFactEvictionBridgeAllows\(target\)\s*&&\s*!causelessConsequenceRefugeeBridgeAllows\(target\)\s*&&\s*!lateCauseMaternityBridgeAllows\(target\)\s*&&\s*!witnessLiabilityBridgeAllows\(target\)\s*&&\s*!unseenClaimsBridgeAllows\(target\)\s*&&\s*!returnedKnocksBridgeAllows\(target\)\s*&&\s*!stoppedClocksBridgeAllows\(target\)\s*&&\s*!heldBreathBridgeAllows\(target\)\s*&&\s*!lostWeightBridgeAllows\(target\)\s*&&\s*!vigilCandlesBridgeAllows\(target\)\s*&&\s*!deadRoadsBridgeAllows\(target\)\s*&&\s*!gov\.rulings\.acting\s*\)\s*\{\s*target\s*=\s*["']acting["'];\s*\}/.test(resolveSceneSlice),
     "Governance acting guard preserves prior checks and appends !accomplishedFactEvictionBridgeAllows(target) and v90 !causelessConsequenceRefugeeBridgeAllows(target)"
   );
 
   assert.ok(
-    /else\s+if\s*\(\s*\(target\s*===\s*["']reliquary["']\s*\|\|\s*target\s*===\s*["']remembrance["']\)\s*&&[\s\S]*?!regretReclamationBridgeAllows\(target\)\s*&&\s*!forgivenessLandfillBridgeAllows\(target\)\s*&&\s*!harmArchaeologyBridgeAllows\(target\)\s*&&\s*!innocentWitnessProtectionBridgeAllows\(target\)\s*&&\s*!orphanedFactBridgeAllows\(target\)\s*&&\s*!existenceRenunciationBridgeAllows\(target\)\s*&&\s*!nonexistenceDebtCollectionBridgeAllows\(target\)\s*&&\s*!unhappenedEventAuctionBridgeAllows\(target\)\s*&&\s*!accomplishedFactEvictionBridgeAllows\(target\)\s*&&\s*!causelessConsequenceRefugeeBridgeAllows\(target\)\s*&&\s*!lateCauseMaternityBridgeAllows\(target\)\s*&&\s*!witnessLiabilityBridgeAllows\(target\)\s*&&\s*!unseenClaimsBridgeAllows\(target\)\s*&&\s*!returnedKnocksBridgeAllows\(target\)\s*&&\s*!stoppedClocksBridgeAllows\(target\)\s*&&\s*!heldBreathBridgeAllows\(target\)\s*&&\s*!lostWeightBridgeAllows\(target\)\s*&&\s*!vigilCandlesBridgeAllows\(target\)\s*&&\s*!gov\.rulings\.offering\s*\)\s*\{\s*target\s*=\s*["']offering["'];\s*\}/.test(resolveSceneSlice),
+    /else\s+if\s*\(\s*\(target\s*===\s*["']reliquary["']\s*\|\|\s*target\s*===\s*["']remembrance["']\)\s*&&[\s\S]*?!regretReclamationBridgeAllows\(target\)\s*&&\s*!forgivenessLandfillBridgeAllows\(target\)\s*&&\s*!harmArchaeologyBridgeAllows\(target\)\s*&&\s*!innocentWitnessProtectionBridgeAllows\(target\)\s*&&\s*!orphanedFactBridgeAllows\(target\)\s*&&\s*!existenceRenunciationBridgeAllows\(target\)\s*&&\s*!nonexistenceDebtCollectionBridgeAllows\(target\)\s*&&\s*!unhappenedEventAuctionBridgeAllows\(target\)\s*&&\s*!accomplishedFactEvictionBridgeAllows\(target\)\s*&&\s*!causelessConsequenceRefugeeBridgeAllows\(target\)\s*&&\s*!lateCauseMaternityBridgeAllows\(target\)\s*&&\s*!witnessLiabilityBridgeAllows\(target\)\s*&&\s*!unseenClaimsBridgeAllows\(target\)\s*&&\s*!returnedKnocksBridgeAllows\(target\)\s*&&\s*!stoppedClocksBridgeAllows\(target\)\s*&&\s*!heldBreathBridgeAllows\(target\)\s*&&\s*!lostWeightBridgeAllows\(target\)\s*&&\s*!vigilCandlesBridgeAllows\(target\)\s*&&\s*!deadRoadsBridgeAllows\(target\)\s*&&\s*!gov\.rulings\.offering\s*\)\s*\{\s*target\s*=\s*["']offering["'];\s*\}/.test(resolveSceneSlice),
     "Governance offering guard preserves prior checks and appends !accomplishedFactEvictionBridgeAllows(target) and v90 !causelessConsequenceRefugeeBridgeAllows(target)"
   );
 
@@ -23222,7 +23222,7 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
     assert.strictEqual(offeringMatches.length, 1, "Governance block must contain exactly one !gov.rulings.offering condition");
 
     assert.ok(
-      /else\s+if\s*\(\s*\(target\s*===\s*["']reliquary["']\s*\|\|\s*target\s*===\s*["']remembrance["']\)[\s\S]*?!harmArchaeologyBridgeAllows\(target\)\s*&&\s*!innocentWitnessProtectionBridgeAllows\(target\)\s*&&\s*!orphanedFactBridgeAllows\(target\)\s*&&\s*!existenceRenunciationBridgeAllows\(target\)\s*&&\s*!nonexistenceDebtCollectionBridgeAllows\(target\)\s*&&\s*!unhappenedEventAuctionBridgeAllows\(target\)\s*&&\s*!accomplishedFactEvictionBridgeAllows\(target\)\s*&&\s*!causelessConsequenceRefugeeBridgeAllows\(target\)\s*&&\s*!lateCauseMaternityBridgeAllows\(target\)\s*&&\s*!witnessLiabilityBridgeAllows\(target\)\s*&&\s*!unseenClaimsBridgeAllows\(target\)\s*&&\s*!returnedKnocksBridgeAllows\(target\)\s*&&\s*!stoppedClocksBridgeAllows\(target\)\s*&&\s*!heldBreathBridgeAllows\(target\)\s*&&\s*!lostWeightBridgeAllows\(target\)\s*&&\s*!vigilCandlesBridgeAllows\(target\)\s*&&\s*!gov\.rulings\.offering\s*\)\s*\{\s*target\s*=\s*["']offering["'];\s*\}/.test(govBlockBody),
+      /else\s+if\s*\(\s*\(target\s*===\s*["']reliquary["']\s*\|\|\s*target\s*===\s*["']remembrance["']\)[\s\S]*?!harmArchaeologyBridgeAllows\(target\)\s*&&\s*!innocentWitnessProtectionBridgeAllows\(target\)\s*&&\s*!orphanedFactBridgeAllows\(target\)\s*&&\s*!existenceRenunciationBridgeAllows\(target\)\s*&&\s*!nonexistenceDebtCollectionBridgeAllows\(target\)\s*&&\s*!unhappenedEventAuctionBridgeAllows\(target\)\s*&&\s*!accomplishedFactEvictionBridgeAllows\(target\)\s*&&\s*!causelessConsequenceRefugeeBridgeAllows\(target\)\s*&&\s*!lateCauseMaternityBridgeAllows\(target\)\s*&&\s*!witnessLiabilityBridgeAllows\(target\)\s*&&\s*!unseenClaimsBridgeAllows\(target\)\s*&&\s*!returnedKnocksBridgeAllows\(target\)\s*&&\s*!stoppedClocksBridgeAllows\(target\)\s*&&\s*!heldBreathBridgeAllows\(target\)\s*&&\s*!lostWeightBridgeAllows\(target\)\s*&&\s*!vigilCandlesBridgeAllows\(target\)\s*&&\s*!deadRoadsBridgeAllows\(target\)\s*&&\s*!gov\.rulings\.offering\s*\)\s*\{\s*target\s*=\s*["']offering["'];\s*\}/.test(govBlockBody),
       "Unique offering else-if preserves the full bridge chain through causelessConsequenceRefugeeBridgeAllows (v90) before setting target to offering"
     );
 
@@ -26766,8 +26766,8 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
       assert.match(html, new RegExp(`data-scene="${sc}"`), `scene missing: ${sc}`);
     }
 
-    assert.match(html, /styles\.css\?v=98/, "styles.css cache query must be updated to v=90");
-    assert.match(html, /script\.js\?v=98/, "script.js cache query must be updated to v=90");
+    assert.match(html, /styles\.css\?v=99/, "styles.css cache query must be updated to v=90");
+    assert.match(html, /script\.js\?v=99/, "script.js cache query must be updated to v=90");
 
     const bootstrapStartIdx = js.lastIndexOf('/* ---------- 初始化 ---------- */');
     assert.ok(bootstrapStartIdx !== -1, 'v90 browser-initialization failure: bootstrap start marker not found');
@@ -28898,7 +28898,7 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
     assert.ok(section.includes(`id="late-cause-echo-${scene}"`), `${scene} hosts the v91 echo paragraph`);
   }
   assert.match(js, /resolveLateCausePendingOnArrival\(name\);\s*replayLateCausePending\(name\);/, "sceneInit resolves then replays v91 pending on the real route");
-  assert.match(js, /syncCauselessConsequenceRefugeeLinks\(\);\s*syncLateCauseAll\(\);\s*syncWitnessAll\(\);\s*syncUnseenAll\(\);\s*syncReturnedKnocksAll\(\);\s*syncStoppedClocksAll\(\);\s*syncHeldBreathAll\(\);\s*syncLostWeightAll\(\);\s*syncVigilCandlesAll\(\);\s*revealScene\(scenes\.threshold\);/, "bootstrap only syncs v91 UI, never resolves a hardcoded threshold");
+  assert.match(js, /syncCauselessConsequenceRefugeeLinks\(\);\s*syncLateCauseAll\(\);\s*syncWitnessAll\(\);\s*syncUnseenAll\(\);\s*syncReturnedKnocksAll\(\);\s*syncStoppedClocksAll\(\);\s*syncHeldBreathAll\(\);\s*syncLostWeightAll\(\);\s*syncVigilCandlesAll\(\);\s*syncDeadRoadsAll\(\);\s*revealScene\(scenes\.threshold\);/, "bootstrap only syncs v91 UI, never resolves a hardcoded threshold");
   assert.match(js, /forgetCauselessConsequenceRefugeeState\(\);\s*forgetLateCauseMaternityState\(\);/, "forget-all clears v91");
   assert.ok(js.includes("&& !lateCauseMaternityBridgeAllows('unending-gallery')"), "gallery guard lets v91 arrivals through");
 
@@ -30229,7 +30229,7 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
   assert.match(js, /return vigilCandlesProgressStep\(\);/, "the guide continues from v97 into v98");
 
   const modStart = js.indexOf("/* ============================================================\n     v98 守夜烛台");
-  const modEnd = js.indexOf("  /* ---------- 痕迹室「下一步」 ----------");
+  const modEnd = js.indexOf("  /* ============================================================\n     v99 引路司");
   assert.ok(modStart !== -1 && modEnd > modStart, "v98 module is extractable");
   const modSrc = js.slice(modStart, modEnd);
   assert.equal((modSrc.match(/addEventListener\(/g) || []).length, 1, "every v98 control goes through the single trusted-click helper");
@@ -30388,13 +30388,11 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
 
 /* ================= v98.1 痕迹室档案柜 ================= */
 {
-  assert.match(rawHtml, /styles\.css\?v=98\.1"/, "v98.1 busts the stylesheet cache");
-  assert.match(rawHtml, /script\.js\?v=98\.1"/, "v98.1 busts the script cache");
   const remembranceSection = rawHtml.match(/<section[^>]*data-scene="remembrance"[\s\S]*?<\/section>/);
   assert.ok(remembranceSection && /id="codex-fold-bar"[^>]*hidden/.test(remembranceSection[0]), "the fold bar lives in remembrance and starts hidden");
   assert.ok(remembranceSection[0].indexOf('id="progress-guide"') < remembranceSection[0].indexOf('id="codex-fold-bar"'), "the fold bar sits right under the progress guide");
   assert.match(js, /const syncProgressGuide = \(\) => \{\s*paintProgressGuide\(\);\s*syncCodexFolds\(\);\s*\};/, "every guide refresh re-applies the folds");
-  assert.match(js, /forgetVigilCandlesState\(\);\s*forgetCodexFolds\(\);/, "forget-all clears the fold preference");
+  assert.match(js, /forgetDeadRoadsState\(\);\s*forgetCodexFolds\(\);/, "forget-all clears the fold preference");
   assert.match(js, /const box = target\.closest\('\[id\$="-codex"\]'\);\s*if \(box\) setCodexFolded\(box, false\);/, "jumping to an entry unfolds its codex first");
   assert.match(css, /\[id\$="-codex"\]\.is-folded > :not\(\.codex-fold\) \{ display: none !important; \}/, "a folded codex shows only its title button");
 
@@ -30452,6 +30450,204 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
   assert.equal(api.read().size, 0, "a broken preference reads as empty");
   api.forget();
   assert.equal(mem.has("goddead_codex_unfolded"), false);
+}
+
+/* ================= v99 引路司 ================= */
+{
+  const V99_SCENES = ["bureau-of-roads", "road-table", "hearing-of-the-last-road"];
+  for (const s of V99_SCENES) {
+    assert.match(rawHtml, new RegExp(`<section[^>]*data-scene="${s}"`), `v99 scene ${s} exists`);
+    assert.match(js, new RegExp(`if \\(target === "${s}" && ![a-zA-Z]+CanVisit\\(\\)\\) target = "remembrance";`), `v99 scene ${s} is guarded`);
+    const buf = await readFile(new URL(`assets/v99-${s}.webp`, root));
+    assert.equal(buf.toString("ascii", 0, 4), "RIFF", `v99 ${s} is a webp`);
+    assert.ok(buf.length < 300 * 1024, `v99 ${s} stays under 300KB`);
+    assert.ok(rawHtml.includes(`data-src="assets/v99-${s}.webp"`), `v99 ${s} loads on demand`);
+    await access(new URL(`design-references/source-v99-${s}.png`, root));
+  }
+  for (const scene of ["threshold", "protocol", "watch"]) {
+    const section = rawHtml.split(/(?=<section[^>]*\bdata-scene=")/).find((p) => p.startsWith("<section") && p.indexOf(`data-scene="${scene}"`) > -1 && p.indexOf(`data-scene="${scene}"`) < 300);
+    assert.ok(section && section.includes(`id="rd-leader-${scene}"`) && section.includes(`id="rd-echo-${scene}"`), `${scene} hosts the v99 route receipt and echo`);
+  }
+  for (let i = 0; i < 9; i++) assert.match(rawHtml, new RegExp(`<button class="rd-tile" id="rd-tile-${i}" type="button"`), `tile ${i} is a native button`);
+  assert.match(js, /resolveDeadRoadsPendingOnArrival\(name\);\s*replayDeadRoadsPending\(name\);/, "sceneInit resolves then replays v99 pending");
+  assert.match(js, /forgetVigilCandlesState\(\);\s*forgetDeadRoadsState\(\);/, "forget-all clears v99");
+  assert.match(js, /syncVigilCandlesAll\(\);\s*syncDeadRoadsAll\(\);/, "boot syncs v99");
+  assert.match(js, /return deadRoadsProgressStep\(\);/, "the guide continues from v98 into v99");
+
+  const modStart = js.indexOf("/* ============================================================\n     v99 引路司");
+  const modEnd = js.indexOf("  /* ---------- 痕迹室「下一步」 ----------");
+  assert.ok(modStart !== -1 && modEnd > modStart, "v99 module is extractable");
+  const modSrc = js.slice(modStart, modEnd);
+  assert.equal((modSrc.match(/addEventListener\(/g) || []).length, 1, "every v99 control goes through the single trusted-click helper");
+  assert.doesNotMatch(modSrc, /innerHTML/, "v99 never writes save data as HTML");
+
+  const makeV99 = ({ v98Done = true, v98Pending = null, initial = null } = {}) => {
+    const mem = new Map();
+    if (initial !== null) mem.set("goddead_v99_roads_for_the_dead", typeof initial === "string" ? initial : JSON.stringify(initial));
+    const store = { get: (k, f) => (mem.has(k) ? mem.get(k) : f), set: (k, v) => mem.set(k, String(v)) };
+    const els = new Map();
+    const mkEl = (id = "") => ({
+      id, hidden: false, disabled: false, textContent: "", children: [], attrs: {},
+      style: { setProperty(k, v) { this[k] = v; } },
+      classList: { set: new Set(), add(c) { this.set.add(c); }, remove(c) { this.set.delete(c); }, toggle(c, on) { on ? this.set.add(c) : this.set.delete(c); }, contains(c) { return this.set.has(c); } },
+      setAttribute(k, v) { this.attrs[k] = String(v); }, getAttribute(k) { return k in this.attrs ? this.attrs[k] : null; },
+      replaceChildren(...c) { this.children = c; }, addEventListener() {},
+    });
+    const $ = (sel) => { const id = sel.replace(/^#/, ""); if (!els.has(id)) els.set(id, mkEl(id)); return els.get(id); };
+    const schedules = [];
+    const AutoAdvance = { schedule: (scene, target) => schedules.push([scene, target]), has: () => false, clear: () => {} };
+    const v98 = { pending: v98Pending, courtOutcomes: v98Done ? ["a", "b", "c"] : ["a"] };
+    const api = new Function(
+      "store", "$", "$$", "reduced", "AutoAdvance", "AudioEngine", "buttonAvailable", "document", "localStorage",
+      "vigilCandlesUnlocked", "getVigilCandles", "vcCourtEligible", "VC_VERDICT_OUTCOME_IDS",
+      `let currentScene = "remembrance";\n${modSrc}\nreturn { go: (s) => { currentScene = s; }, arrive: (s) => { currentScene = s; resolveDeadRoadsPendingOnArrival(s); syncDeadRoadsAll(); },
+        get: getDeadRoads, unlocked: deadRoadsUnlocked, entry: chooseRdEntry, road: chooseRdRoad, method: chooseRdMethod, abandon: chooseRdAbandon,
+        turn: turnRdTile, reset: resetRdTable, pave: paveRdRoute, turns: () => rdTurns.map((t) => t % 4),
+        leader: chooseRdLeaderReturn, courtEntry: chooseRdCourtEntry, verdict: chooseRdVerdict, eligible: rdCourtEligible,
+        pure: { rotate: rdRotate, reach: rdReach, connected: rdConnected }, TABLE: RD_ROAD_TABLE,
+        bridge: deadRoadsBridgeAllows, officeOk: rdOfficeCanVisit, tableOk: roadTableCanVisit, courtOk: rdCourtCanVisit, resolve: resolveDeadRoadsPendingOnArrival,
+        forget: forgetDeadRoadsState, ROUTES: RD_ROUTE_IDS, ROADS: RD_ROADS, METHODS: RD_METHODS };`
+    )(store, $, () => [], false, AutoAdvance, { whoosh() {}, clamp() {} }, (id) => { const el = els.get(id); return !el || (!el.disabled && !el.hidden); },
+      { createElement: () => mkEl() }, { removeItem: (k) => mem.delete(k) }, () => true, () => v98, () => true, ["a", "b", "c"]);
+    return { ...api, mem, els, schedules };
+  };
+  /* 测试用求解：枚举每块砖的转向，取总点击最少的一组 */
+  const solveRoad = (g, road, method, start) => {
+    const { tiles } = g.TABLE[road];
+    let best = null;
+    const cur = new Array(9).fill(0);
+    const rec = (k, cost) => {
+      if (best && cost >= best.cost) return;
+      if (k === 9) { if (g.pure.connected(tiles, cur, method)) best = { cost, turns: cur.slice() }; return; }
+      for (let r = 0; r < 4; r++) { cur[k] = r; rec(k + 1, cost + ((r - start[k] + 4) % 4)); }
+    };
+    rec(0, 0);
+    return best;
+  };
+  const clicksFor = (start, goal) => goal.flatMap((r, i) => Array((r - start[i] + 4) % 4).fill(i));
+
+  /* 纯函数：转向、连通、每张路图三个出口都可达且初始不通 */
+  {
+    const g = makeV99();
+    const { rotate, reach, connected } = g.pure;
+    assert.equal(rotate(1, 1), 2, "north turns to east");
+    assert.equal(rotate(8, 1), 1, "west wraps to north");
+    assert.equal(rotate(5, 2), 5, "a straight road is symmetric");
+    assert.equal(rotate(3, -1), 9, "negative turns wrap too");
+    assert.equal(reach("III" + "III" + "III", [0, 0, 0, 1, 1, 1, 0, 0, 0]).size, 3, "a straight east-west middle row reaches three tiles");
+    assert.equal(connected("III" + "III" + "III", [0, 0, 0, 1, 1, 1, 0, 0, 0], "forth"), true, "the middle row leads out");
+    assert.equal(reach("III" + "III" + "III", [0, 0, 0, 0, 1, 1, 0, 0, 0]).size, 0, "a blocked entrance reaches nothing");
+    for (const road of g.ROADS) for (const method of g.METHODS) {
+      const start = g.TABLE[road].turns;
+      assert.equal(connected(g.TABLE[road].tiles, start, method), false, `${road} starts unconnected to ${method}`);
+      const best = solveRoad(g, road, method, start);
+      assert.ok(best && best.cost >= 3 && best.cost <= 8, `${road} → ${method} is solvable in a few turns (${best && best.cost})`);
+    }
+    assert.equal(g.ROUTES.length, 9);
+  }
+
+  /* 锁定 */
+  {
+    const g = makeV99({ v98Done: false, initial: { version: 99, visited: { office: true, table: true, court: true } } });
+    assert.equal(g.unlocked(), false);
+    assert.equal(g.officeOk() || g.tableOk() || g.courtOk() || g.bridge("threshold"), false);
+    g.entry();
+    assert.equal(g.schedules.length, 0);
+  }
+
+  /* 最短开庭：三张路图、三个去处；不通不送，接通才送 */
+  {
+    const g = makeV99();
+    g.entry(); g.arrive("bureau-of-roads");
+    const pave = (road, method, scene) => {
+      g.go("bureau-of-roads"); g.road(road); g.arrive("road-table");
+      if (method !== "rise") g.method(method);
+      assert.equal(g.get().draft.method, method);
+      assert.deepEqual(g.turns(), g.TABLE[road].turns, "the tiles arrive turned the way the map drew them");
+      g.pave();
+      assert.equal(g.get().pending, null, "an unconnected road never goes out");
+      assert.match(g.els.get("rd-table-status").textContent, /还没接通/);
+      g.turn(4); g.reset();
+      assert.deepEqual(g.turns(), g.TABLE[road].turns, "reset restores the drawn turns");
+      const best = solveRoad(g, road, method, g.TABLE[road].turns);
+      clicksFor(g.TABLE[road].turns, best.turns).forEach((i) => g.turn(i));
+      assert.ok(g.els.get("rd-tile-3").classList.contains("is-lit"), "the entrance tile lights up");
+      assert.ok(g.els.get(`rd-exit-${method}`).classList.contains("is-open"), "the chosen exit opens");
+      g.pave();
+      assert.deepEqual(g.schedules.pop(), ["road-table", scene], `${road} ${method} is sent to ${scene}`);
+      assert.equal(g.get().routes.includes(`${road}:${method}`), false, "nothing is booked at pave time");
+      g.arrive(scene);
+      assert.ok(g.get().routes.includes(`${road}:${method}`));
+      assert.equal(g.els.get(`rd-leader-${scene}`).hidden, false, "the leader receipt shows in the old room");
+      assert.match(g.els.get(`rd-echo-${scene}`).textContent, /路条/, "the old room remembers the route");
+      g.leader(scene); g.arrive("bureau-of-roads");
+      assert.equal(g.get().activeLeader, null);
+    };
+    pave("threshold-road", "rise", "threshold");
+    pave("protocol-road", "forth", "protocol");
+    pave("watch-road", "sink", "watch");
+    assert.equal(g.eligible(g.get()), true, "three routes covering every exit open the court");
+    g.go("remembrance"); g.courtEntry(); g.arrive("hearing-of-the-last-road");
+    for (const [action, target] of [["let-every-road-lead-home", "threshold"], ["keep-a-road-for-god", "remembrance"], ["let-the-roads-end", "unending-gallery"]]) {
+      g.go("hearing-of-the-last-road"); g.verdict(action);
+      assert.deepEqual(g.schedules.pop(), ["hearing-of-the-last-road", target]);
+      g.arrive(target);
+      assert.equal(g.bridge(target), true, "the latest verdict keeps its destination bridged");
+    }
+    assert.equal(g.get().courtOutcomes.length, 3);
+    g.forget();
+    assert.equal(g.mem.has("goddead_v99_roads_for_the_dead"), false);
+  }
+
+  /* 换去处保留、换路图复位、卷起路图、在途锁定、pending、上游在途、坏档 */
+  {
+    const g = makeV99();
+    g.entry(); g.arrive("bureau-of-roads");
+    g.road("watch-road"); g.arrive("road-table");
+    g.turn(0);
+    const turned = g.turns();
+    g.method("forth");
+    assert.deepEqual(g.turns(), turned, "changing the exit keeps the tiles");
+    g.turn(12); g.turn(-1);
+    assert.deepEqual(g.turns(), turned, "out-of-range tiles are ignored");
+    g.abandon();
+    assert.deepEqual(g.schedules.pop(), ["road-table", "bureau-of-roads"]);
+    g.arrive("bureau-of-roads");
+    assert.equal(g.get().draft.road, "");
+    g.road("protocol-road"); g.arrive("road-table");
+    assert.equal(g.get().draft.method, "rise", "a different map resets the exit");
+    assert.deepEqual(g.turns(), g.TABLE["protocol-road"].turns, "a different map arrives as drawn");
+    const best = solveRoad(g, "protocol-road", "rise", g.TABLE["protocol-road"].turns);
+    clicksFor(g.TABLE["protocol-road"].turns, best.turns).forEach((i) => g.turn(i));
+    g.pave();
+    assert.deepEqual(g.schedules.pop(), ["road-table", "protocol"]);
+    g.resolve("road-table");
+    assert.equal(g.get().pending?.kind, "pave", "refreshing at the table keeps waiting");
+    const locked = g.turns();
+    g.turn(0);
+    assert.deepEqual(g.turns(), locked, "tiles are locked while the route is in transit");
+    g.arrive("protocol"); g.arrive("protocol");
+    assert.equal(g.get().routeRuns, 1, "repeated arrival books once");
+    g.leader("protocol"); g.arrive("corridor");
+    assert.equal(g.get().pending, null);
+    assert.ok(g.get().activeLeader, "the receipt survives a cancelled return");
+    const h = makeV99({ v98Pending: { kind: "seal" } });
+    h.entry();
+    assert.equal(h.schedules.length, 0, "a v98 vigil in transit blocks the v99 entry");
+    assert.equal(makeV99({ initial: "{bad" }).get().visited.office, false);
+    const forged = makeV99({ initial: {
+      version: 99, visited: { office: true, table: true }, y: 2, draft: { road: "watch-road", method: "sideways" },
+      routes: ["watch-road:rise", "watch-road:rise", "ghost:rise"], courtOutcomes: ["fake"],
+      latestMethodByRoad: { "watch-road": "sink" }, activeLeader: { route: "watch-road:sink" },
+      pending: { kind: "pave", road: "watch-road", method: "rise", route: "watch-road:rise", source: "road-table", target: "remembrance", feedback: "x" },
+    } }).get();
+    assert.equal("y" in forged, false);
+    assert.equal(forged.draft.method, "rise", "an unknown exit falls back to rise");
+    assert.deepEqual(forged.routes, ["watch-road:rise"]);
+    assert.equal(forged.latestMethodByRoad["watch-road"], "", "a latest exit never collected is rejected");
+    assert.equal(forged.activeLeader, null);
+    assert.equal(forged.pending, null, "a route sent to the wrong scene is rejected");
+  }
 }
 
 // v78-final-assertion-report

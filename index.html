@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=98.1">
+  <link rel="stylesheet" href="styles.css?v=99">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -194,6 +194,15 @@
               <p class="harm-reconstructor-response" id="harm-reconstructor-response-threshold" aria-live="polite"></p>
               <button class="harm-reconstructor-return" id="harm-reconstructor-return-threshold" type="button" hidden data-hover>跟疼痛复原员返回考古局 · RETURN WITH THE PAIN RECONSTRUCTOR ⟶</button>
             </div>
+          <!-- v99 门槛路条签收与记忆 -->
+          <p class="watch-memory rd-echo" id="rd-echo-threshold" hidden></p>
+          <div class="rd-leader reveal" id="rd-leader-threshold" hidden>
+            <p class="rd-leader-title" id="rd-leader-title-threshold"></p>
+            <p class="rd-leader-level" id="rd-leader-level-threshold"></p>
+            <p class="rd-leader-body" id="rd-leader-body-threshold"></p>
+            <p class="rd-response" id="rd-leader-response-threshold" aria-live="polite" hidden></p>
+            <button class="rd-action" id="rd-leader-return-threshold" type="button" data-hover>带着路条回到引路司 ⟶</button>
+          </div>
           <!-- v94 门槛回信签收与记忆 -->
           <p class="watch-memory rk-echo" id="rk-echo-threshold" hidden></p>
           <div class="rk-courier reveal" id="rk-courier-threshold" hidden>
@@ -278,6 +287,15 @@
           </ol>
           <p class="rules-foot reveal">守则如有变动，恕不另行通知。——有些变动并非我们所为。</p>
 
+          <!-- v99 守则路条签收与记忆 -->
+          <p class="watch-memory rd-echo" id="rd-echo-protocol" hidden></p>
+          <div class="rd-leader reveal" id="rd-leader-protocol" hidden>
+            <p class="rd-leader-title" id="rd-leader-title-protocol"></p>
+            <p class="rd-leader-level" id="rd-leader-level-protocol"></p>
+            <p class="rd-leader-body" id="rd-leader-body-protocol"></p>
+            <p class="rd-response" id="rd-leader-response-protocol" aria-live="polite" hidden></p>
+            <button class="rd-action" id="rd-leader-return-protocol" type="button" data-hover>带着路条回到引路司 ⟶</button>
+          </div>
           <!-- v95 守则修理单签收与记忆 -->
           <p class="watch-memory sc-echo" id="sc-echo-protocol" hidden></p>
           <div class="sc-smith reveal" id="sc-smith-protocol" hidden>
@@ -3753,6 +3771,15 @@
             </div>
           </div>
 
+          <!-- v99 值夜室路条签收与记忆 -->
+          <p class="watch-memory rd-echo" id="rd-echo-watch" hidden></p>
+          <div class="rd-leader reveal" id="rd-leader-watch" hidden>
+            <p class="rd-leader-title" id="rd-leader-title-watch"></p>
+            <p class="rd-leader-level" id="rd-leader-level-watch"></p>
+            <p class="rd-leader-body" id="rd-leader-body-watch"></p>
+            <p class="rd-response" id="rd-leader-response-watch" aria-live="polite" hidden></p>
+            <button class="rd-action" id="rd-leader-return-watch" type="button" data-hover>带着路条回到引路司 ⟶</button>
+          </div>
           <!-- v95 值夜室修理单签收与记忆 -->
           <p class="watch-memory sc-echo" id="sc-echo-watch" hidden></p>
           <div class="sc-smith reveal" id="sc-smith-watch" hidden>
@@ -4811,6 +4838,22 @@
               <p class="vc-response" id="vc-entry-response" aria-live="polite" hidden></p>
               <button class="vc-entry-btn" id="vc-court-entry-btn" type="button" hidden data-hover>进入未点之灯听证会 · ENTER THE HEARING OF THE UNLIT ⟶</button>
               <p class="vc-response" id="vc-court-entry-response" aria-live="polite" hidden></p>
+            </div>
+          </div>
+
+          <!-- v99 引路图鉴 -->
+          <p class="watch-memory rd-memory" id="rd-memory" hidden></p>
+          <div class="rd-codex reveal" id="rd-codex" hidden>
+            <p class="rd-kicker">BUREAU OF ROADS FOR THE DEAD · 引 路 图 鉴</p>
+            <div class="rd-grid" id="rd-codex-grid"></div>
+            <p class="rd-hints-title">末路听证会开庭条件</p>
+            <ul class="rd-hints" id="rd-court-hints"></ul>
+            <div class="rd-codex-entry">
+              <button class="rd-entry-btn" id="rd-entry-btn" type="button" hidden data-hover>前往引路司 · GO TO THE BUREAU OF ROADS FOR THE DEAD ⟶</button>
+              <p class="rd-note" id="rd-entry-note" hidden></p>
+              <p class="rd-response" id="rd-entry-response" aria-live="polite" hidden></p>
+              <button class="rd-entry-btn" id="rd-court-entry-btn" type="button" hidden data-hover>进入末路听证会 · ENTER THE HEARING OF THE LAST ROAD ⟶</button>
+              <p class="rd-response" id="rd-court-entry-response" aria-live="polite" hidden></p>
             </div>
           </div>
 
@@ -8063,6 +8106,95 @@
         </div>
       </section>
 
+      <!-- v99 第一幕：引路司 -->
+      <section class="scene scene-branch scene-bureau-of-roads" id="scene-bureau-of-roads" data-scene="bureau-of-roads" data-title="Goddead — 引路司" aria-label="引路司">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">17α / 引路 · BUREAU OF ROADS FOR THE DEAD</p>
+            <h2 class="sec-title">引路司</h2>
+            <p class="sec-desc">门口挂了灯，死者还是找不到路。长桌上摊着三张路图，是从三个旧房间收来的，每张都只画了一半。</p>
+          </header>
+          <figure class="branch-figure rd-figure reveal" id="rd-office-figure">
+            <img class="branch-img rd-img" data-src="assets/v99-bureau-of-roads.webp" alt="引路司：长桌上摊着三张羊皮路图，每张画着九块石砖和弯弯曲曲的小路，分别压着一只小门环、一枚布告钉和一只怀表" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot rd-hotspot rd-hotspot-left" id="rd-road-threshold-road" type="button" aria-label="铺路：门外的来路" data-hover><span class="dh-label" aria-hidden="true">门外的来路</span></button>
+            <button class="scene-hotspot rd-hotspot rd-hotspot-center" id="rd-road-protocol-road" type="button" aria-label="铺路：守则背后的小路" data-hover><span class="dh-label" aria-hidden="true">守则背后的小路</span></button>
+            <button class="scene-hotspot rd-hotspot rd-hotspot-right" id="rd-road-watch-road" type="button" aria-label="铺路：值夜室的后巷" data-hover><span class="dh-label" aria-hidden="true">值夜室的后巷</span></button>
+          </figure>
+          <p class="rd-note reveal" id="rd-office-note" hidden></p>
+          <p class="branch-response rd-response" id="bureau-of-roads-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开引路司">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+            <button class="rd-action" id="rd-continue" type="button" hidden data-hover>回到铺路台 ⟶</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v99 第二幕：铺路台 -->
+      <section class="scene scene-branch scene-road-table" id="scene-road-table" data-scene="road-table" data-title="Goddead — 铺路台" aria-label="铺路台">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">17β / 铺路 · THE ROAD TABLE</p>
+            <h2 class="sec-title">铺路台</h2>
+            <p class="sec-desc">选一个去处，点路砖让它顺时针转 90°，把左边亮着的入口一路接到那个出口。接上入口的砖会亮起来。接通了就落定。</p>
+          </header>
+          <figure class="branch-figure rd-figure rd-table-figure reveal" id="rd-table-figure">
+            <img class="branch-img rd-img" data-src="assets/v99-road-table.webp" alt="铺路台：俯视的黑石台面正中有一个方形凹槽，左边有一扇发光的小拱门，右边上、中、下各有一个暗洞" width="1536" height="1024" loading="lazy" decoding="async">
+            <div class="rd-board" id="rd-tiles" role="group" aria-label="九块路砖" hidden>
+              <button class="rd-tile" id="rd-tile-0" type="button" data-shape="I" aria-label="上左的路砖" data-hover><span class="rd-slab" aria-hidden="true"><i class="rd-arm rd-arm-n"></i><i class="rd-arm rd-arm-e"></i><i class="rd-arm rd-arm-s"></i><i class="rd-arm rd-arm-w"></i><i class="rd-hub"></i></span></button>
+              <button class="rd-tile" id="rd-tile-1" type="button" data-shape="I" aria-label="上中的路砖" data-hover><span class="rd-slab" aria-hidden="true"><i class="rd-arm rd-arm-n"></i><i class="rd-arm rd-arm-e"></i><i class="rd-arm rd-arm-s"></i><i class="rd-arm rd-arm-w"></i><i class="rd-hub"></i></span></button>
+              <button class="rd-tile" id="rd-tile-2" type="button" data-shape="I" aria-label="上右的路砖" data-hover><span class="rd-slab" aria-hidden="true"><i class="rd-arm rd-arm-n"></i><i class="rd-arm rd-arm-e"></i><i class="rd-arm rd-arm-s"></i><i class="rd-arm rd-arm-w"></i><i class="rd-hub"></i></span></button>
+              <button class="rd-tile" id="rd-tile-3" type="button" data-shape="I" aria-label="中左的路砖" data-hover><span class="rd-slab" aria-hidden="true"><i class="rd-arm rd-arm-n"></i><i class="rd-arm rd-arm-e"></i><i class="rd-arm rd-arm-s"></i><i class="rd-arm rd-arm-w"></i><i class="rd-hub"></i></span></button>
+              <button class="rd-tile" id="rd-tile-4" type="button" data-shape="I" aria-label="正中的路砖" data-hover><span class="rd-slab" aria-hidden="true"><i class="rd-arm rd-arm-n"></i><i class="rd-arm rd-arm-e"></i><i class="rd-arm rd-arm-s"></i><i class="rd-arm rd-arm-w"></i><i class="rd-hub"></i></span></button>
+              <button class="rd-tile" id="rd-tile-5" type="button" data-shape="I" aria-label="中右的路砖" data-hover><span class="rd-slab" aria-hidden="true"><i class="rd-arm rd-arm-n"></i><i class="rd-arm rd-arm-e"></i><i class="rd-arm rd-arm-s"></i><i class="rd-arm rd-arm-w"></i><i class="rd-hub"></i></span></button>
+              <button class="rd-tile" id="rd-tile-6" type="button" data-shape="I" aria-label="下左的路砖" data-hover><span class="rd-slab" aria-hidden="true"><i class="rd-arm rd-arm-n"></i><i class="rd-arm rd-arm-e"></i><i class="rd-arm rd-arm-s"></i><i class="rd-arm rd-arm-w"></i><i class="rd-hub"></i></span></button>
+              <button class="rd-tile" id="rd-tile-7" type="button" data-shape="I" aria-label="下中的路砖" data-hover><span class="rd-slab" aria-hidden="true"><i class="rd-arm rd-arm-n"></i><i class="rd-arm rd-arm-e"></i><i class="rd-arm rd-arm-s"></i><i class="rd-arm rd-arm-w"></i><i class="rd-hub"></i></span></button>
+              <button class="rd-tile" id="rd-tile-8" type="button" data-shape="I" aria-label="下右的路砖" data-hover><span class="rd-slab" aria-hidden="true"><i class="rd-arm rd-arm-n"></i><i class="rd-arm rd-arm-e"></i><i class="rd-arm rd-arm-s"></i><i class="rd-arm rd-arm-w"></i><i class="rd-hub"></i></span></button>
+              <span class="rd-gate rd-gate-in" aria-hidden="true"></span>
+              <span class="rd-gate rd-gate-rise" id="rd-exit-rise" aria-hidden="true"></span>
+              <span class="rd-gate rd-gate-forth" id="rd-exit-forth" aria-hidden="true"></span>
+              <span class="rd-gate rd-gate-sink" id="rd-exit-sink" aria-hidden="true"></span>
+            </div>
+            <p class="rd-table-status" id="rd-table-status" aria-live="polite"></p>
+          </figure>
+          <div class="rd-panel reveal" id="rd-table-panel" hidden>
+            <p class="rd-panel-road" id="rd-table-road"></p>
+            <div class="rd-methods" role="group" aria-label="去处">
+              <button class="rd-method" id="rd-method-rise" type="button" data-hover>升上去</button>
+              <button class="rd-method" id="rd-method-forth" type="button" data-hover>走出去</button>
+              <button class="rd-method" id="rd-method-sink" type="button" data-hover>沉下去</button>
+            </div>
+            <p class="rd-note" id="rd-method-hint"></p>
+            <div class="rd-actions">
+              <button class="rd-action rd-pave" id="rd-pave" type="button" data-hover>落定</button>
+              <button class="rd-action" id="rd-reset" type="button" data-hover>复位</button>
+              <button class="rd-action" id="rd-abandon" type="button" data-hover>卷起路图</button>
+            </div>
+          </div>
+          <p class="branch-response rd-response" id="road-table-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <!-- v99 第三幕：末路听证会 -->
+      <section class="scene scene-branch scene-hearing-of-the-last-road" id="scene-hearing-of-the-last-road" data-scene="hearing-of-the-last-road" data-title="Goddead — 末路听证会" aria-label="末路听证会">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">17γ / 末路 · HEARING OF THE LAST ROAD</p>
+            <h2 class="sec-title">末路听证会</h2>
+            <p class="sec-desc">许多条石路从拱洞里汇到大厅中央。桌上三件东西：一把旧铁钥匙、一块小里程石、一只磨破的皮靴。裁定之后仍可回来。</p>
+          </header>
+          <figure class="branch-figure rd-figure reveal" id="hearing-of-the-last-road-figure">
+            <img class="branch-img rd-img" data-src="assets/v99-hearing-of-the-last-road.webp" alt="末路听证会：许多条石路从拱洞汇进圆厅，高台上一把空椅子，长桌上放着一把旧铁钥匙、一块小里程石和一只磨破的皮靴" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot rd-hotspot rd-hotspot-court-left" id="rd-verdict-let-every-road-lead-home" type="button" aria-label="裁定：条条路都回门外" data-hover><span class="dh-label" aria-hidden="true">条条路都回门外</span></button>
+            <button class="scene-hotspot rd-hotspot rd-hotspot-court-center" id="rd-verdict-let-the-roads-end" type="button" aria-label="裁定：让路走到尽头" data-hover><span class="dh-label" aria-hidden="true">让路走到尽头</span></button>
+            <button class="scene-hotspot rd-hotspot rd-hotspot-court-right" id="rd-verdict-keep-a-road-for-god" type="button" aria-label="裁定：给神留一条路" data-hover><span class="dh-label" aria-hidden="true">给神留一条路</span></button>
+          </figure>
+          <p class="branch-response rd-response" id="hearing-of-the-last-road-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开听证会">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+          </nav>
+        </div>
+      </section>
+
       <!-- 隐藏幕 · 第九条 -->
       <section class="scene scene-ninth" id="scene-ninth" data-scene="ninth" data-title="Goddead — ？？？" aria-label="第九条">
         <figure class="ninth-figure" role="img" aria-label="一道不该存在的裂口，底部有一扇错误的窄门">
@@ -8293,6 +8425,9 @@
         <a href="#vigil-candle-hall" id="vigil-candle-hall-link" hidden data-hover>16α / 守夜厅</a>
         <a href="#candle-board" id="candle-board-link" hidden data-hover>16β / 守夜台</a>
         <a href="#hearing-of-the-unlit" id="hearing-of-the-unlit-link" hidden data-hover>16γ / 未点之灯</a>
+        <a href="#bureau-of-roads" id="bureau-of-roads-link" hidden data-hover>17α / 引路司</a>
+        <a href="#road-table" id="road-table-link" hidden data-hover>17β / 铺路台</a>
+        <a href="#hearing-of-the-last-road" id="hearing-of-the-last-road-link" hidden data-hover>17γ / 末路听证</a>
 
       <a href="#three-person-republic-court" id="three-person-republic-court-link" hidden data-hover>04β / 三人共和国</a>
       <a href="#remembrance" data-hover>04 / 痕迹</a>
@@ -8301,6 +8436,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=98.1"></script>
+    <script src="script.js?v=99"></script>
   </body>
 </html>

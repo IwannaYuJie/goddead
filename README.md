@@ -4,9 +4,9 @@ Static landing page for [goddead.com](https://goddead.com).
 
 ## Current Experience
 
-当前实现基线为 **v98「守夜烛台 / VIGIL OF NINE CANDLES」**：全站共 217 个 hash 场景，静态资源缓存标记为 `v=98.1`（v98.1 起痕迹室的三十多个图鉴默认折叠成一行标题，只展开「下一步」指向的那一章，手动展开的记在本机）。v98 在 v97 三项裁定集齐后开放 3 个新场景：神圣遗物科 / 神名注销科 / 代神席送来的三架 3×3 烛台，在守夜台上点蜡烛（点一支，它和上下左右的邻烛一起翻转）把烛台点成全部熄灭 / 十字 / 一圈再封灯，可以问守夜人要提示；守夜签送回三个房间签收，三架烛台、三种守法都用过即开未点之灯听证会。独立键 `goddead_v98_vigil_candles`。v91–v97 见 `docs/` 下对应设计文档。
+当前实现基线为 **v99「引路司 / BUREAU OF ROADS FOR THE DEAD」**：全站共 220 个 hash 场景，静态资源缓存标记为 `v=99`。v99 在 v98 三项裁定集齐后开放 3 个新场景：门外 / 访客守则 / 值夜室的三张半截路图，在铺路台上点路砖（每点一下转 90°）把左边的入口接到升上去 / 走出去 / 沉下去的出口，接上入口的砖会亮起来；路条送回三个房间签收，三张路图、三个去处都用过即开末路听证会。独立键 `goddead_v99_roads_for_the_dead`。自 v98.1 起痕迹室的图鉴默认折叠，只展开「下一步」指向的那一章。v91–v98 见 `docs/` 下对应设计文档。
 
-完整玩家路线、支线网、v63-v98 解锁链与 v90–v98 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
+完整玩家路线、支线网、v63-v99 解锁链与 v90–v99 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
 
 The homepage is **The Living Shrine**, a hash-routed, scene-by-scene exploration game. Visitors knock three times at the sealed threshold — now a photographed bureau door — and on the third knock the door visually opens into a deep black-gold corridor before the visitor is pulled through into the next room; each completed action thereafter advances the ritual automatically.
 

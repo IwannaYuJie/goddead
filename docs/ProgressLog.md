@@ -1217,3 +1217,12 @@
 - 结果：同一存档下痕迹室高 8,038 px，35 个折叠、只展开 v98。缓存标记 `v=98.1`。
 - 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 18133 assertions passed`。
 - 浏览器：真实点击标题展开回敲图鉴并记住；折叠行统一宽度。
+
+## 2026-09-25 - v99 引路司实装
+
+- 新增 `bureau-of-roads`、`road-table`、`hearing-of-the-last-road` 3 个场景，场景总数 217 → 220，缓存标记 `v=99`。
+- 新交互“旋转路砖”：3×3 路砖按钮（直 / 弯 / 丁字），点一下带动画转 90°；从入口能走到的砖实时亮起，出口接通时发光，落定才送出；三张用脚本搜出的路图（三个出口都可达、初始不通、3–8 次可解）× 升上去 / 走出去 / 沉下去 = 9 份路条，送回门外 / 访客守则 / 值夜室签收。
+- 状态键 `goddead_v99_roads_for_the_dead`（11 字段、7 类 pending、严格归一化），只读 v98；v98 在途时入口禁用；前缀 `rd-`；桥接接入治理守卫与画廊守卫。
+- 场景图：本机 Codex CLI 生成三张原画，提示词与哈希见 `docs/V99ImagePrompts.md`（末路听证会一张用 quality 76 压到 265KB）。
+- 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 18251 assertions passed`。
+- 浏览器：真实点击三下把值夜室的后巷接到“升上去”，路径逐块亮起，落定送到值夜室签收。
