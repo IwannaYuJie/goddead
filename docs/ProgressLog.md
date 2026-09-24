@@ -1226,3 +1226,12 @@
 - 场景图：本机 Codex CLI 生成三张原画，提示词与哈希见 `docs/V99ImagePrompts.md`（末路听证会一张用 quality 76 压到 265KB）。
 - 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 18251 assertions passed`。
 - 浏览器：真实点击三下把值夜室的后巷接到“升上去”，路径逐块亮起，落定送到值夜室签收。
+
+## 2026-09-25 - v100 百夜灵堂实装
+
+- 新增 `wake-hall`、`card-altar`、`hearing-of-the-hundredth-night` 3 个场景，场景总数 220 → 223，缓存标记 `v=100`。
+- 新交互“翻牌配对”：16 个牌位按更次发 8 / 12 / 16 张，3D 翻牌，一样的配上描金，不一样的 1.2 秒后或翻第三张时扣回；摆法确定性洗出。三副供牌（焚献炉 / 交换台 / 无主信）× 守一更 / 二更 / 三更 = 9 炷香，送回焚献炉 / 余响交换台 / 无主投递所签收。
+- 状态键 `goddead_v100_hundredth_wake`（11 字段、7 类 pending、严格归一化），只读 v99；v99 在途时入口禁用；前缀 `wk-`；桥接接入治理守卫与画廊守卫。
+- 场景图：本机 Codex CLI 生成三张原画，提示词与哈希见 `docs/V100ImagePrompts.md`。
+- 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 18389 assertions passed`。
+- 浏览器：真实点击翻错一对、再配齐 4 对并上香，送到余响交换台签收。

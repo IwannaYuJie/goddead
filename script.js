@@ -1396,6 +1396,8 @@ document.addEventListener("DOMContentLoaded", () => {
     replayVigilCandlesPending(name);
     resolveDeadRoadsPendingOnArrival(name);
     replayDeadRoadsPending(name);
+    resolveHundredthWakePendingOnArrival(name);
+    replayHundredthWakePending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1539,9 +1541,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
@@ -1555,7 +1557,7 @@ document.addEventListener("DOMContentLoaded", () => {
        v88 窄桥：title-action 可抵达 unending-gallery；
        v89 窄桥：appeal-action 可抵达 unending-gallery；
        v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1775,6 +1777,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "bureau-of-roads" && !rdOfficeCanVisit()) target = "remembrance";
     if (target === "road-table" && !roadTableCanVisit()) target = "remembrance";
     if (target === "hearing-of-the-last-road" && !rdCourtCanVisit()) target = "remembrance";
+
+    /* v100 百夜灵堂：未解锁或无合法抵达时一律回痕迹室 */
+    if (target === "wake-hall" && !wkHallCanVisit()) target = "remembrance";
+    if (target === "card-altar" && !cardAltarCanVisit()) target = "remembrance";
+    if (target === "hearing-of-the-hundredth-night" && !wkCourtCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -48009,6 +48016,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetLostWeightState();
       forgetVigilCandlesState();
       forgetDeadRoadsState();
+      forgetHundredthWakeState();
       forgetCodexFolds();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
@@ -54703,6 +54711,741 @@ document.addEventListener("DOMContentLoaded", () => {
   onTrustedRd('#rd-reset', resetRdTable);
   onTrustedRd('#rd-pave', paveRdRoute);
 
+  /* ============================================================
+     v100 百夜灵堂 / WAKE OF THE HUNDREDTH NIGHT
+     神死后的第一百夜，死者为神守灵。三处旧房间各送来一副供牌：焚献炉、余响交换台、无主投递所。
+     三副供牌 × 三更守法 = 9 炷香；在供桌上翻牌，两张一样的就配上，全部配齐再上香。
+     只读 v99；独立键 goddead_v100_hundredth_wake；所有新操作只接受真实点击。
+     ============================================================ */
+  const HUNDREDTH_WAKE_KEY = 'goddead_v100_hundredth_wake';
+  const HUNDREDTH_WAKE_VERSION = 100;
+  const WK_HALL = 'wake-hall';
+  const WK_ALTAR = 'card-altar';
+  const WK_COURT = 'hearing-of-the-hundredth-night';
+  const WK_MAX_CARDS = 16;
+  const WK_DECKS = ['offering-deck', 'switchboard-deck', 'deadletter-deck'];
+  const WK_DECK_TABLE = {
+    'offering-deck': {
+      title: '焚献炉的供牌', faces: '香灰火烛纸钱碗米', target: 'offering', place: '焚献炉', mournerTitle: '焚献守灵人',
+      feedback: '牌背都点着一滴红蜡。焚献炉烧了一百夜，炉灰里还认得出的东西，都在这副牌里。',
+      echoLead: '焚献炉边的灰里立着一张供牌。',
+    },
+    'switchboard-deck': {
+      title: '交换台的供牌', faces: '线铃号听插拨音夜', target: 'switchboard', place: '余响交换台', mournerTitle: '接线守灵人',
+      feedback: '这副牌是从交换台的插孔里抽出来的。每一张都接通过一次，没有人应。',
+      echoLead: '交换台的插孔里插着一张供牌。',
+    },
+    'deadletter-deck': {
+      title: '无主信的供牌', faces: '信封邮票址名印蜡', target: 'deadletter', place: '无主投递所', mournerTitle: '投递守灵人',
+      feedback: '一百封没人签收的信，拆开以后只剩这些字。每个字都有另一半，藏在牌堆里。',
+      echoLead: '无主投递所的信格里夹着一张供牌。',
+    },
+  };
+  const WK_METHODS = ['first-watch', 'second-watch', 'third-watch'];
+  const WK_METHOD_TABLE = {
+    'first-watch': { title: '守一更', pairs: 4, hint: '四对，八张。', result: '一更天，灵堂里还有人小声说话。牌都配齐了，他们说神大概也听见了。' },
+    'second-watch': { title: '守二更', pairs: 6, hint: '六对，十二张。', result: '二更天，蜡烛烧下去一半。配齐的牌排成几行，像几排守灵的人。' },
+    'third-watch': { title: '守三更', pairs: 8, hint: '八对，十六张。', result: '三更天，别人都睡着了，只有你还在翻牌。最后一对翻开的时候，窗外有鸡叫。' },
+  };
+  const WK_RITE_IDS = [];
+  WK_DECKS.forEach((deck) => WK_METHODS.forEach((method) => WK_RITE_IDS.push(`${deck}:${method}`)));
+  const WK_VERDICT_ACTIONS = ['let-the-wake-end-at-dawn', 'keep-the-hundredth-night', 'hold-a-wake-for-god'];
+  const WK_VERDICT_TABLE = {
+    'let-the-wake-end-at-dawn': {
+      title: '天亮就散', outcome: 'the-wake-ended-at-dawn', target: 'threshold',
+      feedback: '听证会裁定：天亮就散。门外的灯熄了，第一百夜到此为止，门还开着。',
+    },
+    'keep-the-hundredth-night': {
+      title: '把第一百夜留下', outcome: 'the-hundredth-night-kept', target: 'remembrance',
+      feedback: '听证会把第一百夜留在痕迹室。墙上多了一页没有日期的日历，永远翻在这一夜。',
+    },
+    'hold-a-wake-for-god': {
+      title: '给神也守一夜', outcome: 'a-wake-held-for-god', target: 'unending-gallery',
+      feedback: '听证会准许为神守一夜。画廊的空框前摆满了反扣的牌，没人去翻，大家就那样守着。',
+    },
+  };
+  const WK_VERDICT_OUTCOME_IDS = WK_VERDICT_ACTIONS.map((a) => WK_VERDICT_TABLE[a].outcome);
+  const WK_ENTRY_FEEDBACK = '灵堂里点着一百盏纸灯。三张供桌上反扣着牌，每张牌背都有一滴红蜡。';
+  const WK_ABANDON_FEEDBACK = '你把牌收拢，反扣回供桌上。';
+  const WK_COURT_ENTRY_FEEDBACK = '三副供牌都配齐过了。天快亮了，听证会的门开着一条缝。';
+  const WK_MOURNER_RETURN_FEEDBACK = '守灵人把供牌收进袖口，领你回到灵堂。';
+  const WK_OLD_TARGETS = ['offering', 'switchboard', 'deadletter'];
+
+  function wkDelay() {
+    return reduced ? 300 : 1400;
+  }
+
+  /* 纯函数：字符串散列与确定性洗牌，同一副牌、同一更次每次摆法一样 */
+  function wkHash(text) {
+    let h = 2166136261;
+    for (let i = 0; i < text.length; i++) { h ^= text.charCodeAt(i); h = Math.imul(h, 16777619); }
+    return h >>> 0;
+  }
+
+  function wkLayout(deck, method) {
+    const faces = Array.from(WK_DECK_TABLE[deck].faces).slice(0, WK_METHOD_TABLE[method].pairs);
+    const cards = faces.concat(faces);
+    let seed = wkHash(`${deck}:${method}`) || 1;
+    const rand = () => { seed = (seed + 0x6D2B79F5) >>> 0; let t = seed; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+    for (let i = cards.length - 1; i > 0; i--) {
+      const j = Math.floor(rand() * (i + 1));
+      [cards[i], cards[j]] = [cards[j], cards[i]];
+    }
+    return cards;
+  }
+
+  function wkIncenseFeedback(deck, method) {
+    return `${WK_DECK_TABLE[deck].title}：${WK_METHOD_TABLE[method].result}`;
+  }
+
+  function defaultHundredthWake() {
+    const latest = {};
+    WK_DECKS.forEach((b) => { latest[b] = ''; });
+    return {
+      version: HUNDREDTH_WAKE_VERSION,
+      visited: { hall: false, altar: false, court: false },
+      draft: { deck: '', method: 'first-watch' },
+      rites: [],
+      courtOutcomes: [],
+      riteRuns: 0,
+      courtRuns: 0,
+      latestMethodByDeck: latest,
+      lastOutcome: '',
+      activeMourner: null,
+      pending: null,
+    };
+  }
+
+  function clampWkCount(n) {
+    const v = Math.floor(Number(n));
+    return Number.isFinite(v) ? Math.min(9999, Math.max(0, v)) : 0;
+  }
+
+  function normalizeHundredthWake(raw) {
+    const d = defaultHundredthWake();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== HUNDREDTH_WAKE_VERSION) return d;
+    const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
+    d.visited = { hall: v.hall === true, altar: v.altar === true, court: v.court === true };
+    const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
+    d.draft = { deck: WK_DECKS.includes(dr.deck) ? dr.deck : '', method: WK_METHODS.includes(dr.method) ? dr.method : 'first-watch' };
+    const rites = new Set(Array.isArray(raw.rites) ? raw.rites : []);
+    d.rites = WK_RITE_IDS.filter((id) => rites.has(id));
+    const outcomes = new Set(Array.isArray(raw.courtOutcomes) ? raw.courtOutcomes : []);
+    d.courtOutcomes = WK_VERDICT_OUTCOME_IDS.filter((id) => outcomes.has(id));
+    d.riteRuns = clampWkCount(raw.riteRuns);
+    d.courtRuns = clampWkCount(raw.courtRuns);
+    const latest = raw.latestMethodByDeck && typeof raw.latestMethodByDeck === 'object' ? raw.latestMethodByDeck : {};
+    WK_DECKS.forEach((b) => {
+      d.latestMethodByDeck[b] = WK_METHODS.includes(latest[b]) && d.rites.includes(`${b}:${latest[b]}`) ? latest[b] : '';
+    });
+    if (typeof raw.lastOutcome === 'string' && (d.rites.includes(raw.lastOutcome) || d.courtOutcomes.includes(raw.lastOutcome))) d.lastOutcome = raw.lastOutcome;
+    const a = raw.activeMourner;
+    if (a && typeof a === 'object' && !Array.isArray(a) && Object.keys(a).length === 1 && d.rites.includes(a.rite)) d.activeMourner = { rite: a.rite };
+    d.pending = normalizeWkPending(raw.pending, d);
+    return d;
+  }
+
+  function wkCourtProgress(st) {
+    const decks = new Set();
+    const methods = new Set();
+    st.rites.forEach((id) => {
+      const [deck, method] = id.split(':');
+      decks.add(deck);
+      methods.add(method);
+    });
+    return { decks: decks.size, methods: methods.size };
+  }
+
+  function wkCourtEligible(st) {
+    const p = wkCourtProgress(st);
+    return p.decks === WK_DECKS.length && p.methods === WK_METHODS.length;
+  }
+
+  function expectedWkPending(p, st) {
+    const clean = !st.activeMourner;
+    switch (p.kind) {
+      case 'entry':
+        return clean ? { feedback: WK_ENTRY_FEEDBACK, kind: 'entry', target: WK_HALL } : null;
+      case 'deck': {
+        const b = WK_DECK_TABLE[p.deck];
+        if (!b || !clean) return null;
+        return { deck: p.deck, feedback: b.feedback, kind: 'deck', source: WK_HALL, target: WK_ALTAR };
+      }
+      case 'incense': {
+        const b = WK_DECK_TABLE[p.deck];
+        if (!b || !WK_METHOD_TABLE[p.method] || !clean || st.draft.deck !== p.deck || st.draft.method !== p.method) return null;
+        return { deck: p.deck, feedback: wkIncenseFeedback(p.deck, p.method), kind: 'incense', method: p.method, rite: `${p.deck}:${p.method}`, source: WK_ALTAR, target: b.target };
+      }
+      case 'abandon':
+        return st.draft.deck ? { feedback: WK_ABANDON_FEEDBACK, kind: 'abandon', source: WK_ALTAR, target: WK_HALL } : null;
+      case 'mourner-return': {
+        if (!st.activeMourner) return null;
+        const deck = st.activeMourner.rite.split(':')[0];
+        return { feedback: WK_MOURNER_RETURN_FEEDBACK, from: WK_DECK_TABLE[deck].target, kind: 'mourner-return', rite: st.activeMourner.rite, target: WK_HALL };
+      }
+      case 'court-entry':
+        return clean && wkCourtEligible(st) ? { feedback: WK_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: WK_COURT } : null;
+      case 'verdict': {
+        const a = WK_VERDICT_TABLE[p.action];
+        if (!a || !clean || !st.visited.court || !wkCourtEligible(st)) return null;
+        return { action: p.action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: WK_COURT, target: a.target };
+      }
+      default:
+        return null;
+    }
+  }
+
+  function normalizeWkPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+    const expected = expectedWkPending(p, st);
+    if (!expected) return null;
+    const keys = Object.keys(p).sort();
+    const want = Object.keys(expected).sort();
+    if (keys.length !== want.length || keys.some((k, i) => k !== want[i] || p[k] !== expected[k])) return null;
+    return expected;
+  }
+
+  function hundredthWakeUnlocked() {
+    const compute = () => {
+      if (!deadRoadsUnlocked()) return false;
+      const v99 = getDeadRoads();
+      return rdCourtEligible(v99) && RD_VERDICT_OUTCOME_IDS.every((o) => v99.courtOutcomes.includes(o));
+    };
+    return store.memo ? store.memo("hundredthWakeUnlocked", compute) : compute();
+  }
+
+  function getHundredthWake() {
+    if (!hundredthWakeUnlocked()) return defaultHundredthWake();
+    let raw;
+    try { raw = JSON.parse(store.get(HUNDREDTH_WAKE_KEY, '{}')); } catch { return defaultHundredthWake(); }
+    return normalizeHundredthWake(raw);
+  }
+
+  function saveHundredthWake(st) {
+    if (!hundredthWakeUnlocked()) return defaultHundredthWake();
+    const canonical = normalizeHundredthWake(Object.assign({}, st, { version: HUNDREDTH_WAKE_VERSION }));
+    store.set(HUNDREDTH_WAKE_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function wkPendingLogicalSource(p) {
+    if (!p) return '';
+    if (p.kind === 'entry' || p.kind === 'court-entry') return 'remembrance';
+    if (p.kind === 'mourner-return') return p.from;
+    return p.source || '';
+  }
+
+  function resolveHundredthWakePendingOnArrival(sceneName) {
+    const st = getHundredthWake();
+    const p = st.pending;
+    if (!p) return st;
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.hall = true;
+      } else if (p.kind === 'deck') {
+        st.visited.altar = true;
+        st.draft = { deck: p.deck, method: st.draft.deck === p.deck ? st.draft.method : 'first-watch' };
+      } else if (p.kind === 'incense') {
+        st.riteRuns = clampWkCount(st.riteRuns + 1);
+        if (!st.rites.includes(p.rite)) st.rites = st.rites.concat(p.rite);
+        st.latestMethodByDeck[p.deck] = p.method;
+        st.lastOutcome = p.rite;
+        st.activeMourner = { rite: p.rite };
+        st.draft = { deck: '', method: 'first-watch' };
+      } else if (p.kind === 'abandon') {
+        st.draft = { deck: '', method: 'first-watch' };
+        st.visited.hall = true;
+      } else if (p.kind === 'mourner-return') {
+        st.activeMourner = null;
+        st.visited.hall = true;
+      } else if (p.kind === 'court-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'verdict') {
+        st.courtRuns = clampWkCount(st.courtRuns + 1);
+        if (!st.courtOutcomes.includes(p.outcome)) st.courtOutcomes = st.courtOutcomes.concat(p.outcome);
+        st.lastOutcome = p.outcome;
+      }
+      return saveHundredthWake(st);
+    }
+    if (sceneName === wkPendingLogicalSource(p)) return st;
+    st.pending = null;
+    return saveHundredthWake(st);
+  }
+
+  const WK_RESPONSE_BY_KIND = {
+    entry: '#wk-entry-response',
+    deck: '#wake-hall-response',
+    light: '#cawk-altar-response',
+    abandon: '#cawk-altar-response',
+    'court-entry': '#wk-court-entry-response',
+    verdict: '#hearing-of-the-hundredth-night-response',
+  };
+
+  function showWkResponse(selector, text) {
+    const el = $(selector);
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = !text;
+  }
+
+  function syncHundredthWakeAll() {
+    syncWkHall();
+    syncCardAltar();
+    syncWkCourt();
+    syncWkMourners();
+    syncWkEchoes();
+    syncWkRemembrance();
+    syncWkLinks();
+  }
+
+  function replayHundredthWakePending(sceneName) {
+    const st = getHundredthWake();
+    const p = st.pending;
+    if (p && p.target === sceneName) resolveHundredthWakePendingOnArrival(sceneName);
+    else if (p && sceneName === wkPendingLogicalSource(p)) {
+      syncHundredthWakeAll();
+      const selector = p.kind === 'mourner-return' ? `#wk-mourner-response-${p.from}` : WK_RESPONSE_BY_KIND[p.kind];
+      if (selector) showWkResponse(selector, p.feedback);
+      AutoAdvance.schedule(sceneName, p.target, { delay: wkDelay() });
+      return;
+    } else if (p) {
+      st.pending = null;
+      saveHundredthWake(st);
+    }
+    syncHundredthWakeAll();
+  }
+
+  function launchWk(scene, buttonId, pending, responseSelector) {
+    const st = getHundredthWake();
+    st.pending = pending;
+    const saved = saveHundredthWake(st);
+    if (!saved.pending) return false;
+    const btn = buttonId ? $(`#${buttonId}`) : null;
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+    if (AudioEngine.whoosh) AudioEngine.whoosh();
+    syncHundredthWakeAll();
+    showWkResponse(responseSelector, pending.feedback);
+    AutoAdvance.schedule(scene, pending.target, { delay: wkDelay() });
+    return true;
+  }
+
+  function wkReady(scene, buttonId) {
+    if (currentScene !== scene) return null;
+    if (AutoAdvance.has(scene)) return null;
+    if (buttonId && !buttonAvailable(buttonId)) return null;
+    if (!hundredthWakeUnlocked()) return null;
+    const st = getHundredthWake();
+    return st.pending ? null : st;
+  }
+
+  function chooseWkEntry() {
+    const st = wkReady('remembrance', 'wk-entry-btn');
+    if (!st || st.activeMourner) return;
+    if (getDeadRoads().pending) return;
+    launchWk('remembrance', 'wk-entry-btn', { feedback: WK_ENTRY_FEEDBACK, kind: 'entry', target: WK_HALL }, '#wk-entry-response');
+  }
+
+  function chooseWkDeck(deck) {
+    const b = WK_DECK_TABLE[deck];
+    if (!b) return;
+    const st = wkReady(WK_HALL, `wk-deck-${deck}`);
+    if (!st || st.activeMourner) return;
+    launchWk(WK_HALL, `wk-deck-${deck}`, { deck, feedback: b.feedback, kind: 'deck', source: WK_HALL, target: WK_ALTAR }, '#wake-hall-response');
+  }
+
+  function chooseWkMethod(method) {
+    if (!WK_METHOD_TABLE[method]) return;
+    const st = wkReady(WK_ALTAR, `wk-method-${method}`);
+    if (!st || !st.draft.deck || !st.visited.altar || st.draft.method === method) return;
+    st.draft.method = method;
+    saveHundredthWake(st);
+    syncCardAltar();
+  }
+
+  /* 供桌：翻开的牌只放在内存里；换一副牌或换更次时全部扣回，配齐了才能上香 */
+  let wkCards = [];
+  let wkUp = [];
+  const wkMatched = new Set();
+  let wkFlips = 0;
+  let wkMisses = 0;
+  let wkAltarKey = '';
+  let wkHideTimer = 0;
+
+  function resetWkBoard(deck, method) {
+    wkCards = deck ? wkLayout(deck, method) : [];
+    wkUp = [];
+    wkMatched.clear();
+    wkFlips = 0;
+    wkMisses = 0;
+    clearTimeout(wkHideTimer);
+  }
+
+  function paintWkAltar(message) {
+    const st = getHundredthWake();
+    const status = $('#wk-altar-status');
+    for (let i = 0; i < WK_MAX_CARDS; i++) {
+      const btn = $(`#wk-card-${i}`);
+      if (!btn) continue;
+      const face = wkCards[i];
+      btn.hidden = !face;
+      if (!face) continue;
+      const matched = wkMatched.has(i);
+      const up = matched || wkUp.includes(i);
+      btn.classList.toggle('is-up', up);
+      btn.classList.toggle('is-matched', matched);
+      const text = btn.querySelector ? btn.querySelector('.wk-face') : null;
+      if (text) text.textContent = up ? face : '';
+      btn.setAttribute('aria-label', `第 ${i + 1} 张牌，${matched ? `已配上：${face}` : up ? `翻开：${face}` : '反扣着'}`);
+    }
+    if (!st.draft.deck) {
+      if (status) status.textContent = '';
+      return;
+    }
+    const pairs = WK_METHOD_TABLE[st.draft.method].pairs;
+    const done = wkMatched.size === wkCards.length && wkCards.length > 0;
+    if (status) status.textContent = message || (done ? '都配齐了，可以上香。' : `已翻 ${wkFlips} 次，配上 ${wkMatched.size / 2}/${pairs} 对，翻错 ${wkMisses} 次。`);
+  }
+
+  function flipWkCard(i) {
+    const st = wkReady(WK_ALTAR, `wk-card-${i}`);
+    if (!st || !st.draft.deck || st.activeMourner) return;
+    if (!Number.isInteger(i) || i < 0 || i >= wkCards.length || wkMatched.has(i) || wkUp.includes(i)) return;
+    if (wkUp.length === 2) wkUp = [];
+    clearTimeout(wkHideTimer);
+    wkUp.push(i);
+    wkFlips += 1;
+    if (AudioEngine.tick) AudioEngine.tick();
+    if (wkUp.length < 2) { paintWkAltar(''); return; }
+    const [a, b] = wkUp;
+    if (wkCards[a] === wkCards[b]) {
+      wkMatched.add(a);
+      wkMatched.add(b);
+      wkUp = [];
+      paintWkAltar(wkMatched.size === wkCards.length ? '都配齐了，可以上香。' : `「${wkCards[a]}」配上了。`);
+      return;
+    }
+    wkMisses += 1;
+    paintWkAltar('不是一对。再翻下一张时，这两张会扣回去。');
+    const pair = wkUp.slice();
+    wkHideTimer = setTimeout(() => {
+      if (wkUp.length === 2 && wkUp[0] === pair[0] && wkUp[1] === pair[1]) { wkUp = []; paintWkAltar(''); }
+    }, 1200);
+  }
+
+  function coverWkAltar() {
+    const st = wkReady(WK_ALTAR, 'wk-reset');
+    if (!st || !st.draft.deck || st.activeMourner) return;
+    resetWkBoard(st.draft.deck, st.draft.method);
+    paintWkAltar('牌都扣回去了，摆法没变。');
+  }
+
+  function offerWkIncense() {
+    const st = wkReady(WK_ALTAR, 'wk-incense');
+    if (!st || !st.draft.deck || st.activeMourner) return;
+    const { deck, method } = st.draft;
+    if (!wkCards.length || wkMatched.size !== wkCards.length) {
+      paintWkAltar(`还有牌没配上。${WK_METHOD_TABLE[method].hint}`);
+      return;
+    }
+    paintWkAltar('都配齐了。');
+    launchWk(WK_ALTAR, 'wk-incense', {
+      deck, feedback: wkIncenseFeedback(deck, method), kind: 'incense', method, rite: `${deck}:${method}`, source: WK_ALTAR, target: WK_DECK_TABLE[deck].target,
+    }, '#card-altar-response');
+  }
+
+  function chooseWkAbandon() {
+    const st = wkReady(WK_ALTAR, 'wk-abandon');
+    if (!st || !st.draft.deck) return;
+    launchWk(WK_ALTAR, 'wk-abandon', { feedback: WK_ABANDON_FEEDBACK, kind: 'abandon', source: WK_ALTAR, target: WK_HALL }, '#cawk-altar-response');
+  }
+
+  function chooseWkMournerReturn(scene) {
+    const st = wkReady(scene, `wk-mourner-return-${scene}`);
+    if (!st || !st.activeMourner) return;
+    if (WK_DECK_TABLE[st.activeMourner.rite.split(':')[0]].target !== scene) return;
+    launchWk(scene, `wk-mourner-return-${scene}`, { feedback: WK_MOURNER_RETURN_FEEDBACK, from: scene, kind: 'mourner-return', rite: st.activeMourner.rite, target: WK_HALL }, `#wk-mourner-response-${scene}`);
+  }
+
+  function chooseWkCourtEntry() {
+    const st = wkReady('remembrance', 'wk-court-entry-btn');
+    if (!st || st.activeMourner || !wkCourtEligible(st)) return;
+    launchWk('remembrance', 'wk-court-entry-btn', { feedback: WK_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: WK_COURT }, '#wk-court-entry-response');
+  }
+
+  function chooseWkVerdict(action) {
+    const a = WK_VERDICT_TABLE[action];
+    if (!a) return;
+    const st = wkReady(WK_COURT, `wk-verdict-${action}`);
+    if (!st || st.activeMourner || !st.visited.court || !wkCourtEligible(st)) return;
+    launchWk(WK_COURT, `wk-verdict-${action}`, { action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: WK_COURT, target: a.target }, '#hearing-of-the-hundredth-night-response');
+  }
+
+  function hundredthWakeBridgeAllows(targetScene) {
+    if (!hundredthWakeUnlocked()) return false;
+    const st = getHundredthWake();
+    if (st.pending && (st.pending.kind === 'incense' || st.pending.kind === 'verdict') && st.pending.target === targetScene) return true;
+    if (st.activeMourner && WK_DECK_TABLE[st.activeMourner.rite.split(':')[0]].target === targetScene) return true;
+    const verdict = WK_VERDICT_ACTIONS.find((a) => WK_VERDICT_TABLE[a].outcome === st.lastOutcome);
+    return Boolean(verdict && WK_VERDICT_TABLE[verdict].target === targetScene);
+  }
+
+  function wkHallCanVisit() {
+    if (!hundredthWakeUnlocked()) return false;
+    const st = getHundredthWake();
+    return st.visited.hall || Boolean(st.pending && st.pending.target === WK_HALL);
+  }
+
+  function cardAltarCanVisit() {
+    if (!hundredthWakeUnlocked()) return false;
+    const st = getHundredthWake();
+    if (st.visited.altar && st.draft.deck) return true;
+    return Boolean(st.pending && st.pending.kind === 'deck');
+  }
+
+  function wkCourtCanVisit() {
+    if (!hundredthWakeUnlocked()) return false;
+    const st = getHundredthWake();
+    if (st.visited.court && wkCourtEligible(st)) return true;
+    return Boolean(st.pending && st.pending.kind === 'court-entry');
+  }
+
+  function syncWkHall() {
+    const canVisit = wkHallCanVisit();
+    const st = getHundredthWake();
+    const fig = $('#wk-hall-figure');
+    if (fig) fig.hidden = !canVisit;
+    const blocked = !canVisit || Boolean(st.pending) || Boolean(st.activeMourner);
+    WK_DECKS.forEach((deck) => {
+      const btn = $(`#wk-deck-${deck}`);
+      if (!btn) return;
+      btn.disabled = blocked;
+      btn.classList.toggle('is-collected', WK_METHODS.every((m) => st.rites.includes(`${deck}:${m}`)));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'deck' && st.pending.deck === deck ? 'true' : 'false');
+    });
+    const note = $('#wk-hall-note');
+    if (note) {
+      let text = '';
+      if (st.activeMourner) {
+        const b = WK_DECK_TABLE[st.activeMourner.rite.split(':')[0]];
+        text = `先完成正在送出的那炷香：${b.mournerTitle}还在${b.place}等你签收。`;
+      } else if (st.draft.deck) {
+        text = `供桌上还摆着「${WK_DECK_TABLE[st.draft.deck].title}」。`;
+      }
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const cont = $('#wk-continue');
+    if (cont) {
+      const show = canVisit && Boolean(st.draft.deck) && !st.activeMourner;
+      cont.hidden = !show;
+      cont.disabled = !show || Boolean(st.pending);
+    }
+    if (!st.pending || st.pending.source !== WK_HALL) showWkResponse('#wake-hall-response', '');
+  }
+
+  function syncCardAltar() {
+    const canVisit = cardAltarCanVisit();
+    const st = getHundredthWake();
+    const ready = canVisit && Boolean(st.draft.deck);
+    const key = st.draft.deck ? `${st.draft.deck}:${st.draft.method}` : '';
+    if (key !== wkAltarKey && !(st.pending && st.pending.kind === 'incense')) {
+      wkAltarKey = key;
+      resetWkBoard(st.draft.deck, st.draft.method);
+    }
+    const panel = $('#wk-altar-panel');
+    if (panel) panel.hidden = !ready;
+    const grid = $('#wk-cards');
+    if (grid) grid.hidden = !ready;
+    if (ready) {
+      const t = WK_DECK_TABLE[st.draft.deck];
+      const title = $('#wk-altar-deck');
+      if (title) title.textContent = `${t.title} —— ${t.feedback}`;
+      const hint = $('#wk-method-hint');
+      if (hint) hint.textContent = `${WK_METHOD_TABLE[st.draft.method].title}：${WK_METHOD_TABLE[st.draft.method].hint}一次翻两张，一样的就配上。全部配齐后上香，会送回${t.place}，由${t.mournerTitle}签收。换更次会重新摆牌。`;
+    }
+    WK_METHODS.forEach((method) => {
+      const btn = $(`#wk-method-${method}`);
+      if (!btn) return;
+      btn.disabled = !ready || Boolean(st.pending);
+      btn.setAttribute('aria-pressed', ready && st.draft.method === method ? 'true' : 'false');
+      btn.classList.toggle('is-collected', Boolean(st.draft.deck) && st.rites.includes(`${st.draft.deck}:${method}`));
+    });
+    ['wk-incense', 'wk-reset', 'wk-abandon', ...Array.from({ length: WK_MAX_CARDS }, (_, i) => `wk-card-${i}`)].forEach((id) => {
+      const btn = $(`#${id}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending);
+    });
+    paintWkAltar(st.pending && st.pending.kind === 'incense' ? '都配齐了，香正在送出去。' : '');
+    if (!st.pending || st.pending.source !== WK_ALTAR) showWkResponse('#card-altar-response', '');
+  }
+
+  function syncWkCourt() {
+    const canVisit = wkCourtCanVisit();
+    const st = getHundredthWake();
+    const fig = $('#hearing-of-the-hundredth-night-figure');
+    if (fig) fig.hidden = !canVisit;
+    WK_VERDICT_ACTIONS.forEach((action) => {
+      const btn = $(`#wk-verdict-${action}`);
+      if (!btn) return;
+      btn.disabled = !canVisit || Boolean(st.pending) || Boolean(st.activeMourner);
+      btn.classList.toggle('is-collected', st.courtOutcomes.includes(WK_VERDICT_TABLE[action].outcome));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'verdict' && st.pending.action === action ? 'true' : 'false');
+    });
+    if (!st.pending || st.pending.source !== WK_COURT) showWkResponse('#hearing-of-the-hundredth-night-response', '');
+  }
+
+  function syncWkMourners() {
+    const st = hundredthWakeUnlocked() ? getHundredthWake() : defaultHundredthWake();
+    const [deck, method] = st.activeMourner ? st.activeMourner.rite.split(':') : ['', ''];
+    WK_OLD_TARGETS.forEach((scene) => {
+      const box = $(`#wk-mourner-${scene}`);
+      if (!box) return;
+      const show = Boolean(deck) && WK_DECK_TABLE[deck].target === scene;
+      box.hidden = !show;
+      const btn = $(`#wk-mourner-return-${scene}`);
+      if (btn) {
+        btn.disabled = !show || Boolean(st.pending);
+        btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'mourner-return' && st.pending.from === scene ? 'true' : 'false');
+      }
+      if (!show) return;
+      const b = WK_DECK_TABLE[deck];
+      const head = $(`#wk-mourner-title-${scene}`);
+      if (head) head.textContent = `供香签收 · ${b.mournerTitle} · ${b.title}（${WK_METHOD_TABLE[method].title}）`;
+      const level = $(`#wk-mourner-level-${scene}`);
+      if (level) level.textContent = `${WK_METHOD_TABLE[method].title}：${WK_METHOD_TABLE[method].pairs} 对供牌全部配齐`;
+      const body = $(`#wk-mourner-body-${scene}`);
+      if (body) body.textContent = WK_METHOD_TABLE[method].result;
+      if (!st.pending || st.pending.kind !== 'mourner-return') showWkResponse(`#wk-mourner-response-${scene}`, '');
+    });
+  }
+
+  function syncWkEchoes() {
+    const st = hundredthWakeUnlocked() ? getHundredthWake() : defaultHundredthWake();
+    WK_DECKS.forEach((deck) => {
+      const b = WK_DECK_TABLE[deck];
+      const el = $(`#wk-echo-${b.target}`);
+      if (!el) return;
+      const method = st.latestMethodByDeck[deck];
+      if (!method) { el.hidden = true; el.textContent = ''; return; }
+      el.textContent = `${b.echoLead}「${WK_METHOD_TABLE[method].title}」${WK_METHOD_TABLE[method].result}`;
+      el.hidden = false;
+    });
+  }
+
+  function syncWkRemembrance() {
+    const unlocked = hundredthWakeUnlocked();
+    const shell = $('#wk-codex');
+    const memory = $('#wk-memory');
+    if (!unlocked) {
+      [shell, memory].forEach((el) => { if (el) el.hidden = true; });
+      return;
+    }
+    const st = getHundredthWake();
+    const v99Pending = Boolean(getDeadRoads().pending);
+    if (shell) shell.hidden = false;
+    const progress = wkCourtProgress(st);
+    if (memory) {
+      memory.hidden = false;
+      memory.textContent = `守灵：已上 ${st.rites.length}/9 炷香，共配齐 ${st.riteRuns} 次；百夜听证 ${st.courtOutcomes.length}/3。`;
+    }
+    const hints = $('#wk-court-hints');
+    if (hints) {
+      const rows = [['三副供牌都配齐过', progress.decks, WK_DECKS.length], ['三更都守过', progress.methods, WK_METHODS.length]];
+      hints.replaceChildren(...rows.map(([label, have, need]) => {
+        const li = document.createElement('li');
+        li.className = have >= need ? 'is-met' : '';
+        li.textContent = `${label} ${have}/${need}`;
+        return li;
+      }));
+    }
+    const clean = !st.pending && !st.activeMourner;
+    const entry = $('#wk-entry-btn');
+    if (entry) {
+      entry.hidden = false;
+      entry.disabled = !clean || v99Pending;
+      entry.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' ? 'true' : 'false');
+    }
+    const note = $('#wk-entry-note');
+    if (note) {
+      const text = v99Pending ? '先完成正在送出的路条：引路司还有一份路条在路上。' : st.activeMourner ? '先完成正在送出的那炷香。' : '';
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const court = $('#wk-court-entry-btn');
+    if (court) {
+      const eligible = wkCourtEligible(st);
+      court.hidden = !eligible;
+      court.disabled = !eligible || !clean;
+      court.setAttribute('aria-pressed', st.pending && st.pending.kind === 'court-entry' ? 'true' : 'false');
+    }
+    const grid = $('#wk-codex-grid');
+    if (grid) {
+      const have = new Set(st.rites);
+      const cells = WK_RITE_IDS.map((id) => {
+        const [deck, method] = id.split(':');
+        const cell = document.createElement('div');
+        cell.className = `wk-cell ${have.has(id) ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = have.has(id) ? `${WK_DECK_TABLE[deck].title}\n${WK_METHOD_TABLE[method].title}` : '？？？';
+        return cell;
+      });
+      WK_VERDICT_ACTIONS.forEach((action) => {
+        const a = WK_VERDICT_TABLE[action];
+        const got = st.courtOutcomes.includes(a.outcome);
+        const cell = document.createElement('div');
+        cell.className = `wk-cell wk-cell-verdict ${got ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = got ? `[百夜听证会] ${a.title}\n${a.feedback}` : '？？？';
+        cells.push(cell);
+      });
+      grid.replaceChildren(...cells);
+    }
+    if (!st.pending || (st.pending.kind !== 'entry' && st.pending.kind !== 'court-entry')) {
+      showWkResponse('#wk-entry-response', '');
+      showWkResponse('#wk-court-entry-response', '');
+    }
+  }
+
+  function syncWkLinks() {
+    const st = hundredthWakeUnlocked() ? getHundredthWake() : null;
+    [['wake-hall-link', 'hall'], ['cawk-altar-link', 'altar'], ['hearing-of-the-hundredth-night-link', 'court']].forEach(([id, key]) => {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !(st && st.visited[key]);
+    });
+  }
+
+  function forgetHundredthWakeState() {
+    try { localStorage.removeItem(HUNDREDTH_WAKE_KEY); } catch {}
+    [WK_HALL, WK_ALTAR, WK_COURT].forEach((scene) => AutoAdvance.clear(scene));
+    resetWkBoard('', '');
+    wkAltarKey = '';
+    ['#wk-codex', '#wk-memory', '#wk-hall-figure', '#wk-altar-panel', '#hearing-of-the-hundredth-night-figure',
+      '#wake-hall-link', '#cawk-altar-link', '#hearing-of-the-hundredth-night-link', '#wk-continue', '#wk-court-entry-btn',
+      '#wk-entry-response', '#wk-court-entry-response', '#wake-hall-response', '#cawk-altar-response', '#hearing-of-the-hundredth-night-response',
+      ...WK_OLD_TARGETS.flatMap((scene) => [`#wk-mourner-${scene}`, `#wk-echo-${scene}`]),
+    ].forEach((sel) => { const el = $(sel); if (el) el.hidden = true; });
+    $$('[id^="wk-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+  }
+
+  const onTrustedWk = (selector, handler) => {
+    const el = $(selector);
+    if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+  };
+  onTrustedWk('#wk-entry-btn', chooseWkEntry);
+  onTrustedWk('#wk-court-entry-btn', chooseWkCourtEntry);
+  onTrustedWk('#wk-abandon', chooseWkAbandon);
+  onTrustedWk('#wk-continue', () => {
+    const st = wkReady(WK_HALL, 'wk-continue');
+    if (!st || !st.draft.deck || st.activeMourner) return;
+    const deck = st.draft.deck;
+    launchWk(WK_HALL, 'wk-continue', { deck, feedback: WK_DECK_TABLE[deck].feedback, kind: 'deck', source: WK_HALL, target: WK_ALTAR }, '#wake-hall-response');
+  });
+  WK_DECKS.forEach((deck) => onTrustedWk(`#wk-deck-${deck}`, () => chooseWkDeck(deck)));
+  WK_METHODS.forEach((method) => onTrustedWk(`#wk-method-${method}`, () => chooseWkMethod(method)));
+  WK_VERDICT_ACTIONS.forEach((action) => onTrustedWk(`#wk-verdict-${action}`, () => chooseWkVerdict(action)));
+  WK_OLD_TARGETS.forEach((scene) => onTrustedWk(`#wk-mourner-return-${scene}`, () => chooseWkMournerReturn(scene)));
+  for (let i = 0; i < WK_MAX_CARDS; i++) onTrustedWk(`#wk-card-${i}`, () => flipWkCard(i));
+  onTrustedWk('#wk-reset', coverWkAltar);
+  onTrustedWk('#wk-incense', offerWkIncense);
+
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -54968,8 +55711,25 @@ document.addEventListener("DOMContentLoaded", () => {
     if (eligible) items.push(`开庭条件已满足；末路裁定已得 ${st.courtOutcomes.length}/3`);
     if (st.activeLeader) items.push("有一份路条在旧房间等你签收：点引路人回到引路司");
     else if (st.draft.road) items.push(`铺路台上还摊着「${RD_ROAD_TABLE[st.draft.road].title}」`);
-    if (eligible && st.courtOutcomes.length >= 3) return { title: "v99 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    if (eligible && st.courtOutcomes.length >= 3) return hundredthWakeProgressStep();
     return { title: "v99 引路司", items, target: eligible ? "rd-court" : "rd", done: false };
+  };
+
+  /* v100：按三副供牌、三更守法与三项裁定给出缺项 */
+  const hundredthWakeProgressStep = () => {
+    if (!hundredthWakeUnlocked()) return null;
+    const st = getHundredthWake();
+    const items = [];
+    const decks = WK_DECKS.filter((x) => !st.rites.some((id) => id.startsWith(`${x}:`))).map((x) => WK_DECK_TABLE[x].title);
+    const methods = WK_METHODS.filter((m) => !st.rites.some((id) => id.endsWith(`:${m}`))).map((m) => WK_METHOD_TABLE[m].title);
+    if (decks.length) items.push(`还没配齐的供牌：${decks.join("、")}`);
+    if (methods.length) items.push(`还没守过的更次：${methods.join("、")}`);
+    const eligible = wkCourtEligible(st);
+    if (eligible) items.push(`开庭条件已满足；百夜裁定已得 ${st.courtOutcomes.length}/3`);
+    if (st.activeMourner) items.push("有一炷香在旧房间等你签收：点守灵人回到灵堂");
+    else if (st.draft.deck) items.push(`供桌上还摆着「${WK_DECK_TABLE[st.draft.deck].title}」`);
+    if (eligible && st.courtOutcomes.length >= 3) return { title: "v100 已全部完成", items: ["第一百夜过去了。终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    return { title: "v100 百夜灵堂", items, target: eligible ? "wk-court" : "wk", done: false };
   };
 
   const paintProgressGuide = () => {
@@ -55401,6 +56161,7 @@ document.addEventListener("DOMContentLoaded", () => {
   syncLostWeightAll();
   syncVigilCandlesAll();
   syncDeadRoadsAll();
+  syncHundredthWakeAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

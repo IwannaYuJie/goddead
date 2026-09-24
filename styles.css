@@ -15752,3 +15752,224 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
 @media (min-width: 721px) {
   .rd-hotspot .dh-label { white-space: nowrap; }
 }
+
+/* ============================================================
+   v100 百夜灵堂：三副供牌与翻牌配对
+   ============================================================ */
+.wk-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  aspect-ratio: 3 / 2;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border: 1px solid rgba(154, 127, 71, 0.35);
+  background: var(--void);
+}
+
+.wk-figure .wk-img { display: block; width: 100%; height: 100%; object-fit: cover; -webkit-mask-image: none; mask-image: none; }
+
+.wk-hotspot {
+  position: absolute;
+  z-index: 3;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0.4rem;
+  border: 1px solid rgba(222, 217, 208, 0.18);
+  background: rgba(8, 7, 6, 0.1);
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+
+.wk-hotspot .dh-label { padding: 0.2rem 0.55rem; background: rgba(8, 7, 6, 0.74); letter-spacing: 0.1em; }
+.wk-hotspot:hover,
+.wk-hotspot:focus-visible { border-color: var(--gold); background: rgba(154, 127, 71, 0.16); outline: 2px solid var(--gold); outline-offset: 2px; }
+.wk-hotspot:disabled,
+.wk-hotspot[aria-pressed="true"] { border-color: var(--blood); cursor: default; outline: none; }
+.wk-hotspot.is-collected .dh-label::after { content: " ✓"; color: var(--gold); }
+
+.wk-hotspot-left { left: 2%; top: 55%; width: 29%; height: 24%; }
+.wk-hotspot-center { left: 36.5%; top: 55%; width: 27%; height: 24%; }
+.wk-hotspot-right { left: 69.5%; top: 55%; width: 26.5%; height: 24%; }
+.wk-hotspot-court-left { left: 6%; top: 59%; width: 15%; height: 28%; }
+.wk-hotspot-court-center { left: 40%; top: 78%; width: 19%; height: 12%; }
+.wk-hotspot-court-right { left: 78%; top: 54%; width: 13.5%; height: 34%; }
+
+/* 供牌：画在供桌正中的空处，四列；牌背红漆点蜡，翻开是羊皮纸上的一个字 */
+.wk-cards {
+  position: absolute;
+  left: 29%;
+  right: 29%;
+  top: 7%;
+  bottom: 13%;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-content: center;
+  gap: 1.1cqw;
+}
+
+.wk-figure { container-type: inline-size; }
+.wk-card {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  perspective: 600px;
+}
+
+.wk-card[hidden] { display: none; }
+.wk-back,
+.wk-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  backface-visibility: hidden;
+  transition: transform 0.35s ease, box-shadow 0.2s ease;
+}
+
+.wk-back {
+  border: 1px solid rgba(201, 163, 91, 0.7);
+  background:
+    radial-gradient(circle at 50% 50%, #8b1a1a 0 11%, rgba(139, 26, 26, 0) 12%),
+    repeating-linear-gradient(45deg, rgba(201, 163, 91, 0.08) 0 4px, transparent 4px 9px),
+    linear-gradient(160deg, #3a1512, #1a0a09);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
+}
+
+.wk-face {
+  border: 1px solid #c9a35b;
+  background: linear-gradient(160deg, #efe2c2, #cdb88c);
+  color: #2a1a10;
+  font-family: var(--serif-cn);
+  font-size: 4.2cqw;
+  transform: rotateY(180deg);
+}
+
+.wk-card.is-up .wk-back { transform: rotateY(180deg); }
+.wk-card.is-up .wk-face { transform: rotateY(0deg); }
+.wk-card.is-matched .wk-face { box-shadow: 0 0 0 2px #e6c27a, 0 0 14px rgba(230, 194, 122, 0.7); color: #5a1010; }
+.wk-card:hover:not(:disabled) .wk-back,
+.wk-card:focus-visible .wk-back { box-shadow: 0 0 0 2px var(--gold), 0 3px 8px rgba(0, 0, 0, 0.6); }
+.wk-card:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.wk-card:disabled { cursor: default; }
+
+.wk-altar-status {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4%;
+  z-index: 4;
+  margin: 0;
+  padding: 0 1rem;
+  color: var(--bone-bright);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-shadow: 0 1px 3px #000, 0 0 8px #000;
+  pointer-events: none;
+}
+
+.wk-note { width: min(720px, 100%); margin: 0.6rem auto 0; color: var(--ash); font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; line-height: 1.8; text-align: center; }
+.wk-response { white-space: pre-line; }
+
+.wk-panel {
+  width: min(720px, 100%);
+  margin: 1.2rem auto 0;
+  padding: 1rem 1.1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--gold);
+  background: rgba(10, 9, 8, 0.86);
+}
+
+.wk-panel-deck { margin: 0 0 1rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.92rem; line-height: 1.8; }
+.wk-methods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+
+.wk-method {
+  min-height: 44px;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  background: rgba(20, 16, 12, 0.8);
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.wk-method[aria-pressed="true"] { border-color: var(--gold); color: var(--bone-bright); background: rgba(154, 127, 71, 0.18); }
+.wk-method.is-collected::after { content: " ✓"; color: var(--gold); }
+.wk-method:hover:not(:disabled),
+.wk-method:focus-visible { border-color: var(--gold); outline: 2px solid var(--gold); outline-offset: 2px; }
+.wk-method:disabled { opacity: 0.45; cursor: default; }
+
+.wk-action,
+.wk-entry-btn {
+  min-height: 44px;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.wk-entry-btn,
+.wk-incense { border-color: var(--gold); color: var(--bone-bright); }
+.wk-action:hover:not(:disabled),
+.wk-action:focus-visible,
+.wk-entry-btn:hover:not(:disabled),
+.wk-entry-btn:focus-visible { border-color: var(--gold); background: var(--gold); color: var(--void); outline: 2px solid var(--bone-bright); outline-offset: 2px; }
+.wk-action:disabled,
+.wk-entry-btn:disabled { opacity: 0.4; cursor: default; }
+.wk-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; margin-top: 0.9rem; }
+
+.wk-mourner,
+.wk-echo { grid-column: 1 / -1; justify-self: center; width: min(720px, 100%); }
+.wk-mourner { position: relative; z-index: 1; margin: 1.5rem auto; padding: 1rem 1.1rem; border: 1px solid var(--line); border-left: 2px solid #b8914f; background: rgba(10, 9, 8, 0.86); text-align: left; }
+.wk-mourner-title { margin: 0 0 0.4rem; color: var(--gold); font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.18em; }
+.wk-mourner-level { margin: 0 0 0.4rem; color: #e6c27a; font-family: var(--serif-cn); font-size: 1rem; }
+.wk-mourner-body { margin: 0 0 0.8rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.9rem; line-height: 1.9; }
+
+.wk-codex { position: relative; z-index: 1; max-width: 760px; margin: 2rem auto; padding: 1.5rem; border: 1px solid var(--line); background: var(--void-soft); }
+.wk-kicker { margin-bottom: 1.25rem; color: var(--gold); font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.15em; text-align: center; }
+.wk-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+.wk-cell { min-height: 64px; padding: 0.8rem; border: 1px solid var(--line); background: var(--void); font-family: var(--mono); font-size: 0.75rem; line-height: 1.6; white-space: pre-line; text-align: center; }
+.wk-cell.is-locked { color: var(--ash); border-style: dashed; opacity: 0.6; }
+.wk-cell.is-unlocked { color: var(--bone-bright); border-color: var(--gold); background: rgba(30, 25, 20, 0.5); }
+.wk-hints-title { margin: 0 0 0.4rem; color: var(--bone); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; }
+.wk-hints { margin: 0 0 1rem; padding-left: 1.1rem; color: var(--ash); font-size: 0.82rem; line-height: 1.8; }
+.wk-hints li.is-met { color: var(--gold); }
+.wk-codex-entry { display: flex; flex-direction: column; gap: 0.6rem; align-items: center; }
+
+@media (max-width: 720px) {
+  .wk-figure { width: min(92vw, 520px); }
+  .wk-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+  .wk-hotspot .dh-label { font-size: 0.64rem; padding: 0.12rem 0.3rem; letter-spacing: 0.02em; }
+  .wk-methods { grid-template-columns: 1fr; }
+  .wk-altar-status { font-size: 0.6rem; letter-spacing: 0.02em; }
+  .wk-cards { left: 22%; right: 22%; }
+  .wk-face { font-size: 5.4cqw; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wk-back,
+  .wk-face { transition: none; }
+}
+
+@media (min-width: 721px) {
+  .wk-hotspot .dh-label { white-space: nowrap; }
+}
