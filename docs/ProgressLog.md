@@ -1139,7 +1139,7 @@
 - 新增 `late-cause-maternity-ward`、`reverse-birth-order-registry`、`first-cause-custody-court` 3 个场景，场景总数 193 → 196，缓存标记 `v=91`。
 - 玩法：三个家庭 × 六种出生顺序 = 18 份出生证；登记室用“提前一位 / 延后一位”排原因、后果、见证者，预览实时更新；签发后到门外 / 痕迹室 / 无终局画廊领取接生回执，旧场景多一段随最近顺序变化的记忆。
 - 开庭条件：三个家庭各一份、原因在前与后果在前各一份、见证者排第一一份；痕迹室逐条显示 x/3、x/2、x/1。三项监护裁定可重复进入，唯一收集不重复计数。
-- 状态键 `goddead_v91_late_cause_maternity`（12 字段、7 类 pending、严格归一化），只读 v90；v90 有在途记录时禁用入口；所有新操作只接受真实点击。
+- 状态键 `goddead_v91_late_cause_maternity`（11 字段、7 类 pending、严格归一化），只读 v90；v90 有在途记录时禁用入口；所有新操作只接受真实点击。
 - 痕迹室「下一步」扩展到 v91，按开庭三条件与裁定数给出缺项。
 - 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 17378 assertions passed`。
 - 浏览器（内置浏览器，本地静态服务器，v28–v90 全通关存档）：真实点击走完三份出生证、三处接生回执、开庭与三项裁定；未解锁深链回痕迹室；375px 无横向溢出；控制台无错误。本章未生成新图片，沿用已有三张场景图。
@@ -1149,7 +1149,7 @@
 - 新增 `witness-liability-insurance-bureau`、`eyelid-actuarial-room`、`blind-exemption-hearing` 3 个场景，场景总数 196 → 199，缓存标记 `v=92`。
 - 玩法：为玩家自己真正看过的三件事投保（目击档案读取来访次数、祷词数与 v91 见证者先出生的家庭）；五档原生滑杆决定“看见了多少”，CSS 眼睛随之开合；三种保单 × 三件事 = 9 份；理赔回执出现在门外 / 焚献室 / 倒生原因助产院，并留下随最近理赔变化的记忆段。
 - 听证条件：三件事、三种保单、一次闭眼、一次凝视；三项豁免裁定分别抵达 threshold / remembrance / unending-gallery，可重复进入。
-- 状态键 `goddead_v92_witness_liability`（12 字段、7 类 pending、严格归一化），只读 v91；v91 在途时入口禁用；元素 id 与样式类用 `wl-` 前缀避开 v84。
+- 状态键 `goddead_v92_witness_liability`（11 字段、7 类 pending、严格归一化），只读 v91；v91 在途时入口禁用；元素 id 与样式类用 `wl-` 前缀避开 v84。
 - 场景图：本机 Codex CLI（`codex exec`，内置 image generation）生成三张 1536×1024 原画，源图存 `design-references/`，Pillow 转 WebP；提示词与哈希见 `docs/V92ImagePrompts.md`。
 - 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 17482 assertions passed`。
 - 浏览器（内置浏览器，v91 全通关存档）：真实点击 + 键盘操作滑杆走完三份保单、三处回执、听证与三项裁定；锁定深链回痕迹室；375px 无溢出；控制台无错误。
@@ -1159,8 +1159,17 @@
 - 新增 `unseen-claims-office`、`retroactive-witness-desk`、`court-of-the-unwitnessed` 3 个场景，场景总数 199 → 202，缓存标记 `v=93`。
 - 新交互“提灯搜寻”：全黑大厅里指针 / 手指 / 方向键移动一盏灯，Tab 聚焦会把灯移到物件；视觉光圈与判定共用同一个像素半径（图宽 14%，触屏 19%）。灯只改显示，不写存档。
 - 五件没人看见的事分属门外、经文走廊、第三值夜室、余响交换台、无主投递所；补证台三种认领方式中只有“交给旧场景作证”要跑主线房间领回执，另外两种当场结算。开庭条件：五件事都有下落 + 三种方式都用过。
-- 状态键 `goddead_v93_unseen_claims`（12 字段、7 类 pending、严格归一化），只读 v92；v92 在途时入口禁用；前缀 `us-`。
+- 状态键 `goddead_v93_unseen_claims`（11 字段、7 类 pending、严格归一化），只读 v92；v92 在途时入口禁用；前缀 `us-`。
 - 修正：v91–v93 旧场景面板在交换台 / 值夜室等 grid 布局中被挤成窄列，统一横跨整行。
 - 场景图：本机 Codex CLI 生成三张原画，源图存 `design-references/`，提示词与哈希见 `docs/V93ImagePrompts.md`。
 - 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 17567 assertions passed`。
 - 浏览器：真实指针 / 键盘走完五件认领（一次铜铃去交换台）、开庭与三项裁定；未解锁深链回痕迹室；375px 无横向溢出；控制台无错误。
+
+## 2026-09-24 - v94 回敲邮局实装
+
+- 新增 `returned-knock-post-office`、`knocker-booth`、`arbitration-of-the-first-knock` 3 个场景，场景总数 202 → 205，缓存标记 `v=94`。
+- 新交互“节奏回敲”：图上的铜门环是原生按钮（空格可敲），按比例判定节奏（每段 0.68–1.38 倍、90ms–2.5s），可听示范；三封打孔信 × 原样 / 倒着 / 多敲一下 = 9 份回信，回信寄到门外 / 代神席 / 痕迹室签收。
+- 状态键 `goddead_v94_returned_knocks`（11 字段、7 类 pending、严格归一化），只读 v93；v93 在途时入口禁用；前缀 `rk-`。
+- 场景图：本机 Codex CLI 生成三张原画，提示词与哈希见 `docs/V94ImagePrompts.md`。
+- 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 17652 assertions passed`。
+- 浏览器：真实点击敲对“咚 ·咚 ·咚”寄门外、“倒着回敲”先错后对寄代神席；锁定深链回痕迹室；控制台无错误。第三封信与仲裁庭的真实点击因面板转入后台未完成，由自动测试覆盖。

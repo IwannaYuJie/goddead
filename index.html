@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=93">
+  <link rel="stylesheet" href="styles.css?v=94">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -194,6 +194,15 @@
               <p class="harm-reconstructor-response" id="harm-reconstructor-response-threshold" aria-live="polite"></p>
               <button class="harm-reconstructor-return" id="harm-reconstructor-return-threshold" type="button" hidden data-hover>跟疼痛复原员返回考古局 · RETURN WITH THE PAIN RECONSTRUCTOR ⟶</button>
             </div>
+          <!-- v94 门槛回信签收与记忆 -->
+          <p class="watch-memory rk-echo" id="rk-echo-threshold" hidden></p>
+          <div class="rk-courier reveal" id="rk-courier-threshold" hidden>
+            <p class="rk-courier-title" id="rk-courier-title-threshold"></p>
+            <p class="rk-courier-rhythm" id="rk-courier-rhythm-threshold"></p>
+            <p class="rk-courier-body" id="rk-courier-body-threshold"></p>
+            <p class="rk-response" id="rk-courier-response-threshold" aria-live="polite" hidden></p>
+            <button class="rk-action" id="rk-courier-return-threshold" type="button" data-hover>带着签收单回到回敲邮局 ⟶</button>
+          </div>
           <!-- v93 门槛认领回执与记忆 -->
           <p class="watch-memory us-echo" id="us-echo-threshold" hidden></p>
           <div class="us-clerk reveal" id="us-clerk-threshold" hidden>
@@ -4027,6 +4036,15 @@
             </div>
           </div>
 
+          <!-- v94 代神席回信签收与记忆 -->
+          <p class="watch-memory rk-echo" id="rk-echo-acting" hidden></p>
+          <div class="rk-courier reveal" id="rk-courier-acting" hidden>
+            <p class="rk-courier-title" id="rk-courier-title-acting"></p>
+            <p class="rk-courier-rhythm" id="rk-courier-rhythm-acting"></p>
+            <p class="rk-courier-body" id="rk-courier-body-acting"></p>
+            <p class="rk-response" id="rk-courier-response-acting" aria-live="polite" hidden></p>
+            <button class="rk-action" id="rk-courier-return-acting" type="button" data-hover>带着签收单回到回敲邮局 ⟶</button>
+          </div>
           <nav class="scene-exits reveal" aria-label="离开代神席">
             <button class="exit-link" type="button" data-go="cancellation" data-hover>⟵ 回到注销科</button>
           </nav>
@@ -4594,6 +4612,22 @@
             </div>
           </div>
 
+          <!-- v94 回敲邮局图鉴 -->
+          <p class="watch-memory rk-memory" id="rk-memory" hidden></p>
+          <div class="rk-codex reveal" id="rk-codex" hidden>
+            <p class="rk-kicker">POST OFFICE OF RETURNED KNOCKS · 回 敲 图 鉴</p>
+            <div class="rk-grid" id="rk-codex-grid"></div>
+            <p class="rk-hints-title">第一下仲裁庭开庭条件</p>
+            <ul class="rk-hints" id="rk-court-hints"></ul>
+            <div class="rk-codex-entry">
+              <button class="rk-entry-btn" id="rk-entry-btn" type="button" hidden data-hover>前往回敲邮局 · GO TO THE POST OFFICE OF RETURNED KNOCKS ⟶</button>
+              <p class="rk-note" id="rk-entry-note" hidden></p>
+              <p class="rk-response" id="rk-entry-response" aria-live="polite" hidden></p>
+              <button class="rk-entry-btn" id="rk-court-entry-btn" type="button" hidden data-hover>进入第一下仲裁庭 · ENTER THE ARBITRATION OF THE FIRST KNOCK ⟶</button>
+              <p class="rk-response" id="rk-court-entry-response" aria-live="polite" hidden></p>
+            </div>
+          </div>
+
           <!-- v70 亡者议会图鉴 -->
           <div class="dead-parliament-codex reveal" id="dead-parliament-codex" hidden>
             <p class="dpc-kicker">PARLIAMENT OF THE DEAD · 亡 者 议 会 图 鉴</p>
@@ -4625,6 +4659,15 @@
             <p class="late-cause-midwife-body" id="late-cause-midwife-body-remembrance"></p>
             <p class="late-cause-response" id="late-cause-midwife-response-remembrance" aria-live="polite" hidden></p>
             <button class="late-cause-action" id="late-cause-midwife-return-remembrance" type="button" data-hover>带着出生证回到助产院 ⟶</button>
+          </div>
+          <!-- v94 痕迹室回信签收与记忆 -->
+          <p class="watch-memory rk-echo" id="rk-echo-remembrance" hidden></p>
+          <div class="rk-courier reveal" id="rk-courier-remembrance" hidden>
+            <p class="rk-courier-title" id="rk-courier-title-remembrance"></p>
+            <p class="rk-courier-rhythm" id="rk-courier-rhythm-remembrance"></p>
+            <p class="rk-courier-body" id="rk-courier-body-remembrance"></p>
+            <p class="rk-response" id="rk-courier-response-remembrance" aria-live="polite" hidden></p>
+            <button class="rk-action" id="rk-courier-return-remembrance" type="button" data-hover>带着签收单回到回敲邮局 ⟶</button>
           </div>
 <!-- v90 记忆原籍公证员 -->
 <div class="causeless-consequence-consul reveal" id="causeless-consequence-consul-remembrance" hidden>
@@ -7426,6 +7469,82 @@
         </div>
       </section>
 
+      <!-- v94 第一幕：回敲邮局 -->
+      <section class="scene scene-branch scene-returned-knock-post-office" id="scene-returned-knock-post-office" data-scene="returned-knock-post-office" data-title="Goddead — 回敲邮局" aria-label="回敲邮局">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">12α / 回敲 · POST OFFICE OF RETURNED KNOCKS</p>
+            <h2 class="sec-title">回敲邮局</h2>
+            <p class="sec-desc">每一下敲门都会被寄回来。柜台上三封信没有字，只有孔——孔的间距就是对方敲门的节奏。</p>
+          </header>
+          <figure class="branch-figure rk-figure reveal" id="rk-office-figure">
+            <img class="branch-img rk-img" data-src="assets/v94-returned-knock-post-office.webp" alt="回敲邮局：柜台上三封红蜡封口的信，信上打着不同间距的孔，孔里透出暖光" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot rk-hotspot rk-hotspot-letter-left" id="rk-sender-the-door" type="button" aria-label="回敲信：门寄来的回敲，三下等距" data-hover><span class="dh-label" aria-hidden="true">门 · 咚 ·咚 ·咚</span></button>
+            <button class="scene-hotspot rk-hotspot rk-hotspot-letter-center" id="rk-sender-the-acting-seat" type="button" aria-label="回敲信：代神席寄来的回敲，一下、停很久、两下" data-hover><span class="dh-label" aria-hidden="true">代神席 · 咚 ——咚 ·咚</span></button>
+            <button class="scene-hotspot rk-hotspot rk-hotspot-letter-right" id="rk-sender-you-before-you-came" type="button" aria-label="回敲信：来之前的你寄来的回敲，两下、停很久、两下" data-hover><span class="dh-label" aria-hidden="true">来之前的你 · 咚 ·咚 ——咚 ·咚</span></button>
+          </figure>
+          <p class="rk-note reveal" id="rk-office-note" hidden></p>
+          <p class="branch-response rk-response" id="returned-knock-post-office-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开回敲邮局">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+            <button class="rk-action" id="rk-continue" type="button" hidden data-hover>回到叩门间 ⟶</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v94 第二幕：叩门回信间 -->
+      <section class="scene scene-branch scene-knocker-booth" id="scene-knocker-booth" data-scene="knocker-booth" data-title="Goddead — 叩门回信间" aria-label="叩门回信间">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">12β / 叩门回信 · THE KNOCKING BOOTH</p>
+            <h2 class="sec-title">叩门回信间</h2>
+            <p class="sec-desc">选一种回敲方式，对着门环敲出节奏。只看快慢的比例，不用掐秒；敲错了就重来。</p>
+          </header>
+          <figure class="branch-figure rk-figure rk-booth-figure reveal" id="rk-booth-figure">
+            <img class="branch-img rk-img" data-src="assets/v94-knocker-booth.webp" alt="叩门回信间：木亭里立着一截黑门，正中一只磨亮的铜门环，右边架子上有节拍器和一支蜡烛" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot rk-knocker" id="rk-knocker" type="button" aria-label="叩门环（可用空格键连续敲）" data-hover><span class="dh-label" aria-hidden="true">叩</span></button>
+            <div class="rk-tap-track" aria-hidden="true"><span class="rk-taps" id="rk-taps"></span></div>
+            <p class="rk-tap-status" id="rk-tap-status" aria-live="polite"></p>
+          </figure>
+          <div class="rk-booth reveal" id="rk-booth-panel" hidden>
+            <p class="rk-booth-letter" id="rk-booth-letter"></p>
+            <div class="rk-modes" role="group" aria-label="回敲方式">
+              <button class="rk-mode" id="rk-mode-echo" type="button" data-hover>原样回敲</button>
+              <button class="rk-mode" id="rk-mode-reverse" type="button" data-hover>倒着回敲</button>
+              <button class="rk-mode" id="rk-mode-one-more" type="button" data-hover>多敲一下</button>
+            </div>
+            <p class="rk-pattern-wrap">要敲的节奏：<span class="rk-pattern" id="rk-pattern"></span></p>
+            <p class="rk-note" id="rk-mode-hint"></p>
+            <div class="rk-actions">
+              <button class="rk-action" id="rk-demo" type="button" data-hover>听一遍示范</button>
+              <button class="rk-action" id="rk-abandon" type="button" data-hover>把信放回柜台</button>
+            </div>
+          </div>
+          <p class="branch-response rk-response" id="knocker-booth-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <!-- v94 第三幕：第一下仲裁庭 -->
+      <section class="scene scene-branch scene-arbitration-of-the-first-knock" id="scene-arbitration-of-the-first-knock" data-scene="arbitration-of-the-first-knock" data-title="Goddead — 第一下仲裁庭" aria-label="第一下仲裁庭">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">12γ / 第一下 · ARBITRATION OF THE FIRST KNOCK</p>
+            <h2 class="sec-title">第一下仲裁庭</h2>
+            <p class="sec-desc">穹顶上吊着一只巨大的门环。桌上三件东西：一扇小门、一台节拍器、一封没写字的信。裁定之后仍可回来。</p>
+          </header>
+          <figure class="branch-figure rk-figure reveal" id="arbitration-of-the-first-knock-figure">
+            <img class="branch-img rk-img" data-src="assets/v94-arbitration-of-the-first-knock.webp" alt="第一下仲裁庭：穹顶垂下巨大的铜门环，空法官席前的桌上放着小门、节拍器和一封红蜡封口的空白信" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot rk-hotspot rk-hotspot-court-door" id="rk-verdict-let-every-door-knock-first" type="button" aria-label="仲裁：让门先敲" data-hover><span class="dh-label" aria-hidden="true">让门先敲</span></button>
+            <button class="scene-hotspot rk-hotspot rk-hotspot-court-metronome" id="rk-verdict-keep-a-metronome-for-the-dead" type="button" aria-label="仲裁：给死者一台节拍器" data-hover><span class="dh-label" aria-hidden="true">死者的节拍器</span></button>
+            <button class="scene-hotspot rk-hotspot rk-hotspot-court-letter" id="rk-verdict-let-silence-count-as-a-reply" type="button" aria-label="仲裁：沉默也算回信" data-hover><span class="dh-label" aria-hidden="true">沉默也算回信</span></button>
+          </figure>
+          <p class="branch-response rk-response" id="arbitration-of-the-first-knock-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开仲裁庭">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+          </nav>
+        </div>
+      </section>
+
       <!-- 隐藏幕 · 第九条 -->
       <section class="scene scene-ninth" id="scene-ninth" data-scene="ninth" data-title="Goddead — ？？？" aria-label="第九条">
         <figure class="ninth-figure" role="img" aria-label="一道不该存在的裂口，底部有一扇错误的窄门">
@@ -7641,6 +7760,9 @@
         <a href="#unseen-claims-office" id="unseen-claims-office-link" hidden data-hover>11α / 未被看见</a>
         <a href="#retroactive-witness-desk" id="retroactive-witness-desk-link" hidden data-hover>11β / 补证台</a>
         <a href="#court-of-the-unwitnessed" id="court-of-the-unwitnessed-link" hidden data-hover>11γ / 无人目击</a>
+        <a href="#returned-knock-post-office" id="returned-knock-post-office-link" hidden data-hover>12α / 回敲邮局</a>
+        <a href="#knocker-booth" id="knocker-booth-link" hidden data-hover>12β / 叩门回信</a>
+        <a href="#arbitration-of-the-first-knock" id="arbitration-of-the-first-knock-link" hidden data-hover>12γ / 第一下仲裁</a>
 
       <a href="#three-person-republic-court" id="three-person-republic-court-link" hidden data-hover>04β / 三人共和国</a>
       <a href="#remembrance" data-hover>04 / 痕迹</a>
@@ -7649,6 +7771,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=93"></script>
+    <script src="script.js?v=94"></script>
   </body>
 </html>

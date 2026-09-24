@@ -4,9 +4,9 @@ Static landing page for [goddead.com](https://goddead.com).
 
 ## Current Experience
 
-当前实现基线为 **v93「未被看见之物认领处 / CLAIMS OFFICE FOR THINGS NO ONE SAW」**：全站共 202 个 hash 场景，静态资源缓存标记为 `v=93`。v93 在 v92 三项豁免裁定集齐后开放 3 个新场景：提着一盏灯在全黑的认领大厅里找五件没人看见的事（指针 / 手指 / 方向键移动灯，Tab 也能逐个聚焦），到补证台用三种方式认领；只有“交给旧场景作证”要回到对应的主线房间（门外、走廊、值夜室、交换台、投递所）领回执。五件事都有下落、三种方式都用过即开无人目击终审庭。独立键 `goddead_v93_unseen_claims`。v92 目击责任保险局与 v91 倒生原因助产院见 `docs/` 下对应设计文档。
+当前实现基线为 **v94「回敲邮局 / POST OFFICE OF RETURNED KNOCKS」**：全站共 205 个 hash 场景，静态资源缓存标记为 `v=94`。v94 在 v93 三项裁定集齐后开放 3 个新场景：三封只有孔的回敲信（门 / 代神席 / 来之前的你），在叩门间对着铜门环按节奏敲回去（原样 / 倒着 / 多敲一下，只看节奏比例，可听示范，空格键也能敲），回信寄到门外 / 代神席 / 痕迹室签收；三封信、三种方式都用过即开第一下仲裁庭。独立键 `goddead_v94_returned_knocks`。v91–v93 见 `docs/` 下对应设计文档。
 
-完整玩家路线、支线网、v63-v93 解锁链与 v90–v93 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
+完整玩家路线、支线网、v63-v94 解锁链与 v90–v94 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
 
 The homepage is **The Living Shrine**, a hash-routed, scene-by-scene exploration game. Visitors knock three times at the sealed threshold — now a photographed bureau door — and on the third knock the door visually opens into a deep black-gold corridor before the visitor is pulled through into the next room; each completed action thereafter advances the ritual automatically.
 

@@ -14375,3 +14375,184 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
 .us-thing-door { justify-content: flex-end; }
 .us-thing-socket .dh-label,
 .us-thing-door .dh-label { white-space: normal; text-align: right; }
+
+/* ============================================================
+   v94 回敲邮局：打孔信、门环与节奏
+   ============================================================ */
+.rk-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  aspect-ratio: 3 / 2;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border: 1px solid rgba(154, 127, 71, 0.35);
+  background: var(--void);
+}
+
+.rk-figure .rk-img { display: block; width: 100%; height: 100%; object-fit: cover; -webkit-mask-image: none; mask-image: none; }
+
+.rk-hotspot,
+.rk-knocker {
+  position: absolute;
+  z-index: 3;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0.4rem;
+  border: 1px solid rgba(222, 217, 208, 0.18);
+  background: rgba(8, 7, 6, 0.1);
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+
+.rk-hotspot .dh-label,
+.rk-knocker .dh-label { padding: 0.2rem 0.55rem; background: rgba(8, 7, 6, 0.74); letter-spacing: 0.1em; }
+.rk-hotspot:hover,
+.rk-hotspot:focus-visible,
+.rk-knocker:hover,
+.rk-knocker:focus-visible { border-color: var(--gold); background: rgba(154, 127, 71, 0.16); outline: 2px solid var(--gold); outline-offset: 2px; }
+.rk-hotspot:disabled,
+.rk-hotspot[aria-pressed="true"],
+.rk-knocker:disabled { border-color: var(--blood); cursor: default; outline: none; }
+.rk-hotspot.is-collected .dh-label::after { content: " ✓"; color: var(--gold); }
+
+.rk-hotspot-letter-left { left: 4%; top: 52%; width: 27%; height: 19%; }
+.rk-hotspot-letter-center { left: 37%; top: 52%; width: 26%; height: 19%; }
+.rk-hotspot-letter-right { left: 69%; top: 52%; width: 27%; height: 19%; }
+.rk-hotspot-court-door { left: 21%; top: 45%; width: 13%; height: 32%; }
+.rk-hotspot-court-metronome { left: 44.5%; top: 50%; width: 11%; height: 27%; }
+.rk-hotspot-court-letter { left: 65%; top: 64%; width: 16%; height: 13%; }
+
+/* 门环：图上的铜环就是敲击按钮；敲中时轻轻一沉 */
+.rk-knocker { left: 42.5%; top: 22%; width: 13%; height: 26%; align-items: center; border-radius: 50%; font-size: 1rem; }
+.rk-knocker.is-struck { animation: rk-strike 0.18s ease-out; }
+@keyframes rk-strike { 0% { transform: translateY(0); } 40% { transform: translateY(3px); } 100% { transform: translateY(0); } }
+
+/* 画面下部三分之一：敲击进度点（长间隔处多留一段） */
+.rk-tap-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 18%;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.rk-taps { display: flex; align-items: center; gap: 0.9rem; }
+.rk-tap { width: 16px; height: 16px; border: 1px solid rgba(222, 196, 140, 0.7); border-radius: 50%; background: rgba(8, 7, 6, 0.6); transition: background-color 0.12s ease, box-shadow 0.12s ease; }
+.rk-tap.is-long { margin-left: 2.2rem; }
+.rk-tap.is-hit,
+.rk-tap.is-demo { background: #e6c27a; box-shadow: 0 0 12px rgba(230, 194, 122, 0.8); }
+
+.rk-tap-status {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 7%;
+  z-index: 2;
+  margin: 0;
+  color: var(--bone-bright);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-align: center;
+  text-shadow: 0 1px 3px #000;
+}
+
+.rk-note { width: min(720px, 100%); margin: 0.6rem auto 0; color: var(--ash); font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; line-height: 1.8; text-align: center; }
+.rk-response { white-space: pre-line; }
+
+.rk-booth {
+  width: min(720px, 100%);
+  margin: 1.2rem auto 0;
+  padding: 1rem 1.1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--gold);
+  background: rgba(10, 9, 8, 0.86);
+}
+
+.rk-booth-letter { margin: 0 0 1rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.92rem; line-height: 1.8; }
+.rk-modes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+
+.rk-mode {
+  min-height: 44px;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  background: rgba(20, 16, 12, 0.8);
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.rk-mode[aria-pressed="true"] { border-color: var(--gold); color: var(--bone-bright); background: rgba(154, 127, 71, 0.18); }
+.rk-mode.is-collected::after { content: " ✓"; color: var(--gold); }
+.rk-mode:hover:not(:disabled),
+.rk-mode:focus-visible { border-color: var(--gold); outline: 2px solid var(--gold); outline-offset: 2px; }
+.rk-mode:disabled { opacity: 0.45; cursor: default; }
+
+.rk-pattern-wrap { margin: 1rem 0 0.3rem; color: var(--bone); font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.1em; text-align: center; }
+.rk-pattern { color: #e6c27a; font-family: var(--serif-cn); font-size: 1.05rem; letter-spacing: 0.08em; }
+
+.rk-action,
+.rk-entry-btn {
+  min-height: 44px;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.rk-entry-btn { border-color: var(--gold); color: var(--bone-bright); }
+.rk-action:hover:not(:disabled),
+.rk-action:focus-visible,
+.rk-entry-btn:hover:not(:disabled),
+.rk-entry-btn:focus-visible { border-color: var(--gold); background: var(--gold); color: var(--void); outline: 2px solid var(--bone-bright); outline-offset: 2px; }
+.rk-action:disabled,
+.rk-entry-btn:disabled { opacity: 0.4; cursor: default; }
+.rk-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; margin-top: 0.9rem; }
+
+.rk-courier,
+.rk-echo { grid-column: 1 / -1; justify-self: center; width: min(720px, 100%); }
+.rk-courier { position: relative; z-index: 1; margin: 1.5rem auto; padding: 1rem 1.1rem; border: 1px solid var(--line); border-left: 2px solid #e6c27a; background: rgba(10, 9, 8, 0.86); text-align: left; }
+.rk-courier-title { margin: 0 0 0.4rem; color: var(--gold); font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.18em; }
+.rk-courier-rhythm { margin: 0 0 0.4rem; color: #e6c27a; font-family: var(--serif-cn); font-size: 1rem; }
+.rk-courier-body { margin: 0 0 0.8rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.9rem; line-height: 1.9; }
+
+.rk-codex { position: relative; z-index: 1; max-width: 760px; margin: 2rem auto; padding: 1.5rem; border: 1px solid var(--line); background: var(--void-soft); }
+.rk-kicker { margin-bottom: 1.25rem; color: var(--gold); font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.15em; text-align: center; }
+.rk-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+.rk-cell { min-height: 64px; padding: 0.8rem; border: 1px solid var(--line); background: var(--void); font-family: var(--mono); font-size: 0.75rem; line-height: 1.6; white-space: pre-line; text-align: center; }
+.rk-cell.is-locked { color: var(--ash); border-style: dashed; opacity: 0.6; }
+.rk-cell.is-unlocked { color: var(--bone-bright); border-color: var(--gold); background: rgba(30, 25, 20, 0.5); }
+.rk-hints-title { margin: 0 0 0.4rem; color: var(--bone); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; }
+.rk-hints { margin: 0 0 1rem; padding-left: 1.1rem; color: var(--ash); font-size: 0.82rem; line-height: 1.8; }
+.rk-hints li.is-met { color: var(--gold); }
+.rk-codex-entry { display: flex; flex-direction: column; gap: 0.6rem; align-items: center; }
+
+@media (max-width: 720px) {
+  .rk-figure { width: min(92vw, 520px); }
+  .rk-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+  .rk-hotspot .dh-label { font-size: 0.64rem; padding: 0.12rem 0.3rem; letter-spacing: 0.02em; }
+  .rk-taps { gap: 0.6rem; }
+  .rk-tap.is-long { margin-left: 1.4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rk-knocker.is-struck { animation: none; }
+}
+
+@media (min-width: 721px) {
+  .rk-hotspot .dh-label { white-space: nowrap; }
+}

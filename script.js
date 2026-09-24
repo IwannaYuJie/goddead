@@ -1384,6 +1384,8 @@ document.addEventListener("DOMContentLoaded", () => {
     replayWitnessPending(name);
     resolveUnseenPendingOnArrival(name);
     replayUnseenPending(name);
+    resolveReturnedKnockPendingOnArrival(name);
+    replayReturnedKnockPending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1527,9 +1529,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
@@ -1543,7 +1545,7 @@ document.addEventListener("DOMContentLoaded", () => {
        v88 窄桥：title-action 可抵达 unending-gallery；
        v89 窄桥：appeal-action 可抵达 unending-gallery；
        v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1733,6 +1735,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "unseen-claims-office" && !unseenOfficeCanVisit()) target = "remembrance";
     if (target === "retroactive-witness-desk" && !retroactiveWitnessDeskCanVisit()) target = "remembrance";
     if (target === "court-of-the-unwitnessed" && !courtOfTheUnwitnessedCanVisit()) target = "remembrance";
+
+    /* v94 回敲邮局：未解锁或无合法抵达时一律回痕迹室 */
+    if (target === "returned-knock-post-office" && !rkOfficeCanVisit()) target = "remembrance";
+    if (target === "knocker-booth" && !knockerBoothCanVisit()) target = "remembrance";
+    if (target === "arbitration-of-the-first-knock" && !rkCourtCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -47961,6 +47968,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetLateCauseMaternityState();
       forgetWitnessLiabilityState();
       forgetUnseenClaimsState();
+      forgetReturnedKnocksState();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
       if (firstDraftVaultResponse) firstDraftVaultResponse.textContent = "";
@@ -50233,6 +50241,723 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  /* ============================================================
+     v94 回敲邮局 / POST OFFICE OF RETURNED KNOCKS
+     v93 那件“第一下之前的敲门”开始回信：每一下敲门都被寄回来，要按节奏敲回去。
+     三封回敲信 × 三种回敲方式 = 9 份回信；只看节奏的相对比例，不要求绝对准确。
+     只读 v93；独立键 goddead_v94_returned_knocks；所有新操作只接受真实点击。
+     ============================================================ */
+  const RETURNED_KNOCK_KEY = 'goddead_v94_returned_knocks';
+  const RETURNED_KNOCK_VERSION = 94;
+  const RK_OFFICE = 'returned-knock-post-office';
+  const RK_BOOTH = 'knocker-booth';
+  const RK_COURT = 'arbitration-of-the-first-knock';
+  const RK_SENDERS = ['the-door', 'the-acting-seat', 'you-before-you-came'];
+  const RK_SENDER_TABLE = {
+    'the-door': {
+      title: '门寄来的回敲', gaps: [1, 1], target: 'threshold', place: '门外', courierTitle: '门槛邮差',
+      feedback: '信封上三个等距的孔。这是你第一次来时敲的那三下，门把它们原样寄了回来。',
+      echoLead: '门缝里塞着一封回信。',
+    },
+    'the-acting-seat': {
+      title: '代神席寄来的回敲', gaps: [2, 1], target: 'acting', place: '代神席', courierTitle: '代神席邮差',
+      feedback: '一个孔，隔很远，再两个挨着的孔。代神席替那位不在场的神敲了一次门，现在要你回话。',
+      echoLead: '代神席的扶手上压着一封回信。',
+    },
+    'you-before-you-came': {
+      title: '来之前的你寄来的回敲', gaps: [1, 2, 1], target: 'remembrance', place: '痕迹室', courierTitle: '痕迹邮差',
+      feedback: '四个孔，中间隔得最远。寄信人一栏写着你的名字，邮戳比你第一次来早一天。',
+      echoLead: '痕迹墙上钉着一封你写给自己的回信。',
+    },
+  };
+  const RK_MODES = ['echo', 'reverse', 'one-more'];
+  const RK_MODE_TABLE = {
+    echo: { title: '原样回敲', hint: '照信上的节奏敲回去。', result: '对方听见了自己的节奏，以为你一直都在门后。' },
+    reverse: { title: '倒着回敲', hint: '把信上的节奏倒过来敲。', result: '节奏倒着回到寄信人那里，他们第一次听见自己的敲门从结尾开始。' },
+    'one-more': { title: '多敲一下', hint: '照原样敲完，最后再多敲一下。', result: '多出来的那一下没有人认领，它留在门板上，等下一个人来回答。' },
+  };
+  const RK_REPLY_IDS = [];
+  RK_SENDERS.forEach((sender) => RK_MODES.forEach((mode) => RK_REPLY_IDS.push(`${sender}:${mode}`)));
+  const RK_VERDICT_ACTIONS = ['let-every-door-knock-first', 'keep-a-metronome-for-the-dead', 'let-silence-count-as-a-reply'];
+  const RK_VERDICT_TABLE = {
+    'let-every-door-knock-first': {
+      title: '让门先敲', outcome: 'every-door-knocked-first', target: 'threshold',
+      feedback: '仲裁庭裁定：从此门先敲。你站在门外还没抬手，里面已经传来三下。',
+    },
+    'keep-a-metronome-for-the-dead': {
+      title: '给死者一台节拍器', outcome: 'the-dead-kept-a-metronome', target: 'remembrance',
+      feedback: '仲裁庭把节拍器判给死者。痕迹墙开始按拍子记住每一次到来，谁也不会再被漏记。',
+    },
+    'let-silence-count-as-a-reply': {
+      title: '沉默也算回信', outcome: 'silence-counted-as-a-reply', target: 'unending-gallery',
+      feedback: '仲裁庭承认沉默是一种回信。画廊里的空框第一次收到了答复，它们一直在等的就是这个。',
+    },
+  };
+  const RK_VERDICT_OUTCOME_IDS = RK_VERDICT_ACTIONS.map((a) => RK_VERDICT_TABLE[a].outcome);
+  const RK_ENTRY_FEEDBACK = '回敲邮局的铃响了三下。柜台上摆着三封没有字、只有孔的信。';
+  const RK_ABANDON_FEEDBACK = '你把信放回柜台。孔里的光暗了一下，好像对方在门后叹了口气。';
+  const RK_COURT_ENTRY_FEEDBACK = '三封信都有了回音。第一下仲裁庭的吊环门环慢慢放下来。';
+  const RK_COURIER_RETURN_FEEDBACK = '邮差把签收单夹进帽檐，领你回到回敲邮局。';
+  const RK_OLD_TARGETS = ['threshold', 'acting', 'remembrance'];
+  const RK_TAP_TIMEOUT = 2500;
+
+  function rkDelay() {
+    return reduced ? 300 : 1400;
+  }
+
+  /* 某封信在某种方式下应敲出的间隔（单位节拍） */
+  function rkPatternFor(sender, mode) {
+    const gaps = RK_SENDER_TABLE[sender].gaps.slice();
+    if (mode === 'reverse') return gaps.reverse();
+    if (mode === 'one-more') return gaps.concat(1);
+    return gaps;
+  }
+
+  /* 纯函数：按相对比例判定一串敲击时刻（毫秒）是否符合节奏 */
+  function judgeKnockRhythm(times, pattern) {
+    if (!Array.isArray(times) || times.length !== pattern.length + 1) return false;
+    const gaps = [];
+    for (let i = 1; i < times.length; i++) gaps.push(times[i] - times[i - 1]);
+    if (gaps.some((g) => !(g >= 90 && g <= RK_TAP_TIMEOUT))) return false;
+    const unit = gaps.reduce((a, b) => a + b, 0) / pattern.reduce((a, b) => a + b, 0);
+    return gaps.every((g, i) => g >= pattern[i] * unit * 0.68 && g <= pattern[i] * unit * 1.38);
+  }
+
+  function rkPatternText(pattern) {
+    return ['咚', ...pattern.map((g) => (g >= 2 ? '——咚' : '·咚'))].join(' ');
+  }
+
+  function rkReplyFeedback(sender, mode) {
+    return `${RK_SENDER_TABLE[sender].title}：${RK_MODE_TABLE[mode].result}`;
+  }
+
+  function defaultReturnedKnocks() {
+    const latest = {};
+    RK_SENDERS.forEach((s) => { latest[s] = ''; });
+    return {
+      version: RETURNED_KNOCK_VERSION,
+      visited: { office: false, booth: false, court: false },
+      draft: { sender: '', mode: 'echo' },
+      replies: [],
+      courtOutcomes: [],
+      replyRuns: 0,
+      courtRuns: 0,
+      latestModeBySender: latest,
+      lastOutcome: '',
+      activeCourier: null,
+      pending: null,
+    };
+  }
+
+  function clampRkCount(n) {
+    const v = Math.floor(Number(n));
+    return Number.isFinite(v) ? Math.min(9999, Math.max(0, v)) : 0;
+  }
+
+  function normalizeReturnedKnocks(raw) {
+    const d = defaultReturnedKnocks();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== RETURNED_KNOCK_VERSION) return d;
+    const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
+    d.visited = { office: v.office === true, booth: v.booth === true, court: v.court === true };
+    const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
+    d.draft = { sender: RK_SENDERS.includes(dr.sender) ? dr.sender : '', mode: RK_MODES.includes(dr.mode) ? dr.mode : 'echo' };
+    const replies = new Set(Array.isArray(raw.replies) ? raw.replies : []);
+    d.replies = RK_REPLY_IDS.filter((id) => replies.has(id));
+    const outcomes = new Set(Array.isArray(raw.courtOutcomes) ? raw.courtOutcomes : []);
+    d.courtOutcomes = RK_VERDICT_OUTCOME_IDS.filter((id) => outcomes.has(id));
+    d.replyRuns = clampRkCount(raw.replyRuns);
+    d.courtRuns = clampRkCount(raw.courtRuns);
+    const latest = raw.latestModeBySender && typeof raw.latestModeBySender === 'object' ? raw.latestModeBySender : {};
+    RK_SENDERS.forEach((s) => {
+      d.latestModeBySender[s] = RK_MODES.includes(latest[s]) && d.replies.includes(`${s}:${latest[s]}`) ? latest[s] : '';
+    });
+    if (typeof raw.lastOutcome === 'string' && (d.replies.includes(raw.lastOutcome) || d.courtOutcomes.includes(raw.lastOutcome))) d.lastOutcome = raw.lastOutcome;
+    const c = raw.activeCourier;
+    if (c && typeof c === 'object' && !Array.isArray(c) && Object.keys(c).length === 1 && d.replies.includes(c.reply)) d.activeCourier = { reply: c.reply };
+    d.pending = normalizeRkPending(raw.pending, d);
+    return d;
+  }
+
+  function rkCourtProgress(st) {
+    const senders = new Set();
+    const modes = new Set();
+    st.replies.forEach((id) => {
+      const [sender, mode] = id.split(':');
+      senders.add(sender);
+      modes.add(mode);
+    });
+    return { senders: senders.size, modes: modes.size };
+  }
+
+  function rkCourtEligible(st) {
+    const p = rkCourtProgress(st);
+    return p.senders === RK_SENDERS.length && p.modes === RK_MODES.length;
+  }
+
+  function expectedRkPending(p, st) {
+    const clean = !st.activeCourier;
+    switch (p.kind) {
+      case 'entry':
+        return clean ? { feedback: RK_ENTRY_FEEDBACK, kind: 'entry', target: RK_OFFICE } : null;
+      case 'sender': {
+        const s = RK_SENDER_TABLE[p.sender];
+        if (!s || !clean) return null;
+        return { feedback: s.feedback, kind: 'sender', sender: p.sender, source: RK_OFFICE, target: RK_BOOTH };
+      }
+      case 'reply': {
+        const s = RK_SENDER_TABLE[p.sender];
+        if (!s || !RK_MODE_TABLE[p.mode] || !clean || st.draft.sender !== p.sender || st.draft.mode !== p.mode) return null;
+        return { feedback: rkReplyFeedback(p.sender, p.mode), kind: 'reply', mode: p.mode, reply: `${p.sender}:${p.mode}`, sender: p.sender, source: RK_BOOTH, target: s.target };
+      }
+      case 'abandon':
+        return st.draft.sender ? { feedback: RK_ABANDON_FEEDBACK, kind: 'abandon', source: RK_BOOTH, target: RK_OFFICE } : null;
+      case 'courier-return': {
+        if (!st.activeCourier) return null;
+        const sender = st.activeCourier.reply.split(':')[0];
+        return { feedback: RK_COURIER_RETURN_FEEDBACK, from: RK_SENDER_TABLE[sender].target, kind: 'courier-return', reply: st.activeCourier.reply, target: RK_OFFICE };
+      }
+      case 'court-entry':
+        return clean && rkCourtEligible(st) ? { feedback: RK_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: RK_COURT } : null;
+      case 'verdict': {
+        const a = RK_VERDICT_TABLE[p.action];
+        if (!a || !clean || !st.visited.court || !rkCourtEligible(st)) return null;
+        return { action: p.action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: RK_COURT, target: a.target };
+      }
+      default:
+        return null;
+    }
+  }
+
+  function normalizeRkPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+    const expected = expectedRkPending(p, st);
+    if (!expected) return null;
+    const keys = Object.keys(p).sort();
+    const want = Object.keys(expected).sort();
+    if (keys.length !== want.length || keys.some((k, i) => k !== want[i] || p[k] !== expected[k])) return null;
+    return expected;
+  }
+
+  function returnedKnocksUnlocked() {
+    const compute = () => {
+      if (!unseenClaimsUnlocked()) return false;
+      const v93 = getUnseenClaims();
+      return unseenCourtEligible(v93) && UNSEEN_VERDICT_OUTCOME_IDS.every((o) => v93.courtOutcomes.includes(o));
+    };
+    return store.memo ? store.memo("returnedKnocksUnlocked", compute) : compute();
+  }
+
+  function getReturnedKnocks() {
+    if (!returnedKnocksUnlocked()) return defaultReturnedKnocks();
+    let raw;
+    try { raw = JSON.parse(store.get(RETURNED_KNOCK_KEY, '{}')); } catch { return defaultReturnedKnocks(); }
+    return normalizeReturnedKnocks(raw);
+  }
+
+  function saveReturnedKnocks(st) {
+    if (!returnedKnocksUnlocked()) return defaultReturnedKnocks();
+    const canonical = normalizeReturnedKnocks(Object.assign({}, st, { version: RETURNED_KNOCK_VERSION }));
+    store.set(RETURNED_KNOCK_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function rkPendingLogicalSource(p) {
+    if (!p) return '';
+    if (p.kind === 'entry' || p.kind === 'court-entry') return 'remembrance';
+    if (p.kind === 'courier-return') return p.from;
+    return p.source || '';
+  }
+
+  function resolveReturnedKnockPendingOnArrival(sceneName) {
+    const st = getReturnedKnocks();
+    const p = st.pending;
+    if (!p) return st;
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.office = true;
+      } else if (p.kind === 'sender') {
+        st.visited.booth = true;
+        st.draft = { sender: p.sender, mode: st.draft.sender === p.sender ? st.draft.mode : 'echo' };
+      } else if (p.kind === 'reply') {
+        st.replyRuns = clampRkCount(st.replyRuns + 1);
+        if (!st.replies.includes(p.reply)) st.replies = st.replies.concat(p.reply);
+        st.latestModeBySender[p.sender] = p.mode;
+        st.lastOutcome = p.reply;
+        st.activeCourier = { reply: p.reply };
+        st.draft = { sender: '', mode: 'echo' };
+      } else if (p.kind === 'abandon') {
+        st.draft = { sender: '', mode: 'echo' };
+        st.visited.office = true;
+      } else if (p.kind === 'courier-return') {
+        st.activeCourier = null;
+        st.visited.office = true;
+      } else if (p.kind === 'court-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'verdict') {
+        st.courtRuns = clampRkCount(st.courtRuns + 1);
+        if (!st.courtOutcomes.includes(p.outcome)) st.courtOutcomes = st.courtOutcomes.concat(p.outcome);
+        st.lastOutcome = p.outcome;
+      }
+      return saveReturnedKnocks(st);
+    }
+    if (sceneName === rkPendingLogicalSource(p)) return st;
+    st.pending = null;
+    return saveReturnedKnocks(st);
+  }
+
+  const RK_RESPONSE_BY_KIND = {
+    entry: '#rk-entry-response',
+    sender: '#returned-knock-post-office-response',
+    reply: '#knocker-booth-response',
+    abandon: '#knocker-booth-response',
+    'court-entry': '#rk-court-entry-response',
+    verdict: '#arbitration-of-the-first-knock-response',
+  };
+
+  function showRkResponse(selector, text) {
+    const el = $(selector);
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = !text;
+  }
+
+  function syncReturnedKnocksAll() {
+    syncRkOffice();
+    syncKnockerBooth();
+    syncRkCourt();
+    syncRkCouriers();
+    syncRkEchoes();
+    syncRkRemembrance();
+    syncRkLinks();
+  }
+
+  function replayReturnedKnockPending(sceneName) {
+    const st = getReturnedKnocks();
+    const p = st.pending;
+    if (p && p.target === sceneName) resolveReturnedKnockPendingOnArrival(sceneName);
+    else if (p && sceneName === rkPendingLogicalSource(p)) {
+      syncReturnedKnocksAll();
+      const selector = p.kind === 'courier-return' ? `#rk-courier-response-${p.from}` : RK_RESPONSE_BY_KIND[p.kind];
+      if (selector) showRkResponse(selector, p.feedback);
+      AutoAdvance.schedule(sceneName, p.target, { delay: rkDelay() });
+      return;
+    } else if (p) {
+      st.pending = null;
+      saveReturnedKnocks(st);
+    }
+    syncReturnedKnocksAll();
+  }
+
+  function launchRk(scene, buttonId, pending, responseSelector) {
+    const st = getReturnedKnocks();
+    st.pending = pending;
+    const saved = saveReturnedKnocks(st);
+    if (!saved.pending) return false;
+    const btn = buttonId ? $(`#${buttonId}`) : null;
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+    if (AudioEngine.whoosh) AudioEngine.whoosh();
+    syncReturnedKnocksAll();
+    showRkResponse(responseSelector, pending.feedback);
+    AutoAdvance.schedule(scene, pending.target, { delay: rkDelay() });
+    return true;
+  }
+
+  function rkReady(scene, buttonId) {
+    if (currentScene !== scene) return null;
+    if (AutoAdvance.has(scene)) return null;
+    if (buttonId && !buttonAvailable(buttonId)) return null;
+    if (!returnedKnocksUnlocked()) return null;
+    const st = getReturnedKnocks();
+    return st.pending ? null : st;
+  }
+
+  function chooseRkEntry() {
+    const st = rkReady('remembrance', 'rk-entry-btn');
+    if (!st || st.activeCourier) return;
+    if (getUnseenClaims().pending) return;
+    launchRk('remembrance', 'rk-entry-btn', { feedback: RK_ENTRY_FEEDBACK, kind: 'entry', target: RK_OFFICE }, '#rk-entry-response');
+  }
+
+  function chooseRkSender(sender) {
+    const s = RK_SENDER_TABLE[sender];
+    if (!s) return;
+    const st = rkReady(RK_OFFICE, `rk-sender-${sender}`);
+    if (!st || st.activeCourier) return;
+    launchRk(RK_OFFICE, `rk-sender-${sender}`, { feedback: s.feedback, kind: 'sender', sender, source: RK_OFFICE, target: RK_BOOTH }, '#returned-knock-post-office-response');
+  }
+
+  /* 叩门间的节奏输入：敲击时刻只放在内存里，敲对才写 pending */
+  const rkTaps = [];
+
+  function resetRkTaps(message) {
+    rkTaps.length = 0;
+    paintRkTaps(message || '');
+  }
+
+  function chooseRkMode(mode) {
+    if (!RK_MODE_TABLE[mode]) return;
+    const st = rkReady(RK_BOOTH, `rk-mode-${mode}`);
+    if (!st || !st.draft.sender || !st.visited.booth || st.draft.mode === mode) return;
+    st.draft.mode = mode;
+    saveReturnedKnocks(st);
+    resetRkTaps('');
+    syncKnockerBooth();
+  }
+
+  function paintRkTaps(message) {
+    const st = getReturnedKnocks();
+    const dots = $('#rk-taps');
+    const status = $('#rk-tap-status');
+    if (!st.draft.sender) {
+      if (dots) dots.replaceChildren();
+      if (status) status.textContent = '';
+      return;
+    }
+    const pattern = rkPatternFor(st.draft.sender, st.draft.mode);
+    const need = pattern.length + 1;
+    if (dots) {
+      dots.replaceChildren(...Array.from({ length: need }, (_, i) => {
+        const dot = document.createElement('span');
+        dot.className = `rk-tap${i < rkTaps.length ? ' is-hit' : ''}${i > 0 && pattern[i - 1] >= 2 ? ' is-long' : ''}`;
+        return dot;
+      }));
+    }
+    if (status) status.textContent = message || `已敲 ${Math.min(rkTaps.length, need)}/${need} 下`;
+  }
+
+  function knockRk(now) {
+    const st = rkReady(RK_BOOTH, 'rk-knocker');
+    if (!st || !st.draft.sender || st.activeCourier) return;
+    const last = rkTaps[rkTaps.length - 1];
+    if (last !== undefined && now - last > RK_TAP_TIMEOUT) rkTaps.length = 0;
+    rkTaps.push(now);
+    if (AudioEngine.knock) AudioEngine.knock(0.2);
+    const knocker = $('#rk-knocker');
+    if (knocker) { knocker.classList.remove('is-struck'); void knocker.offsetWidth; knocker.classList.add('is-struck'); }
+    const { sender, mode } = st.draft;
+    const pattern = rkPatternFor(sender, mode);
+    if (rkTaps.length < pattern.length + 1) { paintRkTaps(''); return; }
+    const ok = judgeKnockRhythm(rkTaps.slice(), pattern);
+    if (!ok) { resetRkTaps('节奏不对。先听一遍示范，再从头敲。'); return; }
+    rkTaps.length = 0;
+    paintRkTaps('节奏对上了。');
+    launchRk(RK_BOOTH, 'rk-knocker', {
+      feedback: rkReplyFeedback(sender, mode), kind: 'reply', mode, reply: `${sender}:${mode}`, sender, source: RK_BOOTH, target: RK_SENDER_TABLE[sender].target,
+    }, '#knocker-booth-response');
+  }
+
+  /* 示范：用灯点和轻响把应敲的节奏放一遍，不计入任何状态 */
+  let rkDemoTimers = [];
+  function playRkDemo() {
+    const st = rkReady(RK_BOOTH, 'rk-demo');
+    if (!st || !st.draft.sender) return;
+    rkDemoTimers.forEach(clearTimeout);
+    rkDemoTimers = [];
+    resetRkTaps('示范中……');
+    const pattern = rkPatternFor(st.draft.sender, st.draft.mode);
+    const beat = reduced ? 380 : 420;
+    let t = 0;
+    const flash = (i) => {
+      const dots = $('#rk-taps');
+      const dot = dots && dots.children[i];
+      if (dot) { dot.classList.add('is-demo'); rkDemoTimers.push(setTimeout(() => dot.classList.remove('is-demo'), 200)); }
+      if (AudioEngine.knock) AudioEngine.knock(0.12);
+    };
+    [0, ...pattern].forEach((g, i) => {
+      t += g * beat;
+      rkDemoTimers.push(setTimeout(() => flash(i), t));
+    });
+    rkDemoTimers.push(setTimeout(() => paintRkTaps('轮到你了。'), t + 400));
+  }
+
+  function chooseRkAbandon() {
+    const st = rkReady(RK_BOOTH, 'rk-abandon');
+    if (!st || !st.draft.sender) return;
+    rkTaps.length = 0;
+    launchRk(RK_BOOTH, 'rk-abandon', { feedback: RK_ABANDON_FEEDBACK, kind: 'abandon', source: RK_BOOTH, target: RK_OFFICE }, '#knocker-booth-response');
+  }
+
+  function chooseRkCourierReturn(scene) {
+    const st = rkReady(scene, `rk-courier-return-${scene}`);
+    if (!st || !st.activeCourier) return;
+    if (RK_SENDER_TABLE[st.activeCourier.reply.split(':')[0]].target !== scene) return;
+    launchRk(scene, `rk-courier-return-${scene}`, { feedback: RK_COURIER_RETURN_FEEDBACK, from: scene, kind: 'courier-return', reply: st.activeCourier.reply, target: RK_OFFICE }, `#rk-courier-response-${scene}`);
+  }
+
+  function chooseRkCourtEntry() {
+    const st = rkReady('remembrance', 'rk-court-entry-btn');
+    if (!st || st.activeCourier || !rkCourtEligible(st)) return;
+    launchRk('remembrance', 'rk-court-entry-btn', { feedback: RK_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: RK_COURT }, '#rk-court-entry-response');
+  }
+
+  function chooseRkVerdict(action) {
+    const a = RK_VERDICT_TABLE[action];
+    if (!a) return;
+    const st = rkReady(RK_COURT, `rk-verdict-${action}`);
+    if (!st || st.activeCourier || !st.visited.court || !rkCourtEligible(st)) return;
+    launchRk(RK_COURT, `rk-verdict-${action}`, { action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: RK_COURT, target: a.target }, '#arbitration-of-the-first-knock-response');
+  }
+
+  function returnedKnocksBridgeAllows(targetScene) {
+    if (!returnedKnocksUnlocked()) return false;
+    const st = getReturnedKnocks();
+    if (st.pending && (st.pending.kind === 'reply' || st.pending.kind === 'verdict') && st.pending.target === targetScene) return true;
+    if (st.activeCourier && RK_SENDER_TABLE[st.activeCourier.reply.split(':')[0]].target === targetScene) return true;
+    const verdict = RK_VERDICT_ACTIONS.find((a) => RK_VERDICT_TABLE[a].outcome === st.lastOutcome);
+    return Boolean(verdict && RK_VERDICT_TABLE[verdict].target === targetScene);
+  }
+
+  function rkOfficeCanVisit() {
+    if (!returnedKnocksUnlocked()) return false;
+    const st = getReturnedKnocks();
+    return st.visited.office || Boolean(st.pending && st.pending.target === RK_OFFICE);
+  }
+
+  function knockerBoothCanVisit() {
+    if (!returnedKnocksUnlocked()) return false;
+    const st = getReturnedKnocks();
+    if (st.visited.booth && st.draft.sender) return true;
+    return Boolean(st.pending && st.pending.kind === 'sender');
+  }
+
+  function rkCourtCanVisit() {
+    if (!returnedKnocksUnlocked()) return false;
+    const st = getReturnedKnocks();
+    if (st.visited.court && rkCourtEligible(st)) return true;
+    return Boolean(st.pending && st.pending.kind === 'court-entry');
+  }
+
+  function syncRkOffice() {
+    const canVisit = rkOfficeCanVisit();
+    const st = getReturnedKnocks();
+    const fig = $('#rk-office-figure');
+    if (fig) fig.hidden = !canVisit;
+    const blocked = !canVisit || Boolean(st.pending) || Boolean(st.activeCourier);
+    RK_SENDERS.forEach((sender) => {
+      const btn = $(`#rk-sender-${sender}`);
+      if (!btn) return;
+      btn.disabled = blocked;
+      btn.classList.toggle('is-collected', RK_MODES.every((m) => st.replies.includes(`${sender}:${m}`)));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'sender' && st.pending.sender === sender ? 'true' : 'false');
+    });
+    const note = $('#rk-office-note');
+    if (note) {
+      let text = '';
+      if (st.activeCourier) {
+        const s = RK_SENDER_TABLE[st.activeCourier.reply.split(':')[0]];
+        text = `先完成正在投递的回信：${s.courierTitle}还在${s.place}等你签收。`;
+      } else if (st.draft.sender) {
+        text = `叩门间里还放着「${RK_SENDER_TABLE[st.draft.sender].title}」。`;
+      }
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const cont = $('#rk-continue');
+    if (cont) {
+      const show = canVisit && Boolean(st.draft.sender) && !st.activeCourier;
+      cont.hidden = !show;
+      cont.disabled = !show || Boolean(st.pending);
+    }
+    if (!st.pending || st.pending.source !== RK_OFFICE) showRkResponse('#returned-knock-post-office-response', '');
+  }
+
+  function syncKnockerBooth() {
+    const canVisit = knockerBoothCanVisit();
+    const st = getReturnedKnocks();
+    const ready = canVisit && Boolean(st.draft.sender);
+    const panel = $('#rk-booth-panel');
+    if (panel) panel.hidden = !ready;
+    if (ready) {
+      const s = RK_SENDER_TABLE[st.draft.sender];
+      const title = $('#rk-booth-letter');
+      if (title) title.textContent = `${s.title} —— ${s.feedback}`;
+      const pattern = rkPatternFor(st.draft.sender, st.draft.mode);
+      const text = $('#rk-pattern');
+      if (text) text.textContent = rkPatternText(pattern);
+      const hint = $('#rk-mode-hint');
+      if (hint) hint.textContent = `${RK_MODE_TABLE[st.draft.mode].hint}敲对后会寄到${s.place}，由${s.courierTitle}签收。`;
+    }
+    RK_MODES.forEach((mode) => {
+      const btn = $(`#rk-mode-${mode}`);
+      if (!btn) return;
+      btn.disabled = !ready || Boolean(st.pending);
+      btn.setAttribute('aria-pressed', ready && st.draft.mode === mode ? 'true' : 'false');
+      btn.classList.toggle('is-collected', Boolean(st.draft.sender) && st.replies.includes(`${st.draft.sender}:${mode}`));
+    });
+    ['rk-knocker', 'rk-demo', 'rk-abandon'].forEach((id) => {
+      const btn = $(`#${id}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending);
+    });
+    paintRkTaps(st.pending && st.pending.kind === 'reply' ? '节奏对上了，回信正在寄出。' : '');
+    if (!st.pending || st.pending.source !== RK_BOOTH) showRkResponse('#knocker-booth-response', '');
+  }
+
+  function syncRkCourt() {
+    const canVisit = rkCourtCanVisit();
+    const st = getReturnedKnocks();
+    const fig = $('#arbitration-of-the-first-knock-figure');
+    if (fig) fig.hidden = !canVisit;
+    RK_VERDICT_ACTIONS.forEach((action) => {
+      const btn = $(`#rk-verdict-${action}`);
+      if (!btn) return;
+      btn.disabled = !canVisit || Boolean(st.pending) || Boolean(st.activeCourier);
+      btn.classList.toggle('is-collected', st.courtOutcomes.includes(RK_VERDICT_TABLE[action].outcome));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'verdict' && st.pending.action === action ? 'true' : 'false');
+    });
+    if (!st.pending || st.pending.source !== RK_COURT) showRkResponse('#arbitration-of-the-first-knock-response', '');
+  }
+
+  function syncRkCouriers() {
+    const st = returnedKnocksUnlocked() ? getReturnedKnocks() : defaultReturnedKnocks();
+    const [sender, mode] = st.activeCourier ? st.activeCourier.reply.split(':') : ['', ''];
+    RK_OLD_TARGETS.forEach((scene) => {
+      const box = $(`#rk-courier-${scene}`);
+      if (!box) return;
+      const show = Boolean(sender) && RK_SENDER_TABLE[sender].target === scene;
+      box.hidden = !show;
+      const btn = $(`#rk-courier-return-${scene}`);
+      if (btn) {
+        btn.disabled = !show || Boolean(st.pending);
+        btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'courier-return' && st.pending.from === scene ? 'true' : 'false');
+      }
+      if (!show) return;
+      const s = RK_SENDER_TABLE[sender];
+      const head = $(`#rk-courier-title-${scene}`);
+      if (head) head.textContent = `回信签收 · ${s.courierTitle} · ${s.title}（${RK_MODE_TABLE[mode].title}）`;
+      const rhythm = $(`#rk-courier-rhythm-${scene}`);
+      if (rhythm) rhythm.textContent = rkPatternText(rkPatternFor(sender, mode));
+      const body = $(`#rk-courier-body-${scene}`);
+      if (body) body.textContent = RK_MODE_TABLE[mode].result;
+      if (!st.pending || st.pending.kind !== 'courier-return') showRkResponse(`#rk-courier-response-${scene}`, '');
+    });
+  }
+
+  function syncRkEchoes() {
+    const st = returnedKnocksUnlocked() ? getReturnedKnocks() : defaultReturnedKnocks();
+    RK_SENDERS.forEach((sender) => {
+      const s = RK_SENDER_TABLE[sender];
+      const el = $(`#rk-echo-${s.target}`);
+      if (!el) return;
+      const mode = st.latestModeBySender[sender];
+      if (!mode) { el.hidden = true; el.textContent = ''; return; }
+      el.textContent = `${s.echoLead}「${RK_MODE_TABLE[mode].title} · ${rkPatternText(rkPatternFor(sender, mode))}」${RK_MODE_TABLE[mode].result}`;
+      el.hidden = false;
+    });
+  }
+
+  function syncRkRemembrance() {
+    const unlocked = returnedKnocksUnlocked();
+    const shell = $('#rk-codex');
+    const memory = $('#rk-memory');
+    if (!unlocked) {
+      [shell, memory].forEach((el) => { if (el) el.hidden = true; });
+      return;
+    }
+    const st = getReturnedKnocks();
+    const v93Pending = Boolean(getUnseenClaims().pending);
+    if (shell) shell.hidden = false;
+    const progress = rkCourtProgress(st);
+    if (memory) {
+      memory.hidden = false;
+      memory.textContent = `回敲：已回信 ${st.replies.length}/9 封，共敲回 ${st.replyRuns} 次；第一下仲裁 ${st.courtOutcomes.length}/3。`;
+    }
+    const hints = $('#rk-court-hints');
+    if (hints) {
+      const rows = [['三封信都回过', progress.senders, RK_SENDERS.length], ['三种回敲方式都用过', progress.modes, RK_MODES.length]];
+      hints.replaceChildren(...rows.map(([label, have, need]) => {
+        const li = document.createElement('li');
+        li.className = have >= need ? 'is-met' : '';
+        li.textContent = `${label} ${have}/${need}`;
+        return li;
+      }));
+    }
+    const clean = !st.pending && !st.activeCourier;
+    const entry = $('#rk-entry-btn');
+    if (entry) {
+      entry.hidden = false;
+      entry.disabled = !clean || v93Pending;
+      entry.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' ? 'true' : 'false');
+    }
+    const note = $('#rk-entry-note');
+    if (note) {
+      const text = v93Pending ? '先完成正在抵达的回执：未被看见之物认领处还有一份认领在路上。' : st.activeCourier ? '先完成正在投递的回信。' : '';
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const court = $('#rk-court-entry-btn');
+    if (court) {
+      const eligible = rkCourtEligible(st);
+      court.hidden = !eligible;
+      court.disabled = !eligible || !clean;
+      court.setAttribute('aria-pressed', st.pending && st.pending.kind === 'court-entry' ? 'true' : 'false');
+    }
+    const grid = $('#rk-codex-grid');
+    if (grid) {
+      const have = new Set(st.replies);
+      const cells = RK_REPLY_IDS.map((id) => {
+        const [sender, mode] = id.split(':');
+        const cell = document.createElement('div');
+        cell.className = `rk-cell ${have.has(id) ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = have.has(id) ? `${RK_SENDER_TABLE[sender].title}\n${RK_MODE_TABLE[mode].title} · ${rkPatternText(rkPatternFor(sender, mode))}` : '？？？';
+        return cell;
+      });
+      RK_VERDICT_ACTIONS.forEach((action) => {
+        const a = RK_VERDICT_TABLE[action];
+        const got = st.courtOutcomes.includes(a.outcome);
+        const cell = document.createElement('div');
+        cell.className = `rk-cell rk-cell-verdict ${got ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = got ? `[第一下仲裁庭] ${a.title}\n${a.feedback}` : '？？？';
+        cells.push(cell);
+      });
+      grid.replaceChildren(...cells);
+    }
+    if (!st.pending || (st.pending.kind !== 'entry' && st.pending.kind !== 'court-entry')) {
+      showRkResponse('#rk-entry-response', '');
+      showRkResponse('#rk-court-entry-response', '');
+    }
+  }
+
+  function syncRkLinks() {
+    const st = returnedKnocksUnlocked() ? getReturnedKnocks() : null;
+    [['returned-knock-post-office-link', 'office'], ['knocker-booth-link', 'booth'], ['arbitration-of-the-first-knock-link', 'court']].forEach(([id, key]) => {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !(st && st.visited[key]);
+    });
+  }
+
+  function forgetReturnedKnocksState() {
+    try { localStorage.removeItem(RETURNED_KNOCK_KEY); } catch {}
+    [RK_OFFICE, RK_BOOTH, RK_COURT].forEach((scene) => AutoAdvance.clear(scene));
+    rkTaps.length = 0;
+    ['#rk-codex', '#rk-memory', '#rk-office-figure', '#rk-booth-panel', '#arbitration-of-the-first-knock-figure',
+      '#returned-knock-post-office-link', '#knocker-booth-link', '#arbitration-of-the-first-knock-link', '#rk-continue', '#rk-court-entry-btn',
+      '#rk-entry-response', '#rk-court-entry-response', '#returned-knock-post-office-response', '#knocker-booth-response', '#arbitration-of-the-first-knock-response',
+      ...RK_OLD_TARGETS.flatMap((scene) => [`#rk-courier-${scene}`, `#rk-echo-${scene}`]),
+    ].forEach((sel) => { const el = $(sel); if (el) el.hidden = true; });
+    $$('[id^="rk-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+  }
+
+  const onTrustedRk = (selector, handler) => {
+    const el = $(selector);
+    if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+  };
+  onTrustedRk('#rk-entry-btn', chooseRkEntry);
+  onTrustedRk('#rk-court-entry-btn', chooseRkCourtEntry);
+  onTrustedRk('#rk-abandon', chooseRkAbandon);
+  onTrustedRk('#rk-demo', playRkDemo);
+  onTrustedRk('#rk-knocker', (e) => knockRk(e.timeStamp || performance.now()));
+  onTrustedRk('#rk-continue', () => {
+    const st = rkReady(RK_OFFICE, 'rk-continue');
+    if (!st || !st.draft.sender || st.activeCourier) return;
+    const sender = st.draft.sender;
+    launchRk(RK_OFFICE, 'rk-continue', { feedback: RK_SENDER_TABLE[sender].feedback, kind: 'sender', sender, source: RK_OFFICE, target: RK_BOOTH }, '#returned-knock-post-office-response');
+  });
+  RK_SENDERS.forEach((sender) => onTrustedRk(`#rk-sender-${sender}`, () => chooseRkSender(sender)));
+  RK_MODES.forEach((mode) => onTrustedRk(`#rk-mode-${mode}`, () => chooseRkMode(mode)));
+  RK_VERDICT_ACTIONS.forEach((action) => onTrustedRk(`#rk-verdict-${action}`, () => chooseRkVerdict(action)));
+  RK_OLD_TARGETS.forEach((scene) => onTrustedRk(`#rk-courier-return-${scene}`, () => chooseRkCourierReturn(scene)));
+
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -50396,8 +51121,25 @@ document.addEventListener("DOMContentLoaded", () => {
     if (eligible) items.push(`开庭条件已满足；无人目击裁定已得 ${st.courtOutcomes.length}/3`);
     if (st.activeClerk) items.push("有一份认领回执在主线房间等你：点认领员回到认领处");
     else if (st.draft.thing) items.push(`补证台上还放着「${UNSEEN_THING_TABLE[st.draft.thing].title}」`);
-    if (eligible && st.courtOutcomes.length >= 3) return { title: "v93 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    if (eligible && st.courtOutcomes.length >= 3) return returnedKnocksProgressStep();
     return { title: "v93 未被看见之物认领处", items, target: eligible ? "us-court" : "us", done: false };
+  };
+
+  /* v94：按三封信、三种回敲方式与三项仲裁给出缺项 */
+  const returnedKnocksProgressStep = () => {
+    if (!returnedKnocksUnlocked()) return null;
+    const st = getReturnedKnocks();
+    const items = [];
+    const senders = RK_SENDERS.filter((x) => !st.replies.some((id) => id.startsWith(`${x}:`))).map((x) => RK_SENDER_TABLE[x].title);
+    const modes = RK_MODES.filter((m) => !st.replies.some((id) => id.endsWith(`:${m}`))).map((m) => RK_MODE_TABLE[m].title);
+    if (senders.length) items.push(`还没回的信：${senders.join("、")}`);
+    if (modes.length) items.push(`还没用过的回敲方式：${modes.join("、")}`);
+    const eligible = rkCourtEligible(st);
+    if (eligible) items.push(`开庭条件已满足；第一下仲裁已得 ${st.courtOutcomes.length}/3`);
+    if (st.activeCourier) items.push("有一封回信在旧场景等你签收：点邮差回到回敲邮局");
+    else if (st.draft.sender) items.push(`叩门间里还放着「${RK_SENDER_TABLE[st.draft.sender].title}」`);
+    if (eligible && st.courtOutcomes.length >= 3) return { title: "v94 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    return { title: "v94 回敲邮局", items, target: eligible ? "rk-court" : "rk", done: false };
   };
 
   const syncProgressGuide = () => {
@@ -50744,6 +51486,7 @@ document.addEventListener("DOMContentLoaded", () => {
   syncLateCauseAll();
   syncWitnessAll();
   syncUnseenAll();
+  syncReturnedKnocksAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();
