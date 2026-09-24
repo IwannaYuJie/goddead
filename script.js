@@ -1388,6 +1388,8 @@ document.addEventListener("DOMContentLoaded", () => {
     replayReturnedKnockPending(name);
     resolveStoppedClockPendingOnArrival(name);
     replayStoppedClockPending(name);
+    resolveHeldBreathPendingOnArrival(name);
+    replayHeldBreathPending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1531,9 +1533,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
@@ -1547,7 +1549,7 @@ document.addEventListener("DOMContentLoaded", () => {
        v88 窄桥：title-action 可抵达 unending-gallery；
        v89 窄桥：appeal-action 可抵达 unending-gallery；
        v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1747,6 +1749,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "stopped-clock-repair-shop" && !scShopCanVisit()) target = "remembrance";
     if (target === "clock-bench" && !clockBenchCanVisit()) target = "remembrance";
     if (target === "hearing-of-the-thirteenth-hour" && !scCourtCanVisit()) target = "remembrance";
+
+    /* v96 屏息当铺：未解锁或无合法抵达时一律回痕迹室 */
+    if (target === "held-breath-pawnshop" && !hbCounterCanVisit()) target = "remembrance";
+    if (target === "bellows-counter" && !bellowsCounterCanVisit()) target = "remembrance";
+    if (target === "tribunal-of-the-last-breath" && !hbCourtCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -47977,6 +47984,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetUnseenClaimsState();
       forgetReturnedKnocksState();
       forgetStoppedClocksState();
+      forgetHeldBreathState();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
       if (firstDraftVaultResponse) firstDraftVaultResponse.textContent = "";
@@ -51706,6 +51714,779 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  /* ============================================================
+     v96 屏息当铺 / PAWNSHOP OF HELD BREATH
+     v95 把一小时借给了死者；他们拿最后一口气来当。三口气来自走廊、交换台、无主投递所。
+     三口气 × 三种赎法 = 9 张赎票；在风箱柜台按住风箱（或按住空格），压力表升到目标区间时松手。
+     只读 v95；独立键 goddead_v96_held_breath；所有新操作只接受真实输入。
+     ============================================================ */
+  const HELD_BREATH_KEY = 'goddead_v96_held_breath';
+  const HELD_BREATH_VERSION = 96;
+  const HB_COUNTER = 'held-breath-pawnshop';
+  const HB_BELLOWS = 'bellows-counter';
+  const HB_COURT = 'tribunal-of-the-last-breath';
+  const HB_BREATHS = ['corridor-breath', 'switchboard-breath', 'deadletter-breath'];
+  const HB_BREATH_TABLE = {
+    'corridor-breath': {
+      title: '走廊里憋住的一口气', length: 60, target: 'corridor', place: '走廊', appraiserTitle: '走廊估价师',
+      feedback: '瓶里一缕细长的气，横着拉满了整只瓶子。有人从走廊这头憋到那头，一直没敢呼出来。',
+      echoLead: '走廊的墙缝里夹着一张赎票。',
+    },
+    'switchboard-breath': {
+      title: '听筒里的一声喘', length: 30, target: 'switchboard', place: '余响交换台', appraiserTitle: '接线估价师',
+      feedback: '一小团短促的气，撞在瓶壁上又弹回来。第四线路接通之前，有人对着听筒喘了一下。',
+      echoLead: '交换台的插孔里塞着一张赎票。',
+    },
+    'deadletter-breath': {
+      title: '死信里封着的叹息', length: 80, target: 'deadletter', place: '无主投递所', appraiserTitle: '投递估价师',
+      feedback: '一团又大又慢的气，占了大半只瓶子。它是从一封没人签收的信里拆出来的，叹得很长。',
+      echoLead: '无主投递所的信格里放着一张赎票。',
+    },
+  };
+  const HB_METHODS = ['return', 'half', 'hold'];
+  const HB_METHOD_TABLE = {
+    return: { title: '原样还给他', hint: '按住风箱，指针升到他那口气的长度时松手。', result: '那口气回到他身上。他终于把憋着的那句话说完了。' },
+    half: { title: '只还一半', hint: '只压到他那口气的一半就松手。', result: '他收下一半，另一半留在当铺里作押。他说这样也好，下次还有理由回来。' },
+    hold: { title: '替他屏住', hint: '一直按住，把压力表压满再松手。', result: '你替他屏住了这口气。当铺的挂钟停了一拍，整间屋子都在等你呼出来。' },
+  };
+  const HB_REDEMPTION_IDS = [];
+  HB_BREATHS.forEach((breath) => HB_METHODS.forEach((method) => HB_REDEMPTION_IDS.push(`${breath}:${method}`)));
+  const HB_VERDICT_ACTIONS = ['let-the-dead-exhale', 'keep-one-breath-in-escrow', 'let-the-living-hold-it'];
+  const HB_VERDICT_TABLE = {
+    'let-the-dead-exhale': {
+      title: '让死者呼出来', outcome: 'the-dead-exhaled', target: 'switchboard',
+      feedback: '法庭裁定：死者可以呼气。交换台所有听筒同时吐出一口气，线路第一次安静下来。',
+    },
+    'keep-one-breath-in-escrow': {
+      title: '留一口气作押', outcome: 'one-breath-kept-in-escrow', target: 'remembrance',
+      feedback: '法庭把一口气押在痕迹室。墙上多了一只封蜡的玻璃瓶，谁回来都能看见它还在动。',
+    },
+    'let-the-living-hold-it': {
+      title: '让活人替他们屏住', outcome: 'the-living-held-it', target: 'unending-gallery',
+      feedback: '法庭把屏息判给活人。画廊里的空框一起屏住了气，等下一个进来的人先呼出来。',
+    },
+  };
+  const HB_VERDICT_OUTCOME_IDS = HB_VERDICT_ACTIONS.map((a) => HB_VERDICT_TABLE[a].outcome);
+  const HB_ENTRY_FEEDBACK = '当铺的门帘自己掀开了。柜台上三只玻璃瓶，瓶里的气还在慢慢转。';
+  const HB_ABANDON_FEEDBACK = '你把瓶子放回柜台。瓶里的气轻轻撞了一下玻璃。';
+  const HB_COURT_ENTRY_FEEDBACK = '三口气都赎过了。管风琴的每一根管子都吸了一口气，等你进去。';
+  const HB_APPRAISER_RETURN_FEEDBACK = '估价师把赎票对折，收进袖口，领你回到当铺。';
+  const HB_OLD_TARGETS = ['corridor', 'switchboard', 'deadletter'];
+  const HB_FILL_MS = 3600;
+  const HB_TOLERANCE = 8;
+
+  function hbDelay() {
+    return reduced ? 300 : 1400;
+  }
+
+  /* 某口气在某种赎法下，压力表应停在的百分比 */
+  function hbTargetLevel(breath, method) {
+    const len = HB_BREATH_TABLE[breath].length;
+    if (method === 'half') return len / 2;
+    if (method === 'hold') return 100;
+    return len;
+  }
+
+  function hbBand(target) {
+    return [Math.max(0, target - HB_TOLERANCE), Math.min(100, target + HB_TOLERANCE)];
+  }
+
+  /* 纯函数：按住的毫秒数换算成压力（0–100，压满即止） */
+  function hbLevelFromMs(ms) {
+    if (!Number.isFinite(ms) || ms <= 0) return 0;
+    return Math.min(100, (ms / HB_FILL_MS) * 100);
+  }
+
+  /* 纯函数：松手时的压力是否落在目标区间里 */
+  function judgeBreathHold(ms, target) {
+    if (!Number.isFinite(ms) || ms < 120) return false;
+    const [lo, hi] = hbBand(target);
+    const level = hbLevelFromMs(ms);
+    return level >= lo && level <= hi;
+  }
+
+  function hbRedeemFeedback(breath, method) {
+    return `${HB_BREATH_TABLE[breath].title}：${HB_METHOD_TABLE[method].result}`;
+  }
+
+  function defaultHeldBreath() {
+    const latest = {};
+    HB_BREATHS.forEach((b) => { latest[b] = ''; });
+    return {
+      version: HELD_BREATH_VERSION,
+      visited: { counter: false, bellows: false, court: false },
+      draft: { breath: '', method: 'return' },
+      redemptions: [],
+      courtOutcomes: [],
+      redemptionRuns: 0,
+      courtRuns: 0,
+      latestMethodByBreath: latest,
+      lastOutcome: '',
+      activeAppraiser: null,
+      pending: null,
+    };
+  }
+
+  function clampHbCount(n) {
+    const v = Math.floor(Number(n));
+    return Number.isFinite(v) ? Math.min(9999, Math.max(0, v)) : 0;
+  }
+
+  function normalizeHeldBreath(raw) {
+    const d = defaultHeldBreath();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== HELD_BREATH_VERSION) return d;
+    const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
+    d.visited = { counter: v.counter === true, bellows: v.bellows === true, court: v.court === true };
+    const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
+    d.draft = { breath: HB_BREATHS.includes(dr.breath) ? dr.breath : '', method: HB_METHODS.includes(dr.method) ? dr.method : 'return' };
+    const redemptions = new Set(Array.isArray(raw.redemptions) ? raw.redemptions : []);
+    d.redemptions = HB_REDEMPTION_IDS.filter((id) => redemptions.has(id));
+    const outcomes = new Set(Array.isArray(raw.courtOutcomes) ? raw.courtOutcomes : []);
+    d.courtOutcomes = HB_VERDICT_OUTCOME_IDS.filter((id) => outcomes.has(id));
+    d.redemptionRuns = clampHbCount(raw.redemptionRuns);
+    d.courtRuns = clampHbCount(raw.courtRuns);
+    const latest = raw.latestMethodByBreath && typeof raw.latestMethodByBreath === 'object' ? raw.latestMethodByBreath : {};
+    HB_BREATHS.forEach((b) => {
+      d.latestMethodByBreath[b] = HB_METHODS.includes(latest[b]) && d.redemptions.includes(`${b}:${latest[b]}`) ? latest[b] : '';
+    });
+    if (typeof raw.lastOutcome === 'string' && (d.redemptions.includes(raw.lastOutcome) || d.courtOutcomes.includes(raw.lastOutcome))) d.lastOutcome = raw.lastOutcome;
+    const a = raw.activeAppraiser;
+    if (a && typeof a === 'object' && !Array.isArray(a) && Object.keys(a).length === 1 && d.redemptions.includes(a.redemption)) d.activeAppraiser = { redemption: a.redemption };
+    d.pending = normalizeHbPending(raw.pending, d);
+    return d;
+  }
+
+  function hbCourtProgress(st) {
+    const breaths = new Set();
+    const methods = new Set();
+    st.redemptions.forEach((id) => {
+      const [breath, method] = id.split(':');
+      breaths.add(breath);
+      methods.add(method);
+    });
+    return { breaths: breaths.size, methods: methods.size };
+  }
+
+  function hbCourtEligible(st) {
+    const p = hbCourtProgress(st);
+    return p.breaths === HB_BREATHS.length && p.methods === HB_METHODS.length;
+  }
+
+  function expectedHbPending(p, st) {
+    const clean = !st.activeAppraiser;
+    switch (p.kind) {
+      case 'entry':
+        return clean ? { feedback: HB_ENTRY_FEEDBACK, kind: 'entry', target: HB_COUNTER } : null;
+      case 'breath': {
+        const b = HB_BREATH_TABLE[p.breath];
+        if (!b || !clean) return null;
+        return { breath: p.breath, feedback: b.feedback, kind: 'breath', source: HB_COUNTER, target: HB_BELLOWS };
+      }
+      case 'redeem': {
+        const b = HB_BREATH_TABLE[p.breath];
+        if (!b || !HB_METHOD_TABLE[p.method] || !clean || st.draft.breath !== p.breath || st.draft.method !== p.method) return null;
+        return { breath: p.breath, feedback: hbRedeemFeedback(p.breath, p.method), kind: 'redeem', method: p.method, redemption: `${p.breath}:${p.method}`, source: HB_BELLOWS, target: b.target };
+      }
+      case 'abandon':
+        return st.draft.breath ? { feedback: HB_ABANDON_FEEDBACK, kind: 'abandon', source: HB_BELLOWS, target: HB_COUNTER } : null;
+      case 'appraiser-return': {
+        if (!st.activeAppraiser) return null;
+        const breath = st.activeAppraiser.redemption.split(':')[0];
+        return { feedback: HB_APPRAISER_RETURN_FEEDBACK, from: HB_BREATH_TABLE[breath].target, kind: 'appraiser-return', redemption: st.activeAppraiser.redemption, target: HB_COUNTER };
+      }
+      case 'court-entry':
+        return clean && hbCourtEligible(st) ? { feedback: HB_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: HB_COURT } : null;
+      case 'verdict': {
+        const a = HB_VERDICT_TABLE[p.action];
+        if (!a || !clean || !st.visited.court || !hbCourtEligible(st)) return null;
+        return { action: p.action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: HB_COURT, target: a.target };
+      }
+      default:
+        return null;
+    }
+  }
+
+  function normalizeHbPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+    const expected = expectedHbPending(p, st);
+    if (!expected) return null;
+    const keys = Object.keys(p).sort();
+    const want = Object.keys(expected).sort();
+    if (keys.length !== want.length || keys.some((k, i) => k !== want[i] || p[k] !== expected[k])) return null;
+    return expected;
+  }
+
+  function heldBreathUnlocked() {
+    const compute = () => {
+      if (!stoppedClocksUnlocked()) return false;
+      const v95 = getStoppedClocks();
+      return scCourtEligible(v95) && SC_VERDICT_OUTCOME_IDS.every((o) => v95.courtOutcomes.includes(o));
+    };
+    return store.memo ? store.memo("heldBreathUnlocked", compute) : compute();
+  }
+
+  function getHeldBreath() {
+    if (!heldBreathUnlocked()) return defaultHeldBreath();
+    let raw;
+    try { raw = JSON.parse(store.get(HELD_BREATH_KEY, '{}')); } catch { return defaultHeldBreath(); }
+    return normalizeHeldBreath(raw);
+  }
+
+  function saveHeldBreath(st) {
+    if (!heldBreathUnlocked()) return defaultHeldBreath();
+    const canonical = normalizeHeldBreath(Object.assign({}, st, { version: HELD_BREATH_VERSION }));
+    store.set(HELD_BREATH_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function hbPendingLogicalSource(p) {
+    if (!p) return '';
+    if (p.kind === 'entry' || p.kind === 'court-entry') return 'remembrance';
+    if (p.kind === 'appraiser-return') return p.from;
+    return p.source || '';
+  }
+
+  function resolveHeldBreathPendingOnArrival(sceneName) {
+    const st = getHeldBreath();
+    const p = st.pending;
+    if (!p) return st;
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.counter = true;
+      } else if (p.kind === 'breath') {
+        st.visited.bellows = true;
+        st.draft = { breath: p.breath, method: st.draft.breath === p.breath ? st.draft.method : 'return' };
+      } else if (p.kind === 'redeem') {
+        st.redemptionRuns = clampHbCount(st.redemptionRuns + 1);
+        if (!st.redemptions.includes(p.redemption)) st.redemptions = st.redemptions.concat(p.redemption);
+        st.latestMethodByBreath[p.breath] = p.method;
+        st.lastOutcome = p.redemption;
+        st.activeAppraiser = { redemption: p.redemption };
+        st.draft = { breath: '', method: 'return' };
+      } else if (p.kind === 'abandon') {
+        st.draft = { breath: '', method: 'return' };
+        st.visited.counter = true;
+      } else if (p.kind === 'appraiser-return') {
+        st.activeAppraiser = null;
+        st.visited.counter = true;
+      } else if (p.kind === 'court-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'verdict') {
+        st.courtRuns = clampHbCount(st.courtRuns + 1);
+        if (!st.courtOutcomes.includes(p.outcome)) st.courtOutcomes = st.courtOutcomes.concat(p.outcome);
+        st.lastOutcome = p.outcome;
+      }
+      return saveHeldBreath(st);
+    }
+    if (sceneName === hbPendingLogicalSource(p)) return st;
+    st.pending = null;
+    return saveHeldBreath(st);
+  }
+
+  const HB_RESPONSE_BY_KIND = {
+    entry: '#hb-entry-response',
+    breath: '#held-breath-pawnshop-response',
+    redeem: '#bellows-counter-response',
+    abandon: '#bellows-counter-response',
+    'court-entry': '#hb-court-entry-response',
+    verdict: '#tribunal-of-the-last-breath-response',
+  };
+
+  function showHbResponse(selector, text) {
+    const el = $(selector);
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = !text;
+  }
+
+  function syncHeldBreathAll() {
+    syncHbCounter();
+    syncBellowsCounter();
+    syncHbCourt();
+    syncHbAppraisers();
+    syncHbEchoes();
+    syncHbRemembrance();
+    syncHbLinks();
+  }
+
+  function replayHeldBreathPending(sceneName) {
+    const st = getHeldBreath();
+    const p = st.pending;
+    if (p && p.target === sceneName) resolveHeldBreathPendingOnArrival(sceneName);
+    else if (p && sceneName === hbPendingLogicalSource(p)) {
+      syncHeldBreathAll();
+      const selector = p.kind === 'appraiser-return' ? `#hb-appraiser-response-${p.from}` : HB_RESPONSE_BY_KIND[p.kind];
+      if (selector) showHbResponse(selector, p.feedback);
+      AutoAdvance.schedule(sceneName, p.target, { delay: hbDelay() });
+      return;
+    } else if (p) {
+      st.pending = null;
+      saveHeldBreath(st);
+    }
+    syncHeldBreathAll();
+  }
+
+  function launchHb(scene, buttonId, pending, responseSelector) {
+    const st = getHeldBreath();
+    st.pending = pending;
+    const saved = saveHeldBreath(st);
+    if (!saved.pending) return false;
+    const btn = buttonId ? $(`#${buttonId}`) : null;
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+    if (AudioEngine.whoosh) AudioEngine.whoosh();
+    syncHeldBreathAll();
+    showHbResponse(responseSelector, pending.feedback);
+    AutoAdvance.schedule(scene, pending.target, { delay: hbDelay() });
+    return true;
+  }
+
+  function hbReady(scene, buttonId) {
+    if (currentScene !== scene) return null;
+    if (AutoAdvance.has(scene)) return null;
+    if (buttonId && !buttonAvailable(buttonId)) return null;
+    if (!heldBreathUnlocked()) return null;
+    const st = getHeldBreath();
+    return st.pending ? null : st;
+  }
+
+  function chooseHbEntry() {
+    const st = hbReady('remembrance', 'hb-entry-btn');
+    if (!st || st.activeAppraiser) return;
+    if (getStoppedClocks().pending) return;
+    launchHb('remembrance', 'hb-entry-btn', { feedback: HB_ENTRY_FEEDBACK, kind: 'entry', target: HB_COUNTER }, '#hb-entry-response');
+  }
+
+  function chooseHbBreath(breath) {
+    const b = HB_BREATH_TABLE[breath];
+    if (!b) return;
+    const st = hbReady(HB_COUNTER, `hb-breath-${breath}`);
+    if (!st || st.activeAppraiser) return;
+    launchHb(HB_COUNTER, `hb-breath-${breath}`, { breath, feedback: b.feedback, kind: 'breath', source: HB_COUNTER, target: HB_BELLOWS }, '#held-breath-pawnshop-response');
+  }
+
+  function chooseHbMethod(method) {
+    if (!HB_METHOD_TABLE[method]) return;
+    const st = hbReady(HB_BELLOWS, `hb-method-${method}`);
+    if (!st || !st.draft.breath || !st.visited.bellows || st.draft.method === method) return;
+    st.draft.method = method;
+    saveHeldBreath(st);
+    syncBellowsCounter();
+  }
+
+  /* 风箱：按下的时刻只放在内存里；松手时按压力判定，对了才写 pending */
+  let hbHoldStart = null;
+  let hbLastLevel = -1;
+  let hbFrame = 0;
+  let hbGaugeKey = '';
+
+  function paintHbGauge(level, message) {
+    const st = getHeldBreath();
+    const gauge = $('#hb-gauge');
+    const status = $('#hb-gauge-status');
+    if (!st.draft.breath) {
+      if (gauge) gauge.setAttribute('aria-valuenow', '0');
+      if (status) status.textContent = '';
+      return;
+    }
+    const [lo, hi] = hbBand(hbTargetLevel(st.draft.breath, st.draft.method));
+    const shown = Math.round(Math.max(0, level));
+    if (gauge) {
+      if (gauge.style && gauge.style.setProperty) {
+        gauge.style.setProperty('--hb-level', `${shown}%`);
+        gauge.style.setProperty('--hb-band-lo', `${lo}%`);
+        gauge.style.setProperty('--hb-band-hi', `${hi}%`);
+      }
+      gauge.classList.toggle('is-in-band', hbHoldStart !== null && shown >= lo && shown <= hi);
+      gauge.setAttribute('aria-valuenow', String(shown));
+      gauge.setAttribute('aria-valuetext', `压力 ${shown}%，目标 ${Math.round(lo)}–${Math.round(hi)}%`);
+    }
+    if (status) status.textContent = message || (hbHoldStart !== null ? `压力 ${shown}%` : `在 ${Math.round(lo)}–${Math.round(hi)}% 之间松手。`);
+  }
+
+  function hbTick() {
+    hbFrame = 0;
+    if (hbHoldStart === null) return;
+    paintHbGauge(hbLevelFromMs(performance.now() - hbHoldStart), '');
+    if (typeof requestAnimationFrame === 'function') hbFrame = requestAnimationFrame(hbTick);
+  }
+
+  function startHbHold(now) {
+    const st = hbReady(HB_BELLOWS, 'hb-bellows');
+    if (!st || !st.draft.breath || st.activeAppraiser || hbHoldStart !== null) return false;
+    hbHoldStart = now;
+    const bellows = $('#hb-bellows');
+    if (bellows) bellows.classList.add('is-pumping');
+    paintHbGauge(0, '');
+    if (!hbFrame && typeof requestAnimationFrame === 'function') hbFrame = requestAnimationFrame(hbTick);
+    return true;
+  }
+
+  function stopHbHold() {
+    hbHoldStart = null;
+    if (hbFrame && typeof cancelAnimationFrame === 'function') cancelAnimationFrame(hbFrame);
+    hbFrame = 0;
+    const bellows = $('#hb-bellows');
+    if (bellows) bellows.classList.remove('is-pumping');
+  }
+
+  function endHbHold(now) {
+    if (hbHoldStart === null) return;
+    const ms = now - hbHoldStart;
+    stopHbHold();
+    const st = hbReady(HB_BELLOWS, 'hb-bellows');
+    if (!st || !st.draft.breath || st.activeAppraiser) return;
+    const { breath, method } = st.draft;
+    const target = hbTargetLevel(breath, method);
+    const level = hbLevelFromMs(ms);
+    hbLastLevel = level;
+    if (AudioEngine.whoosh) AudioEngine.whoosh();
+    if (!judgeBreathHold(ms, target)) {
+      const [lo, hi] = hbBand(target);
+      const how = level < lo ? '松早了' : '松晚了';
+      paintHbGauge(level, `${how}：压到 ${Math.round(level)}%，要在 ${Math.round(lo)}–${Math.round(hi)}% 之间松手。`);
+      return;
+    }
+    paintHbGauge(level, '压力正好。');
+    launchHb(HB_BELLOWS, 'hb-bellows', {
+      breath, feedback: hbRedeemFeedback(breath, method), kind: 'redeem', method, redemption: `${breath}:${method}`, source: HB_BELLOWS, target: HB_BREATH_TABLE[breath].target,
+    }, '#bellows-counter-response');
+  }
+
+  function onHbPointerDown(e) {
+    if (!e.isTrusted || (e.button !== undefined && e.button !== 0)) return;
+    if (!startHbHold(e.timeStamp)) return;
+    const bellows = $('#hb-bellows');
+    if (bellows && bellows.setPointerCapture && e.pointerId !== undefined) { try { bellows.setPointerCapture(e.pointerId); } catch {} }
+    e.preventDefault();
+  }
+
+  function onHbPointerUp(e) {
+    if (!e.isTrusted) return;
+    endHbHold(e.timeStamp);
+  }
+
+  function onHbPointerCancel() {
+    if (hbHoldStart === null) return;
+    stopHbHold();
+    paintHbGauge(0, '手滑了。重新按住风箱。');
+  }
+
+  function onHbKeyDown(e) {
+    if (!e.isTrusted || (e.key !== ' ' && e.key !== 'Enter')) return;
+    e.preventDefault();
+    if (e.repeat) return;
+    startHbHold(e.timeStamp);
+  }
+
+  function onHbKeyUp(e) {
+    if (!e.isTrusted || (e.key !== ' ' && e.key !== 'Enter')) return;
+    e.preventDefault();
+    endHbHold(e.timeStamp);
+  }
+
+  function chooseHbAbandon() {
+    const st = hbReady(HB_BELLOWS, 'hb-abandon');
+    if (!st || !st.draft.breath) return;
+    stopHbHold();
+    launchHb(HB_BELLOWS, 'hb-abandon', { feedback: HB_ABANDON_FEEDBACK, kind: 'abandon', source: HB_BELLOWS, target: HB_COUNTER }, '#bellows-counter-response');
+  }
+
+  function chooseHbAppraiserReturn(scene) {
+    const st = hbReady(scene, `hb-appraiser-return-${scene}`);
+    if (!st || !st.activeAppraiser) return;
+    if (HB_BREATH_TABLE[st.activeAppraiser.redemption.split(':')[0]].target !== scene) return;
+    launchHb(scene, `hb-appraiser-return-${scene}`, { feedback: HB_APPRAISER_RETURN_FEEDBACK, from: scene, kind: 'appraiser-return', redemption: st.activeAppraiser.redemption, target: HB_COUNTER }, `#hb-appraiser-response-${scene}`);
+  }
+
+  function chooseHbCourtEntry() {
+    const st = hbReady('remembrance', 'hb-court-entry-btn');
+    if (!st || st.activeAppraiser || !hbCourtEligible(st)) return;
+    launchHb('remembrance', 'hb-court-entry-btn', { feedback: HB_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: HB_COURT }, '#hb-court-entry-response');
+  }
+
+  function chooseHbVerdict(action) {
+    const a = HB_VERDICT_TABLE[action];
+    if (!a) return;
+    const st = hbReady(HB_COURT, `hb-verdict-${action}`);
+    if (!st || st.activeAppraiser || !st.visited.court || !hbCourtEligible(st)) return;
+    launchHb(HB_COURT, `hb-verdict-${action}`, { action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: HB_COURT, target: a.target }, '#tribunal-of-the-last-breath-response');
+  }
+
+  function heldBreathBridgeAllows(targetScene) {
+    if (!heldBreathUnlocked()) return false;
+    const st = getHeldBreath();
+    if (st.pending && (st.pending.kind === 'redeem' || st.pending.kind === 'verdict') && st.pending.target === targetScene) return true;
+    if (st.activeAppraiser && HB_BREATH_TABLE[st.activeAppraiser.redemption.split(':')[0]].target === targetScene) return true;
+    const verdict = HB_VERDICT_ACTIONS.find((a) => HB_VERDICT_TABLE[a].outcome === st.lastOutcome);
+    return Boolean(verdict && HB_VERDICT_TABLE[verdict].target === targetScene);
+  }
+
+  function hbCounterCanVisit() {
+    if (!heldBreathUnlocked()) return false;
+    const st = getHeldBreath();
+    return st.visited.counter || Boolean(st.pending && st.pending.target === HB_COUNTER);
+  }
+
+  function bellowsCounterCanVisit() {
+    if (!heldBreathUnlocked()) return false;
+    const st = getHeldBreath();
+    if (st.visited.bellows && st.draft.breath) return true;
+    return Boolean(st.pending && st.pending.kind === 'breath');
+  }
+
+  function hbCourtCanVisit() {
+    if (!heldBreathUnlocked()) return false;
+    const st = getHeldBreath();
+    if (st.visited.court && hbCourtEligible(st)) return true;
+    return Boolean(st.pending && st.pending.kind === 'court-entry');
+  }
+
+  function syncHbCounter() {
+    const canVisit = hbCounterCanVisit();
+    const st = getHeldBreath();
+    const fig = $('#hb-counter-figure');
+    if (fig) fig.hidden = !canVisit;
+    const blocked = !canVisit || Boolean(st.pending) || Boolean(st.activeAppraiser);
+    HB_BREATHS.forEach((breath) => {
+      const btn = $(`#hb-breath-${breath}`);
+      if (!btn) return;
+      btn.disabled = blocked;
+      btn.classList.toggle('is-collected', HB_METHODS.every((m) => st.redemptions.includes(`${breath}:${m}`)));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'breath' && st.pending.breath === breath ? 'true' : 'false');
+    });
+    const note = $('#hb-counter-note');
+    if (note) {
+      let text = '';
+      if (st.activeAppraiser) {
+        const b = HB_BREATH_TABLE[st.activeAppraiser.redemption.split(':')[0]];
+        text = `先完成正在送还的那口气：${b.appraiserTitle}还在${b.place}等你签收。`;
+      } else if (st.draft.breath) {
+        text = `风箱柜台上还放着「${HB_BREATH_TABLE[st.draft.breath].title}」。`;
+      }
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const cont = $('#hb-continue');
+    if (cont) {
+      const show = canVisit && Boolean(st.draft.breath) && !st.activeAppraiser;
+      cont.hidden = !show;
+      cont.disabled = !show || Boolean(st.pending);
+    }
+    if (!st.pending || st.pending.source !== HB_COUNTER) showHbResponse('#held-breath-pawnshop-response', '');
+  }
+
+  function syncBellowsCounter() {
+    const canVisit = bellowsCounterCanVisit();
+    const st = getHeldBreath();
+    const ready = canVisit && Boolean(st.draft.breath);
+    if (!ready || st.pending) stopHbHold();
+    const gaugeKey = ready ? `${st.draft.breath}:${st.draft.method}` : '';
+    if (gaugeKey !== hbGaugeKey && !(st.pending && st.pending.kind === 'redeem')) { hbGaugeKey = gaugeKey; hbLastLevel = -1; }
+    const panel = $('#hb-bellows-panel');
+    if (panel) panel.hidden = !ready;
+    const gauge = $('#hb-gauge');
+    if (gauge) gauge.hidden = !ready;
+    if (ready) {
+      const b = HB_BREATH_TABLE[st.draft.breath];
+      const title = $('#hb-bellows-breath');
+      if (title) title.textContent = `${b.title} —— ${b.feedback}`;
+      const hint = $('#hb-method-hint');
+      if (hint) hint.textContent = `${HB_METHOD_TABLE[st.draft.method].hint}赎对了会送回${b.place}，由${b.appraiserTitle}签收。`;
+    }
+    HB_METHODS.forEach((method) => {
+      const btn = $(`#hb-method-${method}`);
+      if (!btn) return;
+      btn.disabled = !ready || Boolean(st.pending);
+      btn.setAttribute('aria-pressed', ready && st.draft.method === method ? 'true' : 'false');
+      btn.classList.toggle('is-collected', Boolean(st.draft.breath) && st.redemptions.includes(`${st.draft.breath}:${method}`));
+    });
+    ['hb-bellows', 'hb-abandon'].forEach((id) => {
+      const btn = $(`#${id}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending);
+    });
+    paintHbGauge(hbLastLevel >= 0 ? hbLastLevel : 0, st.pending && st.pending.kind === 'redeem' ? '压力正好，那口气正在送回去。' : '');
+    if (!st.pending || st.pending.source !== HB_BELLOWS) showHbResponse('#bellows-counter-response', '');
+  }
+
+  function syncHbCourt() {
+    const canVisit = hbCourtCanVisit();
+    const st = getHeldBreath();
+    const fig = $('#tribunal-of-the-last-breath-figure');
+    if (fig) fig.hidden = !canVisit;
+    HB_VERDICT_ACTIONS.forEach((action) => {
+      const btn = $(`#hb-verdict-${action}`);
+      if (!btn) return;
+      btn.disabled = !canVisit || Boolean(st.pending) || Boolean(st.activeAppraiser);
+      btn.classList.toggle('is-collected', st.courtOutcomes.includes(HB_VERDICT_TABLE[action].outcome));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'verdict' && st.pending.action === action ? 'true' : 'false');
+    });
+    if (!st.pending || st.pending.source !== HB_COURT) showHbResponse('#tribunal-of-the-last-breath-response', '');
+  }
+
+  function syncHbAppraisers() {
+    const st = heldBreathUnlocked() ? getHeldBreath() : defaultHeldBreath();
+    const [breath, method] = st.activeAppraiser ? st.activeAppraiser.redemption.split(':') : ['', ''];
+    HB_OLD_TARGETS.forEach((scene) => {
+      const box = $(`#hb-appraiser-${scene}`);
+      if (!box) return;
+      const show = Boolean(breath) && HB_BREATH_TABLE[breath].target === scene;
+      box.hidden = !show;
+      const btn = $(`#hb-appraiser-return-${scene}`);
+      if (btn) {
+        btn.disabled = !show || Boolean(st.pending);
+        btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'appraiser-return' && st.pending.from === scene ? 'true' : 'false');
+      }
+      if (!show) return;
+      const b = HB_BREATH_TABLE[breath];
+      const head = $(`#hb-appraiser-title-${scene}`);
+      if (head) head.textContent = `赎票签收 · ${b.appraiserTitle} · ${b.title}（${HB_METHOD_TABLE[method].title}）`;
+      const level = $(`#hb-appraiser-level-${scene}`);
+      if (level) level.textContent = `这口气长 ${b.length}% → 还回去 ${hbTargetLevel(breath, method)}%`;
+      const body = $(`#hb-appraiser-body-${scene}`);
+      if (body) body.textContent = HB_METHOD_TABLE[method].result;
+      if (!st.pending || st.pending.kind !== 'appraiser-return') showHbResponse(`#hb-appraiser-response-${scene}`, '');
+    });
+  }
+
+  function syncHbEchoes() {
+    const st = heldBreathUnlocked() ? getHeldBreath() : defaultHeldBreath();
+    HB_BREATHS.forEach((breath) => {
+      const b = HB_BREATH_TABLE[breath];
+      const el = $(`#hb-echo-${b.target}`);
+      if (!el) return;
+      const method = st.latestMethodByBreath[breath];
+      if (!method) { el.hidden = true; el.textContent = ''; return; }
+      el.textContent = `${b.echoLead}「${HB_METHOD_TABLE[method].title} · ${hbTargetLevel(breath, method)}%」${HB_METHOD_TABLE[method].result}`;
+      el.hidden = false;
+    });
+  }
+
+  function syncHbRemembrance() {
+    const unlocked = heldBreathUnlocked();
+    const shell = $('#hb-codex');
+    const memory = $('#hb-memory');
+    if (!unlocked) {
+      [shell, memory].forEach((el) => { if (el) el.hidden = true; });
+      return;
+    }
+    const st = getHeldBreath();
+    const v95Pending = Boolean(getStoppedClocks().pending);
+    if (shell) shell.hidden = false;
+    const progress = hbCourtProgress(st);
+    if (memory) {
+      memory.hidden = false;
+      memory.textContent = `屏息：已赎回 ${st.redemptions.length}/9 张，共压风箱 ${st.redemptionRuns} 次；最后一口气法庭 ${st.courtOutcomes.length}/3。`;
+    }
+    const hints = $('#hb-court-hints');
+    if (hints) {
+      const rows = [['三口气都赎过', progress.breaths, HB_BREATHS.length], ['三种赎法都用过', progress.methods, HB_METHODS.length]];
+      hints.replaceChildren(...rows.map(([label, have, need]) => {
+        const li = document.createElement('li');
+        li.className = have >= need ? 'is-met' : '';
+        li.textContent = `${label} ${have}/${need}`;
+        return li;
+      }));
+    }
+    const clean = !st.pending && !st.activeAppraiser;
+    const entry = $('#hb-entry-btn');
+    if (entry) {
+      entry.hidden = false;
+      entry.disabled = !clean || v95Pending;
+      entry.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' ? 'true' : 'false');
+    }
+    const note = $('#hb-entry-note');
+    if (note) {
+      const text = v95Pending ? '先完成正在送回的钟：停摆钟修理铺还有一只钟在路上。' : st.activeAppraiser ? '先完成正在送还的那口气。' : '';
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const court = $('#hb-court-entry-btn');
+    if (court) {
+      const eligible = hbCourtEligible(st);
+      court.hidden = !eligible;
+      court.disabled = !eligible || !clean;
+      court.setAttribute('aria-pressed', st.pending && st.pending.kind === 'court-entry' ? 'true' : 'false');
+    }
+    const grid = $('#hb-codex-grid');
+    if (grid) {
+      const have = new Set(st.redemptions);
+      const cells = HB_REDEMPTION_IDS.map((id) => {
+        const [breath, method] = id.split(':');
+        const cell = document.createElement('div');
+        cell.className = `hb-cell ${have.has(id) ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = have.has(id) ? `${HB_BREATH_TABLE[breath].title}\n${HB_METHOD_TABLE[method].title} · ${hbTargetLevel(breath, method)}%` : '？？？';
+        return cell;
+      });
+      HB_VERDICT_ACTIONS.forEach((action) => {
+        const a = HB_VERDICT_TABLE[action];
+        const got = st.courtOutcomes.includes(a.outcome);
+        const cell = document.createElement('div');
+        cell.className = `hb-cell hb-cell-verdict ${got ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = got ? `[最后一口气法庭] ${a.title}\n${a.feedback}` : '？？？';
+        cells.push(cell);
+      });
+      grid.replaceChildren(...cells);
+    }
+    if (!st.pending || (st.pending.kind !== 'entry' && st.pending.kind !== 'court-entry')) {
+      showHbResponse('#hb-entry-response', '');
+      showHbResponse('#hb-court-entry-response', '');
+    }
+  }
+
+  function syncHbLinks() {
+    const st = heldBreathUnlocked() ? getHeldBreath() : null;
+    [['held-breath-pawnshop-link', 'counter'], ['bellows-counter-link', 'bellows'], ['tribunal-of-the-last-breath-link', 'court']].forEach(([id, key]) => {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !(st && st.visited[key]);
+    });
+  }
+
+  function forgetHeldBreathState() {
+    try { localStorage.removeItem(HELD_BREATH_KEY); } catch {}
+    [HB_COUNTER, HB_BELLOWS, HB_COURT].forEach((scene) => AutoAdvance.clear(scene));
+    stopHbHold();
+    hbLastLevel = -1;
+    hbGaugeKey = '';
+    ['#hb-codex', '#hb-memory', '#hb-counter-figure', '#hb-bellows-panel', '#tribunal-of-the-last-breath-figure',
+      '#held-breath-pawnshop-link', '#bellows-counter-link', '#tribunal-of-the-last-breath-link', '#hb-continue', '#hb-court-entry-btn',
+      '#hb-entry-response', '#hb-court-entry-response', '#held-breath-pawnshop-response', '#bellows-counter-response', '#tribunal-of-the-last-breath-response',
+      ...HB_OLD_TARGETS.flatMap((scene) => [`#hb-appraiser-${scene}`, `#hb-echo-${scene}`]),
+    ].forEach((sel) => { const el = $(sel); if (el) el.hidden = true; });
+    $$('[id^="hb-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+  }
+
+  const onTrustedHb = (selector, handler) => {
+    const el = $(selector);
+    if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+  };
+  onTrustedHb('#hb-entry-btn', chooseHbEntry);
+  onTrustedHb('#hb-court-entry-btn', chooseHbCourtEntry);
+  onTrustedHb('#hb-abandon', chooseHbAbandon);
+  onTrustedHb('#hb-continue', () => {
+    const st = hbReady(HB_COUNTER, 'hb-continue');
+    if (!st || !st.draft.breath || st.activeAppraiser) return;
+    const breath = st.draft.breath;
+    launchHb(HB_COUNTER, 'hb-continue', { breath, feedback: HB_BREATH_TABLE[breath].feedback, kind: 'breath', source: HB_COUNTER, target: HB_BELLOWS }, '#held-breath-pawnshop-response');
+  });
+  HB_BREATHS.forEach((breath) => onTrustedHb(`#hb-breath-${breath}`, () => chooseHbBreath(breath)));
+  HB_METHODS.forEach((method) => onTrustedHb(`#hb-method-${method}`, () => chooseHbMethod(method)));
+  HB_VERDICT_ACTIONS.forEach((action) => onTrustedHb(`#hb-verdict-${action}`, () => chooseHbVerdict(action)));
+  HB_OLD_TARGETS.forEach((scene) => onTrustedHb(`#hb-appraiser-return-${scene}`, () => chooseHbAppraiserReturn(scene)));
+  {
+    const bellows = $('#hb-bellows');
+    if (bellows) {
+      bellows.addEventListener('pointerdown', onHbPointerDown);
+      bellows.addEventListener('pointerup', onHbPointerUp);
+      bellows.addEventListener('pointercancel', onHbPointerCancel);
+      bellows.addEventListener('lostpointercapture', onHbPointerCancel);
+      bellows.addEventListener('blur', onHbPointerCancel);
+      bellows.addEventListener('keydown', onHbKeyDown);
+      bellows.addEventListener('keyup', onHbKeyUp);
+      bellows.addEventListener('contextmenu', (e) => e.preventDefault());
+    }
+  }
+
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -51903,8 +52684,25 @@ document.addEventListener("DOMContentLoaded", () => {
     if (eligible) items.push(`开庭条件已满足；第十三点听证已得 ${st.courtOutcomes.length}/3`);
     if (st.activeSmith) items.push("有一只钟在旧场景等你签收：点钟表匠回到修理铺");
     else if (st.draft.clock) items.push(`修钟台上还放着「${SC_CLOCK_TABLE[st.draft.clock].title}」`);
-    if (eligible && st.courtOutcomes.length >= 3) return { title: "v95 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    if (eligible && st.courtOutcomes.length >= 3) return heldBreathProgressStep();
     return { title: "v95 停摆钟修理铺", items, target: eligible ? "sc-court" : "sc", done: false };
+  };
+
+  /* v96：按三口气、三种赎法与三项裁定给出缺项 */
+  const heldBreathProgressStep = () => {
+    if (!heldBreathUnlocked()) return null;
+    const st = getHeldBreath();
+    const items = [];
+    const breaths = HB_BREATHS.filter((x) => !st.redemptions.some((id) => id.startsWith(`${x}:`))).map((x) => HB_BREATH_TABLE[x].title);
+    const methods = HB_METHODS.filter((m) => !st.redemptions.some((id) => id.endsWith(`:${m}`))).map((m) => HB_METHOD_TABLE[m].title);
+    if (breaths.length) items.push(`还没赎的气：${breaths.join("、")}`);
+    if (methods.length) items.push(`还没用过的赎法：${methods.join("、")}`);
+    const eligible = hbCourtEligible(st);
+    if (eligible) items.push(`开庭条件已满足；最后一口气裁定已得 ${st.courtOutcomes.length}/3`);
+    if (st.activeAppraiser) items.push("有一口气在旧场景等你签收：点估价师回到当铺");
+    else if (st.draft.breath) items.push(`风箱柜台上还放着「${HB_BREATH_TABLE[st.draft.breath].title}」`);
+    if (eligible && st.courtOutcomes.length >= 3) return { title: "v96 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    return { title: "v96 屏息当铺", items, target: eligible ? "hb-court" : "hb", done: false };
   };
 
   const syncProgressGuide = () => {
@@ -52253,6 +53051,7 @@ document.addEventListener("DOMContentLoaded", () => {
   syncUnseenAll();
   syncReturnedKnocksAll();
   syncStoppedClocksAll();
+  syncHeldBreathAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

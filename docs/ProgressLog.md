@@ -1182,3 +1182,12 @@
 - 场景图：本机 Codex CLI 生成三张原画，提示词与哈希见 `docs/V95ImagePrompts.md`。
 - 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 17762 assertions passed`。
 - 浏览器：三只钟分别用拖动、键盘、单击修好并送回签收，键盘拨错被拒；听证两项裁定抵达画廊与痕迹室；手机宽度正常。
+
+## 2026-09-24 - v96 屏息当铺实装
+
+- 新增 `held-breath-pawnshop`、`bellows-counter`、`tribunal-of-the-last-breath` 3 个场景，场景总数 208 → 211，缓存标记 `v=96`。
+- 新交互“按住再松手”：风箱是原生按钮（指针或空格 / 回车长按），压力表 `role="meter"` 3.6 秒压满，在目标 ±8% 内松手才算；三口气（走廊 60% / 交换台 30% / 投递所 80%）× 原样还给他 / 只还一半 / 替他屏住 = 9 张赎票，送回走廊 / 余响交换台 / 无主投递所签收。
+- 状态键 `goddead_v96_held_breath`（11 字段、7 类 pending、严格归一化），只读 v95；v95 在途时入口禁用；前缀 `hb-`；桥接接入治理守卫与画廊守卫。
+- 场景图：本机 Codex CLI 生成三张原画，提示词与哈希见 `docs/V96ImagePrompts.md`。
+- 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 17869 assertions passed`。
+- 浏览器：真实单击 / 空格判松早；一次真实按住约两秒落在区间内，送回走廊签收；手机宽度正常。按住时长无法由浏览器工具精确控制，其余路径由自动测试覆盖。

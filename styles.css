@@ -14769,3 +14769,216 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
 @media (min-width: 721px) {
   .sc-hotspot .dh-label { white-space: nowrap; }
 }
+
+/* ============================================================
+   v96 屏息当铺：封气的玻璃瓶、按住的风箱与压力表
+   ============================================================ */
+.hb-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  aspect-ratio: 3 / 2;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border: 1px solid rgba(154, 127, 71, 0.35);
+  background: var(--void);
+}
+
+.hb-figure .hb-img { display: block; width: 100%; height: 100%; object-fit: cover; -webkit-mask-image: none; mask-image: none; }
+
+.hb-hotspot {
+  position: absolute;
+  z-index: 3;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0.4rem;
+  border: 1px solid rgba(222, 217, 208, 0.18);
+  background: rgba(8, 7, 6, 0.1);
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+
+.hb-hotspot .dh-label { padding: 0.2rem 0.55rem; background: rgba(8, 7, 6, 0.74); letter-spacing: 0.1em; }
+.hb-hotspot:hover,
+.hb-hotspot:focus-visible { border-color: var(--gold); background: rgba(154, 127, 71, 0.16); outline: 2px solid var(--gold); outline-offset: 2px; }
+.hb-hotspot:disabled,
+.hb-hotspot[aria-pressed="true"] { border-color: var(--blood); cursor: default; outline: none; }
+.hb-hotspot.is-collected .dh-label::after { content: " ✓"; color: var(--gold); }
+
+.hb-hotspot-left { left: 11.5%; top: 37%; width: 19%; height: 37%; }
+.hb-hotspot-center { left: 41.5%; top: 41%; width: 16%; height: 33%; }
+.hb-hotspot-right { left: 70%; top: 36%; width: 19.5%; height: 38%; }
+.hb-hotspot-court-left { left: 8%; top: 53%; width: 23%; height: 27%; }
+.hb-hotspot-court-center { left: 43.5%; top: 43%; width: 16%; height: 34%; }
+.hb-hotspot-court-right { left: 77.5%; top: 54%; width: 14.5%; height: 25%; }
+
+/* 风箱：图上的风箱就是按钮，按住时轻轻收缩 */
+.hb-bellows {
+  position: absolute;
+  left: 13%;
+  top: 3%;
+  z-index: 3;
+  width: 24%;
+  height: 56%;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0.4rem;
+  border: 1px solid rgba(222, 217, 208, 0.18);
+  border-radius: 40% 40% 12% 12%;
+  background: rgba(8, 7, 6, 0.1);
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 0.85rem;
+  cursor: pointer;
+  touch-action: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+
+.hb-bellows .dh-label { padding: 0.2rem 0.55rem; background: rgba(8, 7, 6, 0.74); letter-spacing: 0.1em; }
+.hb-bellows:hover,
+.hb-bellows:focus-visible { border-color: var(--gold); background: rgba(154, 127, 71, 0.16); outline: 2px solid var(--gold); outline-offset: 2px; }
+.hb-bellows:disabled { border-color: var(--blood); cursor: default; outline: none; }
+.hb-bellows.is-pumping { border-color: #e6c27a; background: rgba(230, 194, 122, 0.14); animation: hb-pump 0.9s ease-in-out infinite; }
+@keyframes hb-pump { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(0.94); } }
+
+/* 压力表：右边三分之一的竖条；金色区间是目标，液柱随按住的时间上升 */
+.hb-gauge {
+  --hb-level: 0%;
+  --hb-band-lo: 0%;
+  --hb-band-hi: 0%;
+  position: absolute;
+  left: 78%;
+  top: 10%;
+  z-index: 3;
+  width: 6%;
+  height: 64%;
+  border: 1px solid rgba(222, 196, 140, 0.7);
+  border-radius: 6px;
+  background: rgba(8, 7, 6, 0.72);
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+}
+
+.hb-gauge > span { position: absolute; left: 0; right: 0; pointer-events: none; }
+.hb-gauge-band { bottom: var(--hb-band-lo); height: calc(var(--hb-band-hi) - var(--hb-band-lo)); border-top: 1px solid #e6c27a; border-bottom: 1px solid #e6c27a; background: rgba(230, 194, 122, 0.28); }
+.hb-gauge-fill { bottom: 0; height: var(--hb-level); background: linear-gradient(to top, rgba(139, 26, 26, 0.9), rgba(214, 140, 90, 0.85)); border-top: 2px solid var(--bone-bright); transition: height 0.08s linear; }
+.hb-gauge.is-in-band { border-color: #e6c27a; box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.8), 0 0 14px rgba(230, 194, 122, 0.7); }
+
+.hb-gauge-status {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4%;
+  z-index: 4;
+  margin: 0;
+  padding: 0 1rem;
+  color: var(--bone-bright);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-shadow: 0 1px 3px #000, 0 0 8px #000;
+  pointer-events: none;
+}
+
+.hb-note { width: min(720px, 100%); margin: 0.6rem auto 0; color: var(--ash); font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; line-height: 1.8; text-align: center; }
+.hb-response { white-space: pre-line; }
+
+.hb-panel {
+  width: min(720px, 100%);
+  margin: 1.2rem auto 0;
+  padding: 1rem 1.1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--gold);
+  background: rgba(10, 9, 8, 0.86);
+}
+
+.hb-panel-breath { margin: 0 0 1rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.92rem; line-height: 1.8; }
+.hb-methods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+
+.hb-method {
+  min-height: 44px;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  background: rgba(20, 16, 12, 0.8);
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.hb-method[aria-pressed="true"] { border-color: var(--gold); color: var(--bone-bright); background: rgba(154, 127, 71, 0.18); }
+.hb-method.is-collected::after { content: " ✓"; color: var(--gold); }
+.hb-method:hover:not(:disabled),
+.hb-method:focus-visible { border-color: var(--gold); outline: 2px solid var(--gold); outline-offset: 2px; }
+.hb-method:disabled { opacity: 0.45; cursor: default; }
+
+.hb-action,
+.hb-entry-btn {
+  min-height: 44px;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.hb-entry-btn { border-color: var(--gold); color: var(--bone-bright); }
+.hb-action:hover:not(:disabled),
+.hb-action:focus-visible,
+.hb-entry-btn:hover:not(:disabled),
+.hb-entry-btn:focus-visible { border-color: var(--gold); background: var(--gold); color: var(--void); outline: 2px solid var(--bone-bright); outline-offset: 2px; }
+.hb-action:disabled,
+.hb-entry-btn:disabled { opacity: 0.4; cursor: default; }
+.hb-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; margin-top: 0.9rem; }
+
+.hb-appraiser,
+.hb-echo { grid-column: 1 / -1; justify-self: center; width: min(720px, 100%); }
+.hb-appraiser { position: relative; z-index: 1; margin: 1.5rem auto; padding: 1rem 1.1rem; border: 1px solid var(--line); border-left: 2px solid #b8914f; background: rgba(10, 9, 8, 0.86); text-align: left; }
+.hb-appraiser-title { margin: 0 0 0.4rem; color: var(--gold); font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.18em; }
+.hb-appraiser-level { margin: 0 0 0.4rem; color: #e6c27a; font-family: var(--serif-cn); font-size: 1rem; }
+.hb-appraiser-body { margin: 0 0 0.8rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.9rem; line-height: 1.9; }
+
+.hb-codex { position: relative; z-index: 1; max-width: 760px; margin: 2rem auto; padding: 1.5rem; border: 1px solid var(--line); background: var(--void-soft); }
+.hb-kicker { margin-bottom: 1.25rem; color: var(--gold); font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.15em; text-align: center; }
+.hb-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+.hb-cell { min-height: 64px; padding: 0.8rem; border: 1px solid var(--line); background: var(--void); font-family: var(--mono); font-size: 0.75rem; line-height: 1.6; white-space: pre-line; text-align: center; }
+.hb-cell.is-locked { color: var(--ash); border-style: dashed; opacity: 0.6; }
+.hb-cell.is-unlocked { color: var(--bone-bright); border-color: var(--gold); background: rgba(30, 25, 20, 0.5); }
+.hb-hints-title { margin: 0 0 0.4rem; color: var(--bone); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; }
+.hb-hints { margin: 0 0 1rem; padding-left: 1.1rem; color: var(--ash); font-size: 0.82rem; line-height: 1.8; }
+.hb-hints li.is-met { color: var(--gold); }
+.hb-codex-entry { display: flex; flex-direction: column; gap: 0.6rem; align-items: center; }
+
+@media (max-width: 720px) {
+  .hb-figure { width: min(92vw, 520px); }
+  .hb-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+  .hb-hotspot .dh-label { font-size: 0.64rem; padding: 0.12rem 0.3rem; letter-spacing: 0.02em; }
+  .hb-methods { grid-template-columns: 1fr; }
+  .hb-gauge-status { font-size: 0.64rem; letter-spacing: 0.04em; }
+  .hb-gauge { width: 9%; }
+  .hb-bellows .dh-label { font-size: 0.64rem; padding: 0.12rem 0.3rem; letter-spacing: 0.02em; white-space: nowrap; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hb-bellows.is-pumping { animation: none; }
+  .hb-gauge-fill { transition: none; }
+}
+
+@media (min-width: 721px) {
+  .hb-hotspot .dh-label { white-space: nowrap; }
+}

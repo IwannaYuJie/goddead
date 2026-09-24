@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=95">
+  <link rel="stylesheet" href="styles.css?v=96">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -3283,6 +3283,15 @@
             <button class="branch-entry branch-entry-deep" id="branch-entry-confession-ledger" type="button" hidden data-go="confession-ledger" data-hover>无名罪籍库 ⟶</button>
           </nav>
 
+          <!-- v96 走廊赎票签收与记忆 -->
+          <p class="watch-memory hb-echo" id="hb-echo-corridor" hidden></p>
+          <div class="hb-appraiser reveal" id="hb-appraiser-corridor" hidden>
+            <p class="hb-appraiser-title" id="hb-appraiser-title-corridor"></p>
+            <p class="hb-appraiser-level" id="hb-appraiser-level-corridor"></p>
+            <p class="hb-appraiser-body" id="hb-appraiser-body-corridor"></p>
+            <p class="hb-response" id="hb-appraiser-response-corridor" aria-live="polite" hidden></p>
+            <button class="hb-action" id="hb-appraiser-return-corridor" type="button" data-hover>带着赎票回到当铺 ⟶</button>
+          </div>
           <!-- v93 走廊认领回执与记忆 -->
           <p class="watch-memory us-echo" id="us-echo-corridor" hidden></p>
           <div class="us-clerk reveal" id="us-clerk-corridor" hidden>
@@ -3835,6 +3844,15 @@
             <p class="answer-note" id="deliver-note" role="status" aria-live="polite"></p>
           </div>
 
+          <!-- v96 交换台赎票签收与记忆 -->
+          <p class="watch-memory hb-echo" id="hb-echo-switchboard" hidden></p>
+          <div class="hb-appraiser reveal" id="hb-appraiser-switchboard" hidden>
+            <p class="hb-appraiser-title" id="hb-appraiser-title-switchboard"></p>
+            <p class="hb-appraiser-level" id="hb-appraiser-level-switchboard"></p>
+            <p class="hb-appraiser-body" id="hb-appraiser-body-switchboard"></p>
+            <p class="hb-response" id="hb-appraiser-response-switchboard" aria-live="polite" hidden></p>
+            <button class="hb-action" id="hb-appraiser-return-switchboard" type="button" data-hover>带着赎票回到当铺 ⟶</button>
+          </div>
           <!-- v93 交换台认领回执与记忆 -->
           <p class="watch-memory us-echo" id="us-echo-switchboard" hidden></p>
           <div class="us-clerk reveal" id="us-clerk-switchboard" hidden>
@@ -3925,6 +3943,15 @@
             <p class="answer-note" id="cancel-note" role="status" aria-live="polite"></p>
           </div>
 
+          <!-- v96 无主投递所赎票签收与记忆 -->
+          <p class="watch-memory hb-echo" id="hb-echo-deadletter" hidden></p>
+          <div class="hb-appraiser reveal" id="hb-appraiser-deadletter" hidden>
+            <p class="hb-appraiser-title" id="hb-appraiser-title-deadletter"></p>
+            <p class="hb-appraiser-level" id="hb-appraiser-level-deadletter"></p>
+            <p class="hb-appraiser-body" id="hb-appraiser-body-deadletter"></p>
+            <p class="hb-response" id="hb-appraiser-response-deadletter" aria-live="polite" hidden></p>
+            <button class="hb-action" id="hb-appraiser-return-deadletter" type="button" data-hover>带着赎票回到当铺 ⟶</button>
+          </div>
           <!-- v93 投递认领回执与记忆 -->
           <p class="watch-memory us-echo" id="us-echo-deadletter" hidden></p>
           <div class="us-clerk reveal" id="us-clerk-deadletter" hidden>
@@ -4669,6 +4696,22 @@
               <p class="sc-response" id="sc-entry-response" aria-live="polite" hidden></p>
               <button class="sc-entry-btn" id="sc-court-entry-btn" type="button" hidden data-hover>进入第十三点听证会 · ENTER THE HEARING OF THE THIRTEENTH HOUR ⟶</button>
               <p class="sc-response" id="sc-court-entry-response" aria-live="polite" hidden></p>
+            </div>
+          </div>
+
+          <!-- v96 屏息图鉴 -->
+          <p class="watch-memory hb-memory" id="hb-memory" hidden></p>
+          <div class="hb-codex reveal" id="hb-codex" hidden>
+            <p class="hb-kicker">PAWNSHOP OF HELD BREATH · 屏 息 图 鉴</p>
+            <div class="hb-grid" id="hb-codex-grid"></div>
+            <p class="hb-hints-title">最后一口气法庭开庭条件</p>
+            <ul class="hb-hints" id="hb-court-hints"></ul>
+            <div class="hb-codex-entry">
+              <button class="hb-entry-btn" id="hb-entry-btn" type="button" hidden data-hover>前往屏息当铺 · GO TO THE PAWNSHOP OF HELD BREATH ⟶</button>
+              <p class="hb-note" id="hb-entry-note" hidden></p>
+              <p class="hb-response" id="hb-entry-response" aria-live="polite" hidden></p>
+              <button class="hb-entry-btn" id="hb-court-entry-btn" type="button" hidden data-hover>进入最后一口气法庭 · ENTER THE TRIBUNAL OF THE LAST BREATH ⟶</button>
+              <p class="hb-response" id="hb-court-entry-response" aria-live="polite" hidden></p>
             </div>
           </div>
 
@@ -7668,6 +7711,83 @@
         </div>
       </section>
 
+      <!-- v96 第一幕：屏息当铺 -->
+      <section class="scene scene-branch scene-held-breath-pawnshop" id="scene-held-breath-pawnshop" data-scene="held-breath-pawnshop" data-title="Goddead — 屏息当铺" aria-label="屏息当铺">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">14α / 屏息 · PAWNSHOP OF HELD BREATH</p>
+            <h2 class="sec-title">屏息当铺</h2>
+            <p class="sec-desc">借到一小时的死者，拿最后一口气来当。柜台上三只封蜡的玻璃瓶，瓶里的气长短不一——它们是从三个旧房间里收来的。</p>
+          </header>
+          <figure class="branch-figure hb-figure reveal" id="hb-counter-figure">
+            <img class="branch-img hb-img" data-src="assets/v96-held-breath-pawnshop.webp" alt="屏息当铺：铜栅栏后的柜台上摆着三只封蜡玻璃瓶，左边一缕细长的气，中间一小团短促的气，右边一大团缓慢旋转的气" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot hb-hotspot hb-hotspot-left" id="hb-breath-corridor-breath" type="button" aria-label="赎气：走廊里憋住的一口气，长 60%" data-hover><span class="dh-label" aria-hidden="true">走廊 · 长 60%</span></button>
+            <button class="scene-hotspot hb-hotspot hb-hotspot-center" id="hb-breath-switchboard-breath" type="button" aria-label="赎气：听筒里的一声喘，长 30%" data-hover><span class="dh-label" aria-hidden="true">交换台 · 长 30%</span></button>
+            <button class="scene-hotspot hb-hotspot hb-hotspot-right" id="hb-breath-deadletter-breath" type="button" aria-label="赎气：死信里封着的叹息，长 80%" data-hover><span class="dh-label" aria-hidden="true">无主投递所 · 长 80%</span></button>
+          </figure>
+          <p class="hb-note reveal" id="hb-counter-note" hidden></p>
+          <p class="branch-response hb-response" id="held-breath-pawnshop-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开屏息当铺">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+            <button class="hb-action" id="hb-continue" type="button" hidden data-hover>回到风箱柜台 ⟶</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v96 第二幕：风箱柜台 -->
+      <section class="scene scene-branch scene-bellows-counter" id="scene-bellows-counter" data-scene="bellows-counter" data-title="Goddead — 风箱柜台" aria-label="风箱柜台">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">14β / 风箱 · THE BELLOWS COUNTER</p>
+            <h2 class="sec-title">风箱柜台</h2>
+            <p class="sec-desc">选一种赎法，按住风箱（键盘按住空格），右边压力表会一直往上走；指针进了金色区间就松手。松早松晚都能重来。</p>
+          </header>
+          <figure class="branch-figure hb-figure hb-bellows-figure reveal" id="hb-bellows-figure">
+            <img class="branch-img hb-img" data-src="assets/v96-bellows-counter.webp" alt="风箱柜台：木架上立着一只皮革黄铜手风箱，铜管弯过去连着一只封蜡的玻璃瓶，瓶里一缕气在发光" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot hb-bellows" id="hb-bellows" type="button" aria-label="风箱：按住压气，松手送出（键盘按住空格或回车）" data-hover><span class="dh-label" aria-hidden="true">按住风箱</span></button>
+            <div class="hb-gauge" id="hb-gauge" role="meter" aria-label="压力表" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden>
+              <span class="hb-gauge-band" aria-hidden="true"></span>
+              <span class="hb-gauge-fill" aria-hidden="true"></span>
+            </div>
+            <p class="hb-gauge-status" id="hb-gauge-status" aria-live="polite"></p>
+          </figure>
+          <div class="hb-panel reveal" id="hb-bellows-panel" hidden>
+            <p class="hb-panel-breath" id="hb-bellows-breath"></p>
+            <div class="hb-methods" role="group" aria-label="赎法">
+              <button class="hb-method" id="hb-method-return" type="button" data-hover>原样还给他</button>
+              <button class="hb-method" id="hb-method-half" type="button" data-hover>只还一半</button>
+              <button class="hb-method" id="hb-method-hold" type="button" data-hover>替他屏住</button>
+            </div>
+            <p class="hb-note" id="hb-method-hint"></p>
+            <div class="hb-actions">
+              <button class="hb-action" id="hb-abandon" type="button" data-hover>把瓶子放回柜台</button>
+            </div>
+          </div>
+          <p class="branch-response hb-response" id="bellows-counter-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <!-- v96 第三幕：最后一口气法庭 -->
+      <section class="scene scene-branch scene-tribunal-of-the-last-breath" id="scene-tribunal-of-the-last-breath" data-scene="tribunal-of-the-last-breath" data-title="Goddead — 最后一口气法庭" aria-label="最后一口气法庭">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">14γ / 最后一口气 · TRIBUNAL OF THE LAST BREATH</p>
+            <h2 class="sec-title">最后一口气法庭</h2>
+            <p class="sec-desc">后墙是一整架管风琴，所有管子都屏着气。桌上三件东西：一只摘下的听筒、一只打开的玻璃瓶、一支刚吹灭的蜡烛。裁定之后仍可回来。</p>
+          </header>
+          <figure class="branch-figure hb-figure reveal" id="tribunal-of-the-last-breath-figure">
+            <img class="branch-img hb-img" data-src="assets/v96-tribunal-of-the-last-breath.webp" alt="最后一口气法庭：后墙是巨大的铜管风琴，空椅子前的长桌上放着摘下的听筒、打开的玻璃瓶和一支冒着细烟的蜡烛" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot hb-hotspot hb-hotspot-court-left" id="hb-verdict-let-the-dead-exhale" type="button" aria-label="裁定：让死者呼出来" data-hover><span class="dh-label" aria-hidden="true">让死者呼出来</span></button>
+            <button class="scene-hotspot hb-hotspot hb-hotspot-court-center" id="hb-verdict-keep-one-breath-in-escrow" type="button" aria-label="裁定：留一口气作押" data-hover><span class="dh-label" aria-hidden="true">留一口气作押</span></button>
+            <button class="scene-hotspot hb-hotspot hb-hotspot-court-right" id="hb-verdict-let-the-living-hold-it" type="button" aria-label="裁定：让活人替他们屏住" data-hover><span class="dh-label" aria-hidden="true">让活人屏住</span></button>
+          </figure>
+          <p class="branch-response hb-response" id="tribunal-of-the-last-breath-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开法庭">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+          </nav>
+        </div>
+      </section>
+
       <!-- 隐藏幕 · 第九条 -->
       <section class="scene scene-ninth" id="scene-ninth" data-scene="ninth" data-title="Goddead — ？？？" aria-label="第九条">
         <figure class="ninth-figure" role="img" aria-label="一道不该存在的裂口，底部有一扇错误的窄门">
@@ -7889,6 +8009,9 @@
         <a href="#stopped-clock-repair-shop" id="stopped-clock-repair-shop-link" hidden data-hover>13α / 停摆钟</a>
         <a href="#clock-bench" id="clock-bench-link" hidden data-hover>13β / 修钟台</a>
         <a href="#hearing-of-the-thirteenth-hour" id="hearing-of-the-thirteenth-hour-link" hidden data-hover>13γ / 第十三点</a>
+        <a href="#held-breath-pawnshop" id="held-breath-pawnshop-link" hidden data-hover>14α / 屏息当铺</a>
+        <a href="#bellows-counter" id="bellows-counter-link" hidden data-hover>14β / 风箱柜台</a>
+        <a href="#tribunal-of-the-last-breath" id="tribunal-of-the-last-breath-link" hidden data-hover>14γ / 最后一口气</a>
 
       <a href="#three-person-republic-court" id="three-person-republic-court-link" hidden data-hover>04β / 三人共和国</a>
       <a href="#remembrance" data-hover>04 / 痕迹</a>
@@ -7897,6 +8020,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=95"></script>
+    <script src="script.js?v=96"></script>
   </body>
 </html>
