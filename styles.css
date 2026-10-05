@@ -19881,3 +19881,202 @@ button.dw-tile:disabled {
 @media (min-width: 721px) {
   .et-hotspot .dh-label { white-space: nowrap; }
 }
+
+/* ============================================================
+   v110 扫尘司：三间屋的落灰地与一笔扫完
+   ============================================================ */
+.sw-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  aspect-ratio: 3 / 2;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border: 1px solid rgba(154, 127, 71, 0.35);
+  background: var(--void);
+}
+
+.sw-figure .sw-img { display: block; width: 100%; height: 100%; object-fit: cover; -webkit-mask-image: none; mask-image: none; }
+
+.sw-hotspot {
+  position: absolute;
+  z-index: 3;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0.4rem;
+  border: 1px solid rgba(222, 217, 208, 0.18);
+  background: rgba(8, 7, 6, 0.1);
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+
+.sw-hotspot .dh-label { padding: 0.2rem 0.55rem; background: rgba(8, 7, 6, 0.74); letter-spacing: 0.1em; }
+.sw-hotspot:hover,
+.sw-hotspot:focus-visible { border-color: var(--gold); background: rgba(154, 127, 71, 0.16); outline: 2px solid var(--gold); outline-offset: 2px; }
+.sw-hotspot:disabled,
+.sw-hotspot[aria-pressed="true"] { border-color: var(--blood); cursor: default; outline: none; }
+.sw-hotspot.is-collected .dh-label::after { content: " ✓"; color: var(--gold); }
+
+.sw-hotspot-left { left: 2%; top: 46%; width: 28%; height: 27%; }
+.sw-hotspot-center { left: 40.5%; top: 47%; width: 18.5%; height: 26%; }
+.sw-hotspot-right { left: 70%; top: 46%; width: 26%; height: 27%; }
+.sw-hotspot-court-left { left: 1%; top: 55%; width: 35%; height: 20%; }
+.sw-hotspot-court-center { left: 40%; top: 57%; width: 21.5%; height: 20%; }
+.sw-hotspot-court-right { left: 80%; top: 38%; width: 15%; height: 37%; }
+
+/* 落灰地：方格按 assets/v110-dust-floor.webp 的砖缝实测对齐（竖缝 x 322→1212、横缝 y 80→955，原图 1536×1024） */
+.sw-board {
+  position: absolute;
+  left: 20.96%;
+  top: 7.81%;
+  width: 57.94%;
+  height: 85.45%;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+}
+
+.sw-path { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; overflow: visible; pointer-events: none; }
+.sw-path polyline { fill: none; stroke: rgba(70, 52, 34, 0.75); stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.sw-board.is-done .sw-path polyline { stroke: rgba(230, 194, 122, 0.55); }
+
+.sw-door-mark { position: absolute; z-index: 3; pointer-events: none; background: #e6c27a; box-shadow: 0 0 10px rgba(230, 194, 122, 0.8); transform: translate(-50%, -50%); }
+.sw-board[data-door="south"] .sw-door-mark { left: 50%; top: 100%; width: 14%; height: 6px; }
+.sw-board[data-door="west"] .sw-door-mark { left: 0; top: 50%; width: 6px; height: 14%; }
+.sw-board[data-door="north"] .sw-door-mark { left: 90%; top: 0; width: 14%; height: 6px; }
+
+.sw-tile {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* 扫过的砖露出深色的干净石面；家具是挪不动的暗块；扫帚停在高亮的那一块 */
+.sw-tile.is-swept { background: rgba(28, 22, 16, 0.62); box-shadow: inset 0 0 0 1px rgba(230, 194, 122, 0.25); }
+.sw-tile.is-furniture { cursor: default; background: radial-gradient(circle at 40% 35%, #4a3b2c, #14100c 75%); box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.7), 0 4px 10px rgba(0, 0, 0, 0.7); }
+.sw-tile.is-next { box-shadow: inset 0 0 0 2px rgba(230, 194, 122, 0.45); }
+.sw-tile.is-head::after { content: ""; position: absolute; inset: 26%; border-radius: 50%; background: radial-gradient(circle, #fff2c8, #c9a35b 70%); box-shadow: 0 0 12px rgba(255, 220, 150, 0.8); }
+.sw-tile:hover:not(:disabled),
+.sw-tile:focus-visible { outline: 2px solid var(--gold); outline-offset: -3px; }
+.sw-tile:disabled { cursor: default; }
+.sw-board.is-done .sw-tile.is-swept { background: rgba(40, 32, 22, 0.45); box-shadow: inset 0 0 0 1px rgba(230, 194, 122, 0.5); }
+
+.sw-floor-status {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  margin: 0;
+  padding: 0.25rem 1rem;
+  color: var(--bone-bright);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-shadow: 0 1px 3px #000, 0 0 8px #000;
+  background: linear-gradient(0deg, rgba(8, 7, 6, 0.8), transparent);
+  pointer-events: none;
+}
+
+.sw-note { width: min(720px, 100%); margin: 0.6rem auto 0; color: var(--ash); font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; line-height: 1.8; text-align: center; }
+.sw-response { white-space: pre-line; }
+
+.sw-panel {
+  width: min(720px, 100%);
+  margin: 1.2rem auto 0;
+  padding: 1rem 1.1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--gold);
+  background: rgba(10, 9, 8, 0.86);
+}
+
+.sw-panel-room { margin: 0 0 1rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.92rem; line-height: 1.8; }
+.sw-methods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+
+.sw-method {
+  min-height: 44px;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  background: rgba(20, 16, 12, 0.8);
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.sw-method[aria-pressed="true"] { border-color: var(--gold); color: var(--bone-bright); background: rgba(154, 127, 71, 0.18); }
+.sw-method.is-collected::after { content: " ✓"; color: var(--gold); }
+.sw-method:hover:not(:disabled),
+.sw-method:focus-visible { border-color: var(--gold); outline: 2px solid var(--gold); outline-offset: 2px; }
+.sw-method:disabled { opacity: 0.45; cursor: default; }
+
+.sw-action,
+.sw-entry-btn {
+  min-height: 44px;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.sw-entry-btn,
+.sw-shine { border-color: var(--gold); color: var(--bone-bright); }
+.sw-action:hover:not(:disabled),
+.sw-action:focus-visible,
+.sw-entry-btn:hover:not(:disabled),
+.sw-entry-btn:focus-visible { border-color: var(--gold); background: var(--gold); color: var(--void); outline: 2px solid var(--bone-bright); outline-offset: 2px; }
+.sw-action:disabled,
+.sw-entry-btn:disabled { opacity: 0.4; cursor: default; }
+.sw-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; margin-top: 0.9rem; }
+
+.sw-sweeper,
+.sw-echo { grid-column: 1 / -1; justify-self: center; width: min(720px, 100%); }
+.sw-sweeper { position: relative; z-index: 1; margin: 1.5rem auto; padding: 1rem 1.1rem; border: 1px solid var(--line); border-left: 2px solid #b8914f; background: rgba(10, 9, 8, 0.86); text-align: left; }
+.sw-sweeper-title { margin: 0 0 0.4rem; color: var(--gold); font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.18em; }
+.sw-sweeper-level { margin: 0 0 0.4rem; color: #e6c27a; font-family: var(--serif-cn); font-size: 1rem; }
+.sw-sweeper-body { margin: 0 0 0.8rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.9rem; line-height: 1.9; }
+
+.sw-codex { position: relative; z-index: 1; max-width: 760px; margin: 2rem auto; padding: 1.5rem; border: 1px solid var(--line); background: var(--void-soft); }
+.sw-kicker { margin-bottom: 1.25rem; color: var(--gold); font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.15em; text-align: center; }
+.sw-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+.sw-cell { min-height: 64px; padding: 0.8rem; border: 1px solid var(--line); background: var(--void); font-family: var(--mono); font-size: 0.75rem; line-height: 1.6; white-space: pre-line; text-align: center; }
+.sw-cell.is-locked { color: var(--ash); border-style: dashed; opacity: 0.6; }
+.sw-cell.is-unlocked { color: var(--bone-bright); border-color: var(--gold); background: rgba(30, 25, 20, 0.5); }
+.sw-hints-title { margin: 0 0 0.4rem; color: var(--bone); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; }
+.sw-hints { margin: 0 0 1rem; padding-left: 1.1rem; color: var(--ash); font-size: 0.82rem; line-height: 1.8; }
+.sw-hints li.is-met { color: var(--gold); }
+.sw-codex-entry { display: flex; flex-direction: column; gap: 0.6rem; align-items: center; }
+
+@media (max-width: 720px) {
+  .sw-figure { width: min(92vw, 520px); }
+  .sw-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+  .sw-hotspot .dh-label { font-size: 0.64rem; padding: 0.12rem 0.3rem; letter-spacing: 0.02em; }
+  .sw-methods { grid-template-columns: 1fr; }
+  /* 窄屏状态行挪到地面图下方，不压住最后一排格子和窗 */
+  .sw-floor-figure { overflow: visible; margin-bottom: 3rem; }
+  .sw-floor-status { top: calc(100% + 0.4rem); bottom: auto; padding: 0; font-size: 0.64rem; letter-spacing: 0.02em; background: none; }
+  /* 窄屏把地面图裁成 4:3（左右各裁掉 96px），方格放大到每格约 44px */
+  .sw-floor-figure { aspect-ratio: 4 / 3; }
+  .sw-floor-figure .sw-board { left: 16.82%; width: 66.22%; top: 7.81%; height: 85.45%; }
+}
+
+
+@media (min-width: 721px) {
+  .sw-hotspot .dh-label { white-space: nowrap; }
+}

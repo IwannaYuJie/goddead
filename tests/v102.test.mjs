@@ -551,6 +551,10 @@ function createV102Harness({
     const etHouseCanVisit = () => false;
     const pouringTableCanVisit = () => false;
     const etCourtCanVisit = () => false;
+    const lastSweepBridgeAllows = () => false;
+    const swOfficeCanVisit = () => false;
+    const dustFloorCanVisit = () => false;
+    const swCourtCanVisit = () => false;
     const ahHotelCanVisit = () => false;
     const borrowedDawnClockroomCanVisit = () => false;
     const sharedMorningVerandaCanVisit = () => false;
@@ -635,12 +639,12 @@ function createV102Harness({
 // -------------------------------------------------------------
 // Test Group 1: Markers, scene IDs, image attributes & DOM HTML structure
 // -------------------------------------------------------------
-test('Group 1: HTML structure, scene count 250, lazy images, native buttons and CSS scope', () => {
-  // 250 unique scene section data-scene values in index.html (excluding scene-veil overlay)
+test('Group 1: HTML structure, scene count 253, lazy images, native buttons and CSS scope', () => {
+  // 253 unique scene section data-scene values in index.html (excluding scene-veil overlay)
   const sceneMatches = Array.from(indexHtml.matchAll(/<section[^>]+data-scene="([^"]+)"/g)).map((m) => m[1]);
   const uniqueScenes = new Set(sceneMatches);
-  assert.equal(sceneMatches.length, 250, `Total data-scene sections must be exactly 250, got ${sceneMatches.length}`);
-  assert.equal(uniqueScenes.size, 250, `Scene count must be exactly 250, got ${uniqueScenes.size}`);
+  assert.equal(sceneMatches.length, 253, `Total data-scene sections must be exactly 253, got ${sceneMatches.length}`);
+  assert.equal(uniqueScenes.size, 253, `Scene count must be exactly 253, got ${uniqueScenes.size}`);
   assert.ok(uniqueScenes.has('weatherless-bus-shelter'));
   assert.ok(uniqueScenes.has('season-dispatch-board'));
   assert.ok(uniqueScenes.has('four-season-platform'));
@@ -2202,6 +2206,8 @@ test('v102: sceneInit and legacy v45 relief integration behavior audit', () => {
       const replayBorrowedLightPending = () => {};
       const resolveExactTeaPendingOnArrival = () => {};
       const replayExactTeaPending = () => {};
+      const resolveLastSweepPendingOnArrival = () => {};
+      const replayLastSweepPending = () => {};
       const syncWeatherlessShelterAll = () => h.syncAll();
 
       let thresholdConsumed = false;

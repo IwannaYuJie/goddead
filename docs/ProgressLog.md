@@ -1324,3 +1324,13 @@
 - 场景图：本机 Codex CLI 生成三张原画；提示词与哈希见 `docs/V109ImagePrompts.md`。
 - 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 19075 assertions passed`；v101–v104 独立测试 65 项通过。
 - 浏览器：完整存档下用粗陶真实点击 5 步量出 7 口并在忏悔称量室签收（修复 v29 分支守卫把茶改写到走廊的问题）；375px 窄屏；听证会裁定抵达无终局画廊。
+
+## 2026-10-06 - v110 扫尘司实装
+
+- 新增 `sweeping-office`、`dust-floor`、`hearing-of-the-swept-floor` 3 个场景，场景总数 250 → 253，缓存标记 `v=110`。
+- 新交互“一笔扫完”：5×5 俯视落灰地上 25 个原生按钮，从门口起只能扫挨着扫帚的落灰砖，扫过不能再踩、家具挪不动、点扫帚退回一步，SVG 折线画出路线；三间屋（代神席 / 焚献炉 / 值夜室的地）× 正门 / 侧门 / 后门 = 9 次清扫，扫遍才能收簸箕，送到对应旧场景签收。
+- 状态键 `goddead_v110_last_sweep`（11 字段、7 类 pending、严格归一化），只读 v109；v109 在途时入口禁用；前缀 `sw-`；只有真实点击；桥接接入治理守卫与画廊守卫。
+- v104 独立测试的启动顺序截取窗口放宽到 1200 字符，避免章节链变长后误报。
+- 场景图：本机 Codex CLI 生成三张原画，砖缝按像素实测对齐；提示词与哈希见 `docs/V110ImagePrompts.md`。
+- 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 19240 assertions passed`；v101–v104 独立测试 65 项通过。
+- 浏览器：完整存档下从后门真实点击扫遍焚献炉的地并签收返回；375px 窄屏每格约 45px；听证会裁定抵达门外。

@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=109">
+  <link rel="stylesheet" href="styles.css?v=110">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -3933,6 +3933,15 @@
             <p class="rd-response" id="rd-leader-response-watch" aria-live="polite" hidden></p>
             <button class="rd-action" id="rd-leader-return-watch" type="button" data-hover>带着路条回到引路司 ⟶</button>
           </div>
+          <!-- v110 值夜室扫净签收与记忆 -->
+          <p class="watch-memory sw-echo" id="sw-echo-watch" hidden></p>
+          <div class="sw-sweeper reveal" id="sw-sweeper-watch" hidden>
+            <p class="sw-sweeper-title" id="sw-sweeper-title-watch"></p>
+            <p class="sw-sweeper-level" id="sw-sweeper-level-watch"></p>
+            <p class="sw-sweeper-body" id="sw-sweeper-body-watch"></p>
+            <p class="sw-response" id="sw-sweeper-response-watch" aria-live="polite" hidden></p>
+            <button class="sw-action" id="sw-sweeper-return-watch" type="button" data-hover>跟着扫地人回到扫尘司 ⟶</button>
+          </div>
           <!-- v95 值夜室修理单签收与记忆 -->
           <p class="watch-memory sc-echo" id="sc-echo-watch" hidden></p>
           <div class="sc-smith reveal" id="sc-smith-watch" hidden>
@@ -4365,6 +4374,15 @@
             <p class="yb-response" id="yb-waiter-response-acting" aria-live="polite" hidden></p>
             <button class="yb-action" id="yb-waiter-return-acting" type="button" data-hover>跟着跑堂回到早餐铺 ⟶</button>
           </div>
+          <!-- v110 代神席扫净签收与记忆 -->
+          <p class="watch-memory sw-echo" id="sw-echo-acting" hidden></p>
+          <div class="sw-sweeper reveal" id="sw-sweeper-acting" hidden>
+            <p class="sw-sweeper-title" id="sw-sweeper-title-acting"></p>
+            <p class="sw-sweeper-level" id="sw-sweeper-level-acting"></p>
+            <p class="sw-sweeper-body" id="sw-sweeper-body-acting"></p>
+            <p class="sw-response" id="sw-sweeper-response-acting" aria-live="polite" hidden></p>
+            <button class="sw-action" id="sw-sweeper-return-acting" type="button" data-hover>跟着扫地人回到扫尘司 ⟶</button>
+          </div>
           <!-- v98 代神席守夜签签收与记忆 -->
           <p class="watch-memory vc-echo" id="vc-echo-acting" hidden></p>
           <div class="vc-keeper reveal" id="vc-keeper-acting" hidden>
@@ -4454,6 +4472,15 @@
           <div class="counterfactual-echo reveal" id="counterfactual-echo-offering" hidden>
             <p class="counterfactual-echo-response" id="counterfactual-echo-response-offering" aria-live="polite"></p>
             <button class="counterfactual-echo-return" id="counterfactual-echo-return-offering" type="button" data-hover>把灰中多出的一生送回纺锤 ⟶</button>
+          </div>
+          <!-- v110 焚献炉扫净签收与记忆 -->
+          <p class="watch-memory sw-echo" id="sw-echo-offering" hidden></p>
+          <div class="sw-sweeper reveal" id="sw-sweeper-offering" hidden>
+            <p class="sw-sweeper-title" id="sw-sweeper-title-offering"></p>
+            <p class="sw-sweeper-level" id="sw-sweeper-level-offering"></p>
+            <p class="sw-sweeper-body" id="sw-sweeper-body-offering"></p>
+            <p class="sw-response" id="sw-sweeper-response-offering" aria-live="polite" hidden></p>
+            <button class="sw-action" id="sw-sweeper-return-offering" type="button" data-hover>跟着扫地人回到扫尘司 ⟶</button>
           </div>
           <!-- v95 焚献炉修理单签收与记忆 -->
           <p class="watch-memory sc-echo" id="sc-echo-offering" hidden></p>
@@ -5229,6 +5256,21 @@
               <p class="ts-response" id="ts-entry-response" aria-live="polite" hidden></p>
               <button class="ts-entry-btn" id="ts-court-entry-btn" type="button" hidden data-hover>进入早报听证会 · ENTER THE HEARING OF THE MORNING EDITION ⟶</button>
               <p class="ts-response" id="ts-court-entry-response" aria-live="polite" hidden></p>
+            </div>
+          </div>
+          <!-- v110 扫尘图鉴 -->
+          <p class="watch-memory sw-memory" id="sw-memory" hidden></p>
+          <div class="sw-codex reveal" id="sw-codex" hidden>
+            <p class="sw-kicker">THE SWEEPING OFFICE · 扫 尘 图 鉴</p>
+            <div class="sw-grid" id="sw-codex-grid"></div>
+            <p class="sw-hints-title">扫净听证会开庭条件</p>
+            <ul class="sw-hints" id="sw-court-hints"></ul>
+            <div class="sw-codex-entry">
+              <button class="sw-entry-btn" id="sw-entry-btn" type="button" hidden data-hover>前往扫尘司 · GO TO THE SWEEPING OFFICE ⟶</button>
+              <p class="sw-note" id="sw-entry-note" hidden></p>
+              <p class="sw-response" id="sw-entry-response" aria-live="polite" hidden></p>
+              <button class="sw-entry-btn" id="sw-court-entry-btn" type="button" hidden data-hover>进入扫净听证会 · ENTER THE HEARING OF THE SWEPT FLOOR ⟶</button>
+              <p class="sw-response" id="sw-court-entry-response" aria-live="polite" hidden></p>
             </div>
           </div>
           <!-- v109 分茶图鉴 -->
@@ -9648,6 +9690,109 @@
         </div>
       </section>
 
+      <!-- v110 第一幕：扫尘司 -->
+      <section class="scene scene-branch scene-sweeping-office" id="scene-sweeping-office" data-scene="sweeping-office" data-title="Goddead — 扫尘司" aria-label="扫尘司">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">24α / 扫尘 · THE SWEEPING OFFICE</p>
+            <h2 class="sec-title">扫尘司</h2>
+            <p class="sec-desc">茶喝完了，三间旧屋要关门过夜。扫尘司墙上挂满扫帚，长桌上三只铜簸箕各盛着一小堆灰：代神席的金灰、焚献炉的炉灰、值夜室的灯烟。</p>
+          </header>
+          <figure class="branch-figure sw-figure reveal" id="sw-office-figure">
+            <img class="branch-img sw-img" data-src="assets/v110-sweeping-office.webp" alt="扫尘司：墙上挂满旧扫帚和簸箕的窄库房；长桌上三只铜簸箕，左边一小堆金灰旁放着一只磨旧的红绒垫，中间一堆带火星的炉灰，右边一堆黑灰旁放着一盏没点的小灯" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot sw-hotspot sw-hotspot-left" id="sw-room-acting-room" type="button" aria-label="扫尘：代神席的地" data-hover><span class="dh-label" aria-hidden="true">代神席的金灰</span></button>
+            <button class="scene-hotspot sw-hotspot sw-hotspot-center" id="sw-room-furnace-room" type="button" aria-label="扫尘：焚献炉的地" data-hover><span class="dh-label" aria-hidden="true">焚献炉的炉灰</span></button>
+            <button class="scene-hotspot sw-hotspot sw-hotspot-right" id="sw-room-watch-room" type="button" aria-label="扫尘：值夜室的地" data-hover><span class="dh-label" aria-hidden="true">值夜室的灯烟</span></button>
+          </figure>
+          <p class="sw-note reveal" id="sw-office-note" hidden></p>
+          <p class="branch-response sw-response" id="sweeping-office-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开扫尘司">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+            <button class="sw-action" id="sw-continue" type="button" hidden data-hover>回到落灰地 ⟶</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v110 第二幕：落灰地 -->
+      <section class="scene scene-branch scene-dust-floor" id="scene-dust-floor" data-scene="dust-floor" data-title="Goddead — 落灰地" aria-label="落灰地">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">24β / 一扫 · THE DUST FLOOR</p>
+            <h2 class="sec-title">落灰地</h2>
+            <p class="sec-desc">从上往下看，那间屋的地是五乘五的石砖，落满了灰。选一扇门进去，一块挨一块地扫：每块只扫一次，扫过的不能再踩，家具挪不动。每一块都扫到，就能收簸箕。</p>
+          </header>
+          <figure class="branch-figure sw-figure sw-floor-figure reveal" id="sw-floor-figure">
+            <img class="branch-img sw-img" data-src="assets/v110-dust-floor.webp" alt="落灰地：俯视的一块浅色旧石砖地，被细缝分成五乘五的方格，上面均匀地落着一层灰" width="1536" height="1024" loading="lazy" decoding="async">
+            <div class="sw-board" id="sw-board" hidden>
+              <svg class="sw-path" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline id="sw-path-line" points=""/></svg>
+              <span class="sw-door-mark" aria-hidden="true"></span>
+              <button class="sw-tile" id="sw-tile-0" type="button" aria-label="第 1 行第 1 列" data-hover></button>
+              <button class="sw-tile" id="sw-tile-1" type="button" aria-label="第 1 行第 2 列" data-hover></button>
+              <button class="sw-tile" id="sw-tile-2" type="button" aria-label="第 1 行第 3 列" data-hover></button>
+              <button class="sw-tile" id="sw-tile-3" type="button" aria-label="第 1 行第 4 列" data-hover></button>
+              <button class="sw-tile" id="sw-tile-4" type="button" aria-label="第 1 行第 5 列" data-hover></button>
+              <button class="sw-tile" id="sw-tile-5" type="button" aria-label="第 2 行第 1 列" data-hover></button>
+              <button class="sw-tile" id="sw-tile-6" type="button" aria-label="第 2 行第 2 列" data-hover></button>
+              <button class="sw-tile" id="sw-tile-7" type="button" aria-label="第 2 行第 3 列" data-hover></button>
+              <button class="sw-tile" id="sw-tile-8" type="button" aria-label="第 2 行第 4 列" data-hover></button>
+              <button class="sw-tile" id="sw-tile-9" type="button" aria-label="第 2 行第 5 列" data-hover></button>
+              <button class="sw-tile" id="sw-tile-10" type="button" aria-label="第 3 行第 1 列" data-hover></button>
+              <button class="sw-tile" id="sw-tile-11" type="button" aria-label="第 3 行第 2 列" data-hover></button>
+              <button class="sw-tile" id="sw-tile-12" type="button" aria-label="第 3 行第 3 列" data-hover></button>
+              <button class="sw-tile" id="sw-tile-13" type="button" aria-label="第 3 行第 4 列" data-hover></button>
+              <button class="sw-tile" id="sw-tile-14" type="button" aria-label="第 3 行第 5 列" data-hover></button>
+              <button class="sw-tile" id="sw-tile-15" type="button" aria-label="第 4 行第 1 列" data-hover></button>
+              <button class="sw-tile" id="sw-tile-16" type="button" aria-label="第 4 行第 2 列" data-hover></button>
+              <button class="sw-tile" id="sw-tile-17" type="button" aria-label="第 4 行第 3 列" data-hover></button>
+              <button class="sw-tile" id="sw-tile-18" type="button" aria-label="第 4 行第 4 列" data-hover></button>
+              <button class="sw-tile" id="sw-tile-19" type="button" aria-label="第 4 行第 5 列" data-hover></button>
+              <button class="sw-tile" id="sw-tile-20" type="button" aria-label="第 5 行第 1 列" data-hover></button>
+              <button class="sw-tile" id="sw-tile-21" type="button" aria-label="第 5 行第 2 列" data-hover></button>
+              <button class="sw-tile" id="sw-tile-22" type="button" aria-label="第 5 行第 3 列" data-hover></button>
+              <button class="sw-tile" id="sw-tile-23" type="button" aria-label="第 5 行第 4 列" data-hover></button>
+              <button class="sw-tile" id="sw-tile-24" type="button" aria-label="第 5 行第 5 列" data-hover></button>
+            </div>
+            <p class="sw-floor-status" id="sw-floor-status" aria-live="polite"></p>
+          </figure>
+          <div class="sw-panel reveal" id="sw-floor-panel" hidden>
+            <p class="sw-panel-room" id="sw-floor-room"></p>
+            <div class="sw-methods" role="group" aria-label="门">
+              <button class="sw-method" id="sw-method-front" type="button" data-hover>正门</button>
+              <button class="sw-method" id="sw-method-side" type="button" data-hover>侧门</button>
+              <button class="sw-method" id="sw-method-back" type="button" data-hover>后门</button>
+            </div>
+            <p class="sw-note" id="sw-method-hint"></p>
+            <div class="sw-actions">
+              <button class="sw-action sw-finish" id="sw-finish" type="button" data-hover>收簸箕</button>
+              <button class="sw-action" id="sw-reset" type="button" data-hover>回到门口重扫</button>
+              <button class="sw-action" id="sw-abandon" type="button" data-hover>把扫帚靠回墙上</button>
+            </div>
+          </div>
+          <p class="branch-response sw-response" id="dust-floor-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <!-- v110 第三幕：扫净听证会 -->
+      <section class="scene scene-branch scene-hearing-of-the-swept-floor" id="scene-hearing-of-the-swept-floor" data-scene="hearing-of-the-swept-floor" data-title="Goddead — 扫净听证会" aria-label="扫净听证会">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">24γ / 扫净 · HEARING OF THE SWEPT FLOOR</p>
+            <h2 class="sec-title">扫净听证会</h2>
+            <p class="sec-desc">圆厅高窗下的空椅子上落着一层灰。桌上三件东西：一把旧扫帚、一只盛着细灰的方盘（灰里一个赤脚的印子）、一只漏下灰来的沙漏。裁定之后仍可回来。</p>
+          </header>
+          <figure class="branch-figure sw-figure reveal" id="hearing-of-the-swept-floor-figure">
+            <img class="branch-img sw-img" data-src="assets/v110-hearing-of-the-swept-floor.webp" alt="扫净听证会：圆厅高窗下一把落了灰的空椅子；近处长桌上左边横放着一把旧扫帚，中间一只盛着细灰的方盘，灰里一个赤脚的脚印，右边一只沙漏，漏下来的是灰" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot sw-hotspot sw-hotspot-court-left" id="sw-verdict-sweep-it-all-away" type="button" aria-label="裁定：全部扫掉" data-hover><span class="dh-label" aria-hidden="true">全部扫掉</span></button>
+            <button class="scene-hotspot sw-hotspot sw-hotspot-court-center" id="sw-verdict-leave-a-footprint-for-god" type="button" aria-label="裁定：给神留一个脚印" data-hover><span class="dh-label" aria-hidden="true">给神留一个脚印</span></button>
+            <button class="scene-hotspot sw-hotspot sw-hotspot-court-right" id="sw-verdict-let-the-dust-settle" type="button" aria-label="裁定：让灰落回去" data-hover><span class="dh-label" aria-hidden="true">让灰落回去</span></button>
+          </figure>
+          <p class="branch-response sw-response" id="hearing-of-the-swept-floor-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开听证会">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+          </nav>
+        </div>
+      </section>
+
       <!-- 隐藏幕 · 第九条 -->
       <section class="scene scene-ninth" id="scene-ninth" data-scene="ninth" data-title="Goddead — ？？？" aria-label="第九条">
         <figure class="ninth-figure" role="img" aria-label="一道不该存在的裂口，底部有一扇错误的窄门">
@@ -9909,6 +10054,9 @@
       <a href="#exact-tea-house" id="exact-tea-house-link" hidden data-hover>23α / 分茶铺</a>
       <a href="#pouring-table" id="pouring-table-link" hidden data-hover>23β / 分茶台</a>
       <a href="#hearing-of-the-last-cup" id="hearing-of-the-last-cup-link" hidden data-hover>23γ / 末杯听证</a>
+      <a href="#sweeping-office" id="sweeping-office-link" hidden data-hover>24α / 扫尘司</a>
+      <a href="#dust-floor" id="dust-floor-link" hidden data-hover>24β / 落灰地</a>
+      <a href="#hearing-of-the-swept-floor" id="hearing-of-the-swept-floor-link" hidden data-hover>24γ / 扫净听证</a>
 
 
       <a href="#three-person-republic-court" id="three-person-republic-court-link" hidden data-hover>04β / 三人共和国</a>
@@ -9918,6 +10066,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=109"></script>
+    <script src="script.js?v=110"></script>
   </body>
 </html>

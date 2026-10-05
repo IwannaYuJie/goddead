@@ -1416,6 +1416,8 @@ document.addEventListener("DOMContentLoaded", () => {
     replayBorrowedLightPending(name);
     resolveExactTeaPendingOnArrival(name);
     replayExactTeaPending(name);
+    resolveLastSweepPendingOnArrival(name);
+    replayLastSweepPending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1559,9 +1561,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
@@ -1575,7 +1577,7 @@ document.addEventListener("DOMContentLoaded", () => {
        v88 窄桥：title-action 可抵达 unending-gallery；
        v89 窄桥：appeal-action 可抵达 unending-gallery；
        v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !todayPressBridgeAllows('unending-gallery') && !inkMixingBridgeAllows('unending-gallery') && !borrowedLightBridgeAllows('unending-gallery') && !exactTeaBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !todayPressBridgeAllows('unending-gallery') && !inkMixingBridgeAllows('unending-gallery') && !borrowedLightBridgeAllows('unending-gallery') && !exactTeaBridgeAllows('unending-gallery') && !lastSweepBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1839,6 +1841,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "exact-tea-house" && !etHouseCanVisit()) target = "remembrance";
     if (target === "pouring-table" && !pouringTableCanVisit()) target = "remembrance";
     if (target === "hearing-of-the-last-cup" && !etCourtCanVisit()) target = "remembrance";
+
+    /* v110 扫尘司：未解锁或无合法抵达时一律回痕迹室 */
+    if (target === "sweeping-office" && !swOfficeCanVisit()) target = "remembrance";
+    if (target === "dust-floor" && !dustFloorCanVisit()) target = "remembrance";
+    if (target === "hearing-of-the-swept-floor" && !swCourtCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -48083,6 +48090,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetInkMixingState();
       forgetBorrowedLightState();
       forgetExactTeaState();
+      forgetLastSweepState();
       forgetCodexFolds();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
@@ -63961,6 +63969,785 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   onTrustedEt('#et-reset', resetEtVessels);
   onTrustedEt('#et-serve', serveEtCup);
 
+  /* ============================================================
+     v110 扫尘司 / THE SWEEPING OFFICE
+     v109 的茶喝完了，三间旧屋要关门过夜。扫尘司给代神席、焚献炉、值夜室各派一把扫帚：
+     三间屋 × 三扇门（正门 / 侧门 / 后门）= 9 次清扫；从门口起，每块地砖正好扫一次，扫过的不能再踩。
+     只读 v109；独立键 goddead_v110_last_sweep；所有新操作只接受真实点击。
+     ============================================================ */
+  const LAST_SWEEP_KEY = 'goddead_v110_last_sweep';
+  const LAST_SWEEP_VERSION = 110;
+  const SW_OFFICE = 'sweeping-office';
+  const SW_FLOOR = 'dust-floor';
+  const SW_COURT = 'hearing-of-the-swept-floor';
+  const SW_N = 5;
+  const SW_ROOMS = ['acting-room', 'furnace-room', 'watch-room'];
+  /* '.' 是落了灰的地砖，'#' 是挪不动的家具 */
+  const SW_ROOM_TABLE = {
+    'acting-room': {
+      title: '代神席的地', layout: '..#.......' + '...#..#...' + '.....', target: 'acting', place: '代神席', sweeperTitle: '代神席扫地人',
+      feedback: '代神席前面落了一层金色的灰，是这些天替神坐着的人一点点磨下来的。椅子和两只香案挪不动。',
+      echoLead: '代神席前的地砖扫干净了，露出原来的颜色。',
+    },
+    'furnace-room': {
+      title: '焚献炉的地', layout: '.....' + '...#.' + '.##..' + '.....' + '.....', target: 'offering', place: '焚献炉', sweeperTitle: '焚献炉扫地人',
+      feedback: '焚献炉周围全是灰，有的还带着火星。炉子占了三块砖，得绕着它扫。',
+      echoLead: '焚献炉边上的灰扫走了，地上只剩几道扫帚印。',
+    },
+    'watch-room': {
+      title: '值夜室的地', layout: '#....' + '.....' + '.....' + '....#' + '.....', target: 'watch', place: '值夜室', sweeperTitle: '值夜室扫地人',
+      feedback: '值夜室的地上是灯烟落下的黑灰。角落里的柜子和灯架不能动。',
+      echoLead: '值夜室的黑灰扫掉了，灯下的地砖亮了一点。',
+    },
+  };
+  const SW_METHODS = ['front', 'side', 'back'];
+  /* 门所在的那块地砖（下标），以及门开在哪条边上 */
+  const SW_METHOD_TABLE = {
+    front: { title: '正门', cell: 22, edge: 'south', hint: '从正门（底边中间）进去扫。', result: '从正门扫起，扫到最后一块正好站在屋子最里头。扫地人说，这样出门的时候不会踩脏。' },
+    side: { title: '侧门', cell: 10, edge: 'west', hint: '从侧门（左边中间）进去扫。', result: '从侧门扫起，一路贴着墙走。扫地人说，侧门进来的人最懂规矩。' },
+    back: { title: '后门', cell: 4, edge: 'north', hint: '从后门（右上角）进去扫。', result: '从后门扫起，扫完才从正门出去。扫地人说，后门进来的人，屋里的人总是最后才知道。' },
+  };
+  const SW_SWEEP_IDS = [];
+  SW_ROOMS.forEach((room) => SW_METHODS.forEach((method) => SW_SWEEP_IDS.push(`${room}:${method}`)));
+  const SW_VERDICT_ACTIONS = ['sweep-it-all-away', 'leave-a-footprint-for-god', 'let-the-dust-settle'];
+  const SW_VERDICT_TABLE = {
+    'sweep-it-all-away': {
+      title: '全部扫掉', outcome: 'all-swept-away', target: 'threshold',
+      feedback: '听证会裁定：全部扫掉。门槛外的台阶第一次干干净净，连你来时的脚印也没了。',
+    },
+    'leave-a-footprint-for-god': {
+      title: '给神留一个脚印', outcome: 'a-footprint-left-for-god', target: 'remembrance',
+      feedback: '听证会给神留了一个脚印。痕迹室的地上有一小块没扫的灰，灰里一只赤脚的印子。',
+    },
+    'let-the-dust-settle': {
+      title: '让灰落回去', outcome: 'the-dust-settled', target: 'unending-gallery',
+      feedback: '听证会准许灰落回去。画廊的空框上慢慢又积了一层，像什么都没发生过。',
+    },
+  };
+  const SW_VERDICT_OUTCOME_IDS = SW_VERDICT_ACTIONS.map((a) => SW_VERDICT_TABLE[a].outcome);
+  const SW_ENTRY_FEEDBACK = '扫尘司是一间窄窄的库房，墙上挂满扫帚和簸箕。长桌上三只铜簸箕，各盛着一小堆不同的灰。';
+  const SW_ABANDON_FEEDBACK = '你把扫帚靠回墙上，扫过的地又慢慢落了一层灰。';
+  const SW_COURT_ENTRY_FEEDBACK = '三间屋都扫过了。扫净听证会的椅子上落着一层灰，没人去擦。';
+  const SW_SWEEPER_RETURN_FEEDBACK = '扫地人把簸箕倒干净，领你回到扫尘司。';
+  const SW_OLD_TARGETS = ['acting', 'offering', 'watch'];
+
+  function swDelay() {
+    return reduced ? 300 : 1400;
+  }
+
+  /* 纯函数：这块地砖要扫几次（落灰的地砖总数） */
+  function swFreeCount(layout) {
+    return layout.split('').filter((c) => c === '.').length;
+  }
+
+  /* 纯函数：两块地砖是否上下左右相邻 */
+  function swAdjacent(a, b) {
+    const dr = Math.abs(Math.floor(a / SW_N) - Math.floor(b / SW_N));
+    const dc = Math.abs((a % SW_N) - (b % SW_N));
+    return dr + dc === 1;
+  }
+
+  /* 纯函数：从路线末端往 cell 扫一步；不合法返回 null */
+  function swExtend(layout, path, cell) {
+    if (!Number.isInteger(cell) || cell < 0 || cell >= layout.length || layout[cell] !== '.') return null;
+    if (!path.length || path.includes(cell) || !swAdjacent(path[path.length - 1], cell)) return null;
+    return path.concat(cell);
+  }
+
+  /* 纯函数：路线是否从门口起、一步一格、把每块落灰的地砖正好扫一次 */
+  function swComplete(layout, path, start) {
+    if (path[0] !== start || path.length !== swFreeCount(layout) || new Set(path).size !== path.length) return false;
+    return path.every((cell, i) => layout[cell] === '.' && (i === 0 || swAdjacent(path[i - 1], cell)));
+  }
+
+  /* 纯函数：从门口起一共有几种扫法（测试用，cap 封顶） */
+  function swCountPaths(layout, start, cap = 1000) {
+    if (layout[start] !== '.') return 0;
+    const free = swFreeCount(layout);
+    const seen = new Set([start]);
+    let total = 0;
+    const walk = (cell, depth) => {
+      if (total >= cap) return;
+      if (depth === free) { total += 1; return; }
+      [cell - SW_N, cell + SW_N, cell % SW_N ? cell - 1 : -1, cell % SW_N < SW_N - 1 ? cell + 1 : -1].forEach((next) => {
+        if (next < 0 || next >= layout.length || layout[next] !== '.' || seen.has(next)) return;
+        seen.add(next);
+        walk(next, depth + 1);
+        seen.delete(next);
+      });
+    };
+    walk(start, 1);
+    return total;
+  }
+
+  function swFinishFeedback(room, method) {
+    return `${SW_ROOM_TABLE[room].title}：${SW_METHOD_TABLE[method].result}`;
+  }
+
+  function defaultLastSweep() {
+    const latest = {};
+    SW_ROOMS.forEach((b) => { latest[b] = ''; });
+    return {
+      version: LAST_SWEEP_VERSION,
+      visited: { office: false, floor: false, court: false },
+      draft: { room: '', method: 'front' },
+      sweeps: [],
+      courtOutcomes: [],
+      sweepRuns: 0,
+      courtRuns: 0,
+      latestMethodByRoom: latest,
+      lastOutcome: '',
+      activeSweeper: null,
+      pending: null,
+    };
+  }
+
+  function clampSwCount(n) {
+    const v = Math.floor(Number(n));
+    return Number.isFinite(v) ? Math.min(9999, Math.max(0, v)) : 0;
+  }
+
+  function normalizeLastSweep(raw) {
+    const d = defaultLastSweep();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== LAST_SWEEP_VERSION) return d;
+    const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
+    d.visited = { office: v.office === true, floor: v.floor === true, court: v.court === true };
+    const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
+    d.draft = { room: SW_ROOMS.includes(dr.room) ? dr.room : '', method: SW_METHODS.includes(dr.method) ? dr.method : 'front' };
+    const sweeps = new Set(Array.isArray(raw.sweeps) ? raw.sweeps : []);
+    d.sweeps = SW_SWEEP_IDS.filter((id) => sweeps.has(id));
+    const outcomes = new Set(Array.isArray(raw.courtOutcomes) ? raw.courtOutcomes : []);
+    d.courtOutcomes = SW_VERDICT_OUTCOME_IDS.filter((id) => outcomes.has(id));
+    d.sweepRuns = clampSwCount(raw.sweepRuns);
+    d.courtRuns = clampSwCount(raw.courtRuns);
+    const latest = raw.latestMethodByRoom && typeof raw.latestMethodByRoom === 'object' ? raw.latestMethodByRoom : {};
+    SW_ROOMS.forEach((b) => {
+      d.latestMethodByRoom[b] = SW_METHODS.includes(latest[b]) && d.sweeps.includes(`${b}:${latest[b]}`) ? latest[b] : '';
+    });
+    if (typeof raw.lastOutcome === 'string' && (d.sweeps.includes(raw.lastOutcome) || d.courtOutcomes.includes(raw.lastOutcome))) d.lastOutcome = raw.lastOutcome;
+    const a = raw.activeSweeper;
+    if (a && typeof a === 'object' && !Array.isArray(a) && Object.keys(a).length === 1 && d.sweeps.includes(a.sweep)) d.activeSweeper = { sweep: a.sweep };
+    d.pending = normalizeSwPending(raw.pending, d);
+    return d;
+  }
+
+  function swCourtProgress(st) {
+    const rooms = new Set();
+    const methods = new Set();
+    st.sweeps.forEach((id) => {
+      const [room, method] = id.split(':');
+      rooms.add(room);
+      methods.add(method);
+    });
+    return { rooms: rooms.size, methods: methods.size };
+  }
+
+  function swCourtEligible(st) {
+    const p = swCourtProgress(st);
+    return p.rooms === SW_ROOMS.length && p.methods === SW_METHODS.length;
+  }
+
+  function expectedSwPending(p, st) {
+    const clean = !st.activeSweeper;
+    switch (p.kind) {
+      case 'entry':
+        return clean ? { feedback: SW_ENTRY_FEEDBACK, kind: 'entry', target: SW_OFFICE } : null;
+      case 'room': {
+        const b = SW_ROOM_TABLE[p.room];
+        if (!b || !clean) return null;
+        return { room: p.room, feedback: b.feedback, kind: 'room', source: SW_OFFICE, target: SW_FLOOR };
+      }
+      case 'finish': {
+        const b = SW_ROOM_TABLE[p.room];
+        if (!b || !SW_METHOD_TABLE[p.method] || !clean || st.draft.room !== p.room || st.draft.method !== p.method) return null;
+        return { room: p.room, feedback: swFinishFeedback(p.room, p.method), kind: 'finish', method: p.method, sweep: `${p.room}:${p.method}`, source: SW_FLOOR, target: b.target };
+      }
+      case 'abandon':
+        return st.draft.room ? { feedback: SW_ABANDON_FEEDBACK, kind: 'abandon', source: SW_FLOOR, target: SW_OFFICE } : null;
+      case 'sweeper-return': {
+        if (!st.activeSweeper) return null;
+        const room = st.activeSweeper.sweep.split(':')[0];
+        return { feedback: SW_SWEEPER_RETURN_FEEDBACK, from: SW_ROOM_TABLE[room].target, kind: 'sweeper-return', sweep: st.activeSweeper.sweep, target: SW_OFFICE };
+      }
+      case 'court-entry':
+        return clean && swCourtEligible(st) ? { feedback: SW_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: SW_COURT } : null;
+      case 'verdict': {
+        const a = SW_VERDICT_TABLE[p.action];
+        if (!a || !clean || !st.visited.court || !swCourtEligible(st)) return null;
+        return { action: p.action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: SW_COURT, target: a.target };
+      }
+      default:
+        return null;
+    }
+  }
+
+  function normalizeSwPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+    const expected = expectedSwPending(p, st);
+    if (!expected) return null;
+    const keys = Object.keys(p).sort();
+    const want = Object.keys(expected).sort();
+    if (keys.length !== want.length || keys.some((k, i) => k !== want[i] || p[k] !== expected[k])) return null;
+    return expected;
+  }
+
+  function lastSweepUnlocked() {
+    const compute = () => {
+      if (!exactTeaUnlocked()) return false;
+      const v109 = getExactTea();
+      return etCourtEligible(v109) && ET_VERDICT_OUTCOME_IDS.every((o) => v109.courtOutcomes.includes(o));
+    };
+    return store.memo ? store.memo("lastSweepUnlocked", compute) : compute();
+  }
+
+  /* v109 还有在途的茶或没签收的茶童时，先不让进扫尘司 */
+  function swUpstreamBusy() {
+    const v109 = getExactTea();
+    return Boolean(v109.pending || v109.activeServer);
+  }
+
+  function getLastSweep() {
+    if (!lastSweepUnlocked()) return defaultLastSweep();
+    let raw;
+    try { raw = JSON.parse(store.get(LAST_SWEEP_KEY, '{}')); } catch { return defaultLastSweep(); }
+    return normalizeLastSweep(raw);
+  }
+
+  function saveLastSweep(st) {
+    if (!lastSweepUnlocked()) return defaultLastSweep();
+    const canonical = normalizeLastSweep(Object.assign({}, st, { version: LAST_SWEEP_VERSION }));
+    store.set(LAST_SWEEP_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function swPendingLogicalSource(p) {
+    if (!p) return '';
+    if (p.kind === 'entry' || p.kind === 'court-entry') return 'remembrance';
+    if (p.kind === 'sweeper-return') return p.from;
+    return p.source || '';
+  }
+
+  function resolveLastSweepPendingOnArrival(sceneName) {
+    const st = getLastSweep();
+    const p = st.pending;
+    if (!p) return st;
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.office = true;
+      } else if (p.kind === 'room') {
+        st.visited.floor = true;
+        st.draft = { room: p.room, method: st.draft.room === p.room ? st.draft.method : 'front' };
+      } else if (p.kind === 'finish') {
+        st.sweepRuns = clampSwCount(st.sweepRuns + 1);
+        if (!st.sweeps.includes(p.sweep)) st.sweeps = st.sweeps.concat(p.sweep);
+        st.latestMethodByRoom[p.room] = p.method;
+        st.lastOutcome = p.sweep;
+        st.activeSweeper = { sweep: p.sweep };
+        st.draft = { room: '', method: 'front' };
+      } else if (p.kind === 'abandon') {
+        st.draft = { room: '', method: 'front' };
+        st.visited.office = true;
+      } else if (p.kind === 'sweeper-return') {
+        st.activeSweeper = null;
+        st.visited.office = true;
+      } else if (p.kind === 'court-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'verdict') {
+        st.courtRuns = clampSwCount(st.courtRuns + 1);
+        if (!st.courtOutcomes.includes(p.outcome)) st.courtOutcomes = st.courtOutcomes.concat(p.outcome);
+        st.lastOutcome = p.outcome;
+      }
+      return saveLastSweep(st);
+    }
+    if (sceneName === swPendingLogicalSource(p)) return st;
+    st.pending = null;
+    return saveLastSweep(st);
+  }
+
+  const SW_RESPONSE_BY_KIND = {
+    entry: '#sw-entry-response',
+    room: '#sweeping-office-response',
+    finish: '#dust-floor-response',
+    abandon: '#dust-floor-response',
+    'court-entry': '#sw-court-entry-response',
+    verdict: '#hearing-of-the-swept-floor-response',
+  };
+
+  function showSwResponse(selector, text) {
+    const el = $(selector);
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = !text;
+  }
+
+  function syncLastSweepAll() {
+    syncSwOffice();
+    syncDustFloor();
+    syncSwCourt();
+    syncSwSweepers();
+    syncSwEchoes();
+    syncSwRemembrance();
+    syncSwLinks();
+    if (typeof syncPhEntries === 'function') syncPhEntries();
+  }
+
+  function replayLastSweepPending(sceneName) {
+    const st = getLastSweep();
+    const p = st.pending;
+    if (p && p.target === sceneName) resolveLastSweepPendingOnArrival(sceneName);
+    else if (p && sceneName === swPendingLogicalSource(p)) {
+      syncLastSweepAll();
+      const selector = p.kind === 'sweeper-return' ? `#sw-sweeper-response-${p.from}` : SW_RESPONSE_BY_KIND[p.kind];
+      if (selector) showSwResponse(selector, p.feedback);
+      AutoAdvance.schedule(sceneName, p.target, { delay: swDelay() });
+      return;
+    } else if (p) {
+      st.pending = null;
+      saveLastSweep(st);
+    }
+    syncLastSweepAll();
+  }
+
+  function launchSw(scene, buttonId, pending, responseSelector) {
+    const st = getLastSweep();
+    st.pending = pending;
+    const saved = saveLastSweep(st);
+    if (!saved.pending) return false;
+    const btn = buttonId ? $(`#${buttonId}`) : null;
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+    if (AudioEngine.whoosh) AudioEngine.whoosh();
+    syncLastSweepAll();
+    showSwResponse(responseSelector, pending.feedback);
+    AutoAdvance.schedule(scene, pending.target, { delay: swDelay() });
+    return true;
+  }
+
+  function swReady(scene, buttonId) {
+    if (currentScene !== scene) return null;
+    if (AutoAdvance.has(scene)) return null;
+    if (buttonId && !buttonAvailable(buttonId)) return null;
+    if (!lastSweepUnlocked()) return null;
+    const st = getLastSweep();
+    return st.pending ? null : st;
+  }
+
+  function chooseSwEntry() {
+    const st = swReady('remembrance', 'sw-entry-btn');
+    if (!st || st.activeSweeper) return;
+    if (swUpstreamBusy()) return;
+    launchSw('remembrance', 'sw-entry-btn', { feedback: SW_ENTRY_FEEDBACK, kind: 'entry', target: SW_OFFICE }, '#sw-entry-response');
+  }
+
+  function chooseSwRoom(room) {
+    const b = SW_ROOM_TABLE[room];
+    if (!b) return;
+    const st = swReady(SW_OFFICE, `sw-room-${room}`);
+    if (!st || st.activeSweeper) return;
+    launchSw(SW_OFFICE, `sw-room-${room}`, { room, feedback: b.feedback, kind: 'room', source: SW_OFFICE, target: SW_FLOOR }, '#sweeping-office-response');
+  }
+
+  function chooseSwMethod(method) {
+    if (!SW_METHOD_TABLE[method]) return;
+    const st = swReady(SW_FLOOR, `sw-method-${method}`);
+    if (!st || !st.draft.room || !st.visited.floor || st.draft.method === method) return;
+    st.draft.method = method;
+    saveLastSweep(st);
+    syncDustFloor();
+  }
+
+  /* 扫帚路线只放在内存里；换屋或换门时复原，扫完每一块才写 pending */
+  let swPath = [];
+  let swFloorKey = '';
+
+  function paintSwFloor(message) {
+    const st = getLastSweep();
+    const status = $('#sw-floor-status');
+    const room = st.draft.room;
+    if (!room) {
+      if (status) status.textContent = '';
+      return;
+    }
+    const r = SW_ROOM_TABLE[room];
+    const door = SW_METHOD_TABLE[st.draft.method];
+    const head = swPath[swPath.length - 1];
+    for (let i = 0; i < SW_N * SW_N; i++) {
+      const btn = $(`#sw-tile-${i}`);
+      if (!btn) continue;
+      const row = Math.floor(i / SW_N) + 1;
+      const col = (i % SW_N) + 1;
+      const swept = swPath.includes(i);
+      btn.classList.toggle('is-furniture', r.layout[i] === '#');
+      btn.classList.toggle('is-swept', swept);
+      btn.classList.toggle('is-head', i === head);
+      btn.classList.toggle('is-door', i === door.cell);
+      btn.classList.toggle('is-next', !swept && r.layout[i] === '.' && swAdjacent(head, i));
+      let label = `第 ${row} 行第 ${col} 列：`;
+      if (r.layout[i] === '#') label += '家具，挪不动';
+      else if (i === head && swPath.length > 1) label += '扫帚在这里，点一下退回一步';
+      else if (i === head) label += '门口，从这里扫起';
+      else if (swept) label += '已经扫过';
+      else label += swAdjacent(head, i) ? '落着灰，挨着扫帚，点一下扫过去' : '落着灰';
+      btn.setAttribute('aria-label', label);
+    }
+    const unit = 100 / SW_N;
+    const line = $('#sw-path-line');
+    if (line) line.setAttribute('points', swPath.map((c) => `${(c % SW_N + 0.5) * unit},${(Math.floor(c / SW_N) + 0.5) * unit}`).join(' '));
+    const free = swFreeCount(r.layout);
+    const done = swComplete(r.layout, swPath, door.cell);
+    const board = $('#sw-board');
+    if (board) {
+      board.classList.toggle('is-done', done);
+      board.setAttribute('data-door', door.edge);
+    }
+    const stuck = !done && !swPath.length ? false : !done && [head - SW_N, head + SW_N, head % SW_N ? head - 1 : -1, head % SW_N < SW_N - 1 ? head + 1 : -1]
+      .every((n) => n < 0 || n >= r.layout.length || r.layout[n] !== '.' || swPath.includes(n));
+    if (status) {
+      if (message) status.textContent = message;
+      else if (done) status.textContent = `${free} 块地砖都扫过了，一块也没重踩。可以收簸箕。`;
+      else if (stuck) status.textContent = `扫了 ${swPath.length}/${free} 块，扫帚四面都是扫过的地或家具。点扫帚所在的砖退回去。`;
+      else status.textContent = `扫了 ${swPath.length}/${free} 块。点挨着扫帚的落灰地砖扫过去。`;
+    }
+  }
+
+  function stepSwTile(cell) {
+    const st = swReady(SW_FLOOR, `sw-tile-${cell}`);
+    if (!st || !st.draft.room || st.activeSweeper) return;
+    const layout = SW_ROOM_TABLE[st.draft.room].layout;
+    if (!Number.isInteger(cell) || cell < 0 || cell >= layout.length) return;
+    if (cell === swPath[swPath.length - 1] && swPath.length > 1) {
+      swPath = swPath.slice(0, -1);
+      paintSwFloor('');
+      return;
+    }
+    const next = swExtend(layout, swPath, cell);
+    if (!next) {
+      paintSwFloor(layout[cell] === '#' ? '那是家具，挪不动。' : swPath.includes(cell) ? '那块已经扫过了，不能再踩。' : '只能扫挨着扫帚的那几块。');
+      return;
+    }
+    swPath = next;
+    if (AudioEngine.tick) AudioEngine.tick();
+    paintSwFloor('');
+  }
+
+  function resetSwPath() {
+    const st = swReady(SW_FLOOR, 'sw-reset');
+    if (!st || !st.draft.room || st.activeSweeper) return;
+    swPath = [SW_METHOD_TABLE[st.draft.method].cell];
+    paintSwFloor('地上又落了一层灰，回到门口重扫。');
+  }
+
+  function finishSwSweep() {
+    const st = swReady(SW_FLOOR, 'sw-finish');
+    if (!st || !st.draft.room || st.activeSweeper) return;
+    const { room, method } = st.draft;
+    if (!swComplete(SW_ROOM_TABLE[room].layout, swPath, SW_METHOD_TABLE[method].cell)) {
+      paintSwFloor(`还有 ${swFreeCount(SW_ROOM_TABLE[room].layout) - swPath.length} 块没扫。`);
+      return;
+    }
+    paintSwFloor('簸箕收起来了。');
+    launchSw(SW_FLOOR, 'sw-finish', {
+      feedback: swFinishFeedback(room, method), kind: 'finish', method, room, source: SW_FLOOR, sweep: `${room}:${method}`, target: SW_ROOM_TABLE[room].target,
+    }, '#dust-floor-response');
+  }
+
+  function chooseSwAbandon() {
+    const st = swReady(SW_FLOOR, 'sw-abandon');
+    if (!st || !st.draft.room) return;
+    launchSw(SW_FLOOR, 'sw-abandon', { feedback: SW_ABANDON_FEEDBACK, kind: 'abandon', source: SW_FLOOR, target: SW_OFFICE }, '#dust-floor-response');
+  }
+
+  function chooseSwSweeperReturn(scene) {
+    const st = swReady(scene, `sw-sweeper-return-${scene}`);
+    if (!st || !st.activeSweeper) return;
+    if (SW_ROOM_TABLE[st.activeSweeper.sweep.split(':')[0]].target !== scene) return;
+    launchSw(scene, `sw-sweeper-return-${scene}`, { feedback: SW_SWEEPER_RETURN_FEEDBACK, from: scene, kind: 'sweeper-return', sweep: st.activeSweeper.sweep, target: SW_OFFICE }, `#sw-sweeper-response-${scene}`);
+  }
+
+  function chooseSwCourtEntry() {
+    const st = swReady('remembrance', 'sw-court-entry-btn');
+    if (!st || st.activeSweeper || !swCourtEligible(st)) return;
+    launchSw('remembrance', 'sw-court-entry-btn', { feedback: SW_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: SW_COURT }, '#sw-court-entry-response');
+  }
+
+  function chooseSwVerdict(action) {
+    const a = SW_VERDICT_TABLE[action];
+    if (!a) return;
+    const st = swReady(SW_COURT, `sw-verdict-${action}`);
+    if (!st || st.activeSweeper || !st.visited.court || !swCourtEligible(st)) return;
+    launchSw(SW_COURT, `sw-verdict-${action}`, { action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: SW_COURT, target: a.target }, '#hearing-of-the-swept-floor-response');
+  }
+
+  function lastSweepBridgeAllows(targetScene) {
+    if (!lastSweepUnlocked()) return false;
+    const st = getLastSweep();
+    if (st.pending && (st.pending.kind === 'finish' || st.pending.kind === 'verdict') && st.pending.target === targetScene) return true;
+    if (st.activeSweeper && SW_ROOM_TABLE[st.activeSweeper.sweep.split(':')[0]].target === targetScene) return true;
+    const verdict = SW_VERDICT_ACTIONS.find((a) => SW_VERDICT_TABLE[a].outcome === st.lastOutcome);
+    return Boolean(verdict && SW_VERDICT_TABLE[verdict].target === targetScene);
+  }
+
+  function swOfficeCanVisit() {
+    if (!lastSweepUnlocked()) return false;
+    const st = getLastSweep();
+    return st.visited.office || Boolean(st.pending && st.pending.target === SW_OFFICE);
+  }
+
+  function dustFloorCanVisit() {
+    if (!lastSweepUnlocked()) return false;
+    const st = getLastSweep();
+    if (st.visited.floor && st.draft.room) return true;
+    return Boolean(st.pending && st.pending.kind === 'room');
+  }
+
+  function swCourtCanVisit() {
+    if (!lastSweepUnlocked()) return false;
+    const st = getLastSweep();
+    if (st.visited.court && swCourtEligible(st)) return true;
+    return Boolean(st.pending && st.pending.kind === 'court-entry');
+  }
+
+  function syncSwOffice() {
+    const canVisit = swOfficeCanVisit();
+    const st = getLastSweep();
+    const fig = $('#sw-office-figure');
+    if (fig) fig.hidden = !canVisit;
+    const blocked = !canVisit || Boolean(st.pending) || Boolean(st.activeSweeper);
+    SW_ROOMS.forEach((room) => {
+      const btn = $(`#sw-room-${room}`);
+      if (!btn) return;
+      btn.disabled = blocked;
+      btn.classList.toggle('is-collected', SW_METHODS.every((m) => st.sweeps.includes(`${room}:${m}`)));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'room' && st.pending.room === room ? 'true' : 'false');
+    });
+    const note = $('#sw-office-note');
+    if (note) {
+      let text = '';
+      if (st.activeSweeper) {
+        const b = SW_ROOM_TABLE[st.activeSweeper.sweep.split(':')[0]];
+        text = `先完成正在送去的那块地：${b.sweeperTitle}还在${b.place}等你签收。`;
+      } else if (st.draft.room) {
+        text = `落灰地上还靠着扫「${SW_ROOM_TABLE[st.draft.room].title}」的扫帚。`;
+      }
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const cont = $('#sw-continue');
+    if (cont) {
+      const show = canVisit && Boolean(st.draft.room) && !st.activeSweeper;
+      cont.hidden = !show;
+      cont.disabled = !show || Boolean(st.pending);
+    }
+    if (!st.pending || st.pending.source !== SW_OFFICE) showSwResponse('#sweeping-office-response', '');
+  }
+
+  function syncDustFloor() {
+    const canVisit = dustFloorCanVisit();
+    const st = getLastSweep();
+    const ready = canVisit && Boolean(st.draft.room);
+    const key = st.draft.room ? `${st.draft.room}:${st.draft.method}` : '';
+    if (key !== swFloorKey && !(st.pending && st.pending.kind === 'finish')) {
+      swFloorKey = key;
+      swPath = st.draft.room ? [SW_METHOD_TABLE[st.draft.method].cell] : [];
+    }
+    const panel = $('#sw-floor-panel');
+    if (panel) panel.hidden = !ready;
+    const board = $('#sw-board');
+    if (board) board.hidden = !ready;
+    if (ready) {
+      const t = SW_ROOM_TABLE[st.draft.room];
+      const title = $('#sw-floor-room');
+      if (title) title.textContent = `${t.title} —— ${t.feedback}`;
+      const hint = $('#sw-method-hint');
+      if (hint) hint.textContent = `${SW_METHOD_TABLE[st.draft.method].hint}每次只能扫挨着扫帚的一块落灰地砖，扫过的不能再踩，家具挪不动；点扫帚所在的砖可以退回一步。每一块都正好扫一次就能收簸箕，干净的地会送到${t.place}，由${t.sweeperTitle}签收。换门或换屋会让地上重新落灰。`;
+    }
+    SW_METHODS.forEach((method) => {
+      const btn = $(`#sw-method-${method}`);
+      if (!btn) return;
+      btn.disabled = !ready || Boolean(st.pending);
+      btn.setAttribute('aria-pressed', ready && st.draft.method === method ? 'true' : 'false');
+      btn.classList.toggle('is-collected', Boolean(st.draft.room) && st.sweeps.includes(`${st.draft.room}:${method}`));
+    });
+    ['sw-finish', 'sw-reset', 'sw-abandon'].forEach((id) => {
+      const btn = $(`#${id}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending);
+    });
+    const layout = st.draft.room ? SW_ROOM_TABLE[st.draft.room].layout : '';
+    for (let i = 0; i < SW_N * SW_N; i++) {
+      const btn = $(`#sw-tile-${i}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending) || layout[i] !== '.';
+    }
+    paintSwFloor(st.pending && st.pending.kind === 'finish' ? '簸箕收起来了，正在送过去。' : '');
+    if (!st.pending || st.pending.source !== SW_FLOOR) showSwResponse('#dust-floor-response', '');
+  }
+
+  function syncSwCourt() {
+    const canVisit = swCourtCanVisit();
+    const st = getLastSweep();
+    const fig = $('#hearing-of-the-swept-floor-figure');
+    if (fig) fig.hidden = !canVisit;
+    SW_VERDICT_ACTIONS.forEach((action) => {
+      const btn = $(`#sw-verdict-${action}`);
+      if (!btn) return;
+      btn.disabled = !canVisit || Boolean(st.pending) || Boolean(st.activeSweeper);
+      btn.classList.toggle('is-collected', st.courtOutcomes.includes(SW_VERDICT_TABLE[action].outcome));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'verdict' && st.pending.action === action ? 'true' : 'false');
+    });
+    if (!st.pending || st.pending.source !== SW_COURT) showSwResponse('#hearing-of-the-swept-floor-response', '');
+  }
+
+  function syncSwSweepers() {
+    const st = lastSweepUnlocked() ? getLastSweep() : defaultLastSweep();
+    const [room, method] = st.activeSweeper ? st.activeSweeper.sweep.split(':') : ['', ''];
+    SW_OLD_TARGETS.forEach((scene) => {
+      const box = $(`#sw-sweeper-${scene}`);
+      if (!box) return;
+      const show = Boolean(room) && SW_ROOM_TABLE[room].target === scene;
+      box.hidden = !show;
+      const btn = $(`#sw-sweeper-return-${scene}`);
+      if (btn) {
+        btn.disabled = !show || Boolean(st.pending);
+        btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'sweeper-return' && st.pending.from === scene ? 'true' : 'false');
+      }
+      if (!show) return;
+      const b = SW_ROOM_TABLE[room];
+      const head = $(`#sw-sweeper-title-${scene}`);
+      if (head) head.textContent = `扫净签收 · ${b.sweeperTitle} · ${b.title}（${SW_METHOD_TABLE[method].title}）`;
+      const level = $(`#sw-sweeper-level-${scene}`);
+      if (level) level.textContent = `从${SW_METHOD_TABLE[method].title}扫起，${swFreeCount(b.layout)} 块地砖各扫一次`;
+      const body = $(`#sw-sweeper-body-${scene}`);
+      if (body) body.textContent = SW_METHOD_TABLE[method].result;
+      if (!st.pending || st.pending.kind !== 'sweeper-return') showSwResponse(`#sw-sweeper-response-${scene}`, '');
+    });
+  }
+
+  function syncSwEchoes() {
+    const st = lastSweepUnlocked() ? getLastSweep() : defaultLastSweep();
+    SW_ROOMS.forEach((room) => {
+      const b = SW_ROOM_TABLE[room];
+      const el = $(`#sw-echo-${b.target}`);
+      if (!el) return;
+      const method = st.latestMethodByRoom[room];
+      if (!method) { el.hidden = true; el.textContent = ''; return; }
+      el.textContent = `${b.echoLead}${SW_METHOD_TABLE[method].result}`;
+      el.hidden = false;
+    });
+  }
+
+  function syncSwRemembrance() {
+    const unlocked = lastSweepUnlocked();
+    const shell = $('#sw-codex');
+    const memory = $('#sw-memory');
+    if (!unlocked) {
+      [shell, memory].forEach((el) => { if (el) el.hidden = true; });
+      return;
+    }
+    const st = getLastSweep();
+    const v109Busy = swUpstreamBusy();
+    if (shell) shell.hidden = false;
+    const progress = swCourtProgress(st);
+    if (memory) {
+      memory.hidden = false;
+      memory.textContent = `扫尘：已扫净 ${st.sweeps.length}/9 次，共收簸箕 ${st.sweepRuns} 次；扫净听证 ${st.courtOutcomes.length}/3。`;
+    }
+    const hints = $('#sw-court-hints');
+    if (hints) {
+      const rows = [['三间屋都扫过', progress.rooms, SW_ROOMS.length], ['三扇门都进过', progress.methods, SW_METHODS.length]];
+      hints.replaceChildren(...rows.map(([label, have, need]) => {
+        const li = document.createElement('li');
+        li.className = have >= need ? 'is-met' : '';
+        li.textContent = `${label} ${have}/${need}`;
+        return li;
+      }));
+    }
+    const clean = !st.pending && !st.activeSweeper;
+    const entry = $('#sw-entry-btn');
+    if (entry) {
+      entry.hidden = false;
+      entry.disabled = !clean || v109Busy;
+      entry.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' ? 'true' : 'false');
+    }
+    const note = $('#sw-entry-note');
+    if (note) {
+      const text = v109Busy ? '先完成分茶铺那杯还在路上的茶：分茶铺还有一位茶童没签收。' : st.activeSweeper ? '先完成正在送去的那块地。' : '';
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const court = $('#sw-court-entry-btn');
+    if (court) {
+      const eligible = swCourtEligible(st);
+      court.hidden = !eligible;
+      court.disabled = !eligible || !clean;
+      court.setAttribute('aria-pressed', st.pending && st.pending.kind === 'court-entry' ? 'true' : 'false');
+    }
+    const grid = $('#sw-codex-grid');
+    if (grid) {
+      const have = new Set(st.sweeps);
+      const cells = SW_SWEEP_IDS.map((id) => {
+        const [room, method] = id.split(':');
+        const cell = document.createElement('div');
+        cell.className = `sw-cell ${have.has(id) ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = have.has(id) ? `${SW_ROOM_TABLE[room].title}\n${SW_METHOD_TABLE[method].title}` : '？？？';
+        return cell;
+      });
+      SW_VERDICT_ACTIONS.forEach((action) => {
+        const a = SW_VERDICT_TABLE[action];
+        const got = st.courtOutcomes.includes(a.outcome);
+        const cell = document.createElement('div');
+        cell.className = `sw-cell sw-cell-verdict ${got ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = got ? `[扫净听证会] ${a.title}\n${a.feedback}` : '？？？';
+        cells.push(cell);
+      });
+      grid.replaceChildren(...cells);
+    }
+    if (!st.pending || (st.pending.kind !== 'entry' && st.pending.kind !== 'court-entry')) {
+      showSwResponse('#sw-entry-response', '');
+      showSwResponse('#sw-court-entry-response', '');
+    }
+  }
+
+  function syncSwLinks() {
+    const st = lastSweepUnlocked() ? getLastSweep() : null;
+    [['sweeping-office-link', 'office'], ['dust-floor-link', 'floor'], ['hearing-of-the-swept-floor-link', 'court']].forEach(([id, key]) => {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !(st && st.visited[key]);
+    });
+  }
+
+  function forgetLastSweepState() {
+    try { localStorage.removeItem(LAST_SWEEP_KEY); } catch {}
+    [SW_OFFICE, SW_FLOOR, SW_COURT].forEach((scene) => AutoAdvance.clear(scene));
+    swPath = [];
+    swFloorKey = '';
+    ['#sw-codex', '#sw-memory', '#sw-office-figure', '#sw-floor-panel', '#hearing-of-the-swept-floor-figure',
+      '#sweeping-office-link', '#dust-floor-link', '#hearing-of-the-swept-floor-link', '#sw-continue', '#sw-court-entry-btn',
+      '#sw-entry-response', '#sw-court-entry-response', '#sweeping-office-response', '#dust-floor-response', '#hearing-of-the-swept-floor-response',
+      ...SW_OLD_TARGETS.flatMap((scene) => [`#sw-sweeper-${scene}`, `#sw-echo-${scene}`]),
+    ].forEach((sel) => { const el = $(sel); if (el) el.hidden = true; });
+    $$('[id^="sw-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+  }
+
+  const onTrustedSw = (selector, handler) => {
+    const el = $(selector);
+    if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+  };
+  onTrustedSw('#sw-entry-btn', chooseSwEntry);
+  onTrustedSw('#sw-court-entry-btn', chooseSwCourtEntry);
+  onTrustedSw('#sw-abandon', chooseSwAbandon);
+  onTrustedSw('#sw-continue', () => {
+    const st = swReady(SW_OFFICE, 'sw-continue');
+    if (!st || !st.draft.room || st.activeSweeper) return;
+    const room = st.draft.room;
+    launchSw(SW_OFFICE, 'sw-continue', { room, feedback: SW_ROOM_TABLE[room].feedback, kind: 'room', source: SW_OFFICE, target: SW_FLOOR }, '#sweeping-office-response');
+  });
+  SW_ROOMS.forEach((room) => onTrustedSw(`#sw-room-${room}`, () => chooseSwRoom(room)));
+  SW_METHODS.forEach((method) => onTrustedSw(`#sw-method-${method}`, () => chooseSwMethod(method)));
+  SW_VERDICT_ACTIONS.forEach((action) => onTrustedSw(`#sw-verdict-${action}`, () => chooseSwVerdict(action)));
+  SW_OLD_TARGETS.forEach((scene) => onTrustedSw(`#sw-sweeper-return-${scene}`, () => chooseSwSweeperReturn(scene)));
+  for (let cell = 0; cell < SW_N * SW_N; cell++) onTrustedSw(`#sw-tile-${cell}`, () => stepSwTile(cell));
+  onTrustedSw('#sw-reset', resetSwPath);
+  onTrustedSw('#sw-finish', finishSwSweep);
+
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -64417,8 +65204,26 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     if (eligible) items.push(`开庭条件已满足；末杯裁定已得 ${st.courtOutcomes.length}/3`);
     if (st.activeServer) items.push("有一杯茶在旧房间等你签收：跟着茶童回到分茶铺");
     else if (st.draft.order) items.push(`分茶台上还压着「${ET_ORDER_TABLE[st.draft.order].title}」的茶单`);
-    if (eligible && st.courtOutcomes.length >= 3) return { title: "v109 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    if (eligible && st.courtOutcomes.length >= 3) return lastSweepProgressStep();
     return { title: "v109 分茶铺", items, target: eligible ? "et-court" : "et", done: false };
+  };
+
+  /* v110：按三间屋、三扇门与三项裁定给出缺项 */
+  const lastSweepProgressStep = () => {
+    if (!lastSweepUnlocked()) return null;
+    const st = getLastSweep();
+    const items = [];
+    const rooms = SW_ROOMS.filter((x) => !st.sweeps.some((id) => id.startsWith(`${x}:`))).map((x) => SW_ROOM_TABLE[x].title);
+    const methods = SW_METHODS.filter((m) => !st.sweeps.some((id) => id.endsWith(`:${m}`))).map((m) => SW_METHOD_TABLE[m].title);
+    if (swUpstreamBusy() && !st.visited.office) items.push("先完成分茶铺那杯还在路上的茶，扫尘司才开门");
+    if (rooms.length) items.push(`还没扫过的地：${rooms.join("、")}`);
+    if (methods.length) items.push(`还没进过的门：${methods.join("、")}`);
+    const eligible = swCourtEligible(st);
+    if (eligible) items.push(`开庭条件已满足；扫净裁定已得 ${st.courtOutcomes.length}/3`);
+    if (st.activeSweeper) items.push("有一块扫净的地在旧房间等你签收：跟着扫地人回到扫尘司");
+    else if (st.draft.room) items.push(`落灰地上还靠着扫「${SW_ROOM_TABLE[st.draft.room].title}」的扫帚`);
+    if (eligible && st.courtOutcomes.length >= 3) return { title: "v110 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    return { title: "v110 扫尘司", items, target: eligible ? "sw-court" : "sw", done: false };
   };
 
   const shadowlessPhotographyProgressStep = () => {
@@ -64996,6 +65801,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   syncInkMixingAll();
   syncBorrowedLightAll();
   syncExactTeaAll();
+  syncLastSweepAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();
