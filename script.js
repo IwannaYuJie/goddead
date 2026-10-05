@@ -1420,6 +1420,8 @@ document.addEventListener("DOMContentLoaded", () => {
     replayLastSweepPending(name);
     resolvePuttingBackPendingOnArrival(name);
     replayPuttingBackPending(name);
+    resolvePaperCutPendingOnArrival(name);
+    replayPaperCutPending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1563,9 +1565,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
@@ -1579,7 +1581,7 @@ document.addEventListener("DOMContentLoaded", () => {
        v88 窄桥：title-action 可抵达 unending-gallery；
        v89 窄桥：appeal-action 可抵达 unending-gallery；
        v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !todayPressBridgeAllows('unending-gallery') && !inkMixingBridgeAllows('unending-gallery') && !borrowedLightBridgeAllows('unending-gallery') && !exactTeaBridgeAllows('unending-gallery') && !lastSweepBridgeAllows('unending-gallery') && !puttingBackBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !todayPressBridgeAllows('unending-gallery') && !inkMixingBridgeAllows('unending-gallery') && !borrowedLightBridgeAllows('unending-gallery') && !exactTeaBridgeAllows('unending-gallery') && !lastSweepBridgeAllows('unending-gallery') && !puttingBackBridgeAllows('unending-gallery') && !paperCutBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1853,6 +1855,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "putting-back-office" && !pbOfficeCanVisit()) target = "remembrance";
     if (target === "marked-floor" && !markedFloorCanVisit()) target = "remembrance";
     if (target === "hearing-of-the-last-mark" && !pbCourtCanVisit()) target = "remembrance";
+
+    /* v112 剪纸铺：未解锁或无合法抵达时一律回痕迹室 */
+    if (target === "paper-cut-shop" && !pcOfficeCanVisit()) target = "remembrance";
+    if (target === "cutting-table" && !cuttingTableCanVisit()) target = "remembrance";
+    if (target === "hearing-of-the-paper-flower" && !pcCourtCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -48099,6 +48106,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetExactTeaState();
       forgetLastSweepState();
       forgetPuttingBackState();
+      forgetPaperCutState();
       forgetCodexFolds();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
@@ -65557,6 +65565,799 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   onTrustedPb('#pb-reset', resetPbFloor);
   onTrustedPb('#pb-finish', finishPbPlacing);
 
+  /* ============================================================
+     v112 剪纸铺 / THE PAPER-CUT SHOP
+     v111 把家具都推回了印子里，屋子收拾停当，死人想在门窗上贴一张窗花——得照老样子剪，一格也不能差。
+     三张窗花（门槛的门笺 / 守则厅的灯笼 / 投递所的信封）× 三种纸（小方 5×5 / 中方 6×6 / 大方 7×7）= 9 张；
+     红纸边上印着每行每列要留几段红纸，照着数剪。只读 v111；独立键 goddead_v112_paper_cut；所有新操作只接受真实点击。
+     ============================================================ */
+  const PAPER_CUT_KEY = 'goddead_v112_paper_cut';
+  const PAPER_CUT_VERSION = 112;
+  const PC_OFFICE = 'paper-cut-shop';
+  const PC_FLOOR = 'cutting-table';
+  const PC_COURT = 'hearing-of-the-paper-flower';
+  const PC_MAX = 7;
+  const PC_SHEETS = ['threshold-sheet', 'protocol-sheet', 'deadletter-sheet'];
+  /* '#' 是留下的红纸，'.' 是剪掉的地方；每张窗花在三种纸上都只有一种剪法（测试穷举验证） */
+  const PC_SHEET_TABLE = {
+    'threshold-sheet': {
+      title: '门槛的门笺',
+      pictures: {
+        small: ['#####', '#...#', '#.#.#', '#...#', '#####'],
+        medium: ['.####.', '#....#', '#.##.#', '#.##.#', '#....#', '######'],
+        large: ['..###..', '.#...#.', '#.....#', '#.###.#', '#.#.#.#', '#.#.#.#', '#######'],
+      },
+      target: 'threshold', place: '门槛', pasterTitle: '门槛贴花人',
+      feedback: '门槛上要贴一张门笺，剪成一扇门的样子。贴花人说，门上贴门，进来的人就知道这里是门。',
+      echoLead: '门楣上贴着一张红门笺，风一吹就轻轻响。',
+    },
+    'protocol-sheet': {
+      title: '守则厅的灯笼',
+      pictures: {
+        small: ['..#..', '.###.', '#####', '.###.', '..#..'],
+        medium: ['..##..', '.####.', '##..##', '#.##.#', '.####.', '..##..'],
+        large: ['...#...', '.#####.', '##...##', '#.###.#', '##...##', '.#####.', '...#...'],
+      },
+      target: 'protocol', place: '访客守则', pasterTitle: '守则厅贴花人',
+      feedback: '守则厅的布告板旁边要贴一盏纸灯笼。八条守则读完了，总得有点红的东西。',
+      echoLead: '布告板旁边贴着一盏红纸灯笼。',
+    },
+    'deadletter-sheet': {
+      title: '投递所的信封',
+      pictures: {
+        small: ['#####', '##.##', '#.#.#', '#...#', '#####'],
+        medium: ['######', '##..##', '#.##.#', '#....#', '#....#', '######'],
+        large: ['#######', '##...##', '#.#.#.#', '#..#..#', '#.....#', '#.....#', '#######'],
+      },
+      target: 'deadletter', place: '无主投递所', pasterTitle: '投递所贴花人',
+      feedback: '无主投递所的窗上要贴一只纸信封。没人收的信太多了，窗上那只至少有人看。',
+      echoLead: '投递所的窗上贴着一只红纸信封。',
+    },
+  };
+  const PC_METHODS = ['small', 'medium', 'large'];
+  const PC_METHOD_TABLE = {
+    small: { title: '小方纸', size: 5, hint: '小方纸，五行五列。', result: '小小一张，贴在角上。屋里的人凑近了才看清剪的是什么。' },
+    medium: { title: '中方纸', size: 6, hint: '中方纸，六行六列。', result: '不大不小，正好贴在眼睛的高度。有人每次路过都停一下。' },
+    large: { title: '大方纸', size: 7, hint: '大方纸，七行七列。', result: '好大一张，把半扇窗都映红了。屋里的人说，像过年。' },
+  };
+  const PC_CUT_IDS = [];
+  PC_SHEETS.forEach((sheet) => PC_METHODS.forEach((method) => PC_CUT_IDS.push(`${sheet}:${method}`)));
+  const PC_VERDICT_ACTIONS = ['paste-them-all', 'leave-a-blank-for-god', 'let-the-wind-take-them'];
+  const PC_VERDICT_TABLE = {
+    'paste-them-all': {
+      title: '全部贴上', outcome: 'all-pasted', target: 'threshold',
+      feedback: '听证会裁定：全部贴上。门外每一扇门都红了，你站在门口，第一次觉得是被请进来的。',
+    },
+    'leave-a-blank-for-god': {
+      title: '给神留一张白纸', outcome: 'a-blank-left-for-god', target: 'remembrance',
+      feedback: '听证会给神留了一张白纸。痕迹室的窗上贴着一张没剪的白纸，像在等谁动手。',
+    },
+    'let-the-wind-take-them': {
+      title: '让风吹走', outcome: 'the-wind-took-them', target: 'unending-gallery',
+      feedback: '听证会准许风把窗花吹走。画廊的空框里飘过一片片红纸屑，一张也没落下来。',
+    },
+  };
+  const PC_VERDICT_OUTCOME_IDS = PC_VERDICT_ACTIONS.map((a) => PC_VERDICT_TABLE[a].outcome);
+  const PC_ENTRY_FEEDBACK = '剪纸铺里堆满红纸，墙上一串串挂着剪好的窗花。柜台上三张样子：一扇门、一盏灯笼、一只信封。';
+  const PC_ABANDON_FEEDBACK = '你把剪了一半的红纸压在柜台底下，回头再剪。';
+  const PC_COURT_ENTRY_FEEDBACK = '三张窗花都贴出去了。窗花听证会的桌上只剩一张白纸和一把剪刀。';
+  const PC_PASTER_RETURN_FEEDBACK = '贴花人抹平最后一个角，领你回到剪纸铺。';
+  const PC_OLD_TARGETS = ['threshold', 'protocol', 'deadletter'];
+
+  function pcDelay() {
+    return reduced ? 300 : 1400;
+  }
+
+  /* 纯函数：一行（'#' 留、'.' 剪）连续留下的段长 */
+  function pcClue(line) {
+    const out = [];
+    let run = 0;
+    for (const ch of line) {
+      if (ch === '#') run += 1;
+      else if (run) { out.push(run); run = 0; }
+    }
+    if (run) out.push(run);
+    return out;
+  }
+
+  /* 纯函数：一张图的行线索与列线索 */
+  function pcClues(picture) {
+    const n = picture.length;
+    const cols = [];
+    for (let c = 0; c < n; c++) cols.push(pcClue(picture.map((row) => row[c]).join('')));
+    return { rows: picture.map(pcClue), cols };
+  }
+
+  /* 纯函数：把 0/1 格子转成行字符串 */
+  function pcGridRows(grid, n) {
+    const rows = [];
+    for (let r = 0; r < n; r++) rows.push(grid.slice(r * n, r * n + n).map((v) => (v ? '#' : '.')).join(''));
+    return rows;
+  }
+
+  /* 纯函数：剪出来的格子是否每行每列都对上线索 */
+  function pcSolved(grid, picture) {
+    const n = picture.length;
+    if (grid.length !== n * n) return false;
+    const want = pcClues(picture);
+    const got = pcClues(pcGridRows(grid, n));
+    return want.rows.every((c, i) => c.join() === got.rows[i].join()) && want.cols.every((c, i) => c.join() === got.cols[i].join());
+  }
+
+  function pcFinishFeedback(sheet, method) {
+    return `${PC_SHEET_TABLE[sheet].title}：${PC_METHOD_TABLE[method].result}`;
+  }
+
+  function defaultPaperCut() {
+    const latest = {};
+    PC_SHEETS.forEach((b) => { latest[b] = ''; });
+    return {
+      version: PAPER_CUT_VERSION,
+      visited: { office: false, floor: false, court: false },
+      draft: { sheet: '', method: 'small' },
+      cuts: [],
+      courtOutcomes: [],
+      cutRuns: 0,
+      courtRuns: 0,
+      latestMethodBySheet: latest,
+      lastOutcome: '',
+      activePaster: null,
+      pending: null,
+    };
+  }
+
+  function clampPcCount(n) {
+    const v = Math.floor(Number(n));
+    return Number.isFinite(v) ? Math.min(9999, Math.max(0, v)) : 0;
+  }
+
+  function normalizePaperCut(raw) {
+    const d = defaultPaperCut();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== PAPER_CUT_VERSION) return d;
+    const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
+    d.visited = { office: v.office === true, floor: v.floor === true, court: v.court === true };
+    const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
+    d.draft = { sheet: PC_SHEETS.includes(dr.sheet) ? dr.sheet : '', method: PC_METHODS.includes(dr.method) ? dr.method : 'small' };
+    const cuts = new Set(Array.isArray(raw.cuts) ? raw.cuts : []);
+    d.cuts = PC_CUT_IDS.filter((id) => cuts.has(id));
+    const outcomes = new Set(Array.isArray(raw.courtOutcomes) ? raw.courtOutcomes : []);
+    d.courtOutcomes = PC_VERDICT_OUTCOME_IDS.filter((id) => outcomes.has(id));
+    d.cutRuns = clampPcCount(raw.cutRuns);
+    d.courtRuns = clampPcCount(raw.courtRuns);
+    const latest = raw.latestMethodBySheet && typeof raw.latestMethodBySheet === 'object' ? raw.latestMethodBySheet : {};
+    PC_SHEETS.forEach((b) => {
+      d.latestMethodBySheet[b] = PC_METHODS.includes(latest[b]) && d.cuts.includes(`${b}:${latest[b]}`) ? latest[b] : '';
+    });
+    if (typeof raw.lastOutcome === 'string' && (d.cuts.includes(raw.lastOutcome) || d.courtOutcomes.includes(raw.lastOutcome))) d.lastOutcome = raw.lastOutcome;
+    const a = raw.activePaster;
+    if (a && typeof a === 'object' && !Array.isArray(a) && Object.keys(a).length === 1 && d.cuts.includes(a.cut)) d.activePaster = { cut: a.cut };
+    d.pending = normalizePcPending(raw.pending, d);
+    return d;
+  }
+
+  function pcCourtProgress(st) {
+    const sheets = new Set();
+    const methods = new Set();
+    st.cuts.forEach((id) => {
+      const [sheet, method] = id.split(':');
+      sheets.add(sheet);
+      methods.add(method);
+    });
+    return { sheets: sheets.size, methods: methods.size };
+  }
+
+  function pcCourtEligible(st) {
+    const p = pcCourtProgress(st);
+    return p.sheets === PC_SHEETS.length && p.methods === PC_METHODS.length;
+  }
+
+  function expectedPcPending(p, st) {
+    const clean = !st.activePaster;
+    switch (p.kind) {
+      case 'entry':
+        return clean ? { feedback: PC_ENTRY_FEEDBACK, kind: 'entry', target: PC_OFFICE } : null;
+      case 'sheet': {
+        const b = PC_SHEET_TABLE[p.sheet];
+        if (!b || !clean) return null;
+        return { sheet: p.sheet, feedback: b.feedback, kind: 'sheet', source: PC_OFFICE, target: PC_FLOOR };
+      }
+      case 'finish': {
+        const b = PC_SHEET_TABLE[p.sheet];
+        if (!b || !PC_METHOD_TABLE[p.method] || !clean || st.draft.sheet !== p.sheet || st.draft.method !== p.method) return null;
+        return { sheet: p.sheet, feedback: pcFinishFeedback(p.sheet, p.method), kind: 'finish', method: p.method, cut: `${p.sheet}:${p.method}`, source: PC_FLOOR, target: b.target };
+      }
+      case 'abandon':
+        return st.draft.sheet ? { feedback: PC_ABANDON_FEEDBACK, kind: 'abandon', source: PC_FLOOR, target: PC_OFFICE } : null;
+      case 'paster-return': {
+        if (!st.activePaster) return null;
+        const sheet = st.activePaster.cut.split(':')[0];
+        return { feedback: PC_PASTER_RETURN_FEEDBACK, from: PC_SHEET_TABLE[sheet].target, kind: 'paster-return', cut: st.activePaster.cut, target: PC_OFFICE };
+      }
+      case 'court-entry':
+        return clean && pcCourtEligible(st) ? { feedback: PC_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: PC_COURT } : null;
+      case 'verdict': {
+        const a = PC_VERDICT_TABLE[p.action];
+        if (!a || !clean || !st.visited.court || !pcCourtEligible(st)) return null;
+        return { action: p.action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: PC_COURT, target: a.target };
+      }
+      default:
+        return null;
+    }
+  }
+
+  function normalizePcPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+    const expected = expectedPcPending(p, st);
+    if (!expected) return null;
+    const keys = Object.keys(p).sort();
+    const want = Object.keys(expected).sort();
+    if (keys.length !== want.length || keys.some((k, i) => k !== want[i] || p[k] !== expected[k])) return null;
+    return expected;
+  }
+
+  function paperCutUnlocked() {
+    const compute = () => {
+      if (!puttingBackUnlocked()) return false;
+      const v111 = getPuttingBack();
+      return pbCourtEligible(v111) && PB_VERDICT_OUTCOME_IDS.every((o) => v111.courtOutcomes.includes(o));
+    };
+    return store.memo ? store.memo("paperCutUnlocked", compute) : compute();
+  }
+
+  /* v111 还有在途的屋子或没签收的搬家具的人时，先不让进剪纸铺 */
+  function pcUpstreamBusy() {
+    const v111 = getPuttingBack();
+    return Boolean(v111.pending || v111.activeMover);
+  }
+
+  function getPaperCut() {
+    if (!paperCutUnlocked()) return defaultPaperCut();
+    let raw;
+    try { raw = JSON.parse(store.get(PAPER_CUT_KEY, '{}')); } catch { return defaultPaperCut(); }
+    return normalizePaperCut(raw);
+  }
+
+  function savePaperCut(st) {
+    if (!paperCutUnlocked()) return defaultPaperCut();
+    const canonical = normalizePaperCut(Object.assign({}, st, { version: PAPER_CUT_VERSION }));
+    store.set(PAPER_CUT_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function pcPendingLogicalSource(p) {
+    if (!p) return '';
+    if (p.kind === 'entry' || p.kind === 'court-entry') return 'remembrance';
+    if (p.kind === 'paster-return') return p.from;
+    return p.source || '';
+  }
+
+  function resolvePaperCutPendingOnArrival(sceneName) {
+    const st = getPaperCut();
+    const p = st.pending;
+    if (!p) return st;
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.office = true;
+      } else if (p.kind === 'sheet') {
+        st.visited.floor = true;
+        st.draft = { sheet: p.sheet, method: st.draft.sheet === p.sheet ? st.draft.method : 'small' };
+      } else if (p.kind === 'finish') {
+        st.cutRuns = clampPcCount(st.cutRuns + 1);
+        if (!st.cuts.includes(p.cut)) st.cuts = st.cuts.concat(p.cut);
+        st.latestMethodBySheet[p.sheet] = p.method;
+        st.lastOutcome = p.cut;
+        st.activePaster = { cut: p.cut };
+        st.draft = { sheet: '', method: 'small' };
+      } else if (p.kind === 'abandon') {
+        st.draft = { sheet: '', method: 'small' };
+        st.visited.office = true;
+      } else if (p.kind === 'paster-return') {
+        st.activePaster = null;
+        st.visited.office = true;
+      } else if (p.kind === 'court-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'verdict') {
+        st.courtRuns = clampPcCount(st.courtRuns + 1);
+        if (!st.courtOutcomes.includes(p.outcome)) st.courtOutcomes = st.courtOutcomes.concat(p.outcome);
+        st.lastOutcome = p.outcome;
+      }
+      return savePaperCut(st);
+    }
+    if (sceneName === pcPendingLogicalSource(p)) return st;
+    st.pending = null;
+    return savePaperCut(st);
+  }
+
+  const PC_RESPONSE_BY_KIND = {
+    entry: '#pc-entry-response',
+    sheet: '#paper-cut-shop-response',
+    finish: '#cutting-table-response',
+    abandon: '#cutting-table-response',
+    'court-entry': '#pc-court-entry-response',
+    verdict: '#hearing-of-the-paper-flower-response',
+  };
+
+  function showPcResponse(selector, text) {
+    const el = $(selector);
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = !text;
+  }
+
+  function syncPaperCutAll() {
+    syncPcOffice();
+    syncCuttingTable();
+    syncPcCourt();
+    syncPcPasters();
+    syncPcEchoes();
+    syncPcRemembrance();
+    syncPcLinks();
+    if (typeof syncPhEntries === 'function') syncPhEntries();
+  }
+
+  function replayPaperCutPending(sceneName) {
+    const st = getPaperCut();
+    const p = st.pending;
+    if (p && p.target === sceneName) resolvePaperCutPendingOnArrival(sceneName);
+    else if (p && sceneName === pcPendingLogicalSource(p)) {
+      syncPaperCutAll();
+      const selector = p.kind === 'paster-return' ? `#pc-paster-response-${p.from}` : PC_RESPONSE_BY_KIND[p.kind];
+      if (selector) showPcResponse(selector, p.feedback);
+      AutoAdvance.schedule(sceneName, p.target, { delay: pcDelay() });
+      return;
+    } else if (p) {
+      st.pending = null;
+      savePaperCut(st);
+    }
+    syncPaperCutAll();
+  }
+
+  function launchPc(scene, buttonId, pending, responseSelector) {
+    const st = getPaperCut();
+    st.pending = pending;
+    const saved = savePaperCut(st);
+    if (!saved.pending) return false;
+    const btn = buttonId ? $(`#${buttonId}`) : null;
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+    if (AudioEngine.whoosh) AudioEngine.whoosh();
+    syncPaperCutAll();
+    showPcResponse(responseSelector, pending.feedback);
+    AutoAdvance.schedule(scene, pending.target, { delay: pcDelay() });
+    return true;
+  }
+
+  function pcReady(scene, buttonId) {
+    if (currentScene !== scene) return null;
+    if (AutoAdvance.has(scene)) return null;
+    if (buttonId && !buttonAvailable(buttonId)) return null;
+    if (!paperCutUnlocked()) return null;
+    const st = getPaperCut();
+    return st.pending ? null : st;
+  }
+
+  function choosePcEntry() {
+    const st = pcReady('remembrance', 'pc-entry-btn');
+    if (!st || st.activePaster) return;
+    if (pcUpstreamBusy()) return;
+    launchPc('remembrance', 'pc-entry-btn', { feedback: PC_ENTRY_FEEDBACK, kind: 'entry', target: PC_OFFICE }, '#pc-entry-response');
+  }
+
+  function choosePcSheet(sheet) {
+    const b = PC_SHEET_TABLE[sheet];
+    if (!b) return;
+    const st = pcReady(PC_OFFICE, `pc-sheet-${sheet}`);
+    if (!st || st.activePaster) return;
+    launchPc(PC_OFFICE, `pc-sheet-${sheet}`, { sheet, feedback: b.feedback, kind: 'sheet', source: PC_OFFICE, target: PC_FLOOR }, '#paper-cut-shop-response');
+  }
+
+  function choosePcMethod(method) {
+    if (!PC_METHOD_TABLE[method]) return;
+    const st = pcReady(PC_FLOOR, `pc-method-${method}`);
+    if (!st || !st.draft.sheet || !st.visited.floor || st.draft.method === method) return;
+    st.draft.method = method;
+    savePaperCut(st);
+    syncCuttingTable();
+  }
+
+  /* 剪纸的格子只放在内存里；换窗花或换纸时重新拿一张，每行每列都对上才写 pending */
+  let pcGrid = [];
+  let pcClicks = 0;
+  let pcFloorKey = '';
+
+  function paintPcFloor(message) {
+    const st = getPaperCut();
+    const status = $('#pc-floor-status');
+    const sheet = st.draft.sheet;
+    if (!sheet) {
+      if (status) status.textContent = '';
+      return;
+    }
+    const picture = PC_SHEET_TABLE[sheet].pictures[st.draft.method];
+    const n = picture.length;
+    const want = pcClues(picture);
+    const got = pcClues(pcGridRows(pcGrid, n));
+    let rowsMet = 0;
+    let colsMet = 0;
+    for (let i = 0; i < PC_MAX; i++) {
+      const rowClue = $(`#pc-row-clue-${i}`);
+      const colClue = $(`#pc-col-clue-${i}`);
+      const inside = i < n;
+      const rowMet = inside && want.rows[i].join() === got.rows[i].join();
+      const colMet = inside && want.cols[i].join() === got.cols[i].join();
+      if (rowMet) rowsMet += 1;
+      if (colMet) colsMet += 1;
+      if (rowClue) {
+        rowClue.hidden = !inside;
+        rowClue.textContent = inside ? (want.rows[i].join(' ') || '0') : '';
+        rowClue.classList.toggle('is-met', rowMet);
+      }
+      if (colClue) {
+        colClue.hidden = !inside;
+        colClue.textContent = inside ? (want.cols[i].join('\n') || '0') : '';
+        colClue.classList.toggle('is-met', colMet);
+      }
+    }
+    for (let r = 0; r < PC_MAX; r++) {
+      for (let c = 0; c < PC_MAX; c++) {
+        const btn = $(`#pc-square-${r * PC_MAX + c}`);
+        if (!btn) continue;
+        const inside = r < n && c < n;
+        btn.hidden = !inside;
+        const kept = inside && pcGrid[r * n + c] === 1;
+        btn.classList.toggle('is-kept', kept);
+        btn.setAttribute('aria-pressed', kept ? 'true' : 'false');
+        if (inside) btn.setAttribute('aria-label', `第 ${r + 1} 行第 ${c + 1} 列：${kept ? '留着红纸' : '剪掉'}；这一行要留 ${want.rows[r].join('、') || '0'}，这一列要留 ${want.cols[c].join('、') || '0'}`);
+      }
+    }
+    const board = $('#pc-board');
+    if (board) {
+      board.setAttribute('data-size', String(n));
+      board.classList.toggle('is-done', pcSolved(pcGrid, picture));
+    }
+    if (status) {
+      if (message) status.textContent = message;
+      else if (pcSolved(pcGrid, picture)) status.textContent = `每一行每一列都对上了，${PC_SHEET_TABLE[sheet].title}剪好了。可以贴出去。`;
+      else status.textContent = `对上了 ${rowsMet}/${n} 行、${colsMet}/${n} 列，动了 ${pcClicks} 剪。点格子在“留红纸”和“剪掉”之间切换。`;
+    }
+  }
+
+  function togglePcCell(index) {
+    const st = pcReady(PC_FLOOR, `pc-square-${index}`);
+    if (!st || !st.draft.sheet || st.activePaster) return;
+    const n = PC_SHEET_TABLE[st.draft.sheet].pictures[st.draft.method].length;
+    const r = Math.floor(index / PC_MAX);
+    const c = index % PC_MAX;
+    if (!Number.isInteger(index) || r >= n || c >= n) return;
+    pcGrid = pcGrid.slice();
+    pcGrid[r * n + c] = pcGrid[r * n + c] ? 0 : 1;
+    pcClicks += 1;
+    if (AudioEngine.tick) AudioEngine.tick();
+    paintPcFloor('');
+  }
+
+  function resetPcSheet() {
+    const st = pcReady(PC_FLOOR, 'pc-reset');
+    if (!st || !st.draft.sheet || st.activePaster) return;
+    const n = PC_SHEET_TABLE[st.draft.sheet].pictures[st.draft.method].length;
+    pcGrid = new Array(n * n).fill(0);
+    pcClicks = 0;
+    paintPcFloor('换了一张新红纸。');
+  }
+
+  function finishPcCutting() {
+    const st = pcReady(PC_FLOOR, 'pc-finish');
+    if (!st || !st.draft.sheet || st.activePaster) return;
+    const { sheet, method } = st.draft;
+    if (!pcSolved(pcGrid, PC_SHEET_TABLE[sheet].pictures[method])) {
+      paintPcFloor('还有行或列没对上线索，贴不出去。');
+      return;
+    }
+    paintPcFloor('窗花剪好了。');
+    launchPc(PC_FLOOR, 'pc-finish', {
+      cut: `${sheet}:${method}`, feedback: pcFinishFeedback(sheet, method), kind: 'finish', method, sheet, source: PC_FLOOR, target: PC_SHEET_TABLE[sheet].target,
+    }, '#cutting-table-response');
+  }
+
+  function choosePcAbandon() {
+    const st = pcReady(PC_FLOOR, 'pc-abandon');
+    if (!st || !st.draft.sheet) return;
+    launchPc(PC_FLOOR, 'pc-abandon', { feedback: PC_ABANDON_FEEDBACK, kind: 'abandon', source: PC_FLOOR, target: PC_OFFICE }, '#cutting-table-response');
+  }
+
+  function choosePcPasterReturn(scene) {
+    const st = pcReady(scene, `pc-paster-return-${scene}`);
+    if (!st || !st.activePaster) return;
+    if (PC_SHEET_TABLE[st.activePaster.cut.split(':')[0]].target !== scene) return;
+    launchPc(scene, `pc-paster-return-${scene}`, { feedback: PC_PASTER_RETURN_FEEDBACK, from: scene, kind: 'paster-return', cut: st.activePaster.cut, target: PC_OFFICE }, `#pc-paster-response-${scene}`);
+  }
+
+  function choosePcCourtEntry() {
+    const st = pcReady('remembrance', 'pc-court-entry-btn');
+    if (!st || st.activePaster || !pcCourtEligible(st)) return;
+    launchPc('remembrance', 'pc-court-entry-btn', { feedback: PC_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: PC_COURT }, '#pc-court-entry-response');
+  }
+
+  function choosePcVerdict(action) {
+    const a = PC_VERDICT_TABLE[action];
+    if (!a) return;
+    const st = pcReady(PC_COURT, `pc-verdict-${action}`);
+    if (!st || st.activePaster || !st.visited.court || !pcCourtEligible(st)) return;
+    launchPc(PC_COURT, `pc-verdict-${action}`, { action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: PC_COURT, target: a.target }, '#hearing-of-the-paper-flower-response');
+  }
+
+  function paperCutBridgeAllows(targetScene) {
+    if (!paperCutUnlocked()) return false;
+    const st = getPaperCut();
+    if (st.pending && (st.pending.kind === 'finish' || st.pending.kind === 'verdict') && st.pending.target === targetScene) return true;
+    if (st.activePaster && PC_SHEET_TABLE[st.activePaster.cut.split(':')[0]].target === targetScene) return true;
+    const verdict = PC_VERDICT_ACTIONS.find((a) => PC_VERDICT_TABLE[a].outcome === st.lastOutcome);
+    return Boolean(verdict && PC_VERDICT_TABLE[verdict].target === targetScene);
+  }
+
+  function pcOfficeCanVisit() {
+    if (!paperCutUnlocked()) return false;
+    const st = getPaperCut();
+    return st.visited.office || Boolean(st.pending && st.pending.target === PC_OFFICE);
+  }
+
+  function cuttingTableCanVisit() {
+    if (!paperCutUnlocked()) return false;
+    const st = getPaperCut();
+    if (st.visited.floor && st.draft.sheet) return true;
+    return Boolean(st.pending && st.pending.kind === 'sheet');
+  }
+
+  function pcCourtCanVisit() {
+    if (!paperCutUnlocked()) return false;
+    const st = getPaperCut();
+    if (st.visited.court && pcCourtEligible(st)) return true;
+    return Boolean(st.pending && st.pending.kind === 'court-entry');
+  }
+
+  function syncPcOffice() {
+    const canVisit = pcOfficeCanVisit();
+    const st = getPaperCut();
+    const fig = $('#pc-office-figure');
+    if (fig) fig.hidden = !canVisit;
+    const blocked = !canVisit || Boolean(st.pending) || Boolean(st.activePaster);
+    PC_SHEETS.forEach((sheet) => {
+      const btn = $(`#pc-sheet-${sheet}`);
+      if (!btn) return;
+      btn.disabled = blocked;
+      btn.classList.toggle('is-collected', PC_METHODS.every((m) => st.cuts.includes(`${sheet}:${m}`)));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'sheet' && st.pending.sheet === sheet ? 'true' : 'false');
+    });
+    const note = $('#pc-office-note');
+    if (note) {
+      let text = '';
+      if (st.activePaster) {
+        const b = PC_SHEET_TABLE[st.activePaster.cut.split(':')[0]];
+        text = `先完成正在送去的那张窗花：${b.pasterTitle}还在${b.place}等你签收。`;
+      } else if (st.draft.sheet) {
+        text = `剪纸台上还压着剪了一半的「${PC_SHEET_TABLE[st.draft.sheet].title}」。`;
+      }
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const cont = $('#pc-continue');
+    if (cont) {
+      const show = canVisit && Boolean(st.draft.sheet) && !st.activePaster;
+      cont.hidden = !show;
+      cont.disabled = !show || Boolean(st.pending);
+    }
+    if (!st.pending || st.pending.source !== PC_OFFICE) showPcResponse('#paper-cut-shop-response', '');
+  }
+
+  function syncCuttingTable() {
+    const canVisit = cuttingTableCanVisit();
+    const st = getPaperCut();
+    const ready = canVisit && Boolean(st.draft.sheet);
+    const key = st.draft.sheet ? `${st.draft.sheet}:${st.draft.method}` : '';
+    if (key !== pcFloorKey && !(st.pending && st.pending.kind === 'finish')) {
+      pcFloorKey = key;
+      const n = st.draft.sheet ? PC_SHEET_TABLE[st.draft.sheet].pictures[st.draft.method].length : 0;
+      pcGrid = new Array(n * n).fill(0);
+      pcClicks = 0;
+    }
+    const panel = $('#pc-floor-panel');
+    if (panel) panel.hidden = !ready;
+    const board = $('#pc-board');
+    if (board) board.hidden = !ready;
+    if (ready) {
+      const t = PC_SHEET_TABLE[st.draft.sheet];
+      const title = $('#pc-floor-sheet');
+      if (title) title.textContent = `${t.title} —— ${t.feedback}`;
+      const hint = $('#pc-method-hint');
+      if (hint) hint.textContent = `${PC_METHOD_TABLE[st.draft.method].hint}左边和上边的数字是这一行、这一列要留下几段连着的红纸（“2 1”就是先留两格、隔开、再留一格）；点格子在留红纸和剪掉之间切换，对上的数字会变亮。每行每列都对上就能贴出去，窗花会送到${t.place}，由${t.pasterTitle}签收。换纸或换窗花会重新拿一张红纸。`;
+    }
+    PC_METHODS.forEach((method) => {
+      const btn = $(`#pc-method-${method}`);
+      if (!btn) return;
+      btn.disabled = !ready || Boolean(st.pending);
+      btn.setAttribute('aria-pressed', ready && st.draft.method === method ? 'true' : 'false');
+      btn.classList.toggle('is-collected', Boolean(st.draft.sheet) && st.cuts.includes(`${st.draft.sheet}:${method}`));
+    });
+    ['pc-finish', 'pc-reset', 'pc-abandon'].forEach((id) => {
+      const btn = $(`#${id}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending);
+    });
+    for (let i = 0; i < PC_MAX * PC_MAX; i++) {
+      const btn = $(`#pc-square-${i}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending);
+    }
+    paintPcFloor(st.pending && st.pending.kind === 'finish' ? '窗花剪好了，正在送过去。' : '');
+    if (!st.pending || st.pending.source !== PC_FLOOR) showPcResponse('#cutting-table-response', '');
+  }
+
+  function syncPcCourt() {
+    const canVisit = pcCourtCanVisit();
+    const st = getPaperCut();
+    const fig = $('#hearing-of-the-paper-flower-figure');
+    if (fig) fig.hidden = !canVisit;
+    PC_VERDICT_ACTIONS.forEach((action) => {
+      const btn = $(`#pc-verdict-${action}`);
+      if (!btn) return;
+      btn.disabled = !canVisit || Boolean(st.pending) || Boolean(st.activePaster);
+      btn.classList.toggle('is-collected', st.courtOutcomes.includes(PC_VERDICT_TABLE[action].outcome));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'verdict' && st.pending.action === action ? 'true' : 'false');
+    });
+    if (!st.pending || st.pending.source !== PC_COURT) showPcResponse('#hearing-of-the-paper-flower-response', '');
+  }
+
+  function syncPcPasters() {
+    const st = paperCutUnlocked() ? getPaperCut() : defaultPaperCut();
+    const [sheet, method] = st.activePaster ? st.activePaster.cut.split(':') : ['', ''];
+    PC_OLD_TARGETS.forEach((scene) => {
+      const box = $(`#pc-paster-${scene}`);
+      if (!box) return;
+      const show = Boolean(sheet) && PC_SHEET_TABLE[sheet].target === scene;
+      box.hidden = !show;
+      const btn = $(`#pc-paster-return-${scene}`);
+      if (btn) {
+        btn.disabled = !show || Boolean(st.pending);
+        btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'paster-return' && st.pending.from === scene ? 'true' : 'false');
+      }
+      if (!show) return;
+      const b = PC_SHEET_TABLE[sheet];
+      const head = $(`#pc-paster-title-${scene}`);
+      if (head) head.textContent = `贴花签收 · ${b.pasterTitle} · ${b.title}（${PC_METHOD_TABLE[method].title}）`;
+      const level = $(`#pc-paster-level-${scene}`);
+      if (level) level.textContent = `用${PC_METHOD_TABLE[method].title}剪的，${PC_METHOD_TABLE[method].size} 行 ${PC_METHOD_TABLE[method].size} 列一格不差`;
+      const body = $(`#pc-paster-body-${scene}`);
+      if (body) body.textContent = PC_METHOD_TABLE[method].result;
+      if (!st.pending || st.pending.kind !== 'paster-return') showPcResponse(`#pc-paster-response-${scene}`, '');
+    });
+  }
+
+  function syncPcEchoes() {
+    const st = paperCutUnlocked() ? getPaperCut() : defaultPaperCut();
+    PC_SHEETS.forEach((sheet) => {
+      const b = PC_SHEET_TABLE[sheet];
+      const el = $(`#pc-echo-${b.target}`);
+      if (!el) return;
+      const method = st.latestMethodBySheet[sheet];
+      if (!method) { el.hidden = true; el.textContent = ''; return; }
+      el.textContent = `${b.echoLead}${PC_METHOD_TABLE[method].result}`;
+      el.hidden = false;
+    });
+  }
+
+  function syncPcRemembrance() {
+    const unlocked = paperCutUnlocked();
+    const shell = $('#pc-codex');
+    const memory = $('#pc-memory');
+    if (!unlocked) {
+      [shell, memory].forEach((el) => { if (el) el.hidden = true; });
+      return;
+    }
+    const st = getPaperCut();
+    const v111Busy = pcUpstreamBusy();
+    if (shell) shell.hidden = false;
+    const progress = pcCourtProgress(st);
+    if (memory) {
+      memory.hidden = false;
+      memory.textContent = `剪纸：已贴出 ${st.cuts.length}/9 张，共贴 ${st.cutRuns} 次；窗花听证 ${st.courtOutcomes.length}/3。`;
+    }
+    const hints = $('#pc-court-hints');
+    if (hints) {
+      const rows = [['三张窗花都剪过', progress.sheets, PC_SHEETS.length], ['三种纸都用过', progress.methods, PC_METHODS.length]];
+      hints.replaceChildren(...rows.map(([label, have, need]) => {
+        const li = document.createElement('li');
+        li.className = have >= need ? 'is-met' : '';
+        li.textContent = `${label} ${have}/${need}`;
+        return li;
+      }));
+    }
+    const clean = !st.pending && !st.activePaster;
+    const entry = $('#pc-entry-btn');
+    if (entry) {
+      entry.hidden = false;
+      entry.disabled = !clean || v111Busy;
+      entry.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' ? 'true' : 'false');
+    }
+    const note = $('#pc-entry-note');
+    if (note) {
+      const text = v111Busy ? '先完成归位司那间还在路上的屋：归位司还有一位搬家具的人没签收。' : st.activePaster ? '先完成正在送去的那张窗花。' : '';
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const court = $('#pc-court-entry-btn');
+    if (court) {
+      const eligible = pcCourtEligible(st);
+      court.hidden = !eligible;
+      court.disabled = !eligible || !clean;
+      court.setAttribute('aria-pressed', st.pending && st.pending.kind === 'court-entry' ? 'true' : 'false');
+    }
+    const grid = $('#pc-codex-grid');
+    if (grid) {
+      const have = new Set(st.cuts);
+      const cells = PC_CUT_IDS.map((id) => {
+        const [sheet, method] = id.split(':');
+        const cell = document.createElement('div');
+        cell.className = `pc-cell ${have.has(id) ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = have.has(id) ? `${PC_SHEET_TABLE[sheet].title}\n${PC_METHOD_TABLE[method].title}` : '？？？';
+        return cell;
+      });
+      PC_VERDICT_ACTIONS.forEach((action) => {
+        const a = PC_VERDICT_TABLE[action];
+        const got = st.courtOutcomes.includes(a.outcome);
+        const cell = document.createElement('div');
+        cell.className = `pc-cell pc-cell-verdict ${got ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = got ? `[窗花听证会] ${a.title}\n${a.feedback}` : '？？？';
+        cells.push(cell);
+      });
+      grid.replaceChildren(...cells);
+    }
+    if (!st.pending || (st.pending.kind !== 'entry' && st.pending.kind !== 'court-entry')) {
+      showPcResponse('#pc-entry-response', '');
+      showPcResponse('#pc-court-entry-response', '');
+    }
+  }
+
+  function syncPcLinks() {
+    const st = paperCutUnlocked() ? getPaperCut() : null;
+    [['paper-cut-shop-link', 'office'], ['cutting-table-link', 'floor'], ['hearing-of-the-paper-flower-link', 'court']].forEach(([id, key]) => {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !(st && st.visited[key]);
+    });
+  }
+
+  function forgetPaperCutState() {
+    try { localStorage.removeItem(PAPER_CUT_KEY); } catch {}
+    [PC_OFFICE, PC_FLOOR, PC_COURT].forEach((scene) => AutoAdvance.clear(scene));
+    pcGrid = [];
+    pcClicks = 0;
+    pcFloorKey = '';
+    ['#pc-codex', '#pc-memory', '#pc-office-figure', '#pc-floor-panel', '#hearing-of-the-paper-flower-figure',
+      '#paper-cut-shop-link', '#cutting-table-link', '#hearing-of-the-paper-flower-link', '#pc-continue', '#pc-court-entry-btn',
+      '#pc-entry-response', '#pc-court-entry-response', '#paper-cut-shop-response', '#cutting-table-response', '#hearing-of-the-paper-flower-response',
+      ...PC_OLD_TARGETS.flatMap((scene) => [`#pc-paster-${scene}`, `#pc-echo-${scene}`]),
+    ].forEach((sel) => { const el = $(sel); if (el) el.hidden = true; });
+    $$('[id^="pc-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+  }
+
+  const onTrustedPc = (selector, handler) => {
+    const el = $(selector);
+    if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+  };
+  onTrustedPc('#pc-entry-btn', choosePcEntry);
+  onTrustedPc('#pc-court-entry-btn', choosePcCourtEntry);
+  onTrustedPc('#pc-abandon', choosePcAbandon);
+  onTrustedPc('#pc-continue', () => {
+    const st = pcReady(PC_OFFICE, 'pc-continue');
+    if (!st || !st.draft.sheet || st.activePaster) return;
+    const sheet = st.draft.sheet;
+    launchPc(PC_OFFICE, 'pc-continue', { sheet, feedback: PC_SHEET_TABLE[sheet].feedback, kind: 'sheet', source: PC_OFFICE, target: PC_FLOOR }, '#paper-cut-shop-response');
+  });
+  PC_SHEETS.forEach((sheet) => onTrustedPc(`#pc-sheet-${sheet}`, () => choosePcSheet(sheet)));
+  PC_METHODS.forEach((method) => onTrustedPc(`#pc-method-${method}`, () => choosePcMethod(method)));
+  PC_VERDICT_ACTIONS.forEach((action) => onTrustedPc(`#pc-verdict-${action}`, () => choosePcVerdict(action)));
+  PC_OLD_TARGETS.forEach((scene) => onTrustedPc(`#pc-paster-return-${scene}`, () => choosePcPasterReturn(scene)));
+  for (let cell = 0; cell < PC_MAX * PC_MAX; cell++) onTrustedPc(`#pc-square-${cell}`, () => togglePcCell(cell));
+  onTrustedPc('#pc-reset', resetPcSheet);
+  onTrustedPc('#pc-finish', finishPcCutting);
+
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -66049,8 +66850,26 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     if (eligible) items.push(`开庭条件已满足；归位裁定已得 ${st.courtOutcomes.length}/3`);
     if (st.activeMover) items.push("有一间屋在旧房间等你签收：跟着搬家具的人回到归位司");
     else if (st.draft.room) items.push(`印痕地上还摆着没推完的「${PB_ROOM_TABLE[st.draft.room].title}」`);
-    if (eligible && st.courtOutcomes.length >= 3) return { title: "v111 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    if (eligible && st.courtOutcomes.length >= 3) return paperCutProgressStep();
     return { title: "v111 归位司", items, target: eligible ? "pb-court" : "pb", done: false };
+  };
+
+  /* v112：按三张窗花、三种纸与三项裁定给出缺项 */
+  const paperCutProgressStep = () => {
+    if (!paperCutUnlocked()) return null;
+    const st = getPaperCut();
+    const items = [];
+    const sheets = PC_SHEETS.filter((x) => !st.cuts.some((id) => id.startsWith(`${x}:`))).map((x) => PC_SHEET_TABLE[x].title);
+    const methods = PC_METHODS.filter((m) => !st.cuts.some((id) => id.endsWith(`:${m}`))).map((m) => PC_METHOD_TABLE[m].title);
+    if (pcUpstreamBusy() && !st.visited.office) items.push("先完成归位司那间还在路上的屋，剪纸铺才开门");
+    if (sheets.length) items.push(`还没剪过的窗花：${sheets.join("、")}`);
+    if (methods.length) items.push(`还没用过的纸：${methods.join("、")}`);
+    const eligible = pcCourtEligible(st);
+    if (eligible) items.push(`开庭条件已满足；窗花裁定已得 ${st.courtOutcomes.length}/3`);
+    if (st.activePaster) items.push("有一张窗花在旧房间等你签收：跟着贴花人回到剪纸铺");
+    else if (st.draft.sheet) items.push(`剪纸台上还压着剪了一半的「${PC_SHEET_TABLE[st.draft.sheet].title}」`);
+    if (eligible && st.courtOutcomes.length >= 3) return { title: "v112 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    return { title: "v112 剪纸铺", items, target: eligible ? "pc-court" : "pc", done: false };
   };
 
   const shadowlessPhotographyProgressStep = () => {
@@ -66630,6 +67449,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   syncExactTeaAll();
   syncLastSweepAll();
   syncPuttingBackAll();
+  syncPaperCutAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=111">
+  <link rel="stylesheet" href="styles.css?v=112">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -263,6 +263,15 @@
             <p class="ah-response" id="ah-wake-response-threshold" aria-live="polite" hidden></p>
           </aside>
           <div class="ah-echo" id="ah-echo-you-woke-in-a-borrowed-morning" hidden></div>
+          <!-- v112 门槛贴花签收与记忆 -->
+          <p class="watch-memory pc-echo" id="pc-echo-threshold" hidden></p>
+          <div class="pc-paster reveal" id="pc-paster-threshold" hidden>
+            <p class="pc-paster-title" id="pc-paster-title-threshold"></p>
+            <p class="pc-paster-level" id="pc-paster-level-threshold"></p>
+            <p class="pc-paster-body" id="pc-paster-body-threshold"></p>
+            <p class="pc-response" id="pc-paster-response-threshold" aria-live="polite" hidden></p>
+            <button class="pc-action" id="pc-paster-return-threshold" type="button" data-hover>跟着贴花人回到剪纸铺 ⟶</button>
+          </div>
           <!-- v106 门槛头版签收与记忆 -->
           <p class="watch-memory ts-echo" id="ts-echo-threshold" hidden></p>
           <div class="ts-setter reveal" id="ts-setter-threshold" hidden>
@@ -365,6 +374,15 @@
           </ol>
           <p class="rules-foot reveal">守则如有变动，恕不另行通知。——有些变动并非我们所为。</p>
 
+          <!-- v112 守则贴花签收与记忆 -->
+          <p class="watch-memory pc-echo" id="pc-echo-protocol" hidden></p>
+          <div class="pc-paster reveal" id="pc-paster-protocol" hidden>
+            <p class="pc-paster-title" id="pc-paster-title-protocol"></p>
+            <p class="pc-paster-level" id="pc-paster-level-protocol"></p>
+            <p class="pc-paster-body" id="pc-paster-body-protocol"></p>
+            <p class="pc-response" id="pc-paster-response-protocol" aria-live="polite" hidden></p>
+            <button class="pc-action" id="pc-paster-return-protocol" type="button" data-hover>跟着贴花人回到剪纸铺 ⟶</button>
+          </div>
           <!-- v108 守则借光签收与记忆 -->
           <p class="watch-memory lb-echo" id="lb-echo-protocol" hidden></p>
           <div class="lb-lamplighter reveal" id="lb-lamplighter-protocol" hidden>
@@ -4198,6 +4216,15 @@
             <p class="answer-note" id="cancel-note" role="status" aria-live="polite"></p>
           </div>
 
+          <!-- v112 无主投递所贴花签收与记忆 -->
+          <p class="watch-memory pc-echo" id="pc-echo-deadletter" hidden></p>
+          <div class="pc-paster reveal" id="pc-paster-deadletter" hidden>
+            <p class="pc-paster-title" id="pc-paster-title-deadletter"></p>
+            <p class="pc-paster-level" id="pc-paster-level-deadletter"></p>
+            <p class="pc-paster-body" id="pc-paster-body-deadletter"></p>
+            <p class="pc-response" id="pc-paster-response-deadletter" aria-live="polite" hidden></p>
+            <button class="pc-action" id="pc-paster-return-deadletter" type="button" data-hover>跟着贴花人回到剪纸铺 ⟶</button>
+          </div>
           <!-- v108 无主投递所借光签收与记忆 -->
           <p class="watch-memory lb-echo" id="lb-echo-deadletter" hidden></p>
           <div class="lb-lamplighter reveal" id="lb-lamplighter-deadletter" hidden>
@@ -5283,6 +5310,21 @@
               <p class="ts-response" id="ts-entry-response" aria-live="polite" hidden></p>
               <button class="ts-entry-btn" id="ts-court-entry-btn" type="button" hidden data-hover>进入早报听证会 · ENTER THE HEARING OF THE MORNING EDITION ⟶</button>
               <p class="ts-response" id="ts-court-entry-response" aria-live="polite" hidden></p>
+            </div>
+          </div>
+          <!-- v112 剪纸图鉴 -->
+          <p class="watch-memory pc-memory" id="pc-memory" hidden></p>
+          <div class="pc-codex reveal" id="pc-codex" hidden>
+            <p class="pc-kicker">THE PAPER-CUT SHOP · 剪 纸 图 鉴</p>
+            <div class="pc-grid" id="pc-codex-grid"></div>
+            <p class="pc-hints-title">窗花听证会开庭条件</p>
+            <ul class="pc-hints" id="pc-court-hints"></ul>
+            <div class="pc-codex-entry">
+              <button class="pc-entry-btn" id="pc-entry-btn" type="button" hidden data-hover>前往剪纸铺 · GO TO THE PAPER-CUT SHOP ⟶</button>
+              <p class="pc-note" id="pc-entry-note" hidden></p>
+              <p class="pc-response" id="pc-entry-response" aria-live="polite" hidden></p>
+              <button class="pc-entry-btn" id="pc-court-entry-btn" type="button" hidden data-hover>进入窗花听证会 · ENTER THE HEARING OF THE PAPER FLOWER ⟶</button>
+              <p class="pc-response" id="pc-court-entry-response" aria-live="polite" hidden></p>
             </div>
           </div>
           <!-- v111 归位图鉴 -->
@@ -9937,6 +9979,151 @@
         </div>
       </section>
 
+      <!-- v112 第一幕：剪纸铺 -->
+      <section class="scene scene-branch scene-paper-cut-shop" id="scene-paper-cut-shop" data-scene="paper-cut-shop" data-title="Goddead — 剪纸铺" aria-label="剪纸铺">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">26α / 剪纸 · THE PAPER-CUT SHOP</p>
+            <h2 class="sec-title">剪纸铺</h2>
+            <p class="sec-desc">屋子都收拾停当了，死人想在门窗上贴一张窗花——得照老样子剪，一格也不能差。剪纸铺的柜台上三张样子：一扇门、一盏灯笼、一只信封。</p>
+          </header>
+          <figure class="branch-figure pc-figure reveal" id="pc-office-figure">
+            <img class="branch-img pc-img" data-src="assets/v112-paper-cut-shop.webp" alt="剪纸铺：堆满红纸、墙上挂着一串串窗花的小铺子；柜台上平放着三张方红纸剪的窗花，左边一扇拱门，中间一盏圆灯笼，右边一只封好的信封" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot pc-hotspot pc-hotspot-left" id="pc-sheet-threshold-sheet" type="button" aria-label="剪纸：门槛的门笺" data-hover><span class="dh-label" aria-hidden="true">门槛的门笺</span></button>
+            <button class="scene-hotspot pc-hotspot pc-hotspot-center" id="pc-sheet-protocol-sheet" type="button" aria-label="剪纸：守则厅的灯笼" data-hover><span class="dh-label" aria-hidden="true">守则厅的灯笼</span></button>
+            <button class="scene-hotspot pc-hotspot pc-hotspot-right" id="pc-sheet-deadletter-sheet" type="button" aria-label="剪纸：投递所的信封" data-hover><span class="dh-label" aria-hidden="true">投递所的信封</span></button>
+          </figure>
+          <p class="pc-note reveal" id="pc-office-note" hidden></p>
+          <p class="branch-response pc-response" id="paper-cut-shop-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开剪纸铺">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+            <button class="pc-action" id="pc-continue" type="button" hidden data-hover>回到剪纸台 ⟶</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v112 第二幕：剪纸台 -->
+      <section class="scene scene-branch scene-cutting-table" id="scene-cutting-table" data-scene="cutting-table" data-title="Goddead — 剪纸台" aria-label="剪纸台">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">26β / 照数剪 · THE CUTTING TABLE</p>
+            <h2 class="sec-title">剪纸台</h2>
+            <p class="sec-desc">桌上铺着一张方红纸，左边和上边印着数字：每行、每列要留几段连着的红纸。选一种纸，点格子在“留红纸”和“剪掉”之间切换。每行每列都对上，窗花就剪成了。</p>
+          </header>
+          <figure class="branch-figure pc-figure pc-floor-figure reveal" id="pc-floor-figure">
+            <img class="branch-img pc-img" data-src="assets/v112-cutting-table.webp" alt="剪纸台：俯视的一张深色木桌，正中平铺着一张没剪过的方形红纸，右边放着一把铜剪刀，左边散着几片红纸屑" width="1536" height="1024" loading="lazy" decoding="async">
+            <div class="pc-board" id="pc-board" data-size="5" hidden>
+              <div class="pc-col-clues" aria-hidden="true">
+                <span class="pc-clue pc-col-clue" id="pc-col-clue-0" style="grid-column: 1"></span>
+                <span class="pc-clue pc-col-clue" id="pc-col-clue-1" style="grid-column: 2"></span>
+                <span class="pc-clue pc-col-clue" id="pc-col-clue-2" style="grid-column: 3"></span>
+                <span class="pc-clue pc-col-clue" id="pc-col-clue-3" style="grid-column: 4"></span>
+                <span class="pc-clue pc-col-clue" id="pc-col-clue-4" style="grid-column: 5"></span>
+                <span class="pc-clue pc-col-clue" id="pc-col-clue-5" style="grid-column: 6"></span>
+                <span class="pc-clue pc-col-clue" id="pc-col-clue-6" style="grid-column: 7"></span>
+              </div>
+              <div class="pc-row-clues" aria-hidden="true">
+                <span class="pc-clue pc-row-clue" id="pc-row-clue-0" style="grid-row: 1"></span>
+                <span class="pc-clue pc-row-clue" id="pc-row-clue-1" style="grid-row: 2"></span>
+                <span class="pc-clue pc-row-clue" id="pc-row-clue-2" style="grid-row: 3"></span>
+                <span class="pc-clue pc-row-clue" id="pc-row-clue-3" style="grid-row: 4"></span>
+                <span class="pc-clue pc-row-clue" id="pc-row-clue-4" style="grid-row: 5"></span>
+                <span class="pc-clue pc-row-clue" id="pc-row-clue-5" style="grid-row: 6"></span>
+                <span class="pc-clue pc-row-clue" id="pc-row-clue-6" style="grid-row: 7"></span>
+              </div>
+              <div class="pc-cells">
+                <button class="pc-square" id="pc-square-0" type="button" aria-pressed="false" aria-label="第 1 行第 1 列" style="grid-row: 1; grid-column: 1" data-hover></button>
+                <button class="pc-square" id="pc-square-1" type="button" aria-pressed="false" aria-label="第 1 行第 2 列" style="grid-row: 1; grid-column: 2" data-hover></button>
+                <button class="pc-square" id="pc-square-2" type="button" aria-pressed="false" aria-label="第 1 行第 3 列" style="grid-row: 1; grid-column: 3" data-hover></button>
+                <button class="pc-square" id="pc-square-3" type="button" aria-pressed="false" aria-label="第 1 行第 4 列" style="grid-row: 1; grid-column: 4" data-hover></button>
+                <button class="pc-square" id="pc-square-4" type="button" aria-pressed="false" aria-label="第 1 行第 5 列" style="grid-row: 1; grid-column: 5" data-hover></button>
+                <button class="pc-square" id="pc-square-5" type="button" aria-pressed="false" aria-label="第 1 行第 6 列" style="grid-row: 1; grid-column: 6" data-hover></button>
+                <button class="pc-square" id="pc-square-6" type="button" aria-pressed="false" aria-label="第 1 行第 7 列" style="grid-row: 1; grid-column: 7" data-hover></button>
+                <button class="pc-square" id="pc-square-7" type="button" aria-pressed="false" aria-label="第 2 行第 1 列" style="grid-row: 2; grid-column: 1" data-hover></button>
+                <button class="pc-square" id="pc-square-8" type="button" aria-pressed="false" aria-label="第 2 行第 2 列" style="grid-row: 2; grid-column: 2" data-hover></button>
+                <button class="pc-square" id="pc-square-9" type="button" aria-pressed="false" aria-label="第 2 行第 3 列" style="grid-row: 2; grid-column: 3" data-hover></button>
+                <button class="pc-square" id="pc-square-10" type="button" aria-pressed="false" aria-label="第 2 行第 4 列" style="grid-row: 2; grid-column: 4" data-hover></button>
+                <button class="pc-square" id="pc-square-11" type="button" aria-pressed="false" aria-label="第 2 行第 5 列" style="grid-row: 2; grid-column: 5" data-hover></button>
+                <button class="pc-square" id="pc-square-12" type="button" aria-pressed="false" aria-label="第 2 行第 6 列" style="grid-row: 2; grid-column: 6" data-hover></button>
+                <button class="pc-square" id="pc-square-13" type="button" aria-pressed="false" aria-label="第 2 行第 7 列" style="grid-row: 2; grid-column: 7" data-hover></button>
+                <button class="pc-square" id="pc-square-14" type="button" aria-pressed="false" aria-label="第 3 行第 1 列" style="grid-row: 3; grid-column: 1" data-hover></button>
+                <button class="pc-square" id="pc-square-15" type="button" aria-pressed="false" aria-label="第 3 行第 2 列" style="grid-row: 3; grid-column: 2" data-hover></button>
+                <button class="pc-square" id="pc-square-16" type="button" aria-pressed="false" aria-label="第 3 行第 3 列" style="grid-row: 3; grid-column: 3" data-hover></button>
+                <button class="pc-square" id="pc-square-17" type="button" aria-pressed="false" aria-label="第 3 行第 4 列" style="grid-row: 3; grid-column: 4" data-hover></button>
+                <button class="pc-square" id="pc-square-18" type="button" aria-pressed="false" aria-label="第 3 行第 5 列" style="grid-row: 3; grid-column: 5" data-hover></button>
+                <button class="pc-square" id="pc-square-19" type="button" aria-pressed="false" aria-label="第 3 行第 6 列" style="grid-row: 3; grid-column: 6" data-hover></button>
+                <button class="pc-square" id="pc-square-20" type="button" aria-pressed="false" aria-label="第 3 行第 7 列" style="grid-row: 3; grid-column: 7" data-hover></button>
+                <button class="pc-square" id="pc-square-21" type="button" aria-pressed="false" aria-label="第 4 行第 1 列" style="grid-row: 4; grid-column: 1" data-hover></button>
+                <button class="pc-square" id="pc-square-22" type="button" aria-pressed="false" aria-label="第 4 行第 2 列" style="grid-row: 4; grid-column: 2" data-hover></button>
+                <button class="pc-square" id="pc-square-23" type="button" aria-pressed="false" aria-label="第 4 行第 3 列" style="grid-row: 4; grid-column: 3" data-hover></button>
+                <button class="pc-square" id="pc-square-24" type="button" aria-pressed="false" aria-label="第 4 行第 4 列" style="grid-row: 4; grid-column: 4" data-hover></button>
+                <button class="pc-square" id="pc-square-25" type="button" aria-pressed="false" aria-label="第 4 行第 5 列" style="grid-row: 4; grid-column: 5" data-hover></button>
+                <button class="pc-square" id="pc-square-26" type="button" aria-pressed="false" aria-label="第 4 行第 6 列" style="grid-row: 4; grid-column: 6" data-hover></button>
+                <button class="pc-square" id="pc-square-27" type="button" aria-pressed="false" aria-label="第 4 行第 7 列" style="grid-row: 4; grid-column: 7" data-hover></button>
+                <button class="pc-square" id="pc-square-28" type="button" aria-pressed="false" aria-label="第 5 行第 1 列" style="grid-row: 5; grid-column: 1" data-hover></button>
+                <button class="pc-square" id="pc-square-29" type="button" aria-pressed="false" aria-label="第 5 行第 2 列" style="grid-row: 5; grid-column: 2" data-hover></button>
+                <button class="pc-square" id="pc-square-30" type="button" aria-pressed="false" aria-label="第 5 行第 3 列" style="grid-row: 5; grid-column: 3" data-hover></button>
+                <button class="pc-square" id="pc-square-31" type="button" aria-pressed="false" aria-label="第 5 行第 4 列" style="grid-row: 5; grid-column: 4" data-hover></button>
+                <button class="pc-square" id="pc-square-32" type="button" aria-pressed="false" aria-label="第 5 行第 5 列" style="grid-row: 5; grid-column: 5" data-hover></button>
+                <button class="pc-square" id="pc-square-33" type="button" aria-pressed="false" aria-label="第 5 行第 6 列" style="grid-row: 5; grid-column: 6" data-hover></button>
+                <button class="pc-square" id="pc-square-34" type="button" aria-pressed="false" aria-label="第 5 行第 7 列" style="grid-row: 5; grid-column: 7" data-hover></button>
+                <button class="pc-square" id="pc-square-35" type="button" aria-pressed="false" aria-label="第 6 行第 1 列" style="grid-row: 6; grid-column: 1" data-hover></button>
+                <button class="pc-square" id="pc-square-36" type="button" aria-pressed="false" aria-label="第 6 行第 2 列" style="grid-row: 6; grid-column: 2" data-hover></button>
+                <button class="pc-square" id="pc-square-37" type="button" aria-pressed="false" aria-label="第 6 行第 3 列" style="grid-row: 6; grid-column: 3" data-hover></button>
+                <button class="pc-square" id="pc-square-38" type="button" aria-pressed="false" aria-label="第 6 行第 4 列" style="grid-row: 6; grid-column: 4" data-hover></button>
+                <button class="pc-square" id="pc-square-39" type="button" aria-pressed="false" aria-label="第 6 行第 5 列" style="grid-row: 6; grid-column: 5" data-hover></button>
+                <button class="pc-square" id="pc-square-40" type="button" aria-pressed="false" aria-label="第 6 行第 6 列" style="grid-row: 6; grid-column: 6" data-hover></button>
+                <button class="pc-square" id="pc-square-41" type="button" aria-pressed="false" aria-label="第 6 行第 7 列" style="grid-row: 6; grid-column: 7" data-hover></button>
+                <button class="pc-square" id="pc-square-42" type="button" aria-pressed="false" aria-label="第 7 行第 1 列" style="grid-row: 7; grid-column: 1" data-hover></button>
+                <button class="pc-square" id="pc-square-43" type="button" aria-pressed="false" aria-label="第 7 行第 2 列" style="grid-row: 7; grid-column: 2" data-hover></button>
+                <button class="pc-square" id="pc-square-44" type="button" aria-pressed="false" aria-label="第 7 行第 3 列" style="grid-row: 7; grid-column: 3" data-hover></button>
+                <button class="pc-square" id="pc-square-45" type="button" aria-pressed="false" aria-label="第 7 行第 4 列" style="grid-row: 7; grid-column: 4" data-hover></button>
+                <button class="pc-square" id="pc-square-46" type="button" aria-pressed="false" aria-label="第 7 行第 5 列" style="grid-row: 7; grid-column: 5" data-hover></button>
+                <button class="pc-square" id="pc-square-47" type="button" aria-pressed="false" aria-label="第 7 行第 6 列" style="grid-row: 7; grid-column: 6" data-hover></button>
+                <button class="pc-square" id="pc-square-48" type="button" aria-pressed="false" aria-label="第 7 行第 7 列" style="grid-row: 7; grid-column: 7" data-hover></button>
+              </div>
+            </div>
+            <p class="pc-floor-status" id="pc-floor-status" aria-live="polite"></p>
+          </figure>
+          <div class="pc-panel reveal" id="pc-floor-panel" hidden>
+            <p class="pc-panel-sheet" id="pc-floor-sheet"></p>
+            <div class="pc-methods" role="group" aria-label="纸">
+              <button class="pc-method" id="pc-method-small" type="button" data-hover>小方纸</button>
+              <button class="pc-method" id="pc-method-medium" type="button" data-hover>中方纸</button>
+              <button class="pc-method" id="pc-method-large" type="button" data-hover>大方纸</button>
+            </div>
+            <p class="pc-note" id="pc-method-hint"></p>
+            <div class="pc-actions">
+              <button class="pc-action pc-finish" id="pc-finish" type="button" data-hover>贴出去</button>
+              <button class="pc-action" id="pc-reset" type="button" data-hover>换一张红纸</button>
+              <button class="pc-action" id="pc-abandon" type="button" data-hover>先压在柜台底下</button>
+            </div>
+          </div>
+          <p class="branch-response pc-response" id="cutting-table-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <!-- v112 第三幕：窗花听证会 -->
+      <section class="scene scene-branch scene-hearing-of-the-paper-flower" id="scene-hearing-of-the-paper-flower" data-scene="hearing-of-the-paper-flower" data-title="Goddead — 窗花听证会" aria-label="窗花听证会">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">26γ / 窗花 · HEARING OF THE PAPER FLOWER</p>
+            <h2 class="sec-title">窗花听证会</h2>
+            <p class="sec-desc">圆厅高窗下的空椅子旁没有一张窗花。桌上三件东西：一扇贴着红窗花的小木窗、一张白纸和一把剪刀、一张正被风掀起的红窗花。裁定之后仍可回来。</p>
+          </header>
+          <figure class="branch-figure pc-figure reveal" id="hearing-of-the-paper-flower-figure">
+            <img class="branch-img pc-img" data-src="assets/v112-hearing-of-the-paper-flower.webp" alt="窗花听证会：圆厅高窗下一把空椅子；近处长桌上左边一扇贴着红窗花的小木窗框，中间一张白纸和一把剪刀，右边一张红窗花被风掀起，几片红纸屑在飞" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot pc-hotspot pc-hotspot-court-left" id="pc-verdict-paste-them-all" type="button" aria-label="裁定：全部贴上" data-hover><span class="dh-label" aria-hidden="true">全部贴上</span></button>
+            <button class="scene-hotspot pc-hotspot pc-hotspot-court-center" id="pc-verdict-leave-a-blank-for-god" type="button" aria-label="裁定：给神留一张白纸" data-hover><span class="dh-label" aria-hidden="true">给神留一张白纸</span></button>
+            <button class="scene-hotspot pc-hotspot pc-hotspot-court-right" id="pc-verdict-let-the-wind-take-them" type="button" aria-label="裁定：让风吹走" data-hover><span class="dh-label" aria-hidden="true">让风吹走</span></button>
+          </figure>
+          <p class="branch-response pc-response" id="hearing-of-the-paper-flower-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开听证会">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+          </nav>
+        </div>
+      </section>
+
       <!-- 隐藏幕 · 第九条 -->
       <section class="scene scene-ninth" id="scene-ninth" data-scene="ninth" data-title="Goddead — ？？？" aria-label="第九条">
         <figure class="ninth-figure" role="img" aria-label="一道不该存在的裂口，底部有一扇错误的窄门">
@@ -10204,6 +10391,9 @@
       <a href="#putting-back-office" id="putting-back-office-link" hidden data-hover>25α / 归位司</a>
       <a href="#marked-floor" id="marked-floor-link" hidden data-hover>25β / 印痕地</a>
       <a href="#hearing-of-the-last-mark" id="hearing-of-the-last-mark-link" hidden data-hover>25γ / 归位听证</a>
+      <a href="#paper-cut-shop" id="paper-cut-shop-link" hidden data-hover>26α / 剪纸铺</a>
+      <a href="#cutting-table" id="cutting-table-link" hidden data-hover>26β / 剪纸台</a>
+      <a href="#hearing-of-the-paper-flower" id="hearing-of-the-paper-flower-link" hidden data-hover>26γ / 窗花听证</a>
 
 
       <a href="#three-person-republic-court" id="three-person-republic-court-link" hidden data-hover>04β / 三人共和国</a>
@@ -10213,6 +10403,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=111"></script>
+    <script src="script.js?v=112"></script>
   </body>
 </html>

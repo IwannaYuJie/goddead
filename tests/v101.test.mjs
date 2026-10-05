@@ -565,6 +565,10 @@ function createV101Harness({
     const pbOfficeCanVisit = () => false;
     const markedFloorCanVisit = () => false;
     const pbCourtCanVisit = () => false;
+    const paperCutBridgeAllows = () => false;
+    const pcOfficeCanVisit = () => false;
+    const cuttingTableCanVisit = () => false;
+    const pcCourtCanVisit = () => false;
     const ahHotelCanVisit = () => false;
     const borrowedDawnClockroomCanVisit = () => false;
     const sharedMorningVerandaCanVisit = () => false;
@@ -711,11 +715,11 @@ test('v101: Invalid pattern and boundary rejection tests (diagonal, row-wrap, em
   assert.strictEqual(h.classify(null), '', 'Null must be invalid');
 });
 
-test('v101: Static index.html, scenes count (256), CSS, and Assets inspection', () => {
+test('v101: Static index.html, scenes count (259), CSS, and Assets inspection', () => {
   const sections = Array.from(indexHtml.matchAll(/<section\b[^>]*\bdata-scene="([^"]+)"/g), (m) => m[1]);
   const uniqueScenes = Array.from(new Set(sections));
-  assert.strictEqual(sections.length, 256, 'Total <section data-scene> count in index.html must be 256');
-  assert.strictEqual(uniqueScenes.length, 256, 'All data-scene attributes must be unique (no duplicates)');
+  assert.strictEqual(sections.length, 259, 'Total <section data-scene> count in index.html must be 259');
+  assert.strictEqual(uniqueScenes.length, 259, 'All data-scene attributes must be unique (no duplicates)');
   assert.ok(uniqueScenes.includes('dawn-weaving-mill'), 'dawn-weaving-mill scene must exist');
   assert.ok(uniqueScenes.includes('day-night-loom'), 'day-night-loom scene must exist');
   assert.ok(uniqueScenes.includes('sky-cloth-drying-terrace'), 'sky-cloth-drying-terrace scene must exist');

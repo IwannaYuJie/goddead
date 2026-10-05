@@ -4,7 +4,7 @@ Static landing page for [goddead.com](https://goddead.com).
 
 ## Current Experience
 
-当前实现基线为 **v111「归位司 / THE OFFICE OF PUTTING BACK」**：全站共 256 个 hash 场景，静态资源缓存标记为 `v=111`。v111 在 v110 三项裁定集齐后开放 3 个新场景：`putting-back-office`（归位司）、`marked-floor`（印痕地）、`hearing-of-the-last-mark`（归位听证会）。地扫干净了，挪开的家具得推回去：在 5×5 的俯视木地板上走到家具后面推（只能推不能拉，可退一步），把两件家具推回昨天的 / 去年的 / 神在时的那层印子里才能归位，屋子送到神圣遗物科 / 余响交换台 / 走廊签收；三间屋、三层印子都用过即开归位听证会。独立键 `goddead_v111_putting_back`。
+当前实现基线为 **v112「剪纸铺 / THE PAPER-CUT SHOP」**：全站共 259 个 hash 场景，静态资源缓存标记为 `v=112`。v112 在 v111 三项裁定集齐后开放 3 个新场景：`paper-cut-shop`（剪纸铺）、`cutting-table`（剪纸台）、`hearing-of-the-paper-flower`（窗花听证会）。屋子收拾停当，死人想在门窗上贴窗花：按红纸边上每行每列的数字（数织）点格子留红纸或剪掉，在小方 5×5 / 中方 6×6 / 大方 7×7 的纸上剪出门笺、灯笼、信封，每行每列都对上才能贴出去，送到门槛 / 访客守则 / 无主投递所签收；三张窗花、三种纸都用过即开窗花听证会。独立键 `goddead_v112_paper_cut`。
 
 历史基线 **v106「今日排字房 / TYPESETTING ROOM OF TODAY」**：全站 241 个场景，静态资源 `v=106`。v106 在 v105 三项裁定集齐后开放 3 个新场景：`press-of-today`（今日印刷所）、`composing-stone`（拼版台）、`hearing-of-the-morning-edition`（早报听证会）。今天头版的三块木刻版（门 / 钟 / 炉）摔成九块各缺一块，在拼版台上把挨着空位的碎块推进去拼回原样（只松了几块 / 散了一地 / 摔得粉碎，打乱 8 / 16 / 28 步），锁版后头版送到门外 / 值夜室 / 焚献炉签收，三块版、三种摔法都拼过即开早报听证会。独立键 `goddead_v106_typesetting_today`。
 
@@ -18,7 +18,7 @@ Static landing page for [goddead.com](https://goddead.com).
 
 前一章历史实现 **v101「黎明织造厂 / DAWN WEAVING MILL」**（全站 226 个场景，静态资源 `v=101`）机制完整保留：v100 `wkCourtEligible` 且三项百夜裁定集齐后开放 3 个场景（`dawn-weaving-mill`、`day-night-loom`、`sky-cloth-drying-terrace`）。九格织机通过原生按钮与 4 种辅助模式完成晨光/夜线左右独立连通派生三结局，经天际晾布台预览送往门外/痕迹室/无终局画廊签收，双入口支持门外与痕迹室，独立存储键 `goddead_v101_dawn_weaving`。v91–v101 见 `docs/` 对应设计文档。
 
-完整玩家路线、支线网、v63-v111 解锁链与 v90-v111 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
+完整玩家路线、支线网、v63-v112 解锁链与 v90-v112 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
 
 The homepage is **The Living Shrine**, a hash-routed, scene-by-scene exploration game. Visitors knock three times at the sealed threshold — now a photographed bureau door — and on the third knock the door visually opens into a deep black-gold corridor before the visitor is pulled through into the next room; each completed action thereafter advances the ritual automatically.
 

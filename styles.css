@@ -20284,3 +20284,213 @@ button.dw-tile:disabled {
 @media (min-width: 721px) {
   .pb-hotspot .dh-label { white-space: nowrap; }
 }
+
+/* ============================================================
+   v112 剪纸铺：三张窗花与三种方红纸
+   ============================================================ */
+.pc-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  aspect-ratio: 3 / 2;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border: 1px solid rgba(154, 127, 71, 0.35);
+  background: var(--void);
+}
+
+.pc-figure .pc-img { display: block; width: 100%; height: 100%; object-fit: cover; -webkit-mask-image: none; mask-image: none; }
+
+.pc-hotspot {
+  position: absolute;
+  z-index: 3;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0.4rem;
+  border: 1px solid rgba(222, 217, 208, 0.18);
+  background: rgba(8, 7, 6, 0.1);
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+
+.pc-hotspot .dh-label { padding: 0.2rem 0.55rem; background: rgba(8, 7, 6, 0.74); letter-spacing: 0.1em; }
+.pc-hotspot:hover,
+.pc-hotspot:focus-visible { border-color: var(--gold); background: rgba(154, 127, 71, 0.16); outline: 2px solid var(--gold); outline-offset: 2px; }
+.pc-hotspot:disabled,
+.pc-hotspot[aria-pressed="true"] { border-color: var(--blood); cursor: default; outline: none; }
+.pc-hotspot.is-collected .dh-label::after { content: " ✓"; color: var(--gold); }
+
+.pc-hotspot-left { left: 5%; top: 57%; width: 28%; height: 22%; }
+.pc-hotspot-center { left: 37.5%; top: 57%; width: 24.5%; height: 22%; }
+.pc-hotspot-right { left: 67%; top: 57%; width: 28%; height: 22%; }
+.pc-hotspot-court-left { left: 4%; top: 31%; width: 25%; height: 44%; }
+.pc-hotspot-court-center { left: 31%; top: 70%; width: 44%; height: 17%; }
+.pc-hotspot-court-right { left: 75%; top: 49%; width: 23%; height: 26%; }
+
+/* 剪纸台：格子铺在 assets/v112-cutting-table.webp 正中那张方红纸上（实测 x 477→1058、y 223→792，原图 1536×1024）；线索印在纸的左边和上边 */
+.pc-board {
+  position: absolute;
+  left: 31.05%;
+  top: 21.78%;
+  width: 37.83%;
+  height: 55.57%;
+  z-index: 3;
+}
+
+.pc-cells { position: absolute; inset: 0; display: grid; }
+.pc-col-clues { position: absolute; left: 0; right: 0; bottom: 100%; display: grid; align-items: end; padding-bottom: 4px; }
+.pc-row-clues { position: absolute; top: 0; bottom: 0; right: 100%; display: grid; justify-items: end; align-items: center; padding-right: 8px; }
+.pc-board[data-size="5"] .pc-cells,
+.pc-board[data-size="5"] .pc-col-clues { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.pc-board[data-size="6"] .pc-cells,
+.pc-board[data-size="6"] .pc-col-clues { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.pc-board[data-size="7"] .pc-cells,
+.pc-board[data-size="7"] .pc-col-clues { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.pc-board[data-size="5"] .pc-cells,
+.pc-board[data-size="5"] .pc-row-clues { grid-template-rows: repeat(5, minmax(0, 1fr)); }
+.pc-board[data-size="6"] .pc-cells,
+.pc-board[data-size="6"] .pc-row-clues { grid-template-rows: repeat(6, minmax(0, 1fr)); }
+.pc-board[data-size="7"] .pc-cells,
+.pc-board[data-size="7"] .pc-row-clues { grid-template-rows: repeat(7, minmax(0, 1fr)); }
+
+.pc-clue { color: var(--bone); font-family: var(--mono); font-size: 0.78rem; line-height: 1.15; text-align: center; white-space: pre-line; text-shadow: 0 1px 3px #000, 0 0 6px #000; transition: color 0.2s ease; }
+.pc-row-clue { white-space: nowrap; letter-spacing: 0.12em; }
+.pc-clue.is-met { color: #ffe7a8; }
+
+/* 没定的格子蒙一层暗色；留下的红纸透出底图的红；剪好后剪掉的格子变成深色的洞 */
+.pc-square {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 1px solid rgba(255, 230, 200, 0.18);
+  background: rgba(24, 10, 8, 0.38);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.pc-square.is-kept { background: rgba(255, 90, 70, 0.22); box-shadow: inset 0 0 0 2px rgba(255, 220, 200, 0.55); }
+.pc-board.is-done .pc-square { border-color: transparent; }
+.pc-board.is-done .pc-square:not(.is-kept) { background: rgba(10, 6, 4, 0.92); }
+.pc-board.is-done .pc-square.is-kept { background: transparent; box-shadow: none; }
+.pc-square:hover:not(:disabled),
+.pc-square:focus-visible { outline: 2px solid var(--gold); outline-offset: -3px; z-index: 1; }
+.pc-square:disabled { cursor: default; }
+
+.pc-floor-status {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  margin: 0;
+  padding: 0.25rem 1rem;
+  color: var(--bone-bright);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-shadow: 0 1px 3px #000, 0 0 8px #000;
+  background: linear-gradient(0deg, rgba(8, 7, 6, 0.8), transparent);
+  pointer-events: none;
+}
+
+.pc-note { width: min(720px, 100%); margin: 0.6rem auto 0; color: var(--ash); font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; line-height: 1.8; text-align: center; }
+.pc-response { white-space: pre-line; }
+
+.pc-panel {
+  width: min(720px, 100%);
+  margin: 1.2rem auto 0;
+  padding: 1rem 1.1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--gold);
+  background: rgba(10, 9, 8, 0.86);
+}
+
+.pc-panel-sheet { margin: 0 0 1rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.92rem; line-height: 1.8; }
+.pc-methods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+
+.pc-method {
+  min-height: 44px;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  background: rgba(20, 16, 12, 0.8);
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.pc-method[aria-pressed="true"] { border-color: var(--gold); color: var(--bone-bright); background: rgba(154, 127, 71, 0.18); }
+.pc-method.is-collected::after { content: " ✓"; color: var(--gold); }
+.pc-method:hover:not(:disabled),
+.pc-method:focus-visible { border-color: var(--gold); outline: 2px solid var(--gold); outline-offset: 2px; }
+.pc-method:disabled { opacity: 0.45; cursor: default; }
+
+.pc-action,
+.pc-entry-btn {
+  min-height: 44px;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.pc-entry-btn,
+.pc-shine { border-color: var(--gold); color: var(--bone-bright); }
+.pc-action:hover:not(:disabled),
+.pc-action:focus-visible,
+.pc-entry-btn:hover:not(:disabled),
+.pc-entry-btn:focus-visible { border-color: var(--gold); background: var(--gold); color: var(--void); outline: 2px solid var(--bone-bright); outline-offset: 2px; }
+.pc-action:disabled,
+.pc-entry-btn:disabled { opacity: 0.4; cursor: default; }
+.pc-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; margin-top: 0.9rem; }
+
+.pc-paster,
+.pc-echo { grid-column: 1 / -1; justify-self: center; width: min(720px, 100%); }
+.pc-paster { position: relative; z-index: 1; margin: 1.5rem auto; padding: 1rem 1.1rem; border: 1px solid var(--line); border-left: 2px solid #b8914f; background: rgba(10, 9, 8, 0.86); text-align: left; }
+.pc-paster-title { margin: 0 0 0.4rem; color: var(--gold); font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.18em; }
+.pc-paster-level { margin: 0 0 0.4rem; color: #e6c27a; font-family: var(--serif-cn); font-size: 1rem; }
+.pc-paster-body { margin: 0 0 0.8rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.9rem; line-height: 1.9; }
+
+.pc-codex { position: relative; z-index: 1; max-width: 760px; margin: 2rem auto; padding: 1.5rem; border: 1px solid var(--line); background: var(--void-soft); }
+.pc-kicker { margin-bottom: 1.25rem; color: var(--gold); font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.15em; text-align: center; }
+.pc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+.pc-cell { min-height: 64px; padding: 0.8rem; border: 1px solid var(--line); background: var(--void); font-family: var(--mono); font-size: 0.75rem; line-height: 1.6; white-space: pre-line; text-align: center; }
+.pc-cell.is-locked { color: var(--ash); border-style: dashed; opacity: 0.6; }
+.pc-cell.is-unlocked { color: var(--bone-bright); border-color: var(--gold); background: rgba(30, 25, 20, 0.5); }
+.pc-hints-title { margin: 0 0 0.4rem; color: var(--bone); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; }
+.pc-hints { margin: 0 0 1rem; padding-left: 1.1rem; color: var(--ash); font-size: 0.82rem; line-height: 1.8; }
+.pc-hints li.is-met { color: var(--gold); }
+.pc-codex-entry { display: flex; flex-direction: column; gap: 0.6rem; align-items: center; }
+
+@media (max-width: 720px) {
+  .pc-figure { width: min(92vw, 520px); }
+  .pc-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+  .pc-hotspot .dh-label { font-size: 0.64rem; padding: 0.12rem 0.3rem; letter-spacing: 0.02em; }
+  .pc-methods { grid-template-columns: 1fr; }
+  /* 窄屏把剪纸台裁成正方形并放大红纸（图宽 191.6%），七乘七的格子也有约 35px；状态行压在图底 */
+  .pc-floor-status { font-size: 0.6rem; letter-spacing: 0.02em; padding: 0.2rem 0.6rem; }
+  .pc-floor-figure { aspect-ratio: 1 / 1; }
+  .pc-floor-figure .pc-img { position: absolute; left: -39.5%; top: -7.8%; width: 191.6%; max-width: none; height: auto; object-fit: fill; }
+  .pc-floor-figure .pc-board { left: 20%; width: 72.5%; top: 20%; height: 71%; }
+  .pc-clue { font-size: 0.64rem; }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .pc-cell,
+  .pc-clue { transition: none; }
+}
+
+@media (min-width: 721px) {
+  .pc-hotspot .dh-label { white-space: nowrap; }
+}

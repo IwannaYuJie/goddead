@@ -1343,3 +1343,12 @@
 - 场景图：本机 Codex CLI 生成三张原画，铜线按像素实测对齐；提示词与哈希见 `docs/V111ImagePrompts.md`。
 - 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 19397 assertions passed`；v101–v104 独立测试 65 项通过。
 - 浏览器：完整存档下真实点击 16 步把遗物科的柜子推回昨天的印子，经治理守卫到神圣遗物科签收返回；375px 窄屏每格约 44px；听证会裁定抵达无终局画廊。
+
+## 2026-10-06 - v112 剪纸铺实装
+
+- 新增 `paper-cut-shop`、`cutting-table`、`hearing-of-the-paper-flower` 3 个场景，场景总数 256 → 259，缓存标记 `v=112`。
+- 新交互“照数剪窗花”（数织）：方红纸上 5×5 / 6×6 / 7×7 的原生切换按钮，左边与上边印着行列线索，对上的线索变亮；三张窗花（门笺 / 灯笼 / 信封）× 小方 / 中方 / 大方纸 = 9 张，每行每列都对上才能贴出去，送到门槛 / 访客守则 / 无主投递所签收。九张图各只有一种剪法。
+- 状态键 `goddead_v112_paper_cut`（11 字段、7 类 pending、严格归一化），只读 v111；v111 在途时入口禁用；前缀 `pc-`；只有真实点击；桥接接入治理守卫与画廊守卫。
+- 场景图：本机 Codex CLI 生成三张原画，红纸按像素实测对齐；提示词与哈希见 `docs/V112ImagePrompts.md`。
+- 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 19582 assertions passed`；v101–v104 独立测试 65 项通过。
+- 浏览器：完整存档下真实点击剪出守则厅的灯笼并在访客守则签收；修复格子与图鉴共用类名导致的撑高与变黑；375px 窄屏放大红纸后七乘七每格约 36px；听证会裁定抵达门外。

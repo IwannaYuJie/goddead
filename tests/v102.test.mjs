@@ -559,6 +559,10 @@ function createV102Harness({
     const pbOfficeCanVisit = () => false;
     const markedFloorCanVisit = () => false;
     const pbCourtCanVisit = () => false;
+    const paperCutBridgeAllows = () => false;
+    const pcOfficeCanVisit = () => false;
+    const cuttingTableCanVisit = () => false;
+    const pcCourtCanVisit = () => false;
     const ahHotelCanVisit = () => false;
     const borrowedDawnClockroomCanVisit = () => false;
     const sharedMorningVerandaCanVisit = () => false;
@@ -643,12 +647,12 @@ function createV102Harness({
 // -------------------------------------------------------------
 // Test Group 1: Markers, scene IDs, image attributes & DOM HTML structure
 // -------------------------------------------------------------
-test('Group 1: HTML structure, scene count 256, lazy images, native buttons and CSS scope', () => {
-  // 256 unique scene section data-scene values in index.html (excluding scene-veil overlay)
+test('Group 1: HTML structure, scene count 259, lazy images, native buttons and CSS scope', () => {
+  // 259 unique scene section data-scene values in index.html (excluding scene-veil overlay)
   const sceneMatches = Array.from(indexHtml.matchAll(/<section[^>]+data-scene="([^"]+)"/g)).map((m) => m[1]);
   const uniqueScenes = new Set(sceneMatches);
-  assert.equal(sceneMatches.length, 256, `Total data-scene sections must be exactly 256, got ${sceneMatches.length}`);
-  assert.equal(uniqueScenes.size, 256, `Scene count must be exactly 256, got ${uniqueScenes.size}`);
+  assert.equal(sceneMatches.length, 259, `Total data-scene sections must be exactly 259, got ${sceneMatches.length}`);
+  assert.equal(uniqueScenes.size, 259, `Scene count must be exactly 259, got ${uniqueScenes.size}`);
   assert.ok(uniqueScenes.has('weatherless-bus-shelter'));
   assert.ok(uniqueScenes.has('season-dispatch-board'));
   assert.ok(uniqueScenes.has('four-season-platform'));
@@ -2214,6 +2218,8 @@ test('v102: sceneInit and legacy v45 relief integration behavior audit', () => {
       const replayLastSweepPending = () => {};
       const resolvePuttingBackPendingOnArrival = () => {};
       const replayPuttingBackPending = () => {};
+      const resolvePaperCutPendingOnArrival = () => {};
+      const replayPaperCutPending = () => {};
       const syncWeatherlessShelterAll = () => h.syncAll();
 
       let thresholdConsumed = false;
