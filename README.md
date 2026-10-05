@@ -4,7 +4,7 @@ Static landing page for [goddead.com](https://goddead.com).
 
 ## Current Experience
 
-当前实现基线为 **v115「被柜房 / THE LINEN ROOM」**：全站共 268 个 hash 场景，静态资源缓存标记为 `v=115`。v115 在 v114 三项裁定集齐后开放 3 个新场景：`linen-room`（被柜房）、`folding-floor`（叠被处）、`hearing-of-the-last-quilt`（收被听证会）。死人要睡了，三间旧屋的被褥得收进柜子：每包五床折成不同形状的被子（可转、可翻面），要正好塞满方柜 / 圆角柜 / 拐角柜才能合上柜门，被褥送回走廊 / 余响交换台 / 访客守则签收；三包被褥、三种柜子都用过即开收被听证会。独立键 `goddead_v115_linen_room`。
+当前实现基线为 **v116「缝梦铺 / THE DREAM MENDER」**：全站共 271 个 hash 场景，静态资源缓存标记为 `v=116`。v116 在 v115 三项裁定集齐后开放 3 个新场景：`dream-menders`（缝梦铺）、`dream-frame`（绷梦架）、`hearing-of-the-last-dream`（末梦听证会）。死人睡着了，梦却从缝上裂开：在 5×5 绷架上把同色线结用一股线连起来，线不能交叉、整块布都要缝满（三股 / 四股 / 五股线，每场都只有一种缝法），收针后梦送回门槛 / 值夜室 / 神名注销科签收；三场梦、三种线都用过即开末梦听证会。独立键 `goddead_v116_dream_mending`。
 
 历史基线 **v106「今日排字房 / TYPESETTING ROOM OF TODAY」**：全站 241 个场景，静态资源 `v=106`。v106 在 v105 三项裁定集齐后开放 3 个新场景：`press-of-today`（今日印刷所）、`composing-stone`（拼版台）、`hearing-of-the-morning-edition`（早报听证会）。今天头版的三块木刻版（门 / 钟 / 炉）摔成九块各缺一块，在拼版台上把挨着空位的碎块推进去拼回原样（只松了几块 / 散了一地 / 摔得粉碎，打乱 8 / 16 / 28 步），锁版后头版送到门外 / 值夜室 / 焚献炉签收，三块版、三种摔法都拼过即开早报听证会。独立键 `goddead_v106_typesetting_today`。
 
@@ -18,7 +18,7 @@ Static landing page for [goddead.com](https://goddead.com).
 
 前一章历史实现 **v101「黎明织造厂 / DAWN WEAVING MILL」**（全站 226 个场景，静态资源 `v=101`）机制完整保留：v100 `wkCourtEligible` 且三项百夜裁定集齐后开放 3 个场景（`dawn-weaving-mill`、`day-night-loom`、`sky-cloth-drying-terrace`）。九格织机通过原生按钮与 4 种辅助模式完成晨光/夜线左右独立连通派生三结局，经天际晾布台预览送往门外/痕迹室/无终局画廊签收，双入口支持门外与痕迹室，独立存储键 `goddead_v101_dawn_weaving`。v91–v101 见 `docs/` 对应设计文档。
 
-完整玩家路线、支线网、v63-v115 解锁链与 v90-v115 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
+完整玩家路线、支线网、v63-v116 解锁链与 v90-v116 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
 
 The homepage is **The Living Shrine**, a hash-routed, scene-by-scene exploration game. Visitors knock three times at the sealed threshold — now a photographed bureau door — and on the third knock the door visually opens into a deep black-gold corridor before the visitor is pulled through into the next room; each completed action thereafter advances the ritual automatically.
 

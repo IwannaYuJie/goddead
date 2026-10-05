@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=115">
+  <link rel="stylesheet" href="styles.css?v=116">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -263,6 +263,15 @@
             <p class="ah-response" id="ah-wake-response-threshold" aria-live="polite" hidden></p>
           </aside>
           <div class="ah-echo" id="ah-echo-you-woke-in-a-borrowed-morning" hidden></div>
+          <!-- v116 门槛缝梦签收与记忆 -->
+          <p class="watch-memory dm-echo" id="dm-echo-threshold" hidden></p>
+          <div class="dm-mender reveal" id="dm-mender-threshold" hidden>
+            <p class="dm-mender-title" id="dm-mender-title-threshold"></p>
+            <p class="dm-mender-level" id="dm-mender-level-threshold"></p>
+            <p class="dm-mender-body" id="dm-mender-body-threshold"></p>
+            <p class="dm-response" id="dm-mender-response-threshold" aria-live="polite" hidden></p>
+            <button class="dm-action" id="dm-mender-return-threshold" type="button" data-hover>跟着缝梦人回到缝梦铺 ⟶</button>
+          </div>
           <!-- v112 门槛贴花签收与记忆 -->
           <p class="watch-memory pc-echo" id="pc-echo-threshold" hidden></p>
           <div class="pc-paster reveal" id="pc-paster-threshold" hidden>
@@ -3978,6 +3987,15 @@
             <p class="rd-response" id="rd-leader-response-watch" aria-live="polite" hidden></p>
             <button class="rd-action" id="rd-leader-return-watch" type="button" data-hover>带着路条回到引路司 ⟶</button>
           </div>
+          <!-- v116 值夜室缝梦签收与记忆 -->
+          <p class="watch-memory dm-echo" id="dm-echo-watch" hidden></p>
+          <div class="dm-mender reveal" id="dm-mender-watch" hidden>
+            <p class="dm-mender-title" id="dm-mender-title-watch"></p>
+            <p class="dm-mender-level" id="dm-mender-level-watch"></p>
+            <p class="dm-mender-body" id="dm-mender-body-watch"></p>
+            <p class="dm-response" id="dm-mender-response-watch" aria-live="polite" hidden></p>
+            <button class="dm-action" id="dm-mender-return-watch" type="button" data-hover>跟着缝梦人回到缝梦铺 ⟶</button>
+          </div>
           <!-- v114 值夜室换锁签收与记忆 -->
           <p class="watch-memory lk-echo" id="lk-echo-watch" hidden></p>
           <div class="lk-keyholder reveal" id="lk-keyholder-watch" hidden>
@@ -4368,6 +4386,15 @@
             <p class="answer-note" id="acting-note" role="status" aria-live="polite"></p>
           </div>
 
+          <!-- v116 神名注销科缝梦签收与记忆 -->
+          <p class="watch-memory dm-echo" id="dm-echo-cancellation" hidden></p>
+          <div class="dm-mender reveal" id="dm-mender-cancellation" hidden>
+            <p class="dm-mender-title" id="dm-mender-title-cancellation"></p>
+            <p class="dm-mender-level" id="dm-mender-level-cancellation"></p>
+            <p class="dm-mender-body" id="dm-mender-body-cancellation"></p>
+            <p class="dm-response" id="dm-mender-response-cancellation" aria-live="polite" hidden></p>
+            <button class="dm-action" id="dm-mender-return-cancellation" type="button" data-hover>跟着缝梦人回到缝梦铺 ⟶</button>
+          </div>
           <!-- v113 神名注销科撤供签收与记忆 -->
           <p class="watch-memory co-echo" id="co-echo-cancellation" hidden></p>
           <div class="co-clearer reveal" id="co-clearer-cancellation" hidden>
@@ -5391,6 +5418,21 @@
               <p class="ts-response" id="ts-entry-response" aria-live="polite" hidden></p>
               <button class="ts-entry-btn" id="ts-court-entry-btn" type="button" hidden data-hover>进入早报听证会 · ENTER THE HEARING OF THE MORNING EDITION ⟶</button>
               <p class="ts-response" id="ts-court-entry-response" aria-live="polite" hidden></p>
+            </div>
+          </div>
+          <!-- v116 缝梦图鉴 -->
+          <p class="watch-memory dm-memory" id="dm-memory" hidden></p>
+          <div class="dm-codex reveal" id="dm-codex" hidden>
+            <p class="dm-kicker">THE DREAM MENDER · 缝 梦 图 鉴</p>
+            <div class="dm-grid" id="dm-codex-grid"></div>
+            <p class="dm-hints-title">末梦听证会开庭条件</p>
+            <ul class="dm-hints" id="dm-court-hints"></ul>
+            <div class="dm-codex-entry">
+              <button class="dm-entry-btn" id="dm-entry-btn" type="button" hidden data-hover>前往缝梦铺 · GO TO THE DREAM MENDER ⟶</button>
+              <p class="dm-note" id="dm-entry-note" hidden></p>
+              <p class="dm-response" id="dm-entry-response" aria-live="polite" hidden></p>
+              <button class="dm-entry-btn" id="dm-court-entry-btn" type="button" hidden data-hover>进入末梦听证会 · ENTER THE HEARING OF THE LAST DREAM ⟶</button>
+              <p class="dm-response" id="dm-court-entry-response" aria-live="polite" hidden></p>
             </div>
           </div>
           <!-- v115 收被图鉴 -->
@@ -10537,6 +10579,112 @@
         </div>
       </section>
 
+      <!-- v116 第一幕：缝梦铺 -->
+      <section class="scene scene-branch scene-dream-menders" id="scene-dream-menders" data-scene="dream-menders" data-title="Goddead — 缝梦铺" aria-label="缝梦铺">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">30α / 缝梦 · THE DREAM MENDER</p>
+            <h2 class="sec-title">缝梦铺</h2>
+            <p class="sec-desc">被子都盖好了，死人睡着了，可他们的梦从缝上裂开了。缝梦铺只在夜里开门，桌上三只绣绷，各绷着一块裂开的梦。</p>
+          </header>
+          <figure class="branch-figure dm-figure reveal" id="dm-shop-figure">
+            <img class="branch-img dm-img" data-src="assets/v116-dream-menders.webp" alt="缝梦铺：墙上挂满彩线的夜间小作坊；长桌上三只圆木绣绷，各绷着一块裂开的浅色布，左边隐约一道门，中间隐约一盏灯，右边隐约一本合上的账册，布上散着几个彩色线结" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot dm-hotspot dm-hotspot-left" id="dm-dream-threshold-dream" type="button" aria-label="缝梦：门外那人的梦" data-hover><span class="dh-label" aria-hidden="true">门外那人的梦</span></button>
+            <button class="scene-hotspot dm-hotspot dm-hotspot-center" id="dm-dream-watch-dream" type="button" aria-label="缝梦：值夜人的梦" data-hover><span class="dh-label" aria-hidden="true">值夜人的梦</span></button>
+            <button class="scene-hotspot dm-hotspot dm-hotspot-right" id="dm-dream-cancellation-dream" type="button" aria-label="缝梦：注销员的梦" data-hover><span class="dh-label" aria-hidden="true">注销员的梦</span></button>
+          </figure>
+          <p class="dm-note reveal" id="dm-shop-note" hidden></p>
+          <p class="branch-response dm-response" id="dream-menders-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开缝梦铺">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+            <button class="dm-action" id="dm-continue" type="button" hidden data-hover>回到绷梦架 ⟶</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v116 第二幕：绷梦架 -->
+      <section class="scene scene-branch scene-dream-frame" id="scene-dream-frame" data-scene="dream-frame" data-title="Goddead — 绷梦架" aria-label="绷梦架">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">30β / 缝补 · THE DREAM FRAME</p>
+            <h2 class="sec-title">绷梦架</h2>
+            <p class="sec-desc">梦绷在一张方架子上，布上散着几对同色的线结。选一种线，从一个线结起针，一格一格缝到同色的另一个线结。线不能交叉，整块布都要缝满。</p>
+          </header>
+          <figure class="branch-figure dm-figure dm-frame-figure reveal" id="dm-frame-figure">
+            <img class="branch-img dm-img" data-src="assets/v116-dream-frame.webp" alt="绷梦架：俯视的一只方形木绣架，绷着一块空白的浅色亚麻布，桌边散着几轴线和一根针" width="1536" height="1024" loading="lazy" decoding="async">
+            <div class="dm-board" id="dm-board" hidden>
+              <svg class="dm-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline class="dm-line dm-line-A" id="dm-line-A" points=""/>
+<polyline class="dm-line dm-line-B" id="dm-line-B" points=""/>
+<polyline class="dm-line dm-line-C" id="dm-line-C" points=""/>
+<polyline class="dm-line dm-line-D" id="dm-line-D" points=""/>
+<polyline class="dm-line dm-line-E" id="dm-line-E" points=""/></svg>
+              <button class="dm-knot" id="dm-knot-0" type="button" aria-label="第 1 行第 1 列" data-hover></button>
+              <button class="dm-knot" id="dm-knot-1" type="button" aria-label="第 1 行第 2 列" data-hover></button>
+              <button class="dm-knot" id="dm-knot-2" type="button" aria-label="第 1 行第 3 列" data-hover></button>
+              <button class="dm-knot" id="dm-knot-3" type="button" aria-label="第 1 行第 4 列" data-hover></button>
+              <button class="dm-knot" id="dm-knot-4" type="button" aria-label="第 1 行第 5 列" data-hover></button>
+              <button class="dm-knot" id="dm-knot-5" type="button" aria-label="第 2 行第 1 列" data-hover></button>
+              <button class="dm-knot" id="dm-knot-6" type="button" aria-label="第 2 行第 2 列" data-hover></button>
+              <button class="dm-knot" id="dm-knot-7" type="button" aria-label="第 2 行第 3 列" data-hover></button>
+              <button class="dm-knot" id="dm-knot-8" type="button" aria-label="第 2 行第 4 列" data-hover></button>
+              <button class="dm-knot" id="dm-knot-9" type="button" aria-label="第 2 行第 5 列" data-hover></button>
+              <button class="dm-knot" id="dm-knot-10" type="button" aria-label="第 3 行第 1 列" data-hover></button>
+              <button class="dm-knot" id="dm-knot-11" type="button" aria-label="第 3 行第 2 列" data-hover></button>
+              <button class="dm-knot" id="dm-knot-12" type="button" aria-label="第 3 行第 3 列" data-hover></button>
+              <button class="dm-knot" id="dm-knot-13" type="button" aria-label="第 3 行第 4 列" data-hover></button>
+              <button class="dm-knot" id="dm-knot-14" type="button" aria-label="第 3 行第 5 列" data-hover></button>
+              <button class="dm-knot" id="dm-knot-15" type="button" aria-label="第 4 行第 1 列" data-hover></button>
+              <button class="dm-knot" id="dm-knot-16" type="button" aria-label="第 4 行第 2 列" data-hover></button>
+              <button class="dm-knot" id="dm-knot-17" type="button" aria-label="第 4 行第 3 列" data-hover></button>
+              <button class="dm-knot" id="dm-knot-18" type="button" aria-label="第 4 行第 4 列" data-hover></button>
+              <button class="dm-knot" id="dm-knot-19" type="button" aria-label="第 4 行第 5 列" data-hover></button>
+              <button class="dm-knot" id="dm-knot-20" type="button" aria-label="第 5 行第 1 列" data-hover></button>
+              <button class="dm-knot" id="dm-knot-21" type="button" aria-label="第 5 行第 2 列" data-hover></button>
+              <button class="dm-knot" id="dm-knot-22" type="button" aria-label="第 5 行第 3 列" data-hover></button>
+              <button class="dm-knot" id="dm-knot-23" type="button" aria-label="第 5 行第 4 列" data-hover></button>
+              <button class="dm-knot" id="dm-knot-24" type="button" aria-label="第 5 行第 5 列" data-hover></button>
+            </div>
+            <p class="dm-frame-status" id="dm-frame-status" aria-live="polite"></p>
+          </figure>
+          <div class="dm-panel reveal" id="dm-frame-panel" hidden>
+            <p class="dm-panel-dream" id="dm-frame-dream"></p>
+            <div class="dm-methods" role="group" aria-label="线">
+              <button class="dm-method" id="dm-method-three" type="button" data-hover>三股线</button>
+              <button class="dm-method" id="dm-method-four" type="button" data-hover>四股线</button>
+              <button class="dm-method" id="dm-method-five" type="button" data-hover>五股线</button>
+            </div>
+            <p class="dm-note" id="dm-method-hint"></p>
+            <div class="dm-actions">
+              <button class="dm-action dm-finish" id="dm-finish" type="button" data-hover>收针</button>
+              <button class="dm-action" id="dm-reset" type="button" data-hover>全部拆掉</button>
+              <button class="dm-action" id="dm-abandon" type="button" data-hover>把梦放回绣绷</button>
+            </div>
+          </div>
+          <p class="branch-response dm-response" id="dream-frame-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <!-- v116 第三幕：末梦听证会 -->
+      <section class="scene scene-branch scene-hearing-of-the-last-dream" id="scene-hearing-of-the-last-dream" data-scene="hearing-of-the-last-dream" data-title="Goddead — 末梦听证会" aria-label="末梦听证会">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">30γ / 末梦 · HEARING OF THE LAST DREAM</p>
+            <h2 class="sec-title">末梦听证会</h2>
+            <p class="sec-desc">圆厅高窗下的空椅子上没有人做梦。桌上三件东西：一只缝得整整齐齐的绣绷、一轴插着针的浅色线、一团从桌边飘下去的乱线。裁定之后仍可回来。</p>
+          </header>
+          <figure class="branch-figure dm-figure reveal" id="hearing-of-the-last-dream-figure">
+            <img class="branch-img dm-img" data-src="assets/v116-hearing-of-the-last-dream.webp" alt="末梦听证会：圆厅高窗下一把空椅子；近处长桌上左边一只缝满彩线的绣绷，中间单独放着一轴插着针的浅色线，右边一团彩线从桌边飘下去" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot dm-hotspot dm-hotspot-court-left" id="dm-verdict-mend-every-dream" type="button" aria-label="裁定：把每一场梦都缝好" data-hover><span class="dh-label" aria-hidden="true">把每一场梦都缝好</span></button>
+            <button class="scene-hotspot dm-hotspot dm-hotspot-court-center" id="dm-verdict-leave-a-dream-open-for-god" type="button" aria-label="裁定：给神留一道没缝的口子" data-hover><span class="dh-label" aria-hidden="true">给神留一道没缝的口子</span></button>
+            <button class="scene-hotspot dm-hotspot dm-hotspot-court-right" id="dm-verdict-let-the-dreams-unravel" type="button" aria-label="裁定：让梦自己散开" data-hover><span class="dh-label" aria-hidden="true">让梦自己散开</span></button>
+          </figure>
+          <p class="branch-response dm-response" id="hearing-of-the-last-dream-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开听证会">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+          </nav>
+        </div>
+      </section>
+
       <!-- 隐藏幕 · 第九条 -->
       <section class="scene scene-ninth" id="scene-ninth" data-scene="ninth" data-title="Goddead — ？？？" aria-label="第九条">
         <figure class="ninth-figure" role="img" aria-label="一道不该存在的裂口，底部有一扇错误的窄门">
@@ -10816,6 +10964,9 @@
       <a href="#linen-room" id="linen-room-link" hidden data-hover>29α / 被柜房</a>
       <a href="#folding-floor" id="folding-floor-link" hidden data-hover>29β / 叠被处</a>
       <a href="#hearing-of-the-last-quilt" id="hearing-of-the-last-quilt-link" hidden data-hover>29γ / 收被听证</a>
+      <a href="#dream-menders" id="dream-menders-link" hidden data-hover>30α / 缝梦铺</a>
+      <a href="#dream-frame" id="dream-frame-link" hidden data-hover>30β / 绷梦架</a>
+      <a href="#hearing-of-the-last-dream" id="hearing-of-the-last-dream-link" hidden data-hover>30γ / 末梦听证</a>
 
 
       <a href="#three-person-republic-court" id="three-person-republic-court-link" hidden data-hover>04β / 三人共和国</a>
@@ -10825,6 +10976,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=115"></script>
+    <script src="script.js?v=116"></script>
   </body>
 </html>

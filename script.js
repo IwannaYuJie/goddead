@@ -1428,6 +1428,8 @@ document.addEventListener("DOMContentLoaded", () => {
     replayForgottenLocksPending(name);
     resolveLinenRoomPendingOnArrival(name);
     replayLinenRoomPending(name);
+    resolveDreamMendingPendingOnArrival(name);
+    replayDreamMendingPending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1571,9 +1573,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !clearedOfferingsBridgeAllows(target) && !forgottenLocksBridgeAllows(target) && !linenRoomBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !clearedOfferingsBridgeAllows(target) && !forgottenLocksBridgeAllows(target) && !linenRoomBridgeAllows(target) && !dreamMendingBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !clearedOfferingsBridgeAllows(target) && !forgottenLocksBridgeAllows(target) && !linenRoomBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !clearedOfferingsBridgeAllows(target) && !forgottenLocksBridgeAllows(target) && !linenRoomBridgeAllows(target) && !dreamMendingBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
@@ -1587,7 +1589,7 @@ document.addEventListener("DOMContentLoaded", () => {
        v88 窄桥：title-action 可抵达 unending-gallery；
        v89 窄桥：appeal-action 可抵达 unending-gallery；
        v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !todayPressBridgeAllows('unending-gallery') && !inkMixingBridgeAllows('unending-gallery') && !borrowedLightBridgeAllows('unending-gallery') && !exactTeaBridgeAllows('unending-gallery') && !lastSweepBridgeAllows('unending-gallery') && !puttingBackBridgeAllows('unending-gallery') && !paperCutBridgeAllows('unending-gallery') && !clearedOfferingsBridgeAllows('unending-gallery') && !forgottenLocksBridgeAllows('unending-gallery') && !linenRoomBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !todayPressBridgeAllows('unending-gallery') && !inkMixingBridgeAllows('unending-gallery') && !borrowedLightBridgeAllows('unending-gallery') && !exactTeaBridgeAllows('unending-gallery') && !lastSweepBridgeAllows('unending-gallery') && !puttingBackBridgeAllows('unending-gallery') && !paperCutBridgeAllows('unending-gallery') && !clearedOfferingsBridgeAllows('unending-gallery') && !forgottenLocksBridgeAllows('unending-gallery') && !linenRoomBridgeAllows('unending-gallery') && !dreamMendingBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1881,6 +1883,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "linen-room" && !lnRoomCanVisit()) target = "remembrance";
     if (target === "folding-floor" && !foldingFloorCanVisit()) target = "remembrance";
     if (target === "hearing-of-the-last-quilt" && !lnCourtCanVisit()) target = "remembrance";
+
+    /* v116 缝梦铺：未解锁或无合法抵达时一律回痕迹室 */
+    if (target === "dream-menders" && !dmShopCanVisit()) target = "remembrance";
+    if (target === "dream-frame" && !dreamFrameCanVisit()) target = "remembrance";
+    if (target === "hearing-of-the-last-dream" && !dmCourtCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -48131,6 +48138,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetClearedOfferingsState();
       forgetForgottenLocksState();
       forgetLinenRoomState();
+      forgetDreamMendingState();
       forgetCodexFolds();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
@@ -68767,6 +68775,817 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   onTrustedLn('#ln-reset', resetLnFloor);
   onTrustedLn('#ln-finish', finishLnFolding);
 
+  /* ============================================================
+     v116 缝梦铺 / THE DREAM MENDER
+     v115 把被子都盖好了，死人睡着了，可他们的梦从缝上裂开了。缝梦铺把每一场梦绷在架子上：同色的两个线结要用一股线连起来，线不能交叉，整块布都要缝满。
+     三场梦（门外那人的梦 / 值夜人的梦 / 注销员的梦）× 三种线（三股 / 四股 / 五股）= 9 次缝补；每一场都只有一种缝法。
+     只读 v115；独立键 goddead_v116_dream_mending；所有新操作只接受真实点击。
+     ============================================================ */
+  const DREAM_MENDING_KEY = 'goddead_v116_dream_mending';
+  const DREAM_MENDING_VERSION = 116;
+  const DM_SHOP = 'dream-menders';
+  const DM_FRAME = 'dream-frame';
+  const DM_COURT = 'hearing-of-the-last-dream';
+  const DM_N = 5;
+  const DM_COLORS = ['A', 'B', 'C', 'D', 'E'];
+  const DM_COLOR_NAMES = { A: '红线', B: '蓝线', C: '金线', D: '绿线', E: '白线' };
+  const DM_DREAMS = ['threshold-dream', 'watch-dream', 'cancellation-dream'];
+  /* pins 里是每股线两头的线结（格子下标 = 行 * 5 + 列） */
+  const DM_DREAM_TABLE = {
+    'threshold-dream': {
+      title: '门外那人的梦',
+      pins: {
+        three: { A: [6, 22], B: [23, 12], C: [17, 8] },
+        four: { A: [18, 11], B: [12, 4], C: [3, 0], D: [5, 8] },
+        five: { A: [8, 19], B: [14, 1], C: [0, 6], D: [11, 22], E: [21, 10] },
+      },
+      target: 'threshold', place: '门槛', menderTitle: '门槛缝梦人',
+      feedback: '门外那人梦见自己一直站在门槛上，进也不是，出也不是。梦从门框那里裂开了。',
+      echoLead: '门槛边睡着的人翻了个身，梦缝好了。',
+    },
+    'watch-dream': {
+      title: '值夜人的梦',
+      pins: {
+        three: { A: [14, 15], B: [16, 13], C: [18, 6] },
+        four: { A: [6, 2], B: [1, 17], C: [12, 18], D: [23, 8] },
+        five: { A: [22, 19], B: [14, 17], C: [12, 4], D: [3, 11], E: [10, 16] },
+      },
+      target: 'watch', place: '值夜室', menderTitle: '值夜室缝梦人',
+      feedback: '值夜人梦见灯灭了，他怎么也找不到火柴。梦从灯芯那里断成了几截。',
+      echoLead: '值夜室里那盏灯在梦里重新亮了。',
+    },
+    'cancellation-dream': {
+      title: '注销员的梦',
+      pins: {
+        three: { A: [20, 9], B: [14, 12], C: [13, 22] },
+        four: { A: [8, 11], B: [6, 17], C: [16, 13], D: [14, 24] },
+        five: { A: [4, 0], B: [5, 7], C: [12, 18], D: [23, 19], E: [14, 8] },
+      },
+      target: 'cancellation', place: '神名注销科', menderTitle: '注销科缝梦人',
+      feedback: '注销员梦见自己划掉的名字一个个从纸上爬出来。梦从名册的装订线那里散了。',
+      echoLead: '注销员的梦缝好了，名册在梦里合上了。',
+    },
+  };
+  const DM_METHODS = ['three', 'four', 'five'];
+  const DM_METHOD_TABLE = {
+    three: { title: '三股线', hint: '三股线：红、蓝、金三对线结。', result: '三股线缝得疏，梦里透着风。睡着的人说，这样醒的时候不会被缠住。' },
+    four: { title: '四股线', hint: '四股线：红、蓝、金、绿四对线结。', result: '四股线缝得匀，梦平平整整。睡着的人一直睡到了天快亮。' },
+    five: { title: '五股线', hint: '五股线：红、蓝、金、绿、白五对线结。', result: '五股线缝得密，梦结结实实。睡着的人说，梦里第一次没有人敲门。' },
+  };
+  const DM_MEND_IDS = [];
+  DM_DREAMS.forEach((dream) => DM_METHODS.forEach((method) => DM_MEND_IDS.push(`${dream}:${method}`)));
+  const DM_VERDICT_ACTIONS = ['mend-every-dream', 'leave-a-dream-open-for-god', 'let-the-dreams-unravel'];
+  const DM_VERDICT_TABLE = {
+    'mend-every-dream': {
+      title: '把每一场梦都缝好', outcome: 'every-dream-mended', target: 'threshold',
+      feedback: '听证会裁定：把每一场梦都缝好。门外睡着的人眉头松开了，你第一次没被梦话吵醒。',
+    },
+    'leave-a-dream-open-for-god': {
+      title: '给神留一道没缝的口子', outcome: 'a-dream-left-open-for-god', target: 'remembrance',
+      feedback: '听证会给神留了一道没缝的口子。痕迹室里有一场梦一直开着，偶尔有光从里面漏出来。',
+    },
+    'let-the-dreams-unravel': {
+      title: '让梦自己散开', outcome: 'the-dreams-unravelled', target: 'unending-gallery',
+      feedback: '听证会准许梦自己散开。画廊的空框里飘着一根根彩线，谁也不知道原来缝的是什么。',
+    },
+  };
+  const DM_VERDICT_OUTCOME_IDS = DM_VERDICT_ACTIONS.map((a) => DM_VERDICT_TABLE[a].outcome);
+  const DM_ENTRY_FEEDBACK = '缝梦铺只在夜里开门。墙上挂满彩线，桌上三只绣绷，各绷着一块裂开的梦。';
+  const DM_ABANDON_FEEDBACK = '你把线拆下来，梦又在绷子上松开了。';
+  const DM_COURT_ENTRY_FEEDBACK = '三场梦都缝过了。末梦听证会的桌上还散着几根线。';
+  const DM_MENDER_RETURN_FEEDBACK = '缝梦人咬断线头，领你回到缝梦铺。';
+  const DM_OLD_TARGETS = ['threshold', 'watch', 'cancellation'];
+
+  function dmDelay() {
+    return reduced ? 300 : 1400;
+  }
+
+  /* 纯函数：两格是否上下左右相邻 */
+  function dmAdjacent(a, b) {
+    const dr = Math.abs(Math.floor(a / DM_N) - Math.floor(b / DM_N));
+    const dc = Math.abs((a % DM_N) - (b % DM_N));
+    return dr + dc === 1;
+  }
+
+  /* 纯函数：这一格是哪股线的线结（没有返回空字符串） */
+  function dmPinAt(pins, cell) {
+    return Object.keys(pins).find((c) => pins[c].includes(cell)) || '';
+  }
+
+  /* 纯函数：这股线是否从一个线结一格一格连到了另一个线结 */
+  function dmComplete(pins, path, color) {
+    const ends = pins[color];
+    if (!ends || !Array.isArray(path) || path.length < 2) return false;
+    if (!ends.includes(path[0]) || !ends.includes(path[path.length - 1]) || path[0] === path[path.length - 1]) return false;
+    return path.every((cell, i) => i === 0 || dmAdjacent(path[i - 1], cell));
+  }
+
+  /* 纯函数：在 color 这股线上点了 cell 之后的线（不合法返回 null）。
+     点到自己线上的格子就退回到那里；点挨着线头的空格就往前缝；缝到另一个线结就这股线完成 */
+  function dmStep(pins, paths, color, cell) {
+    const path = paths[color] || [];
+    if (!path.length || !Number.isInteger(cell) || cell < 0 || cell >= DM_N * DM_N) return null;
+    const at = path.indexOf(cell);
+    if (at >= 0) return path.slice(0, at + 1);
+    if (dmComplete(pins, path, color)) return null;
+    if (!dmAdjacent(path[path.length - 1], cell)) return null;
+    const pin = dmPinAt(pins, cell);
+    if (pin && pin !== color) return null;
+    if (Object.keys(paths).some((c) => c !== color && (paths[c] || []).includes(cell))) return null;
+    return path.concat(cell);
+  }
+
+  /* 纯函数：每股线都连上、整块布都缝满 */
+  function dmSolved(pins, paths) {
+    const colors = Object.keys(pins);
+    if (!colors.every((c) => dmComplete(pins, paths[c], c))) return false;
+    const covered = new Set(colors.flatMap((c) => paths[c]));
+    return covered.size === DM_N * DM_N;
+  }
+
+  function dmFinishFeedback(dream, method) {
+    return `${DM_DREAM_TABLE[dream].title}：${DM_METHOD_TABLE[method].result}`;
+  }
+
+  function defaultDreamMending() {
+    const latest = {};
+    DM_DREAMS.forEach((b) => { latest[b] = ''; });
+    return {
+      version: DREAM_MENDING_VERSION,
+      visited: { shop: false, frame: false, court: false },
+      draft: { dream: '', method: 'three' },
+      mends: [],
+      courtOutcomes: [],
+      mendRuns: 0,
+      courtRuns: 0,
+      latestMethodByDream: latest,
+      lastOutcome: '',
+      activeMender: null,
+      pending: null,
+    };
+  }
+
+  function clampDmCount(n) {
+    const v = Math.floor(Number(n));
+    return Number.isFinite(v) ? Math.min(9999, Math.max(0, v)) : 0;
+  }
+
+  function normalizeDreamMending(raw) {
+    const d = defaultDreamMending();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== DREAM_MENDING_VERSION) return d;
+    const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
+    d.visited = { shop: v.shop === true, frame: v.frame === true, court: v.court === true };
+    const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
+    d.draft = { dream: DM_DREAMS.includes(dr.dream) ? dr.dream : '', method: DM_METHODS.includes(dr.method) ? dr.method : 'three' };
+    const mends = new Set(Array.isArray(raw.mends) ? raw.mends : []);
+    d.mends = DM_MEND_IDS.filter((id) => mends.has(id));
+    const outcomes = new Set(Array.isArray(raw.courtOutcomes) ? raw.courtOutcomes : []);
+    d.courtOutcomes = DM_VERDICT_OUTCOME_IDS.filter((id) => outcomes.has(id));
+    d.mendRuns = clampDmCount(raw.mendRuns);
+    d.courtRuns = clampDmCount(raw.courtRuns);
+    const latest = raw.latestMethodByDream && typeof raw.latestMethodByDream === 'object' ? raw.latestMethodByDream : {};
+    DM_DREAMS.forEach((b) => {
+      d.latestMethodByDream[b] = DM_METHODS.includes(latest[b]) && d.mends.includes(`${b}:${latest[b]}`) ? latest[b] : '';
+    });
+    if (typeof raw.lastOutcome === 'string' && (d.mends.includes(raw.lastOutcome) || d.courtOutcomes.includes(raw.lastOutcome))) d.lastOutcome = raw.lastOutcome;
+    const a = raw.activeMender;
+    if (a && typeof a === 'object' && !Array.isArray(a) && Object.keys(a).length === 1 && d.mends.includes(a.mend)) d.activeMender = { mend: a.mend };
+    d.pending = normalizeDmPending(raw.pending, d);
+    return d;
+  }
+
+  function dmCourtProgress(st) {
+    const dreams = new Set();
+    const methods = new Set();
+    st.mends.forEach((id) => {
+      const [dream, method] = id.split(':');
+      dreams.add(dream);
+      methods.add(method);
+    });
+    return { dreams: dreams.size, methods: methods.size };
+  }
+
+  function dmCourtEligible(st) {
+    const p = dmCourtProgress(st);
+    return p.dreams === DM_DREAMS.length && p.methods === DM_METHODS.length;
+  }
+
+  function expectedDmPending(p, st) {
+    const clean = !st.activeMender;
+    switch (p.kind) {
+      case 'entry':
+        return clean ? { feedback: DM_ENTRY_FEEDBACK, kind: 'entry', target: DM_SHOP } : null;
+      case 'dream': {
+        const b = DM_DREAM_TABLE[p.dream];
+        if (!b || !clean) return null;
+        return { dream: p.dream, feedback: b.feedback, kind: 'dream', source: DM_SHOP, target: DM_FRAME };
+      }
+      case 'finish': {
+        const b = DM_DREAM_TABLE[p.dream];
+        if (!b || !DM_METHOD_TABLE[p.method] || !clean || st.draft.dream !== p.dream || st.draft.method !== p.method) return null;
+        return { dream: p.dream, feedback: dmFinishFeedback(p.dream, p.method), kind: 'finish', method: p.method, mend: `${p.dream}:${p.method}`, source: DM_FRAME, target: b.target };
+      }
+      case 'abandon':
+        return st.draft.dream ? { feedback: DM_ABANDON_FEEDBACK, kind: 'abandon', source: DM_FRAME, target: DM_SHOP } : null;
+      case 'mender-return': {
+        if (!st.activeMender) return null;
+        const dream = st.activeMender.mend.split(':')[0];
+        return { feedback: DM_MENDER_RETURN_FEEDBACK, from: DM_DREAM_TABLE[dream].target, kind: 'mender-return', mend: st.activeMender.mend, target: DM_SHOP };
+      }
+      case 'court-entry':
+        return clean && dmCourtEligible(st) ? { feedback: DM_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: DM_COURT } : null;
+      case 'verdict': {
+        const a = DM_VERDICT_TABLE[p.action];
+        if (!a || !clean || !st.visited.court || !dmCourtEligible(st)) return null;
+        return { action: p.action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: DM_COURT, target: a.target };
+      }
+      default:
+        return null;
+    }
+  }
+
+  function normalizeDmPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+    const expected = expectedDmPending(p, st);
+    if (!expected) return null;
+    const keys = Object.keys(p).sort();
+    const want = Object.keys(expected).sort();
+    if (keys.length !== want.length || keys.some((k, i) => k !== want[i] || p[k] !== expected[k])) return null;
+    return expected;
+  }
+
+  function dreamMendingUnlocked() {
+    const compute = () => {
+      if (!linenRoomUnlocked()) return false;
+      const v115 = getLinenRoom();
+      return lnCourtEligible(v115) && LN_VERDICT_OUTCOME_IDS.every((o) => v115.courtOutcomes.includes(o));
+    };
+    return store.memo ? store.memo("dreamMendingUnlocked", compute) : compute();
+  }
+
+  /* v115 还有在途的被褥或没签收的收被人时，先不让进缝梦铺 */
+  function dmUpstreamBusy() {
+    const v115 = getLinenRoom();
+    return Boolean(v115.pending || v115.activeFolder);
+  }
+
+  function getDreamMending() {
+    if (!dreamMendingUnlocked()) return defaultDreamMending();
+    let raw;
+    try { raw = JSON.parse(store.get(DREAM_MENDING_KEY, '{}')); } catch { return defaultDreamMending(); }
+    return normalizeDreamMending(raw);
+  }
+
+  function saveDreamMending(st) {
+    if (!dreamMendingUnlocked()) return defaultDreamMending();
+    const canonical = normalizeDreamMending(Object.assign({}, st, { version: DREAM_MENDING_VERSION }));
+    store.set(DREAM_MENDING_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function dmPendingLogicalSource(p) {
+    if (!p) return '';
+    if (p.kind === 'entry' || p.kind === 'court-entry') return 'remembrance';
+    if (p.kind === 'mender-return') return p.from;
+    return p.source || '';
+  }
+
+  function resolveDreamMendingPendingOnArrival(sceneName) {
+    const st = getDreamMending();
+    const p = st.pending;
+    if (!p) return st;
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.shop = true;
+      } else if (p.kind === 'dream') {
+        st.visited.frame = true;
+        st.draft = { dream: p.dream, method: st.draft.dream === p.dream ? st.draft.method : 'three' };
+      } else if (p.kind === 'finish') {
+        st.mendRuns = clampDmCount(st.mendRuns + 1);
+        if (!st.mends.includes(p.mend)) st.mends = st.mends.concat(p.mend);
+        st.latestMethodByDream[p.dream] = p.method;
+        st.lastOutcome = p.mend;
+        st.activeMender = { mend: p.mend };
+        st.draft = { dream: '', method: 'three' };
+      } else if (p.kind === 'abandon') {
+        st.draft = { dream: '', method: 'three' };
+        st.visited.shop = true;
+      } else if (p.kind === 'mender-return') {
+        st.activeMender = null;
+        st.visited.shop = true;
+      } else if (p.kind === 'court-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'verdict') {
+        st.courtRuns = clampDmCount(st.courtRuns + 1);
+        if (!st.courtOutcomes.includes(p.outcome)) st.courtOutcomes = st.courtOutcomes.concat(p.outcome);
+        st.lastOutcome = p.outcome;
+      }
+      return saveDreamMending(st);
+    }
+    if (sceneName === dmPendingLogicalSource(p)) return st;
+    st.pending = null;
+    return saveDreamMending(st);
+  }
+
+  const DM_RESPONSE_BY_KIND = {
+    entry: '#dm-entry-response',
+    dream: '#dream-menders-response',
+    finish: '#dream-frame-response',
+    abandon: '#dream-frame-response',
+    'court-entry': '#dm-court-entry-response',
+    verdict: '#hearing-of-the-last-dream-response',
+  };
+
+  function showDmResponse(selector, text) {
+    const el = $(selector);
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = !text;
+  }
+
+  function syncDreamMendingAll() {
+    syncDmShop();
+    syncDreamFrame();
+    syncDmCourt();
+    syncDmMenders();
+    syncDmEchoes();
+    syncDmRemembrance();
+    syncDmLinks();
+    if (typeof syncPhEntries === 'function') syncPhEntries();
+  }
+
+  function replayDreamMendingPending(sceneName) {
+    const st = getDreamMending();
+    const p = st.pending;
+    if (p && p.target === sceneName) resolveDreamMendingPendingOnArrival(sceneName);
+    else if (p && sceneName === dmPendingLogicalSource(p)) {
+      syncDreamMendingAll();
+      const selector = p.kind === 'mender-return' ? `#dm-mender-response-${p.from}` : DM_RESPONSE_BY_KIND[p.kind];
+      if (selector) showDmResponse(selector, p.feedback);
+      AutoAdvance.schedule(sceneName, p.target, { delay: dmDelay() });
+      return;
+    } else if (p) {
+      st.pending = null;
+      saveDreamMending(st);
+    }
+    syncDreamMendingAll();
+  }
+
+  function launchDm(scene, buttonId, pending, responseSelector) {
+    const st = getDreamMending();
+    st.pending = pending;
+    const saved = saveDreamMending(st);
+    if (!saved.pending) return false;
+    const btn = buttonId ? $(`#${buttonId}`) : null;
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+    if (AudioEngine.whoosh) AudioEngine.whoosh();
+    syncDreamMendingAll();
+    showDmResponse(responseSelector, pending.feedback);
+    AutoAdvance.schedule(scene, pending.target, { delay: dmDelay() });
+    return true;
+  }
+
+  function dmReady(scene, buttonId) {
+    if (currentScene !== scene) return null;
+    if (AutoAdvance.has(scene)) return null;
+    if (buttonId && !buttonAvailable(buttonId)) return null;
+    if (!dreamMendingUnlocked()) return null;
+    const st = getDreamMending();
+    return st.pending ? null : st;
+  }
+
+  function chooseDmEntry() {
+    const st = dmReady('remembrance', 'dm-entry-btn');
+    if (!st || st.activeMender) return;
+    if (dmUpstreamBusy()) return;
+    launchDm('remembrance', 'dm-entry-btn', { feedback: DM_ENTRY_FEEDBACK, kind: 'entry', target: DM_SHOP }, '#dm-entry-response');
+  }
+
+  function chooseDmDream(dream) {
+    const b = DM_DREAM_TABLE[dream];
+    if (!b) return;
+    const st = dmReady(DM_SHOP, `dm-dream-${dream}`);
+    if (!st || st.activeMender) return;
+    launchDm(DM_SHOP, `dm-dream-${dream}`, { dream, feedback: b.feedback, kind: 'dream', source: DM_SHOP, target: DM_FRAME }, '#dream-menders-response');
+  }
+
+  function chooseDmMethod(method) {
+    if (!DM_METHOD_TABLE[method]) return;
+    const st = dmReady(DM_FRAME, `dm-method-${method}`);
+    if (!st || !st.draft.dream || !st.visited.frame || st.draft.method === method) return;
+    st.draft.method = method;
+    saveDreamMending(st);
+    syncDreamFrame();
+  }
+
+  /* 缝上的线只放在内存里；换梦或换线时拆掉，缝满才写 pending */
+  let dmPaths = {};
+  let dmActive = '';
+  let dmFrameKey = '';
+
+  function paintDmFrame(message) {
+    const st = getDreamMending();
+    const status = $('#dm-frame-status');
+    const dream = st.draft.dream;
+    if (!dream) {
+      if (status) status.textContent = '';
+      return;
+    }
+    const pins = DM_DREAM_TABLE[dream].pins[st.draft.method];
+    const owner = {};
+    Object.keys(dmPaths).forEach((c) => (dmPaths[c] || []).forEach((cell) => { owner[cell] = c; }));
+    const unit = 100 / DM_N;
+    for (let i = 0; i < DM_N * DM_N; i++) {
+      const btn = $(`#dm-knot-${i}`);
+      if (!btn) continue;
+      const pin = dmPinAt(pins, i);
+      const color = pin || owner[i] || '';
+      DM_COLORS.forEach((c) => btn.classList.toggle(`dm-thread-${c}`, color === c));
+      btn.classList.toggle('is-pin', Boolean(pin));
+      const path = dmPaths[dmActive] || [];
+      btn.classList.toggle('is-head', Boolean(dmActive) && path[path.length - 1] === i);
+      const row = Math.floor(i / DM_N) + 1;
+      const col = (i % DM_N) + 1;
+      let label = `第 ${row} 行第 ${col} 列：`;
+      if (pin) label += `${DM_COLOR_NAMES[pin]}的线结${dmComplete(pins, dmPaths[pin], pin) ? '，已经连上' : '，点一下从这里起针'}`;
+      else if (owner[i]) label += `缝着${DM_COLOR_NAMES[owner[i]]}`;
+      else label += '空着';
+      btn.setAttribute('aria-label', label);
+    }
+    DM_COLORS.forEach((c) => {
+      const line = $(`#dm-line-${c}`);
+      if (!line) return;
+      const path = pins[c] ? (dmPaths[c] || []) : [];
+      line.setAttribute('points', path.map((cell) => `${((cell % DM_N) + 0.5) * unit},${(Math.floor(cell / DM_N) + 0.5) * unit}`).join(' '));
+    });
+    const colors = Object.keys(pins);
+    const linked = colors.filter((c) => dmComplete(pins, dmPaths[c], c)).length;
+    const filled = new Set([...Object.keys(owner).map(Number), ...colors.flatMap((c) => pins[c])]).size;
+    const done = dmSolved(pins, dmPaths);
+    const board = $('#dm-board');
+    if (board) board.classList.toggle('is-done', done);
+    if (status) {
+      if (message) status.textContent = message;
+      else if (done) status.textContent = `${colors.length} 股线都连上了，整块布缝满了。可以收针。`;
+      else if (dmActive) status.textContent = `正在缝${DM_COLOR_NAMES[dmActive]}：点挨着针头的空格往前缝，点线上的格子退回去。连上 ${linked}/${colors.length} 股，缝了 ${filled}/${DM_N * DM_N} 格。`;
+      else status.textContent = `先点一个线结起针。连上 ${linked}/${colors.length} 股。线不能交叉，整块布都要缝满。`;
+    }
+  }
+
+  function tapDmKnot(cell) {
+    const st = dmReady(DM_FRAME, `dm-knot-${cell}`);
+    if (!st || !st.draft.dream || st.activeMender) return;
+    if (!Number.isInteger(cell) || cell < 0 || cell >= DM_N * DM_N) return;
+    const pins = DM_DREAM_TABLE[st.draft.dream].pins[st.draft.method];
+    const pin = dmPinAt(pins, cell);
+    if (pin) {
+      /* 点到正在缝的这股线的线结：能缝上就缝上（或退回），否则从这个线结重新起针 */
+      const next = pin === dmActive ? dmStep(pins, dmPaths, pin, cell) : null;
+      if (next) {
+        dmPaths = Object.assign({}, dmPaths, { [pin]: next });
+        if (AudioEngine.tick) AudioEngine.tick();
+        paintDmFrame('');
+        return;
+      }
+      dmPaths = Object.assign({}, dmPaths, { [pin]: [cell] });
+      dmActive = pin;
+      paintDmFrame(`从${DM_COLOR_NAMES[pin]}的这个线结起针。`);
+      return;
+    }
+    if (!dmActive) { paintDmFrame('先点一个线结起针。'); return; }
+    const next = dmStep(pins, dmPaths, dmActive, cell);
+    if (!next) {
+      const other = Object.keys(dmPaths).find((c) => c !== dmActive && (dmPaths[c] || []).includes(cell));
+      paintDmFrame(other ? `那里缝着${DM_COLOR_NAMES[other]}，线不能交叉。` : dmComplete(pins, dmPaths[dmActive], dmActive) ? `${DM_COLOR_NAMES[dmActive]}已经连上了。点线上的格子可以退回去。` : '只能缝挨着针头的空格。');
+      return;
+    }
+    dmPaths = Object.assign({}, dmPaths, { [dmActive]: next });
+    if (AudioEngine.tick) AudioEngine.tick();
+    paintDmFrame('');
+  }
+
+  function resetDmFrame() {
+    const st = dmReady(DM_FRAME, 'dm-reset');
+    if (!st || !st.draft.dream || st.activeMender) return;
+    dmPaths = {};
+    dmActive = '';
+    paintDmFrame('线都拆下来了。');
+  }
+
+  function finishDmMending() {
+    const st = dmReady(DM_FRAME, 'dm-finish');
+    if (!st || !st.draft.dream || st.activeMender) return;
+    const { dream, method } = st.draft;
+    if (!dmSolved(DM_DREAM_TABLE[dream].pins[method], dmPaths)) {
+      paintDmFrame('还有线没连上，或者布上还有空着的地方。');
+      return;
+    }
+    dmActive = '';
+    paintDmFrame('收针了。');
+    launchDm(DM_FRAME, 'dm-finish', {
+      dream, feedback: dmFinishFeedback(dream, method), kind: 'finish', mend: `${dream}:${method}`, method, source: DM_FRAME, target: DM_DREAM_TABLE[dream].target,
+    }, '#dream-frame-response');
+  }
+
+  function chooseDmAbandon() {
+    const st = dmReady(DM_FRAME, 'dm-abandon');
+    if (!st || !st.draft.dream) return;
+    launchDm(DM_FRAME, 'dm-abandon', { feedback: DM_ABANDON_FEEDBACK, kind: 'abandon', source: DM_FRAME, target: DM_SHOP }, '#dream-frame-response');
+  }
+
+  function chooseDmMenderReturn(scene) {
+    const st = dmReady(scene, `dm-mender-return-${scene}`);
+    if (!st || !st.activeMender) return;
+    if (DM_DREAM_TABLE[st.activeMender.mend.split(':')[0]].target !== scene) return;
+    launchDm(scene, `dm-mender-return-${scene}`, { feedback: DM_MENDER_RETURN_FEEDBACK, from: scene, kind: 'mender-return', mend: st.activeMender.mend, target: DM_SHOP }, `#dm-mender-response-${scene}`);
+  }
+
+  function chooseDmCourtEntry() {
+    const st = dmReady('remembrance', 'dm-court-entry-btn');
+    if (!st || st.activeMender || !dmCourtEligible(st)) return;
+    launchDm('remembrance', 'dm-court-entry-btn', { feedback: DM_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: DM_COURT }, '#dm-court-entry-response');
+  }
+
+  function chooseDmVerdict(action) {
+    const a = DM_VERDICT_TABLE[action];
+    if (!a) return;
+    const st = dmReady(DM_COURT, `dm-verdict-${action}`);
+    if (!st || st.activeMender || !st.visited.court || !dmCourtEligible(st)) return;
+    launchDm(DM_COURT, `dm-verdict-${action}`, { action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: DM_COURT, target: a.target }, '#hearing-of-the-last-dream-response');
+  }
+
+  function dreamMendingBridgeAllows(targetScene) {
+    if (!dreamMendingUnlocked()) return false;
+    const st = getDreamMending();
+    if (st.pending && (st.pending.kind === 'finish' || st.pending.kind === 'verdict') && st.pending.target === targetScene) return true;
+    if (st.activeMender && DM_DREAM_TABLE[st.activeMender.mend.split(':')[0]].target === targetScene) return true;
+    const verdict = DM_VERDICT_ACTIONS.find((a) => DM_VERDICT_TABLE[a].outcome === st.lastOutcome);
+    return Boolean(verdict && DM_VERDICT_TABLE[verdict].target === targetScene);
+  }
+
+  function dmShopCanVisit() {
+    if (!dreamMendingUnlocked()) return false;
+    const st = getDreamMending();
+    return st.visited.shop || Boolean(st.pending && st.pending.target === DM_SHOP);
+  }
+
+  function dreamFrameCanVisit() {
+    if (!dreamMendingUnlocked()) return false;
+    const st = getDreamMending();
+    if (st.visited.frame && st.draft.dream) return true;
+    return Boolean(st.pending && st.pending.kind === 'dream');
+  }
+
+  function dmCourtCanVisit() {
+    if (!dreamMendingUnlocked()) return false;
+    const st = getDreamMending();
+    if (st.visited.court && dmCourtEligible(st)) return true;
+    return Boolean(st.pending && st.pending.kind === 'court-entry');
+  }
+
+  function syncDmShop() {
+    const canVisit = dmShopCanVisit();
+    const st = getDreamMending();
+    const fig = $('#dm-shop-figure');
+    if (fig) fig.hidden = !canVisit;
+    const blocked = !canVisit || Boolean(st.pending) || Boolean(st.activeMender);
+    DM_DREAMS.forEach((dream) => {
+      const btn = $(`#dm-dream-${dream}`);
+      if (!btn) return;
+      btn.disabled = blocked;
+      btn.classList.toggle('is-collected', DM_METHODS.every((m) => st.mends.includes(`${dream}:${m}`)));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'dream' && st.pending.dream === dream ? 'true' : 'false');
+    });
+    const note = $('#dm-shop-note');
+    if (note) {
+      let text = '';
+      if (st.activeMender) {
+        const b = DM_DREAM_TABLE[st.activeMender.mend.split(':')[0]];
+        text = `先完成正在送回去的那场梦：${b.menderTitle}还在${b.place}等你签收。`;
+      } else if (st.draft.dream) {
+        text = `绷梦架上还绷着没缝完的「${DM_DREAM_TABLE[st.draft.dream].title}」。`;
+      }
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const cont = $('#dm-continue');
+    if (cont) {
+      const show = canVisit && Boolean(st.draft.dream) && !st.activeMender;
+      cont.hidden = !show;
+      cont.disabled = !show || Boolean(st.pending);
+    }
+    if (!st.pending || st.pending.source !== DM_SHOP) showDmResponse('#dream-menders-response', '');
+  }
+
+  function syncDreamFrame() {
+    const canVisit = dreamFrameCanVisit();
+    const st = getDreamMending();
+    const ready = canVisit && Boolean(st.draft.dream);
+    const key = st.draft.dream ? `${st.draft.dream}:${st.draft.method}` : '';
+    if (key !== dmFrameKey && !(st.pending && st.pending.kind === 'finish')) {
+      dmFrameKey = key;
+      dmPaths = {};
+      dmActive = '';
+    }
+    const panel = $('#dm-frame-panel');
+    if (panel) panel.hidden = !ready;
+    const board = $('#dm-board');
+    if (board) board.hidden = !ready;
+    if (ready) {
+      const t = DM_DREAM_TABLE[st.draft.dream];
+      const title = $('#dm-frame-dream');
+      if (title) title.textContent = `${t.title} —— ${t.feedback}`;
+      const hint = $('#dm-method-hint');
+      if (hint) hint.textContent = `${DM_METHOD_TABLE[st.draft.method].hint}点一个线结起针，再一格一格点挨着针头的空格往前缝，缝到同色的另一个线结就连上了；点线上的格子可以退回去，再点线结会拆掉重缝。线不能交叉，整块布都要缝满，梦才算补好，会送回${t.place}，由${t.menderTitle}签收。换线或换梦会把线都拆掉。`;
+    }
+    DM_METHODS.forEach((method) => {
+      const btn = $(`#dm-method-${method}`);
+      if (!btn) return;
+      btn.disabled = !ready || Boolean(st.pending);
+      btn.setAttribute('aria-pressed', ready && st.draft.method === method ? 'true' : 'false');
+      btn.classList.toggle('is-collected', Boolean(st.draft.dream) && st.mends.includes(`${st.draft.dream}:${method}`));
+    });
+    ['dm-finish', 'dm-reset', 'dm-abandon'].forEach((id) => {
+      const btn = $(`#${id}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending);
+    });
+    for (let i = 0; i < DM_N * DM_N; i++) {
+      const btn = $(`#dm-knot-${i}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending);
+    }
+    paintDmFrame(st.pending && st.pending.kind === 'finish' ? '收针了，梦正在送回去。' : '');
+    if (!st.pending || st.pending.source !== DM_FRAME) showDmResponse('#dream-frame-response', '');
+  }
+
+  function syncDmCourt() {
+    const canVisit = dmCourtCanVisit();
+    const st = getDreamMending();
+    const fig = $('#hearing-of-the-last-dream-figure');
+    if (fig) fig.hidden = !canVisit;
+    DM_VERDICT_ACTIONS.forEach((action) => {
+      const btn = $(`#dm-verdict-${action}`);
+      if (!btn) return;
+      btn.disabled = !canVisit || Boolean(st.pending) || Boolean(st.activeMender);
+      btn.classList.toggle('is-collected', st.courtOutcomes.includes(DM_VERDICT_TABLE[action].outcome));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'verdict' && st.pending.action === action ? 'true' : 'false');
+    });
+    if (!st.pending || st.pending.source !== DM_COURT) showDmResponse('#hearing-of-the-last-dream-response', '');
+  }
+
+  function syncDmMenders() {
+    const st = dreamMendingUnlocked() ? getDreamMending() : defaultDreamMending();
+    const [dream, method] = st.activeMender ? st.activeMender.mend.split(':') : ['', ''];
+    DM_OLD_TARGETS.forEach((scene) => {
+      const box = $(`#dm-mender-${scene}`);
+      if (!box) return;
+      const show = Boolean(dream) && DM_DREAM_TABLE[dream].target === scene;
+      box.hidden = !show;
+      const btn = $(`#dm-mender-return-${scene}`);
+      if (btn) {
+        btn.disabled = !show || Boolean(st.pending);
+        btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'mender-return' && st.pending.from === scene ? 'true' : 'false');
+      }
+      if (!show) return;
+      const b = DM_DREAM_TABLE[dream];
+      const head = $(`#dm-mender-title-${scene}`);
+      if (head) head.textContent = `缝梦签收 · ${b.menderTitle} · ${b.title}（${DM_METHOD_TABLE[method].title}）`;
+      const level = $(`#dm-mender-level-${scene}`);
+      if (level) level.textContent = `用${DM_METHOD_TABLE[method].title}把梦缝满了，没有一处交叉`;
+      const body = $(`#dm-mender-body-${scene}`);
+      if (body) body.textContent = DM_METHOD_TABLE[method].result;
+      if (!st.pending || st.pending.kind !== 'mender-return') showDmResponse(`#dm-mender-response-${scene}`, '');
+    });
+  }
+
+  function syncDmEchoes() {
+    const st = dreamMendingUnlocked() ? getDreamMending() : defaultDreamMending();
+    DM_DREAMS.forEach((dream) => {
+      const b = DM_DREAM_TABLE[dream];
+      const el = $(`#dm-echo-${b.target}`);
+      if (!el) return;
+      const method = st.latestMethodByDream[dream];
+      if (!method) { el.hidden = true; el.textContent = ''; return; }
+      el.textContent = `${b.echoLead}${DM_METHOD_TABLE[method].result}`;
+      el.hidden = false;
+    });
+  }
+
+  function syncDmRemembrance() {
+    const unlocked = dreamMendingUnlocked();
+    const shell = $('#dm-codex');
+    const memory = $('#dm-memory');
+    if (!unlocked) {
+      [shell, memory].forEach((el) => { if (el) el.hidden = true; });
+      return;
+    }
+    const st = getDreamMending();
+    const v115Busy = dmUpstreamBusy();
+    if (shell) shell.hidden = false;
+    const progress = dmCourtProgress(st);
+    if (memory) {
+      memory.hidden = false;
+      memory.textContent = `缝梦：已缝 ${st.mends.length}/9 场，共收针 ${st.mendRuns} 次；末梦听证 ${st.courtOutcomes.length}/3。`;
+    }
+    const hints = $('#dm-court-hints');
+    if (hints) {
+      const rows = [['三场梦都缝过', progress.dreams, DM_DREAMS.length], ['三种线都用过', progress.methods, DM_METHODS.length]];
+      hints.replaceChildren(...rows.map(([label, have, need]) => {
+        const li = document.createElement('li');
+        li.className = have >= need ? 'is-met' : '';
+        li.textContent = `${label} ${have}/${need}`;
+        return li;
+      }));
+    }
+    const clean = !st.pending && !st.activeMender;
+    const entry = $('#dm-entry-btn');
+    if (entry) {
+      entry.hidden = false;
+      entry.disabled = !clean || v115Busy;
+      entry.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' ? 'true' : 'false');
+    }
+    const note = $('#dm-entry-note');
+    if (note) {
+      const text = v115Busy ? '先完成被柜房那包还在路上的被褥：被柜房还有一位收被人没签收。' : st.activeMender ? '先完成正在送回去的那场梦。' : '';
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const court = $('#dm-court-entry-btn');
+    if (court) {
+      const eligible = dmCourtEligible(st);
+      court.hidden = !eligible;
+      court.disabled = !eligible || !clean;
+      court.setAttribute('aria-pressed', st.pending && st.pending.kind === 'court-entry' ? 'true' : 'false');
+    }
+    const grid = $('#dm-codex-grid');
+    if (grid) {
+      const have = new Set(st.mends);
+      const cells = DM_MEND_IDS.map((id) => {
+        const [dream, method] = id.split(':');
+        const cell = document.createElement('div');
+        cell.className = `dm-cell ${have.has(id) ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = have.has(id) ? `${DM_DREAM_TABLE[dream].title}\n${DM_METHOD_TABLE[method].title}` : '？？？';
+        return cell;
+      });
+      DM_VERDICT_ACTIONS.forEach((action) => {
+        const a = DM_VERDICT_TABLE[action];
+        const got = st.courtOutcomes.includes(a.outcome);
+        const cell = document.createElement('div');
+        cell.className = `dm-cell dm-cell-verdict ${got ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = got ? `[末梦听证会] ${a.title}\n${a.feedback}` : '？？？';
+        cells.push(cell);
+      });
+      grid.replaceChildren(...cells);
+    }
+    if (!st.pending || (st.pending.kind !== 'entry' && st.pending.kind !== 'court-entry')) {
+      showDmResponse('#dm-entry-response', '');
+      showDmResponse('#dm-court-entry-response', '');
+    }
+  }
+
+  function syncDmLinks() {
+    const st = dreamMendingUnlocked() ? getDreamMending() : null;
+    [['dream-menders-link', 'shop'], ['dream-frame-link', 'frame'], ['hearing-of-the-last-dream-link', 'court']].forEach(([id, key]) => {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !(st && st.visited[key]);
+    });
+  }
+
+  function forgetDreamMendingState() {
+    try { localStorage.removeItem(DREAM_MENDING_KEY); } catch {}
+    [DM_SHOP, DM_FRAME, DM_COURT].forEach((scene) => AutoAdvance.clear(scene));
+    dmPaths = {};
+    dmActive = '';
+    dmFrameKey = '';
+    ['#dm-codex', '#dm-memory', '#dm-shop-figure', '#dm-frame-panel', '#hearing-of-the-last-dream-figure',
+      '#dream-menders-link', '#dream-frame-link', '#hearing-of-the-last-dream-link', '#dm-continue', '#dm-court-entry-btn',
+      '#dm-entry-response', '#dm-court-entry-response', '#dream-menders-response', '#dream-frame-response', '#hearing-of-the-last-dream-response',
+      ...DM_OLD_TARGETS.flatMap((scene) => [`#dm-mender-${scene}`, `#dm-echo-${scene}`]),
+    ].forEach((sel) => { const el = $(sel); if (el) el.hidden = true; });
+    $$('[id^="dm-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+  }
+
+  const onTrustedDm = (selector, handler) => {
+    const el = $(selector);
+    if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+  };
+  onTrustedDm('#dm-entry-btn', chooseDmEntry);
+  onTrustedDm('#dm-court-entry-btn', chooseDmCourtEntry);
+  onTrustedDm('#dm-abandon', chooseDmAbandon);
+  onTrustedDm('#dm-continue', () => {
+    const st = dmReady(DM_SHOP, 'dm-continue');
+    if (!st || !st.draft.dream || st.activeMender) return;
+    const dream = st.draft.dream;
+    launchDm(DM_SHOP, 'dm-continue', { dream, feedback: DM_DREAM_TABLE[dream].feedback, kind: 'dream', source: DM_SHOP, target: DM_FRAME }, '#dream-menders-response');
+  });
+  DM_DREAMS.forEach((dream) => onTrustedDm(`#dm-dream-${dream}`, () => chooseDmDream(dream)));
+  DM_METHODS.forEach((method) => onTrustedDm(`#dm-method-${method}`, () => chooseDmMethod(method)));
+  DM_VERDICT_ACTIONS.forEach((action) => onTrustedDm(`#dm-verdict-${action}`, () => chooseDmVerdict(action)));
+  DM_OLD_TARGETS.forEach((scene) => onTrustedDm(`#dm-mender-return-${scene}`, () => chooseDmMenderReturn(scene)));
+  for (let i = 0; i < DM_N * DM_N; i++) onTrustedDm(`#dm-knot-${i}`, () => tapDmKnot(i));
+  onTrustedDm('#dm-reset', resetDmFrame);
+  onTrustedDm('#dm-finish', finishDmMending);
+
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -69331,8 +70150,26 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     if (eligible) items.push(`开庭条件已满足；收被裁定已得 ${st.courtOutcomes.length}/3`);
     if (st.activeFolder) items.push("有一包被褥在旧房间等你签收：跟着收被人回到被柜房");
     else if (st.draft.bundle) items.push(`叠被处还摊着没收完的「${LN_BUNDLE_TABLE[st.draft.bundle].title}」`);
-    if (eligible && st.courtOutcomes.length >= 3) return { title: "v115 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    if (eligible && st.courtOutcomes.length >= 3) return dreamMendingProgressStep();
     return { title: "v115 被柜房", items, target: eligible ? "ln-court" : "ln", done: false };
+  };
+
+  /* v116：按三场梦、三种线与三项裁定给出缺项 */
+  const dreamMendingProgressStep = () => {
+    if (!dreamMendingUnlocked()) return null;
+    const st = getDreamMending();
+    const items = [];
+    const dreams = DM_DREAMS.filter((x) => !st.mends.some((id) => id.startsWith(`${x}:`))).map((x) => DM_DREAM_TABLE[x].title);
+    const methods = DM_METHODS.filter((m) => !st.mends.some((id) => id.endsWith(`:${m}`))).map((m) => DM_METHOD_TABLE[m].title);
+    if (dmUpstreamBusy() && !st.visited.shop) items.push("先完成被柜房那包还在路上的被褥，缝梦铺才开门");
+    if (dreams.length) items.push(`还没缝的梦：${dreams.join("、")}`);
+    if (methods.length) items.push(`还没用过的线：${methods.join("、")}`);
+    const eligible = dmCourtEligible(st);
+    if (eligible) items.push(`开庭条件已满足；末梦裁定已得 ${st.courtOutcomes.length}/3`);
+    if (st.activeMender) items.push("有一场梦在旧房间等你签收：跟着缝梦人回到缝梦铺");
+    else if (st.draft.dream) items.push(`绷梦架上还绷着没缝完的「${DM_DREAM_TABLE[st.draft.dream].title}」`);
+    if (eligible && st.courtOutcomes.length >= 3) return { title: "v116 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    return { title: "v116 缝梦铺", items, target: eligible ? "dm-court" : "dm", done: false };
   };
 
   const shadowlessPhotographyProgressStep = () => {
@@ -69916,6 +70753,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   syncClearedOfferingsAll();
   syncForgottenLocksAll();
   syncLinenRoomAll();
+  syncDreamMendingAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

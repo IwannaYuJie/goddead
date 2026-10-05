@@ -1379,3 +1379,12 @@
 - 场景图：本机 Codex CLI 生成三张原画；提示词与哈希见 `docs/V115ImagePrompts.md`。
 - 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 20027 assertions passed`；v101–v104 独立测试 65 项通过。
 - 浏览器：完整存档下真实点击把交换台的毛毯塞满圆角柜并签收；托盘移到柜子正下方免去来回滚动；375px 窄屏每格约 35px；听证会裁定抵达门外。
+
+## 2026-10-06 - v116 缝梦铺实装
+
+- 新增 `dream-menders`、`dream-frame`、`hearing-of-the-last-dream` 3 个场景，场景总数 268 → 271，缓存标记 `v=116`。
+- 新交互“缝梦”（连线填满）：5×5 绷架上 25 个原生按钮，点线结起针、点相邻空格往前缝、点线上的格子退回，线不能交叉，SVG 折线画线；三场梦（门外那人 / 值夜人 / 注销员的梦）× 三股 / 四股 / 五股线 = 9 次缝补，每场都只有一种缝法，连上并缝满才能收针，送回门槛 / 值夜室 / 神名注销科签收。
+- 状态键 `goddead_v116_dream_mending`（11 字段、7 类 pending、严格归一化），只读 v115；v115 在途时入口禁用；前缀 `dm-`；只有真实点击；桥接接入治理守卫与画廊守卫。
+- 场景图：本机 Codex CLI 生成三张原画，亚麻布按像素实测对齐；提示词与哈希见 `docs/V116ImagePrompts.md`。
+- 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 20189 assertions passed`；v101–v104 独立测试 65 项通过。
+- 浏览器：完整存档下真实点击 25 次缝满值夜人的梦并签收；375px 窄屏每格约 41×37px；听证会裁定抵达无终局画廊。
