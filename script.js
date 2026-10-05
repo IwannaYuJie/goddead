@@ -1424,6 +1424,8 @@ document.addEventListener("DOMContentLoaded", () => {
     replayPaperCutPending(name);
     resolveClearedOfferingsPendingOnArrival(name);
     replayClearedOfferingsPending(name);
+    resolveForgottenLocksPendingOnArrival(name);
+    replayForgottenLocksPending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1567,9 +1569,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !clearedOfferingsBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !clearedOfferingsBridgeAllows(target) && !forgottenLocksBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !clearedOfferingsBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !clearedOfferingsBridgeAllows(target) && !forgottenLocksBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
@@ -1583,7 +1585,7 @@ document.addEventListener("DOMContentLoaded", () => {
        v88 窄桥：title-action 可抵达 unending-gallery；
        v89 窄桥：appeal-action 可抵达 unending-gallery；
        v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !todayPressBridgeAllows('unending-gallery') && !inkMixingBridgeAllows('unending-gallery') && !borrowedLightBridgeAllows('unending-gallery') && !exactTeaBridgeAllows('unending-gallery') && !lastSweepBridgeAllows('unending-gallery') && !puttingBackBridgeAllows('unending-gallery') && !paperCutBridgeAllows('unending-gallery') && !clearedOfferingsBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !todayPressBridgeAllows('unending-gallery') && !inkMixingBridgeAllows('unending-gallery') && !borrowedLightBridgeAllows('unending-gallery') && !exactTeaBridgeAllows('unending-gallery') && !lastSweepBridgeAllows('unending-gallery') && !puttingBackBridgeAllows('unending-gallery') && !paperCutBridgeAllows('unending-gallery') && !clearedOfferingsBridgeAllows('unending-gallery') && !forgottenLocksBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1867,6 +1869,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "clearing-room" && !coRoomCanVisit()) target = "remembrance";
     if (target === "offering-stands" && !offeringStandsCanVisit()) target = "remembrance";
     if (target === "hearing-of-the-last-offering" && !coCourtCanVisit()) target = "remembrance";
+
+    /* v114 锁匠铺：未解锁或无合法抵达时一律回痕迹室 */
+    if (target === "locksmith-shop" && !lkShopCanVisit()) target = "remembrance";
+    if (target === "lock-bench" && !lockBenchCanVisit()) target = "remembrance";
+    if (target === "hearing-of-the-last-lock" && !lkCourtCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -48115,6 +48122,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetPuttingBackState();
       forgetPaperCutState();
       forgetClearedOfferingsState();
+      forgetForgottenLocksState();
       forgetCodexFolds();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
@@ -67145,6 +67153,765 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   onTrustedCo('#co-reset', resetCoStands);
   onTrustedCo('#co-finish', finishCoClearing);
 
+  /* ============================================================
+     v114 锁匠铺 / THE LOCKSMITH OF FORGOTTEN CODES
+     v113 把供都撤了，三间旧屋要锁门过夜。可值夜室的门、遗物科的柜子、投递所的信箱，锁上都还是神设的老密码，谁也不记得。
+     三把锁 × 三种锁芯（铜锁 / 铁锁 / 骨锁）= 9 次试锁；拨转轮试一次，锁会“咔”几声（字对、位置也对）、“嗒”几声（字对、位置不对）。
+     只读 v113；独立键 goddead_v114_forgotten_locks；所有新操作只接受真实点击。
+     ============================================================ */
+  const FORGOTTEN_LOCKS_KEY = 'goddead_v114_forgotten_locks';
+  const FORGOTTEN_LOCKS_VERSION = 114;
+  const LK_SHOP = 'locksmith-shop';
+  const LK_BENCH = 'lock-bench';
+  const LK_COURT = 'hearing-of-the-last-lock';
+  const LK_GLYPHS = ['日', '月', '星', '灯', '火'];
+  const LK_MAX_WHEELS = 4;
+  const LK_LOG_ROWS = 8;
+  const LK_LOCKS = ['watch-lock', 'reliquary-lock', 'deadletter-lock'];
+  /* codes 里是转轮上的字（LK_GLYPHS 的下标）；可以重复 */
+  const LK_LOCK_TABLE = {
+    'watch-lock': {
+      title: '值夜室的门锁', codes: { brass: [3, 0, 0], iron: [4, 1, 3], bone: [0, 2, 2, 1] },
+      target: 'watch', place: '值夜室', keyholderTitle: '值夜室守锁人',
+      feedback: '值夜室的门锁上有一圈转轮。值夜人说，神设密码那晚他睡着了，醒来门就锁上了。',
+      echoLead: '值夜室的门换了新锁芯，钥匙挂在值夜人腰上。',
+    },
+    'reliquary-lock': {
+      title: '遗物科的柜锁', codes: { brass: [1, 3, 2], iron: [2, 4, 4], bone: [3, 1, 0, 3] },
+      target: 'reliquary', place: '神圣遗物科', keyholderTitle: '遗物科守锁人',
+      feedback: '遗物柜的锁是神亲手扣上的。遗物科说，柜子里装的是什么，他们自己也没见过。',
+      echoLead: '遗物柜换了新锁芯，柜门轻轻一拉就开。',
+    },
+    'deadletter-lock': {
+      title: '投递所的信箱锁', codes: { brass: [2, 2, 1], iron: [0, 3, 1], bone: [1, 0, 3, 2] },
+      target: 'deadletter', place: '无主投递所', keyholderTitle: '投递所守锁人',
+      feedback: '投递所门口的大信箱锁着，里面塞满了没人取的信。密码大概只有收信的那位知道。',
+      echoLead: '投递所的信箱换了新锁芯，钥匙压在信格底下。',
+    },
+  };
+  const LK_METHODS = ['brass', 'iron', 'bone'];
+  const LK_METHOD_TABLE = {
+    brass: { title: '铜锁', wheels: 3, glyphs: 4, hint: '铜锁芯：三个转轮，每个转轮上有日、月、星、灯四个字。', result: '铜锁芯最好使，咔一声就开。守锁人说，换上新芯，往后谁想进来敲门就行。' },
+    iron: { title: '铁锁', wheels: 3, glyphs: 5, hint: '铁锁芯：三个转轮，每个转轮上有日、月、星、灯、火五个字。', result: '铁锁芯沉，拧起来费劲。守锁人说，换上新芯，往后只有拿得动钥匙的人才进得来。' },
+    bone: { title: '骨锁', wheels: 4, glyphs: 4, hint: '骨锁芯：四个转轮，每个转轮上有日、月、星、灯四个字。', result: '骨锁芯是旧东西，摸着发凉。守锁人说，换上新芯，往后只有记得这间屋的人才开得了。' },
+  };
+  const LK_UNLOCK_IDS = [];
+  LK_LOCKS.forEach((lock) => LK_METHODS.forEach((method) => LK_UNLOCK_IDS.push(`${lock}:${method}`)));
+  const LK_VERDICT_ACTIONS = ['lock-every-door', 'leave-one-door-open-for-god', 'throw-the-keys-away'];
+  const LK_VERDICT_TABLE = {
+    'lock-every-door': {
+      title: '每扇门都锁上', outcome: 'every-door-locked', target: 'threshold',
+      feedback: '听证会裁定：每扇门都锁上。门外那扇门也上了锁，钥匙递到了你手里。',
+    },
+    'leave-one-door-open-for-god': {
+      title: '给神留一扇不锁的门', outcome: 'one-door-left-open-for-god', target: 'remembrance',
+      feedback: '听证会给神留了一扇不锁的门。痕迹室的门虚掩着，夜里有风进来。',
+    },
+    'throw-the-keys-away': {
+      title: '把钥匙都扔了', outcome: 'the-keys-thrown-away', target: 'unending-gallery',
+      feedback: '听证会准许把钥匙都扔了。画廊的空框底下散着一地钥匙，没有一把配得上门。',
+    },
+  };
+  const LK_VERDICT_OUTCOME_IDS = LK_VERDICT_ACTIONS.map((a) => LK_VERDICT_TABLE[a].outcome);
+  const LK_ENTRY_FEEDBACK = '锁匠铺墙上挂着几百把旧钥匙。柜台上三把锁，转轮上刻着字，谁也不记得神设的是哪几个。';
+  const LK_ABANDON_FEEDBACK = '你把锁放回柜台，转轮停在最后试的那几个字上。';
+  const LK_COURT_ENTRY_FEEDBACK = '三把锁都换了芯。锁匠听证会的桌上摆着一串钥匙、一把开着的锁。';
+  const LK_KEYHOLDER_RETURN_FEEDBACK = '守锁人把新钥匙收好，领你回到锁匠铺。';
+  const LK_OLD_TARGETS = ['watch', 'reliquary', 'deadletter'];
+
+  function lkDelay() {
+    return reduced ? 300 : 1400;
+  }
+
+  /* 纯函数：试一次的结果。exact 是字对、位置也对（咔），near 是字对、位置不对（嗒） */
+  function lkScore(code, guess) {
+    if (!Array.isArray(code) || !Array.isArray(guess) || code.length !== guess.length) return { exact: 0, near: 0 };
+    let exact = 0;
+    const left = {};
+    const tried = {};
+    code.forEach((c, i) => {
+      if (guess[i] === c) exact += 1;
+      else { left[c] = (left[c] || 0) + 1; tried[guess[i]] = (tried[guess[i]] || 0) + 1; }
+    });
+    let near = 0;
+    Object.keys(tried).forEach((k) => { near += Math.min(tried[k], left[k] || 0); });
+    return { exact, near };
+  }
+
+  /* 纯函数：把转轮上的下标拼成字 */
+  function lkSpell(wheels) {
+    return wheels.map((i) => LK_GLYPHS[i] || '？').join('');
+  }
+
+  function lkFinishFeedback(lock, method) {
+    return `${LK_LOCK_TABLE[lock].title}：${LK_METHOD_TABLE[method].result}`;
+  }
+
+  function defaultForgottenLocks() {
+    const latest = {};
+    LK_LOCKS.forEach((b) => { latest[b] = ''; });
+    return {
+      version: FORGOTTEN_LOCKS_VERSION,
+      visited: { shop: false, bench: false, court: false },
+      draft: { lock: '', method: 'brass' },
+      unlocks: [],
+      courtOutcomes: [],
+      unlockRuns: 0,
+      courtRuns: 0,
+      latestMethodByLock: latest,
+      lastOutcome: '',
+      activeKeyholder: null,
+      pending: null,
+    };
+  }
+
+  function clampLkCount(n) {
+    const v = Math.floor(Number(n));
+    return Number.isFinite(v) ? Math.min(9999, Math.max(0, v)) : 0;
+  }
+
+  function normalizeForgottenLocks(raw) {
+    const d = defaultForgottenLocks();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== FORGOTTEN_LOCKS_VERSION) return d;
+    const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
+    d.visited = { shop: v.shop === true, bench: v.bench === true, court: v.court === true };
+    const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
+    d.draft = { lock: LK_LOCKS.includes(dr.lock) ? dr.lock : '', method: LK_METHODS.includes(dr.method) ? dr.method : 'brass' };
+    const unlocks = new Set(Array.isArray(raw.unlocks) ? raw.unlocks : []);
+    d.unlocks = LK_UNLOCK_IDS.filter((id) => unlocks.has(id));
+    const outcomes = new Set(Array.isArray(raw.courtOutcomes) ? raw.courtOutcomes : []);
+    d.courtOutcomes = LK_VERDICT_OUTCOME_IDS.filter((id) => outcomes.has(id));
+    d.unlockRuns = clampLkCount(raw.unlockRuns);
+    d.courtRuns = clampLkCount(raw.courtRuns);
+    const latest = raw.latestMethodByLock && typeof raw.latestMethodByLock === 'object' ? raw.latestMethodByLock : {};
+    LK_LOCKS.forEach((b) => {
+      d.latestMethodByLock[b] = LK_METHODS.includes(latest[b]) && d.unlocks.includes(`${b}:${latest[b]}`) ? latest[b] : '';
+    });
+    if (typeof raw.lastOutcome === 'string' && (d.unlocks.includes(raw.lastOutcome) || d.courtOutcomes.includes(raw.lastOutcome))) d.lastOutcome = raw.lastOutcome;
+    const a = raw.activeKeyholder;
+    if (a && typeof a === 'object' && !Array.isArray(a) && Object.keys(a).length === 1 && d.unlocks.includes(a.unlock)) d.activeKeyholder = { unlock: a.unlock };
+    d.pending = normalizeLkPending(raw.pending, d);
+    return d;
+  }
+
+  function lkCourtProgress(st) {
+    const locks = new Set();
+    const methods = new Set();
+    st.unlocks.forEach((id) => {
+      const [lock, method] = id.split(':');
+      locks.add(lock);
+      methods.add(method);
+    });
+    return { locks: locks.size, methods: methods.size };
+  }
+
+  function lkCourtEligible(st) {
+    const p = lkCourtProgress(st);
+    return p.locks === LK_LOCKS.length && p.methods === LK_METHODS.length;
+  }
+
+  function expectedLkPending(p, st) {
+    const clean = !st.activeKeyholder;
+    switch (p.kind) {
+      case 'entry':
+        return clean ? { feedback: LK_ENTRY_FEEDBACK, kind: 'entry', target: LK_SHOP } : null;
+      case 'lock': {
+        const b = LK_LOCK_TABLE[p.lock];
+        if (!b || !clean) return null;
+        return { lock: p.lock, feedback: b.feedback, kind: 'lock', source: LK_SHOP, target: LK_BENCH };
+      }
+      case 'finish': {
+        const b = LK_LOCK_TABLE[p.lock];
+        if (!b || !LK_METHOD_TABLE[p.method] || !clean || st.draft.lock !== p.lock || st.draft.method !== p.method) return null;
+        return { lock: p.lock, feedback: lkFinishFeedback(p.lock, p.method), kind: 'finish', method: p.method, unlock: `${p.lock}:${p.method}`, source: LK_BENCH, target: b.target };
+      }
+      case 'abandon':
+        return st.draft.lock ? { feedback: LK_ABANDON_FEEDBACK, kind: 'abandon', source: LK_BENCH, target: LK_SHOP } : null;
+      case 'keyholder-return': {
+        if (!st.activeKeyholder) return null;
+        const lock = st.activeKeyholder.unlock.split(':')[0];
+        return { feedback: LK_KEYHOLDER_RETURN_FEEDBACK, from: LK_LOCK_TABLE[lock].target, kind: 'keyholder-return', unlock: st.activeKeyholder.unlock, target: LK_SHOP };
+      }
+      case 'court-entry':
+        return clean && lkCourtEligible(st) ? { feedback: LK_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: LK_COURT } : null;
+      case 'verdict': {
+        const a = LK_VERDICT_TABLE[p.action];
+        if (!a || !clean || !st.visited.court || !lkCourtEligible(st)) return null;
+        return { action: p.action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: LK_COURT, target: a.target };
+      }
+      default:
+        return null;
+    }
+  }
+
+  function normalizeLkPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+    const expected = expectedLkPending(p, st);
+    if (!expected) return null;
+    const keys = Object.keys(p).sort();
+    const want = Object.keys(expected).sort();
+    if (keys.length !== want.length || keys.some((k, i) => k !== want[i] || p[k] !== expected[k])) return null;
+    return expected;
+  }
+
+  function forgottenLocksUnlocked() {
+    const compute = () => {
+      if (!clearedOfferingsUnlocked()) return false;
+      const v113 = getClearedOfferings();
+      return coCourtEligible(v113) && CO_VERDICT_OUTCOME_IDS.every((o) => v113.courtOutcomes.includes(o));
+    };
+    return store.memo ? store.memo("forgottenLocksUnlocked", compute) : compute();
+  }
+
+  /* v113 还有在途的供盘或没签收的撤供人时，先不让进锁匠铺 */
+  function lkUpstreamBusy() {
+    const v113 = getClearedOfferings();
+    return Boolean(v113.pending || v113.activeClearer);
+  }
+
+  function getForgottenLocks() {
+    if (!forgottenLocksUnlocked()) return defaultForgottenLocks();
+    let raw;
+    try { raw = JSON.parse(store.get(FORGOTTEN_LOCKS_KEY, '{}')); } catch { return defaultForgottenLocks(); }
+    return normalizeForgottenLocks(raw);
+  }
+
+  function saveForgottenLocks(st) {
+    if (!forgottenLocksUnlocked()) return defaultForgottenLocks();
+    const canonical = normalizeForgottenLocks(Object.assign({}, st, { version: FORGOTTEN_LOCKS_VERSION }));
+    store.set(FORGOTTEN_LOCKS_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function lkPendingLogicalSource(p) {
+    if (!p) return '';
+    if (p.kind === 'entry' || p.kind === 'court-entry') return 'remembrance';
+    if (p.kind === 'keyholder-return') return p.from;
+    return p.source || '';
+  }
+
+  function resolveForgottenLocksPendingOnArrival(sceneName) {
+    const st = getForgottenLocks();
+    const p = st.pending;
+    if (!p) return st;
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.shop = true;
+      } else if (p.kind === 'lock') {
+        st.visited.bench = true;
+        st.draft = { lock: p.lock, method: st.draft.lock === p.lock ? st.draft.method : 'brass' };
+      } else if (p.kind === 'finish') {
+        st.unlockRuns = clampLkCount(st.unlockRuns + 1);
+        if (!st.unlocks.includes(p.unlock)) st.unlocks = st.unlocks.concat(p.unlock);
+        st.latestMethodByLock[p.lock] = p.method;
+        st.lastOutcome = p.unlock;
+        st.activeKeyholder = { unlock: p.unlock };
+        st.draft = { lock: '', method: 'brass' };
+      } else if (p.kind === 'abandon') {
+        st.draft = { lock: '', method: 'brass' };
+        st.visited.shop = true;
+      } else if (p.kind === 'keyholder-return') {
+        st.activeKeyholder = null;
+        st.visited.shop = true;
+      } else if (p.kind === 'court-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'verdict') {
+        st.courtRuns = clampLkCount(st.courtRuns + 1);
+        if (!st.courtOutcomes.includes(p.outcome)) st.courtOutcomes = st.courtOutcomes.concat(p.outcome);
+        st.lastOutcome = p.outcome;
+      }
+      return saveForgottenLocks(st);
+    }
+    if (sceneName === lkPendingLogicalSource(p)) return st;
+    st.pending = null;
+    return saveForgottenLocks(st);
+  }
+
+  const LK_RESPONSE_BY_KIND = {
+    entry: '#lk-entry-response',
+    lock: '#locksmith-shop-response',
+    finish: '#lock-bench-response',
+    abandon: '#lock-bench-response',
+    'court-entry': '#lk-court-entry-response',
+    verdict: '#hearing-of-the-last-lock-response',
+  };
+
+  function showLkResponse(selector, text) {
+    const el = $(selector);
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = !text;
+  }
+
+  function syncForgottenLocksAll() {
+    syncLkShop();
+    syncLockBench();
+    syncLkCourt();
+    syncLkKeyholders();
+    syncLkEchoes();
+    syncLkRemembrance();
+    syncLkLinks();
+    if (typeof syncPhEntries === 'function') syncPhEntries();
+  }
+
+  function replayForgottenLocksPending(sceneName) {
+    const st = getForgottenLocks();
+    const p = st.pending;
+    if (p && p.target === sceneName) resolveForgottenLocksPendingOnArrival(sceneName);
+    else if (p && sceneName === lkPendingLogicalSource(p)) {
+      syncForgottenLocksAll();
+      const selector = p.kind === 'keyholder-return' ? `#lk-keyholder-response-${p.from}` : LK_RESPONSE_BY_KIND[p.kind];
+      if (selector) showLkResponse(selector, p.feedback);
+      AutoAdvance.schedule(sceneName, p.target, { delay: lkDelay() });
+      return;
+    } else if (p) {
+      st.pending = null;
+      saveForgottenLocks(st);
+    }
+    syncForgottenLocksAll();
+  }
+
+  function launchLk(scene, buttonId, pending, responseSelector) {
+    const st = getForgottenLocks();
+    st.pending = pending;
+    const saved = saveForgottenLocks(st);
+    if (!saved.pending) return false;
+    const btn = buttonId ? $(`#${buttonId}`) : null;
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+    if (AudioEngine.whoosh) AudioEngine.whoosh();
+    syncForgottenLocksAll();
+    showLkResponse(responseSelector, pending.feedback);
+    AutoAdvance.schedule(scene, pending.target, { delay: lkDelay() });
+    return true;
+  }
+
+  function lkReady(scene, buttonId) {
+    if (currentScene !== scene) return null;
+    if (AutoAdvance.has(scene)) return null;
+    if (buttonId && !buttonAvailable(buttonId)) return null;
+    if (!forgottenLocksUnlocked()) return null;
+    const st = getForgottenLocks();
+    return st.pending ? null : st;
+  }
+
+  function chooseLkEntry() {
+    const st = lkReady('remembrance', 'lk-entry-btn');
+    if (!st || st.activeKeyholder) return;
+    if (lkUpstreamBusy()) return;
+    launchLk('remembrance', 'lk-entry-btn', { feedback: LK_ENTRY_FEEDBACK, kind: 'entry', target: LK_SHOP }, '#lk-entry-response');
+  }
+
+  function chooseLkLock(lock) {
+    const b = LK_LOCK_TABLE[lock];
+    if (!b) return;
+    const st = lkReady(LK_SHOP, `lk-lock-${lock}`);
+    if (!st || st.activeKeyholder) return;
+    launchLk(LK_SHOP, `lk-lock-${lock}`, { lock, feedback: b.feedback, kind: 'lock', source: LK_SHOP, target: LK_BENCH }, '#locksmith-shop-response');
+  }
+
+  function chooseLkMethod(method) {
+    if (!LK_METHOD_TABLE[method]) return;
+    const st = lkReady(LK_BENCH, `lk-method-${method}`);
+    if (!st || !st.draft.lock || !st.visited.bench || st.draft.method === method) return;
+    st.draft.method = method;
+    saveForgottenLocks(st);
+    syncLockBench();
+  }
+
+  /* 转轮和试过的记录只放在内存里；换锁或换锁芯时清空，试中了才写 pending */
+  let lkWheels = [];
+  let lkLog = [];
+  let lkBenchKey = '';
+
+  function lkSolvedNow(lock, method) {
+    const n = LK_METHOD_TABLE[method].wheels;
+    return lkLog.some((row) => row.exact === n) && lkWheels.join() === LK_LOCK_TABLE[lock].codes[method].join();
+  }
+
+  function paintLkBench(message) {
+    const st = getForgottenLocks();
+    const status = $('#lk-bench-status');
+    const lock = st.draft.lock;
+    if (!lock) {
+      if (status) status.textContent = '';
+      return;
+    }
+    const m = LK_METHOD_TABLE[st.draft.method];
+    for (let i = 0; i < LK_MAX_WHEELS; i++) {
+      const btn = $(`#lk-wheel-${i}`);
+      if (!btn) continue;
+      const inside = i < m.wheels;
+      btn.hidden = !inside;
+      if (!inside) continue;
+      btn.textContent = LK_GLYPHS[lkWheels[i]];
+      btn.setAttribute('aria-label', `第 ${i + 1} 个转轮：${LK_GLYPHS[lkWheels[i]]}，点一下转到下一个字`);
+    }
+    for (let r = 0; r < LK_LOG_ROWS; r++) {
+      const row = $(`#lk-log-${r}`);
+      if (!row) continue;
+      const entry = lkLog[lkLog.length - 1 - r];
+      row.hidden = !entry;
+      row.textContent = entry ? `第 ${lkLog.length - r} 次 · ${lkSpell(entry.guess)} · 咔 ${entry.exact} · 嗒 ${entry.near}` : '';
+      row.classList.toggle('is-open', Boolean(entry) && entry.exact === m.wheels);
+    }
+    const done = lkSolvedNow(lock, st.draft.method);
+    const board = $('#lk-board');
+    if (board) {
+      board.classList.toggle('is-done', done);
+      board.setAttribute('data-wheels', String(m.wheels));
+    }
+    const last = lkLog[lkLog.length - 1];
+    if (status) {
+      if (message) status.textContent = message;
+      else if (done) status.textContent = `锁开了，是“${lkSpell(lkWheels)}”。试了 ${lkLog.length} 次，可以换锁芯。`;
+      else if (last) status.textContent = `上一次“${lkSpell(last.guess)}”：咔 ${last.exact} 声，嗒 ${last.near} 声。拨转轮再试。`;
+      else status.textContent = '点转轮换字，拨好了点“试一试”。咔是字和位置都对，嗒是字对但位置不对。';
+    }
+  }
+
+  function turnLkWheel(index) {
+    const st = lkReady(LK_BENCH, `lk-wheel-${index}`);
+    if (!st || !st.draft.lock || st.activeKeyholder) return;
+    const m = LK_METHOD_TABLE[st.draft.method];
+    if (!Number.isInteger(index) || index < 0 || index >= m.wheels) return;
+    lkWheels = lkWheels.slice();
+    lkWheels[index] = (lkWheels[index] + 1) % m.glyphs;
+    if (AudioEngine.tick) AudioEngine.tick();
+    paintLkBench('');
+  }
+
+  function tryLkCode() {
+    const st = lkReady(LK_BENCH, 'lk-try');
+    if (!st || !st.draft.lock || st.activeKeyholder) return;
+    const code = LK_LOCK_TABLE[st.draft.lock].codes[st.draft.method];
+    const result = lkScore(code, lkWheels);
+    lkLog = lkLog.concat([{ guess: lkWheels.slice(), exact: result.exact, near: result.near }]);
+    if (AudioEngine.tick) AudioEngine.tick();
+    paintLkBench('');
+  }
+
+  function resetLkBench() {
+    const st = lkReady(LK_BENCH, 'lk-reset');
+    if (!st || !st.draft.lock || st.activeKeyholder) return;
+    lkWheels = new Array(LK_METHOD_TABLE[st.draft.method].wheels).fill(0);
+    lkLog = [];
+    paintLkBench('转轮拨回了日，试过的都忘了。');
+  }
+
+  function finishLkLock() {
+    const st = lkReady(LK_BENCH, 'lk-finish');
+    if (!st || !st.draft.lock || st.activeKeyholder) return;
+    const { lock, method } = st.draft;
+    if (!lkSolvedNow(lock, method)) {
+      paintLkBench('锁还没打开，换不了锁芯。');
+      return;
+    }
+    paintLkBench('新锁芯换上了。');
+    launchLk(LK_BENCH, 'lk-finish', {
+      feedback: lkFinishFeedback(lock, method), kind: 'finish', lock, method, source: LK_BENCH, target: LK_LOCK_TABLE[lock].target, unlock: `${lock}:${method}`,
+    }, '#lock-bench-response');
+  }
+
+  function chooseLkAbandon() {
+    const st = lkReady(LK_BENCH, 'lk-abandon');
+    if (!st || !st.draft.lock) return;
+    launchLk(LK_BENCH, 'lk-abandon', { feedback: LK_ABANDON_FEEDBACK, kind: 'abandon', source: LK_BENCH, target: LK_SHOP }, '#lock-bench-response');
+  }
+
+  function chooseLkKeyholderReturn(scene) {
+    const st = lkReady(scene, `lk-keyholder-return-${scene}`);
+    if (!st || !st.activeKeyholder) return;
+    if (LK_LOCK_TABLE[st.activeKeyholder.unlock.split(':')[0]].target !== scene) return;
+    launchLk(scene, `lk-keyholder-return-${scene}`, { feedback: LK_KEYHOLDER_RETURN_FEEDBACK, from: scene, kind: 'keyholder-return', unlock: st.activeKeyholder.unlock, target: LK_SHOP }, `#lk-keyholder-response-${scene}`);
+  }
+
+  function chooseLkCourtEntry() {
+    const st = lkReady('remembrance', 'lk-court-entry-btn');
+    if (!st || st.activeKeyholder || !lkCourtEligible(st)) return;
+    launchLk('remembrance', 'lk-court-entry-btn', { feedback: LK_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: LK_COURT }, '#lk-court-entry-response');
+  }
+
+  function chooseLkVerdict(action) {
+    const a = LK_VERDICT_TABLE[action];
+    if (!a) return;
+    const st = lkReady(LK_COURT, `lk-verdict-${action}`);
+    if (!st || st.activeKeyholder || !st.visited.court || !lkCourtEligible(st)) return;
+    launchLk(LK_COURT, `lk-verdict-${action}`, { action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: LK_COURT, target: a.target }, '#hearing-of-the-last-lock-response');
+  }
+
+  function forgottenLocksBridgeAllows(targetScene) {
+    if (!forgottenLocksUnlocked()) return false;
+    const st = getForgottenLocks();
+    if (st.pending && (st.pending.kind === 'finish' || st.pending.kind === 'verdict') && st.pending.target === targetScene) return true;
+    if (st.activeKeyholder && LK_LOCK_TABLE[st.activeKeyholder.unlock.split(':')[0]].target === targetScene) return true;
+    const verdict = LK_VERDICT_ACTIONS.find((a) => LK_VERDICT_TABLE[a].outcome === st.lastOutcome);
+    return Boolean(verdict && LK_VERDICT_TABLE[verdict].target === targetScene);
+  }
+
+  function lkShopCanVisit() {
+    if (!forgottenLocksUnlocked()) return false;
+    const st = getForgottenLocks();
+    return st.visited.shop || Boolean(st.pending && st.pending.target === LK_SHOP);
+  }
+
+  function lockBenchCanVisit() {
+    if (!forgottenLocksUnlocked()) return false;
+    const st = getForgottenLocks();
+    if (st.visited.bench && st.draft.lock) return true;
+    return Boolean(st.pending && st.pending.kind === 'lock');
+  }
+
+  function lkCourtCanVisit() {
+    if (!forgottenLocksUnlocked()) return false;
+    const st = getForgottenLocks();
+    if (st.visited.court && lkCourtEligible(st)) return true;
+    return Boolean(st.pending && st.pending.kind === 'court-entry');
+  }
+
+  function syncLkShop() {
+    const canVisit = lkShopCanVisit();
+    const st = getForgottenLocks();
+    const fig = $('#lk-shop-figure');
+    if (fig) fig.hidden = !canVisit;
+    const blocked = !canVisit || Boolean(st.pending) || Boolean(st.activeKeyholder);
+    LK_LOCKS.forEach((lock) => {
+      const btn = $(`#lk-lock-${lock}`);
+      if (!btn) return;
+      btn.disabled = blocked;
+      btn.classList.toggle('is-collected', LK_METHODS.every((m) => st.unlocks.includes(`${lock}:${m}`)));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'lock' && st.pending.lock === lock ? 'true' : 'false');
+    });
+    const note = $('#lk-shop-note');
+    if (note) {
+      let text = '';
+      if (st.activeKeyholder) {
+        const b = LK_LOCK_TABLE[st.activeKeyholder.unlock.split(':')[0]];
+        text = `先完成正在送去的那把钥匙：${b.keyholderTitle}还在${b.place}等你签收。`;
+      } else if (st.draft.lock) {
+        text = `试锁台上还夹着没试开的「${LK_LOCK_TABLE[st.draft.lock].title}」。`;
+      }
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const cont = $('#lk-continue');
+    if (cont) {
+      const show = canVisit && Boolean(st.draft.lock) && !st.activeKeyholder;
+      cont.hidden = !show;
+      cont.disabled = !show || Boolean(st.pending);
+    }
+    if (!st.pending || st.pending.source !== LK_SHOP) showLkResponse('#locksmith-shop-response', '');
+  }
+
+  function syncLockBench() {
+    const canVisit = lockBenchCanVisit();
+    const st = getForgottenLocks();
+    const ready = canVisit && Boolean(st.draft.lock);
+    const key = st.draft.lock ? `${st.draft.lock}:${st.draft.method}` : '';
+    if (key !== lkBenchKey && !(st.pending && st.pending.kind === 'finish')) {
+      lkBenchKey = key;
+      lkWheels = st.draft.lock ? new Array(LK_METHOD_TABLE[st.draft.method].wheels).fill(0) : [];
+      lkLog = [];
+    }
+    const panel = $('#lk-bench-panel');
+    if (panel) panel.hidden = !ready;
+    const board = $('#lk-board');
+    if (board) board.hidden = !ready;
+    if (ready) {
+      const t = LK_LOCK_TABLE[st.draft.lock];
+      const title = $('#lk-bench-lock');
+      if (title) title.textContent = `${t.title} —— ${t.feedback}`;
+      const hint = $('#lk-method-hint');
+      if (hint) hint.textContent = `${LK_METHOD_TABLE[st.draft.method].hint}点转轮换字，拨好了点“试一试”：锁会咔几声（字和位置都对）、嗒几声（字对但位置不对）。字可以重复。试开了就能换锁芯，新钥匙会送到${t.place}，由${t.keyholderTitle}签收。换锁芯或换锁会把试过的记录清掉。`;
+    }
+    LK_METHODS.forEach((method) => {
+      const btn = $(`#lk-method-${method}`);
+      if (!btn) return;
+      btn.disabled = !ready || Boolean(st.pending);
+      btn.setAttribute('aria-pressed', ready && st.draft.method === method ? 'true' : 'false');
+      btn.classList.toggle('is-collected', Boolean(st.draft.lock) && st.unlocks.includes(`${st.draft.lock}:${method}`));
+    });
+    ['lk-finish', 'lk-try', 'lk-reset', 'lk-abandon'].forEach((id) => {
+      const btn = $(`#${id}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending);
+    });
+    for (let i = 0; i < LK_MAX_WHEELS; i++) {
+      const btn = $(`#lk-wheel-${i}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending);
+    }
+    paintLkBench(st.pending && st.pending.kind === 'finish' ? '新锁芯换上了，钥匙正在送过去。' : '');
+    if (!st.pending || st.pending.source !== LK_BENCH) showLkResponse('#lock-bench-response', '');
+  }
+
+  function syncLkCourt() {
+    const canVisit = lkCourtCanVisit();
+    const st = getForgottenLocks();
+    const fig = $('#hearing-of-the-last-lock-figure');
+    if (fig) fig.hidden = !canVisit;
+    LK_VERDICT_ACTIONS.forEach((action) => {
+      const btn = $(`#lk-verdict-${action}`);
+      if (!btn) return;
+      btn.disabled = !canVisit || Boolean(st.pending) || Boolean(st.activeKeyholder);
+      btn.classList.toggle('is-collected', st.courtOutcomes.includes(LK_VERDICT_TABLE[action].outcome));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'verdict' && st.pending.action === action ? 'true' : 'false');
+    });
+    if (!st.pending || st.pending.source !== LK_COURT) showLkResponse('#hearing-of-the-last-lock-response', '');
+  }
+
+  function syncLkKeyholders() {
+    const st = forgottenLocksUnlocked() ? getForgottenLocks() : defaultForgottenLocks();
+    const [lock, method] = st.activeKeyholder ? st.activeKeyholder.unlock.split(':') : ['', ''];
+    LK_OLD_TARGETS.forEach((scene) => {
+      const box = $(`#lk-keyholder-${scene}`);
+      if (!box) return;
+      const show = Boolean(lock) && LK_LOCK_TABLE[lock].target === scene;
+      box.hidden = !show;
+      const btn = $(`#lk-keyholder-return-${scene}`);
+      if (btn) {
+        btn.disabled = !show || Boolean(st.pending);
+        btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'keyholder-return' && st.pending.from === scene ? 'true' : 'false');
+      }
+      if (!show) return;
+      const b = LK_LOCK_TABLE[lock];
+      const head = $(`#lk-keyholder-title-${scene}`);
+      if (head) head.textContent = `换锁签收 · ${b.keyholderTitle} · ${b.title}（${LK_METHOD_TABLE[method].title}）`;
+      const level = $(`#lk-keyholder-level-${scene}`);
+      if (level) level.textContent = `试出了神设的老密码，换上了${LK_METHOD_TABLE[method].title}芯`;
+      const body = $(`#lk-keyholder-body-${scene}`);
+      if (body) body.textContent = LK_METHOD_TABLE[method].result;
+      if (!st.pending || st.pending.kind !== 'keyholder-return') showLkResponse(`#lk-keyholder-response-${scene}`, '');
+    });
+  }
+
+  function syncLkEchoes() {
+    const st = forgottenLocksUnlocked() ? getForgottenLocks() : defaultForgottenLocks();
+    LK_LOCKS.forEach((lock) => {
+      const b = LK_LOCK_TABLE[lock];
+      const el = $(`#lk-echo-${b.target}`);
+      if (!el) return;
+      const method = st.latestMethodByLock[lock];
+      if (!method) { el.hidden = true; el.textContent = ''; return; }
+      el.textContent = `${b.echoLead}${LK_METHOD_TABLE[method].result}`;
+      el.hidden = false;
+    });
+  }
+
+  function syncLkRemembrance() {
+    const unlocked = forgottenLocksUnlocked();
+    const shell = $('#lk-codex');
+    const memory = $('#lk-memory');
+    if (!unlocked) {
+      [shell, memory].forEach((el) => { if (el) el.hidden = true; });
+      return;
+    }
+    const st = getForgottenLocks();
+    const v113Busy = lkUpstreamBusy();
+    if (shell) shell.hidden = false;
+    const progress = lkCourtProgress(st);
+    if (memory) {
+      memory.hidden = false;
+      memory.textContent = `换锁：已换 ${st.unlocks.length}/9 次，共换锁芯 ${st.unlockRuns} 次；锁匠听证 ${st.courtOutcomes.length}/3。`;
+    }
+    const hints = $('#lk-court-hints');
+    if (hints) {
+      const rows = [['三把锁都试开过', progress.locks, LK_LOCKS.length], ['三种锁芯都换过', progress.methods, LK_METHODS.length]];
+      hints.replaceChildren(...rows.map(([label, have, need]) => {
+        const li = document.createElement('li');
+        li.className = have >= need ? 'is-met' : '';
+        li.textContent = `${label} ${have}/${need}`;
+        return li;
+      }));
+    }
+    const clean = !st.pending && !st.activeKeyholder;
+    const entry = $('#lk-entry-btn');
+    if (entry) {
+      entry.hidden = false;
+      entry.disabled = !clean || v113Busy;
+      entry.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' ? 'true' : 'false');
+    }
+    const note = $('#lk-entry-note');
+    if (note) {
+      const text = v113Busy ? '先完成撤供房那摞还在路上的供盘：撤供房还有一位撤供人没签收。' : st.activeKeyholder ? '先完成正在送去的那把钥匙。' : '';
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const court = $('#lk-court-entry-btn');
+    if (court) {
+      const eligible = lkCourtEligible(st);
+      court.hidden = !eligible;
+      court.disabled = !eligible || !clean;
+      court.setAttribute('aria-pressed', st.pending && st.pending.kind === 'court-entry' ? 'true' : 'false');
+    }
+    const grid = $('#lk-codex-grid');
+    if (grid) {
+      const have = new Set(st.unlocks);
+      const cells = LK_UNLOCK_IDS.map((id) => {
+        const [lock, method] = id.split(':');
+        const cell = document.createElement('div');
+        cell.className = `lk-cell ${have.has(id) ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = have.has(id) ? `${LK_LOCK_TABLE[lock].title}\n${LK_METHOD_TABLE[method].title}` : '？？？';
+        return cell;
+      });
+      LK_VERDICT_ACTIONS.forEach((action) => {
+        const a = LK_VERDICT_TABLE[action];
+        const got = st.courtOutcomes.includes(a.outcome);
+        const cell = document.createElement('div');
+        cell.className = `lk-cell lk-cell-verdict ${got ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = got ? `[锁匠听证会] ${a.title}\n${a.feedback}` : '？？？';
+        cells.push(cell);
+      });
+      grid.replaceChildren(...cells);
+    }
+    if (!st.pending || (st.pending.kind !== 'entry' && st.pending.kind !== 'court-entry')) {
+      showLkResponse('#lk-entry-response', '');
+      showLkResponse('#lk-court-entry-response', '');
+    }
+  }
+
+  function syncLkLinks() {
+    const st = forgottenLocksUnlocked() ? getForgottenLocks() : null;
+    [['locksmith-shop-link', 'shop'], ['lock-bench-link', 'bench'], ['hearing-of-the-last-lock-link', 'court']].forEach(([id, key]) => {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !(st && st.visited[key]);
+    });
+  }
+
+  function forgetForgottenLocksState() {
+    try { localStorage.removeItem(FORGOTTEN_LOCKS_KEY); } catch {}
+    [LK_SHOP, LK_BENCH, LK_COURT].forEach((scene) => AutoAdvance.clear(scene));
+    lkWheels = [];
+    lkLog = [];
+    lkBenchKey = '';
+    ['#lk-codex', '#lk-memory', '#lk-shop-figure', '#lk-bench-panel', '#hearing-of-the-last-lock-figure',
+      '#locksmith-shop-link', '#lock-bench-link', '#hearing-of-the-last-lock-link', '#lk-continue', '#lk-court-entry-btn',
+      '#lk-entry-response', '#lk-court-entry-response', '#locksmith-shop-response', '#lock-bench-response', '#hearing-of-the-last-lock-response',
+      ...LK_OLD_TARGETS.flatMap((scene) => [`#lk-keyholder-${scene}`, `#lk-echo-${scene}`]),
+    ].forEach((sel) => { const el = $(sel); if (el) el.hidden = true; });
+    $$('[id^="lk-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+  }
+
+  const onTrustedLk = (selector, handler) => {
+    const el = $(selector);
+    if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+  };
+  onTrustedLk('#lk-entry-btn', chooseLkEntry);
+  onTrustedLk('#lk-court-entry-btn', chooseLkCourtEntry);
+  onTrustedLk('#lk-abandon', chooseLkAbandon);
+  onTrustedLk('#lk-continue', () => {
+    const st = lkReady(LK_SHOP, 'lk-continue');
+    if (!st || !st.draft.lock || st.activeKeyholder) return;
+    const lock = st.draft.lock;
+    launchLk(LK_SHOP, 'lk-continue', { lock, feedback: LK_LOCK_TABLE[lock].feedback, kind: 'lock', source: LK_SHOP, target: LK_BENCH }, '#locksmith-shop-response');
+  });
+  LK_LOCKS.forEach((lock) => onTrustedLk(`#lk-lock-${lock}`, () => chooseLkLock(lock)));
+  LK_METHODS.forEach((method) => onTrustedLk(`#lk-method-${method}`, () => chooseLkMethod(method)));
+  LK_VERDICT_ACTIONS.forEach((action) => onTrustedLk(`#lk-verdict-${action}`, () => chooseLkVerdict(action)));
+  LK_OLD_TARGETS.forEach((scene) => onTrustedLk(`#lk-keyholder-return-${scene}`, () => chooseLkKeyholderReturn(scene)));
+  for (let i = 0; i < LK_MAX_WHEELS; i++) onTrustedLk(`#lk-wheel-${i}`, () => turnLkWheel(i));
+  onTrustedLk('#lk-try', tryLkCode);
+  onTrustedLk('#lk-reset', resetLkBench);
+  onTrustedLk('#lk-finish', finishLkLock);
+
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -67673,8 +68440,26 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     if (eligible) items.push(`开庭条件已满足；撤供裁定已得 ${st.courtOutcomes.length}/3`);
     if (st.activeClearer) items.push("有一摞供盘在旧房间等你签收：跟着撤供人回到撤供房");
     else if (st.draft.stack) items.push(`供架上还摆着没撤完的「${CO_STACK_TABLE[st.draft.stack].title}」`);
-    if (eligible && st.courtOutcomes.length >= 3) return { title: "v113 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    if (eligible && st.courtOutcomes.length >= 3) return forgottenLocksProgressStep();
     return { title: "v113 撤供房", items, target: eligible ? "co-court" : "co", done: false };
+  };
+
+  /* v114：按三把锁、三种锁芯与三项裁定给出缺项 */
+  const forgottenLocksProgressStep = () => {
+    if (!forgottenLocksUnlocked()) return null;
+    const st = getForgottenLocks();
+    const items = [];
+    const locks = LK_LOCKS.filter((x) => !st.unlocks.some((id) => id.startsWith(`${x}:`))).map((x) => LK_LOCK_TABLE[x].title);
+    const methods = LK_METHODS.filter((m) => !st.unlocks.some((id) => id.endsWith(`:${m}`))).map((m) => LK_METHOD_TABLE[m].title);
+    if (lkUpstreamBusy() && !st.visited.shop) items.push("先完成撤供房那摞还在路上的供盘，锁匠铺才开门");
+    if (locks.length) items.push(`还没试开的锁：${locks.join("、")}`);
+    if (methods.length) items.push(`还没换过的锁芯：${methods.join("、")}`);
+    const eligible = lkCourtEligible(st);
+    if (eligible) items.push(`开庭条件已满足；锁匠裁定已得 ${st.courtOutcomes.length}/3`);
+    if (st.activeKeyholder) items.push("有一把新钥匙在旧房间等你签收：跟着守锁人回到锁匠铺");
+    else if (st.draft.lock) items.push(`试锁台上还夹着没试开的「${LK_LOCK_TABLE[st.draft.lock].title}」`);
+    if (eligible && st.courtOutcomes.length >= 3) return { title: "v114 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    return { title: "v114 锁匠铺", items, target: eligible ? "lk-court" : "lk", done: false };
   };
 
   const shadowlessPhotographyProgressStep = () => {
@@ -68256,6 +69041,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   syncPuttingBackAll();
   syncPaperCutAll();
   syncClearedOfferingsAll();
+  syncForgottenLocksAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

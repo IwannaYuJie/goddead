@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=113">
+  <link rel="stylesheet" href="styles.css?v=114">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -3960,6 +3960,15 @@
             <p class="rd-response" id="rd-leader-response-watch" aria-live="polite" hidden></p>
             <button class="rd-action" id="rd-leader-return-watch" type="button" data-hover>带着路条回到引路司 ⟶</button>
           </div>
+          <!-- v114 值夜室换锁签收与记忆 -->
+          <p class="watch-memory lk-echo" id="lk-echo-watch" hidden></p>
+          <div class="lk-keyholder reveal" id="lk-keyholder-watch" hidden>
+            <p class="lk-keyholder-title" id="lk-keyholder-title-watch"></p>
+            <p class="lk-keyholder-level" id="lk-keyholder-level-watch"></p>
+            <p class="lk-keyholder-body" id="lk-keyholder-body-watch"></p>
+            <p class="lk-response" id="lk-keyholder-response-watch" aria-live="polite" hidden></p>
+            <button class="lk-action" id="lk-keyholder-return-watch" type="button" data-hover>跟着守锁人回到锁匠铺 ⟶</button>
+          </div>
           <!-- v110 值夜室扫净签收与记忆 -->
           <p class="watch-memory sw-echo" id="sw-echo-watch" hidden></p>
           <div class="sw-sweeper reveal" id="sw-sweeper-watch" hidden>
@@ -4216,6 +4225,15 @@
             <p class="answer-note" id="cancel-note" role="status" aria-live="polite"></p>
           </div>
 
+          <!-- v114 无主投递所换锁签收与记忆 -->
+          <p class="watch-memory lk-echo" id="lk-echo-deadletter" hidden></p>
+          <div class="lk-keyholder reveal" id="lk-keyholder-deadletter" hidden>
+            <p class="lk-keyholder-title" id="lk-keyholder-title-deadletter"></p>
+            <p class="lk-keyholder-level" id="lk-keyholder-level-deadletter"></p>
+            <p class="lk-keyholder-body" id="lk-keyholder-body-deadletter"></p>
+            <p class="lk-response" id="lk-keyholder-response-deadletter" aria-live="polite" hidden></p>
+            <button class="lk-action" id="lk-keyholder-return-deadletter" type="button" data-hover>跟着守锁人回到锁匠铺 ⟶</button>
+          </div>
           <!-- v112 无主投递所贴花签收与记忆 -->
           <p class="watch-memory pc-echo" id="pc-echo-deadletter" hidden></p>
           <div class="pc-paster reveal" id="pc-paster-deadletter" hidden>
@@ -4674,6 +4692,15 @@
             </div>
           </div>
 
+          <!-- v114 神圣遗物科换锁签收与记忆 -->
+          <p class="watch-memory lk-echo" id="lk-echo-reliquary" hidden></p>
+          <div class="lk-keyholder reveal" id="lk-keyholder-reliquary" hidden>
+            <p class="lk-keyholder-title" id="lk-keyholder-title-reliquary"></p>
+            <p class="lk-keyholder-level" id="lk-keyholder-level-reliquary"></p>
+            <p class="lk-keyholder-body" id="lk-keyholder-body-reliquary"></p>
+            <p class="lk-response" id="lk-keyholder-response-reliquary" aria-live="polite" hidden></p>
+            <button class="lk-action" id="lk-keyholder-return-reliquary" type="button" data-hover>跟着守锁人回到锁匠铺 ⟶</button>
+          </div>
           <!-- v111 神圣遗物科归位签收与记忆 -->
           <p class="watch-memory pb-echo" id="pb-echo-reliquary" hidden></p>
           <div class="pb-mover reveal" id="pb-mover-reliquary" hidden>
@@ -5337,6 +5364,21 @@
               <p class="ts-response" id="ts-entry-response" aria-live="polite" hidden></p>
               <button class="ts-entry-btn" id="ts-court-entry-btn" type="button" hidden data-hover>进入早报听证会 · ENTER THE HEARING OF THE MORNING EDITION ⟶</button>
               <p class="ts-response" id="ts-court-entry-response" aria-live="polite" hidden></p>
+            </div>
+          </div>
+          <!-- v114 锁匠图鉴 -->
+          <p class="watch-memory lk-memory" id="lk-memory" hidden></p>
+          <div class="lk-codex reveal" id="lk-codex" hidden>
+            <p class="lk-kicker">THE LOCKSMITH OF FORGOTTEN CODES · 锁 匠 图 鉴</p>
+            <div class="lk-grid" id="lk-codex-grid"></div>
+            <p class="lk-hints-title">锁匠听证会开庭条件</p>
+            <ul class="lk-hints" id="lk-court-hints"></ul>
+            <div class="lk-codex-entry">
+              <button class="lk-entry-btn" id="lk-entry-btn" type="button" hidden data-hover>前往锁匠铺 · GO TO THE LOCKSMITH ⟶</button>
+              <p class="lk-note" id="lk-entry-note" hidden></p>
+              <p class="lk-response" id="lk-entry-response" aria-live="polite" hidden></p>
+              <button class="lk-entry-btn" id="lk-court-entry-btn" type="button" hidden data-hover>进入锁匠听证会 · ENTER THE HEARING OF THE LAST LOCK ⟶</button>
+              <p class="lk-response" id="lk-court-entry-response" aria-live="polite" hidden></p>
             </div>
           </div>
           <!-- v113 撤供图鉴 -->
@@ -10249,6 +10291,99 @@
         </div>
       </section>
 
+      <!-- v114 第一幕：锁匠铺 -->
+      <section class="scene scene-branch scene-locksmith-shop" id="scene-locksmith-shop" data-scene="locksmith-shop" data-title="Goddead — 锁匠铺" aria-label="锁匠铺">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">28α / 锁匠 · THE LOCKSMITH OF FORGOTTEN CODES</p>
+            <h2 class="sec-title">锁匠铺</h2>
+            <p class="sec-desc">供都撤了，三间旧屋要锁门过夜。可值夜室的门、遗物科的柜子、投递所的信箱，锁上都还是神设的老密码，谁也不记得。锁匠铺墙上挂着几百把钥匙，柜台上摆着这三把锁。</p>
+          </header>
+          <figure class="branch-figure lk-figure reveal" id="lk-shop-figure">
+            <img class="branch-img lk-img" data-src="assets/v114-locksmith-shop.webp" alt="锁匠铺：挂满旧钥匙和抽屉的窄作坊；柜台上三把带转轮的老密码锁，左边一块铁门锁板，中间一把铜柜挂锁，右边一把青铜信箱锁" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot lk-hotspot lk-hotspot-left" id="lk-lock-watch-lock" type="button" aria-label="试锁：值夜室的门锁" data-hover><span class="dh-label" aria-hidden="true">值夜室的门锁</span></button>
+            <button class="scene-hotspot lk-hotspot lk-hotspot-center" id="lk-lock-reliquary-lock" type="button" aria-label="试锁：遗物科的柜锁" data-hover><span class="dh-label" aria-hidden="true">遗物科的柜锁</span></button>
+            <button class="scene-hotspot lk-hotspot lk-hotspot-right" id="lk-lock-deadletter-lock" type="button" aria-label="试锁：投递所的信箱锁" data-hover><span class="dh-label" aria-hidden="true">投递所的信箱锁</span></button>
+          </figure>
+          <p class="lk-note reveal" id="lk-shop-note" hidden></p>
+          <p class="branch-response lk-response" id="locksmith-shop-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开锁匠铺">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+            <button class="lk-action" id="lk-continue" type="button" hidden data-hover>回到试锁台 ⟶</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v114 第二幕：试锁台 -->
+      <section class="scene scene-branch scene-lock-bench" id="scene-lock-bench" data-scene="lock-bench" data-title="Goddead — 试锁台" aria-label="试锁台">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">28β / 试锁 · THE LOCK BENCH</p>
+            <h2 class="sec-title">试锁台</h2>
+            <p class="sec-desc">锁夹在皮垫上，一排转轮刻着日、月、星、灯、火。拨好字试一次，锁会咔几声、嗒几声：咔是字和位置都对，嗒是字对但位置不对。试开了，就能换上新锁芯。</p>
+          </header>
+          <figure class="branch-figure lk-figure lk-bench-figure reveal" id="lk-bench-figure">
+            <img class="branch-img lk-img" data-src="assets/v114-lock-bench.webp" alt="试锁台：微微俯视的锁匠工作台，正中一块空着的深色皮垫，左右两边散着小铜工具、挑针和弹簧" width="1536" height="1024" loading="lazy" decoding="async">
+            <div class="lk-board" id="lk-board" data-wheels="3" hidden>
+              <div class="lk-wheels" role="group" aria-label="转轮">
+                <button class="lk-wheel" id="lk-wheel-0" type="button" aria-label="第 1 个转轮" data-hover>日</button>
+                <button class="lk-wheel" id="lk-wheel-1" type="button" aria-label="第 2 个转轮" data-hover>日</button>
+                <button class="lk-wheel" id="lk-wheel-2" type="button" aria-label="第 3 个转轮" data-hover>日</button>
+                <button class="lk-wheel" id="lk-wheel-3" type="button" aria-label="第 4 个转轮" data-hover>日</button>
+              </div>
+              <button class="lk-action lk-try" id="lk-try" type="button" data-hover>试一试</button>
+            </div>
+            <p class="lk-bench-status" id="lk-bench-status" aria-live="polite"></p>
+          </figure>
+          <div class="lk-panel reveal" id="lk-bench-panel" hidden>
+            <p class="lk-panel-lock" id="lk-bench-lock"></p>
+            <div class="lk-methods" role="group" aria-label="锁芯">
+              <button class="lk-method" id="lk-method-brass" type="button" data-hover>铜锁</button>
+              <button class="lk-method" id="lk-method-iron" type="button" data-hover>铁锁</button>
+              <button class="lk-method" id="lk-method-bone" type="button" data-hover>骨锁</button>
+            </div>
+            <p class="lk-note" id="lk-method-hint"></p>
+            <ol class="lk-log" aria-label="试过的密码（最近的在上）">
+              <li class="lk-log-row" id="lk-log-0" hidden></li>
+              <li class="lk-log-row" id="lk-log-1" hidden></li>
+              <li class="lk-log-row" id="lk-log-2" hidden></li>
+              <li class="lk-log-row" id="lk-log-3" hidden></li>
+              <li class="lk-log-row" id="lk-log-4" hidden></li>
+              <li class="lk-log-row" id="lk-log-5" hidden></li>
+              <li class="lk-log-row" id="lk-log-6" hidden></li>
+              <li class="lk-log-row" id="lk-log-7" hidden></li>
+            </ol>
+            <div class="lk-actions">
+              <button class="lk-action lk-finish" id="lk-finish" type="button" data-hover>换锁芯</button>
+              <button class="lk-action" id="lk-reset" type="button" data-hover>从头试</button>
+              <button class="lk-action" id="lk-abandon" type="button" data-hover>把锁放回柜台</button>
+            </div>
+          </div>
+          <p class="branch-response lk-response" id="lock-bench-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <!-- v114 第三幕：锁匠听证会 -->
+      <section class="scene scene-branch scene-hearing-of-the-last-lock" id="scene-hearing-of-the-last-lock" data-scene="hearing-of-the-last-lock" data-title="Goddead — 锁匠听证会" aria-label="锁匠听证会">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">28γ / 末锁 · HEARING OF THE LAST LOCK</p>
+            <h2 class="sec-title">锁匠听证会</h2>
+            <p class="sec-desc">圆厅高窗下的空椅子旁没有门。桌上三件东西：一个挂满钥匙的大铁环、一把打开着的旧挂锁、几把像是被扔下的散钥匙。裁定之后仍可回来。</p>
+          </header>
+          <figure class="branch-figure lk-figure reveal" id="hearing-of-the-last-lock-figure">
+            <img class="branch-img lk-img" data-src="assets/v114-hearing-of-the-last-lock.webp" alt="锁匠听证会：圆厅高窗下一把空椅子；近处长桌上左边一个挂满钥匙的大铁环，中间一把打开着的旧挂锁，右边几把散落的钥匙" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot lk-hotspot lk-hotspot-court-left" id="lk-verdict-lock-every-door" type="button" aria-label="裁定：每扇门都锁上" data-hover><span class="dh-label" aria-hidden="true">每扇门都锁上</span></button>
+            <button class="scene-hotspot lk-hotspot lk-hotspot-court-center" id="lk-verdict-leave-one-door-open-for-god" type="button" aria-label="裁定：给神留一扇不锁的门" data-hover><span class="dh-label" aria-hidden="true">给神留一扇不锁的门</span></button>
+            <button class="scene-hotspot lk-hotspot lk-hotspot-court-right" id="lk-verdict-throw-the-keys-away" type="button" aria-label="裁定：把钥匙都扔了" data-hover><span class="dh-label" aria-hidden="true">把钥匙都扔了</span></button>
+          </figure>
+          <p class="branch-response lk-response" id="hearing-of-the-last-lock-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开听证会">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+          </nav>
+        </div>
+      </section>
+
       <!-- 隐藏幕 · 第九条 -->
       <section class="scene scene-ninth" id="scene-ninth" data-scene="ninth" data-title="Goddead — ？？？" aria-label="第九条">
         <figure class="ninth-figure" role="img" aria-label="一道不该存在的裂口，底部有一扇错误的窄门">
@@ -10522,6 +10657,9 @@
       <a href="#clearing-room" id="clearing-room-link" hidden data-hover>27α / 撤供房</a>
       <a href="#offering-stands" id="offering-stands-link" hidden data-hover>27β / 供架</a>
       <a href="#hearing-of-the-last-offering" id="hearing-of-the-last-offering-link" hidden data-hover>27γ / 撤供听证</a>
+      <a href="#locksmith-shop" id="locksmith-shop-link" hidden data-hover>28α / 锁匠铺</a>
+      <a href="#lock-bench" id="lock-bench-link" hidden data-hover>28β / 试锁台</a>
+      <a href="#hearing-of-the-last-lock" id="hearing-of-the-last-lock-link" hidden data-hover>28γ / 锁匠听证</a>
 
 
       <a href="#three-person-republic-court" id="three-person-republic-court-link" hidden data-hover>04β / 三人共和国</a>
@@ -10531,6 +10669,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=113"></script>
+    <script src="script.js?v=114"></script>
   </body>
 </html>

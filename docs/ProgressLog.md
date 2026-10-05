@@ -1361,3 +1361,12 @@
 - 场景图：本机 Codex CLI 生成三张原画，铜柱按像素实测对齐；提示词与哈希见 `docs/V113ImagePrompts.md`。
 - 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 19722 assertions passed`；v101–v104 独立测试 65 项通过。
 - 浏览器：完整存档下真实点击 7 次把代神席的供盘叠到给神的架子并签收返回；375px 窄屏架子点击区约 89×119px；听证会裁定回到痕迹室。
+
+## 2026-10-06 - v114 锁匠铺实装
+
+- 新增 `locksmith-shop`、`lock-bench`、`hearing-of-the-last-lock` 3 个场景，场景总数 262 → 265，缓存标记 `v=114`。
+- 新交互“试锁”（猜密码）：3–4 个原生转轮按钮（日月星灯火），“试一试”后锁报咔（字位都对）与嗒（字对位不对），记录列出最近 8 次；三把锁（值夜室的门锁 / 遗物科的柜锁 / 投递所的信箱锁）× 铜锁 / 铁锁 / 骨锁 = 9 次换芯，试开才能换，送到值夜室 / 神圣遗物科 / 无主投递所签收。
+- 状态键 `goddead_v114_forgotten_locks`（11 字段、7 类 pending、严格归一化），只读 v113；v113 在途时入口禁用；前缀 `lk-`；只有真实点击；桥接接入治理守卫与画廊守卫。
+- 场景图：本机 Codex CLI 生成三张原画；提示词与哈希见 `docs/V114ImagePrompts.md`。
+- 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 19867 assertions passed`；v101–v104 独立测试 65 项通过。
+- 浏览器：完整存档下真实点击三次试开遗物科的柜锁并经治理守卫签收；375px 窄屏四个转轮各 38×56px；听证会裁定抵达无终局画廊。
