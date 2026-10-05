@@ -1422,6 +1422,8 @@ document.addEventListener("DOMContentLoaded", () => {
     replayPuttingBackPending(name);
     resolvePaperCutPendingOnArrival(name);
     replayPaperCutPending(name);
+    resolveClearedOfferingsPendingOnArrival(name);
+    replayClearedOfferingsPending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1565,9 +1567,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !clearedOfferingsBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !clearedOfferingsBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
@@ -1581,7 +1583,7 @@ document.addEventListener("DOMContentLoaded", () => {
        v88 窄桥：title-action 可抵达 unending-gallery；
        v89 窄桥：appeal-action 可抵达 unending-gallery；
        v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !todayPressBridgeAllows('unending-gallery') && !inkMixingBridgeAllows('unending-gallery') && !borrowedLightBridgeAllows('unending-gallery') && !exactTeaBridgeAllows('unending-gallery') && !lastSweepBridgeAllows('unending-gallery') && !puttingBackBridgeAllows('unending-gallery') && !paperCutBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !todayPressBridgeAllows('unending-gallery') && !inkMixingBridgeAllows('unending-gallery') && !borrowedLightBridgeAllows('unending-gallery') && !exactTeaBridgeAllows('unending-gallery') && !lastSweepBridgeAllows('unending-gallery') && !puttingBackBridgeAllows('unending-gallery') && !paperCutBridgeAllows('unending-gallery') && !clearedOfferingsBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1860,6 +1862,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "paper-cut-shop" && !pcOfficeCanVisit()) target = "remembrance";
     if (target === "cutting-table" && !cuttingTableCanVisit()) target = "remembrance";
     if (target === "hearing-of-the-paper-flower" && !pcCourtCanVisit()) target = "remembrance";
+
+    /* v113 撤供房：未解锁或无合法抵达时一律回痕迹室 */
+    if (target === "clearing-room" && !coRoomCanVisit()) target = "remembrance";
+    if (target === "offering-stands" && !offeringStandsCanVisit()) target = "remembrance";
+    if (target === "hearing-of-the-last-offering" && !coCourtCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -48107,6 +48114,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetLastSweepState();
       forgetPuttingBackState();
       forgetPaperCutState();
+      forgetClearedOfferingsState();
       forgetCodexFolds();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
@@ -66358,6 +66366,785 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   onTrustedPc('#pc-reset', resetPcSheet);
   onTrustedPc('#pc-finish', finishPcCutting);
 
+  /* ============================================================
+     v113 撤供房 / THE ROOM OF CLEARED OFFERINGS
+     v112 把窗花都贴上了，屋子像要过年。可代神席、焚献炉、神名注销科的供桌上还摆着给死去的神的供盘，乱糟糟叠着。
+     三张供桌 × 三个供架（给活人的 / 给神的 / 给死人的）= 9 次撤供；四只大小不同的盘子一次只能拿最上面一只，大盘不能压小盘。
+     只读 v112；独立键 goddead_v113_cleared_offerings；所有新操作只接受真实点击。
+     ============================================================ */
+  const CLEARED_OFFERINGS_KEY = 'goddead_v113_cleared_offerings';
+  const CLEARED_OFFERINGS_VERSION = 113;
+  const CO_ROOM = 'clearing-room';
+  const CO_STANDS = 'offering-stands';
+  const CO_COURT = 'hearing-of-the-last-offering';
+  const CO_PLATES = 4;
+  const CO_POSTS = [0, 1, 2];
+  const CO_POST_NAMES = ['左边的供架', '中间的供架', '右边的供架'];
+  const CO_PLATE_NAMES = ['最小的碟子', '小盘', '中盘', '最大的盘子'];
+  const CO_STACKS = ['acting-stack', 'offering-stack', 'cancellation-stack'];
+  /* start 的第 i 位是第 i 只盘子（0 最小）起手放在哪个供架上 */
+  const CO_STACK_TABLE = {
+    'acting-stack': {
+      title: '代神席的供盘', start: [0, 1, 2, 1], target: 'acting', place: '代神席', clearerTitle: '代神席撤供人',
+      feedback: '代神席前的供盘是替神坐着的人一盘一盘摆的，摆得东一摞西一摞。小碟子压在左边，大盘子在中间。',
+      echoLead: '代神席前的供桌空了，只剩几圈盘子压出来的印子。',
+    },
+    'offering-stack': {
+      title: '焚献炉的供盘', start: [2, 0, 1, 0], target: 'offering', place: '焚献炉', clearerTitle: '焚献炉撤供人',
+      feedback: '焚献炉边的供盘落满了灰，最小的那只被人随手搁在了右边。',
+      echoLead: '焚献炉边的供盘撤走了，炉台露出了原来的颜色。',
+    },
+    'cancellation-stack': {
+      title: '注销科的供盘', start: [1, 2, 0, 2], target: 'cancellation', place: '神名注销科', clearerTitle: '注销科撤供人',
+      feedback: '注销科柜台上也摆过供。神的名字注销了，供盘还没人敢收。',
+      echoLead: '神名注销科的柜台上不再摆供盘了。',
+    },
+  };
+  const CO_METHODS = ['living', 'god', 'dead'];
+  const CO_METHOD_TABLE = {
+    living: { title: '给活人的架子', post: 0, hint: '全部叠到左边那个给活人的架子上。', result: '盘子洗干净叠在了活人的架子上。明天有人用它们吃饭，不知道它们供过神。' },
+    god: { title: '给神的架子', post: 1, hint: '全部叠到中间那个给神的架子上。', result: '盘子叠回了神的架子，空着，一只也不放东西。撤供人说，这样神回来的时候不会以为被忘了。' },
+    dead: { title: '给死人的架子', post: 2, hint: '全部叠到右边那个给死人的架子上。', result: '盘子叠到了死人的架子上。死人说，供了这么多年，该轮到我们吃一顿了。' },
+  };
+  const CO_CLEAR_IDS = [];
+  CO_STACKS.forEach((stack) => CO_METHODS.forEach((method) => CO_CLEAR_IDS.push(`${stack}:${method}`)));
+  const CO_VERDICT_ACTIONS = ['clear-every-altar', 'leave-one-offering-for-god', 'let-the-offerings-go-cold'];
+  const CO_VERDICT_TABLE = {
+    'clear-every-altar': {
+      title: '全部撤下', outcome: 'every-altar-cleared', target: 'threshold',
+      feedback: '听证会裁定：全部撤下。门外的供台空了，路过的人第一次不用低头。',
+    },
+    'leave-one-offering-for-god': {
+      title: '给神留一份供', outcome: 'one-offering-left-for-god', target: 'remembrance',
+      feedback: '听证会给神留了一份供。痕迹室的角落摆着一只小碟子，里面是新摘的果子。',
+    },
+    'let-the-offerings-go-cold': {
+      title: '让供品凉透', outcome: 'the-offerings-went-cold', target: 'unending-gallery',
+      feedback: '听证会准许供品凉透。画廊的空框前摆着一排冷掉的供盘，落了灰，没人再换。',
+    },
+  };
+  const CO_VERDICT_OUTCOME_IDS = CO_VERDICT_ACTIONS.map((a) => CO_VERDICT_TABLE[a].outcome);
+  const CO_ENTRY_FEEDBACK = '撤供房是一间空了很久的石头储物间。长桌上三摞旧供盘，各从一张供桌上搬来，叠得乱七八糟。';
+  const CO_ABANDON_FEEDBACK = '你把盘子按原样摆回去，等想好了再撤。';
+  const CO_COURT_ENTRY_FEEDBACK = '三张供桌都撤过了。撤供听证会的桌上还剩三只盘子。';
+  const CO_CLEARER_RETURN_FEEDBACK = '撤供人把空盘子收进篮子，领你回到撤供房。';
+  const CO_OLD_TARGETS = ['acting', 'offering', 'cancellation'];
+
+  function coDelay() {
+    return reduced ? 300 : 1400;
+  }
+
+  /* 纯函数：某个供架最上面那只盘子（最小的那只）；空架子返回 -1 */
+  function coTop(state, post) {
+    return state.findIndex((p) => p === post);
+  }
+
+  /* 纯函数：把 from 架最上面的盘子挪到 to 架；空架、自挪、大压小都返回 null */
+  function coMove(state, from, to) {
+    if (!CO_POSTS.includes(from) || !CO_POSTS.includes(to) || from === to) return null;
+    const plate = coTop(state, from);
+    if (plate < 0) return null;
+    const under = coTop(state, to);
+    if (under >= 0 && under < plate) return null;
+    const next = state.slice();
+    next[plate] = to;
+    return next;
+  }
+
+  /* 纯函数：四只盘子是否都叠在 post 上 */
+  function coDone(state, post) {
+    return state.length === CO_PLATES && state.every((p) => p === post);
+  }
+
+  /* 纯函数：最少挪几次能都叠到 post 上 */
+  function coMinMoves(start, post) {
+    const seen = new Set([start.join('')]);
+    let frontier = [start.slice()];
+    for (let depth = 0; frontier.length && depth < 64; depth++) {
+      const next = [];
+      for (const s of frontier) {
+        if (coDone(s, post)) return depth;
+        CO_POSTS.forEach((a) => CO_POSTS.forEach((b) => {
+          const m = coMove(s, a, b);
+          if (m && !seen.has(m.join(''))) { seen.add(m.join('')); next.push(m); }
+        }));
+      }
+      frontier = next;
+    }
+    return -1;
+  }
+
+  function coFinishFeedback(stack, method) {
+    return `${CO_STACK_TABLE[stack].title}：${CO_METHOD_TABLE[method].result}`;
+  }
+
+  function defaultClearedOfferings() {
+    const latest = {};
+    CO_STACKS.forEach((b) => { latest[b] = ''; });
+    return {
+      version: CLEARED_OFFERINGS_VERSION,
+      visited: { room: false, stands: false, court: false },
+      draft: { stack: '', method: 'living' },
+      clears: [],
+      courtOutcomes: [],
+      clearRuns: 0,
+      courtRuns: 0,
+      latestMethodByStack: latest,
+      lastOutcome: '',
+      activeClearer: null,
+      pending: null,
+    };
+  }
+
+  function clampCoCount(n) {
+    const v = Math.floor(Number(n));
+    return Number.isFinite(v) ? Math.min(9999, Math.max(0, v)) : 0;
+  }
+
+  function normalizeClearedOfferings(raw) {
+    const d = defaultClearedOfferings();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== CLEARED_OFFERINGS_VERSION) return d;
+    const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
+    d.visited = { room: v.room === true, stands: v.stands === true, court: v.court === true };
+    const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
+    d.draft = { stack: CO_STACKS.includes(dr.stack) ? dr.stack : '', method: CO_METHODS.includes(dr.method) ? dr.method : 'living' };
+    const clears = new Set(Array.isArray(raw.clears) ? raw.clears : []);
+    d.clears = CO_CLEAR_IDS.filter((id) => clears.has(id));
+    const outcomes = new Set(Array.isArray(raw.courtOutcomes) ? raw.courtOutcomes : []);
+    d.courtOutcomes = CO_VERDICT_OUTCOME_IDS.filter((id) => outcomes.has(id));
+    d.clearRuns = clampCoCount(raw.clearRuns);
+    d.courtRuns = clampCoCount(raw.courtRuns);
+    const latest = raw.latestMethodByStack && typeof raw.latestMethodByStack === 'object' ? raw.latestMethodByStack : {};
+    CO_STACKS.forEach((b) => {
+      d.latestMethodByStack[b] = CO_METHODS.includes(latest[b]) && d.clears.includes(`${b}:${latest[b]}`) ? latest[b] : '';
+    });
+    if (typeof raw.lastOutcome === 'string' && (d.clears.includes(raw.lastOutcome) || d.courtOutcomes.includes(raw.lastOutcome))) d.lastOutcome = raw.lastOutcome;
+    const a = raw.activeClearer;
+    if (a && typeof a === 'object' && !Array.isArray(a) && Object.keys(a).length === 1 && d.clears.includes(a.clear)) d.activeClearer = { clear: a.clear };
+    d.pending = normalizeCoPending(raw.pending, d);
+    return d;
+  }
+
+  function coCourtProgress(st) {
+    const stacks = new Set();
+    const methods = new Set();
+    st.clears.forEach((id) => {
+      const [stack, method] = id.split(':');
+      stacks.add(stack);
+      methods.add(method);
+    });
+    return { stacks: stacks.size, methods: methods.size };
+  }
+
+  function coCourtEligible(st) {
+    const p = coCourtProgress(st);
+    return p.stacks === CO_STACKS.length && p.methods === CO_METHODS.length;
+  }
+
+  function expectedCoPending(p, st) {
+    const clean = !st.activeClearer;
+    switch (p.kind) {
+      case 'entry':
+        return clean ? { feedback: CO_ENTRY_FEEDBACK, kind: 'entry', target: CO_ROOM } : null;
+      case 'stack': {
+        const b = CO_STACK_TABLE[p.stack];
+        if (!b || !clean) return null;
+        return { stack: p.stack, feedback: b.feedback, kind: 'stack', source: CO_ROOM, target: CO_STANDS };
+      }
+      case 'finish': {
+        const b = CO_STACK_TABLE[p.stack];
+        if (!b || !CO_METHOD_TABLE[p.method] || !clean || st.draft.stack !== p.stack || st.draft.method !== p.method) return null;
+        return { stack: p.stack, feedback: coFinishFeedback(p.stack, p.method), kind: 'finish', method: p.method, clear: `${p.stack}:${p.method}`, source: CO_STANDS, target: b.target };
+      }
+      case 'abandon':
+        return st.draft.stack ? { feedback: CO_ABANDON_FEEDBACK, kind: 'abandon', source: CO_STANDS, target: CO_ROOM } : null;
+      case 'clearer-return': {
+        if (!st.activeClearer) return null;
+        const stack = st.activeClearer.clear.split(':')[0];
+        return { feedback: CO_CLEARER_RETURN_FEEDBACK, from: CO_STACK_TABLE[stack].target, kind: 'clearer-return', clear: st.activeClearer.clear, target: CO_ROOM };
+      }
+      case 'court-entry':
+        return clean && coCourtEligible(st) ? { feedback: CO_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: CO_COURT } : null;
+      case 'verdict': {
+        const a = CO_VERDICT_TABLE[p.action];
+        if (!a || !clean || !st.visited.court || !coCourtEligible(st)) return null;
+        return { action: p.action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: CO_COURT, target: a.target };
+      }
+      default:
+        return null;
+    }
+  }
+
+  function normalizeCoPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+    const expected = expectedCoPending(p, st);
+    if (!expected) return null;
+    const keys = Object.keys(p).sort();
+    const want = Object.keys(expected).sort();
+    if (keys.length !== want.length || keys.some((k, i) => k !== want[i] || p[k] !== expected[k])) return null;
+    return expected;
+  }
+
+  function clearedOfferingsUnlocked() {
+    const compute = () => {
+      if (!paperCutUnlocked()) return false;
+      const v112 = getPaperCut();
+      return pcCourtEligible(v112) && PC_VERDICT_OUTCOME_IDS.every((o) => v112.courtOutcomes.includes(o));
+    };
+    return store.memo ? store.memo("clearedOfferingsUnlocked", compute) : compute();
+  }
+
+  /* v112 还有在途的窗花或没签收的贴花人时，先不让进撤供房 */
+  function coUpstreamBusy() {
+    const v112 = getPaperCut();
+    return Boolean(v112.pending || v112.activePaster);
+  }
+
+  function getClearedOfferings() {
+    if (!clearedOfferingsUnlocked()) return defaultClearedOfferings();
+    let raw;
+    try { raw = JSON.parse(store.get(CLEARED_OFFERINGS_KEY, '{}')); } catch { return defaultClearedOfferings(); }
+    return normalizeClearedOfferings(raw);
+  }
+
+  function saveClearedOfferings(st) {
+    if (!clearedOfferingsUnlocked()) return defaultClearedOfferings();
+    const canonical = normalizeClearedOfferings(Object.assign({}, st, { version: CLEARED_OFFERINGS_VERSION }));
+    store.set(CLEARED_OFFERINGS_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function coPendingLogicalSource(p) {
+    if (!p) return '';
+    if (p.kind === 'entry' || p.kind === 'court-entry') return 'remembrance';
+    if (p.kind === 'clearer-return') return p.from;
+    return p.source || '';
+  }
+
+  function resolveClearedOfferingsPendingOnArrival(sceneName) {
+    const st = getClearedOfferings();
+    const p = st.pending;
+    if (!p) return st;
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.room = true;
+      } else if (p.kind === 'stack') {
+        st.visited.stands = true;
+        st.draft = { stack: p.stack, method: st.draft.stack === p.stack ? st.draft.method : 'living' };
+      } else if (p.kind === 'finish') {
+        st.clearRuns = clampCoCount(st.clearRuns + 1);
+        if (!st.clears.includes(p.clear)) st.clears = st.clears.concat(p.clear);
+        st.latestMethodByStack[p.stack] = p.method;
+        st.lastOutcome = p.clear;
+        st.activeClearer = { clear: p.clear };
+        st.draft = { stack: '', method: 'living' };
+      } else if (p.kind === 'abandon') {
+        st.draft = { stack: '', method: 'living' };
+        st.visited.room = true;
+      } else if (p.kind === 'clearer-return') {
+        st.activeClearer = null;
+        st.visited.room = true;
+      } else if (p.kind === 'court-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'verdict') {
+        st.courtRuns = clampCoCount(st.courtRuns + 1);
+        if (!st.courtOutcomes.includes(p.outcome)) st.courtOutcomes = st.courtOutcomes.concat(p.outcome);
+        st.lastOutcome = p.outcome;
+      }
+      return saveClearedOfferings(st);
+    }
+    if (sceneName === coPendingLogicalSource(p)) return st;
+    st.pending = null;
+    return saveClearedOfferings(st);
+  }
+
+  const CO_RESPONSE_BY_KIND = {
+    entry: '#co-entry-response',
+    stack: '#clearing-room-response',
+    finish: '#offering-stands-response',
+    abandon: '#offering-stands-response',
+    'court-entry': '#co-court-entry-response',
+    verdict: '#hearing-of-the-last-offering-response',
+  };
+
+  function showCoResponse(selector, text) {
+    const el = $(selector);
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = !text;
+  }
+
+  function syncClearedOfferingsAll() {
+    syncCoRoom();
+    syncOfferingStands();
+    syncCoCourt();
+    syncCoClearers();
+    syncCoEchoes();
+    syncCoRemembrance();
+    syncCoLinks();
+    if (typeof syncPhEntries === 'function') syncPhEntries();
+  }
+
+  function replayClearedOfferingsPending(sceneName) {
+    const st = getClearedOfferings();
+    const p = st.pending;
+    if (p && p.target === sceneName) resolveClearedOfferingsPendingOnArrival(sceneName);
+    else if (p && sceneName === coPendingLogicalSource(p)) {
+      syncClearedOfferingsAll();
+      const selector = p.kind === 'clearer-return' ? `#co-clearer-response-${p.from}` : CO_RESPONSE_BY_KIND[p.kind];
+      if (selector) showCoResponse(selector, p.feedback);
+      AutoAdvance.schedule(sceneName, p.target, { delay: coDelay() });
+      return;
+    } else if (p) {
+      st.pending = null;
+      saveClearedOfferings(st);
+    }
+    syncClearedOfferingsAll();
+  }
+
+  function launchCo(scene, buttonId, pending, responseSelector) {
+    const st = getClearedOfferings();
+    st.pending = pending;
+    const saved = saveClearedOfferings(st);
+    if (!saved.pending) return false;
+    const btn = buttonId ? $(`#${buttonId}`) : null;
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+    if (AudioEngine.whoosh) AudioEngine.whoosh();
+    syncClearedOfferingsAll();
+    showCoResponse(responseSelector, pending.feedback);
+    AutoAdvance.schedule(scene, pending.target, { delay: coDelay() });
+    return true;
+  }
+
+  function coReady(scene, buttonId) {
+    if (currentScene !== scene) return null;
+    if (AutoAdvance.has(scene)) return null;
+    if (buttonId && !buttonAvailable(buttonId)) return null;
+    if (!clearedOfferingsUnlocked()) return null;
+    const st = getClearedOfferings();
+    return st.pending ? null : st;
+  }
+
+  function chooseCoEntry() {
+    const st = coReady('remembrance', 'co-entry-btn');
+    if (!st || st.activeClearer) return;
+    if (coUpstreamBusy()) return;
+    launchCo('remembrance', 'co-entry-btn', { feedback: CO_ENTRY_FEEDBACK, kind: 'entry', target: CO_ROOM }, '#co-entry-response');
+  }
+
+  function chooseCoStack(stack) {
+    const b = CO_STACK_TABLE[stack];
+    if (!b) return;
+    const st = coReady(CO_ROOM, `co-stack-${stack}`);
+    if (!st || st.activeClearer) return;
+    launchCo(CO_ROOM, `co-stack-${stack}`, { stack, feedback: b.feedback, kind: 'stack', source: CO_ROOM, target: CO_STANDS }, '#clearing-room-response');
+  }
+
+  function chooseCoMethod(method) {
+    if (!CO_METHOD_TABLE[method]) return;
+    const st = coReady(CO_STANDS, `co-method-${method}`);
+    if (!st || !st.draft.stack || !st.visited.stands || st.draft.method === method) return;
+    st.draft.method = method;
+    saveClearedOfferings(st);
+    syncOfferingStands();
+  }
+
+  /* 盘子的位置只放在内存里；换供桌或换架子时摆回原样，都叠上去才写 pending */
+  let coState = [];
+  let coHeld = -1;
+  let coMoves = 0;
+  let coStandsKey = '';
+
+  function paintCoStands(message) {
+    const st = getClearedOfferings();
+    const status = $('#co-stands-status');
+    const stack = st.draft.stack;
+    if (!stack) {
+      if (status) status.textContent = '';
+      return;
+    }
+    const goal = CO_METHOD_TABLE[st.draft.method].post;
+    CO_POSTS.forEach((post) => {
+      const btn = $(`#co-post-${post}`);
+      if (!btn) return;
+      const plates = [];
+      for (let i = CO_PLATES - 1; i >= 0; i--) if (coState[i] === post) plates.push(CO_PLATE_NAMES[i]);
+      btn.setAttribute('aria-pressed', coHeld === post ? 'true' : 'false');
+      btn.classList.toggle('is-goal', post === goal);
+      btn.setAttribute('aria-label', `${CO_POST_NAMES[post]}${post === goal ? '（要叠到这里）' : ''}：${plates.length ? `从下往上 ${plates.join('、')}` : '空的'}${coHeld === post ? '，最上面那只已经拿起来了' : ''}`);
+    });
+    for (let i = 0; i < CO_PLATES; i++) {
+      const plate = $(`#co-plate-${i}`);
+      if (!plate) continue;
+      const post = coState[i];
+      let level = 0;
+      for (let j = i + 1; j < CO_PLATES; j++) if (coState[j] === post) level += 1;
+      const held = coHeld === post && coTop(coState, post) === i;
+      if (plate.style && plate.style.setProperty) {
+        plate.style.setProperty('--co-post', String(post));
+        plate.style.setProperty('--co-level', String(level));
+      }
+      plate.classList.toggle('is-held', held);
+    }
+    const done = coDone(coState, goal);
+    const board = $('#co-board');
+    if (board) board.classList.toggle('is-done', done);
+    const onGoal = coState.filter((p) => p === goal).length;
+    if (status) {
+      if (message) status.textContent = message;
+      else if (done) status.textContent = `四只盘子都叠在${CO_METHOD_TABLE[st.draft.method].title}上了，挪了 ${coMoves} 次。可以撤供。`;
+      else if (coHeld >= 0) status.textContent = `拿着${CO_POST_NAMES[coHeld]}最上面的${CO_PLATE_NAMES[coTop(coState, coHeld)]}：点另一个供架放下，点同一个放回去。`;
+      else status.textContent = `${CO_METHOD_TABLE[st.draft.method].title}上叠了 ${onGoal}/4 只，挪了 ${coMoves} 次。点一个供架拿起最上面那只盘子。`;
+    }
+  }
+
+  function tapCoPost(post) {
+    const st = coReady(CO_STANDS, `co-post-${post}`);
+    if (!st || !st.draft.stack || st.activeClearer || !CO_POSTS.includes(post)) return;
+    if (coHeld < 0) {
+      if (coTop(coState, post) < 0) { paintCoStands(`${CO_POST_NAMES[post]}是空的，没有盘子可拿。`); return; }
+      coHeld = post;
+      paintCoStands('');
+      return;
+    }
+    if (coHeld === post) {
+      coHeld = -1;
+      paintCoStands('');
+      return;
+    }
+    const next = coMove(coState, coHeld, post);
+    if (!next) {
+      paintCoStands(`${CO_PLATE_NAMES[coTop(coState, coHeld)]}比${CO_POST_NAMES[post]}上那只大，大盘不能压小盘。`);
+      return;
+    }
+    coState = next;
+    coHeld = -1;
+    coMoves += 1;
+    if (AudioEngine.tick) AudioEngine.tick();
+    paintCoStands('');
+  }
+
+  function resetCoStands() {
+    const st = coReady(CO_STANDS, 'co-reset');
+    if (!st || !st.draft.stack || st.activeClearer) return;
+    coState = CO_STACK_TABLE[st.draft.stack].start.slice();
+    coHeld = -1;
+    coMoves = 0;
+    paintCoStands('盘子都摆回了原来乱糟糟的样子。');
+  }
+
+  function finishCoClearing() {
+    const st = coReady(CO_STANDS, 'co-finish');
+    if (!st || !st.draft.stack || st.activeClearer) return;
+    const { stack, method } = st.draft;
+    if (!coDone(coState, CO_METHOD_TABLE[method].post)) {
+      paintCoStands(`还有盘子没叠到${CO_METHOD_TABLE[method].title}上。`);
+      return;
+    }
+    coHeld = -1;
+    paintCoStands('供撤下来了。');
+    launchCo(CO_STANDS, 'co-finish', {
+      clear: `${stack}:${method}`, feedback: coFinishFeedback(stack, method), kind: 'finish', method, source: CO_STANDS, stack, target: CO_STACK_TABLE[stack].target,
+    }, '#offering-stands-response');
+  }
+
+  function chooseCoAbandon() {
+    const st = coReady(CO_STANDS, 'co-abandon');
+    if (!st || !st.draft.stack) return;
+    launchCo(CO_STANDS, 'co-abandon', { feedback: CO_ABANDON_FEEDBACK, kind: 'abandon', source: CO_STANDS, target: CO_ROOM }, '#offering-stands-response');
+  }
+
+  function chooseCoClearerReturn(scene) {
+    const st = coReady(scene, `co-clearer-return-${scene}`);
+    if (!st || !st.activeClearer) return;
+    if (CO_STACK_TABLE[st.activeClearer.clear.split(':')[0]].target !== scene) return;
+    launchCo(scene, `co-clearer-return-${scene}`, { feedback: CO_CLEARER_RETURN_FEEDBACK, from: scene, kind: 'clearer-return', clear: st.activeClearer.clear, target: CO_ROOM }, `#co-clearer-response-${scene}`);
+  }
+
+  function chooseCoCourtEntry() {
+    const st = coReady('remembrance', 'co-court-entry-btn');
+    if (!st || st.activeClearer || !coCourtEligible(st)) return;
+    launchCo('remembrance', 'co-court-entry-btn', { feedback: CO_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: CO_COURT }, '#co-court-entry-response');
+  }
+
+  function chooseCoVerdict(action) {
+    const a = CO_VERDICT_TABLE[action];
+    if (!a) return;
+    const st = coReady(CO_COURT, `co-verdict-${action}`);
+    if (!st || st.activeClearer || !st.visited.court || !coCourtEligible(st)) return;
+    launchCo(CO_COURT, `co-verdict-${action}`, { action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: CO_COURT, target: a.target }, '#hearing-of-the-last-offering-response');
+  }
+
+  function clearedOfferingsBridgeAllows(targetScene) {
+    if (!clearedOfferingsUnlocked()) return false;
+    const st = getClearedOfferings();
+    if (st.pending && (st.pending.kind === 'finish' || st.pending.kind === 'verdict') && st.pending.target === targetScene) return true;
+    if (st.activeClearer && CO_STACK_TABLE[st.activeClearer.clear.split(':')[0]].target === targetScene) return true;
+    const verdict = CO_VERDICT_ACTIONS.find((a) => CO_VERDICT_TABLE[a].outcome === st.lastOutcome);
+    return Boolean(verdict && CO_VERDICT_TABLE[verdict].target === targetScene);
+  }
+
+  function coRoomCanVisit() {
+    if (!clearedOfferingsUnlocked()) return false;
+    const st = getClearedOfferings();
+    return st.visited.room || Boolean(st.pending && st.pending.target === CO_ROOM);
+  }
+
+  function offeringStandsCanVisit() {
+    if (!clearedOfferingsUnlocked()) return false;
+    const st = getClearedOfferings();
+    if (st.visited.stands && st.draft.stack) return true;
+    return Boolean(st.pending && st.pending.kind === 'stack');
+  }
+
+  function coCourtCanVisit() {
+    if (!clearedOfferingsUnlocked()) return false;
+    const st = getClearedOfferings();
+    if (st.visited.court && coCourtEligible(st)) return true;
+    return Boolean(st.pending && st.pending.kind === 'court-entry');
+  }
+
+  function syncCoRoom() {
+    const canVisit = coRoomCanVisit();
+    const st = getClearedOfferings();
+    const fig = $('#co-room-figure');
+    if (fig) fig.hidden = !canVisit;
+    const blocked = !canVisit || Boolean(st.pending) || Boolean(st.activeClearer);
+    CO_STACKS.forEach((stack) => {
+      const btn = $(`#co-stack-${stack}`);
+      if (!btn) return;
+      btn.disabled = blocked;
+      btn.classList.toggle('is-collected', CO_METHODS.every((m) => st.clears.includes(`${stack}:${m}`)));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'stack' && st.pending.stack === stack ? 'true' : 'false');
+    });
+    const note = $('#co-room-note');
+    if (note) {
+      let text = '';
+      if (st.activeClearer) {
+        const b = CO_STACK_TABLE[st.activeClearer.clear.split(':')[0]];
+        text = `先完成正在送回去的那摞供盘：${b.clearerTitle}还在${b.place}等你签收。`;
+      } else if (st.draft.stack) {
+        text = `供架上还摆着没撤完的「${CO_STACK_TABLE[st.draft.stack].title}」。`;
+      }
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const cont = $('#co-continue');
+    if (cont) {
+      const show = canVisit && Boolean(st.draft.stack) && !st.activeClearer;
+      cont.hidden = !show;
+      cont.disabled = !show || Boolean(st.pending);
+    }
+    if (!st.pending || st.pending.source !== CO_ROOM) showCoResponse('#clearing-room-response', '');
+  }
+
+  function syncOfferingStands() {
+    const canVisit = offeringStandsCanVisit();
+    const st = getClearedOfferings();
+    const ready = canVisit && Boolean(st.draft.stack);
+    const key = st.draft.stack ? `${st.draft.stack}:${st.draft.method}` : '';
+    if (key !== coStandsKey && !(st.pending && st.pending.kind === 'finish')) {
+      coStandsKey = key;
+      coState = st.draft.stack ? CO_STACK_TABLE[st.draft.stack].start.slice() : [];
+      coHeld = -1;
+      coMoves = 0;
+    }
+    const panel = $('#co-stands-panel');
+    if (panel) panel.hidden = !ready;
+    const board = $('#co-board');
+    if (board) board.hidden = !ready;
+    if (ready) {
+      const t = CO_STACK_TABLE[st.draft.stack];
+      const title = $('#co-stands-stack');
+      if (title) title.textContent = `${t.title} —— ${t.feedback}`;
+      const hint = $('#co-method-hint');
+      if (hint) hint.textContent = `${CO_METHOD_TABLE[st.draft.method].hint}点一个供架拿起它最上面的盘子，再点另一个供架放下；大盘不能压在小盘上。四只都叠好就能撤供，供盘会送回${t.place}，由${t.clearerTitle}签收。换架子或换供桌会把盘子摆回原样。`;
+    }
+    CO_METHODS.forEach((method) => {
+      const btn = $(`#co-method-${method}`);
+      if (!btn) return;
+      btn.disabled = !ready || Boolean(st.pending);
+      btn.setAttribute('aria-pressed', ready && st.draft.method === method ? 'true' : 'false');
+      btn.classList.toggle('is-collected', Boolean(st.draft.stack) && st.clears.includes(`${st.draft.stack}:${method}`));
+    });
+    ['co-finish', 'co-reset', 'co-abandon', ...CO_POSTS.map((p) => `co-post-${p}`)].forEach((id) => {
+      const btn = $(`#${id}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending);
+    });
+    paintCoStands(st.pending && st.pending.kind === 'finish' ? '供撤下来了，正在送回去。' : '');
+    if (!st.pending || st.pending.source !== CO_STANDS) showCoResponse('#offering-stands-response', '');
+  }
+
+  function syncCoCourt() {
+    const canVisit = coCourtCanVisit();
+    const st = getClearedOfferings();
+    const fig = $('#hearing-of-the-last-offering-figure');
+    if (fig) fig.hidden = !canVisit;
+    CO_VERDICT_ACTIONS.forEach((action) => {
+      const btn = $(`#co-verdict-${action}`);
+      if (!btn) return;
+      btn.disabled = !canVisit || Boolean(st.pending) || Boolean(st.activeClearer);
+      btn.classList.toggle('is-collected', st.courtOutcomes.includes(CO_VERDICT_TABLE[action].outcome));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'verdict' && st.pending.action === action ? 'true' : 'false');
+    });
+    if (!st.pending || st.pending.source !== CO_COURT) showCoResponse('#hearing-of-the-last-offering-response', '');
+  }
+
+  function syncCoClearers() {
+    const st = clearedOfferingsUnlocked() ? getClearedOfferings() : defaultClearedOfferings();
+    const [stack, method] = st.activeClearer ? st.activeClearer.clear.split(':') : ['', ''];
+    CO_OLD_TARGETS.forEach((scene) => {
+      const box = $(`#co-clearer-${scene}`);
+      if (!box) return;
+      const show = Boolean(stack) && CO_STACK_TABLE[stack].target === scene;
+      box.hidden = !show;
+      const btn = $(`#co-clearer-return-${scene}`);
+      if (btn) {
+        btn.disabled = !show || Boolean(st.pending);
+        btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'clearer-return' && st.pending.from === scene ? 'true' : 'false');
+      }
+      if (!show) return;
+      const b = CO_STACK_TABLE[stack];
+      const head = $(`#co-clearer-title-${scene}`);
+      if (head) head.textContent = `撤供签收 · ${b.clearerTitle} · ${b.title}（${CO_METHOD_TABLE[method].title}）`;
+      const level = $(`#co-clearer-level-${scene}`);
+      if (level) level.textContent = `四只盘子按大小叠到了${CO_METHOD_TABLE[method].title}上`;
+      const body = $(`#co-clearer-body-${scene}`);
+      if (body) body.textContent = CO_METHOD_TABLE[method].result;
+      if (!st.pending || st.pending.kind !== 'clearer-return') showCoResponse(`#co-clearer-response-${scene}`, '');
+    });
+  }
+
+  function syncCoEchoes() {
+    const st = clearedOfferingsUnlocked() ? getClearedOfferings() : defaultClearedOfferings();
+    CO_STACKS.forEach((stack) => {
+      const b = CO_STACK_TABLE[stack];
+      const el = $(`#co-echo-${b.target}`);
+      if (!el) return;
+      const method = st.latestMethodByStack[stack];
+      if (!method) { el.hidden = true; el.textContent = ''; return; }
+      el.textContent = `${b.echoLead}${CO_METHOD_TABLE[method].result}`;
+      el.hidden = false;
+    });
+  }
+
+  function syncCoRemembrance() {
+    const unlocked = clearedOfferingsUnlocked();
+    const shell = $('#co-codex');
+    const memory = $('#co-memory');
+    if (!unlocked) {
+      [shell, memory].forEach((el) => { if (el) el.hidden = true; });
+      return;
+    }
+    const st = getClearedOfferings();
+    const v112Busy = coUpstreamBusy();
+    if (shell) shell.hidden = false;
+    const progress = coCourtProgress(st);
+    if (memory) {
+      memory.hidden = false;
+      memory.textContent = `撤供：已撤 ${st.clears.length}/9 次，共撤供 ${st.clearRuns} 次；撤供听证 ${st.courtOutcomes.length}/3。`;
+    }
+    const hints = $('#co-court-hints');
+    if (hints) {
+      const rows = [['三张供桌都撤过', progress.stacks, CO_STACKS.length], ['三个架子都用过', progress.methods, CO_METHODS.length]];
+      hints.replaceChildren(...rows.map(([label, have, need]) => {
+        const li = document.createElement('li');
+        li.className = have >= need ? 'is-met' : '';
+        li.textContent = `${label} ${have}/${need}`;
+        return li;
+      }));
+    }
+    const clean = !st.pending && !st.activeClearer;
+    const entry = $('#co-entry-btn');
+    if (entry) {
+      entry.hidden = false;
+      entry.disabled = !clean || v112Busy;
+      entry.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' ? 'true' : 'false');
+    }
+    const note = $('#co-entry-note');
+    if (note) {
+      const text = v112Busy ? '先完成剪纸铺那张还在路上的窗花：剪纸铺还有一位贴花人没签收。' : st.activeClearer ? '先完成正在送回去的那摞供盘。' : '';
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const court = $('#co-court-entry-btn');
+    if (court) {
+      const eligible = coCourtEligible(st);
+      court.hidden = !eligible;
+      court.disabled = !eligible || !clean;
+      court.setAttribute('aria-pressed', st.pending && st.pending.kind === 'court-entry' ? 'true' : 'false');
+    }
+    const grid = $('#co-codex-grid');
+    if (grid) {
+      const have = new Set(st.clears);
+      const cells = CO_CLEAR_IDS.map((id) => {
+        const [stack, method] = id.split(':');
+        const cell = document.createElement('div');
+        cell.className = `co-cell ${have.has(id) ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = have.has(id) ? `${CO_STACK_TABLE[stack].title}\n${CO_METHOD_TABLE[method].title}` : '？？？';
+        return cell;
+      });
+      CO_VERDICT_ACTIONS.forEach((action) => {
+        const a = CO_VERDICT_TABLE[action];
+        const got = st.courtOutcomes.includes(a.outcome);
+        const cell = document.createElement('div');
+        cell.className = `co-cell co-cell-verdict ${got ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = got ? `[撤供听证会] ${a.title}\n${a.feedback}` : '？？？';
+        cells.push(cell);
+      });
+      grid.replaceChildren(...cells);
+    }
+    if (!st.pending || (st.pending.kind !== 'entry' && st.pending.kind !== 'court-entry')) {
+      showCoResponse('#co-entry-response', '');
+      showCoResponse('#co-court-entry-response', '');
+    }
+  }
+
+  function syncCoLinks() {
+    const st = clearedOfferingsUnlocked() ? getClearedOfferings() : null;
+    [['clearing-room-link', 'room'], ['offering-stands-link', 'stands'], ['hearing-of-the-last-offering-link', 'court']].forEach(([id, key]) => {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !(st && st.visited[key]);
+    });
+  }
+
+  function forgetClearedOfferingsState() {
+    try { localStorage.removeItem(CLEARED_OFFERINGS_KEY); } catch {}
+    [CO_ROOM, CO_STANDS, CO_COURT].forEach((scene) => AutoAdvance.clear(scene));
+    coState = [];
+    coHeld = -1;
+    coMoves = 0;
+    coStandsKey = '';
+    ['#co-codex', '#co-memory', '#co-room-figure', '#co-stands-panel', '#hearing-of-the-last-offering-figure',
+      '#clearing-room-link', '#offering-stands-link', '#hearing-of-the-last-offering-link', '#co-continue', '#co-court-entry-btn',
+      '#co-entry-response', '#co-court-entry-response', '#clearing-room-response', '#offering-stands-response', '#hearing-of-the-last-offering-response',
+      ...CO_OLD_TARGETS.flatMap((scene) => [`#co-clearer-${scene}`, `#co-echo-${scene}`]),
+    ].forEach((sel) => { const el = $(sel); if (el) el.hidden = true; });
+    $$('[id^="co-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+  }
+
+  const onTrustedCo = (selector, handler) => {
+    const el = $(selector);
+    if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+  };
+  onTrustedCo('#co-entry-btn', chooseCoEntry);
+  onTrustedCo('#co-court-entry-btn', chooseCoCourtEntry);
+  onTrustedCo('#co-abandon', chooseCoAbandon);
+  onTrustedCo('#co-continue', () => {
+    const st = coReady(CO_ROOM, 'co-continue');
+    if (!st || !st.draft.stack || st.activeClearer) return;
+    const stack = st.draft.stack;
+    launchCo(CO_ROOM, 'co-continue', { stack, feedback: CO_STACK_TABLE[stack].feedback, kind: 'stack', source: CO_ROOM, target: CO_STANDS }, '#clearing-room-response');
+  });
+  CO_STACKS.forEach((stack) => onTrustedCo(`#co-stack-${stack}`, () => chooseCoStack(stack)));
+  CO_METHODS.forEach((method) => onTrustedCo(`#co-method-${method}`, () => chooseCoMethod(method)));
+  CO_VERDICT_ACTIONS.forEach((action) => onTrustedCo(`#co-verdict-${action}`, () => chooseCoVerdict(action)));
+  CO_OLD_TARGETS.forEach((scene) => onTrustedCo(`#co-clearer-return-${scene}`, () => chooseCoClearerReturn(scene)));
+  CO_POSTS.forEach((post) => onTrustedCo(`#co-post-${post}`, () => tapCoPost(post)));
+  onTrustedCo('#co-reset', resetCoStands);
+  onTrustedCo('#co-finish', finishCoClearing);
+
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -66868,8 +67655,26 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     if (eligible) items.push(`开庭条件已满足；窗花裁定已得 ${st.courtOutcomes.length}/3`);
     if (st.activePaster) items.push("有一张窗花在旧房间等你签收：跟着贴花人回到剪纸铺");
     else if (st.draft.sheet) items.push(`剪纸台上还压着剪了一半的「${PC_SHEET_TABLE[st.draft.sheet].title}」`);
-    if (eligible && st.courtOutcomes.length >= 3) return { title: "v112 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    if (eligible && st.courtOutcomes.length >= 3) return clearedOfferingsProgressStep();
     return { title: "v112 剪纸铺", items, target: eligible ? "pc-court" : "pc", done: false };
+  };
+
+  /* v113：按三张供桌、三个架子与三项裁定给出缺项 */
+  const clearedOfferingsProgressStep = () => {
+    if (!clearedOfferingsUnlocked()) return null;
+    const st = getClearedOfferings();
+    const items = [];
+    const stacks = CO_STACKS.filter((x) => !st.clears.some((id) => id.startsWith(`${x}:`))).map((x) => CO_STACK_TABLE[x].title);
+    const methods = CO_METHODS.filter((m) => !st.clears.some((id) => id.endsWith(`:${m}`))).map((m) => CO_METHOD_TABLE[m].title);
+    if (coUpstreamBusy() && !st.visited.room) items.push("先完成剪纸铺那张还在路上的窗花，撤供房才开门");
+    if (stacks.length) items.push(`还没撤的供：${stacks.join("、")}`);
+    if (methods.length) items.push(`还没用过的架子：${methods.join("、")}`);
+    const eligible = coCourtEligible(st);
+    if (eligible) items.push(`开庭条件已满足；撤供裁定已得 ${st.courtOutcomes.length}/3`);
+    if (st.activeClearer) items.push("有一摞供盘在旧房间等你签收：跟着撤供人回到撤供房");
+    else if (st.draft.stack) items.push(`供架上还摆着没撤完的「${CO_STACK_TABLE[st.draft.stack].title}」`);
+    if (eligible && st.courtOutcomes.length >= 3) return { title: "v113 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    return { title: "v113 撤供房", items, target: eligible ? "co-court" : "co", done: false };
   };
 
   const shadowlessPhotographyProgressStep = () => {
@@ -67450,6 +68255,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   syncLastSweepAll();
   syncPuttingBackAll();
   syncPaperCutAll();
+  syncClearedOfferingsAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

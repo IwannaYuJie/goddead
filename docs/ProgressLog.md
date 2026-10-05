@@ -1352,3 +1352,12 @@
 - 场景图：本机 Codex CLI 生成三张原画，红纸按像素实测对齐；提示词与哈希见 `docs/V112ImagePrompts.md`。
 - 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 19582 assertions passed`；v101–v104 独立测试 65 项通过。
 - 浏览器：完整存档下真实点击剪出守则厅的灯笼并在访客守则签收；修复格子与图鉴共用类名导致的撑高与变黑；375px 窄屏放大红纸后七乘七每格约 36px；听证会裁定抵达门外。
+
+## 2026-10-06 - v113 撤供房实装
+
+- 新增 `clearing-room`、`offering-stands`、`hearing-of-the-last-offering` 3 个场景，场景总数 259 → 262，缓存标记 `v=113`。
+- 新交互“撤供叠盘”（汉诺塔）：三个铜供架是原生按钮，拿起最上面那只、放到另一个架子，大盘不能压小盘；三张供桌（代神席 / 焚献炉 / 注销科的供盘）× 给活人 / 给神 / 给死人的架子 = 9 次撤供，四只都叠好才能撤，送回对应供桌签收。
+- 状态键 `goddead_v113_cleared_offerings`（11 字段、7 类 pending、严格归一化），只读 v112；v112 在途时入口禁用；前缀 `co-`；只有真实点击；桥接接入治理守卫与画廊守卫。
+- 场景图：本机 Codex CLI 生成三张原画，铜柱按像素实测对齐；提示词与哈希见 `docs/V113ImagePrompts.md`。
+- 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 19722 assertions passed`；v101–v104 独立测试 65 项通过。
+- 浏览器：完整存档下真实点击 7 次把代神席的供盘叠到给神的架子并签收返回；375px 窄屏架子点击区约 89×119px；听证会裁定回到痕迹室。

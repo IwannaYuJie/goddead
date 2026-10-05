@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=112">
+  <link rel="stylesheet" href="styles.css?v=113">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -4323,6 +4323,15 @@
             <p class="answer-note" id="acting-note" role="status" aria-live="polite"></p>
           </div>
 
+          <!-- v113 神名注销科撤供签收与记忆 -->
+          <p class="watch-memory co-echo" id="co-echo-cancellation" hidden></p>
+          <div class="co-clearer reveal" id="co-clearer-cancellation" hidden>
+            <p class="co-clearer-title" id="co-clearer-title-cancellation"></p>
+            <p class="co-clearer-level" id="co-clearer-level-cancellation"></p>
+            <p class="co-clearer-body" id="co-clearer-body-cancellation"></p>
+            <p class="co-response" id="co-clearer-response-cancellation" aria-live="polite" hidden></p>
+            <button class="co-action" id="co-clearer-return-cancellation" type="button" data-hover>跟着撤供人回到撤供房 ⟶</button>
+          </div>
           <!-- v108 神名注销科借光签收与记忆 -->
           <p class="watch-memory lb-echo" id="lb-echo-cancellation" hidden></p>
           <div class="lb-lamplighter reveal" id="lb-lamplighter-cancellation" hidden>
@@ -4418,6 +4427,15 @@
             <p class="yb-waiter-body" id="yb-waiter-body-acting"></p>
             <p class="yb-response" id="yb-waiter-response-acting" aria-live="polite" hidden></p>
             <button class="yb-action" id="yb-waiter-return-acting" type="button" data-hover>跟着跑堂回到早餐铺 ⟶</button>
+          </div>
+          <!-- v113 代神席撤供签收与记忆 -->
+          <p class="watch-memory co-echo" id="co-echo-acting" hidden></p>
+          <div class="co-clearer reveal" id="co-clearer-acting" hidden>
+            <p class="co-clearer-title" id="co-clearer-title-acting"></p>
+            <p class="co-clearer-level" id="co-clearer-level-acting"></p>
+            <p class="co-clearer-body" id="co-clearer-body-acting"></p>
+            <p class="co-response" id="co-clearer-response-acting" aria-live="polite" hidden></p>
+            <button class="co-action" id="co-clearer-return-acting" type="button" data-hover>跟着撤供人回到撤供房 ⟶</button>
           </div>
           <!-- v110 代神席扫净签收与记忆 -->
           <p class="watch-memory sw-echo" id="sw-echo-acting" hidden></p>
@@ -4517,6 +4535,15 @@
           <div class="counterfactual-echo reveal" id="counterfactual-echo-offering" hidden>
             <p class="counterfactual-echo-response" id="counterfactual-echo-response-offering" aria-live="polite"></p>
             <button class="counterfactual-echo-return" id="counterfactual-echo-return-offering" type="button" data-hover>把灰中多出的一生送回纺锤 ⟶</button>
+          </div>
+          <!-- v113 焚献炉撤供签收与记忆 -->
+          <p class="watch-memory co-echo" id="co-echo-offering" hidden></p>
+          <div class="co-clearer reveal" id="co-clearer-offering" hidden>
+            <p class="co-clearer-title" id="co-clearer-title-offering"></p>
+            <p class="co-clearer-level" id="co-clearer-level-offering"></p>
+            <p class="co-clearer-body" id="co-clearer-body-offering"></p>
+            <p class="co-response" id="co-clearer-response-offering" aria-live="polite" hidden></p>
+            <button class="co-action" id="co-clearer-return-offering" type="button" data-hover>跟着撤供人回到撤供房 ⟶</button>
           </div>
           <!-- v110 焚献炉扫净签收与记忆 -->
           <p class="watch-memory sw-echo" id="sw-echo-offering" hidden></p>
@@ -5310,6 +5337,21 @@
               <p class="ts-response" id="ts-entry-response" aria-live="polite" hidden></p>
               <button class="ts-entry-btn" id="ts-court-entry-btn" type="button" hidden data-hover>进入早报听证会 · ENTER THE HEARING OF THE MORNING EDITION ⟶</button>
               <p class="ts-response" id="ts-court-entry-response" aria-live="polite" hidden></p>
+            </div>
+          </div>
+          <!-- v113 撤供图鉴 -->
+          <p class="watch-memory co-memory" id="co-memory" hidden></p>
+          <div class="co-codex reveal" id="co-codex" hidden>
+            <p class="co-kicker">THE ROOM OF CLEARED OFFERINGS · 撤 供 图 鉴</p>
+            <div class="co-grid" id="co-codex-grid"></div>
+            <p class="co-hints-title">撤供听证会开庭条件</p>
+            <ul class="co-hints" id="co-court-hints"></ul>
+            <div class="co-codex-entry">
+              <button class="co-entry-btn" id="co-entry-btn" type="button" hidden data-hover>前往撤供房 · GO TO THE ROOM OF CLEARED OFFERINGS ⟶</button>
+              <p class="co-note" id="co-entry-note" hidden></p>
+              <p class="co-response" id="co-entry-response" aria-live="polite" hidden></p>
+              <button class="co-entry-btn" id="co-court-entry-btn" type="button" hidden data-hover>进入撤供听证会 · ENTER THE HEARING OF THE LAST OFFERING ⟶</button>
+              <p class="co-response" id="co-court-entry-response" aria-live="polite" hidden></p>
             </div>
           </div>
           <!-- v112 剪纸图鉴 -->
@@ -10124,6 +10166,89 @@
         </div>
       </section>
 
+      <!-- v113 第一幕：撤供房 -->
+      <section class="scene scene-branch scene-clearing-room" id="scene-clearing-room" data-scene="clearing-room" data-title="Goddead — 撤供房" aria-label="撤供房">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">27α / 撤供 · THE ROOM OF CLEARED OFFERINGS</p>
+            <h2 class="sec-title">撤供房</h2>
+            <p class="sec-desc">窗花都贴上了，屋子像要过年。可代神席、焚献炉、神名注销科的供桌上还摆着给死去的神的供盘。撤供房的长桌上三摞旧供盘，叠得乱七八糟。</p>
+          </header>
+          <figure class="branch-figure co-figure reveal" id="co-room-figure">
+            <img class="branch-img co-img" data-src="assets/v113-clearing-room.webp" alt="撤供房：空了很久的石头储物间；长桌上三摞叠得乱糟糟的旧瓷盘和铜盘，左边一摞旁放着小红绒垫，中间一摞最上面落着灰，右边一摞旁放着系黑缎带的账册" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot co-hotspot co-hotspot-left" id="co-stack-acting-stack" type="button" aria-label="撤供：代神席的供盘" data-hover><span class="dh-label" aria-hidden="true">代神席的供盘</span></button>
+            <button class="scene-hotspot co-hotspot co-hotspot-center" id="co-stack-offering-stack" type="button" aria-label="撤供：焚献炉的供盘" data-hover><span class="dh-label" aria-hidden="true">焚献炉的供盘</span></button>
+            <button class="scene-hotspot co-hotspot co-hotspot-right" id="co-stack-cancellation-stack" type="button" aria-label="撤供：注销科的供盘" data-hover><span class="dh-label" aria-hidden="true">注销科的供盘</span></button>
+          </figure>
+          <p class="co-note reveal" id="co-room-note" hidden></p>
+          <p class="branch-response co-response" id="clearing-room-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开撤供房">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+            <button class="co-action" id="co-continue" type="button" hidden data-hover>回到供架 ⟶</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v113 第二幕：供架 -->
+      <section class="scene scene-branch scene-offering-stands" id="scene-offering-stands" data-scene="offering-stands" data-title="Goddead — 供架" aria-label="供架">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">27β / 叠盘 · THE OFFERING STANDS</p>
+            <h2 class="sec-title">供架</h2>
+            <p class="sec-desc">石台上三个铜供架。四只大小不同的供盘散在上面。选一个架子，把四只都按大小叠过去：一次只能拿某个架子最上面的一只，大盘不能压在小盘上——这是老规矩。</p>
+          </header>
+          <figure class="branch-figure co-figure co-stands-figure reveal" id="co-stands-figure">
+            <img class="branch-img co-img" data-src="assets/v113-offering-stands.webp" alt="供架：正面平视的一张深色石台，台上等距立着三个空着的圆底铜供架" width="1536" height="1024" loading="lazy" decoding="async">
+            <div class="co-board" id="co-board" hidden>
+              <button class="co-post co-post-0" id="co-post-0" type="button" aria-pressed="false" aria-label="左边的供架" data-hover></button>
+              <button class="co-post co-post-1" id="co-post-1" type="button" aria-pressed="false" aria-label="中间的供架" data-hover></button>
+              <button class="co-post co-post-2" id="co-post-2" type="button" aria-pressed="false" aria-label="右边的供架" data-hover></button>
+              <span class="co-plate co-plate-size-0" id="co-plate-0" aria-hidden="true"></span>
+              <span class="co-plate co-plate-size-1" id="co-plate-1" aria-hidden="true"></span>
+              <span class="co-plate co-plate-size-2" id="co-plate-2" aria-hidden="true"></span>
+              <span class="co-plate co-plate-size-3" id="co-plate-3" aria-hidden="true"></span>
+            </div>
+            <p class="co-stands-status" id="co-stands-status" aria-live="polite"></p>
+          </figure>
+          <div class="co-panel reveal" id="co-stands-panel" hidden>
+            <p class="co-panel-stack" id="co-stands-stack"></p>
+            <div class="co-methods" role="group" aria-label="架子">
+              <button class="co-method" id="co-method-living" type="button" data-hover>给活人的架子</button>
+              <button class="co-method" id="co-method-god" type="button" data-hover>给神的架子</button>
+              <button class="co-method" id="co-method-dead" type="button" data-hover>给死人的架子</button>
+            </div>
+            <p class="co-note" id="co-method-hint"></p>
+            <div class="co-actions">
+              <button class="co-action co-finish" id="co-finish" type="button" data-hover>撤供</button>
+              <button class="co-action" id="co-reset" type="button" data-hover>摆回原样</button>
+              <button class="co-action" id="co-abandon" type="button" data-hover>先不撤了</button>
+            </div>
+          </div>
+          <p class="branch-response co-response" id="offering-stands-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <!-- v113 第三幕：撤供听证会 -->
+      <section class="scene scene-branch scene-hearing-of-the-last-offering" id="scene-hearing-of-the-last-offering" data-scene="hearing-of-the-last-offering" data-title="Goddead — 撤供听证会" aria-label="撤供听证会">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">27γ / 末供 · HEARING OF THE LAST OFFERING</p>
+            <h2 class="sec-title">撤供听证会</h2>
+            <p class="sec-desc">圆厅高窗下的空椅子前没有供桌。桌上三件东西：一摞洗净的空盘、一只单独放着新鲜果子的盘子、一盘落了灰的冷供品。裁定之后仍可回来。</p>
+          </header>
+          <figure class="branch-figure co-figure reveal" id="hearing-of-the-last-offering-figure">
+            <img class="branch-img co-img" data-src="assets/v113-hearing-of-the-last-offering.webp" alt="撤供听证会：圆厅高窗下一把空椅子；近处长桌上左边一摞洗净的空盘，中间一只单独放着新鲜果子的盘子，右边一盘落了灰的冷供品" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot co-hotspot co-hotspot-court-left" id="co-verdict-clear-every-altar" type="button" aria-label="裁定：全部撤下" data-hover><span class="dh-label" aria-hidden="true">全部撤下</span></button>
+            <button class="scene-hotspot co-hotspot co-hotspot-court-center" id="co-verdict-leave-one-offering-for-god" type="button" aria-label="裁定：给神留一份供" data-hover><span class="dh-label" aria-hidden="true">给神留一份供</span></button>
+            <button class="scene-hotspot co-hotspot co-hotspot-court-right" id="co-verdict-let-the-offerings-go-cold" type="button" aria-label="裁定：让供品凉透" data-hover><span class="dh-label" aria-hidden="true">让供品凉透</span></button>
+          </figure>
+          <p class="branch-response co-response" id="hearing-of-the-last-offering-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开听证会">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+          </nav>
+        </div>
+      </section>
+
       <!-- 隐藏幕 · 第九条 -->
       <section class="scene scene-ninth" id="scene-ninth" data-scene="ninth" data-title="Goddead — ？？？" aria-label="第九条">
         <figure class="ninth-figure" role="img" aria-label="一道不该存在的裂口，底部有一扇错误的窄门">
@@ -10394,6 +10519,9 @@
       <a href="#paper-cut-shop" id="paper-cut-shop-link" hidden data-hover>26α / 剪纸铺</a>
       <a href="#cutting-table" id="cutting-table-link" hidden data-hover>26β / 剪纸台</a>
       <a href="#hearing-of-the-paper-flower" id="hearing-of-the-paper-flower-link" hidden data-hover>26γ / 窗花听证</a>
+      <a href="#clearing-room" id="clearing-room-link" hidden data-hover>27α / 撤供房</a>
+      <a href="#offering-stands" id="offering-stands-link" hidden data-hover>27β / 供架</a>
+      <a href="#hearing-of-the-last-offering" id="hearing-of-the-last-offering-link" hidden data-hover>27γ / 撤供听证</a>
 
 
       <a href="#three-person-republic-court" id="three-person-republic-court-link" hidden data-hover>04β / 三人共和国</a>
@@ -10403,6 +10531,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=112"></script>
+    <script src="script.js?v=113"></script>
   </body>
 </html>
