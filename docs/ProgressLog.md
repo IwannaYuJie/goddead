@@ -1314,3 +1314,13 @@
 - 场景图：本机 Codex CLI 生成三张原画，镜面地方格按像素实测对齐；提示词与哈希见 `docs/V108ImagePrompts.md`。
 - 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 18937 assertions passed`；v101–v104 独立测试 65 项通过。
 - 浏览器：完整存档下真实点击 4 面镜子让晨光绕 5 次照进投递所的窗并签收返回；375px 窄屏每格约 44px；听证会裁定回到痕迹室。
+
+## 2026-10-06 - v109 分茶铺实装
+
+- 新增 `exact-tea-house`、`pouring-table`、`hearing-of-the-last-cup` 3 个场景，场景总数 247 → 250，缓存标记 `v=109`。
+- 新交互“量杯倒茶”：铁壶、水盆与三只无刻度量器（原生按钮，端起 / 互倒 / 灌满 / 倒空），茶面高度实时变化；三位客人（一口 / 四口 / 七口）× 粗陶 / 铜壶 / 白瓷 = 9 杯，量准才能奉茶，送到回声档案室 / 血管维修井 / 忏悔称量室签收。
+- 状态键 `goddead_v109_exact_tea`（11 字段、7 类 pending、严格归一化），只读 v108；v108 在途时入口禁用；前缀 `et-`；只有真实点击；桥接接入治理守卫、画廊守卫与 v29 分支守卫。
+- 顺手去掉 v108 / v109 旧房间记忆段里重复的光名 / 茶具名。
+- 场景图：本机 Codex CLI 生成三张原画；提示词与哈希见 `docs/V109ImagePrompts.md`。
+- 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 19075 assertions passed`；v101–v104 独立测试 65 项通过。
+- 浏览器：完整存档下用粗陶真实点击 5 步量出 7 口并在忏悔称量室签收（修复 v29 分支守卫把茶改写到走廊的问题）；375px 窄屏；听证会裁定抵达无终局画廊。

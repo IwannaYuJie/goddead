@@ -4,7 +4,7 @@ Static landing page for [goddead.com](https://goddead.com).
 
 ## Current Experience
 
-当前实现基线为 **v108「借光司 / OFFICE OF BORROWED DAYLIGHT」**：全站共 247 个 hash 场景，静态资源缓存标记为 `v=108`。v108 在 v107 三项裁定集齐后开放 3 个新场景：`office-of-borrowed-daylight`（借光司）、`mirror-floor`（镜面地）、`hearing-of-borrowed-light`（借光听证会）。报纸印成了彩色，三间旧屋却太暗：在 5×5 的俯视石板地上点镜子让它在“/”和“\”之间翻转，光路实时画出，把晨光（东）/ 午光（北）/ 夕照（西）折进那间屋底边唯一的窗才能开窗，光送到无主投递所 / 神名注销科 / 访客守则签收；三间屋、三种光都用过即开借光听证会。独立键 `goddead_v108_borrowed_daylight`。
+当前实现基线为 **v109「分茶铺 / THE EXACT TEA HOUSE」**：全站共 250 个 hash 场景，静态资源缓存标记为 `v=109`。v109 在 v108 三项裁定集齐后开放 3 个新场景：`exact-tea-house`（分茶铺）、`pouring-table`（分茶台）、`hearing-of-the-last-cup`（末杯听证会）。三间屋的人读完了报想喝茶，却只要正好那么多：用一把铁壶、一只水盆和三只没有刻度的量器（粗陶 3/5/8、铜壶 2/5/11、白瓷 3/6/11）端起、互倒、灌满、倒空，量出正好 1 / 4 / 7 口才能奉茶，茶送到回声档案室 / 血管维修井 / 忏悔称量室签收；三位客人、三套茶具都用过即开末杯听证会。独立键 `goddead_v109_exact_tea`。
 
 历史基线 **v106「今日排字房 / TYPESETTING ROOM OF TODAY」**：全站 241 个场景，静态资源 `v=106`。v106 在 v105 三项裁定集齐后开放 3 个新场景：`press-of-today`（今日印刷所）、`composing-stone`（拼版台）、`hearing-of-the-morning-edition`（早报听证会）。今天头版的三块木刻版（门 / 钟 / 炉）摔成九块各缺一块，在拼版台上把挨着空位的碎块推进去拼回原样（只松了几块 / 散了一地 / 摔得粉碎，打乱 8 / 16 / 28 步），锁版后头版送到门外 / 值夜室 / 焚献炉签收，三块版、三种摔法都拼过即开早报听证会。独立键 `goddead_v106_typesetting_today`。
 
@@ -18,7 +18,7 @@ Static landing page for [goddead.com](https://goddead.com).
 
 前一章历史实现 **v101「黎明织造厂 / DAWN WEAVING MILL」**（全站 226 个场景，静态资源 `v=101`）机制完整保留：v100 `wkCourtEligible` 且三项百夜裁定集齐后开放 3 个场景（`dawn-weaving-mill`、`day-night-loom`、`sky-cloth-drying-terrace`）。九格织机通过原生按钮与 4 种辅助模式完成晨光/夜线左右独立连通派生三结局，经天际晾布台预览送往门外/痕迹室/无终局画廊签收，双入口支持门外与痕迹室，独立存储键 `goddead_v101_dawn_weaving`。v91–v101 见 `docs/` 对应设计文档。
 
-完整玩家路线、支线网、v63-v108 解锁链与 v90-v108 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
+完整玩家路线、支线网、v63-v109 解锁链与 v90-v109 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
 
 The homepage is **The Living Shrine**, a hash-routed, scene-by-scene exploration game. Visitors knock three times at the sealed threshold — now a photographed bureau door — and on the third knock the door visually opens into a deep black-gold corridor before the visitor is pulled through into the next room; each completed action thereafter advances the ritual automatically.
 

@@ -45,8 +45,8 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=108/);
-assert.match(html, /script\.js\?v=108/);
+assert.match(html, /styles\.css\?v=109/);
+assert.match(html, /script\.js\?v=109/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
@@ -135,7 +135,7 @@ assert.match(js, /DOMContentLoaded/);
   assert.match(rawHtml, /<aside class="progress-guide" id="progress-guide" aria-labelledby="progress-guide-title" hidden>/, "remembrance hosts a hidden progress guide");
   const remembranceSection = rawHtml.match(/<section[^>]*data-scene="remembrance"[\s\S]*?<\/section>/);
   assert.ok(remembranceSection && remembranceSection[0].includes('id="progress-guide"'), "the guide lives inside the remembrance scene");
-  assert.match(js, /replayHundredthWakePending\(name\);\s*resolveDawnWeavingPendingOnArrival\(name\);\s*replayDawnWeavingPending\(name\);\s*resolveWeatherlessShelterPendingOnArrival\(name\);\s*replayWeatherlessShelterPending\(name\);\s*resolveShadowlessPhotographyPendingOnArrival\(name\);\s*replayShadowlessPhotographyPending\(name\);\s*resolveWakeForAnotherHotelPendingOnArrival\(name\);\s*replayWakeForAnotherHotelPending\(name\);\s*resolveYesterdayBreakfastPendingOnArrival\(name\);\s*replayYesterdayBreakfastPending\(name\);\s*resolveTodayPressPendingOnArrival\(name\);\s*replayTodayPressPending\(name\);\s*resolveInkMixingPendingOnArrival\(name\);\s*replayInkMixingPending\(name\);\s*resolveBorrowedLightPendingOnArrival\(name\);\s*replayBorrowedLightPending\(name\);\s*if \(name === "remembrance"\) syncProgressGuide\(\);\s*updateHudDisplay\(\);/, "arriving at remembrance refreshes the guide after every chapter sync");
+  assert.match(js, /replayHundredthWakePending\(name\);\s*resolveDawnWeavingPendingOnArrival\(name\);\s*replayDawnWeavingPending\(name\);\s*resolveWeatherlessShelterPendingOnArrival\(name\);\s*replayWeatherlessShelterPending\(name\);\s*resolveShadowlessPhotographyPendingOnArrival\(name\);\s*replayShadowlessPhotographyPending\(name\);\s*resolveWakeForAnotherHotelPendingOnArrival\(name\);\s*replayWakeForAnotherHotelPending\(name\);\s*resolveYesterdayBreakfastPendingOnArrival\(name\);\s*replayYesterdayBreakfastPending\(name\);\s*resolveTodayPressPendingOnArrival\(name\);\s*replayTodayPressPending\(name\);\s*resolveInkMixingPendingOnArrival\(name\);\s*replayInkMixingPending\(name\);\s*resolveBorrowedLightPendingOnArrival\(name\);\s*replayBorrowedLightPending\(name\);\s*resolveExactTeaPendingOnArrival\(name\);\s*replayExactTeaPending\(name\);\s*if \(name === "remembrance"\) syncProgressGuide\(\);\s*updateHudDisplay\(\);/, "arriving at remembrance refreshes the guide after every chapter sync");
   const guideStart = js.indexOf("/* ---------- 痕迹室「下一步」 ----------");
   const guideEnd = js.indexOf("/* ---------- 初始化 ---------- */");
   assert.ok(guideStart !== -1 && guideEnd > guideStart, "guide block sits before init");
@@ -699,8 +699,8 @@ for (const asset of VISUAL_ASSETS) {
 await access(new URL("assets/prayer-incinerator-burning.webp", root));
 assert.match(html, /assets\/prayer-incinerator-burning\.webp/);
 assert.match(html, /<link rel="preload" href="assets\/prayer-incinerator-burning\.webp" as="image">/);
-assert.match(html, /styles\.css\?v=108/);
-assert.match(html, /script\.js\?v=108/);
+assert.match(html, /styles\.css\?v=109/);
+assert.match(html, /script\.js\?v=109/);
 const offeringFigureHtml = html.match(/<figure class="offering-figure[^"]*" role="img" aria-label="[^"]*">[\s\S]*?<\/figure>/);
 assert.ok(offeringFigureHtml, "offering figure must exist");
 assert.match(offeringFigureHtml[0], /aria-label="一座沉寂的焚献炉"/);
@@ -1074,7 +1074,7 @@ assert.match(js, /const target = ok \? choice\.target : "corridor";/, "failed co
 /* v29 选择命中深层区域时到访标记点击即持久化 */
 assert.match(js, /if \(DEEP_SCENES\.includes\(target\)\) markDeepVisited\(target\);\s*AutoAdvance\.schedule\(sceneKey, target, \{ delay: branchDelay\(\) \}\);/, "branch choice into a deep scene must persist the visit at click time");
 /* 路由守卫：未访问支线直达落回走廊；仅保留 v39 outcome、v53 信念与严格 v79/v80 pending/activeExecutor 窄例外 */
-assert.match(js, /if \(BRANCH_SCENES\.includes\(target\) && !branchState\.visited\[target\] && AUDIT_BRANCH_OUTCOME\[target\] !== auditGuardState\.outcome\s*\n\s*&& beliefGuard\.pendingTarget !== target && !\(BELIEF_SCENE_BRANCH\[target\] && beliefGuard\.branches\[BELIEF_SCENE_BRANCH\[target\]\]\.visits > 0\)\s*&& !innocentWitnessProtectionBridgeAllows\(target\)\s*\n\s*&& !unspokenPersonhoodBridgeAllows\(target\) && !unfinishedThoughtBridgeAllows\(target\) && !lostWeightBridgeAllows\(target\)\) target = "corridor";/, "v29 guard keeps v39/v53 behavior and adds only strict v79, v80 and v97 bridge exceptions");
+assert.match(js, /if \(BRANCH_SCENES\.includes\(target\) && !branchState\.visited\[target\] && AUDIT_BRANCH_OUTCOME\[target\] !== auditGuardState\.outcome\s*\n\s*&& beliefGuard\.pendingTarget !== target && !\(BELIEF_SCENE_BRANCH\[target\] && beliefGuard\.branches\[BELIEF_SCENE_BRANCH\[target\]\]\.visits > 0\)\s*&& !innocentWitnessProtectionBridgeAllows\(target\)\s*\n\s*&& !unspokenPersonhoodBridgeAllows\(target\) && !unfinishedThoughtBridgeAllows\(target\) && !lostWeightBridgeAllows\(target\) && !exactTeaBridgeAllows\(target\)\) target = "corridor";/, "v29 guard keeps v39/v53 behavior and adds only strict v79, v80, v97 and v109 bridge exceptions");
 /* 场景进入同步与旁路记忆 */
 assert.match(js, /if \(BRANCH_SCENES\.includes\(name\)\) \{ enterBranch\(name\); syncPressureRoom\(name\); replayPressurePending\(name\); paintPressure\(\); \}/);
 assert.match(js, /if \(name === "corridor"\) \{ corridorConsumed = false; corridorDetourArmed = false; syncWatchDoor\(\); syncBranchEntries\(\); syncDeepEntries\(\); startTrace\(\); \}/);
@@ -3624,7 +3624,7 @@ assert.ok(!/getAudit|saveAudit|AUDIT_KEY/.test(beliefFlipBlock[0]), "flip must n
 assert.match(js, /replayBeliefPending\(name\)/, "scene init replays a persisted belief pending");
 /* v29 守卫：v53 仍只放行合法 pending/历史分支，其后仅追加严格 v79/v80 bridge */
 const resolveBlockV53 = js.match(/const resolveScene = \(name\) => \{[\s\S]*?\n  \};/);
-assert.match(resolveBlockV53[0], /beliefGuard\.pendingTarget !== target && !\(BELIEF_SCENE_BRANCH\[target\] && beliefGuard\.branches\[BELIEF_SCENE_BRANCH\[target\]\]\.visits > 0\)\s*&& !innocentWitnessProtectionBridgeAllows\(target\)\s*\n\s*&& !unspokenPersonhoodBridgeAllows\(target\) && !unfinishedThoughtBridgeAllows\(target\) && !lostWeightBridgeAllows\(target\)\) target = "corridor";/, "v29 guard preserves the narrow v53 exception before strict v79 and v80 bridges");
+assert.match(resolveBlockV53[0], /beliefGuard\.pendingTarget !== target && !\(BELIEF_SCENE_BRANCH\[target\] && beliefGuard\.branches\[BELIEF_SCENE_BRANCH\[target\]\]\.visits > 0\)\s*&& !innocentWitnessProtectionBridgeAllows\(target\)\s*\n\s*&& !unspokenPersonhoodBridgeAllows\(target\) && !unfinishedThoughtBridgeAllows\(target\) && !lostWeightBridgeAllows\(target\) && !exactTeaBridgeAllows\(target\)\) target = "corridor";/, "v29 guard preserves the narrow v53 exception before strict v79 and v80 bridges");
 assert.match(resolveBlockV53[0], /AUDIT_BRANCH_OUTCOME\[target\] !== auditGuardState\.outcome/, "the v39 outcome exception stays intact");
 /* 逐字文案：六条阈值反馈、翻转反馈、六条变异 figure aria-label、统计名 */
 for (const frag of [
@@ -4710,7 +4710,7 @@ assert.ok(SCENES.includes("causal-sorter"), "SCENES must list the causal sorter"
 assert.ok(SCENES.includes("first-draft-vault"), "SCENES must list the first draft vault");
 assert.ok(SCENES.includes("before-first-knock"), "SCENES must list the before first knock");
 assert.ok(SCENES.includes("causeless-ward"), "SCENES must list the causeless ward");
-  assert.equal(new Set([...html.matchAll(/data-scene="([^"]+)"/g)].map((m) => m[1])).size, 247, "must expose 247 unique data-scene sections");
+  assert.equal(new Set([...html.matchAll(/data-scene="([^"]+)"/g)].map((m) => m[1])).size, 250, "must expose 250 unique data-scene sections");
 const consoleSection = html.match(/<section class="scene scene-branch scene-listening-back-console"[\s\S]*?<\/section>/);
 assert.ok(consoleSection, "scene section missing: listening-back-console");
 assert.match(consoleSection[0], /data-scene="listening-back-console" data-title="Goddead — 反听总台" aria-label="反听总台"/);
@@ -6095,8 +6095,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v73-nightmare-ta
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v73-waking-deportation-yard\.webp"/, "v73 loads on demand: waking-deportation-yard");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=108/, "v73 cache busts styles.css");
-assert.match(html, /script\.js\?v=108/, "v73 cache busts script.js");
+assert.match(html, /styles\.css\?v=109/, "v73 cache busts styles.css");
+assert.match(html, /script\.js\?v=109/, "v73 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const DREAM_CUSTOMS_KEY = ['"]goddead_v73_dream_customs['"]/g) || []).length, 1, "v73 introduces exactly one storage key");
@@ -6963,8 +6963,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v74-impossible-c
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v74-perpetual-license-tribunal\.webp"/, "v74 loads on demand: perpetual-license-tribunal");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=108/, "v74 cache busts styles.css");
-assert.match(html, /script\.js\?v=108/, "v74 cache busts script.js");
+assert.match(html, /styles\.css\?v=109/, "v74 cache busts styles.css");
+assert.match(html, /script\.js\?v=109/, "v74 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const TOMBSTONE_PATENT_OFFICE_KEY = ['"]goddead_v74_tombstone_patent_office['"]/g) || []).length, 1, "v74 introduces exactly one storage key");
@@ -7845,8 +7845,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v75-post-world-r
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v75-universal-recall-yard\.webp"/, "v75 loads on demand: universal-recall-yard");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=108/, "v75 cache busts styles.css");
-assert.match(html, /script\.js\?v=108/, "v75 cache busts script.js");
+assert.match(html, /styles\.css\?v=109/, "v75 cache busts styles.css");
+assert.match(html, /script\.js\?v=109/, "v75 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const APOCALYPSE_WARRANTY_KEY = ['"]goddead_v75_apocalypse_warranty['"]/g) || []).length, 1, "v75 introduces exactly one storage key");
@@ -8775,8 +8775,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v76-reality-retu
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v76-class-action-court\.webp"/, "v76 loads on demand: class-action-court");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=108/, "v76 cache busts styles.css");
-assert.match(html, /script\.js\?v=108/, "v76 cache busts script.js");
+assert.match(html, /styles\.css\?v=109/, "v76 cache busts styles.css");
+assert.match(html, /script\.js\?v=109/, "v76 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const REALITY_REFUND_KEY = ['"]goddead_v76_reality_refund['"]/g) || []).length, 1, "v76 introduces exactly one storage key");
@@ -9735,8 +9735,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v77-soul-counter
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v77-final-authenticity-tribunal\.webp"/, "v77 loads on demand: v77-final-authenticity-tribunal");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=108/, "v77 cache busts styles.css");
-assert.match(html, /script\.js\?v=108/, "v77 cache busts script.js");
+assert.match(html, /styles\.css\?v=109/, "v77 cache busts styles.css");
+assert.match(html, /script\.js\?v=109/, "v77 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const SELF_AUTHENTICITY_KEY = ['"]goddead_v77_self_authenticity['"]/g) || []).length, 1, "v77 introduces exactly one storage key");
@@ -14807,8 +14807,8 @@ for (const [file, hash] of Object.entries(V72_WEBP_HASHES)) {
 }
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=108/, "v72 cache busts styles.css");
-assert.match(html, /script\.js\?v=108/, "v72 cache busts script.js");
+assert.match(html, /styles\.css\?v=109/, "v72 cache busts styles.css");
+assert.match(html, /script\.js\?v=109/, "v72 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const LAST_WORD_BANK_KEY = ['"]goddead_v72_last_word_bank['"]/g) || []).length, 1, "v72 introduces exactly one storage key");
@@ -15994,8 +15994,8 @@ assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v78-pronoun-alloca
 assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v78-ownerless-voices-court.webp"'), "v78 loads on demand: v78-ownerless-voices-court");
 
 /* 缓存版本 */
-assert.ok(html.includes("styles.css?v=108"), "styles.css cache bust v=86");
-assert.ok(html.includes("script.js?v=108"), "script.js cache bust v=86");
+assert.ok(html.includes("styles.css?v=109"), "styles.css cache bust v=86");
+assert.ok(html.includes("script.js?v=109"), "script.js cache bust v=86");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const FIRST_PERSON_RATIONING_KEY = ['"]goddead_v78_first_person_rationing['"]/g) || []).length, 1, "v78 introduces exactly one storage key");
@@ -17027,8 +17027,8 @@ assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v79-personhood-inh
 assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v79-unuttered-estate-tribunal.webp"'), "v79 loads on demand: v79-unuttered-estate-tribunal");
 
 /* 缓存版本 */
-assert.ok(html.includes("styles.css?v=108"), "styles.css cache bust v=86");
-assert.ok(html.includes("script.js?v=108"), "script.js cache bust v=86");
+assert.ok(html.includes("styles.css?v=109"), "styles.css cache bust v=86");
+assert.ok(html.includes("script.js?v=109"), "script.js cache bust v=86");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const UNSPOKEN_PERSONHOOD_KEY = ['"]goddead_v79_unspoken_personhood['"]/g) || []).length, 1, "v79 introduces exactly one storage key");
@@ -17045,7 +17045,7 @@ assert.ok(v79ModuleBlock, "v79 module must exist");
 /* 旧 v29 confession 守卫必须接受 v79 的严格 pending / activeExecutor 桥 (v80 补充未竟思绪 unfinishedThought 桥) */
 const resolveSceneBlockV79 = js.match(/const resolveScene = \(name\) => \{[\s\S]*?\n  \};/);
 assert.ok(resolveSceneBlockV79, "resolveScene block must exist for v79 bridge audit");
-assert.match(resolveSceneBlockV79[0], /if \(BRANCH_SCENES\.includes\(target\)[\s\S]*?!unspokenPersonhoodBridgeAllows\(target\) && !unfinishedThoughtBridgeAllows\(target\) && !lostWeightBridgeAllows\(target\)\) target = "corridor";/, "v29 branch guard must preserve legal v79 confession executor route alongside v80 unfinished thought route");
+assert.match(resolveSceneBlockV79[0], /if \(BRANCH_SCENES\.includes\(target\)[\s\S]*?!unspokenPersonhoodBridgeAllows\(target\) && !unfinishedThoughtBridgeAllows\(target\) && !lostWeightBridgeAllows\(target\) && !exactTeaBridgeAllows\(target\)\) target = "corridor";/, "v29 branch guard must preserve legal v79 confession executor route alongside v80 unfinished thought route");
 
 const saveUnspokenPersonhoodBlock = js.match(/const saveUnspokenPersonhood = \(st\) => \{[\s\S]*?store\.set\(\s*UNSPOKEN_PERSONHOOD_KEY,\s*JSON\.stringify\(\{[\s\S]*?\}\)\s*\);/);
 assert.ok(saveUnspokenPersonhoodBlock, "saveUnspokenPersonhood must persist an explicit canonical projection");
@@ -17710,8 +17710,8 @@ assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v80-counterfactual
 assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v80-last-conclusion-hearing.webp"'), "v80 loads on demand: v80-last-conclusion-hearing");
 
 /* 缓存版本 */
-assert.ok(html.includes("styles.css?v=108"), "styles.css cache bust v=86");
-assert.ok(html.includes("script.js?v=108"), "script.js cache bust v=86");
+assert.ok(html.includes("styles.css?v=109"), "styles.css cache bust v=86");
+assert.ok(html.includes("script.js?v=109"), "script.js cache bust v=86");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const UNFINISHED_THOUGHT_KEY = ['"]goddead_v80_unfinished_thought_asylum['"]/g) || []).length, 1, "v80 introduces exactly one storage key");
@@ -17742,7 +17742,7 @@ assert.ok(
 /* 路由守卫与窄桥 */
 const resolveSceneBlockV80 = js.match(/const resolveScene = \(name\) => \{[\s\S]*?\n  \};/);
 assert.ok(resolveSceneBlockV80, "resolveScene block must exist for v80 bridge audit");
-assert.match(resolveSceneBlockV80[0], /if \(BRANCH_SCENES\.includes\(target\)[\s\S]*?!unfinishedThoughtBridgeAllows\(target\) && !lostWeightBridgeAllows\(target\)\) target = "corridor";/, "v29 branch guard must preserve legal v80 bridge");
+assert.match(resolveSceneBlockV80[0], /if \(BRANCH_SCENES\.includes\(target\)[\s\S]*?!unfinishedThoughtBridgeAllows\(target\) && !lostWeightBridgeAllows\(target\) && !exactTeaBridgeAllows\(target\)\) target = "corridor";/, "v29 branch guard must preserve legal v80 bridge");
 assert.ok(resolveSceneBlockV80[0].includes('if (target === "unlived-nursery" && !counterfactualCanVisitNursery() && !unfinishedThoughtBridgeAllows("unlived-nursery") && !unhappenedEventAuctionBridgeAllows("unlived-nursery")) target = "remembrance";'), "legacy v66 nursery guard and strict v80 bridge coexist");
 
 const saveUnfinishedThoughtBlock = js.match(/const saveUnfinishedThoughtAsylum = \(st\) => \{[\s\S]*?store\.set\(\s*UNFINISHED_THOUGHT_KEY,\s*JSON\.stringify\(\{[\s\S]*?\}\)\s*\);/);
@@ -26766,8 +26766,8 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
       assert.match(html, new RegExp(`data-scene="${sc}"`), `scene missing: ${sc}`);
     }
 
-    assert.match(html, /styles\.css\?v=108/, "styles.css cache query must be updated to v=90");
-    assert.match(html, /script\.js\?v=108/, "script.js cache query must be updated to v=90");
+    assert.match(html, /styles\.css\?v=109/, "styles.css cache query must be updated to v=90");
+    assert.match(html, /script\.js\?v=109/, "script.js cache query must be updated to v=90");
 
     const bootstrapStartIdx = js.lastIndexOf('/* ---------- 初始化 ---------- */');
     assert.ok(bootstrapStartIdx !== -1, 'v90 browser-initialization failure: bootstrap start marker not found');
@@ -28898,7 +28898,7 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
     assert.ok(section.includes(`id="late-cause-echo-${scene}"`), `${scene} hosts the v91 echo paragraph`);
   }
   assert.match(js, /resolveLateCausePendingOnArrival\(name\);\s*replayLateCausePending\(name\);/, "sceneInit resolves then replays v91 pending on the real route");
-  assert.match(js, /syncCauselessConsequenceRefugeeLinks\(\);\s*syncLateCauseAll\(\);\s*syncWitnessAll\(\);\s*syncUnseenAll\(\);\s*syncReturnedKnocksAll\(\);\s*syncStoppedClocksAll\(\);\s*syncHeldBreathAll\(\);\s*syncLostWeightAll\(\);\s*syncVigilCandlesAll\(\);\s*syncDeadRoadsAll\(\);\s*syncHundredthWakeAll\(\);\s*syncDawnWeavingAll\(\);\s*syncWeatherlessShelterAll\(\);\s*syncShadowlessPhotographyAll\(\);\s*syncWakeForAnotherHotelAll\(\);\s*syncYesterdayBreakfastAll\(\);\s*syncTodayPressAll\(\);\s*syncInkMixingAll\(\);\s*syncBorrowedLightAll\(\);\s*revealScene\(scenes\.threshold\);/, "bootstrap only syncs v91 UI, never resolves a hardcoded threshold");
+  assert.match(js, /syncCauselessConsequenceRefugeeLinks\(\);\s*syncLateCauseAll\(\);\s*syncWitnessAll\(\);\s*syncUnseenAll\(\);\s*syncReturnedKnocksAll\(\);\s*syncStoppedClocksAll\(\);\s*syncHeldBreathAll\(\);\s*syncLostWeightAll\(\);\s*syncVigilCandlesAll\(\);\s*syncDeadRoadsAll\(\);\s*syncHundredthWakeAll\(\);\s*syncDawnWeavingAll\(\);\s*syncWeatherlessShelterAll\(\);\s*syncShadowlessPhotographyAll\(\);\s*syncWakeForAnotherHotelAll\(\);\s*syncYesterdayBreakfastAll\(\);\s*syncTodayPressAll\(\);\s*syncInkMixingAll\(\);\s*syncBorrowedLightAll\(\);\s*syncExactTeaAll\(\);\s*revealScene\(scenes\.threshold\);/, "bootstrap only syncs v91 UI, never resolves a hardcoded threshold");
   assert.match(js, /forgetCauselessConsequenceRefugeeState\(\);\s*forgetLateCauseMaternityState\(\);/, "forget-all clears v91");
   assert.ok(js.includes("&& !lateCauseMaternityBridgeAllows('unending-gallery')"), "gallery guard lets v91 arrivals through");
 
@@ -30040,7 +30040,7 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
     assert.ok(section && section.includes(`id="lw-weigher-${scene}"`) && section.includes(`id="lw-echo-${scene}"`), `${scene} hosts the v97 weighing receipt and echo`);
   }
   for (const w of [1, 2, 4, 8, 16]) assert.match(rawHtml, new RegExp(`<button class="lw-weight" id="lw-weight-${w}" type="button" aria-pressed="false"`), `weight ${w} is a toggle button`);
-  assert.match(js, /!unfinishedThoughtBridgeAllows\(target\) && !lostWeightBridgeAllows\(target\)\) target = "corridor";/, "the v29 branch guard lets a v97 weighing reach an unvisited branch");
+  assert.match(js, /!unfinishedThoughtBridgeAllows\(target\) && !lostWeightBridgeAllows\(target\) && !exactTeaBridgeAllows\(target\)\) target = "corridor";/, "the v29 branch guard lets a v97 weighing reach an unvisited branch");
   assert.match(js, /resolveLostWeightPendingOnArrival\(name\);\s*replayLostWeightPending\(name\);/, "sceneInit resolves then replays v97 pending");
   assert.match(js, /forgetHeldBreathState\(\);\s*forgetLostWeightState\(\);/, "forget-all clears v97");
   assert.match(js, /syncHeldBreathAll\(\);\s*syncLostWeightAll\(\);/, "boot syncs v97");
@@ -30392,7 +30392,7 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
   assert.ok(remembranceSection && /id="codex-fold-bar"[^>]*hidden/.test(remembranceSection[0]), "the fold bar lives in remembrance and starts hidden");
   assert.ok(remembranceSection[0].indexOf('id="progress-guide"') < remembranceSection[0].indexOf('id="codex-fold-bar"'), "the fold bar sits right under the progress guide");
   assert.match(js, /const syncProgressGuide = \(\) => \{\s*paintProgressGuide\(\);\s*syncCodexFolds\(\);\s*\};/, "every guide refresh re-applies the folds");
-  assert.match(js, /forgetHundredthWakeState\(\);\s*forgetDawnWeavingState\(\);\s*forgetWeatherlessShelterState\(\);\s*forgetShadowlessPhotographyState\(\);\s*forgetWakeForAnotherHotelState\(\);\s*forgetYesterdayBreakfastState\(\);\s*forgetTodayPressState\(\);\s*forgetInkMixingState\(\);\s*forgetBorrowedLightState\(\);\s*forgetCodexFolds\(\);/, "forget-all clears the fold preference");
+  assert.match(js, /forgetHundredthWakeState\(\);\s*forgetDawnWeavingState\(\);\s*forgetWeatherlessShelterState\(\);\s*forgetShadowlessPhotographyState\(\);\s*forgetWakeForAnotherHotelState\(\);\s*forgetYesterdayBreakfastState\(\);\s*forgetTodayPressState\(\);\s*forgetInkMixingState\(\);\s*forgetBorrowedLightState\(\);\s*forgetExactTeaState\(\);\s*forgetCodexFolds\(\);/, "forget-all clears the fold preference");
   assert.match(js, /const box = target\.closest\('\[id\$="-codex"\]'\);\s*if \(box\) setCodexFolded\(box, false\);/, "jumping to an entry unfolds its codex first");
   assert.match(css, /\[id\$="-codex"\]\.is-folded > :not\(\.codex-fold\) \{ display: none !important; \}/, "a folded codex shows only its title button");
 
@@ -31567,13 +31567,13 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
   for (let i = 0; i < 25; i++) assert.match(rawHtml, new RegExp(`<button class="lb-tile" id="lb-tile-${i}" type="button"`), `tile ${i} is a native button`);
   assert.match(rawHtml, /<polyline id="lb-beam-line" points=""\/>/, "the beam is an SVG polyline");
   assert.match(js, /resolveBorrowedLightPendingOnArrival\(name\);\s*replayBorrowedLightPending\(name\);/, "sceneInit resolves then replays v108 pending");
-  assert.match(js, /forgetInkMixingState\(\);\s*forgetBorrowedLightState\(\);\s*forgetCodexFolds\(\);/, "forget-all clears v108 before the fold preference");
-  assert.match(js, /syncInkMixingAll\(\);\s*syncBorrowedLightAll\(\);\s*revealScene/, "boot syncs v108");
+  assert.match(js, /forgetInkMixingState\(\);\s*forgetBorrowedLightState\(\);\s*forgetExactTeaState\(\);/, "forget-all clears v108");
+  assert.match(js, /syncInkMixingAll\(\);\s*syncBorrowedLightAll\(\);/, "boot syncs v108");
   assert.match(js, /return borrowedLightProgressStep\(\);/, "the guide continues from v107 into v108");
   assert.ok(rawHtml.indexOf('id="hearing-of-the-first-color-link"') < rawHtml.indexOf('id="office-of-borrowed-daylight-link"'), "v108 links follow v107 in the directory");
 
   const modStart = js.indexOf("/* ============================================================\n     v108 借光司");
-  const modEnd = js.indexOf("  /* ---------- 痕迹室「下一步」 ----------");
+  const modEnd = js.indexOf("  /* ============================================================\n     v109 分茶铺");
   assert.ok(modStart !== -1 && modEnd > modStart, "v108 module is extractable");
   const modSrc = js.slice(modStart, modEnd);
   assert.equal((modSrc.match(/addEventListener\('click', \(e\) => \{ if \(e\.isTrusted\) handler\(e\); \}\)/g) || []).length, 1, "buttons go through the trusted-click helper");
@@ -31760,6 +31760,243 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
     assert.equal(forged.latestMethodByModel["deadletter-model"], "", "a latest light never collected is rejected");
     assert.equal(forged.activeLamplighter, null);
     assert.equal(forged.pending, null, "a beam sent to the wrong scene is rejected");
+  }
+}
+
+/* ================= v109 分茶铺 ================= */
+{
+  const V109_SCENES = ["exact-tea-house", "pouring-table", "hearing-of-the-last-cup"];
+  for (const s of V109_SCENES) {
+    assert.match(rawHtml, new RegExp(`<section[^>]*data-scene="${s}"`), `v109 scene ${s} exists`);
+    assert.match(js, new RegExp(`if \\(target === "${s}" && ![a-zA-Z]+CanVisit\\(\\)\\) target = "remembrance";`), `v109 scene ${s} is guarded`);
+    const buf = await readFile(new URL(`assets/v109-${s}.webp`, root));
+    assert.equal(buf.toString("ascii", 0, 4), "RIFF", `v109 ${s} is a webp`);
+    assert.ok(buf.length < 300 * 1024, `v109 ${s} stays under 300KB`);
+    assert.ok(rawHtml.includes(`data-src="assets/v109-${s}.webp"`), `v109 ${s} loads on demand`);
+    await access(new URL(`design-references/source-v109-${s}.png`, root));
+  }
+  for (const scene of ["echo", "vein", "confession"]) {
+    const section = rawHtml.split(/(?=<section[^>]*\bdata-scene=")/).find((p) => p.startsWith("<section") && p.indexOf(`data-scene="${scene}"`) > -1 && p.indexOf(`data-scene="${scene}"`) < 300);
+    assert.ok(section && section.includes(`id="et-server-${scene}"`) && section.includes(`id="et-echo-${scene}"`), `${scene} hosts the v109 tea receipt and echo`);
+  }
+  for (let i = 0; i < 3; i++) assert.match(rawHtml, new RegExp(`<button class="et-vessel" id="et-vessel-${i}" type="button" aria-pressed="false"`), `vessel ${i} is a native toggle button`);
+  assert.match(js, /resolveExactTeaPendingOnArrival\(name\);\s*replayExactTeaPending\(name\);/, "sceneInit resolves then replays v109 pending");
+  assert.match(js, /forgetBorrowedLightState\(\);\s*forgetExactTeaState\(\);\s*forgetCodexFolds\(\);/, "forget-all clears v109 before the fold preference");
+  assert.match(js, /syncBorrowedLightAll\(\);\s*syncExactTeaAll\(\);\s*revealScene/, "boot syncs v109");
+  assert.match(js, /return exactTeaProgressStep\(\);/, "the guide continues from v108 into v109");
+  assert.match(js, /!lostWeightBridgeAllows\(target\) && !exactTeaBridgeAllows\(target\)\) target = "corridor";/, "the branch guard lets v109 tea reach echo / vein / confession");
+  assert.ok(rawHtml.indexOf('id="hearing-of-borrowed-light-link"') < rawHtml.indexOf('id="exact-tea-house-link"'), "v109 links follow v108 in the directory");
+
+  const modStart = js.indexOf("/* ============================================================\n     v109 分茶铺");
+  const modEnd = js.indexOf("  /* ---------- 痕迹室「下一步」 ----------");
+  assert.ok(modStart !== -1 && modEnd > modStart, "v109 module is extractable");
+  const modSrc = js.slice(modStart, modEnd);
+  assert.equal((modSrc.match(/addEventListener\('click', \(e\) => \{ if \(e\.isTrusted\) handler\(e\); \}\)/g) || []).length, 1, "buttons go through the trusted-click helper");
+  assert.equal((modSrc.match(/addEventListener\(/g) || []).length, 1, "no other listeners");
+  assert.doesNotMatch(modSrc, /innerHTML/, "v109 never writes save data as HTML");
+
+  const makeV109 = ({ v108Done = true, v108Busy = false, initial = null } = {}) => {
+    const mem = new Map();
+    if (initial !== null) mem.set("goddead_v109_exact_tea", typeof initial === "string" ? initial : JSON.stringify(initial));
+    const store = { get: (k, f) => (mem.has(k) ? mem.get(k) : f), set: (k, v) => mem.set(k, String(v)) };
+    const els = new Map();
+    const mkEl = (id = "") => ({
+      id, hidden: false, disabled: false, textContent: "", children: [], attrs: {},
+      style: { setProperty(k, v) { this[k] = v; } },
+      classList: { set: new Set(), add(c) { this.set.add(c); }, remove(c) { this.set.delete(c); }, toggle(c, on) { on ? this.set.add(c) : this.set.delete(c); }, contains(c) { return this.set.has(c); } },
+      setAttribute(k, v) { this.attrs[k] = String(v); }, getAttribute(k) { return k in this.attrs ? this.attrs[k] : null; },
+      replaceChildren(...c) { this.children = c; }, addEventListener() {},
+    });
+    const $ = (sel) => { const id = sel.replace(/^#/, ""); if (!els.has(id)) els.set(id, mkEl(id)); return els.get(id); };
+    const schedules = [];
+    const AutoAdvance = { schedule: (scene, target) => schedules.push([scene, target]), has: () => false, clear: () => {} };
+    const v108 = { courtOutcomes: v108Done ? ["a", "b", "c"] : ["a"], pending: v108Busy ? { kind: "shine" } : null, activeLamplighter: null };
+    const api = new Function(
+      "store", "$", "$$", "reduced", "AutoAdvance", "AudioEngine", "buttonAvailable", "document", "localStorage",
+      "borrowedLightUnlocked", "getBorrowedLight", "lbCourtEligible", "LB_VERDICT_OUTCOME_IDS",
+      `let currentScene = "remembrance";\n${modSrc}\nreturn { go: (s) => { currentScene = s; }, arrive: (s) => { currentScene = s; resolveExactTeaPendingOnArrival(s); syncExactTeaAll(); },
+        get: getExactTea, unlocked: exactTeaUnlocked, entry: chooseEtEntry, order: chooseEtOrder, method: chooseEtMethod, abandon: chooseEtAbandon,
+        pick: pickEtVessel, fill: fillEtVessel, empty: emptyEtVessel, reset: resetEtVessels, serve: serveEtCup, levels: () => etLevels.slice(), held: () => etHeld,
+        server: chooseEtServerReturn, courtEntry: chooseEtCourtEntry, verdict: chooseEtVerdict, eligible: etCourtEligible,
+        pure: { pour: etPourStep, match: etMatch, min: etMinSteps }, ORDER: ET_ORDER_TABLE, METHOD: ET_METHOD_TABLE,
+        bridge: exactTeaBridgeAllows, houseOk: etHouseCanVisit, tableOk: pouringTableCanVisit, courtOk: etCourtCanVisit, resolve: resolveExactTeaPendingOnArrival,
+        forget: forgetExactTeaState, POURS: ET_POUR_IDS, ORDERS: ET_ORDERS, METHODS: ET_METHODS };`
+    )(store, $, () => [], false, AutoAdvance, { whoosh() {}, tick() {} }, (id) => { const el = els.get(id); return !el || (!el.disabled && !el.hidden); },
+      { createElement: () => mkEl() }, { removeItem: (k) => mem.delete(k) }, () => true, () => v108, () => true, ["a", "b", "c"]);
+    return { ...api, mem, els, schedules };
+  };
+  /* 用真实操作（端起 / 灌满 / 倒空 / 倒进）按 BFS 找到的最短步骤量出 amount */
+  const solvePlan = (caps, amount) => {
+    const key = (s) => s.join(",");
+    const prev = new Map([[key([0, 0, 0]), null]]);
+    let frontier = [[0, 0, 0]];
+    while (frontier.length) {
+      const next = [];
+      for (const s of frontier) {
+        if (s.includes(amount)) {
+          const plan = [];
+          for (let k = key(s); prev.get(k); k = prev.get(k).from) plan.unshift(prev.get(k).move);
+          return plan;
+        }
+        for (let i = 0; i < 3; i++) {
+          const moves = [];
+          const f = s.slice(); f[i] = caps[i]; moves.push([f, ["fill", i]]);
+          const e = s.slice(); e[i] = 0; moves.push([e, ["empty", i]]);
+          for (let j = 0; j < 3; j++) if (j !== i) { const t = s.slice(); const a = Math.min(t[i], caps[j] - t[j]); t[i] -= a; t[j] += a; moves.push([t, ["pour", i, j]]); }
+          for (const [m, move] of moves) if (!prev.has(key(m))) { prev.set(key(m), { from: key(s), move }); next.push(m); }
+        }
+      }
+      frontier = next;
+    }
+    return null;
+  };
+  const play = (g, plan) => plan.forEach(([kind, i, j]) => {
+    g.pick(i);
+    if (kind === "fill") g.fill();
+    else if (kind === "empty") g.empty();
+    else g.pick(j);
+  });
+
+  /* 纯函数：倒到对方满或自己空；每位客人在每套茶具下都要 3–7 步 */
+  {
+    const g = makeV109();
+    const { pour, match, min } = g.pure;
+    assert.deepEqual(pour([3, 5, 8], [3, 0, 0], 0, 1), [0, 3, 0], "pouring stops when the source is empty");
+    assert.deepEqual(pour([3, 5, 8], [0, 5, 0], 1, 0), [3, 2, 0], "pouring stops when the target is full");
+    assert.deepEqual(pour([3, 5, 8], [1, 2, 3], 1, 1), [1, 2, 3], "a vessel never pours into itself");
+    assert.equal(match([0, 4, 0], 4), 1);
+    assert.equal(match([3, 5, 0], 4), -1);
+    assert.equal(g.POURS.length, 9);
+    for (const order of g.ORDERS) {
+      for (const method of g.METHODS) {
+        const caps = g.METHOD[method].caps;
+        const amount = g.ORDER[order].amount;
+        assert.ok(!caps.includes(amount), `${order} ${method} cannot be filled straight from the kettle`);
+        const steps = min(caps, amount);
+        assert.ok(steps >= 3 && steps <= 7, `${order} ${method} needs 3–7 steps (${steps})`);
+        assert.equal(solvePlan(caps, amount).length, steps, "the test planner agrees with the module");
+      }
+    }
+  }
+
+  /* 锁定与上游在途 */
+  {
+    const g = makeV109({ v108Done: false, initial: { version: 109, visited: { house: true, table: true, court: true } } });
+    assert.equal(g.unlocked(), false);
+    assert.equal(g.houseOk() || g.tableOk() || g.courtOk() || g.bridge("echo"), false);
+    g.entry();
+    assert.equal(g.schedules.length, 0);
+    const h = makeV109({ v108Busy: true });
+    h.entry();
+    assert.equal(h.schedules.length, 0, "a v108 beam in transit blocks the v109 entry");
+    h.arrive("remembrance");
+    assert.match(h.els.get("et-entry-note").textContent, /光/);
+  }
+
+  /* 最短开庭：三位客人、三套茶具；量不准不奉茶，量准了才送 */
+  {
+    const g = makeV109();
+    g.entry(); g.arrive("exact-tea-house");
+    const serve = (order, method, scene) => {
+      g.go("exact-tea-house"); g.order(order); g.arrive("pouring-table");
+      if (method !== "clay") g.method(method);
+      assert.equal(g.get().draft.method, method);
+      assert.deepEqual(g.levels(), [0, 0, 0], "the vessels arrive empty");
+      g.serve();
+      assert.equal(g.get().pending, null, "empty vessels never serve");
+      assert.match(g.els.get("et-table-status").textContent, /还没有哪一只/);
+      g.pick(0); g.pick(1);
+      assert.deepEqual(g.levels(), [0, 0, 0], "pouring from an empty vessel changes nothing");
+      assert.equal(g.held(), -1);
+      g.pick(2);
+      assert.equal(g.els.get("et-vessel-2").attrs["aria-pressed"], "true", "the held vessel is pressed");
+      assert.equal(g.els.get("et-held-actions").hidden, false, "fill / empty appear while holding");
+      g.pick(2);
+      assert.equal(g.held(), -1, "clicking the held vessel puts it down");
+      const caps = g.METHOD[method].caps;
+      play(g, solvePlan(caps, g.ORDER[order].amount));
+      assert.ok(g.levels().includes(g.ORDER[order].amount));
+      assert.equal(g.els.get(`et-vessel-${g.levels().indexOf(g.ORDER[order].amount)}`).classList.contains("is-match"), true, "the matching vessel glows");
+      assert.match(g.els.get("et-vessel-0").attrs["aria-label"], /能装 \d+ 口，现在有 \d+ 口/, "vessels announce capacity and level");
+      g.serve();
+      assert.deepEqual(g.schedules.pop(), ["pouring-table", scene], `${order} ${method} is sent to ${scene}`);
+      assert.equal(g.get().pours.includes(`${order}:${method}`), false, "nothing is booked at serve time");
+      g.arrive(scene);
+      assert.ok(g.get().pours.includes(`${order}:${method}`));
+      assert.equal(g.els.get(`et-server-${scene}`).hidden, false, "the server receipt shows in the old room");
+      assert.match(g.els.get(`et-echo-${scene}`).textContent, /杯|碗/, "the old room remembers the tea");
+      g.server(scene); g.arrive("exact-tea-house");
+      assert.equal(g.get().activeServer, null);
+    };
+    serve("echo-order", "clay", "echo");
+    serve("vein-order", "copper", "vein");
+    serve("confession-order", "porcelain", "confession");
+    assert.equal(g.eligible(g.get()), true, "three cups covering every tea set open the court");
+    g.go("remembrance"); g.courtEntry(); g.arrive("hearing-of-the-last-cup");
+    for (const [action, target] of [["pour-for-everyone", "threshold"], ["leave-a-cup-for-god", "remembrance"], ["let-the-tea-go-cold", "unending-gallery"]]) {
+      g.go("hearing-of-the-last-cup"); g.verdict(action);
+      assert.deepEqual(g.schedules.pop(), ["hearing-of-the-last-cup", target]);
+      g.arrive(target);
+      assert.equal(g.bridge(target), true, "the latest verdict keeps its destination bridged");
+    }
+    assert.equal(g.get().courtOutcomes.length, 3);
+    g.forget();
+    assert.equal(g.mem.has("goddead_v109_exact_tea"), false);
+  }
+
+  /* 换茶具倒空、重来、放回茶单、在途锁定、pending、坏档 */
+  {
+    const g = makeV109();
+    g.entry(); g.arrive("exact-tea-house");
+    g.order("vein-order"); g.arrive("pouring-table");
+    g.pick(2); g.fill();
+    assert.deepEqual(g.levels(), [0, 0, 8]);
+    g.pick(2); g.fill();
+    assert.deepEqual(g.levels(), [0, 0, 8], "a full vessel cannot be filled again");
+    assert.equal(g.held(), 2, "a refused fill keeps the vessel in hand");
+    g.pick(0);
+    assert.deepEqual(g.levels(), [3, 0, 5]);
+    g.pick(0); g.empty();
+    assert.deepEqual(g.levels(), [0, 0, 5]);
+    g.fill();
+    assert.deepEqual(g.levels(), [0, 0, 5], "fill does nothing without a held vessel");
+    g.method("copper");
+    assert.deepEqual(g.levels(), [0, 0, 0], "changing the tea set empties every vessel");
+    g.pick(1); g.fill();
+    g.reset();
+    assert.deepEqual(g.levels(), [0, 0, 0], "reset empties every vessel");
+    g.abandon();
+    assert.deepEqual(g.schedules.pop(), ["pouring-table", "exact-tea-house"]);
+    g.arrive("exact-tea-house");
+    assert.equal(g.get().draft.order, "");
+    g.order("echo-order"); g.arrive("pouring-table");
+    assert.equal(g.get().draft.method, "clay", "a different guest resets the tea set");
+    play(g, solvePlan(g.METHOD.clay.caps, 1));
+    g.serve();
+    assert.deepEqual(g.schedules.pop(), ["pouring-table", "echo"]);
+    g.resolve("pouring-table");
+    assert.equal(g.get().pending?.kind, "serve", "refreshing at the table keeps waiting");
+    const frozen = g.levels();
+    g.pick(0); g.fill();
+    assert.deepEqual(g.levels(), frozen, "vessels are locked while the tea is in transit");
+    g.arrive("echo"); g.arrive("echo");
+    assert.equal(g.get().pourRuns, 1, "repeated arrival books once");
+    g.server("echo"); g.arrive("watch");
+    assert.equal(g.get().pending, null);
+    assert.ok(g.get().activeServer, "the receipt survives a cancelled return");
+    assert.equal(makeV109({ initial: "{bad" }).get().visited.house, false);
+    const forged = makeV109({ initial: {
+      version: 109, visited: { house: true, table: true }, y: 2, draft: { order: "echo-order", method: "gold" },
+      pours: ["echo-order:clay", "echo-order:clay", "ghost:clay"], courtOutcomes: ["fake"],
+      latestMethodByOrder: { "echo-order": "porcelain" }, activeServer: { pour: "echo-order:porcelain" },
+      pending: { kind: "serve", order: "echo-order", method: "clay", pour: "echo-order:clay", source: "pouring-table", target: "remembrance", feedback: "x" },
+    } }).get();
+    assert.equal("y" in forged, false);
+    assert.equal(forged.draft.method, "clay", "an unknown tea set falls back to clay");
+    assert.deepEqual(forged.pours, ["echo-order:clay"]);
+    assert.equal(forged.latestMethodByOrder["echo-order"], "", "a latest tea set never collected is rejected");
+    assert.equal(forged.activeServer, null);
+    assert.equal(forged.pending, null, "a cup sent to the wrong scene is rejected");
   }
 }
 

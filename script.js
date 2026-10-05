@@ -1414,6 +1414,8 @@ document.addEventListener("DOMContentLoaded", () => {
     replayInkMixingPending(name);
     resolveBorrowedLightPendingOnArrival(name);
     replayBorrowedLightPending(name);
+    resolveExactTeaPendingOnArrival(name);
+    replayExactTeaPending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1477,7 +1479,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const beliefGuard = getBelief();
     if (BRANCH_SCENES.includes(target) && !branchState.visited[target] && AUDIT_BRANCH_OUTCOME[target] !== auditGuardState.outcome
       && beliefGuard.pendingTarget !== target && !(BELIEF_SCENE_BRANCH[target] && beliefGuard.branches[BELIEF_SCENE_BRANCH[target]].visits > 0) && !innocentWitnessProtectionBridgeAllows(target)
-      && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !lostWeightBridgeAllows(target)) target = "corridor";
+      && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !lostWeightBridgeAllows(target) && !exactTeaBridgeAllows(target)) target = "corridor";
 
     /* v33 结果房守卫：仅本轮 outcome 对应或曾到访时允许直达，否则规范化回复核科；
        复核科本身不设守卫，直接 hash 采用 neutral 顺序。
@@ -1557,9 +1559,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
@@ -1573,7 +1575,7 @@ document.addEventListener("DOMContentLoaded", () => {
        v88 窄桥：title-action 可抵达 unending-gallery；
        v89 窄桥：appeal-action 可抵达 unending-gallery；
        v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !todayPressBridgeAllows('unending-gallery') && !inkMixingBridgeAllows('unending-gallery') && !borrowedLightBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !todayPressBridgeAllows('unending-gallery') && !inkMixingBridgeAllows('unending-gallery') && !borrowedLightBridgeAllows('unending-gallery') && !exactTeaBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1832,6 +1834,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "office-of-borrowed-daylight" && !lbOfficeCanVisit()) target = "remembrance";
     if (target === "mirror-floor" && !mirrorFloorCanVisit()) target = "remembrance";
     if (target === "hearing-of-borrowed-light" && !lbCourtCanVisit()) target = "remembrance";
+
+    /* v109 分茶铺：未解锁或无合法抵达时一律回痕迹室 */
+    if (target === "exact-tea-house" && !etHouseCanVisit()) target = "remembrance";
+    if (target === "pouring-table" && !pouringTableCanVisit()) target = "remembrance";
+    if (target === "hearing-of-the-last-cup" && !etCourtCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -48075,6 +48082,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetTodayPressState();
       forgetInkMixingState();
       forgetBorrowedLightState();
+      forgetExactTeaState();
       forgetCodexFolds();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
@@ -63036,7 +63044,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
       if (!el) return;
       const method = st.latestMethodByModel[model];
       if (!method) { el.hidden = true; el.textContent = ''; return; }
-      el.textContent = `${b.echoLead}「${LB_METHOD_TABLE[method].title}」${LB_METHOD_TABLE[method].result}`;
+      el.textContent = `${b.echoLead}${LB_METHOD_TABLE[method].result}`;
       el.hidden = false;
     });
   }
@@ -63155,6 +63163,803 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   for (let cell = 0; cell < LB_N * LB_N; cell++) onTrustedLb(`#lb-tile-${cell}`, () => flipLbMirror(cell));
   onTrustedLb('#lb-reset', resetLbMirrors);
   onTrustedLb('#lb-shine', shineLbWindow);
+
+  /* ============================================================
+     v109 分茶铺 / THE EXACT TEA HOUSE
+     v108 把光借进了三间暗屋，屋里的人读完了报，想喝一杯茶——可死人只要正好那么多，多一口都不肯。
+     三位客人（一口 / 四口 / 七口）× 三套茶具（粗陶 / 铜壶 / 白瓷）= 9 杯；只有壶、三只量器和水盆，没有刻度勺。
+     只读 v108；独立键 goddead_v109_exact_tea；所有新操作只接受真实点击。
+     ============================================================ */
+  const EXACT_TEA_KEY = 'goddead_v109_exact_tea';
+  const EXACT_TEA_VERSION = 109;
+  const ET_HOUSE = 'exact-tea-house';
+  const ET_TABLE = 'pouring-table';
+  const ET_COURT = 'hearing-of-the-last-cup';
+  const ET_ORDERS = ['echo-order', 'vein-order', 'confession-order'];
+  const ET_ORDER_TABLE = {
+    'echo-order': {
+      title: '回声档案室的一口', amount: 1, target: 'echo', place: '回声档案室', serverTitle: '档案室茶童',
+      feedback: '回声档案室的客人只要一口。他说多一口，他就会听见自己咽下去的回声。',
+      echoLead: '回声档案室的架子上放着一只喝空的小杯。',
+    },
+    'vein-order': {
+      title: '血管维修井的四口', amount: 4, target: 'vein', place: '血管维修井', serverTitle: '维修井茶童',
+      feedback: '血管维修井的客人要四口，正好够暖一暖手，再多就要从管子里漏出去了。',
+      echoLead: '维修井的阀门边上搁着一只还温着的茶杯。',
+    },
+    'confession-order': {
+      title: '忏悔称量室的七口', amount: 7, target: 'confession', place: '忏悔称量室', serverTitle: '称量室茶童',
+      feedback: '忏悔称量室的客人要七口。称量室说，一口一件事，多一口就是撒谎。',
+      echoLead: '忏悔称量室的秤盘上压着一只大茶碗。',
+    },
+  };
+  const ET_METHODS = ['clay', 'copper', 'porcelain'];
+  const ET_METHOD_TABLE = {
+    clay: { title: '粗陶', caps: [3, 5, 8], hint: '粗陶三只：3 口、5 口、8 口。', result: '粗陶倒出来的茶有一点土味。客人说，像小时候家里的。' },
+    copper: { title: '铜壶', caps: [2, 5, 11], hint: '铜器三只：2 口、5 口、11 口。', result: '铜器倒出来的茶烫得很久。客人捧着它，一直没有放下。' },
+    porcelain: { title: '白瓷', caps: [3, 6, 11], hint: '白瓷三只：3 口、6 口、11 口。', result: '白瓷倒出来的茶看得见杯底。客人一口一口数着喝，一口也没有多。' },
+  };
+  const ET_POUR_IDS = [];
+  ET_ORDERS.forEach((order) => ET_METHODS.forEach((method) => ET_POUR_IDS.push(`${order}:${method}`)));
+  const ET_VERDICT_ACTIONS = ['pour-for-everyone', 'leave-a-cup-for-god', 'let-the-tea-go-cold'];
+  const ET_VERDICT_TABLE = {
+    'pour-for-everyone': {
+      title: '给每个人都倒一杯', outcome: 'every-cup-poured', target: 'threshold',
+      feedback: '听证会裁定：给每个人都倒一杯。门外排着的人第一次手里都有了点热的东西。',
+    },
+    'leave-a-cup-for-god': {
+      title: '给神留一杯', outcome: 'a-cup-left-for-god', target: 'remembrance',
+      feedback: '听证会给神留了一杯。痕迹室的桌角放着一只满杯，谁也没有去碰。',
+    },
+    'let-the-tea-go-cold': {
+      title: '让茶凉掉', outcome: 'the-tea-went-cold', target: 'unending-gallery',
+      feedback: '听证会准许茶凉掉。画廊的空框里一缕缕热气往上走，走到一半就停了。',
+    },
+  };
+  const ET_VERDICT_OUTCOME_IDS = ET_VERDICT_ACTIONS.map((a) => ET_VERDICT_TABLE[a].outcome);
+  const ET_ENTRY_FEEDBACK = '分茶铺很小，炉子上坐着一把铁壶。柜台上三只托盘，三张茶单，三只空杯，一只比一只大。';
+  const ET_ABANDON_FEEDBACK = '你把三只量器里的茶都倒回水盆，茶单放回托盘。';
+  const ET_COURT_ENTRY_FEEDBACK = '三位客人都喝上了。末杯听证会的桌上只剩一把壶。';
+  const ET_SERVER_RETURN_FEEDBACK = '茶童收起空杯，领你回到分茶铺。';
+  const ET_OLD_TARGETS = ['echo', 'vein', 'confession'];
+  const ET_VESSELS = [0, 1, 2];
+
+  function etDelay() {
+    return reduced ? 300 : 1400;
+  }
+
+  /* 纯函数：把第 from 只倒进第 to 只，倒到对方满或自己空为止 */
+  function etPourStep(caps, levels, from, to) {
+    if (from === to || !ET_VESSELS.includes(from) || !ET_VESSELS.includes(to)) return levels.slice();
+    const next = levels.slice();
+    const amount = Math.min(next[from], caps[to] - next[to]);
+    next[from] -= amount;
+    next[to] += amount;
+    return next;
+  }
+
+  /* 纯函数：哪一只量器里正好是客人要的口数（没有就是 -1） */
+  function etMatch(levels, amount) {
+    return levels.indexOf(amount);
+  }
+
+  /* 纯函数：从全空开始，最少几步能量出 amount（灌满 / 倒空 / 互倒各算一步） */
+  function etMinSteps(caps, amount) {
+    const start = caps.map(() => 0);
+    const seen = new Set([start.join(',')]);
+    let frontier = [start];
+    for (let depth = 0; frontier.length && depth < 40; depth++) {
+      const next = [];
+      for (const levels of frontier) {
+        if (levels.includes(amount)) return depth;
+        const moves = [];
+        ET_VESSELS.forEach((i) => {
+          const full = levels.slice(); full[i] = caps[i]; moves.push(full);
+          const empty = levels.slice(); empty[i] = 0; moves.push(empty);
+          ET_VESSELS.forEach((j) => { if (i !== j) moves.push(etPourStep(caps, levels, i, j)); });
+        });
+        moves.forEach((m) => { const k = m.join(','); if (!seen.has(k)) { seen.add(k); next.push(m); } });
+      }
+      frontier = next;
+    }
+    return -1;
+  }
+
+  function etServeFeedback(order, method) {
+    return `${ET_ORDER_TABLE[order].title}：${ET_METHOD_TABLE[method].result}`;
+  }
+
+  function defaultExactTea() {
+    const latest = {};
+    ET_ORDERS.forEach((b) => { latest[b] = ''; });
+    return {
+      version: EXACT_TEA_VERSION,
+      visited: { house: false, table: false, court: false },
+      draft: { order: '', method: 'clay' },
+      pours: [],
+      courtOutcomes: [],
+      pourRuns: 0,
+      courtRuns: 0,
+      latestMethodByOrder: latest,
+      lastOutcome: '',
+      activeServer: null,
+      pending: null,
+    };
+  }
+
+  function clampEtCount(n) {
+    const v = Math.floor(Number(n));
+    return Number.isFinite(v) ? Math.min(9999, Math.max(0, v)) : 0;
+  }
+
+  function normalizeExactTea(raw) {
+    const d = defaultExactTea();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== EXACT_TEA_VERSION) return d;
+    const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
+    d.visited = { house: v.house === true, table: v.table === true, court: v.court === true };
+    const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
+    d.draft = { order: ET_ORDERS.includes(dr.order) ? dr.order : '', method: ET_METHODS.includes(dr.method) ? dr.method : 'clay' };
+    const pours = new Set(Array.isArray(raw.pours) ? raw.pours : []);
+    d.pours = ET_POUR_IDS.filter((id) => pours.has(id));
+    const outcomes = new Set(Array.isArray(raw.courtOutcomes) ? raw.courtOutcomes : []);
+    d.courtOutcomes = ET_VERDICT_OUTCOME_IDS.filter((id) => outcomes.has(id));
+    d.pourRuns = clampEtCount(raw.pourRuns);
+    d.courtRuns = clampEtCount(raw.courtRuns);
+    const latest = raw.latestMethodByOrder && typeof raw.latestMethodByOrder === 'object' ? raw.latestMethodByOrder : {};
+    ET_ORDERS.forEach((b) => {
+      d.latestMethodByOrder[b] = ET_METHODS.includes(latest[b]) && d.pours.includes(`${b}:${latest[b]}`) ? latest[b] : '';
+    });
+    if (typeof raw.lastOutcome === 'string' && (d.pours.includes(raw.lastOutcome) || d.courtOutcomes.includes(raw.lastOutcome))) d.lastOutcome = raw.lastOutcome;
+    const a = raw.activeServer;
+    if (a && typeof a === 'object' && !Array.isArray(a) && Object.keys(a).length === 1 && d.pours.includes(a.pour)) d.activeServer = { pour: a.pour };
+    d.pending = normalizeEtPending(raw.pending, d);
+    return d;
+  }
+
+  function etCourtProgress(st) {
+    const orders = new Set();
+    const methods = new Set();
+    st.pours.forEach((id) => {
+      const [order, method] = id.split(':');
+      orders.add(order);
+      methods.add(method);
+    });
+    return { orders: orders.size, methods: methods.size };
+  }
+
+  function etCourtEligible(st) {
+    const p = etCourtProgress(st);
+    return p.orders === ET_ORDERS.length && p.methods === ET_METHODS.length;
+  }
+
+  function expectedEtPending(p, st) {
+    const clean = !st.activeServer;
+    switch (p.kind) {
+      case 'entry':
+        return clean ? { feedback: ET_ENTRY_FEEDBACK, kind: 'entry', target: ET_HOUSE } : null;
+      case 'order': {
+        const b = ET_ORDER_TABLE[p.order];
+        if (!b || !clean) return null;
+        return { order: p.order, feedback: b.feedback, kind: 'order', source: ET_HOUSE, target: ET_TABLE };
+      }
+      case 'serve': {
+        const b = ET_ORDER_TABLE[p.order];
+        if (!b || !ET_METHOD_TABLE[p.method] || !clean || st.draft.order !== p.order || st.draft.method !== p.method) return null;
+        return { order: p.order, feedback: etServeFeedback(p.order, p.method), kind: 'serve', method: p.method, pour: `${p.order}:${p.method}`, source: ET_TABLE, target: b.target };
+      }
+      case 'abandon':
+        return st.draft.order ? { feedback: ET_ABANDON_FEEDBACK, kind: 'abandon', source: ET_TABLE, target: ET_HOUSE } : null;
+      case 'server-return': {
+        if (!st.activeServer) return null;
+        const order = st.activeServer.pour.split(':')[0];
+        return { feedback: ET_SERVER_RETURN_FEEDBACK, from: ET_ORDER_TABLE[order].target, kind: 'server-return', pour: st.activeServer.pour, target: ET_HOUSE };
+      }
+      case 'court-entry':
+        return clean && etCourtEligible(st) ? { feedback: ET_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: ET_COURT } : null;
+      case 'verdict': {
+        const a = ET_VERDICT_TABLE[p.action];
+        if (!a || !clean || !st.visited.court || !etCourtEligible(st)) return null;
+        return { action: p.action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: ET_COURT, target: a.target };
+      }
+      default:
+        return null;
+    }
+  }
+
+  function normalizeEtPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+    const expected = expectedEtPending(p, st);
+    if (!expected) return null;
+    const keys = Object.keys(p).sort();
+    const want = Object.keys(expected).sort();
+    if (keys.length !== want.length || keys.some((k, i) => k !== want[i] || p[k] !== expected[k])) return null;
+    return expected;
+  }
+
+  function exactTeaUnlocked() {
+    const compute = () => {
+      if (!borrowedLightUnlocked()) return false;
+      const v108 = getBorrowedLight();
+      return lbCourtEligible(v108) && LB_VERDICT_OUTCOME_IDS.every((o) => v108.courtOutcomes.includes(o));
+    };
+    return store.memo ? store.memo("exactTeaUnlocked", compute) : compute();
+  }
+
+  /* v108 还有在途的光或没签收的点灯人时，先不让进分茶铺 */
+  function etUpstreamBusy() {
+    const v108 = getBorrowedLight();
+    return Boolean(v108.pending || v108.activeLamplighter);
+  }
+
+  function getExactTea() {
+    if (!exactTeaUnlocked()) return defaultExactTea();
+    let raw;
+    try { raw = JSON.parse(store.get(EXACT_TEA_KEY, '{}')); } catch { return defaultExactTea(); }
+    return normalizeExactTea(raw);
+  }
+
+  function saveExactTea(st) {
+    if (!exactTeaUnlocked()) return defaultExactTea();
+    const canonical = normalizeExactTea(Object.assign({}, st, { version: EXACT_TEA_VERSION }));
+    store.set(EXACT_TEA_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function etPendingLogicalSource(p) {
+    if (!p) return '';
+    if (p.kind === 'entry' || p.kind === 'court-entry') return 'remembrance';
+    if (p.kind === 'server-return') return p.from;
+    return p.source || '';
+  }
+
+  function resolveExactTeaPendingOnArrival(sceneName) {
+    const st = getExactTea();
+    const p = st.pending;
+    if (!p) return st;
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.house = true;
+      } else if (p.kind === 'order') {
+        st.visited.table = true;
+        st.draft = { order: p.order, method: st.draft.order === p.order ? st.draft.method : 'clay' };
+      } else if (p.kind === 'serve') {
+        st.pourRuns = clampEtCount(st.pourRuns + 1);
+        if (!st.pours.includes(p.pour)) st.pours = st.pours.concat(p.pour);
+        st.latestMethodByOrder[p.order] = p.method;
+        st.lastOutcome = p.pour;
+        st.activeServer = { pour: p.pour };
+        st.draft = { order: '', method: 'clay' };
+      } else if (p.kind === 'abandon') {
+        st.draft = { order: '', method: 'clay' };
+        st.visited.house = true;
+      } else if (p.kind === 'server-return') {
+        st.activeServer = null;
+        st.visited.house = true;
+      } else if (p.kind === 'court-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'verdict') {
+        st.courtRuns = clampEtCount(st.courtRuns + 1);
+        if (!st.courtOutcomes.includes(p.outcome)) st.courtOutcomes = st.courtOutcomes.concat(p.outcome);
+        st.lastOutcome = p.outcome;
+      }
+      return saveExactTea(st);
+    }
+    if (sceneName === etPendingLogicalSource(p)) return st;
+    st.pending = null;
+    return saveExactTea(st);
+  }
+
+  const ET_RESPONSE_BY_KIND = {
+    entry: '#et-entry-response',
+    order: '#exact-tea-house-response',
+    serve: '#pouring-table-response',
+    abandon: '#pouring-table-response',
+    'court-entry': '#et-court-entry-response',
+    verdict: '#hearing-of-the-last-cup-response',
+  };
+
+  function showEtResponse(selector, text) {
+    const el = $(selector);
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = !text;
+  }
+
+  function syncExactTeaAll() {
+    syncEtHouse();
+    syncPouringTable();
+    syncEtCourt();
+    syncEtServers();
+    syncEtEchoes();
+    syncEtRemembrance();
+    syncEtLinks();
+    if (typeof syncPhEntries === 'function') syncPhEntries();
+  }
+
+  function replayExactTeaPending(sceneName) {
+    const st = getExactTea();
+    const p = st.pending;
+    if (p && p.target === sceneName) resolveExactTeaPendingOnArrival(sceneName);
+    else if (p && sceneName === etPendingLogicalSource(p)) {
+      syncExactTeaAll();
+      const selector = p.kind === 'server-return' ? `#et-server-response-${p.from}` : ET_RESPONSE_BY_KIND[p.kind];
+      if (selector) showEtResponse(selector, p.feedback);
+      AutoAdvance.schedule(sceneName, p.target, { delay: etDelay() });
+      return;
+    } else if (p) {
+      st.pending = null;
+      saveExactTea(st);
+    }
+    syncExactTeaAll();
+  }
+
+  function launchEt(scene, buttonId, pending, responseSelector) {
+    const st = getExactTea();
+    st.pending = pending;
+    const saved = saveExactTea(st);
+    if (!saved.pending) return false;
+    const btn = buttonId ? $(`#${buttonId}`) : null;
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+    if (AudioEngine.whoosh) AudioEngine.whoosh();
+    syncExactTeaAll();
+    showEtResponse(responseSelector, pending.feedback);
+    AutoAdvance.schedule(scene, pending.target, { delay: etDelay() });
+    return true;
+  }
+
+  function etReady(scene, buttonId) {
+    if (currentScene !== scene) return null;
+    if (AutoAdvance.has(scene)) return null;
+    if (buttonId && !buttonAvailable(buttonId)) return null;
+    if (!exactTeaUnlocked()) return null;
+    const st = getExactTea();
+    return st.pending ? null : st;
+  }
+
+  function chooseEtEntry() {
+    const st = etReady('remembrance', 'et-entry-btn');
+    if (!st || st.activeServer) return;
+    if (etUpstreamBusy()) return;
+    launchEt('remembrance', 'et-entry-btn', { feedback: ET_ENTRY_FEEDBACK, kind: 'entry', target: ET_HOUSE }, '#et-entry-response');
+  }
+
+  function chooseEtOrder(order) {
+    const b = ET_ORDER_TABLE[order];
+    if (!b) return;
+    const st = etReady(ET_HOUSE, `et-order-${order}`);
+    if (!st || st.activeServer) return;
+    launchEt(ET_HOUSE, `et-order-${order}`, { order, feedback: b.feedback, kind: 'order', source: ET_HOUSE, target: ET_TABLE }, '#exact-tea-house-response');
+  }
+
+  function chooseEtMethod(method) {
+    if (!ET_METHOD_TABLE[method]) return;
+    const st = etReady(ET_TABLE, `et-method-${method}`);
+    if (!st || !st.draft.order || !st.visited.table || st.draft.method === method) return;
+    st.draft.method = method;
+    saveExactTea(st);
+    syncPouringTable();
+  }
+
+  /* 量器：每只里有几口茶只放在内存里；换客人或换茶具时倒空，量准了才写 pending */
+  let etLevels = [0, 0, 0];
+  let etHeld = -1;
+  let etSteps = 0;
+  let etTableKey = '';
+
+  function paintEtTable(message) {
+    const st = getExactTea();
+    const status = $('#et-table-status');
+    if (!st.draft.order) {
+      if (status) status.textContent = '';
+      return;
+    }
+    const caps = ET_METHOD_TABLE[st.draft.method].caps;
+    const amount = ET_ORDER_TABLE[st.draft.order].amount;
+    const match = etMatch(etLevels, amount);
+    ET_VESSELS.forEach((i) => {
+      const btn = $(`#et-vessel-${i}`);
+      if (btn) {
+        btn.setAttribute('aria-pressed', etHeld === i ? 'true' : 'false');
+        btn.setAttribute('aria-label', `第 ${i + 1} 只量器，能装 ${caps[i]} 口，现在有 ${etLevels[i]} 口${etHeld === i ? '，已端起' : ''}`);
+        btn.classList.toggle('is-match', match === i);
+        if (btn.style && btn.style.setProperty) {
+          btn.style.setProperty('--et-fill', `${Math.round((etLevels[i] / caps[i]) * 1000) / 10}%`);
+          btn.style.setProperty('--et-size', `${Math.round((caps[i] / 11) * 1000) / 10}%`);
+        }
+      }
+      const label = $(`#et-vessel-label-${i}`);
+      if (label) label.textContent = `${etLevels[i]} / ${caps[i]}`;
+    });
+    const held = $('#et-held-actions');
+    if (held) held.hidden = etHeld < 0;
+    if (status) {
+      if (message) status.textContent = message;
+      else if (match >= 0) status.textContent = `第 ${match + 1} 只里正好 ${amount} 口。可以奉茶。已经倒了 ${etSteps} 次。`;
+      else if (etHeld >= 0) status.textContent = `端着第 ${etHeld + 1} 只（${etLevels[etHeld]} 口）：点另一只倒进去，或者灌满、倒空。`;
+      else status.textContent = `客人要正好 ${amount} 口。点一只量器端起来。已经倒了 ${etSteps} 次。`;
+    }
+  }
+
+  function etTableReady(buttonId) {
+    const st = etReady(ET_TABLE, buttonId);
+    if (!st || !st.draft.order || st.activeServer) return null;
+    return st;
+  }
+
+  function pickEtVessel(index) {
+    const st = etTableReady(`et-vessel-${index}`);
+    if (!st || !ET_VESSELS.includes(index)) return;
+    if (etHeld < 0) {
+      etHeld = index;
+      paintEtTable('');
+      return;
+    }
+    if (etHeld === index) {
+      etHeld = -1;
+      paintEtTable('');
+      return;
+    }
+    const caps = ET_METHOD_TABLE[st.draft.method].caps;
+    const from = etHeld;
+    const next = etPourStep(caps, etLevels, from, index);
+    etHeld = -1;
+    if (next.join(',') === etLevels.join(',')) {
+      paintEtTable(etLevels[from] === 0 ? `第 ${from + 1} 只是空的，倒不出东西。` : `第 ${index + 1} 只已经满了。`);
+      return;
+    }
+    etLevels = next;
+    etSteps += 1;
+    if (AudioEngine.tick) AudioEngine.tick();
+    paintEtTable('');
+  }
+
+  function fillEtVessel() {
+    const st = etTableReady('et-fill');
+    if (!st || etHeld < 0) return;
+    const caps = ET_METHOD_TABLE[st.draft.method].caps;
+    if (etLevels[etHeld] === caps[etHeld]) { paintEtTable(`第 ${etHeld + 1} 只已经是满的。`); return; }
+    etLevels = etLevels.slice();
+    etLevels[etHeld] = caps[etHeld];
+    etHeld = -1;
+    etSteps += 1;
+    if (AudioEngine.tick) AudioEngine.tick();
+    paintEtTable('');
+  }
+
+  function emptyEtVessel() {
+    const st = etTableReady('et-empty');
+    if (!st || etHeld < 0) return;
+    if (etLevels[etHeld] === 0) { paintEtTable(`第 ${etHeld + 1} 只本来就是空的。`); return; }
+    etLevels = etLevels.slice();
+    etLevels[etHeld] = 0;
+    etHeld = -1;
+    etSteps += 1;
+    if (AudioEngine.tick) AudioEngine.tick();
+    paintEtTable('');
+  }
+
+  function resetEtVessels() {
+    const st = etTableReady('et-reset');
+    if (!st) return;
+    etLevels = [0, 0, 0];
+    etHeld = -1;
+    etSteps = 0;
+    paintEtTable('三只量器都倒空了。');
+  }
+
+  function serveEtCup() {
+    const st = etTableReady('et-serve');
+    if (!st) return;
+    const { order, method } = st.draft;
+    if (etMatch(etLevels, ET_ORDER_TABLE[order].amount) < 0) {
+      paintEtTable(`还没有哪一只里正好是 ${ET_ORDER_TABLE[order].amount} 口。`);
+      return;
+    }
+    etHeld = -1;
+    paintEtTable('茶倒进了客人的杯子。');
+    launchEt(ET_TABLE, 'et-serve', {
+      feedback: etServeFeedback(order, method), kind: 'serve', method, order, pour: `${order}:${method}`, source: ET_TABLE, target: ET_ORDER_TABLE[order].target,
+    }, '#pouring-table-response');
+  }
+
+  function chooseEtAbandon() {
+    const st = etReady(ET_TABLE, 'et-abandon');
+    if (!st || !st.draft.order) return;
+    launchEt(ET_TABLE, 'et-abandon', { feedback: ET_ABANDON_FEEDBACK, kind: 'abandon', source: ET_TABLE, target: ET_HOUSE }, '#pouring-table-response');
+  }
+
+  function chooseEtServerReturn(scene) {
+    const st = etReady(scene, `et-server-return-${scene}`);
+    if (!st || !st.activeServer) return;
+    if (ET_ORDER_TABLE[st.activeServer.pour.split(':')[0]].target !== scene) return;
+    launchEt(scene, `et-server-return-${scene}`, { feedback: ET_SERVER_RETURN_FEEDBACK, from: scene, kind: 'server-return', pour: st.activeServer.pour, target: ET_HOUSE }, `#et-server-response-${scene}`);
+  }
+
+  function chooseEtCourtEntry() {
+    const st = etReady('remembrance', 'et-court-entry-btn');
+    if (!st || st.activeServer || !etCourtEligible(st)) return;
+    launchEt('remembrance', 'et-court-entry-btn', { feedback: ET_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: ET_COURT }, '#et-court-entry-response');
+  }
+
+  function chooseEtVerdict(action) {
+    const a = ET_VERDICT_TABLE[action];
+    if (!a) return;
+    const st = etReady(ET_COURT, `et-verdict-${action}`);
+    if (!st || st.activeServer || !st.visited.court || !etCourtEligible(st)) return;
+    launchEt(ET_COURT, `et-verdict-${action}`, { action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: ET_COURT, target: a.target }, '#hearing-of-the-last-cup-response');
+  }
+
+  function exactTeaBridgeAllows(targetScene) {
+    if (!exactTeaUnlocked()) return false;
+    const st = getExactTea();
+    if (st.pending && (st.pending.kind === 'serve' || st.pending.kind === 'verdict') && st.pending.target === targetScene) return true;
+    if (st.activeServer && ET_ORDER_TABLE[st.activeServer.pour.split(':')[0]].target === targetScene) return true;
+    const verdict = ET_VERDICT_ACTIONS.find((a) => ET_VERDICT_TABLE[a].outcome === st.lastOutcome);
+    return Boolean(verdict && ET_VERDICT_TABLE[verdict].target === targetScene);
+  }
+
+  function etHouseCanVisit() {
+    if (!exactTeaUnlocked()) return false;
+    const st = getExactTea();
+    return st.visited.house || Boolean(st.pending && st.pending.target === ET_HOUSE);
+  }
+
+  function pouringTableCanVisit() {
+    if (!exactTeaUnlocked()) return false;
+    const st = getExactTea();
+    if (st.visited.table && st.draft.order) return true;
+    return Boolean(st.pending && st.pending.kind === 'order');
+  }
+
+  function etCourtCanVisit() {
+    if (!exactTeaUnlocked()) return false;
+    const st = getExactTea();
+    if (st.visited.court && etCourtEligible(st)) return true;
+    return Boolean(st.pending && st.pending.kind === 'court-entry');
+  }
+
+  function syncEtHouse() {
+    const canVisit = etHouseCanVisit();
+    const st = getExactTea();
+    const fig = $('#et-house-figure');
+    if (fig) fig.hidden = !canVisit;
+    const blocked = !canVisit || Boolean(st.pending) || Boolean(st.activeServer);
+    ET_ORDERS.forEach((order) => {
+      const btn = $(`#et-order-${order}`);
+      if (!btn) return;
+      btn.disabled = blocked;
+      btn.classList.toggle('is-collected', ET_METHODS.every((m) => st.pours.includes(`${order}:${m}`)));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'order' && st.pending.order === order ? 'true' : 'false');
+    });
+    const note = $('#et-house-note');
+    if (note) {
+      let text = '';
+      if (st.activeServer) {
+        const b = ET_ORDER_TABLE[st.activeServer.pour.split(':')[0]];
+        text = `先完成正在送去的那杯茶：${b.serverTitle}还在${b.place}等你签收。`;
+      } else if (st.draft.order) {
+        text = `分茶台上还压着「${ET_ORDER_TABLE[st.draft.order].title}」的茶单。`;
+      }
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const cont = $('#et-continue');
+    if (cont) {
+      const show = canVisit && Boolean(st.draft.order) && !st.activeServer;
+      cont.hidden = !show;
+      cont.disabled = !show || Boolean(st.pending);
+    }
+    if (!st.pending || st.pending.source !== ET_HOUSE) showEtResponse('#exact-tea-house-response', '');
+  }
+
+  function syncPouringTable() {
+    const canVisit = pouringTableCanVisit();
+    const st = getExactTea();
+    const ready = canVisit && Boolean(st.draft.order);
+    const key = st.draft.order ? `${st.draft.order}:${st.draft.method}` : '';
+    if (key !== etTableKey && !(st.pending && st.pending.kind === 'serve')) {
+      etTableKey = key;
+      etLevels = [0, 0, 0];
+      etHeld = -1;
+      etSteps = 0;
+    }
+    const panel = $('#et-table-panel');
+    if (panel) panel.hidden = !ready;
+    const rack = $('#et-rack');
+    if (rack) rack.hidden = !ready;
+    if (ready) {
+      const t = ET_ORDER_TABLE[st.draft.order];
+      const title = $('#et-table-order');
+      if (title) title.textContent = `${t.title} —— ${t.feedback}`;
+      const hint = $('#et-method-hint');
+      if (hint) hint.textContent = `${ET_METHOD_TABLE[st.draft.method].hint}点一只端起来，再点另一只就倒进去，倒到那只满了或这只空了为止；端着的时候也可以从壶里灌满，或者倒回水盆。哪一只里正好是 ${t.amount} 口就能奉茶，茶会送到${t.place}，由${t.serverTitle}签收。换茶具或换客人会把量器都倒空。`;
+    }
+    ET_METHODS.forEach((method) => {
+      const btn = $(`#et-method-${method}`);
+      if (!btn) return;
+      btn.disabled = !ready || Boolean(st.pending);
+      btn.setAttribute('aria-pressed', ready && st.draft.method === method ? 'true' : 'false');
+      btn.classList.toggle('is-collected', Boolean(st.draft.order) && st.pours.includes(`${st.draft.order}:${method}`));
+    });
+    ['et-serve', 'et-reset', 'et-abandon', 'et-fill', 'et-empty', ...ET_VESSELS.map((i) => `et-vessel-${i}`)].forEach((id) => {
+      const btn = $(`#${id}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending);
+    });
+    paintEtTable(st.pending && st.pending.kind === 'serve' ? '茶倒进了客人的杯子，正在送过去。' : '');
+    if (!st.pending || st.pending.source !== ET_TABLE) showEtResponse('#pouring-table-response', '');
+  }
+
+  function syncEtCourt() {
+    const canVisit = etCourtCanVisit();
+    const st = getExactTea();
+    const fig = $('#hearing-of-the-last-cup-figure');
+    if (fig) fig.hidden = !canVisit;
+    ET_VERDICT_ACTIONS.forEach((action) => {
+      const btn = $(`#et-verdict-${action}`);
+      if (!btn) return;
+      btn.disabled = !canVisit || Boolean(st.pending) || Boolean(st.activeServer);
+      btn.classList.toggle('is-collected', st.courtOutcomes.includes(ET_VERDICT_TABLE[action].outcome));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'verdict' && st.pending.action === action ? 'true' : 'false');
+    });
+    if (!st.pending || st.pending.source !== ET_COURT) showEtResponse('#hearing-of-the-last-cup-response', '');
+  }
+
+  function syncEtServers() {
+    const st = exactTeaUnlocked() ? getExactTea() : defaultExactTea();
+    const [order, method] = st.activeServer ? st.activeServer.pour.split(':') : ['', ''];
+    ET_OLD_TARGETS.forEach((scene) => {
+      const box = $(`#et-server-${scene}`);
+      if (!box) return;
+      const show = Boolean(order) && ET_ORDER_TABLE[order].target === scene;
+      box.hidden = !show;
+      const btn = $(`#et-server-return-${scene}`);
+      if (btn) {
+        btn.disabled = !show || Boolean(st.pending);
+        btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'server-return' && st.pending.from === scene ? 'true' : 'false');
+      }
+      if (!show) return;
+      const b = ET_ORDER_TABLE[order];
+      const head = $(`#et-server-title-${scene}`);
+      if (head) head.textContent = `奉茶签收 · ${b.serverTitle} · ${b.title}（${ET_METHOD_TABLE[method].title}）`;
+      const level = $(`#et-server-level-${scene}`);
+      if (level) level.textContent = `用${ET_METHOD_TABLE[method].title}量出正好 ${b.amount} 口`;
+      const body = $(`#et-server-body-${scene}`);
+      if (body) body.textContent = ET_METHOD_TABLE[method].result;
+      if (!st.pending || st.pending.kind !== 'server-return') showEtResponse(`#et-server-response-${scene}`, '');
+    });
+  }
+
+  function syncEtEchoes() {
+    const st = exactTeaUnlocked() ? getExactTea() : defaultExactTea();
+    ET_ORDERS.forEach((order) => {
+      const b = ET_ORDER_TABLE[order];
+      const el = $(`#et-echo-${b.target}`);
+      if (!el) return;
+      const method = st.latestMethodByOrder[order];
+      if (!method) { el.hidden = true; el.textContent = ''; return; }
+      el.textContent = `${b.echoLead}${ET_METHOD_TABLE[method].result}`;
+      el.hidden = false;
+    });
+  }
+
+  function syncEtRemembrance() {
+    const unlocked = exactTeaUnlocked();
+    const shell = $('#et-codex');
+    const memory = $('#et-memory');
+    if (!unlocked) {
+      [shell, memory].forEach((el) => { if (el) el.hidden = true; });
+      return;
+    }
+    const st = getExactTea();
+    const v108Busy = etUpstreamBusy();
+    if (shell) shell.hidden = false;
+    const progress = etCourtProgress(st);
+    if (memory) {
+      memory.hidden = false;
+      memory.textContent = `分茶：已奉 ${st.pours.length}/9 杯，共奉茶 ${st.pourRuns} 次；末杯听证 ${st.courtOutcomes.length}/3。`;
+    }
+    const hints = $('#et-court-hints');
+    if (hints) {
+      const rows = [['三位客人都喝上了', progress.orders, ET_ORDERS.length], ['三套茶具都用过', progress.methods, ET_METHODS.length]];
+      hints.replaceChildren(...rows.map(([label, have, need]) => {
+        const li = document.createElement('li');
+        li.className = have >= need ? 'is-met' : '';
+        li.textContent = `${label} ${have}/${need}`;
+        return li;
+      }));
+    }
+    const clean = !st.pending && !st.activeServer;
+    const entry = $('#et-entry-btn');
+    if (entry) {
+      entry.hidden = false;
+      entry.disabled = !clean || v108Busy;
+      entry.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' ? 'true' : 'false');
+    }
+    const note = $('#et-entry-note');
+    if (note) {
+      const text = v108Busy ? '先完成借光司那道还在路上的光：借光司还有一位点灯人没签收。' : st.activeServer ? '先完成正在送去的那杯茶。' : '';
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const court = $('#et-court-entry-btn');
+    if (court) {
+      const eligible = etCourtEligible(st);
+      court.hidden = !eligible;
+      court.disabled = !eligible || !clean;
+      court.setAttribute('aria-pressed', st.pending && st.pending.kind === 'court-entry' ? 'true' : 'false');
+    }
+    const grid = $('#et-codex-grid');
+    if (grid) {
+      const have = new Set(st.pours);
+      const cells = ET_POUR_IDS.map((id) => {
+        const [order, method] = id.split(':');
+        const cell = document.createElement('div');
+        cell.className = `et-cell ${have.has(id) ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = have.has(id) ? `${ET_ORDER_TABLE[order].title}\n${ET_METHOD_TABLE[method].title}` : '？？？';
+        return cell;
+      });
+      ET_VERDICT_ACTIONS.forEach((action) => {
+        const a = ET_VERDICT_TABLE[action];
+        const got = st.courtOutcomes.includes(a.outcome);
+        const cell = document.createElement('div');
+        cell.className = `et-cell et-cell-verdict ${got ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = got ? `[末杯听证会] ${a.title}\n${a.feedback}` : '？？？';
+        cells.push(cell);
+      });
+      grid.replaceChildren(...cells);
+    }
+    if (!st.pending || (st.pending.kind !== 'entry' && st.pending.kind !== 'court-entry')) {
+      showEtResponse('#et-entry-response', '');
+      showEtResponse('#et-court-entry-response', '');
+    }
+  }
+
+  function syncEtLinks() {
+    const st = exactTeaUnlocked() ? getExactTea() : null;
+    [['exact-tea-house-link', 'house'], ['pouring-table-link', 'table'], ['hearing-of-the-last-cup-link', 'court']].forEach(([id, key]) => {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !(st && st.visited[key]);
+    });
+  }
+
+  function forgetExactTeaState() {
+    try { localStorage.removeItem(EXACT_TEA_KEY); } catch {}
+    [ET_HOUSE, ET_TABLE, ET_COURT].forEach((scene) => AutoAdvance.clear(scene));
+    etLevels = [0, 0, 0];
+    etHeld = -1;
+    etSteps = 0;
+    etTableKey = '';
+    ['#et-codex', '#et-memory', '#et-house-figure', '#et-table-panel', '#hearing-of-the-last-cup-figure',
+      '#exact-tea-house-link', '#pouring-table-link', '#hearing-of-the-last-cup-link', '#et-continue', '#et-court-entry-btn',
+      '#et-entry-response', '#et-court-entry-response', '#exact-tea-house-response', '#pouring-table-response', '#hearing-of-the-last-cup-response',
+      ...ET_OLD_TARGETS.flatMap((scene) => [`#et-server-${scene}`, `#et-echo-${scene}`]),
+    ].forEach((sel) => { const el = $(sel); if (el) el.hidden = true; });
+    $$('[id^="et-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+  }
+
+  const onTrustedEt = (selector, handler) => {
+    const el = $(selector);
+    if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+  };
+  onTrustedEt('#et-entry-btn', chooseEtEntry);
+  onTrustedEt('#et-court-entry-btn', chooseEtCourtEntry);
+  onTrustedEt('#et-abandon', chooseEtAbandon);
+  onTrustedEt('#et-continue', () => {
+    const st = etReady(ET_HOUSE, 'et-continue');
+    if (!st || !st.draft.order || st.activeServer) return;
+    const order = st.draft.order;
+    launchEt(ET_HOUSE, 'et-continue', { order, feedback: ET_ORDER_TABLE[order].feedback, kind: 'order', source: ET_HOUSE, target: ET_TABLE }, '#exact-tea-house-response');
+  });
+  ET_ORDERS.forEach((order) => onTrustedEt(`#et-order-${order}`, () => chooseEtOrder(order)));
+  ET_METHODS.forEach((method) => onTrustedEt(`#et-method-${method}`, () => chooseEtMethod(method)));
+  ET_VERDICT_ACTIONS.forEach((action) => onTrustedEt(`#et-verdict-${action}`, () => chooseEtVerdict(action)));
+  ET_OLD_TARGETS.forEach((scene) => onTrustedEt(`#et-server-return-${scene}`, () => chooseEtServerReturn(scene)));
+  ET_VESSELS.forEach((i) => onTrustedEt(`#et-vessel-${i}`, () => pickEtVessel(i)));
+  onTrustedEt('#et-fill', fillEtVessel);
+  onTrustedEt('#et-empty', emptyEtVessel);
+  onTrustedEt('#et-reset', resetEtVessels);
+  onTrustedEt('#et-serve', serveEtCup);
 
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
@@ -63594,8 +64399,26 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     if (eligible) items.push(`开庭条件已满足；借光裁定已得 ${st.courtOutcomes.length}/3`);
     if (st.activeLamplighter) items.push("有一道光在旧房间等你签收：跟着点灯人回到借光司");
     else if (st.draft.model) items.push(`镜面地上还摆着「${LB_MODEL_TABLE[st.draft.model].title}」`);
-    if (eligible && st.courtOutcomes.length >= 3) return { title: "v108 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    if (eligible && st.courtOutcomes.length >= 3) return exactTeaProgressStep();
     return { title: "v108 借光司", items, target: eligible ? "lb-court" : "lb", done: false };
+  };
+
+  /* v109：按三位客人、三套茶具与三项裁定给出缺项 */
+  const exactTeaProgressStep = () => {
+    if (!exactTeaUnlocked()) return null;
+    const st = getExactTea();
+    const items = [];
+    const orders = ET_ORDERS.filter((x) => !st.pours.some((id) => id.startsWith(`${x}:`))).map((x) => ET_ORDER_TABLE[x].title);
+    const methods = ET_METHODS.filter((m) => !st.pours.some((id) => id.endsWith(`:${m}`))).map((m) => ET_METHOD_TABLE[m].title);
+    if (etUpstreamBusy() && !st.visited.house) items.push("先完成借光司那道还在路上的光，分茶铺才开门");
+    if (orders.length) items.push(`还没喝上的客人：${orders.join("、")}`);
+    if (methods.length) items.push(`还没用过的茶具：${methods.join("、")}`);
+    const eligible = etCourtEligible(st);
+    if (eligible) items.push(`开庭条件已满足；末杯裁定已得 ${st.courtOutcomes.length}/3`);
+    if (st.activeServer) items.push("有一杯茶在旧房间等你签收：跟着茶童回到分茶铺");
+    else if (st.draft.order) items.push(`分茶台上还压着「${ET_ORDER_TABLE[st.draft.order].title}」的茶单`);
+    if (eligible && st.courtOutcomes.length >= 3) return { title: "v109 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    return { title: "v109 分茶铺", items, target: eligible ? "et-court" : "et", done: false };
   };
 
   const shadowlessPhotographyProgressStep = () => {
@@ -64172,6 +64995,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   syncTodayPressAll();
   syncInkMixingAll();
   syncBorrowedLightAll();
+  syncExactTeaAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

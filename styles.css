@@ -19658,3 +19658,226 @@ button.dw-tile:disabled {
 @media (min-width: 721px) {
   .lb-hotspot .dh-label { white-space: nowrap; }
 }
+
+/* ============================================================
+   v109 分茶铺：三张茶单与三只没有刻度的量器
+   ============================================================ */
+.et-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  aspect-ratio: 3 / 2;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border: 1px solid rgba(154, 127, 71, 0.35);
+  background: var(--void);
+}
+
+.et-figure .et-img { display: block; width: 100%; height: 100%; object-fit: cover; -webkit-mask-image: none; mask-image: none; }
+
+.et-hotspot {
+  position: absolute;
+  z-index: 3;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0.4rem;
+  border: 1px solid rgba(222, 217, 208, 0.18);
+  background: rgba(8, 7, 6, 0.1);
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+
+.et-hotspot .dh-label { padding: 0.2rem 0.55rem; background: rgba(8, 7, 6, 0.74); letter-spacing: 0.1em; }
+.et-hotspot:hover,
+.et-hotspot:focus-visible { border-color: var(--gold); background: rgba(154, 127, 71, 0.16); outline: 2px solid var(--gold); outline-offset: 2px; }
+.et-hotspot:disabled,
+.et-hotspot[aria-pressed="true"] { border-color: var(--blood); cursor: default; outline: none; }
+.et-hotspot.is-collected .dh-label::after { content: " ✓"; color: var(--gold); }
+
+.et-hotspot-left { left: 2%; top: 58%; width: 24.5%; height: 25%; }
+.et-hotspot-center { left: 34.5%; top: 58%; width: 25%; height: 25%; }
+.et-hotspot-right { left: 68%; top: 56%; width: 30.5%; height: 27%; }
+.et-hotspot-court-left { left: 2.5%; top: 54%; width: 27%; height: 32%; }
+.et-hotspot-court-center { left: 41%; top: 66%; width: 16%; height: 22%; }
+.et-hotspot-court-right { left: 72%; top: 68%; width: 20%; height: 21%; }
+
+/* 分茶台：三只量器画在原画桌面中间的空处（约 25%–85% 宽），高度按容量（满 11 口）缩放 */
+.et-rack {
+  position: absolute;
+  left: 25%;
+  right: 15%;
+  top: 20%;
+  bottom: 25%;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4%;
+  align-items: end;
+}
+
+.et-slot { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 0.35rem; }
+
+.et-vessel {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  height: var(--et-size, 50%);
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.2s var(--ease);
+}
+
+.et-vessel-glass {
+  position: relative;
+  display: block;
+  width: 62%;
+  height: 100%;
+  overflow: hidden;
+  border: 2px solid rgba(232, 214, 170, 0.7);
+  border-top-width: 1px;
+  border-radius: 4px 4px 14px 14px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02) 40%, rgba(255, 255, 255, 0.1));
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.5), 0 6px 14px rgba(0, 0, 0, 0.6);
+}
+
+.et-vessel-tea {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--et-fill, 0%);
+  background: linear-gradient(180deg, rgba(206, 150, 70, 0.95), rgba(120, 66, 24, 0.95));
+  box-shadow: inset 0 2px 0 rgba(255, 220, 160, 0.55);
+  transition: height 0.25s ease;
+}
+
+.et-vessel[aria-pressed="true"] { transform: translateY(-10px) rotate(-6deg); }
+.et-vessel[aria-pressed="true"] .et-vessel-glass { border-color: #e6c27a; box-shadow: 0 0 14px rgba(230, 194, 122, 0.6), 0 12px 18px rgba(0, 0, 0, 0.6); }
+.et-vessel.is-match .et-vessel-glass { border-color: #fff2c8; box-shadow: 0 0 18px 4px rgba(255, 226, 160, 0.7); }
+.et-vessel:hover:not(:disabled) .et-vessel-glass,
+.et-vessel:focus-visible .et-vessel-glass { border-color: var(--gold); }
+.et-vessel:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+.et-vessel:disabled { cursor: default; }
+.et-vessel-label { color: var(--bone-bright); font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.08em; text-shadow: 0 1px 3px #000, 0 0 6px #000; }
+
+.et-table-status {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  margin: 0;
+  padding: 0.35rem 1rem;
+  color: var(--bone-bright);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-shadow: 0 1px 3px #000, 0 0 8px #000;
+  background: linear-gradient(0deg, rgba(8, 7, 6, 0.8), transparent);
+  pointer-events: none;
+}
+
+.et-note { width: min(720px, 100%); margin: 0.6rem auto 0; color: var(--ash); font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; line-height: 1.8; text-align: center; }
+.et-response { white-space: pre-line; }
+
+.et-panel {
+  width: min(720px, 100%);
+  margin: 1.2rem auto 0;
+  padding: 1rem 1.1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--gold);
+  background: rgba(10, 9, 8, 0.86);
+}
+
+.et-panel-order { margin: 0 0 1rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.92rem; line-height: 1.8; }
+.et-methods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+
+.et-method {
+  min-height: 44px;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  background: rgba(20, 16, 12, 0.8);
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.et-method[aria-pressed="true"] { border-color: var(--gold); color: var(--bone-bright); background: rgba(154, 127, 71, 0.18); }
+.et-method.is-collected::after { content: " ✓"; color: var(--gold); }
+.et-method:hover:not(:disabled),
+.et-method:focus-visible { border-color: var(--gold); outline: 2px solid var(--gold); outline-offset: 2px; }
+.et-method:disabled { opacity: 0.45; cursor: default; }
+
+.et-action,
+.et-entry-btn {
+  min-height: 44px;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.et-entry-btn,
+.et-shine { border-color: var(--gold); color: var(--bone-bright); }
+.et-action:hover:not(:disabled),
+.et-action:focus-visible,
+.et-entry-btn:hover:not(:disabled),
+.et-entry-btn:focus-visible { border-color: var(--gold); background: var(--gold); color: var(--void); outline: 2px solid var(--bone-bright); outline-offset: 2px; }
+.et-action:disabled,
+.et-entry-btn:disabled { opacity: 0.4; cursor: default; }
+.et-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; margin-top: 0.9rem; }
+
+.et-server,
+.et-echo { grid-column: 1 / -1; justify-self: center; width: min(720px, 100%); }
+.et-server { position: relative; z-index: 1; margin: 1.5rem auto; padding: 1rem 1.1rem; border: 1px solid var(--line); border-left: 2px solid #b8914f; background: rgba(10, 9, 8, 0.86); text-align: left; }
+.et-server-title { margin: 0 0 0.4rem; color: var(--gold); font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.18em; }
+.et-server-level { margin: 0 0 0.4rem; color: #e6c27a; font-family: var(--serif-cn); font-size: 1rem; }
+.et-server-body { margin: 0 0 0.8rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.9rem; line-height: 1.9; }
+
+.et-codex { position: relative; z-index: 1; max-width: 760px; margin: 2rem auto; padding: 1.5rem; border: 1px solid var(--line); background: var(--void-soft); }
+.et-kicker { margin-bottom: 1.25rem; color: var(--gold); font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.15em; text-align: center; }
+.et-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+.et-cell { min-height: 64px; padding: 0.8rem; border: 1px solid var(--line); background: var(--void); font-family: var(--mono); font-size: 0.75rem; line-height: 1.6; white-space: pre-line; text-align: center; }
+.et-cell.is-locked { color: var(--ash); border-style: dashed; opacity: 0.6; }
+.et-cell.is-unlocked { color: var(--bone-bright); border-color: var(--gold); background: rgba(30, 25, 20, 0.5); }
+.et-hints-title { margin: 0 0 0.4rem; color: var(--bone); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; }
+.et-hints { margin: 0 0 1rem; padding-left: 1.1rem; color: var(--ash); font-size: 0.82rem; line-height: 1.8; }
+.et-hints li.is-met { color: var(--gold); }
+.et-codex-entry { display: flex; flex-direction: column; gap: 0.6rem; align-items: center; }
+
+@media (max-width: 720px) {
+  .et-figure { width: min(92vw, 520px); }
+  .et-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+  .et-hotspot .dh-label { font-size: 0.64rem; padding: 0.12rem 0.3rem; letter-spacing: 0.02em; }
+  .et-methods { grid-template-columns: 1fr; }
+  /* 窄屏状态行挪到图下，量器区放宽 */
+  .et-table-figure { overflow: visible; margin-bottom: 3rem; }
+  .et-table-status { top: calc(100% + 0.4rem); bottom: auto; padding: 0; font-size: 0.64rem; letter-spacing: 0.02em; background: none; }
+  .et-rack { left: 18%; right: 10%; top: 12%; bottom: 14%; }
+  .et-vessel-label { font-size: 0.66rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .et-vessel,
+  .et-vessel-tea { transition: none; }
+}
+
+@media (min-width: 721px) {
+  .et-hotspot .dh-label { white-space: nowrap; }
+}
