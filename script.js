@@ -1406,6 +1406,8 @@ document.addEventListener("DOMContentLoaded", () => {
     replayShadowlessPhotographyPending(name);
     resolveWakeForAnotherHotelPendingOnArrival(name);
     replayWakeForAnotherHotelPending(name);
+    resolveYesterdayBreakfastPendingOnArrival(name);
+    replayYesterdayBreakfastPending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1549,9 +1551,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
@@ -1565,7 +1567,7 @@ document.addEventListener("DOMContentLoaded", () => {
        v88 窄桥：title-action 可抵达 unending-gallery；
        v89 窄桥：appeal-action 可抵达 unending-gallery；
        v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1804,6 +1806,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "wake-for-another-hotel" && !ahHotelCanVisit()) target = "remembrance";
     if (target === "borrowed-dawn-clockroom" && !borrowedDawnClockroomCanVisit()) target = "remembrance";
     if (target === "shared-morning-veranda" && !sharedMorningVerandaCanVisit()) target = "remembrance";
+
+    /* v105 只出售昨日的早餐铺：未解锁或无合法抵达时一律回痕迹室 */
+    if (target === "yesterday-breakfast-shop" && !ybShopCanVisit()) target = "remembrance";
+    if (target === "breakfast-counter" && !breakfastCounterCanVisit()) target = "remembrance";
+    if (target === "hearing-of-yesterdays-bill" && !ybCourtCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -48043,6 +48050,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetWeatherlessShelterState();
       forgetShadowlessPhotographyState();
       forgetWakeForAnotherHotelState();
+      forgetYesterdayBreakfastState();
       forgetCodexFolds();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
@@ -60061,6 +60069,759 @@ onTrustedAh('#ah-revise', chooseAhRevise);
 
 AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => chooseAhWakeReturn(scene)));
 
+  /* ============================================================
+     v105 只出售昨日的早餐铺 / BREAKFAST SHOP OF YESTERDAY
+     v104 的住客终于醒来，早餐却还停在昨天。唯一开着的早餐铺只卖昨天的早餐，而且只照昨天吃的顺序上。
+     三张小票 × 三种上法 = 9 份早餐；先听单，再按要求的顺序把菜一道道端出来，上对了才出餐。
+     只读 v104；独立键 goddead_v105_yesterday_breakfast；所有新操作只接受真实点击。
+     ============================================================ */
+  const YESTERDAY_BREAKFAST_KEY = 'goddead_v105_yesterday_breakfast';
+  const YESTERDAY_BREAKFAST_VERSION = 105;
+  const YB_SHOP = 'yesterday-breakfast-shop';
+  const YB_COUNTER = 'breakfast-counter';
+  const YB_COURT = 'hearing-of-yesterdays-bill';
+  const YB_DISHES = ['congee', 'bun', 'soymilk', 'youtiao', 'egg', 'tea'];
+  const YB_DISH_NAMES = { congee: '粥', bun: '包子', soymilk: '豆浆', youtiao: '油条', egg: '咸蛋', tea: '茶' };
+  const YB_TICKETS = ['corridor-ticket', 'cancellation-ticket', 'acting-ticket'];
+  const YB_TICKET_TABLE = {
+    'corridor-ticket': {
+      title: '走廊夜班的那份', order: ['soymilk', 'youtiao', 'bun', 'congee'], target: 'corridor', place: '走廊', waiterTitle: '走廊跑堂',
+      feedback: '小票被油浸透了，看不清字。只记得那个夜班的人每天天亮前来，吃完就走回走廊。',
+      echoLead: '走廊的长椅上放着一张油渍小票。',
+    },
+    'cancellation-ticket': {
+      title: '注销科科员的那份', order: ['tea', 'congee', 'egg', 'bun', 'tea'], target: 'cancellation', place: '神名注销科', waiterTitle: '注销科跑堂',
+      feedback: '科员每天点同样五样，吃一样就在单子上划掉一样，像在注销什么。',
+      echoLead: '神名注销科的柜台上压着一张油渍小票。',
+    },
+    'acting-ticket': {
+      title: '代神席的那份', order: ['congee', 'soymilk', 'bun', 'egg', 'youtiao', 'tea'], target: 'acting', place: '代神席', waiterTitle: '代神席跑堂',
+      feedback: '代神席的人点了六样，每样只吃一口，剩下的说是替神留的。',
+      echoLead: '代神席的扶手上夹着一张油渍小票。',
+    },
+  };
+  const YB_METHODS = ['as-yesterday', 'reverse', 'hold-last'];
+  const YB_METHOD_TABLE = {
+    'as-yesterday': { title: '照昨天上', hint: '照昨天的顺序，一道一道上。', result: '他吃了一口，说跟昨天一模一样。昨天就这样又过了一遍。' },
+    reverse: { title: '倒着上', hint: '从昨天最后一道开始，倒着上回去。', result: '菜倒着上，他从饭后那杯茶一路吃回第一口，像把昨天退了回去。' },
+    'hold-last': { title: '留下最后一道', hint: '照昨天的顺序上，但最后一道留着不上。', result: '最后一道留在灶上没端出来。店主说，那一道算今天的。' },
+  };
+  const YB_SERVING_IDS = [];
+  YB_TICKETS.forEach((ticket) => YB_METHODS.forEach((method) => YB_SERVING_IDS.push(`${ticket}:${method}`)));
+  const YB_VERDICT_ACTIONS = ['let-the-guest-pay-tomorrow', 'serve-yesterday-forever', 'close-the-shop-at-dawn'];
+  const YB_VERDICT_TABLE = {
+    'let-the-guest-pay-tomorrow': {
+      title: '让客人明天再付', outcome: 'the-bill-moved-to-tomorrow', target: 'threshold',
+      feedback: '听证会裁定：昨天的账明天再付。门外多了一张赊账的小票，上面的日期永远是明天。',
+    },
+    'serve-yesterday-forever': {
+      title: '永远只卖昨天', outcome: 'yesterday-served-forever', target: 'remembrance',
+      feedback: '听证会准许早餐铺永远只卖昨天。痕迹室的角落多了一碗粥，一直是温的，一直是昨天的。',
+    },
+    'close-the-shop-at-dawn': {
+      title: '天亮就打烊', outcome: 'the-shop-closed-at-dawn', target: 'unending-gallery',
+      feedback: '听证会让早餐铺天亮就打烊。画廊的空框前摞着收起来的蒸笼，还冒着最后一点热气。',
+    },
+  };
+  const YB_VERDICT_OUTCOME_IDS = YB_VERDICT_ACTIONS.map((a) => YB_VERDICT_TABLE[a].outcome);
+  const YB_ENTRY_FEEDBACK = '早餐铺的门帘上挂着“昨日”的木牌。柜台上压着三张油渍小票，蒸笼里的东西都是昨天的。';
+  const YB_ABANDON_FEEDBACK = '你把小票压回柜台上。灶上的锅又咕嘟了一声。';
+  const YB_COURT_ENTRY_FEEDBACK = '三张小票都上齐过了。昨日账单听证会的门口挂着一串没付的账。';
+  const YB_WAITER_RETURN_FEEDBACK = '跑堂把空碗摞好，领你回到早餐铺。';
+  const YB_OLD_TARGETS = ['corridor', 'cancellation', 'acting'];
+
+  function ybDelay() {
+    return reduced ? 300 : 1400;
+  }
+
+  /* 纯函数：某张小票在某种上法下，应依次端出的菜 */
+  function ybTargetOrder(ticket, method) {
+    const order = YB_TICKET_TABLE[ticket].order.slice();
+    if (method === 'reverse') return order.reverse();
+    if (method === 'hold-last') return order.slice(0, -1);
+    return order;
+  }
+
+  /* 纯函数：已端出的菜是否仍是目标顺序的前缀 */
+  function ybIsPrefix(served, target) {
+    return Array.isArray(served) && served.length <= target.length && served.every((d, i) => d === target[i]);
+  }
+
+  function ybDishList(dishes) {
+    return dishes.map((d) => YB_DISH_NAMES[d] || '？').join(' → ');
+  }
+
+  function ybServeFeedback(ticket, method) {
+    return `${YB_TICKET_TABLE[ticket].title}：${YB_METHOD_TABLE[method].result}`;
+  }
+
+  function defaultYesterdayBreakfast() {
+    const latest = {};
+    YB_TICKETS.forEach((b) => { latest[b] = ''; });
+    return {
+      version: YESTERDAY_BREAKFAST_VERSION,
+      visited: { shop: false, counter: false, court: false },
+      draft: { ticket: '', method: 'as-yesterday' },
+      servings: [],
+      courtOutcomes: [],
+      servingRuns: 0,
+      courtRuns: 0,
+      latestMethodByTicket: latest,
+      lastOutcome: '',
+      activeWaiter: null,
+      pending: null,
+    };
+  }
+
+  function clampYbCount(n) {
+    const v = Math.floor(Number(n));
+    return Number.isFinite(v) ? Math.min(9999, Math.max(0, v)) : 0;
+  }
+
+  function normalizeYesterdayBreakfast(raw) {
+    const d = defaultYesterdayBreakfast();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== YESTERDAY_BREAKFAST_VERSION) return d;
+    const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
+    d.visited = { shop: v.shop === true, counter: v.counter === true, court: v.court === true };
+    const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
+    d.draft = { ticket: YB_TICKETS.includes(dr.ticket) ? dr.ticket : '', method: YB_METHODS.includes(dr.method) ? dr.method : 'as-yesterday' };
+    const servings = new Set(Array.isArray(raw.servings) ? raw.servings : []);
+    d.servings = YB_SERVING_IDS.filter((id) => servings.has(id));
+    const outcomes = new Set(Array.isArray(raw.courtOutcomes) ? raw.courtOutcomes : []);
+    d.courtOutcomes = YB_VERDICT_OUTCOME_IDS.filter((id) => outcomes.has(id));
+    d.servingRuns = clampYbCount(raw.servingRuns);
+    d.courtRuns = clampYbCount(raw.courtRuns);
+    const latest = raw.latestMethodByTicket && typeof raw.latestMethodByTicket === 'object' ? raw.latestMethodByTicket : {};
+    YB_TICKETS.forEach((b) => {
+      d.latestMethodByTicket[b] = YB_METHODS.includes(latest[b]) && d.servings.includes(`${b}:${latest[b]}`) ? latest[b] : '';
+    });
+    if (typeof raw.lastOutcome === 'string' && (d.servings.includes(raw.lastOutcome) || d.courtOutcomes.includes(raw.lastOutcome))) d.lastOutcome = raw.lastOutcome;
+    const a = raw.activeWaiter;
+    if (a && typeof a === 'object' && !Array.isArray(a) && Object.keys(a).length === 1 && d.servings.includes(a.serving)) d.activeWaiter = { serving: a.serving };
+    d.pending = normalizeYbPending(raw.pending, d);
+    return d;
+  }
+
+  function ybCourtProgress(st) {
+    const tickets = new Set();
+    const methods = new Set();
+    st.servings.forEach((id) => {
+      const [ticket, method] = id.split(':');
+      tickets.add(ticket);
+      methods.add(method);
+    });
+    return { tickets: tickets.size, methods: methods.size };
+  }
+
+  function ybCourtEligible(st) {
+    const p = ybCourtProgress(st);
+    return p.tickets === YB_TICKETS.length && p.methods === YB_METHODS.length;
+  }
+
+  function expectedYbPending(p, st) {
+    const clean = !st.activeWaiter;
+    switch (p.kind) {
+      case 'entry':
+        return clean ? { feedback: YB_ENTRY_FEEDBACK, kind: 'entry', target: YB_SHOP } : null;
+      case 'ticket': {
+        const b = YB_TICKET_TABLE[p.ticket];
+        if (!b || !clean) return null;
+        return { ticket: p.ticket, feedback: b.feedback, kind: 'ticket', source: YB_SHOP, target: YB_COUNTER };
+      }
+      case 'serve': {
+        const b = YB_TICKET_TABLE[p.ticket];
+        if (!b || !YB_METHOD_TABLE[p.method] || !clean || st.draft.ticket !== p.ticket || st.draft.method !== p.method) return null;
+        return { ticket: p.ticket, feedback: ybServeFeedback(p.ticket, p.method), kind: 'serve', method: p.method, serving: `${p.ticket}:${p.method}`, source: YB_COUNTER, target: b.target };
+      }
+      case 'abandon':
+        return st.draft.ticket ? { feedback: YB_ABANDON_FEEDBACK, kind: 'abandon', source: YB_COUNTER, target: YB_SHOP } : null;
+      case 'waiter-return': {
+        if (!st.activeWaiter) return null;
+        const ticket = st.activeWaiter.serving.split(':')[0];
+        return { feedback: YB_WAITER_RETURN_FEEDBACK, from: YB_TICKET_TABLE[ticket].target, kind: 'waiter-return', serving: st.activeWaiter.serving, target: YB_SHOP };
+      }
+      case 'court-entry':
+        return clean && ybCourtEligible(st) ? { feedback: YB_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: YB_COURT } : null;
+      case 'verdict': {
+        const a = YB_VERDICT_TABLE[p.action];
+        if (!a || !clean || !st.visited.court || !ybCourtEligible(st)) return null;
+        return { action: p.action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: YB_COURT, target: a.target };
+      }
+      default:
+        return null;
+    }
+  }
+
+  function normalizeYbPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+    const expected = expectedYbPending(p, st);
+    if (!expected) return null;
+    const keys = Object.keys(p).sort();
+    const want = Object.keys(expected).sort();
+    if (keys.length !== want.length || keys.some((k, i) => k !== want[i] || p[k] !== expected[k])) return null;
+    return expected;
+  }
+
+  function yesterdayBreakfastUnlocked() {
+    const compute = () => {
+      if (typeof wakeForAnotherHotelUnlocked !== 'function' || !wakeForAnotherHotelUnlocked()) return false;
+      const v104 = getWakeForAnotherHotel();
+      return Array.isArray(v104.endings) && AH_ENDING_IDS.every((id) => v104.endings.includes(id));
+    };
+    return store.memo ? store.memo("yesterdayBreakfastUnlocked", compute) : compute();
+  }
+
+  /* v104 还有在途的晨铃或没带回的回执时，先不让进店 */
+  function ybUpstreamBusy() {
+    const v104 = getWakeForAnotherHotel();
+    return Boolean(v104.pending || v104.activeWake);
+  }
+
+
+  function getYesterdayBreakfast() {
+    if (!yesterdayBreakfastUnlocked()) return defaultYesterdayBreakfast();
+    let raw;
+    try { raw = JSON.parse(store.get(YESTERDAY_BREAKFAST_KEY, '{}')); } catch { return defaultYesterdayBreakfast(); }
+    return normalizeYesterdayBreakfast(raw);
+  }
+
+  function saveYesterdayBreakfast(st) {
+    if (!yesterdayBreakfastUnlocked()) return defaultYesterdayBreakfast();
+    const canonical = normalizeYesterdayBreakfast(Object.assign({}, st, { version: YESTERDAY_BREAKFAST_VERSION }));
+    store.set(YESTERDAY_BREAKFAST_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function ybPendingLogicalSource(p) {
+    if (!p) return '';
+    if (p.kind === 'entry' || p.kind === 'court-entry') return 'remembrance';
+    if (p.kind === 'waiter-return') return p.from;
+    return p.source || '';
+  }
+
+  function resolveYesterdayBreakfastPendingOnArrival(sceneName) {
+    const st = getYesterdayBreakfast();
+    const p = st.pending;
+    if (!p) return st;
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.shop = true;
+      } else if (p.kind === 'ticket') {
+        st.visited.counter = true;
+        st.draft = { ticket: p.ticket, method: st.draft.ticket === p.ticket ? st.draft.method : 'as-yesterday' };
+      } else if (p.kind === 'serve') {
+        st.servingRuns = clampYbCount(st.servingRuns + 1);
+        if (!st.servings.includes(p.serving)) st.servings = st.servings.concat(p.serving);
+        st.latestMethodByTicket[p.ticket] = p.method;
+        st.lastOutcome = p.serving;
+        st.activeWaiter = { serving: p.serving };
+        st.draft = { ticket: '', method: 'as-yesterday' };
+      } else if (p.kind === 'abandon') {
+        st.draft = { ticket: '', method: 'as-yesterday' };
+        st.visited.shop = true;
+      } else if (p.kind === 'waiter-return') {
+        st.activeWaiter = null;
+        st.visited.shop = true;
+      } else if (p.kind === 'court-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'verdict') {
+        st.courtRuns = clampYbCount(st.courtRuns + 1);
+        if (!st.courtOutcomes.includes(p.outcome)) st.courtOutcomes = st.courtOutcomes.concat(p.outcome);
+        st.lastOutcome = p.outcome;
+      }
+      return saveYesterdayBreakfast(st);
+    }
+    if (sceneName === ybPendingLogicalSource(p)) return st;
+    st.pending = null;
+    return saveYesterdayBreakfast(st);
+  }
+
+  const YB_RESPONSE_BY_KIND = {
+    entry: '#yb-entry-response',
+    ticket: '#yesterday-breakfast-shop-response',
+    serve: '#breakfast-counter-response',
+    abandon: '#breakfast-counter-response',
+    'court-entry': '#yb-court-entry-response',
+    verdict: '#hearing-of-yesterdays-bill-response',
+  };
+
+  function showYbResponse(selector, text) {
+    const el = $(selector);
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = !text;
+  }
+
+  function syncYesterdayBreakfastAll() {
+    syncYbShop();
+    syncBreakfastCounter();
+    syncYbCourt();
+    syncYbWaiters();
+    syncYbEchoes();
+    syncYbRemembrance();
+    syncYbLinks();
+    if (typeof syncPhEntries === 'function') syncPhEntries();
+  }
+
+  function replayYesterdayBreakfastPending(sceneName) {
+    const st = getYesterdayBreakfast();
+    const p = st.pending;
+    if (p && p.target === sceneName) resolveYesterdayBreakfastPendingOnArrival(sceneName);
+    else if (p && sceneName === ybPendingLogicalSource(p)) {
+      syncYesterdayBreakfastAll();
+      const selector = p.kind === 'waiter-return' ? `#yb-waiter-response-${p.from}` : YB_RESPONSE_BY_KIND[p.kind];
+      if (selector) showYbResponse(selector, p.feedback);
+      AutoAdvance.schedule(sceneName, p.target, { delay: ybDelay() });
+      return;
+    } else if (p) {
+      st.pending = null;
+      saveYesterdayBreakfast(st);
+    }
+    syncYesterdayBreakfastAll();
+  }
+
+  function launchYb(scene, buttonId, pending, responseSelector) {
+    const st = getYesterdayBreakfast();
+    st.pending = pending;
+    const saved = saveYesterdayBreakfast(st);
+    if (!saved.pending) return false;
+    const btn = buttonId ? $(`#${buttonId}`) : null;
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+    if (AudioEngine.whoosh) AudioEngine.whoosh();
+    syncYesterdayBreakfastAll();
+    showYbResponse(responseSelector, pending.feedback);
+    AutoAdvance.schedule(scene, pending.target, { delay: ybDelay() });
+    return true;
+  }
+
+  function ybReady(scene, buttonId) {
+    if (currentScene !== scene) return null;
+    if (AutoAdvance.has(scene)) return null;
+    if (buttonId && !buttonAvailable(buttonId)) return null;
+    if (!yesterdayBreakfastUnlocked()) return null;
+    const st = getYesterdayBreakfast();
+    return st.pending ? null : st;
+  }
+
+  function chooseYbEntry() {
+    const st = ybReady('remembrance', 'yb-entry-btn');
+    if (!st || st.activeWaiter) return;
+    if (ybUpstreamBusy()) return;
+    launchYb('remembrance', 'yb-entry-btn', { feedback: YB_ENTRY_FEEDBACK, kind: 'entry', target: YB_SHOP }, '#yb-entry-response');
+  }
+
+  function chooseYbTicket(ticket) {
+    const b = YB_TICKET_TABLE[ticket];
+    if (!b) return;
+    const st = ybReady(YB_SHOP, `yb-ticket-${ticket}`);
+    if (!st || st.activeWaiter) return;
+    launchYb(YB_SHOP, `yb-ticket-${ticket}`, { ticket, feedback: b.feedback, kind: 'ticket', source: YB_SHOP, target: YB_COUNTER }, '#yesterday-breakfast-shop-response');
+  }
+
+  function chooseYbMethod(method) {
+    if (!YB_METHOD_TABLE[method]) return;
+    const st = ybReady(YB_COUNTER, `yb-method-${method}`);
+    if (!st || !st.draft.ticket || !st.visited.counter || st.draft.method === method) return;
+    st.draft.method = method;
+    saveYesterdayBreakfast(st);
+    syncBreakfastCounter();
+  }
+
+  /* 出餐台：端出的菜只放在内存里；换小票或换上法时清空，上对了才写 pending */
+  let ybServed = [];
+  let ybMisses = 0;
+  let ybCounterKey = '';
+  let ybCallTimers = [];
+
+  function stopYbCalling() {
+    ybCallTimers.forEach((t) => clearTimeout(t));
+    ybCallTimers = [];
+    YB_DISHES.forEach((d) => { const b = $(`#yb-dish-${d}`); if (b) b.classList.remove('is-calling'); });
+  }
+
+  function paintYbCounter(message) {
+    const st = getYesterdayBreakfast();
+    const status = $('#yb-counter-status');
+    const tray = $('#yb-tray');
+    if (!st.draft.ticket) {
+      if (status) status.textContent = '';
+      if (tray) tray.textContent = '';
+      return;
+    }
+    const target = ybTargetOrder(st.draft.ticket, st.draft.method);
+    const done = ybServed.length === target.length && ybIsPrefix(ybServed, target);
+    if (tray) tray.textContent = ybServed.length ? `已端出：${ybDishList(ybServed)}` : '托盘还空着。';
+    YB_DISHES.forEach((d) => {
+      const b = $(`#yb-dish-${d}`);
+      if (b) b.setAttribute('aria-label', `端出${YB_DISH_NAMES[d]}`);
+    });
+    if (status) status.textContent = message || (done ? '都上对了，可以出餐。' : `这一份要上 ${target.length} 道，已经上了 ${ybServed.length} 道。`);
+  }
+
+  /* 听单：店主把要上的菜按顺序念一遍，菜也依次亮一下；不改任何进度 */
+  function listenYbOrder() {
+    const st = ybReady(YB_COUNTER, 'yb-listen');
+    if (!st || !st.draft.ticket || st.activeWaiter) return;
+    stopYbCalling();
+    ybServed = [];
+    const target = ybTargetOrder(st.draft.ticket, st.draft.method);
+    const beat = reduced ? 900 : 700;
+    paintYbCounter('店主开始念单……');
+    target.forEach((d, i) => {
+      ybCallTimers.push(setTimeout(() => {
+        YB_DISHES.forEach((x) => { const b = $(`#yb-dish-${x}`); if (b) b.classList.toggle('is-calling', x === d); });
+        if (AudioEngine.tick) AudioEngine.tick();
+        paintYbCounter(`第 ${i + 1} 道：${YB_DISH_NAMES[d]}`);
+      }, i * beat));
+    });
+    ybCallTimers.push(setTimeout(() => {
+      YB_DISHES.forEach((x) => { const b = $(`#yb-dish-${x}`); if (b) b.classList.remove('is-calling'); });
+      paintYbCounter(`念完了，一共 ${target.length} 道。轮到你上菜。`);
+    }, target.length * beat));
+  }
+
+  function pickYbDish(dish) {
+    if (!YB_DISHES.includes(dish)) return;
+    const st = ybReady(YB_COUNTER, `yb-dish-${dish}`);
+    if (!st || !st.draft.ticket || st.activeWaiter) return;
+    const target = ybTargetOrder(st.draft.ticket, st.draft.method);
+    if (ybServed.length >= target.length) return;
+    stopYbCalling();
+    ybServed.push(dish);
+    if (!ybIsPrefix(ybServed, target)) {
+      const position = ybServed.length;
+      ybMisses += 1;
+      ybServed = [];
+      paintYbCounter(`上错了：第 ${position} 道不该是${YB_DISH_NAMES[dish]}。托盘撤回去，从头再上，也可以再听一遍单。`);
+      return;
+    }
+    if (AudioEngine.clamp) AudioEngine.clamp();
+    paintYbCounter(ybServed.length === target.length ? '都上对了，可以出餐。' : '');
+  }
+
+  function redoYbTray() {
+    const st = ybReady(YB_COUNTER, 'yb-redo');
+    if (!st || !st.draft.ticket || st.activeWaiter) return;
+    stopYbCalling();
+    ybServed = [];
+    paintYbCounter('托盘撤回去了，从头再上。');
+  }
+
+  function serveYbBreakfast() {
+    const st = ybReady(YB_COUNTER, 'yb-serve');
+    if (!st || !st.draft.ticket || st.activeWaiter) return;
+    const { ticket, method } = st.draft;
+    const target = ybTargetOrder(ticket, method);
+    if (ybServed.length !== target.length || !ybIsPrefix(ybServed, target)) {
+      paintYbCounter(`还没上齐。${YB_METHOD_TABLE[method].hint}`);
+      return;
+    }
+    stopYbCalling();
+    paintYbCounter('都上对了。');
+    launchYb(YB_COUNTER, 'yb-serve', {
+      feedback: ybServeFeedback(ticket, method), kind: 'serve', method, serving: `${ticket}:${method}`, source: YB_COUNTER, target: YB_TICKET_TABLE[ticket].target, ticket,
+    }, '#breakfast-counter-response');
+  }
+
+  function chooseYbAbandon() {
+    const st = ybReady(YB_COUNTER, 'yb-abandon');
+    if (!st || !st.draft.ticket) return;
+    launchYb(YB_COUNTER, 'yb-abandon', { feedback: YB_ABANDON_FEEDBACK, kind: 'abandon', source: YB_COUNTER, target: YB_SHOP }, '#breakfast-counter-response');
+  }
+
+  function chooseYbWaiterReturn(scene) {
+    const st = ybReady(scene, `yb-waiter-return-${scene}`);
+    if (!st || !st.activeWaiter) return;
+    if (YB_TICKET_TABLE[st.activeWaiter.serving.split(':')[0]].target !== scene) return;
+    launchYb(scene, `yb-waiter-return-${scene}`, { feedback: YB_WAITER_RETURN_FEEDBACK, from: scene, kind: 'waiter-return', serving: st.activeWaiter.serving, target: YB_SHOP }, `#yb-waiter-response-${scene}`);
+  }
+
+  function chooseYbCourtEntry() {
+    const st = ybReady('remembrance', 'yb-court-entry-btn');
+    if (!st || st.activeWaiter || !ybCourtEligible(st)) return;
+    launchYb('remembrance', 'yb-court-entry-btn', { feedback: YB_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: YB_COURT }, '#yb-court-entry-response');
+  }
+
+  function chooseYbVerdict(action) {
+    const a = YB_VERDICT_TABLE[action];
+    if (!a) return;
+    const st = ybReady(YB_COURT, `yb-verdict-${action}`);
+    if (!st || st.activeWaiter || !st.visited.court || !ybCourtEligible(st)) return;
+    launchYb(YB_COURT, `yb-verdict-${action}`, { action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: YB_COURT, target: a.target }, '#hearing-of-yesterdays-bill-response');
+  }
+
+  function yesterdayBreakfastBridgeAllows(targetScene) {
+    if (!yesterdayBreakfastUnlocked()) return false;
+    const st = getYesterdayBreakfast();
+    if (st.pending && (st.pending.kind === 'serve' || st.pending.kind === 'verdict') && st.pending.target === targetScene) return true;
+    if (st.activeWaiter && YB_TICKET_TABLE[st.activeWaiter.serving.split(':')[0]].target === targetScene) return true;
+    const verdict = YB_VERDICT_ACTIONS.find((a) => YB_VERDICT_TABLE[a].outcome === st.lastOutcome);
+    return Boolean(verdict && YB_VERDICT_TABLE[verdict].target === targetScene);
+  }
+
+  function ybShopCanVisit() {
+    if (!yesterdayBreakfastUnlocked()) return false;
+    const st = getYesterdayBreakfast();
+    return st.visited.shop || Boolean(st.pending && st.pending.target === YB_SHOP);
+  }
+
+  function breakfastCounterCanVisit() {
+    if (!yesterdayBreakfastUnlocked()) return false;
+    const st = getYesterdayBreakfast();
+    if (st.visited.counter && st.draft.ticket) return true;
+    return Boolean(st.pending && st.pending.kind === 'ticket');
+  }
+
+  function ybCourtCanVisit() {
+    if (!yesterdayBreakfastUnlocked()) return false;
+    const st = getYesterdayBreakfast();
+    if (st.visited.court && ybCourtEligible(st)) return true;
+    return Boolean(st.pending && st.pending.kind === 'court-entry');
+  }
+
+  function syncYbShop() {
+    const canVisit = ybShopCanVisit();
+    const st = getYesterdayBreakfast();
+    const fig = $('#yb-shop-figure');
+    if (fig) fig.hidden = !canVisit;
+    const blocked = !canVisit || Boolean(st.pending) || Boolean(st.activeWaiter);
+    YB_TICKETS.forEach((ticket) => {
+      const btn = $(`#yb-ticket-${ticket}`);
+      if (!btn) return;
+      btn.disabled = blocked;
+      btn.classList.toggle('is-collected', YB_METHODS.every((m) => st.servings.includes(`${ticket}:${m}`)));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'ticket' && st.pending.ticket === ticket ? 'true' : 'false');
+    });
+    const note = $('#yb-shop-note');
+    if (note) {
+      let text = '';
+      if (st.activeWaiter) {
+        const b = YB_TICKET_TABLE[st.activeWaiter.serving.split(':')[0]];
+        text = `先完成正在送出的那份早餐：${b.waiterTitle}还在${b.place}等你签收。`;
+      } else if (st.draft.ticket) {
+        text = `出餐台上还压着「${YB_TICKET_TABLE[st.draft.ticket].title}」。`;
+      }
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const cont = $('#yb-continue');
+    if (cont) {
+      const show = canVisit && Boolean(st.draft.ticket) && !st.activeWaiter;
+      cont.hidden = !show;
+      cont.disabled = !show || Boolean(st.pending);
+    }
+    if (!st.pending || st.pending.source !== YB_SHOP) showYbResponse('#yesterday-breakfast-shop-response', '');
+  }
+
+  function syncBreakfastCounter() {
+    const canVisit = breakfastCounterCanVisit();
+    const st = getYesterdayBreakfast();
+    const ready = canVisit && Boolean(st.draft.ticket);
+    const key = st.draft.ticket ? `${st.draft.ticket}:${st.draft.method}` : '';
+    if (key !== ybCounterKey && !(st.pending && st.pending.kind === 'serve')) {
+      ybCounterKey = key;
+      stopYbCalling();
+      ybServed = [];
+      ybMisses = 0;
+    }
+    const panel = $('#yb-counter-panel');
+    if (panel) panel.hidden = !ready;
+    const dishes = $('#yb-dishes');
+    if (dishes) dishes.hidden = !ready;
+    if (ready) {
+      const t = YB_TICKET_TABLE[st.draft.ticket];
+      const title = $('#yb-counter-ticket');
+      if (title) title.textContent = `${t.title}（昨天点了 ${t.order.length} 样）—— ${t.feedback}`;
+      const hint = $('#yb-method-hint');
+      if (hint) hint.textContent = `${YB_METHOD_TABLE[st.draft.method].hint}小票看不清，先听单。上对了出餐，会送到${t.place}，由${t.waiterTitle}签收。`;
+    }
+    YB_METHODS.forEach((method) => {
+      const btn = $(`#yb-method-${method}`);
+      if (!btn) return;
+      btn.disabled = !ready || Boolean(st.pending);
+      btn.setAttribute('aria-pressed', ready && st.draft.method === method ? 'true' : 'false');
+      btn.classList.toggle('is-collected', Boolean(st.draft.ticket) && st.servings.includes(`${st.draft.ticket}:${method}`));
+    });
+    ['yb-serve', 'yb-redo', 'yb-listen', 'yb-abandon', ...YB_DISHES.map((d) => `yb-dish-${d}`)].forEach((id) => {
+      const btn = $(`#${id}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending);
+    });
+    if (!ready || st.pending) stopYbCalling();
+    paintYbCounter(st.pending && st.pending.kind === 'serve' ? '都上对了，早餐正在送出去。' : '');
+    if (!st.pending || st.pending.source !== YB_COUNTER) showYbResponse('#breakfast-counter-response', '');
+  }
+
+  function syncYbCourt() {
+    const canVisit = ybCourtCanVisit();
+    const st = getYesterdayBreakfast();
+    const fig = $('#hearing-of-yesterdays-bill-figure');
+    if (fig) fig.hidden = !canVisit;
+    YB_VERDICT_ACTIONS.forEach((action) => {
+      const btn = $(`#yb-verdict-${action}`);
+      if (!btn) return;
+      btn.disabled = !canVisit || Boolean(st.pending) || Boolean(st.activeWaiter);
+      btn.classList.toggle('is-collected', st.courtOutcomes.includes(YB_VERDICT_TABLE[action].outcome));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'verdict' && st.pending.action === action ? 'true' : 'false');
+    });
+    if (!st.pending || st.pending.source !== YB_COURT) showYbResponse('#hearing-of-yesterdays-bill-response', '');
+  }
+
+  function syncYbWaiters() {
+    const st = yesterdayBreakfastUnlocked() ? getYesterdayBreakfast() : defaultYesterdayBreakfast();
+    const [ticket, method] = st.activeWaiter ? st.activeWaiter.serving.split(':') : ['', ''];
+    YB_OLD_TARGETS.forEach((scene) => {
+      const box = $(`#yb-waiter-${scene}`);
+      if (!box) return;
+      const show = Boolean(ticket) && YB_TICKET_TABLE[ticket].target === scene;
+      box.hidden = !show;
+      const btn = $(`#yb-waiter-return-${scene}`);
+      if (btn) {
+        btn.disabled = !show || Boolean(st.pending);
+        btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'waiter-return' && st.pending.from === scene ? 'true' : 'false');
+      }
+      if (!show) return;
+      const b = YB_TICKET_TABLE[ticket];
+      const head = $(`#yb-waiter-title-${scene}`);
+      if (head) head.textContent = `早餐签收 · ${b.waiterTitle} · ${b.title}（${YB_METHOD_TABLE[method].title}）`;
+      const level = $(`#yb-waiter-level-${scene}`);
+      if (level) level.textContent = `${YB_METHOD_TABLE[method].title}：${ybDishList(ybTargetOrder(ticket, method))}`;
+      const body = $(`#yb-waiter-body-${scene}`);
+      if (body) body.textContent = YB_METHOD_TABLE[method].result;
+      if (!st.pending || st.pending.kind !== 'waiter-return') showYbResponse(`#yb-waiter-response-${scene}`, '');
+    });
+  }
+
+  function syncYbEchoes() {
+    const st = yesterdayBreakfastUnlocked() ? getYesterdayBreakfast() : defaultYesterdayBreakfast();
+    YB_TICKETS.forEach((ticket) => {
+      const b = YB_TICKET_TABLE[ticket];
+      const el = $(`#yb-echo-${b.target}`);
+      if (!el) return;
+      const method = st.latestMethodByTicket[ticket];
+      if (!method) { el.hidden = true; el.textContent = ''; return; }
+      el.textContent = `${b.echoLead}「${YB_METHOD_TABLE[method].title}」${YB_METHOD_TABLE[method].result}`;
+      el.hidden = false;
+    });
+  }
+
+  function syncYbRemembrance() {
+    const unlocked = yesterdayBreakfastUnlocked();
+    const shell = $('#yb-codex');
+    const memory = $('#yb-memory');
+    if (!unlocked) {
+      [shell, memory].forEach((el) => { if (el) el.hidden = true; });
+      return;
+    }
+    const st = getYesterdayBreakfast();
+    const v104Busy = ybUpstreamBusy();
+    if (shell) shell.hidden = false;
+    const progress = ybCourtProgress(st);
+    if (memory) {
+      memory.hidden = false;
+      memory.textContent = `早餐：已上 ${st.servings.length}/9 份，共出餐 ${st.servingRuns} 次；昨日账单听证 ${st.courtOutcomes.length}/3。`;
+    }
+    const hints = $('#yb-court-hints');
+    if (hints) {
+      const rows = [['三张小票都上过', progress.tickets, YB_TICKETS.length], ['三种上法都用过', progress.methods, YB_METHODS.length]];
+      hints.replaceChildren(...rows.map(([label, have, need]) => {
+        const li = document.createElement('li');
+        li.className = have >= need ? 'is-met' : '';
+        li.textContent = `${label} ${have}/${need}`;
+        return li;
+      }));
+    }
+    const clean = !st.pending && !st.activeWaiter;
+    const entry = $('#yb-entry-btn');
+    if (entry) {
+      entry.hidden = false;
+      entry.disabled = !clean || v104Busy;
+      entry.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' ? 'true' : 'false');
+    }
+    const note = $('#yb-entry-note');
+    if (note) {
+      const text = v104Busy ? '先把旅馆的晨铃回执带回前台：替别人醒来的旅馆还有一次唤醒没收尾。' : st.activeWaiter ? '先完成正在送出的那份早餐。' : '';
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const court = $('#yb-court-entry-btn');
+    if (court) {
+      const eligible = ybCourtEligible(st);
+      court.hidden = !eligible;
+      court.disabled = !eligible || !clean;
+      court.setAttribute('aria-pressed', st.pending && st.pending.kind === 'court-entry' ? 'true' : 'false');
+    }
+    const grid = $('#yb-codex-grid');
+    if (grid) {
+      const have = new Set(st.servings);
+      const cells = YB_SERVING_IDS.map((id) => {
+        const [ticket, method] = id.split(':');
+        const cell = document.createElement('div');
+        cell.className = `yb-cell ${have.has(id) ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = have.has(id) ? `${YB_TICKET_TABLE[ticket].title}\n${YB_METHOD_TABLE[method].title}` : '？？？';
+        return cell;
+      });
+      YB_VERDICT_ACTIONS.forEach((action) => {
+        const a = YB_VERDICT_TABLE[action];
+        const got = st.courtOutcomes.includes(a.outcome);
+        const cell = document.createElement('div');
+        cell.className = `yb-cell yb-cell-verdict ${got ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = got ? `[昨日账单听证会] ${a.title}\n${a.feedback}` : '？？？';
+        cells.push(cell);
+      });
+      grid.replaceChildren(...cells);
+    }
+    if (!st.pending || (st.pending.kind !== 'entry' && st.pending.kind !== 'court-entry')) {
+      showYbResponse('#yb-entry-response', '');
+      showYbResponse('#yb-court-entry-response', '');
+    }
+  }
+
+  function syncYbLinks() {
+    const st = yesterdayBreakfastUnlocked() ? getYesterdayBreakfast() : null;
+    [['yesterday-breakfast-shop-link', 'shop'], ['breakfast-counter-link', 'counter'], ['hearing-of-yesterdays-bill-link', 'court']].forEach(([id, key]) => {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !(st && st.visited[key]);
+    });
+  }
+
+  function forgetYesterdayBreakfastState() {
+    try { localStorage.removeItem(YESTERDAY_BREAKFAST_KEY); } catch {}
+    [YB_SHOP, YB_COUNTER, YB_COURT].forEach((scene) => AutoAdvance.clear(scene));
+    stopYbCalling();
+    ybServed = [];
+    ybMisses = 0;
+    ybCounterKey = '';
+    ['#yb-codex', '#yb-memory', '#yb-shop-figure', '#yb-counter-panel', '#hearing-of-yesterdays-bill-figure',
+      '#yesterday-breakfast-shop-link', '#breakfast-counter-link', '#hearing-of-yesterdays-bill-link', '#yb-continue', '#yb-court-entry-btn',
+      '#yb-entry-response', '#yb-court-entry-response', '#yesterday-breakfast-shop-response', '#breakfast-counter-response', '#hearing-of-yesterdays-bill-response',
+      ...YB_OLD_TARGETS.flatMap((scene) => [`#yb-waiter-${scene}`, `#yb-echo-${scene}`]),
+    ].forEach((sel) => { const el = $(sel); if (el) el.hidden = true; });
+    $$('[id^="yb-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+  }
+
+  const onTrustedYb = (selector, handler) => {
+    const el = $(selector);
+    if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+  };
+  onTrustedYb('#yb-entry-btn', chooseYbEntry);
+  onTrustedYb('#yb-court-entry-btn', chooseYbCourtEntry);
+  onTrustedYb('#yb-abandon', chooseYbAbandon);
+  onTrustedYb('#yb-continue', () => {
+    const st = ybReady(YB_SHOP, 'yb-continue');
+    if (!st || !st.draft.ticket || st.activeWaiter) return;
+    const ticket = st.draft.ticket;
+    launchYb(YB_SHOP, 'yb-continue', { ticket, feedback: YB_TICKET_TABLE[ticket].feedback, kind: 'ticket', source: YB_SHOP, target: YB_COUNTER }, '#yesterday-breakfast-shop-response');
+  });
+  YB_TICKETS.forEach((ticket) => onTrustedYb(`#yb-ticket-${ticket}`, () => chooseYbTicket(ticket)));
+  YB_METHODS.forEach((method) => onTrustedYb(`#yb-method-${method}`, () => chooseYbMethod(method)));
+  YB_VERDICT_ACTIONS.forEach((action) => onTrustedYb(`#yb-verdict-${action}`, () => chooseYbVerdict(action)));
+  YB_OLD_TARGETS.forEach((scene) => onTrustedYb(`#yb-waiter-return-${scene}`, () => chooseYbWaiterReturn(scene)));
+  YB_DISHES.forEach((dish) => onTrustedYb(`#yb-dish-${dish}`, () => pickYbDish(dish)));
+  onTrustedYb('#yb-listen', listenYbOrder);
+  onTrustedYb('#yb-redo', redoYbTray);
+  onTrustedYb('#yb-serve', serveYbBreakfast);
+
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -60423,12 +61184,30 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
         done: false
       };
     }
-    return {
+    return (typeof yesterdayBreakfastProgressStep === "function" ? yesterdayBreakfastProgressStep() : null) || {
       title: "v104 已全部完成",
       items: ["【只出售昨日的早餐铺】住客终于醒来，早餐却还停在昨天。"],
       target: null,
       done: true
     };
+  };
+
+  /* v105：按三张小票、三种上法与三项裁定给出缺项 */
+  const yesterdayBreakfastProgressStep = () => {
+    if (!yesterdayBreakfastUnlocked()) return null;
+    const st = getYesterdayBreakfast();
+    const items = [];
+    const tickets = YB_TICKETS.filter((x) => !st.servings.some((id) => id.startsWith(`${x}:`))).map((x) => YB_TICKET_TABLE[x].title);
+    const methods = YB_METHODS.filter((m) => !st.servings.some((id) => id.endsWith(`:${m}`))).map((m) => YB_METHOD_TABLE[m].title);
+    if (ybUpstreamBusy() && !st.visited.shop) items.push("先把旅馆的晨铃回执带回前台，早餐铺才开门");
+    if (tickets.length) items.push(`还没上过的小票：${tickets.join("、")}`);
+    if (methods.length) items.push(`还没用过的上法：${methods.join("、")}`);
+    const eligible = ybCourtEligible(st);
+    if (eligible) items.push(`开庭条件已满足；昨日账单裁定已得 ${st.courtOutcomes.length}/3`);
+    if (st.activeWaiter) items.push("有一份早餐在旧房间等你签收：跟着跑堂回到早餐铺");
+    else if (st.draft.ticket) items.push(`出餐台上还压着「${YB_TICKET_TABLE[st.draft.ticket].title}」`);
+    if (eligible && st.courtOutcomes.length >= 3) return { title: "v105 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    return { title: "v105 只出售昨日的早餐铺", items, target: eligible ? "yb-court" : "yb", done: false };
   };
 
   const shadowlessPhotographyProgressStep = () => {
@@ -61001,6 +61780,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   syncWeatherlessShelterAll();
   syncShadowlessPhotographyAll();
   syncWakeForAnotherHotelAll();
+  syncYesterdayBreakfastAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

@@ -1275,3 +1275,14 @@
 - **Computer Use 真实 5 晚实机验收**：复用既有 Chrome 实例标签页 80231134，原生完成 5 晚真实游玩（NONE `[3,2,1]`→画廊、SELF `[0,5,1]`→门外、OTHER `[3,3,0]` 3号房→痕迹室、ALL `[0,0,0]`→画廊、OTHER `[3,0,3]` 2号房→痕迹室），验证 5 次运行累计、4 种结局解锁及重复结局仅刷新对应 `latestClocksByEnding`；单独执行 PH start 写入 `ph.pending` 验证照相馆忙碌时旅馆入口禁用且 AH raw 保留；3 个到访场景各自读取图片确认 1536×1024 完整加载，手机视口 390×844 满足控件≥44px、标题避让 72px 导航及横向 0 溢出；控制台 warn/error 为空。
 - **基准状态还原与后续钩子**：验收完成后由 46 项存储严格还原回 21 项基准 raw，仅安全移除白名单内 25 项 QA 键（未调用 `localStorage.clear`）；3 条 locked 深链实测重定向至 `remembrance` 且无新键写入；集齐四结局后显露 v105「只出售昨日的早餐铺」文案钩子（“住客终于醒来，早餐却还停在昨天。”，仅文案未实装）。
 - **发布状态**：所有变更均在本地完成，HEAD 保持在 v100 `952d75c`，未提交、未推送、未部署，无尽扩充请求未宣告完成。详见 `docs/V104WakeForAnotherHotelDesign.md`、`docs/V104ImagePrompts.md` 与 `design-qa-evidence/v104-computer-use-20261002.md`。
+
+## 2026-10-05 - 发布 v101–v104，实装 v105 只出售昨日的早餐铺
+
+- 发布：本地已实装、测试全绿的 v101 黎明织造厂、v102 没有天气的候车亭、v103 收不到影子的照相馆、v104 替别人醒来的旅馆作为一次提交推送到 main（`e75d73d`）。推送前门禁：`node --check`、`git diff --check` 通过，`site.test.mjs: 18436 assertions passed`，`tests/v101–v104` 共 65 项通过，浏览器冒烟加载无报错。
+- 新增 `yesterday-breakfast-shop`、`breakfast-counter`、`hearing-of-yesterdays-bill` 3 个场景，场景总数 235 → 238，缓存标记 `v=105`。
+- 新交互“听单复述”：先听店主按顺序念单（早餐依次亮起，状态行同步念出），再照昨天上 / 倒着上 / 留下最后一道把六样早餐依次端出，上错一道就撤回重来；三张小票（走廊夜班 4 道 / 注销科科员 5 道 / 代神席 6 道）× 三种上法 = 9 份早餐，送到走廊 / 神名注销科 / 代神席签收。
+- 状态键 `goddead_v105_yesterday_breakfast`（11 字段、7 类 pending、严格归一化），只读 v104；v104 有在途晨铃或未带回回执时入口禁用；前缀 `yb-`；桥接接入治理守卫与画廊守卫；进度引导在 v104 完成后接到 v105。
+- v101–v104 独立测试：场景数与缓存号升到 238 / `v=105`，沙箱补上 v105 的桩，65 项全部通过。
+- 场景图：本机 Codex CLI 生成三张原画，提示词与哈希见 `docs/V105ImagePrompts.md`。
+- 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 18544 assertions passed`。
+- 浏览器：用重建的完整存档（主线到 v104）真实点击听单、上错一道被撤回、再按顺序上齐出餐，送到走廊签收；控制台无报错。

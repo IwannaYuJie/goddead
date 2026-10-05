@@ -18834,3 +18834,193 @@ button.dw-tile:disabled {
     height: 30px;
   }
 }
+
+/* ============================================================
+   v105 只出售昨日的早餐铺：三张小票与听单上菜
+   ============================================================ */
+.yb-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  aspect-ratio: 3 / 2;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border: 1px solid rgba(154, 127, 71, 0.35);
+  background: var(--void);
+}
+
+.yb-figure .yb-img { display: block; width: 100%; height: 100%; object-fit: cover; -webkit-mask-image: none; mask-image: none; }
+
+.yb-hotspot {
+  position: absolute;
+  z-index: 3;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0.4rem;
+  border: 1px solid rgba(222, 217, 208, 0.18);
+  background: rgba(8, 7, 6, 0.1);
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+
+.yb-hotspot .dh-label { padding: 0.2rem 0.55rem; background: rgba(8, 7, 6, 0.74); letter-spacing: 0.1em; }
+.yb-hotspot:hover,
+.yb-hotspot:focus-visible { border-color: var(--gold); background: rgba(154, 127, 71, 0.16); outline: 2px solid var(--gold); outline-offset: 2px; }
+.yb-hotspot:disabled,
+.yb-hotspot[aria-pressed="true"] { border-color: var(--blood); cursor: default; outline: none; }
+.yb-hotspot.is-collected .dh-label::after { content: " ✓"; color: var(--gold); }
+
+.yb-hotspot-left { left: 3%; top: 45%; width: 26%; height: 30%; }
+.yb-hotspot-center { left: 38.5%; top: 46%; width: 23%; height: 29%; }
+.yb-hotspot-right { left: 73.5%; top: 49%; width: 25%; height: 26%; }
+.yb-hotspot-court-left { left: 6%; top: 60%; width: 20%; height: 22%; }
+.yb-hotspot-court-center { left: 44%; top: 36%; width: 11%; height: 47%; }
+.yb-hotspot-court-right { left: 75%; top: 62%; width: 17.5%; height: 21%; }
+
+/* 早餐：按出餐台原画逐样定位的六个按钮；听单时依次亮起 */
+.yb-dishes { position: absolute; inset: 0; z-index: 3; }
+.yb-dish {
+  position: absolute;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0.3rem;
+  border: 1px solid rgba(222, 217, 208, 0.2);
+  border-radius: 10px;
+  background: rgba(8, 7, 6, 0.08);
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+
+.yb-dish .dh-label { padding: 0.15rem 0.5rem; background: rgba(8, 7, 6, 0.75); letter-spacing: 0.1em; }
+.yb-dish:hover:not(:disabled),
+.yb-dish:focus-visible { border-color: var(--gold); background: rgba(154, 127, 71, 0.16); outline: 2px solid var(--gold); outline-offset: 2px; }
+.yb-dish:disabled { cursor: default; }
+.yb-dish.is-calling { border-color: #e6c27a; background: rgba(230, 194, 122, 0.22); box-shadow: 0 0 18px rgba(255, 196, 110, 0.75); }
+/* 按 assets/v105-breakfast-counter.webp 六样早餐的位置（原图 1536×1024） */
+.yb-dish { top: 41%; height: 22%; }
+.yb-dish-congee { left: 1.5%; width: 14.5%; }
+.yb-dish-bun { left: 18.5%; width: 15%; }
+.yb-dish-soymilk { left: 34.5%; width: 12.5%; }
+.yb-dish-youtiao { left: 51.5%; width: 14%; }
+.yb-dish-egg { left: 69%; width: 13.5%; }
+.yb-dish-tea { left: 85%; width: 13%; }
+
+.yb-counter-status {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4%;
+  z-index: 4;
+  margin: 0;
+  padding: 0 1rem;
+  color: var(--bone-bright);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-shadow: 0 1px 3px #000, 0 0 8px #000;
+  pointer-events: none;
+}
+
+.yb-tray { margin: 0.8rem 0 0; color: #e6c27a; font-family: var(--serif-cn); font-size: 0.95rem; letter-spacing: 0.06em; text-align: center; }
+
+.yb-note { width: min(720px, 100%); margin: 0.6rem auto 0; color: var(--ash); font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; line-height: 1.8; text-align: center; }
+.yb-response { white-space: pre-line; }
+
+.yb-panel {
+  width: min(720px, 100%);
+  margin: 1.2rem auto 0;
+  padding: 1rem 1.1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--gold);
+  background: rgba(10, 9, 8, 0.86);
+}
+
+.yb-panel-ticket { margin: 0 0 1rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.92rem; line-height: 1.8; }
+.yb-methods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+
+.yb-method {
+  min-height: 44px;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  background: rgba(20, 16, 12, 0.8);
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.yb-method[aria-pressed="true"] { border-color: var(--gold); color: var(--bone-bright); background: rgba(154, 127, 71, 0.18); }
+.yb-method.is-collected::after { content: " ✓"; color: var(--gold); }
+.yb-method:hover:not(:disabled),
+.yb-method:focus-visible { border-color: var(--gold); outline: 2px solid var(--gold); outline-offset: 2px; }
+.yb-method:disabled { opacity: 0.45; cursor: default; }
+
+.yb-action,
+.yb-entry-btn {
+  min-height: 44px;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.yb-entry-btn,
+.yb-serve { border-color: var(--gold); color: var(--bone-bright); }
+.yb-action:hover:not(:disabled),
+.yb-action:focus-visible,
+.yb-entry-btn:hover:not(:disabled),
+.yb-entry-btn:focus-visible { border-color: var(--gold); background: var(--gold); color: var(--void); outline: 2px solid var(--bone-bright); outline-offset: 2px; }
+.yb-action:disabled,
+.yb-entry-btn:disabled { opacity: 0.4; cursor: default; }
+.yb-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; margin-top: 0.9rem; }
+
+.yb-waiter,
+.yb-echo { grid-column: 1 / -1; justify-self: center; width: min(720px, 100%); }
+.yb-waiter { position: relative; z-index: 1; margin: 1.5rem auto; padding: 1rem 1.1rem; border: 1px solid var(--line); border-left: 2px solid #b8914f; background: rgba(10, 9, 8, 0.86); text-align: left; }
+.yb-waiter-title { margin: 0 0 0.4rem; color: var(--gold); font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.18em; }
+.yb-waiter-level { margin: 0 0 0.4rem; color: #e6c27a; font-family: var(--serif-cn); font-size: 1rem; }
+.yb-waiter-body { margin: 0 0 0.8rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.9rem; line-height: 1.9; }
+
+.yb-codex { position: relative; z-index: 1; max-width: 760px; margin: 2rem auto; padding: 1.5rem; border: 1px solid var(--line); background: var(--void-soft); }
+.yb-kicker { margin-bottom: 1.25rem; color: var(--gold); font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.15em; text-align: center; }
+.yb-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+.yb-cell { min-height: 64px; padding: 0.8rem; border: 1px solid var(--line); background: var(--void); font-family: var(--mono); font-size: 0.75rem; line-height: 1.6; white-space: pre-line; text-align: center; }
+.yb-cell.is-locked { color: var(--ash); border-style: dashed; opacity: 0.6; }
+.yb-cell.is-unlocked { color: var(--bone-bright); border-color: var(--gold); background: rgba(30, 25, 20, 0.5); }
+.yb-hints-title { margin: 0 0 0.4rem; color: var(--bone); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; }
+.yb-hints { margin: 0 0 1rem; padding-left: 1.1rem; color: var(--ash); font-size: 0.82rem; line-height: 1.8; }
+.yb-hints li.is-met { color: var(--gold); }
+.yb-codex-entry { display: flex; flex-direction: column; gap: 0.6rem; align-items: center; }
+
+@media (max-width: 720px) {
+  .yb-figure { width: min(92vw, 520px); }
+  .yb-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+  .yb-hotspot .dh-label { font-size: 0.64rem; padding: 0.12rem 0.3rem; letter-spacing: 0.02em; }
+  .yb-methods { grid-template-columns: 1fr; }
+  .yb-counter-status { font-size: 0.6rem; letter-spacing: 0.02em; }
+  .yb-dish .dh-label { font-size: 0.64rem; padding: 0.1rem 0.25rem; letter-spacing: 0.02em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yb-dish { transition: none; }
+}
+
+@media (min-width: 721px) {
+  .yb-hotspot .dh-label { white-space: nowrap; }
+}

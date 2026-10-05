@@ -4,7 +4,9 @@ Static landing page for [goddead.com](https://goddead.com).
 
 ## Current Experience
 
-当前实现基线为 **v104「替别人醒来的旅馆 / WAKE FOR ANOTHER HOTEL」**（本地实装，尚未发布）：全站共 235 个 hash 场景，静态资源缓存标记为 `v=104`。v104 在 v103 四项照相馆照片集齐且上游无在途/未返相片时开放 3 个新场景：`wake-for-another-hotel`（替别人醒来的旅馆）、`borrowed-dawn-clockroom`（借晨梦钟房）、`shared-morning-veranda`（共用清晨的回廊）。钟房设有三座 0..5 刻度梦钟（分别对应 1 号你的空床、2 号从未见面的旅人、3 号没有登记名字的人，初始刻度 `[3, 2, 1]`），支持 6 种定向借刻操作，保持模 6 和为 0 不变量并在 36 种合法状态中完全可达；依零刻度（晨门）数量与归属严格派生 4 类结局（20/5/10/1 状态分布）并送往旧场景（门外 / 痕迹室 / 无终局画廊）签收。三入口支持门外、痕迹室与照相馆。状态只读 v103，独立存储键 `goddead_v104_wake_for_another_hotel`，集齐四结局后显露 v105「只出售昨日的早餐铺」文案钩子（未实装章节）。
+当前实现基线为 **v105「只出售昨日的早餐铺 / BREAKFAST SHOP OF YESTERDAY」**：全站共 238 个 hash 场景，静态资源缓存标记为 `v=105`。v105 在 v104 四种醒来集齐、且旅馆没有在途晨铃或未带回的回执时开放 3 个新场景：`yesterday-breakfast-shop`（只出售昨日的早餐铺）、`breakfast-counter`（出餐台）、`hearing-of-yesterdays-bill`（昨日账单听证会）。三张看不清的小票（走廊夜班 / 注销科科员 / 代神席）先“听单”记下昨天的顺序，再照昨天上 / 倒着上 / 留下最后一道，把台上的早餐一道道端出来，上错就撤回重来；早餐送到走廊 / 神名注销科 / 代神席签收，三张小票、三种上法都用过即开听证会。独立键 `goddead_v105_yesterday_breakfast`。
+
+历史基线 **v104「替别人醒来的旅馆 / WAKE FOR ANOTHER HOTEL」**：全站 235 个场景，静态资源 `v=104`。v104 在 v103 四项照相馆照片集齐且上游无在途/未返相片时开放 3 个新场景：`wake-for-another-hotel`（替别人醒来的旅馆）、`borrowed-dawn-clockroom`（借晨梦钟房）、`shared-morning-veranda`（共用清晨的回廊）。钟房设有三座 0..5 刻度梦钟（分别对应 1 号你的空床、2 号从未见面的旅人、3 号没有登记名字的人，初始刻度 `[3, 2, 1]`），支持 6 种定向借刻操作，保持模 6 和为 0 不变量并在 36 种合法状态中完全可达；依零刻度（晨门）数量与归属严格派生 4 类结局（20/5/10/1 状态分布）并送往旧场景（门外 / 痕迹室 / 无终局画廊）签收。三入口支持门外、痕迹室与照相馆。状态只读 v103，独立存储键 `goddead_v104_wake_for_another_hotel`，集齐四结局后显露 v105「只出售昨日的早餐铺」文案钩子（未实装章节）。
 
 历史基线包括 **v103「收不到影子的照相馆 / SHADOWLESS PHOTO STUDIO」**：全站共 232 个 hash 场景，静态资源缓存标记为 `v=103`。v103 在 v102 三项候车亭结局集齐且上游无在途/未返车票时开放 3 个新场景：`shadowless-photo-studio`（收不到影子的照相馆）、`double-exposure-camera`（双重曝光取景台）、`unreceived-shadow-darkroom`（未收影暗房）。双重曝光取景台提供 5 个站位与左右打光生成两次曝光底片，依人与人、影与影的重合/分离几何关系纯算法派生 4 种结局（缺席者也有了合影 / 一个人带走两道影子 / 影子替你出席 / 谁也没有被框住）并送往 3 个旧场景目标（门外 / 痕迹室 / 无终局画廊）签收。三入口支持门外、痕迹室与候车亭。状态只读 v102，独立存储键 `goddead_v103_shadowless_photography`，集齐四结局且照片送返后开放 v104「替别人醒来的旅馆」三入口。
 
@@ -12,7 +14,7 @@ Static landing page for [goddead.com](https://goddead.com).
 
 前一章历史实现 **v101「黎明织造厂 / DAWN WEAVING MILL」**（全站 226 个场景，静态资源 `v=101`）机制完整保留：v100 `wkCourtEligible` 且三项百夜裁定集齐后开放 3 个场景（`dawn-weaving-mill`、`day-night-loom`、`sky-cloth-drying-terrace`）。九格织机通过原生按钮与 4 种辅助模式完成晨光/夜线左右独立连通派生三结局，经天际晾布台预览送往门外/痕迹室/无终局画廊签收，双入口支持门外与痕迹室，独立存储键 `goddead_v101_dawn_weaving`。v91–v101 见 `docs/` 对应设计文档。
 
-完整玩家路线、支线网、v63-v104 解锁链与 v90-v104 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
+完整玩家路线、支线网、v63-v105 解锁链与 v90-v105 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
 
 The homepage is **The Living Shrine**, a hash-routed, scene-by-scene exploration game. Visitors knock three times at the sealed threshold — now a photographed bureau door — and on the third knock the door visually opens into a deep black-gold corridor before the visitor is pulled through into the next room; each completed action thereafter advances the ritual automatically.
 

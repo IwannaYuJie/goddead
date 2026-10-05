@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=104">
+  <link rel="stylesheet" href="styles.css?v=105">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -3382,6 +3382,15 @@
             <button class="branch-entry branch-entry-deep" id="branch-entry-confession-ledger" type="button" hidden data-go="confession-ledger" data-hover>无名罪籍库 ⟶</button>
           </nav>
 
+          <!-- v105 走廊早餐签收与记忆 -->
+          <p class="watch-memory yb-echo" id="yb-echo-corridor" hidden></p>
+          <div class="yb-waiter reveal" id="yb-waiter-corridor" hidden>
+            <p class="yb-waiter-title" id="yb-waiter-title-corridor"></p>
+            <p class="yb-waiter-level" id="yb-waiter-level-corridor"></p>
+            <p class="yb-waiter-body" id="yb-waiter-body-corridor"></p>
+            <p class="yb-response" id="yb-waiter-response-corridor" aria-live="polite" hidden></p>
+            <button class="yb-action" id="yb-waiter-return-corridor" type="button" data-hover>跟着跑堂回到早餐铺 ⟶</button>
+          </div>
           <!-- v96 走廊赎票签收与记忆 -->
           <p class="watch-memory hb-echo" id="hb-echo-corridor" hidden></p>
           <div class="hb-appraiser reveal" id="hb-appraiser-corridor" hidden>
@@ -4179,6 +4188,15 @@
             <p class="answer-note" id="acting-note" role="status" aria-live="polite"></p>
           </div>
 
+          <!-- v105 神名注销科早餐签收与记忆 -->
+          <p class="watch-memory yb-echo" id="yb-echo-cancellation" hidden></p>
+          <div class="yb-waiter reveal" id="yb-waiter-cancellation" hidden>
+            <p class="yb-waiter-title" id="yb-waiter-title-cancellation"></p>
+            <p class="yb-waiter-level" id="yb-waiter-level-cancellation"></p>
+            <p class="yb-waiter-body" id="yb-waiter-body-cancellation"></p>
+            <p class="yb-response" id="yb-waiter-response-cancellation" aria-live="polite" hidden></p>
+            <button class="yb-action" id="yb-waiter-return-cancellation" type="button" data-hover>跟着跑堂回到早餐铺 ⟶</button>
+          </div>
           <!-- v98 神名注销科守夜签签收与记忆 -->
           <p class="watch-memory vc-echo" id="vc-echo-cancellation" hidden></p>
           <div class="vc-keeper reveal" id="vc-keeper-cancellation" hidden>
@@ -4248,6 +4266,15 @@
             </div>
           </div>
 
+          <!-- v105 代神席早餐签收与记忆 -->
+          <p class="watch-memory yb-echo" id="yb-echo-acting" hidden></p>
+          <div class="yb-waiter reveal" id="yb-waiter-acting" hidden>
+            <p class="yb-waiter-title" id="yb-waiter-title-acting"></p>
+            <p class="yb-waiter-level" id="yb-waiter-level-acting"></p>
+            <p class="yb-waiter-body" id="yb-waiter-body-acting"></p>
+            <p class="yb-response" id="yb-waiter-response-acting" aria-live="polite" hidden></p>
+            <button class="yb-action" id="yb-waiter-return-acting" type="button" data-hover>跟着跑堂回到早餐铺 ⟶</button>
+          </div>
           <!-- v98 代神席守夜签签收与记忆 -->
           <p class="watch-memory vc-echo" id="vc-echo-acting" hidden></p>
           <div class="vc-keeper reveal" id="vc-keeper-acting" hidden>
@@ -5064,6 +5091,21 @@
               <button class="ah-entry-btn" id="ah-entry-remembrance" type="button" hidden data-hover>前往替别人醒来的旅馆 · GO TO THE HOTEL ⟶</button>
               <p class="ah-note" id="ah-entry-note-remembrance" hidden></p>
               <p class="ah-response" id="ah-entry-response-remembrance" aria-live="polite" hidden></p>
+            </div>
+          </div>
+          <!-- v105 昨日早餐图鉴 -->
+          <p class="watch-memory yb-memory" id="yb-memory" hidden></p>
+          <div class="yb-codex reveal" id="yb-codex" hidden>
+            <p class="yb-kicker">BREAKFAST SHOP OF YESTERDAY · 昨 日 早 餐 图 鉴</p>
+            <div class="yb-grid" id="yb-codex-grid"></div>
+            <p class="yb-hints-title">昨日账单听证会开庭条件</p>
+            <ul class="yb-hints" id="yb-court-hints"></ul>
+            <div class="yb-codex-entry">
+              <button class="yb-entry-btn" id="yb-entry-btn" type="button" hidden data-hover>前往只出售昨日的早餐铺 · GO TO THE BREAKFAST SHOP ⟶</button>
+              <p class="yb-note" id="yb-entry-note" hidden></p>
+              <p class="yb-response" id="yb-entry-response" aria-live="polite" hidden></p>
+              <button class="yb-entry-btn" id="yb-court-entry-btn" type="button" hidden data-hover>进入昨日账单听证会 · ENTER THE HEARING OF YESTERDAY'S BILL ⟶</button>
+              <p class="yb-response" id="yb-court-entry-response" aria-live="polite" hidden></p>
             </div>
           </div>
           <!-- v70 亡者议会图鉴 -->
@@ -8989,6 +9031,90 @@
           <p class="branch-response ah-response" id="shared-morning-veranda-response" aria-live="polite" hidden></p>
         </div>
       </section>
+      <!-- v105 第一幕：只出售昨日的早餐铺 -->
+      <section class="scene scene-branch scene-yesterday-breakfast-shop" id="scene-yesterday-breakfast-shop" data-scene="yesterday-breakfast-shop" data-title="Goddead — 只出售昨日的早餐铺" aria-label="只出售昨日的早餐铺">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">19α / 昨日 · BREAKFAST SHOP OF YESTERDAY</p>
+            <h2 class="sec-title">只出售昨日的早餐铺</h2>
+            <p class="sec-desc">旅馆的住客终于醒来，早餐却还停在昨天。这家铺子只卖昨天的早餐，也只照昨天吃的顺序上。柜台上压着三张看不清字的小票。</p>
+          </header>
+          <figure class="branch-figure yb-figure reveal" id="yb-shop-figure">
+            <img class="branch-img yb-img" data-src="assets/v105-yesterday-breakfast-shop.webp" alt="只出售昨日的早餐铺：晨光灰白，蒸笼和粥锅冒着热气，旧木柜台上压着三张油渍小票，分别压在一只夜班饭盒、一枚铜印章和一只金边茶杯下面" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot yb-hotspot yb-hotspot-left" id="yb-ticket-corridor-ticket" type="button" aria-label="小票：走廊夜班的那份，四样" data-hover><span class="dh-label" aria-hidden="true">走廊夜班 · 四样</span></button>
+            <button class="scene-hotspot yb-hotspot yb-hotspot-center" id="yb-ticket-cancellation-ticket" type="button" aria-label="小票：注销科科员的那份，五样" data-hover><span class="dh-label" aria-hidden="true">注销科科员 · 五样</span></button>
+            <button class="scene-hotspot yb-hotspot yb-hotspot-right" id="yb-ticket-acting-ticket" type="button" aria-label="小票：代神席的那份，六样" data-hover><span class="dh-label" aria-hidden="true">代神席 · 六样</span></button>
+          </figure>
+          <p class="yb-note reveal" id="yb-shop-note" hidden></p>
+          <p class="branch-response yb-response" id="yesterday-breakfast-shop-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开早餐铺">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+            <button class="yb-action" id="yb-continue" type="button" hidden data-hover>回到出餐台 ⟶</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v105 第二幕：出餐台 -->
+      <section class="scene scene-branch scene-breakfast-counter" id="scene-breakfast-counter" data-scene="breakfast-counter" data-title="Goddead — 出餐台" aria-label="出餐台">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">19β / 出餐 · THE SERVING COUNTER</p>
+            <h2 class="sec-title">出餐台</h2>
+            <p class="sec-desc">小票看不清，先听店主念一遍单。然后照选好的上法，把台上的早餐一道道端出来；上错一道就撤回从头来。</p>
+          </header>
+          <figure class="branch-figure yb-figure yb-counter-figure reveal" id="yb-counter-figure">
+            <img class="branch-img yb-img" data-src="assets/v105-breakfast-counter.webp" alt="出餐台：长木柜台上一字排开六样早餐，粥、一笼包子、一杯豆浆、两根油条、半个咸蛋和一杯茶，各放在一只小铜盘上" width="1536" height="1024" loading="lazy" decoding="async">
+            <div class="yb-dishes" id="yb-dishes" role="group" aria-label="台上的早餐" hidden>
+              <button class="yb-dish yb-dish-congee" id="yb-dish-congee" type="button" aria-label="端出粥" data-hover><span class="dh-label" aria-hidden="true">粥</span></button>
+              <button class="yb-dish yb-dish-bun" id="yb-dish-bun" type="button" aria-label="端出包子" data-hover><span class="dh-label" aria-hidden="true">包子</span></button>
+              <button class="yb-dish yb-dish-soymilk" id="yb-dish-soymilk" type="button" aria-label="端出豆浆" data-hover><span class="dh-label" aria-hidden="true">豆浆</span></button>
+              <button class="yb-dish yb-dish-youtiao" id="yb-dish-youtiao" type="button" aria-label="端出油条" data-hover><span class="dh-label" aria-hidden="true">油条</span></button>
+              <button class="yb-dish yb-dish-egg" id="yb-dish-egg" type="button" aria-label="端出咸蛋" data-hover><span class="dh-label" aria-hidden="true">咸蛋</span></button>
+              <button class="yb-dish yb-dish-tea" id="yb-dish-tea" type="button" aria-label="端出茶" data-hover><span class="dh-label" aria-hidden="true">茶</span></button>
+            </div>
+            <p class="yb-counter-status" id="yb-counter-status" aria-live="polite"></p>
+          </figure>
+          <div class="yb-panel reveal" id="yb-counter-panel" hidden>
+            <p class="yb-panel-ticket" id="yb-counter-ticket"></p>
+            <div class="yb-methods" role="group" aria-label="上法">
+              <button class="yb-method" id="yb-method-as-yesterday" type="button" data-hover>照昨天上</button>
+              <button class="yb-method" id="yb-method-reverse" type="button" data-hover>倒着上</button>
+              <button class="yb-method" id="yb-method-hold-last" type="button" data-hover>留下最后一道</button>
+            </div>
+            <p class="yb-note" id="yb-method-hint"></p>
+            <p class="yb-tray" id="yb-tray"></p>
+            <div class="yb-actions">
+              <button class="yb-action yb-listen" id="yb-listen" type="button" data-hover>听单</button>
+              <button class="yb-action yb-serve" id="yb-serve" type="button" data-hover>出餐</button>
+              <button class="yb-action" id="yb-redo" type="button" data-hover>撤回重上</button>
+              <button class="yb-action" id="yb-abandon" type="button" data-hover>把小票压回柜台</button>
+            </div>
+          </div>
+          <p class="branch-response yb-response" id="breakfast-counter-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <!-- v105 第三幕：昨日账单听证会 -->
+      <section class="scene scene-branch scene-hearing-of-yesterdays-bill" id="scene-hearing-of-yesterdays-bill" data-scene="hearing-of-yesterdays-bill" data-title="Goddead — 昨日账单听证会" aria-label="昨日账单听证会">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">19γ / 昨日账单 · HEARING OF YESTERDAY'S BILL</p>
+            <h2 class="sec-title">昨日账单听证会</h2>
+            <p class="sec-desc">一圈空着的早餐长桌，尽头一把空椅子，高窗外天刚发灰。桌上三件东西：一只盖着的瓷碗、一根插满空白账单的签子、一只铜铃。裁定之后仍可回来。</p>
+          </header>
+          <figure class="branch-figure yb-figure reveal" id="hearing-of-yesterdays-bill-figure">
+            <img class="branch-img yb-img" data-src="assets/v105-hearing-of-yesterdays-bill.webp" alt="昨日账单听证会：一圈空着的早餐长桌围着尽头的空椅子，高窗透进灰白的晨光，前景长桌上放着一只盖着的瓷碗、一根插满空白账单的签子和一只铜铃" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot yb-hotspot yb-hotspot-court-left" id="yb-verdict-serve-yesterday-forever" type="button" aria-label="裁定：永远只卖昨天" data-hover><span class="dh-label" aria-hidden="true">永远只卖昨天</span></button>
+            <button class="scene-hotspot yb-hotspot yb-hotspot-court-center" id="yb-verdict-let-the-guest-pay-tomorrow" type="button" aria-label="裁定：让客人明天再付" data-hover><span class="dh-label" aria-hidden="true">让客人明天再付</span></button>
+            <button class="scene-hotspot yb-hotspot yb-hotspot-court-right" id="yb-verdict-close-the-shop-at-dawn" type="button" aria-label="裁定：天亮就打烊" data-hover><span class="dh-label" aria-hidden="true">天亮就打烊</span></button>
+          </figure>
+          <p class="branch-response yb-response" id="hearing-of-yesterdays-bill-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开听证会">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+          </nav>
+        </div>
+      </section>
+
       <!-- 隐藏幕 · 第九条 -->
       <section class="scene scene-ninth" id="scene-ninth" data-scene="ninth" data-title="Goddead — ？？？" aria-label="第九条">
         <figure class="ninth-figure" role="img" aria-label="一道不该存在的裂口，底部有一扇错误的窄门">
@@ -9235,6 +9361,9 @@
       <a class="menu-link ph-nav-link" id="unreceived-shadow-darkroom-link" href="#unreceived-shadow-darkroom" hidden data-hover>未收影暗房</a>      <a class="menu-link ah-nav-link" id="wake-for-another-hotel-link" href="#wake-for-another-hotel" hidden data-hover>替别人醒来的旅馆</a>
       <a class="menu-link ah-nav-link" id="borrowed-dawn-clockroom-link" href="#borrowed-dawn-clockroom" hidden data-hover>借晨梦钟房</a>
       <a class="menu-link ah-nav-link" id="shared-morning-veranda-link" href="#shared-morning-veranda" hidden data-hover>共用清晨的回廊</a>
+      <a href="#yesterday-breakfast-shop" id="yesterday-breakfast-shop-link" hidden data-hover>19α / 昨日早餐铺</a>
+      <a href="#breakfast-counter" id="breakfast-counter-link" hidden data-hover>19β / 出餐台</a>
+      <a href="#hearing-of-yesterdays-bill" id="hearing-of-yesterdays-bill-link" hidden data-hover>19γ / 昨日账单</a>
 
 
       <a href="#three-person-republic-court" id="three-person-republic-court-link" hidden data-hover>04β / 三人共和国</a>
@@ -9244,6 +9373,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=104"></script>
+    <script src="script.js?v=105"></script>
   </body>
 </html>
