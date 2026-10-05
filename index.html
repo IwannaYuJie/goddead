@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=110">
+  <link rel="stylesheet" href="styles.css?v=111">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -3400,6 +3400,15 @@
             <button class="branch-entry branch-entry-deep" id="branch-entry-confession-ledger" type="button" hidden data-go="confession-ledger" data-hover>无名罪籍库 ⟶</button>
           </nav>
 
+          <!-- v111 走廊归位签收与记忆 -->
+          <p class="watch-memory pb-echo" id="pb-echo-corridor" hidden></p>
+          <div class="pb-mover reveal" id="pb-mover-corridor" hidden>
+            <p class="pb-mover-title" id="pb-mover-title-corridor"></p>
+            <p class="pb-mover-level" id="pb-mover-level-corridor"></p>
+            <p class="pb-mover-body" id="pb-mover-body-corridor"></p>
+            <p class="pb-response" id="pb-mover-response-corridor" aria-live="polite" hidden></p>
+            <button class="pb-action" id="pb-mover-return-corridor" type="button" data-hover>跟着搬家具的人回到归位司 ⟶</button>
+          </div>
           <!-- v107 走廊色样签收与记忆 -->
           <p class="watch-memory mx-echo" id="mx-echo-corridor" hidden></p>
           <div class="mx-apprentice reveal" id="mx-apprentice-corridor" hidden>
@@ -4063,6 +4072,15 @@
             <p class="answer-note" id="deliver-note" role="status" aria-live="polite"></p>
           </div>
 
+          <!-- v111 交换台归位签收与记忆 -->
+          <p class="watch-memory pb-echo" id="pb-echo-switchboard" hidden></p>
+          <div class="pb-mover reveal" id="pb-mover-switchboard" hidden>
+            <p class="pb-mover-title" id="pb-mover-title-switchboard"></p>
+            <p class="pb-mover-level" id="pb-mover-level-switchboard"></p>
+            <p class="pb-mover-body" id="pb-mover-body-switchboard"></p>
+            <p class="pb-response" id="pb-mover-response-switchboard" aria-live="polite" hidden></p>
+            <button class="pb-action" id="pb-mover-return-switchboard" type="button" data-hover>跟着搬家具的人回到归位司 ⟶</button>
+          </div>
           <!-- v107 交换台色样签收与记忆 -->
           <p class="watch-memory mx-echo" id="mx-echo-switchboard" hidden></p>
           <div class="mx-apprentice reveal" id="mx-apprentice-switchboard" hidden>
@@ -4602,6 +4620,15 @@
             </div>
           </div>
 
+          <!-- v111 神圣遗物科归位签收与记忆 -->
+          <p class="watch-memory pb-echo" id="pb-echo-reliquary" hidden></p>
+          <div class="pb-mover reveal" id="pb-mover-reliquary" hidden>
+            <p class="pb-mover-title" id="pb-mover-title-reliquary"></p>
+            <p class="pb-mover-level" id="pb-mover-level-reliquary"></p>
+            <p class="pb-mover-body" id="pb-mover-body-reliquary"></p>
+            <p class="pb-response" id="pb-mover-response-reliquary" aria-live="polite" hidden></p>
+            <button class="pb-action" id="pb-mover-return-reliquary" type="button" data-hover>跟着搬家具的人回到归位司 ⟶</button>
+          </div>
           <!-- v107 神圣遗物科色样签收与记忆 -->
           <p class="watch-memory mx-echo" id="mx-echo-reliquary" hidden></p>
           <div class="mx-apprentice reveal" id="mx-apprentice-reliquary" hidden>
@@ -5256,6 +5283,21 @@
               <p class="ts-response" id="ts-entry-response" aria-live="polite" hidden></p>
               <button class="ts-entry-btn" id="ts-court-entry-btn" type="button" hidden data-hover>进入早报听证会 · ENTER THE HEARING OF THE MORNING EDITION ⟶</button>
               <p class="ts-response" id="ts-court-entry-response" aria-live="polite" hidden></p>
+            </div>
+          </div>
+          <!-- v111 归位图鉴 -->
+          <p class="watch-memory pb-memory" id="pb-memory" hidden></p>
+          <div class="pb-codex reveal" id="pb-codex" hidden>
+            <p class="pb-kicker">THE OFFICE OF PUTTING BACK · 归 位 图 鉴</p>
+            <div class="pb-grid" id="pb-codex-grid"></div>
+            <p class="pb-hints-title">归位听证会开庭条件</p>
+            <ul class="pb-hints" id="pb-court-hints"></ul>
+            <div class="pb-codex-entry">
+              <button class="pb-entry-btn" id="pb-entry-btn" type="button" hidden data-hover>前往归位司 · GO TO THE OFFICE OF PUTTING BACK ⟶</button>
+              <p class="pb-note" id="pb-entry-note" hidden></p>
+              <p class="pb-response" id="pb-entry-response" aria-live="polite" hidden></p>
+              <button class="pb-entry-btn" id="pb-court-entry-btn" type="button" hidden data-hover>进入归位听证会 · ENTER THE HEARING OF THE LAST MARK ⟶</button>
+              <p class="pb-response" id="pb-court-entry-response" aria-live="polite" hidden></p>
             </div>
           </div>
           <!-- v110 扫尘图鉴 -->
@@ -9793,6 +9835,108 @@
         </div>
       </section>
 
+      <!-- v111 第一幕：归位司 -->
+      <section class="scene scene-branch scene-putting-back-office" id="scene-putting-back-office" data-scene="putting-back-office" data-title="Goddead — 归位司" aria-label="归位司">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">25α / 归位 · THE OFFICE OF PUTTING BACK</p>
+            <h2 class="sec-title">归位司</h2>
+            <p class="sec-desc">地扫干净了，扫的时候挪开的家具得推回去。归位司的墙上钉满旧平面图，长桌上三件小家具模型，各站在一圈粉笔印子里。</p>
+          </header>
+          <figure class="branch-figure pb-figure reveal" id="pb-office-figure">
+            <img class="branch-img pb-img" data-src="assets/v111-putting-back-office.webp" alt="归位司：墙上钉着旧平面图的后屋；长桌上三件小家具模型各站在一圈粉笔印子里，左边一只包铜角的高柜，中间一张挂着铜插头的接线员凳，右边一条走廊长椅" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot pb-hotspot pb-hotspot-left" id="pb-room-reliquary-room" type="button" aria-label="归位：遗物科的柜子" data-hover><span class="dh-label" aria-hidden="true">遗物科的柜子</span></button>
+            <button class="scene-hotspot pb-hotspot pb-hotspot-center" id="pb-room-switchboard-room" type="button" aria-label="归位：交换台的长凳" data-hover><span class="dh-label" aria-hidden="true">交换台的长凳</span></button>
+            <button class="scene-hotspot pb-hotspot pb-hotspot-right" id="pb-room-corridor-room" type="button" aria-label="归位：走廊的长椅" data-hover><span class="dh-label" aria-hidden="true">走廊的长椅</span></button>
+          </figure>
+          <p class="pb-note reveal" id="pb-office-note" hidden></p>
+          <p class="branch-response pb-response" id="putting-back-office-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开归位司">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+            <button class="pb-action" id="pb-continue" type="button" hidden data-hover>回到印痕地 ⟶</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v111 第二幕：印痕地 -->
+      <section class="scene scene-branch scene-marked-floor" id="scene-marked-floor" data-scene="marked-floor" data-title="Goddead — 印痕地" aria-label="印痕地">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">25β / 推回 · THE MARKED FLOOR</p>
+            <h2 class="sec-title">印痕地</h2>
+            <p class="sec-desc">从上往下看，那间屋是五乘五的木地板。两件家具停在扫地时挪开的地方，地上有好几层它们压出来的印子。选一层印子，走到家具后面把它推回去——只能推，不能拉。</p>
+          </header>
+          <figure class="branch-figure pb-figure pb-floor-figure reveal" id="pb-floor-figure">
+            <img class="branch-img pb-img" data-src="assets/v111-marked-floor.webp" alt="印痕地：俯视的一块旧木地板，被细铜线分成五乘五的方格" width="1536" height="1024" loading="lazy" decoding="async">
+            <div class="pb-board" id="pb-board" hidden>
+              <button class="pb-tile" id="pb-tile-0" type="button" aria-label="第 1 行第 1 列" data-hover></button>
+              <button class="pb-tile" id="pb-tile-1" type="button" aria-label="第 1 行第 2 列" data-hover></button>
+              <button class="pb-tile" id="pb-tile-2" type="button" aria-label="第 1 行第 3 列" data-hover></button>
+              <button class="pb-tile" id="pb-tile-3" type="button" aria-label="第 1 行第 4 列" data-hover></button>
+              <button class="pb-tile" id="pb-tile-4" type="button" aria-label="第 1 行第 5 列" data-hover></button>
+              <button class="pb-tile" id="pb-tile-5" type="button" aria-label="第 2 行第 1 列" data-hover></button>
+              <button class="pb-tile" id="pb-tile-6" type="button" aria-label="第 2 行第 2 列" data-hover></button>
+              <button class="pb-tile" id="pb-tile-7" type="button" aria-label="第 2 行第 3 列" data-hover></button>
+              <button class="pb-tile" id="pb-tile-8" type="button" aria-label="第 2 行第 4 列" data-hover></button>
+              <button class="pb-tile" id="pb-tile-9" type="button" aria-label="第 2 行第 5 列" data-hover></button>
+              <button class="pb-tile" id="pb-tile-10" type="button" aria-label="第 3 行第 1 列" data-hover></button>
+              <button class="pb-tile" id="pb-tile-11" type="button" aria-label="第 3 行第 2 列" data-hover></button>
+              <button class="pb-tile" id="pb-tile-12" type="button" aria-label="第 3 行第 3 列" data-hover></button>
+              <button class="pb-tile" id="pb-tile-13" type="button" aria-label="第 3 行第 4 列" data-hover></button>
+              <button class="pb-tile" id="pb-tile-14" type="button" aria-label="第 3 行第 5 列" data-hover></button>
+              <button class="pb-tile" id="pb-tile-15" type="button" aria-label="第 4 行第 1 列" data-hover></button>
+              <button class="pb-tile" id="pb-tile-16" type="button" aria-label="第 4 行第 2 列" data-hover></button>
+              <button class="pb-tile" id="pb-tile-17" type="button" aria-label="第 4 行第 3 列" data-hover></button>
+              <button class="pb-tile" id="pb-tile-18" type="button" aria-label="第 4 行第 4 列" data-hover></button>
+              <button class="pb-tile" id="pb-tile-19" type="button" aria-label="第 4 行第 5 列" data-hover></button>
+              <button class="pb-tile" id="pb-tile-20" type="button" aria-label="第 5 行第 1 列" data-hover></button>
+              <button class="pb-tile" id="pb-tile-21" type="button" aria-label="第 5 行第 2 列" data-hover></button>
+              <button class="pb-tile" id="pb-tile-22" type="button" aria-label="第 5 行第 3 列" data-hover></button>
+              <button class="pb-tile" id="pb-tile-23" type="button" aria-label="第 5 行第 4 列" data-hover></button>
+              <button class="pb-tile" id="pb-tile-24" type="button" aria-label="第 5 行第 5 列" data-hover></button>
+            </div>
+            <p class="pb-floor-status" id="pb-floor-status" aria-live="polite"></p>
+          </figure>
+          <div class="pb-panel reveal" id="pb-floor-panel" hidden>
+            <p class="pb-panel-room" id="pb-floor-room"></p>
+            <div class="pb-methods" role="group" aria-label="印子">
+              <button class="pb-method" id="pb-method-yesterday" type="button" data-hover>昨天的印子</button>
+              <button class="pb-method" id="pb-method-last-year" type="button" data-hover>去年的印子</button>
+              <button class="pb-method" id="pb-method-before-god" type="button" data-hover>神在时的印子</button>
+            </div>
+            <p class="pb-note" id="pb-method-hint"></p>
+            <div class="pb-actions">
+              <button class="pb-action pb-finish" id="pb-finish" type="button" data-hover>归位</button>
+              <button class="pb-action" id="pb-undo" type="button" data-hover>退一步</button>
+              <button class="pb-action" id="pb-reset" type="button" data-hover>全部挪回去重来</button>
+              <button class="pb-action" id="pb-abandon" type="button" data-hover>先不推了</button>
+            </div>
+          </div>
+          <p class="branch-response pb-response" id="marked-floor-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <!-- v111 第三幕：归位听证会 -->
+      <section class="scene scene-branch scene-hearing-of-the-last-mark" id="scene-hearing-of-the-last-mark" data-scene="hearing-of-the-last-mark" data-title="Goddead — 归位听证会" aria-label="归位听证会">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">25γ / 印子 · HEARING OF THE LAST MARK</p>
+            <h2 class="sec-title">归位听证会</h2>
+            <p class="sec-desc">圆厅高窗下的空椅子没站在它的印子上，歪出去了一点。桌上三件东西：一只正好站进粉笔圈的小柜、一把被推歪的小椅子、一块什么也没放的浅色旧印子。裁定之后仍可回来。</p>
+          </header>
+          <figure class="branch-figure pb-figure reveal" id="hearing-of-the-last-mark-figure">
+            <img class="branch-img pb-img" data-src="assets/v111-hearing-of-the-last-mark.webp" alt="归位听证会：圆厅高窗下一把空椅子歪出了地上的浅色印子；近处长桌上左边一只正好站在粉笔圈里的小柜，中间一把推歪到圈外的小椅子，右边木面上一块空着的浅色旧印子" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot pb-hotspot pb-hotspot-court-left" id="pb-verdict-put-everything-back" type="button" aria-label="裁定：全部放回原位" data-hover><span class="dh-label" aria-hidden="true">全部放回原位</span></button>
+            <button class="scene-hotspot pb-hotspot pb-hotspot-court-center" id="pb-verdict-leave-gods-chair-askew" type="button" aria-label="裁定：给神留一把挪开的椅子" data-hover><span class="dh-label" aria-hidden="true">给神留一把挪开的椅子</span></button>
+            <button class="scene-hotspot pb-hotspot pb-hotspot-court-right" id="pb-verdict-let-the-marks-fade" type="button" aria-label="裁定：让印子淡去" data-hover><span class="dh-label" aria-hidden="true">让印子淡去</span></button>
+          </figure>
+          <p class="branch-response pb-response" id="hearing-of-the-last-mark-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开听证会">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+          </nav>
+        </div>
+      </section>
+
       <!-- 隐藏幕 · 第九条 -->
       <section class="scene scene-ninth" id="scene-ninth" data-scene="ninth" data-title="Goddead — ？？？" aria-label="第九条">
         <figure class="ninth-figure" role="img" aria-label="一道不该存在的裂口，底部有一扇错误的窄门">
@@ -10057,6 +10201,9 @@
       <a href="#sweeping-office" id="sweeping-office-link" hidden data-hover>24α / 扫尘司</a>
       <a href="#dust-floor" id="dust-floor-link" hidden data-hover>24β / 落灰地</a>
       <a href="#hearing-of-the-swept-floor" id="hearing-of-the-swept-floor-link" hidden data-hover>24γ / 扫净听证</a>
+      <a href="#putting-back-office" id="putting-back-office-link" hidden data-hover>25α / 归位司</a>
+      <a href="#marked-floor" id="marked-floor-link" hidden data-hover>25β / 印痕地</a>
+      <a href="#hearing-of-the-last-mark" id="hearing-of-the-last-mark-link" hidden data-hover>25γ / 归位听证</a>
 
 
       <a href="#three-person-republic-court" id="three-person-republic-court-link" hidden data-hover>04β / 三人共和国</a>
@@ -10066,6 +10213,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=110"></script>
+    <script src="script.js?v=111"></script>
   </body>
 </html>

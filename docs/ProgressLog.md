@@ -1334,3 +1334,12 @@
 - 场景图：本机 Codex CLI 生成三张原画，砖缝按像素实测对齐；提示词与哈希见 `docs/V110ImagePrompts.md`。
 - 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 19240 assertions passed`；v101–v104 独立测试 65 项通过。
 - 浏览器：完整存档下从后门真实点击扫遍焚献炉的地并签收返回；375px 窄屏每格约 45px；听证会裁定抵达门外。
+
+## 2026-10-06 - v111 归位司实装
+
+- 新增 `putting-back-office`、`marked-floor`、`hearing-of-the-last-mark` 3 个场景，场景总数 253 → 256，缓存标记 `v=111`。
+- 新交互“推回印子”：5×5 俯视木地板上 25 个原生按钮，点相邻格走、挨着家具就推（只推不拉、墙与家具挡路），可退一步与重来；三间屋（遗物科的柜子 / 交换台的长凳 / 走廊的长椅）× 昨天 / 去年 / 神在时的印子 = 9 次归位，送到神圣遗物科 / 余响交换台 / 走廊签收。
+- 状态键 `goddead_v111_putting_back`（11 字段、7 类 pending、严格归一化），只读 v110；v110 在途时入口禁用；前缀 `pb-`；只有真实点击；桥接接入治理守卫与画廊守卫。
+- 场景图：本机 Codex CLI 生成三张原画，铜线按像素实测对齐；提示词与哈希见 `docs/V111ImagePrompts.md`。
+- 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 19397 assertions passed`；v101–v104 独立测试 65 项通过。
+- 浏览器：完整存档下真实点击 16 步把遗物科的柜子推回昨天的印子，经治理守卫到神圣遗物科签收返回；375px 窄屏每格约 44px；听证会裁定抵达无终局画廊。
