@@ -1370,3 +1370,12 @@
 - 场景图：本机 Codex CLI 生成三张原画；提示词与哈希见 `docs/V114ImagePrompts.md`。
 - 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 19867 assertions passed`；v101–v104 独立测试 65 项通过。
 - 浏览器：完整存档下真实点击三次试开遗物科的柜锁并经治理守卫签收；375px 窄屏四个转轮各 38×56px；听证会裁定抵达无终局画廊。
+
+## 2026-10-06 - v115 被柜房实装
+
+- 新增 `linen-room`、`folding-floor`、`hearing-of-the-last-quilt` 3 个场景，场景总数 265 → 268，缓存标记 `v=115`。
+- 新交互“收被入柜”（拼放）：柜子格子与五床被子都是原生按钮，被子带 4×4 小样，可转一转、翻个面，点格子让被子左上角落在那里，伸出或压叠会被拒；三包被褥（走廊的旧毯子 / 交换台的毛毯 / 守则厅的帷幔）× 方柜 / 圆角柜 / 拐角柜 = 9 次收被，正好塞满才能合柜，送回走廊 / 余响交换台 / 访客守则签收。
+- 状态键 `goddead_v115_linen_room`（11 字段、7 类 pending、严格归一化），只读 v114；v114 在途时入口禁用；前缀 `ln-`；只有真实点击；桥接接入治理守卫与画廊守卫。
+- 场景图：本机 Codex CLI 生成三张原画；提示词与哈希见 `docs/V115ImagePrompts.md`。
+- 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 20027 assertions passed`；v101–v104 独立测试 65 项通过。
+- 浏览器：完整存档下真实点击把交换台的毛毯塞满圆角柜并签收；托盘移到柜子正下方免去来回滚动；375px 窄屏每格约 35px；听证会裁定抵达门外。

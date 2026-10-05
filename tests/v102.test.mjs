@@ -571,6 +571,10 @@ function createV102Harness({
     const lkShopCanVisit = () => false;
     const lockBenchCanVisit = () => false;
     const lkCourtCanVisit = () => false;
+    const linenRoomBridgeAllows = () => false;
+    const lnRoomCanVisit = () => false;
+    const foldingFloorCanVisit = () => false;
+    const lnCourtCanVisit = () => false;
     const ahHotelCanVisit = () => false;
     const borrowedDawnClockroomCanVisit = () => false;
     const sharedMorningVerandaCanVisit = () => false;
@@ -655,12 +659,12 @@ function createV102Harness({
 // -------------------------------------------------------------
 // Test Group 1: Markers, scene IDs, image attributes & DOM HTML structure
 // -------------------------------------------------------------
-test('Group 1: HTML structure, scene count 265, lazy images, native buttons and CSS scope', () => {
-  // 265 unique scene section data-scene values in index.html (excluding scene-veil overlay)
+test('Group 1: HTML structure, scene count 268, lazy images, native buttons and CSS scope', () => {
+  // 268 unique scene section data-scene values in index.html (excluding scene-veil overlay)
   const sceneMatches = Array.from(indexHtml.matchAll(/<section[^>]+data-scene="([^"]+)"/g)).map((m) => m[1]);
   const uniqueScenes = new Set(sceneMatches);
-  assert.equal(sceneMatches.length, 265, `Total data-scene sections must be exactly 265, got ${sceneMatches.length}`);
-  assert.equal(uniqueScenes.size, 265, `Scene count must be exactly 265, got ${uniqueScenes.size}`);
+  assert.equal(sceneMatches.length, 268, `Total data-scene sections must be exactly 268, got ${sceneMatches.length}`);
+  assert.equal(uniqueScenes.size, 268, `Scene count must be exactly 268, got ${uniqueScenes.size}`);
   assert.ok(uniqueScenes.has('weatherless-bus-shelter'));
   assert.ok(uniqueScenes.has('season-dispatch-board'));
   assert.ok(uniqueScenes.has('four-season-platform'));
@@ -2232,6 +2236,8 @@ test('v102: sceneInit and legacy v45 relief integration behavior audit', () => {
       const replayClearedOfferingsPending = () => {};
       const resolveForgottenLocksPendingOnArrival = () => {};
       const replayForgottenLocksPending = () => {};
+      const resolveLinenRoomPendingOnArrival = () => {};
+      const replayLinenRoomPending = () => {};
       const syncWeatherlessShelterAll = () => h.syncAll();
 
       let thresholdConsumed = false;

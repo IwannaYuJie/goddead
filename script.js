@@ -1426,6 +1426,8 @@ document.addEventListener("DOMContentLoaded", () => {
     replayClearedOfferingsPending(name);
     resolveForgottenLocksPendingOnArrival(name);
     replayForgottenLocksPending(name);
+    resolveLinenRoomPendingOnArrival(name);
+    replayLinenRoomPending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1569,9 +1571,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !clearedOfferingsBridgeAllows(target) && !forgottenLocksBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !clearedOfferingsBridgeAllows(target) && !forgottenLocksBridgeAllows(target) && !linenRoomBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !clearedOfferingsBridgeAllows(target) && !forgottenLocksBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !clearedOfferingsBridgeAllows(target) && !forgottenLocksBridgeAllows(target) && !linenRoomBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
@@ -1585,7 +1587,7 @@ document.addEventListener("DOMContentLoaded", () => {
        v88 窄桥：title-action 可抵达 unending-gallery；
        v89 窄桥：appeal-action 可抵达 unending-gallery；
        v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !todayPressBridgeAllows('unending-gallery') && !inkMixingBridgeAllows('unending-gallery') && !borrowedLightBridgeAllows('unending-gallery') && !exactTeaBridgeAllows('unending-gallery') && !lastSweepBridgeAllows('unending-gallery') && !puttingBackBridgeAllows('unending-gallery') && !paperCutBridgeAllows('unending-gallery') && !clearedOfferingsBridgeAllows('unending-gallery') && !forgottenLocksBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !todayPressBridgeAllows('unending-gallery') && !inkMixingBridgeAllows('unending-gallery') && !borrowedLightBridgeAllows('unending-gallery') && !exactTeaBridgeAllows('unending-gallery') && !lastSweepBridgeAllows('unending-gallery') && !puttingBackBridgeAllows('unending-gallery') && !paperCutBridgeAllows('unending-gallery') && !clearedOfferingsBridgeAllows('unending-gallery') && !forgottenLocksBridgeAllows('unending-gallery') && !linenRoomBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1874,6 +1876,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "locksmith-shop" && !lkShopCanVisit()) target = "remembrance";
     if (target === "lock-bench" && !lockBenchCanVisit()) target = "remembrance";
     if (target === "hearing-of-the-last-lock" && !lkCourtCanVisit()) target = "remembrance";
+
+    /* v115 被柜房：未解锁或无合法抵达时一律回痕迹室 */
+    if (target === "linen-room" && !lnRoomCanVisit()) target = "remembrance";
+    if (target === "folding-floor" && !foldingFloorCanVisit()) target = "remembrance";
+    if (target === "hearing-of-the-last-quilt" && !lnCourtCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -48123,6 +48130,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetPaperCutState();
       forgetClearedOfferingsState();
       forgetForgottenLocksState();
+      forgetLinenRoomState();
       forgetCodexFolds();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
@@ -67912,6 +67920,853 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   onTrustedLk('#lk-reset', resetLkBench);
   onTrustedLk('#lk-finish', finishLkLock);
 
+  /* ============================================================
+     v115 被柜房 / THE LINEN ROOM
+     v114 把门都锁上了，死人要睡了。三间旧屋的被褥得叠好收进柜子：一床床折成不同的形状，要正好把柜子塞满，不能叠压也不能空着。
+     三包被褥（走廊的旧毯子 / 交换台的毛毯 / 守则厅的帷幔）× 三种柜子（方柜 / 圆角柜 / 拐角柜）= 9 次收被；被子可以转、可以翻面。
+     只读 v114；独立键 goddead_v115_linen_room；所有新操作只接受真实点击。
+     ============================================================ */
+  const LINEN_ROOM_KEY = 'goddead_v115_linen_room';
+  const LINEN_ROOM_VERSION = 115;
+  const LN_ROOM = 'linen-room';
+  const LN_FLOOR = 'folding-floor';
+  const LN_COURT = 'hearing-of-the-last-quilt';
+  const LN_W = 6;
+  const LN_H = 4;
+  const LN_MAX_PIECES = 5;
+  /* 每种折法是一组 [行, 列] 格子 */
+  const LN_PIECE_TABLE = {
+    D: { title: '对折', cells: [[0, 0], [0, 1]] },
+    I3: { title: '三折长条', cells: [[0, 0], [0, 1], [0, 2]] },
+    V: { title: '三折拐角', cells: [[0, 0], [1, 0], [1, 1]] },
+    O: { title: '四方叠', cells: [[0, 0], [0, 1], [1, 0], [1, 1]] },
+    T: { title: '丁字叠', cells: [[0, 0], [0, 1], [0, 2], [1, 1]] },
+    L: { title: '曲尺叠', cells: [[0, 0], [1, 0], [2, 0], [2, 1]] },
+  };
+  const LN_BUNDLES = ['corridor-bundle', 'switchboard-bundle', 'protocol-bundle'];
+  const LN_BUNDLE_TABLE = {
+    'corridor-bundle': {
+      title: '走廊的旧毯子', pieces: ['V', 'V', 'V', 'V', 'O'], target: 'corridor', place: '走廊', folderTitle: '走廊收被人',
+      feedback: '走廊长椅上搭着四条灰毯子和一床方褥子，都是守夜的人裹过的，折起来一条一条拐着角。',
+      echoLead: '走廊长椅上的毯子收走了，椅背上只剩一点体温。',
+    },
+    'switchboard-bundle': {
+      title: '交换台的毛毯', pieces: ['I3', 'I3', 'V', 'V', 'T'], target: 'switchboard', place: '余响交换台', folderTitle: '交换台收被人',
+      feedback: '接线员夜里披的红毛毯，有长有短，有一床叠成了丁字，说是这样才不会压着线。',
+      echoLead: '交换台的毛毯收进了柜子，接线员的椅子空了一夜。',
+    },
+    'protocol-bundle': {
+      title: '守则厅的帷幔', pieces: ['D', 'I3', 'I3', 'T', 'L'], target: 'protocol', place: '访客守则', folderTitle: '守则厅收被人',
+      feedback: '守则厅的旧帷幔拆下来当被子盖，厚的薄的长的短的，叠起来什么形状都有。',
+      echoLead: '守则厅的帷幔叠好收起来了，布告板前一下子空了许多。',
+    },
+  };
+  const LN_METHODS = ['square', 'round', 'ell'];
+  /* '#' 是柜子里能放被子的格子 */
+  const LN_METHOD_TABLE = {
+    square: { title: '方柜', rows: ['####', '####', '####', '####'], hint: '方柜：四四方方，十六格。', result: '方柜四四方方，被子叠得整整齐齐。收被人说，这样明早拿的时候不用翻。' },
+    round: { title: '圆角柜', rows: ['.###.', '#####', '#####', '.###.'], hint: '圆角柜：四个角是圆的，角上放不进被子。', result: '圆角柜的角放不了东西，被子绕着角塞得严严实实。收被人说，圆的柜子睡着暖和。' },
+    ell: { title: '拐角柜', rows: ['##....', '##....', '######', '######'], hint: '拐角柜：靠墙拐了个弯，左上一截窄、下面一截长。', result: '拐角柜贴着墙角放，被子顺着拐弯塞进去。收被人说，墙角的柜子最不怕风。' },
+  };
+  const LN_FOLD_IDS = [];
+  LN_BUNDLES.forEach((bundle) => LN_METHODS.forEach((method) => LN_FOLD_IDS.push(`${bundle}:${method}`)));
+  const LN_VERDICT_ACTIONS = ['tuck-everyone-in', 'leave-a-quilt-for-god', 'leave-the-quilts-out'];
+  const LN_VERDICT_TABLE = {
+    'tuck-everyone-in': {
+      title: '给每个人盖好被子', outcome: 'everyone-tucked-in', target: 'threshold',
+      feedback: '听证会裁定：给每个人盖好被子。门外台阶上也铺了一床，有人在上面睡着了。',
+    },
+    'leave-a-quilt-for-god': {
+      title: '给神留一床被', outcome: 'a-quilt-left-for-god', target: 'remembrance',
+      feedback: '听证会给神留了一床被。痕迹室的角落里铺着一床叠好的被子，没人去睡。',
+    },
+    'leave-the-quilts-out': {
+      title: '让被子晾在外面', outcome: 'the-quilts-left-out', target: 'unending-gallery',
+      feedback: '听证会准许被子晾在外面。画廊的空框上搭着一床床被子，夜风吹过来，一下一下地鼓。',
+    },
+  };
+  const LN_VERDICT_OUTCOME_IDS = LN_VERDICT_ACTIONS.map((a) => LN_VERDICT_TABLE[a].outcome);
+  const LN_ENTRY_FEEDBACK = '被柜房里架子上全是叠好的布，灯光暖暖的。长桌上三包没叠的被褥，各用绳子捆着。';
+  const LN_ABANDON_FEEDBACK = '你把被子从柜子里拿出来，重新捆好放回桌上。';
+  const LN_COURT_ENTRY_FEEDBACK = '三包被褥都收进柜子了。收被听证会的桌上还留着一床。';
+  const LN_FOLDER_RETURN_FEEDBACK = '收被人拍平最后一个褶，领你回到被柜房。';
+  const LN_OLD_TARGETS = ['corridor', 'switchboard', 'protocol'];
+
+  function lnDelay() {
+    return reduced ? 300 : 1400;
+  }
+
+  /* 纯函数：把一组格子平移到左上角并按行列排好 */
+  function lnNorm(cells) {
+    const minR = Math.min(...cells.map((p) => p[0]));
+    const minC = Math.min(...cells.map((p) => p[1]));
+    return cells.map(([r, c]) => [r - minR, c - minC]).sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+  }
+
+  /* 纯函数：先翻面（左右镜像）再顺时针转 rot 次 */
+  function lnTransform(cells, rot, flip) {
+    let out = flip ? cells.map(([r, c]) => [r, -c]) : cells.map(([r, c]) => [r, c]);
+    for (let i = 0; i < ((rot % 4) + 4) % 4; i++) out = out.map(([r, c]) => [c, -r]);
+    return lnNorm(out);
+  }
+
+  /* 纯函数：把一床被子（已转好的格子）放在 anchor 格上，左上角那一格落在 anchor；
+     出柜、压到别的被子都返回 null，否则返回占用的格子下标（行 * LN_W + 列） */
+  function lnPlace(rows, occupied, cells, anchor) {
+    if (!Number.isInteger(anchor) || anchor < 0 || anchor >= LN_W * LN_H) return null;
+    const ar = Math.floor(anchor / LN_W);
+    const ac = anchor % LN_W;
+    const [fr, fc] = cells[0];
+    const out = [];
+    for (const [r, c] of cells) {
+      const rr = r - fr + ar;
+      const cc = c - fc + ac;
+      if (rr < 0 || rr >= rows.length || cc < 0 || cc >= rows[0].length || rows[rr][cc] !== '#') return null;
+      const idx = rr * LN_W + cc;
+      if (occupied.includes(idx)) return null;
+      out.push(idx);
+    }
+    return out;
+  }
+
+  /* 纯函数：柜子里每一格是不是都塞上了 */
+  function lnFull(rows, placed) {
+    const covered = new Set(placed.filter(Boolean).flat());
+    for (let r = 0; r < rows.length; r++) for (let c = 0; c < rows[r].length; c++) if (rows[r][c] === '#' && !covered.has(r * LN_W + c)) return false;
+    return true;
+  }
+
+  function lnFinishFeedback(bundle, method) {
+    return `${LN_BUNDLE_TABLE[bundle].title}：${LN_METHOD_TABLE[method].result}`;
+  }
+
+  function defaultLinenRoom() {
+    const latest = {};
+    LN_BUNDLES.forEach((b) => { latest[b] = ''; });
+    return {
+      version: LINEN_ROOM_VERSION,
+      visited: { room: false, floor: false, court: false },
+      draft: { bundle: '', method: 'square' },
+      folds: [],
+      courtOutcomes: [],
+      foldRuns: 0,
+      courtRuns: 0,
+      latestMethodByBundle: latest,
+      lastOutcome: '',
+      activeFolder: null,
+      pending: null,
+    };
+  }
+
+  function clampLnCount(n) {
+    const v = Math.floor(Number(n));
+    return Number.isFinite(v) ? Math.min(9999, Math.max(0, v)) : 0;
+  }
+
+  function normalizeLinenRoom(raw) {
+    const d = defaultLinenRoom();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== LINEN_ROOM_VERSION) return d;
+    const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
+    d.visited = { room: v.room === true, floor: v.floor === true, court: v.court === true };
+    const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
+    d.draft = { bundle: LN_BUNDLES.includes(dr.bundle) ? dr.bundle : '', method: LN_METHODS.includes(dr.method) ? dr.method : 'square' };
+    const folds = new Set(Array.isArray(raw.folds) ? raw.folds : []);
+    d.folds = LN_FOLD_IDS.filter((id) => folds.has(id));
+    const outcomes = new Set(Array.isArray(raw.courtOutcomes) ? raw.courtOutcomes : []);
+    d.courtOutcomes = LN_VERDICT_OUTCOME_IDS.filter((id) => outcomes.has(id));
+    d.foldRuns = clampLnCount(raw.foldRuns);
+    d.courtRuns = clampLnCount(raw.courtRuns);
+    const latest = raw.latestMethodByBundle && typeof raw.latestMethodByBundle === 'object' ? raw.latestMethodByBundle : {};
+    LN_BUNDLES.forEach((b) => {
+      d.latestMethodByBundle[b] = LN_METHODS.includes(latest[b]) && d.folds.includes(`${b}:${latest[b]}`) ? latest[b] : '';
+    });
+    if (typeof raw.lastOutcome === 'string' && (d.folds.includes(raw.lastOutcome) || d.courtOutcomes.includes(raw.lastOutcome))) d.lastOutcome = raw.lastOutcome;
+    const a = raw.activeFolder;
+    if (a && typeof a === 'object' && !Array.isArray(a) && Object.keys(a).length === 1 && d.folds.includes(a.fold)) d.activeFolder = { fold: a.fold };
+    d.pending = normalizeLnPending(raw.pending, d);
+    return d;
+  }
+
+  function lnCourtProgress(st) {
+    const bundles = new Set();
+    const methods = new Set();
+    st.folds.forEach((id) => {
+      const [bundle, method] = id.split(':');
+      bundles.add(bundle);
+      methods.add(method);
+    });
+    return { bundles: bundles.size, methods: methods.size };
+  }
+
+  function lnCourtEligible(st) {
+    const p = lnCourtProgress(st);
+    return p.bundles === LN_BUNDLES.length && p.methods === LN_METHODS.length;
+  }
+
+  function expectedLnPending(p, st) {
+    const clean = !st.activeFolder;
+    switch (p.kind) {
+      case 'entry':
+        return clean ? { feedback: LN_ENTRY_FEEDBACK, kind: 'entry', target: LN_ROOM } : null;
+      case 'bundle': {
+        const b = LN_BUNDLE_TABLE[p.bundle];
+        if (!b || !clean) return null;
+        return { bundle: p.bundle, feedback: b.feedback, kind: 'bundle', source: LN_ROOM, target: LN_FLOOR };
+      }
+      case 'finish': {
+        const b = LN_BUNDLE_TABLE[p.bundle];
+        if (!b || !LN_METHOD_TABLE[p.method] || !clean || st.draft.bundle !== p.bundle || st.draft.method !== p.method) return null;
+        return { bundle: p.bundle, feedback: lnFinishFeedback(p.bundle, p.method), kind: 'finish', method: p.method, fold: `${p.bundle}:${p.method}`, source: LN_FLOOR, target: b.target };
+      }
+      case 'abandon':
+        return st.draft.bundle ? { feedback: LN_ABANDON_FEEDBACK, kind: 'abandon', source: LN_FLOOR, target: LN_ROOM } : null;
+      case 'folder-return': {
+        if (!st.activeFolder) return null;
+        const bundle = st.activeFolder.fold.split(':')[0];
+        return { feedback: LN_FOLDER_RETURN_FEEDBACK, from: LN_BUNDLE_TABLE[bundle].target, kind: 'folder-return', fold: st.activeFolder.fold, target: LN_ROOM };
+      }
+      case 'court-entry':
+        return clean && lnCourtEligible(st) ? { feedback: LN_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: LN_COURT } : null;
+      case 'verdict': {
+        const a = LN_VERDICT_TABLE[p.action];
+        if (!a || !clean || !st.visited.court || !lnCourtEligible(st)) return null;
+        return { action: p.action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: LN_COURT, target: a.target };
+      }
+      default:
+        return null;
+    }
+  }
+
+  function normalizeLnPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+    const expected = expectedLnPending(p, st);
+    if (!expected) return null;
+    const keys = Object.keys(p).sort();
+    const want = Object.keys(expected).sort();
+    if (keys.length !== want.length || keys.some((k, i) => k !== want[i] || p[k] !== expected[k])) return null;
+    return expected;
+  }
+
+  function linenRoomUnlocked() {
+    const compute = () => {
+      if (!forgottenLocksUnlocked()) return false;
+      const v114 = getForgottenLocks();
+      return lkCourtEligible(v114) && LK_VERDICT_OUTCOME_IDS.every((o) => v114.courtOutcomes.includes(o));
+    };
+    return store.memo ? store.memo("linenRoomUnlocked", compute) : compute();
+  }
+
+  /* v114 还有在途的钥匙或没签收的守锁人时，先不让进被柜房 */
+  function lnUpstreamBusy() {
+    const v114 = getForgottenLocks();
+    return Boolean(v114.pending || v114.activeKeyholder);
+  }
+
+  function getLinenRoom() {
+    if (!linenRoomUnlocked()) return defaultLinenRoom();
+    let raw;
+    try { raw = JSON.parse(store.get(LINEN_ROOM_KEY, '{}')); } catch { return defaultLinenRoom(); }
+    return normalizeLinenRoom(raw);
+  }
+
+  function saveLinenRoom(st) {
+    if (!linenRoomUnlocked()) return defaultLinenRoom();
+    const canonical = normalizeLinenRoom(Object.assign({}, st, { version: LINEN_ROOM_VERSION }));
+    store.set(LINEN_ROOM_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function lnPendingLogicalSource(p) {
+    if (!p) return '';
+    if (p.kind === 'entry' || p.kind === 'court-entry') return 'remembrance';
+    if (p.kind === 'folder-return') return p.from;
+    return p.source || '';
+  }
+
+  function resolveLinenRoomPendingOnArrival(sceneName) {
+    const st = getLinenRoom();
+    const p = st.pending;
+    if (!p) return st;
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.room = true;
+      } else if (p.kind === 'bundle') {
+        st.visited.floor = true;
+        st.draft = { bundle: p.bundle, method: st.draft.bundle === p.bundle ? st.draft.method : 'square' };
+      } else if (p.kind === 'finish') {
+        st.foldRuns = clampLnCount(st.foldRuns + 1);
+        if (!st.folds.includes(p.fold)) st.folds = st.folds.concat(p.fold);
+        st.latestMethodByBundle[p.bundle] = p.method;
+        st.lastOutcome = p.fold;
+        st.activeFolder = { fold: p.fold };
+        st.draft = { bundle: '', method: 'square' };
+      } else if (p.kind === 'abandon') {
+        st.draft = { bundle: '', method: 'square' };
+        st.visited.room = true;
+      } else if (p.kind === 'folder-return') {
+        st.activeFolder = null;
+        st.visited.room = true;
+      } else if (p.kind === 'court-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'verdict') {
+        st.courtRuns = clampLnCount(st.courtRuns + 1);
+        if (!st.courtOutcomes.includes(p.outcome)) st.courtOutcomes = st.courtOutcomes.concat(p.outcome);
+        st.lastOutcome = p.outcome;
+      }
+      return saveLinenRoom(st);
+    }
+    if (sceneName === lnPendingLogicalSource(p)) return st;
+    st.pending = null;
+    return saveLinenRoom(st);
+  }
+
+  const LN_RESPONSE_BY_KIND = {
+    entry: '#ln-entry-response',
+    bundle: '#linen-room-response',
+    finish: '#folding-floor-response',
+    abandon: '#folding-floor-response',
+    'court-entry': '#ln-court-entry-response',
+    verdict: '#hearing-of-the-last-quilt-response',
+  };
+
+  function showLnResponse(selector, text) {
+    const el = $(selector);
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = !text;
+  }
+
+  function syncLinenRoomAll() {
+    syncLnRoom();
+    syncFoldingFloor();
+    syncLnCourt();
+    syncLnFolders();
+    syncLnEchoes();
+    syncLnRemembrance();
+    syncLnLinks();
+    if (typeof syncPhEntries === 'function') syncPhEntries();
+  }
+
+  function replayLinenRoomPending(sceneName) {
+    const st = getLinenRoom();
+    const p = st.pending;
+    if (p && p.target === sceneName) resolveLinenRoomPendingOnArrival(sceneName);
+    else if (p && sceneName === lnPendingLogicalSource(p)) {
+      syncLinenRoomAll();
+      const selector = p.kind === 'folder-return' ? `#ln-folder-response-${p.from}` : LN_RESPONSE_BY_KIND[p.kind];
+      if (selector) showLnResponse(selector, p.feedback);
+      AutoAdvance.schedule(sceneName, p.target, { delay: lnDelay() });
+      return;
+    } else if (p) {
+      st.pending = null;
+      saveLinenRoom(st);
+    }
+    syncLinenRoomAll();
+  }
+
+  function launchLn(scene, buttonId, pending, responseSelector) {
+    const st = getLinenRoom();
+    st.pending = pending;
+    const saved = saveLinenRoom(st);
+    if (!saved.pending) return false;
+    const btn = buttonId ? $(`#${buttonId}`) : null;
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+    if (AudioEngine.whoosh) AudioEngine.whoosh();
+    syncLinenRoomAll();
+    showLnResponse(responseSelector, pending.feedback);
+    AutoAdvance.schedule(scene, pending.target, { delay: lnDelay() });
+    return true;
+  }
+
+  function lnReady(scene, buttonId) {
+    if (currentScene !== scene) return null;
+    if (AutoAdvance.has(scene)) return null;
+    if (buttonId && !buttonAvailable(buttonId)) return null;
+    if (!linenRoomUnlocked()) return null;
+    const st = getLinenRoom();
+    return st.pending ? null : st;
+  }
+
+  function chooseLnEntry() {
+    const st = lnReady('remembrance', 'ln-entry-btn');
+    if (!st || st.activeFolder) return;
+    if (lnUpstreamBusy()) return;
+    launchLn('remembrance', 'ln-entry-btn', { feedback: LN_ENTRY_FEEDBACK, kind: 'entry', target: LN_ROOM }, '#ln-entry-response');
+  }
+
+  function chooseLnBundle(bundle) {
+    const b = LN_BUNDLE_TABLE[bundle];
+    if (!b) return;
+    const st = lnReady(LN_ROOM, `ln-bundle-${bundle}`);
+    if (!st || st.activeFolder) return;
+    launchLn(LN_ROOM, `ln-bundle-${bundle}`, { bundle, feedback: b.feedback, kind: 'bundle', source: LN_ROOM, target: LN_FLOOR }, '#linen-room-response');
+  }
+
+  function chooseLnMethod(method) {
+    if (!LN_METHOD_TABLE[method]) return;
+    const st = lnReady(LN_FLOOR, `ln-method-${method}`);
+    if (!st || !st.draft.bundle || !st.visited.floor || st.draft.method === method) return;
+    st.draft.method = method;
+    saveLinenRoom(st);
+    syncFoldingFloor();
+  }
+
+  /* 被子放在哪只放在内存里；换柜子或换一包被褥时全部拿出来，塞满才写 pending */
+  let lnPlaced = [];
+  let lnSel = -1;
+  let lnRot = 0;
+  let lnFlip = 0;
+  let lnFloorKey = '';
+
+  function paintLnFloor(message) {
+    const st = getLinenRoom();
+    const status = $('#ln-floor-status');
+    const bundle = st.draft.bundle;
+    if (!bundle) {
+      if (status) status.textContent = '';
+      return;
+    }
+    const pieces = LN_BUNDLE_TABLE[bundle].pieces;
+    const rows = LN_METHOD_TABLE[st.draft.method].rows;
+    const owner = {};
+    lnPlaced.forEach((cells, k) => { if (cells) cells.forEach((idx) => { owner[idx] = k; }); });
+    for (let i = 0; i < LN_W * LN_H; i++) {
+      const btn = $(`#ln-slot-${i}`);
+      if (!btn) continue;
+      const r = Math.floor(i / LN_W);
+      const c = i % LN_W;
+      const inside = r < rows.length && c < rows[0].length && rows[r][c] === '#';
+      btn.hidden = !inside;
+      for (let k = 0; k < LN_MAX_PIECES; k++) btn.classList.toggle(`ln-fill-${k}`, owner[i] === k);
+      if (inside) btn.setAttribute('aria-label', `柜子第 ${r + 1} 行第 ${c + 1} 格：${owner[i] === undefined ? '空着' : `放着${LN_PIECE_TABLE[pieces[owner[i]]].title}，点一下拿出来`}`);
+    }
+    for (let k = 0; k < LN_MAX_PIECES; k++) {
+      const btn = $(`#ln-piece-${k}`);
+      if (!btn) continue;
+      const kind = pieces[k];
+      btn.hidden = !kind;
+      if (!kind) continue;
+      const placed = Boolean(lnPlaced[k]);
+      btn.classList.toggle('is-placed', placed);
+      btn.setAttribute('aria-pressed', lnSel === k ? 'true' : 'false');
+      btn.setAttribute('aria-label', `${LN_PIECE_TABLE[kind].title}${placed ? '，已经放进柜子，点一下拿出来' : lnSel === k ? '，拿在手里' : '，点一下拿起来'}`);
+      const shape = lnSel === k ? lnTransform(LN_PIECE_TABLE[kind].cells, lnRot, lnFlip) : lnNorm(LN_PIECE_TABLE[kind].cells);
+      const on = new Set(shape.map(([r, c]) => r * 4 + c));
+      for (let d = 0; d < 16; d++) {
+        const dot = $(`#ln-piece-${k}-dot-${d}`);
+        if (dot) dot.classList.toggle('is-on', on.has(d));
+      }
+    }
+    const board = $('#ln-board');
+    const full = lnFull(rows, lnPlaced) && lnPlaced.filter(Boolean).length === pieces.length;
+    if (board) {
+      board.classList.toggle('is-done', full);
+      board.setAttribute('data-cols', String(rows[0].length));
+      board.setAttribute('data-rows', String(rows.length));
+    }
+    const left = pieces.length - lnPlaced.filter(Boolean).length;
+    if (status) {
+      if (message) status.textContent = message;
+      else if (full) status.textContent = `柜子塞满了，${pieces.length} 床一床不落。可以合上柜门。`;
+      else if (lnSel >= 0) status.textContent = `拿着${LN_PIECE_TABLE[pieces[lnSel]].title}：点柜子里的格子，被子左上角那一格会落在那里；可以先转一转或翻个面。`;
+      else status.textContent = `还有 ${left} 床没放。先点下面的一床被子拿起来，再点柜子里的格子放下。`;
+    }
+  }
+
+  function pickLnPiece(k) {
+    const st = lnReady(LN_FLOOR, `ln-piece-${k}`);
+    if (!st || !st.draft.bundle || st.activeFolder) return;
+    const pieces = LN_BUNDLE_TABLE[st.draft.bundle].pieces;
+    if (!Number.isInteger(k) || k < 0 || k >= pieces.length) return;
+    if (lnPlaced[k]) {
+      lnPlaced = lnPlaced.slice();
+      lnPlaced[k] = null;
+      lnSel = k;
+      paintLnFloor(`把${LN_PIECE_TABLE[pieces[k]].title}从柜子里拿出来了。`);
+      return;
+    }
+    if (lnSel === k) {
+      lnSel = -1;
+      paintLnFloor('');
+      return;
+    }
+    lnSel = k;
+    lnRot = 0;
+    lnFlip = 0;
+    paintLnFloor('');
+  }
+
+  function turnLnPiece() {
+    const st = lnReady(LN_FLOOR, 'ln-rotate');
+    if (!st || !st.draft.bundle || st.activeFolder || lnSel < 0) return;
+    lnRot = (lnRot + 1) % 4;
+    paintLnFloor('');
+  }
+
+  function flipLnPiece() {
+    const st = lnReady(LN_FLOOR, 'ln-flip');
+    if (!st || !st.draft.bundle || st.activeFolder || lnSel < 0) return;
+    lnFlip = lnFlip ? 0 : 1;
+    paintLnFloor('');
+  }
+
+  function tapLnSlot(idx) {
+    const st = lnReady(LN_FLOOR, `ln-slot-${idx}`);
+    if (!st || !st.draft.bundle || st.activeFolder) return;
+    const pieces = LN_BUNDLE_TABLE[st.draft.bundle].pieces;
+    const rows = LN_METHOD_TABLE[st.draft.method].rows;
+    const k = lnPlaced.findIndex((cells) => cells && cells.includes(idx));
+    if (k >= 0) {
+      lnPlaced = lnPlaced.slice();
+      lnPlaced[k] = null;
+      paintLnFloor(`把${LN_PIECE_TABLE[pieces[k]].title}从柜子里拿出来了。`);
+      return;
+    }
+    if (lnSel < 0) { paintLnFloor('先点下面的一床被子拿起来。'); return; }
+    const occupied = lnPlaced.filter(Boolean).flat();
+    const cells = lnPlace(rows, occupied, lnTransform(LN_PIECE_TABLE[pieces[lnSel]].cells, lnRot, lnFlip), idx);
+    if (!cells) { paintLnFloor('放不下：会伸出柜子，或者压到别的被子。转一转、翻个面，或者换个格子。'); return; }
+    lnPlaced = lnPlaced.slice();
+    lnPlaced[lnSel] = cells;
+    lnSel = -1;
+    if (AudioEngine.tick) AudioEngine.tick();
+    paintLnFloor('');
+  }
+
+  function resetLnFloor() {
+    const st = lnReady(LN_FLOOR, 'ln-reset');
+    if (!st || !st.draft.bundle || st.activeFolder) return;
+    lnPlaced = LN_BUNDLE_TABLE[st.draft.bundle].pieces.map(() => null);
+    lnSel = -1;
+    paintLnFloor('被子都拿出来了。');
+  }
+
+  function finishLnFolding() {
+    const st = lnReady(LN_FLOOR, 'ln-finish');
+    if (!st || !st.draft.bundle || st.activeFolder) return;
+    const { bundle, method } = st.draft;
+    const pieces = LN_BUNDLE_TABLE[bundle].pieces;
+    if (!(lnFull(LN_METHOD_TABLE[method].rows, lnPlaced) && lnPlaced.filter(Boolean).length === pieces.length)) {
+      paintLnFloor('柜子还没塞满，合不上。');
+      return;
+    }
+    lnSel = -1;
+    paintLnFloor('柜门合上了。');
+    launchLn(LN_FLOOR, 'ln-finish', {
+      bundle, feedback: lnFinishFeedback(bundle, method), fold: `${bundle}:${method}`, kind: 'finish', method, source: LN_FLOOR, target: LN_BUNDLE_TABLE[bundle].target,
+    }, '#folding-floor-response');
+  }
+
+  function chooseLnAbandon() {
+    const st = lnReady(LN_FLOOR, 'ln-abandon');
+    if (!st || !st.draft.bundle) return;
+    launchLn(LN_FLOOR, 'ln-abandon', { feedback: LN_ABANDON_FEEDBACK, kind: 'abandon', source: LN_FLOOR, target: LN_ROOM }, '#folding-floor-response');
+  }
+
+  function chooseLnFolderReturn(scene) {
+    const st = lnReady(scene, `ln-folder-return-${scene}`);
+    if (!st || !st.activeFolder) return;
+    if (LN_BUNDLE_TABLE[st.activeFolder.fold.split(':')[0]].target !== scene) return;
+    launchLn(scene, `ln-folder-return-${scene}`, { feedback: LN_FOLDER_RETURN_FEEDBACK, from: scene, kind: 'folder-return', fold: st.activeFolder.fold, target: LN_ROOM }, `#ln-folder-response-${scene}`);
+  }
+
+  function chooseLnCourtEntry() {
+    const st = lnReady('remembrance', 'ln-court-entry-btn');
+    if (!st || st.activeFolder || !lnCourtEligible(st)) return;
+    launchLn('remembrance', 'ln-court-entry-btn', { feedback: LN_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: LN_COURT }, '#ln-court-entry-response');
+  }
+
+  function chooseLnVerdict(action) {
+    const a = LN_VERDICT_TABLE[action];
+    if (!a) return;
+    const st = lnReady(LN_COURT, `ln-verdict-${action}`);
+    if (!st || st.activeFolder || !st.visited.court || !lnCourtEligible(st)) return;
+    launchLn(LN_COURT, `ln-verdict-${action}`, { action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: LN_COURT, target: a.target }, '#hearing-of-the-last-quilt-response');
+  }
+
+  function linenRoomBridgeAllows(targetScene) {
+    if (!linenRoomUnlocked()) return false;
+    const st = getLinenRoom();
+    if (st.pending && (st.pending.kind === 'finish' || st.pending.kind === 'verdict') && st.pending.target === targetScene) return true;
+    if (st.activeFolder && LN_BUNDLE_TABLE[st.activeFolder.fold.split(':')[0]].target === targetScene) return true;
+    const verdict = LN_VERDICT_ACTIONS.find((a) => LN_VERDICT_TABLE[a].outcome === st.lastOutcome);
+    return Boolean(verdict && LN_VERDICT_TABLE[verdict].target === targetScene);
+  }
+
+  function lnRoomCanVisit() {
+    if (!linenRoomUnlocked()) return false;
+    const st = getLinenRoom();
+    return st.visited.room || Boolean(st.pending && st.pending.target === LN_ROOM);
+  }
+
+  function foldingFloorCanVisit() {
+    if (!linenRoomUnlocked()) return false;
+    const st = getLinenRoom();
+    if (st.visited.floor && st.draft.bundle) return true;
+    return Boolean(st.pending && st.pending.kind === 'bundle');
+  }
+
+  function lnCourtCanVisit() {
+    if (!linenRoomUnlocked()) return false;
+    const st = getLinenRoom();
+    if (st.visited.court && lnCourtEligible(st)) return true;
+    return Boolean(st.pending && st.pending.kind === 'court-entry');
+  }
+
+  function syncLnRoom() {
+    const canVisit = lnRoomCanVisit();
+    const st = getLinenRoom();
+    const fig = $('#ln-room-figure');
+    if (fig) fig.hidden = !canVisit;
+    const blocked = !canVisit || Boolean(st.pending) || Boolean(st.activeFolder);
+    LN_BUNDLES.forEach((bundle) => {
+      const btn = $(`#ln-bundle-${bundle}`);
+      if (!btn) return;
+      btn.disabled = blocked;
+      btn.classList.toggle('is-collected', LN_METHODS.every((m) => st.folds.includes(`${bundle}:${m}`)));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'bundle' && st.pending.bundle === bundle ? 'true' : 'false');
+    });
+    const note = $('#ln-room-note');
+    if (note) {
+      let text = '';
+      if (st.activeFolder) {
+        const b = LN_BUNDLE_TABLE[st.activeFolder.fold.split(':')[0]];
+        text = `先完成正在送回去的那包被褥：${b.folderTitle}还在${b.place}等你签收。`;
+      } else if (st.draft.bundle) {
+        text = `叠被处还摊着没收完的「${LN_BUNDLE_TABLE[st.draft.bundle].title}」。`;
+      }
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const cont = $('#ln-continue');
+    if (cont) {
+      const show = canVisit && Boolean(st.draft.bundle) && !st.activeFolder;
+      cont.hidden = !show;
+      cont.disabled = !show || Boolean(st.pending);
+    }
+    if (!st.pending || st.pending.source !== LN_ROOM) showLnResponse('#linen-room-response', '');
+  }
+
+  function syncFoldingFloor() {
+    const canVisit = foldingFloorCanVisit();
+    const st = getLinenRoom();
+    const ready = canVisit && Boolean(st.draft.bundle);
+    const key = st.draft.bundle ? `${st.draft.bundle}:${st.draft.method}` : '';
+    if (key !== lnFloorKey && !(st.pending && st.pending.kind === 'finish')) {
+      lnFloorKey = key;
+      lnPlaced = st.draft.bundle ? LN_BUNDLE_TABLE[st.draft.bundle].pieces.map(() => null) : [];
+      lnSel = -1;
+      lnRot = 0;
+      lnFlip = 0;
+    }
+    const panel = $('#ln-floor-panel');
+    if (panel) panel.hidden = !ready;
+    const board = $('#ln-board');
+    if (board) board.hidden = !ready;
+    if (ready) {
+      const t = LN_BUNDLE_TABLE[st.draft.bundle];
+      const title = $('#ln-floor-bundle');
+      if (title) title.textContent = `${t.title} —— ${t.feedback}`;
+      const hint = $('#ln-method-hint');
+      if (hint) hint.textContent = `${LN_METHOD_TABLE[st.draft.method].hint}点一床被子拿起来，可以“转一转”“翻个面”；再点柜子里的格子，被子左上角那一格会落在那里。放错了点柜子里的被子就能拿出来。所有被子正好塞满柜子就能合上柜门，被褥会送回${t.place}，由${t.folderTitle}签收。换柜子或换一包被褥会把被子都拿出来。`;
+    }
+    LN_METHODS.forEach((method) => {
+      const btn = $(`#ln-method-${method}`);
+      if (!btn) return;
+      btn.disabled = !ready || Boolean(st.pending);
+      btn.setAttribute('aria-pressed', ready && st.draft.method === method ? 'true' : 'false');
+      btn.classList.toggle('is-collected', Boolean(st.draft.bundle) && st.folds.includes(`${st.draft.bundle}:${method}`));
+    });
+    ['ln-finish', 'ln-rotate', 'ln-flip', 'ln-reset', 'ln-abandon'].forEach((id) => {
+      const btn = $(`#${id}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending);
+    });
+    for (let i = 0; i < LN_W * LN_H; i++) {
+      const btn = $(`#ln-slot-${i}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending);
+    }
+    for (let k = 0; k < LN_MAX_PIECES; k++) {
+      const btn = $(`#ln-piece-${k}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending);
+    }
+    paintLnFloor(st.pending && st.pending.kind === 'finish' ? '柜门合上了，被褥正在送回去。' : '');
+    if (!st.pending || st.pending.source !== LN_FLOOR) showLnResponse('#folding-floor-response', '');
+  }
+
+  function syncLnCourt() {
+    const canVisit = lnCourtCanVisit();
+    const st = getLinenRoom();
+    const fig = $('#hearing-of-the-last-quilt-figure');
+    if (fig) fig.hidden = !canVisit;
+    LN_VERDICT_ACTIONS.forEach((action) => {
+      const btn = $(`#ln-verdict-${action}`);
+      if (!btn) return;
+      btn.disabled = !canVisit || Boolean(st.pending) || Boolean(st.activeFolder);
+      btn.classList.toggle('is-collected', st.courtOutcomes.includes(LN_VERDICT_TABLE[action].outcome));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'verdict' && st.pending.action === action ? 'true' : 'false');
+    });
+    if (!st.pending || st.pending.source !== LN_COURT) showLnResponse('#hearing-of-the-last-quilt-response', '');
+  }
+
+  function syncLnFolders() {
+    const st = linenRoomUnlocked() ? getLinenRoom() : defaultLinenRoom();
+    const [bundle, method] = st.activeFolder ? st.activeFolder.fold.split(':') : ['', ''];
+    LN_OLD_TARGETS.forEach((scene) => {
+      const box = $(`#ln-folder-${scene}`);
+      if (!box) return;
+      const show = Boolean(bundle) && LN_BUNDLE_TABLE[bundle].target === scene;
+      box.hidden = !show;
+      const btn = $(`#ln-folder-return-${scene}`);
+      if (btn) {
+        btn.disabled = !show || Boolean(st.pending);
+        btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'folder-return' && st.pending.from === scene ? 'true' : 'false');
+      }
+      if (!show) return;
+      const b = LN_BUNDLE_TABLE[bundle];
+      const head = $(`#ln-folder-title-${scene}`);
+      if (head) head.textContent = `收被签收 · ${b.folderTitle} · ${b.title}（${LN_METHOD_TABLE[method].title}）`;
+      const level = $(`#ln-folder-level-${scene}`);
+      if (level) level.textContent = `${b.pieces.length} 床被子正好塞满了${LN_METHOD_TABLE[method].title}`;
+      const body = $(`#ln-folder-body-${scene}`);
+      if (body) body.textContent = LN_METHOD_TABLE[method].result;
+      if (!st.pending || st.pending.kind !== 'folder-return') showLnResponse(`#ln-folder-response-${scene}`, '');
+    });
+  }
+
+  function syncLnEchoes() {
+    const st = linenRoomUnlocked() ? getLinenRoom() : defaultLinenRoom();
+    LN_BUNDLES.forEach((bundle) => {
+      const b = LN_BUNDLE_TABLE[bundle];
+      const el = $(`#ln-echo-${b.target}`);
+      if (!el) return;
+      const method = st.latestMethodByBundle[bundle];
+      if (!method) { el.hidden = true; el.textContent = ''; return; }
+      el.textContent = `${b.echoLead}${LN_METHOD_TABLE[method].result}`;
+      el.hidden = false;
+    });
+  }
+
+  function syncLnRemembrance() {
+    const unlocked = linenRoomUnlocked();
+    const shell = $('#ln-codex');
+    const memory = $('#ln-memory');
+    if (!unlocked) {
+      [shell, memory].forEach((el) => { if (el) el.hidden = true; });
+      return;
+    }
+    const st = getLinenRoom();
+    const v114Busy = lnUpstreamBusy();
+    if (shell) shell.hidden = false;
+    const progress = lnCourtProgress(st);
+    if (memory) {
+      memory.hidden = false;
+      memory.textContent = `收被：已收 ${st.folds.length}/9 次，共合柜 ${st.foldRuns} 次；收被听证 ${st.courtOutcomes.length}/3。`;
+    }
+    const hints = $('#ln-court-hints');
+    if (hints) {
+      const rows = [['三包被褥都收过', progress.bundles, LN_BUNDLES.length], ['三种柜子都用过', progress.methods, LN_METHODS.length]];
+      hints.replaceChildren(...rows.map(([label, have, need]) => {
+        const li = document.createElement('li');
+        li.className = have >= need ? 'is-met' : '';
+        li.textContent = `${label} ${have}/${need}`;
+        return li;
+      }));
+    }
+    const clean = !st.pending && !st.activeFolder;
+    const entry = $('#ln-entry-btn');
+    if (entry) {
+      entry.hidden = false;
+      entry.disabled = !clean || v114Busy;
+      entry.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' ? 'true' : 'false');
+    }
+    const note = $('#ln-entry-note');
+    if (note) {
+      const text = v114Busy ? '先完成锁匠铺那把还在路上的钥匙：锁匠铺还有一位守锁人没签收。' : st.activeFolder ? '先完成正在送回去的那包被褥。' : '';
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const court = $('#ln-court-entry-btn');
+    if (court) {
+      const eligible = lnCourtEligible(st);
+      court.hidden = !eligible;
+      court.disabled = !eligible || !clean;
+      court.setAttribute('aria-pressed', st.pending && st.pending.kind === 'court-entry' ? 'true' : 'false');
+    }
+    const grid = $('#ln-codex-grid');
+    if (grid) {
+      const have = new Set(st.folds);
+      const cells = LN_FOLD_IDS.map((id) => {
+        const [bundle, method] = id.split(':');
+        const cell = document.createElement('div');
+        cell.className = `ln-cell ${have.has(id) ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = have.has(id) ? `${LN_BUNDLE_TABLE[bundle].title}\n${LN_METHOD_TABLE[method].title}` : '？？？';
+        return cell;
+      });
+      LN_VERDICT_ACTIONS.forEach((action) => {
+        const a = LN_VERDICT_TABLE[action];
+        const got = st.courtOutcomes.includes(a.outcome);
+        const cell = document.createElement('div');
+        cell.className = `ln-cell ln-cell-verdict ${got ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = got ? `[收被听证会] ${a.title}\n${a.feedback}` : '？？？';
+        cells.push(cell);
+      });
+      grid.replaceChildren(...cells);
+    }
+    if (!st.pending || (st.pending.kind !== 'entry' && st.pending.kind !== 'court-entry')) {
+      showLnResponse('#ln-entry-response', '');
+      showLnResponse('#ln-court-entry-response', '');
+    }
+  }
+
+  function syncLnLinks() {
+    const st = linenRoomUnlocked() ? getLinenRoom() : null;
+    [['linen-room-link', 'room'], ['folding-floor-link', 'floor'], ['hearing-of-the-last-quilt-link', 'court']].forEach(([id, key]) => {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !(st && st.visited[key]);
+    });
+  }
+
+  function forgetLinenRoomState() {
+    try { localStorage.removeItem(LINEN_ROOM_KEY); } catch {}
+    [LN_ROOM, LN_FLOOR, LN_COURT].forEach((scene) => AutoAdvance.clear(scene));
+    lnPlaced = [];
+    lnSel = -1;
+    lnRot = 0;
+    lnFlip = 0;
+    lnFloorKey = '';
+    ['#ln-codex', '#ln-memory', '#ln-room-figure', '#ln-floor-panel', '#hearing-of-the-last-quilt-figure',
+      '#linen-room-link', '#folding-floor-link', '#hearing-of-the-last-quilt-link', '#ln-continue', '#ln-court-entry-btn',
+      '#ln-entry-response', '#ln-court-entry-response', '#linen-room-response', '#folding-floor-response', '#hearing-of-the-last-quilt-response',
+      ...LN_OLD_TARGETS.flatMap((scene) => [`#ln-folder-${scene}`, `#ln-echo-${scene}`]),
+    ].forEach((sel) => { const el = $(sel); if (el) el.hidden = true; });
+    $$('[id^="ln-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+  }
+
+  const onTrustedLn = (selector, handler) => {
+    const el = $(selector);
+    if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+  };
+  onTrustedLn('#ln-entry-btn', chooseLnEntry);
+  onTrustedLn('#ln-court-entry-btn', chooseLnCourtEntry);
+  onTrustedLn('#ln-abandon', chooseLnAbandon);
+  onTrustedLn('#ln-continue', () => {
+    const st = lnReady(LN_ROOM, 'ln-continue');
+    if (!st || !st.draft.bundle || st.activeFolder) return;
+    const bundle = st.draft.bundle;
+    launchLn(LN_ROOM, 'ln-continue', { bundle, feedback: LN_BUNDLE_TABLE[bundle].feedback, kind: 'bundle', source: LN_ROOM, target: LN_FLOOR }, '#linen-room-response');
+  });
+  LN_BUNDLES.forEach((bundle) => onTrustedLn(`#ln-bundle-${bundle}`, () => chooseLnBundle(bundle)));
+  LN_METHODS.forEach((method) => onTrustedLn(`#ln-method-${method}`, () => chooseLnMethod(method)));
+  LN_VERDICT_ACTIONS.forEach((action) => onTrustedLn(`#ln-verdict-${action}`, () => chooseLnVerdict(action)));
+  LN_OLD_TARGETS.forEach((scene) => onTrustedLn(`#ln-folder-return-${scene}`, () => chooseLnFolderReturn(scene)));
+  for (let i = 0; i < LN_W * LN_H; i++) onTrustedLn(`#ln-slot-${i}`, () => tapLnSlot(i));
+  for (let k = 0; k < LN_MAX_PIECES; k++) onTrustedLn(`#ln-piece-${k}`, () => pickLnPiece(k));
+  onTrustedLn('#ln-rotate', turnLnPiece);
+  onTrustedLn('#ln-flip', flipLnPiece);
+  onTrustedLn('#ln-reset', resetLnFloor);
+  onTrustedLn('#ln-finish', finishLnFolding);
+
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -68458,8 +69313,26 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     if (eligible) items.push(`开庭条件已满足；锁匠裁定已得 ${st.courtOutcomes.length}/3`);
     if (st.activeKeyholder) items.push("有一把新钥匙在旧房间等你签收：跟着守锁人回到锁匠铺");
     else if (st.draft.lock) items.push(`试锁台上还夹着没试开的「${LK_LOCK_TABLE[st.draft.lock].title}」`);
-    if (eligible && st.courtOutcomes.length >= 3) return { title: "v114 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    if (eligible && st.courtOutcomes.length >= 3) return linenRoomProgressStep();
     return { title: "v114 锁匠铺", items, target: eligible ? "lk-court" : "lk", done: false };
+  };
+
+  /* v115：按三包被褥、三种柜子与三项裁定给出缺项 */
+  const linenRoomProgressStep = () => {
+    if (!linenRoomUnlocked()) return null;
+    const st = getLinenRoom();
+    const items = [];
+    const bundles = LN_BUNDLES.filter((x) => !st.folds.some((id) => id.startsWith(`${x}:`))).map((x) => LN_BUNDLE_TABLE[x].title);
+    const methods = LN_METHODS.filter((m) => !st.folds.some((id) => id.endsWith(`:${m}`))).map((m) => LN_METHOD_TABLE[m].title);
+    if (lnUpstreamBusy() && !st.visited.room) items.push("先完成锁匠铺那把还在路上的钥匙，被柜房才开门");
+    if (bundles.length) items.push(`还没收的被褥：${bundles.join("、")}`);
+    if (methods.length) items.push(`还没用过的柜子：${methods.join("、")}`);
+    const eligible = lnCourtEligible(st);
+    if (eligible) items.push(`开庭条件已满足；收被裁定已得 ${st.courtOutcomes.length}/3`);
+    if (st.activeFolder) items.push("有一包被褥在旧房间等你签收：跟着收被人回到被柜房");
+    else if (st.draft.bundle) items.push(`叠被处还摊着没收完的「${LN_BUNDLE_TABLE[st.draft.bundle].title}」`);
+    if (eligible && st.courtOutcomes.length >= 3) return { title: "v115 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    return { title: "v115 被柜房", items, target: eligible ? "ln-court" : "ln", done: false };
   };
 
   const shadowlessPhotographyProgressStep = () => {
@@ -69042,6 +69915,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   syncPaperCutAll();
   syncClearedOfferingsAll();
   syncForgottenLocksAll();
+  syncLinenRoomAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

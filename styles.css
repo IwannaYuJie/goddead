@@ -20899,3 +20899,225 @@ button.dw-tile:disabled {
 @media (min-width: 721px) {
   .lk-hotspot .dh-label { white-space: nowrap; }
 }
+
+/* ============================================================
+   v115 被柜房：三包被褥与三种柜子
+   ============================================================ */
+.ln-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  aspect-ratio: 3 / 2;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border: 1px solid rgba(154, 127, 71, 0.35);
+  background: var(--void);
+}
+
+.ln-figure .ln-img { display: block; width: 100%; height: 100%; object-fit: cover; -webkit-mask-image: none; mask-image: none; }
+
+.ln-hotspot {
+  position: absolute;
+  z-index: 3;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0.4rem;
+  border: 1px solid rgba(222, 217, 208, 0.18);
+  background: rgba(8, 7, 6, 0.1);
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+
+.ln-hotspot .dh-label { padding: 0.2rem 0.55rem; background: rgba(8, 7, 6, 0.74); letter-spacing: 0.1em; }
+.ln-hotspot:hover,
+.ln-hotspot:focus-visible { border-color: var(--gold); background: rgba(154, 127, 71, 0.16); outline: 2px solid var(--gold); outline-offset: 2px; }
+.ln-hotspot:disabled,
+.ln-hotspot[aria-pressed="true"] { border-color: var(--blood); cursor: default; outline: none; }
+.ln-hotspot.is-collected .dh-label::after { content: " ✓"; color: var(--gold); }
+
+.ln-hotspot-left { left: 2%; top: 53%; width: 26.5%; height: 24%; }
+.ln-hotspot-center { left: 37.5%; top: 56%; width: 25%; height: 21%; }
+.ln-hotspot-right { left: 71.5%; top: 55%; width: 27%; height: 25%; }
+.ln-hotspot-court-left { left: 1%; top: 48%; width: 32%; height: 29%; }
+.ln-hotspot-court-center { left: 41%; top: 54%; width: 20%; height: 24%; }
+.ln-hotspot-court-right { left: 75%; top: 8%; width: 24%; height: 60%; }
+
+/* 叠被处：柜子画在 assets/v115-folding-floor.webp 正中的空地板上，四行高，宽按柜子形状 4 / 5 / 6 列 */
+.ln-board {
+  position: absolute;
+  top: 14%;
+  height: 72%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: grid;
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+  gap: 3px;
+  padding: 8px;
+  border: 3px solid #6b4a2b;
+  border-radius: 6px;
+  background: rgba(30, 20, 12, 0.72);
+  box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.7), 0 10px 24px rgba(0, 0, 0, 0.6);
+}
+.ln-board[data-cols="4"] { aspect-ratio: 1 / 1; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.ln-board[data-cols="5"] { aspect-ratio: 5 / 4; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.ln-board[data-cols="6"] { aspect-ratio: 6 / 4; grid-template-columns: repeat(6, minmax(0, 1fr)); }
+
+.ln-slot {
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 1px dashed rgba(230, 210, 170, 0.28);
+  border-radius: 3px;
+  background: rgba(60, 42, 26, 0.55);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.ln-slot:hover:not(:disabled),
+.ln-slot:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
+.ln-slot:disabled { cursor: default; }
+/* 五床被子五种颜色：灰毯、旧红、靛青、驼色、墨绿 */
+.ln-slot.ln-fill-0 { background: #8a8378; border-style: solid; border-color: rgba(255, 245, 225, 0.35); }
+.ln-slot.ln-fill-1 { background: #8e3a2e; border-style: solid; border-color: rgba(255, 220, 200, 0.35); }
+.ln-slot.ln-fill-2 { background: #3e4e74; border-style: solid; border-color: rgba(220, 230, 255, 0.35); }
+.ln-slot.ln-fill-3 { background: #a68655; border-style: solid; border-color: rgba(255, 240, 210, 0.4); }
+.ln-slot.ln-fill-4 { background: #3f5a44; border-style: solid; border-color: rgba(220, 255, 230, 0.35); }
+.ln-board.is-done { border-color: #e6c27a; box-shadow: 0 0 18px rgba(255, 226, 160, 0.5), inset 0 0 18px rgba(0, 0, 0, 0.7); }
+
+.ln-tray { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; margin: 0 0 0.6rem; }
+.ln-piece {
+  width: 68px;
+  height: 68px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: rgba(20, 16, 12, 0.85);
+  cursor: pointer;
+}
+.ln-piece[aria-pressed="true"] { border-color: #e6c27a; box-shadow: 0 0 12px rgba(230, 194, 122, 0.55); }
+.ln-piece.is-placed { opacity: 0.45; border-style: dashed; }
+.ln-piece:hover:not(:disabled),
+.ln-piece:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.ln-piece:disabled { cursor: default; }
+.ln-mini { display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(4, 1fr); gap: 2px; width: 100%; height: 100%; }
+.ln-dot { border-radius: 2px; background: transparent; }
+.ln-dot.is-on { background: #d8c8a6; box-shadow: inset 0 0 0 1px rgba(80, 60, 40, 0.6); }
+#ln-piece-0 .ln-dot.is-on { background: #8a8378; }
+#ln-piece-1 .ln-dot.is-on { background: #8e3a2e; }
+#ln-piece-2 .ln-dot.is-on { background: #3e4e74; }
+#ln-piece-3 .ln-dot.is-on { background: #a68655; }
+#ln-piece-4 .ln-dot.is-on { background: #3f5a44; }
+
+.ln-floor-status {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  margin: 0;
+  padding: 0.35rem 1rem;
+  color: var(--bone-bright);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-shadow: 0 1px 3px #000, 0 0 8px #000;
+  background: linear-gradient(0deg, rgba(8, 7, 6, 0.8), transparent);
+  pointer-events: none;
+}
+
+.ln-note { width: min(720px, 100%); margin: 0.6rem auto 0; color: var(--ash); font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; line-height: 1.8; text-align: center; }
+.ln-response { white-space: pre-line; }
+
+.ln-panel {
+  width: min(720px, 100%);
+  margin: 1.2rem auto 0;
+  padding: 1rem 1.1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--gold);
+  background: rgba(10, 9, 8, 0.86);
+}
+
+.ln-panel-bundle { margin: 0 0 1rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.92rem; line-height: 1.8; }
+.ln-methods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+
+.ln-method {
+  min-height: 44px;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  background: rgba(20, 16, 12, 0.8);
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.ln-method[aria-pressed="true"] { border-color: var(--gold); color: var(--bone-bright); background: rgba(154, 127, 71, 0.18); }
+.ln-method.is-collected::after { content: " ✓"; color: var(--gold); }
+.ln-method:hover:not(:disabled),
+.ln-method:focus-visible { border-color: var(--gold); outline: 2px solid var(--gold); outline-offset: 2px; }
+.ln-method:disabled { opacity: 0.45; cursor: default; }
+
+.ln-action,
+.ln-entry-btn {
+  min-height: 44px;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.ln-entry-btn,
+.ln-shine { border-color: var(--gold); color: var(--bone-bright); }
+.ln-action:hover:not(:disabled),
+.ln-action:focus-visible,
+.ln-entry-btn:hover:not(:disabled),
+.ln-entry-btn:focus-visible { border-color: var(--gold); background: var(--gold); color: var(--void); outline: 2px solid var(--bone-bright); outline-offset: 2px; }
+.ln-action:disabled,
+.ln-entry-btn:disabled { opacity: 0.4; cursor: default; }
+.ln-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; margin-top: 0.9rem; }
+
+.ln-folder,
+.ln-echo { grid-column: 1 / -1; justify-self: center; width: min(720px, 100%); }
+.ln-folder { position: relative; z-index: 1; margin: 1.5rem auto; padding: 1rem 1.1rem; border: 1px solid var(--line); border-left: 2px solid #b8914f; background: rgba(10, 9, 8, 0.86); text-align: left; }
+.ln-folder-title { margin: 0 0 0.4rem; color: var(--gold); font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.18em; }
+.ln-folder-level { margin: 0 0 0.4rem; color: #e6c27a; font-family: var(--serif-cn); font-size: 1rem; }
+.ln-folder-body { margin: 0 0 0.8rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.9rem; line-height: 1.9; }
+
+.ln-codex { position: relative; z-index: 1; max-width: 760px; margin: 2rem auto; padding: 1.5rem; border: 1px solid var(--line); background: var(--void-soft); }
+.ln-kicker { margin-bottom: 1.25rem; color: var(--gold); font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.15em; text-align: center; }
+.ln-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+.ln-cell { min-height: 64px; padding: 0.8rem; border: 1px solid var(--line); background: var(--void); font-family: var(--mono); font-size: 0.75rem; line-height: 1.6; white-space: pre-line; text-align: center; }
+.ln-cell.is-locked { color: var(--ash); border-style: dashed; opacity: 0.6; }
+.ln-cell.is-unlocked { color: var(--bone-bright); border-color: var(--gold); background: rgba(30, 25, 20, 0.5); }
+.ln-hints-title { margin: 0 0 0.4rem; color: var(--bone); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; }
+.ln-hints { margin: 0 0 1rem; padding-left: 1.1rem; color: var(--ash); font-size: 0.82rem; line-height: 1.8; }
+.ln-hints li.is-met { color: var(--gold); }
+.ln-codex-entry { display: flex; flex-direction: column; gap: 0.6rem; align-items: center; }
+
+@media (max-width: 720px) {
+  .ln-figure { width: min(92vw, 520px); }
+  .ln-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+  .ln-hotspot .dh-label { font-size: 0.64rem; padding: 0.12rem 0.3rem; letter-spacing: 0.02em; }
+  .ln-methods { grid-template-columns: 1fr; }
+  /* 窄屏状态行挪到图下 */
+  .ln-floor-figure { overflow: visible; margin-bottom: 3rem; }
+  .ln-floor-status { top: calc(100% + 0.4rem); bottom: auto; padding: 0; font-size: 0.64rem; letter-spacing: 0.02em; background: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ln-slot { transition: none; }
+}
+
+@media (min-width: 721px) {
+  .ln-hotspot .dh-label { white-space: nowrap; }
+}

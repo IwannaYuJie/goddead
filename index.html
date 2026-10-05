@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=114">
+  <link rel="stylesheet" href="styles.css?v=115">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -374,6 +374,15 @@
           </ol>
           <p class="rules-foot reveal">守则如有变动，恕不另行通知。——有些变动并非我们所为。</p>
 
+          <!-- v115 守则收被签收与记忆 -->
+          <p class="watch-memory ln-echo" id="ln-echo-protocol" hidden></p>
+          <div class="ln-folder reveal" id="ln-folder-protocol" hidden>
+            <p class="ln-folder-title" id="ln-folder-title-protocol"></p>
+            <p class="ln-folder-level" id="ln-folder-level-protocol"></p>
+            <p class="ln-folder-body" id="ln-folder-body-protocol"></p>
+            <p class="ln-response" id="ln-folder-response-protocol" aria-live="polite" hidden></p>
+            <button class="ln-action" id="ln-folder-return-protocol" type="button" data-hover>跟着收被人回到被柜房 ⟶</button>
+          </div>
           <!-- v112 守则贴花签收与记忆 -->
           <p class="watch-memory pc-echo" id="pc-echo-protocol" hidden></p>
           <div class="pc-paster reveal" id="pc-paster-protocol" hidden>
@@ -3418,6 +3427,15 @@
             <button class="branch-entry branch-entry-deep" id="branch-entry-confession-ledger" type="button" hidden data-go="confession-ledger" data-hover>无名罪籍库 ⟶</button>
           </nav>
 
+          <!-- v115 走廊收被签收与记忆 -->
+          <p class="watch-memory ln-echo" id="ln-echo-corridor" hidden></p>
+          <div class="ln-folder reveal" id="ln-folder-corridor" hidden>
+            <p class="ln-folder-title" id="ln-folder-title-corridor"></p>
+            <p class="ln-folder-level" id="ln-folder-level-corridor"></p>
+            <p class="ln-folder-body" id="ln-folder-body-corridor"></p>
+            <p class="ln-response" id="ln-folder-response-corridor" aria-live="polite" hidden></p>
+            <button class="ln-action" id="ln-folder-return-corridor" type="button" data-hover>跟着收被人回到被柜房 ⟶</button>
+          </div>
           <!-- v111 走廊归位签收与记忆 -->
           <p class="watch-memory pb-echo" id="pb-echo-corridor" hidden></p>
           <div class="pb-mover reveal" id="pb-mover-corridor" hidden>
@@ -4099,6 +4117,15 @@
             <p class="answer-note" id="deliver-note" role="status" aria-live="polite"></p>
           </div>
 
+          <!-- v115 交换台收被签收与记忆 -->
+          <p class="watch-memory ln-echo" id="ln-echo-switchboard" hidden></p>
+          <div class="ln-folder reveal" id="ln-folder-switchboard" hidden>
+            <p class="ln-folder-title" id="ln-folder-title-switchboard"></p>
+            <p class="ln-folder-level" id="ln-folder-level-switchboard"></p>
+            <p class="ln-folder-body" id="ln-folder-body-switchboard"></p>
+            <p class="ln-response" id="ln-folder-response-switchboard" aria-live="polite" hidden></p>
+            <button class="ln-action" id="ln-folder-return-switchboard" type="button" data-hover>跟着收被人回到被柜房 ⟶</button>
+          </div>
           <!-- v111 交换台归位签收与记忆 -->
           <p class="watch-memory pb-echo" id="pb-echo-switchboard" hidden></p>
           <div class="pb-mover reveal" id="pb-mover-switchboard" hidden>
@@ -5364,6 +5391,21 @@
               <p class="ts-response" id="ts-entry-response" aria-live="polite" hidden></p>
               <button class="ts-entry-btn" id="ts-court-entry-btn" type="button" hidden data-hover>进入早报听证会 · ENTER THE HEARING OF THE MORNING EDITION ⟶</button>
               <p class="ts-response" id="ts-court-entry-response" aria-live="polite" hidden></p>
+            </div>
+          </div>
+          <!-- v115 收被图鉴 -->
+          <p class="watch-memory ln-memory" id="ln-memory" hidden></p>
+          <div class="ln-codex reveal" id="ln-codex" hidden>
+            <p class="ln-kicker">THE LINEN ROOM · 收 被 图 鉴</p>
+            <div class="ln-grid" id="ln-codex-grid"></div>
+            <p class="ln-hints-title">收被听证会开庭条件</p>
+            <ul class="ln-hints" id="ln-court-hints"></ul>
+            <div class="ln-codex-entry">
+              <button class="ln-entry-btn" id="ln-entry-btn" type="button" hidden data-hover>前往被柜房 · GO TO THE LINEN ROOM ⟶</button>
+              <p class="ln-note" id="ln-entry-note" hidden></p>
+              <p class="ln-response" id="ln-entry-response" aria-live="polite" hidden></p>
+              <button class="ln-entry-btn" id="ln-court-entry-btn" type="button" hidden data-hover>进入收被听证会 · ENTER THE HEARING OF THE LAST QUILT ⟶</button>
+              <p class="ln-response" id="ln-court-entry-response" aria-live="polite" hidden></p>
             </div>
           </div>
           <!-- v114 锁匠图鉴 -->
@@ -10384,6 +10426,117 @@
         </div>
       </section>
 
+      <!-- v115 第一幕：被柜房 -->
+      <section class="scene scene-branch scene-linen-room" id="scene-linen-room" data-scene="linen-room" data-title="Goddead — 被柜房" aria-label="被柜房">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">29α / 收被 · THE LINEN ROOM</p>
+            <h2 class="sec-title">被柜房</h2>
+            <p class="sec-desc">门都锁上了，死人要睡了。三间旧屋的被褥得叠好收进柜子。被柜房的长桌上三包没叠的被褥，各用绳子捆着。</p>
+          </header>
+          <figure class="branch-figure ln-figure reveal" id="ln-room-figure">
+            <img class="branch-img ln-img" data-src="assets/v115-linen-room.webp" alt="被柜房：架子上堆满叠好的布、灯光暖暖的屋子；长桌上三包用绳子捆着的被褥，左边一包灰色旧毛毯，中间一包系着小铜插头坠子的暗红毛毡，右边一包带金流苏的厚丝绒帷幔" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot ln-hotspot ln-hotspot-left" id="ln-bundle-corridor-bundle" type="button" aria-label="收被：走廊的旧毯子" data-hover><span class="dh-label" aria-hidden="true">走廊的旧毯子</span></button>
+            <button class="scene-hotspot ln-hotspot ln-hotspot-center" id="ln-bundle-switchboard-bundle" type="button" aria-label="收被：交换台的毛毯" data-hover><span class="dh-label" aria-hidden="true">交换台的毛毯</span></button>
+            <button class="scene-hotspot ln-hotspot ln-hotspot-right" id="ln-bundle-protocol-bundle" type="button" aria-label="收被：守则厅的帷幔" data-hover><span class="dh-label" aria-hidden="true">守则厅的帷幔</span></button>
+          </figure>
+          <p class="ln-note reveal" id="ln-room-note" hidden></p>
+          <p class="branch-response ln-response" id="linen-room-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开被柜房">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+            <button class="ln-action" id="ln-continue" type="button" hidden data-hover>回到叠被处 ⟶</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v115 第二幕：叠被处 -->
+      <section class="scene scene-branch scene-folding-floor" id="scene-folding-floor" data-scene="folding-floor" data-title="Goddead — 叠被处" aria-label="叠被处">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">29β / 叠被 · THE FOLDING FLOOR</p>
+            <h2 class="sec-title">叠被处</h2>
+            <p class="sec-desc">地板上摆着一口空柜子。被子已经折好了，形状各不一样。选一种柜子，把这一包被子全塞进去：要正好塞满，不能叠压，也不能空着。被子可以转，可以翻面。</p>
+          </header>
+          <figure class="branch-figure ln-figure ln-floor-figure reveal" id="ln-floor-figure">
+            <img class="branch-img ln-img" data-src="assets/v115-folding-floor.webp" alt="叠被处：俯视的一片深色木地板，灯光从上面照下来，中间空着，只在边上散着几根线头和一只铜顶针" width="1536" height="1024" loading="lazy" decoding="async">
+            <div class="ln-board" id="ln-board" data-cols="4" data-rows="4" hidden>
+                <button class="ln-slot" id="ln-slot-0" type="button" aria-label="柜子第 1 行第 1 格" style="grid-row: 1; grid-column: 1" data-hover></button>
+                <button class="ln-slot" id="ln-slot-1" type="button" aria-label="柜子第 1 行第 2 格" style="grid-row: 1; grid-column: 2" data-hover></button>
+                <button class="ln-slot" id="ln-slot-2" type="button" aria-label="柜子第 1 行第 3 格" style="grid-row: 1; grid-column: 3" data-hover></button>
+                <button class="ln-slot" id="ln-slot-3" type="button" aria-label="柜子第 1 行第 4 格" style="grid-row: 1; grid-column: 4" data-hover></button>
+                <button class="ln-slot" id="ln-slot-4" type="button" aria-label="柜子第 1 行第 5 格" style="grid-row: 1; grid-column: 5" data-hover></button>
+                <button class="ln-slot" id="ln-slot-5" type="button" aria-label="柜子第 1 行第 6 格" style="grid-row: 1; grid-column: 6" data-hover></button>
+                <button class="ln-slot" id="ln-slot-6" type="button" aria-label="柜子第 2 行第 1 格" style="grid-row: 2; grid-column: 1" data-hover></button>
+                <button class="ln-slot" id="ln-slot-7" type="button" aria-label="柜子第 2 行第 2 格" style="grid-row: 2; grid-column: 2" data-hover></button>
+                <button class="ln-slot" id="ln-slot-8" type="button" aria-label="柜子第 2 行第 3 格" style="grid-row: 2; grid-column: 3" data-hover></button>
+                <button class="ln-slot" id="ln-slot-9" type="button" aria-label="柜子第 2 行第 4 格" style="grid-row: 2; grid-column: 4" data-hover></button>
+                <button class="ln-slot" id="ln-slot-10" type="button" aria-label="柜子第 2 行第 5 格" style="grid-row: 2; grid-column: 5" data-hover></button>
+                <button class="ln-slot" id="ln-slot-11" type="button" aria-label="柜子第 2 行第 6 格" style="grid-row: 2; grid-column: 6" data-hover></button>
+                <button class="ln-slot" id="ln-slot-12" type="button" aria-label="柜子第 3 行第 1 格" style="grid-row: 3; grid-column: 1" data-hover></button>
+                <button class="ln-slot" id="ln-slot-13" type="button" aria-label="柜子第 3 行第 2 格" style="grid-row: 3; grid-column: 2" data-hover></button>
+                <button class="ln-slot" id="ln-slot-14" type="button" aria-label="柜子第 3 行第 3 格" style="grid-row: 3; grid-column: 3" data-hover></button>
+                <button class="ln-slot" id="ln-slot-15" type="button" aria-label="柜子第 3 行第 4 格" style="grid-row: 3; grid-column: 4" data-hover></button>
+                <button class="ln-slot" id="ln-slot-16" type="button" aria-label="柜子第 3 行第 5 格" style="grid-row: 3; grid-column: 5" data-hover></button>
+                <button class="ln-slot" id="ln-slot-17" type="button" aria-label="柜子第 3 行第 6 格" style="grid-row: 3; grid-column: 6" data-hover></button>
+                <button class="ln-slot" id="ln-slot-18" type="button" aria-label="柜子第 4 行第 1 格" style="grid-row: 4; grid-column: 1" data-hover></button>
+                <button class="ln-slot" id="ln-slot-19" type="button" aria-label="柜子第 4 行第 2 格" style="grid-row: 4; grid-column: 2" data-hover></button>
+                <button class="ln-slot" id="ln-slot-20" type="button" aria-label="柜子第 4 行第 3 格" style="grid-row: 4; grid-column: 3" data-hover></button>
+                <button class="ln-slot" id="ln-slot-21" type="button" aria-label="柜子第 4 行第 4 格" style="grid-row: 4; grid-column: 4" data-hover></button>
+                <button class="ln-slot" id="ln-slot-22" type="button" aria-label="柜子第 4 行第 5 格" style="grid-row: 4; grid-column: 5" data-hover></button>
+                <button class="ln-slot" id="ln-slot-23" type="button" aria-label="柜子第 4 行第 6 格" style="grid-row: 4; grid-column: 6" data-hover></button>
+            </div>
+            <p class="ln-floor-status" id="ln-floor-status" aria-live="polite"></p>
+          </figure>
+          <div class="ln-panel reveal" id="ln-floor-panel" hidden>
+            <div class="ln-tray" role="group" aria-label="叠好的被子">
+              <button class="ln-piece" id="ln-piece-0" type="button" aria-pressed="false" aria-label="第 1 床被子" data-hover><span class="ln-mini" aria-hidden="true"><span class="ln-dot" id="ln-piece-0-dot-0"></span><span class="ln-dot" id="ln-piece-0-dot-1"></span><span class="ln-dot" id="ln-piece-0-dot-2"></span><span class="ln-dot" id="ln-piece-0-dot-3"></span><span class="ln-dot" id="ln-piece-0-dot-4"></span><span class="ln-dot" id="ln-piece-0-dot-5"></span><span class="ln-dot" id="ln-piece-0-dot-6"></span><span class="ln-dot" id="ln-piece-0-dot-7"></span><span class="ln-dot" id="ln-piece-0-dot-8"></span><span class="ln-dot" id="ln-piece-0-dot-9"></span><span class="ln-dot" id="ln-piece-0-dot-10"></span><span class="ln-dot" id="ln-piece-0-dot-11"></span><span class="ln-dot" id="ln-piece-0-dot-12"></span><span class="ln-dot" id="ln-piece-0-dot-13"></span><span class="ln-dot" id="ln-piece-0-dot-14"></span><span class="ln-dot" id="ln-piece-0-dot-15"></span></span></button>
+              <button class="ln-piece" id="ln-piece-1" type="button" aria-pressed="false" aria-label="第 2 床被子" data-hover><span class="ln-mini" aria-hidden="true"><span class="ln-dot" id="ln-piece-1-dot-0"></span><span class="ln-dot" id="ln-piece-1-dot-1"></span><span class="ln-dot" id="ln-piece-1-dot-2"></span><span class="ln-dot" id="ln-piece-1-dot-3"></span><span class="ln-dot" id="ln-piece-1-dot-4"></span><span class="ln-dot" id="ln-piece-1-dot-5"></span><span class="ln-dot" id="ln-piece-1-dot-6"></span><span class="ln-dot" id="ln-piece-1-dot-7"></span><span class="ln-dot" id="ln-piece-1-dot-8"></span><span class="ln-dot" id="ln-piece-1-dot-9"></span><span class="ln-dot" id="ln-piece-1-dot-10"></span><span class="ln-dot" id="ln-piece-1-dot-11"></span><span class="ln-dot" id="ln-piece-1-dot-12"></span><span class="ln-dot" id="ln-piece-1-dot-13"></span><span class="ln-dot" id="ln-piece-1-dot-14"></span><span class="ln-dot" id="ln-piece-1-dot-15"></span></span></button>
+              <button class="ln-piece" id="ln-piece-2" type="button" aria-pressed="false" aria-label="第 3 床被子" data-hover><span class="ln-mini" aria-hidden="true"><span class="ln-dot" id="ln-piece-2-dot-0"></span><span class="ln-dot" id="ln-piece-2-dot-1"></span><span class="ln-dot" id="ln-piece-2-dot-2"></span><span class="ln-dot" id="ln-piece-2-dot-3"></span><span class="ln-dot" id="ln-piece-2-dot-4"></span><span class="ln-dot" id="ln-piece-2-dot-5"></span><span class="ln-dot" id="ln-piece-2-dot-6"></span><span class="ln-dot" id="ln-piece-2-dot-7"></span><span class="ln-dot" id="ln-piece-2-dot-8"></span><span class="ln-dot" id="ln-piece-2-dot-9"></span><span class="ln-dot" id="ln-piece-2-dot-10"></span><span class="ln-dot" id="ln-piece-2-dot-11"></span><span class="ln-dot" id="ln-piece-2-dot-12"></span><span class="ln-dot" id="ln-piece-2-dot-13"></span><span class="ln-dot" id="ln-piece-2-dot-14"></span><span class="ln-dot" id="ln-piece-2-dot-15"></span></span></button>
+              <button class="ln-piece" id="ln-piece-3" type="button" aria-pressed="false" aria-label="第 4 床被子" data-hover><span class="ln-mini" aria-hidden="true"><span class="ln-dot" id="ln-piece-3-dot-0"></span><span class="ln-dot" id="ln-piece-3-dot-1"></span><span class="ln-dot" id="ln-piece-3-dot-2"></span><span class="ln-dot" id="ln-piece-3-dot-3"></span><span class="ln-dot" id="ln-piece-3-dot-4"></span><span class="ln-dot" id="ln-piece-3-dot-5"></span><span class="ln-dot" id="ln-piece-3-dot-6"></span><span class="ln-dot" id="ln-piece-3-dot-7"></span><span class="ln-dot" id="ln-piece-3-dot-8"></span><span class="ln-dot" id="ln-piece-3-dot-9"></span><span class="ln-dot" id="ln-piece-3-dot-10"></span><span class="ln-dot" id="ln-piece-3-dot-11"></span><span class="ln-dot" id="ln-piece-3-dot-12"></span><span class="ln-dot" id="ln-piece-3-dot-13"></span><span class="ln-dot" id="ln-piece-3-dot-14"></span><span class="ln-dot" id="ln-piece-3-dot-15"></span></span></button>
+              <button class="ln-piece" id="ln-piece-4" type="button" aria-pressed="false" aria-label="第 5 床被子" data-hover><span class="ln-mini" aria-hidden="true"><span class="ln-dot" id="ln-piece-4-dot-0"></span><span class="ln-dot" id="ln-piece-4-dot-1"></span><span class="ln-dot" id="ln-piece-4-dot-2"></span><span class="ln-dot" id="ln-piece-4-dot-3"></span><span class="ln-dot" id="ln-piece-4-dot-4"></span><span class="ln-dot" id="ln-piece-4-dot-5"></span><span class="ln-dot" id="ln-piece-4-dot-6"></span><span class="ln-dot" id="ln-piece-4-dot-7"></span><span class="ln-dot" id="ln-piece-4-dot-8"></span><span class="ln-dot" id="ln-piece-4-dot-9"></span><span class="ln-dot" id="ln-piece-4-dot-10"></span><span class="ln-dot" id="ln-piece-4-dot-11"></span><span class="ln-dot" id="ln-piece-4-dot-12"></span><span class="ln-dot" id="ln-piece-4-dot-13"></span><span class="ln-dot" id="ln-piece-4-dot-14"></span><span class="ln-dot" id="ln-piece-4-dot-15"></span></span></button>
+            </div>
+            <div class="ln-actions">
+              <button class="ln-action" id="ln-rotate" type="button" data-hover>转一转</button>
+              <button class="ln-action" id="ln-flip" type="button" data-hover>翻个面</button>
+            </div>
+            <p class="ln-panel-bundle" id="ln-floor-bundle"></p>
+            <div class="ln-methods" role="group" aria-label="柜子">
+              <button class="ln-method" id="ln-method-square" type="button" data-hover>方柜</button>
+              <button class="ln-method" id="ln-method-round" type="button" data-hover>圆角柜</button>
+              <button class="ln-method" id="ln-method-ell" type="button" data-hover>拐角柜</button>
+            </div>
+            <p class="ln-note" id="ln-method-hint"></p>
+            <div class="ln-actions">
+              <button class="ln-action ln-finish" id="ln-finish" type="button" data-hover>合上柜门</button>
+              <button class="ln-action" id="ln-reset" type="button" data-hover>全部拿出来</button>
+              <button class="ln-action" id="ln-abandon" type="button" data-hover>重新捆好放回去</button>
+            </div>
+          </div>
+          <p class="branch-response ln-response" id="folding-floor-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <!-- v115 第三幕：收被听证会 -->
+      <section class="scene scene-branch scene-hearing-of-the-last-quilt" id="scene-hearing-of-the-last-quilt" data-scene="hearing-of-the-last-quilt" data-title="Goddead — 收被听证会" aria-label="收被听证会">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">29γ / 末被 · HEARING OF THE LAST QUILT</p>
+            <h2 class="sec-title">收被听证会</h2>
+            <p class="sec-desc">圆厅高窗下的空椅子上搭着一条毯子。桌上三件东西：一口收得整整齐齐的被柜、一张小凳上单独放着的一床被、一床搭在绳上被风吹着的被子。裁定之后仍可回来。</p>
+          </header>
+          <figure class="branch-figure ln-figure reveal" id="hearing-of-the-last-quilt-figure">
+            <img class="branch-img ln-img" data-src="assets/v115-hearing-of-the-last-quilt.webp" alt="收被听证会：圆厅高窗下一把空椅子；近处长桌上左边一口收好的木被柜露出叠好的被角，中间一张小凳上单独放着一床叠好的被子，右边一床被子搭在绳上被风吹着" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot ln-hotspot ln-hotspot-court-left" id="ln-verdict-tuck-everyone-in" type="button" aria-label="裁定：给每个人盖好被子" data-hover><span class="dh-label" aria-hidden="true">给每个人盖好被子</span></button>
+            <button class="scene-hotspot ln-hotspot ln-hotspot-court-center" id="ln-verdict-leave-a-quilt-for-god" type="button" aria-label="裁定：给神留一床被" data-hover><span class="dh-label" aria-hidden="true">给神留一床被</span></button>
+            <button class="scene-hotspot ln-hotspot ln-hotspot-court-right" id="ln-verdict-leave-the-quilts-out" type="button" aria-label="裁定：让被子晾在外面" data-hover><span class="dh-label" aria-hidden="true">让被子晾在外面</span></button>
+          </figure>
+          <p class="branch-response ln-response" id="hearing-of-the-last-quilt-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开听证会">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+          </nav>
+        </div>
+      </section>
+
       <!-- 隐藏幕 · 第九条 -->
       <section class="scene scene-ninth" id="scene-ninth" data-scene="ninth" data-title="Goddead — ？？？" aria-label="第九条">
         <figure class="ninth-figure" role="img" aria-label="一道不该存在的裂口，底部有一扇错误的窄门">
@@ -10660,6 +10813,9 @@
       <a href="#locksmith-shop" id="locksmith-shop-link" hidden data-hover>28α / 锁匠铺</a>
       <a href="#lock-bench" id="lock-bench-link" hidden data-hover>28β / 试锁台</a>
       <a href="#hearing-of-the-last-lock" id="hearing-of-the-last-lock-link" hidden data-hover>28γ / 锁匠听证</a>
+      <a href="#linen-room" id="linen-room-link" hidden data-hover>29α / 被柜房</a>
+      <a href="#folding-floor" id="folding-floor-link" hidden data-hover>29β / 叠被处</a>
+      <a href="#hearing-of-the-last-quilt" id="hearing-of-the-last-quilt-link" hidden data-hover>29γ / 收被听证</a>
 
 
       <a href="#three-person-republic-court" id="three-person-republic-court-link" hidden data-hover>04β / 三人共和国</a>
@@ -10669,6 +10825,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=114"></script>
+    <script src="script.js?v=115"></script>
   </body>
 </html>

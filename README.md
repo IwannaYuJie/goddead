@@ -4,7 +4,7 @@ Static landing page for [goddead.com](https://goddead.com).
 
 ## Current Experience
 
-当前实现基线为 **v114「锁匠铺 / THE LOCKSMITH OF FORGOTTEN CODES」**：全站共 265 个 hash 场景，静态资源缓存标记为 `v=114`。v114 在 v113 三项裁定集齐后开放 3 个新场景：`locksmith-shop`（锁匠铺）、`lock-bench`（试锁台）、`hearing-of-the-last-lock`（锁匠听证会）。三间旧屋要锁门过夜，锁上却还是神设的老密码：拨转轮（日月星灯火）试一次，锁会咔几声（字和位置都对）、嗒几声（字对位置不对），在铜锁 / 铁锁 / 骨锁上试出密码才能换锁芯，新钥匙送到值夜室 / 神圣遗物科 / 无主投递所签收；三把锁、三种锁芯都用过即开锁匠听证会。独立键 `goddead_v114_forgotten_locks`。
+当前实现基线为 **v115「被柜房 / THE LINEN ROOM」**：全站共 268 个 hash 场景，静态资源缓存标记为 `v=115`。v115 在 v114 三项裁定集齐后开放 3 个新场景：`linen-room`（被柜房）、`folding-floor`（叠被处）、`hearing-of-the-last-quilt`（收被听证会）。死人要睡了，三间旧屋的被褥得收进柜子：每包五床折成不同形状的被子（可转、可翻面），要正好塞满方柜 / 圆角柜 / 拐角柜才能合上柜门，被褥送回走廊 / 余响交换台 / 访客守则签收；三包被褥、三种柜子都用过即开收被听证会。独立键 `goddead_v115_linen_room`。
 
 历史基线 **v106「今日排字房 / TYPESETTING ROOM OF TODAY」**：全站 241 个场景，静态资源 `v=106`。v106 在 v105 三项裁定集齐后开放 3 个新场景：`press-of-today`（今日印刷所）、`composing-stone`（拼版台）、`hearing-of-the-morning-edition`（早报听证会）。今天头版的三块木刻版（门 / 钟 / 炉）摔成九块各缺一块，在拼版台上把挨着空位的碎块推进去拼回原样（只松了几块 / 散了一地 / 摔得粉碎，打乱 8 / 16 / 28 步），锁版后头版送到门外 / 值夜室 / 焚献炉签收，三块版、三种摔法都拼过即开早报听证会。独立键 `goddead_v106_typesetting_today`。
 
@@ -18,7 +18,7 @@ Static landing page for [goddead.com](https://goddead.com).
 
 前一章历史实现 **v101「黎明织造厂 / DAWN WEAVING MILL」**（全站 226 个场景，静态资源 `v=101`）机制完整保留：v100 `wkCourtEligible` 且三项百夜裁定集齐后开放 3 个场景（`dawn-weaving-mill`、`day-night-loom`、`sky-cloth-drying-terrace`）。九格织机通过原生按钮与 4 种辅助模式完成晨光/夜线左右独立连通派生三结局，经天际晾布台预览送往门外/痕迹室/无终局画廊签收，双入口支持门外与痕迹室，独立存储键 `goddead_v101_dawn_weaving`。v91–v101 见 `docs/` 对应设计文档。
 
-完整玩家路线、支线网、v63-v114 解锁链与 v90-v114 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
+完整玩家路线、支线网、v63-v115 解锁链与 v90-v115 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
 
 The homepage is **The Living Shrine**, a hash-routed, scene-by-scene exploration game. Visitors knock three times at the sealed threshold — now a photographed bureau door — and on the third knock the door visually opens into a deep black-gold corridor before the visitor is pulled through into the next room; each completed action thereafter advances the ritual automatically.
 

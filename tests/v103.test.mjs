@@ -766,22 +766,22 @@ export function capturePhPendingCases() {
 // REQUIRED BASE TESTS 1-12
 // =========================================================================
 
-test('BASE TEST 1: Unique header/key/guide boundary, cache 114, 265 unique scenes, 25 native buttons, lazy webp images', () => {
+test('BASE TEST 1: Unique header/key/guide boundary, cache 115, 268 unique scenes, 25 native buttons, lazy webp images', () => {
   const countHeader = scriptSource.split(PH_MODULE_HEADER).length - 1;
   assert.equal(countHeader, 1, 'Header must appear exactly once in script.js');
 
   const countKey = scriptSource.split(PH_KEY).length - 1;
   assert.ok(countKey >= 2, 'Key must be referenced in script.js');
 
-  // Exact styles.css?v=114 and script.js?v=114 check
-  assert.match(htmlSource, /href=["']styles\.css\?v=114["']/, 'index.html must reference styles.css?v=114');
-  assert.match(htmlSource, /src=["']script\.js\?v=114["']/, 'index.html must reference script.js?v=114');
+  // Exact styles.css?v=115 and script.js?v=115 check
+  assert.match(htmlSource, /href=["']styles\.css\?v=115["']/, 'index.html must reference styles.css?v=115');
+  assert.match(htmlSource, /src=["']script\.js\?v=115["']/, 'index.html must reference script.js?v=115');
 
-  // 265 unique scene sections in index.html
+  // 268 unique scene sections in index.html
   const sceneMatches = htmlSource.match(/<section[^>]+class=["'][^"']*scene[^"']*["'][^>]*data-scene=["']([^"']+)["']/g) || [];
   const sceneIds = sceneMatches.map(m => m.match(/data-scene=["']([^"']+)["']/)[1]);
   const uniqueScenes = new Set(sceneIds);
-  assert.equal(uniqueScenes.size, 265, `Expected 265 unique scenes in HTML, found ${uniqueScenes.size}`);
+  assert.equal(uniqueScenes.size, 268, `Expected 268 unique scenes in HTML, found ${uniqueScenes.size}`);
 
   assert.ok(uniqueScenes.has('shadowless-photo-studio'));
   assert.ok(uniqueScenes.has('double-exposure-camera'));
@@ -1795,6 +1795,10 @@ test('EXTRA TEST 13: resolveScene routing matrix, governance ruling, fallback to
     const lkShopCanVisit = () => false;
     const lockBenchCanVisit = () => false;
     const lkCourtCanVisit = () => false;
+    const linenRoomBridgeAllows = () => false;
+    const lnRoomCanVisit = () => false;
+    const foldingFloorCanVisit = () => false;
+    const lnCourtCanVisit = () => false;
     const ahHotelCanVisit = () => false;
     const borrowedDawnClockroomCanVisit = () => false;
     const sharedMorningVerandaCanVisit = () => false;
