@@ -1295,3 +1295,12 @@
 - 场景图：本机 Codex CLI 生成四张图（三张场景 + 一张拼版原图），方版位置按像素实测。提示词与哈希见 `docs/V106ImagePrompts.md`。
 - 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 18670 assertions passed`；v101–v104 独立测试 65 项通过。
 - 浏览器：完整存档下真实点击推不动提示、8 步推齐、锁版送到门外签收；修正窄屏九格超出画框。
+
+## 2026-10-05 - v107 调墨房实装
+
+- 新增 `ink-mixing-room`、`mixing-dish`、`hearing-of-the-first-color` 3 个场景，场景总数 241 → 244，缓存标记 `v=107`。
+- 新交互“滑条调色”：朱砂 / 藤黄 / 靛青三根原生 range 滑条（拖动或方向键）按份数调墨，颜色实时画进透视瓷碟，色卡与色差条对照；三种样色（走廊的灯色 / 遗物科的旧金 / 交换台的铜绿）× 差不多就行 / 仔细调 / 分毫不差 = 9 碟墨，送到走廊 / 神圣遗物科 / 余响交换台签收。
+- 状态键 `goddead_v107_ink_mixing`（11 字段、7 类 pending、严格归一化），只读 v106；v106 在途时入口禁用；前缀 `mx-`；滑条只认真实 input；桥接接入治理守卫与画廊守卫。
+- 场景图：本机 Codex CLI 生成三张原画，提示词与哈希见 `docs/V107ImagePrompts.md`。
+- 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 18784 assertions passed`；v101–v104 独立测试 65 项通过。
+- 浏览器：完整存档下用方向键与鼠标拖动真实调墨，色差 6.5% → 0.0%，倒墨送到余响交换台签收。

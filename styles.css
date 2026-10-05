@@ -19235,3 +19235,210 @@ button.dw-tile:disabled {
 @media (min-width: 721px) {
   .ts-hotspot .dh-label { white-space: nowrap; }
 }
+
+/* ============================================================
+   v107 调墨房：三种样色与三根颜料滑条
+   ============================================================ */
+.mx-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  aspect-ratio: 3 / 2;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border: 1px solid rgba(154, 127, 71, 0.35);
+  background: var(--void);
+}
+
+.mx-figure .mx-img { display: block; width: 100%; height: 100%; object-fit: cover; -webkit-mask-image: none; mask-image: none; }
+
+.mx-hotspot {
+  position: absolute;
+  z-index: 3;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0.4rem;
+  border: 1px solid rgba(222, 217, 208, 0.18);
+  background: rgba(8, 7, 6, 0.1);
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+
+.mx-hotspot .dh-label { padding: 0.2rem 0.55rem; background: rgba(8, 7, 6, 0.74); letter-spacing: 0.1em; }
+.mx-hotspot:hover,
+.mx-hotspot:focus-visible { border-color: var(--gold); background: rgba(154, 127, 71, 0.16); outline: 2px solid var(--gold); outline-offset: 2px; }
+.mx-hotspot:disabled,
+.mx-hotspot[aria-pressed="true"] { border-color: var(--blood); cursor: default; outline: none; }
+.mx-hotspot.is-collected .dh-label::after { content: " ✓"; color: var(--gold); }
+
+.mx-hotspot-left { left: 15%; top: 41%; width: 18.5%; height: 29%; }
+.mx-hotspot-center { left: 41%; top: 41%; width: 18%; height: 29%; }
+.mx-hotspot-right { left: 67%; top: 41%; width: 19.5%; height: 29%; }
+.mx-hotspot-court-left { left: 1.5%; top: 66%; width: 26%; height: 23%; }
+.mx-hotspot-court-center { left: 37%; top: 71%; width: 25%; height: 17%; }
+.mx-hotspot-court-right { left: 69%; top: 70%; width: 30%; height: 22%; }
+
+/* 调色：碟里的颜色画在原画空碟的中心，右侧是色卡与色差表 */
+.mx-swatches { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.mx-mixed {
+  position: absolute;
+  /* 按 assets/v107-mixing-dish.webp 透视碟底对齐（碟心约 (430, 545)，原图 1536×1024） */
+  left: 13%;
+  top: 41%;
+  width: 30%;
+  height: 24%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, rgba(255, 255, 255, 0.18), transparent 45%), var(--mx-color, rgb(236, 224, 196));
+  box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.35);
+  transition: background-color 0.2s ease;
+}
+
+.mx-target {
+  position: absolute;
+  left: 70%;
+  top: 6%;
+  width: 11%;
+  aspect-ratio: 3 / 4;
+  border: 4px solid #efe2c2;
+  background: var(--mx-color, transparent);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
+}
+
+.mx-meter {
+  position: absolute;
+  left: 70%;
+  top: 31%;
+  width: 11%;
+  height: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(201, 163, 91, 0.6);
+  background: rgba(8, 7, 6, 0.8);
+}
+
+.mx-meter i { position: absolute; left: 0; top: 0; bottom: 0; width: var(--mx-gap, 100%); background: #8b1a1a; transition: width 0.2s ease, background-color 0.2s ease; }
+.mx-meter.is-close i { background: #e6c27a; }
+
+.mx-dish-status {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 3%;
+  z-index: 4;
+  margin: 0;
+  padding: 0 1rem;
+  color: var(--bone-bright);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-shadow: 0 1px 3px #000, 0 0 8px #000;
+  pointer-events: none;
+}
+
+/* 三根原生滑条 */
+.mx-sliders { display: grid; gap: 0.6rem; margin-top: 1rem; }
+.mx-slider-row { display: grid; grid-template-columns: 3.5em 1fr 3.5em; gap: 0.8rem; align-items: center; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.9rem; }
+.mx-slider { width: 100%; min-height: 32px; accent-color: #c9a35b; cursor: pointer; }
+.mx-slider:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.mx-slider:disabled { opacity: 0.45; cursor: default; }
+.mx-slider-red .mx-slider { accent-color: #b22222; }
+.mx-slider-yellow .mx-slider { accent-color: #d6a028; }
+.mx-slider-indigo .mx-slider { accent-color: #40508a; }
+.mx-count { color: #e6c27a; font-family: var(--mono); font-size: 0.8rem; text-align: right; }
+
+.mx-note { width: min(720px, 100%); margin: 0.6rem auto 0; color: var(--ash); font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; line-height: 1.8; text-align: center; }
+.mx-response { white-space: pre-line; }
+
+.mx-panel {
+  width: min(720px, 100%);
+  margin: 1.2rem auto 0;
+  padding: 1rem 1.1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--gold);
+  background: rgba(10, 9, 8, 0.86);
+}
+
+.mx-panel-ink { margin: 0 0 1rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.92rem; line-height: 1.8; }
+.mx-methods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+
+.mx-method {
+  min-height: 44px;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  background: rgba(20, 16, 12, 0.8);
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.mx-method[aria-pressed="true"] { border-color: var(--gold); color: var(--bone-bright); background: rgba(154, 127, 71, 0.18); }
+.mx-method.is-collected::after { content: " ✓"; color: var(--gold); }
+.mx-method:hover:not(:disabled),
+.mx-method:focus-visible { border-color: var(--gold); outline: 2px solid var(--gold); outline-offset: 2px; }
+.mx-method:disabled { opacity: 0.45; cursor: default; }
+
+.mx-action,
+.mx-entry-btn {
+  min-height: 44px;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.mx-entry-btn,
+.mx-pour { border-color: var(--gold); color: var(--bone-bright); }
+.mx-action:hover:not(:disabled),
+.mx-action:focus-visible,
+.mx-entry-btn:hover:not(:disabled),
+.mx-entry-btn:focus-visible { border-color: var(--gold); background: var(--gold); color: var(--void); outline: 2px solid var(--bone-bright); outline-offset: 2px; }
+.mx-action:disabled,
+.mx-entry-btn:disabled { opacity: 0.4; cursor: default; }
+.mx-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; margin-top: 0.9rem; }
+
+.mx-apprentice,
+.mx-echo { grid-column: 1 / -1; justify-self: center; width: min(720px, 100%); }
+.mx-apprentice { position: relative; z-index: 1; margin: 1.5rem auto; padding: 1rem 1.1rem; border: 1px solid var(--line); border-left: 2px solid #b8914f; background: rgba(10, 9, 8, 0.86); text-align: left; }
+.mx-apprentice-title { margin: 0 0 0.4rem; color: var(--gold); font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.18em; }
+.mx-apprentice-level { margin: 0 0 0.4rem; color: #e6c27a; font-family: var(--serif-cn); font-size: 1rem; }
+.mx-apprentice-body { margin: 0 0 0.8rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.9rem; line-height: 1.9; }
+
+.mx-codex { position: relative; z-index: 1; max-width: 760px; margin: 2rem auto; padding: 1.5rem; border: 1px solid var(--line); background: var(--void-soft); }
+.mx-kicker { margin-bottom: 1.25rem; color: var(--gold); font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.15em; text-align: center; }
+.mx-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+.mx-cell { min-height: 64px; padding: 0.8rem; border: 1px solid var(--line); background: var(--void); font-family: var(--mono); font-size: 0.75rem; line-height: 1.6; white-space: pre-line; text-align: center; }
+.mx-cell.is-locked { color: var(--ash); border-style: dashed; opacity: 0.6; }
+.mx-cell.is-unlocked { color: var(--bone-bright); border-color: var(--gold); background: rgba(30, 25, 20, 0.5); }
+.mx-hinmx-title { margin: 0 0 0.4rem; color: var(--bone); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; }
+.mx-hints { margin: 0 0 1rem; padding-left: 1.1rem; color: var(--ash); font-size: 0.82rem; line-height: 1.8; }
+.mx-hints li.is-met { color: var(--gold); }
+.mx-codex-entry { display: flex; flex-direction: column; gap: 0.6rem; align-items: center; }
+
+@media (max-width: 720px) {
+  .mx-figure { width: min(92vw, 520px); }
+  .mx-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+  .mx-hotspot .dh-label { font-size: 0.64rem; padding: 0.12rem 0.3rem; letter-spacing: 0.02em; }
+  .mx-methods { grid-template-columns: 1fr; }
+  .mx-dish-status { font-size: 0.6rem; letter-spacing: 0.02em; }
+  .mx-target { width: 16%; border-width: 3px; }
+  .mx-meter { width: 16%; top: 33%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mx-mixed,
+  .mx-meter i { transition: none; }
+}
+
+@media (min-width: 721px) {
+  .mx-hotspot .dh-label { white-space: nowrap; }
+}

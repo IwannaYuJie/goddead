@@ -1410,6 +1410,8 @@ document.addEventListener("DOMContentLoaded", () => {
     replayYesterdayBreakfastPending(name);
     resolveTodayPressPendingOnArrival(name);
     replayTodayPressPending(name);
+    resolveInkMixingPendingOnArrival(name);
+    replayInkMixingPending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1553,9 +1555,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
@@ -1569,7 +1571,7 @@ document.addEventListener("DOMContentLoaded", () => {
        v88 窄桥：title-action 可抵达 unending-gallery；
        v89 窄桥：appeal-action 可抵达 unending-gallery；
        v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !todayPressBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !todayPressBridgeAllows('unending-gallery') && !inkMixingBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1818,6 +1820,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "press-of-today" && !tsPressCanVisit()) target = "remembrance";
     if (target === "composing-stone" && !composingStoneCanVisit()) target = "remembrance";
     if (target === "hearing-of-the-morning-edition" && !tsCourtCanVisit()) target = "remembrance";
+
+    /* v107 调墨房：未解锁或无合法抵达时一律回痕迹室 */
+    if (target === "ink-mixing-room" && !mxRoomCanVisit()) target = "remembrance";
+    if (target === "mixing-dish" && !mixingDishCanVisit()) target = "remembrance";
+    if (target === "hearing-of-the-first-color" && !mxCourtCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -48059,6 +48066,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetWakeForAnotherHotelState();
       forgetYesterdayBreakfastState();
       forgetTodayPressState();
+      forgetInkMixingState();
       forgetCodexFolds();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
@@ -61601,6 +61609,752 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   onTrustedTs('#ts-reset', rescatterTsBoard);
   onTrustedTs('#ts-lockup', lockTsPlate);
 
+  /* ============================================================
+     v107 调墨房 / INK MIXING ROOM
+     v106 的头版拼好了，印报却没有墨。三个旧房间各留下一种颜色：走廊的灯色、遗物科的旧金、交换台的铜绿。
+     三种样色 × 三档精度 = 9 碟墨；用朱砂、藤黄、靛青三根滑条按份数调墨，色差够小才倒进墨槽。
+     只读 v106；独立键 goddead_v107_ink_mixing；所有新操作只接受真实输入。
+     ============================================================ */
+  const INK_MIXING_KEY = 'goddead_v107_ink_mixing';
+  const INK_MIXING_VERSION = 107;
+  const MX_ROOM = 'ink-mixing-room';
+  const MX_DISH = 'mixing-dish';
+  const MX_COURT = 'hearing-of-the-first-color';
+  const MX_PIGMENTS = ['red', 'yellow', 'indigo'];
+  const MX_PIGMENT_TABLE = {
+    red: { title: '朱砂', rgb: [178, 34, 34] },
+    yellow: { title: '藤黄', rgb: [214, 160, 40] },
+    indigo: { title: '靛青', rgb: [40, 64, 128] },
+  };
+  const MX_PAPER = [236, 224, 196];
+  const MX_MAX_PARTS = 6;
+  const MX_INKS = ['corridor-ink', 'reliquary-ink', 'switchboard-ink'];
+  const MX_INK_TABLE = {
+    'corridor-ink': {
+      title: '走廊的灯色', parts: { red: 1, yellow: 4, indigo: 0 }, target: 'corridor', place: '走廊', apprenticeTitle: '走廊学徒',
+      feedback: '色卡上是一点暖黄，像走廊尽头那盏总也不灭的灯。今天的报头要用这个颜色。',
+      echoLead: '走廊的墙上多了一块刚刷的色样。',
+    },
+    'reliquary-ink': {
+      title: '遗物科的旧金', parts: { red: 2, yellow: 3, indigo: 1 }, target: 'reliquary', place: '神圣遗物科', apprenticeTitle: '遗物科学徒',
+      feedback: '一种发暗的金，像圣物箱上磨掉了的那层漆。遗物科说，今天的标题该是这个颜色。',
+      echoLead: '神圣遗物科的封条旁多了一块刚刷的色样。',
+    },
+    'switchboard-ink': {
+      title: '交换台的铜绿', parts: { red: 0, yellow: 3, indigo: 3 }, target: 'switchboard', place: '余响交换台', apprenticeTitle: '交换台学徒',
+      feedback: '铜插头生锈以后的那种绿。交换台说，今天的版线要用它，免得有人以为线路还通着。',
+      echoLead: '交换台的插板边上多了一块刚刷的色样。',
+    },
+  };
+  const MX_METHODS = ['rough', 'careful', 'exact'];
+  const MX_METHOD_TABLE = {
+    rough: { title: '差不多就行', tolerance: 6, hint: '色差在 6% 以内就行。', result: '颜色差了一点，印出来谁也没看出来。今天就是这样，差不多。' },
+    careful: { title: '仔细调', tolerance: 3, hint: '色差要在 3% 以内。', result: '调得很仔细，印出来跟色卡几乎一样。看报的人说今天的颜色很正。' },
+    exact: { title: '分毫不差', tolerance: 0.5, hint: '要和色卡一模一样。', result: '一模一样。印出来的今天和那个房间的颜色没有分别，好像那个房间自己印了这一页。' },
+  };
+  const MX_MIX_IDS = [];
+  MX_INKS.forEach((ink) => MX_METHODS.forEach((method) => MX_MIX_IDS.push(`${ink}:${method}`)));
+  const MX_VERDICT_ACTIONS = ['print-in-black-only', 'keep-a-color-for-god', 'let-the-colors-bleed'];
+  const MX_VERDICT_TABLE = {
+    'print-in-black-only': {
+      title: '今天只印黑白', outcome: 'today-printed-in-black', target: 'threshold',
+      feedback: '听证会裁定：今天只印黑白。门外的报纸干净得像什么都没发生过。',
+    },
+    'keep-a-color-for-god': {
+      title: '给神留一种颜色', outcome: 'a-color-kept-for-god', target: 'remembrance',
+      feedback: '听证会把一种颜色留给神，谁也不许调。痕迹室墙上多了一块空色卡，看久了会觉得它是有颜色的。',
+    },
+    'let-the-colors-bleed': {
+      title: '让颜色洇开', outcome: 'the-colors-bled', target: 'unending-gallery',
+      feedback: '听证会准许颜色洇开。画廊的空框慢慢被三种颜色浸透，边界再也分不清。',
+    },
+  };
+  const MX_VERDICT_OUTCOME_IDS = MX_VERDICT_ACTIONS.map((a) => MX_VERDICT_TABLE[a].outcome);
+  const MX_ENTRY_FEEDBACK = '调墨房里一股胶和矿粉的味道。长桌上三只墨缸，每只前面靠着一张色卡。';
+  const MX_ABANDON_FEEDBACK = '你把调色碟洗干净，色卡放回墨缸前面。';
+  const MX_COURT_ENTRY_FEEDBACK = '三种颜色都调过了。首色听证会的长幡还是白的，等着上色。';
+  const MX_APPRENTICE_RETURN_FEEDBACK = '学徒把刷子插回围裙口袋，领你回到调墨房。';
+  const MX_OLD_TARGETS = ['corridor', 'reliquary', 'switchboard'];
+
+  function mxDelay() {
+    return reduced ? 300 : 1400;
+  }
+
+  /* 纯函数：按份数混出颜色（三色加权平均，再按总份数盖过纸色） */
+  function mxMix(parts) {
+    const p = MX_PIGMENTS.map((k) => Math.max(0, Math.min(MX_MAX_PARTS, Math.round(Number(parts && parts[k]) || 0))));
+    const total = p.reduce((a, b) => a + b, 0);
+    if (!total) return MX_PAPER.slice();
+    const density = Math.min(1, total / MX_MAX_PARTS);
+    return [0, 1, 2].map((c) => {
+      const ink = MX_PIGMENTS.reduce((sum, k, i) => sum + MX_PIGMENT_TABLE[k].rgb[c] * p[i], 0) / total;
+      return Math.round(MX_PAPER[c] * (1 - density) + ink * density);
+    });
+  }
+
+  /* 纯函数：两种颜色的色差（0–100%） */
+  function mxDistance(a, b) {
+    return (Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]) / 441.673) * 100;
+  }
+
+  function mxTargetColor(ink) {
+    return mxMix(MX_INK_TABLE[ink].parts);
+  }
+
+  function mxCss(rgb) {
+    return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+  }
+
+  function mxPourFeedback(ink, method) {
+    return `${MX_INK_TABLE[ink].title}：${MX_METHOD_TABLE[method].result}`;
+  }
+
+  function defaultInkMixing() {
+    const latest = {};
+    MX_INKS.forEach((b) => { latest[b] = ''; });
+    return {
+      version: INK_MIXING_VERSION,
+      visited: { room: false, dish: false, court: false },
+      draft: { ink: '', method: 'rough' },
+      mixes: [],
+      courtOutcomes: [],
+      mixRuns: 0,
+      courtRuns: 0,
+      latestMethodByInk: latest,
+      lastOutcome: '',
+      activeApprentice: null,
+      pending: null,
+    };
+  }
+
+  function clampMxCount(n) {
+    const v = Math.floor(Number(n));
+    return Number.isFinite(v) ? Math.min(9999, Math.max(0, v)) : 0;
+  }
+
+  function normalizeInkMixing(raw) {
+    const d = defaultInkMixing();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== INK_MIXING_VERSION) return d;
+    const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
+    d.visited = { room: v.room === true, dish: v.dish === true, court: v.court === true };
+    const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
+    d.draft = { ink: MX_INKS.includes(dr.ink) ? dr.ink : '', method: MX_METHODS.includes(dr.method) ? dr.method : 'rough' };
+    const mixes = new Set(Array.isArray(raw.mixes) ? raw.mixes : []);
+    d.mixes = MX_MIX_IDS.filter((id) => mixes.has(id));
+    const outcomes = new Set(Array.isArray(raw.courtOutcomes) ? raw.courtOutcomes : []);
+    d.courtOutcomes = MX_VERDICT_OUTCOME_IDS.filter((id) => outcomes.has(id));
+    d.mixRuns = clampMxCount(raw.mixRuns);
+    d.courtRuns = clampMxCount(raw.courtRuns);
+    const latest = raw.latestMethodByInk && typeof raw.latestMethodByInk === 'object' ? raw.latestMethodByInk : {};
+    MX_INKS.forEach((b) => {
+      d.latestMethodByInk[b] = MX_METHODS.includes(latest[b]) && d.mixes.includes(`${b}:${latest[b]}`) ? latest[b] : '';
+    });
+    if (typeof raw.lastOutcome === 'string' && (d.mixes.includes(raw.lastOutcome) || d.courtOutcomes.includes(raw.lastOutcome))) d.lastOutcome = raw.lastOutcome;
+    const a = raw.activeApprentice;
+    if (a && typeof a === 'object' && !Array.isArray(a) && Object.keys(a).length === 1 && d.mixes.includes(a.mix)) d.activeApprentice = { mix: a.mix };
+    d.pending = normalizeMxPending(raw.pending, d);
+    return d;
+  }
+
+  function mxCourtProgress(st) {
+    const inks = new Set();
+    const methods = new Set();
+    st.mixes.forEach((id) => {
+      const [ink, method] = id.split(':');
+      inks.add(ink);
+      methods.add(method);
+    });
+    return { inks: inks.size, methods: methods.size };
+  }
+
+  function mxCourtEligible(st) {
+    const p = mxCourtProgress(st);
+    return p.inks === MX_INKS.length && p.methods === MX_METHODS.length;
+  }
+
+  function expectedMxPending(p, st) {
+    const clean = !st.activeApprentice;
+    switch (p.kind) {
+      case 'entry':
+        return clean ? { feedback: MX_ENTRY_FEEDBACK, kind: 'entry', target: MX_ROOM } : null;
+      case 'ink': {
+        const b = MX_INK_TABLE[p.ink];
+        if (!b || !clean) return null;
+        return { ink: p.ink, feedback: b.feedback, kind: 'ink', source: MX_ROOM, target: MX_DISH };
+      }
+      case 'pour': {
+        const b = MX_INK_TABLE[p.ink];
+        if (!b || !MX_METHOD_TABLE[p.method] || !clean || st.draft.ink !== p.ink || st.draft.method !== p.method) return null;
+        return { ink: p.ink, feedback: mxPourFeedback(p.ink, p.method), kind: 'pour', method: p.method, mix: `${p.ink}:${p.method}`, source: MX_DISH, target: b.target };
+      }
+      case 'abandon':
+        return st.draft.ink ? { feedback: MX_ABANDON_FEEDBACK, kind: 'abandon', source: MX_DISH, target: MX_ROOM } : null;
+      case 'apprentice-return': {
+        if (!st.activeApprentice) return null;
+        const ink = st.activeApprentice.mix.split(':')[0];
+        return { feedback: MX_APPRENTICE_RETURN_FEEDBACK, from: MX_INK_TABLE[ink].target, kind: 'apprentice-return', mix: st.activeApprentice.mix, target: MX_ROOM };
+      }
+      case 'court-entry':
+        return clean && mxCourtEligible(st) ? { feedback: MX_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: MX_COURT } : null;
+      case 'verdict': {
+        const a = MX_VERDICT_TABLE[p.action];
+        if (!a || !clean || !st.visited.court || !mxCourtEligible(st)) return null;
+        return { action: p.action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: MX_COURT, target: a.target };
+      }
+      default:
+        return null;
+    }
+  }
+
+  function normalizeMxPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+    const expected = expectedMxPending(p, st);
+    if (!expected) return null;
+    const keys = Object.keys(p).sort();
+    const want = Object.keys(expected).sort();
+    if (keys.length !== want.length || keys.some((k, i) => k !== want[i] || p[k] !== expected[k])) return null;
+    return expected;
+  }
+
+  function inkMixingUnlocked() {
+    const compute = () => {
+      if (!todayPressUnlocked()) return false;
+      const v106 = getTodayPress();
+      return tsCourtEligible(v106) && TS_VERDICT_OUTCOME_IDS.every((o) => v106.courtOutcomes.includes(o));
+    };
+    return store.memo ? store.memo("inkMixingUnlocked", compute) : compute();
+  }
+
+  /* v106 还有在途的头版或没签收的排字工时，先不让进调墨房 */
+  function mxUpstreamBusy() {
+    const v106 = getTodayPress();
+    return Boolean(v106.pending || v106.activeSetter);
+  }
+
+
+
+
+  function getInkMixing() {
+    if (!inkMixingUnlocked()) return defaultInkMixing();
+    let raw;
+    try { raw = JSON.parse(store.get(INK_MIXING_KEY, '{}')); } catch { return defaultInkMixing(); }
+    return normalizeInkMixing(raw);
+  }
+
+  function saveInkMixing(st) {
+    if (!inkMixingUnlocked()) return defaultInkMixing();
+    const canonical = normalizeInkMixing(Object.assign({}, st, { version: INK_MIXING_VERSION }));
+    store.set(INK_MIXING_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function mxPendingLogicalSource(p) {
+    if (!p) return '';
+    if (p.kind === 'entry' || p.kind === 'court-entry') return 'remembrance';
+    if (p.kind === 'apprentice-return') return p.from;
+    return p.source || '';
+  }
+
+  function resolveInkMixingPendingOnArrival(sceneName) {
+    const st = getInkMixing();
+    const p = st.pending;
+    if (!p) return st;
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.room = true;
+      } else if (p.kind === 'ink') {
+        st.visited.dish = true;
+        st.draft = { ink: p.ink, method: st.draft.ink === p.ink ? st.draft.method : 'rough' };
+      } else if (p.kind === 'pour') {
+        st.mixRuns = clampMxCount(st.mixRuns + 1);
+        if (!st.mixes.includes(p.mix)) st.mixes = st.mixes.concat(p.mix);
+        st.latestMethodByInk[p.ink] = p.method;
+        st.lastOutcome = p.mix;
+        st.activeApprentice = { mix: p.mix };
+        st.draft = { ink: '', method: 'rough' };
+      } else if (p.kind === 'abandon') {
+        st.draft = { ink: '', method: 'rough' };
+        st.visited.room = true;
+      } else if (p.kind === 'apprentice-return') {
+        st.activeApprentice = null;
+        st.visited.room = true;
+      } else if (p.kind === 'court-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'verdict') {
+        st.courtRuns = clampMxCount(st.courtRuns + 1);
+        if (!st.courtOutcomes.includes(p.outcome)) st.courtOutcomes = st.courtOutcomes.concat(p.outcome);
+        st.lastOutcome = p.outcome;
+      }
+      return saveInkMixing(st);
+    }
+    if (sceneName === mxPendingLogicalSource(p)) return st;
+    st.pending = null;
+    return saveInkMixing(st);
+  }
+
+  const MX_RESPONSE_BY_KIND = {
+    entry: '#mx-entry-response',
+    ink: '#ink-mixing-room-response',
+    pour: '#mixing-dish-response',
+    abandon: '#mixing-dish-response',
+    'court-entry': '#mx-court-entry-response',
+    verdict: '#hearing-of-the-first-color-response',
+  };
+
+  function showMxResponse(selector, text) {
+    const el = $(selector);
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = !text;
+  }
+
+  function syncInkMixingAll() {
+    syncMxRoom();
+    syncMixingDish();
+    syncMxCourt();
+    syncMxApprentices();
+    syncMxEchoes();
+    syncMxRemembrance();
+    syncMxLinks();
+    if (typeof syncPhEntries === 'function') syncPhEntries();
+  }
+
+  function replayInkMixingPending(sceneName) {
+    const st = getInkMixing();
+    const p = st.pending;
+    if (p && p.target === sceneName) resolveInkMixingPendingOnArrival(sceneName);
+    else if (p && sceneName === mxPendingLogicalSource(p)) {
+      syncInkMixingAll();
+      const selector = p.kind === 'apprentice-return' ? `#mx-apprentice-response-${p.from}` : MX_RESPONSE_BY_KIND[p.kind];
+      if (selector) showMxResponse(selector, p.feedback);
+      AutoAdvance.schedule(sceneName, p.target, { delay: mxDelay() });
+      return;
+    } else if (p) {
+      st.pending = null;
+      saveInkMixing(st);
+    }
+    syncInkMixingAll();
+  }
+
+  function launchMx(scene, buttonId, pending, responseSelector) {
+    const st = getInkMixing();
+    st.pending = pending;
+    const saved = saveInkMixing(st);
+    if (!saved.pending) return false;
+    const btn = buttonId ? $(`#${buttonId}`) : null;
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+    if (AudioEngine.whoosh) AudioEngine.whoosh();
+    syncInkMixingAll();
+    showMxResponse(responseSelector, pending.feedback);
+    AutoAdvance.schedule(scene, pending.target, { delay: mxDelay() });
+    return true;
+  }
+
+  function mxReady(scene, buttonId) {
+    if (currentScene !== scene) return null;
+    if (AutoAdvance.has(scene)) return null;
+    if (buttonId && !buttonAvailable(buttonId)) return null;
+    if (!inkMixingUnlocked()) return null;
+    const st = getInkMixing();
+    return st.pending ? null : st;
+  }
+
+  function chooseMxEntry() {
+    const st = mxReady('remembrance', 'mx-entry-btn');
+    if (!st || st.activeApprentice) return;
+    if (mxUpstreamBusy()) return;
+    launchMx('remembrance', 'mx-entry-btn', { feedback: MX_ENTRY_FEEDBACK, kind: 'entry', target: MX_ROOM }, '#mx-entry-response');
+  }
+
+  function chooseMxInk(ink) {
+    const b = MX_INK_TABLE[ink];
+    if (!b) return;
+    const st = mxReady(MX_ROOM, `mx-ink-${ink}`);
+    if (!st || st.activeApprentice) return;
+    launchMx(MX_ROOM, `mx-ink-${ink}`, { ink, feedback: b.feedback, kind: 'ink', source: MX_ROOM, target: MX_DISH }, '#ink-mixing-room-response');
+  }
+
+  function chooseMxMethod(method) {
+    if (!MX_METHOD_TABLE[method]) return;
+    const st = mxReady(MX_DISH, `mx-method-${method}`);
+    if (!st || !st.draft.ink || !st.visited.dish || st.draft.method === method) return;
+    st.draft.method = method;
+    saveInkMixing(st);
+    syncMixingDish();
+  }
+
+  /* 调色碟：滑条份数只放在内存里；换样色或换精度时洗碟，色差够小才写 pending */
+  let mxParts = { red: 0, yellow: 0, indigo: 0 };
+  let mxDishKey = '';
+
+  function mxCurrentDistance(ink) {
+    return mxDistance(mxMix(mxParts), mxTargetColor(ink));
+  }
+
+  function paintMxDish(message) {
+    const st = getInkMixing();
+    const status = $('#mx-dish-status');
+    const ink = st.draft.ink;
+    const mixed = mxMix(mxParts);
+    const swatch = $('#mx-mixed');
+    if (swatch && swatch.style && swatch.style.setProperty) swatch.style.setProperty('--mx-color', mxCss(mixed));
+    MX_PIGMENTS.forEach((k) => {
+      const slider = $(`#mx-slider-${k}`);
+      if (slider) {
+        if (String(slider.value) !== String(mxParts[k])) slider.value = String(mxParts[k]);
+        slider.setAttribute('aria-valuetext', `${MX_PIGMENT_TABLE[k].title} ${mxParts[k]} 份`);
+      }
+      const out = $(`#mx-count-${k}`);
+      if (out) out.textContent = `${mxParts[k]} 份`;
+    });
+    if (!ink) {
+      if (status) status.textContent = '';
+      return;
+    }
+    const target = $('#mx-target');
+    if (target && target.style && target.style.setProperty) target.style.setProperty('--mx-color', mxCss(mxTargetColor(ink)));
+    const d = mxCurrentDistance(ink);
+    const tol = MX_METHOD_TABLE[st.draft.method].tolerance;
+    const meter = $('#mx-meter');
+    if (meter) {
+      meter.setAttribute('aria-valuenow', String(Math.round(d)));
+      if (meter.style && meter.style.setProperty) meter.style.setProperty('--mx-gap', `${Math.min(100, d * 2)}%`);
+      meter.classList.toggle('is-close', d <= tol);
+    }
+    if (status) status.textContent = message || (d <= tol ? `色差 ${d.toFixed(1)}%，可以倒进墨槽。` : `色差 ${d.toFixed(1)}%，还要再调（${MX_METHOD_TABLE[st.draft.method].hint}）`);
+  }
+
+  function setMxParts(pigment, raw) {
+    if (!MX_PIGMENTS.includes(pigment)) return;
+    const st = mxReady(MX_DISH, `mx-slider-${pigment}`);
+    if (!st || !st.draft.ink || st.activeApprentice) return;
+    const n = Math.round(Number(raw));
+    if (!Number.isFinite(n)) return;
+    const next = Math.max(0, Math.min(MX_MAX_PARTS, n));
+    if (next === mxParts[pigment]) return;
+    mxParts = { ...mxParts, [pigment]: next };
+    paintMxDish('');
+  }
+
+  function washMxDish() {
+    const st = mxReady(MX_DISH, 'mx-reset');
+    if (!st || !st.draft.ink || st.activeApprentice) return;
+    mxParts = { red: 0, yellow: 0, indigo: 0 };
+    paintMxDish('调色碟洗干净了。');
+  }
+
+  function pourMxInk() {
+    const st = mxReady(MX_DISH, 'mx-pour');
+    if (!st || !st.draft.ink || st.activeApprentice) return;
+    const { ink, method } = st.draft;
+    const d = mxCurrentDistance(ink);
+    if (d > MX_METHOD_TABLE[method].tolerance) {
+      paintMxDish(`还没调准：色差 ${d.toFixed(1)}%。${MX_METHOD_TABLE[method].hint}`);
+      return;
+    }
+    paintMxDish('调准了。');
+    launchMx(MX_DISH, 'mx-pour', {
+      feedback: mxPourFeedback(ink, method), ink, kind: 'pour', method, mix: `${ink}:${method}`, source: MX_DISH, target: MX_INK_TABLE[ink].target,
+    }, '#mixing-dish-response');
+  }
+
+  function chooseMxAbandon() {
+    const st = mxReady(MX_DISH, 'mx-abandon');
+    if (!st || !st.draft.ink) return;
+    launchMx(MX_DISH, 'mx-abandon', { feedback: MX_ABANDON_FEEDBACK, kind: 'abandon', source: MX_DISH, target: MX_ROOM }, '#mixing-dish-response');
+  }
+
+  function chooseMxApprenticeReturn(scene) {
+    const st = mxReady(scene, `mx-apprentice-return-${scene}`);
+    if (!st || !st.activeApprentice) return;
+    if (MX_INK_TABLE[st.activeApprentice.mix.split(':')[0]].target !== scene) return;
+    launchMx(scene, `mx-apprentice-return-${scene}`, { feedback: MX_APPRENTICE_RETURN_FEEDBACK, from: scene, kind: 'apprentice-return', mix: st.activeApprentice.mix, target: MX_ROOM }, `#mx-apprentice-response-${scene}`);
+  }
+
+  function chooseMxCourtEntry() {
+    const st = mxReady('remembrance', 'mx-court-entry-btn');
+    if (!st || st.activeApprentice || !mxCourtEligible(st)) return;
+    launchMx('remembrance', 'mx-court-entry-btn', { feedback: MX_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: MX_COURT }, '#mx-court-entry-response');
+  }
+
+  function chooseMxVerdict(action) {
+    const a = MX_VERDICT_TABLE[action];
+    if (!a) return;
+    const st = mxReady(MX_COURT, `mx-verdict-${action}`);
+    if (!st || st.activeApprentice || !st.visited.court || !mxCourtEligible(st)) return;
+    launchMx(MX_COURT, `mx-verdict-${action}`, { action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: MX_COURT, target: a.target }, '#hearing-of-the-first-color-response');
+  }
+
+  function inkMixingBridgeAllows(targetScene) {
+    if (!inkMixingUnlocked()) return false;
+    const st = getInkMixing();
+    if (st.pending && (st.pending.kind === 'pour' || st.pending.kind === 'verdict') && st.pending.target === targetScene) return true;
+    if (st.activeApprentice && MX_INK_TABLE[st.activeApprentice.mix.split(':')[0]].target === targetScene) return true;
+    const verdict = MX_VERDICT_ACTIONS.find((a) => MX_VERDICT_TABLE[a].outcome === st.lastOutcome);
+    return Boolean(verdict && MX_VERDICT_TABLE[verdict].target === targetScene);
+  }
+
+  function mxRoomCanVisit() {
+    if (!inkMixingUnlocked()) return false;
+    const st = getInkMixing();
+    return st.visited.room || Boolean(st.pending && st.pending.target === MX_ROOM);
+  }
+
+  function mixingDishCanVisit() {
+    if (!inkMixingUnlocked()) return false;
+    const st = getInkMixing();
+    if (st.visited.dish && st.draft.ink) return true;
+    return Boolean(st.pending && st.pending.kind === 'ink');
+  }
+
+  function mxCourtCanVisit() {
+    if (!inkMixingUnlocked()) return false;
+    const st = getInkMixing();
+    if (st.visited.court && mxCourtEligible(st)) return true;
+    return Boolean(st.pending && st.pending.kind === 'court-entry');
+  }
+
+  function syncMxRoom() {
+    const canVisit = mxRoomCanVisit();
+    const st = getInkMixing();
+    const fig = $('#mx-room-figure');
+    if (fig) fig.hidden = !canVisit;
+    const blocked = !canVisit || Boolean(st.pending) || Boolean(st.activeApprentice);
+    MX_INKS.forEach((ink) => {
+      const btn = $(`#mx-ink-${ink}`);
+      if (!btn) return;
+      btn.disabled = blocked;
+      btn.classList.toggle('is-collected', MX_METHODS.every((m) => st.mixes.includes(`${ink}:${m}`)));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'ink' && st.pending.ink === ink ? 'true' : 'false');
+    });
+    const note = $('#mx-room-note');
+    if (note) {
+      let text = '';
+      if (st.activeApprentice) {
+        const b = MX_INK_TABLE[st.activeApprentice.mix.split(':')[0]];
+        text = `先完成正在送出的那碟墨：${b.apprenticeTitle}还在${b.place}等你签收。`;
+      } else if (st.draft.ink) {
+        text = `调色碟边上还放着「${MX_INK_TABLE[st.draft.ink].title}」的色卡。`;
+      }
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const cont = $('#mx-continue');
+    if (cont) {
+      const show = canVisit && Boolean(st.draft.ink) && !st.activeApprentice;
+      cont.hidden = !show;
+      cont.disabled = !show || Boolean(st.pending);
+    }
+    if (!st.pending || st.pending.source !== MX_ROOM) showMxResponse('#ink-mixing-room-response', '');
+  }
+
+  function syncMixingDish() {
+    const canVisit = mixingDishCanVisit();
+    const st = getInkMixing();
+    const ready = canVisit && Boolean(st.draft.ink);
+    const key = st.draft.ink ? `${st.draft.ink}:${st.draft.method}` : '';
+    if (key !== mxDishKey && !(st.pending && st.pending.kind === 'pour')) {
+      mxDishKey = key;
+      mxParts = { red: 0, yellow: 0, indigo: 0 };
+    }
+    const panel = $('#mx-dish-panel');
+    if (panel) panel.hidden = !ready;
+    const swatches = $('#mx-swatches');
+    if (swatches) swatches.hidden = !ready;
+    if (ready) {
+      const t = MX_INK_TABLE[st.draft.ink];
+      const title = $('#mx-dish-ink');
+      if (title) title.textContent = `${t.title} —— ${t.feedback}`;
+      const hint = $('#mx-method-hint');
+      if (hint) hint.textContent = `${MX_METHOD_TABLE[st.draft.method].hint}拖动三根滑条（键盘用方向键）按份数调，碟里的颜色和色差会跟着变。调准了倒进墨槽，会送到${t.place}，由${t.apprenticeTitle}签收。换样色或精度会洗碟。`;
+    }
+    MX_METHODS.forEach((method) => {
+      const btn = $(`#mx-method-${method}`);
+      if (!btn) return;
+      btn.disabled = !ready || Boolean(st.pending);
+      btn.setAttribute('aria-pressed', ready && st.draft.method === method ? 'true' : 'false');
+      btn.classList.toggle('is-collected', Boolean(st.draft.ink) && st.mixes.includes(`${st.draft.ink}:${method}`));
+    });
+    ['mx-pour', 'mx-reset', 'mx-abandon', ...MX_PIGMENTS.map((k) => `mx-slider-${k}`)].forEach((id) => {
+      const btn = $(`#${id}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending);
+    });
+    paintMxDish(st.pending && st.pending.kind === 'pour' ? '调准了，墨正在送出去。' : '');
+    if (!st.pending || st.pending.source !== MX_DISH) showMxResponse('#mixing-dish-response', '');
+  }
+
+  function syncMxCourt() {
+    const canVisit = mxCourtCanVisit();
+    const st = getInkMixing();
+    const fig = $('#hearing-of-the-first-color-figure');
+    if (fig) fig.hidden = !canVisit;
+    MX_VERDICT_ACTIONS.forEach((action) => {
+      const btn = $(`#mx-verdict-${action}`);
+      if (!btn) return;
+      btn.disabled = !canVisit || Boolean(st.pending) || Boolean(st.activeApprentice);
+      btn.classList.toggle('is-collected', st.courtOutcomes.includes(MX_VERDICT_TABLE[action].outcome));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'verdict' && st.pending.action === action ? 'true' : 'false');
+    });
+    if (!st.pending || st.pending.source !== MX_COURT) showMxResponse('#hearing-of-the-first-color-response', '');
+  }
+
+  function syncMxApprentices() {
+    const st = inkMixingUnlocked() ? getInkMixing() : defaultInkMixing();
+    const [ink, method] = st.activeApprentice ? st.activeApprentice.mix.split(':') : ['', ''];
+    MX_OLD_TARGETS.forEach((scene) => {
+      const box = $(`#mx-apprentice-${scene}`);
+      if (!box) return;
+      const show = Boolean(ink) && MX_INK_TABLE[ink].target === scene;
+      box.hidden = !show;
+      const btn = $(`#mx-apprentice-return-${scene}`);
+      if (btn) {
+        btn.disabled = !show || Boolean(st.pending);
+        btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'apprentice-return' && st.pending.from === scene ? 'true' : 'false');
+      }
+      if (!show) return;
+      const b = MX_INK_TABLE[ink];
+      const head = $(`#mx-apprentice-title-${scene}`);
+      if (head) head.textContent = `色样签收 · ${b.apprenticeTitle} · ${b.title}（${MX_METHOD_TABLE[method].title}）`;
+      const level = $(`#mx-apprentice-level-${scene}`);
+      if (level) level.textContent = `${MX_METHOD_TABLE[method].title}：色差不超过 ${MX_METHOD_TABLE[method].tolerance}%`;
+      const body = $(`#mx-apprentice-body-${scene}`);
+      if (body) body.textContent = MX_METHOD_TABLE[method].result;
+      if (!st.pending || st.pending.kind !== 'apprentice-return') showMxResponse(`#mx-apprentice-response-${scene}`, '');
+    });
+  }
+
+  function syncMxEchoes() {
+    const st = inkMixingUnlocked() ? getInkMixing() : defaultInkMixing();
+    MX_INKS.forEach((ink) => {
+      const b = MX_INK_TABLE[ink];
+      const el = $(`#mx-echo-${b.target}`);
+      if (!el) return;
+      const method = st.latestMethodByInk[ink];
+      if (!method) { el.hidden = true; el.textContent = ''; return; }
+      el.textContent = `${b.echoLead}「${MX_METHOD_TABLE[method].title}」${MX_METHOD_TABLE[method].result}`;
+      el.hidden = false;
+    });
+  }
+
+  function syncMxRemembrance() {
+    const unlocked = inkMixingUnlocked();
+    const shell = $('#mx-codex');
+    const memory = $('#mx-memory');
+    if (!unlocked) {
+      [shell, memory].forEach((el) => { if (el) el.hidden = true; });
+      return;
+    }
+    const st = getInkMixing();
+    const v106Busy = mxUpstreamBusy();
+    if (shell) shell.hidden = false;
+    const progress = mxCourtProgress(st);
+    if (memory) {
+      memory.hidden = false;
+      memory.textContent = `调墨：已调 ${st.mixes.length}/9 碟，共倒墨 ${st.mixRuns} 次；首色听证 ${st.courtOutcomes.length}/3。`;
+    }
+    const hints = $('#mx-court-hints');
+    if (hints) {
+      const rows = [['三种样色都调过', progress.inks, MX_INKS.length], ['三档精度都调过', progress.methods, MX_METHODS.length]];
+      hints.replaceChildren(...rows.map(([label, have, need]) => {
+        const li = document.createElement('li');
+        li.className = have >= need ? 'is-met' : '';
+        li.textContent = `${label} ${have}/${need}`;
+        return li;
+      }));
+    }
+    const clean = !st.pending && !st.activeApprentice;
+    const entry = $('#mx-entry-btn');
+    if (entry) {
+      entry.hidden = false;
+      entry.disabled = !clean || v106Busy;
+      entry.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' ? 'true' : 'false');
+    }
+    const note = $('#mx-entry-note');
+    if (note) {
+      const text = v106Busy ? '先完成印刷所那张还在路上的头版：今日排字房还有一张没签收。' : st.activeApprentice ? '先完成正在送出的那碟墨。' : '';
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const court = $('#mx-court-entry-btn');
+    if (court) {
+      const eligible = mxCourtEligible(st);
+      court.hidden = !eligible;
+      court.disabled = !eligible || !clean;
+      court.setAttribute('aria-pressed', st.pending && st.pending.kind === 'court-entry' ? 'true' : 'false');
+    }
+    const grid = $('#mx-codex-grid');
+    if (grid) {
+      const have = new Set(st.mixes);
+      const cells = MX_MIX_IDS.map((id) => {
+        const [ink, method] = id.split(':');
+        const cell = document.createElement('div');
+        cell.className = `mx-cell ${have.has(id) ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = have.has(id) ? `${MX_INK_TABLE[ink].title}\n${MX_METHOD_TABLE[method].title}` : '？？？';
+        return cell;
+      });
+      MX_VERDICT_ACTIONS.forEach((action) => {
+        const a = MX_VERDICT_TABLE[action];
+        const got = st.courtOutcomes.includes(a.outcome);
+        const cell = document.createElement('div');
+        cell.className = `mx-cell mx-cell-verdict ${got ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = got ? `[首色听证会] ${a.title}\n${a.feedback}` : '？？？';
+        cells.push(cell);
+      });
+      grid.replaceChildren(...cells);
+    }
+    if (!st.pending || (st.pending.kind !== 'entry' && st.pending.kind !== 'court-entry')) {
+      showMxResponse('#mx-entry-response', '');
+      showMxResponse('#mx-court-entry-response', '');
+    }
+  }
+
+  function syncMxLinks() {
+    const st = inkMixingUnlocked() ? getInkMixing() : null;
+    [['ink-mixing-room-link', 'room'], ['mixing-dish-link', 'dish'], ['hearing-of-the-first-color-link', 'court']].forEach(([id, key]) => {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !(st && st.visited[key]);
+    });
+  }
+
+  function forgetInkMixingState() {
+    try { localStorage.removeItem(INK_MIXING_KEY); } catch {}
+    [MX_ROOM, MX_DISH, MX_COURT].forEach((scene) => AutoAdvance.clear(scene));
+    mxParts = { red: 0, yellow: 0, indigo: 0 };
+    mxDishKey = '';
+    ['#mx-codex', '#mx-memory', '#mx-room-figure', '#mx-dish-panel', '#hearing-of-the-first-color-figure',
+      '#ink-mixing-room-link', '#mixing-dish-link', '#hearing-of-the-first-color-link', '#mx-continue', '#mx-court-entry-btn',
+      '#mx-entry-response', '#mx-court-entry-response', '#ink-mixing-room-response', '#mixing-dish-response', '#hearing-of-the-first-color-response',
+      ...MX_OLD_TARGETS.flatMap((scene) => [`#mx-apprentice-${scene}`, `#mx-echo-${scene}`]),
+    ].forEach((sel) => { const el = $(sel); if (el) el.hidden = true; });
+    $$('[id^="mx-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+  }
+
+  const onTrustedMx = (selector, handler) => {
+    const el = $(selector);
+    if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+  };
+  onTrustedMx('#mx-entry-btn', chooseMxEntry);
+  onTrustedMx('#mx-court-entry-btn', chooseMxCourtEntry);
+  onTrustedMx('#mx-abandon', chooseMxAbandon);
+  onTrustedMx('#mx-continue', () => {
+    const st = mxReady(MX_ROOM, 'mx-continue');
+    if (!st || !st.draft.ink || st.activeApprentice) return;
+    const ink = st.draft.ink;
+    launchMx(MX_ROOM, 'mx-continue', { ink, feedback: MX_INK_TABLE[ink].feedback, kind: 'ink', source: MX_ROOM, target: MX_DISH }, '#ink-mixing-room-response');
+  });
+  MX_INKS.forEach((ink) => onTrustedMx(`#mx-ink-${ink}`, () => chooseMxInk(ink)));
+  MX_METHODS.forEach((method) => onTrustedMx(`#mx-method-${method}`, () => chooseMxMethod(method)));
+  MX_VERDICT_ACTIONS.forEach((action) => onTrustedMx(`#mx-verdict-${action}`, () => chooseMxVerdict(action)));
+  MX_OLD_TARGETS.forEach((scene) => onTrustedMx(`#mx-apprentice-return-${scene}`, () => chooseMxApprenticeReturn(scene)));
+  onTrustedMx('#mx-reset', washMxDish);
+  onTrustedMx('#mx-pour', pourMxInk);
+  /* 滑条用 input 事件，同样只认真实操作 */
+  MX_PIGMENTS.forEach((k) => {
+    const slider = $(`#mx-slider-${k}`);
+    if (slider) slider.addEventListener('input', (e) => { if (e.isTrusted) setMxParts(k, e.target.value); });
+  });
+
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -62003,8 +62757,26 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     if (eligible) items.push(`开庭条件已满足；早报裁定已得 ${st.courtOutcomes.length}/3`);
     if (st.activeSetter) items.push("有一张头版在旧房间等你签收：跟着排字工回到印刷所");
     else if (st.draft.plate) items.push(`拼版台上还摊着「${TS_PLATE_TABLE[st.draft.plate].title}」`);
-    if (eligible && st.courtOutcomes.length >= 3) return { title: "v106 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    if (eligible && st.courtOutcomes.length >= 3) return inkMixingProgressStep();
     return { title: "v106 今日排字房", items, target: eligible ? "ts-court" : "ts", done: false };
+  };
+
+  /* v107：按三种样色、三档精度与三项裁定给出缺项 */
+  const inkMixingProgressStep = () => {
+    if (!inkMixingUnlocked()) return null;
+    const st = getInkMixing();
+    const items = [];
+    const inks = MX_INKS.filter((x) => !st.mixes.some((id) => id.startsWith(`${x}:`))).map((x) => MX_INK_TABLE[x].title);
+    const methods = MX_METHODS.filter((m) => !st.mixes.some((id) => id.endsWith(`:${m}`))).map((m) => MX_METHOD_TABLE[m].title);
+    if (mxUpstreamBusy() && !st.visited.room) items.push("先完成印刷所那张还在路上的头版，调墨房才开门");
+    if (inks.length) items.push(`还没调过的样色：${inks.join("、")}`);
+    if (methods.length) items.push(`还没调过的精度：${methods.join("、")}`);
+    const eligible = mxCourtEligible(st);
+    if (eligible) items.push(`开庭条件已满足；首色裁定已得 ${st.courtOutcomes.length}/3`);
+    if (st.activeApprentice) items.push("有一碟墨在旧房间等你签收：跟着学徒回到调墨房");
+    else if (st.draft.ink) items.push(`调色碟边上还放着「${MX_INK_TABLE[st.draft.ink].title}」的色卡`);
+    if (eligible && st.courtOutcomes.length >= 3) return { title: "v107 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    return { title: "v107 调墨房", items, target: eligible ? "mx-court" : "mx", done: false };
   };
 
   const shadowlessPhotographyProgressStep = () => {
@@ -62579,6 +63351,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   syncWakeForAnotherHotelAll();
   syncYesterdayBreakfastAll();
   syncTodayPressAll();
+  syncInkMixingAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

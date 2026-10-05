@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=106">
+  <link rel="stylesheet" href="styles.css?v=107">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -3391,6 +3391,15 @@
             <button class="branch-entry branch-entry-deep" id="branch-entry-confession-ledger" type="button" hidden data-go="confession-ledger" data-hover>无名罪籍库 ⟶</button>
           </nav>
 
+          <!-- v107 走廊色样签收与记忆 -->
+          <p class="watch-memory mx-echo" id="mx-echo-corridor" hidden></p>
+          <div class="mx-apprentice reveal" id="mx-apprentice-corridor" hidden>
+            <p class="mx-apprentice-title" id="mx-apprentice-title-corridor"></p>
+            <p class="mx-apprentice-level" id="mx-apprentice-level-corridor"></p>
+            <p class="mx-apprentice-body" id="mx-apprentice-body-corridor"></p>
+            <p class="mx-response" id="mx-apprentice-response-corridor" aria-live="polite" hidden></p>
+            <button class="mx-action" id="mx-apprentice-return-corridor" type="button" data-hover>跟着学徒回到调墨房 ⟶</button>
+          </div>
           <!-- v105 走廊早餐签收与记忆 -->
           <p class="watch-memory yb-echo" id="yb-echo-corridor" hidden></p>
           <div class="yb-waiter reveal" id="yb-waiter-corridor" hidden>
@@ -4009,6 +4018,15 @@
             <p class="answer-note" id="deliver-note" role="status" aria-live="polite"></p>
           </div>
 
+          <!-- v107 交换台色样签收与记忆 -->
+          <p class="watch-memory mx-echo" id="mx-echo-switchboard" hidden></p>
+          <div class="mx-apprentice reveal" id="mx-apprentice-switchboard" hidden>
+            <p class="mx-apprentice-title" id="mx-apprentice-title-switchboard"></p>
+            <p class="mx-apprentice-level" id="mx-apprentice-level-switchboard"></p>
+            <p class="mx-apprentice-body" id="mx-apprentice-body-switchboard"></p>
+            <p class="mx-response" id="mx-apprentice-response-switchboard" aria-live="polite" hidden></p>
+            <button class="mx-action" id="mx-apprentice-return-switchboard" type="button" data-hover>跟着学徒回到调墨房 ⟶</button>
+          </div>
           <!-- v100 交换台供香签收与记忆 -->
           <p class="watch-memory wk-echo" id="wk-echo-switchboard" hidden></p>
           <div class="wk-mourner reveal" id="wk-mourner-switchboard" hidden>
@@ -4503,6 +4521,15 @@
             </div>
           </div>
 
+          <!-- v107 神圣遗物科色样签收与记忆 -->
+          <p class="watch-memory mx-echo" id="mx-echo-reliquary" hidden></p>
+          <div class="mx-apprentice reveal" id="mx-apprentice-reliquary" hidden>
+            <p class="mx-apprentice-title" id="mx-apprentice-title-reliquary"></p>
+            <p class="mx-apprentice-level" id="mx-apprentice-level-reliquary"></p>
+            <p class="mx-apprentice-body" id="mx-apprentice-body-reliquary"></p>
+            <p class="mx-response" id="mx-apprentice-response-reliquary" aria-live="polite" hidden></p>
+            <button class="mx-action" id="mx-apprentice-return-reliquary" type="button" data-hover>跟着学徒回到调墨房 ⟶</button>
+          </div>
           <!-- v98 神圣遗物科守夜签签收与记忆 -->
           <p class="watch-memory vc-echo" id="vc-echo-reliquary" hidden></p>
           <div class="vc-keeper reveal" id="vc-keeper-reliquary" hidden>
@@ -5148,6 +5175,21 @@
               <p class="ts-response" id="ts-entry-response" aria-live="polite" hidden></p>
               <button class="ts-entry-btn" id="ts-court-entry-btn" type="button" hidden data-hover>进入早报听证会 · ENTER THE HEARING OF THE MORNING EDITION ⟶</button>
               <p class="ts-response" id="ts-court-entry-response" aria-live="polite" hidden></p>
+            </div>
+          </div>
+          <!-- v107 调墨图鉴 -->
+          <p class="watch-memory mx-memory" id="mx-memory" hidden></p>
+          <div class="mx-codex reveal" id="mx-codex" hidden>
+            <p class="mx-kicker">INK MIXING ROOM · 调 墨 图 鉴</p>
+            <div class="mx-grid" id="mx-codex-grid"></div>
+            <p class="mx-hints-title">首色听证会开庭条件</p>
+            <ul class="mx-hints" id="mx-court-hints"></ul>
+            <div class="mx-codex-entry">
+              <button class="mx-entry-btn" id="mx-entry-btn" type="button" hidden data-hover>前往调墨房 · GO TO THE INK MIXING ROOM ⟶</button>
+              <p class="mx-note" id="mx-entry-note" hidden></p>
+              <p class="mx-response" id="mx-entry-response" aria-live="polite" hidden></p>
+              <button class="mx-entry-btn" id="mx-court-entry-btn" type="button" hidden data-hover>进入首色听证会 · ENTER THE HEARING OF THE FIRST COLOR ⟶</button>
+              <p class="mx-response" id="mx-court-entry-response" aria-live="polite" hidden></p>
             </div>
           </div>
           <!-- v70 亡者议会图鉴 -->
@@ -9242,6 +9284,90 @@
         </div>
       </section>
 
+      <!-- v107 第一幕：调墨房 -->
+      <section class="scene scene-branch scene-ink-mixing-room" id="scene-ink-mixing-room" data-scene="ink-mixing-room" data-title="Goddead — 调墨房" aria-label="调墨房">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">21α / 调墨 · INK MIXING ROOM</p>
+            <h2 class="sec-title">调墨房</h2>
+            <p class="sec-desc">今天的头版拼好了，印报却没有墨。长桌上三只墨缸，每只前面靠着一张色卡：那是三个旧房间各自留下的颜色。</p>
+          </header>
+          <figure class="branch-figure mx-figure reveal" id="mx-room-figure">
+            <img class="branch-img mx-img" data-src="assets/v107-ink-mixing-room.webp" alt="调墨房：石桌上三只广口玻璃墨缸，左边是暖黄的灯色、中间是发暗的旧金、右边是铜绿，各靠着一张色卡；远处散着朱砂、藤黄、靛青的颜料粉" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot mx-hotspot mx-hotspot-left" id="mx-ink-corridor-ink" type="button" aria-label="调墨：走廊的灯色" data-hover><span class="dh-label" aria-hidden="true">走廊的灯色</span></button>
+            <button class="scene-hotspot mx-hotspot mx-hotspot-center" id="mx-ink-reliquary-ink" type="button" aria-label="调墨：遗物科的旧金" data-hover><span class="dh-label" aria-hidden="true">遗物科的旧金</span></button>
+            <button class="scene-hotspot mx-hotspot mx-hotspot-right" id="mx-ink-switchboard-ink" type="button" aria-label="调墨：交换台的铜绿" data-hover><span class="dh-label" aria-hidden="true">交换台的铜绿</span></button>
+          </figure>
+          <p class="mx-note reveal" id="mx-room-note" hidden></p>
+          <p class="branch-response mx-response" id="ink-mixing-room-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开调墨房">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+            <button class="mx-action" id="mx-continue" type="button" hidden data-hover>回到调色碟 ⟶</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v107 第二幕：调色碟 -->
+      <section class="scene scene-branch scene-mixing-dish" id="scene-mixing-dish" data-scene="mixing-dish" data-title="Goddead — 调色碟" aria-label="调色碟">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">21β / 调色 · THE MIXING DISH</p>
+            <h2 class="sec-title">调色碟</h2>
+            <p class="sec-desc">选一档精度，拖动朱砂、藤黄、靛青三根滑条按份数调墨。碟里的颜色、右边的色卡和色差表会一起变；调准了就倒进墨槽。</p>
+          </header>
+          <figure class="branch-figure mx-figure mx-dish-figure reveal" id="mx-dish-figure">
+            <img class="branch-img mx-img" data-src="assets/v107-mixing-dish.webp" alt="调色碟：桌上左半边一只空着的白瓷调色碟，右边一排三只小颜料罐：朱砂、藤黄、靛青，各插着一把小铜勺" width="1536" height="1024" loading="lazy" decoding="async">
+            <div class="mx-swatches" id="mx-swatches" hidden>
+              <span class="mx-mixed" id="mx-mixed" role="img" aria-label="碟里调出的颜色"></span>
+              <span class="mx-target" id="mx-target" role="img" aria-label="色卡上的颜色"></span>
+              <span class="mx-meter" id="mx-meter" role="meter" aria-label="色差" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i aria-hidden="true"></i></span>
+            </div>
+            <p class="mx-dish-status" id="mx-dish-status" aria-live="polite"></p>
+          </figure>
+          <div class="mx-panel reveal" id="mx-dish-panel" hidden>
+            <p class="mx-panel-ink" id="mx-dish-ink"></p>
+            <div class="mx-methods" role="group" aria-label="精度">
+              <button class="mx-method" id="mx-method-rough" type="button" data-hover>差不多就行</button>
+              <button class="mx-method" id="mx-method-careful" type="button" data-hover>仔细调</button>
+              <button class="mx-method" id="mx-method-exact" type="button" data-hover>分毫不差</button>
+            </div>
+            <p class="mx-note" id="mx-method-hint"></p>
+            <div class="mx-sliders" role="group" aria-label="三种颜料的份数">
+              <label class="mx-slider-row mx-slider-red" for="mx-slider-red"><span class="mx-slider-name">朱砂</span><input class="mx-slider" id="mx-slider-red" type="range" min="0" max="6" step="1" value="0" aria-valuetext="朱砂 0 份" data-hover><output class="mx-count" id="mx-count-red">0 份</output></label>
+              <label class="mx-slider-row mx-slider-yellow" for="mx-slider-yellow"><span class="mx-slider-name">藤黄</span><input class="mx-slider" id="mx-slider-yellow" type="range" min="0" max="6" step="1" value="0" aria-valuetext="藤黄 0 份" data-hover><output class="mx-count" id="mx-count-yellow">0 份</output></label>
+              <label class="mx-slider-row mx-slider-indigo" for="mx-slider-indigo"><span class="mx-slider-name">靛青</span><input class="mx-slider" id="mx-slider-indigo" type="range" min="0" max="6" step="1" value="0" aria-valuetext="靛青 0 份" data-hover><output class="mx-count" id="mx-count-indigo">0 份</output></label>
+            </div>
+            <div class="mx-actions">
+              <button class="mx-action mx-pour" id="mx-pour" type="button" data-hover>倒进墨槽</button>
+              <button class="mx-action" id="mx-reset" type="button" data-hover>洗碟</button>
+              <button class="mx-action" id="mx-abandon" type="button" data-hover>把色卡放回墨缸</button>
+            </div>
+          </div>
+          <p class="branch-response mx-response" id="mixing-dish-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <!-- v107 第三幕：首色听证会 -->
+      <section class="scene scene-branch scene-hearing-of-the-first-color" id="scene-hearing-of-the-first-color" data-scene="hearing-of-the-first-color" data-title="Goddead — 首色听证会" aria-label="首色听证会">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">21γ / 首色 · HEARING OF THE FIRST COLOR</p>
+            <h2 class="sec-title">首色听证会</h2>
+            <p class="sec-desc">大厅里挂满还没上色的长幡，高窗外是清晨的光。桌上三件东西：一条墨锭和砚台、一张空白色卡、一支笔尖浸满了混色的软笔。裁定之后仍可回来。</p>
+          </header>
+          <figure class="branch-figure mx-figure reveal" id="hearing-of-the-first-color-figure">
+            <img class="branch-img mx-img" data-src="assets/v107-hearing-of-the-first-color.webp" alt="首色听证会：圆厅里挂满白色长幡，高窗下一把空椅子，长桌上放着墨锭和砚台、一张空白色卡和一支浸满混色的软笔" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot mx-hotspot mx-hotspot-court-left" id="mx-verdict-print-in-black-only" type="button" aria-label="裁定：今天只印黑白" data-hover><span class="dh-label" aria-hidden="true">今天只印黑白</span></button>
+            <button class="scene-hotspot mx-hotspot mx-hotspot-court-center" id="mx-verdict-keep-a-color-for-god" type="button" aria-label="裁定：给神留一种颜色" data-hover><span class="dh-label" aria-hidden="true">给神留一种颜色</span></button>
+            <button class="scene-hotspot mx-hotspot mx-hotspot-court-right" id="mx-verdict-let-the-colors-bleed" type="button" aria-label="裁定：让颜色洇开" data-hover><span class="dh-label" aria-hidden="true">让颜色洇开</span></button>
+          </figure>
+          <p class="branch-response mx-response" id="hearing-of-the-first-color-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开听证会">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+          </nav>
+        </div>
+      </section>
+
       <!-- 隐藏幕 · 第九条 -->
       <section class="scene scene-ninth" id="scene-ninth" data-scene="ninth" data-title="Goddead — ？？？" aria-label="第九条">
         <figure class="ninth-figure" role="img" aria-label="一道不该存在的裂口，底部有一扇错误的窄门">
@@ -9494,6 +9620,9 @@
       <a href="#press-of-today" id="press-of-today-link" hidden data-hover>20α / 今日印刷所</a>
       <a href="#composing-stone" id="composing-stone-link" hidden data-hover>20β / 拼版台</a>
       <a href="#hearing-of-the-morning-edition" id="hearing-of-the-morning-edition-link" hidden data-hover>20γ / 早报听证</a>
+      <a href="#ink-mixing-room" id="ink-mixing-room-link" hidden data-hover>21α / 调墨房</a>
+      <a href="#mixing-dish" id="mixing-dish-link" hidden data-hover>21β / 调色碟</a>
+      <a href="#hearing-of-the-first-color" id="hearing-of-the-first-color-link" hidden data-hover>21γ / 首色听证</a>
 
 
       <a href="#three-person-republic-court" id="three-person-republic-court-link" hidden data-hover>04β / 三人共和国</a>
@@ -9503,6 +9632,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=106"></script>
+    <script src="script.js?v=107"></script>
   </body>
 </html>

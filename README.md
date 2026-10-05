@@ -4,7 +4,9 @@ Static landing page for [goddead.com](https://goddead.com).
 
 ## Current Experience
 
-当前实现基线为 **v106「今日排字房 / TYPESETTING ROOM OF TODAY」**：全站共 241 个 hash 场景，静态资源缓存标记为 `v=106`。v106 在 v105 三项裁定集齐后开放 3 个新场景：`press-of-today`（今日印刷所）、`composing-stone`（拼版台）、`hearing-of-the-morning-edition`（早报听证会）。今天头版的三块木刻版（门 / 钟 / 炉）摔成九块各缺一块，在拼版台上把挨着空位的碎块推进去拼回原样（只松了几块 / 散了一地 / 摔得粉碎，打乱 8 / 16 / 28 步），锁版后头版送到门外 / 值夜室 / 焚献炉签收，三块版、三种摔法都拼过即开早报听证会。独立键 `goddead_v106_typesetting_today`。
+当前实现基线为 **v107「调墨房 / INK MIXING ROOM」**：全站共 244 个 hash 场景，静态资源缓存标记为 `v=107`。v107 在 v106 三项裁定集齐后开放 3 个新场景：`ink-mixing-room`（调墨房）、`mixing-dish`（调色碟）、`hearing-of-the-first-color`（首色听证会）。头版拼好了却没有墨：用朱砂、藤黄、靛青三根原生滑条按份数调墨，对照色卡把色差调进精度要求（差不多就行 ≤6% / 仔细调 ≤3% / 分毫不差 ≤0.5%），倒墨后色样送到走廊 / 神圣遗物科 / 余响交换台签收，三种样色、三档精度都调过即开首色听证会。独立键 `goddead_v107_ink_mixing`。
+
+历史基线 **v106「今日排字房 / TYPESETTING ROOM OF TODAY」**：全站 241 个场景，静态资源 `v=106`。v106 在 v105 三项裁定集齐后开放 3 个新场景：`press-of-today`（今日印刷所）、`composing-stone`（拼版台）、`hearing-of-the-morning-edition`（早报听证会）。今天头版的三块木刻版（门 / 钟 / 炉）摔成九块各缺一块，在拼版台上把挨着空位的碎块推进去拼回原样（只松了几块 / 散了一地 / 摔得粉碎，打乱 8 / 16 / 28 步），锁版后头版送到门外 / 值夜室 / 焚献炉签收，三块版、三种摔法都拼过即开早报听证会。独立键 `goddead_v106_typesetting_today`。
 
 历史基线 **v105「只出售昨日的早餐铺 / BREAKFAST SHOP OF YESTERDAY」**：全站 238 个场景，静态资源 `v=105`。v105 在 v104 四种醒来集齐、且旅馆没有在途晨铃或未带回的回执时开放 3 个新场景：`yesterday-breakfast-shop`（只出售昨日的早餐铺）、`breakfast-counter`（出餐台）、`hearing-of-yesterdays-bill`（昨日账单听证会）。三张看不清的小票（走廊夜班 / 注销科科员 / 代神席）先“听单”记下昨天的顺序，再照昨天上 / 倒着上 / 留下最后一道，把台上的早餐一道道端出来，上错就撤回重来；早餐送到走廊 / 神名注销科 / 代神席签收，三张小票、三种上法都用过即开听证会。独立键 `goddead_v105_yesterday_breakfast`。
 
@@ -16,7 +18,7 @@ Static landing page for [goddead.com](https://goddead.com).
 
 前一章历史实现 **v101「黎明织造厂 / DAWN WEAVING MILL」**（全站 226 个场景，静态资源 `v=101`）机制完整保留：v100 `wkCourtEligible` 且三项百夜裁定集齐后开放 3 个场景（`dawn-weaving-mill`、`day-night-loom`、`sky-cloth-drying-terrace`）。九格织机通过原生按钮与 4 种辅助模式完成晨光/夜线左右独立连通派生三结局，经天际晾布台预览送往门外/痕迹室/无终局画廊签收，双入口支持门外与痕迹室，独立存储键 `goddead_v101_dawn_weaving`。v91–v101 见 `docs/` 对应设计文档。
 
-完整玩家路线、支线网、v63-v106 解锁链与 v90-v106 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
+完整玩家路线、支线网、v63-v107 解锁链与 v90-v107 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
 
 The homepage is **The Living Shrine**, a hash-routed, scene-by-scene exploration game. Visitors knock three times at the sealed threshold — now a photographed bureau door — and on the third knock the door visually opens into a deep black-gold corridor before the visitor is pulled through into the next room; each completed action thereafter advances the ritual automatically.
 
