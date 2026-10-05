@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=100">
+  <link rel="stylesheet" href="styles.css?v=104">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -194,6 +194,75 @@
               <p class="harm-reconstructor-response" id="harm-reconstructor-response-threshold" aria-live="polite"></p>
               <button class="harm-reconstructor-return" id="harm-reconstructor-return-threshold" type="button" hidden data-hover>跟疼痛复原员返回考古局 · RETURN WITH THE PAIN RECONSTRUCTOR ⟶</button>
             </div>
+          <div class="dw-entry dw-threshold-entry reveal">
+            <button class="dw-entry-btn dw-entry-threshold-btn" id="dw-entry-threshold" type="button" hidden data-hover>门缝里的晨光 · SLIVER OF DAWN ⟶</button>
+            <p class="dw-note" id="dw-entry-note-threshold" hidden></p>
+            <p class="dw-response" id="dw-entry-response-threshold" aria-live="polite" hidden></p>
+          </div>          <div class="dw-receipt-card reveal" id="dw-courier-threshold" hidden>
+            <p class="dw-receipt-kicker">DAWN COURIER RECEIPT · 晨 间 签 收</p>
+            <h3 class="dw-receipt-title" id="dw-courier-title-threshold"></h3>
+            <div class="dw-pattern dw-receipt-pattern" id="dw-courier-pattern-threshold"></div>
+            <p class="dw-receipt-body" id="dw-courier-body-threshold"></p>
+            <div class="dw-receipt-actions">
+              <button class="dw-action" id="dw-courier-return-threshold" type="button" data-hover>返回黎明织造厂 ⟶</button>
+            </div>
+            <p class="dw-response" id="dw-courier-response-threshold" aria-live="polite" hidden></p>
+          </div>
+          <div class="dw-echo" id="dw-echo-threshold" hidden></div>          <div class="ph-entry ph-threshold-entry reveal">
+            <button class="ph-entry-btn ph-entry-threshold-btn" id="ph-entry-threshold" type="button" hidden data-hover>镜头还在等人 · THE LENS IS WAITING ⟶</button>
+            <p class="ph-note" id="ph-entry-note-threshold" hidden></p>
+            <p class="ph-response" id="ph-entry-response-threshold" aria-live="polite" hidden></p>
+          </div>
+          <div class="ah-entry ah-threshold-entry reveal">
+            <button class="ah-entry-btn ah-entry-threshold-btn" id="ah-entry-threshold" type="button" hidden data-hover>门后有一间还没醒的房 · WAKE FOR ANOTHER HOTEL ⟶</button>
+            <p class="ah-note" id="ah-entry-note-threshold" hidden></p>
+            <p class="ah-response" id="ah-entry-response-threshold" aria-live="polite" hidden></p>
+          </div>
+          <div class="ws-entry ws-threshold-entry reveal">
+            <button class="ws-entry-btn ws-entry-threshold-btn" id="ws-entry-threshold" type="button" hidden data-hover>雨还没落下来 · THE RAIN HAS NOT FALLEN ⟶</button>
+            <p class="ws-note" id="ws-entry-note-threshold" hidden></p>
+            <p class="ws-response" id="ws-entry-response-threshold" aria-live="polite" hidden></p>
+          </div>
+          <aside class="ws-receipt-card reveal" id="ws-passenger-threshold" hidden>
+            <p class="ws-receipt-kicker">SEASON DISPATCH RECEIPT · 天 气 到 站</p>
+            <h3 class="ws-receipt-title" id="ws-passenger-title-threshold"></h3>
+            <div class="ws-order ws-receipt-order" id="ws-passenger-order-threshold"></div>
+            <p class="ws-receipt-opening" id="ws-passenger-opening-threshold"></p>
+            <p class="ws-receipt-body" id="ws-passenger-body-threshold"></p>
+            <div class="ws-receipt-actions">
+              <button class="ws-action" id="ws-passenger-return-threshold" type="button" data-hover>带着车票回候车亭 ⟶</button>
+            </div>
+            <p class="ws-response" id="ws-passenger-response-threshold" aria-live="polite" hidden></p>
+          </aside>
+          <div class="ws-echo" id="ws-echo-threshold" hidden></div>
+          <aside class="ph-receipt-card reveal" id="ph-receipt-threshold" hidden>
+            <p class="ph-receipt-kicker">SHADOWLESS PHOTO RECEIPT · 叠 印 签 收</p>
+            <h3 class="ph-receipt-title" id="ph-receipt-title-threshold"></h3>
+            <div class="ph-viewfinder-overlay-container ph-receipt-viewfinder-container">
+              <div class="ph-viewfinder-plane ph-receipt-plane" id="ph-receipt-viewfinder-threshold" aria-hidden="true"></div>
+            </div>
+            <div class="ph-receipt-plates">
+              <p class="ph-receipt-plate-item" id="ph-receipt-plate1-threshold"></p>
+              <p class="ph-receipt-plate-item" id="ph-receipt-plate2-threshold"></p>
+            </div>
+            <p class="ph-receipt-body" id="ph-receipt-body-threshold"></p>
+            <div class="ph-receipt-actions">
+              <button class="ph-action" id="ph-print-return-threshold" type="button" data-hover>带着照片回照相馆 ⟶</button>
+            </div>
+            <p class="ph-response" id="ph-print-response-threshold" aria-live="polite" hidden></p>
+          </aside>
+          <div class="ph-echo" id="ph-echo-absence-shared-a-portrait" hidden></div>
+          <aside class="ah-receipt-card reveal" id="ah-wake-receipt-threshold" hidden>
+            <p class="ah-receipt-kicker">MORNING BELL RECEIPT · 晨 铃 签 收</p>
+            <h3 class="ah-receipt-title" id="ah-wake-receipt-title-threshold"></h3>
+            <div class="ah-clock-face-container" id="ah-wake-receipt-clocks-threshold"></div>
+            <p class="ah-receipt-note" id="ah-wake-receipt-note-threshold"></p>
+            <div class="ah-receipt-actions">
+              <button class="ah-action" id="ah-wake-return-threshold" type="button" data-hover>带着晨铃回旅馆 ⟶</button>
+            </div>
+            <p class="ah-response" id="ah-wake-response-threshold" aria-live="polite" hidden></p>
+          </aside>
+          <div class="ah-echo" id="ah-echo-you-woke-in-a-borrowed-morning" hidden></div>
           <!-- v99 门槛路条签收与记忆 -->
           <p class="watch-memory rd-echo" id="rd-echo-threshold" hidden></p>
           <div class="rd-leader reveal" id="rd-leader-threshold" hidden>
@@ -2804,6 +2873,18 @@
             </button>
           </figure>
           <p class="branch-response" id="relief-minute-response" aria-live="polite"></p>
+          <aside class="ws-receipt-card reveal" id="ws-passenger-minute-before-archive" hidden>
+            <p class="ws-receipt-kicker">SEASON DISPATCH RECEIPT · 天 气 到 站</p>
+            <h3 class="ws-receipt-title" id="ws-passenger-title-minute-before-archive"></h3>
+            <div class="ws-order ws-receipt-order" id="ws-passenger-order-minute-before-archive"></div>
+            <p class="ws-receipt-opening" id="ws-passenger-opening-minute-before-archive"></p>
+            <p class="ws-receipt-body" id="ws-passenger-body-minute-before-archive"></p>
+            <div class="ws-receipt-actions">
+              <button class="ws-action" id="ws-passenger-return-minute-before-archive" type="button" data-hover>带着车票回候车亭 ⟶</button>
+            </div>
+            <p class="ws-response" id="ws-passenger-response-minute-before-archive" aria-live="polite" hidden></p>
+          </aside>
+          <div class="ws-echo" id="ws-echo-minute-before-archive" hidden></div>
 
           <!-- v85 未来账单执行员 -->
           <div class="orphaned-fact-executor reveal" id="orphaned-fact-executor-minute-before-archive" hidden>
@@ -4393,6 +4474,44 @@
             <p class="sec-desc">你在这里做的每件事都没有消失。它们只是换了一种方式，继续躺着。</p>
           </header>
 
+          <div class="dw-receipt-card reveal" id="dw-courier-remembrance" hidden>
+            <p class="dw-receipt-kicker">DAWN COURIER RECEIPT · 晨 间 签 收</p>
+            <h3 class="dw-receipt-title" id="dw-courier-title-remembrance"></h3>
+            <div class="dw-pattern dw-receipt-pattern" id="dw-courier-pattern-remembrance"></div>
+            <p class="dw-receipt-body" id="dw-courier-body-remembrance"></p>
+            <div class="dw-receipt-actions">
+              <button class="dw-action" id="dw-courier-return-remembrance" type="button" data-hover>返回黎明织造厂 ⟶</button>
+            </div>
+            <p class="dw-response" id="dw-courier-response-remembrance" aria-live="polite" hidden></p>
+          </div>
+          <div class="dw-echo" id="dw-echo-remembrance" hidden></div>
+          <aside class="ph-receipt-card reveal" id="ph-receipt-remembrance" hidden>
+            <p class="ph-receipt-kicker">SHADOWLESS PHOTO RECEIPT · 叠 印 签 收</p>
+            <h3 class="ph-receipt-title" id="ph-receipt-title-remembrance"></h3>
+            <div class="ph-viewfinder-overlay-container ph-receipt-viewfinder-container">
+              <div class="ph-viewfinder-plane ph-receipt-plane" id="ph-receipt-viewfinder-remembrance" aria-hidden="true"></div>
+            </div>
+            <div class="ph-receipt-plates">
+              <p class="ph-receipt-plate-item" id="ph-receipt-plate1-remembrance"></p>
+              <p class="ph-receipt-plate-item" id="ph-receipt-plate2-remembrance"></p>
+            </div>
+            <p class="ph-receipt-body" id="ph-receipt-body-remembrance"></p>
+            <div class="ph-receipt-actions">
+              <button class="ph-action" id="ph-print-return-remembrance" type="button" data-hover>带着照片回照相馆 ⟶</button>
+            </div>
+            <p class="ph-response" id="ph-print-response-remembrance" aria-live="polite" hidden></p>
+          </aside>
+          <div class="ph-echo" id="ph-echo-one-visitor-kept-two-shadows" hidden></div>          <aside class="ah-receipt-card reveal" id="ah-wake-receipt-remembrance" hidden>
+            <p class="ah-receipt-kicker">MORNING BELL RECEIPT · 晨 铃 签 收</p>
+            <h3 class="ah-receipt-title" id="ah-wake-receipt-title-remembrance"></h3>
+            <div class="ah-clock-face-container" id="ah-wake-receipt-clocks-remembrance"></div>
+            <p class="ah-receipt-note" id="ah-wake-receipt-note-remembrance"></p>
+            <div class="ah-receipt-actions">
+              <button class="ah-action" id="ah-wake-return-remembrance" type="button" data-hover>带着晨铃回旅馆 ⟶</button>
+            </div>
+            <p class="ah-response" id="ah-wake-response-remembrance" aria-live="polite" hidden></p>
+          </aside>
+          <div class="ah-echo" id="ah-echo-someone-woke-on-your-behalf" hidden></div>
           <aside class="progress-guide" id="progress-guide" aria-labelledby="progress-guide-title" hidden>
             <p class="progress-guide-kicker">NEXT · 下 一 步</p>
             <h3 class="progress-guide-title" id="progress-guide-title"></h3>
@@ -4900,6 +5019,53 @@
             </div>
           </div>
 
+          <!-- v101 织布记忆与图鉴 -->
+          <p class="watch-memory dw-memory" id="dw-memory" hidden></p>
+          <div class="dw-codex reveal" id="dw-codex" hidden>
+            <p class="dw-kicker">DAWN WEAVING MILL · 织 造 图 鉴</p>
+            <div class="dw-grid" id="dw-codex-grid"></div>
+            <div class="dw-hook" id="dw-hook" hidden></div>
+            <div class="dw-codex-entry">
+              <button class="dw-entry-btn" id="dw-entry-remembrance" type="button" hidden data-hover>前往黎明织造厂 · GO TO THE DAWN WEAVING MILL ⟶</button>
+              <p class="dw-note" id="dw-entry-note-remembrance" hidden></p>
+              <p class="dw-response" id="dw-entry-response-remembrance" aria-live="polite" hidden></p>
+            </div>
+          </div>          <!-- v102 候车记忆与四季图鉴 -->
+          <p class="watch-memory ws-memory" id="ws-memory" hidden></p>
+          <div class="ws-codex reveal" id="ws-codex" hidden>
+            <p class="ws-kicker">WEATHERLESS BUS SHELTER · 四 季 图 鉴</p>
+            <div class="ws-grid ws-codex-grid" id="ws-codex-grid"></div>
+            <div class="ws-hook" id="ws-hook" hidden></div>
+            <div class="ws-codex-entry">
+              <button class="ws-entry-btn" id="ws-entry-remembrance" type="button" hidden data-hover>前往没有天气的候车亭 · GO TO THE BUS SHELTER ⟶</button>
+              <p class="ws-note" id="ws-entry-note-remembrance" hidden></p>
+              <p class="ws-response" id="ws-entry-response-remembrance" aria-live="polite" hidden></p>
+            </div>
+          </div>
+          <!-- v103 摄影记忆与叠印图鉴 -->
+          <p class="watch-memory ph-memory" id="ph-memory" hidden></p>
+          <div class="ph-codex reveal" id="ph-codex" hidden>
+            <p class="ph-kicker">SHADOWLESS PHOTOGRAPHY · 叠 印 图 鉴</p>
+            <div class="ph-grid ph-codex-grid" id="ph-codex-grid"></div>
+            <div class="ph-hook" id="ph-hook" hidden></div>
+            <div class="ph-codex-entry">
+              <button class="ph-entry-btn" id="ph-entry-remembrance" type="button" hidden data-hover>前往收不到影子的照相馆 · GO TO THE PHOTO STUDIO ⟶</button>
+              <p class="ph-note" id="ph-entry-note-remembrance" hidden></p>
+              <p class="ph-response" id="ph-entry-response-remembrance" aria-live="polite" hidden></p>
+            </div>
+          </div>
+          <!-- v104 旅馆梦钟与醒来图鉴 -->
+          <p class="watch-memory ah-memory" id="ah-memory" hidden></p>
+          <div class="ah-codex reveal" id="ah-codex" hidden>
+            <p class="ah-kicker">WAKE FOR ANOTHER HOTEL · 醒 来 图 鉴</p>
+            <div class="ah-grid ah-codex-grid" id="ah-codex-grid"></div>
+            <div class="ah-hook" id="ah-hook" hidden></div>
+            <div class="ah-codex-entry">
+              <button class="ah-entry-btn" id="ah-entry-remembrance" type="button" hidden data-hover>前往替别人醒来的旅馆 · GO TO THE HOTEL ⟶</button>
+              <p class="ah-note" id="ah-entry-note-remembrance" hidden></p>
+              <p class="ah-response" id="ah-entry-response-remembrance" aria-live="polite" hidden></p>
+            </div>
+          </div>
           <!-- v70 亡者议会图鉴 -->
           <div class="dead-parliament-codex reveal" id="dead-parliament-codex" hidden>
             <p class="dpc-kicker">PARLIAMENT OF THE DEAD · 亡 者 议 会 图 鉴</p>
@@ -5165,6 +5331,58 @@
             </button>
           </figure>
           <p class="branch-response" id="unending-response" aria-live="polite"></p>
+          <aside class="ws-receipt-card reveal" id="ws-passenger-unending-gallery" hidden>
+            <p class="ws-receipt-kicker">SEASON DISPATCH RECEIPT · 天 气 到 站</p>
+            <h3 class="ws-receipt-title" id="ws-passenger-title-unending-gallery"></h3>
+            <div class="ws-order ws-receipt-order" id="ws-passenger-order-unending-gallery"></div>
+            <p class="ws-receipt-opening" id="ws-passenger-opening-unending-gallery"></p>
+            <p class="ws-receipt-body" id="ws-passenger-body-unending-gallery"></p>
+            <div class="ws-receipt-actions">
+              <button class="ws-action" id="ws-passenger-return-unending-gallery" type="button" data-hover>带着车票回候车亭 ⟶</button>
+            </div>
+            <p class="ws-response" id="ws-passenger-response-unending-gallery" aria-live="polite" hidden></p>
+          </aside>
+          <div class="ws-echo" id="ws-echo-unending-gallery" hidden></div>
+          <aside class="ph-receipt-card reveal" id="ph-receipt-unending-gallery" hidden>
+            <p class="ph-receipt-kicker">SHADOWLESS PHOTO RECEIPT · 叠 印 签 收</p>
+            <h3 class="ph-receipt-title" id="ph-receipt-title-unending-gallery"></h3>
+            <div class="ph-viewfinder-overlay-container ph-receipt-viewfinder-container">
+              <div class="ph-viewfinder-plane ph-receipt-plane" id="ph-receipt-viewfinder-unending-gallery" aria-hidden="true"></div>
+            </div>
+            <div class="ph-receipt-plates">
+              <p class="ph-receipt-plate-item" id="ph-receipt-plate1-unending-gallery"></p>
+              <p class="ph-receipt-plate-item" id="ph-receipt-plate2-unending-gallery"></p>
+            </div>
+            <p class="ph-receipt-body" id="ph-receipt-body-unending-gallery"></p>
+            <div class="ph-receipt-actions">
+              <button class="ph-action" id="ph-print-return-unending-gallery" type="button" data-hover>带着照片回照相馆 ⟶</button>
+            </div>
+            <p class="ph-response" id="ph-print-response-unending-gallery" aria-live="polite" hidden></p>
+          </aside>
+          <div class="ph-echo" id="ph-echo-the-shadow-attended-in-your-place" hidden></div>
+          <div class="ph-echo" id="ph-echo-nobody-was-kept-in-the-frame" hidden></div>          <aside class="ah-receipt-card reveal" id="ah-wake-receipt-unending-gallery" hidden>
+            <p class="ah-receipt-kicker">MORNING BELL RECEIPT · 晨 铃 签 收</p>
+            <h3 class="ah-receipt-title" id="ah-wake-receipt-title-unending-gallery"></h3>
+            <div class="ah-clock-face-container" id="ah-wake-receipt-clocks-unending-gallery"></div>
+            <p class="ah-receipt-note" id="ah-wake-receipt-note-unending-gallery"></p>
+            <div class="ah-receipt-actions">
+              <button class="ah-action" id="ah-wake-return-unending-gallery" type="button" data-hover>带着晨铃回旅馆 ⟶</button>
+            </div>
+            <p class="ah-response" id="ah-wake-response-unending-gallery" aria-live="polite" hidden></p>
+          </aside>
+          <div class="ah-echo" id="ah-echo-dawn-waited-outside-the-doors" hidden></div>
+          <div class="ah-echo" id="ah-echo-three-rooms-shared-one-dawn" hidden></div>
+          <div class="dw-receipt-card reveal" id="dw-courier-unending-gallery" hidden>
+            <p class="dw-receipt-kicker">DAWN COURIER RECEIPT · 晨 间 签 收</p>
+            <h3 class="dw-receipt-title" id="dw-courier-title-unending-gallery"></h3>
+            <div class="dw-pattern dw-receipt-pattern" id="dw-courier-pattern-unending-gallery"></div>
+            <p class="dw-receipt-body" id="dw-courier-body-unending-gallery"></p>
+            <div class="dw-receipt-actions">
+              <button class="dw-action" id="dw-courier-return-unending-gallery" type="button" data-hover>返回黎明织造厂 ⟶</button>
+            </div>
+            <p class="dw-response" id="dw-courier-response-unending-gallery" aria-live="polite" hidden></p>
+          </div>
+          <div class="dw-echo" id="dw-echo-unending-gallery" hidden></div>
 
           <!-- v68 后世催收通知 -->
           <div class="generation-loans-notice reveal" id="generation-loans-notice-unending-gallery" hidden>
@@ -8330,6 +8548,447 @@
         </div>
       </section>
 
+      <!-- v101 第一幕：黎明织造厂 -->
+      <section class="scene scene-branch scene-dawn-weaving-mill" id="scene-dawn-weaving-mill" data-scene="dawn-weaving-mill" data-title="Goddead — 黎明织造厂" aria-label="黎明织造厂">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">19α / 晨线 · DAWN WEAVING MILL</p>
+            <h2 class="sec-title">黎明织造厂</h2>
+            <p class="sec-desc">你抽出了门缝里没有太阳的晨光，沿着这根线走进了深处的厂房。织造厂仍在上班，织工却早已离开。</p>
+            <blockquote class="dw-premise-quote">“这里不生产太阳。这里把夜里没说完的事，织成能穿出去的天。”</blockquote>
+          </header>
+          <figure class="branch-figure dw-figure reveal" id="dw-hall-figure" hidden>
+            <img class="branch-img dw-img" data-src="assets/v101-dawn-weaving-mill.webp" alt="黎明织造厂：高大石拱下无人的旧织造厂，两只光线与夜线轴立在角落，未织完的布垂落在门缝边，远窗透出没有太阳的灰白晨光" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+          <div class="dw-hall-endings reveal" id="dw-hall-endings">
+            <ul class="dw-endings-list dw-hall-endings-list" id="dw-hall-endings-list"></ul>
+          </div>
+          <p class="dw-note reveal" id="dw-hall-note" hidden></p>
+          <p class="branch-response dw-response" id="dawn-weaving-mill-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开黎明织造厂">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+            <a class="dw-courier-link" id="dw-courier-link" href="#" hidden data-hover>回到晨间签收处 ⟶</a>
+            <button class="dw-action" id="dw-continue" type="button" hidden data-hover>继续这块布 ⟶</button>
+            <button class="dw-action" id="dw-new" type="button" hidden data-hover>新的一块布 ⟶</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v101 第二幕：昼夜织机 -->
+      <section class="scene scene-branch scene-day-night-loom" id="scene-day-night-loom" data-scene="day-night-loom" data-title="Goddead — 昼夜织机" aria-label="昼夜织机">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">19β / 织布 · THE DAY-NIGHT LOOM</p>
+            <h2 class="sec-title">昼夜织机</h2>
+            <p class="sec-desc">点击方格在空白、晨光与夜线之间切换。只要同一种线从左侧进线沿上下左右连到右侧出线，织物便能成形。</p>
+          </header>
+          <figure class="branch-figure dw-figure dw-loom-figure reveal" id="dw-loom-figure" hidden>
+            <img class="branch-img dw-img" data-src="assets/v101-day-night-loom.webp" alt="昼夜织机：俯视黄铜木织机，正中深色织面静止如镜，左右两侧引入晨光金线与靛青银夜线" width="1536" height="1024" loading="lazy" decoding="async">
+            <div class="dw-board-container">
+              <span class="dw-side-label dw-side-in" aria-hidden="true">進線 ⟶</span>
+              <div class="dw-board" id="dw-board" role="group" aria-label="九格织布机">
+                <button class="dw-tile" id="dw-cell-0" type="button" data-material="." aria-label="第 1 行第 1 列，空白" disabled data-hover><span class="dw-tile-mark" aria-hidden="true">·</span><span class="dw-tile-text">空白</span></button>
+                <button class="dw-tile" id="dw-cell-1" type="button" data-material="." aria-label="第 1 行第 2 列，空白" disabled data-hover><span class="dw-tile-mark" aria-hidden="true">·</span><span class="dw-tile-text">空白</span></button>
+                <button class="dw-tile" id="dw-cell-2" type="button" data-material="." aria-label="第 1 行第 3 列，空白" disabled data-hover><span class="dw-tile-mark" aria-hidden="true">·</span><span class="dw-tile-text">空白</span></button>
+                <button class="dw-tile" id="dw-cell-3" type="button" data-material="." aria-label="第 2 行第 1 列，空白" disabled data-hover><span class="dw-tile-mark" aria-hidden="true">·</span><span class="dw-tile-text">空白</span></button>
+                <button class="dw-tile" id="dw-cell-4" type="button" data-material="." aria-label="第 2 行第 2 列，空白" disabled data-hover><span class="dw-tile-mark" aria-hidden="true">·</span><span class="dw-tile-text">空白</span></button>
+                <button class="dw-tile" id="dw-cell-5" type="button" data-material="." aria-label="第 2 行第 3 列，空白" disabled data-hover><span class="dw-tile-mark" aria-hidden="true">·</span><span class="dw-tile-text">空白</span></button>
+                <button class="dw-tile" id="dw-cell-6" type="button" data-material="." aria-label="第 3 行第 1 列，空白" disabled data-hover><span class="dw-tile-mark" aria-hidden="true">·</span><span class="dw-tile-text">空白</span></button>
+                <button class="dw-tile" id="dw-cell-7" type="button" data-material="." aria-label="第 3 行第 2 列，空白" disabled data-hover><span class="dw-tile-mark" aria-hidden="true">·</span><span class="dw-tile-text">空白</span></button>
+                <button class="dw-tile" id="dw-cell-8" type="button" data-material="." aria-label="第 3 行第 3 列，空白" disabled data-hover><span class="dw-tile-mark" aria-hidden="true">·</span><span class="dw-tile-text">空白</span></button>
+              </div>
+              <span class="dw-side-label dw-side-out" aria-hidden="true">⟶ 出線</span>
+            </div>
+            <div class="dw-loom-status-overlay">
+              <p class="dw-loom-status dw-status-light" id="dw-light-status" aria-live="polite"></p>
+              <p class="dw-loom-status dw-status-night" id="dw-night-status" aria-live="polite"></p>
+            </div>
+          </figure>
+          <div class="dw-panel reveal" id="dw-loom-panel" hidden>
+            <div class="dw-modes" role="group" aria-label="梭巡模式">
+              <button class="dw-mode-btn" id="dw-mode-cycle" type="button" aria-pressed="true" disabled data-hover>循环轮转</button>
+              <button class="dw-mode-btn" id="dw-mode-light" type="button" aria-pressed="false" disabled data-hover>只铺晨光</button>
+              <button class="dw-mode-btn" id="dw-mode-night" type="button" aria-pressed="false" disabled data-hover>只铺夜线</button>
+              <button class="dw-mode-btn" id="dw-mode-erase" type="button" aria-pressed="false" disabled data-hover>擦除</button>
+            </div>
+            <p class="dw-note dw-mode-hint" id="dw-mode-hint"></p>
+            <div class="dw-example-box" id="dw-example-box">
+              <div class="dw-example-head">
+                <button class="dw-action dw-sample-toggle" id="dw-example-btn" type="button" data-hover>看一块样布</button>
+                <span class="dw-example-note" id="dw-example-note"></span>
+              </div>
+              <div class="dw-pattern dw-example-pattern" id="dw-example-pattern" hidden></div>
+            </div>
+            <div class="dw-actions">
+              <button class="dw-action dw-sample-act" id="dw-sample-btn" type="button" disabled data-hover>试晒这块布 ⟶</button>
+              <button class="dw-action" id="dw-abandon" type="button" data-hover>收起织物返回</button>
+            </div>
+          </div>
+          <p class="branch-response dw-response" id="day-night-loom-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <!-- v101 第三幕：天际晾布台 -->
+      <section class="scene scene-branch scene-sky-cloth-drying-terrace" id="scene-sky-cloth-drying-terrace" data-scene="sky-cloth-drying-terrace" data-title="Goddead — 天际晾布台" aria-label="天际晾布台">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">19γ / 晾布 · SKY CLOTH DRYING TERRACE</p>
+            <h2 class="sec-title">天际晾布台</h2>
+            <p class="sec-desc">屋顶石露台的长铜杆上，织物迎风展开。左侧是破晓的暖晨，右侧是未褪的夜色。</p>
+          </header>
+          <figure class="branch-figure dw-figure dw-terrace-figure reveal" id="dw-terrace-figure" hidden>
+            <img class="branch-img dw-img" data-src="assets/v101-sky-cloth-drying-terrace.webp" alt="天际晾布台：屋顶石露台，一根长黄铜晾杆架在中间，左边是破晓金光，右边是靛青夜色，织物高挂在苍穹之间" width="1536" height="1024" loading="lazy" decoding="async">
+            <div class="dw-pattern dw-terrace-pattern" id="dw-terrace-pattern"></div>
+          </figure>
+          <div class="dw-panel dw-terrace-panel reveal" id="dw-terrace-panel" hidden>
+            <h3 class="dw-terrace-title" id="dw-terrace-title"></h3>
+            <p class="dw-terrace-story" id="dw-terrace-story"></p>
+            <p class="dw-terrace-target" id="dw-terrace-target"></p>
+            <div class="dw-actions">
+              <button class="dw-action dw-deliver-btn" id="dw-deliver" type="button" data-hover>把这块天送出去 ⟶</button>
+              <button class="dw-action" id="dw-unweave" type="button" data-hover>拆回织机重织</button>
+            </div>
+          </div>
+          <p class="branch-response dw-response" id="sky-cloth-drying-terrace-response" aria-live="polite" hidden></p>
+        </div>
+      </section>      <!-- v102 第一幕：没有天气的候车亭 -->
+      <section class="scene scene-branch scene-weatherless-bus-shelter" id="scene-weatherless-bus-shelter" data-scene="weatherless-bus-shelter" data-title="Goddead — 没有天气的候车亭" aria-label="没有天气的候车亭">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">20α / 候车 · WEATHERLESS BUS SHELTER</p>
+            <h2 class="sec-title">没有天气的候车亭</h2>
+            <p class="sec-desc">昼夜终于穿过织机，季节却仍等在门外。候车亭的玻璃不结露，雨落到屋檐前会停住。时刻表没有时间，只有四个空着的到站位置。</p>
+            <blockquote class="ws-premise-quote">“天气没有迟到。它们只是各自拿着一张写着‘下一班’的车票。”</blockquote>
+          </header>
+          <figure class="branch-figure ws-figure reveal" id="ws-hall-figure" hidden>
+            <img class="branch-img ws-img" data-src="assets/v102-weatherless-bus-shelter.webp" alt="没有天气的候车亭：静止在灰暗无雨屋檐下的石质候车亭，长凳空置，玻璃窗澄净如镜，门前道路无水痕" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+          <div class="ws-hall-endings reveal" id="ws-hall-endings">
+            <ul class="ws-endings-list ws-hall-endings-list" id="ws-hall-endings-list"></ul>
+          </div>
+          <p class="ws-note reveal" id="ws-hall-note" hidden></p>
+          <p class="branch-response ws-response" id="weatherless-bus-shelter-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开没有天气的候车亭">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+            <a class="ws-passenger-link" id="ws-passenger-link" href="#" hidden data-hover>回到天气签收处 ⟶</a>
+            <button class="ws-action" id="ws-continue" type="button" hidden data-hover>继续排这一班 ⟶</button>
+            <button class="ws-action" id="ws-new" type="button" hidden data-hover>新排一班天气 ⟶</button>
+          </nav>
+          <div class="ph-entry ph-shelter-entry reveal">
+            <button class="ph-entry-btn ph-entry-shelter-btn" id="ph-entry-shelter" type="button" hidden data-hover>照相馆的木门虚掩着 · THE PHOTO STUDIO DOOR IS AJAR ⟶</button>
+            <p class="ph-note" id="ph-entry-note-shelter" hidden></p>
+            <p class="ph-response" id="ph-entry-response-shelter" aria-live="polite" hidden></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- v102 第二幕：四季排班牌 -->
+      <section class="scene scene-branch scene-season-dispatch-board" id="scene-season-dispatch-board" data-scene="season-dispatch-board" data-title="Goddead — 四季排班牌" aria-label="四季排班牌">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">20β / 排班 · SEASON DISPATCH BOARD</p>
+            <h2 class="sec-title">四季排班牌</h2>
+            <p class="sec-desc">选定季节车票，再放入到站格中。按从左到右 1–4 排列（先到 / 第二站 / 第三站 / 最后）。四个季节各就各位，班次才能发车。</p>
+          </header>
+          <figure class="branch-figure ws-figure ws-board-figure reveal" id="ws-board-figure" hidden>
+            <img class="branch-img ws-img" data-src="assets/v102-season-dispatch-board.webp" alt="四季排班牌：中央悬挂黄铜打磨的时钟刻度排班牌，深色石质底板预留了四个到站槽位" width="1536" height="1024" loading="lazy" decoding="async">
+            <div class="ws-board-overlay">
+              <div class="ws-slots" id="ws-slots" role="group" aria-label="四个到站槽位">
+                <button class="ws-slot" id="ws-slot-0" type="button" data-season="" aria-label="第 1 到站槽位（先到），空白" disabled data-hover><span class="ws-order-number">1</span><span class="ws-order-mark" aria-hidden="true">·</span><span class="ws-order-text">空白</span></button>
+                <button class="ws-slot" id="ws-slot-1" type="button" data-season="" aria-label="第 2 到站槽位，空白" disabled data-hover><span class="ws-order-number">2</span><span class="ws-order-mark" aria-hidden="true">·</span><span class="ws-order-text">空白</span></button>
+                <button class="ws-slot" id="ws-slot-2" type="button" data-season="" aria-label="第 3 到站槽位，空白" disabled data-hover><span class="ws-order-number">3</span><span class="ws-order-mark" aria-hidden="true">·</span><span class="ws-order-text">空白</span></button>
+                <button class="ws-slot" id="ws-slot-3" type="button" data-season="" aria-label="第 4 到站槽位（最后），空白" disabled data-hover><span class="ws-order-number">4</span><span class="ws-order-mark" aria-hidden="true">·</span><span class="ws-order-text">空白</span></button>
+              </div>
+            </div>
+          </figure>
+          <div class="ws-panel reveal" id="ws-board-panel" hidden>
+            <div class="ws-order-preview-wrap">
+              <div class="ws-order ws-order-preview" id="ws-order-preview" aria-label="当前排班预览"></div>
+            </div>
+            <div class="ws-ticket-status-bar">
+              <p class="ws-ticket-status" id="ws-ticket-status" aria-live="polite"></p>
+              <p class="ws-board-hint" id="ws-board-hint" aria-live="polite"></p>
+            </div>
+            <div class="ws-tickets" role="group" aria-label="季节车票选择">
+              <button class="ws-ticket" id="ws-ticket-spring" type="button" data-season="spring" aria-pressed="true" disabled data-hover><span class="ws-ticket-badge">[春]</span><span class="ws-ticket-name">春雨</span></button>
+              <button class="ws-ticket" id="ws-ticket-summer" type="button" data-season="summer" aria-pressed="false" disabled data-hover><span class="ws-ticket-badge">[夏]</span><span class="ws-ticket-name">盛夏</span></button>
+              <button class="ws-ticket" id="ws-ticket-autumn" type="button" data-season="autumn" aria-pressed="false" disabled data-hover><span class="ws-ticket-badge">[秋]</span><span class="ws-ticket-name">落叶</span></button>
+              <button class="ws-ticket" id="ws-ticket-winter" type="button" data-season="winter" aria-pressed="false" disabled data-hover><span class="ws-ticket-badge">[冬]</span><span class="ws-ticket-name">霜雪</span></button>
+              <button class="ws-ticket ws-ticket-remove" id="ws-ticket-remove" type="button" data-season="remove" aria-pressed="false" disabled data-hover><span class="ws-ticket-badge">[×]</span><span class="ws-ticket-name">取下车票</span></button>
+            </div>
+            <div class="ws-example-box" id="ws-example-box">
+              <div class="ws-example-head">
+                <button class="ws-action ws-example-toggle" id="ws-example-btn" type="button" data-hover>看一种班次样例</button>
+                <span class="ws-example-note" id="ws-example-note"></span>
+              </div>
+              <div class="ws-order ws-example-order" id="ws-example-order" hidden></div>
+            </div>
+            <div class="ws-actions">
+              <button class="ws-action ws-preview-btn" id="ws-preview-btn" type="button" disabled data-hover>去站台看看 ⟶</button>
+              <button class="ws-action" id="ws-abandon" type="button" data-hover>收起排班返回</button>
+            </div>
+          </div>
+          <p class="branch-response ws-response" id="season-dispatch-board-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <!-- v102 第三幕：四季站台 -->
+      <section class="scene scene-branch scene-four-season-platform" id="scene-four-season-platform" data-scene="four-season-platform" data-title="Goddead — 四季站台" aria-label="四季站台">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">20γ / 站台 · FOUR-SEASON PLATFORM</p>
+            <h2 class="sec-title">四季站台</h2>
+            <p class="sec-desc">无风的石质封闭站台前，车灯照亮了轨面。车窗里已经坐好了你排下的天气。</p>
+          </header>
+          <figure class="branch-figure ws-figure ws-platform-figure reveal" id="ws-platform-figure" hidden>
+            <img class="branch-img ws-img" data-src="assets/v102-four-season-platform.webp" alt="四季站台：昏黄石柱间停靠的封闭长途车厢，车灯映亮湿冷站台，四扇不同天气车窗等待启程" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+          <div class="ws-panel ws-platform-panel reveal" id="ws-platform-panel" hidden>
+            <div class="ws-order ws-platform-order" id="ws-platform-order"></div>
+            <h3 class="ws-platform-title" id="ws-platform-title"></h3>
+            <p class="ws-platform-opening" id="ws-platform-opening"></p>
+            <p class="ws-platform-story" id="ws-platform-story"></p>
+            <p class="ws-platform-target" id="ws-platform-target"></p>
+            <div class="ws-actions">
+              <button class="ws-action ws-depart-btn" id="ws-depart" type="button" data-hover>让这一班发车 ⟶</button>
+              <button class="ws-action" id="ws-revise" type="button" data-hover>撤回改班</button>
+            </div>
+          </div>
+          <p class="branch-response ws-response" id="four-season-platform-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+      <!-- v103 第一幕：收不到影子的照相馆 -->
+      <section class="scene scene-branch scene-shadowless-photo-studio" id="scene-shadowless-photo-studio" data-scene="shadowless-photo-studio" data-title="Goddead — 收不到影子的照相馆" aria-label="收不到影子的照相馆">
+        <div class="scene-body branch-body ph-studio-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">21α / 摄影 · SHADOWLESS PHOTOGRAPHY</p>
+            <h2 class="sec-title">收不到影子的照相馆</h2>
+            <p class="sec-desc">四季已经赴约，影子却没有下车。候车亭旁的照相馆还收底片：镜头里没有人，地上的影子却会随着灯光移动。</p>
+            <blockquote class="ph-premise-quote">“请站在你缺席的位置，再拍一次。”</blockquote>
+          </header>
+          <figure class="branch-figure ph-figure" id="ph-studio-figure" hidden>
+            <img class="branch-img ph-img" data-src="assets/v103-shadowless-photo-studio.webp" alt="收不到影子的照相馆：老式大画幅暗木相机静静伫立在乳白纱幕前，空置的靠背椅斜对镜头，地面留有微弱灯晕" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+          <div class="ph-hall-endings reveal" id="ph-studio-endings">
+            <ul class="ph-endings-list" id="ph-studio-endings-list" hidden></ul>
+          </div>
+          <p class="ph-note reveal" id="ph-studio-note" hidden></p>
+          <p class="branch-response ph-response" id="shadowless-photo-studio-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开收不到影子的照相馆">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+            <a class="ph-print-link" id="ph-studio-print-link" href="#" hidden data-hover>回到照片签收处 ⟶</a>
+            <button class="ph-action" id="ph-continue" type="button" hidden data-hover>继续这一卷底片 ⟶</button>
+            <button class="ph-action" id="ph-new" type="button" hidden data-hover>新拍一卷底片 ⟶</button>
+          </nav>          <div class="ah-entry ah-studio-entry reveal">
+            <button class="ah-entry-btn ah-entry-studio-btn" id="ah-entry-studio" type="button" hidden data-hover>四张照片之后的住客钥匙 · KEYS TO THE WAKE HOTEL ⟶</button>
+            <p class="ah-note" id="ah-entry-note-studio" hidden></p>
+            <p class="ah-response" id="ah-entry-response-studio" aria-live="polite" hidden></p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- v103 第二幕：双重曝光取景台 -->
+      <section class="scene scene-branch scene-double-exposure-camera" id="scene-double-exposure-camera" data-scene="double-exposure-camera" data-title="Goddead — 双重曝光取景台" aria-label="双重曝光取景台">
+        <div class="scene-body branch-body ph-camera-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">21β / 取景 · DOUBLE EXPOSURE CAMERA</p>
+            <h2 class="sec-title">双重曝光取景台</h2>
+            <p class="sec-desc">站位自 1 至 5 展开。左灯将影子推向右侧一格，右灯将影子推向左侧一格。拍下两张底片，组合成真实的叠印。</p>
+          </header>
+          <figure class="branch-figure ph-figure ph-camera-figure" id="ph-camera-figure" hidden>
+            <div class="ph-viewfinder-overlay-container ph-camera-viewfinder-container">
+              <img class="branch-img ph-img" data-src="assets/v103-double-exposure-camera.webp" alt="双重曝光取景台：相机磨砂毛玻璃后的取景视野，中央为乳白色空白摄影幕布与标尺，周围陈列相机、灯具与摄影工具" width="1536" height="1024" loading="lazy" decoding="async">
+              <div class="ph-viewfinder-plane ph-camera-plane" id="ph-camera-viewfinder" aria-hidden="true">
+                <div class="ph-ruler-track" id="ph-camera-ruler"></div>
+              </div>
+            </div>
+          </figure>
+          <div class="ph-panel ph-camera-panel reveal" id="ph-camera-panel" hidden>
+            <div class="ph-readouts" id="ph-camera-readouts" aria-live="polite"></div>
+            <div class="ph-controls-group ph-position-group" role="group" aria-label="站位选择（1至5）">
+              <span class="ph-group-label">选择站位：</span>
+              <div class="ph-btn-row ph-pos-btn-row">
+                <button class="ph-pos-btn" id="ph-pos-1" type="button" data-hover>站位 1</button>
+                <button class="ph-pos-btn" id="ph-pos-2" type="button" data-hover>站位 2</button>
+                <button class="ph-pos-btn" id="ph-pos-3" type="button" data-hover>站位 3</button>
+                <button class="ph-pos-btn" id="ph-pos-4" type="button" data-hover>站位 4</button>
+                <button class="ph-pos-btn" id="ph-pos-5" type="button" data-hover>站位 5</button>
+              </div>
+            </div>
+            <div class="ph-controls-group ph-light-group" role="group" aria-label="灯位选择（左灯或右灯）">
+              <span class="ph-group-label">选择灯位：</span>
+              <div class="ph-btn-row ph-light-btn-row">
+                <button class="ph-light-btn" id="ph-light-left" type="button" data-hover>左灯（影偏右+1）</button>
+                <button class="ph-light-btn" id="ph-light-right" type="button" data-hover>右灯（影偏左-1）</button>
+              </div>
+            </div>
+            <div class="ph-slots-container" role="region" aria-label="底片暗盒两槽">
+              <div class="ph-slot-card" id="ph-slot-card-0">
+                <button class="ph-plate-slot-btn" id="ph-plate-slot-0" type="button" data-hover>
+                  <span class="ph-slot-badge">底片 1</span>
+                  <span class="ph-plate-caption" id="ph-plate-caption-0">底片 1：[空白未曝光]</span>
+                </button>
+                <div class="ph-plate-preview" id="ph-plate-preview-0" aria-hidden="true"></div>
+              </div>
+              <div class="ph-slot-card" id="ph-slot-card-1">
+                <button class="ph-plate-slot-btn" id="ph-plate-slot-1" type="button" data-hover>
+                  <span class="ph-slot-badge">底片 2</span>
+                  <span class="ph-plate-caption" id="ph-plate-caption-1">底片 2：[空白未曝光]</span>
+                </button>
+                <div class="ph-plate-preview" id="ph-plate-preview-1" aria-hidden="true"></div>
+              </div>
+            </div>
+            <div class="ph-camera-actions">
+              <button class="ph-action ph-shutter-btn" id="ph-shutter" type="button" data-hover>按下快门 · 曝光当前槽 ⟶</button>
+              <button class="ph-action ph-erase-btn" id="ph-erase-selected" type="button" data-hover>擦除所选底片</button>
+              <button class="ph-action ph-swap-btn" id="ph-swap-plates" type="button" data-hover>互换两张顺序</button>
+              <button class="ph-action ph-example-toggle-btn" id="ph-example-btn" type="button" data-hover>查看几何范例</button>
+            </div>
+            <div class="ph-example-panel" id="ph-example-panel" hidden>
+              <h4 class="ph-example-title" id="ph-example-title"></h4>
+              <p class="ph-example-note" id="ph-example-note"></p>
+            </div>
+            <p class="ph-camera-hint" id="ph-camera-hint"></p>
+            <div class="ph-nav-actions">
+              <button class="ph-action ph-preview-proceed-btn" id="ph-preview-btn" type="button" data-hover>去暗房叠印 ⟶</button>
+              <button class="ph-action ph-abandon-btn" id="ph-abandon" type="button" data-hover>收起这一卷底片</button>
+            </div>
+          </div>
+          <p class="branch-response ph-response" id="double-exposure-camera-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <!-- v103 第三幕：未收影暗房 -->
+      <section class="scene scene-branch scene-unreceived-shadow-darkroom" id="scene-unreceived-shadow-darkroom" data-scene="unreceived-shadow-darkroom" data-title="Goddead — 未收影暗房" aria-label="未收影暗房">
+        <div class="scene-body branch-body ph-darkroom-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">21γ / 暗房 · UNRECEIVED SHADOW DARKROOM</p>
+            <h2 class="sec-title">未收影暗房</h2>
+            <p class="sec-desc">暗红安全灯下，两张底片浸在显影液中彼此渗透。两道影子与缺席的空位叠印为一张唯一的照片。</p>
+          </header>
+          <figure class="branch-figure ph-figure ph-darkroom-figure" id="ph-darkroom-figure" hidden>
+            <div class="ph-viewfinder-overlay-container ph-darkroom-viewfinder-container">
+              <img class="branch-img ph-img" data-src="assets/v103-unreceived-shadow-darkroom.webp" alt="未收影暗房：暗红色安全灯照亮中央空白浅色曝光板与显影托盘，四周环绕悬挂夹与摄影暗房器材" width="1536" height="1024" loading="lazy" decoding="async">
+              <div class="ph-viewfinder-plane ph-darkroom-plane" id="ph-darkroom-viewfinder" aria-hidden="true">
+                <div class="ph-ruler-track" id="ph-darkroom-ruler"></div>
+              </div>
+            </div>
+          </figure>
+          <div class="ph-panel ph-darkroom-panel reveal" id="ph-darkroom-panel" hidden>
+            <div class="ph-darkroom-details">
+              <h3 class="ph-darkroom-title" id="ph-darkroom-title"></h3>
+              <p class="ph-darkroom-category" id="ph-darkroom-category"></p>
+              <div class="ph-darkroom-plates-summary">
+                <p class="ph-plate-summary-text" id="ph-darkroom-plate-1"></p>
+                <p class="ph-plate-summary-text" id="ph-darkroom-plate-2"></p>
+              </div>
+              <blockquote class="ph-darkroom-aftertaste" id="ph-darkroom-aftertaste"></blockquote>
+              <p class="ph-darkroom-story" id="ph-darkroom-story"></p>
+              <p class="ph-darkroom-target" id="ph-darkroom-target"></p>
+            </div>
+            <div class="ph-darkroom-actions">
+              <button class="ph-action ph-print-btn" id="ph-print" type="button" data-hover>叠印并寄出照片 ⟶</button>
+              <button class="ph-action ph-revise-btn" id="ph-revise" type="button" data-hover>撤回重新取景</button>
+            </div>
+          </div>
+          <p class="branch-response ph-response" id="unreceived-shadow-darkroom-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+      <!-- v104 第一幕：替别人醒来的旅馆 -->
+      <section class="scene scene-branch scene-wake-for-another-hotel" id="scene-wake-for-another-hotel" data-scene="wake-for-another-hotel" data-title="Goddead — 替别人醒来的旅馆" aria-label="替别人醒来的旅馆">
+        <div class="scene-body branch-body ah-hotel-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">22α / 旅馆 · WAKE FOR ANOTHER HOTEL</p>
+            <h2 class="sec-title">替别人醒来的旅馆</h2>
+            <p class="sec-desc">照片已经寄到，住客却睡在另一人的清晨里。旅馆只剩三间房：1 号是你的空床，2 号住着从未见面的旅人，3 号留给没有登记名字的人。前台没有叫醒服务，只有一张便条：“清晨不能增加，只能向隔壁借一刻。”</p>
+            <blockquote class="ah-premise-quote">“三钟读数之和，始终是六的倍数。”</blockquote>
+          </header>
+          <figure class="branch-figure ah-figure" id="ah-hotel-figure" hidden>
+            <img class="branch-img ah-img" data-src="assets/v104-wake-for-another-hotel.webp" alt="替别人醒来的旅馆：深木质前台柜台上摊开空白住客簿与黄铜台钟，微光自蓝夜走廊尽头照向三把房门钥匙" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+          <div class="ah-hall-endings reveal" id="ah-hotel-endings">
+            <ul class="ah-endings-list" id="ah-hotel-endings-list" hidden></ul>
+          </div>
+          <p class="ah-note reveal" id="ah-hotel-note" hidden></p>
+          <p class="branch-response ah-response" id="wake-for-another-hotel-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开替别人醒来的旅馆">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+            <a class="ah-wake-link" id="ah-active-wake-link" href="#" hidden data-hover>回到晨铃签收处 ⟶</a>
+            <button class="ah-action" id="ah-continue" type="button" hidden data-hover>继续调钟 ⟶</button>
+            <button class="ah-action" id="ah-new" type="button" hidden data-hover>新住一夜 ⟶</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v104 第二幕：借晨梦钟房 -->
+      <section class="scene scene-branch scene-borrowed-dawn-clockroom" id="scene-borrowed-dawn-clockroom" data-scene="borrowed-dawn-clockroom" data-title="Goddead — 借晨梦钟房" aria-label="借晨梦钟房">
+        <div class="scene-body branch-body ah-clockroom-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">22β / 梦钟 · BORROWED DAWN CLOCKROOM</p>
+            <h2 class="sec-title">借晨梦钟房</h2>
+            <p class="sec-desc">三座铜钟对应 1、2、3 号房间。每座梦钟读数自 0 至 5。借出一刻的房间退一格（-1 mod 6），收到一刻的房间进一格（+1 mod 6）。只有停在 0 的房间，早晨才会推开门扇敲响晨铃。</p>
+          </header>
+          <figure class="branch-figure ah-figure ah-clockroom-figure" id="ah-clockroom-figure" hidden>
+            <img class="branch-img ah-img" data-src="assets/v104-borrowed-dawn-clockroom.webp" alt="借晨梦钟房：蓝夜铜质梦钟房内陈列着三座精密黄铜钟盘与联动连杆，蓝调冷光穿过窗棂洒在打磨光洁的操作台面" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+          <div class="ah-panel ah-clockroom-panel reveal" id="ah-clockroom-panel" hidden>
+            <div class="ah-clocks-display" id="ah-clockroom-clocks" aria-live="polite"></div>
+            <div class="ah-connections-box" id="ah-clockroom-connections" aria-live="polite"></div>
+            <p class="ah-loan-note" id="ah-loan-note"></p>
+            <div class="ah-controls-group ah-borrow-group" role="group" aria-label="借刻动作">
+              <span class="ah-group-label">定向借刻（六项原子借刻操作）：</span>
+              <div class="ah-btn-row ah-borrow-btn-row">
+                <button class="ah-action ah-borrow-btn" id="ah-borrow-0-1" type="button" data-hover>1号借给2号（1退/2进）</button>
+                <button class="ah-action ah-borrow-btn" id="ah-borrow-0-2" type="button" data-hover>1号借给3号（1退/3进）</button>
+                <button class="ah-action ah-borrow-btn" id="ah-borrow-1-0" type="button" data-hover>2号借给1号（2退/1进）</button>
+                <button class="ah-action ah-borrow-btn" id="ah-borrow-1-2" type="button" data-hover>2号借给3号（2退/3进）</button>
+                <button class="ah-action ah-borrow-btn" id="ah-borrow-2-0" type="button" data-hover>3号借给1号（3退/1进）</button>
+                <button class="ah-action ah-borrow-btn" id="ah-borrow-2-1" type="button" data-hover>3号借给2号（3退/2进）</button>
+              </div>
+            </div>
+            <div class="ah-summary-box" id="ah-clockroom-summary" aria-live="polite"></div>
+            <div class="ah-tool-actions">
+              <button class="ah-action ah-reset-btn" id="ah-reset" type="button" data-hover>拨回入住时刻 [3, 2, 1]</button>
+              <button class="ah-action ah-example-btn" id="ah-example-btn" type="button" data-hover>查看梦钟范例</button>
+            </div>
+            <div class="ah-example-panel" id="ah-example-panel" hidden>
+              <p class="ah-example-note" id="ah-example-note"></p>
+            </div>
+            <div class="ah-nav-actions">
+              <button class="ah-action ah-preview-proceed-btn" id="ah-preview-btn" type="button" data-hover>前往共用清晨的回廊 ⟶</button>
+              <button class="ah-action ah-abandon-btn" id="ah-abandon" type="button" data-hover>收起钥匙回前台</button>
+            </div>
+          </div>
+          <p class="branch-response ah-response" id="borrowed-dawn-clockroom-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <!-- v104 第三幕：共用清晨的回廊 -->
+      <section class="scene scene-branch scene-shared-morning-veranda" id="scene-shared-morning-veranda" data-scene="shared-morning-veranda" data-title="Goddead — 共用清晨的回廊" aria-label="共用清晨的回廊">
+        <div class="scene-body branch-body ah-veranda-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">22γ / 回廊 · SHARED MORNING VERANDA</p>
+            <h2 class="sec-title">共用清晨的回廊</h2>
+            <p class="sec-desc">长廊一侧三扇帷帘门紧闭，晨光透过格窗斜照地面。冻结的三座钟面已落定，谁的房间推开帘门醒来，早晨便被谁认领。</p>
+          </header>
+          <figure class="branch-figure ah-figure ah-veranda-figure" id="ah-veranda-figure" hidden>
+            <img class="branch-img ah-img" data-src="assets/v104-shared-morning-veranda.webp" alt="共用清晨的回廊：长廊右侧挂着三道深色门帘对应三个房间，左侧长条格子窗透进清晨天光，回廊前摆放三把等待推开的门钥匙" width="1536" height="1024" loading="lazy" decoding="async">
+          </figure>
+          <div class="ah-panel ah-veranda-panel reveal" id="ah-veranda-panel" hidden>
+            <div class="ah-clocks-display" id="ah-veranda-clocks" aria-live="polite"></div>
+            <div class="ah-veranda-details">
+              <h3 class="ah-veranda-summary" id="ah-veranda-summary"></h3>
+              <p class="ah-veranda-awake" id="ah-veranda-awake"></p>
+            </div>
+            <div class="ah-veranda-actions">
+              <button class="ah-action ah-wake-btn" id="ah-wake" type="button" data-hover>敲响晨铃 · 寄出这一夜清晨 ⟶</button>
+              <button class="ah-action ah-revise-btn" id="ah-revise" type="button" data-hover>撤回调钟重新借刻</button>
+            </div>
+          </div>
+          <p class="branch-response ah-response" id="shared-morning-veranda-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
       <!-- 隐藏幕 · 第九条 -->
       <section class="scene scene-ninth" id="scene-ninth" data-scene="ninth" data-title="Goddead — ？？？" aria-label="第九条">
         <figure class="ninth-figure" role="img" aria-label="一道不该存在的裂口，底部有一扇错误的窄门">
@@ -8565,7 +9224,18 @@
         <a href="#hearing-of-the-last-road" id="hearing-of-the-last-road-link" hidden data-hover>17γ / 末路听证</a>
         <a href="#wake-hall" id="wake-hall-link" hidden data-hover>18α / 百夜灵堂</a>
         <a href="#card-altar" id="card-altar-link" hidden data-hover>18β / 翻牌供桌</a>
-        <a href="#hearing-of-the-hundredth-night" id="hearing-of-the-hundredth-night-link" hidden data-hover>18γ / 百夜听证</a>
+        <a href="#hearing-of-the-hundredth-night" id="hearing-of-the-hundredth-night-link" hidden data-hover>18γ / 百夜听证</a>      <a class="menu-link dw-nav-link" id="dawn-weaving-mill-link" href="#dawn-weaving-mill" hidden data-hover>黎明织造厂</a>
+      <a class="menu-link dw-nav-link" id="day-night-loom-link" href="#day-night-loom" hidden data-hover>昼夜织机</a>
+      <a class="menu-link dw-nav-link" id="sky-cloth-drying-terrace-link" href="#sky-cloth-drying-terrace" hidden data-hover>天际晾布台</a>
+      <a class="menu-link ws-nav-link" id="weatherless-bus-shelter-link" href="#weatherless-bus-shelter" hidden data-hover>没有天气的候车亭</a>
+      <a class="menu-link ws-nav-link" id="season-dispatch-board-link" href="#season-dispatch-board" hidden data-hover>四季排班牌</a>
+      <a class="menu-link ws-nav-link" id="four-season-platform-link" href="#four-season-platform" hidden data-hover>四季站台</a>
+      <a class="menu-link ph-nav-link" id="shadowless-photo-studio-link" href="#shadowless-photo-studio" hidden data-hover>收不到影子的照相馆</a>
+      <a class="menu-link ph-nav-link" id="double-exposure-camera-link" href="#double-exposure-camera" hidden data-hover>双重曝光取景台</a>
+      <a class="menu-link ph-nav-link" id="unreceived-shadow-darkroom-link" href="#unreceived-shadow-darkroom" hidden data-hover>未收影暗房</a>      <a class="menu-link ah-nav-link" id="wake-for-another-hotel-link" href="#wake-for-another-hotel" hidden data-hover>替别人醒来的旅馆</a>
+      <a class="menu-link ah-nav-link" id="borrowed-dawn-clockroom-link" href="#borrowed-dawn-clockroom" hidden data-hover>借晨梦钟房</a>
+      <a class="menu-link ah-nav-link" id="shared-morning-veranda-link" href="#shared-morning-veranda" hidden data-hover>共用清晨的回廊</a>
+
 
       <a href="#three-person-republic-court" id="three-person-republic-court-link" hidden data-hover>04β / 三人共和国</a>
       <a href="#remembrance" data-hover>04 / 痕迹</a>
@@ -8574,6 +9244,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=100"></script>
+    <script src="script.js?v=104"></script>
   </body>
 </html>

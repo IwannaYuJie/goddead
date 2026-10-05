@@ -4,13 +4,19 @@ Static landing page for [goddead.com](https://goddead.com).
 
 ## Current Experience
 
-当前实现基线为 **v100「百夜灵堂 / WAKE OF THE HUNDREDTH NIGHT」**：全站共 223 个 hash 场景，静态资源缓存标记为 `v=100`。v100 在 v99 三项裁定集齐后开放 3 个新场景：焚献炉 / 交换台 / 无主投递所送来的三副供牌，在翻牌供桌上守一更 / 二更 / 三更（4 / 6 / 8 对），一次翻两张，一样的配上，配齐后上香；供牌送回三个房间签收，三副供牌、三更都守过即开百夜听证会。独立键 `goddead_v100_hundredth_wake`。自 v98.1 起痕迹室的图鉴默认折叠，只展开「下一步」指向的那一章。v91–v99 见 `docs/` 下对应设计文档。
+当前实现基线为 **v104「替别人醒来的旅馆 / WAKE FOR ANOTHER HOTEL」**（本地实装，尚未发布）：全站共 235 个 hash 场景，静态资源缓存标记为 `v=104`。v104 在 v103 四项照相馆照片集齐且上游无在途/未返相片时开放 3 个新场景：`wake-for-another-hotel`（替别人醒来的旅馆）、`borrowed-dawn-clockroom`（借晨梦钟房）、`shared-morning-veranda`（共用清晨的回廊）。钟房设有三座 0..5 刻度梦钟（分别对应 1 号你的空床、2 号从未见面的旅人、3 号没有登记名字的人，初始刻度 `[3, 2, 1]`），支持 6 种定向借刻操作，保持模 6 和为 0 不变量并在 36 种合法状态中完全可达；依零刻度（晨门）数量与归属严格派生 4 类结局（20/5/10/1 状态分布）并送往旧场景（门外 / 痕迹室 / 无终局画廊）签收。三入口支持门外、痕迹室与照相馆。状态只读 v103，独立存储键 `goddead_v104_wake_for_another_hotel`，集齐四结局后显露 v105「只出售昨日的早餐铺」文案钩子（未实装章节）。
 
-完整玩家路线、支线网、v63-v100 解锁链与 v90–v100 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
+历史基线包括 **v103「收不到影子的照相馆 / SHADOWLESS PHOTO STUDIO」**：全站共 232 个 hash 场景，静态资源缓存标记为 `v=103`。v103 在 v102 三项候车亭结局集齐且上游无在途/未返车票时开放 3 个新场景：`shadowless-photo-studio`（收不到影子的照相馆）、`double-exposure-camera`（双重曝光取景台）、`unreceived-shadow-darkroom`（未收影暗房）。双重曝光取景台提供 5 个站位与左右打光生成两次曝光底片，依人与人、影与影的重合/分离几何关系纯算法派生 4 种结局（缺席者也有了合影 / 一个人带走两道影子 / 影子替你出席 / 谁也没有被框住）并送往 3 个旧场景目标（门外 / 痕迹室 / 无终局画廊）签收。三入口支持门外、痕迹室与候车亭。状态只读 v102，独立存储键 `goddead_v103_shadowless_photography`，集齐四结局且照片送返后开放 v104「替别人醒来的旅馆」三入口。
+
+历史章节 **v102「没有天气的候车亭 / WEATHERLESS BUS SHELTER」**（全站 229 个场景，静态资源 `v=102`）机制完整保留：v101 织造三结局集齐后开放 3 个场景（`weatherless-bus-shelter`、`season-dispatch-board`、`four-season-platform`），通过 4 季车票与 4 到站槽位的 24 种全排列派生三结局送达旧场景签收，独立存储键 `goddead_v102_weatherless_shelter`，其痕迹室图鉴后已正式接入 v103 照相馆入口。
+
+前一章历史实现 **v101「黎明织造厂 / DAWN WEAVING MILL」**（全站 226 个场景，静态资源 `v=101`）机制完整保留：v100 `wkCourtEligible` 且三项百夜裁定集齐后开放 3 个场景（`dawn-weaving-mill`、`day-night-loom`、`sky-cloth-drying-terrace`）。九格织机通过原生按钮与 4 种辅助模式完成晨光/夜线左右独立连通派生三结局，经天际晾布台预览送往门外/痕迹室/无终局画廊签收，双入口支持门外与痕迹室，独立存储键 `goddead_v101_dawn_weaving`。v91–v101 见 `docs/` 对应设计文档。
+
+完整玩家路线、支线网、v63-v104 解锁链与 v90-v104 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
 
 The homepage is **The Living Shrine**, a hash-routed, scene-by-scene exploration game. Visitors knock three times at the sealed threshold — now a photographed bureau door — and on the third knock the door visually opens into a deep black-gold corridor before the visitor is pulled through into the next room; each completed action thereafter advances the ritual automatically.
 
-The flow is auto-advancing: three knocks open the door and lead into the **Visitor Protocol**. Rule one reaches the **Scripture Corridor**; rules two through four and seven enter the v31 forecourt weave; rule five enters the return audit, rule six the midnight callback, and rule eight the proxy-admission window. Reading three crooked fragments reveals the **Third Night-Watch Room**; covering the 05:02 log entry and attempting sign-out unlock the **Echo Switchboard**; listening to the first three callback lines and connecting the fourth opens the **Dead Letter Office**; archiving three returns and signing the blank receipt spawn the **Divine Name Cancellation Office**; searching `GODDEAD` and refusing cancellation rewrite the refusal as an appointment at the **Acting Deity Desk**; pushing the presence switch to 100% opens the **Offering** furnace; offering a non-empty prayer ignites the incinerator and auto-advances into **The Sacred Reliquary Vault**; auditing three remnants and stamping the final seal advances the visitor into **Remembrance**, where the page records what it remembers. Remembrance then acts as the hub for the v28 endings and the sequential v63-v90 post-ending chapters. A hidden **Ninth Rule** remains accessible through the protocol anomaly and does not auto-cycle.
+The flow is auto-advancing: three knocks open the door and lead into the **Visitor Protocol**. Rule one reaches the **Scripture Corridor**; rules two through four and seven enter the v31 forecourt weave; rule five enters the return audit, rule six the midnight callback, and rule eight the proxy-admission window. Reading three crooked fragments reveals the **Third Night-Watch Room**; covering the 05:02 log entry and attempting sign-out unlock the **Echo Switchboard**; listening to the first three callback lines and connecting the fourth opens the **Dead Letter Office**; archiving three returns and signing the blank receipt spawn the **Divine Name Cancellation Office**; searching `GODDEAD` and refusing cancellation rewrite the refusal as an appointment at the **Acting Deity Desk**; pushing the presence switch to 100% opens the **Offering** furnace; offering a non-empty prayer ignites the incinerator and auto-advances into **The Sacred Reliquary Vault**; auditing three remnants and stamping the final seal advances the visitor into **Remembrance**, where the page records what it remembers. Remembrance then acts as the hub for the v28 endings and the sequential v63-v104 post-ending chapters. A hidden **Ninth Rule** remains accessible through the protocol anomaly and does not auto-cycle.
 
 Three optional branch rooms (v29) hang off the corridor's fragments. The first active click on the 回声 fragment opens the **Echo Archive**, the 血管 fragment the **Vein Maintenance Well**, and the 忏悔 fragment the **Confession Weighing Room** — each after a ~0.7–1.0 s feedback beat (~0.3 s under reduced-motion), with the main-line auto-advance cancelled in the branch's favour and no second continue button anywhere. Every room holds three focusable hotspots: the archive's receivers return to the threshold or the corridor, and the 03:17 bell transfers deeper into the **Distortion Transfer Chamber**; the well's valves run downstream to the corridor, upstream to the protocol, or open the **Reverse-Flow Pump Room** behind the isolation valve; the weighing room's pans confess into the protocol or the corridor, while refusing confession is filed into the **Nameless Ledger Vault**. Branches are always optional, never a hard gate on the main line; visited rooms gain re-entry buttons in the corridor and directory entries that survive reloads, all recorded in a fault-tolerant `goddead_v29_branches` state that never touches main-line progress. Remembrance gains a single branch-memory line — still eight stat cards.
 
@@ -101,6 +107,10 @@ This repository is intended to deploy through Cloudflare Pages.
 ```bash
 node --check script.js
 node tests/site.test.mjs
+node --test tests/v101.test.mjs
+node --test tests/v102.test.mjs
+node --test tests/v103.test.mjs
+node --test tests/v104.test.mjs
 git diff --check
 ```
 
@@ -254,6 +264,13 @@ v80 adds four scenes (`#unfinished-thought-asylum`, `#interruption-trace-archive
 - `docs/V84WitnessProtectionForInnocentDesign.md`: v84 无罪证人保护院 / WITNESS PROTECTION FOR THE INNOCENT；本地实装与独立验收已完成。
 - `docs/V85OrphanedFactClaimOfficeDesign.md`: v85 孤事实认领处 / CLAIM OFFICE FOR ORPHANED FACTS；本地实装与独立验收已完成。
 - `docs/V86ExistenceRenunciationRegistryDesign.md` 至 `docs/V90CauselessConsequenceRefugeeAuthorityDesign.md`：v86-v90 的冻结设计、状态合同、素材清单与验收边界。
+- `docs/V101DawnWeavingDesign.md`: v101 黎明织造厂 / DAWN WEAVING MILL；设计与验收已完成。
+- `docs/V102WeatherlessShelterDesign.md`: v102 没有天气的候车亭 / WEATHERLESS BUS SHELTER；设计、素材清单与验收边界。
+- `docs/V102ImagePrompts.md`: v102 三张内置生图提示词与运行图记录。
+- `design-qa-evidence/v102-computer-use-20261002.md`: v102 真实 Computer Use 验收与状态恢复记录。
+- `docs/V104WakeForAnotherHotelDesign.md`: v104 替别人醒来的旅馆设计规范与状态机闭环。
+- `docs/V104ImagePrompts.md`: v104 场景提示词、画风锁与验收标准。
+- `design-qa-evidence/v104-computer-use-20261002.md`: v104 真实 Computer Use 验收与状态恢复记录。
 
 ## v88 未发生事件拍卖行 / AUCTION HOUSE FOR EVENTS THAT NEVER HAPPENED (2026-08-30)
 

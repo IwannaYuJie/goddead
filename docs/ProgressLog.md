@@ -1235,3 +1235,43 @@
 - 场景图：本机 Codex CLI 生成三张原画，提示词与哈希见 `docs/V100ImagePrompts.md`。
 - 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 18389 assertions passed`。
 - 浏览器：真实点击翻错一对、再配齐 4 对并上香，送到余响交换台签收。
+## 2026-10-02 - v101 黎明织造厂实装与维护验证
+
+- 研发分工与范围：Codex 负责概念设计、内置生图与 Computer Use 浏览器实测；gemini-3.7-flash-high 独立负责纯前端逻辑、自动化测试、CSS 响应式与工程实现文档；本地工作区预览验证，未 commit / push / deploy。
+- 新增 `dawn-weaving-mill`、`day-night-loom`、`sky-cloth-drying-terrace` 3 个场景，场景总数 223 → 226，静态资源缓存标记 `v=101`。
+- 新玩法“九格昼夜织机”：9 个原生按钮支持键盘 Tab 聚焦与 Enter / Space 操作，提供 4 种辅助编辑模式；严格左列至右列四向连通（无对角/跨行）直接派生三种结局（第一百零一天 / 不用天亮的夜 / 昼夜从此分居），分别送往门外、痕迹室、无终局画廊签收；三结局集齐后在痕迹室图鉴（`#dw-hook`）显露 v102 预留钩子。
+- 状态管理：独立键 `goddead_v101_dawn_weaving`（严格归一化、只读 v100、在途 pending 闭锁、每结局独立记录 latest 图案）；试晒/拆回/放弃不计入结局与 runs；重复结局仅累加 runs。
+- 门禁与自动化测试：
+  - 语法与格式门禁：`node --check script.js`、`node --check tests/v101.test.mjs`、`git diff --check` 通过。
+  - 主测试套件：`node tests/site.test.mjs` 输出 18415 assertions passed。
+  - v101 专用套件：`node tests/v101.test.mjs` 12 组测试全部通过，含全 3^9=19683 种图案穷举验证（14793 无通路、2351 仅光、2351 仅夜、188 双通）、生产模块与 resolveScene 在 upstream/DOM/timer 桩及模拟 `e.isTrusted` 标志下验证 10 种冷快照捕获（覆盖 7 种 pending 状态）与时序。
+  - 独立模块审计：测试套件外由独立 agent 审计验证 501 assertions / 15 组 / 14 领域函数级断言通过（非全页面 bootstrap）。
+- 边界修复与样式重构：
+  - v100 维护修复：修正 cawk 选择器与 light/incense 映射；在 `Page.reload(ignoreCache:true)` 消除浏览器旧脚本缓存后，确认 abandon 即时反馈→返回百夜灵堂、目录 card-altar-link 正确（仅限此项边界验证，未跑全 9 种仪式与 3 种裁定结局）。
+  - v101 移动端修复：解决 390×844 视口下状态栏重叠，重构为正常流位于图下，九格 64.16px、下行 515.20–579.36px、状态栏 606.37+632.76px，晾布台 192.66px 正方形预览完全居于 figure 内，页面 0 横向溢出。
+- 场景原画：按 `docs/V101ImagePrompts.md` 由 Codex 内置生图生成 3 张 1536×1024 原画并转 WebP（每张 <300KB），按需懒加载。
+- Computer Use 实测（单 Chrome 窗口/单标签页）：实测验证 6 格原生连通 `lll...nnn` 试晒预览、天际晾布台双通结局故事、送出至无终局画廊；在签收后尚未返回（等待 courier 回执）状态下直接导航至织造厂确认新织造禁用并显露精确 `#unending-gallery` 找回链接；点击链接回画廊完成签收并带着受信任回执返回织造厂；完整三条生产结局路径（光 / 夜 / 双通）已全数贯通，`endings.length=3`、三结局全部点亮且 `latestWeaveByEnding` 各保留对应最新光图案/最新夜图案/最新双通图案；第四次实操送出不同光图案（`lll......`）完成签收并带回执返回，验证 `weaveRuns` 累加至 4、`endings.length` 保持 3 且仅最新光图案刷新；实机验证部分填格（`l........`）放弃回厂保留草稿且不增 runs，继续织造成功补齐新光布；还原验证确认删除 22 项 QA 额外键（19 项注入上游种子键+v101+backup+折叠偏好）、原样 21 项存储键经 sortedJSON 比对完全一致恢复，冷重载织机及普通导航织造厂/晾布台均重定向至 `#remembrance` 且无新键注入，清理前曾实测痕迹室织造图鉴 3 项最新图案与【候车亭的晨雾】钩子可见并通过 `#dw-entry-remembrance` 直达黎明织造厂；单标签页视口已重设 1470×779、取消 Network 缓存覆盖并停用 Debugger；三张场景原画 `naturalWidth=1536` 正常加载且控制台警告/报错日志为空；全项证据见 `design-qa-evidence/v101-computer-use-20261002.md`。
+
+## 2026-10-02 - v102 没有天气的候车亭实装与维护验证
+
+- 本次实装由 Codex 完成设计定义、3 张 1536×1024 WebP 配图生成与真实 Computer Use 验证，gemini-3.7-flash-high 完成前端逻辑、自动化测试与维护文档。新增 `weatherless-bus-shelter`（没有天气的候车亭）、`season-dispatch-board`（四季排班牌）与 `four-season-platform`（四季站台）3 个场景，全局唯一哈希场景增至 229 个，版本缓存标升至 `v=102`；全部工作保持本地未发布状态（无 commit/push/deploy，保留未暂存的 v101 与 3 份既有文档），v103《收不到影子的照相馆》仅留文案钩子而不实装章节内容。
+- 四季车票排班牌支持对 4 个原生插槽进行取放、移动、对调、替换与取下（选定“取下”模式后点击已占插槽），示例排班仅供展示而不自动代填。24 种全排列严格划分为 4 种正序（送往门外 threshold）、4 种逆序（送往前一分钟档案井 minute-before-archive）与 16 种乱序（送往无终局陈列廊 unending-gallery）；实际抵达目标场景时计入发车计数并更新最新发车记录，返回始发场景即清除活跃排班；预览、修改与放弃操作保留当前发车次数而不强制归零，发车完成锁定状态、双入口可达性及既有旧场景收据还原均已验证通过。
+- 语法与静态校验全绿（`node --check script.js`、`tests/site.test.mjs`、`tests/v101.test.mjs`、`tests/v102.test.mjs` 及 `git diff --check`）；主测试集 `node tests/site.test.mjs` 达 18422 项断言，`v101.test.mjs` 12/12 保持通过；`v102.test.mjs` 22/22 属于隔离生产模块与连接测试（含 1 组 8 个真实 `sceneInit` 与 v45 上下文用例，其他旧函数显式 NOOP 并打桩上游 getter/DOM/定时器/模拟 `isTrusted`，非全页引导）。另有独立环境审计 519 项断言（14 组 v82–v101 真实 getter 链与实际新模块验证）及 209 种合法部分/完整排班（4180 状态跃迁/24 分类）全部吻合。
+- 真实 Computer Use 仅复用现有单一 Chrome 标签页（80231134），未新建窗口或 Playwright：4 次发车完整触发 3 种不同去向（总发车数达 4，重复正序仅更新最新记录）；原生编辑器、示例、预览、修改、放弃、冷刷新、返回恢复与双入口均通过验证；3 张配图真实 naturalWidth 均为 1536 且体积 <300KB；390×844 移动端 4 个 46.84×44px 插槽无溢出且消除 72px 顶栏遮挡；测试后完整恢复原有的 21 项 localStorage、原 URL（`127.0.0.1:4173/`）与 1470×779 视口，移除 23 项 QA 临时数据；正常发车中仅 v82–v101 的 20 个上游键保持不变，完整状态流转边界详见 QA 报告。
+- 详细设计规格、视觉资产定义与真机验证记录可分别查阅 `docs/V102WeatherlessShelterDesign.md`、`docs/V102ImagePrompts.md` 与 `design-qa-evidence/v102-computer-use-20261002.md`；隔离 22 项测试不声明全页引导（真机覆盖本章三路线与新场景链路，非全量旧章引导上下文），既有并发未决语义保持不变。
+
+## 2026-10-02 - v103「收不到影子的照相馆」实装与真机验证
+
+- Codex 负责设计底稿、内置生图与 Computer Use 验证，gemini-3.7-flash-high 负责前端实现、测试套件与文档同步；实装收不到影子的照相馆（shadowless-photo-studio）、双重曝光取景台（double-exposure-camera）与未收影暗房（unreceived-shadow-darkroom）3 个场景，哈希扩充至 232 个并标记 v=103。
+- 实装 5 站位与左右打光的双重曝光状态机，支持 2 个有序插槽定影/擦除/对调，依据人与人、影与影的几何重合关系纯算法派生 4 种结局（10/10/6/74）并送往 3 个旧场景签收归档。
+- 测试套件全部通过（主测试集 18429 项断言，v101 12 项、v102 22 项、v103 16 项），v103 涵盖真实 resolve/guidehelper 执行与 DOM/定时器隔离桩，独立断言验证覆盖 100 种组合预言机与冷启动快照，sceneInit/bootstrap 仅做源码契约检查。
+- 单标签页真机验证完成 5 次真实寄出（4 种结局全覆盖）、入口跳转、移动端与冷热恢复走查，原有21项raw存档已精确还原、24项QA新增键已撤除、手机视口override已清除回默认。
+- 本地实装里程碑完成但尚未发布/提交/推送/部署，长期推进目标保持活跃，集齐后显露 v104「替别人醒来的旅馆」文案钩子；详情见 docs/V103ShadowlessPhotographyDesign.md、docs/V103ImagePrompts.md 与 design-qa-evidence/v103-computer-use-20261002.md。
+
+## 2026-10-02 - v104 替别人醒来的旅馆实装与端到端验收
+
+- **角色分工与核心实装**：gemini-3.7-flash-high 唯一负责前端代码、测试套件与实现文档编写；Codex 负责设计、内置生图与 Computer Use 实机验收。新增 3 个场景（`wake-for-another-hotel` 替别人醒来的旅馆、`borrowed-dawn-clockroom` 借晨梦钟房、`shared-morning-veranda` 共用清晨的回廊，全站 235 场景，缓存 `v=104`），实现三梦钟 0..5 借刻状态机（模 6 守恒、36 种合法状态全可达、4 类结局 20/5/10/1 派生）与旧目标（门外/痕迹室/画廊）真实签收闭环，独立存储键 `goddead_v104_wake_for_another_hotel`；`assets/` 目录入库 3 张 1536×1024（单张 <300KB）WebP 素材并在画面下方通过原生代码面板呈现钟面与借刻关系。
+- **测试验证与作用域界定**：主命令 18,436 项断言全绿，四章节串行测试共 65 个测试（v101 占 12、v102 占 22、v103 占 16、v104 新增 15 组，65 pass / 0 fail）；测试诚实隔离运行，形式化 22 个虚拟键仅证明自写隔离，另经独立 6,146 模块断言、3,485 页面源码集成断言与 6,892 真实 22 模块上游 getter 链 + 静态 HTML 注册断言（基于 DOM/音频/计时器/isTrusted 等桩边界）；测试采用实际完整 `resolveScene` 源码＋旧依赖显式桩，实际辅助函数源码配合状态/表格/getter 桩，实际 AH 模块与静态 HTML 回调原生按钮挂载基于 DOM/存储/音频/计时器与 isTrusted 模拟（非真实浏览器信任事件）；`sceneInit` 与 `bootstrap` 仅作源码接线契约断言而不作全页 bootstrap 运行时主张，5 种纯内存否定探针变异由独立诊断另行执行拦截验证。
+- **Computer Use 真实 5 晚实机验收**：复用既有 Chrome 实例标签页 80231134，原生完成 5 晚真实游玩（NONE `[3,2,1]`→画廊、SELF `[0,5,1]`→门外、OTHER `[3,3,0]` 3号房→痕迹室、ALL `[0,0,0]`→画廊、OTHER `[3,0,3]` 2号房→痕迹室），验证 5 次运行累计、4 种结局解锁及重复结局仅刷新对应 `latestClocksByEnding`；单独执行 PH start 写入 `ph.pending` 验证照相馆忙碌时旅馆入口禁用且 AH raw 保留；3 个到访场景各自读取图片确认 1536×1024 完整加载，手机视口 390×844 满足控件≥44px、标题避让 72px 导航及横向 0 溢出；控制台 warn/error 为空。
+- **基准状态还原与后续钩子**：验收完成后由 46 项存储严格还原回 21 项基准 raw，仅安全移除白名单内 25 项 QA 键（未调用 `localStorage.clear`）；3 条 locked 深链实测重定向至 `remembrance` 且无新键写入；集齐四结局后显露 v105「只出售昨日的早餐铺」文案钩子（“住客终于醒来，早餐却还停在昨天。”，仅文案未实装）。
+- **发布状态**：所有变更均在本地完成，HEAD 保持在 v100 `952d75c`，未提交、未推送、未部署，无尽扩充请求未宣告完成。详见 `docs/V104WakeForAnotherHotelDesign.md`、`docs/V104ImagePrompts.md` 与 `design-qa-evidence/v104-computer-use-20261002.md`。

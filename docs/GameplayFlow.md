@@ -1,11 +1,11 @@
 # Goddead 当前游玩流程图
 
-版本基线：v100
+版本基线：v104
 
-场景总数：223
+场景总数：235
 关键枢纽：`threshold`（门外）、`corridor`（经文走廊）、`remembrance`（痕迹室）、`unending-gallery`（无终局画廊）
 
-这份文档按玩家实际体验拆成四层：基础主线、门厅支线网、终局后章节链、当前最新 v90–v100。源码里的 223 个场景并不是一条直线；`remembrance` 是后半程章节入口与终审入口的总枢纽，多个旧场景会在新章节中被重新征用为回桥。
+这份文档按玩家实际体验拆成四层：基础主线、门厅支线网、终局后章节链、当前最新 v90–v104。源码里的 235 个场景并不是一条直线；`remembrance` 是后半程章节入口与终审入口的总枢纽，多个旧场景会在新章节中被重新征用为回桥。
 
 ## 1. 一眼看懂整局
 
@@ -189,6 +189,10 @@ flowchart TD
     V97 --> V98[v98 守夜烛台]
     V98 --> V99[v99 引路司]
     V99 --> V100[v100 百夜灵堂]
+    V100 --> V101[v101 黎明织造厂]
+    V101 --> V102[v102 没有天气的候车亭]
+    V102 --> V103[v103 收不到影子的照相馆]
+    V103 --> V104[v104 替别人醒来的旅馆]
 ```
 
 ### 后半程共通玩法
@@ -232,6 +236,10 @@ flowchart TD
 | v98 | 3 烛台 × 3 守法 = 9，再加 3 个裁定 | 三架烛台都守过、三种守法都用过，即开庭；每架烛台要用熄灯谜题点成目标图案才能封灯 | 217 |
 | v99 | 3 路图 × 3 去处 = 9，再加 3 个裁定 | 三张路图都铺过、三个去处都用过，即开庭；每张路图要旋转路砖把入口接到出口才能落定 | 220 |
 | v100 | 3 供牌 × 3 更 = 9，再加 3 个裁定 | 三副供牌都配齐过、三更都守过，即开庭；每局要翻牌配齐所有对子才能上香 | 223 |
+| v101 | 3 真实连通派生结局（全 19683 种合法图案中 4890 种成路） | 依九格光/夜真实连通派生三结局，无人工 9+3 或刷满 19683 限制；成路送出旧场景签收 | 226 |
+| v102 | 3 真实排列派生结局（全 24 种合法全排列中顺 4 / 倒 4 / 分 16） | 四季车票排入四到站槽，依排列数学性质派生三结局，先到天气决定开场；发车送旧场景签收 | 229 |
+| v103 | 4 真实几何派生结局（全 100 种双重曝光组合中 10/10/6/74） | 5站位×左右打光生成两底片，依人/影重合与分离几何派生四结局；暗房打印送旧场景签收 | 232 |
+| v104 | 4 种零刻度派生结局（36 种合法钟态中 20/5/10/1 分布） | 3座0..5钟表借时流转，模6和为0守恒；依零刻度数量与归属派生四结局并送旧场景签收 | 235 |
 
 ### 逐章明细（v63-v90）
 
@@ -620,7 +628,7 @@ v63-v90 中作为回桥目标或终审落点被指向的章节数（同一章同
 | 宽恕填埋场 `forgiveness-landfill` | 1 |
 | 无加害者犯罪现场 `crime-scene-without-offender` | 1 |
 
-## 5. 当前最新章节 v90：无因后果难民署
+## 5. 当前最新章节 v90–v104
 
 ### 解锁
 
@@ -936,6 +944,92 @@ flowchart TD
 
 - 更次：守一更 4 对、守二更 6 对、守三更 8 对；摆法由供牌与更次确定。
 - 开庭条件：三副供牌 x/3、三更 x/3。最短三次。
+
+## 5.11 v101 黎明织造厂
+
+v100 三项百夜裁定集齐且符合开庭资格后开放。本章不再新增三选一法庭，而是从九格织机布料的真实左-右连通直接派生结局。
+
+```mermaid
+flowchart TD
+    T1[门外 threshold: 门缝里的晨光] --> H[黎明织造厂 dawn-weaving-mill]
+    M[痕迹室 remembrance: 晨光织造] --> H
+    H -->|开始新布 / 继续这块布| L[昼夜织机 day-night-loom]
+    L -->|试晒这块布 sample| D[天际晾布台 sky-cloth-drying-terrace]
+    L -->|放弃织造 abandon| H
+    D -->|拆回织机 unweave| L
+    D -->|确认送出 delivery| O{按连通派生目标}
+    O -->|只有光通| S1[门外 threshold · 晨间签收]
+    O -->|只有夜通| S2[痕迹室 remembrance · 晨间签收]
+    O -->|光夜俱通| S3[无终局画廊 unending-gallery · 晨间签收]
+    S1 -->|带着晨间回执 courier-return| H
+    S2 -->|带着晨间回执 courier-return| H
+    S3 -->|带着晨间回执 courier-return| H
+```
+
+- 交互与规则：九格原生按钮支持鼠标点击、Tab 聚焦与 Enter / Space 点击；4 种模式（循环/只铺光/只铺夜/擦除）仅为辅助编辑偏好；每格白名单 `.`（空）、`l`（光）、`n`（夜）；左列（0/3/6）连通右列（2/5/8）四向连通（上下左右，无对角/无跨行）。
+- 状态与落账：试晒（sample）、拆回（unweave）、放弃（abandon）不计入织造次数（`weaveRuns`）与结局收集；无有效通路时试晒按钮禁用。送出到旧目标签收才落账；重复完成同一结局只累加 `weaveRuns` 并刷新该结局的 `latestWeaveByEnding`；新开空白布清空草稿，继续已有草稿保留图案。
+- 派生结局与目标映射：
+  - 只有光通（如 `lll......`）→ `the-hundred-and-first-day-began`（第一百零一天）→ `threshold`
+  - 只有夜通（如 `nnn......`）→ `the-night-learned-to-live-without-dawn`（不用天亮的夜）→ `remembrance`
+  - 光夜俱通（如 `lll...nnn`）→ `day-and-night-lived-apart`（昼夜从此分居）→ `unending-gallery`
+- 集齐三项结局后在痕迹室图鉴（`#dw-hook`）显露 v102「没有天气的候车亭」入口连接（`#ws-entry-remembrance`），原钩子文案保留并真实连通。
+
+## 5.12 v102 没有天气的候车亭（Weatherless Bus Shelter）
+
+- **前置解锁**：只读检查 v101 黎明织造厂三项结局完整（`dawnWeavingUnlocked()` 且 `DW_ENDING_IDS` 三项均收集）；实时可用性额外要求 `dawnWeavingAvailable()`（含 v100 在途检查）、v101 pending 为空且 activeCourier 为空（旧回执需先返回）。
+- **双入口设计**：
+  1. `threshold` 门外「雨还没落下来」独立入口（`#ws-entry-threshold`）；
+  2. `remembrance` 痕迹室 v101 图鉴后的候车亭入口（`#ws-entry-remembrance`），原钩子文案保留并直接可用。
+- **新增 3 个场景**：
+  1. `weatherless-bus-shelter`（没有天气的候车亭）：故事叙述、已有草稿继续 / 新排一班、三种收集结果状态、在途未返回时的精确找回链接；
+  2. `season-dispatch-board`（四季排班牌）：四张车票选择（春雨、盛夏、落叶、霜雪）、4 个原生到站按钮槽位、即时顺序预览与判定、样例说明；
+  3. `four-season-platform`（四季站台）：发车前完整预览、先到天气的故事开场、确认发车或撤回改班。
+- **排班机制**：
+  - 四张车票（春雨、盛夏、落叶、霜雪）点选后点击到站槽位（1–4 站）；支持目标槽位覆盖、已在牌上票的位置移动/交换，以及「取下车票」置空模式；
+  - 不完整草稿仅提示缺失天气，不预填、不判定结局；编辑、改班、放弃与预览均不计发车次数；草稿实时安全持久化；
+  - 样例按钮循环展示三种独立样例（春夏秋冬 / 春冬秋夏 / 春秋夏冬）及其判定说明，不代填、不落草稿、不加收集。
+- **24 种合法全排列与三类结局判定**（环形模4差值判定）：
+  - **顺季循环**（4 种，连续差值均为 +1 mod 4）：派生结局「天气终于上车」（`the-weather-finally-boarded`），送往 `threshold`（门外）签收；
+  - **倒季循环**（4 种，连续差值均为 -1 mod 4）：派生结局「季节退回昨天」（`the-seasons-returned-to-yesterday`），送往 `minute-before-archive`（前一分钟档案井）签收；
+  - **分季班**（16 种，其余所有排列）：派生结局「各过各的季节」（`each-season-found-its-own-stop`），送往 `unending-gallery`（无终局陈列廊）签收。
+  - 依据第一到站季节追加一句独特天气开场（春雨“先到站的春雨在檐下停住。” / 盛夏“盛夏递来一张发热的车票。” / 落叶“第一片落叶替你占好了座位。” / 霜雪“霜雪把没有脚印的路先铺了一遍。”）。
+- **到站签收与回程闭环**：
+  - 站台发车后冻结精确目标与排列，送抵旧目标时 runs 计数 +1、更新 endings 集合与该 ending 的最新排列，写入 activePassenger 并清空草稿；
+  - 三个旧目标呈现独立到站签收面板（保留原有场景布局与按钮），点击「带着车票回候车亭」返回并清除 activePassenger；
+  - 重复发车同种结局仅更新该结局最新送达排列并累加 runs，独特结局仍为 3 种；
+  - 在途未返回时候车亭提供精确 `#target` 找回链接，新排班/继续功能安全闭锁。
+- **旧场景共存与技术边界**：
+  - 在前置章节已完成且无其它历史章节未返/在途前提下，正常串行游览本章保证 20 个上游章节存储键（v82–v101）逐字节不变；在四次真实 Computer Use 调度后，全量 localStorage 快照中未生成 goddead_v45_absent_relief 存储键，其在合法穿梭上下文下的无进入/无写入/无定时器行为由真实 sceneInit 与 v45 模块的独立场景测试验证；
+  - 精确在 sceneInit 阶段跳过 `minute-before-archive` 前一分钟档案井旧 v45 `enterRelief` 调用（避免 markReliefVisited 访问写入与旧 relief-minute 定时器回放（仅凭 lastOutcome 本身不会跳过该旧初始化）；仅当该井为本章合法 depart.pending.target 或 activePassenger 固定目标时跳过，普通旧章节游览保持原 v45 行为）；
+  - 保持 v63 / v85 等既有单场景语义不变，不扩大为全站并发事务系统；
+  - 7 种 pending 状态（`entry`, `start`, `preview`, `revise`, `depart`, `passenger-return`, `abandon`）提供冷刷新恢复支持；
+  - 独立存储键 `goddead_v102_weatherless_shelter`（9 个规范字段）；
+  - 美术采用 3 张 1536×1024 独立 WebP 图片（候车亭、排班牌、站台，3:2 宽高比，lazy 加载且体积均 <300KB），移动端（390×844）按钮尺寸 ≥44px，状态与说明置于图片区下方正常文档流。
+- **后续衔接**：集齐三项结局后在痕迹室与候车亭显露 v103「收不到影子的照相馆」实装入口（`#ph-entry-remembrance` / `#ph-entry-shelter`）。
+
+## 5.13 v103 收不到影子的照相馆（Shadowless Photo Studio）
+
+- 前置解锁要求只读检查 v102 候车亭三项结局集齐且上游无在途车票，提供门外（threshold）、痕迹室（remembrance）与候车亭（weatherless-bus-shelter，#ph-entry-shelter）三处逻辑入口，新增 shadowless-photo-studio、double-exposure-camera（双重曝光取景台）与 unreceived-shadow-darkroom（未收影暗房）3 个场景。
+- 曝光机制基于 5 个站位与左右打光生成底片，支持 2 个有序插槽定影/擦除/对调与样例展示，根据两次曝光的身体与身体、影子与影子重合分离几何判定 4 种派生结局：缺席者也有了合影（10 种，b1=b2 且 s1=s2）、一个人带走两道影子（10 种，b1=b2 且 s1!=s2）、影子替你出席（6 种，b1!=b2 且 s1=s2）、谁也没有被框住（74 种，b1!=b2 且 s1!=s2），分别对应门外、痕迹室与无终局画廊 3 个目标场景。
+- 原生交互支持拍摄快门、擦掉所选底片、交换两张、去暗房预览、撤回重拍与寄出照片，采用规范字段与 7 种 pending 状态维护草稿和冷刷新恢复，仅在寄出签收时累加运行次数与归档，旧场景点击「带着照片回照相馆」完成闭环。
+- 视觉资产包含 3 张 1536x1024 WebP 场景图像（体积 <300KB），移动端按钮尺寸满足要求且状态区域处于正常文档流。
+- 集齐四结局且照片送返（`ph.pending === null` 且 `activePrint === null`）后，在门外（`#ah-entry-threshold`）、痕迹室（`#ah-entry-remembrance`）与照相馆（`#ah-entry-studio`，文案「四张照片之后的住客钥匙 · KEYS TO THE WAKE HOTEL ⟶」）三处开放 v104「替别人醒来的旅馆」入口；设计规范详见 docs/V103ShadowlessPhotographyDesign.md、docs/V103ImagePrompts.md 与 design-qa-evidence/v103-computer-use-20261002.md。
+
+## 5.14 v104「替别人醒来的旅馆」流转规则
+
+- **前置与三入口**：需集齐 v103 四张照相馆照片且照相馆无在途/未返底片（`ph.pending === null` 且 `activePrint === null`）。开放三处原生入口：门外（`#ah-entry-threshold`，位于 `threshold`）、痕迹室（`#ah-entry-remembrance`，位于 `remembrance` 的 `#ah-codex` 内）以及照相馆（`#ah-entry-studio`，位于 `shadowless-photo-studio`）。
+- **核心场景与 6 种定向借刻**：新增 3 个场景（`wake-for-another-hotel` 替别人醒来的旅馆、`borrowed-dawn-clockroom` 借晨梦钟房、`shared-morning-veranda` 共用清晨的回廊）。梦钟房设有三座 0..5 刻度钟表（分别对应 1 号你的空床、2 号从未见面的旅人、3 号没有登记名字的人），初始读数 `[3, 2, 1]`。提供 6 个原生定向借刻按钮（1→2、1→3、2→1、2→3、3→1、3→2），每次借出方退一格（+5 mod 6）、接收方进一格（+1 mod 6）、第三钟不变，严格维持 `(c0 + c1 + c2) % 6 === 0` 守恒，在全部 36 种合法状态中完全可达。示例仅供轮换展示不代填草稿，拨回入住时刻重设 `[3, 2, 1]`。
+- **四类结局派生与送达旧场景**：依停留在 0 刻度（晨门）的房间数量与归属派生 4 类结局，送往对应旧目标场景签收：
+
+| 停在 0 刻度（晨门）的房间 | 结局 ID | 结局名称 | 目标旧场景 |
+| --- | --- | --- | --- |
+| 无房间停 0（20 种） | `dawn-waited-outside-the-doors` | 天亮留在门外 | `unending-gallery` |
+| 仅 1 号房（你的空床）停 0（5 种） | `you-woke-in-a-borrowed-morning` | 你醒在别人的清晨里 | `threshold` |
+| 仅 2 号或 3 号一间房停 0（10 种） | `someone-woke-on-your-behalf` | 有人替你醒来 | `remembrance` |
+| 三间房都停 0（1 种） | `three-rooms-shared-one-dawn` | 三间房共用一次天亮 | `unending-gallery` |
+
+- **签收核算与状态闭环**：预览、编辑、重置、示例与放弃均不计入运行轮次；仅当触发 `wake` 事务实际抵达旧目标签收时，才执行 `runs += 1`、去重记录结局、更新该结局 `latestClocksByEnding`、写入 `activeWake` 并将草稿复位为初始 `[3, 2, 1]`；玩家在旧目标点击带着晨铃回旅馆，实际抵达旅馆前台（`wake-for-another-hotel`）后才清除 `activeWake`。未返时前台新住/继续禁用并提供精确旧目标找回链接，7 种 `pending` 事务刷新前严格持久化并在断电重载后准确恢复。
+- **测试矩阵与后置钩子**：主命令 `node tests/site.test.mjs` 18,436 项断言全绿；串行章节测试 `node --test --test-concurrency=1 tests/v101.test.mjs tests/v102.test.mjs tests/v103.test.mjs tests/v104.test.mjs` 共 65 个测试（12+22+16+15，65 pass / 0 fail）。官方 `tests/v104.test.mjs` 覆盖 15 个测试组（引入真实 AH 源码/模块原生回调模拟，覆盖全部 216 种三元组：36 合法按 20/5/10/1 派生、180 非法与无效分类拒绝、36 状态 BFS 与 216 条有向借刻转移、16 种挂起变体在源/目标/无关场景对应的 48 组独立全新 VM 冷启动用例，非 48 次 CU 真实重载）；5 种纯内存否定探针由独立诊断另行执行验证。集齐四结局后显露 v105「只出售昨日的早餐铺」文案钩子（“住客终于醒来，早餐却还停在昨天。”，仅文案未实装）。设计与验收详见 `docs/V104WakeForAnotherHotelDesign.md`、`docs/V104ImagePrompts.md` 与 `design-qa-evidence/v104-computer-use-20261002.md`。
 
 ## 6. 游玩时最容易卡住的地方
 

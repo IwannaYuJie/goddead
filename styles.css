@@ -21,6 +21,7 @@
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+
 * { box-sizing: border-box; }
 
 [hidden] { display: none !important; }
@@ -15972,4 +15973,2864 @@ body.tremor #stage { animation: stage-tremor 0.22s ease; }
 
 @media (min-width: 721px) {
   .wk-hotspot .dh-label { white-space: nowrap; }
+}
+/* ============================================================
+   v101 黎明织造厂：九格昼夜织机与晾布台专属样式 (dw-only)
+   ============================================================ */
+
+/* 严格遵循 dw-specific [hidden] 规则，不包含全局通配 [hidden] */
+.dw-figure[hidden],
+.dw-panel[hidden],
+.dw-pattern[hidden],
+.dw-receipt-card[hidden],
+.dw-courier[hidden],
+.dw-echo[hidden],
+.dw-codex[hidden],
+.dw-hook[hidden],
+.dw-note[hidden],
+.dw-response[hidden],
+.dw-memory[hidden],
+.dw-entry-btn[hidden],
+.dw-hall-endings[hidden],
+.dw-action[hidden],
+.dw-courier-link[hidden],
+.dw-example-pattern[hidden],
+.dw-nav-link[hidden] {
+  display: none !important;
+}
+
+/* 图元容器与响应式基底 */
+.dw-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  aspect-ratio: 3 / 2;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border: 1px solid rgba(154, 127, 71, 0.35);
+  background: var(--void);
+  box-sizing: border-box;
+}
+
+.dw-figure .dw-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+/* 昼夜织机画作区域容器 */
+.dw-loom-figure {
+  container-type: inline-size;
+}
+
+/* 织板容器：容纳两侧进/出线标签与中央 3x3 织机板 */
+.dw-board-container {
+  position: absolute;
+  top: 18%;
+  bottom: 20%;
+  left: 5%;
+  right: 5%;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8cqw;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+/* 进线 / 出线边缘提示文字 */
+.dw-side-label,
+.dw-loom-edge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem 0.65rem;
+  font-family: var(--mono);
+  font-size: clamp(0.68rem, 1.8cqw, 0.8rem);
+  letter-spacing: 0.12em;
+  background: rgba(8, 7, 6, 0.88);
+  border: 1px solid rgba(154, 127, 71, 0.4);
+  color: var(--bone-bright);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  pointer-events: auto;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.dw-side-in,
+.dw-loom-edge-in {
+  border-left: 2px solid #b8914f;
+  color: #f7d58a;
+}
+
+.dw-side-out,
+.dw-loom-edge-out {
+  border-right: 2px solid #557299;
+  color: #bfd6f6;
+}
+
+/* 中央九格可操作织机板 */
+.dw-board {
+  flex: 0 1 min(54cqw, 320px);
+  aspect-ratio: 1 / 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 0.45rem;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  background: rgba(14, 12, 10, 0.78);
+  border: 1px solid rgba(184, 145, 79, 0.45);
+  box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.85);
+  pointer-events: auto;
+}
+
+/* 交互织格按钮：严格保证触控无障碍 >= 44px */
+button.dw-tile,
+.dw-board > button.dw-tile {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  min-width: 44px;
+  min-height: 44px;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  background: rgba(22, 18, 14, 0.88);
+  border: 1px solid rgba(154, 127, 71, 0.3);
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease), color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+
+button.dw-tile:hover:not(:disabled),
+button.dw-tile:focus-visible {
+  border-color: var(--gold);
+  background: rgba(45, 36, 24, 0.95);
+  outline: 2px solid var(--gold);
+  outline-offset: 1px;
+  z-index: 2;
+}
+
+button.dw-tile:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* 内部文字/符号节点：正常排版，杜绝变成独立方块 */
+.dw-tile-mark {
+  display: block;
+  font-size: 1.15rem;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.dw-tile-text {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* 材质定义：空白 (.), 晨光 (l), 夜线 (n) */
+.dw-tile[data-material="."] {
+  background: rgba(20, 18, 16, 0.82);
+  border-color: rgba(140, 130, 115, 0.3);
+  color: var(--ash);
+}
+
+.dw-tile[data-material="l"] {
+  background: rgba(62, 46, 18, 0.88);
+  border-color: #b8914f;
+  color: #f7d58a;
+}
+
+.dw-tile[data-material="l"] > .dw-tile-mark {
+  color: #ffd875;
+  text-shadow: 0 0 6px rgba(255, 216, 117, 0.45);
+}
+
+.dw-tile[data-material="n"] {
+  background: rgba(20, 28, 48, 0.88);
+  border-color: #557299;
+  color: #bfd6f6;
+}
+
+.dw-tile[data-material="n"] > .dw-tile-mark {
+  color: #c8e0ff;
+  text-shadow: 0 0 6px rgba(200, 224, 255, 0.45);
+}
+
+/* 连通回路高亮 */
+.dw-tile.is-connected[data-material="l"] {
+  border-color: #e5b95c;
+  box-shadow: inset 0 0 10px rgba(229, 185, 92, 0.5), 0 0 8px rgba(229, 185, 92, 0.4);
+}
+
+.dw-tile.is-connected[data-material="n"] {
+  border-color: #8bb2e8;
+  box-shadow: inset 0 0 10px rgba(139, 178, 232, 0.5), 0 0 8px rgba(139, 178, 232, 0.4);
+}
+
+/* 通用 3x3 样布与图鉴预览网格容器 */
+.dw-pattern,
+.dw-codex-pat {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  box-sizing: border-box;
+}
+
+.dw-pattern {
+  gap: 0.25rem;
+}
+
+.dw-codex-pat {
+  gap: 2px;
+  width: 66px;
+  height: 66px;
+  margin: 0.4rem auto;
+}
+
+/* 非交互预览格 (仅作用于顶层直属 .dw-tile span) */
+.dw-pattern > span.dw-tile,
+.dw-codex-pat > span.dw-tile {
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0.1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  border: 1px solid rgba(154, 127, 71, 0.25);
+  cursor: default;
+  pointer-events: none;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+/* 紧凑缩放预览图中的文字与图标 */
+.dw-codex-pat > span.dw-tile > .dw-tile-mark {
+  font-size: 0.72rem;
+}
+
+.dw-codex-pat > span.dw-tile > .dw-tile-text {
+  display: none;
+}
+
+.dw-receipt-pattern > span.dw-tile > .dw-tile-mark,
+.dw-example-pattern > span.dw-tile > .dw-tile-mark {
+  font-size: 0.82rem;
+}
+
+.dw-receipt-pattern > span.dw-tile > .dw-tile-text,
+.dw-example-pattern > span.dw-tile > .dw-tile-text {
+  font-size: 0.56rem;
+}
+
+/* 昼夜连通状态浮层 */
+.dw-loom-status-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 2.5%;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  align-items: center;
+  pointer-events: none;
+  padding: 0 1rem;
+}
+
+.dw-loom-status {
+  margin: 0;
+  padding: 0.15rem 0.6rem;
+  background: rgba(8, 7, 6, 0.88);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  border-radius: 2px;
+}
+
+.dw-status-light {
+  color: #e5c37e;
+  border-left: 2px solid #b8914f;
+}
+
+.dw-status-night {
+  color: #a9c6ee;
+  border-left: 2px solid #557299;
+}
+
+/* 控制面板与模式选择器 */
+.dw-panel {
+  width: min(720px, 100%);
+  margin: 1.2rem auto 0;
+  padding: 1rem 1.1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--gold);
+  background: rgba(10, 9, 8, 0.86);
+  box-sizing: border-box;
+}
+
+.dw-modes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.dw-mode-btn {
+  min-height: 44px;
+  padding: 0.45rem 0.5rem;
+  border: 1px solid var(--line);
+  background: rgba(20, 16, 12, 0.8);
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.dw-mode-btn[aria-pressed="true"] {
+  border-color: var(--gold);
+  color: var(--bone-bright);
+  background: rgba(154, 127, 71, 0.22);
+}
+
+.dw-mode-btn:hover:not(:disabled),
+.dw-mode-btn:focus-visible {
+  border-color: var(--gold);
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.dw-mode-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.dw-mode-hint {
+  margin: 0.2rem auto 0.8rem;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+/* 样例预览盒子 */
+.dw-example-box {
+  margin: 0.9rem 0;
+  padding: 0.8rem;
+  border: 1px dashed rgba(154, 127, 71, 0.35);
+  background: rgba(16, 13, 10, 0.55);
+}
+
+.dw-example-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.dw-example-note {
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.dw-example-pattern {
+  width: 140px;
+  height: 140px;
+  margin: 0.7rem auto 0;
+}
+
+/* 天际晾布台：置于顶部约 20% 的铜晾杆之下 */
+.dw-terrace-figure {
+  container-type: inline-size;
+}
+
+.dw-terrace-pattern {
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  width: min(44cqw, 240px);
+  height: min(44cqw, 240px);
+  padding: 0.45rem;
+  background: rgba(14, 12, 10, 0.82);
+  border: 2px solid #b8914f;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.75), inset 0 0 12px rgba(0, 0, 0, 0.8);
+}
+
+.dw-terrace-panel {
+  text-align: center;
+}
+
+.dw-terrace-title {
+  margin: 0 0 0.5rem;
+  color: #e6c27a;
+  font-family: var(--serif-cn);
+  font-size: 1.15rem;
+  letter-spacing: 0.08em;
+}
+
+.dw-terrace-story {
+  margin: 0 0 0.6rem;
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 0.92rem;
+  line-height: 1.85;
+}
+
+.dw-terrace-target {
+  margin: 0 0 1rem;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.1em;
+}
+
+/* 按钮通用规范 (44px 触控标准) */
+.dw-action,
+.dw-entry-btn,
+.dw-courier-link {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.dw-action:hover:not(:disabled),
+.dw-action:focus-visible,
+.dw-entry-btn:hover:not(:disabled),
+.dw-entry-btn:focus-visible,
+.dw-courier-link:hover:not(:disabled),
+.dw-courier-link:focus-visible {
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--void);
+  outline: 2px solid var(--bone-bright);
+  outline-offset: 2px;
+}
+
+.dw-action:disabled,
+.dw-entry-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.dw-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  justify-content: center;
+  margin-top: 0.9rem;
+}
+
+.dw-deliver-btn,
+.dw-sample-act {
+  border-color: #b8914f;
+  color: #f7d58a;
+}
+
+/* 织造厂大厅与结局列表 */
+.dw-hall-endings {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  width: min(720px, 100%);
+  margin: 1.2rem auto 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dw-ending-item {
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--line);
+  background: rgba(14, 12, 10, 0.7);
+  color: var(--ash);
+  font-family: var(--serif-cn);
+  font-size: 0.86rem;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+.dw-ending-item.is-collected {
+  border-color: var(--gold);
+  background: rgba(32, 26, 18, 0.6);
+  color: var(--bone-bright);
+}
+
+.dw-note {
+  width: min(720px, 100%);
+  margin: 0.75rem auto 0;
+  color: var(--ash);
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.dw-response {
+  width: min(720px, 100%);
+  margin: 0.8rem auto 0;
+  font-family: var(--serif-cn);
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: var(--gold);
+  text-align: center;
+  white-space: pre-line;
+}
+
+/* 签收单卡片 (跨网格居中) */
+.dw-receipt-card,
+.dw-courier,
+.dw-echo {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: min(720px, 100%);
+  box-sizing: border-box;
+}
+
+.dw-receipt-card {
+  position: relative;
+  z-index: 2;
+  margin: 1.5rem auto;
+  padding: 1.25rem 1.4rem;
+  border: 1px solid var(--line);
+  border-left: 3px solid #b8914f;
+  background: rgba(12, 10, 8, 0.92);
+  text-align: left;
+}
+
+.dw-receipt-kicker {
+  margin: 0 0 0.4rem;
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+}
+
+.dw-receipt-title {
+  margin: 0 0 0.6rem;
+  color: #e6c27a;
+  font-family: var(--serif-cn);
+  font-size: 1.05rem;
+}
+
+.dw-receipt-pattern {
+  width: 120px;
+  height: 120px;
+  margin: 0.6rem 0 0.9rem;
+}
+
+.dw-receipt-body {
+  margin: 0 0 0.9rem;
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 0.9rem;
+  line-height: 1.9;
+}
+
+.dw-receipt-actions {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.dw-echo {
+  position: relative;
+  z-index: 1;
+  margin: 1rem auto;
+  padding: 0.8rem 1.1rem;
+  border-left: 2px solid rgba(154, 127, 71, 0.4);
+  background: rgba(8, 7, 6, 0.6);
+  color: var(--ash);
+  font-family: var(--serif-cn);
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+
+/* 痕迹室织造图鉴 */
+.dw-codex {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  background: var(--void-soft);
+  box-sizing: border-box;
+}
+
+.dw-codex > .dw-kicker {
+  margin-bottom: 1.25rem;
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-align: center;
+}
+
+.dw-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.dw-codex-cell {
+  min-height: 64px;
+  padding: 0.8rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  line-height: 1.6;
+  white-space: pre-line;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.dw-codex-cell.is-locked {
+  color: var(--ash);
+  border-style: dashed;
+  opacity: 0.6;
+}
+
+.dw-codex-cell.is-unlocked {
+  color: var(--bone-bright);
+  border-color: var(--gold);
+  background: rgba(30, 25, 20, 0.5);
+}
+
+.dw-hook {
+  margin: 1.2rem auto;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(184, 145, 79, 0.45);
+  background: rgba(18, 15, 12, 0.75);
+  color: #e5c37e;
+  font-family: var(--serif-cn);
+  font-size: 0.9rem;
+  line-height: 1.85;
+  text-align: center;
+}
+
+.dw-codex-entry,
+.dw-threshold-entry-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.dw-entry-threshold-btn {
+  border-color: var(--gold);
+  color: var(--bone-bright);
+}
+
+.dw-nav-link {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* 移动端与紧凑屏幕响应式适配 */
+@media (max-width: 720px) {
+  .dw-figure {
+    width: min(92vw, 520px);
+  }
+
+  .dw-loom-figure {
+    aspect-ratio: auto;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    background: transparent;
+    border: none;
+  }
+
+  .dw-loom-figure .dw-img {
+    aspect-ratio: 3 / 2;
+    height: auto;
+    border: 1px solid rgba(154, 127, 71, 0.35);
+    background: var(--void);
+    box-sizing: border-box;
+  }
+
+  .dw-board-container {
+    position: absolute;
+    left: 2%;
+    right: 2%;
+    top: 6%;
+    bottom: auto;
+    height: calc((min(92vw, 520px) * 2 / 3) * 0.88);
+    gap: 0.4rem;
+  }
+
+  .dw-side-label,
+  .dw-loom-edge {
+    padding: 0.25rem 0.4rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.04em;
+  }
+
+  .dw-board {
+    flex: 0 1 min(60cqw, 220px);
+    gap: 0.3rem;
+    padding: 0.35rem;
+  }
+
+  .dw-loom-status-overlay {
+    position: static;
+    margin-top: 0.75rem;
+    padding: 0;
+    gap: 0.35rem;
+    pointer-events: auto;
+  }
+
+  .dw-tile-mark {
+    font-size: 0.95rem;
+  }
+
+  .dw-tile-text {
+    font-size: 0.65rem;
+    letter-spacing: 0.02em;
+  }
+
+  .dw-modes {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dw-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .dw-terrace-pattern {
+    width: min(54cqw, 200px);
+    height: min(54cqw, 200px);
+    top: 15%;
+  }
+}
+
+/* 动效减弱模式 */
+@media (prefers-reduced-motion: reduce) {
+  button.dw-tile,
+  .dw-mode-btn,
+  .dw-action,
+  .dw-entry-btn,
+  .dw-courier-link {
+    transition: none !important;
+  }
+}
+
+/* v102: Weatherless Bus Shelter & Season Dispatch Board - Complete Append-only CSS */
+
+:root {
+  --ws-coal: #121517;
+  --ws-coal-deep: #0b0d0e;
+  --ws-brass: #c89b53;
+  --ws-brass-bright: #e5b86e;
+  --ws-brass-dim: #7a5e30;
+  --ws-rain-gray: #7d8b94;
+  --ws-rain-light: #c2cbd1;
+  --ws-spring-green: #4e8264;
+  --ws-summer-gold: #c88332;
+  --ws-autumn-rust: #a84835;
+  --ws-winter-silver: #6486a4;
+  --ws-card-bg: rgba(18, 21, 23, 0.88);
+  --ws-border-gold: rgba(200, 155, 83, 0.35);
+  --ws-border-subtle: rgba(125, 139, 148, 0.25);
+  --ws-focus-ring: #e5b86e;
+}
+
+/* Base Scene & Wrapper rules */
+.scene-weatherless-bus-shelter,
+.scene-season-dispatch-board,
+.scene-four-season-platform,
+.ws-codex,
+.ws-receipt-card,
+.ws-entry {
+  box-sizing: border-box;
+  min-width: 0;
+  color: var(--ws-rain-light);
+}
+
+.scene-weatherless-bus-shelter .branch-body,
+.scene-season-dispatch-board .branch-body,
+.scene-four-season-platform .branch-body {
+  max-width: 840px;
+  margin: 0 auto;
+  padding: 5.75rem 1rem 1.5rem;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+/* Figure & Image (3:2 ratio, center up to 760px desktop) */
+.ws-figure {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  margin: 1.5rem auto;
+  border-radius: 4px;
+  border: 1px solid var(--ws-border-gold);
+  background: var(--ws-coal-deep);
+  box-sizing: border-box;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+}
+
+.ws-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Premise Quote */
+.ws-premise-quote {
+  margin: 1.25rem 0;
+  padding: 0.75rem 1.25rem;
+  border-left: 3px solid var(--ws-brass);
+  background: rgba(200, 155, 83, 0.08);
+  color: #d6deda;
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Hall Endings */
+.ws-hall-endings {
+  margin: 1.5rem 0;
+}
+
+.ws-endings-list,
+.ws-hall-endings-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+.ws-endings-list li,
+.ws-hall-endings-list li,
+.ws-ending-item {
+  padding: 0.75rem 1rem;
+  background: var(--ws-card-bg);
+  border: 1px solid var(--ws-border-subtle);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: var(--ws-rain-light);
+  box-sizing: border-box;
+}
+
+.ws-ending-item.is-collected {
+  border-color: var(--ws-border-gold);
+  background: rgba(200, 155, 83, 0.12);
+  color: #e5d3b3;
+}
+
+.ws-ending-item.is-uncollected {
+  opacity: 0.7;
+}
+
+/* 4 Slots Native Left to Right centered on slate area: x 22% - 78%, y 20% - 75% */
+.ws-board-overlay {
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  top: 20%;
+  bottom: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.ws-slots {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(44px, 1fr));
+  gap: 4px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  pointer-events: auto;
+  background: rgba(11, 13, 14, 0.78);
+  padding: 4px;
+  border-radius: 6px;
+  border: 1px solid var(--ws-border-gold);
+  backdrop-filter: blur(4px);
+}
+
+/* Button slot: >=44px both width and height, fits central 55% height */
+.ws-slot {
+  min-height: 44px;
+  min-width: 44px;
+  background: rgba(18, 21, 23, 0.92);
+  border: 1px dashed var(--ws-brass-dim);
+  border-radius: 4px;
+  color: #d6deda;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s, transform 0.15s;
+  font-family: inherit;
+  font-size: 0.82rem;
+  line-height: 1.15;
+}
+
+.ws-slot:not([disabled]):hover {
+  border-color: var(--ws-brass-bright);
+  background: rgba(200, 155, 83, 0.18);
+}
+
+.ws-slot:focus-visible {
+  outline: 2px solid var(--ws-focus-ring);
+  outline-offset: 2px;
+}
+
+.ws-slot[data-season="spring"] {
+  border: 1px solid var(--ws-spring-green);
+  background: rgba(78, 130, 100, 0.25);
+  color: #a7e5bf;
+}
+
+.ws-slot[data-season="summer"] {
+  border: 1px solid var(--ws-summer-gold);
+  background: rgba(200, 131, 50, 0.25);
+  color: #f7cb88;
+}
+
+.ws-slot[data-season="autumn"] {
+  border: 1px solid var(--ws-autumn-rust);
+  background: rgba(168, 72, 53, 0.25);
+  color: #f3a89a;
+}
+
+.ws-slot[data-season="winter"] {
+  border: 1px solid var(--ws-winter-silver);
+  background: rgba(100, 134, 164, 0.25);
+  color: #b7d6f5;
+}
+
+/* Direct child render structure within slot */
+.ws-slot .ws-order-number {
+  font-size: 0.72rem;
+  color: var(--ws-brass);
+  font-weight: bold;
+}
+
+.ws-slot .ws-order-mark {
+  display: none;
+}
+
+.ws-slot .ws-order-text {
+  font-size: 0.76rem;
+  margin-top: 1px;
+  text-align: center;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* Panels (Below image normal flow) */
+.ws-panel {
+  width: 100%;
+  max-width: 760px;
+  margin: 1.25rem auto;
+  box-sizing: border-box;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* 4 weather word labels actual preview row & codex ord row */
+.ws-order,
+.ws-codex-ord {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ws-order-tile direct styling */
+.ws-order-tile {
+  min-height: 44px;
+  min-width: 0;
+  background: var(--ws-card-bg);
+  border: 1px solid var(--ws-border-subtle);
+  border-radius: 4px;
+  padding: 6px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.ws-order-tile .ws-order-number {
+  font-size: 0.7rem;
+  color: var(--ws-brass);
+}
+
+.ws-order-tile .ws-order-mark {
+  display: none;
+}
+
+.ws-order-tile .ws-order-text {
+  font-size: 0.78rem;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  margin-top: 2px;
+}
+
+.ws-order-tile[data-season="spring"] {
+  border-color: var(--ws-spring-green);
+  background: rgba(78, 130, 100, 0.18);
+  color: #a7e5bf;
+}
+
+.ws-order-tile[data-season="summer"] {
+  border-color: var(--ws-summer-gold);
+  background: rgba(200, 131, 50, 0.18);
+  color: #f7cb88;
+}
+
+.ws-order-tile[data-season="autumn"] {
+  border-color: var(--ws-autumn-rust);
+  background: rgba(168, 72, 53, 0.18);
+  color: #f3a89a;
+}
+
+.ws-order-tile[data-season="winter"] {
+  border-color: var(--ws-winter-silver);
+  background: rgba(100, 134, 164, 0.18);
+  color: #b7d6f5;
+}
+
+/* Status bar */
+.ws-ticket-status-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(18, 21, 23, 0.6);
+  border-left: 2px solid var(--ws-brass);
+  font-size: 0.88rem;
+  box-sizing: border-box;
+}
+
+.ws-ticket-status {
+  margin: 0;
+  color: #e2e8e6;
+  font-weight: 500;
+}
+
+.ws-board-hint {
+  margin: 0;
+  color: var(--ws-rain-gray);
+  font-size: 0.8rem;
+}
+
+/* Ticket Chooser normal flow BELOW image, all 5 tickets incl remove >= 44px */
+.ws-tickets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.ws-ticket {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.5rem 0.85rem;
+  background: var(--ws-card-bg);
+  border: 1px solid var(--ws-border-subtle);
+  border-radius: 4px;
+  color: var(--ws-rain-light);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: inherit;
+  font-size: 0.88rem;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.ws-ticket:not([disabled]):hover {
+  border-color: var(--ws-brass);
+  background: rgba(200, 155, 83, 0.15);
+}
+
+.ws-ticket:focus-visible {
+  outline: 2px solid var(--ws-focus-ring);
+  outline-offset: 2px;
+}
+
+.ws-ticket[aria-pressed="true"] {
+  border-color: var(--ws-brass-bright);
+  background: rgba(200, 155, 83, 0.28);
+  box-shadow: inset 0 0 0 1px var(--ws-brass-bright);
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.ws-ticket[data-season="spring"][aria-pressed="true"] {
+  border-color: var(--ws-spring-green);
+  box-shadow: inset 0 0 0 1px var(--ws-spring-green);
+}
+
+.ws-ticket[data-season="summer"][aria-pressed="true"] {
+  border-color: var(--ws-summer-gold);
+  box-shadow: inset 0 0 0 1px var(--ws-summer-gold);
+}
+
+.ws-ticket[data-season="autumn"][aria-pressed="true"] {
+  border-color: var(--ws-autumn-rust);
+  box-shadow: inset 0 0 0 1px var(--ws-autumn-rust);
+}
+
+.ws-ticket[data-season="winter"][aria-pressed="true"] {
+  border-color: var(--ws-winter-silver);
+  box-shadow: inset 0 0 0 1px var(--ws-winter-silver);
+}
+
+.ws-ticket-badge {
+  font-size: 0.78rem;
+  opacity: 0.8;
+}
+
+.ws-ticket-remove {
+  border-color: rgba(168, 72, 53, 0.4);
+}
+
+.ws-ticket-remove[aria-pressed="true"] {
+  border-color: var(--ws-autumn-rust);
+  box-shadow: inset 0 0 0 1px var(--ws-autumn-rust);
+  background: rgba(168, 72, 53, 0.3);
+}
+
+/* Example Box */
+.ws-example-box {
+  background: rgba(18, 21, 23, 0.5);
+  border: 1px solid var(--ws-border-subtle);
+  border-radius: 4px;
+  padding: 0.75rem;
+  box-sizing: border-box;
+}
+
+.ws-example-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.ws-example-note {
+  font-size: 0.82rem;
+  color: var(--ws-rain-gray);
+}
+
+/* Actions & Buttons (Strictly scoped to 3 new ws scenes to prevent global leakage) */
+.ws-actions,
+.scene-weatherless-bus-shelter .scene-exits,
+.scene-season-dispatch-board .scene-exits,
+.scene-four-season-platform .scene-exits,
+.ws-receipt-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.ws-action,
+.ws-entry-btn,
+.scene-weatherless-bus-shelter .exit-link,
+.scene-season-dispatch-board .exit-link,
+.scene-four-season-platform .exit-link,
+.ws-passenger-link {
+  min-height: 44px;
+  padding: 0.6rem 1.2rem;
+  background: rgba(200, 155, 83, 0.12);
+  border: 1px solid var(--ws-brass);
+  color: #e2e8e6;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  transition: background-color 0.2s, border-color 0.2s, transform 0.1s;
+}
+
+.ws-action:not([disabled]):hover,
+.ws-entry-btn:not([disabled]):hover,
+.scene-weatherless-bus-shelter .exit-link:not([disabled]):hover,
+.scene-season-dispatch-board .exit-link:not([disabled]):hover,
+.scene-four-season-platform .exit-link:not([disabled]):hover,
+.ws-passenger-link:not([disabled]):hover {
+  background: rgba(200, 155, 83, 0.24);
+  border-color: var(--ws-brass-bright);
+}
+
+.ws-action:disabled,
+.ws-entry-btn:disabled,
+.ws-slot:disabled,
+.ws-ticket:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  border-color: var(--ws-border-subtle);
+}
+
+.ws-action:focus-visible,
+.ws-entry-btn:focus-visible,
+.scene-weatherless-bus-shelter .exit-link:focus-visible,
+.scene-season-dispatch-board .exit-link:focus-visible,
+.scene-four-season-platform .exit-link:focus-visible,
+.ws-passenger-link:focus-visible {
+  outline: 2px solid var(--ws-focus-ring);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--ws-focus-ring);
+}
+
+/* Platform scene details */
+.ws-platform-title {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 1.25rem;
+  color: var(--ws-brass-bright);
+}
+
+.ws-platform-opening {
+  font-weight: 500;
+  color: #e2e8e6;
+  margin: 0.25rem 0;
+  line-height: 1.5;
+}
+
+.ws-platform-story {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--ws-rain-light);
+  margin: 0.5rem 0;
+}
+
+.ws-platform-target {
+  font-size: 0.85rem;
+  color: var(--ws-rain-gray);
+  font-style: italic;
+  margin: 0.25rem 0;
+}
+
+/* Response and Note items */
+.ws-note,
+.ws-response,
+.branch-response {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  margin: 0.5rem 0;
+  color: var(--ws-rain-light);
+}
+
+.ws-response,
+.branch-response {
+  padding: 0.5rem 0.75rem;
+  border-left: 2px solid var(--ws-spring-green);
+  background: rgba(78, 130, 100, 0.1);
+}
+
+/* Remembrance & Codex Section (3 cards desktop, 1 mobile) */
+.ws-memory {
+  font-size: 0.95rem;
+  color: var(--ws-brass-bright);
+  padding: 0.5rem 0;
+  margin-bottom: 0.75rem;
+}
+
+.ws-codex {
+  background: var(--ws-coal-deep);
+  border: 1px solid var(--ws-border-gold);
+  border-radius: 6px;
+  padding: 1.25rem;
+  margin: 1.5rem 0;
+  box-sizing: border-box;
+}
+
+.ws-kicker {
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  color: var(--ws-brass);
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+}
+
+.ws-codex-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 1rem 0;
+  box-sizing: border-box;
+}
+
+/* Codex cell and card aliases */
+.ws-codex-cell,
+.ws-codex-card {
+  background: var(--ws-card-bg);
+  border: 1px solid var(--ws-border-subtle);
+  border-radius: 4px;
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.ws-codex-cell.is-unlocked,
+.ws-codex-card.is-unlocked {
+  border-color: var(--ws-brass-dim);
+  background: rgba(20, 24, 27, 0.95);
+}
+
+.ws-codex-cell.is-locked,
+.ws-codex-card.is-locked {
+  opacity: 0.65;
+}
+
+.ws-codex-cell strong,
+.ws-codex-card-title {
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: var(--ws-brass-bright);
+  margin: 0;
+  display: block;
+}
+
+.ws-codex-cell p,
+.ws-codex-card-desc {
+  font-size: 0.82rem;
+  color: var(--ws-rain-light);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.ws-codex-entry {
+  margin-top: 1rem;
+}
+
+/* Receipt Card (Grid column 1 / -1 in existing old grid layout) */
+.ws-receipt-card {
+  grid-column: 1 / -1;
+  background: var(--ws-card-bg);
+  border: 1px solid var(--ws-border-gold);
+  border-radius: 6px;
+  padding: 1.25rem;
+  margin: 1.25rem 0;
+  box-sizing: border-box;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.ws-receipt-kicker {
+  font-size: 0.78rem;
+  color: var(--ws-brass);
+  letter-spacing: 0.05em;
+  margin: 0 0 0.5rem 0;
+}
+
+.ws-receipt-title {
+  font-size: 1.15rem;
+  color: var(--ws-brass-bright);
+  margin: 0 0 0.5rem 0;
+}
+
+.ws-receipt-opening {
+  font-weight: 500;
+  color: #e2e8e6;
+  margin: 0.5rem 0;
+}
+
+.ws-receipt-body {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--ws-rain-light);
+  margin: 0.5rem 0;
+}
+
+/* Threshold Entry */
+.ws-threshold-entry {
+  margin: 1rem 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .ws-codex-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ws-slots {
+    gap: 2px;
+    padding: 2px;
+  }
+
+  .ws-slot {
+    min-height: 44px;
+    font-size: 0.75rem;
+  }
+
+  .ws-tickets {
+    gap: 0.35rem;
+  }
+
+  .ws-ticket {
+    flex: 1 1 calc(50% - 0.35rem);
+    justify-content: center;
+  }
+
+  .ws-ticket-remove {
+    flex: 1 1 100%;
+  }
+}
+
+@media (max-width: 390px) {
+  .ws-order,
+  .ws-codex-ord {
+    gap: 0.25rem;
+  }
+
+  .ws-order-tile {
+    padding: 4px 2px;
+  }
+
+  .ws-order-tile .ws-order-text {
+    font-size: 0.7rem;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .ws-slot,
+  .ws-ticket,
+  .ws-action,
+  .ws-entry-btn,
+  .scene-weatherless-bus-shelter .exit-link,
+  .scene-season-dispatch-board .exit-link,
+  .scene-four-season-platform .exit-link,
+  .ws-passenger-link {
+    transition: none !important;
+  }
+}
+/* ============================================================
+   v103 收不到影子的照相馆 / SHADOWLESS PHOTOGRAPHY 样式
+   ============================================================ */
+.scene-shadowless-photo-studio .branch-body,
+.scene-double-exposure-camera .branch-body,
+.scene-unreceived-shadow-darkroom .branch-body {
+  padding-top: 5.75rem;
+}
+
+.ph-premise-quote {
+  margin: 1.25rem 0 0;
+  padding: 0.75rem 1rem;
+  border-left: 2px solid rgba(220, 200, 175, 0.45);
+  background: rgba(25, 20, 18, 0.6);
+  color: #dfd2c4;
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.ph-figure {
+  position: relative;
+  margin: 1.5rem 0;
+  border: 1px solid rgba(180, 160, 140, 0.25);
+  background: #0d0c0c;
+  overflow: hidden;
+}
+
+.ph-figure .ph-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1536 / 1024;
+  object-fit: cover;
+}
+
+/* 取景几何叠层 */
+.ph-viewfinder-overlay-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1536 / 1024;
+  background: #0a0909;
+}
+
+.ph-viewfinder-overlay-container .ph-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ph-viewfinder-plane {
+  position: absolute;
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+/* 取景安全矩形 x24-76%, y16-67% */
+.ph-camera-plane {
+  left: 24%;
+  top: 16%;
+  width: 52%;
+  height: 51%;
+  border: 1px dashed rgba(230, 215, 195, 0.35);
+  background: rgba(15, 12, 10, 0.15);
+}
+
+/* 暗房安全矩形 x29-71%, y26-65% */
+.ph-darkroom-plane {
+  left: 29%;
+  top: 26%;
+  width: 42%;
+  height: 39%;
+  border: 1px dashed rgba(235, 75, 75, 0.4);
+  background: rgba(40, 10, 10, 0.2);
+}
+
+.ph-receipt-viewfinder-container {
+  margin: 1rem 0;
+  height: 140px;
+  aspect-ratio: auto;
+  background: #121010;
+  border: 1px solid rgba(160, 140, 120, 0.3);
+}
+
+.ph-receipt-plane {
+  left: 5%;
+  top: 10%;
+  width: 90%;
+  height: 80%;
+}
+
+/* 标尺 0–6 在内部 10%–90% 精确对齐 */
+.ph-ruler-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4px;
+  height: 20px;
+  box-sizing: border-box;
+  border-top: 1px solid rgba(220, 205, 185, 0.25);
+}
+
+.ph-ruler-tick {
+  position: absolute;
+  top: 0;
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: #a89f91;
+  transform: translateX(-50%);
+}
+
+.ph-ruler-tick:nth-child(1) { left: 10%; }
+.ph-ruler-tick:nth-child(2) { left: 23.3333%; }
+.ph-ruler-tick:nth-child(3) { left: 36.6667%; }
+.ph-ruler-tick:nth-child(4) { left: 50%; }
+.ph-ruler-tick:nth-child(5) { left: 63.3333%; }
+.ph-ruler-tick:nth-child(6) { left: 76.6667%; }
+.ph-ruler-tick:nth-child(7) { left: 90%; }
+
+.ph-ruler-tick::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  width: 1px;
+  height: 4px;
+  background: rgba(220, 205, 185, 0.5);
+}
+
+.ph-ruler-tick.is-body-tick {
+  color: #ecdcc9;
+  font-weight: 600;
+}
+
+.ph-ruler-tick.is-edge-tick {
+  color: #6a6258;
+}
+
+/* 人形与影子标记 */
+.ph-figure-mark {
+  position: absolute;
+  bottom: 24px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.ph-figure-mark.is-body {
+  width: 22px;
+  height: 56px;
+  border: 2px solid #e8dfd3;
+  border-radius: 11px 11px 4px 4px;
+  background: rgba(240, 230, 220, 0.08);
+  box-sizing: border-box;
+}
+
+.ph-figure-mark.is-body::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid #e8dfd3;
+  border-radius: 50%;
+}
+
+.ph-figure-mark.is-body.is-exp-2 {
+  border-style: dashed;
+  border-color: #d1b89d;
+}
+
+.ph-figure-mark.is-shadow {
+  width: 26px;
+  height: 14px;
+  bottom: 20px;
+  background: rgba(10, 8, 8, 0.88);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.9);
+  border: 1px solid rgba(80, 70, 60, 0.5);
+}
+
+.ph-figure-mark.is-shadow.is-exp-2 {
+  background: rgba(45, 20, 20, 0.85);
+  border: 1px dashed rgba(180, 90, 90, 0.6);
+}
+
+.ph-figure-tag {
+  position: absolute;
+  top: -18px;
+  white-space: nowrap;
+  font-size: 0.65rem;
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  padding: 1px 4px;
+  border-radius: 2px;
+  background: rgba(18, 15, 14, 0.85);
+  color: #dfd5c8;
+  border: 1px solid rgba(160, 140, 120, 0.35);
+  box-sizing: border-box;
+}
+
+.ph-figure-mark.is-shadow .ph-figure-tag {
+  top: -16px;
+  color: #b0a498;
+  border-color: rgba(90, 80, 70, 0.4);
+}
+
+/* 主取景面桌面端多标记分层，确保同一坐标下曝光1与曝光2标签至少保留2px间距 */
+.ph-figure-mark.is-body.is-exp-2 .ph-figure-tag {
+  top: -36px;
+}
+
+.ph-figure-mark.is-shadow.is-exp-2 .ph-figure-tag {
+  top: -34px;
+}
+
+/* 暗房内多标记叠置兼容回落 */
+.ph-figure-mark.is-exp-2 .ph-figure-tag {
+  top: -36px;
+}
+
+/* 浅色取景板增强轮廓对比度：仅限于相机与暗房平面的深色勾边 */
+.ph-camera-plane .ph-figure-mark.is-body,
+.ph-darkroom-plane .ph-figure-mark.is-body {
+  border-color: #1a1614;
+  background: rgba(30, 24, 20, 0.3);
+}
+
+.ph-camera-plane .ph-figure-mark.is-body::after,
+.ph-darkroom-plane .ph-figure-mark.is-body::after {
+  border-color: #1a1614;
+}
+
+.ph-camera-plane .ph-figure-mark.is-body.is-exp-2,
+.ph-darkroom-plane .ph-figure-mark.is-body.is-exp-2 {
+  border-color: #382820;
+}
+
+/* 槽位微型预览与图鉴叠层内紧凑适应 */
+.ph-plate-preview .ph-figure-mark,
+.ph-codex-viewfinder-stack .ph-figure-mark {
+  bottom: 4px;
+}
+
+.ph-plate-preview .ph-figure-mark.is-body,
+.ph-codex-viewfinder-stack .ph-figure-mark.is-body {
+  width: 12px;
+  height: 20px;
+  border-width: 1.5px;
+  border-radius: 6px 6px 2px 2px;
+}
+
+.ph-plate-preview .ph-figure-mark.is-body::after,
+.ph-codex-viewfinder-stack .ph-figure-mark.is-body::after {
+  top: 2px;
+  width: 4px;
+  height: 4px;
+  border-width: 1px;
+}
+
+.ph-plate-preview .ph-figure-mark.is-shadow,
+.ph-codex-viewfinder-stack .ph-figure-mark.is-shadow {
+  width: 14px;
+  height: 6px;
+  bottom: 4px;
+}
+
+.ph-plate-preview .ph-figure-tag,
+.ph-codex-viewfinder-stack .ph-figure-tag {
+  top: -11px;
+  font-size: 0.48rem;
+  line-height: 1;
+  padding: 0 2px;
+  letter-spacing: 0;
+}
+
+.ph-plate-preview .ph-figure-mark.is-shadow .ph-figure-tag,
+.ph-codex-viewfinder-stack .ph-figure-mark.is-shadow .ph-figure-tag {
+  top: -11px;
+}
+
+.ph-plate-preview .ph-figure-mark.is-exp-2 .ph-figure-tag,
+.ph-codex-viewfinder-stack .ph-figure-mark.is-exp-2 .ph-figure-tag {
+  top: -22px;
+}
+
+/* 控件与面板 */
+.ph-panel {
+  margin: 1.25rem 0;
+  padding: 1.25rem;
+  background: rgba(22, 18, 16, 0.75);
+  border: 1px solid rgba(175, 150, 125, 0.25);
+}
+
+.ph-readouts {
+  margin-bottom: 1rem;
+  padding: 0.6rem 0.85rem;
+  background: rgba(12, 10, 9, 0.6);
+  border-left: 3px solid #c9a782;
+  color: #e5dcd3;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.ph-controls-group {
+  margin-bottom: 1rem;
+}
+
+.ph-group-label {
+  display: block;
+  font-size: 0.82rem;
+  color: #a89e93;
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.05em;
+}
+
+.ph-btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.ph-pos-btn,
+.ph-light-btn,
+.ph-plate-slot-btn,
+.ph-action,
+.ph-entry-btn {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.55rem 1rem;
+  font-family: inherit;
+  font-size: 0.88rem;
+  color: #dfd7cc;
+  background: #241e1b;
+  border: 1px solid #4a3e36;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  box-sizing: border-box;
+}
+
+.ph-pos-btn[aria-pressed="true"],
+.ph-light-btn[aria-pressed="true"],
+.ph-plate-slot-btn[aria-pressed="true"] {
+  background: #4a382a;
+  border-color: #d1a87d;
+  color: #fff6eb;
+  font-weight: 600;
+}
+
+.ph-pos-btn:disabled,
+.ph-light-btn:disabled,
+.ph-plate-slot-btn:disabled,
+.ph-action:disabled,
+.ph-entry-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  border-color: #2e2621;
+}
+
+/* 槽位卡片 */
+.ph-slots-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+}
+
+.ph-slot-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.ph-plate-slot-btn {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.65rem 0.85rem;
+}
+
+.ph-slot-badge {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #b5a593;
+}
+
+.ph-plate-caption {
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.ph-plate-preview {
+  position: relative;
+  height: 60px;
+  background: #110f0e;
+  border: 1px solid #332b25;
+  overflow: hidden;
+}
+
+.ph-camera-actions,
+.ph-nav-actions,
+.ph-darkroom-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.ph-shutter-btn {
+  background: #3e281b;
+  border-color: #966743;
+  color: #faebd7;
+  font-weight: 600;
+}
+
+.ph-print-btn {
+  background: #501d1d;
+  border-color: #aa3d3d;
+  color: #ffeaea;
+  font-weight: 600;
+}
+
+.ph-example-panel {
+  margin: 1rem 0;
+  padding: 0.85rem 1rem;
+  background: rgba(15, 12, 11, 0.85);
+  border: 1px solid #5a4b3d;
+}
+
+.ph-example-title {
+  margin: 0 0 0.4rem;
+  font-size: 0.92rem;
+  color: #ecdcc9;
+}
+
+.ph-example-note {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #b5ab9e;
+  line-height: 1.5;
+}
+
+.ph-camera-hint {
+  margin: 0.85rem 0 0;
+  font-size: 0.85rem;
+  color: #cfc2b2;
+  line-height: 1.5;
+}
+
+/* 暗房详情 */
+.ph-darkroom-details {
+  margin-bottom: 1.25rem;
+}
+
+.ph-darkroom-title {
+  margin: 0 0 0.25rem;
+  font-size: 1.15rem;
+  color: #f5ebe0;
+}
+
+.ph-darkroom-category {
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  color: #c49a75;
+  letter-spacing: 0.05em;
+}
+
+.ph-darkroom-plates-summary {
+  margin: 0.75rem 0;
+  padding: 0.6rem 0.85rem;
+  background: rgba(10, 8, 8, 0.5);
+  border: 1px solid rgba(80, 60, 50, 0.4);
+  font-size: 0.85rem;
+  color: #d8cec2;
+}
+
+.ph-plate-summary-text {
+  margin: 0.2rem 0;
+}
+
+.ph-darkroom-aftertaste {
+  margin: 0.85rem 0;
+  padding: 0.6rem 0.85rem;
+  border-left: 2px solid #a34b4b;
+  background: rgba(35, 12, 12, 0.4);
+  color: #ecc0c0;
+  font-style: italic;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.ph-darkroom-story {
+  margin: 0.75rem 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: #ded5cb;
+}
+
+.ph-darkroom-target {
+  margin: 0.5rem 0 0;
+  font-size: 0.82rem;
+  color: #9e9183;
+}
+
+/* 结局列表与签收 */
+.ph-endings-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.25rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.ph-ending-item {
+  padding: 0.6rem 0.85rem;
+  background: rgba(20, 16, 15, 0.6);
+  border: 1px solid rgba(140, 120, 100, 0.25);
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: #cfc5b8;
+}
+
+.ph-ending-item.is-collected {
+  border-color: rgba(200, 165, 125, 0.5);
+  color: #f0e6da;
+}
+
+.ph-receipt-card {
+  grid-column: 1 / -1;
+  margin: 1.5rem 0;
+  padding: 1.25rem;
+  background: rgba(24, 18, 15, 0.85);
+  border: 1px solid rgba(190, 155, 120, 0.45);
+}
+
+.ph-receipt-kicker {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: #c49d75;
+  margin: 0 0 0.4rem;
+}
+
+.ph-receipt-title {
+  margin: 0 0 0.85rem;
+  font-size: 1.1rem;
+  color: #f5ebe0;
+}
+
+.ph-receipt-plates {
+  margin: 0.6rem 0;
+  font-size: 0.82rem;
+  color: #bfaea0;
+}
+
+.ph-receipt-plate-item {
+  margin: 0.15rem 0;
+}
+
+.ph-receipt-body {
+  margin: 0.85rem 0 1rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #dfd5c9;
+}
+
+.ph-echo {
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  border-left: 2px solid #8e7a68;
+  background: rgba(18, 15, 14, 0.5);
+  color: #cfc3b4;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+/* 入口与图鉴 */
+.ph-entry {
+  margin: 1.25rem 0;
+}
+
+.ph-entry-btn {
+  width: 100%;
+  text-align: left;
+  background: #2b221d;
+  border-color: #634d3d;
+}
+
+.ph-note {
+  margin: 0.4rem 0 0;
+  font-size: 0.82rem;
+  color: #b59f8c;
+}
+
+.ph-response {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  color: #e5be90;
+}
+
+.ph-codex {
+  margin: 2rem 0;
+  padding: 1.25rem;
+  background: rgba(18, 14, 12, 0.8);
+  border: 1px solid rgba(160, 130, 100, 0.3);
+}
+
+.ph-kicker {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: #c79e76;
+  margin: 0 0 1rem;
+}
+
+.ph-codex-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.ph-codex-cell {
+  padding: 1rem;
+  background: #141110;
+  border: 1px solid #332b26;
+  font-size: 0.85rem;
+}
+
+.ph-codex-cell.is-unlocked {
+  border-color: #6e5440;
+}
+
+.ph-codex-cell strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #f0e4d7;
+}
+
+.ph-codex-viewfinder-stack {
+  position: relative;
+  height: 70px;
+  background: #0a0808;
+  border: 1px solid #28211c;
+  margin: 0.5rem 0;
+  overflow: hidden;
+}
+
+.ph-codex-plates {
+  margin: 0.4rem 0;
+  font-size: 0.78rem;
+  color: #a89b8d;
+}
+
+.ph-codex-plates p {
+  margin: 0.15rem 0;
+}
+
+.ph-codex-story {
+  margin: 0.5rem 0 0;
+  color: #d1c7bc;
+  line-height: 1.5;
+}
+
+.ph-hook {
+  margin: 1.25rem 0;
+  padding: 0.75rem 1rem;
+  background: rgba(30, 20, 25, 0.6);
+  border: 1px solid #784050;
+  color: #e5b8c5;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.ph-codex-entry {
+  margin-top: 1.25rem;
+}
+
+@media (max-width: 600px) {
+  .ph-slots-container {
+    grid-template-columns: 1fr;
+  }
+  .ph-btn-row {
+    gap: 0.35rem;
+  }
+  .ph-pos-btn {
+    flex: 1 1 calc(20% - 0.35rem);
+    min-width: 0;
+    padding: 0.5rem 0.2rem;
+    text-align: center;
+    font-size: 0.8rem;
+  }
+
+  /* 移动端主取景面/暗房面几何适应（高保真紧凑适配 >=143x88 平面） */
+  .ph-camera-plane .ph-ruler-track,
+  .ph-darkroom-plane .ph-ruler-track {
+    bottom: 2px;
+    height: 15px;
+  }
+
+  .ph-camera-plane .ph-ruler-tick,
+  .ph-darkroom-plane .ph-ruler-tick {
+    font-size: 0.62rem;
+    line-height: 1;
+  }
+
+  .ph-camera-plane .ph-ruler-tick::before,
+  .ph-darkroom-plane .ph-ruler-tick::before {
+    top: -3px;
+    height: 3px;
+  }
+
+  /* 人形与阴影基准底边与尺寸紧凑化 */
+  .ph-camera-plane .ph-figure-mark.is-body,
+  .ph-darkroom-plane .ph-figure-mark.is-body {
+    bottom: 18px;
+    width: 16px;
+    height: 32px;
+    border-width: 1.5px;
+    border-radius: 8px 8px 3px 3px;
+  }
+
+  .ph-camera-plane .ph-figure-mark.is-body::after,
+  .ph-darkroom-plane .ph-figure-mark.is-body::after {
+    top: 3px;
+    width: 6px;
+    height: 6px;
+    border-width: 1px;
+  }
+
+  .ph-camera-plane .ph-figure-mark.is-shadow,
+  .ph-darkroom-plane .ph-figure-mark.is-shadow {
+    bottom: 18px;
+    width: 20px;
+    height: 8px;
+  }
+
+  /* 4层独立垂直槽位，确保同坐标或交叉坐标下4个标签互不遮挡，且严格保持在88.71px高度平面内 */
+  .ph-camera-plane .ph-figure-tag,
+  .ph-darkroom-plane .ph-figure-tag {
+    font-size: 0.52rem;
+    line-height: 9px;
+    height: 11px;
+    padding: 0 2px;
+    letter-spacing: 0;
+    box-sizing: border-box;
+    white-space: nowrap;
+  }
+
+  /* 1. 一重曝光人形：标尺上方 18+32+12 = 62px */
+  .ph-camera-plane .ph-figure-mark.is-body .ph-figure-tag,
+  .ph-darkroom-plane .ph-figure-mark.is-body .ph-figure-tag {
+    top: -16px;
+  }
+
+  /* 2. 二重曝光人形：标尺上方 18+32+25 = 75px (距顶留余 13.71px，与一重人形标签间距 2px) */
+  .ph-camera-plane .ph-figure-mark.is-body.is-exp-2 .ph-figure-tag,
+  .ph-darkroom-plane .ph-figure-mark.is-body.is-exp-2 .ph-figure-tag {
+    top: -29px;
+  }
+
+  /* 3. 一重曝光影子：标尺上方 18+13 = 31px */
+  .ph-camera-plane .ph-figure-mark.is-shadow .ph-figure-tag,
+  .ph-darkroom-plane .ph-figure-mark.is-shadow .ph-figure-tag {
+    top: -13px;
+  }
+
+  /* 4. 二重曝光影子：标尺上方 18+26 = 44px (与一重影子标签间距 2px，与一重人形标签间距 6px) */
+  .ph-camera-plane .ph-figure-mark.is-shadow.is-exp-2 .ph-figure-tag,
+  .ph-darkroom-plane .ph-figure-mark.is-shadow.is-exp-2 .ph-figure-tag {
+    top: -26px;
+  }
+
+  /* 边缘 0 与 6 坐标标签向安全内侧微调，保持 marker.style.left 与人形物理中心 100% 准确 */
+  .ph-camera-plane .ph-figure-mark[data-coord="0"] .ph-figure-tag,
+  .ph-darkroom-plane .ph-figure-mark[data-coord="0"] .ph-figure-tag {
+    transform: translateX(25%);
+  }
+
+  .ph-camera-plane .ph-figure-mark[data-coord="6"] .ph-figure-tag,
+  .ph-darkroom-plane .ph-figure-mark[data-coord="6"] .ph-figure-tag {
+    transform: translateX(-25%);
+  }
+}
+
+/* ============================================================
+   v104 替别人醒来的旅馆 / WAKE FOR ANOTHER HOTEL 样式
+   ============================================================ */
+.scene-wake-for-another-hotel .branch-body,
+.scene-borrowed-dawn-clockroom .branch-body,
+.scene-shared-morning-veranda .branch-body {
+  padding-top: 5.75rem;
+}
+
+.ah-premise-quote {
+  margin: 1.25rem 0 0;
+  padding: 0.75rem 1rem;
+  border-left: 2px solid rgba(210, 190, 150, 0.45);
+  background: rgba(18, 22, 28, 0.6);
+  color: #d6e0ea;
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.ah-figure {
+  position: relative;
+  margin: 1.5rem 0;
+  border: 1px solid rgba(140, 165, 195, 0.25);
+  background: #0a0d12;
+  overflow: hidden;
+}
+
+.ah-figure .ah-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1536 / 1024;
+  object-fit: cover;
+}
+
+.ah-panel {
+  margin: 1.25rem 0;
+  padding: 1.25rem;
+  background: rgba(16, 20, 26, 0.8);
+  border: 1px solid rgba(135, 160, 190, 0.25);
+}
+
+/* 钟面核心堆叠：强制 3 列在 390 宽屏保持单行 */
+.ah-clock-stack {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.ah-clock-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  padding: 0.75rem 0.35rem;
+  background: #11161f;
+  border: 1px solid #2d3848;
+  border-radius: 4px;
+  box-sizing: border-box;
+  text-align: center;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.ah-clock-card.is-awake {
+  border-color: #d1b16c;
+  background: rgba(45, 38, 20, 0.4);
+  box-shadow: 0 0 12px rgba(210, 175, 105, 0.15);
+}
+
+.ah-clock-card.is-dreaming {
+  border-color: #2a3442;
+  background: rgba(14, 18, 24, 0.7);
+}
+
+.ah-room-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin-bottom: 0.4rem;
+  word-break: break-word;
+}
+
+/* 圆盘表盘几何 */
+.ah-clock-face {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 2px solid #5a6e85;
+  background: radial-gradient(circle, #1a222d 0%, #0d1218 80%);
+  margin: 0.35rem auto;
+  box-sizing: border-box;
+}
+
+.ah-clock-card.is-awake .ah-clock-face {
+  border-color: #e5c378;
+  box-shadow: 0 0 8px rgba(229, 195, 120, 0.4);
+}
+
+/* 六刻刻度百分比圆周定位 (radius 40%): 0顶(50%,10%), 1(84.64%,30%), 2(84.64%,70%), 3底(50%,90%), 4(15.36%,70%), 5(15.36%,30%) */
+.ah-clock-tick {
+  position: absolute;
+  font-family: monospace;
+  font-size: 0.75rem;
+  line-height: 1;
+  color: #8da2ba;
+  transform: translate(-50%, -50%);
+}
+
+.ah-clock-tick.is-tick-0 { top: 10%; left: 50%; }
+.ah-clock-tick.is-tick-1 { top: 30%; left: 84.641%; }
+.ah-clock-tick.is-tick-2 { top: 70%; left: 84.641%; }
+.ah-clock-tick.is-tick-3 { top: 90%; left: 50%; }
+.ah-clock-tick.is-tick-4 { top: 70%; left: 15.359%; }
+.ah-clock-tick.is-tick-5 { top: 30%; left: 15.359%; }
+
+.ah-clock-tick.is-dawn-tick {
+  color: #ffdf94;
+  font-weight: 700;
+}
+
+/* 指针：以中心为基准，居中向上旋转 */
+.ah-clock-hand {
+  position: absolute;
+  left: 50%;
+  bottom: 50%;
+  width: 2px;
+  height: 34px;
+  margin-left: -1px;
+  background: #cbd5e1;
+  transform-origin: 50% 100%;
+  pointer-events: none;
+}
+
+.ah-clock-hand::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #cbd5e1;
+}
+
+.ah-clock-card.is-awake .ah-clock-hand {
+  background: #ffd369;
+}
+
+.ah-clock-card.is-awake .ah-clock-hand::after {
+  background: #ffd369;
+}
+
+.ah-clock-face::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  margin-left: -3px;
+  border-radius: 50%;
+  background: #94a3b8;
+}
+
+.ah-clock-number {
+  margin-top: 0.45rem;
+  font-size: 0.76rem;
+  line-height: 1.3;
+  color: #cbd5e1;
+  word-break: break-word;
+}
+
+.ah-room-status {
+  margin-top: 0.2rem;
+  font-size: 0.72rem;
+  line-height: 1.25;
+  color: #94a3b8;
+  word-break: break-word;
+}
+
+.ah-clock-card.is-awake .ah-room-status {
+  color: #f6ad55;
+  font-weight: 600;
+}
+
+/* 连线与状态面板 & 借刻定向拓扑图 */
+.ah-connections-box {
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  background: rgba(12, 16, 22, 0.7);
+  border-left: 3px solid #63b3ed;
+  color: #e2e8f0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.ah-loan-diagram {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+
+.ah-loan-node {
+  padding: 0.35rem 0.65rem;
+  border-radius: 3px;
+  font-size: 0.82rem;
+  background: #141b24;
+  border: 1px solid #334155;
+  color: #cbd5e1;
+}
+
+.ah-loan-node.is-source {
+  border-color: #f87171;
+  background: rgba(153, 27, 27, 0.25);
+  color: #fca5a5;
+  font-weight: 600;
+}
+
+.ah-loan-node.is-target {
+  border-color: #34d399;
+  background: rgba(6, 95, 70, 0.25);
+  color: #6ee7b7;
+  font-weight: 600;
+}
+
+.ah-loan-node.is-unchanged {
+  border-color: #475569;
+  color: #94a3b8;
+}
+
+.ah-loan-arrow {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #90cdf4;
+  padding: 0 0.25rem;
+}
+
+.ah-loan-detail {
+  margin: 0.25rem 0 0;
+  font-size: 0.82rem;
+  color: #cbd5e1;
+  line-height: 1.4;
+}
+
+.ah-loan-note {
+  margin: 0.5rem 0 1rem;
+  font-size: 0.82rem;
+  color: #94a3b8;
+  line-height: 1.4;
+}
+
+.ah-summary-box {
+  margin: 1rem 0;
+  padding: 0.65rem 0.85rem;
+  background: rgba(22, 28, 38, 0.6);
+  border: 1px solid rgba(100, 130, 165, 0.3);
+  color: #edf2f7;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+/* 控件与按钮组 */
+.ah-controls-group {
+  margin: 1.25rem 0;
+}
+
+.ah-group-label {
+  display: block;
+  font-size: 0.82rem;
+  color: #94a3b8;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
+}
+
+.ah-btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.ah-borrow-btn {
+  flex: 1 1 calc(33.333% - 0.5rem);
+  min-width: 140px;
+  text-align: center;
+}
+
+.ah-action,
+.ah-entry-btn {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.55rem 1rem;
+  font-family: inherit;
+  font-size: 0.88rem;
+  color: #e2e8f0;
+  background: #1c2430;
+  border: 1px solid #3e4f66;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  box-sizing: border-box;
+}
+
+.ah-action:hover,
+.ah-entry-btn:hover,
+.ah-action:focus-visible,
+.ah-entry-btn:focus-visible {
+  background: #253346;
+  border-color: #63b3ed;
+  color: #ffffff;
+  outline: none;
+}
+
+.ah-action[aria-pressed="true"] {
+  background: #2b394e;
+  border-color: #90cdf4;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.ah-action:disabled,
+.ah-entry-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  border-color: #263242;
+}
+
+.ah-tool-actions,
+.ah-nav-actions,
+.ah-veranda-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.ah-preview-proceed-btn,
+.ah-wake-btn {
+  background: #1e3a5f;
+  border-color: #4299e1;
+  color: #ebf8ff;
+  font-weight: 600;
+}
+
+.ah-example-panel {
+  margin: 1rem 0;
+  padding: 0.85rem 1rem;
+  background: rgba(14, 18, 26, 0.85);
+  border: 1px solid #3b4c63;
+}
+
+.ah-example-note {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
+/* 回廊详情 */
+.ah-veranda-details {
+  margin: 1rem 0;
+}
+
+.ah-veranda-summary {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  color: #f7fafc;
+}
+
+.ah-veranda-awake {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
+/* 结局与签收 */
+.ah-endings-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.25rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.ah-ending-item {
+  padding: 0.6rem 0.85rem;
+  background: rgba(18, 24, 34, 0.6);
+  border: 1px solid rgba(100, 130, 165, 0.25);
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: #cbd5e1;
+}
+
+.ah-ending-item.is-collected {
+  border-color: rgba(144, 205, 244, 0.5);
+  color: #edf2f7;
+}
+
+.ah-receipt-card {
+  grid-column: 1 / -1;
+  margin: 1.5rem 0;
+  padding: 1.25rem;
+  background: rgba(18, 24, 34, 0.85);
+  border: 1px solid rgba(130, 170, 215, 0.45);
+}
+
+.ah-receipt-kicker {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: #90cdf4;
+  margin: 0 0 0.4rem;
+}
+
+.ah-receipt-title {
+  margin: 0 0 0.85rem;
+  font-size: 1.1rem;
+  color: #f7fafc;
+}
+
+.ah-receipt-note {
+  margin: 0.85rem 0 1rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #e2e8f0;
+}
+
+.ah-echo {
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  border-left: 2px solid #4a6585;
+  background: rgba(14, 18, 26, 0.5);
+  color: #cbd5e1;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+/* 入口与图鉴 */
+.ah-entry {
+  margin: 1.25rem 0;
+}
+
+.ah-entry-btn {
+  width: 100%;
+  text-align: left;
+  background: #182230;
+  border-color: #3b506e;
+}
+
+.ah-note {
+  margin: 0.4rem 0 0;
+  font-size: 0.82rem;
+  color: #a0aec0;
+}
+
+.ah-response {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  color: #90cdf4;
+}
+
+.ah-codex {
+  margin: 2rem 0;
+  padding: 1.25rem;
+  background: rgba(14, 18, 26, 0.8);
+  border: 1px solid rgba(110, 140, 180, 0.3);
+}
+
+.ah-kicker {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: #90cdf4;
+  margin: 0 0 1rem;
+}
+
+.ah-codex-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 1rem;
+}
+
+.ah-codex-cell {
+  padding: 0.85rem;
+  background: #10151f;
+  border: 1px solid #283547;
+  font-size: 0.85rem;
+  min-width: 0;
+}
+
+.ah-codex-cell.is-unlocked {
+  border-color: #4a6b94;
+}
+
+.ah-codex-cell strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #f7fafc;
+}
+
+.ah-codex-clocks .ah-clock-stack {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.25rem;
+}
+
+.ah-codex-clocks .ah-clock-card {
+  padding: 0.4rem 0.2rem;
+}
+
+.ah-codex-clocks .ah-room-name {
+  font-size: 0.7rem;
+  margin-bottom: 0.2rem;
+}
+
+.ah-codex-clocks .ah-clock-face {
+  width: 60px;
+  height: 60px;
+}
+
+.ah-codex-clocks .ah-clock-tick {
+  font-size: 0.55rem;
+}
+
+.ah-codex-clocks .ah-clock-hand {
+  height: 20px;
+}
+
+.ah-codex-clocks .ah-clock-number,
+.ah-codex-clocks .ah-room-status {
+  font-size: 0.62rem;
+  line-height: 1.15;
+}
+
+.ah-codex-story {
+  margin: 0.5rem 0 0;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
+.ah-hook {
+  margin: 1.25rem 0;
+  padding: 0.75rem 1rem;
+  background: rgba(30, 25, 40, 0.6);
+  border: 1px solid #705888;
+  color: #d8c8ea;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.ah-codex-entry {
+  margin-top: 1.25rem;
+}
+
+@media (max-width: 600px) {
+  .ah-borrow-btn {
+    flex: 1 1 100%;
+  }
+  .ah-clock-face {
+    width: 84px;
+    height: 84px;
+  }
+  .ah-clock-hand {
+    height: 30px;
+  }
 }

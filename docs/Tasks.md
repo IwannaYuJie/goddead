@@ -1,3 +1,43 @@
+## 2026-10-02 - v104 替别人醒来的旅馆实装任务清单
+
+- [x] **v104 状态机与前端组件实装**：新增 `wake-for-another-hotel`、`borrowed-dawn-clockroom`、`shared-morning-veranda` 3 个场景（全站 235 场景，缓存 `v=104`），实现三钟 0..5 刻度借时流转（模 6 守恒、36 种合法钟态、4 类结局 20/5/10/1 派生）与三旧目标真实签收，状态独立存储于 `goddead_v104_wake_for_another_hotel`；入库 3 张 1536×1024（<300KB）素材并通过正常文档流代码面板展示钟面与借刻关系。
+- [x] **测试套件与否定探针验证**：官方 `tests/v104.test.mjs` 包含 15 个测试组，与 v101~v104 四章节串行 65 个测试（12+22+16+15 全部通过）及主命令 `tests/site.test.mjs` 18,436 项断言严格区分；另经独立 6,146 模块断言、3,485 页面断言与 6,892 真实 22getter + 静态 HTML 注册断言验证，覆盖全部 216 种三元组分类（36 合法按 20/5/10/1 派生 + 180 非法守恒状态拒绝）、36 状态 BFS 遍历与 48 组独立全新 VM 挂起冷启动用例（非 48 次 CU 实机重载），5 种纯内存否定探针变异由独立诊断单独拦截确认。
+- [x] **Computer Use 真实 5 晚实机验收与基准恢复**：在既有 Chrome 标签页 80231134 完成 5 晚原生游玩与真实签收返回，验证 4 种结局解锁与最新钟面更新；验证移动端 390×844 触控尺寸与无溢出合规；验收后精确清理 25 项 QA 键恢复 21 项基准 raw（未调 `localStorage.clear`），3 条 locked 深链重定向回 `remembrance` 且控制台 0 报错。
+- [x] **文档闭环与 v105 钩子展示**：完成 README、GameplayFlow、ProgressLog 与 Tasks 同步，集齐四结局后显露 v105「只出售昨日的早餐铺」文案钩子（“住客终于醒来，早餐却还停在昨天。”，仅文案未实装）；详见 `docs/V104WakeForAnotherHotelDesign.md`、`docs/V104ImagePrompts.md` 与 `design-qa-evidence/v104-computer-use-20261002.md`。
+
+## 2026-10-02 - v103 收不到影子的照相馆实装任务清单
+
+- [x] 完成收不到影子的照相馆、双重曝光取景台与未收影暗房 3 个场景的原生渲染与三入口接入，哈希场景扩充至 232 个并更新静态资源标记 v=103。
+- [x] 实现 5 站位左右打光底片生成、有序插槽操作与人影几何重合派生 4 结局（10/10/6/74）到 3 个旧场景的打印寄出与闭环回程状态机。
+- [x] 生成并配置 3 张 1536x1024 WebP 场景图像（<300KB），完成响应式布局与移动端样式适配。
+- [x] 实装 tests/v103.test.mjs 16 项生产契约测试，主测试集 18429 项断言及 v101/v102/v103 共 50 项测试全部绿灯。
+- [x] 现有 Chrome 标签页单步走查通过，验证冷热恢复、数据清理还原与清除手机视口 override，确认本地实装完成未发布并预留 v104 钩子（见 docs/V103ShadowlessPhotographyDesign.md、docs/V103ImagePrompts.md 与 design-qa-evidence/v103-computer-use-20261002.md）。
+
+## 2026-10-02 - v102 没有天气的候车亭实装任务清单
+
+- [x] 完成 `weatherless-bus-shelter`、`season-dispatch-board` 与 `four-season-platform` 3 个新场景的原生渲染与车票入口串接，哈希场景扩充至 229 个并更新 `v=102`。
+- [x] 实现四季排班牌 4 插槽状态机（取放/移动/对调/替换/取下模式）、示例展示与 24 种全排列到 3 种去向的分流逻辑，确保预览、修改与放弃保留当前运行计数。
+- [x] 生成并配置 3 张 1536×1024 WebP 场景图像与 CSS 响应式布局，修复移动端 72px 顶栏遮挡并保证无横向溢出。
+- [x] 补充 `tests/v102.test.mjs` 22 项生产模块连接测试并保持主测试集 18422 项断言及 v101 测试全部绿灯。
+- [x] 在现有 Chrome 标签页完成单步 Computer Use 走查，验证冷热刷新、发车去向、状态清除与数据还原，并预留 v103 文案钩子。
+
+## 2026-10-02 - v101 黎明织造厂实装任务清单
+
+- [x] 研发分工明确（Codex 设计/生图/ComputerUse，gemini-3.7-flash-high 前端逻辑/测试/文档；纯本地预览，未 commit/push/deploy）
+- [x] 设计规范与原画提示词落盘（场景 223 → 226，静态缓存 `v=101`，Codex 生图 3 张原画转 WebP <300KB 懒加载）
+- [x] 3 个新场景路由与状态机：`dawn-weaving-mill`、`day-night-loom`、`sky-cloth-drying-terrace`
+- [x] 九格织机 9 个原生按钮（Tab 聚焦、Enter / Space 操作）、4 种模式、四向 BFS 连通判定与三种派生结局映射
+- [x] 痕迹室图鉴挂载 `#dw-hook` 显露 v102 预留钩子
+- [x] 状态键 `goddead_v101_dawn_weaving`（严格归一化、只读 v100、在途闭锁、latest 独立映射）
+- [x] 试晒预览、旧场景晨间签收面板、回执清 courier、草稿保留与 runs 规则
+- [x] 门禁与 Node 测试：`node --check`、`git diff --check`、`site.test.mjs`（18415 assertions passed）、`v101.test.mjs`（12 组通过，生产模块/resolveScene 配合桩及模拟 `e.isTrusted` 验证 19683 全穷举与 10 种冷快照覆盖 7 种 pending 状态转换）
+- [x] 独立只读模块审计（501 assertions / 15 组函数级通过，非全流程 bootstrap）
+- [x] 移动端 390×844 样式修复（状态栏改普通流，消除重叠与溢出，晾布台 192.66px 正方形预览完全容纳）
+- [x] v100 边界维护修复（cawk 选择器及 pending 映射修复，ignoreCache 刷新后 abandon 即时反馈与名录验证，未跑全 9 仪式与 3 裁定）
+- [x] Computer Use 完整三结局实机贯通（`lll...nnn` 双通结局故事送出、签收后尚未返回等待回执时织造厂找回链接跳转画廊签收并回执返回、`endings.length=3` 且三结局最新图案记录正确）
+- [x] 重复结局累加与放弃继续草稿保留实机验证（送出不同光图案完成签收使 runs 累加至 4、`l........` 放弃草稿保留且不增 runs 后继续填格织造成功；全项实测见 `design-qa-evidence/v101-computer-use-20261002.md`）
+- [x] 原始 21 项存储键全量恢复及 URL/视口调试状态还原（精确删除 22 项 QA 键，原 21 项 sortedJSON 完全一致，视口 1470×779 还原且缓存覆盖关闭、Debugger 停用，3 处深层未解锁入口均拦截至 `#remembrance`）
+
 
 
 

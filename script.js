@@ -1077,7 +1077,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (KNOCK_SCENE_NAMES.includes(name)) enterKnockNet(KNOCK_NAME_SCENE[name]);
     if (PAPERBACK_SCENE_NAMES.includes(name)) enterPaperback(PAPERBACK_NAME_SCENE[name]);
     if (name === "watch") { watchConsumed = false; watchReliefArmed = false; enterWatch(); }
-    if (RELIEF_SCENE_NAMES.includes(name)) enterRelief(RELIEF_NAME_SCENE[name]);
+    if (RELIEF_SCENE_NAMES.includes(name) && !weatherlessShelterReliefReceiptContext(name)) enterRelief(RELIEF_NAME_SCENE[name]);
     if (SIDETONE_SCENE_NAMES.includes(name)) { enterSidetone(SIDETONE_NAME_SCENE[name]); syncListeningRoom(SIDETONE_NAME_SCENE[name]); replayListeningPending(name); }
     if (name === "listening-back-console") { enterListeningConsole(); replayListeningPending(name); }
     if (RETURN_ROOM_SCENE_NAMES.includes(name)) enterReturnRoom(RETURN_ROOM_NAME_SCENE[name]);
@@ -1398,6 +1398,14 @@ document.addEventListener("DOMContentLoaded", () => {
     replayDeadRoadsPending(name);
     resolveHundredthWakePendingOnArrival(name);
     replayHundredthWakePending(name);
+    resolveDawnWeavingPendingOnArrival(name);
+    replayDawnWeavingPending(name);
+    resolveWeatherlessShelterPendingOnArrival(name);
+    replayWeatherlessShelterPending(name);
+    resolveShadowlessPhotographyPendingOnArrival(name);
+    replayShadowlessPhotographyPending(name);
+    resolveWakeForAnotherHotelPendingOnArrival(name);
+    replayWakeForAnotherHotelPending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1541,9 +1549,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
@@ -1557,7 +1565,7 @@ document.addEventListener("DOMContentLoaded", () => {
        v88 窄桥：title-action 可抵达 unending-gallery；
        v89 窄桥：appeal-action 可抵达 unending-gallery；
        v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1782,6 +1790,20 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "wake-hall" && !wkHallCanVisit()) target = "remembrance";
     if (target === "card-altar" && !cardAltarCanVisit()) target = "remembrance";
     if (target === "hearing-of-the-hundredth-night" && !wkCourtCanVisit()) target = "remembrance";
+
+    /* v101 黎明织造厂：未解锁或无合法抵达时一律回痕迹室 */
+    if (target === "dawn-weaving-mill" && !dwHallCanVisit()) target = "remembrance";
+    if (target === "day-night-loom" && !dayNightLoomCanVisit()) target = "remembrance";
+    if (target === "sky-cloth-drying-terrace" && !skyClothTerraceCanVisit()) target = "remembrance";
+    if (target === "weatherless-bus-shelter" && !wsHallCanVisit()) target = "remembrance";
+    if (target === "season-dispatch-board" && !seasonDispatchBoardCanVisit()) target = "remembrance";
+    if (target === "four-season-platform" && !fourSeasonPlatformCanVisit()) target = "remembrance";
+    if (target === "shadowless-photo-studio" && !shadowlessPhotoStudioCanVisit()) target = "remembrance";
+    if (target === "double-exposure-camera" && !doubleExposureCameraCanVisit()) target = "remembrance";
+    if (target === "unreceived-shadow-darkroom" && !unreceivedShadowDarkroomCanVisit()) target = "remembrance";
+    if (target === "wake-for-another-hotel" && !ahHotelCanVisit()) target = "remembrance";
+    if (target === "borrowed-dawn-clockroom" && !borrowedDawnClockroomCanVisit()) target = "remembrance";
+    if (target === "shared-morning-veranda" && !sharedMorningVerandaCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -48017,6 +48039,10 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetVigilCandlesState();
       forgetDeadRoadsState();
       forgetHundredthWakeState();
+      forgetDawnWeavingState();
+      forgetWeatherlessShelterState();
+      forgetShadowlessPhotographyState();
+      forgetWakeForAnotherHotelState();
       forgetCodexFolds();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
@@ -54976,8 +55002,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const WK_RESPONSE_BY_KIND = {
     entry: '#wk-entry-response',
     deck: '#wake-hall-response',
-    light: '#cawk-altar-response',
-    abandon: '#cawk-altar-response',
+    incense: '#card-altar-response',
+    abandon: '#card-altar-response',
     'court-entry': '#wk-court-entry-response',
     verdict: '#hearing-of-the-hundredth-night-response',
   };
@@ -54997,6 +55023,7 @@ document.addEventListener("DOMContentLoaded", () => {
     syncWkEchoes();
     syncWkRemembrance();
     syncWkLinks();
+    if (typeof syncPhEntries === 'function') syncPhEntries();
   }
 
   function replayHundredthWakePending(sceneName) {
@@ -55157,7 +55184,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function chooseWkAbandon() {
     const st = wkReady(WK_ALTAR, 'wk-abandon');
     if (!st || !st.draft.deck) return;
-    launchWk(WK_ALTAR, 'wk-abandon', { feedback: WK_ABANDON_FEEDBACK, kind: 'abandon', source: WK_ALTAR, target: WK_HALL }, '#cawk-altar-response');
+    launchWk(WK_ALTAR, 'wk-abandon', { feedback: WK_ABANDON_FEEDBACK, kind: 'abandon', source: WK_ALTAR, target: WK_HALL }, '#card-altar-response');
   }
 
   function chooseWkMournerReturn(scene) {
@@ -55406,7 +55433,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function syncWkLinks() {
     const st = hundredthWakeUnlocked() ? getHundredthWake() : null;
-    [['wake-hall-link', 'hall'], ['cawk-altar-link', 'altar'], ['hearing-of-the-hundredth-night-link', 'court']].forEach(([id, key]) => {
+    [['wake-hall-link', 'hall'], ['card-altar-link', 'altar'], ['hearing-of-the-hundredth-night-link', 'court']].forEach(([id, key]) => {
       const el = $(`#${id}`);
       if (el) el.hidden = !(st && st.visited[key]);
     });
@@ -55418,8 +55445,8 @@ document.addEventListener("DOMContentLoaded", () => {
     resetWkBoard('', '');
     wkAltarKey = '';
     ['#wk-codex', '#wk-memory', '#wk-hall-figure', '#wk-altar-panel', '#hearing-of-the-hundredth-night-figure',
-      '#wake-hall-link', '#cawk-altar-link', '#hearing-of-the-hundredth-night-link', '#wk-continue', '#wk-court-entry-btn',
-      '#wk-entry-response', '#wk-court-entry-response', '#wake-hall-response', '#cawk-altar-response', '#hearing-of-the-hundredth-night-response',
+      '#wake-hall-link', '#card-altar-link', '#hearing-of-the-hundredth-night-link', '#wk-continue', '#wk-court-entry-btn',
+      '#wk-entry-response', '#wk-court-entry-response', '#wake-hall-response', '#card-altar-response', '#hearing-of-the-hundredth-night-response',
       ...WK_OLD_TARGETS.flatMap((scene) => [`#wk-mourner-${scene}`, `#wk-echo-${scene}`]),
     ].forEach((sel) => { const el = $(sel); if (el) el.hidden = true; });
     $$('[id^="wk-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
@@ -55446,6 +55473,4594 @@ document.addEventListener("DOMContentLoaded", () => {
   onTrustedWk('#wk-reset', coverWkAltar);
   onTrustedWk('#wk-incense', offerWkIncense);
 
+/* ============================================================
+   v101 黎明织造厂 / DAWN WEAVING MILL
+   第一百夜之后，门缝里出现了一条没有太阳的晨光。
+   九格织机：九字符编码，., l, n。从左至右连通光/夜。
+   派生三种结局：第一百零一天、不用天亮的夜、昼夜从此分居。
+   只读 v100；独立键 goddead_v101_dawn_weaving；受信任点击与安全 DOM 操作。
+   ============================================================ */
+const DAWN_WEAVING_KEY = 'goddead_v101_dawn_weaving';
+const DAWN_WEAVING_VERSION = 101;
+const DW_HALL = 'dawn-weaving-mill';
+const DW_LOOM = 'day-night-loom';
+const DW_TERRACE = 'sky-cloth-drying-terrace';
+const DW_EMPTY_PATTERN = '.........';
+const DW_MATERIALS = ['.', 'l', 'n'];
+const DW_OLD_TARGETS = ['threshold', 'remembrance', 'unending-gallery'];
+
+const DW_ENDING_IDS = [
+  'the-hundred-and-first-day-began',
+  'the-night-learned-to-live-without-dawn',
+  'day-and-night-lived-apart',
+];
+
+const DW_ENDING_TABLE = {
+  'the-hundred-and-first-day-began': {
+    id: 'the-hundred-and-first-day-began',
+    title: '第一百零一天',
+    target: 'threshold',
+    placeName: '门外',
+    story: '门外的人第一次有了影子。门仍然开着，影子却留在了外面。',
+    courierTitle: '门外的影子 · 第一百零一天',
+    echoLead: '门缝前有一小块透光的布。',
+    preview: '晨光穿透了织物。这块布将送往门外。',
+  },
+  'the-night-learned-to-live-without-dawn': {
+    id: 'the-night-learned-to-live-without-dawn',
+    title: '不用天亮的夜',
+    target: 'remembrance',
+    placeName: '痕迹室',
+    story: '日历不再催夜离开。每个没说完的名字，都有时间慢慢说完。',
+    courierTitle: '不熄的夜色 · 不用天亮的夜',
+    echoLead: '日历旁边搭着一块深蓝色的夜线织物。',
+    preview: '夜线连成了通路。这块布将送回痕迹室。',
+  },
+  'day-and-night-lived-apart': {
+    id: 'day-and-night-lived-apart',
+    title: '昼夜从此分居',
+    target: 'unending-gallery',
+    placeName: '无终局陈列廊',
+    story: '白天在画框里醒来，夜晚住到画框背后。它们隔着一张布，互相听得到。',
+    courierTitle: '分居的昼夜 · 昼夜从此分居',
+    echoLead: '画框边垂着一块半金半靛的织物。',
+    preview: '光与夜各自穿过了织机。这块布将送往无终局陈列廊。',
+  },
+};
+
+const DW_ENTRY_FEEDBACK = '你抽出了门缝里的晨光，石拱下的织机还在静静转动。';
+const DW_START_FEEDBACK = '织机转动起来，线轴在黄铜梭子里就位。';
+const DW_SAMPLE_FEEDBACK = '布织好了，你把它抱上天际晾布台。';
+const DW_UNWEAVE_FEEDBACK = '你把布抱回织机，拆出线头准备重织。';
+const DW_ABANDON_FEEDBACK = '你把线头收齐，暂且离开了织机。';
+const DW_COURIER_RETURN_FEEDBACK = '回执签收完毕，你收好剪刀走回了织造厂。';
+
+const DW_EXAMPLES = [
+  { pattern: 'lll......', note: '最简单的晨光：第一行直接通向右侧。' },
+  { pattern: 'nnn......', note: '最简单的夜线：第一行直接通向右侧。' },
+  { pattern: 'lll...nnn', note: '昼夜分居：上方通晨光，下方通夜线。' },
+];
+
+let dwExampleIndex = -1;
+let dwExampleShown = false;
+let dwCurrentMode = 'cycle'; // 'cycle' | 'light' | 'night' | 'erase'
+
+function dwDelay() {
+  return reduced ? 300 : 1400;
+}
+
+function defaultDawnWeaving() {
+  const latest = {};
+  DW_ENDING_IDS.forEach((id) => { latest[id] = ''; });
+  return {
+    version: DAWN_WEAVING_VERSION,
+    visited: { hall: false, loom: false, terrace: false },
+    draft: { pattern: DW_EMPTY_PATTERN },
+    endings: [],
+    latestWeaveByEnding: latest,
+    weaveRuns: 0,
+    lastOutcome: '',
+    activeCourier: null,
+    pending: null,
+  };
+}
+
+function clampDwCount(n) {
+  const v = Math.floor(Number(n));
+  return Number.isFinite(v) ? Math.min(9999, Math.max(0, v)) : 0;
+}
+
+function isValidDwPattern(p) {
+  return typeof p === 'string' && p.length === 9 && /^[.ln]{9}$/.test(p);
+}
+
+function dwConnections(pattern, material) {
+  if (!isValidDwPattern(pattern) || (material !== 'l' && material !== 'n')) return [];
+  const leftEntrances = [0, 3, 6].filter((i) => pattern[i] === material);
+  if (!leftEntrances.length) return [];
+  const queue = [...leftEntrances];
+  const visited = new Set(leftEntrances);
+  while (queue.length > 0) {
+    const curr = queue.shift();
+    const r = Math.floor(curr / 3);
+    const c = curr % 3;
+    const neighbors = [];
+    if (r > 0) neighbors.push(curr - 3);
+    if (r < 2) neighbors.push(curr + 3);
+    if (c > 0) neighbors.push(curr - 1);
+    if (c < 2) neighbors.push(curr + 1);
+    for (const n of neighbors) {
+      if (pattern[n] === material && !visited.has(n)) {
+        visited.add(n);
+        queue.push(n);
+      }
+    }
+  }
+  return Array.from(visited);
+}
+
+function hasDwCrossPath(pattern, material) {
+  const reached = dwConnections(pattern, material);
+  return [2, 5, 8].some((right) => reached.includes(right));
+}
+
+function classifyDawnPattern(pattern) {
+  if (!isValidDwPattern(pattern)) return '';
+  const hasLight = hasDwCrossPath(pattern, 'l');
+  const hasNight = hasDwCrossPath(pattern, 'n');
+  if (hasLight && hasNight) return 'day-and-night-lived-apart';
+  if (hasLight) return 'the-hundred-and-first-day-began';
+  if (hasNight) return 'the-night-learned-to-live-without-dawn';
+  return '';
+}
+
+function normalizeDawnWeaving(raw) {
+  const d = defaultDawnWeaving();
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== DAWN_WEAVING_VERSION) return d;
+  const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
+  d.visited = { hall: v.hall === true, loom: v.loom === true, terrace: v.terrace === true };
+  const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
+  d.draft = { pattern: isValidDwPattern(dr.pattern) ? dr.pattern : DW_EMPTY_PATTERN };
+  const endings = new Set(Array.isArray(raw.endings) ? raw.endings : []);
+  d.endings = DW_ENDING_IDS.filter((id) => endings.has(id));
+  d.weaveRuns = clampDwCount(raw.weaveRuns);
+  const latest = raw.latestWeaveByEnding && typeof raw.latestWeaveByEnding === 'object' ? raw.latestWeaveByEnding : {};
+  DW_ENDING_IDS.forEach((id) => {
+    const p = latest[id];
+    if (d.endings.includes(id) && isValidDwPattern(p) && classifyDawnPattern(p) === id) {
+      d.latestWeaveByEnding[id] = p;
+    } else {
+      d.latestWeaveByEnding[id] = '';
+    }
+  });
+  if (typeof raw.lastOutcome === 'string' && d.endings.includes(raw.lastOutcome)) {
+    d.lastOutcome = raw.lastOutcome;
+  }
+  const a = raw.activeCourier;
+  if (a && typeof a === 'object' && !Array.isArray(a) && Object.keys(a).length === 2) {
+    if (DW_ENDING_IDS.includes(a.outcome) && d.endings.includes(a.outcome) && isValidDwPattern(a.pattern) && classifyDawnPattern(a.pattern) === a.outcome && d.latestWeaveByEnding[a.outcome] === a.pattern) {
+      d.activeCourier = { outcome: a.outcome, pattern: a.pattern };
+    }
+  }
+  d.pending = normalizeDwPending(raw.pending, d);
+  return d;
+}
+
+function dawnWeavingUnlocked() {
+  const compute = () => {
+    const v100 = getHundredthWake();
+    return wkCourtEligible(v100) && WK_VERDICT_OUTCOME_IDS.every((o) => v100.courtOutcomes.includes(o));
+  };
+  return store.memo ? store.memo('dawnWeavingUnlocked', compute) : compute();
+}
+
+function dawnWeavingAvailable() {
+  if (!dawnWeavingUnlocked()) return false;
+  const v100 = getHundredthWake();
+  return !v100.pending;
+}
+
+function getDawnWeaving() {
+  if (!dawnWeavingUnlocked()) return defaultDawnWeaving();
+  let raw;
+  try { raw = JSON.parse(store.get(DAWN_WEAVING_KEY, '{}')); } catch { return defaultDawnWeaving(); }
+  return normalizeDawnWeaving(raw);
+}
+
+function saveDawnWeaving(st) {
+  if (!dawnWeavingUnlocked()) return defaultDawnWeaving();
+  const canonical = normalizeDawnWeaving(Object.assign({}, st, { version: DAWN_WEAVING_VERSION }));
+  store.set(DAWN_WEAVING_KEY, JSON.stringify(canonical));
+  return canonical;
+}
+
+function expectedDwPending(p, st) {
+  if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+  const clean = !st.activeCourier;
+  switch (p.kind) {
+    case 'entry': {
+      if (p.source !== 'threshold' && p.source !== 'remembrance') return null;
+      return { feedback: DW_ENTRY_FEEDBACK, kind: 'entry', source: p.source, target: DW_HALL };
+    }
+    case 'start': {
+      if (!clean || !st.visited.hall) return null;
+      return { feedback: DW_START_FEEDBACK, kind: 'start', source: DW_HALL, target: DW_LOOM };
+    }
+    case 'sample': {
+      if (!clean || !st.visited.loom) return null;
+      const outcome = classifyDawnPattern(st.draft.pattern);
+      if (!outcome || p.pattern !== st.draft.pattern || p.outcome !== outcome) return null;
+      return { feedback: DW_SAMPLE_FEEDBACK, kind: 'sample', outcome, pattern: st.draft.pattern, source: DW_LOOM, target: DW_TERRACE };
+    }
+    case 'unweave': {
+      if (!clean || !st.visited.terrace) return null;
+      const outcome = classifyDawnPattern(st.draft.pattern);
+      if (!outcome) return null;
+      return { feedback: DW_UNWEAVE_FEEDBACK, kind: 'unweave', source: DW_TERRACE, target: DW_LOOM };
+    }
+    case 'delivery': {
+      if (!clean || !st.visited.terrace) return null;
+      const outcome = classifyDawnPattern(st.draft.pattern);
+      if (!outcome || p.pattern !== st.draft.pattern || p.outcome !== outcome) return null;
+      const target = DW_ENDING_TABLE[outcome].target;
+      return { feedback: DW_ENDING_TABLE[outcome].story, kind: 'delivery', outcome, pattern: st.draft.pattern, source: DW_TERRACE, target };
+    }
+    case 'abandon': {
+      if (!clean || !st.visited.loom) return null;
+      return { feedback: DW_ABANDON_FEEDBACK, kind: 'abandon', source: DW_LOOM, target: DW_HALL };
+    }
+    case 'courier-return': {
+      if (!st.activeCourier) return null;
+      const expectedFrom = DW_ENDING_TABLE[st.activeCourier.outcome].target;
+      if (p.from !== expectedFrom || p.outcome !== st.activeCourier.outcome) return null;
+      return { feedback: DW_COURIER_RETURN_FEEDBACK, from: expectedFrom, kind: 'courier-return', outcome: st.activeCourier.outcome, target: DW_HALL };
+    }
+    default:
+      return null;
+  }
+}
+
+function normalizeDwPending(p, st) {
+  if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+  const expected = expectedDwPending(p, st);
+  if (!expected) return null;
+  const keys = Object.keys(p).sort();
+  const want = Object.keys(expected).sort();
+  if (keys.length !== want.length || keys.some((k, i) => k !== want[i] || p[k] !== expected[k])) return null;
+  return expected;
+}
+
+function dwPendingLogicalSource(p) {
+  if (!p) return '';
+  if (p.kind === 'entry') return p.source || '';
+  if (p.kind === 'courier-return') return p.from || '';
+  return p.source || '';
+}
+
+function resolveDawnWeavingPendingOnArrival(sceneName) {
+  if (!dawnWeavingAvailable()) return getDawnWeaving();
+  const st = getDawnWeaving();
+  const p = st.pending;
+  if (!p) return st;
+  if (p.target === sceneName) {
+    st.pending = null;
+    if (p.kind === 'entry') {
+      st.visited.hall = true;
+    } else if (p.kind === 'start') {
+      st.visited.loom = true;
+    } else if (p.kind === 'sample') {
+      st.visited.terrace = true;
+    } else if (p.kind === 'unweave') {
+      st.visited.loom = true;
+    } else if (p.kind === 'abandon') {
+      st.visited.hall = true;
+    } else if (p.kind === 'delivery') {
+      st.weaveRuns = clampDwCount(st.weaveRuns + 1);
+      if (!st.endings.includes(p.outcome)) st.endings = st.endings.concat(p.outcome);
+      st.latestWeaveByEnding[p.outcome] = p.pattern;
+      st.lastOutcome = p.outcome;
+      st.activeCourier = { outcome: p.outcome, pattern: p.pattern };
+      st.draft = { pattern: DW_EMPTY_PATTERN };
+    } else if (p.kind === 'courier-return') {
+      st.activeCourier = null;
+      st.visited.hall = true;
+    }
+    return saveDawnWeaving(st);
+  }
+  if (sceneName === dwPendingLogicalSource(p)) return st;
+  st.pending = null;
+  return saveDawnWeaving(st);
+}
+
+const DW_RESPONSE_BY_KIND = {
+  start: '#dawn-weaving-mill-response',
+  sample: '#day-night-loom-response',
+  unweave: '#sky-cloth-drying-terrace-response',
+  abandon: '#day-night-loom-response',
+  delivery: '#sky-cloth-drying-terrace-response',
+};
+
+function showDwResponse(selector, text) {
+  const el = $(selector);
+  if (!el) return;
+  el.textContent = text;
+  el.hidden = !text;
+}
+
+function renderDwPattern(container, pattern) {
+  if (!container) return;
+  const pat = isValidDwPattern(pattern) ? pattern : DW_EMPTY_PATTERN;
+  const lConns = dwConnections(pat, 'l');
+  const nConns = dwConnections(pat, 'n');
+  const tiles = [];
+  for (let i = 0; i < 9; i++) {
+    const ch = pat[i];
+    const span = document.createElement('span');
+    span.className = 'dw-tile';
+    span.setAttribute('data-material', ch);
+    const isConn = (ch === 'l' && lConns.includes(i)) || (ch === 'n' && nConns.includes(i));
+    if (isConn) span.classList.add('is-connected');
+    let glyph = '·';
+    let label = '空白';
+    if (ch === 'l') { glyph = '☀'; label = '晨光'; }
+    else if (ch === 'n') { glyph = '☾'; label = '夜线'; }
+    const markSpan = document.createElement('span');
+    markSpan.className = 'dw-tile-mark';
+    markSpan.setAttribute('aria-hidden', 'true');
+    markSpan.textContent = glyph;
+    const textSpan = document.createElement('span');
+    textSpan.className = 'dw-tile-text';
+    textSpan.textContent = label;
+    span.appendChild(markSpan);
+    span.appendChild(textSpan);
+    span.setAttribute('aria-label', `第${Math.floor(i / 3) + 1}行第${(i % 3) + 1}列 ${label}${isConn ? '（已连通）' : ''}`);
+    tiles.push(span);
+  }
+  container.replaceChildren(...tiles);
+}
+
+function syncDawnWeavingAll() {
+  syncDwHall();
+  syncDwLoom();
+  syncDwTerrace();
+  syncDwCouriers();
+  syncDwEchoes();
+  syncDwEntries();
+  syncDwLinks();
+  if (typeof syncPhEntries === 'function') syncPhEntries();
+}
+
+function replayDawnWeavingPending(sceneName) {
+  if (!dawnWeavingAvailable()) {
+    syncDawnWeavingAll();
+    return;
+  }
+  const st = getDawnWeaving();
+  const p = st.pending;
+  if (p && p.target === sceneName) {
+    resolveDawnWeavingPendingOnArrival(sceneName);
+  } else if (p && sceneName === dwPendingLogicalSource(p)) {
+    syncDawnWeavingAll();
+    let selector = '';
+    if (p.kind === 'entry') selector = `#dw-entry-response-${p.source}`;
+    else if (p.kind === 'courier-return') selector = `#dw-courier-response-${p.from}`;
+    else selector = DW_RESPONSE_BY_KIND[p.kind];
+    if (selector) showDwResponse(selector, p.feedback);
+    AutoAdvance.schedule(sceneName, p.target, { delay: dwDelay() });
+    return;
+  } else if (p) {
+    st.pending = null;
+    saveDawnWeaving(st);
+  }
+  syncDawnWeavingAll();
+}
+
+function launchDw(scene, buttonId, pending, responseSelector) {
+  const st = getDawnWeaving();
+  st.pending = pending;
+  const saved = saveDawnWeaving(st);
+  if (!saved.pending) return false;
+  const btn = buttonId ? $(`#${buttonId}`) : null;
+  if (btn) btn.setAttribute('aria-pressed', 'true');
+  if (AudioEngine.whoosh) AudioEngine.whoosh();
+  syncDawnWeavingAll();
+  showDwResponse(responseSelector, pending.feedback);
+  AutoAdvance.schedule(scene, pending.target, { delay: dwDelay() });
+  return true;
+}
+
+function dwReady(scene, buttonId) {
+  if (currentScene !== scene) return null;
+  if (AutoAdvance.has(scene)) return null;
+  if (buttonId && !buttonAvailable(buttonId)) return null;
+  if (!dawnWeavingAvailable()) return null;
+  const st = getDawnWeaving();
+  return st.pending ? null : st;
+}
+
+function dawnWeavingBridgeAllows(targetScene) {
+  if (!dawnWeavingAvailable()) return false;
+  const st = getDawnWeaving();
+  if (st.pending && (st.pending.kind === 'delivery') && st.pending.target === targetScene) return true;
+  if (st.activeCourier && DW_ENDING_TABLE[st.activeCourier.outcome] && DW_ENDING_TABLE[st.activeCourier.outcome].target === targetScene) return true;
+  if (st.lastOutcome && DW_ENDING_TABLE[st.lastOutcome] && DW_ENDING_TABLE[st.lastOutcome].target === targetScene) return true;
+  return false;
+}
+
+function dwHallCanVisit() {
+  if (!dawnWeavingAvailable()) return false;
+  const st = getDawnWeaving();
+  if (st.pending) {
+    if (st.pending.target === DW_HALL) return true;
+    if (st.pending.source === DW_HALL && st.visited.hall && !st.activeCourier) return true;
+    return false;
+  }
+  return st.visited.hall;
+}
+
+function dayNightLoomCanVisit() {
+  if (!dawnWeavingAvailable()) return false;
+  const st = getDawnWeaving();
+  if (st.pending) {
+    if (st.pending.target === DW_LOOM) return true;
+    if (st.pending.source === DW_LOOM && st.visited.loom && !st.activeCourier) return true;
+    return false;
+  }
+  return st.visited.loom && !st.activeCourier;
+}
+
+function skyClothTerraceCanVisit() {
+  if (!dawnWeavingAvailable()) return false;
+  const st = getDawnWeaving();
+  if (st.pending) {
+    if (st.pending.target === DW_TERRACE) return true;
+    if (st.pending.source === DW_TERRACE && st.visited.terrace && Boolean(classifyDawnPattern(st.draft.pattern)) && !st.activeCourier) return true;
+    return false;
+  }
+  return st.visited.terrace && Boolean(classifyDawnPattern(st.draft.pattern)) && !st.activeCourier;
+}
+
+function chooseDwEntry(source) {
+  if (source !== 'threshold' && source !== 'remembrance') return;
+  const btnId = `dw-entry-${source}`;
+  const st = dwReady(source, btnId);
+  if (!st) return;
+  launchDw(source, btnId, { feedback: DW_ENTRY_FEEDBACK, kind: 'entry', source, target: DW_HALL }, `#dw-entry-response-${source}`);
+}
+
+function chooseDwStart(fresh) {
+  const btnId = fresh ? 'dw-new' : 'dw-continue';
+  const st = dwReady(DW_HALL, btnId);
+  if (!st || !st.visited.hall || st.activeCourier) return;
+  if (fresh) {
+    st.draft = { pattern: DW_EMPTY_PATTERN };
+    saveDawnWeaving(st);
+  }
+  launchDw(DW_HALL, btnId, { feedback: DW_START_FEEDBACK, kind: 'start', source: DW_HALL, target: DW_LOOM }, '#dawn-weaving-mill-response');
+}
+
+function chooseDwCell(index) {
+  if (!Number.isInteger(index) || index < 0 || index >= 9) return;
+  const st = dwReady(DW_LOOM, `dw-cell-${index}`);
+  if (!st || !st.visited.loom || st.activeCourier) return;
+  let pat = st.draft.pattern.split('');
+  const cur = pat[index];
+  let next = cur;
+  if (dwCurrentMode === 'light') next = 'l';
+  else if (dwCurrentMode === 'night') next = 'n';
+  else if (dwCurrentMode === 'erase') next = '.';
+  else {
+    const idx = DW_MATERIALS.indexOf(cur);
+    next = DW_MATERIALS[(idx + 1) % DW_MATERIALS.length];
+  }
+  if (next !== cur) {
+    pat[index] = next;
+    st.draft.pattern = pat.join('');
+    saveDawnWeaving(st);
+    if (AudioEngine.tick) AudioEngine.tick();
+    syncDwLoom();
+  }
+}
+
+function chooseDwMode(mode) {
+  const st = dwReady(DW_LOOM, `dw-mode-${mode}`);
+  if (!st || !st.visited.loom || st.activeCourier) return;
+  if (['cycle', 'light', 'night', 'erase'].includes(mode)) {
+    dwCurrentMode = mode;
+    syncDwLoom();
+  }
+}
+
+function chooseDwExample() {
+  const st = dwReady(DW_LOOM, 'dw-example-btn');
+  if (!st || !st.visited.loom || st.activeCourier) return;
+  if (!dwExampleShown) {
+    dwExampleShown = true;
+    dwExampleIndex = 0;
+  } else {
+    dwExampleIndex = (dwExampleIndex + 1) % DW_EXAMPLES.length;
+  }
+  syncDwLoom();
+}
+
+function chooseDwSample() {
+  const st = dwReady(DW_LOOM, 'dw-sample-btn');
+  if (!st || !st.visited.loom || st.activeCourier) return;
+  const outcome = classifyDawnPattern(st.draft.pattern);
+  if (!outcome) return;
+  launchDw(DW_LOOM, 'dw-sample-btn', {
+    feedback: DW_SAMPLE_FEEDBACK, kind: 'sample', outcome, pattern: st.draft.pattern, source: DW_LOOM, target: DW_TERRACE,
+  }, '#day-night-loom-response');
+}
+
+function chooseDwUnweave() {
+  const st = dwReady(DW_TERRACE, 'dw-unweave');
+  if (!st || !st.visited.terrace || st.activeCourier) return;
+  const outcome = classifyDawnPattern(st.draft.pattern);
+  if (!outcome) return;
+  launchDw(DW_TERRACE, 'dw-unweave', { feedback: DW_UNWEAVE_FEEDBACK, kind: 'unweave', source: DW_TERRACE, target: DW_LOOM }, '#sky-cloth-drying-terrace-response');
+}
+
+function chooseDwDelivery() {
+  const st = dwReady(DW_TERRACE, 'dw-deliver');
+  if (!st || !st.visited.terrace || st.activeCourier) return;
+  const outcome = classifyDawnPattern(st.draft.pattern);
+  if (!outcome) return;
+  const target = DW_ENDING_TABLE[outcome].target;
+  launchDw(DW_TERRACE, 'dw-deliver', {
+    feedback: DW_ENDING_TABLE[outcome].story, kind: 'delivery', outcome, pattern: st.draft.pattern, source: DW_TERRACE, target,
+  }, '#sky-cloth-drying-terrace-response');
+}
+
+function chooseDwCourierReturn(scene) {
+  const btnId = `dw-courier-return-${scene}`;
+  const st = dwReady(scene, btnId);
+  if (!st || !st.activeCourier) return;
+  if (DW_ENDING_TABLE[st.activeCourier.outcome].target !== scene) return;
+  launchDw(scene, btnId, {
+    feedback: DW_COURIER_RETURN_FEEDBACK, from: scene, kind: 'courier-return', outcome: st.activeCourier.outcome, target: DW_HALL,
+  }, `#dw-courier-response-${scene}`);
+}
+
+function chooseDwAbandon() {
+  const st = dwReady(DW_LOOM, 'dw-abandon');
+  if (!st || !st.visited.loom || st.activeCourier) return;
+  launchDw(DW_LOOM, 'dw-abandon', { feedback: DW_ABANDON_FEEDBACK, kind: 'abandon', source: DW_LOOM, target: DW_HALL }, '#day-night-loom-response');
+}
+
+function syncDwHall() {
+  const canVisit = dwHallCanVisit();
+  const st = getDawnWeaving();
+  const fig = $('#dw-hall-figure');
+  if (fig) fig.hidden = !canVisit;
+  const hasCourier = Boolean(st.activeCourier);
+  const blocked = !canVisit || Boolean(st.pending) || hasCourier;
+
+  const btnNew = $('#dw-new');
+  if (btnNew) {
+    btnNew.hidden = !canVisit;
+    btnNew.disabled = blocked;
+    btnNew.setAttribute('aria-pressed', st.pending && st.pending.kind === 'start' ? 'true' : 'false');
+  }
+  const btnCont = $('#dw-continue');
+  if (btnCont) {
+    const showCont = canVisit && st.draft.pattern !== DW_EMPTY_PATTERN && !hasCourier;
+    btnCont.hidden = !showCont;
+    btnCont.disabled = !showCont || Boolean(st.pending);
+  }
+  const courierLink = $('#dw-courier-link');
+  if (courierLink) {
+    courierLink.hidden = !hasCourier;
+    if (hasCourier) {
+      const tgt = DW_ENDING_TABLE[st.activeCourier.outcome].target;
+      courierLink.setAttribute('href', `#${tgt}`);
+      courierLink.textContent = `回到晨间签收处 ⟶`;
+    }
+  }
+  const note = $('#dw-hall-note');
+  if (note) {
+    let text = '';
+    if (hasCourier) {
+      const out = DW_ENDING_TABLE[st.activeCourier.outcome];
+      text = `织物正在签收中：请前往${out.placeName}确认签收并返回。`;
+    } else if (st.draft.pattern !== DW_EMPTY_PATTERN) {
+      text = '织机上还留着未织完的布。';
+    }
+    note.textContent = text;
+    note.hidden = !canVisit || !text;
+  }
+  const endingsList = $('#dw-hall-endings');
+  if (endingsList) {
+    endingsList.hidden = !canVisit;
+    if (canVisit) {
+      const items = DW_ENDING_IDS.map((id) => {
+        const collected = st.endings.includes(id);
+        const li = document.createElement('li');
+        li.className = `dw-ending-item ${collected ? 'is-collected' : 'is-uncollected'}`;
+        li.textContent = collected ? `[已织出] ${DW_ENDING_TABLE[id].title} —— ${DW_ENDING_TABLE[id].story}` : `[未织出] ${DW_ENDING_TABLE[id].title} —— ？？？`;
+        return li;
+      });
+      endingsList.replaceChildren(...items);
+    }
+  }
+  if (!st.pending || st.pending.source !== DW_HALL) showDwResponse('#dawn-weaving-mill-response', '');
+}
+
+function syncDwLoom() {
+  const canVisit = dayNightLoomCanVisit();
+  const st = getDawnWeaving();
+  const ready = canVisit;
+  const fig = $('#dw-loom-figure');
+  if (fig) fig.hidden = !ready;
+  const panel = $('#dw-loom-panel');
+  if (panel) panel.hidden = !ready;
+
+  const pat = st.draft.pattern;
+  const lConns = dwConnections(pat, 'l');
+  const nConns = dwConnections(pat, 'n');
+  const outcome = classifyDawnPattern(pat);
+
+  for (let i = 0; i < 9; i++) {
+    const btn = $(`#dw-cell-${i}`);
+    if (!btn) continue;
+    const ch = pat[i];
+    btn.disabled = !ready || Boolean(st.pending) || Boolean(st.activeCourier);
+    btn.setAttribute('data-material', ch);
+    const isConn = (ch === 'l' && lConns.includes(i)) || (ch === 'n' && nConns.includes(i));
+    btn.classList.toggle('is-connected', isConn);
+    let glyph = '·';
+    let label = '空白';
+    if (ch === 'l') { glyph = '☀'; label = '晨光'; }
+    else if (ch === 'n') { glyph = '☾'; label = '夜线'; }
+    let markSpan = btn.querySelector('.dw-tile-mark');
+    let textSpan = btn.querySelector('.dw-tile-text');
+    if (!markSpan || !textSpan) {
+      markSpan = document.createElement('span');
+      markSpan.className = 'dw-tile-mark';
+      markSpan.setAttribute('aria-hidden', 'true');
+      textSpan = document.createElement('span');
+      textSpan.className = 'dw-tile-text';
+      btn.replaceChildren(markSpan, textSpan);
+    }
+    markSpan.textContent = glyph;
+    textSpan.textContent = label;
+    btn.setAttribute('aria-label', `第${Math.floor(i / 3) + 1}行第${(i % 3) + 1}列 ${label}${isConn ? '（已连通）' : ''}`);
+  }
+
+  ['cycle', 'light', 'night', 'erase'].forEach((m) => {
+    const btn = $(`#dw-mode-${m}`);
+    if (btn) {
+      btn.disabled = !ready || Boolean(st.pending) || Boolean(st.activeCourier);
+      btn.setAttribute('aria-pressed', dwCurrentMode === m ? 'true' : 'false');
+    }
+  });
+
+  const lStat = $('#dw-light-status');
+  if (lStat) {
+    const hasL = hasDwCrossPath(pat, 'l');
+    lStat.textContent = hasL ? '晨光通路：已贯通' : '晨光通路：未连通';
+    lStat.classList.toggle('is-active', hasL);
+  }
+  const nStat = $('#dw-night-status');
+  if (nStat) {
+    const hasN = hasDwCrossPath(pat, 'n');
+    nStat.textContent = hasN ? '夜线通路：已贯通' : '夜线通路：未连通';
+    nStat.classList.toggle('is-active', hasN);
+  }
+
+  const modeHint = $('#dw-mode-hint');
+  if (modeHint) {
+    if (outcome) {
+      modeHint.textContent = `当前成布：${DW_ENDING_TABLE[outcome].title}（${DW_ENDING_TABLE[outcome].preview}）`;
+    } else {
+      modeHint.textContent = '让一条晨光或夜线，从左边接到右边。';
+    }
+  }
+
+  const sampleBtn = $('#dw-sample-btn');
+  if (sampleBtn) {
+    sampleBtn.disabled = !ready || Boolean(st.pending) || Boolean(st.activeCourier) || !outcome;
+    sampleBtn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'sample' ? 'true' : 'false');
+  }
+  const abandonBtn = $('#dw-abandon');
+  if (abandonBtn) {
+    abandonBtn.disabled = !ready || Boolean(st.pending) || Boolean(st.activeCourier);
+  }
+
+  const exBtn = $('#dw-example-btn');
+  if (exBtn) exBtn.disabled = !ready || Boolean(st.pending) || Boolean(st.activeCourier);
+  const exPat = $('#dw-example-pattern');
+  if (exPat) {
+    exPat.hidden = !dwExampleShown;
+    if (dwExampleShown && dwExampleIndex >= 0) {
+      renderDwPattern(exPat, DW_EXAMPLES[dwExampleIndex].pattern);
+    }
+  }
+  const exNote = $('#dw-example-note');
+  if (exNote) {
+    exNote.textContent = dwExampleShown && dwExampleIndex >= 0 ? DW_EXAMPLES[dwExampleIndex].note : '';
+  }
+
+  if (!st.pending || st.pending.source !== DW_LOOM) showDwResponse('#day-night-loom-response', '');
+}
+
+function syncDwTerrace() {
+  const canVisit = skyClothTerraceCanVisit();
+  const st = getDawnWeaving();
+  const ready = canVisit;
+  const fig = $('#dw-terrace-figure');
+  if (fig) fig.hidden = !ready;
+  const panel = $('#dw-terrace-panel');
+  if (panel) panel.hidden = !ready;
+
+  const pat = st.draft.pattern;
+  const outcome = classifyDawnPattern(pat);
+  const patEl = $('#dw-terrace-pattern');
+  if (patEl) renderDwPattern(patEl, pat);
+
+  const titleEl = $('#dw-terrace-title');
+  const storyEl = $('#dw-terrace-story');
+  const targetEl = $('#dw-terrace-target');
+  if (outcome && DW_ENDING_TABLE[outcome]) {
+    const out = DW_ENDING_TABLE[outcome];
+    if (titleEl) titleEl.textContent = out.title;
+    if (storyEl) storyEl.textContent = out.story;
+    if (targetEl) targetEl.textContent = `送往：${out.placeName}（${out.preview}）`;
+  } else {
+    if (titleEl) titleEl.textContent = '';
+    if (storyEl) storyEl.textContent = '';
+    if (targetEl) targetEl.textContent = '';
+  }
+
+  const deliverBtn = $('#dw-deliver');
+  if (deliverBtn) {
+    deliverBtn.disabled = !ready || Boolean(st.pending) || Boolean(st.activeCourier) || !outcome;
+    deliverBtn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'delivery' ? 'true' : 'false');
+  }
+  const unweaveBtn = $('#dw-unweave');
+  if (unweaveBtn) {
+    unweaveBtn.disabled = !ready || Boolean(st.pending) || Boolean(st.activeCourier);
+    unweaveBtn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'unweave' ? 'true' : 'false');
+  }
+
+  if (!st.pending || st.pending.source !== DW_TERRACE) showDwResponse('#sky-cloth-drying-terrace-response', '');
+}
+
+function syncDwCouriers() {
+  const st = dawnWeavingUnlocked() ? getDawnWeaving() : defaultDawnWeaving();
+  DW_OLD_TARGETS.forEach((scene) => {
+    const box = $(`#dw-courier-${scene}`);
+    if (!box) return;
+    const active = st.activeCourier;
+    const show = Boolean(active) && DW_ENDING_TABLE[active.outcome].target === scene;
+    box.hidden = !show;
+    const btn = $(`#dw-courier-return-${scene}`);
+    if (btn) {
+      btn.disabled = !show || Boolean(st.pending);
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'courier-return' && st.pending.from === scene ? 'true' : 'false');
+    }
+    if (!show) return;
+    const out = DW_ENDING_TABLE[active.outcome];
+    const head = $(`#dw-courier-title-${scene}`);
+    if (head) head.textContent = `晨间签收 · ${out.courierTitle}`;
+    const patEl = $(`#dw-courier-pattern-${scene}`);
+    if (patEl) renderDwPattern(patEl, active.pattern);
+    const body = $(`#dw-courier-body-${scene}`);
+    if (body) body.textContent = out.story;
+    if (!st.pending || st.pending.kind !== 'courier-return') showDwResponse(`#dw-courier-response-${scene}`, '');
+  });
+}
+
+function syncDwEchoes() {
+  const st = dawnWeavingUnlocked() ? getDawnWeaving() : defaultDawnWeaving();
+  DW_ENDING_IDS.forEach((id) => {
+    const out = DW_ENDING_TABLE[id];
+    const el = $(`#dw-echo-${out.target}`);
+    if (!el) return;
+    const pat = st.latestWeaveByEnding[id];
+    if (!pat) { el.hidden = true; el.textContent = ''; return; }
+    el.textContent = `${out.echoLead}「${out.title}」${out.story}`;
+    el.hidden = false;
+  });
+}
+
+function syncDwEntries() {
+  const unlocked = dawnWeavingUnlocked();
+  const st = getDawnWeaving();
+  const v100Pending = Boolean(getHundredthWake().pending);
+  const clean = !st.pending;
+
+  ['threshold', 'remembrance'].forEach((src) => {
+    const btn = $(`#dw-entry-${src}`);
+    if (btn) {
+      btn.hidden = !unlocked;
+      btn.disabled = !unlocked || !clean || v100Pending;
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' && st.pending.source === src ? 'true' : 'false');
+    }
+    const note = $(`#dw-entry-note-${src}`);
+    if (note) {
+      let text = '';
+      if (v100Pending) text = '先完成正在送出的供香。';
+      else if (st.activeCourier) text = '织物正在送出中，可前往黎明织造厂查看签收指引。';
+      note.textContent = text;
+      note.hidden = !unlocked || !text;
+    }
+    if (!st.pending || st.pending.kind !== 'entry' || st.pending.source !== src) {
+      showDwResponse(`#dw-entry-response-${src}`, '');
+    }
+  });
+
+  const memory = $('#dw-memory');
+  if (memory) {
+    memory.hidden = !unlocked;
+    if (unlocked) {
+      memory.textContent = `织造：已集齐 ${st.endings.length}/3 种天色，共织布 ${st.weaveRuns} 次。`;
+    }
+  }
+
+  const codex = $('#dw-codex');
+  if (codex) codex.hidden = !unlocked;
+
+  const grid = $('#dw-codex-grid');
+  if (grid && unlocked) {
+    const cells = DW_ENDING_IDS.map((id) => {
+      const out = DW_ENDING_TABLE[id];
+      const got = st.endings.includes(id);
+      const cell = document.createElement('div');
+      cell.className = `dw-codex-cell ${got ? 'is-unlocked' : 'is-locked'}`;
+      const titleSpan = document.createElement('strong');
+      titleSpan.textContent = got ? out.title : '？？？';
+      cell.appendChild(titleSpan);
+      if (got) {
+        const patSpan = document.createElement('div');
+        patSpan.className = 'dw-codex-pat';
+        renderDwPattern(patSpan, st.latestWeaveByEnding[id]);
+        cell.appendChild(patSpan);
+        const storySpan = document.createElement('p');
+        storySpan.textContent = out.story;
+        cell.appendChild(storySpan);
+      }
+      return cell;
+    });
+    grid.replaceChildren(...cells);
+  }
+
+  const hook = $('#dw-hook');
+  if (hook) {
+    const allDone = unlocked && st.endings.length === DW_ENDING_IDS.length;
+    hook.hidden = !allDone;
+    if (allDone) {
+      hook.textContent = '【候车亭的晨雾】昼夜都能穿过去，季节却迟迟不上车。门外只剩下一座没有天气的候车亭。';
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'ws-action';
+      button.textContent = '前往没有天气的候车亭 ⟶';
+      button.disabled = !weatherlessShelterAvailable() || Boolean(getWeatherlessShelter().pending);
+      button.addEventListener('click', (e) => {
+        if (e.isTrusted) chooseWsEntry('remembrance');
+      });
+      hook.appendChild(button);
+    }
+  }
+}
+
+function syncDwLinks() {
+  const st = dawnWeavingUnlocked() ? getDawnWeaving() : null;
+  [['dawn-weaving-mill-link', 'hall'], ['day-night-loom-link', 'loom'], ['sky-cloth-drying-terrace-link', 'terrace']].forEach(([id, key]) => {
+    const el = $(`#${id}`);
+    if (el) el.hidden = !(st && st.visited[key]);
+  });
+}
+
+function forgetDawnWeavingState() {
+  try { localStorage.removeItem(DAWN_WEAVING_KEY); } catch {}
+  [DW_HALL, DW_LOOM, DW_TERRACE].forEach((scene) => AutoAdvance.clear(scene));
+  dwExampleIndex = -1;
+  dwExampleShown = false;
+  dwCurrentMode = 'cycle';
+  ['#dw-hall-figure', '#dw-hall-endings', '#dw-hall-note', '#dw-new', '#dw-continue', '#dw-courier-link',
+    '#dw-loom-figure', '#dw-loom-panel', '#dw-example-pattern',
+    '#dw-terrace-figure', '#dw-terrace-panel',
+    '#dw-memory', '#dw-codex', '#dw-hook',
+    '#dawn-weaving-mill-link', '#day-night-loom-link', '#sky-cloth-drying-terrace-link',
+    '#dawn-weaving-mill-response', '#day-night-loom-response', '#sky-cloth-drying-terrace-response',
+    '#dw-entry-threshold', '#dw-entry-remembrance',
+    '#dw-entry-note-threshold', '#dw-entry-note-remembrance',
+    '#dw-entry-response-threshold', '#dw-entry-response-remembrance',
+    ...DW_OLD_TARGETS.flatMap((s) => [`#dw-courier-${s}`, `#dw-echo-${s}`, `#dw-courier-response-${s}`]),
+  ].forEach((sel) => {
+    const el = $(sel);
+    if (el) {
+      el.hidden = true;
+      if (el.tagName === 'BUTTON') el.disabled = true;
+    }
+  });
+  const exNote = $('#dw-example-note');
+  if (exNote) exNote.textContent = '';
+  $$('[id^="dw-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+}
+
+const onTrustedDw = (selector, handler) => {
+  const el = $(selector);
+  if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+};
+
+onTrustedDw('#dw-entry-threshold', () => chooseDwEntry('threshold'));
+onTrustedDw('#dw-entry-remembrance', () => chooseDwEntry('remembrance'));
+onTrustedDw('#dw-new', () => chooseDwStart(true));
+onTrustedDw('#dw-continue', () => chooseDwStart(false));
+for (let i = 0; i < 9; i++) {
+  onTrustedDw(`#dw-cell-${i}`, () => chooseDwCell(i));
+}
+onTrustedDw('#dw-mode-cycle', () => chooseDwMode('cycle'));
+onTrustedDw('#dw-mode-light', () => chooseDwMode('light'));
+onTrustedDw('#dw-mode-night', () => chooseDwMode('night'));
+onTrustedDw('#dw-mode-erase', () => chooseDwMode('erase'));
+onTrustedDw('#dw-example-btn', chooseDwExample);
+onTrustedDw('#dw-sample-btn', chooseDwSample);
+onTrustedDw('#dw-abandon', chooseDwAbandon);
+onTrustedDw('#dw-deliver', chooseDwDelivery);
+onTrustedDw('#dw-unweave', chooseDwUnweave);
+DW_OLD_TARGETS.forEach((scene) => onTrustedDw(`#dw-courier-return-${scene}`, () => chooseDwCourierReturn(scene)));
+/* ============================================================
+   v102 没有天气的候车亭 / WEATHERLESS BUS SHELTER
+   昼夜穿过织机，季节却仍等在门外。候车亭时刻表空出四个到站位置。
+   四张车票：spring / summer / autumn / winter。24 种合法全排列。
+   派生三种结局：天气终于上车、季节退回昨天、各过各的季节。
+   只读 v101；独立键 goddead_v102_weatherless_shelter；受信任点击与安全 DOM 操作。
+   ============================================================ */
+const WEATHERLESS_SHELTER_KEY = 'goddead_v102_weatherless_shelter';
+const WEATHERLESS_SHELTER_VERSION = 102;
+const WS_HALL = 'weatherless-bus-shelter';
+const WS_BOARD = 'season-dispatch-board';
+const WS_PLATFORM = 'four-season-platform';
+const WS_SEASONS = ['spring', 'summer', 'autumn', 'winter'];
+const WS_OLD_TARGETS = ['threshold', 'minute-before-archive', 'unending-gallery'];
+
+const WS_SEASON_NAMES = {
+  spring: '春雨',
+  summer: '盛夏',
+  autumn: '落叶',
+  winter: '霜雪',
+};
+
+const WS_SEASON_GLYPHS = {
+  spring: '🌱',
+  summer: '☀',
+  autumn: '🍂',
+  winter: '❄',
+};
+
+const WS_SEASON_OPENINGS = {
+  spring: '先到站的春雨在檐下停住。',
+  summer: '盛夏递来一张发热的车票。',
+  autumn: '第一片落叶替你占好了座位。',
+  winter: '霜雪把没有脚印的路先铺了一遍。',
+};
+
+const WS_ENDING_IDS = [
+  'the-weather-finally-boarded',
+  'the-seasons-returned-to-yesterday',
+  'each-season-found-its-own-stop',
+];
+
+const WS_ENDING_TABLE = {
+  'the-weather-finally-boarded': {
+    id: 'the-weather-finally-boarded',
+    title: '天气终于上车',
+    category: '顺季循环',
+    target: 'threshold',
+    placeName: '门外',
+    story: '门外开始有了下一场天气。你站在屋檐下，第一次知道等雨停是什么意思。',
+    passengerTitle: '顺季到站 · 天气终于上车',
+    echoLead: '门外的屋檐滴着微凉的水珠。',
+    preview: '顺季循环已排定。这一班天气将开往门外。',
+  },
+  'the-seasons-returned-to-yesterday': {
+    id: 'the-seasons-returned-to-yesterday',
+    title: '季节退回昨天',
+    category: '倒季循环',
+    target: 'minute-before-archive',
+    placeName: '前一分钟档案井',
+    story: '井底出现了尚未发生的积雪。每翻一页，季节便后退一步，直到昨天也开始发芽。',
+    passengerTitle: '倒季到站 · 季节退回昨天',
+    echoLead: '档案井底落着一层倒流的霜雪。',
+    preview: '倒季循环已排定。这一班天气将开往前一分钟档案井。',
+  },
+  'each-season-found-its-own-stop': {
+    id: 'each-season-found-its-own-stop',
+    title: '各过各的季节',
+    category: '分季班',
+    target: 'unending-gallery',
+    placeName: '无终局陈列廊',
+    story: '四季坐进不同的画框，没有谁再催下一季。相邻的框仍能听见彼此的天气。',
+    passengerTitle: '分季到站 · 各过各的季节',
+    echoLead: '画框里各自停着春雨与落叶的声响。',
+    preview: '分季班次已排定。这一班天气将开往无终局陈列廊。',
+  },
+};
+
+const WS_ENTRY_FEEDBACK = '你推开候车亭的旧玻璃门，时刻表上的四个槽位正静静空着。';
+const WS_START_FEEDBACK = '排班牌翻动起来，黄铜夹扣在四个到站位置就位。';
+const WS_PREVIEW_FEEDBACK = '车票已排定次序，你走上站台确认这一班天气。';
+const WS_REVISE_FEEDBACK = '你走回黄铜排班牌，取下车票重新调度。';
+const WS_ABANDON_FEEDBACK = '你收拢车票，暂且退回候车亭的长椅。';
+const WS_PASSENGER_RETURN_FEEDBACK = '车票签收完毕，你收好时刻表走回了候车亭。';
+
+const WS_EXAMPLES = [
+  {
+    order: ['spring', 'summer', 'autumn', 'winter'],
+    name: '顺季循环（样例）',
+    note: '春夏秋冬按自然顺序顺延，天气终于开始流转。',
+  },
+  {
+    order: ['spring', 'winter', 'autumn', 'summer'],
+    name: '倒季循环（样例）',
+    note: '春冬秋夏逆向退回，季节倒退回昨天。',
+  },
+  {
+    order: ['spring', 'autumn', 'summer', 'winter'],
+    name: '分季班（样例）',
+    note: '春秋夏冬交错停靠，四季各自找到自己的画框。',
+  },
+];
+
+let wsExampleIndex = -1;
+let wsExampleShown = false;
+let wsSelectedTicket = 'spring'; // 'spring' | 'summer' | 'autumn' | 'winter' | 'remove'
+
+function wsDelay() {
+  return reduced ? 300 : 1400;
+}
+
+function defaultWeatherlessShelter() {
+  const latest = {};
+  WS_ENDING_IDS.forEach((id) => { latest[id] = []; });
+  return {
+    version: WEATHERLESS_SHELTER_VERSION,
+    visited: { hall: false, board: false, platform: false },
+    draft: { order: [null, null, null, null] },
+    endings: [],
+    latestOrderByEnding: latest,
+    runs: 0,
+    lastOutcome: '',
+    activePassenger: null,
+    pending: null,
+  };
+}
+
+function clampWsCount(n) {
+  const v = Math.floor(Number(n));
+  return Number.isFinite(v) ? Math.min(9999, Math.max(0, v)) : 0;
+}
+
+function isValidWsOrder(order) {
+  if (!Array.isArray(order) || order.length !== 4) return false;
+  const seen = new Set();
+  for (let i = 0; i < 4; i++) {
+    const item = order[i];
+    if (item === null) continue;
+    if (typeof item !== 'string' || !WS_SEASONS.includes(item)) return false;
+    if (seen.has(item)) return false;
+    seen.add(item);
+  }
+  return true;
+}
+
+function isCompleteWsOrder(order) {
+  return isValidWsOrder(order) && order.every((s) => typeof s === 'string' && WS_SEASONS.includes(s));
+}
+
+function classifySeasonOrder(order) {
+  if (!isCompleteWsOrder(order)) return '';
+  const idxs = order.map((s) => WS_SEASONS.indexOf(s));
+  const diffs = [
+    (idxs[1] - idxs[0] + 4) % 4,
+    (idxs[2] - idxs[1] + 4) % 4,
+    (idxs[3] - idxs[2] + 4) % 4,
+  ];
+  if (diffs[0] === 1 && diffs[1] === 1 && diffs[2] === 1) {
+    return 'the-weather-finally-boarded';
+  }
+  if (diffs[0] === 3 && diffs[1] === 3 && diffs[2] === 3) {
+    return 'the-seasons-returned-to-yesterday';
+  }
+  return 'each-season-found-its-own-stop';
+}
+
+function normalizeWsOrder(order) {
+  if (!isValidWsOrder(order)) return [null, null, null, null];
+  return order.map((x) => (x === null ? null : x));
+}
+
+function wsOrderEquals(a, b) {
+  if (!Array.isArray(a) || !Array.isArray(b) || a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
+}
+
+function normalizeWeatherlessShelter(raw) {
+  const d = defaultWeatherlessShelter();
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== WEATHERLESS_SHELTER_VERSION) return d;
+
+  const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
+  d.visited = { hall: v.hall === true, board: v.board === true, platform: v.platform === true };
+
+  const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
+  d.draft = { order: isValidWsOrder(dr.order) ? normalizeWsOrder(dr.order) : [null, null, null, null] };
+
+  const endings = new Set(Array.isArray(raw.endings) ? raw.endings : []);
+  d.endings = WS_ENDING_IDS.filter((id) => endings.has(id));
+  d.runs = clampWsCount(raw.runs);
+
+  const latest = raw.latestOrderByEnding && typeof raw.latestOrderByEnding === 'object' ? raw.latestOrderByEnding : {};
+  WS_ENDING_IDS.forEach((id) => {
+    const ord = latest[id];
+    if (d.endings.includes(id) && isCompleteWsOrder(ord) && classifySeasonOrder(ord) === id) {
+      d.latestOrderByEnding[id] = [...ord];
+    } else {
+      d.latestOrderByEnding[id] = [];
+    }
+  });
+
+  if (typeof raw.lastOutcome === 'string' && d.endings.includes(raw.lastOutcome)) {
+    d.lastOutcome = raw.lastOutcome;
+  }
+
+  const a = raw.activePassenger;
+  if (a && typeof a === 'object' && !Array.isArray(a) && Object.keys(a).length === 2) {
+    if (
+      WS_ENDING_IDS.includes(a.outcome) &&
+      d.endings.includes(a.outcome) &&
+      isCompleteWsOrder(a.order) &&
+      classifySeasonOrder(a.order) === a.outcome &&
+      wsOrderEquals(d.latestOrderByEnding[a.outcome], a.order)
+    ) {
+      d.activePassenger = { outcome: a.outcome, order: [...a.order] };
+    }
+  }
+
+  d.pending = normalizeWsPending(raw.pending, d);
+  return d;
+}
+
+function weatherlessShelterUnlocked() {
+  const compute = () => {
+    if (typeof dawnWeavingUnlocked !== 'function' || !dawnWeavingUnlocked()) return false;
+    if (typeof getDawnWeaving !== 'function') return false;
+    const v101 = getDawnWeaving();
+    return Array.isArray(v101.endings) && DW_ENDING_IDS.every((id) => v101.endings.includes(id));
+  };
+  return store.memo ? store.memo('weatherlessShelterUnlocked', compute) : compute();
+}
+
+function weatherlessShelterAvailable() {
+  if (!weatherlessShelterUnlocked()) return false;
+  if (typeof dawnWeavingAvailable !== 'function' || !dawnWeavingAvailable()) return false;
+  const v101 = getDawnWeaving();
+  if (v101.pending || v101.activeCourier) return false;
+  return true;
+}
+
+function getWeatherlessShelter() {
+  if (!weatherlessShelterUnlocked()) return defaultWeatherlessShelter();
+  let raw;
+  try { raw = JSON.parse(store.get(WEATHERLESS_SHELTER_KEY, '{}')); } catch { return defaultWeatherlessShelter(); }
+  return normalizeWeatherlessShelter(raw);
+}
+
+function saveWeatherlessShelter(st) {
+  if (!weatherlessShelterUnlocked()) return defaultWeatherlessShelter();
+  const canonical = normalizeWeatherlessShelter(Object.assign({}, st, { version: WEATHERLESS_SHELTER_VERSION }));
+  store.set(WEATHERLESS_SHELTER_KEY, JSON.stringify(canonical));
+  return canonical;
+}
+
+function expectedWsPending(p, st) {
+  if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+  const clean = !st.activePassenger;
+  switch (p.kind) {
+    case 'entry': {
+      if (p.source !== 'threshold' && p.source !== 'remembrance') return null;
+      return { feedback: WS_ENTRY_FEEDBACK, kind: 'entry', source: p.source, target: WS_HALL };
+    }
+    case 'start': {
+      if (!clean || !st.visited.hall) return null;
+      return { feedback: WS_START_FEEDBACK, kind: 'start', source: WS_HALL, target: WS_BOARD };
+    }
+    case 'preview': {
+      if (!clean || !st.visited.board) return null;
+      const outcome = classifySeasonOrder(st.draft.order);
+      if (!outcome || !isCompleteWsOrder(p.order) || !wsOrderEquals(p.order, st.draft.order) || p.outcome !== outcome) return null;
+      return { feedback: WS_PREVIEW_FEEDBACK, kind: 'preview', order: [...st.draft.order], outcome, source: WS_BOARD, target: WS_PLATFORM };
+    }
+    case 'revise': {
+      if (!clean || !st.visited.platform) return null;
+      const outcome = classifySeasonOrder(st.draft.order);
+      if (!outcome) return null;
+      return { feedback: WS_REVISE_FEEDBACK, kind: 'revise', source: WS_PLATFORM, target: WS_BOARD };
+    }
+    case 'depart': {
+      if (!clean || !st.visited.platform) return null;
+      const outcome = classifySeasonOrder(st.draft.order);
+      if (!outcome || !isCompleteWsOrder(p.order) || !wsOrderEquals(p.order, st.draft.order) || p.outcome !== outcome) return null;
+      const target = WS_ENDING_TABLE[outcome].target;
+      const lead = WS_SEASON_OPENINGS[st.draft.order[0]] || '';
+      const feedback = `${lead}${WS_ENDING_TABLE[outcome].story}`;
+      return { feedback, kind: 'depart', order: [...st.draft.order], outcome, source: WS_PLATFORM, target };
+    }
+    case 'abandon': {
+      if (!clean || !st.visited.board) return null;
+      return { feedback: WS_ABANDON_FEEDBACK, kind: 'abandon', source: WS_BOARD, target: WS_HALL };
+    }
+    case 'passenger-return': {
+      if (!st.activePassenger) return null;
+      const expectedFrom = WS_ENDING_TABLE[st.activePassenger.outcome].target;
+      if (p.from !== expectedFrom || p.outcome !== st.activePassenger.outcome) return null;
+      return { feedback: WS_PASSENGER_RETURN_FEEDBACK, from: expectedFrom, kind: 'passenger-return', outcome: st.activePassenger.outcome, target: WS_HALL };
+    }
+    default:
+      return null;
+  }
+}
+
+function normalizeWsPending(p, st) {
+  if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+  const expected = expectedWsPending(p, st);
+  if (!expected) return null;
+  const keys = Object.keys(p).sort();
+  const want = Object.keys(expected).sort();
+  if (keys.length !== want.length) return null;
+  for (let i = 0; i < keys.length; i++) {
+    const k = keys[i];
+    if (k !== want[i]) return null;
+    if (k === 'order') {
+      if (!wsOrderEquals(p.order, expected.order)) return null;
+    } else if (p[k] !== expected[k]) {
+      return null;
+    }
+  }
+  return expected;
+}
+
+function wsPendingLogicalSource(p) {
+  if (!p) return '';
+  if (p.kind === 'entry') return p.source || '';
+  if (p.kind === 'passenger-return') return p.from || '';
+  return p.source || '';
+}
+
+function resolveWeatherlessShelterPendingOnArrival(sceneName) {
+  if (!weatherlessShelterAvailable()) return getWeatherlessShelter();
+  const st = getWeatherlessShelter();
+  const p = st.pending;
+  if (!p) return st;
+  if (p.target === sceneName) {
+    st.pending = null;
+    if (p.kind === 'entry') {
+      st.visited.hall = true;
+    } else if (p.kind === 'start') {
+      st.visited.board = true;
+    } else if (p.kind === 'preview') {
+      st.visited.platform = true;
+    } else if (p.kind === 'revise') {
+      st.visited.board = true;
+    } else if (p.kind === 'abandon') {
+      st.visited.hall = true;
+    } else if (p.kind === 'depart') {
+      st.runs = clampWsCount(st.runs + 1);
+      if (!st.endings.includes(p.outcome)) st.endings = st.endings.concat(p.outcome);
+      st.latestOrderByEnding[p.outcome] = [...p.order];
+      st.lastOutcome = p.outcome;
+      st.activePassenger = { outcome: p.outcome, order: [...p.order] };
+      st.draft = { order: [null, null, null, null] };
+    } else if (p.kind === 'passenger-return') {
+      st.activePassenger = null;
+      st.visited.hall = true;
+    }
+    return saveWeatherlessShelter(st);
+  }
+  if (sceneName === wsPendingLogicalSource(p)) return st;
+  st.pending = null;
+  return saveWeatherlessShelter(st);
+}
+
+const WS_RESPONSE_BY_KIND = {
+  start: '#weatherless-bus-shelter-response',
+  preview: '#season-dispatch-board-response',
+  revise: '#four-season-platform-response',
+  abandon: '#season-dispatch-board-response',
+  depart: '#four-season-platform-response',
+};
+
+function showWsResponse(selector, text) {
+  const el = $(selector);
+  if (!el) return;
+  el.textContent = text;
+  el.hidden = !text;
+}
+
+function renderWsOrder(container, order) {
+  if (!container) return;
+  const ord = isValidWsOrder(order) ? order : [null, null, null, null];
+  const items = [];
+  const slotLabels = ['先到', '第二站', '第三站', '最后'];
+  for (let i = 0; i < 4; i++) {
+    const season = ord[i];
+    const span = document.createElement('span');
+    span.className = 'ws-order-tile';
+    span.setAttribute('data-season', season || '');
+    const numSpan = document.createElement('span');
+    numSpan.className = 'ws-order-number';
+    numSpan.textContent = `${i + 1}`;
+    const markSpan = document.createElement('span');
+    markSpan.className = 'ws-order-mark';
+    markSpan.setAttribute('aria-hidden', 'true');
+    markSpan.textContent = '·';
+    const textSpan = document.createElement('span');
+    textSpan.className = 'ws-order-text';
+    textSpan.textContent = season ? `${WS_SEASON_GLYPHS[season]} ${WS_SEASON_NAMES[season]}` : '空白';
+
+    span.appendChild(numSpan);
+    span.appendChild(markSpan);
+    span.appendChild(textSpan);
+    span.setAttribute('aria-label', `第 ${i + 1} 到站槽位（${slotLabels[i]}），${season ? WS_SEASON_NAMES[season] : '空白'}`);
+    items.push(span);
+  }
+  container.replaceChildren(...items);
+}
+
+function syncWeatherlessShelterAll() {
+  syncWsHall();
+  syncWsBoard();
+  syncWsPlatform();
+  syncWsPassengers();
+  syncWsEchoes();
+  syncWsEntries();
+  syncWsLinks();
+  if (typeof syncPhEntries === 'function') syncPhEntries();
+}
+
+function replayWeatherlessShelterPending(sceneName) {
+  if (!weatherlessShelterAvailable()) {
+    syncWeatherlessShelterAll();
+    return;
+  }
+  const st = getWeatherlessShelter();
+  const p = st.pending;
+  if (p && p.target === sceneName) {
+    resolveWeatherlessShelterPendingOnArrival(sceneName);
+  } else if (p && sceneName === wsPendingLogicalSource(p)) {
+    syncWeatherlessShelterAll();
+    let selector = '';
+    if (p.kind === 'entry') selector = `#ws-entry-response-${p.source}`;
+    else if (p.kind === 'passenger-return') selector = `#ws-passenger-response-${p.from}`;
+    else selector = WS_RESPONSE_BY_KIND[p.kind];
+    if (selector) showWsResponse(selector, p.feedback);
+    AutoAdvance.schedule(sceneName, p.target, { delay: wsDelay() });
+    return;
+  } else if (p) {
+    st.pending = null;
+    saveWeatherlessShelter(st);
+  }
+  syncWeatherlessShelterAll();
+}
+
+function launchWs(scene, buttonId, pending, responseSelector) {
+  const st = getWeatherlessShelter();
+  st.pending = pending;
+  const saved = saveWeatherlessShelter(st);
+  if (!saved.pending) return false;
+  const btn = buttonId ? $(`#${buttonId}`) : null;
+  if (btn) btn.setAttribute('aria-pressed', 'true');
+  if (AudioEngine.whoosh) AudioEngine.whoosh();
+  syncWeatherlessShelterAll();
+  showWsResponse(responseSelector, pending.feedback);
+  AutoAdvance.schedule(scene, pending.target, { delay: wsDelay() });
+  return true;
+}
+
+function wsReady(scene, buttonId) {
+  if (currentScene !== scene) return null;
+  if (AutoAdvance.has(scene)) return null;
+  if (buttonId && !buttonAvailable(buttonId)) return null;
+  if (!weatherlessShelterAvailable()) return null;
+  const st = getWeatherlessShelter();
+  return st.pending ? null : st;
+}
+
+function weatherlessShelterBridgeAllows(targetScene) {
+  if (!weatherlessShelterAvailable()) return false;
+  const st = getWeatherlessShelter();
+  if (st.pending && st.pending.kind === 'depart' && st.pending.target === targetScene) return true;
+  if (st.activePassenger && WS_ENDING_TABLE[st.activePassenger.outcome] && WS_ENDING_TABLE[st.activePassenger.outcome].target === targetScene) return true;
+  if (st.lastOutcome && WS_ENDING_TABLE[st.lastOutcome] && WS_ENDING_TABLE[st.lastOutcome].target === targetScene) return true;
+  return false;
+}
+
+function weatherlessShelterReliefReceiptContext(sceneName) {
+  if (sceneName !== 'minute-before-archive') return false;
+  if (!weatherlessShelterAvailable()) return false;
+  const st = getWeatherlessShelter();
+  if (st.pending && st.pending.kind === 'depart' && st.pending.target === 'minute-before-archive') return true;
+  if (st.activePassenger && st.activePassenger.outcome === 'the-seasons-returned-to-yesterday') return true;
+  return false;
+}
+
+function wsHallCanVisit() {
+  if (!weatherlessShelterAvailable()) return false;
+  const st = getWeatherlessShelter();
+  if (st.pending) {
+    if (st.pending.target === WS_HALL) return true;
+    if (st.pending.source === WS_HALL && st.visited.hall && !st.activePassenger) return true;
+    return false;
+  }
+  return st.visited.hall;
+}
+
+function seasonDispatchBoardCanVisit() {
+  if (!weatherlessShelterAvailable()) return false;
+  const st = getWeatherlessShelter();
+  if (st.pending) {
+    if (st.pending.target === WS_BOARD) return true;
+    if (st.pending.source === WS_BOARD && st.visited.board && !st.activePassenger) return true;
+    return false;
+  }
+  return st.visited.board && !st.activePassenger;
+}
+
+function fourSeasonPlatformCanVisit() {
+  if (!weatherlessShelterAvailable()) return false;
+  const st = getWeatherlessShelter();
+  if (st.pending) {
+    if (st.pending.target === WS_PLATFORM) return true;
+    if (st.pending.source === WS_PLATFORM && st.visited.platform && isCompleteWsOrder(st.draft.order) && !st.activePassenger) return true;
+    return false;
+  }
+  return st.visited.platform && isCompleteWsOrder(st.draft.order) && !st.activePassenger;
+}
+
+function chooseWsEntry(source) {
+  if (source !== 'threshold' && source !== 'remembrance') return;
+  const btnId = `ws-entry-${source}`;
+  const st = wsReady(source, btnId);
+  if (!st) return;
+  launchWs(source, btnId, { feedback: WS_ENTRY_FEEDBACK, kind: 'entry', source, target: WS_HALL }, `#ws-entry-response-${source}`);
+}
+
+function chooseWsStart(fresh) {
+  const btnId = fresh ? 'ws-new' : 'ws-continue';
+  const st = wsReady(WS_HALL, btnId);
+  if (!st || !st.visited.hall || st.activePassenger) return;
+  if (fresh) {
+    st.draft = { order: [null, null, null, null] };
+    saveWeatherlessShelter(st);
+  }
+  launchWs(WS_HALL, btnId, { feedback: WS_START_FEEDBACK, kind: 'start', source: WS_HALL, target: WS_BOARD }, '#weatherless-bus-shelter-response');
+}
+
+function chooseWsTicket(ticketOrRemove) {
+  const btnId = `ws-ticket-${ticketOrRemove}`;
+  const st = wsReady(WS_BOARD, btnId);
+  if (!st || !st.visited.board || st.activePassenger) return;
+  if (WS_SEASONS.includes(ticketOrRemove) || ticketOrRemove === 'remove') {
+    wsSelectedTicket = ticketOrRemove;
+    syncWsBoard();
+  }
+}
+
+function chooseWsSlot(index) {
+  if (!Number.isInteger(index) || index < 0 || index >= 4) return;
+  const st = wsReady(WS_BOARD, `ws-slot-${index}`);
+  if (!st || !st.visited.board || st.activePassenger) return;
+
+  const order = [...st.draft.order];
+  const curAtSlot = order[index];
+
+  if (wsSelectedTicket === 'remove') {
+    if (curAtSlot !== null) {
+      order[index] = null;
+      st.draft.order = order;
+      saveWeatherlessShelter(st);
+      if (AudioEngine.tick) AudioEngine.tick();
+      syncWsBoard();
+    }
+    return;
+  }
+
+  const existingIdx = order.indexOf(wsSelectedTicket);
+  if (existingIdx === index) {
+    return;
+  }
+
+  if (existingIdx !== -1) {
+    order[existingIdx] = curAtSlot;
+    order[index] = wsSelectedTicket;
+  } else {
+    order[index] = wsSelectedTicket;
+  }
+
+  st.draft.order = order;
+  saveWeatherlessShelter(st);
+  if (AudioEngine.tick) AudioEngine.tick();
+  syncWsBoard();
+}
+
+function chooseWsExample() {
+  const st = wsReady(WS_BOARD, 'ws-example-btn');
+  if (!st || !st.visited.board || st.activePassenger) return;
+  if (!wsExampleShown) {
+    wsExampleShown = true;
+    wsExampleIndex = 0;
+  } else {
+    wsExampleIndex = (wsExampleIndex + 1) % WS_EXAMPLES.length;
+  }
+  syncWsBoard();
+}
+
+function chooseWsPreview() {
+  const st = wsReady(WS_BOARD, 'ws-preview-btn');
+  if (!st || !st.visited.board || st.activePassenger) return;
+  const outcome = classifySeasonOrder(st.draft.order);
+  if (!outcome) return;
+  launchWs(WS_BOARD, 'ws-preview-btn', {
+    feedback: WS_PREVIEW_FEEDBACK, kind: 'preview', order: [...st.draft.order], outcome, source: WS_BOARD, target: WS_PLATFORM,
+  }, '#season-dispatch-board-response');
+}
+
+function chooseWsRevise() {
+  const st = wsReady(WS_PLATFORM, 'ws-revise');
+  if (!st || !st.visited.platform || st.activePassenger) return;
+  const outcome = classifySeasonOrder(st.draft.order);
+  if (!outcome) return;
+  launchWs(WS_PLATFORM, 'ws-revise', { feedback: WS_REVISE_FEEDBACK, kind: 'revise', source: WS_PLATFORM, target: WS_BOARD }, '#four-season-platform-response');
+}
+
+function chooseWsDepart() {
+  const st = wsReady(WS_PLATFORM, 'ws-depart');
+  if (!st || !st.visited.platform || st.activePassenger) return;
+  const outcome = classifySeasonOrder(st.draft.order);
+  if (!outcome) return;
+  const target = WS_ENDING_TABLE[outcome].target;
+  const lead = WS_SEASON_OPENINGS[st.draft.order[0]] || '';
+  const feedback = `${lead}${WS_ENDING_TABLE[outcome].story}`;
+  launchWs(WS_PLATFORM, 'ws-depart', {
+    feedback, kind: 'depart', order: [...st.draft.order], outcome, source: WS_PLATFORM, target,
+  }, '#four-season-platform-response');
+}
+
+function chooseWsPassengerReturn(scene) {
+  const btnId = `ws-passenger-return-${scene}`;
+  const st = wsReady(scene, btnId);
+  if (!st || !st.activePassenger) return;
+  if (WS_ENDING_TABLE[st.activePassenger.outcome].target !== scene) return;
+  launchWs(scene, btnId, {
+    feedback: WS_PASSENGER_RETURN_FEEDBACK, from: scene, kind: 'passenger-return', outcome: st.activePassenger.outcome, target: WS_HALL,
+  }, `#ws-passenger-response-${scene}`);
+}
+
+function chooseWsAbandon() {
+  const st = wsReady(WS_BOARD, 'ws-abandon');
+  if (!st || !st.visited.board || st.activePassenger) return;
+  launchWs(WS_BOARD, 'ws-abandon', { feedback: WS_ABANDON_FEEDBACK, kind: 'abandon', source: WS_BOARD, target: WS_HALL }, '#season-dispatch-board-response');
+}
+
+function syncWsHall() {
+  const canVisit = wsHallCanVisit();
+  const st = getWeatherlessShelter();
+  const fig = $('#ws-hall-figure');
+  if (fig) fig.hidden = !canVisit;
+  const hasPassenger = Boolean(st.activePassenger);
+  const blocked = !canVisit || Boolean(st.pending) || hasPassenger;
+
+  const btnNew = $('#ws-new');
+  if (btnNew) {
+    btnNew.hidden = !canVisit;
+    btnNew.disabled = blocked;
+    btnNew.setAttribute('aria-pressed', st.pending && st.pending.kind === 'start' ? 'true' : 'false');
+  }
+
+  const hasDraft = st.draft.order.some((s) => s !== null);
+  const btnCont = $('#ws-continue');
+  if (btnCont) {
+    const showCont = canVisit && hasDraft && !hasPassenger;
+    btnCont.hidden = !showCont;
+    btnCont.disabled = !showCont || Boolean(st.pending);
+  }
+
+  const passengerLink = $('#ws-passenger-link');
+  if (passengerLink) {
+    const showLink = canVisit && hasPassenger;
+    passengerLink.hidden = !showLink;
+    if (showLink) {
+      const tgt = WS_ENDING_TABLE[st.activePassenger.outcome].target;
+      passengerLink.setAttribute('href', `#${tgt}`);
+      passengerLink.textContent = `回到天气签收处 ⟶`;
+    }
+  }
+
+  const note = $('#ws-hall-note');
+  if (note) {
+    let text = '';
+    if (hasPassenger) {
+      const out = WS_ENDING_TABLE[st.activePassenger.outcome];
+      text = `这一班天气正在签收中：请前往${out.placeName}确认签收并返回。`;
+    } else if (hasDraft) {
+      text = '排班牌上还留着未发车的草稿。';
+    }
+    note.textContent = text;
+    note.hidden = !canVisit || !text;
+  }
+
+  const parentBox = $('#ws-hall-endings');
+  if (parentBox) parentBox.hidden = !canVisit;
+  const endingsList = $('#ws-hall-endings-list');
+  if (parentBox && canVisit) {
+    const items = WS_ENDING_IDS.map((id) => {
+      const collected = st.endings.includes(id);
+      const li = document.createElement('li');
+      li.className = `ws-ending-item ${collected ? 'is-collected' : 'is-uncollected'}`;
+      li.textContent = collected
+        ? `[已送达] ${WS_ENDING_TABLE[id].title}（${WS_ENDING_TABLE[id].category}）—— ${WS_ENDING_TABLE[id].story}`
+        : `[未送达] ${WS_ENDING_TABLE[id].title}（${WS_ENDING_TABLE[id].category}）—— ？？？`;
+      return li;
+    });
+    if (endingsList) {
+      endingsList.replaceChildren(...items);
+    } else {
+      parentBox.replaceChildren(...items);
+    }
+  }
+
+  if (!st.pending || st.pending.source !== WS_HALL) showWsResponse('#weatherless-bus-shelter-response', '');
+}
+
+function syncWsBoard() {
+  const canVisit = seasonDispatchBoardCanVisit();
+  const st = getWeatherlessShelter();
+  const ready = canVisit;
+  const fig = $('#ws-board-figure');
+  if (fig) fig.hidden = !ready;
+  const panel = $('#ws-board-panel');
+  if (panel) panel.hidden = !ready;
+
+  const order = st.draft.order;
+  const complete = isCompleteWsOrder(order);
+  const outcome = complete ? classifySeasonOrder(order) : '';
+  const slotLabels = ['先到', '第二站', '第三站', '最后'];
+
+  for (let i = 0; i < 4; i++) {
+    const btn = $(`#ws-slot-${i}`);
+    if (!btn) continue;
+    const season = order[i];
+    btn.disabled = !ready || Boolean(st.pending) || Boolean(st.activePassenger);
+    btn.setAttribute('data-season', season || '');
+
+    let numSpan = btn.querySelector('.ws-order-number');
+    let markSpan = btn.querySelector('.ws-order-mark');
+    let textSpan = btn.querySelector('.ws-order-text');
+    if (!numSpan || !markSpan || !textSpan) {
+      numSpan = document.createElement('span');
+      numSpan.className = 'ws-order-number';
+      markSpan = document.createElement('span');
+      markSpan.className = 'ws-order-mark';
+      markSpan.setAttribute('aria-hidden', 'true');
+      markSpan.textContent = '·';
+      textSpan = document.createElement('span');
+      textSpan.className = 'ws-order-text';
+      btn.replaceChildren(numSpan, markSpan, textSpan);
+    }
+    numSpan.textContent = `${i + 1}`;
+    textSpan.textContent = season ? `${WS_SEASON_GLYPHS[season]} ${WS_SEASON_NAMES[season]}` : '空白';
+
+    const slotDesc = i === 0 ? `第 1 到站槽位（先到），${season ? WS_SEASON_NAMES[season] : '空白'}`
+      : i === 3 ? `第 4 到站槽位（最后），${season ? WS_SEASON_NAMES[season] : '空白'}`
+      : `第 ${i + 1} 到站槽位，${season ? WS_SEASON_NAMES[season] : '空白'}`;
+
+    let opDesc = '';
+    if (wsSelectedTicket === 'remove') {
+      opDesc = season ? '点击取下当前车票' : '';
+    } else {
+      const selectedName = WS_SEASON_NAMES[wsSelectedTicket];
+      const existingIdx = order.indexOf(wsSelectedTicket);
+      if (existingIdx === i) {
+        opDesc = '';
+      } else if (existingIdx !== -1) {
+        opDesc = season ? `点击交换当前选中的【${selectedName}】车票` : `点击移动当前选中的【${selectedName}】车票`;
+      } else {
+        opDesc = season ? `点击替换当前车票为【${selectedName}】` : `点击放置当前选中的【${selectedName}】车票`;
+      }
+    }
+
+    const ariaLabel = opDesc ? `${slotDesc}。${opDesc}` : slotDesc;
+    btn.setAttribute('aria-label', ariaLabel);
+  }
+
+  [...WS_SEASONS, 'remove'].forEach((t) => {
+    const btn = $(`#ws-ticket-${t}`);
+    if (btn) {
+      btn.disabled = !ready || Boolean(st.pending) || Boolean(st.activePassenger);
+      btn.setAttribute('aria-pressed', wsSelectedTicket === t ? 'true' : 'false');
+    }
+  });
+
+  const statusEl = $('#ws-ticket-status');
+  if (statusEl) {
+    if (wsSelectedTicket === 'remove') {
+      statusEl.textContent = '当前模式：【取下车票】点击到站槽位可将其置空。';
+    } else {
+      statusEl.textContent = `当前手持车票：【${WS_SEASON_NAMES[wsSelectedTicket]}】点击槽位放置或调换。`;
+    }
+  }
+
+  const previewRow = $('#ws-order-preview');
+  if (previewRow) renderWsOrder(previewRow, order);
+
+  const missing = WS_SEASONS.filter((s) => !order.includes(s));
+  const hintEl = $('#ws-board-hint');
+  if (hintEl) {
+    if (complete) {
+      hintEl.textContent = `当前班次已完整：${WS_ENDING_TABLE[outcome].title}（${WS_ENDING_TABLE[outcome].category} · ${WS_ENDING_TABLE[outcome].preview}）`;
+    } else {
+      const missingNames = missing.map((s) => WS_SEASON_NAMES[s]).join('、');
+      hintEl.textContent = `还需排入：${missingNames}。必须排满四季方可发车。`;
+    }
+  }
+
+  const previewBtn = $('#ws-preview-btn');
+  if (previewBtn) {
+    previewBtn.disabled = !ready || Boolean(st.pending) || Boolean(st.activePassenger) || !complete;
+    previewBtn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'preview' ? 'true' : 'false');
+  }
+
+  const abandonBtn = $('#ws-abandon');
+  if (abandonBtn) {
+    abandonBtn.disabled = !ready || Boolean(st.pending) || Boolean(st.activePassenger);
+  }
+
+  const exBtn = $('#ws-example-btn');
+  if (exBtn) exBtn.disabled = !ready || Boolean(st.pending) || Boolean(st.activePassenger);
+
+  const exOrder = $('#ws-example-order');
+  if (exOrder) {
+    exOrder.hidden = !wsExampleShown;
+    if (wsExampleShown && wsExampleIndex >= 0) {
+      renderWsOrder(exOrder, WS_EXAMPLES[wsExampleIndex].order);
+    }
+  }
+  const exNote = $('#ws-example-note');
+  if (exNote) {
+    exNote.textContent = wsExampleShown && wsExampleIndex >= 0 ? `${WS_EXAMPLES[wsExampleIndex].name}：${WS_EXAMPLES[wsExampleIndex].note}` : '';
+  }
+
+  if (!st.pending || st.pending.source !== WS_BOARD) showWsResponse('#season-dispatch-board-response', '');
+}
+
+function syncWsPlatform() {
+  const canVisit = fourSeasonPlatformCanVisit();
+  const st = getWeatherlessShelter();
+  const ready = canVisit;
+  const fig = $('#ws-platform-figure');
+  if (fig) fig.hidden = !ready;
+  const panel = $('#ws-platform-panel');
+  if (panel) panel.hidden = !ready;
+
+  const order = st.draft.order;
+  const outcome = isCompleteWsOrder(order) ? classifySeasonOrder(order) : '';
+  const orderEl = $('#ws-platform-order');
+  if (orderEl) renderWsOrder(orderEl, order);
+
+  const titleEl = $('#ws-platform-title');
+  const openingEl = $('#ws-platform-opening');
+  const storyEl = $('#ws-platform-story');
+  const targetEl = $('#ws-platform-target');
+
+  if (outcome && WS_ENDING_TABLE[outcome]) {
+    const out = WS_ENDING_TABLE[outcome];
+    const opening = WS_SEASON_OPENINGS[order[0]] || '';
+    if (titleEl) titleEl.textContent = `${out.title}（${out.category}）`;
+    if (openingEl) openingEl.textContent = opening;
+    if (storyEl) storyEl.textContent = out.story;
+    if (targetEl) targetEl.textContent = `开往目的地：${out.placeName}（${out.preview}）`;
+  } else {
+    if (titleEl) titleEl.textContent = '';
+    if (openingEl) openingEl.textContent = '';
+    if (storyEl) storyEl.textContent = '';
+    if (targetEl) targetEl.textContent = '';
+  }
+
+  const departBtn = $('#ws-depart');
+  if (departBtn) {
+    departBtn.disabled = !ready || Boolean(st.pending) || Boolean(st.activePassenger) || !outcome;
+    departBtn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'depart' ? 'true' : 'false');
+  }
+
+  const reviseBtn = $('#ws-revise');
+  if (reviseBtn) {
+    reviseBtn.disabled = !ready || Boolean(st.pending) || Boolean(st.activePassenger);
+    reviseBtn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'revise' ? 'true' : 'false');
+  }
+
+  if (!st.pending || st.pending.source !== WS_PLATFORM) showWsResponse('#four-season-platform-response', '');
+}
+
+function syncWsPassengers() {
+  const st = weatherlessShelterUnlocked() ? getWeatherlessShelter() : defaultWeatherlessShelter();
+  const available = weatherlessShelterAvailable();
+  WS_OLD_TARGETS.forEach((scene) => {
+    const box = $(`#ws-passenger-${scene}`);
+    if (!box) return;
+    const active = st.activePassenger;
+    const show = Boolean(active) && WS_ENDING_TABLE[active.outcome].target === scene;
+    box.hidden = !show;
+
+    const btn = $(`#ws-passenger-return-${scene}`);
+    if (btn) {
+      btn.disabled = !show || !available || Boolean(st.pending);
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'passenger-return' && st.pending.from === scene ? 'true' : 'false');
+    }
+
+    if (!show) return;
+    const out = WS_ENDING_TABLE[active.outcome];
+    const head = $(`#ws-passenger-title-${scene}`);
+    if (head) head.textContent = `天气到站 · ${out.passengerTitle}`;
+    const ordEl = $(`#ws-passenger-order-${scene}`);
+    if (ordEl) renderWsOrder(ordEl, active.order);
+    const openingEl = $(`#ws-passenger-opening-${scene}`);
+    if (openingEl) openingEl.textContent = WS_SEASON_OPENINGS[active.order[0]] || '';
+    const body = $(`#ws-passenger-body-${scene}`);
+    if (body) body.textContent = out.story;
+
+    if (!st.pending || st.pending.kind !== 'passenger-return') showWsResponse(`#ws-passenger-response-${scene}`, '');
+  });
+}
+
+function syncWsEchoes() {
+  const st = weatherlessShelterUnlocked() ? getWeatherlessShelter() : defaultWeatherlessShelter();
+  WS_ENDING_IDS.forEach((id) => {
+    const out = WS_ENDING_TABLE[id];
+    const el = $(`#ws-echo-${out.target}`);
+    if (!el) return;
+    const ord = st.latestOrderByEnding[id];
+    if (!isCompleteWsOrder(ord)) {
+      el.hidden = true;
+      el.textContent = '';
+      return;
+    }
+    const lead = WS_SEASON_OPENINGS[ord[0]] || '';
+    el.textContent = `${out.echoLead}${lead}「${out.title}」${out.story}`;
+    el.hidden = false;
+  });
+}
+
+function syncWsEntries() {
+  const unlocked = weatherlessShelterUnlocked();
+  const available = weatherlessShelterAvailable();
+  const st = getWeatherlessShelter();
+  const clean = !st.pending;
+
+  let blockedNote = '';
+  if (unlocked && !available) {
+    if (typeof dawnWeavingAvailable === 'function' && !dawnWeavingAvailable()) {
+      blockedNote = '百夜灵堂尚有供香在途，请先完成旧签收。';
+    } else if (typeof getDawnWeaving === 'function') {
+      const v101 = getDawnWeaving();
+      if (v101 && v101.pending) {
+        blockedNote = '黎明织造厂有织物在途，请先完成晨间签收。';
+      } else if (v101 && v101.activeCourier) {
+        blockedNote = '先带着织物回执返回黎明织造厂。';
+      }
+    }
+  } else if (unlocked && st.activePassenger) {
+    blockedNote = '这一班天气正在送达中，可前往候车亭查看签收指引。';
+  }
+
+  ['threshold', 'remembrance'].forEach((src) => {
+    const btn = $(`#ws-entry-${src}`);
+    if (btn) {
+      btn.hidden = !unlocked;
+      btn.disabled = !available || !clean;
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' && st.pending.source === src ? 'true' : 'false');
+    }
+    const note = $(`#ws-entry-note-${src}`);
+    if (note) {
+      note.textContent = blockedNote;
+      note.hidden = !unlocked || !blockedNote;
+    }
+    if (!st.pending || st.pending.kind !== 'entry' || st.pending.source !== src) {
+      showWsResponse(`#ws-entry-response-${src}`, '');
+    }
+  });
+
+  const memory = $('#ws-memory');
+  if (memory) {
+    memory.hidden = !unlocked;
+    if (unlocked) {
+      memory.textContent = `候车亭：已集齐 ${st.endings.length}/3 种到站结果，共发车 ${st.runs} 次。`;
+    }
+  }
+
+  const codex = $('#ws-codex');
+  if (codex) codex.hidden = !unlocked;
+
+  const grid = $('#ws-codex-grid');
+  if (grid && unlocked) {
+    const cells = WS_ENDING_IDS.map((id) => {
+      const out = WS_ENDING_TABLE[id];
+      const got = st.endings.includes(id);
+      const cell = document.createElement('div');
+      cell.className = `ws-codex-cell ${got ? 'is-unlocked' : 'is-locked'}`;
+      const titleSpan = document.createElement('strong');
+      titleSpan.textContent = got ? `${out.title}（${out.category}）` : '？？？';
+      cell.appendChild(titleSpan);
+      if (got) {
+        const ordSpan = document.createElement('div');
+        ordSpan.className = 'ws-codex-ord';
+        renderWsOrder(ordSpan, st.latestOrderByEnding[id]);
+        cell.appendChild(ordSpan);
+        const storySpan = document.createElement('p');
+        const lead = WS_SEASON_OPENINGS[st.latestOrderByEnding[id][0]] || '';
+        storySpan.textContent = `${lead}${out.story}`;
+        cell.appendChild(storySpan);
+      }
+      return cell;
+    });
+    grid.replaceChildren(...cells);
+  }
+
+  const hook = $('#ws-hook');
+  if (hook) {
+    const allDone = unlocked && st.endings.length === WS_ENDING_IDS.length;
+    hook.hidden = !allDone;
+    if (allDone) {
+      hook.textContent = '【收不到影子的照相馆】天气都会赴约，只有影子没来。暗房的红灯在等待下一位访客。';
+    }
+  }
+}
+
+function syncWsLinks() {
+  const st = weatherlessShelterUnlocked() ? getWeatherlessShelter() : null;
+  [['weatherless-bus-shelter-link', 'hall'], ['season-dispatch-board-link', 'board'], ['four-season-platform-link', 'platform']].forEach(([id, key]) => {
+    const el = $(`#${id}`);
+    if (el) el.hidden = !(st && st.visited[key]);
+  });
+}
+
+function forgetWeatherlessShelterState() {
+  try { localStorage.removeItem(WEATHERLESS_SHELTER_KEY); } catch {}
+  [WS_HALL, WS_BOARD, WS_PLATFORM].forEach((scene) => AutoAdvance.clear(scene));
+  wsExampleIndex = -1;
+  wsExampleShown = false;
+  wsSelectedTicket = 'spring';
+
+  ['#ws-hall-figure', '#ws-hall-endings', '#ws-hall-note', '#ws-new', '#ws-continue', '#ws-passenger-link',
+    '#ws-board-figure', '#ws-board-panel', '#ws-example-order',
+    '#ws-platform-figure', '#ws-platform-panel',
+    '#ws-memory', '#ws-codex', '#ws-hook',
+    '#weatherless-bus-shelter-link', '#season-dispatch-board-link', '#four-season-platform-link',
+    '#weatherless-bus-shelter-response', '#season-dispatch-board-response', '#four-season-platform-response',
+    '#ws-entry-threshold', '#ws-entry-remembrance',
+    '#ws-entry-note-threshold', '#ws-entry-note-remembrance',
+    '#ws-entry-response-threshold', '#ws-entry-response-remembrance',
+    ...WS_OLD_TARGETS.flatMap((s) => [`#ws-passenger-${s}`, `#ws-echo-${s}`, `#ws-passenger-response-${s}`]),
+  ].forEach((sel) => {
+    const el = $(sel);
+    if (el) {
+      el.hidden = true;
+      if (el.tagName === 'BUTTON') el.disabled = true;
+    }
+  });
+  const exNote = $('#ws-example-note');
+  if (exNote) exNote.textContent = '';
+  $$('[id^="ws-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+}
+
+const onTrustedWs = (selector, handler) => {
+  const el = $(selector);
+  if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+};
+
+onTrustedWs('#ws-entry-threshold', () => chooseWsEntry('threshold'));
+onTrustedWs('#ws-entry-remembrance', () => chooseWsEntry('remembrance'));
+onTrustedWs('#ws-new', () => chooseWsStart(true));
+onTrustedWs('#ws-continue', () => chooseWsStart(false));
+
+WS_SEASONS.forEach((season) => {
+  onTrustedWs(`#ws-ticket-${season}`, () => chooseWsTicket(season));
+});
+onTrustedWs('#ws-ticket-remove', () => chooseWsTicket('remove'));
+
+for (let i = 0; i < 4; i++) {
+  onTrustedWs(`#ws-slot-${i}`, () => chooseWsSlot(i));
+}
+
+onTrustedWs('#ws-example-btn', chooseWsExample);
+onTrustedWs('#ws-preview-btn', chooseWsPreview);
+onTrustedWs('#ws-abandon', chooseWsAbandon);
+onTrustedWs('#ws-depart', chooseWsDepart);
+onTrustedWs('#ws-revise', chooseWsRevise);
+WS_OLD_TARGETS.forEach((scene) => onTrustedWs(`#ws-passenger-return-${scene}`, () => chooseWsPassengerReturn(scene)));
+
+/* ============================================================
+   v103 收不到影子的照相馆 / SHADOWLESS PHOTOGRAPHY
+   四季已经赴约，影子却没有下车。候车亭旁的照相馆还收底片：
+   镜头里没有人，地上的影子却会随着灯光移动。
+   拍两次曝光，亲手调整五个站位（1–5）与左右灯位（left/right）。
+   左灯把影子推到站位右一格，右灯把影子推到站位左一格。
+   底片真实叠印，四种互斥几何关系派生四种结局。
+   只读 v102；独立键 goddead_v103_shadowless_photography；受信任点击与安全 DOM 操作。
+   ============================================================ */
+const SHADOWLESS_PHOTOGRAPHY_KEY = 'goddead_v103_shadowless_photography';
+const SHADOWLESS_PHOTOGRAPHY_VERSION = 103;
+
+const PH_STUDIO = 'shadowless-photo-studio';
+const PH_CAMERA = 'double-exposure-camera';
+const PH_DARKROOM = 'unreceived-shadow-darkroom';
+
+const PH_OLD_TARGETS = ['threshold', 'remembrance', 'unending-gallery'];
+
+const PH_LIGHT_NAMES = {
+  left: '左灯',
+  right: '右灯',
+};
+
+const PH_LIGHT_OFFSETS = {
+  left: 1,
+  right: -1,
+};
+
+const PH_LIGHT_AFTERTASTES = {
+  left: '左侧的灯替缺席者留了一点暖。',
+  right: '右侧的灯照见了一个还没离开的空位。',
+};
+
+const PH_ENDING_IDS = [
+  'absence-shared-a-portrait',
+  'one-visitor-kept-two-shadows',
+  'the-shadow-attended-in-your-place',
+  'nobody-was-kept-in-the-frame',
+];
+
+const PH_ENDING_TABLE = {
+  'absence-shared-a-portrait': {
+    id: 'absence-shared-a-portrait',
+    title: '缺席者也有了合影',
+    category: '同位同影',
+    target: 'threshold',
+    placeName: '门外',
+    story: '两次快门都没拍到你，照片却留下了一个可以回来站着的位置。门外第一次有人把空位称作合影。',
+    printTitle: '叠印签收 · 缺席者也有了合影',
+    echoLead: '门外的台阶上拓着两个叠在一起的空位。',
+    preview: '站位与影子皆完全重合。这张照片将寄往门外。',
+    summary: '站位 b1=b2 且 影位 s1=s2',
+  },
+  'one-visitor-kept-two-shadows': {
+    id: 'one-visitor-kept-two-shadows',
+    title: '一个人带走两道影子',
+    category: '同位异影',
+    target: 'remembrance',
+    placeName: '痕迹室',
+    story: '你仍然缺席，两道影子却同时认出了你。痕迹墙留下一张不必证明本人在场的照片。',
+    printTitle: '叠印签收 · 一个人带走两道影子',
+    echoLead: '痕迹墙的光晕里分岔出两道不相交的影子。',
+    preview: '同一个站位投射出两道不同的影子。这张照片将寄往痕迹室。',
+    summary: '站位 b1=b2 且 影位 s1≠s2',
+  },
+  'the-shadow-attended-in-your-place': {
+    id: 'the-shadow-attended-in-your-place',
+    title: '影子替你出席',
+    category: '异位同影',
+    target: 'unending-gallery',
+    placeName: '无终局陈列廊',
+    story: '两个空位把同一道影子夹在中间。画框收到的不是你，是一次被影子认真履行的赴约。',
+    printTitle: '叠印签收 · 影子替你出席',
+    echoLead: '展厅中间的一道影子连结着两个缺席的人形。',
+    preview: '不同站位的影子在此处汇合。这张照片将寄往无终局陈列廊。',
+    summary: '站位 b1≠b2 且 影位 s1=s2',
+  },
+  'nobody-was-kept-in-the-frame': {
+    id: 'nobody-was-kept-in-the-frame',
+    title: '谁也没有被框住',
+    category: '异位异影',
+    target: 'unending-gallery',
+    placeName: '无终局陈列廊',
+    story: '空位和影子各走各的，画框终于承认它留不住每一个路过的人。你带着不属于照片的部分离开。',
+    printTitle: '叠印签收 · 谁也没有被框住',
+    echoLead: '画框内外各自流散着未被固定的站位与余影。',
+    preview: '站位与影子全部分离。这张照片将寄往无终局陈列廊。',
+    summary: '站位 b1≠b2 且 影位 s1≠s2',
+  },
+};
+
+const PH_ENTRY_SOURCES = ['threshold', 'remembrance', 'weatherless-bus-shelter'];
+
+const PH_ENTRY_BUTTON_IDS = {
+  threshold: 'ph-entry-threshold',
+  remembrance: 'ph-entry-remembrance',
+  'weatherless-bus-shelter': 'ph-entry-shelter',
+};
+
+const PH_ENTRY_NOTE_IDS = {
+  threshold: 'ph-entry-note-threshold',
+  remembrance: 'ph-entry-note-remembrance',
+  'weatherless-bus-shelter': 'ph-entry-note-shelter',
+};
+
+const PH_ENTRY_RESPONSE_IDS = {
+  threshold: 'ph-entry-response-threshold',
+  remembrance: 'ph-entry-response-remembrance',
+  'weatherless-bus-shelter': 'ph-entry-response-shelter',
+};
+
+const PH_ENTRY_FEEDBACK = '照相馆的黑色木门虚掩着，镜头静静候在空椅对面。';
+const PH_START_FEEDBACK = '取景器的遮光布掀开，五处站位与双向灯光就绪。';
+const PH_PREVIEW_FEEDBACK = '两张底片浸入显影液，红灯下浮现出叠印轮廓。';
+const PH_REVISE_FEEDBACK = '你从暗房走回镜头前，重新调整站位与光线。';
+const PH_ABANDON_FEEDBACK = '你合上底片夹，暂且退回收不到影子的照相馆。';
+const PH_PRINT_RETURN_FEEDBACK = '照片签收完毕，你带着签收回执走回了照相馆。';
+
+const PH_EXAMPLES = [
+  {
+    name: '缺席者也有了合影（同位同影）',
+    plates: [
+      { position: 3, light: 'left' },
+      { position: 3, light: 'left' },
+    ],
+    note: '两次都在站位3、左灯。空位重合，影子亦重合在标尺4。',
+  },
+  {
+    name: '一个人带走两道影子（同位异影）',
+    plates: [
+      { position: 3, light: 'left' },
+      { position: 3, light: 'right' },
+    ],
+    note: '两次都在站位3，但一左灯一右灯。空位重合，影子分在标尺4与标尺2。',
+  },
+  {
+    name: '影子替你出席（异位同影）',
+    plates: [
+      { position: 2, light: 'left' },
+      { position: 4, light: 'right' },
+    ],
+    note: '站位2左灯投到标尺3；站位4右灯同样投到标尺3。空位不同，影子合一。',
+  },
+  {
+    name: '谁也没有被框住（异位异影）',
+    plates: [
+      { position: 2, light: 'left' },
+      { position: 5, light: 'left' },
+    ],
+    note: '站位不同，影子位置亦不同。各自独立流转。',
+  },
+];
+
+let phSelectedPlateIndex = -1; // -1 uninitialized cold sentinel; 0 | 1 in-memory
+let phExampleIndex = -1;
+let phExampleShown = false;
+
+function phDelay() {
+  return reduced ? 300 : 1400;
+}
+
+function computeShadowPosition(pos, light) {
+  return pos + PH_LIGHT_OFFSETS[light];
+}
+
+function isValidPhPosition(pos) {
+  return typeof pos === 'number' && Number.isInteger(pos) && pos >= 1 && pos <= 5;
+}
+
+function isValidPhLight(light) {
+  return light === 'left' || light === 'right';
+}
+
+function isValidPhExposure(exp) {
+  if (!exp || typeof exp !== 'object' || Array.isArray(exp)) return false;
+  const keys = Object.keys(exp).sort();
+  if (keys.length !== 2 || keys[0] !== 'light' || keys[1] !== 'position') return false;
+  return isValidPhPosition(exp.position) && isValidPhLight(exp.light);
+}
+
+function clonePhExposure(exp) {
+  return exp ? { position: exp.position, light: exp.light } : null;
+}
+
+function isValidPhPlates(plates) {
+  if (!Array.isArray(plates) || plates.length !== 2) return false;
+  for (let i = 0; i < 2; i++) {
+    const item = plates[i];
+    if (item === null) continue;
+    if (!isValidPhExposure(item)) return false;
+  }
+  return true;
+}
+
+function isCompletePhPlates(plates) {
+  return isValidPhPlates(plates) && plates[0] !== null && plates[1] !== null;
+}
+
+function phPlatesEquals(a, b) {
+  if (!Array.isArray(a) || !Array.isArray(b) || a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) {
+    const itemA = a[i];
+    const itemB = b[i];
+    if (itemA === null && itemB === null) continue;
+    if (!itemA || !itemB) return false;
+    if (itemA.position !== itemB.position || itemA.light !== itemB.light) return false;
+  }
+  return true;
+}
+
+function classifyPhotoPair(plates) {
+  if (!isCompletePhPlates(plates)) return '';
+  const e1 = plates[0];
+  const e2 = plates[1];
+  const b1 = e1.position;
+  const b2 = e2.position;
+  const s1 = computeShadowPosition(e1.position, e1.light);
+  const s2 = computeShadowPosition(e2.position, e2.light);
+
+  const sameBody = b1 === b2;
+  const sameShadow = s1 === s2;
+
+  if (sameBody && sameShadow) return 'absence-shared-a-portrait';
+  if (sameBody && !sameShadow) return 'one-visitor-kept-two-shadows';
+  if (!sameBody && sameShadow) return 'the-shadow-attended-in-your-place';
+  return 'nobody-was-kept-in-the-frame';
+}
+
+function clampPhCount(n) {
+  if (typeof n !== 'number' || !Number.isInteger(n) || !Number.isFinite(n)) return 0;
+  return Math.min(9999, Math.max(0, n));
+}
+
+function defaultShadowlessPhotography() {
+  const latest = {};
+  PH_ENDING_IDS.forEach((id) => { latest[id] = []; });
+  return {
+    version: SHADOWLESS_PHOTOGRAPHY_VERSION,
+    visited: { studio: false, camera: false, darkroom: false },
+    draft: {
+      position: 3,
+      light: 'left',
+      plates: [null, null],
+    },
+    endings: [],
+    latestPairByEnding: latest,
+    runs: 0,
+    lastOutcome: '',
+    activePrint: null,
+    pending: null,
+  };
+}
+
+function normalizeShadowlessPhotography(raw) {
+  const d = defaultShadowlessPhotography();
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== SHADOWLESS_PHOTOGRAPHY_VERSION) return d;
+
+  const v = raw.visited && typeof raw.visited === 'object' && !Array.isArray(raw.visited) ? raw.visited : {};
+  d.visited = { studio: v.studio === true, camera: v.camera === true, darkroom: v.darkroom === true };
+
+  const dr = raw.draft && typeof raw.draft === 'object' && !Array.isArray(raw.draft) ? raw.draft : {};
+  const pos = isValidPhPosition(dr.position) ? dr.position : 3;
+  const light = isValidPhLight(dr.light) ? dr.light : 'left';
+  let plates = [null, null];
+  if (isValidPhPlates(dr.plates)) {
+    plates = [clonePhExposure(dr.plates[0]), clonePhExposure(dr.plates[1])];
+  }
+  d.draft = { position: pos, light, plates };
+
+  const endings = new Set(Array.isArray(raw.endings) ? raw.endings : []);
+  d.endings = PH_ENDING_IDS.filter((id) => endings.has(id));
+  d.runs = clampPhCount(raw.runs);
+
+  const latest = raw.latestPairByEnding && typeof raw.latestPairByEnding === 'object' && !Array.isArray(raw.latestPairByEnding) ? raw.latestPairByEnding : {};
+  PH_ENDING_IDS.forEach((id) => {
+    const pair = latest[id];
+    if (d.endings.includes(id) && isCompletePhPlates(pair) && classifyPhotoPair(pair) === id) {
+      d.latestPairByEnding[id] = [clonePhExposure(pair[0]), clonePhExposure(pair[1])];
+    } else {
+      d.latestPairByEnding[id] = [];
+    }
+  });
+
+  if (typeof raw.lastOutcome === 'string' && d.endings.includes(raw.lastOutcome)) {
+    d.lastOutcome = raw.lastOutcome;
+  }
+
+  const ap = raw.activePrint;
+  if (ap && typeof ap === 'object' && !Array.isArray(ap)) {
+    if (
+      PH_ENDING_IDS.includes(ap.outcome) &&
+      d.endings.includes(ap.outcome) &&
+      isCompletePhPlates(ap.plates) &&
+      classifyPhotoPair(ap.plates) === ap.outcome &&
+      phPlatesEquals(d.latestPairByEnding[ap.outcome], ap.plates)
+    ) {
+      d.activePrint = { outcome: ap.outcome, plates: [clonePhExposure(ap.plates[0]), clonePhExposure(ap.plates[1])] };
+    }
+  }
+
+  d.pending = normalizePhPending(raw.pending, d);
+  return d;
+}
+
+function shadowlessPhotographyUnlocked() {
+  const compute = () => {
+    if (typeof weatherlessShelterUnlocked !== 'function' || !weatherlessShelterUnlocked()) return false;
+    if (typeof getWeatherlessShelter !== 'function') return false;
+    const v102 = getWeatherlessShelter();
+    return Array.isArray(v102.endings) && WS_ENDING_IDS.every((id) => v102.endings.includes(id));
+  };
+  return store.memo ? store.memo('shadowlessPhotographyUnlocked', compute) : compute();
+}
+
+function shadowlessPhotographyAvailable() {
+  if (!shadowlessPhotographyUnlocked()) return false;
+  if (typeof weatherlessShelterAvailable !== 'function' || !weatherlessShelterAvailable()) return false;
+  const v102 = getWeatherlessShelter();
+  if (v102.pending || v102.activePassenger) return false;
+  return true;
+}
+
+function getShadowlessPhotography() {
+  if (!shadowlessPhotographyUnlocked()) return defaultShadowlessPhotography();
+  let raw;
+  try {
+    const val = store.get(SHADOWLESS_PHOTOGRAPHY_KEY, null);
+    if (!val) return defaultShadowlessPhotography();
+    raw = JSON.parse(val);
+  } catch {
+    return defaultShadowlessPhotography();
+  }
+  return normalizeShadowlessPhotography(raw);
+}
+
+function saveShadowlessPhotography(st) {
+  if (!shadowlessPhotographyUnlocked()) return defaultShadowlessPhotography();
+  const canonical = normalizeShadowlessPhotography(Object.assign({}, st, { version: SHADOWLESS_PHOTOGRAPHY_VERSION }));
+  store.set(SHADOWLESS_PHOTOGRAPHY_KEY, JSON.stringify(canonical));
+  return canonical;
+}
+
+function expectedPhPending(p, st) {
+  if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+  const clean = !st.activePrint;
+  switch (p.kind) {
+    case 'entry': {
+      if (!PH_ENTRY_SOURCES.includes(p.source)) return null;
+      return { feedback: PH_ENTRY_FEEDBACK, kind: 'entry', source: p.source, target: PH_STUDIO };
+    }
+    case 'start': {
+      if (!clean || !st.visited.studio) return null;
+      if (typeof p.fresh !== 'boolean') return null;
+      return { feedback: PH_START_FEEDBACK, fresh: p.fresh, kind: 'start', source: PH_STUDIO, target: PH_CAMERA };
+    }
+    case 'preview': {
+      if (!clean || !st.visited.camera) return null;
+      const outcome = classifyPhotoPair(st.draft.plates);
+      if (!outcome || !isCompletePhPlates(p.plates) || !phPlatesEquals(p.plates, st.draft.plates)) return null;
+      return {
+        feedback: PH_PREVIEW_FEEDBACK,
+        kind: 'preview',
+        plates: [clonePhExposure(st.draft.plates[0]), clonePhExposure(st.draft.plates[1])],
+        source: PH_CAMERA,
+        target: PH_DARKROOM,
+      };
+    }
+    case 'revise': {
+      if (!clean || !st.visited.darkroom) return null;
+      const outcome = classifyPhotoPair(st.draft.plates);
+      if (!outcome) return null;
+      return { feedback: PH_REVISE_FEEDBACK, kind: 'revise', source: PH_DARKROOM, target: PH_CAMERA };
+    }
+    case 'print': {
+      if (!clean || !st.visited.darkroom) return null;
+      const outcome = classifyPhotoPair(st.draft.plates);
+      if (!outcome || !isCompletePhPlates(p.plates) || !phPlatesEquals(p.plates, st.draft.plates) || p.outcome !== outcome) return null;
+      const meta = PH_ENDING_TABLE[outcome];
+      const target = meta.target;
+      const lead = PH_LIGHT_AFTERTASTES[st.draft.plates[0].light] || '';
+      const feedback = `${lead}${meta.story}`;
+      return {
+        feedback,
+        kind: 'print',
+        outcome,
+        plates: [clonePhExposure(st.draft.plates[0]), clonePhExposure(st.draft.plates[1])],
+        source: PH_DARKROOM,
+        target,
+      };
+    }
+    case 'print-return': {
+      if (!st.activePrint) return null;
+      const expectedSource = PH_ENDING_TABLE[st.activePrint.outcome].target;
+      if (p.source !== expectedSource || p.outcome !== st.activePrint.outcome) return null;
+      if (!isCompletePhPlates(p.plates) || !phPlatesEquals(p.plates, st.activePrint.plates)) return null;
+      return {
+        feedback: PH_PRINT_RETURN_FEEDBACK,
+        kind: 'print-return',
+        outcome: st.activePrint.outcome,
+        plates: [clonePhExposure(st.activePrint.plates[0]), clonePhExposure(st.activePrint.plates[1])],
+        source: expectedSource,
+        target: PH_STUDIO,
+      };
+    }
+    case 'abandon': {
+      if (!clean || !st.visited.camera) return null;
+      return { feedback: PH_ABANDON_FEEDBACK, kind: 'abandon', source: PH_CAMERA, target: PH_STUDIO };
+    }
+    default:
+      return null;
+  }
+}
+
+function normalizePhPending(p, st) {
+  if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+  const expected = expectedPhPending(p, st);
+  if (!expected) return null;
+  const keys = Object.keys(p).sort();
+  const want = Object.keys(expected).sort();
+  if (keys.length !== want.length) return null;
+  for (let i = 0; i < keys.length; i++) {
+    const k = keys[i];
+    if (k !== want[i]) return null;
+    if (k === 'plates') {
+      if (!phPlatesEquals(p.plates, expected.plates)) return null;
+    } else if (p[k] !== expected[k]) {
+      return null;
+    }
+  }
+  return expected;
+}
+
+function phPendingLogicalSource(p) {
+  if (!p) return '';
+  return p.source || '';
+}
+
+function resolveShadowlessPhotographyPendingOnArrival(sceneName) {
+  if (!shadowlessPhotographyAvailable()) return getShadowlessPhotography();
+  const st = getShadowlessPhotography();
+  const p = st.pending;
+  if (!p) return st;
+  if (p.target === sceneName) {
+    st.pending = null;
+    if (p.kind === 'entry') {
+      st.visited.studio = true;
+    } else if (p.kind === 'start') {
+      st.visited.camera = true;
+      if (p.fresh) {
+        st.draft = {
+          position: 3,
+          light: 'left',
+          plates: [null, null],
+        };
+        phSelectedPlateIndex = 0;
+      } else {
+        ensurePhPlateSelection(st.draft.plates);
+      }
+    } else if (p.kind === 'preview') {
+      st.visited.darkroom = true;
+    } else if (p.kind === 'revise') {
+      st.visited.camera = true;
+      ensurePhPlateSelection(st.draft.plates);
+    } else if (p.kind === 'abandon') {
+      st.visited.studio = true;
+    } else if (p.kind === 'print') {
+      st.runs = clampPhCount(st.runs + 1);
+      if (!st.endings.includes(p.outcome)) st.endings = st.endings.concat(p.outcome);
+      st.latestPairByEnding[p.outcome] = [clonePhExposure(p.plates[0]), clonePhExposure(p.plates[1])];
+      st.lastOutcome = p.outcome;
+      st.activePrint = { outcome: p.outcome, plates: [clonePhExposure(p.plates[0]), clonePhExposure(p.plates[1])] };
+      st.draft = {
+        position: 3,
+        light: 'left',
+        plates: [null, null],
+      };
+      phSelectedPlateIndex = 0;
+    } else if (p.kind === 'print-return') {
+      st.activePrint = null;
+      st.visited.studio = true;
+    }
+    return saveShadowlessPhotography(st);
+  }
+  if (sceneName === phPendingLogicalSource(p)) return st;
+  st.pending = null;
+  return saveShadowlessPhotography(st);
+}
+
+const PH_RESPONSE_BY_KIND = {
+  start: '#shadowless-photo-studio-response',
+  preview: '#double-exposure-camera-response',
+  revise: '#unreceived-shadow-darkroom-response',
+  abandon: '#double-exposure-camera-response',
+  print: '#unreceived-shadow-darkroom-response',
+};
+
+function showPhResponse(selector, text) {
+  const el = $(selector);
+  if (!el) return;
+  el.textContent = text;
+  el.hidden = !text;
+}
+
+function replayShadowlessPhotographyPending(sceneName) {
+  if (!shadowlessPhotographyAvailable()) {
+    syncShadowlessPhotographyAll();
+    return;
+  }
+  const st = getShadowlessPhotography();
+  const p = st.pending;
+  if (p && p.target === sceneName) {
+    resolveShadowlessPhotographyPendingOnArrival(sceneName);
+  } else if (p && sceneName === phPendingLogicalSource(p)) {
+    syncShadowlessPhotographyAll();
+    let selector = '';
+    if (p.kind === 'entry') selector = `#${PH_ENTRY_RESPONSE_IDS[p.source]}`;
+    else if (p.kind === 'print-return') selector = `#ph-print-response-${p.source}`;
+    else selector = PH_RESPONSE_BY_KIND[p.kind];
+    if (selector) showPhResponse(selector, p.feedback);
+    AutoAdvance.schedule(sceneName, p.target, { delay: phDelay() });
+    return;
+  } else if (p) {
+    st.pending = null;
+    saveShadowlessPhotography(st);
+  }
+  syncShadowlessPhotographyAll();
+}
+
+function launchPh(scene, buttonId, pending, responseSelector) {
+  const st = getShadowlessPhotography();
+  st.pending = pending;
+  const saved = saveShadowlessPhotography(st);
+  if (!saved.pending) return false;
+  const btn = buttonId ? $(`#${buttonId}`) : null;
+  if (btn) btn.setAttribute('aria-pressed', 'true');
+  if (AudioEngine && AudioEngine.whoosh) AudioEngine.whoosh();
+  syncShadowlessPhotographyAll();
+  showPhResponse(responseSelector, pending.feedback);
+  AutoAdvance.schedule(scene, pending.target, { delay: phDelay() });
+  return true;
+}
+
+function phReady(scene, buttonId) {
+  if (currentScene !== scene) return null;
+  if (AutoAdvance.has(scene)) return null;
+  if (buttonId && !buttonAvailable(buttonId)) return null;
+  if (!shadowlessPhotographyAvailable()) return null;
+  const st = getShadowlessPhotography();
+  return st.pending ? null : st;
+}
+
+function shadowlessPhotographyBridgeAllows(targetScene) {
+  if (!shadowlessPhotographyAvailable()) return false;
+  const st = getShadowlessPhotography();
+  if (st.pending && st.pending.kind === 'print' && st.pending.target === targetScene) return true;
+  if (st.activePrint && PH_ENDING_TABLE[st.activePrint.outcome] && PH_ENDING_TABLE[st.activePrint.outcome].target === targetScene) return true;
+  if (st.lastOutcome && PH_ENDING_TABLE[st.lastOutcome] && PH_ENDING_TABLE[st.lastOutcome].target === targetScene) return true;
+  return false;
+}
+
+function shadowlessPhotoStudioCanVisit() {
+  if (!shadowlessPhotographyAvailable()) return false;
+  const st = getShadowlessPhotography();
+  if (st.pending) {
+    if (st.pending.target === PH_STUDIO) return true;
+    if (st.pending.source === PH_STUDIO && st.visited.studio && !st.activePrint) return true;
+    return false;
+  }
+  return st.visited.studio;
+}
+
+function doubleExposureCameraCanVisit() {
+  if (!shadowlessPhotographyAvailable()) return false;
+  const st = getShadowlessPhotography();
+  if (st.pending) {
+    if (st.pending.target === PH_CAMERA) return true;
+    if (st.pending.source === PH_CAMERA && st.visited.camera && !st.activePrint) return true;
+    return false;
+  }
+  return st.visited.camera && !st.activePrint;
+}
+
+function unreceivedShadowDarkroomCanVisit() {
+  if (!shadowlessPhotographyAvailable()) return false;
+  const st = getShadowlessPhotography();
+  if (st.pending) {
+    if (st.pending.target === PH_DARKROOM) return true;
+    if (st.pending.source === PH_DARKROOM && st.visited.darkroom && isCompletePhPlates(st.draft.plates) && !st.activePrint) return true;
+    return false;
+  }
+  return st.visited.darkroom && isCompletePhPlates(st.draft.plates) && !st.activePrint;
+}
+
+function ensurePhPlateSelection(plates) {
+  if (phSelectedPlateIndex === 0 || phSelectedPlateIndex === 1) return;
+  if (!Array.isArray(plates)) {
+    phSelectedPlateIndex = 0;
+    return;
+  }
+  if (plates[0] === null) {
+    phSelectedPlateIndex = 0;
+  } else if (plates[1] === null) {
+    phSelectedPlateIndex = 1;
+  } else {
+    phSelectedPlateIndex = 0;
+  }
+}
+
+function choosePhEntry(source) {
+  if (!PH_ENTRY_SOURCES.includes(source)) return;
+  const btnId = PH_ENTRY_BUTTON_IDS[source];
+  const st = phReady(source, btnId);
+  if (!st) return;
+  launchPh(source, btnId, { feedback: PH_ENTRY_FEEDBACK, kind: 'entry', source, target: PH_STUDIO }, `#${PH_ENTRY_RESPONSE_IDS[source]}`);
+}
+
+function choosePhStart(fresh) {
+  const btnId = fresh ? 'ph-new' : 'ph-continue';
+  const st = phReady(PH_STUDIO, btnId);
+  if (!st || !st.visited.studio || st.activePrint) return;
+  launchPh(PH_STUDIO, btnId, { feedback: PH_START_FEEDBACK, fresh: Boolean(fresh), kind: 'start', source: PH_STUDIO, target: PH_CAMERA }, '#shadowless-photo-studio-response');
+}
+
+function choosePhPosition(pos) {
+  if (!isValidPhPosition(pos)) return;
+  const btnId = `ph-pos-${pos}`;
+  const st = phReady(PH_CAMERA, btnId);
+  if (!st || !st.visited.camera || st.activePrint) return;
+  if (st.draft.position === pos) return;
+  st.draft.position = pos;
+  saveShadowlessPhotography(st);
+  if (AudioEngine && AudioEngine.tick) AudioEngine.tick();
+  syncPhCamera();
+}
+
+function choosePhLight(light) {
+  if (!isValidPhLight(light)) return;
+  const btnId = `ph-light-${light}`;
+  const st = phReady(PH_CAMERA, btnId);
+  if (!st || !st.visited.camera || st.activePrint) return;
+  if (st.draft.light === light) return;
+  st.draft.light = light;
+  saveShadowlessPhotography(st);
+  if (AudioEngine && AudioEngine.tick) AudioEngine.tick();
+  syncPhCamera();
+}
+
+function choosePhPlateSlot(index) {
+  if (index !== 0 && index !== 1) return;
+  const btnId = `ph-plate-slot-${index}`;
+  const st = phReady(PH_CAMERA, btnId);
+  if (!st || !st.visited.camera || st.activePrint) return;
+  phSelectedPlateIndex = index;
+  syncPhCamera();
+}
+
+function choosePhShutter() {
+  const st = phReady(PH_CAMERA, 'ph-shutter');
+  if (!st || !st.visited.camera || st.activePrint) return;
+  ensurePhPlateSelection(st.draft.plates);
+  const targetSlot = phSelectedPlateIndex;
+  const plates = [clonePhExposure(st.draft.plates[0]), clonePhExposure(st.draft.plates[1])];
+  plates[targetSlot] = { position: st.draft.position, light: st.draft.light };
+  st.draft.plates = plates;
+  saveShadowlessPhotography(st);
+  if (AudioEngine && AudioEngine.shutter) {
+    AudioEngine.shutter();
+  } else if (AudioEngine && AudioEngine.tick) {
+    AudioEngine.tick();
+  }
+  const otherIndex = targetSlot === 0 ? 1 : 0;
+  if (plates[otherIndex] === null) {
+    phSelectedPlateIndex = otherIndex;
+  }
+  syncPhCamera();
+}
+
+function choosePhErase() {
+  const st = phReady(PH_CAMERA, 'ph-erase-selected');
+  if (!st || !st.visited.camera || st.activePrint) return;
+  ensurePhPlateSelection(st.draft.plates);
+  if (st.draft.plates[phSelectedPlateIndex] === null) return;
+  const plates = [clonePhExposure(st.draft.plates[0]), clonePhExposure(st.draft.plates[1])];
+  plates[phSelectedPlateIndex] = null;
+  st.draft.plates = plates;
+  saveShadowlessPhotography(st);
+  if (AudioEngine && AudioEngine.tick) AudioEngine.tick();
+  syncPhCamera();
+}
+
+function choosePhSwap() {
+  const st = phReady(PH_CAMERA, 'ph-swap-plates');
+  if (!st || !st.visited.camera || st.activePrint) return;
+  const plates = [clonePhExposure(st.draft.plates[1]), clonePhExposure(st.draft.plates[0])];
+  st.draft.plates = plates;
+  saveShadowlessPhotography(st);
+  if (AudioEngine && AudioEngine.tick) AudioEngine.tick();
+  syncPhCamera();
+}
+
+function choosePhExample() {
+  const st = phReady(PH_CAMERA, 'ph-example-btn');
+  if (!st || !st.visited.camera || st.activePrint) return;
+  if (!phExampleShown) {
+    phExampleShown = true;
+    phExampleIndex = 0;
+  } else {
+    phExampleIndex = (phExampleIndex + 1) % PH_EXAMPLES.length;
+  }
+  syncPhCamera();
+}
+
+function choosePhPreview() {
+  const st = phReady(PH_CAMERA, 'ph-preview-btn');
+  if (!st || !st.visited.camera || st.activePrint) return;
+  const outcome = classifyPhotoPair(st.draft.plates);
+  if (!outcome) return;
+  launchPh(PH_CAMERA, 'ph-preview-btn', {
+    feedback: PH_PREVIEW_FEEDBACK,
+    kind: 'preview',
+    plates: [clonePhExposure(st.draft.plates[0]), clonePhExposure(st.draft.plates[1])],
+    source: PH_CAMERA,
+    target: PH_DARKROOM,
+  }, '#double-exposure-camera-response');
+}
+
+function choosePhRevise() {
+  const st = phReady(PH_DARKROOM, 'ph-revise');
+  if (!st || !st.visited.darkroom || st.activePrint) return;
+  const outcome = classifyPhotoPair(st.draft.plates);
+  if (!outcome) return;
+  launchPh(PH_DARKROOM, 'ph-revise', { feedback: PH_REVISE_FEEDBACK, kind: 'revise', source: PH_DARKROOM, target: PH_CAMERA }, '#unreceived-shadow-darkroom-response');
+}
+
+function choosePhPrint() {
+  const st = phReady(PH_DARKROOM, 'ph-print');
+  if (!st || !st.visited.darkroom || st.activePrint) return;
+  const outcome = classifyPhotoPair(st.draft.plates);
+  if (!outcome) return;
+  const meta = PH_ENDING_TABLE[outcome];
+  const target = meta.target;
+  const lead = PH_LIGHT_AFTERTASTES[st.draft.plates[0].light] || '';
+  const feedback = `${lead}${meta.story}`;
+  launchPh(PH_DARKROOM, 'ph-print', {
+    feedback,
+    kind: 'print',
+    outcome,
+    plates: [clonePhExposure(st.draft.plates[0]), clonePhExposure(st.draft.plates[1])],
+    source: PH_DARKROOM,
+    target,
+  }, '#unreceived-shadow-darkroom-response');
+}
+
+function choosePhPrintReturn(scene) {
+  if (!PH_OLD_TARGETS.includes(scene)) return;
+  const btnId = `ph-print-return-${scene}`;
+  const st = phReady(scene, btnId);
+  if (!st || !st.activePrint) return;
+  if (PH_ENDING_TABLE[st.activePrint.outcome].target !== scene) return;
+  launchPh(scene, btnId, {
+    feedback: PH_PRINT_RETURN_FEEDBACK,
+    kind: 'print-return',
+    outcome: st.activePrint.outcome,
+    plates: [clonePhExposure(st.activePrint.plates[0]), clonePhExposure(st.activePrint.plates[1])],
+    source: scene,
+    target: PH_STUDIO,
+  }, `#ph-print-response-${scene}`);
+}
+
+function choosePhAbandon() {
+  const st = phReady(PH_CAMERA, 'ph-abandon');
+  if (!st || !st.visited.camera || st.activePrint) return;
+  launchPh(PH_CAMERA, 'ph-abandon', { feedback: PH_ABANDON_FEEDBACK, kind: 'abandon', source: PH_CAMERA, target: PH_STUDIO }, '#double-exposure-camera-response');
+}
+
+function renderPhRulerLabels(container) {
+  if (!container) return;
+  const fragment = document.createDocumentFragment();
+  for (let c = 0; c <= 6; c++) {
+    const span = document.createElement('span');
+    span.className = `ph-ruler-tick ${c >= 1 && c <= 5 ? 'is-body-tick' : 'is-edge-tick'}`;
+    span.textContent = `${c}`;
+    span.setAttribute('aria-hidden', 'true');
+    fragment.appendChild(span);
+  }
+  container.replaceChildren(fragment);
+}
+
+function coordToPercent(c) {
+  const pct = 10 + (c / 6) * 80;
+  return `${pct.toFixed(2)}%`;
+}
+
+function createPhFigureMark(type, exposureIndex, coord) {
+  const marker = document.createElement('div');
+  marker.className = `ph-figure-mark is-${type} is-exp-${exposureIndex}`;
+  marker.style.left = coordToPercent(coord);
+  marker.setAttribute('data-coord', String(coord));
+  marker.setAttribute('data-exp', String(exposureIndex));
+
+  const tag = document.createElement('span');
+  tag.className = 'ph-figure-tag';
+  tag.textContent = type === 'body' ? (exposureIndex === 1 ? '①空位' : '②空位') : (exposureIndex === 1 ? '①影子' : '②影子');
+  marker.appendChild(tag);
+  return marker;
+}
+
+function renderPhViewfinder(container, currentExp, frozenPlates, mode) {
+  if (!container) return;
+  const marks = [];
+
+  if (mode === 'live') {
+    if (isValidPhExposure(currentExp)) {
+      const s = computeShadowPosition(currentExp.position, currentExp.light);
+      marks.push(createPhFigureMark('body', 1, currentExp.position));
+      marks.push(createPhFigureMark('shadow', 1, s));
+    }
+  } else if (mode === 'frozen-plates') {
+    if (Array.isArray(frozenPlates)) {
+      if (isValidPhExposure(frozenPlates[0])) {
+        const s1 = computeShadowPosition(frozenPlates[0].position, frozenPlates[0].light);
+        marks.push(createPhFigureMark('body', 1, frozenPlates[0].position));
+        marks.push(createPhFigureMark('shadow', 1, s1));
+      }
+      if (isValidPhExposure(frozenPlates[1])) {
+        const s2 = computeShadowPosition(frozenPlates[1].position, frozenPlates[1].light);
+        marks.push(createPhFigureMark('body', 2, frozenPlates[1].position));
+        marks.push(createPhFigureMark('shadow', 2, s2));
+      }
+    }
+  } else if (mode === 'single-frozen') {
+    if (isValidPhExposure(currentExp)) {
+      const s = computeShadowPosition(currentExp.position, currentExp.light);
+      marks.push(createPhFigureMark('body', 1, currentExp.position));
+      marks.push(createPhFigureMark('shadow', 1, s));
+    }
+  }
+
+  const existingMarks = container.querySelectorAll('.ph-figure-mark');
+  existingMarks.forEach((m) => m.remove());
+  marks.forEach((m) => container.appendChild(m));
+}
+
+function renderPhPlateSummary(container, exp, slotNumber) {
+  if (!container) return;
+  const el = container;
+  if (!isValidPhExposure(exp)) {
+    el.textContent = `底片 ${slotNumber}：[空白未曝光]`;
+    return;
+  }
+  const shadow = computeShadowPosition(exp.position, exp.light);
+  el.textContent = `底片 ${slotNumber}：站位 ${exp.position} · ${PH_LIGHT_NAMES[exp.light]} ⟶ 影位 ${shadow}`;
+}
+
+function syncPhStudio() {
+  const canVisit = shadowlessPhotoStudioCanVisit();
+  const st = getShadowlessPhotography();
+  const fig = $('#ph-studio-figure');
+  if (fig) fig.hidden = !canVisit;
+  const hasPrint = Boolean(st.activePrint);
+  const blocked = !canVisit || Boolean(st.pending) || hasPrint;
+
+  const btnNew = $('#ph-new');
+  if (btnNew) {
+    btnNew.hidden = !canVisit;
+    btnNew.disabled = blocked;
+    btnNew.setAttribute('aria-pressed', st.pending && st.pending.kind === 'start' && st.pending.fresh ? 'true' : 'false');
+  }
+
+  const hasDraft = isValidPhPlates(st.draft.plates) && (st.draft.plates[0] !== null || st.draft.plates[1] !== null);
+  const btnCont = $('#ph-continue');
+  if (btnCont) {
+    const showCont = canVisit && hasDraft && !hasPrint;
+    btnCont.hidden = !showCont;
+    btnCont.disabled = !showCont || Boolean(st.pending);
+    btnCont.setAttribute('aria-pressed', st.pending && st.pending.kind === 'start' && !st.pending.fresh ? 'true' : 'false');
+  }
+
+  const printLink = $('#ph-studio-print-link');
+  if (printLink) {
+    const showLink = canVisit && hasPrint;
+    printLink.hidden = !showLink;
+    if (showLink) {
+      const tgt = PH_ENDING_TABLE[st.activePrint.outcome].target;
+      printLink.setAttribute('href', `#${tgt}`);
+      printLink.textContent = `回到照片签收处 ⟶`;
+    }
+  }
+
+  const note = $('#ph-studio-note');
+  if (note) {
+    let text = '';
+    if (hasPrint) {
+      const out = PH_ENDING_TABLE[st.activePrint.outcome];
+      text = `这一张照片已签收：请前往${out.placeName}带照片返回照相馆。`;
+    } else if (hasDraft) {
+      text = '取景台的暗盒里留有一张尚未叠印的底片草稿。';
+    }
+    note.textContent = text;
+    note.hidden = !canVisit || !text;
+  }
+
+  const endingsList = $('#ph-studio-endings-list');
+  if (endingsList) {
+    endingsList.hidden = !canVisit;
+    if (canVisit) {
+      const items = PH_ENDING_IDS.map((id) => {
+        const collected = st.endings.includes(id);
+        const li = document.createElement('li');
+        li.className = `ph-ending-item ${collected ? 'is-collected' : 'is-uncollected'}`;
+        li.textContent = collected
+          ? `[已签收] ${PH_ENDING_TABLE[id].title}（${PH_ENDING_TABLE[id].category}）—— ${PH_ENDING_TABLE[id].story}`
+          : `[未签收] ${PH_ENDING_TABLE[id].title}（${PH_ENDING_TABLE[id].category}）—— ？？？`;
+        return li;
+      });
+      endingsList.replaceChildren(...items);
+    }
+  }
+
+  if (!st.pending || st.pending.source !== PH_STUDIO) showPhResponse('#shadowless-photo-studio-response', '');
+}
+
+function syncPhCamera() {
+  const canVisit = doubleExposureCameraCanVisit();
+  const st = getShadowlessPhotography();
+  const ready = canVisit;
+  const fig = $('#ph-camera-figure');
+  if (fig) fig.hidden = !ready;
+  const panel = $('#ph-camera-panel');
+  if (panel) panel.hidden = !ready;
+
+  ensurePhPlateSelection(st.draft.plates);
+
+  const currentPos = st.draft.position;
+  const currentLight = st.draft.light;
+  const currentShadow = computeShadowPosition(currentPos, currentLight);
+  const plates = st.draft.plates;
+  const complete = isCompletePhPlates(plates);
+  const outcome = complete ? classifyPhotoPair(plates) : '';
+
+  for (let pos = 1; pos <= 5; pos++) {
+    const btn = $(`#ph-pos-${pos}`);
+    if (btn) {
+      btn.disabled = !ready || Boolean(st.pending) || Boolean(st.activePrint);
+      btn.setAttribute('aria-pressed', currentPos === pos ? 'true' : 'false');
+    }
+  }
+
+  ['left', 'right'].forEach((light) => {
+    const btn = $(`#ph-light-${light}`);
+    if (btn) {
+      btn.disabled = !ready || Boolean(st.pending) || Boolean(st.activePrint);
+      btn.setAttribute('aria-pressed', currentLight === light ? 'true' : 'false');
+    }
+  });
+
+  for (let slot = 0; slot <= 1; slot++) {
+    const btn = $(`#ph-plate-slot-${slot}`);
+    if (btn) {
+      btn.disabled = !ready || Boolean(st.pending) || Boolean(st.activePrint);
+      btn.setAttribute('aria-pressed', phSelectedPlateIndex === slot ? 'true' : 'false');
+      const caption = $(`#ph-plate-caption-${slot}`) || btn;
+      const exp = plates[slot];
+      renderPhPlateSummary(caption, exp, slot + 1);
+    }
+    const mini = $(`#ph-plate-preview-${slot}`);
+    if (mini) {
+      renderPhViewfinder(mini, null, slot === 0 ? [plates[0], null] : [null, plates[1]], 'frozen-plates');
+    }
+  }
+
+  const liveCanvas = $('#ph-camera-viewfinder');
+  if (liveCanvas) {
+    renderPhViewfinder(liveCanvas, { position: currentPos, light: currentLight }, null, 'live');
+  }
+
+  const ruler = $('#ph-camera-ruler');
+  if (ruler && !ruler.hasChildNodes()) {
+    renderPhRulerLabels(ruler);
+  }
+
+  const readouts = $('#ph-camera-readouts');
+  if (readouts) {
+    readouts.textContent = `实时取景：站位 ${currentPos} · ${PH_LIGHT_NAMES[currentLight]} ⟶ 影位 ${currentShadow}（底片${phSelectedPlateIndex + 1}槽位就绪）`;
+  }
+
+  const shutterBtn = $('#ph-shutter');
+  if (shutterBtn) {
+    shutterBtn.disabled = !ready || Boolean(st.pending) || Boolean(st.activePrint);
+  }
+
+  const eraseBtn = $('#ph-erase-selected');
+  if (eraseBtn) {
+    const hasSlotData = plates[phSelectedPlateIndex] !== null;
+    eraseBtn.disabled = !ready || Boolean(st.pending) || Boolean(st.activePrint) || !hasSlotData;
+  }
+
+  const swapBtn = $('#ph-swap-plates');
+  if (swapBtn) {
+    const hasAnyData = plates[0] !== null || plates[1] !== null;
+    swapBtn.disabled = !ready || Boolean(st.pending) || Boolean(st.activePrint) || !hasAnyData;
+  }
+
+  const previewBtn = $('#ph-preview-btn');
+  if (previewBtn) {
+    previewBtn.disabled = !ready || Boolean(st.pending) || Boolean(st.activePrint) || !complete;
+    previewBtn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'preview' ? 'true' : 'false');
+  }
+
+  const abandonBtn = $('#ph-abandon');
+  if (abandonBtn) {
+    abandonBtn.disabled = !ready || Boolean(st.pending) || Boolean(st.activePrint);
+  }
+
+  const exBtn = $('#ph-example-btn');
+  if (exBtn) exBtn.disabled = !ready || Boolean(st.pending) || Boolean(st.activePrint);
+
+  const exPanel = $('#ph-example-panel');
+  if (exPanel) {
+    exPanel.hidden = !phExampleShown;
+    if (phExampleShown && phExampleIndex >= 0) {
+      const ex = PH_EXAMPLES[phExampleIndex];
+      const title = $('#ph-example-title');
+      const note = $('#ph-example-note');
+      if (title) title.textContent = ex.name;
+      if (note) note.textContent = ex.note;
+    }
+  }
+
+  const hintEl = $('#ph-camera-hint');
+  if (hintEl) {
+    if (complete) {
+      hintEl.textContent = `两张底片均已曝光：${PH_ENDING_TABLE[outcome].title}（${PH_ENDING_TABLE[outcome].category} · ${PH_ENDING_TABLE[outcome].preview}）`;
+    } else {
+      const needSlot = plates[0] === null ? '底片 1' : '底片 2';
+      hintEl.textContent = `暗盒尚缺曝光：请按下快门填入 ${needSlot}。拍满两张底片方可进暗房叠印。`;
+    }
+  }
+
+  if (!st.pending || st.pending.source !== PH_CAMERA) showPhResponse('#double-exposure-camera-response', '');
+}
+
+function syncPhDarkroom() {
+  const canVisit = unreceivedShadowDarkroomCanVisit();
+  const st = getShadowlessPhotography();
+  const ready = canVisit;
+  const fig = $('#ph-darkroom-figure');
+  if (fig) fig.hidden = !ready;
+  const panel = $('#ph-darkroom-panel');
+  if (panel) panel.hidden = !ready;
+
+  const plates = st.draft.plates;
+  const complete = isCompletePhPlates(plates);
+  const outcome = complete ? classifyPhotoPair(plates) : '';
+
+  const viewfinder = $('#ph-darkroom-viewfinder');
+  if (viewfinder && complete) {
+    renderPhViewfinder(viewfinder, null, plates, 'frozen-plates');
+  }
+
+  const ruler = $('#ph-darkroom-ruler');
+  if (ruler && !ruler.hasChildNodes()) {
+    renderPhRulerLabels(ruler);
+  }
+
+  const titleEl = $('#ph-darkroom-title');
+  const catEl = $('#ph-darkroom-category');
+  const tasteEl = $('#ph-darkroom-aftertaste');
+  const storyEl = $('#ph-darkroom-story');
+  const targetEl = $('#ph-darkroom-target');
+
+  if (outcome && PH_ENDING_TABLE[outcome]) {
+    const meta = PH_ENDING_TABLE[outcome];
+    const lead = PH_LIGHT_AFTERTASTES[plates[0].light] || '';
+    if (titleEl) titleEl.textContent = meta.title;
+    if (catEl) catEl.textContent = `${meta.category} · ${meta.summary}`;
+    if (tasteEl) tasteEl.textContent = lead;
+    if (storyEl) storyEl.textContent = meta.story;
+    if (targetEl) targetEl.textContent = `照片将寄往目的地：${meta.placeName}（${meta.preview}）`;
+  } else {
+    if (titleEl) titleEl.textContent = '';
+    if (catEl) catEl.textContent = '';
+    if (tasteEl) tasteEl.textContent = '';
+    if (storyEl) storyEl.textContent = '';
+    if (targetEl) targetEl.textContent = '';
+  }
+
+  const p1El = $('#ph-darkroom-plate-1');
+  if (p1El) renderPhPlateSummary(p1El, plates[0], 1);
+  const p2El = $('#ph-darkroom-plate-2');
+  if (p2El) renderPhPlateSummary(p2El, plates[1], 2);
+
+  const printBtn = $('#ph-print');
+  if (printBtn) {
+    printBtn.disabled = !ready || Boolean(st.pending) || Boolean(st.activePrint) || !outcome;
+    printBtn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'print' ? 'true' : 'false');
+  }
+
+  const reviseBtn = $('#ph-revise');
+  if (reviseBtn) {
+    reviseBtn.disabled = !ready || Boolean(st.pending) || Boolean(st.activePrint);
+    reviseBtn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'revise' ? 'true' : 'false');
+  }
+
+  if (!st.pending || st.pending.source !== PH_DARKROOM) showPhResponse('#unreceived-shadow-darkroom-response', '');
+}
+
+function syncPhReceipts() {
+  const st = shadowlessPhotographyUnlocked() ? getShadowlessPhotography() : defaultShadowlessPhotography();
+  const available = shadowlessPhotographyAvailable();
+  PH_OLD_TARGETS.forEach((scene) => {
+    const box = $(`#ph-receipt-${scene}`);
+    if (!box) return;
+    const active = st.activePrint;
+    const show = Boolean(active) && PH_ENDING_TABLE[active.outcome].target === scene;
+    box.hidden = !show;
+
+    const btn = $(`#ph-print-return-${scene}`);
+    if (btn) {
+      btn.disabled = !show || !available || Boolean(st.pending);
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'print-return' && st.pending.source === scene ? 'true' : 'false');
+    }
+
+    if (!show) return;
+    const meta = PH_ENDING_TABLE[active.outcome];
+    const head = $(`#ph-receipt-title-${scene}`);
+    if (head) head.textContent = meta.printTitle;
+    const canvas = $(`#ph-receipt-viewfinder-${scene}`);
+    if (canvas) renderPhViewfinder(canvas, null, active.plates, 'frozen-plates');
+    const p1 = $(`#ph-receipt-plate1-${scene}`);
+    if (p1) renderPhPlateSummary(p1, active.plates[0], 1);
+    const p2 = $(`#ph-receipt-plate2-${scene}`);
+    if (p2) renderPhPlateSummary(p2, active.plates[1], 2);
+    const body = $(`#ph-receipt-body-${scene}`);
+    if (body) body.textContent = `${PH_LIGHT_AFTERTASTES[active.plates[0].light] || ''}${meta.story}`;
+
+    if (!st.pending || st.pending.kind !== 'print-return') showPhResponse(`#ph-print-response-${scene}`, '');
+  });
+}
+
+function syncPhEchoes() {
+  const st = shadowlessPhotographyUnlocked() ? getShadowlessPhotography() : defaultShadowlessPhotography();
+  PH_ENDING_IDS.forEach((id) => {
+    const meta = PH_ENDING_TABLE[id];
+    const elEnding = $(`#ph-echo-${id}`);
+    const elTarget = $(`#ph-echo-${meta.target}`);
+    const pair = st.latestPairByEnding[id];
+    const validPair = isCompletePhPlates(pair);
+
+    if (elEnding) {
+      if (!validPair) {
+        elEnding.hidden = true;
+        elEnding.textContent = '';
+      } else {
+        const lead = PH_LIGHT_AFTERTASTES[pair[0].light] || '';
+        elEnding.textContent = `${meta.echoLead}${lead}「${meta.title}」${meta.story}`;
+        elEnding.hidden = false;
+      }
+    }
+
+    if (elTarget && !elEnding) {
+      if (!validPair) {
+        elTarget.hidden = true;
+        elTarget.textContent = '';
+      } else {
+        const lead = PH_LIGHT_AFTERTASTES[pair[0].light] || '';
+        elTarget.textContent = `${meta.echoLead}${lead}「${meta.title}」${meta.story}`;
+        elTarget.hidden = false;
+      }
+    }
+  });
+}
+
+function syncPhEntries() {
+  const unlocked = shadowlessPhotographyUnlocked();
+  const available = shadowlessPhotographyAvailable();
+  const st = getShadowlessPhotography();
+  const clean = !st.pending;
+
+  let blockedNote = '';
+  if (unlocked && !available) {
+    if (typeof weatherlessShelterAvailable === 'function' && !weatherlessShelterAvailable()) {
+      blockedNote = '候车亭或百夜灵堂尚有在途签收，请先完成旧章交接。';
+    } else if (typeof getWeatherlessShelter === 'function') {
+      const v102 = getWeatherlessShelter();
+      if (v102 && v102.pending) {
+        blockedNote = '没有天气的候车亭正在发车，请先完成班次签收。';
+      } else if (v102 && v102.activePassenger) {
+        blockedNote = '先带着天气到站车票返回候车亭。';
+      }
+    }
+  } else if (unlocked && st.activePrint) {
+    blockedNote = '这一张叠印照片正在签收中，可前往照相馆查看签收指引。';
+  }
+
+  PH_ENTRY_SOURCES.forEach((src) => {
+    const btn = $(`#${PH_ENTRY_BUTTON_IDS[src]}`);
+    if (btn) {
+      btn.hidden = !unlocked;
+      btn.disabled = !available || !clean;
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' && st.pending.source === src ? 'true' : 'false');
+    }
+    const note = $(`#${PH_ENTRY_NOTE_IDS[src]}`);
+    if (note) {
+      note.textContent = blockedNote;
+      note.hidden = !unlocked || !blockedNote;
+    }
+    if (!st.pending || st.pending.kind !== 'entry' || st.pending.source !== src) {
+      showPhResponse(`#${PH_ENTRY_RESPONSE_IDS[src]}`, '');
+    }
+  });
+
+  const memory = $('#ph-memory');
+  if (memory) {
+    memory.hidden = !unlocked;
+    if (unlocked) {
+      memory.textContent = `照相馆：已集齐 ${st.endings.length}/4 种叠印照片，共寄出 ${st.runs} 张照片。`;
+    }
+  }
+
+  const codex = $('#ph-codex');
+  if (codex) codex.hidden = !unlocked;
+
+  const grid = $('#ph-codex-grid');
+  if (grid && unlocked) {
+    const cells = PH_ENDING_IDS.map((id) => {
+      const meta = PH_ENDING_TABLE[id];
+      const got = st.endings.includes(id);
+      const cell = document.createElement('div');
+      cell.className = `ph-codex-cell ${got ? 'is-unlocked' : 'is-locked'}`;
+      const titleSpan = document.createElement('strong');
+      titleSpan.textContent = got ? `${meta.title}（${meta.category}）` : '？？？';
+      cell.appendChild(titleSpan);
+      if (got) {
+        const pair = st.latestPairByEnding[id];
+        const ordSpan = document.createElement('div');
+        ordSpan.className = 'ph-codex-plates';
+        const hasValidPair = isCompletePhPlates(pair);
+
+        const stack = document.createElement('div');
+        stack.className = 'ph-codex-viewfinder-stack';
+        if (hasValidPair) {
+          renderPhViewfinder(stack, null, pair, 'frozen-plates');
+        }
+        ordSpan.appendChild(stack);
+
+        const p1 = document.createElement('p');
+        const p2 = document.createElement('p');
+        if (hasValidPair) {
+          renderPhPlateSummary(p1, pair[0], 1);
+          renderPhPlateSummary(p2, pair[1], 2);
+        } else {
+          p1.textContent = '暂无合法底片记录';
+          p2.textContent = '可重拍叠印';
+        }
+        ordSpan.appendChild(p1);
+        ordSpan.appendChild(p2);
+        cell.appendChild(ordSpan);
+
+        const storySpan = document.createElement('p');
+        storySpan.className = 'ph-codex-story';
+        const lead = hasValidPair ? (PH_LIGHT_AFTERTASTES[pair[0].light] || '') : '';
+        storySpan.textContent = `${lead}${meta.story}`;
+        cell.appendChild(storySpan);
+      }
+      return cell;
+    });
+    grid.replaceChildren(...cells);
+  }
+
+  const hook = $('#ph-hook');
+  if (hook) {
+    const allDone = unlocked && st.endings.length === PH_ENDING_IDS.length;
+    hook.hidden = !allDone;
+    if (allDone) {
+      hook.textContent = '【替别人醒来的旅馆】照片送到了，住客却睡在另一人的清晨里。';
+    }
+  }
+  if (typeof syncAhEntries === 'function') syncAhEntries();
+}
+
+function syncPhLinks() {
+  const st = shadowlessPhotographyUnlocked() ? getShadowlessPhotography() : null;
+  [
+    ['shadowless-photo-studio-link', 'studio'],
+    ['double-exposure-camera-link', 'camera'],
+    ['unreceived-shadow-darkroom-link', 'darkroom'],
+  ].forEach(([id, key]) => {
+    const el = $(`#${id}`);
+    if (el) el.hidden = !(st && st.visited[key]);
+  });
+}
+
+function syncShadowlessPhotographyAll() {
+  syncPhStudio();
+  syncPhCamera();
+  syncPhDarkroom();
+  syncPhReceipts();
+  syncPhEchoes();
+  syncPhEntries();
+  syncPhLinks();
+}
+
+function forgetShadowlessPhotographyState() {
+  let pendingLogicalSource = '';
+  try {
+    const rawVal = localStorage.getItem(SHADOWLESS_PHOTOGRAPHY_KEY);
+    if (rawVal) {
+      const parsed = JSON.parse(rawVal);
+      if (parsed && typeof parsed === 'object' && parsed.version === SHADOWLESS_PHOTOGRAPHY_VERSION && parsed.pending) {
+        const canonical = normalizeShadowlessPhotography(parsed);
+        if (canonical.pending && typeof canonical.pending.source === 'string') {
+          pendingLogicalSource = canonical.pending.source;
+        }
+      }
+    }
+  } catch {}
+
+  try { localStorage.removeItem(SHADOWLESS_PHOTOGRAPHY_KEY); } catch {}
+
+  [PH_STUDIO, PH_CAMERA, PH_DARKROOM].forEach((scene) => AutoAdvance.clear(scene));
+  if (pendingLogicalSource && (PH_ENTRY_SOURCES.includes(pendingLogicalSource) || PH_OLD_TARGETS.includes(pendingLogicalSource))) {
+    AutoAdvance.clear(pendingLogicalSource);
+  }
+
+  phSelectedPlateIndex = 0;
+  phExampleIndex = -1;
+  phExampleShown = false;
+
+  [
+    '#ph-studio-figure', '#ph-studio-endings-list', '#ph-studio-note', '#ph-new', '#ph-continue', '#ph-studio-print-link',
+    '#ph-camera-figure', '#ph-camera-panel', '#ph-example-panel',
+    '#ph-darkroom-figure', '#ph-darkroom-panel',
+    '#ph-memory', '#ph-codex', '#ph-hook',
+    '#shadowless-photo-studio-link', '#double-exposure-camera-link', '#unreceived-shadow-darkroom-link',
+    '#shadowless-photo-studio-response', '#double-exposure-camera-response', '#unreceived-shadow-darkroom-response',
+    '#ph-entry-threshold', '#ph-entry-remembrance', '#ph-entry-shelter',
+    '#ph-entry-note-threshold', '#ph-entry-note-remembrance', '#ph-entry-note-shelter',
+    '#ph-entry-response-threshold', '#ph-entry-response-remembrance', '#ph-entry-response-shelter',
+    ...PH_OLD_TARGETS.flatMap((s) => [`#ph-receipt-${s}`, `#ph-echo-${s}`, `#ph-print-response-${s}`]),
+    ...PH_ENDING_IDS.map((id) => `#ph-echo-${id}`),
+  ].forEach((sel) => {
+    const el = $(sel);
+    if (el) {
+      el.hidden = true;
+      if (el.tagName === 'BUTTON') el.disabled = true;
+    }
+  });
+
+  const exNote = $('#ph-example-note');
+  if (exNote) exNote.textContent = '';
+  $$('[id^="ph-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+}
+
+const onTrustedPh = (selector, handler) => {
+  const el = $(selector);
+  if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+};
+
+onTrustedPh('#ph-entry-threshold', () => choosePhEntry('threshold'));
+onTrustedPh('#ph-entry-remembrance', () => choosePhEntry('remembrance'));
+onTrustedPh('#ph-entry-shelter', () => choosePhEntry('weatherless-bus-shelter'));
+onTrustedPh('#ph-new', () => choosePhStart(true));
+onTrustedPh('#ph-continue', () => choosePhStart(false));
+
+for (let pos = 1; pos <= 5; pos++) {
+  onTrustedPh(`#ph-pos-${pos}`, () => choosePhPosition(pos));
+}
+
+onTrustedPh('#ph-light-left', () => choosePhLight('left'));
+onTrustedPh('#ph-light-right', () => choosePhLight('right'));
+
+onTrustedPh('#ph-plate-slot-0', () => choosePhPlateSlot(0));
+onTrustedPh('#ph-plate-slot-1', () => choosePhPlateSlot(1));
+
+onTrustedPh('#ph-shutter', choosePhShutter);
+onTrustedPh('#ph-erase-selected', choosePhErase);
+onTrustedPh('#ph-swap-plates', choosePhSwap);
+onTrustedPh('#ph-example-btn', choosePhExample);
+onTrustedPh('#ph-preview-btn', choosePhPreview);
+onTrustedPh('#ph-abandon', choosePhAbandon);
+onTrustedPh('#ph-print', choosePhPrint);
+onTrustedPh('#ph-revise', choosePhRevise);
+
+PH_OLD_TARGETS.forEach((scene) => onTrustedPh(`#ph-print-return-${scene}`, () => choosePhPrintReturn(scene)));
+
+/* ============================================================
+   v104 替别人醒来的旅馆 / WAKE FOR ANOTHER HOTEL
+   照片已经寄到，住客却睡在另一人的清晨里。
+   三间房固定索引 0、1、2（1/2/3号；1号为空床/自己）。
+   每座梦钟整数 0–5，借刻关系：from -1 (即 +5%6)，to +1 (%6)，总和模6恒定为0。
+   仅 0 点听见晨铃。四种互斥结局由当前三钟读数派生。
+   只读 v103；独立键 goddead_v104_wake_for_another_hotel；受信任点击与安全 DOM 操作。
+   ============================================================ */
+const AH_KEY = 'goddead_v104_wake_for_another_hotel';
+const AH_VERSION = 104;
+
+const AH_HOTEL = 'wake-for-another-hotel';
+const AH_CLOCKROOM = 'borrowed-dawn-clockroom';
+const AH_VERANDA = 'shared-morning-veranda';
+
+const AH_OLD_TARGETS = ['threshold', 'remembrance', 'unending-gallery'];
+
+const AH_ROOM_NAMES = [
+  '1 号房（你的空床）',
+  '2 号房（未见面的旅人）',
+  '3 号房（未登记的人）',
+];
+
+const AH_ROOM_SHORT_NAMES = [
+  '1 号（你的房间）',
+  '2 号（隔壁旅人）',
+  '3 号（未登记房）',
+];
+
+const AH_ENDING_IDS = [
+  'dawn-waited-outside-the-doors',
+  'you-woke-in-a-borrowed-morning',
+  'someone-woke-on-your-behalf',
+  'three-rooms-shared-one-dawn',
+];
+
+const AH_ENDING_TABLE = {
+  'dawn-waited-outside-the-doors': {
+    id: 'dawn-waited-outside-the-doors',
+    title: '天亮留在门外',
+    category: '无晨门',
+    target: 'unending-gallery',
+    placeName: '无终局陈列廊',
+    story: '窗外已亮，铃声却被三扇门留在外面。空床与旅人仍陷在各自的梦刻里，陈列廊收下一夜未曾开门的安静。',
+    receiptTitle: '晨铃签收 · 天亮留在门外',
+    echoLead: '陈列廊尽头的门扇紧扣，晨光只在门槛外停顿。',
+    preview: '没有任何一间房停在晨门（0刻）。晨铃将寄往无终局陈列廊。',
+    summary: '三钟皆非 0 刻（20 种可能）',
+  },
+  'you-woke-in-a-borrowed-morning': {
+    id: 'you-woke-in-a-borrowed-morning',
+    title: '你醒在别人的清晨里',
+    category: '仅自己醒',
+    target: 'threshold',
+    placeName: '门外',
+    story: '你的空床响起了晨铃，隔壁却依然沉睡。你替整座旅馆推开门，早晨属于借来那一刻的人。',
+    receiptTitle: '晨铃签收 · 你醒在别人的清晨里',
+    echoLead: '门外的台阶泛起属于隔壁房间的微光，空床已先于天亮醒来。',
+    preview: '仅 1 号房停在晨门（0刻）。晨铃将寄往门外。',
+    summary: '仅 1 号房为 0 刻（5 种可能）',
+  },
+  'someone-woke-on-your-behalf': {
+    id: 'someone-woke-on-your-behalf',
+    title: '有人替你醒来',
+    category: '仅别人醒',
+    target: 'remembrance',
+    placeName: '痕迹室',
+    story: '你仍未睁眼，隔壁已替你答应了今天。痕迹室收下一张替你醒来的早晨签收单。',
+    receiptTitle: '晨铃签收 · 有人替你醒来',
+    echoLead: '痕迹墙上留着一张隔壁房客写下的叫醒字条。',
+    preview: '仅隔壁（2 或 3 号）停在晨门（0刻）。晨铃将寄往痕迹室。',
+    summary: '仅 2 或 3 号房为 0 刻（10 种可能）',
+  },
+  'three-rooms-shared-one-dawn': {
+    id: 'three-rooms-shared-one-dawn',
+    title: '三间房共用一次天亮',
+    category: '全员醒来',
+    target: 'unending-gallery',
+    placeName: '无终局陈列廊',
+    story: '三座梦钟同时归零。没有谁借走谁的一刻，三间房在同一次晨铃声中彻底清醒。',
+    receiptTitle: '晨铃签收 · 三间房共用一次天亮',
+    echoLead: '陈列廊的画框中同时映出三座齐鸣的铜钟。',
+    preview: '三间房全部停在晨门（0刻）。晨铃将寄往无终局陈列廊。',
+    summary: '三间房均为 0 刻（唯一解 [0,0,0]）',
+  },
+};
+
+const AH_ENTRY_SOURCES = ['threshold', 'remembrance', 'shadowless-photo-studio'];
+
+const AH_ENTRY_BUTTON_IDS = {
+  threshold: 'ah-entry-threshold',
+  remembrance: 'ah-entry-remembrance',
+  'shadowless-photo-studio': 'ah-entry-studio',
+};
+
+const AH_ENTRY_NOTE_IDS = {
+  threshold: 'ah-entry-note-threshold',
+  remembrance: 'ah-entry-note-remembrance',
+  'shadowless-photo-studio': 'ah-entry-note-studio',
+};
+
+const AH_ENTRY_RESPONSE_IDS = {
+  threshold: 'ah-entry-response-threshold',
+  remembrance: 'ah-entry-response-remembrance',
+  'shadowless-photo-studio': 'ah-entry-response-studio',
+};
+
+const AH_ENTRY_FEEDBACK = '旅馆前台的钥匙排成三格，铜牌上刻着未干的水汽。';
+const AH_START_FEEDBACK = '推开梦钟房的铜门，三座转动的指针正等待借出一刻。';
+const AH_PREVIEW_FEEDBACK = '走上回廊，三座冻结的钟面与清晨帘门静立眼前。';
+const AH_REVISE_FEEDBACK = '退回梦钟房，重新拨动隔壁房间的一刻。';
+const AH_ABANDON_FEEDBACK = '收起钥匙，暂且退回替别人醒来的旅馆前台。';
+const AH_WAKE_RETURN_FEEDBACK = '晨铃签收完毕，你带着晨铃回执走回了旅馆前台。';
+
+const AH_EXAMPLES = [
+  {
+    name: '天亮留在门外（无晨门）',
+    clocks: [3, 2, 1],
+    note: '初始三钟 [3, 2, 1]：三间房均未归零（停在第 3、2、1 刻），铃声留在门外。',
+  },
+  {
+    name: '你醒在别人的清晨里（仅自己醒）',
+    clocks: [0, 1, 5],
+    note: '三钟 [0, 1, 5]：仅 1 号房（你的房间）停在 0 刻晨门，早晨被你独自借来。',
+  },
+  {
+    name: '有人替你醒来（仅别人醒）',
+    clocks: [1, 0, 5],
+    note: '三钟 [1, 0, 5]：仅 2 号房停在 0 刻晨门，隔壁的旅人替你推开了清晨。',
+  },
+  {
+    name: '三间房共用一次天亮（全员醒来）',
+    clocks: [0, 0, 0],
+    note: '三钟 [0, 0, 0]：三座钟全部归零（最短只需 3 次定向借刻），共享同一次晨铃。',
+  },
+];
+
+let ahExampleIndex = -1;
+let ahExampleShown = false;
+let ahLastLoan = null; // 仅内存记录最近一次借刻说明：{ from, to, beforeFrom, afterFrom, beforeTo, afterTo }
+
+function ahDelay() {
+  return reduced ? 300 : 1400;
+}
+
+function isValidAhClockDigit(n) {
+  return typeof n === 'number' && Number.isInteger(n) && n >= 0 && n <= 5;
+}
+
+function isValidAhClocks(arr) {
+  if (!Array.isArray(arr) || arr.length !== 3) return false;
+  let sum = 0;
+  for (let i = 0; i < 3; i++) {
+    const val = arr[i];
+    if (!isValidAhClockDigit(val)) return false;
+    sum += val;
+  }
+  return sum % 6 === 0;
+}
+
+function cloneAhClocks(arr) {
+  return Array.isArray(arr) ? [arr[0], arr[1], arr[2]] : [3, 2, 1];
+}
+
+function ahClocksEquals(a, b) {
+  if (!Array.isArray(a) || !Array.isArray(b) || a.length !== 3 || b.length !== 3) return false;
+  return a[0] === b[0] && a[1] === b[1] && a[2] === b[2];
+}
+
+function classifyAhClocks(arr) {
+  if (!isValidAhClocks(arr)) return '';
+  const c0 = arr[0] === 0;
+  const c1 = arr[1] === 0;
+  const c2 = arr[2] === 0;
+
+  if (c0 && c1 && c2) return 'three-rooms-shared-one-dawn';
+  if (c0 && !c1 && !c2) return 'you-woke-in-a-borrowed-morning';
+  if (!c0 && (c1 || c2)) return 'someone-woke-on-your-behalf';
+  if (!c0 && !c1 && !c2) return 'dawn-waited-outside-the-doors';
+  return '';
+}
+
+function describeAhAwakeRooms(arr) {
+  if (!isValidAhClocks(arr)) return '三钟异常';
+  const c0 = arr[0] === 0;
+  const c1 = arr[1] === 0;
+  const c2 = arr[2] === 0;
+  if (c0 && c1 && c2) return '1 号、2 号、3 号房均停在 0 刻晨门（全员醒来）';
+  if (c0) return '仅 1 号房（你的空床）停在 0 刻晨门（自己醒来）';
+  if (c1 && !c2) return '仅 2 号房（未见面的旅人）停在 0 刻晨门（隔壁醒来）';
+  if (!c1 && c2) return '仅 3 号房（未登记的人）停在 0 刻晨门（隔壁醒来）';
+  return '三间房均未停在 0 刻晨门（无人醒来）';
+}
+
+function clampAhCount(n) {
+  if (typeof n !== 'number' || !Number.isInteger(n) || !Number.isFinite(n)) return 0;
+  return Math.min(9999, Math.max(0, n));
+}
+
+function defaultWakeForAnotherHotel() {
+  return {
+    version: AH_VERSION,
+    visited: { hotel: false, clockroom: false, veranda: false },
+    draft: {
+      clocks: [3, 2, 1],
+    },
+    endings: [],
+    latestClocksByEnding: {},
+    runs: 0,
+    lastOutcome: '',
+    activeWake: null,
+    pending: null,
+  };
+}
+
+function normalizeWakeForAnotherHotel(raw) {
+  const d = defaultWakeForAnotherHotel();
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== AH_VERSION) return d;
+
+  const v = raw.visited && typeof raw.visited === 'object' && !Array.isArray(raw.visited) ? raw.visited : {};
+  d.visited = { hotel: v.hotel === true, clockroom: v.clockroom === true, veranda: v.veranda === true };
+
+  const dr = raw.draft && typeof raw.draft === 'object' && !Array.isArray(raw.draft) ? raw.draft : {};
+  d.draft = {
+    clocks: isValidAhClocks(dr.clocks) ? cloneAhClocks(dr.clocks) : [3, 2, 1],
+  };
+
+  const endings = new Set(Array.isArray(raw.endings) ? raw.endings : []);
+  d.endings = AH_ENDING_IDS.filter((id) => endings.has(id));
+  d.runs = clampAhCount(raw.runs);
+
+  const latest = raw.latestClocksByEnding && typeof raw.latestClocksByEnding === 'object' && !Array.isArray(raw.latestClocksByEnding) ? raw.latestClocksByEnding : {};
+  const cleanLatest = {};
+  AH_ENDING_IDS.forEach((id) => {
+    if (Object.prototype.hasOwnProperty.call(latest, id)) {
+      const clk = latest[id];
+      if (d.endings.includes(id) && isValidAhClocks(clk) && classifyAhClocks(clk) === id) {
+        cleanLatest[id] = cloneAhClocks(clk);
+      }
+    }
+  });
+  d.latestClocksByEnding = cleanLatest;
+
+  if (typeof raw.lastOutcome === 'string' && d.endings.includes(raw.lastOutcome)) {
+    d.lastOutcome = raw.lastOutcome;
+  }
+
+  const aw = raw.activeWake;
+  if (aw && typeof aw === 'object' && !Array.isArray(aw)) {
+    if (
+      AH_ENDING_IDS.includes(aw.outcome) &&
+      d.endings.includes(aw.outcome) &&
+      isValidAhClocks(aw.clocks) &&
+      classifyAhClocks(aw.clocks) === aw.outcome &&
+      d.latestClocksByEnding[aw.outcome] &&
+      ahClocksEquals(d.latestClocksByEnding[aw.outcome], aw.clocks)
+    ) {
+      d.activeWake = { outcome: aw.outcome, clocks: cloneAhClocks(aw.clocks) };
+    }
+  }
+
+  d.pending = normalizeAhPending(raw.pending, d);
+  return d;
+}
+
+function wakeForAnotherHotelUnlocked() {
+  const compute = () => {
+    if (typeof shadowlessPhotographyUnlocked !== 'function' || !shadowlessPhotographyUnlocked()) return false;
+    if (typeof getShadowlessPhotography !== 'function') return false;
+    const v103 = getShadowlessPhotography();
+    return Array.isArray(v103.endings) && PH_ENDING_IDS.every((id) => v103.endings.includes(id));
+  };
+  return store.memo ? store.memo('wakeForAnotherHotelUnlocked', compute) : compute();
+}
+
+function wakeForAnotherHotelAvailable() {
+  if (!wakeForAnotherHotelUnlocked()) return false;
+  if (typeof shadowlessPhotographyAvailable !== 'function' || !shadowlessPhotographyAvailable()) return false;
+  const v103 = getShadowlessPhotography();
+  if (v103.pending || v103.activePrint) return false;
+  return true;
+}
+
+function getWakeForAnotherHotel() {
+  if (!wakeForAnotherHotelUnlocked()) return defaultWakeForAnotherHotel();
+  let raw;
+  try {
+    const val = store.get(AH_KEY, null);
+    if (!val) return defaultWakeForAnotherHotel();
+    raw = JSON.parse(val);
+  } catch {
+    return defaultWakeForAnotherHotel();
+  }
+  return normalizeWakeForAnotherHotel(raw);
+}
+
+function saveWakeForAnotherHotel(st) {
+  if (!wakeForAnotherHotelUnlocked()) return defaultWakeForAnotherHotel();
+  const canonical = normalizeWakeForAnotherHotel(Object.assign({}, st, { version: AH_VERSION }));
+  store.set(AH_KEY, JSON.stringify(canonical));
+  return canonical;
+}
+
+function expectedAhPending(p, st) {
+  if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+  const clean = !st.activeWake;
+  switch (p.kind) {
+    case 'entry': {
+      if (!AH_ENTRY_SOURCES.includes(p.source)) return null;
+      return { feedback: AH_ENTRY_FEEDBACK, kind: 'entry', source: p.source, target: AH_HOTEL };
+    }
+    case 'start': {
+      if (!clean || !st.visited.hotel) return null;
+      if (typeof p.fresh !== 'boolean') return null;
+      return { feedback: AH_START_FEEDBACK, fresh: p.fresh, kind: 'start', source: AH_HOTEL, target: AH_CLOCKROOM };
+    }
+    case 'preview': {
+      if (!clean || !st.visited.clockroom) return null;
+      if (!isValidAhClocks(p.clocks) || !ahClocksEquals(p.clocks, st.draft.clocks)) return null;
+      return {
+        feedback: AH_PREVIEW_FEEDBACK,
+        kind: 'preview',
+        clocks: cloneAhClocks(st.draft.clocks),
+        source: AH_CLOCKROOM,
+        target: AH_VERANDA,
+      };
+    }
+    case 'revise': {
+      if (!clean || !st.visited.veranda) return null;
+      return { feedback: AH_REVISE_FEEDBACK, kind: 'revise', source: AH_VERANDA, target: AH_CLOCKROOM };
+    }
+    case 'wake': {
+      if (!clean || !st.visited.veranda) return null;
+      const outcome = classifyAhClocks(st.draft.clocks);
+      if (!outcome || !isValidAhClocks(p.clocks) || !ahClocksEquals(p.clocks, st.draft.clocks) || p.outcome !== outcome) return null;
+      const meta = AH_ENDING_TABLE[outcome];
+      const target = meta.target;
+      return {
+        feedback: meta.story,
+        kind: 'wake',
+        outcome,
+        clocks: cloneAhClocks(st.draft.clocks),
+        source: AH_VERANDA,
+        target,
+      };
+    }
+    case 'wake-return': {
+      if (!st.activeWake) return null;
+      const expectedSource = AH_ENDING_TABLE[st.activeWake.outcome].target;
+      if (p.source !== expectedSource || p.outcome !== st.activeWake.outcome) return null;
+      if (!isValidAhClocks(p.clocks) || !ahClocksEquals(p.clocks, st.activeWake.clocks)) return null;
+      return {
+        feedback: AH_WAKE_RETURN_FEEDBACK,
+        kind: 'wake-return',
+        outcome: st.activeWake.outcome,
+        clocks: cloneAhClocks(st.activeWake.clocks),
+        source: expectedSource,
+        target: AH_HOTEL,
+      };
+    }
+    case 'abandon': {
+      if (!clean || !st.visited.clockroom) return null;
+      return { feedback: AH_ABANDON_FEEDBACK, kind: 'abandon', source: AH_CLOCKROOM, target: AH_HOTEL };
+    }
+    default:
+      return null;
+  }
+}
+
+function normalizeAhPending(p, st) {
+  if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+  const expected = expectedAhPending(p, st);
+  if (!expected) return null;
+  const keys = Object.keys(p).sort();
+  const want = Object.keys(expected).sort();
+  if (keys.length !== want.length) return null;
+  for (let i = 0; i < keys.length; i++) {
+    const k = keys[i];
+    if (k !== want[i]) return null;
+    if (k === 'clocks') {
+      if (!ahClocksEquals(p.clocks, expected.clocks)) return null;
+    } else if (p[k] !== expected[k]) {
+      return null;
+    }
+  }
+  return expected;
+}
+
+function ahPendingLogicalSource(p) {
+  if (!p) return '';
+  return p.source || '';
+}
+
+function resolveWakeForAnotherHotelPendingOnArrival(sceneName) {
+  if (!wakeForAnotherHotelAvailable()) return getWakeForAnotherHotel();
+  const st = getWakeForAnotherHotel();
+  const p = st.pending;
+  if (!p) return st;
+  if (p.target === sceneName) {
+    st.pending = null;
+    if (p.kind === 'entry') {
+      st.visited.hotel = true;
+    } else if (p.kind === 'start') {
+      st.visited.clockroom = true;
+      if (p.fresh) {
+        st.draft = { clocks: [3, 2, 1] };
+        ahLastLoan = null;
+      }
+    } else if (p.kind === 'preview') {
+      st.visited.veranda = true;
+    } else if (p.kind === 'revise') {
+      st.visited.clockroom = true;
+    } else if (p.kind === 'abandon') {
+      st.visited.hotel = true;
+    } else if (p.kind === 'wake') {
+      st.runs = clampAhCount(st.runs + 1);
+      if (!st.endings.includes(p.outcome)) st.endings = st.endings.concat(p.outcome);
+      st.latestClocksByEnding[p.outcome] = cloneAhClocks(p.clocks);
+      st.lastOutcome = p.outcome;
+      st.activeWake = { outcome: p.outcome, clocks: cloneAhClocks(p.clocks) };
+      st.draft = { clocks: [3, 2, 1] };
+      ahLastLoan = null;
+    } else if (p.kind === 'wake-return') {
+      st.activeWake = null;
+      st.visited.hotel = true;
+    }
+    return saveWakeForAnotherHotel(st);
+  }
+  if (sceneName === ahPendingLogicalSource(p)) return st;
+  st.pending = null;
+  return saveWakeForAnotherHotel(st);
+}
+
+const AH_RESPONSE_BY_KIND = {
+  start: '#wake-for-another-hotel-response',
+  preview: '#borrowed-dawn-clockroom-response',
+  revise: '#shared-morning-veranda-response',
+  abandon: '#borrowed-dawn-clockroom-response',
+  wake: '#shared-morning-veranda-response',
+};
+
+function showAhResponse(selector, text) {
+  const el = $(selector);
+  if (!el) return;
+  el.textContent = text;
+  el.hidden = !text;
+}
+
+function replayWakeForAnotherHotelPending(sceneName) {
+  if (!wakeForAnotherHotelAvailable()) {
+    syncWakeForAnotherHotelAll();
+    return;
+  }
+  const st = getWakeForAnotherHotel();
+  const p = st.pending;
+  if (p && p.target === sceneName) {
+    resolveWakeForAnotherHotelPendingOnArrival(sceneName);
+  } else if (p && sceneName === ahPendingLogicalSource(p)) {
+    syncWakeForAnotherHotelAll();
+    let selector = '';
+    if (p.kind === 'entry') selector = `#${AH_ENTRY_RESPONSE_IDS[p.source]}`;
+    else if (p.kind === 'wake-return') selector = `#ah-wake-response-${p.source}`;
+    else selector = AH_RESPONSE_BY_KIND[p.kind];
+    if (selector) showAhResponse(selector, p.feedback);
+    AutoAdvance.schedule(sceneName, p.target, { delay: ahDelay() });
+    return;
+  } else if (p) {
+    st.pending = null;
+    saveWakeForAnotherHotel(st);
+  }
+  syncWakeForAnotherHotelAll();
+}
+
+function launchAh(scene, buttonId, pending, responseSelector) {
+  const st = getWakeForAnotherHotel();
+  st.pending = pending;
+  const saved = saveWakeForAnotherHotel(st);
+  if (!saved.pending) return false;
+  const btn = buttonId ? $(`#${buttonId}`) : null;
+  if (btn) btn.setAttribute('aria-pressed', 'true');
+  if (AudioEngine && AudioEngine.whoosh) AudioEngine.whoosh();
+  syncWakeForAnotherHotelAll();
+  showAhResponse(responseSelector, pending.feedback);
+  AutoAdvance.schedule(scene, pending.target, { delay: ahDelay() });
+  return true;
+}
+
+function ahReady(scene, buttonId) {
+  if (currentScene !== scene) return null;
+  if (AutoAdvance.has(scene)) return null;
+  if (buttonId && !buttonAvailable(buttonId)) return null;
+  if (!wakeForAnotherHotelAvailable()) return null;
+  const st = getWakeForAnotherHotel();
+  return st.pending ? null : st;
+}
+
+function wakeForAnotherHotelBridgeAllows(targetScene) {
+  if (!wakeForAnotherHotelAvailable()) return false;
+  const st = getWakeForAnotherHotel();
+  if (st.pending && st.pending.kind === 'wake' && st.pending.target === targetScene) return true;
+  if (st.activeWake && AH_ENDING_TABLE[st.activeWake.outcome] && AH_ENDING_TABLE[st.activeWake.outcome].target === targetScene) return true;
+  if (st.lastOutcome && AH_ENDING_TABLE[st.lastOutcome] && AH_ENDING_TABLE[st.lastOutcome].target === targetScene) return true;
+  return false;
+}
+
+function ahHotelCanVisit() {
+  if (!wakeForAnotherHotelAvailable()) return false;
+  const st = getWakeForAnotherHotel();
+  if (st.pending) {
+    if (st.pending.target === AH_HOTEL) return true;
+    if (st.pending.source === AH_HOTEL && st.visited.hotel && !st.activeWake) return true;
+    return false;
+  }
+  return st.visited.hotel;
+}
+
+function borrowedDawnClockroomCanVisit() {
+  if (!wakeForAnotherHotelAvailable()) return false;
+  const st = getWakeForAnotherHotel();
+  if (st.pending) {
+    if (st.pending.target === AH_CLOCKROOM) return true;
+    if (st.pending.source === AH_CLOCKROOM && st.visited.clockroom && !st.activeWake) return true;
+    return false;
+  }
+  return st.visited.clockroom && !st.activeWake;
+}
+
+function sharedMorningVerandaCanVisit() {
+  if (!wakeForAnotherHotelAvailable()) return false;
+  const st = getWakeForAnotherHotel();
+  if (st.pending) {
+    if (st.pending.target === AH_VERANDA) return true;
+    if (st.pending.source === AH_VERANDA && st.visited.veranda && isValidAhClocks(st.draft.clocks) && !st.activeWake) return true;
+    return false;
+  }
+  return st.visited.veranda && isValidAhClocks(st.draft.clocks) && !st.activeWake;
+}
+
+function chooseAhEntry(source) {
+  if (!AH_ENTRY_SOURCES.includes(source)) return;
+  const btnId = AH_ENTRY_BUTTON_IDS[source];
+  const st = ahReady(source, btnId);
+  if (!st) return;
+  launchAh(source, btnId, { feedback: AH_ENTRY_FEEDBACK, kind: 'entry', source, target: AH_HOTEL }, `#${AH_ENTRY_RESPONSE_IDS[source]}`);
+}
+
+function chooseAhStart(fresh) {
+  const btnId = fresh ? 'ah-new' : 'ah-continue';
+  const st = ahReady(AH_HOTEL, btnId);
+  if (!st || !st.visited.hotel || st.activeWake) return;
+  launchAh(AH_HOTEL, btnId, { feedback: AH_START_FEEDBACK, fresh: Boolean(fresh), kind: 'start', source: AH_HOTEL, target: AH_CLOCKROOM }, '#wake-for-another-hotel-response');
+}
+
+function chooseAhBorrow(from, to) {
+  if (from === to || from < 0 || from > 2 || to < 0 || to > 2) return;
+  const btnId = `ah-borrow-${from}-${to}`;
+  const st = ahReady(AH_CLOCKROOM, btnId);
+  if (!st || !st.visited.clockroom || st.activeWake) return;
+  const prev = cloneAhClocks(st.draft.clocks);
+  const next = cloneAhClocks(prev);
+  next[from] = (next[from] + 5) % 6;
+  next[to] = (next[to] + 1) % 6;
+  st.draft.clocks = next;
+  ahLastLoan = {
+    from,
+    to,
+    beforeFrom: prev[from],
+    afterFrom: next[from],
+    beforeTo: prev[to],
+    afterTo: next[to],
+  };
+  saveWakeForAnotherHotel(st);
+  if (AudioEngine && AudioEngine.tick) AudioEngine.tick();
+  syncAhClockroom();
+}
+
+function chooseAhReset() {
+  const st = ahReady(AH_CLOCKROOM, 'ah-reset');
+  if (!st || !st.visited.clockroom || st.activeWake) return;
+  st.draft.clocks = [3, 2, 1];
+  ahLastLoan = null;
+  saveWakeForAnotherHotel(st);
+  if (AudioEngine && AudioEngine.tick) AudioEngine.tick();
+  syncAhClockroom();
+}
+
+function chooseAhExample() {
+  const st = ahReady(AH_CLOCKROOM, 'ah-example-btn');
+  if (!st || !st.visited.clockroom || st.activeWake) return;
+  if (!ahExampleShown) {
+    ahExampleShown = true;
+    ahExampleIndex = 0;
+  } else {
+    ahExampleIndex = (ahExampleIndex + 1) % AH_EXAMPLES.length;
+  }
+  syncAhClockroom();
+}
+
+function chooseAhPreview() {
+  const st = ahReady(AH_CLOCKROOM, 'ah-preview-btn');
+  if (!st || !st.visited.clockroom || st.activeWake) return;
+  if (!isValidAhClocks(st.draft.clocks)) return;
+  launchAh(AH_CLOCKROOM, 'ah-preview-btn', {
+    feedback: AH_PREVIEW_FEEDBACK,
+    kind: 'preview',
+    clocks: cloneAhClocks(st.draft.clocks),
+    source: AH_CLOCKROOM,
+    target: AH_VERANDA,
+  }, '#borrowed-dawn-clockroom-response');
+}
+
+function chooseAhRevise() {
+  const st = ahReady(AH_VERANDA, 'ah-revise');
+  if (!st || !st.visited.veranda || st.activeWake) return;
+  launchAh(AH_VERANDA, 'ah-revise', { feedback: AH_REVISE_FEEDBACK, kind: 'revise', source: AH_VERANDA, target: AH_CLOCKROOM }, '#shared-morning-veranda-response');
+}
+
+function chooseAhWake() {
+  const st = ahReady(AH_VERANDA, 'ah-wake');
+  if (!st || !st.visited.veranda || st.activeWake) return;
+  const outcome = classifyAhClocks(st.draft.clocks);
+  if (!outcome) return;
+  const meta = AH_ENDING_TABLE[outcome];
+  launchAh(AH_VERANDA, 'ah-wake', {
+    feedback: meta.story,
+    kind: 'wake',
+    outcome,
+    clocks: cloneAhClocks(st.draft.clocks),
+    source: AH_VERANDA,
+    target: meta.target,
+  }, '#shared-morning-veranda-response');
+}
+
+function chooseAhWakeReturn(scene) {
+  if (!AH_OLD_TARGETS.includes(scene)) return;
+  const btnId = `ah-wake-return-${scene}`;
+  const st = ahReady(scene, btnId);
+  if (!st || !st.activeWake) return;
+  if (AH_ENDING_TABLE[st.activeWake.outcome].target !== scene) return;
+  launchAh(scene, btnId, {
+    feedback: AH_WAKE_RETURN_FEEDBACK,
+    kind: 'wake-return',
+    outcome: st.activeWake.outcome,
+    clocks: cloneAhClocks(st.activeWake.clocks),
+    source: scene,
+    target: AH_HOTEL,
+  }, `#ah-wake-response-${scene}`);
+}
+
+function chooseAhAbandon() {
+  const st = ahReady(AH_CLOCKROOM, 'ah-abandon');
+  if (!st || !st.visited.clockroom || st.activeWake) return;
+  launchAh(AH_CLOCKROOM, 'ah-abandon', { feedback: AH_ABANDON_FEEDBACK, kind: 'abandon', source: AH_CLOCKROOM, target: AH_HOTEL }, '#borrowed-dawn-clockroom-response');
+}
+
+function renderAhClockFace(container, clocks) {
+  if (!container) return;
+  if (!isValidAhClocks(clocks)) {
+    container.textContent = '无可读梦钟配置';
+    return;
+  }
+  const stack = document.createElement('div');
+  stack.className = 'ah-clock-stack';
+
+  clocks.forEach((val, idx) => {
+    const card = document.createElement('div');
+    card.className = `ah-clock-card is-room-${idx + 1} ${val === 0 ? 'is-awake' : 'is-dreaming'}`;
+    card.setAttribute('data-room', String(idx + 1));
+    card.setAttribute('data-value', String(val));
+
+    const nameEl = document.createElement('span');
+    nameEl.className = 'ah-room-name';
+    nameEl.textContent = AH_ROOM_NAMES[idx];
+    card.appendChild(nameEl);
+
+    const face = document.createElement('div');
+    face.className = 'ah-clock-face';
+    face.setAttribute('aria-hidden', 'true');
+
+    for (let t = 0; t <= 5; t++) {
+      const tick = document.createElement('span');
+      tick.className = `ah-clock-tick is-tick-${t} ${t === 0 ? 'is-dawn-tick' : ''}`;
+      tick.textContent = `${t}`;
+      face.appendChild(tick);
+    }
+
+    const hand = document.createElement('div');
+    hand.className = 'ah-clock-hand';
+    hand.style.transform = `rotate(${val * 60}deg)`;
+    face.appendChild(hand);
+
+    card.appendChild(face);
+
+    const numEl = document.createElement('span');
+    numEl.className = 'ah-clock-number';
+    numEl.textContent = `当前读数：第 ${val} 刻（${val === 0 ? '0刻 · 听得见晨铃' : `梦中第${val}刻`}）`;
+    card.appendChild(numEl);
+
+    const statEl = document.createElement('span');
+    statEl.className = 'ah-room-status';
+    statEl.textContent = val === 0 ? '【晨门已开 · 听见晨铃】' : '【门扇紧闭 · 仍在梦中】';
+    card.appendChild(statEl);
+
+    stack.appendChild(card);
+  });
+
+  container.replaceChildren(stack);
+}
+
+function syncAhHotel() {
+  const canVisit = ahHotelCanVisit();
+  const st = getWakeForAnotherHotel();
+  const fig = $('#ah-hotel-figure');
+  if (fig) fig.hidden = !canVisit;
+  const hasWake = Boolean(st.activeWake);
+  const blocked = !canVisit || Boolean(st.pending) || hasWake;
+
+  const btnNew = $('#ah-new');
+  if (btnNew) {
+    btnNew.hidden = !canVisit;
+    btnNew.disabled = blocked;
+    btnNew.setAttribute('aria-pressed', st.pending && st.pending.kind === 'start' && st.pending.fresh ? 'true' : 'false');
+  }
+
+  const btnCont = $('#ah-continue');
+  if (btnCont) {
+    const showCont = canVisit && !hasWake;
+    btnCont.hidden = !showCont;
+    btnCont.disabled = !showCont || Boolean(st.pending);
+    btnCont.setAttribute('aria-pressed', st.pending && st.pending.kind === 'start' && !st.pending.fresh ? 'true' : 'false');
+  }
+
+  const wakeLink = $('#ah-active-wake-link');
+  if (wakeLink) {
+    const showLink = canVisit && hasWake;
+    wakeLink.hidden = !showLink;
+    if (showLink) {
+      const tgt = AH_ENDING_TABLE[st.activeWake.outcome].target;
+      wakeLink.setAttribute('href', `#${tgt}`);
+      wakeLink.textContent = `回到晨铃签收处 ⟶`;
+    }
+  }
+
+  const note = $('#ah-hotel-note');
+  if (note) {
+    let text = '';
+    if (hasWake) {
+      const out = AH_ENDING_TABLE[st.activeWake.outcome];
+      text = `这一夜晨铃已在${out.placeName}响过：请前往该处带晨铃回执返回旅馆前台。`;
+    } else {
+      text = '前台柜台上放着 1、2、3 号房钥匙，三座梦钟总和恒为 6 的整数倍。';
+    }
+    note.textContent = text;
+    note.hidden = !canVisit || !text;
+  }
+
+  const endingsList = $('#ah-hotel-endings-list');
+  if (endingsList) {
+    endingsList.hidden = !canVisit;
+    if (canVisit) {
+      const items = AH_ENDING_IDS.map((id) => {
+        const collected = st.endings.includes(id);
+        const li = document.createElement('li');
+        li.className = `ah-ending-item ${collected ? 'is-collected' : 'is-uncollected'}`;
+        li.textContent = collected
+          ? `[已收集] ${AH_ENDING_TABLE[id].title}（${AH_ENDING_TABLE[id].category}）—— ${AH_ENDING_TABLE[id].story}`
+          : `[未收集] ${AH_ENDING_TABLE[id].title}（${AH_ENDING_TABLE[id].category}）—— ？？？`;
+        return li;
+      });
+      endingsList.replaceChildren(...items);
+    }
+  }
+
+  if (!st.pending || st.pending.source !== AH_HOTEL) showAhResponse('#wake-for-another-hotel-response', '');
+}
+
+function syncAhClockroom() {
+  const canVisit = borrowedDawnClockroomCanVisit();
+  const st = getWakeForAnotherHotel();
+  const ready = canVisit;
+  const fig = $('#ah-clockroom-figure');
+  if (fig) fig.hidden = !ready;
+  const panel = $('#ah-clockroom-panel');
+  if (panel) panel.hidden = !ready;
+
+  const clocks = st.draft.clocks;
+  const valid = isValidAhClocks(clocks);
+  const outcome = valid ? classifyAhClocks(clocks) : '';
+
+  const pairs = [
+    [0, 1], [0, 2],
+    [1, 0], [1, 2],
+    [2, 0], [2, 1],
+  ];
+
+  pairs.forEach(([f, t]) => {
+    const btn = $(`#ah-borrow-${f}-${t}`);
+    if (btn) {
+      btn.disabled = !ready || Boolean(st.pending) || Boolean(st.activeWake);
+    }
+  });
+
+  const clocksContainer = $('#ah-clockroom-clocks');
+  if (clocksContainer && valid) {
+    renderAhClockFace(clocksContainer, clocks);
+  }
+
+  const connContainer = $('#ah-clockroom-connections');
+  if (connContainer) {
+    const diagram = document.createElement('div');
+    diagram.className = 'ah-loan-diagram';
+
+    if (ahLastLoan) {
+      const l = ahLastLoan;
+      const thirdIndex = 3 - l.from - l.to;
+      diagram.setAttribute('data-from', String(l.from + 1));
+      diagram.setAttribute('data-to', String(l.to + 1));
+
+      const sourceNode = document.createElement('div');
+      sourceNode.className = 'ah-loan-node is-source';
+      sourceNode.textContent = `${AH_ROOM_SHORT_NAMES[l.from]}（${l.beforeFrom} ⟶ ${l.afterFrom}）`;
+
+      const arrow = document.createElement('div');
+      arrow.className = 'ah-loan-arrow';
+      arrow.setAttribute('aria-hidden', 'true');
+      arrow.textContent = '借出一刻 ⟶';
+
+      const targetNode = document.createElement('div');
+      targetNode.className = 'ah-loan-node is-target';
+      targetNode.textContent = `${AH_ROOM_SHORT_NAMES[l.to]}（${l.beforeTo} ⟶ ${l.afterTo}）`;
+
+      const thirdNode = document.createElement('div');
+      thirdNode.className = 'ah-loan-node is-unchanged';
+      thirdNode.textContent = `${AH_ROOM_SHORT_NAMES[thirdIndex]}（第 ${clocks[thirdIndex]} 刻 · 保持不变）`;
+
+      diagram.appendChild(sourceNode);
+      diagram.appendChild(arrow);
+      diagram.appendChild(targetNode);
+      diagram.appendChild(thirdNode);
+
+      const detailP = document.createElement('p');
+      detailP.className = 'ah-loan-detail';
+      detailP.textContent = `最近借刻：${AH_ROOM_SHORT_NAMES[l.from]}（${l.beforeFrom} ⟶ ${l.afterFrom}）向 ${AH_ROOM_SHORT_NAMES[l.to]}（${l.beforeTo} ⟶ ${l.afterTo}）借出一刻；${AH_ROOM_SHORT_NAMES[thirdIndex]}（第 ${clocks[thirdIndex]} 刻）保持不变。`;
+
+      connContainer.replaceChildren(diagram, detailP);
+    } else {
+      [0, 1, 2].forEach((idx) => {
+        const node = document.createElement('div');
+        node.className = 'ah-loan-node is-unchanged';
+        node.textContent = `${AH_ROOM_SHORT_NAMES[idx]}（当前第 ${clocks[idx]} 刻）`;
+        diagram.appendChild(node);
+      });
+
+      const detailP = document.createElement('p');
+      detailP.className = 'ah-loan-detail';
+      detailP.textContent = '本次尚未借刻，当前已保存读数保留。点击下方按钮向另一间房借出一刻。';
+
+      connContainer.replaceChildren(diagram, detailP);
+    }
+  }
+
+  const loanNote = $('#ah-loan-note');
+  if (loanNote) {
+    loanNote.textContent = '借刻法则：借出房间退 1 格（-1 mod 6），收到房间进 1 格（+1 mod 6），第三座梦钟不变。三钟读数之和始终保持为 6 的倍数。';
+  }
+
+  const summary = $('#ah-clockroom-summary');
+  if (summary) {
+    if (valid) {
+      summary.textContent = `当前醒来状态：${describeAhAwakeRooms(clocks)} ⟶ 派生结局：${AH_ENDING_TABLE[outcome].title}（${AH_ENDING_TABLE[outcome].category}）`;
+    } else {
+      summary.textContent = '梦钟状态异常，请点击“拨回入住时刻”。';
+    }
+  }
+
+  const resetBtn = $('#ah-reset');
+  if (resetBtn) resetBtn.disabled = !ready || Boolean(st.pending) || Boolean(st.activeWake);
+
+  const previewBtn = $('#ah-preview-btn');
+  if (previewBtn) {
+    previewBtn.disabled = !ready || Boolean(st.pending) || Boolean(st.activeWake) || !valid;
+    previewBtn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'preview' ? 'true' : 'false');
+  }
+
+  const abandonBtn = $('#ah-abandon');
+  if (abandonBtn) abandonBtn.disabled = !ready || Boolean(st.pending) || Boolean(st.activeWake);
+
+  const exBtn = $('#ah-example-btn');
+  if (exBtn) exBtn.disabled = !ready || Boolean(st.pending) || Boolean(st.activeWake);
+
+  const exPanel = $('#ah-example-panel');
+  if (exPanel) {
+    exPanel.hidden = !ahExampleShown;
+    if (ahExampleShown && ahExampleIndex >= 0) {
+      const ex = AH_EXAMPLES[ahExampleIndex];
+      const note = $('#ah-example-note');
+      if (note) note.textContent = `【示例】${ex.name}：梦钟 [${ex.clocks.join(', ')}] —— ${ex.note}`;
+    }
+  }
+
+  if (!st.pending || st.pending.source !== AH_CLOCKROOM) showAhResponse('#borrowed-dawn-clockroom-response', '');
+}
+
+function syncAhVeranda() {
+  const canVisit = sharedMorningVerandaCanVisit();
+  const st = getWakeForAnotherHotel();
+  const ready = canVisit;
+  const fig = $('#ah-veranda-figure');
+  if (fig) fig.hidden = !ready;
+  const panel = $('#ah-veranda-panel');
+  if (panel) panel.hidden = !ready;
+
+  const clocks = st.draft.clocks;
+  const valid = isValidAhClocks(clocks);
+  const outcome = valid ? classifyAhClocks(clocks) : '';
+
+  const clocksContainer = $('#ah-veranda-clocks');
+  if (clocksContainer && valid) {
+    renderAhClockFace(clocksContainer, clocks);
+  }
+
+  const summaryEl = $('#ah-veranda-summary');
+  const awakeEl = $('#ah-veranda-awake');
+
+  if (outcome && AH_ENDING_TABLE[outcome]) {
+    const meta = AH_ENDING_TABLE[outcome];
+    if (summaryEl) summaryEl.textContent = `${meta.title}（${meta.category} · ${meta.summary}）—— ${meta.story}`;
+    if (awakeEl) awakeEl.textContent = `回廊帘门状态：${describeAhAwakeRooms(clocks)}。晨铃将寄往：${meta.placeName}（${meta.preview}）。`;
+  } else {
+    if (summaryEl) summaryEl.textContent = '';
+    if (awakeEl) awakeEl.textContent = '';
+  }
+
+  const wakeBtn = $('#ah-wake');
+  if (wakeBtn) {
+    wakeBtn.disabled = !ready || Boolean(st.pending) || Boolean(st.activeWake) || !outcome;
+    wakeBtn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'wake' ? 'true' : 'false');
+  }
+
+  const reviseBtn = $('#ah-revise');
+  if (reviseBtn) {
+    reviseBtn.disabled = !ready || Boolean(st.pending) || Boolean(st.activeWake);
+    reviseBtn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'revise' ? 'true' : 'false');
+  }
+
+  if (!st.pending || st.pending.source !== AH_VERANDA) showAhResponse('#shared-morning-veranda-response', '');
+}
+
+function syncAhReceipts() {
+  const st = wakeForAnotherHotelUnlocked() ? getWakeForAnotherHotel() : defaultWakeForAnotherHotel();
+  const available = wakeForAnotherHotelAvailable();
+  AH_OLD_TARGETS.forEach((scene) => {
+    const box = $(`#ah-wake-receipt-${scene}`);
+    if (!box) return;
+    const active = st.activeWake;
+    const show = Boolean(active) && AH_ENDING_TABLE[active.outcome].target === scene;
+    box.hidden = !show;
+
+    const btn = $(`#ah-wake-return-${scene}`);
+    if (btn) {
+      btn.disabled = !show || !available || Boolean(st.pending);
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'wake-return' && st.pending.source === scene ? 'true' : 'false');
+    }
+
+    if (!show) return;
+    const meta = AH_ENDING_TABLE[active.outcome];
+    const head = $(`#ah-wake-receipt-title-${scene}`);
+    if (head) head.textContent = meta.receiptTitle;
+    const canvas = $(`#ah-wake-receipt-clocks-${scene}`);
+    if (canvas) renderAhClockFace(canvas, active.clocks);
+    const note = $(`#ah-wake-receipt-note-${scene}`);
+    if (note) note.textContent = `${meta.story}（${describeAhAwakeRooms(active.clocks)}）`;
+
+    if (!st.pending || st.pending.kind !== 'wake-return') showAhResponse(`#ah-wake-response-${scene}`, '');
+  });
+}
+
+function syncAhEchoes() {
+  const st = wakeForAnotherHotelUnlocked() ? getWakeForAnotherHotel() : defaultWakeForAnotherHotel();
+  AH_ENDING_IDS.forEach((id) => {
+    const meta = AH_ENDING_TABLE[id];
+    const elEnding = $(`#ah-echo-${id}`);
+    const clk = st.latestClocksByEnding[id];
+    const validClocks = isValidAhClocks(clk);
+
+    if (elEnding) {
+      if (!validClocks) {
+        elEnding.hidden = true;
+        elEnding.textContent = '';
+      } else {
+        elEnding.textContent = `${meta.echoLead}「${meta.title}」[${clk.join(', ')}] ${meta.story}`;
+        elEnding.hidden = false;
+      }
+    }
+  });
+}
+
+function syncAhEntries() {
+  const unlocked = wakeForAnotherHotelUnlocked();
+  const available = wakeForAnotherHotelAvailable();
+  const st = getWakeForAnotherHotel();
+  const clean = !st.pending;
+
+  let blockedNote = '';
+  if (unlocked && !available) {
+    if (typeof shadowlessPhotographyAvailable === 'function' && !shadowlessPhotographyAvailable()) {
+      blockedNote = '照相馆或候车亭尚有在途签收，请先完成旧章交接。';
+    } else if (typeof getShadowlessPhotography === 'function') {
+      const v103 = getShadowlessPhotography();
+      if (v103 && v103.pending) {
+        blockedNote = '收不到影子的照相馆正在叠印，请先完成底片签收。';
+      } else if (v103 && v103.activePrint) {
+        blockedNote = '先带着叠印照片签收回执返回照相馆。';
+      }
+    }
+  } else if (unlocked && st.activeWake) {
+    blockedNote = '晨铃已签收，尚未带回旅馆；可到前台找回原签收处。';
+  }
+
+  AH_ENTRY_SOURCES.forEach((src) => {
+    const btn = $(`#${AH_ENTRY_BUTTON_IDS[src]}`);
+    if (btn) {
+      btn.hidden = !unlocked;
+      btn.disabled = !available || !clean;
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' && st.pending.source === src ? 'true' : 'false');
+    }
+    const note = $(`#${AH_ENTRY_NOTE_IDS[src]}`);
+    if (note) {
+      note.textContent = blockedNote;
+      note.hidden = !unlocked || !blockedNote;
+    }
+    if (!st.pending || st.pending.kind !== 'entry' || st.pending.source !== src) {
+      showAhResponse(`#${AH_ENTRY_RESPONSE_IDS[src]}`, '');
+    }
+  });
+
+  const memory = $('#ah-memory');
+  if (memory) {
+    memory.hidden = !unlocked;
+    if (unlocked) {
+      memory.textContent = `旅馆梦钟：已集齐 ${st.endings.length}/4 种天亮结局，共住过 ${st.runs} 夜。`;
+    }
+  }
+
+  const codex = $('#ah-codex');
+  if (codex) codex.hidden = !unlocked;
+
+  const grid = $('#ah-codex-grid');
+  if (grid && unlocked) {
+    const cells = AH_ENDING_IDS.map((id) => {
+      const meta = AH_ENDING_TABLE[id];
+      const got = st.endings.includes(id);
+      const cell = document.createElement('div');
+      cell.className = `ah-codex-cell ${got ? 'is-unlocked' : 'is-locked'}`;
+      const titleSpan = document.createElement('strong');
+      titleSpan.textContent = got ? `${meta.title}（${meta.category}）` : '？？？';
+      cell.appendChild(titleSpan);
+      if (got) {
+        const clk = st.latestClocksByEnding[id];
+        const ordSpan = document.createElement('div');
+        ordSpan.className = 'ah-codex-clocks';
+        const hasValidClocks = isValidAhClocks(clk);
+
+        if (hasValidClocks) {
+          renderAhClockFace(ordSpan, clk);
+        } else {
+          const fallbackP = document.createElement('p');
+          fallbackP.textContent = '该结果暂无可读钟面';
+          ordSpan.appendChild(fallbackP);
+        }
+        cell.appendChild(ordSpan);
+
+        const storySpan = document.createElement('p');
+        storySpan.className = 'ah-codex-story';
+        storySpan.textContent = meta.story;
+        cell.appendChild(storySpan);
+      }
+      return cell;
+    });
+    grid.replaceChildren(...cells);
+  }
+
+  const hook = $('#ah-hook');
+  if (hook) {
+    const allDone = unlocked && st.endings.length === AH_ENDING_IDS.length;
+    hook.hidden = !allDone;
+    if (allDone) {
+      hook.textContent = '【只出售昨日的早餐铺】住客终于醒来，早餐却还停在昨天。';
+    }
+  }
+}
+
+function syncAhLinks() {
+  const st = wakeForAnotherHotelUnlocked() ? getWakeForAnotherHotel() : null;
+  [
+    ['wake-for-another-hotel-link', 'hotel'],
+    ['borrowed-dawn-clockroom-link', 'clockroom'],
+    ['shared-morning-veranda-link', 'veranda'],
+  ].forEach(([id, key]) => {
+    const el = $(`#${id}`);
+    if (el) el.hidden = !(st && st.visited[key]);
+  });
+}
+
+function syncWakeForAnotherHotelAll() {
+  syncAhHotel();
+  syncAhClockroom();
+  syncAhVeranda();
+  syncAhReceipts();
+  syncAhEchoes();
+  syncAhEntries();
+  syncAhLinks();
+}
+
+function forgetWakeForAnotherHotelState() {
+  let pendingLogicalSource = '';
+  try {
+    const rawVal = localStorage.getItem(AH_KEY);
+    if (rawVal) {
+      const parsed = JSON.parse(rawVal);
+      if (parsed && typeof parsed === 'object' && parsed.version === AH_VERSION && parsed.pending) {
+        const canonical = normalizeWakeForAnotherHotel(parsed);
+        if (canonical.pending && typeof canonical.pending.source === 'string') {
+          pendingLogicalSource = canonical.pending.source;
+        }
+      }
+    }
+  } catch {}
+
+  try { localStorage.removeItem(AH_KEY); } catch {}
+
+  [AH_HOTEL, AH_CLOCKROOM, AH_VERANDA].forEach((scene) => AutoAdvance.clear(scene));
+  if (pendingLogicalSource && (AH_ENTRY_SOURCES.includes(pendingLogicalSource) || AH_OLD_TARGETS.includes(pendingLogicalSource))) {
+    AutoAdvance.clear(pendingLogicalSource);
+  }
+
+  ahExampleIndex = -1;
+  ahExampleShown = false;
+  ahLastLoan = null;
+
+  [
+    '#ah-hotel-figure', '#ah-hotel-endings-list', '#ah-hotel-note', '#ah-new', '#ah-continue', '#ah-active-wake-link',
+    '#ah-clockroom-figure', '#ah-clockroom-panel', '#ah-example-panel',
+    '#ah-veranda-figure', '#ah-veranda-panel',
+    '#ah-memory', '#ah-codex', '#ah-hook',
+    '#wake-for-another-hotel-link', '#borrowed-dawn-clockroom-link', '#shared-morning-veranda-link',
+    '#wake-for-another-hotel-response', '#borrowed-dawn-clockroom-response', '#shared-morning-veranda-response',
+    '#ah-entry-threshold', '#ah-entry-remembrance', '#ah-entry-studio',
+    '#ah-entry-note-threshold', '#ah-entry-note-remembrance', '#ah-entry-note-studio',
+    '#ah-entry-response-threshold', '#ah-entry-response-remembrance', '#ah-entry-response-studio',
+    ...AH_OLD_TARGETS.flatMap((s) => [`#ah-wake-receipt-${s}`, `#ah-wake-response-${s}`]),
+    ...AH_ENDING_IDS.map((id) => `#ah-echo-${id}`),
+  ].forEach((sel) => {
+    const el = $(sel);
+    if (el) {
+      el.hidden = true;
+      if (el.tagName === 'BUTTON') el.disabled = true;
+    }
+  });
+
+  const exNote = $('#ah-example-note');
+  if (exNote) exNote.textContent = '';
+  $$('[id^="ah-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+}
+
+const onTrustedAh = (selector, handler) => {
+  const el = $(selector);
+  if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+};
+
+onTrustedAh('#ah-entry-threshold', () => chooseAhEntry('threshold'));
+onTrustedAh('#ah-entry-remembrance', () => chooseAhEntry('remembrance'));
+onTrustedAh('#ah-entry-studio', () => chooseAhEntry('shadowless-photo-studio'));
+onTrustedAh('#ah-new', () => chooseAhStart(true));
+onTrustedAh('#ah-continue', () => chooseAhStart(false));
+
+onTrustedAh('#ah-borrow-0-1', () => chooseAhBorrow(0, 1));
+onTrustedAh('#ah-borrow-0-2', () => chooseAhBorrow(0, 2));
+onTrustedAh('#ah-borrow-1-0', () => chooseAhBorrow(1, 0));
+onTrustedAh('#ah-borrow-1-2', () => chooseAhBorrow(1, 2));
+onTrustedAh('#ah-borrow-2-0', () => chooseAhBorrow(2, 0));
+onTrustedAh('#ah-borrow-2-1', () => chooseAhBorrow(2, 1));
+
+onTrustedAh('#ah-reset', chooseAhReset);
+onTrustedAh('#ah-example-btn', chooseAhExample);
+onTrustedAh('#ah-preview-btn', chooseAhPreview);
+onTrustedAh('#ah-abandon', chooseAhAbandon);
+onTrustedAh('#ah-wake', chooseAhWake);
+onTrustedAh('#ah-revise', chooseAhRevise);
+
+AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => chooseAhWakeReturn(scene)));
+
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -55462,7 +60077,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return raw ? String(raw).split(" · ")[0] : id;
   };
 
-  const progressEntryButton = (prefix) => $(`#${prefix}-entry-btn`) || $(`#${prefix}-entry`);
+  const progressEntryButton = (prefix) => prefix === "ah" ? $("#ah-entry-remembrance") : (prefix === "ph" ? $("#ph-entry-remembrance") : (prefix === "ws" ? $("#ws-entry-remembrance") : (prefix === "dw" ? $("#dw-entry-remembrance") : ($(`#${prefix}-entry-btn`) || $(`#${prefix}-entry`)))));
 
   const describeChapterProgress = (spec) => {
     const st = spec.get();
@@ -55728,8 +60343,228 @@ document.addEventListener("DOMContentLoaded", () => {
     if (eligible) items.push(`开庭条件已满足；百夜裁定已得 ${st.courtOutcomes.length}/3`);
     if (st.activeMourner) items.push("有一炷香在旧房间等你签收：点守灵人回到灵堂");
     else if (st.draft.deck) items.push(`供桌上还摆着「${WK_DECK_TABLE[st.draft.deck].title}」`);
-    if (eligible && st.courtOutcomes.length >= 3) return { title: "v100 已全部完成", items: ["第一百夜过去了。终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    if (eligible && st.courtOutcomes.length >= 3) return dawnWeavingProgressStep();
     return { title: "v100 百夜灵堂", items, target: eligible ? "wk-court" : "wk", done: false };
+  };
+
+  const wakeForAnotherHotelProgressStep = () => {
+    if (!wakeForAnotherHotelUnlocked()) return null;
+    const st = getWakeForAnotherHotel();
+    if (!wakeForAnotherHotelAvailable()) {
+      const items = [];
+      const phSt = typeof getShadowlessPhotography === 'function' ? getShadowlessPhotography() : null;
+      if (phSt && phSt.activePrint) {
+        const meta = PH_ENDING_TABLE[phSt.activePrint.outcome];
+        items.push(`先将叠印照片带回照相馆签收（照片目前已送往${meta ? meta.placeName : '旧场景'}）`);
+      } else if (phSt && phSt.pending) {
+        items.push("照相馆有叠印照片在途，请先完成签收交接");
+      } else if (typeof shadowlessPhotographyAvailable === 'function' && !shadowlessPhotographyAvailable()) {
+        items.push("候车亭、织造厂或照相馆尚有未完成交接");
+      }
+      return {
+        title: "v104 等候旧回执",
+        items,
+        target: "ph",
+        done: false
+      };
+    }
+    if (st.pending) {
+      return {
+        title: "v104 替别人醒来的旅馆",
+        items: [
+          `旅馆事务正在进行（${st.pending.kind}）：从${st.pending.source}前往${st.pending.target}`
+        ],
+        target: "ah",
+        done: false
+      };
+    }
+    if (st.activeWake) {
+      const meta = AH_ENDING_TABLE[st.activeWake.outcome];
+      const targetPlace = meta ? meta.placeName : '旧场景';
+      return {
+        title: "v104 替别人醒来的旅馆",
+        items: [
+          `晨铃已送达${targetPlace}（「${meta ? meta.title : st.activeWake.outcome}」）：前往${targetPlace}签收并经由「带着晨铃回旅馆」返回前台`
+        ],
+        target: "ah",
+        done: false
+      };
+    }
+    if (!st.visited.hotel) {
+      return {
+        title: "v104 替别人醒来的旅馆",
+        items: [
+          "住客睡在另一人的清晨里，前台钥匙已经备好。经由痕迹室、门外或照相馆的钥匙入口推门入住。"
+        ],
+        target: "ah",
+        done: false
+      };
+    }
+    if (!st.visited.clockroom && (!Array.isArray(st.endings) || st.endings.length === 0)) {
+      return {
+        title: "v104 替别人醒来的旅馆",
+        items: [
+          "已在前台登记。推开梦钟房铜门，查看三座相连的梦钟并借出一刻。"
+        ],
+        target: "ah",
+        done: false
+      };
+    }
+    const missing = AH_ENDING_IDS.filter((id) => !st.endings.includes(id)).map((id) => `「${AH_ENDING_TABLE[id].title}」(${AH_ENDING_TABLE[id].category})`);
+    if (missing.length > 0) {
+      const items = [
+        `尚未听见的晨门唤醒：${missing.join("、")}`,
+        "在借晨梦钟房定向借出一刻（退一进一，总和恒定）：使某间房或全员停在 0 刻晨门，或令三间房皆非 0 刻留在门外。"
+      ];
+      return {
+        title: "v104 替别人醒来的旅馆",
+        items,
+        target: "ah",
+        done: false
+      };
+    }
+    return {
+      title: "v104 已全部完成",
+      items: ["【只出售昨日的早餐铺】住客终于醒来，早餐却还停在昨天。"],
+      target: null,
+      done: true
+    };
+  };
+
+  const shadowlessPhotographyProgressStep = () => {
+    if (!shadowlessPhotographyUnlocked()) return null;
+    const st = getShadowlessPhotography();
+    if (!shadowlessPhotographyAvailable()) {
+      const items = [];
+      const wsSt = getWeatherlessShelter();
+      if (wsSt.activePassenger) {
+        items.push(`先带着天气回执返回候车亭（签收处位于${WS_ENDING_TABLE[wsSt.activePassenger.outcome].placeName}）`);
+      } else if (wsSt.pending) {
+        items.push("候车亭有客车在途");
+      }
+      const dwSt = getDawnWeaving();
+      if (dwSt.activeCourier) {
+        items.push("黎明织造厂有信使等待返回");
+      } else if (dwSt.pending) {
+        items.push("黎明织造厂有织物在途");
+      }
+      if (getHundredthWake().pending) {
+        items.push("百夜灵堂有供香在途");
+      }
+      return {
+        title: "v103 等候旧回执",
+        items,
+        target: wsSt.activePassenger || wsSt.pending ? "ws" : "dw",
+        done: false
+      };
+    }
+    if (st.activePrint) {
+      const meta = PH_ENDING_TABLE[st.activePrint.outcome];
+      return {
+        title: "v103 收不到影子的照相馆",
+        items: [
+          `有一张照片已送往${meta.placeName}（「${meta.title}」）：前往${meta.placeName}签收并经由链接返回照相馆`
+        ],
+        target: "ph",
+        done: false
+      };
+    }
+    if (st.pending) {
+      return {
+        title: "v103 收不到影子的照相馆",
+        items: [
+          `照相馆事务正在进行（${st.pending.kind}）：从${st.pending.source}前往${st.pending.target}`
+        ],
+        target: "ph",
+        done: false
+      };
+    }
+    const missing = PH_ENDING_IDS.filter((id) => !st.endings.includes(id)).map((id) => `「${PH_ENDING_TABLE[id].title}」(${PH_ENDING_TABLE[id].category})`);
+    if (missing.length > 0) {
+      const items = [
+        `尚未收集的叠印照片：${missing.join("、")}`,
+        "调整两次曝光的站位（1–5）与灯位（left/right），使空位与影子重合或分立后在暗房叠印。"
+      ];
+      return {
+        title: "v103 收不到影子的照相馆",
+        items,
+        target: "ph",
+        done: false
+      };
+    }
+    return wakeForAnotherHotelProgressStep();
+  };
+
+  const weatherlessShelterProgressStep = () => {
+    if (!weatherlessShelterUnlocked()) return null;
+    const st = getWeatherlessShelter();
+    if (!weatherlessShelterAvailable()) {
+      const items = [];
+      const dwSt = getDawnWeaving();
+      if (dwSt.activeCourier) {
+        items.push("先带着织物回执返回黎明织造厂");
+      } else if (dwSt.pending) {
+        items.push("黎明织造厂有织物在途");
+      }
+      if (getHundredthWake().pending) {
+        items.push("百夜灵堂有供香在途");
+      }
+      return {
+        title: "v102 等候旧回执",
+        items,
+        target: "dw",
+        done: false
+      };
+    }
+    if (st.endings.length >= 3 && !st.pending && !st.activePassenger) {
+      return shadowlessPhotographyProgressStep();
+    }
+    const items = [];
+    const missingOutcomes = WS_ENDING_IDS.filter(id => !st.endings.includes(id)).map(id => WS_ENDING_TABLE[id].title);
+    if (missingOutcomes.length > 0) {
+      items.push(`尚未到站的天气：${missingOutcomes.join('、')}`);
+    }
+    items.push("把春雨、盛夏、落叶、霜雪排进四个到站位置；顺季、倒季或分季由真实次序决定。");
+    if (st.activePassenger) {
+      items.push(`有一班客车已送往${WS_ENDING_TABLE[st.activePassenger.outcome].placeName}：点签收处返回候车亭`);
+    } else if (st.pending) {
+      items.push("有一班客车正在路上：抵达后完成到站签收");
+    }
+    return {
+      title: "v102 没有天气的候车亭",
+      items,
+      target: "ws",
+      done: false
+    };
+  };
+
+  const dawnWeavingProgressStep = () => {
+    if (!dawnWeavingUnlocked()) return null;
+    const st = getDawnWeaving();
+    const items = [];
+    const missingOutcomes = DW_ENDING_IDS.filter(id => !st.endings.includes(id)).map(id => DW_ENDING_TABLE[id].title);
+    if (missingOutcomes.length > 0) {
+      items.push(`尚未织出的天象：${missingOutcomes.join('、')}`);
+    }
+    items.push("在九格织机上铺设光与夜：从左到右连通一条晨光或夜线");
+    if (st.activeCourier) {
+      items.push(`有一块新织出的天已送往${DW_ENDING_TABLE[st.activeCourier.outcome].placeName}：点签收处返回织造厂`);
+    } else if (st.pending) {
+      items.push("有一块织物正在路上：抵达后完成晨间签收");
+    }
+    const v100Pending = Boolean(getHundredthWake().pending);
+    if (v100Pending) {
+      items.push("百夜灵堂尚有送出事务，先前往旧房间完成签收");
+    }
+    if (st.endings.length >= 3) {
+      return weatherlessShelterProgressStep();
+    }
+    return {
+      title: "v101 黎明织造厂",
+      items,
+      target: "dw",
+      done: false
+    };
   };
 
   const paintProgressGuide = () => {
@@ -56162,6 +60997,10 @@ document.addEventListener("DOMContentLoaded", () => {
   syncVigilCandlesAll();
   syncDeadRoadsAll();
   syncHundredthWakeAll();
+  syncDawnWeavingAll();
+  syncWeatherlessShelterAll();
+  syncShadowlessPhotographyAll();
+  syncWakeForAnotherHotelAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();
