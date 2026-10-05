@@ -535,6 +535,10 @@ function createV102Harness({
     const ybShopCanVisit = () => false;
     const breakfastCounterCanVisit = () => false;
     const ybCourtCanVisit = () => false;
+    const todayPressBridgeAllows = () => false;
+    const tsPressCanVisit = () => false;
+    const composingStoneCanVisit = () => false;
+    const tsCourtCanVisit = () => false;
     const ahHotelCanVisit = () => false;
     const borrowedDawnClockroomCanVisit = () => false;
     const sharedMorningVerandaCanVisit = () => false;
@@ -619,12 +623,12 @@ function createV102Harness({
 // -------------------------------------------------------------
 // Test Group 1: Markers, scene IDs, image attributes & DOM HTML structure
 // -------------------------------------------------------------
-test('Group 1: HTML structure, scene count 238, lazy images, native buttons and CSS scope', () => {
-  // 238 unique scene section data-scene values in index.html (excluding scene-veil overlay)
+test('Group 1: HTML structure, scene count 241, lazy images, native buttons and CSS scope', () => {
+  // 241 unique scene section data-scene values in index.html (excluding scene-veil overlay)
   const sceneMatches = Array.from(indexHtml.matchAll(/<section[^>]+data-scene="([^"]+)"/g)).map((m) => m[1]);
   const uniqueScenes = new Set(sceneMatches);
-  assert.equal(sceneMatches.length, 238, `Total data-scene sections must be exactly 238, got ${sceneMatches.length}`);
-  assert.equal(uniqueScenes.size, 238, `Scene count must be exactly 238, got ${uniqueScenes.size}`);
+  assert.equal(sceneMatches.length, 241, `Total data-scene sections must be exactly 241, got ${sceneMatches.length}`);
+  assert.equal(uniqueScenes.size, 241, `Scene count must be exactly 241, got ${uniqueScenes.size}`);
   assert.ok(uniqueScenes.has('weatherless-bus-shelter'));
   assert.ok(uniqueScenes.has('season-dispatch-board'));
   assert.ok(uniqueScenes.has('four-season-platform'));
@@ -2178,6 +2182,8 @@ test('v102: sceneInit and legacy v45 relief integration behavior audit', () => {
       const replayWakeForAnotherHotelPending = () => {};
       const resolveYesterdayBreakfastPendingOnArrival = () => {};
       const replayYesterdayBreakfastPending = () => {};
+      const resolveTodayPressPendingOnArrival = () => {};
+      const replayTodayPressPending = () => {};
       const syncWeatherlessShelterAll = () => h.syncAll();
 
       let thresholdConsumed = false;

@@ -1286,3 +1286,12 @@
 - 场景图：本机 Codex CLI 生成三张原画，提示词与哈希见 `docs/V105ImagePrompts.md`。
 - 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 18544 assertions passed`。
 - 浏览器：用重建的完整存档（主线到 v104）真实点击听单、上错一道被撤回、再按顺序上齐出餐，送到走廊签收；控制台无报错。
+
+## 2026-10-05 - v106 今日排字房实装
+
+- 新增 `press-of-today`、`composing-stone`、`hearing-of-the-morning-edition` 3 个场景，场景总数 238 → 241，缓存标记 `v=106`。
+- 新交互“滑块拼版”：3×3 九格原生按钮，只有挨着空位的碎块能推进去；碎块画面从拼版原图按格裁切，已归位描金，右侧显示原版；三块木刻版（门 / 钟 / 炉）× 只松了几块 / 散了一地 / 摔得粉碎（打乱 8 / 16 / 28 步，确定且可解）= 9 张头版，送到门外 / 值夜室 / 焚献炉签收。
+- 状态键 `goddead_v106_typesetting_today`（11 字段、7 类 pending、严格归一化），只读 v105；v105 在途时入口禁用；前缀 `ts-`；桥接接入治理守卫与画廊守卫。
+- 场景图：本机 Codex CLI 生成四张图（三张场景 + 一张拼版原图），方版位置按像素实测。提示词与哈希见 `docs/V106ImagePrompts.md`。
+- 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 18670 assertions passed`；v101–v104 独立测试 65 项通过。
+- 浏览器：完整存档下真实点击推不动提示、8 步推齐、锁版送到门外签收；修正窄屏九格超出画框。

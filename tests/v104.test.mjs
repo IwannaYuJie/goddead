@@ -1172,10 +1172,10 @@ test('Group 1: Static structure, header/markers, asset attributes and native but
   assert.equal(ahModuleSource.includes('/* ============================================================\n   v103 收不到影子的照相馆'), false);
 
   // Exact styles/script cache=v104
-  assert.ok(htmlSource.includes('href="styles.css?v=105"'), 'styles.css must have ?v=105');
-  assert.ok(htmlSource.includes('src="script.js?v=105"'), 'script.js must have ?v=105');
+  assert.ok(htmlSource.includes('href="styles.css?v=106"'), 'styles.css must have ?v=106');
+  assert.ok(htmlSource.includes('src="script.js?v=106"'), 'script.js must have ?v=106');
 
-  // Exact 238 unique sections (HTML section IDs include scene- prefix)
+  // Exact 241 unique sections (HTML section IDs include scene- prefix)
   const sectionMatches = htmlSource.match(/<section\b[^>]*\bid=["']([^"']+)["']/g) || [];
   const sectionIds = new Set();
   const duplicateSectionIds = [];
@@ -1188,7 +1188,7 @@ test('Group 1: Static structure, header/markers, asset attributes and native but
     }
   });
   assert.equal(duplicateSectionIds.length, 0, `Duplicate sections found: ${duplicateSectionIds.join(', ')}`);
-  assert.equal(sectionIds.size, 238, `Expected exactly 238 unique sections, found ${sectionIds.size}`);
+  assert.equal(sectionIds.size, 241, `Expected exactly 241 unique sections, found ${sectionIds.size}`);
   assert.ok(sectionIds.has('scene-wake-for-another-hotel'));
   assert.ok(sectionIds.has('scene-borrowed-dawn-clockroom'));
   assert.ok(sectionIds.has('scene-shared-morning-veranda'));
@@ -2495,6 +2495,10 @@ test('Group 13: Full resolveScene integration with real AH guard delegates, pend
       const ybShopCanVisit = () => false;
       const breakfastCounterCanVisit = () => false;
       const ybCourtCanVisit = () => false;
+      const todayPressBridgeAllows = () => false;
+      const tsPressCanVisit = () => false;
+      const composingStoneCanVisit = () => false;
+      const tsCourtCanVisit = () => false;
       ${actualResolveSource}
       return resolveScene(targetSceneName);
     `;

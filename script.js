@@ -1408,6 +1408,8 @@ document.addEventListener("DOMContentLoaded", () => {
     replayWakeForAnotherHotelPending(name);
     resolveYesterdayBreakfastPendingOnArrival(name);
     replayYesterdayBreakfastPending(name);
+    resolveTodayPressPendingOnArrival(name);
+    replayTodayPressPending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1551,9 +1553,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
@@ -1567,7 +1569,7 @@ document.addEventListener("DOMContentLoaded", () => {
        v88 窄桥：title-action 可抵达 unending-gallery；
        v89 窄桥：appeal-action 可抵达 unending-gallery；
        v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !todayPressBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1811,6 +1813,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "yesterday-breakfast-shop" && !ybShopCanVisit()) target = "remembrance";
     if (target === "breakfast-counter" && !breakfastCounterCanVisit()) target = "remembrance";
     if (target === "hearing-of-yesterdays-bill" && !ybCourtCanVisit()) target = "remembrance";
+
+    /* v106 今日排字房：未解锁或无合法抵达时一律回痕迹室 */
+    if (target === "press-of-today" && !tsPressCanVisit()) target = "remembrance";
+    if (target === "composing-stone" && !composingStoneCanVisit()) target = "remembrance";
+    if (target === "hearing-of-the-morning-edition" && !tsCourtCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -48051,6 +48058,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetShadowlessPhotographyState();
       forgetWakeForAnotherHotelState();
       forgetYesterdayBreakfastState();
+      forgetTodayPressState();
       forgetCodexFolds();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
@@ -60822,6 +60830,777 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   onTrustedYb('#yb-redo', redoYbTray);
   onTrustedYb('#yb-serve', serveYbBreakfast);
 
+  /* ============================================================
+     v106 今日排字房 / TYPESETTING ROOM OF TODAY
+     v105 的早餐铺天亮打了烊，今天总该印出来了，可今天的头版木刻版摔成了九块，还各丢了一块。
+     三块木刻版 × 三种摔法 = 9 张头版；在拼版台上把挨着空位的那块推进去，拼齐了再锁版。
+     只读 v105；独立键 goddead_v106_typesetting_today；所有新操作只接受真实点击。
+     ============================================================ */
+  const TODAY_PRESS_KEY = 'goddead_v106_typesetting_today';
+  const TODAY_PRESS_VERSION = 106;
+  const TS_PRESS = 'press-of-today';
+  const TS_STONE = 'composing-stone';
+  const TS_COURT = 'hearing-of-the-morning-edition';
+  const TS_BLANK = 8;
+  const TS_PLATES = ['door-plate', 'clock-plate', 'furnace-plate'];
+  const TS_PLATE_TABLE = {
+    'door-plate': {
+      title: '门的木刻版', column: 0, target: 'threshold', place: '门外', setterTitle: '门外排字工',
+      feedback: '一块刻着门的木版，摔成了九块，还丢了一块。今天的头版本来要印的就是这扇门。',
+      echoLead: '门槛下垫着一张刚印好的头版。',
+    },
+    'clock-plate': {
+      title: '钟的木刻版', column: 1, target: 'watch', place: '值夜室', setterTitle: '值夜排字工',
+      feedback: '刻着一只没有指针的钟。值夜室说，今天从几点开始，要看这块版拼成什么样。',
+      echoLead: '值夜室的交班簿里夹着一张刚印好的头版。',
+    },
+    'furnace-plate': {
+      title: '炉的木刻版', column: 2, target: 'offering', place: '焚献炉', setterTitle: '焚献排字工',
+      feedback: '刻着一座开着门的炉子，火苗往上窜。焚献炉说今天该烧的东西，都写在这一版上。',
+      echoLead: '焚献炉边的灰里压着一张刚印好的头版。',
+    },
+  };
+  const TS_METHODS = ['loose', 'scattered', 'shattered'];
+  const TS_METHOD_TABLE = {
+    loose: { title: '只松了几块', depth: 8, hint: '只松动了几块，挪几下就回去了。', result: '版面几乎没动，今天印出来跟昨天差不多。读的人说，这样也好。' },
+    scattered: { title: '散了一地', depth: 16, hint: '散了一地，要多挪一会儿。', result: '拼回去的版上留着几道细缝，印出来的今天有几条白线，像折过的纸。' },
+    shattered: { title: '摔得粉碎', depth: 28, hint: '摔得粉碎，先认清每块原来在哪。', result: '碎得最厉害的一版也拼齐了。印出来的今天很完整，只是每个人都知道它碎过。' },
+  };
+  const TS_PRINT_IDS = [];
+  TS_PLATES.forEach((plate) => TS_METHODS.forEach((method) => TS_PRINT_IDS.push(`${plate}:${method}`)));
+  const TS_VERDICT_ACTIONS = ['print-today-as-is', 'leave-a-column-for-god', 'let-the-dead-read-first'];
+  const TS_VERDICT_TABLE = {
+    'print-today-as-is': {
+      title: '照原样印出今天', outcome: 'today-printed-as-is', target: 'threshold',
+      feedback: '听证会裁定：今天照原样印。门外的报箱里第一次塞进了当天的报纸，墨还没干。',
+    },
+    'leave-a-column-for-god': {
+      title: '给神留一栏空白', outcome: 'a-column-left-for-god', target: 'remembrance',
+      feedback: '听证会在头版留了一栏空白给神。痕迹室墙上贴着这张报纸，那一栏一直空着，没人去填。',
+    },
+    'let-the-dead-read-first': {
+      title: '让死者先读', outcome: 'the-dead-read-first', target: 'unending-gallery',
+      feedback: '听证会准许死者先读今天的报。画廊的空框前摆着一叠报纸，最上面那份已经被翻开了。',
+    },
+  };
+  const TS_VERDICT_OUTCOME_IDS = TS_VERDICT_ACTIONS.map((a) => TS_VERDICT_TABLE[a].outcome);
+  const TS_ENTRY_FEEDBACK = '印刷所里油墨味很重。排字台上三块木刻版都摔裂了，各缺一块，今天的头版还印不出来。';
+  const TS_ABANDON_FEEDBACK = '你把碎版收回盘子里。缺的那一块还是没找到。';
+  const TS_COURT_ENTRY_FEEDBACK = '三块版都拼过了。早报听证会的墙上挂满了刚印出来的白纸。';
+  const TS_SETTER_RETURN_FEEDBACK = '排字工把头版卷好夹在腋下，领你回到印刷所。';
+  const TS_OLD_TARGETS = ['threshold', 'watch', 'offering'];
+  /* 拼版原图 assets/v106-type-plates.webp 中三块方版的位置（原图像素） */
+  const TS_SHEET = { width: 1536, height: 1024, squares: [{ x: 50, y: 270, size: 450 }, { x: 545, y: 270, size: 446 }, { x: 1037, y: 270, size: 449 }] };
+
+  function tsDelay() {
+    return reduced ? 300 : 1400;
+  }
+
+  /* 纯函数：某格的上下左右邻格 */
+  function tsNeighbors(cell) {
+    const r = Math.floor(cell / 3);
+    const c = cell % 3;
+    const out = [];
+    if (r > 0) out.push(cell - 3);
+    if (r < 2) out.push(cell + 3);
+    if (c > 0) out.push(cell - 1);
+    if (c < 2) out.push(cell + 1);
+    return out;
+  }
+
+  /* 纯函数：把某格那块推进相邻的空位；推不动就原样返回 */
+  function tsSlide(board, cell) {
+    if (!Array.isArray(board) || !Number.isInteger(cell) || cell < 0 || cell > 8 || board[cell] === TS_BLANK) return board;
+    const blank = board.indexOf(TS_BLANK);
+    if (!tsNeighbors(cell).includes(blank)) return board;
+    const next = board.slice();
+    next[blank] = board[cell];
+    next[cell] = TS_BLANK;
+    return next;
+  }
+
+  function tsSolved(board) {
+    return Array.isArray(board) && board.length === 9 && board.every((piece, i) => piece === i);
+  }
+
+  /* 纯函数：从拼好的版出发按种子随机推若干步（不走回头路），同一块版、同一种摔法每次打乱都一样 */
+  function tsScramble(plate, method) {
+    let seed = 2166136261;
+    const text = `${plate}:${method}`;
+    for (let i = 0; i < text.length; i++) { seed ^= text.charCodeAt(i); seed = Math.imul(seed, 16777619); }
+    seed >>>= 0;
+    const rand = () => { seed = (seed + 0x6D2B79F5) >>> 0; let t = seed; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+    let board = [0, 1, 2, 3, 4, 5, 6, 7, TS_BLANK];
+    let prev = -1;
+    const depth = TS_METHOD_TABLE[method].depth;
+    for (let k = 0; k < depth || tsSolved(board); k++) {
+      const blank = board.indexOf(TS_BLANK);
+      const options = tsNeighbors(blank).filter((c) => c !== prev);
+      const pick = options[Math.floor(rand() * options.length)];
+      board = tsSlide(board, pick);
+      prev = blank;
+    }
+    return board;
+  }
+
+  /* 纯函数：某块版第 piece 块在拼版原图里的背景定位（百分比） */
+  function tsPieceBackground(plate, piece) {
+    const sq = TS_SHEET.squares[TS_PLATE_TABLE[plate].column];
+    const tile = sq.size / 3;
+    const x = sq.x + (piece % 3) * tile;
+    const y = sq.y + Math.floor(piece / 3) * tile;
+    return {
+      size: `${(TS_SHEET.width / tile) * 100}% ${(TS_SHEET.height / tile) * 100}%`,
+      position: `${(x / (TS_SHEET.width - tile)) * 100}% ${(y / (TS_SHEET.height - tile)) * 100}%`,
+    };
+  }
+
+  function tsLockFeedback(plate, method) {
+    return `${TS_PLATE_TABLE[plate].title}：${TS_METHOD_TABLE[method].result}`;
+  }
+
+  function defaultTodayPress() {
+    const latest = {};
+    TS_PLATES.forEach((b) => { latest[b] = ''; });
+    return {
+      version: TODAY_PRESS_VERSION,
+      visited: { press: false, stone: false, court: false },
+      draft: { plate: '', method: 'loose' },
+      prints: [],
+      courtOutcomes: [],
+      printRuns: 0,
+      courtRuns: 0,
+      latestMethodByPlate: latest,
+      lastOutcome: '',
+      activeSetter: null,
+      pending: null,
+    };
+  }
+
+  function clampTsCount(n) {
+    const v = Math.floor(Number(n));
+    return Number.isFinite(v) ? Math.min(9999, Math.max(0, v)) : 0;
+  }
+
+  function normalizeTodayPress(raw) {
+    const d = defaultTodayPress();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== TODAY_PRESS_VERSION) return d;
+    const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
+    d.visited = { press: v.press === true, stone: v.stone === true, court: v.court === true };
+    const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
+    d.draft = { plate: TS_PLATES.includes(dr.plate) ? dr.plate : '', method: TS_METHODS.includes(dr.method) ? dr.method : 'loose' };
+    const prints = new Set(Array.isArray(raw.prints) ? raw.prints : []);
+    d.prints = TS_PRINT_IDS.filter((id) => prints.has(id));
+    const outcomes = new Set(Array.isArray(raw.courtOutcomes) ? raw.courtOutcomes : []);
+    d.courtOutcomes = TS_VERDICT_OUTCOME_IDS.filter((id) => outcomes.has(id));
+    d.printRuns = clampTsCount(raw.printRuns);
+    d.courtRuns = clampTsCount(raw.courtRuns);
+    const latest = raw.latestMethodByPlate && typeof raw.latestMethodByPlate === 'object' ? raw.latestMethodByPlate : {};
+    TS_PLATES.forEach((b) => {
+      d.latestMethodByPlate[b] = TS_METHODS.includes(latest[b]) && d.prints.includes(`${b}:${latest[b]}`) ? latest[b] : '';
+    });
+    if (typeof raw.lastOutcome === 'string' && (d.prints.includes(raw.lastOutcome) || d.courtOutcomes.includes(raw.lastOutcome))) d.lastOutcome = raw.lastOutcome;
+    const a = raw.activeSetter;
+    if (a && typeof a === 'object' && !Array.isArray(a) && Object.keys(a).length === 1 && d.prints.includes(a.print)) d.activeSetter = { print: a.print };
+    d.pending = normalizeTsPending(raw.pending, d);
+    return d;
+  }
+
+  function tsCourtProgress(st) {
+    const plates = new Set();
+    const methods = new Set();
+    st.prints.forEach((id) => {
+      const [plate, method] = id.split(':');
+      plates.add(plate);
+      methods.add(method);
+    });
+    return { plates: plates.size, methods: methods.size };
+  }
+
+  function tsCourtEligible(st) {
+    const p = tsCourtProgress(st);
+    return p.plates === TS_PLATES.length && p.methods === TS_METHODS.length;
+  }
+
+  function expectedTsPending(p, st) {
+    const clean = !st.activeSetter;
+    switch (p.kind) {
+      case 'entry':
+        return clean ? { feedback: TS_ENTRY_FEEDBACK, kind: 'entry', target: TS_PRESS } : null;
+      case 'plate': {
+        const b = TS_PLATE_TABLE[p.plate];
+        if (!b || !clean) return null;
+        return { plate: p.plate, feedback: b.feedback, kind: 'plate', source: TS_PRESS, target: TS_STONE };
+      }
+      case 'lockup': {
+        const b = TS_PLATE_TABLE[p.plate];
+        if (!b || !TS_METHOD_TABLE[p.method] || !clean || st.draft.plate !== p.plate || st.draft.method !== p.method) return null;
+        return { plate: p.plate, feedback: tsLockFeedback(p.plate, p.method), kind: 'lockup', method: p.method, print: `${p.plate}:${p.method}`, source: TS_STONE, target: b.target };
+      }
+      case 'abandon':
+        return st.draft.plate ? { feedback: TS_ABANDON_FEEDBACK, kind: 'abandon', source: TS_STONE, target: TS_PRESS } : null;
+      case 'setter-return': {
+        if (!st.activeSetter) return null;
+        const plate = st.activeSetter.print.split(':')[0];
+        return { feedback: TS_SETTER_RETURN_FEEDBACK, from: TS_PLATE_TABLE[plate].target, kind: 'setter-return', print: st.activeSetter.print, target: TS_PRESS };
+      }
+      case 'court-entry':
+        return clean && tsCourtEligible(st) ? { feedback: TS_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: TS_COURT } : null;
+      case 'verdict': {
+        const a = TS_VERDICT_TABLE[p.action];
+        if (!a || !clean || !st.visited.court || !tsCourtEligible(st)) return null;
+        return { action: p.action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: TS_COURT, target: a.target };
+      }
+      default:
+        return null;
+    }
+  }
+
+  function normalizeTsPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+    const expected = expectedTsPending(p, st);
+    if (!expected) return null;
+    const keys = Object.keys(p).sort();
+    const want = Object.keys(expected).sort();
+    if (keys.length !== want.length || keys.some((k, i) => k !== want[i] || p[k] !== expected[k])) return null;
+    return expected;
+  }
+
+  function todayPressUnlocked() {
+    const compute = () => {
+      if (!yesterdayBreakfastUnlocked()) return false;
+      const v105 = getYesterdayBreakfast();
+      return ybCourtEligible(v105) && YB_VERDICT_OUTCOME_IDS.every((o) => v105.courtOutcomes.includes(o));
+    };
+    return store.memo ? store.memo("todayPressUnlocked", compute) : compute();
+  }
+
+  /* v105 还有在途的早餐或没签收的跑堂时，先不让进印刷所 */
+  function tsUpstreamBusy() {
+    const v105 = getYesterdayBreakfast();
+    return Boolean(v105.pending || v105.activeWaiter);
+  }
+
+
+
+  function getTodayPress() {
+    if (!todayPressUnlocked()) return defaultTodayPress();
+    let raw;
+    try { raw = JSON.parse(store.get(TODAY_PRESS_KEY, '{}')); } catch { return defaultTodayPress(); }
+    return normalizeTodayPress(raw);
+  }
+
+  function saveTodayPress(st) {
+    if (!todayPressUnlocked()) return defaultTodayPress();
+    const canonical = normalizeTodayPress(Object.assign({}, st, { version: TODAY_PRESS_VERSION }));
+    store.set(TODAY_PRESS_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function tsPendingLogicalSource(p) {
+    if (!p) return '';
+    if (p.kind === 'entry' || p.kind === 'court-entry') return 'remembrance';
+    if (p.kind === 'setter-return') return p.from;
+    return p.source || '';
+  }
+
+  function resolveTodayPressPendingOnArrival(sceneName) {
+    const st = getTodayPress();
+    const p = st.pending;
+    if (!p) return st;
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.press = true;
+      } else if (p.kind === 'plate') {
+        st.visited.stone = true;
+        st.draft = { plate: p.plate, method: st.draft.plate === p.plate ? st.draft.method : 'loose' };
+      } else if (p.kind === 'lockup') {
+        st.printRuns = clampTsCount(st.printRuns + 1);
+        if (!st.prints.includes(p.print)) st.prints = st.prints.concat(p.print);
+        st.latestMethodByPlate[p.plate] = p.method;
+        st.lastOutcome = p.print;
+        st.activeSetter = { print: p.print };
+        st.draft = { plate: '', method: 'loose' };
+      } else if (p.kind === 'abandon') {
+        st.draft = { plate: '', method: 'loose' };
+        st.visited.press = true;
+      } else if (p.kind === 'setter-return') {
+        st.activeSetter = null;
+        st.visited.press = true;
+      } else if (p.kind === 'court-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'verdict') {
+        st.courtRuns = clampTsCount(st.courtRuns + 1);
+        if (!st.courtOutcomes.includes(p.outcome)) st.courtOutcomes = st.courtOutcomes.concat(p.outcome);
+        st.lastOutcome = p.outcome;
+      }
+      return saveTodayPress(st);
+    }
+    if (sceneName === tsPendingLogicalSource(p)) return st;
+    st.pending = null;
+    return saveTodayPress(st);
+  }
+
+  const TS_RESPONSE_BY_KIND = {
+    entry: '#ts-entry-response',
+    plate: '#press-of-today-response',
+    lockup: '#composing-stone-response',
+    abandon: '#composing-stone-response',
+    'court-entry': '#ts-court-entry-response',
+    verdict: '#hearing-of-the-morning-edition-response',
+  };
+
+  function showTsResponse(selector, text) {
+    const el = $(selector);
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = !text;
+  }
+
+  function syncTodayPressAll() {
+    syncTsPress();
+    syncComposingStone();
+    syncTsCourt();
+    syncTsSetters();
+    syncTsEchoes();
+    syncTsRemembrance();
+    syncTsLinks();
+    if (typeof syncPhEntries === 'function') syncPhEntries();
+  }
+
+  function replayTodayPressPending(sceneName) {
+    const st = getTodayPress();
+    const p = st.pending;
+    if (p && p.target === sceneName) resolveTodayPressPendingOnArrival(sceneName);
+    else if (p && sceneName === tsPendingLogicalSource(p)) {
+      syncTodayPressAll();
+      const selector = p.kind === 'setter-return' ? `#ts-setter-response-${p.from}` : TS_RESPONSE_BY_KIND[p.kind];
+      if (selector) showTsResponse(selector, p.feedback);
+      AutoAdvance.schedule(sceneName, p.target, { delay: tsDelay() });
+      return;
+    } else if (p) {
+      st.pending = null;
+      saveTodayPress(st);
+    }
+    syncTodayPressAll();
+  }
+
+  function launchTs(scene, buttonId, pending, responseSelector) {
+    const st = getTodayPress();
+    st.pending = pending;
+    const saved = saveTodayPress(st);
+    if (!saved.pending) return false;
+    const btn = buttonId ? $(`#${buttonId}`) : null;
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+    if (AudioEngine.whoosh) AudioEngine.whoosh();
+    syncTodayPressAll();
+    showTsResponse(responseSelector, pending.feedback);
+    AutoAdvance.schedule(scene, pending.target, { delay: tsDelay() });
+    return true;
+  }
+
+  function tsReady(scene, buttonId) {
+    if (currentScene !== scene) return null;
+    if (AutoAdvance.has(scene)) return null;
+    if (buttonId && !buttonAvailable(buttonId)) return null;
+    if (!todayPressUnlocked()) return null;
+    const st = getTodayPress();
+    return st.pending ? null : st;
+  }
+
+  function chooseTsEntry() {
+    const st = tsReady('remembrance', 'ts-entry-btn');
+    if (!st || st.activeSetter) return;
+    if (tsUpstreamBusy()) return;
+    launchTs('remembrance', 'ts-entry-btn', { feedback: TS_ENTRY_FEEDBACK, kind: 'entry', target: TS_PRESS }, '#ts-entry-response');
+  }
+
+  function chooseTsPlate(plate) {
+    const b = TS_PLATE_TABLE[plate];
+    if (!b) return;
+    const st = tsReady(TS_PRESS, `ts-plate-${plate}`);
+    if (!st || st.activeSetter) return;
+    launchTs(TS_PRESS, `ts-plate-${plate}`, { plate, feedback: b.feedback, kind: 'plate', source: TS_PRESS, target: TS_STONE }, '#press-of-today-response');
+  }
+
+  function chooseTsMethod(method) {
+    if (!TS_METHOD_TABLE[method]) return;
+    const st = tsReady(TS_STONE, `ts-method-${method}`);
+    if (!st || !st.draft.plate || !st.visited.stone || st.draft.method === method) return;
+    st.draft.method = method;
+    saveTodayPress(st);
+    syncComposingStone();
+  }
+
+  /* 拼版台：版面只放在内存里；换版或换摔法时重新打乱，拼齐了才写 pending */
+  let tsBoard = [];
+  let tsMoves = 0;
+  let tsStoneKey = '';
+
+  function resetTsBoard(plate, method) {
+    tsBoard = plate ? tsScramble(plate, method) : [];
+    tsMoves = 0;
+  }
+
+  function paintTsStone(message) {
+    const st = getTodayPress();
+    const status = $('#ts-stone-status');
+    const plate = st.draft.plate;
+    for (let cell = 0; cell < 9; cell++) {
+      const btn = $(`#ts-tile-${cell}`);
+      if (!btn) continue;
+      const piece = tsBoard[cell];
+      const blank = !plate || piece === TS_BLANK || piece === undefined;
+      btn.classList.toggle('is-blank', blank);
+      btn.classList.toggle('is-home', !blank && piece === cell);
+      if (btn.style && btn.style.setProperty) {
+        const bg = blank ? null : tsPieceBackground(plate, piece);
+        btn.style.setProperty('--ts-bg-size', bg ? bg.size : '0 0');
+        btn.style.setProperty('--ts-bg-pos', bg ? bg.position : '0 0');
+      }
+      const row = ['上', '中', '下'][Math.floor(cell / 3)] + ['左', '中', '右'][cell % 3];
+      btn.setAttribute('aria-label', blank ? `${row}：空位` : `${row}：第 ${piece + 1} 块${piece === cell ? '（已归位）' : ''}，挨着空位时点它推过去`);
+    }
+    const preview = $('#ts-preview');
+    if (preview && preview.style && preview.style.setProperty && plate) {
+      const sq = TS_SHEET.squares[TS_PLATE_TABLE[plate].column];
+      preview.style.setProperty('--ts-bg-size', `${(TS_SHEET.width / sq.size) * 100}% ${(TS_SHEET.height / sq.size) * 100}%`);
+      preview.style.setProperty('--ts-bg-pos', `${(sq.x / (TS_SHEET.width - sq.size)) * 100}% ${(sq.y / (TS_SHEET.height - sq.size)) * 100}%`);
+    }
+    if (!plate) {
+      if (status) status.textContent = '';
+      return;
+    }
+    const home = tsBoard.filter((piece, i) => piece === i && piece !== TS_BLANK).length;
+    if (status) status.textContent = message || (tsSolved(tsBoard) ? '拼齐了，可以锁版。' : `推了 ${tsMoves} 次，${home}/8 块归位。`);
+  }
+
+  function slideTsTile(cell) {
+    const st = tsReady(TS_STONE, `ts-tile-${cell}`);
+    if (!st || !st.draft.plate || st.activeSetter) return;
+    const next = tsSlide(tsBoard, cell);
+    if (next === tsBoard) { paintTsStone('这一块不挨着空位，推不动。'); return; }
+    tsBoard = next;
+    tsMoves += 1;
+    if (AudioEngine.clamp) AudioEngine.clamp();
+    paintTsStone('');
+  }
+
+  function rescatterTsBoard() {
+    const st = tsReady(TS_STONE, 'ts-reset');
+    if (!st || !st.draft.plate || st.activeSetter) return;
+    resetTsBoard(st.draft.plate, st.draft.method);
+    paintTsStone('碎块摆回刚摔下来的样子。');
+  }
+
+  function lockTsPlate() {
+    const st = tsReady(TS_STONE, 'ts-lockup');
+    if (!st || !st.draft.plate || st.activeSetter) return;
+    const { plate, method } = st.draft;
+    if (!tsSolved(tsBoard)) {
+      paintTsStone(`还没拼齐。${TS_METHOD_TABLE[method].hint}`);
+      return;
+    }
+    paintTsStone('拼齐了。');
+    launchTs(TS_STONE, 'ts-lockup', {
+      feedback: tsLockFeedback(plate, method), kind: 'lockup', method, plate, print: `${plate}:${method}`, source: TS_STONE, target: TS_PLATE_TABLE[plate].target,
+    }, '#composing-stone-response');
+  }
+
+  function chooseTsAbandon() {
+    const st = tsReady(TS_STONE, 'ts-abandon');
+    if (!st || !st.draft.plate) return;
+    launchTs(TS_STONE, 'ts-abandon', { feedback: TS_ABANDON_FEEDBACK, kind: 'abandon', source: TS_STONE, target: TS_PRESS }, '#composing-stone-response');
+  }
+
+  function chooseTsSetterReturn(scene) {
+    const st = tsReady(scene, `ts-setter-return-${scene}`);
+    if (!st || !st.activeSetter) return;
+    if (TS_PLATE_TABLE[st.activeSetter.print.split(':')[0]].target !== scene) return;
+    launchTs(scene, `ts-setter-return-${scene}`, { feedback: TS_SETTER_RETURN_FEEDBACK, from: scene, kind: 'setter-return', print: st.activeSetter.print, target: TS_PRESS }, `#ts-setter-response-${scene}`);
+  }
+
+  function chooseTsCourtEntry() {
+    const st = tsReady('remembrance', 'ts-court-entry-btn');
+    if (!st || st.activeSetter || !tsCourtEligible(st)) return;
+    launchTs('remembrance', 'ts-court-entry-btn', { feedback: TS_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: TS_COURT }, '#ts-court-entry-response');
+  }
+
+  function chooseTsVerdict(action) {
+    const a = TS_VERDICT_TABLE[action];
+    if (!a) return;
+    const st = tsReady(TS_COURT, `ts-verdict-${action}`);
+    if (!st || st.activeSetter || !st.visited.court || !tsCourtEligible(st)) return;
+    launchTs(TS_COURT, `ts-verdict-${action}`, { action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: TS_COURT, target: a.target }, '#hearing-of-the-morning-edition-response');
+  }
+
+  function todayPressBridgeAllows(targetScene) {
+    if (!todayPressUnlocked()) return false;
+    const st = getTodayPress();
+    if (st.pending && (st.pending.kind === 'lockup' || st.pending.kind === 'verdict') && st.pending.target === targetScene) return true;
+    if (st.activeSetter && TS_PLATE_TABLE[st.activeSetter.print.split(':')[0]].target === targetScene) return true;
+    const verdict = TS_VERDICT_ACTIONS.find((a) => TS_VERDICT_TABLE[a].outcome === st.lastOutcome);
+    return Boolean(verdict && TS_VERDICT_TABLE[verdict].target === targetScene);
+  }
+
+  function tsPressCanVisit() {
+    if (!todayPressUnlocked()) return false;
+    const st = getTodayPress();
+    return st.visited.press || Boolean(st.pending && st.pending.target === TS_PRESS);
+  }
+
+  function composingStoneCanVisit() {
+    if (!todayPressUnlocked()) return false;
+    const st = getTodayPress();
+    if (st.visited.stone && st.draft.plate) return true;
+    return Boolean(st.pending && st.pending.kind === 'plate');
+  }
+
+  function tsCourtCanVisit() {
+    if (!todayPressUnlocked()) return false;
+    const st = getTodayPress();
+    if (st.visited.court && tsCourtEligible(st)) return true;
+    return Boolean(st.pending && st.pending.kind === 'court-entry');
+  }
+
+  function syncTsPress() {
+    const canVisit = tsPressCanVisit();
+    const st = getTodayPress();
+    const fig = $('#ts-press-figure');
+    if (fig) fig.hidden = !canVisit;
+    const blocked = !canVisit || Boolean(st.pending) || Boolean(st.activeSetter);
+    TS_PLATES.forEach((plate) => {
+      const btn = $(`#ts-plate-${plate}`);
+      if (!btn) return;
+      btn.disabled = blocked;
+      btn.classList.toggle('is-collected', TS_METHODS.every((m) => st.prints.includes(`${plate}:${m}`)));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'plate' && st.pending.plate === plate ? 'true' : 'false');
+    });
+    const note = $('#ts-press-note');
+    if (note) {
+      let text = '';
+      if (st.activeSetter) {
+        const b = TS_PLATE_TABLE[st.activeSetter.print.split(':')[0]];
+        text = `先完成正在送出的头版：${b.setterTitle}还在${b.place}等你签收。`;
+      } else if (st.draft.plate) {
+        text = `拼版台上还摊着「${TS_PLATE_TABLE[st.draft.plate].title}」。`;
+      }
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const cont = $('#ts-continue');
+    if (cont) {
+      const show = canVisit && Boolean(st.draft.plate) && !st.activeSetter;
+      cont.hidden = !show;
+      cont.disabled = !show || Boolean(st.pending);
+    }
+    if (!st.pending || st.pending.source !== TS_PRESS) showTsResponse('#press-of-today-response', '');
+  }
+
+  function syncComposingStone() {
+    const canVisit = composingStoneCanVisit();
+    const st = getTodayPress();
+    const ready = canVisit && Boolean(st.draft.plate);
+    const key = st.draft.plate ? `${st.draft.plate}:${st.draft.method}` : '';
+    if (key !== tsStoneKey && !(st.pending && st.pending.kind === 'lockup')) {
+      tsStoneKey = key;
+      resetTsBoard(st.draft.plate, st.draft.method);
+    }
+    const panel = $('#ts-stone-panel');
+    if (panel) panel.hidden = !ready;
+    const grid = $('#ts-tiles');
+    if (grid) grid.hidden = !ready;
+    if (ready) {
+      const t = TS_PLATE_TABLE[st.draft.plate];
+      const title = $('#ts-stone-plate');
+      if (title) title.textContent = `${t.title} —— ${t.feedback}`;
+      const hint = $('#ts-method-hint');
+      if (hint) hint.textContent = `${TS_METHOD_TABLE[st.draft.method].hint}只能把挨着空位的那块推进去。拼齐后锁版，头版会送到${t.place}，由${t.setterTitle}签收。换摔法会重新打乱。`;
+    }
+    TS_METHODS.forEach((method) => {
+      const btn = $(`#ts-method-${method}`);
+      if (!btn) return;
+      btn.disabled = !ready || Boolean(st.pending);
+      btn.setAttribute('aria-pressed', ready && st.draft.method === method ? 'true' : 'false');
+      btn.classList.toggle('is-collected', Boolean(st.draft.plate) && st.prints.includes(`${st.draft.plate}:${method}`));
+    });
+    ['ts-lockup', 'ts-reset', 'ts-abandon', ...Array.from({ length: 9 }, (_, i) => `ts-tile-${i}`)].forEach((id) => {
+      const btn = $(`#${id}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending);
+    });
+    paintTsStone(st.pending && st.pending.kind === 'lockup' ? '拼齐了，头版正在送出去。' : '');
+    if (!st.pending || st.pending.source !== TS_STONE) showTsResponse('#composing-stone-response', '');
+  }
+
+  function syncTsCourt() {
+    const canVisit = tsCourtCanVisit();
+    const st = getTodayPress();
+    const fig = $('#hearing-of-the-morning-edition-figure');
+    if (fig) fig.hidden = !canVisit;
+    TS_VERDICT_ACTIONS.forEach((action) => {
+      const btn = $(`#ts-verdict-${action}`);
+      if (!btn) return;
+      btn.disabled = !canVisit || Boolean(st.pending) || Boolean(st.activeSetter);
+      btn.classList.toggle('is-collected', st.courtOutcomes.includes(TS_VERDICT_TABLE[action].outcome));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'verdict' && st.pending.action === action ? 'true' : 'false');
+    });
+    if (!st.pending || st.pending.source !== TS_COURT) showTsResponse('#hearing-of-the-morning-edition-response', '');
+  }
+
+  function syncTsSetters() {
+    const st = todayPressUnlocked() ? getTodayPress() : defaultTodayPress();
+    const [plate, method] = st.activeSetter ? st.activeSetter.print.split(':') : ['', ''];
+    TS_OLD_TARGETS.forEach((scene) => {
+      const box = $(`#ts-setter-${scene}`);
+      if (!box) return;
+      const show = Boolean(plate) && TS_PLATE_TABLE[plate].target === scene;
+      box.hidden = !show;
+      const btn = $(`#ts-setter-return-${scene}`);
+      if (btn) {
+        btn.disabled = !show || Boolean(st.pending);
+        btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'setter-return' && st.pending.from === scene ? 'true' : 'false');
+      }
+      if (!show) return;
+      const b = TS_PLATE_TABLE[plate];
+      const head = $(`#ts-setter-title-${scene}`);
+      if (head) head.textContent = `头版签收 · ${b.setterTitle} · ${b.title}（${TS_METHOD_TABLE[method].title}）`;
+      const level = $(`#ts-setter-level-${scene}`);
+      if (level) level.textContent = `${TS_METHOD_TABLE[method].title}：打乱 ${TS_METHOD_TABLE[method].depth} 步后拼齐`;
+      const body = $(`#ts-setter-body-${scene}`);
+      if (body) body.textContent = TS_METHOD_TABLE[method].result;
+      if (!st.pending || st.pending.kind !== 'setter-return') showTsResponse(`#ts-setter-response-${scene}`, '');
+    });
+  }
+
+  function syncTsEchoes() {
+    const st = todayPressUnlocked() ? getTodayPress() : defaultTodayPress();
+    TS_PLATES.forEach((plate) => {
+      const b = TS_PLATE_TABLE[plate];
+      const el = $(`#ts-echo-${b.target}`);
+      if (!el) return;
+      const method = st.latestMethodByPlate[plate];
+      if (!method) { el.hidden = true; el.textContent = ''; return; }
+      el.textContent = `${b.echoLead}「${TS_METHOD_TABLE[method].title}」${TS_METHOD_TABLE[method].result}`;
+      el.hidden = false;
+    });
+  }
+
+  function syncTsRemembrance() {
+    const unlocked = todayPressUnlocked();
+    const shell = $('#ts-codex');
+    const memory = $('#ts-memory');
+    if (!unlocked) {
+      [shell, memory].forEach((el) => { if (el) el.hidden = true; });
+      return;
+    }
+    const st = getTodayPress();
+    const v105Busy = tsUpstreamBusy();
+    if (shell) shell.hidden = false;
+    const progress = tsCourtProgress(st);
+    if (memory) {
+      memory.hidden = false;
+      memory.textContent = `排字：已印 ${st.prints.length}/9 张头版，共锁版 ${st.printRuns} 次；早报听证 ${st.courtOutcomes.length}/3。`;
+    }
+    const hints = $('#ts-court-hints');
+    if (hints) {
+      const rows = [['三块版都拼过', progress.plates, TS_PLATES.length], ['三种摔法都拼过', progress.methods, TS_METHODS.length]];
+      hints.replaceChildren(...rows.map(([label, have, need]) => {
+        const li = document.createElement('li');
+        li.className = have >= need ? 'is-met' : '';
+        li.textContent = `${label} ${have}/${need}`;
+        return li;
+      }));
+    }
+    const clean = !st.pending && !st.activeSetter;
+    const entry = $('#ts-entry-btn');
+    if (entry) {
+      entry.hidden = false;
+      entry.disabled = !clean || v105Busy;
+      entry.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' ? 'true' : 'false');
+    }
+    const note = $('#ts-entry-note');
+    if (note) {
+      const text = v105Busy ? '先完成早餐铺那份还在路上的早餐：昨日早餐铺还有一份没签收。' : st.activeSetter ? '先完成正在送出的头版。' : '';
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const court = $('#ts-court-entry-btn');
+    if (court) {
+      const eligible = tsCourtEligible(st);
+      court.hidden = !eligible;
+      court.disabled = !eligible || !clean;
+      court.setAttribute('aria-pressed', st.pending && st.pending.kind === 'court-entry' ? 'true' : 'false');
+    }
+    const grid = $('#ts-codex-grid');
+    if (grid) {
+      const have = new Set(st.prints);
+      const cells = TS_PRINT_IDS.map((id) => {
+        const [plate, method] = id.split(':');
+        const cell = document.createElement('div');
+        cell.className = `ts-cell ${have.has(id) ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = have.has(id) ? `${TS_PLATE_TABLE[plate].title}\n${TS_METHOD_TABLE[method].title}` : '？？？';
+        return cell;
+      });
+      TS_VERDICT_ACTIONS.forEach((action) => {
+        const a = TS_VERDICT_TABLE[action];
+        const got = st.courtOutcomes.includes(a.outcome);
+        const cell = document.createElement('div');
+        cell.className = `ts-cell ts-cell-verdict ${got ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = got ? `[早报听证会] ${a.title}\n${a.feedback}` : '？？？';
+        cells.push(cell);
+      });
+      grid.replaceChildren(...cells);
+    }
+    if (!st.pending || (st.pending.kind !== 'entry' && st.pending.kind !== 'court-entry')) {
+      showTsResponse('#ts-entry-response', '');
+      showTsResponse('#ts-court-entry-response', '');
+    }
+  }
+
+  function syncTsLinks() {
+    const st = todayPressUnlocked() ? getTodayPress() : null;
+    [['press-of-today-link', 'press'], ['composing-stone-link', 'stone'], ['hearing-of-the-morning-edition-link', 'court']].forEach(([id, key]) => {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !(st && st.visited[key]);
+    });
+  }
+
+  function forgetTodayPressState() {
+    try { localStorage.removeItem(TODAY_PRESS_KEY); } catch {}
+    [TS_PRESS, TS_STONE, TS_COURT].forEach((scene) => AutoAdvance.clear(scene));
+    tsBoard = [];
+    tsMoves = 0;
+    tsStoneKey = '';
+    ['#ts-codex', '#ts-memory', '#ts-press-figure', '#ts-stone-panel', '#hearing-of-the-morning-edition-figure',
+      '#press-of-today-link', '#composing-stone-link', '#hearing-of-the-morning-edition-link', '#ts-continue', '#ts-court-entry-btn',
+      '#ts-entry-response', '#ts-court-entry-response', '#press-of-today-response', '#composing-stone-response', '#hearing-of-the-morning-edition-response',
+      ...TS_OLD_TARGETS.flatMap((scene) => [`#ts-setter-${scene}`, `#ts-echo-${scene}`]),
+    ].forEach((sel) => { const el = $(sel); if (el) el.hidden = true; });
+    $$('[id^="ts-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+  }
+
+  const onTrustedTs = (selector, handler) => {
+    const el = $(selector);
+    if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+  };
+  onTrustedTs('#ts-entry-btn', chooseTsEntry);
+  onTrustedTs('#ts-court-entry-btn', chooseTsCourtEntry);
+  onTrustedTs('#ts-abandon', chooseTsAbandon);
+  onTrustedTs('#ts-continue', () => {
+    const st = tsReady(TS_PRESS, 'ts-continue');
+    if (!st || !st.draft.plate || st.activeSetter) return;
+    const plate = st.draft.plate;
+    launchTs(TS_PRESS, 'ts-continue', { plate, feedback: TS_PLATE_TABLE[plate].feedback, kind: 'plate', source: TS_PRESS, target: TS_STONE }, '#press-of-today-response');
+  });
+  TS_PLATES.forEach((plate) => onTrustedTs(`#ts-plate-${plate}`, () => chooseTsPlate(plate)));
+  TS_METHODS.forEach((method) => onTrustedTs(`#ts-method-${method}`, () => chooseTsMethod(method)));
+  TS_VERDICT_ACTIONS.forEach((action) => onTrustedTs(`#ts-verdict-${action}`, () => chooseTsVerdict(action)));
+  TS_OLD_TARGETS.forEach((scene) => onTrustedTs(`#ts-setter-return-${scene}`, () => chooseTsSetterReturn(scene)));
+  for (let cell = 0; cell < 9; cell++) onTrustedTs(`#ts-tile-${cell}`, () => slideTsTile(cell));
+  onTrustedTs('#ts-reset', rescatterTsBoard);
+  onTrustedTs('#ts-lockup', lockTsPlate);
+
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -61206,8 +61985,26 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     if (eligible) items.push(`开庭条件已满足；昨日账单裁定已得 ${st.courtOutcomes.length}/3`);
     if (st.activeWaiter) items.push("有一份早餐在旧房间等你签收：跟着跑堂回到早餐铺");
     else if (st.draft.ticket) items.push(`出餐台上还压着「${YB_TICKET_TABLE[st.draft.ticket].title}」`);
-    if (eligible && st.courtOutcomes.length >= 3) return { title: "v105 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    if (eligible && st.courtOutcomes.length >= 3) return todayPressProgressStep();
     return { title: "v105 只出售昨日的早餐铺", items, target: eligible ? "yb-court" : "yb", done: false };
+  };
+
+  /* v106：按三块版、三种摔法与三项裁定给出缺项 */
+  const todayPressProgressStep = () => {
+    if (!todayPressUnlocked()) return null;
+    const st = getTodayPress();
+    const items = [];
+    const plates = TS_PLATES.filter((x) => !st.prints.some((id) => id.startsWith(`${x}:`))).map((x) => TS_PLATE_TABLE[x].title);
+    const methods = TS_METHODS.filter((m) => !st.prints.some((id) => id.endsWith(`:${m}`))).map((m) => TS_METHOD_TABLE[m].title);
+    if (tsUpstreamBusy() && !st.visited.press) items.push("先完成早餐铺那份还在路上的早餐，印刷所才开门");
+    if (plates.length) items.push(`还没拼过的版：${plates.join("、")}`);
+    if (methods.length) items.push(`还没拼过的摔法：${methods.join("、")}`);
+    const eligible = tsCourtEligible(st);
+    if (eligible) items.push(`开庭条件已满足；早报裁定已得 ${st.courtOutcomes.length}/3`);
+    if (st.activeSetter) items.push("有一张头版在旧房间等你签收：跟着排字工回到印刷所");
+    else if (st.draft.plate) items.push(`拼版台上还摊着「${TS_PLATE_TABLE[st.draft.plate].title}」`);
+    if (eligible && st.courtOutcomes.length >= 3) return { title: "v106 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    return { title: "v106 今日排字房", items, target: eligible ? "ts-court" : "ts", done: false };
   };
 
   const shadowlessPhotographyProgressStep = () => {
@@ -61781,6 +62578,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   syncShadowlessPhotographyAll();
   syncWakeForAnotherHotelAll();
   syncYesterdayBreakfastAll();
+  syncTodayPressAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

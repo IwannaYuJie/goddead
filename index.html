@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=105">
+  <link rel="stylesheet" href="styles.css?v=106">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -263,6 +263,15 @@
             <p class="ah-response" id="ah-wake-response-threshold" aria-live="polite" hidden></p>
           </aside>
           <div class="ah-echo" id="ah-echo-you-woke-in-a-borrowed-morning" hidden></div>
+          <!-- v106 门槛头版签收与记忆 -->
+          <p class="watch-memory ts-echo" id="ts-echo-threshold" hidden></p>
+          <div class="ts-setter reveal" id="ts-setter-threshold" hidden>
+            <p class="ts-setter-title" id="ts-setter-title-threshold"></p>
+            <p class="ts-setter-level" id="ts-setter-level-threshold"></p>
+            <p class="ts-setter-body" id="ts-setter-body-threshold"></p>
+            <p class="ts-response" id="ts-setter-response-threshold" aria-live="polite" hidden></p>
+            <button class="ts-action" id="ts-setter-return-threshold" type="button" data-hover>跟着排字工回到印刷所 ⟶</button>
+          </div>
           <!-- v99 门槛路条签收与记忆 -->
           <p class="watch-memory rd-echo" id="rd-echo-threshold" hidden></p>
           <div class="rd-leader reveal" id="rd-leader-threshold" hidden>
@@ -3861,6 +3870,15 @@
             </div>
           </div>
 
+          <!-- v106 值夜室头版签收与记忆 -->
+          <p class="watch-memory ts-echo" id="ts-echo-watch" hidden></p>
+          <div class="ts-setter reveal" id="ts-setter-watch" hidden>
+            <p class="ts-setter-title" id="ts-setter-title-watch"></p>
+            <p class="ts-setter-level" id="ts-setter-level-watch"></p>
+            <p class="ts-setter-body" id="ts-setter-body-watch"></p>
+            <p class="ts-response" id="ts-setter-response-watch" aria-live="polite" hidden></p>
+            <button class="ts-action" id="ts-setter-return-watch" type="button" data-hover>跟着排字工回到印刷所 ⟶</button>
+          </div>
           <!-- v99 值夜室路条签收与记忆 -->
           <p class="watch-memory rd-echo" id="rd-echo-watch" hidden></p>
           <div class="rd-leader reveal" id="rd-leader-watch" hidden>
@@ -4373,6 +4391,15 @@
             <p class="sc-smith-body" id="sc-smith-body-offering"></p>
             <p class="sc-response" id="sc-smith-response-offering" aria-live="polite" hidden></p>
             <button class="sc-action" id="sc-smith-return-offering" type="button" data-hover>带着修理单回到修理铺 ⟶</button>
+          </div>
+          <!-- v106 焚献炉头版签收与记忆 -->
+          <p class="watch-memory ts-echo" id="ts-echo-offering" hidden></p>
+          <div class="ts-setter reveal" id="ts-setter-offering" hidden>
+            <p class="ts-setter-title" id="ts-setter-title-offering"></p>
+            <p class="ts-setter-level" id="ts-setter-level-offering"></p>
+            <p class="ts-setter-body" id="ts-setter-body-offering"></p>
+            <p class="ts-response" id="ts-setter-response-offering" aria-live="polite" hidden></p>
+            <button class="ts-action" id="ts-setter-return-offering" type="button" data-hover>跟着排字工回到印刷所 ⟶</button>
           </div>
           <!-- v100 焚献炉供香签收与记忆 -->
           <p class="watch-memory wk-echo" id="wk-echo-offering" hidden></p>
@@ -5106,6 +5133,21 @@
               <p class="yb-response" id="yb-entry-response" aria-live="polite" hidden></p>
               <button class="yb-entry-btn" id="yb-court-entry-btn" type="button" hidden data-hover>进入昨日账单听证会 · ENTER THE HEARING OF YESTERDAY'S BILL ⟶</button>
               <p class="yb-response" id="yb-court-entry-response" aria-live="polite" hidden></p>
+            </div>
+          </div>
+          <!-- v106 今日排字图鉴 -->
+          <p class="watch-memory ts-memory" id="ts-memory" hidden></p>
+          <div class="ts-codex reveal" id="ts-codex" hidden>
+            <p class="ts-kicker">TYPESETTING ROOM OF TODAY · 今 日 排 字 图 鉴</p>
+            <div class="ts-grid" id="ts-codex-grid"></div>
+            <p class="ts-hints-title">早报听证会开庭条件</p>
+            <ul class="ts-hints" id="ts-court-hints"></ul>
+            <div class="ts-codex-entry">
+              <button class="ts-entry-btn" id="ts-entry-btn" type="button" hidden data-hover>前往今日印刷所 · GO TO THE TYPESETTING ROOM OF TODAY ⟶</button>
+              <p class="ts-note" id="ts-entry-note" hidden></p>
+              <p class="ts-response" id="ts-entry-response" aria-live="polite" hidden></p>
+              <button class="ts-entry-btn" id="ts-court-entry-btn" type="button" hidden data-hover>进入早报听证会 · ENTER THE HEARING OF THE MORNING EDITION ⟶</button>
+              <p class="ts-response" id="ts-court-entry-response" aria-live="polite" hidden></p>
             </div>
           </div>
           <!-- v70 亡者议会图鉴 -->
@@ -9115,6 +9157,91 @@
         </div>
       </section>
 
+      <!-- v106 第一幕：今日印刷所 -->
+      <section class="scene scene-branch scene-press-of-today" id="scene-press-of-today" data-scene="press-of-today" data-title="Goddead — 今日印刷所" aria-label="今日印刷所">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">20α / 今日 · TYPESETTING ROOM OF TODAY</p>
+            <h2 class="sec-title">今日印刷所</h2>
+            <p class="sec-desc">早餐铺天亮打了烊，今天总该印出来了。可今天头版的三块木刻版都摔裂了，各碎成九块、还各丢了一块。</p>
+          </header>
+          <figure class="branch-figure ts-figure reveal" id="ts-press-figure">
+            <img class="branch-img ts-img" data-src="assets/v106-press-of-today.webp" alt="今日印刷所：清晨的老印刷间，铁手压印机和铅字架旁，排字台上放着三块裂成九格、各缺一块的木刻版：左边刻着一扇门，中间刻着一只没有指针的钟，右边刻着一座冒火的炉子" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot ts-hotspot ts-hotspot-left" id="ts-plate-door-plate" type="button" aria-label="拼版：门的木刻版" data-hover><span class="dh-label" aria-hidden="true">门的木刻版</span></button>
+            <button class="scene-hotspot ts-hotspot ts-hotspot-center" id="ts-plate-clock-plate" type="button" aria-label="拼版：钟的木刻版" data-hover><span class="dh-label" aria-hidden="true">钟的木刻版</span></button>
+            <button class="scene-hotspot ts-hotspot ts-hotspot-right" id="ts-plate-furnace-plate" type="button" aria-label="拼版：炉的木刻版" data-hover><span class="dh-label" aria-hidden="true">炉的木刻版</span></button>
+          </figure>
+          <p class="ts-note reveal" id="ts-press-note" hidden></p>
+          <p class="branch-response ts-response" id="press-of-today-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开印刷所">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+            <button class="ts-action" id="ts-continue" type="button" hidden data-hover>回到拼版台 ⟶</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v106 第二幕：拼版台 -->
+      <section class="scene scene-branch scene-composing-stone" id="scene-composing-stone" data-scene="composing-stone" data-title="Goddead — 拼版台" aria-label="拼版台">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">20β / 拼版 · THE COMPOSING STONE</p>
+            <h2 class="sec-title">拼版台</h2>
+            <p class="sec-desc">选一种摔法，把碎版拼回原样：只有挨着空位的那块能推过去。右边是这块版原来的样子。拼齐了再锁版。</p>
+          </header>
+          <figure class="branch-figure ts-figure ts-stone-figure reveal" id="ts-stone-figure">
+            <div class="ts-board" id="ts-tiles" role="group" aria-label="九格拼版" hidden>
+              <button class="ts-tile" id="ts-tile-0" type="button" aria-label="上左" data-hover></button>
+              <button class="ts-tile" id="ts-tile-1" type="button" aria-label="上中" data-hover></button>
+              <button class="ts-tile" id="ts-tile-2" type="button" aria-label="上右" data-hover></button>
+              <button class="ts-tile" id="ts-tile-3" type="button" aria-label="中左" data-hover></button>
+              <button class="ts-tile" id="ts-tile-4" type="button" aria-label="正中" data-hover></button>
+              <button class="ts-tile" id="ts-tile-5" type="button" aria-label="中右" data-hover></button>
+              <button class="ts-tile" id="ts-tile-6" type="button" aria-label="下左" data-hover></button>
+              <button class="ts-tile" id="ts-tile-7" type="button" aria-label="下中" data-hover></button>
+              <button class="ts-tile" id="ts-tile-8" type="button" aria-label="下右" data-hover></button>
+            </div>
+            <span class="ts-preview" id="ts-preview" role="img" aria-label="这块版原来的样子"></span>
+            <p class="ts-stone-status" id="ts-stone-status" aria-live="polite"></p>
+          </figure>
+          <div class="ts-panel reveal" id="ts-stone-panel" hidden>
+            <p class="ts-panel-plate" id="ts-stone-plate"></p>
+            <div class="ts-methods" role="group" aria-label="摔法">
+              <button class="ts-method" id="ts-method-loose" type="button" data-hover>只松了几块</button>
+              <button class="ts-method" id="ts-method-scattered" type="button" data-hover>散了一地</button>
+              <button class="ts-method" id="ts-method-shattered" type="button" data-hover>摔得粉碎</button>
+            </div>
+            <p class="ts-note" id="ts-method-hint"></p>
+            <div class="ts-actions">
+              <button class="ts-action ts-lockup" id="ts-lockup" type="button" data-hover>锁版</button>
+              <button class="ts-action" id="ts-reset" type="button" data-hover>摆回原样</button>
+              <button class="ts-action" id="ts-abandon" type="button" data-hover>把碎版收回盘子</button>
+            </div>
+          </div>
+          <p class="branch-response ts-response" id="composing-stone-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <!-- v106 第三幕：早报听证会 -->
+      <section class="scene scene-branch scene-hearing-of-the-morning-edition" id="scene-hearing-of-the-morning-edition" data-scene="hearing-of-the-morning-edition" data-title="Goddead — 早报听证会" aria-label="早报听证会">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">20γ / 早报 · HEARING OF THE MORNING EDITION</p>
+            <h2 class="sec-title">早报听证会</h2>
+            <p class="sec-desc">四壁挂满刚印出来的白报纸，高窗外是清晨的光。桌上三件东西：一份折好的空白报纸、一根沾着红墨的墨辊、一枚倒着的铅字。裁定之后仍可回来。</p>
+          </header>
+          <figure class="branch-figure ts-figure reveal" id="hearing-of-the-morning-edition-figure">
+            <img class="branch-img ts-img" data-src="assets/v106-hearing-of-the-morning-edition.webp" alt="早报听证会：四壁挂满空白报纸的圆厅，高窗下一把空椅子，长桌上放着一份折好的空白报纸、一根沾红墨的墨辊和一枚倒着的铅字" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot ts-hotspot ts-hotspot-court-left" id="ts-verdict-print-today-as-is" type="button" aria-label="裁定：照原样印出今天" data-hover><span class="dh-label" aria-hidden="true">照原样印出今天</span></button>
+            <button class="scene-hotspot ts-hotspot ts-hotspot-court-center" id="ts-verdict-leave-a-column-for-god" type="button" aria-label="裁定：给神留一栏空白" data-hover><span class="dh-label" aria-hidden="true">给神留一栏空白</span></button>
+            <button class="scene-hotspot ts-hotspot ts-hotspot-court-right" id="ts-verdict-let-the-dead-read-first" type="button" aria-label="裁定：让死者先读" data-hover><span class="dh-label" aria-hidden="true">让死者先读</span></button>
+          </figure>
+          <p class="branch-response ts-response" id="hearing-of-the-morning-edition-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开听证会">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+          </nav>
+        </div>
+      </section>
+
       <!-- 隐藏幕 · 第九条 -->
       <section class="scene scene-ninth" id="scene-ninth" data-scene="ninth" data-title="Goddead — ？？？" aria-label="第九条">
         <figure class="ninth-figure" role="img" aria-label="一道不该存在的裂口，底部有一扇错误的窄门">
@@ -9364,6 +9491,9 @@
       <a href="#yesterday-breakfast-shop" id="yesterday-breakfast-shop-link" hidden data-hover>19α / 昨日早餐铺</a>
       <a href="#breakfast-counter" id="breakfast-counter-link" hidden data-hover>19β / 出餐台</a>
       <a href="#hearing-of-yesterdays-bill" id="hearing-of-yesterdays-bill-link" hidden data-hover>19γ / 昨日账单</a>
+      <a href="#press-of-today" id="press-of-today-link" hidden data-hover>20α / 今日印刷所</a>
+      <a href="#composing-stone" id="composing-stone-link" hidden data-hover>20β / 拼版台</a>
+      <a href="#hearing-of-the-morning-edition" id="hearing-of-the-morning-edition-link" hidden data-hover>20γ / 早报听证</a>
 
 
       <a href="#three-person-republic-court" id="three-person-republic-court-link" hidden data-hover>04β / 三人共和国</a>
@@ -9373,6 +9503,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=105"></script>
+    <script src="script.js?v=106"></script>
   </body>
 </html>
