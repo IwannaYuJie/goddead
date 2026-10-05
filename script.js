@@ -1412,6 +1412,8 @@ document.addEventListener("DOMContentLoaded", () => {
     replayTodayPressPending(name);
     resolveInkMixingPendingOnArrival(name);
     replayInkMixingPending(name);
+    resolveBorrowedLightPendingOnArrival(name);
+    replayBorrowedLightPending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1555,9 +1557,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
@@ -1571,7 +1573,7 @@ document.addEventListener("DOMContentLoaded", () => {
        v88 窄桥：title-action 可抵达 unending-gallery；
        v89 窄桥：appeal-action 可抵达 unending-gallery；
        v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !todayPressBridgeAllows('unending-gallery') && !inkMixingBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !todayPressBridgeAllows('unending-gallery') && !inkMixingBridgeAllows('unending-gallery') && !borrowedLightBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1825,6 +1827,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "ink-mixing-room" && !mxRoomCanVisit()) target = "remembrance";
     if (target === "mixing-dish" && !mixingDishCanVisit()) target = "remembrance";
     if (target === "hearing-of-the-first-color" && !mxCourtCanVisit()) target = "remembrance";
+
+    /* v108 借光司：未解锁或无合法抵达时一律回痕迹室 */
+    if (target === "office-of-borrowed-daylight" && !lbOfficeCanVisit()) target = "remembrance";
+    if (target === "mirror-floor" && !mirrorFloorCanVisit()) target = "remembrance";
+    if (target === "hearing-of-borrowed-light" && !lbCourtCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -48067,6 +48074,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetYesterdayBreakfastState();
       forgetTodayPressState();
       forgetInkMixingState();
+      forgetBorrowedLightState();
       forgetCodexFolds();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
@@ -62355,6 +62363,799 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     if (slider) slider.addEventListener('input', (e) => { if (e.isTrusted) setMxParts(k, e.target.value); });
   });
 
+  /* ============================================================
+     v108 借光司 / OFFICE OF BORROWED DAYLIGHT
+     v107 把今天印成了彩色，可旧房间太暗，谁也读不了报。借光司给三间屋做了模型，屋顶上立满小铜镜。
+     三间屋 × 三种光（晨光 / 午光 / 夕照）= 9 次借光；点镜子在“/”和“\”之间翻转，把光折进那间屋唯一的窗。
+     只读 v107；独立键 goddead_v108_borrowed_daylight；所有新操作只接受真实点击。
+     ============================================================ */
+  const BORROWED_LIGHT_KEY = 'goddead_v108_borrowed_daylight';
+  const BORROWED_LIGHT_VERSION = 108;
+  const LB_OFFICE = 'office-of-borrowed-daylight';
+  const LB_FLOOR = 'mirror-floor';
+  const LB_COURT = 'hearing-of-borrowed-light';
+  const LB_N = 5;
+  const LB_MODELS = ['deadletter-model', 'cancellation-model', 'protocol-model'];
+  const LB_MODEL_TABLE = {
+    'deadletter-model': {
+      title: '无主投递所的模型', layout: '.m....mmm.mm.m##.........', init: [0, 1, 0, 0, 0, 0, 1], window: 2,
+      entries: { dawn: { side: 'east', pos: 1 }, noon: { side: 'north', pos: 0 }, dusk: { side: 'west', pos: 1 } },
+      target: 'deadletter', place: '无主投递所', lamplighterTitle: '投递点灯人',
+      feedback: '信格之间黑得看不清地址。这间屋只有底下一扇小窗，光得绕好几道才进得去。',
+      echoLead: '无主投递所的信格里落进了一小块光。',
+    },
+    'cancellation-model': {
+      title: '神名注销科的模型', layout: '.......#....mm...mm.m.m..', init: [0, 1, 0, 0, 0, 0], window: 3,
+      entries: { dawn: { side: 'east', pos: 4 }, noon: { side: 'north', pos: 3 }, dusk: { side: 'west', pos: 2 } },
+      target: 'cancellation', place: '神名注销科', lamplighterTitle: '注销科点灯人',
+      feedback: '柜台上的名册暗得认不出字。注销科说，光要是进来了，他们就能看清自己划掉的是谁。',
+      echoLead: '神名注销科的名册上落着一小块光。',
+    },
+    'protocol-model': {
+      title: '访客守则的模型', layout: '......#m.mm..m..mmm.m....', init: [0, 0, 0, 0, 0, 1, 1, 0], window: 2,
+      entries: { dawn: { side: 'east', pos: 4 }, noon: { side: 'north', pos: 0 }, dusk: { side: 'west', pos: 4 } },
+      target: 'protocol', place: '访客守则', lamplighterTitle: '守则点灯人',
+      feedback: '布告板前一片漆黑，八条守则谁也读不到。光得从底下那扇窗照进去，正好落在板上。',
+      echoLead: '守则布告板上落着一小块光。',
+    },
+  };
+  const LB_METHODS = ['dawn', 'noon', 'dusk'];
+  const LB_METHOD_TABLE = {
+    dawn: { title: '晨光', hint: '晨光从东边射进来。', result: '照进去的是晨光，屋里的东西还带着一点凉。有人第一次看清了自己站的地方。' },
+    noon: { title: '午光', hint: '午光从北边直直落下来。', result: '午光照进去，没有影子。屋里的人说，原来这么亮的时候也没什么好怕的。' },
+    dusk: { title: '夕照', hint: '夕照从西边斜着进来。', result: '照进去的是夕照，橘色的，很快就要走。屋里的人赶在它走之前读完了一页。' },
+  };
+  const LB_BEAM_IDS = [];
+  LB_MODELS.forEach((model) => LB_METHODS.forEach((method) => LB_BEAM_IDS.push(`${model}:${method}`)));
+  const LB_VERDICT_ACTIONS = ['open-every-window', 'keep-one-room-dark-for-god', 'let-the-light-go-back'];
+  const LB_VERDICT_TABLE = {
+    'open-every-window': {
+      title: '每扇窗都打开', outcome: 'every-window-opened', target: 'threshold',
+      feedback: '听证会裁定：每扇窗都打开。门外第一次照到了屋里漏出来的光，影子朝外落。',
+    },
+    'keep-one-room-dark-for-god': {
+      title: '给神留一间暗屋', outcome: 'a-dark-room-kept-for-god', target: 'remembrance',
+      feedback: '听证会给神留了一间暗屋。痕迹室的角落永远照不到光，那里放着一把椅子。',
+    },
+    'let-the-light-go-back': {
+      title: '让借来的光回去', outcome: 'the-borrowed-light-went-back', target: 'unending-gallery',
+      feedback: '听证会准许借来的光回去。画廊的空框里一道道光往回走，越走越淡。',
+    },
+  };
+  const LB_VERDICT_OUTCOME_IDS = LB_VERDICT_ACTIONS.map((a) => LB_VERDICT_TABLE[a].outcome);
+  const LB_ENTRY_FEEDBACK = '借光司只有一扇高窗，光柱里飘着灰。长桌上三只黑盒子一样的房间模型，屋顶上立满了小铜镜。';
+  const LB_ABANDON_FEEDBACK = '你把模型的屋顶盖回去。镜子在黑里轻轻晃了一下。';
+  const LB_COURT_ENTRY_FEEDBACK = '三间屋都借过光了。借光听证会只开着一扇窗。';
+  const LB_LAMPLIGHTER_RETURN_FEEDBACK = '点灯人把小镜子收进口袋，领你回到借光司。';
+  const LB_OLD_TARGETS = ['deadletter', 'cancellation', 'protocol'];
+
+  function lbDelay() {
+    return reduced ? 300 : 1400;
+  }
+
+  function lbStart(entry) {
+    if (entry.side === 'west') return { r: entry.pos, c: 0, dr: 0, dc: 1 };
+    if (entry.side === 'east') return { r: entry.pos, c: LB_N - 1, dr: 0, dc: -1 };
+    return { r: 0, c: entry.pos, dr: 1, dc: 0 };
+  }
+
+  /* 纯函数：沿光路走，碰到镜子按朝向折 90°，碰到石柱停下；返回走过的格、出口与折数 */
+  function lbTrace(layout, states, entry) {
+    let { r, c, dr, dc } = lbStart(entry);
+    let bounces = 0;
+    let mirror = 0;
+    const order = {};
+    for (let i = 0; i < layout.length; i++) if (layout[i] === 'm') order[i] = mirror++;
+    const path = [];
+    for (let step = 0; step < 80; step++) {
+      if (r < 0 || r >= LB_N || c < 0 || c >= LB_N) return { path, exit: [r, c], bounces, blocked: false };
+      path.push([r, c]);
+      const cell = layout[r * LB_N + c];
+      if (cell === '#') return { path, exit: null, bounces, blocked: true };
+      if (cell === 'm') {
+        if (states[order[r * LB_N + c]] === 0) [dr, dc] = [-dc, -dr];
+        else [dr, dc] = [dc, dr];
+        bounces += 1;
+      }
+      r += dr;
+      c += dc;
+    }
+    return { path, exit: null, bounces, blocked: false };
+  }
+
+  /* 纯函数：这种光在这组镜面下有没有照进那间屋的窗（底边） */
+  function lbLit(model, method, states) {
+    const m = LB_MODEL_TABLE[model];
+    const res = lbTrace(m.layout, states, m.entries[method]);
+    return Boolean(res.exit && res.exit[0] === LB_N && res.exit[1] === m.window);
+  }
+
+  /* 纯函数：把光路换算成 0–100 坐标的折线点 */
+  function lbBeamPoints(model, method, states) {
+    const m = LB_MODEL_TABLE[model];
+    const entry = m.entries[method];
+    const res = lbTrace(m.layout, states, entry);
+    const unit = 100 / LB_N;
+    const center = ([r, c]) => [(c + 0.5) * unit, (r + 0.5) * unit];
+    const pts = [];
+    if (entry.side === 'west') pts.push([0, (entry.pos + 0.5) * unit]);
+    else if (entry.side === 'east') pts.push([100, (entry.pos + 0.5) * unit]);
+    else pts.push([(entry.pos + 0.5) * unit, 0]);
+    res.path.forEach((cell) => pts.push(center(cell)));
+    if (res.exit) {
+      const [r, c] = res.exit;
+      const last = res.path.length ? center(res.path[res.path.length - 1]) : pts[0];
+      if (r >= LB_N) pts.push([last[0], 100]);
+      else if (r < 0) pts.push([last[0], 0]);
+      else if (c >= LB_N) pts.push([100, last[1]]);
+      else pts.push([0, last[1]]);
+    }
+    return { points: pts.map(([x, y]) => `${Math.round(x * 10) / 10},${Math.round(y * 10) / 10}`).join(' '), trace: res };
+  }
+
+  function lbShineFeedback(model, method) {
+    return `${LB_MODEL_TABLE[model].title}：${LB_METHOD_TABLE[method].result}`;
+  }
+
+  function defaultBorrowedLight() {
+    const latest = {};
+    LB_MODELS.forEach((b) => { latest[b] = ''; });
+    return {
+      version: BORROWED_LIGHT_VERSION,
+      visited: { office: false, floor: false, court: false },
+      draft: { model: '', method: 'dawn' },
+      beams: [],
+      courtOutcomes: [],
+      beamRuns: 0,
+      courtRuns: 0,
+      latestMethodByModel: latest,
+      lastOutcome: '',
+      activeLamplighter: null,
+      pending: null,
+    };
+  }
+
+  function clampLbCount(n) {
+    const v = Math.floor(Number(n));
+    return Number.isFinite(v) ? Math.min(9999, Math.max(0, v)) : 0;
+  }
+
+  function normalizeBorrowedLight(raw) {
+    const d = defaultBorrowedLight();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== BORROWED_LIGHT_VERSION) return d;
+    const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
+    d.visited = { office: v.office === true, floor: v.floor === true, court: v.court === true };
+    const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
+    d.draft = { model: LB_MODELS.includes(dr.model) ? dr.model : '', method: LB_METHODS.includes(dr.method) ? dr.method : 'dawn' };
+    const beams = new Set(Array.isArray(raw.beams) ? raw.beams : []);
+    d.beams = LB_BEAM_IDS.filter((id) => beams.has(id));
+    const outcomes = new Set(Array.isArray(raw.courtOutcomes) ? raw.courtOutcomes : []);
+    d.courtOutcomes = LB_VERDICT_OUTCOME_IDS.filter((id) => outcomes.has(id));
+    d.beamRuns = clampLbCount(raw.beamRuns);
+    d.courtRuns = clampLbCount(raw.courtRuns);
+    const latest = raw.latestMethodByModel && typeof raw.latestMethodByModel === 'object' ? raw.latestMethodByModel : {};
+    LB_MODELS.forEach((b) => {
+      d.latestMethodByModel[b] = LB_METHODS.includes(latest[b]) && d.beams.includes(`${b}:${latest[b]}`) ? latest[b] : '';
+    });
+    if (typeof raw.lastOutcome === 'string' && (d.beams.includes(raw.lastOutcome) || d.courtOutcomes.includes(raw.lastOutcome))) d.lastOutcome = raw.lastOutcome;
+    const a = raw.activeLamplighter;
+    if (a && typeof a === 'object' && !Array.isArray(a) && Object.keys(a).length === 1 && d.beams.includes(a.beam)) d.activeLamplighter = { beam: a.beam };
+    d.pending = normalizeLbPending(raw.pending, d);
+    return d;
+  }
+
+  function lbCourtProgress(st) {
+    const models = new Set();
+    const methods = new Set();
+    st.beams.forEach((id) => {
+      const [model, method] = id.split(':');
+      models.add(model);
+      methods.add(method);
+    });
+    return { models: models.size, methods: methods.size };
+  }
+
+  function lbCourtEligible(st) {
+    const p = lbCourtProgress(st);
+    return p.models === LB_MODELS.length && p.methods === LB_METHODS.length;
+  }
+
+  function expectedLbPending(p, st) {
+    const clean = !st.activeLamplighter;
+    switch (p.kind) {
+      case 'entry':
+        return clean ? { feedback: LB_ENTRY_FEEDBACK, kind: 'entry', target: LB_OFFICE } : null;
+      case 'model': {
+        const b = LB_MODEL_TABLE[p.model];
+        if (!b || !clean) return null;
+        return { model: p.model, feedback: b.feedback, kind: 'model', source: LB_OFFICE, target: LB_FLOOR };
+      }
+      case 'shine': {
+        const b = LB_MODEL_TABLE[p.model];
+        if (!b || !LB_METHOD_TABLE[p.method] || !clean || st.draft.model !== p.model || st.draft.method !== p.method) return null;
+        return { model: p.model, feedback: lbShineFeedback(p.model, p.method), kind: 'shine', method: p.method, beam: `${p.model}:${p.method}`, source: LB_FLOOR, target: b.target };
+      }
+      case 'abandon':
+        return st.draft.model ? { feedback: LB_ABANDON_FEEDBACK, kind: 'abandon', source: LB_FLOOR, target: LB_OFFICE } : null;
+      case 'lamplighter-return': {
+        if (!st.activeLamplighter) return null;
+        const model = st.activeLamplighter.beam.split(':')[0];
+        return { feedback: LB_LAMPLIGHTER_RETURN_FEEDBACK, from: LB_MODEL_TABLE[model].target, kind: 'lamplighter-return', beam: st.activeLamplighter.beam, target: LB_OFFICE };
+      }
+      case 'court-entry':
+        return clean && lbCourtEligible(st) ? { feedback: LB_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: LB_COURT } : null;
+      case 'verdict': {
+        const a = LB_VERDICT_TABLE[p.action];
+        if (!a || !clean || !st.visited.court || !lbCourtEligible(st)) return null;
+        return { action: p.action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: LB_COURT, target: a.target };
+      }
+      default:
+        return null;
+    }
+  }
+
+  function normalizeLbPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+    const expected = expectedLbPending(p, st);
+    if (!expected) return null;
+    const keys = Object.keys(p).sort();
+    const want = Object.keys(expected).sort();
+    if (keys.length !== want.length || keys.some((k, i) => k !== want[i] || p[k] !== expected[k])) return null;
+    return expected;
+  }
+
+  function borrowedLightUnlocked() {
+    const compute = () => {
+      if (!inkMixingUnlocked()) return false;
+      const v107 = getInkMixing();
+      return mxCourtEligible(v107) && MX_VERDICT_OUTCOME_IDS.every((o) => v107.courtOutcomes.includes(o));
+    };
+    return store.memo ? store.memo("borrowedLightUnlocked", compute) : compute();
+  }
+
+  /* v107 还有在途的墨或没签收的学徒时，先不让进借光司 */
+  function lbUpstreamBusy() {
+    const v107 = getInkMixing();
+    return Boolean(v107.pending || v107.activeApprentice);
+  }
+
+  function getBorrowedLight() {
+    if (!borrowedLightUnlocked()) return defaultBorrowedLight();
+    let raw;
+    try { raw = JSON.parse(store.get(BORROWED_LIGHT_KEY, '{}')); } catch { return defaultBorrowedLight(); }
+    return normalizeBorrowedLight(raw);
+  }
+
+  function saveBorrowedLight(st) {
+    if (!borrowedLightUnlocked()) return defaultBorrowedLight();
+    const canonical = normalizeBorrowedLight(Object.assign({}, st, { version: BORROWED_LIGHT_VERSION }));
+    store.set(BORROWED_LIGHT_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function lbPendingLogicalSource(p) {
+    if (!p) return '';
+    if (p.kind === 'entry' || p.kind === 'court-entry') return 'remembrance';
+    if (p.kind === 'lamplighter-return') return p.from;
+    return p.source || '';
+  }
+
+  function resolveBorrowedLightPendingOnArrival(sceneName) {
+    const st = getBorrowedLight();
+    const p = st.pending;
+    if (!p) return st;
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.office = true;
+      } else if (p.kind === 'model') {
+        st.visited.floor = true;
+        st.draft = { model: p.model, method: st.draft.model === p.model ? st.draft.method : 'dawn' };
+      } else if (p.kind === 'shine') {
+        st.beamRuns = clampLbCount(st.beamRuns + 1);
+        if (!st.beams.includes(p.beam)) st.beams = st.beams.concat(p.beam);
+        st.latestMethodByModel[p.model] = p.method;
+        st.lastOutcome = p.beam;
+        st.activeLamplighter = { beam: p.beam };
+        st.draft = { model: '', method: 'dawn' };
+      } else if (p.kind === 'abandon') {
+        st.draft = { model: '', method: 'dawn' };
+        st.visited.office = true;
+      } else if (p.kind === 'lamplighter-return') {
+        st.activeLamplighter = null;
+        st.visited.office = true;
+      } else if (p.kind === 'court-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'verdict') {
+        st.courtRuns = clampLbCount(st.courtRuns + 1);
+        if (!st.courtOutcomes.includes(p.outcome)) st.courtOutcomes = st.courtOutcomes.concat(p.outcome);
+        st.lastOutcome = p.outcome;
+      }
+      return saveBorrowedLight(st);
+    }
+    if (sceneName === lbPendingLogicalSource(p)) return st;
+    st.pending = null;
+    return saveBorrowedLight(st);
+  }
+
+  const LB_RESPONSE_BY_KIND = {
+    entry: '#lb-entry-response',
+    model: '#office-of-borrowed-daylight-response',
+    shine: '#mirror-floor-response',
+    abandon: '#mirror-floor-response',
+    'court-entry': '#lb-court-entry-response',
+    verdict: '#hearing-of-borrowed-light-response',
+  };
+
+  function showLbResponse(selector, text) {
+    const el = $(selector);
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = !text;
+  }
+
+  function syncBorrowedLightAll() {
+    syncLbOffice();
+    syncMirrorFloor();
+    syncLbCourt();
+    syncLbLamplighters();
+    syncLbEchoes();
+    syncLbRemembrance();
+    syncLbLinks();
+    if (typeof syncPhEntries === 'function') syncPhEntries();
+  }
+
+  function replayBorrowedLightPending(sceneName) {
+    const st = getBorrowedLight();
+    const p = st.pending;
+    if (p && p.target === sceneName) resolveBorrowedLightPendingOnArrival(sceneName);
+    else if (p && sceneName === lbPendingLogicalSource(p)) {
+      syncBorrowedLightAll();
+      const selector = p.kind === 'lamplighter-return' ? `#lb-lamplighter-response-${p.from}` : LB_RESPONSE_BY_KIND[p.kind];
+      if (selector) showLbResponse(selector, p.feedback);
+      AutoAdvance.schedule(sceneName, p.target, { delay: lbDelay() });
+      return;
+    } else if (p) {
+      st.pending = null;
+      saveBorrowedLight(st);
+    }
+    syncBorrowedLightAll();
+  }
+
+  function launchLb(scene, buttonId, pending, responseSelector) {
+    const st = getBorrowedLight();
+    st.pending = pending;
+    const saved = saveBorrowedLight(st);
+    if (!saved.pending) return false;
+    const btn = buttonId ? $(`#${buttonId}`) : null;
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+    if (AudioEngine.whoosh) AudioEngine.whoosh();
+    syncBorrowedLightAll();
+    showLbResponse(responseSelector, pending.feedback);
+    AutoAdvance.schedule(scene, pending.target, { delay: lbDelay() });
+    return true;
+  }
+
+  function lbReady(scene, buttonId) {
+    if (currentScene !== scene) return null;
+    if (AutoAdvance.has(scene)) return null;
+    if (buttonId && !buttonAvailable(buttonId)) return null;
+    if (!borrowedLightUnlocked()) return null;
+    const st = getBorrowedLight();
+    return st.pending ? null : st;
+  }
+
+  function chooseLbEntry() {
+    const st = lbReady('remembrance', 'lb-entry-btn');
+    if (!st || st.activeLamplighter) return;
+    if (lbUpstreamBusy()) return;
+    launchLb('remembrance', 'lb-entry-btn', { feedback: LB_ENTRY_FEEDBACK, kind: 'entry', target: LB_OFFICE }, '#lb-entry-response');
+  }
+
+  function chooseLbModel(model) {
+    const b = LB_MODEL_TABLE[model];
+    if (!b) return;
+    const st = lbReady(LB_OFFICE, `lb-model-${model}`);
+    if (!st || st.activeLamplighter) return;
+    launchLb(LB_OFFICE, `lb-model-${model}`, { model, feedback: b.feedback, kind: 'model', source: LB_OFFICE, target: LB_FLOOR }, '#office-of-borrowed-daylight-response');
+  }
+
+  function chooseLbMethod(method) {
+    if (!LB_METHOD_TABLE[method]) return;
+    const st = lbReady(LB_FLOOR, `lb-method-${method}`);
+    if (!st || !st.draft.model || !st.visited.floor || st.draft.method === method) return;
+    st.draft.method = method;
+    saveBorrowedLight(st);
+    syncMirrorFloor();
+  }
+
+  /* 镜面：每面镜子的朝向只放在内存里；换屋或换光时复原，光照进窗才写 pending */
+  let lbStates = [];
+  let lbFlips = 0;
+  let lbFloorKey = '';
+
+  function paintLbFloor(message) {
+    const st = getBorrowedLight();
+    const status = $('#lb-floor-status');
+    const model = st.draft.model;
+    if (!model) {
+      if (status) status.textContent = '';
+      return;
+    }
+    const m = LB_MODEL_TABLE[model];
+    let mirror = 0;
+    for (let i = 0; i < LB_N * LB_N; i++) {
+      const btn = $(`#lb-tile-${i}`);
+      if (!btn) continue;
+      const kind = m.layout[i];
+      const row = Math.floor(i / LB_N) + 1;
+      const col = (i % LB_N) + 1;
+      btn.classList.toggle('is-mirror', kind === 'm');
+      btn.classList.toggle('is-pillar', kind === '#');
+      if (kind === 'm') {
+        const tilt = lbStates[mirror] === 0 ? 'slash' : 'backslash';
+        btn.setAttribute('data-tilt', tilt);
+        btn.setAttribute('aria-label', `第 ${row} 行第 ${col} 列的镜子，${tilt === 'slash' ? '朝右上斜' : '朝右下斜'}，点一下翻转`);
+        mirror += 1;
+      } else {
+        btn.setAttribute('data-tilt', '');
+        btn.setAttribute('aria-label', kind === '#' ? `第 ${row} 行第 ${col} 列：石柱，挡光` : `第 ${row} 行第 ${col} 列：空地`);
+      }
+    }
+    const { points, trace } = lbBeamPoints(model, st.draft.method, lbStates);
+    const beam = $('#lb-beam-line');
+    if (beam) beam.setAttribute('points', points);
+    const lit = lbLit(model, st.draft.method, lbStates);
+    const board = $('#lb-board');
+    if (board) {
+      board.classList.toggle('is-lit', lit);
+      if (board.style && board.style.setProperty) {
+        const entry = m.entries[st.draft.method];
+        const unit = 100 / LB_N;
+        const at = entry.side === 'west' ? [0, (entry.pos + 0.5) * unit] : entry.side === 'east' ? [100, (entry.pos + 0.5) * unit] : [(entry.pos + 0.5) * unit, 0];
+        board.style.setProperty('--lb-entry-x', `${at[0]}%`);
+        board.style.setProperty('--lb-entry-y', `${at[1]}%`);
+        board.style.setProperty('--lb-window-x', `${(m.window + 0.5) * unit}%`);
+      }
+    }
+    const where = trace.blocked ? '被石柱挡住了' : trace.exit ? '从别处射出去了' : '在镜子之间绕住了';
+    if (status) status.textContent = message || (lit ? `光拐了 ${trace.bounces} 次，照进窗了。可以开窗。` : `光拐了 ${trace.bounces} 次，${where}。已经翻了 ${lbFlips} 次镜子。`);
+  }
+
+  function flipLbMirror(cell) {
+    const st = lbReady(LB_FLOOR, `lb-tile-${cell}`);
+    if (!st || !st.draft.model || st.activeLamplighter) return;
+    const layout = LB_MODEL_TABLE[st.draft.model].layout;
+    if (!Number.isInteger(cell) || cell < 0 || cell >= layout.length || layout[cell] !== 'm') return;
+    const index = layout.slice(0, cell).split('').filter((ch) => ch === 'm').length;
+    lbStates = lbStates.slice();
+    lbStates[index] = lbStates[index] === 0 ? 1 : 0;
+    lbFlips += 1;
+    if (AudioEngine.tick) AudioEngine.tick();
+    paintLbFloor('');
+  }
+
+  function resetLbMirrors() {
+    const st = lbReady(LB_FLOOR, 'lb-reset');
+    if (!st || !st.draft.model || st.activeLamplighter) return;
+    lbStates = LB_MODEL_TABLE[st.draft.model].init.slice();
+    lbFlips = 0;
+    paintLbFloor('镜子都转回了原来的朝向。');
+  }
+
+  function shineLbWindow() {
+    const st = lbReady(LB_FLOOR, 'lb-shine');
+    if (!st || !st.draft.model || st.activeLamplighter) return;
+    const { model, method } = st.draft;
+    if (!lbLit(model, method, lbStates)) {
+      paintLbFloor(`光还没照进窗。${LB_METHOD_TABLE[method].hint}`);
+      return;
+    }
+    paintLbFloor('光照进去了。');
+    launchLb(LB_FLOOR, 'lb-shine', {
+      beam: `${model}:${method}`, feedback: lbShineFeedback(model, method), kind: 'shine', method, model, source: LB_FLOOR, target: LB_MODEL_TABLE[model].target,
+    }, '#mirror-floor-response');
+  }
+
+  function chooseLbAbandon() {
+    const st = lbReady(LB_FLOOR, 'lb-abandon');
+    if (!st || !st.draft.model) return;
+    launchLb(LB_FLOOR, 'lb-abandon', { feedback: LB_ABANDON_FEEDBACK, kind: 'abandon', source: LB_FLOOR, target: LB_OFFICE }, '#mirror-floor-response');
+  }
+
+  function chooseLbLamplighterReturn(scene) {
+    const st = lbReady(scene, `lb-lamplighter-return-${scene}`);
+    if (!st || !st.activeLamplighter) return;
+    if (LB_MODEL_TABLE[st.activeLamplighter.beam.split(':')[0]].target !== scene) return;
+    launchLb(scene, `lb-lamplighter-return-${scene}`, { feedback: LB_LAMPLIGHTER_RETURN_FEEDBACK, from: scene, kind: 'lamplighter-return', beam: st.activeLamplighter.beam, target: LB_OFFICE }, `#lb-lamplighter-response-${scene}`);
+  }
+
+  function chooseLbCourtEntry() {
+    const st = lbReady('remembrance', 'lb-court-entry-btn');
+    if (!st || st.activeLamplighter || !lbCourtEligible(st)) return;
+    launchLb('remembrance', 'lb-court-entry-btn', { feedback: LB_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: LB_COURT }, '#lb-court-entry-response');
+  }
+
+  function chooseLbVerdict(action) {
+    const a = LB_VERDICT_TABLE[action];
+    if (!a) return;
+    const st = lbReady(LB_COURT, `lb-verdict-${action}`);
+    if (!st || st.activeLamplighter || !st.visited.court || !lbCourtEligible(st)) return;
+    launchLb(LB_COURT, `lb-verdict-${action}`, { action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: LB_COURT, target: a.target }, '#hearing-of-borrowed-light-response');
+  }
+
+  function borrowedLightBridgeAllows(targetScene) {
+    if (!borrowedLightUnlocked()) return false;
+    const st = getBorrowedLight();
+    if (st.pending && (st.pending.kind === 'shine' || st.pending.kind === 'verdict') && st.pending.target === targetScene) return true;
+    if (st.activeLamplighter && LB_MODEL_TABLE[st.activeLamplighter.beam.split(':')[0]].target === targetScene) return true;
+    const verdict = LB_VERDICT_ACTIONS.find((a) => LB_VERDICT_TABLE[a].outcome === st.lastOutcome);
+    return Boolean(verdict && LB_VERDICT_TABLE[verdict].target === targetScene);
+  }
+
+  function lbOfficeCanVisit() {
+    if (!borrowedLightUnlocked()) return false;
+    const st = getBorrowedLight();
+    return st.visited.office || Boolean(st.pending && st.pending.target === LB_OFFICE);
+  }
+
+  function mirrorFloorCanVisit() {
+    if (!borrowedLightUnlocked()) return false;
+    const st = getBorrowedLight();
+    if (st.visited.floor && st.draft.model) return true;
+    return Boolean(st.pending && st.pending.kind === 'model');
+  }
+
+  function lbCourtCanVisit() {
+    if (!borrowedLightUnlocked()) return false;
+    const st = getBorrowedLight();
+    if (st.visited.court && lbCourtEligible(st)) return true;
+    return Boolean(st.pending && st.pending.kind === 'court-entry');
+  }
+
+  function syncLbOffice() {
+    const canVisit = lbOfficeCanVisit();
+    const st = getBorrowedLight();
+    const fig = $('#lb-office-figure');
+    if (fig) fig.hidden = !canVisit;
+    const blocked = !canVisit || Boolean(st.pending) || Boolean(st.activeLamplighter);
+    LB_MODELS.forEach((model) => {
+      const btn = $(`#lb-model-${model}`);
+      if (!btn) return;
+      btn.disabled = blocked;
+      btn.classList.toggle('is-collected', LB_METHODS.every((m) => st.beams.includes(`${model}:${m}`)));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'model' && st.pending.model === model ? 'true' : 'false');
+    });
+    const note = $('#lb-office-note');
+    if (note) {
+      let text = '';
+      if (st.activeLamplighter) {
+        const b = LB_MODEL_TABLE[st.activeLamplighter.beam.split(':')[0]];
+        text = `先完成正在送去的那道光：${b.lamplighterTitle}还在${b.place}等你签收。`;
+      } else if (st.draft.model) {
+        text = `镜面地上还摆着「${LB_MODEL_TABLE[st.draft.model].title}」。`;
+      }
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const cont = $('#lb-continue');
+    if (cont) {
+      const show = canVisit && Boolean(st.draft.model) && !st.activeLamplighter;
+      cont.hidden = !show;
+      cont.disabled = !show || Boolean(st.pending);
+    }
+    if (!st.pending || st.pending.source !== LB_OFFICE) showLbResponse('#office-of-borrowed-daylight-response', '');
+  }
+
+  function syncMirrorFloor() {
+    const canVisit = mirrorFloorCanVisit();
+    const st = getBorrowedLight();
+    const ready = canVisit && Boolean(st.draft.model);
+    const key = st.draft.model ? `${st.draft.model}:${st.draft.method}` : '';
+    if (key !== lbFloorKey && !(st.pending && st.pending.kind === 'shine')) {
+      lbFloorKey = key;
+      lbStates = st.draft.model ? LB_MODEL_TABLE[st.draft.model].init.slice() : [];
+      lbFlips = 0;
+    }
+    const panel = $('#lb-floor-panel');
+    if (panel) panel.hidden = !ready;
+    const board = $('#lb-board');
+    if (board) board.hidden = !ready;
+    if (ready) {
+      const t = LB_MODEL_TABLE[st.draft.model];
+      const title = $('#lb-floor-model');
+      if (title) title.textContent = `${t.title} —— ${t.feedback}`;
+      const hint = $('#lb-method-hint');
+      if (hint) hint.textContent = `${LB_METHOD_TABLE[st.draft.method].hint}点镜子让它在“/”和“\\”之间翻转，石柱会挡光。把光折进底边那扇窗就能开窗，光会送到${t.place}，由${t.lamplighterTitle}签收。换光或换屋会把镜子转回原样。`;
+    }
+    LB_METHODS.forEach((method) => {
+      const btn = $(`#lb-method-${method}`);
+      if (!btn) return;
+      btn.disabled = !ready || Boolean(st.pending);
+      btn.setAttribute('aria-pressed', ready && st.draft.method === method ? 'true' : 'false');
+      btn.classList.toggle('is-collected', Boolean(st.draft.model) && st.beams.includes(`${st.draft.model}:${method}`));
+    });
+    const layout = st.draft.model ? LB_MODEL_TABLE[st.draft.model].layout : '';
+    ['lb-shine', 'lb-reset', 'lb-abandon'].forEach((id) => {
+      const btn = $(`#${id}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending);
+    });
+    for (let i = 0; i < LB_N * LB_N; i++) {
+      const btn = $(`#lb-tile-${i}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending) || layout[i] !== 'm';
+    }
+    paintLbFloor(st.pending && st.pending.kind === 'shine' ? '光照进去了，正在送过去。' : '');
+    if (!st.pending || st.pending.source !== LB_FLOOR) showLbResponse('#mirror-floor-response', '');
+  }
+
+  function syncLbCourt() {
+    const canVisit = lbCourtCanVisit();
+    const st = getBorrowedLight();
+    const fig = $('#hearing-of-borrowed-light-figure');
+    if (fig) fig.hidden = !canVisit;
+    LB_VERDICT_ACTIONS.forEach((action) => {
+      const btn = $(`#lb-verdict-${action}`);
+      if (!btn) return;
+      btn.disabled = !canVisit || Boolean(st.pending) || Boolean(st.activeLamplighter);
+      btn.classList.toggle('is-collected', st.courtOutcomes.includes(LB_VERDICT_TABLE[action].outcome));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'verdict' && st.pending.action === action ? 'true' : 'false');
+    });
+    if (!st.pending || st.pending.source !== LB_COURT) showLbResponse('#hearing-of-borrowed-light-response', '');
+  }
+
+  function syncLbLamplighters() {
+    const st = borrowedLightUnlocked() ? getBorrowedLight() : defaultBorrowedLight();
+    const [model, method] = st.activeLamplighter ? st.activeLamplighter.beam.split(':') : ['', ''];
+    LB_OLD_TARGETS.forEach((scene) => {
+      const box = $(`#lb-lamplighter-${scene}`);
+      if (!box) return;
+      const show = Boolean(model) && LB_MODEL_TABLE[model].target === scene;
+      box.hidden = !show;
+      const btn = $(`#lb-lamplighter-return-${scene}`);
+      if (btn) {
+        btn.disabled = !show || Boolean(st.pending);
+        btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'lamplighter-return' && st.pending.from === scene ? 'true' : 'false');
+      }
+      if (!show) return;
+      const b = LB_MODEL_TABLE[model];
+      const head = $(`#lb-lamplighter-title-${scene}`);
+      if (head) head.textContent = `借光签收 · ${b.lamplighterTitle} · ${b.title}（${LB_METHOD_TABLE[method].title}）`;
+      const level = $(`#lb-lamplighter-level-${scene}`);
+      if (level) level.textContent = `${LB_METHOD_TABLE[method].title}照进了${b.place}底下那扇窗`;
+      const body = $(`#lb-lamplighter-body-${scene}`);
+      if (body) body.textContent = LB_METHOD_TABLE[method].result;
+      if (!st.pending || st.pending.kind !== 'lamplighter-return') showLbResponse(`#lb-lamplighter-response-${scene}`, '');
+    });
+  }
+
+  function syncLbEchoes() {
+    const st = borrowedLightUnlocked() ? getBorrowedLight() : defaultBorrowedLight();
+    LB_MODELS.forEach((model) => {
+      const b = LB_MODEL_TABLE[model];
+      const el = $(`#lb-echo-${b.target}`);
+      if (!el) return;
+      const method = st.latestMethodByModel[model];
+      if (!method) { el.hidden = true; el.textContent = ''; return; }
+      el.textContent = `${b.echoLead}「${LB_METHOD_TABLE[method].title}」${LB_METHOD_TABLE[method].result}`;
+      el.hidden = false;
+    });
+  }
+
+  function syncLbRemembrance() {
+    const unlocked = borrowedLightUnlocked();
+    const shell = $('#lb-codex');
+    const memory = $('#lb-memory');
+    if (!unlocked) {
+      [shell, memory].forEach((el) => { if (el) el.hidden = true; });
+      return;
+    }
+    const st = getBorrowedLight();
+    const v107Busy = lbUpstreamBusy();
+    if (shell) shell.hidden = false;
+    const progress = lbCourtProgress(st);
+    if (memory) {
+      memory.hidden = false;
+      memory.textContent = `借光：已照进 ${st.beams.length}/9 次，共开窗 ${st.beamRuns} 次；借光听证 ${st.courtOutcomes.length}/3。`;
+    }
+    const hints = $('#lb-court-hints');
+    if (hints) {
+      const rows = [['三间屋都借过光', progress.models, LB_MODELS.length], ['三种光都用过', progress.methods, LB_METHODS.length]];
+      hints.replaceChildren(...rows.map(([label, have, need]) => {
+        const li = document.createElement('li');
+        li.className = have >= need ? 'is-met' : '';
+        li.textContent = `${label} ${have}/${need}`;
+        return li;
+      }));
+    }
+    const clean = !st.pending && !st.activeLamplighter;
+    const entry = $('#lb-entry-btn');
+    if (entry) {
+      entry.hidden = false;
+      entry.disabled = !clean || v107Busy;
+      entry.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' ? 'true' : 'false');
+    }
+    const note = $('#lb-entry-note');
+    if (note) {
+      const text = v107Busy ? '先完成调墨房那碟还在路上的墨：调墨房还有一块色样没签收。' : st.activeLamplighter ? '先完成正在送去的那道光。' : '';
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const court = $('#lb-court-entry-btn');
+    if (court) {
+      const eligible = lbCourtEligible(st);
+      court.hidden = !eligible;
+      court.disabled = !eligible || !clean;
+      court.setAttribute('aria-pressed', st.pending && st.pending.kind === 'court-entry' ? 'true' : 'false');
+    }
+    const grid = $('#lb-codex-grid');
+    if (grid) {
+      const have = new Set(st.beams);
+      const cells = LB_BEAM_IDS.map((id) => {
+        const [model, method] = id.split(':');
+        const cell = document.createElement('div');
+        cell.className = `lb-cell ${have.has(id) ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = have.has(id) ? `${LB_MODEL_TABLE[model].title}\n${LB_METHOD_TABLE[method].title}` : '？？？';
+        return cell;
+      });
+      LB_VERDICT_ACTIONS.forEach((action) => {
+        const a = LB_VERDICT_TABLE[action];
+        const got = st.courtOutcomes.includes(a.outcome);
+        const cell = document.createElement('div');
+        cell.className = `lb-cell lb-cell-verdict ${got ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = got ? `[借光听证会] ${a.title}\n${a.feedback}` : '？？？';
+        cells.push(cell);
+      });
+      grid.replaceChildren(...cells);
+    }
+    if (!st.pending || (st.pending.kind !== 'entry' && st.pending.kind !== 'court-entry')) {
+      showLbResponse('#lb-entry-response', '');
+      showLbResponse('#lb-court-entry-response', '');
+    }
+  }
+
+  function syncLbLinks() {
+    const st = borrowedLightUnlocked() ? getBorrowedLight() : null;
+    [['office-of-borrowed-daylight-link', 'office'], ['mirror-floor-link', 'floor'], ['hearing-of-borrowed-light-link', 'court']].forEach(([id, key]) => {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !(st && st.visited[key]);
+    });
+  }
+
+  function forgetBorrowedLightState() {
+    try { localStorage.removeItem(BORROWED_LIGHT_KEY); } catch {}
+    [LB_OFFICE, LB_FLOOR, LB_COURT].forEach((scene) => AutoAdvance.clear(scene));
+    lbStates = [];
+    lbFlips = 0;
+    lbFloorKey = '';
+    ['#lb-codex', '#lb-memory', '#lb-office-figure', '#lb-floor-panel', '#hearing-of-borrowed-light-figure',
+      '#office-of-borrowed-daylight-link', '#mirror-floor-link', '#hearing-of-borrowed-light-link', '#lb-continue', '#lb-court-entry-btn',
+      '#lb-entry-response', '#lb-court-entry-response', '#office-of-borrowed-daylight-response', '#mirror-floor-response', '#hearing-of-borrowed-light-response',
+      ...LB_OLD_TARGETS.flatMap((scene) => [`#lb-lamplighter-${scene}`, `#lb-echo-${scene}`]),
+    ].forEach((sel) => { const el = $(sel); if (el) el.hidden = true; });
+    $$('[id^="lb-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+  }
+
+  const onTrustedLb = (selector, handler) => {
+    const el = $(selector);
+    if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+  };
+  onTrustedLb('#lb-entry-btn', chooseLbEntry);
+  onTrustedLb('#lb-court-entry-btn', chooseLbCourtEntry);
+  onTrustedLb('#lb-abandon', chooseLbAbandon);
+  onTrustedLb('#lb-continue', () => {
+    const st = lbReady(LB_OFFICE, 'lb-continue');
+    if (!st || !st.draft.model || st.activeLamplighter) return;
+    const model = st.draft.model;
+    launchLb(LB_OFFICE, 'lb-continue', { model, feedback: LB_MODEL_TABLE[model].feedback, kind: 'model', source: LB_OFFICE, target: LB_FLOOR }, '#office-of-borrowed-daylight-response');
+  });
+  LB_MODELS.forEach((model) => onTrustedLb(`#lb-model-${model}`, () => chooseLbModel(model)));
+  LB_METHODS.forEach((method) => onTrustedLb(`#lb-method-${method}`, () => chooseLbMethod(method)));
+  LB_VERDICT_ACTIONS.forEach((action) => onTrustedLb(`#lb-verdict-${action}`, () => chooseLbVerdict(action)));
+  LB_OLD_TARGETS.forEach((scene) => onTrustedLb(`#lb-lamplighter-return-${scene}`, () => chooseLbLamplighterReturn(scene)));
+  for (let cell = 0; cell < LB_N * LB_N; cell++) onTrustedLb(`#lb-tile-${cell}`, () => flipLbMirror(cell));
+  onTrustedLb('#lb-reset', resetLbMirrors);
+  onTrustedLb('#lb-shine', shineLbWindow);
+
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -62775,8 +63576,26 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     if (eligible) items.push(`开庭条件已满足；首色裁定已得 ${st.courtOutcomes.length}/3`);
     if (st.activeApprentice) items.push("有一碟墨在旧房间等你签收：跟着学徒回到调墨房");
     else if (st.draft.ink) items.push(`调色碟边上还放着「${MX_INK_TABLE[st.draft.ink].title}」的色卡`);
-    if (eligible && st.courtOutcomes.length >= 3) return { title: "v107 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    if (eligible && st.courtOutcomes.length >= 3) return borrowedLightProgressStep();
     return { title: "v107 调墨房", items, target: eligible ? "mx-court" : "mx", done: false };
+  };
+
+  /* v108：按三间屋、三种光与三项裁定给出缺项 */
+  const borrowedLightProgressStep = () => {
+    if (!borrowedLightUnlocked()) return null;
+    const st = getBorrowedLight();
+    const items = [];
+    const models = LB_MODELS.filter((x) => !st.beams.some((id) => id.startsWith(`${x}:`))).map((x) => LB_MODEL_TABLE[x].title);
+    const methods = LB_METHODS.filter((m) => !st.beams.some((id) => id.endsWith(`:${m}`))).map((m) => LB_METHOD_TABLE[m].title);
+    if (lbUpstreamBusy() && !st.visited.office) items.push("先完成调墨房那碟还在路上的墨，借光司才开门");
+    if (models.length) items.push(`还没借过光的屋：${models.join("、")}`);
+    if (methods.length) items.push(`还没用过的光：${methods.join("、")}`);
+    const eligible = lbCourtEligible(st);
+    if (eligible) items.push(`开庭条件已满足；借光裁定已得 ${st.courtOutcomes.length}/3`);
+    if (st.activeLamplighter) items.push("有一道光在旧房间等你签收：跟着点灯人回到借光司");
+    else if (st.draft.model) items.push(`镜面地上还摆着「${LB_MODEL_TABLE[st.draft.model].title}」`);
+    if (eligible && st.courtOutcomes.length >= 3) return { title: "v108 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    return { title: "v108 借光司", items, target: eligible ? "lb-court" : "lb", done: false };
   };
 
   const shadowlessPhotographyProgressStep = () => {
@@ -63352,6 +64171,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   syncYesterdayBreakfastAll();
   syncTodayPressAll();
   syncInkMixingAll();
+  syncBorrowedLightAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

@@ -543,6 +543,10 @@ function createV102Harness({
     const mxRoomCanVisit = () => false;
     const mixingDishCanVisit = () => false;
     const mxCourtCanVisit = () => false;
+    const borrowedLightBridgeAllows = () => false;
+    const lbOfficeCanVisit = () => false;
+    const mirrorFloorCanVisit = () => false;
+    const lbCourtCanVisit = () => false;
     const ahHotelCanVisit = () => false;
     const borrowedDawnClockroomCanVisit = () => false;
     const sharedMorningVerandaCanVisit = () => false;
@@ -627,12 +631,12 @@ function createV102Harness({
 // -------------------------------------------------------------
 // Test Group 1: Markers, scene IDs, image attributes & DOM HTML structure
 // -------------------------------------------------------------
-test('Group 1: HTML structure, scene count 244, lazy images, native buttons and CSS scope', () => {
-  // 244 unique scene section data-scene values in index.html (excluding scene-veil overlay)
+test('Group 1: HTML structure, scene count 247, lazy images, native buttons and CSS scope', () => {
+  // 247 unique scene section data-scene values in index.html (excluding scene-veil overlay)
   const sceneMatches = Array.from(indexHtml.matchAll(/<section[^>]+data-scene="([^"]+)"/g)).map((m) => m[1]);
   const uniqueScenes = new Set(sceneMatches);
-  assert.equal(sceneMatches.length, 244, `Total data-scene sections must be exactly 244, got ${sceneMatches.length}`);
-  assert.equal(uniqueScenes.size, 244, `Scene count must be exactly 244, got ${uniqueScenes.size}`);
+  assert.equal(sceneMatches.length, 247, `Total data-scene sections must be exactly 247, got ${sceneMatches.length}`);
+  assert.equal(uniqueScenes.size, 247, `Scene count must be exactly 247, got ${uniqueScenes.size}`);
   assert.ok(uniqueScenes.has('weatherless-bus-shelter'));
   assert.ok(uniqueScenes.has('season-dispatch-board'));
   assert.ok(uniqueScenes.has('four-season-platform'));
@@ -2190,6 +2194,8 @@ test('v102: sceneInit and legacy v45 relief integration behavior audit', () => {
       const replayTodayPressPending = () => {};
       const resolveInkMixingPendingOnArrival = () => {};
       const replayInkMixingPending = () => {};
+      const resolveBorrowedLightPendingOnArrival = () => {};
+      const replayBorrowedLightPending = () => {};
       const syncWeatherlessShelterAll = () => h.syncAll();
 
       let thresholdConsumed = false;

@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=107">
+  <link rel="stylesheet" href="styles.css?v=108">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -365,6 +365,15 @@
           </ol>
           <p class="rules-foot reveal">守则如有变动，恕不另行通知。——有些变动并非我们所为。</p>
 
+          <!-- v108 守则借光签收与记忆 -->
+          <p class="watch-memory lb-echo" id="lb-echo-protocol" hidden></p>
+          <div class="lb-lamplighter reveal" id="lb-lamplighter-protocol" hidden>
+            <p class="lb-lamplighter-title" id="lb-lamplighter-title-protocol"></p>
+            <p class="lb-lamplighter-level" id="lb-lamplighter-level-protocol"></p>
+            <p class="lb-lamplighter-body" id="lb-lamplighter-body-protocol"></p>
+            <p class="lb-response" id="lb-lamplighter-response-protocol" aria-live="polite" hidden></p>
+            <button class="lb-action" id="lb-lamplighter-return-protocol" type="button" data-hover>跟着点灯人回到借光司 ⟶</button>
+          </div>
           <!-- v99 守则路条签收与记忆 -->
           <p class="watch-memory rd-echo" id="rd-echo-protocol" hidden></p>
           <div class="rd-leader reveal" id="rd-leader-protocol" hidden>
@@ -4135,6 +4144,15 @@
             <p class="answer-note" id="cancel-note" role="status" aria-live="polite"></p>
           </div>
 
+          <!-- v108 无主投递所借光签收与记忆 -->
+          <p class="watch-memory lb-echo" id="lb-echo-deadletter" hidden></p>
+          <div class="lb-lamplighter reveal" id="lb-lamplighter-deadletter" hidden>
+            <p class="lb-lamplighter-title" id="lb-lamplighter-title-deadletter"></p>
+            <p class="lb-lamplighter-level" id="lb-lamplighter-level-deadletter"></p>
+            <p class="lb-lamplighter-body" id="lb-lamplighter-body-deadletter"></p>
+            <p class="lb-response" id="lb-lamplighter-response-deadletter" aria-live="polite" hidden></p>
+            <button class="lb-action" id="lb-lamplighter-return-deadletter" type="button" data-hover>跟着点灯人回到借光司 ⟶</button>
+          </div>
           <!-- v100 无主投递所供香签收与记忆 -->
           <p class="watch-memory wk-echo" id="wk-echo-deadletter" hidden></p>
           <div class="wk-mourner reveal" id="wk-mourner-deadletter" hidden>
@@ -4224,6 +4242,15 @@
             <p class="answer-note" id="acting-note" role="status" aria-live="polite"></p>
           </div>
 
+          <!-- v108 神名注销科借光签收与记忆 -->
+          <p class="watch-memory lb-echo" id="lb-echo-cancellation" hidden></p>
+          <div class="lb-lamplighter reveal" id="lb-lamplighter-cancellation" hidden>
+            <p class="lb-lamplighter-title" id="lb-lamplighter-title-cancellation"></p>
+            <p class="lb-lamplighter-level" id="lb-lamplighter-level-cancellation"></p>
+            <p class="lb-lamplighter-body" id="lb-lamplighter-body-cancellation"></p>
+            <p class="lb-response" id="lb-lamplighter-response-cancellation" aria-live="polite" hidden></p>
+            <button class="lb-action" id="lb-lamplighter-return-cancellation" type="button" data-hover>跟着点灯人回到借光司 ⟶</button>
+          </div>
           <!-- v105 神名注销科早餐签收与记忆 -->
           <p class="watch-memory yb-echo" id="yb-echo-cancellation" hidden></p>
           <div class="yb-waiter reveal" id="yb-waiter-cancellation" hidden>
@@ -5175,6 +5202,21 @@
               <p class="ts-response" id="ts-entry-response" aria-live="polite" hidden></p>
               <button class="ts-entry-btn" id="ts-court-entry-btn" type="button" hidden data-hover>进入早报听证会 · ENTER THE HEARING OF THE MORNING EDITION ⟶</button>
               <p class="ts-response" id="ts-court-entry-response" aria-live="polite" hidden></p>
+            </div>
+          </div>
+          <!-- v108 借光图鉴 -->
+          <p class="watch-memory lb-memory" id="lb-memory" hidden></p>
+          <div class="lb-codex reveal" id="lb-codex" hidden>
+            <p class="lb-kicker">BORROWED DAYLIGHT · 借 光 图 鉴</p>
+            <div class="lb-grid" id="lb-codex-grid"></div>
+            <p class="lb-hints-title">借光听证会开庭条件</p>
+            <ul class="lb-hints" id="lb-court-hints"></ul>
+            <div class="lb-codex-entry">
+              <button class="lb-entry-btn" id="lb-entry-btn" type="button" hidden data-hover>前往借光司 · GO TO THE OFFICE OF BORROWED DAYLIGHT ⟶</button>
+              <p class="lb-note" id="lb-entry-note" hidden></p>
+              <p class="lb-response" id="lb-entry-response" aria-live="polite" hidden></p>
+              <button class="lb-entry-btn" id="lb-court-entry-btn" type="button" hidden data-hover>进入借光听证会 · ENTER THE HEARING OF BORROWED LIGHT ⟶</button>
+              <p class="lb-response" id="lb-court-entry-response" aria-live="polite" hidden></p>
             </div>
           </div>
           <!-- v107 调墨图鉴 -->
@@ -9368,6 +9410,110 @@
         </div>
       </section>
 
+      <!-- v108 第一幕：借光司 -->
+      <section class="scene scene-branch scene-office-of-borrowed-daylight" id="scene-office-of-borrowed-daylight" data-scene="office-of-borrowed-daylight" data-title="Goddead — 借光司" aria-label="借光司">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">22α / 借光 · OFFICE OF BORROWED DAYLIGHT</p>
+            <h2 class="sec-title">借光司</h2>
+            <p class="sec-desc">今天印成了彩色，可三间旧屋太暗，报纸送进去也没人读得了。借光司的长桌上摆着这三间屋的模型，屋顶立满小铜镜，每间只在底下开一扇窗。</p>
+          </header>
+          <figure class="branch-figure lb-figure reveal" id="lb-office-figure">
+            <img class="branch-img lb-img" data-src="assets/v108-office-of-borrowed-daylight.webp" alt="借光司：高窗下一张长木桌，桌上三只黑石房间模型，左边是摆满信格的投递所、中间是有柜台的注销科、右边是挂布告板的守则厅，墙头立着小铜镜，每只模型正面只有一扇亮着的小窗" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot lb-hotspot lb-hotspot-left" id="lb-model-deadletter-model" type="button" aria-label="借光：无主投递所的模型" data-hover><span class="dh-label" aria-hidden="true">投递所的模型</span></button>
+            <button class="scene-hotspot lb-hotspot lb-hotspot-center" id="lb-model-cancellation-model" type="button" aria-label="借光：神名注销科的模型" data-hover><span class="dh-label" aria-hidden="true">注销科的模型</span></button>
+            <button class="scene-hotspot lb-hotspot lb-hotspot-right" id="lb-model-protocol-model" type="button" aria-label="借光：访客守则的模型" data-hover><span class="dh-label" aria-hidden="true">守则厅的模型</span></button>
+          </figure>
+          <p class="lb-note reveal" id="lb-office-note" hidden></p>
+          <p class="branch-response lb-response" id="office-of-borrowed-daylight-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开借光司">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+            <button class="lb-action" id="lb-continue" type="button" hidden data-hover>回到镜面地 ⟶</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v108 第二幕：镜面地 -->
+      <section class="scene scene-branch scene-mirror-floor" id="scene-mirror-floor" data-scene="mirror-floor" data-title="Goddead — 镜面地" aria-label="镜面地">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">22β / 折光 · THE MIRROR FLOOR</p>
+            <h2 class="sec-title">镜面地</h2>
+            <p class="sec-desc">模型掀开屋顶，从上往下看就是一块五乘五的石板地。选一种光，点镜子让它在“/”和“\”之间翻转；光路会实时画出来。把光折进底边那扇窗，就能开窗。</p>
+          </header>
+          <figure class="branch-figure lb-figure lb-floor-figure reveal" id="lb-floor-figure">
+            <img class="branch-img lb-img" data-src="assets/v108-mirror-floor.webp" alt="镜面地：俯视的一块黑石板地，被细铜线分成五乘五的方格，左边透进一点暖光，右边透进一点冷光" width="1536" height="1024" loading="lazy" decoding="async">
+            <div class="lb-board" id="lb-board" hidden>
+              <svg class="lb-beam" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline id="lb-beam-line" points=""/></svg>
+              <span class="lb-entry-mark" aria-hidden="true"></span>
+              <span class="lb-window-mark" aria-hidden="true"></span>
+              <button class="lb-tile" id="lb-tile-0" type="button" aria-label="第 1 行第 1 列" data-hover></button>
+              <button class="lb-tile" id="lb-tile-1" type="button" aria-label="第 1 行第 2 列" data-hover></button>
+              <button class="lb-tile" id="lb-tile-2" type="button" aria-label="第 1 行第 3 列" data-hover></button>
+              <button class="lb-tile" id="lb-tile-3" type="button" aria-label="第 1 行第 4 列" data-hover></button>
+              <button class="lb-tile" id="lb-tile-4" type="button" aria-label="第 1 行第 5 列" data-hover></button>
+              <button class="lb-tile" id="lb-tile-5" type="button" aria-label="第 2 行第 1 列" data-hover></button>
+              <button class="lb-tile" id="lb-tile-6" type="button" aria-label="第 2 行第 2 列" data-hover></button>
+              <button class="lb-tile" id="lb-tile-7" type="button" aria-label="第 2 行第 3 列" data-hover></button>
+              <button class="lb-tile" id="lb-tile-8" type="button" aria-label="第 2 行第 4 列" data-hover></button>
+              <button class="lb-tile" id="lb-tile-9" type="button" aria-label="第 2 行第 5 列" data-hover></button>
+              <button class="lb-tile" id="lb-tile-10" type="button" aria-label="第 3 行第 1 列" data-hover></button>
+              <button class="lb-tile" id="lb-tile-11" type="button" aria-label="第 3 行第 2 列" data-hover></button>
+              <button class="lb-tile" id="lb-tile-12" type="button" aria-label="第 3 行第 3 列" data-hover></button>
+              <button class="lb-tile" id="lb-tile-13" type="button" aria-label="第 3 行第 4 列" data-hover></button>
+              <button class="lb-tile" id="lb-tile-14" type="button" aria-label="第 3 行第 5 列" data-hover></button>
+              <button class="lb-tile" id="lb-tile-15" type="button" aria-label="第 4 行第 1 列" data-hover></button>
+              <button class="lb-tile" id="lb-tile-16" type="button" aria-label="第 4 行第 2 列" data-hover></button>
+              <button class="lb-tile" id="lb-tile-17" type="button" aria-label="第 4 行第 3 列" data-hover></button>
+              <button class="lb-tile" id="lb-tile-18" type="button" aria-label="第 4 行第 4 列" data-hover></button>
+              <button class="lb-tile" id="lb-tile-19" type="button" aria-label="第 4 行第 5 列" data-hover></button>
+              <button class="lb-tile" id="lb-tile-20" type="button" aria-label="第 5 行第 1 列" data-hover></button>
+              <button class="lb-tile" id="lb-tile-21" type="button" aria-label="第 5 行第 2 列" data-hover></button>
+              <button class="lb-tile" id="lb-tile-22" type="button" aria-label="第 5 行第 3 列" data-hover></button>
+              <button class="lb-tile" id="lb-tile-23" type="button" aria-label="第 5 行第 4 列" data-hover></button>
+              <button class="lb-tile" id="lb-tile-24" type="button" aria-label="第 5 行第 5 列" data-hover></button>
+            </div>
+            <p class="lb-floor-status" id="lb-floor-status" aria-live="polite"></p>
+          </figure>
+          <div class="lb-panel reveal" id="lb-floor-panel" hidden>
+            <p class="lb-panel-model" id="lb-floor-model"></p>
+            <div class="lb-methods" role="group" aria-label="光">
+              <button class="lb-method" id="lb-method-dawn" type="button" data-hover>晨光</button>
+              <button class="lb-method" id="lb-method-noon" type="button" data-hover>午光</button>
+              <button class="lb-method" id="lb-method-dusk" type="button" data-hover>夕照</button>
+            </div>
+            <p class="lb-note" id="lb-method-hint"></p>
+            <div class="lb-actions">
+              <button class="lb-action lb-shine" id="lb-shine" type="button" data-hover>开窗</button>
+              <button class="lb-action" id="lb-reset" type="button" data-hover>把镜子转回去</button>
+              <button class="lb-action" id="lb-abandon" type="button" data-hover>盖上屋顶</button>
+            </div>
+          </div>
+          <p class="branch-response lb-response" id="mirror-floor-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <!-- v108 第三幕：借光听证会 -->
+      <section class="scene scene-branch scene-hearing-of-borrowed-light" id="scene-hearing-of-borrowed-light" data-scene="hearing-of-borrowed-light" data-title="Goddead — 借光听证会" aria-label="借光听证会">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">22γ / 借光 · HEARING OF BORROWED LIGHT</p>
+            <h2 class="sec-title">借光听证会</h2>
+            <p class="sec-desc">圆厅只开着一扇高窗，一道光斜着落在空椅子上。桌上三件东西：一面带支架的小圆镜、一盏没点的油灯、一扇卸下来的木窗板。裁定之后仍可回来。</p>
+          </header>
+          <figure class="branch-figure lb-figure reveal" id="hearing-of-borrowed-light-figure">
+            <img class="branch-img lb-img" data-src="assets/v108-hearing-of-borrowed-light.webp" alt="借光听证会：圆厅只开一扇高窗，光柱斜落在台阶上的空椅子上；近处长桌上左边一面铜架小圆镜，中间一盏没点的玻璃油灯，右边一扇卸下来的木窗板" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot lb-hotspot lb-hotspot-court-left" id="lb-verdict-open-every-window" type="button" aria-label="裁定：每扇窗都打开" data-hover><span class="dh-label" aria-hidden="true">每扇窗都打开</span></button>
+            <button class="scene-hotspot lb-hotspot lb-hotspot-court-center" id="lb-verdict-keep-one-room-dark-for-god" type="button" aria-label="裁定：给神留一间暗屋" data-hover><span class="dh-label" aria-hidden="true">给神留一间暗屋</span></button>
+            <button class="scene-hotspot lb-hotspot lb-hotspot-court-right" id="lb-verdict-let-the-light-go-back" type="button" aria-label="裁定：让借来的光回去" data-hover><span class="dh-label" aria-hidden="true">让借来的光回去</span></button>
+          </figure>
+          <p class="branch-response lb-response" id="hearing-of-borrowed-light-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开听证会">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+          </nav>
+        </div>
+      </section>
+
       <!-- 隐藏幕 · 第九条 -->
       <section class="scene scene-ninth" id="scene-ninth" data-scene="ninth" data-title="Goddead — ？？？" aria-label="第九条">
         <figure class="ninth-figure" role="img" aria-label="一道不该存在的裂口，底部有一扇错误的窄门">
@@ -9623,6 +9769,9 @@
       <a href="#ink-mixing-room" id="ink-mixing-room-link" hidden data-hover>21α / 调墨房</a>
       <a href="#mixing-dish" id="mixing-dish-link" hidden data-hover>21β / 调色碟</a>
       <a href="#hearing-of-the-first-color" id="hearing-of-the-first-color-link" hidden data-hover>21γ / 首色听证</a>
+      <a href="#office-of-borrowed-daylight" id="office-of-borrowed-daylight-link" hidden data-hover>22α / 借光司</a>
+      <a href="#mirror-floor" id="mirror-floor-link" hidden data-hover>22β / 镜面地</a>
+      <a href="#hearing-of-borrowed-light" id="hearing-of-borrowed-light-link" hidden data-hover>22γ / 借光听证</a>
 
 
       <a href="#three-person-republic-court" id="three-person-republic-court-link" hidden data-hover>04β / 三人共和国</a>
@@ -9632,6 +9781,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=107"></script>
+    <script src="script.js?v=108"></script>
   </body>
 </html>

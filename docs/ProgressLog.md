@@ -1304,3 +1304,13 @@
 - 场景图：本机 Codex CLI 生成三张原画，提示词与哈希见 `docs/V107ImagePrompts.md`。
 - 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 18784 assertions passed`；v101–v104 独立测试 65 项通过。
 - 浏览器：完整存档下用方向键与鼠标拖动真实调墨，色差 6.5% → 0.0%，倒墨送到余响交换台签收。
+
+## 2026-10-05 - v108 借光司实装
+
+- 新增 `office-of-borrowed-daylight`、`mirror-floor`、`hearing-of-borrowed-light` 3 个场景，场景总数 244 → 247，缓存标记 `v=108`。
+- 新交互“镜面折光”：5×5 俯视石板地上 25 个原生按钮，点镜子在“/”和“\”之间翻转，SVG 折线实时画出光路，石柱挡光；三间屋（无主投递所 / 神名注销科 / 访客守则的模型）× 晨光 / 午光 / 夕照 = 9 道光，折进底边的窗才能开窗，送到对应旧场景签收。
+- 状态键 `goddead_v108_borrowed_daylight`（11 字段、7 类 pending、严格归一化），只读 v107；v107 在途时入口禁用；前缀 `lb-`；只有真实点击；桥接接入治理守卫与画廊守卫。
+- 顺手修正 v107 图鉴“开庭条件”标题的样式选择器（`.mx-hinmx-title` → `.mx-hints-title`）。
+- 场景图：本机 Codex CLI 生成三张原画，镜面地方格按像素实测对齐；提示词与哈希见 `docs/V108ImagePrompts.md`。
+- 门禁：`node --check`、`git diff --check` 通过；`node tests/site.test.mjs` 输出 `site.test.mjs: 18937 assertions passed`；v101–v104 独立测试 65 项通过。
+- 浏览器：完整存档下真实点击 4 面镜子让晨光绕 5 次照进投递所的窗并签收返回；375px 窄屏每格约 44px；听证会裁定回到痕迹室。

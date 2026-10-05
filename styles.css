@@ -19419,7 +19419,7 @@ button.dw-tile:disabled {
 .mx-cell { min-height: 64px; padding: 0.8rem; border: 1px solid var(--line); background: var(--void); font-family: var(--mono); font-size: 0.75rem; line-height: 1.6; white-space: pre-line; text-align: center; }
 .mx-cell.is-locked { color: var(--ash); border-style: dashed; opacity: 0.6; }
 .mx-cell.is-unlocked { color: var(--bone-bright); border-color: var(--gold); background: rgba(30, 25, 20, 0.5); }
-.mx-hinmx-title { margin: 0 0 0.4rem; color: var(--bone); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; }
+.mx-hints-title { margin: 0 0 0.4rem; color: var(--bone); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; }
 .mx-hints { margin: 0 0 1rem; padding-left: 1.1rem; color: var(--ash); font-size: 0.82rem; line-height: 1.8; }
 .mx-hints li.is-met { color: var(--gold); }
 .mx-codex-entry { display: flex; flex-direction: column; gap: 0.6rem; align-items: center; }
@@ -19441,4 +19441,220 @@ button.dw-tile:disabled {
 
 @media (min-width: 721px) {
   .mx-hotspot .dh-label { white-space: nowrap; }
+}
+
+/* ============================================================
+   v108 借光司：三间屋的模型与五乘五镜面地
+   ============================================================ */
+.lb-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  aspect-ratio: 3 / 2;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border: 1px solid rgba(154, 127, 71, 0.35);
+  background: var(--void);
+}
+
+.lb-figure .lb-img { display: block; width: 100%; height: 100%; object-fit: cover; -webkit-mask-image: none; mask-image: none; }
+
+.lb-hotspot {
+  position: absolute;
+  z-index: 3;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0.4rem;
+  border: 1px solid rgba(222, 217, 208, 0.18);
+  background: rgba(8, 7, 6, 0.1);
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+
+.lb-hotspot .dh-label { padding: 0.2rem 0.55rem; background: rgba(8, 7, 6, 0.74); letter-spacing: 0.1em; }
+.lb-hotspot:hover,
+.lb-hotspot:focus-visible { border-color: var(--gold); background: rgba(154, 127, 71, 0.16); outline: 2px solid var(--gold); outline-offset: 2px; }
+.lb-hotspot:disabled,
+.lb-hotspot[aria-pressed="true"] { border-color: var(--blood); cursor: default; outline: none; }
+.lb-hotspot.is-collected .dh-label::after { content: " ✓"; color: var(--gold); }
+
+.lb-hotspot-left { left: 3%; top: 40%; width: 25.5%; height: 31%; }
+.lb-hotspot-center { left: 39%; top: 40%; width: 21%; height: 31%; }
+.lb-hotspot-right { left: 71%; top: 40%; width: 26%; height: 31%; }
+.lb-hotspot-court-left { left: 10%; top: 56%; width: 16%; height: 30%; }
+.lb-hotspot-court-center { left: 45%; top: 53%; width: 12%; height: 35%; }
+.lb-hotspot-court-right { left: 67%; top: 73%; width: 29%; height: 20%; }
+
+/* 镜面地：按 assets/v108-mirror-floor.webp 的铜线方格对齐（格线 x 335→1200、y 78→943，原图 1536×1024） */
+.lb-board {
+  position: absolute;
+  left: 21.84%;
+  top: 7.67%;
+  width: 56.28%;
+  height: 84.47%;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+}
+
+.lb-beam { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; overflow: visible; pointer-events: none; }
+.lb-beam polyline { fill: none; stroke: rgba(240, 200, 120, 0.75); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 3px rgba(255, 210, 130, 0.9)); transition: stroke 0.2s ease; }
+.lb-board.is-lit .lb-beam polyline { stroke: #fff2c8; stroke-width: 4; filter: drop-shadow(0 0 6px rgba(255, 230, 160, 1)); }
+
+.lb-entry-mark,
+.lb-window-mark { position: absolute; z-index: 3; pointer-events: none; transform: translate(-50%, -50%); }
+.lb-entry-mark { left: var(--lb-entry-x, 0%); top: var(--lb-entry-y, 0%); width: 16px; height: 16px; border-radius: 50%; background: #ffe7a8; box-shadow: 0 0 12px 4px rgba(255, 214, 130, 0.8); }
+.lb-window-mark { left: var(--lb-window-x, 50%); top: 100%; width: 14%; height: 10px; border: 1px solid #e6c27a; background: rgba(20, 16, 12, 0.9); }
+.lb-board.is-lit .lb-window-mark { background: #ffe7a8; box-shadow: 0 0 14px 4px rgba(255, 220, 150, 0.85); }
+
+.lb-tile {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: default;
+}
+
+.lb-tile.is-mirror { z-index: 4; cursor: pointer; }
+.lb-tile.is-mirror::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 84%;
+  height: 7px;
+  border: 1px solid #f3dfa6;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #fff6d8, #b8914f);
+  box-shadow: 0 0 6px rgba(255, 230, 170, 0.55);
+  transform: translate(-50%, -50%) rotate(-45deg);
+  transition: transform 0.18s ease;
+}
+
+.lb-tile.is-mirror[data-tilt="backslash"]::before { transform: translate(-50%, -50%) rotate(45deg); }
+.lb-tile.is-pillar::before { content: ""; position: absolute; inset: 22%; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #5a514a, #12100e 70%); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8); }
+.lb-tile.is-mirror:hover:not(:disabled),
+.lb-tile.is-mirror:focus-visible { outline: 2px solid var(--gold); outline-offset: -3px; background: rgba(154, 127, 71, 0.14); }
+.lb-tile:disabled { cursor: default; }
+
+.lb-floor-status {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  margin: 0;
+  padding: 0.25rem 1rem;
+  color: var(--bone-bright);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-shadow: 0 1px 3px #000, 0 0 8px #000;
+  background: linear-gradient(0deg, rgba(8, 7, 6, 0.8), transparent);
+  pointer-events: none;
+}
+
+.lb-note { width: min(720px, 100%); margin: 0.6rem auto 0; color: var(--ash); font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; line-height: 1.8; text-align: center; }
+.lb-response { white-space: pre-line; }
+
+.lb-panel {
+  width: min(720px, 100%);
+  margin: 1.2rem auto 0;
+  padding: 1rem 1.1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--gold);
+  background: rgba(10, 9, 8, 0.86);
+}
+
+.lb-panel-model { margin: 0 0 1rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.92rem; line-height: 1.8; }
+.lb-methods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+
+.lb-method {
+  min-height: 44px;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  background: rgba(20, 16, 12, 0.8);
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.lb-method[aria-pressed="true"] { border-color: var(--gold); color: var(--bone-bright); background: rgba(154, 127, 71, 0.18); }
+.lb-method.is-collected::after { content: " ✓"; color: var(--gold); }
+.lb-method:hover:not(:disabled),
+.lb-method:focus-visible { border-color: var(--gold); outline: 2px solid var(--gold); outline-offset: 2px; }
+.lb-method:disabled { opacity: 0.45; cursor: default; }
+
+.lb-action,
+.lb-entry-btn {
+  min-height: 44px;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.lb-entry-btn,
+.lb-shine { border-color: var(--gold); color: var(--bone-bright); }
+.lb-action:hover:not(:disabled),
+.lb-action:focus-visible,
+.lb-entry-btn:hover:not(:disabled),
+.lb-entry-btn:focus-visible { border-color: var(--gold); background: var(--gold); color: var(--void); outline: 2px solid var(--bone-bright); outline-offset: 2px; }
+.lb-action:disabled,
+.lb-entry-btn:disabled { opacity: 0.4; cursor: default; }
+.lb-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; margin-top: 0.9rem; }
+
+.lb-lamplighter,
+.lb-echo { grid-column: 1 / -1; justify-self: center; width: min(720px, 100%); }
+.lb-lamplighter { position: relative; z-index: 1; margin: 1.5rem auto; padding: 1rem 1.1rem; border: 1px solid var(--line); border-left: 2px solid #b8914f; background: rgba(10, 9, 8, 0.86); text-align: left; }
+.lb-lamplighter-title { margin: 0 0 0.4rem; color: var(--gold); font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.18em; }
+.lb-lamplighter-level { margin: 0 0 0.4rem; color: #e6c27a; font-family: var(--serif-cn); font-size: 1rem; }
+.lb-lamplighter-body { margin: 0 0 0.8rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.9rem; line-height: 1.9; }
+
+.lb-codex { position: relative; z-index: 1; max-width: 760px; margin: 2rem auto; padding: 1.5rem; border: 1px solid var(--line); background: var(--void-soft); }
+.lb-kicker { margin-bottom: 1.25rem; color: var(--gold); font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.15em; text-align: center; }
+.lb-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+.lb-cell { min-height: 64px; padding: 0.8rem; border: 1px solid var(--line); background: var(--void); font-family: var(--mono); font-size: 0.75rem; line-height: 1.6; white-space: pre-line; text-align: center; }
+.lb-cell.is-locked { color: var(--ash); border-style: dashed; opacity: 0.6; }
+.lb-cell.is-unlocked { color: var(--bone-bright); border-color: var(--gold); background: rgba(30, 25, 20, 0.5); }
+.lb-hints-title { margin: 0 0 0.4rem; color: var(--bone); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; }
+.lb-hints { margin: 0 0 1rem; padding-left: 1.1rem; color: var(--ash); font-size: 0.82rem; line-height: 1.8; }
+.lb-hints li.is-met { color: var(--gold); }
+.lb-codex-entry { display: flex; flex-direction: column; gap: 0.6rem; align-items: center; }
+
+@media (max-width: 720px) {
+  .lb-figure { width: min(92vw, 520px); }
+  .lb-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+  .lb-hotspot .dh-label { font-size: 0.64rem; padding: 0.12rem 0.3rem; letter-spacing: 0.02em; }
+  .lb-methods { grid-template-columns: 1fr; }
+  /* 窄屏状态行挪到地面图下方，不压住最后一排格子和窗 */
+  .lb-floor-figure { overflow: visible; margin-bottom: 3rem; }
+  .lb-floor-status { top: calc(100% + 0.4rem); bottom: auto; padding: 0; font-size: 0.64rem; letter-spacing: 0.02em; background: none; }
+  /* 窄屏把地面图裁成 4:3（左右各裁掉 96px），方格放大到每格约 44px */
+  .lb-floor-figure { aspect-ratio: 4 / 3; }
+  .lb-floor-figure .lb-board { left: 17.82%; width: 64.32%; top: 7.67%; height: 84.47%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lb-tile.is-mirror::before,
+  .lb-beam polyline { transition: none; }
+}
+
+@media (min-width: 721px) {
+  .lb-hotspot .dh-label { white-space: nowrap; }
 }
