@@ -39,4 +39,8 @@
 
 ## 公开发布
 
-待推送后核对 Pages、普通公开十文件原始字节，以及新工厂冷载 / 首页 / 原目录 / 焦点 / 存储。发布结果随后补记。
+功能 `536900beb1214adfa64344310d4a902378bc4fd4` 已推送 main，Cloudflare Pages completed / success。2026-10-11T13:17:43.387584+08:00（Asia/Taipei）普通公开 URL 确认 v126 / 280；HTML / CSS / JS / directory.js / ink-rules.js / light-rules.js / 门图 / 三张 v108 原画共十文件 raw 大小与 SHA-256 全一致，无需 HTML 归一化。Chrome 公开冷载五个 v126 核心依赖，新光路工厂注册且命名空间冻结，旧 ink 工厂正常；active=threshold、title=Goddead、1470px 无横溢，空档指引链接隐藏。原目录 5/5、中文守则检索 1/5、menu-close 首焦点 / stage inert、Esc 回 menu-trigger / inert=false，菜单前后 raw 相同，无新增 error / warn。本地测试档未写入公开站，原 21 项本地状态恢复，缓存调试 / 视口复原，临时服务已停止。
+
+公开明细见 [v126-public-assets.json](v126-public-assets.json) / [v126-public-browser.json](v126-public-browser.json)。
+
+![公开首页](v126-public-root-desktop.png)

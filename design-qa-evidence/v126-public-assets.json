@@ -1,0 +1,123 @@
+{
+  "verified_at": "2026-10-11T13:17:43.387584+08:00",
+  "feature_commit": "536900beb1214adfa64344310d4a902378bc4fd4",
+  "checks": [
+    {
+      "name": "Cloudflare Pages",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "version": 126,
+  "assets": [
+    {
+      "path": "index.html",
+      "url": "https://goddead.com/",
+      "local_bytes": 1070134,
+      "remote_bytes": 1070134,
+      "local_sha256": "202303308980dbabd12bc027210b97644bf29323d7b08c04ffd318cae87e88c3",
+      "remote_sha256": "202303308980dbabd12bc027210b97644bf29323d7b08c04ffd318cae87e88c3",
+      "raw_match": true,
+      "source_match": true,
+      "normalized_sha256": "202303308980dbabd12bc027210b97644bf29323d7b08c04ffd318cae87e88c3",
+      "cache_versions": [
+        "126",
+        "126",
+        "126",
+        "126",
+        "126"
+      ],
+      "scenes": 280
+    },
+    {
+      "path": "styles.css",
+      "url": "https://goddead.com/styles.css?v=126",
+      "local_bytes": 660164,
+      "remote_bytes": 660164,
+      "local_sha256": "9f7d4d6c683e98ffd02d4ad0f7993ad0d3b133a3dd8f118126540ceb72b90f61",
+      "remote_sha256": "9f7d4d6c683e98ffd02d4ad0f7993ad0d3b133a3dd8f118126540ceb72b90f61",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "script.js",
+      "url": "https://goddead.com/script.js?v=126",
+      "local_bytes": 3412656,
+      "remote_bytes": 3412656,
+      "local_sha256": "f73c5cae3dbb52eb83f613117f174616137f162d299efb5a5ee94d9d932680c4",
+      "remote_sha256": "f73c5cae3dbb52eb83f613117f174616137f162d299efb5a5ee94d9d932680c4",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "directory.js",
+      "url": "https://goddead.com/directory.js?v=126",
+      "local_bytes": 7941,
+      "remote_bytes": 7941,
+      "local_sha256": "d3eeda64745f35a44daa9e69112cc3bfb6d4cb61663029cff485d9535cef12b5",
+      "remote_sha256": "d3eeda64745f35a44daa9e69112cc3bfb6d4cb61663029cff485d9535cef12b5",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "ink-rules.js",
+      "url": "https://goddead.com/ink-rules.js?v=126",
+      "local_bytes": 7162,
+      "remote_bytes": 7162,
+      "local_sha256": "19ac195ccdfee774c77d0724597847daec768c874297280a172e10645ce02302",
+      "remote_sha256": "19ac195ccdfee774c77d0724597847daec768c874297280a172e10645ce02302",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "light-rules.js",
+      "url": "https://goddead.com/light-rules.js?v=126",
+      "local_bytes": 8906,
+      "remote_bytes": 8906,
+      "local_sha256": "2490623062d7725200b08d516ba348acccfe3b940be948c7d7ea3db00dc33adf",
+      "remote_sha256": "2490623062d7725200b08d516ba348acccfe3b940be948c7d7ea3db00dc33adf",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "assets/testament-gates.jpg",
+      "url": "https://goddead.com/assets/testament-gates.jpg",
+      "local_bytes": 276485,
+      "remote_bytes": 276485,
+      "local_sha256": "ba2058cb300114b1709afee2ce51af88390d99cf0acff3c1493fd5803575ef9e",
+      "remote_sha256": "ba2058cb300114b1709afee2ce51af88390d99cf0acff3c1493fd5803575ef9e",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "assets/v108-office-of-borrowed-daylight.webp",
+      "url": "https://goddead.com/assets/v108-office-of-borrowed-daylight.webp",
+      "local_bytes": 194292,
+      "remote_bytes": 194292,
+      "local_sha256": "f8bb06864d6e2cc6118e9694f35f79703238cc0cb4b0956114ec287e5d96a93d",
+      "remote_sha256": "f8bb06864d6e2cc6118e9694f35f79703238cc0cb4b0956114ec287e5d96a93d",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "assets/v108-mirror-floor.webp",
+      "url": "https://goddead.com/assets/v108-mirror-floor.webp",
+      "local_bytes": 222302,
+      "remote_bytes": 222302,
+      "local_sha256": "4d4be9107cf89093de7f51d8bc5ff3823bd1e438a0072cc97322c87dde3f8997",
+      "remote_sha256": "4d4be9107cf89093de7f51d8bc5ff3823bd1e438a0072cc97322c87dde3f8997",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "assets/v108-hearing-of-borrowed-light.webp",
+      "url": "https://goddead.com/assets/v108-hearing-of-borrowed-light.webp",
+      "local_bytes": 185010,
+      "remote_bytes": 185010,
+      "local_sha256": "97190349aae073850a7e5c042fe872acaff24d0199011298739e3799ae792f77",
+      "remote_sha256": "97190349aae073850a7e5c042fe872acaff24d0199011298739e3799ae792f77",
+      "raw_match": true,
+      "source_match": true
+    }
+  ]
+}

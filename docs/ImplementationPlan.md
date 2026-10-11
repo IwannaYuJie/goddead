@@ -4,7 +4,11 @@ v126 已实现：十二个 v108 入射 / 折光 / SVG / 存档 / 开庭覆盖 / 
 
 1,344 组旧版完整光路与独立反射 / 坐标算法、九阵解数与最少翻镜、63 份 canonical 存档和 66 项严格 pending 字段检查通过；43,375 全站断言、旧章 65/65。Chrome 桌面 / 375px 原生镜格、三模型 / 三光、三旧点灯人签收、三听证及分茶原入口通过，双击 / 源房冷载只落账一次、上游活动阻挡、锁定深链与无关房冷载取消正常。原 21 项本地 raw 精确恢复，视口复原，临时服务停止，新增 error / warn 为零。
 
-280 场景 / 4501 ID / 原 278 目录 / 原存档键及三张 v108 原画保持。设计见 [V126BorrowedLightRulesDesign.md](V126BorrowedLightRulesDesign.md)，验收见 [v126-browser-qa.md](../design-qa-evidence/v126-browser-qa.md)。公开发布待核验；下一轮评估 v109 分茶铺量杯纯规则。下面保留历次实施记录。
+280 场景 / 4501 ID / 原 278 目录 / 原存档键及三张 v108 原画保持。设计见 [V126BorrowedLightRulesDesign.md](V126BorrowedLightRulesDesign.md)，验收见 [v126-browser-qa.md](../design-qa-evidence/v126-browser-qa.md)。
+
+功能 `536900beb1214adfa64344310d4a902378bc4fd4` 已推送 main，Cloudflare Pages completed / success。2026-10-11T13:17:43.387584+08:00（Asia/Taipei）普通公开 URL 确认 v126 / 280；HTML / CSS / JS / directory.js / ink-rules.js / light-rules.js / 门图 / 三张 v108 原画共十文件 raw 大小与 SHA-256 全一致，无需 HTML 归一化。Chrome 公开冷载五个 v126 核心依赖，新光路工厂注册且命名空间冻结，旧 ink 工厂正常；active=threshold、title=Goddead、1470px 无横溢，空档指引链接隐藏。原目录 5/5、中文守则检索 1/5、menu-close 首焦点 / stage inert、Esc 回 menu-trigger / inert=false，菜单前后 raw 相同，无新增 error / warn。本地测试档未写入公开站，原 21 项本地状态恢复，缓存调试 / 视口复原，临时服务已停止。
+
+下一轮评估 v109 分茶铺量杯纯规则。下面保留历次实施记录。
 
 # v125 调墨房纯规则模块（已发布）
 

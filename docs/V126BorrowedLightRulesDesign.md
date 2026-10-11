@@ -25,4 +25,8 @@
 
 新模块 8,906 bytes；原纯块 SHA-256 `b7e0e77e870f2c553c4ff21586c28fbc559fb386491f33b16545a17e3ea6348a`，移除额外缩进后完全一致，主脚本除工厂适配块外逐字一致，已迁 ink-rules 未改动。1,344 光路与独立反射 / SVG 全通过，九阵解数及最少翻镜保持；63 份 canonical 与 66 项严格 pending 字段检查、工厂隔离 / 80 步边界通过。43,375 全站断言、旧章 65/65。
 
-Chrome 桌面 / 375px 原生三签收和三听证，下一步及原入口进入分茶铺；暗窗拒送、复原 / 换光 / 刷新归初阵，双击开窗 / 源房重播只记一次，源端镜格在途禁用。窄屏原生翻四镜时全部 localStorage raw 不变，格子约 44.125×43.375px，无横溢；下方重置 / 盖屋顶能操作。真实上游活动签收禁用入口，锁定镜面地回痕迹室且陈旧 v108 raw 保持；无关房冷载取消合法开窗 pending、beamRuns=0。原 21 项本地 raw 精确恢复、视口复原、临时服务停止，新增 error / warn 为零。详见本轮验收；公开发布待核验。
+Chrome 桌面 / 375px 原生三签收和三听证，下一步及原入口进入分茶铺；暗窗拒送、复原 / 换光 / 刷新归初阵，双击开窗 / 源房重播只记一次，源端镜格在途禁用。窄屏原生翻四镜时全部 localStorage raw 不变，格子约 44.125×43.375px，无横溢；下方重置 / 盖屋顶能操作。真实上游活动签收禁用入口，锁定镜面地回痕迹室且陈旧 v108 raw 保持；无关房冷载取消合法开窗 pending、beamRuns=0。原 21 项本地 raw 精确恢复、视口复原、临时服务停止，新增 error / warn 为零。详见本轮验收；公开发布已核验。
+
+## 公开发布
+
+功能 `536900beb1214adfa64344310d4a902378bc4fd4` 已推送 main，Cloudflare Pages completed / success。2026-10-11T13:17:43.387584+08:00（Asia/Taipei）普通公开 URL 确认 v126 / 280；HTML / CSS / JS / directory.js / ink-rules.js / light-rules.js / 门图 / 三张 v108 原画共十文件 raw 大小与 SHA-256 全一致，无需 HTML 归一化。Chrome 公开冷载五个 v126 核心依赖，新光路工厂注册且命名空间冻结，旧 ink 工厂正常；active=threshold、title=Goddead、1470px 无横溢，空档指引链接隐藏。原目录 5/5、中文守则检索 1/5、menu-close 首焦点 / stage inert、Esc 回 menu-trigger / inert=false，菜单前后 raw 相同，无新增 error / warn。本地测试档未写入公开站，原 21 项本地状态恢复，缓存调试 / 视口复原，临时服务已停止。

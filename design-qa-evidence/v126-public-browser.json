@@ -1,0 +1,42 @@
+{
+  "root": {
+    "active": "threshold",
+    "css": [
+      "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Serif+SC:wght@300;400;500&family=Roboto+Mono:wght@300;400&display=swap",
+      "styles.css?v=126"
+    ],
+    "scripts": [
+      "directory.js?v=126",
+      "ink-rules.js?v=126",
+      "light-rules.js?v=126",
+      "script.js?v=126",
+      "https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920"
+    ],
+    "scrollWidth": 1470,
+    "width": 1470,
+    "title": "Goddead",
+    "guideHidden": true
+  },
+  "namespace": {
+    "frozen": true,
+    "inkRegistered": "function",
+    "registered": "function"
+  },
+  "menu": {
+    "count": "显示 5 / 5 个入口",
+    "focus": "menu-close",
+    "menuHidden": "false",
+    "stageInert": true
+  },
+  "search": {
+    "query": "守则",
+    "count": "显示 1 / 5 个入口"
+  },
+  "afterMenu": {
+    "focus": "menu-trigger",
+    "menuHidden": "true",
+    "stageInert": false
+  },
+  "storageUnchanged": true,
+  "newLogs": []
+}

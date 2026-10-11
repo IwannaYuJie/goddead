@@ -1503,4 +1503,10 @@
 - 实际新模块接入原 v108 与 v124 多章 VM，无假规则替换。旧 path / exit / bounces / blocked / lit / SVG 与独立四方向反射 / 格心坐标一致，九阵解数与最少翻镜保持；63 canonical 幂等、配置隔离 / 输入不改写 / 新对象、66 pending 字段拒绝通过。43,375 全站断言、65/65 旧章及源码 / 引用 / 存档键审计通过。
 - Chrome 桌面 / 375px 原生鼠标与 Enter，投递所晨光四翻、注销科午光三翻、守则夕照三翻逐一原点灯人签收；三听证到原 threshold / remembrance / unending-gallery，最终 beamRuns=3、courtRuns=3，下一步与原入口进入分茶铺。暗窗拒送、重置 / 换光 / 刷新、双击开窗及源房重播 / 抵达刷新只记一次、在途锁镜通过。
 - 窄屏四次实际翻镜全部 raw 不变，镜格约 44.125×43.375px，无横溢，下方重置 / 盖屋顶可操作。上游墨学徒等待签收时借光入口禁用、指引优先 v107；锁定深链回痕迹室、旧完整 v108 raw 不变，无关房冷载合法 pending 取消且没有收集。原 21 项本地状态恢复、视口复原、临时服务停止，无新增 error / warn；见 v126-browser-qa.md。
-- README / 流程 / 实施 / Tasks / 路线图 / 原 v108 维护记录同步；公开发布待核验。下一轮评估分茶铺量杯纯规则。
+- README / 流程 / 实施 / Tasks / 路线图 / 原 v108 维护记录同步；公开发布已核验，见下方闭环。下一轮评估分茶铺量杯纯规则。
+
+### v126 公开发布闭环
+
+功能 `536900beb1214adfa64344310d4a902378bc4fd4` 已推送 main，Cloudflare Pages completed / success。2026-10-11T13:17:43.387584+08:00（Asia/Taipei）普通公开 URL 确认 v126 / 280；HTML / CSS / JS / directory.js / ink-rules.js / light-rules.js / 门图 / 三张 v108 原画共十文件 raw 大小与 SHA-256 全一致，无需 HTML 归一化。Chrome 公开冷载五个 v126 核心依赖，新光路工厂注册且命名空间冻结，旧 ink 工厂正常；active=threshold、title=Goddead、1470px 无横溢，空档指引链接隐藏。原目录 5/5、中文守则检索 1/5、menu-close 首焦点 / stage inert、Esc 回 menu-trigger / inert=false，菜单前后 raw 相同，无新增 error / warn。本地测试档未写入公开站，原 21 项本地状态恢复，缓存调试 / 视口复原，临时服务已停止。
+
+公开报告见 design-qa-evidence/v126-public-assets.json / v126-public-browser.json / v126-public-root-desktop.png；实施与 Tasks 闭环。下一轮评估分茶铺量杯独立规则。
