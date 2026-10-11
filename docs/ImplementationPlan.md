@@ -1,6 +1,8 @@
 # 当前实施状态：v124 先办完交接
 
-实现及本地验收完成，等待本次 main / Pages 公开发布闭环。v63–v121 在途 / 活动交接优先于章节完成判定，原 getter / 门禁 / 处理员负责业务；同房间链接只聚焦原控件，干净档清空 href。当前场景限定 v64 / v70–v81 沿原映射找签收位置，两组闭目档案室控件归位。280 场景 / 4501 唯一 ID / 原 278 目录节点 / 存档键保持；沿用原图，缓存 v124。
+v124 已公开发布。功能 `7fac6cf3f04bcc70c08d4ebb97a29e528f4ee7e8` 已推送 main，Cloudflare Pages completed / success。2026-10-11T12:33:35.439247+08:00（Asia/Taipei）普通公开 URL 确认 v124 / 280；HTML / CSS / JS / directory.js / 沿用门图 raw 大小与 SHA-256 全一致，本次无需 HTML 归一化。Chrome 公开首页 active=threshold、title=Goddead、三个 v124 依赖载入，新指引链接存在且空档隐藏；1470px 无横溢。原目录 5/5、menu-close 首焦点 / stage inert、Esc 回 menu-trigger / inert=false；菜单前后 raw 相同，无新增 error / warn。本地验收存档未写入公开站，原 21 项本地状态恢复、缓存偏好 / 视口复原，临时服务已停止。
+
+v63–v121 在途 / 活动交接优先于章节完成判定，原 getter / 门禁 / 处理员负责业务；同房间链接只聚焦原控件，干净档清空 href。当前场景限定 v64 / v70–v81 沿原映射找签收位置，两组闭目档案室控件归位。280 场景 / 4501 唯一 ID / 原 278 目录节点 / 存档键保持；沿用原图，缓存 v124。
 
 32,566 全站断言、旧章 65/65、桌面 / 375px 的原生签收、同时待办、刷新、在途菜单焦点及锁定回退通过；银行签收段其余 61 个 raw 保持，原 21 项本地档已精确恢复。设计见 [V124OutstandingGuideDesign.md](V124OutstandingGuideDesign.md)，验收见 [v124-browser-qa.md](../design-qa-evidence/v124-browser-qa.md)。
 

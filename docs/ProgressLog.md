@@ -1476,4 +1476,10 @@
 - 原生银行验收发现 v70–v81 处理员和 v64 邮戳会按当前场景隐藏，改用原场景表找到原控件；其他已显示容器继续读取实际所属场景。独立祖先检查又找出闭目梦检员和梦型审查员放错门外，已移回闭目档案室，原按钮 / 门禁 / 存档不变，出口不落入隐藏回执容器。
 - 32,566 全站断言、旧章 65/65、语法 / diff / 280 场景 / 4501 唯一 ID / 引用 / 敏感标记通过。新测试覆盖 59 注册、原控件映射和优先顺序，完成解锁边界下真实 getter 的坏事务归一化，十四工坊的合法活动记录在完成后保留；Native QA 单独检查实际解锁链与原签收。
 - 桌面 / 375px 原生鼠标、Enter、Space；同房间链接只聚焦且 raw 不变，跨章先银行后茶童，银行签收只有本章 raw 变化，其余 61 项保持。分茶入口 pending 在途链接 / 自动落账 / 目录焦点保持，Esc 回 menu-trigger；灵车活动刷新 raw 相同。锁定分茶深链回痕迹室并忽略其陈旧 raw。原 21 项本地状态精确恢复，无新增 error / warn；截图 / 审计见 v124-browser-qa.md。
-- README / 流程 / 实施 / 任务 / 路线图同步，当前等待公开发布核验。下一轮先评估调墨房纯规则拆分，保持等价玩法与存档。
+- README / 流程 / 实施 / 任务 / 路线图同步，公开发布已核验（见下面闭环）。下一轮先评估调墨房纯规则拆分，保持等价玩法与存档。
+
+### v124 公开发布闭环
+
+功能 `7fac6cf3f04bcc70c08d4ebb97a29e528f4ee7e8` 已推送 main，Cloudflare Pages completed / success。2026-10-11T12:33:35.439247+08:00（Asia/Taipei）普通公开 URL 确认 v124 / 280；HTML / CSS / JS / directory.js / 沿用门图 raw 大小与 SHA-256 全一致，本次无需 HTML 归一化。Chrome 公开首页 active=threshold、title=Goddead、三个 v124 依赖载入，新指引链接存在且空档隐藏；1470px 无横溢。原目录 5/5、menu-close 首焦点 / stage inert、Esc 回 menu-trigger / inert=false；菜单前后 raw 相同，无新增 error / warn。本地验收存档未写入公开站，原 21 项本地状态恢复、缓存偏好 / 视口复原，临时服务已停止。
+
+公开报告与截图见 design-qa-evidence/v124-public-assets.json / v124-public-root-desktop.jpg；当前实施 / Tasks 已闭环。下一轮按路线图先评估调墨房的纯规则拆分，保持独立判定、原存档与玩法。

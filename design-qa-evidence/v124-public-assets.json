@@ -1,0 +1,71 @@
+{
+  "verified_at": "2026-10-11T12:33:35.439247+08:00",
+  "feature_commit": "7fac6cf3f04bcc70c08d4ebb97a29e528f4ee7e8",
+  "checks": [
+    {
+      "name": "Cloudflare Pages",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "version": 124,
+  "assets": [
+    {
+      "path": "index.html",
+      "url": "https://goddead.com/",
+      "local_bytes": 1070038,
+      "remote_bytes": 1070038,
+      "local_sha256": "5e84fe55963e3c3eba99dee0d0ac71313e079bdf87230fbc5de18b2c6493218d",
+      "remote_sha256": "5e84fe55963e3c3eba99dee0d0ac71313e079bdf87230fbc5de18b2c6493218d",
+      "raw_match": true,
+      "source_match": true,
+      "normalized_sha256": "5e84fe55963e3c3eba99dee0d0ac71313e079bdf87230fbc5de18b2c6493218d",
+      "cache_versions": [
+        "124",
+        "124",
+        "124"
+      ],
+      "scenes": 280
+    },
+    {
+      "path": "styles.css",
+      "url": "https://goddead.com/styles.css?v=124",
+      "local_bytes": 660164,
+      "remote_bytes": 660164,
+      "local_sha256": "9f7d4d6c683e98ffd02d4ad0f7993ad0d3b133a3dd8f118126540ceb72b90f61",
+      "remote_sha256": "9f7d4d6c683e98ffd02d4ad0f7993ad0d3b133a3dd8f118126540ceb72b90f61",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "script.js",
+      "url": "https://goddead.com/script.js?v=124",
+      "local_bytes": 3424904,
+      "remote_bytes": 3424904,
+      "local_sha256": "49c1f12eafa6e4cfd35293ebc89e2ca4b1f32b4ce4277e37104e0907d2bc8a1d",
+      "remote_sha256": "49c1f12eafa6e4cfd35293ebc89e2ca4b1f32b4ce4277e37104e0907d2bc8a1d",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "directory.js",
+      "url": "https://goddead.com/directory.js?v=124",
+      "local_bytes": 7941,
+      "remote_bytes": 7941,
+      "local_sha256": "d3eeda64745f35a44daa9e69112cc3bfb6d4cb61663029cff485d9535cef12b5",
+      "remote_sha256": "d3eeda64745f35a44daa9e69112cc3bfb6d4cb61663029cff485d9535cef12b5",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "assets/testament-gates.jpg",
+      "url": "https://goddead.com/assets/testament-gates.jpg",
+      "local_bytes": 276485,
+      "remote_bytes": 276485,
+      "local_sha256": "ba2058cb300114b1709afee2ce51af88390d99cf0acff3c1493fd5803575ef9e",
+      "remote_sha256": "ba2058cb300114b1709afee2ce51af88390d99cf0acff3c1493fd5803575ef9e",
+      "raw_match": true,
+      "source_match": true
+    }
+  ]
+}
