@@ -34,4 +34,8 @@
 
 ## 公开发布
 
-功能推送、Pages 和公开源字节 / Chrome 目录检查随后补记。
+功能 `f780ac24b7c2afad6f9202233b19222b1502a64e` 已推送 main，Cloudflare Pages completed / success。初次边缘仍返回上一版 HTML / JS，等待传播后于 2026-10-11 12:00:04（Asia/Taipei）普通公开 URL 确认 v123 / 280；HTML / CSS / JS / directory.js / 原门图 raw 大小与 SHA-256 全一致，本次无需 HTML 归一化。见 [v123-public-assets.json](v123-public-assets.json)。
+
+Chrome 公开首页实际 active=threshold、title=Goddead、三个 v123 依赖载入，关闭目录 inert 且无残留阴影，打开时 stage inert / focus=menu-close / dialog aria-modal 正常。原生搜索守则 1/5，未到访灵车 0/5，Esc 回 menu-trigger、stage inert=false，菜单前后存储整串相同；1470px 无横向溢出，新增 error / warn 为空。公开站验首页及目录，本地完成档前置没有写入公开站。临时本地服务已停止。
+
+[公开首页](v123-public-root-desktop.jpg) · [公开目录](v123-public-directory-desktop.jpg)

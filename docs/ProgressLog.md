@@ -1463,3 +1463,9 @@
 - 30,878 站点断言、旧章 65/65、语法 / diff、280 场景 / 4500 唯一静态 ID / 引用 / 敏感标记审计通过。独立覆盖三种可用档、278 个原链接与 metadata、Unicode / AND / 非正则输入、节点保留、折叠快照、门槛同步和焦点生命周期。
 - Chrome 空档只有五基础入口；长档 137 个入口可折叠 / 检索，折叠之外不进入 Tab；唯一结果沿原门禁、无草稿院子安全回痕迹室。真实挪车一挪刷新 raw 相同，四步发车时目录保持焦点，落账一次，原生赶车人签收正常。35 上游和旧串不变，原 21 项状态精确恢复，无新增 error / warn。验收、截图与审计见 design-qa-evidence/v123-browser-qa.md；公开发布随后补记。
 - README / 流程 / 实施 / 任务 / 路线图同步，下一轮优先检查已集齐裁定但签收仍在途的下一步指引。
+
+### v123 公开发布闭环
+
+功能 `f780ac24b7c2afad6f9202233b19222b1502a64e` 已推送 main，Cloudflare Pages completed / success。最初边缘仍返回上一版 HTML / JS，等待传播后于 2026-10-11 12:00:04（Asia/Taipei）普通公开 URL 验证 v123 / 280；HTML / CSS / JS / directory.js / 沿用门图 raw 字节与 SHA-256 全部相同，无需 HTML 归一化。Chrome 首页 active=threshold、title=Goddead，新目录载入三份 v123 依赖；中文检索 1/5、未到访词 0/5、Esc 返回和存储原串一致，无横向溢出及新增 error / warn。报告与首页 / 目录截图见 design-qa-evidence/v123-public-assets.json / v123-public-root-desktop.jpg / v123-public-directory-desktop.jpg，当前实施 / Tasks 已闭环。
+
+下一轮初查：v109–v113 指引在 eligible 且三裁定齐全时直接交给下章，active 签收只被加入提示后又随 return 丢掉；后续先用原 getter 认可的 pending / active 组合复现，再调整优先级与落点，不把尚未实现的修正记为完成。
