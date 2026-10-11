@@ -1,6 +1,6 @@
 # 当前实施状态：v121 清晨名重
 
-v121 已实装：30,189 条站点断言、65 项旧章测试及三旧称盘桌面 / 手机实机验收通过；8,748 次独立物理比较、140 等数摆盘与十二种三称唯一签名成立。标题淡入焦点已修正，原存档已恢复，公开发布核对待完成。设计见 [V121MorningNameDesign.md](V121MorningNameDesign.md)，素材见 [V121ImagePrompts.md](V121ImagePrompts.md)，验收见 [v121-browser-qa.md](../design-qa-evidence/v121-browser-qa.md)，后续队列见 [BranchesAndRoadmap.md](BranchesAndRoadmap.md)。下面保留历次实施计划。
+v121 已公开发布：功能提交 `5a3e7a1f81b045cc24bb6574411a193e3a08e901` 的 Pages 检查成功，2026-10-11 11:07（Asia/Taipei）公开站确认 v121 / 280，HTML / CSS / JS / 两新图 raw 字节与 SHA-256 一致，Chrome 首页正常、无新增 error / warn。30,189 条站点断言、65 项旧章测试及三旧称盘桌面 / 手机实机验收通过；8,748 次独立物理比较、140 等数摆盘与十二种三称唯一签名成立。标题淡入焦点已修正，原 21 项存档已恢复。设计见 [V121MorningNameDesign.md](V121MorningNameDesign.md)，素材见 [V121ImagePrompts.md](V121ImagePrompts.md)，验收见 [v121-browser-qa.md](../design-qa-evidence/v121-browser-qa.md)，后续队列见 [BranchesAndRoadmap.md](BranchesAndRoadmap.md)。下面保留历次实施计划。
 
 # v87 不存在债务催收局 / COLLECTION AGENCY FOR NONEXISTENCE DEBT 实施计划（已完成）
 

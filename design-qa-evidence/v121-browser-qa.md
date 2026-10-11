@@ -39,4 +39,10 @@
 
 三个生产生命周期覆盖冷摆盘 / 历史、捕获旧选择固定、未经证明拒交、错误认领、三称上限 / 撤回 / 重称、完整未交付恢复、三类 pending 每字段及额外键篡改、假历史结果 / 错认领拒绝、源重放 / 目标幂等、上游忙时保留、重复验案计次但不重复图鉴、坏档 / 缺损数组 / 未解锁 / 合成输入、reduced-motion、全部遗忘及真实旧守卫的 confession 独占窄桥。
 
-语法检查、git diff --check、路由 / ID / 引用 / 敏感标记审计通过：280 唯一场景、4,490 唯一 ID，无重复 ID、无失效 hash 和本地资源。两张 1536×1024 新 WebP 为 168,890 / 137,202 字节，源 PNG 与精确提示词 / SHA-256 见 [V121ImagePrompts.md](../docs/V121ImagePrompts.md)。功能与公开发布结果在推送后追加。
+语法检查、git diff --check、路由 / ID / 引用 / 敏感标记审计通过：280 唯一场景、4,490 唯一 ID，无重复 ID、无失效 hash 和本地资源。两张 1536×1024 新 WebP 为 168,890 / 137,202 字节，源 PNG 与精确提示词 / SHA-256 见 [V121ImagePrompts.md](../docs/V121ImagePrompts.md)。发布前 fetch 对照 HEAD...origin/main 为 0/0。
+
+## 公开发布
+
+功能提交 `5a3e7a1f81b045cc24bb6574411a193e3a08e901` 已推送 main；GitHub 对该精确提交的 Cloudflare Pages 检查 completed / success。2026-10-11 11:07:43（Asia/Taipei）公开根 HTML 缓存 [121,121]，280 场景；HTML / CSS / JS / 两张 v121 WebP 的 raw 字节与 SHA-256 均和本地一致，本次无需消除注入内容。逐项大小、URL 与哈希见 [v121-public-assets.json](v121-public-assets.json)。
+
+Chrome 只读打开公开根页面，active=threshold，CSS / JS 均 v121；实际 DOM 注册 scene-morning-name-balance、六枚名签、十二种认领及旧室「秤第一次称到了天亮。」标题。无横向溢出，本次公开导航后的 error / warn 为空；未向公开站注入测试前置。截图见 [v121-public-root.jpg](v121-public-root.jpg)。原本地存档恢复与临时服务停止已在本地验收结束时完成。

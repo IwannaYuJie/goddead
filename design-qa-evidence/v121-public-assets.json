@@ -1,0 +1,70 @@
+{
+  "verified_at": "2026-10-11T11:07:43.867144+08:00",
+  "feature_commit": "5a3e7a1f81b045cc24bb6574411a193e3a08e901",
+  "checks": [
+    {
+      "name": "Cloudflare Pages",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "version": 121,
+  "assets": [
+    {
+      "path": "index.html",
+      "url": "https://goddead.com/",
+      "local_bytes": 1068664,
+      "remote_bytes": 1068664,
+      "local_sha256": "0d22e47a9d52ccc6d60c7150ecdcad7e7160e1efb1bafbd70a050b7d692613a9",
+      "remote_sha256": "0d22e47a9d52ccc6d60c7150ecdcad7e7160e1efb1bafbd70a050b7d692613a9",
+      "raw_match": true,
+      "source_match": true,
+      "normalized_sha256": "0d22e47a9d52ccc6d60c7150ecdcad7e7160e1efb1bafbd70a050b7d692613a9",
+      "cache_versions": [
+        "121",
+        "121"
+      ],
+      "scenes": 280
+    },
+    {
+      "path": "styles.css",
+      "url": "https://goddead.com/styles.css?v=121",
+      "local_bytes": 656877,
+      "remote_bytes": 656877,
+      "local_sha256": "38871416a514d856269e70fb5ce25b7e3b9c2ad4c5dfee6ab865857827ca4b3a",
+      "remote_sha256": "38871416a514d856269e70fb5ce25b7e3b9c2ad4c5dfee6ab865857827ca4b3a",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "script.js",
+      "url": "https://goddead.com/script.js?v=121",
+      "local_bytes": 3408619,
+      "remote_bytes": 3408619,
+      "local_sha256": "57012769ab2b9b526ad1716aec3656236c093cfe2e3897e3613a2b8ae3dcb765",
+      "remote_sha256": "57012769ab2b9b526ad1716aec3656236c093cfe2e3897e3613a2b8ae3dcb765",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "assets/v121-confession-dawn.webp",
+      "url": "https://goddead.com/assets/v121-confession-dawn.webp",
+      "local_bytes": 168890,
+      "remote_bytes": 168890,
+      "local_sha256": "ac75c1a1357ff298d57fd755157249bbe9e3daea60b481fecc1a4550551ea0aa",
+      "remote_sha256": "ac75c1a1357ff298d57fd755157249bbe9e3daea60b481fecc1a4550551ea0aa",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "assets/v121-morning-name-balance.webp",
+      "url": "https://goddead.com/assets/v121-morning-name-balance.webp",
+      "local_bytes": 137202,
+      "remote_bytes": 137202,
+      "local_sha256": "c7cc2e8b765f9bd572f4cab18178c7ccad2c2f2089c8cad6758b1fd88230dd7e",
+      "remote_sha256": "c7cc2e8b765f9bd572f4cab18178c7ccad2c2f2089c8cad6758b1fd88230dd7e",
+      "raw_match": true,
+      "source_match": true
+    }
+  ]
+}
