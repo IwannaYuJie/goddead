@@ -4,7 +4,7 @@ Static, hash-routed exploration game at [goddead.com](https://goddead.com).
 
 ## Current Experience
 
-当前实现基线为 **v123「房间目录与旧支线滚动」**：保留 280 个 hash 场景及原 278 个目录入口，缓存 `v=123`。目录分八个区域，可按房间名、编号、英文路径或多词检索，只显示原本可用的入口；原生折叠、当前房间标记、独立滚动、Tab 循环 / Esc / 遮罩关闭及焦点返回齐备。搜索和折叠不写存档，未到访规则及原 hash 门禁继续生效；移除旧通用裁切，恢复旧支线纵向滚动。目录模块独立为 directory.js，沿用已有门图与各章原画；v122 车位记忆 / 64 次撤回和旧在途兼容保留。设计见 [V123DirectoryDesign.md](docs/V123DirectoryDesign.md)，验收见 [v123-browser-qa.md](design-qa-evidence/v123-browser-qa.md)。
+当前实现基线为 **v124「先办完交接」**：痕迹室的「下一步」先检查 v63–v121 仍在途或等待签收的事务，再显示原章节进度；按章节顺序优先，新链接带回原房间，同房间则只聚焦原签收按钮。已集齐裁定的旧章也保留提示，v63 正在选择结局不算待签收；沿原合法读档、房间映射和 hash 门禁处理，签收仍由玩家操作。修复闭目档案室两组处理员误放在门外的问题。280 场景、278 个原目录入口及存档键保持，缓存 `v=124`；沿用原图，v123 目录 / 滚动与 v122 车位记忆继续保留。设计见 [V124OutstandingGuideDesign.md](docs/V124OutstandingGuideDesign.md)，验收见 [v124-browser-qa.md](design-qa-evidence/v124-browser-qa.md)。
 
 历史基线 **v121「清晨名重 / THE WEIGHT OF A NAME AT DAWN」**：全站 280 个 hash 场景，缓存 `v=121`。v120 任一条晨光管接回旧井后，从痕迹室回访忏悔称量室；实际旧承认敲门 / 承认第七条 / 拒绝忏悔决定六枚名签的案件。在新清晨验名桌上循环移动名签到左盘、右盘或桌上，两盘各放等量 1–3 枚，最多三称识别唯一偏重或偏轻的名签。结果逐次排除候选，认领须与唯一记录吻合才可交回；可借推荐称法，支持撤回 / 重称、摆盘与记录刷新保存、静音及键盘。一案即可完成，三份余韵可选收集；旧称盘、罪籍、信念、迫近抽屉与秤手 / 茶童保留。新增一场景与两张内置 imagegen 原画，独立键 `goddead_v121_morning_name`。设计 / 提示词见 [V121MorningNameDesign.md](docs/V121MorningNameDesign.md) / [V121ImagePrompts.md](docs/V121ImagePrompts.md)。
 

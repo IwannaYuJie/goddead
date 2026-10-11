@@ -1,4 +1,10 @@
-# 当前实施状态：v123 房间目录与旧支线滚动
+# 当前实施状态：v124 先办完交接
+
+实现及本地验收完成，等待本次 main / Pages 公开发布闭环。v63–v121 在途 / 活动交接优先于章节完成判定，原 getter / 门禁 / 处理员负责业务；同房间链接只聚焦原控件，干净档清空 href。当前场景限定 v64 / v70–v81 沿原映射找签收位置，两组闭目档案室控件归位。280 场景 / 4501 唯一 ID / 原 278 目录节点 / 存档键保持；沿用原图，缓存 v124。
+
+32,566 全站断言、旧章 65/65、桌面 / 375px 的原生签收、同时待办、刷新、在途菜单焦点及锁定回退通过；银行签收段其余 61 个 raw 保持，原 21 项本地档已精确恢复。设计见 [V124OutstandingGuideDesign.md](V124OutstandingGuideDesign.md)，验收见 [v124-browser-qa.md](../design-qa-evidence/v124-browser-qa.md)。
+
+# v123 房间目录与旧支线滚动（已发布）
 
 v123 已公开发布：功能提交 `f780ac24b7c2afad6f9202233b19222b1502a64e` 的 Cloudflare Pages completed / success，2026-10-11 12:00:04（Asia/Taipei）普通公开 URL 核对 HTML / CSS / JS / directory.js / 沿用门图 raw 字节及 SHA-256 全部相同，280 场景 / 三个缓存参数 v123。Chrome 公开首页与目录实际载入，首焦点 / 中文检索 / 隐藏门槛 / Esc 返回通过，菜单操作没有写存档，无横溢或新增 error / warn。30,878 全站断言及旧章 65/65、桌面 / 375px、旧滚轮与在途焦点竞争通过；35 上游及旧串保持，原 21 项状态精确恢复，临时服务已停止。独立目录模块保留原 278 链接和 4500 静态唯一 ID；设计见 [V123DirectoryDesign.md](V123DirectoryDesign.md)，验收见 [v123-browser-qa.md](../design-qa-evidence/v123-browser-qa.md)，持续队列见 [BranchesAndRoadmap.md](BranchesAndRoadmap.md)。下一轮检查已集齐裁定仍有签收在途的下一步指引。
 

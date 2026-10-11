@@ -1,0 +1,60 @@
+{
+  "originalCount": 21,
+  "restoredCount": 21,
+  "mismatch": [],
+  "unexpected": [],
+  "nativeCases": [
+    {
+      "case": "same-room-midwife",
+      "focus": "late-cause-midwife-return-remembrance",
+      "hashUnchanged": true,
+      "readOnlyBeforeReceipt": true,
+      "spaceReceipt": true
+    },
+    {
+      "case": "customs-rehomed",
+      "target": "eyelid-archive",
+      "nativeReceipt": true
+    },
+    {
+      "case": "patent-rehomed",
+      "target": "eyelid-archive",
+      "enterReceipt": true
+    },
+    {
+      "case": "entry-pending",
+      "text": "NEXT · 下 一 步\n\nv109 分茶铺 · 事务在途\n这一份还在路上，前往分茶铺接着办完。\n前往分茶铺继续 ⟶",
+      "href": "#exact-tea-house"
+    },
+    {
+      "case": "concurrent",
+      "before": "v72",
+      "after": "v109",
+      "bankArrival": true,
+      "changedKeys": [
+        "goddead_v72_last_word_bank"
+      ]
+    },
+    {
+      "case": "mobile-breakfast",
+      "width": 375,
+      "buttonHeight": 44,
+      "target": "corridor",
+      "nativeReceipt": true
+    },
+    {
+      "case": "hearse",
+      "target": "reliquary",
+      "refreshRawSame": true,
+      "spaceReceipt": true
+    },
+    {
+      "case": "locked-tea",
+      "directHashFallback": "remembrance",
+      "guide": "v108",
+      "staleActiveIgnored": true
+    }
+  ],
+  "newWarningsAndErrors": [],
+  "concurrentUnrelatedRawPreserved": true
+}

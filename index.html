@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=123">
+  <link rel="stylesheet" href="styles.css?v=124">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -159,18 +159,6 @@
             <div class="last-word-bank-remittance reveal" id="last-word-bank-remittance-threshold" hidden>
               <p class="last-word-bank-remittance-response" id="last-word-bank-remittance-response-threshold" aria-live="polite"></p>
               <button class="last-word-bank-remittance-return" id="last-word-bank-remittance-return-threshold" type="button" data-hover>跟末息汇兑员返回央行 ⟶</button>
-            </div>
-
-            <!-- v73 闭目梦检员 -->
-            <div class="dream-customs-inspector reveal" id="dream-customs-inspector-eyelid-archive" hidden>
-              <p class="dream-customs-inspector-response" id="dream-customs-inspector-response-eyelid-archive" aria-live="polite"></p>
-              <button class="dream-customs-inspector-return" id="dream-customs-inspector-return-eyelid-archive" type="button" data-hover>跟闭目梦检员返回海关 · RETURN WITH THE CLOSED-EYE INSPECTOR ⟶</button>
-            </div>
-
-            <!-- v74 梦型审查员 -->
-            <div class="tombstone-patent-office-examiner reveal" id="tombstone-patent-office-examiner-eyelid-archive" hidden>
-              <p class="tombstone-patent-office-examiner-response" id="tombstone-patent-office-examiner-response-eyelid-archive" aria-live="polite"></p>
-              <button class="tombstone-patent-office-examiner-return" id="tombstone-patent-office-examiner-return-eyelid-archive" type="button" data-hover>跟梦型审查员返回专利局 · RETURN WITH THE DREAM-PROTOTYPE EXAMINER ⟶</button>
             </div>
 
             <!-- v74 空碑审查员 -->
@@ -627,6 +615,18 @@
             </aside>
           </figure>
           <p class="branch-response" id="eyelid-response" aria-live="polite"></p>
+
+          <!-- v73 闭目梦检员 -->
+          <div class="dream-customs-inspector reveal" id="dream-customs-inspector-eyelid-archive" hidden>
+            <p class="dream-customs-inspector-response" id="dream-customs-inspector-response-eyelid-archive" aria-live="polite"></p>
+            <button class="dream-customs-inspector-return" id="dream-customs-inspector-return-eyelid-archive" type="button" data-hover>跟闭目梦检员返回海关 · RETURN WITH THE CLOSED-EYE INSPECTOR ⟶</button>
+          </div>
+
+          <!-- v74 梦型审查员 -->
+          <div class="tombstone-patent-office-examiner reveal" id="tombstone-patent-office-examiner-eyelid-archive" hidden>
+            <p class="tombstone-patent-office-examiner-response" id="tombstone-patent-office-examiner-response-eyelid-archive" aria-live="polite"></p>
+            <button class="tombstone-patent-office-examiner-return" id="tombstone-patent-office-examiner-return-eyelid-archive" type="button" data-hover>跟梦型审查员返回专利局 · RETURN WITH THE DREAM-PROTOTYPE EXAMINER ⟶</button>
+          </div>
 
           <nav class="scene-exits reveal" aria-label="离开闭目档案室">
             <button class="exit-link" type="button" data-go="threshold" data-hover>⟵ 回到门外</button>
@@ -4928,6 +4928,7 @@
             <h3 class="progress-guide-title" id="progress-guide-title"></h3>
             <ul class="progress-guide-list" id="progress-guide-list"></ul>
             <button class="progress-guide-go" id="progress-guide-go" type="button" data-hover hidden>找到入口 ⟶</button>
+            <a class="progress-guide-go progress-guide-continue" id="progress-guide-continue" hidden data-hover></a>
           </aside>
           <!-- v98.1 痕迹室档案柜：图鉴默认折叠，只展开当前这一章 -->
           <div class="codex-fold-bar" id="codex-fold-bar" hidden>
@@ -11480,7 +11481,7 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="directory.js?v=123"></script>
-    <script src="script.js?v=123"></script>
+    <script src="directory.js?v=124"></script>
+    <script src="script.js?v=124"></script>
   </body>
 </html>

@@ -72019,6 +72019,9 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   const progressGuideList = $("#progress-guide-list");
   const progressGuideGo = $("#progress-guide-go");
   let progressGuideTarget = null;
+  const progressGuideContinue = $("#progress-guide-continue");
+  let progressGuideReceipt = null;
+  let progressGuideDestination = "";
 
   const progressLabel = (table, field, id) => {
     const row = table && table[id];
@@ -72051,6 +72054,8 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   const currentProgressStep = () => {
     const gov = parseAndValidateGovernance();
     if (!gov.unlockedEndings.length) return null;
+    const outstanding = outstandingProgressStep();
+    if (outstanding) return outstanding;
     const er = getEndingReturn();
     if (!er.unendingUnlocked) {
       const withCoda = new Set(er.codas.map((id) => String(id).split(":")[0]));
@@ -72117,6 +72122,106 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
       const step = describeChapterProgress(spec);
       if (!next && step.done) return lateCauseProgressStep();
       return step;
+    }
+    return null;
+  };
+
+  /* v124：读原章合法事务，先把仍在旧房间的交接办完。 */
+  const outstandingProgressStep = () => {
+    const chapters = [
+      [63, "终局退件所", getEndingReturn, () => true, "", ""],
+      [64, "因果倒邮", getCausalMail, () => getEndingReturn().unendingUnlocked, "activeEcho", "#causal-echo-"],
+      [65, "因果疤痕", getCausalScar, () => getEndingReturn().unendingUnlocked, "", ""],
+      [66, "反事实纺生", getCounterfactual, counterfactualLivesUnlocked, "activeEcho", "button[id^=\"counterfactual-echo-return-\"]"],
+      [67, "无血家谱", getBloodless, bloodlessGenealogyUnlocked, "activeKin", "button[id^=\"bloodless-kin-return-\"]"],
+      [68, "世代借贷", getGenerationLoans, generationLoansUnlocked, "activeNotice", "button[id^=\"generation-loans-notice-return-\"]"],
+      [69, "死后人口普查", getPosthumousCensus, posthumousCensusUnlocked, "activeSummons", "button[id^=\"posthumous-census-summons-return-\"]"],
+      [70, "亡者议会", getDeadParliament, deadParliamentUnlocked, "activeWhip", "button[id^=\"dead-parliament-whip-return-\"]"],
+      [71, "死亡外交部", getDeathDiplomacy, deathDiplomacyUnlocked, "activeCourier", "button[id^=\"death-diplomacy-courier-return-\"]"],
+      [72, "遗言中央银行", getLastWordBank, lastWordBankUnlocked, "activeRemittance", "button[id^=\"last-word-bank-remittance-return-\"]"],
+      [73, "梦境海关", getDreamCustoms, borrowedDreamCustomsUnlocked, "activeInspector", "button[id^=\"dream-customs-inspector-return-\"]"],
+      [74, "墓碑专利局", getTombstonePatentOffice, tombstonePatentOfficeUnlocked, "activeExaminer", "button[id^=\"tombstone-patent-office-examiner-return-\"]"],
+      [75, "末日保修局", getApocalypseWarrantyOffice, apocalypseWarrantyOfficeUnlocked, "activeAdjuster", "button[id^=\"apocalypse-warranty-adjuster-return-\"]"],
+      [76, "现实退款处", getRealityRefund, realityRefundCounterUnlocked, "activeCashier", "button[id^=\"reality-refund-cashier-return-\"]"],
+      [77, "自我真伪鉴定所", getSelfAuthenticity, selfAuthenticityOfficeUnlocked, "activeAuthenticator", "button[id^=\"self-authenticity-authenticator-return-\"]"],
+      [78, "第一人称配给署", getFirstPersonRationing, firstPersonRationingUnlocked, "activeAllocator", "button[id^=\"first-person-rationing-allocator-return-\"]"],
+      [79, "未言人格继承院", getUnspokenPersonhood, unspokenPersonhoodCourtUnlocked, "activeExecutor", "button[id^=\"unspoken-personhood-executor-return-\"]"],
+      [80, "未遂思想收容所", getUnfinishedThoughtAsylum, unfinishedThoughtAsylumUnlocked, "activePhysician", "button[id^=\"unfinished-thought-physician-return-\"]"],
+      [81, "后悔回收厂", getRegretReclamation, regretReclamationPlantUnlocked, "activeReclaimer", "button[id^=\"regret-reclaimer-return-\"]"],
+      [82, "宽恕填埋场", getForgivenessLandfill, forgivenessLandfillUnlocked, "activeRecorder", "button[id^=\"forgiveness-recorder-return-\"]"],
+      [83, "伤害考古局", getHarmArchaeology, harmArchaeologyUnlocked, "activeReconstructor", "button[id^=\"harm-reconstructor-return-\"]"],
+      [84, "无罪证人保护院", getInnocentWitnessProtection, innocentWitnessProtectionUnlocked, "activeHandler", "button[id^=\"witness-protection-handler-return-\"]"],
+      [85, "孤事实认领处", getOrphanedFactClaims, orphanedFactClaimUnlocked, "activeExecutor", "button[id^=\"orphaned-fact-executor-return-\"]"],
+      [86, "存在放弃登记局", getExistenceRenunciationClaims, existenceRenunciationUnlocked, "activeRegistrar", "button[id^=\"existence-renunciation-registrar-return-\"]"],
+      [87, "不存在债务催收局", getNonexistenceDebtClaims, nonexistenceDebtCollectionUnlocked, "activeCollector", "button[id^=\"nonexistence-debt-collector-return-\"]"],
+      [88, "未发生事件拍卖行", getUnhappenedEventAuctionClaims, unhappenedEventAuctionUnlocked, "activeAuctioneer", "button[id^=\"unhappened-auctioneer-return-\"]"],
+      [89, "既成事实拆迁局", getAccomplishedFactEvictionClaims, accomplishedFactEvictionUnlocked, "activeBailiff", "button[id^=\"accomplished-fact-bailiff-return-\"]"],
+      [90, "无因后果难民署", getCauselessConsequenceRefugeeClaims, causelessConsequenceRefugeeUnlocked, "activeConsul", "button[id^=\"causeless-consequence-consul-return-\"]"],
+      [91, "倒生原因助产院", getLateCauseMaternity, lateCauseMaternityUnlocked, "activeMidwife", "button[id^=\"late-cause-midwife-return-\"]"],
+      [92, "目击责任保险局", getWitnessLiability, witnessLiabilityUnlocked, "activeAdjuster", "button[id^=\"wl-adjuster-return-\"]"],
+      [93, "未被看见之物认领处", getUnseenClaims, unseenClaimsUnlocked, "activeClerk", "button[id^=\"us-clerk-return-\"]"],
+      [94, "回敲邮局", getReturnedKnocks, returnedKnocksUnlocked, "activeCourier", "button[id^=\"rk-courier-return-\"]"],
+      [95, "停摆钟修理铺", getStoppedClocks, stoppedClocksUnlocked, "activeSmith", "button[id^=\"sc-smith-return-\"]"],
+      [96, "屏息当铺", getHeldBreath, heldBreathUnlocked, "activeAppraiser", "button[id^=\"hb-appraiser-return-\"]"],
+      [97, "失重局", getLostWeight, lostWeightUnlocked, "activeWeigher", "button[id^=\"lw-weigher-return-\"]"],
+      [98, "守夜烛台", getVigilCandles, vigilCandlesUnlocked, "activeKeeper", "button[id^=\"vc-keeper-return-\"]"],
+      [99, "引路司", getDeadRoads, deadRoadsUnlocked, "activeLeader", "button[id^=\"rd-leader-return-\"]"],
+      [100, "百夜灵堂", getHundredthWake, hundredthWakeUnlocked, "activeMourner", "button[id^=\"wk-mourner-return-\"]"],
+      [101, "黎明织造厂", getDawnWeaving, dawnWeavingUnlocked, "activeCourier", "button[id^=\"dw-courier-return-\"]"],
+      [102, "没有天气的候车亭", getWeatherlessShelter, weatherlessShelterUnlocked, "activePassenger", "button[id^=\"ws-passenger-return-\"]"],
+      [103, "收不到影子的照相馆", getShadowlessPhotography, shadowlessPhotographyUnlocked, "activePrint", "button[id^=\"ph-print-return-\"]"],
+      [104, "替别人醒来的旅馆", getWakeForAnotherHotel, wakeForAnotherHotelUnlocked, "activeWake", "button[id^=\"ah-wake-return-\"]"],
+      [105, "昨日早餐铺", getYesterdayBreakfast, yesterdayBreakfastUnlocked, "activeWaiter", "button[id^=\"yb-waiter-return-\"]"],
+      [106, "今日印刷所", getTodayPress, todayPressUnlocked, "activeSetter", "button[id^=\"ts-setter-return-\"]"],
+      [107, "调墨房", getInkMixing, inkMixingUnlocked, "activeApprentice", "button[id^=\"mx-apprentice-return-\"]"],
+      [108, "借光司", getBorrowedLight, borrowedLightUnlocked, "activeLamplighter", "button[id^=\"lb-lamplighter-return-\"]"],
+      [109, "分茶铺", getExactTea, exactTeaUnlocked, "activeServer", "button[id^=\"et-server-return-\"]"],
+      [110, "扫尘司", getLastSweep, lastSweepUnlocked, "activeSweeper", "button[id^=\"sw-sweeper-return-\"]"],
+      [111, "归位司", getPuttingBack, puttingBackUnlocked, "activeMover", "button[id^=\"pb-mover-return-\"]"],
+      [112, "剪纸铺", getPaperCut, paperCutUnlocked, "activePaster", "button[id^=\"pc-paster-return-\"]"],
+      [113, "撤供房", getClearedOfferings, clearedOfferingsUnlocked, "activeClearer", "button[id^=\"co-clearer-return-\"]"],
+      [114, "锁匠铺", getForgottenLocks, forgottenLocksUnlocked, "activeKeyholder", "button[id^=\"lk-keyholder-return-\"]"],
+      [115, "被柜房", getLinenRoom, linenRoomUnlocked, "activeFolder", "button[id^=\"ln-folder-return-\"]"],
+      [116, "缝梦铺", getDreamMending, dreamMendingUnlocked, "activeMender", "button[id^=\"dm-mender-return-\"]"],
+      [117, "灵车场", getHearseYard, hearseYardUnlocked, "activeDriver", "button[id^=\"hy-driver-return-\"]"],
+      [118, "渡河码头", getRiverFerry, riverFerryUnlocked, "activeFerryman", "button[id^=\"rv-ferryman-return-\"]"],
+      [119, "河岸回声", getRiverEcho, riverEchoUnlocked, "", ""],
+      [120, "清晨脉搏", getDawnPulse, dawnPulseUnlocked, "", ""],
+      [121, "清晨名重", getMorningName, morningNameUnlocked, "", ""],
+    ];
+    // 这些旧处理员也只在所属房间显示；沿原映射找到那一枚签收按钮。
+    const roomBoundReceipts = {
+      70: st => `#dead-parliament-whip-return-${SCENE_FOR_CAUCUS[st.activeWhip.caucus]}`,
+      71: st => `#death-diplomacy-courier-return-${SCENE_FOR_COUNTERPART[st.activeCourier.counterpart]}`,
+      72: st => `#last-word-bank-remittance-return-${SCENE_FOR_RESERVE[st.activeRemittance.reserve]}`,
+      73: st => `#dream-customs-inspector-return-${SCENE_FOR_CONTRABAND[st.activeInspector.contraband]}`,
+      74: st => `#tombstone-patent-office-examiner-return-${SCENE_FOR_PRIOR_ART[st.activeExaminer.priorArt]}`,
+      75: st => `#apocalypse-warranty-adjuster-return-${SCENE_FOR_PROOF[st.activeAdjuster.proof]}`,
+      76: st => `#reality-refund-cashier-return-${REALITY_REFUND_SCENE_FOR_PROOF[st.activeCashier.proof]}`,
+      77: st => `#self-authenticity-authenticator-return-${SELF_AUTHENTICITY_SCENE_FOR_PROVENANCE[st.activeAuthenticator.provenance]}`,
+      78: st => `#first-person-rationing-allocator-return-${FIRST_PERSON_RATIONING_SCENE_FOR_ENTITLEMENT[st.activeAllocator.entitlement]}`,
+      79: st => `#unspoken-personhood-executor-return-${UNSPOKEN_PERSONHOOD_SCENE_FOR_EVIDENCE[st.activeExecutor.evidence]}`,
+      80: st => `#unfinished-thought-physician-return-${UNFINISHED_THOUGHT_SCENE_FOR_TRACE[st.activePhysician.trace]}`,
+      81: st => `#regret-reclaimer-return-${REGRET_RESIDUE_TABLE[st.activeReclaimer.residue]?.target}`,
+    };
+    const roomName = target => target === 'remembrance' ? '痕迹室' : scenes[target]?.getAttribute('aria-label') || scenes[target]?.getAttribute('data-title')?.replace(/^Goddead\s*[—-]\s*/u, '') || '';
+    for (const [v, name, get, unlocked, activeField, selector] of chapters) {
+      if (!unlocked()) continue;
+      const st = get();
+      if (st.pending) {
+        const destination = scenes[st.pending.target] ? st.pending.target : '';
+        const place = roomName(destination);
+        return { title: `v${v} ${name} · 事务在途`, items: [place ? `这一份还在路上，前往${place}接着办完。` : '这一份交接还没办完，先继续原房间的事务。'], target: null, destination, receiptId: '', done: false };
+      }
+      if (!activeField || !st[activeField]) continue;
+      // 从原存档映射或已显示的处理员读取落点，忽略仅因离开房间而隐藏的容器。
+      const receipt = v === 64 ? $(`#causal-echo-${st.activeEcho.target}`)
+        : roomBoundReceipts[v] ? $(roomBoundReceipts[v](st))
+        : $$(selector).find(el => !el.hidden && !el.closest('[hidden]'));
+      const host = receipt?.closest('.scene');
+      const destination = host && scenes[host.dataset.scene] ? host.dataset.scene : '';
+      const place = roomName(destination), action = receipt?.textContent.trim().split(' · ')[0].replace(/\s*⟶\s*$/u, '');
+      return { title: `v${v} ${name} · 等待签收`, items: [place ? `${place}还有一份交接等你：${action}。` : '还有一份交接没有签收，办完这一份再继续。'], target: null, destination, receiptId: destination ? receipt.id : '', done: false };
     }
     return null;
   };
@@ -72799,6 +72904,8 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
 
   const paintProgressGuide = () => {
     if (!progressGuide) return;
+    progressGuideReceipt = null; progressGuideDestination = '';
+    if (progressGuideContinue) { progressGuideContinue.hidden = true; progressGuideContinue.removeAttribute('href'); progressGuideContinue.textContent = ''; }
     let step = null;
     try { step = currentProgressStep(); } catch { step = null; }
     if (!step) { progressGuide.hidden = true; progressGuideTarget = null; return; }
@@ -72812,6 +72919,16 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     const reachable = target && !target.hidden && !target.closest("[hidden]");
     progressGuideTarget = reachable ? target : null;
     progressGuideGo.hidden = !reachable;
+    if (step.destination && scenes[step.destination] && progressGuideContinue) {
+      progressGuideDestination = step.destination;
+      progressGuideReceipt = step.receiptId ? $(`#${step.receiptId}`) : null;
+      const place = step.destination === 'remembrance' ? '痕迹室' : scenes[step.destination].getAttribute('aria-label');
+      progressGuideContinue.setAttribute('href', '#' + step.destination);
+      progressGuideContinue.textContent = progressGuideReceipt
+        ? (step.destination === currentScene ? `找到${place}的签收处 ⟶` : `前往${place}签收 ⟶`)
+        : `前往${place}继续 ⟶`;
+      progressGuideContinue.hidden = false;
+    }
     progressGuide.hidden = false;
   };
 
@@ -72892,8 +73009,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     syncCodexFolds();
   };
 
-  if (progressGuideGo) progressGuideGo.addEventListener("click", () => {
-    const target = progressGuideTarget;
+  const focusProgressTarget = (target) => {
     if (!target || !target.isConnected) return;
     const box = target.closest('[id$="-codex"]');
     if (box) setCodexFolded(box, false);
@@ -72901,6 +73017,12 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     target.focus({ preventScroll: true });
     target.classList.add("progress-guide-target");
     setTimeout(() => target.classList.remove("progress-guide-target"), 2400);
+  };
+  if (progressGuideGo) progressGuideGo.addEventListener("click", () => focusProgressTarget(progressGuideTarget));
+  if (progressGuideContinue) progressGuideContinue.addEventListener('click', event => {
+    if (progressGuideReceipt && progressGuideDestination === currentScene) {
+      event.preventDefault(); focusProgressTarget(progressGuideReceipt);
+    }
   });
 
   /* ---------- 初始化 ---------- */

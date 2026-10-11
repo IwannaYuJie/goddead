@@ -1469,3 +1469,11 @@
 功能 `f780ac24b7c2afad6f9202233b19222b1502a64e` 已推送 main，Cloudflare Pages completed / success。最初边缘仍返回上一版 HTML / JS，等待传播后于 2026-10-11 12:00:04（Asia/Taipei）普通公开 URL 验证 v123 / 280；HTML / CSS / JS / directory.js / 沿用门图 raw 字节与 SHA-256 全部相同，无需 HTML 归一化。Chrome 首页 active=threshold、title=Goddead，新目录载入三份 v123 依赖；中文检索 1/5、未到访词 0/5、Esc 返回和存储原串一致，无横向溢出及新增 error / warn。报告与首页 / 目录截图见 design-qa-evidence/v123-public-assets.json / v123-public-root-desktop.jpg / v123-public-directory-desktop.jpg，当前实施 / Tasks 已闭环。
 
 下一轮初查：v109–v113 指引在 eligible 且三裁定齐全时直接交给下章，active 签收只被加入提示后又随 return 丢掉；后续先用原 getter 认可的 pending / active 组合复现，再调整优先级与落点，不把尚未实现的修正记为完成。
+
+## 2026-10-11 — v124 先办完交接
+
+- 原指引会因下一章解锁或三裁定齐全，跳过还在旧房间的回执。复现完成档分茶 / 银行 / 助产 / 早餐 / 专利 / 梦检被旧指引转到 v121；灵车虽拦住递进，仍没有签收位置。加入 v63–v121 只读待办优先：原 getter / 原解锁顺序，同章 pending 优先，v63 选择结局例外；新链接走原 hash，同房间只聚焦原按钮，结束清空 href / 文案。
+- 原生银行验收发现 v70–v81 处理员和 v64 邮戳会按当前场景隐藏，改用原场景表找到原控件；其他已显示容器继续读取实际所属场景。独立祖先检查又找出闭目梦检员和梦型审查员放错门外，已移回闭目档案室，原按钮 / 门禁 / 存档不变，出口不落入隐藏回执容器。
+- 32,566 全站断言、旧章 65/65、语法 / diff / 280 场景 / 4501 唯一 ID / 引用 / 敏感标记通过。新测试覆盖 59 注册、原控件映射和优先顺序，完成解锁边界下真实 getter 的坏事务归一化，十四工坊的合法活动记录在完成后保留；Native QA 单独检查实际解锁链与原签收。
+- 桌面 / 375px 原生鼠标、Enter、Space；同房间链接只聚焦且 raw 不变，跨章先银行后茶童，银行签收只有本章 raw 变化，其余 61 项保持。分茶入口 pending 在途链接 / 自动落账 / 目录焦点保持，Esc 回 menu-trigger；灵车活动刷新 raw 相同。锁定分茶深链回痕迹室并忽略其陈旧 raw。原 21 项本地状态精确恢复，无新增 error / warn；截图 / 审计见 v124-browser-qa.md。
+- README / 流程 / 实施 / 任务 / 路线图同步，当前等待公开发布核验。下一轮先评估调墨房纯规则拆分，保持等价玩法与存档。
