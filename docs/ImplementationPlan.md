@@ -1,4 +1,8 @@
-# 当前实施状态：v122 灵车场车位记忆
+# 当前实施状态：v123 房间目录与旧支线滚动
+
+本地实现及验收完成，280 场景 / 4500 个静态唯一 ID / 原 278 入口，缓存 v123。directory.js 使用原生 details 和原链接对象完成八区域 / Unicode 多词检索 / 可用项计数 / 当前标记 / 独立滚动；查询和折叠不写存档。modal inert、Tab 循环、Esc / 遮罩返回、组合输入及旧键盘彩蛋隔离通过；修复滑入焦点、折叠内容仍有布局盒及在途标题重试抢焦点三个实机问题。移除两条旧 scene-branch 通用 overflow:hidden，原插图样式保持。30,878 条站点断言及旧章 65/65 通过；桌面 / 375px 空档、137 入口长档、原 hash 门禁、中途冷恢复及四步发车时菜单竞争通过。35 上游 / 原旧串保持，原 21 项浏览器状态精确恢复。公开发布随后补记；设计见 [V123DirectoryDesign.md](V123DirectoryDesign.md)，验收见 [v123-browser-qa.md](../design-qa-evidence/v123-browser-qa.md)，持续队列见 [BranchesAndRoadmap.md](BranchesAndRoadmap.md)。
+
+# v122 灵车场车位记忆（已发布）
 
 v122 已公开发布：功能提交 `3e69b4293d39ae8838a536d7ad523c9846ecef66` 的 Pages 检查成功，2026-10-11 11:32（Asia/Taipei）普通公开 URL 确认 v122 / 280，HTML / CSS / JS / 三张沿用原画的 raw 字节与 SHA-256 全部一致。Chrome 首页正常，原生撤回按钮与院子 overflow-y:auto 已加载，无横向溢出、无新增 error / warn；30,550 条站点断言、旧章 65/65、桌面 / 375px 的刷新 / 撤回 / 三签收 / 三裁定通过。35 上游 raw 不变，原 21 项浏览器存档恢复，临时服务停止。设计见 [V122HearseYardRecoveryDesign.md](V122HearseYardRecoveryDesign.md)，验收见 [v122-browser-qa.md](../design-qa-evidence/v122-browser-qa.md)，后续队列见 [BranchesAndRoadmap.md](BranchesAndRoadmap.md)。下面保留历次实施计划。
 

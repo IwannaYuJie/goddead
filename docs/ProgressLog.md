@@ -1453,3 +1453,13 @@
 ### v122 公开发布闭环
 
 功能 `3e69b4293d39ae8838a536d7ad523c9846ecef66` 已推送 main，Cloudflare Pages completed / success。2026-10-11 11:32（Asia/Taipei）普通公开 URL 确认 v122 / 280，HTML / CSS / JS / 三张沿用图 raw 字节与 SHA-256 一致；Chrome 首页 active=threshold / title=Goddead、原生退回按钮 / 院子纵向滚动 / 缓存 v122 已载入，无横向溢出、无新增 error / warn。发布报告与截图保存在 `design-qa-evidence/v122-public-assets.json` / `v122-public-root-desktop.jpg`；Tasks 与当前实施状态已闭环，下一轮按路线图处理旧支线滚动与长目录检索。
+
+## 2026-10-11 — v123 房间目录与旧支线滚动
+
+- 阅读当前进度、路线图与原目录 / 场景门禁后冻结 V123DirectoryDesign.md。原 278 个入口（276 个唯一 hash，保留两组别名）、280 场景不增减，缓存 v123；独立 directory.js 原生模块，沿用门图和各章原画。
+- 八区域 details 分组，只搜当前可用入口，房间名 / 编号 / 英文路径 / Unicode 多词 AND；计数、当前标记、空结果、清除恢复折叠、展开 / 收起全部及独立滚动齐备，原节点 / hidden / locked / aria-hidden / hash 守卫保持，查询不写存档。
+- modal inert / Tab / Shift+Tab / Esc / 遮罩关闭与返回焦点，组合输入及旧彩蛋隔离。Chrome 实机发现并修正滑入首焦点、折叠内容仍有布局盒及在途标题重试抢焦点；同样的选车 / 发车竞争重跑通过，关闭后焦点稳定在目录按钮。
+- 删除 v72 / v73 两条 scene-branch 通用裁切，旧场景纵向滚动恢复。普通滚轮实测旧银行 / 海关 160.5px；375px 出餐台 340px，四个下方操作在屏内，出餐台插图 overflow:hidden 与原布局保持。
+- 30,878 站点断言、旧章 65/65、语法 / diff、280 场景 / 4500 唯一静态 ID / 引用 / 敏感标记审计通过。独立覆盖三种可用档、278 个原链接与 metadata、Unicode / AND / 非正则输入、节点保留、折叠快照、门槛同步和焦点生命周期。
+- Chrome 空档只有五基础入口；长档 137 个入口可折叠 / 检索，折叠之外不进入 Tab；唯一结果沿原门禁、无草稿院子安全回痕迹室。真实挪车一挪刷新 raw 相同，四步发车时目录保持焦点，落账一次，原生赶车人签收正常。35 上游和旧串不变，原 21 项状态精确恢复，无新增 error / warn。验收、截图与审计见 design-qa-evidence/v123-browser-qa.md；公开发布随后补记。
+- README / 流程 / 实施 / 任务 / 路线图同步，下一轮优先检查已集齐裁定但签收仍在途的下一步指引。

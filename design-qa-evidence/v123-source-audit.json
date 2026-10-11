@@ -1,0 +1,21 @@
+{
+  "scenes": 280,
+  "unique_ids": 4500,
+  "duplicate_ids": [],
+  "bad_routes": [],
+  "missing_references": [],
+  "original_menu_anchors": 278,
+  "original_anchors_byte_identical": true,
+  "secret_pattern_counts": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "cache_versions": [
+    "123",
+    "123",
+    "123"
+  ],
+  "empty_hash_references": "four existing hidden courier placeholders; chapter code supplies their real targets"
+}

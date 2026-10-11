@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=122">
+  <link rel="stylesheet" href="styles.css?v=123">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -11184,9 +11184,20 @@
 
     </main>
 
-    <aside class="ritual-menu" id="ritual-menu" aria-hidden="true">
-      <button class="menu-close" id="menu-close" type="button" aria-label="关闭目录" data-hover>关闭</button>
-      <p class="menu-kicker">THE REMAINS</p>
+    <button class="menu-scrim" id="menu-scrim" type="button" aria-label="关闭目录遮罩" aria-hidden="true" tabindex="-1" hidden></button>
+    <aside class="ritual-menu" id="ritual-menu" role="dialog" aria-modal="true" aria-labelledby="menu-title" aria-hidden="true" inert>
+      <div class="menu-heading">
+        <div><p class="menu-kicker">THE REMAINS</p><h2 id="menu-title">房间目录</h2></div>
+        <button class="menu-close" id="menu-close" type="button" aria-label="关闭目录" data-hover>关闭</button>
+      </div>
+      <label class="menu-search-label" for="menu-search">找一个记得的房间</label>
+      <div class="menu-search-row">
+        <input id="menu-search" type="search" placeholder="房间名、编号或英文路径" autocomplete="off" spellcheck="false" aria-describedby="menu-count">
+        <button id="menu-search-clear" type="button" hidden>清除</button>
+      </div>
+      <div class="menu-tools"><p id="menu-count" role="status" aria-live="polite"></p><button id="menu-expand-all" type="button">展开全部</button><button id="menu-fold-all" type="button">收起全部</button></div>
+      <p id="menu-empty" class="menu-empty" hidden>这里还没有这个入口。换个名字，或继续向前探索。</p>
+      <nav class="menu-groups" id="menu-groups" aria-label="可用房间">
       <a href="#threshold" data-hover>00 / 门外</a>
       <a href="#protocol" data-hover>01 / 守则</a>
       <a href="#peephole-chamber" id="peephole-link" hidden data-hover>01α / 窥孔</a>
@@ -11464,10 +11475,12 @@
       <a href="#three-person-republic-court" id="three-person-republic-court-link" hidden data-hover>04β / 三人共和国</a>
       <a href="#remembrance" data-hover>04 / 痕迹</a>
       <a href="#reliquary" id="reliquary-link" class="locked" hidden data-hover>02‡ / 遗物科</a>
+      </nav>
       <p class="menu-note">所有入口都通往同一个空缺。</p>
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=122"></script>
+    <script src="directory.js?v=123"></script>
+    <script src="script.js?v=123"></script>
   </body>
 </html>

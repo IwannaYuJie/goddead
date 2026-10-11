@@ -1,0 +1,13 @@
+{
+  "originalKeys": 21,
+  "restoredKeys": 21,
+  "mismatch": [],
+  "unexpected": [],
+  "upstreamCount": 35,
+  "upstreamMismatch": [],
+  "legacyMismatch": [],
+  "menuStorageUnchanged": true,
+  "coldDraftExact": true,
+  "raceEntryAndDepartureFocus": "menu-close; Escape returns menu-trigger",
+  "departureRuns": 1
+}

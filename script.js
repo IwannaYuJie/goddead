@@ -1932,6 +1932,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const attempt = () => {
       const host = el.closest(".scene");
       if (host && !host.classList.contains("active")) return;
+      // v123：目录里的在途换场可以落账，背景标题重试留给下一次正常导航。
+      if (host && menu.classList.contains("open")) return;
       el.focus({ preventScroll: true });
       if (document.activeElement === el) return;
       if (++tries < 12) setTimeout(attempt, 120);
@@ -46793,21 +46795,11 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ============================================================
      目录抽屉
      ============================================================ */
-  const setMenu = (open) => {
-    menu.classList.toggle("open", open);
-    menu.setAttribute("aria-hidden", String(!open));
-    menuTrigger.setAttribute("aria-expanded", String(open));
-    if (open) menuClose.focus();
-    else menuTrigger.focus();
-  };
-
-  menuTrigger.addEventListener("click", () => setMenu(true));
-  menuClose.addEventListener("click", () => setMenu(false));
-  menu.addEventListener("click", (e) => {
-    if (e.target.tagName === "A") setMenu(false);
-  });
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && menu.classList.contains("open")) setMenu(false);
+  /* v123：目录只管理展示 / 焦点，入口门槛仍由各章拥有。 */
+  window.GoddeadDirectory.attach({
+    menu, trigger: menuTrigger, close: menuClose, stage: $("#stage"), scrim: $("#menu-scrim"),
+    currentScene: () => currentScene, sceneFor: (target) => scenes[target],
+    navigate: (target) => { location.hash = "#" + target; },
   });
 
   /* ============================================================
@@ -46818,6 +46810,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let konamiIdx = 0;
 
   document.addEventListener("keydown", (e) => {
+    if (menu.classList.contains("open") || e.target.closest?.("input, textarea, [contenteditable]")) return;
     const key = e.key.toLowerCase();
 
     if (key.length === 1) {
