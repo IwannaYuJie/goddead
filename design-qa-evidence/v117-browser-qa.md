@@ -36,4 +36,8 @@
 
 ## 发布
 
-待提交推送后核对 GitHub main 和公开站 `v=117`，不以本地验收代替线上验证。
+功能提交 `3532b6455e52891b247737db07835000fb90d86f`（`feat: 发布 v117 灵车场与挪车谜题`）已推送 GitHub main，`git ls-remote` 与本地 HEAD 一致。2026-10-11 09:20（Asia/Taipei）确认公开站 `https://goddead.com/` 已切到 v117：274 个场景，CSS / JS 都为 `?v=117`。
+
+公开站 HTML、`styles.css`、`script.js` 和三个 v117 WebP 的 SHA-256 分别与功能提交中的本地文件一致；Chrome 实际打开公开站后，三个新场景在 DOM 中注册，门外正常显示，无横向溢出、error / warn。此前部署等待期间仍显示 v116，验收以切换完成后的结果为准。线上验收只读，未植入前置或更改生产存档。
+
+本地验收收尾再次比对原 21 项 raw：count=21、mismatch=[]、unexpected=[]，确认恢复完成后才离开本地页面。
