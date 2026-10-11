@@ -1,6 +1,6 @@
-# 当前实施状态：v118 渡河码头
+# 当前实施状态：v119 河岸回声
 
-v118 规则、界面、静态测试与真实浏览器验收已完成；公开发布记录见 [v118-browser-qa.md](../design-qa-evidence/v118-browser-qa.md)。设计见 [V118RiverFerryDesign.md](V118RiverFerryDesign.md)，素材见 [V118ImagePrompts.md](V118ImagePrompts.md)，后续队列见 [BranchesAndRoadmap.md](BranchesAndRoadmap.md)。下面保留历次实施计划。
+v119 规则、局部旧房间回访与两张原画已实装；20,967 条站点断言、65 项旧章测试及桌面 / 手机实机验收通过，准备推送和公开发布核对。设计见 [V119RiverEchoDesign.md](V119RiverEchoDesign.md)，素材见 [V119ImagePrompts.md](V119ImagePrompts.md)，后续队列见 [BranchesAndRoadmap.md](BranchesAndRoadmap.md)。下面保留历次实施计划。
 
 # v87 不存在债务催收局 / COLLECTION AGENCY FOR NONEXISTENCE DEBT 实施计划（已完成）
 

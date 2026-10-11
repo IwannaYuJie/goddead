@@ -1434,6 +1434,8 @@ document.addEventListener("DOMContentLoaded", () => {
     replayHearseYardPending(name);
     resolveRiverFerryPendingOnArrival(name);
     replayRiverFerryPending(name);
+    resolveRiverEchoPendingOnArrival(name);
+    replayRiverEchoPending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1497,7 +1499,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const beliefGuard = getBelief();
     if (BRANCH_SCENES.includes(target) && !branchState.visited[target] && AUDIT_BRANCH_OUTCOME[target] !== auditGuardState.outcome
       && beliefGuard.pendingTarget !== target && !(BELIEF_SCENE_BRANCH[target] && beliefGuard.branches[BELIEF_SCENE_BRANCH[target]].visits > 0) && !innocentWitnessProtectionBridgeAllows(target)
-      && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !lostWeightBridgeAllows(target) && !exactTeaBridgeAllows(target)) target = "corridor";
+      && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !lostWeightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !riverEchoBridgeAllows(target)) target = "corridor";
 
     /* v33 结果房守卫：仅本轮 outcome 对应或曾到访时允许直达，否则规范化回复核科；
        复核科本身不设守卫，直接 hash 采用 neutral 顺序。
@@ -1903,6 +1905,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "river-crossing" && !riverCrossingCanVisit()) target = "remembrance";
     if (target === "hearing-of-the-last-bank" && !rvCourtCanVisit()) target = "remembrance";
 
+    /* v119 河岸听井，仅本章已到访或合法进入 pending 可到达 */
+    if (target === "river-echo-well" && !riverEchoWellCanVisit()) target = "remembrance";
+
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
       history.replaceState(null, "", "#" + target);
@@ -1936,6 +1941,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (name === currentScene) return;
     hydrateSceneImages(name);
     AutoAdvance.clearAll();
+    clearRiverEchoPlayback();
     veilBusy = true;
     stopAnomaly();
     stopTrace();
@@ -1963,6 +1969,7 @@ document.addEventListener("DOMContentLoaded", () => {
       sceneInit(name);
       if (location.hash !== "#" + name) location.hash = name;
       next.scrollTop = 0;
+      focusRiverEchoArrival(name);
       /* 焦点恢复与 veil 收尾必须和场景切换同一拍完成：
          依赖嵌套定时器时，内层定时器一旦丢失就会造成
          veilBusy 永久卡死、veil 常亮与焦点悬空（QA 实测复现） */
@@ -48155,6 +48162,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetDreamMendingState();
       forgetHearseYardState();
       forgetRiverFerryState();
+      forgetRiverEchoState();
       forgetCodexFolds();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
@@ -71232,6 +71240,328 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   onTrustedRv('#rv-sail', sailRvRiver);
   onTrustedRv('#rv-finish', finishRvDeparture);
 
+  /* ============================================================
+     v119 河岸回声 / ECHOES FROM THE OTHER BANK
+     回访 v29 的旧听筒，捕获旧声音与 v118 裁定；五拍文字谱，非限时。
+     只写本章键，保留 v54 的背景、迫近计分与断线听筒。
+     ============================================================ */
+  const RIVER_ECHO_KEY = 'goddead_v119_river_echo';
+  const RE_WELL = 'river-echo-well';
+  const RE_VOICES = ['knock', 'steps', 'bell'];
+  const RE_BANKS = ['both-banks-inhabited', 'one-seat-kept-for-god', 'river-still-flowing'];
+  const RE_TONES = ['knock', 'steps', 'bell', 'rest'];
+  const RE_TONE_NAMES = { knock: '敲', steps: '步', bell: '铃', rest: '留白' };
+  const RE_VOICE_TABLE = {
+    knock: { title: '门外的敲声', call: ['knock', 'knock', 'steps', 'bell', 'knock'] },
+    steps: { title: '自己的脚步', call: ['steps', 'knock', 'steps', 'steps', 'bell'] },
+    bell: { title: '03:17 的铃', call: ['bell', 'steps', 'knock', 'bell', 'bell'] },
+  };
+  const RE_BANK_TABLE = {
+    'both-banks-inhabited': { title: '让两岸都有人', rule: '彼岸换一种声音来答：敲 → 步，步 → 铃，铃 → 敲。每拍都换。', after: '河对面有人把话接住了。' },
+    'one-seat-kept-for-god': { title: '给神留一个船位', rule: '敲与步照着答；铃声的位置留白。「留白」也是一拍。', after: '空着的那一拍也被听见了。' },
+    'river-still-flowing': { title: '让河继续流', rule: '从最后一声开始，五拍倒着答。河把来时的声音送回上游。', after: '回声顺着水流回了来处。' },
+  };
+  const RE_IDS = RE_VOICES.flatMap(v => RE_BANKS.map(b => `${v}:${b}`));
+  const RE_AFTERWORDS = {
+    'knock:both-banks-inhabited': '门外的三记敲声终于等到不同的回答。听筒里有人走了几步，又轻轻碰了一下铃；另一岸也有人住着。',
+    'knock:one-seat-kept-for-god': '敲声照常落下，铃的那一拍空着。门外的人没有催，仿佛空位里也有一位迟到的客人。',
+    'knock:river-still-flowing': '敲声从末尾倒流回门环。你第一次听清：那三记之间，不只有你的手，还有河水的停顿。',
+    'steps:both-banks-inhabited': '脚步终于不再一遍比一遍近。彼岸有人用铃答你，另一双鞋停在了自己的门前。',
+    'steps:one-seat-kept-for-god': '脚步绕过空着的那一拍。没有人占用神的船位，却也没有人因此停在岸上。',
+    'steps:river-still-flowing': '你的脚步逆着来路变远。档案室没有追上去，听筒学会让一个人走出它的范围。',
+    'bell:both-banks-inhabited': '03:17 的铃得到了几下敲门。值班的人不再只是接听：他在另一岸开了一扇窗。',
+    'bell:one-seat-kept-for-god': '03:17 的铃留下三处空白。档案柜没有把它们登记成缺席，神的船位仍然空着。',
+    'bell:river-still-flowing': '铃声倒着穿过脚步和门响，终于回到 03:17 之前。那条失真的线路，短暂地听见了天亮。',
+  };
+  const RE_REVISIT_FEEDBACK = '渡河后的水声钻进旧听筒。回声档案室的窗外，另一岸亮起了一盏灯。';
+  const reDelay = () => reduced ? 300 : 1400;
+  let rePlaying = false;
+  let reTimers = [];
+  let rePlayToken = 0;
+  let reFocusArchive = false;
+
+  function rePattern(voice, bank) {
+    if (!RE_VOICES.includes(voice) || !RE_BANKS.includes(bank)) return [];
+    const call = RE_VOICE_TABLE[voice].call;
+    if (bank === 'both-banks-inhabited') return call.map(t => RE_VOICES[(RE_VOICES.indexOf(t) + 1) % 3]);
+    if (bank === 'one-seat-kept-for-god') return call.map(t => t === 'bell' ? 'rest' : t);
+    return call.slice().reverse();
+  }
+
+  function rePrefix(voice, bank, answer) {
+    const expected = rePattern(voice, bank);
+    const result = [];
+    if (!Array.isArray(answer)) return result;
+    for (let i = 0; i < Math.min(5, answer.length); i++) {
+      if (!expected[i] || answer[i] !== expected[i]) break;
+      result.push(answer[i]);
+    }
+    return result;
+  }
+
+  const reComplete = draft => Boolean(draft && rePattern(draft.voice, draft.bank).length === 5 && rePrefix(draft.voice, draft.bank, draft.answer).length === 5);
+  const reEntryFeedback = (v, b) => `你曾听过「${RE_VOICE_TABLE[v].title}」，又裁定「${RE_BANK_TABLE[b].title}」。听井留下五拍，等彼岸回应。`;
+  const reReplyFeedback = (v, b) => `${RE_BANK_TABLE[b].after}「${RE_VOICE_TABLE[v].title}」的回应正在回到旧听筒。`;
+  const reCount = n => Number.isSafeInteger(n) && n >= 0 ? Math.min(n, 9999) : 0;
+
+  function defaultRiverEcho() {
+    return { version: 119, visited: { archive: false, well: false }, draft: { voice: '', bank: '', answer: [] }, heard: [], runs: 0, lastReply: '', pending: null };
+  }
+
+  function normalizeRiverEcho(raw) {
+    const st = defaultRiverEcho();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return st;
+    st.visited.archive = raw.visited?.archive === true;
+    st.visited.well = st.visited.archive && raw.visited?.well === true;
+    const d = raw.draft;
+    if (st.visited.archive && d && RE_VOICES.includes(d.voice) && RE_BANKS.includes(d.bank)) {
+      st.draft = { voice: d.voice, bank: d.bank, answer: rePrefix(d.voice, d.bank, d.answer) };
+    }
+    if (Array.isArray(raw.heard)) st.heard = [...new Set(raw.heard.filter(id => RE_IDS.includes(id)))];
+    st.runs = Math.max(st.heard.length, reCount(raw.runs));
+    st.lastReply = st.heard.includes(raw.lastReply) ? raw.lastReply : '';
+    const p = raw.pending;
+    if (!p || typeof p !== 'object' || Array.isArray(p)) return st;
+    if (p.kind === 'revisit' && p.source === 'remembrance' && p.target === 'echo' && p.feedback === RE_REVISIT_FEEDBACK) {
+      st.pending = { kind: 'revisit', source: 'remembrance', target: 'echo', feedback: RE_REVISIT_FEEDBACK };
+    } else if (p.voice === st.draft.voice && p.bank === st.draft.bank && RE_IDS.includes(`${p.voice}:${p.bank}`)) {
+      if (p.kind === 'enter' && st.visited.archive && p.source === 'echo' && p.target === RE_WELL && p.feedback === reEntryFeedback(p.voice, p.bank)) {
+        st.pending = { kind: 'enter', source: 'echo', target: RE_WELL, voice: p.voice, bank: p.bank, feedback: p.feedback };
+      } else if (p.kind === 'reply' && st.visited.well && reComplete(st.draft) && p.source === RE_WELL && p.target === 'echo' && p.feedback === reReplyFeedback(p.voice, p.bank)) {
+        st.pending = { kind: 'reply', source: RE_WELL, target: 'echo', voice: p.voice, bank: p.bank, feedback: p.feedback };
+      }
+    }
+    return st;
+  }
+
+  function getRiverEcho() {
+    try { return normalizeRiverEcho(JSON.parse(store.get(RIVER_ECHO_KEY, '{}'))); } catch { return defaultRiverEcho(); }
+  }
+  function saveRiverEcho(st) { const safe = normalizeRiverEcho(st); store.set(RIVER_ECHO_KEY, JSON.stringify(safe)); return safe; }
+  function riverEchoUnlocked() {
+    if (!riverFerryUnlocked()) return false;
+    const rv = getRiverFerry();
+    return rvCourtEligible(rv) && RE_BANKS.every(b => rv.courtOutcomes.includes(b));
+  }
+  function reUpstreamBusy() { const rv = getRiverFerry(); return Boolean(rv.pending || rv.activeFerryman || rvUpstreamBusy()); }
+  function riverEchoWellCanVisit() {
+    const st = getRiverEcho();
+    return riverEchoUnlocked() && (st.visited.well || Boolean(st.pending?.kind === 'enter' && st.pending.target === RE_WELL));
+  }
+  function riverEchoBridgeAllows(target) {
+    if (target !== 'echo' || !riverEchoUnlocked()) return false;
+    const st = getRiverEcho();
+    return st.visited.archive || Boolean(st.pending?.target === 'echo');
+  }
+  function reReady(scene, id) {
+    if (currentScene !== scene || !riverEchoUnlocked() || reUpstreamBusy() || rePlaying || AutoAdvance.has(scene) || !buttonAvailable(id)) return null;
+    const st = getRiverEcho();
+    return st.pending ? null : st;
+  }
+  function showReResponse(id, text) { const e = $(id); if (e) { e.textContent = text; e.hidden = !text; } }
+  const RE_RESPONSES = { remembrance: '#re-entry-response', echo: '#re-archive-response', 'river-echo-well': '#re-well-response' };
+  function launchRe(st, p) {
+    st.pending = p;
+    saveRiverEcho(st);
+    clearRiverEchoPlayback();
+    syncRiverEchoAll();
+    showReResponse(RE_RESPONSES[p.source], p.feedback);
+    AudioEngine.whoosh();
+    AutoAdvance.schedule(p.source, p.target, { delay: reDelay() });
+  }
+  function chooseReRevisit() {
+    const st = reReady('remembrance', 're-entry-btn');
+    if (!st) return;
+    launchRe(st, { kind: 'revisit', source: 'remembrance', target: 'echo', feedback: RE_REVISIT_FEEDBACK });
+  }
+  function chooseReEnter() {
+    const st = reReady('echo', 're-well-entry-btn');
+    if (!st) return;
+    const resume = Boolean(st.draft.voice);
+    if (!resume) {
+      const voice = getBranches().lastChoice.echo;
+      const bank = getRiverFerry().lastOutcome;
+      if (!RE_VOICES.includes(voice) || !RE_BANKS.includes(bank)) return;
+      st.visited.archive = true;
+      st.draft = { voice, bank, answer: [] };
+    }
+    launchRe(st, { kind: 'enter', source: 'echo', target: RE_WELL, voice: st.draft.voice, bank: st.draft.bank, feedback: reEntryFeedback(st.draft.voice, st.draft.bank) });
+  }
+  function chooseReResume() {
+    if (currentScene !== 'remembrance' || !riverEchoUnlocked() || reUpstreamBusy() || AutoAdvance.has('remembrance') || !buttonAvailable('re-resume-entry-btn')) return;
+    const st = getRiverEcho();
+    const target = st.pending?.source || (st.visited.well && st.draft.voice ? RE_WELL : '');
+    if (target && target !== 'remembrance') goScene(target);
+  }
+  function tapReTone(tone) {
+    const st = reReady(RE_WELL, `re-tone-${tone}`);
+    if (!st || !RE_TONES.includes(tone) || !st.visited.well || !st.draft.voice || st.draft.answer.length >= 5) return;
+    const i = st.draft.answer.length;
+    if (rePattern(st.draft.voice, st.draft.bank)[i] !== tone) {
+      paintReScore(`第 ${i + 1} 拍还没接上。已答的 ${i} 拍保留，看看来声和彼岸的回应规则，再试一次。`);
+      return;
+    }
+    st.draft.answer = st.draft.answer.concat(tone);
+    saveRiverEcho(st);
+    playReTone(tone);
+    syncRiverEchoAll();
+  }
+  function undoReAnswer(reset = false) {
+    const st = reReady(RE_WELL, reset ? 're-reset' : 're-undo');
+    if (!st || !st.draft.answer.length) return;
+    st.draft.answer = reset ? [] : st.draft.answer.slice(0, -1);
+    saveRiverEcho(st);
+    syncRiverEchoAll();
+  }
+  function finishReReply() {
+    const st = reReady(RE_WELL, 're-finish');
+    if (!st || !st.visited.well || !reComplete(st.draft)) return;
+    const { voice, bank } = st.draft;
+    launchRe(st, { kind: 'reply', source: RE_WELL, target: 'echo', voice, bank, feedback: reReplyFeedback(voice, bank) });
+  }
+  function resolveRiverEchoPendingOnArrival(scene) {
+    const st = getRiverEcho();
+    const p = st.pending;
+    if (p && scene === p.target && riverEchoUnlocked()) {
+      st.pending = null;
+      if (p.kind === 'enter') st.visited.well = true;
+      else { st.visited.archive = true; reFocusArchive = true; }
+      if (p.kind === 'reply') {
+        const id = `${p.voice}:${p.bank}`;
+        if (!st.heard.includes(id)) st.heard = st.heard.concat(id);
+        st.runs = Math.min(9999, st.runs + 1);
+        st.lastReply = id;
+        st.draft = { voice: '', bank: '', answer: [] };
+      }
+      saveRiverEcho(st);
+    }
+    syncRiverEchoAll();
+  }
+  function replayRiverEchoPending(scene) {
+    const p = getRiverEcho().pending;
+    if (!p || p.source !== scene || !riverEchoUnlocked() || reUpstreamBusy() || AutoAdvance.has(scene)) return;
+    showReResponse(RE_RESPONSES[scene], p.feedback);
+    AutoAdvance.schedule(scene, p.target, { delay: reDelay() });
+  }
+
+  function focusRiverEchoArrival(scene) {
+    if (scene !== 'echo' || !reFocusArchive) return;
+    reFocusArchive = false;
+    const el = $('#re-archive-title');
+    if (el) { pendingSceneFocus = el; el.scrollIntoView({ block: 'start', behavior: 'auto' }); }
+  }
+
+  function playReTone(tone) {
+    if (tone === 'knock') AudioEngine.knock(0.12);
+    if (tone === 'steps') AudioEngine.tick();
+    if (tone === 'bell') AudioEngine.bell(0.16);
+  }
+  function clearRiverEchoPlayback() {
+    rePlayToken++;
+    reTimers.forEach(clearTimeout);
+    reTimers = [];
+    rePlaying = false;
+    $$('#re-call .re-beat').forEach(e => e.classList.remove('is-sounding'));
+  }
+  function listenReCall() {
+    const st = reReady(RE_WELL, 're-listen');
+    if (!st || !st.draft.voice) return;
+    clearRiverEchoPlayback();
+    rePlaying = true;
+    const token = rePlayToken;
+    syncRiverEchoAll();
+    const gap = reduced ? 220 : 620;
+    const call = RE_VOICE_TABLE[st.draft.voice].call;
+    call.forEach((tone, i) => {
+      reTimers.push(setTimeout(() => {
+        if (token !== rePlayToken || currentScene !== RE_WELL) return;
+        $$('#re-call .re-beat').forEach((e, j) => e.classList.toggle('is-sounding', i === j));
+        playReTone(tone);
+        showReResponse('#re-status', `来声第 ${i + 1} 拍：${RE_TONE_NAMES[tone]}。`);
+      }, i * gap));
+    });
+    reTimers.push(setTimeout(() => {
+      if (token !== rePlayToken || currentScene !== RE_WELL) return;
+      clearRiverEchoPlayback();
+      syncRiverEchoAll();
+    }, call.length * gap));
+  }
+  function paintReScore(message = '') {
+    const st = getRiverEcho();
+    const d = st.draft;
+    const call = RE_VOICE_TABLE[d.voice]?.call || [];
+    ['#re-call', '#re-answer'].forEach((selector, index) => {
+      const el = $(selector);
+      if (!el) return;
+      el.replaceChildren(...Array.from({ length: 5 }, (_, i) => {
+        const cell = document.createElement('li');
+        cell.className = `re-beat${index === 1 && i < d.answer.length ? ' is-answered' : ''}`;
+        cell.textContent = `${i + 1} · ${RE_TONE_NAMES[index === 0 ? call[i] : d.answer[i]] || '—'}`;
+        return cell;
+      }));
+    });
+    showReResponse('#re-status', message || (rePlaying ? '正在回听。五拍文字谱一直留在这里。' : st.pending?.kind === 'reply' ? '五拍已接通，回应正回到旧听筒。' : reComplete(d) ? '五拍都接上了。把回应送进听筒，让彼岸听见。' : `已回应 ${d.answer.length}/5 拍。选一种声音接下一拍；答错保留已接上的拍子。`));
+  }
+  function syncRiverEchoAll() {
+    const unlocked = riverEchoUnlocked();
+    const st = getRiverEcho();
+    const busy = reUpstreamBusy();
+    const active = unlocked && !busy && !st.pending && !rePlaying;
+    ['#re-archive', '#re-codex'].forEach(s => { const el = $(s); if (el) el.hidden = !unlocked; });
+    const link = $('#river-echo-well-link'); if (link) link.hidden = !(unlocked && st.visited.well);
+    const ready = riverEchoWellCanVisit() && Boolean(st.draft.voice);
+    const panel = $('#re-well-panel'); if (panel) panel.hidden = !ready;
+    const empty = $('#re-well-empty'); if (empty) empty.hidden = !unlocked || !st.visited.well || ready;
+    const memory = $('#re-memory');
+    if (memory) { memory.hidden = !unlocked || !st.heard.length; memory.textContent = `河岸回声：${st.heard.length}/9 种余韵，共回应 ${st.runs} 次。`; }
+    const sourceVoice = getBranches().lastChoice.echo;
+    const sourceBank = getRiverFerry().lastOutcome;
+    const resume = Boolean(st.draft.voice);
+    const context = $('#re-archive-context');
+    if (context) context.textContent = resume ? `井里还留着「${RE_VOICE_TABLE[st.draft.voice].title}」与「${RE_BANK_TABLE[st.draft.bank].title}」，已回应 ${st.draft.answer.length}/5 拍，回来继续。` : RE_VOICES.includes(sourceVoice) && RE_BANKS.includes(sourceBank) ? `旧听筒记得你听过「${RE_VOICE_TABLE[sourceVoice].title}」。末岸裁定「${RE_BANK_TABLE[sourceBank].title}」之后，它从另一岸带回五拍。` : '先拿起上方任意一只旧听筒，让档案室记住你听过的声音，再回来听河岸的回答。';
+    const after = $('#re-afterword'); if (after) { after.hidden = !st.lastReply || !unlocked; after.textContent = RE_AFTERWORDS[st.lastReply] || ''; }
+    const enter = $('#re-well-entry-btn');
+    if (enter) { enter.disabled = !active || !(resume || RE_VOICES.includes(sourceVoice) && RE_BANKS.includes(sourceBank)); enter.textContent = resume ? '继续井里留下的五拍 ⟶' : '听听另一岸的回应 ⟶'; }
+    const entry = $('#re-entry-btn'); if (entry) { entry.hidden = !unlocked; entry.disabled = !active; }
+    const resumeButton = $('#re-resume-entry-btn');
+    if (resumeButton) { resumeButton.hidden = !unlocked || !(st.pending && st.pending.source !== 'remembrance' || st.visited.well && resume); resumeButton.disabled = busy; }
+    const note = $('#re-entry-note'); if (note) note.textContent = busy ? '还有船或赶车人没签收，先把这趟送完。' : '这是回到旧房间的可选探索。回应一次就能留下记忆，九种余韵可以慢慢收。';
+    const grid = $('#re-codex-grid');
+    if (grid) grid.replaceChildren(...RE_IDS.map(id => {
+      const e = document.createElement('div'); const [v, b] = id.split(':'); const known = st.heard.includes(id);
+      e.className = `re-cell${known ? ' is-unlocked' : ' is-locked'}`;
+      e.textContent = known ? `${RE_VOICE_TABLE[v].title}\n${RE_BANK_TABLE[b].title}` : '？？？';
+      return e;
+    }));
+    const summary = $('#re-codex-summary'); if (summary) summary.textContent = `已留下 ${st.heard.length}/9 种余韵。重听旧听筒、改变末岸裁定，可以听见别的回答。`;
+    if (ready) {
+      const title = $('#re-well-context'); if (title) title.textContent = `来声：${RE_VOICE_TABLE[st.draft.voice].title} · 末岸：${RE_BANK_TABLE[st.draft.bank].title}`;
+      const rule = $('#re-rule'); if (rule) rule.textContent = RE_BANK_TABLE[st.draft.bank].rule;
+      paintReScore();
+    }
+    RE_TONES.forEach(t => { const btn = $(`#re-tone-${t}`); if (btn) btn.disabled = !ready || !active || st.draft.answer.length >= 5; });
+    ['re-undo', 're-reset'].forEach(id => { const btn = $(`#${id}`); if (btn) btn.disabled = !ready || !active || !st.draft.answer.length; });
+    const listen = $('#re-listen'); if (listen) listen.disabled = !ready || !active;
+    const finish = $('#re-finish'); if (finish) finish.disabled = !ready || !active || !reComplete(st.draft);
+    Object.entries(RE_RESPONSES).forEach(([scene, id]) => { if (st.pending?.source !== scene) showReResponse(id, ''); });
+  }
+  function forgetRiverEchoState() {
+    reFocusArchive = false;
+    clearRiverEchoPlayback();
+    try { localStorage.removeItem(RIVER_ECHO_KEY); } catch {}
+    ['remembrance', 'echo', RE_WELL].forEach(s => AutoAdvance.clear(s));
+    ['#re-archive', '#re-afterword', '#re-codex', '#re-memory', '#re-well-panel', '#re-well-empty', '#river-echo-well-link', '#re-entry-response', '#re-archive-response', '#re-well-response', '#re-resume-entry-btn'].forEach(s => { const e = $(s); if (e) e.hidden = true; });
+  }
+  const onTrustedRe = (selector, fn) => { const el = $(selector); if (el) el.addEventListener('click', e => { if (e.isTrusted) fn(); }); };
+  onTrustedRe('#re-entry-btn', chooseReRevisit);
+  onTrustedRe('#re-resume-entry-btn', chooseReResume);
+  onTrustedRe('#re-well-entry-btn', chooseReEnter);
+  RE_TONES.forEach(t => onTrustedRe(`#re-tone-${t}`, () => tapReTone(t)));
+  onTrustedRe('#re-listen', listenReCall);
+  onTrustedRe('#re-undo', () => undoReAnswer());
+  onTrustedRe('#re-reset', () => undoReAnswer(true));
+  onTrustedRe('#re-finish', finishReReply);
+
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -71852,8 +72182,17 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     if (st.draft.parcel) items.push(`河上还有「${RV_PARCEL_TABLE[st.draft.parcel].title}」，已划 ${st.draft.trips.length} 趟`);
     const eligible = rvCourtEligible(st);
     if (eligible) items.push(`末岸裁定已得 ${st.courtOutcomes.length}/3`);
-    if (eligible && st.courtOutcomes.length >= 3 && !st.pending) return { title: "v118 已全部完成", items: ["断桥两岸都记得你的船，下一章正在筹备"], target: null, done: true };
+    if (eligible && st.courtOutcomes.length >= 3 && !st.pending) return riverEchoProgressStep();
     return { title: "v118 渡河码头", items, target: eligible ? "rv-court" : "rv", done: false };
+  };
+
+  const riverEchoProgressStep = () => {
+    const st = getRiverEcho();
+    if (reUpstreamBusy()) return { title: "v119 等候渡河签收", items: ["先把在途的船与赶车人送回，再听河岸回声"], target: "rv", done: false };
+    if (st.pending) return { title: "v119 回声正在路上", items: ["从原场景继续那份已接通的回应"], target: st.pending.source === 'remembrance' ? 're' : 're-resume', done: false };
+    if (st.draft.voice) return { title: "v119 井里还有回应", items: [`已回应 ${st.draft.answer.length}/5 拍，进度随时保存；接完后送回听筒`], target: 're-resume', done: false };
+    if (st.heard.length) return { title: "v119 已回应彼岸", items: [`已听见 ${st.heard.length}/9 种余韵；可回听旧声音，继续可选收集`], target: 're', done: true };
+    return { title: "v119 河岸回声", items: ["回到回声档案室，旧听筒会记得你听过的声音"], target: 're', done: false };
   };
 
   const shadowlessPhotographyProgressStep = () => {
@@ -72440,6 +72779,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   syncDreamMendingAll();
   syncHearseYardAll();
   syncRiverFerryAll();
+  syncRiverEchoAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

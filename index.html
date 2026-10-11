@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=118">
+  <link rel="stylesheet" href="styles.css?v=119">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -3545,6 +3545,18 @@
           </figure>
           <p class="branch-response" id="echo-response" aria-live="polite"></p>
 
+          <!-- v119：旧听筒的河岸回访，保留上方 v29 / v54 机制 -->
+          <aside class="re-archive reveal" id="re-archive" aria-labelledby="re-archive-title" hidden>
+            <p class="re-kicker">THE OTHER BANK · 河 岸 回 声</p>
+            <h3 class="re-heading" id="re-archive-title">听筒的另一头，有了河岸。</h3>
+            <figure class="re-figure"><img class="re-img" data-src="assets/v119-archive-river-window.webp" alt="旧回声档案柜与悬吊听筒间，拱窗外是一条晨雾中的河；桌上铜听碗泛起水纹" width="1536" height="1024" loading="lazy" decoding="async"></figure>
+            <p class="re-copy" id="re-archive-context"></p>
+            <p class="re-afterword" id="re-afterword" aria-live="polite" hidden></p>
+            <button class="re-action" id="re-well-entry-btn" type="button" data-hover>听听另一岸的回应 ⟶</button>
+            <p class="re-response" id="re-archive-response" aria-live="polite" hidden></p>
+          </aside>
+
+
           <!-- v109 回声档案室奉茶签收与记忆 -->
           <p class="watch-memory et-echo" id="et-echo-echo" hidden></p>
           <div class="et-server reveal" id="et-server-echo" hidden>
@@ -5471,6 +5483,18 @@
               <p class="ts-response" id="ts-court-entry-response" aria-live="polite" hidden></p>
             </div>
           </div>
+          <!-- v119 河岸回声：一次即可完成，九种可选收集 -->
+          <p class="watch-memory re-memory" id="re-memory" hidden></p>
+          <div class="re-codex codex-section" id="re-codex" aria-labelledby="re-codex-title" hidden>
+            <h3 class="codex-title" id="re-codex-title">河岸回声 · 旧听筒的余韵</h3>
+            <p class="re-copy" id="re-codex-summary"></p>
+            <div class="re-grid" id="re-codex-grid"></div>
+            <p class="re-copy" id="re-entry-note"></p>
+            <button class="re-action" id="re-entry-btn" type="button" data-hover>回访回声档案室 ⟶</button>
+            <button class="re-action" id="re-resume-entry-btn" type="button" hidden data-hover>继续井里未完的回应 ⟶</button>
+            <p class="re-response" id="re-entry-response" aria-live="polite" hidden></p>
+          </div>
+
           <!-- v118 渡货图鉴 -->
           <p class="watch-memory rv-memory" id="rv-memory" hidden></p>
           <div class="rv-codex reveal" id="rv-codex" hidden>
@@ -10767,6 +10791,45 @@
         </div>
       </section>
 
+      <!-- v119 河岸听井 -->
+      <section class="scene scene-branch" id="scene-river-echo-well" data-scene="river-echo-well" data-title="Goddead — 河岸听井" aria-label="河岸听井">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">ECHOES FROM THE OTHER BANK · 河 岸 听 井</p>
+            <h2 class="sec-title">河岸听井</h2>
+            <p class="sec-desc">你说过的话，终于有了另一种回答。</p>
+          </header>
+          <p class="re-copy" id="re-well-empty" hidden>井里的回应已经送回旧听筒。回到回声档案室，再听一份来自彼岸的五拍。</p>
+          <div class="re-well-panel reveal" id="re-well-panel" hidden>
+            <div class="re-art">
+              <figure class="re-figure"><img class="re-img" data-src="assets/v119-river-echo-well.webp" alt="临河的石听井泛着水纹；台上左边是门环，中间是一双旧鞋，右边是铜铃与听筒" width="1536" height="1024" loading="lazy" decoding="async"></figure>
+              <p class="re-copy" id="re-well-context"></p>
+              <p class="re-caption">水纹有五圈。声音关着时，来声的文字谱也留在这里。回应会随时保存，回来仍是你已接上的那几拍。</p>
+            </div>
+            <div class="re-scorebox">
+              <p class="re-rule" id="re-rule"></p>
+              <div class="re-score"><p class="re-score-label">来声 · 从左往右五拍</p><ol class="re-beats" id="re-call" aria-label="来声五拍"></ol></div>
+              <button class="re-action re-listen" id="re-listen" type="button" data-hover>再听一遍五拍 ♫</button>
+              <div class="re-score"><p class="re-score-label">你的回应</p><ol class="re-beats" id="re-answer" aria-label="已答五拍"></ol></div>
+              <div class="re-tones" role="group" aria-label="接下一拍的声音">
+                <button class="re-tone" id="re-tone-knock" type="button" data-hover><span>敲</span><small>门环</small></button>
+                <button class="re-tone" id="re-tone-steps" type="button" data-hover><span>步</span><small>旧鞋</small></button>
+                <button class="re-tone" id="re-tone-bell" type="button" data-hover><span>铃</span><small>铜铃</small></button>
+                <button class="re-tone" id="re-tone-rest" type="button" data-hover><span>留白</span><small>空一拍</small></button>
+              </div>
+              <p class="re-status" id="re-status" role="status" aria-live="polite"></p>
+              <div class="re-controls">
+                <button class="re-action" id="re-undo" type="button" data-hover>退回一拍</button>
+                <button class="re-action" id="re-reset" type="button" data-hover>重答全部</button>
+                <button class="re-action re-finish" id="re-finish" type="button" data-hover>把回应送进听筒 ⟶</button>
+              </div>
+            </div>
+          </div>
+          <p class="re-response" id="re-well-response" aria-live="polite" hidden></p>
+          <nav class="branch-nav reveal" aria-label="离开河岸听井"><button class="exit-link" type="button" data-go="echo" data-hover>⟵ 回到旧听筒，留着五拍稍后再答</button></nav>
+        </div>
+      </section>
+
       <!-- v118 渡河码头 -->
       <section class="scene scene-branch scene-ferry-landing" id="scene-ferry-landing" data-scene="ferry-landing" data-title="Goddead — 渡河码头" aria-label="渡河码头">
         <div class="scene-body branch-body">
@@ -11251,6 +11314,7 @@
       <a href="#hearing-of-the-last-cart" id="hearing-of-the-last-cart-link" hidden data-hover>31γ / 末车听证</a>
       <a href="#ferry-landing" id="ferry-landing-link" hidden data-hover>31δ / 渡河码头</a>
       <a href="#river-crossing" id="river-crossing-link" hidden data-hover>31ε / 两岸之间</a>
+      <a href="#river-echo-well" id="river-echo-well-link" hidden data-hover>32α / 河岸听井</a>
       <a href="#hearing-of-the-last-bank" id="hearing-of-the-last-bank-link" hidden data-hover>31ζ / 末岸听证会</a>
 
 
@@ -11261,6 +11325,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=118"></script>
+    <script src="script.js?v=119"></script>
   </body>
 </html>

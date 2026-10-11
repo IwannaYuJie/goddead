@@ -21678,3 +21678,50 @@ button.dw-tile:disabled {
   .rv-voyage-actions .rv-action { padding: 0.5rem; font-size: 0.66rem; }
 }
 @media (prefers-reduced-motion: reduce) { .rv-boat { transition: none; } }
+
+/* v119 河岸回声：局部旧房间回访与五拍谱 */
+.re-archive { width: min(88vw, 640px); margin: 2rem auto; padding-top: 1.5rem; border-top: 1px solid #9a7f4755; }
+.re-kicker { font: 0.62rem var(--mono); letter-spacing: 0.25em; color: var(--gold); }
+.re-heading { font: 1.35rem var(--serif-cn); color: var(--bone-bright); margin: 1rem 0; line-height: 1.6; }
+.re-figure { width: 100%; aspect-ratio: 3 / 2; margin: 1rem 0; overflow: hidden; border: 1px solid #9a7f4766; background: var(--void); }
+.re-figure .re-img { display: block; width: 100%; height: 100%; object-fit: cover; -webkit-mask-image: none; mask-image: none; }
+.re-copy { color: var(--bone-bright); font: 0.82rem/1.95 var(--serif-cn); margin: 1rem 0; }
+.re-afterword { margin: 1.3rem 0; padding: 1rem 1.2rem; color: #edddad; border-left: 2px solid var(--gold); background: #9a7f4712; font: 0.92rem/2 var(--serif-cn); }
+.re-well-panel { width: min(88vw, 840px); margin: 1rem auto; display: grid; grid-template-columns: 1fr 1.05fr; gap: 1.5rem; align-items: start; }
+.re-well-panel[hidden], .re-archive[hidden] { display: none; }
+.re-well-panel .re-figure { margin-top: 0; }
+.re-caption { color: var(--muted); font: 0.72rem/1.9 var(--serif-cn); }
+.re-scorebox { padding: 1rem; border: 1px solid #9a7f4755; background: #090a09cc; }
+.re-rule { margin: 0 0 1rem; color: #edddad; font: 0.87rem/1.8 var(--serif-cn); }
+.re-score-label { margin: 0.4rem 0; color: var(--muted); font: 0.65rem var(--mono); letter-spacing: 0.08em; }
+.re-beats { margin: 0 0 0.8rem; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 0.25rem; }
+.re-beat { min-width: 0; padding: 0.6rem 0.15rem; text-align: center; color: var(--bone-bright); border: 1px solid #aaa19344; font: 0.75rem var(--serif-cn); white-space: nowrap; transition: background-color 0.15s; }
+.re-beat.is-sounding { background: #b58a38; color: #fff9e5; border-color: #f2d38a; box-shadow: 0 0 14px #c8a86055; }
+.re-beat.is-answered { border-color: #c8a860aa; background: #9a7f4722; color: #f2dfae; }
+.re-action { display: inline-block; min-height: 44px; padding: 0.65rem 1rem; margin: 0.25rem 0; border: 1px solid #9a7f4788; background: #9a7f4715; color: var(--bone-bright); font: 0.78rem/1.5 var(--serif-cn); cursor: pointer; }
+.re-action:hover, .re-tone:hover { background: #9a7f4733; border-color: var(--gold); }
+.re-action:focus-visible, .re-tone:focus-visible { outline: 2px solid #edce80; outline-offset: 3px; }
+.re-action:disabled, .re-tone:disabled { cursor: default; opacity: 0.4; }
+.re-listen { width: 100%; margin: 0 0 1rem; }
+.re-tones { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 0.4rem; }
+.re-tone { min-width: 44px; min-height: 64px; padding: 0.45rem 0.2rem; border: 1px solid #aaa19366; background: #181712; color: var(--bone-bright); cursor: pointer; }
+.re-tone span { display: block; font: 1.1rem var(--serif-cn); }
+.re-tone small { display: block; margin-top: 0.3rem; font: 0.6rem var(--serif-cn); color: var(--muted); }
+.re-status, .re-response { color: var(--bone-bright); font: 0.72rem/1.9 var(--serif-cn); }
+.re-status { min-height: 3.8em; margin: 0.9rem 0 0.5rem; }
+.re-response { width: min(88vw, 740px); margin: 1rem auto; }
+.re-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+.re-controls .re-action { margin: 0; }
+.re-finish { grid-column: 1 / -1; }
+.re-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 0.5rem; margin: 1rem 0; }
+.re-cell { padding: 0.75rem; border: 1px solid #9a7f4744; font: 0.68rem/1.9 var(--serif-cn); white-space: pre-line; color: var(--muted); }
+.re-cell.is-unlocked { color: var(--bone-bright); border-color: #9a7f4788; }
+@media (max-width: 720px) {
+  .re-well-panel { grid-template-columns: 1fr; gap: 0.75rem; }
+  .re-scorebox { padding: 0.85rem; }
+  .re-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .re-beat { font-size: 0.7rem; }
+  .re-copy { font-size: 0.78rem; }
+}
+@media (prefers-reduced-motion: reduce) { .re-beat { transition: none; } }
+#re-archive-title { scroll-margin-top: 5.5rem; }

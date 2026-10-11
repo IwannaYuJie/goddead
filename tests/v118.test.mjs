@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 const source = readFileSync(new URL('../script.js', import.meta.url), 'utf8');
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const start = source.indexOf('  /* ============================================================\n     v118 渡河码头');
-const end = source.indexOf('  /* ---------- 痕迹室「下一步」 ----------', start);
+const end = source.indexOf('  /* ============================================================\n     v119 河岸回声', start);
 assert.ok(start > 0 && end > start);
 const moduleSource = source.slice(start, end);
 assert.equal((moduleSource.match(/addEventListener\(/g) || []).length, 1);
@@ -198,8 +198,8 @@ for (const scene of ['ferry-landing', 'river-crossing', 'hearing-of-the-last-ban
   assert.equal(webp.toString('ascii', 0, 4), 'RIFF'); assert.ok(webp.length < 300 * 1024);
 }
 assert.match(source, /resolveRiverFerryPendingOnArrival\(name\);\s*replayRiverFerryPending\(name\);/);
-assert.match(source, /forgetHearseYardState\(\);\s*forgetRiverFerryState\(\);\s*forgetCodexFolds\(\);/);
-assert.match(source, /syncHearseYardAll\(\);\s*syncRiverFerryAll\(\);\s*revealScene/);
+assert.match(source, /forgetHearseYardState\(\);\s*forgetRiverFerryState\(\);\s*forgetRiverEchoState\(\);\s*forgetCodexFolds\(\);/);
+assert.match(source, /syncHearseYardAll\(\);\s*syncRiverFerryAll\(\);\s*syncRiverEchoAll\(\);\s*revealScene/);
 assert.match(source, /return riverFerryProgressStep\(\)/);
 assert.match(source, /const goScene = \(name\) =>/);
 assert.doesNotMatch(moduleSource, /showScene/);
