@@ -31,4 +31,8 @@
 
 ## 公开发布
 
-待 main 功能推送后核对 Pages、普通公开 URL 的 HTML / CSS / 主脚本 / 目录 / ink-rules / 原门图 / 三张 v107 原画字节，以及公开 Chrome 初载和原目录焦点 / 存储。
+功能 `ca824e81e32a788c321d1cc5910f4e0a271400cd` 已推送 main，Cloudflare Pages completed / success。2026-10-11T12:56:11.788092+08:00（Asia/Taipei）普通公开 URL 确认 v125 / 280；HTML / CSS / JS / directory.js / ink-rules.js / 门图 / 三张 v107 原画共九文件 raw 大小与 SHA-256 全一致，无需 HTML 归一化。Chrome 公开冷载四个 v125 核心依赖，新规则工厂注册且命名空间冻结；active=threshold、title=Goddead、1470px 无横溢，空档指引链接隐藏。原目录 5/5、menu-close 首焦点 / stage inert、Esc 回 menu-trigger / inert=false，菜单前后 raw 相同，无新增 error / warn。本地测试档未写入公开站，原 21 项本地状态恢复，缓存调试 / 视口复原，临时服务已停止。
+
+公开资产明细见 [v125-public-assets.json](v125-public-assets.json)，浏览器明细见 [v125-public-browser.json](v125-public-browser.json)。
+
+![公开首页](v125-public-root-desktop.png)
