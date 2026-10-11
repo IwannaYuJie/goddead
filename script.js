@@ -1436,6 +1436,8 @@ document.addEventListener("DOMContentLoaded", () => {
     replayRiverFerryPending(name);
     resolveRiverEchoPendingOnArrival(name);
     replayRiverEchoPending(name);
+    resolveDawnPulsePendingOnArrival(name);
+    replayDawnPulsePending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1499,7 +1501,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const beliefGuard = getBelief();
     if (BRANCH_SCENES.includes(target) && !branchState.visited[target] && AUDIT_BRANCH_OUTCOME[target] !== auditGuardState.outcome
       && beliefGuard.pendingTarget !== target && !(BELIEF_SCENE_BRANCH[target] && beliefGuard.branches[BELIEF_SCENE_BRANCH[target]].visits > 0) && !innocentWitnessProtectionBridgeAllows(target)
-      && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !lostWeightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !riverEchoBridgeAllows(target)) target = "corridor";
+      && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !lostWeightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !riverEchoBridgeAllows(target) && !dawnPulseBridgeAllows(target)) target = "corridor";
 
     /* v33 结果房守卫：仅本轮 outcome 对应或曾到访时允许直达，否则规范化回复核科；
        复核科本身不设守卫，直接 hash 采用 neutral 顺序。
@@ -1907,6 +1909,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* v119 河岸听井，仅本章已到访或合法进入 pending 可到达 */
     if (target === "river-echo-well" && !riverEchoWellCanVisit()) target = "remembrance";
+    /* v120 接管台，仅本章到访或合法进入 pending 可到达 */
+    if (target === "dawn-pulse-manifold" && !dawnPulseWorkCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -1970,6 +1974,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (location.hash !== "#" + name) location.hash = name;
       next.scrollTop = 0;
       focusRiverEchoArrival(name);
+      focusDawnPulseArrival(name);
       /* 焦点恢复与 veil 收尾必须和场景切换同一拍完成：
          依赖嵌套定时器时，内层定时器一旦丢失就会造成
          veilBusy 永久卡死、veil 常亮与焦点悬空（QA 实测复现） */
@@ -48163,6 +48168,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetHearseYardState();
       forgetRiverFerryState();
       forgetRiverEchoState();
+      forgetDawnPulseState();
       forgetCodexFolds();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
@@ -71562,6 +71568,232 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   onTrustedRe('#re-reset', () => undoReAnswer(true));
   onTrustedRe('#re-finish', finishReReply);
 
+  /* ============================================================
+     v120 清晨脉搏 / THE FIRST MORNING PULSE
+     旧阀门决定九管；只写本章，完整路径与晨光漏口纯规则判断。
+     ============================================================ */
+  const DAWN_PULSE_KEY = 'goddead_v120_dawn_pulse';
+  const DP_WORK = 'dawn-pulse-manifold';
+  const DP_VALVES = ['down', 'up', 'isolate'];
+  const DP_DIR_NAMES = ['上', '右', '下', '左'];
+  const DP_TABLE = {
+    down: { title: '顺流阀', kinds: 'SSCCSCCSS', initial: [1,1,3,3,1,0,3,1,1], source: [0,3], exit: [8,1], rule: '晨光从左上格的左口进，送到右下格的右口。', after: '顺流阀里有了第一束晨光。血仍记得下坡的路，却第一次把天亮送到了井底。' },
+    up: { title: '逆流阀', kinds: 'CSSCSCSSC', initial: [2,1,1,2,1,3,1,1,2], source: [6,3], exit: [2,1], rule: '晨光从左下格的左口进，送到右上格的右口。', after: '逆流阀把井底的微光送了上来。守则的第一条不再发痒，那行字暖了一下。' },
+    isolate: { title: '隔离闸', kinds: 'CCSSSSSCC', initial: [2,0,0,0,0,0,0,3,0], source: [2,0], exit: [6,2], rule: '晨光从右上格的上口进，送到左下格的下口。', after: '隔离闸没有再把光关在管内。那间仍在工作的泵房，第一次听见了属于自己的清晨脉搏。' },
+  };
+  const DP_REVISIT_FEEDBACK = '河岸的回应顺着墙里的铜管走进维修井。井底第一次有了天光。';
+  const dpEntryFeedback = v => `旧井记得你选过「${DP_TABLE[v].title}」。九段晨光管等你接通，让第一下脉搏回到井里。`;
+  const dpRepairFeedback = v => `九段铜管连成了一路晨光。「${DP_TABLE[v].title}」的第一下脉搏正在回到旧井。`;
+  const dpDelay = () => reduced ? 300 : 1400;
+  let dpFocusWell = false;
+
+  function dpDomain(valve, tile) { return DP_TABLE[valve]?.kinds[tile] === 'S' ? 2 : 4; }
+  function dpTurnsValid(valve, turns) {
+    return DP_VALVES.includes(valve) && Array.isArray(turns) && turns.length === 9 && [...turns].every((r,i) => Number.isInteger(r) && r >= 0 && r < dpDomain(valve,i));
+  }
+  function dpPorts(valve, tile, turn) {
+    return (DP_TABLE[valve].kinds[tile] === 'S' ? [1,3] : [0,1]).map(d => (d + turn) % 4);
+  }
+  function dpNeighbor(tile, dir) {
+    const row = Math.floor(tile / 3), col = tile % 3;
+    if (dir === 0) return row ? tile - 3 : -1;
+    if (dir === 1) return col < 2 ? tile + 1 : -1;
+    if (dir === 2) return row < 2 ? tile + 3 : -1;
+    return col ? tile - 1 : -1;
+  }
+  function dpAnalyze(valve, turns) {
+    if (!dpTurnsValid(valve, turns)) return null;
+    const model = DP_TABLE[valve];
+    const ports = turns.map((r,i) => dpPorts(valve,i,r));
+    const leaks = [];
+    ports.forEach((ps,i) => ps.forEach(d => {
+      const j = dpNeighbor(i,d);
+      const terminal = (model.source[0] === i && model.source[1] === d) || (model.exit[0] === i && model.exit[1] === d);
+      if (j < 0 ? !terminal : !ports[j].includes((d + 2) % 4)) leaks.push([i,d]);
+    }));
+    const lit = [];
+    if (ports[model.source[0]].includes(model.source[1])) {
+      lit.push(model.source[0]);
+      for (let k = 0; k < lit.length; k++) ports[lit[k]].forEach(d => {
+        const j = dpNeighbor(lit[k],d);
+        if (j >= 0 && ports[j].includes((d + 2) % 4) && !lit.includes(j)) lit.push(j);
+      });
+    }
+    const outlet = lit.includes(model.exit[0]) && ports[model.exit[0]].includes(model.exit[1]);
+    return { ports, lit: lit.sort((a,b) => a-b), leaks, outlet, complete: outlet && lit.length === 9 && !leaks.length };
+  }
+  function defaultDawnPulse() {
+    return { version: 120, visited: { well: false, work: false }, draft: { valve: '', turns: [], undo: [] }, repairs: [], repairRuns: 0, lastRepair: '', pending: null };
+  }
+  function normalizeDawnPulse(raw) {
+    const st = defaultDawnPulse();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return st;
+    st.visited.well = raw.visited?.well === true;
+    st.visited.work = st.visited.well && raw.visited?.work === true;
+    const d = raw.draft;
+    if (st.visited.well && d && DP_VALVES.includes(d.valve)) {
+      const valid = dpTurnsValid(d.valve,d.turns);
+      const undo = [];
+      if (valid && Array.isArray(d.undo)) for (let i = d.undo.length - 1; i >= Math.max(0,d.undo.length - 64); i--) {
+        if (!Number.isInteger(d.undo[i]) || d.undo[i] < 0 || d.undo[i] > 8) break;
+        undo.unshift(d.undo[i]);
+      }
+      st.draft = { valve: d.valve, turns: valid ? d.turns.slice() : DP_TABLE[d.valve].initial.slice(), undo };
+    }
+    if (st.visited.work && Array.isArray(raw.repairs)) st.repairs = [...new Set(raw.repairs.filter(v => DP_VALVES.includes(v)))];
+    const count = Number.isSafeInteger(raw.repairRuns) && raw.repairRuns >= 0 ? Math.min(9999,raw.repairRuns) : 0;
+    st.repairRuns = Math.max(st.repairs.length,count);
+    st.lastRepair = st.repairs.includes(raw.lastRepair) ? raw.lastRepair : '';
+    const p = raw.pending;
+    if (!p || typeof p !== 'object' || Array.isArray(p)) return st;
+    const shape = Object.keys(p).sort().join(',');
+    if (p.kind === 'revisit' && shape === 'feedback,kind,source,target' && p.source === 'remembrance' && p.target === 'vein' && p.feedback === DP_REVISIT_FEEDBACK) {
+      st.pending = { kind: 'revisit', source: 'remembrance', target: 'vein', feedback: DP_REVISIT_FEEDBACK };
+    } else if (shape === 'feedback,kind,source,target,valve' && p.valve === st.draft.valve && DP_VALVES.includes(p.valve)) {
+      if (p.kind === 'enter' && st.visited.well && p.source === 'vein' && p.target === DP_WORK && p.feedback === dpEntryFeedback(p.valve)) {
+        st.pending = { kind: 'enter', source: 'vein', target: DP_WORK, valve: p.valve, feedback: p.feedback };
+      } else if (p.kind === 'repair' && st.visited.work && dpAnalyze(p.valve,st.draft.turns)?.complete && p.source === DP_WORK && p.target === 'vein' && p.feedback === dpRepairFeedback(p.valve)) {
+        st.pending = { kind: 'repair', source: DP_WORK, target: 'vein', valve: p.valve, feedback: p.feedback };
+      }
+    }
+    return st;
+  }
+  function getDawnPulse() { try { return normalizeDawnPulse(JSON.parse(store.get(DAWN_PULSE_KEY,'{}'))); } catch { return defaultDawnPulse(); } }
+  function saveDawnPulse(st) { const safe = normalizeDawnPulse(st); store.set(DAWN_PULSE_KEY,JSON.stringify(safe)); return safe; }
+  function dawnPulseUnlocked() { return riverEchoUnlocked() && getRiverEcho().heard.length > 0; }
+  function dpUpstreamBusy() { const re = getRiverEcho(); return reUpstreamBusy() || Boolean(re.pending || re.draft.voice); }
+  function dawnPulseWorkCanVisit() { const st = getDawnPulse(); return dawnPulseUnlocked() && (st.visited.work || st.pending?.kind === 'enter'); }
+  function dawnPulseBridgeAllows(target) { if (target !== 'vein' || !dawnPulseUnlocked()) return false; const st = getDawnPulse(); return st.visited.well || st.pending?.target === 'vein'; }
+  function dpReady(scene,id) {
+    if (currentScene !== scene || !dawnPulseUnlocked() || dpUpstreamBusy() || AutoAdvance.has(scene) || !buttonAvailable(id)) return null;
+    const st = getDawnPulse(); return st.pending ? null : st;
+  }
+  const DP_RESPONSES = { remembrance: '#dp-entry-response', vein: '#dp-well-response', 'dawn-pulse-manifold': '#dp-work-response' };
+  function showDpResponse(id,text) { const e = $(id); if (e) { e.textContent = text; e.hidden = !text; } }
+  function launchDp(st,p) {
+    st.pending = p; saveDawnPulse(st); syncDawnPulseAll(); showDpResponse(DP_RESPONSES[p.source],p.feedback);
+    AudioEngine.whoosh(); AutoAdvance.schedule(p.source,p.target,{delay:dpDelay()});
+  }
+  function chooseDpRevisit() { const st = dpReady('remembrance','dp-entry-btn'); if (st) launchDp(st,{kind:'revisit',source:'remembrance',target:'vein',feedback:DP_REVISIT_FEEDBACK}); }
+  function chooseDpEnter() {
+    const st = dpReady('vein','dp-work-entry-btn'); if (!st) return;
+    if (!st.draft.valve) {
+      const valve = getBranches().lastChoice.vein; if (!DP_VALVES.includes(valve)) return;
+      st.visited.well = true; st.draft = {valve,turns:DP_TABLE[valve].initial.slice(),undo:[]};
+    }
+    const v = st.draft.valve; launchDp(st,{kind:'enter',source:'vein',target:DP_WORK,valve:v,feedback:dpEntryFeedback(v)});
+  }
+  function chooseDpResume() {
+    if (currentScene !== 'remembrance' || !dawnPulseUnlocked() || dpUpstreamBusy() || AutoAdvance.has('remembrance') || !buttonAvailable('dp-resume-entry-btn')) return;
+    const st = getDawnPulse(); const target = st.pending?.source || (st.visited.work && st.draft.valve ? DP_WORK : '');
+    if (target && target !== 'remembrance') goScene(target);
+  }
+  function rotateDpTile(tile) {
+    if (!Number.isInteger(tile) || tile < 0 || tile > 8) return;
+    const st = dpReady(DP_WORK,`dp-turn-${tile}`); if (!st || !st.visited.work || !st.draft.valve) return;
+    st.draft.turns[tile] = (st.draft.turns[tile] + 1) % dpDomain(st.draft.valve,tile);
+    st.draft.undo = st.draft.undo.concat(tile).slice(-64); saveDawnPulse(st); AudioEngine.tick(); syncDawnPulseAll();
+  }
+  function undoDpTurn(reset = false) {
+    const st = dpReady(DP_WORK,reset ? 'dp-reset' : 'dp-undo'); if (!st || !st.visited.work || !st.draft.valve) return;
+    if (reset) { st.draft.turns = DP_TABLE[st.draft.valve].initial.slice(); st.draft.undo = []; }
+    else {
+      const tile = st.draft.undo.pop(); if (tile === undefined) return;
+      const domain = dpDomain(st.draft.valve,tile); st.draft.turns[tile] = (st.draft.turns[tile] + domain - 1) % domain;
+    }
+    saveDawnPulse(st); syncDawnPulseAll();
+  }
+  function finishDpRepair() {
+    const st = dpReady(DP_WORK,'dp-finish'); if (!st || !st.visited.work || !dpAnalyze(st.draft.valve,st.draft.turns)?.complete) return;
+    launchDp(st,{kind:'repair',source:DP_WORK,target:'vein',valve:st.draft.valve,feedback:dpRepairFeedback(st.draft.valve)});
+  }
+  function resolveDawnPulsePendingOnArrival(scene) {
+    const st = getDawnPulse(), p = st.pending;
+    if (p && p.target === scene && dawnPulseUnlocked() && !dpUpstreamBusy()) {
+      st.pending = null;
+      if (p.kind === 'enter') st.visited.work = true;
+      else { st.visited.well = true; dpFocusWell = true; }
+      if (p.kind === 'repair') {
+        if (!st.repairs.includes(p.valve)) st.repairs = st.repairs.concat(p.valve);
+        st.repairRuns = Math.min(9999,st.repairRuns + 1); st.lastRepair = p.valve;
+        st.draft = {valve:'',turns:[],undo:[]};
+      }
+      saveDawnPulse(st);
+    }
+    syncDawnPulseAll();
+  }
+  function replayDawnPulsePending(scene) {
+    const p = getDawnPulse().pending;
+    if (!p || p.source !== scene || !dawnPulseUnlocked() || dpUpstreamBusy() || AutoAdvance.has(scene)) return;
+    showDpResponse(DP_RESPONSES[scene],p.feedback); AutoAdvance.schedule(scene,p.target,{delay:dpDelay()});
+  }
+  function focusDawnPulseArrival(scene) {
+    if (scene !== 'vein' || !dpFocusWell) return;
+    dpFocusWell = false; const el = $('#dp-well-title'); if (el) { pendingSceneFocus = el; el.scrollIntoView({block:'start',behavior:'auto'}); }
+  }
+  function paintDpBoard(st) {
+    const {valve,turns} = st.draft, analysis = dpAnalyze(valve,turns); if (!analysis) return;
+    const m = DP_TABLE[valve], endpoints = [[50,0],[100,50],[50,100],[0,50]];
+    turns.forEach((turn,i) => {
+      const btn = $(`#dp-turn-${i}`); if (!btn) return;
+      const ports = analysis.ports[i];
+      btn.classList.toggle('is-lit',analysis.lit.includes(i));
+      btn.classList.toggle('is-source',m.source[0] === i); btn.classList.toggle('is-outlet',m.exit[0] === i);
+      btn.setAttribute('aria-label',`第 ${Math.floor(i/3)+1} 行第 ${i%3+1} 列，${m.kinds[i] === 'S' ? '直管' : '弯管'}，${ports.map(d=>DP_DIR_NAMES[d]).join('和')}接口${analysis.lit.includes(i) ? '，晨光已到' : ''}；顺时针转一格`);
+      const svg = btn.querySelector('svg');
+      if (svg) {
+        const ns = 'http://www.w3.org/2000/svg';
+        const pipe = document.createElementNS(ns,'path');
+        const a = endpoints[ports[0]], b = endpoints[ports[1]];
+        pipe.setAttribute('d',m.kinds[i] === 'S' ? `M ${a.join(' ')} L ${b.join(' ')}` : `M ${a.join(' ')} Q 50 50 ${b.join(' ')}`); pipe.setAttribute('class','dp-pipe');
+        const marks = ports.map(d=>{ const e=document.createElementNS(ns,'circle');e.setAttribute('cx',String(endpoints[d][0]));e.setAttribute('cy',String(endpoints[d][1]));e.setAttribute('r','5');e.setAttribute('class',analysis.leaks.some(([t,p])=>t===i&&p===d)?'dp-port is-leaking':'dp-port');return e; });
+        if (m.source[0] === i || m.exit[0] === i) {
+          const incoming=m.source[0]===i, d=(incoming?m.source:m.exit)[1], [x,y]=endpoints[d];
+          const marker=document.createElementNS(ns,'text');marker.setAttribute('x',String(x===0?12:x===100?88:50));marker.setAttribute('y',String(y===0?18:y===100?90:55));marker.setAttribute('text-anchor','middle');marker.setAttribute('class','dp-terminal');marker.textContent=incoming?'入':'出';marks.push(marker);
+        }
+        svg.replaceChildren(pipe,...marks);
+      }
+    });
+    const status = $('#dp-status');
+    if (status) {
+      const leak=analysis.leaks[0];
+      status.textContent = analysis.complete ? '九段铜管都接通了，晨光没有漏口。让第一下脉搏回到旧井。' : `晨光已到 ${analysis.lit.length}/9 段。${analysis.outlet ? '已连到出口，但还有管段需要接入。' : '出口还在等光。'}${leak ? `第 ${Math.floor(leak[0]/3)+1} 行第 ${leak[0]%3+1} 列的${DP_DIR_NAMES[leak[1]]}口漏光；转动管段，让相邻接口对上。` : '还有未接入的管段。'}`;
+    }
+  }
+  function syncDawnPulseAll() {
+    const unlocked=dawnPulseUnlocked(), st=getDawnPulse(), busy=dpUpstreamBusy(), active=unlocked&&!busy&&!st.pending;
+    ['#dp-well','#dp-codex'].forEach(s=>{const e=$(s);if(e)e.hidden=!unlocked;});
+    const ready=dawnPulseWorkCanVisit()&&Boolean(st.draft.valve);
+    const panel=$('#dp-work-panel');if(panel)panel.hidden=!ready;
+    const empty=$('#dp-work-empty');if(empty)empty.hidden=!unlocked||!st.visited.work||ready;
+    const link=$('#dawn-pulse-manifold-link');if(link)link.hidden=!(unlocked&&st.visited.work);
+    const memory=$('#dp-memory');if(memory){memory.hidden=!unlocked||!st.repairs.length;memory.textContent=`清晨脉搏：${st.repairs.length}/3 种余韵，共接通 ${st.repairRuns} 次。`;}
+    const source=getBranches().lastChoice.vein, resume=Boolean(st.draft.valve);
+    const context=$('#dp-well-context');if(context)context.textContent=resume?`接管台还留着「${DP_TABLE[st.draft.valve].title}」的九段铜管，朝向都记着，回来继续。`:DP_VALVES.includes(source)?`旧井记得你选过「${DP_TABLE[source].title}」。井口借来一束晨光，等你把它接到井底。`:'先操作上方任意一只旧阀门，让维修井记住你的选择，再回来接晨光。';
+    const after=$('#dp-afterword');if(after){after.hidden=!unlocked||!st.lastRepair;after.textContent=DP_TABLE[st.lastRepair]?.after||'';}
+    const enter=$('#dp-work-entry-btn');if(enter){enter.disabled=!active||!(resume||DP_VALVES.includes(source));enter.textContent=resume?'继续接台上的晨光管 ⟶':'去接井底的第一束光 ⟶';}
+    const entry=$('#dp-entry-btn');if(entry){entry.hidden=!unlocked;entry.disabled=!active;}
+    const resumeButton=$('#dp-resume-entry-btn');if(resumeButton){resumeButton.hidden=!unlocked||!(st.pending&&st.pending.source!=='remembrance'||st.visited.work&&resume);resumeButton.disabled=busy;}
+    const note=$('#dp-entry-note');if(note)note.textContent=busy?'还有旧回应或渡河签收在途，先把那一份完成。':'修好一条就能留下清晨记忆，三种旧阀的余韵可以慢慢找。';
+    const grid=$('#dp-codex-grid');if(grid)grid.replaceChildren(...DP_VALVES.map(v=>{const e=document.createElement('div');e.className=`dp-cell${st.repairs.includes(v)?' is-unlocked':''}`;e.textContent=st.repairs.includes(v)?`${DP_TABLE[v].title}\n晨光已接通`:'？？？';return e;}));
+    const summary=$('#dp-codex-summary');if(summary)summary.textContent=`已留下 ${st.repairs.length}/3 种清晨脉搏。改变旧阀门，可以接另一条晨光管。`;
+    if(ready){const rule=$('#dp-rule');if(rule)rule.textContent=DP_TABLE[st.draft.valve].rule;const context=$('#dp-work-context');if(context)context.textContent=`这份晨光来自旧「${DP_TABLE[st.draft.valve].title}」。`;paintDpBoard(st);}
+    for(let i=0;i<9;i++){const e=$(`#dp-turn-${i}`);if(e)e.disabled=!ready||!active;}
+    const undo=$('#dp-undo');if(undo)undo.disabled=!ready||!active||!st.draft.undo.length;
+    const reset=$('#dp-reset');if(reset)reset.disabled=!ready||!active||st.draft.turns.every((r,i)=>r===DP_TABLE[st.draft.valve]?.initial[i]);
+    const finish=$('#dp-finish');if(finish)finish.disabled=!ready||!active||!dpAnalyze(st.draft.valve,st.draft.turns)?.complete;
+    Object.entries(DP_RESPONSES).forEach(([scene,id])=>{if(st.pending?.source!==scene)showDpResponse(id,'');});
+  }
+  function forgetDawnPulseState() {
+    dpFocusWell=false;try{localStorage.removeItem(DAWN_PULSE_KEY);}catch{}
+    ['remembrance','vein',DP_WORK].forEach(s=>AutoAdvance.clear(s));
+    ['#dp-well','#dp-afterword','#dp-codex','#dp-memory','#dp-work-panel','#dp-work-empty','#dawn-pulse-manifold-link','#dp-entry-response','#dp-well-response','#dp-work-response','#dp-resume-entry-btn'].forEach(s=>{const e=$(s);if(e)e.hidden=true;});
+  }
+  const onTrustedDp=(selector,fn)=>{const e=$(selector);if(e)e.addEventListener('click',event=>{if(event.isTrusted)fn();});};
+  onTrustedDp('#dp-entry-btn',chooseDpRevisit);onTrustedDp('#dp-resume-entry-btn',chooseDpResume);onTrustedDp('#dp-work-entry-btn',chooseDpEnter);
+  for(let i=0;i<9;i++)onTrustedDp(`#dp-turn-${i}`,()=>rotateDpTile(i));
+  onTrustedDp('#dp-undo',()=>undoDpTurn());onTrustedDp('#dp-reset',()=>undoDpTurn(true));onTrustedDp('#dp-finish',finishDpRepair);
+
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -72191,8 +72423,17 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     if (reUpstreamBusy()) return { title: "v119 等候渡河签收", items: ["先把在途的船与赶车人送回，再听河岸回声"], target: "rv", done: false };
     if (st.pending) return { title: "v119 回声正在路上", items: ["从原场景继续那份已接通的回应"], target: st.pending.source === 'remembrance' ? 're' : 're-resume', done: false };
     if (st.draft.voice) return { title: "v119 井里还有回应", items: [`已回应 ${st.draft.answer.length}/5 拍，进度随时保存；接完后送回听筒`], target: 're-resume', done: false };
-    if (st.heard.length) return { title: "v119 已回应彼岸", items: [`已听见 ${st.heard.length}/9 种余韵；可回听旧声音，继续可选收集`], target: 're', done: true };
+    if (st.heard.length) return dawnPulseProgressStep();
     return { title: "v119 河岸回声", items: ["回到回声档案室，旧听筒会记得你听过的声音"], target: 're', done: false };
+  };
+
+  const dawnPulseProgressStep = () => {
+    const st = getDawnPulse();
+    if (dpUpstreamBusy()) return { title: "v120 等候旧回应", items: ["先完成井里的回应与在途签收，再接清晨脉搏"], target: 're-resume', done: false };
+    if (st.pending) return { title: "v120 晨光正在路上", items: ["从原场景继续已接通的晨光管"], target: st.pending.source === 'remembrance' ? 'dp' : 'dp-resume', done: false };
+    if (st.draft.valve) return { title: "v120 台上还有晨光管", items: [`晨光已到 ${dpAnalyze(st.draft.valve,st.draft.turns).lit.length}/9 段，朝向随时保存`], target: 'dp-resume', done: false };
+    if (st.repairs.length) return { title: "v120 井底有了清晨", items: [`已接通 ${st.repairs.length}/3 种脉搏；可继续找其他旧阀的余韵`], target: 'dp', done: true };
+    return { title: "v120 清晨脉搏", items: ["回访血管维修井，把第一束晨光接到井底"], target: 'dp', done: false };
   };
 
   const shadowlessPhotographyProgressStep = () => {
@@ -72780,6 +73021,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   syncHearseYardAll();
   syncRiverFerryAll();
   syncRiverEchoAll();
+  syncDawnPulseAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

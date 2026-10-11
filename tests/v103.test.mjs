@@ -766,22 +766,22 @@ export function capturePhPendingCases() {
 // REQUIRED BASE TESTS 1-12
 // =========================================================================
 
-test('BASE TEST 1: Unique header/key/guide boundary, cache 119, 278 unique scenes, 25 native buttons, lazy webp images', () => {
+test('BASE TEST 1: Unique header/key/guide boundary, cache 120, 279 unique scenes, 25 native buttons, lazy webp images', () => {
   const countHeader = scriptSource.split(PH_MODULE_HEADER).length - 1;
   assert.equal(countHeader, 1, 'Header must appear exactly once in script.js');
 
   const countKey = scriptSource.split(PH_KEY).length - 1;
   assert.ok(countKey >= 2, 'Key must be referenced in script.js');
 
-  // Exact styles.css?v=119 and script.js?v=119 check
-  assert.match(htmlSource, /href=["']styles\.css\?v=119["']/, 'index.html must reference styles.css?v=119');
-  assert.match(htmlSource, /src=["']script\.js\?v=119["']/, 'index.html must reference script.js?v=119');
+  // Exact styles.css?v=120 and script.js?v=120 check
+  assert.match(htmlSource, /href=["']styles\.css\?v=120["']/, 'index.html must reference styles.css?v=120');
+  assert.match(htmlSource, /src=["']script\.js\?v=120["']/, 'index.html must reference script.js?v=120');
 
-  // 278 unique scene sections in index.html
+  // 279 unique scene sections in index.html
   const sceneMatches = htmlSource.match(/<section[^>]+class=["'][^"']*scene[^"']*["'][^>]*data-scene=["']([^"']+)["']/g) || [];
   const sceneIds = sceneMatches.map(m => m.match(/data-scene=["']([^"']+)["']/)[1]);
   const uniqueScenes = new Set(sceneIds);
-  assert.equal(uniqueScenes.size, 278, `Expected 278 unique scenes in HTML, found ${uniqueScenes.size}`);
+  assert.equal(uniqueScenes.size, 279, `Expected 279 unique scenes in HTML, found ${uniqueScenes.size}`);
 
   assert.ok(uniqueScenes.has('shadowless-photo-studio'));
   assert.ok(uniqueScenes.has('double-exposure-camera'));
@@ -1806,6 +1806,8 @@ test('EXTRA TEST 13: resolveScene routing matrix, governance ruling, fallback to
     const hearseYardBridgeAllows = () => false;
     const riverFerryBridgeAllows = () => false;
     const riverEchoBridgeAllows = () => false;
+    const dawnPulseBridgeAllows = () => false;
+    const dawnPulseWorkCanVisit = () => false;
     const riverEchoWellCanVisit = () => false;
     const rvGateCanVisit = () => false;
     const riverCrossingCanVisit = () => false;

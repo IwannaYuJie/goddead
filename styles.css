@@ -21725,3 +21725,52 @@ button.dw-tile:disabled {
 }
 @media (prefers-reduced-motion: reduce) { .re-beat { transition: none; } }
 #re-archive-title { scroll-margin-top: 5.5rem; }
+
+/* v120 清晨脉搏：每段铜管都是可键盘旋转的原生按钮 */
+.dp-well { width: min(88vw,640px); margin: 2rem auto; padding-top: 1.5rem; border-top: 1px solid #9a7f4755; }
+.dp-kicker { font: 0.62rem var(--mono); letter-spacing: 0.25em; color: var(--gold); }
+.dp-heading { font: 1.35rem/1.6 var(--serif-cn); color: var(--bone-bright); margin: 1rem 0; }
+#dp-well-title { scroll-margin-top: 5.5rem; }
+.dp-figure { width: 100%; aspect-ratio: 3/2; margin: 1rem 0; overflow: hidden; border: 1px solid #9a7f4766; background: var(--void); }
+.dp-figure .dp-img { display: block; width: 100%; height: 100%; object-fit: cover; -webkit-mask-image: none; mask-image: none; }
+.dp-copy { color: var(--bone-bright); font: 0.82rem/1.95 var(--serif-cn); margin: 1rem 0; }
+.dp-afterword { margin: 1.3rem 0; padding: 1rem 1.2rem; color: #edddad; border-left: 2px solid var(--gold); background: #9a7f4712; font: 0.92rem/2 var(--serif-cn); }
+.dp-work-panel { width: min(88vw,900px); margin: 1rem auto; display: grid; grid-template-columns: 1fr 1.1fr; gap: 1.5rem; align-items: start; }
+.dp-work-panel[hidden], .dp-well[hidden] { display: none; }
+.dp-work-panel .dp-figure { margin-top: 0; }
+.dp-caption, .dp-instruction { color: var(--muted); font: 0.72rem/1.9 var(--serif-cn); }
+.dp-boardbox { padding: 0.95rem; border: 1px solid #9a7f4755; background: #090a09cc; }
+.dp-rule { margin: 0 0 0.6rem; color: #edddad; font: 0.85rem/1.8 var(--serif-cn); }
+.dp-board { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 2px; width: min(100%,348px); margin: 0.9rem auto; border: 2px solid #9a7f4788; background: #302d20; }
+.dp-tile { display: block; position: relative; aspect-ratio: 1; min-width: 44px; min-height: 44px; padding: 0; border: 1px solid #9a7f4733; border-radius: 0; background: #141613; cursor: pointer; }
+.dp-tile svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.dp-pipe { fill: none; stroke: #aa8857; stroke-width: 17; stroke-linecap: butt; stroke-linejoin: round; }
+.dp-port { fill: #b6a77b; stroke: #151811; stroke-width: 2; }
+.dp-port.is-leaking { fill: #dc7d63; stroke: #51261a; }
+.dp-terminal { fill: #fff4c4; font: 12px var(--serif-cn); paint-order: stroke; stroke: #101811; stroke-width: 4px; }
+.dp-tile.is-lit { background: #1d2b20; }
+.dp-tile.is-lit .dp-pipe { stroke: #ddcd8e; filter: drop-shadow(0 0 4px #a7c98377); }
+.dp-tile.is-source { border-color: #edce80; }
+.dp-tile.is-outlet { border-color: #9abb91; }
+.dp-tile:hover { background: #292a1e; }
+.dp-tile:focus-visible { z-index: 2; outline: 2px solid #ffe6a0; outline-offset: -4px; }
+.dp-tile:disabled { cursor: default; opacity: 0.6; }
+.dp-action { min-height: 44px; display: inline-block; padding: 0.65rem 0.8rem; margin: 0.25rem 0; border: 1px solid #9a7f4788; background: #9a7f4715; color: var(--bone-bright); font: 0.76rem/1.5 var(--serif-cn); cursor: pointer; }
+.dp-action:hover { border-color: var(--gold); background: #9a7f4733; }
+.dp-action:focus-visible { outline: 2px solid #edce80; outline-offset: 3px; }
+.dp-action:disabled { cursor: default; opacity: 0.4; }
+.dp-status, .dp-response { color: var(--bone-bright); font: 0.72rem/1.9 var(--serif-cn); }
+.dp-status { min-height: 3.8em; margin: 0.8rem 0; }
+.dp-response { width: min(88vw,740px); margin: 1rem auto; }
+.dp-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+.dp-controls .dp-action { margin: 0; }
+.dp-finish { grid-column: 1 / -1; }
+.dp-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 0.5rem; margin: 1rem 0; }
+.dp-cell { padding: 0.75rem; border: 1px solid #9a7f4744; font: 0.68rem/1.9 var(--serif-cn); white-space: pre-line; color: var(--muted); }
+.dp-cell.is-unlocked { color: var(--bone-bright); border-color: #9a7f4788; }
+@media (max-width: 720px) {
+  .dp-work-panel { grid-template-columns: 1fr; gap: 0.75rem; }
+  .dp-boardbox { padding: 0.85rem; }
+  .dp-copy { font-size: 0.78rem; }
+  .dp-grid { grid-template-columns: 1fr; }
+}

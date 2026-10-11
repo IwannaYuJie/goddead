@@ -1,6 +1,6 @@
-# 当前实施状态：v119 河岸回声
+# 当前实施状态：v120 清晨脉搏
 
-v119 已实装并公开发布：20,967 条站点断言、65 项旧章测试及桌面 / 手机实机验收通过，功能提交 `6efc92d` 已推送 main，Pages 成功；公开站 v119 / 278、HTML / CSS / JS / 两张新图原始字节逐项一致。设计见 [V119RiverEchoDesign.md](V119RiverEchoDesign.md)，素材见 [V119ImagePrompts.md](V119ImagePrompts.md)，后续队列见 [BranchesAndRoadmap.md](BranchesAndRoadmap.md)。下面保留历次实施计划。
+v120 已实装：21,189 条站点断言、65 项旧章测试及三旧阀桌面 / 手机实机验收通过；三局各 8,192 种朝向独立比对、唯一解和最少 14 次顺时针旋转成立。正在完成公开发布核对。设计见 [V120DawnPulseDesign.md](V120DawnPulseDesign.md)，素材见 [V120ImagePrompts.md](V120ImagePrompts.md)，后续队列见 [BranchesAndRoadmap.md](BranchesAndRoadmap.md)。下面保留历次实施计划。
 
 # v87 不存在债务催收局 / COLLECTION AGENCY FOR NONEXISTENCE DEBT 实施计划（已完成）
 

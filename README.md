@@ -1,10 +1,12 @@
 # Goddead
 
-Static landing page for [goddead.com](https://goddead.com).
+Static, hash-routed exploration game at [goddead.com](https://goddead.com).
 
 ## Current Experience
 
-当前实现基线为 **v119「河岸回声 / ECHOES FROM THE OTHER BANK」**：全站 278 个 hash 场景，缓存 `v=119`。v118 三项裁定集齐后，从痕迹室回访早期回声档案室；旧听筒记得最近听过的敲声 / 脚步 / 铃，最近末岸裁定决定五拍回应的规则：每拍换一种声、为铃留白，或倒着回应。来声文字谱始终可读，不限时，静音也可完成；答错保留已答的正确前缀，可撤回、重答、刷新接续。接完送回旧听筒，会留下九种之一的不同余韵；回应一次就完成回访，九种是可选收集。新增一个河岸听井场景与两张原画，原 v29 / v54 三听筒、迫近和断线听筒保留。独立键 `goddead_v119_river_echo`，设计 / 提示词见 [V119RiverEchoDesign.md](docs/V119RiverEchoDesign.md) / [V119ImagePrompts.md](docs/V119ImagePrompts.md)。
+当前实现基线为 **v120「清晨脉搏 / THE FIRST MORNING PULSE」**：全站 279 个 hash 场景，缓存 `v=120`。v119 任一份回应完成后，从痕迹室回访早期血管维修井；实际旧顺流 / 逆流 / 隔离阀决定 3×3 晨光管的入口、出口与初始朝向。点击铜管顺时针转一格，让九段连成从入口到出口的同一路径且没有漏光；已连管段亮起、漏口标红，文字读出位置。不限时、静音可玩，朝向和最近 64 次撤销逐步保存，刷新 / 离场接续。修好一条即可完成，三种旧阀的清晨余韵可选收集。新增一个晨脉接管台与两张原画，原 v29 / v30 / v53 / v54 三阀、泵房、迫近和过压表保留。独立键 `goddead_v120_dawn_pulse`，设计 / 提示词见 [V120DawnPulseDesign.md](docs/V120DawnPulseDesign.md) / [V120ImagePrompts.md](docs/V120ImagePrompts.md)。
+
+历史基线 **v119「河岸回声 / ECHOES FROM THE OTHER BANK」**：全站 278 个 hash 场景，缓存 `v=119`。v118 三项裁定集齐后，从痕迹室回访早期回声档案室；旧听筒记得最近听过的敲声 / 脚步 / 铃，最近末岸裁定决定五拍回应的规则：每拍换一种声、为铃留白，或倒着回应。来声文字谱始终可读，不限时，静音也可完成；答错保留已答的正确前缀，可撤回、重答、刷新接续。接完送回旧听筒，会留下九种之一的不同余韵；回应一次就完成回访，九种是可选收集。新增一个河岸听井场景与两张原画，原 v29 / v54 三听筒、迫近和断线听筒保留。独立键 `goddead_v119_river_echo`，设计 / 提示词见 [V119RiverEchoDesign.md](docs/V119RiverEchoDesign.md) / [V119ImagePrompts.md](docs/V119ImagePrompts.md)。
 
 历史基线 **v118「渡河码头 / THE RIVER FERRY」**：全站 277 个 hash 场景，静态缓存 `v=118`。v117 三项末车裁定集齐后开放码头 / 两岸之间 / 末岸听证会。船夫只能看守自己所在的岸；挑选船边的同行者过河，离开的岸不能留下冲突双方，小舟 / 双桨 / 夜渡分别载 1 / 2 / 2 件，使用 3 / 5 / 6 件同行者，最短 7 / 7 / 9 趟。三份托运 × 三种航法共九种，送到遗物科 / 无主投递所 / 值夜室签收；覆盖三托运、三航法即开放三项裁定。航程逐趟保存，刷新接续、可退回上一趟；非法航程说明具体冲突并保留原位。独立键 `goddead_v118_river_ferry`，设计与素材提示词见 [V118RiverFerryDesign.md](docs/V118RiverFerryDesign.md) / [V118ImagePrompts.md](docs/V118ImagePrompts.md)。
 
@@ -26,7 +28,7 @@ Static landing page for [goddead.com](https://goddead.com).
 
 前一章历史实现 **v101「黎明织造厂 / DAWN WEAVING MILL」**（全站 226 个场景，静态资源 `v=101`）机制完整保留：v100 `wkCourtEligible` 且三项百夜裁定集齐后开放 3 个场景（`dawn-weaving-mill`、`day-night-loom`、`sky-cloth-drying-terrace`）。九格织机通过原生按钮与 4 种辅助模式完成晨光/夜线左右独立连通派生三结局，经天际晾布台预览送往门外/痕迹室/无终局画廊签收，双入口支持门外与痕迹室，独立存储键 `goddead_v101_dawn_weaving`。v91–v101 见 `docs/` 对应设计文档。
 
-完整玩家路线、支线网、v63-v119 解锁链与 v90-v119 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
+完整玩家路线、支线网、v63-v120 解锁链与 v90-v120 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
 
 The homepage is **The Living Shrine**, a hash-routed, scene-by-scene exploration game. Visitors knock three times at the sealed threshold — now a photographed bureau door — and on the third knock the door visually opens into a deep black-gold corridor before the visitor is pulled through into the next room; each completed action thereafter advances the ritual automatically.
 

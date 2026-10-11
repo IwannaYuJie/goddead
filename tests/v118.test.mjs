@@ -198,8 +198,8 @@ for (const scene of ['ferry-landing', 'river-crossing', 'hearing-of-the-last-ban
   assert.equal(webp.toString('ascii', 0, 4), 'RIFF'); assert.ok(webp.length < 300 * 1024);
 }
 assert.match(source, /resolveRiverFerryPendingOnArrival\(name\);\s*replayRiverFerryPending\(name\);/);
-assert.match(source, /forgetHearseYardState\(\);\s*forgetRiverFerryState\(\);\s*forgetRiverEchoState\(\);\s*forgetCodexFolds\(\);/);
-assert.match(source, /syncHearseYardAll\(\);\s*syncRiverFerryAll\(\);\s*syncRiverEchoAll\(\);\s*revealScene/);
+assert.match(source, /forgetHearseYardState\(\);\s*forgetRiverFerryState\(\);\s*forgetRiverEchoState\(\);\s*forgetDawnPulseState\(\);\s*forgetCodexFolds\(\);/);
+assert.match(source, /syncHearseYardAll\(\);\s*syncRiverFerryAll\(\);\s*syncRiverEchoAll\(\);\s*syncDawnPulseAll\(\);\s*revealScene/);
 assert.match(source, /return riverFerryProgressStep\(\)/);
 assert.match(source, /const goScene = \(name\) =>/);
 assert.doesNotMatch(moduleSource, /showScene/);

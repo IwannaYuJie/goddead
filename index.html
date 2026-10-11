@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=119">
+  <link rel="stylesheet" href="styles.css?v=120">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -3623,6 +3623,18 @@
           </figure>
           <p class="branch-response" id="vein-response" aria-live="polite"></p>
 
+          <!-- v120：旧三阀与迫近保留，另接井底晨光 -->
+          <aside class="dp-well reveal" id="dp-well" aria-labelledby="dp-well-title" hidden>
+            <p class="dp-kicker">THE FIRST MORNING PULSE · 清 晨 脉 搏</p>
+            <h3 class="dp-heading" id="dp-well-title">井底第一次有了天光。</h3>
+            <figure class="dp-figure"><img class="dp-img" data-src="assets/v120-well-dawn-window.webp" alt="旧血管维修井的暗红玻璃管与铜阀间，一束晨光落到井底；近处细铜管里亮着第一线天光" width="1536" height="1024" loading="lazy" decoding="async"></figure>
+            <p class="dp-copy" id="dp-well-context"></p>
+            <p class="dp-afterword" id="dp-afterword" aria-live="polite" hidden></p>
+            <button class="dp-action" id="dp-work-entry-btn" type="button" data-hover>去接井底的第一束光 ⟶</button>
+            <p class="dp-response" id="dp-well-response" aria-live="polite" hidden></p>
+          </aside>
+
+
           <!-- v109 血管维修井奉茶签收与记忆 -->
           <p class="watch-memory et-echo" id="et-echo-vein" hidden></p>
           <div class="et-server reveal" id="et-server-vein" hidden>
@@ -5482,6 +5494,18 @@
               <button class="ts-entry-btn" id="ts-court-entry-btn" type="button" hidden data-hover>进入早报听证会 · ENTER THE HEARING OF THE MORNING EDITION ⟶</button>
               <p class="ts-response" id="ts-court-entry-response" aria-live="polite" hidden></p>
             </div>
+          </div>
+          <!-- v120 清晨脉搏：一次修好即可完成回访 -->
+          <p class="watch-memory dp-memory" id="dp-memory" hidden></p>
+          <div class="dp-codex codex-section" id="dp-codex" aria-labelledby="dp-codex-title" hidden>
+            <p class="dp-kicker">THE FIRST MORNING PULSE · 清晨脉搏</p>
+            <h3 class="codex-title" id="dp-codex-title">清晨脉搏 · 旧阀门的余韵</h3>
+            <p class="dp-copy" id="dp-codex-summary"></p>
+            <div class="dp-grid" id="dp-codex-grid"></div>
+            <p class="dp-copy" id="dp-entry-note"></p>
+            <button class="dp-action" id="dp-entry-btn" type="button" data-hover>回访血管维修井 ⟶</button>
+            <button class="dp-action" id="dp-resume-entry-btn" type="button" hidden data-hover>继续台上未接完的晨光管 ⟶</button>
+            <p class="dp-response" id="dp-entry-response" aria-live="polite" hidden></p>
           </div>
           <!-- v119 河岸回声：一次即可完成，九种可选收集 -->
           <p class="watch-memory re-memory" id="re-memory" hidden></p>
@@ -10791,6 +10815,48 @@
         </div>
       </section>
 
+      <!-- v120 晨脉接管台 -->
+      <section class="scene scene-branch" id="scene-dawn-pulse-manifold" data-scene="dawn-pulse-manifold" data-title="Goddead — 晨脉接管台" aria-label="晨脉接管台">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">THE FIRST MORNING PULSE · 晨 脉 接 管 台</p>
+            <h2 class="sec-title">晨脉接管台</h2>
+            <p class="sec-desc">井底的第一下心跳，是借来的天亮。</p>
+          </header>
+          <p class="dp-copy" id="dp-work-empty" hidden>这份晨光已经接回旧井。回到血管维修井，再找另一只旧阀门的清晨。</p>
+          <div class="dp-work-panel reveal" id="dp-work-panel" hidden>
+            <div class="dp-art">
+              <figure class="dp-figure"><img class="dp-img" data-src="assets/v120-dawn-pulse-manifold.webp" alt="旧铜与暗红玻璃管组成的九段接管台，左管口借来晨光，旁边放着一只旧脉搏表" width="1536" height="1024" loading="lazy" decoding="async"></figure>
+              <p class="dp-copy" id="dp-work-context"></p>
+              <p class="dp-caption">点一次，铜管顺时针转一格。直管有两种朝向，弯管有四种；转过的朝向随时保存，可以退回最近 64 次旋转。</p>
+            </div>
+            <div class="dp-boardbox">
+              <p class="dp-rule" id="dp-rule"></p>
+              <p class="dp-instruction">让九段都连在入口到出口的同一条路上。亮起来的是晨光走到的管段，红口是没有对上的漏光处。</p>
+              <div class="dp-board" role="group" aria-label="九段晨光管，点击或 Enter / Space 顺时针旋转">
+                <button class="dp-tile" id="dp-turn-0" type="button" data-hover aria-label="第 1 行第 1 列铜管，顺时针转一格"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"></svg></button>
+                <button class="dp-tile" id="dp-turn-1" type="button" data-hover aria-label="第 1 行第 2 列铜管，顺时针转一格"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"></svg></button>
+                <button class="dp-tile" id="dp-turn-2" type="button" data-hover aria-label="第 1 行第 3 列铜管，顺时针转一格"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"></svg></button>
+                <button class="dp-tile" id="dp-turn-3" type="button" data-hover aria-label="第 2 行第 1 列铜管，顺时针转一格"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"></svg></button>
+                <button class="dp-tile" id="dp-turn-4" type="button" data-hover aria-label="第 2 行第 2 列铜管，顺时针转一格"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"></svg></button>
+                <button class="dp-tile" id="dp-turn-5" type="button" data-hover aria-label="第 2 行第 3 列铜管，顺时针转一格"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"></svg></button>
+                <button class="dp-tile" id="dp-turn-6" type="button" data-hover aria-label="第 3 行第 1 列铜管，顺时针转一格"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"></svg></button>
+                <button class="dp-tile" id="dp-turn-7" type="button" data-hover aria-label="第 3 行第 2 列铜管，顺时针转一格"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"></svg></button>
+                <button class="dp-tile" id="dp-turn-8" type="button" data-hover aria-label="第 3 行第 3 列铜管，顺时针转一格"><svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"></svg></button>
+              </div>
+              <p class="dp-status" id="dp-status" role="status" aria-live="polite"></p>
+              <div class="dp-controls">
+                <button class="dp-action" id="dp-undo" type="button" data-hover>退回一转</button>
+                <button class="dp-action" id="dp-reset" type="button" data-hover>恢复初始管路</button>
+                <button class="dp-action dp-finish" id="dp-finish" type="button" data-hover>让第一下脉搏回到井里 ⟶</button>
+              </div>
+            </div>
+          </div>
+          <p class="dp-response" id="dp-work-response" aria-live="polite" hidden></p>
+          <nav class="branch-nav reveal" aria-label="离开晨脉接管台"><button class="exit-link" type="button" data-go="vein" data-hover>⟵ 回到旧阀门，留着管路稍后再接</button></nav>
+        </div>
+      </section>
+
       <!-- v119 河岸听井 -->
       <section class="scene scene-branch" id="scene-river-echo-well" data-scene="river-echo-well" data-title="Goddead — 河岸听井" aria-label="河岸听井">
         <div class="scene-body branch-body">
@@ -11314,6 +11380,7 @@
       <a href="#hearing-of-the-last-cart" id="hearing-of-the-last-cart-link" hidden data-hover>31γ / 末车听证</a>
       <a href="#ferry-landing" id="ferry-landing-link" hidden data-hover>31δ / 渡河码头</a>
       <a href="#river-crossing" id="river-crossing-link" hidden data-hover>31ε / 两岸之间</a>
+      <a href="#dawn-pulse-manifold" id="dawn-pulse-manifold-link" hidden data-hover>32β / 晨脉接管台</a>
       <a href="#river-echo-well" id="river-echo-well-link" hidden data-hover>32α / 河岸听井</a>
       <a href="#hearing-of-the-last-bank" id="hearing-of-the-last-bank-link" hidden data-hover>31ζ / 末岸听证会</a>
 
@@ -11325,6 +11392,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=119"></script>
+    <script src="script.js?v=120"></script>
   </body>
 </html>

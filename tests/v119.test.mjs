@@ -3,7 +3,7 @@ import {readFileSync} from 'node:fs';
 const source=readFileSync(new URL('../script.js',import.meta.url),'utf8');
 const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
 const start=source.indexOf('  /* ============================================================\n     v119 河岸回声');
-const end=source.indexOf('  /* ---------- 痕迹室「下一步」 ----------',start);
+const end=source.indexOf('  /* ============================================================\n     v120 清晨脉搏',start);
 assert.ok(start>0&&end>start);
 const moduleSource=source.slice(start,end);
 const key='goddead_v119_river_echo';
@@ -93,15 +93,15 @@ for(const opts of [{done:false},{busy:true}]){const g=makeV119(opts);g.sync();g.
 // Run the actual early branch guard with every old permission false.
 {
  const a=source.indexOf('    if (BRANCH_SCENES.includes(target) && !branchState.visited[target]');const b=source.indexOf('\n\n',a);assert.ok(a>0&&b>a);
- const guard=source.slice(a,b);const route=new Function('target','riverEchoBridgeAllows',`const BRANCH_SCENES=['echo','vein','confession'];const branchState={visited:{}};const AUDIT_BRANCH_OUTCOME={echo:'echoed',vein:'pulsed',confession:'confessed'};const auditGuardState={outcome:''};const beliefGuard={pendingTarget:'',branches:{}};const BELIEF_SCENE_BRANCH={};const innocentWitnessProtectionBridgeAllows=()=>false;const unspokenPersonhoodBridgeAllows=()=>false;const unfinishedThoughtBridgeAllows=()=>false;const lostWeightBridgeAllows=()=>false;const exactTeaBridgeAllows=()=>false;${guard}return target;`);
+ const guard=source.slice(a,b);const route=new Function('target','riverEchoBridgeAllows',`const BRANCH_SCENES=['echo','vein','confession'];const branchState={visited:{}};const AUDIT_BRANCH_OUTCOME={echo:'echoed',vein:'pulsed',confession:'confessed'};const auditGuardState={outcome:''};const beliefGuard={pendingTarget:'',branches:{}};const BELIEF_SCENE_BRANCH={};const innocentWitnessProtectionBridgeAllows=()=>false;const unspokenPersonhoodBridgeAllows=()=>false;const unfinishedThoughtBridgeAllows=()=>false;const lostWeightBridgeAllows=()=>false;const exactTeaBridgeAllows=()=>false;const dawnPulseBridgeAllows=()=>false;${guard}return target;`);
  const g=makeV119();assert.equal(route('echo',g.bridge),'corridor');g.revisit();assert.equal(route('echo',g.bridge),'echo');assert.equal(route('vein',g.bridge),'corridor');g.arrive('echo');assert.equal(route('echo',g.bridge),'echo');g.forget();assert.equal(route('echo',g.bridge),'corridor');
 }
 assert.equal((moduleSource.match(/addEventListener\(/g)||[]).length,1);assert.match(moduleSource,/if \(e\.isTrusted\) fn\(\)/);assert.doesNotMatch(moduleSource,/innerHTML/);
 assert.match(source,/resolveRiverEchoPendingOnArrival\(name\);\s*replayRiverEchoPending\(name\);/);
 assert.match(source,/next\.scrollTop = 0;\s*focusRiverEchoArrival\(name\);/);
 assert.match(source,/AutoAdvance\.clearAll\(\);\s*clearRiverEchoPlayback\(\);/);
-assert.match(source,/forgetRiverFerryState\(\);\s*forgetRiverEchoState\(\);\s*forgetCodexFolds\(\);/);
-assert.match(source,/syncRiverFerryAll\(\);\s*syncRiverEchoAll\(\);\s*revealScene/);
+assert.match(source,/forgetRiverFerryState\(\);\s*forgetRiverEchoState\(\);\s*forgetDawnPulseState\(\);\s*forgetCodexFolds\(\);/);
+assert.match(source,/syncRiverFerryAll\(\);\s*syncRiverEchoAll\(\);\s*syncDawnPulseAll\(\);\s*revealScene/);
 assert.match(source,/return riverEchoProgressStep\(\)/);assert.match(source,/const goScene = \(name\) =>/);
 for(const asset of ['archive-river-window','river-echo-well']){assert.ok(html.includes(`data-src="assets/v119-${asset}.webp"`));const b=readFileSync(new URL(`../assets/v119-${asset}.webp`,import.meta.url));assert.equal(b.toString('ascii',0,4),'RIFF');assert.ok(b.length<300*1024);}
 assert.ok(html.includes('data-scene="river-echo-well"'));assert.ok(html.includes('id="re-archive"'));
