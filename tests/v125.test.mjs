@@ -118,6 +118,6 @@ assert.equal(other.defaultInkMixing().version, 999); assert.equal(rules.defaultI
 assert.deepEqual(config, oracle.config, 'factory and rules do not mutate configuration');
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const scripts = [...html.matchAll(/<script src="([^"]+)"[^>]*>/g)].map(match => match[1]);
-assert.deepEqual(scripts, ['directory.js?v=125', 'ink-rules.js?v=125', 'script.js?v=125']);
-assert.match(html, /styles\.css\?v=125/);
+assert.deepEqual(scripts, ['directory.js?v=126', 'ink-rules.js?v=126', 'light-rules.js?v=126', 'script.js?v=126']);
+assert.match(html, /styles\.css\?v=126/);
 console.log(`v125 ink rules: 343 legacy/independent palettes, 63 canonical save cases, ${pendingFieldChecks} strict pending field checks passed`);

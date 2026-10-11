@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 import {inkRulesSource} from './helpers/ink-rules.mjs';
+import {lightRulesSource} from './helpers/light-rules.mjs';
 const source=readFileSync(new URL('../script.js',import.meta.url),'utf8');
 const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
 const start=source.indexOf('  const outstandingProgressStep =');
@@ -71,6 +72,7 @@ reset();states.get(63).unendingUnlocked=false;states.get(64).activeEcho={target:
 const memory=new Map(),writes=[];
 const actual=vm.createContext({$:()=>null,$$:()=>[],document:{},store:{get:(k,f)=>memory.get(k)??f,set:(k,v)=>{writes.push(k);memory.set(k,v);},memo:(k,f)=>true},localStorage:{getItem:k=>memory.get(k)??null},currentScene:'remembrance',reduced:true,AutoAdvance:{},parseAndValidateGovernance:()=>({unlockedEndings:['ascension','madness','oblivion','nightwatch']}),setTimeout:()=>0});
 vm.runInContext(inkRulesSource,actual);
+vm.runInContext(lightRulesSource,actual);
 vm.runInContext(source.slice(source.indexOf('  const ENDING_RETURN_KEY'),source.indexOf('  /* ============================================================\n     走廊：残页 + 封印的门'))+'\n'+source.slice(source.indexOf('const LATE_CAUSE_KEY'),source.indexOf('  /* ---------- 痕迹室「下一步」 ----------')),actual);
 const evaluate=x=>vm.runInContext(x,actual),clone=x=>JSON.parse(JSON.stringify(x));
 for(let i=0;i<bounded.length;i++)for(const destination of Object.values(clone(evaluate(bounded[i][0]))).map(v=>typeof v==='object'?v.target:v)){
@@ -113,6 +115,6 @@ render({title:'等待',items:['签收'],target:null,destination:'remembrance',re
 let prevented=false;link.listeners.click({preventDefault(){prevented=true;}});assert.equal(prevented,true);assert.equal(receipt.focused,true);assert.equal(receipt.scrolled,true);
 render({title:'入口',items:[],target:null});assert.equal(link.hidden,true);assert.equal(link.getAttribute('href'),null);assert.equal(link.textContent,'');
 render(null);assert.equal(byId.get('progress-guide').hidden,true);assert.equal(link.getAttribute('href'),null);
-assert.match(html,/directory\.js\?v=125/);
+assert.match(html,/directory\.js\?v=126/);
 assert.ok(source.indexOf('const outstanding = outstandingProgressStep()')<source.indexOf('    const er = getEndingReturn();',source.indexOf('const currentProgressStep')));
 console.log('v124 guide: 59 normalized getter boundaries, original receipt ancestry, priority and fourteen completed handcraft chapters passed');

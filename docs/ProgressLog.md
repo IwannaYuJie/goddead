@@ -1496,3 +1496,11 @@
 功能 `ca824e81e32a788c321d1cc5910f4e0a271400cd` 已推送 main，Cloudflare Pages completed / success。2026-10-11T12:56:11.788092+08:00（Asia/Taipei）普通公开 URL 确认 v125 / 280；HTML / CSS / JS / directory.js / ink-rules.js / 门图 / 三张 v107 原画共九文件 raw 大小与 SHA-256 全一致，无需 HTML 归一化。Chrome 公开冷载四个 v125 核心依赖，新规则工厂注册且命名空间冻结；active=threshold、title=Goddead、1470px 无横溢，空档指引链接隐藏。原目录 5/5、menu-close 首焦点 / stage inert、Esc 回 menu-trigger / inert=false，菜单前后 raw 相同，无新增 error / warn。本地测试档未写入公开站，原 21 项本地状态恢复，缓存调试 / 视口复原，临时服务已停止。
 
 公开报告见 design-qa-evidence/v125-public-assets.json / v125-public-browser.json / v125-public-root-desktop.png；实施与 Tasks 闭环。下一轮按路线图评估借光司独立光路规则。
+
+## 2026-10-11 v126 借光司纯规则模块
+
+- 先读原 v108 合同，留存 v125 HEAD 原十二函数 / 1,344 全镜面光路和 63 存档 oracle，再迁入 `light-rules.js`。原纯块和主脚本适配之外逐字保持，章节故事表仍一份，已迁 ink-rules 不变；原 5×5 / 80 步 / version 108 / 十一字段 / 七事务保持，五核心依赖 v126。
+- 实际新模块接入原 v108 与 v124 多章 VM，无假规则替换。旧 path / exit / bounces / blocked / lit / SVG 与独立四方向反射 / 格心坐标一致，九阵解数与最少翻镜保持；63 canonical 幂等、配置隔离 / 输入不改写 / 新对象、66 pending 字段拒绝通过。43,375 全站断言、65/65 旧章及源码 / 引用 / 存档键审计通过。
+- Chrome 桌面 / 375px 原生鼠标与 Enter，投递所晨光四翻、注销科午光三翻、守则夕照三翻逐一原点灯人签收；三听证到原 threshold / remembrance / unending-gallery，最终 beamRuns=3、courtRuns=3，下一步与原入口进入分茶铺。暗窗拒送、重置 / 换光 / 刷新、双击开窗及源房重播 / 抵达刷新只记一次、在途锁镜通过。
+- 窄屏四次实际翻镜全部 raw 不变，镜格约 44.125×43.375px，无横溢，下方重置 / 盖屋顶可操作。上游墨学徒等待签收时借光入口禁用、指引优先 v107；锁定深链回痕迹室、旧完整 v108 raw 不变，无关房冷载合法 pending 取消且没有收集。原 21 项本地状态恢复、视口复原、临时服务停止，无新增 error / warn；见 v126-browser-qa.md。
+- README / 流程 / 实施 / Tasks / 路线图 / 原 v108 维护记录同步；公开发布待核验。下一轮评估分茶铺量杯纯规则。

@@ -4,7 +4,7 @@ Static, hash-routed exploration game at [goddead.com](https://goddead.com).
 
 ## Current Experience
 
-当前实现基线为 **v125「调墨房纯规则模块」**：v107 的十二个纯函数移到独立 `ink-rules.js`，颜色、难度、存档和玩家操作保持；主脚本的其余逻辑逐字一致。新规则可独立于页面测试，343 种配色与旧版完全一致，另以独立公式核对。四个依赖缓存 `v=125`，280 场景、278 原目录入口、原存档键及三张原画保持。v124 交接优先指引、v123 目录和旧支线滚动继续保留。设计见 [V125InkRulesModuleDesign.md](docs/V125InkRulesModuleDesign.md)，验收见 [v125-browser-qa.md](design-qa-evidence/v125-browser-qa.md)。
+当前实现基线为 **v126「借光司纯规则模块」**：v108 的十二个纯函数移到独立 `light-rules.js`，1,344 组光路、亮窗与 SVG 坐标和旧版完全一致，另用四方向反射表独立核对；主脚本其余逻辑和 v125 调墨规则逐字保持。五个核心依赖缓存 `v=126`，280 场景、4501 ID、278 原目录入口、原存档键及三张原画保持。v124 交接指引、v123 目录和旧支线滚动继续保留。设计见 [V126BorrowedLightRulesDesign.md](docs/V126BorrowedLightRulesDesign.md)，验收见 [v126-browser-qa.md](design-qa-evidence/v126-browser-qa.md)。
 
 历史基线 **v121「清晨名重 / THE WEIGHT OF A NAME AT DAWN」**：全站 280 个 hash 场景，缓存 `v=121`。v120 任一条晨光管接回旧井后，从痕迹室回访忏悔称量室；实际旧承认敲门 / 承认第七条 / 拒绝忏悔决定六枚名签的案件。在新清晨验名桌上循环移动名签到左盘、右盘或桌上，两盘各放等量 1–3 枚，最多三称识别唯一偏重或偏轻的名签。结果逐次排除候选，认领须与唯一记录吻合才可交回；可借推荐称法，支持撤回 / 重称、摆盘与记录刷新保存、静音及键盘。一案即可完成，三份余韵可选收集；旧称盘、罪籍、信念、迫近抽屉与秤手 / 茶童保留。新增一场景与两张内置 imagegen 原画，独立键 `goddead_v121_morning_name`。设计 / 提示词见 [V121MorningNameDesign.md](docs/V121MorningNameDesign.md) / [V121ImagePrompts.md](docs/V121ImagePrompts.md)。
 

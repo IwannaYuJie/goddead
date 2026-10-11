@@ -1,0 +1,11 @@
+{
+  "version": 126,
+  "origin": "http://127.0.0.1:4173",
+  "originalKeyCount": 21,
+  "restoredKeyCount": 21,
+  "mismatchedKeys": [],
+  "unexpectedKeys": [],
+  "fixtureRemoved": true,
+  "viewportReset": true,
+  "localFreshWarningsErrors": 0
+}
