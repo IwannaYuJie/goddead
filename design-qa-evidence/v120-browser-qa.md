@@ -42,4 +42,10 @@
 
 `node --check script.js`、`node --check tests/site.test.mjs`、`node --check tests/v120.test.mjs`、`git diff --check` 通过。HTML 279 个唯一场景 / 4,442 个唯一 ID，无重复 ID、无失效 hash 或缺失本地资源；敏感标记扫描通过，发布前 fetch 对照 HEAD...origin/main 为 0/0。
 
-两张新图 1536×1024，运行时约 196 / 165 KiB，低于 300 KiB；源 PNG、精确提示词和 SHA-256 见 [V120ImagePrompts.md](../docs/V120ImagePrompts.md)。功能准备提交推送 main，公开站版本与文件比对待追加。
+两张新图 1536×1024，运行时约 196 / 165 KiB，低于 300 KiB；源 PNG、精确提示词和 SHA-256 见 [V120ImagePrompts.md](../docs/V120ImagePrompts.md)。
+
+## 公开发布
+
+功能提交 `0fcf4b74731bb43ffa4f9ab8c557a4284ecdfc0a` 已推送 main，GitHub 对该精确提交的 Cloudflare Pages 检查为 completed / success。2026-10-11 10:43:15（Asia/Taipei），公开根 HTML 的缓存版本为 [120,120]、279 个场景；HTML / CSS / JS / 两张 v120 WebP 均与本地 raw 字节及 SHA-256 一致，本次无需消除 Cloudflare 注入内容。逐项 URL、大小、哈希及结果见 [v120-public-assets.json](v120-public-assets.json)。
+
+Chrome 只读打开公开根页面，active=threshold，脚本与样式均为 v120；实际 DOM 注册 scene-dawn-pulse-manifold、九个旋转按钮及旧井 dp-well / 新标题，无横向溢出。此次公开导航后无新增 error / warn。原存档恢复与临时服务关闭已在本地验收结束时完成；公开站没有注入测试前置。截图见 [v120-public-root.jpg](v120-public-root.jpg)。

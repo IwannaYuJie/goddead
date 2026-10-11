@@ -1,6 +1,6 @@
 # 当前实施状态：v120 清晨脉搏
 
-v120 已实装：21,189 条站点断言、65 项旧章测试及三旧阀桌面 / 手机实机验收通过；三局各 8,192 种朝向独立比对、唯一解和最少 14 次顺时针旋转成立。正在完成公开发布核对。设计见 [V120DawnPulseDesign.md](V120DawnPulseDesign.md)，素材见 [V120ImagePrompts.md](V120ImagePrompts.md)，后续队列见 [BranchesAndRoadmap.md](BranchesAndRoadmap.md)。下面保留历次实施计划。
+v120 已公开发布：功能提交 `0fcf4b74731bb43ffa4f9ab8c557a4284ecdfc0a` 的 Cloudflare Pages 检查成功，2026-10-11 10:43（Asia/Taipei）核对公开站缓存 v120 / 279 场景，HTML / CSS / JS / 两张新图均与本地逐字节、SHA-256 一致；Chrome 首页正常、无新增 error / warn。21,189 条站点断言、65 项旧章测试及三旧阀桌面 / 手机实机验收通过；三局各 8,192 种朝向独立比对、唯一解和最少 14 次顺时针旋转成立。设计见 [V120DawnPulseDesign.md](V120DawnPulseDesign.md)，素材见 [V120ImagePrompts.md](V120ImagePrompts.md)，验收见 [v120-browser-qa.md](../design-qa-evidence/v120-browser-qa.md)，后续队列见 [BranchesAndRoadmap.md](BranchesAndRoadmap.md)。下面保留历次实施计划。
 
 # v87 不存在债务催收局 / COLLECTION AGENCY FOR NONEXISTENCE DEBT 实施计划（已完成）
 

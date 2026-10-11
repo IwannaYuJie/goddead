@@ -1,0 +1,70 @@
+{
+  "verified_at": "2026-10-11T10:43:15.230425+08:00",
+  "feature_commit": "0fcf4b74731bb43ffa4f9ab8c557a4284ecdfc0a",
+  "checks": [
+    {
+      "name": "Cloudflare Pages",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "version": 120,
+  "assets": [
+    {
+      "path": "index.html",
+      "url": "https://goddead.com/",
+      "local_bytes": 1060436,
+      "remote_bytes": 1060436,
+      "local_sha256": "4b845dc24296bec6f6ac346f1b76dc12f781f5bd9ae1b47b53d3251fb896d58b",
+      "remote_sha256": "4b845dc24296bec6f6ac346f1b76dc12f781f5bd9ae1b47b53d3251fb896d58b",
+      "raw_match": true,
+      "source_match": true,
+      "normalized_sha256": "4b845dc24296bec6f6ac346f1b76dc12f781f5bd9ae1b47b53d3251fb896d58b",
+      "cache_versions": [
+        "120",
+        "120"
+      ],
+      "scenes": 279
+    },
+    {
+      "path": "styles.css",
+      "url": "https://goddead.com/styles.css?v=120",
+      "local_bytes": 652305,
+      "remote_bytes": 652305,
+      "local_sha256": "51ec249a2090f727986a4667dd860cf1571a2327b1a83b1054fe4a432b0d7a9b",
+      "remote_sha256": "51ec249a2090f727986a4667dd860cf1571a2327b1a83b1054fe4a432b0d7a9b",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "script.js",
+      "url": "https://goddead.com/script.js?v=120",
+      "local_bytes": 3389939,
+      "remote_bytes": 3389939,
+      "local_sha256": "4216b45aa696104f0f4651909a1b2fa57b7f7752c54257494fe28ad673384217",
+      "remote_sha256": "4216b45aa696104f0f4651909a1b2fa57b7f7752c54257494fe28ad673384217",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "assets/v120-well-dawn-window.webp",
+      "url": "https://goddead.com/assets/v120-well-dawn-window.webp",
+      "local_bytes": 200586,
+      "remote_bytes": 200586,
+      "local_sha256": "e58a0edb0de2e9da3498f673d8515f8c0a286a5e86c56c61e35cd7e57efd6b14",
+      "remote_sha256": "e58a0edb0de2e9da3498f673d8515f8c0a286a5e86c56c61e35cd7e57efd6b14",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "assets/v120-dawn-pulse-manifold.webp",
+      "url": "https://goddead.com/assets/v120-dawn-pulse-manifold.webp",
+      "local_bytes": 169118,
+      "remote_bytes": 169118,
+      "local_sha256": "8350fd61aebe459d61893299c60338a7fe846e1d088ee81224b5ad004085446b",
+      "remote_sha256": "8350fd61aebe459d61893299c60338a7fe846e1d088ee81224b5ad004085446b",
+      "raw_match": true,
+      "source_match": true
+    }
+  ]
+}
