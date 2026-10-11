@@ -1,0 +1,60 @@
+{
+  "verified_at": "2026-10-11T09:48:53.701616+08:00",
+  "url": "https://goddead.com/",
+  "feature_commit": "185c0fd3475fc2ea563708c4fb9c70517125d5e0",
+  "assets": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "bytes": 1048817,
+      "sha256": "1920cbd13abc12f22386c4bacd4d1d2ed238d15dab04b352412a11fd8ce760a8",
+      "local_sha256": "fff4e160a2519470a7cfa6c6cc0e43994fe8a3ed5cda0f4115785cd39dceffb1",
+      "match": false,
+      "normalized_sha256": "fff4e160a2519470a7cfa6c6cc0e43994fe8a3ed5cda0f4115785cd39dceffb1",
+      "source_match": true,
+      "edge_transform": "Cloudflare Web Analytics beacon injected before closing body, closing-body indentation changed"
+    },
+    {
+      "path": "styles.css",
+      "status": 200,
+      "bytes": 644248,
+      "sha256": "8ad3bf10d78e8721a7e549cb9b5c8bbb0eb950539d943a5322f2203dc8e194f7",
+      "local_sha256": "8ad3bf10d78e8721a7e549cb9b5c8bbb0eb950539d943a5322f2203dc8e194f7",
+      "match": true
+    },
+    {
+      "path": "script.js",
+      "status": 200,
+      "bytes": 3349964,
+      "sha256": "23a837c4864c91085fe6efb7af06348031345d420753db708cbe071f6867952a",
+      "local_sha256": "23a837c4864c91085fe6efb7af06348031345d420753db708cbe071f6867952a",
+      "match": true
+    },
+    {
+      "path": "assets/v118-ferry-landing.webp",
+      "status": 200,
+      "bytes": 217190,
+      "sha256": "56331117a7a51394d8fb3a45faffec9d7816e7ce48ca5fa59e10ab9684785b49",
+      "local_sha256": "56331117a7a51394d8fb3a45faffec9d7816e7ce48ca5fa59e10ab9684785b49",
+      "match": true
+    },
+    {
+      "path": "assets/v118-river-crossing.webp",
+      "status": 200,
+      "bytes": 195608,
+      "sha256": "18216318de927cc95f32e2e835a386bd4c606ef386d0745d6308df30d46eb926",
+      "local_sha256": "18216318de927cc95f32e2e835a386bd4c606ef386d0745d6308df30d46eb926",
+      "match": true
+    },
+    {
+      "path": "assets/v118-hearing-of-the-last-bank.webp",
+      "status": 200,
+      "bytes": 197342,
+      "sha256": "2f9971222cda3cea06f5f5b8301db6f08815ecc349b2bb3d806e6b53eba4de03",
+      "local_sha256": "2f9971222cda3cea06f5f5b8301db6f08815ecc349b2bb3d806e6b53eba4de03",
+      "match": true
+    }
+  ],
+  "all_raw_bytes_match": false,
+  "all_source_match": true
+}

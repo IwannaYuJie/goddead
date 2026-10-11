@@ -37,8 +37,12 @@
 
 新增规则测试单独用布尔岸位判定，与生产位掩码实现比较全部 10,368 组输入；该数量不并入主站断言计数。独立 BFS 的最短趟数为 7 / 7 / 9，九种托运 × 航法分别验证生产输入、冷恢复、交货 pending、重复到达、签收撤桥和旧键隔离。基础主线测试执行实际早期守卫片段，锁住窄桥的临时许可。
 
-HTML 审计：277 个唯一场景、4,374 个唯一 ID，无重复 ID、无缺失本地文件、无无效有效 hash 路由，敏感标记检查通过。三张源 PNG 与 WebP 均 1536×1024，运行时分别约 212 / 191 / 193 KiB，均低于 300 KiB；提示词与 SHA-256 见 `docs/V118ImagePrompts.md`。
+HTML 审计：277 个唯一场景、4,374 个唯一 ID，无重复 ID、无缺失本地文件、无失效 hash 路由，敏感标记检查通过。三张源 PNG 与 WebP 均 1536×1024，运行时分别约 212 / 191 / 193 KiB，均低于 300 KiB；提示词与 SHA-256 见 `docs/V118ImagePrompts.md`。
 
 ## 发布
 
-本地验收完成，发布后补记功能提交、远端一致性、公开站缓存版本与资产哈希。
+功能提交 `185c0fd3475fc2ea563708c4fb9c70517125d5e0`（`feat: 发布 v118 渡河码头与可恢复航程`）已直接推送 main，`git ls-remote` 与功能 HEAD 一致；GitHub 的 Cloudflare Pages 检查 completed / success。2026-10-11 09:48（Asia/Taipei）公开站 `https://goddead.com/` 为 v118 / 277 场景。
+
+CSS、JS 与三张 v118 WebP 的原始 SHA-256 / 字节均与本地一致。HTML 原始字节多出 Cloudflare Web Analytics 自动注入的 beacon 脚本及闭合 body 的缩进变化；比对全部差异后，仅移除该脚本并恢复缩进，HTML 源码 SHA-256 与本地完全一致。未把经过边缘注入的 HTML 声称为原始字节相等。逐文件结果见 [v118-public-assets.json](v118-public-assets.json)。
+
+线上 Chrome 从普通根 URL 读取 v118、277 场景与三个新场景注册；门外正常显示，无横向溢出，无新 error / warn。线上验收只读，没有种入前置或更改生产存档。[线上根页面截图](v118-public-root.jpg)。本地临时服务已关闭，手机视口已恢复，原本地 21 项 raw 完成逐项恢复后才离开本地页面。
