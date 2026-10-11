@@ -69782,7 +69782,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     return {
       version: HEARSE_YARD_VERSION,
       visited: { gate: false, yard: false, court: false },
-      draft: { hearse: '', method: 'dawn' },
+      draft: { hearse: '', method: 'dawn', positions: [], moves: 0, baseMoves: 0, undo: [] },
       departs: [],
       courtOutcomes: [],
       departRuns: 0,
@@ -69805,7 +69805,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
     d.visited = { gate: v.gate === true, yard: v.yard === true, court: v.court === true };
     const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
-    d.draft = { hearse: HY_HEARSES.includes(dr.hearse) ? dr.hearse : '', method: HY_METHODS.includes(dr.method) ? dr.method : 'dawn' };
+    d.draft = normalizeHyDraft(dr);
     const departs = new Set(Array.isArray(raw.departs) ? raw.departs : []);
     d.departs = HY_DEPART_IDS.filter((id) => departs.has(id));
     const outcomes = new Set(Array.isArray(raw.courtOutcomes) ? raw.courtOutcomes : []);
@@ -69929,16 +69929,16 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
         st.visited.gate = true;
       } else if (p.kind === 'hearse') {
         st.visited.yard = true;
-        st.draft = { hearse: p.hearse, method: st.draft.hearse === p.hearse ? st.draft.method : 'dawn' };
+        if (st.draft.hearse !== p.hearse) st.draft = freshHyDraft(p.hearse, 'dawn');
       } else if (p.kind === 'finish') {
         st.departRuns = clampHyCount(st.departRuns + 1);
         if (!st.departs.includes(p.depart)) st.departs = st.departs.concat(p.depart);
         st.latestMethodByHearse[p.hearse] = p.method;
         st.lastOutcome = p.depart;
         st.activeDriver = { depart: p.depart };
-        st.draft = { hearse: '', method: 'dawn' };
+        st.draft = freshHyDraft('', 'dawn');
       } else if (p.kind === 'abandon') {
-        st.draft = { hearse: '', method: 'dawn' };
+        st.draft = freshHyDraft('', 'dawn');
         st.visited.gate = true;
       } else if (p.kind === 'driver-return') {
         st.activeDriver = null;
@@ -70043,12 +70043,13 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     if (!HY_METHOD_TABLE[method]) return;
     const st = hyReady(HY_YARD, `hy-method-${method}`);
     if (!st || !st.draft.hearse || !st.visited.yard || st.draft.method === method) return;
-    st.draft.method = method;
+    st.draft = freshHyDraft(st.draft.hearse, method);
     saveHearseYard(st);
+    hySel = -1;
     syncJammedYard();
   }
 
-  /* 车的位置只放在内存里；换车或换时辰时推回原位，要走的那辆到了院门才写 pending */
+  /* v122：车位与最近 64 次挪动保存在原草稿，选中标记只在界面里。 */
   let hyBlocks = [];
   let hySel = -1;
   let hyMoves = 0;
@@ -70056,6 +70057,59 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
 
   function hyFreshBlocks(hearse, method) {
     return HY_HEARSE_TABLE[hearse].yards[method].map(hyParse);
+  }
+
+  const HY_UNDO_CAP = 64;
+  function hyPositions(blocks) {
+    return blocks.map((b) => b.h ? b.c : b.r);
+  }
+  function freshHyDraft(hearse, method) {
+    return { hearse, method, positions: hearse ? hyPositions(hyFreshBlocks(hearse, method)) : [], moves: 0, baseMoves: 0, undo: [] };
+  }
+  function hyBoardFromPositions(hearse, method, positions) {
+    const fresh = hyFreshBlocks(hearse, method);
+    if (!Array.isArray(positions) || positions.length !== fresh.length) return null;
+    const occupied = new Set(), blocks = [];
+    for (let i = 0; i < fresh.length; i++) {
+      const b = fresh[i], pos = positions[i];
+      if (!Number.isInteger(pos) || pos < 0 || pos + b.len > HY_N) return null;
+      const moved = Object.assign({}, b, b.h ? { c: pos } : { r: pos });
+      for (const cell of hyCells(moved)) {
+        if (occupied.has(cell)) return null;
+        occupied.add(cell);
+      }
+      blocks.push(moved);
+    }
+    return blocks;
+  }
+  function hySingleMove(from, to) {
+    const target = hyPositions(to);
+    const changed = from.map((b, i) => (b.h ? b.c : b.r) !== target[i] ? i : -1).filter((i) => i >= 0);
+    if (changed.length !== 1) return false;
+    const i = changed[0], b = from[i], dest = to[i];
+    const oldPos = b.h ? b.c : b.r, newPos = b.h ? dest.c : dest.r;
+    const edge = newPos < oldPos ? newPos : newPos + b.len - 1;
+    const cell = b.h ? b.r * HY_N + edge : edge * HY_N + b.c;
+    const next = hySlide(from, i, cell);
+    return Boolean(next) && hyPositions(next).every((p, k) => p === target[k]);
+  }
+  function normalizeHyDraft(raw) {
+    const hearse = HY_HEARSES.includes(raw.hearse) ? raw.hearse : '';
+    const method = HY_METHODS.includes(raw.method) ? raw.method : 'dawn';
+    const initial = freshHyDraft(hearse, method);
+    if (!hearse || !Number.isSafeInteger(raw.moves) || raw.moves < 0 || !Number.isSafeInteger(raw.baseMoves) || raw.baseMoves < 0
+      || !Array.isArray(raw.undo) || raw.undo.length > HY_UNDO_CAP || raw.baseMoves + raw.undo.length !== raw.moves) return initial;
+    const current = hyBoardFromPositions(hearse, method, raw.positions);
+    if (!current) return initial;
+    let previous = null;
+    for (let i = 0; i < raw.undo.length; i++) {
+      const frame = hyBoardFromPositions(hearse, method, raw.undo[i]);
+      if (!frame || previous && !hySingleMove(previous, frame)) return initial;
+      if (i === 0 && raw.baseMoves === 0 && !initial.positions.every((p, k) => p === raw.undo[i][k])) return initial;
+      previous = frame;
+    }
+    if (previous ? !hySingleMove(previous, current) : raw.moves === 0 && !initial.positions.every((p, k) => p === raw.positions[k])) return initial;
+    return { hearse, method, positions: raw.positions.slice(), moves: raw.moves, baseMoves: raw.baseMoves, undo: raw.undo.map((frame) => frame.slice()) };
   }
 
   function paintHyYard(message) {
@@ -70107,8 +70161,8 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     if (status) {
       if (message) status.textContent = message;
       else if (out) status.textContent = `${HY_HEARSE_TABLE[hearse].title}顶到院门了，挪了 ${hyMoves} 次。可以放行。`;
-      else if (hySel >= 0) status.textContent = `选中了${name(hySel)}：点它同一行（横车）或同一列（竖车）上亮着的空地，车就顺着挪过去。`;
-      else status.textContent = `挪了 ${hyMoves} 次。点一辆车选中它，再点它前后的空地挪过去；把${HY_HEARSE_TABLE[hearse].title}挪到右边的院门。`;
+      else if (hySel >= 0) status.textContent = `挪了 ${hyMoves} 次 · 车位已记下。选中了${name(hySel)}，点亮着的空地挪动。`;
+      else status.textContent = `挪了 ${hyMoves} 次 · 车位已记下。点一辆车，再点亮着的空地；把${HY_HEARSE_TABLE[hearse].title}挪到右边的院门。`;
     }
   }
 
@@ -70128,19 +70182,35 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
       paintHyYard('挪不过去：车只能顺着自己的方向走，中间也不能有别的车挡着。');
       return;
     }
-    hyBlocks = next;
-    hyMoves += 1;
+    if (st.draft.moves === Number.MAX_SAFE_INTEGER) return;
+    if (st.draft.undo.length === HY_UNDO_CAP) st.draft.baseMoves += 1;
+    st.draft.undo = st.draft.undo.concat([st.draft.positions]).slice(-HY_UNDO_CAP);
+    st.draft.positions = hyPositions(next);
+    st.draft.moves += 1;
+    saveHearseYard(st);
     if (AudioEngine.tick) AudioEngine.tick();
-    paintHyYard('');
+    syncJammedYard();
+  }
+
+  function undoHyYard() {
+    const st = hyReady(HY_YARD, 'hy-undo');
+    if (!st || !st.draft.hearse || st.activeDriver || !st.draft.undo.length) return;
+    st.draft.positions = st.draft.undo.pop();
+    st.draft.moves -= 1;
+    saveHearseYard(st);
+    hySel = -1;
+    syncJammedYard();
+    paintHyYard(`退回一挪，现在挪了 ${hyMoves} 次 · 车位已记下。`);
   }
 
   function resetHyYard() {
     const st = hyReady(HY_YARD, 'hy-reset');
     if (!st || !st.draft.hearse || st.activeDriver) return;
-    hyBlocks = hyFreshBlocks(st.draft.hearse, st.draft.method);
+    st.draft = freshHyDraft(st.draft.hearse, st.draft.method);
+    saveHearseYard(st);
     hySel = -1;
-    hyMoves = 0;
-    paintHyYard('车都推回了原来的位置。');
+    syncJammedYard();
+    paintHyYard('车都推回了原来的位置，记下的挪动也清空了。');
   }
 
   function finishHyDeparture() {
@@ -70234,7 +70304,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
         const b = HY_HEARSE_TABLE[st.activeDriver.depart.split(':')[0]];
         text = `先完成正在送出去的那辆车：${b.driverTitle}还在${b.place}等你签收。`;
       } else if (st.draft.hearse) {
-        text = `院子里还堵着没挪出去的「${HY_HEARSE_TABLE[st.draft.hearse].title}」。`;
+        text = `院子里还留着「${HY_HEARSE_TABLE[st.draft.hearse].title}」的车位：${HY_METHOD_TABLE[st.draft.method].title}，已挪 ${st.draft.moves} 次，可以接着挪。`;
       }
       note.textContent = text;
       note.hidden = !text;
@@ -70253,12 +70323,10 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     const st = getHearseYard();
     const ready = canVisit && Boolean(st.draft.hearse);
     const key = st.draft.hearse ? `${st.draft.hearse}:${st.draft.method}` : '';
-    if (key !== hyYardKey && !(st.pending && st.pending.kind === 'finish')) {
-      hyYardKey = key;
-      hyBlocks = st.draft.hearse ? hyFreshBlocks(st.draft.hearse, st.draft.method) : [];
-      hySel = -1;
-      hyMoves = 0;
-    }
+    if (key !== hyYardKey) hySel = -1;
+    hyYardKey = key;
+    hyBlocks = st.draft.hearse ? hyBoardFromPositions(st.draft.hearse, st.draft.method, st.draft.positions) : [];
+    hyMoves = st.draft.moves;
     const panel = $('#hy-yard-panel');
     if (panel) panel.hidden = !ready;
     const board = $('#hy-board');
@@ -70268,7 +70336,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
       const title = $('#hy-yard-hearse');
       if (title) title.textContent = `${t.title} —— ${t.feedback}`;
       const hint = $('#hy-method-hint');
-      if (hint) hint.textContent = `${HY_METHOD_TABLE[st.draft.method].hint}发亮的那辆是${t.title}。点一辆车选中，再点它同一条线上的空地，车就顺着挪过去（中间不能有车挡着）；横车只能左右挪，竖车只能上下挪。把${t.title}挪到右边的院门就能放行，车会送到${t.place}，由${t.driverTitle}签收。换时辰、换车或刷新页面会把车都推回原位。`;
+      if (hint) hint.textContent = `${HY_METHOD_TABLE[st.draft.method].hint}把${t.title}挪到右边院门，再送到${t.place}签收。车位和步数每挪一次都会记下，刷新接着挪；可退回最近 ${HY_UNDO_CAP} 次挪动。换时辰、换车会把车推回原位。`;
     }
     HY_METHODS.forEach((method) => {
       const btn = $(`#hy-method-${method}`);
@@ -70277,9 +70345,9 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
       btn.setAttribute('aria-pressed', ready && st.draft.method === method ? 'true' : 'false');
       btn.classList.toggle('is-collected', Boolean(st.draft.hearse) && st.departs.includes(`${st.draft.hearse}:${method}`));
     });
-    ['hy-finish', 'hy-reset', 'hy-abandon'].forEach((id) => {
+    ['hy-finish', 'hy-reset', 'hy-abandon', 'hy-undo'].forEach((id) => {
       const btn = $(`#${id}`);
-      if (btn) btn.disabled = !ready || Boolean(st.pending);
+      if (btn) btn.disabled = !ready || Boolean(st.pending) || Boolean(st.activeDriver) || id === 'hy-undo' && !st.draft.undo.length;
     });
     for (let i = 0; i < HY_N * HY_N; i++) {
       const btn = $(`#hy-lot-${i}`);
@@ -70429,6 +70497,8 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     hySel = -1;
     hyMoves = 0;
     hyYardKey = '';
+    const undo = $('#hy-undo');
+    if (undo) undo.disabled = true;
     ['#hy-codex', '#hy-memory', '#hy-gate-figure', '#hy-yard-panel', '#hearing-of-the-last-cart-figure',
       '#hearse-gate-link', '#jammed-yard-link', '#hearing-of-the-last-cart-link', '#hy-continue', '#hy-court-entry-btn',
       '#hy-entry-response', '#hy-court-entry-response', '#hearse-gate-response', '#jammed-yard-response', '#hearing-of-the-last-cart-response',
@@ -70455,6 +70525,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   HY_VERDICT_ACTIONS.forEach((action) => onTrustedHy(`#hy-verdict-${action}`, () => chooseHyVerdict(action)));
   HY_OLD_TARGETS.forEach((scene) => onTrustedHy(`#hy-driver-return-${scene}`, () => chooseHyDriverReturn(scene)));
   for (let i = 0; i < HY_N * HY_N; i++) onTrustedHy(`#hy-lot-${i}`, () => tapHyLot(i));
+  onTrustedHy('#hy-undo', undoHyYard);
   onTrustedHy('#hy-reset', resetHyYard);
   onTrustedHy('#hy-finish', finishHyDeparture);
 
@@ -72545,7 +72616,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     const eligible = hyCourtEligible(st);
     if (eligible) items.push(`开庭条件已满足；末车裁定已得 ${st.courtOutcomes.length}/3`);
     if (st.activeDriver) items.push("有一辆车在旧房间等你签收：跟着赶车人回到灵车场");
-    else if (st.draft.hearse) items.push(`院子里还堵着没挪出去的「${HY_HEARSE_TABLE[st.draft.hearse].title}」`);
+    else if (st.draft.hearse) items.push(`院子里还留着「${HY_HEARSE_TABLE[st.draft.hearse].title}」的车位，已挪 ${st.draft.moves} 次，可接着挪`);
     if (eligible && st.courtOutcomes.length >= 3 && !st.pending && !st.activeDriver) return riverFerryProgressStep();
     return { title: "v117 灵车场", items, target: eligible ? "hy-court" : "hy", done: false };
   };

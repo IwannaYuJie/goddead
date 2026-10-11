@@ -1,0 +1,27 @@
+{
+  "verifiedAt": "2026-10-11T03:27:42.104Z",
+  "draftFields": [
+    "hearse",
+    "method",
+    "positions",
+    "moves",
+    "baseMoves",
+    "undo"
+  ],
+  "upstream": {
+    "keys": 35,
+    "mismatch": []
+  },
+  "restore": {
+    "mismatch": [],
+    "originalCount": 21,
+    "restoredCount": 21,
+    "unexpected": []
+  },
+  "consoleErrorsAndWarnings": [],
+  "desktop": "1470x779",
+  "mobile": "375x844",
+  "mobileLot": "52.2734375x50.21875",
+  "mobileUndo": "78.796875x44",
+  "sceneScroll": "auto"
+}

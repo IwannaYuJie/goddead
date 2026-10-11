@@ -21331,6 +21331,11 @@ button.dw-tile:disabled {
 }
 
 /* v117 灵车场：5×5 石板院子，右墙院门 */
+/* v122：旧 .scene-branch 的 overflow:hidden 曾截住棋盘下方控制区。 */
+.scene-hearse-gate,
+.scene-jammed-yard,
+.scene-hearing-of-the-last-cart { overflow-y: auto; overflow-x: hidden; }
+
 .hy-figure {
   position: relative;
   width: min(88vw, 760px);

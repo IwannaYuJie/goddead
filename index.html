@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=121">
+  <link rel="stylesheet" href="styles.css?v=122">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -11138,8 +11138,9 @@
             <p class="hy-note" id="hy-method-hint"></p>
             <div class="hy-actions">
               <button class="hy-action hy-finish" id="hy-finish" type="button" data-hover>开门放行</button>
+              <button class="hy-action" id="hy-undo" type="button" disabled data-hover>退回一挪</button>
               <button class="hy-action" id="hy-reset" type="button" data-hover>车都推回原位</button>
-              <button class="hy-action" id="hy-abandon" type="button" data-hover>等院子空一点再来</button>
+              <button class="hy-action" id="hy-abandon" type="button" data-hover>推回原位，稍后再来</button>
             </div>
           </div>
           <p class="branch-response hy-response" id="jammed-yard-response" aria-live="polite" hidden></p>
@@ -11467,6 +11468,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=121"></script>
+    <script src="script.js?v=122"></script>
   </body>
 </html>

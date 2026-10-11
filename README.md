@@ -4,7 +4,9 @@ Static, hash-routed exploration game at [goddead.com](https://goddead.com).
 
 ## Current Experience
 
-当前实现基线为 **v121「清晨名重 / THE WEIGHT OF A NAME AT DAWN」**：全站 280 个 hash 场景，缓存 `v=121`。v120 任一条晨光管接回旧井后，从痕迹室回访忏悔称量室；实际旧承认敲门 / 承认第七条 / 拒绝忏悔决定六枚名签的案件。在新清晨验名桌上循环移动名签到左盘、右盘或桌上，两盘各放等量 1–3 枚，最多三称识别唯一偏重或偏轻的名签。结果逐次排除候选，认领须与唯一记录吻合才可交回；可借推荐称法，支持撤回 / 重称、摆盘与记录刷新保存、静音及键盘。一案即可完成，三份余韵可选收集；旧称盘、罪籍、信念、迫近抽屉与秤手 / 茶童保留。新增一场景与两张内置 imagegen 原画，独立键 `goddead_v121_morning_name`。设计 / 提示词见 [V121MorningNameDesign.md](docs/V121MorningNameDesign.md) / [V121ImagePrompts.md](docs/V121ImagePrompts.md)。
+当前实现基线为 **v122「灵车场：车位记忆与退回一挪」**：全站 280 个 hash 场景，缓存 `v=122`。v117 挪车草稿现在逐步保存车位、步数和最近 64 次撤回，刷新或离开后可接着挪；换车 / 换时辰 / 推回原位开新局。原九阵、最短步数、三处赶车人签收、三项听证与渡河码头解锁保留，旧存档 / 旧在途兼容，坏车位安全回初阵。修复灵车场三页被旧通用样式截住的纵向滚动，小屏能直接滚到操作区。沿用已有三张原画，无新增场景；存档仍用 version 117 原键，设计见 [V122HearseYardRecoveryDesign.md](docs/V122HearseYardRecoveryDesign.md)。
+
+历史基线 **v121「清晨名重 / THE WEIGHT OF A NAME AT DAWN」**：全站 280 个 hash 场景，缓存 `v=121`。v120 任一条晨光管接回旧井后，从痕迹室回访忏悔称量室；实际旧承认敲门 / 承认第七条 / 拒绝忏悔决定六枚名签的案件。在新清晨验名桌上循环移动名签到左盘、右盘或桌上，两盘各放等量 1–3 枚，最多三称识别唯一偏重或偏轻的名签。结果逐次排除候选，认领须与唯一记录吻合才可交回；可借推荐称法，支持撤回 / 重称、摆盘与记录刷新保存、静音及键盘。一案即可完成，三份余韵可选收集；旧称盘、罪籍、信念、迫近抽屉与秤手 / 茶童保留。新增一场景与两张内置 imagegen 原画，独立键 `goddead_v121_morning_name`。设计 / 提示词见 [V121MorningNameDesign.md](docs/V121MorningNameDesign.md) / [V121ImagePrompts.md](docs/V121ImagePrompts.md)。
 
 历史基线 **v120「清晨脉搏 / THE FIRST MORNING PULSE」**：全站 279 个 hash 场景，缓存 `v=120`。v119 任一份回应完成后，从痕迹室回访早期血管维修井；实际旧顺流 / 逆流 / 隔离阀决定 3×3 晨光管的入口、出口与初始朝向。点击铜管顺时针转一格，让九段连成从入口到出口的同一路径且没有漏光；已连管段亮起、漏口标红，文字读出位置。不限时、静音可玩，朝向和最近 64 次撤销逐步保存，刷新 / 离场接续。修好一条即可完成，三种旧阀的清晨余韵可选收集。新增一个晨脉接管台与两张原画，原 v29 / v30 / v53 / v54 三阀、泵房、迫近和过压表保留。独立键 `goddead_v120_dawn_pulse`，设计 / 提示词见 [V120DawnPulseDesign.md](docs/V120DawnPulseDesign.md) / [V120ImagePrompts.md](docs/V120ImagePrompts.md)。
 

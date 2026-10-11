@@ -1,4 +1,8 @@
-# 当前实施状态：v121 清晨名重
+# 当前实施状态：v122 灵车场车位记忆
+
+已实装逐步保存车位 / 步数、最近 64 次撤回与计数检查点，固定原九阵及旧放行 / 签收合同，原键 version 117 向后兼容。三页局部纵向滚动修复完成，桌面 / 375px 原生输入已覆盖刷新、撤回、4/8/14 步签收、三裁定与渡河入口；设计见 [V122HearseYardRecoveryDesign.md](V122HearseYardRecoveryDesign.md)。30,550 条站点断言、旧章 65/65 与语法 / 差异检查通过，35 上游 raw 不变、原 21 项存档已恢复、临时服务已停止；公开站发布校验待闭环，下面保留历次实施计划。
+
+# v121 清晨名重（已发布）
 
 v121 已公开发布：功能提交 `5a3e7a1f81b045cc24bb6574411a193e3a08e901` 的 Pages 检查成功，2026-10-11 11:07（Asia/Taipei）公开站确认 v121 / 280，HTML / CSS / JS / 两新图 raw 字节与 SHA-256 一致，Chrome 首页正常、无新增 error / warn。30,189 条站点断言、65 项旧章测试及三旧称盘桌面 / 手机实机验收通过；8,748 次独立物理比较、140 等数摆盘与十二种三称唯一签名成立。标题淡入焦点已修正，原 21 项存档已恢复。设计见 [V121MorningNameDesign.md](V121MorningNameDesign.md)，素材见 [V121ImagePrompts.md](V121ImagePrompts.md)，验收见 [v121-browser-qa.md](../design-qa-evidence/v121-browser-qa.md)，后续队列见 [BranchesAndRoadmap.md](BranchesAndRoadmap.md)。下面保留历次实施计划。
 
