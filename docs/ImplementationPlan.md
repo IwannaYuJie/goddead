@@ -1,6 +1,6 @@
 # 当前实施状态：v122 灵车场车位记忆
 
-已实装逐步保存车位 / 步数、最近 64 次撤回与计数检查点，固定原九阵及旧放行 / 签收合同，原键 version 117 向后兼容。三页局部纵向滚动修复完成，桌面 / 375px 原生输入已覆盖刷新、撤回、4/8/14 步签收、三裁定与渡河入口；设计见 [V122HearseYardRecoveryDesign.md](V122HearseYardRecoveryDesign.md)。30,550 条站点断言、旧章 65/65 与语法 / 差异检查通过，35 上游 raw 不变、原 21 项存档已恢复、临时服务已停止；公开站发布校验待闭环，下面保留历次实施计划。
+v122 已公开发布：功能提交 `3e69b4293d39ae8838a536d7ad523c9846ecef66` 的 Pages 检查成功，2026-10-11 11:32（Asia/Taipei）普通公开 URL 确认 v122 / 280，HTML / CSS / JS / 三张沿用原画的 raw 字节与 SHA-256 全部一致。Chrome 首页正常，原生撤回按钮与院子 overflow-y:auto 已加载，无横向溢出、无新增 error / warn；30,550 条站点断言、旧章 65/65、桌面 / 375px 的刷新 / 撤回 / 三签收 / 三裁定通过。35 上游 raw 不变，原 21 项浏览器存档恢复，临时服务停止。设计见 [V122HearseYardRecoveryDesign.md](V122HearseYardRecoveryDesign.md)，验收见 [v122-browser-qa.md](../design-qa-evidence/v122-browser-qa.md)，后续队列见 [BranchesAndRoadmap.md](BranchesAndRoadmap.md)。下面保留历次实施计划。
 
 # v121 清晨名重（已发布）
 

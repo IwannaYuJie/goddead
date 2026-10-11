@@ -1449,3 +1449,7 @@
 - 普通滚轮实测发现旧 v72 / v73 的通用 `.scene-branch { overflow: hidden }` 截住下方控件。本版只恢复灵车场三页纵向滚动，插图框继续原裁切；其他旧支线滚动与 280 场景目录检索列入下一版队列。
 - 30,550 条站点断言、旧章 65/65、语法 / diff 检查通过。新独立模型验证九阵原最短数、81 次逐步冷恢复 / 撤回重挪、45 种首步、130 步与 64 次撤回边界、碰撞 / 穿车 / 双车 / 坏字段、旧草稿及旧 pending 迁移。
 - Chrome 桌面 / 375px 静音，实际走三车三时辰 4 / 8 / 14 步、三处签收 / 三裁定 / 渡河入口；中途刷新、撤回后再刷、到门未发刷新、同局重入、发车瞬间刷新、坏车位与上游锁定均通过。格子 52.27×50.22px，撤回 78.80×44px，无横向溢出。35 上游 raw 不变，原 21 项存档精确恢复，新增 error / warn 为空；临时服务停止。验收与截图见 `design-qa-evidence/v122-browser-qa.md`，公开站发布校验随后补记。
+
+### v122 公开发布闭环
+
+功能 `3e69b4293d39ae8838a536d7ad523c9846ecef66` 已推送 main，Cloudflare Pages completed / success。2026-10-11 11:32（Asia/Taipei）普通公开 URL 确认 v122 / 280，HTML / CSS / JS / 三张沿用图 raw 字节与 SHA-256 一致；Chrome 首页 active=threshold / title=Goddead、原生退回按钮 / 院子纵向滚动 / 缓存 v122 已载入，无横向溢出、无新增 error / warn。发布报告与截图保存在 `design-qa-evidence/v122-public-assets.json` / `v122-public-root-desktop.jpg`；Tasks 与当前实施状态已闭环，下一轮按路线图处理旧支线滚动与长目录检索。

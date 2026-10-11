@@ -34,4 +34,6 @@
 
 ## 公开发布
 
-功能已验收，当前提交推送与 Pages / 普通公开 URL 资源哈希验证待补记；本地浏览器前置不写入公开站。
+功能 `3e69b4293d39ae8838a536d7ad523c9846ecef66` 已推送 main，Cloudflare Pages 检查 completed / success。2026-10-11 11:32（Asia/Taipei）普通公开根 URL 与 styles.css?v=122 / script.js?v=122 / 三张原画的 raw 字节、大小与 SHA-256 全一致；HTML 280 场景，两个缓存参数均为 122。报告见 [v122-public-assets.json](v122-public-assets.json)。
+
+Chrome 公开首页实际 active=threshold、title=Goddead，无横向溢出；页面 DOM 的「退回一挪」为原生 BUTTON，院子计算样式为 overflow-y:auto，v122 CSS / JS 已加载，新增 error / warn 为空。公开站仅查看首页与载入合同，本地完整玩法验收前置没有写入公开站。截图见 [v122-public-root-desktop.jpg](v122-public-root-desktop.jpg)。

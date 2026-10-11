@@ -1,0 +1,80 @@
+{
+  "verified_at": "2026-10-11T11:32:25.468274+08:00",
+  "feature_commit": "3e69b4293d39ae8838a536d7ad523c9846ecef66",
+  "checks": [
+    {
+      "name": "Cloudflare Pages",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "version": 122,
+  "assets": [
+    {
+      "path": "index.html",
+      "url": "https://goddead.com/",
+      "local_bytes": 1068776,
+      "remote_bytes": 1068776,
+      "local_sha256": "cce7b314b4008f05abbfd813a3538f96dd4db355045eccd42435b5b010a4f396",
+      "remote_sha256": "cce7b314b4008f05abbfd813a3538f96dd4db355045eccd42435b5b010a4f396",
+      "raw_match": true,
+      "source_match": true,
+      "normalized_sha256": "cce7b314b4008f05abbfd813a3538f96dd4db355045eccd42435b5b010a4f396",
+      "cache_versions": [
+        "122",
+        "122"
+      ],
+      "scenes": 280
+    },
+    {
+      "path": "styles.css",
+      "url": "https://goddead.com/styles.css?v=122",
+      "local_bytes": 657077,
+      "remote_bytes": 657077,
+      "local_sha256": "d54f02839439474f61f56c19998f6375bc59088612dab9ff378d2a9bf5db68e6",
+      "remote_sha256": "d54f02839439474f61f56c19998f6375bc59088612dab9ff378d2a9bf5db68e6",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "script.js",
+      "url": "https://goddead.com/script.js?v=122",
+      "local_bytes": 3412198,
+      "remote_bytes": 3412198,
+      "local_sha256": "4a9efa9601cc393f73eb0708300846ccf89f8643cd98a58f4b1f750b3cb9186d",
+      "remote_sha256": "4a9efa9601cc393f73eb0708300846ccf89f8643cd98a58f4b1f750b3cb9186d",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "assets/v117-hearse-gate.webp",
+      "url": "https://goddead.com/assets/v117-hearse-gate.webp",
+      "local_bytes": 236750,
+      "remote_bytes": 236750,
+      "local_sha256": "c72b3fa9d1bfbbfbf0d620ab4d1a685bc35b1334f8cab0ad30661331db2f0c23",
+      "remote_sha256": "c72b3fa9d1bfbbfbf0d620ab4d1a685bc35b1334f8cab0ad30661331db2f0c23",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "assets/v117-jammed-yard.webp",
+      "url": "https://goddead.com/assets/v117-jammed-yard.webp",
+      "local_bytes": 258750,
+      "remote_bytes": 258750,
+      "local_sha256": "642d6b31c212b30eb89a583d8263f4e29f92bcfa42a419f99f347727f52e7323",
+      "remote_sha256": "642d6b31c212b30eb89a583d8263f4e29f92bcfa42a419f99f347727f52e7323",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "assets/v117-hearing-of-the-last-cart.webp",
+      "url": "https://goddead.com/assets/v117-hearing-of-the-last-cart.webp",
+      "local_bytes": 182372,
+      "remote_bytes": 182372,
+      "local_sha256": "72aa7fa50bdeb0e4ca74a475660057aeb46fd0e83b450bf7dc1a9f920fd1f3fa",
+      "remote_sha256": "72aa7fa50bdeb0e4ca74a475660057aeb46fd0e83b450bf7dc1a9f920fd1f3fa",
+      "raw_match": true,
+      "source_match": true
+    }
+  ]
+}
