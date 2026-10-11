@@ -45,8 +45,8 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=116/);
-assert.match(html, /script\.js\?v=116/);
+assert.match(html, /styles\.css\?v=117/);
+assert.match(html, /script\.js\?v=117/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
@@ -135,7 +135,7 @@ assert.match(js, /DOMContentLoaded/);
   assert.match(rawHtml, /<aside class="progress-guide" id="progress-guide" aria-labelledby="progress-guide-title" hidden>/, "remembrance hosts a hidden progress guide");
   const remembranceSection = rawHtml.match(/<section[^>]*data-scene="remembrance"[\s\S]*?<\/section>/);
   assert.ok(remembranceSection && remembranceSection[0].includes('id="progress-guide"'), "the guide lives inside the remembrance scene");
-  assert.match(js, /replayHundredthWakePending\(name\);\s*resolveDawnWeavingPendingOnArrival\(name\);\s*replayDawnWeavingPending\(name\);\s*resolveWeatherlessShelterPendingOnArrival\(name\);\s*replayWeatherlessShelterPending\(name\);\s*resolveShadowlessPhotographyPendingOnArrival\(name\);\s*replayShadowlessPhotographyPending\(name\);\s*resolveWakeForAnotherHotelPendingOnArrival\(name\);\s*replayWakeForAnotherHotelPending\(name\);\s*resolveYesterdayBreakfastPendingOnArrival\(name\);\s*replayYesterdayBreakfastPending\(name\);\s*resolveTodayPressPendingOnArrival\(name\);\s*replayTodayPressPending\(name\);\s*resolveInkMixingPendingOnArrival\(name\);\s*replayInkMixingPending\(name\);\s*resolveBorrowedLightPendingOnArrival\(name\);\s*replayBorrowedLightPending\(name\);\s*resolveExactTeaPendingOnArrival\(name\);\s*replayExactTeaPending\(name\);\s*resolveLastSweepPendingOnArrival\(name\);\s*replayLastSweepPending\(name\);\s*resolvePuttingBackPendingOnArrival\(name\);\s*replayPuttingBackPending\(name\);\s*resolvePaperCutPendingOnArrival\(name\);\s*replayPaperCutPending\(name\);\s*resolveClearedOfferingsPendingOnArrival\(name\);\s*replayClearedOfferingsPending\(name\);\s*resolveForgottenLocksPendingOnArrival\(name\);\s*replayForgottenLocksPending\(name\);\s*resolveLinenRoomPendingOnArrival\(name\);\s*replayLinenRoomPending\(name\);\s*resolveDreamMendingPendingOnArrival\(name\);\s*replayDreamMendingPending\(name\);\s*if \(name === "remembrance"\) syncProgressGuide\(\);\s*updateHudDisplay\(\);/, "arriving at remembrance refreshes the guide after every chapter sync");
+  assert.match(js, /replayHundredthWakePending\(name\);\s*resolveDawnWeavingPendingOnArrival\(name\);\s*replayDawnWeavingPending\(name\);\s*resolveWeatherlessShelterPendingOnArrival\(name\);\s*replayWeatherlessShelterPending\(name\);\s*resolveShadowlessPhotographyPendingOnArrival\(name\);\s*replayShadowlessPhotographyPending\(name\);\s*resolveWakeForAnotherHotelPendingOnArrival\(name\);\s*replayWakeForAnotherHotelPending\(name\);\s*resolveYesterdayBreakfastPendingOnArrival\(name\);\s*replayYesterdayBreakfastPending\(name\);\s*resolveTodayPressPendingOnArrival\(name\);\s*replayTodayPressPending\(name\);\s*resolveInkMixingPendingOnArrival\(name\);\s*replayInkMixingPending\(name\);\s*resolveBorrowedLightPendingOnArrival\(name\);\s*replayBorrowedLightPending\(name\);\s*resolveExactTeaPendingOnArrival\(name\);\s*replayExactTeaPending\(name\);\s*resolveLastSweepPendingOnArrival\(name\);\s*replayLastSweepPending\(name\);\s*resolvePuttingBackPendingOnArrival\(name\);\s*replayPuttingBackPending\(name\);\s*resolvePaperCutPendingOnArrival\(name\);\s*replayPaperCutPending\(name\);\s*resolveClearedOfferingsPendingOnArrival\(name\);\s*replayClearedOfferingsPending\(name\);\s*resolveForgottenLocksPendingOnArrival\(name\);\s*replayForgottenLocksPending\(name\);\s*resolveLinenRoomPendingOnArrival\(name\);\s*replayLinenRoomPending\(name\);\s*resolveDreamMendingPendingOnArrival\(name\);\s*replayDreamMendingPending\(name\);\s*resolveHearseYardPendingOnArrival\(name\);\s*replayHearseYardPending\(name\);\s*if \(name === "remembrance"\) syncProgressGuide\(\);\s*updateHudDisplay\(\);/, "arriving at remembrance refreshes the guide after every chapter sync");
   const guideStart = js.indexOf("/* ---------- 痕迹室「下一步」 ----------");
   const guideEnd = js.indexOf("/* ---------- 初始化 ---------- */");
   assert.ok(guideStart !== -1 && guideEnd > guideStart, "guide block sits before init");
@@ -591,7 +591,7 @@ assert.match(js, /target === "deadletter" && !\(watchUnlocked\(\) && line4Unlock
    reliquary 自身 sealed=true 但任一上游缺失时也必须逐级回退 */
 assert.match(js, /const reliquaryUnlocked = \(\) =>/, "reliquaryUnlocked contract helper must exist");
 assert.match(js, /target === "reliquary" && !reliquaryUnlocked\(\)/, "reliquary requires all 7 upstream prerequisites — stale goddead_reliquary must not pass");
-assert.match(js, /target === "offering" && !regretReclamationBridgeAllows\("offering"\) && !forgivenessLandfillBridgeAllows\("offering"\) && !\(watchUnlocked\(\) && line4Unlocked\(\) && getLine4\(\)\.connected && getDL\(\)\.accepted && getCancel\(\)\.refused && getActing\(\)\.appointed\)/, "offering fallback requires all 6 upstream prerequisites unless the exact v81/v82 narrow bridges allow it");
+assert.match(js, /target === "offering" && !hearseYardBridgeAllows\("offering"\) && !regretReclamationBridgeAllows\("offering"\) && !forgivenessLandfillBridgeAllows\("offering"\) && !\(watchUnlocked\(\) && line4Unlocked\(\) && getLine4\(\)\.connected && getDL\(\)\.accepted && getCancel\(\)\.refused && getActing\(\)\.appointed\)/, "offering fallback requires all 6 upstream prerequisites unless the exact v81/v82/v117 narrow bridges allow it");
 /* 守卫必须按依赖顺序：reliquary→offering→acting→cancellation→deadletter→switchboard→watch→corridor 逐级归并 */
 assert.ok(
   js.indexOf('target === "reliquary"') > -1
@@ -699,8 +699,8 @@ for (const asset of VISUAL_ASSETS) {
 await access(new URL("assets/prayer-incinerator-burning.webp", root));
 assert.match(html, /assets\/prayer-incinerator-burning\.webp/);
 assert.match(html, /<link rel="preload" href="assets\/prayer-incinerator-burning\.webp" as="image">/);
-assert.match(html, /styles\.css\?v=116/);
-assert.match(html, /script\.js\?v=116/);
+assert.match(html, /styles\.css\?v=117/);
+assert.match(html, /script\.js\?v=117/);
 const offeringFigureHtml = html.match(/<figure class="offering-figure[^"]*" role="img" aria-label="[^"]*">[\s\S]*?<\/figure>/);
 assert.ok(offeringFigureHtml, "offering figure must exist");
 assert.match(offeringFigureHtml[0], /aria-label="一座沉寂的焚献炉"/);
@@ -4710,7 +4710,7 @@ assert.ok(SCENES.includes("causal-sorter"), "SCENES must list the causal sorter"
 assert.ok(SCENES.includes("first-draft-vault"), "SCENES must list the first draft vault");
 assert.ok(SCENES.includes("before-first-knock"), "SCENES must list the before first knock");
 assert.ok(SCENES.includes("causeless-ward"), "SCENES must list the causeless ward");
-  assert.equal(new Set([...html.matchAll(/data-scene="([^"]+)"/g)].map((m) => m[1])).size, 271, "must expose 271 unique data-scene sections");
+  assert.equal(new Set([...html.matchAll(/data-scene="([^"]+)"/g)].map((m) => m[1])).size, 274, "must expose 274 unique data-scene sections");
 const consoleSection = html.match(/<section class="scene scene-branch scene-listening-back-console"[\s\S]*?<\/section>/);
 assert.ok(consoleSection, "scene section missing: listening-back-console");
 assert.match(consoleSection[0], /data-scene="listening-back-console" data-title="Goddead — 反听总台" aria-label="反听总台"/);
@@ -6095,8 +6095,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v73-nightmare-ta
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v73-waking-deportation-yard\.webp"/, "v73 loads on demand: waking-deportation-yard");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=116/, "v73 cache busts styles.css");
-assert.match(html, /script\.js\?v=116/, "v73 cache busts script.js");
+assert.match(html, /styles\.css\?v=117/, "v73 cache busts styles.css");
+assert.match(html, /script\.js\?v=117/, "v73 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const DREAM_CUSTOMS_KEY = ['"]goddead_v73_dream_customs['"]/g) || []).length, 1, "v73 introduces exactly one storage key");
@@ -6963,8 +6963,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v74-impossible-c
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v74-perpetual-license-tribunal\.webp"/, "v74 loads on demand: perpetual-license-tribunal");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=116/, "v74 cache busts styles.css");
-assert.match(html, /script\.js\?v=116/, "v74 cache busts script.js");
+assert.match(html, /styles\.css\?v=117/, "v74 cache busts styles.css");
+assert.match(html, /script\.js\?v=117/, "v74 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const TOMBSTONE_PATENT_OFFICE_KEY = ['"]goddead_v74_tombstone_patent_office['"]/g) || []).length, 1, "v74 introduces exactly one storage key");
@@ -7845,8 +7845,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v75-post-world-r
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v75-universal-recall-yard\.webp"/, "v75 loads on demand: universal-recall-yard");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=116/, "v75 cache busts styles.css");
-assert.match(html, /script\.js\?v=116/, "v75 cache busts script.js");
+assert.match(html, /styles\.css\?v=117/, "v75 cache busts styles.css");
+assert.match(html, /script\.js\?v=117/, "v75 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const APOCALYPSE_WARRANTY_KEY = ['"]goddead_v75_apocalypse_warranty['"]/g) || []).length, 1, "v75 introduces exactly one storage key");
@@ -8775,8 +8775,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v76-reality-retu
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v76-class-action-court\.webp"/, "v76 loads on demand: class-action-court");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=116/, "v76 cache busts styles.css");
-assert.match(html, /script\.js\?v=116/, "v76 cache busts script.js");
+assert.match(html, /styles\.css\?v=117/, "v76 cache busts styles.css");
+assert.match(html, /script\.js\?v=117/, "v76 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const REALITY_REFUND_KEY = ['"]goddead_v76_reality_refund['"]/g) || []).length, 1, "v76 introduces exactly one storage key");
@@ -9735,8 +9735,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v77-soul-counter
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v77-final-authenticity-tribunal\.webp"/, "v77 loads on demand: v77-final-authenticity-tribunal");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=116/, "v77 cache busts styles.css");
-assert.match(html, /script\.js\?v=116/, "v77 cache busts script.js");
+assert.match(html, /styles\.css\?v=117/, "v77 cache busts styles.css");
+assert.match(html, /script\.js\?v=117/, "v77 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const SELF_AUTHENTICITY_KEY = ['"]goddead_v77_self_authenticity['"]/g) || []).length, 1, "v77 introduces exactly one storage key");
@@ -14807,8 +14807,8 @@ for (const [file, hash] of Object.entries(V72_WEBP_HASHES)) {
 }
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=116/, "v72 cache busts styles.css");
-assert.match(html, /script\.js\?v=116/, "v72 cache busts script.js");
+assert.match(html, /styles\.css\?v=117/, "v72 cache busts styles.css");
+assert.match(html, /script\.js\?v=117/, "v72 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const LAST_WORD_BANK_KEY = ['"]goddead_v72_last_word_bank['"]/g) || []).length, 1, "v72 introduces exactly one storage key");
@@ -15994,8 +15994,8 @@ assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v78-pronoun-alloca
 assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v78-ownerless-voices-court.webp"'), "v78 loads on demand: v78-ownerless-voices-court");
 
 /* 缓存版本 */
-assert.ok(html.includes("styles.css?v=116"), "styles.css cache bust v=86");
-assert.ok(html.includes("script.js?v=116"), "script.js cache bust v=86");
+assert.ok(html.includes("styles.css?v=117"), "styles.css cache bust v=86");
+assert.ok(html.includes("script.js?v=117"), "script.js cache bust v=86");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const FIRST_PERSON_RATIONING_KEY = ['"]goddead_v78_first_person_rationing['"]/g) || []).length, 1, "v78 introduces exactly one storage key");
@@ -17027,8 +17027,8 @@ assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v79-personhood-inh
 assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v79-unuttered-estate-tribunal.webp"'), "v79 loads on demand: v79-unuttered-estate-tribunal");
 
 /* 缓存版本 */
-assert.ok(html.includes("styles.css?v=116"), "styles.css cache bust v=86");
-assert.ok(html.includes("script.js?v=116"), "script.js cache bust v=86");
+assert.ok(html.includes("styles.css?v=117"), "styles.css cache bust v=86");
+assert.ok(html.includes("script.js?v=117"), "script.js cache bust v=86");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const UNSPOKEN_PERSONHOOD_KEY = ['"]goddead_v79_unspoken_personhood['"]/g) || []).length, 1, "v79 introduces exactly one storage key");
@@ -17710,8 +17710,8 @@ assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v80-counterfactual
 assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v80-last-conclusion-hearing.webp"'), "v80 loads on demand: v80-last-conclusion-hearing");
 
 /* 缓存版本 */
-assert.ok(html.includes("styles.css?v=116"), "styles.css cache bust v=86");
-assert.ok(html.includes("script.js?v=116"), "script.js cache bust v=86");
+assert.ok(html.includes("styles.css?v=117"), "styles.css cache bust v=86");
+assert.ok(html.includes("script.js?v=117"), "script.js cache bust v=86");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const UNFINISHED_THOUGHT_KEY = ['"]goddead_v80_unfinished_thought_asylum['"]/g) || []).length, 1, "v80 introduces exactly one storage key");
@@ -20844,7 +20844,7 @@ for (const item of v81BranchFigures) {
   assert.ok(lastGuardPos < addressSyncPos, "direct guards appear before address bar synchronization");
 
   assert.ok(
-    /if\s*\(\s*target\s*===\s*["']offering["']\s*&&\s*!regretReclamationBridgeAllows\(["']offering["']\)\s*&&\s*!forgivenessLandfillBridgeAllows\(["']offering["']\)\s*&&\s*!\s*\(\s*watchUnlocked\(\)\s*&&\s*line4Unlocked\(\)\s*&&\s*getLine4\(\)\.connected\s*&&\s*getDL\(\)\.accepted\s*&&\s*getCancel\(\)\.refused\s*&&\s*getActing\(\)\.appointed\s*\)\s*\)\s*target\s*=\s*["']acting["'];/.test(resolveSceneSlice),
+    /if\s*\(\s*target\s*===\s*["']offering["']\s*&&\s*!hearseYardBridgeAllows\(["']offering["']\)\s*&&\s*!regretReclamationBridgeAllows\(["']offering["']\)\s*&&\s*!forgivenessLandfillBridgeAllows\(["']offering["']\)\s*&&\s*!\s*\(\s*watchUnlocked\(\)\s*&&\s*line4Unlocked\(\)\s*&&\s*getLine4\(\)\.connected\s*&&\s*getDL\(\)\.accepted\s*&&\s*getCancel\(\)\.refused\s*&&\s*getActing\(\)\.appointed\s*\)\s*\)\s*target\s*=\s*["']acting["'];/.test(resolveSceneSlice),
     "offering guard preserves prerequisites and appends !forgivenessLandfillBridgeAllows(\"offering\")"
   );
 
@@ -26766,8 +26766,8 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
       assert.match(html, new RegExp(`data-scene="${sc}"`), `scene missing: ${sc}`);
     }
 
-    assert.match(html, /styles\.css\?v=116/, "styles.css cache query must be updated to v=90");
-    assert.match(html, /script\.js\?v=116/, "script.js cache query must be updated to v=90");
+    assert.match(html, /styles\.css\?v=117/, "styles.css cache query must be updated to v=90");
+    assert.match(html, /script\.js\?v=117/, "script.js cache query must be updated to v=90");
 
     const bootstrapStartIdx = js.lastIndexOf('/* ---------- 初始化 ---------- */');
     assert.ok(bootstrapStartIdx !== -1, 'v90 browser-initialization failure: bootstrap start marker not found');
@@ -28898,7 +28898,7 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
     assert.ok(section.includes(`id="late-cause-echo-${scene}"`), `${scene} hosts the v91 echo paragraph`);
   }
   assert.match(js, /resolveLateCausePendingOnArrival\(name\);\s*replayLateCausePending\(name\);/, "sceneInit resolves then replays v91 pending on the real route");
-  assert.match(js, /syncCauselessConsequenceRefugeeLinks\(\);\s*syncLateCauseAll\(\);\s*syncWitnessAll\(\);\s*syncUnseenAll\(\);\s*syncReturnedKnocksAll\(\);\s*syncStoppedClocksAll\(\);\s*syncHeldBreathAll\(\);\s*syncLostWeightAll\(\);\s*syncVigilCandlesAll\(\);\s*syncDeadRoadsAll\(\);\s*syncHundredthWakeAll\(\);\s*syncDawnWeavingAll\(\);\s*syncWeatherlessShelterAll\(\);\s*syncShadowlessPhotographyAll\(\);\s*syncWakeForAnotherHotelAll\(\);\s*syncYesterdayBreakfastAll\(\);\s*syncTodayPressAll\(\);\s*syncInkMixingAll\(\);\s*syncBorrowedLightAll\(\);\s*syncExactTeaAll\(\);\s*syncLastSweepAll\(\);\s*syncPuttingBackAll\(\);\s*syncPaperCutAll\(\);\s*syncClearedOfferingsAll\(\);\s*syncForgottenLocksAll\(\);\s*syncLinenRoomAll\(\);\s*syncDreamMendingAll\(\);\s*revealScene\(scenes\.threshold\);/, "bootstrap only syncs v91 UI, never resolves a hardcoded threshold");
+  assert.match(js, /syncCauselessConsequenceRefugeeLinks\(\);\s*syncLateCauseAll\(\);\s*syncWitnessAll\(\);\s*syncUnseenAll\(\);\s*syncReturnedKnocksAll\(\);\s*syncStoppedClocksAll\(\);\s*syncHeldBreathAll\(\);\s*syncLostWeightAll\(\);\s*syncVigilCandlesAll\(\);\s*syncDeadRoadsAll\(\);\s*syncHundredthWakeAll\(\);\s*syncDawnWeavingAll\(\);\s*syncWeatherlessShelterAll\(\);\s*syncShadowlessPhotographyAll\(\);\s*syncWakeForAnotherHotelAll\(\);\s*syncYesterdayBreakfastAll\(\);\s*syncTodayPressAll\(\);\s*syncInkMixingAll\(\);\s*syncBorrowedLightAll\(\);\s*syncExactTeaAll\(\);\s*syncLastSweepAll\(\);\s*syncPuttingBackAll\(\);\s*syncPaperCutAll\(\);\s*syncClearedOfferingsAll\(\);\s*syncForgottenLocksAll\(\);\s*syncLinenRoomAll\(\);\s*syncDreamMendingAll\(\);\s*syncHearseYardAll\(\);\s*revealScene\(scenes\.threshold\);/, "bootstrap only syncs v91 UI, never resolves a hardcoded threshold");
   assert.match(js, /forgetCauselessConsequenceRefugeeState\(\);\s*forgetLateCauseMaternityState\(\);/, "forget-all clears v91");
   assert.ok(js.includes("&& !lateCauseMaternityBridgeAllows('unending-gallery')"), "gallery guard lets v91 arrivals through");
 
@@ -30392,7 +30392,7 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
   assert.ok(remembranceSection && /id="codex-fold-bar"[^>]*hidden/.test(remembranceSection[0]), "the fold bar lives in remembrance and starts hidden");
   assert.ok(remembranceSection[0].indexOf('id="progress-guide"') < remembranceSection[0].indexOf('id="codex-fold-bar"'), "the fold bar sits right under the progress guide");
   assert.match(js, /const syncProgressGuide = \(\) => \{\s*paintProgressGuide\(\);\s*syncCodexFolds\(\);\s*\};/, "every guide refresh re-applies the folds");
-  assert.match(js, /forgetHundredthWakeState\(\);\s*forgetDawnWeavingState\(\);\s*forgetWeatherlessShelterState\(\);\s*forgetShadowlessPhotographyState\(\);\s*forgetWakeForAnotherHotelState\(\);\s*forgetYesterdayBreakfastState\(\);\s*forgetTodayPressState\(\);\s*forgetInkMixingState\(\);\s*forgetBorrowedLightState\(\);\s*forgetExactTeaState\(\);\s*forgetLastSweepState\(\);\s*forgetPuttingBackState\(\);\s*forgetPaperCutState\(\);\s*forgetClearedOfferingsState\(\);\s*forgetForgottenLocksState\(\);\s*forgetLinenRoomState\(\);\s*forgetDreamMendingState\(\);\s*forgetCodexFolds\(\);/, "forget-all clears the fold preference");
+  assert.match(js, /forgetHundredthWakeState\(\);\s*forgetDawnWeavingState\(\);\s*forgetWeatherlessShelterState\(\);\s*forgetShadowlessPhotographyState\(\);\s*forgetWakeForAnotherHotelState\(\);\s*forgetYesterdayBreakfastState\(\);\s*forgetTodayPressState\(\);\s*forgetInkMixingState\(\);\s*forgetBorrowedLightState\(\);\s*forgetExactTeaState\(\);\s*forgetLastSweepState\(\);\s*forgetPuttingBackState\(\);\s*forgetPaperCutState\(\);\s*forgetClearedOfferingsState\(\);\s*forgetForgottenLocksState\(\);\s*forgetLinenRoomState\(\);\s*forgetDreamMendingState\(\);\s*forgetHearseYardState\(\);\s*forgetCodexFolds\(\);/, "forget-all clears the fold preference");
   assert.match(js, /const box = target\.closest\('\[id\$="-codex"\]'\);\s*if \(box\) setCodexFolded\(box, false\);/, "jumping to an entry unfolds its codex first");
   assert.match(css, /\[id\$="-codex"\]\.is-folded > :not\(\.codex-fold\) \{ display: none !important; \}/, "a folded codex shows only its title button");
 
@@ -33405,13 +33405,13 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
   for (let i = 0; i < 25; i++) assert.match(rawHtml, new RegExp(`<button class="dm-knot" id="dm-knot-${i}" type="button"`), `knot ${i} is a native button`);
   for (const c of "ABCDE") assert.ok(rawHtml.includes(`<polyline class="dm-line dm-line-${c}" id="dm-line-${c}" points=""/>`), `thread ${c} is an SVG polyline`);
   assert.match(js, /resolveDreamMendingPendingOnArrival\(name\);\s*replayDreamMendingPending\(name\);/, "sceneInit resolves then replays v116 pending");
-  assert.match(js, /forgetLinenRoomState\(\);\s*forgetDreamMendingState\(\);\s*forgetCodexFolds\(\);/, "forget-all clears v116 before the fold preference");
-  assert.match(js, /syncLinenRoomAll\(\);\s*syncDreamMendingAll\(\);\s*revealScene/, "boot syncs v116");
+  assert.match(js, /forgetLinenRoomState\(\);\s*forgetDreamMendingState\(\);\s*forgetHearseYardState\(\);/, "forget-all clears v116");
+  assert.match(js, /syncLinenRoomAll\(\);\s*syncDreamMendingAll\(\);/, "boot syncs v116");
   assert.match(js, /return dreamMendingProgressStep\(\);/, "the guide continues from v115 into v116");
   assert.ok(rawHtml.indexOf('id="hearing-of-the-last-quilt-link"') < rawHtml.indexOf('id="dream-menders-link"'), "v116 links follow v115 in the directory");
 
   const modStart = js.indexOf("/* ============================================================\n     v116 缝梦铺");
-  const modEnd = js.indexOf("  /* ---------- 痕迹室「下一步」 ----------");
+  const modEnd = js.indexOf("  /* ============================================================\n     v117 灵车场");
   assert.ok(modStart !== -1 && modEnd > modStart, "v116 module is extractable");
   const modSrc = js.slice(modStart, modEnd);
   assert.equal((modSrc.match(/addEventListener\('click', \(e\) => \{ if \(e\.isTrusted\) handler\(e\); \}\)/g) || []).length, 1, "buttons go through the trusted-click helper");
@@ -33625,6 +33625,274 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
     assert.equal(forged.latestMethodByDream["watch-dream"], "", "a latest thread count never collected is rejected");
     assert.equal(forged.activeMender, null);
     assert.equal(forged.pending, null, "a dream sent to the wrong scene is rejected");
+  }
+}
+
+/* ================= v117 灵车场 ================= */
+{
+  const V117_SCENES = ["hearse-gate", "jammed-yard", "hearing-of-the-last-cart"];
+  for (const s of V117_SCENES) {
+    assert.match(rawHtml, new RegExp(`<section[^>]*data-scene="${s}"`), `v117 scene ${s} exists`);
+    assert.match(js, new RegExp(`if \\(target === "${s}" && ![a-zA-Z]+CanVisit\\(\\)\\) target = "remembrance";`), `v117 scene ${s} is guarded`);
+    const buf = await readFile(new URL(`assets/v117-${s}.webp`, root));
+    assert.equal(buf.toString("ascii", 0, 4), "RIFF", `v117 ${s} is a webp`);
+    assert.ok(buf.length < 300 * 1024, `v117 ${s} stays under 300KB`);
+    assert.ok(rawHtml.includes(`data-src="assets/v117-${s}.webp"`), `v117 ${s} loads on demand`);
+    await access(new URL(`design-references/source-v117-${s}.png`, root));
+  }
+  for (const scene of ["reliquary", "protocol", "offering"]) {
+    const section = rawHtml.split(/(?=<section[^>]*\bdata-scene=")/).find((p) => p.startsWith("<section") && p.indexOf(`data-scene="${scene}"`) > -1 && p.indexOf(`data-scene="${scene}"`) < 300);
+    assert.ok(section && section.includes(`id="hy-driver-${scene}"`) && section.includes(`id="hy-echo-${scene}"`), `${scene} hosts the v117 receipt and echo`);
+  }
+  for (let i = 0; i < 25; i++) assert.match(rawHtml, new RegExp(`<button class="hy-lot" id="hy-lot-${i}" type="button"`), `lot ${i} is a native button`);
+  for (let k = 0; k < 10; k++) assert.ok(rawHtml.includes(`<span class="hy-cart" id="hy-cart-${k}" aria-hidden="true" hidden></span>`), `cart ${k} is decorative`);
+  assert.match(js, /resolveHearseYardPendingOnArrival\(name\);\s*replayHearseYardPending\(name\);/, "sceneInit resolves then replays v117 pending");
+  assert.match(js, /forgetDreamMendingState\(\);\s*forgetHearseYardState\(\);\s*forgetCodexFolds\(\);/, "forget-all clears v117 before the fold preference");
+  assert.match(js, /syncDreamMendingAll\(\);\s*syncHearseYardAll\(\);\s*revealScene/, "boot syncs v117");
+  assert.match(js, /return hearseYardProgressStep\(\);/, "the guide continues from v116 into v117");
+  assert.match(js, /!dreamMendingBridgeAllows\(target\) && !hearseYardBridgeAllows\(target\)/, "the governance guard lets v117 reach the reliquary");
+  assert.ok(rawHtml.indexOf('id="hearing-of-the-last-dream-link"') < rawHtml.indexOf('id="hearse-gate-link"'), "v117 links follow v116 in the directory");
+
+  const modStart = js.indexOf("/* ============================================================\n     v117 灵车场");
+  const modEnd = js.indexOf("  /* ---------- 痕迹室「下一步」 ----------");
+  assert.ok(modStart !== -1 && modEnd > modStart, "v117 module is extractable");
+  const modSrc = js.slice(modStart, modEnd);
+  assert.equal((modSrc.match(/addEventListener\('click', \(e\) => \{ if \(e\.isTrusted\) handler\(e\); \}\)/g) || []).length, 1, "buttons go through the trusted-click helper");
+  assert.equal((modSrc.match(/addEventListener\(/g) || []).length, 1, "no other listeners");
+  assert.doesNotMatch(modSrc, /innerHTML/, "v117 never writes save data as HTML");
+
+  const makeV117 = ({ v116Done = true, v116Busy = false, initial = null } = {}) => {
+    const mem = new Map();
+    if (initial !== null) mem.set("goddead_v117_hearse_yard", typeof initial === "string" ? initial : JSON.stringify(initial));
+    const store = { get: (k, f) => (mem.has(k) ? mem.get(k) : f), set: (k, v) => mem.set(k, String(v)) };
+    const els = new Map();
+    const mkEl = (id = "") => ({
+      id, hidden: false, disabled: false, textContent: "", children: [], attrs: {},
+      style: { setProperty(k, v) { this[k] = v; } },
+      classList: { set: new Set(), add(c) { this.set.add(c); }, remove(c) { this.set.delete(c); }, toggle(c, on) { on ? this.set.add(c) : this.set.delete(c); }, contains(c) { return this.set.has(c); } },
+      setAttribute(k, v) { this.attrs[k] = String(v); }, getAttribute(k) { return k in this.attrs ? this.attrs[k] : null; },
+      replaceChildren(...c) { this.children = c; }, addEventListener() {},
+    });
+    const $ = (sel) => { const id = sel.replace(/^#/, ""); if (!els.has(id)) els.set(id, mkEl(id)); return els.get(id); };
+    const schedules = [];
+    const AutoAdvance = { schedule: (scene, target) => schedules.push([scene, target]), has: () => false, clear: () => {} };
+    const v116 = { courtOutcomes: v116Done ? ["a", "b", "c"] : ["a"], pending: v116Busy ? { kind: "finish" } : null, activeMender: null };
+    const api = new Function(
+      "store", "$", "$$", "reduced", "AutoAdvance", "AudioEngine", "buttonAvailable", "document", "localStorage",
+      "dreamMendingUnlocked", "getDreamMending", "dmCourtEligible", "DM_VERDICT_OUTCOME_IDS",
+      `let currentScene = "remembrance";\n${modSrc}\nreturn { go: (s) => { currentScene = s; }, arrive: (s) => { currentScene = s; resolveHearseYardPendingOnArrival(s); syncHearseYardAll(); },
+        get: getHearseYard, unlocked: hearseYardUnlocked, entry: chooseHyEntry, hearse: chooseHyHearse, method: chooseHyMethod, abandon: chooseHyAbandon,
+        tap: tapHyLot, reset: resetHyYard, finish: finishHyDeparture, blocks: () => hyBlocks.map((b) => ({ ...b })), sel: () => hySel,
+        driver: chooseHyDriverReturn, courtEntry: chooseHyCourtEntry, verdict: chooseHyVerdict, eligible: hyCourtEligible,
+        pure: { parse: hyParse, cells: hyCells, slide: hySlide, out: hyOut, min: hyMinMoves }, HEARSE: HY_HEARSE_TABLE, METHOD: HY_METHOD_TABLE,
+        bridge: hearseYardBridgeAllows, gateOk: hyGateCanVisit, yardOk: jammedYardCanVisit, courtOk: hyCourtCanVisit, resolve: resolveHearseYardPendingOnArrival,
+        forget: forgetHearseYardState, DEPARTS: HY_DEPART_IDS, HEARSES: HY_HEARSES, METHODS: HY_METHODS };`
+    )(store, $, () => [], false, AutoAdvance, { whoosh() {}, tick() {} }, (id) => { const el = els.get(id); return !el || (!el.disabled && !el.hidden); },
+      { createElement: () => mkEl() }, { removeItem: (k) => mem.delete(k) }, () => true, () => v116, () => true, ["a", "b", "c"]);
+    return { ...api, mem, els, schedules };
+  };
+  /* 测试自己的广搜：最短的“选车 + 点格子”序列 */
+  const plan = (g, blocks) => {
+    const key = (bs) => bs.map((b) => (b.h ? b.c : b.r)).join(",");
+    const prev = new Map([[key(blocks), null]]);
+    let frontier = [blocks];
+    while (frontier.length) {
+      const next = [];
+      for (const bs of frontier) {
+        if (g.pure.out(bs)) {
+          const moves = [];
+          for (let k = key(bs); prev.get(k); k = prev.get(k).from) moves.unshift(prev.get(k).move);
+          return moves;
+        }
+        bs.forEach((b, i) => {
+          for (let p = 0; p < 5; p++) {
+            const cell = b.h ? b.r * 5 + p : p * 5 + b.c;
+            const moved = g.pure.slide(bs, i, cell);
+            if (moved && !prev.has(key(moved))) { prev.set(key(moved), { from: key(bs), move: [g.pure.cells(b)[0], cell] }); next.push(moved); }
+          }
+        });
+      }
+      frontier = next;
+    }
+    return null;
+  };
+  const drive = (g, moves) => moves.forEach(([pick, to]) => { g.tap(pick); g.tap(to); });
+
+  /* 纯函数：读车、占格、挪车、到门；每辆车在每个时辰都要 4–14 次 */
+  {
+    const g = makeV117();
+    const { parse, cells, slide, out, min } = g.pure;
+    assert.deepEqual(parse("V3@1,4"), { h: false, len: 3, r: 1, c: 4 });
+    assert.equal(parse("X2@1,1"), null);
+    assert.deepEqual(cells(parse("H2@2,3")), [13, 14]);
+    assert.deepEqual(cells(parse("V2@3,0")), [15, 20]);
+    const yard = [parse("H2@2,0"), parse("V2@1,3")];
+    assert.equal(slide(yard, 0, 14), null, "a cart cannot drive through another");
+    assert.deepEqual(slide(yard, 1, 3)[1], parse("V2@0,3"), "a vertical cart slides up to the tapped lot");
+    const cleared = slide(yard, 1, 23);
+    assert.deepEqual(cleared[1], parse("V2@3,3"), "a vertical cart slides down to cover the tapped lot");
+    assert.equal(slide(yard, 1, 2), null, "a cart only moves along its own line");
+    assert.equal(out(slide(cleared, 0, 14)), true, "the hearse reaches the gate");
+    assert.equal(out(yard), false);
+    assert.equal(min(yard), 2);
+    assert.equal(g.DEPARTS.length, 9);
+    const want = { dawn: [4, 6], morning: [8, 10], noon: [12, 14] };
+    for (const hearse of g.HEARSES) {
+      for (const method of g.METHODS) {
+        const blocks = g.HEARSE[hearse].yards[method].map(parse);
+        assert.ok(blocks.every(Boolean), `${hearse} ${method} parses`);
+        assert.ok(blocks[0].h && blocks[0].r === 2, `${hearse} ${method} hearse stands in the gate row`);
+        const all = blocks.flatMap(cells);
+        assert.equal(new Set(all).size, all.length, `${hearse} ${method} carts never overlap`);
+        const n = min(blocks);
+        assert.ok(n >= want[method][0] && n <= want[method][1], `${hearse} ${method} needs ${want[method].join("–")} moves (${n})`);
+        assert.equal(plan(g, blocks).length, n, "the test planner agrees with the module");
+      }
+    }
+  }
+
+  /* 锁定与上游在途 */
+  {
+    const g = makeV117({ v116Done: false, initial: { version: 117, visited: { gate: true, yard: true, court: true } } });
+    assert.equal(g.unlocked(), false);
+    assert.equal(g.gateOk() || g.yardOk() || g.courtOk() || g.bridge("reliquary"), false);
+    g.entry();
+    assert.equal(g.schedules.length, 0);
+    const h = makeV117({ v116Busy: true });
+    h.entry();
+    assert.equal(h.schedules.length, 0, "a v116 dream in transit blocks the v117 entry");
+    h.arrive("remembrance");
+    assert.match(h.els.get("hy-entry-note").textContent, /梦/);
+  }
+
+  /* 真实基础主线守卫：v117 的两处签收不能在治理守卫之前被改写 */
+  {
+    const start = js.indexOf('  const resolveScene = (name) => {');
+    const end = js.indexOf('    /* v62 反听总台守卫', start);
+    const guards = js.slice(start, end).replace('  const resolveScene = (name) => {', '');
+    const route = new Function('name', 'hearseYardBridgeAllows', `
+      const reliquaryUnlocked = () => false;
+      const regretReclamationBridgeAllows = () => false;
+      const forgivenessLandfillBridgeAllows = () => false;
+      const watchUnlocked = () => false;
+      const line4Unlocked = () => false;
+      let target;
+      ${guards.replace('let target = name;', 'target = name;')}
+      return target;
+    `);
+    const g = makeV117();
+    g.entry(); g.arrive('hearse-gate');
+    g.hearse('reliquary-hearse'); g.arrive('jammed-yard');
+    drive(g, plan(g, g.blocks())); g.finish();
+    assert.equal(route('reliquary', g.bridge), 'reliquary', 'a genuine pending hearse bypasses the early relic gate');
+    g.arrive('reliquary');
+    assert.equal(route('reliquary', g.bridge), 'reliquary', 'an unsigned driver keeps the destination accessible');
+    assert.equal(route('offering', g.bridge), 'corridor', 'a relic receipt never unlocks another main-line room');
+    g.driver('reliquary'); g.arrive('hearse-gate');
+    assert.equal(route('reliquary', g.bridge), 'corridor', 'signing removes the temporary base-main-line bypass');
+    g.hearse('offering-hearse'); g.arrive('jammed-yard');
+    drive(g, plan(g, g.blocks())); g.finish();
+    assert.equal(route('offering', g.bridge), 'offering', 'the ash cart bypasses the early offering gate');
+    assert.equal(route('reliquary', () => false), 'corridor', 'locked players retain the old base route');
+  }
+
+  /* 最短开庭：三辆车、三个时辰；没到院门不能放行，到了才送 */
+  {
+    const g = makeV117();
+    g.entry(); g.arrive("hearse-gate");
+    const depart = (hearse, method, scene) => {
+      g.go("hearse-gate"); g.hearse(hearse); g.arrive("jammed-yard");
+      if (method !== "dawn") g.method(method);
+      assert.equal(g.get().draft.method, method);
+      const blocks = g.HEARSE[hearse].yards[method].map(g.pure.parse);
+      assert.deepEqual(g.blocks(), blocks, "the carts start where they were parked");
+      assert.equal(g.els.get(`hy-cart-${blocks.length}`).hidden, blocks.length < 10, "unused carts stay hidden");
+      assert.equal(g.els.get("hy-cart-0").classList.contains("is-hearse"), true, "the departing hearse is marked");
+      g.finish();
+      assert.equal(g.get().pending, null, "a jammed yard never opens");
+      const empty = [...Array(25).keys()].find((i) => !blocks.some((b) => g.pure.cells(b).includes(i)));
+      g.tap(empty);
+      assert.match(g.els.get("hy-yard-status").textContent, /先点一辆车/);
+      const moves = plan(g, blocks);
+      drive(g, moves);
+      assert.equal(g.els.get("hy-board").classList.contains("is-done"), true, "the yard shows the hearse at the gate");
+      assert.equal(g.els.get("hy-cart-0").style["--hy-c"], "3", "the hearse cart is drawn at the gate");
+      g.finish();
+      assert.deepEqual(g.schedules.pop(), ["jammed-yard", scene], `${hearse} ${method} is sent to ${scene}`);
+      assert.equal(g.get().departs.includes(`${hearse}:${method}`), false, "nothing is booked at departure time");
+      g.arrive(scene);
+      assert.ok(g.get().departs.includes(`${hearse}:${method}`));
+      assert.equal(g.els.get(`hy-driver-${scene}`).hidden, false, "the driver receipt shows in the old room");
+      assert.match(g.els.get(`hy-echo-${scene}`).textContent, /车/, "the old room remembers the cart");
+      g.driver(scene); g.arrive("hearse-gate");
+      assert.equal(g.get().activeDriver, null);
+    };
+    depart("reliquary-hearse", "dawn", "reliquary");
+    depart("protocol-hearse", "morning", "protocol");
+    depart("offering-hearse", "noon", "offering");
+    assert.equal(g.eligible(g.get()), true, "three carts covering every hour open the court");
+    g.go("remembrance"); g.courtEntry(); g.arrive("hearing-of-the-last-cart");
+    for (const [action, target] of [["let-every-cart-out", "threshold"], ["keep-one-cart-for-god", "remembrance"], ["leave-the-carts-in-the-yard", "unending-gallery"]]) {
+      g.go("hearing-of-the-last-cart"); g.verdict(action);
+      assert.deepEqual(g.schedules.pop(), ["hearing-of-the-last-cart", target]);
+      g.arrive(target);
+      assert.equal(g.bridge(target), true, "the latest verdict keeps its destination bridged");
+    }
+    assert.equal(g.get().courtOutcomes.length, 3);
+    g.forget();
+    assert.equal(g.mem.has("goddead_v117_hearse_yard"), false);
+  }
+
+  /* 选中与取消、挪不过去、换时辰复原、推回原位、等一会儿、在途锁定、pending、坏档 */
+  {
+    const g = makeV117();
+    g.entry(); g.arrive("hearse-gate");
+    g.hearse("reliquary-hearse"); g.arrive("jammed-yard");
+    g.tap(10);
+    assert.equal(g.sel(), 0, "tapping a cart selects it");
+    g.tap(11);
+    assert.equal(g.sel(), -1, "tapping the selected cart again deselects it");
+    g.tap(10); g.tap(4);
+    assert.deepEqual(g.blocks()[0], { h: true, len: 2, r: 2, c: 0 }, "a slide outside the cart's row is refused");
+    assert.match(g.els.get("hy-yard-status").textContent, /挪不过去/);
+    g.method("noon");
+    assert.deepEqual(g.blocks(), g.HEARSE["reliquary-hearse"].yards.noon.map(g.pure.parse), "changing the hour parks every cart again");
+    const first = plan(g, g.blocks())[0];
+    drive(g, [first]);
+    g.reset();
+    assert.deepEqual(g.blocks(), g.HEARSE["reliquary-hearse"].yards.noon.map(g.pure.parse), "reset pushes the carts back");
+    g.abandon();
+    assert.deepEqual(g.schedules.pop(), ["jammed-yard", "hearse-gate"]);
+    g.arrive("hearse-gate");
+    assert.equal(g.get().draft.hearse, "");
+    g.hearse("protocol-hearse"); g.arrive("jammed-yard");
+    assert.equal(g.get().draft.method, "dawn", "a different cart resets the hour");
+    drive(g, plan(g, g.blocks()));
+    g.finish();
+    assert.deepEqual(g.schedules.pop(), ["jammed-yard", "protocol"]);
+    g.resolve("jammed-yard");
+    assert.equal(g.get().pending?.kind, "finish", "refreshing at the yard keeps waiting");
+    const frozen = g.blocks();
+    g.tap(g.pure.cells(frozen[1])[0]);
+    assert.equal(g.sel(), -1, "the yard is locked while the cart is in transit");
+    g.arrive("protocol"); g.arrive("protocol");
+    assert.equal(g.get().departRuns, 1, "repeated arrival books once");
+    g.driver("protocol"); g.arrive("watch");
+    assert.equal(g.get().pending, null);
+    assert.ok(g.get().activeDriver, "the receipt survives a cancelled return");
+    assert.equal(makeV117({ initial: "{bad" }).get().visited.gate, false);
+    const forged = makeV117({ initial: {
+      version: 117, visited: { gate: true, yard: true }, y: 2, draft: { hearse: "protocol-hearse", method: "midnight" },
+      departs: ["protocol-hearse:dawn", "protocol-hearse:dawn", "ghost:dawn"], courtOutcomes: ["fake"],
+      latestMethodByHearse: { "protocol-hearse": "noon" }, activeDriver: { depart: "protocol-hearse:noon" },
+      pending: { kind: "finish", hearse: "protocol-hearse", method: "dawn", depart: "protocol-hearse:dawn", source: "jammed-yard", target: "remembrance", feedback: "x" },
+    } }).get();
+    assert.equal("y" in forged, false);
+    assert.equal(forged.draft.method, "dawn", "an unknown hour falls back to dawn");
+    assert.deepEqual(forged.departs, ["protocol-hearse:dawn"]);
+    assert.equal(forged.latestMethodByHearse["protocol-hearse"], "", "a latest hour never collected is rejected");
+    assert.equal(forged.activeDriver, null);
+    assert.equal(forged.pending, null, "a cart sent to the wrong scene is rejected");
   }
 }
 

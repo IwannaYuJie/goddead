@@ -579,6 +579,10 @@ function createV102Harness({
     const dmShopCanVisit = () => false;
     const dreamFrameCanVisit = () => false;
     const dmCourtCanVisit = () => false;
+    const hearseYardBridgeAllows = () => false;
+    const hyGateCanVisit = () => false;
+    const jammedYardCanVisit = () => false;
+    const hyCourtCanVisit = () => false;
     const ahHotelCanVisit = () => false;
     const borrowedDawnClockroomCanVisit = () => false;
     const sharedMorningVerandaCanVisit = () => false;
@@ -663,12 +667,12 @@ function createV102Harness({
 // -------------------------------------------------------------
 // Test Group 1: Markers, scene IDs, image attributes & DOM HTML structure
 // -------------------------------------------------------------
-test('Group 1: HTML structure, scene count 271, lazy images, native buttons and CSS scope', () => {
-  // 271 unique scene section data-scene values in index.html (excluding scene-veil overlay)
+test('Group 1: HTML structure, scene count 274, lazy images, native buttons and CSS scope', () => {
+  // 274 unique scene section data-scene values in index.html (excluding scene-veil overlay)
   const sceneMatches = Array.from(indexHtml.matchAll(/<section[^>]+data-scene="([^"]+)"/g)).map((m) => m[1]);
   const uniqueScenes = new Set(sceneMatches);
-  assert.equal(sceneMatches.length, 271, `Total data-scene sections must be exactly 271, got ${sceneMatches.length}`);
-  assert.equal(uniqueScenes.size, 271, `Scene count must be exactly 271, got ${uniqueScenes.size}`);
+  assert.equal(sceneMatches.length, 274, `Total data-scene sections must be exactly 274, got ${sceneMatches.length}`);
+  assert.equal(uniqueScenes.size, 274, `Scene count must be exactly 274, got ${uniqueScenes.size}`);
   assert.ok(uniqueScenes.has('weatherless-bus-shelter'));
   assert.ok(uniqueScenes.has('season-dispatch-board'));
   assert.ok(uniqueScenes.has('four-season-platform'));
@@ -2244,6 +2248,8 @@ test('v102: sceneInit and legacy v45 relief integration behavior audit', () => {
       const replayLinenRoomPending = () => {};
       const resolveDreamMendingPendingOnArrival = () => {};
       const replayDreamMendingPending = () => {};
+      const resolveHearseYardPendingOnArrival = () => {};
+      const replayHearseYardPending = () => {};
       const syncWeatherlessShelterAll = () => h.syncAll();
 
       let thresholdConsumed = false;

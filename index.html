@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=116">
+  <link rel="stylesheet" href="styles.css?v=117">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -383,6 +383,15 @@
           </ol>
           <p class="rules-foot reveal">守则如有变动，恕不另行通知。——有些变动并非我们所为。</p>
 
+          <!-- v117 守则放行签收与记忆 -->
+          <p class="watch-memory hy-echo" id="hy-echo-protocol" hidden></p>
+          <div class="hy-driver reveal" id="hy-driver-protocol" hidden>
+            <p class="hy-driver-title" id="hy-driver-title-protocol"></p>
+            <p class="hy-driver-level" id="hy-driver-level-protocol"></p>
+            <p class="hy-driver-body" id="hy-driver-body-protocol"></p>
+            <p class="hy-response" id="hy-driver-response-protocol" aria-live="polite" hidden></p>
+            <button class="hy-action" id="hy-driver-return-protocol" type="button" data-hover>跟着赶车人回到灵车场 ⟶</button>
+          </div>
           <!-- v115 守则收被签收与记忆 -->
           <p class="watch-memory ln-echo" id="ln-echo-protocol" hidden></p>
           <div class="ln-folder reveal" id="ln-folder-protocol" hidden>
@@ -4608,6 +4617,15 @@
             <p class="counterfactual-echo-response" id="counterfactual-echo-response-offering" aria-live="polite"></p>
             <button class="counterfactual-echo-return" id="counterfactual-echo-return-offering" type="button" data-hover>把灰中多出的一生送回纺锤 ⟶</button>
           </div>
+          <!-- v117 焚献炉放行签收与记忆 -->
+          <p class="watch-memory hy-echo" id="hy-echo-offering" hidden></p>
+          <div class="hy-driver reveal" id="hy-driver-offering" hidden>
+            <p class="hy-driver-title" id="hy-driver-title-offering"></p>
+            <p class="hy-driver-level" id="hy-driver-level-offering"></p>
+            <p class="hy-driver-body" id="hy-driver-body-offering"></p>
+            <p class="hy-response" id="hy-driver-response-offering" aria-live="polite" hidden></p>
+            <button class="hy-action" id="hy-driver-return-offering" type="button" data-hover>跟着赶车人回到灵车场 ⟶</button>
+          </div>
           <!-- v113 焚献炉撤供签收与记忆 -->
           <p class="watch-memory co-echo" id="co-echo-offering" hidden></p>
           <div class="co-clearer reveal" id="co-clearer-offering" hidden>
@@ -4746,6 +4764,15 @@
             </div>
           </div>
 
+          <!-- v117 神圣遗物科放行签收与记忆 -->
+          <p class="watch-memory hy-echo" id="hy-echo-reliquary" hidden></p>
+          <div class="hy-driver reveal" id="hy-driver-reliquary" hidden>
+            <p class="hy-driver-title" id="hy-driver-title-reliquary"></p>
+            <p class="hy-driver-level" id="hy-driver-level-reliquary"></p>
+            <p class="hy-driver-body" id="hy-driver-body-reliquary"></p>
+            <p class="hy-response" id="hy-driver-response-reliquary" aria-live="polite" hidden></p>
+            <button class="hy-action" id="hy-driver-return-reliquary" type="button" data-hover>跟着赶车人回到灵车场 ⟶</button>
+          </div>
           <!-- v114 神圣遗物科换锁签收与记忆 -->
           <p class="watch-memory lk-echo" id="lk-echo-reliquary" hidden></p>
           <div class="lk-keyholder reveal" id="lk-keyholder-reliquary" hidden>
@@ -5418,6 +5445,21 @@
               <p class="ts-response" id="ts-entry-response" aria-live="polite" hidden></p>
               <button class="ts-entry-btn" id="ts-court-entry-btn" type="button" hidden data-hover>进入早报听证会 · ENTER THE HEARING OF THE MORNING EDITION ⟶</button>
               <p class="ts-response" id="ts-court-entry-response" aria-live="polite" hidden></p>
+            </div>
+          </div>
+          <!-- v117 放行图鉴 -->
+          <p class="watch-memory hy-memory" id="hy-memory" hidden></p>
+          <div class="hy-codex reveal" id="hy-codex" hidden>
+            <p class="hy-kicker">THE HEARSE YARD · 放 行 图 鉴</p>
+            <div class="hy-grid" id="hy-codex-grid"></div>
+            <p class="hy-hints-title">末车听证会开庭条件</p>
+            <ul class="hy-hints" id="hy-court-hints"></ul>
+            <div class="hy-codex-entry">
+              <button class="hy-entry-btn" id="hy-entry-btn" type="button" hidden data-hover>前往灵车场 · GO TO THE HEARSE YARD ⟶</button>
+              <p class="hy-note" id="hy-entry-note" hidden></p>
+              <p class="hy-response" id="hy-entry-response" aria-live="polite" hidden></p>
+              <button class="hy-entry-btn" id="hy-court-entry-btn" type="button" hidden data-hover>进入末车听证会 · ENTER THE HEARING OF THE LAST CART ⟶</button>
+              <p class="hy-response" id="hy-court-entry-response" aria-live="polite" hidden></p>
             </div>
           </div>
           <!-- v116 缝梦图鉴 -->
@@ -10685,6 +10727,118 @@
         </div>
       </section>
 
+      <!-- v117 第一幕：灵车场 -->
+      <section class="scene scene-branch scene-hearse-gate" id="scene-hearse-gate" data-scene="hearse-gate" data-title="Goddead — 灵车场" aria-label="灵车场">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">31α / 放行 · THE HEARSE YARD</p>
+            <h2 class="sec-title">灵车场</h2>
+            <p class="sec-desc">梦都缝好了，天快亮了。死人得被送回各自的屋子，可院子里横七竖八停满了车。门房的桌上三辆小车模型，是今天要先放出去的三辆。</p>
+          </header>
+          <figure class="branch-figure hy-figure reveal" id="hy-gate-figure">
+            <img class="branch-img hy-img" data-src="assets/v117-hearse-gate.webp" alt="灵车场门房：挂满缰绳和提灯的石屋，天色刚亮；长桌上三辆小车模型，左边一辆镶铜边的黑灵车，中间一辆白篷车，右边一辆铁斗里装满灰的灰车" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot hy-hotspot hy-hotspot-left" id="hy-hearse-reliquary-hearse" type="button" aria-label="放行：遗物科的灵车" data-hover><span class="dh-label" aria-hidden="true">遗物科的灵车</span></button>
+            <button class="scene-hotspot hy-hotspot hy-hotspot-center" id="hy-hearse-protocol-hearse" type="button" aria-label="放行：守则厅的篷车" data-hover><span class="dh-label" aria-hidden="true">守则厅的篷车</span></button>
+            <button class="scene-hotspot hy-hotspot hy-hotspot-right" id="hy-hearse-offering-hearse" type="button" aria-label="放行：焚献炉的灰车" data-hover><span class="dh-label" aria-hidden="true">焚献炉的灰车</span></button>
+          </figure>
+          <p class="hy-note reveal" id="hy-gate-note" hidden></p>
+          <p class="branch-response hy-response" id="hearse-gate-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开灵车场">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+            <button class="hy-action" id="hy-continue" type="button" hidden data-hover>回到院子 ⟶</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- v117 第二幕：挤满的院子 -->
+      <section class="scene scene-branch scene-jammed-yard" id="scene-jammed-yard" data-scene="jammed-yard" data-title="Goddead — 挤满的院子" aria-label="挤满的院子">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">31β / 挪车 · THE JAMMED YARD</p>
+            <h2 class="sec-title">挤满的院子</h2>
+            <p class="sec-desc">从上往下看，五乘五的石板院子，右边墙上开着院门。发亮的是要走的那辆，其余都是挡路的：横车只能左右挪，竖车只能上下挪。把要走的那辆挪到院门。</p>
+          </header>
+          <figure class="branch-figure hy-figure hy-yard-figure reveal" id="hy-yard-figure">
+            <img class="branch-img hy-img" data-src="assets/v117-jammed-yard.webp" alt="挤满的院子：俯视的一块方形石板院子，四周是黑石墙，右边墙正中开着一道院门，晨光照在空院子里" width="1536" height="1024" loading="lazy" decoding="async">
+            <div class="hy-board" id="hy-board" hidden>
+              <span class="hy-cart" id="hy-cart-0" aria-hidden="true" hidden></span>
+              <span class="hy-cart" id="hy-cart-1" aria-hidden="true" hidden></span>
+              <span class="hy-cart" id="hy-cart-2" aria-hidden="true" hidden></span>
+              <span class="hy-cart" id="hy-cart-3" aria-hidden="true" hidden></span>
+              <span class="hy-cart" id="hy-cart-4" aria-hidden="true" hidden></span>
+              <span class="hy-cart" id="hy-cart-5" aria-hidden="true" hidden></span>
+              <span class="hy-cart" id="hy-cart-6" aria-hidden="true" hidden></span>
+              <span class="hy-cart" id="hy-cart-7" aria-hidden="true" hidden></span>
+              <span class="hy-cart" id="hy-cart-8" aria-hidden="true" hidden></span>
+              <span class="hy-cart" id="hy-cart-9" aria-hidden="true" hidden></span>
+              <button class="hy-lot" id="hy-lot-0" type="button" aria-label="第 1 行第 1 列" style="grid-row: 1; grid-column: 1" data-hover></button>
+              <button class="hy-lot" id="hy-lot-1" type="button" aria-label="第 1 行第 2 列" style="grid-row: 1; grid-column: 2" data-hover></button>
+              <button class="hy-lot" id="hy-lot-2" type="button" aria-label="第 1 行第 3 列" style="grid-row: 1; grid-column: 3" data-hover></button>
+              <button class="hy-lot" id="hy-lot-3" type="button" aria-label="第 1 行第 4 列" style="grid-row: 1; grid-column: 4" data-hover></button>
+              <button class="hy-lot" id="hy-lot-4" type="button" aria-label="第 1 行第 5 列" style="grid-row: 1; grid-column: 5" data-hover></button>
+              <button class="hy-lot" id="hy-lot-5" type="button" aria-label="第 2 行第 1 列" style="grid-row: 2; grid-column: 1" data-hover></button>
+              <button class="hy-lot" id="hy-lot-6" type="button" aria-label="第 2 行第 2 列" style="grid-row: 2; grid-column: 2" data-hover></button>
+              <button class="hy-lot" id="hy-lot-7" type="button" aria-label="第 2 行第 3 列" style="grid-row: 2; grid-column: 3" data-hover></button>
+              <button class="hy-lot" id="hy-lot-8" type="button" aria-label="第 2 行第 4 列" style="grid-row: 2; grid-column: 4" data-hover></button>
+              <button class="hy-lot" id="hy-lot-9" type="button" aria-label="第 2 行第 5 列" style="grid-row: 2; grid-column: 5" data-hover></button>
+              <button class="hy-lot" id="hy-lot-10" type="button" aria-label="第 3 行第 1 列" style="grid-row: 3; grid-column: 1" data-hover></button>
+              <button class="hy-lot" id="hy-lot-11" type="button" aria-label="第 3 行第 2 列" style="grid-row: 3; grid-column: 2" data-hover></button>
+              <button class="hy-lot" id="hy-lot-12" type="button" aria-label="第 3 行第 3 列" style="grid-row: 3; grid-column: 3" data-hover></button>
+              <button class="hy-lot" id="hy-lot-13" type="button" aria-label="第 3 行第 4 列" style="grid-row: 3; grid-column: 4" data-hover></button>
+              <button class="hy-lot" id="hy-lot-14" type="button" aria-label="第 3 行第 5 列" style="grid-row: 3; grid-column: 5" data-hover></button>
+              <button class="hy-lot" id="hy-lot-15" type="button" aria-label="第 4 行第 1 列" style="grid-row: 4; grid-column: 1" data-hover></button>
+              <button class="hy-lot" id="hy-lot-16" type="button" aria-label="第 4 行第 2 列" style="grid-row: 4; grid-column: 2" data-hover></button>
+              <button class="hy-lot" id="hy-lot-17" type="button" aria-label="第 4 行第 3 列" style="grid-row: 4; grid-column: 3" data-hover></button>
+              <button class="hy-lot" id="hy-lot-18" type="button" aria-label="第 4 行第 4 列" style="grid-row: 4; grid-column: 4" data-hover></button>
+              <button class="hy-lot" id="hy-lot-19" type="button" aria-label="第 4 行第 5 列" style="grid-row: 4; grid-column: 5" data-hover></button>
+              <button class="hy-lot" id="hy-lot-20" type="button" aria-label="第 5 行第 1 列" style="grid-row: 5; grid-column: 1" data-hover></button>
+              <button class="hy-lot" id="hy-lot-21" type="button" aria-label="第 5 行第 2 列" style="grid-row: 5; grid-column: 2" data-hover></button>
+              <button class="hy-lot" id="hy-lot-22" type="button" aria-label="第 5 行第 3 列" style="grid-row: 5; grid-column: 3" data-hover></button>
+              <button class="hy-lot" id="hy-lot-23" type="button" aria-label="第 5 行第 4 列" style="grid-row: 5; grid-column: 4" data-hover></button>
+              <button class="hy-lot" id="hy-lot-24" type="button" aria-label="第 5 行第 5 列" style="grid-row: 5; grid-column: 5" data-hover></button>
+              <span class="hy-exit" aria-hidden="true"></span>
+            </div>
+            <p class="hy-yard-status" id="hy-yard-status" aria-live="polite"></p>
+          </figure>
+          <div class="hy-panel reveal" id="hy-yard-panel" hidden>
+            <p class="hy-panel-hearse" id="hy-yard-hearse"></p>
+            <div class="hy-methods" role="group" aria-label="时辰">
+              <button class="hy-method" id="hy-method-dawn" type="button" data-hover>天刚亮</button>
+              <button class="hy-method" id="hy-method-morning" type="button" data-hover>早上</button>
+              <button class="hy-method" id="hy-method-noon" type="button" data-hover>正午</button>
+            </div>
+            <p class="hy-note" id="hy-method-hint"></p>
+            <div class="hy-actions">
+              <button class="hy-action hy-finish" id="hy-finish" type="button" data-hover>开门放行</button>
+              <button class="hy-action" id="hy-reset" type="button" data-hover>车都推回原位</button>
+              <button class="hy-action" id="hy-abandon" type="button" data-hover>等院子空一点再来</button>
+            </div>
+          </div>
+          <p class="branch-response hy-response" id="jammed-yard-response" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <!-- v117 第三幕：末车听证会 -->
+      <section class="scene scene-branch scene-hearing-of-the-last-cart" id="scene-hearing-of-the-last-cart" data-scene="hearing-of-the-last-cart" data-title="Goddead — 末车听证会" aria-label="末车听证会">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal">
+            <p class="sec-kicker">31γ / 末车 · HEARING OF THE LAST CART</p>
+            <h2 class="sec-title">末车听证会</h2>
+            <p class="sec-desc">圆厅高窗外天亮了，空椅子旁没有车。桌上三件东西：一扇开着的小铁门、一辆单独放着几枝白花的空车、一只倒在桌上的破车轮。裁定之后仍可回来。</p>
+          </header>
+          <figure class="branch-figure hy-figure reveal" id="hearing-of-the-last-cart-figure">
+            <img class="branch-img hy-img" data-src="assets/v117-hearing-of-the-last-cart.webp" alt="末车听证会：圆厅高窗透进晨光，一把空椅子；近处长桌上左边一扇开着的小铁门模型，中间一辆放着几枝白花的空车模型，右边一只倒着的破车轮" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot hy-hotspot hy-hotspot-court-left" id="hy-verdict-let-every-cart-out" type="button" aria-label="裁定：让每一辆车都出门" data-hover><span class="dh-label" aria-hidden="true">让每一辆车都出门</span></button>
+            <button class="scene-hotspot hy-hotspot hy-hotspot-court-center" id="hy-verdict-keep-one-cart-for-god" type="button" aria-label="裁定：给神留一辆车" data-hover><span class="dh-label" aria-hidden="true">给神留一辆车</span></button>
+            <button class="scene-hotspot hy-hotspot hy-hotspot-court-right" id="hy-verdict-leave-the-carts-in-the-yard" type="button" aria-label="裁定：让车停在院子里" data-hover><span class="dh-label" aria-hidden="true">让车停在院子里</span></button>
+          </figure>
+          <p class="branch-response hy-response" id="hearing-of-the-last-cart-response" aria-live="polite" hidden></p>
+          <nav class="scene-exits reveal" aria-label="离开听证会">
+            <button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button>
+          </nav>
+        </div>
+      </section>
+
       <!-- 隐藏幕 · 第九条 -->
       <section class="scene scene-ninth" id="scene-ninth" data-scene="ninth" data-title="Goddead — ？？？" aria-label="第九条">
         <figure class="ninth-figure" role="img" aria-label="一道不该存在的裂口，底部有一扇错误的窄门">
@@ -10967,6 +11121,9 @@
       <a href="#dream-menders" id="dream-menders-link" hidden data-hover>30α / 缝梦铺</a>
       <a href="#dream-frame" id="dream-frame-link" hidden data-hover>30β / 绷梦架</a>
       <a href="#hearing-of-the-last-dream" id="hearing-of-the-last-dream-link" hidden data-hover>30γ / 末梦听证</a>
+      <a href="#hearse-gate" id="hearse-gate-link" hidden data-hover>31α / 灵车场</a>
+      <a href="#jammed-yard" id="jammed-yard-link" hidden data-hover>31β / 挤满的院子</a>
+      <a href="#hearing-of-the-last-cart" id="hearing-of-the-last-cart-link" hidden data-hover>31γ / 末车听证</a>
 
 
       <a href="#three-person-republic-court" id="three-person-republic-court-link" hidden data-hover>04β / 三人共和国</a>
@@ -10976,6 +11133,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=116"></script>
+    <script src="script.js?v=117"></script>
   </body>
 </html>

@@ -1430,6 +1430,8 @@ document.addEventListener("DOMContentLoaded", () => {
     replayLinenRoomPending(name);
     resolveDreamMendingPendingOnArrival(name);
     replayDreamMendingPending(name);
+    resolveHearseYardPendingOnArrival(name);
+    replayHearseYardPending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1445,8 +1447,8 @@ document.addEventListener("DOMContentLoaded", () => {
      陈旧/篡改状态也会落到最终可达场景。 */
   const resolveScene = (name) => {
     let target = name;
-    if (target === "reliquary" && !reliquaryUnlocked()) target = "offering";
-    if (target === "offering" && !regretReclamationBridgeAllows("offering") && !forgivenessLandfillBridgeAllows("offering") && !(watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted && getCancel().refused && getActing().appointed)) target = "acting";
+    if (target === "reliquary" && !reliquaryUnlocked() && !hearseYardBridgeAllows("reliquary")) target = "offering";
+    if (target === "offering" && !hearseYardBridgeAllows("offering") && !regretReclamationBridgeAllows("offering") && !forgivenessLandfillBridgeAllows("offering") && !(watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted && getCancel().refused && getActing().appointed)) target = "acting";
     if (target === "acting" && !(watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted && getCancel().refused)) target = "cancellation";
     if (target === "cancellation" && !(watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted)) target = "deadletter";
     if (target === "deadletter" && !(watchUnlocked() && line4Unlocked() && getLine4().connected)) target = "switchboard";
@@ -1573,9 +1575,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !clearedOfferingsBridgeAllows(target) && !forgottenLocksBridgeAllows(target) && !linenRoomBridgeAllows(target) && !dreamMendingBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !clearedOfferingsBridgeAllows(target) && !forgottenLocksBridgeAllows(target) && !linenRoomBridgeAllows(target) && !dreamMendingBridgeAllows(target) && !hearseYardBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !clearedOfferingsBridgeAllows(target) && !forgottenLocksBridgeAllows(target) && !linenRoomBridgeAllows(target) && !dreamMendingBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !clearedOfferingsBridgeAllows(target) && !forgottenLocksBridgeAllows(target) && !linenRoomBridgeAllows(target) && !dreamMendingBridgeAllows(target) && !hearseYardBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
@@ -1589,7 +1591,7 @@ document.addEventListener("DOMContentLoaded", () => {
        v88 窄桥：title-action 可抵达 unending-gallery；
        v89 窄桥：appeal-action 可抵达 unending-gallery；
        v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !todayPressBridgeAllows('unending-gallery') && !inkMixingBridgeAllows('unending-gallery') && !borrowedLightBridgeAllows('unending-gallery') && !exactTeaBridgeAllows('unending-gallery') && !lastSweepBridgeAllows('unending-gallery') && !puttingBackBridgeAllows('unending-gallery') && !paperCutBridgeAllows('unending-gallery') && !clearedOfferingsBridgeAllows('unending-gallery') && !forgottenLocksBridgeAllows('unending-gallery') && !linenRoomBridgeAllows('unending-gallery') && !dreamMendingBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !todayPressBridgeAllows('unending-gallery') && !inkMixingBridgeAllows('unending-gallery') && !borrowedLightBridgeAllows('unending-gallery') && !exactTeaBridgeAllows('unending-gallery') && !lastSweepBridgeAllows('unending-gallery') && !puttingBackBridgeAllows('unending-gallery') && !paperCutBridgeAllows('unending-gallery') && !clearedOfferingsBridgeAllows('unending-gallery') && !forgottenLocksBridgeAllows('unending-gallery') && !linenRoomBridgeAllows('unending-gallery') && !dreamMendingBridgeAllows('unending-gallery') && !hearseYardBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1888,6 +1890,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "dream-menders" && !dmShopCanVisit()) target = "remembrance";
     if (target === "dream-frame" && !dreamFrameCanVisit()) target = "remembrance";
     if (target === "hearing-of-the-last-dream" && !dmCourtCanVisit()) target = "remembrance";
+
+    /* v117 灵车场：未解锁或无合法抵达时一律回痕迹室 */
+    if (target === "hearse-gate" && !hyGateCanVisit()) target = "remembrance";
+    if (target === "jammed-yard" && !jammedYardCanVisit()) target = "remembrance";
+    if (target === "hearing-of-the-last-cart" && !hyCourtCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -48139,6 +48146,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetForgottenLocksState();
       forgetLinenRoomState();
       forgetDreamMendingState();
+      forgetHearseYardState();
       forgetCodexFolds();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
@@ -69586,6 +69594,843 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   onTrustedDm('#dm-reset', resetDmFrame);
   onTrustedDm('#dm-finish', finishDmMending);
 
+  /* ============================================================
+     v117 灵车场 / THE HEARSE YARD
+     v116 把梦都缝好了，天快亮了。死人得被送回各自的屋子，可院子里横七竖八停满了车，每辆只能顺着自己的方向前后挪。
+     三辆要走的车（遗物科的灵车 / 守则厅的篷车 / 焚献炉的灰车）× 三个时辰（天刚亮 / 早上 / 正午，挪车越来越费劲）= 9 次放行；
+     把挡路的车挪开，让要走的那辆从右边的院门出去。只读 v116；独立键 goddead_v117_hearse_yard；所有新操作只接受真实点击。
+     ============================================================ */
+  const HEARSE_YARD_KEY = 'goddead_v117_hearse_yard';
+  const HEARSE_YARD_VERSION = 117;
+  const HY_GATE = 'hearse-gate';
+  const HY_YARD = 'jammed-yard';
+  const HY_COURT = 'hearing-of-the-last-cart';
+  const HY_N = 5;
+  const HY_EXIT_ROW = 2;
+  const HY_MAX_CARTS = 10;
+  const HY_HEARSES = ['reliquary-hearse', 'protocol-hearse', 'offering-hearse'];
+  /* 每辆车写成 'H2@行,列'：H 横放、V 竖放，数字是占几格；第一辆是要走的那辆，横停在第 3 行 */
+  const HY_HEARSE_TABLE = {
+    'reliquary-hearse': {
+      title: '遗物科的灵车',
+      yards: {
+        dawn: ['H2@2,0', 'V2@3,2', 'V2@1,4', 'V2@1,3', 'V2@3,4', 'V2@0,1', 'V2@1,2', 'H2@3,0'],
+        morning: ['H2@2,0', 'V2@1,2', 'H2@4,1', 'V2@3,3', 'H3@0,1', 'V2@0,4', 'V2@0,0', 'V2@2,4', 'H2@3,1', 'V2@1,3'],
+        noon: ['H2@2,0', 'V2@3,4', 'H2@0,2', 'V2@1,2', 'H3@3,0', 'V2@0,0', 'V2@0,4'],
+      },
+      target: 'reliquary', place: '神圣遗物科', driverTitle: '遗物科赶车人',
+      feedback: '遗物科的黑灵车要把守了一夜的人送回去。车身窄，可前后都被别的车顶住了。',
+      echoLead: '遗物科门口停着那辆黑灵车，车厢空了。',
+    },
+    'protocol-hearse': {
+      title: '守则厅的篷车',
+      yards: {
+        dawn: ['H2@2,0', 'V2@1,4', 'H2@1,1', 'V2@0,0', 'H3@0,1', 'H2@4,3', 'H2@3,2', 'V2@3,0', 'V2@1,3'],
+        morning: ['H2@2,0', 'V2@1,2', 'H3@0,1', 'V2@2,4', 'H2@4,2', 'V2@2,3', 'V2@3,1', 'V2@0,0'],
+        noon: ['H2@2,0', 'V2@1,2', 'V2@3,0', 'V2@1,4', 'H3@0,0', 'H2@4,1', 'V2@3,4'],
+      },
+      target: 'protocol', place: '访客守则', driverTitle: '守则厅赶车人',
+      feedback: '守则厅的白篷车装着读了一夜守则的人。篷子高，转不了弯，只能直着出去。',
+      echoLead: '守则厅外停着那辆白篷车，篷布上还沾着露水。',
+    },
+    'offering-hearse': {
+      title: '焚献炉的灰车',
+      yards: {
+        dawn: ['H2@2,0', 'V2@1,3', 'H2@4,2', 'V2@0,1', 'V2@3,0', 'H3@3,2', 'H2@0,2'],
+        morning: ['H2@2,0', 'V2@1,2', 'V2@3,4', 'V2@1,4', 'H3@4,1', 'H2@3,2', 'H2@0,1', 'V2@0,0'],
+        noon: ['H2@2,0', 'H2@4,0', 'V2@1,2', 'H2@3,3', 'V2@3,2', 'V2@0,4', 'H2@0,1', 'V2@0,0'],
+      },
+      target: 'offering', place: '焚献炉', driverTitle: '焚献炉赶车人',
+      feedback: '焚献炉的灰车拉着烧剩的东西，今天得倒掉。车斗沉，挪一下要费好大劲。',
+      echoLead: '焚献炉边停着那辆灰车，车斗倒空了。',
+    },
+  };
+  const HY_METHODS = ['dawn', 'morning', 'noon'];
+  const HY_METHOD_TABLE = {
+    dawn: { title: '天刚亮', hint: '天刚亮：挡路的车还好挪开。', result: '天刚亮就出了门，路上一个人也没有。赶车人说，这时候走，谁都不会看见。' },
+    morning: { title: '早上', hint: '早上：院子里停得满满当当。', result: '早上出的门，街上已经有人在扫地了。赶车人说，有人看着走，心里踏实。' },
+    noon: { title: '正午', hint: '正午：挡路的车互相顶住，要多绕几步。', result: '正午才挤出门，太阳直直照着车顶。赶车人说，这么亮的天送人，倒像是在办喜事。' },
+  };
+  const HY_DEPART_IDS = [];
+  HY_HEARSES.forEach((hearse) => HY_METHODS.forEach((method) => HY_DEPART_IDS.push(`${hearse}:${method}`)));
+  const HY_VERDICT_ACTIONS = ['let-every-cart-out', 'keep-one-cart-for-god', 'leave-the-carts-in-the-yard'];
+  const HY_VERDICT_TABLE = {
+    'let-every-cart-out': {
+      title: '让每一辆车都出门', outcome: 'every-cart-let-out', target: 'threshold',
+      feedback: '听证会裁定：让每一辆车都出门。门外的路上排着一长串车，车辙一直延到看不见的地方。',
+    },
+    'keep-one-cart-for-god': {
+      title: '给神留一辆车', outcome: 'one-cart-kept-for-god', target: 'remembrance',
+      feedback: '听证会给神留了一辆车。痕迹室门口停着一辆空车，车里放着几枝白花。',
+    },
+    'leave-the-carts-in-the-yard': {
+      title: '让车停在院子里', outcome: 'the-carts-left-in-the-yard', target: 'unending-gallery',
+      feedback: '听证会准许车就停在院子里。画廊的空框里挤满了车，谁也出不去，谁也不着急。',
+    },
+  };
+  const HY_VERDICT_OUTCOME_IDS = HY_VERDICT_ACTIONS.map((a) => HY_VERDICT_TABLE[a].outcome);
+  const HY_ENTRY_FEEDBACK = '灵车场的门房挂满了缰绳。桌上三辆小车模型：一辆黑灵车、一辆白篷车、一辆灰车。';
+  const HY_ABANDON_FEEDBACK = '你把车都推回原位，等院子空一点再来。';
+  const HY_COURT_ENTRY_FEEDBACK = '三辆车都出过门了。末车听证会的桌上摆着一扇开着的小铁门。';
+  const HY_DRIVER_RETURN_FEEDBACK = '赶车人把车停好，领你回到灵车场。';
+  const HY_OLD_TARGETS = ['reliquary', 'protocol', 'offering'];
+
+  function hyDelay() {
+    return reduced ? 300 : 1400;
+  }
+
+  /* 纯函数：把 'H2@1,3' 读成 { h, len, r, c } */
+  function hyParse(code) {
+    const m = /^([HV])([23])@([0-4]),([0-4])$/.exec(code);
+    return m ? { h: m[1] === 'H', len: Number(m[2]), r: Number(m[3]), c: Number(m[4]) } : null;
+  }
+
+  /* 纯函数：一辆车占的格子 */
+  function hyCells(b) {
+    const out = [];
+    for (let i = 0; i < b.len; i++) out.push(b.h ? b.r * HY_N + b.c + i : (b.r + i) * HY_N + b.c);
+    return out;
+  }
+
+  /* 纯函数：把第 i 辆车顺着自己的方向挪到盖住 cell 为止；出界、中间被挡、不在一条线上都返回 null */
+  function hySlide(blocks, i, cell) {
+    const b = blocks[i];
+    if (!b || !Number.isInteger(cell) || cell < 0 || cell >= HY_N * HY_N) return null;
+    const r = Math.floor(cell / HY_N);
+    const c = cell % HY_N;
+    if (b.h ? r !== b.r : c !== b.c) return null;
+    const pos = b.h ? c : r;
+    const start = b.h ? b.c : b.r;
+    let next;
+    if (pos < start) next = pos;
+    else if (pos >= start + b.len) next = pos - b.len + 1;
+    else return null;
+    if (next < 0 || next + b.len > HY_N) return null;
+    const moved = Object.assign({}, b, b.h ? { c: next } : { r: next });
+    const occupied = new Set(blocks.flatMap((o, k) => (k === i ? [] : hyCells(o))));
+    const lo = Math.min(start, next);
+    const hi = Math.max(start, next) + b.len - 1;
+    for (let p = lo; p <= hi; p++) {
+      const idx = b.h ? b.r * HY_N + p : p * HY_N + b.c;
+      if (occupied.has(idx)) return null;
+    }
+    return blocks.map((o, k) => (k === i ? moved : o));
+  }
+
+  /* 纯函数：要走的那辆是不是已经顶到右边的院门 */
+  function hyOut(blocks) {
+    const t = blocks[0];
+    return Boolean(t) && t.h && t.r === HY_EXIT_ROW && t.c + t.len === HY_N;
+  }
+
+  /* 纯函数：最少挪几次（一次挪任意远）能让要走的那辆到院门 */
+  function hyMinMoves(blocks) {
+    const key = (bs) => bs.map((b) => (b.h ? b.c : b.r)).join(',');
+    const seen = new Set([key(blocks)]);
+    let frontier = [blocks];
+    for (let depth = 0; frontier.length && depth < 40; depth++) {
+      const next = [];
+      for (const bs of frontier) {
+        if (hyOut(bs)) return depth;
+        bs.forEach((b, i) => {
+          for (let p = 0; p < HY_N; p++) {
+            const cell = b.h ? b.r * HY_N + p : p * HY_N + b.c;
+            const moved = hySlide(bs, i, cell);
+            if (moved && !seen.has(key(moved))) { seen.add(key(moved)); next.push(moved); }
+          }
+        });
+      }
+      frontier = next;
+    }
+    return -1;
+  }
+
+  function hyFinishFeedback(hearse, method) {
+    return `${HY_HEARSE_TABLE[hearse].title}：${HY_METHOD_TABLE[method].result}`;
+  }
+
+  function defaultHearseYard() {
+    const latest = {};
+    HY_HEARSES.forEach((b) => { latest[b] = ''; });
+    return {
+      version: HEARSE_YARD_VERSION,
+      visited: { gate: false, yard: false, court: false },
+      draft: { hearse: '', method: 'dawn' },
+      departs: [],
+      courtOutcomes: [],
+      departRuns: 0,
+      courtRuns: 0,
+      latestMethodByHearse: latest,
+      lastOutcome: '',
+      activeDriver: null,
+      pending: null,
+    };
+  }
+
+  function clampHyCount(n) {
+    const v = Math.floor(Number(n));
+    return Number.isFinite(v) ? Math.min(9999, Math.max(0, v)) : 0;
+  }
+
+  function normalizeHearseYard(raw) {
+    const d = defaultHearseYard();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== HEARSE_YARD_VERSION) return d;
+    const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
+    d.visited = { gate: v.gate === true, yard: v.yard === true, court: v.court === true };
+    const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
+    d.draft = { hearse: HY_HEARSES.includes(dr.hearse) ? dr.hearse : '', method: HY_METHODS.includes(dr.method) ? dr.method : 'dawn' };
+    const departs = new Set(Array.isArray(raw.departs) ? raw.departs : []);
+    d.departs = HY_DEPART_IDS.filter((id) => departs.has(id));
+    const outcomes = new Set(Array.isArray(raw.courtOutcomes) ? raw.courtOutcomes : []);
+    d.courtOutcomes = HY_VERDICT_OUTCOME_IDS.filter((id) => outcomes.has(id));
+    d.departRuns = clampHyCount(raw.departRuns);
+    d.courtRuns = clampHyCount(raw.courtRuns);
+    const latest = raw.latestMethodByHearse && typeof raw.latestMethodByHearse === 'object' ? raw.latestMethodByHearse : {};
+    HY_HEARSES.forEach((b) => {
+      d.latestMethodByHearse[b] = HY_METHODS.includes(latest[b]) && d.departs.includes(`${b}:${latest[b]}`) ? latest[b] : '';
+    });
+    if (typeof raw.lastOutcome === 'string' && (d.departs.includes(raw.lastOutcome) || d.courtOutcomes.includes(raw.lastOutcome))) d.lastOutcome = raw.lastOutcome;
+    const a = raw.activeDriver;
+    if (a && typeof a === 'object' && !Array.isArray(a) && Object.keys(a).length === 1 && d.departs.includes(a.depart)) d.activeDriver = { depart: a.depart };
+    d.pending = normalizeHyPending(raw.pending, d);
+    return d;
+  }
+
+  function hyCourtProgress(st) {
+    const hearses = new Set();
+    const methods = new Set();
+    st.departs.forEach((id) => {
+      const [hearse, method] = id.split(':');
+      hearses.add(hearse);
+      methods.add(method);
+    });
+    return { hearses: hearses.size, methods: methods.size };
+  }
+
+  function hyCourtEligible(st) {
+    const p = hyCourtProgress(st);
+    return p.hearses === HY_HEARSES.length && p.methods === HY_METHODS.length;
+  }
+
+  function expectedHyPending(p, st) {
+    const clean = !st.activeDriver;
+    switch (p.kind) {
+      case 'entry':
+        return clean ? { feedback: HY_ENTRY_FEEDBACK, kind: 'entry', target: HY_GATE } : null;
+      case 'hearse': {
+        const b = HY_HEARSE_TABLE[p.hearse];
+        if (!b || !clean) return null;
+        return { hearse: p.hearse, feedback: b.feedback, kind: 'hearse', source: HY_GATE, target: HY_YARD };
+      }
+      case 'finish': {
+        const b = HY_HEARSE_TABLE[p.hearse];
+        if (!b || !HY_METHOD_TABLE[p.method] || !clean || st.draft.hearse !== p.hearse || st.draft.method !== p.method) return null;
+        return { hearse: p.hearse, feedback: hyFinishFeedback(p.hearse, p.method), kind: 'finish', method: p.method, depart: `${p.hearse}:${p.method}`, source: HY_YARD, target: b.target };
+      }
+      case 'abandon':
+        return st.draft.hearse ? { feedback: HY_ABANDON_FEEDBACK, kind: 'abandon', source: HY_YARD, target: HY_GATE } : null;
+      case 'driver-return': {
+        if (!st.activeDriver) return null;
+        const hearse = st.activeDriver.depart.split(':')[0];
+        return { feedback: HY_DRIVER_RETURN_FEEDBACK, from: HY_HEARSE_TABLE[hearse].target, kind: 'driver-return', depart: st.activeDriver.depart, target: HY_GATE };
+      }
+      case 'court-entry':
+        return clean && hyCourtEligible(st) ? { feedback: HY_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: HY_COURT } : null;
+      case 'verdict': {
+        const a = HY_VERDICT_TABLE[p.action];
+        if (!a || !clean || !st.visited.court || !hyCourtEligible(st)) return null;
+        return { action: p.action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: HY_COURT, target: a.target };
+      }
+      default:
+        return null;
+    }
+  }
+
+  function normalizeHyPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+    const expected = expectedHyPending(p, st);
+    if (!expected) return null;
+    const keys = Object.keys(p).sort();
+    const want = Object.keys(expected).sort();
+    if (keys.length !== want.length || keys.some((k, i) => k !== want[i] || p[k] !== expected[k])) return null;
+    return expected;
+  }
+
+  function hearseYardUnlocked() {
+    const compute = () => {
+      if (!dreamMendingUnlocked()) return false;
+      const v116 = getDreamMending();
+      return dmCourtEligible(v116) && DM_VERDICT_OUTCOME_IDS.every((o) => v116.courtOutcomes.includes(o));
+    };
+    return store.memo ? store.memo("hearseYardUnlocked", compute) : compute();
+  }
+
+  /* v116 还有在途的梦或没签收的缝梦人时，先不让进灵车场 */
+  function hyUpstreamBusy() {
+    const v116 = getDreamMending();
+    return Boolean(v116.pending || v116.activeMender);
+  }
+
+  function getHearseYard() {
+    if (!hearseYardUnlocked()) return defaultHearseYard();
+    let raw;
+    try { raw = JSON.parse(store.get(HEARSE_YARD_KEY, '{}')); } catch { return defaultHearseYard(); }
+    return normalizeHearseYard(raw);
+  }
+
+  function saveHearseYard(st) {
+    if (!hearseYardUnlocked()) return defaultHearseYard();
+    const canonical = normalizeHearseYard(Object.assign({}, st, { version: HEARSE_YARD_VERSION }));
+    store.set(HEARSE_YARD_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function hyPendingLogicalSource(p) {
+    if (!p) return '';
+    if (p.kind === 'entry' || p.kind === 'court-entry') return 'remembrance';
+    if (p.kind === 'driver-return') return p.from;
+    return p.source || '';
+  }
+
+  function resolveHearseYardPendingOnArrival(sceneName) {
+    const st = getHearseYard();
+    const p = st.pending;
+    if (!p) return st;
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.gate = true;
+      } else if (p.kind === 'hearse') {
+        st.visited.yard = true;
+        st.draft = { hearse: p.hearse, method: st.draft.hearse === p.hearse ? st.draft.method : 'dawn' };
+      } else if (p.kind === 'finish') {
+        st.departRuns = clampHyCount(st.departRuns + 1);
+        if (!st.departs.includes(p.depart)) st.departs = st.departs.concat(p.depart);
+        st.latestMethodByHearse[p.hearse] = p.method;
+        st.lastOutcome = p.depart;
+        st.activeDriver = { depart: p.depart };
+        st.draft = { hearse: '', method: 'dawn' };
+      } else if (p.kind === 'abandon') {
+        st.draft = { hearse: '', method: 'dawn' };
+        st.visited.gate = true;
+      } else if (p.kind === 'driver-return') {
+        st.activeDriver = null;
+        st.visited.gate = true;
+      } else if (p.kind === 'court-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'verdict') {
+        st.courtRuns = clampHyCount(st.courtRuns + 1);
+        if (!st.courtOutcomes.includes(p.outcome)) st.courtOutcomes = st.courtOutcomes.concat(p.outcome);
+        st.lastOutcome = p.outcome;
+      }
+      return saveHearseYard(st);
+    }
+    if (sceneName === hyPendingLogicalSource(p)) return st;
+    st.pending = null;
+    return saveHearseYard(st);
+  }
+
+  const HY_RESPONSE_BY_KIND = {
+    entry: '#hy-entry-response',
+    hearse: '#hearse-gate-response',
+    finish: '#jammed-yard-response',
+    abandon: '#jammed-yard-response',
+    'court-entry': '#hy-court-entry-response',
+    verdict: '#hearing-of-the-last-cart-response',
+  };
+
+  function showHyResponse(selector, text) {
+    const el = $(selector);
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = !text;
+  }
+
+  function syncHearseYardAll() {
+    syncHyGate();
+    syncJammedYard();
+    syncHyCourt();
+    syncHyDrivers();
+    syncHyEchoes();
+    syncHyRemembrance();
+    syncHyLinks();
+    if (typeof syncPhEntries === 'function') syncPhEntries();
+  }
+
+  function replayHearseYardPending(sceneName) {
+    const st = getHearseYard();
+    const p = st.pending;
+    if (p && p.target === sceneName) resolveHearseYardPendingOnArrival(sceneName);
+    else if (p && sceneName === hyPendingLogicalSource(p)) {
+      syncHearseYardAll();
+      const selector = p.kind === 'driver-return' ? `#hy-driver-response-${p.from}` : HY_RESPONSE_BY_KIND[p.kind];
+      if (selector) showHyResponse(selector, p.feedback);
+      AutoAdvance.schedule(sceneName, p.target, { delay: hyDelay() });
+      return;
+    } else if (p) {
+      st.pending = null;
+      saveHearseYard(st);
+    }
+    syncHearseYardAll();
+  }
+
+  function launchHy(scene, buttonId, pending, responseSelector) {
+    const st = getHearseYard();
+    st.pending = pending;
+    const saved = saveHearseYard(st);
+    if (!saved.pending) return false;
+    const btn = buttonId ? $(`#${buttonId}`) : null;
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+    if (AudioEngine.whoosh) AudioEngine.whoosh();
+    syncHearseYardAll();
+    showHyResponse(responseSelector, pending.feedback);
+    AutoAdvance.schedule(scene, pending.target, { delay: hyDelay() });
+    return true;
+  }
+
+  function hyReady(scene, buttonId) {
+    if (currentScene !== scene) return null;
+    if (AutoAdvance.has(scene)) return null;
+    if (buttonId && !buttonAvailable(buttonId)) return null;
+    if (!hearseYardUnlocked()) return null;
+    const st = getHearseYard();
+    return st.pending ? null : st;
+  }
+
+  function chooseHyEntry() {
+    const st = hyReady('remembrance', 'hy-entry-btn');
+    if (!st || st.activeDriver) return;
+    if (hyUpstreamBusy()) return;
+    launchHy('remembrance', 'hy-entry-btn', { feedback: HY_ENTRY_FEEDBACK, kind: 'entry', target: HY_GATE }, '#hy-entry-response');
+  }
+
+  function chooseHyHearse(hearse) {
+    const b = HY_HEARSE_TABLE[hearse];
+    if (!b) return;
+    const st = hyReady(HY_GATE, `hy-hearse-${hearse}`);
+    if (!st || st.activeDriver) return;
+    launchHy(HY_GATE, `hy-hearse-${hearse}`, { hearse, feedback: b.feedback, kind: 'hearse', source: HY_GATE, target: HY_YARD }, '#hearse-gate-response');
+  }
+
+  function chooseHyMethod(method) {
+    if (!HY_METHOD_TABLE[method]) return;
+    const st = hyReady(HY_YARD, `hy-method-${method}`);
+    if (!st || !st.draft.hearse || !st.visited.yard || st.draft.method === method) return;
+    st.draft.method = method;
+    saveHearseYard(st);
+    syncJammedYard();
+  }
+
+  /* 车的位置只放在内存里；换车或换时辰时推回原位，要走的那辆到了院门才写 pending */
+  let hyBlocks = [];
+  let hySel = -1;
+  let hyMoves = 0;
+  let hyYardKey = '';
+
+  function hyFreshBlocks(hearse, method) {
+    return HY_HEARSE_TABLE[hearse].yards[method].map(hyParse);
+  }
+
+  function paintHyYard(message) {
+    const st = getHearseYard();
+    const status = $('#hy-yard-status');
+    const hearse = st.draft.hearse;
+    if (!hearse) {
+      if (status) status.textContent = '';
+      return;
+    }
+    const name = (k) => (k === 0 ? HY_HEARSE_TABLE[hearse].title : `第 ${k} 辆挡路的车`);
+    const owner = {};
+    hyBlocks.forEach((b, k) => hyCells(b).forEach((idx) => { owner[idx] = k; }));
+    const reach = new Set();
+    if (hySel >= 0) {
+      for (let i = 0; i < HY_N * HY_N; i++) if (owner[i] === undefined && hySlide(hyBlocks, hySel, i)) reach.add(i);
+    }
+    for (let i = 0; i < HY_N * HY_N; i++) {
+      const btn = $(`#hy-lot-${i}`);
+      if (!btn) continue;
+      btn.classList.toggle('is-reach', reach.has(i));
+      const row = Math.floor(i / HY_N) + 1;
+      const col = (i % HY_N) + 1;
+      const k = owner[i];
+      btn.setAttribute('aria-label', `第 ${row} 行第 ${col} 列：${k === undefined ? (reach.has(i) ? '空地，点一下把选中的车挪过来' : '空地') : `${name(k)}${hySel === k ? '（选中了）' : '，点一下选中'}`}`);
+    }
+    for (let k = 0; k < HY_MAX_CARTS; k++) {
+      const cart = $(`#hy-cart-${k}`);
+      if (!cart) continue;
+      const b = hyBlocks[k];
+      cart.hidden = !b;
+      if (!b) continue;
+      if (cart.style && cart.style.setProperty) {
+        cart.style.setProperty('--hy-r', String(b.r));
+        cart.style.setProperty('--hy-c', String(b.c));
+        cart.style.setProperty('--hy-w', String(b.h ? b.len : 1));
+        cart.style.setProperty('--hy-hgt', String(b.h ? 1 : b.len));
+      }
+      cart.classList.toggle('is-hearse', k === 0);
+      cart.classList.toggle('is-vertical', !b.h);
+      cart.classList.toggle('is-selected', hySel === k);
+    }
+    const out = hyOut(hyBlocks);
+    const board = $('#hy-board');
+    if (board) {
+      board.classList.toggle('is-done', out);
+      board.setAttribute('data-hearse', hearse);
+    }
+    if (status) {
+      if (message) status.textContent = message;
+      else if (out) status.textContent = `${HY_HEARSE_TABLE[hearse].title}顶到院门了，挪了 ${hyMoves} 次。可以放行。`;
+      else if (hySel >= 0) status.textContent = `选中了${name(hySel)}：点它同一行（横车）或同一列（竖车）上亮着的空地，车就顺着挪过去。`;
+      else status.textContent = `挪了 ${hyMoves} 次。点一辆车选中它，再点它前后的空地挪过去；把${HY_HEARSE_TABLE[hearse].title}挪到右边的院门。`;
+    }
+  }
+
+  function tapHyLot(cell) {
+    const st = hyReady(HY_YARD, `hy-lot-${cell}`);
+    if (!st || !st.draft.hearse || st.activeDriver) return;
+    if (!Number.isInteger(cell) || cell < 0 || cell >= HY_N * HY_N) return;
+    const k = hyBlocks.findIndex((b) => hyCells(b).includes(cell));
+    if (k >= 0) {
+      hySel = hySel === k ? -1 : k;
+      paintHyYard('');
+      return;
+    }
+    if (hySel < 0) { paintHyYard('先点一辆车选中它。'); return; }
+    const next = hySlide(hyBlocks, hySel, cell);
+    if (!next) {
+      paintHyYard('挪不过去：车只能顺着自己的方向走，中间也不能有别的车挡着。');
+      return;
+    }
+    hyBlocks = next;
+    hyMoves += 1;
+    if (AudioEngine.tick) AudioEngine.tick();
+    paintHyYard('');
+  }
+
+  function resetHyYard() {
+    const st = hyReady(HY_YARD, 'hy-reset');
+    if (!st || !st.draft.hearse || st.activeDriver) return;
+    hyBlocks = hyFreshBlocks(st.draft.hearse, st.draft.method);
+    hySel = -1;
+    hyMoves = 0;
+    paintHyYard('车都推回了原来的位置。');
+  }
+
+  function finishHyDeparture() {
+    const st = hyReady(HY_YARD, 'hy-finish');
+    if (!st || !st.draft.hearse || st.activeDriver) return;
+    const { hearse, method } = st.draft;
+    if (!hyOut(hyBlocks)) {
+      paintHyYard(`${HY_HEARSE_TABLE[hearse].title}还没挪到院门。`);
+      return;
+    }
+    hySel = -1;
+    paintHyYard('院门开了。');
+    launchHy(HY_YARD, 'hy-finish', {
+      depart: `${hearse}:${method}`, feedback: hyFinishFeedback(hearse, method), hearse, kind: 'finish', method, source: HY_YARD, target: HY_HEARSE_TABLE[hearse].target,
+    }, '#jammed-yard-response');
+  }
+
+  function chooseHyAbandon() {
+    const st = hyReady(HY_YARD, 'hy-abandon');
+    if (!st || !st.draft.hearse) return;
+    launchHy(HY_YARD, 'hy-abandon', { feedback: HY_ABANDON_FEEDBACK, kind: 'abandon', source: HY_YARD, target: HY_GATE }, '#jammed-yard-response');
+  }
+
+  function chooseHyDriverReturn(scene) {
+    const st = hyReady(scene, `hy-driver-return-${scene}`);
+    if (!st || !st.activeDriver) return;
+    if (HY_HEARSE_TABLE[st.activeDriver.depart.split(':')[0]].target !== scene) return;
+    launchHy(scene, `hy-driver-return-${scene}`, { feedback: HY_DRIVER_RETURN_FEEDBACK, from: scene, kind: 'driver-return', depart: st.activeDriver.depart, target: HY_GATE }, `#hy-driver-response-${scene}`);
+  }
+
+  function chooseHyCourtEntry() {
+    const st = hyReady('remembrance', 'hy-court-entry-btn');
+    if (!st || st.activeDriver || !hyCourtEligible(st)) return;
+    launchHy('remembrance', 'hy-court-entry-btn', { feedback: HY_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: HY_COURT }, '#hy-court-entry-response');
+  }
+
+  function chooseHyVerdict(action) {
+    const a = HY_VERDICT_TABLE[action];
+    if (!a) return;
+    const st = hyReady(HY_COURT, `hy-verdict-${action}`);
+    if (!st || st.activeDriver || !st.visited.court || !hyCourtEligible(st)) return;
+    launchHy(HY_COURT, `hy-verdict-${action}`, { action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: HY_COURT, target: a.target }, '#hearing-of-the-last-cart-response');
+  }
+
+  function hearseYardBridgeAllows(targetScene) {
+    if (!hearseYardUnlocked()) return false;
+    const st = getHearseYard();
+    if (st.pending && (st.pending.kind === 'finish' || st.pending.kind === 'verdict') && st.pending.target === targetScene) return true;
+    if (st.activeDriver && HY_HEARSE_TABLE[st.activeDriver.depart.split(':')[0]].target === targetScene) return true;
+    const verdict = HY_VERDICT_ACTIONS.find((a) => HY_VERDICT_TABLE[a].outcome === st.lastOutcome);
+    return Boolean(verdict && HY_VERDICT_TABLE[verdict].target === targetScene);
+  }
+
+  function hyGateCanVisit() {
+    if (!hearseYardUnlocked()) return false;
+    const st = getHearseYard();
+    return st.visited.gate || Boolean(st.pending && st.pending.target === HY_GATE);
+  }
+
+  function jammedYardCanVisit() {
+    if (!hearseYardUnlocked()) return false;
+    const st = getHearseYard();
+    if (st.visited.yard && st.draft.hearse) return true;
+    return Boolean(st.pending && st.pending.kind === 'hearse');
+  }
+
+  function hyCourtCanVisit() {
+    if (!hearseYardUnlocked()) return false;
+    const st = getHearseYard();
+    if (st.visited.court && hyCourtEligible(st)) return true;
+    return Boolean(st.pending && st.pending.kind === 'court-entry');
+  }
+
+  function syncHyGate() {
+    const canVisit = hyGateCanVisit();
+    const st = getHearseYard();
+    const fig = $('#hy-gate-figure');
+    if (fig) fig.hidden = !canVisit;
+    const blocked = !canVisit || Boolean(st.pending) || Boolean(st.activeDriver);
+    HY_HEARSES.forEach((hearse) => {
+      const btn = $(`#hy-hearse-${hearse}`);
+      if (!btn) return;
+      btn.disabled = blocked;
+      btn.classList.toggle('is-collected', HY_METHODS.every((m) => st.departs.includes(`${hearse}:${m}`)));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'hearse' && st.pending.hearse === hearse ? 'true' : 'false');
+    });
+    const note = $('#hy-gate-note');
+    if (note) {
+      let text = '';
+      if (st.activeDriver) {
+        const b = HY_HEARSE_TABLE[st.activeDriver.depart.split(':')[0]];
+        text = `先完成正在送出去的那辆车：${b.driverTitle}还在${b.place}等你签收。`;
+      } else if (st.draft.hearse) {
+        text = `院子里还堵着没挪出去的「${HY_HEARSE_TABLE[st.draft.hearse].title}」。`;
+      }
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const cont = $('#hy-continue');
+    if (cont) {
+      const show = canVisit && Boolean(st.draft.hearse) && !st.activeDriver;
+      cont.hidden = !show;
+      cont.disabled = !show || Boolean(st.pending);
+    }
+    if (!st.pending || st.pending.source !== HY_GATE) showHyResponse('#hearse-gate-response', '');
+  }
+
+  function syncJammedYard() {
+    const canVisit = jammedYardCanVisit();
+    const st = getHearseYard();
+    const ready = canVisit && Boolean(st.draft.hearse);
+    const key = st.draft.hearse ? `${st.draft.hearse}:${st.draft.method}` : '';
+    if (key !== hyYardKey && !(st.pending && st.pending.kind === 'finish')) {
+      hyYardKey = key;
+      hyBlocks = st.draft.hearse ? hyFreshBlocks(st.draft.hearse, st.draft.method) : [];
+      hySel = -1;
+      hyMoves = 0;
+    }
+    const panel = $('#hy-yard-panel');
+    if (panel) panel.hidden = !ready;
+    const board = $('#hy-board');
+    if (board) board.hidden = !ready;
+    if (ready) {
+      const t = HY_HEARSE_TABLE[st.draft.hearse];
+      const title = $('#hy-yard-hearse');
+      if (title) title.textContent = `${t.title} —— ${t.feedback}`;
+      const hint = $('#hy-method-hint');
+      if (hint) hint.textContent = `${HY_METHOD_TABLE[st.draft.method].hint}发亮的那辆是${t.title}。点一辆车选中，再点它同一条线上的空地，车就顺着挪过去（中间不能有车挡着）；横车只能左右挪，竖车只能上下挪。把${t.title}挪到右边的院门就能放行，车会送到${t.place}，由${t.driverTitle}签收。换时辰、换车或刷新页面会把车都推回原位。`;
+    }
+    HY_METHODS.forEach((method) => {
+      const btn = $(`#hy-method-${method}`);
+      if (!btn) return;
+      btn.disabled = !ready || Boolean(st.pending);
+      btn.setAttribute('aria-pressed', ready && st.draft.method === method ? 'true' : 'false');
+      btn.classList.toggle('is-collected', Boolean(st.draft.hearse) && st.departs.includes(`${st.draft.hearse}:${method}`));
+    });
+    ['hy-finish', 'hy-reset', 'hy-abandon'].forEach((id) => {
+      const btn = $(`#${id}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending);
+    });
+    for (let i = 0; i < HY_N * HY_N; i++) {
+      const btn = $(`#hy-lot-${i}`);
+      if (btn) btn.disabled = !ready || Boolean(st.pending);
+    }
+    paintHyYard(st.pending && st.pending.kind === 'finish' ? '院门开了，车正在送过去。' : '');
+    if (!st.pending || st.pending.source !== HY_YARD) showHyResponse('#jammed-yard-response', '');
+  }
+
+  function syncHyCourt() {
+    const canVisit = hyCourtCanVisit();
+    const st = getHearseYard();
+    const fig = $('#hearing-of-the-last-cart-figure');
+    if (fig) fig.hidden = !canVisit;
+    HY_VERDICT_ACTIONS.forEach((action) => {
+      const btn = $(`#hy-verdict-${action}`);
+      if (!btn) return;
+      btn.disabled = !canVisit || Boolean(st.pending) || Boolean(st.activeDriver);
+      btn.classList.toggle('is-collected', st.courtOutcomes.includes(HY_VERDICT_TABLE[action].outcome));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'verdict' && st.pending.action === action ? 'true' : 'false');
+    });
+    if (!st.pending || st.pending.source !== HY_COURT) showHyResponse('#hearing-of-the-last-cart-response', '');
+  }
+
+  function syncHyDrivers() {
+    const st = hearseYardUnlocked() ? getHearseYard() : defaultHearseYard();
+    const [hearse, method] = st.activeDriver ? st.activeDriver.depart.split(':') : ['', ''];
+    HY_OLD_TARGETS.forEach((scene) => {
+      const box = $(`#hy-driver-${scene}`);
+      if (!box) return;
+      const show = Boolean(hearse) && HY_HEARSE_TABLE[hearse].target === scene;
+      box.hidden = !show;
+      const btn = $(`#hy-driver-return-${scene}`);
+      if (btn) {
+        btn.disabled = !show || Boolean(st.pending);
+        btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'driver-return' && st.pending.from === scene ? 'true' : 'false');
+      }
+      if (!show) return;
+      const b = HY_HEARSE_TABLE[hearse];
+      const head = $(`#hy-driver-title-${scene}`);
+      if (head) head.textContent = `放行签收 · ${b.driverTitle} · ${b.title}（${HY_METHOD_TABLE[method].title}）`;
+      const level = $(`#hy-driver-level-${scene}`);
+      if (level) level.textContent = `${HY_METHOD_TABLE[method].title}从院子里挪了出来`;
+      const body = $(`#hy-driver-body-${scene}`);
+      if (body) body.textContent = HY_METHOD_TABLE[method].result;
+      if (!st.pending || st.pending.kind !== 'driver-return') showHyResponse(`#hy-driver-response-${scene}`, '');
+    });
+  }
+
+  function syncHyEchoes() {
+    const st = hearseYardUnlocked() ? getHearseYard() : defaultHearseYard();
+    HY_HEARSES.forEach((hearse) => {
+      const b = HY_HEARSE_TABLE[hearse];
+      const el = $(`#hy-echo-${b.target}`);
+      if (!el) return;
+      const method = st.latestMethodByHearse[hearse];
+      if (!method) { el.hidden = true; el.textContent = ''; return; }
+      el.textContent = `${b.echoLead}${HY_METHOD_TABLE[method].result}`;
+      el.hidden = false;
+    });
+  }
+
+  function syncHyRemembrance() {
+    const unlocked = hearseYardUnlocked();
+    const shell = $('#hy-codex');
+    const memory = $('#hy-memory');
+    if (!unlocked) {
+      [shell, memory].forEach((el) => { if (el) el.hidden = true; });
+      return;
+    }
+    const st = getHearseYard();
+    const v116Busy = hyUpstreamBusy();
+    if (shell) shell.hidden = false;
+    const progress = hyCourtProgress(st);
+    if (memory) {
+      memory.hidden = false;
+      memory.textContent = `放行：已放 ${st.departs.length}/9 次，共开院门 ${st.departRuns} 次；末车听证 ${st.courtOutcomes.length}/3。`;
+    }
+    const hints = $('#hy-court-hints');
+    if (hints) {
+      const rows = [['三辆车都出过门', progress.hearses, HY_HEARSES.length], ['三个时辰都走过', progress.methods, HY_METHODS.length]];
+      hints.replaceChildren(...rows.map(([label, have, need]) => {
+        const li = document.createElement('li');
+        li.className = have >= need ? 'is-met' : '';
+        li.textContent = `${label} ${have}/${need}`;
+        return li;
+      }));
+    }
+    const clean = !st.pending && !st.activeDriver;
+    const entry = $('#hy-entry-btn');
+    if (entry) {
+      entry.hidden = false;
+      entry.disabled = !clean || v116Busy;
+      entry.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' ? 'true' : 'false');
+    }
+    const note = $('#hy-entry-note');
+    if (note) {
+      const text = v116Busy ? '先完成缝梦铺那场还在路上的梦：缝梦铺还有一位缝梦人没签收。' : st.activeDriver ? '先完成正在送出去的那辆车。' : '';
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const court = $('#hy-court-entry-btn');
+    if (court) {
+      const eligible = hyCourtEligible(st);
+      court.hidden = !eligible;
+      court.disabled = !eligible || !clean;
+      court.setAttribute('aria-pressed', st.pending && st.pending.kind === 'court-entry' ? 'true' : 'false');
+    }
+    const grid = $('#hy-codex-grid');
+    if (grid) {
+      const have = new Set(st.departs);
+      const cells = HY_DEPART_IDS.map((id) => {
+        const [hearse, method] = id.split(':');
+        const cell = document.createElement('div');
+        cell.className = `hy-cell ${have.has(id) ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = have.has(id) ? `${HY_HEARSE_TABLE[hearse].title}\n${HY_METHOD_TABLE[method].title}` : '？？？';
+        return cell;
+      });
+      HY_VERDICT_ACTIONS.forEach((action) => {
+        const a = HY_VERDICT_TABLE[action];
+        const got = st.courtOutcomes.includes(a.outcome);
+        const cell = document.createElement('div');
+        cell.className = `hy-cell hy-cell-verdict ${got ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = got ? `[末车听证会] ${a.title}\n${a.feedback}` : '？？？';
+        cells.push(cell);
+      });
+      grid.replaceChildren(...cells);
+    }
+    if (!st.pending || (st.pending.kind !== 'entry' && st.pending.kind !== 'court-entry')) {
+      showHyResponse('#hy-entry-response', '');
+      showHyResponse('#hy-court-entry-response', '');
+    }
+  }
+
+  function syncHyLinks() {
+    const st = hearseYardUnlocked() ? getHearseYard() : null;
+    [['hearse-gate-link', 'gate'], ['jammed-yard-link', 'yard'], ['hearing-of-the-last-cart-link', 'court']].forEach(([id, key]) => {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !(st && st.visited[key]);
+    });
+  }
+
+  function forgetHearseYardState() {
+    try { localStorage.removeItem(HEARSE_YARD_KEY); } catch {}
+    [HY_GATE, HY_YARD, HY_COURT].forEach((scene) => AutoAdvance.clear(scene));
+    hyBlocks = [];
+    hySel = -1;
+    hyMoves = 0;
+    hyYardKey = '';
+    ['#hy-codex', '#hy-memory', '#hy-gate-figure', '#hy-yard-panel', '#hearing-of-the-last-cart-figure',
+      '#hearse-gate-link', '#jammed-yard-link', '#hearing-of-the-last-cart-link', '#hy-continue', '#hy-court-entry-btn',
+      '#hy-entry-response', '#hy-court-entry-response', '#hearse-gate-response', '#jammed-yard-response', '#hearing-of-the-last-cart-response',
+      ...HY_OLD_TARGETS.flatMap((scene) => [`#hy-driver-${scene}`, `#hy-echo-${scene}`]),
+    ].forEach((sel) => { const el = $(sel); if (el) el.hidden = true; });
+    $$('[id^="hy-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+  }
+
+  const onTrustedHy = (selector, handler) => {
+    const el = $(selector);
+    if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+  };
+  onTrustedHy('#hy-entry-btn', chooseHyEntry);
+  onTrustedHy('#hy-court-entry-btn', chooseHyCourtEntry);
+  onTrustedHy('#hy-abandon', chooseHyAbandon);
+  onTrustedHy('#hy-continue', () => {
+    const st = hyReady(HY_GATE, 'hy-continue');
+    if (!st || !st.draft.hearse || st.activeDriver) return;
+    const hearse = st.draft.hearse;
+    launchHy(HY_GATE, 'hy-continue', { hearse, feedback: HY_HEARSE_TABLE[hearse].feedback, kind: 'hearse', source: HY_GATE, target: HY_YARD }, '#hearse-gate-response');
+  });
+  HY_HEARSES.forEach((hearse) => onTrustedHy(`#hy-hearse-${hearse}`, () => chooseHyHearse(hearse)));
+  HY_METHODS.forEach((method) => onTrustedHy(`#hy-method-${method}`, () => chooseHyMethod(method)));
+  HY_VERDICT_ACTIONS.forEach((action) => onTrustedHy(`#hy-verdict-${action}`, () => chooseHyVerdict(action)));
+  HY_OLD_TARGETS.forEach((scene) => onTrustedHy(`#hy-driver-return-${scene}`, () => chooseHyDriverReturn(scene)));
+  for (let i = 0; i < HY_N * HY_N; i++) onTrustedHy(`#hy-lot-${i}`, () => tapHyLot(i));
+  onTrustedHy('#hy-reset', resetHyYard);
+  onTrustedHy('#hy-finish', finishHyDeparture);
+
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -70168,8 +71013,26 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     if (eligible) items.push(`开庭条件已满足；末梦裁定已得 ${st.courtOutcomes.length}/3`);
     if (st.activeMender) items.push("有一场梦在旧房间等你签收：跟着缝梦人回到缝梦铺");
     else if (st.draft.dream) items.push(`绷梦架上还绷着没缝完的「${DM_DREAM_TABLE[st.draft.dream].title}」`);
-    if (eligible && st.courtOutcomes.length >= 3) return { title: "v116 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    if (eligible && st.courtOutcomes.length >= 3) return hearseYardProgressStep();
     return { title: "v116 缝梦铺", items, target: eligible ? "dm-court" : "dm", done: false };
+  };
+
+  /* v117：按三辆车、三个时辰与三项裁定给出缺项 */
+  const hearseYardProgressStep = () => {
+    if (!hearseYardUnlocked()) return null;
+    const st = getHearseYard();
+    const items = [];
+    const hearses = HY_HEARSES.filter((x) => !st.departs.some((id) => id.startsWith(`${x}:`))).map((x) => HY_HEARSE_TABLE[x].title);
+    const methods = HY_METHODS.filter((m) => !st.departs.some((id) => id.endsWith(`:${m}`))).map((m) => HY_METHOD_TABLE[m].title);
+    if (hyUpstreamBusy() && !st.visited.gate) items.push("先完成缝梦铺那场还在路上的梦，灵车场才开门");
+    if (hearses.length) items.push(`还没出门的车：${hearses.join("、")}`);
+    if (methods.length) items.push(`还没走过的时辰：${methods.join("、")}`);
+    const eligible = hyCourtEligible(st);
+    if (eligible) items.push(`开庭条件已满足；末车裁定已得 ${st.courtOutcomes.length}/3`);
+    if (st.activeDriver) items.push("有一辆车在旧房间等你签收：跟着赶车人回到灵车场");
+    else if (st.draft.hearse) items.push(`院子里还堵着没挪出去的「${HY_HEARSE_TABLE[st.draft.hearse].title}」`);
+    if (eligible && st.courtOutcomes.length >= 3) return { title: "v117 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    return { title: "v117 灵车场", items, target: eligible ? "hy-court" : "hy", done: false };
   };
 
   const shadowlessPhotographyProgressStep = () => {
@@ -70754,6 +71617,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   syncForgottenLocksAll();
   syncLinenRoomAll();
   syncDreamMendingAll();
+  syncHearseYardAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();
