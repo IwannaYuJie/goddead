@@ -1,0 +1,70 @@
+{
+  "verified_at": "2026-10-11T10:20:08.995920+08:00",
+  "feature_commit": "6efc92d82d964eae1ed77499d1e8b99c4dd1600f",
+  "checks": [
+    {
+      "name": "Cloudflare Pages",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "version": 119,
+  "assets": [
+    {
+      "path": "index.html",
+      "url": "https://goddead.com/",
+      "local_bytes": 1053777,
+      "remote_bytes": 1053777,
+      "local_sha256": "52e76de0742972e9658f28d7f73ce85ee96364ba987935786f73aef38b3c9d3f",
+      "remote_sha256": "52e76de0742972e9658f28d7f73ce85ee96364ba987935786f73aef38b3c9d3f",
+      "raw_match": true,
+      "source_match": true,
+      "normalized_sha256": "52e76de0742972e9658f28d7f73ce85ee96364ba987935786f73aef38b3c9d3f",
+      "cache_versions": [
+        "119",
+        "119"
+      ],
+      "scenes": 278
+    },
+    {
+      "path": "styles.css",
+      "url": "https://goddead.com/styles.css?v=119",
+      "local_bytes": 648342,
+      "remote_bytes": 648342,
+      "local_sha256": "4bdb42098ff519215a4ead203efd21392d6481b06b0daf7ac7e6517a2b265350",
+      "remote_sha256": "4bdb42098ff519215a4ead203efd21392d6481b06b0daf7ac7e6517a2b265350",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "script.js",
+      "url": "https://goddead.com/script.js?v=119",
+      "local_bytes": 3370763,
+      "remote_bytes": 3370763,
+      "local_sha256": "7903988a6db4f1221d4a2d9d1527d68dc985e1ef7145fcbc9b632cb249adb50c",
+      "remote_sha256": "7903988a6db4f1221d4a2d9d1527d68dc985e1ef7145fcbc9b632cb249adb50c",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "assets/v119-archive-river-window.webp",
+      "url": "https://goddead.com/assets/v119-archive-river-window.webp",
+      "local_bytes": 206318,
+      "remote_bytes": 206318,
+      "local_sha256": "07f1fd1b97a0c71f43aa6a5ffb4604923a6b677015e14ca183e51a5d26d0162c",
+      "remote_sha256": "07f1fd1b97a0c71f43aa6a5ffb4604923a6b677015e14ca183e51a5d26d0162c",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "assets/v119-river-echo-well.webp",
+      "url": "https://goddead.com/assets/v119-river-echo-well.webp",
+      "local_bytes": 229960,
+      "remote_bytes": 229960,
+      "local_sha256": "b34f7b84566df79fbae13075e77a763c67338f2652a6d77f75253018e32af65d",
+      "remote_sha256": "b34f7b84566df79fbae13075e77a763c67338f2652a6d77f75253018e32af65d",
+      "raw_match": true,
+      "source_match": true
+    }
+  ]
+}
