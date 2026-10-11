@@ -584,6 +584,8 @@ function createV102Harness({
     const riverEchoBridgeAllows = () => false;
     const dawnPulseBridgeAllows = () => false;
     const dawnPulseWorkCanVisit = () => false;
+    const morningNameBridgeAllows = () => false;
+    const morningNameDeskCanVisit = () => false;
     const riverEchoWellCanVisit = () => false;
     const rvGateCanVisit = () => false;
     const riverCrossingCanVisit = () => false;
@@ -675,12 +677,12 @@ function createV102Harness({
 // -------------------------------------------------------------
 // Test Group 1: Markers, scene IDs, image attributes & DOM HTML structure
 // -------------------------------------------------------------
-test('Group 1: HTML structure, scene count 279, lazy images, native buttons and CSS scope', () => {
-  // 279 unique scene section data-scene values in index.html (excluding scene-veil overlay)
+test('Group 1: HTML structure, scene count 280, lazy images, native buttons and CSS scope', () => {
+  // 280 unique scene section data-scene values in index.html (excluding scene-veil overlay)
   const sceneMatches = Array.from(indexHtml.matchAll(/<section[^>]+data-scene="([^"]+)"/g)).map((m) => m[1]);
   const uniqueScenes = new Set(sceneMatches);
-  assert.equal(sceneMatches.length, 279, `Total data-scene sections must be exactly 279, got ${sceneMatches.length}`);
-  assert.equal(uniqueScenes.size, 279, `Scene count must be exactly 279, got ${uniqueScenes.size}`);
+  assert.equal(sceneMatches.length, 280, `Total data-scene sections must be exactly 280, got ${sceneMatches.length}`);
+  assert.equal(uniqueScenes.size, 280, `Scene count must be exactly 280, got ${uniqueScenes.size}`);
   assert.ok(uniqueScenes.has('weatherless-bus-shelter'));
   assert.ok(uniqueScenes.has('season-dispatch-board'));
   assert.ok(uniqueScenes.has('four-season-platform'));
@@ -2264,6 +2266,8 @@ test('v102: sceneInit and legacy v45 relief integration behavior audit', () => {
       const replayRiverEchoPending = () => {};
       const resolveDawnPulsePendingOnArrival = () => {};
       const replayDawnPulsePending = () => {};
+      const resolveMorningNamePendingOnArrival = () => {};
+      const replayMorningNamePending = () => {};
       const syncWeatherlessShelterAll = () => h.syncAll();
 
       let thresholdConsumed = false;

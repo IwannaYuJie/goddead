@@ -1438,6 +1438,8 @@ document.addEventListener("DOMContentLoaded", () => {
     replayRiverEchoPending(name);
     resolveDawnPulsePendingOnArrival(name);
     replayDawnPulsePending(name);
+    resolveMorningNamePendingOnArrival(name);
+    replayMorningNamePending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1501,7 +1503,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const beliefGuard = getBelief();
     if (BRANCH_SCENES.includes(target) && !branchState.visited[target] && AUDIT_BRANCH_OUTCOME[target] !== auditGuardState.outcome
       && beliefGuard.pendingTarget !== target && !(BELIEF_SCENE_BRANCH[target] && beliefGuard.branches[BELIEF_SCENE_BRANCH[target]].visits > 0) && !innocentWitnessProtectionBridgeAllows(target)
-      && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !lostWeightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !riverEchoBridgeAllows(target) && !dawnPulseBridgeAllows(target)) target = "corridor";
+      && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !lostWeightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !riverEchoBridgeAllows(target) && !dawnPulseBridgeAllows(target) && !morningNameBridgeAllows(target)) target = "corridor";
 
     /* v33 结果房守卫：仅本轮 outcome 对应或曾到访时允许直达，否则规范化回复核科；
        复核科本身不设守卫，直接 hash 采用 neutral 顺序。
@@ -1911,6 +1913,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "river-echo-well" && !riverEchoWellCanVisit()) target = "remembrance";
     /* v120 接管台，仅本章到访或合法进入 pending 可到达 */
     if (target === "dawn-pulse-manifold" && !dawnPulseWorkCanVisit()) target = "remembrance";
+    if (target === "morning-name-balance" && !morningNameDeskCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -1975,6 +1978,7 @@ document.addEventListener("DOMContentLoaded", () => {
       next.scrollTop = 0;
       focusRiverEchoArrival(name);
       focusDawnPulseArrival(name);
+      focusMorningNameArrival(name);
       /* 焦点恢复与 veil 收尾必须和场景切换同一拍完成：
          依赖嵌套定时器时，内层定时器一旦丢失就会造成
          veilBusy 永久卡死、veil 常亮与焦点悬空（QA 实测复现） */
@@ -48169,6 +48173,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetRiverFerryState();
       forgetRiverEchoState();
       forgetDawnPulseState();
+      forgetMorningNameState();
       forgetCodexFolds();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
@@ -71794,6 +71799,153 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   for(let i=0;i<9;i++)onTrustedDp(`#dp-turn-${i}`,()=>rotateDpTile(i));
   onTrustedDp('#dp-undo',()=>undoDpTurn());onTrustedDp('#dp-reset',()=>undoDpTurn(true));onTrustedDp('#dp-finish',finishDpRepair);
 
+  /* ============================================================
+     v121 清晨名重 / THE WEIGHT OF A NAME AT DAWN
+     六签三称，历史排除十二种轻重假设；只写本章。
+     ============================================================ */
+  const MORNING_NAME_KEY = 'goddead_v121_morning_name';
+  const MN_DESK = 'morning-name-balance';
+  const MN_CHOICES = ['door','seven','refuse'];
+  const MN_HYPOTHESES = Array.from({length:6},(_,i)=>['heavy','light'].map(p=>`${i}:${p}`)).flat();
+  const MN_POSITIONS = ['桌上','左盘','右盘'];
+  const MN_RESULTS = {left:'左盘重',level:'两盘平衡',right:'右盘重'};
+  const MN_TABLE = {
+    door:{title:'承认敲门',tags:['门环','掌纹','第三记','门缝','回响','门槛'],odd:2,polarity:'heavy',after:'第三记敲门多担了一点重量。天亮后，秤把它还给敲门的人，不再交给门后的神。'},
+    seven:{title:'承认第七条',tags:['第一行','第二行','空格','删去的字','第七行','行末'],odd:4,polarity:'light',after:'第七行比旁边轻了一点。被删去的那句话终于有了自己的空处，不再让整页替它受罚。'},
+    refuse:{title:'拒绝忏悔',tags:['空名牌','封蜡','衣扣','线头','书签','灰屑'],odd:0,polarity:'light',after:'空名牌轻了一点，秤却没有追讨。天亮后，没有写下的名字第一次不被登记成欠款。'},
+  };
+  const MN_REVISIT_FEEDBACK = '井底第一下清晨脉搏抵达了旧称盘。天平开始称量活人的名字。';
+  const mnEntryFeedback = c=>`称盘记得「${MN_TABLE[c].title}」。六枚名签里只有一枚轻重不同，最多三称，让记录说出它。`;
+  const mnReturnFeedback = c=>`六枚名签的称量记录已经认出了异常。属于「${MN_TABLE[c].title}」的清晨名重正在回到旧室。`;
+  const mnDelay = ()=>reduced?300:1400;
+  let mnFocusRoom=false;
+  function mnPansValid(pans) {return Array.isArray(pans)&&pans.length===6&&[...pans].every(p=>Number.isInteger(p)&&p>=0&&p<=2);}
+  function mnCanWeigh(pans) {if(!mnPansValid(pans))return false;const l=pans.filter(p=>p===1).length,r=pans.filter(p=>p===2).length;return l>0&&l<=3&&l===r;}
+  function mnCompare(pans,odd,polarity) {
+    if(!mnCanWeigh(pans)||!Number.isInteger(odd)||odd<0||odd>5||!['heavy','light'].includes(polarity))return null;
+    const delta=(pans[odd]===1?1:pans[odd]===2?-1:0)*(polarity==='heavy'?1:-1);
+    return delta>0?'left':delta<0?'right':'level';
+  }
+  function mnRecordShape(h) {return h&&typeof h==='object'&&!Array.isArray(h)&&Object.keys(h).sort().join(',')==='pans,result'&&mnCanWeigh(h.pans)&&Object.hasOwn(MN_RESULTS,h.result);}
+  function mnCandidates(history) {
+    if(!Array.isArray(history)||history.length>3||![...history].every(mnRecordShape))return [];
+    return MN_HYPOTHESES.filter(id=>{const [i,p]=id.split(':');return history.every(h=>mnCompare(h.pans,Number(i),p)===h.result);});
+  }
+  function mnProven(st) {const d=st.draft,c=mnCandidates(d.history);return MN_CHOICES.includes(d.confession)&&d.history.length>0&&c.length===1&&d.claim===c[0];}
+  function defaultMorningName() {return {version:121,visited:{room:false,desk:false},draft:{confession:'',pans:[],history:[],claim:''},reconciled:[],reviewRuns:0,lastReview:'',pending:null};}
+  function normalizeMorningName(raw) {
+    const st=defaultMorningName();if(!raw||typeof raw!=='object'||Array.isArray(raw))return st;
+    st.visited.room=raw.visited?.room===true;st.visited.desk=st.visited.room&&raw.visited?.desk===true;
+    const d=raw.draft;
+    if(st.visited.room&&d&&MN_CHOICES.includes(d.confession)) {
+      const m=MN_TABLE[d.confession],history=[];
+      if(Array.isArray(d.history))for(const h of d.history.slice(0,3)) {if(!mnRecordShape(h)||mnCompare(h.pans,m.odd,m.polarity)!==h.result)break;history.push({pans:h.pans.slice(),result:h.result});}
+      st.draft={confession:d.confession,pans:mnPansValid(d.pans)?d.pans.slice():Array(6).fill(0),history,claim:MN_HYPOTHESES.includes(d.claim)?d.claim:''};
+    }
+    if(st.visited.desk&&Array.isArray(raw.reconciled))st.reconciled=[...new Set(raw.reconciled.filter(c=>MN_CHOICES.includes(c)))];
+    st.reviewRuns=Math.max(st.reconciled.length,Number.isSafeInteger(raw.reviewRuns)&&raw.reviewRuns>=0?Math.min(9999,raw.reviewRuns):0);
+    st.lastReview=st.reconciled.includes(raw.lastReview)?raw.lastReview:'';
+    const p=raw.pending;if(!p||typeof p!=='object'||Array.isArray(p))return st;
+    const shape=Object.keys(p).sort().join(',');
+    if(p.kind==='revisit'&&shape==='feedback,kind,source,target'&&p.source==='remembrance'&&p.target==='confession'&&p.feedback===MN_REVISIT_FEEDBACK)st.pending={kind:'revisit',source:'remembrance',target:'confession',feedback:MN_REVISIT_FEEDBACK};
+    else if(shape==='confession,feedback,kind,source,target'&&MN_CHOICES.includes(p.confession)&&p.confession===st.draft.confession) {
+      if(p.kind==='enter'&&st.visited.room&&p.source==='confession'&&p.target===MN_DESK&&p.feedback===mnEntryFeedback(p.confession))st.pending={kind:'enter',source:'confession',target:MN_DESK,confession:p.confession,feedback:p.feedback};
+      else if(p.kind==='reconcile'&&st.visited.desk&&mnProven(st)&&p.source===MN_DESK&&p.target==='confession'&&p.feedback===mnReturnFeedback(p.confession))st.pending={kind:'reconcile',source:MN_DESK,target:'confession',confession:p.confession,feedback:p.feedback};
+    }
+    return st;
+  }
+  function getMorningName() {try{return normalizeMorningName(JSON.parse(store.get(MORNING_NAME_KEY,'{}')));}catch{return defaultMorningName();}}
+  function saveMorningName(st) {const safe=normalizeMorningName(st);store.set(MORNING_NAME_KEY,JSON.stringify(safe));return safe;}
+  function morningNameUnlocked() {return dawnPulseUnlocked()&&getDawnPulse().repairs.length>0;}
+  function mnUpstreamBusy() {const dp=getDawnPulse();return dpUpstreamBusy()||Boolean(dp.pending||dp.draft.valve);}
+  function morningNameDeskCanVisit() {const st=getMorningName();return morningNameUnlocked()&&(st.visited.desk||st.pending?.kind==='enter');}
+  function morningNameBridgeAllows(target) {if(target!=='confession'||!morningNameUnlocked())return false;const st=getMorningName();return st.visited.room||st.pending?.target==='confession';}
+  function mnReady(scene,id) {if(currentScene!==scene||!morningNameUnlocked()||mnUpstreamBusy()||AutoAdvance.has(scene)||!buttonAvailable(id))return null;const st=getMorningName();return st.pending?null:st;}
+  const MN_RESPONSES={remembrance:'#mn-entry-response',confession:'#mn-room-response','morning-name-balance':'#mn-desk-response'};
+  function showMnResponse(id,text) {const e=$(id);if(e){e.textContent=text;e.hidden=!text;}}
+  function launchMn(st,p) {st.pending=p;saveMorningName(st);syncMorningNameAll();showMnResponse(MN_RESPONSES[p.source],p.feedback);AudioEngine.whoosh();AutoAdvance.schedule(p.source,p.target,{delay:mnDelay()});}
+  function chooseMnRevisit() {const st=mnReady('remembrance','mn-entry-btn');if(st)launchMn(st,{kind:'revisit',source:'remembrance',target:'confession',feedback:MN_REVISIT_FEEDBACK});}
+  function chooseMnEnter() {
+    const st=mnReady('confession','mn-desk-entry-btn');if(!st)return;
+    if(!st.draft.confession){const c=getBranches().lastChoice.confession;if(!MN_CHOICES.includes(c))return;st.visited.room=true;st.draft={confession:c,pans:Array(6).fill(0),history:[],claim:''};}
+    const c=st.draft.confession;launchMn(st,{kind:'enter',source:'confession',target:MN_DESK,confession:c,feedback:mnEntryFeedback(c)});
+  }
+  function chooseMnResume() {if(currentScene!=='remembrance'||!morningNameUnlocked()||mnUpstreamBusy()||AutoAdvance.has('remembrance')||!buttonAvailable('mn-resume-entry-btn'))return;const st=getMorningName(),target=st.pending?.source||(st.visited.desk&&st.draft.confession?MN_DESK:'');if(target&&target!=='remembrance')goScene(target);}
+  function cycleMnTag(i) {
+    if(!Number.isInteger(i)||i<0||i>5)return;const st=mnReady(MN_DESK,`mn-tag-${i}`);if(!st||!st.visited.desk||!st.draft.confession||st.draft.history.length>=3)return;
+    st.draft.pans[i]=(st.draft.pans[i]+1)%3;saveMorningName(st);AudioEngine.tick();syncMorningNameAll();
+  }
+  function weighMnTags() {
+    const st=mnReady(MN_DESK,'mn-weigh');if(!st||!st.visited.desk||!st.draft.confession||st.draft.history.length>=3||!mnCanWeigh(st.draft.pans))return;
+    const m=MN_TABLE[st.draft.confession];st.draft.history.push({pans:st.draft.pans.slice(),result:mnCompare(st.draft.pans,m.odd,m.polarity)});st.draft.pans=Array(6).fill(0);st.draft.claim='';saveMorningName(st);AudioEngine.tick();syncMorningNameAll();
+  }
+  function undoMnWeigh(reset=false) {
+    const st=mnReady(MN_DESK,reset?'mn-reset':'mn-undo');if(!st||!st.visited.desk||!st.draft.confession)return;
+    if(reset){st.draft.pans=Array(6).fill(0);st.draft.history=[];}else{const h=st.draft.history.pop();if(!h)return;st.draft.pans=h.pans.slice();}
+    st.draft.claim='';saveMorningName(st);syncMorningNameAll();
+  }
+  function chooseMnClaim(id) {
+    if(!MN_HYPOTHESES.includes(id))return;const st=mnReady(MN_DESK,`mn-claim-${id.replace(':','-')}`);if(!st||!st.visited.desk||!st.draft.confession)return;
+    st.draft.claim=id;saveMorningName(st);syncMorningNameAll();
+  }
+  function finishMnReview() {const st=mnReady(MN_DESK,'mn-finish');if(!st||!st.visited.desk||!mnProven(st))return;launchMn(st,{kind:'reconcile',source:MN_DESK,target:'confession',confession:st.draft.confession,feedback:mnReturnFeedback(st.draft.confession)});}
+  function resolveMorningNamePendingOnArrival(scene) {
+    const st=getMorningName(),p=st.pending;
+    if(p&&p.target===scene&&morningNameUnlocked()&&!mnUpstreamBusy()) {
+      st.pending=null;if(p.kind==='enter')st.visited.desk=true;else{st.visited.room=true;mnFocusRoom=true;}
+      if(p.kind==='reconcile'){if(!st.reconciled.includes(p.confession))st.reconciled.push(p.confession);st.reviewRuns=Math.min(9999,st.reviewRuns+1);st.lastReview=p.confession;st.draft={confession:'',pans:[],history:[],claim:''};}
+      saveMorningName(st);
+    }
+    syncMorningNameAll();
+  }
+  function replayMorningNamePending(scene) {const p=getMorningName().pending;if(!p||p.source!==scene||!morningNameUnlocked()||mnUpstreamBusy()||AutoAdvance.has(scene))return;showMnResponse(MN_RESPONSES[scene],p.feedback);AutoAdvance.schedule(scene,p.target,{delay:mnDelay()});}
+  function focusMorningNameArrival(scene) {if(scene!=='confession'||!mnFocusRoom)return;mnFocusRoom=false;const e=$('#mn-room-title');if(e){pendingSceneFocus=e;e.scrollIntoView({block:'start',behavior:'auto'});}}
+  function paintMnDesk(st,active) {
+    const d=st.draft,m=MN_TABLE[d.confession],candidates=mnCandidates(d.history),last=d.history.at(-1);
+    const context=$('#mn-desk-context');if(context)context.textContent=`这案来自旧「${m.title}」。六签中恰有一枚偏重或偏轻；其余五枚等重。`;
+    const pans=$('#mn-pans');if(pans)pans.textContent=`左盘：${d.pans.map((p,i)=>p===1?`${i+1}·${m.tags[i]}`:'').filter(Boolean).join('、')||'空'}　｜　右盘：${d.pans.map((p,i)=>p===2?`${i+1}·${m.tags[i]}`:'').filter(Boolean).join('、')||'空'}`;
+    const beam=$('#mn-scale');if(beam){beam.setAttribute('data-result',last?.result||'level');beam.setAttribute('aria-label',last?`上一称：${MN_RESULTS[last.result]}`:'天平尚未称量');}
+    for(let i=0;i<6;i++){const e=$(`#mn-tag-${i}`);if(e){e.textContent=`${i+1} · ${m.tags[i]}\n${MN_POSITIONS[d.pans[i]]}`;e.setAttribute('data-pan',String(d.pans[i]));e.setAttribute('aria-label',`${i+1}号${m.tags[i]}，现在${MN_POSITIONS[d.pans[i]]}，移到${MN_POSITIONS[(d.pans[i]+1)%3]}`);e.disabled=!active||d.history.length>=3;}}
+    const history=$('#mn-history');if(history)history.replaceChildren(...d.history.map((h,n)=>{const e=document.createElement('li'),left=h.pans.map((p,i)=>p===1?i+1:'').filter(Boolean).join('、'),right=h.pans.map((p,i)=>p===2?i+1:'').filter(Boolean).join('、');e.textContent=`第 ${n+1} 称　${left} / ${right} → ${MN_RESULTS[h.result]}`;return e;}));
+    for(const id of MN_HYPOTHESES){const [i,p]=id.split(':'),e=$(`#mn-claim-${i}-${p}`);if(e){e.textContent=`${Number(i)+1} ${m.tags[i]} · ${p==='heavy'?'偏重':'偏轻'}`;e.setAttribute('aria-pressed',String(d.claim===id));e.classList.toggle('is-ruled-out',!candidates.includes(id));e.disabled=!active;}}
+    const status=$('#mn-status');if(status){const invalid=!mnCanWeigh(d.pans);status.textContent=`已称 ${d.history.length}/3 次，记录还允许 ${candidates.length}/12 种可能。${d.history.length===3&&candidates.length!==1?'三称仍未分清，撤回一称或重新开始。':d.history.length<3&&invalid?'两盘各放同样数量的 1–3 枚，再称量。':'按记录选择名签及轻重。'}${d.claim&&!candidates.includes(d.claim)?'这份认领已被称量记录排除。':mnProven(st)?'记录和认领吻合，可以把名重交回旧室。':''}`;}
+    const weigh=$('#mn-weigh');if(weigh)weigh.disabled=!active||d.history.length>=3||!mnCanWeigh(d.pans);
+    const undo=$('#mn-undo');if(undo)undo.disabled=!active||!d.history.length;
+    const reset=$('#mn-reset');if(reset)reset.disabled=!active||!(d.history.length||d.pans.some(Boolean)||d.claim);
+    const finish=$('#mn-finish');if(finish)finish.disabled=!active||!mnProven(st);
+  }
+  function syncMorningNameAll() {
+    const unlocked=morningNameUnlocked(),st=getMorningName(),busy=mnUpstreamBusy(),active=unlocked&&!busy&&!st.pending;
+    ['#mn-room','#mn-codex'].forEach(s=>{const e=$(s);if(e)e.hidden=!unlocked;});
+    const ready=morningNameDeskCanVisit()&&Boolean(st.draft.confession);
+    const panel=$('#mn-desk-panel');if(panel)panel.hidden=!ready;const empty=$('#mn-desk-empty');if(empty)empty.hidden=!unlocked||!st.visited.desk||ready;
+    const link=$('#morning-name-balance-link');if(link)link.hidden=!(unlocked&&st.visited.desk);
+    const source=getBranches().lastChoice.confession,resume=Boolean(st.draft.confession),valid=MN_CHOICES.includes(source);
+    const context=$('#mn-room-context');if(context)context.textContent=resume?`验名桌还留着「${MN_TABLE[st.draft.confession].title}」的摆盘与称量记录，回来可以继续。`:valid?`旧称盘记得你选过「${MN_TABLE[source].title}」。天亮后，有六枚名签等你重新过秤。`:'先操作上方任意一个旧称盘，让称量室记住你的选择，再回来验名。';
+    const after=$('#mn-afterword');if(after){after.hidden=!unlocked||!st.lastReview;after.textContent=MN_TABLE[st.lastReview]?.after||'';}
+    const enter=$('#mn-desk-entry-btn');if(enter){enter.disabled=!active||!(resume||valid);enter.textContent=resume?'继续桌上未验完的名签 ⟶':'去称清晨的六枚名签 ⟶';}
+    const entry=$('#mn-entry-btn');if(entry){entry.hidden=!unlocked;entry.disabled=!active;}
+    const resumeButton=$('#mn-resume-entry-btn');if(resumeButton){resumeButton.hidden=!unlocked||!(st.pending&&st.pending.source!=='remembrance'||st.visited.desk&&resume);resumeButton.disabled=busy;}
+    const note=$('#mn-entry-note');if(note)note.textContent=busy?'井里还有未接完的晨光或在途签收，先把那一份完成。':'验明一案就能留下清晨名重，三份旧选择的余韵可以慢慢找。';
+    const memory=$('#mn-memory');if(memory){memory.hidden=!unlocked||!st.reconciled.length;memory.textContent=`清晨名重：${st.reconciled.length}/3 种余韵，共验明 ${st.reviewRuns} 案。`;}
+    const summary=$('#mn-codex-summary');if(summary)summary.textContent=`已留下 ${st.reconciled.length}/3 份清晨名重。改变旧称盘的选择，可以验另一案。`;
+    const grid=$('#mn-codex-grid');if(grid)grid.replaceChildren(...MN_CHOICES.map(c=>{const e=document.createElement('div');e.className=`mn-cell${st.reconciled.includes(c)?' is-unlocked':''}`;e.textContent=st.reconciled.includes(c)?`${MN_TABLE[c].title}\n名字已经过秤`:'？？？';return e;}));
+    if(ready)paintMnDesk(st,active);else for(const id of ['mn-weigh','mn-undo','mn-reset','mn-finish',...Array.from({length:6},(_,i)=>`mn-tag-${i}`),...MN_HYPOTHESES.map(h=>`mn-claim-${h.replace(':','-')}`)]){const e=$(`#${id}`);if(e)e.disabled=true;}
+    Object.entries(MN_RESPONSES).forEach(([scene,id])=>{if(st.pending?.source!==scene)showMnResponse(id,'');});
+  }
+  function forgetMorningNameState() {
+    mnFocusRoom=false;try{localStorage.removeItem(MORNING_NAME_KEY);}catch{}
+    ['remembrance','confession',MN_DESK].forEach(s=>AutoAdvance.clear(s));
+    ['#mn-room','#mn-afterword','#mn-codex','#mn-memory','#mn-desk-panel','#mn-desk-empty','#morning-name-balance-link','#mn-entry-response','#mn-room-response','#mn-desk-response','#mn-resume-entry-btn'].forEach(s=>{const e=$(s);if(e)e.hidden=true;});
+    MN_HYPOTHESES.forEach(h=>{const e=$(`#mn-claim-${h.replace(':','-')}`);if(e)e.setAttribute('aria-pressed','false');});
+    const history=$('#mn-history');if(history)history.replaceChildren();const help=$('#mn-help');if(help)help.open=false;
+  }
+  const onTrustedMn=(selector,fn)=>{const e=$(selector);if(e)e.addEventListener('click',event=>{if(event.isTrusted)fn();});};
+  onTrustedMn('#mn-entry-btn',chooseMnRevisit);onTrustedMn('#mn-resume-entry-btn',chooseMnResume);onTrustedMn('#mn-desk-entry-btn',chooseMnEnter);
+  for(let i=0;i<6;i++)onTrustedMn(`#mn-tag-${i}`,()=>cycleMnTag(i));
+  for(const id of MN_HYPOTHESES)onTrustedMn(`#mn-claim-${id.replace(':','-')}`,()=>chooseMnClaim(id));
+  onTrustedMn('#mn-weigh',weighMnTags);onTrustedMn('#mn-undo',()=>undoMnWeigh());onTrustedMn('#mn-reset',()=>undoMnWeigh(true));onTrustedMn('#mn-finish',finishMnReview);
+
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -72432,8 +72584,17 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     if (dpUpstreamBusy()) return { title: "v120 等候旧回应", items: ["先完成井里的回应与在途签收，再接清晨脉搏"], target: 're-resume', done: false };
     if (st.pending) return { title: "v120 晨光正在路上", items: ["从原场景继续已接通的晨光管"], target: st.pending.source === 'remembrance' ? 'dp' : 'dp-resume', done: false };
     if (st.draft.valve) return { title: "v120 台上还有晨光管", items: [`晨光已到 ${dpAnalyze(st.draft.valve,st.draft.turns).lit.length}/9 段，朝向随时保存`], target: 'dp-resume', done: false };
-    if (st.repairs.length) return { title: "v120 井底有了清晨", items: [`已接通 ${st.repairs.length}/3 种脉搏；可继续找其他旧阀的余韵`], target: 'dp', done: true };
+    if (st.repairs.length) return morningNameProgressStep();
     return { title: "v120 清晨脉搏", items: ["回访血管维修井，把第一束晨光接到井底"], target: 'dp', done: false };
+  };
+
+  const morningNameProgressStep = () => {
+    const st = getMorningName();
+    if (mnUpstreamBusy()) return { title: "v121 等候井底晨光", items: ["先接完井里的晨光与在途签收，再称清晨名重"], target: 'dp-resume', done: false };
+    if (st.pending) return { title: "v121 名重正在路上", items: ["从原场景继续已验明的名签"], target: st.pending.source === 'remembrance' ? 'mn' : 'mn-resume', done: false };
+    if (st.draft.confession) return { title: "v121 桌上还有名签", items: [`已称 ${st.draft.history.length}/3 次，摆盘与记录随时保存`], target: 'mn-resume', done: false };
+    if (st.reconciled.length) return { title: "v121 名字迎来了清晨", items: [`已验明 ${st.reconciled.length}/3 份名重；其他旧选择的余韵可选收集`], target: 'mn', done: true };
+    return { title: "v121 清晨名重", items: ["回访忏悔称量室，让六枚名签重新过秤"], target: 'mn', done: false };
   };
 
   const shadowlessPhotographyProgressStep = () => {
@@ -73022,6 +73183,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   syncRiverFerryAll();
   syncRiverEchoAll();
   syncDawnPulseAll();
+  syncMorningNameAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

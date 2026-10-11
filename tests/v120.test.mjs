@@ -3,7 +3,7 @@ import {readFileSync} from 'node:fs';
 const source=readFileSync(new URL('../script.js',import.meta.url),'utf8');
 const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
 const start=source.indexOf('  /* ============================================================\n     v120 清晨脉搏');
-const end=source.indexOf('  /* ---------- 痕迹室「下一步」 ----------',start);
+const end=source.indexOf('  /* ============================================================\n     v121 清晨名重',start);
 assert.ok(start>0&&end>start);
 const moduleSource=source.slice(start,end),key='goddead_v120_dawn_pulse';
 const models={
@@ -102,12 +102,12 @@ for(const opts of [{done:false},{busy:true},{reDraft:'bell'},{rePending:{kind:'r
 // Actual early branch guard: the new exception grants only vein while the old v119 one remains separate.
 {
  const a=source.indexOf('    if (BRANCH_SCENES.includes(target) && !branchState.visited[target]'),b=source.indexOf('\n\n',a),guard=source.slice(a,b);
- const route=new Function('target','dawnPulseBridgeAllows',`const BRANCH_SCENES=['echo','vein','confession'],branchState={visited:{}},AUDIT_BRANCH_OUTCOME={},auditGuardState={outcome:'none'},beliefGuard={branches:{}},BELIEF_SCENE_BRANCH={};const innocentWitnessProtectionBridgeAllows=()=>false,unspokenPersonhoodBridgeAllows=()=>false,unfinishedThoughtBridgeAllows=()=>false,lostWeightBridgeAllows=()=>false,exactTeaBridgeAllows=()=>false,riverEchoBridgeAllows=()=>false;${guard}return target;`);
+ const route=new Function('target','dawnPulseBridgeAllows',`const BRANCH_SCENES=['echo','vein','confession'],branchState={visited:{}},AUDIT_BRANCH_OUTCOME={},auditGuardState={outcome:'none'},beliefGuard={branches:{}},BELIEF_SCENE_BRANCH={};const innocentWitnessProtectionBridgeAllows=()=>false,unspokenPersonhoodBridgeAllows=()=>false,unfinishedThoughtBridgeAllows=()=>false,lostWeightBridgeAllows=()=>false,exactTeaBridgeAllows=()=>false,riverEchoBridgeAllows=()=>false,morningNameBridgeAllows=()=>false;${guard}return target;`);
  const g=makeV120();assert.equal(route('vein',g.bridge),'corridor');g.revisit();assert.equal(route('vein',g.bridge),'vein');assert.equal(route('echo',g.bridge),'corridor');assert.equal(route('confession',g.bridge),'corridor');g.arrive('vein');assert.equal(route('vein',g.bridge),'vein');g.forget();assert.equal(route('vein',g.bridge),'corridor');
 }
 assert.equal((moduleSource.match(/addEventListener\(/g)||[]).length,1);assert.doesNotMatch(moduleSource,/innerHTML|showScene/);assert.match(moduleSource,/if\(event\.isTrusted\)fn\(\)/);
 assert.match(source,/resolveDawnPulsePendingOnArrival\(name\);\s*replayDawnPulsePending\(name\);/);assert.match(source,/focusRiverEchoArrival\(name\);\s*focusDawnPulseArrival\(name\);/);
-assert.match(source,/forgetRiverEchoState\(\);\s*forgetDawnPulseState\(\);\s*forgetCodexFolds/);assert.match(source,/syncRiverEchoAll\(\);\s*syncDawnPulseAll\(\);\s*revealScene/);assert.match(source,/if \(st\.heard\.length\) return dawnPulseProgressStep\(\)/);
+assert.match(source,/forgetRiverEchoState\(\);\s*forgetDawnPulseState\(\);\s*forgetMorningNameState\(\);\s*forgetCodexFolds/);assert.match(source,/syncRiverEchoAll\(\);\s*syncDawnPulseAll\(\);\s*syncMorningNameAll\(\);\s*revealScene/);assert.match(source,/if \(st\.heard\.length\) return dawnPulseProgressStep\(\)/);
 for(let i=0;i<9;i++)assert.ok(html.includes(`id="dp-turn-${i}" type="button"`));assert.ok(html.includes('data-scene="dawn-pulse-manifold"'));
 for(const asset of ['well-dawn-window','dawn-pulse-manifold']){assert.ok(html.includes(`data-src="assets/v120-${asset}.webp"`));const b=readFileSync(new URL(`../assets/v120-${asset}.webp`,import.meta.url));assert.equal(b.toString('ascii',0,4),'RIFF');assert.ok(b.length<300*1024);}
 console.log(`v120 dawn pulse: ${matrixChecks} independent pipe states, three unique solutions and cold-repair paths passed`);

@@ -590,6 +590,8 @@ function createV101Harness({
     const riverEchoBridgeAllows = () => false;
     const dawnPulseBridgeAllows = () => false;
     const dawnPulseWorkCanVisit = () => false;
+    const morningNameBridgeAllows = () => false;
+    const morningNameDeskCanVisit = () => false;
     const riverEchoWellCanVisit = () => false;
     const rvGateCanVisit = () => false;
     const riverCrossingCanVisit = () => false;
@@ -743,11 +745,11 @@ test('v101: Invalid pattern and boundary rejection tests (diagonal, row-wrap, em
   assert.strictEqual(h.classify(null), '', 'Null must be invalid');
 });
 
-test('v101: Static index.html, scenes count (279), CSS, and Assets inspection', () => {
+test('v101: Static index.html, scenes count (280), CSS, and Assets inspection', () => {
   const sections = Array.from(indexHtml.matchAll(/<section\b[^>]*\bdata-scene="([^"]+)"/g), (m) => m[1]);
   const uniqueScenes = Array.from(new Set(sections));
-  assert.strictEqual(sections.length, 279, 'Total <section data-scene> count in index.html must be 279');
-  assert.strictEqual(uniqueScenes.length, 279, 'All data-scene attributes must be unique (no duplicates)');
+  assert.strictEqual(sections.length, 280, 'Total <section data-scene> count in index.html must be 280');
+  assert.strictEqual(uniqueScenes.length, 280, 'All data-scene attributes must be unique (no duplicates)');
   assert.ok(uniqueScenes.includes('dawn-weaving-mill'), 'dawn-weaving-mill scene must exist');
   assert.ok(uniqueScenes.includes('day-night-loom'), 'day-night-loom scene must exist');
   assert.ok(uniqueScenes.includes('sky-cloth-drying-terrace'), 'sky-cloth-drying-terrace scene must exist');

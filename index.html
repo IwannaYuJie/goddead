@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=120">
+  <link rel="stylesheet" href="styles.css?v=121">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -3707,6 +3707,18 @@
           </div>
           <p class="branch-response" id="confession-response" aria-live="polite"></p>
 
+          <!-- v121：旧三称盘、迫近抽屉及签收保留 -->
+          <aside class="mn-room reveal" id="mn-room" aria-labelledby="mn-room-title" hidden>
+            <p class="mn-kicker">THE WEIGHT OF A NAME AT DAWN · 清 晨 名 重</p>
+            <h3 class="mn-heading" id="mn-room-title">秤第一次称到了天亮。</h3>
+            <figure class="mn-figure"><img class="mn-img" data-src="assets/v121-confession-dawn.webp" alt="旧忏悔称量室的黄铜天平与空信封，高窗晨光落入空盘，灰烬和旧抽屉仍留在原处" width="1536" height="1024" loading="lazy" decoding="async"></figure>
+            <p class="mn-copy" id="mn-room-context"></p>
+            <p class="mn-afterword" id="mn-afterword" aria-live="polite" hidden></p>
+            <button class="mn-action" id="mn-desk-entry-btn" type="button" data-hover>去称清晨的六枚名签 ⟶</button>
+            <p class="mn-response" id="mn-room-response" aria-live="polite" hidden></p>
+          </aside>
+
+
           <!-- v109 忏悔称量室奉茶签收与记忆 -->
           <p class="watch-memory et-echo" id="et-echo-confession" hidden></p>
           <div class="et-server reveal" id="et-server-confession" hidden>
@@ -5494,6 +5506,18 @@
               <button class="ts-entry-btn" id="ts-court-entry-btn" type="button" hidden data-hover>进入早报听证会 · ENTER THE HEARING OF THE MORNING EDITION ⟶</button>
               <p class="ts-response" id="ts-court-entry-response" aria-live="polite" hidden></p>
             </div>
+          </div>
+          <!-- v121 清晨名重：一案即可完成回访 -->
+          <p class="watch-memory mn-memory" id="mn-memory" hidden></p>
+          <div class="mn-codex codex-section" id="mn-codex" aria-labelledby="mn-codex-title" hidden>
+            <p class="sec-kicker">THE WEIGHT OF A NAME AT DAWN · 清晨名重</p>
+            <h3 class="codex-title" id="mn-codex-title">清晨名重 · 天亮后的旧称盘</h3>
+            <p class="mn-copy" id="mn-codex-summary"></p>
+            <div class="mn-grid" id="mn-codex-grid"></div>
+            <p class="mn-copy" id="mn-entry-note"></p>
+            <button class="mn-action" id="mn-entry-btn" type="button" data-hover>回访忏悔称量室 ⟶</button>
+            <button class="mn-action" id="mn-resume-entry-btn" type="button" hidden data-hover>继续桌上未验完的名签 ⟶</button>
+            <p class="mn-response" id="mn-entry-response" aria-live="polite" hidden></p>
           </div>
           <!-- v120 清晨脉搏：一次修好即可完成回访 -->
           <p class="watch-memory dp-memory" id="dp-memory" hidden></p>
@@ -10815,6 +10839,56 @@
         </div>
       </section>
 
+      <!-- v121 清晨验名桌 -->
+      <section class="scene scene-branch" id="scene-morning-name-balance" data-scene="morning-name-balance" data-title="Goddead — 清晨验名桌" aria-label="清晨验名桌">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal"><p class="sec-kicker">THE WEIGHT OF A NAME AT DAWN · 清 晨 验 名 桌</p><h2 class="sec-title">清晨验名桌</h2><p class="sec-desc">有些名字过轻，有些被替别人称重。</p></header>
+          <p class="mn-copy" id="mn-desk-empty" hidden>这份名重已经交回旧室。回到忏悔称量室，再找另一份旧选择的清晨。</p>
+          <div class="mn-desk-panel reveal" id="mn-desk-panel" hidden>
+            <div class="mn-art">
+              <figure class="mn-figure"><img class="mn-img" data-src="assets/v121-morning-name-balance.webp" alt="清晨光中的旧双盘黄铜秤与六枚空白纸名签，桌下抽屉半开" width="1536" height="1024" loading="lazy" decoding="async"></figure>
+              <p class="mn-copy" id="mn-desk-context"></p>
+              <p class="mn-caption">最多三称。每称两盘各放同样数量的 1–3 枚。记录会排除不可能的名签，留下唯一一种轻重时，再认领它。</p>
+              <details class="mn-help" id="mn-help"><summary>想借一套称法</summary><p>第一称：①②③ / ④⑤⑥。<br>第二称：①④ / ③⑥。<br>第三称：②⑤ / ③⑥。</p><p>斜线前放左盘，后放右盘；每称之后名签回到桌上。这三称能分清所有十二种可能，结果会留在称量记录里。</p></details>
+            </div>
+            <div class="mn-boardbox">
+              <svg class="mn-scale" id="mn-scale" viewBox="0 0 300 70" role="img" aria-label="天平尚未称量" data-result="level"><path class="mn-stand" d="M150 12 V62 M115 64 H185"/><g class="mn-beam"><path d="M35 15 H265 M35 15 V39 M265 15 V39"/><path class="mn-pan" d="M12 39 Q35 65 58 39 Z M242 39 Q265 65 288 39 Z"/></g></svg>
+              <p class="mn-pans" id="mn-pans"></p>
+              <p class="mn-instruction">点名签：桌上 → 左盘 → 右盘 → 桌上。Enter / Space 也可移签。</p>
+              <div class="mn-tags" role="group" aria-label="六枚名签，点击循环移动到左盘右盘或桌上">
+                <button class="mn-tag" id="mn-tag-0" type="button" data-pan="0" data-hover aria-label="1号名签，从桌上移到左盘">1 号名签</button>
+                <button class="mn-tag" id="mn-tag-1" type="button" data-pan="0" data-hover aria-label="2号名签，从桌上移到左盘">2 号名签</button>
+                <button class="mn-tag" id="mn-tag-2" type="button" data-pan="0" data-hover aria-label="3号名签，从桌上移到左盘">3 号名签</button>
+                <button class="mn-tag" id="mn-tag-3" type="button" data-pan="0" data-hover aria-label="4号名签，从桌上移到左盘">4 号名签</button>
+                <button class="mn-tag" id="mn-tag-4" type="button" data-pan="0" data-hover aria-label="5号名签，从桌上移到左盘">5 号名签</button>
+                <button class="mn-tag" id="mn-tag-5" type="button" data-pan="0" data-hover aria-label="6号名签，从桌上移到左盘">6 号名签</button>
+              </div>
+              <div class="mn-weigh-controls"><button class="mn-action" id="mn-weigh" type="button" data-hover>称这一盘</button><button class="mn-action" id="mn-undo" type="button" data-hover>撤回上一称</button><button class="mn-action" id="mn-reset" type="button" data-hover>本案重新称</button></div>
+              <ol class="mn-history" id="mn-history" aria-label="称量记录" aria-live="polite"></ol>
+              <p class="mn-instruction">按称量记录，认领那一枚与它的轻重：</p>
+              <div class="mn-claims" role="group" aria-label="六枚名签的偏重偏轻认领，淡色表示已被记录排除">
+                <button class="mn-claim" id="mn-claim-0-heavy" type="button" aria-pressed="false" data-hover>1 号 · 偏重</button>
+                <button class="mn-claim" id="mn-claim-0-light" type="button" aria-pressed="false" data-hover>1 号 · 偏轻</button>
+                <button class="mn-claim" id="mn-claim-1-heavy" type="button" aria-pressed="false" data-hover>2 号 · 偏重</button>
+                <button class="mn-claim" id="mn-claim-1-light" type="button" aria-pressed="false" data-hover>2 号 · 偏轻</button>
+                <button class="mn-claim" id="mn-claim-2-heavy" type="button" aria-pressed="false" data-hover>3 号 · 偏重</button>
+                <button class="mn-claim" id="mn-claim-2-light" type="button" aria-pressed="false" data-hover>3 号 · 偏轻</button>
+                <button class="mn-claim" id="mn-claim-3-heavy" type="button" aria-pressed="false" data-hover>4 号 · 偏重</button>
+                <button class="mn-claim" id="mn-claim-3-light" type="button" aria-pressed="false" data-hover>4 号 · 偏轻</button>
+                <button class="mn-claim" id="mn-claim-4-heavy" type="button" aria-pressed="false" data-hover>5 号 · 偏重</button>
+                <button class="mn-claim" id="mn-claim-4-light" type="button" aria-pressed="false" data-hover>5 号 · 偏轻</button>
+                <button class="mn-claim" id="mn-claim-5-heavy" type="button" aria-pressed="false" data-hover>6 号 · 偏重</button>
+                <button class="mn-claim" id="mn-claim-5-light" type="button" aria-pressed="false" data-hover>6 号 · 偏轻</button>
+              </div>
+              <p class="mn-status" id="mn-status" role="status" aria-live="polite"></p>
+              <button class="mn-action mn-finish" id="mn-finish" type="button" data-hover>把清晨名重交回旧称盘 ⟶</button>
+            </div>
+          </div>
+          <p class="mn-response" id="mn-desk-response" aria-live="polite" hidden></p>
+          <nav class="branch-nav reveal" aria-label="离开清晨验名桌"><button class="exit-link" type="button" data-go="confession" data-hover>⟵ 回到旧称盘，留着记录稍后再验</button></nav>
+        </div>
+      </section>
+
       <!-- v120 晨脉接管台 -->
       <section class="scene scene-branch" id="scene-dawn-pulse-manifold" data-scene="dawn-pulse-manifold" data-title="Goddead — 晨脉接管台" aria-label="晨脉接管台">
         <div class="scene-body branch-body">
@@ -11380,6 +11454,7 @@
       <a href="#hearing-of-the-last-cart" id="hearing-of-the-last-cart-link" hidden data-hover>31γ / 末车听证</a>
       <a href="#ferry-landing" id="ferry-landing-link" hidden data-hover>31δ / 渡河码头</a>
       <a href="#river-crossing" id="river-crossing-link" hidden data-hover>31ε / 两岸之间</a>
+      <a href="#morning-name-balance" id="morning-name-balance-link" hidden data-hover>32γ / 清晨验名桌</a>
       <a href="#dawn-pulse-manifold" id="dawn-pulse-manifold-link" hidden data-hover>32β / 晨脉接管台</a>
       <a href="#river-echo-well" id="river-echo-well-link" hidden data-hover>32α / 河岸听井</a>
       <a href="#hearing-of-the-last-bank" id="hearing-of-the-last-bank-link" hidden data-hover>31ζ / 末岸听证会</a>
@@ -11392,6 +11467,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=120"></script>
+    <script src="script.js?v=121"></script>
   </body>
 </html>

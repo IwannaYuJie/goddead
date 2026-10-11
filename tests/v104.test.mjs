@@ -1172,10 +1172,10 @@ test('Group 1: Static structure, header/markers, asset attributes and native but
   assert.equal(ahModuleSource.includes('/* ============================================================\n   v103 收不到影子的照相馆'), false);
 
   // Current release cache markers
-  assert.ok(htmlSource.includes('href="styles.css?v=120"'), 'styles.css must have ?v=120');
-  assert.ok(htmlSource.includes('src="script.js?v=120"'), 'script.js must have ?v=120');
+  assert.ok(htmlSource.includes('href="styles.css?v=121"'), 'styles.css must have ?v=121');
+  assert.ok(htmlSource.includes('src="script.js?v=121"'), 'script.js must have ?v=121');
 
-  // Exact 279 unique sections (HTML section IDs include scene- prefix)
+  // Exact 280 unique sections (HTML section IDs include scene- prefix)
   const sectionMatches = htmlSource.match(/<section\b[^>]*\bid=["']([^"']+)["']/g) || [];
   const sectionIds = new Set();
   const duplicateSectionIds = [];
@@ -1188,7 +1188,7 @@ test('Group 1: Static structure, header/markers, asset attributes and native but
     }
   });
   assert.equal(duplicateSectionIds.length, 0, `Duplicate sections found: ${duplicateSectionIds.join(', ')}`);
-  assert.equal(sectionIds.size, 279, `Expected exactly 279 unique sections, found ${sectionIds.size}`);
+  assert.equal(sectionIds.size, 280, `Expected exactly 280 unique sections, found ${sectionIds.size}`);
   assert.ok(sectionIds.has('scene-wake-for-another-hotel'));
   assert.ok(sectionIds.has('scene-borrowed-dawn-clockroom'));
   assert.ok(sectionIds.has('scene-shared-morning-veranda'));
@@ -2544,6 +2544,8 @@ test('Group 13: Full resolveScene integration with real AH guard delegates, pend
       const riverEchoBridgeAllows = () => false;
       const dawnPulseBridgeAllows = () => false;
       const dawnPulseWorkCanVisit = () => false;
+      const morningNameBridgeAllows = () => false;
+      const morningNameDeskCanVisit = () => false;
       const riverEchoWellCanVisit = () => false;
       const rvGateCanVisit = () => false;
       const riverCrossingCanVisit = () => false;
