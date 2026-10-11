@@ -1483,3 +1483,10 @@
 功能 `7fac6cf3f04bcc70c08d4ebb97a29e528f4ee7e8` 已推送 main，Cloudflare Pages completed / success。2026-10-11T12:33:35.439247+08:00（Asia/Taipei）普通公开 URL 确认 v124 / 280；HTML / CSS / JS / directory.js / 沿用门图 raw 大小与 SHA-256 全一致，本次无需 HTML 归一化。Chrome 公开首页 active=threshold、title=Goddead、三个 v124 依赖载入，新指引链接存在且空档隐藏；1470px 无横溢。原目录 5/5、menu-close 首焦点 / stage inert、Esc 回 menu-trigger / inert=false；菜单前后 raw 相同，无新增 error / warn。本地验收存档未写入公开站，原 21 项本地状态恢复、缓存偏好 / 视口复原，临时服务已停止。
 
 公开报告与截图见 design-qa-evidence/v124-public-assets.json / v124-public-root-desktop.jpg；当前实施 / Tasks 已闭环。下一轮按路线图先评估调墨房的纯规则拆分，保持独立判定、原存档与玩法。
+
+## 2026-10-11 v125 调墨房纯规则模块
+
+- 先读原 v107 合同、冻结 v124 HEAD 原十二函数 / 343 配色和 63 存档 oracle，再把纯规则移到独立 `ink-rules.js`；主脚本只替换该块为配置工厂调用，其余业务源逐字保持。原单份数据、version 107 / 原键 / 十一字段与七类事务保持，四依赖 v125。
+- 实际模块接入原 v107 / v124 多章测试，无桩替换。独立质量与距离公式、canonical 幂等 / 新对象 / 深冻结输入 / 配置隔离、66 pending 字段拒绝通过；37,845 全站断言、65/65 旧章及语法 / diff / 280 场景 / 4501 ID / 引用 / 278 原目录字节 / 存档键审计通过。
+- Chrome 桌面 / 375px 原生键盘、鼠标拖条，三配方 / 三精度、未匹配拒倒、换档 / 洗碟 / 草稿冷载、双击 / pending 刷新一次落账、三旧学徒签收、三听证和原借光入口通过。测试档补齐原主线遗物科依赖后重新加载，保留原 guard。锁定深链和无关房冷载取消检查通过。
+- 原 21 项本地 raw 精确恢复，无新增 error / warn，视口复原；文档 / 截图与验收见 v125-browser-qa.md。公开发布待推送核对；下一轮评估借光司纯光路规则。

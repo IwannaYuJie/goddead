@@ -1,4 +1,10 @@
-# 当前实施状态：v124 先办完交接
+# 当前实施状态：v125 调墨房纯规则模块
+
+v125「调墨房纯规则模块」已实现：十二个 v107 颜色 / 色差 / 存档整理 / 开庭覆盖 / 七类 pending 函数原样迁入 `ink-rules.js`，主脚本保留单份配置及全部事件 / 门禁 / 存取 / 初始化；目录 → 规则 → 主脚本按原阻塞方式载入，四依赖缓存 `v=125`。343 配色与 63 份旧版快照、独立质量 / 距离计算及严格 pending 检查通过；37,845 全站断言、旧章 65/65、桌面 / 375px 原生三调色签收与三听证 / 借光入口、刷新 / 双击 / 锁定回退通过。280 场景 / 4501 唯一 ID / 原 278 目录及存档键保持。原 21 项本地状态已恢复。设计见 [V125InkRulesModuleDesign.md](V125InkRulesModuleDesign.md)，验收见 [v125-browser-qa.md](../design-qa-evidence/v125-browser-qa.md)。
+
+公开发布待本轮推送核验；下一轮评估借光司纯光路规则，保持现有玩法和章节边界。下面保留历次实施记录。
+
+# v124 先办完交接（已发布）
 
 v124 已公开发布。功能 `7fac6cf3f04bcc70c08d4ebb97a29e528f4ee7e8` 已推送 main，Cloudflare Pages completed / success。2026-10-11T12:33:35.439247+08:00（Asia/Taipei）普通公开 URL 确认 v124 / 280；HTML / CSS / JS / directory.js / 沿用门图 raw 大小与 SHA-256 全一致，本次无需 HTML 归一化。Chrome 公开首页 active=threshold、title=Goddead、三个 v124 依赖载入，新指引链接存在且空档隐藏；1470px 无横溢。原目录 5/5、menu-close 首焦点 / stage inert、Esc 回 menu-trigger / inert=false；菜单前后 raw 相同，无新增 error / warn。本地验收存档未写入公开站，原 21 项本地状态恢复、缓存偏好 / 视口复原，临时服务已停止。
 
