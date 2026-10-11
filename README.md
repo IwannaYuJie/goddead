@@ -4,7 +4,9 @@ Static landing page for [goddead.com](https://goddead.com).
 
 ## Current Experience
 
-当前实现基线为 **v117「灵车场 / THE HEARSE YARD」**：全站共 274 个 hash 场景，静态资源缓存标记为 `v=117`。v116 三项裁定集齐后开放 `hearse-gate`（灵车场）、`jammed-yard`（挤满的院子）、`hearing-of-the-last-cart`（末车听证会）。在 5×5 俯视石板院子里挪开挡路的车，横车只能左右走、竖车只能上下走，不能穿过别的车；把发亮的目标车挪到右墙院门才能放行。三辆车 × 三个时辰共有九阵，最少分别需 4–6 / 8–10 / 12–14 次挪动，送回神圣遗物科 / 访客守则 / 焚献炉签收。三辆车、三个时辰覆盖后开放三项末车裁定；独立键 `goddead_v117_hearse_yard`。手机棋盘裁成正方形，375px 宽下格子约 52×50px。
+当前实现基线为 **v118「渡河码头 / THE RIVER FERRY」**：全站 277 个 hash 场景，静态缓存 `v=118`。v117 三项末车裁定集齐后开放码头 / 两岸之间 / 末岸听证会。船夫只能看守自己所在的岸；挑选船边的同行者过河，离开的岸不能留下冲突双方，小舟 / 双桨 / 夜渡分别载 1 / 2 / 2 件，使用 3 / 5 / 6 件同行者，最短 7 / 7 / 9 趟。三份托运 × 三种航法共九种，送到遗物科 / 无主投递所 / 值夜室签收；覆盖三托运、三航法即开放三项裁定。航程逐趟保存，刷新接续、可退回上一趟；非法航程说明具体冲突并保留原位。独立键 `goddead_v118_river_ferry`，设计与素材提示词见 [V118RiverFerryDesign.md](docs/V118RiverFerryDesign.md) / [V118ImagePrompts.md](docs/V118ImagePrompts.md)。
+
+历史基线 **v117「灵车场 / THE HEARSE YARD」**：全站共 274 个 hash 场景，静态资源缓存标记为 `v=117`。v116 三项裁定集齐后开放 `hearse-gate`（灵车场）、`jammed-yard`（挤满的院子）、`hearing-of-the-last-cart`（末车听证会）。在 5×5 俯视石板院子里挪开挡路的车，横车只能左右走、竖车只能上下走，不能穿过别的车；把发亮的目标车挪到右墙院门才能放行。三辆车 × 三个时辰共有九阵，最少分别需 4–6 / 8–10 / 12–14 次挪动，送回神圣遗物科 / 访客守则 / 焚献炉签收。三辆车、三个时辰覆盖后开放三项末车裁定；独立键 `goddead_v117_hearse_yard`。手机棋盘裁成正方形，375px 宽下格子约 52×50px。
 
 当前 Git 分支、玩法线和后续任务见 [`docs/BranchesAndRoadmap.md`](docs/BranchesAndRoadmap.md)。
 
@@ -22,7 +24,7 @@ Static landing page for [goddead.com](https://goddead.com).
 
 前一章历史实现 **v101「黎明织造厂 / DAWN WEAVING MILL」**（全站 226 个场景，静态资源 `v=101`）机制完整保留：v100 `wkCourtEligible` 且三项百夜裁定集齐后开放 3 个场景（`dawn-weaving-mill`、`day-night-loom`、`sky-cloth-drying-terrace`）。九格织机通过原生按钮与 4 种辅助模式完成晨光/夜线左右独立连通派生三结局，经天际晾布台预览送往门外/痕迹室/无终局画廊签收，双入口支持门外与痕迹室，独立存储键 `goddead_v101_dawn_weaving`。v91–v101 见 `docs/` 对应设计文档。
 
-完整玩家路线、支线网、v63-v117 解锁链与 v90-v117 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
+完整玩家路线、支线网、v63-v118 解锁链与 v90-v118 闭环见 [`docs/GameplayFlow.md`](docs/GameplayFlow.md)。
 
 The homepage is **The Living Shrine**, a hash-routed, scene-by-scene exploration game. Visitors knock three times at the sealed threshold — now a photographed bureau door — and on the third knock the door visually opens into a deep black-gold corridor before the visitor is pulled through into the next room; each completed action thereafter advances the ritual automatically.
 

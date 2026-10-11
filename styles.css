@@ -21508,3 +21508,173 @@ button.dw-tile:disabled {
 }
 @media (prefers-reduced-motion: reduce) { .hy-cart { transition: none; } }
 @media (min-width: 721px) { .hy-hotspot .dh-label { white-space: nowrap; } }
+
+/* v118 渡河码头 */
+.rv-figure {
+  position: relative;
+  width: min(88vw, 760px);
+  aspect-ratio: 3 / 2;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  border: 1px solid rgba(154, 127, 71, 0.35);
+  background: var(--void);
+}
+
+.rv-figure .rv-img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; -webkit-mask-image: none; mask-image: none; }
+
+.rv-hotspot {
+  position: absolute;
+  z-index: 3;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0.4rem;
+  border: 1px solid rgba(222, 217, 208, 0.18);
+  background: rgba(8, 7, 6, 0.1);
+  color: var(--bone-bright);
+  font-family: var(--serif-cn);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+
+.rv-hotspot .dh-label { padding: 0.2rem 0.55rem; background: rgba(8, 7, 6, 0.74); letter-spacing: 0.1em; }
+.rv-hotspot:hover,
+.rv-hotspot:focus-visible { border-color: var(--gold); background: rgba(154, 127, 71, 0.16); outline: 2px solid var(--gold); outline-offset: 2px; }
+.rv-hotspot:disabled,
+.rv-hotspot[aria-pressed="true"] { border-color: var(--blood); cursor: default; outline: none; }
+.rv-hotspot.is-collected .dh-label::after { content: " ✓"; color: var(--gold); }
+
+
+.rv-hotspot-left { left: 4%; top: 38%; width: 26%; height: 36%; }
+.rv-hotspot-center { left: 37%; top: 49%; width: 25%; height: 24%; }
+.rv-hotspot-right { left: 68%; top: 52%; width: 28%; height: 24%; }
+.rv-hotspot-court-left { left: 3%; top: 52%; width: 30%; height: 29%; }
+.rv-hotspot-court-center { left: 38%; top: 54%; width: 27%; height: 24%; }
+.rv-hotspot-court-right { left: 69%; top: 55%; width: 27%; height: 21%; }
+
+.rv-note { width: min(720px, 100%); margin: 0.6rem auto 0; color: var(--ash); font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; line-height: 1.8; text-align: center; }
+.rv-response { white-space: pre-line; }
+
+.rv-panel {
+  width: min(720px, 100%);
+  margin: 1.2rem auto 0;
+  padding: 1rem 1.1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--gold);
+  background: rgba(10, 9, 8, 0.86);
+}
+
+.rv-panel-parcel { margin: 0 0 1rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.92rem; line-height: 1.8; }
+.rv-methods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+
+.rv-method {
+  min-height: 44px;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  background: rgba(20, 16, 12, 0.8);
+  color: var(--bone);
+  font-family: var(--serif-cn);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.rv-method[aria-pressed="true"] { border-color: var(--gold); color: var(--bone-bright); background: rgba(154, 127, 71, 0.18); }
+.rv-method.is-collected::after { content: " ✓"; color: var(--gold); }
+.rv-method:hover:not(:disabled),
+.rv-method:focus-visible { border-color: var(--gold); outline: 2px solid var(--gold); outline-offset: 2px; }
+.rv-method:disabled { opacity: 0.45; cursor: default; }
+
+.rv-action,
+.rv-entry-btn {
+  min-height: 44px;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--void);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.rv-entry-btn,
+.rv-shine { border-color: var(--gold); color: var(--bone-bright); }
+.rv-action:hover:not(:disabled),
+.rv-action:focus-visible,
+.rv-entry-btn:hover:not(:disabled),
+.rv-entry-btn:focus-visible { border-color: var(--gold); background: var(--gold); color: var(--void); outline: 2px solid var(--bone-bright); outline-offset: 2px; }
+.rv-action:disabled,
+.rv-entry-btn:disabled { opacity: 0.4; cursor: default; }
+.rv-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; margin-top: 0.9rem; }
+
+.rv-ferryman,
+.rv-echo { grid-column: 1 / -1; justify-self: center; width: min(720px, 100%); }
+.rv-ferryman { position: relative; z-index: 1; margin: 1.5rem auto; padding: 1rem 1.1rem; border: 1px solid var(--line); border-left: 2px solid #b8914f; background: rgba(10, 9, 8, 0.86); text-align: left; }
+.rv-ferryman-title { margin: 0 0 0.4rem; color: var(--gold); font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.18em; }
+.rv-ferryman-level { margin: 0 0 0.4rem; color: #e6c27a; font-family: var(--serif-cn); font-size: 1rem; }
+.rv-ferryman-body { margin: 0 0 0.8rem; color: var(--bone-bright); font-family: var(--serif-cn); font-size: 0.9rem; line-height: 1.9; }
+
+.rv-codex { position: relative; z-index: 1; max-width: 760px; margin: 2rem auto; padding: 1.5rem; border: 1px solid var(--line); background: var(--void-soft); }
+.rv-kicker { margin-bottom: 1.25rem; color: var(--gold); font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.15em; text-align: center; }
+.rv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+.rv-cell { min-height: 64px; padding: 0.8rem; border: 1px solid var(--line); background: var(--void); font-family: var(--mono); font-size: 0.75rem; line-height: 1.6; white-space: pre-line; text-align: center; }
+.rv-cell.is-locked { color: var(--ash); border-style: dashed; opacity: 0.6; }
+.rv-cell.is-unlocked { color: var(--bone-bright); border-color: var(--gold); background: rgba(30, 25, 20, 0.5); }
+.rv-hints-title { margin: 0 0 0.4rem; color: var(--bone); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; }
+.rv-hints { margin: 0 0 1rem; padding-left: 1.1rem; color: var(--ash); font-size: 0.82rem; line-height: 1.8; }
+.rv-hints li.is-met { color: var(--gold); }
+.rv-codex-entry { display: flex; flex-direction: column; gap: 0.6rem; align-items: center; }
+
+
+@media (max-width: 720px) {
+  .rv-figure { width: min(92vw, 520px, 100%); }
+  .rv-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
+  .rv-hotspot .dh-label { font-size: 0.64rem; padding: 0.12rem 0.3rem; letter-spacing: 0.02em; }
+  .rv-panel { padding: 0.9rem; }
+  .rv-panel-parcel { font-size: 0.82rem; }
+  .rv-methods { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 721px) { .rv-hotspot .dh-label { white-space: nowrap; } }
+
+/* 两岸 diagram 位于原画中，航程和规则保持正常文档流。 */
+.rv-river-figure { width: 100%; min-height: 360px; margin: 1rem auto 0.6rem; }
+.rv-river { position: absolute; inset: 24% 2% 4%; }
+.rv-bank { position: absolute; top: 0; bottom: 0; width: 34%; padding: 0.6rem; border: 1px solid #cbbda855; border-radius: 4px; background: #12181bd9; }
+.rv-bank-0 { left: 0; } .rv-bank-1 { right: 0; }
+.rv-bank-title { margin: 0 0 0.8rem; text-align: center; color: #f2d79e; font-family: var(--serif-cn); }
+.rv-people { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem 0.4rem; }
+.rv-person { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; min-width: 0; }
+.rv-passenger { min-height: 48px; width: min(100%, 64px); border: 2px solid #d6c5a6; border-radius: 9px 9px 3px 3px; background: linear-gradient(135deg, #67563c, #2b2621); color: #fcf0d6; font-family: var(--serif-cn); font-size: 1.25rem; cursor: pointer; box-shadow: 0 3px 6px #0008; }
+.rv-passenger[aria-pressed="true"] { border-color: #ffe6a4; outline: 2px solid #fff0c7; outline-offset: 2px; background: #6d5b2b; box-shadow: 0 0 14px #f2d18866; }
+.rv-passenger:disabled { opacity: 0.7; cursor: default; }
+.rv-passenger:hover:not(:disabled), .rv-passenger:focus-visible { outline: 2px solid #fff0c7; outline-offset: 3px; }
+.rv-name { font-family: var(--serif-cn); font-size: 0.72rem; color: #ded6c9; text-align: center; }
+.rv-boat { position: absolute; top: 53%; left: 34%; width: 22%; min-height: 56px; padding: 0.5rem 0.2rem; display: grid; place-items: center; border: 2px solid #d8b77b; border-radius: 45% 45% 35% 35%; background: repeating-linear-gradient(90deg, #433522 0 8%, #5d482d 8% 12%); color: #fff0ca; font-family: var(--serif-cn); font-size: 0.75rem; text-align: center; box-shadow: 0 8px 10px #02090b88; transition: left 0.35s ease; }
+.rv-river[data-bank="1"] .rv-boat { left: 44%; }
+.rv-river.is-done .rv-bank-1 { border-color: #ebcc84; box-shadow: 0 0 16px #f5d78844; }
+.rv-river-status { min-height: 2.8em; margin: 0.8rem 0 0; color: var(--bone-bright); font-family: var(--mono); font-size: 0.75rem; line-height: 1.8; text-align: center; }
+.rv-sail, .rv-finish { border-color: var(--gold); color: #f7dfa8; }
+.rv-river .rv-sail { position: absolute; left: 37%; width: 26%; top: 79%; min-height: 44px; padding: 0.4rem 0.2rem; font-size: 0.7rem; }
+.rv-voyage-actions { margin-top: 0.5rem; }
+.rv-conflicts { margin: 1rem 0; padding-left: 1.3rem; color: var(--bone); font-family: var(--serif-cn); font-size: 0.83rem; line-height: 1.8; }
+.rv-history { color: var(--ash); font-size: 0.75rem; line-height: 1.8; }
+.rv-history summary { cursor: pointer; min-height: 44px; padding: 0.6rem 0; }
+.rv-history ol { padding-left: 1.2rem; margin-top: 0; }
+@media (max-width: 720px) {
+  .rv-river-figure { width: 100%; min-height: 350px; aspect-ratio: auto; }
+  .rv-river { inset: 18% 2% 3%; }
+  .rv-bank { width: 37%; padding: 0.25rem; }
+  .rv-bank-title { margin-bottom: 0.7rem; }
+  .rv-people { gap: 0.65rem 0.3rem; }
+  .rv-passenger { min-height: 44px; font-size: 1.15rem; }
+  .rv-name { font-size: 0.65rem; }
+  .rv-boat { left: 36%; width: 16%; top: 48%; min-height: 72px; font-size: 0.62rem; border-radius: 45%; }
+  .rv-river .rv-sail { font-size: 0.62rem; }
+  .rv-river[data-bank="1"] .rv-boat { left: 48%; }
+  .rv-voyage-actions { gap: 0.35rem; }
+  .rv-voyage-actions .rv-action { padding: 0.5rem; font-size: 0.66rem; }
+}
+@media (prefers-reduced-motion: reduce) { .rv-boat { transition: none; } }

@@ -1,6 +1,6 @@
-# 当前实施状态：v117 灵车场
+# 当前实施状态：v118 渡河码头
 
-v117 实现、素材、规则测试与真实浏览器验收已完成。设计见 [V117HearseYardDesign.md](V117HearseYardDesign.md)，验收见 [../design-qa-evidence/v117-browser-qa.md](../design-qa-evidence/v117-browser-qa.md)，后续执行队列见 [BranchesAndRoadmap.md](BranchesAndRoadmap.md)。下面保留历次实施计划。
+v118 规则、界面、静态测试与真实浏览器验收已完成；公开发布记录见 [v118-browser-qa.md](../design-qa-evidence/v118-browser-qa.md)。设计见 [V118RiverFerryDesign.md](V118RiverFerryDesign.md)，素材见 [V118ImagePrompts.md](V118ImagePrompts.md)，后续队列见 [BranchesAndRoadmap.md](BranchesAndRoadmap.md)。下面保留历次实施计划。
 
 # v87 不存在债务催收局 / COLLECTION AGENCY FOR NONEXISTENCE DEBT 实施计划（已完成）
 

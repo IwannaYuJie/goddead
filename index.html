@@ -15,7 +15,7 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=117">
+  <link rel="stylesheet" href="styles.css?v=118">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -4067,6 +4067,14 @@
             <button class="counterfactual-echo-return" id="counterfactual-echo-return-watch" type="button" data-hover>把夜班多记的一生送回纺锤 ⟶</button>
           </div>
         </div>
+                <div class="rv-ferryman reveal" id="rv-ferryman-watch" hidden>
+            <p class="rv-ferryman-title" id="rv-ferryman-title-watch"></p>
+            <p class="rv-ferryman-level" id="rv-ferryman-level-watch"></p>
+            <p class="rv-ferryman-body" id="rv-ferryman-body-watch"></p>
+            <p class="rv-response" id="rv-ferryman-response-watch" aria-live="polite" hidden></p>
+            <button class="rv-action" id="rv-ferryman-return-watch" type="button" data-hover>签收，跟着摆渡人回码头 ⟶</button>
+          </div>
+          <p class="branch-response rv-echo" id="rv-echo-watch" hidden></p>
       </section>
 
       <!-- 第三幕又半 · 余响交换台（第四线路） -->
@@ -4336,6 +4344,14 @@
             <button class="exit-link" type="button" data-go="switchboard" data-hover>⟵ 回到交换台</button>
           </nav>
         </div>
+                <div class="rv-ferryman reveal" id="rv-ferryman-deadletter" hidden>
+            <p class="rv-ferryman-title" id="rv-ferryman-title-deadletter"></p>
+            <p class="rv-ferryman-level" id="rv-ferryman-level-deadletter"></p>
+            <p class="rv-ferryman-body" id="rv-ferryman-body-deadletter"></p>
+            <p class="rv-response" id="rv-ferryman-response-deadletter" aria-live="polite" hidden></p>
+            <button class="rv-action" id="rv-ferryman-return-deadletter" type="button" data-hover>签收，跟着摆渡人回码头 ⟶</button>
+          </div>
+          <p class="branch-response rv-echo" id="rv-echo-deadletter" hidden></p>
       </section>
 
       <!-- 第三幕终半 · 神名注销科（空白回执生成的案号） -->
@@ -4814,6 +4830,14 @@
             <button class="exit-link" type="button" data-go="offering" data-hover>⟵ 回到焚献</button>
           </nav>
         </div>
+                <div class="rv-ferryman reveal" id="rv-ferryman-reliquary" hidden>
+            <p class="rv-ferryman-title" id="rv-ferryman-title-reliquary"></p>
+            <p class="rv-ferryman-level" id="rv-ferryman-level-reliquary"></p>
+            <p class="rv-ferryman-body" id="rv-ferryman-body-reliquary"></p>
+            <p class="rv-response" id="rv-ferryman-response-reliquary" aria-live="polite" hidden></p>
+            <button class="rv-action" id="rv-ferryman-return-reliquary" type="button" data-hover>签收，跟着摆渡人回码头 ⟶</button>
+          </div>
+          <p class="branch-response rv-echo" id="rv-echo-reliquary" hidden></p>
       </section>
 
       <!-- 第五幕 · 痕迹 -->
@@ -5445,6 +5469,22 @@
               <p class="ts-response" id="ts-entry-response" aria-live="polite" hidden></p>
               <button class="ts-entry-btn" id="ts-court-entry-btn" type="button" hidden data-hover>进入早报听证会 · ENTER THE HEARING OF THE MORNING EDITION ⟶</button>
               <p class="ts-response" id="ts-court-entry-response" aria-live="polite" hidden></p>
+            </div>
+          </div>
+          <!-- v118 渡货图鉴 -->
+          <p class="watch-memory rv-memory" id="rv-memory" hidden></p>
+          <div class="rv-codex reveal" id="rv-codex" hidden>
+            <p class="rv-kicker">THE RIVER FERRY · 渡 货 图 鉴</p>
+            <div class="rv-grid" id="rv-codex-grid"></div>
+            <p class="rv-hints-title">末岸听证会开庭条件</p>
+            <ul class="rv-hints" id="rv-court-hints"></ul>
+            <div class="rv-codex-entry">
+              <button class="rv-entry-btn" id="rv-entry-btn" type="button" hidden data-hover>前往渡河码头 · THE RIVER FERRY ⟶</button>
+              <button class="rv-entry-btn" id="rv-receipt-entry-btn" type="button" hidden data-hover>前往旧房间签收渡货 ⟶</button>
+              <p class="rv-note" id="rv-entry-note" hidden></p>
+              <p class="rv-response" id="rv-entry-response" aria-live="polite" hidden></p>
+              <button class="rv-entry-btn" id="rv-court-entry-btn" type="button" hidden data-hover>进入末岸听证会 ⟶</button>
+              <p class="rv-response" id="rv-court-entry-response" aria-live="polite" hidden></p>
             </div>
           </div>
           <!-- v117 放行图鉴 -->
@@ -10727,6 +10767,91 @@
         </div>
       </section>
 
+      <!-- v118 渡河码头 -->
+      <section class="scene scene-branch scene-ferry-landing" id="scene-ferry-landing" data-scene="ferry-landing" data-title="Goddead — 渡河码头" aria-label="渡河码头">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal"><p class="sec-kicker">THE RIVER FERRY</p><h2 class="sec-title">渡河码头</h2><p class="sec-desc">桥断了。东西还得送过去。</p></header>
+          <figure class="branch-figure rv-figure reveal" id="rv-gate-figure">
+            <img class="branch-img rv-img" data-src="assets/v118-ferry-landing.webp" alt="断桥边的码头，雾里两岸遥遥相望；台上左边是遗骨与圣盐的铜箱，中间是封蜡信笺，右边是夜簿、铜钟与钟油" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot rv-hotspot rv-hotspot-left" id="rv-parcel-reliquary-parcel" type="button" aria-label="托运遗物科的东西" data-hover><span class="dh-label" aria-hidden="true">遗物科的托运</span></button>
+            <button class="scene-hotspot rv-hotspot rv-hotspot-center" id="rv-parcel-deadletter-parcel" type="button" aria-label="托运投递所的东西" data-hover><span class="dh-label" aria-hidden="true">投递所的托运</span></button>
+            <button class="scene-hotspot rv-hotspot rv-hotspot-right" id="rv-parcel-watch-parcel" type="button" aria-label="托运值夜室的东西" data-hover><span class="dh-label" aria-hidden="true">值夜室的托运</span></button>
+          </figure>
+          <p class="rv-note" id="rv-gate-note" hidden></p>
+          <button class="rv-action" id="rv-continue" type="button" hidden data-hover>回到没渡完的航程 ⟶</button>
+          <p class="branch-response rv-response" id="ferry-landing-response" aria-live="polite" hidden></p>
+          <nav class="branch-nav reveal"><button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button></nav>
+        </div>
+      </section>
+
+      <!-- v118 两岸之间 -->
+      <section class="scene scene-branch scene-river-crossing" id="scene-river-crossing" data-scene="river-crossing" data-title="Goddead — 两岸之间" aria-label="两岸之间">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal"><p class="sec-kicker">BETWEEN THE BANKS</p><h2 class="sec-title">两岸之间</h2><p class="sec-desc">船夫看守的岸，会暂时安静下来。</p></header>
+          <div class="rv-panel reveal" id="rv-yard-panel" hidden>
+            <p class="rv-panel-parcel" id="rv-yard-parcel"></p>
+            <div class="rv-methods" role="group" aria-label="航法">
+              <button class="rv-method" id="rv-method-skiff" type="button" data-hover>一席小舟</button>
+              <button class="rv-method" id="rv-method-rowing" type="button" data-hover>双桨渡船</button>
+              <button class="rv-method" id="rv-method-night" type="button" data-hover>无灯夜渡</button>
+            </div>
+            <figure class="rv-figure rv-river-figure" id="rv-river-figure">
+              <img class="branch-img rv-img" data-src="assets/v118-river-crossing.webp" alt="雾中的河与断桥，左右两岸各有一处平坦石码头，河水从两岸间流过" width="1536" height="1024" loading="lazy" decoding="async">
+              <div class="rv-river" id="rv-river" data-bank="0">
+              <div class="rv-bank rv-bank-0" role="group" aria-label="此岸同行者"><p class="rv-bank-title">此岸</p><div class="rv-people">
+                <div class="rv-person"><button class="rv-passenger" id="rv-passenger-0-0" type="button" aria-label="此岸同行者" hidden data-hover></button><span class="rv-name" id="rv-name-0-0" hidden></span></div>
+                <div class="rv-person"><button class="rv-passenger" id="rv-passenger-0-1" type="button" aria-label="此岸同行者" hidden data-hover></button><span class="rv-name" id="rv-name-0-1" hidden></span></div>
+                <div class="rv-person"><button class="rv-passenger" id="rv-passenger-0-2" type="button" aria-label="此岸同行者" hidden data-hover></button><span class="rv-name" id="rv-name-0-2" hidden></span></div>
+                <div class="rv-person"><button class="rv-passenger" id="rv-passenger-0-3" type="button" aria-label="此岸同行者" hidden data-hover></button><span class="rv-name" id="rv-name-0-3" hidden></span></div>
+                <div class="rv-person"><button class="rv-passenger" id="rv-passenger-0-4" type="button" aria-label="此岸同行者" hidden data-hover></button><span class="rv-name" id="rv-name-0-4" hidden></span></div>
+                <div class="rv-person"><button class="rv-passenger" id="rv-passenger-0-5" type="button" aria-label="此岸同行者" hidden data-hover></button><span class="rv-name" id="rv-name-0-5" hidden></span></div>
+              </div></div>
+              <div class="rv-bank rv-bank-1" role="group" aria-label="彼岸同行者"><p class="rv-bank-title">彼岸</p><div class="rv-people">
+                <div class="rv-person"><button class="rv-passenger" id="rv-passenger-1-0" type="button" aria-label="彼岸同行者" hidden data-hover></button><span class="rv-name" id="rv-name-1-0" hidden></span></div>
+                <div class="rv-person"><button class="rv-passenger" id="rv-passenger-1-1" type="button" aria-label="彼岸同行者" hidden data-hover></button><span class="rv-name" id="rv-name-1-1" hidden></span></div>
+                <div class="rv-person"><button class="rv-passenger" id="rv-passenger-1-2" type="button" aria-label="彼岸同行者" hidden data-hover></button><span class="rv-name" id="rv-name-1-2" hidden></span></div>
+                <div class="rv-person"><button class="rv-passenger" id="rv-passenger-1-3" type="button" aria-label="彼岸同行者" hidden data-hover></button><span class="rv-name" id="rv-name-1-3" hidden></span></div>
+                <div class="rv-person"><button class="rv-passenger" id="rv-passenger-1-4" type="button" aria-label="彼岸同行者" hidden data-hover></button><span class="rv-name" id="rv-name-1-4" hidden></span></div>
+                <div class="rv-person"><button class="rv-passenger" id="rv-passenger-1-5" type="button" aria-label="彼岸同行者" hidden data-hover></button><span class="rv-name" id="rv-name-1-5" hidden></span></div>
+              </div></div>
+                <div class="rv-boat" id="rv-boat" aria-live="polite">船夫 · 此岸</div>
+                <button class="rv-action rv-sail" id="rv-sail" type="button" data-hover>划向彼岸 ⟶</button>
+              </div>
+            </figure>
+            <p class="rv-note" id="rv-bank-watch"></p>
+            <p class="rv-river-status" id="rv-yard-status" aria-live="polite"></p>
+            <div class="rv-actions rv-voyage-actions">
+              <button class="rv-action" id="rv-undo" type="button" data-hover>退回上一趟</button>
+              <button class="rv-action rv-finish" id="rv-finish" type="button" data-hover>到岸交货</button>
+            </div>
+            <p class="rv-note" id="rv-method-hint"></p>
+            <ul class="rv-conflicts" id="rv-conflicts" aria-label="无人看守时的冲突"></ul>
+            <details class="rv-history"><summary>最近的航程</summary><ol id="rv-trip-log"></ol></details>
+            <div class="rv-actions">
+              <button class="rv-action" id="rv-reset" type="button" data-hover>全部回到此岸</button>
+              <button class="rv-action" id="rv-abandon" type="button" data-hover>系好船，稍后再来</button>
+            </div>
+          </div>
+          <p class="branch-response rv-response" id="river-crossing-response" aria-live="polite" hidden></p>
+          <nav class="branch-nav reveal"><button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button></nav>
+        </div>
+      </section>
+
+      <!-- v118 末岸听证会 -->
+      <section class="scene scene-branch scene-hearing-of-the-last-bank" id="scene-hearing-of-the-last-bank" data-scene="hearing-of-the-last-bank" data-title="Goddead — 末岸听证会" aria-label="末岸听证会">
+        <div class="scene-body branch-body">
+          <header class="sec-head reveal"><p class="sec-kicker">HEARING OF THE LAST BANK</p><h2 class="sec-title">末岸听证会</h2><p class="sec-desc">船到了，河还在流。</p></header>
+          <figure class="branch-figure rv-figure reveal" id="hearing-of-the-last-bank-figure">
+            <img class="branch-img rv-img" data-src="assets/v118-hearing-of-the-last-bank.webp" alt="临河石厅的空椅前，长桌上左边是由铜桥相连的两岸模型，中间是一艘有白花的空船，右边是溢出流水的铜碗" width="1536" height="1024" loading="lazy" decoding="async">
+            <button class="scene-hotspot rv-hotspot rv-hotspot-court-left" id="rv-verdict-people-on-both-banks" type="button" aria-label="裁定：让两岸都有人" data-hover><span class="dh-label" aria-hidden="true">让两岸都有人</span></button>
+            <button class="scene-hotspot rv-hotspot rv-hotspot-court-center" id="rv-verdict-keep-a-seat-for-god" type="button" aria-label="裁定：给神留一个船位" data-hover><span class="dh-label" aria-hidden="true">给神留一个船位</span></button>
+            <button class="scene-hotspot rv-hotspot rv-hotspot-court-right" id="rv-verdict-let-the-river-flow" type="button" aria-label="裁定：让河继续流" data-hover><span class="dh-label" aria-hidden="true">让河继续流</span></button>
+          </figure>
+          <p class="branch-response rv-response" id="hearing-of-the-last-bank-response" aria-live="polite" hidden></p>
+          <nav class="branch-nav reveal"><button class="exit-link" type="button" data-go="remembrance" data-hover>⟵ 回到痕迹室</button></nav>
+        </div>
+      </section>
+
       <!-- v117 第一幕：灵车场 -->
       <section class="scene scene-branch scene-hearse-gate" id="scene-hearse-gate" data-scene="hearse-gate" data-title="Goddead — 灵车场" aria-label="灵车场">
         <div class="scene-body branch-body">
@@ -11124,6 +11249,9 @@
       <a href="#hearse-gate" id="hearse-gate-link" hidden data-hover>31α / 灵车场</a>
       <a href="#jammed-yard" id="jammed-yard-link" hidden data-hover>31β / 挤满的院子</a>
       <a href="#hearing-of-the-last-cart" id="hearing-of-the-last-cart-link" hidden data-hover>31γ / 末车听证</a>
+      <a href="#ferry-landing" id="ferry-landing-link" hidden data-hover>31δ / 渡河码头</a>
+      <a href="#river-crossing" id="river-crossing-link" hidden data-hover>31ε / 两岸之间</a>
+      <a href="#hearing-of-the-last-bank" id="hearing-of-the-last-bank-link" hidden data-hover>31ζ / 末岸听证会</a>
 
 
       <a href="#three-person-republic-court" id="three-person-republic-court-link" hidden data-hover>04β / 三人共和国</a>
@@ -11133,6 +11261,6 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="script.js?v=117"></script>
+    <script src="script.js?v=118"></script>
   </body>
 </html>

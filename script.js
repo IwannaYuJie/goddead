@@ -1432,6 +1432,8 @@ document.addEventListener("DOMContentLoaded", () => {
     replayDreamMendingPending(name);
     resolveHearseYardPendingOnArrival(name);
     replayHearseYardPending(name);
+    resolveRiverFerryPendingOnArrival(name);
+    replayRiverFerryPending(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1447,13 +1449,13 @@ document.addEventListener("DOMContentLoaded", () => {
      陈旧/篡改状态也会落到最终可达场景。 */
   const resolveScene = (name) => {
     let target = name;
-    if (target === "reliquary" && !reliquaryUnlocked() && !hearseYardBridgeAllows("reliquary")) target = "offering";
+    if (target === "reliquary" && !reliquaryUnlocked() && !hearseYardBridgeAllows("reliquary") && !riverFerryBridgeAllows("reliquary")) target = "offering";
     if (target === "offering" && !hearseYardBridgeAllows("offering") && !regretReclamationBridgeAllows("offering") && !forgivenessLandfillBridgeAllows("offering") && !(watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted && getCancel().refused && getActing().appointed)) target = "acting";
     if (target === "acting" && !(watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted && getCancel().refused)) target = "cancellation";
     if (target === "cancellation" && !(watchUnlocked() && line4Unlocked() && getLine4().connected && getDL().accepted)) target = "deadletter";
-    if (target === "deadletter" && !(watchUnlocked() && line4Unlocked() && getLine4().connected)) target = "switchboard";
+    if (target === "deadletter" && !riverFerryBridgeAllows("deadletter") && !(watchUnlocked() && line4Unlocked() && getLine4().connected)) target = "switchboard";
     if (target === "switchboard" && !(watchUnlocked() && line4Unlocked())) target = "watch";
-    if (target === "watch" && !watchUnlocked()) target = "corridor";
+    if (target === "watch" && !watchUnlocked() && !riverFerryBridgeAllows("watch")) target = "corridor";
 
     /* v62 反听总台守卫：合法 pendingTarget / console 真实到访 / 活动轮次
        （本轮任一 response 或 replayRoom）准入；否则回退到第一个合法的
@@ -1575,9 +1577,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Governance 路由守卫：活动 Cycle 中若缺失前面 Ruling，回退至最早缺失场景 */
     const gov = parseAndValidateGovernance();
     if (gov.hudUnlocked) {
-      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !clearedOfferingsBridgeAllows(target) && !forgottenLocksBridgeAllows(target) && !linenRoomBridgeAllows(target) && !dreamMendingBridgeAllows(target) && !hearseYardBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
+      if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !clearedOfferingsBridgeAllows(target) && !forgottenLocksBridgeAllows(target) && !linenRoomBridgeAllows(target) && !dreamMendingBridgeAllows(target) && !hearseYardBridgeAllows(target) && !riverFerryBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.acting) {
         target = "acting";
-      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !clearedOfferingsBridgeAllows(target) && !forgottenLocksBridgeAllows(target) && !linenRoomBridgeAllows(target) && !dreamMendingBridgeAllows(target) && !hearseYardBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
+      } else if ((target === "reliquary" || target === "remembrance") && !wakeForAnotherHotelBridgeAllows(target) && !yesterdayBreakfastBridgeAllows(target) && !todayPressBridgeAllows(target) && !inkMixingBridgeAllows(target) && !borrowedLightBridgeAllows(target) && !exactTeaBridgeAllows(target) && !lastSweepBridgeAllows(target) && !puttingBackBridgeAllows(target) && !paperCutBridgeAllows(target) && !clearedOfferingsBridgeAllows(target) && !forgottenLocksBridgeAllows(target) && !linenRoomBridgeAllows(target) && !dreamMendingBridgeAllows(target) && !hearseYardBridgeAllows(target) && !riverFerryBridgeAllows(target) && !lastWordBankBridgeAllows(target) && !dreamCustomsBridgeAllows(target) && !tombstonePatentOfficeBridgeAllows(target) && !apocalypseWarrantyBridgeAllows(target) && !realityRefundCounterBridgeAllows(target) && !selfAuthenticityBridgeAllows(target) && !firstPersonRationingBridgeAllows(target) && !unspokenPersonhoodBridgeAllows(target) && !unfinishedThoughtBridgeAllows(target) && !regretReclamationBridgeAllows(target) && !forgivenessLandfillBridgeAllows(target) && !harmArchaeologyBridgeAllows(target) && !innocentWitnessProtectionBridgeAllows(target) && !orphanedFactBridgeAllows(target) && !existenceRenunciationBridgeAllows(target) && !nonexistenceDebtCollectionBridgeAllows(target) && !unhappenedEventAuctionBridgeAllows(target) && !accomplishedFactEvictionBridgeAllows(target) && !causelessConsequenceRefugeeBridgeAllows(target) && !lateCauseMaternityBridgeAllows(target) && !witnessLiabilityBridgeAllows(target) && !unseenClaimsBridgeAllows(target) && !returnedKnocksBridgeAllows(target) && !stoppedClocksBridgeAllows(target) && !heldBreathBridgeAllows(target) && !lostWeightBridgeAllows(target) && !vigilCandlesBridgeAllows(target) && !deadRoadsBridgeAllows(target) && !hundredthWakeBridgeAllows(target) && !dawnWeavingBridgeAllows(target) && !shadowlessPhotographyBridgeAllows(target) && !gov.rulings.offering) {
         target = "offering";
       }
     }
@@ -1591,7 +1593,7 @@ document.addEventListener("DOMContentLoaded", () => {
        v88 窄桥：title-action 可抵达 unending-gallery；
        v89 窄桥：appeal-action 可抵达 unending-gallery；
        v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !todayPressBridgeAllows('unending-gallery') && !inkMixingBridgeAllows('unending-gallery') && !borrowedLightBridgeAllows('unending-gallery') && !exactTeaBridgeAllows('unending-gallery') && !lastSweepBridgeAllows('unending-gallery') && !puttingBackBridgeAllows('unending-gallery') && !paperCutBridgeAllows('unending-gallery') && !clearedOfferingsBridgeAllows('unending-gallery') && !forgottenLocksBridgeAllows('unending-gallery') && !linenRoomBridgeAllows('unending-gallery') && !dreamMendingBridgeAllows('unending-gallery') && !hearseYardBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !todayPressBridgeAllows('unending-gallery') && !inkMixingBridgeAllows('unending-gallery') && !borrowedLightBridgeAllows('unending-gallery') && !exactTeaBridgeAllows('unending-gallery') && !lastSweepBridgeAllows('unending-gallery') && !puttingBackBridgeAllows('unending-gallery') && !paperCutBridgeAllows('unending-gallery') && !clearedOfferingsBridgeAllows('unending-gallery') && !forgottenLocksBridgeAllows('unending-gallery') && !linenRoomBridgeAllows('unending-gallery') && !dreamMendingBridgeAllows('unending-gallery') && !hearseYardBridgeAllows('unending-gallery') && !riverFerryBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1895,6 +1897,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === "hearse-gate" && !hyGateCanVisit()) target = "remembrance";
     if (target === "jammed-yard" && !jammedYardCanVisit()) target = "remembrance";
     if (target === "hearing-of-the-last-cart" && !hyCourtCanVisit()) target = "remembrance";
+
+    /* v118 渡河码头 */
+    if (target === "ferry-landing" && !rvGateCanVisit()) target = "remembrance";
+    if (target === "river-crossing" && !riverCrossingCanVisit()) target = "remembrance";
+    if (target === "hearing-of-the-last-bank" && !rvCourtCanVisit()) target = "remembrance";
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -48147,6 +48154,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetLinenRoomState();
       forgetDreamMendingState();
       forgetHearseYardState();
+      forgetRiverFerryState();
       forgetCodexFolds();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
@@ -70431,6 +70439,799 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   onTrustedHy('#hy-reset', resetHyYard);
   onTrustedHy('#hy-finish', finishHyDeparture);
 
+  /* ============================================================
+     v118 渡河码头 / THE RIVER FERRY
+     断桥两岸，船夫守着所在岸；载客、岸位与冲突由纯函数判定。
+     航程保存合法行程历史，刷新接续，撤回可逆；只读 v117。
+     ============================================================ */
+  const RIVER_FERRY_KEY = 'goddead_v118_river_ferry';
+  const RIVER_FERRY_VERSION = 118;
+  const RV_GATE = 'ferry-landing';
+  const RV_YARD = 'river-crossing';
+  const RV_COURT = 'hearing-of-the-last-bank';
+  const RV_PARCELS = ['reliquary-parcel', 'deadletter-parcel', 'watch-parcel'];
+  const RV_PARCEL_TABLE = {
+    'reliquary-parcel': {
+      title: '遗物科的托运', names: ['噬名兽', '遗骨', '圣盐', '祷告', '铜铃', '白花'], marks: ['兽', '骨', '盐', '祷', '铃', '花'],
+      target: 'reliquary', place: '神圣遗物科', ferrymanTitle: '遗物科摆渡人',
+      feedback: '遗物科的箱子里响了一声。噬名兽咬过遗骨，遗骨又把圣盐磨成粉；船夫看着时，它们才安静。',
+      echoLead: '遗物科的渡货箱带着河水的气味。',
+    },
+    'deadletter-parcel': {
+      title: '投递所的托运', names: ['灯蛾', '空信', '封蜡', '邮戳', '旧地址', '信封'], marks: ['蛾', '信', '蜡', '戳', '址', '封'],
+      target: 'deadletter', place: '无主投递所', ferrymanTitle: '投递所摆渡人',
+      feedback: '灯蛾会啃空信，空信会吸走封蜡。投递所托运的每样东西，都想先拆开旁边那样。',
+      echoLead: '投递所的信封边缘留下了一圈潮痕。',
+    },
+    'watch-parcel': {
+      title: '值夜室的托运', names: ['梦影', '夜簿', '钟油', '灯芯', '火柴', '围巾'], marks: ['影', '簿', '油', '芯', '火', '巾'],
+      target: 'watch', place: '第三值夜室', ferrymanTitle: '值夜室摆渡人',
+      feedback: '梦影会抹掉夜簿，夜簿会吸干钟油。值夜人的东西过河时，也要有人守着。',
+      echoLead: '值夜室的夜簿晒在窗边，纸页被河风翻动。',
+    },
+  };
+  const RV_METHODS = ['skiff', 'rowing', 'night'];
+  const RV_METHOD_TABLE = {
+    skiff: { title: '一席小舟', count: 3, capacity: 1, edges: [[0, 1], [1, 2]], result: '小舟只够再坐一件东西。船夫一趟又一趟地往返，连空船都留下了波纹。' },
+    rowing: { title: '双桨渡船', count: 5, capacity: 2, edges: [[0, 1], [1, 2], [2, 3], [3, 4]], result: '双桨分开水面。五件东西挨个上了岸，它们之间那条纠缠的链子留在了河里。' },
+    night: { title: '无灯夜渡', count: 6, capacity: 2, edges: [[0, 1], [0, 2], [0, 3], [0, 4], [0, 5]], result: '船夫摸黑把六件东西送过河。那一件不肯安静的，也终于与大家站在了同一岸。' },
+  };
+  const RV_DEPART_IDS = RV_PARCELS.flatMap((parcel) => RV_METHODS.map((method) => `${parcel}:${method}`));
+  const RV_VERDICT_ACTIONS = ['people-on-both-banks', 'keep-a-seat-for-god', 'let-the-river-flow'];
+  const RV_VERDICT_TABLE = {
+    'people-on-both-banks': { title: '让两岸都有人', outcome: 'both-banks-inhabited', target: 'threshold', feedback: '听证会让两岸都有人。门外的人隔着河喊了一声，这次另一边答应了。' },
+    'keep-a-seat-for-god': { title: '给神留一个船位', outcome: 'one-seat-kept-for-god', target: 'remembrance', feedback: '船上空出一个位子。痕迹室记下了它，却没有替任何人写名字。' },
+    'let-the-river-flow': { title: '让河继续流', outcome: 'river-still-flowing', target: 'unending-gallery', feedback: '听证会准许河继续流。画廊的空框里，水绕过了那座再也没修好的桥。' },
+  };
+  const RV_VERDICT_OUTCOME_IDS = RV_VERDICT_ACTIONS.map((a) => RV_VERDICT_TABLE[a].outcome);
+  const RV_ENTRY_FEEDBACK = '断桥边的码头仍挂着一盏灯。船夫把三份托运放在台上，等你挑一份。';
+  const RV_ABANDON_FEEDBACK = '你把东西送回此岸。船夫系好缆绳，等下一次起渡。';
+  const RV_COURT_ENTRY_FEEDBACK = '三份托运都到了彼岸。末岸听证会的桌上，有一条仍在流的河。';
+  const RV_FERRYMAN_RETURN_FEEDBACK = '摆渡人收好渡货回执，陪你回到断桥边的码头。';
+  const RV_OLD_TARGETS = ['reliquary', 'deadletter', 'watch'];
+  const rvDelay = () => reduced ? 300 : 1400;
+
+  function rvBits(mask) {
+    let count = 0;
+    for (let n = mask; n > 0; n >>= 1) count += n & 1;
+    return count;
+  }
+
+  /* 无人看守的是船夫离开的那一岸；冲突返回编号，供页面说清具体双方。 */
+  function rvCross(config, state, crew) {
+    if (!config || !state || !Number.isInteger(crew) || crew < 0 || crew >= (1 << config.count)) return { error: 'invalid' };
+    const full = (1 << config.count) - 1;
+    if (!Number.isInteger(state.mask) || state.mask < 0 || state.mask > full || ![0, 1].includes(state.boat)) return { error: 'invalid' };
+    const here = state.boat === 1 ? state.mask : full ^ state.mask;
+    const unguarded = full ^ here;
+    if (config.edges.some(([a, b]) => (unguarded & (1 << a)) && (unguarded & (1 << b)))) return { error: 'invalid' };
+    if ((crew & here) !== crew) return { error: 'bank' };
+    if (rvBits(crew) > config.capacity) return { error: 'capacity' };
+    const mask = state.mask ^ crew;
+    const boat = 1 - state.boat;
+    const unattended = state.boat === 1 ? mask : full ^ mask;
+    const conflict = config.edges.find(([a, b]) => (unattended & (1 << a)) && (unattended & (1 << b)));
+    if (conflict) return { error: 'conflict', bank: state.boat, pair: conflict.slice() };
+    return { state: { mask, boat } };
+  }
+
+  function rvReplay(method, trips) {
+    const config = RV_METHOD_TABLE[method];
+    let state = { mask: 0, boat: 0 };
+    const valid = [];
+    if (!config || !Array.isArray(trips)) return { state, trips: valid };
+    for (const crew of trips.slice(0, 99)) {
+      const next = rvCross(config, state, crew);
+      if (!next.state) break;
+      valid.push(crew);
+      state = next.state;
+    }
+    return { state, trips: valid };
+  }
+
+  function rvOut(draft) {
+    if (!draft || !RV_PARCELS.includes(draft.parcel) || !RV_METHOD_TABLE[draft.method]) return false;
+    const { state } = rvReplay(draft.method, draft.trips);
+    return state.boat === 1 && state.mask === (1 << RV_METHOD_TABLE[draft.method].count) - 1;
+  }
+
+  function rvFinishFeedback(parcel, method) {
+    return `${RV_PARCEL_TABLE[parcel].title}：${RV_METHOD_TABLE[method].result}`;
+  }
+
+  function defaultRiverFerry() {
+    const latest = {};
+    RV_PARCELS.forEach((b) => { latest[b] = ''; });
+    return {
+      version: RIVER_FERRY_VERSION,
+      visited: { gate: false, yard: false, court: false },
+      draft: { parcel: '', method: 'skiff', trips: [] },
+      departs: [],
+      courtOutcomes: [],
+      departRuns: 0,
+      courtRuns: 0,
+      latestMethodByParcel: latest,
+      lastOutcome: '',
+      activeFerryman: null,
+      pending: null,
+    };
+  }
+
+  function clampRvCount(n) {
+    const v = Math.floor(Number(n));
+    return Number.isFinite(v) ? Math.min(9999, Math.max(0, v)) : 0;
+  }
+
+  function normalizeRiverFerry(raw) {
+    const d = defaultRiverFerry();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw) || raw.version !== RIVER_FERRY_VERSION) return d;
+    const v = raw.visited && typeof raw.visited === 'object' ? raw.visited : {};
+    d.visited = { gate: v.gate === true, yard: v.yard === true, court: v.court === true };
+    const dr = raw.draft && typeof raw.draft === 'object' ? raw.draft : {};
+    d.draft = { parcel: RV_PARCELS.includes(dr.parcel) ? dr.parcel : '', method: RV_METHODS.includes(dr.method) ? dr.method : 'skiff', trips: [] };
+    if (d.draft.parcel) d.draft.trips = rvReplay(d.draft.method, dr.trips).trips;
+    const departs = new Set(Array.isArray(raw.departs) ? raw.departs : []);
+    d.departs = RV_DEPART_IDS.filter((id) => departs.has(id));
+    const outcomes = new Set(Array.isArray(raw.courtOutcomes) ? raw.courtOutcomes : []);
+    d.courtOutcomes = RV_VERDICT_OUTCOME_IDS.filter((id) => outcomes.has(id));
+    d.departRuns = clampRvCount(raw.departRuns);
+    d.courtRuns = clampRvCount(raw.courtRuns);
+    const latest = raw.latestMethodByParcel && typeof raw.latestMethodByParcel === 'object' ? raw.latestMethodByParcel : {};
+    RV_PARCELS.forEach((b) => {
+      d.latestMethodByParcel[b] = RV_METHODS.includes(latest[b]) && d.departs.includes(`${b}:${latest[b]}`) ? latest[b] : '';
+    });
+    if (typeof raw.lastOutcome === 'string' && (d.departs.includes(raw.lastOutcome) || d.courtOutcomes.includes(raw.lastOutcome))) d.lastOutcome = raw.lastOutcome;
+    const a = raw.activeFerryman;
+    if (a && typeof a === 'object' && !Array.isArray(a) && Object.keys(a).length === 1 && d.departs.includes(a.depart)) d.activeFerryman = { depart: a.depart };
+    d.pending = normalizeRvPending(raw.pending, d);
+    return d;
+  }
+
+  function rvCourtProgress(st) {
+    const parcels = new Set();
+    const methods = new Set();
+    st.departs.forEach((id) => {
+      const [parcel, method] = id.split(':');
+      parcels.add(parcel);
+      methods.add(method);
+    });
+    return { parcels: parcels.size, methods: methods.size };
+  }
+
+  function rvCourtEligible(st) {
+    const p = rvCourtProgress(st);
+    return p.parcels === RV_PARCELS.length && p.methods === RV_METHODS.length;
+  }
+
+  function expectedRvPending(p, st) {
+    const clean = !st.activeFerryman;
+    switch (p.kind) {
+      case 'entry':
+        return clean ? { feedback: RV_ENTRY_FEEDBACK, kind: 'entry', target: RV_GATE } : null;
+      case 'parcel': {
+        const b = RV_PARCEL_TABLE[p.parcel];
+        if (!b || !clean) return null;
+        return { parcel: p.parcel, feedback: b.feedback, kind: 'parcel', source: RV_GATE, target: RV_YARD };
+      }
+      case 'finish': {
+        const b = RV_PARCEL_TABLE[p.parcel];
+        if (!b || !RV_METHOD_TABLE[p.method] || !clean || st.draft.parcel !== p.parcel || st.draft.method !== p.method || !rvOut(st.draft)) return null;
+        return { parcel: p.parcel, feedback: rvFinishFeedback(p.parcel, p.method), kind: 'finish', method: p.method, depart: `${p.parcel}:${p.method}`, source: RV_YARD, target: b.target };
+      }
+      case 'abandon':
+        return st.draft.parcel ? { feedback: RV_ABANDON_FEEDBACK, kind: 'abandon', source: RV_YARD, target: RV_GATE } : null;
+      case 'ferryman-return': {
+        if (!st.activeFerryman) return null;
+        const parcel = st.activeFerryman.depart.split(':')[0];
+        return { feedback: RV_FERRYMAN_RETURN_FEEDBACK, from: RV_PARCEL_TABLE[parcel].target, kind: 'ferryman-return', depart: st.activeFerryman.depart, target: RV_GATE };
+      }
+      case 'court-entry':
+        return clean && rvCourtEligible(st) ? { feedback: RV_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: RV_COURT } : null;
+      case 'verdict': {
+        const a = RV_VERDICT_TABLE[p.action];
+        if (!a || !clean || !st.visited.court || !rvCourtEligible(st)) return null;
+        return { action: p.action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: RV_COURT, target: a.target };
+      }
+      default:
+        return null;
+    }
+  }
+
+  function normalizeRvPending(p, st) {
+    if (!p || typeof p !== 'object' || Array.isArray(p) || typeof p.kind !== 'string') return null;
+    const expected = expectedRvPending(p, st);
+    if (!expected) return null;
+    const keys = Object.keys(p).sort();
+    const want = Object.keys(expected).sort();
+    if (keys.length !== want.length || keys.some((k, i) => k !== want[i] || p[k] !== expected[k])) return null;
+    return expected;
+  }
+
+  function riverFerryUnlocked() {
+    const compute = () => {
+      if (!hearseYardUnlocked()) return false;
+      const v117 = getHearseYard();
+      return hyCourtEligible(v117) && HY_VERDICT_OUTCOME_IDS.every((o) => v117.courtOutcomes.includes(o));
+    };
+    return store.memo ? store.memo('riverFerryUnlocked', compute) : compute();
+  }
+
+  function rvUpstreamBusy() {
+    const v117 = getHearseYard();
+    return Boolean(v117.pending || v117.activeDriver);
+  }
+
+  function getRiverFerry() {
+    if (!riverFerryUnlocked()) return defaultRiverFerry();
+    let raw;
+    try { raw = JSON.parse(store.get(RIVER_FERRY_KEY, '{}')); } catch { return defaultRiverFerry(); }
+    return normalizeRiverFerry(raw);
+  }
+
+  function saveRiverFerry(st) {
+    if (!riverFerryUnlocked()) return defaultRiverFerry();
+    const canonical = normalizeRiverFerry(Object.assign({}, st, { version: RIVER_FERRY_VERSION }));
+    store.set(RIVER_FERRY_KEY, JSON.stringify(canonical));
+    return canonical;
+  }
+
+  function rvPendingLogicalSource(p) {
+    if (!p) return '';
+    if (p.kind === 'entry' || p.kind === 'court-entry') return 'remembrance';
+    if (p.kind === 'ferryman-return') return p.from;
+    return p.source || '';
+  }
+
+  function resolveRiverFerryPendingOnArrival(sceneName) {
+    const st = getRiverFerry();
+    const p = st.pending;
+    if (!p) return st;
+    if (p.target === sceneName) {
+      st.pending = null;
+      if (p.kind === 'entry') {
+        st.visited.gate = true;
+      } else if (p.kind === 'parcel') {
+        st.visited.yard = true;
+        st.draft = st.draft.parcel === p.parcel ? st.draft : { parcel: p.parcel, method: 'skiff', trips: [] };
+      } else if (p.kind === 'finish') {
+        st.departRuns = clampRvCount(st.departRuns + 1);
+        if (!st.departs.includes(p.depart)) st.departs = st.departs.concat(p.depart);
+        st.latestMethodByParcel[p.parcel] = p.method;
+        st.lastOutcome = p.depart;
+        st.activeFerryman = { depart: p.depart };
+        st.draft = { parcel: '', method: 'skiff', trips: [] };
+      } else if (p.kind === 'abandon') {
+        st.draft = { parcel: '', method: 'skiff', trips: [] };
+        st.visited.gate = true;
+      } else if (p.kind === 'ferryman-return') {
+        st.activeFerryman = null;
+        st.visited.gate = true;
+      } else if (p.kind === 'court-entry') {
+        st.visited.court = true;
+      } else if (p.kind === 'verdict') {
+        st.courtRuns = clampRvCount(st.courtRuns + 1);
+        if (!st.courtOutcomes.includes(p.outcome)) st.courtOutcomes = st.courtOutcomes.concat(p.outcome);
+        st.lastOutcome = p.outcome;
+      }
+      return saveRiverFerry(st);
+    }
+    if (sceneName === rvPendingLogicalSource(p)) return st;
+    st.pending = null;
+    return saveRiverFerry(st);
+  }
+
+  const RV_RESPONSE_BY_KIND = {
+    entry: '#rv-entry-response',
+    parcel: '#ferry-landing-response',
+    finish: '#river-crossing-response',
+    abandon: '#river-crossing-response',
+    'court-entry': '#rv-court-entry-response',
+    verdict: '#hearing-of-the-last-bank-response',
+  };
+
+  function showRvResponse(selector, text) {
+    const el = $(selector);
+    if (!el) return;
+    el.textContent = text;
+    el.hidden = !text;
+  }
+
+  function syncRiverFerryAll() {
+    syncRvGate();
+    syncRiverCrossing();
+    syncRvCourt();
+    syncRvFerrymen();
+    syncRvEchoes();
+    syncRvRemembrance();
+    syncRvLinks();
+    if (typeof syncPhEntries === 'function') syncPhEntries();
+  }
+
+  function replayRiverFerryPending(sceneName) {
+    const st = getRiverFerry();
+    const p = st.pending;
+    if (p && p.target === sceneName) resolveRiverFerryPendingOnArrival(sceneName);
+    else if (p && sceneName === rvPendingLogicalSource(p)) {
+      syncRiverFerryAll();
+      const selector = p.kind === 'ferryman-return' ? `#rv-ferryman-response-${p.from}` : RV_RESPONSE_BY_KIND[p.kind];
+      if (selector) showRvResponse(selector, p.feedback);
+      AutoAdvance.schedule(sceneName, p.target, { delay: rvDelay() });
+      return;
+    } else if (p) {
+      st.pending = null;
+      saveRiverFerry(st);
+    }
+    syncRiverFerryAll();
+  }
+
+  function launchRv(scene, buttonId, pending, responseSelector) {
+    const st = getRiverFerry();
+    st.pending = pending;
+    const saved = saveRiverFerry(st);
+    if (!saved.pending) return false;
+    const btn = buttonId ? $(`#${buttonId}`) : null;
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+    if (AudioEngine.whoosh) AudioEngine.whoosh();
+    syncRiverFerryAll();
+    showRvResponse(responseSelector, pending.feedback);
+    AutoAdvance.schedule(scene, pending.target, { delay: rvDelay() });
+    return true;
+  }
+
+  function rvReady(scene, buttonId) {
+    if (currentScene !== scene) return null;
+    if (AutoAdvance.has(scene)) return null;
+    if (buttonId && !buttonAvailable(buttonId)) return null;
+    if (!riverFerryUnlocked()) return null;
+    const st = getRiverFerry();
+    return st.pending ? null : st;
+  }
+
+  function chooseRvEntry() {
+    const st = rvReady('remembrance', 'rv-entry-btn');
+    if (!st || st.activeFerryman) return;
+    if (rvUpstreamBusy()) return;
+    launchRv('remembrance', 'rv-entry-btn', { feedback: RV_ENTRY_FEEDBACK, kind: 'entry', target: RV_GATE }, '#rv-entry-response');
+  }
+
+  function chooseRvParcel(parcel) {
+    const b = RV_PARCEL_TABLE[parcel];
+    if (!b) return;
+    const st = rvReady(RV_GATE, `rv-parcel-${parcel}`);
+    if (!st || st.activeFerryman) return;
+    launchRv(RV_GATE, `rv-parcel-${parcel}`, { parcel, feedback: b.feedback, kind: 'parcel', source: RV_GATE, target: RV_YARD }, '#ferry-landing-response');
+  }
+
+  function chooseRvMethod(method) {
+    if (!RV_METHOD_TABLE[method]) return;
+    const st = rvReady(RV_YARD, `rv-method-${method}`);
+    if (!st || !st.draft.parcel || !st.visited.yard || st.draft.method === method) return;
+    st.draft.method = method;
+    st.draft.trips = [];
+    rvCrew = 0;
+    saveRiverFerry(st);
+    syncRiverCrossing();
+  }
+
+  let rvCrew = 0;
+  let rvDraftKey = '';
+
+  function paintRvRiver(message) {
+    const st = getRiverFerry();
+    const { parcel, method, trips } = st.draft;
+    if (!parcel) return;
+    const b = RV_PARCEL_TABLE[parcel];
+    const config = RV_METHOD_TABLE[method];
+    const { state } = rvReplay(method, trips);
+    const locked = Boolean(st.pending || st.activeFerryman);
+    for (let i = 0; i < 6; i++) {
+      for (let bank = 0; bank < 2; bank++) {
+        const btn = $(`#rv-passenger-${bank}-${i}`);
+        if (!btn) continue;
+        const present = i < config.count && ((state.mask >> i) & 1) === bank;
+        btn.hidden = !present;
+        btn.disabled = locked || state.boat !== bank;
+        btn.textContent = present ? b.marks[i] : '';
+        btn.setAttribute('aria-label', `${bank === 0 ? '此岸' : '彼岸'}：${b.names[i]}${(rvCrew & (1 << i)) ? '，已选上船' : state.boat === bank ? '，点一下选上船' : '，船在另一岸'}`);
+        btn.setAttribute('aria-pressed', present && (rvCrew & (1 << i)) ? 'true' : 'false');
+        const label = $(`#rv-name-${bank}-${i}`);
+        if (label) { label.hidden = !present; label.textContent = present ? b.names[i] : ''; }
+      }
+    }
+    const river = $('#rv-river');
+    if (river) { river.setAttribute('data-bank', String(state.boat)); river.classList.toggle('is-done', rvOut(st.draft)); }
+    const boat = $('#rv-boat');
+    if (boat) boat.textContent = `船夫 · ${state.boat === 0 ? '此岸' : '彼岸'}`;
+    const watch = $('#rv-bank-watch');
+    if (watch) watch.textContent = `船夫在${state.boat === 0 ? '此岸' : '彼岸'}看守；${state.boat === 0 ? '彼岸' : '此岸'}无人看守。`;
+    const picked = b.names.filter((_, i) => (rvCrew & (1 << i)) !== 0);
+    const status = $('#rv-yard-status');
+    if (status) status.textContent = message || (rvOut(st.draft) ? `全员抵达彼岸，划了 ${trips.length} 趟。可以交货。` : `已划 ${trips.length} 趟 · 载客 ${picked.length}/${config.capacity}：${picked.length ? picked.join('、') : '空船'}。`);
+    const sail = $('#rv-sail');
+    if (sail) { sail.disabled = locked || trips.length >= 99 || rvOut(st.draft); sail.textContent = state.boat === 0 ? '划向彼岸 ⟶' : '⟵ 划回此岸'; }
+    const finish = $('#rv-finish');
+    if (finish) finish.disabled = locked || !rvOut(st.draft);
+    const undo = $('#rv-undo');
+    if (undo) undo.disabled = locked || trips.length === 0;
+    const history = $('#rv-trip-log');
+    if (history) history.replaceChildren(...trips.slice(-8).map((crew, offset) => {
+      const index = Math.max(0, trips.length - 8) + offset;
+      const li = document.createElement('li');
+      const names = b.names.filter((_, i) => crew & (1 << i));
+      li.textContent = `${index + 1} · ${index % 2 === 0 ? '此岸 → 彼岸' : '彼岸 → 此岸'} · ${names.length ? names.join('、') : '船夫独自'} `;
+      return li;
+    }));
+  }
+
+  function tapRvPassenger(index) {
+    if (!Number.isInteger(index) || index < 0 || index > 5) return;
+    const st = rvReady(RV_YARD);
+    if (!st || !st.draft.parcel || st.activeFerryman) return;
+    const config = RV_METHOD_TABLE[st.draft.method];
+    const { state } = rvReplay(st.draft.method, st.draft.trips);
+    if (index >= config.count || ((state.mask >> index) & 1) !== state.boat || rvOut(st.draft)) return;
+    const next = rvCrew ^ (1 << index);
+    if (rvBits(next) > config.capacity) { paintRvRiver(`这条船最多载 ${config.capacity} 件，先点已选的同行者让它下船。`); return; }
+    rvCrew = next;
+    paintRvRiver('');
+  }
+
+  function sailRvRiver() {
+    const st = rvReady(RV_YARD, 'rv-sail');
+    if (!st || !st.draft.parcel || st.activeFerryman || st.draft.trips.length >= 99 || rvOut(st.draft)) return;
+    const config = RV_METHOD_TABLE[st.draft.method];
+    const { state } = rvReplay(st.draft.method, st.draft.trips);
+    const next = rvCross(config, state, rvCrew);
+    if (!next.state) {
+      if (next.error === 'conflict') {
+        const names = RV_PARCEL_TABLE[st.draft.parcel].names;
+        paintRvRiver(`还不能开船：${next.bank === 0 ? '此岸' : '彼岸'}无人看守，${names[next.pair[0]]}与${names[next.pair[1]]}会互相吞掉记忆。换一组同行者再试。`);
+      } else paintRvRiver('同行者要在船边，人数也要坐得下。');
+      return;
+    }
+    st.draft.trips = st.draft.trips.concat(rvCrew);
+    rvCrew = 0;
+    saveRiverFerry(st);
+    if (AudioEngine.tick) AudioEngine.tick();
+    syncRiverCrossing();
+  }
+
+  function undoRvRiver() {
+    const st = rvReady(RV_YARD, 'rv-undo');
+    if (!st || !st.draft.parcel || st.activeFerryman || !st.draft.trips.length) return;
+    st.draft.trips = st.draft.trips.slice(0, -1);
+    rvCrew = 0;
+    saveRiverFerry(st);
+    syncRiverCrossing();
+  }
+
+  function resetRvRiver() {
+    const st = rvReady(RV_YARD, 'rv-reset');
+    if (!st || !st.draft.parcel || st.activeFerryman) return;
+    st.draft.trips = [];
+    rvCrew = 0;
+    saveRiverFerry(st);
+    syncRiverCrossing();
+    paintRvRiver('大家都回到了此岸，船也系好了。');
+  }
+
+  function finishRvDeparture() {
+    const st = rvReady(RV_YARD, 'rv-finish');
+    if (!st || !st.draft.parcel || st.activeFerryman || !rvOut(st.draft)) return;
+    const { parcel, method } = st.draft;
+    rvCrew = 0;
+    launchRv(RV_YARD, 'rv-finish', {
+      depart: `${parcel}:${method}`, feedback: rvFinishFeedback(parcel, method), parcel, kind: 'finish', method, source: RV_YARD, target: RV_PARCEL_TABLE[parcel].target,
+    }, '#river-crossing-response');
+  }
+
+  function chooseRvAbandon() {
+    const st = rvReady(RV_YARD, 'rv-abandon');
+    if (!st || !st.draft.parcel) return;
+    launchRv(RV_YARD, 'rv-abandon', { feedback: RV_ABANDON_FEEDBACK, kind: 'abandon', source: RV_YARD, target: RV_GATE }, '#river-crossing-response');
+  }
+
+  function chooseRvFerrymanReturn(scene) {
+    const st = rvReady(scene, `rv-ferryman-return-${scene}`);
+    if (!st || !st.activeFerryman) return;
+    if (RV_PARCEL_TABLE[st.activeFerryman.depart.split(':')[0]].target !== scene) return;
+    launchRv(scene, `rv-ferryman-return-${scene}`, { feedback: RV_FERRYMAN_RETURN_FEEDBACK, from: scene, kind: 'ferryman-return', depart: st.activeFerryman.depart, target: RV_GATE }, `#rv-ferryman-response-${scene}`);
+  }
+
+  function chooseRvReceipt() {
+    const st = rvReady('remembrance', 'rv-receipt-entry-btn');
+    if (!st || !st.activeFerryman) return;
+    goScene(RV_PARCEL_TABLE[st.activeFerryman.depart.split(':')[0]].target);
+  }
+
+  function chooseRvCourtEntry() {
+    const st = rvReady('remembrance', 'rv-court-entry-btn');
+    if (!st || st.activeFerryman || !rvCourtEligible(st)) return;
+    launchRv('remembrance', 'rv-court-entry-btn', { feedback: RV_COURT_ENTRY_FEEDBACK, kind: 'court-entry', target: RV_COURT }, '#rv-court-entry-response');
+  }
+
+  function chooseRvVerdict(action) {
+    const a = RV_VERDICT_TABLE[action];
+    if (!a) return;
+    const st = rvReady(RV_COURT, `rv-verdict-${action}`);
+    if (!st || st.activeFerryman || !st.visited.court || !rvCourtEligible(st)) return;
+    launchRv(RV_COURT, `rv-verdict-${action}`, { action, feedback: a.feedback, kind: 'verdict', outcome: a.outcome, source: RV_COURT, target: a.target }, '#hearing-of-the-last-bank-response');
+  }
+
+  function riverFerryBridgeAllows(targetScene) {
+    if (!riverFerryUnlocked()) return false;
+    const st = getRiverFerry();
+    if (st.pending && (st.pending.kind === 'finish' || st.pending.kind === 'verdict') && st.pending.target === targetScene) return true;
+    if (st.activeFerryman && RV_PARCEL_TABLE[st.activeFerryman.depart.split(':')[0]].target === targetScene) return true;
+    const verdict = RV_VERDICT_ACTIONS.find((a) => RV_VERDICT_TABLE[a].outcome === st.lastOutcome);
+    return Boolean(verdict && RV_VERDICT_TABLE[verdict].target === targetScene);
+  }
+
+  function rvGateCanVisit() {
+    if (!riverFerryUnlocked()) return false;
+    const st = getRiverFerry();
+    return st.visited.gate || Boolean(st.pending && st.pending.target === RV_GATE);
+  }
+
+  function riverCrossingCanVisit() {
+    if (!riverFerryUnlocked()) return false;
+    const st = getRiverFerry();
+    if (st.visited.yard && st.draft.parcel) return true;
+    return Boolean(st.pending && st.pending.kind === 'parcel');
+  }
+
+  function rvCourtCanVisit() {
+    if (!riverFerryUnlocked()) return false;
+    const st = getRiverFerry();
+    if (st.visited.court && rvCourtEligible(st)) return true;
+    return Boolean(st.pending && st.pending.kind === 'court-entry');
+  }
+
+  function syncRvGate() {
+    const canVisit = rvGateCanVisit();
+    const st = getRiverFerry();
+    const fig = $('#rv-gate-figure');
+    if (fig) fig.hidden = !canVisit;
+    const blocked = !canVisit || Boolean(st.pending) || Boolean(st.activeFerryman);
+    RV_PARCELS.forEach((parcel) => {
+      const btn = $(`#rv-parcel-${parcel}`);
+      if (!btn) return;
+      btn.disabled = blocked;
+      btn.classList.toggle('is-collected', RV_METHODS.every((m) => st.departs.includes(`${parcel}:${m}`)));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'parcel' && st.pending.parcel === parcel ? 'true' : 'false');
+    });
+    const note = $('#rv-gate-note');
+    if (note) {
+      let text = '';
+      if (st.activeFerryman) {
+        const b = RV_PARCEL_TABLE[st.activeFerryman.depart.split(':')[0]];
+        text = `先完成正在送去签收的托运：${b.ferrymanTitle}还在${b.place}等你签收。`;
+      } else if (st.draft.parcel) {
+        text = `河边还放着没渡完的「${RV_PARCEL_TABLE[st.draft.parcel].title}」。`;
+      }
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const cont = $('#rv-continue');
+    if (cont) {
+      const show = canVisit && Boolean(st.draft.parcel) && !st.activeFerryman;
+      cont.hidden = !show;
+      cont.disabled = !show || Boolean(st.pending);
+    }
+    if (!st.pending || st.pending.source !== RV_GATE) showRvResponse('#ferry-landing-response', '');
+  }
+
+  function syncRiverCrossing() {
+    const st = getRiverFerry();
+    const ready = riverCrossingCanVisit() && Boolean(st.draft.parcel);
+    const key = `${st.draft.parcel}:${st.draft.method}`;
+    if (key !== rvDraftKey) { rvDraftKey = key; rvCrew = 0; }
+    const panel = $('#rv-yard-panel');
+    if (panel) panel.hidden = !ready;
+    const board = $('#rv-river');
+    if (board) board.hidden = !ready;
+    if (ready) {
+      const b = RV_PARCEL_TABLE[st.draft.parcel];
+      const config = RV_METHOD_TABLE[st.draft.method];
+      const title = $('#rv-yard-parcel');
+      if (title) title.textContent = `${b.title} · ${config.title} · 同行 ${config.count} 件，最多载 ${config.capacity} 件（船夫不占位）。`;
+      const hint = $('#rv-method-hint');
+      if (hint) hint.textContent = '点船边的同行者选上船，再划向另一岸；船夫也能独自划回。船夫看守所在岸，另一岸的冲突双方不能留在一起。所有同行者和船夫都到彼岸后交货。航程随时保存，刷新接着走，选中的乘客需重新选。';
+      const rules = $('#rv-conflicts');
+      if (rules) rules.replaceChildren(...config.edges.map(([a, c]) => {
+        const li = document.createElement('li');
+        li.textContent = `${b.names[a]} ↔ ${b.names[c]}：无人看守时会互相吞掉记忆。`;
+        return li;
+      }));
+    }
+    RV_METHODS.forEach((method) => {
+      const btn = $(`#rv-method-${method}`);
+      if (!btn) return;
+      btn.disabled = !ready || Boolean(st.pending) || Boolean(st.activeFerryman);
+      btn.setAttribute('aria-pressed', ready && st.draft.method === method ? 'true' : 'false');
+      btn.classList.toggle('is-collected', Boolean(st.draft.parcel) && st.departs.includes(`${st.draft.parcel}:${method}`));
+    });
+    ['rv-reset', 'rv-abandon'].forEach((id) => { const btn = $(`#${id}`); if (btn) btn.disabled = !ready || Boolean(st.pending) || Boolean(st.activeFerryman); });
+    if (ready) paintRvRiver(st.pending && st.pending.kind === 'finish' ? '托运已经到岸，摆渡人正送去签收。' : '');
+    if (!st.pending || st.pending.source !== RV_YARD) showRvResponse('#river-crossing-response', '');
+  }
+
+  function syncRvCourt() {
+    const canVisit = rvCourtCanVisit();
+    const st = getRiverFerry();
+    const fig = $('#hearing-of-the-last-bank-figure');
+    if (fig) fig.hidden = !canVisit;
+    RV_VERDICT_ACTIONS.forEach((action) => {
+      const btn = $(`#rv-verdict-${action}`);
+      if (!btn) return;
+      btn.disabled = !canVisit || Boolean(st.pending) || Boolean(st.activeFerryman);
+      btn.classList.toggle('is-collected', st.courtOutcomes.includes(RV_VERDICT_TABLE[action].outcome));
+      btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'verdict' && st.pending.action === action ? 'true' : 'false');
+    });
+    if (!st.pending || st.pending.source !== RV_COURT) showRvResponse('#hearing-of-the-last-bank-response', '');
+  }
+
+  function syncRvFerrymen() {
+    const st = riverFerryUnlocked() ? getRiverFerry() : defaultRiverFerry();
+    const [parcel, method] = st.activeFerryman ? st.activeFerryman.depart.split(':') : ['', ''];
+    RV_OLD_TARGETS.forEach((scene) => {
+      const box = $(`#rv-ferryman-${scene}`);
+      if (!box) return;
+      const show = Boolean(parcel) && RV_PARCEL_TABLE[parcel].target === scene;
+      box.hidden = !show;
+      const btn = $(`#rv-ferryman-return-${scene}`);
+      if (btn) {
+        btn.disabled = !show || Boolean(st.pending);
+        btn.setAttribute('aria-pressed', st.pending && st.pending.kind === 'ferryman-return' && st.pending.from === scene ? 'true' : 'false');
+      }
+      if (!show) return;
+      const b = RV_PARCEL_TABLE[parcel];
+      const head = $(`#rv-ferryman-title-${scene}`);
+      if (head) head.textContent = `渡货签收 · ${b.ferrymanTitle} · ${b.title}（${RV_METHOD_TABLE[method].title}）`;
+      const level = $(`#rv-ferryman-level-${scene}`);
+      if (level) level.textContent = `${RV_METHOD_TABLE[method].title}抵达彼岸`;
+      const body = $(`#rv-ferryman-body-${scene}`);
+      if (body) body.textContent = RV_METHOD_TABLE[method].result;
+      if (!st.pending || st.pending.kind !== 'ferryman-return') showRvResponse(`#rv-ferryman-response-${scene}`, '');
+    });
+  }
+
+  function syncRvEchoes() {
+    const st = riverFerryUnlocked() ? getRiverFerry() : defaultRiverFerry();
+    RV_PARCELS.forEach((parcel) => {
+      const b = RV_PARCEL_TABLE[parcel];
+      const el = $(`#rv-echo-${b.target}`);
+      if (!el) return;
+      const method = st.latestMethodByParcel[parcel];
+      if (!method) { el.hidden = true; el.textContent = ''; return; }
+      el.textContent = `${b.echoLead}${RV_METHOD_TABLE[method].result}`;
+      el.hidden = false;
+    });
+  }
+
+  function syncRvRemembrance() {
+    const unlocked = riverFerryUnlocked();
+    const shell = $('#rv-codex');
+    const memory = $('#rv-memory');
+    if (!unlocked) {
+      [shell, memory].forEach((el) => { if (el) el.hidden = true; });
+      return;
+    }
+    const st = getRiverFerry();
+    const v117Busy = rvUpstreamBusy();
+    if (shell) shell.hidden = false;
+    const progress = rvCourtProgress(st);
+    if (memory) {
+      memory.hidden = false;
+      memory.textContent = `渡河：已交货 ${st.departs.length}/9 次，共交货 ${st.departRuns} 次；末岸听证 ${st.courtOutcomes.length}/3。`;
+    }
+    const hints = $('#rv-court-hints');
+    if (hints) {
+      const rows = [['三份托运都到过岸', progress.parcels, RV_PARCELS.length], ['三种航法都走过', progress.methods, RV_METHODS.length]];
+      hints.replaceChildren(...rows.map(([label, have, need]) => {
+        const li = document.createElement('li');
+        li.className = have >= need ? 'is-met' : '';
+        li.textContent = `${label} ${have}/${need}`;
+        return li;
+      }));
+    }
+    const clean = !st.pending && !st.activeFerryman;
+    const entry = $('#rv-entry-btn');
+    if (entry) {
+      entry.hidden = false;
+      entry.disabled = !clean || v117Busy;
+      entry.setAttribute('aria-pressed', st.pending && st.pending.kind === 'entry' ? 'true' : 'false');
+    }
+    const note = $('#rv-entry-note');
+    if (note) {
+      const text = v117Busy ? '灵车场还有在途的车或未签收的赶车人，先带他回门房。' : st.activeFerryman ? '先完成正在送去签收的托运。' : '';
+      note.textContent = text;
+      note.hidden = !text;
+    }
+    const receipt = $('#rv-receipt-entry-btn');
+    if (receipt) {
+      receipt.hidden = !st.activeFerryman;
+      receipt.disabled = !st.activeFerryman || Boolean(st.pending);
+      if (st.activeFerryman) receipt.textContent = `前往${RV_PARCEL_TABLE[st.activeFerryman.depart.split(':')[0]].place}签收渡货 ⟶`;
+    }
+    const court = $('#rv-court-entry-btn');
+    if (court) {
+      const eligible = rvCourtEligible(st);
+      court.hidden = !eligible;
+      court.disabled = !eligible || !clean;
+      court.setAttribute('aria-pressed', st.pending && st.pending.kind === 'court-entry' ? 'true' : 'false');
+    }
+    const grid = $('#rv-codex-grid');
+    if (grid) {
+      const have = new Set(st.departs);
+      const cells = RV_DEPART_IDS.map((id) => {
+        const [parcel, method] = id.split(':');
+        const cell = document.createElement('div');
+        cell.className = `rv-cell ${have.has(id) ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = have.has(id) ? `${RV_PARCEL_TABLE[parcel].title}\n${RV_METHOD_TABLE[method].title}` : '？？？';
+        return cell;
+      });
+      RV_VERDICT_ACTIONS.forEach((action) => {
+        const a = RV_VERDICT_TABLE[action];
+        const got = st.courtOutcomes.includes(a.outcome);
+        const cell = document.createElement('div');
+        cell.className = `rv-cell rv-cell-verdict ${got ? 'is-unlocked' : 'is-locked'}`;
+        cell.textContent = got ? `[末岸听证会] ${a.title}\n${a.feedback}` : '？？？';
+        cells.push(cell);
+      });
+      grid.replaceChildren(...cells);
+    }
+    if (!st.pending || (st.pending.kind !== 'entry' && st.pending.kind !== 'court-entry')) {
+      showRvResponse('#rv-entry-response', '');
+      showRvResponse('#rv-court-entry-response', '');
+    }
+  }
+
+  function syncRvLinks() {
+    const st = riverFerryUnlocked() ? getRiverFerry() : null;
+    [['ferry-landing-link', 'gate'], ['river-crossing-link', 'yard'], ['hearing-of-the-last-bank-link', 'court']].forEach(([id, key]) => {
+      const el = $(`#${id}`);
+      if (el) el.hidden = !(st && st.visited[key]);
+    });
+  }
+
+  function forgetRiverFerryState() {
+    try { localStorage.removeItem(RIVER_FERRY_KEY); } catch {}
+    [RV_GATE, RV_YARD, RV_COURT].forEach((scene) => AutoAdvance.clear(scene));
+    rvCrew = 0;
+    rvDraftKey = '';
+    ['#rv-codex', '#rv-memory', '#rv-gate-figure', '#rv-yard-panel', '#rv-river', '#hearing-of-the-last-bank-figure',
+      '#ferry-landing-link', '#river-crossing-link', '#hearing-of-the-last-bank-link', '#rv-continue', '#rv-court-entry-btn', '#rv-receipt-entry-btn',
+      '#rv-entry-response', '#rv-court-entry-response', '#ferry-landing-response', '#river-crossing-response', '#hearing-of-the-last-bank-response',
+      ...RV_OLD_TARGETS.flatMap((scene) => [`#rv-ferryman-${scene}`, `#rv-echo-${scene}`]),
+    ].forEach((sel) => { const el = $(sel); if (el) el.hidden = true; });
+    $$('[id^="rv-"][aria-pressed]').forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+  }
+
+  const onTrustedRv = (selector, handler) => {
+    const el = $(selector);
+    if (el) el.addEventListener('click', (e) => { if (e.isTrusted) handler(e); });
+  };
+  onTrustedRv('#rv-entry-btn', chooseRvEntry);
+  onTrustedRv('#rv-receipt-entry-btn', chooseRvReceipt);
+  onTrustedRv('#rv-court-entry-btn', chooseRvCourtEntry);
+  onTrustedRv('#rv-abandon', chooseRvAbandon);
+  onTrustedRv('#rv-continue', () => {
+    const st = rvReady(RV_GATE, 'rv-continue');
+    if (!st || !st.draft.parcel || st.activeFerryman) return;
+    const parcel = st.draft.parcel;
+    launchRv(RV_GATE, 'rv-continue', { parcel, feedback: RV_PARCEL_TABLE[parcel].feedback, kind: 'parcel', source: RV_GATE, target: RV_YARD }, '#ferry-landing-response');
+  });
+  RV_PARCELS.forEach((parcel) => onTrustedRv(`#rv-parcel-${parcel}`, () => chooseRvParcel(parcel)));
+  RV_METHODS.forEach((method) => onTrustedRv(`#rv-method-${method}`, () => chooseRvMethod(method)));
+  RV_VERDICT_ACTIONS.forEach((action) => onTrustedRv(`#rv-verdict-${action}`, () => chooseRvVerdict(action)));
+  RV_OLD_TARGETS.forEach((scene) => onTrustedRv(`#rv-ferryman-return-${scene}`, () => chooseRvFerrymanReturn(scene)));
+  for (let bank = 0; bank < 2; bank++) for (let i = 0; i < 6; i++) onTrustedRv(`#rv-passenger-${bank}-${i}`, () => tapRvPassenger(i));
+  onTrustedRv('#rv-reset', resetRvRiver);
+  onTrustedRv('#rv-undo', undoRvRiver);
+  onTrustedRv('#rv-sail', sailRvRiver);
+  onTrustedRv('#rv-finish', finishRvDeparture);
+
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -71031,8 +71832,28 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     if (eligible) items.push(`开庭条件已满足；末车裁定已得 ${st.courtOutcomes.length}/3`);
     if (st.activeDriver) items.push("有一辆车在旧房间等你签收：跟着赶车人回到灵车场");
     else if (st.draft.hearse) items.push(`院子里还堵着没挪出去的「${HY_HEARSE_TABLE[st.draft.hearse].title}」`);
-    if (eligible && st.courtOutcomes.length >= 3) return { title: "v117 已全部完成", items: ["终局后章节暂时到此为止，下一章正在筹备"], target: null, done: true };
+    if (eligible && st.courtOutcomes.length >= 3 && !st.pending && !st.activeDriver) return riverFerryProgressStep();
     return { title: "v117 灵车场", items, target: eligible ? "hy-court" : "hy", done: false };
+  };
+
+  const riverFerryProgressStep = () => {
+    if (!riverFerryUnlocked()) return null;
+    const st = getRiverFerry();
+    const items = [];
+    if (st.activeFerryman) {
+      const b = RV_PARCEL_TABLE[st.activeFerryman.depart.split(':')[0]];
+      return { title: "v118 等待渡货签收", items: [`${b.ferrymanTitle}在${b.place}等你，签收后回码头`], target: "rv-receipt", done: false };
+    }
+    const parcels = RV_PARCELS.filter((p) => !st.departs.some((id) => id.startsWith(`${p}:`))).map((p) => RV_PARCEL_TABLE[p].title);
+    const methods = RV_METHODS.filter((m) => !st.departs.some((id) => id.endsWith(`:${m}`))).map((m) => RV_METHOD_TABLE[m].title);
+    if (rvUpstreamBusy()) items.push("先完成灵车场的在途车与赶车人签收");
+    if (parcels.length) items.push(`还没送到彼岸：${parcels.join("、")}`);
+    if (methods.length) items.push(`还没走过的航法：${methods.join("、")}`);
+    if (st.draft.parcel) items.push(`河上还有「${RV_PARCEL_TABLE[st.draft.parcel].title}」，已划 ${st.draft.trips.length} 趟`);
+    const eligible = rvCourtEligible(st);
+    if (eligible) items.push(`末岸裁定已得 ${st.courtOutcomes.length}/3`);
+    if (eligible && st.courtOutcomes.length >= 3 && !st.pending) return { title: "v118 已全部完成", items: ["断桥两岸都记得你的船，下一章正在筹备"], target: null, done: true };
+    return { title: "v118 渡河码头", items, target: eligible ? "rv-court" : "rv", done: false };
   };
 
   const shadowlessPhotographyProgressStep = () => {
@@ -71618,6 +72439,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   syncLinenRoomAll();
   syncDreamMendingAll();
   syncHearseYardAll();
+  syncRiverFerryAll();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();
