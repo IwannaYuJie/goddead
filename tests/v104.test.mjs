@@ -1172,8 +1172,8 @@ test('Group 1: Static structure, header/markers, asset attributes and native but
   assert.equal(ahModuleSource.includes('/* ============================================================\n   v103 收不到影子的照相馆'), false);
 
   // Current release cache markers
-  assert.ok(htmlSource.includes('href="styles.css?v=126"'), 'styles.css must have ?v=126');
-  assert.ok(htmlSource.includes('src="script.js?v=126"'), 'script.js must have ?v=126');
+  assert.ok(htmlSource.includes('href="styles.css?v=127"'), 'styles.css must have ?v=127');
+  assert.ok(htmlSource.includes('src="script.js?v=127"'), 'script.js must have ?v=127');
 
   // Exact 280 unique sections (HTML section IDs include scene- prefix)
   const sectionMatches = htmlSource.match(/<section\b[^>]*\bid=["']([^"']+)["']/g) || [];

@@ -1510,3 +1510,11 @@
 功能 `536900beb1214adfa64344310d4a902378bc4fd4` 已推送 main，Cloudflare Pages completed / success。2026-10-11T13:17:43.387584+08:00（Asia/Taipei）普通公开 URL 确认 v126 / 280；HTML / CSS / JS / directory.js / ink-rules.js / light-rules.js / 门图 / 三张 v108 原画共十文件 raw 大小与 SHA-256 全一致，无需 HTML 归一化。Chrome 公开冷载五个 v126 核心依赖，新光路工厂注册且命名空间冻结，旧 ink 工厂正常；active=threshold、title=Goddead、1470px 无横溢，空档指引链接隐藏。原目录 5/5、中文守则检索 1/5、menu-close 首焦点 / stage inert、Esc 回 menu-trigger / inert=false，菜单前后 raw 相同，无新增 error / warn。本地测试档未写入公开站，原 21 项本地状态恢复，缓存调试 / 视口复原，临时服务已停止。
 
 公开报告见 design-qa-evidence/v126-public-assets.json / v126-public-browser.json / v126-public-root-desktop.png；实施与 Tasks 闭环。下一轮评估分茶铺量杯独立规则。
+
+### 2026-10-18（原生浏览器验收完成于 2026-10-15）- v127 分茶铺纯规则模块
+
+- 架构与分工：承接既有 v127 迁移，原 11 纯函数抽取至 `tea-rules.js`，玩法、存档与原源码结构保持，无新美术；Gemini-3.8 仅只读复核与写档（resp_N2nQapDFN6rSrfcPqoWRmQQ，no_material_defect），Codex 执行与独立验收。
+- 自动化回归：2026-10-18 自动化复跑两套命令，`node tests/site.test.mjs` 全站 68,927 断言通过，`node --test` 运行 v101-v104 65 命名测试与 v123-v127 5 脚本项共 70 项测试通过；涵盖 768 合法状态、6,912 互倒转移、2,304 容量匹配与 36 组最短路验证。
+- 原生浏览器验收：同一 Chrome 标签页下完成 3 组代表组合（桌面白瓷 7 口，375×812 桌面模拟窄屏粗陶 1 口与铜器 4 口；非 9 组合全测，非全窄屏）；三茶童签收、三听证原落点、双击及源房重播单次记账符合预期。
+- 清理与日志状态：56 项 raw 数据完全恢复，视口复原，临时服务停止；控制台 warn/error 为空，既有 favicon 404 保持；详见 `design-qa-evidence/v127-browser-qa.md`。
+- 交付现状：当前工作区本地完成，尚未提交、推送或公开验证，不作线上完成或未来温室实装表述。

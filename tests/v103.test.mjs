@@ -773,9 +773,9 @@ test('BASE TEST 1: Unique header/key/guide boundary, cache 123, 280 unique scene
   const countKey = scriptSource.split(PH_KEY).length - 1;
   assert.ok(countKey >= 2, 'Key must be referenced in script.js');
 
-  // Exact styles.css?v=126 and script.js?v=126 check
-  assert.match(htmlSource, /href=["']styles\.css\?v=126["']/, 'index.html must reference styles.css?v=126');
-  assert.match(htmlSource, /src=["']script\.js\?v=126["']/, 'index.html must reference script.js?v=126');
+  // Exact styles.css?v=127 and script.js?v=127 check
+  assert.match(htmlSource, /href=["']styles\.css\?v=127["']/, 'index.html must reference styles.css?v=127');
+  assert.match(htmlSource, /src=["']script\.js\?v=127["']/, 'index.html must reference script.js?v=127');
 
   // 280 unique scene sections in index.html
   const sceneMatches = htmlSource.match(/<section[^>]+class=["'][^"']*scene[^"']*["'][^>]*data-scene=["']([^"']+)["']/g) || [];

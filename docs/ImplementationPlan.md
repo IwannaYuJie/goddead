@@ -1,4 +1,11 @@
-# 当前实施状态：v126 借光司纯规则模块
+# 当前实施状态：v127 分茶铺纯规则模块
+
+- 状态：本地完成，待发布验证（HEAD 220b1ae 为已发布 v126，v127 未提交未推送）。
+- 模块：十一个纯函数原样提取为 `tea-rules.js`（`GoddeadTeaRules.create(config)`），主脚本其余逻辑、UI 渲染与流程守卫逐字保持。
+- 依赖：`index.html` 引入六个核心依赖并更新缓存为 `v=127`；全站测试与 768 状态遍历完全通过。
+- 引用：详见设计文档 [V127ExactTeaRulesDesign.md](V127ExactTeaRulesDesign.md) 与验收记录 [v127-browser-qa.md](../design-qa-evidence/v127-browser-qa.md)。
+
+# v126 借光司纯规则模块（已发布）
 
 v126 已实现：十二个 v108 入射 / 折光 / SVG / 存档 / 开庭覆盖 / 七类事务纯函数原样迁入 `light-rules.js`（8,906 bytes）。主脚本保留单份章节表、IO、镜面内存、门禁、事件与初始化，其余源逐字一致；v125 ink-rules 逐字保持。directory → ink-rules → light-rules → script 按原阻塞方式载入，含 CSS 五依赖缓存 v126。
 

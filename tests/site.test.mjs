@@ -6,6 +6,7 @@ import { access, readFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { inkRules } from "./helpers/ink-rules.mjs";
 import { lightRules } from "./helpers/light-rules.mjs";
+import { teaRules } from "./helpers/tea-rules.mjs";
 
 let assertionCount = 0;
 for (const method of ["ok", "equal", "strictEqual", "deepStrictEqual", "notEqual", "notStrictEqual", "notDeepStrictEqual", "match", "doesNotMatch", "throws", "doesNotThrow", "rejects", "doesNotReject", "ifError", "fail"]) {
@@ -47,8 +48,8 @@ const js = await fileText("script.js");
 
 assert.match(html, /<title>Goddead<\/title>/);
 assert.match(html, /goddead\.com/);
-assert.match(html, /styles\.css\?v=126/);
-assert.match(html, /script\.js\?v=126/);
+assert.match(html, /styles\.css\?v=127/);
+assert.match(html, /script\.js\?v=127/);
 assert.match(html, /assets\/hero\.png/);
 assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /@media \(max-width: 720px\)/);
@@ -701,8 +702,8 @@ for (const asset of VISUAL_ASSETS) {
 await access(new URL("assets/prayer-incinerator-burning.webp", root));
 assert.match(html, /assets\/prayer-incinerator-burning\.webp/);
 assert.match(html, /<link rel="preload" href="assets\/prayer-incinerator-burning\.webp" as="image">/);
-assert.match(html, /styles\.css\?v=126/);
-assert.match(html, /script\.js\?v=126/);
+assert.match(html, /styles\.css\?v=127/);
+assert.match(html, /script\.js\?v=127/);
 const offeringFigureHtml = html.match(/<figure class="offering-figure[^"]*" role="img" aria-label="[^"]*">[\s\S]*?<\/figure>/);
 assert.ok(offeringFigureHtml, "offering figure must exist");
 assert.match(offeringFigureHtml[0], /aria-label="一座沉寂的焚献炉"/);
@@ -6097,8 +6098,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v73-nightmare-ta
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v73-waking-deportation-yard\.webp"/, "v73 loads on demand: waking-deportation-yard");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=126/, "v73 cache busts styles.css");
-assert.match(html, /script\.js\?v=126/, "v73 cache busts script.js");
+assert.match(html, /styles\.css\?v=127/, "v73 cache busts styles.css");
+assert.match(html, /script\.js\?v=127/, "v73 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const DREAM_CUSTOMS_KEY = ['"]goddead_v73_dream_customs['"]/g) || []).length, 1, "v73 introduces exactly one storage key");
@@ -6965,8 +6966,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v74-impossible-c
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v74-perpetual-license-tribunal\.webp"/, "v74 loads on demand: perpetual-license-tribunal");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=126/, "v74 cache busts styles.css");
-assert.match(html, /script\.js\?v=126/, "v74 cache busts script.js");
+assert.match(html, /styles\.css\?v=127/, "v74 cache busts styles.css");
+assert.match(html, /script\.js\?v=127/, "v74 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const TOMBSTONE_PATENT_OFFICE_KEY = ['"]goddead_v74_tombstone_patent_office['"]/g) || []).length, 1, "v74 introduces exactly one storage key");
@@ -7847,8 +7848,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v75-post-world-r
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v75-universal-recall-yard\.webp"/, "v75 loads on demand: universal-recall-yard");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=126/, "v75 cache busts styles.css");
-assert.match(html, /script\.js\?v=126/, "v75 cache busts script.js");
+assert.match(html, /styles\.css\?v=127/, "v75 cache busts styles.css");
+assert.match(html, /script\.js\?v=127/, "v75 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const APOCALYPSE_WARRANTY_KEY = ['"]goddead_v75_apocalypse_warranty['"]/g) || []).length, 1, "v75 introduces exactly one storage key");
@@ -8777,8 +8778,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v76-reality-retu
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v76-class-action-court\.webp"/, "v76 loads on demand: class-action-court");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=126/, "v76 cache busts styles.css");
-assert.match(html, /script\.js\?v=126/, "v76 cache busts script.js");
+assert.match(html, /styles\.css\?v=127/, "v76 cache busts styles.css");
+assert.match(html, /script\.js\?v=127/, "v76 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const REALITY_REFUND_KEY = ['"]goddead_v76_reality_refund['"]/g) || []).length, 1, "v76 introduces exactly one storage key");
@@ -9737,8 +9738,8 @@ assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v77-soul-counter
 assert.doesNotMatch(rawHtml, /<link rel="preload" href="assets\/v77-final-authenticity-tribunal\.webp"/, "v77 loads on demand: v77-final-authenticity-tribunal");
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=126/, "v77 cache busts styles.css");
-assert.match(html, /script\.js\?v=126/, "v77 cache busts script.js");
+assert.match(html, /styles\.css\?v=127/, "v77 cache busts styles.css");
+assert.match(html, /script\.js\?v=127/, "v77 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const SELF_AUTHENTICITY_KEY = ['"]goddead_v77_self_authenticity['"]/g) || []).length, 1, "v77 introduces exactly one storage key");
@@ -14809,8 +14810,8 @@ for (const [file, hash] of Object.entries(V72_WEBP_HASHES)) {
 }
 
 /* 缓存版本 */
-assert.match(html, /styles\.css\?v=126/, "v72 cache busts styles.css");
-assert.match(html, /script\.js\?v=126/, "v72 cache busts script.js");
+assert.match(html, /styles\.css\?v=127/, "v72 cache busts styles.css");
+assert.match(html, /script\.js\?v=127/, "v72 cache busts script.js");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const LAST_WORD_BANK_KEY = ['"]goddead_v72_last_word_bank['"]/g) || []).length, 1, "v72 introduces exactly one storage key");
@@ -15996,8 +15997,8 @@ assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v78-pronoun-alloca
 assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v78-ownerless-voices-court.webp"'), "v78 loads on demand: v78-ownerless-voices-court");
 
 /* 缓存版本 */
-assert.ok(html.includes("styles.css?v=126"), "styles.css cache bust v=86");
-assert.ok(html.includes("script.js?v=126"), "script.js cache bust v=86");
+assert.ok(html.includes("styles.css?v=127"), "styles.css cache bust v=86");
+assert.ok(html.includes("script.js?v=127"), "script.js cache bust v=86");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const FIRST_PERSON_RATIONING_KEY = ['"]goddead_v78_first_person_rationing['"]/g) || []).length, 1, "v78 introduces exactly one storage key");
@@ -17029,8 +17030,8 @@ assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v79-personhood-inh
 assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v79-unuttered-estate-tribunal.webp"'), "v79 loads on demand: v79-unuttered-estate-tribunal");
 
 /* 缓存版本 */
-assert.ok(html.includes("styles.css?v=126"), "styles.css cache bust v=86");
-assert.ok(html.includes("script.js?v=126"), "script.js cache bust v=86");
+assert.ok(html.includes("styles.css?v=127"), "styles.css cache bust v=86");
+assert.ok(html.includes("script.js?v=127"), "script.js cache bust v=86");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const UNSPOKEN_PERSONHOOD_KEY = ['"]goddead_v79_unspoken_personhood['"]/g) || []).length, 1, "v79 introduces exactly one storage key");
@@ -17712,8 +17713,8 @@ assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v80-counterfactual
 assert.ok(!rawHtml.includes('<link rel="preload" href="assets/v80-last-conclusion-hearing.webp"'), "v80 loads on demand: v80-last-conclusion-hearing");
 
 /* 缓存版本 */
-assert.ok(html.includes("styles.css?v=126"), "styles.css cache bust v=86");
-assert.ok(html.includes("script.js?v=126"), "script.js cache bust v=86");
+assert.ok(html.includes("styles.css?v=127"), "styles.css cache bust v=86");
+assert.ok(html.includes("script.js?v=127"), "script.js cache bust v=86");
 
 /* JS 模块与 key */
 assert.equal((js.match(/const UNFINISHED_THOUGHT_KEY = ['"]goddead_v80_unfinished_thought_asylum['"]/g) || []).length, 1, "v80 introduces exactly one storage key");
@@ -26768,8 +26769,8 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
       assert.match(html, new RegExp(`data-scene="${sc}"`), `scene missing: ${sc}`);
     }
 
-    assert.match(html, /styles\.css\?v=126/, "styles.css cache query must be updated to v=90");
-    assert.match(html, /script\.js\?v=126/, "script.js cache query must be updated to v=90");
+    assert.match(html, /styles\.css\?v=127/, "styles.css cache query must be updated to v=90");
+    assert.match(html, /script\.js\?v=127/, "script.js cache query must be updated to v=90");
 
     const bootstrapStartIdx = js.lastIndexOf('/* ---------- 初始化 ---------- */');
     assert.ok(bootstrapStartIdx !== -1, 'v90 browser-initialization failure: bootstrap start marker not found');
@@ -31820,7 +31821,7 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
     const v108 = { courtOutcomes: v108Done ? ["a", "b", "c"] : ["a"], pending: v108Busy ? { kind: "shine" } : null, activeLamplighter: null };
     const api = new Function(
       "store", "$", "$$", "reduced", "AutoAdvance", "AudioEngine", "buttonAvailable", "document", "localStorage",
-      "borrowedLightUnlocked", "getBorrowedLight", "lbCourtEligible", "LB_VERDICT_OUTCOME_IDS",
+      "borrowedLightUnlocked", "getBorrowedLight", "lbCourtEligible", "LB_VERDICT_OUTCOME_IDS", "GoddeadTeaRules",
       `let currentScene = "remembrance";\n${modSrc}\nreturn { go: (s) => { currentScene = s; }, arrive: (s) => { currentScene = s; resolveExactTeaPendingOnArrival(s); syncExactTeaAll(); },
         get: getExactTea, unlocked: exactTeaUnlocked, entry: chooseEtEntry, order: chooseEtOrder, method: chooseEtMethod, abandon: chooseEtAbandon,
         pick: pickEtVessel, fill: fillEtVessel, empty: emptyEtVessel, reset: resetEtVessels, serve: serveEtCup, levels: () => etLevels.slice(), held: () => etHeld,
@@ -31829,7 +31830,7 @@ for (const [figureClass, expectedAlt, buttonCount] of V83_FIGURE_SPECS) {
         bridge: exactTeaBridgeAllows, houseOk: etHouseCanVisit, tableOk: pouringTableCanVisit, courtOk: etCourtCanVisit, resolve: resolveExactTeaPendingOnArrival,
         forget: forgetExactTeaState, POURS: ET_POUR_IDS, ORDERS: ET_ORDERS, METHODS: ET_METHODS };`
     )(store, $, () => [], false, AutoAdvance, { whoosh() {}, tick() {} }, (id) => { const el = els.get(id); return !el || (!el.disabled && !el.hidden); },
-      { createElement: () => mkEl() }, { removeItem: (k) => mem.delete(k) }, () => true, () => v108, () => true, ["a", "b", "c"]);
+      { createElement: () => mkEl() }, { removeItem: (k) => mem.delete(k) }, () => true, () => v108, () => true, ["a", "b", "c"], teaRules);
     return { ...api, mem, els, schedules };
   };
   /* 用真实操作（端起 / 灌满 / 倒空 / 倒进）按 BFS 找到的最短步骤量出 amount */
@@ -33913,6 +33914,7 @@ await import("./v123.test.mjs");
 await import("./v124.test.mjs");
 await import("./v125.test.mjs");
 await import("./v126.test.mjs");
+await import("./v127.test.mjs");
 
 // v78-final-assertion-report
 console.log(`site.test.mjs: ${assertionCount} assertions passed`);

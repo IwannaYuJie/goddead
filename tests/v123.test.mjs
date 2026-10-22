@@ -65,9 +65,10 @@ query('');fold.fire('click');const lastSummary=root.children.filter(s=>!s.hidden
 const gate=anchors.find(a=>a.attrs.href==='#jammed-yard');gate.hidden=true;observed([{target:gate}]);assert.equal(gate.getAttribute('data-menu-filtered'),'true');gate.hidden=false;observed([{target:gate}]);assert.equal(gate.getAttribute('data-menu-filtered'),'false');
 current='jammed-yard';ui.refresh();assert.equal(gate.getAttribute('aria-current'),'page');
 doc.fire({key:'Escape',target:search});assert.equal(menu.inert,true);assert.equal(stage.inert,false);assert.equal(doc.activeElement,trigger);stage.inert=true;ui.setOpen(true);scrim.fire('click');assert.equal(stage.inert,true,'preexisting stage inert restored');
-assert.ok(html.indexOf('directory.js?v=126')<html.indexOf('ink-rules.js?v=126'));
-assert.ok(html.indexOf('ink-rules.js?v=126')<html.indexOf('light-rules.js?v=126'));
-assert.ok(html.indexOf('light-rules.js?v=126')<html.indexOf('script.js?v=126'));
+assert.ok(html.indexOf('directory.js?v=127')<html.indexOf('ink-rules.js?v=127'));
+assert.ok(html.indexOf('ink-rules.js?v=127')<html.indexOf('light-rules.js?v=127'));
+assert.ok(html.indexOf('light-rules.js?v=127')<html.indexOf('tea-rules.js?v=127'));
+assert.ok(html.indexOf('tea-rules.js?v=127')<html.indexOf('script.js?v=127'));
 assert.match(menuHTML,/role="dialog"[^>]*aria-modal="true"[^>]*inert/);
 assert.match(main,/menu\.classList\.contains\("open"\).*contenteditable/);
 assert.doesNotMatch(source,/localStorage|sessionStorage|store\.(set|get)|location\.hash\s*=/,'directory owns no storage or second router');
