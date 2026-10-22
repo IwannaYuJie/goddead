@@ -61,4 +61,4 @@ v108 把光借进了三间暗屋，屋里的人终于读完了报，想喝一杯
 
 - 纯规则迁移：原 11 个纯函数原样迁至 `tea-rules.js`，version109、11 字段、7 处 pending、存档键及原玩法均完全保持，无新美术与原作者署名改动。
 - 验证记录：自动化测试于 2026-10-18 复跑通过；浏览器端经 2026-10-15 原生桌面与 375px 模拟窄屏人工验收，含 3 个代表组合真点击及 56 项 raw 完整恢复，旧测试统计不动。
-- 当前状态：本轮由 Gemini 独立复核现有迁移并补全设计文档，当前本地完成待发布，未提交、推送或公开验证；详见 [V127ExactTeaRulesDesign.md](V127ExactTeaRulesDesign.md) 与 [v127-browser-qa.md](../design-qa-evidence/v127-browser-qa.md)。
+- 当前状态：本轮由 Gemini 独立复核现有迁移并补全设计文档，已完成提交、推送与公开环境部署验证；详见 [V127ExactTeaRulesDesign.md](V127ExactTeaRulesDesign.md)、[v127-browser-qa.md](../design-qa-evidence/v127-browser-qa.md) 以及公开证据 `design-qa-evidence/v127-public-browser.json`。

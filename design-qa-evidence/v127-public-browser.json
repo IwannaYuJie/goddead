@@ -1,0 +1,29 @@
+{
+  "verified_at": "2026-10-22T15:07:40+08:00",
+  "feature_commit": "001fa546d45dd4be280f4cd705c1486c715c6528",
+  "url": "https://goddead.com/",
+  "version": 127,
+  "browser": "Chrome Computer Use native AX input; one QA tab",
+  "cold_reload": "Page.reload ignoreCache=true; no persistent cache override",
+  "title": "Goddead",
+  "active_scene": "scene-threshold",
+  "viewport": { "width": 1470, "height": 743, "document_width": 1470 },
+  "dependencies": ["styles.css?v=127", "directory.js?v=127", "ink-rules.js?v=127", "light-rules.js?v=127", "tea-rules.js?v=127", "script.js?v=127"],
+  "rules": { "tea_factory": "function", "tea_registry_frozen": true, "ink_factory": "function", "light_factory": "function" },
+  "directory": {
+    "available_count": "5 / 5",
+    "first_focus": "menu-close",
+    "background_inert": "stage",
+    "native_search": "守则",
+    "search_count": "1 / 5",
+    "search_result": "01 / 守则",
+    "escape_focus": "menu-trigger",
+    "closed_aria_hidden": "true",
+    "closed_inert_elements": ["ritual-menu"]
+  },
+  "storage": { "baseline_key_count": 1, "byte_exact_after_reload_and_menu": true, "public_test_fixtures_written": false, "raw_values_in_report": false },
+  "console_warn_error": [],
+  "cleanup": { "owned_qa_tab_closed": true, "other_user_tabs_untouched": true, "viewport_override_used": false, "local_preview_server_started": false },
+  "screenshot": "v127-public-root-desktop.png",
+  "limits": "Public cold-load/home/directory acceptance only. Tea gameplay native acceptance is recorded separately in v127-browser-qa.md; this is not a second full tea playthrough."
+}

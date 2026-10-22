@@ -1,6 +1,6 @@
 # 当前实施状态：v127 分茶铺纯规则模块
 
-- 状态：本地完成，待发布验证（HEAD 220b1ae 为已发布 v126，v127 未提交未推送）。
+- 状态：已发布验证。v127功能提交001fa546已推送至main分支并通过公开验证，功能已按预期生效。
 - 模块：十一个纯函数原样提取为 `tea-rules.js`（`GoddeadTeaRules.create(config)`），主脚本其余逻辑、UI 渲染与流程守卫逐字保持。
 - 依赖：`index.html` 引入六个核心依赖并更新缓存为 `v=127`；全站测试与 768 状态遍历完全通过。
 - 引用：详见设计文档 [V127ExactTeaRulesDesign.md](V127ExactTeaRulesDesign.md) 与验收记录 [v127-browser-qa.md](../design-qa-evidence/v127-browser-qa.md)。

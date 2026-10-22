@@ -65,3 +65,11 @@
 - 重新核对 280 场景、4501 ID、278 条原目录及存档键；重复 ID、无效 hash、本地引用缺失和源文件敏感标记均为零。敏感扫描还须在定向暂存后覆盖全部待提交文本。
 - 仅打开一张 Chrome 公开 QA 标签页，发布前实际观察到 v126；公开 origin 原始 1 项存档只在工具会话中留存比对，没有注入测试数据。
 - “余温温室”仍是独立的未来玩法工作，不纳入本次提交。发布结果与普通公开资源 / 浏览器检查另记，以上记录本身不证明已经上线。
+
+## 2026-10-22 公开发布验收
+
+- 功能提交 `001fa546d45dd4be280f4cd705c1486c715c6528` 已推送 `main`，实际远端 SHA 与本地相同。定向暂存的 25 文件通过差异检查，全部待提交文本敏感标记为零；扫描首次因命令默认输出缓冲不足中断，增大本地读取缓冲后完整复跑通过。
+- 15:06:41（Asia/Taipei）Cloudflare Pages 为 completed / success。普通公开根页面、六核心依赖、门图及三张 v109 原画共十一文件的大小与 SHA-256 均 raw 一致；HTML 不需归一化，六缓存标记全部 v127，280 场景。
+- 同一张 Chrome 标签页进行不留持久缓存设置的冷刷新；首页 active=threshold、title=Goddead，六项 v127 依赖与冻结的茶工厂加载正常，旧 ink / light 工厂仍可用。1470×743 的当前桌面视口无横向溢出，本轮没有修改视口。
+- 原生打开目录为 5/5，首焦点 menu-close、stage inert；键入“守则”显示 1/5，Esc 返回 menu-trigger，stage 解除 inert、关闭的目录自身 inert。公开站原始 1 项 raw 在刷新与目录操作后逐字相同，未写入测试档；本轮 warn/error 日志为空。
+- 公开报告见 [v127-public-assets.json](v127-public-assets.json)、[v127-public-browser.json](v127-public-browser.json)，实际首页截图见 [v127-public-root-desktop.png](v127-public-root-desktop.png)。这是公开冷载与目录验收，分茶三代表流程的原生记录仍为上面的 10 月 15 日检查。
