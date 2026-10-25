@@ -1441,6 +1441,7 @@ document.addEventListener("DOMContentLoaded", () => {
     resolveMorningNamePendingOnArrival(name);
     replayMorningNamePending(name);
     warmthGarden.onScene(name);
+    springLetter.onScene(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1918,6 +1919,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target === 'remaining-warmth-garden' && !remainingWarmthCanVisit()) {
       target = 'remembrance';
     }
+      if (target === 'unaddressed-spring-letter' && !springLetterCanVisit()) {
+        target = 'remembrance';
+      }
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -1986,6 +1990,7 @@ document.addEventListener("DOMContentLoaded", () => {
       focusDawnPulseArrival(name);
       focusMorningNameArrival(name);
     warmthGarden.focusArrival(name);
+    springLetter.focusArrival(name);
       /* 焦点恢复与 veil 收尾必须和场景切换同一拍完成：
          依赖嵌套定时器时，内层定时器一旦丢失就会造成
          veilBusy 永久卡死、veil 常亮与焦点悬空（QA 实测复现） */
@@ -48173,6 +48178,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetDawnPulseState();
       forgetMorningNameState();
       warmthGarden.forget();
+    springLetter.forget();
       forgetCodexFolds();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
@@ -71746,6 +71752,79 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     return warmthGarden.bridgeAllows(target);
   }
   /* ---------- v128 余温温室适配结束 ---------- */
+  /* ---------- v129 春信适配 ---------- */
+  const SPRING_LETTER_KEY = 'goddead_v129_spring_letter';
+
+  const springLetter = globalThis.GoddeadSpringLetter.create({
+    document: document,
+    rules: globalThis.GoddeadSpringLetterRules.create(),
+    readRaw: function () {
+      return store.get(SPRING_LETTER_KEY, '{}');
+    },
+    writeRaw: function (raw) {
+      store.set(SPRING_LETTER_KEY, raw);
+    },
+    removeOwn: function () {
+      try {
+        localStorage.removeItem(SPRING_LETTER_KEY);
+      } catch (err) {}
+    },
+    currentScene: function () {
+      return currentScene;
+    },
+    unlocked: function () {
+      return remainingWarmthUnlocked() && getRemainingWarmth().plantCount > 0;
+    },
+    upstreamBusy: function () {
+      const mn = getMorningName();
+      const rw = getRemainingWarmth();
+      return Boolean(mnUpstreamBusy() || mn.pending || mn.draft.confession || rw.pending || rw.draft);
+    },
+    availableLetters: function () {
+      return getRemainingWarmth().outcomes.slice();
+    },
+    buttonAvailable: function (id) {
+      return buttonAvailable(id);
+    },
+    hasAdvance: function (scene) {
+      return AutoAdvance.has(scene);
+    },
+    schedule: function (source, target, delay, onFire) {
+      AutoAdvance.schedule(source, target, {
+        delay: delay,
+        before: onFire
+      });
+    },
+    clearAdvance: function (source) {
+      AutoAdvance.clear(source);
+    },
+    navigate: function (target) {
+      goScene(target);
+    },
+    setArrivalFocus: function (el) {
+      pendingSceneFocus = el;
+      if (el && typeof el.scrollIntoView === 'function') {
+        el.scrollIntoView({ block: 'start', behavior: 'auto' });
+      }
+    },
+    transitionBusy: function () {
+      return veilBusy;
+    },
+    reduced: reduced
+  });
+
+  function getSpringLetter() {
+    return springLetter.getState();
+  }
+
+  function springLetterUnlocked() {
+    return springLetter.unlocked();
+  }
+
+  function springLetterCanVisit() {
+    return springLetter.canVisit();
+  }
+  /* ---------- v129 春信适配结束 ---------- */
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -71765,7 +71844,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     return raw ? String(raw).split(" · ")[0] : id;
   };
 
-  const progressEntryButton = (prefix) => prefix === "ah" ? $("#ah-entry-remembrance") : (prefix === "ph" ? $("#ph-entry-remembrance") : (prefix === "ws" ? $("#ws-entry-remembrance") : (prefix === "dw" ? $("#dw-entry-remembrance") : ($(`#${prefix}-entry-btn`) || $(`#${prefix}-entry`)))));
+  const progressEntryButton = (prefix) => prefix === "ah" ? $("#ah-entry-remembrance") : (prefix === "ph" ? $("#ph-entry-remembrance") : (prefix === "ws" ? $("#ws-entry-remembrance") : (prefix === "dw" ? $("#dw-entry-remembrance") : (prefix === "sl" ? $("#sl-entry") : (prefix === "sl-resume" ? $("#sl-resume") : ($(`#${prefix}-entry-btn`) || $(`#${prefix}-entry`)))))));
 
   const describeChapterProgress = (spec) => {
     const st = spec.get();
@@ -71925,6 +72004,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
       [120, "清晨脉搏", getDawnPulse, dawnPulseUnlocked, "", ""],
       [121, "清晨名重", getMorningName, morningNameUnlocked, "", ""],
         [128, "余温温室", getRemainingWarmth, remainingWarmthUnlocked, "", ""],
+      [129, '没有地址的春信', getSpringLetter, springLetterUnlocked, '', ''],
     ];
     // 这些旧处理员也只在所属房间显示；沿原映射找到那一枚签收按钮。
     const roomBoundReceipts = {
@@ -72500,6 +72580,10 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     if (st.pending) return { title: "v121 名重正在路上", items: ["从原场景继续已验明的名签"], target: st.pending.source === 'remembrance' ? 'mn' : 'mn-resume', done: false };
     if (st.draft.confession) return { title: "v121 桌上还有名签", items: [`已称 ${st.draft.history.length}/3 次，摆盘与记录随时保存`], target: 'mn-resume', done: false };
       if (st.reconciled.length && remainingWarmthUnlocked()) {
+        const rw = getRemainingWarmth();
+        if (rw.plantCount > 0 && rw.pending === null && rw.draft === null && springLetterUnlocked()) {
+          return springLetter.progressStep();
+        }
         return warmthGarden.progressStep();
       }
     if (st.reconciled.length) return { title: "v121 名字迎来了清晨", items: [`已验明 ${st.reconciled.length}/3 份名重；其他旧选择的余韵可选收集`], target: 'mn', done: true };
@@ -73111,6 +73195,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   syncDawnPulseAll();
   syncMorningNameAll();
     warmthGarden.sync();
+    springLetter.sync();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

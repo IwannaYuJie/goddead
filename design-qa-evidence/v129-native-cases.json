@@ -1,0 +1,584 @@
+{
+  "date": "2026-10-25",
+  "browser": "Chrome Computer Use, one QA tab",
+  "boundaries": [
+    "Local upstream fixture; prior chapters were not replayed",
+    "Three representative combinations plus repeat; nine combinations verified in module tests",
+    "375px is desktop Chrome viewport emulation",
+    "Busy controls are unavailable via hidden workbench; native disabled flags alone are not the availability oracle"
+  ],
+  "cases": [
+    {
+      "test": "entry-source-before-reload",
+      "hash": "#deadletter",
+      "state": {
+        "version": 129,
+        "visited": false,
+        "outcomes": [],
+        "letterCount": 0,
+        "lastLetter": null,
+        "draft": null,
+        "pending": {
+          "kind": "enter",
+          "source": "deadletter",
+          "target": "unaddressed-spring-letter"
+        }
+      },
+      "locks": [
+        "return-room-entry-tubes",
+        "return-room-entry-cabinet",
+        "return-room-entry-receipt",
+        "",
+        "",
+        "",
+        "receipt-btn",
+        "lk-keyholder-return-deadletter",
+        "pc-paster-return-deadletter",
+        "lb-lamplighter-return-deadletter",
+        "wk-mourner-return-deadletter",
+        "hb-appraiser-return-deadletter",
+        "us-clerk-return-deadletter",
+        "rv-ferryman-return-deadletter"
+      ],
+      "exitLocked": false
+    },
+    {
+      "test": "entry-source-reload-arrival",
+      "hash": "#unaddressed-spring-letter",
+      "state": {
+        "version": 129,
+        "visited": true,
+        "outcomes": [],
+        "letterCount": 0,
+        "lastLetter": null,
+        "draft": null,
+        "pending": null
+      },
+      "focus": "sl-title",
+      "locked": 0
+    },
+    {
+      "test": "invalid-node-and-hint-readonly",
+      "rawUnchanged": true,
+      "feedback": "指路：下一笔可以走向第 2 点。"
+    },
+    {
+      "test": "dead-end-hint",
+      "state": {
+        "version": 129,
+        "visited": true,
+        "outcomes": [],
+        "letterCount": 0,
+        "lastLetter": null,
+        "draft": {
+          "letter": "window",
+          "path": [
+            0,
+            1,
+            5,
+            6,
+            2,
+            3,
+            7,
+            11,
+            10
+          ],
+          "sealed": false
+        },
+        "pending": null
+      },
+      "feedback": "前方无完整连线：先撤回 6 步，再走到第 5 点。",
+      "sealDisabled": true
+    },
+    {
+      "test": "draft-reload",
+      "rawUnchanged": true
+    },
+    {
+      "test": "native-keyboard-six-undo",
+      "state": {
+        "version": 129,
+        "visited": true,
+        "outcomes": [],
+        "letterCount": 0,
+        "lastLetter": null,
+        "draft": {
+          "letter": "window",
+          "path": [
+            0,
+            1,
+            5
+          ],
+          "sealed": false
+        },
+        "pending": null
+      }
+    },
+    {
+      "test": "reset-preserves-origin",
+      "state": {
+        "version": 129,
+        "visited": true,
+        "outcomes": [],
+        "letterCount": 0,
+        "lastLetter": null,
+        "draft": {
+          "letter": "window",
+          "path": [
+            0
+          ],
+          "sealed": false
+        },
+        "pending": null
+      }
+    },
+    {
+      "test": "window-sealed-not-delivered",
+      "state": {
+        "version": 129,
+        "visited": true,
+        "outcomes": [],
+        "letterCount": 0,
+        "lastLetter": null,
+        "draft": {
+          "letter": "window",
+          "path": [
+            0,
+            1,
+            5,
+            4,
+            8,
+            9,
+            5,
+            6,
+            2,
+            3,
+            7,
+            11,
+            10
+          ],
+          "sealed": true
+        },
+        "pending": null
+      }
+    },
+    {
+      "test": "unseal",
+      "state": {
+        "version": 129,
+        "visited": true,
+        "outcomes": [],
+        "letterCount": 0,
+        "lastLetter": null,
+        "draft": {
+          "letter": "window",
+          "path": [
+            0,
+            1,
+            5,
+            4,
+            8,
+            9,
+            5,
+            6,
+            2,
+            3,
+            7,
+            11,
+            10
+          ],
+          "sealed": false
+        },
+        "pending": null
+      }
+    },
+    {
+      "test": "deliver-doubleclick-before-reload",
+      "hash": "#unaddressed-spring-letter",
+      "state": {
+        "version": 129,
+        "visited": true,
+        "outcomes": [],
+        "letterCount": 0,
+        "lastLetter": null,
+        "draft": {
+          "letter": "window",
+          "path": [
+            0,
+            1,
+            5,
+            4,
+            8,
+            9,
+            5,
+            6,
+            2,
+            3,
+            7,
+            11,
+            10
+          ],
+          "sealed": true
+        },
+        "pending": {
+          "kind": "deliver",
+          "source": "unaddressed-spring-letter",
+          "target": "threshold",
+          "letter": "window",
+          "recipient": "tomorrow"
+        }
+      }
+    },
+    {
+      "test": "tomorrow-arrival",
+      "hash": "#threshold",
+      "state": {
+        "version": 129,
+        "visited": true,
+        "outcomes": [
+          "window:tomorrow"
+        ],
+        "letterCount": 1,
+        "lastLetter": {
+          "letter": "window",
+          "recipient": "tomorrow"
+        },
+        "draft": null,
+        "pending": null
+      },
+      "focus": "sl-echo-tomorrow-title",
+      "titleBox": {
+        "x": 511,
+        "y": 119.28125,
+        "width": 448,
+        "height": 27.5,
+        "top": 119.28125,
+        "right": 959,
+        "bottom": 146.78125,
+        "left": 511
+      },
+      "headerBottom": 72.09375,
+      "echoVisible": true,
+      "oldChanged": []
+    },
+    {
+      "test": "target-reload-idempotent",
+      "rawUnchanged": true,
+      "focus": ""
+    },
+    {
+      "test": "375-drawer-full-route",
+      "state": {
+        "version": 129,
+        "visited": true,
+        "outcomes": [
+          "window:tomorrow"
+        ],
+        "letterCount": 1,
+        "lastLetter": {
+          "letter": "window",
+          "recipient": "tomorrow"
+        },
+        "draft": {
+          "letter": "drawer",
+          "path": [
+            3,
+            2,
+            6,
+            7,
+            11,
+            10,
+            6,
+            5,
+            1,
+            0,
+            4,
+            5,
+            9,
+            8
+          ],
+          "sealed": true
+        },
+        "pending": null
+      },
+      "viewport": [
+        375,
+        812
+      ],
+      "documentWidth": 375,
+      "sceneWidth": 375,
+      "minNodeWidth": 48,
+      "minNodeHeight": 48
+    },
+    {
+      "test": "third-scene-cancels-only-delivery",
+      "hash": "#remembrance",
+      "state": {
+        "version": 129,
+        "visited": true,
+        "outcomes": [
+          "window:tomorrow"
+        ],
+        "letterCount": 1,
+        "lastLetter": {
+          "letter": "window",
+          "recipient": "tomorrow"
+        },
+        "draft": {
+          "letter": "drawer",
+          "path": [
+            3,
+            2,
+            6,
+            7,
+            11,
+            10,
+            6,
+            5,
+            1,
+            0,
+            4,
+            5,
+            9,
+            8
+          ],
+          "sealed": true
+        },
+        "pending": null
+      },
+      "guide": "没有地址的春信",
+      "resumeVisible": true
+    },
+    {
+      "test": "375-stranger-arrival",
+      "hash": "#deadletter",
+      "state": {
+        "version": 129,
+        "visited": true,
+        "outcomes": [
+          "window:tomorrow",
+          "drawer:stranger"
+        ],
+        "letterCount": 2,
+        "lastLetter": {
+          "letter": "drawer",
+          "recipient": "stranger"
+        },
+        "draft": null,
+        "pending": null
+      },
+      "focus": "sl-echo-stranger-title",
+      "titleTop": 368.2109375,
+      "headerBottom": 72.09375,
+      "sceneWidth": 375,
+      "viewport": 375
+    },
+    {
+      "test": "unsent-arrival",
+      "hash": "#remembrance",
+      "state": {
+        "version": 129,
+        "visited": true,
+        "outcomes": [
+          "window:tomorrow",
+          "drawer:stranger",
+          "chair:unsent"
+        ],
+        "letterCount": 3,
+        "lastLetter": {
+          "letter": "chair",
+          "recipient": "unsent"
+        },
+        "draft": null,
+        "pending": null
+      },
+      "focus": "sl-echo-unsent-title",
+      "titleTop": 119.09375,
+      "headerBottom": 72.09375,
+      "guide": "NEXT · 下 一 步\n\n没有地址的春信\n你已完成过一封春信。可随时回到侧桌，尝试描画其他来信或体验不同去向的余韵。\n找到入口 ⟶",
+      "codex": "春信余韵记录（3 / 9）：",
+      "oldChanged": []
+    },
+    {
+      "test": "old-receipt-first",
+      "newRawUnchanged": true,
+      "hash": "#deadletter"
+    },
+    {
+      "test": "old-receipt-arrived",
+      "hash": "#cancellation",
+      "newRawUnchanged": true
+    },
+    {
+      "test": "new-entry-first-native-lock",
+      "pending": {
+        "kind": "enter",
+        "source": "deadletter",
+        "target": "unaddressed-spring-letter"
+      },
+      "receiptDisabled": false,
+      "receiptInert": true,
+      "exitInert": false
+    },
+    {
+      "test": "native-data-go-exit-cancels-entry",
+      "hash": "#switchboard",
+      "state": {
+        "version": 129,
+        "visited": true,
+        "outcomes": [
+          "window:tomorrow",
+          "drawer:stranger",
+          "chair:unsent"
+        ],
+        "letterCount": 3,
+        "lastLetter": {
+          "letter": "chair",
+          "recipient": "unsent"
+        },
+        "draft": null,
+        "pending": null
+      },
+      "receipt": {
+        "disabled": false,
+        "inert": null,
+        "aria": null
+      },
+      "locked": 0
+    },
+    {
+      "test": "fixed-desktop-room-title",
+      "top": 112,
+      "headerBottom": 72.09375,
+      "transform": "none",
+      "viewport": [
+        1470,
+        688
+      ],
+      "sceneWidth": 1470
+    },
+    {
+      "test": "fixed-remembrance-visible-layer",
+      "echoZ": "1",
+      "echoPosition": "relative",
+      "cardBox": {
+        "x": 518,
+        "y": 178.9453125,
+        "width": 434,
+        "height": 167.8984375,
+        "top": 178.9453125,
+        "right": 952,
+        "bottom": 346.84375,
+        "left": 518
+      },
+      "entryZ": "1",
+      "codexZ": "1"
+    },
+    {
+      "test": "codex-three-echoes",
+      "expanded": "true",
+      "summary": "春信余韵记录（3 / 9）：",
+      "known": [
+        "【已留下回响】门缝下多了一道浅绿的折痕。明天开门时，你会知道有人替你把灯留着。",
+        "【已留下回响】灰纸被放进一格空柜。有人终于可以收下一个问题，而不必替它作答。",
+        "【已留下回响】墙边多了一把画在纸上的椅子。暂时没人坐下，位置仍然算数。"
+      ],
+      "chapterUnchanged": true
+    },
+    {
+      "test": "upstream-busy-preserves-draft",
+      "rawUnchanged": true,
+      "waiting": true,
+      "note": "温室尚有未了结的事务，请先完成温室再来照看春信。",
+      "allNodesDisabled": false,
+      "hintDisabled": false
+    },
+    {
+      "test": "lost-qualification-keeps-draft",
+      "hash": "#remembrance",
+      "rawUnchanged": true,
+      "entryHidden": true,
+      "directoryHidden": true
+    },
+    {
+      "test": "busy-controls-unavailable-via-hidden-workbench",
+      "hash": "#unaddressed-spring-letter",
+      "rawUnchanged": true,
+      "workbenchHidden": true,
+      "pickerHidden": true,
+      "accessibleNodes": 0,
+      "note": "温室尚有未了结的事务，请先完成温室再来照看春信。"
+    },
+    {
+      "test": "resume-after-busy",
+      "rawUnchanged": true,
+      "node2Enabled": true
+    },
+    {
+      "test": "fixed-375-title-and-board",
+      "top": 129.9140625,
+      "headerBottom": 72.09375,
+      "viewport": [
+        375,
+        812
+      ],
+      "sceneWidth": 375,
+      "minNodeSize": 48,
+      "maxCenterError": 0.0078125
+    },
+    {
+      "test": "repeat-letter-dedupes-echo-counts-new-delivery",
+      "hash": "#threshold",
+      "state": {
+        "version": 129,
+        "visited": true,
+        "outcomes": [
+          "window:tomorrow",
+          "drawer:stranger",
+          "chair:unsent"
+        ],
+        "letterCount": 4,
+        "lastLetter": {
+          "letter": "window",
+          "recipient": "tomorrow"
+        },
+        "draft": null,
+        "pending": null
+      }
+    },
+    {
+      "test": "only-earned-origin-available",
+      "rawUnchanged": true,
+      "choices": [
+        {
+          "letter": "window",
+          "disabled": false,
+          "note": "（窗台已解锁）"
+        },
+        {
+          "letter": "drawer",
+          "disabled": true,
+          "note": "（需在温室抽屉安放一盆新芽）"
+        },
+        {
+          "letter": "chair",
+          "disabled": true,
+          "note": "（需在温室空椅旁安放一盆新芽）"
+        }
+      ],
+      "viewport": 375,
+      "scrollWidth": 375
+    },
+    {
+      "test": "local-fixture-cleanup",
+      "originalKeys": 1,
+      "restoredKeys": 1,
+      "exactMatch": true,
+      "newKeyAbsent": true,
+      "viewport": {
+        "width": 1470,
+        "height": 688
+      }
+    }
+  ]
+}

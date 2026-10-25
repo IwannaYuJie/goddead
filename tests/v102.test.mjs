@@ -680,12 +680,12 @@ function createV102Harness({
 // -------------------------------------------------------------
 // Test Group 1: Markers, scene IDs, image attributes & DOM HTML structure
 // -------------------------------------------------------------
-test('Group 1: HTML structure, scene count 281, lazy images, native buttons and CSS scope', () => {
-  // 281 unique scene section data-scene values in index.html (excluding scene-veil overlay)
+test('Group 1: HTML structure, scene count 282, lazy images, native buttons and CSS scope', () => {
+  // 282 unique scene section data-scene values in index.html (excluding scene-veil overlay)
   const sceneMatches = Array.from(indexHtml.matchAll(/<section[^>]+data-scene="([^"]+)"/g)).map((m) => m[1]);
   const uniqueScenes = new Set(sceneMatches);
-  assert.equal(sceneMatches.length, 281, `Total data-scene sections must be exactly 281, got ${sceneMatches.length}`);
-  assert.equal(uniqueScenes.size, 281, `Scene count must be exactly 281, got ${uniqueScenes.size}`);
+  assert.equal(sceneMatches.length, 282, `Total data-scene sections must be exactly 282, got ${sceneMatches.length}`);
+  assert.equal(uniqueScenes.size, 282, `Scene count must be exactly 282, got ${uniqueScenes.size}`);
   assert.ok(uniqueScenes.has('weatherless-bus-shelter'));
   assert.ok(uniqueScenes.has('season-dispatch-board'));
   assert.ok(uniqueScenes.has('four-season-platform'));
@@ -2273,6 +2273,7 @@ test('v102: sceneInit and legacy v45 relief integration behavior audit', () => {
       const replayMorningNamePending = () => {};
       // The new chapter lifecycle is outside this v102 sceneInit test.
       const warmthGarden = {onScene() {}};
+      const springLetter = {onScene() {}};
       const syncWeatherlessShelterAll = () => h.syncAll();
 
       let thresholdConsumed = false;

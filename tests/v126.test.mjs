@@ -148,6 +148,6 @@ assert.deepEqual(rules.lbStart({ side: 'east', pos: 2 }), { r: 2, c: 4, dr: 0, d
 assert.equal(other.defaultBorrowedLight().version, 999); assert.equal(rules.defaultBorrowedLight().version, 108);
 assert.deepEqual(config, oracle.config, 'configuration remains untouched');
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
-assert.deepEqual([...html.matchAll(/<script src="([^"]+)"[^>]*>/g)].map(match => match[1]), ['directory.js?v=128', 'ink-rules.js?v=128', 'light-rules.js?v=128', 'tea-rules.js?v=128', 'warmth-rules.js?v=128', 'warmth-garden.js?v=128', 'script.js?v=128']);
-assert.match(html, /styles\.css\?v=128/);
+assert.deepEqual([...html.matchAll(/<script src="([^"]+)"[^>]*>/g)].map(match => match[1]), ['directory.js?v=129', 'ink-rules.js?v=129', 'light-rules.js?v=129', 'tea-rules.js?v=129', 'warmth-rules.js?v=129', 'warmth-garden.js?v=129', 'spring-letter-rules.js?v=129', 'spring-letter.js?v=129', 'script.js?v=129']);
+assert.match(html, /styles\.css\?v=129/);
 console.log(`v126 light rules: 1,344 legacy/independent traces and SVG paths, 63 canonical cases, ${pendingFieldChecks} strict pending field checks passed`);

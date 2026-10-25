@@ -1,4 +1,17 @@
-# 当前实施状态：v128 余温温室
+# 当前实施状态：v129 没有地址的春信
+
+- 状态：本地实装与原生验收完成。生产代码与样式表已冻结，自动化全站测试与单标签桌面及 375px 视口模拟真实 Chrome 交互验收均已通过。当前尚未执行 git commit、push 或 Cloudflare Pages 发布，公开站点（https://goddead.com/）当前仍保持 v128 基线。下一步是完成当前验证收尾后推进提交、推送与线上公开站点冷载核验。
+- 职责分工：本版本由 Codex 独立完成概念设计、原画生成与独立 QA 验收，Gemini 3.8 Flash High 作为本次 v129 生产前端与实施文档的唯一作者完成代码实现与交付。
+- 场景与枢纽：新增场景 `unaddressed-spring-letter`（春信摊平室），全站总场景数增至 282，ID 总数 4644 个。前置依赖余温温室已安放绿意（`remainingWarmthUnlocked() && getRemainingWarmth().plantCount > 0`），且旧清晨名重上游或温室草稿/在途事务非忙态。通过无主投递所深处或痕迹室指引进入。
+- 架构与模块：新增纯规则模块 `spring-letter-rules.js`（`GoddeadSpringLetterRules.create()` 导出十纯函数），处理布局、草稿规范化、路线有效性、分析、单步推进、撤回、重置、封信及最少撤回提示（hint）；新增业务运行时 `spring-letter.js` 与独立样式 `spring-letter.css`。使用独立存储键 `goddead_v129_spring_letter`（规范七字段，版本号 129），绝不写入旧章存档。全站原有 5 个工厂命名空间（`GoddeadWarmthRules`、`GoddeadWarmthGarden`、`GoddeadTeaRules`、`GoddeadInkRules`、`GoddeadLightRules`）加上新增 2 个工厂命名空间（`GoddeadSpringLetterRules`、`GoddeadSpringLetter`）共计 7 个，单元级已冻结；公开注册挂载状态待上线后统一核验。
+- 玩法与交付：读取温室 `outcomes` 独立解锁三封无名信（窗台 `window` 12线/2解、抽屉 `drawer` 13线/4解、空椅 `chair` 14线/16解）；三行四列十二点正交一笔画走完图内全部边后封信；送出支持三种去向：门外窗台（`tomorrow`）、投递所空柜（`stranger`）、痕迹墙边（`unsent`）。达成任意一封即可推进痕迹室清晨指引，九份组合余韵均为可选探索。真实抵达落点原子记账并清除草稿，支持来源刷新重放、目标刷新幂等、第三场景取消在途并保留封件。
+- 目录与指引：目录新增 `unaddressed-spring-letter`（编号 32ε，总数达 280 项，原 279 项入口字节与顺序保持完全一致），需实际到访后按既有规则解锁呈现。痕迹室图鉴与清晨指引完整接入。本章首锁保护范围排除了普通跳转与投递所旧 `button[data-go]` 退出按钮，已测路径的无障碍焦点流转正常。
+- 依赖与资源：`index.html` 引入 `spring-letter-rules.js`、`spring-letter.js` 与 `spring-letter.css`；全站 9 个阻塞脚本与 3 份 CSS 共 12 项核心依赖更新缓存查询至 `v=129`。新增 WebP 原画 `assets/v129-unaddressed-spring-letter.webp`（1536×1024，238,536 字节，SHA `680ccf8c067aa2e42dfb62014d2717c812881b0a2d276eb9f9c79c7b2c746710`，由本地生成的 PNG 2,560,350 字节转换而来）。
+- 验收口径：独立测试包含自动化全站测试 199,956 条断言、旧显式测试 65 项全部通过；纯规则自动化测试 6,364 条断言（覆盖 244 个有效前缀、22 个完整解、8 处死路与 37 种畸形/越界输入，0 getter/类型强制转换）；独立运行时测试 41 用例 428 条断言（覆盖全部 9 种组合、刷新幂等、首锁互斥与改道取消）。原生 QA 基于单一 Chrome 标签通过 Computer Use 真实执行代表路径（桌面视口下完成 `window`→`tomorrow` 与 `chair`→`unsent`；375×812 移动视口模拟下完成 `drawer`→`stranger`，外加 375px 下复测 `window`→`tomorrow`，以及重置/死路提示撤回/封拆/刷新/改道/双击重复验证，累计 4 封送出与 3 份不同余韵）。验收期间修正了标题遮挡固定栏与痕迹室照片层级覆盖问题，测试路径界面与焦点流转符合预期。本地测试完成后，全部 69 个上游 QA fixtures 已全部移除，原生的单个本地存储键 `goddead_state` 亦精确复原为最初的未修改状态，不包含任何测试祈祷内容或测试残余，控制台 0 警告 0 报错；本地 HTTP 服务与单个 QA 标签页仅保留至上线公开核验完成，未对宿主浏览器持久偏好产生污染。
+- 引用：详见设计文档 [Design.md](../design-concepts/spring-letter/Design.md)、前端合同 [FrontendContract.md](../design-concepts/spring-letter/FrontendContract.md)、原画记录 [ImagePrompts.md](../design-concepts/spring-letter/ImagePrompts.md) 与原生验收证据 [v129-browser-qa.md](../design-qa-evidence/v129-browser-qa.md)、[v129-native-cases.json](../design-qa-evidence/v129-native-cases.json)、[v129-source-audit.json](../design-qa-evidence/v129-source-audit.json)。
+
+
+# 历史实施状态：v128 余温温室（已发布）
 
 - 状态：已发布验证。生产代码已合并并推送到 `origin/main`（commit `c86c7ad4dd1d22789f4fbcc12eef084ca959e37a`），Cloudflare Pages 部署成功（`d52a6e26-f14e-45ea-aeec-afea1197d519`，2026-10-25T04:44:55Z）。公开线上站点 `https://goddead.com/` 已完成 12 项资源 raw 字节及 SHA 一致性核验，并在独立冷载 QA 浏览器中验证通过。
 - 场景与枢纽：新增场景 `remaining-warmth-garden`（余温温室），全站总场景数增至 281，ID 总数 4560 个。前置依赖清晨名签（`morningNameUnlocked() && getMorningName().reconciled.length > 0`）、值夜（`watchUnlocked()`）、第四线连通（`line4Unlocked() && getLine4().connected`），以及原主线状态无主投递签收（`getDL().accepted`）、注销拒办（`getCancel().refused`）与代神任命（`getActing().appointed`）。通过痕迹室指引经由原焚献室进入。

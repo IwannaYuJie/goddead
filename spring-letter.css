@@ -1,0 +1,618 @@
+/* spring-letter.css - v129 春信样式表 */
+
+/* 核心变量与卡片基底 */
+:root {
+  --sl-paper-bg: #efe9db;
+  --sl-paper-border: #8a7a60;
+  --sl-paper-ink: #1e2522;
+  --sl-paper-subtle: #4b544e;
+  --sl-paper-panel: #e5ded0;
+  --sl-paper-well: #d8cfbe;
+  --sl-ink-primary: #1d3326;
+  --sl-ink-hover: #13241b;
+  --sl-ink-text: #f4f7f4;
+  --sl-ink-border: #14241b;
+  --sl-copper: #9b5a2b;
+  --sl-copper-glow: rgba(155, 90, 43, 0.28);
+  --sl-leaf: #3f6848;
+  --sl-leaf-glow: rgba(63, 104, 72, 0.35);
+  --sl-focus-ring: #0f4c3a;
+  --sl-focus-ring-dark: #b5d5c5;
+  --sl-line-dim: #796b55;
+  --sl-line-active: #244b36;
+}
+
+/* 锚点与视口滚动预留 */
+#scene-unaddressed-spring-letter .sl-title,
+#sl-echo-tomorrow-title,
+#sl-echo-stranger-title,
+#sl-echo-unsent-title {
+  scroll-margin-top: clamp(112px, 16vh, 140px);
+}
+
+/* 房间标题样式与稳定对比度（移除继承的呼吸动效与变换） */
+.sl-title,
+.sl-scene .sl-title,
+.sl-scene h2 {
+  animation: none;
+  transform: none;
+  color: #efe9db;
+  opacity: 1;
+}
+
+/* 场景布局与原画 */
+.sl-scene {
+  color: #dcd8d0;
+  padding-bottom: 3.5rem;
+}
+
+.sl-scene .sl-body {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  justify-content: flex-start;
+  padding: clamp(112px, 16vh, 140px) 1rem 3.5rem;
+}
+
+.sl-figure {
+  margin: 0 0 1.5rem 0;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(138, 122, 96, 0.3);
+  background: #0f1110;
+}
+
+#sl-room-image.sl-room-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1536 / 1024;
+  object-fit: cover;
+  background-color: #121413;
+}
+
+/* 场景与外部深底叙事文字 */
+#sl-intro.sl-intro p,
+.sl-waiting p,
+.sl-summary-panel p {
+  line-height: 1.75;
+  color: #dcd8d0;
+  margin: 0.75rem 0;
+}
+
+.sl-summary-panel .sl-card-note {
+  color: #b8b2a5;
+}
+
+/* 纸面工作台与外框 */
+.sl-paper {
+  background-color: var(--sl-paper-bg);
+  color: var(--sl-paper-ink);
+  border: 1px solid var(--sl-paper-border);
+  border-radius: 3px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.2);
+  padding: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.sl-paper h3 {
+  color: var(--sl-paper-ink);
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+}
+
+.sl-paper p {
+  color: var(--sl-paper-ink);
+}
+
+.sl-paper .sl-card-note,
+.sl-paper .sl-instructions,
+.sl-paper .sl-status-group p {
+  color: var(--sl-paper-subtle);
+}
+
+.sl-paper blockquote {
+  margin: 0.75rem 0 1.25rem 0;
+  padding: 0.6rem 1rem;
+  border-left: 3px solid var(--sl-copper);
+  background-color: var(--sl-paper-panel);
+  font-style: normal;
+  color: var(--sl-paper-ink);
+  line-height: 1.6;
+}
+
+/* 来信选择架 */
+.sl-picker {
+  margin: 1.5rem 0;
+}
+
+.sl-card-group {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+@media (min-width: 680px) {
+  .sl-card-group {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.sl-card {
+  background: var(--sl-paper-panel);
+  border: 1px solid var(--sl-paper-border);
+  border-radius: 3px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sl-card-title {
+  font-weight: bold;
+  color: var(--sl-paper-ink);
+  margin-bottom: 0.5rem;
+}
+
+.sl-card-note {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  flex-grow: 1;
+}
+
+/* 按钮通用 */
+.sl-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.5rem 1rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  line-height: 1.3;
+  border-radius: 3px;
+  border: 1px solid var(--sl-ink-border);
+  background-color: var(--sl-ink-primary);
+  color: var(--sl-ink-text);
+  cursor: pointer;
+  text-decoration: none;
+  box-sizing: border-box;
+  text-align: center;
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+.sl-btn:hover:not(:disabled):not([data-sl-locked="true"]) {
+  background-color: var(--sl-ink-hover);
+  border-color: #0b1510;
+}
+
+.sl-btn:focus-visible {
+  outline: 2px solid var(--sl-focus-ring);
+  outline-offset: 2px;
+}
+
+.sl-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  border-color: #7d8480;
+  background-color: #4b544e;
+  color: #cfd6d1;
+}
+
+.sl-btn[data-sl-locked="true"] {
+  opacity: 0.6;
+  cursor: wait;
+  pointer-events: none;
+}
+
+.sl-btn-subtle {
+  background-color: var(--sl-paper-panel);
+  color: var(--sl-paper-ink);
+  border: 1px solid var(--sl-paper-border);
+}
+
+.sl-btn-subtle:hover:not(:disabled):not([data-sl-locked="true"]) {
+  background-color: var(--sl-paper-well);
+  border-color: #6d5e49;
+}
+
+/* 深色背景中的次级按钮链接（如房间页脚全局 .sl-links） */
+.sl-links .sl-btn-subtle {
+  background-color: rgba(239, 233, 219, 0.08);
+  color: #efe9db;
+  border: 1px solid rgba(138, 122, 96, 0.6);
+}
+
+.sl-links .sl-btn-subtle:hover:not(:disabled) {
+  background-color: rgba(239, 233, 219, 0.16);
+  border-color: #c5baa8;
+}
+
+.sl-links .sl-btn-subtle:focus-visible {
+  outline: 2px solid var(--sl-focus-ring-dark);
+  outline-offset: 2px;
+}
+
+/* 纸面容器内的次级链接高特异性覆写：确保在浅色纸张上有充分高对比度与实体感 */
+.sl-echo-panel .sl-links .sl-btn-subtle,
+.sl-post-panel .sl-links .sl-btn-subtle,
+.sl-entry-panel .sl-links .sl-btn-subtle,
+.sl-paper .sl-links .sl-btn-subtle {
+  background-color: var(--sl-paper-panel);
+  color: var(--sl-paper-ink);
+  border: 1px solid var(--sl-paper-border);
+}
+
+.sl-echo-panel .sl-links .sl-btn-subtle:hover:not(:disabled),
+.sl-post-panel .sl-links .sl-btn-subtle:hover:not(:disabled),
+.sl-entry-panel .sl-links .sl-btn-subtle:hover:not(:disabled),
+.sl-paper .sl-links .sl-btn-subtle:hover:not(:disabled) {
+  background-color: var(--sl-paper-well);
+  border-color: #6d5e49;
+  color: var(--sl-paper-ink);
+}
+
+.sl-echo-panel .sl-links .sl-btn-subtle:focus-visible,
+.sl-post-panel .sl-links .sl-btn-subtle:focus-visible,
+.sl-entry-panel .sl-links .sl-btn-subtle:focus-visible,
+.sl-paper .sl-links .sl-btn-subtle:focus-visible {
+  outline: 2px solid var(--sl-focus-ring);
+  outline-offset: 2px;
+}
+
+/* 工作台布局（桌面双栏响应，纸面背景） */
+.sl-workbench-paper {
+  margin: 1.5rem 0;
+}
+
+.sl-desk {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (min-width: 840px) {
+  .sl-desk {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 2rem;
+  }
+}
+
+.sl-desk-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.sl-desk-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 4x3 棋盘容器与 SVG */
+.sl-board-frame {
+  width: 100%;
+  max-width: 480px;
+  position: relative;
+  background: var(--sl-paper-well);
+  border: 2px solid var(--sl-paper-border);
+  border-radius: 4px;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.sl-board {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  margin: 0 auto;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+.sl-board-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.sl-line {
+  stroke: var(--sl-line-dim);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-dasharray: 6 6;
+  transition: stroke 0.2s ease, stroke-width 0.2s ease;
+}
+
+.sl-line.is-used {
+  stroke: var(--sl-line-active);
+  stroke-width: 6;
+  stroke-dasharray: none;
+}
+
+/* 12 个原生墨点按钮 (3行4列，中心 50+100*col, 50+100*row) */
+.sl-node {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  border-radius: 50%;
+  border: 2px solid var(--sl-paper-border);
+  background-color: var(--sl-paper-panel);
+  color: var(--sl-paper-ink);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  z-index: 2;
+}
+
+.sl-node:focus-visible {
+  outline: 3px solid var(--sl-focus-ring);
+  outline-offset: 3px;
+  z-index: 5;
+}
+
+/* 四列中心定位：12.5%, 37.5%, 62.5%, 87.5% */
+/* 三行中心定位：16.666%, 50%, 83.333% */
+#sl-node-0 { left: 12.5%; top: 16.666%; }
+#sl-node-1 { left: 37.5%; top: 16.666%; }
+#sl-node-2 { left: 62.5%; top: 16.666%; }
+#sl-node-3 { left: 87.5%; top: 16.666%; }
+
+#sl-node-4 { left: 12.5%; top: 50%; }
+#sl-node-5 { left: 37.5%; top: 50%; }
+#sl-node-6 { left: 62.5%; top: 50%; }
+#sl-node-7 { left: 87.5%; top: 50%; }
+
+#sl-node-8 { left: 12.5%; top: 83.333%; }
+#sl-node-9 { left: 37.5%; top: 83.333%; }
+#sl-node-10 { left: 62.5%; top: 83.333%; }
+#sl-node-11 { left: 87.5%; top: 83.333%; }
+
+/* 墨点微标签（起、终、笔等） */
+.sl-node-mark {
+  font-size: 0.65rem;
+  line-height: 1;
+  font-weight: 700;
+  height: 0.75rem;
+}
+
+.sl-node-num {
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+/* 墨点状态 */
+.sl-node.is-available {
+  background-color: #d1e4d7;
+  border-color: var(--sl-leaf);
+  color: var(--sl-ink-primary);
+  box-shadow: 0 0 0 2px var(--sl-leaf-glow);
+}
+
+.sl-node.is-current {
+  background-color: var(--sl-ink-primary);
+  border-color: #0c1611;
+  color: #f7f9f7;
+  box-shadow: 0 0 0 3px var(--sl-copper-glow);
+  z-index: 4;
+}
+
+.sl-node.is-hint {
+  border-color: var(--sl-copper);
+  background-color: #ebdacf;
+  box-shadow: 0 0 0 3px var(--sl-copper-glow);
+}
+
+.sl-node.is-start:not(.is-current) {
+  border-color: var(--sl-leaf);
+}
+
+.sl-node.is-end:not(.is-current) {
+  border-color: var(--sl-copper);
+}
+
+/* 路线文本信息与辅助反馈 */
+.sl-status-group {
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 480px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.sl-status-group p {
+  margin: 0.35rem 0;
+}
+
+.sl-feedback {
+  min-height: 1.5rem;
+  font-weight: 600;
+  color: var(--sl-ink-primary);
+}
+
+/* 控制按钮组 */
+.sl-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 480px;
+}
+
+.sl-controls .sl-btn {
+  flex: 1 1 calc(50% - 0.6rem);
+}
+
+/* 去向选择区（桌面跨越双栏） */
+.sl-recipients {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px dashed var(--sl-paper-border);
+}
+
+@media (min-width: 840px) {
+  .sl-recipients {
+    grid-column: 1 / -1;
+  }
+}
+
+.sl-recipients-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+@media (min-width: 600px) {
+  .sl-recipients-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* 总结与离开链接 */
+.sl-summary-panel {
+  margin: 2rem 0;
+  padding: 1rem;
+  border-radius: 3px;
+  background: rgba(239, 233, 219, 0.05);
+  border: 1px solid rgba(138, 122, 96, 0.4);
+}
+
+.sl-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+/* 投递所与回响面板（支持旧场景与残响之壁中正确定位提升至 legacy 背景之上） */
+.sl-post-panel,
+.sl-entry-panel,
+.sl-echo-panel,
+#sl-entry-panel,
+#sl-echo-unsent,
+#sl-echo-stranger,
+#sl-echo-tomorrow,
+#sl-codex {
+  position: relative;
+  z-index: 1;
+}
+
+.sl-post-panel,
+.sl-entry-panel,
+.sl-echo-panel {
+  background: var(--sl-paper-bg);
+  color: var(--sl-paper-ink);
+  border: 1px solid var(--sl-paper-border);
+  border-radius: 3px;
+  padding: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.sl-post-panel h3,
+.sl-entry-panel h3,
+.sl-echo-panel h3 {
+  color: var(--sl-paper-ink);
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.sl-echo-panel p {
+  color: var(--sl-paper-subtle);
+  line-height: 1.6;
+  margin: 0.75rem 0;
+}
+
+/* 痕迹图鉴扩展 */
+#sl-codex {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(138, 122, 96, 0.3);
+}
+
+#sl-codex h3.sl-kicker {
+  color: #efe9db;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.sl-codex-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+@media (min-width: 680px) {
+  .sl-codex-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.sl-codex-item {
+  background: rgba(239, 233, 219, 0.04);
+  border: 1px solid rgba(138, 122, 96, 0.3);
+  border-radius: 3px;
+  padding: 0.75rem;
+}
+
+.sl-codex-item-title {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #dcd8d0;
+  margin-bottom: 0.35rem;
+}
+
+.sl-codex-item p {
+  font-size: 0.85rem;
+  color: #b8b2a5;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* 局部隐藏规则（严格匹配 sl- 前缀与属性类，限定 sl 作用域，杜绝全局污染） */
+[class^="sl-"][hidden],
+[class*=" sl-"][hidden],
+[id^="sl-"][hidden],
+.sl-scene [hidden],
+.sl-desk [hidden],
+.sl-paper [hidden],
+.sl-post-panel [hidden],
+.sl-entry-panel [hidden],
+.sl-echo-panel [hidden],
+#sl-codex [hidden],
+#unaddressed-spring-letter-link[hidden] {
+  display: none !important;
+}
+
+/* 无障碍偏好：降低动画 */
+@media (prefers-reduced-motion: reduce) {
+  .sl-btn,
+  .sl-node,
+  .sl-line {
+    transition: none !important;
+  }
+}

@@ -9,11 +9,13 @@ const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
 const start=source.indexOf('  const outstandingProgressStep =');
 const end=source.indexOf('  /* v91 不是三轴模板',start);
 const helper=source.slice(start,end);
-const rows=[...helper.matchAll(/^\s*\[(\d+), ("[^"]+"), (\w+), (.*?), ("[^"]*"), ("(?:\\.|[^"\\])*")\],$/gm)].map(([,v,name,get,gate,field,selector])=>({v:+v,name:JSON.parse(name),get,gate,field:JSON.parse(field),selector:JSON.parse(selector)}));
+const quoted=s=>s[0]==='"'?JSON.parse(s):s.slice(1,-1);
+const rows=[...helper.matchAll(/^\s*\[(\d+), ("[^"]+"|'[^']+'), (\w+), (.*?), ("[^"]*"|'[^']*'), ("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')\],$/gm)].map(([,v,name,get,gate,field,selector])=>({v:+v,name:quoted(name),get,gate,field:quoted(field),selector:quoted(selector)}));
 const legacyRows=rows.filter(r=>r.v<=121);
 assert.deepEqual(legacyRows.map(r=>r.v),Array.from({length:59},(_,i)=>i+63));
-assert.deepEqual(rows.map(r=>r.v),[...legacyRows.map(r=>r.v),128]);
-assert.deepEqual(rows.at(-1),{v:128,name:'余温温室',get:'getRemainingWarmth',gate:'remainingWarmthUnlocked',field:'',selector:''});
+assert.deepEqual(rows.map(r=>r.v),[...legacyRows.map(r=>r.v),128,129]);
+assert.deepEqual(rows.at(-2),{v:128,name:'余温温室',get:'getRemainingWarmth',gate:'remainingWarmthUnlocked',field:'',selector:''});
+assert.deepEqual(rows.at(-1),{v:129,name:'没有地址的春信',get:'getSpringLetter',gate:'springLetterUnlocked',field:'',selector:''});
 // Parse actual markup ancestry. Facade proves routing and visibility contracts, not rendered layout.
 class Node {
  constructor(tag,attrs,parent){this.tag=tag;this.attrs=attrs;this.parent=parent;this.hidden='hidden' in attrs;this.id=attrs.id||'';this.dataset={scene:attrs['data-scene']};this.textContent='';this.disabled=false;this.isConnected=true;this.listeners={};this.classList={add(){},remove(){}};}
@@ -31,7 +33,7 @@ for(const token of html.matchAll(/<\/?([a-zA-Z0-9-]+)([^>]*)>|([^<]+)/g)){
 }
 const byId=new Map(nodes.filter(n=>n.id).map(n=>[n.id,n]));
 const scenes=Object.fromEntries(nodes.filter(n=>n.dataset.scene).map(n=>[n.dataset.scene,n]));
-assert.equal(Object.keys(scenes).length,281);
+assert.equal(Object.keys(scenes).length,282);
 assert.ok(nodes.filter(n=>n.tag==='button'&&n.attrs['data-go']==='threshold'&&n.closest('.scene')?.dataset.scene==='eyelid-archive').every(n=>!n.closest('[hidden]')),'original eyelid exit stays outside both hidden receipts');
 const select=s=>s.startsWith('#')?[byId.get(s.slice(1))].filter(Boolean):nodes.filter(n=>n.tag==='button'&&n.id.startsWith(JSON.parse(s.match(/\^=(".*")/)[1])));
 const states=new Map(rows.map(r=>[r.v,{pending:null}])),locked=new Set(),reads=[];
@@ -73,6 +75,9 @@ states.get(121).pending={target:'missing'};assert.equal(step().destination,'');
 reset();states.get(128).pending={target:'remaining-warmth-garden'};states.get(121).pending={target:'threshold'};
 assert.match(step().title,/^v121 /,'old chapter pending keeps priority over v128');
 states.get(121).pending=null;assert.match(step().title,/^v128 /);assert.equal(step().destination,'remaining-warmth-garden');
+reset();states.get(129).pending={target:'unaddressed-spring-letter'};states.get(128).pending={target:'remaining-warmth-garden'};
+assert.match(step().title,/^v128 /,'warmth pending keeps priority over spring letter');
+states.get(128).pending=null;assert.match(step().title,/^v129 /);assert.equal(step().destination,'unaddressed-spring-letter');
 reset();states.get(63).unendingUnlocked=false;states.get(64).activeEcho={target:'protocol'};assert.equal(step(),null);
 // Actual getters execute against an explicit completed unlock-cache boundary. Native QA checks the real unlock chain.
 // All 59 reject malformed pending/active data and perform no writes.
@@ -124,6 +129,6 @@ render({title:'等待',items:['签收'],target:null,destination:'remembrance',re
 let prevented=false;link.listeners.click({preventDefault(){prevented=true;}});assert.equal(prevented,true);assert.equal(receipt.focused,true);assert.equal(receipt.scrolled,true);
 render({title:'入口',items:[],target:null});assert.equal(link.hidden,true);assert.equal(link.getAttribute('href'),null);assert.equal(link.textContent,'');
 render(null);assert.equal(byId.get('progress-guide').hidden,true);assert.equal(link.getAttribute('href'),null);
-assert.match(html,/directory\.js\?v=128/);
+assert.match(html,/directory\.js\?v=129/);
 assert.ok(source.indexOf('const outstanding = outstandingProgressStep()')<source.indexOf('    const er = getEndingReturn();',source.indexOf('const currentProgressStep')));
 console.log('v124 guide: 59 normalized getter boundaries, original receipt ancestry, priority and fourteen completed handcraft chapters passed');

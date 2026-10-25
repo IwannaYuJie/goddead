@@ -100,8 +100,8 @@ assert.equal((moduleSource.match(/addEventListener\(/g)||[]).length,1);assert.ma
 assert.match(source,/resolveRiverEchoPendingOnArrival\(name\);\s*replayRiverEchoPending\(name\);/);
 assert.match(source,/next\.scrollTop = 0;\s*focusRiverEchoArrival\(name\);/);
 assert.match(source,/AutoAdvance\.clearAll\(\);\s*clearRiverEchoPlayback\(\);/);
-assert.match(source,/forgetRiverFerryState\(\);\s*forgetRiverEchoState\(\);\s*forgetDawnPulseState\(\);\s*forgetMorningNameState\(\);\s*warmthGarden\.forget\(\);\s*forgetCodexFolds\(\);/);
-assert.match(source,/syncRiverFerryAll\(\);\s*syncRiverEchoAll\(\);\s*syncDawnPulseAll\(\);\s*syncMorningNameAll\(\);\s*warmthGarden\.sync\(\);\s*revealScene/);
+assert.match(source,/forgetRiverFerryState\(\);\s*forgetRiverEchoState\(\);\s*forgetDawnPulseState\(\);\s*forgetMorningNameState\(\);\s*warmthGarden\.forget\(\);\s*springLetter\.forget\(\);\s*forgetCodexFolds\(\);/);
+assert.match(source,/syncRiverFerryAll\(\);\s*syncRiverEchoAll\(\);\s*syncDawnPulseAll\(\);\s*syncMorningNameAll\(\);\s*warmthGarden\.sync\(\);\s*springLetter\.sync\(\);\s*revealScene/);
 assert.match(source,/return riverEchoProgressStep\(\)/);assert.match(source,/const goScene = \(name\) =>/);
 for(const asset of ['archive-river-window','river-echo-well']){assert.ok(html.includes(`data-src="assets/v119-${asset}.webp"`));const b=readFileSync(new URL(`../assets/v119-${asset}.webp`,import.meta.url));assert.equal(b.toString('ascii',0,4),'RIFF');assert.ok(b.length<300*1024);}
 assert.ok(html.includes('data-scene="river-echo-well"'));assert.ok(html.includes('id="re-archive"'));

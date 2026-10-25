@@ -1,0 +1,86 @@
+{
+  "date": "2026-10-25",
+  "base": "711c9c8e32cc74d76c60b51f42b58faaf0ba5185",
+  "sceneCount": 282,
+  "uniqueIds": 4644,
+  "directoryAnchors": 280,
+  "preservedDirectoryAnchors": 279,
+  "reversedIntegrationByteExact": true,
+  "protectedFilesByteExact": [
+    "warmth-rules.js",
+    "warmth-garden.js",
+    "warmth-garden.css",
+    "ink-rules.js",
+    "light-rules.js",
+    "tea-rules.js",
+    "directory.js",
+    "styles.css"
+  ],
+  "newStorageKeys": [
+    "goddead_v129_spring_letter"
+  ],
+  "scripts": [
+    "directory.js?v=129",
+    "ink-rules.js?v=129",
+    "light-rules.js?v=129",
+    "tea-rules.js?v=129",
+    "warmth-rules.js?v=129",
+    "warmth-garden.js?v=129",
+    "spring-letter-rules.js?v=129",
+    "spring-letter.js?v=129",
+    "script.js?v=129"
+  ],
+  "styles": [
+    "styles.css?v=129",
+    "warmth-garden.css?v=129",
+    "spring-letter.css?v=129"
+  ],
+  "model": "gemini-3.8-flash-high",
+  "acceptedResponseIds": {
+    "rules": "resp_2ozdavfpG7Ca1e8Ph-CGwAQ",
+    "runtime": "resp_QJHdavv9MJyB2roP9fOYkAo",
+    "styles": "resp_P5XdatbWKbeXvr0P_rnYiAM",
+    "html": "resp_io_datPZDZaM1e8Pk-enuQI",
+    "host": "resp_qJDdauTCFpyy2roPkde64A0",
+    "hostCorrection": "resp_P5HdavLoM_vP1e8P84Ok6QI"
+  },
+  "assets": {
+    "index.html": {
+      "bytes": 1093402,
+      "sha256": "ad093245e43bc32fcb0fa956ed6040c9b84c202a4ee916b328531ca7afcedfed"
+    },
+    "script.js": {
+      "bytes": 3412234,
+      "sha256": "32ba68f483c41aa6795e506316d97f259352cebd3f2b5d85849dc15338ee8ef9"
+    },
+    "spring-letter-rules.js": {
+      "bytes": 13924,
+      "sha256": "94af013e555b81ead3c8cee3a9d8f2bac125fdc0fbee980c30af80a4c702eedb"
+    },
+    "spring-letter.js": {
+      "bytes": 45552,
+      "sha256": "7638a1c42fe2461e1479bfb2e35270a0bdd7e6d538b965dc113caee11610a410"
+    },
+    "spring-letter.css": {
+      "bytes": 12905,
+      "sha256": "5b7e9ad4b7d00deb5fd184e529f20e815e2b8bb245eac268215ed7f7505464e1"
+    },
+    "assets/v129-unaddressed-spring-letter.webp": {
+      "bytes": 238536,
+      "sha256": "680ccf8c067aa2e42dfb62014d2717c812881b0a2d276eb9f9c79c7b2c746710"
+    },
+    "design-concepts/spring-letter/spring-letter-room-v1.png": {
+      "bytes": 2560350,
+      "sha256": "6c02d6922d24951e6202a52c680d9176b06b4d4d5f3d46f78f4d5c7553741c91"
+    }
+  },
+  "nativeEvidenceRecords": 31,
+  "nativeEvidenceAssertions": "passed",
+  "limits": [
+    "Source/state/unit evidence is not public deployment acceptance. Native scope is recorded separately."
+  ],
+  "implementationDocumentResponses": [
+    "resp_QJjdasKAO5_r2roPus6lsQg",
+    "resp_r5jdat2wK6HU9tMP1dHp2QQ"
+  ]
+}

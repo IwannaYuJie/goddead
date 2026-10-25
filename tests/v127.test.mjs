@@ -137,6 +137,6 @@ assert.deepEqual(other.etPourStep([3, 5, 8], [3, 0, 0], 0, 2), [3, 0, 0]);
 assert.deepEqual(rules.etPourStep([3, 5, 8], [3, 0, 0], 0, 2), [0, 0, 3]);
 assert.deepEqual(config, oracle.config, 'configuration intact');
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
-assert.deepEqual([...html.matchAll(/<script src="([^"]+)"[^>]*>/g)].map(m => m[1]), ['directory.js?v=128', 'ink-rules.js?v=128', 'light-rules.js?v=128', 'tea-rules.js?v=128', 'warmth-rules.js?v=128', 'warmth-garden.js?v=128', 'script.js?v=128']);
-assert.match(html, /styles\.css\?v=128/);
+assert.deepEqual([...html.matchAll(/<script src="([^"]+)"[^>]*>/g)].map(m => m[1]), ['directory.js?v=129', 'ink-rules.js?v=129', 'light-rules.js?v=129', 'tea-rules.js?v=129', 'warmth-rules.js?v=129', 'warmth-garden.js?v=129', 'spring-letter-rules.js?v=129', 'spring-letter.js?v=129', 'script.js?v=129']);
+assert.match(html, /styles\.css\?v=129/);
 console.log(`v127 tea rules: 6,912 legacy/independent pours, 2,304 matches, 36 minimum paths, 63 canonical cases, ${pendingFieldChecks} strict pending field checks passed`);

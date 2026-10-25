@@ -1,0 +1,11 @@
+# v129 原画记录
+
+2026-10-25，Codex 使用内置 image_gen（非 CLI）生成一张 1536×1024 横幅环境图，供「没有地址的春信」使用。原图与生产 WebP 均留在本项目。此图是环境原画，谜题通过独立原生 HTML / SVG 呈现。
+
+- PNG：`spring-letter-room-v1.png`
+- 生产：`../../assets/v129-unaddressed-spring-letter.webp`
+- 检视：三只信夹、左侧小芽、窗光、白纸、灰烬、缎带与空椅清楚；没有字、数字或预烘焙棋盘。纸面亮度适合接续下方平面操作台。
+
+完整提示词：
+
+> Use case: stylized-concept. Asset type: original atmospheric room illustration for a Chinese gothic browser exploration game, Goddead, chapter A Letter Without an Address. Generate a new finished landscape artwork, 1536x1024 composition. A quietly abandoned side room of an old dead-letter post office in a stone cathedral at the first pale morning of spring. A worn dark oak sorting desk fills the lower half, three shallow antique brass letter trays on the far edge of the desk. Center foreground: one large unfolded sheet of warm ivory handmade paper with blank surface, a small unaddressed envelope with a dull copper seal, and a simple wooden pen resting beside it. Left tray holds a delicate pressed pale-green leaf and a folded blank envelope. Middle tray has a trace of cool gray ash along the edge of another envelope. Right tray carries one plain cream envelope tied with thin faded gray ribbon; beside the desk an empty wooden chair is partly seen. Narrow old iron-framed window on the left admits overcast early-morning gray light; a tiny living green sprout in a gray pot sits on its sill. Background recedes into dark dusty mail cubbyholes and curved tarnished brass pneumatic tubes. No people, no monsters. Photorealistic painterly game environment, intimate tactile materials: rag paper fibers, scratched aged brass, blackened timber, dust on rough black stone. Restrained desaturated charcoal, old copper and small sage-green accents, soft chiaroscuro but enough exposure to read paper and trays. Quiet hope and absence, somber not cheerful, grounded not fantasy spectacle. Carefully composed as a believable room, wide three-quarter eye-level view, the central desk and three letter trays clearly separated with breathing room. Full-bleed cinematic environment image, no graphic borders. Absolutely no text, no handwriting, no printed marks, no numbers, no typography, no watermarks, no UI, no icons, no drawn puzzle grids or route lines. This illustration will sit above a separate native HTML puzzle; do not bake any game controls into the image.

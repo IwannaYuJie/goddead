@@ -1527,3 +1527,11 @@
 功能代码、测试与实施文档提交为 `c86c7ad4dd1d22789f4fbcc12eef084ca959e37a`，成功推送到 `origin/main`，本地与远端 SHA 精确一致。Cloudflare Pages 部署 ID `d52a6e26-f14e-45ea-aeec-afea1197d519`，完成时间 `2026-10-25T04:44:55Z`，部署状态 Success。于 2026-10-25 12:46:00.502 +08:00 对普通公开 URL `https://goddead.com/` 进行核验，涵盖 `index.html`、7 阻塞脚本（`v=128`，对应 9 依赖）、2 样式表（`v=128`）、原门图（`assets/testament-gates.jpg`）以及新增原画（`assets/v128-remaining-warmth-garden.webp`）；12 项公开HTTP响应内容的原始字节与本地文件相同，无HTML归一化（记录于 `design-qa-evidence/v128-public-assets.json`）。
 
 在 Chrome 唯一 QA 标签打开 `https://goddead.com/`（1470x744 视口），页面无横向溢出，首屏正常挂载且控制台 0 warn / 0 error。5 大工厂命名空间（`GoddeadWarmthRules`、`GoddeadWarmthGarden`、`GoddeadTeaRules`、`GoddeadInkRules`、`GoddeadLightRules`）注册齐备且 `Object.isFrozen` 为 true；空档状态下未解锁温室新入口与目录项按设计安全隐藏，目录展开 5/5 与“守则”过滤 1/5 生效，全站场景数实为 281。操作严格遵守公开验收边界，未向公开站点写入任何本地 fixture，完整三结局代表路径依赖本地真实 Chrome + 375px 原生验收（`design-qa-evidence/v128-browser-qa.md`）。本地 1 项 raw 精确恢复、viewport 复原、Network 缓存调试关闭，唯一 QA 标签已关闭；留存公开证据 `design-qa-evidence/v128-public-assets.json`、`v128-public-browser.json`、`v128-public-root-desktop.png`。
+
+## 2026-10-25 - v129「没有地址的春信」本地实装与原生验收完成
+
+- 完成 v129 独立纯规则模块 `spring-letter-rules.js`（导出十纯函数）与独立业务运行时 `spring-letter.js`、样式表 `spring-letter.css`。分工明确：Codex 负责设计、原画及独立 QA，Gemini 3.8 Flash High 作为本次 v129 生产前端与实施文档的唯一作者交付实装。
+- 新增场景 `unaddressed-spring-letter`（春信摊平室），场景总数达 282，唯一 ID 总数增至 4644。目录新增 32ε 项，总数达 280 项（原 279 项入口字节与顺序保持完全一致）。
+- 纯规则单元测试通过 6,364 条独立断言，覆盖 3 张图 244 个合法前缀、22 个完整解、8 个死路局面与最少撤回提示，严格类型防御无 getter/类型强制转换；运行时测试覆盖 41 个测试用例 428 条断言，包含全部 9 种组合与幂等/改道/首锁机制；全站自动化测试 199,956 条断言通过。
+- Chrome 单标签原生 QA 验收在桌面与 375px 视口模拟下完成代表路径（桌面 `window`→`tomorrow` 与 `chair`→`unsent`；375px `drawer`→`stranger`，并附加 375px `window`→`tomorrow` 复测），验证死路提示与 6 步最少撤回、拆封重置、双击幂等、来源刷新重放与第三场景取消在途，修复了标题遮挡与照片层级 CSS 问题。
+- 全部 69 个上游 QA fixtures 已全部移除，原生的单个本地存储键 `goddead_state` 亦精确复原为最初的未修改状态，无任何测试祈祷残留，控制台 0 警告 0 报错；本地测试环境仅保留 HTTP 服务与单个标签供后续公开验证比对，无持久浏览器配置修改。当前处于本地就绪、待推进提交推送与线上部署验证状态。

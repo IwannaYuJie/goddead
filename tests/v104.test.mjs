@@ -1172,10 +1172,10 @@ test('Group 1: Static structure, header/markers, asset attributes and native but
   assert.equal(ahModuleSource.includes('/* ============================================================\n   v103 收不到影子的照相馆'), false);
 
   // Current release cache markers
-  assert.ok(htmlSource.includes('href="styles.css?v=128"'), 'styles.css must have ?v=128');
-  assert.ok(htmlSource.includes('src="script.js?v=128"'), 'script.js must have ?v=128');
+  assert.ok(htmlSource.includes('href="styles.css?v=129"'), 'styles.css must have ?v=129');
+  assert.ok(htmlSource.includes('src="script.js?v=129"'), 'script.js must have ?v=129');
 
-  // Exact 281 unique sections (HTML section IDs include scene- prefix)
+  // Exact 282 unique sections (HTML section IDs include scene- prefix)
   const sectionMatches = htmlSource.match(/<section\b[^>]*\bid=["']([^"']+)["']/g) || [];
   const sectionIds = new Set();
   const duplicateSectionIds = [];
@@ -1188,7 +1188,7 @@ test('Group 1: Static structure, header/markers, asset attributes and native but
     }
   });
   assert.equal(duplicateSectionIds.length, 0, `Duplicate sections found: ${duplicateSectionIds.join(', ')}`);
-  assert.equal(sectionIds.size, 281, `Expected exactly 281 unique sections, found ${sectionIds.size}`);
+  assert.equal(sectionIds.size, 282, `Expected exactly 282 unique sections, found ${sectionIds.size}`);
   assert.ok(sectionIds.has('scene-wake-for-another-hotel'));
   assert.ok(sectionIds.has('scene-borrowed-dawn-clockroom'));
   assert.ok(sectionIds.has('scene-shared-morning-veranda'));

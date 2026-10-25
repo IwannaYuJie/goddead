@@ -15,8 +15,9 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=128">
-<link rel="stylesheet" href="warmth-garden.css?v=128">
+  <link rel="stylesheet" href="styles.css?v=129" />
+  <link rel="stylesheet" href="warmth-garden.css?v=129" />
+  <link rel="stylesheet" href="spring-letter.css?v=129" />
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -128,6 +129,7 @@
             <p class="knock-hint reveal">（可以敲门。不建议。）</p>
             <button class="future-echo-stamp" id="causal-echo-threshold" type="button" aria-label="沿门缝的未来邮戳回去" hidden data-hover>沿门缝的未来邮戳回去 ⟶</button>
             <p class="causal-echo-response" id="causal-echo-response-threshold" aria-live="polite"></p>
+<div id="sl-echo-tomorrow" class="sl-echo-panel" hidden><h3 id="sl-echo-tomorrow-title" tabindex="-1">你也可以成为等信的人</h3><p id="sl-echo-tomorrow-window" class="sl-card-note" hidden>门缝下多了一道浅绿的折痕。明天开门时，你会知道有人替你把灯留着。</p><p id="sl-echo-tomorrow-drawer" class="sl-card-note" hidden>门外还没有脚步。你把那句没说完的话放在门槛上，给明天留了位置。</p><p id="sl-echo-tomorrow-chair" class="sl-card-note" hidden>门前摆着一把小椅子。它不催你出发，只让明天回来的人有地方歇脚。</p><div class="sl-links"><a href="#unaddressed-spring-letter" class="sl-btn sl-btn-subtle">回到春信摊平室</a></div></div>
 <aside id="rw-echo-window" class="rw-echo-panel" aria-label="窗台上的余韵" hidden>
   <h3 id="rw-echo-window-title" class="rw-panel-title" tabindex="-1">有一阵风认出了你</h3>
   <p class="rw-echo-summary">门外依然没有人。叶影却先你一步走了出去。</p>
@@ -4384,6 +4386,8 @@
             <p class="us-response" id="us-clerk-response-deadletter" aria-live="polite" hidden></p>
             <button class="us-action" id="us-clerk-return-deadletter" type="button" data-hover>提着灯回到认领处 ⟶</button>
           </div>
+<div id="sl-post-panel" class="sl-post-panel" hidden><h3>格柜里有一封春信</h3><p id="sl-post-note" class="sl-card-note">侧桌清理干净了，风从格柜深处吹出，带出一叠没有写地址的信纸。</p><div class="sl-controls"><button type="button" id="sl-enter" class="sl-btn">去侧桌摊开这封信</button></div><div id="sl-post-response" class="sl-feedback" role="status" aria-live="polite"></div></div>
+<div id="sl-echo-stranger" class="sl-echo-panel" hidden><h3 id="sl-echo-stranger-title" tabindex="-1">收件人不必先有名字</h3><p id="sl-echo-stranger-window" class="sl-card-note" hidden>投递所第一次把一封信放进了「可领取」的格子。经过的人能从纸里听到风。</p><p id="sl-echo-stranger-drawer" class="sl-card-note" hidden>灰纸被放进一格空柜。有人终于可以收下一个问题，而不必替它作答。</p><p id="sl-echo-stranger-chair" class="sl-card-note" hidden>格柜里腾出一个空位。信上只写着：如果你累了，这里还坐得下。</p><div class="sl-links"><a href="#unaddressed-spring-letter" class="sl-btn sl-btn-subtle">回到春信摊平室</a></div></div>
           <nav class="scene-exits reveal" aria-label="离开投递所">
             <button class="exit-link" type="button" data-go="switchboard" data-hover>⟵ 回到交换台</button>
           </nav>
@@ -5570,6 +5574,8 @@
     </div>
   </div>
 </div>
+<div id="sl-entry-panel" class="sl-entry-panel" hidden><h3>没有地址的春信</h3><p id="sl-entry-note" class="sl-card-note">无主投递所的侧桌上，还有未写完的信路与等风吹开的信封。</p><div class="sl-controls"><button type="button" id="sl-entry" class="sl-btn">回到无主投递所</button><button type="button" id="sl-resume" class="sl-btn" hidden>继续手中的春信</button></div><div id="sl-entry-response" class="sl-feedback" role="status" aria-live="polite"></div></div><div id="sl-codex" class="codex-section" hidden><h3 class="sl-kicker">春信余韵</h3><p id="sl-codex-summary" class="sl-card-note">已收集 0 / 9 份回响。</p><div class="sl-codex-grid"><div class="sl-codex-item"><h4 class="sl-codex-item-title">风没有写门牌 × 寄给明天的自己</h4><p id="sl-codex-window-tomorrow">尚未留下这份回响</p></div><div class="sl-codex-item"><h4 class="sl-codex-item-title">风没有写门牌 × 留给下一位路过的人</h4><p id="sl-codex-window-stranger">尚未留下这份回响</p></div><div class="sl-codex-item"><h4 class="sl-codex-item-title">风没有写门牌 × 今天先不寄</h4><p id="sl-codex-window-unsent">尚未留下这份回响</p></div><div class="sl-codex-item"><h4 class="sl-codex-item-title">灰里留着一句话 × 寄给明天的自己</h4><p id="sl-codex-drawer-tomorrow">尚未留下这份回响</p></div><div class="sl-codex-item"><h4 class="sl-codex-item-title">灰里留着一句话 × 留给下一位路过的人</h4><p id="sl-codex-drawer-stranger">尚未留下这份回响</p></div><div class="sl-codex-item"><h4 class="sl-codex-item-title">灰里留着一句话 × 今天先不寄</h4><p id="sl-codex-drawer-unsent">尚未留下这份回响</p></div><div class="sl-codex-item"><h4 class="sl-codex-item-title">空椅借出一个位置 × 寄给明天的自己</h4><p id="sl-codex-chair-tomorrow">尚未留下这份回响</p></div><div class="sl-codex-item"><h4 class="sl-codex-item-title">空椅借出一个位置 × 留给下一位路过的人</h4><p id="sl-codex-chair-stranger">尚未留下这份回响</p></div><div class="sl-codex-item"><h4 class="sl-codex-item-title">空椅借出一个位置 × 今天先不寄</h4><p id="sl-codex-chair-unsent">尚未留下这份回响</p></div></div></div>
+<div id="sl-echo-unsent" class="sl-echo-panel" hidden><h3 id="sl-echo-unsent-title" tabindex="-1">没有寄出，也不是退件</h3><p id="sl-echo-unsent-window" class="sl-card-note" hidden>痕迹墙留住了那阵风。你可以等到想起某个人时，再给它一个方向。</p><p id="sl-echo-unsent-drawer" class="sl-card-note" hidden>那句未完的话安静地留在墙边。它没有被烧掉，也不必今天就成为答案。</p><p id="sl-echo-unsent-chair" class="sl-card-note" hidden>墙边多了一把画在纸上的椅子。暂时没人坐下，位置仍然算数。</p><div class="sl-links"><a href="#unaddressed-spring-letter" class="sl-btn sl-btn-subtle">回到春信摊平室</a></div></div>
           <!-- v120 清晨脉搏：一次修好即可完成回访 -->
           <p class="watch-memory dp-memory" id="dp-memory" hidden></p>
           <div class="dp-codex codex-section" id="dp-codex" aria-labelledby="dp-codex-title" hidden>
@@ -11020,6 +11026,7 @@
     </nav>
   </div>
 </section>
+<section id="scene-unaddressed-spring-letter" class="scene scene-branch sl-scene" data-scene="unaddressed-spring-letter" data-title="Goddead — 没有地址的春信" aria-label="没有地址的春信"><div class="scene-body sl-body"><h2 id="sl-title" class="sec-title sl-title" tabindex="-1">没有地址的春信</h2><div class="sl-figure"><img id="sl-room-image" class="sl-room-image" data-src="assets/v129-unaddressed-spring-letter.webp" alt="侧桌上摊开的空白厚纸、浅信夹、细长绿脉与暗铜格柜" width="1536" height="1024" loading="lazy" decoding="async"></div><div id="sl-intro" class="sl-intro"><p>侧桌比登记台矮了一截，上面摊开一张极厚的白纸。旧投递所的格柜不再只有退件，温室截留的风从管口吹过，纸页没有字，却在等一条落墨的路。</p><p>信封没有门牌，你可以选一封信来照看，沿墨线走完它的信路，再决定寄给谁。</p></div><div id="sl-waiting" class="sl-waiting" role="status" hidden><p id="sl-waiting-note">手中的春信正在送往途中……</p></div><div id="sl-empty" class="sl-paper sl-empty"><p id="sl-last-letter">还没有寄出春信。</p><div class="sl-picker"><p>案前放着三只浅信夹。挑选一封信，摊在台面上：</p><div class="sl-card-group"><div class="sl-card"><button type="button" id="sl-take-window" class="sl-btn">照看：风没有写门牌</button><p id="sl-source-window-note" class="sl-card-note">窗台的叶子替你截住了一封信。信封里没有邮票，只有一阵折好了的风。</p></div><div class="sl-card"><button type="button" id="sl-take-drawer" class="sl-btn">照看：灰里留着一句话</button><p id="sl-source-drawer-note" class="sl-card-note">那只抽屉终于肯打开了。纸的边缘烧缺了一角，缺口长出一条很细的绿线。</p></div><div class="sl-card"><button type="button" id="sl-take-chair" class="sl-btn">照看：空椅借出一个位置</button><p id="sl-source-chair-note" class="sl-card-note">椅脚边压着一封平平整整的信。它没有署名，却给收件人留了足够的空白。</p></div></div></div></div><div id="sl-workbench" class="sl-paper sl-desk sl-workbench-paper" hidden><div class="sl-desk-info"><h3 id="sl-letter-name" class="sl-card-title"></h3><blockquote id="sl-letter-text" class="sl-card-note"></blockquote><p id="sl-instructions" class="sl-instructions">从起笔沿相连墨线逐点走到信口，每条线恰走一次，墨点可重复经过。</p></div><div class="sl-desk-board"><div class="sl-board-frame"><div id="sl-board" class="sl-board" role="group" aria-label="一笔信路" aria-describedby="sl-instructions"><svg id="sl-map" class="sl-board-svg" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true"><g id="sl-edges"></g></svg><button type="button" id="sl-node-0" class="sl-node" data-sl-node="0"><span class="sl-node-num" data-sl-number="1">1</span><span class="sl-node-mark" data-sl-mark=""></span></button><button type="button" id="sl-node-1" class="sl-node" data-sl-node="1"><span class="sl-node-num" data-sl-number="2">2</span><span class="sl-node-mark" data-sl-mark=""></span></button><button type="button" id="sl-node-2" class="sl-node" data-sl-node="2"><span class="sl-node-num" data-sl-number="3">3</span><span class="sl-node-mark" data-sl-mark=""></span></button><button type="button" id="sl-node-3" class="sl-node" data-sl-node="3"><span class="sl-node-num" data-sl-number="4">4</span><span class="sl-node-mark" data-sl-mark=""></span></button><button type="button" id="sl-node-4" class="sl-node" data-sl-node="4"><span class="sl-node-num" data-sl-number="5">5</span><span class="sl-node-mark" data-sl-mark=""></span></button><button type="button" id="sl-node-5" class="sl-node" data-sl-node="5"><span class="sl-node-num" data-sl-number="6">6</span><span class="sl-node-mark" data-sl-mark=""></span></button><button type="button" id="sl-node-6" class="sl-node" data-sl-node="6"><span class="sl-node-num" data-sl-number="7">7</span><span class="sl-node-mark" data-sl-mark=""></span></button><button type="button" id="sl-node-7" class="sl-node" data-sl-node="7"><span class="sl-node-num" data-sl-number="8">8</span><span class="sl-node-mark" data-sl-mark=""></span></button><button type="button" id="sl-node-8" class="sl-node" data-sl-node="8"><span class="sl-node-num" data-sl-number="9">9</span><span class="sl-node-mark" data-sl-mark=""></span></button><button type="button" id="sl-node-9" class="sl-node" data-sl-node="9"><span class="sl-node-num" data-sl-number="10">10</span><span class="sl-node-mark" data-sl-mark=""></span></button><button type="button" id="sl-node-10" class="sl-node" data-sl-node="10"><span class="sl-node-num" data-sl-number="11">11</span><span class="sl-node-mark" data-sl-mark=""></span></button><button type="button" id="sl-node-11" class="sl-node" data-sl-node="11"><span class="sl-node-num" data-sl-number="12">12</span><span class="sl-node-mark" data-sl-mark=""></span></button></div></div><div class="sl-status-group"><p id="sl-route-progress"></p><p id="sl-route-history"></p><p id="sl-route-available"></p><div id="sl-feedback" class="sl-feedback" role="status" aria-live="polite" aria-atomic="true"></div></div><div class="sl-controls"><button type="button" id="sl-hint" class="sl-btn sl-btn-subtle">借一阵风指路</button><button type="button" id="sl-undo" class="sl-btn sl-btn-subtle">退回上一个墨点</button><button type="button" id="sl-reset" class="sl-btn sl-btn-subtle">从起笔重新描</button><button type="button" id="sl-seal" class="sl-btn">把信封好</button><button type="button" id="sl-unseal" class="sl-btn sl-btn-subtle" hidden>拆开继续描</button></div></div><div id="sl-recipients" class="sl-recipients" hidden><p>信已封好。决定这封春信的去向：</p><div class="sl-recipients-grid"><div class="sl-card"><button type="button" id="sl-send-tomorrow" class="sl-btn">寄给明天的自己</button><p class="sl-card-note">送往门槛。明天开门时，会有一封信等在那里。</p></div><div class="sl-card"><button type="button" id="sl-send-stranger" class="sl-btn">留给下一位路过的人</button><p class="sl-card-note">放入无主投递所格柜。收件人不必先有名字。</p></div><div class="sl-card"><button type="button" id="sl-send-unsent" class="sl-btn">今天先不寄</button><p class="sl-card-note">留在痕迹墙边。没有寄出，也不是退件。</p></div></div></div></div><div class="sl-summary-panel"><p id="sl-collection-summary"></p><p id="sl-collection-note" class="sl-card-note">完成任意一封即可让春信有着落；不同的来信与去向均可随时回访。</p></div><div class="sl-links"><a href="#deadletter" class="sl-btn sl-btn-subtle">返回无主投递所</a><a href="#remaining-warmth-garden" class="sl-btn sl-btn-subtle">前往余温温室</a><a href="#remembrance" class="sl-btn sl-btn-subtle">前往痕迹</a></div></div></section>
       <!-- v121 清晨验名桌 -->
       <section class="scene scene-branch" id="scene-morning-name-balance" data-scene="morning-name-balance" data-title="Goddead — 清晨验名桌" aria-label="清晨验名桌">
         <div class="scene-body branch-body">
@@ -11649,6 +11656,7 @@
       <a href="#river-crossing" id="river-crossing-link" hidden data-hover>31ε / 两岸之间</a>
       <a href="#morning-name-balance" id="morning-name-balance-link" hidden data-hover>32γ / 清晨验名桌</a>
 <a id="remaining-warmth-garden-link" href="#remaining-warmth-garden" class="dir-item" data-hover hidden>32δ / 余温温室</a>
+<a id="unaddressed-spring-letter-link" class="dir-item" href="#unaddressed-spring-letter" data-hover hidden>32ε / 没有地址的春信</a>
       <a href="#dawn-pulse-manifold" id="dawn-pulse-manifold-link" hidden data-hover>32β / 晨脉接管台</a>
       <a href="#river-echo-well" id="river-echo-well-link" hidden data-hover>32α / 河岸听井</a>
       <a href="#hearing-of-the-last-bank" id="hearing-of-the-last-bank-link" hidden data-hover>31ζ / 末岸听证会</a>
@@ -11662,12 +11670,14 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-<script src="directory.js?v=128"></script>
-<script src="ink-rules.js?v=128"></script>
-<script src="light-rules.js?v=128"></script>
-<script src="tea-rules.js?v=128"></script>
-<script src="warmth-rules.js?v=128"></script>
-<script src="warmth-garden.js?v=128"></script>
-<script src="script.js?v=128"></script>
+  <script src="directory.js?v=129"></script>
+  <script src="ink-rules.js?v=129"></script>
+  <script src="light-rules.js?v=129"></script>
+  <script src="tea-rules.js?v=129"></script>
+  <script src="warmth-rules.js?v=129"></script>
+  <script src="warmth-garden.js?v=129"></script>
+  <script src="spring-letter-rules.js?v=129"></script>
+  <script src="spring-letter.js?v=129"></script>
+  <script src="script.js?v=129"></script>
   </body>
 </html>

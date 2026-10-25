@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-25",
+  "site": {
+    "command": "node tests/site.test.mjs",
+    "status": "pass",
+    "assertions": 199956
+  },
+  "legacy": {
+    "command": "node --test tests/v101.test.mjs tests/v102.test.mjs tests/v103.test.mjs tests/v104.test.mjs",
+    "status": "pass",
+    "tests": 65
+  },
+  "springRules": {
+    "status": "pass",
+    "assertions": 6364,
+    "prefixes": 244,
+    "completeTrails": 22,
+    "deadEnds": 8,
+    "rejectedShapes": 37
+  },
+  "springRuntime": {
+    "status": "pass",
+    "cases": 41,
+    "assertions": 428,
+    "combinations": 9
+  },
+  "springHost": {
+    "status": "pass",
+    "checks": 41
+  },
+  "syntaxAndWhitespace": {
+    "status": "pass"
+  },
+  "limits": [
+    "Module tests use DOM/event facades; native browser acceptance is recorded separately."
+  ]
+}

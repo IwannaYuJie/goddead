@@ -58,10 +58,10 @@ cfg.setArrivalFocus(focusEl); equal(context.pendingSceneFocus, focusEl); equal(c
 equal(cfg.transitionBusy(), false); context.veilBusy = true; equal(cfg.transitionBusy(), true);
 equal(vm.runInContext('getRemainingWarmth()', context), 'state'); equal(vm.runInContext('remainingWarmthUnlocked()', context), 'unlock');
 equal(vm.runInContext('remainingWarmthCanVisit()', context), 'visit'); equal(vm.runInContext("remainingWarmthBridgeAllows('unending-gallery')", context), 'bridge:unending-gallery');
-ok(/replayMorningNamePending\(name\);\s*warmthGarden\.onScene\(name\);\s*if \(name === "remembrance"\) syncProgressGuide\(\);/.test(source), 'scene lifecycle hook after old pending before progress');
+ok(/replayMorningNamePending\(name\);\s*warmthGarden\.onScene\(name\);\s*springLetter\.onScene\(name\);\s*if \(name === "remembrance"\) syncProgressGuide\(\);/.test(source), 'scene lifecycle hook after old pending before progress');
 ok(/focusMorningNameArrival\(name\);\s*warmthGarden\.focusArrival\(name\);/.test(source), 'focus hook order');
-ok(/forgetMorningNameState\(\);\s*warmthGarden\.forget\(\);\s*forgetCodexFolds\(\);/.test(source), 'forget only own state');
-ok(/syncMorningNameAll\(\);\s*warmthGarden\.sync\(\);\s*revealScene\(scenes\.threshold\);\s*syncDoorOpenState\(\);\s*route\(\);/.test(source), 'cold start only sync before route');
+ok(/forgetMorningNameState\(\);\s*warmthGarden\.forget\(\);\s*springLetter\.forget\(\);\s*forgetCodexFolds\(\);/.test(source), 'forget only own state');
+ok(/syncMorningNameAll\(\);\s*warmthGarden\.sync\(\);\s*springLetter\.sync\(\);\s*revealScene\(scenes\.threshold\);\s*syncDoorOpenState\(\);\s*route\(\);/.test(source), 'cold start only sync before route');
 const completeStart = source.indexOf('    const complete = () => {', source.indexOf('  const goScene ='));
 const completeEnd = source.indexOf('\n    };', completeStart);
 const complete = source.slice(completeStart, completeEnd);
