@@ -1535,3 +1535,16 @@
 - 纯规则单元测试通过 6,364 条独立断言，覆盖 3 张图 244 个合法前缀、22 个完整解、8 个死路局面与最少撤回提示，严格类型防御无 getter/类型强制转换；运行时测试覆盖 41 个测试用例 428 条断言，包含全部 9 种组合与幂等/改道/首锁机制；全站自动化测试 199,956 条断言通过。
 - Chrome 单标签原生 QA 验收在桌面与 375px 视口模拟下完成代表路径（桌面 `window`→`tomorrow` 与 `chair`→`unsent`；375px `drawer`→`stranger`，并附加 375px `window`→`tomorrow` 复测），验证死路提示与 6 步最少撤回、拆封重置、双击幂等、来源刷新重放与第三场景取消在途，修复了标题遮挡与照片层级 CSS 问题。
 - 全部 69 个上游 QA fixtures 已全部移除，原生的单个本地存储键 `goddead_state` 亦精确复原为最初的未修改状态，无任何测试祈祷残留，控制台 0 警告 0 报错；本地测试环境仅保留 HTTP 服务与单个标签供后续公开验证比对，无持久浏览器配置修改。当前处于本地就绪、待推进提交推送与线上部署验证状态。
+
+## 2026-10-25 — v129「没有地址的春信」生产发布与公开核验闭环
+
+- **提交与推送**：功能代码与原生 QA 证据提交为 `afc5fc0045b33effd30f384e150da74f57910659`（`feat: add unaddressed spring letter routes`），成功推送到 `origin/main`。
+- **线上构建与部署**：Cloudflare Pages 部署 `c7bd0d66-472c-4cd9-9188-222254969343` 构建发布完成（`completed`，2026-10-25T05:54:10Z）。API 虽然存在同 ID 的历史 `in_progress` 条目，但以终端状态 `completed`/`success` 为准。
+- **公开站点静态资产核验**：于 2026-10-25T13:54:42.457398+08:00 对公开站点 `https://goddead.com/` 发起核验，15 项资源（`index.html`、9 个阻塞 JavaScript、3 份 CSS、历史封面 `assets/testament-gates.jpg` 以及新增 WebP `assets/v129-unaddressed-spring-letter.webp`）之 raw 字节数与 SHA-256 哈希值与本地完全匹配（未做任何 HTML 规整化）。
+- **公开站点单标签原生冷载与功能核验**：在独立 Chrome 标签页（1470×688）中临时禁用缓存进行冷载核验：
+  - 首场景为 `threshold`，文档宽度精确为 1470px（无水平溢出），标题为 `Goddead`，控制台 0 警告 0 报错。
+  - 7 个工厂命名空间（`GoddeadWarmthRules`、`GoddeadWarmthGarden`、`GoddeadTeaRules`、`GoddeadInkRules`、`GoddeadLightRules`、`GoddeadSpringLetterRules`、`GoddeadSpringLetter`）全部完成挂载且处于冻结状态（`frozen: true`）。
+  - 在全新访客状态下，新场景入口与目录项默认隐蔽（`newEntryHidden: true`，`newDirectoryHidden: true`），自有存储键 `goddead_v129_spring_letter` 保持空（`newKey: null`），原始单键 `goddead_state` 完好无损（未注入任何公开测试 fixtures）。
+  - 菜单交互核验：打开菜单显示 5/5 入口，焦点正确落在 `menu-close` 且 `stage` 获得 `inert=true`；原生中文搜索“守则”即时过滤为 1/5 项；按 Esc 键关闭菜单后焦点精准退回 `menu-trigger`，`stage` 恢复交互（`inert=false`）。
+  - 公开站验证严格遵守非侵入冷载口径，三结局代表交互交付以本地真实原生 QA 为准。
+- **环境收尾与留存**：核验完毕后，恢复 Network 缓存调试开关，关闭唯一用于 QA 的 Chrome 标签页（target ID `80238027`），终止本地 `127.0.0.1:8894` HTTP 服务（exit 0），四项不相关的未跟踪用户文件得以完整保留。相关公开凭据已存档至 `design-qa-evidence/v129-public-assets.json`、`v129-public-browser.json` 与 `v129-public-root-desktop.png`。

@@ -32,3 +32,9 @@
 - 9 阻塞脚本、3 CSS，12 核心依赖为 v129；仅新增 `goddead_v129_spring_letter` 存储键。模型响应、完整文件 SHA、原画资产与源码核验见 [v129-source-audit.json](v129-source-audit.json)。
 
 公开检查应仅使用普通公开 URL 冷载、资产字节核对、模块与目录检查；本地 fixture 不写入公开站点。发布结果以单独的公开证据和 ProgressLog 为准。
+
+## 公开验证闭环
+
+功能提交 `afc5fc0045b33effd30f384e150da74f57910659` 已推送 main。Cloudflare Pages 部署 `c7bd0d66-472c-4cd9-9188-222254969343` 于 2026-10-25T05:54:10Z 成功；13:54:42 +08:00 普通公开 URL 的 15 项资源 raw 字节及 SHA 与本地完全相同，无 HTML 归一化。公开同一 Chrome 标签（1470×688）确认 282 场景、12 项 v129 核心依赖与 7 冻结工厂注册；首页无横溢，新章空档入口隐藏。原生目录 5/5、中文检索 1/5、menu-close 首焦点、stage inert 与 Esc 退出恢复均正常；公开 1 项 raw 不变，0 warn / 0 error，无 fixture 写入。见 [公开资产报告](v129-public-assets.json)、[公开浏览器报告](v129-public-browser.json) 与 [公开首页截图](v129-public-root-desktop.png)。
+
+本地原 1 项 raw 已精确恢复，视口与缓存调试已复原，唯一 QA 标签关闭，8894 临时 HTTP 服务正常退出。此公开检查不扩充本地三组代表组合的原生玩法覆盖范围。

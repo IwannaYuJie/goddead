@@ -1,0 +1,189 @@
+{
+  "verified_at": "2026-10-25T13:54:42.457398+08:00",
+  "feature_commit": "afc5fc0045b33effd30f384e150da74f57910659",
+  "checks": [
+    {
+      "name": "Cloudflare Pages",
+      "status": "completed",
+      "conclusion": "success",
+      "details_url": "https://dash.cloudflare.com/?to=/5b638cfb0568fb942cbe4b49550afa73/pages/view/goddead/c7bd0d66-472c-4cd9-9188-222254969343",
+      "completed_at": "2026-10-25T05:54:10Z"
+    },
+    {
+      "name": "Cloudflare Pages",
+      "status": "in_progress",
+      "conclusion": null,
+      "details_url": "https://dash.cloudflare.com/?to=/5b638cfb0568fb942cbe4b49550afa73/pages/view/goddead/c7bd0d66-472c-4cd9-9188-222254969343",
+      "completed_at": null
+    }
+  ],
+  "version": 129,
+  "assets": [
+    {
+      "path": "index.html",
+      "url": "https://goddead.com/",
+      "local_bytes": 1093402,
+      "remote_bytes": 1093402,
+      "local_sha256": "ad093245e43bc32fcb0fa956ed6040c9b84c202a4ee916b328531ca7afcedfed",
+      "remote_sha256": "ad093245e43bc32fcb0fa956ed6040c9b84c202a4ee916b328531ca7afcedfed",
+      "raw_match": true,
+      "source_match": true,
+      "normalized_sha256": "ad093245e43bc32fcb0fa956ed6040c9b84c202a4ee916b328531ca7afcedfed",
+      "cache_versions": [
+        "129",
+        "129",
+        "129",
+        "129",
+        "129",
+        "129",
+        "129",
+        "129",
+        "129",
+        "129",
+        "129",
+        "129"
+      ],
+      "scenes": 282
+    },
+    {
+      "path": "styles.css",
+      "url": "https://goddead.com/styles.css?v=129",
+      "local_bytes": 660164,
+      "remote_bytes": 660164,
+      "local_sha256": "9f7d4d6c683e98ffd02d4ad0f7993ad0d3b133a3dd8f118126540ceb72b90f61",
+      "remote_sha256": "9f7d4d6c683e98ffd02d4ad0f7993ad0d3b133a3dd8f118126540ceb72b90f61",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "warmth-garden.css",
+      "url": "https://goddead.com/warmth-garden.css?v=129",
+      "local_bytes": 12261,
+      "remote_bytes": 12261,
+      "local_sha256": "f847a4e882acc100b565d64829f7353fa4c4045acd8f378b9f0ddc7f1ba31770",
+      "remote_sha256": "f847a4e882acc100b565d64829f7353fa4c4045acd8f378b9f0ddc7f1ba31770",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "spring-letter.css",
+      "url": "https://goddead.com/spring-letter.css?v=129",
+      "local_bytes": 12905,
+      "remote_bytes": 12905,
+      "local_sha256": "5b7e9ad4b7d00deb5fd184e529f20e815e2b8bb245eac268215ed7f7505464e1",
+      "remote_sha256": "5b7e9ad4b7d00deb5fd184e529f20e815e2b8bb245eac268215ed7f7505464e1",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "directory.js",
+      "url": "https://goddead.com/directory.js?v=129",
+      "local_bytes": 7941,
+      "remote_bytes": 7941,
+      "local_sha256": "d3eeda64745f35a44daa9e69112cc3bfb6d4cb61663029cff485d9535cef12b5",
+      "remote_sha256": "d3eeda64745f35a44daa9e69112cc3bfb6d4cb61663029cff485d9535cef12b5",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "ink-rules.js",
+      "url": "https://goddead.com/ink-rules.js?v=129",
+      "local_bytes": 7162,
+      "remote_bytes": 7162,
+      "local_sha256": "19ac195ccdfee774c77d0724597847daec768c874297280a172e10645ce02302",
+      "remote_sha256": "19ac195ccdfee774c77d0724597847daec768c874297280a172e10645ce02302",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "light-rules.js",
+      "url": "https://goddead.com/light-rules.js?v=129",
+      "local_bytes": 8906,
+      "remote_bytes": 8906,
+      "local_sha256": "2490623062d7725200b08d516ba348acccfe3b940be948c7d7ea3db00dc33adf",
+      "remote_sha256": "2490623062d7725200b08d516ba348acccfe3b940be948c7d7ea3db00dc33adf",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "tea-rules.js",
+      "url": "https://goddead.com/tea-rules.js?v=129",
+      "local_bytes": 7591,
+      "remote_bytes": 7591,
+      "local_sha256": "cd21a59b7c95edc9c2da80f3cf355ecd802277ee89a528615f70225d4125a5a4",
+      "remote_sha256": "cd21a59b7c95edc9c2da80f3cf355ecd802277ee89a528615f70225d4125a5a4",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "warmth-rules.js",
+      "url": "https://goddead.com/warmth-rules.js?v=129",
+      "local_bytes": 11565,
+      "remote_bytes": 11565,
+      "local_sha256": "d935b2cfdefd9417aea070433fb4619855234942a9748d4eb7849d76deecbe72",
+      "remote_sha256": "d935b2cfdefd9417aea070433fb4619855234942a9748d4eb7849d76deecbe72",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "warmth-garden.js",
+      "url": "https://goddead.com/warmth-garden.js?v=129",
+      "local_bytes": 49983,
+      "remote_bytes": 49983,
+      "local_sha256": "26bcddc81675ce7f45b861c9acabf42e46cf10e94d07c032db5af17fa2ebd47a",
+      "remote_sha256": "26bcddc81675ce7f45b861c9acabf42e46cf10e94d07c032db5af17fa2ebd47a",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "spring-letter-rules.js",
+      "url": "https://goddead.com/spring-letter-rules.js?v=129",
+      "local_bytes": 13924,
+      "remote_bytes": 13924,
+      "local_sha256": "94af013e555b81ead3c8cee3a9d8f2bac125fdc0fbee980c30af80a4c702eedb",
+      "remote_sha256": "94af013e555b81ead3c8cee3a9d8f2bac125fdc0fbee980c30af80a4c702eedb",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "spring-letter.js",
+      "url": "https://goddead.com/spring-letter.js?v=129",
+      "local_bytes": 45552,
+      "remote_bytes": 45552,
+      "local_sha256": "7638a1c42fe2461e1479bfb2e35270a0bdd7e6d538b965dc113caee11610a410",
+      "remote_sha256": "7638a1c42fe2461e1479bfb2e35270a0bdd7e6d538b965dc113caee11610a410",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "script.js",
+      "url": "https://goddead.com/script.js?v=129",
+      "local_bytes": 3412234,
+      "remote_bytes": 3412234,
+      "local_sha256": "32ba68f483c41aa6795e506316d97f259352cebd3f2b5d85849dc15338ee8ef9",
+      "remote_sha256": "32ba68f483c41aa6795e506316d97f259352cebd3f2b5d85849dc15338ee8ef9",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "assets/testament-gates.jpg",
+      "url": "https://goddead.com/assets/testament-gates.jpg",
+      "local_bytes": 276485,
+      "remote_bytes": 276485,
+      "local_sha256": "ba2058cb300114b1709afee2ce51af88390d99cf0acff3c1493fd5803575ef9e",
+      "remote_sha256": "ba2058cb300114b1709afee2ce51af88390d99cf0acff3c1493fd5803575ef9e",
+      "raw_match": true,
+      "source_match": true
+    },
+    {
+      "path": "assets/v129-unaddressed-spring-letter.webp",
+      "url": "https://goddead.com/assets/v129-unaddressed-spring-letter.webp",
+      "local_bytes": 238536,
+      "remote_bytes": 238536,
+      "local_sha256": "680ccf8c067aa2e42dfb62014d2717c812881b0a2d276eb9f9c79c7b2c746710",
+      "remote_sha256": "680ccf8c067aa2e42dfb62014d2717c812881b0a2d276eb9f9c79c7b2c746710",
+      "raw_match": true,
+      "source_match": true
+    }
+  ]
+}

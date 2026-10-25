@@ -1,6 +1,6 @@
 # Goddead 当前游玩流程图
 
-版本基线：v129（本地完成，待发布；公开站点基线为 v128）
+版本基线：v129（生产交付完成，公开站点 https://goddead.com/ 已同步上线）
 
 场景总数：282
 关键枢纽：`threshold`（门外）、`deadletter`（无主投递所）、`corridor`（经文走廊）、`remembrance`（痕迹室）、`unending-gallery`（无终局画廊）、`unaddressed-spring-letter`（春信摊平室）

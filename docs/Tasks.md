@@ -4,8 +4,8 @@
 - [x] 编写并冻结纯规则模块：`spring-letter-rules.js`，导出十纯函数，独立单元测试验证 244 前缀、22 完整解、8 死路及输入不变性与严格类型防御（6,364 条独立断言）
 - [x] 生产页面与宿主实装：新增场景 `unaddressed-spring-letter`，UI 挂载与原生焦点/键盘管理，目录扩充至 280 项（原 279 项入口保持），接入图鉴与痕迹室指引；更新 12 处核心依赖缓存至 `v=129`；新增独立 WebP 原画（SHA `680ccf8c06...`）
 - [x] 独立自动化与原生 QA 验收：自动化全站 199,956 断言、运行时 41 用例（428 断言）、宿主 41 项全部通过；原生验收覆盖桌面 Chrome 与 375px 视口模拟的代表路径（桌面 window→tomorrow, chair→unsent；375px drawer→stranger 及重复 window→tomorrow）、死路最少撤回提示、标题与层级样式修正、旧出口首锁与取消改道，收尾测试数据与环境精确复原（`design-qa-evidence/v129-browser-qa.md`）
-- [ ] 提交与推送至 main 分支：保持 `main` 单分支演进，包含文档与测试更新（本地验证完毕后推进执行）
-- [ ] 线上 Cloudflare Pages 部署与公开浏览器冷载验证：公开站点 15 项资源（HTML + 12 项核心依赖 + 历史 hero 图片 + 新 v129 WebP 原画）raw 字节及 SHA 一致性核验；独立 Chrome 标签完成冷载、命名空间冻结、无溢出、无错误、目录与测试路径焦点验证；严格不向公开站注入 fixture，三结局代表交付以本地真实原生 QA 为准
+- [x] 提交与推送至 main 分支：代码提交 `afc5fc0045b33effd30f384e150da74f57910659` 成功推送到 `origin/main`，保持 `main` 单分支演进
+- [x] 线上 Cloudflare Pages 部署与公开浏览器冷载验证：Cloudflare Pages 部署成功（`c7bd0d66-472c-4cd9-9188-222254969343`）；公开站点 15 项资源（HTML + 12 项核心依赖 + 历史 hero 图片 + 新 v129 WebP 原画）raw 字节及 SHA 完全一致；独立 Chrome 标签完成冷载、7 个工厂命名空间冻结、无溢出、无错误、目录与搜索/关闭焦点验证；严格不向公开站注入 fixture，三结局代表交付以本地真实原生 QA 为准（`design-qa-evidence/v129-public-assets.json`、`design-qa-evidence/v129-public-browser.json`、`design-qa-evidence/v129-public-root-desktop.png`）
 
 
 ## v128 余温温室（新可玩分支与纯规则模块）

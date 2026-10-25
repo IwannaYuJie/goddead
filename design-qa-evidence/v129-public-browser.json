@@ -1,0 +1,95 @@
+{
+  "verifiedAt": "2026-10-25T05:56:21.640Z",
+  "featureCommit": "afc5fc0045b33effd30f384e150da74f57910659",
+  "page": {
+    "url": "https://goddead.com/",
+    "title": "Goddead",
+    "scene": "threshold",
+    "viewport": [
+      1470,
+      688
+    ],
+    "documentWidth": 1470,
+    "sceneCount": 282,
+    "scripts": [
+      "directory.js?v=129",
+      "ink-rules.js?v=129",
+      "light-rules.js?v=129",
+      "tea-rules.js?v=129",
+      "warmth-rules.js?v=129",
+      "warmth-garden.js?v=129",
+      "spring-letter-rules.js?v=129",
+      "spring-letter.js?v=129",
+      "script.js?v=129"
+    ],
+    "styles": [
+      "styles.css?v=129",
+      "warmth-garden.css?v=129",
+      "spring-letter.css?v=129"
+    ],
+    "namespaces": [
+      {
+        "name": "GoddeadWarmthRules",
+        "present": true,
+        "frozen": true
+      },
+      {
+        "name": "GoddeadWarmthGarden",
+        "present": true,
+        "frozen": true
+      },
+      {
+        "name": "GoddeadTeaRules",
+        "present": true,
+        "frozen": true
+      },
+      {
+        "name": "GoddeadInkRules",
+        "present": true,
+        "frozen": true
+      },
+      {
+        "name": "GoddeadLightRules",
+        "present": true,
+        "frozen": true
+      },
+      {
+        "name": "GoddeadSpringLetterRules",
+        "present": true,
+        "frozen": true
+      },
+      {
+        "name": "GoddeadSpringLetter",
+        "present": true,
+        "frozen": true
+      }
+    ],
+    "newKey": null,
+    "newEntryHidden": true,
+    "newDirectoryHidden": true
+  },
+  "menu": {
+    "initialCount": "显示 5 / 5 个入口",
+    "open": {
+      "focus": "menu-close",
+      "stageInert": true,
+      "count": "显示 5 / 5 个入口"
+    },
+    "search": "显示 1 / 5 个入口",
+    "close": {
+      "focus": "menu-trigger",
+      "stageInert": false
+    }
+  },
+  "rawUnchanged": true,
+  "rawKeys": 1,
+  "logs": [],
+  "fixtureWritten": false,
+  "cacheDebugReset": true,
+  "limits": [
+    "Public cold load, namespace registration, menu/search/focus/storage only; full gameplay native paths were local."
+  ],
+  "qaTabClosed": true,
+  "concurrentQaTabs": 1,
+  "localHttpServerStopped": true
+}
