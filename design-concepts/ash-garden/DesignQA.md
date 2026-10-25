@@ -88,3 +88,8 @@
 实际抵达截图暴露标题被固定栏遮挡，交回 Gemini 仅增加四个新标题的滚动留白。最终样式回包 `resp_foXdapGdB6O80-kPitmuaQ`，SHA-256 `f847a4e882acc100b565d64829f7353fa4c4045acd8f378b9f0ddc7f1ba31770`。新抽屉抵达标题 y=118.805px，高于治理栏底部 88.5px；375px 空椅标题 y=129.867px，均可读。更新样式后独立静态检查为 550 项；实际窄屏棋格约 110.33px、操作按钮 44px，无横溢，浏览器 warn / error 捕获为空。
 
 完整路径、边界、模型来源与截图见 [v128-browser-qa.md](../../design-qa-evidence/v128-browser-qa.md)。本节记录本地验收，提交与公开站证据后续附记。
+
+
+## 2026-10-25 公开交付
+
+v128 功能 `c86c7ad4dd1d22789f4fbcc12eef084ca959e37a` 已推送 main；Cloudflare Pages completed / success，普通公开 12 项资源 raw 字节与 SHA 全相同。单标签 Chrome 公开冷载确认九依赖 v128、281 场景、新工厂注册和原目录检索 / 焦点 / 存储正常。公开站未注入测试档，验收标签与临时服务已关闭。证据见 [公开资源](../../design-qa-evidence/v128-public-assets.json)、[公开浏览器](../../design-qa-evidence/v128-public-browser.json)，完整本地玩法边界仍以 [原生记录](../../design-qa-evidence/v128-browser-qa.md) 为准。

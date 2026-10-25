@@ -1,13 +1,13 @@
 # 当前实施状态：v128 余温温室
 
-- 状态：本地已完成独立原生验收，待提交推送至 main 分支与公开站点验证。代码与样式已接入实际游戏页面，测试与独立原生 QA 全部通过。
+- 状态：已发布验证。生产代码已合并并推送到 `origin/main`（commit `c86c7ad4dd1d22789f4fbcc12eef084ca959e37a`），Cloudflare Pages 部署成功（`d52a6e26-f14e-45ea-aeec-afea1197d519`，2026-10-25T04:44:55Z）。公开线上站点 `https://goddead.com/` 已完成 12 项资源 raw 字节及 SHA 一致性核验，并在独立冷载 QA 浏览器中验证通过。
 - 场景与枢纽：新增场景 `remaining-warmth-garden`（余温温室），全站总场景数增至 281，ID 总数 4560 个。前置依赖清晨名签（`morningNameUnlocked() && getMorningName().reconciled.length > 0`）、值夜（`watchUnlocked()`）、第四线连通（`line4Unlocked() && getLine4().connected`），以及原主线状态无主投递签收（`getDL().accepted`）、注销拒办（`getCancel().refused`）与代神任命（`getActing().appointed`）。通过痕迹室指引经由原焚献室进入。
-- 架构与模块：新增纯规则模块 `warmth-rules.js`（`GoddeadWarmthRules.create()` 导出十二纯函数），独立运行时处理原生交互、聚焦与键盘操作；使用独立存储键 `goddead_v128_remaining_warmth`，不写旧章存档（本地代表流程核验 69 项旧 raw 状态保持不变）。
+- 架构与模块：新增纯规则模块 `warmth-rules.js`（`GoddeadWarmthRules.create()` 导出十二纯函数），独立运行时处理原生交互、聚焦与键盘操作；使用独立存储键 `goddead_v128_remaining_warmth`，不写旧章存档（本地代表流程核验 69 项旧 raw 状态保持不变）。线上站点确认 5 工厂命名空间注册且冻结。
 - 玩法与交付：根据旧裁定捕获甲愿望（6/9 初局）、乙愿望（5/9 初局）或白芽（无裁定，0/9 初局），九格十字反转调谐至全暖；解毕提盆并原生交接至门外窗台（`threshold`）、焚献室抽屉（`offering`）或画廊空椅脚边（`unending-gallery`）。每次实际到选定场景才计一次，支持中途改道与临时忙态暂停；取消资格不抹已有合法进度。
-- 目录与指引：目录新增 `remaining-warmth-garden`（总数达 279 项，原 278 项入口字节保持不变），图鉴收录三处安放状态，痕迹室指引支持单盆完成与多余韵探索。
-- 依赖与资源：`index.html` 引入 `warmth-rules.js`，7 个阻塞脚本与 2 份 CSS 共 9 项核心依赖更新缓存至 `v=128`；新增一张独立 WebP 原画（SHA `bb440351f8...`）。
-- 验收口径：独立测试包含全站测试 191,860 条断言、旧显式测试 70 项、纯规则测试 162,768 条断言、运行时测试 363 用例（2,570 断言）、宿主绑定测试 56 项。原生 QA 覆盖桌面 Chrome 与 375px 视口模拟，代表路径 A→窗台、B→抽屉、null→空椅，收尾已完成本地测试档精确还原。
-- 引用：详见设计文档 [Design.md](../design-concepts/ash-garden/Design.md) 与原生验收记录 [v128-browser-qa.md](../design-qa-evidence/v128-browser-qa.md)。
+- 目录与指引：目录新增 `remaining-warmth-garden`（总数达 279 项，原 278 项入口字节保持不变），图鉴收录三处安放状态，痕迹室指引支持单盆完成与多余韵探索。公开空档下新入口按设计隐藏，无横向溢出，检索与无障碍焦点环正确。
+- 依赖与资源：`index.html` 引入 `warmth-rules.js`，7 个阻塞脚本与 2 份 CSS 共 9 项核心依赖更新缓存至 `v=128`；新增一张独立 WebP 原画（SHA `bb440351f8...`）。线上 12 项 raw 字节与本地精确吻合。
+- 验收口径：独立测试包含全站测试 191,860 条断言、旧显式测试 70 项、纯规则测试 162,768 条断言、运行时测试 363 用例（2,570 断言）、宿主绑定测试 56 项。原生 QA 覆盖桌面 Chrome 与 375px 视口模拟，代表路径 A→窗台、B→抽屉、null→空椅，收尾已完成本地测试档精确还原。公开站验收仅执行冷载、模块、首页/目录/检索/焦点/存储，不向公开站注入本地 fixture 或宣称公开站跑完三结局。测试与调试环境均已安全复原。
+- 引用：详见设计文档 [Design.md](../design-concepts/ash-garden/Design.md)、原生验收记录 [v128-browser-qa.md](../design-qa-evidence/v128-browser-qa.md) 及线上证据 [v128-public-assets.json](../design-qa-evidence/v128-public-assets.json)、[v128-public-browser.json](../design-qa-evidence/v128-public-browser.json)。
 
 # 历史基线：v127 分茶铺纯规则模块（已发布）
 

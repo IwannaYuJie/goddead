@@ -1,6 +1,6 @@
 # 余温温室 / THE GARDEN OF REMAINING WARMTH
 
-2026-10-15 起草，2026-10-18 生成首张原画，Codex 设计草案。用户分工明确：Gemini 3.8 Flash High 负责生产前端与实施文档编写；Codex 负责系统设计、原画生成与独立原生 QA。2026-10-25 本地真实集成与独立原生 QA 全部通过，涵盖 12 个纯规则 API、独立存储隔离、九格十字反转调温、三案捕获与三安放交接，包含自动化断言与真实浏览器原生检验；生产代码与文档已就绪，尚未提交推送与公开验证。具体 UI 与存档契约见 [FrontendContract.md](FrontendContract.md)，验收记录见 [DesignQA](DesignQA.md) 与 [v128-browser-qa.md](../../design-qa-evidence/v128-browser-qa.md)。
+2026-10-15 起草，2026-10-18 生成首张原画，Codex 设计草案。用户分工明确：Gemini 3.8 Flash High 负责生产前端与实施文档编写；Codex 负责系统设计、原画生成与独立原生 QA。2026-10-25 功能代码与文档已合并至 main 分支（c86c7ad）并完成 Cloudflare Pages 线上发布验证（https://goddead.com/）。本地真实集成与独立原生 QA 涵盖 12 个纯规则 API、独立存储隔离、九格十字反转调温、三案捕获与三安放交接，自动化与浏览器检验全部通过；线上环境核对 12 项资源 raw 字节及 SHA 一致，冷载及模块加载正常。具体 UI 与存档契约见 [FrontendContract.md](FrontendContract.md)，本地原生验收见 [DesignQA](DesignQA.md) 与 [v128-browser-qa.md](../../design-qa-evidence/v128-browser-qa.md)，线上公开证据见 [v128-public-assets.json](../../design-qa-evidence/v128-public-assets.json) 与 [v128-public-browser.json](../../design-qa-evidence/v128-public-browser.json)。
 
 ## 为什么回到这里
 

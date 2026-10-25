@@ -1,0 +1,83 @@
+{
+  "verifiedAt": "2026-10-25T04:46:40.183Z",
+  "featureCommit": "c86c7ad4dd1d22789f4fbcc12eef084ca959e37a",
+  "url": "https://goddead.com/",
+  "browser": "Chrome Computer Use, one QA tab",
+  "info": {
+    "active": "threshold",
+    "directoryHidden": true,
+    "entryHidden": true,
+    "modules": [
+      {
+        "name": "GoddeadWarmthRules",
+        "registered": true,
+        "frozen": true
+      },
+      {
+        "name": "GoddeadWarmthGarden",
+        "registered": true,
+        "frozen": true
+      },
+      {
+        "name": "GoddeadTeaRules",
+        "registered": true,
+        "frozen": true
+      },
+      {
+        "name": "GoddeadInkRules",
+        "registered": true,
+        "frozen": true
+      },
+      {
+        "name": "GoddeadLightRules",
+        "registered": true,
+        "frozen": true
+      }
+    ],
+    "overflow": false,
+    "scenes": 281,
+    "scripts": [
+      "/directory.js?v=128",
+      "/ink-rules.js?v=128",
+      "/light-rules.js?v=128",
+      "/tea-rules.js?v=128",
+      "/warmth-rules.js?v=128",
+      "/warmth-garden.js?v=128",
+      "/script.js?v=128"
+    ],
+    "styles": [
+      "/styles.css?v=128",
+      "/warmth-garden.css?v=128"
+    ],
+    "title": "Goddead",
+    "viewport": [
+      1470,
+      744
+    ]
+  },
+  "menu": {
+    "defaultCount": "5 / 5",
+    "search": "守则",
+    "searchCount": "1 / 5",
+    "initialFocus": "menu-close",
+    "openStageInert": true,
+    "exit": {
+      "focus": "menu-trigger",
+      "inert": false
+    },
+    "storageRawEqual": true
+  },
+  "localFixtureWrittenToPublic": false,
+  "consoleWarningsOrErrors": [],
+  "cleanup": {
+    "ownQaTabClosed": true,
+    "localOriginalRawRestored": true,
+    "viewportReset": true,
+    "networkCacheDebuggingDisabled": true,
+    "localServerStopped": true
+  },
+  "limits": [
+    "Public checks cover ordinary cold load, module registration, nine cache versions, locked entry visibility, menu/focus/search, storage invariance and console.",
+    "Full v128 gameplay was exercised on the local actual game with an upstream fixture; no fixture or progress was injected into the public site."
+  ]
+}

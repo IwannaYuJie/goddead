@@ -61,3 +61,12 @@
 - [375px 空椅结局](v128-native-chair-mobile-20261025.png)
 
 10 月 23 日 `v128-static-*` 截图只作独立静态布局历史证据，不能替代上述实际流程。公开验证与提交 SHA 待发布后附记。
+
+
+## 2026-10-25 公开发布闭环
+
+功能提交 `c86c7ad4dd1d22789f4fbcc12eef084ca959e37a` 已推送 main，远端 SHA 一致；Cloudflare Pages completed / success。12:46（Asia/Taipei）普通公开 URL 的 12 份资源 raw 字节与 SHA-256 全量一致，无需 HTML 归一化，九项核心依赖 v128、281 场景。详情见 [公开资源](v128-public-assets.json)。
+
+同一 Chrome QA 标签转到正式站，冷载七脚本与两样式；五个规则 / 运行时工厂注册且命名空间冻结。首页 active=threshold、title=Goddead，1470×744 无横溢，空档温室入口及目录项隐藏。原生目录 5/5、搜索「守则」1/5，menu-close 首焦点与 stage inert 正常；Esc 返回 menu-trigger 并解除 inert，菜单前后唯一 raw 完全相同，warn / error 捕获为空。见 [公开浏览器记录](v128-public-browser.json) 与 [公开首页截图](v128-public-root-desktop.png)。
+
+公开站未写入本地前置测试档；本次公开检查不替代上文的本地三条完整代表玩法。唯一 QA 标签现已关闭，本地原始 raw / 视口 / 缓存调试均已恢复，临时 HTTP 服务已停止。
