@@ -1,0 +1,60 @@
+{
+  "status": "pass",
+  "scenes": 281,
+  "uniqueScenes": 281,
+  "ids": 4560,
+  "duplicates": [],
+  "invalidHashes": [],
+  "missingLocalReferences": [],
+  "scripts": [
+    "directory.js?v=128",
+    "ink-rules.js?v=128",
+    "light-rules.js?v=128",
+    "tea-rules.js?v=128",
+    "warmth-rules.js?v=128",
+    "warmth-garden.js?v=128",
+    "script.js?v=128"
+  ],
+  "styles": [
+    "styles.css?v=128",
+    "warmth-garden.css?v=128"
+  ],
+  "removedStorageKeyLiterals": [],
+  "addedStorageKeyLiterals": [
+    "goddead_v128_remaining_warmth"
+  ],
+  "protectedFilesByteEqual": {
+    "styles.css": true,
+    "directory.js": true,
+    "ink-rules.js": true,
+    "light-rules.js": true,
+    "tea-rules.js": true
+  },
+  "sensitivePatternFiles": [],
+  "hashes": {
+    "index.html": "b54a68e96864a95fad0316a6b7275d711ef3f8e22f1209c2efa60e72f7a85813",
+    "script.js": "e0edac92bc500c6a6011d2f7cecb3abc9529a76ed219e4e4531f39af9382a108",
+    "warmth-rules.js": "d935b2cfdefd9417aea070433fb4619855234942a9748d4eb7849d76deecbe72",
+    "warmth-garden.js": "26bcddc81675ce7f45b861c9acabf42e46cf10e94d07c032db5af17fa2ebd47a",
+    "warmth-garden.css": "f847a4e882acc100b565d64829f7353fa4c4045acd8f378b9f0ddc7f1ba31770",
+    "assets/v128-remaining-warmth-garden.webp": "bb440351f87015113855a9e6ed2fe5a09fac51a415039ecd0ed877e9b20cb4c8"
+  },
+  "authorship": {
+    "model": "gemini-3.8-flash-high",
+    "rules": "resp_6jfbat_wE7vMrfcPufPt6Ac",
+    "runtime": "resp_SoPdatyYFt_A1e8PpP2E2AI",
+    "ui": "resp_CjrbapiTDPm3vr0Pg6SZ6Q8",
+    "bindings": "resp_BoLdaoHzJ4eX9tMPpPGm2QQ",
+    "cssArrival": "resp_foXdapGdB6O80-kPitmuaQ",
+    "docs": "resp_IIjdarq9Ibvl1e8Pu52N4AM"
+  },
+  "tests": {
+    "siteAssertions": 191860,
+    "oldExplicitTests": 70,
+    "rulesAssertions": 162768,
+    "runtimeCases": 363,
+    "runtimeAssertions": 2570,
+    "hostChecks": 56,
+    "staticFragmentChecks": 550
+  }
+}

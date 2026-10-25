@@ -1440,6 +1440,7 @@ document.addEventListener("DOMContentLoaded", () => {
     replayDawnPulsePending(name);
     resolveMorningNamePendingOnArrival(name);
     replayMorningNamePending(name);
+    warmthGarden.onScene(name);
     if (name === "remembrance") syncProgressGuide();
     updateHudDisplay();
   };
@@ -1599,7 +1600,7 @@ document.addEventListener("DOMContentLoaded", () => {
        v88 窄桥：title-action 可抵达 unending-gallery；
        v89 窄桥：appeal-action 可抵达 unending-gallery；
        v90 窄桥：asylum pending / consul / verdict outcome 可抵达 unending-gallery */
-    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !todayPressBridgeAllows('unending-gallery') && !inkMixingBridgeAllows('unending-gallery') && !borrowedLightBridgeAllows('unending-gallery') && !exactTeaBridgeAllows('unending-gallery') && !lastSweepBridgeAllows('unending-gallery') && !puttingBackBridgeAllows('unending-gallery') && !paperCutBridgeAllows('unending-gallery') && !clearedOfferingsBridgeAllows('unending-gallery') && !forgottenLocksBridgeAllows('unending-gallery') && !linenRoomBridgeAllows('unending-gallery') && !dreamMendingBridgeAllows('unending-gallery') && !hearseYardBridgeAllows('unending-gallery') && !riverFerryBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery')) {
+    if (target === "unending-gallery" && !wakeForAnotherHotelBridgeAllows('unending-gallery') && !yesterdayBreakfastBridgeAllows('unending-gallery') && !todayPressBridgeAllows('unending-gallery') && !inkMixingBridgeAllows('unending-gallery') && !borrowedLightBridgeAllows('unending-gallery') && !exactTeaBridgeAllows('unending-gallery') && !lastSweepBridgeAllows('unending-gallery') && !puttingBackBridgeAllows('unending-gallery') && !paperCutBridgeAllows('unending-gallery') && !clearedOfferingsBridgeAllows('unending-gallery') && !forgottenLocksBridgeAllows('unending-gallery') && !linenRoomBridgeAllows('unending-gallery') && !dreamMendingBridgeAllows('unending-gallery') && !hearseYardBridgeAllows('unending-gallery') && !riverFerryBridgeAllows('unending-gallery') && !lastWordBankBridgeAllows('unending-gallery') && !dreamCustomsBridgeAllows('unending-gallery') && !tombstonePatentOfficeBridgeAllows('unending-gallery') && !apocalypseWarrantyBridgeAllows('unending-gallery') && !realityRefundCounterBridgeAllows('unending-gallery') && !selfAuthenticityBridgeAllows('unending-gallery') && !firstPersonRationingBridgeAllows('unending-gallery') && !unspokenPersonhoodBridgeAllows('unending-gallery') && !unfinishedThoughtBridgeAllows('unending-gallery') && !regretReclamationBridgeAllows('unending-gallery') && !forgivenessLandfillBridgeAllows('unending-gallery') && !harmArchaeologyBridgeAllows('unending-gallery') && !innocentWitnessProtectionBridgeAllows('unending-gallery') && !orphanedFactBridgeAllows('unending-gallery') && !existenceRenunciationBridgeAllows('unending-gallery') && !nonexistenceDebtCollectionBridgeAllows('unending-gallery') && !unhappenedEventAuctionBridgeAllows('unending-gallery') && !accomplishedFactEvictionBridgeAllows('unending-gallery') && !causelessConsequenceRefugeeBridgeAllows('unending-gallery') && !lateCauseMaternityBridgeAllows('unending-gallery') && !witnessLiabilityBridgeAllows('unending-gallery') && !unseenClaimsBridgeAllows('unending-gallery') && !returnedKnocksBridgeAllows('unending-gallery') && !stoppedClocksBridgeAllows('unending-gallery') && !heldBreathBridgeAllows('unending-gallery') && !lostWeightBridgeAllows('unending-gallery') && !vigilCandlesBridgeAllows('unending-gallery') && !deadRoadsBridgeAllows('unending-gallery') && !hundredthWakeBridgeAllows('unending-gallery') && !dawnWeavingBridgeAllows('unending-gallery') && !weatherlessShelterBridgeAllows('unending-gallery') && !shadowlessPhotographyBridgeAllows('unending-gallery') && !remainingWarmthBridgeAllows('unending-gallery')) {
       if (!endingReturnCanVisitGallery()) {
         target = endingReturnCanVisitOffice() ? "ending-return-office" : "remembrance";
       }
@@ -1914,6 +1915,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* v120 接管台，仅本章到访或合法进入 pending 可到达 */
     if (target === "dawn-pulse-manifold" && !dawnPulseWorkCanVisit()) target = "remembrance";
     if (target === "morning-name-balance" && !morningNameDeskCanVisit()) target = "remembrance";
+    if (target === 'remaining-warmth-garden' && !remainingWarmthCanVisit()) {
+      target = 'remembrance';
+    }
 
     /* 地址栏同步到最终落点，避免停在未解锁场景的假状态 */
     if (target !== name && location.hash === "#" + name) {
@@ -1981,6 +1985,7 @@ document.addEventListener("DOMContentLoaded", () => {
       focusRiverEchoArrival(name);
       focusDawnPulseArrival(name);
       focusMorningNameArrival(name);
+    warmthGarden.focusArrival(name);
       /* 焦点恢复与 veil 收尾必须和场景切换同一拍完成：
          依赖嵌套定时器时，内层定时器一旦丢失就会造成
          veilBusy 永久卡死、veil 常亮与焦点悬空（QA 实测复现） */
@@ -48167,6 +48172,7 @@ document.addEventListener("DOMContentLoaded", () => {
       forgetRiverEchoState();
       forgetDawnPulseState();
       forgetMorningNameState();
+      warmthGarden.forget();
       forgetCodexFolds();
       syncNonexistenceDebtLinks();
       if (causalSorterResponse) causalSorterResponse.textContent = "";
@@ -71655,6 +71661,91 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   for(const id of MN_HYPOTHESES)onTrustedMn(`#mn-claim-${id.replace(':','-')}`,()=>chooseMnClaim(id));
   onTrustedMn('#mn-weigh',weighMnTags);onTrustedMn('#mn-undo',()=>undoMnWeigh());onTrustedMn('#mn-reset',()=>undoMnWeigh(true));onTrustedMn('#mn-finish',finishMnReview);
 
+  /* ---------- v128 余温温室适配 ---------- */
+  const REMAINING_WARMTH_KEY = 'goddead_v128_remaining_warmth';
+
+  const warmthGarden = globalThis.GoddeadWarmthGarden.create({
+    document: document,
+    rules: globalThis.GoddeadWarmthRules.create(),
+    readRaw: function () {
+      return store.get(REMAINING_WARMTH_KEY, '{}');
+    },
+    writeRaw: function (raw) {
+      store.set(REMAINING_WARMTH_KEY, raw);
+    },
+    removeOwn: function () {
+      try {
+        localStorage.removeItem(REMAINING_WARMTH_KEY);
+      } catch (err) {}
+    },
+    currentScene: function () {
+      return currentScene;
+    },
+    unlocked: function () {
+      return (
+        morningNameUnlocked() &&
+        getMorningName().reconciled.length > 0 &&
+        watchUnlocked() &&
+        line4Unlocked() &&
+        getLine4().connected &&
+        getDL().accepted &&
+        getCancel().refused &&
+        getActing().appointed
+      );
+    },
+    upstreamBusy: function () {
+      const st = getMorningName();
+      return Boolean(mnUpstreamBusy() || st.pending || st.draft.confession);
+    },
+    captureRuling: function () {
+      return parseAndValidateGovernance().rulings.offering;
+    },
+    buttonAvailable: function (id) {
+      return buttonAvailable(id);
+    },
+    hasAdvance: function (scene) {
+      return AutoAdvance.has(scene);
+    },
+    schedule: function (source, target, delay, onFire) {
+      AutoAdvance.schedule(source, target, {
+        delay: delay,
+        before: onFire
+      });
+    },
+    clearAdvance: function (source) {
+      AutoAdvance.clear(source);
+    },
+    navigate: function (target) {
+      goScene(target);
+    },
+    setArrivalFocus: function (el) {
+      pendingSceneFocus = el;
+      if (el && typeof el.scrollIntoView === 'function') {
+        el.scrollIntoView({ block: 'start', behavior: 'auto' });
+      }
+    },
+    transitionBusy: function () {
+      return veilBusy;
+    },
+    reduced: reduced
+  });
+
+  function getRemainingWarmth() {
+    return warmthGarden.getState();
+  }
+
+  function remainingWarmthUnlocked() {
+    return warmthGarden.unlocked();
+  }
+
+  function remainingWarmthCanVisit() {
+    return warmthGarden.canVisit();
+  }
+
+  function remainingWarmthBridgeAllows(target) {
+    return warmthGarden.bridgeAllows(target);
+  }
+  /* ---------- v128 余温温室适配结束 ---------- */
   /* ---------- 痕迹室「下一步」 ----------
      后半程每章都要覆盖三轴全部选项并集齐三项终审，但痕迹墙上 50 多个入口里很难看出卡在哪。
      这里只读各章现有状态，找出当前卡住的那一章，列出还缺的选项与终审数，
@@ -71833,6 +71924,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
       [119, "河岸回声", getRiverEcho, riverEchoUnlocked, "", ""],
       [120, "清晨脉搏", getDawnPulse, dawnPulseUnlocked, "", ""],
       [121, "清晨名重", getMorningName, morningNameUnlocked, "", ""],
+        [128, "余温温室", getRemainingWarmth, remainingWarmthUnlocked, "", ""],
     ];
     // 这些旧处理员也只在所属房间显示；沿原映射找到那一枚签收按钮。
     const roomBoundReceipts = {
@@ -72407,6 +72499,9 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
     if (mnUpstreamBusy()) return { title: "v121 等候井底晨光", items: ["先接完井里的晨光与在途签收，再称清晨名重"], target: 'dp-resume', done: false };
     if (st.pending) return { title: "v121 名重正在路上", items: ["从原场景继续已验明的名签"], target: st.pending.source === 'remembrance' ? 'mn' : 'mn-resume', done: false };
     if (st.draft.confession) return { title: "v121 桌上还有名签", items: [`已称 ${st.draft.history.length}/3 次，摆盘与记录随时保存`], target: 'mn-resume', done: false };
+      if (st.reconciled.length && remainingWarmthUnlocked()) {
+        return warmthGarden.progressStep();
+      }
     if (st.reconciled.length) return { title: "v121 名字迎来了清晨", items: [`已验明 ${st.reconciled.length}/3 份名重；其他旧选择的余韵可选收集`], target: 'mn', done: true };
     return { title: "v121 清晨名重", items: ["回访忏悔称量室，让六枚名签重新过秤"], target: 'mn', done: false };
   };
@@ -73015,6 +73110,7 @@ AH_OLD_TARGETS.forEach((scene) => onTrustedAh(`#ah-wake-return-${scene}`, () => 
   syncRiverEchoAll();
   syncDawnPulseAll();
   syncMorningNameAll();
+    warmthGarden.sync();
   revealScene(scenes.threshold);
   syncDoorOpenState();
   route();

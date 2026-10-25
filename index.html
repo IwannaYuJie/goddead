@@ -15,7 +15,8 @@
     <link rel="preload" href="assets/threshold-bureau-door-open.webp" as="image">
     <link rel="preload" href="assets/prayer-incinerator-burning.webp" as="image">
     <link rel="preload" href="assets/relic-vault-desk.webp" as="image">
-  <link rel="stylesheet" href="styles.css?v=127">
+  <link rel="stylesheet" href="styles.css?v=128">
+<link rel="stylesheet" href="warmth-garden.css?v=128">
   </head>
   <body>
     <canvas id="ash-field" aria-hidden="true"></canvas>
@@ -127,6 +128,13 @@
             <p class="knock-hint reveal">（可以敲门。不建议。）</p>
             <button class="future-echo-stamp" id="causal-echo-threshold" type="button" aria-label="沿门缝的未来邮戳回去" hidden data-hover>沿门缝的未来邮戳回去 ⟶</button>
             <p class="causal-echo-response" id="causal-echo-response-threshold" aria-live="polite"></p>
+<aside id="rw-echo-window" class="rw-echo-panel" aria-label="窗台上的余韵" hidden>
+  <h3 id="rw-echo-window-title" class="rw-panel-title" tabindex="-1">有一阵风认出了你</h3>
+  <p class="rw-echo-summary">门外依然没有人。叶影却先你一步走了出去。</p>
+  <div class="rw-nav-exits">
+    <a href="#remaining-warmth-garden" class="rw-action-btn rw-nav-link" data-hover>回到余温温室</a>
+  </div>
+</aside>
 
             <!-- v65 门外因果疤痕舞台 -->
             <div class="causal-scar-figure causal-scar-figure-threshold reveal" id="causal-scar-figure-threshold" role="img" aria-label="门外因果疤痕舞台：红黑缝线、门槛引流槽、空白见证牌" hidden>
@@ -4643,6 +4651,19 @@
             </div>
           </div>
 
+<div id="rw-offering-panel" class="rw-offering-panel" hidden>
+  <h3 class="rw-panel-title">灰里有一片叶子</h3>
+  <div id="rw-offering-status" class="rw-panel-status"></div>
+  <button type="button" id="rw-enter-btn" class="rw-panel-btn" data-hover>打开温室的侧门</button>
+  <div id="rw-offering-response" class="rw-panel-status" role="status" aria-live="polite"></div>
+</div>
+<aside id="rw-echo-drawer" class="rw-echo-panel" aria-label="抽屉里的余韵" hidden>
+  <h3 id="rw-echo-drawer-title" class="rw-panel-title" tabindex="-1">没有被回答，也没有被烧尽</h3>
+  <p class="rw-echo-summary">你没有再添火。根须绕过那些灰，像绕过一句不必补写的回答。</p>
+  <div class="rw-nav-exits">
+    <a href="#remaining-warmth-garden" class="rw-action-btn rw-nav-link" data-hover>回到余温温室</a>
+  </div>
+</aside>
           <nav class="scene-exits reveal" aria-label="离开焚献">
             <button class="exit-link" type="button" data-go="corridor" data-hover>⟵ 回到走廊</button>
             <button class="future-echo-stamp" id="causal-echo-offering" type="button" aria-label="沿未写祷词的灰回去" hidden data-hover>沿未写祷词的灰回去 ⟶</button>
@@ -5520,6 +5541,35 @@
             <button class="mn-action" id="mn-resume-entry-btn" type="button" hidden data-hover>继续桌上未验完的名签 ⟶</button>
             <p class="mn-response" id="mn-entry-response" aria-live="polite" hidden></p>
           </div>
+<div id="rw-entry-panel" class="rw-entry-panel" hidden>
+  <h3 class="rw-panel-title">焚献室的侧门</h3>
+  <p id="rw-entry-note" class="rw-prose">抽屉深处的余温仍在。如果你想回到温室，或者去照看那一盆尚未安顿的小芽，侧门虚掩着。</p>
+  <div class="rw-controls-group">
+    <button type="button" id="rw-entry-btn" class="rw-panel-btn" data-hover>回到旧焚献室</button>
+    <button type="button" id="rw-resume-entry-btn" class="rw-panel-btn" data-hover hidden>继续照看温室的小芽</button>
+  </div>
+  <div id="rw-entry-response" class="rw-panel-status" role="status" aria-live="polite"></div>
+
+  <div id="rw-codex" class="codex-section">
+    <div class="rw-kicker">WARMTH GARDEN / 余温温室</div>
+    <h3 class="rw-codex-title">余温小记</h3>
+    <p id="rw-codex-summary" class="rw-prose">在冰冷的灰床边，每一株曾被暖透的新芽，都可以留在一个安静的角落。</p>
+    <div class="rw-codex-rows">
+      <div class="rw-codex-row">
+        <span class="rw-codex-row-name">窗台</span>
+        <span id="rw-codex-window" class="rw-codex-row-val">尚未留下</span>
+      </div>
+      <div class="rw-codex-row">
+        <span class="rw-codex-row-name">抽屉</span>
+        <span id="rw-codex-drawer" class="rw-codex-row-val">尚未留下</span>
+      </div>
+      <div class="rw-codex-row">
+        <span class="rw-codex-row-name">空椅</span>
+        <span id="rw-codex-chair" class="rw-codex-row-val">尚未留下</span>
+      </div>
+    </div>
+  </div>
+</div>
           <!-- v120 清晨脉搏：一次修好即可完成回访 -->
           <p class="watch-memory dp-memory" id="dp-memory" hidden></p>
           <div class="dp-codex codex-section" id="dp-codex" aria-labelledby="dp-codex-title" hidden>
@@ -5990,6 +6040,13 @@
             </button>
           </figure>
           <p class="branch-response" id="unending-response" aria-live="polite"></p>
+<aside id="rw-echo-chair" class="rw-echo-panel" aria-label="空椅脚边的余韵" hidden>
+  <h3 id="rw-echo-chair-title" class="rw-panel-title" tabindex="-1">缺席也有了需要浇水的东西</h3>
+  <p class="rw-echo-summary">椅子还是空的。只是从今天起，你路过这里时，多了一件可以做的小事。</p>
+  <div class="rw-nav-exits">
+    <a href="#remaining-warmth-garden" class="rw-action-btn rw-nav-link" data-hover>回到余温温室</a>
+  </div>
+</aside>
           <aside class="ws-receipt-card reveal" id="ws-passenger-unending-gallery" hidden>
             <p class="ws-receipt-kicker">SEASON DISPATCH RECEIPT · 天 气 到 站</p>
             <h3 class="ws-receipt-title" id="ws-passenger-title-unending-gallery"></h3>
@@ -10840,6 +10897,129 @@
         </div>
       </section>
 
+<section id="scene-remaining-warmth-garden" class="scene scene-branch rw-scene" data-scene="remaining-warmth-garden" data-title="Goddead — 余温温室" aria-label="余温温室">
+  <div class="scene-body rw-body">
+    <header class="rw-head">
+      <h2 id="rw-title" class="sec-title rw-title" tabindex="-1">余温温室</h2>
+    </header>
+
+    <div class="rw-room-art">
+      <figure class="rw-room-figure">
+        <img id="rw-room-image" class="rw-room-image" data-src="assets/v128-remaining-warmth-garden.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="黑灰石墙里的旧温室，左侧窗光照过石制灰床上的小芽，右侧冷炉旁留着半开的抽屉和空椅。">
+      </figure>
+    </div>
+
+    <p id="rw-intro" class="rw-prose">炉火早就熄了。你拉开盛灰的抽屉，里面却有一小块地方还暖着。不是神的手。也许只是某个愿望，终于学会了不等回答。</p>
+
+    <div id="rw-waiting" class="rw-waiting-status" role="status" hidden></div>
+
+    <div id="rw-empty" class="rw-empty-panel">
+      <div id="rw-last-plant" class="rw-last-plant-card"></div>
+      <button type="button" id="rw-new-pot-btn" class="rw-btn rw-action-btn" data-hover>照看一盆新芽</button>
+    </div>
+
+    <div id="rw-workbench" class="rw-workbench-panel" hidden>
+      <div id="rw-case" class="rw-case"></div>
+      <div id="rw-wish" class="rw-wish"></div>
+      <div id="rw-instructions" class="rw-instructions">拨动一枚铜阀，会翻转它自己及上下左右相邻格的冷暖，边界不绕回。让九格同时温暖，就能提起花盆。你可以随时请求提示、撤回或重来。</div>
+
+      <div id="rw-grid" class="rw-grid-container" role="group" aria-label="余温九格台面" aria-describedby="rw-instructions">
+        <button type="button" id="rw-cell-0" class="rw-cell" data-rw-cell="0" aria-pressed="false" data-hover>
+          <span class="rw-cell-num" data-rw-number>1</span>
+          <span class="rw-cell-mark" data-rw-mark>○</span>
+          <span class="rw-cell-state" data-rw-state>冷</span>
+        </button>
+        <button type="button" id="rw-cell-1" class="rw-cell" data-rw-cell="1" aria-pressed="false" data-hover>
+          <span class="rw-cell-num" data-rw-number>2</span>
+          <span class="rw-cell-mark" data-rw-mark>○</span>
+          <span class="rw-cell-state" data-rw-state>冷</span>
+        </button>
+        <button type="button" id="rw-cell-2" class="rw-cell" data-rw-cell="2" aria-pressed="false" data-hover>
+          <span class="rw-cell-num" data-rw-number>3</span>
+          <span class="rw-cell-mark" data-rw-mark>○</span>
+          <span class="rw-cell-state" data-rw-state>冷</span>
+        </button>
+        <button type="button" id="rw-cell-3" class="rw-cell" data-rw-cell="3" aria-pressed="false" data-hover>
+          <span class="rw-cell-num" data-rw-number>4</span>
+          <span class="rw-cell-mark" data-rw-mark>○</span>
+          <span class="rw-cell-state" data-rw-state>冷</span>
+        </button>
+        <button type="button" id="rw-cell-4" class="rw-cell" data-rw-cell="4" aria-pressed="false" data-hover>
+          <span class="rw-cell-num" data-rw-number>5</span>
+          <span class="rw-cell-mark" data-rw-mark>○</span>
+          <span class="rw-cell-state" data-rw-state>冷</span>
+        </button>
+        <button type="button" id="rw-cell-5" class="rw-cell" data-rw-cell="5" aria-pressed="false" data-hover>
+          <span class="rw-cell-num" data-rw-number>6</span>
+          <span class="rw-cell-mark" data-rw-mark>○</span>
+          <span class="rw-cell-state" data-rw-state>冷</span>
+        </button>
+        <button type="button" id="rw-cell-6" class="rw-cell" data-rw-cell="6" aria-pressed="false" data-hover>
+          <span class="rw-cell-num" data-rw-number>7</span>
+          <span class="rw-cell-mark" data-rw-mark>○</span>
+          <span class="rw-cell-state" data-rw-state>冷</span>
+        </button>
+        <button type="button" id="rw-cell-7" class="rw-cell" data-rw-cell="7" aria-pressed="false" data-hover>
+          <span class="rw-cell-num" data-rw-number>8</span>
+          <span class="rw-cell-mark" data-rw-mark>○</span>
+          <span class="rw-cell-state" data-rw-state>冷</span>
+        </button>
+        <button type="button" id="rw-cell-8" class="rw-cell" data-rw-cell="8" aria-pressed="false" data-hover>
+          <span class="rw-cell-num" data-rw-number>9</span>
+          <span class="rw-cell-mark" data-rw-mark>○</span>
+          <span class="rw-cell-state" data-rw-state>冷</span>
+        </button>
+      </div>
+
+      <div class="rw-status-strip">
+        <div id="rw-progress" class="rw-progress-text"></div>
+        <div id="rw-preview" class="rw-preview-text" aria-live="off"></div>
+        <div id="rw-feedback" class="rw-feedback-text" role="status" aria-live="polite" aria-atomic="true"></div>
+      </div>
+
+      <div class="rw-controls-group">
+        <button type="button" id="rw-hint-btn" class="rw-btn rw-action-btn" data-hover>听一片叶子的提示</button>
+        <button type="button" id="rw-undo-btn" class="rw-btn rw-action-btn" data-hover>退回上一步</button>
+        <button type="button" id="rw-reset-btn" class="rw-btn rw-action-btn" data-hover>让余温回到最初</button>
+        <button type="button" id="rw-hold-btn" class="rw-btn rw-action-btn" data-hover>把这盆小芽提起来</button>
+        <button type="button" id="rw-lower-btn" class="rw-btn rw-action-btn" data-hover hidden>放回灰床</button>
+      </div>
+    </div>
+
+    <div id="rw-placement" class="rw-placement-panel" hidden>
+      <p class="rw-placement-title">根底已经暖了。它不需要你证明什么，只等你选个地方。</p>
+      <div class="rw-placement-options">
+        <button type="button" id="rw-place-window" class="rw-btn rw-action-btn" data-hover>放在面向门外的窗台</button>
+        <button type="button" id="rw-place-drawer" class="rw-btn rw-action-btn" data-hover>放回原来的灰烬抽屉</button>
+        <button type="button" id="rw-place-chair" class="rw-btn rw-action-btn" data-hover>放在空椅脚边</button>
+      </div>
+    </div>
+
+    <section class="rw-notebook" aria-label="小记">
+      <div class="rw-notebook-head">REMAINING ECHOES / 小记</div>
+      <div class="rw-notebook-list">
+        <div class="rw-notebook-item">
+          <span class="rw-notebook-label">面向门外的窗台</span>
+          <span id="rw-collected-window" class="rw-notebook-val">尚未留下</span>
+        </div>
+        <div class="rw-notebook-item">
+          <span class="rw-notebook-label">原来的灰烬抽屉</span>
+          <span id="rw-collected-drawer" class="rw-notebook-val">尚未留下</span>
+        </div>
+        <div class="rw-notebook-item">
+          <span class="rw-notebook-label">空椅脚边</span>
+          <span id="rw-collected-chair" class="rw-notebook-val">尚未留下</span>
+        </div>
+      </div>
+      <p id="rw-collection-note" class="rw-notebook-note">照看并安放一盆小芽，本章就完成了。其余两处余韵是可选回访，也可以只看看上一盆。</p>
+    </section>
+
+    <nav class="rw-nav-exits" aria-label="温室出口">
+      <a href="#offering" class="rw-nav-link" data-hover>返回焚献室</a>
+      <a href="#remembrance" class="rw-nav-link" data-hover>前往痕迹室</a>
+    </nav>
+  </div>
+</section>
       <!-- v121 清晨验名桌 -->
       <section class="scene scene-branch" id="scene-morning-name-balance" data-scene="morning-name-balance" data-title="Goddead — 清晨验名桌" aria-label="清晨验名桌">
         <div class="scene-body branch-body">
@@ -11468,6 +11648,7 @@
       <a href="#ferry-landing" id="ferry-landing-link" hidden data-hover>31δ / 渡河码头</a>
       <a href="#river-crossing" id="river-crossing-link" hidden data-hover>31ε / 两岸之间</a>
       <a href="#morning-name-balance" id="morning-name-balance-link" hidden data-hover>32γ / 清晨验名桌</a>
+<a id="remaining-warmth-garden-link" href="#remaining-warmth-garden" class="dir-item" data-hover hidden>32δ / 余温温室</a>
       <a href="#dawn-pulse-manifold" id="dawn-pulse-manifold-link" hidden data-hover>32β / 晨脉接管台</a>
       <a href="#river-echo-well" id="river-echo-well-link" hidden data-hover>32α / 河岸听井</a>
       <a href="#hearing-of-the-last-bank" id="hearing-of-the-last-bank-link" hidden data-hover>31ζ / 末岸听证会</a>
@@ -11481,10 +11662,12 @@
     </aside>
 
     <div class="arrival-message" id="arrival-message" role="status" aria-live="polite"></div>
-    <script src="directory.js?v=127"></script>
-    <script src="ink-rules.js?v=127"></script>
-    <script src="light-rules.js?v=127"></script>
-    <script src="tea-rules.js?v=127"></script>
-    <script src="script.js?v=127"></script>
+<script src="directory.js?v=128"></script>
+<script src="ink-rules.js?v=128"></script>
+<script src="light-rules.js?v=128"></script>
+<script src="tea-rules.js?v=128"></script>
+<script src="warmth-rules.js?v=128"></script>
+<script src="warmth-garden.js?v=128"></script>
+<script src="script.js?v=128"></script>
   </body>
 </html>

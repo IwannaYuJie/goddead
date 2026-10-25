@@ -4,7 +4,7 @@ Static, hash-routed exploration game at [goddead.com](https://goddead.com).
 
 ## Current Experience
 
-当前实现基线为 **v127「分茶铺纯规则模块」**（已发布验证）：v109 的十一个纯函数移到独立 `tea-rules.js`（`GoddeadTeaRules.create(config)`），状态机、倒水、校验与存档纯逻辑和旧版完全一致；主脚本其余逻辑、v125 调墨与 v126 借光规则逐字保持。六个核心依赖缓存 `v=127`，280 场景、4501 ID、278 原目录入口、原存档键及三张原画保持。设计见 [V127ExactTeaRulesDesign.md](docs/V127ExactTeaRulesDesign.md)，验收见 [v127-browser-qa.md](design-qa-evidence/v127-browser-qa.md)。
+当前实现基线为 **v128「余温温室」**（本地已完成独立原生验收，待提交推送与公开验证；v127 已发布验证为历史基线）：焚献室向外延伸出废弃暖房，九格地热阀十字反转点暖绿意；依据前置甲愿望、乙愿望或无旧判词捕获三种起始案别，解毕后提盆送往门外窗台、焚献室抽屉或画廊空椅。新章接入独立纯规则模块 `warmth-rules.js`（导出十二纯函数），不写旧章存档，目录注册、图鉴与下一步指引完整连通；一盆即可达成痕迹室指引，其余两处为可选余韵。全站 281 场景、4560 个唯一 ID，278 原目录入口字节不变并新增 1 项（共 279 入口），7 个阻塞脚本与 2 份样式表共 9 项核心依赖更新缓存 `v=128`，新增一张独立 WebP 原画。设计见 [Design.md](design-concepts/ash-garden/Design.md)，历史 v127 设计见 [V127ExactTeaRulesDesign.md](docs/V127ExactTeaRulesDesign.md)，验收见 [v128-browser-qa.md](design-qa-evidence/v128-browser-qa.md)。
 
 历史基线 **v121「清晨名重 / THE WEIGHT OF A NAME AT DAWN」**：全站 280 个 hash 场景，缓存 `v=121`。v120 任一条晨光管接回旧井后，从痕迹室回访忏悔称量室；实际旧承认敲门 / 承认第七条 / 拒绝忏悔决定六枚名签的案件。在新清晨验名桌上循环移动名签到左盘、右盘或桌上，两盘各放等量 1–3 枚，最多三称识别唯一偏重或偏轻的名签。结果逐次排除候选，认领须与唯一记录吻合才可交回；可借推荐称法，支持撤回 / 重称、摆盘与记录刷新保存、静音及键盘。一案即可完成，三份余韵可选收集；旧称盘、罪籍、信念、迫近抽屉与秤手 / 茶童保留。新增一场景与两张内置 imagegen 原画，独立键 `goddead_v121_morning_name`。设计 / 提示词见 [V121MorningNameDesign.md](docs/V121MorningNameDesign.md) / [V121ImagePrompts.md](docs/V121ImagePrompts.md)。
 

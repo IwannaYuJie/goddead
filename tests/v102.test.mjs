@@ -586,6 +586,9 @@ function createV102Harness({
     const dawnPulseWorkCanVisit = () => false;
     const morningNameBridgeAllows = () => false;
     const morningNameDeskCanVisit = () => false;
+    // This isolated v102 router harness keeps the new chapter closed.
+    const remainingWarmthCanVisit = () => false;
+    const remainingWarmthBridgeAllows = () => false;
     const riverEchoWellCanVisit = () => false;
     const rvGateCanVisit = () => false;
     const riverCrossingCanVisit = () => false;
@@ -677,12 +680,12 @@ function createV102Harness({
 // -------------------------------------------------------------
 // Test Group 1: Markers, scene IDs, image attributes & DOM HTML structure
 // -------------------------------------------------------------
-test('Group 1: HTML structure, scene count 280, lazy images, native buttons and CSS scope', () => {
-  // 280 unique scene section data-scene values in index.html (excluding scene-veil overlay)
+test('Group 1: HTML structure, scene count 281, lazy images, native buttons and CSS scope', () => {
+  // 281 unique scene section data-scene values in index.html (excluding scene-veil overlay)
   const sceneMatches = Array.from(indexHtml.matchAll(/<section[^>]+data-scene="([^"]+)"/g)).map((m) => m[1]);
   const uniqueScenes = new Set(sceneMatches);
-  assert.equal(sceneMatches.length, 280, `Total data-scene sections must be exactly 280, got ${sceneMatches.length}`);
-  assert.equal(uniqueScenes.size, 280, `Scene count must be exactly 280, got ${uniqueScenes.size}`);
+  assert.equal(sceneMatches.length, 281, `Total data-scene sections must be exactly 281, got ${sceneMatches.length}`);
+  assert.equal(uniqueScenes.size, 281, `Scene count must be exactly 281, got ${uniqueScenes.size}`);
   assert.ok(uniqueScenes.has('weatherless-bus-shelter'));
   assert.ok(uniqueScenes.has('season-dispatch-board'));
   assert.ok(uniqueScenes.has('four-season-platform'));
@@ -2268,6 +2271,8 @@ test('v102: sceneInit and legacy v45 relief integration behavior audit', () => {
       const replayDawnPulsePending = () => {};
       const resolveMorningNamePendingOnArrival = () => {};
       const replayMorningNamePending = () => {};
+      // The new chapter lifecycle is outside this v102 sceneInit test.
+      const warmthGarden = {onScene() {}};
       const syncWeatherlessShelterAll = () => h.syncAll();
 
       let thresholdConsumed = false;

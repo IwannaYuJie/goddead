@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 import vm from 'node:vm';
 const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
 const source=readFileSync(new URL('../directory.js',import.meta.url),'utf8');
@@ -8,8 +9,17 @@ const metadata=new Map([...html.matchAll(/<section\s+([^>]+)>(.*?)<\/section>/gs
 const css=readFileSync(new URL('../styles.css',import.meta.url),'utf8');
 const menuHTML=html.slice(html.indexOf('<aside class="ritual-menu"'),html.indexOf('</aside>',html.indexOf('<aside class="ritual-menu"')));
 const originals=[...menuHTML.matchAll(/<a\s+([^>]+)>(.*?)<\/a>/gs)].map(([,attrs,text])=>({attrs:Object.fromEntries([...attrs.matchAll(/([\w-]+)="([^"]*)"/g)].map(m=>[m[1],m[2]])),text:text.replace(/<[^>]*>/g,'').trim(),hidden:/\bhidden\b/.test(attrs)}));
-assert.equal(originals.length,278);
-assert.equal(new Set(originals.map(a=>a.attrs.href)).size,276,'two existing menu aliases remain');
+assert.equal(originals.length,279);
+assert.equal(new Set(originals.map(a=>a.attrs.href)).size,277,'two existing menu aliases remain');
+// Exact original anchor bytes and order from v127 commit 94d61af09e4f66275820d294479f9165e9752d48.
+const anchorMarkup=[...menuHTML.matchAll(/<a\s+[^>]+>.*?<\/a>/gs)].map(m=>m[0]);
+const legacyAnchorMarkup=anchorMarkup.filter(a=>!a.includes('id="remaining-warmth-garden-link"'));
+assert.equal(legacyAnchorMarkup.length,278,'all 278 pre-v128 menu anchors remain');
+assert.equal(createHash('sha256').update(legacyAnchorMarkup.join('\n')).digest('hex'),'e8d2e36ac927f167654cd1fd57f329f437ddab9d64d26d22d9ae5a6d8e888ecb','pre-v128 menu anchor bytes and order unchanged');
+const warmthAnchor=originals.find(a=>a.attrs.id==='remaining-warmth-garden-link');
+assert.equal(warmthAnchor?.attrs.href,'#remaining-warmth-garden');
+assert.equal(warmthAnchor?.text,'32δ / 余温温室');
+assert.equal(warmthAnchor?.hidden,true,'new room starts unavailable in the static directory');
 let observed;
 const sandbox={window:{},MutationObserver:class{constructor(fn){observed=fn;}observe(){}}};
 vm.runInNewContext(source,sandbox); const api=sandbox.window.GoddeadDirectory;
@@ -42,7 +52,7 @@ const gateSnapshot=()=>anchors.map(a=>[a.id,a.getAttribute('href'),a.hidden,a.cl
 const before=gateSnapshot(),routes=[];let current='threshold';
 const ui=api.attach({menu,stage,trigger,close,scrim,currentScene:()=>current,sceneFor:t=>({getAttribute:()=>metadata.get(t)?.title,querySelector:()=>({textContent:metadata.get(t)?.kicker})}),navigate:t=>routes.push(t)});
 assert.deepEqual(gateSnapshot(),before,'reparenting preserves original gate attributes');
-assert.equal(root.descendants().filter(n=>n.tagName==='A').length,278);
+assert.equal(root.descendants().filter(n=>n.tagName==='A').length,279);
 assert.ok(anchors.every(a=>root.contains(a)),'same anchor objects retained');
 const query=q=>{search.value=q;search.fire('input');};
 const results=()=>anchors.filter(a=>a.getAttribute('data-menu-filtered')==='false');
@@ -65,10 +75,12 @@ query('');fold.fire('click');const lastSummary=root.children.filter(s=>!s.hidden
 const gate=anchors.find(a=>a.attrs.href==='#jammed-yard');gate.hidden=true;observed([{target:gate}]);assert.equal(gate.getAttribute('data-menu-filtered'),'true');gate.hidden=false;observed([{target:gate}]);assert.equal(gate.getAttribute('data-menu-filtered'),'false');
 current='jammed-yard';ui.refresh();assert.equal(gate.getAttribute('aria-current'),'page');
 doc.fire({key:'Escape',target:search});assert.equal(menu.inert,true);assert.equal(stage.inert,false);assert.equal(doc.activeElement,trigger);stage.inert=true;ui.setOpen(true);scrim.fire('click');assert.equal(stage.inert,true,'preexisting stage inert restored');
-assert.ok(html.indexOf('directory.js?v=127')<html.indexOf('ink-rules.js?v=127'));
-assert.ok(html.indexOf('ink-rules.js?v=127')<html.indexOf('light-rules.js?v=127'));
-assert.ok(html.indexOf('light-rules.js?v=127')<html.indexOf('tea-rules.js?v=127'));
-assert.ok(html.indexOf('tea-rules.js?v=127')<html.indexOf('script.js?v=127'));
+assert.ok(html.indexOf('directory.js?v=128')<html.indexOf('ink-rules.js?v=128'));
+assert.ok(html.indexOf('ink-rules.js?v=128')<html.indexOf('light-rules.js?v=128'));
+assert.ok(html.indexOf('light-rules.js?v=128')<html.indexOf('tea-rules.js?v=128'));
+assert.ok(html.indexOf('tea-rules.js?v=128')<html.indexOf('warmth-rules.js?v=128'));
+assert.ok(html.indexOf('warmth-rules.js?v=128')<html.indexOf('warmth-garden.js?v=128'));
+assert.ok(html.indexOf('warmth-garden.js?v=128')<html.indexOf('script.js?v=128'));
 assert.match(menuHTML,/role="dialog"[^>]*aria-modal="true"[^>]*inert/);
 assert.match(main,/menu\.classList\.contains\("open"\).*contenteditable/);
 assert.doesNotMatch(source,/localStorage|sessionStorage|store\.(set|get)|location\.hash\s*=/,'directory owns no storage or second router');
@@ -86,4 +98,4 @@ assert.doesNotMatch(css.slice(css.indexOf('/* ---------- 目录抽屉'),css.inde
  drawerOpen=true;queue.shift()();assert.equal(tries,1);assert.equal(queue.length,0,'a preexisting retry cancels while menu is open');
  drawerOpen=false;accept=true;focus(title);assert.equal(focusDocument.activeElement,title,'ordinary navigation still focuses its title');
 }
-console.log('v123 directory: 278 original anchors, three gate profiles, Unicode/AND search and modal lifecycle passed');
+console.log('v123 directory: 278 original anchors byte-preserved plus v128, three gate profiles, Unicode/AND search and modal lifecycle passed');

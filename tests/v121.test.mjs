@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 const source=readFileSync(new URL('../script.js',import.meta.url),'utf8'),html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
-const start=source.indexOf('  /* ============================================================\n     v121 清晨名重'),end=source.indexOf('  /* ---------- 痕迹室「下一步」 ----------',start);
+const start=source.indexOf('  /* ============================================================\n     v121 清晨名重'),end=source.indexOf('  /* ---------- v128 余温温室适配 ----------',start);
 assert.ok(start>0&&end>start);
 const moduleSource=source.slice(start,end),key='goddead_v121_morning_name',desk='morning-name-balance';
 const hypotheses=Array.from({length:6},(_,i)=>[`${i}:heavy`,`${i}:light`]).flat();
@@ -67,7 +67,7 @@ for(const opts of [{done:false},{busy:true},{dpDraft:'up'},{dpPending:{kind:'rep
  const g=makeV121();assert.equal(route('confession',g.bridge),'corridor');g.revisit();assert.equal(route('confession',g.bridge),'confession');assert.equal(route('echo',g.bridge),'corridor');assert.equal(route('vein',g.bridge),'corridor');g.forget();assert.equal(route('confession',g.bridge),'corridor');
 }
 assert.match(source,/resolveMorningNamePendingOnArrival\(name\);\s*replayMorningNamePending\(name\);/);assert.match(source,/focusDawnPulseArrival\(name\);\s*focusMorningNameArrival\(name\);/);
-assert.match(source,/forgetDawnPulseState\(\);\s*forgetMorningNameState\(\);\s*forgetCodexFolds/);assert.match(source,/syncDawnPulseAll\(\);\s*syncMorningNameAll\(\);\s*revealScene/);assert.match(source,/if \(st\.repairs\.length\) return morningNameProgressStep\(\)/);
+assert.match(source,/forgetDawnPulseState\(\);\s*forgetMorningNameState\(\);\s*warmthGarden\.forget\(\);\s*forgetCodexFolds/);assert.match(source,/syncDawnPulseAll\(\);\s*syncMorningNameAll\(\);\s*warmthGarden\.sync\(\);\s*revealScene/);assert.match(source,/if \(st\.repairs\.length\) return morningNameProgressStep\(\)/);
 assert.doesNotMatch(moduleSource,/innerHTML|showScene/);assert.match(moduleSource,/if\(event\.isTrusted\)fn\(\)/);
 for(let i=0;i<6;i++){assert.ok(html.includes(`id="mn-tag-${i}" type="button"`));for(const p of ['heavy','light'])assert.ok(html.includes(`id="mn-claim-${i}-${p}" type="button"`));}
 for(const asset of ['confession-dawn','morning-name-balance']){assert.ok(html.includes(`data-src="assets/v121-${asset}.webp"`));const b=readFileSync(new URL(`../assets/v121-${asset}.webp`,import.meta.url));assert.equal(b.toString('ascii',0,4),'RIFF');assert.ok(b.length<300*1024);}

@@ -766,22 +766,22 @@ export function capturePhPendingCases() {
 // REQUIRED BASE TESTS 1-12
 // =========================================================================
 
-test('BASE TEST 1: Unique header/key/guide boundary, cache 123, 280 unique scenes, 25 native buttons, lazy webp images', () => {
+test('BASE TEST 1: Unique header/key/guide boundary, cache 128, 281 unique scenes, 25 native buttons, lazy webp images', () => {
   const countHeader = scriptSource.split(PH_MODULE_HEADER).length - 1;
   assert.equal(countHeader, 1, 'Header must appear exactly once in script.js');
 
   const countKey = scriptSource.split(PH_KEY).length - 1;
   assert.ok(countKey >= 2, 'Key must be referenced in script.js');
 
-  // Exact styles.css?v=127 and script.js?v=127 check
-  assert.match(htmlSource, /href=["']styles\.css\?v=127["']/, 'index.html must reference styles.css?v=127');
-  assert.match(htmlSource, /src=["']script\.js\?v=127["']/, 'index.html must reference script.js?v=127');
+  // Exact styles.css?v=128 and script.js?v=128 check
+  assert.match(htmlSource, /href=["']styles\.css\?v=128["']/, 'index.html must reference styles.css?v=128');
+  assert.match(htmlSource, /src=["']script\.js\?v=128["']/, 'index.html must reference script.js?v=128');
 
-  // 280 unique scene sections in index.html
+  // 281 unique scene sections in index.html
   const sceneMatches = htmlSource.match(/<section[^>]+class=["'][^"']*scene[^"']*["'][^>]*data-scene=["']([^"']+)["']/g) || [];
   const sceneIds = sceneMatches.map(m => m.match(/data-scene=["']([^"']+)["']/)[1]);
   const uniqueScenes = new Set(sceneIds);
-  assert.equal(uniqueScenes.size, 280, `Expected 280 unique scenes in HTML, found ${uniqueScenes.size}`);
+  assert.equal(uniqueScenes.size, 281, `Expected 281 unique scenes in HTML, found ${uniqueScenes.size}`);
 
   assert.ok(uniqueScenes.has('shadowless-photo-studio'));
   assert.ok(uniqueScenes.has('double-exposure-camera'));
@@ -1810,6 +1810,9 @@ test('EXTRA TEST 13: resolveScene routing matrix, governance ruling, fallback to
     const dawnPulseWorkCanVisit = () => false;
     const morningNameBridgeAllows = () => false;
     const morningNameDeskCanVisit = () => false;
+    // This isolated v103 router harness keeps the new chapter closed.
+    const remainingWarmthCanVisit = () => false;
+    const remainingWarmthBridgeAllows = () => false;
     const riverEchoWellCanVisit = () => false;
     const rvGateCanVisit = () => false;
     const riverCrossingCanVisit = () => false;
